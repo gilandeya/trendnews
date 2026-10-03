@@ -1,0 +1,819 @@
+{
+  "run_date": "2026-10-03",
+  "stats": {
+    "points_in": 242,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 92,
+    "issues_clustered": 39,
+    "topics_merged": 5,
+    "topics_out": 3,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 3,
+    "topics_below_min_points": 21,
+    "topics_below_min_channels": 6,
+    "layers": {
+      "1": 3
+    },
+    "agreement": 2,
+    "cross_source": 0,
+    "internal": 0,
+    "echo": 1
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "نزع سلاح الفصائل العراقية وحصر السلاح",
+      "بسط السيطرة الأمنية العراقية والسيادة"
+    ],
+    [
+      "هجوم الحوثي على محطة كهرباء المدينة المنورة",
+      "إثبات تورط الحوثي في هجوم المدينة المنورة",
+      "الرمزية الدينية لاستهداف الحوثي للحرمين"
+    ],
+    [
+      "عودة بريطانيا للاتحاد الأوروبي - تصريحات القادة",
+      "استطلاعات الرأي حول العودة للاتحاد الأوروبي"
+    ],
+    [
+      "دعوة أردوغان للتوافق السياسي ونبذ الاستقطاب",
+      "دعوة أردوغان لصياغة دستور جديد"
+    ],
+    [
+      "اتهامات إثيوبية لمصر والسودان بدعم المعارضة المسلحة",
+      "العلاقات المصرية الإثيوبية والملفات الخلافية"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "نزع سلاح الفصائل العراقية وحصر السلاح",
+      "event": "جهود الحكومة العراقية لنزع سلاح الفصائل المسلحة وحصره بيد الدولة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        5,
+        8,
+        10,
+        13,
+        99
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null,
+      "id": "06e5390fcc24",
+      "created_at": "2026-10-03T04:02:05.097302+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1188
+    },
+    {
+      "title": "اتهام أردوغان بالمسؤولية عن أزمة صناديق الاستثمار",
+      "event": "اتهام أوزجور أوزيل أردوغان بالمسؤولية المباشرة عن فضيحة صناديق الاستثمار تيرا",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        59,
+        63,
+        64,
+        65,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142
+      ],
+      "total_points": 11,
+      "fresh_points": 8,
+      "dropped_reason": null,
+      "id": "f82483f1b9da",
+      "created_at": "2026-10-03T04:02:05.097302+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1188
+    },
+    {
+      "title": "انسحاب حزب الشعب الجمهوري من افتتاح البرلمان التركي",
+      "event": "انسحاب أوزجور أوزيل وحزبه من جلسة افتتاح البرلمان التركي احتجاجًا",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        56,
+        115,
+        116,
+        122,
+        123
+      ],
+      "total_points": 5,
+      "fresh_points": 4,
+      "dropped_reason": null,
+      "id": "f149fbbbc71c",
+      "created_at": "2026-10-03T04:02:05.097302+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1188
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "تحليل دلالة التحشيد العسكري الأمريكي",
+      "event": "تقييم محللين لدوافع التحشيد العسكري الأمريكي تجاه إيران",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        2,
+        93
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "اتهامات إثيوبية لمصر والسودان بدعم المعارضة المسلحة",
+      "event": "اتهام رئيس أركان الجيش الإثيوبي لمصر والسودان بدعم المعارضة المسلحة في إثيوبيا",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        101,
+        102,
+        103,
+        104
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "موازنة التعليم الفرنسية بعد الاحتجاجات",
+      "event": "تخصيص الحكومة الفرنسية 64 مليار يورو لقطاع التعليم بعد احتجاجات طلابية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        108,
+        109,
+        110
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الجدل حول مسؤولية علاج الرئيس الموريتاني السابق",
+      "event": "الخلاف حول الجهة المسؤولة عن توفير العلاج للرئيس الموريتاني السابق",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        38,
+        39,
+        41
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "التحشيد العسكري الأمريكي في الخليج وتصعيد إيران",
+      "event": "إرسال الولايات المتحدة حاملات طائرات وقوات إضافية إلى الشرق الأوسط في أواخر 2025",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        91
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "نزع سلاح الفصائل العراقية وحصر السلاح",
+      "event": "جهود الحكومة العراقية لنزع سلاح الفصائل المسلحة وحصره بيد الدولة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        5,
+        8,
+        10,
+        13,
+        99
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "انتهاء عملية العزم الصلب وانسحاب القوات الأمريكية من العراق",
+      "event": "إعلان انتهاء عملية العزم الصلب الأمريكية في العراق وانسحاب القوات",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        7,
+        105
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "هجوم الحوثي على محطة كهرباء المدينة المنورة",
+      "event": "استهداف ميليشيا الحوثي محطة كهرباء طيبة التي تغذي المسجد النبوي بالمدينة المنورة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        14,
+        18,
+        21,
+        22,
+        23,
+        27,
+        87,
+        88,
+        89,
+        94,
+        95
+      ],
+      "total_points": 11,
+      "fresh_points": 11,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "عودة بريطانيا للاتحاد الأوروبي - تصريحات القادة",
+      "event": "تصريحات ستارمر وماكرون حول احتمال عودة بريطانيا للاتحاد الأوروبي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        28,
+        29,
+        31,
+        106
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الخسائر الاقتصادية للبريكست",
+      "event": "تقدير الفاتورة الاقتصادية لخروج بريطانيا من الاتحاد الأوروبي عام 2025",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        30,
+        107
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "دعوات للتضامن الوطني في افتتاح البرلمان التركي",
+      "event": "دعوات زعيم الحركة القومية للتضامن السياسي وعدم الانقسام في افتتاح البرلمان",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        117,
+        119
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "اتهام أردوغان بالمسؤولية عن أزمة صناديق الاستثمار",
+      "event": "اتهام أوزجور أوزيل أردوغان بالمسؤولية المباشرة عن فضيحة صناديق الاستثمار تيرا",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        59,
+        63,
+        64,
+        65,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142
+      ],
+      "total_points": 11,
+      "fresh_points": 8,
+      "dropped_reason": null
+    },
+    {
+      "title": "اليمن كجبهة إقليمية رئيسية ومعركة تعز",
+      "event": "عودة اليمن كجبهة إقليمية رئيسية وأهمية معركة تعز في تحديد مستقبل البلاد",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        66,
+        67,
+        68
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "انتقاد نتنياهو لمن غادروا الأمم المتحدة احتجاجًا على الحرب",
+      "event": "انتقاد نتنياهو للدول التي غادرت قاعة الأمم المتحدة احتجاجًا على حرب غزة ووصفه إياهم بالجبناء",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        73,
+        74
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "اتفاق أمريكي أوروبي للإفراج عن احتياطات الديزل",
+      "event": "الاتفاق بين أمريكا وأوروبا على الإفراج عن مخزونات الديزل بعد ضغط أمريكي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تصريحات ترامب المتشددة تجاه إيران والمفاوضات",
+      "event": "تصريحات ترامب بإمكانية تدمير إيران وثبات موقفه الرافض من المفاوضات",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        93,
+        96
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "إرسال فرنسا قوات لحماية موقع ينبع النفطي",
+      "event": "إرسال ماكرون جنودًا ورادارات لحماية موقع ينبع النفطي السعودي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        111,
+        112
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تحذير من أزمة المياه في تونس وتأثيرها الاقتصادي",
+      "event": "تحذير البنك الدولي من تأثير نقص المياه على اقتصاد تونس وقطاع الزراعة بحلول 2050",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        113,
+        114
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "فضيحة الأموال الهاربة والتحقيق فيها في تركيا",
+      "event": "تعليمات الرئيس بالتحقيق في من غادروا تركيا بأموالهم خلال الأزمة المالية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        120,
+        121
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تسريب فيديو اقتحام شرطي لمنزل امرأة في مرسين",
+      "event": "تسريب فيديو اقتحام الشرطة منزل امرأة في مرسين وإثارة جدل حول الخصوصية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        125,
+        126,
+        134
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "إهمال الحكومة التركية لمحافظة أرتفين",
+      "event": "انتقادات أوزغور أوزيل لإهمال الحكومة محافظة أرتفين رغم مواردها من السدود والتعدين",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        129,
+        130,
+        131,
+        132,
+        133
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "مستقبل النظام الإيراني واحتمالات تحوله",
+      "event": "تحليل مستقبل الجمهورية الإسلامية واحتمال تحولها لنموذج عسكري متشدد",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        145,
+        146
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "شعور الجالية الإيرانية بالتجاهل الإعلامي بعد احتجاجات يناير",
+      "event": "شعور الجالية الإيرانية الأمريكية بالتجاهل الإعلامي ومطالبة بموقف أمريكي من الحرس الثوري",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        147,
+        149
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الموقف الإيراني من أمن المضيق والملاحة",
+      "event": "مطالبة إيران بتولي دول المنطقة أمن مضيق هرمز وتأثر الملاحة به",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        1,
+        3
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "دوافع الحوثي الاستراتيجية في استهداف السعودية",
+      "event": "تحليل استراتيجية الحوثي في استدراج أمريكا وتصعيد التوتر مع السعودية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        16,
+        19
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تقييم خطورة الحوثي كجماعة مسلحة فريدة",
+      "event": "وصف الحوثي كجماعة مسلحة تمتلك قدرات استثنائية مقارنة بجماعات إرهابية أخرى",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        20,
+        24
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الدعوة للحل العسكري ضد الحوثي وإيران",
+      "event": "الدعوة لحل عسكري دولي للتصدي للميليشيات الإيرانية بعد هجوم المدينة المنورة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        25,
+        26
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "رسالة الرئيس الموريتاني السابق من سجنه",
+      "event": "رسالة محمد ولد عبد العزيز من سجنه للرئيس الحالي حول وضعه الصحي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        35,
+        36,
+        37,
+        40
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "دعوة أردوغان للتوافق السياسي ونبذ الاستقطاب",
+      "event": "تصريحات أردوغان حول ضرورة الانتقال من سياسة الحزب الواحد إلى التوافق ونبذ الاستقطاب",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        42,
+        43,
+        45,
+        46,
+        48
+      ],
+      "total_points": 5,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "عملية تركيا بلا إرهاب والتوافق البرلماني",
+      "event": "تقييم أردوغان لعملية 'تركيا بلا إرهاب' وتوقيع النواب على قانون الإطار",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        44,
+        47
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "احتمال انتقال جميل توغاي لحزب العدالة والتنمية",
+      "event": "ترقب انتقال عمدة إزمير جميل توغاي من حزب الشعب الجمهوري إلى حزب العدالة والتنمية بعد لقائه بأردوغان",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55
+      ],
+      "total_points": 7,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "ارتفاع التضخم وأسعار السلع في تركيا",
+      "event": "ارتفاع معدل التضخم السنوي وأسعار المواد الغذائية كالليمون في تركيا",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        60,
+        61
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "انسحاب حزب الشعب الجمهوري من افتتاح البرلمان التركي",
+      "event": "انسحاب أوزجور أوزيل وحزبه من جلسة افتتاح البرلمان التركي احتجاجًا",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        56,
+        115,
+        116,
+        122,
+        123
+      ],
+      "total_points": 5,
+      "fresh_points": 4,
+      "dropped_reason": null
+    }
+  ]
+}
