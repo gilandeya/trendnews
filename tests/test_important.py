@@ -450,9 +450,10 @@ def test_important_search_and_extract() -> None:
         important.judge("نص Issue رقم 16", 96008, cfg)
     sd2 = important.load_saved(96008)
     pd2 = sd2["points"][0]
-    check("(d) بمفتاح ← Brave يُستعمل لكل عبارة ولعبارة التدقيق ويُسجَّل في الملف",
-          len(rig_d2.brave_calls) == 2 and "brave_web" in pd2["engines"]
-          and sd2["brave"]["requests"] == 2 and sd2["brave"]["monthly_usage"] == 2, sd2["brave"])
+    # 4 = عبارتان عاديتان + عبارتا site: لمدقّقَي العربية (misbar، fatabyyano) — #1205
+    check("(d) بمفتاح ← Brave يُستعمل لكل عبارة ولعبارة التدقيق ولمواقع المدقّقين ويُسجَّل في الملف",
+          len(rig_d2.brave_calls) == 4 and "brave_web" in pd2["engines"]
+          and sd2["brave"]["requests"] == 4 and sd2["brave"]["monthly_usage"] == 4, sd2["brave"])
     check("(d) نتيجة Brave من facebook.com تُستبعد قبل جمع الأدلة",
           pd2["docs_after"] == 2 and pd2["sources_read"] == 2, (pd2["docs_before"], pd2["docs_after"]))
 
@@ -502,8 +503,8 @@ def test_important_search_and_extract() -> None:
         important.judge("نص Issue رقم 18", 96010, cfg)
     data_e2 = json.loads(usage.read_text())
     check("(e) بلوغ سقف الصور لا يوقف بحث «هام» ولا يمسّ عدّاد الصور",
-          len(rig_e2.brave_calls) == 2 and data_e2.get(month_img) == cap_img
-          and data_e2.get(month_imp) == 2, data_e2)
+          len(rig_e2.brave_calls) == 4 and data_e2.get(month_img) == cap_img
+          and data_e2.get(month_imp) == 4, data_e2)
     usage.unlink(missing_ok=True)
 
     # ── (f) الجمع لا يتوقف عند أول عبارة، والسقف 8 وثائق يُحترم ──
@@ -966,3 +967,160 @@ def test_important_1203() -> None:
     check("(e) article.py لا يمرّر max_chars لجلب الأدلة (يبقى سقف 2500 لمسار «مقال» والأخبار)",
           "gather_evidence(" in inspect.getsource(article)
           and not re.search(r"gather_evidence\([^)]*max_chars", inspect.getsource(article)))
+
+
+# ───────────── Issue #1205 (المهمة 1هـ): زمن التصحيح، الجهة الأصلية، بحث المدقّقين ─────────────
+
+
+def test_important_1205() -> None:
+    import inspect
+    import json
+    from src import article, important, imagesearch
+
+    cfg = load_config()
+    icfg = cfg.path("important")
+    imagesearch.BRAVE_USAGE_FILE.unlink(missing_ok=True)
+
+    claim_tr = "Türkiye 450 bin asker Suriye gönderdi"
+    points = [
+        {"claim": P1201["baykar"], "entities": ["بيرقدار"], "numbers": ["250 كيلومتر"],
+         "queries": [_q("ar", "بيرقدار أقنجي إصابة 250 كيلومتر")], "factcheck_query": ""},
+        {"claim": P1201["pop"], "entities": ["سكان"], "numbers": ["85.7 مليون"],
+         "dates": ["نهاية 2025"], "queries": [_q("ar", "عدد سكان تركيا 2025 85.7 مليون")],
+         "factcheck_query": ""},
+        {"claim": P1201["video"], "framing": "circulating", "circulating_context": CTX_1201,
+         "entities": ["تركيا", "سوريا"], "numbers": ["450 ألف"],
+         "queries": [_q("ar", "تركيا 450 ألف جندي سوريا"), _q("en", "Turkey 450000 soldiers Syria"),
+                     _q("tr", claim_tr)],
+         "factcheck_query": "تركيا 450 ألف جندي سوريا تحقق"},
+        {"claim": P1201["space"], "entities": ["فضائي"], "dates": ["2026"],
+         "queries": [_q("ar", "تركيا شبكة إنترنت فضائي حكومية")], "factcheck_query": ""},
+        {"claim": P1201["users"], "entities": ["الإنترنت"], "numbers": ["77.5 مليون"],
+         "queries": [_q("ar", "مستخدمو الإنترنت في تركيا 77.5 مليون")], "factcheck_query": ""},
+    ]
+    teyit_cut = "Teyit: Türkiye'nin Suriye'ye 450 bin asker gönderdiği iddiası yalan"
+    brave = {"site:teyit.org": [brave_result(
+        "https://teyit.org/analiz/turkiye-450-bin-asker-suriye", teyit_cut,
+        "Eski bir video yeni gibi paylaşıldı.", "Teyit")]}
+    docs = {
+        "بيرقدار": [important_doc("Alsaudi", "بيرقدار أقنجي أصابت هدفًا يبعد أكثر من 250 كيلومترًا.",
+                                  link="https://alsaudi.news/international/1109/96875"),
+                    important_doc("Yeni Şafak", "أعلنت بايكار إصابة هدف على بعد 250 كيلومترًا بأقنجي.",
+                                  link="https://www.yenisafak.com/ar/economy/4131591")],
+        "سكان": [important_doc("newturkpost", "بلغ عدد سكان تركيا 86 مليوناً و92 ألفاً و168 نسمة "
+                               "في نهاية 2025.", link="https://newturkpost.com/news/118693"),
+                 important_doc("TRADING ECONOMICS", "عدد سكان تركيا 86.1 مليون نسمة في 2025.",
+                               link="https://ar.tradingeconomics.com/turkey/population"),
+                 important_doc("Zaman Arabic", "بلغ التعداد السكاني في تركيا 85 مليون و980 ألف و654 نسمة "
+                               "اعتبارا من الأول من أكتوبر.",
+                               link="https://www.zamanarabic.com/2025/11/24/population")],
+        "450": [important_doc("Al Jazeera", "الفيديو المتداول قديم، ولم تُرسل تركيا 450 ألف جندي إلى سوريا.",
+                              link="https://www.aljazeera.net/news/2026/8/23/video")],
+        "فضائي": [important_doc("Eutelsat", "خدمات أقمار صناعية في تركيا.", link="https://www.eutelsat.com/turkiye")],
+        "الإنترنت": [important_doc("Global Digital Insights",
+                                   "Türkiye had 77.5 million internet users at the start of 2026 "
+                                   "according to DataReportal Digital 2026.",
+                                   link="https://datareportal.com/reports/digital-2026-turkey"),
+                     important_doc("Daily Sabah", "Citing Global Digital Insights, 77.5 million Turks use "
+                                   "the internet.", link="https://www.dailysabah.com/turkiye/internet-use")],
+    }
+    forms = {"newturkpost": ("86 مليوناً و92 ألفاً و168 نسمة", "نهاية 2025"),
+             "TRADING ECONOMICS": ("86.1 مليون نسمة", "نهاية 2025"),
+             "Zaman Arabic": ("85 مليوناً و980 ألفاً و654 نسمة", "1 أكتوبر 2025")}
+
+    def classify(point, names):
+        if "بيرقدار" in point:
+            return {"sources": [important_stance(n, "supports", "250 كيلومترًا") for n in names]}
+        if "85.7" in point:
+            return {"sources": [important_stance(
+                n, "conflicts_detail", forms[n][0], detail="العدد 85.7 غير دقيق",
+                correct_form=forms[n][0], as_of=forms[n][1]) for n in names]}
+        if "450" in point:
+            return {"sources": [important_stance(
+                n, "refutes", teyit_cut if n == "Teyit" else "ولم تُرسل تركيا 450 ألف جندي إلى سوريا")
+                for n in names]}
+        if "فضائي" in point:
+            return {"sources": [important_stance(n, "irrelevant", same_event=False) for n in names]}
+        return {"sources": [important_stance(n, "supports", "77.5 million internet users")
+                            if n == "Global Digital Insights" else important_stance(n, "irrelevant")
+                            for n in names]}
+
+    with ImportantRig(points, docs, classify, brave_results=brave, brave_key="k-test") as rig:
+        important.judge("\n".join(P1201.values()) + "\n" + CTX_1201, 98005, cfg)
+    saved = important.load_saved(98005)
+    p1, p2, p3, p4, p5 = saved["points"]
+
+    # (a) الجدول: النقطة ← verdict ← correction/refuted_by
+    cor = p2["correction"] or {}
+    check("(a) (1) ← confirmed", p1["verdict"] == "confirmed" and not p1["primary_source"], p1["verdict"])
+    check("(a) (2) ← inaccurate بـ86,092,168 من newturkpost وTrading Economics لزمن «نهاية 2025»",
+          p2["verdict"] == "inaccurate" and cor.get("correct_value") == "86,092,168"
+          and cor.get("as_of") == "نهاية 2025"
+          and {s["publisher"] for s in cor["sources"]} == {"newturkpost", "TRADING ECONOMICS"},
+          p2["correction"])
+    zaman = next(d for d in p2["read_docs"] if d["publisher"] == "Zaman Arabic")
+    check("(a) (2) صيغة «1 أكتوبر 2025» لزمن آخر: في read_docs وحدها لا في الأدلة ولا التصحيح",
+          zaman["as_of"] == "1 أكتوبر 2025"
+          and "Zaman Arabic" not in {e["publisher"] for e in p2["evidence"]}, zaman)
+    check("(a) (3) ← false برابط teyit.org (مدقّق وحده) مع الجزيرة",
+          p3["verdict"] == "false"
+          and any("teyit.org" in r["link"] and r["fact_checker"] for r in p3["refuted_by"]),
+          (p3["verdict"], p3["refuted_by"]))
+    check("(a) (4) ← not_found وسقطت (لا أثر)",
+          p4["verdict"] == "not_found" and p4["dropped_reason"] == important.NO_TRACE_REASON,
+          (p4["verdict"], p4["dropped_reason"]))
+    check("(a) (5) ← confirmed من datareportal.com وحدها بـprimary_source=true",
+          p5["verdict"] == "confirmed" and p5["primary_source"] is True
+          and any("datareportal.com" in e["link"] for e in p5["evidence"]),
+          (p5["verdict"], p5["primary_source"]))
+    print("جدول (a):")
+    for p in saved["points"]:
+        if p["correction"]:
+            extra = (p["correction"]["correct_value"], p["correction"]["as_of"],
+                     [s["publisher"] for s in p["correction"]["sources"]])
+        else:
+            extra = [r["link"] for r in p["refuted_by"] or []]
+        print("  ", p["text"][:40], "←", p["verdict"], "←", extra)
+
+    # (b) عبارات site: بحسب لغات النقطة، والسقف، وعدّاد «هام»
+    sites3 = p3["site_queries"]
+    check("(b) نقطة ar+en+tr: 4 عبارات site: (السقف) بترتيب الإعداد، والتركية محفوظة قبل الإنجليزية",
+          [q.rsplit("site:", 1)[1] for q in sites3] ==
+          ["misbar.com", "fatabyyano.net", "teyit.org", "factcheck.afp.com"]
+          and len(sites3) == icfg["factcheck_site_queries"], sites3)
+    check("(b) عبارة teyit.org هي عبارة النقطة التركية مع كلمة تدقيق تركية",
+          f"{claim_tr} teyit site:teyit.org" in sites3, sites3)
+    check("(b) نقطة بالعربية وحدها: عبارتا misbar وfatabyyano فقط",
+          [q.rsplit("site:", 1)[1] for q in p1["site_queries"]] == ["misbar.com", "fatabyyano.net"],
+          p1["site_queries"])
+    n_site = sum(len(p["site_queries"]) for p in saved["points"])
+    usage = json.loads(imagesearch.BRAVE_USAGE_FILE.read_text()).get(important._usage_key())
+    check("(b) كل عبارة site: طلب Brave واحد يحسبه عدّاد «هام»",
+          sum(1 for q in rig.brave_calls if "site:" in q) == n_site
+          and saved["brave"]["requests"] == len(rig.brave_calls)
+          and saved["brave"]["monthly_usage"] == len(rig.brave_calls) == usage,
+          (n_site, saved["brave"], len(rig.brave_calls), usage))
+    with ImportantRig(points[:1], docs, classify) as rig_nk:
+        important.judge("نص", 98006, cfg)
+    check("(b) بلا مفتاح لا طلب Brave ولا خطأ",
+          rig_nk.brave_calls == [] and important.load_saved(98006)["brave"]["skipped"] == "no_key")
+
+    # (c) الدوال الجديدة وحدها، ومسار «مقال» لم يُمَسّ
+    def stat(a, d):
+        return important._time_status(a, d, icfg)
+
+    check("(c) زمن الصيغة: نهاية 2025 تطابق «2025» و«نهاية 2025»؛ أكتوبر 2025 وأكتوبر 2026 لا",
+          stat("نهاية 2025", ["نهاية 2025"]) == "match" and stat("2025", ["نهاية 2025"]) == "match"
+          and stat("1 أكتوبر 2025", ["نهاية 2025"]) == "other"
+          and stat("أكتوبر 2026", ["نهاية 2025"]) == "other"
+          and stat("", ["نهاية 2025"]) == "absent" and stat("أكتوبر 2026", []) == "free")
+
+    def ph(t):
+        return important._numbers_with_half(t, icfg)[0]
+
+    check("(c) الهامش: 86.1 مليون ضمن 86,092,168 ولا ضمن 85.7 مليون",
+          important._within_margin(ph("86.1 مليون"), ph("86,092,168"), icfg)
+          and not important._within_margin(ph("86.1 مليون"), ph("85.7 مليون"), icfg))
+    src = inspect.getsource(article)
+    check("(c) article.py لا يعرف as_of ولا الجهات الأصلية (مسار «مقال» لم يُمَسّ)",
+          "as_of" not in src and "primary_data" not in src)

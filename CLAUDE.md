@@ -1291,6 +1291,36 @@ important` — **لا تعديل على `article.py` ولا على `.github/work
   المحلّل، العبارة التركية). `ImportantRig` صار يقبل `native=` ويسجّل `max_chars_seen`/`systems`/
   `native_requests`، وعُدّل في `test_important_search_and_extract` عدّ نداءات `brief` (نداء لغة أم لكل نقطة تركية).
 
+**المهمة 1هـ (Issue #1205) — زمن التصحيح والجهة الأصلية وبحث المدقّقين بعد التجربة الحقيقية الرابعة.**
+التغيير في `src/important.py` + `config.yaml: important` + الاختبارات؛ لا `article.py` ولا `.github/workflows/`.
+شروط حارس `false` لم تُرخَ (g1–g16 بلا تعديل، وأُضيفت g17–g20 قبل الكود).
+- **زمن التصحيح:** أداة التصنيف تعيد `as_of` مع `correct_form`. `_time_status(as_of, dates)`: `free` (لا سنة في
+  `dates` النقطة فلا مقارنة) · `absent` · `match` (سنة مشتركة، وفترة الصيغة إن ذُكرت — `important.period_groups`:
+  نهاية/أكتوبر… — هي فترة النقطة؛ بلا فترة تكفي السنة) · `other`. صيغة `other` لا تدخل التصحيح ولا `evidence`
+  وتبقى في `read_docs` (مع `as_of`). `_pick_correction`: الصيغ `match/free` تتفق فيما بينها، والـ`absent` فيما بينها
+  فقط (لا خلط مؤرَّخة بغير مؤرَّخة)؛ `correct_value` قيمة يتفق عليها `min_confirm_sources` مستقلان فأكثر؛ وعند
+  تعدّد القيم المتفقة الأكثر مصادر ثم الأدقّ. لا تصحيح مؤيَّد ← تُعامَل النقطة بقواعد البقية. `correction.as_of`
+  و`sources[].as_of` محفوظان.
+- **تصحيح داخل الهامش = supports:** `_read_stances` يحوّل `conflicts_detail` إلى `supports` (`raw_stance` يحفظ الأصل)
+  إن كان رقم `correct_form` ضمن الهامش من رقم النقطة (ولم يكن `as_of` من زمن آخر). **انحراف مقصود عن نص المهمة:**
+  الهامش `_within_margin` = `min(نصف وحدة أقلّ الرقمين دقة, number_tolerance × الأكبر)` لا `number_tolerance` وحدها،
+  لأن 0.5% تجعل 85.7 و86.1 مليونًا «ضمن الهامش» (0.46%) فينقلب g16 من inaccurate إلى confirmed؛ بمدى التقريب
+  يبقى 86.1 مليون ضمن 86,092,168 (g18) وخارج 85.7 مليون (g16).
+- **الجهة الأصلية:** `important.primary_data_domains` (بنطاق الرابط؛ مدخل بـ«/» يتطلب المسار). وثيقة منها تؤيد
+  (same_event + مقتطف حرفي في نصها يحمل رقم النقطة ضمن الهامش، ولنقطة بلا أرقام لا جهة أصلية) تكفي وحدها لـ`confirmed`
+  (`_primary_supporters`)، وتُعدّ «حدثًا موثَّقًا» في تعارض النفي مع التأييد. **لا تدخل حساب `false` أبدًا** (g19).
+  `primary_source: true` على النقطة إن اعتمد الحكم (confirmed/inaccurate) على وثيقة منها. للتصحيح لا يتغيّر العدّ
+  (الجهة الأصلية + مصدر مستقل = مصدران كالمعتاد).
+- **بحث المدقّقين الموجَّه:** `_PointSearch.site_queries` — لكل لغة في `query_langs` النقطة (محفوظة من الاستخراج
+  مع `query_by_lang`) كل نطاق في `important.fact_check_sites_by_lang` يُرسَل عبر Brave web بعبارة
+  «عبارة اللغة + كلمة تدقيق من `factcheck_words_by_lang` إن غابت + site:<نطاق>»، بترتيب الإعداد (ar ثم tr ثم en)
+  وسقف `factcheck_site_queries` (4) يقصّ من الآخر. تُرسَل **قبل** كل عبارة أخرى، ولا تُحتسب في سقف
+  `max_docs_per_point` كي لا تحجب البحث العادي، و`_finalize` يقدّم نطاقات المدقّقين في الترتيب. كل عبارة طلب Brave
+  يحسبه عدّاد `important:YYYY-MM` وسقفه؛ بلا مفتاح/عند السقف لا طلب ويُسجَّل `brave.skipped`. الملف: `site_queries` لكل نقطة.
+- **الاختبارات:** g17–g20 في `tests/test_guards_golden.py:test_important_false_guard`؛ `test_important_1205` في
+  `tests/test_important.py`. عُدِّل في `test_important_search_and_extract` عدّ طلبات Brave (2 ← 4: عبارتا site: العربيتان
+  صارتا تُرسَلان لكل نقطة بالعربية)؛ و`helpers.important_stance` يقبل `as_of`.
+
 ## Retired paths
 
 - **`src/verify.py`** (Issue #1068) — the fact-check-a-pasted-article path is retired for good; the

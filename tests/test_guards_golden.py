@@ -1152,3 +1152,62 @@ def test_important_false_guard() -> None:
           p16["verdict"] == "inaccurate"
           and (p16.get("correction") or {}).get("correct_value") == "86,092,168",
           (p16["verdict"], p16.get("correction")))
+
+    # ── Issue #1205 (المهمة 1هـ): g17–g20 تُكتب قبل أي كود ──
+    # g17) مصدران متفقان على رقم لكن as_of لكليهما «أكتوبر 2026» والنقطة «نهاية 2025» ← لا inaccurate
+    oct_forms = {"موقع الأرقام": "86 مليوناً و92 ألفاً و168 نسمة",
+                 "صحيفة الشرق": "86 مليوناً و92 ألفاً و168 نسمة"}
+    pop17 = {"claim": "بلغ عدد سكان @ في نهاية 2025 نحو 85.7 مليون نسمة",
+             "numbers": ["85.7 مليون"], "dates": ["نهاية 2025"]}
+
+    def conflict_oct(pt, names):
+        return {"sources": [important_stance(
+            n, "conflicts_detail", oct_forms[n], detail="العدد غير دقيق",
+            correct_form=oct_forms[n], as_of="أكتوبر 2026") for n in names]}
+
+    p17 = run_claim(17, pop17, [
+        important_doc(n, f"بلغ عدد السكان {t} في أكتوبر 2026 بحسب الإحصاء.")
+        for n, t in oct_forms.items()], conflict_oct)
+    check("(g17) مصدران متفقان لكن as_of «أكتوبر 2026» والنقطة «نهاية 2025» ⇒ لا inaccurate",
+          p17["verdict"] != "inaccurate" and not p17.get("correction"),
+          (p17["verdict"], p17.get("correction")))
+
+    # g18) correct_value ضمن الهامش من رقم النقطة ← supports لا inaccurate
+    pop18 = {"claim": "بلغ عدد سكان @ نحو 86,092,168 نسمة", "numbers": ["86,092,168"]}
+    forms18 = {"موقع الأرقام": "86.1 مليون نسمة", "صحيفة الشرق": "86.1 مليون نسمة"}
+
+    def conflict_margin(pt, names):
+        return {"sources": [important_stance(
+            n, "conflicts_detail", forms18[n], detail="الرقم مختلف",
+            correct_form=forms18[n]) for n in names]}
+
+    p18 = run_claim(18, pop18, [
+        important_doc(n, f"بلغ عدد السكان {t} بحسب الإحصاء.") for n, t in forms18.items()],
+        conflict_margin)
+    check("(g18) «86.1 مليون» مقابل 86,092,168 ضمن الهامش ⇒ supports لا inaccurate",
+          p18["verdict"] == "confirmed" and not p18.get("correction")
+          and {e["stance"] for e in p18["evidence"]} == {"supports"},
+          (p18["verdict"], p18.get("correction"), p18["evidence"]))
+
+    # g19) وثيقة واحدة من datareportal.com تؤيد بمقتطف يحمل الرقم ← confirmed، و«تنفي» ← لا false
+    pop19 = {"claim": "بلغ عدد مستخدمي الإنترنت في @ نحو 77.5 مليون مستخدم", "numbers": ["77.5 مليون"]}
+    dr_text = "Turkey had 77.5 million internet users at the start of 2026."
+    dr_link = "https://datareportal.com/reports/digital-2026-turkey"
+    p19 = run_claim(19, pop19, [important_doc("Global Digital Insights", dr_text, link=dr_link)],
+                    lambda pt, names: {"sources": [important_stance(
+                        n, "supports", "Turkey had 77.5 million internet users") for n in names]})
+    check("(g19) وثيقة واحدة من datareportal.com تؤيد بمقتطف يحمل الرقم ⇒ confirmed بـprimary_source",
+          p19["verdict"] == "confirmed" and p19.get("primary_source") is True,
+          (p19["verdict"], p19.get("primary_source")))
+    p19b = run_claim(19, pop19, [important_doc("Global Digital Insights", dr_text, link=dr_link)],
+                     lambda pt, names: {"sources": [important_stance(
+                         n, "refutes", "Turkey had 77.5 million internet users") for n in names]})
+    check("(g19) الوثيقة نفسها «تنفي» ⇒ لا false (الجهة الأصلية لا تُحسب للنفي)",
+          p19b["verdict"] != "false" and not p19b.get("refuted_by"),
+          (p19b["verdict"], p19b.get("refuted_by")))
+
+    # g20) مصدر واحد مستقل ينفي + لا مدقّق ← not_found (البحث الموجَّه لا يغيّر الحارس)
+    p20 = run(20, [important_doc("وكالة الأنباء الشرقية", denial)], refute_all)
+    check("(g20) نفي مصدر واحد مستقل بلا مدقّق ⇒ not_found",
+          p20["verdict"] == "not_found" and not p20.get("refuted_by"),
+          (p20["verdict"], p20.get("refuted_by")))

@@ -1155,6 +1155,49 @@ important:
     - ["كيلومتر", "كم", "km", "kilometer", "kilometers", "kilometre", "kilometres", "kilometre"]
     - ["بالمئة", "بالمائة", "percent", "٪", "%", "yuzde"]
   max_tokens_cap: 6000
+  # Issue #1205: جهات البيانات الأصلية — وثيقة من نطاقها تؤيد رقمًا إحصائيًا بمقتطف حرفي
+  # يحمل رقم النقطة تكفي وحدها لـconfirmed (نقل ديلي صباح عن DataReportal كان يُسقَط
+  # إعادة نشر فيبقى مصدر أصلي واحد). لا تُحسب للنفي (false) أبدًا. مدخل فيه «/» يتطلب المسار.
+  primary_data_domains:
+    - "tuik.gov.tr"
+    - "data.tuik.gov.tr"
+    - "datareportal.com"
+    - "data.worldbank.org"
+    - "worldbank.org"
+    - "imf.org"
+    - "data.un.org"
+    - "un.org"
+    - "who.int"
+    - "oecd.org"
+    - "ec.europa.eu/eurostat"
+  # Issue #1205: بحث موجَّه في مواقع المدقّقين عبر Brave (site:) بحسب لغات النقطة. الترتيب
+  # هنا هو ترتيب الإرسال، والسقف أدناه يقصّ من الآخر — فالتركية لا تُحجب بالإنجليزية.
+  fact_check_sites_by_lang:
+    ar: ["misbar.com", "fatabyyano.net"]
+    tr: ["teyit.org"]
+    en: ["factcheck.afp.com", "reuters.com/fact-check", "snopes.com"]
+  # كلمة التدقيق التي تحملها عبارة كل لغة (تُضاف الأولى غير الموجودة في العبارة)
+  factcheck_words_by_lang:
+    ar: ["تحقق"]
+    tr: ["teyit", "doğrulama", "yalanlama"]
+    en: ["fact check"]
+  factcheck_site_queries: 4   # سقف عبارات site: لكل نقطة (كل عبارة طلب Brave في عدّاد «هام»)
+  # زمن صيغة التصحيح (as_of) مقابل زمن النقطة: كل مجموعة كلمات تعني فترة واحدة. صيغة
+  # فيها فترة (أكتوبر) لا تطابق نقطة «نهاية 2025»؛ وبلا فترة تكفي السنة.
+  period_groups:
+    - ["نهاية", "أواخر", "ديسمبر", "كانون الأول", "december", "end of", "end", "aralik", "sonu"]
+    - ["يناير", "كانون الثاني", "january", "ocak"]
+    - ["فبراير", "شباط", "february", "subat"]
+    - ["مارس", "آذار", "march", "mart"]
+    - ["أبريل", "ابريل", "نيسان", "april", "nisan"]
+    - ["مايو", "أيار", "may", "mayis"]
+    - ["يونيو", "حزيران", "june", "haziran"]
+    - ["يوليو", "تموز", "july", "temmuz"]
+    - ["أغسطس", "اغسطس", "آب", "august", "agustos"]
+    - ["سبتمبر", "أيلول", "september", "eylul"]
+    - ["أكتوبر", "اكتوبر", "تشرين الأول", "october", "ekim"]
+    - ["نوفمبر", "تشرين الثاني", "november", "kasim"]
+    - ["بداية", "أوائل", "مطلع", "start of", "beginning of", "basinda"]
 
 # ── رادار العاجل ───────────────────────────────────────────
 # يعمل كل ربع ساعة على المصادر الأقوى. الفحص مجاني تمامًا (لا استدعاء

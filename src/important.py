@@ -69,7 +69,9 @@ CLASSIFY_SYSTEM = f"""أنت تصنّف موقف كل مصدر من «نقطة»
 - supports: النص يؤيد النقطة كلها بما فيها تفاصيلها (رقم، تاريخ، اسم، مكان، جهة).
 - conflicts_detail: النص يوثّق الحدث نفسه لكن تفصيلًا في النقطة (رقم/تاريخ/
   اسم/مكان/جهة) يخالف ما يقوله النص. اذكر في detail أي تفصيل، وفي
-  correct_form الصيغة الصحيحة كما يرد في النص.
+  correct_form الصيغة الصحيحة كما يرد في النص، وفي as_of التاريخ أو الفترة التي
+  يخصّها ذلك الرقم في المصدر كما يرد فيه حرفيًا («نهاية 2025»، «1 أكتوبر 2025»)؛
+  رقم لفترة غير فترة النقطة لا يصحّح النقطة، فلا تُغفل as_of.
 - refutes: النص **ينفي النقطة صراحةً** (يقول إنها لم تحدث أو إنها كاذبة/
   مفبركة/غير صحيحة). سكوت النص عنها ليس نفيًا، واختلاف تفصيل واحد ليس
   نفيًا (ذاك conflicts_detail). عند أدنى شك اختر irrelevant.
@@ -118,6 +120,7 @@ CLASSIFY_SCHEMA = {
                         "stance": {"type": "string", "enum": list(STANCES)},
                         "detail": {"type": "string"},
                         "correct_form": {"type": "string"},
+                        "as_of": {"type": "string"},
                         "excerpt": {"type": "string"},
                     },
                     "required": ["source", "same_event", "stance"],
@@ -334,15 +337,26 @@ def _is_fact_checker_domain(link: str, icfg) -> bool:
     """مدقّق بالنطاق: important.fact_check_domains. مدخل فيه «/» (reuters.com/
     fact-check/) يتطلب أيضًا أن يحوي مسار الرابط الجزء بعد النطاق — فـreuters.com
     وحدها وكالة أنباء لا مدقِّقة."""
+    return _link_listed(link, icfg.get("fact_check_domains"))
+
+
+def _link_listed(link: str, entries) -> bool:
+    """رابط يطابق أحد مدخلات قائمة نطاقات (مدخل بمسار يتطلب المسار أيضًا)."""
     if not link:
         return False
     parsed = urlparse(link)
     host, path = _host_of(link), (parsed.path or "").lower()
-    for entry in icfg.get("fact_check_domains") or []:
+    for entry in entries or []:
         domain, _, want_path = str(entry).lower().partition("/")
         if _host_matches(host, domain) and (not want_path or f"/{want_path}" in path):
             return True
     return False
+
+
+def _is_primary_source(link: str, icfg) -> bool:
+    """جهة بيانات أصلية (Issue #1205): important.primary_data_domains. تُعرَف بالنطاق
+    وحده — اسم الناشر في النتائج غير موثوق. لا تدخل حساب النفي أبدًا (انظر decide)."""
+    return _link_listed(link, icfg.get("primary_data_domains"))
 
 
 def _is_fact_checker(name: str, icfg, link: str = "") -> bool:
@@ -483,17 +497,136 @@ def _form_precision(form: str, icfg) -> int:
     return _sig_digits(v) if v is not None else 0
 
 
+def _numbers_with_half(text: str, icfg) -> list[tuple[Decimal, Decimal]]:
+    """(القيمة، نصف وحدة آخر رقم معنوي) لكل رقم غير سنة. «86.1 مليون» دقتها ±50,000
+    و«86,092,168» ±0.5 — الدقة من الصيغة نفسها (Decimal.normalize)، فكل منهما يقرّب
+    الآخر إن وقع داخل مدى تقريبه."""
+    out = []
+    for v, is_year in parse_numbers(text, icfg):
+        if is_year:
+            continue
+        exp = v.normalize().as_tuple().exponent
+        out.append((v, Decimal(5) * Decimal(10) ** (exp - 1) if isinstance(exp, int) else Decimal(0)))
+    return out
+
+
+def _within_margin(a: tuple[Decimal, Decimal], b: tuple[Decimal, Decimal], icfg) -> bool:
+    """رقمان «ضمن الهامش» (Issue #1205): الفرق ≤ نصف وحدة الأقلّ دقة، وفي كل حال ≤
+    number_tolerance من الأكبر. العتبة وحدها تجعل 85.7 و86.1 مليونًا متفقين (0.46%)
+    فتتحوّل مخالفة حقيقية إلى تأييد؛ مدى التقريب يفصل بينهما ويُبقي 86.1 مليونًا
+    وقيمة 86,092,168 متقاربتين."""
+    tol = Decimal(str(icfg.get("number_tolerance", 0) or 0))
+    big = max(a[0], b[0])
+    return abs(a[0] - b[0]) <= min(max(a[1], b[1]), big * tol)
+
+
+def _point_numbers(f: dict, icfg) -> list[tuple[Decimal, Decimal]]:
+    """أرقام النقطة (حقل numbers وإلا من نصها) بدقتها."""
+    nums = [x for n in f.get("numbers") or [] for x in _numbers_with_half(str(n), icfg)]
+    return nums or _numbers_with_half(f.get("text", ""), icfg)
+
+
+def _correction_within_margin(correct_form: str, f: dict | None, icfg) -> bool:
+    """«تصحيح» داخل هامش رقم النقطة نفسها ليس تصحيحًا (بند مؤجَّل من #1203)."""
+    if not f:
+        return False
+    mine = _numbers_with_half(correct_form, icfg)[:1]
+    if not mine:
+        return False
+    return any(_within_margin(mine[0], p, icfg) for p in _point_numbers(f, icfg))
+
+
+def _excerpt_carries_point_number(excerpt: str, f: dict | None, icfg) -> bool:
+    if not f:
+        return False
+    wanted = _point_numbers(f, icfg)
+    return any(_within_margin(g, w, icfg)
+               for g in _numbers_with_half(excerpt, icfg) for w in wanted)
+
+
+# ───────────────────── زمن الصيغة (as_of) مقابل زمن النقطة (Issue #1205) ─────────────────────
+
+
+def _years_in(text: str) -> set[int]:
+    return {int(y) for y in _YEAR_RE.findall(str(text or "").translate(_AR_DIGITS))}
+
+
+def _period_tags(text: str, icfg) -> set[int]:
+    """أرقام مجموعات الفترة (نهاية/أكتوبر…) الواردة في النص — important.period_groups."""
+    tags = set()
+    for i, group in enumerate(icfg.get("period_groups") or []):
+        variants = [v for w in group or []
+                    if (v := " ".join(_WORD_RE.findall(_fold(w))))]
+        if variants and _mentions(text, variants):
+            tags.add(i)
+    return tags
+
+
+def _time_status(as_of: str, dates: list[str], icfg) -> str:
+    """علاقة زمن صيغة التصحيح بزمن النقطة (dates من الاستخراج):
+    free — لا سنة في النقطة فلا مقارنة؛ absent — الصيغة بلا as_of؛ match — السنة
+    مشتركة وفترة الصيغة (إن ذكرت) هي فترة النقطة؛ other — زمن آخر (سنة أخرى، أو
+    فترة غير فترة النقطة، أو as_of بلا سنة). الصيغة «other» لا تدخل التصحيح."""
+    joined = " ".join(str(d) for d in dates or [])
+    point_years = _years_in(joined)
+    if not point_years:
+        return "free"
+    if not str(as_of or "").strip():
+        return "absent"
+    if not (point_years & _years_in(as_of)):
+        return "other"
+    tags = _period_tags(as_of, icfg)
+    return "match" if tags <= _period_tags(joined, icfg) else "other"
+
+
 # ───────────────────────────── الحكم (في الكود) ─────────────────────────────
 
 
-def decide(stances: dict[str, dict], pool: dict[str, dict], cfg) -> dict:
+def _primary_supporters(stances: dict[str, dict], pool: dict[str, dict], f: dict | None,
+                        icfg) -> list[str]:
+    """وثائق جهات البيانات الأصلية المؤيِّدة (Issue #1205): نطاقها في primary_data_domains،
+    تأييدها same_event، ومقتطفها حرفي في نصها ويحمل رقم النقطة ضمن الهامش. بلا أرقام في
+    النقطة لا جهة أصلية («تؤيد رقمًا إحصائيًا»)."""
+    return [n for n, s in stances.items()
+            if s["stance"] == "supports" and s.get("same_event")
+            and _is_primary_source(pool[n].get("link", ""), icfg)
+            and _excerpt_in(pool[n].get("text", ""), s["excerpt"])
+            and _excerpt_carries_point_number(s["excerpt"], f, icfg)]
+
+
+def _pick_correction(conflicts: list[str], stances: dict[str, dict], pool: dict[str, dict],
+                     cfg, f: dict | None) -> list[str]:
+    """الصيغ المتفقة التي تؤيدها مصادر مستقلة كافية لزمن النقطة (Issue #1205): صيغة لزمن
+    آخر (as_of) خارج التصحيح؛ والصيغ بلا as_of تتفق مع بعضها فقط (لا مع صيغة مؤرَّخة). عند
+    تعدّد القيم المتفقة يُختار ما أيّده أكثر المصادر المستقلة ثم الأدقّ. فارغة = لا تصحيح."""
+    icfg = cfg.get("important", {}) or {}
+    min_confirm = int((cfg.get("article", {}) or {}).get("min_confirm_sources", 2))
+    dates = (f or {}).get("dates") or []
+    status = {n: _time_status(stances[n].get("as_of", ""), dates, icfg) for n in conflicts}
+    best_key, best = None, []
+    for classes in (("match", "free"), ("absent",)):
+        members = [n for n in conflicts if status[n] in classes]
+        for anchor in members:
+            cand = [n for n in members
+                    if _agree(stances[anchor]["correct_form"], stances[n]["correct_form"], icfg)]
+            k = len(_independent_groups(cand, pool, cfg))
+            if k < min_confirm:
+                continue
+            key = (k, max(_form_precision(stances[n]["correct_form"], icfg) for n in cand))
+            if best_key is None or key > best_key:
+                best_key, best = key, cand
+    return best
+
+
+def decide(stances: dict[str, dict], pool: dict[str, dict], cfg, point: dict | None = None) -> dict:
     """الحكم النهائي من تصنيفات المصادر بقواعد المهمة 1 — لا يملك النموذج هنا
-    إلا التصنيف. يعيد {"verdict","note","correction","refuted_by"}.
+    إلا التصنيف. يعيد {"verdict","note","correction","refuted_by","primary_source"}.
+    point: النقطة نفسها (dates/numbers) لزمن التصحيح والجهة الأصلية.
 
     الترتيب مقصود: نفيٌ كافٍ بلا حدث موثَّق ← false؛ نفيٌ كافٍ مع حدث موثَّق
     (أو العكس) أدلة متعارضة لا يُحكم بها فتبقى not_found بملاحظة؛ ثم inaccurate
     قبل confirmed لأن تفصيلًا خاطئًا يتفق عليه مصدران يجب أن يظهر لا أن يُغطّيه
-    تأييد الحدث العام."""
+    تأييد الحدث العام. الجهة الأصلية تُحسب تأييدًا لا نفيًا أبدًا."""
     acfg = cfg.get("article", {}) or {}
     icfg = cfg.get("important", {}) or {}
     min_confirm = int(acfg.get("min_confirm_sources", 2))
@@ -507,22 +640,17 @@ def decide(stances: dict[str, dict], pool: dict[str, dict], cfg) -> dict:
     refuters = names_with("refutes")
 
     n_support = len(_independent_groups(supports, pool, cfg)) if supports else 0
+    primary = _primary_supporters(stances, pool, point, icfg)
 
-    # inaccurate: مصدران مستقلان فأكثر يخالفان بالتفصيل نفسه (صيغة صحيحة متفقة)
-    agreeing: list[str] = []
-    for anchor in conflicts:
-        cand = [n for n in conflicts
-                if _agree(stances[anchor]["correct_form"], stances[n]["correct_form"], icfg)]
-        if len(_independent_groups(cand, pool, cfg)) >= min_confirm:
-            agreeing = cand
-            break
+    # inaccurate: مصدران مستقلان فأكثر يخالفان بالتفصيل نفسه لزمن النقطة (صيغة صحيحة متفقة)
+    agreeing = _pick_correction(conflicts, stances, pool, cfg, point)
 
     # false: نفي صريح مُثبَت بمقتطف من مصادر مستقلة كافية، أو من جهة تدقيق
     refute_groups = _independent_groups(refuters, pool, cfg) if refuters else []
     checker_hit = any(_is_fact_checker(n, icfg, pool[n].get("link", "")) for n in refuters)
     refute_ok = len(refute_groups) >= min_refute or checker_hit
 
-    event_documented = n_support >= min_confirm or bool(agreeing)
+    event_documented = n_support >= min_confirm or bool(agreeing) or bool(primary)
     note = ""
     if refute_ok and not event_documented:
         refuted_by = [{"publisher": n, "link": pool[n].get("link", ""),
@@ -530,9 +658,10 @@ def decide(stances: dict[str, dict], pool: dict[str, dict], cfg) -> dict:
                        "fact_checker": _is_fact_checker(n, icfg, pool[n].get("link", ""))}
                       for n in refuters]
         return {"verdict": "false", "note": "", "correction": None,
-                "refuted_by": refuted_by}
+                "refuted_by": refuted_by, "primary_source": False}
     if refute_ok and event_documented:
         return {"verdict": "not_found", "correction": None, "refuted_by": None,
+                "primary_source": False,
                 "note": "أدلة متعارضة: نفي كافٍ وتأييد كافٍ معًا — لا حكم تلقائي"}
     if refuters:
         note = (f"{INSUFFICIENT_REFUTATION_NOTE} ({len(refute_groups)} مصدر مستقل "
@@ -540,20 +669,24 @@ def decide(stances: dict[str, dict], pool: dict[str, dict], cfg) -> dict:
 
     if agreeing:
         first = stances[agreeing[0]]
-        # أدقّ الصيغ المتفقة (أكثر أرقام معنوية): «86 مليوناً و92 ألفاً و168» لا «86.1 مليون»
+        # أدقّ الصيغ المتفقة (أكثر أرقام معنوية) بين ما اتفق عليه المصدران لا من مصدر واحد
         best = max(agreeing, key=lambda n: _form_precision(stances[n]["correct_form"], icfg))
         best_value = _primary_value(stances[best]["correct_form"], icfg)
         return {"verdict": "inaccurate", "note": note, "refuted_by": None,
+                "primary_source": any(_is_primary_source(pool[n].get("link", ""), icfg)
+                                      for n in agreeing),
                 "correction": {
                     "error": first["detail"], "correct": stances[best]["correct_form"],
                     "correct_value": format_value(best_value) if best_value is not None else None,
+                    "as_of": stances[best].get("as_of", ""),
                     "sources": [{"publisher": n, "link": pool[n].get("link", ""),
-                                 "excerpt": stances[n]["excerpt"]} for n in agreeing]}}
-    if n_support >= min_confirm:
+                                 "excerpt": stances[n]["excerpt"],
+                                 "as_of": stances[n].get("as_of", "")} for n in agreeing]}}
+    if n_support >= min_confirm or primary:
         return {"verdict": "confirmed", "note": note, "correction": None,
-                "refuted_by": None}
+                "refuted_by": None, "primary_source": bool(primary)}
     return {"verdict": "not_found", "note": note, "correction": None,
-            "refuted_by": None}
+            "refuted_by": None, "primary_source": False}
 
 
 # ───────────────────────────── Brave (بحث الويب) ─────────────────────────────
@@ -675,6 +808,7 @@ class _Collected:
         self.named: str | None = None
         self.note = ""
         self.queries: list[str] = []
+        self.site_queries: list[str] = []
         self.engines: list[str] = []
         self.windows: list[str] = []
         self.before = 0
@@ -743,6 +877,29 @@ class _PointSearch:
                 break
         return docs_all
 
+    def site_queries(self, f: dict, factcheck: str) -> list[str]:
+        """عبارات «عبارة التدقيق + site:<مدقّق>» لكل مدقّق في fact_check_sites_by_lang للغات
+        النقطة (#1205)، بترتيب الإعداد وبسقف factcheck_site_queries. عبارة كل لغة: أول
+        عبارة بتلك اللغة (وإلا عبارة التدقيق العامة) مع كلمة تدقيق بها من
+        factcheck_words_by_lang إن لم تكن فيها."""
+        sites_by_lang = self.icfg.get("fact_check_sites_by_lang") or {}
+        words_by_lang = self.icfg.get("factcheck_words_by_lang") or {}
+        langs = [l for l in f.get("query_langs") or []]
+        by_lang = f.get("query_by_lang") or {}
+        out: list[str] = []
+        for lang, sites in sites_by_lang.items():
+            if lang not in langs:
+                continue
+            base = " ".join(str(by_lang.get(lang) or factcheck or "").split()[:self.phrase_max_words])
+            if not base:
+                continue
+            words = [str(w) for w in words_by_lang.get(lang) or [] if str(w).strip()]
+            low = _fold(base)
+            if words and not any(_fold(w) in low for w in words):
+                base = f"{base} {words[0]}"
+            out += [f"{base} site:{site}" for site in sites or []]
+        return out[:int(self.icfg.get("factcheck_site_queries", 4))]
+
     def collect(self, f: dict, topic: str) -> _Collected:
         out = _Collected()
         phrases = [" ".join(str(q).split()[:self.phrase_max_words])
@@ -777,9 +934,21 @@ class _PointSearch:
 
         # عبارة التدقيق أولًا: ما صدر من جهة تدقيق هو أثمن ما يُجمع، فلا يُحجب
         # بسقف الوثائق إن امتلأ بنتائج عبارات سابقة
+        # وقبل ذلك كله بحث مدقّقي لغات النقطة عبر Brave بعبارات site: (#1205)؛ نتائجها
+        # لا تُحتسب في سقف الوثائق كي لا تحجب بحث العبارات العادية، و_finalize يقدّمها
+        # بنطاق المدقّق
+        for sq in self.site_queries(f, factcheck):
+            out.site_queries.append(sq)
+            arts, bdocs = self.run_brave(sq, relevance_text)
+            if arts and "brave_web" not in out.engines:
+                out.engines.append("brave_web")
+            out.ranked.extend(arts)
+            pooled += _tag(evidence.readable_only(bdocs), "brave_web")
+        regular_from = len(pooled)
+
         attempts = list(dict.fromkeys(q for q in [factcheck] + phrases if q))
         for phrase in attempts:
-            if len({d.get("link") or id(d) for d in pooled}) >= self.max_docs:
+            if len({d.get("link") or id(d) for d in pooled[regular_from:]}) >= self.max_docs:
                 break
             out.queries.append(phrase)
             if "google_news" not in out.engines:
@@ -1038,7 +1207,7 @@ def _read_stances(data: dict, pool: dict[str, dict], f: dict | None = None,
     لا يقبل نفيًا لا دليل نصيًا عليه."""
     docs = list(pool.values())
     out: dict[str, dict] = {n: {"stance": "irrelevant", "excerpt": "", "detail": "",
-                                "correct_form": "", "same_event": False} for n in pool}
+                                "correct_form": "", "as_of": "", "same_event": False} for n in pool}
     raw = data.get("sources")
     for item in raw if isinstance(raw, list) else []:
         if not isinstance(item, dict):
@@ -1054,7 +1223,8 @@ def _read_stances(data: dict, pool: dict[str, dict], f: dict | None = None,
         entry = {"stance": stance, "same_event": same_event,
                  "excerpt": str(item.get("excerpt") or "").strip(),
                  "detail": str(item.get("detail") or "").strip(),
-                 "correct_form": str(item.get("correct_form") or "").strip()}
+                 "correct_form": str(item.get("correct_form") or "").strip(),
+                 "as_of": str(item.get("as_of") or "").strip()}
         if stance in EVENT_BOUND_STANCES and not same_event:
             # موقف على حدث آخر لا يؤيد ولا يخالف ولا ينفي النقطة (#1200)
             entry["stance"] = "related_other"
@@ -1066,6 +1236,12 @@ def _read_stances(data: dict, pool: dict[str, dict], f: dict | None = None,
               and not _content_mentioned(pool[name]["text"], entry["excerpt"], f, icfg or {})):
             log.warning("تأييد لنقطة متداولة بلا ذكر مضمونها في %s — يُعامَل irrelevant", name)
             entry["stance"] = "irrelevant"
+            entry["raw_stance"] = stance
+        elif (stance == "conflicts_detail" and f and icfg
+              and _time_status(entry["as_of"], f.get("dates") or [], icfg) != "other"
+              and _correction_within_margin(entry["correct_form"], f, icfg)):
+            # «تصحيح» داخل هامش رقم النقطة نفسها تأييد لا مخالفة (#1205)
+            entry["stance"] = "supports"
             entry["raw_stance"] = stance
         out[name] = entry
     return out
@@ -1134,24 +1310,28 @@ def judge_point(f: dict, topic: str, search: _PointSearch, cfg) -> dict:
                                  circulating=f.get("framing") == "circulating")
     stances = _read_stances(data, pool, f, icfg) if data else {
         n: {"stance": "irrelevant", "excerpt": "", "detail": "", "correct_form": "",
-            "same_event": False} for n in pool}
+            "as_of": "", "same_event": False} for n in pool}
     nearest = None
     if call_error:
         decision = {"verdict": "not_found", "correction": None, "refuted_by": None,
                     "note": f"⚠️ فشل نداء التصنيف تقنيًا: {call_error}"}
     else:
-        decision = decide(stances, pool, cfg)
+        decision = decide(stances, pool, cfg, f)
         if decision["verdict"] == "not_found" and data:
             nearest = _nearest(data, pool, cfg, f.get("entities") or [])
     note = " · ".join(x for x in (collect_note, decision["note"]) if x)
 
     # related_other ليس دليلًا: يظهر في read_docs وقد يكون nearest، لا في evidence
+    # صيغة تصحيح لزمن آخر (#1205) تبقى في read_docs وحدها: لا تُعرض دليلًا
     ev_names = [n for n, s in stances.items()
-                if s["stance"] not in ("irrelevant", "related_other")]
+                if s["stance"] not in ("irrelevant", "related_other")
+                and not (s["stance"] == "conflicts_detail"
+                         and _time_status(s.get("as_of", ""), f.get("dates") or [], icfg) == "other")]
     evidence_rows = [{"publisher": n, "link": pool[n].get("link", ""),
                       "stance": stances[n]["stance"], "excerpt": stances[n]["excerpt"],
                       "detail": stances[n]["detail"],
-                      "correct_form": stances[n]["correct_form"]} for n in ev_names]
+                      "correct_form": stances[n]["correct_form"],
+                      "as_of": stances[n].get("as_of", "")} for n in ev_names]
     img_names = ev_names + [s["publisher"] for s in (nearest or {}).get("sources", [])]
 
     excerpt_by = {d["name"]: len(d["text"]) for d in view_docs}
@@ -1166,6 +1346,7 @@ def judge_point(f: dict, topic: str, search: _PointSearch, cfg) -> dict:
             "engine": d.get("engine", ""), "page_chars": len(d.get("text") or ""),
             "excerpt_chars": excerpt_by.get(n, 0) if in_pool else 0,
             "same_event": st.get("same_event") if in_pool else None,
+            "as_of": st.get("as_of", "") if in_pool else "",
             "stance": st.get("stance", "irrelevant") if in_pool else "deduped"})
 
     dropped = None
@@ -1179,10 +1360,11 @@ def judge_point(f: dict, topic: str, search: _PointSearch, cfg) -> dict:
         "circulating_context": f.get("circulating_context", ""),
         # asserted عرض فقط: ما قاله النص عن الادّعاء لا يدخل نداء التصنيف ولا الحكم
         "asserted": f.get("asserted", ""),
-        "queries": got.queries, "engines": got.engines, "windows": got.windows,
+        "queries": got.queries, "site_queries": got.site_queries, "engines": got.engines, "windows": got.windows,
         "brave_skipped": got.brave_skipped,
         "read_docs": read_docs, "docs_before": got.before, "docs_after": len(docs),
         "verdict": decision["verdict"],
+        "primary_source": bool(decision.get("primary_source")),
         "icon": VERDICT_ICONS[decision["verdict"]],
         "evidence": evidence_rows, "correction": decision["correction"],
         "refuted_by": decision["refuted_by"], "nearest": nearest,
@@ -1199,20 +1381,28 @@ def _clean_list(raw) -> list[str]:
     return [str(x).strip() for x in raw if str(x).strip()] if isinstance(raw, list) else []
 
 
+def _lang_code(lang) -> str:
+    return str(lang or "?").lower().split("-")[0].strip() or "?"
+
+
 def _queries_per_lang(raw, per_lang: int) -> list[str]:
+    return [q for _lang, q in _queries_with_lang(raw, per_lang)]
+
+
+def _queries_with_lang(raw, per_lang: int) -> list[tuple[str, str]]:
     """عبارات البحث بحد أقصى per_lang لكل لغة، بلا تكرار — الحد يُفرض هنا لا
     بالثقة بطاعة النموذج، فهو يضبط كلفة البحث (كل عبارة طلب Brave محتمل)."""
     counts: dict[str, int] = {}
-    out: list[str] = []
+    out: list[tuple[str, str]] = []
     for item in raw if isinstance(raw, list) else []:
         if isinstance(item, dict):
-            lang, text = str(item.get("lang") or "?").lower(), str(item.get("q") or "").strip()
+            lang, text = _lang_code(item.get("lang")), str(item.get("q") or "").strip()
         else:
             lang, text = "?", str(item or "").strip()
-        if not text or text in out or counts.get(lang, 0) >= per_lang:
+        if not text or any(text == q for _l, q in out) or counts.get(lang, 0) >= per_lang:
             continue
         counts[lang] = counts.get(lang, 0) + 1
-        out.append(text)
+        out.append((lang, text))
     return out
 
 
@@ -1294,6 +1484,7 @@ def extract_points(body: str, cfg) -> tuple[list[dict], str, str | None]:
             if not _has_lang(raw_queries, str(entry.get("lang", ""))):
                 raw_queries += _native_queries(claim, entry, cfg)
         circulating = item.get("framing") == "circulating"
+        pairs = _queries_with_lang(raw_queries, per_lang)
         points.append({
             "text": claim, "kind": POINT_KINDS[0],
             "asserted": " ".join(str(item.get("asserted") or "").split()),
@@ -1303,7 +1494,10 @@ def extract_points(body: str, cfg) -> tuple[list[dict], str, str | None]:
             "entities": entities,
             "dates": _clean_list(item.get("dates")),
             "numbers": _clean_list(item.get("numbers")),
-            "queries": _queries_per_lang(raw_queries, per_lang),
+            "queries": [q for _l, q in pairs],
+            # لغات العبارات المحتفَظ بها: تحدّد مواقع المدقّقين المقصودة (#1205)
+            "query_langs": list(dict.fromkeys(l for l, _q in pairs if l != "?")),
+            "query_by_lang": {l: q for l, q in reversed(pairs)},
             "factcheck_query": " ".join(str(item.get("factcheck_query") or "").split()),
             # مفاتيح الشكل الذي تقرؤه article._name_event
             "is_unnamed_event": bool(item.get("is_unnamed_event") is True),

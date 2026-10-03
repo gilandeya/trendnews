@@ -527,7 +527,8 @@ def important_stance(source: str, stance: str, excerpt: str = "", **kw) -> dict:
     # كما هي؛ الحالات الجديدة تمرّر same_event=False صراحةً
     return {"source": source, "stance": stance, "excerpt": excerpt,
             "same_event": kw.get("same_event", True),
-            "detail": kw.get("detail", ""), "correct_form": kw.get("correct_form", "")}
+            "detail": kw.get("detail", ""), "correct_form": kw.get("correct_form", ""),
+            "as_of": kw.get("as_of", "")}
 
 
 def brave_result(url: str, title: str, description: str, name: str = "") -> dict:
