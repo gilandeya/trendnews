@@ -165,10 +165,15 @@ def finalize(issue_number: int, body: str, cfg) -> int:
             draft, reason, technical = important_write.write_point(point, result, cfg, issue_number)
             if draft is None:
                 point["write_error"] = reason
+                if not technical:
+                    # رفض تحريري بعد إعادة المحاولة: failed ظاهرة لا «selected» صامتة (#1225)؛
+                    # العطل التقني يبقى selected ليُعاد بإعادة وسم approved كما كان
+                    point.update(status="failed", failed_at=datetime.now(timezone.utc).isoformat())
                 failures.append((_title(point), reason, technical))
                 important.save(result)
                 return None
-        point.pop("write_error", None)
+        for key in ("write_error", "write_failed", "failed_at"):
+            point.pop(key, None)
         point.update(status="written", draft_id=draft["id"],
                      written_at=datetime.now(timezone.utc).isoformat())
         important.save(result)
@@ -209,8 +214,9 @@ def finalize(issue_number: int, body: str, cfg) -> int:
                 card_drafts.append(card)
 
     if failures:
-        lines = [f"- «{title}»: {reason}" for title, reason, _ in failures]
-        review.comment(issue_number, f"⚠️ تعذّرت كتابة {len(failures)} نقطة:\n" + "\n".join(lines))
+        # كل فشل يُبلَّغ على قضية الترشيح نفسها بسببه (#1225): لا فشل صامت
+        review.comment(issue_number, "\n".join(
+            f"⚠️ فشلت كتابة: {title} — السبب: {reason}" for title, reason, _ in failures))
     if not written:
         if any(technical for _, _, technical in failures):
             # عطل تقني لا قرار تحرير: approved يبقى ليعيد المراجع تشغيل النشر بلا إعادة تعليم
@@ -223,17 +229,47 @@ def finalize(issue_number: int, body: str, cfg) -> int:
         [d["id"] for d in now_drafts], cfg)
 
 
+def run(issue_number: int, body: str, cfg) -> int:
+    """نقطة دخول publish.main: finalize ثم إعادة عرض ما فشلت كتابته في قضية ترشيح جديدة.
+    الفصل مقصود: finalize وحدها لا تفتح قضية (كتابة مرفوضة بلا مسودة ولا قضية)، وفتحها
+    خطوة تتبعها من الملف المحفوظ كما يفعل go1."""
+    code = finalize(issue_number, body, cfg)
+    try:
+        reopen_failed(issue_number, cfg)
+    except Exception:  # noqa: BLE001 — إعادة العرض مساعدة: لا تُسقط رمز خروج الكتابة نفسها
+        log.exception("تعذّرت إعادة عرض النقاط الفاشلة لقضية «هام» #%s", issue_number)
+    return code
+
+
+def reopen_failed(selection_issue: int, cfg) -> int | None:
+    """النقاط failed من قضية الترشيح هذه تعود offered بلا قضية ومعها `write_failed` فتفتح
+    reopen_selection قضية جديدة لها بشارة «⚠️ فشلت الكتابة» (آلية go1 نفسها، #1225)."""
+    result = result_for_selection(selection_issue)
+    if not result:
+        return None
+    failed = [p for p in result["points"]
+              if p.get("selection_issue") == selection_issue and p.get("status") == "failed"]
+    if not failed:
+        return None
+    for p in failed:
+        p.update(status="offered", selection_issue=None, write_failed=True)
+    important.save(result)
+    return reopen_selection(result["issue"], cfg)
+
+
 def reopen_selection(source_issue: int, cfg) -> int | None:
-    """قضية ترشيح «هام» جديدة للنقاط المعادة (go1) من نص `source_issue` نفسه — تُبنى من الملف
-    المحفوظ بلا حكم جديد، والمعادة في أعلاها بشارة المرحلة. تعيد رقمها أو None إن لم يبقَ ما يُعرض."""
+    """قضية ترشيح «هام» جديدة للنقاط المعادة (go1) أو الفاشلة كتابتها من نص `source_issue`
+    نفسه — تُبنى من الملف المحفوظ بلا حكم جديد، والمعادة في أعلاها بشارة المرحلة.
+    تعيد رقمها أو None إن لم يبقَ ما يُعرض."""
     result = important.load_saved(source_issue)
     if not result:
         return None
     back = [p for p in result["points"]
-            if p.get("returned") and p.get("status") == "offered" and not p.get("selection_issue")]
+            if (p.get("returned") or p.get("write_failed"))
+            and p.get("status") == "offered" and not p.get("selection_issue")]
     if not back:
         return None
-    back.sort(key=lambda p: p.get("returned_at") or "")
+    back.sort(key=lambda p: p.get("returned_at") or p.get("failed_at") or "")
     view = {**result, "points": back}
     review.ensure_labels()
     created = review.create_issue(important_issue.selection_title(view, cfg),

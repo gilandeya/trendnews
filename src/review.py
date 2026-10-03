@@ -199,6 +199,8 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main",
             *([f"  <sub>{d['appeal_note']}</sub>", ""] if d.get("appeal_note") else []),
             *(["  > ⚠️ **مصدره إعلام رسمي/حكومي فقط** — تحقّق من الرواية قبل النشر.",
                ""] if d.get("state_media") else []),
+            # تنبيه «قد يكون متجاوَزًا» لمسودة «هام» (Issue #1225): سطر بارز لا يضيع بين الشارات
+            *([f"  > {d['superseded_note']}", ""] if d.get("superseded_note") else []),
             f"  {image_source_line(d)}",
             "",
         ]

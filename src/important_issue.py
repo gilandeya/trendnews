@@ -130,11 +130,21 @@ def build_selection_body(result: dict, cfg=None) -> str:
             # أنه رآها وقرّر الرجوع بها، كما يفعل preselect للأخبار
             title = (cfg.path("stages.returned_badge", "↩️ أعدته من المرحلة {stage}")
                      .format(stage=p.get("returned_from_stage") or 2) + f" · {title}")
+        if p.get("write_failed"):
+            # نقطة فشلت كتابتها فأُعيد عرضها (#1225): إعادة اختيارها تعيد المحاولة
+            n = int(_icfg(cfg).get("write_error_chars", 90))
+            reason = (p.get("write_error") or "").strip()
+            reason = reason if len(reason) <= n else reason[:n].rstrip() + "…"
+            title = (_icfg(cfg).get("write_failed_badge", "⚠️ فشلت الكتابة: {reason}")
+                     .format(reason=reason) + f" · {title}")
         parts += [f"**{k}. {title}**", "",
                   f"  🏷️ {badges.get(v, '')} · {p.get('icon', '')} {names.get(v, v)}", ""]
         ctx = _context_line(p)
         if ctx:
             parts += [ctx, ""]
+        if p.get("superseded_note"):
+            # تجاوز زمني بمصدر واحد (#1225): الحكم باقٍ لكن المراجع يُنبَّه قبل اختيار الانتقال
+            parts += [f"  > {p['superseded_note']}", ""]
         ev = _evidence_lines(p, result, cfg)
         if ev:
             parts += [*ev, ""]

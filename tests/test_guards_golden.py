@@ -1401,6 +1401,36 @@ def test_important_false_guard() -> None:
           p35["verdict"] != "inaccurate" and not p35.get("correction"),
           (p35["verdict"], p35.get("correction")))
 
+    # ── Issue #1225 (المهمة 3ب): g42–g43 تُكتبان قبل أي كود ──
+    # g42) confirmed + مصدران مستقلان بـsuperseded_by متفق ← inaccurate بتصحيح الأحدث
+    sup_claim = {"claim": "اكتشاف @ أبعد مجرة معروفة حتى الآن بتلسكوب جيمس ويب",
+                 "numbers": [], "dates": []}
+    newer = {"fact": "تجاوزتها المجرة MoM-z14 المرصودة", "date": "16 مايو 2025"}
+    sup_text = "رصد التلسكوب مجرة هي أبعد مجرة معروفة حتى الآن بحسب الإعلان."
+
+    def sup_all(n_sup):
+        def classify(pt, names):
+            rows = []
+            for i, n in enumerate(names):
+                kw = {"superseded_by": newer} if i < n_sup else {}
+                rows.append(important_stance(n, "supports", "أبعد مجرة معروفة حتى الآن", **kw))
+            return {"sources": rows}
+        return classify
+
+    docs3 = [important_doc(n, sup_text) for n in ("صحيفة الشرق", "موقع الغرب", "مجلة الفضاء")]
+    p42 = run_claim(42, sup_claim, docs3, sup_all(2))
+    cor = p42.get("correction") or {}
+    check("(g42) مصدران مستقلان بـsuperseded_by متفق ⇒ inaccurate بتصحيح الحقيقة الأحدث بتاريخها",
+          p42["verdict"] == "inaccurate" and "MoM-z14" in cor.get("correct", "")
+          and "مايو 2025" in cor.get("correct", "") and cor.get("detail_kind") == "superseded",
+          (p42["verdict"], cor))
+
+    # g43) confirmed + مصدر واحد بـsuperseded_by ← يبقى confirmed مع note «قد يكون متجاوَزًا»
+    p43 = run_claim(43, sup_claim, docs3, sup_all(1))
+    check("(g43) مصدر واحد بـsuperseded_by ⇒ confirmed مع note «قد يكون متجاوَزًا» باسم الناشر",
+          p43["verdict"] == "confirmed" and "قد يكون متجاوَزًا" in (p43.get("note") or "")
+          and "MoM-z14" in (p43.get("note") or ""), (p43["verdict"], p43.get("note")))
+
 
 def test_important_write_guards() -> None:
     """حارس الكتابة التحريري لمسار «هام» (Issue #1221، g36–g39) — يمسّ ما يُنشر، فتُكتب
@@ -1429,8 +1459,8 @@ def test_important_write_guards() -> None:
 
     def rejected(name, rig, saved, draft, reason):
         notes = " ".join(t for _, t in rig.comments)
-        check(f"({name}) المسودة لا تُقبل: لا مسودة ولا قضية مرحلة 2 والنقطة «selected» بسبب الكتابة الفاشلة",
-              draft is None and rig.created == [] and saved["status"] == "selected"
+        check(f"({name}) المسودة لا تُقبل: لا مسودة ولا قضية مرحلة 2 والنقطة «failed» بسبب الكتابة الفاشلة",
+              draft is None and rig.created == [] and saved["status"] == "failed"
               and reason in (saved.get("write_error") or ""), (saved["status"], saved.get("write_error")))
         check(f"({name}) والسبب «{reason}» في تعليق القضية، ومحاولة إعادة واحدة فقط (نداءان)",
               reason in notes and len(rig.calls) == 2, (len(rig.calls), notes[:200]))
@@ -1478,5 +1508,17 @@ def test_important_write_guards() -> None:
     rejected("g39", rig, saved, draft, "لا يسمّي المدقّق")
     rig, _code, saved, draft = run(39, fals, good)
     accepted("g39", rig, saved, draft)
-    for n in (36, 37, 38, 39):
+
+    # ── Issue #1225: g40–g41 (اقتباس الادّعاء المصحَّح) تُكتبان قبل أي كود ──
+    # g40) inaccurate: الكاتب يقتبس claim حرفيًا بين علامتي تنصيص ← لا رفض
+    inacc = important_fixture_point(1225, "inaccurate")
+    good = important_good_data(inacc)
+    quoted = {**good, "post_body": good["post_body"] + f" وقد تردّد أن «{inacc['claim']}» وهذا غير دقيق."}
+    rig, _code, saved, draft = run(40, inacc, quoted)
+    accepted("g40", rig, saved, draft)
+    # g41) inaccurate: الكاتب يقتبس جملة أخرى من جسم الـIssue غير claim ← رفض كما الآن
+    other = {**good, "post_body": good["post_body"] + " وكتب صاحب النص «أبعد مجرة معروفة تحمل اسم JADES حتى الآن» بلا سند."}
+    rig, _code, saved, draft = run(41, inacc, other)
+    rejected("g41", rig, saved, draft, "اقتباس بين علامتي تنصيص")
+    for n in (36, 37, 38, 39, 40, 41):
         important.saved_path(96000 + n).unlink(missing_ok=True)

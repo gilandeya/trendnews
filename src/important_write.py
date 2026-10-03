@@ -131,6 +131,15 @@ def build_grounded(point: dict, cfg) -> tuple[list[dict], str]:
         point.get("claim") or point.get("text", "")
 
 
+def allowed_quotes(point: dict) -> list[str]:
+    """نصوص يجوز اقتباسها حرفيًا بين علامتي تنصيص فوق مقتطفات المصادر (Issue #1225): في
+    inaccurate وfalse وحدهما — الادّعاء المصحَّح أو المفنَّد يُقتبس ليُرَدّ عليه — claim النقطة
+    وسياق تداولها. أي نص آخر من جسم الـIssue يبقى ممنوعًا، وغيرهما من الأحكام لا يُسمح لهما."""
+    if point.get("verdict") not in ("inaccurate", "false"):
+        return []
+    return [t for t in (point.get("claim"), point.get("circulating_context")) if t]
+
+
 def checker_of(point: dict) -> dict | None:
     """المدقّق المسمّى في تفنيد: أول جهة تدقيق، وإلا أول نافٍ (حارس false قبل أن يصل هنا
     ضمن لنقطة false نافيَين مستقلَّين على الأقل)."""
@@ -245,7 +254,8 @@ def write_point(point: dict, result: dict, cfg, selection_issue: int | None = No
         if not reason:
             ok, why, _notes = verify_draft.check_originality(
                 got["post_body"], "", article._source_docs(grounded),
-                int(acfg.get("max_shared_run_words", 7)))
+                int(acfg.get("max_shared_run_words", 7)),
+                allowed_quotes=allowed_quotes(point))
             reason = "" if ok else f"{REASON_ORIGINALITY}: {why}"
         if not reason:
             written = got
@@ -331,6 +341,8 @@ def build_draft(point: dict, result: dict, written: dict, cfg, selection_issue: 
             "image_candidates": image_urls,
         },
     }
+    if point.get("superseded_note"):
+        draft["superseded_note"] = point["superseded_note"]   # يظهر بارزًا في قضية المرحلة 2
     if point.get("manual_image"):
         draft["manual_image"] = point["manual_image"]   # صورة المراجع من المرحلة 1 تغلب كالعادة
     return draft

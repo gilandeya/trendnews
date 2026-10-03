@@ -1481,6 +1481,35 @@ g1–g30 بلا تعديل، وأُضيفت g31–g35 قبل الكود.
   في `tests/test_important.py` (a–e، go1 من المرحلتين، صورة المرحلة 1)؛ `ImportantWriteRig` و`important_*` في `tests/helpers.py`.
   فقرة (e) القديمة في `test_important_1217` (التعليق المؤقت) حُذفت لأن الفرع الذي تختبره استُبدل.
 
+**المهمة 3ب (Issue #1225) — اقتباس الادّعاء، لا فشل صامت، والادّعاء المتجاوَز زمنيًا (أول تجربة كتابة حقيقية #1220).**
+التغيير في `important.py` + `important_write.py` + `important_finalize.py` + `important_issue.py` + `verify_draft.py`
+(معامل اختياري) + `review.py` (سطر تنبيه) + `publish.py` (سطر استدعاء) + `config.yaml: important` + الاختبارات؛ لا `article.py` ولا
+`.github/workflows/`. g1–g39 بلا تعديل في نصوصها، عدا شرط حالة النقطة في `rejected()` (انظر 2).
+- **1) اقتباس الادّعاء:** `verify_draft.check_originality(..., allowed_quotes=None)` (يمرّره `_check_originality_full`)
+  يقبل اقتباسًا بين علامتي تنصيص إن وُجد حرفيًا (مطبَّعًا) في مقتطفات المصادر **أو** في هذه النصوص؛ للاقتباس وحده لا لفحص
+  التتابع، ومسار «مقال» لا يمرّره فلا يتغيّر. `important_write.allowed_quotes(point)`: في `inaccurate` و`false` وحدهما
+  `claim` + `circulating_context`؛ غيرهما `[]`. أي جملة أخرى من جسم الـIssue تبقى ممنوعة (g41).
+- **2) لا فشل صامت:** رفض تحريري بعد إعادة المحاولة ← `status="failed"` + `write_error` + `failed_at` (كان `selected` صامتًا)،
+  وتعليق على قضية الترشيح نفسها «⚠️ فشلت كتابة: <الموضوع> — السبب: <write_error>». العطل التقني يبقى `selected` ليُعاد بإعادة
+  `approved`. **`finalize` وحدها لا تفتح قضية** (كتابة مرفوضة بلا مسودة ولا قضية — g36–g39)؛ `important_finalize.run` (التي
+  تستدعيها `publish.main`) تتبعها بـ`reopen_failed`: النقاط `failed` تعود `offered` + `write_failed` بلا قضية ثم تفتح
+  `reopen_selection` (آلية go1، صارت تجمع `returned` و`write_failed`) قضية ترشيح جديدة للنص نفسه، وأمام عنوان النقطة
+  `important.write_failed_badge` («⚠️ فشلت الكتابة: <سبب مختصر>»، `write_error_chars` = 90). اختيارها ثانية يعيد المحاولة
+  ونجاحها يمسح `write_error`/`write_failed`/`failed_at`. **تعديل وحيد على اختبار قائم، بموافقة صريحة:** شرط `rejected()` في
+  `tests/test_guards_golden.py` صار `status == "failed"` بدل `"selected"` — البند 2 يغيّر اسم الحالة لا قرار الحارس.
+- **3) الادّعاء المتجاوَز (`superseded_by`):** أداة `classify_sources` تعيد لكل مصدر `superseded_by: {fact, date}` حين يقول
+  المصدر نفسه إن ما في النقطة كان صحيحًا ثم تجاوزه حدث أحدث، **حتى مع `same_event=false`** (فتبقى الوثيقة `related_other`
+  وحقلها محفوظ في `read_docs[*].superseded_by` وللنقطة `superseded`). `decide` غلاف فوق `_decide_base`: مصدران مستقلان
+  (`_independent_groups`) يتفقان على الحقيقة الأحدث (`_agree`) ← `inaccurate` بـ`correction.correct` = الحقيقة + (تاريخها)،
+  `detail_kind="superseded"`، قبل confirmed وبعد التصحيح العادي والنفي؛ مصدر واحد ← الحكم كما هو (confirmed/inaccurate) مع
+  `note` و`superseded_note` = `important.superseded_note` («⚠️ قد يكون متجاوَزًا: <الحقيقة> (<الناشر>)»)، يظهر سطرًا بارزًا
+  (`  > …`) في قضية الترشيح (`important_issue`) وقضية المرحلة 2 (`review.build_issue_body` من `draft["superseded_note"]`).
+  `writer_instructions.confirmed` تُلزم الكاتب بتأريخ كل صيغة تفضيل/«حتى الآن» بتاريخ الإعلان. **قيد معروف:** الاتفاق على
+  الحقيقة الأحدث نصيّ (`_agree`)، ولا يُرفع نقطة `not_found`/`false` إلى inaccurate بهذا الحارس لأن النفي الكافي يسبقه.
+- **الاختبارات:** g40–g41 في `test_important_write_guards` وg42–g43 في `test_important_false_guard` (كُتبت قبل الكود)،
+  و`test_important_1225` (a–c) في `tests/test_important.py` على fixture `tests/fixtures/important/1225.json` (نسخة
+  النقطتين الحقيقيتين 9c5d1c45c0a3 و4591dfda9524 من `state/important/1209.json`). `helpers.important_stance` يقبل `superseded_by`.
+
 ## Retired paths
 
 - **`src/verify.py`** (Issue #1068) — the fact-check-a-pasted-article path is retired for good; the
