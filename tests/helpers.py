@@ -356,13 +356,18 @@ class ImportantRig:
     """
 
     def __init__(self, points, docs_by_marker, classify, brave_results=None,
-                 brave_key=None, unrestricted_only=()):
+                 brave_key=None, unrestricted_only=(), native=None):
         self.points = points
         self.docs_by_marker = docs_by_marker
         self.classify = classify
         self.brave_results = brave_results or {}
         self.brave_key = brave_key
         self.unrestricted_only = set(unrestricted_only)
+        # رمز لغة ← عبارات يعيدها نداء native_queries الثاني (Issue #1203)؛ الافتراضي لا شيء
+        self.native = native or {}
+        self.native_requests: list[str] = []
+        self.max_chars_seen: list = []
+        self.systems: list[str] = []
         self.calls: list[str] = []
         self.queries: list[str] = []
         self.searches: list[tuple] = []
@@ -396,7 +401,8 @@ class ImportantRig:
             out.raw_count = len(out)
             return out
 
-        def fake_gather(articles, cfg, claim_text="", loose_relevance=False):
+        def fake_gather(articles, cfg, claim_text="", loose_relevance=False, max_chars=None):
+            rig.max_chars_seen.append(max_chars)
             # مقالات Brave حقيقية الشكل (Article) بلا .doc: وثيقتها من حقولها
             return [a.doc if hasattr(a, "doc") else
                     {"name": a.publisher or a.source_name, "link": a.link,
@@ -422,6 +428,12 @@ class ImportantRig:
                 content = kw["messages"][0]["content"]
                 if kw["tool_choice"]["name"] == "extract_points":
                     return _Resp(rig._extract_input())
+                if kw["tool_choice"]["name"] == "native_queries":
+                    m = re.search(r"\(([a-z]{2})\)", kw["system"])
+                    lang = m.group(1) if m else ""
+                    rig.native_requests.append(lang)
+                    return _Resp({"queries": list(rig.native.get(lang, []))})
+                rig.systems.append(kw.get("system", ""))
                 rig.last_content = content[0]["text"]
                 rig.contents.append(content[0]["text"])
                 names = re.findall(r"--- المصدر: (.*?) ---", content[0]["text"])

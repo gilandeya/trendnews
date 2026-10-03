@@ -355,8 +355,12 @@ def test_important_search_and_extract() -> None:
     check("(a) الحقول الجديدة لكل نقطة (البند 5)", all(fields <= set(p) for p in pts),
           [fields - set(p) for p in pts])
     mc = saved["model_calls"]
-    check("(a) نداء تفكيك واحد (Haiku)، والملف يحمل طلبات Brave وسبب غيابها",
-          mc["brief"] == 1 and mc["by_model"].get(cfg.path("important.extract_model")) == 1
+    # #1203: نقطة كيانها «تركيا» بلا عبارة تركية من الاستخراج تُطلب لها عبارتها بنداء
+    # Haiku ثانٍ قصير (نقطتان هنا) — فنداء التفكيك واحد، وكل نداءات «brief» من Haiku
+    check("(a) نداء تفكيك واحد (Haiku) + نداءات لغة أم، كلها Haiku، والملف "
+          "يحمل طلبات Brave وسبب غيابها",
+          mc["brief"] >= 1 and mc["brief"] == mc["by_model"].get(cfg.path("important.extract_model"))
+          and mc["by_model"].get(cfg.path("article.model")) == len(pts)
           and saved["brave"]["skipped"] == "no_key", (mc, saved.get("brave")))
 
     # ── (b) نقطة بلا أسماء ← تُبحث بعباراتها ولا تسقط قبل البحث ──
@@ -730,3 +734,235 @@ def test_important_same_event_and_excerpts() -> None:
     check("(c) تعذّر الحل ← الرابط الأصلي وresolved=false",
           pu["read_docs"][0]["link"] == gl and pu["read_docs"][0]["resolved"] is False,
           pu["read_docs"])
+
+
+# ───────────── Issue #1203 (المهمة 1د): سقف الصفحة، اتفاق الأرقام، الادّعاء المتداول ─────────────
+
+# نصوص نقاط #1201 كما في state/important/1201.json
+P1201 = {
+    "baykar": "أعلنت شركة بايكار أن الطائرة المسيّرة الهجومية بيرقدار أقنجي تمكنت خلال اختبار إطلاق من "
+              "إصابة هدف يبعد أكثر من 250 كيلومترًا باستخدام صاروخ بالستي فرط صوتي",
+    "pop": "بلغ عدد سكان تركيا في نهاية عام 2025 نحو 85.7 مليون نسمة",
+    "video": "أرسلت تركيا 450 ألف جندي إلى سوريا",
+    "space": "أعلنت تركيا خلال عام 2026 تشغيل أول شبكة إنترنت فضائي حكومية تركية بالكامل تغطي جميع أنحاء البلاد",
+    "users": "عدد مستخدمي الإنترنت في تركيا بلغ نحو 77.5 مليون مستخدم، أي ما يقارب 88% من السكان",
+}
+CTX_1201 = "انتشر على مواقع التواصل الاجتماعي خلال صيف 2026 مقطع فيديو قيل إنه يُظهر إرسال تركيا 450 ألف جندي إلى سوريا"
+
+
+def regression_1201(issue: int = 98001):
+    """نقاط #1201 الخمس بالوثائق التي ظهرت فعلًا في read_docs، وصفحة DataReportal
+    كاملة يقع فيها 77.5 بعد الحرف 2500."""
+    from src import important
+
+    cfg = load_config()
+    points = [
+        {"claim": P1201["baykar"], "entities": ["بيرقدار"], "numbers": ["250 كيلومتر"],
+         "queries": [_q("ar", "بيرقدار أقنجي إصابة 250 كيلومتر")], "factcheck_query": ""},
+        {"claim": P1201["pop"], "entities": ["سكان"], "numbers": ["85.7 مليون"], "dates": ["2025"],
+         "queries": [_q("ar", "عدد سكان تركيا 2025 85.7 مليون")], "factcheck_query": ""},
+        {"claim": P1201["video"], "framing": "circulating", "circulating_context": CTX_1201,
+         "asserted": "كذّبت Teyit الادّعاء", "entities": ["تركيا", "سوريا"], "numbers": ["450 ألف"],
+         "queries": [_q("ar", "تركيا 450 ألف جندي سوريا"), _q("en", "Turkey 450000 soldiers Syria")],
+         "factcheck_query": ""},
+        {"claim": P1201["space"], "entities": ["فضائي"], "dates": ["2026"],
+         "queries": [_q("ar", "تركيا شبكة إنترنت فضائي حكومية")], "factcheck_query": ""},
+        {"claim": P1201["users"], "entities": ["الإنترنت"], "numbers": ["77.5 مليون"],
+         "queries": [_q("ar", "مستخدمو الإنترنت في تركيا 77.5 مليون")], "factcheck_query": ""},
+    ]
+    fill = []
+    for i in range(30):
+        fill.append(f"Digital 2026 section {i}: global social media trends, ad spending and time spent "
+                    f"online across regions, a long general discussion with Türkiye mentioned in passing, "
+                    f"part {i} of the report with plenty of filler text to push the figure deep.")
+    fill.insert(28, "Türkiye had 77.5 million internet users at the start of 2026 (88 percent of the "
+                    "population), according to DataReportal Digital 2026.")
+    datareportal = "\n\n".join(fill)
+    assert datareportal.index("77.5 million") > 2500
+    docs = {
+        "بيرقدار": [important_doc("Alsaudi", "بيرقدار أقنجي أصابت هدفًا يبعد أكثر من 250 كيلومترًا.",
+                                  link="https://alsaudi.news/international/1109/96875"),
+                    important_doc("Yeni Şafak", "أعلنت بايكار إصابة هدف على بعد 250 كيلومترًا بأقنجي.",
+                                  link="https://www.yenisafak.com/ar/economy/4131591"),
+                    important_doc("News-pravda", "أصابت بيرقدار أقنجي هدفًا يبعد 250 كيلومترًا.",
+                                  link="https://syria.news-pravda.com/syria/2026/09/11/323210.html")],
+        "سكان": [important_doc("newturkpost", "بلغ عدد سكان تركيا 86 مليوناً و92 ألفاً و168 نسمة "
+                               "في نهاية 2025.", link="https://newturkpost.com/news/118693"),
+                 important_doc("TRADING ECONOMICS", "عدد سكان تركيا 86.1 مليون نسمة في 2025.",
+                               link="https://ar.tradingeconomics.com/turkey/population")],
+        "450": [important_doc("Al Jazeera", "الفيديو المتداول قديم، ولم تُرسل تركيا 450 ألف جندي إلى سوريا.",
+                              link="https://www.aljazeera.net/news/2026/8/23/video"),
+                important_doc("CNN", "مقطع قديم يُتداول زورًا؛ لم تُرسل تركيا 450 ألف جندي إلى سوريا.",
+                              link="https://arabic.cnn.com/middle-east/article/2026/08/22/old-video")],
+        "فضائي": [important_doc("Daily Sabah", "نفت تركيا مزاعم عن شبكة إنترنت فضائي.",
+                                link="https://www.dailysabah.com/business/tech/x"),
+                  important_doc("Eutelsat", "خدمات أقمار صناعية في تركيا.", link="https://www.eutelsat.com/turkiye")],
+        "الإنترنت": [important_doc("Global Digital Insights", datareportal,
+                                   link="https://datareportal.com/reports/digital-2026-turkey"),
+                     important_doc("موقع الأرقام", "تقرير Digital 2026: 77.5 مليون مستخدم للإنترنت في تركيا.",
+                                   link="https://raqam.example/t")],
+    }
+    forms = {"newturkpost": "86 مليوناً و92 ألفاً و168 نسمة", "TRADING ECONOMICS": "86.1 مليون نسمة"}
+    refute_cut = {"Al Jazeera": "ولم تُرسل تركيا 450 ألف جندي إلى سوريا",
+                  "CNN": "لم تُرسل تركيا 450 ألف جندي إلى سوريا"}
+
+    def classify(point, names):
+        sec = _sections(rig.last_content)
+        if "بيرقدار" in point:
+            return {"sources": [important_stance(n, "supports", "250 كيلومترًا") for n in names]}
+        if "85.7" in point:
+            return {"sources": [important_stance(n, "conflicts_detail", forms[n], detail="العدد 85.7 غير دقيق",
+                                                 correct_form=forms[n]) for n in names]}
+        if "450" in point:
+            return {"sources": [important_stance(n, "refutes", refute_cut[n]) for n in names]}
+        if "فضائي" in point:
+            return {"sources": [important_stance(n, "irrelevant", same_event=False) for n in names]}
+        return {"sources": [important_stance(n, "supports", "77.5 million") if "77.5" in sec.get(n, "")
+                            else important_stance(n, "irrelevant") for n in names]}
+
+    with ImportantRig(points, docs, classify, native={"tr": ["Türkiye 450 bin asker Suriye video"]}) as rig:
+        important.judge("\n".join(P1201.values()) + "\n" + CTX_1201, issue, cfg)
+    saved = important.load_saved(issue)
+    saved["_rig"] = rig
+    return saved
+
+
+def test_important_1203() -> None:
+    import inspect
+    import types
+    from datetime import datetime, timezone
+    from decimal import Decimal
+    from src import article, evidence, extract, important
+    from src.sources import Article
+
+    cfg = load_config()
+    icfg = cfg.path("important")
+
+    # (a) الأنبوب على نقاط #1201 الخمس
+    saved = regression_1201()
+    rig = saved["_rig"]
+    p1, p2, p3, p4, p5 = saved["points"]
+    check("(a) (1) ← confirmed بمصدرين ولا يُحسب news-pravda",
+          p1["verdict"] == "confirmed" and {e["publisher"] for e in p1["evidence"]} == {"Alsaudi", "Yeni Şafak"}
+          and all("news-pravda" not in d["link"] for d in p1["read_docs"]), (p1["verdict"], p1["evidence"]))
+    check("(a) (2) ← inaccurate والصحيح 86,092,168 (أدقّ الصيغتين)",
+          p2["verdict"] == "inaccurate" and p2["correction"]["correct_value"] == "86,092,168"
+          and "168" in p2["correction"]["correct"], p2["correction"])
+    check("(a) (3) ← false بمصدري CNN والجزيرة والمضمون هو الادّعاء",
+          p3["verdict"] == "false" and {r["publisher"] for r in p3["refuted_by"]} == {"Al Jazeera", "CNN"}
+          and p3["framing"] == "circulating" and p3["claim"] == P1201["video"], (p3["verdict"], p3["refuted_by"]))
+    check("(a) (4) ← not_found وسقطت (لا أثر)",
+          p4["verdict"] == "not_found" and p4["dropped_reason"] == important.NO_TRACE_REASON,
+          (p4["verdict"], p4["dropped_reason"]))
+    dr = next(d for d in p5["read_docs"] if d["publisher"] == "Global Digital Insights")
+    check("(a) (5) ← confirmed من فقرة بعد الحرف 2500 (الصفحة كاملة والمقتطف يحوي الرقم)",
+          p5["verdict"] == "confirmed" and dr["page_chars"] > 2500
+          and any("77.5 million" in c for c in rig.contents), (p5["verdict"], dr))
+    check("(a) كل جلب لمسار «هام» بسقف page_max_chars (20000)",
+          icfg["page_max_chars"] == 20000 and rig.max_chars_seen and set(rig.max_chars_seen) == {20000},
+          set(rig.max_chars_seen))
+
+    # (b) غير «هام» ما زال يقصّ عند 2500: extract بلا المعامل، وevidence لا تمرّره بلا قيمة
+    html = " ".join(["كلمة"] * 6000)
+
+    class _Resp:
+        status_code = 200
+        text = html
+
+    real = (getattr(extract, "trafilatura", None), extract.HAS_EXTRACTOR,
+            extract.requests.get, evidence.extract.gather)
+    extract.trafilatura = types.SimpleNamespace(extract=lambda h, **kw: h)
+    extract.HAS_EXTRACTOR = True
+    extract.requests.get = lambda url, **kw: _Resp()
+    try:
+        default_txt, _ = extract.fetch_text("https://x.example/a")
+        long_txt, _ = extract.fetch_text("https://x.example/a", max_chars=20000)
+        got_default, _ = extract.gather([{"name": "A", "link": "https://x.example/a"}], limit=1)
+        got_long, _ = extract.gather([{"name": "A", "link": "https://x.example/a"}], limit=1,
+                                     max_chars=20000)
+        seen_kw: list[dict] = []
+        evidence.extract.gather = lambda members, limit=2, **kw: (seen_kw.append(kw) or ([], []))
+        arts = [Article(title="t", link="https://a.example/1", summary="s", source_name="Reuters",
+                        region="global", weight=1.0, published=datetime.now(timezone.utc),
+                        publisher="Reuters")]
+        evidence.gather_evidence(arts, cfg)
+        evidence.gather_evidence(arts, cfg, max_chars=20000)
+    finally:
+        if real[0] is not None:
+            extract.trafilatura = real[0]
+        extract.HAS_EXTRACTOR, extract.requests.get, evidence.extract.gather = real[1:]
+    check("(b) fetch_text/gather بلا المعامل يقصّان عند MAX_CHARS (2500)",
+          extract.MAX_CHARS == 2500 and len(default_txt) == 2500 and len(got_default[0]["text"]) == 2500,
+          (len(default_txt), len(got_default[0]["text"])))
+    check("(b) المعامل الاختياري يرفع السقف لنداء «هام» وحده",
+          len(html) > 20000 and len(long_txt) == 20000 and len(got_long[0]["text"]) == 20000,
+          len(long_txt))
+    check("(b) evidence.gather_evidence لا يمرّر max_chars بلا قيمة ويمرّره بها",
+          seen_kw == [{}, {"max_chars": 20000}], seen_kw)
+
+    # (c) محلّل الأرقام
+    def vals(t):
+        return [v for v, _y in important.parse_numbers(t, icfg)]
+
+    check("(c) «86 مليوناً و92 ألفاً و168» = 86092168 (والسنة تبقى رقمًا منفصلًا)",
+          vals("86 مليوناً و92 ألفاً و168 نسمة") == [Decimal(86092168)]
+          and vals("86 مليوناً و92 ألفاً و168 نهاية 2025") == [Decimal(86092168), Decimal(2025)],
+          vals("86 مليوناً و92 ألفاً و168 نهاية 2025"))
+    check("(c) كسور مع مقياس: مليون/million/milyon/مليار/billion/ألف/bin",
+          vals("86.1 مليون") == vals("86.1 million") == vals("86,1 milyon") == [Decimal(86100000)]
+          and vals("1.5 مليار") == vals("1.5 billion") == [Decimal(1500000000)]
+          and vals("450 ألف") == vals("450 bin") == vals("450 thousand") == [Decimal(450000)],
+          [vals("86.1 مليون"), vals("1.5 مليار"), vals("450 ألف")])
+    check("(c) فواصل الآلاف بالفاصلة والنقاط: 86,092,168 و1.234.567",
+          vals("86,092,168") == [Decimal(86092168)] and vals("1.234.567") == [Decimal(1234567)],
+          (vals("86,092,168"), vals("1.234.567")))
+    check("(c) الأرقام الهندية: ٨٦ مليون و٨٦ مليوناً و٩٢ ألفاً و١٦٨ و٧٧٫٥ مليون",
+          vals("٨٦ مليون") == [Decimal(86000000)] and vals("٨٦ مليوناً و٩٢ ألفاً و١٦٨") == [Decimal(86092168)]
+          and vals("٧٧٫٥ مليون") == [Decimal(77500000)], vals("٧٧٫٥ مليون"))
+    ag = important._agree
+    check("(c) اتفاق «86.1 مليون» و«86 مليوناً و92 ألفاً و168» ضمن 0.5% وعدم اتفاق 86 و90 مليونًا",
+          ag("86.1 مليون", "86 مليوناً و92 ألفاً و168 نسمة", icfg)
+          and not ag("86 مليون", "90 مليون", icfg) and ag("٨٦ مليون", "86 million", icfg),
+          icfg["number_tolerance"])
+    check("(c) بلا أرقام تبقى القاعدة القديمة (تقاطع كلمات)، وفارغة لا تتفق",
+          ag("قانون القاصرين", "قانون حماية القاصرين", icfg) and not ag("", "قانون", icfg)
+          and not ag("ثلاثة قتلى", "عشرة جرحى", icfg))
+    check("(c) رقم في الصيغتين بقيمتين مختلفتين لا يتفقان رغم تقاطع الكلمات",
+          not ag("3 قتلى في الحادثة", "5 قتلى في الحادثة", icfg))
+
+    # (d) نقطة circulating: السياق محفوظ، claim المضمون، عبارة تركية حاضرة
+    check("(d) circulating_context محفوظ للعرض وclaim هو المضمون لا واقعة التداول",
+          p3["circulating_context"] == CTX_1201 and "انتشر" not in p3["claim"]
+          and p1["framing"] == "direct" and p1["circulating_context"] == "",
+          (p3["circulating_context"], p3["claim"]))
+    check("(d) سياق التداول لا يصل نداء التصنيف ونداء النقطة المتداولة يحمل ملاحظة المضمون",
+          all("صيف 2026" not in c for c in rig.contents)
+          and sum(1 for s in rig.systems if "مضمون متداول" in s) == 1,
+          sum(1 for s in rig.systems if "مضمون متداول" in s))
+    check("(d) عبارة تركية لنقطة تركيا حاضرة في queries (نداء Haiku ثانٍ لأن الاستخراج لم يعدها)",
+          "Türkiye 450 bin asker Suriye video" in p3["queries"] and "tr" in rig.native_requests,
+          (p3["queries"], rig.native_requests))
+    marker = "كلمة1203"
+    tr_point = {"claim": f"أرسلت تركيا {marker} جندي", "entities": ["Turkey"],
+                "queries": [_q("ar", f"تركيا {marker}"), _q("tr", f"Türkiye {marker} asker")]}
+    with ImportantRig([tr_point], {marker: []}, lambda p, n: {"sources": []}) as rig2:
+        important.judge("نص", 98002, cfg)
+    pt2 = important.load_saved(98002)["points"][0]
+    check("(d) عبارة تركية من الاستخراج نفسه ← لا نداء لغة أم ثانٍ وتبقى في queries",
+          rig2.native_requests == [] and f"Türkiye {marker} asker" in pt2["queries"],
+          (rig2.native_requests, pt2["queries"]))
+    with ImportantRig([{"claim": f"وقعت حادثة {marker}", "entities": ["سويسرا"]}], {marker: []},
+                      lambda p, n: {"sources": []}) as rig3:
+        important.judge("نص", 98003, cfg)
+    check("(d) كيان لبلد بلا لغة في entity_languages ← لا نداء ثانٍ", rig3.native_requests == [],
+          rig3.native_requests)
+    check("(d) github.com ونطاقات news-pravda.com الفرعية مستبعدة",
+          all(important._is_excluded_domain(u, icfg) for u in (
+              "https://github.com/gilandeya/trendnews/issues/1198",
+              "https://syria.news-pravda.com/a", "https://news-pravda.com/b"))
+          and not important._is_excluded_domain("https://notgithub.com/x", icfg))
+
+    # (e) مسار «مقال» لم يُمَسّ: article.py بلا أي ذكر للمعامل الجديد
+    check("(e) article.py لا يمرّر max_chars لجلب الأدلة (يبقى سقف 2500 لمسار «مقال» والأخبار)",
+          "gather_evidence(" in inspect.getsource(article)
+          and not re.search(r"gather_evidence\([^)]*max_chars", inspect.getsource(article)))

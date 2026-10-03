@@ -1257,6 +1257,40 @@ important` — **لا تعديل على `article.py` ولا على `.github/work
   يرسل `same_event=True` افتراضيًا (g1–g9 لم تُعدَّل)، و`ImportantRig` يسجّل `last_content`/`contents`؛
   وعُدّل في `test_important` عنوان nearest ليحمل كيان النقطة، ونقطة بلا كيانات صارت بلا nearest.
 
+**المهمة 1د (Issue #1203) — سقف الصفحة واتفاق الأرقام والادّعاء المتداول بعد التجربة الحقيقية الثالثة (#1201).**
+التغيير في `src/important.py` + `config.yaml: important` + `extract.py`/`evidence.py` بمعامل اختياري؛ لا
+`article.py` ولا `.github/workflows/`. شروط حارس `false` لم تُرخَ (g1–g12 بلا تعديل).
+- **سقف الصفحة:** `extract.fetch_text`/`extract.gather` و`evidence.gather_evidence` تقبل `max_chars=None`؛
+  لا يُمرَّر المعامل إلى `extract.gather` إلا إن حُدِّد (مزيَّفات الاختبارات القائمة بتوقيعها القديم) فيبقى
+  `MAX_CHARS = 2500` لكل مسار آخر (أخبار/مقال). مسار «هام» يمرّر `important.page_max_chars` (20000) في
+  `_PointSearch.run`/`run_brave`، واختيار الفقرات (#1200) يعمل على النص الكامل. تسمية الحدث المبهم
+  (`article._name_event`) تبقى بسقف 2500 لأنها في `article.py`.
+- **محلّل الأرقام (`important.parse_numbers`):** يُرجع قيمًا `Decimal`: أرقام هندية، فاصل آلاف بالفاصلة
+  (`86,092,168`) أو بنقاط تركية متكرّرة، فاصلة/نقطة واحدة = كسر، مقاييس `important.number_scales`
+  (مليون/million/milyon، مليار/billion/milyar، ألف/آلاف/thousand/bin)، والمركّب العربي «86 مليوناً و92 ألفاً
+  و168» = 86092168 (بند بمقياس يليه بند مفصول بـ«و» ومقياسه أصغر). `_agree(a, b, icfg)`: إن وردت أرقام في
+  الجانبين فالجانب الأقل أرقامًا يجب أن يجد لكل رقم فيه رقمًا مقاربًا في الآخر بفرق ≤
+  `important.number_tolerance` (0.005) من الأكبر (فسنة إضافية في صيغة لا تمنع الاتفاق، وقيمتان مختلفتان
+  مع كلمات مشتركة لا تتفقان)؛ بلا أرقام في أحدهما القاعدة القديمة. `correction.correct` = أدقّ الصيغ
+  المتفقة (أكثر أرقام معنوية للقيمة الأساسية = أول رقم غير سنة)، و`correction.correct_value` = قيمتها بفواصل
+  الآلاف («86,092,168»). **عتبة 0.5% تجعل 85.7 و86.1 «متفقين» — مقصود؛ الاتفاق بين صيغتَي تصحيح لا بينهما
+  وبين النقطة.**
+- **الادّعاء المتداول:** الاستخراج يعيد `framing` (`direct`/`circulating`)؛ في `circulating` يكون `claim` هو
+  المضمون المزعوم و`circulating_context` (واقعة التداول) للعرض وحده — لا يدخل نداء التصنيف ولا الحكم، كـ`asserted`.
+  نداء التصنيف لنقطة متداولة يُلحَق بنظامه `CIRCULATING_NOTE` («الفيديو قديم/من بلد آخر/مفبرك» = `refutes`).
+  حارس الكود (`_content_mentioned`): `supports` على نقطة متداولة يُخفَّض إلى `irrelevant` (`raw_stance`
+  محفوظ) ما لم يوجد مقتطفه حرفيًا في النص ويحمل رقمًا من أرقام النقطة (بالتسامح نفسه) أو — بلا أرقام —
+  كيانًا من كياناتها: «انتشر مقطع…» وحده لا يؤكد المضمون (g14). الملف يحمل `framing`/`circulating_context` لكل نقطة.
+  **قيد معروف:** `conflicts_detail` على نقطة متداولة لا يعالجه الكود (يعتمد على الملاحظة في الموجّه).
+- **عبارة بلغة البلد دائمًا:** `important.entity_languages` (كيان ← رمز لغة؛ يُطابَق بمجموعة `entity_aliases` فـ«Turkey»
+  = «تركيا»). إن لم يعد الاستخراج عبارة بتلك اللغة يُطلب نداء Haiku ثانٍ قصير لها وحدها (`_native_queries`،
+  أداة `native_queries`، يُحسب في `model_calls.brief`)؛ فشله لا يوقف شيئًا. تُضاف قبل حدّ `queries_per_lang`.
+- **نطاقات مستبعدة جديدة:** `github.com` و`news-pravda.com` (وفروعه) في `important.excluded_domains`.
+- **الاختبارات:** g13–g16 في `tests/test_guards_golden.py` (كُتبت قبل الكود)؛ `test_important_1203` في
+  `tests/test_important.py` (نقاط #1201 الخمس بوثائقها وصفحة DataReportal كاملة، `extract` بلا المعامل،
+  المحلّل، العبارة التركية). `ImportantRig` صار يقبل `native=` ويسجّل `max_chars_seen`/`systems`/
+  `native_requests`، وعُدّل في `test_important_search_and_extract` عدّ نداءات `brief` (نداء لغة أم لكل نقطة تركية).
+
 ## Retired paths
 
 - **`src/verify.py`** (Issue #1068) — the fact-check-a-pasted-article path is retired for good; the

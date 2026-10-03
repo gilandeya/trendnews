@@ -1088,3 +1088,67 @@ def test_important_false_guard() -> None:
     p12 = important.load_saved(94012)["points"][0]
     check("(g12) nearest من بلد آخر بلا كيان مشترك ⇒ null",
           p12["nearest"] is None, p12["nearest"])
+
+    # ── Issue #1203 (المهمة 1د): g13–g16 تُكتب قبل أي كود ──
+    def run_claim(case: int, claim: dict, docs, classify) -> dict:
+        marker = f"كلمةحارس{case}"
+        claim = {"entities": [marker], "queries": [{"lang": "ar", "q": claim["claim"]}],
+                 **claim, "claim": claim["claim"].replace("@", marker)}
+        claim["queries"] = [{"lang": "ar", "q": claim["claim"]}]
+        with ImportantRig([claim], {marker: docs}, classify):
+            important.judge("نص الـIssue كاملًا", 94000 + case, cfg)
+        return important.load_saved(94000 + case)["points"][0]
+
+    video_txt = ("الفيديو الذي انتشر قديم ولم يحدث إرسال 450 ألف جندي إلى سوريا، "
+                 "فالمشاهد تعود إلى عرض عسكري سابق.")
+    circ = {"claim": "@ أرسلت 450 ألف جندي إلى سوريا", "framing": "circulating",
+            "circulating_context": "فيديو انتشر صيف 2026", "numbers": ["450 ألف"]}
+
+    # g13) ادّعاء circulating، مصدران مستقلان يؤكدان انتشار الفيديو وينفيان مضمونه ← false
+    p13 = run_claim(13, circ, [
+        important_doc("صحيفة الشرق", video_txt),
+        important_doc("موقع الغرب", "تحقق مستقل: " + video_txt)],
+        lambda pt, names: {"sources": [important_stance(
+            n, "refutes", "ولم يحدث إرسال 450 ألف جندي إلى سوريا") for n in names]})
+    check("(g13) circulating: مصدران يؤكدان الانتشار وينفيان المضمون ⇒ false لا confirmed",
+          p13["verdict"] == "false" and len(p13.get("refuted_by") or []) == 2,
+          (p13["verdict"], p13.get("refuted_by")))
+
+    # g14) ادّعاء circulating، مصدران يؤكدان الانتشار فقط بلا كلمة عن المضمون ← not_found
+    spread = "انتشر مقطع فيديو على مواقع التواصل الاجتماعي خلال الصيف وتداوله كثيرون."
+    p14 = run_claim(14, circ, [
+        important_doc("صحيفة الشرق", spread),
+        important_doc("موقع الغرب", "ذكرت وسيلة مستقلة: " + spread)],
+        lambda pt, names: {"sources": [important_stance(
+            n, "supports", "انتشر مقطع فيديو على مواقع التواصل الاجتماعي") for n in names]})
+    check("(g14) circulating: تأكيد الانتشار وحده ⇒ لا confirmed ولا false (not_found)",
+          p14["verdict"] == "not_found" and not p14.get("refuted_by"),
+          (p14["verdict"], p14.get("refuted_by")))
+
+    # g15) مصدران من news-pravda.com (شبكة دعاية) يؤيدان ← لا يُحسبان
+    p15 = run(15, [
+        important_doc("News-pravda", "وقعت الحادثة فعلًا بحسب التقرير.",
+                      link="https://syria.news-pravda.com/syria/2026/09/11/1.html"),
+        important_doc("News-pravda EN", "الحادثة وقعت وفق ما نشر الموقع.",
+                      link="https://news-pravda.com/world/2026/09/12/2.html")],
+        lambda pt, names: {"sources": [important_stance(n, "supports", "الحادثة") for n in names]})
+    check("(g15) مصدران من news-pravda.com يؤيدان ⇒ لا يُحسبان (لا confirmed ولا أدلة)",
+          p15["verdict"] != "confirmed" and not p15["evidence"], (p15["verdict"], p15["evidence"]))
+
+    # g16) «86.1 مليون» و«86 مليوناً و92 ألفاً و168» يخالفان «85.7 مليون» ← inaccurate
+    pop = {"claim": "بلغ عدد سكان @ في نهاية 2025 نحو 85.7 مليون نسمة", "numbers": ["85.7 مليون"]}
+    forms = {"موقع الأرقام": "86.1 مليون نسمة",
+             "صحيفة الشرق": "86 مليوناً و92 ألفاً و168 نسمة"}
+
+    def conflict_pop(pt, names):
+        return {"sources": [important_stance(
+            n, "conflicts_detail", forms[n], detail="العدد 85.7 مليونًا غير دقيق",
+            correct_form=forms[n]) for n in names]}
+
+    p16 = run_claim(16, pop, [
+        important_doc(n, f"بلغ عدد السكان {t} نهاية 2025 بحسب الإحصاء.") for n, t in forms.items()],
+        conflict_pop)
+    check("(g16) صيغتان متفقتان عدديًا تخالفان 85.7 مليون ⇒ inaccurate والصحيح 86,092,168",
+          p16["verdict"] == "inaccurate"
+          and (p16.get("correction") or {}).get("correct_value") == "86,092,168",
+          (p16["verdict"], p16.get("correction")))
