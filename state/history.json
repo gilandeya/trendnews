@@ -1,95 +1,5 @@
 [
   {
-    "score": 30.63,
-    "bucket": "serious",
-    "tokens": [
-      "eight",
-      "hormuz",
-      "iranian",
-      "marines",
-      "near",
-      "report",
-      "strait",
-      "strike",
-      "wounded"
-    ],
-    "link": "https://www.tehrantimes.com/news/530521/Report-Eight-US-Marines-wounded-in-Iranian-strike-near-Strait",
-    "title": "Report: Eight US Marines wounded in Iranian strike near Strait of Hormuz",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-09-28T18:08:12.756059+00:00"
-  },
-  {
-    "score": 24.03,
-    "bucket": "serious",
-    "tokens": [
-      "care",
-      "cbn",
-      "handle",
-      "naira",
-      "nigerians",
-      "urges"
-    ],
-    "link": "https://www.premiumtimesng.com/news/more-news/913001-cbn-urges-nigerians-to-handle-naira-with-care.html",
-    "title": "CBN urges Nigerians to handle Naira with care",
-    "posted_title": "",
-    "region": "ng",
-    "seen_at": "2026-09-28T18:08:12.756395+00:00"
-  },
-  {
-    "score": 23.52,
-    "bucket": "serious",
-    "tokens": [
-      "alternatives",
-      "export",
-      "hormuz",
-      "iraq",
-      "looks",
-      "oil",
-      "strait",
-      "troubled"
-    ],
-    "link": "https://www.aljazeera.com/economy/2026/9/28/iraq-looks-for-oil-export-alternatives-to-the-troubled-strait-of-hormuz?traffic_source=rss",
-    "title": "Iraq looks for oil export alternatives to the troubled Strait of Hormuz",
-    "posted_title": "",
-    "region": "qa",
-    "seen_at": "2026-09-28T18:08:12.756656+00:00"
-  },
-  {
-    "score": 23.28,
-    "bucket": "serious",
-    "tokens": [
-      "east",
-      "forced",
-      "iran",
-      "leader",
-      "middle",
-      "state",
-      "supreme"
-    ],
-    "link": "https://www.channelnewsasia.com/world/iran-khamenei-us-middle-east-6416471",
-    "title": "Iran supreme leader says US will be forced out of Middle East: state TV",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-09-28T18:08:12.756910+00:00"
-  },
-  {
-    "score": 23.17,
-    "bucket": "serious",
-    "tokens": [
-      "israeli",
-      "media",
-      "netanyahu",
-      "uae",
-      "visits"
-    ],
-    "link": "https://www.dawn.com/news/2033171/netanyahu-visits-uae-israeli-media",
-    "title": "Netanyahu visits UAE: Israeli media",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-28T18:08:12.757195+00:00"
-  },
-  {
     "score": 23.28,
     "bucket": "serious",
     "tokens": [
@@ -2491,5 +2401,41 @@
     "posted_title": "",
     "region": "us",
     "seen_at": "2026-10-03T18:07:59.433142+00:00"
+  },
+  {
+    "score": 27.6,
+    "bucket": "serious",
+    "tokens": [
+      "aramco",
+      "facility",
+      "fire",
+      "near",
+      "riyadh",
+      "seen",
+      "smoke",
+      "witness"
+    ],
+    "link": "https://www.freemalaysiatoday.com/category/world/2026/10/03/fire-smoke-seen-near-aramco-facility-in-riyadh-says-witness",
+    "title": "Fire, smoke seen near Aramco facility in Riyadh, says witness",
+    "posted_title": "شاهد عيان يرصد ألسنة نيران ودخانًا كثيفًا قرب منشأة لأرامكو في الرياض",
+    "region": "my",
+    "seen_at": "2026-10-03T18:50:31.630697+00:00"
+  },
+  {
+    "score": 22.28,
+    "bucket": "serious",
+    "tokens": [
+      "before",
+      "money",
+      "race",
+      "runs",
+      "transform",
+      "world"
+    ],
+    "link": "https://www.japantimes.co.jp/business/2026/10/03/tech/ai-transform-world-money/",
+    "title": "AI’s race to transform the world before the money runs out",
+    "posted_title": "لماذا يضخ العالم تريليونات الدولارات في الذكاء الاصطناعي رغم غياب دليل واضح على جدواه الاقتصادية",
+    "region": "jp",
+    "seen_at": "2026-10-03T18:50:47.512445+00:00"
   }
 ]
