@@ -10,96 +10,6 @@
     ],
     "link": "https://www.france24.com/en/major-incident-at-uk-airbase-used-by-us",
     "title": "Major incident at UK airbase used by US",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-09-28T03:08:23.783769+00:00"
-  },
-  {
-    "score": 29.99,
-    "bucket": "serious",
-    "tokens": [
-      "deal",
-      "despite",
-      "expects",
-      "iran",
-      "offer",
-      "rejecting",
-      "talks",
-      "trump"
-    ],
-    "link": "https://www.thehindu.com/news/international/iran-stands-firm-on-hormuz-plan-after-us-rejection/article71517156.ece",
-    "title": "Trump expects new Iran talks despite rejecting deal offer",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-28T03:08:23.784138+00:00"
-  },
-  {
-    "score": 29.16,
-    "bucket": "serious",
-    "tokens": [
-      "africa",
-      "dead",
-      "leave",
-      "mass",
-      "shootings",
-      "south",
-      "two"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/ck5ywnp075d1o?at_medium=RSS&at_campaign=rss",
-    "title": "Two mass shootings in South Africa leave 27 dead",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-28T03:08:23.784456+00:00"
-  },
-  {
-    "score": 23.64,
-    "bucket": "serious",
-    "tokens": [
-      "arrive",
-      "atlanta",
-      "china",
-      "giant",
-      "pandas",
-      "summit",
-      "trump",
-      "two"
-    ],
-    "link": "https://www.theguardian.com/us-news/2026/sep/27/giant-pandas-atlanta-zoo-china-xi-trump-summit",
-    "title": "Two giant pandas arrive in Atlanta from China after Xi-Trump summit",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-28T03:08:23.784756+00:00"
-  },
-  {
-    "score": 22.48,
-    "bucket": "serious",
-    "tokens": [
-      "afghanistan",
-      "came",
-      "dead",
-      "denies",
-      "fighters",
-      "islamabad",
-      "pakistan",
-      "ties"
-    ],
-    "link": "https://www.scmp.com/news/asia/south-asia/article/3368972/afghanistan-says-28-dead-fighters-came-pakistan-islamabad-denies-ties?utm_source=rss_feed",
-    "title": "Afghanistan says 28 dead fighters came from Pakistan as Islamabad denies ties",
-    "posted_title": "",
-    "region": "cn",
-    "seen_at": "2026-09-28T03:08:23.785047+00:00"
-  },
-  {
-    "score": 30.46,
-    "bucket": "serious",
-    "tokens": [
-      "airbase",
-      "incident",
-      "major",
-      "used"
-    ],
-    "link": "https://www.france24.com/en/major-incident-at-uk-airbase-used-by-us",
-    "title": "Major incident at UK airbase used by US",
     "posted_title": "لماذا أُخليت قرية بريطانية كاملة بسبب ثلاث شاحنات مشبوهة قرب قاعدة أمريكية",
     "region": "eu",
     "seen_at": "2026-09-28T04:28:19.861474+00:00"
@@ -2507,5 +2417,27 @@
     "posted_title": "",
     "region": "qa",
     "seen_at": "2026-10-03T03:08:02.645727+00:00"
+  },
+  {
+    "score": 22.57,
+    "bucket": "serious",
+    "tokens": [
+      "abandon",
+      "airstrikes",
+      "chiefs",
+      "military",
+      "ordered",
+      "putin",
+      "rules",
+      "russia",
+      "ukraine",
+      "war",
+      "zelensky"
+    ],
+    "link": "https://meduza.io/en/news/2026/10/02/zelensky-says-putin-ordered-russia-s-military-chiefs-to-abandon-rules-of-war-in-airstrikes-on-ukraine",
+    "title": "Zelensky says Putin ordered Russia’s military chiefs to abandon rules of war in airstrikes on Ukraine",
+    "posted_title": "زيلينسكي يكشف أن بوتين أمر قادته العسكريين بتجاوز قواعد الحرب في الغارات على أوكرانيا",
+    "region": "ru",
+    "seen_at": "2026-10-03T03:11:50.523264+00:00"
   }
 ]
