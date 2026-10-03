@@ -1,0 +1,1721 @@
+{
+  "issue": 1201,
+  "created_at": "2026-10-03T13:47:20.461347+00:00",
+  "topic": "التطورات العسكرية والرقمية في تركيا عام 2026",
+  "error": null,
+  "model": "claude-sonnet-5",
+  "extract_model": "claude-haiku-4-5-20251001",
+  "brave": {
+    "requests": 34,
+    "skipped": null,
+    "monthly_usage": 143,
+    "monthly_cap": 300
+  },
+  "model_calls": {
+    "total": 11,
+    "by_model": {
+      "claude-haiku-4-5-20251001": 6,
+      "claude-sonnet-5": 5
+    },
+    "brief": 6,
+    "by_point": {
+      "d61903c57248": 1,
+      "a0adf0bc7890": 1,
+      "b4d5b3a28a83": 1,
+      "8730df775012": 1,
+      "2fc12426d64f": 1
+    }
+  },
+  "truncated": null,
+  "points": [
+    {
+      "id": "d61903c57248",
+      "text": "شركة بايكار أعلنت أن الطائرة المسيّرة الهجومية بيرقدار أقنجي أطلقت صاروخًا بالستيًا فرط صوتيًا وأصابت هدفًا يبعد أكثر من 250 كيلومترًا",
+      "claim": "شركة بايكار أعلنت أن الطائرة المسيّرة الهجومية بيرقدار أقنجي أطلقت صاروخًا بالستيًا فرط صوتيًا وأصابت هدفًا يبعد أكثر من 250 كيلومترًا",
+      "framing": "direct",
+      "circulating_context": "",
+      "asserted": "",
+      "queries": [
+        "بايكار بيرقدار أقنجي صاروخ بالستي 250 كم تحقق",
+        "طائرة بيرقدار أقنجي صاروخ بالستي 250 كيلومتر",
+        "Baykar Bayraktar Akinci hypersonic ballistic missile test 2026"
+      ],
+      "site_queries": [
+        "طائرة بيرقدار أقنجي صاروخ بالستي 250 كيلومتر تحقق site:misbar.com",
+        "طائرة بيرقدار أقنجي صاروخ بالستي 250 كيلومتر تحقق site:fatabyyano.net",
+        "Baykar Burç Dardal hipersonik roket fırlatma 250 km teyit site:teyit.org",
+        "Baykar Bayraktar Akinci hypersonic ballistic missile test 2026 fact check site:factcheck.afp.com"
+      ],
+      "engines": [
+        "brave_web",
+        "google_news"
+      ],
+      "windows": [
+        "days",
+        "wide",
+        "days",
+        "wide",
+        "days"
+      ],
+      "brave_skipped": null,
+      "checker_skipped": [
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/en/",
+          "title": "موقع مكافحة الأخبار والمعلومات الكاذبة مسبار"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2026/07/13/%D8%B1%D8%B5%D8%AF-%D8%AA%D8%AD%D8%B1%D9%83%D8%A7%D8%AA-%D9%84%D8%B7%D8%A7%D8%A6%D8%B1%D8%A7%D8%AA-%D8%B4%D8%AD%D9%86-%D8%B9%D8%B3%D9%83%D8%B1%D9%8A%D8%A9-%D8%B1%D9%88%D8%B3%D9%8A%D8%A9-%D9%85%D9%86-%D9%88%D8%A5%D9%84%D9%89-%D9%82%D8%A7%D8%B9%D8%AF%D8%A9-%D8%AD%D9%85%D9%8A%D9%85%D9%8A%D9%85-%D9%81%D9%8A-%D8%B3%D9%88%D8%B1%D9%8A%D8%A7",
+          "title": "رصد تحركات لطائرات شحن عسكرية روسية من وإلى قاعدة حميميم في سوريا"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2025/06/08/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%85%D9%86-%D8%B9%D8%A7%D9%85-2019-%D9%88%D9%84%D9%8A%D8%B3-%D9%84%D8%B5%D8%A7%D8%B1%D9%88%D8%AE-%D8%A8%D8%A7%D9%84%D8%B3%D8%AA%D9%8A-%D8%A3%D8%B7%D9%84%D9%82%D8%AA%D9%87-%D8%B1%D9%88%D8%B3%D9%8A%D8%A7-%D8%B9%D9%84%D9%89-%D8%A3%D9%88%D9%83%D8%B1%D8%A7%D9%86%D9%8A%D8%A7-%D8%AD%D8%AF%D9%8A%D8%AB%D9%8B%D8%A7",
+          "title": "الفيديو من عام 2019 وليس لصاروخ بالستي أطلقته روسيا على أوكرانيا حديثًا"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2025/05/09/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%85%D9%86-%D9%84%D8%B9%D8%A8%D8%A9-%D9%85%D8%AD%D8%A7%D9%83%D8%A7%D8%A9-%D8%B9%D8%B3%D9%83%D8%B1%D9%8A%D8%A9-%D9%88%D9%84%D9%8A%D8%B3-%D9%84%D8%A5%D8%B3%D9%82%D8%A7%D8%B7-%D8%B7%D8%A7%D8%A6%D8%B1%D8%A9-%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%B9%D9%84%D9%89-%D8%AD%D8%A7%D9%85%D9%84%D8%A9-%D8%B7%D8%A7%D8%A6%D8%B1%D8%A7%D8%AA",
+          "title": "الفيديو من لعبة محاكاة عسكرية وليس لإسقاط طائرة أميركية على حاملة طائرات"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/amp/qna/2024/04/23/%D9%85%D8%A7-%D9%87%D9%88-%D9%88%D9%82%D9%88%D8%AF-%D8%A7%D9%84%D8%B5%D9%88%D8%A7%D8%B1%D9%8A%D8%AE-%D8%A7%D9%84%D8%A8%D8%A7%D9%84%D9%8A%D8%B3%D8%AA%D9%8A%D8%A9",
+          "title": "ما هو وقود الصواريخ الباليستية؟"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2025/01/14/%D8%A7%D9%84%D9%85%D8%B4%D8%A7%D9%87%D8%AF-%D9%84%D9%8A%D8%B3%D8%AA-%D9%84%D8%AD%D8%A7%D9%84%D8%A9-%D8%B0%D8%B9%D8%B1-%D9%81%D9%8A-%D8%AA%D9%84-%D8%A3%D8%A8%D9%8A%D8%A8-%D8%A8%D8%B9%D8%AF-%D9%88%D8%B5%D9%88%D9%84-%D8%B5%D8%A7%D8%B1%D9%88%D8%AE-%D8%A3%D9%8F%D8%B7%D9%84%D9%82-%D9%85%D9%86-%D8%A7%D9%84%D9%8A%D9%85%D9%86",
+          "title": "المشاهد ليست لحالة ذعر في تل أبيب بعد وصول صاروخ أُطلق من اليمن"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2025/04/03/%D8%A7%D9%84%D8%B5%D9%88%D8%B1%D8%A9-%D9%84%D9%8A%D8%B3%D8%AA-%D9%84%D9%84%D8%B7%D8%A7%D8%A6%D8%B1%D8%A9-%D8%AF%D9%88%D9%86-%D8%B7%D9%8A%D8%A7%D8%B1-%D8%A7%D9%84%D8%AA%D9%8A-%D8%A3%D8%B9%D9%84%D9%86%D8%AA-%D8%A7%D9%84%D8%AC%D8%B2%D8%A7%D8%A6%D8%B1-%D8%A5%D8%B3%D9%82%D8%A7%D8%B7%D9%87%D8%A7-%D8%AD%D8%AF%D9%8A%D8%AB%D9%8B%D8%A7",
+          "title": "الصورة ليست للطائرة دون طيار التي أعلنت الجزائر إسقاطها حديثًا"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2022/04/21/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%82%D8%AF%D9%8A%D9%85-%D9%88%D9%84%D9%8A%D8%B3-%D9%85%D9%86-%D8%AA%D8%AC%D8%B1%D8%A8%D8%A9-%D8%B5%D8%A7%D8%B1%D9%88%D8%AE-%D8%B3%D8%A7%D8%B1%D9%85%D8%A7%D8%AA-%D8%A7%D9%84%D8%B1%D9%88%D8%B3%D9%8A",
+          "title": "الفيديو قديم وليس من تجربة صاروخ سارمات الروسي"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2024/09/22/%D8%A7%D9%84%D8%AA%D9%82%D8%B1%D9%8A%D8%B1-%D8%A7%D9%84%D8%AA%D9%84%D9%81%D8%B2%D9%8A%D9%88%D9%86%D9%8A-%D8%B9%D9%86-%D8%AA%D8%AD%D8%B7%D9%85-%D8%B7%D8%A7%D8%A6%D8%B1%D8%A9-%D8%B9%D8%B3%D9%83%D8%B1%D9%8A%D8%A9-%D8%AC%D8%B2%D8%A7%D8%A6%D8%B1%D9%8A%D8%A9-%D9%85%D9%86-%D8%B9%D8%A7%D9%85-2018-%D9%88%D9%84%D9%8A%D8%B3-%D8%AD%D8%AF%D9%8A%D8%AB%D8%A7",
+          "title": "التقرير التلفزيوني عن تحطم طائرة عسكرية جزائرية من عام 2018 وليس حديثًا"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2024/09/16/%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D8%A5%D8%B7%D9%84%D8%A7%D9%82-%D8%A7%D9%84%D8%AD%D9%88%D8%AB%D9%8A-%D8%B5%D8%A7%D8%B1%D9%88%D8%AE-%D9%81%D8%B1%D8%B7-%D8%B5%D9%88%D8%AA-%D9%82%D8%AF%D9%8A%D9%85-%D9%88%D9%84%D9%8A%D8%B3-%D9%85%D9%86-%D8%A7%D8%B3%D8%AA%D9%87%D8%AF%D8%A7%D9%81-%D9%88%D8%B3%D8%B7-%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84-%D8%AD%D8%AF%D9%8A%D8%AB%D8%A7",
+          "title": "الفيديو قديم وليس للصاروخ الباليستي الأخير الذي أطلقه الحوثيون باتجاه إسرائيل"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%84%D8%A7-%D9%8A%D9%8F%D8%B8%D9%87%D8%B1-%D8%B5%D8%A7%D8%B1%D9%88%D8%AE%D9%8B%D8%A7-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86%D9%8A%D9%8B%D8%A7/",
+          "title": "هذا الفيديو لا يُظهر صاروخًا إيرانيًا جديدًا يُسقط طائرة حربية، بل هو مقتبس من لعبة إلكترونية - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%B5%D8%A7%D8%B1%D9%88%D8%AE-%D8%A8%D8%A7%D9%84%D9%8A%D8%B3%D8%AA%D9%8A-%D9%88%D9%84%D9%8A%D8%B3%D8%AA-%D9%82%D9%86%D8%A8%D9%84%D8%A9-%D9%83%D9%87%D8%B1%D9%88%D9%85%D8%BA%D9%86/",
+          "title": "هذه صورة صاروخ باليستي من روسيا وليست قنبلة كهرومغناطيسية في كوريا الشمالية - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%82%D9%86%D8%A8%D9%84%D8%A9-%D8%B1%D9%88%D8%B3%D9%8A%D8%A9-%D8%B4%D8%AF%D9%8A%D8%AF%D8%A9-%D8%A7%D9%84%D8%A7%D9%86%D9%81%D8%AC%D8%A7%D8%B1-%D9%84%D9%8A%D8%B3%D8%AA-%D9%85%D8%B5%D8%B1%D9%8A%D8%A9/",
+          "title": "هذه قنبلة روسية شديدة الانفجار وليست قنبلة مصرية - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D9%87-%D8%A7%D9%84%D8%B7%D8%A7%D8%A6%D8%B1%D8%A9-%D8%A7%D9%84%D9%85%D8%B3%D9%8A%D9%91%D8%B1%D8%A9-%D9%84%D9%8A%D8%B3%D8%AA-%D9%85%D9%86-%D8%B5%D9%86%D8%B9-%D8%A7%D9%84%D9%8A%D9%85%D9%86/",
+          "title": "هذه الطائرة المسيّرة ليست من صنع اليمن، بل هي طائرة العقرب ذو الذيلين بدون طيار الصينية - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%8A%D8%B9%D9%88%D8%AF-%D9%84%D8%A7%D9%86%D9%81%D8%AC%D8%A7%D8%B1-%D9%85%D8%B1%D9%83%D8%A8%D8%A9-%D8%B3%D8%A8%D9%8A%D8%B3-%D8%A7%D9%83%D8%B3/",
+          "title": "هذا المقطع يعود لانفجار مركبة \"SpaceX\" الأمريكية وليس له علاقة بالصاروخ الصيني - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%84%D9%85%D8%B1%D9%88%D8%B1-%D8%B7%D8%A7%D8%A6%D8%B1%D8%A9-%D9%85%D9%86-%D8%A3%D8%B3%D9%81%D9%84-%D8%A7%D9%84%D8%AC%D8%B3%D8%B1-%D8%BA%D9%8A/",
+          "title": "هذا المقطع لمرور طائرة من أسفل الجسر غير حقيقي بل معدل بواسطة الحاسوب - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%85%D9%82%D8%AA%D8%A8%D8%B3-%D9%85%D9%86-%D9%84%D8%B9%D8%A8%D8%A9-%D9%82%D8%AA%D8%A7%D9%84-%D8%A5%D9%84%D9%83%D8%AA%D8%B1%D9%88%D9%86%D9%8A/",
+          "title": "هذا المقطع مقتبس من لعبة قتال إلكترونية، ولا يصور مشاهد حقيقية من استهداف الحوثيين لسفينة حربية - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/%D9%85%D9%82%D8%B7%D8%B9-%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%82%D8%AF%D9%8A%D9%85-%D9%85%D9%86-%D8%B9%D8%A7%D9%85-2018-%D9%84%D8%A7%D8%B9%D8%AA%D8%B1%D8%A7%D8%B6-%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF/",
+          "title": "مقطع فيديو قديم من عام 2018 في السعودية، وليس في الإمارات - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%82%D8%AF%D9%8A%D9%85-%D9%88%D9%8A%D8%B8%D9%87%D8%B1-%D9%82%D9%88%D8%A7%D8%AA-%D8%AA%D8%A7%D8%A8%D8%B9%D8%A9-%D9%84%D9%84%D8%AC%D9%8A/",
+          "title": "هذا الفيديو قديم ويظهر قوات تابعة للجيش الأوكراني في يوليو 2022 وليس من سوريا - فتبينوا"
+        },
+        {
+          "publisher": "Teyit",
+          "link": "https://teyit.org/analiz/coklu-roket-atarin-seri-atis-yaptigi-video-baris-pinari-harekatindan-degil",
+          "title": "Çoklu roket atarın seri atış yaptığı video Barış Pınarı Harekatı'ndan değil - Teyit"
+        },
+        {
+          "publisher": "Teyit",
+          "link": "https://cdn.teyit.org/wp-content/uploads/2018/08/turk-hava-harp-sanayi-tarihi-osman-yalcin.pdf",
+          "title": "T.C. GAZİ ÜNİVERSİTESİ SOSYAL BİLİMLER ENSTİTÜSÜ TARİH ANABİLİM DALI"
+        },
+        {
+          "publisher": "Teyit",
+          "link": "https://cdn.teyit.org/wp-content/uploads/2019/08/istanbul_3_havalimaniCED_Raporu.pdf",
+          "title": "AK-TEL MÜHENDİSLİK EĞT.TUR.GD.SAN.TİC.LTD. ŞTİ."
+        },
+        {
+          "publisher": "Teyit",
+          "link": "https://md.teyit.org/file/reklam-kurulu-karari.pdf",
+          "title": "T.C. TİCARET BAKANLIĞI Reklam Kurulu Başkanlığı BASIN BÜLTENİ Toplantı Tarihi"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.36WG76T",
+          "title": "Clip shows Pakistan missile test in 2022, not 'after recent US sanctions' | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.497L8KD",
+          "title": "Posts misleadingly claim Ethiopian innovator built intercontinental ballistic missile | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/",
+          "title": "Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.A2X47T3",
+          "title": "Posts falsely claim unrelated videos show Iranian strike on Israeli leader's house | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.A2LT363",
+          "title": "Footage of air strikes in United Arab Emirates near Burj Khalifa is AI-generated | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.383F462",
+          "title": "Photo of Russian intercontinental ballistic missile falsely shared as belonging to Ethiopia | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.36X89TB",
+          "title": "Video claiming to show Ethiopian missiles is AI-generated | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.48Z79KE",
+          "title": "Closed Kazakhstan test site misrepresented as 'Pakistan nuclear facility' | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.A3JQ9NT",
+          "title": "Old video misrepresented as Iran's missile strike on Israel in Middle East war | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.99UK2T7",
+          "title": "Old videos from Iran's attack on Israel falsely linked to 2026 Mideast war | Fact Check"
+        }
+      ],
+      "read_docs": [
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D9%87-%D8%A7%D9%84%D8%B5%D9%88%D8%B1-%D8%AA%D9%85-%D8%A7%D8%AA%D9%82%D8%A7%D8%B7%D9%87%D8%A7-%D9%81%D9%8A-%D9%84%D9%8A%D8%A8%D9%8A%D8%A7-%D9%88%D8%A3%D9%88%D9%83%D8%B1%D8%A7%D9%86%D9%8A/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 224,
+          "excerpt_chars": 224,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Teyit",
+          "link": "https://en.teyit.org/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 196,
+          "excerpt_chars": 196,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Anadolu Ajansı",
+          "link": "https://www.aa.com.tr/ar/%D8%AA%D8%B1%D9%83%D9%8A%D8%A7/%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D8%A8%D9%8A%D8%B1%D9%82%D8%AF%D8%A7%D8%B1-%D8%A3%D9%82%D9%86%D8%AC%D9%8A-%D8%AA%D8%AF%D9%85%D8%B1-%D9%87%D8%AF%D9%81%D8%A7-%D8%A8%D8%AD%D8%B1%D9%8A%D8%A7-%D8%A8%D8%B5%D8%A7%D8%B1%D9%88%D8%AE-iha-300-%D9%81%D9%88%D9%82-%D8%A7%D9%84%D8%B5%D9%88%D8%AA%D9%8A/4054282",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 1708,
+          "excerpt_chars": 1708,
+          "same_event": true,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "supports"
+        },
+        {
+          "publisher": "Turkpress",
+          "link": "https://www.turkpress.co/node/84606",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 3274,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Alsaudi",
+          "link": "https://alsaudi.news/international/1109/96875",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 1180,
+          "excerpt_chars": 1180,
+          "same_event": true,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "supports"
+        },
+        {
+          "publisher": "Wikipedia",
+          "link": "https://ar.wikipedia.org/wiki/%D8%A8%D9%8A%D8%B1%D9%82%D8%AF%D8%A7%D8%B1_%D8%AA%D9%8A_%D8%A8%D9%8A_2",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 8974,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Wikipedia",
+          "link": "https://ar.wikipedia.org/wiki/%D8%A8%D9%8A%D8%B1%D9%82%D9%8A%D8%AF%D8%A7%D8%B1_%D8%A2%D9%82%D9%86%D8%AC%D9%8A_(%D8%B7%D8%A7%D8%A6%D8%B1%D8%A9_%D9%85%D8%B3%D9%8A%D8%B1%D8%A9)",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 3439,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "Yeni Şafak",
+          "link": "https://www.yenisafak.com/ar/economy/4131591",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 2019,
+          "excerpt_chars": 598,
+          "same_event": true,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "supports"
+        },
+        {
+          "publisher": "Türkiye Today",
+          "link": "https://www.turkiyetoday.com/nation/turkiyes-roketsan-plans-to-expand-supersonic-missile-family-after-uav-300-success-3228062",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 3653,
+          "excerpt_chars": 1624,
+          "same_event": true,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "supports"
+        },
+        {
+          "publisher": "MiGFlug",
+          "link": "https://migflug.com/afterburner/akinci-uav-300-iha-300-ballistic-missile-first-firing-2026/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 4845,
+          "excerpt_chars": 1800,
+          "same_event": true,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "supports"
+        }
+      ],
+      "docs_before": 16,
+      "docs_after": 10,
+      "verdict": "confirmed",
+      "primary_source": false,
+      "icon": "✅",
+      "evidence": [
+        {
+          "publisher": "Anadolu Ajansı",
+          "link": "https://www.aa.com.tr/ar/%D8%AA%D8%B1%D9%83%D9%8A%D8%A7/%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D8%A8%D9%8A%D8%B1%D9%82%D8%AF%D8%A7%D8%B1-%D8%A3%D9%82%D9%86%D8%AC%D9%8A-%D8%AA%D8%AF%D9%85%D8%B1-%D9%87%D8%AF%D9%81%D8%A7-%D8%A8%D8%AD%D8%B1%D9%8A%D8%A7-%D8%A8%D8%B5%D8%A7%D8%B1%D9%88%D8%AE-iha-300-%D9%81%D9%88%D9%82-%D8%A7%D9%84%D8%B5%D9%88%D8%AA%D9%8A/4054282",
+          "stance": "supports",
+          "excerpt": "نجحت الطائرة المسيرة الهجومية التركية \"بيرقدار أقنجي\" في إصابة هدفها بدقة عالية خلال اختبار إطلاق صاروخ \"İHA-300\" الباليستي فوق الصوتي... تمكنت \"أقنجي\" خلال الاختبار من تدمير هدف على مسافة تتجاوز 250 كيلومترا بنجاح",
+          "detail": "",
+          "correct_form": "",
+          "as_of": ""
+        },
+        {
+          "publisher": "Alsaudi",
+          "link": "https://alsaudi.news/international/1109/96875",
+          "stance": "supports",
+          "excerpt": "أعلنت مصادر دفاعية تركية أن الطائرة المسيرة الهجومية \"بيرقدار أقنجي\" تمكنت من إصابة هدف بحري بدقة فائقة أثناء تجربة إطلاق الصاروخ \"İHA-300\" الباليستي فوق الصوتي... استهدفت هدفًا بحريًا على بعد أكثر من 250 كيلومترًا",
+          "detail": "",
+          "correct_form": "",
+          "as_of": ""
+        },
+        {
+          "publisher": "Yeni Şafak",
+          "link": "https://www.yenisafak.com/ar/economy/4131591",
+          "stance": "supports",
+          "excerpt": "ÙÙØ§ÙØ§Øª Ù ØÙÙØ© Ù Ù Ø¥ØµØ§Ø¨Ø© ÙØ¯ÙÙØ§ Ø¨Ø¯ÙØ© Ø¹ÙÙ Ù Ø³Ø§ÙØ© ØªØªØ¬Ø§ÙØ² 250 ÙÙÙÙÙ ØªØ±Ø§",
+          "detail": "",
+          "correct_form": "",
+          "as_of": ""
+        },
+        {
+          "publisher": "Türkiye Today",
+          "link": "https://www.turkiyetoday.com/nation/turkiyes-roketsan-plans-to-expand-supersonic-missile-family-after-uav-300-success-3228062",
+          "stance": "supports",
+          "excerpt": "the UAV-300 struck a maritime target more than 250 kilometers away... The UAV-300 was fired from the Bayraktar Akinci UCAV on Sept. 11",
+          "detail": "",
+          "correct_form": "",
+          "as_of": ""
+        },
+        {
+          "publisher": "MiGFlug",
+          "link": "https://migflug.com/afterburner/akinci-uav-300-iha-300-ballistic-missile-first-firing-2026/",
+          "stance": "supports",
+          "excerpt": "it marks the first live firing of Roketsan’s supersonic UAV-300 — the İHA-300 in Turkish service — from an unmanned aircraft... A maritime target struck with a direct hit more than 250 km (155 miles) away",
+          "detail": "",
+          "correct_form": "",
+          "as_of": ""
+        }
+      ],
+      "correction": null,
+      "refuted_by": null,
+      "nearest": null,
+      "note": "",
+      "named_as": null,
+      "image_candidates": [],
+      "sources_read": 9,
+      "dropped_reason": null,
+      "model_calls": 1
+    },
+    {
+      "id": "a0adf0bc7890",
+      "text": "عدد سكان تركيا في نهاية عام 2025 بلغ نحو 85.7 مليون نسمة",
+      "claim": "عدد سكان تركيا في نهاية عام 2025 بلغ نحو 85.7 مليون نسمة",
+      "framing": "direct",
+      "circulating_context": "",
+      "asserted": "",
+      "queries": [
+        "سكان تركيا 2025 85.7 مليون تحقق",
+        "عدد سكان تركيا 2025 85.7 مليون",
+        "Turkey population 2025 85.7 million"
+      ],
+      "site_queries": [
+        "عدد سكان تركيا 2025 85.7 مليون تحقق site:misbar.com",
+        "عدد سكان تركيا 2025 85.7 مليون تحقق site:fatabyyano.net",
+        "Türkiye nüfusu 2025 sonu 85.7 milyon teyit site:teyit.org",
+        "Turkey population 2025 85.7 million fact check site:factcheck.afp.com"
+      ],
+      "engines": [
+        "brave_web",
+        "google_news"
+      ],
+      "windows": [
+        "wide",
+        "wide",
+        "wide"
+      ],
+      "brave_skipped": null,
+      "checker_skipped": [
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2025/08/26/%D8%A7%D9%84%D8%AA%D8%B1%D9%83%D9%8A%D8%A8-%D8%A7%D9%84%D8%B3%D9%83%D8%A7%D9%86%D9%8A-%D9%81%D9%8A-%D8%B3%D9%88%D8%B1%D9%8A%D8%A7-%D8%A7%D9%84%D8%A3%D8%B1%D9%82%D8%A7%D9%85-%D9%85%D9%86-%D9%85%D8%AC%D8%B1%D8%AF-%D8%A8%D9%8A%D8%A7%D9%86%D8%A7%D8%AA-%D8%A5%D9%84%D9%89-%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D9%84%D9%84%D8%AA%D8%B6%D9%84%D9%8A%D9%84-%D9%88%D8%A7%D9%84%D8%AA%D9%88%D8%B8%D9%8A%D9%81-%D8%A7%D9%84%D8%B3%D9%8A%D8%A7%D8%B3%D9%8A",
+          "title": "التركيب السكاني في سوريا: الأرقام من مجرد بيانات إلى أدوات للتضليل والتوظيف السياسي"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://misbar.com/qna/2023/08/06/%D9%83%D9%85-%D9%8A%D8%A8%D9%84%D8%BA-%D8%B9%D8%AF%D8%AF-%D8%A7%D9%84%D9%84%D8%A7%D8%AC%D8%A6%D9%8A%D9%86-%D8%A7%D9%84%D8%B3%D9%88%D8%B1%D9%8A%D9%8A%D9%86-%D9%81%D9%8A-%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85",
+          "title": "كم يبلغ عدد اللاجئين السوريين في العالم؟"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/qna/2024/09/28/%D9%83%D9%85-%D9%8A%D8%A8%D9%84%D8%BA-%D8%B9%D8%AF%D8%AF-%D8%A7%D9%84%D9%85%D8%B3%D9%84%D9%85%D9%8A%D9%86-%D9%81%D9%8A-%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85",
+          "title": "كم يبلغ عدد المسلمين في العالم؟"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D9%87-%D8%A7%D9%84%D8%A5%D8%AD%D8%B5%D8%A7%D8%A6%D9%8A%D8%A9-%D8%B2%D8%A7%D8%A6%D9%81%D8%A9%D8%8C-%D9%88%D8%AA%D9%82%D8%B1%D9%8A%D8%B1-%D8%A7%D9%84%D8%A3%D9%85%D9%85-%D8%A7%D9%84%D9%85/",
+          "title": "هذه الإحصائية زائفة، وتقرير الأمم المتحدة يبيّن أن عدد الذكور في العالم يفوق عدد الإناث - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/",
+          "title": "الرئيسة - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%82%D8%AF%D9%8A%D9%85-%D9%84%D9%82%D8%A7%D8%AD-%D9%83%D9%88%D9%81%D9%8A%D8%AF19-%D9%84%D9%8A%D8%B3-%D9%84%D8%AA%D9%82%D9%84%D9%8A%D9%84-%D8%B3%D9%83%D8%A7%D9%86/",
+          "title": "هذا المقطع قديم ومجتزأ والادعاء القائل بأن لقاح كوفيد-19 من أجل تقليل سكان العالم هو ادّعاء مضلل - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D8%AF%D9%84%D9%8A%D9%84-%D9%81%D8%AA%D8%A8%D9%8A%D9%86%D9%88%D8%A7/",
+          "title": "دليل فتبينوا - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/correction_policy/",
+          "title": "سياسة التصحيح - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/fake_news/",
+          "title": "مقالات فتبينوا - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D8%A5%D9%84%D9%8A%D9%83-%D9%87%D8%B0%D9%87-%D8%A7%D9%84%D8%B9%D9%84%D8%A7%D9%85%D8%A7%D8%AA-%D9%84%D9%84%D8%A7%D8%B3%D8%AA%D8%AF%D9%84%D8%A7%D9%84-%D8%B9%D9%84%D9%89-%D8%A3%D9%86-%D8%A7%D9%84%D8%B5/",
+          "title": "إليك هذه العلامات للاستدلال على أن الصور منتجة بواسطة الذكاء الاصطناعي - فتبينوا"
+        },
+        {
+          "publisher": "Teyit",
+          "link": "https://iklim.teyit.org/",
+          "title": "Teyit | İklim Dosyası | Bildiğimiz Dünyanın Sonu"
+        },
+        {
+          "publisher": "Teyit",
+          "link": "https://en.teyit.org/in-depth",
+          "title": "In-depth - Teyit"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/",
+          "title": "Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/Samad-UTHMAN",
+          "title": "Samad UTHMAN | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/AFP-Europe",
+          "title": "AFP Europe | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/Contact",
+          "title": "Contact | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/fact-checking-search-results",
+          "title": "Recherche | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/list",
+          "title": "Topics | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.B2KR89E",
+          "title": "Hantavirus outbreak sparks misinformation on ship passenger nationalities | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.76JJ7G3",
+          "title": "Trump falsely claims Amish 'have essentially no autism' | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/AFP-Canada",
+          "title": "AFP Canada | Fact Check"
+        }
+      ],
+      "read_docs": [
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2021/02/18/%D8%A3%D8%B1%D8%AF%D9%88%D8%BA%D8%A7%D9%86-%D9%84%D9%85-%D9%8A%D8%AF%D8%B9%D9%88-%D9%84%D8%B2%D9%8A%D8%A7%D8%AF%D8%A9-%D8%A7%D9%84%D8%B3%D9%83%D8%A7%D9%86-%D8%A5%D9%84%D9%89-300-%D9%85%D9%84%D9%8A%D9%88%D9%86-%D9%88%D9%85%D9%86%D8%AD-%D9%83%D9%84-%D9%85%D9%88%D9%84%D9%88%D8%AF-100-%D8%AF%D9%88%D9%84%D8%A7%D8%B1-%D8%B4%D9%87%D8%B1%D9%8A%D8%A7",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 412,
+          "excerpt_chars": 601,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": {
+            "claim_reviewed": "أردوغان يطالب الشعب التركي بزيادة الإنجاب لتصل تركيا إلى 300 مليون نسمة ومنح كل طفل يولد 100$ شهريًا لتحفيز الشعب على زيادة النسل.",
+            "label": "fake",
+            "date_published": "2021-02-18T10:45:00+03:00"
+          },
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%85%D8%B9%D9%84%D9%88%D9%85%D8%A7%D8%AA-%D8%A3%D9%84%D9%85%D8%A7%D9%86%D9%8A%D8%A7-%D8%BA%D9%8A%D8%B1-%D8%B5%D8%AD%D9%8A%D8%AD%D8%A9/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 226,
+          "excerpt_chars": 226,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Teyit",
+          "link": "https://en.teyit.org/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 196,
+          "excerpt_chars": 196,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/taxonomy/term/6662",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 318,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "TRADING ECONOMICS",
+          "link": "https://ar.tradingeconomics.com/turkey/population",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 7022,
+          "excerpt_chars": 902,
+          "same_event": true,
+          "as_of": "عام 2025",
+          "claim_review": null,
+          "stance": "conflicts_detail"
+        },
+        {
+          "publisher": "Postanbul",
+          "link": "https://postanbul.com/%D9%83%D9%85-%D8%B9%D8%AF%D8%AF-%D8%B3%D9%83%D8%A7%D9%86-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D9%84%D8%B9%D8%A7%D9%85-2024/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 1046,
+          "excerpt_chars": 1046,
+          "same_event": true,
+          "as_of": "31 ديسمبر 2024",
+          "claim_review": null,
+          "stance": "conflicts_detail"
+        },
+        {
+          "publisher": "Zaman Arabic",
+          "link": "https://www.zamanarabic.com/2025/08/14/%D8%AA%D8%B9%D8%AF%D8%A7%D8%AF-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D8%A7%D9%84%D8%B3%D9%83%D8%A7%D9%86%D9%8A-2025/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 572,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "Zaman Arabic",
+          "link": "https://www.zamanarabic.com/2025/11/24/%D8%AA%D8%B9%D8%AF%D8%AF-%D8%B3%D9%83%D8%A7%D9%86-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D9%81%D9%8A-2025-%D9%8A%D8%B1%D8%AA%D9%81%D8%B9-315-%D8%A3%D9%84%D9%81-%D9%86%D8%B3%D9%85%D8%A9/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 667,
+          "excerpt_chars": 667,
+          "same_event": true,
+          "as_of": "1 أكتوبر 2025",
+          "claim_review": null,
+          "stance": "conflicts_detail"
+        },
+        {
+          "publisher": "TurkTT",
+          "link": "https://turktt.com/%D8%B9%D8%AF%D8%AF-%D8%B3%D9%83%D8%A7%D9%86-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 15812,
+          "excerpt_chars": 1800,
+          "same_event": true,
+          "as_of": "نهاية عام 2025",
+          "claim_review": null,
+          "stance": "conflicts_detail"
+        },
+        {
+          "publisher": "Hürriyet Daily News",
+          "link": "https://www.hurriyetdailynews.com/turkiye-makes-up-1-pct-of-global-population-un-data-shows-211278",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 1799,
+          "excerpt_chars": 1799,
+          "same_event": true,
+          "as_of": "عام 2024 (بيانات يوم السكان العالمي، 11 يوليو)",
+          "claim_review": null,
+          "stance": "conflicts_detail"
+        },
+        {
+          "publisher": "Turkish Minute",
+          "link": "https://www.turkishminute.com/2026/02/09/turkeys-population-surpasses-86-million-in-2025/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2536,
+          "excerpt_chars": 1632,
+          "same_event": true,
+          "as_of": "31 ديسمبر 2025",
+          "claim_review": null,
+          "stance": "conflicts_detail"
+        },
+        {
+          "publisher": "Türkiye Today",
+          "link": "https://www.turkiyetoday.com/nation/turkiyes-population-surpasses-8598-million-as-of-october-2025-3210324",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 1047,
+          "excerpt_chars": 1047,
+          "same_event": true,
+          "as_of": "1 أكتوبر 2025",
+          "claim_review": null,
+          "stance": "conflicts_detail"
+        }
+      ],
+      "docs_before": 14,
+      "docs_after": 12,
+      "verdict": "inaccurate",
+      "primary_source": false,
+      "icon": "✏️",
+      "evidence": [
+        {
+          "publisher": "TRADING ECONOMICS",
+          "link": "https://ar.tradingeconomics.com/turkey/population",
+          "stance": "conflicts_detail",
+          "excerpt": "تم تقدير إجمالي عدد السكان في تركيا بـ 86.1 مليون نسمة في عام 2025",
+          "detail": "عدد السكان المقدر لتركيا في عام 2025 هو 86.1 مليون نسمة وليس 85.7 مليون",
+          "correct_form": "86.1 مليون نسمة",
+          "as_of": "عام 2025"
+        },
+        {
+          "publisher": "TurkTT",
+          "link": "https://turktt.com/%D8%B9%D8%AF%D8%AF-%D8%B3%D9%83%D8%A7%D9%86-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7/",
+          "stance": "conflicts_detail",
+          "excerpt": "من المقرر أن يصل عدد سكان تركيا إلى 88 مليون بحلول نهاية عام 2025",
+          "detail": "التقرير يتوقع وصول عدد السكان إلى 88 مليون بحلول نهاية 2025، وهو رقم أعلى من 85.7 مليون المذكورة في النقطة",
+          "correct_form": "88 مليون نسمة (توقع)",
+          "as_of": "نهاية عام 2025"
+        },
+        {
+          "publisher": "Turkish Minute",
+          "link": "https://www.turkishminute.com/2026/02/09/turkeys-population-surpasses-86-million-in-2025/",
+          "stance": "conflicts_detail",
+          "excerpt": "A total of 427,224 more people were added to Turkey’s population as of December 31, 2025, bringing the country’s total population to 86,092,168",
+          "detail": "العدد الفعلي حتى 31 ديسمبر 2025 بلغ 86,092,168 نسمة وليس 85.7 مليون",
+          "correct_form": "86,092,168 نسمة",
+          "as_of": "31 ديسمبر 2025"
+        }
+      ],
+      "correction": {
+        "error": "عدد السكان المقدر لتركيا في عام 2025 هو 86.1 مليون نسمة وليس 85.7 مليون",
+        "correct": "86,092,168 نسمة",
+        "correct_value": "86,092,168",
+        "as_of": "31 ديسمبر 2025",
+        "sources": [
+          {
+            "publisher": "TRADING ECONOMICS",
+            "link": "https://ar.tradingeconomics.com/turkey/population",
+            "excerpt": "تم تقدير إجمالي عدد السكان في تركيا بـ 86.1 مليون نسمة في عام 2025",
+            "as_of": "عام 2025"
+          },
+          {
+            "publisher": "Turkish Minute",
+            "link": "https://www.turkishminute.com/2026/02/09/turkeys-population-surpasses-86-million-in-2025/",
+            "excerpt": "A total of 427,224 more people were added to Turkey’s population as of December 31, 2025, bringing the country’s total population to 86,092,168",
+            "as_of": "31 ديسمبر 2025"
+          }
+        ]
+      },
+      "refuted_by": null,
+      "nearest": null,
+      "note": "",
+      "named_as": null,
+      "image_candidates": [],
+      "sources_read": 11,
+      "dropped_reason": null,
+      "model_calls": 1
+    },
+    {
+      "id": "b4d5b3a28a83",
+      "text": "تركيا أرسلت 450 ألف جندي إلى سوريا",
+      "claim": "تركيا أرسلت 450 ألف جندي إلى سوريا",
+      "framing": "circulating",
+      "circulating_context": "مقطع فيديو انتشر على مواقع التواصل الاجتماعي خلال صيف 2026 قيل إنه يظهر هذا الادعاء",
+      "asserted": "",
+      "queries": [
+        "تركيا 450 ألف جندي سوريا حقيقة",
+        "تركيا 450 ألف جندي سوريا 2026"
+      ],
+      "site_queries": [
+        "تركيا 450 ألف جندي سوريا 2026 تحقق site:misbar.com",
+        "تركيا 450 ألف جندي سوريا 2026 تحقق site:fatabyyano.net",
+        "Türkiye Suriye'ye 450 bin asker gönderdi teyit site:teyit.org",
+        "Turkey 450 thousand soldiers Syria 2026 fact check site:factcheck.afp.com"
+      ],
+      "engines": [
+        "brave_web",
+        "google_news"
+      ],
+      "windows": [
+        "days",
+        "wide",
+        "days"
+      ],
+      "brave_skipped": null,
+      "checker_skipped": [
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/en/",
+          "title": "Fact-checking Website Misbar"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/",
+          "title": "الرئيسة - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/correction_policy/",
+          "title": "سياسة التصحيح - فتبينوا"
+        },
+        {
+          "publisher": "Teyit",
+          "link": "https://teyit.org/analiz/video-sigara-icenleri-cezalandiran-hts-askerini-mi-gosteriyor",
+          "title": "Analiz - Teyit"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/",
+          "title": "Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/Middle-East",
+          "title": "Middle East | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/Samad-UTHMAN",
+          "title": "Samad UTHMAN | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/list",
+          "title": "Topics | Fact Check"
+        }
+      ],
+      "read_docs": [
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2024/12/29/%D8%A3%D8%A8%D8%B1%D8%B2-%D8%A7%D9%84%D8%A7%D8%AF%D8%B9%D8%A7%D8%A1%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%B6%D9%84%D9%84%D8%A9-%D8%A7%D9%84%D9%85%D8%B1%D8%AA%D8%A8%D8%B7%D8%A9-%D8%A8%D9%82%D8%B3%D8%AF-%D8%AE%D9%84%D8%A7%D9%84-%D8%A7%D9%84%D8%AA%D8%B7%D9%88%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D8%B3%D9%88%D8%B1%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D8%AE%D9%8A%D8%B1%D8%A9",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 4560,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D8%A7%D9%84%D9%85%D9%86%D8%B3%D9%88%D8%A8-%D9%84%D9%82%D9%86%D8%A7%D8%A9-%D8%A7%D9%84%D8%AD%D8%AF%D8%AB-%D9%85%D9%81%D8%A8%D8%B1%D9%83%D8%8C-2/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 296,
+          "excerpt_chars": 296,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Teyit",
+          "link": "https://teyit.org/analiz/video-turkiyenin-suriyeye-450-bin-asker-gonderdigini-mi-gosteriyor",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 226,
+          "excerpt_chars": 226,
+          "same_event": true,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/clip-shows-turkish-soldiers-en-route-syria-2018-not-jerusalem-2021",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 332,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "Al Jazeera",
+          "link": "https://www.aljazeera.net/news/2026/8/23/%D8%AF%D8%A8%D8%A7%D8%A8%D8%A7%D8%AA-%D9%88%D9%85%D8%AF%D8%B1%D8%B9%D8%A7%D8%AA-%D9%88%D8%AA%D8%B1%D8%AD%D9%8A%D8%A8-%D8%B4%D8%B9%D8%A8%D9%8A-%D9%87%D9%84-%D8%AA%D9%88%D8%AB%D9%82-%D9%87%D8%B0%D9%87",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 6456,
+          "excerpt_chars": 1791,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "BBC",
+          "link": "https://www.bbc.com/arabic/articles/c7vn7gn9r72o",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 9770,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Aksalser",
+          "link": "https://www.aksalser.com/news/2026/07/10/%D9%88%D8%B2%D9%8A%D8%B1-%D8%A7%D9%84%D8%AF%D8%A7%D8%AE%D9%84%D9%8A%D8%A9-%D8%A7%D9%84%D8%AA%D8%B1%D9%83%D9%8A-%D9%8A%D9%83%D8%B4%D9%81-%D8%B9%D9%86-%D8%A5%D8%AD%D8%B5%D8%A7%D8%A6%D9%8A%D8%A9-%D8%AC-2/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 610,
+          "excerpt_chars": 610,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Euronews.com",
+          "link": "https://arabic.euronews.com/2026/09/23/turkey-arrests-tera-chairman-as-ponzi-like-fund-probe-affects-450000-investors",
+          "orig_link": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxPbW9fMWpiU2dOcFpIY0RPTkE4M0d6T3dET1hUZmVsdVd3SmxmYnFCZm9NMVJlenFTOUQ1RWg3S1R4enFkS2lYal9Mb3UwNHFRMTlIWEhkOFFBTmxKRUtYUEJBUDJvWnNsaUVXaUpHcGUwUHd1aVZsbDNGZjd5bDZZeG1IaWpUNUhKRXNKZExGWjRmOEI0VnhpRlIySG1WVS1uVUk5YWdVanFXcGE4emZfWl9jd3p2Vmxw?oc=5",
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 149,
+          "excerpt_chars": 149,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Beiruttime-lb",
+          "link": "https://beiruttime-lb.com/2026/09/%D8%A7%D9%84%D8%AC%D9%8A%D8%B4-%D8%A7%D9%84%D8%AA%D8%B1%D9%83%D9%8A-%D9%81%D9%8A-2026-%D8%A3%D9%83%D8%AB%D8%B1-%D9%85%D9%86-%D9%85%D9%84%D9%8A%D9%88%D9%86-%D8%B9%D9%86%D8%B5%D8%B1-%D9%88%D8%A2%D9%84/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 8527,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "بيانات غلوبال فاير باور لعام 2026",
+          "claim_review": null,
+          "stance": "related_other"
+        },
+        {
+          "publisher": "Hadarat",
+          "link": "https://hadarat.net/post/76820/20-%D8%A3%D9%84%D9%81-%D8%AC%D9%86%D8%AF%D9%8A-%D9%88%D8%A3%D8%B3%D9%84%D8%AD%D8%A9-%D9%85%D8%AA%D8%B7%D9%88%D8%B1%D8%A9:-%D8%A7%D9%84%D8%AE%D8%B7%D9%88%D8%A9-%D8%A7%D9%84%D8%AA%D8%B1%D9%83%D9%8A%D8%A9-%D8%A7%D9%84%D8%AA%D9%8A-%D8%AA%D9%82%D9%84%D9%82-%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 4442,
+          "excerpt_chars": 1728,
+          "same_event": false,
+          "as_of": "حالياً",
+          "claim_review": null,
+          "stance": "related_other"
+        },
+        {
+          "publisher": "Dalilarabtr",
+          "link": "https://dalilarabtr.com/article/syrians-statistics-turkey-2026",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 3453,
+          "excerpt_chars": 1732,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "TRT عربي",
+          "link": "https://www.trtarabi.com/article/8468f3d68fef",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 3790,
+          "excerpt_chars": 1724,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        }
+      ],
+      "docs_before": 12,
+      "docs_after": 12,
+      "verdict": "not_found",
+      "primary_source": false,
+      "icon": "🔍",
+      "evidence": [],
+      "correction": null,
+      "refuted_by": null,
+      "nearest": null,
+      "note": "",
+      "named_as": null,
+      "image_candidates": [],
+      "sources_read": 12,
+      "dropped_reason": "لا أثر ولا حدث قريب موثَّق",
+      "model_calls": 1
+    },
+    {
+      "id": "8730df775012",
+      "text": "تركيا أطلقت تشغيل أول شبكة إنترنت فضائي حكومية تركية بالكامل تغطي جميع أنحاء البلاد",
+      "claim": "تركيا أطلقت تشغيل أول شبكة إنترنت فضائي حكومية تركية بالكامل تغطي جميع أنحاء البلاد",
+      "framing": "direct",
+      "circulating_context": "",
+      "asserted": "",
+      "queries": [
+        "تركيا شبكة إنترنت فضائي حكومية تحقق",
+        "تركيا شبكة إنترنت فضائي حكومية 2026"
+      ],
+      "site_queries": [
+        "تركيا شبكة إنترنت فضائي حكومية 2026 تحقق site:misbar.com",
+        "تركيا شبكة إنترنت فضائي حكومية 2026 تحقق site:fatabyyano.net",
+        "Türkiye ilk yerli uydu internet ağı başlattı teyit site:teyit.org",
+        "Turkey satellite internet government network 2026 fact check site:factcheck.afp.com"
+      ],
+      "engines": [
+        "brave_web",
+        "google_news"
+      ],
+      "windows": [
+        "days",
+        "wide",
+        "days",
+        "wide"
+      ],
+      "brave_skipped": null,
+      "checker_skipped": [
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/qna/2023/11/01/%D9%85%D8%A7-%D9%87%D9%88-%D8%A5%D9%86%D8%AA%D8%B1%D9%86%D8%AA-%D8%B3%D8%AA%D8%A7%D8%B1%D9%84%D9%8A%D9%86%D9%83",
+          "title": "ما هو إنترنت ستارلينك؟"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/qna/2025/03/09/%D9%85%D8%A7-%D9%87%D9%8A-%D8%A7%D9%84%D8%AF%D9%88%D9%84-%D8%A7%D9%84%D8%AA%D9%8A-%D8%AA%D8%B3%D8%AA%D8%AE%D8%AF%D9%85-%D8%B4%D8%A8%D9%83%D8%A9-6g%D8%9F",
+          "title": "ما هي الدول التي تستخدم شبكة 6G؟"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/en/",
+          "title": "موقع مكافحة الأخبار والمعلومات الكاذبة مسبار"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/qna/2024/02/29/%D9%87%D9%84-%D8%AA%D9%85%D8%B1-%D9%83%D8%A7%D8%A8%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D8%A5%D9%86%D8%AA%D8%B1%D9%86%D8%AA-%D9%81%D9%8A-%D8%A7%D9%84%D8%A8%D8%AD%D8%B1-%D8%A7%D9%84%D8%A3%D8%AD%D9%85%D8%B1",
+          "title": "هل تمر كابلات الإنترنت في البحر الأحمر؟"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/qna/2022/06/01/%D9%87%D9%84-%D9%8A%D9%85%D9%83%D9%86-%D9%82%D9%8A%D8%A7%D8%B3-%D8%B3%D8%B1%D8%B9%D8%A9-%D8%A7%D9%84%D8%A5%D9%86%D8%AA%D8%B1%D9%86%D8%AA",
+          "title": "هل يمكن قياس سرعة الإنترنت؟"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2026/09/17/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%82%D8%AF%D9%8A%D9%85-%D9%88%D9%84%D9%8A%D8%B3-%D9%84%D8%A7%D9%86%D9%82%D9%84%D8%A7%D8%A8-%D9%82%D9%8A%D8%A7%D8%AF%D9%8A-%D8%B9%D8%B3%D9%83%D8%B1%D9%8A-%D8%B3%D9%88%D8%B1%D9%8A-%D8%B9%D9%84%D9%89-%D8%A7%D9%84%D9%86%D8%B8%D8%A7%D9%85-%D8%A8%D8%B9%D8%AF-%D8%A7%D9%84%D8%AA%D8%B8%D8%A7%D9%87%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D8%A3%D8%AE%D9%8A%D8%B1%D8%A9",
+          "title": "الفيديو قديم وليس لانقلاب قيادي عسكري سوري على النظام بعد التظاهرات الأخيرة"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2024/09/08/%D9%85%D8%A7-%D9%85%D8%AF-%D8%AF%D9%82%D8%A9-%D8%AA%D8%AD%D9%82%D9%8A%D9%82-%D8%A5%D9%8A%D9%83%D8%A7%D8%AF-%D8%AD%D9%88%D9%84-%D8%A7%D8%AF%D8%B9%D8%A7%D8%A6%D9%87%D8%A7-%D9%88%D8%AC%D9%88%D8%AF-%D8%B4%D8%A8%D9%83%D8%A9-%D9%85%D9%86-%D8%A7%D9%84%D9%84%D8%AC%D8%A7%D9%86-%D8%A7%D9%84%D8%B3%D9%88%D8%B1%D9%8A%D8%A9-%D8%A7%D9%84%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84%D9%8A%D8%A9",
+          "title": "ما مدى دقة تحقيق إيكاد حول ادعائها وجود شبكة من &quot;اللجان السورية الإسرائيلية&quot;؟"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2026/09/18/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%82%D8%AF%D9%8A%D9%85-%D9%88%D9%84%D9%8A%D8%B3-%D9%84%D8%B3%D9%8A%D8%B7%D8%B1%D8%A9-%D9%82%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D8%B9%D9%85%D8%A7%D9%84%D9%82%D8%A9-%D8%B9%D9%84%D9%89-%D8%AC%D8%A8%D8%A7%D9%84-%D9%83%D9%87%D8%A8%D9%88%D8%A8-%D8%AD%D8%AF%D9%8A%D8%AB%D9%8B%D8%A7",
+          "title": "الفيديو قديم وليس لسيطرة قوات العمالقة على جبال كهبوب حديثًا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/",
+          "title": "الرئيسة - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/our-methodology/",
+          "title": "آلية العمل- Fatabyyano Methodology - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/correction_policy/",
+          "title": "سياسة التصحيح - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%85%D8%B4%D8%B1%D9%88%D8%B9-%D9%87%D8%A7%D8%B1%D8%A8-%D8%A7%D9%84%D8%A3%D9%85%D8%B1%D9%8A%D9%83%D9%8A-%D9%84%D9%84%D8%AA%D8%AD%D9%83%D9%85-%D9%81%D9%8A-%D8%A7%D9%84%D8%B7%D9%82%D8%B3/",
+          "title": "هذه المعلومات المتداولة حول مشروع هارب واستخدامه كسلاح للتحكم بالطقس والتسبب بكوارث طبيعية غير صحيحة - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/fatabyyano-team/",
+          "title": "من نحن - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/funding-transparency/",
+          "title": "Funding Transparency - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%84%D8%A7-%D8%B5%D8%AD%D8%A9-%D9%84%D8%A5%D8%B9%D9%84%D8%A7%D9%86-%D9%88%D8%B2%D8%A7%D8%B1%D8%A9-%D8%A7%D9%84%D8%A7%D8%AA%D8%B5%D8%A7%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D8%B9%D8%B1%D8%A7%D9%82%D9%8A/",
+          "title": "لا صحة لإعلان وزارة الاتصالات العراقية عن تحويل جميع خدمات الإنترنت عبر الكابل الضوئي - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D8%AF%D9%84%D9%8A%D9%84-%D9%81%D8%AA%D8%A8%D9%8A%D9%86%D9%88%D8%A7/",
+          "title": "دليل فتبينوا - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D8%B4%D8%B1%D9%8A%D8%AD%D8%A9-%D8%B3%D9%8A%D8%AD%D9%82%D9%86-%D8%A8%D9%87%D8%A7-%D8%A7%D9%84%D8%A8%D8%B4%D8%B1-%D8%AA%D8%AD%D8%AA-%D9%85%D8%B3%D9%85%D9%89-%D9%84%D9%82%D8%A7%D8%AD/",
+          "title": "شريحة سيحقن بها كل البشر تحت مسمى لقاح كورونا لتتبعهم وتتحكم بهم - زائف - فتبينوا"
+        },
+        {
+          "publisher": "Teyit",
+          "link": "https://en.teyit.org/in-depth",
+          "title": "In-depth - Teyit"
+        },
+        {
+          "publisher": "Teyit",
+          "link": "https://en.teyit.org/fact-check",
+          "title": "Fact-check - Teyit"
+        },
+        {
+          "publisher": "Teyit",
+          "link": "https://en.teyit.org/teyitpedia",
+          "title": "#teyitpedia - Teyit"
+        },
+        {
+          "publisher": "Teyit",
+          "link": "https://teyit.org/vaat-kontrolu/universitelilere-10-gb-ucretsiz-internet-vaadinde-son-durum-ne",
+          "title": "Üniversitelilere 10 GB ücretsiz internet vaadinde son durum ne? - Teyit"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/",
+          "title": "Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/Samad-UTHMAN",
+          "title": "Samad UTHMAN | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/AFP-Europe",
+          "title": "AFP Europe | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/fact-checking-search-results",
+          "title": "Recherche | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/AFP-USA",
+          "title": "AFP USA | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/AFP-Canada",
+          "title": "AFP Canada | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/list/topics/141",
+          "title": "Topics | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/AFP-Factual",
+          "title": "AFP Factual | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/Contact",
+          "title": "Contact | Fact Check"
+        }
+      ],
+      "read_docs": [
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2023/08/22/%D9%85%D8%A7-%D8%AF%D9%82%D8%A9-%D8%A7%D9%84%D8%AF%D9%84%D8%A7%D8%A6%D9%84-%D8%A7%D9%84%D8%AA%D9%8A-%D8%AA%D8%B4%D9%8A%D8%B1-%D8%A5%D9%84-%D9%88%D8%AC%D9%88%D8%AF-%D9%85%D9%88%D9%82%D8%B9-%D8%A5%D9%84%D9%83%D8%AA%D8%B1%D9%88%D9%86%D9%8A-%D9%8A%D8%B3%D8%AA%D9%87%D8%AF%D9%81-%D8%A7%D9%84%D8%B3%D9%88%D8%B1%D9%8A%D9%8A%D9%86-%D9%81%D9%8A-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 5291,
+          "excerpt_chars": 1689,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%8A%D8%B5%D9%88%D8%B1-%D9%85%D8%AF%D8%A7%D9%87%D9%85%D8%A7%D8%AA-%D9%81%D9%8A-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D8%B9%D8%A7%D9%85-2024%D8%8C/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 226,
+          "excerpt_chars": 226,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Teyit",
+          "link": "https://teyit.org/dosya/turkiyenin-internet-hizi-veriler-ne-soyluyor",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 298,
+          "excerpt_chars": 298,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/sites/default/files/2026-04/afp_digital_investigation_annual_report_2025.pdf",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 136,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "verify-sy.com",
+          "link": "https://www.verify-sy.com/ar/factcheck/2507112136",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 2349,
+          "excerpt_chars": 1646,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Tdapartment",
+          "link": "https://www.tdapartment.com/post/%D8%A7%D9%84%D8%A7%D8%B4%D8%AA%D8%B1%D8%A7%D9%83-%D8%A8%D8%AE%D8%AF%D9%85%D8%A9-%D8%A7%D9%84%D8%A5%D9%86%D8%AA%D8%B1%D9%86%D8%AA-%D8%A7%D9%84%D9%85%D9%86%D8%B2%D9%84%D9%8A-%D9%88%D8%A7%D9%84%D9%81%D8%B6%D8%A7%D8%A6%D9%8A-%D9%81%D9%8A-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 3533,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Turk",
+          "link": "https://turk.wiki/%D8%A3%D9%81%D8%B6%D9%84-5-%D8%B4%D8%B1%D9%83%D8%A7%D8%AA-%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D8%B1%D9%86%D8%AA-%D9%81%D9%8A-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 3759,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Starlink-syria",
+          "link": "https://starlink-syria.com/en/blog/starlink-syria-guide/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 14260,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Yallasyrianews",
+          "link": "https://yallasyrianews.com/a/51187",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 8628,
+          "excerpt_chars": 1794,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "اليوم السابع",
+          "link": "https://www.youm7.com/story/2026/8/10/%D8%A3%D9%88%D8%B1%D9%88%D8%A8%D8%A7-%D8%AA%D8%B7%D9%84%D9%82-%D8%B3%D8%AA%D8%A7%D8%B1%D9%84%D9%8A%D9%86%D9%83-%D8%A7%D9%84%D8%AE%D8%A7%D8%B5%D8%A9-%D8%A8%D9%87%D8%A7-%D9%85%D8%B4%D8%B1%D9%88%D8%B9-%D9%81%D8%B6%D8%A7%D8%A6%D9%8A-%D8%B6%D8%AE%D9%85-%D9%8A%D8%AF%D8%AE%D9%84-%D9%85%D8%B1%D8%AD%D9%84%D8%A9/7507706",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 3445,
+          "excerpt_chars": 1373,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Evrak",
+          "link": "https://evrak.co/post/330/%D8%A3%D9%81%D8%B6%D9%84-10-%D9%85%D9%86-%D8%B4%D8%B1%D9%83%D8%A7%D8%AA-%D8%A7%D9%84%D8%A5%D9%86%D8%AA%D8%B1%D9%86%D8%AA-%D9%81%D9%8A-%D8%AA",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 12420,
+          "excerpt_chars": 220,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "وردنا",
+          "link": "https://waradana.com/article/253456-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86%D9%8A%D9%88%D9%86-%D9%8A%D9%84%D8%AC%D8%A3%D9%88%D9%86-%D8%A5%D9%84%D9%89-%D8%A8%D8%AF%D8%A7%D8%A6%D9%84-%D9%84%D8%AA%D8%AC%D8%A7%D9%88%D8%B2-%D8%AD%D8%AC%D8%A8-%D8%A7%D9%84%D8%A5%D9%86%D8%AA%D8%B1%D9%86%D8%AA",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 3618,
+          "excerpt_chars": 1571,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        }
+      ],
+      "docs_before": 13,
+      "docs_after": 12,
+      "verdict": "not_found",
+      "primary_source": false,
+      "icon": "🔍",
+      "evidence": [],
+      "correction": null,
+      "refuted_by": null,
+      "nearest": null,
+      "note": "",
+      "named_as": null,
+      "image_candidates": [],
+      "sources_read": 12,
+      "dropped_reason": "لا أثر ولا حدث قريب موثَّق",
+      "model_calls": 1
+    },
+    {
+      "id": "2fc12426d64f",
+      "text": "عدد مستخدمي الإنترنت في تركيا بلغ نحو 77.5 مليون مستخدم",
+      "claim": "عدد مستخدمي الإنترنت في تركيا بلغ نحو 77.5 مليون مستخدم",
+      "framing": "direct",
+      "circulating_context": "",
+      "asserted": "",
+      "queries": [
+        "مستخدمي الإنترنت تركيا 77.5 مليون تحقق",
+        "مستخدمو الإنترنت تركيا 77.5 مليون 88%",
+        "Turkey internet users 77.5 million 88 percent",
+        "Türkiye internet kullanıcı sayısı 77.5 milyon"
+      ],
+      "site_queries": [
+        "مستخدمو الإنترنت تركيا 77.5 مليون 88% تحقق site:misbar.com",
+        "مستخدمو الإنترنت تركيا 77.5 مليون 88% تحقق site:fatabyyano.net",
+        "Türkiye internet kullanıcı sayısı 77.5 milyon teyit site:teyit.org",
+        "Turkey internet users 77.5 million 88 percent fact check site:factcheck.afp.com"
+      ],
+      "engines": [
+        "brave_web",
+        "google_news"
+      ],
+      "windows": [
+        "days",
+        "wide",
+        "unrestricted",
+        "days",
+        "wide",
+        "unrestricted",
+        "days",
+        "wide",
+        "days",
+        "wide"
+      ],
+      "brave_skipped": null,
+      "checker_skipped": [
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/en/factcheck",
+          "title": "Factcheck landing page"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/en/",
+          "title": "موقع مكافحة الأخبار والمعلومات الكاذبة مسبار"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2024/09/08/%D9%85%D8%A7-%D9%85%D8%AF-%D8%AF%D9%82%D8%A9-%D8%AA%D8%AD%D9%82%D9%8A%D9%82-%D8%A5%D9%8A%D9%83%D8%A7%D8%AF-%D8%AD%D9%88%D9%84-%D8%A7%D8%AF%D8%B9%D8%A7%D8%A6%D9%87%D8%A7-%D9%88%D8%AC%D9%88%D8%AF-%D8%B4%D8%A8%D9%83%D8%A9-%D9%85%D9%86-%D8%A7%D9%84%D9%84%D8%AC%D8%A7%D9%86-%D8%A7%D9%84%D8%B3%D9%88%D8%B1%D9%8A%D8%A9-%D8%A7%D9%84%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84%D9%8A%D8%A9",
+          "title": "ما مدى دقة تحقيق إيكاد حول ادعائها وجود شبكة من &quot;اللجان السورية الإسرائيلية&quot;؟"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2025/11/02/%D9%85%D8%A4%D8%B4%D8%B1-%D9%85%D8%B3%D8%A8%D8%A7%D8%B1-%D9%84%D8%A3%D8%A8%D8%B1%D8%B2-%D8%A7%D9%84%D8%A3%D8%AE%D8%A8%D8%A7%D8%B1-%D8%A7%D9%84%D8%B2%D8%A7%D8%A6%D9%81%D8%A9-%D9%81%D9%8A-%D8%A3%D9%83%D8%AA%D9%88%D8%A8%D8%B1-2025",
+          "title": "مؤشر مسبار لأبرز الأخبار الزائفة في أكتوبر 2025"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2023/09/26/%D8%B4%D8%A7%D8%A6%D8%B9%D8%A9-%D8%A7%D9%86%D9%82%D8%B7%D8%A7%D8%B9-%D8%A7%D9%84%D8%A5%D9%86%D8%AA%D8%B1%D9%86%D8%AA-%D9%81%D9%8A-%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85-%D8%AA%D8%BA%D8%B2%D9%88-%D9%85%D9%88%D8%A7%D9%82%D8%B9-%D8%A7%D9%84%D8%AA%D9%88%D8%A7%D8%B5%D9%84-%D9%85%D8%AC%D8%AF%D8%AF%D8%A7",
+          "title": "شائعة انقطاع الإنترنت في العالم تغزو مواقع التواصل مجدّدًا"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2023/09/27/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%84%D8%AE%D8%A8%D8%B1-%D8%A7%D9%86%D9%82%D8%B7%D8%A7%D8%B9-%D8%A7%D9%84%D8%A5%D9%86%D8%AA%D8%B1%D9%86%D8%AA-%D8%B9%D9%86-%D8%B4%D8%B1%D9%83%D8%A7%D8%AA-%D8%B9%D8%A7%D9%84%D9%85%D9%8A%D8%A9-%D8%B9%D8%A7%D9%85-2021-%D9%88%D9%84%D9%8A%D8%B3-%D8%AD%D8%AF%D9%8A%D8%AB%D8%A7",
+          "title": "الفيديو لخبر انقطاع الإنترنت عن شركات عالمية عام 2021 وليس حديثًا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/",
+          "title": "الرئيسة - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/our-methodology/",
+          "title": "آلية العمل- Fatabyyano Methodology - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D8%AA%D9%82%D8%AF%D9%85-%D9%85%D9%86-%D9%85%D9%86%D8%B2%D9%84%D9%83-%D9%88%D8%A7%D8%AD%D8%B5%D9%84-%D8%B9%D9%84%D9%89-1-000-000-%D8%AF%D9%88%D9%84%D8%A7%D8%B1-%D9%81%D9%8A-5-%D8%AB%D9%88%D8%A7%D9%86/",
+          "title": "تقدم من منزلك واحصل على 1.000.000 دولار في 5 ثوان - مسابقات زائفة تنتشر بهذه الصياغة! - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/funding-transparency/",
+          "title": "Funding Transparency - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D8%AF%D9%84%D9%8A%D9%84-%D9%81%D8%AA%D8%A8%D9%8A%D9%86%D9%88%D8%A7/",
+          "title": "دليل فتبينوا - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/fatabyyano-team/",
+          "title": "من نحن - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/correction_policy/",
+          "title": "سياسة التصحيح - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D9%87-%D8%A7%D9%84%D8%A5%D8%AD%D8%B5%D8%A7%D8%A6%D9%8A%D8%A9-%D8%B2%D8%A7%D8%A6%D9%81%D8%A9%D8%8C-%D9%88%D8%AA%D9%82%D8%B1%D9%8A%D8%B1-%D8%A7%D9%84%D8%A3%D9%85%D9%85-%D8%A7%D9%84%D9%85/",
+          "title": "هذه الإحصائية زائفة، وتقرير الأمم المتحدة يبيّن أن عدد الذكور في العالم يفوق عدد الإناث - فتبينوا"
+        },
+        {
+          "publisher": "Teyit",
+          "link": "https://cdn.teyit.org/wp-content/uploads/2019/08/nihai_ced_istanbul.pdf",
+          "title": "AK-TEL MÜHENDİSLİK EĞT.TUR.GD.SAN.TİC.LTD. ŞTİ."
+        },
+        {
+          "publisher": "Teyit",
+          "link": "https://cdn.teyit.org/wp-content/uploads/2016/12/dogrulama_el_kitabi-baski.pdf",
+          "title": "Doğrulama El Kitabı"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/",
+          "title": "Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/fact-checking-search-results",
+          "title": "Recherche | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/AFP-Europe",
+          "title": "AFP Europe | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/AFP-USA",
+          "title": "AFP USA | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/list/topics/141",
+          "title": "Topics | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/How-we-work",
+          "title": "How we work | Fact Check"
+        }
+      ],
+      "read_docs": [
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2023/08/22/%D9%85%D8%A7-%D8%AF%D9%82%D8%A9-%D8%A7%D9%84%D8%AF%D9%84%D8%A7%D8%A6%D9%84-%D8%A7%D9%84%D8%AA%D9%8A-%D8%AA%D8%B4%D9%8A%D8%B1-%D8%A5%D9%84-%D9%88%D8%AC%D9%88%D8%AF-%D9%85%D9%88%D9%82%D8%B9-%D8%A5%D9%84%D9%83%D8%AA%D8%B1%D9%88%D9%86%D9%8A-%D9%8A%D8%B3%D8%AA%D9%87%D8%AF%D9%81-%D8%A7%D9%84%D8%B3%D9%88%D8%B1%D9%8A%D9%8A%D9%86-%D9%81%D9%8A-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 5291,
+          "excerpt_chars": 1689,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%8A%D8%B5%D9%88%D8%B1-%D9%85%D8%AF%D8%A7%D9%87%D9%85%D8%A7%D8%AA-%D9%81%D9%8A-%D8%AA%D8%B1%D9%83%D9%8A%D8%A7-%D8%B9%D8%A7%D9%85-2024%D8%8C/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 226,
+          "excerpt_chars": 226,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Teyit",
+          "link": "https://teyit.org/dosya/turkiyenin-internet-hizi-veriler-ne-soyluyor",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 295,
+          "excerpt_chars": 295,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/sites/default/files/2026-04/afp_digital_investigation_annual_report_2025.pdf",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 136,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "Daily Sabah",
+          "link": "https://www.dailysabah.com/turkiye/internet-use-in-turkiye-rises-to-923-in-2026-survey/news/amp",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2694,
+          "excerpt_chars": 1245,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "TAGHRIB",
+          "link": "https://www.taghribnews.com/en/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2865,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Global Digital Insights",
+          "link": "https://datareportal.com/reports/digital-2026-turkey",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 20000,
+          "excerpt_chars": 1800,
+          "same_event": true,
+          "as_of": "end of 2025",
+          "claim_review": null,
+          "stance": "supports"
+        },
+        {
+          "publisher": "TRADING ECONOMICS",
+          "link": "https://tradingeconomics.com/turkey/individuals-using-the-internet-percent-of-population-wb-data.html",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 7024,
+          "excerpt_chars": 535,
+          "same_event": false,
+          "as_of": "2024",
+          "claim_review": null,
+          "stance": "related_other"
+        },
+        {
+          "publisher": "Adapte Dijital",
+          "link": "https://adaptedijital.com/gorunurluk-rehberi/rakamlarla-dijital-gorunurluk/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 10185,
+          "excerpt_chars": 1800,
+          "same_event": true,
+          "as_of": "Ekim 2025",
+          "claim_review": null,
+          "stance": "supports"
+        },
+        {
+          "publisher": "Tridens",
+          "link": "https://tridenstechnology.com/social-media-statistics/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 20000,
+          "excerpt_chars": 1615,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Hürriyet Daily News",
+          "link": "https://www.hurriyetdailynews.com/internet-usage-in-turkiye-reaches-89-pct-survey-200004",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 1870,
+          "excerpt_chars": 1411,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "related_other"
+        },
+        {
+          "publisher": "Yeni Akit",
+          "link": "https://www.yeniakit.com.tr/haber/turkiyede-internet-kullanan-abone-sayisi-belli-oldu-2025803.html",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 1786,
+          "excerpt_chars": 1786,
+          "same_event": false,
+          "as_of": "",
+          "claim_review": null,
+          "stance": "related_other"
+        }
+      ],
+      "docs_before": 17,
+      "docs_after": 12,
+      "verdict": "confirmed",
+      "primary_source": true,
+      "icon": "✅",
+      "evidence": [
+        {
+          "publisher": "Global Digital Insights",
+          "link": "https://datareportal.com/reports/digital-2026-turkey",
+          "stance": "supports",
+          "excerpt": "There were 77.5 million individuals using the internet in Turkey at the end of 2025, when online penetration stood at 88.3 percent.",
+          "detail": "",
+          "correct_form": "",
+          "as_of": "end of 2025"
+        },
+        {
+          "publisher": "Adapte Dijital",
+          "link": "https://adaptedijital.com/gorunurluk-rehberi/rakamlarla-dijital-gorunurluk/",
+          "stance": "supports",
+          "excerpt": "DataReportal ise tüm nüfusu esas alarak Ekim 2025 itibarıyla 77,5 milyon kullanıcı ve %88,3 kullanım oranı veriyor.",
+          "detail": "",
+          "correct_form": "",
+          "as_of": "Ekim 2025"
+        }
+      ],
+      "correction": null,
+      "refuted_by": null,
+      "nearest": null,
+      "note": "",
+      "named_as": null,
+      "image_candidates": [],
+      "sources_read": 12,
+      "dropped_reason": null,
+      "model_calls": 1
+    }
+  ]
+}

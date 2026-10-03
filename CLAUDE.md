@@ -1415,6 +1415,29 @@ g1–g30 بلا تعديل، وأُضيفت g31–g35 قبل الكود.
   `tests/test_important.py` (نص #1209 بوثائق التشغيل الثامن؛ نص #1201 بوثائق السابع يبقى في `test_important_1207` بلا تعديل).
   `helpers.important_stance` يقبل `detail_kind` (يُرسَل عند تمريره وحده).
 
+**المهمة 2 (Issue #1217) — من الوسم إلى قضية الترشيح (المرحلة 1).** وحدة جديدة `src/important_issue.py`؛ لا `article.py`
+ولا `.github/workflows/`؛ g1–g35 بلا تعديل. الكتابة وقراءة الاختيارات المهمة 3.
+- **نقطة الدخول:** `python -m src.important --issue N` (بلا `--judge-only`، وهو يبقى كما هو) ← `important_issue.run`.
+  الملف يحمل `body_hash` (`important.body_hash`: sha1 بعد تطبيع المسافات). نص بالبصمة نفسها (والملف بلا `error`) ← يُعاد
+  استعمال الحكم بلا أي نداء نموذج أو Brave؛ نص متغيّر ← `judge` جديد يستبدل الملف. إن كانت `selection_issue` المحفوظة مفتوحة
+  فلا قضية جديدة (تعليق برابطها على N فقط)؛ مغلقة أو غائبة ← تُفتح قضية جديدة. بلا نقطة معروضة لا تُفتح قضية.
+- **حالة النقطة في الملف:** `status` = `offered` (تُعرض) أو `dropped` (لها `dropped_reason`) — `important.mark_status` — و`selection_issue`
+  (رقم القضية للمعروضة، `null` للساقطة)، وللملف `selection_issue` أيضًا. `refuted_by[*]` صار يحمل `verdict_label` (لعرض «حكم: …»).
+- **قضية الترشيح:** وسم `important-selection` (في `review.ensure_labels`)، العنوان «📌 هام — ترشيح من #N: <أول
+  `important.selection_title_chars` حرفًا من عنوان أول نقطة معروضة>». الجسم `important_issue.build_selection_body` بالوحدة المشتركة
+  (`stages.stage_header(1)` + `explainer_stage1` + «المصدر: نصّك في #N» ثم لكل نقطة بلا مربع فوقها: «**k. العنوان**» (claim، وعنوان
+  `nearest` في not_found) ← «🏷️ الشارة · أيقونة الحكم اسمه» (`important.badges`/`verdict_names`؛ مفتاح `"false"` بين علامتي اقتباس
+  وإلا قرأه YAML منطقيًا) ← «↳ كما ورد عندك» (`circulating_context` أو `asserted`، وللـnearest نص النقطة الأصلي) ← الأدلة ← الصورة
+  (أول `image_candidates` بـhttp(s)، `<img width="520">` + 🖼️ بنطاقه، وإلا «بلا صورة من المصادر · بحث الويب لاحقًا») ←
+  `stages.image_field` ← `stages.options_block(1, id, has_stage1=False)`)، ثم `<details>` الساقطة بلا مربعات، ثم التذييل المعتاد.
+  الأدلة: confirmed حتى `selection_support_sources` (3) مؤيِّدة، والجهة الأصلية أولًا وبعلامتها؛ inaccurate «الخطأ ← الصحيح (as_of)» +
+  مصدران؛ false «كذّبها: …(حكم)(جهة تدقيق)»؛ not_found بـnearest «لا أثر للنقطة كما وردت. الأقرب:» + الوصف + مصدراه.
+- **التعليق على N:** رابط القضية + جدول (النقطة ← الحكم) + «سقط: n».
+- **`publish.main`:** `important-selection` + `approved` ← تعليق واحد «اختيارات «هام» تُنفَّذ بعد اكتمال المهمة 3…» (من المسار السريع
+  وحده لأن `publish.yml` يشغّل المسارين) ثم يعود؛ لا إغلاق ولا إزالة وسم ولا قرارات. **المهمة 3 تستبدل هذا الفرع.**
+- **الاختبارات:** `test_important_1217` في `tests/test_important.py` على `important.main` بـGitHub مزيَّف وملفّي #1209/#1201 الحقيقيين
+  نسخةً ثابتة في `tests/fixtures/important/` بدل الحكم.
+
 ## Retired paths
 
 - **`src/verify.py`** (Issue #1068) — the fact-check-a-pasted-article path is retired for good; the
