@@ -1,0 +1,68 @@
+name: 📌 مسار هام
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: trendnews-important-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  important:
+    if: github.event.label.name == 'هام'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: سحب المستودع
+        uses: actions/checkout@v4
+
+      - name: تحقق من صلاحية من أضاف الوسم
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ACTOR: ${{ github.event.sender.login }}
+          REPO: ${{ github.repository }}
+        run: |
+          perm=$(curl -sf -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${REPO}/collaborators/${ACTOR}/permission" \
+            | python3 -c "import json,sys; print(json.load(sys.stdin).get('permission',''))")
+          echo "صلاحية ${ACTOR}: ${perm:-تعذّر الاستعلام}"
+          case "$perm" in
+            admin|maintain|write) ;;
+            *) echo "❌ لا صلاحية كتابة كافية"; exit 1 ;;
+          esac
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: تثبيت المكتبات
+        run: pip install -r requirements.txt
+
+      - name: الحكم وفتح قضية الترشيح
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python -m src.important --issue ${{ github.event.issue.number }}
+
+      - name: حفظ الحالة
+        if: always()
+        run: |
+          git config user.name  "trendnews-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A state/important state/brave_usage.json
+          git diff --quiet --cached && exit 0
+          git commit -m "chore(important): حكم «هام» #${{ github.event.issue.number }}"
+          for i in 1 2 3 4 5; do
+            git pull --rebase --autostash -X theirs origin "${GITHUB_REF_NAME}" || git rebase --abort || true
+            git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            sleep $((i * 7))
+          done
+          exit 1
