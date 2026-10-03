@@ -1526,3 +1526,115 @@ def test_important_1212() -> None:
     # (d) مسار «مقال» لا يعرف الذاكرة
     check("(d) article.py لا يعرف ذاكرة البحث (مسار «مقال» لم يُمَسّ)",
           "search_cache.json" not in inspect.getsource(article))
+
+
+def test_important_1214() -> None:
+    """المهمة 1ط (Issue #1214): نص #1209 بوثائق التشغيل الثامن كما في read_docs —
+    (2) تاريخ خاطئ يُصحَّح من BBC/DW/ويكيبيديا رغم as_of 2021، و(3) نفي مدقّقَين صريح
+    لا تحجبه ثلاثة conflicts_detail. (b) نص #1201 بوثائق التشغيل السابع في
+    test_important_1207 وبلا أي تعديل (لا تراجع)."""
+    import inspect
+    from src import article, important
+
+    cfg = load_config()
+    icfg = cfg.path("important")
+    texts = [
+        "اكتشاف أبعد مجرة معروفة حتى الآن باسم JADES-GS-z14-0 باستخدام تلسكوب جيمس ويب الفضائي",
+        "تم إطلاق تلسكوب جيمس ويب الفضائي بنجاح في 25 ديسمبر 2023",
+        "أكدت وكالة ناسا أن الشمس ستشرق من المغرب قريبا بسبب انعكاس مفاجئ في المجال المغناطيسي للأرض",
+        "وقعت وكالة الفضاء الأوروبية عقدا حصريا لاستخراج الألماس من الغلاف الجوي لكوكب نبتون بحلول عام 2030",
+    ]
+    points = [
+        {"claim": texts[0], "entities": ["مجرة"], "queries": [_q("ar", "مجرة JADES-GS-z14-0 جيمس ويب")]},
+        {"claim": texts[1], "entities": ["إطلاق"], "dates": ["25 ديسمبر 2023"],
+         "queries": [_q("ar", "تاريخ إطلاق تلسكوب جيمس ويب")]},
+        {"claim": texts[2], "entities": ["الشمس"], "queries": [_q("ar", "ناسا الشمس ستشرق من المغرب")]},
+        {"claim": texts[3], "entities": ["نبتون"], "queries": [_q("ar", "الألماس نبتون الفضاء الأوروبية")]},
+    ]
+    docs = {
+        "مجرة": [important_doc(n, f"{n}: اكتُشفت المجرة JADES-GS-z14-0 بتلسكوب جيمس ويب، وهو خبر مستقل {i}.")
+                 for i, n in enumerate(("RT Arabic", "Khabaragency", "Sky News Arabia"))],
+        "إطلاق": [
+            important_doc("BBC", "BBC: أُطلق التلسكوب في 25 ديسمبر 2021 من غويانا الفرنسية.",
+                          link="https://www.bbc.com/arabic/science-and-tech-62645267"),
+            important_doc("DW", "DW: أُطلق التلسكوب يوم 25 ديسمبر 2021 بصاروخ آريان 5.",
+                          link="https://www.dw.com/ar/telescope-launch"),
+            important_doc("Wikipedia", "Wikipedia: launched December 25, 2021 from Kourou.",
+                          link="https://arz.wikipedia.org/wiki/telescope"),
+        ],
+        "الشمس": [
+            important_doc("Fatabyyano", "وكالة ناسا لعلوم الفضاء تؤكّد اقتراب شروق الشمس من مغربها!..خبر كاذب.",
+                          link="https://fatabyyano.net/en/nasa-sun-west/"),
+            important_doc("The Last Crescent", "The sun rises in the east. However, this is completely incorrect.",
+                          link="https://www.thelastcrescent.com/sunrise-from-the-west"),
+            important_doc("Falestinona", "تحذير يتداوله ناشرون عن وكالة الفضاء الأوروبية حول الشمس.",
+                          link="https://www.falestinona.com/flst/Art/47785"),
+            important_doc("Gerasa News", "فيديو يحذر من شروق الشمس من مغربها نقلًا عن الفضاء الأوروبية.",
+                          link="https://www.gerasanews.com/print/254682"),
+            important_doc("Hibazoom", "مقال يزعم تحذيرًا من وكالة الفضاء الأوروبية بشأن الشمس.",
+                          link="https://www.hibazoom.com/article-79865/"),
+        ],
+        "نبتون": [important_doc(n, f"{n}: تقرير عن الألماس والكواكب لا يذكر عقدًا.", link=f"https://{n}.example/a")
+                  for n in ("RT Arabic 2", "TASS")],
+    }
+    dates = {"BBC": "25 ديسمبر 2021", "DW": "25 ديسمبر 2021", "Wikipedia": "December 25, 2021"}
+
+    def classify(point, names):
+        out = []
+        for n in names:
+            if "JADES" in point:
+                out.append(important_stance(n, "supports", "المجرة JADES-GS-z14-0"))
+            elif "ديسمبر 2023" in point:
+                out.append(important_stance(n, "conflicts_detail", dates[n], detail="تاريخ الإطلاق",
+                                            correct_form=dates[n], as_of="2021", detail_kind="date"))
+            elif "ناسا" in point and n == "Fatabyyano":
+                out.append(important_stance(n, "refutes", "خبر كاذب", verdict_label="False"))
+            elif "ناسا" in point and n == "The Last Crescent":
+                out.append(important_stance(n, "refutes", "However, this is completely incorrect.",
+                                            verdict_label=""))
+            elif "ناسا" in point:
+                out.append(important_stance(n, "conflicts_detail", "وكالة الفضاء الأوروبية",
+                                            detail="الجهة المصدرة", correct_form="وكالة الفضاء الأوروبية",
+                                            detail_kind="name"))
+            else:
+                out.append(important_stance(n, "irrelevant"))
+        return {"sources": out}
+
+    with ImportantRig(points, docs, classify):
+        important.judge("\n".join(texts), 98014, cfg)
+    saved = important.load_saved(98014)
+    p1, p2, p3, p4 = saved["points"]
+
+    cor = p2["correction"] or {}
+    check("(a) (1) ← confirmed", p1["verdict"] == "confirmed", p1["verdict"])
+    check("(a) (2) ← inaccurate بتصحيح 2021 ومصادر BBC/DW/ويكيبيديا وdetail_kind=date",
+          p2["verdict"] == "inaccurate" and "2021" in cor.get("correct", "")
+          and cor.get("detail_kind") == "date"
+          and {s["publisher"] for s in cor["sources"]} == {"BBC", "DW", "Wikipedia"},
+          p2["correction"])
+    refuted = p3["refuted_by"] or []
+    check("(a) (3) ← false بفتبينوا (fatabyyano.net) ومصدر مستقل ثانٍ رغم ثلاثة conflicts_detail",
+          p3["verdict"] == "false" and len(refuted) == 2
+          and any("fatabyyano.net" in r["link"] for r in refuted),
+          (p3["verdict"], p3["note"], refuted))
+    check("(a) (4) ← not_found وسقطت (لا أثر)",
+          p4["verdict"] == "not_found" and p4["dropped_reason"] == important.NO_TRACE_REASON,
+          (p4["verdict"], p4["dropped_reason"]))
+    print("جدول (a) #1214:")
+    for i, p in enumerate(saved["points"], 1):
+        extra = ((p["correction"]["correct"], [s["publisher"] for s in p["correction"]["sources"]])
+                 if p["correction"] else [r["publisher"] for r in p["refuted_by"] or []])
+        print("  ", f"({i})", p["text"][:45], "←", p["verdict"], "←", extra)
+
+    # تطبيع التواريخ بقيمتها
+    ds = ("25 ديسمبر 2021", "2021-12-25", "December 25, 2021", "٢٥ كانون الأول 2021")
+    check("(a) «25 ديسمبر 2021» = «2021-12-25» = «December 25, 2021» = بالأرقام الهندية",
+          len({important.parse_date(d, icfg) for d in ds}) == 1
+          and important.parse_date(ds[0], icfg) == (2021, 12, 25),
+          [important.parse_date(d, icfg) for d in ds])
+    check("(a) تاريخان مختلفان (25 ثم 26 ديسمبر) لا يتفقان",
+          not important._agree_kind("25 ديسمبر 2021", "26 ديسمبر 2021", "date", icfg))
+
+    # (c) مسار «مقال» لم يُمَسّ
+    check("(c) article.py لا يعرف detail_kind (مسار «مقال» لم يُمَسّ)",
+          "detail_kind" not in inspect.getsource(article))

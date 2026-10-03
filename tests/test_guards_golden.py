@@ -1323,3 +1323,78 @@ def test_important_false_guard() -> None:
           p30["verdict"] != "false" and not p30.get("refuted_by")
           and {e["stance"] for e in p30["evidence"]} == {"supports"},
           (p30["verdict"], p30["evidence"]))
+
+    # ── Issue #1214 (المهمة 1ط): g31–g35 تُكتب قبل أي كود ──
+    # «أدلة متعارضة» تُحسب من supports الصريحة وحدها؛ وشرط as_of للأرقام وحدها (detail_kind)
+    sun = {"claim": "@ أكدت أن الشمس ستشرق من المغرب"}
+    refuters_1214 = ["صحيفة الشرق", "موقع الغرب"]
+    conflictors_1214 = ["وكالة الشمال", "قناة الجنوب", "مجلة الوسط"]
+
+    def mixed(case: int, refute: list[str], conflict: list[str], support: list[str]):
+        stance_of = {**{n: "refutes" for n in refute}, **{n: "conflicts_detail" for n in conflict},
+                     **{n: "supports" for n in support}}
+        docs = [important_doc(n, ("مصدر مستقل يكتب: " + denial) if s == "refutes"
+                              else f"تقرير {n} مستقل عن الشمس والمغرب والأرصاد.")
+                for n, s in stance_of.items()]
+
+        def fn(pt, names):
+            out = []
+            for n in names:
+                s = stance_of[n]
+                out.append(important_stance(
+                    n, s, cut if s == "refutes" else "الشمس تشرق من المشرق",
+                    detail="جهة الشروق", correct_form="الشمس تشرق من المشرق",
+                    detail_kind="other") if s != "supports" else important_stance(
+                    n, s, "الشمس والمغرب"))
+            return {"sources": out}
+        return run_claim(case, sun, docs, fn)
+
+    p31 = mixed(31, refuters_1214, conflictors_1214, [])
+    check("(g31) نافيان مستقلان + ثلاثة conflicts_detail متفقة + صفر supports ⇒ false",
+          p31["verdict"] == "false" and len(p31.get("refuted_by") or []) == 2,
+          (p31["verdict"], p31.get("note")))
+
+    p32 = mixed(32, refuters_1214, [], ["مجلة الوسط", "قناة الجنوب"])
+    check("(g32) نافيان مستقلان + مؤيدان مستقلان ⇒ لا false («أدلة متعارضة»)",
+          p32["verdict"] != "false" and "أدلة متعارضة" in (p32.get("note") or ""),
+          (p32["verdict"], p32.get("note")))
+
+    p33 = mixed(33, ["صحيفة الشرق"], conflictors_1214, [])
+    check("(g33) نافٍ واحد غير مدقّق + ثلاثة conflicts_detail ⇒ لا false",
+          p33["verdict"] != "false" and not p33.get("refuted_by"),
+          (p33["verdict"], p33.get("refuted_by")))
+
+    # g34) نقطة تاريخ: التصحيح يسري رغم as_of 2021 ≠ زمن النقطة (الخطأ هو التاريخ نفسه)
+    launch = {"claim": "أُطلق تلسكوب @ في 25 ديسمبر 2023", "dates": ["25 ديسمبر 2023"]}
+    date_forms = {"موقع الأرقام": "25 ديسمبر 2021", "صحيفة الشرق": "December 25, 2021"}
+
+    def conflict_date(pt, names):
+        return {"sources": [important_stance(
+            n, "conflicts_detail", date_forms[n], detail="تاريخ الإطلاق",
+            correct_form=date_forms[n], as_of="2021", detail_kind="date") for n in names]}
+
+    p34 = run_claim(34, launch, [
+        important_doc(n, f"أُطلق التلسكوب في {t} من غويانا الفرنسية.") for n, t in date_forms.items()],
+        conflict_date)
+    check("(g34) تاريخ «25 ديسمبر 2023» ومصدران مستقلان detail_kind=date بـ2021 ⇒ inaccurate بتصحيح 2021",
+          p34["verdict"] == "inaccurate"
+          and "2021" in (p34.get("correction") or {}).get("correct", "")
+          and (p34.get("correction") or {}).get("detail_kind") == "date",
+          (p34["verdict"], p34.get("correction")))
+
+    # g35) رقم إحصائي: شرط as_of باقٍ
+    stat = {"claim": "بلغ عدد سكان @ في نهاية 2025 نحو 85.7 مليون نسمة",
+            "numbers": ["85.7 مليون"], "dates": ["نهاية 2025"]}
+
+    def conflict_num(pt, names):
+        return {"sources": [important_stance(
+            n, "conflicts_detail", "86.1 مليون", detail="العدد غير دقيق",
+            correct_form="86.1 مليون", as_of="أكتوبر 2026", detail_kind="number")
+            for n in names]}
+
+    p35 = run_claim(35, stat, [
+        important_doc(n, "بلغ عدد السكان 86.1 مليون في أكتوبر 2026 بحسب الإحصاء.")
+        for n in ("موقع الأرقام", "صحيفة الشرق")], conflict_num)
+    check("(g35) رقم إحصائي ومصدران detail_kind=number لكن as_of لزمن آخر ⇒ لا inaccurate",
+          p35["verdict"] != "inaccurate" and not p35.get("correction"),
+          (p35["verdict"], p35.get("correction")))

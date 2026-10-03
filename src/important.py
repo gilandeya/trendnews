@@ -53,7 +53,8 @@ POINT_KINDS = ("واقعة", "تصريح", "تقرير منقول")
 # يُولَّد في الكود من same_event=false ولا يدخل inaccurate ولا confirmed ولا false
 STANCES = ("supports", "conflicts_detail", "refutes", "related_other", "irrelevant")
 # المواقف التي لا يُعتدّ بها إلا مع same_event=true
-EVENT_BOUND_STANCES = ("supports", "conflicts_detail", "refutes")
+DETAIL_KINDS = ("number", "date", "name", "place", "other")
+EVENT_BOUND_STANCES =("supports", "conflicts_detail", "refutes")
 
 CLAIM_REVIEW_PREFIX = "بيانات التدقيق المنظَّمة"
 
@@ -73,7 +74,8 @@ CLASSIFY_SYSTEM = f"""أنت تصنّف موقف كل مصدر من «نقطة»
   اسم/مكان/جهة) يخالف ما يقوله النص. اذكر في detail أي تفصيل، وفي
   correct_form الصيغة الصحيحة كما يرد في النص، وفي as_of التاريخ أو الفترة التي
   يخصّها ذلك الرقم في المصدر كما يرد فيه حرفيًا («نهاية 2025»، «1 أكتوبر 2025»)؛
-  رقم لفترة غير فترة النقطة لا يصحّح النقطة، فلا تُغفل as_of.
+  رقم لفترة غير فترة النقطة لا يصحّح النقطة، فلا تُغفل as_of. وحدّد detail_kind:
+  number (رقم إحصائي/حصيلة)، date (تاريخ الواقعة نفسها)، name، place، أو other.
 - refutes: النص **ينفي النقطة صراحةً** (يقول إنها لم تحدث أو إنها كاذبة/
   مفبركة/غير صحيحة). سكوت النص عنها ليس نفيًا، واختلاف تفصيل واحد ليس
   نفيًا (ذاك conflicts_detail). عند أدنى شك اختر irrelevant.
@@ -132,6 +134,7 @@ CLASSIFY_SCHEMA = {
                         "detail": {"type": "string"},
                         "correct_form": {"type": "string"},
                         "as_of": {"type": "string"},
+                        "detail_kind": {"type": "string", "enum": list(DETAIL_KINDS)},
                         "excerpt": {"type": "string"},
                         "verdict_label": {"type": "string"},
                     },
@@ -680,6 +683,49 @@ def _time_status(as_of: str, dates: list[str], icfg) -> str:
     return "match" if tags <= _period_tags(joined, icfg) else "other"
 
 
+# ───────────────────── نوع التفصيل (detail_kind) وتطبيع التواريخ (Issue #1214) ─────────────────────
+
+_ISO_DATE_RE = re.compile(r"(?<!\d)(\d{4})-(\d{1,2})-(\d{1,2})(?!\d)")
+_DAY_RE = re.compile(r"(?<!\d)(\d{1,2})(?!\d)")
+
+
+def _is_number_kind(kind: str) -> bool:
+    """شرط as_of (#1205) يسري على الأرقام وحدها. غياب الحقل (تصنيف قديم) يُعامَل رقمًا
+    إبقاءً للسلوك المتحفّظ السابق، لا إرخاءً للشرط عند غياب المعلومة."""
+    return str(kind or "").strip().lower() in ("", "number")
+
+
+def parse_date(text: str, icfg) -> tuple[int, int, int] | None:
+    """(سنة، شهر، يوم) من نص تاريخ بأي صيغة («25 ديسمبر 2021» / «2021-12-25» /
+    «December 25, 2021»)؛ None إن نقص أي مكوِّن فيُرجَع للمقارنة النصية القديمة."""
+    t = str(text or "").translate(_AR_DIGITS)
+    m = _ISO_DATE_RE.search(t)
+    if m:
+        y, mo, d = (int(g) for g in m.groups())
+        return (y, mo, d) if 1 <= mo <= 12 and 1 <= d <= 31 else None
+    ym = _YEAR_RE.search(t)
+    if not ym:
+        return None
+    month = None
+    for i, group in enumerate(icfg.get("month_names") or []):
+        variants = [v for w in group or [] if (v := " ".join(_WORD_RE.findall(_fold(w))))]
+        if variants and _mentions(t, variants):
+            month = i + 1
+            break
+    day = next((int(x) for x in _DAY_RE.findall(t[:ym.start()] + " " + t[ym.end():])
+                if 1 <= int(x) <= 31), None)
+    return (int(ym.group(1)), month, day) if month and day else None
+
+
+def _agree_kind(a: str, b: str, kind: str, icfg) -> bool:
+    """اتفاق صيغتي تصحيح: التواريخ بقيمتها إن حُلِّلت كاملةً (وإلا _agree)."""
+    if str(kind or "").strip().lower() == "date":
+        da, db = parse_date(a, icfg), parse_date(b, icfg)
+        if da and db:
+            return da == db
+    return _agree(a, b, icfg)
+
+
 # ───────────────────────────── الحكم (في الكود) ─────────────────────────────
 
 
@@ -703,13 +749,18 @@ def _pick_correction(conflicts: list[str], stances: dict[str, dict], pool: dict[
     icfg = cfg.get("important", {}) or {}
     min_confirm = int((cfg.get("article", {}) or {}).get("min_confirm_sources", 2))
     dates = (f or {}).get("dates") or []
-    status = {n: _time_status(stances[n].get("as_of", ""), dates, icfg) for n in conflicts}
+    # شرط as_of للأرقام وحدها (#1214): في التاريخ والاسم والمكان الخطأ هو التفصيل نفسه
+    # فزمن صيغته ليس شرطًا؛ يكفي اتفاق مصدرين مستقلين على correct_form
+    status = {n: (_time_status(stances[n].get("as_of", ""), dates, icfg)
+                  if _is_number_kind(stances[n].get("detail_kind", "")) else "free")
+              for n in conflicts}
     best_key, best = None, []
     for classes in (("match", "free"), ("absent",)):
         members = [n for n in conflicts if status[n] in classes]
         for anchor in members:
             cand = [n for n in members
-                    if _agree(stances[anchor]["correct_form"], stances[n]["correct_form"], icfg)]
+                    if _agree_kind(stances[anchor]["correct_form"], stances[n]["correct_form"],
+                                   stances[anchor].get("detail_kind", ""), icfg)]
             k = len(_independent_groups(cand, pool, cfg))
             if k < min_confirm:
                 continue
@@ -754,7 +805,9 @@ def decide(stances: dict[str, dict], pool: dict[str, dict], cfg, point: dict | N
                       and not _is_question(stances[n]["excerpt"]) for n in checkers)
     refute_ok = len(refute_groups) >= min_refute or checker_hit
 
-    event_documented = n_support >= min_confirm or bool(agreeing) or bool(primary)
+    # «حدث موثَّق» لقاعدة التعارض = تأييد صريح كافٍ وحده (#1214): conflicts_detail ليست
+    # تأييدًا للنقطة، وإلا حجبت ثلاثة مصادر تخالف «الشمس تشرق من المغرب» نفيَ مدقّقَين صريح
+    event_documented = n_support >= min_confirm or bool(primary)
     note = ""
     if refute_ok and not event_documented:
         refuted_by = [{"publisher": n, "link": pool[n].get("link", ""),
@@ -784,6 +837,7 @@ def decide(stances: dict[str, dict], pool: dict[str, dict], cfg, point: dict | N
                     "error": first["detail"], "correct": stances[best]["correct_form"],
                     "correct_value": format_value(best_value) if best_value is not None else None,
                     "as_of": stances[best].get("as_of", ""),
+                    "detail_kind": stances[best].get("detail_kind", "") or "number",
                     "sources": [{"publisher": n, "link": pool[n].get("link", ""),
                                  "excerpt": stances[n]["excerpt"],
                                  "as_of": stances[n].get("as_of", "")} for n in agreeing]}}
@@ -1605,6 +1659,9 @@ def _read_stances(data: dict, pool: dict[str, dict], f: dict | None = None,
                  "detail": str(item.get("detail") or "").strip(),
                  "correct_form": str(item.get("correct_form") or "").strip(),
                  "as_of": str(item.get("as_of") or "").strip(),
+                 "detail_kind": (str(item.get("detail_kind") or "").strip().lower()
+                                 if str(item.get("detail_kind") or "").strip().lower()
+                                 in DETAIL_KINDS else ""),
                  "verdict_label": label}
         # حكم المدقّق الصريح يغلب العنوان (#1207): للمدقّقين وحدهم، وعلى الحدث نفسه فقط.
         # «صحيح/Doğru» تأييد مهما بدا العنوان نفيًا (سؤال «هل يُظهر…؟»)، و«مضلِّل» مخالفة
@@ -1631,6 +1688,7 @@ def _read_stances(data: dict, pool: dict[str, dict], f: dict | None = None,
             entry["stance"] = "irrelevant"
             entry["raw_stance"] = stance
         elif (stance == "conflicts_detail" and f and icfg
+              and _is_number_kind(entry["detail_kind"])
               and _time_status(entry["as_of"], f.get("dates") or [], icfg) != "other"
               and _correction_within_margin(entry["correct_form"], f, icfg)):
             # «تصحيح» داخل هامش رقم النقطة نفسها تأييد لا مخالفة (#1205)
@@ -1736,12 +1794,14 @@ def judge_point(f: dict, topic: str, search: _PointSearch, cfg) -> dict:
     ev_names = [n for n, s in stances.items()
                 if s["stance"] not in ("irrelevant", "related_other")
                 and not (s["stance"] == "conflicts_detail"
+                         and _is_number_kind(s.get("detail_kind", ""))
                          and _time_status(s.get("as_of", ""), f.get("dates") or [], icfg) == "other")]
     evidence_rows = [{"publisher": n, "link": pool[n].get("link", ""),
                       "stance": stances[n]["stance"], "excerpt": stances[n]["excerpt"],
                       "detail": stances[n]["detail"],
                       "correct_form": stances[n]["correct_form"],
-                      "as_of": stances[n].get("as_of", "")} for n in ev_names]
+                      "as_of": stances[n].get("as_of", ""),
+                      "detail_kind": stances[n].get("detail_kind", "")} for n in ev_names]
     img_names = ev_names + [s["publisher"] for s in (nearest or {}).get("sources", [])]
 
     excerpt_by = {d["name"]: len(d["text"]) for d in view_docs}
