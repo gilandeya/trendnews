@@ -330,3 +330,113 @@ def badge_probe_xy(cfg, texts: list[str], index: int, headline: str) -> tuple[in
     (عاجل، التصنيف، شارة الأصل)، و`index` 0 = الأقصى يمينًا."""
     box = card_plan(cfg, headline, texts)["badges"][index]
     return box["x0"] + 10, (box["y0"] + box["y1"]) // 2
+
+
+# ───────────── عدّة مسار «هام» (Issue #1194): بحث وجلب ونموذج مزيَّفة ─────────────
+
+
+class ImportantRig:
+    """يثبّت مزيَّفات الأنبوب كاملًا لـ src/important.py (extract_brief،
+    evidence.search/gather_evidence، article._client) ويسجّل كل نداء نموذج
+    فعلي في ``calls`` — مصدر الحقيقة الوحيد لاختبار عدّاد النداءات المحفوظ
+    في الملف (لا يُحسب العدّاد من الجهتين بالمنطق نفسه).
+
+    points: قائمة نقاط تُعاد من extract_brief المزيَّفة.
+    docs_by_marker: كلمة مميِّزة ← وثائق تُعاد حين يحويها نص الاستعلام (كل
+    نقطة تحمل كلمة فريدة في كياناتها فتُبنى الاستعلامات بها أولًا).
+    classify(point_text, doc_names) ← مدخلات أداة classify_sources.
+    """
+
+    def __init__(self, points, docs_by_marker, classify):
+        self.points = points
+        self.docs_by_marker = docs_by_marker
+        self.classify = classify
+        self.calls: list[str] = []
+        self.queries: list[str] = []
+        self._saved: dict = {}
+
+    def __enter__(self):
+        from src import article
+        rig = self
+
+        class _Ranked(list):
+            raw_count = 0
+
+        class _Art:
+            def __init__(self, doc):
+                self.doc = doc
+                self.publisher = doc["name"]
+                self.source_name = doc["name"]
+                self.image_candidates = list(doc.get("images", []))
+
+        def fake_search(query, cfg, days, unrestricted=False, require_relevance=True):
+            rig.queries.append(query)
+            out = _Ranked()
+            for marker, docs in rig.docs_by_marker.items():
+                if marker in query:
+                    out.extend(_Art(d) for d in docs)
+            out.raw_count = len(out)
+            return out
+
+        def fake_gather(articles, cfg, claim_text="", loose_relevance=False):
+            return [a.doc for a in articles], "full"
+
+        class _Block:
+            type = "tool_use"
+
+            def __init__(self, input_):
+                self.input = input_
+
+        class _Resp:
+            usage = None
+            stop_reason = "tool_use"
+
+            def __init__(self, input_):
+                self.content = [_Block(input_)]
+
+        class _Msgs:
+            def create(self, **kw):
+                rig.calls.append(kw["tool_choice"]["name"])
+                content = kw["messages"][0]["content"]
+                names = re.findall(r"--- المصدر: (.*?) ---", content[0]["text"])
+                point = content[1]["text"].split(":", 1)[1].strip()
+                return _Resp(rig.classify(point, names))
+
+        class _Client:
+            messages = _Msgs()
+
+        self._saved = {
+            "extract_brief": article.extract_brief, "_client": article._client,
+            "search": evidence.search, "gather": evidence.gather_evidence,
+        }
+        article.extract_brief = lambda body, cfg, retries=3: ({
+            "topic": "موضوع اختبار", "statements": self.points, "questions": []}, None)
+        article._client = lambda: _Client()
+        evidence.search = fake_search
+        evidence.gather_evidence = fake_gather
+        return self
+
+    def __exit__(self, *exc):
+        from src import article
+        article.extract_brief = self._saved["extract_brief"]
+        article._client = self._saved["_client"]
+        evidence.search = self._saved["search"]
+        evidence.gather_evidence = self._saved["gather"]
+        return False
+
+
+def important_point(marker: str, text: str, **extra) -> dict:
+    """نقطة واقعة بكلمة مميِّزة أولى في الكيانات (تُبنى بها الاستعلامات)."""
+    return {"text": text, "kind": "واقعة", "entities": [marker], "is_unnamed_event": False,
+            "is_reference": False, "speaker": "", "merged_excerpts": [],
+            "split_from": "", "publisher": "", "query_latin": "", **extra}
+
+
+def important_doc(name: str, text: str, **extra) -> dict:
+    return {"name": name, "text": text, "link": f"https://{name.replace(' ', '-')}.example/a",
+            "from_text": True, **extra}
+
+
+def important_stance(source: str, stance: str, excerpt: str = "", **kw) -> dict:
+    return {"source": source, "stance": stance, "excerpt": excerpt,
+            "detail": kw.get("detail", ""), "correct_form": kw.get("correct_form", "")}

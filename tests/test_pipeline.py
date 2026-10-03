@@ -253,7 +253,8 @@ from tests.test_youtube import (
     test_youtube_image_news_photo,
     test_image_ladder_order,
 )
-from tests.test_guards_golden import test_guards_golden
+from tests.test_guards_golden import test_guards_golden, test_important_false_guard
+from tests.test_important import test_important_pipeline
 
 
 def main() -> int:
@@ -597,6 +598,10 @@ def main() -> int:
     test_stage1_unified_pipeline()
     print("\n── حالات مرجعية (golden) للحُرّاس التحريرية (Issue #893) ──")
     test_guards_golden()
+    print("\n── حارس false لمسار «هام» على الأنبوب كاملًا (Issue #1194) ──")
+    test_important_false_guard()
+    print("\n── مسار «هام»: الحَكَم على النقاط، الأنبوب كاملًا (Issue #1194) ──")
+    test_important_pipeline()
 
     print(f"\n{'═' * 50}\nنجح {len(PASSED)} · فشل {len(FAILED)}")
     if FAILED:
