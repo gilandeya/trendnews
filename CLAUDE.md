@@ -1321,6 +1321,34 @@ important` — **لا تعديل على `article.py` ولا على `.github/work
   `tests/test_important.py`. عُدِّل في `test_important_search_and_extract` عدّ طلبات Brave (2 ← 4: عبارتا site: العربيتان
   صارتا تُرسَلان لكل نقطة بالعربية)؛ و`helpers.important_stance` يقبل `as_of`.
 
+**المهمة 1و (Issue #1207) — ميزانيتا المدقّقين وحكم المدقّق الصريح وهامش `_agree` بعد التجربة الحقيقية الخامسة.**
+التغيير في `src/important.py` + `config.yaml: important` + الاختبارات؛ لا `article.py` ولا `.github/workflows/`.
+g1–g20 بلا تعديل في نصوصها، وحارس `false` شُدّ لا أُرخي.
+- **ميزانيتان منفصلتان:** `important.max_factcheck_docs` (4) لنتائج عبارات `site:` ولكل وثيقة جهة تدقيق (وسم
+  `from_site` أو `_is_fact_checker`)، و`max_docs_per_point` (8) لغيرها؛ `_finalize` يقصّ كلًّا بسقفه ويقدّم المدقّقين،
+  وشرط وقف الجمع في `collect` يعدّ غير المدقّقين وحدهم. السبب: أربع نتائج مدقّقين غير ذات صلة احتلّت 4 من 8 مقاعد
+  فخرجت يني شفق وdefensehere (1) وDataReportal (5).
+- **استبعاد قبل الجلب (`_PointSearch._prefilter`/`_checker_relevant`):** نتيجة مدقّق (كل نتائج `site:`، وأي نتيجة
+  ناشرها/نطاقها مدقّق في بقية الاستعلامات) لا يشترك عنوانها ولا مقتطف البحث فيها مع النقطة في كيان (مطبَّع عبر
+  `entity_aliases`) ولا رقم ضمن `_within_margin` **لا تُجلب** فلا تُقرأ ولا تدخل أي ميزانية؛ تُسجَّل في `checker_skipped`
+  لكل نقطة (publisher/link/title). نتيجة بلا عنوان ولا مقتطف، أو نقطة بلا كيانات ولا أرقام، لا يُحكم عليها فتمرّ.
+  مفتاح ذاكرة `run` المؤقتة صار يحمل نص النقطة.
+- **`verdict_label` (أداة `classify_sources`):** حكم المدقّق كما في صفحته، فارغ لغير المدقّقين وعند غياب حكم صريح؛
+  وعنوان المقال السؤالي ليس حكمًا. `false` بمدقّق واحد (دون مصدرين مستقلين) يشترط في `decide`:
+  `verdict_label` ضمن `important.false_labels` (مقارنة مطبَّعة **كاملة** لا جزئية: «Mostly False» ≠ «False»)
+  **و**مقتطفه ليس سؤالًا (`_is_question`: ينتهي بـ«؟»/«?» أو آخر كلمة أداة استفهام تركية mı/mi/mu/mü). مسار
+  مصدرين مستقلين لم يتغيّر. في `_read_stances` (مدقّق + `same_event` فقط): `true_labels` (Doğru/صحيح/True) ← `supports`
+  مهما كان العنوان، و`misleading_labels` (Misleading/Yanıltıcı/مضلل) ← `conflicts_detail` (لا نفي)؛ `raw_stance`
+  يحفظ الأصل. ملاحظة «نفي غير كافٍ» تذكر الآن أن المدقّق بلا حكم نفي صريح أو بمقتطف سؤالي.
+- **`_agree`** يستعمل `_within_margin` نفسها (نصف وحدة الأقلّ دقة بسقف `number_tolerance`) عبر
+  `_numbers_with_half(..., years=True)` بدل العتبة النسبية وحدها: «85.7 مليون» و«86.1 مليون» لا تتفقان، و«86.1 مليون»
+  و«86 مليوناً و92 ألفاً و168» تتفقان. (البند المؤجَّل من #1205.)
+- **الاختبارات:** g21–g25 في `tests/test_guards_golden.py:test_important_false_guard` (كُتبت قبل الكود)؛
+  `test_important_1207` في `tests/test_important.py` (مزيج وثائق التشغيلين الرابع والخامس بنص #1201). في
+  `tests/helpers.py` (ليس اختبارًا): `important_stance` يقبل `verdict_label` ويفترض `"False"` لـ`refutes` كي تبقى
+  g5/g7/g7b (مدقّق واحد ينفي بلا ذكر حكم) تمرّ دون تعديل — الحالات الجديدة تمرّر القيمة صراحةً؛ و`ImportantRig` يسجّل
+  `gathered` (روابط ما أُرسل للجلب) ويمرّر `title`/`summary`/`link` من الوثيقة إن وُجدت.
+
 ## Retired paths
 
 - **`src/verify.py`** (Issue #1068) — the fact-check-a-pasted-article path is retired for good; the
