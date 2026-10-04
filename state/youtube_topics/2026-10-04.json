@@ -1,0 +1,822 @@
+{
+  "run_date": "2026-10-04",
+  "stats": {
+    "points_in": 255,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 105,
+    "issues_clustered": 30,
+    "topics_merged": 2,
+    "topics_out": 5,
+    "dropped_by_bloc_cap": 1,
+    "topics_seen_skipped": 1,
+    "topics_below_min_points": 14,
+    "topics_below_min_channels": 7,
+    "layers": {
+      "2": 4,
+      "1": 1
+    },
+    "agreement": 4,
+    "cross_source": 0,
+    "internal": 0,
+    "echo": 1
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "إرسال حاملة الطائرات الثالثة للشرق الأوسط",
+      "التصعيد الأمريكي العسكري والدبلوماسي ضد إيران"
+    ],
+    [
+      "موازنة التعليم الفرنسية واحتجاجات الطلاب",
+      "احتجاجات التعليم الفرنسية من منظور تركي"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "حادثة اعتداء مساعد طيار فلاي دبي",
+      "event": "اعتداء مساعد الطيار على قائد طائرة فلاي دبي وإنقاذ الطيار للركاب",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        24,
+        89,
+        90,
+        146,
+        148
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null,
+      "id": "8ffbe6d99bcd",
+      "created_at": "2026-10-04T04:02:05.698830+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1237
+    },
+    {
+      "title": "إرسال حاملة الطائرات الثالثة للشرق الأوسط",
+      "event": "إرسال البنتاغون حاملة الطائرات الثالثة (روزفيلت) وقوات إضافية للخليج تحسبًا لتجدد الحرب مع إيران",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        25,
+        68,
+        70,
+        71,
+        72,
+        73,
+        92,
+        136,
+        137,
+        138,
+        139,
+        140,
+        142,
+        144,
+        145
+      ],
+      "total_points": 15,
+      "fresh_points": 15,
+      "dropped_reason": null,
+      "id": "7f22ac09b24c",
+      "created_at": "2026-10-04T04:02:05.698830+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1237
+    },
+    {
+      "title": "موازنة التعليم الفرنسية واحتجاجات الطلاب",
+      "event": "تخصيص الحكومة الفرنسية ميزانية ضخمة للتعليم بعد احتجاجات طلابية ومشاكل الإنفاق والمقارنة الأوروبية",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        42,
+        43,
+        44,
+        116,
+        117,
+        118
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null,
+      "id": "2ecfc3b09bb0",
+      "created_at": "2026-10-04T04:02:05.698830+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1237
+    },
+    {
+      "title": "انسحاب القوات الأمريكية من العراق (قرار 2024)",
+      "event": "تنفيذ قرار انسحاب القوات الأمريكية من العراق الذي اتخذته إدارة بايدن 2024 في عهد ترامب",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        39,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        93,
+        122
+      ],
+      "total_points": 10,
+      "fresh_points": 10,
+      "dropped_reason": null,
+      "id": "049f6201b401",
+      "created_at": "2026-10-04T04:02:05.698830+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1237
+    },
+    {
+      "title": "فضيحة الصناديق الاستثمارية التركية والتحقيقات",
+      "event": "فضيحة صناديق استثمارية تركية وهروب رؤوس أموال والتحقيق فيها",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        54,
+        55,
+        58,
+        123,
+        124,
+        125,
+        126,
+        131,
+        132,
+        133,
+        134,
+        135
+      ],
+      "total_points": 12,
+      "fresh_points": 12,
+      "dropped_reason": null,
+      "id": "6b561a07a016",
+      "created_at": "2026-10-04T04:02:05.698830+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1237
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "حادثة اعتداء مساعد طيار فلاي دبي",
+      "event": "اعتداء مساعد الطيار على قائد طائرة فلاي دبي وإنقاذ الطيار للركاب",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        24,
+        89,
+        90,
+        146,
+        148
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "إرسال حاملة الطائرات الثالثة للشرق الأوسط",
+      "event": "إرسال البنتاغون حاملة الطائرات الثالثة (روزفيلت) وقوات إضافية للخليج تحسبًا لتجدد الحرب مع إيران",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        25,
+        68,
+        70,
+        71,
+        72,
+        73,
+        92,
+        136,
+        137,
+        138,
+        139,
+        140,
+        142,
+        144,
+        145
+      ],
+      "total_points": 15,
+      "fresh_points": 15,
+      "dropped_reason": null
+    },
+    {
+      "title": "موازنة التعليم الفرنسية واحتجاجات الطلاب",
+      "event": "تخصيص الحكومة الفرنسية ميزانية ضخمة للتعليم بعد احتجاجات طلابية ومشاكل الإنفاق والمقارنة الأوروبية",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        42,
+        43,
+        44,
+        116,
+        117,
+        118
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "مشروع ميريديان لإيلون ماسك مع البنتاغون",
+      "event": "عودة ماسك للعمل مع إدارة ترامب على مشروع ميريديان لتحديد أسلحة الحروب المستقبلية",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        62,
+        95
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "انسحاب القوات الأمريكية من العراق (قرار 2024)",
+      "event": "تنفيذ قرار انسحاب القوات الأمريكية من العراق الذي اتخذته إدارة بايدن 2024 في عهد ترامب",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        39,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        93,
+        122
+      ],
+      "total_points": 10,
+      "fresh_points": 10,
+      "dropped_reason": null
+    },
+    {
+      "title": "الاتهامات الإثيوبية لمصر والسودان بدعم المعارضة",
+      "event": "اتهام إثيوبيا لمصر والسودان بدعم قوات تجراي المعارضة ونفي الاتهامات",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        35,
+        36,
+        97,
+        101
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "انسحاب حزب الشعب الجمهوري من افتتاح البرلمان التركي",
+      "event": "انسحاب نواب حزب الشعب الجمهوري من جلسة افتتاح البرلمان التركي احتجاجًا",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        49,
+        50,
+        56,
+        57
+      ],
+      "total_points": 4,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "خطة حصر السلاح بيد الدولة في العراق ورفض إيران",
+      "event": "التزام فصائل عراقية بخطة حصر السلاح مقابل رفض إيراني لتسليم السلاح",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        33,
+        34
+      ],
+      "total_points": 2,
+      "fresh_points": 1,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "فضيحة الصناديق الاستثمارية التركية والتحقيقات",
+      "event": "فضيحة صناديق استثمارية تركية وهروب رؤوس أموال والتحقيق فيها",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        54,
+        55,
+        58,
+        123,
+        124,
+        125,
+        126,
+        131,
+        132,
+        133,
+        134,
+        135
+      ],
+      "total_points": 12,
+      "fresh_points": 12,
+      "dropped_reason": null
+    },
+    {
+      "title": "شهادات الدكتور العزاوي عن عهد صدام حسين",
+      "event": "شهادات شخصية لمدير المخابرات العراقية السابق حول وقائع عهد صدام حسين (حلبجة، القصور، بازوفت، تاتشر، المنصب، عدي)",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تداعيات الأزمة الإثيوبية الإريترية",
+      "event": "تصاعد التوتر الدبلوماسي والعسكري بين إثيوبيا وإريتريا وتداعياته الإقليمية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        96,
+        98,
+        99,
+        100,
+        102
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "أمن الطاقة العالمي بعد حرب الشرق الأوسط",
+      "event": "تحليل تحول مفهوم أمن الطاقة عالميًا بعد الحرب الأخيرة في الشرق الأوسط",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "مخاوف خروج الذكاء الاصطناعي عن السيطرة",
+      "event": "تحذيرات من فقدان السيطرة على الذكاء الاصطناعي ومخاطره المستقبلية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        110,
+        111,
+        112,
+        115
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "فشل محاولة إعدام أمريكية بالحقن القاتل",
+      "event": "فشل تنفيذ حكم إعدام كريستا بايك بالحقن القاتل وإحصائيات الإعدام الأمريكية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        120,
+        121
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تراجع ثقة الأتراك بالعدالة",
+      "event": "استطلاع يظهر انهيار ثقة الأتراك بتطبيق القانون بالتساوي",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        129,
+        130
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "عودة اليمن كجبهة إقليمية ومعركة تعز",
+      "event": "تصاعد الدور العسكري والسياسي للحوثيين في اليمن ومعركة تعز",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        1,
+        2
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الاستراتيجية الإيرانية في استخدام ورقة الحوثيين",
+      "event": "تقدير دور إيران في توجيه الحوثيين بشكل متدرج",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        3,
+        6
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "نتنياهو ينتقد منسحبي الأمم المتحدة",
+      "event": "تصريح نتنياهو الذي وصف من غادروا قاعة الأمم المتحدة احتجاجًا بالجبناء أخلاقيًا",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        7,
+        8
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "اتفاق الديزل الأمريكي الأوروبي",
+      "event": "اتفاق أمريكي أوروبي على الإفراج عن مخزونات الديزل والنفط بعد ضغط أمريكي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تصريحات ترامب بشأن إمكانية تدمير إيران والمفاوضات",
+      "event": "تصريحات ترامب بثبات موقفه الرافض للتفاوض مع إيران وإمكانية تدمير البلاد",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        27,
+        30
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "سياسة مصر تجاه استقرار إثيوبيا والملفات الخلافية",
+      "event": "تفضيل مصر لإثيوبيا مستقرة وتحديد الملفات الخلافية الثلاثة بينهما",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        37,
+        38
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "رغبة البريطانيين بالعودة للاتحاد الأوروبي وتأثير بريكست",
+      "event": "استطلاعات رأي حول رغبة الأغلبية البريطانية بالعودة للاتحاد الأوروبي وتداعيات بريكست الاقتصادية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        40,
+        41
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "حماية فرنسا لموقع ينبع النفطي السعودي",
+      "event": "إرسال ماكرون جنودًا ورادارات لحماية موقع ينبع النفطي عبر البحر الأحمر",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        45,
+        46
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تحذير البنك الدولي من أزمة المياه في تونس",
+      "event": "تحذير البنك الدولي من تأثير نقص المياه على الاقتصاد التونسي بحلول 2050",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        47,
+        48
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "دعوات زعيم الحركة القومية للوحدة الوطنية والتحذير من مؤامرات",
+      "event": "تصريحات باهتشلي حول التضامن السياسي والتحذير من محاولات زعزعة الاستقرار",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        51,
+        53
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تسريب فيديو اقتحام شرطي في مرسين",
+      "event": "تسريب فيديو لامرأة أثناء اقتحام شرطي لمنزلها في مرسين وإثارة الجدل حول الخصوصية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        59,
+        60
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "شكاوى أوزيل من إهمال محافظة أرتفين",
+      "event": "انتقادات أوزغور أوزل لإهمال الحكومة محافظة أرتفين رغم مواردها",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        63,
+        64,
+        65,
+        66,
+        67
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "هجوم الحوثيين على محطة كهرباء المدينة المنورة",
+      "event": "استهداف ميليشيا الحوثي محطة طيبة الكهربائية في المدينة المنورة والتحقيقات اللاحقة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        21,
+        22,
+        23,
+        28,
+        29
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    }
+  ]
+}
