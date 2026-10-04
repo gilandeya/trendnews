@@ -1,0 +1,81 @@
+{
+  "id": "c9000685265b",
+  "created_at": "2026-10-04T03:08:08.495027+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 27.29,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "سباقات الفورمولا وان تستمر رغم النزاع في الشرق الأوسط",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Qatar and Abu Dhabi Grand Prix to go ahead: F1 boss",
+  "link": "https://www.channelnewsasia.com/sport/qatar-and-abu-dhabi-grand-prix-go-ahead-f1-boss-6429611",
+  "publishers": [
+    "Channel News Asia",
+    "Free Malaysia Today",
+    "Malay Mail",
+    "The Guardian — Sport"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Qatar and Abu Dhabi Grand Prix to go ahead: F1 boss",
+    "link": "https://www.channelnewsasia.com/sport/qatar-and-abu-dhabi-grand-prix-go-ahead-f1-boss-6429611",
+    "summary": "The final races of the Formula One season in Qatar and Abu Dhabi will go ahead as planned despite the Middle East conflict.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-10-03T17:02:00+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--TjNey2AC--/c_crop,h_449,w_799,x_1,y_39/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-10-03T111938Z_1_LYNXMPEM92094_RTROPTP_3_MOTOR-F1-BAHRAIN.JPG?itok=Fk-90vF3",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Free Malaysia Today",
+      "Malay Mail",
+      "The Guardian — Sport"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/sport/2026/oct/03/qatar-abu-dhabi-grands-prix-go-ahead-middle-east-conflict-formula-one-chief-domenicali"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/sport/qatar-and-abu-dhabi-grand-prix-go-ahead-f1-boss-6429611"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/03/qatar-abu-dhabi-f1-grand-prix-to-go-ahead-says-f1-boss"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/sports/2026/10/04/qatar-and-abu-dhabi-f1-grand-prix-to-go-ahead-despite-middle-east-tensions-says-f1-boss/237604"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--TjNey2AC--/c_crop,h_449,w_799,x_1,y_39/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-10-03T111938Z_1_LYNXMPEM92094_RTROPTP_3_MOTOR-F1-BAHRAIN.JPG?itok=Fk-90vF3",
+      "https://i.guim.co.uk/img/media/bf4da4bd03bfbcb6c8ab4d3559f9a0a9524de2ef/1015_81_4050_3240/master/4050.jpg?width=700&quality=85&auto=format&fit=max&s=f4069333000c6f7d82727edbbbb53666",
+      "https://i.guim.co.uk/img/media/bf4da4bd03bfbcb6c8ab4d3559f9a0a9524de2ef/1015_81_4050_3240/master/4050.jpg?width=460&quality=85&auto=format&fit=max&s=3495d8dffe3a86231db13087f61b5a7a",
+      "https://i.guim.co.uk/img/media/bf4da4bd03bfbcb6c8ab4d3559f9a0a9524de2ef/1015_81_4050_3240/master/4050.jpg?width=140&quality=85&auto=format&fit=max&s=8880cbd3fc99e5137872690a2412e1db",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/07/cba10f46-afp__20260308__a2dq4g9__v1__highres__autoprixf1aus_cropped_1.webp",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/10/04/366216.jpg"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1450.9122330277778,
+    "is_stale": false,
+    "score": 27.29362431424074,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "سباقات الفورمولا وان تستمر رغم النزاع في الشرق الأوسط",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

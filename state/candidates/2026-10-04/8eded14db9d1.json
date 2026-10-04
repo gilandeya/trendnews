@@ -1,0 +1,66 @@
+{
+  "id": "8eded14db9d1",
+  "created_at": "2026-10-04T03:08:08.495454+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.16,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 3,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "ارتفاع منسوب البحر يهدد السواحل الأمريكية بقدم كامل",
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Sea levels to rise in California as a coastal wave surges up the West Coast",
+  "link": "https://phys.org/news/2026-10-sea-california-coastal-surges-west.html",
+  "publishers": [
+    "Malay Mail",
+    "Phys.org"
+  ],
+  "region": "science",
+  "article": {
+    "title": "Sea levels to rise in California as a coastal wave surges up the West Coast",
+    "link": "https://phys.org/news/2026-10-sea-california-coastal-surges-west.html",
+    "summary": "Sea levels in California are set to rise by as much as a foot (30 centimeters) in the coming days as an enormous wave washes up the U.S. West Coast.",
+    "source_name": "Phys.org",
+    "region": "science",
+    "weight": 1.0,
+    "published": "2026-10-03T10:00:10+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2026/sand-berms-have-been-b.jpg",
+    "publisher": "Phys.org",
+    "cluster_sources": [
+      "Malay Mail",
+      "Phys.org"
+    ],
+    "cluster_members": [
+      {
+        "name": "Phys.org",
+        "link": "https://phys.org/news/2026-10-sea-california-coastal-surges-west.html"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/10/03/the-dark-side-of-el-nino-sea-levels-to-rise-in-california-as-coastal-wave-surges-up-west-coast/237547"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/sand-berms-have-been-b.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/10/03/366113.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/10/03/366112.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1450.9124364583333,
+    "is_stale": false,
+    "score": 22.15825393451852,
+    "impact": 3,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "ارتفاع منسوب البحر يهدد السواحل الأمريكية بقدم كامل",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

@@ -1,39 +1,5 @@
 [
   {
-    "score": 23.28,
-    "bucket": "serious",
-    "tokens": [
-      "east",
-      "forced",
-      "iran",
-      "leader",
-      "middle",
-      "state",
-      "supreme"
-    ],
-    "link": "https://www.channelnewsasia.com/world/iran-khamenei-us-middle-east-6416471",
-    "title": "Iran supreme leader says US will be forced out of Middle East: state TV",
-    "posted_title": "خامنئي يتوعد بخروج القوات الأمريكية من الشرق الأوسط بعد \"ضربات مؤلمة\"",
-    "region": "seasia",
-    "seen_at": "2026-09-28T21:21:17.421767+00:00"
-  },
-  {
-    "score": 23.17,
-    "bucket": "serious",
-    "tokens": [
-      "israeli",
-      "media",
-      "netanyahu",
-      "uae",
-      "visits"
-    ],
-    "link": "https://www.dawn.com/news/2033171/netanyahu-visits-uae-israeli-media",
-    "title": "Netanyahu visits UAE: Israeli media",
-    "posted_title": "تقارير إسرائيلية: نتنياهو زار الإمارات سرًا والتقى محمد بن زايد",
-    "region": "pk",
-    "seen_at": "2026-09-28T21:21:34.524824+00:00"
-  },
-  {
     "score": 32.35,
     "bucket": "serious",
     "tokens": [
@@ -2437,5 +2403,101 @@
     "posted_title": "لماذا يضخ العالم تريليونات الدولارات في الذكاء الاصطناعي رغم غياب دليل واضح على جدواه الاقتصادية",
     "region": "jp",
     "seen_at": "2026-10-03T18:50:47.512445+00:00"
+  },
+  {
+    "score": 35.51,
+    "bucket": "serious",
+    "tokens": [
+      "attacked",
+      "axe",
+      "captain",
+      "flydubai",
+      "official",
+      "pilot",
+      "uae"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/c61wv7lgex13o?at_medium=RSS&at_campaign=rss",
+    "title": "Flydubai co-pilot attacked captain with axe, UAE official says",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-10-04T03:08:08.494745+00:00"
+  },
+  {
+    "score": 29.09,
+    "bucket": "serious",
+    "tokens": [
+      "included",
+      "intermediate",
+      "korea",
+      "missile",
+      "north",
+      "range",
+      "strategic",
+      "test",
+      "use"
+    ],
+    "link": "https://www.dawn.com/news/2034486/north-korea-says-test-of-intermediate-range-strategic-missile-included-use-of-ai",
+    "title": "North Korea says test of intermediate-range strategic missile included use of AI",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-10-04T03:08:08.495018+00:00"
+  },
+  {
+    "score": 27.29,
+    "bucket": "sport",
+    "tokens": [
+      "abu",
+      "ahead",
+      "boss",
+      "dhabi",
+      "grand",
+      "prix",
+      "qatar"
+    ],
+    "link": "https://www.channelnewsasia.com/sport/qatar-and-abu-dhabi-grand-prix-go-ahead-f1-boss-6429611",
+    "title": "Qatar and Abu Dhabi Grand Prix to go ahead: F1 boss",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-10-04T03:08:08.495242+00:00"
+  },
+  {
+    "score": 27.15,
+    "bucket": "serious",
+    "tokens": [
+      "anniversary",
+      "deadly",
+      "gaza",
+      "hamas",
+      "israel",
+      "leader",
+      "strike",
+      "targets",
+      "top"
+    ],
+    "link": "https://www.channelnewsasia.com/world/israel-hamas-gaza-conflict-6430286",
+    "title": "Israel targets top Hamas leader in deadly Gaza strike on anniversary",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-10-04T03:08:08.495448+00:00"
+  },
+  {
+    "score": 22.16,
+    "bucket": "useful",
+    "tokens": [
+      "california",
+      "coast",
+      "coastal",
+      "levels",
+      "rise",
+      "sea",
+      "surges",
+      "wave",
+      "west"
+    ],
+    "link": "https://phys.org/news/2026-10-sea-california-coastal-surges-west.html",
+    "title": "Sea levels to rise in California as a coastal wave surges up the West Coast",
+    "posted_title": "",
+    "region": "science",
+    "seen_at": "2026-10-04T03:08:08.495636+00:00"
   }
 ]

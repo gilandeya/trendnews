@@ -1,0 +1,79 @@
+{
+  "id": "f883e1cc59f5",
+  "created_at": "2026-10-04T03:08:08.495249+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 27.15,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "إسرائيل تستهدف قيادة حماس في غزة — تصعيد في الصراع",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Israel targets top Hamas leader in deadly Gaza strike on anniversary",
+  "link": "https://www.channelnewsasia.com/world/israel-hamas-gaza-conflict-6430286",
+  "publishers": [
+    "Channel News Asia",
+    "Hindustan Times — World",
+    "The Japan Times",
+    "Vanguard Nigeria"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Israel targets top Hamas leader in deadly Gaza strike on anniversary",
+    "link": "https://www.channelnewsasia.com/world/israel-hamas-gaza-conflict-6430286",
+    "summary": "The Israeli airstrike on an apartment building in Gaza killed five people, four of them women, local officials said.",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-10-04T00:48:22+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--niqlbtom--/c_crop,h_576,w_1024,x_0,y_24/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/10/04/gaza_israeli_airstrike.jpg?itok=8iTBBKnn",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Hindustan Times — World",
+      "The Japan Times",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/israel-hamas-gaza-conflict-6430286"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/israel-targets-top-hamas-leader-in-deadly-gaza-strike-on-anniversary-101791057895704.html"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/10/israel-targets-top-hamas-leader-in-deadly-gaza-strike-on-anniversary/"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/10/04/world/israel-hamas-leader-gaza-strike/"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--niqlbtom--/c_crop,h_576,w_1024,x_0,y_24/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/10/04/gaza_israeli_airstrike.jpg?itok=8iTBBKnn",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/10/AFP__20261003__D24N3FZ__v2__MidRes__PalestinianIsraelConflictGaza-1024x683.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/04/566524.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/04/thumbs/400x400/566524.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1450.9122571188889,
+    "is_stale": false,
+    "score": 27.145142831574077,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "إسرائيل تستهدف قيادة حماس في غزة — تصعيد في الصراع",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

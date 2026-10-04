@@ -1,0 +1,86 @@
+{
+  "id": "9abce1f4fa69",
+  "created_at": "2026-10-04T03:08:08.494754+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 29.09,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 3,
+  "appeal_note": "كوريا الشمالية تختبر صاروخًا استراتيجيًا بالذكاء الاصطناعي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "North Korea says test of intermediate-range strategic missile included use of AI",
+  "link": "https://www.dawn.com/news/2034486/north-korea-says-test-of-intermediate-range-strategic-missile-included-use-of-ai",
+  "publishers": [
+    "AP News",
+    "Dawn",
+    "South China Morning Post",
+    "The Hindu — International",
+    "Yonhap News"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "North Korea says test of intermediate-range strategic missile included use of AI",
+    "link": "https://www.dawn.com/news/2034486/north-korea-says-test-of-intermediate-range-strategic-missile-included-use-of-ai",
+    "summary": "North Korea said it tested an intermediate-range strategic missile on Saturday that involved the use of AI, hours after Seoul said Pyongyang had launched a ballistic missile. The launch took place days after Seoul’s military demanded an apology from Pyongyang for a blast that wounded three South Korean soldiers in the Demilitarised Zone (DMZ) that it blamed on the North. Pyongyang has denied responsibility for last month’s explosion and called South Korea “despicable” on Friday, undercutting overtures by Seoul’s civilian leadership seeking a return to dialogue. Early on Saturday, “our military detected a ballistic missile launched from the Wonsan area of North Korea toward the East Sea,” Seoul’s Joint Chiefs of Staff said, referring to the body of water also known as the Sea of Japan. “South Korea, the US, and Japan are maintaining a robust defence posture through close information sharing regarding North Korean ballistic missiles,” it said, adding the missile flew more than 700 kilometres. Hours later, Kim Yo Jong, the sister of Pyongyang’s leader Kim Jong Un, said the missile fired in the morning was an “intermediate-range strategic missile”. She said the projectile is “capable o",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-10-03T12:13:34+00:00",
+    "image_url": "https://i.dawn.com/large/2026/10/03171048fb93039.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "AP News",
+      "Dawn",
+      "South China Morning Post",
+      "The Hindu — International",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2034486/north-korea-says-test-of-intermediate-range-strategic-missile-included-use-of-ai"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/asia/east-asia/article/3369665/north-korea-test-fires-intermediate-range-missile-amid-mine-blast-tensions?utm_source=rss_feed"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20261003000551315"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/north-korea-says-it-test-fired-an-intermediate-range-missile-as-tensions-grow-over-mine-blasts/article71541377.ece"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/north-korea-says-it-conducted-intermediate-range-strategic-missile-drill/article71541953.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/10/03171048fb93039.webp",
+      "https://i.dawn.com/thumbnail/2026/10/03171048fb93039.webp",
+      "https://img.yna.co.kr/photo/yna/YH/2026/09/12/PYH2026091202070001300_P2.jpg",
+      "https://th-i.thgim.com/public/incoming/dm2t7m/article71541396.ece/alternates/LANDSCAPE_1200/Koreas_Tension_84992.jpg",
+      "https://th-i.thgim.com/public/incoming/408pdu/article71541960.ece/alternates/LANDSCAPE_1200/2026-10-03T224732Z_1041312758_RC2XVNAHHR35_RTRMADP_3_NORTHKOREA-MISSILE.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 1450.9122288716667,
+    "is_stale": false,
+    "score": 29.088927117828753,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 3,
+    "appeal_note": "كوريا الشمالية تختبر صاروخًا استراتيجيًا بالذكاء الاصطناعي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
