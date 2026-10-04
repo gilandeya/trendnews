@@ -1,0 +1,81 @@
+{
+  "id": "a26cdd70be0c",
+  "created_at": "2026-10-04T15:08:06.555163+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.54,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "كوريا الجنوبية تهزم اليابان في بطولة آسيوية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "(LEAD) (Asiad) S. Korea beat Japan for 4th straight men's football gold",
+  "link": "https://en.yna.co.kr/view/AEN20261003004451315",
+  "publishers": [
+    "IRNA English",
+    "Yonhap News"
+  ],
+  "region": "kr",
+  "article": {
+    "title": "(LEAD) (Asiad) S. Korea beat Japan for 4th straight men's football gold",
+    "link": "https://en.yna.co.kr/view/AEN20261003004451315",
+    "summary": "TOYOTA, Japan, Oct. 3 (Yonhap) -- South Korea edged out the host country Japan 1...",
+    "source_name": "Yonhap News",
+    "region": "kr",
+    "weight": 1.0,
+    "published": "2026-10-03T12:42:38+00:00",
+    "image_url": "https://img.yna.co.kr/photo/yna/YH/2026/10/03/PYH2026100311150001300_P2.jpg",
+    "publisher": "Yonhap News",
+    "cluster_sources": [
+      "IRNA English",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20261003004300315"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20261003004400315"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20261003004451315"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86282001/Iran-beat-Japan-to-win-fourth-straight-Asian-Games-volleyball"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20261004000400315"
+      }
+    ],
+    "image_candidates": [
+      "https://img.yna.co.kr/photo/yna/YH/2026/10/03/PYH2026100311150001300_P2.jpg",
+      "https://img.yna.co.kr/photo/yna/YH/2026/10/03/PYH2026100310380001300_P2.jpg",
+      "https://img.yna.co.kr/photo/yna/YH/2026/10/03/PYH2026100309980001300_P2.jpg",
+      "https://img.yna.co.kr/photo/yna/YH/2026/10/03/PYH2026100310290001300_P2.jpg",
+      "https://img.yna.co.kr/photo/cms/2023/08/24/07/PCM20230824000107990_P2.jpg",
+      "https://img9.irna.ir/d/r2/2026/10/03/4/173146484.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1462.911813501389,
+    "is_stale": false,
+    "score": 22.538801527444445,
+    "impact": 0,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "كوريا الجنوبية تهزم اليابان في بطولة آسيوية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

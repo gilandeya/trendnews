@@ -1,0 +1,56 @@
+{
+  "id": "9b00300e10f2",
+  "created_at": "2026-10-04T15:08:06.555644+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 15.5,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "أسعار الصويا وتأثر التجارة العربية بالرسوم الصينية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Soybeans slump on dimming hope of Chinese tariff cuts",
+  "link": "https://asia.nikkei.com/business/markets/commodities/soybeans-slump-on-dimming-hope-of-chinese-tariff-cuts",
+  "publishers": [
+    "Nikkei Asia"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "Soybeans slump on dimming hope of Chinese tariff cuts",
+    "link": "https://asia.nikkei.com/business/markets/commodities/soybeans-slump-on-dimming-hope-of-chinese-tariff-cuts",
+    "summary": "",
+    "source_name": "Nikkei Asia",
+    "region": "jp",
+    "weight": 1.0,
+    "published": "2026-10-04T15:07:30.186842+00:00",
+    "image_url": null,
+    "publisher": "Nikkei Asia",
+    "cluster_sources": [
+      "Nikkei Asia"
+    ],
+    "cluster_members": [
+      {
+        "name": "Nikkei Asia",
+        "link": "https://asia.nikkei.com/business/markets/commodities/soybeans-slump-on-dimming-hope-of-chinese-tariff-cuts"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 1462.911849386111,
+    "is_stale": true,
+    "score": 15.499767947444445,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "أسعار الصويا وتأثر التجارة العربية بالرسوم الصينية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
