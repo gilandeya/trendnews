@@ -308,7 +308,9 @@ def install_fakes() -> None:
     # الدالة على الوحدة المشتركة يظهر فورًا لكل من يستدعيها بلا تصحيح كل
     # وحدة على حدة. اختبارات فشل النداء المخصَّصة تُصحّح هذا الفاكة محليًا
     # (حفظ/استعادة) داخل دالتها فقط.
-    def fake_headlines_for_post(post_title, post_body, cfg, client=None):
+    def fake_headlines_for_post(post_title, post_body, cfg, client=None, first_question=True, system=None):
+        if not first_question:   # Issue #1233: تصحيح/تفنيد «هام» — الأول خبري
+            return [f"{post_title} — تقرير أول", f"{post_title} — تقرير ثانٍ", f"{post_title} — تقرير ثالث"], None
         return [f"هل {post_title}؟", f"{post_title} — تقرير أول", f"{post_title} — تقرير ثانٍ"], None
 
     headlines.headlines_for_post = fake_headlines_for_post  # type: ignore

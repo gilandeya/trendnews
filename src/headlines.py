@@ -57,12 +57,20 @@ DEFAULT_HEADLINE_SYSTEM = """أنت تقترح ثلاثة عناوين عربي�
 أعد الثلاثة عبر الأداة المعرَّفة (propose_headlines) حصرًا، بلا أي نص خارجها."""
 
 
-def validate_headlines(headlines: list[str], max_words: int) -> tuple[bool, str]:
+def validate_headlines(headlines: list[str], max_words: int,
+                       first_question: bool = True) -> tuple[bool, str]:
     """التحقّق العام المشترك بين كل المسارات — ثلاثة عناوين، الأول بصيغة
     سؤال، ولا يتجاوز أيّها حدّ الكلمات. لا فحص اسم غير موثَّق هنا (خاص
-    بمسار التحليل، انظر توثيق الوحدة أعلاه)."""
-    if not headlines[0].rstrip().endswith("؟"):
+    بمسار التحليل، انظر توثيق الوحدة أعلاه).
+
+    ``first_question=False`` (Issue #1233، تصحيح/تفنيد «هام» وحدهما): العنوان الافتراضي
+    جملة خبرية تقرّر الواقع، فالقاعدة تنعكس — الأول لا يكون سؤالًا. الافتراضي ``True``
+    يُبقي كل مسار آخر على حاله حرفيًا."""
+    ends_q = headlines[0].rstrip().endswith(("؟", "?"))
+    if first_question and not headlines[0].rstrip().endswith("؟"):
         return False, "العنوان الأول ليس بصيغة سؤال (لا ينتهي بـ؟)"
+    if not first_question and ends_q:
+        return False, "العنوان الأول سؤال والمطلوب جملة خبرية (ينتهي بـ؟)"
     for i, h in enumerate(headlines, start=1):
         if len(h.split()) > max_words:
             return False, f"العنوان {i} يتجاوز {max_words} كلمة"
@@ -74,7 +82,8 @@ def propose_headlines(user_content: str, cfg: Config, cfg_prefix: str, *,
                        client: Anthropic | None = None,
                        extra_validate=None,
                        extra_properties: dict | None = None,
-                       extra_result: dict | None = None) -> tuple[list[str] | None, str | None]:
+                       extra_result: dict | None = None,
+                       first_question: bool = True) -> tuple[list[str] | None, str | None]:
     """نداء قصير رخيص لاقتراح ثلاثة عناوين بديلة، بمحاولة إعادة عند إخراج
     غير صالح (نفس آلية youtube_article.draft_article). يعيد (ثلاثة عناوين،
     سبب فشل نهائي إن حدث -- None عند النجاح).
@@ -94,7 +103,10 @@ def propose_headlines(user_content: str, cfg: Config, cfg_prefix: str, *,
     تمرّرهما فتبقى على المخطط الأصلي حرفيًا بلا أي أثر جانبي. عند النجاح،
     قيمة كل مفتاح من extra_properties (إن أعادها النموذج) تُكتَب في
     extra_result -- بلا تغيير في قيمة الإرجاع الأصلية (headlines, error) كي
-    لا تنكسر بقية المستدعين الحاليين لهذه الدالة."""
+    لا تنكسر بقية المستدعين الحاليين لهذه الدالة.
+
+    ``first_question`` (Issue #1233): ``False`` ينقل قاعدة «الأول سؤال» إلى «الأول خبري»
+    في التحقّق ووصف المخطط معًا (النظام يمرّره المستدعي عبر ``system``)."""
     model = cfg.path(f"{cfg_prefix}.model", "claude-haiku-4-5-20251001")
     max_tokens = cfg.path(f"{cfg_prefix}.max_tokens", 600)
     max_retries = cfg.path(f"{cfg_prefix}.max_retries", 2)
@@ -103,6 +115,19 @@ def propose_headlines(user_content: str, cfg: Config, cfg_prefix: str, *,
     client = client or Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
 
     schema = HEADLINE_SCHEMA
+    if not first_question:
+        # وصف المخطط نفسه يصل النموذج، فلا يُترك فيه «الأول بصيغة سؤال» يناقض النظام
+        schema = {
+            **schema,
+            "description": "يقترح ثلاثة عناوين عربية بديلة للمنشور -- الأول جملة خبرية لا سؤال",
+            "input_schema": {
+                **schema["input_schema"],
+                "properties": {"headlines": {
+                    **schema["input_schema"]["properties"]["headlines"],
+                    "description": "ثلاثة عناوين عربية مستقلة الصياغة، الأول جملة خبرية لا سؤال",
+                }},
+            },
+        }
     if extra_properties:
         schema = {
             **HEADLINE_SCHEMA,
@@ -132,7 +157,7 @@ def propose_headlines(user_content: str, cfg: Config, cfg_prefix: str, *,
         if (isinstance(raw_headlines, list) and len(raw_headlines) == 3
                 and all(isinstance(h, str) and h.strip() for h in raw_headlines)):
             headlines = [h.strip() for h in raw_headlines]
-            ok, reason = validate_headlines(headlines, max_words)
+            ok, reason = validate_headlines(headlines, max_words, first_question)
             if ok and extra_validate:
                 ok, reason = extra_validate(headlines)
             if ok:
@@ -149,7 +174,8 @@ def propose_headlines(user_content: str, cfg: Config, cfg_prefix: str, *,
 
 
 def headlines_for_post(post_title: str, post_body: str, cfg: Config,
-                        client: Anthropic | None = None) -> tuple[list[str] | None, str | None]:
+                        client: Anthropic | None = None, *, first_question: bool = True,
+                        system: str | None = None) -> tuple[list[str] | None, str | None]:
     """يبني مدخل النداء من عنوان ومتن منشور مصوغ فعليًا وينادي
     ``propose_headlines`` بكتلة config.yaml العامة (``headlines`` -- لا
     ``youtube.review.headlines`` الخاصة بمسار التحليل). تستعملها المسارات
@@ -157,4 +183,5 @@ def headlines_for_post(post_title: str, post_body: str, cfg: Config,
     الصياغة؛ request.py يستدعيها بنفسه أيضًا (لا radar.build_draft المشتركة
     مع العاجل -- انظر توثيق الوحدة أعلاه)."""
     user_content = f"عنوان المنشور: {post_title}\n\nمتن المنشور:\n{post_body}"
-    return propose_headlines(user_content, cfg, "headlines", client=client)
+    return propose_headlines(user_content, cfg, "headlines", client=client,
+                             system=system, first_question=first_question)

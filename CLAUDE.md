@@ -15,10 +15,12 @@ review Issue → Facebook publish machinery, routed by each draft's `origin` fie
 2. **Breaking** (`src/radar.py`) — a cheap, model-free velocity check every ~15 minutes; only
    drafts (and can auto-publish without review) once a story crosses strict thresholds, otherwise
    falls into the same selection stage as News.
-3. **Investigation** (`src/article.py`, triggered by an Issue labeled `مقال`) — takes a pasted
-   editorial brief, grounds every fact against independently-read sources, and produces up to two
-   posts per run: the sourced article itself and, unconditionally, a companion "تحقيق"
-   (investigation) post about whatever from the brief didn't check out.
+3. **Important «هام»** (`src/important*.py`, triggered by an Issue labeled `هام`) — **the only request path**
+   (Issue #1233 retired «مقال» and «طلب»): a pasted text becomes points, each judged `confirmed`/`inaccurate`/
+   `false`/`not_found` by code-level guards, offered at gate A (`important-selection`), written per verdict.
+   See "مسار هام" below. (The older **Investigation** path — `src/article.py`, label `مقال` — and
+   **request** path — `src/request.py`, label `طلب` — are retired; both modules stay as libraries, see
+   "Retired paths". Their description below is kept as the engine reference.)
 4. **Analysis** (the YouTube pipeline, see Architecture below) — five stages that collect videos
    from Arabic/Turkish/Persian/Israeli political-analysis channels, extract and cross-source
    cluster their talking points, and draft long-form Arabic analysis articles from them.
@@ -1170,385 +1172,86 @@ facts into tiers by sourcing strength — implemented as the A/B/C grading descr
 Investigation path above (Issue #835) — and widening the search window on a zero-raw-result ladder
 step (`article.wide_days`).
 
-## مسار هام (قيد البناء)
+## مسار هام (الخلاصة النهائية — Issues #1194–#1233)
 
-Issue #1194، المهمة 1 من 3: `src/important.py` فقط — الحَكَم على النقاط. نص ملصق ← نقاط (الوقائع فقط،
-الآراء والأسئلة تُتجاهل) ← حكم مسنود لكل نقطة ← `state/important/<issue>.json`. لا ترشيح ولا كتابة ولا
-قضايا ولا workflow بعد (المهمتان 2 و3). يعيد استعمال آلة `article.py` بلا أي تعديل عليها، ويحكم **في
-الكود** من تصنيف النموذج لكل مصدر (`classify_sources`، نموذج `article.model`) لا بحكم النموذج نفسه.
+**«هام» هو مسار الطلبات الوحيد (وسم `هام`).** نص ملصق ← نقاط (الوقائع فقط؛ الآراء والأسئلة تُتجاهل) ← حكم مسنود
+لكل نقطة ← قضية ترشيح (المرحلة 1) ← كتابة بحسب الحكم ← المرحلتان 2 و3 ← نشر. الوحدات: `important.py` (الحكم،
+`state/important/<issue>.json`) · `important_issue.py` (قضية الترشيح `important-selection`) · `important_finalize.py`
+(قراءة الاختيارات والتوزيع وgo1) · `important_write.py` (الكتابة والفحص). الفحص اليدوي بلا قضايا:
+`python -m src.important --issue N --judge-only`. الإعداد كله في `config.yaml: important`.
 
-- **الأحكام الأربعة:** `confirmed` ✅ (مصدران مستقلان فأكثر يؤيدان، `article.min_confirm_sources`) ·
-  `inaccurate` ✏️ (الحدث موثَّق بمصدرين مستقلين يتفقان على صيغة صحيحة تخالف تفصيلًا في النقطة؛ يُحفظ
-  `correction` = الخطأ + الصيغة الصحيحة + المصدران) · `false` ❌ (حارس أدناه) · `not_found` 🔍 (يُحفظ
-  `nearest` = أقرب حدث موثَّق بمصدرين مستقلين من نتائج البحث نفسها؛ بلا `nearest` تُسقط النقطة بسبب
-  «لا أثر ولا حدث قريب موثَّق»، إلا عند فشل نداء النموذج تقنيًا فلا إسقاط).
-- **حارس `false` (لا يُخفَّف دون Issue صريح):** لا يصدر إلا بنفي **صريح مُثبَت بمقتطف موجود حرفيًا في
-  نص المصدر** من `important.min_refute_sources` (2) مصادر **مستقلة**، أو من جهة واحدة من
-  `important.fact_check_publishers`. غياب المصادر لا يكفي أبدًا (← `not_found`)، ونفي مصدر واحد غير
-  مدقِّق ← `not_found` بملاحظة «نفي غير كافٍ»، ونفي نسختين من خبر واحد ← مصدر مستقل واحد. الاستقلال =
-  `_dedup_docs_by_publisher` ثم `_report_identity_kind` في الاتجاهين (نصٌّ يسمّي ناشر الآخر = إعادة
-  نشر). مطابقة جهة التدقيق بأن يحوي اسم الناشر كل كلمات اسمها (فـ«AFP» وحدها ليست مدقِّقة). نفي كافٍ مع
-  تأييد كافٍ معًا = `not_found` بملاحظة «أدلة متعارضة» لا `false`. حالات g1–g6 في
-  `tests/test_guards_golden.py:test_important_false_guard` تجري على الأنبوب كاملًا.
-- **الحفظ:** لكل نقطة `id` (12 سداسيًا عشريًا من نص النقطة، يقبله `stages.GO_MARKER`)، `text`، `verdict`،
-  `evidence`، `correction`، `refuted_by`، `nearest`، `image_candidates`، `dropped_reason`؛ وفي الملف
-  `model_calls` (المجموع و`by_point`، من نداءات `messages.create` الفعلية) و`truncated` (سقف
-  `important.max_points` = 8). الفحص اليدوي: `python -m src.important --issue N --judge-only` (لا قضايا
-  ولا تعليقات). الإعداد كله في `config.yaml: important`.
-
-**المهمة 1ب (Issue #1198) — إصلاح التفكيك والبحث بعد أول تجربة حقيقية (#1197: صفر من خمسة).** السبب
-المقيس: `extract_brief` فكّك الادّعاء وتصحيحه إلى نقطتين، ونقطتان بلا أسماء سقطتا قبل البحث، والبحث
-5 كلمات عربية بأخبار Google وحدها ويتوقف عند أول 3 مصادر. التغيير كله في `src/important.py` + `config.yaml:
-important` — **لا تعديل على `article.py` ولا على `.github/workflows/`**.
-- **التفكيك:** `important.extract_points` نداء Haiku واحد (`important.extract_model`) بأداة `extract_points`
-  بدل `article.extract_brief`. لكل نقطة `claim` (ادّعاء واحد)، و`asserted` (ما قاله النص عن الادّعاء نفسه من
-  تحقق/تكذيب/تصحيح — **للعرض فقط، لا يُمرَّر إلى `_classify` ولا يدخل `decide`**، اختبار g8)، و`entities`
-  و`dates` و`numbers`، و`queries` (عربي/إنجليزي/لغة البلد؛ حد `important.queries_per_lang` لكل لغة يُفرض في
-  الكود `_queries_per_lang`) و`factcheck_query`. النقطة بلا كيانات لا تسقط: تُبحث بعباراتها، وبلا عبارات
-  أيضًا بنصها. `_name_event` لما يصفه النص «حدثًا» مبهمًا فقط (`is_unnamed_event`) وفشله لا يُسقط نقطة لها
-  عبارات (ملاحظة فقط).
-- **البحث الجامع (`_PointSearch.collect`):** عبارة التدقيق أولًا ثم العبارات؛ لكل عبارة أخبار Google
-  (`_google`: نافذة `days`، وتبدأ من `wide_days` إن ذكرت النقطة سنة أقدم من النافذة، وتصعد wide ← بلا قيد عند
-  صفر نتائج خام، وبعد wide دائمًا إن كانت السنة أقدم من `wide_days`) ثم Brave web. يتوقف الجمع عند
-  `important.max_docs_per_point` (8) وثيقة، بلا تكرار رابط، مع فلتر إعادة النشر القائم، ومرتَّبة: جهات التدقيق
-  ثم التطابق مع entities/dates/numbers (`_finalize`). `nearest` يُحسب من هذه الوثائق كلها بشرطه القديم
-  (حدث بمصدرين مستقلين).
-- **Brave web:** `brave_web_articles` (GET `/res/v1/web/search`، `BRAVE_API_KEY` نفسه) يحوّل النتائج إلى
-  `Article` ليقبلها `evidence.gather_evidence`. عدّاد وسقف مستقلان عن صور البطاقات: مفتاح
-  `"important:YYYY-MM"` في `state/brave_usage.json` (كل كاتب يحفظ مفتاح الآخر) وسقف
-  `important.brave_monthly_cap` (300)؛ يزيد العدّاد قبل الطلب. بلا مفتاح أو عند السقف ← Google وحدها ويُسجَّل
-  `brave.skipped` (`no_key`/`cap`) في الملف بلا خطأ. **تنبيه تشغيلي:** كتابة `state/brave_usage.json` تحتاج
-  أن يُودِع الـworkflow المسار `state/` (خارج نطاق المهمة).
-- **نطاقات:** `important.excluded_domains` تُستبعد من الأدلة كليًا من كل محرّك (`_is_excluded_domain`، النطاق
-  أو فرعيّه بنقطة فاصلة) — نفيٌ من facebook.com لا يُحسب (g9). `important.fact_check_domains` تُعرِّف جهة
-  التدقيق بالنطاق أيضًا (`_is_fact_checker(name, icfg, link)`؛ مدخل فيه «/» كـ`reuters.com/fact-check/` يتطلب
-  المسار)، وأُضيفت الصيغ العربية (مسبار/فتبينوا/تييت) إلى `fact_check_publishers` (g7). شروط حارس `false`
-  لم تتغيّر.
-- **الملف:** لكل نقطة `claim`/`asserted`/`queries`/`engines` (`google_news`/`brave_web`)/`windows`/
-  `docs_before`/`docs_after`/`brave_skipped`؛ وللملف `extract_model`، `brave` (`requests`/`skipped`/
-  `monthly_usage`/`monthly_cap`)، و`model_calls.by_model`.
-- **الاختبارات:** g7–g9 في `tests/test_guards_golden.py` (كُتبت قبل الكود)، و`test_important_search_and_extract`
-  في `tests/test_important.py` (انحدار #1197 `regression_1197`، وb–f). `ImportantRig` صارت تزيّف نداء التفكيك
-  وBrave web (`brave_results`/`brave_key`/`unrestricted_only`)؛ عدّلتُ في `test_important_pipeline` أرقام عدّ
-  النداءات فقط (+1 للتفكيك).
-
-**المهمة 1ج (Issue #1200) — إصلاح التصنيف واختيار المقتطفات بعد التجربة الحقيقية الثانية.** التغيير في
-`src/important.py` + `config.yaml: important` + الاختبارات؛ لا `article.py` ولا `.github/workflows/`.
-- **`same_event` أولًا:** أداة `classify_sources` تُرجع لكل مصدر `same_event` (الفاعل والفعل والموضوع نفسها)
-  قبل الموقف. في `_read_stances` (الكود لا النموذج): `supports`/`conflicts_detail`/`refutes` بلا
-  `same_event=true` (أو بغياب الحقل) تتحوّل إلى `related_other` (موقف جديد، `raw_stance` يحفظ الأصل) فلا تدخل
-  inaccurate ولا confirmed ولا false. شروط حارس `false` لم تُرخَ — أُضيف إليها شرط `same_event` فقط.
-  `related_other` لا يظهر في `evidence` بل في `read_docs`.
-- **`nearest` بكيان مشترك:** عنوان الحدث الأقرب ووصفه يجب أن يذكرا كيانًا واحدًا على الأقل من `entities`
-  النقطة (`_shared_entity`)، بمطابقة مطبَّعة (`_fold`: تشكيل، همزات، ü←u…، سوابق عربية) وبصيغ
-  `important.entity_aliases` (تركيا/Turkey/Türkiye). وإلا `null`؛ ونقطة بلا كيانات لا `nearest` لها (فتسقط
-  بـ«لا أثر…»). المحفوظ يحمل `shared_entity`.
-- **اختيار المقتطف (`select_excerpt`):** صفحة الوثيقة فقرات تُرتَّب بكيانات النقطة وأرقامها وكلمات ادّعائها،
-  وفقرة فيها رقم ونوعه (`important.number_unit_aliases`: مليون/million) مع كيان أو كلمة ادّعاء تُقدَّم؛
-  تُؤخذ أعلاها حتى `tokens_per_source` (**600** الآن) × `chars_per_token` (3) أحرف، بترتيبها الأصلي. بلا
-  تطابق يُؤخذ أول النص. التصنيف يرى المقتطف، وشرط المقتطف الحرفي لـ`refutes` يُفحص على النص الكامل.
-- **`read_docs` لكل نقطة (للتشخيص):** كل وثيقة مقروءة — `publisher`، `link` النهائي (+`orig_link`)،
-  `resolved`، `engine`، `page_chars`، `excerpt_chars`، `same_event`، `stance` (بما فيها `irrelevant`،
-  و`deduped` لمن أسقطته إعادة النشر).
-- **حلّ روابط Google:** `_PointSearch.resolve_link` يستعمل `sources.resolve_final_url` قبل الحفظ والاستبعاد
-  والاستقلال؛ تعذّر الحل ← الرابط الأصلي و`resolved=false`. جهة التدقيق بالنطاق تُفحص على المحلول.
-- **الاختبارات:** g10–g12 في `tests/test_guards_golden.py` (كُتبت قبل الكود)؛ `test_important_same_event_and_excerpts`
-  في `tests/test_important.py` (انحدار #1197 الثاني، read_docs، الروابط). `helpers.important_stance` صار
-  يرسل `same_event=True` افتراضيًا (g1–g9 لم تُعدَّل)، و`ImportantRig` يسجّل `last_content`/`contents`؛
-  وعُدّل في `test_important` عنوان nearest ليحمل كيان النقطة، ونقطة بلا كيانات صارت بلا nearest.
-
-**المهمة 1د (Issue #1203) — سقف الصفحة واتفاق الأرقام والادّعاء المتداول بعد التجربة الحقيقية الثالثة (#1201).**
-التغيير في `src/important.py` + `config.yaml: important` + `extract.py`/`evidence.py` بمعامل اختياري؛ لا
-`article.py` ولا `.github/workflows/`. شروط حارس `false` لم تُرخَ (g1–g12 بلا تعديل).
-- **سقف الصفحة:** `extract.fetch_text`/`extract.gather` و`evidence.gather_evidence` تقبل `max_chars=None`؛
-  لا يُمرَّر المعامل إلى `extract.gather` إلا إن حُدِّد (مزيَّفات الاختبارات القائمة بتوقيعها القديم) فيبقى
-  `MAX_CHARS = 2500` لكل مسار آخر (أخبار/مقال). مسار «هام» يمرّر `important.page_max_chars` (20000) في
-  `_PointSearch.run`/`run_brave`، واختيار الفقرات (#1200) يعمل على النص الكامل. تسمية الحدث المبهم
-  (`article._name_event`) تبقى بسقف 2500 لأنها في `article.py`.
-- **محلّل الأرقام (`important.parse_numbers`):** يُرجع قيمًا `Decimal`: أرقام هندية، فاصل آلاف بالفاصلة
-  (`86,092,168`) أو بنقاط تركية متكرّرة، فاصلة/نقطة واحدة = كسر، مقاييس `important.number_scales`
-  (مليون/million/milyon، مليار/billion/milyar، ألف/آلاف/thousand/bin)، والمركّب العربي «86 مليوناً و92 ألفاً
-  و168» = 86092168 (بند بمقياس يليه بند مفصول بـ«و» ومقياسه أصغر). `_agree(a, b, icfg)`: إن وردت أرقام في
-  الجانبين فالجانب الأقل أرقامًا يجب أن يجد لكل رقم فيه رقمًا مقاربًا في الآخر بفرق ≤
-  `important.number_tolerance` (0.005) من الأكبر (فسنة إضافية في صيغة لا تمنع الاتفاق، وقيمتان مختلفتان
-  مع كلمات مشتركة لا تتفقان)؛ بلا أرقام في أحدهما القاعدة القديمة. `correction.correct` = أدقّ الصيغ
-  المتفقة (أكثر أرقام معنوية للقيمة الأساسية = أول رقم غير سنة)، و`correction.correct_value` = قيمتها بفواصل
-  الآلاف («86,092,168»). **عتبة 0.5% تجعل 85.7 و86.1 «متفقين» — مقصود؛ الاتفاق بين صيغتَي تصحيح لا بينهما
-  وبين النقطة.**
-- **الادّعاء المتداول:** الاستخراج يعيد `framing` (`direct`/`circulating`)؛ في `circulating` يكون `claim` هو
-  المضمون المزعوم و`circulating_context` (واقعة التداول) للعرض وحده — لا يدخل نداء التصنيف ولا الحكم، كـ`asserted`.
-  نداء التصنيف لنقطة متداولة يُلحَق بنظامه `CIRCULATING_NOTE` («الفيديو قديم/من بلد آخر/مفبرك» = `refutes`).
-  حارس الكود (`_content_mentioned`): `supports` على نقطة متداولة يُخفَّض إلى `irrelevant` (`raw_stance`
-  محفوظ) ما لم يوجد مقتطفه حرفيًا في النص ويحمل رقمًا من أرقام النقطة (بالتسامح نفسه) أو — بلا أرقام —
-  كيانًا من كياناتها: «انتشر مقطع…» وحده لا يؤكد المضمون (g14). الملف يحمل `framing`/`circulating_context` لكل نقطة.
-  **قيد معروف:** `conflicts_detail` على نقطة متداولة لا يعالجه الكود (يعتمد على الملاحظة في الموجّه).
-- **عبارة بلغة البلد دائمًا:** `important.entity_languages` (كيان ← رمز لغة؛ يُطابَق بمجموعة `entity_aliases` فـ«Turkey»
-  = «تركيا»). إن لم يعد الاستخراج عبارة بتلك اللغة يُطلب نداء Haiku ثانٍ قصير لها وحدها (`_native_queries`،
-  أداة `native_queries`، يُحسب في `model_calls.brief`)؛ فشله لا يوقف شيئًا. تُضاف قبل حدّ `queries_per_lang`.
-- **نطاقات مستبعدة جديدة:** `github.com` و`news-pravda.com` (وفروعه) في `important.excluded_domains`.
-- **الاختبارات:** g13–g16 في `tests/test_guards_golden.py` (كُتبت قبل الكود)؛ `test_important_1203` في
-  `tests/test_important.py` (نقاط #1201 الخمس بوثائقها وصفحة DataReportal كاملة، `extract` بلا المعامل،
-  المحلّل، العبارة التركية). `ImportantRig` صار يقبل `native=` ويسجّل `max_chars_seen`/`systems`/
-  `native_requests`، وعُدّل في `test_important_search_and_extract` عدّ نداءات `brief` (نداء لغة أم لكل نقطة تركية).
-
-**المهمة 1هـ (Issue #1205) — زمن التصحيح والجهة الأصلية وبحث المدقّقين بعد التجربة الحقيقية الرابعة.**
-التغيير في `src/important.py` + `config.yaml: important` + الاختبارات؛ لا `article.py` ولا `.github/workflows/`.
-شروط حارس `false` لم تُرخَ (g1–g16 بلا تعديل، وأُضيفت g17–g20 قبل الكود).
-- **زمن التصحيح:** أداة التصنيف تعيد `as_of` مع `correct_form`. `_time_status(as_of, dates)`: `free` (لا سنة في
-  `dates` النقطة فلا مقارنة) · `absent` · `match` (سنة مشتركة، وفترة الصيغة إن ذُكرت — `important.period_groups`:
-  نهاية/أكتوبر… — هي فترة النقطة؛ بلا فترة تكفي السنة) · `other`. صيغة `other` لا تدخل التصحيح ولا `evidence`
-  وتبقى في `read_docs` (مع `as_of`). `_pick_correction`: الصيغ `match/free` تتفق فيما بينها، والـ`absent` فيما بينها
-  فقط (لا خلط مؤرَّخة بغير مؤرَّخة)؛ `correct_value` قيمة يتفق عليها `min_confirm_sources` مستقلان فأكثر؛ وعند
-  تعدّد القيم المتفقة الأكثر مصادر ثم الأدقّ. لا تصحيح مؤيَّد ← تُعامَل النقطة بقواعد البقية. `correction.as_of`
-  و`sources[].as_of` محفوظان.
-- **تصحيح داخل الهامش = supports:** `_read_stances` يحوّل `conflicts_detail` إلى `supports` (`raw_stance` يحفظ الأصل)
-  إن كان رقم `correct_form` ضمن الهامش من رقم النقطة (ولم يكن `as_of` من زمن آخر). **انحراف مقصود عن نص المهمة:**
-  الهامش `_within_margin` = `min(نصف وحدة أقلّ الرقمين دقة, number_tolerance × الأكبر)` لا `number_tolerance` وحدها،
-  لأن 0.5% تجعل 85.7 و86.1 مليونًا «ضمن الهامش» (0.46%) فينقلب g16 من inaccurate إلى confirmed؛ بمدى التقريب
-  يبقى 86.1 مليون ضمن 86,092,168 (g18) وخارج 85.7 مليون (g16).
-- **الجهة الأصلية:** `important.primary_data_domains` (بنطاق الرابط؛ مدخل بـ«/» يتطلب المسار). وثيقة منها تؤيد
-  (same_event + مقتطف حرفي في نصها يحمل رقم النقطة ضمن الهامش، ولنقطة بلا أرقام لا جهة أصلية) تكفي وحدها لـ`confirmed`
-  (`_primary_supporters`)، وتُعدّ «حدثًا موثَّقًا» في تعارض النفي مع التأييد. **لا تدخل حساب `false` أبدًا** (g19).
-  `primary_source: true` على النقطة إن اعتمد الحكم (confirmed/inaccurate) على وثيقة منها. للتصحيح لا يتغيّر العدّ
-  (الجهة الأصلية + مصدر مستقل = مصدران كالمعتاد).
-- **بحث المدقّقين الموجَّه:** `_PointSearch.site_queries` — لكل لغة في `query_langs` النقطة (محفوظة من الاستخراج
-  مع `query_by_lang`) كل نطاق في `important.fact_check_sites_by_lang` يُرسَل عبر Brave web بعبارة
-  «عبارة اللغة + كلمة تدقيق من `factcheck_words_by_lang` إن غابت + site:<نطاق>»، بترتيب الإعداد (ar ثم tr ثم en)
-  وسقف `factcheck_site_queries` (4) يقصّ من الآخر. تُرسَل **قبل** كل عبارة أخرى، ولا تُحتسب في سقف
-  `max_docs_per_point` كي لا تحجب البحث العادي، و`_finalize` يقدّم نطاقات المدقّقين في الترتيب. كل عبارة طلب Brave
-  يحسبه عدّاد `important:YYYY-MM` وسقفه؛ بلا مفتاح/عند السقف لا طلب ويُسجَّل `brave.skipped`. الملف: `site_queries` لكل نقطة.
-- **الاختبارات:** g17–g20 في `tests/test_guards_golden.py:test_important_false_guard`؛ `test_important_1205` في
-  `tests/test_important.py`. عُدِّل في `test_important_search_and_extract` عدّ طلبات Brave (2 ← 4: عبارتا site: العربيتان
-  صارتا تُرسَلان لكل نقطة بالعربية)؛ و`helpers.important_stance` يقبل `as_of`.
-
-**المهمة 1و (Issue #1207) — ميزانيتا المدقّقين وحكم المدقّق الصريح وهامش `_agree` بعد التجربة الحقيقية الخامسة.**
-التغيير في `src/important.py` + `config.yaml: important` + الاختبارات؛ لا `article.py` ولا `.github/workflows/`.
-g1–g20 بلا تعديل في نصوصها، وحارس `false` شُدّ لا أُرخي.
-- **ميزانيتان منفصلتان:** `important.max_factcheck_docs` (4) لنتائج عبارات `site:` ولكل وثيقة جهة تدقيق (وسم
-  `from_site` أو `_is_fact_checker`)، و`max_docs_per_point` (8) لغيرها؛ `_finalize` يقصّ كلًّا بسقفه ويقدّم المدقّقين،
-  وشرط وقف الجمع في `collect` يعدّ غير المدقّقين وحدهم. السبب: أربع نتائج مدقّقين غير ذات صلة احتلّت 4 من 8 مقاعد
-  فخرجت يني شفق وdefensehere (1) وDataReportal (5).
-- **استبعاد قبل الجلب (`_PointSearch._prefilter`/`_checker_relevant`):** نتيجة مدقّق (كل نتائج `site:`، وأي نتيجة
-  ناشرها/نطاقها مدقّق في بقية الاستعلامات) لا يشترك عنوانها ولا مقتطف البحث فيها مع النقطة في كيان (مطبَّع عبر
-  `entity_aliases`) ولا رقم ضمن `_within_margin` **لا تُجلب** فلا تُقرأ ولا تدخل أي ميزانية؛ تُسجَّل في `checker_skipped`
-  لكل نقطة (publisher/link/title). نتيجة بلا عنوان ولا مقتطف، أو نقطة بلا كيانات ولا أرقام، لا يُحكم عليها فتمرّ.
-  مفتاح ذاكرة `run` المؤقتة صار يحمل نص النقطة.
-- **`verdict_label` (أداة `classify_sources`):** حكم المدقّق كما في صفحته، فارغ لغير المدقّقين وعند غياب حكم صريح؛
-  وعنوان المقال السؤالي ليس حكمًا. `false` بمدقّق واحد (دون مصدرين مستقلين) يشترط في `decide`:
-  `verdict_label` ضمن `important.false_labels` (مقارنة مطبَّعة **كاملة** لا جزئية: «Mostly False» ≠ «False»)
-  **و**مقتطفه ليس سؤالًا (`_is_question`: ينتهي بـ«؟»/«?» أو آخر كلمة أداة استفهام تركية mı/mi/mu/mü). مسار
-  مصدرين مستقلين لم يتغيّر. في `_read_stances` (مدقّق + `same_event` فقط): `true_labels` (Doğru/صحيح/True) ← `supports`
-  مهما كان العنوان، و`misleading_labels` (Misleading/Yanıltıcı/مضلل) ← `conflicts_detail` (لا نفي)؛ `raw_stance`
-  يحفظ الأصل. ملاحظة «نفي غير كافٍ» تذكر الآن أن المدقّق بلا حكم نفي صريح أو بمقتطف سؤالي.
-- **`_agree`** يستعمل `_within_margin` نفسها (نصف وحدة الأقلّ دقة بسقف `number_tolerance`) عبر
-  `_numbers_with_half(..., years=True)` بدل العتبة النسبية وحدها: «85.7 مليون» و«86.1 مليون» لا تتفقان، و«86.1 مليون»
-  و«86 مليوناً و92 ألفاً و168» تتفقان. (البند المؤجَّل من #1205.)
-- **الاختبارات:** g21–g25 في `tests/test_guards_golden.py:test_important_false_guard` (كُتبت قبل الكود)؛
-  `test_important_1207` في `tests/test_important.py` (مزيج وثائق التشغيلين الرابع والخامس بنص #1201). في
-  `tests/helpers.py` (ليس اختبارًا): `important_stance` يقبل `verdict_label` ويفترض `"False"` لـ`refutes` كي تبقى
-  g5/g7/g7b (مدقّق واحد ينفي بلا ذكر حكم) تمرّ دون تعديل — الحالات الجديدة تمرّر القيمة صراحةً؛ و`ImportantRig` يسجّل
-  `gathered` (روابط ما أُرسل للجلب) ويمرّر `title`/`summary`/`link` من الوثيقة إن وُجدت.
-
-**المهمة 1ز (Issue #1210) — حكم المدقّق من ClaimReview في كود الصفحة.** السبب المقيس (#1201، التشغيل
-السادس، النقطة 3): صفحة Teyit الصحيحة وُجدت لكن `page_chars` = 226 — فشل استخراج النص (أقل من `MIN_CHARS`)
-فسقط الجلب إلى مقتطف العنوان+الملخص، والحكم «Yanlış» في JSON-LD وحده. التغيير في `src/important.py` +
-`src/extract.py`/`src/evidence.py` بمعامل اختياري (كـ#1203) + الاختبارات؛ لا `article.py` ولا `.github/workflows/`.
-g1–g25 بلا تعديل وشروط `false` لم تُرخَ.
-- **طريقة الجلب (الخيار المعتمد):** `extract.fetch_text(..., html_sink=None)` تسلّم `resp.text` الخام لدالة
-  `(رابط، html)` **قبل** الاستخراج، فتصل الصفحة حتى حين يفشل الاستخراج بنص قصير — فلا جلب ثانٍ. يُمرَّر
-  `html_sink` عبر `extract.gather` وـ`evidence.gather_evidence` **عند الطلب وحده** (مزيَّفات الاختبارات القائمة بتوقيعها
-  القديم). `_PointSearch._keep_html` تحفظ HTML لروابط `important.fact_check_domains` وحدها. إن لم يمرّ الجلب الأول
-  على صفحة مدقّق (لم تقع في نافذة القراءة) فـ`_PointSearch.html_for` تجلب مرة واحدة إضافية عبر `extract.fetch_html`
-  (الرأسان والمهلة نفسها)؛ غير المدقّقين بالنطاق لا يُجلب لهم شيء. (قيد: فشل HTTP في الجلب الأول يتبعه جلب إضافي
-  واحد لصفحة المدقّق — مقبول، محصور بنطاقات المدقّقين.)
-- **`important.parse_claim_review(html)`:** يقرأ كل `<script type="application/ld+json">`، مفردة أو `@graph` أو
-  قائمة (بأي عمق)، ويلتقط أول `@type: ClaimReview` له حكم: `claimReviewed`، `reviewRating.alternateName` وإلا `.name`،
-  `datePublished`، `url`، و`in_raw_html` (الحكم موجود حرفيًا في HTML الخام، أو في الكتلة بعد فكّ هروب JSON
-  `ı`). JSON تالف أو كتلة بلا حكم ← `None` بلا خطأ والسلوك كما قبل. يُطبَّق على نطاقات `fact_check_domains` وحدها
-  (`_is_fact_checker_domain`) — لا على اسم الناشر.
-- **الاستعمال:** (1) نص الوثيقة في نداء التصنيف يسبقه سطر «بيانات التدقيق المنظَّمة: الادّعاء المدقَّق: …؛ الحكم: …»
-  و`CLASSIFY_SYSTEM` يوجّه النموذج لـ`same_event` بين النقطة وclaimReviewed. (2) في `_read_stances`: `verdict_label` =
-  الحكم من البيانات مباشرة (يغلب ما يقوله النموذج)، ومقتطف `refutes` = نص الحكم كما هو يُتحقَّق منه بـ`in_raw_html`
-  بدل النص المستخرج (لهذه الحالة وحدها). `true_labels`/`misleading_labels` كما في #1207 على الحكم المنظَّم. بلا
-  ClaimReview لا شيء يتغيّر. (3) `read_docs[*].claim_review` = `{claim_reviewed, label, date_published}` أو `null`.
-- **الاختبارات:** g26–g30 في `tests/test_guards_golden.py:test_important_false_guard` (كُتبت قبل الكود)؛
-  `test_important_1210` في `tests/test_important.py`. في `tests/helpers.py`: `claim_review_html(...)` (shape:
-  single/graph/list/broken/none)، و`ImportantRig` يقبل `html_sink` في مزيَّف الجلب ويقرأ مفتاحَي الوثيقة `html` (يمرّ
-  عبر html_sink) و`late_html` (لا يمرّ، يُخدم عبر `extract.fetch_html` المزيَّفة التي لا تمسّ الشبكة)، ويسجّل
-  `fetched_html`/`html_sink_seen`.
-
-**المهمة 1ح (Issue #1212) — ثبات عبارات مواقع المدقّقين وذاكرة نتائج البحث.** السبب المقيس (#1201، التشغيلات
-5–7، النقطة 3): عبارة `site:teyit.org` كان يكتبها النموذج فتتغيّر كل تشغيلة، وفعلها وكلمة «teyit» تضيّقان
-`site:` فضاع مقال Teyit في التشغيل 7. التغيير في `src/important.py` + `config.yaml: important` + الاختبارات؛ لا
-`article.py` ولا `.github/workflows/`. g1–g30 بلا تعديل وحارس `false` لم يُرخَ.
-- **عبارات `site:` تُبنى في الكود (`important.site_phrase`):** لكل لغة من `query_langs` النقطة: أرقام النقطة (بصيغة
-  لغتها: 450 ألف ← `450 bin` / `450 thousand` / `450 ألف`، `site_scale_words`؛ ما لا يُختصر إلى ≤3 أرقام معنوية يُكتب
-  بفواصل الآلاف؛ السنوات تُستثنى) ثم كياناتها بصيغة اللغة (`entity_alias_langs` + مجموعات `entity_aliases`؛ الأقرب موضعًا
-  إلى الكيان في المجموعة إن تعدّد، وللعربية الكيان العربي؛ لا صيغة ← الكيان كما هو) بلا فعل ولا سنة ولا كلمة تدقيق،
-  بترتيب ثابت وحدّ `site_query_max_words` (5، بالكلمات، عناصر كاملة). عبارة النموذج احتياط **فقط** لنقطة بلا كيانات
-  ولا أرقام (حينها كما قبل: مع كلمة التدقيق). `factcheck_query` من النموذج تبقى للبحث العادي غير المقيَّد.
-  أُضيفت مجموعة «جنود/soldiers/asker» إلى `entity_aliases`.
-- **ذاكرة النتائج (`state/important/search_cache.json`):** المفتاح `المحرّك|العبارة المطبَّعة (_fold)|النافذة`
-  (`google_news` بـ`days:r|u`، و`brave_web` بـ`-`). تُحفظ نتائج البحث (Article مسلسَلة) **لا نصوص الصفحات** — الجلب بعد
-  الضربة يجري كالمعتاد. ضربة ← لا طلب Brave ولا أخبار Google ولا عدّاد Brave. `important.search_cache_days` (7؛ 0 يعطّلها):
-  تُنظَّف المنتهية عند بناء `_PointSearch` (كل تشغيل) ويُكتب الملف إن تغيّر. لا يُحفظ نتيجة فارغة ولا فشل Brave
-  (`state["failed"]`) كي لا يُثبَّت عطل عابر أسبوعًا. الملف يسجّل `cache_hits` لكل نقطة. ملف الـworkflow المؤقت يحفظ
-  `state/important` كاملًا فتُحفظ الذاكرة معه.
-- **الاختبارات:** `test_important_1212` في `tests/test_important.py` (a–d على الأنبوب). `ImportantRig` (helpers) يمسح ملف
-  الذاكرة عند الدخول والخروج كي لا تتسرّب نتائج اختبار إلى آخر، ويحفظ سجلّ وثائق لإعادة بناء نتائج الذاكرة. عُدّل في
-  `test_important_search_and_extract` تأكيد عبارة teyit.org (كانت عبارة النموذج + «teyit»).
-
-**المهمة 1ط (Issue #1214) — شرط as_of للأرقام وحدها، و«أدلة متعارضة» من المؤيِّدين وحدهم (التجربة الثامنة، #1209).**
-التغيير في `src/important.py` + `config.yaml: important.month_names` + الاختبارات؛ لا `article.py` ولا `.github/workflows/`.
-g1–g30 بلا تعديل، وأُضيفت g31–g35 قبل الكود.
-- **`detail_kind`:** أداة `classify_sources` تعيد مع `conflicts_detail` الحقل `number`/`date`/`name`/`place`/`other`
-  (`DETAIL_KINDS`). شرط زمن التصحيح (#1205: `_time_status`، وتحويل التصحيح داخل هامش الرقم إلى `supports`، وإخفاء
-  صيغة «other» من `evidence`) يسري على `number` وحده؛ **غياب الحقل أو قيمة مجهولة تُعامَل `number`** (`_is_number_kind`)
-  إبقاءً للسلوك المتحفّظ السابق. في date/name/place/other يكفي أن يتفق مصدران مستقلان على `correct_form`
-  (`_pick_correction`). التواريخ تُقارَن بقيمتها (`parse_date` → (سنة، شهر، يوم) من «25 ديسمبر 2021»/«2021-12-25»/
-  «December 25, 2021»/أرقام هندية، بأسماء `important.month_names`؛ تعذّر تحليلها كاملةً ← `_agree` القديمة). `correction.detail_kind`
-  محفوظ (وكذلك `evidence[*].detail_kind`).
-- **«أدلة متعارضة» في `decide`:** `event_documented` = تأييد صريح كافٍ (`n_support ≥ min_confirm`) أو جهة أصلية مؤيِّدة
-  (#1205) فقط؛ `conflicts_detail` المتفقة (`agreeing`) لم تعد تُحسب تأييدًا. نفي كافٍ + تأييد غير كافٍ ← `false` (بشروط
-  `refute_ok` كاملةً بلا إرخاء)؛ نفي كافٍ + تأييد كافٍ ← «أدلة متعارضة» كما كان.
-- **الاختبارات:** g31–g35 في `tests/test_guards_golden.py:test_important_false_guard`؛ `test_important_1214` في
-  `tests/test_important.py` (نص #1209 بوثائق التشغيل الثامن؛ نص #1201 بوثائق السابع يبقى في `test_important_1207` بلا تعديل).
-  `helpers.important_stance` يقبل `detail_kind` (يُرسَل عند تمريره وحده).
-
-**المهمة 2 (Issue #1217) — من الوسم إلى قضية الترشيح (المرحلة 1).** وحدة جديدة `src/important_issue.py`؛ لا `article.py`
-ولا `.github/workflows/`؛ g1–g35 بلا تعديل. الكتابة وقراءة الاختيارات المهمة 3.
-- **نقطة الدخول:** `python -m src.important --issue N` (بلا `--judge-only`، وهو يبقى كما هو) ← `important_issue.run`.
-  الملف يحمل `body_hash` (`important.body_hash`: sha1 بعد تطبيع المسافات). نص بالبصمة نفسها (والملف بلا `error`) ← يُعاد
-  استعمال الحكم بلا أي نداء نموذج أو Brave؛ نص متغيّر ← `judge` جديد يستبدل الملف. إن كانت `selection_issue` المحفوظة مفتوحة
-  فلا قضية جديدة (تعليق برابطها على N فقط)؛ مغلقة أو غائبة ← تُفتح قضية جديدة. بلا نقطة معروضة لا تُفتح قضية.
-- **حالة النقطة في الملف:** `status` = `offered` (تُعرض) أو `dropped` (لها `dropped_reason`) — `important.mark_status` — و`selection_issue`
-  (رقم القضية للمعروضة، `null` للساقطة)، وللملف `selection_issue` أيضًا. `refuted_by[*]` صار يحمل `verdict_label` (لعرض «حكم: …»).
-- **قضية الترشيح:** وسم `important-selection` (في `review.ensure_labels`)، العنوان «📌 هام — ترشيح من #N: <أول
-  `important.selection_title_chars` حرفًا من عنوان أول نقطة معروضة>». الجسم `important_issue.build_selection_body` بالوحدة المشتركة
-  (`stages.stage_header(1)` + `explainer_stage1` + «المصدر: نصّك في #N» ثم لكل نقطة بلا مربع فوقها: «**k. العنوان**» (claim، وعنوان
-  `nearest` في not_found) ← «🏷️ الشارة · أيقونة الحكم اسمه» (`important.badges`/`verdict_names`؛ مفتاح `"false"` بين علامتي اقتباس
-  وإلا قرأه YAML منطقيًا) ← «↳ كما ورد عندك» (`circulating_context` أو `asserted`، وللـnearest نص النقطة الأصلي) ← الأدلة ← الصورة
-  (أول `image_candidates` بـhttp(s)، `<img width="520">` + 🖼️ بنطاقه، وإلا «بلا صورة من المصادر · بحث الويب لاحقًا») ←
-  `stages.image_field` ← `stages.options_block(1, id, has_stage1=False)`)، ثم `<details>` الساقطة بلا مربعات، ثم التذييل المعتاد.
-  الأدلة: confirmed حتى `selection_support_sources` (3) مؤيِّدة، والجهة الأصلية أولًا وبعلامتها؛ inaccurate «الخطأ ← الصحيح (as_of)» +
-  مصدران؛ false «كذّبها: …(حكم)(جهة تدقيق)»؛ not_found بـnearest «لا أثر للنقطة كما وردت. الأقرب:» + الوصف + مصدراه.
-- **التعليق على N:** رابط القضية + جدول (النقطة ← الحكم) + «سقط: n».
-- **`publish.main`:** `important-selection` + `approved` ← تعليق واحد «اختيارات «هام» تُنفَّذ بعد اكتمال المهمة 3…» (من المسار السريع
-  وحده لأن `publish.yml` يشغّل المسارين) ثم يعود؛ لا إغلاق ولا إزالة وسم ولا قرارات. **المهمة 3 تستبدل هذا الفرع.**
-- **الاختبارات:** `test_important_1217` في `tests/test_important.py` على `important.main` بـGitHub مزيَّف وملفّي #1209/#1201 الحقيقيين
-  نسخةً ثابتة في `tests/fixtures/important/` بدل الحكم.
-
-**المهمة 3 (Issue #1221) — قراءة اختيارات المرحلة 1 والكتابة بحسب الحكم، ثم المسار الموحَّد.** وحدتان جديدتان:
-`src/important_finalize.py` (القراءة والتوزيع وgo1) و`src/important_write.py` (الكتابة والفحص). لا `article.py` ولا
-`.github/workflows/` ولا تعديل على أي اختبار خارج `test_important`/`test_guards_golden`/`helpers`.
-- **القراءة:** `publish.main` على `important-selection` + `approved` ينفّذ `important_finalize.finalize(issue, body, cfg)`
-  (يحلّ محل التعليق المؤقت، من المسار السريع وحده كـ`pending-selection`). `stages.read_actions(body, 1)` بقاعدة الأحوط:
-  `go2`/`go3`/`publish` ← الكتابة ثم `collect_finalize.dispatch_written` (استُخرجت حرفيًا من `finalize` الأخبار فلا
-  مسار ثانٍ): قضية مرحلة 2 · بطاقة وقضية مرحلة 3 · بطاقة ثم `cmd_burst` (فاصل النشر). غير المعلَّم «لم يُختر»
-  (`decisions.record_unselected` بمرشح مصطنع `origin: "important"` + `selection_issue`؛ لا `feedback.record` فهو لتعلّم
-  فرز الأخبار). النقطة في `state/important/N.json`: `offered` ← `selected` (+`action`) ← `written` (+`draft_id`) أو
-  `unselected`؛ فشل الكتابة يترك `selected` و`write_error` فتُعاد المحاولة بإعادة `approved` (فشل تقني يُبقي الوسم، رفض
-  تحريري يُزيله). الملف المعني تجده `result_for_selection` بمطابقة `selection_issue` النقاط.
-- **الكتابة (`important_write.write_point`):** `article._draft_article` نفسها بنموذج `article.model` (Sonnet) ومصادرها
-  أدلة النقطة وحدها (`ordered_sources`: confirmed ← المؤيِّدة والجهة الأصلية أولًا · inaccurate ← `correction.sources` ·
-  false ← `refuted_by` والمدقّق أولًا · not_found ← `nearest.sources`). التعليمات في `config.yaml:
-  important.writer_instructions` تُلحَق عبر `avoid_note` (فلا تعديل على `article.py`) ومعها `title_note` الذي يلغي صيغة
-  السؤال للعنوان. في inaccurate تُمرَّر `correction.correct` (لا `correct_value`) · في false الشائعة والمدقّق وحكمه ·
-  في not_found عنوان `nearest` وحده. المسودة `origin: "important"` وتحمل `point_id`/`source_issue`/`selection_issue`/
-  `verdict`/`badge`؛ العناوين الثلاثة بـ`headlines_for_post`؛ `source.publishers` بترتيب `ordered_sources` (فسطر
-  «المصدر:» على البطاقة يبدأ بالمدقّق في false)؛ `image_candidates` صور الناشر ثم السلسلة القائمة، و`manual_image` يغلب
-  (يصل من `setimage.apply_selection_image` الذي يحفظه على النقطة).
-- **الفحص بعد الكتابة في الكود (`check_text`، مطابقة مطبَّعة بـ`important._fold`، g36–g39):** false: العنوان لا يحوي الادّعاء
-  حرفيًا («عنوان التفنيد يكرّر الادّعاء») ولا أول جملة، والمتن يسمّي المدقّق ويذكر حكمه؛ not_found: لا يذكر النقطة
-  الأصلية (حرفيًا، أو جملة تحوي ≥ `original_mention_overlap` من كلماتها، أو `not_found_forbidden`)؛ inaccurate:
-  `correction.correct` بنصّه في العنوان وأول جملة. ثم `verify_draft.check_originality` على مقتطفات الأدلة. الرفض يعيد الكتابة
-  مرة واحدة (`write_attempts`) بذكر العلّة ثم يُرفض كتابةً فاشلة بسببها.
-- **البطاقة:** `cards.card_origin(draft)` يختار مفتاح جدول `cards`: `important` (هام) · `important_inaccurate` (تصحيح) ·
-  `important_false` (تفنيد)؛ نص كل شارة مطابق لـ`important.badges` (يتحقق منه اختبار) والألوان في `cards` لأن imaging يقرأ
-  الجدول وحده — لا تعديل على `imaging.py`.
-- **المرحلتان 2 و3 وgo1:** `review.has_stage1` يقبل `important`. go1 ← `publish.return_to_selection` ←
-  `_return_important_to_selection`: المسودة `returned` بنصها (لا كتابة لاحقة) والنقطة `offered`+`returned` بلا قضية،
-  `decisions.record_returned`، ثم `important_finalize.reopen_selection` تفتح فورًا (لا فاتح دوري لقضايا «هام») قضية ترشيح
-  جديدة للنص نفسه من الملف المحفوظ بلا حكم جديد، المعادة وحدها فيها وعناوينها بـ«↩️ أعدته من المرحلة N». اختيارها ثانية
-  يستعمل المسودة نفسها (`_reuse_returned`) بلا نداء كتابة.
-- **الأصل:** `"important"` في `store.EXTRA_ORIGINS` (لا `CANONICAL_ORIGINS`، فاختبار في `test_review` يثبّتها على الست
-  حرفيًا) و`review.ORIGIN_LABELS`؛ `origin_of` تعدّه معياريًا. `feedback.screening_guidance` يقصر نفسه على news/breaking فلا
-  تتأثر به رفوضه.
-- **تنبيه تشغيلي:** `publish.yml` يودِع `drafts state` فيصل `state/important` و`state/decisions.json`؛ لكن `image.yml` يودِع
-  `drafts state/candidates state/youtube_topics` فحسب، فصورة المرحلة 1 لنقطة «هام» (`manual_image` على النقطة) لا تُودَع
-  حتى يضيف صاحب المشروع `state/important` إليه.
-- **الاختبارات:** g36–g39 في `tests/test_guards_golden.py:test_important_write_guards` (كُتبت قبل الكود)، و`test_important_1221`
-  في `tests/test_important.py` (a–e، go1 من المرحلتين، صورة المرحلة 1)؛ `ImportantWriteRig` و`important_*` في `tests/helpers.py`.
-  فقرة (e) القديمة في `test_important_1217` (التعليق المؤقت) حُذفت لأن الفرع الذي تختبره استُبدل.
-
-**المهمة 3ب (Issue #1225) — اقتباس الادّعاء، لا فشل صامت، والادّعاء المتجاوَز زمنيًا (أول تجربة كتابة حقيقية #1220).**
-التغيير في `important.py` + `important_write.py` + `important_finalize.py` + `important_issue.py` + `verify_draft.py`
-(معامل اختياري) + `review.py` (سطر تنبيه) + `publish.py` (سطر استدعاء) + `config.yaml: important` + الاختبارات؛ لا `article.py` ولا
-`.github/workflows/`. g1–g39 بلا تعديل في نصوصها، عدا شرط حالة النقطة في `rejected()` (انظر 2).
-- **1) اقتباس الادّعاء:** `verify_draft.check_originality(..., allowed_quotes=None)` (يمرّره `_check_originality_full`)
-  يقبل اقتباسًا بين علامتي تنصيص إن وُجد حرفيًا (مطبَّعًا) في مقتطفات المصادر **أو** في هذه النصوص؛ للاقتباس وحده لا لفحص
-  التتابع، ومسار «مقال» لا يمرّره فلا يتغيّر. `important_write.allowed_quotes(point)`: في `inaccurate` و`false` وحدهما
-  `claim` + `circulating_context`؛ غيرهما `[]`. أي جملة أخرى من جسم الـIssue تبقى ممنوعة (g41).
-- **2) لا فشل صامت:** رفض تحريري بعد إعادة المحاولة ← `status="failed"` + `write_error` + `failed_at` (كان `selected` صامتًا)،
-  وتعليق على قضية الترشيح نفسها «⚠️ فشلت كتابة: <الموضوع> — السبب: <write_error>». العطل التقني يبقى `selected` ليُعاد بإعادة
-  `approved`. **`finalize` وحدها لا تفتح قضية** (كتابة مرفوضة بلا مسودة ولا قضية — g36–g39)؛ `important_finalize.run` (التي
-  تستدعيها `publish.main`) تتبعها بـ`reopen_failed`: النقاط `failed` تعود `offered` + `write_failed` بلا قضية ثم تفتح
-  `reopen_selection` (آلية go1، صارت تجمع `returned` و`write_failed`) قضية ترشيح جديدة للنص نفسه، وأمام عنوان النقطة
-  `important.write_failed_badge` («⚠️ فشلت الكتابة: <سبب مختصر>»، `write_error_chars` = 90). اختيارها ثانية يعيد المحاولة
-  ونجاحها يمسح `write_error`/`write_failed`/`failed_at`. **تعديل وحيد على اختبار قائم، بموافقة صريحة:** شرط `rejected()` في
-  `tests/test_guards_golden.py` صار `status == "failed"` بدل `"selected"` — البند 2 يغيّر اسم الحالة لا قرار الحارس.
-- **3) الادّعاء المتجاوَز (`superseded_by`):** أداة `classify_sources` تعيد لكل مصدر `superseded_by: {fact, date}` حين يقول
-  المصدر نفسه إن ما في النقطة كان صحيحًا ثم تجاوزه حدث أحدث، **حتى مع `same_event=false`** (فتبقى الوثيقة `related_other`
-  وحقلها محفوظ في `read_docs[*].superseded_by` وللنقطة `superseded`). `decide` غلاف فوق `_decide_base`: مصدران مستقلان
-  (`_independent_groups`) يتفقان على الحقيقة الأحدث (`_agree`) ← `inaccurate` بـ`correction.correct` = الحقيقة + (تاريخها)،
-  `detail_kind="superseded"`، قبل confirmed وبعد التصحيح العادي والنفي؛ مصدر واحد ← الحكم كما هو (confirmed/inaccurate) مع
-  `note` و`superseded_note` = `important.superseded_note` («⚠️ قد يكون متجاوَزًا: <الحقيقة> (<الناشر>)»)، يظهر سطرًا بارزًا
-  (`  > …`) في قضية الترشيح (`important_issue`) وقضية المرحلة 2 (`review.build_issue_body` من `draft["superseded_note"]`).
-  `writer_instructions.confirmed` تُلزم الكاتب بتأريخ كل صيغة تفضيل/«حتى الآن» بتاريخ الإعلان. **قيد معروف:** الاتفاق على
-  الحقيقة الأحدث نصيّ (`_agree`)، ولا يُرفع نقطة `not_found`/`false` إلى inaccurate بهذا الحارس لأن النفي الكافي يسبقه.
-- **الاختبارات:** g40–g41 في `test_important_write_guards` وg42–g43 في `test_important_false_guard` (كُتبت قبل الكود)،
-  و`test_important_1225` (a–c) في `tests/test_important.py` على fixture `tests/fixtures/important/1225.json` (نسخة
-  النقطتين الحقيقيتين 9c5d1c45c0a3 و4591dfda9524 من `state/important/1209.json`). `helpers.important_stance` يقبل `superseded_by`.
-
-**المهمة 3ج (Issue #1229) — حادثة 9185665f38b8: شائعة مؤكَّدة نُشرت (خطأ ضارّ).** النقطة «أكدت ناسا أن الشمس
-ستشرق من المغرب…» (شائعة كذّبتها جهات التدقيق) حُكم عليها `confirmed` ونُشرت على فيسبوك. **السبب (مقيس في
-`state/important/1209.json`):** خمسة مواقع مجهولة تعيد نشر الشائعة صُنّفت `supports` فبلغت `min_confirm_sources`؛
-ونفي فتبيّنوا (مدقّق، بلا `verdict_label`) لم يبلغ شروط `false` فصار مجرد note «نفي غير كافٍ» ثم `confirmed` — فالحارس
-الذي يمنع `false` المتسرّع لم يكن له نظير يمنع `confirmed` المتسرّع. ثم الكاتب، بلا وقائع تسنده، كتب من نص الـIssue
-بدرجة ج في `article._draft_article` («بحسب معلومات المحرر») وبعنوان سؤال يكرّر الشائعة. التغيير في `src/important.py` +
-`src/important_write.py` + `config.yaml: important` + `verify_draft.py` و`article.py` بمعاملين اختياريين لا يغيّران
-«مقال»؛ g1–g43 بلا تعديل في نصوصها.
-- **حارس التأييد (`important._confirm_block`، في آخر فرع confirmed من `_decide_base`، يقابل حارس false):** يمنع
-  `confirmed` ← `not_found` ثلاثة أسباب بهذا الترتيب: (1) أي `refutes` بمقتطف حرفي (مدقّق ولو بلا حكم صريح أو بمقتطف
-  سؤالي، أو مصدر مستقل) ← note «أدلة متعارضة: نفي من <الناشر> — لا تأكيد تلقائي» (ولا يصدر `false` إلا بشروطه القائمة
-  كما هي)؛ (2) لا مؤيِّد «معروف» بين المؤيِّدين (`_is_known_source`: `important.trusted_domains` · `primary_data_domains` ·
-  جهات التدقيق · اسم في `sources`/`verify.trusted_boost`/`publisher_aliases` عبر `evidence._trusted_canonical` و`_tokens_match`
-  · نطاق خلاصة مصدر في `sources`) ← «تأييد من مصادر غير معروفة فقط»؛ (3) ادّعاء يسند فعلًا لجهة
-  (`_attributed_agency`: فعل من `important.attribution_verbs` في أول 4 كلمات، والجهة ما بعده حتى `attribution_stop` بلا
-  `attribution_generic`) يشترط مؤيِّدًا من نطاق الجهة (`important.agency_domains`) أو معروفًا **يسمّيها في مقتطف تأييده**
-  (`_agency_supported`)؛ جهة بيانات أصلية مؤيِّدة (#1205) تعفي من (3). القرار المحجوب يحمل `confirm_blocked`: لا `nearest`
-  له (مصادره المرفوضة قد تكون هي من أعادت نشر الشائعة)، ويسقط فلا يُعرض، و`dropped_reason` = الملاحظة نفسها.
-  **أثر مقصود على النتائج:** ادّعاء «أعلنت شركة بايكار…» صار يحتاج مقتطف تأييد يسمّي بايكار (عُدِّلت مقتطفات ثلاثة اختبارات
-  في `test_important` وحدها لذلك)، ومؤيِّدان مجهولان لا يكفيان لتأكيد خبر صحيح — يُسقَط أو يُرقّى للمراجعة اليدوية بدل أن
-  يُنشر خطأ. لا يمسّ الحارس `inaccurate`/`false`/`not_found`.
-- **لا كتابة من نص المستخدم (`important_write.write_point`):** بلا مقتطف مصدر فعلي (`article._source_docs(grounded)`
-  فارغة) ← فشل كتابة «لا وقائع مسندة…» (`status="failed"` بلا نداء نموذج). `article._draft_article(..., system_note="")`
-  معامل اختياري يُلحق بنظام الكاتب `important.writer_instructions.no_editor_note` (يمنع عبارة `editor_tag_phrase` ونسبة
-  الرأي) — «مقال» لا يمرّره فيبقى بالقاعدة 14 كما هو. فحص بعدي في `check_text` لكل الأحكام: ورود `editor_tag_phrase` أو
-  `opinion_attribution_phrase` (بتسامح حرف عطف ملتصق: «وبحسب معلومات المحرر») ← رفض «موجز المحرر» ثم إعادة مرة واحدة.
-- **تعارض حارسَي النسخ والتصحيح:** `important_write.allowed_quotes` في `inaccurate` صارت تضمّ `correction.correct`، وصار
-  `verify_draft.check_originality(..., exempt_texts=None)` يستثني من فحص التتابع اللفظي (`max_shared_run_words`) مواضع
-  هذه النصوص في المسودة (`important_write.exempt_texts`: التصحيح في inaccurate، وأحكام المدقّقين في false) — ما حولها
-  يُفحص كالمعتاد ونسخ تتابع آخر من المقتطف يبقى مرفوضًا (كان تصحيح 04ae7eae0358 يطابق مقتطف BBC بسبع كلمات فيُرفض).
-  و`writer_instructions.quote_note` تُلحَق بكل تعليمات الكاتب: لا صياغة بين علامتي تنصيص إلا نقلًا حرفيًا من claim أو مقتطف.
-- **الاختبارات:** g44–g46 في `test_important_false_guard` وg47–g48 في `test_important_write_guards` (كُتبت قبل الكود وفشلت
-  قبله)، و`test_important_1229` في `tests/test_important.py` على `tests/fixtures/important/1229.json` (نقاط 1209 الثلاث كما
-  كانت وقت الحادثة: (a) 9185665f38b8 ← not_found، (b) 04ae7eae0358 ← مقالة ببطاقة «تصحيح»، (c) 602ac9017f8e ← بلا اقتباس
-  مختلق). **`ImportantRig(strict_known=False)` افتراضيًا يجعل كل ناشر «معروفًا»** (`important._is_known_source` مزيَّفة) كي
-  تبقى الاختبارات القائمة — ناشروها «صحيفة الشرق»/«موقع الغرب» الوهميون، ومنها g43 — على دلالتها؛ وحالات #1229 تمرّر
-  `strict_known=True` فتجري على الحارس الحقيقي. حارسا النفي والإسناد لجهة غير مزيَّفين في أي حالة.
+- **الأحكام الأربعة (تُقرَّر في الكود من تصنيف النموذج لكل مصدر `classify_sources`، لا بحكم النموذج نفسه):**
+  `confirmed` ✅ (مصدران مستقلان فأكثر، `article.min_confirm_sources`، أو جهة بيانات أصلية `primary_data_domains`) ·
+  `inaccurate` ✏️ (حدث موثَّق بمصدرين يتفقان على صيغة صحيحة تخالف تفصيلًا؛ `correction`، وشرط زمن التصحيح `as_of`
+  للأرقام وحدها، وهامش الرقم `_within_margin`) · `false` ❌ · `not_found` 🔍 (`nearest` = أقرب حدث موثَّق بمصدرين
+  يتشارك كيانًا مع النقطة، وإلا تسقط). الاستقلال = `_dedup_docs_by_publisher` + `_report_identity_kind` في الاتجاهين،
+  وكل حكم يشترط `same_event=true` للمصدر.
+- **حرّاس الحكم (لا تُخفَّف دون Issue صريح؛ g1–g48 في `tests/test_guards_golden.py`):**
+  `false` لا يصدر إلا بنفي **صريح بمقتطف موجود حرفيًا في نص المصدر** من `min_refute_sources` (2) مصادر مستقلة أو من
+  جهة تدقيق واحدة بـ`verdict_label` ضمن `false_labels` (مقارنة كاملة) ومقتطف غير سؤالي؛ غياب المصادر وحده ← `not_found`؛
+  نفي كافٍ مع تأييد كافٍ ← «أدلة متعارضة». ونظيره للتأييد (`_confirm_block`، #1229): `confirmed` ← `not_found` إن وُجد نفي
+  بمقتطف حرفي، أو لا مؤيِّد «معروف» (`_is_known_source`)، أو ادّعاء منسوب لجهة بلا مؤيِّد يسمّيها. `ClaimReview` في كود
+  صفحة المدقّق (`parse_claim_review`) يغلب ما يقوله النموذج. `excluded_domains` تُستبعد كليًا. ادّعاء `circulating`
+  يُخفَّض تأييده ما لم يحمل مقتطفه مضمون الادّعاء. `superseded_by` (حدث أحدث تجاوز النقطة): مصدران ← `inaccurate`،
+  مصدر ← تنبيه بارز.
+- **المراحل:** المرحلة 1 `stages.options_block(1, ...)` بخيارات `go2`/`go3`/`publish` (غير المعلَّم «لم يُختر» عبر
+  `decisions.record_unselected`)؛ المرحلتان 2 و3 بـ`review.build_issue_body`/`build_final_review_body`؛ `review.has_stage1`
+  يقبل `important` فـ`go1` تعيد النقطة (المسودة `returned` بنصها) إلى قضية ترشيح جديدة تفتحها
+  `important_finalize.reopen_selection` فورًا، واختيارها ثانية يعيد استعمال المسودة بلا كتابة. فشل كتابة تحريري ←
+  `status="failed"` + `write_error` + تعليق على قضية الترشيح + `reopen_failed` (بشارة «⚠️ فشلت الكتابة»)؛ العطل
+  التقني يبقى `selected` ليُعاد بإعادة `approved`. الأصل `"important"` في `store.EXTRA_ORIGINS` (لا `CANONICAL_ORIGINS`،
+  فاختبار في `test_review` يثبّتها على الست) و`review.ORIGIN_LABELS`؛ والبطاقة بمفتاح `cards.card_origin`:
+  `important` · `important_inaccurate` («تصحيح») · `important_false` («تفنيد») — تُبنى ألوانها في `config.yaml: cards`.
+- **تعليمات الكتابة (`important.writer_instructions`، وتُلحَق بـ`article._draft_article` عبر `avoid_note`/`system_note` فلا
+  تعديل على `article.py` لـ«هام»):** لكل حكم نص خاص (`confirmed` تؤرِّخ صيغ التفضيل · `inaccurate` تبدأ العنوان وأول جملة
+  بـ`correction.correct` بنصّه · `false` لا تكرّر الشائعة وتسمّي المدقّق وحكمه · `not_found` عن `nearest` وحده)، و`no_editor_note`
+  (لا «بحسب معلومات المحرر» ولا نسبة رأي)، و`quote_note` (لا اقتباس إلا حرفيًا من claim أو مقتطف)، و`title_note` (يلغي صيغة
+  السؤال). المصادر أدلة النقطة وحدها؛ بلا مقتطف مصدر فعلي ← فشل كتابة بلا نداء نموذج. الفحص **في الكود بعد الكتابة**
+  (`important_write.check_text`، مطابقة مطبَّعة بـ`important._fold`، g36–g39 وg47–g48 وg50–g51): والرفض يعيد الكتابة مرة
+  واحدة بذكر العلّة (`write_attempts`) ثم يفشل بسببها. **العنوان خبري في `inaccurate` و`false` (#1233):**
+  `important.statement_headline_verdicts`؛ جملة خبرية أُلحقت بها «؟» تُنزَع علامتها (`normalize_statement_title`)، والسؤال
+  الحقيقي (`important.question_starts`) أو أول جملة سؤالية ← «العنوان سؤال» فإعادة كتابة؛ وfirst headline من
+  `headlines.headlines_for_post(first_question=False, system=important.headline_system)` — المعامل اختياري، فقاعدة
+  «الأول سؤال» المشتركة في `headlines.validate_headlines` تبقى لكل مسار آخر ولـ`confirmed` و`not_found`.
+- **تنبيه الجمل بلا مصدر (#1233، تنبيه لا رفض):** بعد الكتابة، `important_write.unsourced_sentences` تطبّق
+  `article._unsourced_entities` نفسها (بلا كاشف ثانٍ) على كل جملة من المتن مقابل claim/correction/مقتطفات أدلة النقطة؛
+  الجمل المنبَّه عليها تُحفَظ في `draft["warnings"]` فتظهر قسم «⚠️ تنبيهات للمراجعة» (`review.warnings_block`) في قضيتي
+  المرحلة 2 و3 لمسودات `important` وحدها. لا تدخل `caption` ولا النص المنشور ولا تمنع النشر. الإعداد
+  `important.unsourced` (`min_run`، و`neutral_words` = قوالب إعادة الصياغة التي يفرضها الموجّه نفسه). **قيد معروف:** الكاشف
+  نصّي، فأرقام مكتوبة حروفًا («الخامس والعشرين» مقابل «25») تُنبِّه ولو صحّت الجملة — مقبول لأنه تنبيه للمراجعة.
+- **ما تعلّمناه من الحوادث الحقيقية:**
+  **#1197** (صفر من خمسة): التفكيك بنداء Haiku واحد يمنع انقسام الادّعاء وتصحيحه إلى نقطتين، والبحث الجامع بعدّة لغات
+  وعبارات لا خمس كلمات عربية وحدها، والنقطة بلا كيانات لا تسقط قبل البحث.
+  **#1201** (الأرقام والصفحات): سقف الصفحة 2500 حرفًا كان يقصّ الدليل (`page_max_chars`)، والأرقام تُقارَن بقيمتها (`parse_numbers`،
+  أرقام هندية وفواصل ومقاييس وتركيب «86 مليوناً و92 ألفاً») لا بنصها، وصفحة المدقّق قد يفشل استخراج نصها فيبقى الحكم في JSON-LD
+  (`ClaimReview`)، وعبارات `site:` تُبنى في الكود ثابتة (لا يكتبها النموذج فتتغيّر كل تشغيلة) مع ذاكرة بحث `search_cache`.
+  **#1209** وحادثة **9185665f38b8** («أكدت ناسا أن الشمس ستشرق من المغرب» — شائعة كذّبتها جهات التدقيق): خمسة مواقع مجهولة تعيد نشر
+  الشائعة صُنّفت `supports` فبلغت العتبة، ونفي فتبيّنوا (مدقّق بلا `verdict_label`) لم يبلغ شروط `false` فصار ملاحظة ثم
+  `confirmed` فنُشرت — الحارس الذي يمنع `false` المتسرّع لم يكن له نظير يمنع `confirmed` المتسرّع. الدرس: لكل حكم يمسّ ما يُنشر
+  حارسه المقابل (`_confirm_block`)، ومصدر مجهول لا يؤكّد وحده، والكاتب بلا وقائع مسندة لا يكتب من نص المستخدم أبدًا (درجة ج
+  ممنوعة في «هام»). والنقاط الثلاث نفسها (9185665f38b8 و04ae7eae0358 و602ac9017f8e) fixtures ثابتة في
+  `tests/fixtures/important/1229.json`. **#1231/#1232** (أول مقالات حقيقية): عنوان خبري أُلحقت به «؟» (602ac9017f8e) وجملة
+  «لحظة إطلاقه التي تمت في موعدها المحدد» بلا أي سند وخاطئة (04ae7eae0358) لم يلتقطها حارس ← العنوان الخبري وتنبيه الجمل أعلاه
+  (fixture الكاتب الحقيقي في `tests/fixtures/important/1233.json`).
+- **تنبيهات تشغيلية:** `publish.yml` يودِع `drafts state` فيصل `state/important`؛ أما `image.yml` فيودِع `drafts state/candidates
+  state/youtube_topics` فحسب، فصورة المرحلة 1 لنقطة «هام» (`manual_image` على النقطة) و`state/brave_usage.json` لا يُودَعان حتى يضيف
+  صاحب المشروع `state/important` و`state/brave_usage.json` إليه. ملفات workflow الثلاثة `article.yml` و`request.yml` و`important-judge.yml`
+  يحذفها صاحب المشروع بيده.
+- **الاختبارات:** `tests/test_important.py` (`test_important_pipeline` … `test_important_1233`) على `ImportantRig`/`ImportantWriteRig`
+  في `tests/helpers.py`، وحالات الحرّاس g1–g51 في `tests/test_guards_golden.py` (`test_important_false_guard` و`test_important_write_guards`).
 
 ## Retired paths
+
+- **«مقال» (`src/article.py`, label `مقال`, `.github/workflows/article.yml`) and «طلب» (`src/request.py`, label `طلب`
+  or a manual run, `.github/workflows/request.yml`)** (Issue #1233) — both retired as *content paths*; «هام» is the only
+  request path now. **Neither module is deleted and neither may be:** `article.py` is the drafting/grounding engine
+  `important_write.py`/`important.py` reuse (`_draft_article`, `_unsourced_entities`, `_dedup_docs_by_publisher`,
+  `_report_identity_kind`, …) and `request.py`'s normalization/search helpers (`norm_tokens`, `find`, …) are imported by
+  `article.py`, `evidence.py`, `verify_draft.py`, `radar.py` and the news image chain. Running `python -m src.article`
+  or `python -m src.request` directly logs `log.warning("مسار متقاعد — استعمل وسم «هام»")` and then proceeds unchanged
+  (no manual use is broken). The project owner deletes `article.yml`, `request.yml` and `important-judge.yml` by hand
+  after merge — do not touch `.github/workflows/`. Old `origin: "request"`/`"article"` drafts keep their badges
+  (`CANONICAL_ORIGINS`/`ORIGIN_LABELS`/`cards.request`/`cards.article` are untouched).
 
 - **`src/verify.py`** (Issue #1068) — the fact-check-a-pasted-article path is retired for good; the
   project owner made this call, it isn't open for reconsideration. Its only trigger,

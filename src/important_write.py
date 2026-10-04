@@ -33,6 +33,7 @@ REASON_NO_LABEL = "المقال لا يذكر حكم المدقّق"
 REASON_ORIGINAL = "المقال يذكر النقطة الأصلية"
 REASON_NO_CORRECT = "الصيغة الصحيحة غائبة عن العنوان أو أول جملة"
 REASON_ORIGINALITY = "نسخ لفظي من مقتطفات المصادر"
+REASON_QUESTION_TITLE = "العنوان سؤال لا جملة خبرية (تصحيح/تفنيد)"
 REASON_EDITOR_TAG = "المقال ينسب إلى «موجز المحرر» أو رأيه ولا موجز في «هام»"
 NO_FACTS_REASON = "لا وقائع مسندة من أدلة النقطة — لا كتابة من نص المستخدم في «هام»"
 TECHNICAL_PREFIX = "مرحلة الصياغة — فشل تقني"
@@ -198,6 +199,65 @@ def instructions(point: dict, cfg) -> str:
     return f"\n{wi.get('title_note', '')}\n{body}\n{wi.get('quote_note', '')}\n"
 
 
+# ───────────────────────────── عنوان خبري (Issue #1233) ─────────────────────────────
+
+
+def is_statement_verdict(point: dict, cfg) -> bool:
+    """تصحيح وتفنيد: عنوانهما الافتراضي جملة خبرية لا سؤال (important.statement_headline_verdicts)."""
+    return point.get("verdict") in (_icfg(cfg).get("statement_headline_verdicts") or [])
+
+
+def _is_question(text: str, cfg) -> bool:
+    """سؤال حقيقي: يبدأ بأداة استفهام من الإعداد. «؟» وحدها في آخر جملة خبرية لا تجعلها سؤالًا —
+    هذا ما حدث في 602ac9017f8e (جملة خبرية أُلحقت بها «؟»)."""
+    words = _norm(text).split()
+    return bool(words) and words[0] in {_norm(w) for w in _icfg(cfg).get("question_starts") or []}
+
+
+def _strip_question_mark(text: str) -> str:
+    return re.sub(r"[؟?]+\s*$", "", text.strip()).rstrip()
+
+
+def normalize_statement_title(written: dict, cfg) -> dict:
+    """ينزع «؟» الملحقة بآخر post_title/image_headline حين تكون الجملة خبرية؛ السؤال الحقيقي يُترك
+    ليرفضه check_text فتُعاد الكتابة (لا نغيّر معنى جملة استفهامية بنزع علامتها)."""
+    for key in ("post_title", "image_headline"):
+        value = written.get(key, "")
+        if value.rstrip().endswith(("؟", "?")) and not _is_question(value, cfg):
+            written[key] = _strip_question_mark(value)
+    return written
+
+
+# ───────────────────────────── تنبيه الجمل بلا مصدر (Issue #1233) ─────────────────────────────
+
+
+def unsourced_sentences(point: dict, written: dict, grounded: list[dict], question: str, cfg) -> list[str]:
+    """جمل المتن التي فيها رقم أو تتابع كلمات مضمون غائب عن مقتطفات أدلة النقطة وclaim وcorrection.
+    الكاشف هو article._unsourced_entities نفسه (لا كاشف ثانٍ) على كل جملة منفردة كي يُبلَّغ
+    بالجملة لا بالشظية؛ source_texts=None فيبقى شرط الطول وحده (الجملة التي لم تأتِ من أي مصدر
+    هي المقصودة، لا المنقولة منه). تنبيه لا رفض: النتيجة تُحفَظ في draft["warnings"] فقط."""
+    ucfg = _icfg(cfg).get("unsourced", {}) or {}
+    if not ucfg.get("enabled", True):
+        return []
+    c = point.get("correction") or {}
+    known = " ".join(filter(None, [
+        point.get("claim"), point.get("circulating_context"), c.get("error"), c.get("correct"),
+        *[r.get("excerpt", "") for r in ordered_sources(point, cfg)],
+        *[r.get("publisher", "") for r in ordered_sources(point, cfg)],
+        *[r.get("verdict_label", "") for r in ordered_sources(point, cfg)],
+    ]))
+    neutral = " ".join(ucfg.get("neutral_words") or [])
+    out: list[str] = []
+    for sentence in re.split(r"(?<=[.!؟?۔])\s+|\n+", written.get("post_body", "")):
+        sentence = sentence.strip()
+        if not sentence:
+            continue
+        if article._unsourced_entities(sentence, grounded, known, question, [], None,
+                                       int(ucfg.get("min_run", 2)), attribution_phrase=neutral):
+            out.append(sentence)
+    return out
+
+
 # ───────────────────────────── الفحص بعد الكتابة ─────────────────────────────
 
 
@@ -216,6 +276,11 @@ def check_text(point: dict, written: dict, cfg) -> str | None:
                    acfg.get("opinion_attribution_phrase", "وترى الصفحة أن")):
         if _has_phrase(f"{title} {body}", phrase):
             return REASON_EDITOR_TAG
+
+    if is_statement_verdict(point, cfg) and (
+            title.rstrip().endswith(("؟", "?")) or _is_question(title, cfg)
+            or first.rstrip().endswith(("؟", "?")) or _is_question(first, cfg)):
+        return REASON_QUESTION_TITLE
 
     if verdict == "false":
         for claim in {point.get("claim", ""), point.get("text", "")} - {""}:
@@ -295,6 +360,8 @@ def write_point(point: dict, result: dict, cfg, selection_issue: int | None = No
                                            system_note=system_note)
         if got is None:
             return None, err, err.startswith(TECHNICAL_PREFIX)
+        if is_statement_verdict(point, cfg):
+            normalize_statement_title(got, cfg)
         reason = check_text(point, got, cfg) or ""
         if not reason:
             ok, why, _notes = verify_draft.check_originality(
@@ -312,6 +379,9 @@ def write_point(point: dict, result: dict, cfg, selection_issue: int | None = No
         return None, reason, False
 
     draft = build_draft(point, result, written, cfg, selection_issue)
+    warns = unsourced_sentences(point, written, grounded, question, cfg)
+    if warns:
+        draft["warnings"] = warns   # للمراجعة فقط: لا تدخل caption ولا تمنع النشر
     store.save_draft(draft)
     return draft, "", False
 
@@ -325,8 +395,14 @@ def build_draft(point: dict, result: dict, written: dict, cfg, selection_issue: 
     if point.get("verdict") == "not_found" and point.get("nearest"):
         title = point["nearest"]["title"]
 
-    headlines, hl_error = headlines_mod.headlines_for_post(
-        written["post_title"], written["post_body"], cfg)
+    if is_statement_verdict(point, cfg):
+        # قاعدة «الأول سؤال» المشتركة لا تسري على التصحيح والتفنيد (Issue #1233)
+        headlines, hl_error = headlines_mod.headlines_for_post(
+            written["post_title"], written["post_body"], cfg, first_question=False,
+            system=icfg.get("headline_system") or None)
+    else:
+        headlines, hl_error = headlines_mod.headlines_for_post(
+            written["post_title"], written["post_body"], cfg)
     if hl_error:
         log.warning("فشلت اقتراحات العناوين لنقطة %s: %s", point["id"], hl_error)
         headlines = []

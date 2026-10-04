@@ -2374,3 +2374,129 @@ def test_important_1229() -> None:
     check("(c) تعليمات الكاتب: لا صياغة بين علامتي تنصيص إلا نقلًا حرفيًا من claim أو مقتطف مصدر",
           "لا تضع صياغة بين علامتي تنصيص" in important_write.instructions(fx_c, cfg),
           important_write.instructions(fx_c, cfg))
+
+
+def test_important_1233() -> None:
+    """Issue #1233: عنوان خبري في تصحيح/تفنيد، وتنبيه الجمل بلا مصدر، وتقاعد «مقال» و«طلب». على مخرَج
+    الأنبوب بنصَّي الكاتب الحقيقيين من مسودتَي 602ac9017f8e و04ae7eae0358 (fixture 1233)."""
+    import copy
+    import json
+    import logging
+    import sys
+    from datetime import datetime, timezone
+    from pathlib import Path
+
+    from src import important, important_finalize
+    from tests.helpers import store
+
+    cfg = load_config()
+    now = datetime.now(timezone.utc).isoformat()
+    stale = ("draft_id", "written_at", "write_error", "failed_at", "write_failed", "action")
+    authors = json.loads((Path(__file__).parent / "fixtures" / "important" / "1233.json")
+                         .read_text(encoding="utf-8"))
+
+    def write(n, point, data, mark):
+        sel = n + 100
+        point = {k: v for k, v in copy.deepcopy(point).items() if k not in stale}
+        point["selection_issue"] = sel
+        result = {"issue": n, "created_at": now, "topic": "", "error": None,
+                  "selection_issue": sel, "points": [point]}
+        important.save(result)
+        body = important_marked_body(result, {point["id"]: mark}, cfg)
+        with ImportantWriteRig(lambda prompt, system: data) as rig:
+            important_finalize.finalize(sel, body, cfg)
+            pt = important.load_saved(n)["points"][0]
+            draft = store.load_draft(pt["draft_id"])[1] if pt.get("draft_id") else None
+        important.saved_path(n).unlink(missing_ok=True)
+        return rig, pt, draft
+
+    # ── (a) 602ac9017f8e: جملة خبرية أُلحقت بها «؟» ← العنوان الافتراضي بلا «؟» ──
+    fx_a = important_fixture_point(1229, "inaccurate", 0)
+    real = authors["602ac9017f8e"]
+    check("(a) نص الكاتب الحقيقي ينتهي عنوانه بـ«؟» (الشاهد)", real["post_title"].endswith("؟"), real["post_title"])
+    rig, pt, d = write(98331, fx_a, real, "go2")
+    check("(a) 602ac9017f8e بنصه الحقيقي ← مسودة، والعنوان الافتراضي بلا «؟»",
+          fx_a["id"] == "602ac9017f8e" and d is not None
+          and not d["arabic"]["post_title"].rstrip().endswith(("؟", "?"))
+          and d["arabic"]["post_title"] == real["post_title"].rstrip("؟"),
+          (pt["status"], pt.get("write_error"), d and d["arabic"]["post_title"]))
+    check("(a) وأول عنوان في headlines بلا «؟» وصورة العنوان كذلك",
+          d is not None and not d["headlines"][0].rstrip().endswith(("؟", "?"))
+          and not d["arabic"]["image_headline"].rstrip().endswith(("؟", "?")), d and d["headlines"])
+
+    # ── (b) 04ae7eae0358: «تمت في موعدها المحدد» ← تنبيه بالجملة في قضية المرحلة 3 ──
+    fx_b = important_fixture_point(1229, "inaccurate", 1)
+    real_b = authors["04ae7eae0358"]
+    rig, pt, d = write(98332, fx_b, real_b, "go3")
+    stage3 = [c for c in rig.created if "المرحلة 3 من 4" in c["body"]]
+    check("(b) 04ae7eae0358 بنصه الحقيقي ← مسودة (لا رفض) وفيها warnings بالجملة",
+          fx_b["id"] == "04ae7eae0358" and d is not None
+          and any("تمت في موعدها المحدد" in w for w in d.get("warnings") or []),
+          (pt["status"], pt.get("write_error"), d and d.get("warnings")))
+    check("(b) وقسم «⚠️ تنبيهات للمراجعة» في قضية المرحلة 3 بالجملة نفسها",
+          len(stage3) == 1 and "⚠️ تنبيهات للمراجعة" in stage3[0]["body"]
+          and "تمت في موعدها المحدد" in stage3[0]["body"], [c["body"][:200] for c in rig.created])
+    # قيد معروف: جملة التصحيح الصحيحة نفسها تُنبَّه أيضًا لأن «الخامس والعشرين» مكتوبة حروفًا والمصدر
+    # يكتبها «25» — الكاشف نصّي (article._unsourced_entities) ولا يحوّل الأرقام المكتوبة؛ تنبيه لا رفض
+    check("(b) والتنبيه خارج النص المنشور (caption والمتن) ولا يمنع الكتابة",
+          d is not None and "تنبيهات" not in d["caption"] and "تنبيهات" not in d["arabic"]["post_body"]
+          and pt["status"] == "written", d and d.get("warnings"))
+    print("قسم التنبيهات في قضية المرحلة 3 (b):")
+    if stage3:
+        body = stage3[0]["body"]
+        start = body.index("⚠️ تنبيهات للمراجعة")
+        print(body[start - 2:body.index("<img", start) if "<img" in body[start:] else start + 900])
+
+    # ── (c) confirmed: قاعدة «الأول سؤال» كما هي ──
+    from src import headlines as headlines_mod
+    conf = important_fixture_point(1229, "confirmed")
+    conf = {k: v for k, v in conf.items() if k not in stale}
+    q_title = {**important_good_data(conf), "post_title": "هل اكتشف العلماء مجرة جديدة؟"}
+    rig, pt, d = write(98333, conf, q_title, "go2")
+    check("(c) confirmed: عنوان بصيغة سؤال يبقى كما كتبه الكاتب (لا نزع «؟» ولا رفض)",
+          d is not None and d["arabic"]["post_title"] == "هل اكتشف العلماء مجرة جديدة؟",
+          (pt["status"], pt.get("write_error")))
+    check("(c) confirmed وnot_found: headlines بقاعدة السؤال (first_question افتراضي)",
+          d is not None and d["headlines"][0].endswith("؟")
+          and not __import__("src.important_write", fromlist=["x"]).is_statement_verdict(conf, cfg)
+          and not __import__("src.important_write", fromlist=["x"]).is_statement_verdict(
+              {"verdict": "not_found"}, cfg), d and d["headlines"])
+
+    # ── (d) تشغيل src.request وsrc.article مباشرة: تحذير التقاعد ثم يكملان كما هما ──
+    from src import article, request, review
+
+    class Grab(logging.Handler):
+        def __init__(self):
+            super().__init__(logging.WARNING)
+            self.msgs = []
+
+        def emit(self, record):
+            self.msgs.append(record.getMessage())
+
+    def run_main(mod, argv, patches):
+        grab, saved_argv, undo = Grab(), sys.argv, []
+        logging.getLogger().addHandler(grab)
+        try:
+            sys.argv = ["x", *argv]
+            for obj, name, val in patches:
+                undo.append((obj, name, getattr(obj, name)))
+                setattr(obj, name, val)
+            return mod.main(), grab.msgs
+        finally:
+            sys.argv = saved_argv
+            for obj, name, val in reversed(undo):
+                setattr(obj, name, val)
+            logging.getLogger().removeHandler(grab)
+
+    reached = []
+    code, msgs = run_main(request, ["--query", "اختبار", "--dry-run"],
+                          [(request, "find", lambda q, c, days=0, stats=None: reached.append(q) or []),
+                           (request, "step_summary", lambda t: None)])
+    check("(d) python -m src.request: تحذير «مسار متقاعد — استعمل وسم «هام»» ثم يكمل (يبلغ البحث ويعيد 0)",
+          code == 0 and reached == ["اختبار"] and "مسار متقاعد — استعمل وسم «هام»" in msgs, (code, reached, msgs))
+    commented = []
+    code, msgs = run_main(article, ["--issue", "1"],
+                          [(review, "fetch_issue_body", lambda n: ""),
+                           (review, "comment", lambda n, t: commented.append(n))])
+    check("(d) python -m src.article: التحذير نفسه ثم يكمل كما هو (يقرأ الـIssue ويعلّق ويعيد 0)",
+          code == 0 and commented == [1] and "مسار متقاعد — استعمل وسم «هام»" in msgs, (code, commented, msgs))
