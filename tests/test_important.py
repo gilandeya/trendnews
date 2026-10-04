@@ -812,7 +812,10 @@ def regression_1201(issue: int = 98001):
     def classify(point, names):
         sec = _sections(rig.last_content)
         if "بيرقدار" in point:
-            return {"sources": [important_stance(n, "supports", "250 كيلومترًا") for n in names]}
+            # مقتطف يني شفق يسمّي بايكار صراحة: ادّعاء «أعلنت شركة بايكار…» يشترط (#1229) مؤيِّدًا ينقل عنها
+            return {"sources": [important_stance(n, "supports", "أعلنت بايكار إصابة هدف"
+                                                 if n == "Yeni Şafak" else "250 كيلومترًا")
+                                for n in names]}
         if "85.7" in point:
             return {"sources": [important_stance(n, "conflicts_detail", forms[n], detail="العدد 85.7 غير دقيق",
                                                  correct_form=forms[n]) for n in names]}
@@ -1032,7 +1035,10 @@ def test_important_1205() -> None:
 
     def classify(point, names):
         if "بيرقدار" in point:
-            return {"sources": [important_stance(n, "supports", "250 كيلومترًا") for n in names]}
+            # مقتطف يني شفق يسمّي بايكار صراحة: ادّعاء «أعلنت شركة بايكار…» يشترط (#1229) مؤيِّدًا ينقل عنها
+            return {"sources": [important_stance(n, "supports", "أعلنت بايكار إصابة هدف"
+                                                 if n == "Yeni Şafak" else "250 كيلومترًا")
+                                for n in names]}
         if "85.7" in point:
             return {"sources": [important_stance(
                 n, "conflicts_detail", forms[n][0], detail="العدد 85.7 غير دقيق",
@@ -1227,7 +1233,8 @@ def test_important_1207() -> None:
 
     def classify(point, names):
         if "بيرقدار" in point:
-            return {"sources": [important_stance(n, "supports", "250 كيلومترًا")
+            return {"sources": [important_stance(n, "supports", "أعلنت بايكار إصابة هدف"
+                                                 if n == "Yeni Şafak" else "250 كيلومترًا")
                                 if n in supporters else important_stance(n, "irrelevant") for n in names]}
         if "85.7" in point:
             return {"sources": [important_stance(
@@ -2269,3 +2276,101 @@ def test_important_1225() -> None:
 
     for n in range(number, number + 4):
         important.saved_path(n).unlink(missing_ok=True)
+
+
+def test_important_1229() -> None:
+    """المهمة 3ج (Issue #1229): شائعة «ناسا/الشمس من المغرب» حُكم عليها confirmed ونُشرت. على مخرَج
+    الأنبوب، بنقاط state/important/1209.json الثلاث كما هي (fixture 1229): (a) حارس التأييد،
+    (b)/(c) كتابة التصحيح بلا رفض نسخ ولا اقتباس مختلق."""
+    import copy
+    from datetime import datetime, timezone
+
+    from src import important, important_finalize, important_write
+
+    cfg = load_config()
+    now = datetime.now(timezone.utc).isoformat()
+    stale = ("draft_id", "written_at", "write_error", "failed_at", "write_failed", "action")
+
+    # ── (a) النقطة 9185665f38b8 بوثائق read_docs الحقيقية ← not_found لا confirmed ──
+    fx = important_fixture_point(1229, "confirmed")
+    check("(a) fixture النقطة الحقيقية 9185665f38b8", fx["id"] == "9185665f38b8", fx["id"])
+    by_pub = {e["publisher"]: e for e in fx["evidence"]}
+    other_event = {x["publisher"] for x in fx["read_docs"] if x["stance"] == "related_other"}
+    marker = "كلمةناسا"
+    docs, stances = [], {}
+    for d in fx["read_docs"]:
+        if d["stance"] == "deduped":
+            continue
+        ev = by_pub.get(d["publisher"])
+        text = (ev["excerpt"] if ev else f"{d['publisher']}: نص لا صلة له بالادّعاء.") + " " + d["publisher"]
+        docs.append(important_doc(d["publisher"], text, link=d["link"]))
+        if ev and d["stance"] in ("supports", "refutes"):
+            stances[d["publisher"]] = (d["stance"], ev["excerpt"])
+        elif d["stance"] == "related_other":
+            stances[d["publisher"]] = ("supports", "")
+
+    def classify(point, names):
+        rows = []
+        for n in names:
+            kind, excerpt = stances.get(n, ("irrelevant", ""))
+            rows.append(important_stance(n, kind, excerpt, same_event=n not in other_event,
+                                         verdict_label=""))
+        return {"sources": rows}
+
+    pt_in = {"claim": fx["claim"], "entities": [marker],
+             "queries": [{"lang": "ar", "q": f"{marker} {fx['claim']}"}]}
+    with ImportantRig([pt_in], {marker: docs}, classify, strict_known=True):
+        important.judge("نص الـIssue كاملًا", 98290, cfg)
+    p = important.load_saved(98290)["points"][0]
+    check("(a) 9185665f38b8 بوثائقها الحقيقية ← not_found لا confirmed",
+          p["verdict"] == "not_found", (p["verdict"], p.get("note")))
+    check("(a) والملاحظة «أدلة متعارضة: نفي من Fatabyyano — لا تأكيد تلقائي»",
+          "أدلة متعارضة: نفي من Fatabyyano — لا تأكيد تلقائي" in (p.get("note") or ""), p.get("note"))
+    check("(a) ولا false (شروط false القائمة لم تُرخَ: مدقّق بلا حكم صريح ومصدر مستقل واحد)",
+          p["verdict"] != "false" and not p.get("refuted_by"), p["verdict"])
+    important.saved_path(98290).unlink(missing_ok=True)
+
+    # ── (b) النقطة 04ae7eae0358: مقالة تصحيح ببطاقة «تصحيح» بلا رفض نسخ ──
+    def write(n, point, data, mark="go3"):
+        sel = n + 100
+        point = {k: v for k, v in copy.deepcopy(point).items() if k not in stale}
+        point["selection_issue"] = sel
+        result = {"issue": n, "created_at": now, "topic": "", "error": None,
+                  "selection_issue": sel, "points": [point]}
+        important.save(result)
+        body = important_marked_body(result, {point["id"]: mark}, cfg)
+        with ImportantWriteRig(lambda prompt, system: data) as rig:
+            code = important_finalize.finalize(sel, body, cfg)
+            pt = important.load_saved(n)["points"][0]
+            draft = store.load_draft(pt["draft_id"])[1] if pt.get("draft_id") else None
+        important.saved_path(n).unlink(missing_ok=True)
+        return rig, code, pt, draft
+
+    fx_b = important_fixture_point(1229, "inaccurate", 1)
+    rig, code, pt, d = write(98291, fx_b, important_good_data(fx_b))
+    check("(b) 04ae7eae0358 ← written بمحاولة واحدة دون رفض نسخ",
+          fx_b["id"] == "04ae7eae0358" and code == 0 and pt["status"] == "written"
+          and len(rig.calls) == 1 and not pt.get("write_error"),
+          (pt["status"], pt.get("write_error"), len(rig.calls)))
+    check("(b) ببطاقة «تصحيح» (important_inaccurate) ونص التصحيح كما هو في العنوان",
+          d is not None and d["badge"] == "تصحيح" and rig.builds
+          and rig.builds[-1]["origin"] == "important_inaccurate"
+          and fx_b["correction"]["correct"] in d["arabic"]["post_title"],
+          (rig.builds, d and d["badge"]))
+
+    # ── (c) النقطة 602ac9017f8e: تُكتب دون اقتباس مختلق ──
+    fx_c = important_fixture_point(1229, "inaccurate", 0)
+    good = important_good_data(fx_c)
+    quoted = dict(good, post_body=good["post_body"] + f" وقد انتشر أن «{fx_c['claim']}» وهذا غير دقيق.")
+    rig, code, pt, d = write(98292, fx_c, quoted)
+    check("(c) 602ac9017f8e بنص يقتبس claim حرفيًا ← written",
+          fx_c["id"] == "602ac9017f8e" and pt["status"] == "written" and not pt.get("write_error"),
+          (pt["status"], pt.get("write_error")))
+    made_up = dict(good, post_body=good["post_body"] + " وكتب أحدهم «أبعد مجرة هي JADES-GS-z99 بلا شك».")
+    rig, code, pt, d = write(98293, fx_c, made_up)
+    check("(c) اقتباس مختلق بين علامتي تنصيص ← مرفوض (failed) بعد محاولتين",
+          pt["status"] == "failed" and "اقتباس بين علامتي تنصيص" in (pt.get("write_error") or "")
+          and len(rig.calls) == 2, (pt["status"], pt.get("write_error"), len(rig.calls)))
+    check("(c) تعليمات الكاتب: لا صياغة بين علامتي تنصيص إلا نقلًا حرفيًا من claim أو مقتطف مصدر",
+          "لا تضع صياغة بين علامتي تنصيص" in important_write.instructions(fx_c, cfg),
+          important_write.instructions(fx_c, cfg))

@@ -1510,6 +1510,44 @@ g1–g30 بلا تعديل، وأُضيفت g31–g35 قبل الكود.
   و`test_important_1225` (a–c) في `tests/test_important.py` على fixture `tests/fixtures/important/1225.json` (نسخة
   النقطتين الحقيقيتين 9c5d1c45c0a3 و4591dfda9524 من `state/important/1209.json`). `helpers.important_stance` يقبل `superseded_by`.
 
+**المهمة 3ج (Issue #1229) — حادثة 9185665f38b8: شائعة مؤكَّدة نُشرت (خطأ ضارّ).** النقطة «أكدت ناسا أن الشمس
+ستشرق من المغرب…» (شائعة كذّبتها جهات التدقيق) حُكم عليها `confirmed` ونُشرت على فيسبوك. **السبب (مقيس في
+`state/important/1209.json`):** خمسة مواقع مجهولة تعيد نشر الشائعة صُنّفت `supports` فبلغت `min_confirm_sources`؛
+ونفي فتبيّنوا (مدقّق، بلا `verdict_label`) لم يبلغ شروط `false` فصار مجرد note «نفي غير كافٍ» ثم `confirmed` — فالحارس
+الذي يمنع `false` المتسرّع لم يكن له نظير يمنع `confirmed` المتسرّع. ثم الكاتب، بلا وقائع تسنده، كتب من نص الـIssue
+بدرجة ج في `article._draft_article` («بحسب معلومات المحرر») وبعنوان سؤال يكرّر الشائعة. التغيير في `src/important.py` +
+`src/important_write.py` + `config.yaml: important` + `verify_draft.py` و`article.py` بمعاملين اختياريين لا يغيّران
+«مقال»؛ g1–g43 بلا تعديل في نصوصها.
+- **حارس التأييد (`important._confirm_block`، في آخر فرع confirmed من `_decide_base`، يقابل حارس false):** يمنع
+  `confirmed` ← `not_found` ثلاثة أسباب بهذا الترتيب: (1) أي `refutes` بمقتطف حرفي (مدقّق ولو بلا حكم صريح أو بمقتطف
+  سؤالي، أو مصدر مستقل) ← note «أدلة متعارضة: نفي من <الناشر> — لا تأكيد تلقائي» (ولا يصدر `false` إلا بشروطه القائمة
+  كما هي)؛ (2) لا مؤيِّد «معروف» بين المؤيِّدين (`_is_known_source`: `important.trusted_domains` · `primary_data_domains` ·
+  جهات التدقيق · اسم في `sources`/`verify.trusted_boost`/`publisher_aliases` عبر `evidence._trusted_canonical` و`_tokens_match`
+  · نطاق خلاصة مصدر في `sources`) ← «تأييد من مصادر غير معروفة فقط»؛ (3) ادّعاء يسند فعلًا لجهة
+  (`_attributed_agency`: فعل من `important.attribution_verbs` في أول 4 كلمات، والجهة ما بعده حتى `attribution_stop` بلا
+  `attribution_generic`) يشترط مؤيِّدًا من نطاق الجهة (`important.agency_domains`) أو معروفًا **يسمّيها في مقتطف تأييده**
+  (`_agency_supported`)؛ جهة بيانات أصلية مؤيِّدة (#1205) تعفي من (3). القرار المحجوب يحمل `confirm_blocked`: لا `nearest`
+  له (مصادره المرفوضة قد تكون هي من أعادت نشر الشائعة)، ويسقط فلا يُعرض، و`dropped_reason` = الملاحظة نفسها.
+  **أثر مقصود على النتائج:** ادّعاء «أعلنت شركة بايكار…» صار يحتاج مقتطف تأييد يسمّي بايكار (عُدِّلت مقتطفات ثلاثة اختبارات
+  في `test_important` وحدها لذلك)، ومؤيِّدان مجهولان لا يكفيان لتأكيد خبر صحيح — يُسقَط أو يُرقّى للمراجعة اليدوية بدل أن
+  يُنشر خطأ. لا يمسّ الحارس `inaccurate`/`false`/`not_found`.
+- **لا كتابة من نص المستخدم (`important_write.write_point`):** بلا مقتطف مصدر فعلي (`article._source_docs(grounded)`
+  فارغة) ← فشل كتابة «لا وقائع مسندة…» (`status="failed"` بلا نداء نموذج). `article._draft_article(..., system_note="")`
+  معامل اختياري يُلحق بنظام الكاتب `important.writer_instructions.no_editor_note` (يمنع عبارة `editor_tag_phrase` ونسبة
+  الرأي) — «مقال» لا يمرّره فيبقى بالقاعدة 14 كما هو. فحص بعدي في `check_text` لكل الأحكام: ورود `editor_tag_phrase` أو
+  `opinion_attribution_phrase` (بتسامح حرف عطف ملتصق: «وبحسب معلومات المحرر») ← رفض «موجز المحرر» ثم إعادة مرة واحدة.
+- **تعارض حارسَي النسخ والتصحيح:** `important_write.allowed_quotes` في `inaccurate` صارت تضمّ `correction.correct`، وصار
+  `verify_draft.check_originality(..., exempt_texts=None)` يستثني من فحص التتابع اللفظي (`max_shared_run_words`) مواضع
+  هذه النصوص في المسودة (`important_write.exempt_texts`: التصحيح في inaccurate، وأحكام المدقّقين في false) — ما حولها
+  يُفحص كالمعتاد ونسخ تتابع آخر من المقتطف يبقى مرفوضًا (كان تصحيح 04ae7eae0358 يطابق مقتطف BBC بسبع كلمات فيُرفض).
+  و`writer_instructions.quote_note` تُلحَق بكل تعليمات الكاتب: لا صياغة بين علامتي تنصيص إلا نقلًا حرفيًا من claim أو مقتطف.
+- **الاختبارات:** g44–g46 في `test_important_false_guard` وg47–g48 في `test_important_write_guards` (كُتبت قبل الكود وفشلت
+  قبله)، و`test_important_1229` في `tests/test_important.py` على `tests/fixtures/important/1229.json` (نقاط 1209 الثلاث كما
+  كانت وقت الحادثة: (a) 9185665f38b8 ← not_found، (b) 04ae7eae0358 ← مقالة ببطاقة «تصحيح»، (c) 602ac9017f8e ← بلا اقتباس
+  مختلق). **`ImportantRig(strict_known=False)` افتراضيًا يجعل كل ناشر «معروفًا»** (`important._is_known_source` مزيَّفة) كي
+  تبقى الاختبارات القائمة — ناشروها «صحيفة الشرق»/«موقع الغرب» الوهميون، ومنها g43 — على دلالتها؛ وحالات #1229 تمرّر
+  `strict_known=True` فتجري على الحارس الحقيقي. حارسا النفي والإسناد لجهة غير مزيَّفين في أي حالة.
+
 ## Retired paths
 
 - **`src/verify.py`** (Issue #1068) — the fact-check-a-pasted-article path is retired for good; the

@@ -356,8 +356,12 @@ class ImportantRig:
     """
 
     def __init__(self, points, docs_by_marker, classify, brave_results=None,
-                 brave_key=None, unrestricted_only=(), native=None):
+                 brave_key=None, unrestricted_only=(), native=None, strict_known=False):
         self.points = points
+        # Issue #1229: شرط «مؤيِّد معروف» لـconfirmed. افتراضه مُعطَّل في المزيَّف (كل ناشر معروف) كي
+        # تبقى الاختبارات القائمة — ناشروها «صحيفة الشرق»/«موقع الغرب» الوهميون — على دلالتها الأصلية؛
+        # وحالات #1229 تمرّر strict_known=True فتجري على الحارس الحقيقي بلا أي تزييف
+        self.strict_known = strict_known
         self.docs_by_marker = docs_by_marker
         self.classify = classify
         self.brave_results = brave_results or {}
@@ -392,6 +396,9 @@ class ImportantRig:
         # ذاكرة نتائج البحث (#1212) تعيش بين التشغيلات؛ كل rig يبدأ بذاكرة فارغة كي لا تتسرّب
         # نتائج اختبار إلى آخر. اختبار الذاكرة نفسه يُجري تشغيلتين داخل rig واحد.
         important._search_cache_file().unlink(missing_ok=True)
+        self._real_known = getattr(important, "_is_known_source", None)
+        if self._real_known is not None and not self.strict_known:
+            important._is_known_source = lambda *a, **k: True
 
         class _Ranked(list):
             raw_count = 0
@@ -543,6 +550,8 @@ class ImportantRig:
         import requests as _requests
         from src import article, extract, important
         important._search_cache_file().unlink(missing_ok=True)
+        if self._real_known is not None:
+            important._is_known_source = self._real_known
         article._client = self._saved["_client"]
         evidence.search = self._saved["search"]
         evidence.gather_evidence = self._saved["gather"]

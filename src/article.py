@@ -2655,7 +2655,8 @@ def _build_avoid_note(offending: dict) -> str:
 
 
 def _draft_article(grounded: list[dict], opinions: list[dict], question: str,
-                   cfg, retries: int = 3, avoid_note: str = "") -> tuple[dict | None, str]:
+                   cfg, retries: int = 3, avoid_note: str = "",
+                   system_note: str = "") -> tuple[dict | None, str]:
     w = cfg.get("writer", {})
     acfg = cfg.get("article", {}) or {}
     docs = _source_docs(grounded)
@@ -2663,6 +2664,10 @@ def _draft_article(grounded: list[dict], opinions: list[dict], question: str,
     phrase = acfg.get("opinion_attribution_phrase", "وترى الصفحة أن")
     editor_tag = acfg.get("editor_tag_phrase", "بحسب معلومات المحرر")
     system_text = DRAFT_SYSTEM_TEMPLATE.format(opinion_phrase=phrase, editor_tag_phrase=editor_tag)
+    # معامل اختياري (Issue #1229): مسار «هام» يُلحق بالنظام ما يمنع الدرجة ج (عبارة المحرر) —
+    # القاعدة 14 تبقى في القالب لمسار «مقال» الذي لا يمرّر شيئًا فلا يتغيّر سلوكه
+    if system_note:
+        system_text = f"{system_text}\n\n{system_note}"
     prompt = DRAFT_USER_TEMPLATE.format(
         question=question,
         facts_block=facts_block,

@@ -820,6 +820,103 @@ def _superseded_text(sup: dict) -> str:
     return f"{fact} ({date})" if date and date not in fact else fact
 
 
+# ───────────── حارس التأييد (Issue #1229) — يقابل حارس false: الأخطر أن نؤكّد شائعة ─────────────
+
+UNKNOWN_ONLY_NOTE = "تأييد من مصادر غير معروفة فقط"
+
+
+def _folded_words(text: str) -> list[str]:
+    return _WORD_RE.findall(_fold(text))
+
+
+def _is_known_source(name: str, link: str, cfg) -> bool:
+    """ناشر «معروف» يجوز أن يقوم تأييده وحده: نطاقه في important.trusted_domains أو جهات البيانات
+    الأصلية أو جهات التدقيق، أو اسمه ضمن sources/verify.trusted_boost/publisher_aliases (evidence)،
+    أو نطاق رابطه نطاق خلاصة مصدر في sources. موقع يعيد نشر شائعة ليس معروفًا بهذا المعنى."""
+    icfg = cfg.get("important", {}) or {}
+    if (_link_listed(link, icfg.get("trusted_domains")) or _is_primary_source(link, icfg)
+            or _is_fact_checker_domain(link, icfg)):
+        return True
+    if evidence._trusted_canonical(name, cfg) is not None:
+        return True
+    host = _host_of(link)
+    for s in cfg.get("sources", []) or []:
+        sname = s.get("name", "")
+        if sname and name and evidence._tokens_match(name, sname):
+            return True
+        feed = _host_of(s.get("url", ""))
+        if host and feed and (_host_matches(host, feed) or _host_matches(feed, host)):
+            return True
+    return False
+
+
+def _attributed_agency(claim: str, icfg) -> str:
+    """الجهة التي يُسنَد إليها الفعل في أول كلمات الادّعاء («أكدت [وكالة] ناسا أن…» ← «ناسا»)، مطبَّعة؛
+    فارغة إن لم يُسنَد فعل لجهة. الأفعال وأدوات الوصل والكلمات العامّة من الإعداد لا من الكود."""
+    words = _folded_words(claim)
+    verbs = {w for v in icfg.get("attribution_verbs") or [] for w in _folded_words(v)}
+    stops = {w for v in icfg.get("attribution_stop") or [] for w in _folded_words(v)}
+    generic = {w for v in icfg.get("attribution_generic") or [] for w in _folded_words(v)}
+    for i, w in enumerate(words[:4]):
+        if w in verbs:
+            subject: list[str] = []
+            for t in words[i + 1:i + 4]:
+                if t in stops:
+                    break
+                subject.append(t)
+            return " ".join([t for t in subject if t not in generic] or subject)
+    return ""
+
+
+def _mentions_words(text: str, words: list[str]) -> bool:
+    forms, _ = _token_forms(text)
+    return bool(words) and all(
+        w in forms or any(w.startswith(p) and w[len(p):] in forms for p in _AR_PREFIXES)
+        for w in words)
+
+
+def _agency_supported(agency: str, supports: list[str], stances: dict[str, dict],
+                      pool: dict[str, dict], cfg) -> bool:
+    """مؤيِّد من نطاق الجهة نفسها (important.agency_domains)، أو مصدر معروف يسمّيها في مقتطف تأييده."""
+    icfg = cfg.get("important", {}) or {}
+    padded = f" {agency} "
+    domains: list[str] = []
+    for key, doms in (icfg.get("agency_domains") or {}).items():
+        k = " ".join(_folded_words(key))
+        if k and (k == agency or f" {k} " in padded):
+            domains += list(doms or [])
+    words = agency.split()
+    for n in supports:
+        link = pool[n].get("link", "")
+        if domains and _link_listed(link, domains):
+            return True
+        if (_is_known_source(n, link, cfg)
+                and _mentions_words(stances[n].get("excerpt", ""), words)):
+            return True
+    return False
+
+
+def _confirm_block(stances: dict[str, dict], pool: dict[str, dict], cfg, point: dict | None,
+                   supports: list[str], primary: list[str], refuters: list[str]) -> str:
+    """سبب منع confirmed (نص ملاحظة not_found) أو فارغ. ثلاثة شروط، الأول أخطرها: (1) أي نفي
+    حرفي مُثبَت — من مدقّق ولو بلا حكم صريح أو بمقتطف سؤالي، أو من مصدر مستقل — يمنع التأكيد
+    التلقائي (ولا يصدر false إلا بشروطه القائمة)؛ (2) مؤيِّد «معروف» واحد على الأقل؛ (3) ادّعاء
+    يسند فعلًا لجهة يشترط مؤيِّدًا هو الجهة نفسها أو معروفًا ينقل عنها صراحة."""
+    if refuters:
+        who = "، ".join(dict.fromkeys(refuters))
+        return f"أدلة متعارضة: نفي من {who} — لا تأكيد تلقائي"
+    icfg = cfg.get("important", {}) or {}
+    known = [n for n in supports if _is_known_source(n, pool[n].get("link", ""), cfg)]
+    if not known and not primary:
+        return UNKNOWN_ONLY_NOTE
+    claim = (point or {}).get("claim") or (point or {}).get("text") or ""
+    agency = _attributed_agency(claim, icfg)
+    if agency and not primary and not _agency_supported(agency, supports, stances, pool, cfg):
+        return (f"الادّعاء منسوب إلى «{agency}» ولا مؤيِّد من نطاقها ولا مصدر معروف ينقل عنها صراحة "
+                "— لا تأكيد تلقائي")
+    return ""
+
+
 def decide(stances: dict[str, dict], pool: dict[str, dict], cfg, point: dict | None = None) -> dict:
     """غلاف الحكم (Issue #1225): الحكم من `_decide_base`، ثم — إن أشار مصدر واحد فقط إلى أن
     ما في النقطة تجاوزه حدث أحدث ولم يُثبَت التجاوز بمصدرين — يُحفظ تنبيه «قد يكون متجاوَزًا»
@@ -929,6 +1026,11 @@ def _decide_base(stances: dict[str, dict], pool: dict[str, dict], cfg,
                                  "as_of": stances[n]["superseded_by"].get("date", "")}
                                 for n in superseders]}}
     if n_support >= min_confirm or primary:
+        blocked = _confirm_block(stances, pool, cfg, point, supports, primary, refuters)
+        if blocked:
+            # لا nearest ولا عرض: مصادر التأييد المرفوضة نفسها قد تكون هي من أعادت نشر الشائعة (#1229)
+            return {"verdict": "not_found", "note": blocked, "correction": None,
+                    "refuted_by": None, "primary_source": False, "confirm_blocked": True}
         return {"verdict": "confirmed", "note": note, "correction": None,
                 "refuted_by": None, "primary_source": bool(primary)}
     return {"verdict": "not_found", "note": note, "correction": None,
@@ -1888,7 +1990,7 @@ def judge_point(f: dict, topic: str, search: _PointSearch, cfg) -> dict:
                     "note": f"⚠️ فشل نداء التصنيف تقنيًا: {call_error}"}
     else:
         decision = decide(stances, pool, cfg, f)
-        if decision["verdict"] == "not_found" and data:
+        if decision["verdict"] == "not_found" and data and not decision.get("confirm_blocked"):
             nearest = _nearest(data, pool, cfg, f.get("entities") or [])
     note = " · ".join(x for x in (collect_note, decision["note"]) if x)
     superseded = [{"publisher": n, **stances[n]["superseded_by"]} for n in _superseded_names(stances)]
@@ -1929,7 +2031,7 @@ def judge_point(f: dict, topic: str, search: _PointSearch, cfg) -> dict:
 
     dropped = None
     if decision["verdict"] == "not_found" and nearest is None and not call_error:
-        dropped = NO_TRACE_REASON
+        dropped = decision["note"] if decision.get("confirm_blocked") else NO_TRACE_REASON
     return {
         "id": pid, "text": f["text"], "claim": f["text"],
         # framing/circulating_context (#1203): claim في «circulating» هو المضمون المزعوم؛
