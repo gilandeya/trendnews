@@ -1,7 +1,7 @@
 {
   "id": "2040e7ac0464",
   "created_at": "2026-10-04T06:38:05.913943+00:00",
-  "status": "pending",
+  "status": "queued",
   "origin": "analysis",
   "title": "هل تسد الميزانية الجديدة احتياجات التعليم الفرنسي رغم نقص المدرسين؟",
   "tier": 2,
@@ -64,5 +64,6 @@
     "web_search_query": null,
     "web_search_tried": 0,
     "web_search_skipped": null
-  }
+  },
+  "publish_at": "2026-10-04T09:17:29.162167+00:00"
 }

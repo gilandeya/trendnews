@@ -1,7 +1,7 @@
 {
   "id": "2715bfa6f359",
   "created_at": "2026-10-04T06:38:47.522587+00:00",
-  "status": "pending",
+  "status": "queued",
   "origin": "analysis",
   "title": "هل يمثل الانسحاب الأمريكي من العراق انهيار الوجود العسكري الأمريكي أم تحول في طبيعته؟",
   "tier": 2,
@@ -77,5 +77,6 @@
     "web_search_query": null,
     "web_search_tried": 0,
     "web_search_skipped": null
-  }
+  },
+  "publish_at": "2026-10-04T09:23:52.068772+00:00"
 }
