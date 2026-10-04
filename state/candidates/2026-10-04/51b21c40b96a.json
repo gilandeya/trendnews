@@ -1,0 +1,71 @@
+{
+  "id": "51b21c40b96a",
+  "created_at": "2026-10-04T18:08:27.238981+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.51,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 3,
+  "appeal_note": "تطور تقني عسكري مذهل، كوريا الشمالية والذكاء الاصطناعي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "North Korea’s Kim oversees missile launch with AI guidance",
+  "link": "https://www.freemalaysiatoday.com/category/world/2026/10/04/north-korea-s-kim-oversees-missile-launch-with-ai-guidance",
+  "publishers": [
+    "Free Malaysia Today",
+    "Malay Mail",
+    "Punch Nigeria"
+  ],
+  "region": "my",
+  "article": {
+    "title": "North Korea’s Kim oversees missile launch with AI guidance",
+    "link": "https://www.freemalaysiatoday.com/category/world/2026/10/04/north-korea-s-kim-oversees-missile-launch-with-ai-guidance",
+    "summary": "Kim Jong Un's powerful sister says AI technology allows the missile to change its flight orbit at a low altitude, making an attack 'impossible to avoid'.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-10-04T12:13:31+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/v3/2026/10/a294ad0b-d2c3-4c2d-a7d1-84d024a7a30d-AFP__20261003__D24L29E__v1__HighRes__NkoreaSkoreaDiplomacyMissile_cropped_1.webp",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "Malay Mail",
+      "Punch Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/north-koreas-kim-tests-ai-powered-missile/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/10/04/kim-jong-un-oversees-launch-of-missile-north-korea-says-uses-ai-to-evade-defences/237691"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/10/04/north-korea-s-kim-oversees-missile-launch-with-ai-guidance"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/v3/2026/10/a294ad0b-d2c3-4c2d-a7d1-84d024a7a30d-AFP__20261003__D24L29E__v1__HighRes__NkoreaSkoreaDiplomacyMissile_cropped_1.webp",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/10/04/366336.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1465.9173630066666,
+    "is_stale": false,
+    "score": 24.51096853536717,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 3,
+    "appeal_note": "تطور تقني عسكري مذهل، كوريا الشمالية والذكاء الاصطناعي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

@@ -16,102 +16,6 @@
     ],
     "link": "https://www.france24.com/en/africa/20260929-morocco-king-appoints-first-woman-prime-minister-el-mansouri-after-parliamentary-vote",
     "title": "Morocco's king appoints Marrakesh mayor El Mansouri as first woman prime minister",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-09-29T18:08:16.673844+00:00"
-  },
-  {
-    "score": 21.65,
-    "bucket": "serious",
-    "tokens": [
-      "airways",
-      "baggage",
-      "bangkok",
-      "battles",
-      "chaos",
-      "floodwaters",
-      "recede",
-      "thai"
-    ],
-    "link": "https://www.dawn.com/news/2033478/bangkok-floodwaters-recede-as-thai-airways-battles-baggage-chaos",
-    "title": "Bangkok floodwaters recede as Thai Airways battles baggage chaos",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-29T18:08:16.674143+00:00"
-  },
-  {
-    "score": 21.12,
-    "bucket": "serious",
-    "tokens": [
-      "disabled",
-      "euthanized",
-      "netherlands",
-      "rules",
-      "severely",
-      "toddler",
-      "under"
-    ],
-    "link": "https://www.cbsnews.com/news/child-euthanasia-netherlands-first-case-new-rules/",
-    "title": "Severely disabled toddler euthanized in the Netherlands under new rules",
-    "posted_title": "",
-    "region": "us",
-    "seen_at": "2026-09-29T18:08:16.674409+00:00"
-  },
-  {
-    "score": 19.82,
-    "bucket": "serious",
-    "tokens": [
-      "bail",
-      "british",
-      "men",
-      "plot",
-      "released",
-      "suspected",
-      "terror"
-    ],
-    "link": "https://www.npr.org/2026/09/28/nx-s1-5983550/british-men-released-on-bail-after-suspected-terror-plot",
-    "title": "British men released on bail after suspected terror plot",
-    "posted_title": "",
-    "region": "us",
-    "seen_at": "2026-09-29T18:08:16.674704+00:00"
-  },
-  {
-    "score": 18.17,
-    "bucket": "serious",
-    "tokens": [
-      "arrive",
-      "korea",
-      "korean",
-      "local",
-      "media",
-      "north",
-      "pows",
-      "south",
-      "ukraine"
-    ],
-    "link": "https://asia.nikkei.com/politics/international-relations/north-korean-pows-arrive-in-south-korea-from-ukraine-local-media",
-    "title": "North Korean POWs arrive in South Korea from Ukraine: local media",
-    "posted_title": "",
-    "region": "jp",
-    "seen_at": "2026-09-29T18:08:16.674962+00:00"
-  },
-  {
-    "score": 27.92,
-    "bucket": "serious",
-    "tokens": [
-      "appoints",
-      "first",
-      "king",
-      "mansouri",
-      "marrakesh",
-      "mayor",
-      "minister",
-      "morocco's",
-      "prime",
-      "woman"
-    ],
-    "link": "https://www.france24.com/en/africa/20260929-morocco-king-appoints-first-woman-prime-minister-el-mansouri-after-parliamentary-vote",
-    "title": "Morocco's king appoints Marrakesh mayor El Mansouri as first woman prime minister",
     "posted_title": "كيف أصبحت رئيسة بلدية مراكش أول امرأة تتولى رئاسة الحكومة في المغرب",
     "region": "eu",
     "seen_at": "2026-09-29T20:52:24.305972+00:00"
@@ -2361,5 +2265,98 @@
     "posted_title": "",
     "region": "jp",
     "seen_at": "2026-10-04T15:08:06.555791+00:00"
+  },
+  {
+    "score": 36.35,
+    "bucket": "serious",
+    "tokens": [
+      "against",
+      "announces",
+      "houthis",
+      "leader",
+      "major",
+      "military",
+      "operations",
+      "yemen"
+    ],
+    "link": "https://www.dawn.com/news/2034695/yemen-leader-announces-major-military-operations-against-houthis",
+    "title": "Yemen leader announces major military operations against Houthis",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-10-04T18:08:27.238391+00:00"
+  },
+  {
+    "score": 24.83,
+    "bucket": "serious",
+    "tokens": [
+      "cut",
+      "houthis",
+      "road",
+      "supply",
+      "taiz",
+      "vital",
+      "yemen"
+    ],
+    "link": "https://www.freemalaysiatoday.com/category/world/2026/10/04/houthis-cut-vital-supply-road-to-yemen-s-taiz",
+    "title": "Houthis cut vital supply road to Yemen’s Taiz",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-10-04T18:08:27.238692+00:00"
+  },
+  {
+    "score": 24.77,
+    "bucket": "serious",
+    "tokens": [
+      "attacks",
+      "calls",
+      "flydubai",
+      "isn't",
+      "pilot",
+      "praises",
+      "qaeda",
+      "war"
+    ],
+    "link": "https://www.ndtv.com/world-news/al-qaeda-praises-flydubai-co-pilot-calls-for-similar-attacks-on-us-israel-12137276#publisher=newsstand",
+    "title": "\"War Isn't Over\": Al-Qaeda Praises flydubai Co-Pilot, Calls For More Attacks",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-10-04T18:08:27.238971+00:00"
+  },
+  {
+    "score": 24.51,
+    "bucket": "serious",
+    "tokens": [
+      "guidance",
+      "kim",
+      "korea",
+      "launch",
+      "missile",
+      "north",
+      "oversees"
+    ],
+    "link": "https://www.freemalaysiatoday.com/category/world/2026/10/04/north-korea-s-kim-oversees-missile-launch-with-ai-guidance",
+    "title": "North Korea’s Kim oversees missile launch with AI guidance",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-10-04T18:08:27.239251+00:00"
+  },
+  {
+    "score": 24.23,
+    "bucket": "serious",
+    "tokens": [
+      "believe",
+      "flydubai",
+      "investigators",
+      "israeli",
+      "likely",
+      "lone",
+      "pilot",
+      "wolf"
+    ],
+    "link": "https://www.cbsnews.com/news/flydubai-co-pilot-alleged-hijacking-lone-wolf/",
+    "title": "FlyDubai co-pilot was likely lone wolf, Israeli investigators believe",
+    "posted_title": "",
+    "region": "us",
+    "seen_at": "2026-10-04T18:08:27.239540+00:00"
   }
 ]

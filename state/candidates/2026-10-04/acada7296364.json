@@ -1,0 +1,64 @@
+{
+  "id": "acada7296364",
+  "created_at": "2026-10-04T18:08:27.238703+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.77,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 1,
+  "proximity": 3,
+  "intrigue": 3,
+  "appeal_note": "القاعدة تهنئ الطيار والتهديد يستمر",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "\"War Isn't Over\": Al-Qaeda Praises flydubai Co-Pilot, Calls For More Attacks",
+  "link": "https://www.ndtv.com/world-news/al-qaeda-praises-flydubai-co-pilot-calls-for-similar-attacks-on-us-israel-12137276#publisher=newsstand",
+  "publishers": [
+    "Hindustan Times — World",
+    "NDTV — World"
+  ],
+  "region": "in",
+  "article": {
+    "title": "\"War Isn't Over\": Al-Qaeda Praises flydubai Co-Pilot, Calls For More Attacks",
+    "link": "https://www.ndtv.com/world-news/al-qaeda-praises-flydubai-co-pilot-calls-for-similar-attacks-on-us-israel-12137276#publisher=newsstand",
+    "summary": "The flydubai co-pilot has been identified as Hamam al-Hammami.",
+    "source_name": "NDTV — World",
+    "region": "in",
+    "weight": 0.9,
+    "published": "2026-10-04T12:22:39+00:00",
+    "image_url": "https://c.ndtvimg.com/2026-10/han98t6k_flydubai_625x300_04_October_26.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+    "publisher": "NDTV — World",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "NDTV — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/war-isnt-over-al-qaeda-calls-for-copycat-attacks-on-us-israeli-planes-after-flydubai-plot-101791090836562.html"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/al-qaeda-praises-flydubai-co-pilot-calls-for-similar-attacks-on-us-israel-12137276#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://c.ndtvimg.com/2026-10/han98t6k_flydubai_625x300_04_October_26.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 1465.9173263927776,
+    "is_stale": true,
+    "score": 24.766229184574073,
+    "impact": 1,
+    "proximity": 3,
+    "intrigue": 3,
+    "appeal_note": "القاعدة تهنئ الطيار والتهديد يستمر",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

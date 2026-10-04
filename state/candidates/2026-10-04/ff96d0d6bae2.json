@@ -1,0 +1,101 @@
+{
+  "id": "ff96d0d6bae2",
+  "created_at": "2026-10-04T18:08:27.237935+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 36.35,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "صراع يمني داخلي، قرب جغرافي لكن تأثير محدود",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Yemen leader announces major military operations against Houthis",
+  "link": "https://www.dawn.com/news/2034695/yemen-leader-announces-major-military-operations-against-houthis",
+  "publishers": [
+    "Al Jazeera English",
+    "Axios",
+    "BBC World",
+    "Dawn",
+    "Folha de S.Paulo",
+    "France24",
+    "Free Malaysia Today",
+    "TASS",
+    "The Express Tribune",
+    "The Hindu — International"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Yemen leader announces major military operations against Houthis",
+    "link": "https://www.dawn.com/news/2034695/yemen-leader-announces-major-military-operations-against-houthis",
+    "summary": "The leader of Yemen’s government announced the beginning of a major military operation against the Houthis on Sunday, aimed at seizing the territory under their control. Regional and western officials had previously told Reuters that Saudi Arabia and its Yemeni allies were planning to launch an assault on the Houthis, with the Saudis leading aerial combat and Yemeni forces fighting on the ground. “Today, I announce the start of military operations to retake the remaining territory of the republic and extend the authority of the state and its institutions across the entire national territory,” Yemeni President Rashad al-Alimi said in a televised address. Saudi Arabia entered neighbouring Yemen’s civil war in 2015 at the head of an Arab coalition in support of the internationally recognised government, which the Houthis had driven out of the capital Sanaa. A truce agreed between the warring parties in 2022 largely held until this year, when the Houthis launched missile and drone attacks on Saudi shipping and oil infrastructure in a spillover from the Iran war . Yemen forces say struck Houthi targets in several areas Yemen’s government forces said on Sunday they had struck Houthi targ",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-10-04T17:20:14+00:00",
+    "image_url": "https://i.dawn.com/large/2026/10/0412483611da4f2.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Axios",
+      "BBC World",
+      "Dawn",
+      "Folha de S.Paulo",
+      "France24",
+      "Free Malaysia Today",
+      "TASS",
+      "The Express Tribune",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2034695/yemen-leader-announces-major-military-operations-against-houthis"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2632957/yemen-leader-announces-major-military-operations-against-iran-backed-houthis"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cx8dzj9vpp01o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20261004-yemen-leader-announces-counter-offensive-as-houthis-cut-off-supply-route-besieged-city-taiz"
+      },
+      {
+        "name": "Folha de S.Paulo",
+        "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://www1.folha.uol.com.br/mundo/2026/10/governo-do-iemen-anuncia-ofensiva-militar-para-retomar-territorios-sob-controle-dos-houthis.shtml"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/world/2197405"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/10/0412483611da4f2.webp",
+      "https://i.dawn.com/thumbnail/2026/10/0412483611da4f2.webp",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/7653/live/2853dd30-bffa-11f1-8c3e-3b2eab095459.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/7653/live/2853dd30-bffa-11f1-8c3e-3b2eab095459.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/7653/live/2853dd30-bffa-11f1-8c3e-3b2eab095459.jpg",
+      "https://s.france24.com/media/display/d00fb47e-bfee-11f1-9c60-1ff0321dbbd3/w:1024/p:16x9/000-C9E87YK.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 10,
+    "velocity": 0.9982937925083983,
+    "age_hours": 1465.9173065205555,
+    "is_stale": false,
+    "score": 36.35413058020408,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "صراع يمني داخلي، قرب جغرافي لكن تأثير محدود",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

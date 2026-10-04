@@ -1,0 +1,58 @@
+{
+  "id": "f0b963340a37",
+  "created_at": "2026-10-04T18:08:27.239261+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.23,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 3,
+  "appeal_note": "تحقيق: طيار فلاي دبي هاجم وحيدًا",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "FlyDubai co-pilot was likely lone wolf, Israeli investigators believe",
+  "link": "https://www.cbsnews.com/news/flydubai-co-pilot-alleged-hijacking-lone-wolf/",
+  "publishers": [
+    "CBS News",
+    "CBS News — World"
+  ],
+  "region": "us",
+  "article": {
+    "title": "FlyDubai co-pilot was likely lone wolf, Israeli investigators believe",
+    "link": "https://www.cbsnews.com/news/flydubai-co-pilot-alleged-hijacking-lone-wolf/",
+    "summary": "The FlyDubai​ alleged attempted hijacking was likely a lone wolf attack, an early investigation by Israel shows, according to people familiar with the matter.",
+    "source_name": "CBS News — World",
+    "region": "us",
+    "weight": 0.9,
+    "published": "2026-10-04T16:20:28+00:00",
+    "image_url": null,
+    "publisher": "CBS News — World",
+    "cluster_sources": [
+      "CBS News",
+      "CBS News — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/flydubai-co-pilot-alleged-hijacking-lone-wolf/"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1465.9175258230555,
+    "is_stale": false,
+    "score": 24.230469913777778,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 3,
+    "appeal_note": "تحقيق: طيار فلاي دبي هاجم وحيدًا",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
