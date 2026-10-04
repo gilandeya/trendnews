@@ -23,3 +23,5 @@ imageio-ffmpeg>=0.5
 # (Issue #631) يستهلكها فعليًا لجلب النص نفسه (.fetch()) عبر بروكسي
 # Webshare -- انظر src/proxy_config.py.
 youtube-transcript-api>=1.0
+# أداة قياس الريلات tools/reel_clip_probe.py (Issue #1236) فقط -- تنزيل نافذة زمنية من فيديو عبر البروكسي.
+yt-dlp>=2025.10.22

@@ -49,6 +49,10 @@ python -m src.publish --all-pending  # publish everything pending (real publish 
 python -m tests.test_pipeline        # run the full test suite
 ```
 
+### أدوات القياس (`tools/`)
+
+- `python tools/reel_clip_probe.py --clips 6 --seconds 12` (Issue #1236) — تجربة جدوى لريلات التحليل: تنزيل نافذة قصيرة من فيديو يوتيوب بـyt-dlp عبر بروكسي Webshare (جودتا 720/480 لأول نقطتين) مع حارس دقة النافذة مقابل نص الفيديو. قياس فقط (لا ريل ولا نشر)؛ المقاطع في `youtube-data/reel_probe/<التاريخ>/` (المستودع الخاص) وتقرير الأرقام وحده في `state/reel_probe/<التاريخ>.json`.
+
 There is no separate test runner/framework (no pytest) and no linter configured — the project's
 only quality gate is the test suite under `tests/`, run as the `tests.test_pipeline` module (see
 Testing below for how the suite is split across files by domain).

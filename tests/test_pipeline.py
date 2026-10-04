@@ -244,6 +244,7 @@ from tests.test_youtube import (
     test_measure_channels,
     test_actions_block_script,
     test_proxy_config,
+    test_reel_clip_probe,
     test_youtube_collect,
     test_youtube_extract,
     test_youtube_data_repo_paths,
@@ -575,6 +576,7 @@ def main() -> int:
     print("\n── إعداد بروكسي Webshare (Issue #629) ──")
     test_proxy_config()
     print("\n── مسار يوتيوب: الجمع (Issue #631) ──")
+    test_reel_clip_probe()
     test_youtube_collect()
     print("\n── مسار يوتيوب: الاستخلاص (Issue #631) ──")
     test_youtube_extract()
