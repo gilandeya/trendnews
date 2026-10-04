@@ -498,10 +498,14 @@ def _sentence_containing(raw_text: str, window: tuple[str, ...]) -> str:
     return ""
 
 
+_EXEMPT_MARK = "\x00exempt"
+
+
 def check_originality(draft_text: str, article_body: str, source_docs: list[dict],
                       max_shared_run_words: int, *, repeat_min_count: int = 2,
                       extra_docs: list[dict] | None = None, min_core: int = 5,
-                      allowed_quotes: list[str] | None = None
+                      allowed_quotes: list[str] | None = None,
+                      exempt_texts: list[str] | None = None
                       ) -> tuple[bool, str, list[str]]:
     """غلاف رقيق حول `_check_originality_full` يُبقي التوقيع العام (3-tuple)
     كما هو تمامًا — لا تغيير سلوكي، ولا حاجة لتعديل أي مستدعٍ قائم (بما
@@ -513,7 +517,7 @@ def check_originality(draft_text: str, article_body: str, source_docs: list[dict
     ok, reason, notes, _offending = _check_originality_full(
         draft_text, article_body, source_docs, max_shared_run_words,
         repeat_min_count=repeat_min_count, extra_docs=extra_docs, min_core=min_core,
-        allowed_quotes=allowed_quotes)
+        allowed_quotes=allowed_quotes, exempt_texts=exempt_texts)
     return ok, reason, notes
 
 
@@ -521,7 +525,8 @@ def _check_originality_full(draft_text: str, article_body: str, source_docs: lis
                             max_shared_run_words: int, *, repeat_min_count: int = 2,
                             extra_docs: list[dict] | None = None, min_core: int = 5,
                             grounded_texts: list[str] | None = None,
-                            allowed_quotes: list[str] | None = None
+                            allowed_quotes: list[str] | None = None,
+                            exempt_texts: list[str] | None = None
                             ) -> tuple[bool, str, list[str], dict | None]:
     """يتحقق أن نص المسودة لا يحمل نسخًا حرفيًا من المقال الملصق ولا من
     مقتطفات المصادر المؤكِّدة (تعليق الموافقة على Issue #334، نقطة 3):
@@ -661,6 +666,19 @@ def _check_originality_full(draft_text: str, article_body: str, source_docs: lis
 
     notes: list[str] = []
     candidate_words = _normalized_words(cleaned)
+    # نصوص مستثناة من فحص التتابع نفسه (اختيارية — Issue #1229): في «هام» التصحيح هو المعلومة الصحيحة
+    # كما في المصدر بطبيعته فيطابق مقتطفه حرفيًا، وحكم المدقّق كذلك. تُستبدل مواضعها بحارس
+    # لا تمرّ به نافذة فلا تُعدّ مشتركة، بينما ما حولها يُفحص كالمعتاد
+    for ex in exempt_texts or []:
+        ex_words = _normalized_words(ex)
+        k = len(ex_words)
+        i = 0
+        while k and i + k <= len(candidate_words):
+            if candidate_words[i:i + k] == ex_words:
+                candidate_words[i:i + k] = [_EXEMPT_MARK] * k
+                i += k
+            else:
+                i += 1
     n = max_shared_run_words
     if n > 0 and len(candidate_words) >= n:
         article_ngrams = _ngram_set(_normalized_words(article_body), n)
@@ -674,6 +692,8 @@ def _check_originality_full(draft_text: str, article_body: str, source_docs: lis
         extra_counts = [(name, _ngram_counts(words, n)) for name, words in extra_word_lists]
         for i in range(len(candidate_words) - n + 1):
             window = tuple(candidate_words[i:i + n])
+            if _EXEMPT_MARK in window:
+                continue
             phrase = " ".join(window)
             hit_names = {name for name, counts in source_counts if window in counts}
             if len(hit_names) >= 2:

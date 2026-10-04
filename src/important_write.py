@@ -33,6 +33,8 @@ REASON_NO_LABEL = "المقال لا يذكر حكم المدقّق"
 REASON_ORIGINAL = "المقال يذكر النقطة الأصلية"
 REASON_NO_CORRECT = "الصيغة الصحيحة غائبة عن العنوان أو أول جملة"
 REASON_ORIGINALITY = "نسخ لفظي من مقتطفات المصادر"
+REASON_EDITOR_TAG = "المقال ينسب إلى «موجز المحرر» أو رأيه ولا موجز في «هام»"
+NO_FACTS_REASON = "لا وقائع مسندة من أدلة النقطة — لا كتابة من نص المستخدم في «هام»"
 TECHNICAL_PREFIX = "مرحلة الصياغة — فشل تقني"
 
 
@@ -49,6 +51,19 @@ def _norm(text: str) -> str:
 def _contains(haystack: str, needle: str) -> bool:
     n = _norm(needle)
     return bool(n) and f" {n} " in f" {_norm(haystack)} "
+
+
+def _has_phrase(text: str, phrase: str) -> bool:
+    """عبارة ثابتة في النص مع تسامح بحرف عطف ملتصق بأول كلمة («وبحسب معلومات المحرر»)؛ _contains
+    وحدها تفوّت هذا الشكل لأن المطابقة بحدود الكلمات."""
+    want = _norm(phrase).split()
+    words = _norm(text).split()
+    for i in range(len(words) - len(want) + 1):
+        head = words[i]
+        if (head == want[0] or (head[:1] in ("و", "ف") and head[1:] == want[0])) \
+                and words[i + 1:i + len(want)] == want[1:]:
+            return True
+    return False
 
 
 def first_sentence(body: str) -> str:
@@ -134,10 +149,26 @@ def build_grounded(point: dict, cfg) -> tuple[list[dict], str]:
 def allowed_quotes(point: dict) -> list[str]:
     """نصوص يجوز اقتباسها حرفيًا بين علامتي تنصيص فوق مقتطفات المصادر (Issue #1225): في
     inaccurate وfalse وحدهما — الادّعاء المصحَّح أو المفنَّد يُقتبس ليُرَدّ عليه — claim النقطة
-    وسياق تداولها. أي نص آخر من جسم الـIssue يبقى ممنوعًا، وغيرهما من الأحكام لا يُسمح لهما."""
+    وسياق تداولها. أي نص آخر من جسم الـIssue يبقى ممنوعًا، وغيرهما من الأحكام لا يُسمح لهما.
+    وفي inaccurate يُضاف نص correction.correct (Issue #1229): هو الصيغة الصحيحة كما في المصدر
+    فاقتباسه حرفيًا مشروع بطبيعته."""
     if point.get("verdict") not in ("inaccurate", "false"):
         return []
-    return [t for t in (point.get("claim"), point.get("circulating_context")) if t]
+    texts = [point.get("claim"), point.get("circulating_context")]
+    if point.get("verdict") == "inaccurate":
+        texts.append((point.get("correction") or {}).get("correct"))
+    return [t for t in texts if t]
+
+
+def exempt_texts(point: dict) -> list[str]:
+    """نصوص تُستثنى من فحص التتابع اللفظي (max_shared_run_words) لأنها المعلومة المطلوبة نفسها
+    كما في المصدر (Issue #1229): الصيغة الصحيحة في inaccurate، وحكم المدقّق في false. ما حولها
+    يُفحص كالمعتاد، ونسخ أي تتابع آخر من المقتطف يبقى مرفوضًا."""
+    if point.get("verdict") == "inaccurate":
+        return [t for t in [(point.get("correction") or {}).get("correct")] if t]
+    if point.get("verdict") == "false":
+        return [r["verdict_label"] for r in point.get("refuted_by") or [] if r.get("verdict_label")]
+    return []
 
 
 def checker_of(point: dict) -> dict | None:
@@ -164,7 +195,7 @@ def instructions(point: dict, cfg) -> str:
         body = template.format(nearest_title=(point.get("nearest") or {}).get("title", ""))
     else:
         body = template
-    return f"\n{wi.get('title_note', '')}\n{body}\n"
+    return f"\n{wi.get('title_note', '')}\n{body}\n{wi.get('quote_note', '')}\n"
 
 
 # ───────────────────────────── الفحص بعد الكتابة ─────────────────────────────
@@ -177,6 +208,14 @@ def check_text(point: dict, written: dict, cfg) -> str | None:
     body = written.get("post_body", "")
     first = first_sentence(body)
     icfg = _icfg(cfg)
+
+    # لا درجة ج ولا نسبة رأي في «هام» (#1229): لا موجز محرر هنا، فورود العبارتين يعني أن الكاتب
+    # كتب من نص المستخدم لا من أدلة النقطة — يُرفض أيًّا كان الحكم
+    acfg = cfg.get("article", {}) or {}
+    for phrase in (acfg.get("editor_tag_phrase", "بحسب معلومات المحرر"),
+                   acfg.get("opinion_attribution_phrase", "وترى الصفحة أن")):
+        if _has_phrase(f"{title} {body}", phrase):
+            return REASON_EDITOR_TAG
 
     if verdict == "false":
         for claim in {point.get("claim", ""), point.get("text", "")} - {""}:
@@ -239,15 +278,21 @@ def write_point(point: dict, result: dict, cfg, selection_issue: int | None = No
     تحريري بعد استنفاد المحاولات."""
     acfg = cfg.get("article", {}) or {}
     grounded, question = build_grounded(point, cfg)
-    if not grounded or not any(f.get("sources") for f in grounded):
-        return None, "لا أدلة محفوظة للنقطة تكفي للكتابة", False
+    # بلا مقتطف مصدر فعلي لا وقائع مسندة: الكاتب حينها يكتب من نص الـIssue بدرجة ج («بحسب معلومات
+    # المحرر») وهذا ما نُشر في #1229 — فشل كتابة صريح بدل مقال، بلا نداء نموذج
+    if not article._source_docs(grounded):
+        return None, NO_FACTS_REASON, False
 
     attempts = max(1, int(_icfg(cfg).get("write_attempts", 2)))
     note = instructions(point, cfg)
     wi = _icfg(cfg).get("writer_instructions", {}) or {}
+    system_note = wi.get("no_editor_note", "").format(
+        editor_tag=acfg.get("editor_tag_phrase", "بحسب معلومات المحرر"),
+        opinion_phrase=acfg.get("opinion_attribution_phrase", "وترى الصفحة أن"))
     written, reason = None, ""
     for attempt in range(attempts):
-        got, err = article._draft_article(grounded, [], question, cfg, avoid_note=note)
+        got, err = article._draft_article(grounded, [], question, cfg, avoid_note=note,
+                                           system_note=system_note)
         if got is None:
             return None, err, err.startswith(TECHNICAL_PREFIX)
         reason = check_text(point, got, cfg) or ""
@@ -255,7 +300,7 @@ def write_point(point: dict, result: dict, cfg, selection_issue: int | None = No
             ok, why, _notes = verify_draft.check_originality(
                 got["post_body"], "", article._source_docs(grounded),
                 int(acfg.get("max_shared_run_words", 7)),
-                allowed_quotes=allowed_quotes(point))
+                allowed_quotes=allowed_quotes(point), exempt_texts=exempt_texts(point))
             reason = "" if ok else f"{REASON_ORIGINALITY}: {why}"
         if not reason:
             written = got

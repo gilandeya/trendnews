@@ -1431,6 +1431,87 @@ def test_important_false_guard() -> None:
           p43["verdict"] == "confirmed" and "قد يكون متجاوَزًا" in (p43.get("note") or "")
           and "MoM-z14" in (p43.get("note") or ""), (p43["verdict"], p43.get("note")))
 
+    # ── Issue #1229 (المهمة 3ج): g44–g46 تُكتب قبل أي كود — شائعة «ناسا/الشمس من المغرب» حُكم
+    # عليها confirmed ونُشرت. تجري على الحارس الحقيقي لـ«المؤيِّد المعروف» (strict_known=True) ──
+    def run_strict(case: int, claim_text: str, docs, classify) -> dict:
+        marker = f"كلمةحارس{case}"
+        claim = claim_text.replace("@", marker)
+        pt = {"entities": [marker], "claim": claim, "queries": [{"lang": "ar", "q": claim}]}
+        with ImportantRig([pt], {marker: docs}, classify, strict_known=True):
+            important.judge("نص الـIssue كاملًا", 94000 + case, cfg)
+        return important.load_saved(94000 + case)["points"][0]
+
+    event = "وقعت الحادثة الكبرى في المدينة بحسب التقارير المتداولة."
+
+    def by_name(rules):
+        def classify(point, names):
+            rows = []
+            for n in names:
+                stance, excerpt, extra = rules.get(n, ("irrelevant", "", {}))
+                rows.append(important_stance(n, stance, excerpt, **extra))
+            return {"sources": rows}
+        return classify
+
+    sup = ("supports", "وقعت الحادثة الكبرى في المدينة", {})
+    # g44) مصدران مستقلان غير معروفين يؤيدان + نفي من fatabyyano.net بلا verdict_label ← not_found
+    unknown = [important_doc("موقع الشرق الإخباري", event),
+               important_doc("منصة الغرب الرقمية", "تغطية مستقلة: " + event)]
+    fact = important_doc("Fatabyyano", "ادّعاء مضلّل لم تقع الحادثة أصلًا.",
+                         link="https://fatabyyano.net/en/x/")
+    rules44 = {"موقع الشرق الإخباري": sup, "منصة الغرب الرقمية": sup,
+               "Fatabyyano": ("refutes", "لم تقع الحادثة", {"verdict_label": ""})}
+    p44 = run_strict(44, "وقعت الحادثة @ في المدينة", unknown + [fact], by_name(rules44))
+    check("(g44) مؤيِّدان غير معروفين + نفي من fatabyyano.net بلا verdict_label ⇒ not_found لا confirmed",
+          p44["verdict"] == "not_found" and "أدلة متعارضة" in (p44.get("note") or "")
+          and "Fatabyyano" in (p44.get("note") or "") and "لا تأكيد تلقائي" in (p44.get("note") or ""),
+          (p44["verdict"], p44.get("note")))
+    # ضابطة g44: نفي حرفي من مصدر مستقل (لا مدقّق) يمنع confirmed ولو كان المؤيِّدان معروفَين
+    known2 = [important_doc("Reuters", event), important_doc("BBC", "تغطية مستقلة: " + event)]
+    denier = important_doc("وكالة النفي المستقلة", "تؤكد المصادر أن الحادثة لم تقع إطلاقًا.")
+    rules44b = {"Reuters": sup, "BBC": sup,
+                "وكالة النفي المستقلة": ("refutes", "الحادثة لم تقع إطلاقًا", {"verdict_label": ""})}
+    p44b = run_strict(144, "وقعت الحادثة @ في المدينة", known2 + [denier], by_name(rules44b))
+    check("(g44) ضابطة: refutes بمقتطف حرفي من مصدر مستقل يمنع confirmed ولو كان المؤيِّدان معروفَين",
+          p44b["verdict"] == "not_found" and "أدلة متعارضة" in (p44b.get("note") or ""),
+          (p44b["verdict"], p44b.get("note")))
+
+    # g45) مصدران مستقلان غير معروفين يؤيدان بلا أي نفي ← not_found «تأييد من مصادر غير معروفة فقط»
+    rules45 = {"موقع الشرق الإخباري": sup, "منصة الغرب الرقمية": sup}
+    p45 = run_strict(45, "وقعت الحادثة @ في المدينة", unknown, by_name(rules45))
+    check("(g45) مؤيِّدان مستقلان غير معروفين بلا نفي ⇒ not_found بملاحظة «تأييد من مصادر غير معروفة فقط»",
+          p45["verdict"] == "not_found" and "تأييد من مصادر غير معروفة فقط" in (p45.get("note") or ""),
+          (p45["verdict"], p45.get("note")))
+    # ضابطة g45: مؤيِّد معروف واحد (BBC بالاسم) بين اثنين يكفي ⇒ confirmed
+    mixed = [important_doc("BBC", event), important_doc("منصة الغرب الرقمية", "تغطية مستقلة: " + event)]
+    p45b = run_strict(145, "وقعت الحادثة @ في المدينة", mixed,
+                      by_name({"BBC": sup, "منصة الغرب الرقمية": sup}))
+    check("(g45) ضابطة: مؤيِّد معروف واحد بين المؤيِّدين المستقلين ⇒ confirmed",
+          p45b["verdict"] == "confirmed", (p45b["verdict"], p45b.get("note")))
+
+    # g46) «أكدت ناسا…» + مؤيِّدان معروفان لا ينقلان عن ناسا + لا nasa.gov ← not_found
+    claim46 = "أكدت ناسا أن @ سيحدث غدًا"
+    plain = [important_doc("Reuters", "تتحدث التقارير عن أن الأمر سيحدث غدًا في المنطقة."),
+             important_doc("BBC", "تقرير مستقل: تتحدث الأنباء عن أن الأمر سيحدث غدًا في المنطقة.")]
+    s46 = ("supports", "الأمر سيحدث غدًا", {})
+    p46 = run_strict(46, claim46, plain, by_name({"Reuters": s46, "BBC": s46}))
+    check("(g46) ادّعاء منسوب لناسا + مؤيِّدان معروفان لا ينقلان عنها ولا nasa.gov ⇒ not_found",
+          p46["verdict"] == "not_found" and "ناسا" in (p46.get("note") or ""),
+          (p46["verdict"], p46.get("note")))
+    # ضابطتا g46: نطاق الجهة نفسها مؤيِّدًا، أو معروف يسمّيها صراحة ⇒ confirmed
+    nasa = [important_doc("Reuters", "تتحدث التقارير عن أن الأمر سيحدث غدًا في المنطقة."),
+            important_doc("NASA", "بيان رسمي: الأمر سيحدث غدًا في المنطقة.",
+                          link="https://www.nasa.gov/news/release")]
+    p46b = run_strict(146, claim46, nasa, by_name({"Reuters": s46, "NASA": s46}))
+    check("(g46) ضابطة: أحد المؤيِّدين من نطاق nasa.gov ⇒ confirmed", p46b["verdict"] == "confirmed",
+          (p46b["verdict"], p46b.get("note")))
+    cites = [important_doc("Reuters", "قالت ناسا إن الأمر سيحدث غدًا في المنطقة بحسب بيانها."),
+             important_doc("BBC", "تقرير مستقل: الأمر سيحدث غدًا بحسب ناسا.")]
+    p46c = run_strict(246, claim46, cites, by_name({
+        "Reuters": ("supports", "قالت ناسا إن الأمر سيحدث غدًا", {}),
+        "BBC": ("supports", "الأمر سيحدث غدًا بحسب ناسا", {})}))
+    check("(g46) ضابطة: مؤيِّد معروف ينقل عن ناسا صراحة ⇒ confirmed", p46c["verdict"] == "confirmed",
+          (p46c["verdict"], p46c.get("note")))
+
 
 def test_important_write_guards() -> None:
     """حارس الكتابة التحريري لمسار «هام» (Issue #1221، g36–g39) — يمسّ ما يُنشر، فتُكتب
@@ -1520,5 +1601,54 @@ def test_important_write_guards() -> None:
     other = {**good, "post_body": good["post_body"] + " وكتب صاحب النص «أبعد مجرة معروفة تحمل اسم JADES حتى الآن» بلا سند."}
     rig, _code, saved, draft = run(41, inacc, other)
     rejected("g41", rig, saved, draft, "اقتباس بين علامتي تنصيص")
-    for n in (36, 37, 38, 39, 40, 41):
+
+    # ── Issue #1229: g47–g48 تُكتبان قبل أي كود ──
+    # g47) كتابة بلا وقائع مسندة ← فشل كتابة، لا مسودة، ولا «بحسب معلومات المحرر» أبدًا
+    def clean(point):
+        # الأصل الحقيقي كُتب ثم فشل/نُشر: يبدأ هنا نظيفًا بلا أثر كتابة سابقة
+        stale = ("draft_id", "written_at", "write_error", "failed_at", "write_failed", "action")
+        return {k: v for k, v in point.items() if k not in stale}
+
+    conf = clean(important_fixture_point(1229, "confirmed"))
+    for case, ev in ((47, []), (147, [{"publisher": "موقع", "link": "https://m.example/1",
+                                       "stance": "supports", "excerpt": ""}])):
+        rig, _code, saved, draft = run(case, {**conf, "evidence": ev}, important_good_data(conf))
+        notes = " ".join(t for _, t in rig.comments)
+        check("(g47) نقطة بلا وقائع مسندة ← failed بسبب «لا وقائع مسندة»، لا مسودة ولا نداء كاتب",
+              draft is None and saved["status"] == "failed" and rig.calls == []
+              and "لا وقائع مسندة" in (saved.get("write_error") or ""),
+              (saved["status"], saved.get("write_error"), len(rig.calls)))
+        check("(g47) والسبب في تعليق قضية الترشيح ولا قضية مرحلة 2", "لا وقائع مسندة" in notes
+              and rig.created == [], notes[:200])
+    tagged = {**important_good_data(conf),
+              "post_body": important_good_data(conf)["post_body"] + " وبحسب معلومات المحرر فالأمر كذلك."}
+    rig, _code, saved, draft = run(247, conf, tagged)
+    rejected("g47", rig, saved, draft, "موجز المحرر")
+    check("(g47) توجيه الكاتب يمنع عبارة المحرر ونسبة الرأي صراحة (لا درجة ج)",
+          rig.calls and "ممنوع ذكر عبارة" in rig.calls[0]["system"]
+          and "بحسب معلومات المحرر" in rig.calls[0]["system"], rig.calls[:1])
+    opinion = {**tagged, "post_body": tagged["post_body"].replace("وبحسب معلومات المحرر", "وترى الصفحة أن")}
+    rig, _code, saved, draft = run(347, conf, opinion)
+    rejected("g47", rig, saved, draft, "موجز المحرر")
+    rig, _code, saved, draft = run(447, conf, important_good_data(conf))
+    accepted("g47", rig, saved, draft)
+
+    # g48) inaccurate بتصحيح مطابق لمقتطف BBC بسبع كلمات فأكثر ← لا رفض نسخ (هو المعلومة الصحيحة)
+    bbc = clean(important_fixture_point(1229, "inaccurate", 1))
+    shared = [s for s in bbc["correction"]["sources"] if s["publisher"] == "BBC"][0]["excerpt"]
+    from src import important_write
+    cw, sw = important_write._norm(bbc["correction"]["correct"]).split(), important_write._norm(shared)
+    check("(g48) fixture: تصحيح 04ae7eae0358 يطابق مقتطف BBC بسبع كلمات متتالية فأكثر",
+          bbc["id"] == "04ae7eae0358"
+          and any(" ".join(cw[i:i + 7]) in sw for i in range(len(cw) - 6)), (cw, sw))
+    rig, _code, saved, draft = run(48, bbc, important_good_data(bbc))
+    accepted("g48", rig, saved, draft)
+    check("(g48) لا رفض نسخ لفظي (محاولة واحدة)", len(rig.calls) == 1 and not saved.get("write_error"),
+          (len(rig.calls), saved.get("write_error")))
+    # ضابطة g48: نسخ تتابع آخر من BBC ليس هو التصحيح يبقى مرفوضًا
+    good = important_good_data(bbc)
+    copied = {**good, "post_body": good["post_body"] + " ويوجد حاليا على بعد نحو 1.6 مليون كيلومتر من الأرض."}
+    rig, _code, saved, draft = run(148, bbc, copied)
+    rejected("g48", rig, saved, draft, "نسخ لفظي")
+    for n in (36, 37, 38, 39, 40, 41, 47, 147, 247, 347, 447, 48, 148):
         important.saved_path(96000 + n).unlink(missing_ok=True)
