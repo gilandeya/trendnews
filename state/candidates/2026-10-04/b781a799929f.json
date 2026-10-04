@@ -1,0 +1,84 @@
+{
+  "id": "b781a799929f",
+  "created_at": "2026-10-04T09:08:11.698821+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.24,
+  "trend_score": 0.33,
+  "velocity": 0.0,
+  "impact": 1,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "الحوثيون يستهدفون أرامكو، صراع يمني وإقليمي مباشر",
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Houthis claim strike on Saudi Aramco facility as Yemen fighting intensifies",
+  "link": "https://www.investing.com/news/economy-news/houthis-claim-strike-on-saudi-aramco-facility-as-yemen-fighting-intensifies-4930902",
+  "publishers": [
+    "Al Jazeera",
+    "Al Jazeera English",
+    "Hindustan Times — World",
+    "Investing.com — الاقتصاد",
+    "South China Morning Post",
+    "The Express Tribune"
+  ],
+  "region": "money",
+  "article": {
+    "title": "Houthis claim strike on Saudi Aramco facility as Yemen fighting intensifies",
+    "link": "https://www.investing.com/news/economy-news/houthis-claim-strike-on-saudi-aramco-facility-as-yemen-fighting-intensifies-4930902",
+    "summary": "",
+    "source_name": "Investing.com — الاقتصاد",
+    "region": "money",
+    "weight": 0.9,
+    "published": "2026-10-04T04:08:47+00:00",
+    "image_url": "https://content-media.investing.com/news/LYNXMPEB4B08B_M.jpg",
+    "publisher": "Investing.com — الاقتصاد",
+    "cluster_sources": [
+      "Al Jazeera",
+      "Al Jazeera English",
+      "Hindustan Times — World",
+      "Investing.com — الاقتصاد",
+      "South China Morning Post",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/10/4/houthis-claim-strike-on-saudi-energy-facility-as-yemen-fighting-intensifies?traffic_source=rss"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/houthis-claim-strike-on-saudi-aramco-facility-as-yemen-fighting-intensifies-4930902"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3369667/flames-smoke-seen-aramco-facility-south-saudi-capital?utm_source=rss_feed"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2632857/houthis-hit-oil-facility-near-riyadh"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/houthis-say-struck-oil-facility-near-riyadh-as-saudis-hit-sanaa-101791056681236.html"
+      }
+    ],
+    "image_candidates": [
+      "https://content-media.investing.com/news/LYNXMPEB4B08B_M.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 6,
+    "velocity": 0.0,
+    "age_hours": 1456.9125615802777,
+    "is_stale": true,
+    "score": 23.239359632607915,
+    "impact": 1,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "الحوثيون يستهدفون أرامكو، صراع يمني وإقليمي مباشر",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

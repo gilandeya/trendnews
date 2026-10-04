@@ -1,0 +1,60 @@
+{
+  "id": "e20af7f2896d",
+  "created_at": "2026-10-04T09:08:11.699257+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.25,
+  "trend_score": 0.17,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 1,
+  "appeal_note": "أسعار النفط تنخفض، تأثير مباشر على اقتصادات عربية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Oil prices fall as G7 agrees to release 100 million barrels of reserves",
+  "link": "http://www.africanews.com/2026/10/03/oil-prices-fall-as-g7-agrees-to-release-100-million-barrels-of-reserves/",
+  "publishers": [
+    "Africanews",
+    "Al Jazeera"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Oil prices fall as G7 agrees to release 100 million barrels of reserves",
+    "link": "http://www.africanews.com/2026/10/03/oil-prices-fall-as-g7-agrees-to-release-100-million-barrels-of-reserves/",
+    "summary": "International benchmark Brent crude briefly fell below $100 per barrel before stabilising around $102, while US oil prices slumped by up to 5 per cent.",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-10-03T12:23:37+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/93/78/13/640x360_cmsv2_b87a4cb6-0739-550e-81ee-1615729ddfa8-9937813.jpg?1791007079",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "Al Jazeera"
+    ],
+    "cluster_members": [
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/10/03/oil-prices-fall-as-g7-agrees-to-release-100-million-barrels-of-reserves/"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/93/78/13/640x360_cmsv2_b87a4cb6-0739-550e-81ee-1615729ddfa8-9937813.jpg?1791007079"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.16666666666666666,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1456.9126943644444,
+    "is_stale": false,
+    "score": 21.250953607685183,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 1,
+    "appeal_note": "أسعار النفط تنخفض، تأثير مباشر على اقتصادات عربية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

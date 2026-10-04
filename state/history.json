@@ -1,137 +1,5 @@
 [
   {
-    "score": 32.35,
-    "bucket": "serious",
-    "tokens": [
-      "dans",
-      "fortes",
-      "france",
-      "grève",
-      "ile",
-      "les",
-      "perturbations",
-      "prévoir",
-      "septembre",
-      "transports"
-    ],
-    "link": "https://www.lemonde.fr/economie/article/2026/09/29/greve-du-29-septembre-de-fortes-perturbations-a-prevoir-dans-les-transports-d-ile-de-france_6785107_3235.html",
-    "title": "Grève du 29 septembre : de « fortes perturbations » à prévoir dans les transports d’Ile-de-France",
-    "posted_title": "",
-    "region": "fr",
-    "seen_at": "2026-09-29T03:08:11.126893+00:00"
-  },
-  {
-    "score": 29.19,
-    "bucket": "serious",
-    "tokens": [
-      "avion",
-      "caractère",
-      "dans",
-      "des",
-      "eglise",
-      "france",
-      "les",
-      "léon",
-      "nuance",
-      "pape",
-      "par",
-      "propos",
-      "rapportés",
-      "retour",
-      "sexuelles",
-      "sur",
-      "systémique",
-      "victimes",
-      "violences",
-      "visite",
-      "xiv"
-    ],
-    "link": "https://www.lemonde.fr/societe/article/2026/09/28/visite-du-pape-en-france-dans-l-avion-du-retour-leon-xiv-nuance-les-propos-rapportes-par-les-victimes-sur-le-caractere-systemique-des-violences-sexuelles-dans-l-eglise_6785145_3224.html",
-    "title": "Visite du pape en France : dans l’avion du retour, Léon XIV nuance les propos rapportés par les victimes sur le caractère « systémique » des violences sexuelles",
-    "posted_title": "",
-    "region": "fr",
-    "seen_at": "2026-09-29T03:08:11.127240+00:00"
-  },
-  {
-    "score": 25.91,
-    "bucket": "useful",
-    "tokens": [
-      "2023",
-      "found",
-      "maui",
-      "metals",
-      "months",
-      "residents",
-      "toxic",
-      "wildfires"
-    ],
-    "link": "https://medicalxpress.com/news/2026-09-toxic-metals-maui-residents-months.html",
-    "title": "Toxic metals found in Maui residents months after 2023 wildfires",
-    "posted_title": "",
-    "region": "health",
-    "seen_at": "2026-09-29T03:08:11.127567+00:00"
-  },
-  {
-    "score": 25.91,
-    "bucket": "serious",
-    "tokens": [
-      "denies",
-      "frozen",
-      "funds",
-      "iran",
-      "offered",
-      "release",
-      "relief",
-      "sanctions",
-      "trump"
-    ],
-    "link": "https://www.freemalaysiatoday.com/category/world/2026/09/29/trump-denies-he-offered-iran-sanctions-relief-release-of-frozen-funds",
-    "title": "Trump denies he offered Iran sanctions relief, release of frozen funds",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-09-29T03:08:11.127856+00:00"
-  },
-  {
-    "score": 23.83,
-    "bucket": "serious",
-    "tokens": [
-      "between",
-      "flights",
-      "grant",
-      "iran",
-      "iraq",
-      "najaf",
-      "sanctions",
-      "source",
-      "waiver"
-    ],
-    "link": "https://www.scmp.com/news/world/middle-east/article/3369111/us-grant-sanctions-waiver-flights-between-iran-and-iraqs-najaf-source-says?utm_source=rss_feed",
-    "title": "US to grant sanctions waiver for flights between Iran and Iraq’s Najaf, source says",
-    "posted_title": "",
-    "region": "cn",
-    "seen_at": "2026-09-29T03:08:11.128112+00:00"
-  },
-  {
-    "score": 23.83,
-    "bucket": "serious",
-    "tokens": [
-      "between",
-      "flights",
-      "grant",
-      "iran",
-      "iraq",
-      "najaf",
-      "sanctions",
-      "source",
-      "waiver"
-    ],
-    "link": "https://www.scmp.com/news/world/middle-east/article/3369111/us-grant-sanctions-waiver-flights-between-iran-and-iraqs-najaf-source-says?utm_source=rss_feed",
-    "title": "US to grant sanctions waiver for flights between Iran and Iraq’s Najaf, source says",
-    "posted_title": "واشنطن تستثني رحلات الحجاج بين إيران والنجف من عقوبات إيران لمدة شهر",
-    "region": "cn",
-    "seen_at": "2026-09-29T06:28:08.259523+00:00"
-  },
-  {
     "score": 36.94,
     "bucket": "serious",
     "tokens": [
@@ -2499,5 +2367,103 @@
     "posted_title": "",
     "region": "science",
     "seen_at": "2026-10-04T03:08:08.495636+00:00"
+  },
+  {
+    "score": 23.24,
+    "bucket": "useful",
+    "tokens": [
+      "aramco",
+      "claim",
+      "facility",
+      "fighting",
+      "houthis",
+      "intensifies",
+      "saudi",
+      "strike",
+      "yemen"
+    ],
+    "link": "https://www.investing.com/news/economy-news/houthis-claim-strike-on-saudi-aramco-facility-as-yemen-fighting-intensifies-4930902",
+    "title": "Houthis claim strike on Saudi Aramco facility as Yemen fighting intensifies",
+    "posted_title": "",
+    "region": "money",
+    "seen_at": "2026-10-04T09:08:11.699245+00:00"
+  },
+  {
+    "score": 21.25,
+    "bucket": "serious",
+    "tokens": [
+      "100",
+      "agrees",
+      "barrels",
+      "fall",
+      "million",
+      "oil",
+      "prices",
+      "release",
+      "reserves"
+    ],
+    "link": "http://www.africanews.com/2026/10/03/oil-prices-fall-as-g7-agrees-to-release-100-million-barrels-of-reserves/",
+    "title": "Oil prices fall as G7 agrees to release 100 million barrels of reserves",
+    "posted_title": "",
+    "region": "africa",
+    "seen_at": "2026-10-04T09:08:11.699528+00:00"
+  },
+  {
+    "score": 21.12,
+    "bucket": "serious",
+    "tokens": [
+      "five",
+      "four",
+      "gaza",
+      "health",
+      "including",
+      "israeli",
+      "kills",
+      "officials",
+      "say",
+      "strike",
+      "women"
+    ],
+    "link": "https://www.thehindu.com/news/international/israeli-strike-kills-five-including-four-women-in-gaza-health-officials-say/article71541408.ece",
+    "title": "Israeli strike kills five, including four women, in Gaza, health officials say",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-10-04T09:08:11.699835+00:00"
+  },
+  {
+    "score": 19.85,
+    "bucket": "serious",
+    "tokens": [
+      "china",
+      "lie",
+      "slams",
+      "starbucks",
+      "stores",
+      "xinjiang"
+    ],
+    "link": "https://www.malaymail.com/news/money/2026/10/04/china-slams-us-lie-over-starbucks-stores-in-xinjiang/237628",
+    "title": "China slams US ‘lie’ over Starbucks stores in Xinjiang",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-10-04T09:08:11.700106+00:00"
+  },
+  {
+    "score": 18.75,
+    "bucket": "serious",
+    "tokens": [
+      "000",
+      "350",
+      "argentina",
+      "citizenship",
+      "dollars",
+      "foreigners",
+      "raise",
+      "sell"
+    ],
+    "link": "https://en.mercopress.com/2026/10/03/argentina-to-sell-citizenship-to-foreigners-for-us-350-000-to-raise-dollars?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
+    "title": "Argentina to sell citizenship to foreigners for US$350,000 to raise dollars",
+    "posted_title": "",
+    "region": "latam",
+    "seen_at": "2026-10-04T09:08:11.700368+00:00"
   }
 ]

@@ -1,0 +1,58 @@
+{
+  "id": "cf719559a72f",
+  "created_at": "2026-10-04T09:08:11.700116+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.75,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "الأرجنتين تبيع الجنسية، ملف هجرة واقتصاد عالمي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Argentina to sell citizenship to foreigners for US$350,000 to raise dollars",
+  "link": "https://en.mercopress.com/2026/10/03/argentina-to-sell-citizenship-to-foreigners-for-us-350-000-to-raise-dollars?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
+  "publishers": [
+    "MercoPress"
+  ],
+  "region": "latam",
+  "article": {
+    "title": "Argentina to sell citizenship to foreigners for US$350,000 to raise dollars",
+    "link": "https://en.mercopress.com/2026/10/03/argentina-to-sell-citizenship-to-foreigners-for-us-350-000-to-raise-dollars?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
+    "summary": "Argentina's government has unveiled a citizenship-by-investment programme that will allow foreigners to obtain an Argentine passport in exchange for a non-refundable US$350,000 contribution to the Treasury or the purchase of US$800,000 in a seven-year government bond. Applications would open before the end of the year.",
+    "source_name": "MercoPress",
+    "region": "latam",
+    "weight": 1.0,
+    "published": "2026-10-03T09:52:00+00:00",
+    "image_url": "https://en.mercopress.com/data/cache/noticias/111654/100x80/jmmm.jpeg",
+    "publisher": "MercoPress",
+    "cluster_sources": [
+      "MercoPress"
+    ],
+    "cluster_members": [
+      {
+        "name": "MercoPress",
+        "link": "https://en.mercopress.com/2026/10/03/argentina-to-sell-citizenship-to-foreigners-for-us-350-000-to-raise-dollars?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://en.mercopress.com/data/cache/noticias/111654/100x80/jmmm.jpeg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 1456.9125857186111,
+    "is_stale": true,
+    "score": 18.749157314592594,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "الأرجنتين تبيع الجنسية، ملف هجرة واقتصاد عالمي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

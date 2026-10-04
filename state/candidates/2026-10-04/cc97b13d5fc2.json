@@ -1,0 +1,64 @@
+{
+  "id": "cc97b13d5fc2",
+  "created_at": "2026-10-04T09:08:11.699538+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.12,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "قصف إسرائيلي في غزة، قضية فلسطينية جوهرية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Israeli strike kills five, including four women, in Gaza, health officials say",
+  "link": "https://www.thehindu.com/news/international/israeli-strike-kills-five-including-four-women-in-gaza-health-officials-say/article71541408.ece",
+  "publishers": [
+    "Hindustan Times — World",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Israeli strike kills five, including four women, in Gaza, health officials say",
+    "link": "https://www.thehindu.com/news/international/israeli-strike-kills-five-including-four-women-in-gaza-health-officials-say/article71541408.ece",
+    "summary": "Israel, which says Hamas has been rearming and launching attacks in violation of the ceasefire, ‌has stepped up strikes on the group in recent weeks",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-10-03T15:25:53+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/iw8lg3/article71541417.ece/alternates/LANDSCAPE_1200/2026-10-03T055915Z_570113879_RC2HVNAFPGFA_RTRMADP_3_ISRAEL-PALESTINIANS-GAZA.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/israeli-strike-kills-five-including-four-women-in-gaza-health-officials-say/article71541408.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/israeli-strike-kills-five-in-gaza-including-four-women-health-officials-say-101791057347660.html"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/iw8lg3/article71541417.ece/alternates/LANDSCAPE_1200/2026-10-03T055915Z_570113879_RC2HVNAFPGFA_RTRMADP_3_ISRAEL-PALESTINIANS-GAZA.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1456.9128411897223,
+    "is_stale": false,
+    "score": 21.120138775074075,
+    "impact": 0,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "قصف إسرائيلي في غزة، قضية فلسطينية جوهرية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
