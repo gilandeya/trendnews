@@ -1650,5 +1650,79 @@ def test_important_write_guards() -> None:
     copied = {**good, "post_body": good["post_body"] + " ويوجد حاليا على بعد نحو 1.6 مليون كيلومتر من الأرض."}
     rig, _code, saved, draft = run(148, bbc, copied)
     rejected("g48", rig, saved, draft, "نسخ لفظي")
-    for n in (36, 37, 38, 39, 40, 41, 47, 147, 247, 347, 447, 48, 148):
+
+    # ── Issue #1233: g50–g51 تُكتبان قبل أي كود ──
+    # g50) inaccurate وfalse: العنوان الافتراضي (post_title وأول عنوان في headlines) وسطر العنوان في
+    # النص جمل خبرية — لا «؟» تُلحق بجملة خبرية (شاهد 602ac9017f8e) ولا سؤال حقيقي
+    from src import headlines as headlines_mod
+    for case, point in ((50, important_fixture_point(1201, "inaccurate")),
+                        (150, important_synthetic_point("false"))):
+        good = important_good_data(point)
+        verdict = point["verdict"]
+        appended = {**good, "post_title": good["post_title"] + "؟",
+                    "image_headline": good["image_headline"] + "؟"}
+        rig, _code, saved, draft = run(case, point, appended)
+        accepted(f"g50/{verdict}", rig, saved, draft)
+        if draft:
+            d = draft[1]
+            check(f"(g50/{verdict}) جملة خبرية أُلحقت بها «؟» ← تُنزَع: العنوان الافتراضي وسطر العنوان بلا «؟»",
+                  not d["arabic"]["post_title"].rstrip().endswith(("؟", "?"))
+                  and not d["arabic"]["image_headline"].rstrip().endswith(("؟", "?"))
+                  and d["arabic"]["post_title"] == good["post_title"], d["arabic"]["post_title"])
+            check(f"(g50/{verdict}) وأول عنوان في headlines ليس سؤالًا (قاعدة السؤال لا تسري على هذا الحكم)",
+                  d["headlines"] and not d["headlines"][0].rstrip().endswith(("؟", "?")), d["headlines"])
+        real_q = {**good, "post_title": "هل " + good["post_title"] + "؟"}
+        rig, _code, saved, draft = run(case + 1, point, real_q)
+        rejected(f"g50/{verdict}", rig, saved, draft, "العنوان سؤال")
+        q_body = {**good, "post_body": "هل " + good["post_body"].split(".")[0] + "؟ " + good["post_body"]}
+        rig, _code, saved, draft = run(case + 2, point, q_body)
+        rejected(f"g50/{verdict}", rig, saved, draft, "العنوان سؤال")
+
+    # g50) على المولِّد الحقيقي: بمعامل first_question=False يُقبل أول عنوان خبري ويُرفض السؤال،
+    # والافتراضي (الأخبار وغيرها) على حاله: أول عنوان سؤال إلزامي
+    import types
+
+    def fake_client(rows):
+        def create(**kw):
+            return types.SimpleNamespace(content=[types.SimpleNamespace(
+                type="tool_use", input={"headlines": next(rows)})])
+        return types.SimpleNamespace(messages=types.SimpleNamespace(create=create))
+
+    stmt = ["المجرة الأبعد هي MoM-z14", "رقم قياسي جديد لمجرة MoM-z14", "MoM-z14 تزيح JADES عن الصدارة"]
+    ques = ["هل MoM-z14 الأبعد؟"] + stmt[1:]
+    got, err = headlines_mod.propose_headlines("x", cfg, "headlines", first_question=False,
+                                                client=fake_client(iter([stmt])))
+    check("(g50) first_question=False: عناوين خبرية تُقبل", got == stmt and not err, (got, err))
+    got, err = headlines_mod.propose_headlines("x", cfg, "headlines", first_question=False,
+                                                client=fake_client(iter([ques, ques])))
+    check("(g50) first_question=False: أول عنوان سؤال يُرفض", got is None and err, (got, err))
+    got, err = headlines_mod.propose_headlines("x", cfg, "headlines", client=fake_client(iter([stmt, stmt])))
+    check("(g50) الافتراضي بلا تغيير: أول عنوان خبري يُرفض (قاعدة السؤال)", got is None and err, (got, err))
+    got, err = headlines_mod.propose_headlines("x", cfg, "headlines", client=fake_client(iter([ques])))
+    check("(g50) الافتراضي بلا تغيير: أول عنوان سؤال يُقبل", got == ques and not err, (got, err))
+
+    # g51) جملة بلا سند في الأدلة ← تنبيه في warnings وفي قسم قضية المرحلة 2، والمسودة تُنشأ (لا رفض)
+    unsourced_sentence = "وكانت لحظة الإطلاق قد تمت في موعدها المحدد."
+    point = important_fixture_point(1201, "inaccurate")
+    good = important_good_data(point)
+    flagged = {**good, "post_body": good["post_body"] + " " + unsourced_sentence}
+    rig, _code, saved, draft = run(51, point, flagged)
+    accepted("g51", rig, saved, draft)
+    if draft:
+        d = draft[1]
+        check("(g51) الجملة بلا السند في draft['warnings']",
+              any("تمت في موعدها المحدد" in w for w in d.get("warnings") or []), d.get("warnings"))
+        check("(g51) وهي في قسم «⚠️ تنبيهات للمراجعة» بقضية المرحلة 2 بالجملة نفسها",
+              rig.created and "⚠️ تنبيهات للمراجعة" in rig.created[0]["body"]
+              and "تمت في موعدها المحدد" in rig.created[0]["body"], [c["body"][:300] for c in rig.created])
+        check("(g51) والتنبيه لا يدخل النص المنشور (caption/post_body)",
+              "تنبيهات للمراجعة" not in d["caption"] and "تنبيهات" not in d["arabic"]["post_body"], d["caption"][-200:])
+    sourced = {**good, "post_body": f"{point['correction']['correct']}. أما الرقم المتداول فخطأ شائع."}
+    rig, _code, saved, draft = run(151, point, sourced)
+    accepted("g51", rig, saved, draft)
+    check("(g51) ضابطة: النص السليم بلا تنبيهات ولا قسم تنبيهات في القضية",
+          draft is not None and not draft[1].get("warnings")
+          and all("⚠️ تنبيهات للمراجعة" not in c["body"] for c in rig.created),
+          (draft and draft[1].get("warnings")))
+    for n in (36, 37, 38, 39, 40, 41, 47, 147, 247, 347, 447, 48, 148, 50, 51, 52, 150, 151, 152, 153):
         important.saved_path(96000 + n).unlink(missing_ok=True)

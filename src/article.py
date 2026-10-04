@@ -5558,6 +5558,10 @@ def main() -> int:
                         format="%(asctime)s │ %(levelname)-7s │ %(message)s",
                         datefmt="%H:%M:%S")
 
+    # مسار متقاعد (Issue #1233) — تحذير فقط، لا منع تشغيل: الوحدة مكتبة تستعملها «هام» والتحليل
+    # وصور الأخبار، وأي استعمال يدوي مباشر يكمل كما كان
+    log.warning("مسار متقاعد — استعمل وسم «هام»")
+
     cfg = load_config()
 
     issue_number = args.issue

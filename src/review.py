@@ -120,6 +120,16 @@ def headline_boxes(d: dict, intro: str, note: str | None = None) -> list[str]:
     return lines
 
 
+def warnings_block(d: dict) -> list[str]:
+    """قسم «⚠️ تنبيهات للمراجعة» لمسودة «هام» (Issue #1233): الجمل التي لم يجد لها الكود سندًا في
+    أدلة النقطة، بالجمل نفسها وعلى غرار عرض تنبيهات التحليل. للمراجع وحده — لا يدخل النص المنشور
+    ولا يمنع النشر. غير «هام» أو بلا تنبيهات: لا شيء (فمخرج بقية المسارات كما هو حرفيًا)."""
+    if store.origin_of(d) != "important" or not d.get("warnings"):
+        return []
+    return ["  ⚠️ تنبيهات للمراجعة:", "",
+            *[f"  - {w}" for w in d["warnings"]], ""]
+
+
 def build_issue_body(drafts: list[dict], repo: str, branch: str = "main",
                      cfg=None) -> str:
     """نص قضية المرحلة 2 (Issue #1182): لا مربع فوق بيانات الخبر؛ الانتقال
@@ -201,6 +211,7 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main",
                ""] if d.get("state_media") else []),
             # تنبيه «قد يكون متجاوَزًا» لمسودة «هام» (Issue #1225): سطر بارز لا يضيع بين الشارات
             *([f"  > {d['superseded_note']}", ""] if d.get("superseded_note") else []),
+            *warnings_block(d),
             f"  {image_source_line(d)}",
             "",
         ]
@@ -296,6 +307,7 @@ def build_final_review_body(drafts: list[dict], repo: str, branch: str = "main",
         parts += [
             f"**{idx}. {ar['post_title']}**  <!-- draft:{d['id']} -->",
             "",
+            *warnings_block(d),
             f"  {image_source_line(d)}",
             "",
         ]
