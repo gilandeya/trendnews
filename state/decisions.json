@@ -16802,5 +16802,26 @@
   "has_photo": true,
   "state_media": false,
   "created_hour": 18
+ },
+ {
+  "id": "cf719559a72f",
+  "created_at": "2026-10-04T18:51:52.204174+00:00",
+  "decided_at": "2026-10-04T20:01:05.829139+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "news",
+  "category": "اقتصاد",
+  "angle": "خبر",
+  "urgent": false,
+  "bucket": "serious",
+  "region": "latam",
+  "score": 18.75,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "source_count": 1,
+  "body_len": 572,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 18
  }
 ]
