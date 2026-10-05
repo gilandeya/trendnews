@@ -222,6 +222,70 @@ def test_actions_block_script() -> None:
     check("التقرير يذكر البروكسي مفعّلًا عند وجود كائن إعداد (أيًّا كان نوعه)",
           "البروكسي: مفعّل (Webshare)" in report_proxied)
 
+def test_reel_clip_probe() -> None:
+    """أداة جدوى الريلات (tools/reel_clip_probe.py، Issue #1236) -- مزيَّفات
+    لـyt-dlp والنص والبروكسي، لا شبكة."""
+    from tools import reel_clip_probe as rp
+
+    def pt(ch, lang, ts, vid=None, quote="كلمة اولى ثانية ثالثة رابعة خامسة"):
+        return {"channel": ch, "language": lang, "timestamp": ts, "video_id": vid or ch,
+                "quote_original": quote, "anchor_text": "ANCHOR-SECRET"}
+
+    pts = [pt("a1", "ar", 10), pt("a2", "ar", 20), pt("t1", "tr", 30), pt("f1", "fa", 40),
+           pt("h1", "he", 50), pt("e1", "en", 60), pt("n1", "tr", None), pt("a1", "ar", 70)]
+    sel = rp.select_points(pts, 5)
+    check("اختيار: قنوات مختلفة", len({p["channel"] for p in sel}) == len(sel))
+    check("اختيار: كل لغة مرة قبل التكرار", [p["language"] for p in sel] == ["ar", "tr", "fa", "he", "en"],
+          [p["language"] for p in sel])
+    check("اختيار: تخطّي نقطة بلا timestamp", all(p["channel"] != "n1" for p in rp.select_points(pts, 8)))
+    check("اختيار: timestamp=0 صالح", len(rp.select_points([pt("z", "ar", 0)], 1)) == 1)
+
+    check("نافذة: timestamp=0 لا بداية سالبة", rp.clip_window(0, 12) == (0, 12))
+    check("نافذة: ts-1 حتى +seconds", rp.clip_window(30, 12) == (29, 41))
+
+    segs = [(5, "كلمة اولى ثانية ثالثة رابعة خامسة"), (100, "نص آخر تمامًا هنا")]
+    check("دقة: داخل النافذة", rp.check_window("كلمة اولى ثانية ثالثة رابعة", segs, 0, 12)["status"] == "inside")
+    out = rp.check_window("كلمة اولى ثانية ثالثة رابعة", segs, 20, 32)
+    check("دقة: خارج بثوانٍ", out == {"status": "outside", "offset_seconds": 15}, out)
+    check("دقة: غائب", rp.check_window("لا وجود له إطلاقًا هنا", segs, 0, 12)["status"] == "missing")
+    check("دقة: نص متعذّر", rp.check_window("x", None, 0, 12)["status"] == "unavailable")
+
+    tmp = Path(tempfile.mkdtemp())
+    try:
+        calls = []
+
+        def fake_dl(vid, start, end, height, out_path, proxy):
+            calls.append((vid, height))
+            if vid == "a2":
+                raise RuntimeError("HTTP Error 403: Forbidden pass1")
+            out_path.write_bytes(b"x" * 1000)
+            return {"bytes": 800}
+
+        os.environ["WEBSHARE_PROXY_PASSWORD"] = "pass1"
+        fake_tr = lambda vid: ([(5, "كلمة اولى ثانية ثالثة رابعة خامسة")], 300, None)
+        two = [pt("a1", "ar", 5), pt("a2", "ar", 5), pt("t1", "tr", 5)]
+        rows = rp.run_probe(two, 12, tmp / "d", downloader=fake_dl, transcript_fetcher=fake_tr)
+        check("فشل مقطع لا يوقف البقية", [r["ok"] for r in rows] == [True, True, False, False, True],
+              [r["ok"] for r in rows])
+        check("سبب الفشل مسجَّل بلا سرّ", "403" in rows[2]["error"] and "pass1" not in rows[2]["error"],
+              rows[2]["error"])
+        check("أول نقطتين بجودتين والبقية 720 فقط",
+              [r["quality"] for r in rows] == ["720p", "480p", "720p", "480p", "720p"])
+        check("نص الفيديو يُحسب مرة لكل فيديو", rows[0]["proxy_bytes"] == 1100 and rows[1]["proxy_bytes"] == 800)
+
+        s = rp.summarize(rows)
+        args = type("A", (), {"clips": 3, "seconds": 12})()
+        report = json.dumps(rp.build_report("2026-10-04", args, rows, s), ensure_ascii=False)
+        check("التقرير بلا quote_original ولا anchor ولا نص فيديو",
+              "كلمة اولى" not in report and "ANCHOR-SECRET" not in report and
+              "quote_original" not in report and "anchor_text" not in report)
+        check("الجدول يذكر المجموع والتقدير الشهري", "المجموع" in rp.render_table(rows, s) and
+              "تقدير شهري" in rp.render_table(rows, s))
+    finally:
+        os.environ.pop("WEBSHARE_PROXY_PASSWORD", None)
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
 def test_proxy_config() -> None:
     """وحدة إعداد البروكسي المشتركة (src/proxy_config.py، Issue #629):
     وجود سرّي Webshare في البيئة ⇒ كائن إعداد فعلي، غيابهما ⇒ None (تشغيل
