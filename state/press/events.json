@@ -147,13 +147,49 @@
      "language": "en",
      "link": "https://www.hindustantimes.com/world-news/nobel-prize-in-physiology-or-medicine-2026-awarded-to-3-scientists-for-work-on-optogenetics-101791192988348.html",
      "published": "2026-10-05T09:37:44+00:00"
+    },
+    {
+     "outlet": "Le Monde",
+     "region": "fr",
+     "bucket": "serious",
+     "title": "Prix Nobel de médecine 2026 : un Américain et deux Allemands récompensés pour leur technique d’activation des neurones par la lumière",
+     "language": "fr",
+     "link": "https://www.lemonde.fr/sciences/article/2026/10/05/prix-nobel-de-medecine-2026-un-americain-et-deux-allemands-recompenses-pour-leur-technique-d-activation-des-neurones-par-la-lumiere_6788564_1650684.html",
+     "published": "2026-10-05T16:57:55+00:00"
+    },
+    {
+     "outlet": "STAT News",
+     "region": "health",
+     "bucket": "useful",
+     "title": "2026 Nobel Prize in Medicine awarded for brain research tool called optogenetics",
+     "language": "en",
+     "link": "https://www.statnews.com/2026/10/05/nobel-prize-medicine-2026-winner-deisseroth-hegemann-nagel/?utm_campaign=rss",
+     "published": "2026-10-05T10:00:11+00:00"
+    },
+    {
+     "outlet": "Hürriyet (تركي)",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "2026 Nobel Tıp Ödülü sahiplerini buldu",
+     "language": "tr",
+     "link": "https://www.hurriyet.com.tr/dunya/nobel-tip-odulu-sahibini-buldu-43330124",
+     "published": "2026-10-05T09:42:00+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Nobel Prize 2026: When will the awards be announced, date and timings in IST",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/nobel-prize-2026-date-timings-ist-how-to-watch/article71546193.ece",
+     "published": "2026-10-05T09:06:03+00:00"
     }
    ],
-   "last_seen": "2026-10-05T15:07:44.573046+00:00",
-   "outlets": 16,
-   "regions": 14,
-   "languages": 2,
-   "score": 48.0
+   "last_seen": "2026-10-05T18:07:49.818707+00:00",
+   "outlets": 19,
+   "regions": 15,
+   "languages": 3,
+   "score": 55.0
   },
   {
    "id": "4bac7b46db6b",
@@ -284,9 +320,18 @@
      "language": "en",
      "link": "https://www.dailysabah.com/world/europe/us-withdraws-all-b-1-bombers-from-uk-air-base-citing-new-threats",
      "published": "2026-10-05T12:14:00+00:00"
+    },
+    {
+     "outlet": "MercoPress",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "US withdraws all its bombers from Britain's RAF Fairford base",
+     "language": "en",
+     "link": "https://en.mercopress.com/2026/10/05/us-withdraws-all-its-bombers-from-britain-s-raf-fairford-base?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
+     "published": "2026-10-05T01:35:00+00:00"
     }
    ],
-   "last_seen": "2026-10-05T15:07:44.573046+00:00",
+   "last_seen": "2026-10-05T18:07:49.818707+00:00",
    "outlets": 12,
    "regions": 11,
    "languages": 1,
@@ -412,13 +457,76 @@
      "language": "en",
      "link": "https://www.france24.com/en/video/20261005-bolsonaro-in-very-strong-position-as-brazil-election-heads-to-run-off",
      "published": "2026-10-05T08:44:23+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Bolsonaro rides right-wing surge into Brazil’s election runoff",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/05/bolsonaro-rides-right-wing-surge-into-brazil-s-election-runoff",
+     "published": "2026-10-05T15:55:04+00:00"
+    },
+    {
+     "outlet": "Buenos Aires Times",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "Flávio Bolsonaro rides right-wing surge into Brazil's election run-off",
+     "language": "en",
+     "link": "https://www.batimes.com.ar/news/latin-america/flavio-bolsonaro-rides-right-wing-surge-into-brazils-election-run-off.phtml",
+     "published": "2026-10-05T16:26:40+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Brazil presidential election 2026: first-round live results",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/ng-interactive/2026/oct/04/brazil-presidential-election-2026-first-round-live-results",
+     "published": "2026-10-05T00:24:55+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Brazil lurches to the right as Lula falters in the first round of presidential election",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/brazil-presidential-election-lula-bolsonaro/article71548352.ece",
+     "published": "2026-10-05T16:19:26+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Flávio Bolsonaro poised to win Brazilian presidency after shock first-round victory",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/05/flavio-bolsonaro-brazilian-presidency-election-shock-first-round-victory",
+     "published": "2026-10-05T16:05:20+00:00"
+    },
+    {
+     "outlet": "MercoPress",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "\"The end of the PT era is decreed,\" says Flávio Bolsonaro after winning the first round",
+     "language": "en",
+     "link": "https://en.mercopress.com/2026/10/05/the-end-of-the-pt-era-is-decreed-says-flavio-bolsonaro-after-winning-the-first-round?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
+     "published": "2026-10-05T17:18:00+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Brazil-China ties in focus as Bolsonaro gets election edge over Lula",
+     "language": "en",
+     "link": "https://www.scmp.com/plus/news/china/diplomacy/article/3369805/brazil-china-ties-focus-bolsonaro-gets-election-edge-over-lula?utm_source=rss_feed",
+     "published": "2026-10-05T09:46:21+00:00"
     }
    ],
-   "last_seen": "2026-10-05T15:07:44.573046+00:00",
-   "outlets": 11,
-   "regions": 8,
+   "last_seen": "2026-10-05T18:07:49.818707+00:00",
+   "outlets": 14,
+   "regions": 10,
    "languages": 1,
-   "score": 29.0
+   "score": 36.0
   },
   {
    "id": "07777a6ab897",
@@ -495,13 +603,40 @@
      "language": "en",
      "link": "https://www.malaymail.com/news/world/2026/10/05/yemen-launches-offensive-to-retake-houthi-held-territory-as-war-escalates/237827",
      "published": "2026-10-05T11:51:07+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Yemeni government forces launch major offensive to retake Houthi-held territory",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/05/yemeni-government-forces-launch-major-offensive-to-retake-houthi-held-territory/",
+     "published": "2026-10-05T08:06:51+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Yemen government forces announce offensive on Houthi-held territory",
+     "language": "en",
+     "link": "https://www.france24.com/en/video/20261005-yemen-government-forces-announce-offensive-on-houthi-held-territory",
+     "published": "2026-10-05T14:59:46+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Yemeni government forces drive Houthis from Bab el-Mandeb Strait",
+     "language": "es",
+     "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOSVotTm16YzZEU2xvWHNOcjllZVU1RlNYZjBoUnMzWThDbHRLUmJpUE16d0lSR00xcXRBNXppSGcwZHpjNGd6azFjeVBWSHV5T3lZWG9mZEdMRmhBYzVhMF9seTQ2UnZTa201X3hHb2o1ZHN5alNJRmFPcUdvaWVnX1ZKWFZVYmwyS2huNHg2bG1TNlVNT3RuUk5Mbi1naHRFaFQ0YjRKZ0YtVVUta3V2Q1dmQzN5bTlkZmpV?oc=5",
+     "published": "2026-10-05T16:33:49+00:00"
     }
    ],
-   "last_seen": "2026-10-05T15:07:44.573046+00:00",
-   "outlets": 8,
-   "regions": 7,
+   "last_seen": "2026-10-05T18:07:49.818707+00:00",
+   "outlets": 11,
+   "regions": 10,
    "languages": 2,
-   "score": 26.0
+   "score": 35.0
   },
   {
    "id": "9093e3b6ec98",
@@ -578,13 +713,58 @@
      "language": "en",
      "link": "https://www.vanguardngr.com/2026/10/teenager-loses-hand-picking-up-grenade-in-france-school-protests-2/",
      "published": "2026-10-05T14:02:04+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Teenager loses hand picking up grenade in France school protests",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/france-protests-grenade-schools-students-6433971",
+     "published": "2026-10-05T17:00:06+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Teenager loses hand picking up grenade in France school protests",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/teen-hand-police-grenade-france-school-protests/",
+     "published": "2026-10-05T16:01:16+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Teenager's hand blown off during confrontation between France school protesters and police",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c9zrdmxp4vy6o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-05T16:32:18+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Teenager's hand blown off during confrontation between France school protesters and police",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFB0eUZUVGl6Z2MyWVVfSlgtQmNVSlItaUs1bjVycEVRZktrb2FQOFdWTFhlTE9ma05EM0RIVGUzTVlZRlplaWphOHhSSzZ1VFBhWUxYRU85c1QzTTA?oc=5",
+     "published": "2026-10-05T14:30:31+00:00"
+    },
+    {
+     "outlet": "Deutsche Welle",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Hundreds of French schools shut, teen loses hand in protests",
+     "language": "en",
+     "link": "https://www.dw.com/en/hundreds-of-french-schools-shut-teen-loses-hand-in-protests/a-79542656?maca=en-rss-en-world-4025-rdf",
+     "published": "2026-10-05T05:48:00+00:00"
     }
    ],
-   "last_seen": "2026-10-05T15:07:44.573046+00:00",
-   "outlets": 8,
-   "regions": 7,
+   "last_seen": "2026-10-05T18:07:49.818707+00:00",
+   "outlets": 11,
+   "regions": 9,
    "languages": 1,
-   "score": 24.0
+   "score": 31.0
   },
   {
    "id": "95e53a23fd71",
@@ -652,13 +832,233 @@
      "language": "en",
      "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNOGRxS19iMFdBa3hSYk5UQm8zQWJnaW5jTGJqLWg0ZW1aUWlxTzFDYlBYQmdYYmZZSThhMTEtOGdFSEZmR1I1Q2w2Rm9IMGJ2XzNuY29ya3ZzeXpEMndwUGI4VEVDX19YNkJzRGs1Qmw1dVFDbnRnLVZDRWZGaHlxQU1mNWliTzVfWmxlNWRvbkNVeXR0bXNRUjB3SnJvT0hkc1Br0gGoAUFVX3lxTE9fVXdxRHBVeXhiT0Q4TE92TEM0bWluVzVyTHU2MnJIQ3VuQjNGSGlDWlgtOEdSUFZ6c3VYYTM3blp4OGFuSm0tSGJPME5ta1U5b1ByVXRsRl8wT2hwOFF0bWpyT2ZJWUtqdmI0UDZFRkZDWnpsWC1oSmJiWTd3R3ZEelJldlhOSlhXWjc4a0w3LUpJaXdaWV95eVVBZVRUblBpVnRHcm1lMw?oc=5",
      "published": "2026-10-05T12:45:29+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Spain calls snap election amid housing crisis",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/5/spain-calls-snap-election-amid-housing-crisis?traffic_source=rss",
+     "published": "2026-10-05T17:27:14+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Spain’s prime minister calls early election as housing becomes a national flashpoint",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3369786/spains-prime-minister-calls-early-election-housing-becomes-national-flashpoint?utm_source=rss_feed",
+     "published": "2026-10-05T08:04:51+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Spain’s Prime Minister calls early election after housing crisis defeat",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/spains-prime-minister-calls-early-election-after-housing-crisis-defeat/article71546861.ece",
+     "published": "2026-10-05T12:26:38+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Spain’s Leader Calls Early Election After Housing Crisis Roils Government",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOaXVab2VKTExiN1E3LVNCdE5YSXJUOGdkM0F2TVZNQWt5cGExZFNscTFzSVVvcDBHVl9TSEJGMERoZnBpaFlXaTlmZERudlV2NFFwN3BxZERJWG54d0tJTWlhWWdaTjJ6VzBNUWoxSkZBMGZZYmdSUkFYVE5ybUJyMXRMUENkaDBp?oc=5",
+     "published": "2026-10-05T15:02:46+00:00"
     }
    ],
-   "last_seen": "2026-10-05T15:07:44.573046+00:00",
-   "outlets": 7,
+   "last_seen": "2026-10-05T18:07:49.818707+00:00",
+   "outlets": 9,
+   "regions": 8,
+   "languages": 1,
+   "score": 27.0
+  },
+  {
+   "id": "c2ed5607be1f",
+   "first_seen": "2026-10-05T15:07:44.573046+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Former Prince Andrew launches challenge to ‘quash’ police search warrants",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/5/former-prince-andrew-launches-challenge-to-quash-police-search-warrants?traffic_source=rss",
+     "published": "2026-10-05T10:38:17+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Ex-prince Andrew takes UK police to court to ‘quash’ Epstein affair search warrants",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3369800/ex-prince-andrew-takes-uk-police-court-quash-epstein-affair-search-warrants?utm_source=rss_feed",
+     "published": "2026-10-05T09:07:54+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "Former Prince Andrew takes police to court over Epstein files arrest, Telegraph says",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-05-former-prince-andrew-takes-police-to-court-over-epstein-files-arrest-telegraph-says/",
+     "published": "2026-10-05T11:22:55+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Ex-prince Andrew seeks to 'quash' Epstein search warrants",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633098/ex-prince-andrew-seeks-to-quash-epstein-search-warrants",
+     "published": "2026-10-05T06:17:04+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Ex-prince Andrew asks to ‘quash’ Epstein affair search warrants: U.K. judiciary",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/ex-prince-andrew-asks-to-quash-epstein-affair-search-warrants-uk-judiciary/article71546410.ece",
+     "published": "2026-10-05T10:01:32+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Former Prince Andrew takes police to court over Epstein files arrest: Report",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/former-prince-andrew-takes-police-to-court-over-epstein-files-arrest-report-12139167#publisher=newsstand",
+     "published": "2026-10-05T09:37:52+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Ex-Prince Andrew challenges validity of Epstein-related search warrants",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/ex-prince-andrew-jeffrey-epstein-search-warrants-legal-challenge-uk-court/",
+     "published": "2026-10-05T12:49:27+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Ex-prince Andrew asks court to 'quash' Epstein affair search warrants",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2034912/ex-prince-andrew-asks-court-to-quash-epstein-affair-search-warrants",
+     "published": "2026-10-05T08:34:19+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Former Prince Andrew launches challenge to ‘quash’ police search warrants",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPQVYzRTZwNXhaaUpSU1J0VmtoOTlzYW40cGNqQ0dNTnJ1N05EcEZheDJpeVVzdmROdUZwbEVkZTZweVdDbWlad3lNeWZ0dUNUZ2wzX0xHWEh2Q29GN0NQVDd1ckRvU1N6Ui1POXRvSVNUN0JTS3cxM21WMExnWmM2UHdtWGxEQnRZUjhQWVlQSF9ham9CbTAtMWZJY1RMWFNsU0tfakRCR1hwWjJWZEZMVTB30gG3AUFVX3lxTE9xQUtMTFR1NTNSSXJYZFpjVUZ4WHpERDZvZEtnWXU3YndVcWxRbWtwY2t0MVl1a1Y3QU1JRU40bmtjTUxXS0hPTkI1OGxPVTBsalRONklFS09fdUdlSFVpNVQwY1NMRnBGR1N4VXJBTURHODFZNldjQVpVSFBfcnF3dC1ybFVxa3R0ejV1bnc5QVQ1Q29ZY2FZT3p3QWl6Z2pnSGViSHdnS0xSU1dBelowYWc0anAyWQ?oc=5",
+     "published": "2026-10-05T14:03:45+00:00"
+    }
+   ],
+   "last_seen": "2026-10-05T18:07:49.818707+00:00",
+   "outlets": 9,
    "regions": 7,
    "languages": 1,
-   "score": 23.0
+   "score": 25.0
+  },
+  {
+   "id": "bd1dfeaf51d0",
+   "first_seen": "2026-10-05T15:07:44.573046+00:00",
+   "members": [
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Medvedev defaulted for hitting spectator with ball",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/tennis/articles/cqkg5npg0r9vo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-05T14:44:45+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Medvedev defaulted for hitting spectator with ball as Djokovic makes Beijing final",
+     "language": "en",
+     "link": "https://www.skysports.com/tennis/news/12040/13595259/daniil-medvedev-defaulted-for-hitting-spectator-with-ball-as-novak-djokovic-reaches-another-china-open-final",
+     "published": "2026-10-05T15:00:00+00:00"
+    },
+    {
+     "outlet": "El País",
+     "region": "es",
+     "bucket": "serious",
+     "title": "Un pelotazo a un aficionado le cuesta la descalificación a Medvedev en su pulso con Djokovic en Pekín",
+     "language": "es",
+     "link": "https://elpais.com/deportes/tenis/2026-10-05/un-pelotazo-a-un-aficionado-le-cuesta-la-descalificacion-a-medvedev-en-su-pulso-con-djokovic-en-pekin.html",
+     "published": "2026-10-05T14:24:41+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Extraordinary moment Medvedev disqualified after hitting spectator with ball",
+     "language": "en",
+     "link": "https://www.skysports.com/watch/video/13595449/daniil-medvedev-defaulted-extraordinary-moment-medvedev-disqualified-after-hitting-spectator",
+     "published": "2026-10-05T15:24:00+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Medvedev DQ'd from match against Djokovic for hitting fan with ball",
+     "language": "en",
+     "link": "https://tass.com/sports/2197821",
+     "published": "2026-10-05T17:55:54+00:00"
+    },
+    {
+     "outlet": "Meduza English",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Russian tennis star Daniil Medvedev disqualified from Beijing semifinal against Novak Djokovic after hitting spectator in face with ball",
+     "language": "en",
+     "link": "https://meduza.io/en/news/2026/10/05/russian-tennis-star-daniil-medvedev-disqualified-from-beijing-semifinal-against-novak-djokovic-after-hitting-spectator-in-face-with-ball",
+     "published": "2026-10-05T16:56:45+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Medvedev disqualified from China Open for hitting fan with a ball",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/10/5/medvedev-disqualified-from-china-open-for-hitting-fan-with-a-ball?traffic_source=rss",
+     "published": "2026-10-05T16:17:07+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Daniil Medvedev disqualified from China Open semi after hitting fan with ball",
+     "language": "en",
+     "link": "https://www.theguardian.com/sport/2026/oct/05/daniil-medvedev-disqualified-from-china-open-semi-after-hitting-fan-with-ball",
+     "published": "2026-10-05T14:35:43+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Medvedev disqualified from China Open semi after hitting ball into crowd",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/05/medvedev-disqualified-from-china-open-semi-after-hitting-ball-into-crowd",
+     "published": "2026-10-05T14:45:17+00:00"
+    }
+   ],
+   "last_seen": "2026-10-05T18:07:49.818707+00:00",
+   "outlets": 8,
+   "regions": 5,
+   "languages": 2,
+   "score": 22.0
   },
   {
    "id": "49ee6206d4c3",
@@ -728,81 +1128,7 @@
      "published": "2026-10-05T13:09:00+00:00"
     }
    ],
-   "last_seen": "2026-10-05T15:07:44.573046+00:00",
-   "outlets": 7,
-   "regions": 6,
-   "languages": 1,
-   "score": 21.0
-  },
-  {
-   "id": "c2ed5607be1f",
-   "first_seen": "2026-10-05T15:07:44.573046+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Former Prince Andrew launches challenge to ‘quash’ police search warrants",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/5/former-prince-andrew-launches-challenge-to-quash-police-search-warrants?traffic_source=rss",
-     "published": "2026-10-05T10:38:17+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Ex-prince Andrew takes UK police to court to ‘quash’ Epstein affair search warrants",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/europe/article/3369800/ex-prince-andrew-takes-uk-police-court-quash-epstein-affair-search-warrants?utm_source=rss_feed",
-     "published": "2026-10-05T09:07:54+00:00"
-    },
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "Former Prince Andrew takes police to court over Epstein files arrest, Telegraph says",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-05-former-prince-andrew-takes-police-to-court-over-epstein-files-arrest-telegraph-says/",
-     "published": "2026-10-05T11:22:55+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Ex-prince Andrew seeks to 'quash' Epstein search warrants",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633098/ex-prince-andrew-seeks-to-quash-epstein-search-warrants",
-     "published": "2026-10-05T06:17:04+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Ex-prince Andrew asks to ‘quash’ Epstein affair search warrants: U.K. judiciary",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/ex-prince-andrew-asks-to-quash-epstein-affair-search-warrants-uk-judiciary/article71546410.ece",
-     "published": "2026-10-05T10:01:32+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Former Prince Andrew takes police to court over Epstein files arrest: Report",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/former-prince-andrew-takes-police-to-court-over-epstein-files-arrest-report-12139167#publisher=newsstand",
-     "published": "2026-10-05T09:37:52+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Ex-Prince Andrew challenges validity of Epstein-related search warrants",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/ex-prince-andrew-jeffrey-epstein-search-warrants-legal-challenge-uk-court/",
-     "published": "2026-10-05T12:49:27+00:00"
-    }
-   ],
-   "last_seen": "2026-10-05T15:07:44.573046+00:00",
+   "last_seen": "2026-10-05T18:07:49.818707+00:00",
    "outlets": 7,
    "regions": 6,
    "languages": 1,
@@ -885,67 +1211,11 @@
      "published": "2026-10-05T07:19:16+00:00"
     }
    ],
-   "last_seen": "2026-10-05T15:07:44.573046+00:00",
+   "last_seen": "2026-10-05T18:07:49.818707+00:00",
    "outlets": 7,
    "regions": 5,
    "languages": 2,
    "score": 21.0
-  },
-  {
-   "id": "fc3143ecaa68",
-   "first_seen": "2026-10-05T15:07:44.573046+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "US marine arrested in Japan on suspicion of killing woman, police say",
-     "language": "en",
-     "link": "https://www.theguardian.com/us-news/2026/oct/04/marine-arrested-japan-suspicion-murder",
-     "published": "2026-10-04T13:46:19+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Growing outrage in Japan after US Marine arrested in woman’s killing",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/5/growing-outrage-in-japan-after-us-marine-arrested-in-womans-killing?traffic_source=rss",
-     "published": "2026-10-05T11:25:45+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "U.S. Marine arrested for alleged killing of woman on Okinawa, triggers outrage from Japan",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/us-marine-arrested-for-alleged-killing-of-woman-on-okinawa-triggers-outrage-from-japan/article71544884.ece",
-     "published": "2026-10-04T21:31:21+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "U.S. Marine arrested, accused of killing Japanese woman in Okinawa",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/us-marine-arrested-japan-accused-murder-okinawa/",
-     "published": "2026-10-05T13:46:12+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "US Marine's arrest in a killing on Okinawa triggers outrage in Japan",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPNmdXZ0J6elNZTlBFYk1OS2JvV3FQa1pkUFRHcWFrWHZQWjRIMXJ3SDludzhUMVBleHNaQVFpMWJvYkRwOFVVenprSktITGhnSlVwZUtDNnNkT3lLOVBPU3hSQW13VjMwUHB1eUVmNkdkb20xUkVKY3RUb1p1MFlpSldLUW0wNXNKenJtY0gzRUNVNHpPWi1Xa3Q5OHhoaGdBM2dCaC00RkN0N1ZtZnJqSlhBN3E4UW1Ia3J3MlM2OWI?oc=5",
-     "published": "2026-10-05T11:18:56+00:00"
-    }
-   ],
-   "last_seen": "2026-10-05T15:07:44.573046+00:00",
-   "outlets": 5,
-   "regions": 5,
-   "languages": 1,
-   "score": 17.0
   },
   {
    "id": "9c7fd4c09d21",
@@ -995,60 +1265,87 @@
      "language": "en",
      "link": "https://www.france24.com/en/video/20261005-britain-s-green-party-votes-to-class-zionism-as-a-form-of-racism",
      "published": "2026-10-05T09:44:43+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Britain’s Green Party votes to class Zionism as a form of racism",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE5YWXlhVXFpc1dhNUkya3JvejlrWk5WbHJCYnROY1ZKRjlGR0NHM3M5bjJsTEZrLUdhU21QYU5XaHBJaFg2ZlVYWjN6NUpEN0EwckNROVVrS0VUY3pQN0k0Q0lDdWdCN21RZWNzZ05JR0ZlSHgzeXc?oc=5",
+     "published": "2026-10-05T00:42:00+00:00"
     }
    ],
-   "last_seen": "2026-10-05T15:07:44.573046+00:00",
-   "outlets": 5,
-   "regions": 5,
+   "last_seen": "2026-10-05T18:07:49.818707+00:00",
+   "outlets": 6,
+   "regions": 6,
    "languages": 1,
-   "score": 17.0
+   "score": 20.0
   },
   {
-   "id": "ce47f7f162bf",
+   "id": "fc3143ecaa68",
    "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "US marine arrested in Japan on suspicion of killing woman, police say",
+     "language": "en",
+     "link": "https://www.theguardian.com/us-news/2026/oct/04/marine-arrested-japan-suspicion-murder",
+     "published": "2026-10-04T13:46:19+00:00"
+    },
     {
      "outlet": "Al Jazeera English",
      "region": "qa",
      "bucket": "serious",
-     "title": "Latest US military strike on alleged drug boat kills four in Caribbean",
+     "title": "Growing outrage in Japan after US Marine arrested in woman’s killing",
      "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/5/latest-us-military-strike-on-alleged-drug-boat-kills-four-in-caribbean?traffic_source=rss",
-     "published": "2026-10-05T14:58:02+00:00"
+     "link": "https://www.aljazeera.com/news/2026/10/5/growing-outrage-in-japan-after-us-marine-arrested-in-womans-killing?traffic_source=rss",
+     "published": "2026-10-05T11:25:45+00:00"
     },
     {
      "outlet": "The Hindu — International",
      "region": "in",
      "bucket": "serious",
-     "title": "U.S. military says latest strike on alleged drug-smuggling boat in Caribbean kills 4",
+     "title": "U.S. Marine arrested for alleged killing of woman on Okinawa, triggers outrage from Japan",
      "language": "en",
-     "link": "https://www.thehindu.com/news/international/us-military-says-latest-strike-on-alleged-drug-smuggling-boat-in-caribbean-kills-4/article71545724.ece",
-     "published": "2026-10-05T03:40:19+00:00"
+     "link": "https://www.thehindu.com/news/international/us-marine-arrested-for-alleged-killing-of-woman-on-okinawa-triggers-outrage-from-japan/article71544884.ece",
+     "published": "2026-10-04T21:31:21+00:00"
     },
     {
      "outlet": "CBS News — World",
      "region": "us",
      "bucket": "serious",
-     "title": "Another U.S. strike on alleged drug-smuggling boat kills 4, SOUTHCOM says",
+     "title": "U.S. Marine arrested, accused of killing Japanese woman in Okinawa",
      "language": "en",
-     "link": "https://www.cbsnews.com/news/us-strike-alleged-drug-smuggling-boat-caribbean-4-dead-southcom/",
-     "published": "2026-10-05T08:10:06+00:00"
+     "link": "https://www.cbsnews.com/news/us-marine-arrested-japan-accused-murder-okinawa/",
+     "published": "2026-10-05T13:46:12+00:00"
     },
     {
-     "outlet": "Mehr News",
-     "region": "ir",
+     "outlet": "Google News — World",
+     "region": "global",
      "bucket": "serious",
-     "title": "4 killed in US strike on alleged drug boat in Caribbean",
+     "title": "US Marine's arrest in a killing on Okinawa triggers outrage in Japan",
      "language": "en",
-     "link": "https://en.mehrnews.com/news/248336/4-killed-in-US-strike-on-alleged-drug-boat-in-Caribbean",
-     "published": "2026-10-05T09:27:45+00:00"
+     "link": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPNmdXZ0J6elNZTlBFYk1OS2JvV3FQa1pkUFRHcWFrWHZQWjRIMXJ3SDludzhUMVBleHNaQVFpMWJvYkRwOFVVenprSktITGhnSlVwZUtDNnNkT3lLOVBPU3hSQW13VjMwUHB1eUVmNkdkb20xUkVKY3RUb1p1MFlpSldLUW0wNXNKenJtY0gzRUNVNHpPWi1Xa3Q5OHhoaGdBM2dCaC00RkN0N1ZtZnJqSlhBN3E4UW1Ia3J3MlM2OWI?oc=5",
+     "published": "2026-10-05T11:18:56+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "US Marine Arrested for Alleged Murder of a Woman on Okinawa, Triggers Outrage From Japan",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxOWVBPZHVkQkM0SzNsV25sVnNKWFJRbDRkVDhOMnBHQW0tcDN2aFVsQzN3TUJEMlFiWVp2X215eWdiWUNtdmJwWDlYbkF5b3IzZTAyTVNCaE5oU0tTd2cxZFg5ZGZVbGNzRVVNNjZRa0lMX0M5WFl4NTU5aEVuQ2FudG5YRVNIY2hiQTMxXy1HcHFsVWNUcndwT3BXZ2lWdlpkTnh3LW1tOGNaYmcyVWlz?oc=5",
+     "published": "2026-10-04T14:02:41+00:00"
     }
    ],
-   "last_seen": "2026-10-05T15:07:44.573046+00:00",
-   "outlets": 4,
-   "regions": 4,
+   "last_seen": "2026-10-05T18:07:49.818707+00:00",
+   "outlets": 5,
+   "regions": 5,
    "languages": 1,
-   "score": 14.0
+   "score": 17.0
   },
   {
    "id": "c2196a3d81fa",
@@ -1098,51 +1395,134 @@
      "language": "en",
      "link": "https://www.myjoyonline.com/nigeria-military-aircraft-with-32-on-board-crashes/",
      "published": "2026-10-05T14:08:15+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Military aircraft with 32 people on board crashes in southern Nigeria",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/05/military-aircraft-with-32-people-on-board-crashes-in-southern-nigeria/",
+     "published": "2026-10-05T14:51:17+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "All 32 onboard killed after military aircraft crashes in southern Nigeria: President Bola Tinubu",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/military-aircraft-with-32-people-on-board-crashes-in-southern-nigeria-rescue-operations-on-101791214311017.html",
+     "published": "2026-10-05T16:35:49+00:00"
     }
    ],
-   "last_seen": "2026-10-05T15:07:44.573046+00:00",
-   "outlets": 4,
-   "regions": 3,
+   "last_seen": "2026-10-05T18:07:49.818707+00:00",
+   "outlets": 6,
+   "regions": 4,
    "languages": 1,
-   "score": 12.0
+   "score": 16.0
   },
   {
-   "id": "bd1dfeaf51d0",
+   "id": "fcf4bd382239",
    "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
     {
-     "outlet": "BBC Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Medvedev defaulted for hitting spectator with ball",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/sport/tennis/articles/cqkg5npg0r9vo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-05T14:44:45+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Medvedev defaulted for hitting spectator with ball as Djokovic makes Beijing final",
-     "language": "en",
-     "link": "https://www.skysports.com/tennis/news/12040/13595259/daniil-medvedev-defaulted-for-hitting-spectator-with-ball-as-novak-djokovic-reaches-another-china-open-final",
-     "published": "2026-10-05T15:00:00+00:00"
-    },
-    {
-     "outlet": "El País",
-     "region": "es",
+     "outlet": "Hindustan Times — World",
+     "region": "in",
      "bucket": "serious",
-     "title": "Un pelotazo a un aficionado le cuesta la descalificación a Medvedev en su pulso con Djokovic en Pekín",
-     "language": "es",
-     "link": "https://elpais.com/deportes/tenis/2026-10-05/un-pelotazo-a-un-aficionado-le-cuesta-la-descalificacion-a-medvedev-en-su-pulso-con-djokovic-en-pekin.html",
-     "published": "2026-10-05T14:24:41+00:00"
+     "title": "Imran Khan supporters march on Islamabad to demand his release after talks failed",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/pakistan-imran-khan-pti-supporters-march-to-islamabad-to-demand-his-release-talks-fail-shehbaz-sharif-101791131150060.html",
+     "published": "2026-10-04T16:32:32+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Imran Khan supporters head for Islamabad demanding his release",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/asia-pacific/imran-khan-supporters-head-for-islamabad-demanding-his-release",
+     "published": "2026-10-05T08:31:00+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Imran Khan supporters march in Pakistan to demand his release after talks failed",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/05/g-s1-146408/imran-khan-supporters-march-in-pakistan-to-demand-his-release-after-talks-failed",
+     "published": "2026-10-05T11:38:26+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Supporters of Imran Khan start march on locked-down Islamabad",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/05/jailed-imran-khan-march-on-islamabad-pakistan",
+     "published": "2026-10-05T15:19:46+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Ex-PM Imran Khan's Supporters Start March In Pakistan",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/ex-pm-imran-khans-supporters-start-march-in-pakistan-12140440#publisher=newsstand",
+     "published": "2026-10-05T09:46:36+00:00"
     }
    ],
-   "last_seen": "2026-10-05T15:07:44.573046+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 2,
-   "score": 11.0
+   "last_seen": "2026-10-05T18:07:49.818707+00:00",
+   "outlets": 5,
+   "regions": 4,
+   "languages": 1,
+   "score": 15.0
+  },
+  {
+   "id": "ce47f7f162bf",
+   "first_seen": "2026-10-05T15:07:44.573046+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Latest US military strike on alleged drug boat kills four in Caribbean",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/5/latest-us-military-strike-on-alleged-drug-boat-kills-four-in-caribbean?traffic_source=rss",
+     "published": "2026-10-05T14:58:02+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "U.S. military says latest strike on alleged drug-smuggling boat in Caribbean kills 4",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/us-military-says-latest-strike-on-alleged-drug-smuggling-boat-in-caribbean-kills-4/article71545724.ece",
+     "published": "2026-10-05T03:40:19+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Another U.S. strike on alleged drug-smuggling boat kills 4, SOUTHCOM says",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/us-strike-alleged-drug-smuggling-boat-caribbean-4-dead-southcom/",
+     "published": "2026-10-05T08:10:06+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "4 killed in US strike on alleged drug boat in Caribbean",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248336/4-killed-in-US-strike-on-alleged-drug-boat-in-Caribbean",
+     "published": "2026-10-05T09:27:45+00:00"
+    }
+   ],
+   "last_seen": "2026-10-05T18:07:49.818707+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
   },
   {
    "id": "94e8ede55c1b",
@@ -1174,13 +1554,116 @@
      "language": "en",
      "link": "https://www.vanguardngr.com/2026/10/at-oct-7-memorial-netanyahu-says-will-be-no-hamas-rule-in-gaza/",
      "published": "2026-10-05T15:04:04+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "'Intend To Complete Missions': Netanyahu Vows No Hamas Rule In Gaza",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/intend-to-complete-missions-netanyahu-vows-no-hamas-rule-in-gaza-12141711#publisher=newsstand",
+     "published": "2026-10-05T13:31:05+00:00"
     }
    ],
-   "last_seen": "2026-10-05T15:07:44.573046+00:00",
-   "outlets": 3,
-   "regions": 3,
+   "last_seen": "2026-10-05T18:07:49.818707+00:00",
+   "outlets": 4,
+   "regions": 4,
    "languages": 1,
-   "score": 11.0
+   "score": 14.0
+  },
+  {
+   "id": "c90472109711",
+   "first_seen": "2026-10-05T18:07:49.818707+00:00",
+   "members": [
+    {
+     "outlet": "Court House News",
+     "region": "court",
+     "bucket": "light",
+     "title": "ICC hits more Taliban officials with arrest warrants over persecution of women",
+     "language": "en",
+     "link": "https://www.courthousenews.com/icc-hits-more-taliban-officials-with-arrest-warrants-over-persecution-of-women/",
+     "published": "2026-10-05T17:04:55+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "light",
+     "title": "ICC unseals arrest warrants for Afghan Taliban education ministers accused of gender-based persecution",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2034973/icc-unseals-arrest-warrants-for-afghan-taliban-education-ministers-accused-of-gender-based-persecution",
+     "published": "2026-10-05T17:36:08+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "ICC unseals arrest warrants for Taliban education ministers",
+     "language": "en",
+     "link": "https://www.france24.com/en/asia-pacific/20261005-icc-unseals-arrest-warrants-for-taliban-education-ministers",
+     "published": "2026-10-05T16:16:48+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "ICC unseals arrest warrants for Taliban education ministers",
+     "language": "en",
+     "link": "https://punchng.com/icc-unseals-arrest-warrants-for-taliban-education-ministers/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-05T17:22:49+00:00"
+    }
+   ],
+   "last_seen": "2026-10-05T18:07:49.818707+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
+  },
+  {
+   "id": "d7e40dc3e136",
+   "first_seen": "2026-10-05T18:07:49.818707+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "After plague death reports at Siberia lab, Russia says situation under control",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/russia-central-asia/article/3369836/after-plague-death-reports-siberia-lab-russia-says-situation-under-control?utm_source=rss_feed",
+     "published": "2026-10-05T17:14:30+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Russia officials say ‘situation under control’ after plague reports",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633118/dozens-placed-in-quarantine-after-plague-lab-worker-dies-in-siberia",
+     "published": "2026-10-05T08:43:55+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Russia Says 'Situation Under Control' After Plague Death Reports",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/russia-says-situation-under-control-after-plague-death-reports-12141506#publisher=newsstand",
+     "published": "2026-10-05T12:58:22+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Russian officials say ‘situation under control’ after plague reports",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/05/russian-officials-say-situation-under-control-after-plague-reports",
+     "published": "2026-10-05T14:25:37+00:00"
+    }
+   ],
+   "last_seen": "2026-10-05T18:07:49.818707+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
   },
   {
    "id": "fb5106e0cd4e",
@@ -1277,44 +1760,6 @@
    "score": 11.0
   },
   {
-   "id": "fcf4bd382239",
-   "first_seen": "2026-10-05T15:07:44.573046+00:00",
-   "members": [
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Imran Khan supporters march on Islamabad to demand his release after talks failed",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/pakistan-imran-khan-pti-supporters-march-to-islamabad-to-demand-his-release-talks-fail-shehbaz-sharif-101791131150060.html",
-     "published": "2026-10-04T16:32:32+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Imran Khan supporters head for Islamabad demanding his release",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/asia-pacific/imran-khan-supporters-head-for-islamabad-demanding-his-release",
-     "published": "2026-10-05T08:31:00+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Imran Khan supporters march in Pakistan to demand his release after talks failed",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/05/g-s1-146408/imran-khan-supporters-march-in-pakistan-to-demand-his-release-after-talks-failed",
-     "published": "2026-10-05T11:38:26+00:00"
-    }
-   ],
-   "last_seen": "2026-10-05T15:07:44.573046+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
    "id": "62b0dbe529e6",
    "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
@@ -1346,11 +1791,248 @@
      "published": "2026-10-05T14:37:30+00:00"
     }
    ],
-   "last_seen": "2026-10-05T15:07:44.573046+00:00",
+   "last_seen": "2026-10-05T18:07:49.818707+00:00",
    "outlets": 3,
    "regions": 3,
    "languages": 1,
    "score": 11.0
+  },
+  {
+   "id": "a056d2844c9a",
+   "first_seen": "2026-10-05T18:07:49.818707+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "LIVE: France vs Belgium",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/liveblog/2026/10/5/live-france-vs-belgium-uefa-nations-league?traffic_source=rss",
+     "published": "2026-10-05T15:47:00+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "France v Belgium, Italy v Turkey, Northern Ireland v Georgia: Nations League",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/live/2026/oct/05/france-v-belgium-italy-v-turkey-northern-ireland-v-georgia-nations-league-live",
+     "published": "2026-10-05T18:03:37+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Portugal sail into Nations League last 8, Greece frustrate Germany",
+     "language": "en",
+     "link": "https://www.dailysabah.com/sports/football/portugal-sail-into-nations-league-last-8-greece-frustrate-germany",
+     "published": "2026-10-05T13:10:00+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "What happened between Ireland and Israel in their Nations League match?",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/10/5/what-happened-between-ireland-and-israel-in-their-nations-league-match?traffic_source=rss",
+     "published": "2026-10-05T15:28:16+00:00"
+    }
+   ],
+   "last_seen": "2026-10-05T18:07:49.818707+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "68898386a04b",
+   "first_seen": "2026-10-05T18:07:49.818707+00:00",
+   "members": [
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "France, Germany seek new EU rapid response tool against trade threats",
+     "language": "en",
+     "link": "https://www.france24.com/en/europe/20261005-france-germany-seek-new-eu-rapid-response-tool-against-trade-threats",
+     "published": "2026-10-05T17:01:26+00:00"
+    },
+    {
+     "outlet": "Investing.com — الاقتصاد",
+     "region": "money",
+     "bucket": "useful",
+     "title": "France, Germany propose new rapid EU trade response tool",
+     "language": "en",
+     "link": "https://www.investing.com/news/economy-news/france-germany-propose-new-rapid-eu-trade-response-tool-4932514",
+     "published": "2026-10-05T15:01:02+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "France, Germany seek new EU trade tool against market distortions",
+     "language": "en",
+     "link": "https://www.dailysabah.com/business/economy/france-germany-seek-new-eu-trade-tool-against-market-distortions",
+     "published": "2026-10-05T15:11:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-05T18:07:49.818707+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "78114ec66e40",
+   "first_seen": "2026-10-05T18:07:49.818707+00:00",
+   "members": [
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Italy PM Meloni seeks EU trademark for her voice amid AI deepfake risks",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/business/italy-pm-meloni-seeks-eu-trademark-her-voice-amid-ai-deepfake-risks-6433096",
+     "published": "2026-10-05T11:55:34+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Italian PM Meloni seeks EU trademark for her voice amid AI deepfake risks",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/05/italian-pm-meloni-seeks-eu-trademark-for-her-voice-amid-ai-deepfake-risks",
+     "published": "2026-10-05T12:22:51+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Italy’s Meloni moves to trademark voice amid AI deepfake fears",
+     "language": "en",
+     "link": "https://www.dailysabah.com/business/tech/italys-meloni-moves-to-trademark-voice-amid-ai-deepfake-fears",
+     "published": "2026-10-05T15:53:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-05T18:07:49.818707+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "f7535344ce98",
+   "first_seen": "2026-10-05T18:07:49.818707+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Flydubai co-pilot planned to crash plane into Tel Aviv airport or building, reports say",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cm3691y79xp5o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-05T11:34:59+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Flydubai co-pilot planned to crash plane into Tel Aviv airport or building, reports say",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/flydubai-co-pilot-planned-to-crash-plane-into-tel-aviv-airport-or-building-reports-say/",
+     "published": "2026-10-05T16:44:30+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "FlyDubai co-pilot planned to crash jet into Israeli airport, official says",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/flydubai-co-pilot-planned-crash-into-israel-airport-security-lapses/",
+     "published": "2026-10-05T16:47:38+00:00"
+    }
+   ],
+   "last_seen": "2026-10-05T18:07:49.818707+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "0f5b4743bd14",
+   "first_seen": "2026-10-05T18:07:49.818707+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Two dead after ship sinks off Romania following fire",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/5/two-dead-after-ship-sinks-off-romania-following-fire?traffic_source=rss",
+     "published": "2026-10-05T16:04:11+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Two dead, 11 rescued after ship catches fire and sinks in Black Sea, Romania says",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/two-dead-11-rescued-after-ship-catches-fire-and-sinks-in-black-sea-romania-says-6433076",
+     "published": "2026-10-05T11:51:00+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Two dead after ship catches fire, sinks in Black Sea",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/two-dead-after-ship-catches-fire-sinks-in-black-sea/article71548666.ece",
+     "published": "2026-10-05T16:57:53+00:00"
+    }
+   ],
+   "last_seen": "2026-10-05T18:07:49.818707+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "b135550d5381",
+   "first_seen": "2026-10-05T18:07:49.818707+00:00",
+   "members": [
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "British Airways London-Chicago flight declares ‘emergency’ mid air; makes U-turn after take-off",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/british-airways-london-chicago-flight-declares-emergency-mid-air-makes-u-turn-after-take-off/article71548161.ece",
+     "published": "2026-10-05T15:10:11+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "British Airways London-Chicago flight descends to 9,000 ft over Ireland, declares emergency",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/british-airways-london-chicago-flight-squawks-7700-descends-to-9-000-ft-over-ireland-declares-emergency-drops-28000-feet-within-minutes-101791209263768.html",
+     "published": "2026-10-05T14:16:16+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "British Airways flight to Chicago drops 27,000 feet, returns to London",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOUlZhN3lET1lNdXE3ak14OVVkZnpndktHMEhHWnNCNDd4Qjd2dEF4UDRnTnBfQVROT3ZCSk83T05sT3hiSF8tcTdiZm10Q3BWeEV3RkFGMGY3MmR0NGNhRGhORzJTaU95UW1yY24zSG1zcHByQ2pSVUxqdW9UcDE5QjI1M00yOWdLcUNzSzNycldUUWF1cS16Rjh5Tmt5RExwLXJHTDZLVTcxTUFRSDJUdmQyd0EyT0o0X3c?oc=5",
+     "published": "2026-10-05T16:09:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-05T18:07:49.818707+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
   },
   {
    "id": "23cf2cf9e624",
@@ -1384,7 +2066,7 @@
      "published": "2026-10-05T13:41:10+00:00"
     }
    ],
-   "last_seen": "2026-10-05T15:07:44.573046+00:00",
+   "last_seen": "2026-10-05T18:07:49.818707+00:00",
    "outlets": 3,
    "regions": 1,
    "languages": 1,

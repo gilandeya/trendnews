@@ -1,64 +1,5 @@
 [
   {
-    "score": 42.31,
-    "bucket": "serious",
-    "tokens": [
-      "arabia",
-      "bound",
-      "fight",
-      "israel",
-      "pilots",
-      "plane",
-      "reported",
-      "rerouted",
-      "saudi",
-      "wounded"
-    ],
-    "link": "https://www.dawn.com/news/2033728/israel-bound-plane-rerouted-to-saudi-arabia-pilots-wounded-in-reported-fight",
-    "title": "Israel-bound plane rerouted to Saudi Arabia; pilots wounded in reported fight",
-    "posted_title": "ماذا وقع داخل قمرة قيادة طائرة فلاي دبي التي هبطت طارئة في تبوك",
-    "region": "pk",
-    "seen_at": "2026-09-30T15:24:37.725197+00:00"
-  },
-  {
-    "score": 33.21,
-    "bucket": "serious",
-    "tokens": [
-      "arabia",
-      "denies",
-      "netanyahu",
-      "official",
-      "saudi",
-      "talks",
-      "uae"
-    ],
-    "link": "https://www.thehindu.com/news/international/saudi-arabia-denies-talks-with-netanyahu-in-uae-official/article71527669.ece",
-    "title": "Saudi Arabia denies talks with Netanyahu in UAE: official",
-    "posted_title": "الرياض تنفي جملة وتفصيلا حضور مسؤوليها لقاء نتنياهو في أبوظبي",
-    "region": "in",
-    "seen_at": "2026-09-30T15:24:54.760583+00:00"
-  },
-  {
-    "score": 27.79,
-    "bucket": "serious",
-    "tokens": [
-      "anti",
-      "ends",
-      "iraq",
-      "islamic",
-      "last",
-      "leave",
-      "mission",
-      "state",
-      "troops"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c65ym1dyn92mo?at_medium=RSS&at_campaign=rss",
-    "title": "Last UK and US troops leave Iraq as anti-Islamic State mission ends",
-    "posted_title": "لماذا أنهت واشنطن ولندن مهمتهما العسكرية في العراق بعد أكثر من عقد",
-    "region": "uk",
-    "seen_at": "2026-09-30T15:25:12.896633+00:00"
-  },
-  {
     "score": 27.35,
     "bucket": "serious",
     "tokens": [
@@ -2417,5 +2358,103 @@
     "posted_title": "كيف يمكن إشعال خلية عصبية أو إطفاؤها بشعاع ضوء فقط",
     "region": "africa",
     "seen_at": "2026-10-05T15:19:41.682325+00:00"
+  },
+  {
+    "score": 28.07,
+    "bucket": "serious",
+    "tokens": [
+      "000",
+      "anunció",
+      "del",
+      "implicados",
+      "israel",
+      "masacre",
+      "mató",
+      "octubre",
+      "prófugos",
+      "que",
+      "quedan"
+    ],
+    "link": "https://www.clarin.com/mundo/israel-anuncio-mato-4000-implicados-masacre-7-octubre-quedan-2000-profugos_0_K2puHKKKvO.html",
+    "title": "Israel anunció que mató a 4.000 implicados en la masacre del 7 de octubre: quedan 2.000 prófugos",
+    "posted_title": "",
+    "region": "ar_country",
+    "seen_at": "2026-10-05T18:08:14.280812+00:00"
+  },
+  {
+    "score": 25.9,
+    "bucket": "serious",
+    "tokens": [
+      "control",
+      "officials",
+      "plague",
+      "reports",
+      "russian",
+      "say",
+      "situation",
+      "under"
+    ],
+    "link": "https://www.freemalaysiatoday.com/category/world/2026/10/05/russian-officials-say-situation-under-control-after-plague-reports",
+    "title": "Russian officials say ‘situation under control’ after plague reports",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-10-05T18:08:14.281278+00:00"
+  },
+  {
+    "score": 23.76,
+    "bucket": "light",
+    "tokens": [
+      "backed",
+      "bombing",
+      "coalition",
+      "fighter",
+      "houthi",
+      "iran",
+      "jets",
+      "led",
+      "rebels",
+      "saudi",
+      "yemen"
+    ],
+    "link": "https://www.courthousenews.com/a-saudi-led-coalition-says-its-fighter-jets-are-bombing-yemens-iran-backed-houthi-rebels/",
+    "title": "A Saudi-led coalition says its fighter jets are bombing Yemen’s Iran-backed Houthi rebels",
+    "posted_title": "",
+    "region": "court",
+    "seen_at": "2026-10-05T18:08:14.281663+00:00"
+  },
+  {
+    "score": 22.59,
+    "bucket": "serious",
+    "tokens": [
+      "defend",
+      "diplomatic",
+      "interests",
+      "iran",
+      "national",
+      "potential",
+      "use"
+    ],
+    "link": "https://en.mehrnews.com/news/248344/Iran-to-use-all-potential-in-defense-of-national-interests",
+    "title": "Iran to use diplomatic potential to defend national interests",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-10-05T18:08:14.282001+00:00"
+  },
+  {
+    "score": 21.4,
+    "bucket": "serious",
+    "tokens": [
+      "crashes",
+      "dead",
+      "feared",
+      "helicopter",
+      "many",
+      "ondo"
+    ],
+    "link": "https://punchng.com/many-feared-dead-as-helicopter-crashes-in-ondo/?utm_source=rss.punchng.com&utm_medium=web",
+    "title": "Many feared dead as helicopter crashes in Ondo",
+    "posted_title": "",
+    "region": "ng",
+    "seen_at": "2026-10-05T18:08:14.282314+00:00"
   }
 ]
