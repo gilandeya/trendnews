@@ -17027,5 +17027,26 @@
   "has_photo": false,
   "state_media": false,
   "created_hour": 5
+ },
+ {
+  "id": "c9033a26c5ad",
+  "created_at": "2026-10-05T05:57:32.626479+00:00",
+  "decided_at": "2026-10-05T07:01:04.767368+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "analysis",
+  "category": "تحليل",
+  "angle": "",
+  "urgent": false,
+  "bucket": "",
+  "region": "",
+  "score": 2.0,
+  "trend_score": 0.0,
+  "velocity": 0.0,
+  "source_count": 2,
+  "body_len": 3043,
+  "has_photo": false,
+  "state_media": false,
+  "created_hour": 5
  }
 ]
