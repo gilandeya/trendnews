@@ -16,102 +16,6 @@
     ],
     "link": "https://www.dawn.com/news/2033728/israel-bound-plane-rerouted-to-saudi-arabia-pilots-wounded-in-reported-fight",
     "title": "Israel-bound plane rerouted to Saudi Arabia; pilots wounded in reported fight",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-09-30T15:08:28.517351+00:00"
-  },
-  {
-    "score": 33.21,
-    "bucket": "serious",
-    "tokens": [
-      "arabia",
-      "denies",
-      "netanyahu",
-      "official",
-      "saudi",
-      "talks",
-      "uae"
-    ],
-    "link": "https://www.thehindu.com/news/international/saudi-arabia-denies-talks-with-netanyahu-in-uae-official/article71527669.ece",
-    "title": "Saudi Arabia denies talks with Netanyahu in UAE: official",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-30T15:08:28.517694+00:00"
-  },
-  {
-    "score": 28.06,
-    "bucket": "serious",
-    "tokens": [
-      "appoints",
-      "female",
-      "first",
-      "minister",
-      "morocco",
-      "prime"
-    ],
-    "link": "https://www.premiumtimesng.com/foreign/913504-morocco-appoints-first-female-prime-minister.html",
-    "title": "Morocco appoints first female prime minister",
-    "posted_title": "",
-    "region": "ng",
-    "seen_at": "2026-09-30T15:08:28.517989+00:00"
-  },
-  {
-    "score": 27.79,
-    "bucket": "serious",
-    "tokens": [
-      "anti",
-      "ends",
-      "iraq",
-      "islamic",
-      "last",
-      "leave",
-      "mission",
-      "state",
-      "troops"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c65ym1dyn92mo?at_medium=RSS&at_campaign=rss",
-    "title": "Last UK and US troops leave Iraq as anti-Islamic State mission ends",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-30T15:08:28.518289+00:00"
-  },
-  {
-    "score": 25.34,
-    "bucket": "serious",
-    "tokens": [
-      "attack",
-      "energy",
-      "infrastructure",
-      "largest",
-      "launches",
-      "russia",
-      "since",
-      "spring",
-      "ukraine"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/ckjw5jx2l393o?at_medium=RSS&at_campaign=rss",
-    "title": "Russia launches largest attack on Ukraine energy infrastructure since spring",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-30T15:08:28.518582+00:00"
-  },
-  {
-    "score": 42.31,
-    "bucket": "serious",
-    "tokens": [
-      "arabia",
-      "bound",
-      "fight",
-      "israel",
-      "pilots",
-      "plane",
-      "reported",
-      "rerouted",
-      "saudi",
-      "wounded"
-    ],
-    "link": "https://www.dawn.com/news/2033728/israel-bound-plane-rerouted-to-saudi-arabia-pilots-wounded-in-reported-fight",
-    "title": "Israel-bound plane rerouted to Saudi Arabia; pilots wounded in reported fight",
     "posted_title": "ماذا وقع داخل قمرة قيادة طائرة فلاي دبي التي هبطت طارئة في تبوك",
     "region": "pk",
     "seen_at": "2026-09-30T15:24:37.725197+00:00"
@@ -2494,5 +2398,24 @@
     "posted_title": "",
     "region": "seasia",
     "seen_at": "2026-10-05T15:08:10.676336+00:00"
+  },
+  {
+    "score": 31.06,
+    "bucket": "serious",
+    "tokens": [
+      "awarded",
+      "breakthrough",
+      "medicine",
+      "nobel",
+      "prize",
+      "research",
+      "scientists",
+      "three"
+    ],
+    "link": "http://www.africanews.com/2026/10/05/nobel-prize-in-medicine-awarded-to-three-scientists-for-breakthrough-research/",
+    "title": "Nobel Prize in medicine awarded to three scientists for breakthrough research",
+    "posted_title": "كيف يمكن إشعال خلية عصبية أو إطفاؤها بشعاع ضوء فقط",
+    "region": "africa",
+    "seen_at": "2026-10-05T15:19:41.682325+00:00"
   }
 ]
