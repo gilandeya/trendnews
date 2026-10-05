@@ -42,6 +42,7 @@ from tests.test_collect import (
     test_radar_preselect_fallback,
     test_radar_auto_publish_builds_card,
     test_collect_end_to_end,
+    test_press_events,
     test_arabic_shaping,
     test_no_temperature_param,
     test_writer_usage_summary_cache_ratio,
@@ -336,6 +337,7 @@ def main() -> int:
     test_arabic_shaping()
     print("\n── الأنبوب الكامل ──")
     test_collect_end_to_end()
+    test_press_events()
     print("\n── دورة المراجعة ──")
     test_review_roundtrip()
     print("\n── نقطة التوقف قبل الصياغة (preselect) ──")

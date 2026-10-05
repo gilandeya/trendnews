@@ -1285,6 +1285,27 @@ step (`article.wide_days`).
 - **الاختبارات:** `tests/test_important.py` (`test_important_pipeline` … `test_important_1233`) على `ImportantRig`/`ImportantWriteRig`
   في `tests/helpers.py`، وحالات الحرّاس g1–g51 في `tests/test_guards_golden.py` (`test_important_false_guard` و`test_important_write_guards`).
 
+## ذاكرة الصحافة (Issue #1255) — `src/press_events.py`
+
+بيانات فقط (لا نموذج ولا قضايا، ولا أثر على المرشحين أو قضية الترشيح أو الترتيب): تحفظ **من غطّى الحدث وبأي عنوان ولغة**، لأن
+`cluster_members` في المرشحين تُقصّ إلى 6 بلا عنوان ولا منطقة. أساس فيديو «كيف قرأ العالم الحدث».
+
+- **موضع الربط:** التجميع داخل `rank.rank` (`src/rank.py`: `cluster` ثم `semantic_merge`)، فالاستدعاء هناك بعد الدمج وقبل قياس السرعة والترتيب
+  النهائي عبر معامل اختياري `on_groups` (يمرّره `collect.main` في `src/collect.py` حول `rank(...)`). العناقيد الخام في سجل `rank.PRESS_GROUPS`
+  (مفتاحه `id` الممثل، يُفرَّغ في بداية كل `rank()`) — لا سمة على `Article` عمدًا، فاختبار `test_trends` ينسخه بـ`__dict__` ويكسره أي حقل
+  زائد — ويضمّها `merge._absorb` عند الدمج الدلالي. فشل `on_groups` يُسجَّل
+  `log.warning` داخل `rank` ولا يوقف الجمع. العناقيد المحجوبة بالكلمات أو دون `min_sources_for_trend` لا تُحفظ (لا تبلغ `ranked`).
+- **الحدث:** عنقود فيه `press.min_outlets` (3) `source_name` مختلفين فأكثر؛ العضو = ناشر، منطقة، bucket، عنوان بلغته، لغة، رابط، وقت نشر. الربط بين
+  التشغيلات: رابط مشترك، أو تشابه عناوين ≥ `selection.dedupe_title_similarity`، وإلا حدث جديد بمعرّف 12 حرفًا سداسيًا ثابت.
+  الدرجة = `press.weights.outlets`×الناشرين + `regions`×المناطق + `languages`×اللغات (1/2/2). الملف `state/press/events.json`؛ يُحذف ما
+  `last_seen` فيه أقدم من `press.keep_days` (7)، وسقفا `press.max_events` (500، الأعلى درجة) و`press.max_members` (30).
+- **كشف اللغة** `press_events.detect_language`: بلا مكتبة — الخط (عربي/صيني/روسي/عبري/يوناني/كوري، وأي كانا ← ياباني، وحروف پچژگ ← فارسي)،
+  ثم كلمات وظيفية للاتينيات (en/fr/de/es/pt/tr) وحروف تركية؛ بلا إشارة ← `en`. تقريبي عمدًا (عناوين قصيرة).
+- **الفحص:** `python -m src.press_events --top 10` يطبع أعلى أحداث آخر 48 ساعة (الدرجة، الأعداد،
+  وعنوان من كل منطقة).
+- **التشغيل:** `collect.yml` يودِع `git add -A drafts state` أصلًا فيصل `state/press/` بلا تعديل workflow. `press.enabled: false` يعطّلها.
+- **الاختبارات:** `tests/test_collect.py:test_press_events` (a–e على `collect.main` بخلاصات مزيَّفة، ومقارنة المرشحين بتشغيلة بلا press).
+
 ## Retired paths
 
 - **«مقال» (`src/article.py`, label `مقال`, `.github/workflows/article.yml`) and «طلب» (`src/request.py`, label `طلب`

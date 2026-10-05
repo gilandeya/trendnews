@@ -96,6 +96,10 @@ def similarity(a: set[str], b: set[str]) -> float:
     return inter / min(len(a), len(b))
 
 
+# id(الممثل) ← أعضاء عنقوده الخام؛ يُفرَّغ في بداية كل rank()
+PRESS_GROUPS: dict[int, list[Article]] = {}
+
+
 def cluster(articles: list[Article], threshold: float,
             token_fn=tokens) -> list[list[Article]]:
     """تجميع جشع: أول خبر يمثّل المجموعة، وما يشبهه يُضاف إليها.
@@ -213,6 +217,10 @@ def pick_representative(group: list[Article],
 
     best = max(group, key=key)
     best.cluster_sources = sorted({a.publisher or a.source_name for a in group})
+    # أعضاء العنقود الخام (بعنوان كل ناشر ومنطقته) لذاكرة الصحافة: cluster_members
+    # أدناه تُقصّ إلى 6 بلا عناوين. في سجل خارج الكائن لا سمة عليه، لأن كود
+    # قائمًا ينسخ Article عبر __dict__ ويكسره أي حقل زائد.
+    PRESS_GROUPS[id(best)] = list(group)
 
     # روابط كل النسخ، الأثقل وزنًا أولًا؛ روابط جوجل الوسيطة تُستبعد إلا
     # حين keep_google_links=True (انظر التوثيق أعلاه)
@@ -257,7 +265,8 @@ def rank(articles: list[Article], selection: dict,
          velocity_weight: float = 5.0,
          merge_cfg=None,
          token_fn=None,
-         keep_google_links: bool = False) -> list[Article]:
+         keep_google_links: bool = False,
+         on_groups=None) -> list[Article]:
     threshold = float(selection.get("title_similarity", 0.62))
     max_age = int(selection.get("max_age_hours", 18))
     min_sources = int(selection.get("min_sources_for_trend", 1))
@@ -272,6 +281,7 @@ def rank(articles: list[Article], selection: dict,
     proximity_weight = float(appeal_cfg.get("proximity_weight", 0.0))
     intrigue_weight = float(appeal_cfg.get("intrigue_weight", 0.0))
 
+    PRESS_GROUPS.clear()
     groups = cluster(articles, threshold, token_fn=token_fn or tokens)
     log.info("تم دمج %d خبر في %d موضوع", len(articles), len(groups))
 
@@ -315,6 +325,14 @@ def rank(articles: list[Article], selection: dict,
                     impact_weight=impact_weight, proximity_weight=proximity_weight,
                     intrigue_weight=intrigue_weight)
                 art.score += 3.0 * math.log2(1 + max(art.group_sources - 1, 0))
+
+    # ذاكرة الصحافة (بيانات فقط): تأخذ العناقيد النهائية بعد الدمج الدلالي
+    # نفسها قبل أي ترتيب لاحق. فشلها لا يمسّ الترتيب ولا الجمع.
+    if on_groups is not None:
+        try:
+            on_groups([PRESS_GROUPS.get(id(a), [a]) for a in ranked])
+        except Exception as exc:  # noqa: BLE001
+            log.warning("تعذّر حفظ ذاكرة الصحافة: %s", exc)
 
     # ── السرعة: للمتصدّرين فقط ──
     # تتبّع 1700 خبر في كل تشغيلة يضخّم ملف الحالة ويبطّئ البحث خطيًا

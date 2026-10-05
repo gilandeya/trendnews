@@ -2277,6 +2277,159 @@ def test_collect_end_to_end() -> None:
     check("التشغيل الثاني لم يكرر نفس الأخبار",
           len(store.pending_drafts()) == 2, f"{len(store.pending_drafts())}")
 
+def test_press_events() -> None:
+    """ذاكرة الصحافة (src/press_events.py): بيانات فقط، على مخرَج collect.main
+    بخلاصات مزيَّفة — لا أثر لها ولا لفشلها على المرشحين."""
+    from src import press_events
+
+    real_fetch, real_load_config = collect.fetch_all, collect.load_config
+    now = datetime.now(timezone.utc)
+    snap = Path(str(STATE_DIR) + "_press_snap")
+    shutil.rmtree(snap, ignore_errors=True)
+    for src_dir, dst in ((DRAFTS_DIR, snap / "drafts"), (STATE_DIR, snap / "state")):
+        if src_dir.exists():
+            shutil.copytree(src_dir, dst)
+
+    def art(i, outlet, region, link, title, age_h=1):
+        return Article(title=title, link=link, summary="s", source_name=outlet,
+                       region=region, weight=1.0,
+                       published=now - timedelta(hours=age_h, minutes=i))
+
+    quake = "Powerful earthquake strikes northern Japan coast, tsunami warning issued"
+    feed_four = [
+        art(0, "A News", "us", "https://a.example/1", quake),
+        art(1, "B News", "uk", "https://b.example/1", quake + " officials say"),
+        art(2, "C News", "qa", "https://c.example/1", "Powerful earthquake strikes northern Japan coast, tsunami warning"),
+        art(3, "D News", "us", "https://d.example/1", "Strong earthquake strikes northern Japan coast tsunami warning issued"),
+    ]
+    feed_two = [
+        art(0, "A News", "us", "https://a.example/2", "Parliament approves sweeping budget reform package after marathon debate"),
+        art(1, "B News", "uk", "https://b.example/2", "Parliament approves sweeping budget reform package after marathon debate today"),
+    ]
+
+    def _cfg(**press):
+        cfg = load_config()
+        cfg["preselect"] = {"enabled": True, "candidates_per_run": 5}
+        cfg["trends"] = {"enabled": False}
+        cfg["merge"] = {"enabled": False}
+        cfg["press"] = {**(cfg.get("press") or {}), **press}
+        return cfg
+
+    def _run(cfg, feed):
+        collect.fetch_all = lambda *a, **k: list(feed)
+        collect.load_config = lambda path=None: cfg
+        sys.argv = ["collect", "--limit", "2"]
+        try:
+            return collect.main()
+        finally:
+            collect.fetch_all, collect.load_config = real_fetch, real_load_config
+
+    def _fresh():
+        shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+        shutil.rmtree(STATE_DIR, ignore_errors=True)
+        DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    def _cands():
+        out = []
+        for p in sorted((STATE_DIR / "candidates").rglob("*.json")):
+            d = json.loads(p.read_text(encoding="utf-8"))
+            d = {k: v for k, v in d.items() if k != "created_at"}
+            # الحداثة تُقاس بالساعة الحالية فتتفاوت الأعشار بين تشغيلتين
+            d["article"] = {k: (round(v, 1) if isinstance(v, float) else v)
+                            for k, v in d["article"].items()}
+            out.append(d)
+        return out
+
+    # (a) 4 ناشرين (3 مناطق) ← حدث محفوظ + (b) ناشران اثنان ← لا يُحفظ
+    _fresh()
+    code = _run(_cfg(), feed_four + feed_two)
+    events = press_events.load_events()
+    check("press: collect ينتهي بنجاح", code == 0, f"exit={code}")
+    check("press (a): حدث واحد محفوظ (الزلزال) ولا حدث للعنقود الثنائي (b)",
+          len(events) == 1, str(len(events)))
+    ev = events[0] if events else {"members": []}
+    check("press (a): الأعضاء الأربعة بعناوينهم ومناطقهم",
+          {m["outlet"] for m in ev["members"]} == {"A News", "B News", "C News", "D News"}
+          and {m["region"] for m in ev["members"]} == {"us", "uk", "qa"}
+          and all(m["title"] and m["link"] and m["published"] and m["bucket"]
+                  and m["language"] == "en" for m in ev["members"]),
+          str(ev["members"]))
+    # 4 ناشرين×1 + 3 مناطق×2 + لغة×2
+    check("press (a): الدرجة = 4+6+2", ev.get("score") == 12.0, str(ev.get("score")))
+    check("press: المعرّف 12 حرفًا سداسيًا",
+          bool(re.fullmatch(r"[0-9a-f]{12}", ev.get("id", ""))), ev.get("id"))
+    baseline = _cands()
+
+    # (c) تشغيلة ثانية: العنقود نفسه بروابط جزئية مشتركة وعضو جديد ← حدث واحد يكبر
+    second = [feed_four[0], feed_four[1],
+              art(4, "E News", "au", "https://e.example/1", quake + " says agency")]
+    _run(_cfg(), second)
+    events2 = press_events.load_events()
+    check("press (c): حدث واحد لا حدثان", len(events2) == 1, str(len(events2)))
+    check("press (c): كبر بلا تكرار رابط ولا فقد الأعضاء",
+          len(events2[0]["members"]) == 5
+          and len({m["link"] for m in events2[0]["members"]}) == 5
+          and events2[0]["id"] == ev.get("id"), str(len(events2[0]["members"])))
+
+    # (d) الأقدم من keep_days يُحذف، والسقفان يُحترمان
+    old = json.loads(press_events.EVENTS_FILE.read_text(encoding="utf-8"))
+    old["events"][0]["last_seen"] = (now - timedelta(days=8)).isoformat()
+    press_events.EVENTS_FILE.write_text(json.dumps(old), encoding="utf-8")
+    press_events.record([], _cfg())
+    check("press (d): حدث أقدم من 7 أيام يُحذف", press_events.load_events() == [])
+
+    words = {"alpha": "volcano ash cloud grounds flights", "beta": "central bank cuts interest rates",
+             "gamma": "striking miners reject wage deal", "delta": "glacier collapse buries alpine village"}
+
+    def three(tag, n):
+        return [art(i, f"{tag}{i}", "us", f"https://{tag}.example/{i}", words[tag])
+                for i in range(n)]
+    press_events.record([three("alpha", 3), three("beta", 3), three("gamma", 3)],
+                        _cfg(max_events=2))
+    check("press (d): سقف max_events", len(press_events.load_events()) == 2)
+    press_events.record([three("delta", 8)], _cfg(max_members=4))
+    delta = [e for e in press_events.load_events()
+             if any("delta" in m["link"] for m in e["members"])]
+    check("press (d): سقف max_members", bool(delta) and len(delta[0]["members"]) == 4)
+
+    # كشف اللغة بلا مكتبة
+    langs = {t: press_events.detect_language(t) for t in (
+        "زلزال قوي يضرب شمال اليابان", "Le président a annoncé une réforme pour les retraites",
+        "Die Regierung hat das Gesetz nicht mit der Mehrheit beschlossen",
+        "Depremde bir kişi hayatını kaybetti", "日本北部で地震", "地震袭击日本北部",
+        "زلزله شدید در گرمای پژوهش", "The president says the war is over")}
+    check("press: كشف اللغة", list(langs.values()) == ["ar", "fr", "de", "tr", "ja", "zh", "fa", "en"],
+          str(list(langs.values())))
+
+    # (e) استثناء داخل press_events ← الجمع يكمل، والمرشحون مطابقون لتشغيلة بلا press
+    real_record = press_events.record
+
+    def boom(*a, **k):
+        raise RuntimeError("press failure")
+    _fresh()
+    _run(_cfg(enabled=False), feed_four + feed_two)
+    without = _cands()
+    _fresh()
+    press_events.record = boom
+    try:
+        code_boom = _run(_cfg(), feed_four + feed_two)
+    finally:
+        press_events.record = real_record
+    check("press (e): فشل press_events لا يوقف الجمع", code_boom == 0, f"exit={code_boom}")
+    check("press (e): المرشحون مطابقون لتشغيلة بلا press",
+          _cands() == without and len(without) > 0,
+          str([k for k in (without[0] if without else {}) if _cands()[0].get(k) != without[0][k]]))
+    check("press (e): تشغيلة press الناجحة تعطي المرشحين نفسهم أيضًا",
+          baseline == without, f"{len(baseline)} / {len(without)}")
+    # نعيد ما وجدناه: اختبار المراجعة التالي يستهلك مسودات الأنبوب الكامل
+    _fresh()
+    for src_dir, dst in ((snap / "drafts", DRAFTS_DIR), (snap / "state", STATE_DIR)):
+        shutil.rmtree(dst, ignore_errors=True)
+        if src_dir.exists():
+            shutil.copytree(src_dir, dst)
+    shutil.rmtree(snap, ignore_errors=True)
+
+
 def test_arabic_shaping() -> None:
     from PIL import ImageDraw as _D
 
