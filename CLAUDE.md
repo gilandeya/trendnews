@@ -1172,6 +1172,47 @@ facts into tiers by sourcing strength — implemented as the A/B/C grading descr
 Investigation path above (Issue #835) — and widening the search window on a zero-raw-result ladder
 step (`article.wide_days`).
 
+## تدقيق الأسماء (Issue #1252) — `src/names_audit.py`
+
+الحادثة: `drafts/2026-10-04/4e1ba01e960a.json` — المصدر «Farea al-Muslimi» والكاتب «فريدة المسلمي» (مؤنث مع «الباحث») ونُشر
+بـ🚀؛ معجم الأسماء (`names.py`) يوحّد رسمين يعرفهما فقط، لا يكشف خطأً لم يعرفه أحد. **قرارات تحريرية ثابتة:** الاسم بالعربية
+وحدها (لا لاتيني بين قوسين)، و**لا يصحّح البوت اسمًا إلا بدليل بحث لا بحكم نموذج وحده** (النموذج يكشف ويقترح، والقرار للبحث).
+
+- **الموضع:** `names_audit.run(draft, source_texts, cfg)` بعد الكتابة وقبل `store.save_draft`، ولا ترفع أبدًا (أي خطأ ← سطر
+  تحذير والنص كما هو). المواضع المربوطة (ملف ← نصوص المصدر): `collect.py` (مسار بلا preselect) ← عنوان الخبر+ملخصه+`docs` ·
+  `collect_finalize._write_selected` (🚀/📝/🎴) ← مثله · `radar.build_draft` (ومنه `request.py` والنشر التلقائي) ← مثله ·
+  `important_write.write_point` ← نصوص أدلة النقطة+claim · `publish.cmd_youtube_selection` (التحليل) ←
+  `youtube_article.point_source_texts` (اقتباسات النقاط بلغتها الأصلية والمتحدث وعنوان الفيديو). **غير مربوطة عمدًا:**
+  `youtube_publish.build()` (مسار index.md القديم، لا نقاط في ذاكرته) و`article.py`/`verify_draft.py` (متقاعدتان).
+- **الخطوات:** (1) تصحيح مباشر بلا نداء لرسم خاطئ سُجّل سلفًا (`wrong`) لأصل لاتيني ورد في المصدر؛ (2) نداء Haiku واحد بأداة
+  `report_names` (`_detect`: الرسم العربي، الأصل اللاتيني، الجنس، سليم/مشكوك، 2–3 مرشّحات، كلمة سياق)؛ (3) أصل لاتيني محفوظ في
+  `state/names_verified.json` ← رسمه المحفوظ بلا بحث؛ (4) المشكوك ← بحث Brave `"<رسم>" <سياق>` لكل مرشّح؛ يُعتمد رسم ظهر حرفيًا في
+  نتائج `names.audit.min_sources` (2) نطاقًا عربيًا **مستقلًا** (`_registrable`: النطاق المسجَّل، فـ`mubasher.aljazeera.net` و`www.aljazeera.net`
+  واحد؛ نص النتيجة عربي؛ `important.excluded_domains` مستبعدة) وأكثر من الرسم الحالي الذي يُبحث عنه منافسًا؛ تعادل رسمين أو
+  موثَّقية الحالي بالقدر نفسه ← لا تغيير؛ (5) الاعتماد يستبدل في الحقول العربية وحدها (`arabic.post_title/post_body/body/caption/analysis/image_headline`
+  والـ`caption` والـ`headlines` و`reel_spec.headline`) ويحفظ في `names_verified`؛ (6) لم يُحسم ← لا تغيير + `draft["warnings"]`:
+  «اسم لم يُحسم: <الرسم> (<الأصل اللاتيني>) — <السبب>». أسماء `names.aliases` المعتمدة لا تُدقَّق ولا يُبحث عنها أبدًا. يُسجَّل على
+  المسودة `name_corrections` و`name_unresolved` و`names_audit` (الأسماء المكتشفة، مدخل التعلّم).
+- **Brave:** عدّاد مستقل بمفتاح `"names:YYYY-MM"` في `state/brave_usage.json` (يُزاد قبل الطلب، ويحفظ مفتاحي الصور و«هام»)، سقفه
+  `names.audit.brave_monthly_cap` (100)؛ بلوغه أو غياب `BRAVE_API_KEY` أو فشل الطلب **لا يوقف الكتابة**: المشكوك ← تنبيه بسببه. ذاكرة
+  البحث `state/names_search_cache.json` (`search_cache_days`: 7). مجموع سقوف Brave الثلاثة 1000: الصور 300 (`image.web_search.monthly_cap`، كانت 400)
+  + «هام» 600 + الأسماء 100.
+- **الوقاية قبل الكتابة:** `names_audit.names_note` تُلحِق «اكتب هذه الأسماء هكذا: <لاتيني> ← <عربي>» بتعليمات الكاتب لكل محفوظ ورد
+  أصله في المصدر: `writer.write_arabic` (يحسبها داخليًا فلا تغيير في توقيعه — الأخبار والرادار)، `important_write.write_point`،
+  `youtube_article.draft_article`. فارغة (فلا أثر على أي برومبت) إن لم يرد اسم محفوظ.
+- **التعلّم من تحريرك:** عند اعتماد المرحلة 2 بنص معدَّل (`publish.main` ← `names_audit.learn_from_edit`): كل اسم سجّلناه للمسودة بأصله
+  اللاتيني غاب رسمه عن النص المعتمد ووجد الكاشف مكانه رسمًا لأصله نفسه ← `names_verified` بمصدر «تصحيح المراجع» و`wrong` = رسمنا القديم؛
+  هذا المصدر يغلب البحث ولا ينقضه مدخل بحث لاحق، وتحريرك اللاحق ينقض السابق. لا نداء إن لم يغب رسم اسم مسجَّل.
+- **العرض:** `review.warnings_block` صار لكل المسارات (كان «هام» وحده): قسم «⚠️ تنبيهات للمراجعة» + سطر `✏️ صُحّح اسم: س ← ص (مصدران: a.net، b.com)`
+  في قضيتي المرحلتين 2 و3 (وقضية تحليل المرحلة 2 لها عرضها الأصلي + سطر ✏️). **🚀:** تُنشر المسودة كما هي، وبعد
+  `cmd_burst/cmd_now/cmd_schedule` تعلّق `names_audit.notify_published` على قضية الترشيح (ومنه «هام») سطر ✏️ لكل تصحيح، و«⚠️ نُشر وفيه اسم
+  لم يُحسم: … — <رابط المنشور>» (أو «سيُنشر … (لم يُنشر بعد)» إن أُجّل بالبوابة). النشر التلقائي للرادار بلا قضية: التنبيه في `warnings` فقط.
+- **الاختبارات:** `tests/test_guards_golden.py:test_names_audit_guards` (g52–g56) و`tests/test_names_audit.py`؛ `NamesAuditRig` في
+  `tests/helpers.py` (يزيّف `_detect` و`_brave_http` وحدهما فالعدّاد والسقف والذاكرة والاستقلال كود حقيقي) و`install_fakes` يضع كاشفًا
+  لا يرى شيئًا لكل الاختبارات الأخرى. **تشغيل:** `names.audit.enabled`.
+- **تنبيه تشغيلي:** `names_verified.json` و`names_search_cache.json` و`brave_usage.json` تحت `state/`، فتودعها كل workflow يضيف `git add -A drafts state`
+  (collect وradar وpublish وqueue وyoutube-publish وfeedback)؛ لا تعديل لازم.
+
 ## مسار هام (الخلاصة النهائية — Issues #1194–#1233)
 
 **«هام» هو مسار الطلبات الوحيد (وسم `هام`).** نص ملصق ← نقاط (الوقائع فقط؛ الآراء والأسئلة تُتجاهل) ← حكم مسنود

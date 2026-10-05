@@ -121,13 +121,17 @@ def headline_boxes(d: dict, intro: str, note: str | None = None) -> list[str]:
 
 
 def warnings_block(d: dict) -> list[str]:
-    """قسم «⚠️ تنبيهات للمراجعة» لمسودة «هام» (Issue #1233): الجمل التي لم يجد لها الكود سندًا في
-    أدلة النقطة، بالجمل نفسها وعلى غرار عرض تنبيهات التحليل. للمراجع وحده — لا يدخل النص المنشور
-    ولا يمنع النشر. غير «هام» أو بلا تنبيهات: لا شيء (فمخرج بقية المسارات كما هو حرفيًا)."""
-    if store.origin_of(d) != "important" or not d.get("warnings"):
-        return []
-    return ["  ⚠️ تنبيهات للمراجعة:", "",
-            *[f"  - {w}" for w in d["warnings"]], ""]
+    """قسم «⚠️ تنبيهات للمراجعة» (Issue #1233 لمسودة «هام»، ثم لكل المسارات في Issue #1252): تنبيهات
+    الكود في المسودة (جمل بلا سند، أسماء لم تُحسم) بنصها، وتحتها سطر «✏️ صُحّح اسم» لكل اسم صُحّح
+    آليًا. للمراجع وحده — لا يدخل النص المنشور ولا يمنع النشر. بلا تنبيهات ولا تصحيحات: لا شيء."""
+    from .names_audit import corrections_lines
+    fixes = corrections_lines(d)
+    out: list[str] = []
+    if d.get("warnings"):
+        out += ["  ⚠️ تنبيهات للمراجعة:", "", *[f"  - {w}" for w in d["warnings"]], ""]
+    if fixes:
+        out += [*[f"  {line}" for line in fixes], ""]
+    return out
 
 
 def build_issue_body(drafts: list[dict], repo: str, branch: str = "main",

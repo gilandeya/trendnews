@@ -650,6 +650,13 @@ def _validate_article_text(text: str, cfg: Config) -> tuple[bool, str]:
     return True, ""
 
 
+def point_source_texts(member_points: list[dict]) -> list[str]:
+    """نصوص النقاط بلغتها الأصلية (اقتباس المتحدث وعنوان الفيديو واسمه) — مدخل تدقيق الأسماء
+    (Issue #1252) والوقاية منها؛ بيانات لا تعليمات كسائر محتوى النقاط."""
+    return [t for p in member_points
+            for t in (p.get("quote_original", ""), p.get("speaker", ""), p.get("video_title", "")) if t]
+
+
 def draft_article(topic: dict, member_points: list[dict], cfg: Config,
                    client: Anthropic | None = None) -> tuple[str | None, str | None]:
     """نداء نموذج أقوى، إخراج نصّ عادي (لا tool_use) -- انظر توثيق أعلى
@@ -666,6 +673,11 @@ def draft_article(topic: dict, member_points: list[dict], cfg: Config,
         f"النقاط المصدرية (المصدر الوحيد المسموح استعماله -- لا معلومة من "
         f"خارجها):\n{_points_block(member_points)}"
     )
+    # الوقاية قبل الكتابة (Issue #1252): أسماء معتمدة سلفًا ورد أصلها اللاتيني في اقتباسات المتحدثين
+    from . import names_audit
+    name_note = names_audit.names_note(point_source_texts(member_points), cfg)
+    if name_note:
+        user_content += f"\n\n{name_note}"
 
     last_reason = ""
     last_resp = None
