@@ -1,44 +1,5 @@
 [
   {
-    "score": 27.92,
-    "bucket": "serious",
-    "tokens": [
-      "appoints",
-      "first",
-      "king",
-      "mansouri",
-      "marrakesh",
-      "mayor",
-      "minister",
-      "morocco's",
-      "prime",
-      "woman"
-    ],
-    "link": "https://www.france24.com/en/africa/20260929-morocco-king-appoints-first-woman-prime-minister-el-mansouri-after-parliamentary-vote",
-    "title": "Morocco's king appoints Marrakesh mayor El Mansouri as first woman prime minister",
-    "posted_title": "كيف أصبحت رئيسة بلدية مراكش أول امرأة تتولى رئاسة الحكومة في المغرب",
-    "region": "eu",
-    "seen_at": "2026-09-29T20:52:24.305972+00:00"
-  },
-  {
-    "score": 21.12,
-    "bucket": "serious",
-    "tokens": [
-      "disabled",
-      "euthanized",
-      "netherlands",
-      "rules",
-      "severely",
-      "toddler",
-      "under"
-    ],
-    "link": "https://www.cbsnews.com/news/child-euthanasia-netherlands-first-case-new-rules/",
-    "title": "Severely disabled toddler euthanized in the Netherlands under new rules",
-    "posted_title": "لجنة هولندية تكشف تفاصيل أول حالة قتل رحيم لطفل دون السنتين",
-    "region": "us",
-    "seen_at": "2026-09-29T20:52:44.623114+00:00"
-  },
-  {
     "score": 35.73,
     "bucket": "serious",
     "tokens": [
@@ -2431,5 +2392,101 @@
     "posted_title": "الحوثيون يسيطرون على منطقة الصافية ويقطعون شريان تعز الحيوي مع عدن",
     "region": "my",
     "seen_at": "2026-10-04T18:53:06.357759+00:00"
+  },
+  {
+    "score": 31.83,
+    "bucket": "serious",
+    "tokens": [
+      "attack",
+      "flights",
+      "flydubai",
+      "israel",
+      "netanyahu",
+      "orders",
+      "review",
+      "security"
+    ],
+    "link": "https://www.japantimes.co.jp/news/2026/10/05/world/israel-flight-security-flydubai-attack/",
+    "title": "Netanyahu orders security review of flights to Israel after Flydubai attack",
+    "posted_title": "",
+    "region": "jp",
+    "seen_at": "2026-10-05T03:08:07.742222+00:00"
+  },
+  {
+    "score": 26.66,
+    "bucket": "serious",
+    "tokens": [
+      "capital",
+      "ethiopian",
+      "forces",
+      "rebel",
+      "regional",
+      "tigray",
+      "withdraw"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cqm249v07j4xo?at_medium=RSS&at_campaign=rss",
+    "title": "Ethiopian rebel forces withdraw from Tigray regional capital",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-10-05T03:08:07.742549+00:00"
+  },
+  {
+    "score": 24.07,
+    "bucket": "serious",
+    "tokens": [
+      "demanding",
+      "imran",
+      "islamabad",
+      "khan",
+      "launches",
+      "march",
+      "party",
+      "release"
+    ],
+    "link": "https://www.aljazeera.com/video/newsfeed/2026/10/4/imran-khans-party-launches-march-to-islamabad-demanding-his-release?traffic_source=rss",
+    "title": "Imran Khan’s party launches march to Islamabad demanding his release",
+    "posted_title": "",
+    "region": "qa",
+    "seen_at": "2026-10-05T03:08:07.742817+00:00"
+  },
+  {
+    "score": 20.09,
+    "bucket": "serious",
+    "tokens": [
+      "chief",
+      "climate",
+      "extreme",
+      "heat",
+      "newborns",
+      "pregnant",
+      "putting",
+      "risk",
+      "women"
+    ],
+    "link": "https://www.channelnewsasia.com/sustainability/extreme-heat-pregnant-women-newborns-risk-un-climate-6431901",
+    "title": "Extreme heat putting pregnant women, newborns at risk: UN climate chief",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-10-05T03:08:07.743099+00:00"
+  },
+  {
+    "score": 18.99,
+    "bucket": "serious",
+    "tokens": [
+      "african",
+      "business",
+      "call",
+      "capital",
+      "continent",
+      "egypt",
+      "leaders",
+      "summit",
+      "unlock"
+    ],
+    "link": "http://www.africanews.com/2026/10/04/african-leaders-call-for-continent-to-unlock-capital-at-egypt-business-summit/",
+    "title": "African leaders call for continent to unlock capital at Egypt business summit",
+    "posted_title": "",
+    "region": "africa",
+    "seen_at": "2026-10-05T03:08:07.743360+00:00"
   }
 ]

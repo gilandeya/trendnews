@@ -1,0 +1,64 @@
+{
+  "id": "427f74562933",
+  "created_at": "2026-10-05T03:08:07.742559+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.07,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "حزب عمران خان يشن مسيرة نحو إسلام أباد",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Imran Khan’s party launches march to Islamabad demanding his release",
+  "link": "https://www.aljazeera.com/video/newsfeed/2026/10/4/imran-khans-party-launches-march-to-islamabad-demanding-his-release?traffic_source=rss",
+  "publishers": [
+    "AP News",
+    "Al Jazeera English",
+    "Hindustan Times — World"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "Imran Khan’s party launches march to Islamabad demanding his release",
+    "link": "https://www.aljazeera.com/video/newsfeed/2026/10/4/imran-khans-party-launches-march-to-islamabad-demanding-his-release?traffic_source=rss",
+    "summary": "Supporters of jailed former Pakistani prime minister Imran Khan have launched a long march towards Islamabad.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-10-04T19:53:55+00:00",
+    "image_url": null,
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "AP News",
+      "Al Jazeera English",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/10/4/imran-khans-party-launches-march-to-islamabad-demanding-his-release?traffic_source=rss"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/pakistan-imran-khan-pti-supporters-march-to-islamabad-to-demand-his-release-talks-fail-shehbaz-sharif-101791131150060.html"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1474.9114888430554,
+    "is_stale": false,
+    "score": 24.072921239959765,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "حزب عمران خان يشن مسيرة نحو إسلام أباد",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

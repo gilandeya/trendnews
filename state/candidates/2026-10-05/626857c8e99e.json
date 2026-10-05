@@ -1,0 +1,81 @@
+{
+  "id": "626857c8e99e",
+  "created_at": "2026-10-05T03:08:07.742234+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.66,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "انسحاب قوات متمردة من عاصمة إقليم إثيوبي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Ethiopian rebel forces withdraw from Tigray regional capital",
+  "link": "https://www.bbc.co.uk/news/articles/cqm249v07j4xo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "AllAfrica",
+    "BBC",
+    "BBC World",
+    "France24",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Ethiopian rebel forces withdraw from Tigray regional capital",
+    "link": "https://www.bbc.co.uk/news/articles/cqm249v07j4xo?at_medium=RSS&at_campaign=rss",
+    "summary": "Two residents in Mekelle tell the BBC pro-government forces have taken control of the city.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-10-04T13:33:05+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/965b/live/ca8ca230-bfeb-11f1-8c3e-3b2eab095459.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "AllAfrica",
+      "BBC",
+      "BBC World",
+      "France24",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cqm249v07j4xo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/africa/20261004-ethiopian-federal-forces-control-tigray-capital-as-regional-rivals-meet-in-egypt"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/ethiopia-controls-tigray-capital-as-regional-rivals-meet-in-egypt/article71544478.ece"
+      },
+      {
+        "name": "AllAfrica",
+        "link": "https://allafrica.com/stories/202610040094.html"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/965b/live/ca8ca230-bfeb-11f1-8c3e-3b2eab095459.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/965b/live/ca8ca230-bfeb-11f1-8c3e-3b2eab095459.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/965b/live/ca8ca230-bfeb-11f1-8c3e-3b2eab095459.jpg",
+      "https://s.france24.com/media/display/7a003590-c00c-11f1-a8ec-dd51fcab6130/w:1024/p:16x9/e214db71697af78d2ba3e67885af1f946ef58644.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.0,
+    "age_hours": 1474.9113548430555,
+    "is_stale": true,
+    "score": 26.660669883921344,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "انسحاب قوات متمردة من عاصمة إقليم إثيوبي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

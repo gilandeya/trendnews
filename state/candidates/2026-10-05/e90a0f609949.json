@@ -1,0 +1,58 @@
+{
+  "id": "e90a0f609949",
+  "created_at": "2026-10-05T03:08:07.743108+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 18.99,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "قادة أفارقة يناقشون تمويل التنمية والاستثمار",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "African leaders call for continent to unlock capital at Egypt business summit",
+  "link": "http://www.africanews.com/2026/10/04/african-leaders-call-for-continent-to-unlock-capital-at-egypt-business-summit/",
+  "publishers": [
+    "Africanews"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "African leaders call for continent to unlock capital at Egypt business summit",
+    "link": "http://www.africanews.com/2026/10/04/african-leaders-call-for-continent-to-unlock-capital-at-egypt-business-summit/",
+    "summary": "African heads of state and business leaders gathered in Egypt on Saturday for the inaugural El-Alamein Africa Forum. They called for the continent to unlock its capital to finance growth and reduce reliance on external funding.",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-10-04T07:31:48+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/93/81/03/640x360_cmsv2_46f5f930-2cf0-51ea-bfe1-6df733a26ca7-9938103.jpg?1791036866",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews"
+    ],
+    "cluster_members": [
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/10/04/african-leaders-call-for-continent-to-unlock-capital-at-egypt-business-summit/"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/93/81/03/640x360_cmsv2_46f5f930-2cf0-51ea-bfe1-6df733a26ca7-9938103.jpg?1791036866"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 1474.9114305308335,
+    "is_stale": true,
+    "score": 18.993459666333333,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "قادة أفارقة يناقشون تمويل التنمية والاستثمار",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
