@@ -1,0 +1,1688 @@
+{
+  "issue": 1247,
+  "body_hash": "fbec83272f682bd006f329609bdccde6448e7f33",
+  "selection_issue": 1248,
+  "created_at": "2026-10-05T06:51:27.600486+00:00",
+  "topic": "الحرب اليمنية - قدرات الحوثيين والحكومة الشرعية",
+  "error": null,
+  "model": "claude-sonnet-5",
+  "extract_model": "claude-haiku-4-5-20251001",
+  "brave": {
+    "requests": 33,
+    "skipped": null,
+    "monthly_usage": 240,
+    "monthly_cap": 600
+  },
+  "model_calls": {
+    "total": 6,
+    "by_model": {
+      "claude-haiku-4-5-20251001": 1,
+      "claude-sonnet-5": 5
+    },
+    "brief": 1,
+    "by_point": {
+      "f8e49c456027": 1,
+      "abb0c5050bf4": 1,
+      "411341bf3602": 1,
+      "e4f623ec1b66": 1,
+      "c01c68f9e111": 1
+    }
+  },
+  "truncated": null,
+  "points": [
+    {
+      "id": "f8e49c456027",
+      "text": "الحوثيون طوّروا قدراتهم القتالية على مدى اثني عشر عاما ونقلوا تقنيات التصنيع العسكري من إيران إلى مناطقهم",
+      "claim": "الحوثيون طوّروا قدراتهم القتالية على مدى اثني عشر عاما ونقلوا تقنيات التصنيع العسكري من إيران إلى مناطقهم",
+      "framing": "direct",
+      "circulating_context": "",
+      "asserted": "",
+      "queries": [
+        "نقل الحوثيين تقنيات عسكرية من إيران تحقق",
+        "الحوثيون نقل تقنيات عسكرية من إيران تصنيع"
+      ],
+      "site_queries": [
+        "12 الحوثيون إيران site:misbar.com",
+        "12 الحوثيون إيران site:fatabyyano.net",
+        "12 الحوثيون Iran site:factcheck.afp.com",
+        "12 الحوثيون Iran site:reuters.com/fact-check"
+      ],
+      "engines": [
+        "brave_web",
+        "google_news"
+      ],
+      "windows": [
+        "days",
+        "days"
+      ],
+      "brave_skipped": null,
+      "cache_hits": 0,
+      "checker_skipped": [
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2026/04/11/%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D8%A7%D9%82%D8%AA%D8%AD%D8%A7%D9%85-%D8%A7%D9%84%D8%AD%D9%88%D8%AB%D9%8A%D9%8A%D9%86-%D9%86%D9%82%D8%B7%D8%A9-%D8%AD%D8%AF%D9%88%D8%AF%D9%8A%D8%A9-%D9%85%D8%B9-%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%D8%A9-%D9%85%D9%86-%D8%B9%D8%A7%D9%85-2018-%D9%88%D9%84%D9%8A%D8%B3-%D8%AD%D8%AF%D9%8A%D8%AB%D9%8B%D8%A7",
+          "title": "فيديو اقتحام الحوثيين نقطة حدودية مع السعودية من عام 2018 وليس حديثًا"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2024/07/23/%D8%A7%D8%AF%D8%B9%D8%A7%D8%A1%D8%A7%D8%AA-%D8%B2%D8%A7%D8%A6%D9%81%D8%A9-%D9%88%D9%85%D8%B6%D9%84%D9%84%D8%A9-%D8%B1%D8%A7%D9%81%D9%82%D8%AA-%D8%A7%D9%84%D8%AA%D8%B5%D8%B9%D9%8A%D8%AF-%D8%A7%D9%84%D8%A3%D8%AE%D9%8A%D8%B1-%D8%A8%D9%8A%D9%86-%D8%AC%D9%85%D8%A7%D8%B9%D8%A9-%D8%A7%D9%84%D8%AD%D9%88%D8%AB%D9%8A-%D9%88%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84",
+          "title": "ادعاءات زائفة ومضللة رافقت التصعيد الأخير بين جماعة الحوثي وإسرائيل"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%85%D9%82%D8%AA%D8%A8%D8%B3-%D9%85%D9%86-%D9%84%D8%B9%D8%A8%D8%A9-%D9%82%D8%AA%D8%A7%D9%84-%D8%A5%D9%84%D9%83%D8%AA%D8%B1%D9%88%D9%86%D9%8A/",
+          "title": "هذا المقطع مقتبس من لعبة قتال إلكترونية، ولا يصور مشاهد حقيقية من استهداف الحوثيين لسفينة حربية - فتبينوا"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/Page-not-found",
+          "title": "Page not found | Fact Check"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic",
+          "title": "خدمة \"تقصي الحقيقة\" من رويترز"
+        }
+      ],
+      "read_docs": [
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%85%D9%86-%D9%85%D8%AF%D9%8A%D9%86%D8%A9-%D8%B3%D9%88%D9%85%D9%8A-%D8%A7%D9%84%D8%A3%D9%88%D9%83%D8%B1%D8%A7%D9%86%D9%8A%D8%A9%D8%8C/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 272,
+          "excerpt_chars": 272,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/4EEWK2Y2YNIUDEC6GWYOVCY57M-2025-08-15/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 266,
+          "excerpt_chars": 266,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2024/12/25/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%85%D9%86-%D8%A7%D8%B3%D8%AA%D9%87%D8%AF%D8%A7%D9%81-%D8%A7%D9%84%D8%AD%D9%88%D8%AB%D9%8A%D9%8A%D9%86-%D9%84%D9%85%D8%AD%D8%B7%D8%A9-%D8%A3%D8%B1%D8%A7%D9%85%D9%83%D9%88-%D9%81-%D8%AC%D8%AF%D8%A9-%D8%B9%D8%A7%D9%85-2022-%D9%88%D9%84%D9%8A%D8%B3-%D9%84%D8%A7%D9%86%D9%81%D8%AC%D8%A7%D8%B1-%D9%81%D9%8A-%D8%B9%D8%B3%D9%82%D9%84%D8%A7%D9%86",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 239,
+          "excerpt_chars": 390,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": {
+            "claim_reviewed": "احتراق محطة توليد الكهرباء في مدينة عسقلان داخل إسرائيل، بعد هجوم صاروخي شنه الحوثيون.",
+            "label": "misleading",
+            "date_published": "2024-12-25T16:56:38+03:00"
+          },
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/Iran",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 44,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "Masrawy",
+          "link": "https://www.masrawy.com/news/news_publicaffairs/details/2026/9/17/3049433/%D9%85%D9%86-%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%8A%D8%B1%D8%A7%D8%AF-%D8%A5%D9%84%D9%89-%D8%A7%D9%84%D8%AA%D8%B5%D9%86%D9%8A%D8%B9-%D9%83%D9%8A%D9%81-%D8%B7%D9%88%D8%B1-%D8%A7%D9%84%D8%AD%D9%88%D8%AB%D9%8A%D9%88%D9%86-%D9%82%D8%AF%D8%B1%D8%A7%D8%AA%D9%87%D9%85-%D8%A7%D9%84%D8%B9%D8%B3%D9%83%D8%B1%D9%8A%D8%A9-%D8%A8%D8%AF%D8%B9%D9%85-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86%D9%8A-",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 5636,
+          "excerpt_chars": 1784,
+          "same_event": true,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "supports"
+        },
+        {
+          "publisher": "BBC",
+          "link": "https://www.bbc.com/arabic/articles/cqvgyvpj8dzvo",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 10414,
+          "excerpt_chars": 1799,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "related_other"
+        },
+        {
+          "publisher": "Arabi21",
+          "link": "https://arabi21.com/story/1789136/%D8%A7%D9%84%D8%AD%D9%88%D8%AB%D9%8A%D9%88%D9%86-%D9%8A%D9%86%D8%AA%D9%82%D9%84%D9%88%D9%86-%D9%85%D9%86-%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%8A%D8%B1%D8%A7%D8%AF-%D8%A5%D9%84%D9%89-%D8%A7%D9%84%D8%AA%D8%B5%D9%86%D9%8A%D8%B9-NYT-%D8%AA%D9%83%D8%B4%D9%81-%D8%A7%D9%84%D8%AA%D8%B7%D9%88%D8%B1-%D8%A7%D9%84%D8%B9%D8%B3%D9%83%D8%B1%D9%8A-%D9%84%D9%84%D8%AC%D9%85%D8%A7%D8%B9%D8%A9",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 8146,
+          "excerpt_chars": 1800,
+          "same_event": true,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "supports"
+        },
+        {
+          "publisher": "الساحل الغربي",
+          "link": "https://www.alsahil.net/news42206.html",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 4274,
+          "excerpt_chars": 1795,
+          "same_event": true,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "supports"
+        },
+        {
+          "publisher": "dailybeirut.com",
+          "link": "https://dailybeirut.com/%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85/%D8%A7%D9%84%D9%8A%D9%85%D9%86-%D9%8A%D8%B7%D8%A7%D9%84%D8%A8-%D8%A8%D9%85%D9%88%D9%82%D9%81-%D8%AF%D9%88%D9%84%D9%8A-%D8%B5%D8%A7%D8%B1%D9%85-%D9%84%D9%82%D8%B7%D8%B9-%D8%A5%D9%85%D8%AF%D8%A7%D8%AF%D8%A7%D8%AA-%D8%A7%D9%84%D8%A3%D8%B3%D9%84%D8%AD%D8%A9-%D8%B9%D9%86-%D8%A7%D9%84%D8%AD%D9%88%D8%AB%D9%8A%D9%8A%D9%86/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 2044,
+          "excerpt_chars": 1488,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "related_other"
+        },
+        {
+          "publisher": "Barran",
+          "link": "https://barran.press/news/17004",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 3786,
+          "excerpt_chars": 1775,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "related_other"
+        },
+        {
+          "publisher": "Al Jazeera",
+          "link": "https://www.aljazeera.net/blogs/2026/9/27/%D9%85%D8%A7%D8%B0%D8%A7-%D9%83%D8%B4%D9%81%D8%AA-%D8%AD%D8%B1%D8%A8-%D8%A7%D9%84%D9%8A%D9%85%D9%86-%D8%B9%D9%86-%D8%AA%D8%B1%D8%B3%D8%A7%D9%86%D8%A9-%D8%A7%D9%84%D8%AD%D9%88%D8%AB%D9%8A%D9%8A%D9%86",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 6977,
+          "excerpt_chars": 1800,
+          "same_event": true,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "supports"
+        },
+        {
+          "publisher": "صحيفة 4 مايو",
+          "link": "https://www.4may.net/Mnews/162870",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 1970,
+          "excerpt_chars": 1213,
+          "same_event": true,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "supports"
+        }
+      ],
+      "docs_before": 15,
+      "docs_after": 12,
+      "verdict": "confirmed",
+      "primary_source": false,
+      "icon": "✅",
+      "evidence": [
+        {
+          "publisher": "Masrawy",
+          "link": "https://www.masrawy.com/news/news_publicaffairs/details/2026/9/17/3049433/%D9%85%D9%86-%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%8A%D8%B1%D8%A7%D8%AF-%D8%A5%D9%84%D9%89-%D8%A7%D9%84%D8%AA%D8%B5%D9%86%D9%8A%D8%B9-%D9%83%D9%8A%D9%81-%D8%B7%D9%88%D8%B1-%D8%A7%D9%84%D8%AD%D9%88%D8%AB%D9%8A%D9%88%D9%86-%D9%82%D8%AF%D8%B1%D8%A7%D8%AA%D9%87%D9%85-%D8%A7%D9%84%D8%B9%D8%B3%D9%83%D8%B1%D9%8A%D8%A9-%D8%A8%D8%AF%D8%B9%D9%85-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86%D9%8A-",
+          "stance": "supports",
+          "excerpt": "وأشار إلى أن إيران وحزب الله استثمرا بشكل كبير في رفع مستوى مهارات الحوثيين في تصنيع الأسلحة واستخدامها، مضيفًا أن الجماعة أصبحت قادرة بصورة متزايدة على تصنيع أشياء كثيرة محليًا",
+          "detail": "",
+          "correct_form": "",
+          "as_of": "",
+          "detail_kind": ""
+        },
+        {
+          "publisher": "Arabi21",
+          "link": "https://arabi21.com/story/1789136/%D8%A7%D9%84%D8%AD%D9%88%D8%AB%D9%8A%D9%88%D9%86-%D9%8A%D9%86%D8%AA%D9%82%D9%84%D9%88%D9%86-%D9%85%D9%86-%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%8A%D8%B1%D8%A7%D8%AF-%D8%A5%D9%84%D9%89-%D8%A7%D9%84%D8%AA%D8%B5%D9%86%D9%8A%D8%B9-NYT-%D8%AA%D9%83%D8%B4%D9%81-%D8%A7%D9%84%D8%AA%D8%B7%D9%88%D8%B1-%D8%A7%D9%84%D8%B9%D8%B3%D9%83%D8%B1%D9%8A-%D9%84%D9%84%D8%AC%D9%85%D8%A7%D8%B9%D8%A9",
+          "stance": "supports",
+          "excerpt": "وتابعت \"نيويورك تايمز\" أن الأدلة المتاحة تشير إلى تنامي طموح الحوثيين",
+          "detail": "",
+          "correct_form": "",
+          "as_of": "",
+          "detail_kind": ""
+        },
+        {
+          "publisher": "الساحل الغربي",
+          "link": "https://www.alsahil.net/news42206.html",
+          "stance": "supports",
+          "excerpt": "دور إيراني ممتد في بناء القدرات\nيكشف التقرير أن التعاون لم يقتصر على التدريب، بل امتد إلى الإشراف المباشر من خبراء في الحرس الثوري الإيراني وحزب الله على تطوير البنية العسكرية للحوثيين",
+          "detail": "",
+          "correct_form": "",
+          "as_of": "",
+          "detail_kind": ""
+        },
+        {
+          "publisher": "Al Jazeera",
+          "link": "https://www.aljazeera.net/blogs/2026/9/27/%D9%85%D8%A7%D8%B0%D8%A7-%D9%83%D8%B4%D9%81%D8%AA-%D8%AD%D8%B1%D8%A8-%D8%A7%D9%84%D9%8A%D9%85%D9%86-%D8%B9%D9%86-%D8%AA%D8%B1%D8%B3%D8%A7%D9%86%D8%A9-%D8%A7%D9%84%D8%AD%D9%88%D8%AB%D9%8A%D9%8A%D9%86",
+          "stance": "supports",
+          "excerpt": "فقد أدت عملية التحول العسكري التي خاضتها الجماعة إلى ظهور قوة تجمع بين الصواريخ الباليستية، وصواريخ كروز، والطائرات المسيرة الهجومية، والزوارق غير المأهولة، وأنظمة أخرى",
+          "detail": "",
+          "correct_form": "",
+          "as_of": "",
+          "detail_kind": ""
+        },
+        {
+          "publisher": "صحيفة 4 مايو",
+          "link": "https://www.4may.net/Mnews/162870",
+          "stance": "supports",
+          "excerpt": "كشف تحقيق استخباري عن تطوير مليشيا الحوثي لشبكة اتصالات عسكرية جديدة تجمع بين الألياف الضوئية والاتصالات اللاسلكية، مرتبطة مباشرة بالحرس الثوري الإيراني",
+          "detail": "",
+          "correct_form": "",
+          "as_of": "",
+          "detail_kind": ""
+        }
+      ],
+      "correction": null,
+      "refuted_by": null,
+      "nearest": null,
+      "note": "",
+      "named_as": null,
+      "superseded_note": "",
+      "superseded": [],
+      "image_candidates": [],
+      "sources_read": 12,
+      "dropped_reason": null,
+      "model_calls": 1,
+      "status": "offered",
+      "selection_issue": 1248
+    },
+    {
+      "id": "abb0c5050bf4",
+      "text": "الحوثيون أنشأوا جهاز مخابرات متكامل مستفيدين من خبرات حزب الله في هذا المجال",
+      "claim": "الحوثيون أنشأوا جهاز مخابرات متكامل مستفيدين من خبرات حزب الله في هذا المجال",
+      "framing": "direct",
+      "circulating_context": "",
+      "asserted": "",
+      "queries": [
+        "الحوثيون مخابرات حزب الله تحقق",
+        "الحوثيون جهاز مخابرات حزب الله خبرات",
+        "Houthis intelligence apparatus Hezbollah expertise"
+      ],
+      "site_queries": [
+        "الحوثيون حزب الله site:misbar.com",
+        "الحوثيون حزب الله site:fatabyyano.net",
+        "الحوثيون حزب الله site:factcheck.afp.com",
+        "الحوثيون حزب الله site:reuters.com/fact-check"
+      ],
+      "engines": [
+        "brave_web",
+        "google_news"
+      ],
+      "windows": [
+        "days",
+        "days",
+        "days"
+      ],
+      "brave_skipped": null,
+      "cache_hits": 0,
+      "checker_skipped": [
+        {
+          "publisher": "Misbar",
+          "link": "https://misbar.com/qna/2023/11/28/%D9%85%D9%86-%D9%87%D9%85-%D8%A7%D9%84%D8%AD%D9%88%D8%AB%D9%8A%D9%88%D9%86",
+          "title": "الصفحة الرئيسية | مسبار"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%82%D8%AF%D9%8A%D9%85%D8%8C-%D9%88%D9%8A%D8%B9%D9%88%D8%AF-%D8%A5%D9%84%D9%89-%D8%A7%D9%84%D9%82%D8%B5%D9%81-%D8%A7%D9%84%D8%A3%D9%85%D8%B1/",
+          "title": "هذا المقطع قديم، ويعود إلى القصف الأمريكي على مقرات الحشد الشعبي في العراق عام 2020، ولا يصور مشاهد من القصف الأمريكي ال"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%85%D9%8F%D9%88%D9%84%D8%AF-%D8%A8%D8%A7%D9%84%D8%B0%D9%83%D8%A7%D8%A1-%D8%A7%D9%84%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A-%D8%AD/",
+          "title": "هذا الفيديو مُولد بواسطة الذكاء الاصطناعي، ولا يُظهر استهداف الحوثيين لحاملة طائرات أمريكية - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%85%D9%82%D8%AA%D8%A8%D8%B3-%D9%85%D9%86-%D8%A7%D9%84%D9%84%D8%B9%D8%A8%D8%A9-%D8%A7%D9%84%D8%AD%D8%B1%D8%A8%D9%8A%D8%A9-%D8%A2%D8%B1%D9%85/",
+          "title": "هذا المقطع مقتبس من اللعبة الحربية آرما 3، ولا يصور لحظة استهاف الحوثي حاملة الطائرات الأمريكية إيزنهاور مؤخرًا - فتبينو"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%85%D8%AA%D8%AF%D8%A7%D9%88%D9%84-%D9%85%D9%86%D8%B0-%D8%B9%D8%A7%D9%85-2022%D8%8C-%D9%88%D9%84%D8%A7-%D9%8A%D8%B5%D9%88%D8%B1-%D8%A7%D9%84/",
+          "title": "هذا المقطع متداول منذ عام 2022، ولا يصور الاشتباكات الأخيرة على الحدود السورية اللبنانية - فتبينوا"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.C9938ZQ",
+          "title": "2025 Riyadh fire video falsely shared as Houthi attack on Saudi airport | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.36K83ME",
+          "title": "Posts recycle Yemeni port blaze footage after Israeli airstrikes | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/Samad-UTHMAN",
+          "title": "Samad UTHMAN | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.34HA3JH",
+          "title": "Altered image claimed to be 'Red Sea attack' originally shows two old pictures | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/AFP-Middle-East-North-Africa",
+          "title": "AFP Middle East & North Africa | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.34HQ93T",
+          "title": "Old photo of burning ship falsely portrayed as 'Red Sea incident in 2024' | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.36EL6FP",
+          "title": "Months-old photo of oil tanker struck by Huthi rebels falsely linked to August 2024 attack on Sounion tanker | Fact Chec"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.62YC8CR",
+          "title": "Video shows fire at power plant in Yemen, not Israel refinery hit by Iran | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.34JW78N",
+          "title": "Old photo from Iranian news agency falsely shared as 'Yemen's attack on Greek ship' | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/Middle-East",
+          "title": "Middle East | Fact Check"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/ZOKYJZICOBJTTM7JWEDC46GJ6Y-2025-09-15/",
+          "title": "تقصي الحقيقة: فيديو قديم لا يعرض اقتحام أنصار رئيس سابق القصر الرئاسي في اليمن في 2025 | رويترز"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/N75F36TWUZLODDN2XKQNXRKTO4-2025-05-23/",
+          "title": "تقصي الحقيقة: صورة تظهر طائرة مشتعلة بعد القصف الإسرائيلي لمطار صنعاء منتجة بالذكاء الاصطناعي | رويترز"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/KEKYV4E52JKDBPQHWRFC6UGLAY-2024-11-13/",
+          "title": "فيديو لا يعرض اشتباكات بحرية بين الحوثيين والبحرية الأمريكية في البحر الأحمر في نوفمبر 2024 | رويترز"
+        }
+      ],
+      "read_docs": [
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D9%87-%D8%A7%D9%84%D8%B5%D9%88%D8%B1%D8%A9-%D9%82%D8%AF%D9%8A%D9%85%D8%A9-%D9%88%D9%84%D9%8A%D8%B3%D8%AA-%D9%84%D9%84%D8%B3%D9%81%D9%8A%D9%86%D8%A9-%D8%AC%D8%A7%D9%84%D8%A7%D9%83%D8%B3/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 220,
+          "excerpt_chars": 220,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/QRZDX65HUFKVFHSL7EE3CHYUZE-2025-09-18/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 364,
+          "excerpt_chars": 364,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2024/10/27/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%85%D9%86-%D8%A7%D9%84%D9%8A%D9%85%D9%86-%D9%88%D9%84%D9%8A%D8%B3-%D9%84%D8%A7%D8%B3%D8%AA%D9%87%D8%AF%D8%A7%D9%81-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%85%D8%B5%D9%86%D8%B9%D8%A7-%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D8%A7-%D9%81%D9%8A-%D8%AD%D9%8A%D9%81%D8%A7",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 212,
+          "excerpt_chars": 363,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": {
+            "claim_reviewed": "مقطع فيديو قالوا إنه لقصف حزب الله لأول مرة مصنع للبتروكيماويات جنوبي حيفا في إسرائيل.",
+            "label": "misleading",
+            "date_published": "2024-10-27T13:50:46+03:00"
+          },
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Beirut 24",
+          "link": "https://www.beirut24.org/2026/09/24/%D8%A7%D9%84%D8%AD%D9%88%D8%AB%D9%8A%D9%88%D9%86-%D9%82%D8%B1%D9%8A%D8%A8%D9%8B%D8%A7-%D9%81%D9%8A-%D9%84%D8%A8%D9%86%D8%A7%D9%86/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 4247,
+          "excerpt_chars": 1775,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Majalla",
+          "link": "https://www.majalla.com/node/324989/%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9/%D8%A7%D9%84%D8%AD%D9%88%D8%AB%D9%8A%D9%88%D9%86-%D9%88%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D8%A7%D9%84%D8%A8%D8%AF%D8%A7%D9%8A%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AA%D8%B4%D8%A7%D8%A8%D9%87%D8%A9-%D9%88%D8%A7%D9%84%D9%85%D8%B5%D9%8A%D8%B1-%D8%A7%D9%84%D9%85%D8%AA%D9%82%D8%A7%D8%B1%D8%A8",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 9688,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "related_other"
+        },
+        {
+          "publisher": "Al Jazeera",
+          "link": "https://www.aljazeera.net/news/2024/12/25/%D8%A7%D9%84%D8%AD%D9%88%D8%AB%D9%8A%D9%88%D9%86-%D8%A3%D9%84%D9%82%D9%8A%D9%86%D8%A7-%D8%A7%D9%84%D9%82%D8%A8%D8%B6-%D8%B9%D9%84%D9%89-%D8%B9%D9%85%D9%84%D8%A7%D8%A1",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2040,
+          "excerpt_chars": 739,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Al-Ain",
+          "link": "https://al-ain.com/article/houthi-yemen-intelligence-service",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 8301,
+          "excerpt_chars": 1800,
+          "same_event": true,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "supports"
+        },
+        {
+          "publisher": "Janoubia",
+          "link": "https://janoubia.com/2026/09/22/%D8%A7%D9%84%D8%AD%D9%88%D8%AB%D9%8A%D9%88%D9%86-%D9%81%D9%8A-%D8%A7%D9%84%D8%B9%D8%B1%D8%A7%D9%82-%D8%AA%D9%86%D8%B3%D9%8A%D9%82-%D9%85%D8%B9-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%88/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2007,
+          "excerpt_chars": 861,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "related_other"
+        },
+        {
+          "publisher": "Hadaracenter",
+          "link": "https://hadaracenter.com/%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%88%D8%A7%D9%84%D8%A7%D8%AE%D8%AA%D8%B1%D8%A7%D9%82-%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%AE%D8%A8%D8%A7%D8%B1%D8%A7%D8%AA%D9%8A-%D8%A7%D9%84%D8%A5%D8%B3/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 20000,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "الحرة",
+          "link": "https://alhurra.com/en/43451",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 3747,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Counter Extremism Project",
+          "link": "https://www.counterextremism.com/content/how-houthis-built-their-arsenal-defense-and-intelligence-procurement",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 20000,
+          "excerpt_chars": 1800,
+          "same_event": true,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "supports"
+        }
+      ],
+      "docs_before": 13,
+      "docs_after": 11,
+      "verdict": "not_found",
+      "primary_source": false,
+      "icon": "🔍",
+      "evidence": [
+        {
+          "publisher": "Al-Ain",
+          "link": "https://al-ain.com/article/houthi-yemen-intelligence-service",
+          "stance": "supports",
+          "excerpt": "خضع نشوان لتدريبات على يد حزب الله في لبنان، وفيلق القدس التابع للحرس الثوري في إيران.\n[…]\nعمل في بناء خلايا استخباراتية للمتمردين الحوثيين (تحت إشراف حزب الله) في عام 2006.",
+          "detail": "",
+          "correct_form": "",
+          "as_of": "",
+          "detail_kind": ""
+        },
+        {
+          "publisher": "Counter Extremism Project",
+          "link": "https://www.counterextremism.com/content/how-houthis-built-their-arsenal-defense-and-intelligence-procurement",
+          "stance": "supports",
+          "excerpt": "With training and arms from the \"axis of resistance,\" including designated terrorist groups Lebanese Hezbollah and Iran's Islamic Revolutionary Guards Corps (IRGC), the Houthis managed to hold the coalition forces at a stalemate",
+          "detail": "",
+          "correct_form": "",
+          "as_of": "",
+          "detail_kind": ""
+        }
+      ],
+      "correction": null,
+      "refuted_by": null,
+      "nearest": null,
+      "note": "تأييد من مصادر غير معروفة فقط",
+      "named_as": null,
+      "superseded_note": "",
+      "superseded": [],
+      "image_candidates": [],
+      "sources_read": 11,
+      "dropped_reason": "تأييد من مصادر غير معروفة فقط",
+      "model_calls": 1,
+      "status": "dropped",
+      "selection_issue": null
+    },
+    {
+      "id": "411341bf3602",
+      "text": "تركت الحكومة الشرعية جنودها الذين واجهوا الحوثة في بداية الحرب بلا سلاح ولا رواتب فتشتتوا وسافر بعضهم إلى السعودية",
+      "claim": "تركت الحكومة الشرعية جنودها الذين واجهوا الحوثة في بداية الحرب بلا سلاح ولا رواتب فتشتتوا وسافر بعضهم إلى السعودية",
+      "framing": "direct",
+      "circulating_context": "",
+      "asserted": "",
+      "queries": [
+        "جنود الشرعية بلا سلاح رواتب تحقق",
+        "جنود الحكومة الشرعية بلا سلاح رواتب",
+        "Yemeni government soldiers lack weapons salaries"
+      ],
+      "site_queries": [
+        "الحكومة الشرعية الحوثة السعودية site:misbar.com",
+        "الحكومة الشرعية الحوثة السعودية site:fatabyyano.net",
+        "الحكومة الشرعية الحوثة Saudi Arabia site:factcheck.afp.com",
+        "الحكومة الشرعية الحوثة Saudi Arabia site:reuters.com/fact-check"
+      ],
+      "engines": [
+        "brave_web",
+        "google_news"
+      ],
+      "windows": [
+        "days",
+        "wide",
+        "days",
+        "wide",
+        "days",
+        "wide"
+      ],
+      "brave_skipped": null,
+      "cache_hits": 0,
+      "checker_skipped": [
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2025/04/17/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%82%D8%AF%D9%8A%D9%85-%D9%88%D9%84%D9%8A%D8%B3-%D9%84%D8%A7%D8%B3%D8%AA%D8%B9%D8%AF%D8%A7%D8%AF%D8%A7%D8%AA-%D8%AD%D8%AF%D9%8A%D8%AB%D8%A9-%D9%84%D9%82%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D8%AD%D9%83%D9%88%D9%85%D8%A9-%D8%A7%D9%84%D9%8A%D9%85%D9%86%D9%8A%D8%A9-%D9%84%D8%AE%D9%88%D8%B6-%D9%85%D8%B9%D8%A7%D8%B1%D9%83-%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9-%D8%B6%D8%AF-%D8%A7%D9%84%D8%AD%D9%88%D8%AB%D9%8A%D9%8A%D9%86",
+          "title": "الفيديو قديم وليس لاستعدادات حديثة لقوات الحكومة اليمنية لخوض معارك جديدة ضد الحوثيين"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2024/12/26/%D8%A7%D9%84%D8%AA%D8%B5%D9%85%D9%8A%D9%85-%D9%85%D9%81%D8%A8%D8%B1%D9%83-%D9%88%D9%86%D8%AA%D9%86%D9%8A%D8%A7%D9%87%D9%88-%D9%84%D9%85-%D9%8A%D8%AF%D8%B9-%D9%84%D8%AF%D8%B9%D9%85-%D8%A7%D9%84%D8%AC%D9%88%D9%84%D8%A7%D9%86%D9%8A-%D9%81%D9%8A-%D8%A5%D8%AF%D8%A7%D8%B1%D8%A9-%D8%A7%D9%84%D8%AD%D9%83%D9%88%D9%85%D8%A9-%D8%A7%D9%84%D8%B3%D9%88%D8%B1%D9%8A%D8%A9-%D8%A7%D9%84%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9",
+          "title": "التصميم مفبرك ونتنياهو لم يدعُ لدعم أحمد الشرع في إدارة الحكومة السورية الجديدة"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/en/",
+          "title": "موقع مكافحة الأخبار والمعلومات الكاذبة مسبار"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/qna/2024/12/29/%D9%84%D9%85%D8%A7%D8%B0%D8%A7-%D8%B3%D9%85%D9%8A-%D8%A7%D9%84%D9%82%D9%88%D8%B7%D9%8A%D9%8A%D9%86-%D8%A8%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D8%A7%D8%B3%D9%85",
+          "title": "لماذا سمي القوطيين بهذا الاسم؟"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%84%D9%84%D9%85%D8%AA%D8%AD%D8%AF%D8%AB-%D8%A8%D8%A7%D8%B3%D9%85-%D8%A7%D9%84%D9%82%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%B3%D9%84%D8%AD/",
+          "title": "هذا المقطع للمتحدث باسم القوات المسلحة اليمنية يحيى سريع قديم ويتم تداوله على أنه حديث - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%82%D8%AF%D9%8A%D9%85-%D9%85%D9%86-%D8%B9%D8%A7%D9%85-2017-%D9%88%D9%84%D8%A7-%D9%8A%D8%B8%D9%87%D8%B1-%D8%A7%D8%B4%D8%AA%D8%A8%D8%A7%D9%83/",
+          "title": "هذا المقطع قديم من عام 2017 ولا يظهر اشتباكات حديثة في اليمن - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D8%A7%D9%84%D8%B5%D9%88%D9%85%D8%A7%D9%84-%D8%AA%D8%B9%D9%84%D9%86-%D9%8A%D9%88%D9%85-%D8%A3%D9%85%D8%B3-%D8%A7%D9%84%D8%AA%D8%AE%D9%84%D8%B5-%D9%85%D9%86-%D9%83%D8%A7%D9%81%D8%A9-%D8%B2/",
+          "title": "الصومال تعلن يوم أمس التخلص من كافة ديونها للبنك الدولي ... زائف جزئيا - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%8A%D8%B8%D9%87%D8%B1-%D8%A7%D8%B3%D8%AA%D9%87%D8%AF%D8%A7%D9%81-%D9%81%D8%B1%D9%82%D8%A7%D8%B7%D8%A9-%D8%B3%D8%B9%D9%88%D8%AF%D9%8A/",
+          "title": "هذا الفيديو يظهر استهداف فرقاطة سعودية عام 2017 من قبل الحوثيون وليست مدمّرة أمريكية - فتبينوا"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/Samad-UTHMAN",
+          "title": "Samad UTHMAN | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/",
+          "title": "Fact Check"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/al-hadath-impersonator-posted-fake-report-about-strike-mossad-2025-04-29/",
+          "title": "Fact Check: Al-Hadath impersonator posted fake report about strike on Mossad | Reuters"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/syrias-president-sharaa-incorrectly-identified-photo-man-holding-severed-heads-2026-04-28/",
+          "title": "Fact Check: Syria’s President Sharaa incorrectly identified in photo of man holding severed heads | Reuters"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/photo-damaged-building-predates-killing-hamas-chief-ismail-haniyeh-2024-08-06/",
+          "title": "Fact Check: Photo of damaged building predates killing of Hamas chief Ismail Haniyeh | Reuters"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/video-iran-missile-barrage-tel-aviv-is-ai-generated-say-experts-2026-03-10/",
+          "title": "Fact Check: Video of ‘Iran missile barrage’ on Tel Aviv is AI-generated, say experts | Reuters"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/image-does-not-show-syrias-ahmed-al-sharaa-meeting-israels-netanyahu-2025-07-10/",
+          "title": "Fact Check: Image does not show Syria’s Ahmed al-Sharaa meeting Israel’s Netanyahu | Reuters"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/behind-the-scenes-footage-film-shared-palestinians-faking-injuries-2023-11-17/",
+          "title": "Fact Check: Behind-the-scenes footage of a film shared as Palestinians faking injuries | Reuters"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/cnn-2024-report-misrepresented-evidence-iran-hit-israels-mossad-base-2025-07-15/",
+          "title": "Fact Check: CNN 2024 report misrepresented as evidence Iran hit Israel’s Mossad base | Reuters"
+        }
+      ],
+      "read_docs": [
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D9%87-%D8%A7%D9%84%D8%B5%D9%88%D8%B1%D8%A9-%D9%85%D8%AA%D8%AF%D8%A7%D9%88%D9%84%D8%A9-%D9%85%D9%86%D8%B0-%D8%B9%D8%A7%D9%85-2017-%D9%88%D9%84%D8%A7-%D8%AA%D8%A8%D9%8A%D9%86-%D8%B7%D8%B1/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 446,
+          "excerpt_chars": 446,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/amp/factcheck/2025/12/12/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%85%D9%81%D8%A8%D8%B1%D9%83-%D9%88%D9%84%D9%8A%D8%B3-%D9%84%D8%A5%D8%AF%D8%A7%D9%86%D8%A9-%D8%A8%D9%86-%D8%B3%D9%84%D9%85%D8%A7%D9%86-%D8%AA%D8%AD%D8%B1%D9%83%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AC%D9%84%D8%B3-%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D9%82%D8%A7%D9%84%D9%8A-%D8%A7%D9%84%D8%A3%D8%AE%D9%8A%D8%B1%D8%A9-%D9%81%D9%8A-%D8%AC%D9%86%D9%88%D8%A8-%D8%A7%D9%84%D9%8A%D9%85%D9%86",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 241,
+          "excerpt_chars": 241,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/AFP-Saudi-Arabia",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 323,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "Al Jazeera",
+          "link": "https://www.aljazeera.net/politics/2026/5/4/%D8%A7%D9%84%D8%B1%D9%88%D8%A7%D8%AA%D8%A8-%D9%88%D8%A7%D9%84%D8%AA%D8%B9%D8%AF%D8%A7%D8%AF-%D9%88%D8%A7%D9%84%D8%AA%D8%B4%D9%83%D9%8A%D9%84%D8%A7%D8%AA",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 4369,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "Almontasaf",
+          "link": "https://www.almontasaf.net/news143591.html",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 1056,
+          "excerpt_chars": 1056,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "related_other"
+        },
+        {
+          "publisher": "shafaq.com",
+          "link": "https://shafaq.com/ar/%D8%A7%D9%84%D9%85%D9%86%D8%B7%D9%82%D8%A9-%D9%88%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85/3-%D8%A7%D8%B3%D8%AA%D8%B1%D8%A7%D8%AA%D9%8A%D8%AC%D9%8A%D8%A7%D8%AA-%D9%84%D9%84%D8%AA%D8%B9%D8%A7%D9%85%D9%84-%D9%85%D8%B9-%D8%B7%D9%87%D8%B1%D8%A7%D9%86-%D8%AA%D8%B1%D9%85%D8%A8-%D9%8A%D8%B1%D8%A7%D9%86-%D9%84%D8%A7-%D8%AA%D8%B3%D8%AA%D8%B7%D9%8A%D8%B9-%D8%AF%D9%81%D8%B9-%D8%B1%D9%88%D8%A7%D8%AA%D8%A8-%D8%AC%D9%86%D9%88%D8%AF%D9%87%D8%A7",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 973,
+          "excerpt_chars": 973,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "اندبندنت عربية",
+          "link": "https://www.independentarabia.com/node/635861/%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9/%D8%AA%D9%82%D8%A7%D8%B1%D9%8A%D8%B1/%D8%AF%D8%A7%D8%AE%D9%84-%D8%AD%D9%8A%D8%A7%D8%A9-%D8%AC%D9%86%D9%88%D8%AF-%D9%84%D8%A8%D9%86%D8%A7%D9%86-%D8%AD%D8%B1%D8%A7%D8%B3-%D8%A7%D9%84%D9%88%D8%B7%D9%86-%D8%A8%D8%B1%D8%A7%D8%AA%D8%A8-%D9%84%D8%A7-%D9%8A%D8%B7%D8%B9%D9%85-%D8%A3%D9%88%D9%84%D8%A7%D8%AF%D9%87%D9%85",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 10560,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "كريتر نت",
+          "link": "https://cratar.net/archives/414613",
+          "orig_link": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE9Sa3RhNDJwbWlwMUhHRTJneTE0QTQzOWNuODBQSk81YmR6a2xRQW5OT2VZNEZQS2hFZklzdURZQ1l1aE51ZkhJektB?oc=5",
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 231,
+          "excerpt_chars": 231,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "related_other"
+        },
+        {
+          "publisher": "Almawqeapost",
+          "link": "https://almawqeapost.net/reports/20684",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 3650,
+          "excerpt_chars": 1667,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "related_other"
+        },
+        {
+          "publisher": "Al Jazeera",
+          "link": "https://www.aljazeera.com/economy/2026/5/9/financial-struggles-haunt-yemens-army-as-wage-payments-stall",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 4635,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "related_other"
+        },
+        {
+          "publisher": "AGSI",
+          "link": "https://agsi.org/analysis/yemeni-soldiers-and-the-battle-for-pay/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 9705,
+          "excerpt_chars": 1408,
+          "same_event": true,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "supports"
+        }
+      ],
+      "docs_before": 16,
+      "docs_after": 11,
+      "verdict": "not_found",
+      "primary_source": false,
+      "icon": "🔍",
+      "evidence": [
+        {
+          "publisher": "AGSI",
+          "link": "https://agsi.org/analysis/yemeni-soldiers-and-the-battle-for-pay/",
+          "stance": "supports",
+          "excerpt": "hundreds of Yemeni protesters, including soldiers from the Yemeni army and fighters from militias allied with the government of President Abd Rabbu Mansour Hadi, stormed the government headquarters in Aden demanding unpaid salaries. Similar protests occurred on the Yemeni-Saudi border in April 2020, when soldiers demanded the payment of delayed salaries from Saudi Arabia",
+          "detail": "",
+          "correct_form": "",
+          "as_of": "",
+          "detail_kind": ""
+        }
+      ],
+      "correction": null,
+      "refuted_by": null,
+      "nearest": null,
+      "note": "",
+      "named_as": null,
+      "superseded_note": "",
+      "superseded": [],
+      "image_candidates": [],
+      "sources_read": 10,
+      "dropped_reason": "لا أثر ولا حدث قريب موثَّق",
+      "model_calls": 1,
+      "status": "dropped",
+      "selection_issue": null
+    },
+    {
+      "id": "e4f623ec1b66",
+      "text": "لم تهتم الحكومة الشرعية بإنشاء جهاز أمني استخباراتي ولا بنقل قطاع الاتصالات إلى مناطقها",
+      "claim": "لم تهتم الحكومة الشرعية بإنشاء جهاز أمني استخباراتي ولا بنقل قطاع الاتصالات إلى مناطقها",
+      "framing": "direct",
+      "circulating_context": "",
+      "asserted": "",
+      "queries": [
+        "الحكومة الشرعية جهاز استخبارات اتصالات تحقق",
+        "الحكومة الشرعية جهاز استخباراتي اتصالات",
+        "Yemeni government intelligence apparatus telecommunications"
+      ],
+      "site_queries": [
+        "الحكومة الشرعية site:misbar.com",
+        "الحكومة الشرعية site:fatabyyano.net",
+        "الحكومة الشرعية site:factcheck.afp.com",
+        "الحكومة الشرعية site:reuters.com/fact-check"
+      ],
+      "engines": [
+        "brave_web",
+        "google_news"
+      ],
+      "windows": [
+        "days",
+        "days",
+        "days"
+      ],
+      "brave_skipped": null,
+      "cache_hits": 0,
+      "checker_skipped": [
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2024/12/26/%D8%A7%D9%84%D8%AA%D8%B5%D9%85%D9%8A%D9%85-%D9%85%D9%81%D8%A8%D8%B1%D9%83-%D9%88%D9%86%D8%AA%D9%86%D9%8A%D8%A7%D9%87%D9%88-%D9%84%D9%85-%D9%8A%D8%AF%D8%B9-%D9%84%D8%AF%D8%B9%D9%85-%D8%A7%D9%84%D8%AC%D9%88%D9%84%D8%A7%D9%86%D9%8A-%D9%81%D9%8A-%D8%A5%D8%AF%D8%A7%D8%B1%D8%A9-%D8%A7%D9%84%D8%AD%D9%83%D9%88%D9%85%D8%A9-%D8%A7%D9%84%D8%B3%D9%88%D8%B1%D9%8A%D8%A9-%D8%A7%D9%84%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9",
+          "title": "التصميم مفبرك ونتنياهو لم يدعُ لدعم أحمد الشرع في إدارة الحكومة السورية الجديدة"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/amp/factcheck/2026/01/08/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%84%D9%8A%D8%B3-%D9%84%D8%AF%D8%AE%D9%88%D9%84-%D9%82%D9%88%D8%A7%D8%AA-%D8%AF%D8%B1%D8%B9-%D8%A7%D9%84%D9%88%D8%B7%D9%86-%D8%A5%D9%84%D9%89-%D8%B9%D8%AF%D9%86-%D8%B9%D9%82%D8%A8-%D8%A7%D9%86%D8%B3%D8%AD%D8%A7%D8%A8-%D9%82%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D9%82%D8%A7%D9%84%D9%8A",
+          "title": "الفيديو ليس لدخول قوات درع الوطن إلى عدن عقب انسحاب قوات الانتقالي"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2025/05/23/%D8%B1%D8%AF%D9%88%D8%AF-%D8%A7%D9%84%D9%81%D8%B9%D9%84-%D8%A7%D9%84%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84%D9%8A%D8%A9-%D8%B9%D9%84%D9%89-%D8%B9%D9%85%D9%84%D9%8A%D8%A9-%D9%88%D8%A7%D8%B4%D9%86%D8%B7%D9%86-%D8%A8%D9%8A%D9%86-%D8%AA%D8%A8%D9%86%D9%8A-%D8%B3%D8%B1%D8%AF%D9%8A%D8%A9-%D8%A7%D9%84%D8%B6%D8%AD%D9%8A%D8%A9-%D9%88%D8%A5%D9%86%D9%83%D8%A7%D8%B1-%D8%A7%D9%84%D9%85%D8%AC%D8%A7%D8%B2%D8%B1-%D9%81%D9%8A-%D8%BA%D8%B2%D8%A9",
+          "title": "ردود الفعل الإسرائيلية على عملية واشنطن: بين تبني سردية الضحية وإنكار المجازر في غزة"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2025/08/26/%D8%A7%D9%84%D8%AA%D8%B1%D9%83%D9%8A%D8%A8-%D8%A7%D9%84%D8%B3%D9%83%D8%A7%D9%86%D9%8A-%D9%81%D9%8A-%D8%B3%D9%88%D8%B1%D9%8A%D8%A7-%D8%A7%D9%84%D8%A3%D8%B1%D9%82%D8%A7%D9%85-%D9%85%D9%86-%D9%85%D8%AC%D8%B1%D8%AF-%D8%A8%D9%8A%D8%A7%D9%86%D8%A7%D8%AA-%D8%A5%D9%84%D9%89-%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D9%84%D9%84%D8%AA%D8%B6%D9%84%D9%8A%D9%84-%D9%88%D8%A7%D9%84%D8%AA%D9%88%D8%B8%D9%8A%D9%81-%D8%A7%D9%84%D8%B3%D9%8A%D8%A7%D8%B3%D9%8A",
+          "title": "التركيب السكاني في سوريا: الأرقام من مجرد بيانات إلى أدوات للتضليل والتوظيف السياسي"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2025/02/26/%D8%A3%D8%A8%D8%B1%D8%B2-%D8%A7%D9%84%D8%A7%D8%AF%D8%B9%D8%A7%D8%A1%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%B6%D9%84%D9%84%D8%A9-%D8%A7%D9%84%D9%85%D8%B1%D8%AA%D8%A8%D8%B7%D8%A9-%D8%A8%D8%A7%D9%84%D9%85%D8%B9%D8%A7%D8%B1%D9%83-%D8%A7%D9%84%D8%AC%D8%A7%D8%B1%D9%8A%D8%A9-%D9%81%D9%8A-%D8%A7%D9%84%D8%B3%D9%88%D8%AF%D8%A7%D9%86",
+          "title": "أبرز الادعاءات المضللة المرتبطة بالمعارك الجارية في السودان"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2025/09/27/%D8%A7%D9%84%D8%A7%D8%B9%D8%AA%D8%B1%D8%A7%D9%81-%D8%A8%D9%81%D9%84%D8%B3%D8%B7%D9%8A%D9%86-%D9%88%D8%AA%D9%81%D9%86%D9%8A%D8%AF-%D9%85%D8%B2%D8%A7%D8%B9%D9%85-%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84-%D8%B9%D9%86-%D9%87%D9%8A%D9%85%D9%86%D8%A9-%D8%A7%D9%84%D9%85%D8%B3%D9%84%D9%85%D9%8A%D9%86-%D9%81%D9%8A-%D8%A3%D9%88%D8%B1%D9%88%D8%A8%D8%A7",
+          "title": "الاعتراف بفلسطين وتفنيد مزاعم إسرائيل عن \"هيمنة المسلمين\" في أوروبا"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2025/06/16/%D8%B3%D8%B1%D9%82%D8%A9-%D8%A7%D9%84%D9%85%D8%B3%D8%A7%D8%B9%D8%AF%D8%A7%D8%AA-%D9%81%D9%8A-%D8%BA%D8%B2%D8%A9-%D9%85%D8%A7-%D8%AF%D9%88%D8%B1-%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84-%D9%81%D9%8A-%D8%B8%D9%87%D9%88%D8%B1-%D9%88%D8%AF%D8%B9%D9%85-%D9%85%D9%8A%D9%84%D9%8A%D8%B4%D9%8A%D8%A7-%D9%8A%D8%A7%D8%B3%D8%B1-%D8%A3%D8%A8%D9%88-%D8%B4%D8%A8%D8%A7%D8%A8%D8%9F",
+          "title": "سرقة المساعدات في غزة: ما دور إسرائيل في ظهور ودعم ميليشيا ياسر أبو شباب؟"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2024/12/20/%D8%A7%D8%AF%D8%B9%D8%A7%D8%A1%D8%A7%D8%AA-%D9%85%D8%B6%D9%84%D9%84%D8%A9-%D9%88%D8%B2%D8%A7%D8%A6%D9%81%D8%A9-%D8%AD%D9%88%D9%84-%D8%B5%D8%AF%D9%88%D8%B1-%D8%AA%D8%B4%D8%B1%D9%8A%D8%B9%D8%A7%D8%AA-%D9%88%D9%82%D9%88%D8%A7%D9%86%D9%8A%D9%86-%D8%A8%D8%B9%D8%AF-%D8%B3%D9%82%D9%88%D8%B7-%D8%A7%D9%84%D9%86%D8%B8%D8%A7%D9%85-%D9%81%D9%8A-%D8%B3%D9%88%D8%B1%D9%8A%D8%A7",
+          "title": "ادعاءات مضللة وزائفة حول صدور تشريعات وقوانين بعد سقوط النظام في سوريا"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2025/03/12/%D9%83%D9%8A%D9%81-%D8%B3%D8%A7%D9%87%D9%85%D8%AA-%D8%A7%D9%84%D9%85%D8%B9%D9%84%D9%88%D9%85%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%B6%D9%84%D9%84%D8%A9-%D9%81%D9%8A-%D8%AA%D8%A3%D8%AC%D9%8A%D8%AC-%D8%A3%D8%AD%D8%AF%D8%A7%D8%AB-%D8%A7%D9%84%D8%B3%D8%A7%D8%AD%D9%84-%D8%A7%D9%84%D8%B3%D9%88%D8%B1%D9%8A%D8%9F",
+          "title": "كيف ساهمت المعلومات المضللة في تأجيج أحداث الساحل السوري؟"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2025/01/08/%D8%A7%D8%AF%D8%B9%D8%A7%D8%A1%D8%A7%D8%AA-%D9%85%D8%B6%D9%84%D9%84%D8%A9-%D9%85%D8%AA%D8%B9%D9%84%D9%82%D8%A9-%D8%A8%D8%AF%D9%88%D8%B1-%D9%88%D8%AD%D9%82%D9%88%D9%82-%D8%A7%D9%84%D9%85%D8%B1%D8%A3%D8%A9-%D8%AA%D8%AD%D8%AA-%D8%A7%D9%84%D8%A5%D8%AF%D8%A7%D8%B1%D8%A9-%D8%A7%D9%84%D8%B3%D9%88%D8%B1%D9%8A%D8%A9-%D8%A7%D9%84%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9",
+          "title": "ادعاءات مضللة متعلقة بدور وحقوق المرأة تحت الإدارة السورية الجديدة"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D8%A7%D9%84%D8%B5%D9%88%D9%85%D8%A7%D9%84-%D8%AA%D8%B9%D9%84%D9%86-%D9%8A%D9%88%D9%85-%D8%A3%D9%85%D8%B3-%D8%A7%D9%84%D8%AA%D8%AE%D9%84%D8%B5-%D9%85%D9%86-%D9%83%D8%A7%D9%81%D8%A9-%D8%B2/",
+          "title": "الصومال تعلن يوم أمس التخلص من كافة ديونها للبنك الدولي ... زائف جزئيا - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D9%87-%D8%A7%D9%84%D8%B5%D9%88%D8%B1%D8%A9-%D9%85%D8%AA%D8%AF%D8%A7%D9%88%D9%84%D8%A9-%D9%85%D9%86%D8%B0-%D8%B9%D8%A7%D9%85-2017-%D9%88%D9%84%D8%A7-%D8%AA%D8%A8%D9%8A%D9%86-%D8%B7%D8%B1/",
+          "title": "هذه الصورة متداولة منذ عام 2017 ولا تبين طرد مجلس القيادة الرئاسي من فندق ريتز كارلتون في الرياض - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%84%D8%A7-%D8%B5%D8%AD%D8%A9-%D9%84%D8%AE%D8%A8%D8%B1-%D8%A5%D8%AA%D8%A7%D8%AD%D8%A9-%D8%A7%D9%84%D8%AD%D9%83%D9%88%D9%85%D8%A9-%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%D8%A9-%D9%81%D8%B1%D8%B5/",
+          "title": "لا صحة لخبر إتاحة الحكومة السعودية فرص مجانية للحج والعمرة، ولم يصدر ولي العهد السعودي أي قرار يفيد ذلك - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%84%D8%A7-%D8%B5%D8%AD%D8%A9-%D9%84%D9%85%D8%B3%D8%A7%D8%A8%D9%82%D8%A9-%D9%85%D9%82%D8%AF%D9%85%D8%A9-%D9%85%D9%86-%D9%85%D8%B5%D8%B7%D9%81%D9%89-%D8%A7%D9%84%D8%A2%D8%BA%D8%A7-%D9%85%D9%86-%D8%A8/",
+          "title": "هذه المسابقة زائفة وليست تابعة لمسابقة الحلم من تقديم مصطفى الآغا - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%85%D9%8F%D8%B9%D8%AF%D9%91%D9%8E%D9%84-%D8%B1%D9%82%D9%85%D9%8A%D9%8B%D8%A7-%D8%A8%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85-%D8%AA%D9%82/",
+          "title": "هذا المقطع مُعدَّل رقميًا باستخدام تقنيات الذكاء الاصطناعي، ولا صحة للأخبار المتداولة عن فتح منفذ الطوال البري - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D8%A7%D9%84%D8%B0%D9%8A-%D9%82%D9%8A%D9%84-%D8%A3%D9%86%D9%87-%D9%8A%D8%B8%D9%87%D8%B1-%D8%AA%D9%85%D8%B2%D9%8A%D9%82-%D8%B5%D9%88%D8%B1%D8%A9-%D8%A7%D9%84%D8%AE/",
+          "title": "المقطع الذي قيل أنه يظهر تمزيق صورة الخامنئي في إيران مؤخرًا قديم ومتداول منذ عام 2017 - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%85%D9%82%D8%AA%D8%B7%D8%B9-%D9%88%D8%A7%D9%84%D9%86%D8%B3%D8%AE%D8%A9-%D8%A7%D9%84%D9%83%D8%A7%D9%85%D9%84%D8%A9-%D9%85%D9%86%D9%87/",
+          "title": "هذا الفيديو مقتطع والنسخة الكاملة منه تظهر رئيسة وزراء كوينزلاند تأخذ اللقاح ثم تعيد تمثيل اللحظة بناء على طلب الصحفيين."
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D8%A7%D9%84%D9%81%D8%AA%D8%A7%D8%A9-%D9%86%D8%A7%D8%B4%D8%B7%D8%A9-%D9%81%D9%8A-%D8%A3%D9%84%D9%85%D8%A7%D9%86%D9%8A%D8%A7-%D9%84%D8%AA%D9%88%D8%B2%D9%8A%D8%B9-%D8%A7%D9%84%D9%85%D8%B5%D8%AD%D9%81/",
+          "title": "هذه الفتاة ناشطة في حملة لتوزيع المصحف في ألمانيا ولم تطبعه على نفقتها الخاصة - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D9%87-%D8%A7%D9%84%D8%B5%D9%88%D8%B1%D8%A9-%D9%85%D9%81%D8%A8%D8%B1%D9%83%D8%A9-%D9%88%D9%84%D8%A7-%D8%AA%D8%B8%D9%87%D8%B1-%D9%87%D8%AF%D9%8A%D8%A9-%D8%A7%D9%84%D8%B3%D9%88%D8%AF%D8%A7/",
+          "title": "هذه الصورة مركبة ولا تظهر هدايا مقدمة من السوداني للحاضرين في مؤتمر عشائري - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D9%87-%D8%A7%D9%84%D8%B5%D9%88%D8%B1%D8%A9-%D9%85%D9%81%D8%A8%D8%B1%D9%83%D8%A9-%D9%88%D9%84%D8%A7-%D8%AA%D8%B8%D9%87%D8%B1-%D9%85%D8%AD%D9%85%D8%AF-%D8%B4%D9%8A%D8%A7%D8%B9-%D8%A7%D9%84/",
+          "title": "هذه الصورة مفبركة ولا تظهر محمد شياع السوداني محلوق الشارب بعد تعيينه رئيسا للوزراء - فتبينوا"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/ar/This-photo-shows-Lebanese-not-Libyan-mnisters",
+          "title": "هذه الصورة تظهر وزيرات في الحكومة اللبنانيّة لا الليبيّة | في ميزان فرانس برس"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/node/38441",
+          "title": "Page not found | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/list",
+          "title": "في ميزان فرانس برس"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.329T6UU",
+          "title": "Old photo of Kuwait Towers falsely linked to Marcos Jr Philippine election victory | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/Meet-team",
+          "title": "Meet the team | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/false-claim-circulates-video-shows-body-saddam-hussein-12-years-after-death",
+          "title": "False claim circulates that video shows body of Saddam Hussein 12 years after death | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/node/57609",
+          "title": "Loch im EU-Wahlzettel hilft Blinden, die Stimme bleibt gültig | Fact Check"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/UXVWWG75IVKQRH54ONQHXX4TLU-2024-12-17/",
+          "title": "تقصي الحقيقة: انتشار صورة لقيادي في تنظيم الدولة الإسلامية وليست لرئيس الحكومة السورية الجديدة | رويترز"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/2BQ3BZKY4JNJJII3OQR4A3NNOY-2025-02-20/",
+          "title": "تقصي الحقيقة: جنوب أفريقيا لم توقف عمل شركات أمريكية أو تصدير المعادن إلى الولايات المتحدة | رويترز"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/ZX5ZWGI7RBPVJCEUKENO3CS2CQ-2025-01-30/",
+          "title": "تقصي الحقيقة: لا دليل على أن الولايات المتحدة خصصت 50 مليون دولار لواقيات ذكرية لغزة | رويترز"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/CPDWJB7FCZLH7BUBQUV5THCV2Q-2024-05-27/",
+          "title": "تقصي الحقيقة: فيديو يظهر تعرض إيتمار بن جفير لهجوم فلسطينيين ويرفع مسدسه بوجههم وليس بوجه مستوطنين | رويترز"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/FMR7Q5DI5ZJHNMUWZOWCAYEAOI-2024-12-30/",
+          "title": "تقصي الحقيقة: فيديو يعرض استهداف منشأة تابعة لأرامكو في جدة عام 2022 وليس محطة كهرباء بعسقلان | رويترز"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/OWJSX7ODNRL5DFRZMCWISIHSDU-2025-06-24/",
+          "title": "تقصي الحقيقة: فيديو مُعدل بالذكاء الاصطناعي يعرض ترامب وهو يحث على الحج شهريا من أجل الاستثمار | رويترز"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic",
+          "title": "خدمة \"تقصي الحقيقة\" من رويترز"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/2025-2025-11-14/",
+          "title": "تقصي الحقيقة: صورة منتجة بالذكاء الاصطناعي لا تعرض الشرع يلعب الجولف مع ترامب خلال زيارته إلى واشنطن في نوفمبر 2025 | رو"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/",
+          "title": "Reuters Fact Check | Reuters"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/63AFF7CBMNIP3BVRKS7ABLH6NM-2024-12-17/",
+          "title": "تقصي الحقيقة: مشاركة عمل فني على أنه صورة حقيقية تعرض زنازين وطوابق تحت سجن صيدنايا في سوريا | رويترز"
+        }
+      ],
+      "read_docs": [
+        {
+          "publisher": "Al-Ahbar",
+          "link": "https://aawsat.com/%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A/4928036-%D8%A7%D9%84%D9%85%D9%83%D8%A7%D9%84%D9%85%D8%A7%D8%AA-%D8%A7%D9%84%D8%A7%D8%AD%D8%AA%D9%8A%D8%A7%D9%84%D9%8A%D8%A9-%D9%88%D8%B3%D9%8A%D9%84%D8%A9-%D8%AD%D9%88%D8%AB%D9%8A%D8%A9-%D9%84%D9%84%D8%AF%D8%B9%D8%A7%D9%8A%D8%A9-%D9%81%D9%8A-%D9%85%D9%88%D8%A7%D8%AC%D9%87%D8%A9-%D8%A7%D9%84%D8%BA%D8%B1%D8%A8",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 5040,
+          "excerpt_chars": 1782,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "TDRA",
+          "link": "https://tdra.gov.ae/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 20000,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "المصري اليوم",
+          "link": "https://www.almasryalyoum.com/news/details/4374180",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 602,
+          "excerpt_chars": 602,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Sinai",
+          "link": "https://www.sinai.news/trend/%D8%A2%D8%A8%D9%8A-%D8%A3%D8%AD%D9%85%D8%AF-%D9%8A%D9%83%D8%B4%D9%81-%D8%AA%D8%B9%D8%A7%D9%88%D9%86%D9%87-%D9%85%D8%B9-%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%AE%D8%A8%D8%A7%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 4907,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "معرفة",
+          "link": "https://www.marefa.org/%D8%B1%D8%A6%D8%A7%D8%B3%D8%A9_%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%AE%D8%A8%D8%A7%D8%B1%D8%A7%D8%AA_%D8%A7%D9%84%D8%B9%D8%A7%D9%85%D8%A9",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 6839,
+          "excerpt_chars": 1769,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Global Information Society Watch",
+          "link": "https://giswatch.org/en/country-report/communications-surveillance/yemen",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 16782,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Wikipedia",
+          "link": "https://en.wikipedia.org/wiki/Law_enforcement_in_Yemen",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 1418,
+          "excerpt_chars": 1418,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Counter Extremism Project",
+          "link": "https://www.counterextremism.com/content/houthis-use-technology-repression",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 20000,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        }
+      ],
+      "docs_before": 10,
+      "docs_after": 8,
+      "verdict": "not_found",
+      "primary_source": false,
+      "icon": "🔍",
+      "evidence": [],
+      "correction": null,
+      "refuted_by": null,
+      "nearest": null,
+      "note": "",
+      "named_as": null,
+      "superseded_note": "",
+      "superseded": [],
+      "image_candidates": [],
+      "sources_read": 8,
+      "dropped_reason": "لا أثر ولا حدث قريب موثَّق",
+      "model_calls": 1,
+      "status": "dropped",
+      "selection_issue": null
+    },
+    {
+      "id": "c01c68f9e111",
+      "text": "الحكومة الشرعية عينت رئيسا للأمن السياسي والأمن القومي يقيمان في الرياض وعاطلان عن العمل",
+      "claim": "الحكومة الشرعية عينت رئيسا للأمن السياسي والأمن القومي يقيمان في الرياض وعاطلان عن العمل",
+      "framing": "direct",
+      "circulating_context": "",
+      "asserted": "",
+      "queries": [
+        "رئيسا الأمن السياسي القومي الشرعية الرياض تحقق",
+        "رئيس الأمن السياسي القومي الحكومة الشرعية الرياض"
+      ],
+      "site_queries": [
+        "2 الحكومة الشرعية الرياض site:misbar.com",
+        "2 الحكومة الشرعية الرياض site:fatabyyano.net",
+        "2 الحكومة الشرعية الرياض site:factcheck.afp.com",
+        "2 الحكومة الشرعية الرياض site:reuters.com/fact-check"
+      ],
+      "engines": [
+        "brave_web",
+        "google_news"
+      ],
+      "windows": [
+        "days",
+        "days"
+      ],
+      "brave_skipped": null,
+      "cache_hits": 0,
+      "checker_skipped": [
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/amp/factcheck/2025/12/12/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%85%D9%81%D8%A8%D8%B1%D9%83-%D9%88%D9%84%D9%8A%D8%B3-%D9%84%D8%A5%D8%AF%D8%A7%D9%86%D8%A9-%D8%A8%D9%86-%D8%B3%D9%84%D9%85%D8%A7%D9%86-%D8%AA%D8%AD%D8%B1%D9%83%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AC%D9%84%D8%B3-%D8%A7%D9%84%D8%A7%D9%86%D8%AA%D9%82%D8%A7%D9%84%D9%8A-%D8%A7%D9%84%D8%A3%D8%AE%D9%8A%D8%B1%D8%A9-%D9%81%D9%8A-%D8%AC%D9%86%D9%88%D8%A8-%D8%A7%D9%84%D9%8A%D9%85%D9%86",
+          "title": "الفيديو مفبرك وليس لإدانة بن سلمان تحركات المجلس الانتقالي الأخيرة في جنوب اليمن"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2024/12/26/%D8%A7%D9%84%D8%AA%D8%B5%D9%85%D9%8A%D9%85-%D9%85%D9%81%D8%A8%D8%B1%D9%83-%D9%88%D9%86%D8%AA%D9%86%D9%8A%D8%A7%D9%87%D9%88-%D9%84%D9%85-%D9%8A%D8%AF%D8%B9-%D9%84%D8%AF%D8%B9%D9%85-%D8%A7%D9%84%D8%AC%D9%88%D9%84%D8%A7%D9%86%D9%8A-%D9%81%D9%8A-%D8%A5%D8%AF%D8%A7%D8%B1%D8%A9-%D8%A7%D9%84%D8%AD%D9%83%D9%88%D9%85%D8%A9-%D8%A7%D9%84%D8%B3%D9%88%D8%B1%D9%8A%D8%A9-%D8%A7%D9%84%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9",
+          "title": "التصميم مفبرك ونتنياهو لم يدعُ لدعم أحمد الشرع في إدارة الحكومة السورية الجديدة"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2025/03/12/%D9%83%D9%8A%D9%81-%D8%B3%D8%A7%D9%87%D9%85%D8%AA-%D8%A7%D9%84%D9%85%D8%B9%D9%84%D9%88%D9%85%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%B6%D9%84%D9%84%D8%A9-%D9%81%D9%8A-%D8%AA%D8%A3%D8%AC%D9%8A%D8%AC-%D8%A3%D8%AD%D8%AF%D8%A7%D8%AB-%D8%A7%D9%84%D8%B3%D8%A7%D8%AD%D9%84-%D8%A7%D9%84%D8%B3%D9%88%D8%B1%D9%8A%D8%9F",
+          "title": "كيف ساهمت المعلومات المضللة في تأجيج أحداث الساحل السوري؟"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2025/02/26/%D8%A3%D8%A8%D8%B1%D8%B2-%D8%A7%D9%84%D8%A7%D8%AF%D8%B9%D8%A7%D8%A1%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%B6%D9%84%D9%84%D8%A9-%D8%A7%D9%84%D9%85%D8%B1%D8%AA%D8%A8%D8%B7%D8%A9-%D8%A8%D8%A7%D9%84%D9%85%D8%B9%D8%A7%D8%B1%D9%83-%D8%A7%D9%84%D8%AC%D8%A7%D8%B1%D9%8A%D8%A9-%D9%81%D9%8A-%D8%A7%D9%84%D8%B3%D9%88%D8%AF%D8%A7%D9%86",
+          "title": "أبرز الادعاءات المضللة المرتبطة بالمعارك الجارية في السودان"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2025/08/26/%D8%A7%D9%84%D8%AA%D8%B1%D9%83%D9%8A%D8%A8-%D8%A7%D9%84%D8%B3%D9%83%D8%A7%D9%86%D9%8A-%D9%81%D9%8A-%D8%B3%D9%88%D8%B1%D9%8A%D8%A7-%D8%A7%D9%84%D8%A3%D8%B1%D9%82%D8%A7%D9%85-%D9%85%D9%86-%D9%85%D8%AC%D8%B1%D8%AF-%D8%A8%D9%8A%D8%A7%D9%86%D8%A7%D8%AA-%D8%A5%D9%84%D9%89-%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D9%84%D9%84%D8%AA%D8%B6%D9%84%D9%8A%D9%84-%D9%88%D8%A7%D9%84%D8%AA%D9%88%D8%B8%D9%8A%D9%81-%D8%A7%D9%84%D8%B3%D9%8A%D8%A7%D8%B3%D9%8A",
+          "title": "التركيب السكاني في سوريا: الأرقام من مجرد بيانات إلى أدوات للتضليل والتوظيف السياسي"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2025/04/14/%D8%A3%D8%A8%D8%B1%D8%B2-%D8%A7%D9%84%D8%A7%D8%AF%D8%B9%D8%A7%D8%A1%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%B6%D9%84%D9%84%D8%A9-%D8%A7%D9%84%D8%AA%D9%8A-%D8%A7%D9%86%D8%AA%D8%B4%D8%B1%D8%AA-%D8%B9%D9%82%D8%A8-%D8%B1%D9%81%D8%B9-%D8%A7%D9%84%D8%B3%D9%88%D8%AF%D8%A7%D9%86-%D8%AF%D8%B9%D9%88%D9%89-%D8%B6%D8%AF-%D8%A7%D9%84%D8%A5%D9%85%D8%A7%D8%B1%D8%A7%D8%AA-%D9%84%D8%AF%D9%89-%D8%A7%D9%84%D8%B9%D8%AF%D9%84-%D8%A7%D9%84%D8%AF%D9%88%D9%84%D9%8A%D8%A9",
+          "title": "أبرز الادعاءات المضللة التي انتشرت عقب رفع السودان دعوى ضد الإمارات لدى العدل الدولية"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2025/06/16/%D8%B3%D8%B1%D9%82%D8%A9-%D8%A7%D9%84%D9%85%D8%B3%D8%A7%D8%B9%D8%AF%D8%A7%D8%AA-%D9%81%D9%8A-%D8%BA%D8%B2%D8%A9-%D9%85%D8%A7-%D8%AF%D9%88%D8%B1-%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84-%D9%81%D9%8A-%D8%B8%D9%87%D9%88%D8%B1-%D9%88%D8%AF%D8%B9%D9%85-%D9%85%D9%8A%D9%84%D9%8A%D8%B4%D9%8A%D8%A7-%D9%8A%D8%A7%D8%B3%D8%B1-%D8%A3%D8%A8%D9%88-%D8%B4%D8%A8%D8%A7%D8%A8%D8%9F",
+          "title": "سرقة المساعدات في غزة: ما دور إسرائيل في ظهور ودعم ميليشيا ياسر أبو شباب؟"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/en/",
+          "title": "موقع مكافحة الأخبار والمعلومات الكاذبة مسبار"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2023/05/20/%D8%A7%D8%AF%D8%B9%D8%A7%D8%A1%D8%A7%D8%AA-%D9%85%D8%B6%D9%84%D9%84%D8%A9-%D8%AD%D9%88%D9%84-%D8%AD%D8%B6%D9%88%D8%B1-%D8%A3%D9%85%D9%8A%D8%B1-%D9%82%D8%B7%D8%B1-%D8%AE%D9%84%D8%A7%D9%84-%D9%83%D9%84%D9%85%D8%A9-%D8%A8%D8%B4%D8%A7%D8%B1-%D8%A7%D9%84%D8%A3%D8%B3%D8%AF-%D9%81%D9%8A-%D8%A7%D9%84%D9%82%D9%85%D8%A9-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9",
+          "title": "ادّعاءات مضللة حول حضور أمير قطر خلال كلمة بشار الأسد في القمة العربية"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2024/12/31/%D8%A7%D9%84%D8%B5%D9%88%D8%B1-%D9%82%D8%AF%D9%8A%D9%85%D8%A9-%D9%85%D9%86-%D8%A7%D9%84%D8%B9%D8%B1%D8%A7%D9%82-%D9%88%D9%84%D9%8A%D8%B3%D8%AA-%D9%84%D8%A5%D8%B2%D8%A7%D9%84%D8%A9-%D8%A7%D9%84%D8%AD%D9%83%D9%88%D9%85%D8%A9-%D8%A7%D9%84%D8%B3%D9%88%D8%B1%D9%8A%D8%A9-%D8%A7%D9%84%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9-%D8%A3%D8%B4%D8%AC%D8%A7%D8%B1-%D8%B9%D9%8A%D8%AF-%D8%A7%D9%84%D9%85%D9%8A%D9%84%D8%A7%D8%AF",
+          "title": "الصور قديمة من العراق وليست لإزالة الحكومة السورية الجديدة أشجار عيد الميلاد"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%84%D8%A7-%D8%B5%D8%AD%D8%A9-%D9%84%D8%AE%D8%A8%D8%B1-%D8%A5%D8%AA%D8%A7%D8%AD%D8%A9-%D8%A7%D9%84%D8%AD%D9%83%D9%88%D9%85%D8%A9-%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%D8%A9-%D9%81%D8%B1%D8%B5/",
+          "title": "لا صحة لخبر إتاحة الحكومة السعودية فرص مجانية للحج والعمرة، ولم يصدر ولي العهد السعودي أي قرار يفيد ذلك - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%85%D9%8F%D8%B9%D8%AF%D9%91%D9%8E%D9%84-%D8%B1%D9%82%D9%85%D9%8A%D9%8B%D8%A7-%D8%A8%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85-%D8%AA%D9%82/",
+          "title": "هذا المقطع مُعدَّل رقميًا باستخدام تقنيات الذكاء الاصطناعي، ولا صحة للأخبار المتداولة عن فتح منفذ الطوال البري - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D8%A7%D9%84%D8%B5%D9%88%D9%85%D8%A7%D9%84-%D8%AA%D8%B9%D9%84%D9%86-%D9%8A%D9%88%D9%85-%D8%A3%D9%85%D8%B3-%D8%A7%D9%84%D8%AA%D8%AE%D9%84%D8%B5-%D9%85%D9%86-%D9%83%D8%A7%D9%81%D8%A9-%D8%B2/",
+          "title": "الصومال تعلن يوم أمس التخلص من كافة ديونها للبنك الدولي ... زائف جزئيا - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/",
+          "title": "الرئيسة - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%84%D8%A7-%D9%8A%D8%B8%D9%87%D8%B1-%D9%85%D8%B4%D8%A7%D9%87%D8%AF-%D9%85%D9%86-%D8%A7%D8%B3%D8%AA%D9%87%D8%AF%D8%A7%D9%81/",
+          "title": "هذا الفيديو متداول من أكتوبر 2024، ولا يظهر مشاهد للحظة قتل الجنود السعوديين في مدينة حضرموت مؤخراً - فتبينوا"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/AFP-Saudi-Arabia",
+          "title": "AFP Saudi Arabia | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.63T99ZP",
+          "title": "Footage of Muslim pilgrims in Iraq misrepresented after NYC mayoral primary | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.873A6ZQ",
+          "title": "Bangladesh road rage incident misrepresented as attack on govt official | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.329T6UU",
+          "title": "Old photo of Kuwait Towers falsely linked to Marcos Jr Philippine election victory | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.329H37E",
+          "title": "Old arrest video misleadingly linked to Pakistan leader's Saudi visit | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.36RR8D7",
+          "title": "False claims the Rothschild family owns central banks resurface online | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/Meet-team",
+          "title": "Meet the team | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/",
+          "title": "Fact Check"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/UXVWWG75IVKQRH54ONQHXX4TLU-2024-12-17/",
+          "title": "تقصي الحقيقة: انتشار صورة لقيادي في تنظيم الدولة الإسلامية وليست لرئيس الحكومة السورية الجديدة | رويترز"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/2BQ3BZKY4JNJJII3OQR4A3NNOY-2025-02-20/",
+          "title": "تقصي الحقيقة: جنوب أفريقيا لم توقف عمل شركات أمريكية أو تصدير المعادن إلى الولايات المتحدة | رويترز"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/RZD35DLHNFKFBO36A3WWQF5FXE-2024-12-09/",
+          "title": "تقصي الحقيقة: فيديو قديم لمجزرة حي التضامن بسوريا لا يعرض انتهاكات للمعارضة السورية بعد إسقاط الأسد في 2024 | رويترز"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/OWJSX7ODNRL5DFRZMCWISIHSDU-2025-06-24/",
+          "title": "تقصي الحقيقة: فيديو مُعدل بالذكاء الاصطناعي يعرض ترامب وهو يحث على الحج شهريا من أجل الاستثمار | رويترز"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic",
+          "title": "خدمة \"تقصي الحقيقة\" من رويترز"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://reuters.com/fact-check/portugues/2KS3Z5GK2VKF7JKM43OBVUSM3A-2026-09-02",
+          "title": "Business & Financial News, U.S & International Breaking News | Reuters"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/FMR7Q5DI5ZJHNMUWZOWCAYEAOI-2024-12-30/",
+          "title": "تقصي الحقيقة: فيديو يعرض استهداف منشأة تابعة لأرامكو في جدة عام 2022 وليس محطة كهرباء بعسقلان | رويترز"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/X6SFJTNBIVLPZCVKSLFVTWT23I-2025-02-09/",
+          "title": "تقصي الحقيقة: فيديو يصور أحد المتشددين في سجن بشمال شرق سوريا وليس الشرع داخل سجن بالعراق | رويترز"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/2SKMJHN3JBJULB4IENAIYTE4OE-2025-01-28/",
+          "title": "تقصي الحقيقة: فيديو مجتزأ من سياقه لترامب ليبدو وكأنه ينفي حدوث هجمات 11 سبتمبر | رويترز"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/ZX5ZWGI7RBPVJCEUKENO3CS2CQ-2025-01-30/",
+          "title": "تقصي الحقيقة: لا دليل على أن الولايات المتحدة خصصت 50 مليون دولار لواقيات ذكرية لغزة | رويترز"
+        }
+      ],
+      "read_docs": [
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D9%87-%D8%A7%D9%84%D8%B5%D9%88%D8%B1%D8%A9-%D9%85%D8%AA%D8%AF%D8%A7%D9%88%D9%84%D8%A9-%D9%85%D9%86%D8%B0-%D8%B9%D8%A7%D9%85-2017-%D9%88%D9%84%D8%A7-%D8%AA%D8%A8%D9%8A%D9%86-%D8%B7%D8%B1/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 335,
+          "excerpt_chars": 335,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.36BZ39B",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 366,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "dostor.org",
+          "link": "https://www.dostor.org/5703123",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 2095,
+          "excerpt_chars": 1161,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Al Jazeera",
+          "link": "https://www.aljazeera.net/encyclopedia/2025/3/14/%D9%85%D8%AC%D9%84%D8%B3-%D8%A7%D9%84%D8%A3%D9%85%D9%86-%D8%A7%D9%84%D9%82%D9%88%D9%85%D9%8A-%D8%A7%D9%84%D8%B3%D9%88%D8%B1%D9%8A-%D9%87%D9%8A%D8%A6%D8%A9-%D9%84%D8%AA%D9%86%D8%B3%D9%8A%D9%82",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 5919,
+          "excerpt_chars": 1786,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "اليوم السابع",
+          "link": "https://www.youm7.com/story/2026/9/16/%D9%85%D8%B5%D8%B1-%D8%A7%D9%84%D9%82%D9%88%D9%85%D9%89-%D9%86%D8%AA%D8%A7%D8%A6%D8%AC-%D8%A7%D9%84%D9%82%D9%85%D8%A9-%D8%A7%D9%84%D9%85%D8%B5%D8%B1%D9%8A%D8%A9-%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%D8%A9-%D8%AA%D8%B6%D8%B9-%D8%A3%D8%B3%D8%B3%D8%A7-%D9%84%D9%85%D8%B1%D8%AD%D9%84%D8%A9-%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9/7548187",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 2792,
+          "excerpt_chars": 1541,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Saudipedia",
+          "link": "https://saudipedia.com/en/council-of-political-and-security-affairs",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2030,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Wikipedia",
+          "link": "https://ar.wikipedia.org/wiki/%D8%AC%D9%87%D8%A7%D8%B2_%D8%A7%D9%84%D8%A3%D9%85%D9%86_%D8%A7%D9%84%D9%82%D9%88%D9%85%D9%8A_(%D8%A7%D9%84%D9%8A%D9%85%D9%86)",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 7508,
+          "excerpt_chars": 1798,
+          "same_event": true,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "conflicts_detail"
+        },
+        {
+          "publisher": "Presidentalalimi",
+          "link": "https://www.presidentalalimi.net/news62.html",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 1406,
+          "excerpt_chars": 1406,
+          "same_event": true,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "conflicts_detail"
+        },
+        {
+          "publisher": "بوابة أخبار اليوم الإلكترونية",
+          "link": "https://akhbarelyom.com/news/newdetails/4878190/1/%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%85%D8%AD%D8%A7%D9%81%D8%B8%D9%8A%D9%86-%D8%A7%D9%84%D9%82%D8%A7%D9%87%D8%B1%D8%A9-%D9%88%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6-%D8%AA%D9%85%D9%84%D9%83%D8%A7%D9%86-%D8%AB%D9%82%D9%84",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 1994,
+          "excerpt_chars": 1002,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "الصحوة نت",
+          "link": "https://www.alsahwa-yemen.net/p-95900",
+          "orig_link": "https://news.google.com/rss/articles/CBMiTkFVX3lxTFBTR1RhX0dTMVRad24xdjF3R1poeU1sNC1WM3J5R1NKSlQzU1lvMV9VX0QyLWNDUHdvdGx5Zmc3cGswbDNzM25xbElZU212UQ?oc=5",
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 176,
+          "excerpt_chars": 176,
+          "same_event": true,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        }
+      ],
+      "docs_before": 12,
+      "docs_after": 10,
+      "verdict": "not_found",
+      "primary_source": false,
+      "icon": "🔍",
+      "evidence": [
+        {
+          "publisher": "Wikipedia",
+          "link": "https://ar.wikipedia.org/wiki/%D8%AC%D9%87%D8%A7%D8%B2_%D8%A7%D9%84%D8%A3%D9%85%D9%86_%D8%A7%D9%84%D9%82%D9%88%D9%85%D9%8A_(%D8%A7%D9%84%D9%8A%D9%85%D9%86)",
+          "stance": "conflicts_detail",
+          "excerpt": "صدر قرار جمهوري رقم 115 لسنة 2016م قضى بتعيين اللواء أحمد عبد الله ناصر المصعبي رئيسا للجهاز بدلاً عنه",
+          "detail": "اسم رئيس جهاز الأمن القومي اليمني وتاريخ تعيينه، ولا يوجد ذكر لإقامته في الرياض أو عطالته عن العمل",
+          "correct_form": "صدر قرار جمهوري رقم 115 لسنة 2016م قضى بتعيين اللواء أحمد عبد الله ناصر المصعبي رئيسا للجهاز",
+          "as_of": "",
+          "detail_kind": "name"
+        },
+        {
+          "publisher": "Presidentalalimi",
+          "link": "https://www.presidentalalimi.net/news62.html",
+          "stance": "conflicts_detail",
+          "excerpt": "رفع رئيس جهاز الأمن القومي اللواء أحمد المصعبي، ورئيس الجهاز المركزي للأمن السياسي اللواء عبده الحذيفي، اليوم، برقية تهنئة لفخامة الرئيس الدكتور رشاد محمد العليمي رئيس مجلس القيادة الرئاسي، بمناسبة عيد الأضحى المبارك",
+          "detail": "النص يُظهر رئيس جهاز الأمن القومي اللواء أحمد المصعبي ورئيس الجهاز المركزي للأمن السياسي اللواء عبده الحذيفي يمارسان مهامهما ويرفعان برقية تهنئة لرئيس مجلس القيادة، ولا يشير إلى إقامتهما في الرياض أو عطالتهما عن العمل",
+          "correct_form": "رفع رئيس جهاز الأمن القومي اللواء أحمد المصعبي، ورئيس الجهاز المركزي للأمن السياسي اللواء عبده الحذيفي، اليوم، برقية تهنئة لفخامة الرئيس الدكتور رشاد محمد العليمي",
+          "as_of": "",
+          "detail_kind": "other"
+        }
+      ],
+      "correction": null,
+      "refuted_by": null,
+      "nearest": null,
+      "note": "",
+      "named_as": null,
+      "superseded_note": "",
+      "superseded": [],
+      "image_candidates": [],
+      "sources_read": 10,
+      "dropped_reason": "لا أثر ولا حدث قريب موثَّق",
+      "model_calls": 1,
+      "status": "dropped",
+      "selection_issue": null
+    }
+  ]
+}
