@@ -1,0 +1,85 @@
+name: 🎬 تجربة جدوى مقاطع الريل
+
+on:
+  workflow_dispatch:
+    inputs:
+      clips:
+        description: "عدد المقاطع"
+        required: false
+        default: "6"
+      seconds:
+        description: "طول كل مقطع بالثواني"
+        required: false
+        default: "12"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: trendnews-reel-probe
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: سحب المستودع
+        uses: actions/checkout@v4
+
+      - name: سحب مستودع بيانات يوتيوب الخاص
+        uses: actions/checkout@v4
+        with:
+          repository: gilandeya/trendnews-data
+          token: ${{ secrets.YOUTUBE_DATA_TOKEN }}
+          path: youtube-data
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: تثبيت ffmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+
+      - name: تثبيت المكتبات
+        run: pip install -r requirements.txt
+
+      - name: القياس
+        env:
+          WEBSHARE_PROXY_USERNAME: ${{ secrets.WEBSHARE_PROXY_USERNAME }}
+          WEBSHARE_PROXY_PASSWORD: ${{ secrets.WEBSHARE_PROXY_PASSWORD }}
+          TRENDNEWS_YOUTUBE_POINTS_DIR: ${{ github.workspace }}/youtube-data/state/youtube_points
+        run: python tools/reel_clip_probe.py --clips ${{ inputs.clips }} --seconds ${{ inputs.seconds }}
+
+      - name: رفع المقاطع إلى مستودع البيانات الخاص
+        if: always()
+        working-directory: youtube-data
+        run: |
+          git config user.name  "trendnews-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          BRANCH="$(git symbolic-ref --short HEAD)"
+          mkdir -p reel_probe
+          git add reel_probe
+          git diff --quiet --cached && exit 0
+          git commit -m "chore(reel): مقاطع تجربة الجدوى $(date -u '+%Y-%m-%d %H:%M') UTC"
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin "$BRANCH" && git push origin "HEAD:$BRANCH" && exit 0
+            sleep $((i * 7))
+          done
+          exit 1
+
+      - name: رفع التقرير (أرقام فقط) إلى المستودع العام
+        if: always()
+        run: |
+          git config user.name  "trendnews-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p state/reel_probe
+          git add state/reel_probe
+          git diff --quiet --cached && exit 0
+          git commit -m "chore(reel): تقرير تجربة الجدوى"
+          for i in 1 2 3; do
+            git pull --rebase --autostash -X theirs origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            sleep $((i * 7))
+          done
+          exit 1
