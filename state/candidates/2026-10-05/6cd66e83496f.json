@@ -1,0 +1,65 @@
+{
+  "id": "6cd66e83496f",
+  "created_at": "2026-10-05T09:08:06.154583+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.87,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "أزمة باكستانية بين الحزب والحكومة تؤثر على الاستقرار",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "PTI says access to Imran Khan, K-P counterterrorism policy led to talks deadlock",
+  "link": "https://tribune.com.pk/story/2632966/pti-says-access-to-imran-khan-k-p-counterterrorism-policy-led-to-talks-deadlock",
+  "publishers": [
+    "Dawn",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "PTI says access to Imran Khan, K-P counterterrorism policy led to talks deadlock",
+    "link": "https://tribune.com.pk/story/2632966/pti-says-access-to-imran-khan-k-p-counterterrorism-policy-led-to-talks-deadlock",
+    "summary": "Both sides trade blame with competing accounts emerging over what had been agreed and why the process broke down",
+    "source_name": "The Express Tribune",
+    "region": "pk",
+    "weight": 1.0,
+    "published": "2026-10-04T11:39:51+00:00",
+    "image_url": "https://i.dawn.com/large/2026/10/042044084c0130f.gif",
+    "publisher": "The Express Tribune",
+    "cluster_sources": [
+      "Dawn",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2632966/pti-says-access-to-imran-khan-k-p-counterterrorism-policy-led-to-talks-deadlock"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2034734/pti-terms-access-to-imran-principal-point-of-deadlock-claims-centre-refused-to-include-it-in-agreement"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/10/042044084c0130f.gif",
+      "https://i.dawn.com/thumbnail/2026/10/042044084c0130f.gif"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 1480.9114838727778,
+    "is_stale": true,
+    "score": 22.869062669296298,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "أزمة باكستانية بين الحزب والحكومة تؤثر على الاستقرار",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "id": "69e3525ce4c0",
+  "created_at": "2026-10-05T09:08:06.154251+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.06,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "استقالة وزير النفط الإيراني بلا تفسيرات رسمية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran’s Oil Minister resigns, no reason given",
+  "link": "https://www.thehindu.com/news/international/irans-oil-minister-resigns-no-reason-given/article71544761.ece",
+  "publishers": [
+    "IRNA English",
+    "Mehr News",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Iran’s Oil Minister resigns, no reason given",
+    "link": "https://www.thehindu.com/news/international/irans-oil-minister-resigns-no-reason-given/article71544761.ece",
+    "summary": "Mohsen Paknejad has been the Oil Minister of the ​OPEC member country ‌since August 2024",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-10-04T18:15:26+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/a2jed0/article71544788.ece/alternates/LANDSCAPE_1200/PTI06_25_2026_000467B.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "IRNA English",
+      "Mehr News",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/irans-oil-minister-resigns-no-reason-given/article71544761.ece"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/248313/Iran-s-oil-minister-resigns-president-names-caretaker"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86283228/Iran-s-oil-minister-resigns-president-names-caretaker"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/a2jed0/article71544788.ece/alternates/LANDSCAPE_1200/PTI06_25_2026_000467B.jpg",
+      "https://media.mehrnews.com/d/2026/07/15/4/6100419.jpg",
+      "https://img9.irna.ir/d/r2/2026/10/04/4/173149237.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1480.9115311358335,
+    "is_stale": false,
+    "score": 23.063487206459765,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "استقالة وزير النفط الإيراني بلا تفسيرات رسمية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

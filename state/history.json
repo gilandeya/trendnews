@@ -1,103 +1,5 @@
 [
   {
-    "score": 35.73,
-    "bucket": "serious",
-    "tokens": [
-      "elections",
-      "female",
-      "first",
-      "minister",
-      "morocco",
-      "named",
-      "prime",
-      "winning"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c674kkjllw17o?at_medium=RSS&at_campaign=rss",
-    "title": "First female prime minister named in Morocco after winning elections",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-09-30T03:08:08.969222+00:00"
-  },
-  {
-    "score": 21.25,
-    "bucket": "serious",
-    "tokens": [
-      "across",
-      "authorities",
-      "due",
-      "incessant",
-      "killed",
-      "nepal",
-      "rainfall",
-      "september",
-      "since"
-    ],
-    "link": "https://www.thehindu.com/news/international/several-killed-across-nepal-due-to-incessant-rainfall-since-sep-24/article71523612.ece",
-    "title": "27 killed across Nepal due to incessant rainfall since September 24: Authorities",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-09-30T03:08:08.969476+00:00"
-  },
-  {
-    "score": 21.22,
-    "bucket": "serious",
-    "tokens": [
-      "app",
-      "chatgpt",
-      "concerns",
-      "grow",
-      "maker",
-      "safety",
-      "store",
-      "wants"
-    ],
-    "link": "https://www.channelnewsasia.com/world/openai-chatgpt-app-store-ai-safety-concerns-6420126",
-    "title": "ChatGPT maker wants to be the App Store for AI as safety concerns grow",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-09-30T03:08:08.969672+00:00"
-  },
-  {
-    "score": 21.14,
-    "bucket": "useful",
-    "tokens": [
-      "blood",
-      "exercise",
-      "isometric",
-      "lower",
-      "maintain",
-      "may",
-      "pressure",
-      "session",
-      "training",
-      "weekly"
-    ],
-    "link": "https://medicalxpress.com/news/2026-09-weekly-session-isometric-blood-pressure.html",
-    "title": "A weekly session of isometric exercise training may maintain lower blood pressure",
-    "posted_title": "",
-    "region": "health",
-    "seen_at": "2026-09-30T03:08:08.969855+00:00"
-  },
-  {
-    "score": 20.88,
-    "bucket": "serious",
-    "tokens": [
-      "anti",
-      "council",
-      "extends",
-      "force",
-      "gang",
-      "haiti",
-      "months",
-      "security"
-    ],
-    "link": "https://www.freemalaysiatoday.com/category/world/2026/09/30/un-security-council-extends-haiti-anti-gang-force-by-6-months",
-    "title": "UN Security Council extends Haiti anti-gang force by 6 months",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-09-30T03:08:08.970037+00:00"
-  },
-  {
     "score": 24.85,
     "bucket": "useful",
     "tokens": [
@@ -2488,5 +2390,99 @@
     "posted_title": "",
     "region": "africa",
     "seen_at": "2026-10-05T03:08:07.743360+00:00"
+  },
+  {
+    "score": 23.06,
+    "bucket": "serious",
+    "tokens": [
+      "given",
+      "iran",
+      "minister",
+      "oil",
+      "reason",
+      "resigns"
+    ],
+    "link": "https://www.thehindu.com/news/international/irans-oil-minister-resigns-no-reason-given/article71544761.ece",
+    "title": "Iran’s Oil Minister resigns, no reason given",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-10-05T09:08:06.154575+00:00"
+  },
+  {
+    "score": 22.87,
+    "bucket": "serious",
+    "tokens": [
+      "access",
+      "counterterrorism",
+      "deadlock",
+      "imran",
+      "khan",
+      "led",
+      "policy",
+      "pti",
+      "talks"
+    ],
+    "link": "https://tribune.com.pk/story/2632966/pti-says-access-to-imran-khan-k-p-counterterrorism-policy-led-to-talks-deadlock",
+    "title": "PTI says access to Imran Khan, K-P counterterrorism policy led to talks deadlock",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-10-05T09:08:06.154755+00:00"
+  },
+  {
+    "score": 19.8,
+    "bucket": "serious",
+    "tokens": [
+      "air",
+      "aselsan",
+      "defense",
+      "drones",
+      "eyes",
+      "japan",
+      "ties",
+      "türkiye's",
+      "underwater"
+    ],
+    "link": "https://www.dailysabah.com/business/defense/turkiyes-aselsan-eyes-japan-ties-in-air-defense-underwater-drones",
+    "title": "Türkiye's Aselsan eyes Japan ties in air defense, underwater drones",
+    "posted_title": "",
+    "region": "tr",
+    "seen_at": "2026-10-05T09:08:06.154898+00:00"
+  },
+  {
+    "score": 18.26,
+    "bucket": "serious",
+    "tokens": [
+      "2026",
+      "dollar",
+      "exchange",
+      "naira",
+      "october",
+      "rate",
+      "today"
+    ],
+    "link": "https://www.vanguardngr.com/2026/10/dollar-to-naira-exchange-rate-today-october-5-2026/",
+    "title": "Dollar to Naira exchange rate today, October 5, 2026",
+    "posted_title": "",
+    "region": "ng",
+    "seen_at": "2026-10-05T09:08:06.155024+00:00"
+  },
+  {
+    "score": 17.42,
+    "bucket": "serious",
+    "tokens": [
+      "britain",
+      "class",
+      "form",
+      "green",
+      "party",
+      "racism",
+      "votes",
+      "zionism"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-10-04-britains-green-party-votes-to-class-zionism-as-a-form-of-racism/",
+    "title": "Britain’s Green Party votes to class Zionism as a form of racism",
+    "posted_title": "",
+    "region": "za",
+    "seen_at": "2026-10-05T09:08:06.155172+00:00"
   }
 ]

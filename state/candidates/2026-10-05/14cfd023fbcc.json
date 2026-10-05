@@ -1,0 +1,64 @@
+{
+  "id": "14cfd023fbcc",
+  "created_at": "2026-10-05T09:08:06.154760+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.8,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "تركيا تعزز شراكات دفاعية مع اليابان",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Türkiye's Aselsan eyes Japan ties in air defense, underwater drones",
+  "link": "https://www.dailysabah.com/business/defense/turkiyes-aselsan-eyes-japan-ties-in-air-defense-underwater-drones",
+  "publishers": [
+    "Daily Sabah",
+    "Nikkei Asia"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Türkiye's Aselsan eyes Japan ties in air defense, underwater drones",
+    "link": "https://www.dailysabah.com/business/defense/turkiyes-aselsan-eyes-japan-ties-in-air-defense-underwater-drones",
+    "summary": "Türkiye's defense and electronics giant Aselsan is looking for partnerships with Japanese companies on underwater drones and air defense systems as it expands into Asian markets, a...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-10-04T12:52:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/10/04/463806.jpg",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Nikkei Asia"
+    ],
+    "cluster_members": [
+      {
+        "name": "Nikkei Asia",
+        "link": "https://asia.nikkei.com/business/aerospace-defense-industries/turkish-arms-group-eyes-japan-ties-in-air-defense-and-underwater-drones"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/business/defense/turkiyes-aselsan-eyes-japan-ties-in-air-defense-underwater-drones"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/10/04/463806.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1480.9116300422222,
+    "is_stale": false,
+    "score": 19.799229333555555,
+    "impact": 1,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "تركيا تعزز شراكات دفاعية مع اليابان",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
