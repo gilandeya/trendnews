@@ -17,7 +17,7 @@ import logging
 import re
 from datetime import datetime, timezone
 
-from . import article, headlines as headlines_mod, important, store, verify_draft, writer
+from . import article, headlines as headlines_mod, important, names_audit, store, verify_draft, writer
 from .request import norm_tokens
 from .sources import Article
 
@@ -349,7 +349,11 @@ def write_point(point: dict, result: dict, cfg, selection_issue: int | None = No
         return None, NO_FACTS_REASON, False
 
     attempts = max(1, int(_icfg(cfg).get("write_attempts", 2)))
-    note = instructions(point, cfg)
+    # الوقاية قبل الكتابة (Issue #1252): الأسماء المعتمدة التي يرد أصلها في الأدلة تُلحَق بتعليمات الكتابة
+    name_note = names_audit.names_note(
+        [d["text"] for d in article._source_docs(grounded)] + [point.get("claim") or ""], cfg)
+    base_note = instructions(point, cfg) + (f"\n{name_note}\n" if name_note else "")
+    note = base_note
     wi = _icfg(cfg).get("writer_instructions", {}) or {}
     system_note = wi.get("no_editor_note", "").format(
         editor_tag=acfg.get("editor_tag_phrase", "بحسب معلومات المحرر"),
@@ -374,7 +378,7 @@ def write_point(point: dict, result: dict, cfg, selection_issue: int | None = No
             break
         log.warning("نقطة %s رُفضت بعد الكتابة (محاولة %d/%d): %s",
                     point["id"], attempt + 1, attempts, reason)
-        note = instructions(point, cfg) + "\n" + wi.get("retry_note", "{reason}").format(reason=reason) + "\n"
+        note = base_note + "\n" + wi.get("retry_note", "{reason}").format(reason=reason) + "\n"
     if written is None:
         return None, reason, False
 
@@ -382,6 +386,9 @@ def write_point(point: dict, result: dict, cfg, selection_issue: int | None = No
     warns = unsourced_sentences(point, written, grounded, question, cfg)
     if warns:
         draft["warnings"] = warns   # للمراجعة فقط: لا تدخل caption ولا تمنع النشر
+    # تدقيق أسماء الأشخاص بدليل بحث (Issue #1252): نصوص الأدلة وحدها مصدرًا، وتنبيهه يُلحَق بما قبله
+    names_audit.run(draft, [d["text"] for d in article._source_docs(grounded)] + [point.get("claim") or ""],
+                    cfg)
     store.save_draft(draft)
     return draft, "", False
 

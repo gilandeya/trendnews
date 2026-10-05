@@ -315,6 +315,11 @@ def install_fakes() -> None:
 
     headlines.headlines_for_post = fake_headlines_for_post  # type: ignore
 
+    # تدقيق أسماء الأشخاص (Issue #1252): نداء الكشف الحقيقي يحتاج Anthropic، فيُستبدل هنا بكاشف لا
+    # يرى شيئًا لكل الاختبارات؛ اختبارات التدقيق نفسها تضع كاشفها عبر NamesAuditRig
+    from src import names_audit
+    names_audit._detect = lambda texts, arabic, cfg: []  # type: ignore
+
 
 def card_plan(cfg, headline: str, badge_texts: list[str]) -> dict:
     """هندسة البطاقة نفسها التي يرسم بها src/imaging.py (Issue #1161):
@@ -787,3 +792,95 @@ class ImportantWriteRig:
         for mod, name, old in reversed(self._saved):
             setattr(mod, name, old)
         return False
+
+
+# ───────── عدّة تدقيق أسماء الأشخاص (Issue #1252): كشف وبحث مزيَّفان ─────────
+
+
+class NamesAuditRig:
+    """تعزل src/names_audit عن الشبكة: `_detect` (نداء Haiku) يعيد قائمة مُعدَّة، و`_brave_http`
+    (طلب Brave وحده) يردّ بنتائج حسب نص الاستعلام — فمنطق العدّاد والسقف والذاكرة والاستقلال
+    يجري على الكود الحقيقي. تمحو ملفات الحالة عند الدخول فلا يتسرّب شيء بين الاختبارات.
+    `web`: {جزء من الاستعلام: [{url, title, description}, …]}؛ ما لا يطابق يردّ [].
+    `detections`: ما يعيده الكشف (قائمة قواميس، أو دالة (texts, arabic) ← قائمة)."""
+
+    def __init__(self, detections=None, web=None, key: str | None = "test-key"):
+        self.detections = detections if detections is not None else []
+        self.web = web or {}
+        self.key = key
+        self.detect_calls: list = []
+        self.http_calls: list[str] = []
+
+    def __enter__(self):
+        from src import names_audit
+        self.mod = names_audit
+        self._saved = {"_detect": names_audit._detect, "_brave_http": names_audit._brave_http,
+                       "env": os.environ.get("BRAVE_API_KEY")}
+        for f in (names_audit.VERIFIED_FILE, names_audit.CACHE_FILE):
+            f.unlink(missing_ok=True)
+        imagesearch.BRAVE_USAGE_FILE.unlink(missing_ok=True)
+
+        def detect(texts, arabic, cfg):
+            self.detect_calls.append((list(texts), arabic))
+            d = self.detections
+            return [dict(x) for x in (d(texts, arabic) if callable(d) else d)]
+
+        def http(query, key, count):
+            self.http_calls.append(query)
+            for part, results in self.web.items():
+                if part in query:
+                    return results
+            return []
+
+        names_audit._detect = detect
+        names_audit._brave_http = http
+        if self.key is None:
+            os.environ.pop("BRAVE_API_KEY", None)
+        else:
+            os.environ["BRAVE_API_KEY"] = self.key
+        return self
+
+    def __exit__(self, *exc):
+        self.mod._detect = self._saved["_detect"]
+        self.mod._brave_http = self._saved["_brave_http"]
+        if self._saved["env"] is None:
+            os.environ.pop("BRAVE_API_KEY", None)
+        else:
+            os.environ["BRAVE_API_KEY"] = self._saved["env"]
+        return False
+
+
+def names_audit_draft(text_name: str = "فريدة المسلمي") -> dict:
+    """مسودة أخبار بشكل 4e1ba01e960a الحقيقي (الاسم الخاطئ في التحليل والتعليق) — حقول النص الخمسة."""
+    analysis = (f"يرى {text_name}، الباحث في معهد تشاتام هاوس، أن الحوثيين حققوا هدفهم العسكري "
+                "المتمثل في عزل تعز عن عدن.")
+    title = "الحوثيون يسيطرون على منطقة الصافية ويقطعون شريان تعز الحيوي مع عدن"
+    body = "سيطر مقاتلو جماعة الحوثي على منطقة الصافية في محافظة تعز وقطعوا الطريق الرئيسي."
+    return {
+        "id": "4e1ba01e960a", "status": "pending", "origin": "news", "score": 24.8,
+        "bucket": "serious", "state_media": False,
+        "source": {"title": "Houthis cut vital supply road to Yemen’s Taiz",
+                   "link": "https://www.freemalaysiatoday.com/x", "publisher": "Free Malaysia Today",
+                   "publishers": ["Free Malaysia Today", "Malay Mail"]},
+        "arabic": {"post_title": title, "post_body": body, "analysis": analysis,
+                   "image_headline": "الحوثيون يقطعون طريق تعز-عدن", "category": "عالم",
+                   "urgent": False, "hashtags": ["اليمن"]},
+        "caption": f"{title}\n\n{body}\n\nخلف الخبر\n{analysis}",
+        "headlines": [f"{text_name} يشرح خطة الحوثيين"], "headline_selected": 0,
+    }
+
+
+NAMES_AUDIT_SOURCE = [
+    "Analysts say the Houthis achieved their military aim. Farea al-Muslimi, a research fellow at "
+    "Chatham House, said cutting the road isolates Taiz from Aden even without taking the city."]
+
+
+def names_audit_hit(url: str, name: str) -> dict:
+    return {"url": url, "title": f"{name} — تحليل", "description": f"قال {name} إن الحوثيين قطعوا الطريق"}
+
+
+def names_audit_doubt(arabic: str = "فريدة المسلمي", latin: str = "Farea al-Muslimi",
+                      candidates=("فارع المسلمي", "فريعة المسلمي")) -> dict:
+    return {"arabic": arabic, "latin": latin, "gender": "male", "verdict": "doubtful",
+            "reason": "تعارض جنس: اسم مؤنث مع «الباحث»", "candidates": list(candidates),
+            "context": "تشاتام هاوس"}

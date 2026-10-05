@@ -18,7 +18,8 @@ from __future__ import annotations
 import shutil
 
 from tests.helpers import (check, load_config, evidence, store, DRAFTS_DIR, ImportantRig,
-                           ImportantWriteRig, important_doc, important_fixture_point,
+                           ImportantWriteRig, NamesAuditRig, NAMES_AUDIT_SOURCE, names_audit_doubt,
+                           names_audit_draft, names_audit_hit, important_doc, important_fixture_point,
                            important_good_data, important_marked_body, important_point,
                            important_stance, important_synthetic_point)
 
@@ -1726,3 +1727,84 @@ def test_important_write_guards() -> None:
           (draft and draft[1].get("warnings")))
     for n in (36, 37, 38, 39, 40, 41, 47, 147, 247, 347, 447, 48, 148, 50, 51, 52, 150, 151, 152, 153):
         important.saved_path(96000 + n).unlink(missing_ok=True)
+
+
+def test_names_audit_guards() -> None:
+    """حارس تدقيق أسماء الأشخاص (Issue #1252، g52–g56) — يعدّل نصًّا منشورًا آليًا، فتُكتب حالاته
+    قبل الكود. الكشف (Haiku) وطلب Brave مزيَّفان؛ الاستقلال والعدّاد والمعتمد المحفوظ يجري على
+    الكود الحقيقي. القاعدة: لا تصحيح إلا برسم يظهر حرفيًا في نطاقين عربيين مستقلين."""
+    import json
+
+    from src import names_audit
+
+    cfg = load_config()
+    wrong, right = "فريدة المسلمي", "فارع المسلمي"
+    two = [names_audit_hit("https://www.aljazeera.net/a", right),
+           names_audit_hit("https://www.alaraby.co.uk/b", right)]
+
+    def fields(d: dict) -> str:
+        return " ".join([d["caption"], d["arabic"]["analysis"], d["arabic"]["post_title"],
+                         d["arabic"]["image_headline"], *d["headlines"]])
+
+    # g52) الاسم الخاطئ مع أصله اللاتيني في المصدر، والرسم المرشّح في نطاقين عربيين مستقلين
+    d = names_audit_draft()
+    with NamesAuditRig([names_audit_doubt()], {right: two}) as rig:
+        report = names_audit.run(d, NAMES_AUDIT_SOURCE, cfg)
+        saved = json.loads(names_audit.VERIFIED_FILE.read_text(encoding="utf-8"))
+    check("g52: يُصحَّح الاسم في التعليق والتحليل والعنوان المقترح", wrong not in fields(d) and fields(d).count(right) == 3,
+          fields(d))
+    check("g52: يُحفظ في names_verified بأصله اللاتيني ومصدريه وتاريخه",
+          any(e["arabic"] == right and e["latin"] == "Farea al-Muslimi" and len(e["sources"]) == 2 and e["at"]
+              for e in saved["entries"].values()), saved)
+    check("g52: التقرير يحمل التصحيح بالنطاقين", len(report["corrections"]) == 1
+          and report["corrections"][0]["from"] == wrong and report["corrections"][0]["to"] == right, report)
+    check("g52: بلا تنبيه «لم يُحسم»", not d.get("warnings"), d.get("warnings"))
+    check("g52: الحقول غير النصية لا تُمسّ", d["source"]["publisher"] == "Free Malaysia Today", d["source"])
+
+    # g53) الرسم المرشّح في نطاق واحد فقط ← لا تغيير، وتنبيه
+    d = names_audit_draft()
+    before = fields(d)
+    with NamesAuditRig([names_audit_doubt()], {right: two[:1]}) as rig:
+        report = names_audit.run(d, NAMES_AUDIT_SOURCE, cfg)
+        verified_exists = names_audit.VERIFIED_FILE.exists()
+    check("g53: نطاق واحد لا يكفي — النص كما هو", fields(d) == before, fields(d))
+    check("g53: تنبيه «اسم لم يُحسم» بالرسم والأصل اللاتيني",
+          any(w.startswith(f"اسم لم يُحسم: {wrong} (Farea al-Muslimi) — ") for w in d.get("warnings", [])),
+          d.get("warnings"))
+    check("g53: لا يُحفظ شيء في names_verified", not verified_exists)
+
+    # g54) اسم مشهور سليم ← لا نداء بحث ولا تغيير (والمشهور في معجم الأسماء لا يُدقَّق حتى لو شكّ الكاشف)
+    d = names_audit_draft()
+    d["arabic"]["analysis"] += " وقال ترامب إن أردوغان يتابع الأمر."
+    before = fields(d)
+    sound = [{"arabic": "ترامب", "latin": "Trump", "gender": "male", "verdict": "sound"},
+             {"arabic": "أردوغان", "latin": "Erdogan", "gender": "male", "verdict": "sound"}]
+    with NamesAuditRig(sound, {}) as rig:
+        names_audit.run(d, ["Trump said Erdogan was watching."], cfg)
+    check("g54: سليم ← لا طلب بحث ولا تغيير ولا تنبيه",
+          rig.http_calls == [] and fields(d) == before and not d.get("warnings"), rig.http_calls)
+    doubtful_famous = [{**sound[0], "verdict": "doubtful", "candidates": ["ترمب"], "reason": "x"}]
+    with NamesAuditRig(doubtful_famous, {}) as rig:
+        names_audit.run(d, ["Trump said Erdogan was watching."], cfg)
+    check("g54: مشهور في names.aliases لا يُبحث عنه ولو شكّ الكاشف", rig.http_calls == [] and fields(d) == before,
+          rig.http_calls)
+
+    # g55) نتائج من موقعين على النطاق نفسه ← لا تُعدّ مستقلة
+    d = names_audit_draft()
+    before = fields(d)
+    same = [names_audit_hit("https://www.aljazeera.net/a", right),
+            names_audit_hit("https://mubasher.aljazeera.net/b", right)]
+    with NamesAuditRig([names_audit_doubt()], {right: same}) as rig:
+        names_audit.run(d, NAMES_AUDIT_SOURCE, cfg)
+    check("g55: موقعان على نطاق واحد ← نطاق واحد مستقل: لا تغيير", fields(d) == before, fields(d))
+    check("g55: وتنبيه بدل التصحيح", any("اسم لم يُحسم" in w for w in d.get("warnings", [])), d.get("warnings"))
+
+    # g56) اسم محفوظ في names_verified ← يُستعمل بلا أي نداء Brave
+    d = names_audit_draft()
+    with NamesAuditRig([names_audit_doubt()], {right: two}) as rig:
+        names_audit.save_verified({"entries": {"farea al muslimi": {
+            "latin": "Farea al-Muslimi", "arabic": right, "sources": ["تصحيح المراجع"],
+            "source_kind": "تصحيح المراجع", "at": "2026-10-05T00:00:00+00:00", "wrong": []}}})
+        names_audit.run(d, NAMES_AUDIT_SOURCE, cfg)
+    check("g56: المحفوظ يُستعمل مباشرة بلا طلب Brave", rig.http_calls == [] and wrong not in fields(d)
+          and right in d["caption"], rig.http_calls)

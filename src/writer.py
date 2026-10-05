@@ -513,6 +513,14 @@ def write_arabic(article: Article, cfg, retries: int = 3,
             "  وإن حمل تطورًا، ابدأ العنوان بكلمة «تحديث:» وركّز على ما استجدّ فقط."
         )
 
+    # الوقاية قبل الكتابة (Issue #1252): أسماء معتمدة سلفًا ورد أصلها اللاتيني في المصدر تُمرَّر
+    # للكاتب برسمها فلا يُعاد الخطأ نفسه؛ فارغة (فلا أثر على البرومبت) إن لم يرد اسم محفوظ
+    from . import names_audit
+    name_note = names_audit.names_note(
+        [article.title, article.summary or "", *[d.get("text", "") for d in source_docs or []]], cfg)
+    if name_note:
+        followup = f"{followup}\n{name_note}" if followup else name_note
+
     from .extract import format_for_prompt
     docs_block = format_for_prompt(source_docs or [])
     if docs_block:

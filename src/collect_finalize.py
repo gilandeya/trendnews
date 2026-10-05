@@ -27,7 +27,7 @@ import logging
 import os
 from datetime import datetime, timezone
 
-from . import cards, decisions, feedback, headlines as headlines_mod, preselect, review, stages, store
+from . import cards, decisions, feedback, headlines as headlines_mod, names_audit, preselect, review, stages, store
 from .extract import gather as gather_texts
 from .writer import WriteFailure, build_caption, write_arabic
 
@@ -195,6 +195,8 @@ def _write_selected(cid: str, history: list[dict], dupe_threshold: float,
     if related_links:
         draft["source"]["related_links"] = related_links
         draft["source"]["related_publishers"] = related_publishers
+    # تدقيق أسماء الأشخاص بدليل بحث (Issue #1252): بعد الكتابة وقبل الحفظ، لا يكسر الحفظ أبدًا
+    names_audit.run(draft, [art.title, art.summary or "", *[d["text"] for d in docs]], cfg)
     store.save_draft(draft)
     store.remember(history, art.title, art.link, written["post_title"],
                    region=art.region, score=art.score, bucket=art.bucket)
@@ -286,7 +288,9 @@ def dispatch_written(issue_number: int, review_drafts: list[dict], card_drafts: 
         mode = "فوري (schedule_enabled=false)"
         log.info("تفويض %d مسودة إلى publish.cmd_now (%s)",
                  len(now_published_ids), mode)
-        return publish_mod.cmd_now(now_published_ids, cfg, issue_number)
+        code = publish_mod.cmd_now(now_published_ids, cfg, issue_number)
+        names_audit.notify_published(issue_number, now_published_ids)
+        return code
     if cfg.path("facebook.schedule_mode", "burst") == "burst":
         # يعمل داخل مهمة urgent (سقفها 20 دقيقة) — بلا هذا القيد كان
         # cmd_burst ينام 30-60 دقيقة على المنشور الثاني فتُلغى المهمة قبل
@@ -295,11 +299,15 @@ def dispatch_written(issue_number: int, review_drafts: list[dict], card_drafts: 
         inline_cap = float(cfg.path("facebook.finalize_inline_minutes", 0))
         log.info("تفويض %d مسودة إلى publish.cmd_burst (burst، بلا انتظار داخلي)",
                  len(now_published_ids))
-        return publish_mod.cmd_burst(now_published_ids, cfg, issue_number,
+        code = publish_mod.cmd_burst(now_published_ids, cfg, issue_number,
                                      inline_cap_minutes=inline_cap)
+        names_audit.notify_published(issue_number, now_published_ids)
+        return code
     log.info("تفويض %d مسودة إلى publish.cmd_schedule (schedule)",
              len(now_published_ids))
-    return publish_mod.cmd_schedule(now_published_ids, cfg, issue_number)
+    code = publish_mod.cmd_schedule(now_published_ids, cfg, issue_number)
+    names_audit.notify_published(issue_number, now_published_ids)
+    return code
 
 
 def finalize(issue_number: int, body: str, cfg) -> int:

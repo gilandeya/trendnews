@@ -20,7 +20,7 @@ from datetime import datetime, timedelta, timezone
 
 import requests
 
-from . import cards, decisions, facebook, feedback, review, stages, store
+from . import cards, decisions, facebook, feedback, names_audit, review, stages, store
 from .config import ROOT, env, load_config
 from .reel import build_reel, has_ffmpeg
 from .schedule import assign_slots, describe, is_due, spaced_slots
@@ -1050,6 +1050,9 @@ def cmd_youtube_selection(issue_number: int, body: str, cfg, client=None) -> int
             continue
         draft = youtube_publish.build_draft_from_text(
             topic, r["item"]["text"], r["item"]["video_ids"], date_str, cfg)
+        # تدقيق أسماء الأشخاص بدليل بحث (Issue #1252): مصدره اقتباسات النقاط بلغتها الأصلية
+        names_audit.run(draft, youtube_article.point_source_texts(
+            [points[pid] for pid in topic["point_ids"] if 0 <= pid < len(points)]), cfg)
         store.save_draft(draft)
         _route(topic, draft["id"])
         written += 1
@@ -1283,6 +1286,9 @@ def main() -> int:
         if edited_norm != stored_norm:
             store.update_draft(cap_path, caption=edited, caption_edited=True)
             log.info("نص المنشور %s عُدِّل يدويًا في الـ Issue", draft_id)
+            # التعلّم من تصحيحك (Issue #1252): اسم استبدله المراجع يُحفظ بأولوية على البحث
+            for learned in names_audit.learn_from_edit(cap_draft, edited, load_config()):
+                log.info("اسم تعلّمه البوت من تحريرك: %s ← %s", learned["from"], learned["to"])
 
     # اختيار العنوان (Issue #756) -- بعد تطبيق تعديل النص اليدوي مباشرة
     # (ترتيب ملزم: لو حرّر المراجع النص وعلّم عنوانًا معًا، يُطبَّق التحرير

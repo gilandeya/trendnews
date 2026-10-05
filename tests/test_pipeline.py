@@ -254,7 +254,10 @@ from tests.test_youtube import (
     test_image_ladder_order,
 )
 from tests.test_guards_golden import (test_guards_golden, test_important_false_guard,
-                                      test_important_write_guards)
+                                      test_important_write_guards, test_names_audit_guards)
+from tests.test_names_audit import (test_names_audit_brave_counter, test_names_audit_other_sites,
+                                    test_names_audit_pipeline,
+                                    test_names_audit_prevention_writer, test_names_audit_review_learning)
 from tests.test_important import (test_important_1203, test_important_1205, test_important_1207, test_important_1217, test_important_1221, test_important_1225, test_important_1229, test_important_1233,
                                   test_important_1210, test_important_1212, test_important_1214,
                                   test_important_pipeline, test_important_same_event_and_excerpts,
@@ -606,6 +609,14 @@ def main() -> int:
     test_important_false_guard()
     print("\n── حارس الكتابة لمسار «هام» g36–g39 (Issue #1221) ──")
     test_important_write_guards()
+    print("\n── حارس تدقيق أسماء الأشخاص g52–g56 (Issue #1252) ──")
+    test_names_audit_guards()
+    print("\n── تدقيق أسماء الأشخاص على الأنبوب: 🚀 والمرحلتان 2 و3 والتعلّم والعدّاد (Issue #1252) ──")
+    test_names_audit_pipeline()
+    test_names_audit_prevention_writer()
+    test_names_audit_review_learning()
+    test_names_audit_brave_counter()
+    test_names_audit_other_sites()
     print("\n── مسار «هام»: الحَكَم على النقاط، الأنبوب كاملًا (Issue #1194) ──")
     test_important_pipeline()
     print("\n── «هام»: التفكيك الخاص والبحث الجامع وBrave (Issue #1198) ──")

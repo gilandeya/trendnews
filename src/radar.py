@@ -16,7 +16,7 @@ import os
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from . import cards, merge, preselect, review, store
+from . import cards, merge, names_audit, preselect, review, store
 from .config import STATE_DIR, load_config
 from .extract import gather as gather_texts
 from .rank import rank
@@ -191,6 +191,9 @@ def build_draft(art, cfg, urgent: bool = True,
             "urgent": urgent, "image_candidates": art.image_candidates,
         },
     }
+    # تدقيق أسماء الأشخاص بدليل بحث (Issue #1252): مشترك مع request.py (يمرّ من build_draft)؛
+    # يسبق النشر التلقائي كذلك فيبلغه المنشور بلا مراجعة
+    names_audit.run(draft, [art.title, art.summary or "", *[d["text"] for d in docs]], cfg)
     draft.update(extra or {})
     return draft
 

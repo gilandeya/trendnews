@@ -130,7 +130,7 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-from . import cards, publish, review, stages, store, youtube_article, youtube_cluster, youtube_extract
+from . import cards, names_audit, publish, review, stages, store, youtube_article, youtube_cluster, youtube_extract
 from .config import DRAFTS_DIR, env, load_config
 
 log = logging.getLogger(__name__)
@@ -761,6 +761,10 @@ def build_review_body(drafts: list[dict], repo: str, branch: str, cfg=None) -> s
             parts.append("")
             parts += [f"  - {w}" for w in d["warnings"]]
             parts.append("")
+        # أسماء صُحّحت آليًا بدليل بحث (Issue #1252)
+        fixes = names_audit.corrections_lines(d)
+        if fixes:
+            parts += [*[f"  {line}" for line in fixes], ""]
         # سطر مصدر الصورة يظهر دومًا: قبل البناء يقول إن البطاقة لم تُبنَ (أو
         # إن رابطًا يدويًا محفوظًا سيُستعمل)، وبعده مصدر الصورة الفعلي.
         parts += [f"  {review.image_source_line(d)}", ""]
