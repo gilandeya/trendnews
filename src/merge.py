@@ -190,6 +190,13 @@ def _absorb(rep: Article, others: list[Article]) -> Article:
             if url not in images:
                 images.append(url)
 
+    # أعضاء ذاكرة الصحافة الخام تنتقل مع الدمج (انظر rank.pick_representative)
+    from .rank import PRESS_GROUPS
+    press = list(PRESS_GROUPS.get(id(rep), [rep]))
+    for other in others:
+        press += PRESS_GROUPS.get(id(other), [other])
+    PRESS_GROUPS[id(rep)] = press
+
     rep.cluster_sources = sorted(names)
     rep.cluster_members = members[:6]
     rep.image_candidates = images[:6]

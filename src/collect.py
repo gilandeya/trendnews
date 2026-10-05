@@ -20,7 +20,7 @@ import os
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from . import decisions, feedback, headlines as headlines_mod, names_audit, names_learn, preselect, store
+from . import decisions, feedback, headlines as headlines_mod, names_audit, names_learn, preselect, press_events, store
 from .config import DRAFTS_DIR, load_config
 from .rank import apply_region_diversity, rank
 from .screen import screen
@@ -311,6 +311,7 @@ def main() -> int:
         velocity_entries=vel_entries,
         velocity_weight=float(selection.get("velocity_weight", 5.0)),
         merge_cfg=cfg,
+        on_groups=lambda groups: press_events.record(groups, cfg),
     )
     save_velocity(vel_entries)
     log.info("مرشّحون بعد الترتيب: %d", len(candidates))
