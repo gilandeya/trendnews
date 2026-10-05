@@ -1,7 +1,7 @@
 {
   "id": "e77ed7f817aa",
   "created_at": "2026-10-05T05:57:01.306166+00:00",
-  "status": "queued",
+  "status": "published",
   "origin": "analysis",
   "title": "هل خرج الذكاء الاصطناعي عن السيطرة وأصبح يهدد الوجود البشري؟",
   "tier": 1,
@@ -67,5 +67,11 @@
     "web_search_tried": 0,
     "web_search_skipped": null
   },
-  "publish_at": "2026-10-05T09:11:23.946164+00:00"
+  "publish_at": "2026-10-05T09:11:23.946164+00:00",
+  "published_at": "2026-10-05T09:15:48.614966+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1377941321089555",
+    "photo_id": "1377941304422890",
+    "url": "https://www.facebook.com/631680090321390_1377941321089555"
+  }
 }
