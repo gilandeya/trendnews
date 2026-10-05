@@ -2,7 +2,7 @@
   "id": "f8e49c456027",
   "created_at": "2026-10-05T06:56:04.018295+00:00",
   "status": "pending",
-  "review_issue": 1249,
+  "review_issue": 1250,
   "origin": "important",
   "point_id": "f8e49c456027",
   "source_issue": 1247,
@@ -101,5 +101,6 @@
     "web_search_query": null,
     "web_search_tried": 0,
     "web_search_skipped": null
-  }
+  },
+  "caption_edited": true
 }
