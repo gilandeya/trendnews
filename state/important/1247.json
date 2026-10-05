@@ -326,8 +326,11 @@
       "sources_read": 12,
       "dropped_reason": null,
       "model_calls": 1,
-      "status": "offered",
-      "selection_issue": 1248
+      "status": "written",
+      "selection_issue": 1248,
+      "action": "go2",
+      "draft_id": "f8e49c456027",
+      "written_at": "2026-10-05T06:56:04.149719+00:00"
     },
     {
       "id": "abb0c5050bf4",
