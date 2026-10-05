@@ -1,7 +1,7 @@
 {
   "id": "82673e3e2aaf",
   "created_at": "2026-10-05T05:56:02.790458+00:00",
-  "status": "pending",
+  "status": "queued",
   "origin": "analysis",
   "title": "هل تشكل هجمات الحوثيين على أرامكو تهديدًا متصاعدًا لأمن الطاقة بالمنطقة؟",
   "tier": 2,
@@ -67,5 +67,6 @@
     "web_search_query": null,
     "web_search_tried": 0,
     "web_search_skipped": null
-  }
+  },
+  "publish_at": "2026-10-05T07:01:12.405257+00:00"
 }

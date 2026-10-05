@@ -1,7 +1,7 @@
 {
   "id": "c9033a26c5ad",
   "created_at": "2026-10-05T05:57:32.626479+00:00",
-  "status": "pending",
+  "status": "queued",
   "origin": "analysis",
   "title": "هل تؤدي العملية العسكرية اليمنية إلى استعادة المناطق من الحوثيين؟",
   "tier": 1,
@@ -66,5 +66,6 @@
     "web_search_query": null,
     "web_search_tried": 0,
     "web_search_skipped": null
-  }
+  },
+  "publish_at": "2026-10-05T06:49:09.955391+00:00"
 }
