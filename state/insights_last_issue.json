@@ -1,5 +1,5 @@
 {
-  "issue": 1115,
+  "issue": 1258,
   "recommendations": [
     {
       "id": "fp_5ebc2917eb91",
@@ -9,17 +9,17 @@
     },
     {
       "id": "facebook.peak_hours",
-      "text": "أفضل ساعات التفاعل فعليًا: 0, 20, 9. الإعداد الحالي: [12, 18, 21]. حدّث `facebook.peak_hours`.",
+      "text": "أفضل ساعات التفاعل فعليًا: 20, 0, 22. الإعداد الحالي: [12, 18, 21]. حدّث `facebook.peak_hours`.",
       "key": "facebook.peak_hours",
       "suggested": [
         0,
-        9,
-        20
+        20,
+        22
       ]
     },
     {
       "id": "fp_3f7e9bc1bc96",
-      "text": "أفضل مصدر أداءً: AP News (3 تفاعل، 7 منشور). ارفع وزنه في `sources`.",
+      "text": "أفضل مصدر أداءً: AP News (4 تفاعل، 5 منشور). ارفع وزنه في `sources`.",
       "key": null,
       "suggested": null
     }
