@@ -1,0 +1,113 @@
+{
+  "id": "8f932c44fc6b",
+  "created_at": "2026-10-05T15:08:10.675106+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 31.06,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 1,
+  "intrigue": 3,
+  "appeal_note": "اكتشاف علمي عن آليات الدماغ يشغل الفضول",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Nobel Prize in medicine awarded to three scientists for breakthrough research",
+  "link": "http://www.africanews.com/2026/10/05/nobel-prize-in-medicine-awarded-to-three-scientists-for-breakthrough-research/",
+  "publishers": [
+    "Africanews",
+    "Al Jazeera English",
+    "Daily Sabah",
+    "France24",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "Le Monde",
+    "Malay Mail",
+    "NDTV — World",
+    "NPR World",
+    "Phys.org",
+    "Rappler",
+    "South China Morning Post",
+    "TASS",
+    "The Express Tribune",
+    "The Japan Times"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Nobel Prize in medicine awarded to three scientists for breakthrough research",
+    "link": "http://www.africanews.com/2026/10/05/nobel-prize-in-medicine-awarded-to-three-scientists-for-breakthrough-research/",
+    "summary": "The Nobel Prize in medicine was awarded Monday to three scientists working on the mechanisms the brain uses to switch on, or off, the activity of individual nerve cells.",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-10-05T11:27:49+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/93/94/45/640x360_cmsv2_95562eb6-ac0b-59a4-ac64-2353f8700b92-9939445.jpg?1791193737",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "Al Jazeera English",
+      "Daily Sabah",
+      "France24",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "Le Monde",
+      "Malay Mail",
+      "NDTV — World",
+      "NPR World",
+      "Phys.org",
+      "Rappler",
+      "South China Morning Post",
+      "TASS",
+      "The Express Tribune",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/10/5/nobel-medicine-prize-honours-us-and-german-scientists-for-optogenetics-work?traffic_source=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3369804/nobel-medicine-prize-awarded-3-scientists-optogenetics-development?utm_source=rss_feed"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2633097/german-and-us-scientists-win-nobel-medicine-prize-for-work-on-optogenetics"
+      },
+      {
+        "name": "Phys.org",
+        "link": "https://phys.org/news/2026-10-german-trio-medicine-nobel-optogenetics.html"
+      },
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/people/newsmakers/nobel-prize-winners-physiology-medicine-2026/"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/10/05/nobel-prize-in-medicine-awarded-to-three-scientists-for-breakthrough-research/"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/93/94/45/640x360_cmsv2_95562eb6-ac0b-59a4-ac64-2353f8700b92-9939445.jpg?1791193737",
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/the-nobel-committee-an.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/05/566918.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/05/thumbs/400x400/566918.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/10/05/463889.jpg",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=g-s1-146400"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 16,
+    "velocity": 1.0,
+    "age_hours": 1486.9123005561112,
+    "is_stale": false,
+    "score": 31.05563769127778,
+    "impact": 1,
+    "proximity": 1,
+    "intrigue": 3,
+    "appeal_note": "اكتشاف علمي عن آليات الدماغ يشغل الفضول",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

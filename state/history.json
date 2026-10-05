@@ -2398,5 +2398,101 @@
     "posted_title": "لماذا منعت إسرائيل زعيم حزب الخضر البريطاني من دخول أراضيها",
     "region": "za",
     "seen_at": "2026-10-05T09:18:29.498142+00:00"
+  },
+  {
+    "score": 31.06,
+    "bucket": "serious",
+    "tokens": [
+      "awarded",
+      "breakthrough",
+      "medicine",
+      "nobel",
+      "prize",
+      "research",
+      "scientists",
+      "three"
+    ],
+    "link": "http://www.africanews.com/2026/10/05/nobel-prize-in-medicine-awarded-to-three-scientists-for-breakthrough-research/",
+    "title": "Nobel Prize in medicine awarded to three scientists for breakthrough research",
+    "posted_title": "",
+    "region": "africa",
+    "seen_at": "2026-10-05T15:08:10.675486+00:00"
+  },
+  {
+    "score": 29.91,
+    "bucket": "useful",
+    "tokens": [
+      "advance",
+      "bab",
+      "forces",
+      "government",
+      "mandeb",
+      "strait",
+      "towards",
+      "yemeni"
+    ],
+    "link": "https://www.investing.com/news/economy-news/yemeni-government-forces-advance-towards-bab-elmandeb-strait--reuters-4931871",
+    "title": "Yemeni government forces advance towards Bab el-Mandeb Strait",
+    "posted_title": "",
+    "region": "money",
+    "seen_at": "2026-10-05T15:08:10.675735+00:00"
+  },
+  {
+    "score": 23.55,
+    "bucket": "useful",
+    "tokens": [
+      "chief",
+      "climate",
+      "extreme",
+      "heat",
+      "newborns",
+      "pregnant",
+      "putting",
+      "risk",
+      "women"
+    ],
+    "link": "https://phys.org/news/2026-10-extreme-pregnant-women-newborns-climate.html",
+    "title": "Extreme heat putting pregnant women, newborns at risk: UN climate chief",
+    "posted_title": "",
+    "region": "science",
+    "seen_at": "2026-10-05T15:08:10.675953+00:00"
+  },
+  {
+    "score": 21.97,
+    "bucket": "serious",
+    "tokens": [
+      "'super",
+      "clayton",
+      "czar",
+      "force'",
+      "intelligence",
+      "jay",
+      "lead",
+      "names",
+      "trump"
+    ],
+    "link": "https://www.france24.com/en/tv-shows/business/20261005-trump-names-jay-clayton-as-ai-czar-to-lead-super-intelligence-force",
+    "title": "Trump names Jay Clayton as AI czar to lead 'Super Intelligence Force'",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-10-05T15:08:10.676147+00:00"
+  },
+  {
+    "score": 21.09,
+    "bucket": "serious",
+    "tokens": [
+      "deepfake",
+      "italy",
+      "meloni",
+      "risks",
+      "seeks",
+      "trademark",
+      "voice"
+    ],
+    "link": "https://www.channelnewsasia.com/business/italy-pm-meloni-seeks-eu-trademark-her-voice-amid-ai-deepfake-risks-6433096",
+    "title": "Italy PM Meloni seeks EU trademark for her voice amid AI deepfake risks",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-10-05T15:08:10.676336+00:00"
   }
 ]

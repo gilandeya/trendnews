@@ -1,0 +1,65 @@
+{
+  "id": "5e76568a0e65",
+  "created_at": "2026-10-05T15:08:10.675959+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.97,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "ترامب يعين مسؤول ذكاء اصطناعي لقيادة قوة ذكاء فائق",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump names Jay Clayton as AI czar to lead 'Super Intelligence Force'",
+  "link": "https://www.france24.com/en/tv-shows/business/20261005-trump-names-jay-clayton-as-ai-czar-to-lead-super-intelligence-force",
+  "publishers": [
+    "France24",
+    "The Hindu — International"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Trump names Jay Clayton as AI czar to lead 'Super Intelligence Force'",
+    "link": "https://www.france24.com/en/tv-shows/business/20261005-trump-names-jay-clayton-as-ai-czar-to-lead-super-intelligence-force",
+    "summary": "US President Donald Trump has named his National Intelligence Director Jay Clayton as America's \"Super Intelligence\" czar, as fears over AI grow. Also, oil markets react to Houthi attacks as well as export data, and France's fiscal woes drive the euro to a 17-month low.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-10-05T10:09:38+00:00",
+    "image_url": "https://s.france24.com/media/display/5a312aa4-c097-11f1-bc9f-578a4b968fd6/w:1024/p:16x9/BUSINESS-DAILY-051026.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/trump-names-national-intelligence-director-jay-clayton-to-lead-a-new-federal-ai-task-force/article71544416.ece"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/tv-shows/business/20261005-trump-names-jay-clayton-as-ai-czar-to-lead-super-intelligence-force"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/5a312aa4-c097-11f1-bc9f-578a4b968fd6/w:1024/p:16x9/BUSINESS-DAILY-051026.jpg",
+      "https://th-i.thgim.com/public/incoming/flbz6c/article71544418.ece/alternates/LANDSCAPE_1200/Trump_AI_38671.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1486.9124827252779,
+    "is_stale": false,
+    "score": 21.968767310796295,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "ترامب يعين مسؤول ذكاء اصطناعي لقيادة قوة ذكاء فائق",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
