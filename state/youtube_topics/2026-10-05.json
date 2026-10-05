@@ -1,0 +1,753 @@
+{
+  "run_date": "2026-10-05",
+  "stats": {
+    "points_in": 257,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 107,
+    "issues_clustered": 23,
+    "topics_merged": 2,
+    "topics_out": 6,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 4,
+    "topics_below_min_points": 5,
+    "topics_below_min_channels": 6,
+    "layers": {
+      "2": 2,
+      "1": 4
+    },
+    "agreement": 2,
+    "cross_source": 4,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "هجوم الحوثيين على أرامكو",
+      "تعاون العراق وسوريا في نقل النفط والمسارات البديلة للطاقة في الخليج"
+    ],
+    [
+      "مخاطر الذكاء الاصطناعي الوجودية (تركيا)",
+      "الذكاء الاصطناعي ومخاطره الوجودية (Habertürk)"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "مفاوضات إيران وأمريكا والملف النووي",
+      "event": "الخلاف حول ما إذا كانت مفاوضات إيران وأمريكا الأخيرة تناولت الملف النووي أم الشروط السبعة",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        60,
+        61,
+        143
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": null,
+      "id": "538be68b321a",
+      "created_at": "2026-10-05T04:01:44.557121+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1244
+    },
+    {
+      "title": "هجوم الحوثيين على أرامكو",
+      "event": "هجوم جماعة أنصار الله بصواريخ ومسيرات على منشآت أرامكو في الرياض",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        1,
+        40,
+        41,
+        147
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null,
+      "id": "c5195978ab65",
+      "created_at": "2026-10-05T04:01:44.557121+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1244
+    },
+    {
+      "title": "الصراع الإثيوبي مع جبهة تحرير تيجراي وتوترات إقليمية",
+      "event": "تقدم قوات موالية للحكومة الإثيوبية نحو ميكيلي واتهامات إثيوبيا لدول مجاورة بدعم الجبهة وتداعيات التوتر مع إريتريا",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79
+      ],
+      "total_points": 13,
+      "fresh_points": 13,
+      "dropped_reason": null,
+      "id": "a2c0c43607d1",
+      "created_at": "2026-10-05T04:01:44.557121+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1244
+    },
+    {
+      "title": "مخاطر الذكاء الاصطناعي الوجودية (تركيا)",
+      "event": "نقاش تركي حول خروج الذكاء الاصطناعي عن السيطرة وتحذيرات بيل غيتس من خطره على البشرية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        42,
+        43,
+        44,
+        45,
+        47,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114
+      ],
+      "total_points": 12,
+      "fresh_points": 12,
+      "dropped_reason": null,
+      "id": "f414b9e043be",
+      "created_at": "2026-10-05T04:01:44.557121+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1244
+    },
+    {
+      "title": "أزمة صناديق الاستثمار في تركيا",
+      "event": "فضيحة احتيال صناديق الاستثمار التركية وتداعياتها المالية والاعتقالات",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        55,
+        56,
+        57,
+        58,
+        102,
+        103,
+        104,
+        105,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        131,
+        132,
+        133,
+        134,
+        135
+      ],
+      "total_points": 20,
+      "fresh_points": 16,
+      "dropped_reason": null,
+      "id": "85b2cc994361",
+      "created_at": "2026-10-05T04:01:44.557121+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1244
+    },
+    {
+      "title": "بدء عملية عسكرية يمنية لاستعادة مناطق الحوثيين",
+      "event": "إعلان الحكومة اليمنية الشرعية ورئيسها رشاد العليمي بدء عملية عسكرية لاستعادة الأراضي من الحوثيين",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        62,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93
+      ],
+      "total_points": 15,
+      "fresh_points": 15,
+      "dropped_reason": null,
+      "id": "ac61a18a5bed",
+      "created_at": "2026-10-05T04:01:44.557121+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1244
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "مفاوضات إيران وأمريكا والملف النووي",
+      "event": "الخلاف حول ما إذا كانت مفاوضات إيران وأمريكا الأخيرة تناولت الملف النووي أم الشروط السبعة",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        60,
+        61,
+        143
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": null
+    },
+    {
+      "title": "هجوم الحوثيين على أرامكو",
+      "event": "هجوم جماعة أنصار الله بصواريخ ومسيرات على منشآت أرامكو في الرياض",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        1,
+        40,
+        41,
+        147
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "الانسحاب الأمريكي من العراق وتبعاته",
+      "event": "إعلان البنتاغون إتمام انسحاب القوات الأمريكية من العراق وتداعياته الأمنية والاقتصادية",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        25,
+        54
+      ],
+      "total_points": 9,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "احتجاجات الطلاب الفرنسيين على أزمة التعليم",
+      "event": "احتجاجات طلابية واسعة في فرنسا بدأت من مدرسة ثانوية في باريس بسبب تراجع التعليم ونقص المعلمين",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        48,
+        49,
+        50,
+        100,
+        107
+      ],
+      "total_points": 5,
+      "fresh_points": 2,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "الصراع الإثيوبي مع جبهة تحرير تيجراي وتوترات إقليمية",
+      "event": "تقدم قوات موالية للحكومة الإثيوبية نحو ميكيلي واتهامات إثيوبيا لدول مجاورة بدعم الجبهة وتداعيات التوتر مع إريتريا",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79
+      ],
+      "total_points": 13,
+      "fresh_points": 13,
+      "dropped_reason": null
+    },
+    {
+      "title": "مخاطر الذكاء الاصطناعي الوجودية (تركيا)",
+      "event": "نقاش تركي حول خروج الذكاء الاصطناعي عن السيطرة وتحذيرات بيل غيتس من خطره على البشرية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        42,
+        43,
+        44,
+        45,
+        47,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114
+      ],
+      "total_points": 12,
+      "fresh_points": 12,
+      "dropped_reason": null
+    },
+    {
+      "title": "أزمة صناديق الاستثمار في تركيا",
+      "event": "فضيحة احتيال صناديق الاستثمار التركية وتداعياتها المالية والاعتقالات",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        55,
+        56,
+        57,
+        58,
+        102,
+        103,
+        104,
+        105,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        131,
+        132,
+        133,
+        134,
+        135
+      ],
+      "total_points": 20,
+      "fresh_points": 16,
+      "dropped_reason": null
+    },
+    {
+      "title": "تصريحات أمريكية حول البرنامج النووي الإيراني",
+      "event": "تصريحات مسؤولين أمريكيين (وزير الدفاع وترامب) بشأن تقلص الطموحات النووية الإيرانية ومضيق هرمز",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        2,
+        59,
+        63
+      ],
+      "total_points": 3,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "قاعدة إسرائيلية في أرض الصومال",
+      "event": "مخاوف من إقامة إسرائيل قاعدة بحرية في بربرة بأرض الصومال",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        6,
+        70
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الأزمة السياسية الفرنسية والانتخابات الرئاسية 2027",
+      "event": "الوضع الاقتصادي الفرنسي المتأزم وصعود مارين لوبان قبل انتخابات 2027",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        94,
+        95,
+        96,
+        97,
+        98,
+        99
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "بدء عملية عسكرية يمنية لاستعادة مناطق الحوثيين",
+      "event": "إعلان الحكومة اليمنية الشرعية ورئيسها رشاد العليمي بدء عملية عسكرية لاستعادة الأراضي من الحوثيين",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        62,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93
+      ],
+      "total_points": 15,
+      "fresh_points": 15,
+      "dropped_reason": null
+    },
+    {
+      "title": "التعافي الأمني والسياسي في الصومال",
+      "event": "تصريحات الرئيس الصومالي عن تعافي البلاد أمنياً وبناء الكيانات الفيدرالية ودور تركيا في دعم الصومال",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        66,
+        67,
+        68,
+        69,
+        71,
+        72
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الانتخابات الرئاسية البرازيلية",
+      "event": "الانتخابات الرئاسية والتشريعية في البرازيل بين لولا دا سيلفا وفلافيو بولسونارو",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "هيمنة حزب العدالة والتنمية وأردوغان على السلطة",
+      "event": "انتقاد تركز السلطة في يد أردوغان وحزبه وتآكل استقلالية مؤسسات الدولة",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        129,
+        130,
+        135
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "أزمة نقص الأدوية في إيران",
+      "event": "أزمة نقص الأدوية الحادة في إيران وتأثيرها على المرضى وارتفاع الأسعار والفساد المرتبط بها",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تحشيد عسكري أمريكي ضد إيران وتصعيد الخيارات",
+      "event": "نشر حاملات طائرات وقوات أمريكية إضافية في الشرق الأوسط والتهديد بخيار الحرب مع إيران",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        3,
+        4,
+        23,
+        24
+      ],
+      "total_points": 5,
+      "fresh_points": 1,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "ذكريات العزاوي عن صدام حسين",
+      "event": "شهادات الدكتور فاضل العزاوي الشخصية عن فترة عمله كمدير مخابرات مع صدام حسين",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "حادثة طائرة فلاي دبي وإنقاذ الطيار الهندي",
+      "event": "تعرض طائرة فلاي دبي لهجوم وقيام الطيار الهندي بإنقاذ الركاب",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        21,
+        22
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "إعادة هيكلة الجيش الأمريكي وتقنيات الحرب المستقبلية",
+      "event": "إعلان وزير الدفاع الأمريكي عن إعادة بناء الجيش وتوظيف الروبوتات والذكاء الاصطناعي في الحرب",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        26,
+        27
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "أمن الطاقة العالمي وتحولاته",
+      "event": "تحليل تطور مفهوم أمن الطاقة من حظر النفط 1973 إلى التنويع الحالي ودور الصين وأمريكا",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        35,
+        36,
+        37,
+        38,
+        39
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "فشل محاولة إعدام كريستا بايك بالحقن القاتل",
+      "event": "فشل تنفيذ حكم إعدام المحكومة الأمريكية كريستا بايك بالحقن القاتل",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        52,
+        53
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    }
+  ]
+}
