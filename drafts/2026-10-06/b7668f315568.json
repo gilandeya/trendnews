@@ -1,7 +1,7 @@
 {
   "id": "b7668f315568",
   "created_at": "2026-10-06T04:52:37.456401+00:00",
-  "status": "pending",
+  "status": "queued",
   "origin": "analysis",
   "title": "هل يشكل حلف مكة الدفاعي ردًا فوريًا على التهديدات الحوثية والإيرانية؟",
   "tier": 2,
@@ -79,5 +79,6 @@
     "web_search_query": null,
     "web_search_tried": 0,
     "web_search_skipped": null
-  }
+  },
+  "publish_at": "2026-10-06T06:29:25.914021+00:00"
 }
