@@ -1,0 +1,58 @@
+{
+  "id": "51a9331d3b17",
+  "created_at": "2026-10-06T09:08:25.111743+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 17.96,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "impact": 1,
+  "proximity": 3,
+  "intrigue": 1,
+  "appeal_note": "نشرة طقس تركية؛ صيف خريفي قادم",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Sonbaharda yaz havası! Pastırma sıcakları geliyor, tarih belli oldu... Bu hafta hava nasıl olacak?",
+  "link": "https://www.hurriyet.com.tr/gundem/sonbaharda-yaz-havasi-pastirma-sicaklari-geliyor-tarih-belli-oldu-bu-hafta-hava-nasil-olacak-43330170",
+  "publishers": [
+    "Hürriyet (تركي)"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Sonbaharda yaz havası! Pastırma sıcakları geliyor, tarih belli oldu... Bu hafta hava nasıl olacak?",
+    "link": "https://www.hurriyet.com.tr/gundem/sonbaharda-yaz-havasi-pastirma-sicaklari-geliyor-tarih-belli-oldu-bu-hafta-hava-nasil-olacak-43330170",
+    "summary": "Sonbaharın serin yüzünü göstermesinin ardından sıcaklıklar yeniden yükselişe geçiyor. Meteoroloji Mühendisi Güven Özdemir, tarih vererek dikkat çekti ve önümüzdeki günlerde yaşanacak değişime ilişkin önemli değerlendirmelerde bulundu. Peki sıcak hava ne kadar sürecek, asıl sürpriz hangi dönemde yaşanacak? İşte hava durumuna dair tüm merak edilenler...",
+    "source_name": "Hürriyet (تركي)",
+    "region": "tr",
+    "weight": 1.0,
+    "published": "2026-10-06T04:05:08+00:00",
+    "image_url": "https://image.hurimg.com/i/hurriyet/90/620x350/6ac39346066eefba1fd6198e.jpg",
+    "publisher": "Hürriyet (تركي)",
+    "cluster_sources": [
+      "Hürriyet (تركي)"
+    ],
+    "cluster_members": [
+      {
+        "name": "Hürriyet (تركي)",
+        "link": "https://www.hurriyet.com.tr/gundem/sonbaharda-yaz-havasi-pastirma-sicaklari-geliyor-tarih-belli-oldu-bu-hafta-hava-nasil-olacak-43330170"
+      }
+    ],
+    "image_candidates": [
+      "https://image.hurimg.com/i/hurriyet/90/620x350/6ac39346066eefba1fd6198e.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 17.963447199703705,
+    "impact": 1,
+    "proximity": 3,
+    "intrigue": 1,
+    "appeal_note": "نشرة طقس تركية؛ صيف خريفي قادم",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

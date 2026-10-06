@@ -1,0 +1,65 @@
+{
+  "id": "4752bbf8267d",
+  "created_at": "2026-10-06T09:08:25.111436+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.28,
+  "trend_score": 0.0,
+  "velocity": 0.2,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "توتر إيراني أمريكي يهم العالم العربي جغرافيًا",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Estados Unidos retiró sus bombarderos de la base británica de Fairford por un posible ataque con drones de Irán",
+  "link": "https://elpais.com/internacional/2026-10-06/estados-unidos-retiro-sus-bombarderos-de-la-base-britanica-de-fairford-por-un-posible-ataque-con-drones-de-iran.html",
+  "publishers": [
+    "Clarín",
+    "El País"
+  ],
+  "region": "es",
+  "article": {
+    "title": "Estados Unidos retiró sus bombarderos de la base británica de Fairford por un posible ataque con drones de Irán",
+    "link": "https://elpais.com/internacional/2026-10-06/estados-unidos-retiro-sus-bombarderos-de-la-base-britanica-de-fairford-por-un-posible-ataque-con-drones-de-iran.html",
+    "summary": "El intento de atentado formaba parte de una conspiración para destruir aviones y matar a estadounidenses, según ‘The New York Times’",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-10-06T08:49:45+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/6OPARWXLZRPPHCTT5Q7O3K2LQY.jpg?auth=c0c3c178a96580edbd14d60195c128fc08602d6309260cb5ed0f2c8327804384",
+    "publisher": "El País",
+    "cluster_sources": [
+      "Clarín",
+      "El País"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/internacional/2026-10-06/estados-unidos-retiro-sus-bombarderos-de-la-base-britanica-de-fairford-por-un-posible-ataque-con-drones-de-iran.html"
+      },
+      {
+        "name": "Clarín",
+        "link": "https://www.clarin.com/estados-unidos/eeuu-retiro-sus-bombarderos-de-la-base-fairford-ante-un-posible-ataque-con-drones-de-iran_0_aczrQkkaPa.html"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/6OPARWXLZRPPHCTT5Q7O3K2LQY.jpg?auth=c0c3c178a96580edbd14d60195c128fc08602d6309260cb5ed0f2c8327804384",
+      "https://www.clarin.com/img/2026/08/27/-I2w8bjWX_1200x630__1.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 19.279687937666665,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "توتر إيراني أمريكي يهم العالم العربي جغرافيًا",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

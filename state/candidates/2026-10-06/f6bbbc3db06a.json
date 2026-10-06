@@ -1,0 +1,64 @@
+{
+  "id": "f6bbbc3db06a",
+  "created_at": "2026-10-06T09:08:25.111153+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.16,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "تحالف عسكري إسلامي ضد الحوثيين: تطور إقليمي مؤثر",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Saudi Arabia, Turkey and Pakistan activate defense pact over Houthi attacks",
+  "link": "https://www.iranintl.com/en/202610058124",
+  "publishers": [
+    "Hindustan Times — World",
+    "Iran International"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Saudi Arabia, Turkey and Pakistan activate defense pact over Houthi attacks",
+    "link": "https://www.iranintl.com/en/202610058124",
+    "summary": "Saudi Arabia, Turkey and Pakistan activated collective deterrence measures Monday and agreed to rapidly deploy forces and military capabilities to the kingdom, as Saudi-backed Yemeni troops advanced against the Iran-backed Houthis.",
+    "source_name": "Iran International",
+    "region": "ir",
+    "weight": 1.0,
+    "published": "2026-10-05T16:00:00+00:00",
+    "image_url": "https://i.iranintl.com/images/rdk9umy0/production/a8e4a97191612f4c4edb3ebc82a6608355286836-4000x1836.png?rect=228,0,3508,1836&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format",
+    "publisher": "Iran International",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "Iran International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Iran International",
+        "link": "https://www.iranintl.com/en/202610058124"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/pakistan-turkey-to-swiftly-deploy-forces-to-saudi-arabia-amid-houthi-attacks-in-key-move-under-mecca-pact-101791248028945.html"
+      }
+    ],
+    "image_candidates": [
+      "https://i.iranintl.com/images/rdk9umy0/production/a8e4a97191612f4c4edb3ebc82a6608355286836-4000x1836.png?rect=228,0,3508,1836&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1504.9173674977778,
+    "is_stale": false,
+    "score": 22.157743489444442,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "تحالف عسكري إسلامي ضد الحوثيين: تطور إقليمي مؤثر",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

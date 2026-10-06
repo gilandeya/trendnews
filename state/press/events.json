@@ -1,197 +1,6 @@
 {
  "events": [
   {
-   "id": "cfd5abf3f547",
-   "first_seen": "2026-10-05T15:07:44.573046+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Nobel medicine prize honours US and German scientists for optogenetics work",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/5/nobel-medicine-prize-honours-us-and-german-scientists-for-optogenetics-work?traffic_source=rss",
-     "published": "2026-10-05T14:18:18+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Nobel Medicine Prize awarded to US-German trio for work on optogenetics",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/europe/article/3369804/nobel-medicine-prize-awarded-3-scientists-optogenetics-development?utm_source=rss_feed",
-     "published": "2026-10-05T09:45:18+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "German and US scientists win Nobel medicine prize for work on optogenetics",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633097/german-and-us-scientists-win-nobel-medicine-prize-for-work-on-optogenetics",
-     "published": "2026-10-05T06:14:08+00:00"
-    },
-    {
-     "outlet": "Phys.org",
-     "region": "science",
-     "bucket": "useful",
-     "title": "US-German trio wins medicine Nobel for work on optogenetics",
-     "language": "en",
-     "link": "https://phys.org/news/2026-10-german-trio-medicine-nobel-optogenetics.html",
-     "published": "2026-10-05T10:32:02+00:00"
-    },
-    {
-     "outlet": "Rappler",
-     "region": "ph",
-     "bucket": "serious",
-     "title": "German and US scientists win Nobel medicine prize for work on optogenetics",
-     "language": "en",
-     "link": "https://www.rappler.com/people/newsmakers/nobel-prize-winners-physiology-medicine-2026/",
-     "published": "2026-10-05T11:07:27+00:00"
-    },
-    {
-     "outlet": "Africanews",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Nobel Prize in medicine awarded to three scientists for breakthrough research",
-     "language": "en",
-     "link": "http://www.africanews.com/2026/10/05/nobel-prize-in-medicine-awarded-to-three-scientists-for-breakthrough-research/",
-     "published": "2026-10-05T11:27:49+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Scientists win Nobel Prize in medicine for work on ‘light-gated ion channels and optogenetics’",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/05/world/science-health/2026-nobel-prize-medicine/",
-     "published": "2026-10-05T09:34:00+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "3 scientists win Nobel medicine prize for optogenetics research",
-     "language": "en",
-     "link": "https://www.dailysabah.com/life/3-scientists-win-nobel-medicine-prize-for-optogenetics-research/news",
-     "published": "2026-10-05T09:39:00+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Nobel medicine prize goes to 3 scientists for research into brain activity",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/05/g-s1-146400/nobel-medicine-prize",
-     "published": "2026-10-05T10:11:33+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Nobel Medicine Prize Goes To 3 Scientists For Research Into Brain Activity",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/karl-deisseroth-peter-hegemann-georg-nagel-nobel-prize-in-medicine-goes-to-3-for-discoveries-concerning-optogenetics-12140374#publisher=newsstand",
-     "published": "2026-10-05T10:12:54+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "US-German trio win medicine Nobel for work on optogenetics",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/05/us-german-trio-win-medicine-nobel-for-work-on-optogenetics",
-     "published": "2026-10-05T10:39:31+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "US, German scientists win Nobel medicine prize for optogenetics breakthrough",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/life/2026/10/05/us-german-scientists-win-nobel-medicine-prize-for-optogenetics-breakthrough/237828",
-     "published": "2026-10-05T12:02:57+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Nobel Prize for Medicine awarded to three scientists for their work in optogenetics",
-     "language": "en",
-     "link": "https://tass.com/science/2197619",
-     "published": "2026-10-05T10:05:01+00:00"
-    },
-    {
-     "outlet": "Le Monde",
-     "region": "fr",
-     "bucket": "serious",
-     "title": "Le Nobel de médecine 2026 récompense l’Américain Karl Deisseroth et les Allemands Peter Hegemann et Georg Nagel pour leurs travaux sur les canaux ioniques",
-     "language": "fr",
-     "link": "https://www.lemonde.fr/sciences/article/2026/10/05/le-nobel-de-medecine-2026-recompense-l-americain-karl-deisseroth-et-les-allemands-peter-hegemann-et-georg-nagel-pour-leurs-travaux-sur-les-canaux-ioniques_6788513_1650684.html",
-     "published": "2026-10-05T09:41:47+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Nobel Prize in Medicine jointly awarded to ​Karl Deisseroth, Peter Hegemann ​and Georg Nagel",
-     "language": "en",
-     "link": "https://www.france24.com/en/science/20261005-nobel-prize-in-medicine-jointly-awarded-to-karl-deisseroth-peter-hegemann-and-georg-nagel",
-     "published": "2026-10-05T09:44:01+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Karl Deisseroth, Peter Hegemann, Georg Nagel win 2026 Nobel Prize in Medicine for work on optogenetics",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/nobel-prize-in-physiology-or-medicine-2026-awarded-to-3-scientists-for-work-on-optogenetics-101791192988348.html",
-     "published": "2026-10-05T09:37:44+00:00"
-    },
-    {
-     "outlet": "Le Monde",
-     "region": "fr",
-     "bucket": "serious",
-     "title": "Prix Nobel de médecine 2026 : un Américain et deux Allemands récompensés pour leur technique d’activation des neurones par la lumière",
-     "language": "fr",
-     "link": "https://www.lemonde.fr/sciences/article/2026/10/05/prix-nobel-de-medecine-2026-un-americain-et-deux-allemands-recompenses-pour-leur-technique-d-activation-des-neurones-par-la-lumiere_6788564_1650684.html",
-     "published": "2026-10-05T16:57:55+00:00"
-    },
-    {
-     "outlet": "STAT News",
-     "region": "health",
-     "bucket": "useful",
-     "title": "2026 Nobel Prize in Medicine awarded for brain research tool called optogenetics",
-     "language": "en",
-     "link": "https://www.statnews.com/2026/10/05/nobel-prize-medicine-2026-winner-deisseroth-hegemann-nagel/?utm_campaign=rss",
-     "published": "2026-10-05T10:00:11+00:00"
-    },
-    {
-     "outlet": "Hürriyet (تركي)",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "2026 Nobel Tıp Ödülü sahiplerini buldu",
-     "language": "tr",
-     "link": "https://www.hurriyet.com.tr/dunya/nobel-tip-odulu-sahibini-buldu-43330124",
-     "published": "2026-10-05T09:42:00+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Nobel Prize 2026: When will the awards be announced, date and timings in IST",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/nobel-prize-2026-date-timings-ist-how-to-watch/article71546193.ece",
-     "published": "2026-10-05T09:06:03+00:00"
-    }
-   ],
-   "last_seen": "2026-10-06T03:07:51.967007+00:00",
-   "outlets": 19,
-   "regions": 15,
-   "languages": 3,
-   "score": 55.0
-  },
-  {
    "id": "07777a6ab897",
    "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
@@ -437,13 +246,240 @@
      "language": "en",
      "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQbndCN0ZDVGg2amdidV9TSG5QR1oxdWxCTkF1RVJ6MDF3Qi1IaVRoZ01rS0ZOTEJPel9GRkZmVk1SeGtuaDJEMDJvdUxHZm1yWTFaZmNUWjUxSTBiV1UtNG84NllxQWQ0TzlvQmVKR09TLWczN0FRT1ZqT2Q5MWhtZDFKc2ZUWGVSeGp4M2psa2Jrb2hhOHhjcG1JVFRHNGJCc3FUN21PbnDSAa4BQVVfeXFMT0pPVnhBeEtmNXNrZ3Zpd2VDTW9PdFVtNG4wYk9UZFZjWWFwRUZWU0hKT3Q3LVJQaGlGc3JrXzFjQ2dTMUdfRzB1c3cyTENPUndzMTlOa0tuZlYyYUo3RGxTUWFrN1FXRDNQNmdweUZGcmFWWVRadFJHZmo3M3lIUWlvNXBfLXZlWXRicUtydHlJS01OQUszM2xOQi1wTWZyMzVBM0FmRTdIY05ZX1JB?oc=5",
      "published": "2026-10-05T21:43:04+00:00"
+    },
+    {
+     "outlet": "Geo News",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Makkah pact: Pakistan, Saudi Arabia and Turkiye vow rapid force deployment in kingdom",
+     "language": "en",
+     "link": "https://www.geo.tv/latest/685171-makkah-alliance-names-pakistani-general-as-first-secretary-general-amid-rising-regional-threats",
+     "published": "2026-10-05T20:02:40+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Saudi-Backed Yemeni Forces Expel Houthis From Several Areas Around Key Strait",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/saudi-backed-yemeni-forces-expel-houthis-from-several-areas-around-key-strait-12144143#publisher=newsstand",
+     "published": "2026-10-06T05:53:52+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Yemen's Houthis say they struck Riyadh airport, other Saudi sites",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/yemen-houthis-strike-saudi-riyadh-airport-6435476",
+     "published": "2026-10-06T06:12:00+00:00"
     }
    ],
-   "last_seen": "2026-10-06T03:07:51.967007+00:00",
+   "last_seen": "2026-10-06T09:08:01.863235+00:00",
+   "outlets": 21,
+   "regions": 16,
+   "languages": 2,
+   "score": 57.0
+  },
+  {
+   "id": "cfd5abf3f547",
+   "first_seen": "2026-10-05T15:07:44.573046+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Nobel medicine prize honours US and German scientists for optogenetics work",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/5/nobel-medicine-prize-honours-us-and-german-scientists-for-optogenetics-work?traffic_source=rss",
+     "published": "2026-10-05T14:18:18+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Nobel Medicine Prize awarded to US-German trio for work on optogenetics",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3369804/nobel-medicine-prize-awarded-3-scientists-optogenetics-development?utm_source=rss_feed",
+     "published": "2026-10-05T09:45:18+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "German and US scientists win Nobel medicine prize for work on optogenetics",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633097/german-and-us-scientists-win-nobel-medicine-prize-for-work-on-optogenetics",
+     "published": "2026-10-05T06:14:08+00:00"
+    },
+    {
+     "outlet": "Phys.org",
+     "region": "science",
+     "bucket": "useful",
+     "title": "US-German trio wins medicine Nobel for work on optogenetics",
+     "language": "en",
+     "link": "https://phys.org/news/2026-10-german-trio-medicine-nobel-optogenetics.html",
+     "published": "2026-10-05T10:32:02+00:00"
+    },
+    {
+     "outlet": "Rappler",
+     "region": "ph",
+     "bucket": "serious",
+     "title": "German and US scientists win Nobel medicine prize for work on optogenetics",
+     "language": "en",
+     "link": "https://www.rappler.com/people/newsmakers/nobel-prize-winners-physiology-medicine-2026/",
+     "published": "2026-10-05T11:07:27+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Nobel Prize in medicine awarded to three scientists for breakthrough research",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/05/nobel-prize-in-medicine-awarded-to-three-scientists-for-breakthrough-research/",
+     "published": "2026-10-05T11:27:49+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Scientists win Nobel Prize in medicine for work on ‘light-gated ion channels and optogenetics’",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/05/world/science-health/2026-nobel-prize-medicine/",
+     "published": "2026-10-05T09:34:00+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "3 scientists win Nobel medicine prize for optogenetics research",
+     "language": "en",
+     "link": "https://www.dailysabah.com/life/3-scientists-win-nobel-medicine-prize-for-optogenetics-research/news",
+     "published": "2026-10-05T09:39:00+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Nobel medicine prize goes to 3 scientists for research into brain activity",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/05/g-s1-146400/nobel-medicine-prize",
+     "published": "2026-10-05T10:11:33+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Nobel Medicine Prize Goes To 3 Scientists For Research Into Brain Activity",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/karl-deisseroth-peter-hegemann-georg-nagel-nobel-prize-in-medicine-goes-to-3-for-discoveries-concerning-optogenetics-12140374#publisher=newsstand",
+     "published": "2026-10-05T10:12:54+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "US-German trio win medicine Nobel for work on optogenetics",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/05/us-german-trio-win-medicine-nobel-for-work-on-optogenetics",
+     "published": "2026-10-05T10:39:31+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "US, German scientists win Nobel medicine prize for optogenetics breakthrough",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/life/2026/10/05/us-german-scientists-win-nobel-medicine-prize-for-optogenetics-breakthrough/237828",
+     "published": "2026-10-05T12:02:57+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Nobel Prize for Medicine awarded to three scientists for their work in optogenetics",
+     "language": "en",
+     "link": "https://tass.com/science/2197619",
+     "published": "2026-10-05T10:05:01+00:00"
+    },
+    {
+     "outlet": "Le Monde",
+     "region": "fr",
+     "bucket": "serious",
+     "title": "Le Nobel de médecine 2026 récompense l’Américain Karl Deisseroth et les Allemands Peter Hegemann et Georg Nagel pour leurs travaux sur les canaux ioniques",
+     "language": "fr",
+     "link": "https://www.lemonde.fr/sciences/article/2026/10/05/le-nobel-de-medecine-2026-recompense-l-americain-karl-deisseroth-et-les-allemands-peter-hegemann-et-georg-nagel-pour-leurs-travaux-sur-les-canaux-ioniques_6788513_1650684.html",
+     "published": "2026-10-05T09:41:47+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Nobel Prize in Medicine jointly awarded to ​Karl Deisseroth, Peter Hegemann ​and Georg Nagel",
+     "language": "en",
+     "link": "https://www.france24.com/en/science/20261005-nobel-prize-in-medicine-jointly-awarded-to-karl-deisseroth-peter-hegemann-and-georg-nagel",
+     "published": "2026-10-05T09:44:01+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Karl Deisseroth, Peter Hegemann, Georg Nagel win 2026 Nobel Prize in Medicine for work on optogenetics",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/nobel-prize-in-physiology-or-medicine-2026-awarded-to-3-scientists-for-work-on-optogenetics-101791192988348.html",
+     "published": "2026-10-05T09:37:44+00:00"
+    },
+    {
+     "outlet": "Le Monde",
+     "region": "fr",
+     "bucket": "serious",
+     "title": "Prix Nobel de médecine 2026 : un Américain et deux Allemands récompensés pour leur technique d’activation des neurones par la lumière",
+     "language": "fr",
+     "link": "https://www.lemonde.fr/sciences/article/2026/10/05/prix-nobel-de-medecine-2026-un-americain-et-deux-allemands-recompenses-pour-leur-technique-d-activation-des-neurones-par-la-lumiere_6788564_1650684.html",
+     "published": "2026-10-05T16:57:55+00:00"
+    },
+    {
+     "outlet": "STAT News",
+     "region": "health",
+     "bucket": "useful",
+     "title": "2026 Nobel Prize in Medicine awarded for brain research tool called optogenetics",
+     "language": "en",
+     "link": "https://www.statnews.com/2026/10/05/nobel-prize-medicine-2026-winner-deisseroth-hegemann-nagel/?utm_campaign=rss",
+     "published": "2026-10-05T10:00:11+00:00"
+    },
+    {
+     "outlet": "Hürriyet (تركي)",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "2026 Nobel Tıp Ödülü sahiplerini buldu",
+     "language": "tr",
+     "link": "https://www.hurriyet.com.tr/dunya/nobel-tip-odulu-sahibini-buldu-43330124",
+     "published": "2026-10-05T09:42:00+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Nobel Prize 2026: When will the awards be announced, date and timings in IST",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/nobel-prize-2026-date-timings-ist-how-to-watch/article71546193.ece",
+     "published": "2026-10-05T09:06:03+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "The Nobel for medicine goes to lighting up the brain",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/the-nobel-for-medicine-goes-to-lighting-up-the-brain-101791264188330.html",
+     "published": "2026-10-06T05:24:24+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T09:08:01.863235+00:00",
    "outlets": 19,
    "regions": 15,
-   "languages": 2,
-   "score": 53.0
+   "languages": 3,
+   "score": 55.0
   },
   {
    "id": "4bac7b46db6b",
@@ -617,6 +653,188 @@
    "regions": 12,
    "languages": 1,
    "score": 41.0
+  },
+  {
+   "id": "9093e3b6ec98",
+   "first_seen": "2026-10-05T15:07:44.573046+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Hundreds of French high schools shut as protests persist",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2034917/hundreds-of-french-high-schools-shut-as-protests-persist",
+     "published": "2026-10-05T12:09:50+00:00"
+    },
+    {
+     "outlet": "Deutsche Welle",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Hundreds of French schools closed amid protests",
+     "language": "en",
+     "link": "https://www.dw.com/en/hundreds-of-french-schools-closed-amid-protests/a-79542656?maca=en-rss-en-world-4025-rdf",
+     "published": "2026-10-05T05:48:00+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Hundreds of French high schools close as student protests continue",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/france-high-schools-shut-protests-students-6433056",
+     "published": "2026-10-05T12:10:31+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Hundreds Of Schools Stay Closed In France Amid Raging Student Protests",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/hundreds-of-schools-stay-closed-in-france-amid-raging-student-protests-12140507#publisher=newsstand",
+     "published": "2026-10-05T10:01:32+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Schoolboy, 15, loses hand after picking up police stun grenade during French school protests",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/05/schoolboy-loses-hand-police-stun-grenade-french-school-protests",
+     "published": "2026-10-05T12:25:45+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Teenager loses hand picking up grenade in France school protests",
+     "language": "en",
+     "link": "https://punchng.com/teenager-loses-hand-picking-up-grenade-in-france-school-protests/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-05T13:41:45+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Teenager loses hand picking up grenade in France school protests",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/05/teenager-loses-hand-picking-up-grenade-in-france-school-protests",
+     "published": "2026-10-05T12:49:29+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Teenager loses hand picking up grenade in France school protests",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/teenager-loses-hand-picking-up-grenade-in-france-school-protests-2/",
+     "published": "2026-10-05T14:02:04+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Teenager loses hand picking up grenade in France school protests",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/france-protests-grenade-schools-students-6433971",
+     "published": "2026-10-05T17:00:06+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Teenager loses hand picking up grenade in France school protests",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/teen-hand-police-grenade-france-school-protests/",
+     "published": "2026-10-05T16:01:16+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Teenager's hand blown off during confrontation between France school protesters and police",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c9zrdmxp4vy6o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-05T16:32:18+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Teenager's hand blown off during confrontation between France school protesters and police",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFB0eUZUVGl6Z2MyWVVfSlgtQmNVSlItaUs1bjVycEVRZktrb2FQOFdWTFhlTE9ma05EM0RIVGUzTVlZRlplaWphOHhSSzZ1VFBhWUxYRU85c1QzTTA?oc=5",
+     "published": "2026-10-05T14:30:31+00:00"
+    },
+    {
+     "outlet": "Deutsche Welle",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Hundreds of French schools shut, teen loses hand in protests",
+     "language": "en",
+     "link": "https://www.dw.com/en/hundreds-of-french-schools-shut-teen-loses-hand-in-protests/a-79542656?maca=en-rss-en-world-4025-rdf",
+     "published": "2026-10-05T05:48:00+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "France braces for national day of school protests after injuries and mass arrests",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cr4g1q1elxnjo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-05T21:18:10+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Teenager loses hand picking up grenade in France school protests",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/teenager-loses-hand-picking-up-grenade-in-france-school-protests/article71549735.ece",
+     "published": "2026-10-06T00:02:37+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "France braces for national day of school protests after injuries and mass arrests",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/melcom-serves-1000-meals-to-children-in-selected-orphanage-homes/",
+     "published": "2026-10-05T17:59:55+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Teenager loses hand picking up grenade in France school protests",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/06/teenager-loses-hand-picking-up-grenade-in-france-school-protests/237861",
+     "published": "2026-10-06T01:40:52+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "France school protests: teenager’s hand blown off after picking up grenade",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3369829/france-school-protests-teenagers-hand-blown-after-picking-grenade?utm_source=rss_feed",
+     "published": "2026-10-05T14:20:36+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Teen loses hand picking up police grenade as France school protests continue",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNN2NtN191X3phU1MwWXFXYWdXRzhfeVRWWFFMNVE0V3JjR1ZYT0pZaTVOR0Q4UlB6QVF2SlhjYVhaUFpHZmFiTWVUQ1lpaG16b2RvdVJTRjVSeFd1ZVRCTzVqNFF6OXJ5RW9iVVBZUnpwWExjT0p1SzJBc2hBcnh0X29hRQ?oc=5",
+     "published": "2026-10-05T16:00:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T09:08:01.863235+00:00",
+   "outlets": 15,
+   "regions": 11,
+   "languages": 1,
+   "score": 39.0
   },
   {
    "id": "f4950bb60ba8",
@@ -810,170 +1028,6 @@
    "score": 36.0
   },
   {
-   "id": "9093e3b6ec98",
-   "first_seen": "2026-10-05T15:07:44.573046+00:00",
-   "members": [
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Hundreds of French high schools shut as protests persist",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2034917/hundreds-of-french-high-schools-shut-as-protests-persist",
-     "published": "2026-10-05T12:09:50+00:00"
-    },
-    {
-     "outlet": "Deutsche Welle",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Hundreds of French schools closed amid protests",
-     "language": "en",
-     "link": "https://www.dw.com/en/hundreds-of-french-schools-closed-amid-protests/a-79542656?maca=en-rss-en-world-4025-rdf",
-     "published": "2026-10-05T05:48:00+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Hundreds of French high schools close as student protests continue",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/world/france-high-schools-shut-protests-students-6433056",
-     "published": "2026-10-05T12:10:31+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Hundreds Of Schools Stay Closed In France Amid Raging Student Protests",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/hundreds-of-schools-stay-closed-in-france-amid-raging-student-protests-12140507#publisher=newsstand",
-     "published": "2026-10-05T10:01:32+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Schoolboy, 15, loses hand after picking up police stun grenade during French school protests",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/05/schoolboy-loses-hand-police-stun-grenade-french-school-protests",
-     "published": "2026-10-05T12:25:45+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Teenager loses hand picking up grenade in France school protests",
-     "language": "en",
-     "link": "https://punchng.com/teenager-loses-hand-picking-up-grenade-in-france-school-protests/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-05T13:41:45+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Teenager loses hand picking up grenade in France school protests",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/05/teenager-loses-hand-picking-up-grenade-in-france-school-protests",
-     "published": "2026-10-05T12:49:29+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Teenager loses hand picking up grenade in France school protests",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/teenager-loses-hand-picking-up-grenade-in-france-school-protests-2/",
-     "published": "2026-10-05T14:02:04+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Teenager loses hand picking up grenade in France school protests",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/world/france-protests-grenade-schools-students-6433971",
-     "published": "2026-10-05T17:00:06+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Teenager loses hand picking up grenade in France school protests",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/teen-hand-police-grenade-france-school-protests/",
-     "published": "2026-10-05T16:01:16+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Teenager's hand blown off during confrontation between France school protesters and police",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c9zrdmxp4vy6o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-05T16:32:18+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Teenager's hand blown off during confrontation between France school protesters and police",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFB0eUZUVGl6Z2MyWVVfSlgtQmNVSlItaUs1bjVycEVRZktrb2FQOFdWTFhlTE9ma05EM0RIVGUzTVlZRlplaWphOHhSSzZ1VFBhWUxYRU85c1QzTTA?oc=5",
-     "published": "2026-10-05T14:30:31+00:00"
-    },
-    {
-     "outlet": "Deutsche Welle",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Hundreds of French schools shut, teen loses hand in protests",
-     "language": "en",
-     "link": "https://www.dw.com/en/hundreds-of-french-schools-shut-teen-loses-hand-in-protests/a-79542656?maca=en-rss-en-world-4025-rdf",
-     "published": "2026-10-05T05:48:00+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "France braces for national day of school protests after injuries and mass arrests",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cr4g1q1elxnjo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-05T21:18:10+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Teenager loses hand picking up grenade in France school protests",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/teenager-loses-hand-picking-up-grenade-in-france-school-protests/article71549735.ece",
-     "published": "2026-10-06T00:02:37+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "France braces for national day of school protests after injuries and mass arrests",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/melcom-serves-1000-meals-to-children-in-selected-orphanage-homes/",
-     "published": "2026-10-05T17:59:55+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Teenager loses hand picking up grenade in France school protests",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/06/teenager-loses-hand-picking-up-grenade-in-france-school-protests/237861",
-     "published": "2026-10-06T01:40:52+00:00"
-    }
-   ],
-   "last_seen": "2026-10-06T03:07:51.967007+00:00",
-   "outlets": 14,
-   "regions": 10,
-   "languages": 1,
-   "score": 36.0
-  },
-  {
    "id": "95e53a23fd71",
    "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
@@ -1100,6 +1154,125 @@
    "regions": 10,
    "languages": 1,
    "score": 33.0
+  },
+  {
+   "id": "363605fbbb2b",
+   "first_seen": "2026-10-06T03:07:51.967007+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Trump approves firing-squad execution of Fort Hood shooter, Pentagon says",
+     "language": "en",
+     "link": "https://www.theguardian.com/us-news/2026/oct/05/trump-fort-hood-shooter-execution",
+     "published": "2026-10-06T01:33:44+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Trump approves firing squad execution for US military base shooter Nidal Hasan",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3369851/trump-approves-firing-squad-execution-us-military-base-shooter-nidal-hasan?utm_source=rss_feed",
+     "published": "2026-10-06T02:17:38+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Trump approves firing-squad execution of Fort Hood shooter Nidal Hasan",
+     "language": "en",
+     "link": "https://www.france24.com/en/americas/20261006-trump-approves-firing-squad-execution-of-fort-hood-shooter-nidal-hasan",
+     "published": "2026-10-06T01:31:37+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Trump approves firing squad for convicted US military base shooter",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/us-trump-approves-firing-squad-military-base-shooter-6434831",
+     "published": "2026-10-06T02:24:17+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Trump authorises firing Squad for US military base shooter",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/06/trump-authorises-firing-squad-for-us-military-base-shooter/237853",
+     "published": "2026-10-06T01:21:56+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Trump approves firing squad execution for Fort Hood attacker Nidal Hasan",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/6/trump-approves-firing-squad-execution-for-fort-hood-attacker-nidal-hasan?traffic_source=rss",
+     "published": "2026-10-06T07:23:00+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump approves firing squad execution for Fort Hood shooter Nidal Hasan",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/trump-approves-firing-squad-execution-for-fort-hood-shooter-nidal-hasan/article71549975.ece",
+     "published": "2026-10-06T07:01:40+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Trump approves firing squad execution of US Army base shooter",
+     "language": "en",
+     "link": "https://punchng.com/trump-approves-firing-squad-execution-of-us-army-base-shooter/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-06T07:07:45+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Who is Nidal Hasan? Trump approves firing squad execution of 2009 Fort Hood shooter who killed 13 people in deadly massacre",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/who-is-nidal-hasan-trump-approves-firing-squad-execution-of-2009-fort-hood-shooter-who-killed-13-people-in-deadly-massacre-101791255659654.html",
+     "published": "2026-10-06T03:11:18+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Trump approves firing squad for convicted US military base shooter",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/trump-approves-firing-squad-for-convicted-us-military-base-shooter",
+     "published": "2026-10-06T05:39:00+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Trump approves firing squad for convicted US military base shooter",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/trump-approves-firing-squad-for-convicted-us-military-base-shooter/",
+     "published": "2026-10-06T07:52:15+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Trump approves firing-squad execution of 2009 Fort Hood shooter",
+     "language": "en",
+     "link": "https://tass.com/society/2197903",
+     "published": "2026-10-06T03:40:48+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T09:08:01.863235+00:00",
+   "outlets": 12,
+   "regions": 9,
+   "languages": 1,
+   "score": 32.0
   },
   {
    "id": "d7e40dc3e136",
@@ -1340,13 +1513,168 @@
      "language": "en",
      "link": "https://www.myjoyonline.com/nigeria-launches-rescue-after-military-plane-crashes-with-32-aboard/",
      "published": "2026-10-05T19:07:58+00:00"
+    },
+    {
+     "outlet": "Premium Times",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Military Aircraft Crash: Tinubu declares three-day mourning, says victims to be named",
+     "language": "en",
+     "link": "https://www.premiumtimesng.com/news/top-news/914783-military-aircraft-crash-tinubu-declares-three-day-mourning-says-victims-to-be-named.html",
+     "published": "2026-10-05T20:47:30+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Nigeria declares three days of mourning after military aircraft crash kills 32",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/nigeria-declares-three-days-of-mourning-after-military-aircraft-crash-kills-32/",
+     "published": "2026-10-06T08:58:39+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Nigeria mourns 32 killed as military plane crashes into swamp",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/ck1wvjer20qqo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-06T09:02:03+00:00"
     }
    ],
-   "last_seen": "2026-10-06T03:07:51.967007+00:00",
-   "outlets": 10,
-   "regions": 7,
+   "last_seen": "2026-10-06T09:08:01.863235+00:00",
+   "outlets": 11,
+   "regions": 8,
    "languages": 1,
-   "score": 26.0
+   "score": 29.0
+  },
+  {
+   "id": "a056d2844c9a",
+   "first_seen": "2026-10-05T18:07:49.818707+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "LIVE: France vs Belgium",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/liveblog/2026/10/5/live-france-vs-belgium-uefa-nations-league?traffic_source=rss",
+     "published": "2026-10-05T15:47:00+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "France v Belgium, Italy v Turkey, Northern Ireland v Georgia: Nations League",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/live/2026/oct/05/france-v-belgium-italy-v-turkey-northern-ireland-v-georgia-nations-league-live",
+     "published": "2026-10-05T18:03:37+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Portugal sail into Nations League last 8, Greece frustrate Germany",
+     "language": "en",
+     "link": "https://www.dailysabah.com/sports/football/portugal-sail-into-nations-league-last-8-greece-frustrate-germany",
+     "published": "2026-10-05T13:10:00+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "What happened between Ireland and Israel in their Nations League match?",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/10/5/what-happened-between-ireland-and-israel-in-their-nations-league-match?traffic_source=rss",
+     "published": "2026-10-05T15:28:16+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Nations League roundup: Olise leads late charge as France bowl over Belgium",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/2026/oct/05/nations-league-roundup-olise-leads-late-charge-as-france-bowl-over-belgium",
+     "published": "2026-10-05T21:31:20+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Olise powers France to win over Belgium in Nations League",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/olise-powers-france-to-win-over-belgium-in-nations-league/",
+     "published": "2026-10-05T21:50:17+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Olise powers France to win over Belgium in Nations League",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/06/olise-powers-france-to-win-over-belgium-in-nations-league",
+     "published": "2026-10-05T22:11:58+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "France roar back in Nations League as Italy beat Turkey",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/06/france-roar-back-in-nations-league-as-italy-beat-turkey",
+     "published": "2026-10-05T22:45:32+00:00"
+    },
+    {
+     "outlet": "Le Monde",
+     "region": "fr",
+     "bucket": "serious",
+     "title": "France-Belgique : Michael Olise, le « talent pur » qui porte l’équipe de France de Zinédine Zidane",
+     "language": "tr",
+     "link": "https://www.lemonde.fr/sport/article/2026/10/06/france-belgique-michael-olise-le-talent-pur-qui-porte-l-equipe-de-france-de-zinedine-zidane_6788688_3242.html",
+     "published": "2026-10-06T01:17:16+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Super-subs help France demolish Belgium with late flurry",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/10/5/super-subs-help-france-demolish-belgium-with-late-flurry?traffic_source=rss",
+     "published": "2026-10-05T21:13:38+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "France roar back in Nations League as Italy beat Turkey",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633243/france-roar-back-in-nations-league-as-italy-beat-turkey",
+     "published": "2026-10-06T00:19:03+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Nations League: France defeat Belgium in second-half comeback",
+     "language": "en",
+     "link": "https://www.france24.com/en/tv-shows/sports/20261006-nations-league-france-defeat-belgium-in-second-half-comeback",
+     "published": "2026-10-06T06:28:17+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Türkiye fall 3-1 to Italy for 4th straight Nations League loss",
+     "language": "en",
+     "link": "https://www.dailysabah.com/sports/football/turkiye-fall-3-1-to-italy-for-4th-straight-nations-league-loss",
+     "published": "2026-10-05T21:43:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T09:08:01.863235+00:00",
+   "outlets": 8,
+   "regions": 8,
+   "languages": 2,
+   "score": 28.0
   },
   {
    "id": "c2ed5607be1f",
@@ -1553,11 +1881,85 @@
      "published": "2026-10-05T21:39:00+00:00"
     }
    ],
-   "last_seen": "2026-10-06T03:07:51.967007+00:00",
+   "last_seen": "2026-10-06T09:08:01.863235+00:00",
    "outlets": 9,
    "regions": 6,
    "languages": 2,
    "score": 25.0
+  },
+  {
+   "id": "74e705b67b90",
+   "first_seen": "2026-10-06T03:07:51.967007+00:00",
+   "members": [
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Messi prepares to bid farewell to Argentina shirt",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/sports/2026/10/06/messi-prepares-to-bid-farewell-to-argentina-shirt/237785",
+     "published": "2026-10-05T23:00:00+00:00"
+    },
+    {
+     "outlet": "Folha de S.Paulo",
+     "region": "br",
+     "bucket": "serious",
+     "title": "Argentina faz festa para despedida de Messi enquanto pensa em como jogar sem ele",
+     "language": "pt",
+     "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://www1.folha.uol.com.br/esporte/2026/10/argentina-faz-festa-para-despedida-de-messi-enquanto-pensa-em-como-jogar-sem-ele.shtml",
+     "published": "2026-10-06T02:00:00+00:00"
+    },
+    {
+     "outlet": "Buenos Aires Times",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "Messi readies for final farewell in Argentina send-off against Benin",
+     "language": "en",
+     "link": "https://www.batimes.com.ar/news/sports/messi-readies-for-final-farewell-in-argentina-send-off-against-benin.phtml",
+     "published": "2026-10-05T16:13:12+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Emotional Argentina hold breath for Messi magic one last time",
+     "language": "en",
+     "link": "https://www.dailysabah.com/sports/football/emotional-argentina-hold-breath-for-messi-magic-one-last-time",
+     "published": "2026-10-05T13:07:00+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "End of an era as Messi prepares to hang up Argentina boots",
+     "language": "en",
+     "link": "https://punchng.com/end-of-an-era-as-messi-prepares-to-hang-up-argentina-boots/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-06T08:53:49+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "End of an era as Messi prepares to hang up Argentina boots",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/end-of-an-era-as-messi-prepares-to-hang-up-argentina-boots/",
+     "published": "2026-10-06T08:30:31+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "sport",
+     "title": "Owner, businessman & player: Messi has big plans as a golden era ends",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/football/articles/cwly3lpmyye9o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-06T05:39:49+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T09:08:01.863235+00:00",
+   "outlets": 7,
+   "regions": 6,
+   "languages": 2,
+   "score": 23.0
   },
   {
    "id": "c90472109711",
@@ -1636,111 +2038,10 @@
      "published": "2026-10-05T18:35:33+00:00"
     }
    ],
-   "last_seen": "2026-10-06T03:07:51.967007+00:00",
+   "last_seen": "2026-10-06T09:08:01.863235+00:00",
    "outlets": 8,
    "regions": 6,
    "languages": 1,
-   "score": 22.0
-  },
-  {
-   "id": "a056d2844c9a",
-   "first_seen": "2026-10-05T18:07:49.818707+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "LIVE: France vs Belgium",
-     "language": "en",
-     "link": "https://www.aljazeera.com/sports/liveblog/2026/10/5/live-france-vs-belgium-uefa-nations-league?traffic_source=rss",
-     "published": "2026-10-05T15:47:00+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "France v Belgium, Italy v Turkey, Northern Ireland v Georgia: Nations League",
-     "language": "en",
-     "link": "https://www.theguardian.com/football/live/2026/oct/05/france-v-belgium-italy-v-turkey-northern-ireland-v-georgia-nations-league-live",
-     "published": "2026-10-05T18:03:37+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Portugal sail into Nations League last 8, Greece frustrate Germany",
-     "language": "en",
-     "link": "https://www.dailysabah.com/sports/football/portugal-sail-into-nations-league-last-8-greece-frustrate-germany",
-     "published": "2026-10-05T13:10:00+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "What happened between Ireland and Israel in their Nations League match?",
-     "language": "en",
-     "link": "https://www.aljazeera.com/sports/2026/10/5/what-happened-between-ireland-and-israel-in-their-nations-league-match?traffic_source=rss",
-     "published": "2026-10-05T15:28:16+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Nations League roundup: Olise leads late charge as France bowl over Belgium",
-     "language": "en",
-     "link": "https://www.theguardian.com/football/2026/oct/05/nations-league-roundup-olise-leads-late-charge-as-france-bowl-over-belgium",
-     "published": "2026-10-05T21:31:20+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Olise powers France to win over Belgium in Nations League",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/olise-powers-france-to-win-over-belgium-in-nations-league/",
-     "published": "2026-10-05T21:50:17+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Olise powers France to win over Belgium in Nations League",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/06/olise-powers-france-to-win-over-belgium-in-nations-league",
-     "published": "2026-10-05T22:11:58+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "France roar back in Nations League as Italy beat Turkey",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/06/france-roar-back-in-nations-league-as-italy-beat-turkey",
-     "published": "2026-10-05T22:45:32+00:00"
-    },
-    {
-     "outlet": "Le Monde",
-     "region": "fr",
-     "bucket": "serious",
-     "title": "France-Belgique : Michael Olise, le « talent pur » qui porte l’équipe de France de Zinédine Zidane",
-     "language": "tr",
-     "link": "https://www.lemonde.fr/sport/article/2026/10/06/france-belgique-michael-olise-le-talent-pur-qui-porte-l-equipe-de-france-de-zinedine-zidane_6788688_3242.html",
-     "published": "2026-10-06T01:17:16+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Super-subs help France demolish Belgium with late flurry",
-     "language": "en",
-     "link": "https://www.aljazeera.com/sports/2026/10/5/super-subs-help-france-demolish-belgium-with-late-flurry?traffic_source=rss",
-     "published": "2026-10-05T21:13:38+00:00"
-    }
-   ],
-   "last_seen": "2026-10-06T03:07:51.967007+00:00",
-   "outlets": 6,
-   "regions": 6,
-   "languages": 2,
    "score": 22.0
   },
   {
@@ -1894,7 +2195,7 @@
      "published": "2026-10-05T07:19:16+00:00"
     }
    ],
-   "last_seen": "2026-10-06T03:07:51.967007+00:00",
+   "last_seen": "2026-10-06T09:08:01.863235+00:00",
    "outlets": 7,
    "regions": 5,
    "languages": 2,
@@ -1968,7 +2269,7 @@
      "published": "2026-10-05T22:52:45+00:00"
     }
    ],
-   "last_seen": "2026-10-06T03:07:51.967007+00:00",
+   "last_seen": "2026-10-06T09:08:01.863235+00:00",
    "outlets": 7,
    "regions": 6,
    "languages": 1,
@@ -2105,62 +2406,6 @@
    "score": 17.0
   },
   {
-   "id": "363605fbbb2b",
-   "first_seen": "2026-10-06T03:07:51.967007+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Trump approves firing-squad execution of Fort Hood shooter, Pentagon says",
-     "language": "en",
-     "link": "https://www.theguardian.com/us-news/2026/oct/05/trump-fort-hood-shooter-execution",
-     "published": "2026-10-06T01:33:44+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Trump approves firing squad execution for US military base shooter Nidal Hasan",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3369851/trump-approves-firing-squad-execution-us-military-base-shooter-nidal-hasan?utm_source=rss_feed",
-     "published": "2026-10-06T02:17:38+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Trump approves firing-squad execution of Fort Hood shooter Nidal Hasan",
-     "language": "en",
-     "link": "https://www.france24.com/en/americas/20261006-trump-approves-firing-squad-execution-of-fort-hood-shooter-nidal-hasan",
-     "published": "2026-10-06T01:31:37+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Trump approves firing squad for convicted US military base shooter",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/world/us-trump-approves-firing-squad-military-base-shooter-6434831",
-     "published": "2026-10-06T02:24:17+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Trump authorises firing Squad for US military base shooter",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/06/trump-authorises-firing-squad-for-us-military-base-shooter/237853",
-     "published": "2026-10-06T01:21:56+00:00"
-    }
-   ],
-   "last_seen": "2026-10-06T03:07:51.967007+00:00",
-   "outlets": 5,
-   "regions": 5,
-   "languages": 1,
-   "score": 17.0
-  },
-  {
    "id": "b135550d5381",
    "first_seen": "2026-10-05T18:07:49.818707+00:00",
    "members": [
@@ -2219,57 +2464,10 @@
      "published": "2026-10-05T22:22:22+00:00"
     }
    ],
-   "last_seen": "2026-10-06T03:07:51.967007+00:00",
+   "last_seen": "2026-10-06T09:08:01.863235+00:00",
    "outlets": 6,
    "regions": 4,
    "languages": 1,
-   "score": 16.0
-  },
-  {
-   "id": "74e705b67b90",
-   "first_seen": "2026-10-06T03:07:51.967007+00:00",
-   "members": [
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Messi prepares to bid farewell to Argentina shirt",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/sports/2026/10/06/messi-prepares-to-bid-farewell-to-argentina-shirt/237785",
-     "published": "2026-10-05T23:00:00+00:00"
-    },
-    {
-     "outlet": "Folha de S.Paulo",
-     "region": "br",
-     "bucket": "serious",
-     "title": "Argentina faz festa para despedida de Messi enquanto pensa em como jogar sem ele",
-     "language": "pt",
-     "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://www1.folha.uol.com.br/esporte/2026/10/argentina-faz-festa-para-despedida-de-messi-enquanto-pensa-em-como-jogar-sem-ele.shtml",
-     "published": "2026-10-06T02:00:00+00:00"
-    },
-    {
-     "outlet": "Buenos Aires Times",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "Messi readies for final farewell in Argentina send-off against Benin",
-     "language": "en",
-     "link": "https://www.batimes.com.ar/news/sports/messi-readies-for-final-farewell-in-argentina-send-off-against-benin.phtml",
-     "published": "2026-10-05T16:13:12+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Emotional Argentina hold breath for Messi magic one last time",
-     "language": "en",
-     "link": "https://www.dailysabah.com/sports/football/emotional-argentina-hold-breath-for-messi-magic-one-last-time",
-     "published": "2026-10-05T13:07:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-06T03:07:51.967007+00:00",
-   "outlets": 4,
-   "regions": 4,
-   "languages": 2,
    "score": 16.0
   },
   {
@@ -2555,7 +2753,148 @@
      "published": "2026-10-06T00:54:39+00:00"
     }
    ],
-   "last_seen": "2026-10-06T03:07:51.967007+00:00",
+   "last_seen": "2026-10-06T09:08:01.863235+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
+  },
+  {
+   "id": "a044bfbd030a",
+   "first_seen": "2026-10-06T09:08:01.863235+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Quebec separatists win election reviving push for independence",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/6/quebec-separatists-win-election-reviving-push-for-independence?traffic_source=rss",
+     "published": "2026-10-06T04:34:16+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Quebec separatists vow independence vote after provincial election win",
+     "language": "en",
+     "link": "https://www.france24.com/en/americas/20261005-separatists-win-quebec-election-with-pledge-to-vote-on-leaving-canada",
+     "published": "2026-10-05T16:08:47+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Separatists win Quebec election in test for Canada PM",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/separatists-win-quebec-election-in-test-for-canada-pm/article71549808.ece",
+     "published": "2026-10-06T03:33:07+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Separatists win Quebec’s election in test for Canada’s PM",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/quebec-votes-as-separatist-surge-poses-test-for-canada-pm",
+     "published": "2026-10-06T04:44:56+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T09:08:01.863235+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
+  },
+  {
+   "id": "fc488329e50e",
+   "first_seen": "2026-10-06T09:08:01.863235+00:00",
+   "members": [
+    {
+     "outlet": "The Verge",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "Wikipedia operator says OpenAI’s ‘rogue’ bots may be linked to a May outage",
+     "language": "en",
+     "link": "https://www.theverge.com/news/1004929/wikipedia-openai-rogue-bots-wikimedia-foundation-outage",
+     "published": "2026-10-05T19:05:19+00:00"
+    },
+    {
+     "outlet": "Rappler",
+     "region": "ph",
+     "bucket": "serious",
+     "title": "Wikipedia operator says OpenAI’s rogue agents possibly tied to data service disruption in May",
+     "language": "en",
+     "link": "https://www.rappler.com/technology/wikipedia-operator-openai-rogue-agents-possible-may-data-service-disruption/",
+     "published": "2026-10-06T06:28:22+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Wikipedia links May data disruption to OpenAI rogue agents",
+     "language": "en",
+     "link": "https://www.dailysabah.com/business/tech/wikipedia-links-may-data-disruption-to-openai-rogue-agents",
+     "published": "2026-10-05T19:21:00+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Wikipedia Operator Says OpenAI's Rogue Agents Possibly Tied To Data Service Disruption In May",
+     "language": "en",
+     "link": "https://www.ndtv.com/artificial-intelligence/wikipedia-operator-says-openais-rogue-agents-possibly-tied-to-data-service-disruption-in-may-12144067#publisher=newsstand",
+     "published": "2026-10-06T05:10:46+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T09:08:01.863235+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
+  },
+  {
+   "id": "2fad27aebeea",
+   "first_seen": "2026-10-06T09:08:01.863235+00:00",
+   "members": [
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Israel puts military on alert for October 7 anniversary, warns Gazans",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/israel-puts-military-on-alert-for-october-7-anniversary-warns-gazans/article71550358.ece",
+     "published": "2026-10-06T07:25:35+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Israel warns Gazans will pay 'heavy price' for any October 7 attacks on military",
+     "language": "en",
+     "link": "https://www.france24.com/en/middle-east/20261006-israel-warns-gazans-will-pay-heavy-price-for-any-october-7-attacks-on-military",
+     "published": "2026-10-06T07:50:10+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Israel puts military on alert ahead of October 7 anniversary",
+     "language": "en",
+     "link": "https://punchng.com/israel-puts-military-on-alert-ahead-of-october-7-anniversary/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-06T08:23:01+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Israel puts military on alert for Oct 7 anniversary, warns Gazans",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/israel-puts-military-on-alert-for-oct-7-anniversary-warns-gazans",
+     "published": "2026-10-06T07:19:34+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T09:08:01.863235+00:00",
    "outlets": 4,
    "regions": 4,
    "languages": 1,
@@ -2877,7 +3216,7 @@
      "published": "2026-10-05T23:34:08+00:00"
     }
    ],
-   "last_seen": "2026-10-06T03:07:51.967007+00:00",
+   "last_seen": "2026-10-06T09:08:01.863235+00:00",
    "outlets": 3,
    "regions": 3,
    "languages": 1,
@@ -2916,6 +3255,82 @@
     }
    ],
    "last_seen": "2026-10-06T03:07:51.967007+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "d0d2a2ffac95",
+   "first_seen": "2026-10-06T09:08:01.863235+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Harmanpreet Kaur steps down as captain of India’s women’s cricket team",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/10/6/harmanpreet-kaur-steps-down-as-captain-of-indias-womens-cricket-team?traffic_source=rss",
+     "published": "2026-10-06T07:49:48+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "India's Harmanpreet steps down as captain",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/cricket/articles/cx30epm27g71o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-06T07:26:54+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Kaur steps down as India women's team captain",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/sport/kaur-steps-down-india-womens-team-captain-6435686",
+     "published": "2026-10-06T07:48:29+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T09:08:01.863235+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "61fa5cba09fb",
+   "first_seen": "2026-10-06T09:08:01.863235+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "India opposition leader Rahul Gandhi briefly detained during protest seeking election chief’s resignation",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2035136/india-opposition-leader-rahul-gandhi-briefly-detained-during-protest-seeking-election-chiefs-resignation",
+     "published": "2026-10-06T07:29:02+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "India opposition leaders briefly detained in election protest",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/asia/india-opposition-rahul-gandhi-protest-march-election-resignation-6435051",
+     "published": "2026-10-06T07:50:20+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "India’s opposition leaders briefly detained in election protest",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/india-opposition-leaders-briefly-detained-in-election-protest",
+     "published": "2026-10-06T08:06:59+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T09:08:01.863235+00:00",
    "outlets": 3,
    "regions": 3,
    "languages": 1,
