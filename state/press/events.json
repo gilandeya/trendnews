@@ -1,6 +1,287 @@
 {
  "events": [
   {
+   "id": "cfd5abf3f547",
+   "first_seen": "2026-10-05T15:07:44.573046+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Nobel medicine prize honours US and German scientists for optogenetics work",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/5/nobel-medicine-prize-honours-us-and-german-scientists-for-optogenetics-work?traffic_source=rss",
+     "published": "2026-10-05T14:18:18+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Nobel Medicine Prize awarded to US-German trio for work on optogenetics",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3369804/nobel-medicine-prize-awarded-3-scientists-optogenetics-development?utm_source=rss_feed",
+     "published": "2026-10-05T09:45:18+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "German and US scientists win Nobel medicine prize for work on optogenetics",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633097/german-and-us-scientists-win-nobel-medicine-prize-for-work-on-optogenetics",
+     "published": "2026-10-05T06:14:08+00:00"
+    },
+    {
+     "outlet": "Phys.org",
+     "region": "science",
+     "bucket": "useful",
+     "title": "US-German trio wins medicine Nobel for work on optogenetics",
+     "language": "en",
+     "link": "https://phys.org/news/2026-10-german-trio-medicine-nobel-optogenetics.html",
+     "published": "2026-10-05T10:32:02+00:00"
+    },
+    {
+     "outlet": "Rappler",
+     "region": "ph",
+     "bucket": "serious",
+     "title": "German and US scientists win Nobel medicine prize for work on optogenetics",
+     "language": "en",
+     "link": "https://www.rappler.com/people/newsmakers/nobel-prize-winners-physiology-medicine-2026/",
+     "published": "2026-10-05T11:07:27+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Nobel Prize in medicine awarded to three scientists for breakthrough research",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/05/nobel-prize-in-medicine-awarded-to-three-scientists-for-breakthrough-research/",
+     "published": "2026-10-05T11:27:49+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Scientists win Nobel Prize in medicine for work on ‘light-gated ion channels and optogenetics’",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/05/world/science-health/2026-nobel-prize-medicine/",
+     "published": "2026-10-05T09:34:00+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "3 scientists win Nobel medicine prize for optogenetics research",
+     "language": "en",
+     "link": "https://www.dailysabah.com/life/3-scientists-win-nobel-medicine-prize-for-optogenetics-research/news",
+     "published": "2026-10-05T09:39:00+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Nobel medicine prize goes to 3 scientists for research into brain activity",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/05/g-s1-146400/nobel-medicine-prize",
+     "published": "2026-10-05T10:11:33+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Nobel Medicine Prize Goes To 3 Scientists For Research Into Brain Activity",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/karl-deisseroth-peter-hegemann-georg-nagel-nobel-prize-in-medicine-goes-to-3-for-discoveries-concerning-optogenetics-12140374#publisher=newsstand",
+     "published": "2026-10-05T10:12:54+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "US-German trio win medicine Nobel for work on optogenetics",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/05/us-german-trio-win-medicine-nobel-for-work-on-optogenetics",
+     "published": "2026-10-05T10:39:31+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "US, German scientists win Nobel medicine prize for optogenetics breakthrough",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/life/2026/10/05/us-german-scientists-win-nobel-medicine-prize-for-optogenetics-breakthrough/237828",
+     "published": "2026-10-05T12:02:57+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Nobel Prize for Medicine awarded to three scientists for their work in optogenetics",
+     "language": "en",
+     "link": "https://tass.com/science/2197619",
+     "published": "2026-10-05T10:05:01+00:00"
+    },
+    {
+     "outlet": "Le Monde",
+     "region": "fr",
+     "bucket": "serious",
+     "title": "Le Nobel de médecine 2026 récompense l’Américain Karl Deisseroth et les Allemands Peter Hegemann et Georg Nagel pour leurs travaux sur les canaux ioniques",
+     "language": "fr",
+     "link": "https://www.lemonde.fr/sciences/article/2026/10/05/le-nobel-de-medecine-2026-recompense-l-americain-karl-deisseroth-et-les-allemands-peter-hegemann-et-georg-nagel-pour-leurs-travaux-sur-les-canaux-ioniques_6788513_1650684.html",
+     "published": "2026-10-05T09:41:47+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Nobel Prize in Medicine jointly awarded to ​Karl Deisseroth, Peter Hegemann ​and Georg Nagel",
+     "language": "en",
+     "link": "https://www.france24.com/en/science/20261005-nobel-prize-in-medicine-jointly-awarded-to-karl-deisseroth-peter-hegemann-and-georg-nagel",
+     "published": "2026-10-05T09:44:01+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Karl Deisseroth, Peter Hegemann, Georg Nagel win 2026 Nobel Prize in Medicine for work on optogenetics",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/nobel-prize-in-physiology-or-medicine-2026-awarded-to-3-scientists-for-work-on-optogenetics-101791192988348.html",
+     "published": "2026-10-05T09:37:44+00:00"
+    },
+    {
+     "outlet": "Le Monde",
+     "region": "fr",
+     "bucket": "serious",
+     "title": "Prix Nobel de médecine 2026 : un Américain et deux Allemands récompensés pour leur technique d’activation des neurones par la lumière",
+     "language": "fr",
+     "link": "https://www.lemonde.fr/sciences/article/2026/10/05/prix-nobel-de-medecine-2026-un-americain-et-deux-allemands-recompenses-pour-leur-technique-d-activation-des-neurones-par-la-lumiere_6788564_1650684.html",
+     "published": "2026-10-05T16:57:55+00:00"
+    },
+    {
+     "outlet": "STAT News",
+     "region": "health",
+     "bucket": "useful",
+     "title": "2026 Nobel Prize in Medicine awarded for brain research tool called optogenetics",
+     "language": "en",
+     "link": "https://www.statnews.com/2026/10/05/nobel-prize-medicine-2026-winner-deisseroth-hegemann-nagel/?utm_campaign=rss",
+     "published": "2026-10-05T10:00:11+00:00"
+    },
+    {
+     "outlet": "Hürriyet (تركي)",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "2026 Nobel Tıp Ödülü sahiplerini buldu",
+     "language": "tr",
+     "link": "https://www.hurriyet.com.tr/dunya/nobel-tip-odulu-sahibini-buldu-43330124",
+     "published": "2026-10-05T09:42:00+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Nobel Prize 2026: When will the awards be announced, date and timings in IST",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/nobel-prize-2026-date-timings-ist-how-to-watch/article71546193.ece",
+     "published": "2026-10-05T09:06:03+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "The Nobel for medicine goes to lighting up the brain",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/the-nobel-for-medicine-goes-to-lighting-up-the-brain-101791264188330.html",
+     "published": "2026-10-06T05:24:24+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Francis Halzen wins Nobel Prize in Physics for work on ‘ghost particles’",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/6/francis-halzen-wins-nobel-prize-in-physics-for-work-on-ghost-particles?traffic_source=rss",
+     "published": "2026-10-06T12:31:16+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "‘Neutrino Man’ Francis Halzen wins Nobel Prize in Physics",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3369925/francis-halzen-wins-2026-nobel-prize-physics?utm_source=rss_feed",
+     "published": "2026-10-06T09:56:51+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "Francis Halzen wins 2026 Nobel Prize in Physics",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-06-francis-halzen-wins-2026-nobel-prize-in-physics/",
+     "published": "2026-10-06T12:45:26+00:00"
+    },
+    {
+     "outlet": "Rappler",
+     "region": "ph",
+     "bucket": "serious",
+     "title": "Francis Halzen wins 2026 Nobel Prize in Physics",
+     "language": "en",
+     "link": "https://www.rappler.com/people/newsmakers/francis-halzen-winner-2026-nobel-prize-physics/",
+     "published": "2026-10-06T10:00:40+00:00"
+    },
+    {
+     "outlet": "Phys.org",
+     "region": "science",
+     "bucket": "useful",
+     "title": "Francis Halzen wins Nobel Prize in physics for work on mysterious ghost particles called neutrinos",
+     "language": "en",
+     "link": "https://phys.org/news/2026-10-francis-halzen-nobel-prize-physics.html",
+     "published": "2026-10-06T10:12:06+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Francis Halzen wins 2026 Nobel Prize in Physics for contributions to IceCube Neutrino Observatory",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/francis-halzen-wins-2026-nobel-prize-in-physics-south-pole-track-particles-neutrinos-icecube-neutrino-observatory-101791277433916.html",
+     "published": "2026-10-06T09:52:05+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "What's the IceCube Observatory work that Francis Halzen has received Nobel Prize in Physics for",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/nobel-prize-in-physics-2026-awarded-to-francis-halzen-for-icecube-observatory-work-101791280312171.html",
+     "published": "2026-10-06T09:53:27+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Francis Halzen wins 2026 Nobel Prize in physics",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/06/world/science-health/nobel-physics-prize-2026/",
+     "published": "2026-10-06T10:02:00+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Francis Halzen wins Nobel Prize in physics for work on high-energy neutrinos from space",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/06/g-s1-146622/nobel-prize-physics",
+     "published": "2026-10-06T10:16:28+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T15:07:42.509147+00:00",
+   "outlets": 20,
+   "regions": 16,
+   "languages": 3,
+   "score": 58.0
+  },
+  {
    "id": "07777a6ab897",
    "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
@@ -275,384 +556,11 @@
      "published": "2026-10-06T06:12:00+00:00"
     }
    ],
-   "last_seen": "2026-10-06T09:08:01.863235+00:00",
+   "last_seen": "2026-10-06T15:07:42.509147+00:00",
    "outlets": 21,
    "regions": 16,
    "languages": 2,
    "score": 57.0
-  },
-  {
-   "id": "cfd5abf3f547",
-   "first_seen": "2026-10-05T15:07:44.573046+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Nobel medicine prize honours US and German scientists for optogenetics work",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/5/nobel-medicine-prize-honours-us-and-german-scientists-for-optogenetics-work?traffic_source=rss",
-     "published": "2026-10-05T14:18:18+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Nobel Medicine Prize awarded to US-German trio for work on optogenetics",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/europe/article/3369804/nobel-medicine-prize-awarded-3-scientists-optogenetics-development?utm_source=rss_feed",
-     "published": "2026-10-05T09:45:18+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "German and US scientists win Nobel medicine prize for work on optogenetics",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633097/german-and-us-scientists-win-nobel-medicine-prize-for-work-on-optogenetics",
-     "published": "2026-10-05T06:14:08+00:00"
-    },
-    {
-     "outlet": "Phys.org",
-     "region": "science",
-     "bucket": "useful",
-     "title": "US-German trio wins medicine Nobel for work on optogenetics",
-     "language": "en",
-     "link": "https://phys.org/news/2026-10-german-trio-medicine-nobel-optogenetics.html",
-     "published": "2026-10-05T10:32:02+00:00"
-    },
-    {
-     "outlet": "Rappler",
-     "region": "ph",
-     "bucket": "serious",
-     "title": "German and US scientists win Nobel medicine prize for work on optogenetics",
-     "language": "en",
-     "link": "https://www.rappler.com/people/newsmakers/nobel-prize-winners-physiology-medicine-2026/",
-     "published": "2026-10-05T11:07:27+00:00"
-    },
-    {
-     "outlet": "Africanews",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Nobel Prize in medicine awarded to three scientists for breakthrough research",
-     "language": "en",
-     "link": "http://www.africanews.com/2026/10/05/nobel-prize-in-medicine-awarded-to-three-scientists-for-breakthrough-research/",
-     "published": "2026-10-05T11:27:49+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Scientists win Nobel Prize in medicine for work on ‘light-gated ion channels and optogenetics’",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/05/world/science-health/2026-nobel-prize-medicine/",
-     "published": "2026-10-05T09:34:00+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "3 scientists win Nobel medicine prize for optogenetics research",
-     "language": "en",
-     "link": "https://www.dailysabah.com/life/3-scientists-win-nobel-medicine-prize-for-optogenetics-research/news",
-     "published": "2026-10-05T09:39:00+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Nobel medicine prize goes to 3 scientists for research into brain activity",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/05/g-s1-146400/nobel-medicine-prize",
-     "published": "2026-10-05T10:11:33+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Nobel Medicine Prize Goes To 3 Scientists For Research Into Brain Activity",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/karl-deisseroth-peter-hegemann-georg-nagel-nobel-prize-in-medicine-goes-to-3-for-discoveries-concerning-optogenetics-12140374#publisher=newsstand",
-     "published": "2026-10-05T10:12:54+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "US-German trio win medicine Nobel for work on optogenetics",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/05/us-german-trio-win-medicine-nobel-for-work-on-optogenetics",
-     "published": "2026-10-05T10:39:31+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "US, German scientists win Nobel medicine prize for optogenetics breakthrough",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/life/2026/10/05/us-german-scientists-win-nobel-medicine-prize-for-optogenetics-breakthrough/237828",
-     "published": "2026-10-05T12:02:57+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Nobel Prize for Medicine awarded to three scientists for their work in optogenetics",
-     "language": "en",
-     "link": "https://tass.com/science/2197619",
-     "published": "2026-10-05T10:05:01+00:00"
-    },
-    {
-     "outlet": "Le Monde",
-     "region": "fr",
-     "bucket": "serious",
-     "title": "Le Nobel de médecine 2026 récompense l’Américain Karl Deisseroth et les Allemands Peter Hegemann et Georg Nagel pour leurs travaux sur les canaux ioniques",
-     "language": "fr",
-     "link": "https://www.lemonde.fr/sciences/article/2026/10/05/le-nobel-de-medecine-2026-recompense-l-americain-karl-deisseroth-et-les-allemands-peter-hegemann-et-georg-nagel-pour-leurs-travaux-sur-les-canaux-ioniques_6788513_1650684.html",
-     "published": "2026-10-05T09:41:47+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Nobel Prize in Medicine jointly awarded to ​Karl Deisseroth, Peter Hegemann ​and Georg Nagel",
-     "language": "en",
-     "link": "https://www.france24.com/en/science/20261005-nobel-prize-in-medicine-jointly-awarded-to-karl-deisseroth-peter-hegemann-and-georg-nagel",
-     "published": "2026-10-05T09:44:01+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Karl Deisseroth, Peter Hegemann, Georg Nagel win 2026 Nobel Prize in Medicine for work on optogenetics",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/nobel-prize-in-physiology-or-medicine-2026-awarded-to-3-scientists-for-work-on-optogenetics-101791192988348.html",
-     "published": "2026-10-05T09:37:44+00:00"
-    },
-    {
-     "outlet": "Le Monde",
-     "region": "fr",
-     "bucket": "serious",
-     "title": "Prix Nobel de médecine 2026 : un Américain et deux Allemands récompensés pour leur technique d’activation des neurones par la lumière",
-     "language": "fr",
-     "link": "https://www.lemonde.fr/sciences/article/2026/10/05/prix-nobel-de-medecine-2026-un-americain-et-deux-allemands-recompenses-pour-leur-technique-d-activation-des-neurones-par-la-lumiere_6788564_1650684.html",
-     "published": "2026-10-05T16:57:55+00:00"
-    },
-    {
-     "outlet": "STAT News",
-     "region": "health",
-     "bucket": "useful",
-     "title": "2026 Nobel Prize in Medicine awarded for brain research tool called optogenetics",
-     "language": "en",
-     "link": "https://www.statnews.com/2026/10/05/nobel-prize-medicine-2026-winner-deisseroth-hegemann-nagel/?utm_campaign=rss",
-     "published": "2026-10-05T10:00:11+00:00"
-    },
-    {
-     "outlet": "Hürriyet (تركي)",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "2026 Nobel Tıp Ödülü sahiplerini buldu",
-     "language": "tr",
-     "link": "https://www.hurriyet.com.tr/dunya/nobel-tip-odulu-sahibini-buldu-43330124",
-     "published": "2026-10-05T09:42:00+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Nobel Prize 2026: When will the awards be announced, date and timings in IST",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/nobel-prize-2026-date-timings-ist-how-to-watch/article71546193.ece",
-     "published": "2026-10-05T09:06:03+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "The Nobel for medicine goes to lighting up the brain",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/the-nobel-for-medicine-goes-to-lighting-up-the-brain-101791264188330.html",
-     "published": "2026-10-06T05:24:24+00:00"
-    }
-   ],
-   "last_seen": "2026-10-06T09:08:01.863235+00:00",
-   "outlets": 19,
-   "regions": 15,
-   "languages": 3,
-   "score": 55.0
-  },
-  {
-   "id": "4bac7b46db6b",
-   "first_seen": "2026-10-05T15:07:44.573046+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "No 10 insists RAF Fairford is safe after US withdraws its bombers from base",
-     "language": "en",
-     "link": "https://www.theguardian.com/us-news/2026/oct/05/no-10-says-raf-fairford-safe-us-withdraws-bombers-from-base",
-     "published": "2026-10-05T13:14:45+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "No10 insists UK military base RAF Fairford is safe after US withdraws bombers",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cmy56yvv1kxxo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-05T13:16:00+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "No 10 insists RAF Fairford is safe after US withdraws its bombers",
-     "language": "en",
-     "link": "https://www.theguardian.com/politics/live/2026/oct/05/tory-party-conference-labour-reform-planning-economy-business-latest-news-updates",
-     "published": "2026-10-05T14:59:17+00:00"
-    },
-    {
-     "outlet": "MercoPress",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "US withdraws all its bombers from Britain's RAF Fairford base",
-     "language": "en",
-     "link": "https://en.mercopress.com/2026/10/04/us-withdraws-all-its-bombers-from-britain-s-raf-fairford-base?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
-     "published": "2026-10-04T21:35:00+00:00"
-    },
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "US withdraws all B-1 bombers from Fairford airbase",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248321/US-withdraws-all-B-1-bombers-from-Fairford-airbase",
-     "published": "2026-10-05T04:13:54+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "US withdraw all B-1 bombers after incident at Fairford airbase",
-     "language": "en",
-     "link": "https://tass.com/world/2197461",
-     "published": "2026-10-05T00:08:01+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "No 10 insists RAF Fairford is safe after US withdraws its bombers from base",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxOSUttRGhSa2ZLVDVmdUJFZEs1Y1pYSFFYYnlzZmhzaVJ1SGl3eWNzckI4d0JVZlR2a2NPcjgzSjFfLW5lbm4zZ3NpZlhsejYxU09DbF9UaHYycWNNaUJqYno0VDVqUDlPb1NpQVV2WlNURzd4b2p4V01tME4waWwycEkwVTNvdU54ZTc2TEpQWFRlWmN2bkdpdU1SSTZjRDdDUEwycWJRYXltOEk?oc=5",
-     "published": "2026-10-05T13:44:00+00:00"
-    },
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "US removes B-1 bombers from UK base amid security concerns",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-05-us-removes-b-1-bombers-from-uk-base-amid-security-concerns/",
-     "published": "2026-10-05T04:41:07+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "U.S. military removes bombers from U.K. air base following security incident",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/us-bombers-raf-fairford-removed/",
-     "published": "2026-10-05T13:12:00+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Pentagon pulls all bombers from U.K. air base after security incident",
-     "language": "en",
-     "link": "https://www.cbsnews.com/video/pentagon-pulls-all-bombers-from-uk-air-base-after-security-incident/",
-     "published": "2026-10-05T13:27:35+00:00"
-    },
-    {
-     "outlet": "CGTN",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "US removes all Air Force bombers from UK base amid security concerns",
-     "language": "en",
-     "link": "https://news.cgtn.com/news/2026-10-05/US-removes-all-Air-Force-bombers-from-UK-base-amid-security-concerns-1QZgO36boUE/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
-     "published": "2026-10-05T02:46:23+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "U.S. Air Force removes all bombers from British air base targeted by a suspected terror attack",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/us-air-force-removes-all-bombers-from-british-air-base-targeted-by-a-suspected-terror-attack/article71544899.ece",
-     "published": "2026-10-04T22:30:39+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "US withdraws all bombers from UK base at centre of suspected terror attack",
-     "language": "en",
-     "link": "https://www.france24.com/en/video/20261005-us-withdraws-all-bombers-from-uk-base-at-centre-of-suspected-terror-attack",
-     "published": "2026-10-05T09:49:23+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "US withdraws all B-1 bombers from UK air base citing 'new threats'",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/europe/us-withdraws-all-b-1-bombers-from-uk-air-base-citing-new-threats",
-     "published": "2026-10-05T12:14:00+00:00"
-    },
-    {
-     "outlet": "MercoPress",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "US withdraws all its bombers from Britain's RAF Fairford base",
-     "language": "en",
-     "link": "https://en.mercopress.com/2026/10/05/us-withdraws-all-its-bombers-from-britain-s-raf-fairford-base?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
-     "published": "2026-10-05T01:35:00+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "US bombers moved from UK airbase due to Iran-linked threats, Trump says",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/europe/article/3369843/us-bombers-moved-uk-airbase-due-iran-linked-threats-trump-says?utm_source=rss_feed",
-     "published": "2026-10-05T21:40:14+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Trump Says US Moved All B-1 Bombers From UK Airbase After \"Some Threats\"",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/donald-trump-says-us-moved-all-b-1-bombers-from-uk-airbase-after-some-threats-12143177#publisher=newsstand",
-     "published": "2026-10-05T20:38:13+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Trump says U.S. moved bombers from U.K. base after ‘threats’",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/06/world/terror-threat-us-uk-base/",
-     "published": "2026-10-06T01:38:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-06T03:07:51.967007+00:00",
-   "outlets": 15,
-   "regions": 12,
-   "languages": 1,
-   "score": 41.0
   },
   {
    "id": "9093e3b6ec98",
@@ -828,13 +736,231 @@
      "language": "en",
      "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNN2NtN191X3phU1MwWXFXYWdXRzhfeVRWWFFMNVE0V3JjR1ZYT0pZaTVOR0Q4UlB6QVF2SlhjYVhaUFpHZmFiTWVUQ1lpaG16b2RvdVJTRjVSeFd1ZVRCTzVqNFF6OXJ5RW9iVVBZUnpwWExjT0p1SzJBc2hBcnh0X29hRQ?oc=5",
      "published": "2026-10-05T16:00:00+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "France’s student protests grow as hundreds of schools close",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/6/frances-student-protests-grow-as-hundreds-of-schools-close?traffic_source=rss",
+     "published": "2026-10-06T11:58:53+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Student protests disrupt hundreds of high schools across France",
+     "language": "en",
+     "link": "https://www.dailysabah.com/gallery/student-protests-disrupt-hundreds-of-high-schools-across-france/images",
+     "published": "2026-10-06T11:11:00+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "French school unrest: students, teachers march on biggest day of protests",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3369936/french-school-unrest-students-teachers-march-biggest-day-protests?utm_source=rss_feed",
+     "published": "2026-10-06T11:35:05+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Students, teachers march in France on biggest day of school protests",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/school-protests-france-teachers-students-clashes-police-october-6-2026/article71551195.ece",
+     "published": "2026-10-06T13:23:18+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "France school protests: Students determined to win 'concessions that mean something'",
+     "language": "en",
+     "link": "https://www.france24.com/en/video/20261006-france-school-protests-students-determined-to-win-concessions-that-mean-something",
+     "published": "2026-10-06T12:24:56+00:00"
     }
    ],
-   "last_seen": "2026-10-06T09:08:01.863235+00:00",
-   "outlets": 15,
-   "regions": 11,
+   "last_seen": "2026-10-06T15:07:42.509147+00:00",
+   "outlets": 18,
+   "regions": 13,
    "languages": 1,
-   "score": 39.0
+   "score": 46.0
+  },
+  {
+   "id": "4bac7b46db6b",
+   "first_seen": "2026-10-05T15:07:44.573046+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "No 10 insists RAF Fairford is safe after US withdraws its bombers from base",
+     "language": "en",
+     "link": "https://www.theguardian.com/us-news/2026/oct/05/no-10-says-raf-fairford-safe-us-withdraws-bombers-from-base",
+     "published": "2026-10-05T13:14:45+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "No10 insists UK military base RAF Fairford is safe after US withdraws bombers",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cmy56yvv1kxxo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-05T13:16:00+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "No 10 insists RAF Fairford is safe after US withdraws its bombers",
+     "language": "en",
+     "link": "https://www.theguardian.com/politics/live/2026/oct/05/tory-party-conference-labour-reform-planning-economy-business-latest-news-updates",
+     "published": "2026-10-05T14:59:17+00:00"
+    },
+    {
+     "outlet": "MercoPress",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "US withdraws all its bombers from Britain's RAF Fairford base",
+     "language": "en",
+     "link": "https://en.mercopress.com/2026/10/04/us-withdraws-all-its-bombers-from-britain-s-raf-fairford-base?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
+     "published": "2026-10-04T21:35:00+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "US withdraws all B-1 bombers from Fairford airbase",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248321/US-withdraws-all-B-1-bombers-from-Fairford-airbase",
+     "published": "2026-10-05T04:13:54+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "US withdraw all B-1 bombers after incident at Fairford airbase",
+     "language": "en",
+     "link": "https://tass.com/world/2197461",
+     "published": "2026-10-05T00:08:01+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "No 10 insists RAF Fairford is safe after US withdraws its bombers from base",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxOSUttRGhSa2ZLVDVmdUJFZEs1Y1pYSFFYYnlzZmhzaVJ1SGl3eWNzckI4d0JVZlR2a2NPcjgzSjFfLW5lbm4zZ3NpZlhsejYxU09DbF9UaHYycWNNaUJqYno0VDVqUDlPb1NpQVV2WlNURzd4b2p4V01tME4waWwycEkwVTNvdU54ZTc2TEpQWFRlWmN2bkdpdU1SSTZjRDdDUEwycWJRYXltOEk?oc=5",
+     "published": "2026-10-05T13:44:00+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "US removes B-1 bombers from UK base amid security concerns",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-05-us-removes-b-1-bombers-from-uk-base-amid-security-concerns/",
+     "published": "2026-10-05T04:41:07+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "U.S. military removes bombers from U.K. air base following security incident",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/us-bombers-raf-fairford-removed/",
+     "published": "2026-10-05T13:12:00+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Pentagon pulls all bombers from U.K. air base after security incident",
+     "language": "en",
+     "link": "https://www.cbsnews.com/video/pentagon-pulls-all-bombers-from-uk-air-base-after-security-incident/",
+     "published": "2026-10-05T13:27:35+00:00"
+    },
+    {
+     "outlet": "CGTN",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "US removes all Air Force bombers from UK base amid security concerns",
+     "language": "en",
+     "link": "https://news.cgtn.com/news/2026-10-05/US-removes-all-Air-Force-bombers-from-UK-base-amid-security-concerns-1QZgO36boUE/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+     "published": "2026-10-05T02:46:23+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "U.S. Air Force removes all bombers from British air base targeted by a suspected terror attack",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/us-air-force-removes-all-bombers-from-british-air-base-targeted-by-a-suspected-terror-attack/article71544899.ece",
+     "published": "2026-10-04T22:30:39+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "US withdraws all bombers from UK base at centre of suspected terror attack",
+     "language": "en",
+     "link": "https://www.france24.com/en/video/20261005-us-withdraws-all-bombers-from-uk-base-at-centre-of-suspected-terror-attack",
+     "published": "2026-10-05T09:49:23+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "US withdraws all B-1 bombers from UK air base citing 'new threats'",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/europe/us-withdraws-all-b-1-bombers-from-uk-air-base-citing-new-threats",
+     "published": "2026-10-05T12:14:00+00:00"
+    },
+    {
+     "outlet": "MercoPress",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "US withdraws all its bombers from Britain's RAF Fairford base",
+     "language": "en",
+     "link": "https://en.mercopress.com/2026/10/05/us-withdraws-all-its-bombers-from-britain-s-raf-fairford-base?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
+     "published": "2026-10-05T01:35:00+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "US bombers moved from UK airbase due to Iran-linked threats, Trump says",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3369843/us-bombers-moved-uk-airbase-due-iran-linked-threats-trump-says?utm_source=rss_feed",
+     "published": "2026-10-05T21:40:14+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump Says US Moved All B-1 Bombers From UK Airbase After \"Some Threats\"",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/donald-trump-says-us-moved-all-b-1-bombers-from-uk-airbase-after-some-threats-12143177#publisher=newsstand",
+     "published": "2026-10-05T20:38:13+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Trump says U.S. moved bombers from U.K. base after ‘threats’",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/06/world/terror-threat-us-uk-base/",
+     "published": "2026-10-06T01:38:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T03:07:51.967007+00:00",
+   "outlets": 15,
+   "regions": 12,
+   "languages": 1,
+   "score": 41.0
   },
   {
    "id": "f4950bb60ba8",
@@ -1028,6 +1154,152 @@
    "score": 36.0
   },
   {
+   "id": "363605fbbb2b",
+   "first_seen": "2026-10-06T03:07:51.967007+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Trump approves firing-squad execution of Fort Hood shooter, Pentagon says",
+     "language": "en",
+     "link": "https://www.theguardian.com/us-news/2026/oct/05/trump-fort-hood-shooter-execution",
+     "published": "2026-10-06T01:33:44+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Trump approves firing squad execution for US military base shooter Nidal Hasan",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3369851/trump-approves-firing-squad-execution-us-military-base-shooter-nidal-hasan?utm_source=rss_feed",
+     "published": "2026-10-06T02:17:38+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Trump approves firing-squad execution of Fort Hood shooter Nidal Hasan",
+     "language": "en",
+     "link": "https://www.france24.com/en/americas/20261006-trump-approves-firing-squad-execution-of-fort-hood-shooter-nidal-hasan",
+     "published": "2026-10-06T01:31:37+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Trump approves firing squad for convicted US military base shooter",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/us-trump-approves-firing-squad-military-base-shooter-6434831",
+     "published": "2026-10-06T02:24:17+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Trump authorises firing Squad for US military base shooter",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/06/trump-authorises-firing-squad-for-us-military-base-shooter/237853",
+     "published": "2026-10-06T01:21:56+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Trump approves firing squad execution for Fort Hood attacker Nidal Hasan",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/6/trump-approves-firing-squad-execution-for-fort-hood-attacker-nidal-hasan?traffic_source=rss",
+     "published": "2026-10-06T07:23:00+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump approves firing squad execution for Fort Hood shooter Nidal Hasan",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/trump-approves-firing-squad-execution-for-fort-hood-shooter-nidal-hasan/article71549975.ece",
+     "published": "2026-10-06T07:01:40+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Trump approves firing squad execution of US Army base shooter",
+     "language": "en",
+     "link": "https://punchng.com/trump-approves-firing-squad-execution-of-us-army-base-shooter/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-06T07:07:45+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Who is Nidal Hasan? Trump approves firing squad execution of 2009 Fort Hood shooter who killed 13 people in deadly massacre",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/who-is-nidal-hasan-trump-approves-firing-squad-execution-of-2009-fort-hood-shooter-who-killed-13-people-in-deadly-massacre-101791255659654.html",
+     "published": "2026-10-06T03:11:18+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Trump approves firing squad for convicted US military base shooter",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/trump-approves-firing-squad-for-convicted-us-military-base-shooter",
+     "published": "2026-10-06T05:39:00+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Trump approves firing squad for convicted US military base shooter",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/trump-approves-firing-squad-for-convicted-us-military-base-shooter/",
+     "published": "2026-10-06T07:52:15+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Trump approves firing-squad execution of 2009 Fort Hood shooter",
+     "language": "en",
+     "link": "https://tass.com/society/2197903",
+     "published": "2026-10-06T03:40:48+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Death By Firing Squad: Trump Orders Execution Of US Doctor Who Killed 13 People",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/death-by-firing-squad-trump-orders-execution-of-us-doctor-who-killed-13-people-12145015#publisher=newsstand",
+     "published": "2026-10-06T08:58:40+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Fort Hood shooter to be executed by firing squad - a first for US military since World War Two",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cq8ezkkkrpy1o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-06T02:22:24+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Fort Hood shooter to be executed by firing squad: All to know",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/6/fort-hood-shooter-to-be-executed-by-firing-squad-all-to-know?traffic_source=rss",
+     "published": "2026-10-06T10:21:53+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T15:07:42.509147+00:00",
+   "outlets": 14,
+   "regions": 9,
+   "languages": 1,
+   "score": 34.0
+  },
+  {
    "id": "95e53a23fd71",
    "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
@@ -1156,123 +1428,278 @@
    "score": 33.0
   },
   {
-   "id": "363605fbbb2b",
-   "first_seen": "2026-10-06T03:07:51.967007+00:00",
+   "id": "49ee6206d4c3",
+   "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
     {
-     "outlet": "The Guardian — World",
-     "region": "uk",
+     "outlet": "The Express Tribune",
+     "region": "pk",
      "bucket": "serious",
-     "title": "Trump approves firing-squad execution of Fort Hood shooter, Pentagon says",
+     "title": "Alcaraz rallies past Munar into Japan Open final",
      "language": "en",
-     "link": "https://www.theguardian.com/us-news/2026/oct/05/trump-fort-hood-shooter-execution",
-     "published": "2026-10-06T01:33:44+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Trump approves firing squad execution for US military base shooter Nidal Hasan",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3369851/trump-approves-firing-squad-execution-us-military-base-shooter-nidal-hasan?utm_source=rss_feed",
-     "published": "2026-10-06T02:17:38+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Trump approves firing-squad execution of Fort Hood shooter Nidal Hasan",
-     "language": "en",
-     "link": "https://www.france24.com/en/americas/20261006-trump-approves-firing-squad-execution-of-fort-hood-shooter-nidal-hasan",
-     "published": "2026-10-06T01:31:37+00:00"
+     "link": "https://tribune.com.pk/story/2633095/alcaraz-rallies-past-munar-into-japan-open-final",
+     "published": "2026-10-05T06:04:09+00:00"
     },
     {
      "outlet": "Channel News Asia",
      "region": "seasia",
      "bucket": "serious",
-     "title": "Trump approves firing squad for convicted US military base shooter",
+     "title": "Alcaraz battles past Munar to reach up Japan Open final",
      "language": "en",
-     "link": "https://www.channelnewsasia.com/world/us-trump-approves-firing-squad-military-base-shooter-6434831",
-     "published": "2026-10-06T02:24:17+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Trump authorises firing Squad for US military base shooter",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/06/trump-authorises-firing-squad-for-us-military-base-shooter/237853",
-     "published": "2026-10-06T01:21:56+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Trump approves firing squad execution for Fort Hood attacker Nidal Hasan",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/6/trump-approves-firing-squad-execution-for-fort-hood-attacker-nidal-hasan?traffic_source=rss",
-     "published": "2026-10-06T07:23:00+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Trump approves firing squad execution for Fort Hood shooter Nidal Hasan",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/trump-approves-firing-squad-execution-for-fort-hood-shooter-nidal-hasan/article71549975.ece",
-     "published": "2026-10-06T07:01:40+00:00"
+     "link": "https://www.channelnewsasia.com/sport/alcaraz-battles-past-munar-reach-up-japan-open-final-6432901",
+     "published": "2026-10-05T10:16:50+00:00"
     },
     {
      "outlet": "Punch Nigeria",
      "region": "ng",
      "bucket": "serious",
-     "title": "Trump approves firing squad execution of US Army base shooter",
+     "title": "Alcaraz advances to Japan Open final",
      "language": "en",
-     "link": "https://punchng.com/trump-approves-firing-squad-execution-of-us-army-base-shooter/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-06T07:07:45+00:00"
+     "link": "https://punchng.com/alcaraz-advances-to-japan-open-final/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-05T12:56:34+00:00"
     },
     {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
+     "outlet": "Malay Mail",
+     "region": "my",
      "bucket": "serious",
-     "title": "Who is Nidal Hasan? Trump approves firing squad execution of 2009 Fort Hood shooter who killed 13 people in deadly massacre",
+     "title": "Alcaraz rallies past Munar to reach Japan Open final",
      "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/who-is-nidal-hasan-trump-approves-firing-squad-execution-of-2009-fort-hood-shooter-who-killed-13-people-in-deadly-massacre-101791255659654.html",
-     "published": "2026-10-06T03:11:18+00:00"
+     "link": "https://www.malaymail.com/news/sports/2026/10/05/alcaraz-rallies-past-munar-to-reach-japan-open-final/237820",
+     "published": "2026-10-05T10:47:13+00:00"
     },
     {
      "outlet": "Free Malaysia Today",
      "region": "my",
      "bucket": "serious",
-     "title": "Trump approves firing squad for convicted US military base shooter",
+     "title": "Alcaraz advances to Japan Open final",
      "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/trump-approves-firing-squad-for-convicted-us-military-base-shooter",
-     "published": "2026-10-06T05:39:00+00:00"
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/05/alcaraz-advances-to-japan-open-final",
+     "published": "2026-10-05T11:05:48+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Metcalfe back in Wales WXV reckoning for Japan",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/rugby-union/articles/c61m49y3nd7po?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-05T12:30:08+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Alcaraz recovers from shaky start to punch Japan Open final ticket",
+     "language": "en",
+     "link": "https://www.dailysabah.com/sports/tennis/alcaraz-recovers-from-shaky-start-to-punch-japan-open-final-ticket",
+     "published": "2026-10-05T13:09:00+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Alcaraz wins Japan Open in first final since wrist injury",
+     "language": "en",
+     "link": "https://www.skysports.com/tennis/news/12040/13595696/carlos-alcaraz-spaniard-wins-japan-open-in-first-final-since-coming-back-from-injury-lay-off-for-wrist-injury",
+     "published": "2026-10-06T11:58:00+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Alcaraz wins Japan Open for first title since return from injury",
+     "language": "en",
+     "link": "https://punchng.com/alcaraz-wins-japan-open-for-first-title-since-return-from-injury/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-06T12:40:21+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Alcaraz wins Japan Open for first title since return from injury",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/06/alcaraz-wins-japan-open-for-first-title-since-return-from-injury",
+     "published": "2026-10-06T11:47:42+00:00"
     },
     {
      "outlet": "Vanguard Nigeria",
      "region": "ng",
      "bucket": "serious",
-     "title": "Trump approves firing squad for convicted US military base shooter",
+     "title": "Alcaraz wins Japan Open, claims first title since wrist injury comeback",
      "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/trump-approves-firing-squad-for-convicted-us-military-base-shooter/",
-     "published": "2026-10-06T07:52:15+00:00"
+     "link": "https://www.vanguardngr.com/2026/10/alcaraz-wins-japan-open-claims-first-title-since-wrist-injury-comeback/",
+     "published": "2026-10-06T13:35:56+00:00"
     },
     {
-     "outlet": "TASS",
-     "region": "ru",
+     "outlet": "El País",
+     "region": "es",
      "bucket": "serious",
-     "title": "Trump approves firing-squad execution of 2009 Fort Hood shooter",
+     "title": "Alcaraz reduce a Lehecka y repite título en Tokio",
+     "language": "es",
+     "link": "https://elpais.com/deportes/tenis/2026-10-06/alcaraz-reduce-a-lecheka-y-reconquista-tokio.html",
+     "published": "2026-10-06T10:55:42+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Alcaraz finds his groove again with Japan Open triumph",
      "language": "en",
-     "link": "https://tass.com/society/2197903",
-     "published": "2026-10-06T03:40:48+00:00"
+     "link": "https://www.malaymail.com/news/sports/2026/10/06/alcaraz-finds-his-groove-again-with-japan-open-triumph/237970",
+     "published": "2026-10-06T12:00:55+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Alcaraz beats Lehecka to retain Japan Open gold after injury return",
+     "language": "en",
+     "link": "https://www.dailysabah.com/sports/tennis/alcaraz-beats-lehecka-to-retain-japan-open-gold-after-injury-return",
+     "published": "2026-10-06T11:51:00+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Djokovic caps remarkable week with China Open title while Alcaraz claims glory in Japan",
+     "language": "en",
+     "link": "https://www.theguardian.com/sport/2026/oct/06/alcaraz-japan-open-djokovic-de-minaur-china-open-sinner-injury-tennis",
+     "published": "2026-10-06T13:35:03+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Djokovic claims 102nd title of career with China Open win",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/djokovic-claims-102nd-title-of-career-with-china-open-win/",
+     "published": "2026-10-06T13:43:42+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Djokovic wins China Open without needing a match point in semi-final and final",
+     "language": "en",
+     "link": "https://www.skysports.com/tennis/news/12040/13595697/novak-djokovic-former-world-no-1-wins-china-open-title-without-facing-a-match-point-in-semi-final-and-final",
+     "published": "2026-10-06T14:24:00+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Djokovic wins China Open, keeps unbeaten record after opponent retires",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/djokovic-wins-china-open-keeps-unbeaten-record-after-opponent-retires/",
+     "published": "2026-10-06T13:55:16+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Tennis scores: Djokovic and Alcaraz win events",
+     "language": "en",
+     "link": "https://www.skysports.com/tennis/scores-schedule",
+     "published": "2026-10-06T11:00:00+00:00"
     }
    ],
-   "last_seen": "2026-10-06T09:08:01.863235+00:00",
+   "last_seen": "2026-10-06T15:07:42.509147+00:00",
    "outlets": 12,
-   "regions": 9,
-   "languages": 1,
+   "regions": 8,
+   "languages": 2,
    "score": 32.0
+  },
+  {
+   "id": "61fa5cba09fb",
+   "first_seen": "2026-10-06T09:08:01.863235+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "India opposition leader Rahul Gandhi briefly detained during protest seeking election chief’s resignation",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2035136/india-opposition-leader-rahul-gandhi-briefly-detained-during-protest-seeking-election-chiefs-resignation",
+     "published": "2026-10-06T07:29:02+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "India opposition leaders briefly detained in election protest",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/asia/india-opposition-rahul-gandhi-protest-march-election-resignation-6435051",
+     "published": "2026-10-06T07:50:20+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "India’s opposition leaders briefly detained in election protest",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/india-opposition-leaders-briefly-detained-in-election-protest",
+     "published": "2026-10-06T08:06:59+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Indian opposition MPs detained in protest against election chief",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/crpdgvx82831o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-06T10:05:22+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "India opposition leaders briefly arrested in protest against election chief",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/6/india-opposition-leaders-briefly-arrested-in-protest-against-election-chief?traffic_source=rss",
+     "published": "2026-10-06T11:16:48+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "India opposition lawmakers detained over protest against election chief",
+     "language": "en",
+     "link": "https://www.scmp.com/news/asia/south-asia/article/3369942/india-opposition-lawmakers-detained-over-protest-against-election-chief?utm_source=rss_feed",
+     "published": "2026-10-06T12:01:02+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "India opposition parties rally for election chief’s exit over voter list changes",
+     "language": "en",
+     "link": "https://www.france24.com/en/video/20261006-india-opposition-parties-rally-for-election-chief-s-exit-over-voter-list-changes",
+     "published": "2026-10-06T14:06:37+00:00"
+    },
+    {
+     "outlet": "El País",
+     "region": "es",
+     "bucket": "serious",
+     "title": "La oposición en la India marcha para exigir la dimisión del presidente de la Comisión Electoral nombrado por Modi",
+     "language": "fr",
+     "link": "https://elpais.com/internacional/2026-10-06/la-oposicion-en-india-marcha-para-exigir-la-dimision-del-presidente-de-la-comision-electoral-nombrado-por-modi.html",
+     "published": "2026-10-06T13:34:24+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "What to know about nationwide protests in India over voter list changes",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/06/g-s1-146636/what-to-know-about-nationwide-protests-in-india-over-voter-list-changes",
+     "published": "2026-10-06T11:44:06+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T15:07:42.509147+00:00",
+   "outlets": 9,
+   "regions": 9,
+   "languages": 2,
+   "score": 31.0
   },
   {
    "id": "d7e40dc3e136",
@@ -1540,9 +1967,27 @@
      "language": "en",
      "link": "https://www.bbc.co.uk/news/articles/ck1wvjer20qqo?at_medium=RSS&at_campaign=rss",
      "published": "2026-10-06T09:02:03+00:00"
+    },
+    {
+     "outlet": "AllAfrica",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Nigeria: Air Force Unveils Identities of Ondo Crash Victims",
+     "language": "en",
+     "link": "https://allafrica.com/stories/202610060218.html",
+     "published": "2026-10-06T10:40:14+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Nigeria air force lowers plane crash toll to 25, civilians among victims",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/06/nigeria-air-force-lowers-plane-crash-toll-to-25-civilians-among-victims/",
+     "published": "2026-10-06T11:22:19+00:00"
     }
    ],
-   "last_seen": "2026-10-06T09:08:01.863235+00:00",
+   "last_seen": "2026-10-06T15:07:42.509147+00:00",
    "outlets": 11,
    "regions": 8,
    "languages": 1,
@@ -1675,6 +2120,98 @@
    "regions": 8,
    "languages": 2,
    "score": 28.0
+  },
+  {
+   "id": "902b9d7f57a8",
+   "first_seen": "2026-10-06T15:07:42.509147+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Kenya confirms first Ebola case as virus ‘surges’ in DR Congo province",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/06/kenya-first-ebola-case-death-drc",
+     "published": "2026-10-06T12:46:56+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Kenya confirms first Ebola case imported from Congo, patient has died",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2035159/kenya-confirms-first-ebola-case-imported-from-congo-patient-has-died",
+     "published": "2026-10-06T09:38:52+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Kenya reports first Ebola case imported from DR Congo after patient dies",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/africa/article/3369923/kenya-reports-first-ebola-case-imported-dr-congo-after-patient-dies?utm_source=rss_feed",
+     "published": "2026-10-06T09:39:31+00:00"
+    },
+    {
+     "outlet": "Medical Xpress",
+     "region": "health",
+     "bucket": "useful",
+     "title": "Kenya reports first-ever Ebola death",
+     "language": "en",
+     "link": "https://medicalxpress.com/news/2026-10-kenya-ebola-death.html",
+     "published": "2026-10-06T10:17:53+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "Kenya confirms first Ebola case imported from Congo",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-06-kenya-confirms-first-ebola-case-imported-from-congo/",
+     "published": "2026-10-06T12:45:17+00:00"
+    },
+    {
+     "outlet": "AllAfrica",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Kenya: Kenya Confirms First Ebola Case as Patient Returns From DRC",
+     "language": "en",
+     "link": "https://allafrica.com/stories/202610060146.html",
+     "published": "2026-10-06T09:08:38+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Kenya confirms first Ebola death as 28 contacts traced",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/06/kenya-confirms-first-ebola-death-as-28-contacts-traced/",
+     "published": "2026-10-06T09:57:32+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Kenya confirms first Ebola case imported from Congo after patient dies in Nairobi",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/kenya-confirms-first-ebola-case-imported-from-congo-after-patient-dies-in-nairobi/article71550957.ece",
+     "published": "2026-10-06T10:54:29+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Kenya Records Ebola Case for First Time",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNa0FnQmRLaFN4d0x1LUdtZnJRSHNBeFhzc2pGc09RU1ZWcDBLdDdRT2Z4S3ZHaURpMEh3STlGdnlVeUlPekJVa0VVOUluZW1QOWhqRjRQUkVYXy1aakpJQ0U1cjJnRGdzc0FQczVWNEJSNHdONWJmVWl3Q1dYV2h1UG16SWk?oc=5",
+     "published": "2026-10-06T11:18:41+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T15:07:42.509147+00:00",
+   "outlets": 9,
+   "regions": 8,
+   "languages": 1,
+   "score": 27.0
   },
   {
    "id": "c2ed5607be1f",
@@ -1962,6 +2499,80 @@
    "score": 23.0
   },
   {
+   "id": "cf3f3c17f2ae",
+   "first_seen": "2026-10-06T15:07:42.509147+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Former German spy chief arrested for espionage and treason",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c58jzyer1kr0o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-06T10:05:42+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Former German spy chief arrested on suspicion of treason and espionage",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/6/former-german-spy-chief-arrested-on-suspicion-of-treason-and-espionage?traffic_source=rss",
+     "published": "2026-10-06T12:52:28+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "Former German spy chief arrested over alleged buying of classified information",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-06-former-german-spy-chief-arrested-over-alleged-buying-of-classified-information/",
+     "published": "2026-10-06T12:44:58+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Former German spy chief arrested over alleged buying of classified information",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633284/former-german-spy-chief-arrested-over-alleged-buying-of-classified-information",
+     "published": "2026-10-06T05:56:42+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Ex-spy chief is arrested in Germany on suspicion of trading state secrets, treason",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/ex-spy-chief-is-arrested-in-germany-on-suspicion-of-trading-state-secrets-treason/article71551683.ece",
+     "published": "2026-10-06T13:19:38+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Ex-spy chief is arrested in Germany on suspicion of trading state secrets and treason",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/06/g-s1-146630/germany-ex-spy-chief-state-secrets",
+     "published": "2026-10-06T11:31:48+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Germany's ex-spy chief arrested for espionage, disclosing state secrets and attempted treason",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOdGVPUGtVUnkxZGhzSk1idV82dFpKZUVzcXFEQWNoaGltWU52b1N1R3g1c0M5ZU94LUxhcXB6bFV6VUw0WDgxQmx2Qnl3NnhmaWRSb29zdjR2OEhNeWN2NUdsOHZ6c2hiQWowQlhxRWhtU21pQnFjb2ZvRWhpbUNraTdIZ9IBgwFBVV95cUxNVERYVmpkaHdJTnBueXdVYk5VaEhMdDREUXdhUXA4WGljb2Z6TmJBMFp1Q2tLOUlFVDZCT0dxMFlzY3Y3UVBNdFlST3ZJM01lY3hzQzJZdDVvcWRGZGphWG4tTlhwQ0NWOEtyN3kwWFZWOG9qa2NuV05pQ3pwMVhhQlV4Zw?oc=5",
+     "published": "2026-10-06T14:47:54+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T15:07:42.509147+00:00",
+   "outlets": 7,
+   "regions": 7,
+   "languages": 1,
+   "score": 23.0
+  },
+  {
    "id": "c90472109711",
    "first_seen": "2026-10-05T18:07:49.818707+00:00",
    "members": [
@@ -2043,80 +2654,6 @@
    "regions": 6,
    "languages": 1,
    "score": 22.0
-  },
-  {
-   "id": "49ee6206d4c3",
-   "first_seen": "2026-10-05T15:07:44.573046+00:00",
-   "members": [
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Alcaraz rallies past Munar into Japan Open final",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633095/alcaraz-rallies-past-munar-into-japan-open-final",
-     "published": "2026-10-05T06:04:09+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Alcaraz battles past Munar to reach up Japan Open final",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/sport/alcaraz-battles-past-munar-reach-up-japan-open-final-6432901",
-     "published": "2026-10-05T10:16:50+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Alcaraz advances to Japan Open final",
-     "language": "en",
-     "link": "https://punchng.com/alcaraz-advances-to-japan-open-final/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-05T12:56:34+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Alcaraz rallies past Munar to reach Japan Open final",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/sports/2026/10/05/alcaraz-rallies-past-munar-to-reach-japan-open-final/237820",
-     "published": "2026-10-05T10:47:13+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Alcaraz advances to Japan Open final",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/05/alcaraz-advances-to-japan-open-final",
-     "published": "2026-10-05T11:05:48+00:00"
-    },
-    {
-     "outlet": "BBC Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Metcalfe back in Wales WXV reckoning for Japan",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/sport/rugby-union/articles/c61m49y3nd7po?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-05T12:30:08+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Alcaraz recovers from shaky start to punch Japan Open final ticket",
-     "language": "en",
-     "link": "https://www.dailysabah.com/sports/tennis/alcaraz-recovers-from-shaky-start-to-punch-japan-open-final-ticket",
-     "published": "2026-10-05T13:09:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-05T18:07:49.818707+00:00",
-   "outlets": 7,
-   "regions": 6,
-   "languages": 1,
-   "score": 21.0
   },
   {
    "id": "17eba7e6c1b2",
@@ -2341,6 +2878,80 @@
    "score": 20.0
   },
   {
+   "id": "0f5b4743bd14",
+   "first_seen": "2026-10-05T18:07:49.818707+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Two dead after ship sinks off Romania following fire",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/5/two-dead-after-ship-sinks-off-romania-following-fire?traffic_source=rss",
+     "published": "2026-10-05T16:04:11+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Two dead, 11 rescued after ship catches fire and sinks in Black Sea, Romania says",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/two-dead-11-rescued-after-ship-catches-fire-and-sinks-in-black-sea-romania-says-6433076",
+     "published": "2026-10-05T11:51:00+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Two dead after ship catches fire, sinks in Black Sea",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/two-dead-after-ship-catches-fire-sinks-in-black-sea/article71548666.ece",
+     "published": "2026-10-05T16:57:53+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Ship sinks and crew missing after Black Sea drone attack",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c8ly0v5r602eo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-06T11:53:21+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Captain killed in attack on ship in Black Sea",
+     "language": "en",
+     "link": "https://tass.com/world/2198177",
+     "published": "2026-10-06T12:57:40+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Turkish grain ship sinks in Black Sea after deadly drone attack",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQNWx2UklGcjIwOG5qQ0dtcHRBZmZlWEVlUk9mWWxwTVJtMzNTc3lsdC0tbEd6MjBtUlFCQTd0UDIyTV9HcWhGVHZzRWFIMGtPbFMwVl9BT1hVNnNQdVF2NWQwcG9oa1BKZzZTaWVEQ19TdjRLc29Kbl9WR2FnSVN2aTMtSVNWWkN1aHlfLURUT3pFY1I2ZVdyb3dqdEtJenJkbWFpcWVR?oc=5",
+     "published": "2026-10-05T12:39:34+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Ship sinks and crew missing after Black Sea drone attack",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFB5bHVXZjF1NDI1eWZ3QTR1RzJIVjRlRHp4VVRKNktxRXVtQnpaRHBPYS1RY2xfSVQtY1RDaDktV2p3VnNVVllYQXk5YkV3OXQ4MGNrc2FwcVVFNmc?oc=5",
+     "published": "2026-10-06T11:53:21+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T15:07:42.509147+00:00",
+   "outlets": 6,
+   "regions": 6,
+   "languages": 1,
+   "score": 20.0
+  },
+  {
    "id": "fc3143ecaa68",
    "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
@@ -2464,7 +3075,7 @@
      "published": "2026-10-05T22:22:22+00:00"
     }
    ],
-   "last_seen": "2026-10-06T09:08:01.863235+00:00",
+   "last_seen": "2026-10-06T15:07:42.509147+00:00",
    "outlets": 6,
    "regions": 4,
    "languages": 1,
@@ -2939,6 +3550,147 @@
    "score": 13.0
   },
   {
+   "id": "cc43ca365663",
+   "first_seen": "2026-10-06T03:07:51.967007+00:00",
+   "members": [
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Gauff condemns racist abuse after China Open win",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/tennis/articles/cqd09z0x9xd8o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-05T21:41:17+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Gauff receives racist abuse online after China Open incident",
+     "language": "en",
+     "link": "https://www.skysports.com/tennis/news/12040/13595569/coco-gauff-reports-online-racial-abuse-after-incident-during-her-victory-over-sun-xinran-at-china-open",
+     "published": "2026-10-05T21:40:00+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Gauff condemns racist abuse after China Open win",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/gauff-condemns-racist-abuse-after-china-open-win/",
+     "published": "2026-10-05T21:48:00+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Gauff calls out online racism after China Open win",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633294/gauff-calls-out-online-racism-after-china-open-win",
+     "published": "2026-10-06T06:21:10+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T15:07:42.509147+00:00",
+   "outlets": 4,
+   "regions": 3,
+   "languages": 1,
+   "score": 12.0
+  },
+  {
+   "id": "117d1cae3f5a",
+   "first_seen": "2026-10-06T15:07:42.509147+00:00",
+   "members": [
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "France test-fires new nuclear-capable missile: Defence Ministry",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/france-test-fires-new-nuclear-capable-missile-defence-ministry/article71551027.ece",
+     "published": "2026-10-06T10:30:04+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "\"Today We Are Stronger\": France Test Fires Nuclear-Capable Missile",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/today-we-are-stronger-france-test-fires-nuclear-capable-missile-12146451#publisher=newsstand",
+     "published": "2026-10-06T12:46:49+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "France test-fires new nuclear-capable missile",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/france-test-fires-new-nuclear-capable-missile-defence-ministry/",
+     "published": "2026-10-06T14:04:09+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "French army test-fires new nuclear-capable missile",
+     "language": "en",
+     "link": "https://tass.com/world/2198061",
+     "published": "2026-10-06T10:20:17+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T15:07:42.509147+00:00",
+   "outlets": 4,
+   "regions": 3,
+   "languages": 1,
+   "score": 12.0
+  },
+  {
+   "id": "31f199ba4967",
+   "first_seen": "2026-10-06T15:07:42.509147+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Tennis: World number one Sinner will not play in 2026 due to knee injury",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/10/6/tennis-world-number-one-sinner-will-not-play-in-2026-due-to-knee-injury?traffic_source=rss",
+     "published": "2026-10-06T11:55:47+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Tennis world No.1 Sinner’s season over due to knee injury",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/sports/2026/10/06/tennis-world-no1-sinners-season-over-due-to-knee-injury/237955",
+     "published": "2026-10-06T09:23:14+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Sinner’s season over due to knee injury",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/06/tennis-world-no-1-sinner-s-season-over-due-to-knee-injury",
+     "published": "2026-10-06T09:44:00+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "World No 1 Sinner to miss rest of 2026 season",
+     "language": "en",
+     "link": "https://www.skysports.com/tennis/news/12040/13595661/jannik-sinner-world-no-1-to-miss-rest-of-season-due-to-knee-injury-and-has-not-played-since-winning-wimbledon",
+     "published": "2026-10-06T09:48:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T15:07:42.509147+00:00",
+   "outlets": 4,
+   "regions": 3,
+   "languages": 1,
+   "score": 12.0
+  },
+  {
    "id": "fb5106e0cd4e",
    "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
@@ -3147,44 +3899,6 @@
    "score": 11.0
   },
   {
-   "id": "0f5b4743bd14",
-   "first_seen": "2026-10-05T18:07:49.818707+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Two dead after ship sinks off Romania following fire",
-     "language": "en",
-     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/5/two-dead-after-ship-sinks-off-romania-following-fire?traffic_source=rss",
-     "published": "2026-10-05T16:04:11+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Two dead, 11 rescued after ship catches fire and sinks in Black Sea, Romania says",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/world/two-dead-11-rescued-after-ship-catches-fire-and-sinks-in-black-sea-romania-says-6433076",
-     "published": "2026-10-05T11:51:00+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Two dead after ship catches fire, sinks in Black Sea",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/two-dead-after-ship-catches-fire-sinks-in-black-sea/article71548666.ece",
-     "published": "2026-10-05T16:57:53+00:00"
-    }
-   ],
-   "last_seen": "2026-10-05T18:07:49.818707+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
    "id": "cfb97ed49894",
    "first_seen": "2026-10-06T03:07:51.967007+00:00",
    "members": [
@@ -3299,38 +4013,152 @@
    "score": 11.0
   },
   {
-   "id": "61fa5cba09fb",
-   "first_seen": "2026-10-06T09:08:01.863235+00:00",
+   "id": "4e3796638ee1",
+   "first_seen": "2026-10-06T15:07:42.509147+00:00",
    "members": [
     {
-     "outlet": "Dawn",
-     "region": "pk",
+     "outlet": "BBC World",
+     "region": "uk",
      "bucket": "serious",
-     "title": "India opposition leader Rahul Gandhi briefly detained during protest seeking election chief’s resignation",
+     "title": "US televangelist Jim Bakker, disgraced from sex scandal and fraud, dies at 86",
      "language": "en",
-     "link": "https://www.dawn.com/news/2035136/india-opposition-leader-rahul-gandhi-briefly-detained-during-protest-seeking-election-chiefs-resignation",
-     "published": "2026-10-06T07:29:02+00:00"
+     "link": "https://www.bbc.co.uk/news/articles/ckly02gd1xppo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-06T13:31:56+00:00"
     },
     {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
+     "outlet": "Hindustan Times — World",
+     "region": "in",
      "bucket": "serious",
-     "title": "India opposition leaders briefly detained in election protest",
+     "title": "Jim Bakker cause of death: What we know so far as televangelist dies at 86? All on scandal, family, and net worth",
      "language": "en",
-     "link": "https://www.channelnewsasia.com/asia/india-opposition-rahul-gandhi-protest-march-election-resignation-6435051",
-     "published": "2026-10-06T07:50:20+00:00"
+     "link": "https://www.hindustantimes.com/world-news/us-news/jim-bakker-cause-of-death-what-we-know-so-far-as-televangelist-dies-at-86-all-on-scandal-family-and-net-worth-101791262100735.html",
+     "published": "2026-10-06T05:07:01+00:00"
     },
     {
      "outlet": "Free Malaysia Today",
      "region": "my",
      "bucket": "serious",
-     "title": "India’s opposition leaders briefly detained in election protest",
+     "title": "Jim Bakker, televangelist disgraced by sex scandal, dies at 86",
      "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/india-opposition-leaders-briefly-detained-in-election-protest",
-     "published": "2026-10-06T08:06:59+00:00"
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/jim-bakker-televangelist-disgraced-by-sex-scandal-dies-at-86",
+     "published": "2026-10-06T09:34:46+00:00"
     }
    ],
-   "last_seen": "2026-10-06T09:08:01.863235+00:00",
+   "last_seen": "2026-10-06T15:07:42.509147+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "70314809a852",
+   "first_seen": "2026-10-06T15:07:42.509147+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Qatar and India among seven countries bidding for 2036 Olympics, IOC says",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/10/6/qatar-and-india-among-seven-countries-bidding-for-2036-olympics-ioc-says?traffic_source=rss",
+     "published": "2026-10-06T12:19:50+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "India among seven countries vying for 2036 Olympics, IOC says",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633306/india-among-seven-countries-vying-for-2036-olympics-ioc-says",
+     "published": "2026-10-06T07:19:11+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "India among seven countries vying for 2036 Olympics, IOC says",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/india-among-seven-countries-vying-for-2036-olympics-ioc-says",
+     "published": "2026-10-06T11:35:32+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T15:07:42.509147+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "b229eaaf3498",
+   "first_seen": "2026-10-06T15:07:42.509147+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "UEFA to investigate spitting incident at Ireland-Israel football match",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/10/6/uefa-to-investigate-spitting-incident-at-ireland-israel-football?traffic_source=rss",
+     "published": "2026-10-06T10:15:47+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "UEFA investigate alleged spitting incident during Ireland v Israel game",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633307/uefa-investigate-alleged-spitting-incident-during-ireland-v-israel-game",
+     "published": "2026-10-06T07:23:22+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "UEFA investigate Ireland-Israel tunnel bustup after spitting claim",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/uefa-investigate-ireland-israel-tunnel-bustup-after-spitting-claim/",
+     "published": "2026-10-06T14:30:48+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T15:07:42.509147+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "9f07066a4b4c",
+   "first_seen": "2026-10-06T15:07:42.509147+00:00",
+   "members": [
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Paramount wraps up mega Warner Bros merger to create Hollywood powerhouse Skydance",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/entertainment/paramount-warner-bros-merger-skydance-6436746",
+     "published": "2026-10-06T13:18:00+00:00"
+    },
+    {
+     "outlet": "TechCrunch",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "Paramount closes historic Warner Bros. merger to form Skydance",
+     "language": "en",
+     "link": "https://techcrunch.com/2026/10/06/paramount-closes-historic-warner-bros-merger-to-form-skydance/",
+     "published": "2026-10-06T13:57:32+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Paramount takes over Warner Bros in $110bn Hollywood merger",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/paramount-takes-over-warner-bros-in-110bn-hollywood-merger/",
+     "published": "2026-10-06T14:45:34+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T15:07:42.509147+00:00",
    "outlets": 3,
    "regions": 3,
    "languages": 1,
@@ -3366,44 +4194,6 @@
      "language": "en",
      "link": "https://www.malaymail.com/news/world/2026/10/06/un-chief-calls-for-gaza-ceasefire-ahead-of-oct-7-anniversary/237858",
      "published": "2026-10-06T01:34:59+00:00"
-    }
-   ],
-   "last_seen": "2026-10-06T03:07:51.967007+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 1,
-   "score": 9.0
-  },
-  {
-   "id": "cc43ca365663",
-   "first_seen": "2026-10-06T03:07:51.967007+00:00",
-   "members": [
-    {
-     "outlet": "BBC Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Gauff condemns racist abuse after China Open win",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/sport/tennis/articles/cqd09z0x9xd8o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-05T21:41:17+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Gauff receives racist abuse online after China Open incident",
-     "language": "en",
-     "link": "https://www.skysports.com/tennis/news/12040/13595569/coco-gauff-reports-online-racial-abuse-after-incident-during-her-victory-over-sun-xinran-at-china-open",
-     "published": "2026-10-05T21:40:00+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Gauff condemns racist abuse after China Open win",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/gauff-condemns-racist-abuse-after-china-open-win/",
-     "published": "2026-10-05T21:48:00+00:00"
     }
    ],
    "last_seen": "2026-10-06T03:07:51.967007+00:00",

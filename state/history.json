@@ -2279,5 +2279,111 @@
     "posted_title": "",
     "region": "de",
     "seen_at": "2026-10-06T09:08:25.112274+00:00"
+  },
+  {
+    "score": 29.95,
+    "bucket": "serious",
+    "tokens": [
+      "case",
+      "confirms",
+      "congo",
+      "ebola",
+      "first",
+      "kenya",
+      "province",
+      "surges",
+      "virus"
+    ],
+    "link": "https://www.theguardian.com/world/2026/oct/06/kenya-first-ebola-case-death-drc",
+    "title": "Kenya confirms first Ebola case as virus ‘surges’ in DR Congo province",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-10-06T15:08:09.387284+00:00"
+  },
+  {
+    "score": 23.83,
+    "bucket": "serious",
+    "tokens": [
+      "areas",
+      "bab",
+      "fighting",
+      "forces",
+      "government",
+      "intensifies",
+      "key",
+      "mandeb",
+      "near",
+      "retake",
+      "yemen"
+    ],
+    "link": "http://www.africanews.com/2026/10/06/yemen-fighting-intensifies-as-government-forces-retake-key-areas-near-bab-el-mandeb/",
+    "title": "Yemen fighting intensifies as government forces retake key areas near Bab el-Mandeb",
+    "posted_title": "",
+    "region": "africa",
+    "seen_at": "2026-10-06T15:08:09.387458+00:00"
+  },
+  {
+    "score": 23.67,
+    "bucket": "useful",
+    "tokens": [
+      "cause",
+      "died",
+      "got",
+      "institute",
+      "plague",
+      "pneumonia",
+      "reports",
+      "russia",
+      "siberian",
+      "unknown",
+      "worker"
+    ],
+    "link": "https://phys.org/news/2026-10-russia-worker-siberian-plague-pneumonia.html",
+    "title": "Russia reports a worker at a Siberian plague institute got pneumonia from an unknown cause and died",
+    "posted_title": "",
+    "region": "science",
+    "seen_at": "2026-10-06T15:08:09.387608+00:00"
+  },
+  {
+    "score": 22.38,
+    "bucket": "serious",
+    "tokens": [
+      "buzz",
+      "drones",
+      "hellish",
+      "hunker",
+      "kill",
+      "overhead",
+      "troops",
+      "ukraine's",
+      "underground",
+      "zone"
+    ],
+    "link": "https://www.npr.org/2026/10/05/nx-s1-5925803/drones-buzz-overhead-troops-hunker-underground-in-ukraines-hellish-kill-zone",
+    "title": "Drones buzz overhead, troops hunker underground in Ukraine's hellish kill zone",
+    "posted_title": "",
+    "region": "us",
+    "seen_at": "2026-10-06T15:08:09.387780+00:00"
+  },
+  {
+    "score": 21.99,
+    "bucket": "serious",
+    "tokens": [
+      "black",
+      "bulgaria",
+      "crew",
+      "drones",
+      "hit",
+      "missing",
+      "sea",
+      "searches",
+      "ships",
+      "two"
+    ],
+    "link": "https://www.france24.com/en/europe/20261006-bulgaria-searches-for-missing-crew-as-drones-hit-two-more-black-sea-ships",
+    "title": "Bulgaria searches for missing crew as drones hit two Black Sea ships",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-10-06T15:08:09.387920+00:00"
   }
 ]

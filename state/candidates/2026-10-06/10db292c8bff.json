@@ -1,0 +1,65 @@
+{
+  "id": "10db292c8bff",
+  "created_at": "2026-10-06T15:08:09.387293+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.83,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "تطور عسكري في أزمة يمنية مستمرة تمس المنطقة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Yemen fighting intensifies as government forces retake key areas near Bab el-Mandeb",
+  "link": "http://www.africanews.com/2026/10/06/yemen-fighting-intensifies-as-government-forces-retake-key-areas-near-bab-el-mandeb/",
+  "publishers": [
+    "Africanews",
+    "Daily Sabah"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Yemen fighting intensifies as government forces retake key areas near Bab el-Mandeb",
+    "link": "http://www.africanews.com/2026/10/06/yemen-fighting-intensifies-as-government-forces-retake-key-areas-near-bab-el-mandeb/",
+    "summary": "Forces loyal to the government is the man bswuugdud xForces of the Saudi-led coalition fighting in Yemen have recaptured several key areas around the strategic Bab el-Mandeb Strait from Iran-backed Houthi rebels, Yemeni officials said Monday.",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-10-06T08:08:58+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/94/06/88/640x360_cmsv2_0263f54a-4906-5173-96ae-eba2c8652234-9940688.jpg?1791267797",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "Daily Sabah"
+    ],
+    "cluster_members": [
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/10/06/yemen-fighting-intensifies-as-government-forces-retake-key-areas-near-bab-el-mandeb/"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/yemeni-troops-retake-key-areas-near-bab-el-mandeb-from-houthis"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/94/06/88/640x360_cmsv2_0263f54a-4906-5173-96ae-eba2c8652234-9940688.jpg?1791267797",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/10/06/464085.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1510.9118882319444,
+    "is_stale": false,
+    "score": 23.83473143803704,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "تطور عسكري في أزمة يمنية مستمرة تمس المنطقة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

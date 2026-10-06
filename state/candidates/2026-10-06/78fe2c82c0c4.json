@@ -1,0 +1,99 @@
+{
+  "id": "78fe2c82c0c4",
+  "created_at": "2026-10-06T15:08:09.386947+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 29.95,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "وباء إيبولا يصل كينيا من الكونغو، تهديد صحي إقليمي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Kenya confirms first Ebola case as virus ‘surges’ in DR Congo province",
+  "link": "https://www.theguardian.com/world/2026/oct/06/kenya-first-ebola-case-death-drc",
+  "publishers": [
+    "Africanews",
+    "AllAfrica",
+    "Daily Maverick",
+    "Dawn",
+    "Medical Xpress",
+    "South China Morning Post",
+    "The Guardian — World",
+    "The Hindu — International",
+    "The New York Times"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Kenya confirms first Ebola case as virus ‘surges’ in DR Congo province",
+    "link": "https://www.theguardian.com/world/2026/oct/06/kenya-first-ebola-case-death-drc",
+    "summary": "Health minister says 28 contacts identified after death of citizen who arrived from DRC on Saturday Kenya has reported its first-ever Ebola death, the health minister announced on Tuesday, as the disease continues to spread rapidly through the north-east of the Democratic Republic of Congo (DRC), where the outbreak was announced in May. This is the 17th outbreak of the highly infectious, often deadly disease in the DRC. As of 2 October, 4,082 people had died out of 8,463 confirmed cases in the country since the emergence of the Bundibugyo strain of the Ebola virus, for which there is still no vaccine nor specific treatment. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-10-06T12:46:56+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/7ede8ff970717866698f77b694a00dd375607d4a/447_0_4339_3473/master/4339.jpg?width=700&quality=85&auto=format&fit=max&s=c3a37f906d0128a47d82e835fa004e30",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Africanews",
+      "AllAfrica",
+      "Daily Maverick",
+      "Dawn",
+      "Medical Xpress",
+      "South China Morning Post",
+      "The Guardian — World",
+      "The Hindu — International",
+      "The New York Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/oct/06/kenya-first-ebola-case-death-drc"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2035159/kenya-confirms-first-ebola-case-imported-from-congo-patient-has-died"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/africa/article/3369923/kenya-reports-first-ebola-case-imported-dr-congo-after-patient-dies?utm_source=rss_feed"
+      },
+      {
+        "name": "Medical Xpress",
+        "link": "https://medicalxpress.com/news/2026-10-kenya-ebola-death.html"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-10-06-kenya-confirms-first-ebola-case-imported-from-congo/"
+      },
+      {
+        "name": "AllAfrica",
+        "link": "https://allafrica.com/stories/202610060146.html"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/7ede8ff970717866698f77b694a00dd375607d4a/447_0_4339_3473/master/4339.jpg?width=700&quality=85&auto=format&fit=max&s=c3a37f906d0128a47d82e835fa004e30",
+      "https://i.guim.co.uk/img/media/7ede8ff970717866698f77b694a00dd375607d4a/447_0_4339_3473/master/4339.jpg?width=460&quality=85&auto=format&fit=max&s=d1fa1b4a5b90287b3125733fef73614d",
+      "https://i.guim.co.uk/img/media/7ede8ff970717866698f77b694a00dd375607d4a/447_0_4339_3473/master/4339.jpg?width=140&quality=85&auto=format&fit=max&s=abb6f70235fa8ea2a180b012987ef78d",
+      "https://i.dawn.com/large/2026/10/0614372788adf70.webp",
+      "https://i.dawn.com/thumbnail/2026/10/0614372788adf70.webp",
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/ebola-1.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 9,
+    "velocity": 1.0,
+    "age_hours": 1510.9117368422221,
+    "is_stale": false,
+    "score": 29.953358302326937,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "وباء إيبولا يصل كينيا من الكونغو، تهديد صحي إقليمي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
