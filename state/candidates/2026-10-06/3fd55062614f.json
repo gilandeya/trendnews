@@ -1,0 +1,101 @@
+{
+  "id": "3fd55062614f",
+  "created_at": "2026-10-06T03:08:18.047943+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 29.07,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "الحوثيون يخسرون معاقل في اليمن: صراع استراتيجي مستمر",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Saudi-backed forces recapture key areas around strait from Houthis in Yemen",
+  "link": "https://www.theguardian.com/world/2026/oct/05/saudi-forces-recapture-key-areas-strait-houthis-yemen",
+  "publishers": [
+    "France24",
+    "Hindustan Times — World",
+    "Iran International",
+    "NDTV — World",
+    "Reuters",
+    "The Guardian — World",
+    "The Hindu — International",
+    "The Japan Times",
+    "Vanguard Nigeria",
+    "army spokesman"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Saudi-backed forces recapture key areas around strait from Houthis in Yemen",
+    "link": "https://www.theguardian.com/world/2026/oct/05/saudi-forces-recapture-key-areas-strait-houthis-yemen",
+    "summary": "Government offensive launched under air cover by Saudi military coalition aims to retake all Houthi-held territory Forces of the Saudi-led coalition fighting in Yemen have recaptured several key areas around Bab al-Mandab strait from Iran-backed Houthi rebels, Yemeni officials said on Monday. The officials said forces allied with the internationally recognized government have retaken the crucial town of Dhubab just north of the strait. They also captured the towns of Bab and Hadeid, said the officials, who spoke on condition of anonymity because they were not authorized to speak to reporters. Witnesses said they saw government tanks and forces entering the towns. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-10-05T19:44:01+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/b802933cfbf7aca2e0f944a27af29d25519a740d/370_0_3686_2950/master/3686.jpg?width=700&quality=85&auto=format&fit=max&s=9659cd6a6bb518a0f1da638130982bb3",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "France24",
+      "Hindustan Times — World",
+      "Iran International",
+      "NDTV — World",
+      "Reuters",
+      "The Guardian — World",
+      "The Hindu — International",
+      "The Japan Times",
+      "Vanguard Nigeria",
+      "army spokesman"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/oct/05/saudi-forces-recapture-key-areas-strait-houthis-yemen"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/saudi-backed-yemeni-forces-expel-the-houthis-from-several-areas-around-key-strait-officials-say"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/saudi-backed-yemeni-forces-expel-the-houthis-from-several-areas-around-key-strait-officials-say/article71549737.ece"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/saudi-backed-yemeni-forces-recapture-houthi-held-areas-around-bab-el-mandeb-12142967#publisher=newsstand"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/10/06/world/yemeni-forces-houthis-bab-el-mandeb-strait/"
+      },
+      {
+        "name": "army spokesman",
+        "link": "https://tass.com/world/2197645"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/b802933cfbf7aca2e0f944a27af29d25519a740d/370_0_3686_2950/master/3686.jpg?width=700&quality=85&auto=format&fit=max&s=9659cd6a6bb518a0f1da638130982bb3",
+      "https://i.guim.co.uk/img/media/b802933cfbf7aca2e0f944a27af29d25519a740d/370_0_3686_2950/master/3686.jpg?width=460&quality=85&auto=format&fit=max&s=8cdd0f054d4e4a9ca42a2071e1ef580c",
+      "https://i.guim.co.uk/img/media/b802933cfbf7aca2e0f944a27af29d25519a740d/370_0_3686_2950/master/3686.jpg?width=140&quality=85&auto=format&fit=max&s=23ac6061896f85f31eb4ee1a1401e08d",
+      "https://s.france24.com/media/display/06e24072-c0f1-11f1-8ede-dd51fcab6130/w:1024/p:16x9/capture-4580563926ac3f725bc3d82-10617721.jpg",
+      "https://th-i.thgim.com/public/incoming/dk8m9k/article71549743.ece/alternates/LANDSCAPE_1200/2026-10-05T233822Z_308099904_RC2BXNAFDK98_RTRMADP_3_IRAN-CRISIS-SAUDI-YEMEN.JPG",
+      "https://c.ndtvimg.com/2026-08/l27ob8tc_houthis_625x300_07_August_26.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 10,
+    "velocity": 1.0,
+    "age_hours": 1498.9143656605554,
+    "is_stale": false,
+    "score": 29.072618344939865,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "الحوثيون يخسرون معاقل في اليمن: صراع استراتيجي مستمر",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "id": "e675c9d71061",
+  "created_at": "2026-10-06T03:08:18.048311+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 28.85,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "تحطم طائرة عسكرية نيجيرية بـ 32 قتيلا",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Nigerian military aircraft crashes, killing 32",
+  "link": "https://www.myjoyonline.com/nigerian-military-aircraft-crashes-killing-32/",
+  "publishers": [
+    "Africanews",
+    "AllAfrica",
+    "Daily Sabah",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "MyJoyOnline Ghana",
+    "NDTV — World",
+    "Reuters"
+  ],
+  "region": "gh",
+  "article": {
+    "title": "Nigerian military aircraft crashes, killing 32",
+    "link": "https://www.myjoyonline.com/nigerian-military-aircraft-crashes-killing-32/",
+    "summary": "A Nigerian ​military plane flying from Benin City ‌to Lagos crashed on Monday in southwestern Ondo state, killing 25 passengers and seven crew ​members.",
+    "source_name": "MyJoyOnline Ghana",
+    "region": "gh",
+    "weight": 0.9,
+    "published": "2026-10-05T22:33:53+00:00",
+    "image_url": "https://www.myjoyonline.com/wp-content/uploads/2026/10/image-543-1024x768.png",
+    "publisher": "MyJoyOnline Ghana",
+    "cluster_sources": [
+      "Africanews",
+      "AllAfrica",
+      "Daily Sabah",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "MyJoyOnline Ghana",
+      "NDTV — World",
+      "Reuters"
+    ],
+    "cluster_members": [
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/nigerian-military-aircraft-with-32-onboard-crashes-rescue-ops-underway-12141960#publisher=newsstand"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/nigerian-military-aircraft-crashes-killing-32/"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/politics/diplomacy/turkiye-extends-condolences-to-nigeria-over-deadly-military-plane-crash"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/military-plane-crash-kills-32-in-nigeria"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/nigeria-launches-rescue-after-military-plane-crashes-with-32-aboard/"
+      },
+      {
+        "name": "AllAfrica",
+        "link": "https://allafrica.com/stories/202610050482.html"
+      }
+    ],
+    "image_candidates": [
+      "https://www.myjoyonline.com/wp-content/uploads/2026/10/image-543-1024x768.png",
+      "https://c.ndtvimg.com/2023-03/hjs849g8_helicopter-generic_625x300_16_March_23.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+      "https://media.freemalaysiatoday.com/v3/2026/10/86475b16-afc3-46d6-96c1-cd7ccc61aa4d-AFP__20131003__Par7674917__v1001__HighRes_cropped_1.webp",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/10/05/464078.jpg",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/10/AFP__20140819__Par7953286__v1__HighRes__NigeriaSecurityMaritime-1791219002.webp",
+      "http://images.euronews.com/articles/stories/09/93/99/89/640x360_cmsv2_8bc58403-4c56-59b0-88ea-92f8f5e8851a-9939989.jpg?1791211213"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 8,
+    "velocity": 0.0,
+    "age_hours": 1498.9143504552778,
+    "is_stale": true,
+    "score": 28.84557480159259,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "تحطم طائرة عسكرية نيجيرية بـ 32 قتيلا",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "id": "c0c5d2d28dc5",
+  "created_at": "2026-10-06T03:08:18.048800+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.98,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "محكمة إسلام آباد تأمر بإحضار عمران خان في قضية هجوم",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Islamabad court orders Imran Khan's production in Judicial Complex attack case",
+  "link": "https://www.geo.tv/latest/685071-islamabad-court-orders-imran-khans-production-in-judicial-complex-attack-case",
+  "publishers": [
+    "Geo News",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Islamabad court orders Imran Khan's production in Judicial Complex attack case",
+    "link": "https://www.geo.tv/latest/685071-islamabad-court-orders-imran-khans-production-in-judicial-complex-attack-case",
+    "summary": "PTI founder Imran Khan leaves after appearing in the Supreme Court in Islamabad on July 24, 2023. — AFPHammad Azhar, Shibli Faraz declared proclaimed offenders.ATC issues non-bailable warrants for former Punjab speaker.ATC Judge Tahir Abbas Sipra conducts the hearing on case.<p...",
+    "source_name": "Geo News",
+    "region": "pk",
+    "weight": 0.9,
+    "published": "2026-10-05T09:32:00+00:00",
+    "image_url": "https://www.geo.tv/assets/uploads/2026-10-05/685071_022045_updates.jpg",
+    "publisher": "Geo News",
+    "cluster_sources": [
+      "Geo News",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2633068/islamabad-atc-orders-imran-khans-production-in-judicial-complex-attack-case"
+      },
+      {
+        "name": "Geo News",
+        "link": "https://www.geo.tv/latest/685071-islamabad-court-orders-imran-khans-production-in-judicial-complex-attack-case"
+      }
+    ],
+    "image_candidates": [
+      "https://www.geo.tv/assets/uploads/2026-10-05/685071_022045_updates.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1498.9146161391666,
+    "is_stale": false,
+    "score": 21.976815528074074,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "محكمة إسلام آباد تأمر بإحضار عمران خان في قضية هجوم",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

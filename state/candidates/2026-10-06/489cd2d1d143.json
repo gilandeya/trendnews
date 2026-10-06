@@ -1,0 +1,65 @@
+{
+  "id": "489cd2d1d143",
+  "created_at": "2026-10-06T03:08:18.048653+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.88,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 1,
+  "appeal_note": "اليورو ينهار أمام الدولار: أزمة الديون الفرنسية تضرب العملة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Euro falls to 17-month low against the USD on French debt concerns",
+  "link": "https://www.france24.com/en/tv-shows/business/20261005-euro-falls-to-17-month-low-against-the-usd-on-french-debt-concerns",
+  "publishers": [
+    "France24",
+    "Free Malaysia Today"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Euro falls to 17-month low against the USD on French debt concerns",
+    "link": "https://www.france24.com/en/tv-shows/business/20261005-euro-falls-to-17-month-low-against-the-usd-on-french-debt-concerns",
+    "summary": "The euro has stumbled to a 17-month low against the US dollar on concern about France's ability to bring its public finances in order. The currency has fallen nearly 7% from its peak in late January. Meanwhile, global oil prices fell despite ongoing tensions around the Arabian Peninsula, after the G7 agreed to release up to 100 million barrels from strategic reserves and oil flows from the Persian Gulf have returned to pre-war levels.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-10-05T20:51:22+00:00",
+    "image_url": "https://s.france24.com/media/display/dc9d51c8-c0fd-11f1-838b-dd51fcab6130/w:1024/p:16x9/EN-NW-IVS-ECO-EURO-VS-USD-2-YEARS-ROYER-Yuka.png",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24",
+      "Free Malaysia Today"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/tv-shows/business/20261005-euro-falls-to-17-month-low-against-the-usd-on-french-debt-concerns"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/business/2026/10/06/euro-drops-to-17-month-low-on-france-debt-concerns"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/dc9d51c8-c0fd-11f1-838b-dd51fcab6130/w:1024/p:16x9/EN-NW-IVS-ECO-EURO-VS-USD-2-YEARS-ROYER-Yuka.png",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2024/06/1e5618b0-euro-currency.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1498.9143824675,
+    "is_stale": false,
+    "score": 24.881667392203703,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 1,
+    "appeal_note": "اليورو ينهار أمام الدولار: أزمة الديون الفرنسية تضرب العملة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
