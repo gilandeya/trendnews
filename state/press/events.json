@@ -275,7 +275,7 @@
      "published": "2026-10-06T10:16:28+00:00"
     }
    ],
-   "last_seen": "2026-10-06T15:07:42.509147+00:00",
+   "last_seen": "2026-10-06T18:08:08.020436+00:00",
    "outlets": 20,
    "regions": 16,
    "languages": 3,
@@ -556,7 +556,7 @@
      "published": "2026-10-06T06:12:00+00:00"
     }
    ],
-   "last_seen": "2026-10-06T15:07:42.509147+00:00",
+   "last_seen": "2026-10-06T18:08:08.020436+00:00",
    "outlets": 21,
    "regions": 16,
    "languages": 2,
@@ -781,13 +781,31 @@
      "language": "en",
      "link": "https://www.france24.com/en/video/20261006-france-school-protests-students-determined-to-win-concessions-that-mean-something",
      "published": "2026-10-06T12:24:56+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "France suspends high school classes as protesters clash with police",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/6/demonstrators-clash-with-riot-police-in-france-as-education-protests-mount?traffic_source=rss",
+     "published": "2026-10-06T13:28:54+00:00"
+    },
+    {
+     "outlet": "Court House News",
+     "region": "court",
+     "bucket": "light",
+     "title": "French police clash with high school protesters demanding change",
+     "language": "en",
+     "link": "https://www.courthousenews.com/french-police-clash-with-high-school-protesters-demanding-change/",
+     "published": "2026-10-06T16:45:05+00:00"
     }
    ],
-   "last_seen": "2026-10-06T15:07:42.509147+00:00",
-   "outlets": 18,
-   "regions": 13,
+   "last_seen": "2026-10-06T18:08:08.020436+00:00",
+   "outlets": 19,
+   "regions": 14,
    "languages": 1,
-   "score": 46.0
+   "score": 49.0
   },
   {
    "id": "4bac7b46db6b",
@@ -1154,280 +1172,6 @@
    "score": 36.0
   },
   {
-   "id": "363605fbbb2b",
-   "first_seen": "2026-10-06T03:07:51.967007+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Trump approves firing-squad execution of Fort Hood shooter, Pentagon says",
-     "language": "en",
-     "link": "https://www.theguardian.com/us-news/2026/oct/05/trump-fort-hood-shooter-execution",
-     "published": "2026-10-06T01:33:44+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Trump approves firing squad execution for US military base shooter Nidal Hasan",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3369851/trump-approves-firing-squad-execution-us-military-base-shooter-nidal-hasan?utm_source=rss_feed",
-     "published": "2026-10-06T02:17:38+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Trump approves firing-squad execution of Fort Hood shooter Nidal Hasan",
-     "language": "en",
-     "link": "https://www.france24.com/en/americas/20261006-trump-approves-firing-squad-execution-of-fort-hood-shooter-nidal-hasan",
-     "published": "2026-10-06T01:31:37+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Trump approves firing squad for convicted US military base shooter",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/world/us-trump-approves-firing-squad-military-base-shooter-6434831",
-     "published": "2026-10-06T02:24:17+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Trump authorises firing Squad for US military base shooter",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/06/trump-authorises-firing-squad-for-us-military-base-shooter/237853",
-     "published": "2026-10-06T01:21:56+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Trump approves firing squad execution for Fort Hood attacker Nidal Hasan",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/6/trump-approves-firing-squad-execution-for-fort-hood-attacker-nidal-hasan?traffic_source=rss",
-     "published": "2026-10-06T07:23:00+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Trump approves firing squad execution for Fort Hood shooter Nidal Hasan",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/trump-approves-firing-squad-execution-for-fort-hood-shooter-nidal-hasan/article71549975.ece",
-     "published": "2026-10-06T07:01:40+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Trump approves firing squad execution of US Army base shooter",
-     "language": "en",
-     "link": "https://punchng.com/trump-approves-firing-squad-execution-of-us-army-base-shooter/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-06T07:07:45+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Who is Nidal Hasan? Trump approves firing squad execution of 2009 Fort Hood shooter who killed 13 people in deadly massacre",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/who-is-nidal-hasan-trump-approves-firing-squad-execution-of-2009-fort-hood-shooter-who-killed-13-people-in-deadly-massacre-101791255659654.html",
-     "published": "2026-10-06T03:11:18+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Trump approves firing squad for convicted US military base shooter",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/trump-approves-firing-squad-for-convicted-us-military-base-shooter",
-     "published": "2026-10-06T05:39:00+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Trump approves firing squad for convicted US military base shooter",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/trump-approves-firing-squad-for-convicted-us-military-base-shooter/",
-     "published": "2026-10-06T07:52:15+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Trump approves firing-squad execution of 2009 Fort Hood shooter",
-     "language": "en",
-     "link": "https://tass.com/society/2197903",
-     "published": "2026-10-06T03:40:48+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Death By Firing Squad: Trump Orders Execution Of US Doctor Who Killed 13 People",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/death-by-firing-squad-trump-orders-execution-of-us-doctor-who-killed-13-people-12145015#publisher=newsstand",
-     "published": "2026-10-06T08:58:40+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Fort Hood shooter to be executed by firing squad - a first for US military since World War Two",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cq8ezkkkrpy1o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-06T02:22:24+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Fort Hood shooter to be executed by firing squad: All to know",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/6/fort-hood-shooter-to-be-executed-by-firing-squad-all-to-know?traffic_source=rss",
-     "published": "2026-10-06T10:21:53+00:00"
-    }
-   ],
-   "last_seen": "2026-10-06T15:07:42.509147+00:00",
-   "outlets": 14,
-   "regions": 9,
-   "languages": 1,
-   "score": 34.0
-  },
-  {
-   "id": "95e53a23fd71",
-   "first_seen": "2026-10-05T15:07:44.573046+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Spain’s PM Pedro Sanchez calls snap election amid housing crisis",
-     "language": "en",
-     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/5/spains-pm-pedro-sanchez-calls-snap-election-amid-housing-crisis?traffic_source=rss",
-     "published": "2026-10-05T08:55:21+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Spain’s PM Pedro Sánchez calls snap election after housing law fails to pass",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/05/spain-prime-minister-pedro-sanchez-snap-election-housing-crisis",
-     "published": "2026-10-05T14:09:31+00:00"
-    },
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "Spanish PM Sanchez calls snap election",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-05-spanish-pm-sanchez-calls-snap-election/",
-     "published": "2026-10-05T11:22:52+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Spanish PM Sanchez calls snap Nov. 29 polls amid housing crisis",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/europe/spanish-pm-sanchez-calls-snap-nov-29-polls-amid-housing-crisis",
-     "published": "2026-10-05T07:33:00+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Spain PM Calls Early Election After Housing Crisis Defeat",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/spain-pm-calls-early-election-after-housing-crisis-defeat-12140297#publisher=newsstand",
-     "published": "2026-10-05T09:20:27+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Spanish PM Sánchez calls early election after housing protests",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/spanish-pm-sanchez-calls-early-election-after-housing-protests/",
-     "published": "2026-10-05T12:03:09+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Spain’s Pedro Sanchez announces snap election amid housing crisis",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNOGRxS19iMFdBa3hSYk5UQm8zQWJnaW5jTGJqLWg0ZW1aUWlxTzFDYlBYQmdYYmZZSThhMTEtOGdFSEZmR1I1Q2w2Rm9IMGJ2XzNuY29ya3ZzeXpEMndwUGI4VEVDX19YNkJzRGs1Qmw1dVFDbnRnLVZDRWZGaHlxQU1mNWliTzVfWmxlNWRvbkNVeXR0bXNRUjB3SnJvT0hkc1Br0gGoAUFVX3lxTE9fVXdxRHBVeXhiT0Q4TE92TEM0bWluVzVyTHU2MnJIQ3VuQjNGSGlDWlgtOEdSUFZ6c3VYYTM3blp4OGFuSm0tSGJPME5ta1U5b1ByVXRsRl8wT2hwOFF0bWpyT2ZJWUtqdmI0UDZFRkZDWnpsWC1oSmJiWTd3R3ZEelJldlhOSlhXWjc4a0w3LUpJaXdaWV95eVVBZVRUblBpVnRHcm1lMw?oc=5",
-     "published": "2026-10-05T12:45:29+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Spain calls snap election amid housing crisis",
-     "language": "en",
-     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/5/spain-calls-snap-election-amid-housing-crisis?traffic_source=rss",
-     "published": "2026-10-05T17:27:14+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Spain’s prime minister calls early election as housing becomes a national flashpoint",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/europe/article/3369786/spains-prime-minister-calls-early-election-housing-becomes-national-flashpoint?utm_source=rss_feed",
-     "published": "2026-10-05T08:04:51+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Spain’s Prime Minister calls early election after housing crisis defeat",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/spains-prime-minister-calls-early-election-after-housing-crisis-defeat/article71546861.ece",
-     "published": "2026-10-05T12:26:38+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Spain’s Leader Calls Early Election After Housing Crisis Roils Government",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOaXVab2VKTExiN1E3LVNCdE5YSXJUOGdkM0F2TVZNQWt5cGExZFNscTFzSVVvcDBHVl9TSEJGMERoZnBpaFlXaTlmZERudlV2NFFwN3BxZERJWG54d0tJTWlhWWdaTjJ6VzBNUWoxSkZBMGZZYmdSUkFYVE5ybUJyMXRMUENkaDBp?oc=5",
-     "published": "2026-10-05T15:02:46+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Spain's prime minister calls early elections as pressure mounts over housing crisis",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/05/nx-s1-5991404/spain-snap-elections",
-     "published": "2026-10-05T09:15:55+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Spain’s PM calls snap election after housing bill defeat",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/06/spains-pm-calls-snap-election-after-housing-bill-defeat/237868",
-     "published": "2026-10-06T02:22:59+00:00"
-    }
-   ],
-   "last_seen": "2026-10-06T03:07:51.967007+00:00",
-   "outlets": 11,
-   "regions": 10,
-   "languages": 1,
-   "score": 33.0
-  },
-  {
    "id": "49ee6206d4c3",
    "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
@@ -1601,13 +1345,31 @@
      "language": "en",
      "link": "https://www.skysports.com/tennis/scores-schedule",
      "published": "2026-10-06T11:00:00+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Djokovic wins China Open after de Minaur retires, Alcaraz wins Japan Open",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/10/6/djokovic-wins-china-open-after-de-minaur-retires-alcaraz-wins-japan-open?traffic_source=rss",
+     "published": "2026-10-06T16:53:37+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Djokovic wins China Open and keeps unbeaten record after de Minaur retires",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/06/djokovic-wins-china-open-and-keeps-unbeaten-record-after-de-minaur-retires",
+     "published": "2026-10-06T14:14:22+00:00"
     }
    ],
-   "last_seen": "2026-10-06T15:07:42.509147+00:00",
-   "outlets": 12,
-   "regions": 8,
+   "last_seen": "2026-10-06T18:08:08.020436+00:00",
+   "outlets": 13,
+   "regions": 9,
    "languages": 2,
-   "score": 32.0
+   "score": 35.0
   },
   {
    "id": "61fa5cba09fb",
@@ -1693,9 +1455,465 @@
      "language": "en",
      "link": "https://www.npr.org/2026/10/06/g-s1-146636/what-to-know-about-nationwide-protests-in-india-over-voter-list-changes",
      "published": "2026-10-06T11:44:06+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Police detain Indian opposition leader Rahul Gandhi at poll chief protest",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633252/police-detain-indian-opposition-leader-rahul-gandhi-at-poll-chief-protest",
+     "published": "2026-10-06T01:39:46+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "What to know about nationwide protests in India over voter list changes",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOLUZ6ZXMwR1ozY2liRC1LY0tqRkxtQ3g2by1tMkp1cXVjTGdkeDJJblV4SkF5d2FqMnVaVHNacjBJNElMQV83S2xtUC1MbUR1RTFSRGZSYVpEbkhCUVRrMHphSkdzbEN0TWp5Q3BGZ1RhVFFScFAzZWNtQk53Vkc5MWRPZWhQS3N5aVQyNkhKeDhEMkhHZHNRTHlYMnpoTm5wOHotVU5DWHZFd3ZJbjYteURiU3o?oc=5",
+     "published": "2026-10-06T11:44:06+00:00"
     }
    ],
-   "last_seen": "2026-10-06T15:07:42.509147+00:00",
+   "last_seen": "2026-10-06T18:08:08.020436+00:00",
+   "outlets": 11,
+   "regions": 10,
+   "languages": 2,
+   "score": 35.0
+  },
+  {
+   "id": "363605fbbb2b",
+   "first_seen": "2026-10-06T03:07:51.967007+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Trump approves firing-squad execution of Fort Hood shooter, Pentagon says",
+     "language": "en",
+     "link": "https://www.theguardian.com/us-news/2026/oct/05/trump-fort-hood-shooter-execution",
+     "published": "2026-10-06T01:33:44+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Trump approves firing squad execution for US military base shooter Nidal Hasan",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3369851/trump-approves-firing-squad-execution-us-military-base-shooter-nidal-hasan?utm_source=rss_feed",
+     "published": "2026-10-06T02:17:38+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Trump approves firing-squad execution of Fort Hood shooter Nidal Hasan",
+     "language": "en",
+     "link": "https://www.france24.com/en/americas/20261006-trump-approves-firing-squad-execution-of-fort-hood-shooter-nidal-hasan",
+     "published": "2026-10-06T01:31:37+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Trump approves firing squad for convicted US military base shooter",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/us-trump-approves-firing-squad-military-base-shooter-6434831",
+     "published": "2026-10-06T02:24:17+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Trump authorises firing Squad for US military base shooter",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/06/trump-authorises-firing-squad-for-us-military-base-shooter/237853",
+     "published": "2026-10-06T01:21:56+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Trump approves firing squad execution for Fort Hood attacker Nidal Hasan",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/6/trump-approves-firing-squad-execution-for-fort-hood-attacker-nidal-hasan?traffic_source=rss",
+     "published": "2026-10-06T07:23:00+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump approves firing squad execution for Fort Hood shooter Nidal Hasan",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/trump-approves-firing-squad-execution-for-fort-hood-shooter-nidal-hasan/article71549975.ece",
+     "published": "2026-10-06T07:01:40+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Trump approves firing squad execution of US Army base shooter",
+     "language": "en",
+     "link": "https://punchng.com/trump-approves-firing-squad-execution-of-us-army-base-shooter/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-06T07:07:45+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Who is Nidal Hasan? Trump approves firing squad execution of 2009 Fort Hood shooter who killed 13 people in deadly massacre",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/who-is-nidal-hasan-trump-approves-firing-squad-execution-of-2009-fort-hood-shooter-who-killed-13-people-in-deadly-massacre-101791255659654.html",
+     "published": "2026-10-06T03:11:18+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Trump approves firing squad for convicted US military base shooter",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/trump-approves-firing-squad-for-convicted-us-military-base-shooter",
+     "published": "2026-10-06T05:39:00+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Trump approves firing squad for convicted US military base shooter",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/trump-approves-firing-squad-for-convicted-us-military-base-shooter/",
+     "published": "2026-10-06T07:52:15+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Trump approves firing-squad execution of 2009 Fort Hood shooter",
+     "language": "en",
+     "link": "https://tass.com/society/2197903",
+     "published": "2026-10-06T03:40:48+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Death By Firing Squad: Trump Orders Execution Of US Doctor Who Killed 13 People",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/death-by-firing-squad-trump-orders-execution-of-us-doctor-who-killed-13-people-12145015#publisher=newsstand",
+     "published": "2026-10-06T08:58:40+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Fort Hood shooter to be executed by firing squad - a first for US military since World War Two",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cq8ezkkkrpy1o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-06T02:22:24+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Fort Hood shooter to be executed by firing squad: All to know",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/6/fort-hood-shooter-to-be-executed-by-firing-squad-all-to-know?traffic_source=rss",
+     "published": "2026-10-06T10:21:53+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T18:08:08.020436+00:00",
+   "outlets": 14,
+   "regions": 9,
+   "languages": 1,
+   "score": 34.0
+  },
+  {
+   "id": "95e53a23fd71",
+   "first_seen": "2026-10-05T15:07:44.573046+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Spain’s PM Pedro Sanchez calls snap election amid housing crisis",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/5/spains-pm-pedro-sanchez-calls-snap-election-amid-housing-crisis?traffic_source=rss",
+     "published": "2026-10-05T08:55:21+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Spain’s PM Pedro Sánchez calls snap election after housing law fails to pass",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/05/spain-prime-minister-pedro-sanchez-snap-election-housing-crisis",
+     "published": "2026-10-05T14:09:31+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "Spanish PM Sanchez calls snap election",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-05-spanish-pm-sanchez-calls-snap-election/",
+     "published": "2026-10-05T11:22:52+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Spanish PM Sanchez calls snap Nov. 29 polls amid housing crisis",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/europe/spanish-pm-sanchez-calls-snap-nov-29-polls-amid-housing-crisis",
+     "published": "2026-10-05T07:33:00+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Spain PM Calls Early Election After Housing Crisis Defeat",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/spain-pm-calls-early-election-after-housing-crisis-defeat-12140297#publisher=newsstand",
+     "published": "2026-10-05T09:20:27+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Spanish PM Sánchez calls early election after housing protests",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/spanish-pm-sanchez-calls-early-election-after-housing-protests/",
+     "published": "2026-10-05T12:03:09+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Spain’s Pedro Sanchez announces snap election amid housing crisis",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNOGRxS19iMFdBa3hSYk5UQm8zQWJnaW5jTGJqLWg0ZW1aUWlxTzFDYlBYQmdYYmZZSThhMTEtOGdFSEZmR1I1Q2w2Rm9IMGJ2XzNuY29ya3ZzeXpEMndwUGI4VEVDX19YNkJzRGs1Qmw1dVFDbnRnLVZDRWZGaHlxQU1mNWliTzVfWmxlNWRvbkNVeXR0bXNRUjB3SnJvT0hkc1Br0gGoAUFVX3lxTE9fVXdxRHBVeXhiT0Q4TE92TEM0bWluVzVyTHU2MnJIQ3VuQjNGSGlDWlgtOEdSUFZ6c3VYYTM3blp4OGFuSm0tSGJPME5ta1U5b1ByVXRsRl8wT2hwOFF0bWpyT2ZJWUtqdmI0UDZFRkZDWnpsWC1oSmJiWTd3R3ZEelJldlhOSlhXWjc4a0w3LUpJaXdaWV95eVVBZVRUblBpVnRHcm1lMw?oc=5",
+     "published": "2026-10-05T12:45:29+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Spain calls snap election amid housing crisis",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/5/spain-calls-snap-election-amid-housing-crisis?traffic_source=rss",
+     "published": "2026-10-05T17:27:14+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Spain’s prime minister calls early election as housing becomes a national flashpoint",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3369786/spains-prime-minister-calls-early-election-housing-becomes-national-flashpoint?utm_source=rss_feed",
+     "published": "2026-10-05T08:04:51+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Spain’s Prime Minister calls early election after housing crisis defeat",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/spains-prime-minister-calls-early-election-after-housing-crisis-defeat/article71546861.ece",
+     "published": "2026-10-05T12:26:38+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Spain’s Leader Calls Early Election After Housing Crisis Roils Government",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOaXVab2VKTExiN1E3LVNCdE5YSXJUOGdkM0F2TVZNQWt5cGExZFNscTFzSVVvcDBHVl9TSEJGMERoZnBpaFlXaTlmZERudlV2NFFwN3BxZERJWG54d0tJTWlhWWdaTjJ6VzBNUWoxSkZBMGZZYmdSUkFYVE5ybUJyMXRMUENkaDBp?oc=5",
+     "published": "2026-10-05T15:02:46+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Spain's prime minister calls early elections as pressure mounts over housing crisis",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/05/nx-s1-5991404/spain-snap-elections",
+     "published": "2026-10-05T09:15:55+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Spain’s PM calls snap election after housing bill defeat",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/06/spains-pm-calls-snap-election-after-housing-bill-defeat/237868",
+     "published": "2026-10-06T02:22:59+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T03:07:51.967007+00:00",
+   "outlets": 11,
+   "regions": 10,
+   "languages": 1,
+   "score": 33.0
+  },
+  {
+   "id": "a056d2844c9a",
+   "first_seen": "2026-10-05T18:07:49.818707+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "LIVE: France vs Belgium",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/liveblog/2026/10/5/live-france-vs-belgium-uefa-nations-league?traffic_source=rss",
+     "published": "2026-10-05T15:47:00+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "France v Belgium, Italy v Turkey, Northern Ireland v Georgia: Nations League",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/live/2026/oct/05/france-v-belgium-italy-v-turkey-northern-ireland-v-georgia-nations-league-live",
+     "published": "2026-10-05T18:03:37+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Portugal sail into Nations League last 8, Greece frustrate Germany",
+     "language": "en",
+     "link": "https://www.dailysabah.com/sports/football/portugal-sail-into-nations-league-last-8-greece-frustrate-germany",
+     "published": "2026-10-05T13:10:00+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "What happened between Ireland and Israel in their Nations League match?",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/10/5/what-happened-between-ireland-and-israel-in-their-nations-league-match?traffic_source=rss",
+     "published": "2026-10-05T15:28:16+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Nations League roundup: Olise leads late charge as France bowl over Belgium",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/2026/oct/05/nations-league-roundup-olise-leads-late-charge-as-france-bowl-over-belgium",
+     "published": "2026-10-05T21:31:20+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Olise powers France to win over Belgium in Nations League",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/olise-powers-france-to-win-over-belgium-in-nations-league/",
+     "published": "2026-10-05T21:50:17+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Olise powers France to win over Belgium in Nations League",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/06/olise-powers-france-to-win-over-belgium-in-nations-league",
+     "published": "2026-10-05T22:11:58+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "France roar back in Nations League as Italy beat Turkey",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/06/france-roar-back-in-nations-league-as-italy-beat-turkey",
+     "published": "2026-10-05T22:45:32+00:00"
+    },
+    {
+     "outlet": "Le Monde",
+     "region": "fr",
+     "bucket": "serious",
+     "title": "France-Belgique : Michael Olise, le « talent pur » qui porte l’équipe de France de Zinédine Zidane",
+     "language": "tr",
+     "link": "https://www.lemonde.fr/sport/article/2026/10/06/france-belgique-michael-olise-le-talent-pur-qui-porte-l-equipe-de-france-de-zinedine-zidane_6788688_3242.html",
+     "published": "2026-10-06T01:17:16+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Super-subs help France demolish Belgium with late flurry",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/10/5/super-subs-help-france-demolish-belgium-with-late-flurry?traffic_source=rss",
+     "published": "2026-10-05T21:13:38+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "France roar back in Nations League as Italy beat Turkey",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633243/france-roar-back-in-nations-league-as-italy-beat-turkey",
+     "published": "2026-10-06T00:19:03+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Nations League: France defeat Belgium in second-half comeback",
+     "language": "en",
+     "link": "https://www.france24.com/en/tv-shows/sports/20261006-nations-league-france-defeat-belgium-in-second-half-comeback",
+     "published": "2026-10-06T06:28:17+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Türkiye fall 3-1 to Italy for 4th straight Nations League loss",
+     "language": "en",
+     "link": "https://www.dailysabah.com/sports/football/turkiye-fall-3-1-to-italy-for-4th-straight-nations-league-loss",
+     "published": "2026-10-05T21:43:00+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "LIVE: Croatia vs Spain",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/liveblog/2026/10/6/live-crostia-vs-spain-uefa-nations-league?traffic_source=rss",
+     "published": "2026-10-06T15:47:16+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Scotland v Slovenia, Croatia v Spain, and more: Nations League football",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/live/2026/oct/06/scotland-slovenia-croatia-spain-nations-league-football-live-score-updates",
+     "published": "2026-10-06T17:51:42+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "England v Czechia: Nations League football",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/live/2026/oct/06/england-v-czechia-nations-league-football-live",
+     "published": "2026-10-06T17:46:22+00:00"
+    },
+    {
+     "outlet": "IRNA English",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "England vs Czechia: Team news, predicted lineups, and stats",
+     "language": "en",
+     "link": "https://en.irna.ir/news/86285234/England-vs-Czechia-Team-news-predicted-lineups-and-stats",
+     "published": "2026-10-06T14:56:31+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T18:08:08.020436+00:00",
    "outlets": 9,
    "regions": 9,
    "languages": 2,
@@ -1815,6 +2033,107 @@
     }
    ],
    "last_seen": "2026-10-06T03:07:51.967007+00:00",
+   "outlets": 10,
+   "regions": 9,
+   "languages": 1,
+   "score": 30.0
+  },
+  {
+   "id": "902b9d7f57a8",
+   "first_seen": "2026-10-06T15:07:42.509147+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Kenya confirms first Ebola case as virus ‘surges’ in DR Congo province",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/06/kenya-first-ebola-case-death-drc",
+     "published": "2026-10-06T12:46:56+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Kenya confirms first Ebola case imported from Congo, patient has died",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2035159/kenya-confirms-first-ebola-case-imported-from-congo-patient-has-died",
+     "published": "2026-10-06T09:38:52+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Kenya reports first Ebola case imported from DR Congo after patient dies",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/africa/article/3369923/kenya-reports-first-ebola-case-imported-dr-congo-after-patient-dies?utm_source=rss_feed",
+     "published": "2026-10-06T09:39:31+00:00"
+    },
+    {
+     "outlet": "Medical Xpress",
+     "region": "health",
+     "bucket": "useful",
+     "title": "Kenya reports first-ever Ebola death",
+     "language": "en",
+     "link": "https://medicalxpress.com/news/2026-10-kenya-ebola-death.html",
+     "published": "2026-10-06T10:17:53+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "Kenya confirms first Ebola case imported from Congo",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-06-kenya-confirms-first-ebola-case-imported-from-congo/",
+     "published": "2026-10-06T12:45:17+00:00"
+    },
+    {
+     "outlet": "AllAfrica",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Kenya: Kenya Confirms First Ebola Case as Patient Returns From DRC",
+     "language": "en",
+     "link": "https://allafrica.com/stories/202610060146.html",
+     "published": "2026-10-06T09:08:38+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Kenya confirms first Ebola death as 28 contacts traced",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/06/kenya-confirms-first-ebola-death-as-28-contacts-traced/",
+     "published": "2026-10-06T09:57:32+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Kenya confirms first Ebola case imported from Congo after patient dies in Nairobi",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/kenya-confirms-first-ebola-case-imported-from-congo-after-patient-dies-in-nairobi/article71550957.ece",
+     "published": "2026-10-06T10:54:29+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Kenya Records Ebola Case for First Time",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNa0FnQmRLaFN4d0x1LUdtZnJRSHNBeFhzc2pGc09RU1ZWcDBLdDdRT2Z4S3ZHaURpMEh3STlGdnlVeUlPekJVa0VVOUluZW1QOWhqRjRQUkVYXy1aakpJQ0U1cjJnRGdzc0FQczVWNEJSNHdONWJmVWl3Q1dYV2h1UG16SWk?oc=5",
+     "published": "2026-10-06T11:18:41+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Kenya reports first-ever Ebola death after patient returns from DR Congo",
+     "language": "en",
+     "link": "https://www.france24.com/en/africa/20261006-kenya-reports-first-ever-ebola-death-after-patient-returns-from-dr-congo",
+     "published": "2026-10-06T15:41:44+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T18:08:08.020436+00:00",
    "outlets": 10,
    "regions": 9,
    "languages": 1,
@@ -1994,224 +2313,87 @@
    "score": 29.0
   },
   {
-   "id": "a056d2844c9a",
-   "first_seen": "2026-10-05T18:07:49.818707+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "LIVE: France vs Belgium",
-     "language": "en",
-     "link": "https://www.aljazeera.com/sports/liveblog/2026/10/5/live-france-vs-belgium-uefa-nations-league?traffic_source=rss",
-     "published": "2026-10-05T15:47:00+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "France v Belgium, Italy v Turkey, Northern Ireland v Georgia: Nations League",
-     "language": "en",
-     "link": "https://www.theguardian.com/football/live/2026/oct/05/france-v-belgium-italy-v-turkey-northern-ireland-v-georgia-nations-league-live",
-     "published": "2026-10-05T18:03:37+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Portugal sail into Nations League last 8, Greece frustrate Germany",
-     "language": "en",
-     "link": "https://www.dailysabah.com/sports/football/portugal-sail-into-nations-league-last-8-greece-frustrate-germany",
-     "published": "2026-10-05T13:10:00+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "What happened between Ireland and Israel in their Nations League match?",
-     "language": "en",
-     "link": "https://www.aljazeera.com/sports/2026/10/5/what-happened-between-ireland-and-israel-in-their-nations-league-match?traffic_source=rss",
-     "published": "2026-10-05T15:28:16+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Nations League roundup: Olise leads late charge as France bowl over Belgium",
-     "language": "en",
-     "link": "https://www.theguardian.com/football/2026/oct/05/nations-league-roundup-olise-leads-late-charge-as-france-bowl-over-belgium",
-     "published": "2026-10-05T21:31:20+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Olise powers France to win over Belgium in Nations League",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/olise-powers-france-to-win-over-belgium-in-nations-league/",
-     "published": "2026-10-05T21:50:17+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Olise powers France to win over Belgium in Nations League",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/06/olise-powers-france-to-win-over-belgium-in-nations-league",
-     "published": "2026-10-05T22:11:58+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "France roar back in Nations League as Italy beat Turkey",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/06/france-roar-back-in-nations-league-as-italy-beat-turkey",
-     "published": "2026-10-05T22:45:32+00:00"
-    },
-    {
-     "outlet": "Le Monde",
-     "region": "fr",
-     "bucket": "serious",
-     "title": "France-Belgique : Michael Olise, le « talent pur » qui porte l’équipe de France de Zinédine Zidane",
-     "language": "tr",
-     "link": "https://www.lemonde.fr/sport/article/2026/10/06/france-belgique-michael-olise-le-talent-pur-qui-porte-l-equipe-de-france-de-zinedine-zidane_6788688_3242.html",
-     "published": "2026-10-06T01:17:16+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Super-subs help France demolish Belgium with late flurry",
-     "language": "en",
-     "link": "https://www.aljazeera.com/sports/2026/10/5/super-subs-help-france-demolish-belgium-with-late-flurry?traffic_source=rss",
-     "published": "2026-10-05T21:13:38+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "France roar back in Nations League as Italy beat Turkey",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633243/france-roar-back-in-nations-league-as-italy-beat-turkey",
-     "published": "2026-10-06T00:19:03+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Nations League: France defeat Belgium in second-half comeback",
-     "language": "en",
-     "link": "https://www.france24.com/en/tv-shows/sports/20261006-nations-league-france-defeat-belgium-in-second-half-comeback",
-     "published": "2026-10-06T06:28:17+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Türkiye fall 3-1 to Italy for 4th straight Nations League loss",
-     "language": "en",
-     "link": "https://www.dailysabah.com/sports/football/turkiye-fall-3-1-to-italy-for-4th-straight-nations-league-loss",
-     "published": "2026-10-05T21:43:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-06T09:08:01.863235+00:00",
-   "outlets": 8,
-   "regions": 8,
-   "languages": 2,
-   "score": 28.0
-  },
-  {
-   "id": "902b9d7f57a8",
+   "id": "cf3f3c17f2ae",
    "first_seen": "2026-10-06T15:07:42.509147+00:00",
    "members": [
     {
-     "outlet": "The Guardian — World",
+     "outlet": "BBC World",
      "region": "uk",
      "bucket": "serious",
-     "title": "Kenya confirms first Ebola case as virus ‘surges’ in DR Congo province",
+     "title": "Former German spy chief arrested for espionage and treason",
      "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/06/kenya-first-ebola-case-death-drc",
-     "published": "2026-10-06T12:46:56+00:00"
+     "link": "https://www.bbc.co.uk/news/articles/c58jzyer1kr0o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-06T10:05:42+00:00"
     },
     {
-     "outlet": "Dawn",
-     "region": "pk",
+     "outlet": "Al Jazeera English",
+     "region": "qa",
      "bucket": "serious",
-     "title": "Kenya confirms first Ebola case imported from Congo, patient has died",
+     "title": "Former German spy chief arrested on suspicion of treason and espionage",
      "language": "en",
-     "link": "https://www.dawn.com/news/2035159/kenya-confirms-first-ebola-case-imported-from-congo-patient-has-died",
-     "published": "2026-10-06T09:38:52+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Kenya reports first Ebola case imported from DR Congo after patient dies",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/africa/article/3369923/kenya-reports-first-ebola-case-imported-dr-congo-after-patient-dies?utm_source=rss_feed",
-     "published": "2026-10-06T09:39:31+00:00"
-    },
-    {
-     "outlet": "Medical Xpress",
-     "region": "health",
-     "bucket": "useful",
-     "title": "Kenya reports first-ever Ebola death",
-     "language": "en",
-     "link": "https://medicalxpress.com/news/2026-10-kenya-ebola-death.html",
-     "published": "2026-10-06T10:17:53+00:00"
+     "link": "https://www.aljazeera.com/news/2026/10/6/former-german-spy-chief-arrested-on-suspicion-of-treason-and-espionage?traffic_source=rss",
+     "published": "2026-10-06T12:52:28+00:00"
     },
     {
      "outlet": "Daily Maverick",
      "region": "za",
      "bucket": "serious",
-     "title": "Kenya confirms first Ebola case imported from Congo",
+     "title": "Former German spy chief arrested over alleged buying of classified information",
      "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-06-kenya-confirms-first-ebola-case-imported-from-congo/",
-     "published": "2026-10-06T12:45:17+00:00"
+     "link": "https://www.dailymaverick.co.za/article/2026-10-06-former-german-spy-chief-arrested-over-alleged-buying-of-classified-information/",
+     "published": "2026-10-06T12:44:58+00:00"
     },
     {
-     "outlet": "AllAfrica",
-     "region": "africa",
+     "outlet": "The Express Tribune",
+     "region": "pk",
      "bucket": "serious",
-     "title": "Kenya: Kenya Confirms First Ebola Case as Patient Returns From DRC",
+     "title": "Former German spy chief arrested over alleged buying of classified information",
      "language": "en",
-     "link": "https://allafrica.com/stories/202610060146.html",
-     "published": "2026-10-06T09:08:38+00:00"
-    },
-    {
-     "outlet": "Africanews",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Kenya confirms first Ebola death as 28 contacts traced",
-     "language": "en",
-     "link": "http://www.africanews.com/2026/10/06/kenya-confirms-first-ebola-death-as-28-contacts-traced/",
-     "published": "2026-10-06T09:57:32+00:00"
+     "link": "https://tribune.com.pk/story/2633284/former-german-spy-chief-arrested-over-alleged-buying-of-classified-information",
+     "published": "2026-10-06T05:56:42+00:00"
     },
     {
      "outlet": "The Hindu — International",
      "region": "in",
      "bucket": "serious",
-     "title": "Kenya confirms first Ebola case imported from Congo after patient dies in Nairobi",
+     "title": "Ex-spy chief is arrested in Germany on suspicion of trading state secrets, treason",
      "language": "en",
-     "link": "https://www.thehindu.com/news/international/kenya-confirms-first-ebola-case-imported-from-congo-after-patient-dies-in-nairobi/article71550957.ece",
-     "published": "2026-10-06T10:54:29+00:00"
+     "link": "https://www.thehindu.com/news/international/ex-spy-chief-is-arrested-in-germany-on-suspicion-of-trading-state-secrets-treason/article71551683.ece",
+     "published": "2026-10-06T13:19:38+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Ex-spy chief is arrested in Germany on suspicion of trading state secrets and treason",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/06/g-s1-146630/germany-ex-spy-chief-state-secrets",
+     "published": "2026-10-06T11:31:48+00:00"
     },
     {
      "outlet": "Google News — World",
      "region": "global",
      "bucket": "serious",
-     "title": "Kenya Records Ebola Case for First Time",
+     "title": "Germany's ex-spy chief arrested for espionage, disclosing state secrets and attempted treason",
      "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNa0FnQmRLaFN4d0x1LUdtZnJRSHNBeFhzc2pGc09RU1ZWcDBLdDdRT2Z4S3ZHaURpMEh3STlGdnlVeUlPekJVa0VVOUluZW1QOWhqRjRQUkVYXy1aakpJQ0U1cjJnRGdzc0FQczVWNEJSNHdONWJmVWl3Q1dYV2h1UG16SWk?oc=5",
-     "published": "2026-10-06T11:18:41+00:00"
+     "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOdGVPUGtVUnkxZGhzSk1idV82dFpKZUVzcXFEQWNoaGltWU52b1N1R3g1c0M5ZU94LUxhcXB6bFV6VUw0WDgxQmx2Qnl3NnhmaWRSb29zdjR2OEhNeWN2NUdsOHZ6c2hiQWowQlhxRWhtU21pQnFjb2ZvRWhpbUNraTdIZ9IBgwFBVV95cUxNVERYVmpkaHdJTnBueXdVYk5VaEhMdDREUXdhUXA4WGljb2Z6TmJBMFp1Q2tLOUlFVDZCT0dxMFlzY3Y3UVBNdFlST3ZJM01lY3hzQzJZdDVvcWRGZGphWG4tTlhwQ0NWOEtyN3kwWFZWOG9qa2NuV05pQ3pwMVhhQlV4Zw?oc=5",
+     "published": "2026-10-06T14:47:54+00:00"
+    },
+    {
+     "outlet": "Court House News",
+     "region": "court",
+     "bucket": "light",
+     "title": "Ex-spy chief is arrested in Germany on suspicion of trading state secrets and treason",
+     "language": "en",
+     "link": "https://www.courthousenews.com/ex-spy-chief-is-arrested-in-germany-on-suspicion-of-trading-state-secrets-and-treason/",
+     "published": "2026-10-06T16:43:17+00:00"
     }
    ],
-   "last_seen": "2026-10-06T15:07:42.509147+00:00",
-   "outlets": 9,
+   "last_seen": "2026-10-06T18:08:08.020436+00:00",
+   "outlets": 8,
    "regions": 8,
    "languages": 1,
-   "score": 27.0
+   "score": 26.0
   },
   {
    "id": "c2ed5607be1f",
@@ -2496,80 +2678,6 @@
    "outlets": 7,
    "regions": 6,
    "languages": 2,
-   "score": 23.0
-  },
-  {
-   "id": "cf3f3c17f2ae",
-   "first_seen": "2026-10-06T15:07:42.509147+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Former German spy chief arrested for espionage and treason",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c58jzyer1kr0o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-06T10:05:42+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Former German spy chief arrested on suspicion of treason and espionage",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/6/former-german-spy-chief-arrested-on-suspicion-of-treason-and-espionage?traffic_source=rss",
-     "published": "2026-10-06T12:52:28+00:00"
-    },
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "Former German spy chief arrested over alleged buying of classified information",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-06-former-german-spy-chief-arrested-over-alleged-buying-of-classified-information/",
-     "published": "2026-10-06T12:44:58+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Former German spy chief arrested over alleged buying of classified information",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633284/former-german-spy-chief-arrested-over-alleged-buying-of-classified-information",
-     "published": "2026-10-06T05:56:42+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Ex-spy chief is arrested in Germany on suspicion of trading state secrets, treason",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/ex-spy-chief-is-arrested-in-germany-on-suspicion-of-trading-state-secrets-treason/article71551683.ece",
-     "published": "2026-10-06T13:19:38+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Ex-spy chief is arrested in Germany on suspicion of trading state secrets and treason",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/06/g-s1-146630/germany-ex-spy-chief-state-secrets",
-     "published": "2026-10-06T11:31:48+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Germany's ex-spy chief arrested for espionage, disclosing state secrets and attempted treason",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOdGVPUGtVUnkxZGhzSk1idV82dFpKZUVzcXFEQWNoaGltWU52b1N1R3g1c0M5ZU94LUxhcXB6bFV6VUw0WDgxQmx2Qnl3NnhmaWRSb29zdjR2OEhNeWN2NUdsOHZ6c2hiQWowQlhxRWhtU21pQnFjb2ZvRWhpbUNraTdIZ9IBgwFBVV95cUxNVERYVmpkaHdJTnBueXdVYk5VaEhMdDREUXdhUXA4WGljb2Z6TmJBMFp1Q2tLOUlFVDZCT0dxMFlzY3Y3UVBNdFlST3ZJM01lY3hzQzJZdDVvcWRGZGphWG4tTlhwQ0NWOEtyN3kwWFZWOG9qa2NuV05pQ3pwMVhhQlV4Zw?oc=5",
-     "published": "2026-10-06T14:47:54+00:00"
-    }
-   ],
-   "last_seen": "2026-10-06T15:07:42.509147+00:00",
-   "outlets": 7,
-   "regions": 7,
-   "languages": 1,
    "score": 23.0
   },
   {
@@ -2943,13 +3051,96 @@
      "language": "en",
      "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFB5bHVXZjF1NDI1eWZ3QTR1RzJIVjRlRHp4VVRKNktxRXVtQnpaRHBPYS1RY2xfSVQtY1RDaDktV2p3VnNVVllYQXk5YkV3OXQ4MGNrc2FwcVVFNmc?oc=5",
      "published": "2026-10-06T11:53:21+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Ship sinks off Bulgaria after drone attack in Black Sea",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/6/ship-sinks-off-bulgaria-after-drone-attack-in-black-sea?traffic_source=rss",
+     "published": "2026-10-06T16:53:04+00:00"
     }
    ],
-   "last_seen": "2026-10-06T15:07:42.509147+00:00",
+   "last_seen": "2026-10-06T18:08:08.020436+00:00",
    "outlets": 6,
    "regions": 6,
    "languages": 1,
    "score": 20.0
+  },
+  {
+   "id": "9f07066a4b4c",
+   "first_seen": "2026-10-06T15:07:42.509147+00:00",
+   "members": [
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Paramount wraps up mega Warner Bros merger to create Hollywood powerhouse Skydance",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/entertainment/paramount-warner-bros-merger-skydance-6436746",
+     "published": "2026-10-06T13:18:00+00:00"
+    },
+    {
+     "outlet": "TechCrunch",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "Paramount closes historic Warner Bros. merger to form Skydance",
+     "language": "en",
+     "link": "https://techcrunch.com/2026/10/06/paramount-closes-historic-warner-bros-merger-to-form-skydance/",
+     "published": "2026-10-06T13:57:32+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Paramount takes over Warner Bros in $110bn Hollywood merger",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/paramount-takes-over-warner-bros-in-110bn-hollywood-merger/",
+     "published": "2026-10-06T14:45:34+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Paramount wraps up mega Warner Bros merger to create Hollywood powerhouse Skydance",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633335/paramount-wraps-up-mega-warner-bros-merger-to-create-hollywood-powerhouse-skydance",
+     "published": "2026-10-06T11:19:16+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Paramount takes over Warner Bros in $110bn Hollywood merger",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/bond-market-turnover-rises-77-to-gh%c2%a22-76bn-2/",
+     "published": "2026-10-06T14:04:00+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Paramount completes $81 billion takeover of Warner Bros Discovery in Hollywood mega-merger to form Skydance",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/paramount-completes-81-billion-takeover-of-warner-bros-discovery-in-hollywood-mega-merger-to-form-skydance-101791295936233.html",
+     "published": "2026-10-06T15:08:22+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Paramount Completes Warner Bros Takeover, 'Skydance' Is Post-Merger Name",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/paramount-completes-warner-bros-takeover-combined-company-named-skydance-12147599#publisher=newsstand",
+     "published": "2026-10-06T15:58:34+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T18:08:08.020436+00:00",
+   "outlets": 6,
+   "regions": 5,
+   "languages": 1,
+   "score": 18.0
   },
   {
    "id": "fc3143ecaa68",
@@ -3075,7 +3266,7 @@
      "published": "2026-10-05T22:22:22+00:00"
     }
    ],
-   "last_seen": "2026-10-06T15:07:42.509147+00:00",
+   "last_seen": "2026-10-06T18:08:08.020436+00:00",
    "outlets": 6,
    "regions": 4,
    "languages": 1,
@@ -3637,7 +3828,7 @@
      "published": "2026-10-06T10:20:17+00:00"
     }
    ],
-   "last_seen": "2026-10-06T15:07:42.509147+00:00",
+   "last_seen": "2026-10-06T18:08:08.020436+00:00",
    "outlets": 4,
    "regions": 3,
    "languages": 1,
@@ -4127,38 +4318,76 @@
    "score": 11.0
   },
   {
-   "id": "9f07066a4b4c",
-   "first_seen": "2026-10-06T15:07:42.509147+00:00",
+   "id": "0c9d00f07da9",
+   "first_seen": "2026-10-06T18:08:08.020436+00:00",
    "members": [
+    {
+     "outlet": "Court House News",
+     "region": "court",
+     "bucket": "light",
+     "title": "Russia denies imposing anti-plague measures after death of worker",
+     "language": "en",
+     "link": "https://www.courthousenews.com/russia-denies-imposing-anti-plague-measures-after-death-of-worker/",
+     "published": "2026-10-06T16:58:05+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "light",
+     "title": "Russia denies imposing anti-plague measures after death of worker",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2035170/russia-denies-imposing-anti-plague-measures-after-death-of-worker",
+     "published": "2026-10-06T10:49:12+00:00"
+    },
     {
      "outlet": "Channel News Asia",
      "region": "seasia",
      "bucket": "serious",
-     "title": "Paramount wraps up mega Warner Bros merger to create Hollywood powerhouse Skydance",
+     "title": "Russia denies imposing anti-plague measures after death of worker",
      "language": "en",
-     "link": "https://www.channelnewsasia.com/entertainment/paramount-warner-bros-merger-skydance-6436746",
-     "published": "2026-10-06T13:18:00+00:00"
-    },
-    {
-     "outlet": "TechCrunch",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "Paramount closes historic Warner Bros. merger to form Skydance",
-     "language": "en",
-     "link": "https://techcrunch.com/2026/10/06/paramount-closes-historic-warner-bros-merger-to-form-skydance/",
-     "published": "2026-10-06T13:57:32+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Paramount takes over Warner Bros in $110bn Hollywood merger",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/paramount-takes-over-warner-bros-in-110bn-hollywood-merger/",
-     "published": "2026-10-06T14:45:34+00:00"
+     "link": "https://www.channelnewsasia.com/world/russia-plague-lab-worker-death-rubio-urge-info-6437211",
+     "published": "2026-10-06T16:37:48+00:00"
     }
    ],
-   "last_seen": "2026-10-06T15:07:42.509147+00:00",
+   "last_seen": "2026-10-06T18:08:08.020436+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "94d026bdbf8b",
+   "first_seen": "2026-10-06T18:08:08.020436+00:00",
+   "members": [
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "White House denies Trump suggested Iran should 'take out' US cities",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633331/white-house-denies-trump-suggested-iran-should-take-out-us-cities",
+     "published": "2026-10-06T10:57:59+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "White House denies Trump suggested Iran should 'take out' US cities",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/trump-democrats-us-cities-la-san-diego-iran-6437256",
+     "published": "2026-10-06T17:59:06+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "White House denies Trump suggested Iran should ‘take out’ US cities",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/white-house-denies-trump-suggested-iran-should-take-out-us-cities",
+     "published": "2026-10-06T14:38:44+00:00"
+    }
+   ],
+   "last_seen": "2026-10-06T18:08:08.020436+00:00",
    "outlets": 3,
    "regions": 3,
    "languages": 1,

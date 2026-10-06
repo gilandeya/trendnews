@@ -1,0 +1,64 @@
+{
+  "id": "e38ed365ba44",
+  "created_at": "2026-10-06T18:08:31.803054+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.4,
+  "trend_score": 0.17,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "اعتقال بريطاني في قضية إرهابية قرب قاعدة عسكرية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "British national arrested in connection with RAF Fairford incident",
+  "link": "https://www.myjoyonline.com/british-national-arrested-in-connection-with-raf-fairford-incident/",
+  "publishers": [
+    "Al Jazeera English",
+    "MyJoyOnline Ghana"
+  ],
+  "region": "gh",
+  "article": {
+    "title": "British national arrested in connection with RAF Fairford incident",
+    "link": "https://www.myjoyonline.com/british-national-arrested-in-connection-with-raf-fairford-incident/",
+    "summary": "A 22-year-old British national has been arrested on suspicion of preparation of terrorist acts in connection with an incident close to RAF Fairford, counter-terror police said.",
+    "source_name": "MyJoyOnline Ghana",
+    "region": "gh",
+    "weight": 0.9,
+    "published": "2026-10-06T16:52:05+00:00",
+    "image_url": "https://www.myjoyonline.com/wp-content/uploads/2026/10/image-649.png",
+    "publisher": "MyJoyOnline Ghana",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "MyJoyOnline Ghana"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/10/6/uk-police-arrest-british-national-linked-to-airbase-incident?traffic_source=rss"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/british-national-arrested-in-connection-with-raf-fairford-incident/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.myjoyonline.com/wp-content/uploads/2026/10/image-649.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.16666666666666666,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1513.9189316019445,
+    "is_stale": false,
+    "score": 23.398833179851852,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "اعتقال بريطاني في قضية إرهابية قرب قاعدة عسكرية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

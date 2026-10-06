@@ -1,0 +1,64 @@
+{
+  "id": "5eef68835510",
+  "created_at": "2026-10-06T18:08:31.803549+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.09,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 1,
+  "intrigue": 3,
+  "appeal_note": "رئيس المخابرات الألمانية السابق يُعتقل بتهمة شراء وثائق سرية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Former German spy chief arrested over alleged buying of classified information",
+  "link": "https://www.dailymaverick.co.za/article/2026-10-06-former-german-spy-chief-arrested-over-alleged-buying-of-classified-information/",
+  "publishers": [
+    "Daily Maverick",
+    "The Express Tribune"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Former German spy chief arrested over alleged buying of classified information",
+    "link": "https://www.dailymaverick.co.za/article/2026-10-06-former-german-spy-chief-arrested-over-alleged-buying-of-classified-information/",
+    "summary": "Former German foreign intelligence chief August Hanning was arrested on Tuesday on suspicion of paying for access to classified documents and using them to prepare an analysis for a foreign intelligence service, federal prosecutors said.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-10-06T12:44:58+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/i/TIVbSiS3AsycpkueabGVEpDYYzg=/800x0/smart/filters:strip_exif()/file/attachments/2998/14341715_830355.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Daily Maverick",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-10-06-former-german-spy-chief-arrested-over-alleged-buying-of-classified-information/"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2633284/former-german-spy-chief-arrested-over-alleged-buying-of-classified-information"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/i/TIVbSiS3AsycpkueabGVEpDYYzg=/800x0/smart/filters:strip_exif()/file/attachments/2998/14341715_830355.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1513.9191138975,
+    "is_stale": false,
+    "score": 22.09092576251852,
+    "impact": 1,
+    "proximity": 1,
+    "intrigue": 3,
+    "appeal_note": "رئيس المخابرات الألمانية السابق يُعتقل بتهمة شراء وثائق سرية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "id": "5e15caa81fad",
+  "created_at": "2026-10-06T18:08:31.802770+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.78,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "الهند تتنافس على استضافة أولمبياد 2036",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "India among seven countries vying for 2036 Olympics, IOC says",
+  "link": "https://tribune.com.pk/story/2633306/india-among-seven-countries-vying-for-2036-olympics-ioc-says",
+  "publishers": [
+    "Free Malaysia Today",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "India among seven countries vying for 2036 Olympics, IOC says",
+    "link": "https://tribune.com.pk/story/2633306/india-among-seven-countries-vying-for-2036-olympics-ioc-says",
+    "summary": "Hungary, Turkey, South Africa and South Korea complete the list of interested parties",
+    "source_name": "The Express Tribune",
+    "region": "pk",
+    "weight": 1.0,
+    "published": "2026-10-06T07:19:11+00:00",
+    "image_url": null,
+    "publisher": "The Express Tribune",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2633306/india-among-seven-countries-vying-for-2036-olympics-ioc-says"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/india-among-seven-countries-vying-for-2036-olympics-ioc-says"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1513.9189069883334,
+    "is_stale": false,
+    "score": 24.77894429224074,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "الهند تتنافس على استضافة أولمبياد 2036",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

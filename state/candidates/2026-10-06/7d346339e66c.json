@@ -1,0 +1,64 @@
+{
+  "id": "7d346339e66c",
+  "created_at": "2026-10-06T18:08:31.802290+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.37,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 3,
+  "intrigue": 1,
+  "appeal_note": "عملية أمنية باكستانية ضد إرهابيين مدعومين من الهند",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Five India-backed terrorists killed, two injured in North Waziristan: security sources",
+  "link": "https://www.geo.tv/latest/685201-five-india-backed-terrorists-killed-two-injured-in-north-waziristan-security-sources",
+  "publishers": [
+    "Geo News",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Five India-backed terrorists killed, two injured in North Waziristan: security sources",
+    "link": "https://www.geo.tv/latest/685201-five-india-backed-terrorists-killed-two-injured-in-north-waziristan-security-sources",
+    "summary": "Pakistan Army personnel can be seen patrolling in this undated image. — Reuters/FileForces committed to eliminating terrorism: sources.PM, president vow continuous action against militants.PM hails security forces for foiling terrorists' designs. Security forces killed five...",
+    "source_name": "Geo News",
+    "region": "pk",
+    "weight": 0.9,
+    "published": "2026-10-06T06:30:00+00:00",
+    "image_url": "https://www.geo.tv/assets/uploads/2026-10-06/685201_110530_updates.jpg",
+    "publisher": "Geo News",
+    "cluster_sources": [
+      "Geo News",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2633242/five-terrorists-killed-two-wounded-in-north-waziristan-operation-security-sources"
+      },
+      {
+        "name": "Geo News",
+        "link": "https://www.geo.tv/latest/685201-five-india-backed-terrorists-killed-two-injured-in-north-waziristan-security-sources"
+      }
+    ],
+    "image_candidates": [
+      "https://www.geo.tv/assets/uploads/2026-10-06/685201_110530_updates.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1513.918893857778,
+    "is_stale": false,
+    "score": 25.37429614327778,
+    "impact": 1,
+    "proximity": 3,
+    "intrigue": 1,
+    "appeal_note": "عملية أمنية باكستانية ضد إرهابيين مدعومين من الهند",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
