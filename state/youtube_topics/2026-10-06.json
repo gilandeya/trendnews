@@ -1,0 +1,619 @@
+{
+  "run_date": "2026-10-06",
+  "stats": {
+    "points_in": 262,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 112,
+    "issues_clustered": 27,
+    "topics_merged": 2,
+    "topics_out": 2,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 4,
+    "topics_below_min_points": 12,
+    "topics_below_min_channels": 5,
+    "layers": {
+      "2": 2
+    },
+    "agreement": 2,
+    "cross_source": 0,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "إعلان العملية العسكرية اليمنية لاستعادة الأراضي من الحوثيين",
+      "استعادة مدينة المخا من الحوثيين",
+      "هجوم عسكري واسع لتحرير صنعاء وتدخل أمريكي استشاري",
+      "غارات التحالف ضد الحوثيين وتوقع استمرار العملية حتى الحديدة"
+    ],
+    [
+      "إعدام عليرضا سباهي وعليرضا رئيسي في إيران",
+      "إحصائيات واسعة لأحكام الإعدام في إيران"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "قدرات الحوثيين العسكرية والدعم الإيراني",
+      "event": "تقييم إمكانيات ميليشيا الحوثي العسكرية ومصدر الدعم الإيراني لها",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        31,
+        32,
+        100,
+        101,
+        103,
+        104,
+        108,
+        109
+      ],
+      "total_points": 8,
+      "fresh_points": 6,
+      "dropped_reason": null,
+      "id": "ea87cb7a0018",
+      "created_at": "2026-10-06T04:02:22.026157+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1261
+    },
+    {
+      "title": "إعلان حلف مكة الدفاعي ودعم السعودية",
+      "event": "إعلان حلف مكة الدفاعي التزامه بحماية السعودية والتصديق عليه في البرلمان التركي",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        61,
+        63,
+        64,
+        102,
+        106
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null,
+      "id": "7d274a7fcae8",
+      "created_at": "2026-10-06T04:02:22.026157+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1261
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "إعلان العملية العسكرية اليمنية لاستعادة الأراضي من الحوثيين",
+      "event": "إعلان الحكومة اليمنية الشرعية (رشاد العليمي) بدء عملية عسكرية واسعة لاستعادة الأراضي من الحوثيين",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Iran International",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        3,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        34,
+        62,
+        82,
+        83,
+        84,
+        85,
+        87,
+        88,
+        98,
+        105,
+        131,
+        132
+      ],
+      "total_points": 23,
+      "fresh_points": 11,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "استقالة وزير النفط الإيراني",
+      "event": "استقالة وزير النفط الإيراني محسن باكنجاد وسط تحقيقات حول ملف النفط والعقوبات",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        5,
+        133
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "قدرات الحوثيين العسكرية والدعم الإيراني",
+      "event": "تقييم إمكانيات ميليشيا الحوثي العسكرية ومصدر الدعم الإيراني لها",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        31,
+        32,
+        100,
+        101,
+        103,
+        104,
+        108,
+        109
+      ],
+      "total_points": 8,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "إعلان حلف مكة الدفاعي ودعم السعودية",
+      "event": "إعلان حلف مكة الدفاعي التزامه بحماية السعودية والتصديق عليه في البرلمان التركي",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        61,
+        63,
+        64,
+        102,
+        106
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "احتجاجات الطلاب في فرنسا",
+      "event": "تصعيد احتجاجات الطلاب في المدارس والجامعات الفرنسية واعتقالات واسعة",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        41,
+        48
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "أزمة الصناديق الاستثمارية في تركيا",
+      "event": "فضيحة الصناديق الاستثمارية التركية والاحتيال المالي والاعتقالات المرتبطة بها",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        43,
+        44,
+        45,
+        46,
+        56,
+        57,
+        58,
+        60,
+        112
+      ],
+      "total_points": 9,
+      "fresh_points": 1,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "نقاش حول مبررات العملية العسكرية في غزة",
+      "event": "جدل حول ما إذا كان التوازن العسكري في غزة يبرر القرارات السياسية الحالية",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        140,
+        141
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "خطاب ترامب عن تقلص الطموحات النووية الإيرانية",
+      "event": "تصريح ترامب بأن طموحات إيران النووية تقلصت، ونفي إيران تركيز المفاوضات على الملف النووي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        0,
+        1,
+        4
+      ],
+      "total_points": 3,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الصراع الإثيوبي مع جبهة تحرير تيجراي",
+      "event": "التوتر والاتهامات المتبادلة بين الحكومة الإثيوبية وجبهة تحرير تيجراي واحتمالات التصعيد الإقليمي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "total_points": 7,
+      "fresh_points": 1,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "مخاطر الذكاء الاصطناعي الوجودية",
+      "event": "نقاش حول تحذيرات خبراء وشركات (أنثروبيك، بيل غيتس) من مخاطر الذكاء الاصطناعي على البشرية وموقف ترامب المضاد",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55
+      ],
+      "total_points": 7,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "احتمال حرب أمريكية إيرانية",
+      "event": "تقديرات محللين باحتمال اندلاع حرب أمريكية إيرانية مرتبطة بتطورات اليمن والملف النووي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        66,
+        67
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "هجوم الحوثيين على السعودية وتحذيرات أمريكية",
+      "event": "إعلان الحوثيين هجوماً على السعودية وتحذير أمريكي لمواطنيها من هجمات محتملة",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        96,
+        97
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "وضع وقف إطلاق النار في غزة وانتقاداته",
+      "event": "تقييم هشاشة وقف إطلاق النار في غزة واستمرار الخروقات والضحايا منذ أكتوبر",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        68,
+        69,
+        70,
+        71
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "موقف حماس من المفاوضات والتنازلات",
+      "event": "تصريحات حماس حول تنازلاتها في المفاوضات واستمرار العدوان الإسرائيلي وانتقاد الموقف الأوروبي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        72,
+        73
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "انسحاب الوفود من خطاب نتنياهو بالأمم المتحدة",
+      "event": "انسحاب وفود 77 دولة من قاعة الجمعية العامة أثناء خطاب نتنياهو ودخوله من ممر سري وفشل الحملة الإعلانية الإسرائيلية في نيويورك",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        75,
+        76,
+        77
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "اليمين المتطرف الإسباني نوكليو ناسيونال",
+      "event": "نشاط حركة نوكليو ناسيونال الإسبانية اليمينية المتطرفة وخطابها ضد الهجرة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        79,
+        81
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الانتخابات الرئاسية البرازيلية وفوز بولسونارو في الجولة الأولى",
+      "event": "فوز فلافيو بولسونارو على لولا في الجولة الأولى للانتخابات البرازيلية وتحليل أسباب ذلك وتداعياته",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "إعدام عليرضا سباهي وعليرضا رئيسي في إيران",
+      "event": "تنفيذ حكم الإعدام بحق عليرضا سباهي وعليرضا رئيسي في قضية ميدان عليخاني وملابساته",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        117,
+        118,
+        119,
+        120,
+        121,
+        126,
+        130,
+        135
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "اختفاء وتعذيب نشطاء إيرانيين",
+      "event": "حالات اختفاء قسري وتعذيب لنشطاء ومعارضين إيرانيين (أحمد خدايي وأرزو)",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        122,
+        123
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "نقل النفط عبر مضيق هرمز رغم الأزمة",
+      "event": "بيانات شركة كبلر عن ارتفاع نقل النفط عبر مضيق هرمز رغم انخفاض صادرات إيران",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        128,
+        134
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تأثير إحياء ذكرى 7 أكتوبر على الانتخابات الإسرائيلية وصعود اليمين المتطرف",
+      "event": "توقعات حول تأثير ذكرى 7 أكتوبر على الانتخابات وصعود أحزاب اليمين المتطرف في استطلاعات الرأي",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "Haaretz"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        148,
+        149
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تعافي الصومال الأمني والسياسي",
+      "event": "تصريحات رئيس الصومال عن تحسن الوضع الأمني وتحرير مناطق من الإرهابيين خلال السنوات الأخيرة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        7,
+        8,
+        9,
+        10
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الأزمة الاقتصادية والسياسية الفرنسية",
+      "event": "تقييم الوضع الاقتصادي الفرنسي (الدين العام) والمشهد الانتخابي الفرنسي 2027 وصعود مارين لوبان",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        35,
+        36,
+        37,
+        38,
+        39,
+        40
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    }
+  ]
+}
