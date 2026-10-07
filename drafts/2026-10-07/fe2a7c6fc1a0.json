@@ -63,5 +63,23 @@
   ],
   "has_photo": false,
   "has_news_photo": true,
-  "review_issue": 1269
+  "review_issue": 1270,
+  "image": "drafts/2026-10-07/fe2a7c6fc1a0.jpg",
+  "image_info": {
+    "used_original": false,
+    "illustrative": false,
+    "composite": false,
+    "chosen_url": "https://cdn.al-ain.com/images/2026/10/06/109-091820-iranian-drone-attack-u-s-aircraft-british-base_700x400.jpg",
+    "candidates_tried": 0,
+    "manual": false,
+    "kind": "news_photo",
+    "news_photo_publisher": "العين الإخبارية",
+    "candidate_failures": [],
+    "fallback_tried": false,
+    "fallback_candidates": 0,
+    "web_search_domain": null,
+    "web_search_query": null,
+    "web_search_tried": 0,
+    "web_search_skipped": null
+  }
 }
