@@ -1,0 +1,83 @@
+{
+  "id": "349146704d27",
+  "created_at": "2026-10-07T03:08:08.922386+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 30.43,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "أزمة ديمقراطية في انتخابات آسيوية كبرى",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Indian opposition MPs detained in protest against election chief",
+  "link": "https://www.bbc.co.uk/news/articles/crpdgvx82831o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "Dawn",
+    "NPR",
+    "NPR World",
+    "South China Morning Post"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Indian opposition MPs detained in protest against election chief",
+    "link": "https://www.bbc.co.uk/news/articles/crpdgvx82831o?at_medium=RSS&at_campaign=rss",
+    "summary": "Opposition leaders have alleged that CEC Gyanesh Kumar manipulated voter rolls to favour Prime Minister Narendra Modi's party during elections.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-10-06T10:05:22+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/5e0e/live/d31f47a0-c16b-11f1-a003-8be783290413.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "Dawn",
+      "NPR",
+      "NPR World",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/crpdgvx82831o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2035136/india-opposition-leader-rahul-gandhi-briefly-detained-during-protest-seeking-election-chiefs-resignation"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/asia/south-asia/article/3369942/india-opposition-lawmakers-detained-over-protest-against-election-chief?utm_source=rss_feed"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/10/06/g-s1-146636/what-to-know-about-nationwide-protests-in-india-over-voter-list-changes"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/5e0e/live/d31f47a0-c16b-11f1-a003-8be783290413.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/5e0e/live/d31f47a0-c16b-11f1-a003-8be783290413.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/5e0e/live/d31f47a0-c16b-11f1-a003-8be783290413.jpg",
+      "https://i.dawn.com/large/2026/10/0612311073e6cf7.webp",
+      "https://i.dawn.com/large/2026/10/06113156a3f7fdc.webp",
+      "https://i.dawn.com/thumbnail/2026/10/0612311073e6cf7.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 1522.911476376111,
+    "is_stale": false,
+    "score": 30.429866917699123,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "أزمة ديمقراطية في انتخابات آسيوية كبرى",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

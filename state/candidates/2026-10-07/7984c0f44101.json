@@ -1,0 +1,71 @@
+{
+  "id": "7984c0f44101",
+  "created_at": "2026-10-07T03:08:08.923042+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.64,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "لقاء روسي إيراني في سياق التوتر الجيوسياسي",
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Pezeshkian to meet Putin in Turkmenistan",
+  "link": "https://en.mehrnews.com/news/248380/Pezeshkian-to-meet-Putin-in-Turkmenistan",
+  "publishers": [
+    "IRNA English",
+    "Mehr News",
+    "TASS"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Pezeshkian to meet Putin in Turkmenistan",
+    "link": "https://en.mehrnews.com/news/248380/Pezeshkian-to-meet-Putin-in-Turkmenistan",
+    "summary": "TEHRAN, Oct. 06 (MNA) – Assistant to the Russian President Yuri Ushakov said Tuesday that President Vladimir Putin will meet with his Iranian counterpart on the sidelines of the meeting of Commonwealth of Independent States (CIS) in Turkmenistan.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-10-06T17:52:00+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/01/16/4/5869727.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "IRNA English",
+      "Mehr News",
+      "TASS"
+    ],
+    "cluster_members": [
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/248380/Pezeshkian-to-meet-Putin-in-Turkmenistan"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86285375/Pezeshkian-to-meet-Putin-in-Turkmenistan"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/politics/2198439"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/01/16/4/5869727.jpg",
+      "https://img9.irna.ir/d/r2/2026/10/06/4/173153844.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1522.9116034480558,
+    "is_stale": false,
+    "score": 23.637451608478283,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "لقاء روسي إيراني في سياق التوتر الجيوسياسي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

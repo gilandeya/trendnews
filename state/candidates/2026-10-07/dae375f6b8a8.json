@@ -1,0 +1,85 @@
+{
+  "id": "dae375f6b8a8",
+  "created_at": "2026-10-07T03:08:08.922818+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 27.18,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "مفاوضات أمريكية إيرانية حول حرب إقليمية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran must cut enrichment to end war, U.S. Vice-President Vance says",
+  "link": "https://www.thehindu.com/news/international/iran-must-cut-enrichment-to-end-war-us-vice-president-vance-says/article71554105.ece",
+  "publishers": [
+    "Channel News Asia",
+    "NDTV — World",
+    "Reuters",
+    "The Hindu — International",
+    "vice president"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Iran must cut enrichment to end war, U.S. Vice-President Vance says",
+    "link": "https://www.thehindu.com/news/international/iran-must-cut-enrichment-to-end-war-us-vice-president-vance-says/article71554105.ece",
+    "summary": "J.D. Vance, in an interview, said the U.S. was in talks with Iranian President Masoud Pezeshkian and Foreign Minister Abbas Araqchi. But it was unclear ‌how much authority they wield within Iran’s power structure, he said",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-10-07T01:46:04+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/fee7kt/article71554108.ece/alternates/LANDSCAPE_1200/2026-10-06T222836Z_162530340_RC2EXNANCE0Z_RTRMADP_3_USA-VANCE-INTERVIEW.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Channel News Asia",
+      "NDTV — World",
+      "Reuters",
+      "The Hindu — International",
+      "vice president"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/jd-vance-iran-cut-nuclear-enrichment-end-war-6437781"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/iran-must-cut-enrichment-to-end-war-us-vice-president-vance-says/article71554105.ece"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/iran-must-cut-enrichment-to-end-war-jd-vance-12148654#publisher=newsstand"
+      },
+      {
+        "name": "Reuters",
+        "link": "https://www.investing.com/news/economy-news/vance-says-iran-must-reduce-nuclear-enrichment-capacity-to-end-war--reuters-4935512"
+      },
+      {
+        "name": "vice president",
+        "link": "https://tass.com/world/2198519"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/fee7kt/article71554108.ece/alternates/LANDSCAPE_1200/2026-10-06T222836Z_162530340_RC2EXNANCE0Z_RTRMADP_3_USA-VANCE-INTERVIEW.JPG",
+      "https://dam.mediacorp.sg/image/upload/s--abRVO1rd--/c_crop,h_449,w_799,x_1,y_42/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-10-06T225241Z_2_LYNXMPEM9521P_RTROPTP_3_USA-VANCE.JPG?itok=xRw7MAFT",
+      "https://c.ndtvimg.com/2026-09/uk9nujfs_jd-vance_625x300_28_September_26.jpeg?im=FitAndFill,algorithm=dnn,width=1280,height=720",
+      "https://content-media.investing.com/news/moved_LYNXMPEL2D10R_L.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 1522.9115116030555,
+    "is_stale": false,
+    "score": 27.17508913899542,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "مفاوضات أمريكية إيرانية حول حرب إقليمية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

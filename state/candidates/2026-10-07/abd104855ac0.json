@@ -1,0 +1,65 @@
+{
+  "id": "abd104855ac0",
+  "created_at": "2026-10-07T03:08:08.923210+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.86,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "ذكاء اصطناعي يكتشف رفض زراعة القلب بدون خزعة",
+  "bucket": "useful",
+  "state_media": false,
+  "title": "AI may help catch heart transplant rejection without biopsies",
+  "link": "https://medicalxpress.com/news/2026-10-ai-heart-transplant-biopsies.html",
+  "publishers": [
+    "Medical Xpress",
+    "News Medical"
+  ],
+  "region": "health",
+  "article": {
+    "title": "AI may help catch heart transplant rejection without biopsies",
+    "link": "https://medicalxpress.com/news/2026-10-ai-heart-transplant-biopsies.html",
+    "summary": "By analyzing heart rhythm recordings and blood tests, artificial intelligence may accurately flag when a transplant patient's body starts attacking a donated heart, a new study suggests.",
+    "source_name": "Medical Xpress",
+    "region": "health",
+    "weight": 1.1,
+    "published": "2026-10-06T18:20:04+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2026/heart-patient-1.jpg",
+    "publisher": "Medical Xpress",
+    "cluster_sources": [
+      "Medical Xpress",
+      "News Medical"
+    ],
+    "cluster_members": [
+      {
+        "name": "Medical Xpress",
+        "link": "https://medicalxpress.com/news/2026-10-ai-heart-transplant-biopsies.html"
+      },
+      {
+        "name": "News Medical",
+        "link": "https://www.news-medical.net/news/20261006/New-AI-model-detects-heart-transplant-rejection-without-biopsies.aspx"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/heart-patient-1.jpg",
+      "https://www.news-medical.net/image-handler/picture/2017/1/Anatomy_of_Human_Heart.-Liya_Graphics_5ac9d64765b747899bc4a9ef77468432-620x480.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1522.9117127580555,
+    "is_stale": false,
+    "score": 21.863749283574073,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "ذكاء اصطناعي يكتشف رفض زراعة القلب بدون خزعة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
