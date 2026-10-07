@@ -1,333 +1,5 @@
 [
   {
-    "score": 23.03,
-    "bucket": "serious",
-    "tokens": [
-      "asian",
-      "boxer",
-      "games",
-      "gender",
-      "gold",
-      "lin",
-      "row",
-      "taiwan",
-      "ting",
-      "wins"
-    ],
-    "link": "https://www.malaymail.com/news/sports/2026/10/02/taiwan-gender-row-boxer-lin-yu-ting-wins-asian-games-gold/237387",
-    "title": "Taiwan gender-row boxer Lin Yu-ting wins Asian Games gold",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-10-02T09:08:25.543070+00:00"
-  },
-  {
-    "score": 21.4,
-    "bucket": "serious",
-    "tokens": [
-      "attacks",
-      "cost",
-      "estimate",
-      "gdp",
-      "halting",
-      "isn",
-      "own",
-      "putin",
-      "refineries",
-      "russia",
-      "russian",
-      "stopping",
-      "strikes",
-      "them",
-      "ukrainian",
-      "vessels",
-      "worth"
-    ],
-    "link": "https://meduza.io/en/news/2026/10/01/by-putin-s-own-estimate-ukrainian-strikes-on-russian-refineries-have-cost-russia-1-of-gdp-but-he-says-stopping-them-isn-t-worth-halting-attacks-on-ukrainian-vessels",
-    "title": "By Putin’s own estimate, Ukrainian strikes on Russian refineries have cost Russia 1% of GDP. But he says stopping them isn’t worth halting attacks on Ukrainian ",
-    "posted_title": "",
-    "region": "ru",
-    "seen_at": "2026-10-02T09:08:25.543332+00:00"
-  },
-  {
-    "score": 21.14,
-    "bucket": "useful",
-    "tokens": [
-      "before",
-      "bond",
-      "eases",
-      "global",
-      "jobs",
-      "rise",
-      "selloff",
-      "shares"
-    ],
-    "link": "https://www.investing.com/news/economy-news/asian-shares-fall-after-wild-swings-in-bonds-fx-before-us-jobs-data-4928814",
-    "title": "Global shares rise as bond selloff eases before US jobs",
-    "posted_title": "",
-    "region": "money",
-    "seen_at": "2026-10-02T09:08:25.543539+00:00"
-  },
-  {
-    "score": 20.74,
-    "bucket": "serious",
-    "tokens": [
-      "market",
-      "mixed",
-      "oil",
-      "rises",
-      "signals",
-      "slightly",
-      "supply",
-      "weighs"
-    ],
-    "link": "https://www.myjoyonline.com/oil-rises-slightly-as-market-weighs-mixed-supply-signals/",
-    "title": "Oil rises slightly as market weighs mixed supply signals",
-    "posted_title": "",
-    "region": "gh",
-    "seen_at": "2026-10-02T09:08:25.543748+00:00"
-  },
-  {
-    "score": 20.3,
-    "bucket": "serious",
-    "tokens": [
-      "chinese",
-      "emails",
-      "experts",
-      "hackers",
-      "impersonated",
-      "official",
-      "steal"
-    ],
-    "link": "https://www.rappler.com/technology/chinese-hackers-impersonate-ex-us-official-steal-emails-ai-experts/",
-    "title": "Chinese hackers impersonated ex-US official to steal emails from AI experts",
-    "posted_title": "",
-    "region": "ph",
-    "seen_at": "2026-10-02T09:08:25.543941+00:00"
-  },
-  {
-    "score": 32.57,
-    "bucket": "serious",
-    "tokens": [
-      "ambrey",
-      "another",
-      "hit",
-      "hormuz",
-      "strait",
-      "tanker",
-      "yet"
-    ],
-    "link": "https://en.mehrnews.com/news/248250/Yet-another-tanker-hit-in-Hormuz-Strait-Ambrey",
-    "title": "Yet another tanker hit in Hormuz Strait; Ambrey",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-10-02T15:08:11.526690+00:00"
-  },
-  {
-    "score": 25.1,
-    "bucket": "serious",
-    "tokens": [
-      "buildup",
-      "dialogue",
-      "korea",
-      "korea's",
-      "lee",
-      "military",
-      "north",
-      "pledges",
-      "restore",
-      "south",
-      "urges"
-    ],
-    "link": "https://www.thehindu.com/news/international/south-koreas-lee-urges-north-korea-to-restore-dialogue-pledges-military-buildup/article71534238.ece",
-    "title": "South Korea's Lee urges North Korea to restore dialogue, pledges military buildup",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-10-02T15:08:11.526975+00:00"
-  },
-  {
-    "score": 22.04,
-    "bucket": "serious",
-    "tokens": [
-      "ban",
-      "bloc",
-      "diesel",
-      "exports",
-      "fuel",
-      "fully",
-      "rejects",
-      "releases",
-      "stocks",
-      "threat",
-      "unless"
-    ],
-    "link": "https://www.france24.com/en/europe/20261002-eu-fully-rejects-us-threat-to-ban-diesel-exports-unless-bloc-releases-more-fuel-stocks",
-    "title": "EU ‘fully rejects’ US threat to ban diesel exports unless bloc releases more fuel stocks",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-10-02T15:08:11.527264+00:00"
-  },
-  {
-    "score": 21.58,
-    "bucket": "serious",
-    "tokens": [
-      "additional",
-      "batteries",
-      "energy",
-      "patriot",
-      "protect",
-      "qatari",
-      "report",
-      "saudi",
-      "sends",
-      "sites"
-    ],
-    "link": "https://tribune.com.pk/story/2632573/us-sends-additional-patriot-batteries-to-protect-saudi-qatari-energy-sites-report",
-    "title": "US sends additional Patriot batteries to protect Saudi, Qatari energy sites: report",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-10-02T15:08:11.527506+00:00"
-  },
-  {
-    "score": 20.65,
-    "bucket": "serious",
-    "tokens": [
-      "afghanistan",
-      "airstrikes",
-      "civilians",
-      "kill",
-      "mission",
-      "pakistani"
-    ],
-    "link": "https://www.cbsnews.com/news/afghanistan-pakistan-airstrikes-civilians-children-killed-unama/",
-    "title": "Pakistani airstrikes kill 10 civilians in Afghanistan, U.N. mission says",
-    "posted_title": "",
-    "region": "us",
-    "seen_at": "2026-10-02T15:08:11.527737+00:00"
-  },
-  {
-    "score": 21.58,
-    "bucket": "serious",
-    "tokens": [
-      "additional",
-      "batteries",
-      "energy",
-      "patriot",
-      "protect",
-      "qatari",
-      "report",
-      "saudi",
-      "sends",
-      "sites"
-    ],
-    "link": "https://tribune.com.pk/story/2632573/us-sends-additional-patriot-batteries-to-protect-saudi-qatari-energy-sites-report",
-    "title": "US sends additional Patriot batteries to protect Saudi, Qatari energy sites: report",
-    "posted_title": "لماذا أرسلت واشنطن صواريخ باتريوت إضافية إلى السعودية وقطر؟",
-    "region": "pk",
-    "seen_at": "2026-10-02T15:12:50.003686+00:00"
-  },
-  {
-    "score": 29.22,
-    "bucket": "serious",
-    "tokens": [
-      "conflict",
-      "cut",
-      "diplomatic",
-      "eritrea",
-      "escalates",
-      "ethiopia",
-      "northern",
-      "ties"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/crpd0d0jl0y0o?at_medium=RSS&at_campaign=rss",
-    "title": "Ethiopia and Eritrea cut diplomatic ties as northern conflict escalates",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-10-02T18:08:07.470665+00:00"
-  },
-  {
-    "score": 26.12,
-    "bucket": "serious",
-    "tokens": [
-      "food",
-      "four",
-      "high",
-      "near",
-      "prices",
-      "say",
-      "september",
-      "world",
-      "year"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-10-02-world-food-prices-near-four-year-high-in-september-un-say/",
-    "title": "World food prices near four-year high in September, UN say",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-10-02T18:08:07.470970+00:00"
-  },
-  {
-    "score": 23.42,
-    "bucket": "serious",
-    "tokens": [
-      "arabes",
-      "autorise",
-      "aux",
-      "cour",
-      "deux",
-      "formations",
-      "israël",
-      "législatives",
-      "octobre",
-      "présenter",
-      "suprême",
-      "élections"
-    ],
-    "link": "https://www.lemonde.fr/international/article/2026/10/02/israel-la-cour-supreme-autorise-deux-listes-arabes-a-se-presenter-aux-elections-legislatives-du-27-octobre_6787210_3210.html",
-    "title": "Israël : la Cour suprême autorise deux formations arabes à se présenter aux élections législatives du 27 octobre",
-    "posted_title": "",
-    "region": "fr",
-    "seen_at": "2026-10-02T18:08:07.471246+00:00"
-  },
-  {
-    "score": 22.25,
-    "bucket": "serious",
-    "tokens": [
-      "annually",
-      "bacterial",
-      "drug",
-      "infections",
-      "kill",
-      "million",
-      "one",
-      "people",
-      "resistant"
-    ],
-    "link": "https://www.premiumtimesng.com/health/health-news/914057-drug-resistant-bacterial-infections-kill-one-million-people-annually-who.html",
-    "title": "Drug-resistant bacterial infections kill one million people annually",
-    "posted_title": "",
-    "region": "ng",
-    "seen_at": "2026-10-02T18:08:07.471507+00:00"
-  },
-  {
-    "score": 19.45,
-    "bucket": "serious",
-    "tokens": [
-      "accusation",
-      "blast",
-      "dmz",
-      "kcna",
-      "korea",
-      "mine",
-      "north",
-      "rejects",
-      "south"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-10-02-north-korea-rejects-souths-accusation-over-dmz-mine-blast-kcna-says/",
-    "title": "North Korea rejects South’s accusation over DMZ mine blast, KCNA says",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-10-02T18:08:07.471763+00:00"
-  },
-  {
     "score": 26.12,
     "bucket": "serious",
     "tokens": [
@@ -2308,5 +1980,109 @@
     "posted_title": "",
     "region": "br",
     "seen_at": "2026-10-07T09:08:08.889861+00:00"
+  },
+  {
+    "score": 32.94,
+    "bucket": "light",
+    "tokens": [
+      "airports",
+      "attacks",
+      "claim",
+      "conflict",
+      "deepens",
+      "houthis",
+      "saudi",
+      "yemen"
+    ],
+    "link": "https://www.courthousenews.com/yemens-houthis-claim-new-attacks-on-saudi-airports-as-conflict-deepens/",
+    "title": "Yemen’s Houthis claim new attacks on Saudi airports as conflict deepens",
+    "posted_title": "",
+    "region": "court",
+    "seen_at": "2026-10-07T18:08:14.261552+00:00"
+  },
+  {
+    "score": 26.07,
+    "bucket": "serious",
+    "tokens": [
+      "case",
+      "confirms",
+      "congo",
+      "ebola",
+      "first",
+      "kenya",
+      "province",
+      "surges",
+      "virus"
+    ],
+    "link": "https://www.theguardian.com/world/2026/oct/06/kenya-first-ebola-case-death-drc",
+    "title": "Kenya confirms first Ebola case as virus ‘surges’ in DR Congo province",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-10-07T18:08:14.261883+00:00"
+  },
+  {
+    "score": 23.23,
+    "bucket": "serious",
+    "tokens": [
+      "complete",
+      "control",
+      "hormuz",
+      "iran",
+      "lost",
+      "rubio",
+      "strait"
+    ],
+    "link": "https://www.thehindu.com/news/international/iran-has-lost-complete-control-of-hormuz-strait-rubio/article71557084.ece",
+    "title": "Iran has ‘lost complete control’ of Hormuz Strait: Rubio",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-10-07T18:08:14.262155+00:00"
+  },
+  {
+    "score": 22.85,
+    "bucket": "serious",
+    "tokens": [
+      "96m",
+      "conducts",
+      "counter",
+      "drugs",
+      "ispr",
+      "narcotics",
+      "navy",
+      "operations",
+      "pakistan",
+      "seizes",
+      "worth"
+    ],
+    "link": "https://www.dawn.com/news/2035411/pakistan-navy-conducts-2-counter-narcotics-operations-seizes-drugs-worth-96m-ispr",
+    "title": "Pakistan Navy conducts 2 counter-narcotics operations, seizes drugs worth $96m: ISPR",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-10-07T18:08:14.262436+00:00"
+  },
+  {
+    "score": 22.78,
+    "bucket": "serious",
+    "tokens": [
+      "2027",
+      "alerta",
+      "bbva",
+      "crisis",
+      "energética",
+      "enquistará",
+      "guerra",
+      "hasta",
+      "inflación",
+      "oriente",
+      "por",
+      "próximo",
+      "que",
+      "research"
+    ],
+    "link": "https://elpais.com/economia/2026-10-07/bbva-research-alerta-de-que-el-shock-energetico-por-la-guerra-en-oriente-proximo-enquistara-la-inflacion-hasta-2027.html",
+    "title": "BBVA Research alerta de que la crisis energética por la guerra en Oriente Próximo enquistará la inflación hasta 2027",
+    "posted_title": "",
+    "region": "es",
+    "seen_at": "2026-10-07T18:08:14.262728+00:00"
   }
 ]

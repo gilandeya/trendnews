@@ -1,0 +1,95 @@
+{
+  "id": "78fe2c82c0c4",
+  "created_at": "2026-10-07T18:08:14.261565+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.07,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "إيبولا يصل كينيا: تفشٍّ خطير في المنطقة الأفريقية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Kenya confirms first Ebola case as virus ‘surges’ in DR Congo province",
+  "link": "https://www.theguardian.com/world/2026/oct/06/kenya-first-ebola-case-death-drc",
+  "publishers": [
+    "BBC",
+    "BBC World",
+    "CGTN",
+    "Daily Maverick",
+    "Hindustan Times — World",
+    "MyJoyOnline Ghana",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Kenya confirms first Ebola case as virus ‘surges’ in DR Congo province",
+    "link": "https://www.theguardian.com/world/2026/oct/06/kenya-first-ebola-case-death-drc",
+    "summary": "Health minister says 28 contacts identified after death of citizen who arrived from DRC on Saturday Kenya has reported its first-ever Ebola death, the health minister announced on Tuesday, as the disease continues to spread rapidly through the north-east of the Democratic Republic of Congo (DRC), where the outbreak was announced in May. This is the 17th outbreak of the highly infectious, often deadly disease in the DRC. As of 2 October, 4,082 people had died out of 8,463 confirmed cases in the country since the emergence of the Bundibugyo strain of the Ebola virus, for which there is still no vaccine nor specific treatment. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-10-06T12:46:56+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/7ede8ff970717866698f77b694a00dd375607d4a/447_0_4339_3473/master/4339.jpg?width=700&quality=85&auto=format&fit=max&s=c3a37f906d0128a47d82e835fa004e30",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "BBC",
+      "BBC World",
+      "CGTN",
+      "Daily Maverick",
+      "Hindustan Times — World",
+      "MyJoyOnline Ghana",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/oct/06/kenya-first-ebola-case-death-drc"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-10-06-kenya-confirms-first-ebola-case-after-man-who-travelled-from-congo-dies/"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/kenya-confirms-first-ebola-case-after-man-who-travelled-from-congo-dies-101791314214038.html"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://newsaf.cgtn.com/news/2026-10-06/Kenya-confirms-first-Ebola-case-1R1rxfwah8Y/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c6eq3x3v11d5o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/ten-people-linked-to-kenyas-first-ever-ebola-case-quarantined-as-screening-concerns-grow/"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/7ede8ff970717866698f77b694a00dd375607d4a/447_0_4339_3473/master/4339.jpg?width=700&quality=85&auto=format&fit=max&s=c3a37f906d0128a47d82e835fa004e30",
+      "https://i.guim.co.uk/img/media/7ede8ff970717866698f77b694a00dd375607d4a/447_0_4339_3473/master/4339.jpg?width=460&quality=85&auto=format&fit=max&s=d1fa1b4a5b90287b3125733fef73614d",
+      "https://i.guim.co.uk/img/media/7ede8ff970717866698f77b694a00dd375607d4a/447_0_4339_3473/master/4339.jpg?width=140&quality=85&auto=format&fit=max&s=abb6f70235fa8ea2a180b012987ef78d",
+      "https://cdn.dailymaverick.co.za/i/0XLUPaEgkpA9C7LeUlwUyoScRJA=/800x0/smart/filters:strip_exif()/file/attachments/2998/14342654_453692.jpg",
+      "https://newsaf.cgtn.com/news/2026-10-06/Kenya-confirms-first-Ebola-case-1R1rxfwah8Y/img/22466c813a234c77a4bf995101fbc546/22466c813a234c77a4bf995101fbc546-1280.jpeg",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/3fff/live/a4989950-c237-11f1-be2f-0fbd447d6e43.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 7,
+    "velocity": 1.0,
+    "age_hours": 1537.913059299167,
+    "is_stale": false,
+    "score": 26.06556377548763,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "إيبولا يصل كينيا: تفشٍّ خطير في المنطقة الأفريقية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "id": "64c4c7b8f406",
+  "created_at": "2026-10-07T18:08:14.261100+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 32.94,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "هجمات حوثية على السعودية تعمّق الأزمة الإقليمية",
+  "bucket": "light",
+  "state_media": false,
+  "title": "Yemen’s Houthis claim new attacks on Saudi airports as conflict deepens",
+  "link": "https://www.courthousenews.com/yemens-houthis-claim-new-attacks-on-saudi-airports-as-conflict-deepens/",
+  "publishers": [
+    "Court House News",
+    "Daily Maverick",
+    "Middle East Eye",
+    "Reuters",
+    "South China Morning Post",
+    "The Express Tribune",
+    "The Hindu — International"
+  ],
+  "region": "court",
+  "article": {
+    "title": "Yemen’s Houthis claim new attacks on Saudi airports as conflict deepens",
+    "link": "https://www.courthousenews.com/yemens-houthis-claim-new-attacks-on-saudi-airports-as-conflict-deepens/",
+    "summary": "It is the second time this week that the Houthis have claimed to have attacked the main airport in the Saudi capital.",
+    "source_name": "Court House News",
+    "region": "court",
+    "weight": 1.2,
+    "published": "2026-10-07T16:53:40+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/i/7RHr9aurSF3rO3r1JFrDb1obHno=/800x0/smart/filters:strip_exif()/file/attachments/2998/14340525_415947.jpg",
+    "publisher": "Court House News",
+    "cluster_sources": [
+      "Court House News",
+      "Daily Maverick",
+      "Middle East Eye",
+      "Reuters",
+      "South China Morning Post",
+      "The Express Tribune",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/yemens-houthis-claim-new-attacks-on-saudi-airports-as-conflict-deepens/"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2633438/yemens-houthis-claim-attacks-on-saudi-airports-military-bases"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/yemens-houthis-claim-new-attacks-on-saudi-airports-as-conflict-deepens/article71557047.ece"
+      },
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-10-07-houthis-attack-aden-airport-as-fighting-intensifies-in-yemen/"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3370080/yemens-houthis-attack-aden-airport-fighting-intensifies?utm_source=rss_feed"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/i/7RHr9aurSF3rO3r1JFrDb1obHno=/800x0/smart/filters:strip_exif()/file/attachments/2998/14340525_415947.jpg"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 7,
+    "velocity": 1.0,
+    "age_hours": 1537.913000836111,
+    "is_stale": false,
+    "score": 32.939711929987624,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "هجمات حوثية على السعودية تعمّق الأزمة الإقليمية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

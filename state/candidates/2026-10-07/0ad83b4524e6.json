@@ -1,0 +1,65 @@
+{
+  "id": "0ad83b4524e6",
+  "created_at": "2026-10-07T18:08:14.261893+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.23,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "إيران تفقد السيطرة على مضيق هرمز الحيوي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran has ‘lost complete control’ of Hormuz Strait: Rubio",
+  "link": "https://www.thehindu.com/news/international/iran-has-lost-complete-control-of-hormuz-strait-rubio/article71557084.ece",
+  "publishers": [
+    "Malay Mail",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Iran has ‘lost complete control’ of Hormuz Strait: Rubio",
+    "link": "https://www.thehindu.com/news/international/iran-has-lost-complete-control-of-hormuz-strait-rubio/article71557084.ece",
+    "summary": "“The Straits of Hormuz are open. There’s almost as much oil flowing out now as there was before this conflict began. So they’ve lost complete control of the Straits,” Mr. Rubio said",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-10-07T17:09:13+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/dpw1yc/article71557090.ece/alternates/LANDSCAPE_1200/2026-10-07T164832Z_1331691383_RC2GYNAGQRRJ_RTRMADP_3_USA-RUBIO-EUROPE-GREECE.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Malay Mail",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/iran-has-lost-complete-control-of-hormuz-strait-rubio/article71557084.ece"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/10/07/iran-has-lost-control-of-hormuz-and-its-economy-is-in-freefall-us-secretary-of-state-rubio-says/238126"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/dpw1yc/article71557090.ece/alternates/LANDSCAPE_1200/2026-10-07T164832Z_1331691383_RC2GYNAGQRRJ_RTRMADP_3_USA-RUBIO-EUROPE-GREECE.JPG",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/10/07/366942.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1537.9132272491665,
+    "is_stale": false,
+    "score": 23.234924925833333,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "إيران تفقد السيطرة على مضيق هرمز الحيوي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

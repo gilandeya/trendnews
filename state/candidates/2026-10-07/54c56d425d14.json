@@ -1,0 +1,72 @@
+{
+  "id": "54c56d425d14",
+  "created_at": "2026-10-07T18:08:14.262165+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.85,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "البحرية الباكستانية تصادر مخدرات بـ 96 مليون دولار",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Pakistan Navy conducts 2 counter-narcotics operations, seizes drugs worth $96m: ISPR",
+  "link": "https://www.dawn.com/news/2035411/pakistan-navy-conducts-2-counter-narcotics-operations-seizes-drugs-worth-96m-ispr",
+  "publishers": [
+    "Dawn",
+    "Geo News",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Pakistan Navy conducts 2 counter-narcotics operations, seizes drugs worth $96m: ISPR",
+    "link": "https://www.dawn.com/news/2035411/pakistan-navy-conducts-2-counter-narcotics-operations-seizes-drugs-worth-96m-ispr",
+    "summary": "The Pakistan Navy seized narcotics worth approximately $96 million during two successful counter-narcotics operations while deployed in the Arabian Sea, the military’s media wing said on Wednesday. In a press release, Inter-Services Public Relations (ISPR) said Pakistan Navy Ship Yarmook conducted the operations “at extended ranges from [the] Pakistani coast, resulting in [the] successful seizure of a large cache of narcotics”. “During the operations, two dhows were intercepted, and approximately 850 kilogrammes of ice and 2,000kg of hashish/cannabis were recovered from concealed compartments inside the vessels,” it said. The seized narcotics, valued at approximately $96m, were taken into custody and will subsequently be handed over to the authorities concerned for further disposal and legal proceedings, according to ISPR. “The successful operations reflect the Pakistan Navy’s sustained presence, vigilance and commitment to regional maritime security and the fight against illicit trafficking at sea,” the statement concluded. President Asif Ali Zardari paid tribute to the Pakistan Navy for its successful counter-narcotics operations in the Arabian Sea. In a statement, he said that t",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-10-07T12:45:23+00:00",
+    "image_url": "https://i.dawn.com/large/2026/10/0716542144495ed.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "Geo News",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2035411/pakistan-navy-conducts-2-counter-narcotics-operations-seizes-drugs-worth-96m-ispr"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2633496/pakistan-navy-seizes-narcotics-worth-96m-in-arabian-sea-ispr"
+      },
+      {
+        "name": "Geo News",
+        "link": "https://www.geo.tv/latest/685440-pakistan-navy-seizes-96m-worth-of-narcotics-in-arabian-sea-operations"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/10/0716542144495ed.webp",
+      "https://i.dawn.com/thumbnail/2026/10/0716542144495ed.webp",
+      "https://www.geo.tv/assets/uploads/2026-10-07/685440_044219_updates.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1537.9130895908331,
+    "is_stale": false,
+    "score": 22.84666427864495,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "البحرية الباكستانية تصادر مخدرات بـ 96 مليون دولار",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
