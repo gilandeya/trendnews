@@ -195,12 +195,15 @@ def check_forbidden(topic: dict, member_points: list[dict], cfg: Config,
     return blocked, reason, None, False
 
 
-def _points_block(member_points: list[dict]) -> str:
+def _points_block(member_points: list[dict], cfg: Config | None = None) -> str:
+    # اسم القناة المعروض name_ar إن وُجد (Issue #1272): الخط لا يملك حروفًا عبرية، فـ«ערוץ 14»
+    # تصير «القناة 14»، وهو الاسم نفسه الذي يفحص article_violations وروده في المتن.
+    cfg = cfg or load_config()
     lines = []
     for i, p in enumerate(member_points, start=1):
         ts = f"{p['timestamp']}ث" if p.get("timestamp") is not None else "غير معروف"
         lines.append(
-            f"{i}. القناة: {p.get('channel', '')} ({p.get('bloc', '')}) | "
+            f"{i}. القناة: {display_channel_name(p.get('channel', ''), cfg)} ({p.get('bloc', '')}) | "
             f"المتحدث: {p.get('speaker', '')} | النوع: {p.get('type', '')}\n"
             f"   القول: {p.get('statement', '')}\n"
             f"   الاقتباس العربي: {p.get('quote_arabic', '')}\n"
@@ -377,7 +380,7 @@ def generate_headlines(topic: dict, member_points: list[dict], cfg: Config,
     # find_unsourced_name: aliases في known_figures صيغ لاتينية تُقارَن
     # بالاقتباس الأصلي بلغة الفيديو، لا بترجمته العربية.
     quotes_original = " ".join(p.get("quote_original", "") for p in member_points)
-    user_content = f"القضية: {topic['title']}\n\nالنقاط المصدرية:\n{_points_block(member_points)}"
+    user_content = f"القضية: {topic['title']}\n\nالنقاط المصدرية:\n{_points_block(member_points, cfg)}"
 
     def extra_validate(hls: list[str]) -> tuple[bool, str]:
         return _validate_headlines(hls, quotes_original, known_figures, max_words)
@@ -557,11 +560,112 @@ def _sections_desc(text: str) -> str:
     return f"وجد {len(titles)} أقسام ({' · '.join(titles)})"
 
 
-def _validate_article_text(text: str, cfg: Config) -> tuple[bool, str]:
+# ── قواعد النسبة والاقتباس (Issue #1272، قرار صاحب المشروع) ──
+#
+# شاهد المقال المنشور fe2a7c6fc1a0 (قناتاه ILTV والجزيرة): «بحسب ما عرضه مقدّم برنامج
+# على الجزيرة» بلا اسم، واقتباس لترامب يصل جملتين بـ«...» فيبدو ربطًا لم تقله التغطية
+# الموثّقة، وILTV لا تُذكر. القياس على 106 مقالات: 29 تنسب إلى «مقدّم برنامج» بلا اسم، 38
+# لا تسمّي قناة، 10 فيها اقتباس فوق 25 كلمة، 2 فيها «...». سببان في البرومبت نفسه (منع
+# أسماء القنوات #941 والأمر بـ«مقدّم برنامج على X») ألغاهما صاحب المشروع، وهذه الفحوص
+# تفرض الباقي في الكود لا في طاعة النموذج وحدها.
+_TASHKEEL_STRIP_RE = re.compile(r"[ً-ٰٟـ]")
+_AR_LETTER = r"ء-ي"
+# فعل نسبة بأشكاله (واو/فاء في أوله، مضارع بياء أو تاء) ثم اختياريًا «ما عرضه/قاله…».
+_ATTRIBUTION_VERB = (
+    r"(?:بحسب|وفق[اً]?|حسب|[يت]?قول|قال[ت]?|[يت]ر[ىي]|أشار[ت]?|[يت]شير|طرح[ت]?|[يت]طرح|"
+    r"سأل[ت]?|[يت]سأل|لفت|[يت]لفت)")
+_ATTRIBUTION_OBJECT = r"(?:ما\s+(?:عرض|قال|طرح|ذكر|أورد)(?:ه|ته|ها|وه)?\s+)?"
+_QUOTE_RE = re.compile(r"«([^«»]*)»")
+_ELLIPSIS_RE = re.compile(r"\.{3,}|…")
+_SENTENCE_END_CHARS = ".!؟?\n"
+FIGURE_QUOTE_WARNING = ("اقتباس مباشر منسوب لشخصية عامة: تحقّق من مطابقته لما نقلته الصحافة")
+
+
+def _fold_roles(text: str) -> str:
+    return _TASHKEEL_STRIP_RE.sub("", text)
+
+
+def display_channel_name(name: str, cfg: Config) -> str:
+    """اسم القناة كما يُعرض في المتن: name_ar من channels إن وُجد وإلا name (Issue #1272 --
+    «ערוץ 14» تصير «القناة 14» فيكتبها النموذج بحروف يقرؤها القارئ)."""
+    for ch in cfg.path("channels", []) or []:
+        if isinstance(ch, dict) and ch.get("name") == name and ch.get("name_ar"):
+            return ch["name_ar"]
+    return name
+
+
+def _unnamed_role_violations(body: str, cfg: Config) -> list[str]:
+    words = cfg.path("youtube.article.unnamed_role_words", ["مقدّم", "مقدم", "مذيع", "مذيعة", "محاور", "الضيف"])
+    roles = sorted({_fold_roles(w) for w in words if isinstance(w, str) and w}, key=len, reverse=True)
+    if not roles:
+        return []
+    role_alt = "|".join(re.escape(r) for r in roles)
+    pat = re.compile(
+        rf"(?<![{_AR_LETTER}])[وف]?{_ATTRIBUTION_VERB}\s+{_ATTRIBUTION_OBJECT}"
+        rf"(?:{role_alt})(?![{_AR_LETTER}])")
+    folded = _fold_roles(body)
+    return [f"نسبة إلى دور بلا اسم علم ({m.group(0).strip()!r}): انسب القول إلى القناة نفسها "
+            f"أو اكتب اسم المتحدث أولًا"
+            for m in pat.finditer(folded)][:1]
+
+
+def _quote_violations(body: str, cfg: Config) -> list[str]:
+    max_words = cfg.path("youtube.article.max_quote_words", 25)
+    out = []
+    for m in _QUOTE_RE.finditer(body):
+        q = m.group(1)
+        if _ELLIPSIS_RE.search(q):
+            out.append(f"اقتباس «» يحوي «...» يصل كلامين: لا يُقتبس إلا ما قبلها أو ما بعدها ({q[:40]!r})")
+            continue
+        n = len(q.split())
+        if n > max_words:
+            out.append(f"اقتباس «» من {n} كلمة (السقف {max_words}): انقل الزائد كلامًا غير مباشر منسوبًا")
+    return out
+
+
+def _missing_channels(body: str, member_points: list[dict], cfg: Config) -> list[str]:
+    seen, missing = set(), []
+    folded = body.casefold()
+    for p in member_points or []:
+        name = (p.get("channel") or "").strip()
+        if not name:
+            continue
+        shown = display_channel_name(name, cfg)
+        if shown in seen:
+            continue
+        seen.add(shown)
+        if shown.casefold() not in folded:
+            missing.append(shown)
+    return missing
+
+
+def figure_quote_warnings(text: str, cfg: Config) -> list[str]:
+    """تنبيه لا رفض (Issue #1272): «» في الجملة نفسها بعد اسم من youtube.extract.known_figures.
+    اقتباس شخصية عامة المترجم آليًا قد لا يطابق ما نقلته الصحافة، فيراجعه البشر؛ يمرّ عبر
+    _append_warnings فيظهر في المراجعة ويُنزَع قبل النشر (youtube_publish.split_warnings)."""
+    figures = cfg.path("youtube.extract.known_figures", []) or []
+    # محتوى الاقتباسات السابقة يُخفى كي لا تقطع نقطة داخله حدّ الجملة
+    masked = _QUOTE_RE.sub(lambda m: "«" + "؛" * len(m.group(1)) + "»", text)
+    names: list[str] = []
+    for m in _QUOTE_RE.finditer(masked):
+        before = masked[:m.start()]
+        cut = max(before.rfind(c) for c in _SENTENCE_END_CHARS)
+        sentence = before[cut + 1:]
+        for fig in figures:
+            ar = fig.get("ar") if isinstance(fig, dict) else None
+            if ar and ar in sentence and ar not in names:
+                names.append(ar)
+    return [f"{FIGURE_QUOTE_WARNING} ({n})" for n in names]
+
+
+def article_violations(text: str, cfg: Config, member_points: list[dict] | None = None) -> list[str]:
+    """كل مخالفات المقال بترتيب الفحص (Issue #1272) -- القائمة الفارغة قبول. _validate_article_text
+    يعيد أولها، فمن لا يمرّر member_points يبقى سلوكه (عدا ما ألغاه القرار) كما كان."""
+    violations: list[str] = []
     desc = _sections_desc(text)
 
     if not text.strip().startswith("#"):
-        return False, f"لا يبدأ بعنوان رئيسي (# ): {desc}"
+        violations.append(f"لا يبدأ بعنوان رئيسي (# ): {desc}")
 
     # Issue #695: عكس تام لسابقه -- سطر **التقدير:** كان إلزاميًا (النسخة
     # الثالثة) وصار ممنوعًا (الرابعة، "الأطروحة نثرًا لا صندوقًا"). وجوده هنا
@@ -569,69 +673,62 @@ def _validate_article_text(text: str, cfg: Config) -> tuple[bool, str]:
     estimate_match = _ESTIMATE_LINE_RE.search(text)
     if estimate_match:
         line_no = text[:estimate_match.start()].count("\n") + 1
-        return False, f"صندوق تقدير مغمّق في السطر {line_no} (ممنوع في النسخة الرابعة): {desc}"
+        violations.append(f"صندوق تقدير مغمّق في السطر {line_no} (ممنوع في النسخة الرابعة): {desc}")
 
-    # Issue #941: أي عنوان ## صار ممنوعًا كليًا، بلا استثناء للمصادر (كانت
-    # القاعدة معكوسة: ## المصادر وحده إلزامي وأي قسم آخر زائد يُرفَض). المتن
-    # لا يجوز أن يسمّي مصادره أو قنواته في نصّه إطلاقًا بعد اليوم.
+    # Issue #941: أي عنوان ## صار ممنوعًا كليًا، بلا استثناء للمصادر. (منع أسماء القنوات في
+    # المتن الذي رافقه أُلغي في Issue #1272؛ منع القسم نفسه باقٍ.)
     if _SECTION_RE.search(text):
-        return False, f"عنوان/عناوين ## ممنوعة كليًا (بما فيها ## المصادر): {desc}"
+        violations.append(f"عنوان/عناوين ## ممنوعة كليًا (بما فيها ## المصادر): {desc}")
 
     word_count = len(text.split())
     min_words = cfg.path("youtube.article.min_words", 300)
     max_words = cfg.path("youtube.article.max_words", 750)
     if word_count < min_words:
-        return False, f"قصير جدًا ({word_count} كلمة، الأدنى {min_words}): {desc}"
+        violations.append(f"قصير جدًا ({word_count} كلمة، الأدنى {min_words}): {desc}")
     if word_count > max_words:
-        return False, f"طويل جدًا ({word_count} كلمة، الأعلى {max_words}): {desc}"
+        violations.append(f"طويل جدًا ({word_count} كلمة، الأعلى {max_words}): {desc}")
 
     # المتن: من نهاية العنوان الرئيسي حتى نهاية النص كاملًا (Issue #941 --
-    # لم يعد ## المصادر يحدّ هذا المدى، فلا استثناء لأي فاصل أفقي بعد اليوم:
-    # كان الفاصل الذي يسبق المصادر مباشرةً مسموحًا وحيدًا؛ زواله معه يعني أن
-    # أي "---" في النص كله مرفوض الآن، لا فقط ما زاد عن ذلك الفاصل الواحد).
+    # لا استثناء لأي فاصل أفقي بعد اليوم).
     title_line_end = text.find("\n")
     body_start = title_line_end if title_line_end != -1 else len(text)
     body_for_checks = text[body_start:]
     hr_matches = list(_HR_RE.finditer(body_for_checks))
     if hr_matches:
-        return False, f"{len(hr_matches)} فاصل أفقي (---) في المتن (ممنوع كليًا الآن): {desc}"
+        violations.append(f"{len(hr_matches)} فاصل أفقي (---) في المتن (ممنوع كليًا الآن): {desc}")
 
     dash_count = body_for_checks.count("—")
     if dash_count:
-        return False, f"{dash_count} شرطة معترضة (—) في المتن: {desc}"
+        violations.append(f"{dash_count} شرطة معترضة (—) في المتن: {desc}")
 
     list_lines = len(_LIST_LINE_RE.findall(body_for_checks))
     if list_lines:
-        return False, f"{list_lines} سطر قائمة في المتن: {desc}"
+        violations.append(f"{list_lines} سطر قائمة في المتن: {desc}")
 
     bold_spans = len(_BOLD_RE.findall(body_for_checks))
     if bold_spans:
-        return False, f"{bold_spans} نصّ غامق في المتن: {desc}"
+        violations.append(f"{bold_spans} نصّ غامق في المتن: {desc}")
 
-    # Issue #695: النسب المئوية "لغة تقرير استخباري" (نصّ دليل War on the
-    # Rocks) والطوابع الزمنية المقوّسة "تكسر القراءة" -- كلتاهما ممنوعة
-    # تمامًا في المتن الآن، لا مسموحتين ضمنًا كما في النسخة الثالثة.
+    # Issue #695: النسب المئوية "لغة تقرير استخباري" والطوابع الزمنية المقوّسة
+    # "تكسر القراءة" -- كلتاهما ممنوعة تمامًا في المتن.
     percent_matches = _PERCENT_RE.findall(body_for_checks)
     if percent_matches:
-        return False, (f"{len(percent_matches)} نسب مئوية في المتن "
-                        f"({' · '.join(percent_matches)}): {desc}")
+        violations.append(f"{len(percent_matches)} نسب مئوية في المتن "
+                          f"({' · '.join(percent_matches)}): {desc}")
 
     timestamp_matches = _BRACKET_TIMESTAMP_RE.findall(body_for_checks)
     if timestamp_matches:
-        return False, (f"{len(timestamp_matches)} طوابع مقوّسة في المتن "
-                        f"({' · '.join(timestamp_matches)}): {desc}")
+        violations.append(f"{len(timestamp_matches)} طوابع مقوّسة في المتن "
+                          f"({' · '.join(timestamp_matches)}): {desc}")
 
-    # عبارة الترجيح لم تعد محصورة داخل سطر **التقدير:** (الذي زال أصلًا) --
-    # تُقبَل في أي موضع من المتن (Issue #695)، لكن وجودها يبقى مطلوبًا: هي
-    # الدليل الآلي الوحيد على أن حكمًا صدر، لا مجرّد سرد وقائع.
-    likelihood_terms = cfg.path("youtube.article.likelihood_terms", list(DEFAULT_LIKELIHOOD_TERMS))
-    if not any(term in body_for_checks for term in likelihood_terms):
-        return False, f"لا عبارة من سلّم الترجيح في المتن: {desc}"
+    # Issue #1272 (بند 1f): حُذف شرط وجود عبارة من سلّم الترجيح -- الترجيح لم يعد إلزاميًا
+    # (مقال fe2a7c6fc1a0 ختم بـ«مرجّح بقوة» استنادًا إلى متحدث واحد عن مبيعات شركته). السلّم
+    # يبقى للبرومبت: لا تُستعمل عبارته إلا إن أسندها متحدثان مختلفان فأكثر.
 
     banned_phrases = cfg.path("youtube.article.banned_phrases", list(DEFAULT_BANNED_PHRASES))
     found_banned = [p for p in banned_phrases if p in text]
     if found_banned:
-        return False, f"عبارة/عبارات محظورة وردت ({' · '.join(found_banned)}): {desc}"
+        violations.append(f"عبارة/عبارات محظورة وردت ({' · '.join(found_banned)}): {desc}")
 
     # "يفترض أن" حدّ تكرار لا منع تام (نصّ الـIssue) -- قسم الافتراضات
     # الكامنة يبقى مطلوبًا مدمجًا في السرد، والمرفوض تكرارها في صيغة عرض
@@ -639,15 +736,28 @@ def _validate_article_text(text: str, cfg: Config) -> tuple[bool, str]:
     max_assumption = cfg.path("youtube.article.max_assumption_phrases", 2)
     assumption_count = text.count(ASSUMPTION_PHRASE)
     if assumption_count > max_assumption:
-        return False, (f"عبارة {ASSUMPTION_PHRASE!r} تكرّرت {assumption_count} مرات "
-                        f"(الحدّ {max_assumption}): {desc}")
+        violations.append(f"عبارة {ASSUMPTION_PHRASE!r} تكرّرت {assumption_count} مرات "
+                          f"(الحدّ {max_assumption}): {desc}")
 
     max_contrast = cfg.path("youtube.article.max_contrast_constructions", 1)
     contrast_count = len(_CONTRAST_RE.findall(text))
     if contrast_count > max_contrast:
-        return False, f"تركيب التقابل تكرّر {contrast_count} مرات (الحدّ {max_contrast}): {desc}"
+        violations.append(f"تركيب التقابل تكرّر {contrast_count} مرات (الحدّ {max_contrast}): {desc}")
 
-    return True, ""
+    violations += _unnamed_role_violations(body_for_checks, cfg)
+    violations += _quote_violations(body_for_checks, cfg)
+    if member_points is not None:
+        missing = _missing_channels(body_for_checks, member_points, cfg)
+        if missing:
+            violations.append(f"قناة/قنوات من النقاط غائبة عن المتن ({' · '.join(missing)}): "
+                              f"عرّف كل متحدث بقناته عند أول ذكر")
+    return violations
+
+
+def _validate_article_text(text: str, cfg: Config,
+                           member_points: list[dict] | None = None) -> tuple[bool, str]:
+    violations = article_violations(text, cfg, member_points)
+    return (False, violations[0]) if violations else (True, "")
 
 
 def point_source_texts(member_points: list[dict]) -> list[str]:
@@ -671,7 +781,7 @@ def draft_article(topic: dict, member_points: list[dict], cfg: Config,
     user_content = (
         f"مؤشّر الخلاف بين المصادر لهذه القضية: {model_agreement}\n\n"
         f"النقاط المصدرية (المصدر الوحيد المسموح استعماله -- لا معلومة من "
-        f"خارجها):\n{_points_block(member_points)}"
+        f"خارجها):\n{_points_block(member_points, cfg)}"
     )
     # الوقاية قبل الكتابة (Issue #1252): أسماء معتمدة سلفًا ورد أصلها اللاتيني في اقتباسات المتحدثين
     from . import names_audit
@@ -681,13 +791,14 @@ def draft_article(topic: dict, member_points: list[dict], cfg: Config,
 
     last_reason = ""
     last_resp = None
+    messages = [{"role": "user", "content": user_content}]
     for attempt in range(1, max_retries + 1):
         try:
             resp = client.messages.create(
                 model=model,
                 max_tokens=max_tokens,
                 system=load_article_prompt(),
-                messages=[{"role": "user", "content": user_content}],
+                messages=list(messages),
                 # لا تُضِف temperature -- نماذج هذا المشروع ترفضها بـ400.
             )
         except APIError as exc:
@@ -695,10 +806,16 @@ def draft_article(topic: dict, member_points: list[dict], cfg: Config,
 
         last_resp = resp
         text = "".join(b.text for b in resp.content if getattr(b, "type", "") == "text").strip()
-        ok, reason = _validate_article_text(text, cfg)
+        ok, reason = _validate_article_text(text, cfg, member_points)
         if ok:
             return text, None
         last_reason = reason
+        # إعادة المحاولة بالسبب (Issue #1272): المحاولة التالية تُخبَر بما رُفضت لأجله وتُعطى
+        # نصّها السابق لتصحّحه وحده -- بلا هذا يعيد النموذج الكتابة من الصفر ويكرّر المخالفة.
+        # عدد النداءات يبقى محكومًا بـmax_retries وحده.
+        messages = [messages[0], {"role": "assistant", "content": text or "(لا نصّ)"},
+                    {"role": "user", "content":
+                     f"رُفضت المحاولة السابقة لهذا السبب: {reason} — صحّحه دون تغيير ما سواه"}]
         # فحص stop_reason صراحةً (Issue #662 تعليق المتابعة) -- أقسام ظهرت
         # بالترتيب الصحيح ثم انقطعت، ومحاولات أعادت صفر أقسام رغم إنتاج نصّ:
         # نفس نمط القطع المشخَّص سابقًا في youtube_cluster/youtube_extract،
@@ -875,6 +992,8 @@ def _write_one_topic(topic: dict, points: list[dict], cfg: Config,
     # draft_article)، لا قبله: قسم التحذيرات ليس جزءًا من البنية المطلوبة
     # من النموذج فلا يصح فحصه ضمنها.
     warnings = _collect_warnings(member_points, cfg)
+    # اقتباس مباشر لشخصية عامة (Issue #1272): تنبيه مراجعة لا رفض، يُنزَع قبل النشر
+    warnings = [*warnings, *figure_quote_warnings(text, cfg)]
     # مؤشّر "فاعل الجملة متحدث" (Issue #695، البند ٣) -- تحذير استرشادي لا
     # رفض (انظر توثيق _speaker_subject_warning)، فيُلحَق بنفس قائمة تحذيرات
     # المراجعة الموجودة بدل حارس رفض منفصل.
