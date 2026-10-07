@@ -556,7 +556,7 @@
      "published": "2026-10-06T06:12:00+00:00"
     }
    ],
-   "last_seen": "2026-10-06T18:08:08.020436+00:00",
+   "last_seen": "2026-10-07T09:07:47.348407+00:00",
    "outlets": 21,
    "regions": 16,
    "languages": 2,
@@ -799,9 +799,45 @@
      "language": "en",
      "link": "https://www.courthousenews.com/french-police-clash-with-high-school-protesters-demanding-change/",
      "published": "2026-10-06T16:45:05+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Live: France suspends stun grenade use in school protests after 15-year-old loses hand",
+     "language": "en",
+     "link": "https://www.france24.com/en/france/20261007-live-france-suspends-stun-grenade-use-school-protests-after-15-year-old-loses-hand",
+     "published": "2026-10-07T07:47:49+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "France suspends stun grenade use at student protests ahead of PM speech",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/france-student-protests-stun-grenade-schools-6438781",
+     "published": "2026-10-07T08:12:06+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "France suspends stun grenades at student protests after teen loses hand",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/07/france-suspends-stun-grenades-at-student-protests-after-teen-loses-hand/238102",
+     "published": "2026-10-07T07:36:50+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "France suspends stun grenade use at student protests",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/07/france-suspends-stun-grenade-use-at-student-protests",
+     "published": "2026-10-07T07:50:09+00:00"
     }
    ],
-   "last_seen": "2026-10-06T18:08:08.020436+00:00",
+   "last_seen": "2026-10-07T09:07:47.348407+00:00",
    "outlets": 19,
    "regions": 14,
    "languages": 1,
@@ -1062,13 +1098,31 @@
      "language": "en",
      "link": "https://tribune.com.pk/story/2633287/end-of-an-era-as-messi-prepares-to-hang-up-argentina-boots",
      "published": "2026-10-06T06:02:48+00:00"
+    },
+    {
+     "outlet": "Premium Times",
+     "region": "ng",
+     "bucket": "sport",
+     "title": "Messi signs off with goal, two assists as Argentina beat Benin 3-0",
+     "language": "en",
+     "link": "https://www.premiumtimesng.com/sports/football/915152-messi-signs-off-with-goal-two-assists-as-argentina-beat-benin-3-0.html",
+     "published": "2026-10-07T08:34:14+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Messi bows out with goal, two assists as Argentina beat Benin 3-0",
+     "language": "en",
+     "link": "https://punchng.com/messi-bows-out-with-goal-two-assists-as-argentina-beat-benin-3-0/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-07T04:37:32+00:00"
     }
    ],
-   "last_seen": "2026-10-07T03:07:41.547243+00:00",
-   "outlets": 14,
+   "last_seen": "2026-10-07T09:07:47.348407+00:00",
+   "outlets": 15,
    "regions": 12,
    "languages": 4,
-   "score": 46.0
+   "score": 47.0
   },
   {
    "id": "4bac7b46db6b",
@@ -1372,204 +1426,40 @@
      "language": "en",
      "link": "https://www.japantimes.co.jp/news/2026/10/07/world/crime-legal/germany-spy-chief-treason-arrest/",
      "published": "2026-10-07T01:55:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-07T03:07:41.547243+00:00",
-   "outlets": 13,
-   "regions": 11,
-   "languages": 1,
-   "score": 37.0
-  },
-  {
-   "id": "f4950bb60ba8",
-   "first_seen": "2026-10-05T15:07:44.573046+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "light",
-     "title": "Brazil’s presidential race goes to second round as Flávio Bolsonaro leads incumbent Lula",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/05/brazil-presidential-race-election-result-second-round-lula-flavio-bolsonaro",
-     "published": "2026-10-05T00:16:52+00:00"
     },
     {
-     "outlet": "Court House News",
-     "region": "court",
-     "bucket": "light",
-     "title": "Lula and Bolsonaro head to Brazil’s presidential runoff",
-     "language": "en",
-     "link": "https://www.courthousenews.com/lula-and-bolsonaro-head-to-brazils-presidential-runoff/",
-     "published": "2026-10-05T01:45:04+00:00"
-    },
-    {
-     "outlet": "Premium Times",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Brazil’s presidential election goes to runoff",
-     "language": "en",
-     "link": "https://www.premiumtimesng.com/foreign/world-foreign/914610-brazils-presidential-election-goes-to-runoff.html",
-     "published": "2026-10-05T12:56:50+00:00"
-    },
-    {
-     "outlet": "Deutsche Welle",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Brazil election: Bolsonaro and Lula head to runoff",
-     "language": "en",
-     "link": "https://www.dw.com/en/brazil-election-bolsonaro-and-lula-head-to-runoff/a-79533857?maca=en-rss-en-world-4025-rdf",
-     "published": "2026-10-05T00:27:00+00:00"
-    },
-    {
-     "outlet": "CGTN",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Lula, Flavio Bolsonaro head to runoff in Brazil presidential election",
-     "language": "en",
-     "link": "https://news.cgtn.com/news/2026-10-05/news-1QZ8scMvcdy/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
-     "published": "2026-10-04T23:58:51+00:00"
-    },
-    {
-     "outlet": "TASS",
+     "outlet": "Meduza English",
      "region": "ru",
      "bucket": "serious",
-     "title": "Flavio Bolsonaro, Lula da Silva advance to second tour of presidential election",
+     "title": "Former German spy chief arrested on espionage charges. He made at least seven trips to Russia after leaving office.",
      "language": "en",
-     "link": "https://tass.com/world/2197463",
-     "published": "2026-10-05T00:30:00+00:00"
+     "link": "https://meduza.io/en/news/2026/10/06/former-german-spy-chief-arrested-on-espionage-charges-he-made-at-least-seven-trips-to-russia-after-leaving-office",
+     "published": "2026-10-06T13:18:27+00:00"
     },
     {
-     "outlet": "France24",
-     "region": "eu",
+     "outlet": "NPR World",
+     "region": "us",
      "bucket": "serious",
-     "title": "Brazil heads to run-off as Bolsonaro pulls off shock first place finish in first round",
+     "title": "Former German spy chief to face charges of espionage and attempted treason",
      "language": "en",
-     "link": "https://www.france24.com/en/video/20261005-brazil-heads-to-run-off-as-bolsonaro-pulls-off-shock-first-place-finish-in-first-round",
-     "published": "2026-10-05T09:38:59+00:00"
+     "link": "https://www.npr.org/2026/10/07/nx-s1-5992954/former-german-spy-chief-to-face-charges-of-espionage-and-attempted-treason",
+     "published": "2026-10-07T08:43:59+00:00"
     },
     {
-     "outlet": "Buenos Aires Times",
-     "region": "latam",
+     "outlet": "Google News — World",
+     "region": "global",
      "bucket": "serious",
-     "title": "Brazil heads to run-off as Flávio Bolsonaro takes first place finish over Lula",
+     "title": "Germany's former foreign intelligence chief arrested on suspicion of espionage and attempted treason",
      "language": "en",
-     "link": "https://www.batimes.com.ar/news/latin-america/brazil-heads-to-run-off-as-flavio-bolsonaro-takes-first-place-finish-over-lula.phtml",
-     "published": "2026-10-05T05:14:00+00:00"
-    },
-    {
-     "outlet": "MercoPress",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "Flávio Bolsonaro edges Lula in the first round; both head to an October 25 runoff",
-     "language": "en",
-     "link": "https://en.mercopress.com/2026/10/05/flavio-bolsonaro-edges-lula-in-the-first-round-both-head-to-an-october-25-runoff?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
-     "published": "2026-10-05T10:30:00+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Right-wing Flávio Bolsonaro wins first round of Brazil election",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/ck1l34ed592no?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-05T03:16:16+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Bolsonaro pushes Lula to brink of defeat ahead of Brazil runoff",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/05/world/brazil-lula-bolsonaro-narrow-election/",
-     "published": "2026-10-05T05:36:00+00:00"
-    },
-    {
-     "outlet": "Buenos Aires Times",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "Bolsonaro pushes Lula to brink of defeat ahead of Brazil run-off",
-     "language": "en",
-     "link": "https://www.batimes.com.ar/news/latin-america/bolsonaro-pushes-lula-to-brink-of-defeat-ahead-of-brazil-run-off.phtml",
-     "published": "2026-10-05T11:30:18+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Bolsonaro in 'very strong position' as Brazil election heads to run-off",
-     "language": "en",
-     "link": "https://www.france24.com/en/video/20261005-bolsonaro-in-very-strong-position-as-brazil-election-heads-to-run-off",
-     "published": "2026-10-05T08:44:23+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Bolsonaro rides right-wing surge into Brazil’s election runoff",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/05/bolsonaro-rides-right-wing-surge-into-brazil-s-election-runoff",
-     "published": "2026-10-05T15:55:04+00:00"
-    },
-    {
-     "outlet": "Buenos Aires Times",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "Flávio Bolsonaro rides right-wing surge into Brazil's election run-off",
-     "language": "en",
-     "link": "https://www.batimes.com.ar/news/latin-america/flavio-bolsonaro-rides-right-wing-surge-into-brazils-election-run-off.phtml",
-     "published": "2026-10-05T16:26:40+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Brazil presidential election 2026: first-round live results",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/ng-interactive/2026/oct/04/brazil-presidential-election-2026-first-round-live-results",
-     "published": "2026-10-05T00:24:55+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Brazil lurches to the right as Lula falters in the first round of presidential election",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/brazil-presidential-election-lula-bolsonaro/article71548352.ece",
-     "published": "2026-10-05T16:19:26+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Flávio Bolsonaro poised to win Brazilian presidency after shock first-round victory",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/05/flavio-bolsonaro-brazilian-presidency-election-shock-first-round-victory",
-     "published": "2026-10-05T16:05:20+00:00"
-    },
-    {
-     "outlet": "MercoPress",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "\"The end of the PT era is decreed,\" says Flávio Bolsonaro after winning the first round",
-     "language": "en",
-     "link": "https://en.mercopress.com/2026/10/05/the-end-of-the-pt-era-is-decreed-says-flavio-bolsonaro-after-winning-the-first-round?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
-     "published": "2026-10-05T17:18:00+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Brazil-China ties in focus as Bolsonaro gets election edge over Lula",
-     "language": "en",
-     "link": "https://www.scmp.com/plus/news/china/diplomacy/article/3369805/brazil-china-ties-focus-bolsonaro-gets-election-edge-over-lula?utm_source=rss_feed",
-     "published": "2026-10-05T09:46:21+00:00"
+     "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQSE1QSWgzLVNrRy1fbFdqc0FwdkctYmcyZ2UxcmxxdWdyRENwM3VKSFpqbnpxVUdpcHJISDlpVV96eDdSV3pyZ0UzZUtRZzR1UEhIQlNhaDdjRVVNWUJrN3dyRDAyMTZjcl9rbWx2QW54ZkV4V1lRNXU5bFJURmlhTG42RkxHODJPWmpOWi1hOWVMVDY1N1phMVJrZWtUSDNOcS0zWWdvZlBBNU1YOFNwWmdYaGMzcFg4ODd2c1dB?oc=5",
+     "published": "2026-10-07T01:38:00+00:00"
     }
    ],
-   "last_seen": "2026-10-05T18:07:49.818707+00:00",
+   "last_seen": "2026-10-07T09:07:47.348407+00:00",
    "outlets": 14,
-   "regions": 10,
+   "regions": 12,
    "languages": 1,
-   "score": 36.0
+   "score": 40.0
   },
   {
    "id": "d7e40dc3e136",
@@ -1781,11 +1671,393 @@
      "language": "en",
      "link": "https://www.cbsnews.com/news/plague-russia-lab-worker-death-what-to-know/",
      "published": "2026-10-06T22:22:10+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump says he has call scheduled with Putin to discuss possible case of pneumonic plague in Russia",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/trump-says-he-has-call-scheduled-with-putin-to-discuss-possible-case-of-pneumonic-plague-in-russia/article71553314.ece",
+     "published": "2026-10-07T04:50:54+00:00"
+    },
+    {
+     "outlet": "Meduza English",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Trump says he’ll call Putin about suspected plague outbreak in Russia",
+     "language": "en",
+     "link": "https://meduza.io/en/news/2026/10/07/trump-says-he-ll-call-putin-about-suspected-plague-outbreak-in-russia",
+     "published": "2026-10-07T07:32:13+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "‘Very deep discussion’: Trump scheduled to speak to Putin over suspected plague case in Russia",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/very-deep-discussion-trump-scheduled-to-speak-to-putin-over-suspected-plague-case-in-russia-101791336073274.html",
+     "published": "2026-10-07T01:52:32+00:00"
     }
    ],
-   "last_seen": "2026-10-07T03:07:41.547243+00:00",
-   "outlets": 12,
-   "regions": 11,
+   "last_seen": "2026-10-07T09:07:47.348407+00:00",
+   "outlets": 14,
+   "regions": 12,
+   "languages": 1,
+   "score": 40.0
+  },
+  {
+   "id": "f4950bb60ba8",
+   "first_seen": "2026-10-05T15:07:44.573046+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "light",
+     "title": "Brazil’s presidential race goes to second round as Flávio Bolsonaro leads incumbent Lula",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/05/brazil-presidential-race-election-result-second-round-lula-flavio-bolsonaro",
+     "published": "2026-10-05T00:16:52+00:00"
+    },
+    {
+     "outlet": "Court House News",
+     "region": "court",
+     "bucket": "light",
+     "title": "Lula and Bolsonaro head to Brazil’s presidential runoff",
+     "language": "en",
+     "link": "https://www.courthousenews.com/lula-and-bolsonaro-head-to-brazils-presidential-runoff/",
+     "published": "2026-10-05T01:45:04+00:00"
+    },
+    {
+     "outlet": "Premium Times",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Brazil’s presidential election goes to runoff",
+     "language": "en",
+     "link": "https://www.premiumtimesng.com/foreign/world-foreign/914610-brazils-presidential-election-goes-to-runoff.html",
+     "published": "2026-10-05T12:56:50+00:00"
+    },
+    {
+     "outlet": "Deutsche Welle",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Brazil election: Bolsonaro and Lula head to runoff",
+     "language": "en",
+     "link": "https://www.dw.com/en/brazil-election-bolsonaro-and-lula-head-to-runoff/a-79533857?maca=en-rss-en-world-4025-rdf",
+     "published": "2026-10-05T00:27:00+00:00"
+    },
+    {
+     "outlet": "CGTN",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Lula, Flavio Bolsonaro head to runoff in Brazil presidential election",
+     "language": "en",
+     "link": "https://news.cgtn.com/news/2026-10-05/news-1QZ8scMvcdy/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+     "published": "2026-10-04T23:58:51+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Flavio Bolsonaro, Lula da Silva advance to second tour of presidential election",
+     "language": "en",
+     "link": "https://tass.com/world/2197463",
+     "published": "2026-10-05T00:30:00+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Brazil heads to run-off as Bolsonaro pulls off shock first place finish in first round",
+     "language": "en",
+     "link": "https://www.france24.com/en/video/20261005-brazil-heads-to-run-off-as-bolsonaro-pulls-off-shock-first-place-finish-in-first-round",
+     "published": "2026-10-05T09:38:59+00:00"
+    },
+    {
+     "outlet": "Buenos Aires Times",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "Brazil heads to run-off as Flávio Bolsonaro takes first place finish over Lula",
+     "language": "en",
+     "link": "https://www.batimes.com.ar/news/latin-america/brazil-heads-to-run-off-as-flavio-bolsonaro-takes-first-place-finish-over-lula.phtml",
+     "published": "2026-10-05T05:14:00+00:00"
+    },
+    {
+     "outlet": "MercoPress",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "Flávio Bolsonaro edges Lula in the first round; both head to an October 25 runoff",
+     "language": "en",
+     "link": "https://en.mercopress.com/2026/10/05/flavio-bolsonaro-edges-lula-in-the-first-round-both-head-to-an-october-25-runoff?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
+     "published": "2026-10-05T10:30:00+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Right-wing Flávio Bolsonaro wins first round of Brazil election",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/ck1l34ed592no?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-05T03:16:16+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Bolsonaro pushes Lula to brink of defeat ahead of Brazil runoff",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/05/world/brazil-lula-bolsonaro-narrow-election/",
+     "published": "2026-10-05T05:36:00+00:00"
+    },
+    {
+     "outlet": "Buenos Aires Times",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "Bolsonaro pushes Lula to brink of defeat ahead of Brazil run-off",
+     "language": "en",
+     "link": "https://www.batimes.com.ar/news/latin-america/bolsonaro-pushes-lula-to-brink-of-defeat-ahead-of-brazil-run-off.phtml",
+     "published": "2026-10-05T11:30:18+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Bolsonaro in 'very strong position' as Brazil election heads to run-off",
+     "language": "en",
+     "link": "https://www.france24.com/en/video/20261005-bolsonaro-in-very-strong-position-as-brazil-election-heads-to-run-off",
+     "published": "2026-10-05T08:44:23+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Bolsonaro rides right-wing surge into Brazil’s election runoff",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/05/bolsonaro-rides-right-wing-surge-into-brazil-s-election-runoff",
+     "published": "2026-10-05T15:55:04+00:00"
+    },
+    {
+     "outlet": "Buenos Aires Times",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "Flávio Bolsonaro rides right-wing surge into Brazil's election run-off",
+     "language": "en",
+     "link": "https://www.batimes.com.ar/news/latin-america/flavio-bolsonaro-rides-right-wing-surge-into-brazils-election-run-off.phtml",
+     "published": "2026-10-05T16:26:40+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Brazil presidential election 2026: first-round live results",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/ng-interactive/2026/oct/04/brazil-presidential-election-2026-first-round-live-results",
+     "published": "2026-10-05T00:24:55+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Brazil lurches to the right as Lula falters in the first round of presidential election",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/brazil-presidential-election-lula-bolsonaro/article71548352.ece",
+     "published": "2026-10-05T16:19:26+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Flávio Bolsonaro poised to win Brazilian presidency after shock first-round victory",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/05/flavio-bolsonaro-brazilian-presidency-election-shock-first-round-victory",
+     "published": "2026-10-05T16:05:20+00:00"
+    },
+    {
+     "outlet": "MercoPress",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "\"The end of the PT era is decreed,\" says Flávio Bolsonaro after winning the first round",
+     "language": "en",
+     "link": "https://en.mercopress.com/2026/10/05/the-end-of-the-pt-era-is-decreed-says-flavio-bolsonaro-after-winning-the-first-round?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
+     "published": "2026-10-05T17:18:00+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Brazil-China ties in focus as Bolsonaro gets election edge over Lula",
+     "language": "en",
+     "link": "https://www.scmp.com/plus/news/china/diplomacy/article/3369805/brazil-china-ties-focus-bolsonaro-gets-election-edge-over-lula?utm_source=rss_feed",
+     "published": "2026-10-05T09:46:21+00:00"
+    }
+   ],
+   "last_seen": "2026-10-05T18:07:49.818707+00:00",
+   "outlets": 14,
+   "regions": 10,
+   "languages": 1,
+   "score": 36.0
+  },
+  {
+   "id": "902b9d7f57a8",
+   "first_seen": "2026-10-06T15:07:42.509147+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Kenya confirms first Ebola case as virus ‘surges’ in DR Congo province",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/06/kenya-first-ebola-case-death-drc",
+     "published": "2026-10-06T12:46:56+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Kenya confirms first Ebola case imported from Congo, patient has died",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2035159/kenya-confirms-first-ebola-case-imported-from-congo-patient-has-died",
+     "published": "2026-10-06T09:38:52+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Kenya reports first Ebola case imported from DR Congo after patient dies",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/africa/article/3369923/kenya-reports-first-ebola-case-imported-dr-congo-after-patient-dies?utm_source=rss_feed",
+     "published": "2026-10-06T09:39:31+00:00"
+    },
+    {
+     "outlet": "Medical Xpress",
+     "region": "health",
+     "bucket": "useful",
+     "title": "Kenya reports first-ever Ebola death",
+     "language": "en",
+     "link": "https://medicalxpress.com/news/2026-10-kenya-ebola-death.html",
+     "published": "2026-10-06T10:17:53+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "Kenya confirms first Ebola case imported from Congo",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-06-kenya-confirms-first-ebola-case-imported-from-congo/",
+     "published": "2026-10-06T12:45:17+00:00"
+    },
+    {
+     "outlet": "AllAfrica",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Kenya: Kenya Confirms First Ebola Case as Patient Returns From DRC",
+     "language": "en",
+     "link": "https://allafrica.com/stories/202610060146.html",
+     "published": "2026-10-06T09:08:38+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Kenya confirms first Ebola death as 28 contacts traced",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/06/kenya-confirms-first-ebola-death-as-28-contacts-traced/",
+     "published": "2026-10-06T09:57:32+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Kenya confirms first Ebola case imported from Congo after patient dies in Nairobi",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/kenya-confirms-first-ebola-case-imported-from-congo-after-patient-dies-in-nairobi/article71550957.ece",
+     "published": "2026-10-06T10:54:29+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Kenya Records Ebola Case for First Time",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNa0FnQmRLaFN4d0x1LUdtZnJRSHNBeFhzc2pGc09RU1ZWcDBLdDdRT2Z4S3ZHaURpMEh3STlGdnlVeUlPekJVa0VVOUluZW1QOWhqRjRQUkVYXy1aakpJQ0U1cjJnRGdzc0FQczVWNEJSNHdONWJmVWl3Q1dYV2h1UG16SWk?oc=5",
+     "published": "2026-10-06T11:18:41+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Kenya reports first-ever Ebola death after patient returns from DR Congo",
+     "language": "en",
+     "link": "https://www.france24.com/en/africa/20261006-kenya-reports-first-ever-ebola-death-after-patient-returns-from-dr-congo",
+     "published": "2026-10-06T15:41:44+00:00"
+    },
+    {
+     "outlet": "Premium Times",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Kenya confirms first imported Ebola case linked to DRC outbreak",
+     "language": "en",
+     "link": "https://www.premiumtimesng.com/health/health-news/915084-kenya-confirms-first-imported-ebola-case-linked-to-drc-outbreak.html",
+     "published": "2026-10-06T18:53:03+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "Kenya confirms first Ebola case after man who travelled from Congo dies",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-06-kenya-confirms-first-ebola-case-after-man-who-travelled-from-congo-dies/",
+     "published": "2026-10-06T22:28:17+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Kenya reports first-ever Ebola death",
+     "language": "en",
+     "link": "https://www.france24.com/en/kenya-reports-first-ever-ebola-death",
+     "published": "2026-10-06T21:28:01+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Kenya confirms first Ebola case after man who travelled from Congo dies",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/kenya-confirms-first-ebola-case-after-man-who-travelled-from-congo-dies-101791314214038.html",
+     "published": "2026-10-06T19:16:53+00:00"
+    },
+    {
+     "outlet": "CGTN",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Kenya confirms first Ebola case",
+     "language": "en",
+     "link": "https://newsaf.cgtn.com/news/2026-10-06/Kenya-confirms-first-Ebola-case-1R1rxfwah8Y/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+     "published": "2026-10-06T12:13:27+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Ebola: NCDC raises alert after Kenya confirms imported case",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/ebola-ncdc-raises-alert-after-kenya-confirms-imported-case/",
+     "published": "2026-10-07T08:01:43+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Kenya confirms first Ebola case after man who travelled from Congo dies",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxOWlJLbDdiRHg5YS1UZEJ1anM5UjA4S25hS0hNSnRWNHNvb2xnaGVxYkpBVWhSVC1Pdm9vZ3ltbzJsY2RwV0xYSjQ3TGRhT3hOSkxLTElLSUxqV3QxOHpzOVJPNlhyWFIwYzI4RnlkODBWU0hZR3BWMmhNdkpfZGxYVzN0Z05RcUhnYTFQdldFTFV4SzhYaTk3UDBYY1hkdHJLRHIta1JYc2g1NVhzbkxENU9SZ3RJaDVLWFh4cklWYXhLa1l1SmdtdUxCc2pKQlhz?oc=5",
+     "published": "2026-10-06T19:14:59+00:00"
+    }
+   ],
+   "last_seen": "2026-10-07T09:07:47.348407+00:00",
+   "outlets": 14,
+   "regions": 10,
    "languages": 1,
    "score": 36.0
   },
@@ -2318,146 +2590,128 @@
    "score": 35.0
   },
   {
-   "id": "902b9d7f57a8",
-   "first_seen": "2026-10-06T15:07:42.509147+00:00",
+   "id": "8299e0156b03",
+   "first_seen": "2026-10-07T03:07:41.547243+00:00",
    "members": [
     {
-     "outlet": "The Guardian — World",
-     "region": "uk",
+     "outlet": "Al Jazeera English",
+     "region": "qa",
      "bucket": "serious",
-     "title": "Kenya confirms first Ebola case as virus ‘surges’ in DR Congo province",
+     "title": "Christa Pike lawyers say she is speaking one week after failed execution",
      "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/06/kenya-first-ebola-case-death-drc",
-     "published": "2026-10-06T12:46:56+00:00"
+     "link": "https://www.aljazeera.com/news/2026/10/6/christa-pike-lawyers-say-she-is-speaking-one-week-after-failed-execution?traffic_source=rss",
+     "published": "2026-10-06T23:01:05+00:00"
     },
     {
-     "outlet": "Dawn",
-     "region": "pk",
+     "outlet": "BBC World",
+     "region": "uk",
      "bucket": "serious",
-     "title": "Kenya confirms first Ebola case imported from Congo, patient has died",
+     "title": "US death row inmate Christa Pike awake and speaking after failed execution, lawyers say",
      "language": "en",
-     "link": "https://www.dawn.com/news/2035159/kenya-confirms-first-ebola-case-imported-from-congo-patient-has-died",
-     "published": "2026-10-06T09:38:52+00:00"
+     "link": "https://www.bbc.co.uk/news/articles/c8kgezxn54qko?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-07T00:56:59+00:00"
     },
     {
      "outlet": "South China Morning Post",
      "region": "cn",
      "bucket": "serious",
-     "title": "Kenya reports first Ebola case imported from DR Congo after patient dies",
+     "title": "Christa Pike conscious and speaking after botched execution in US",
      "language": "en",
-     "link": "https://www.scmp.com/news/world/africa/article/3369923/kenya-reports-first-ebola-case-imported-dr-congo-after-patient-dies?utm_source=rss_feed",
-     "published": "2026-10-06T09:39:31+00:00"
-    },
-    {
-     "outlet": "Medical Xpress",
-     "region": "health",
-     "bucket": "useful",
-     "title": "Kenya reports first-ever Ebola death",
-     "language": "en",
-     "link": "https://medicalxpress.com/news/2026-10-kenya-ebola-death.html",
-     "published": "2026-10-06T10:17:53+00:00"
-    },
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "Kenya confirms first Ebola case imported from Congo",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-06-kenya-confirms-first-ebola-case-imported-from-congo/",
-     "published": "2026-10-06T12:45:17+00:00"
-    },
-    {
-     "outlet": "AllAfrica",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Kenya: Kenya Confirms First Ebola Case as Patient Returns From DRC",
-     "language": "en",
-     "link": "https://allafrica.com/stories/202610060146.html",
-     "published": "2026-10-06T09:08:38+00:00"
-    },
-    {
-     "outlet": "Africanews",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Kenya confirms first Ebola death as 28 contacts traced",
-     "language": "en",
-     "link": "http://www.africanews.com/2026/10/06/kenya-confirms-first-ebola-death-as-28-contacts-traced/",
-     "published": "2026-10-06T09:57:32+00:00"
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3369962/christa-pike-conscious-and-speaking-after-tennessee-failed-execution?utm_source=rss_feed",
+     "published": "2026-10-06T21:33:51+00:00"
     },
     {
      "outlet": "The Hindu — International",
      "region": "in",
      "bucket": "serious",
-     "title": "Kenya confirms first Ebola case imported from Congo after patient dies in Nairobi",
+     "title": "Christa Pike is conscious and speaking after Tennessee failed execution, her attorneys say",
      "language": "en",
-     "link": "https://www.thehindu.com/news/international/kenya-confirms-first-ebola-case-imported-from-congo-after-patient-dies-in-nairobi/article71550957.ece",
-     "published": "2026-10-06T10:54:29+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Kenya Records Ebola Case for First Time",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNa0FnQmRLaFN4d0x1LUdtZnJRSHNBeFhzc2pGc09RU1ZWcDBLdDdRT2Z4S3ZHaURpMEh3STlGdnlVeUlPekJVa0VVOUluZW1QOWhqRjRQUkVYXy1aakpJQ0U1cjJnRGdzc0FQczVWNEJSNHdONWJmVWl3Q1dYV2h1UG16SWk?oc=5",
-     "published": "2026-10-06T11:18:41+00:00"
+     "link": "https://www.thehindu.com/news/international/christa-pike-is-conscious-and-speaking-after-tennessee-failed-execution-her-attorneys-say/article71553181.ece",
+     "published": "2026-10-06T22:21:20+00:00"
     },
     {
      "outlet": "France24",
      "region": "eu",
      "bucket": "serious",
-     "title": "Kenya reports first-ever Ebola death after patient returns from DR Congo",
+     "title": "Christa Pike regains consciousness after botched Tennessee execution attempt",
      "language": "en",
-     "link": "https://www.france24.com/en/africa/20261006-kenya-reports-first-ever-ebola-death-after-patient-returns-from-dr-congo",
-     "published": "2026-10-06T15:41:44+00:00"
+     "link": "https://www.france24.com/en/americas/20261006-christa-pike-regains-consciousness-after-botched-tennessee-execution-attempt",
+     "published": "2026-10-06T23:30:18+00:00"
     },
     {
-     "outlet": "Premium Times",
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Christa Pike awake, speaking after surviving execution attempt",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/americas/christa-pike-awake-speaking-after-surviving-execution-attempt",
+     "published": "2026-10-06T20:54:00+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
      "region": "ng",
      "bucket": "serious",
-     "title": "Kenya confirms first imported Ebola case linked to DRC outbreak",
+     "title": "Christa Pike awake, talking after botched execution attempt",
      "language": "en",
-     "link": "https://www.premiumtimesng.com/health/health-news/915084-kenya-confirms-first-imported-ebola-case-linked-to-drc-outbreak.html",
-     "published": "2026-10-06T18:53:03+00:00"
-    },
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "Kenya confirms first Ebola case after man who travelled from Congo dies",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-06-kenya-confirms-first-ebola-case-after-man-who-travelled-from-congo-dies/",
-     "published": "2026-10-06T22:28:17+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Kenya reports first-ever Ebola death",
-     "language": "en",
-     "link": "https://www.france24.com/en/kenya-reports-first-ever-ebola-death",
-     "published": "2026-10-06T21:28:01+00:00"
+     "link": "https://www.vanguardngr.com/2026/10/christa-pike-awake-talking-after-botched-execution-attempt-report/",
+     "published": "2026-10-06T21:34:23+00:00"
     },
     {
      "outlet": "Hindustan Times — World",
      "region": "in",
      "bucket": "serious",
-     "title": "Kenya confirms first Ebola case after man who travelled from Congo dies",
+     "title": "Christa Pike update: Death row inmate awake and speaking after failed execution",
      "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/kenya-confirms-first-ebola-case-after-man-who-travelled-from-congo-dies-101791314214038.html",
-     "published": "2026-10-06T19:16:53+00:00"
+     "link": "https://www.hindustantimes.com/world-news/us-news/christa-pike-update-death-row-inmate-awake-and-speaking-after-failed-execution-attempt-101791323322965.html",
+     "published": "2026-10-06T22:02:07+00:00"
     },
     {
-     "outlet": "CGTN",
-     "region": "cn",
+     "outlet": "The Japan Times",
+     "region": "jp",
      "bucket": "serious",
-     "title": "Kenya confirms first Ebola case",
+     "title": "Tennessee execution survivor Christa Pike is conscious and speaking, lawyers say",
      "language": "en",
-     "link": "https://newsaf.cgtn.com/news/2026-10-06/Kenya-confirms-first-Ebola-case-1R1rxfwah8Y/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
-     "published": "2026-10-06T12:13:27+00:00"
+     "link": "https://www.japantimes.co.jp/news/2026/10/07/world/crime-legal/christa-pike-tennessee-execution-survivor/",
+     "published": "2026-10-07T01:03:00+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Christa Pike faces lengthy recovery after botched execution attempt",
+     "language": "en",
+     "link": "https://tass.com/society/2198507",
+     "published": "2026-10-06T23:35:26+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "US death row inmate conscious, speaking after failed execution",
+     "language": "en",
+     "link": "https://punchng.com/us-death-row-inmate-conscious-speaking-after-failed-execution-report/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-07T07:09:57+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "US death row inmate Christa Pike awake and speaking after failed execution, lawyers say",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/us-death-row-inmate-christa-pike-awake-and-speaking-after-failed-execution-lawyers-say/",
+     "published": "2026-10-07T01:54:00+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Christa Pike Conscious And Speaking Days After Failed Execution In Tennessee",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/christa-pike-conscious-and-speaking-days-after-failed-execution-in-tennessee-12149490#publisher=newsstand",
+     "published": "2026-10-07T05:59:45+00:00"
     }
    ],
-   "last_seen": "2026-10-07T03:07:41.547243+00:00",
+   "last_seen": "2026-10-07T09:07:47.348407+00:00",
    "outlets": 13,
    "regions": 10,
    "languages": 1,
@@ -2859,108 +3113,7 @@
      "published": "2026-10-06T21:14:00+00:00"
     }
    ],
-   "last_seen": "2026-10-07T03:07:41.547243+00:00",
-   "outlets": 10,
-   "regions": 9,
-   "languages": 1,
-   "score": 30.0
-  },
-  {
-   "id": "8299e0156b03",
-   "first_seen": "2026-10-07T03:07:41.547243+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Christa Pike lawyers say she is speaking one week after failed execution",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/6/christa-pike-lawyers-say-she-is-speaking-one-week-after-failed-execution?traffic_source=rss",
-     "published": "2026-10-06T23:01:05+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "US death row inmate Christa Pike awake and speaking after failed execution, lawyers say",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c8kgezxn54qko?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-07T00:56:59+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Christa Pike conscious and speaking after botched execution in US",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3369962/christa-pike-conscious-and-speaking-after-tennessee-failed-execution?utm_source=rss_feed",
-     "published": "2026-10-06T21:33:51+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Christa Pike is conscious and speaking after Tennessee failed execution, her attorneys say",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/christa-pike-is-conscious-and-speaking-after-tennessee-failed-execution-her-attorneys-say/article71553181.ece",
-     "published": "2026-10-06T22:21:20+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Christa Pike regains consciousness after botched Tennessee execution attempt",
-     "language": "en",
-     "link": "https://www.france24.com/en/americas/20261006-christa-pike-regains-consciousness-after-botched-tennessee-execution-attempt",
-     "published": "2026-10-06T23:30:18+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Christa Pike awake, speaking after surviving execution attempt",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/americas/christa-pike-awake-speaking-after-surviving-execution-attempt",
-     "published": "2026-10-06T20:54:00+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Christa Pike awake, talking after botched execution attempt",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/christa-pike-awake-talking-after-botched-execution-attempt-report/",
-     "published": "2026-10-06T21:34:23+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Christa Pike update: Death row inmate awake and speaking after failed execution",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/christa-pike-update-death-row-inmate-awake-and-speaking-after-failed-execution-attempt-101791323322965.html",
-     "published": "2026-10-06T22:02:07+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Tennessee execution survivor Christa Pike is conscious and speaking, lawyers say",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/07/world/crime-legal/christa-pike-tennessee-execution-survivor/",
-     "published": "2026-10-07T01:03:00+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Christa Pike faces lengthy recovery after botched execution attempt",
-     "language": "en",
-     "link": "https://tass.com/society/2198507",
-     "published": "2026-10-06T23:35:26+00:00"
-    }
-   ],
-   "last_seen": "2026-10-07T03:07:41.547243+00:00",
+   "last_seen": "2026-10-07T09:07:47.348407+00:00",
    "outlets": 10,
    "regions": 9,
    "languages": 1,
@@ -3508,6 +3661,89 @@
    "score": 22.0
   },
   {
+   "id": "42964e20da26",
+   "first_seen": "2026-10-07T03:07:41.547243+00:00",
+   "members": [
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "In interview, US Vice President Vance says Iran must cut enrichment to end war",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/jd-vance-iran-cut-nuclear-enrichment-end-war-6437781",
+     "published": "2026-10-07T01:36:00+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Iran must cut enrichment to end war, U.S. Vice-President Vance says",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/iran-must-cut-enrichment-to-end-war-us-vice-president-vance-says/article71554105.ece",
+     "published": "2026-10-07T01:46:04+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Iran Must Cut Enrichment To End War: JD Vance",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/iran-must-cut-enrichment-to-end-war-jd-vance-12148654#publisher=newsstand",
+     "published": "2026-10-06T23:27:12+00:00"
+    },
+    {
+     "outlet": "Investing.com — الاقتصاد",
+     "region": "money",
+     "bucket": "useful",
+     "title": "Vance says Iran must reduce nuclear enrichment capacity to end war",
+     "language": "en",
+     "link": "https://www.investing.com/news/economy-news/vance-says-iran-must-reduce-nuclear-enrichment-capacity-to-end-war--reuters-4935512",
+     "published": "2026-10-07T01:18:58+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Iran should reduce uranium enrichment capacity to end war with US",
+     "language": "en",
+     "link": "https://tass.com/world/2198519",
+     "published": "2026-10-07T02:50:11+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "US Vice President Vance says Iran must cut enrichment to end war",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2035354/us-vice-president-vance-says-iran-must-cut-enrichment-to-end-war",
+     "published": "2026-10-07T04:01:53+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Vance says Iran must cut enrichment to end war",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633439/vance-says-iran-must-cut-enrichment-to-end-war",
+     "published": "2026-10-06T23:34:02+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Vance says Iran must cut nuclear enrichment to end war",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/07/us-vice-president-vance-says-iran-must-cut-enrichment-to-end-war",
+     "published": "2026-10-07T04:29:04+00:00"
+    }
+   ],
+   "last_seen": "2026-10-07T09:07:47.348407+00:00",
+   "outlets": 8,
+   "regions": 6,
+   "languages": 1,
+   "score": 22.0
+  },
+  {
    "id": "17eba7e6c1b2",
    "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
@@ -3811,6 +4047,80 @@
    "regions": 6,
    "languages": 1,
    "score": 20.0
+  },
+  {
+   "id": "f847db6b3477",
+   "first_seen": "2026-10-07T03:07:41.547243+00:00",
+   "members": [
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "North Korea's Kim pledges 'invariable support' in Putin birthday letter",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/east-asia/north-korea-kim-support-putin-birthday-letter-6437946",
+     "published": "2026-10-07T01:24:00+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "N. Korea’s Kim pledges ‘invariable support’ in Putin birthday letter",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/07/n-korea-s-kim-pledges-invariable-support-in-putin-birthday-letter",
+     "published": "2026-10-07T00:33:27+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "In Birthday Letter To Putin, Kim Jong Un's \"Invariable Support\" Promise",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/in-birthday-letter-to-vladimir-putin-kim-jong-uns-invariable-support-promise-ukraine-war-12148815#publisher=newsstand",
+     "published": "2026-10-07T02:02:18+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "North Korea warns U.S. over Taiwan while Kim pledges support for Russia",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/north-korea-warns-us-over-taiwan-while-kim-pledges-support-for-russia/article71553315.ece",
+     "published": "2026-10-06T22:37:37+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "North Korea warns U.S. over Taiwan while Kim pledges support for Russia",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/07/asia-pacific/north-korea-us-taiwan-russia/",
+     "published": "2026-10-07T01:09:00+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "North Korea criticises US support for Taiwan, pledges backing for Russia",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-07-north-korea-criticises-us-support-for-taiwan-pledges-backing-for-russia/",
+     "published": "2026-10-07T10:03:46+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "North Korea warns U.S. over Taiwan while Kim pledges support for Russia",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/07/asia-pacific/politics/north-korea-us-taiwan-russia/",
+     "published": "2026-10-07T06:57:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-07T09:07:47.348407+00:00",
+   "outlets": 6,
+   "regions": 5,
+   "languages": 1,
+   "score": 18.0
   },
   {
    "id": "fc3143ecaa68",
@@ -4138,118 +4448,6 @@
      "language": "en",
      "link": "https://news.cgtn.com/news/2026-10-06/news-1R1sVlm6uVG/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
      "published": "2026-10-06T09:40:31+00:00"
-    }
-   ],
-   "last_seen": "2026-10-07T03:07:41.547243+00:00",
-   "outlets": 5,
-   "regions": 4,
-   "languages": 1,
-   "score": 15.0
-  },
-  {
-   "id": "f847db6b3477",
-   "first_seen": "2026-10-07T03:07:41.547243+00:00",
-   "members": [
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "North Korea's Kim pledges 'invariable support' in Putin birthday letter",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/east-asia/north-korea-kim-support-putin-birthday-letter-6437946",
-     "published": "2026-10-07T01:24:00+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "N. Korea’s Kim pledges ‘invariable support’ in Putin birthday letter",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/07/n-korea-s-kim-pledges-invariable-support-in-putin-birthday-letter",
-     "published": "2026-10-07T00:33:27+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "In Birthday Letter To Putin, Kim Jong Un's \"Invariable Support\" Promise",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/in-birthday-letter-to-vladimir-putin-kim-jong-uns-invariable-support-promise-ukraine-war-12148815#publisher=newsstand",
-     "published": "2026-10-07T02:02:18+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "North Korea warns U.S. over Taiwan while Kim pledges support for Russia",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/north-korea-warns-us-over-taiwan-while-kim-pledges-support-for-russia/article71553315.ece",
-     "published": "2026-10-06T22:37:37+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "North Korea warns U.S. over Taiwan while Kim pledges support for Russia",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/07/asia-pacific/north-korea-us-taiwan-russia/",
-     "published": "2026-10-07T01:09:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-07T03:07:41.547243+00:00",
-   "outlets": 5,
-   "regions": 4,
-   "languages": 1,
-   "score": 15.0
-  },
-  {
-   "id": "42964e20da26",
-   "first_seen": "2026-10-07T03:07:41.547243+00:00",
-   "members": [
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "In interview, US Vice President Vance says Iran must cut enrichment to end war",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/world/jd-vance-iran-cut-nuclear-enrichment-end-war-6437781",
-     "published": "2026-10-07T01:36:00+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Iran must cut enrichment to end war, U.S. Vice-President Vance says",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/iran-must-cut-enrichment-to-end-war-us-vice-president-vance-says/article71554105.ece",
-     "published": "2026-10-07T01:46:04+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Iran Must Cut Enrichment To End War: JD Vance",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/iran-must-cut-enrichment-to-end-war-jd-vance-12148654#publisher=newsstand",
-     "published": "2026-10-06T23:27:12+00:00"
-    },
-    {
-     "outlet": "Investing.com — الاقتصاد",
-     "region": "money",
-     "bucket": "useful",
-     "title": "Vance says Iran must reduce nuclear enrichment capacity to end war",
-     "language": "en",
-     "link": "https://www.investing.com/news/economy-news/vance-says-iran-must-reduce-nuclear-enrichment-capacity-to-end-war--reuters-4935512",
-     "published": "2026-10-07T01:18:58+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Iran should reduce uranium enrichment capacity to end war with US",
-     "language": "en",
-     "link": "https://tass.com/world/2198519",
-     "published": "2026-10-07T02:50:11+00:00"
     }
    ],
    "last_seen": "2026-10-07T03:07:41.547243+00:00",
@@ -5270,6 +5468,167 @@
    "score": 11.0
   },
   {
+   "id": "2d8d8ece3e5e",
+   "first_seen": "2026-10-07T09:07:47.348407+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Israeli settlers beat press photographer as soldiers watch in West Bank",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/06/israeli-settlers-beat-press-photographer-as-soldiers-watch-in-west-bank",
+     "published": "2026-10-06T21:00:28+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Israeli settlers beat AFP photographer covering violence in West Bank",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOeHRjeXZFTmNHTWhYUmpIRXlsR3VER1VPMWFGbzhTdEFMZnh4MUVFa2hFTWRDVDV5ZW9hM0R0U0txUVlXTlBaZHk5OEphY2tyRFNsWnpnWU0ySk41UnEtcElPMzdwY2JxTUZHdmR2TXh0N3lQeWdyUTc5S2drVlpLdG93ckZwMEJnWjNNTFkySnNQZmJGbkQyb0pheFdKRHJkQ2JjT1JicS1wdXUxYk5xWkNHT0EzUQ?oc=5",
+     "published": "2026-10-07T03:43:58+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Three years of Israel’s mass dispossession of West Bank Palestinians",
+     "language": "en",
+     "link": "https://www.aljazeera.com/features/2026/10/7/three-years-of-israels-mass-dispossession-of-west-bank-palestinians?traffic_source=rss",
+     "published": "2026-10-07T08:22:19+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Israeli troops seen smashing memorial in occupied West Bank",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/7/israeli-troops-seen-smashing-memorial-in-occupied-west-bank?traffic_source=rss",
+     "published": "2026-10-07T08:16:17+00:00"
+    }
+   ],
+   "last_seen": "2026-10-07T09:07:47.348407+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "5387d8460227",
+   "first_seen": "2026-10-07T09:07:47.348407+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Russian strikes kill 11 across Ukraine after Zelensky warning",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3369997/russian-barrage-hits-kyiv-hours-after-zelensky-warns-impending-attack?utm_source=rss_feed",
+     "published": "2026-10-07T06:04:10+00:00"
+    },
+    {
+     "outlet": "Meduza English",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Russian missile and drone strikes across Ukraine kill six and injure more than 20",
+     "language": "en",
+     "link": "https://meduza.io/en/news/2026/10/07/russian-missile-and-drone-strikes-across-ukraine-kill-six-and-injure-more-than-20",
+     "published": "2026-10-07T07:21:00+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Overnight Russian drone, missile strikes kill 8 across Ukraine",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/europe/overnight-russian-drone-missile-strikes-kill-8-across-ukraine",
+     "published": "2026-10-07T07:34:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-07T09:07:47.348407+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "86d61ed93463",
+   "first_seen": "2026-10-07T09:07:47.348407+00:00",
+   "members": [
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Israel strikes Gaza on October 7 anniversary, at least two dead: officials",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633452/israel-strikes-gaza-on-october-7-anniversary-at-least-two-dead-officials",
+     "published": "2026-10-07T01:05:27+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Israel Strikes Gaza On 3rd Anniversary Of October 7 Hamas Attack, 2 Dead",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/israel-strikes-gaza-on-3rd-anniversary-of-october-7-hamas-attack-2-dead-12149268#publisher=newsstand",
+     "published": "2026-10-07T05:39:51+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Israel strikes Gaza on October 7 anniversary, at least two dead",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/israel-strikes-gaza-on-october-7-anniversary-at-least-two-dead-officials/",
+     "published": "2026-10-07T09:04:46+00:00"
+    }
+   ],
+   "last_seen": "2026-10-07T09:07:47.348407+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "a69a019ba56e",
+   "first_seen": "2026-10-07T09:07:47.348407+00:00",
+   "members": [
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Japan raids beer giants over alleged price cartel",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/east-asia/japan-raid-beer-giants-anti-monopoly-prices-6438606",
+     "published": "2026-10-07T07:28:49+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Japan raids beer giants over alleged price cartel",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/business/2026/10/07/japan-raids-beer-giants-over-alleged-price-cartel",
+     "published": "2026-10-07T05:22:34+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Japan watchdog raids four major brewers over suspected beer price cartel",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/business/2026/10/07/companies/beer-cartel-ftc/",
+     "published": "2026-10-07T06:14:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-07T09:07:47.348407+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
    "id": "5532689c523c",
    "first_seen": "2026-10-06T03:07:51.967007+00:00",
    "members": [
@@ -5377,7 +5736,45 @@
      "published": "2026-10-06T18:32:09+00:00"
     }
    ],
-   "last_seen": "2026-10-07T03:07:41.547243+00:00",
+   "last_seen": "2026-10-07T09:07:47.348407+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
+   "id": "89f452eb0139",
+   "first_seen": "2026-10-07T09:07:47.348407+00:00",
+   "members": [
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Indian central bank hikes rates for first time since 2023",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/business/india-central-bank-interest-rates-hike-first-time-2003-6438586",
+     "published": "2026-10-07T06:47:01+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "India’s central bank hikes rates for first time in more than 3 years",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/business/2026/10/07/india-s-central-bank-hikes-rates-for-first-time-in-more-than-3-years",
+     "published": "2026-10-07T05:43:00+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "India’s central bank breaks three-year pause with rate hike amid Middle East war",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/money/2026/10/07/indias-central-bank-breaks-three-year-pause-with-rate-hike-amid-middle-east-war/238071",
+     "published": "2026-10-07T05:29:30+00:00"
+    }
+   ],
+   "last_seen": "2026-10-07T09:07:47.348407+00:00",
    "outlets": 3,
    "regions": 2,
    "languages": 1,

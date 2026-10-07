@@ -1,0 +1,71 @@
+{
+  "id": "8bba454f5484",
+  "created_at": "2026-10-07T09:08:08.889044+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.95,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "ترامب يتصل بوتين بشأن طاعون روسيا — تطور جيوسياسي غريب",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump says he’ll call Putin about suspected plague outbreak in Russia",
+  "link": "https://meduza.io/en/news/2026/10/07/trump-says-he-ll-call-putin-about-suspected-plague-outbreak-in-russia",
+  "publishers": [
+    "Hindustan Times — World",
+    "Meduza English",
+    "The Hindu — International"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "Trump says he’ll call Putin about suspected plague outbreak in Russia",
+    "link": "https://meduza.io/en/news/2026/10/07/trump-says-he-ll-call-putin-about-suspected-plague-outbreak-in-russia",
+    "summary": "U.S. President Donald Trump said he would call Russian President Vladimir Putin to discuss a possible plague outbreak in Russia.",
+    "source_name": "Meduza English",
+    "region": "ru",
+    "weight": 1.0,
+    "published": "2026-10-07T07:32:13+00:00",
+    "image_url": "https://meduza.io/imgly/share/1791358333/en/news/2026/10/07/trump-says-he-ll-call-putin-about-suspected-plague-outbreak-in-russia",
+    "publisher": "Meduza English",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "Meduza English",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/trump-says-he-has-call-scheduled-with-putin-to-discuss-possible-case-of-pneumonic-plague-in-russia/article71553314.ece"
+      },
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/10/07/trump-says-he-ll-call-putin-about-suspected-plague-outbreak-in-russia"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/very-deep-discussion-trump-scheduled-to-speak-to-putin-over-suspected-plague-case-in-russia-101791336073274.html"
+      }
+    ],
+    "image_candidates": [
+      "https://meduza.io/imgly/share/1791358333/en/news/2026/10/07/trump-says-he-ll-call-putin-about-suspected-plague-outbreak-in-russia",
+      "https://th-i.thgim.com/public/incoming/zdq8ew/article71554061.ece/alternates/LANDSCAPE_1200/2026-10-06T201424Z_1521204480_RC2WXNARRIJ6_RTRMADP_3_USA-TRUMP.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1528.913249088889,
+    "is_stale": false,
+    "score": 23.948696039978284,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "ترامب يتصل بوتين بشأن طاعون روسيا — تطور جيوسياسي غريب",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

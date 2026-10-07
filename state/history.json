@@ -1,46 +1,5 @@
 [
   {
-    "score": 23.96,
-    "bucket": "serious",
-    "tokens": [
-      "blockades",
-      "deepen",
-      "fires",
-      "french",
-      "protests",
-      "school",
-      "spread",
-      "unrest"
-    ],
-    "link": "https://www.thehindu.com/news/international/french-school-protests-spread-as-fires-blockades-deepen-unrest/article71535635.ece",
-    "title": "French school protests spread as fires, blockades deepen unrest",
-    "posted_title": "لماذا تحرق مدارس فرنسا وتُغلق أبوابها منذ أسبوع كامل",
-    "region": "in",
-    "seen_at": "2026-10-02T07:44:00.107428+00:00"
-  },
-  {
-    "score": 26.56,
-    "bucket": "serious",
-    "tokens": [
-      "ababa",
-      "addis",
-      "asmara",
-      "closure",
-      "diplomatic",
-      "embassy",
-      "eritrea",
-      "ethiopia",
-      "orders",
-      "severs",
-      "ties"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-10-02-eritrea-severs-diplomatic-ties-with-ethiopia-after-addis-ababa-orders-closure-of-embassy-in-asmara/",
-    "title": "Eritrea severs diplomatic ties with Ethiopia after Addis Ababa orders closure of embassy in Asmara",
-    "posted_title": "إريتريا تقطع العلاقات مع إثيوبيا بعد طرد دبلوماسييها وسط تصاعد القتال شمال البلاد",
-    "region": "za",
-    "seen_at": "2026-10-02T08:06:37.193923+00:00"
-  },
-  {
     "score": 23.03,
     "bucket": "serious",
     "tokens": [
@@ -2247,5 +2206,107 @@
     "posted_title": "",
     "region": "us",
     "seen_at": "2026-10-07T03:08:08.923504+00:00"
+  },
+  {
+    "score": 25.24,
+    "bucket": "serious",
+    "tokens": [
+      "claims",
+      "death",
+      "fears",
+      "lab",
+      "online",
+      "plague",
+      "russian",
+      "sparks",
+      "spread",
+      "unverified",
+      "worker"
+    ],
+    "link": "https://www.france24.com/en/russian-lab-worker-s-death-sparks-plague-fears-as-unverified-claims-spread-online-1",
+    "title": "Russian lab worker’s death sparks plague fears as unverified claims spread online",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-10-07T09:08:08.889034+00:00"
+  },
+  {
+    "score": 23.95,
+    "bucket": "serious",
+    "tokens": [
+      "about",
+      "call",
+      "outbreak",
+      "plague",
+      "putin",
+      "russia",
+      "suspected",
+      "trump"
+    ],
+    "link": "https://meduza.io/en/news/2026/10/07/trump-says-he-ll-call-putin-about-suspected-plague-outbreak-in-russia",
+    "title": "Trump says he’ll call Putin about suspected plague outbreak in Russia",
+    "posted_title": "",
+    "region": "ru",
+    "seen_at": "2026-10-07T09:08:08.889271+00:00"
+  },
+  {
+    "score": 23.9,
+    "bucket": "serious",
+    "tokens": [
+      "2023",
+      "bank",
+      "central",
+      "first",
+      "hikes",
+      "indian",
+      "rates",
+      "since",
+      "time"
+    ],
+    "link": "https://www.channelnewsasia.com/business/india-central-bank-interest-rates-hike-first-time-2003-6438586",
+    "title": "Indian central bank hikes rates for first time since 2023",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-10-07T09:08:08.889483+00:00"
+  },
+  {
+    "score": 22.76,
+    "bucket": "serious",
+    "tokens": [
+      "air",
+      "oil",
+      "prices",
+      "rise",
+      "storms",
+      "strikes",
+      "supply",
+      "threaten"
+    ],
+    "link": "https://www.myjoyonline.com/oil-prices-rise-as-storms-and-air-strikes-threaten-supply/",
+    "title": "Oil prices rise as storms and air strikes threaten supply",
+    "posted_title": "",
+    "region": "gh",
+    "seen_at": "2026-10-07T09:08:08.889677+00:00"
+  },
+  {
+    "score": 21.36,
+    "bucket": "serious",
+    "tokens": [
+      "2026",
+      "2027",
+      "bater",
+      "consumo",
+      "deve",
+      "energia",
+      "eua",
+      "impulsionado",
+      "nos",
+      "por",
+      "recordes"
+    ],
+    "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://c-level.folha.uol.com.br/ia/2026/10/consumo-de-energia-nos-eua-deve-bater-recordes-em-2026-e-2027-impulsionado-por-ia.shtml",
+    "title": "Consumo de energia nos EUA deve bater recordes em 2026 e 2027 impulsionado por IA",
+    "posted_title": "",
+    "region": "br",
+    "seen_at": "2026-10-07T09:08:08.889861+00:00"
   }
 ]
