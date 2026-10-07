@@ -1978,6 +1978,13 @@ youtube:
     # قد تنتج مقالًا أقصر مشروعًا لا يستحق رفضًا وإعادة محاولة.
     min_words: 250
     max_words: 750
+    # Issue #1272: سقف الاقتباس المباشر «» بالكلمات. مقاس على 106 مقالات: 10 فيها
+    # اقتباس أطول من 25 كلمة فصار المقال تجميع اقتباسات؛ ما زاد يُنقل كلامًا غير مباشر.
+    max_quote_words: 25
+    # Issue #1272: أدوار بلا اسم علم لا يجوز أن تكون مُسنَدًا إليه بعد فعل نسبة
+    # («بحسب ما عرضه مقدّم برنامج…»): 29 من 106 مقالًا نسبت هكذا فلا يعرف القارئ من القائل.
+    # تُنسب الواقعة حينئذ إلى القناة نفسها. تُقارَن بعد تجريد التشكيل.
+    unnamed_role_words: ["مقدّم", "مقدم", "مذيع", "مذيعة", "محاور", "الضيف"]
 
     # حارس التكرار القالبي (Issue #690 النقطة ٣) -- مراجعة سبعة مقالات
     # بالبنية النثرية كشفت هذه العبارات تحديدًا متكرّرة في كل مقال، أكثر من
@@ -2104,6 +2111,8 @@ channels:
   - handle: "@alarabiya"
     channel_id: "UCahpxixMCwoANAftn6IxkTg"
     name: "العربية"
+    # Issue #1272: «العربية» وحدها ترد في «الدول العربية» (23 من 106 مقالات مقابل 9 فقط «قناة العربية»)
+    mention_forms: ["قناة العربية"]
     language: "ar"
     bloc: "arabic"
     bias_note: "سعودية التمويل، مقرّها دبي"
@@ -2112,6 +2121,7 @@ channels:
   - handle: "@france24_ar"
     channel_id: "UCdTyuXgmJkG_O8_75eqej-w"
     name: "فرانس 24 عربي"
+    mention_forms: ["فرانس 24 عربي", "فرانس 24", "France 24"]
     language: "ar"
     bloc: "arabic"
     bias_note: "فرنسية عامة"
@@ -2120,6 +2130,8 @@ channels:
   - handle: "@cnnturk"
     channel_id: "UCV6zcRug6Hqp1UX_FdyUeBg"
     name: "CNN Türk"
+    name_ar: "سي إن إن ترك"
+    mention_forms: ["سي إن إن ترك", "سي إن إن تورك", "CNN Türk"]
     language: "tr"
     bloc: "turkish"
     bias_note: "تيار سائد"
@@ -2133,6 +2145,8 @@ channels:
   - handle: "@haberturktv"
     channel_id: "UCn6dNfiRE_Xunu7iMyvD7AA"
     name: "Habertürk"
+    name_ar: "هابر ترك"
+    mention_forms: ["هابر ترك", "هابرترك", "هابر تورك", "Habertürk"]
     language: "tr"
     bloc: "turkish"
     bias_note: "تيار سائد"
@@ -2146,6 +2160,8 @@ channels:
   - handle: "@Halktvkanali"
     channel_id: "UCf_ResXZzE-o18zACUEmyvQ"
     name: "Halk TV"
+    name_ar: "خلق تي في"
+    mention_forms: ["خلق تي في", "هالك تي في", "Halk TV"]
     language: "tr"
     bloc: "turkish"
     bias_note: "معارض"
@@ -2159,6 +2175,8 @@ channels:
   - handle: "@Sozcutelevizyonu"
     channel_id: "UCOulx_rep5O4i9y6AyDqVvw"
     name: "SÖZCÜ"
+    name_ar: "سوزجو"
+    mention_forms: ["سوزجو", "SÖZCÜ"]
     language: "tr"
     bloc: "turkish"
     bias_note: "معارض علماني"
@@ -2172,6 +2190,8 @@ channels:
   - handle: "@IRANINTL"
     channel_id: "UCat6bC0Wrqq9Bcq7EkH_yQw"
     name: "Iran International"
+    name_ar: "إيران إنترناشيونال"
+    mention_forms: ["إيران إنترناشيونال", "Iran International"]
     language: "fa"
     bloc: "persian"
     bias_note: "معارضة إيرانية"
@@ -2183,6 +2203,8 @@ channels:
   - handle: "@Rasadkadeh"
     channel_id: "UCAwjnLdBvZPVuCJU_8RHg_w"
     name: "رصدکده"
+    name_ar: "رصدكده"
+    mention_forms: ["رصدكده", "رصدکده"]
     language: "fa"
     bloc: "persian"
     bias_note: "من داخل إيران"
@@ -2194,6 +2216,7 @@ channels:
   - handle: "@C14news"
     channel_id: "UCKEImtWikw9usC1pl_9m1nQ"
     name: "ערוץ 14"
+    mention_forms: ["القناة 14"]
     name_ar: "القناة 14"   # الخط لا يملك حروفًا عبرية، Issue #1145
     language: "he"
     bloc: "israeli"
@@ -2219,6 +2242,8 @@ channels:
   - handle: "@haaretzcom"
     channel_id: "UCJboXXfoy9Ik4MKU9cpA-Uw"
     name: "Haaretz"
+    name_ar: "هآرتس"
+    mention_forms: ["هآرتس", "Haaretz"]
     language: "en"
     bloc: "israeli"
     bias_note: "يسار ليبرالي"
