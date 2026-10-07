@@ -1,0 +1,838 @@
+{
+  "run_date": "2026-10-07",
+  "stats": {
+    "points_in": 256,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 106,
+    "issues_clustered": 33,
+    "topics_merged": 3,
+    "topics_out": 4,
+    "dropped_by_bloc_cap": 2,
+    "topics_seen_skipped": 2,
+    "topics_below_min_points": 15,
+    "topics_below_min_channels": 7,
+    "layers": {
+      "3": 2,
+      "2": 2
+    },
+    "agreement": 1,
+    "cross_source": 2,
+    "internal": 0,
+    "echo": 1
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "تحالف مكة الدفاعي وتفعيله",
+      "الموقف التركي من حلف مكة"
+    ],
+    [
+      "تصريحات ترامب حول إيران وطائرة فلاي دبي وسحب القاذفات",
+      "محاولة اختطاف طائرة فلاي دبي وإجراءات الأمن الجوي الإسرائيلي"
+    ],
+    [
+      "إعدامات معترضي ساحة عليخاني في إيران",
+      "إحصائيات إعدامات المعترضين في إيران"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "التدخل الأمريكي في عملية اليمن",
+      "event": "نشر الولايات المتحدة مستشارين عسكريين في السعودية ودعم ترامب للعمليات ضد الحوثيين",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Iran International",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        46,
+        71,
+        93
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": null,
+      "id": "c054646ea06c",
+      "created_at": "2026-10-07T04:03:20.246092+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1268
+    },
+    {
+      "title": "استعادة المخا وباب المندب من الحوثيين",
+      "event": "سيطرة القوات الحكومية اليمنية المدعومة من التحالف على مدينة المخا وميناء ذباب وباب المندب",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Iran International",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        1,
+        21,
+        22,
+        23,
+        24,
+        26,
+        37,
+        44,
+        70,
+        78,
+        91,
+        92
+      ],
+      "total_points": 12,
+      "fresh_points": 12,
+      "dropped_reason": null,
+      "id": "54cfb761d05b",
+      "created_at": "2026-10-07T04:03:20.246092+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1268
+    },
+    {
+      "title": "تصريحات ترامب حول إيران وطائرة فلاي دبي وسحب القاذفات",
+      "event": "اتهام ترامب لإيران بمسؤوليتها عن واقعة طائرة فلاي دبي وسحب قاذفات أمريكية من قاعدة بريطانية",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "israeli"
+      ],
+      "channels": [
+        "ILTV",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        4,
+        75,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": null,
+      "id": "036cb32b6c7e",
+      "created_at": "2026-10-07T04:03:20.246092+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1268
+    },
+    {
+      "title": "احتجاجات الطلاب في فرنسا",
+      "event": "احتجاجات طلابية واسعة في فرنسا على الأوضاع التعليمية ورد الحكومة الأمني",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        95,
+        96,
+        109,
+        110,
+        111,
+        112,
+        114
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null,
+      "id": "226323c8ef65",
+      "created_at": "2026-10-07T04:03:20.246092+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1268
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "التدخل الأمريكي في عملية اليمن",
+      "event": "نشر الولايات المتحدة مستشارين عسكريين في السعودية ودعم ترامب للعمليات ضد الحوثيين",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Iran International",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        46,
+        71,
+        93
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": null
+    },
+    {
+      "title": "استعادة المخا وباب المندب من الحوثيين",
+      "event": "سيطرة القوات الحكومية اليمنية المدعومة من التحالف على مدينة المخا وميناء ذباب وباب المندب",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Iran International",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        1,
+        21,
+        22,
+        23,
+        24,
+        26,
+        37,
+        44,
+        70,
+        78,
+        91,
+        92
+      ],
+      "total_points": 12,
+      "fresh_points": 12,
+      "dropped_reason": null
+    },
+    {
+      "title": "تصريحات ترامب حول إيران وطائرة فلاي دبي وسحب القاذفات",
+      "event": "اتهام ترامب لإيران بمسؤوليتها عن واقعة طائرة فلاي دبي وسحب قاذفات أمريكية من قاعدة بريطانية",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "israeli"
+      ],
+      "channels": [
+        "ILTV",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        4,
+        75,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": null
+    },
+    {
+      "title": "احتجاجات الطلاب في فرنسا",
+      "event": "احتجاجات طلابية واسعة في فرنسا على الأوضاع التعليمية ورد الحكومة الأمني",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        95,
+        96,
+        109,
+        110,
+        111,
+        112,
+        114
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "تحالف مكة الدفاعي وتفعيله",
+      "event": "إعلان حلف مكة الدفاعي الالتزام بالدفاع المشترك عن السعودية وتفعيل التزاماته العسكرية",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        38,
+        41,
+        45,
+        88,
+        89,
+        90,
+        94,
+        130
+      ],
+      "total_points": 9,
+      "fresh_points": 6,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "خطاب نتنياهو في الأمم المتحدة وردود الفعل",
+      "event": "انسحاب وفود من الجمعية العامة أثناء خطاب نتنياهو ودخوله من ممر سري وانتقادات دولية له",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        14,
+        16,
+        127
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "تهديد ترامب بشأن السلاح النووي الإيراني وكاليفورنيا",
+      "event": "تحذير ترامب من قدرة إيران على تدمير مدن أمريكية نووياً وربط ذلك بدوافع انتخابية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        74,
+        76
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تعديل قانون الأخبار الكاذبة في تونس",
+      "event": "تعديل الرئيس التونسي قيس سعيد لقانون مكافحة الأخبار الكاذبة بتخفيف العقوبة السجنية مقابل غرامات مالية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "قدرات الحوثيين العسكرية وعلاقتهم بإيران",
+      "event": "تحليل قدرات الحوثيين العسكرية ومدى استقلاليتهم عن الدعم الإيراني",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        39,
+        40,
+        42,
+        43,
+        47,
+        48
+      ],
+      "total_points": 6,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "مضيق هرمز وصادرات النفط الإيرانية",
+      "event": "تأثير الأزمة الإيرانية الأمريكية على حركة الملاحة والنفط عبر مضيق هرمز",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        63,
+        67,
+        73
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تحليل الدوافع الاستراتيجية لحلف مكة والحرب الأمريكية الإيرانية",
+      "event": "تحليل خبراء الجزيرة لدوافع حلف مكة المرتبطة بالتهديد الحوثي وتطورات الصراع الأمريكي الإيراني",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        2,
+        3,
+        79
+      ],
+      "total_points": 3,
+      "fresh_points": 1,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "الخيار العسكري الأمريكي ضد إيران",
+      "event": "تقديرات محللي الجزيرة باحتمال حرب أمريكية إيرانية وتصاعد الضغط العسكري",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        5,
+        6,
+        80
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "التهديد الروسي الهجين في أوروبا والناتو",
+      "event": "تحذيرات من تصعيد روسي هجين (هجمات مسيّرات وتخريب) واحتمال حادث عرضي يورط الناتو",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        19,
+        84,
+        87
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "رفع ليتوانيا الحظر النووي ونشر ألمانيا قوات",
+      "event": "تصويت البرلمان الليتواني على رفع حظر نشر أسلحة نووية ونشر ألمانيا لواء عسكري في ليتوانيا",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        81,
+        82
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "وضع كالينينغراد الاستراتيجي",
+      "event": "تحليل الوضع الجغرافي والعسكري لمقاطعة كالينينغراد الروسية ودورها في التوتر مع الناتو",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        83,
+        85,
+        86
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الأزمة المالية التركية ونقد المعارضة",
+      "event": "انتقاد المعارضة التركية لتعامل أردوغان مع الأزمة المالية ونسبتها إلى تخريب خارجي",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        131,
+        132
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "انتقال جميل توغاي والخلاف السياسي حوله",
+      "event": "انتقال رئيس بلدية إزمير جميل توغاي من الحزب الجمهوري إلى حزب العدالة والتنمية وردود فعل أوزيل",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تصريحات باهتشلي حول الاستقرار السياسي والولاية الثالثة لأردوغان",
+      "event": "دعوة دولت باهتشلي لتمكين أردوغان من الترشح لولاية ثالثة عام 2028 وتثبيت النظام الرئاسي",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        123,
+        124,
+        125,
+        128,
+        129
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "انتقاد باهتشلي لإسرائيل وخطاب نتنياهو",
+      "event": "انتقاد باهتشلي لإسرائيل ووصفه خطاب نتنياهو بأنه وثيقة عار ودعوته لقوة إسلامية رادعة",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        126,
+        127
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "ضعف الحكومة الفرنسية وأزمتها السياسية والاقتصادية",
+      "event": "تحليل ضعف الحكومة الفرنسية الحالية وتداعياته على الأزمة الاقتصادية والسياسية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        97,
+        99,
+        101
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "اضطرابات أوروبا المرتبطة بالمهاجرين وصعود اليمين",
+      "event": "تحليل اضطرابات العنف في فرنسا وبريطانيا المرتبطة بالمهاجرين وصعود اليمين المتطرف في أوروبا",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تهديدات أمنية للسعودية من الحوثيين",
+      "event": "تحذيرات من هجمات حوثية محتملة على السعودية وتحذير أمريكي للمواطنين",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        35,
+        36
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "إعدامات معترضي ساحة عليخاني في إيران",
+      "event": "إعدام عليرضا سباهي وعليرضا رئيسي من معترضي ساحة عليخاني في إيران",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        56,
+        57,
+        58,
+        59,
+        60,
+        65,
+        69
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "اختفاء وقتل معارضين إيرانيين",
+      "event": "حالات اختفاء قسري وقتل لمعارضين إيرانيين وعائلاتهم",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        61,
+        62
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "وقف إطلاق النار في غزة وخروقه",
+      "event": "استمرار الخروقات والضحايا بعد وقف إطلاق النار في غزة وعدم انسحاب إسرائيل",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "اليمين المتطرف في إسبانيا",
+      "event": "تحليل خطاب وأنشطة حركة نوكليو ناسيونال الإسبانية اليمينية المتطرفة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        18,
+        20
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "انتخابات البرازيل الرئاسية وفوز بولسونارو",
+      "event": "فوز فلافيو بولسونارو على لولا في الجولة الأولى من الانتخابات الرئاسية البرازيلية وتداعياته",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "فضيحة فساد الحكام في كرة القدم التركية",
+      "event": "تحقيقات فساد في تحكيم مباريات الدوري التركي واعتقال مسؤولين",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        53,
+        54,
+        55
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تحقيقات الفساد البلدي في تركيا",
+      "event": "اعتقال مدير بلدية مرسين والتحقيق مع رئيس هيئة أسواق رأس المال السابق بتهم فساد مالي",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        50,
+        51,
+        52
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "التضخم الاقتصادي في تركيا",
+      "event": "ارتفاع معدلات التضخم السنوي في تركيا إلى نحو 30% وتأثيره على أسعار الغذاء",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        49,
+        133,
+        135
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    }
+  ]
+}
