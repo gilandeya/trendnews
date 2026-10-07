@@ -257,7 +257,8 @@ from tests.test_youtube import (
 )
 from tests.test_guards_golden import (test_guards_golden, test_important_false_guard,
                                       test_important_write_guards, test_names_audit_guards,
-                                      test_analysis_attribution_guards)
+                                      test_analysis_attribution_guards,
+                                      test_analysis_attribution_pipeline)
 from tests.test_names_audit import (test_names_audit_brave_counter, test_names_audit_other_sites,
                                     test_names_audit_pipeline,
                                     test_names_audit_prevention_writer, test_names_audit_review_learning)
@@ -617,6 +618,7 @@ def main() -> int:
     print("\n── حارس تدقيق أسماء الأشخاص g52–g56 (Issue #1252) ──")
     test_names_audit_guards()
     test_analysis_attribution_guards()
+    test_analysis_attribution_pipeline()
     print("\n── تدقيق أسماء الأشخاص على الأنبوب: 🚀 والمرحلتان 2 و3 والتعلّم والعدّاد (Issue #1252) ──")
     test_names_audit_pipeline()
     test_names_audit_prevention_writer()

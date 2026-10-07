@@ -2734,7 +2734,7 @@ def test_tall_card_layout_1161() -> None:
                      news_photo_provider=prov)
         texts_n = [d[0] for d in drawn]
         drawn.clear()
-        line = "تحليل لتغطية قناتي CNN Türk و Halk TV"
+        line = "تحليل لتغطية قناتي سي إن إن ترك و خلق تي في"
         draft_a = {"id": "tl0000000006", "status": "pending", "origin": "analysis",
                    "arabic": {"post_title": "تحليل", "category": ""},
                    "caption": "متن", "source": {"publishers": [line]}}
@@ -10784,7 +10784,7 @@ class _CountingClient:
 
 
 def _analysis_article_responses(title: str, headlines: list[str]) -> list:
-    text = (f"# {title}\n\n" + "كلمة " * 260 + "\n\nمرجّح أن يقع هذا التطوّر فعلًا.")
+    text = (f"# {title}\n\n" + "كلمة " * 260 + "\n\nمرجّح أن يقع هذا التطوّر فعلًا. وفق ما عرضته قناة الجزيرة وقناة CNN Türk وقناة ثالثة.")
     return [_FakeResp([_FakeBlock("text", text=text)]),
             _FakeResp([_FakeBlock("tool_use", input_={"headlines": headlines})])]
 

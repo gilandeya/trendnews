@@ -1306,6 +1306,28 @@ step (`article.wide_days`).
 - **التشغيل:** `collect.yml` يودِع `git add -A drafts state` أصلًا فيصل `state/press/` بلا تعديل workflow. `press.enabled: false` يعطّلها.
 - **الاختبارات:** `tests/test_collect.py:test_press_events` (a–e على `collect.main` بخلاصات مزيَّفة، ومقارنة المرشحين بتشغيلة بلا press).
 
+## جودة مقالات التحليل: النسبة والاقتباس (Issue #1272)
+
+بقرار صاحب المشروع، سببه المقال المنشور `drafts/2026-10-07/fe2a7c6fc1a0.json` («بحسب ما عرضه مقدّم برنامج على الجزيرة»، واقتباس لترامب يصل
+جملتين بـ«...»، وقناة ILTV لا تُذكر، وخاتمة «مرجّح بقوة» على كلام متحدث واحد). قياس 106 مقالات: 29 تنسب إلى «مقدّم» بلا اسم، 38 لا تسمّي قناة.
+
+- **أُلغي منع أسماء القنوات في المتن (#941)** — يبقى منع قسم `## المصادر` وحده. كل متحدث يُعرَّف عند أول ذكر: اسمه ثم صفته ثم قناته.
+  **وأُلغيت إلزامية الترجيح (#695)**: عبارة السلّم السداسي تُستعمل فقط إن قدّم متحدثان مختلفان فأكثر ما يسندها، وإلا يُختم المقال بما ينتظر
+  حسمه؛ يبقى منع أي لفظ ترجيح خارج السلّم. الشرط المقابل («لا عبارة ترجيح ← رفض») حُذف من الكود.
+- **`youtube_article.article_violations(text, cfg, member_points=None)`** تعيد كل المخالفات، و`_validate_article_text` يعيد أولها
+  (`member_points=None` يُبقي سلوك أي مستدعٍ آخر): نسبة إلى دور بلا اسم علم (`youtube.article.unnamed_role_words`) · «» يحوي «...»/«…» ·
+  «» أطول من `youtube.article.max_quote_words` (25) · قناة من النقاط غائبة عن المتن. `figure_quote_warnings` تنبيه لا رفض: «» بعد اسم من
+  `youtube.extract.known_figures` في الجملة نفسها، عبر `_append_warnings` فيظهر في المراجعة ويُنزَع قبل النشر. وعند الرفض تحمل المحاولة
+  التالية السبب («رُفضت المحاولة السابقة لهذا السبب: … — صحّحه دون تغيير ما سواه») بلا تجاوز `youtube.article.max_retries`.
+- **اسم القناة المعروض** (`display_channel_name`, و`_points_block`) = `channels[].name_ar` إن وُجد وإلا `name`؛ `name` لا يتغيّر أبدًا لأن
+  بقية المسار يعتمد عليه. ILTV وAll Israel News بلا `name_ar` عمدًا.
+- **`channels[].mention_forms` (اختياري)**: قائمة الصيغ المقبولة لذكر القناة في المتن؛ وإن غاب فالمقبول [الاسم المعروض، `name`]. المقارنة بعد
+  طيّ الطرفين (`_fold_mention`: بلا تشكيل، أ/إ/آ ← ا، أرقام هندية ← لاتينية، casefold). «العربية» تقبل «قناة العربية» وحدها لأن «العربية» ترد
+  في «الدول العربية». رسالة الرفض تذكر الاسم المعروض.
+- **الاختبارات:** g57–g65 في `tests/test_guards_golden.py` و`test_analysis_attribution_pipeline` (a–d). أثر `name_ar` الجديد على بطاقات
+  التحليل (#1145/#1158) عدّل نصّين في `tests/test_review.py`/`test_guards_golden.py` وقاعدة #1145 في `test_collect.py` (مثال «اسم لاتيني بلا
+  name_ar» صار ILTV بدل Iran International).
+
 ## Retired paths
 
 - **«مقال» (`src/article.py`, label `مقال`, `.github/workflows/article.yml`) and «طلب» (`src/request.py`, label `طلب`
@@ -1437,7 +1459,7 @@ single `tests/test_pipeline.py` had grown past 18,000 lines and become unwieldy 
   grounded-fact exemption (#865), `article._source_fact_duplicate_index`'s topic guard (#824),
   `article.draft_investigation`'s negation-word guard (#765), `headlines.validate_headlines`'s
   question-mark guard (#756), and `youtube_article._validate_article_text`'s structure guard
-  (#941, forbidding a `## المصادر` section since articles may no longer name their sources).
+  (#941; still forbids a `## المصادر` section, but **no longer forbids channel names in the body** — Issue #1272 reversed that, see "جودة مقالات التحليل" below), and g57–g65 (#1272, `test_analysis_attribution_guards`).
 
 - **`tests/test_important.py`** (Issue #1194) — مسار «هام»: الأنبوب كاملًا (نص ← `important.judge` ← الملف
   المحفوظ) بعدّة `ImportantRig` المزيَّفة في `tests/helpers.py`؛ وحالات حارس `false` g1–g6 في

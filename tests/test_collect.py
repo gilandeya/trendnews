@@ -2541,7 +2541,7 @@ def test_footer_publisher_names() -> None:
           imaging.resolve_publisher_names(["ערוץ 14", "BBC 中文"], cfg)
           == ["القناة 14", "بي بي سي الصينية"])
     check("(#1145) اسم لاتيني بلا name_ar يبقى كما هو",
-          imaging.resolve_publisher_names(["Iran International"], cfg) == ["Iran International"])
+          imaging.resolve_publisher_names(["ILTV"], cfg) == ["ILTV"])
     check("(#1145) اسم داخل عبارة أطول يُستبدل جزئيًا («صورة: ערוץ 14»)",
           imaging.resolve_publisher_names(["صورة: ערוץ 14"], cfg) == ["صورة: القناة 14"])
 
@@ -2575,13 +2575,13 @@ def test_footer_publisher_names() -> None:
 
     imaging.draw_text = spy
     try:
-        lines = build(["Iran International", "ערוץ 14"], "footer_1145_a.jpg")
-        check("(#1145) سطر المصدر المرسوم «المصدر: Iran International، القناة 14»",
-              lines == ["المصدر: Iran International، القناة 14"], lines)
+        lines = build(["ILTV", "ערוץ 14"], "footer_1145_a.jpg")
+        check("(#1145) سطر المصدر المرسوم «المصدر: ILTV، القناة 14»",
+              lines == ["المصدر: ILTV، القناة 14"], lines)
 
-        lines = build(["Iran International", "שם עברי לא معروف"], "footer_1145_b.jpg")
+        lines = build(["ILTV", "שם עברי לא معروف"], "footer_1145_b.jpg")
         check("(#1145) ناشر عبري غير موجود في الإعداد يُحذف من السطر",
-              lines == ["المصدر: Iran International"], lines)
+              lines == ["المصدر: ILTV"], lines)
         check("(#1145) وتُسجَّل log.warning باسمه",
               any("שם עברי לא معروف" in r.getMessage() for r in records),
               [r.getMessage() for r in records])

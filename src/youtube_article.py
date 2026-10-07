@@ -623,9 +623,32 @@ def _quote_violations(body: str, cfg: Config) -> list[str]:
     return out
 
 
+_INDIC_DIGITS = str.maketrans("٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹", "01234567890123456789")
+
+
+def _fold_mention(text: str) -> str:
+    """طيّ الطرفين قبل مقارنة ذكر القناة (Issue #1272): بلا تشكيل، أ/إ/آ ← ا، أرقام هندية ← لاتينية،
+    casefold -- فـ«ايران انترناشيونال» بلا همزة تطابق «إيران إنترناشيونال»."""
+    t = _TASHKEEL_STRIP_RE.sub("", text).translate(_INDIC_DIGITS)
+    t = t.replace("أ", "ا").replace("إ", "ا").replace("آ", "ا")
+    return t.casefold()
+
+
+def channel_mention_forms(name: str, cfg: Config) -> list[str]:
+    """الصيغ المقبولة لذكر قناة في المتن: channels[].mention_forms إن وُجدت (قائمة كاملة)، وإلا
+    [الاسم المعروض، name]. العربية مثلًا لا يكفيها «العربية» لأنها ترد في «الدول العربية»."""
+    for ch in cfg.path("channels", []) or []:
+        if isinstance(ch, dict) and ch.get("name") == name:
+            forms = ch.get("mention_forms")
+            if forms:
+                return [f for f in forms if isinstance(f, str) and f]
+            break
+    return [display_channel_name(name, cfg), name]
+
+
 def _missing_channels(body: str, member_points: list[dict], cfg: Config) -> list[str]:
     seen, missing = set(), []
-    folded = body.casefold()
+    folded = _fold_mention(body)
     for p in member_points or []:
         name = (p.get("channel") or "").strip()
         if not name:
@@ -634,7 +657,7 @@ def _missing_channels(body: str, member_points: list[dict], cfg: Config) -> list
         if shown in seen:
             continue
         seen.add(shown)
-        if shown.casefold() not in folded:
+        if not any(_fold_mention(f) in folded for f in channel_mention_forms(name, cfg)):
             missing.append(shown)
     return missing
 

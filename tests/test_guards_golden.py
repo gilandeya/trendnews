@@ -912,7 +912,7 @@ def test_guards_golden() -> None:
     imaging_1158.download_image = lambda *a, **k: photo_1158  # type: ignore
     out_1158 = DRAFTS_DIR / "golden_1158.jpg"
     try:
-        analysis_line = "تحليل لتغطية CNN Türk وHalk TV"
+        analysis_line = "تحليل لتغطية سي إن إن ترك وخلق تي في"
         imaging_1158.build_post_image(
             headline="عنوان تحليل تجريبي", category="", urgent=False,
             image_urls=None, fallback_urls=["https://example.com/x.jpg"],
@@ -1862,3 +1862,108 @@ def test_analysis_attribution_guards() -> None:
     check("g61: التنبيه غائب عن النص المنشور", "اقتباس مباشر" not in published, published[-200:])
     other = article("وقال خبير مسمّى: «هذا ما نراه اليوم». ثم انتهى الحديث.")
     check("g61: «» بلا اسم شخصية عامة ← لا تنبيه", ya.figure_quote_warnings(other, cfg) == [])
+
+    # ── g62–g65: ذكر القناة بصيغها المقبولة (mention_forms، Issue #1272) ──
+    def chan_bad(extra: str, channel: str) -> list:
+        return [x for x in bad(article(extra), [{"channel": channel}]) if "غائبة" in x]
+
+    v = chan_bad("وتحدّثت الدول العربية عن الأمر.", "العربية")
+    check("g62: «العربية» وحدها في «الدول العربية» ← قناة غائبة (العربية)",
+          len(v) == 1 and "(العربية)" in v[0], v)
+    check("g62: «قناة العربية» ← لا مخالفة", chan_bad("وفق ما عرضته قناة العربية.", "العربية") == [])
+    check("g63: «سي إن إن ترك» لقناة CNN Türk ← لا مخالفة",
+          chan_bad("وفق ما عرضته قناة سي إن إن ترك.", "CNN Türk") == [])
+    check("g64: «ايران انترناشيونال» بلا همزة ← لا مخالفة",
+          chan_bad("وفق ما عرضته قناة ايران انترناشيونال.", "Iran International") == [])
+    check("g65: «Haaretz» باللاتينية ← لا مخالفة", chan_bad("وفق ما نشرته Haaretz.", "Haaretz") == [])
+    check("g65: لا ذكر لهآرتس ← مخالفة",
+          len(chan_bad("وفق ما نشرته صحيفة.", "Haaretz")) == 1)
+
+    # إعداد: كل mention_forms تحوي الاسم المعروض للقناة نفسها بعد الطيّ
+    for ch in cfg.path("channels", []):
+        forms = ch.get("mention_forms")
+        if forms:
+            shown = ya._fold_mention(ya.display_channel_name(ch["name"], cfg))
+            # «قناة العربية» تحوي «العربية» ولا تساويها عمدًا: الاسم وحده يرد في «الدول العربية»
+            check("إعداد: mention_forms لـ" + ch["name"] + " تحوي الاسم المعروض",
+                  any(shown in ya._fold_mention(f) for f in forms), forms)
+    check("إعداد: ILTV وAll Israel News بلا name_ar كما قُرِّر",
+          all(ch.get("name_ar") is None for ch in cfg.path("channels", [])
+              if ch["name"] in ("ILTV", "All Israel News")))
+
+
+def test_analysis_attribution_pipeline() -> None:
+    """Issue #1272 (الاختبارات a–d على مخرج الأنبوب)."""
+    import json
+    from pathlib import Path
+    from src import youtube_article as ya
+
+    cfg = load_config()
+    real = Path(__file__).resolve().parent.parent / "drafts" / "2026-10-07" / "fe2a7c6fc1a0.json"
+    published = json.loads(real.read_text(encoding="utf-8"))["caption"]
+
+    # (a) النص المنشور الحقيقي مع قناتين ILTV والجزيرة ← المخالفات الثلاث
+    v = ya.article_violations(published, cfg, [{"channel": "ILTV"}, {"channel": "الجزيرة"}])
+    print("   (a) مخالفات النص المنشور fe2a7c6fc1a0:")
+    for line in v:
+        print("      -", line)
+    check("(a) النسبة بلا اسم علم", any("بلا اسم علم" in x for x in v), v)
+    check("(a) الوصل بـ«...»", any("..." in x and "اقتباس" in x for x in v), v)
+    check("(a) غياب ILTV", any("ILTV" in x and "غائبة" in x for x in v), v)
+    check("(a) المخالفات الثلاث المطلوبة + اقتباس طويل رابع حقيقي (45 كلمة)",
+          len(v) == 4 and any("45 كلمة" in x for x in v), v)
+
+    # (b) draft_article بعميل مزيَّف: ردّ يخالف g57 ثم ردّ سليم
+    class _B:
+        type = "text"
+
+        def __init__(self, t):
+            self.text = t
+
+    class _R:
+        stop_reason = "end_turn"
+        usage = None
+
+        def __init__(self, t):
+            self.content = [_B(t)]
+
+    class _M:
+        def __init__(self, texts):
+            self.texts, self.calls = list(texts), []
+
+        def create(self, **kw):
+            self.calls.append(kw)
+            return _R(self.texts.pop(0))
+
+    class _C:
+        def __init__(self, texts):
+            self.messages = _M(texts)
+
+    filler = " ".join(["كلمة"] * 280)
+    bad_text = "# عنوان لقضية ما؟\n\n" + filler + "\n\nوبحسب ما عرضه مقدّم برنامج على الجزيرة، فإن الأمر كذلك.\n"
+    good_text = "# عنوان لقضية ما؟\n\n" + filler + "\n\nوبحسب ما عرضته قناة الجزيرة، فإن الأمر كذلك.\n"
+    client = _C([bad_text, good_text])
+    topic = {"title": "قضية", "agreement": "agreement"}
+    out, reason = ya.draft_article(topic, [{"channel": "الجزيرة", "speaker": "س", "type": "fact"}],
+                                   cfg, client=client)
+    calls = client.messages.calls
+    check("(b) الردّ السليم بعد المخالف يُقبَل", out == good_text.strip() and reason is None, reason)
+    check("(b) نداءان فقط", len(calls) == 2, len(calls))
+    last = calls[1]["messages"][-1]["content"]
+    check("(b) النداء الثاني يحمل سبب الرفض",
+          "رُفضت المحاولة السابقة لهذا السبب" in last and "بلا اسم علم" in last
+          and "صحّحه دون تغيير ما سواه" in last, last)
+    c2 = _C([bad_text] * 10)
+    out2, _ = ya.draft_article(topic, [{"channel": "الجزيرة"}], cfg, client=c2)
+    check("(b) عدد النداءات لا يتجاوز max_retries",
+          out2 is None and len(c2.messages.calls) == cfg.path("youtube.article.max_retries", 3),
+          len(c2.messages.calls))
+
+    # (c) _points_block يعرض «القناة 14»
+    block = ya._points_block([{"channel": "ערוץ 14", "bloc": "israeli", "speaker": "س"}], cfg)
+    check("(c) _points_block يعرض «القناة 14» لا الاسم العبري",
+          "القناة: القناة 14" in block and "ערוץ" not in block, block)
+
+    # (d) مقال بلا عبارة ترجيح مقبول
+    ok, why = ya._validate_article_text("# عنوان لقضية ما؟\n\n" + filler + "\n", cfg)
+    check("(d) مقال بلا عبارة ترجيح ← مقبول", ok, why)

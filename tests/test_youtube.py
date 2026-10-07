@@ -2015,7 +2015,7 @@ def test_youtube_article() -> None:
         filler = " ".join(["كلمة"] * filler_words)
         likelihood_sentence = ("وهذا مرجّح بقوة، ولا يسندها إلا مصدر واحد."
                                 if include_likelihood else "")
-        parts = [filler, likelihood_sentence, extra_body]
+        parts = [filler, likelihood_sentence, "وفق ما عرضته قناة الجزيرة وقناة CNN Türk وقناة ثالثة.", extra_body]
         body = "\n\n".join(p for p in parts if p)
         return f"# {title}\n\n{body}\n"
 
@@ -3784,7 +3784,7 @@ def test_youtube_publish() -> None:
         # الثاني تتخطّاه بوابة الصورة *قبل* أي نداء نموذج، الثالث فوق السقف
         # فلا يُحاوَل بعد -- عميل بردّين فقط يكفي ويُثبت عدم إهدارهما.
         w1_article = ("# هل يقع هذا التطوّر فعلًا؟\n\n" + "كلمة " * 260 +
-                     "\n\nمرجّح أن يقع هذا التطوّر فعلًا.")
+                     "\n\nمرجّح أن يقع هذا التطوّر فعلًا. وفق ما عرضته قناة الجزيرة وقناة CNN Türk وقناة ثالثة.")
         batch1_client = _Client2([
             _Resp2([_Block2("text", text=w1_article)]),
             _Resp2([_Block2("tool_use", input_={"headlines": [
@@ -3839,7 +3839,7 @@ def test_youtube_publish() -> None:
         # وأحد سابقيه معًا (لو أُعيد الأول/الثاني لاستُنفد العميل بردّين
         # إضافيين مفقودين وانهار الاختبار).
         w3_article = ("# هل يستمر هذا التطوّر الثاني؟\n\n" + "كلمة " * 260 +
-                     "\n\nمرجّح أن يستمر هذا التطوّر الثاني.")
+                     "\n\nمرجّح أن يستمر هذا التطوّر الثاني. وفق ما عرضته قناة الجزيرة وقناة CNN Türk وقناة ثالثة.")
         batch2_client = _Client2([
             _Resp2([_Block2("text", text=w3_article)]),
             _Resp2([_Block2("tool_use", input_={"headlines": [
@@ -4051,7 +4051,7 @@ def test_youtube_image_news_photo() -> None:
 
     article_text_np = (
         "# هل يقع هذا التطور فعلًا؟\n\n" + "كلمة " * 260
-        + "\n\nمرجّح أن يقع هذا التطور فعلًا."
+        + "\n\nمرجّح أن يقع هذا التطور فعلًا. وفق ما عرضته قناة الجزيرة وقناة CNN Türk وقناة ثالثة."
     )
     np_run_client = _NPClient([
         _NPResp(text=article_text_np),
