@@ -1,7 +1,7 @@
 {
   "id": "01cb08606d0c",
   "created_at": "2026-10-07T07:31:07.464206+00:00",
-  "status": "pending",
+  "status": "queued",
   "origin": "analysis",
   "title": "هل تعيد السيطرة على المخا وباب المندب تأمين الساحل الغربي اليمني؟",
   "tier": 3,
@@ -94,5 +94,6 @@
     "web_search_query": null,
     "web_search_tried": 0,
     "web_search_skipped": null
-  }
+  },
+  "publish_at": "2026-10-07T08:25:45.968729+00:00"
 }

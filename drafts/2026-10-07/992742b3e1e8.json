@@ -1,7 +1,7 @@
 {
   "id": "992742b3e1e8",
   "created_at": "2026-10-07T07:33:15.825493+00:00",
-  "status": "pending",
+  "status": "queued",
   "origin": "analysis",
   "title": "ما دوافع احتجاجات الطلاب الفرنسيين وتأثيراتها على القطاع التعليمي؟",
   "tier": 2,
@@ -87,5 +87,6 @@
     "web_search_query": null,
     "web_search_tried": 0,
     "web_search_skipped": null
-  }
+  },
+  "publish_at": "2026-10-07T08:29:17.558881+00:00"
 }
