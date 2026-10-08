@@ -1,64 +1,56 @@
 {
   "issue": 1278,
   "body_hash": "4ea226775aa564da1f33466de012af2a6a2986b7",
-  "rules_version": 2,
-  "selection_issue": 1287,
-  "created_at": "2026-10-08T09:45:01.797659+00:00",
-  "topic": "السياسة الأميركية تجاه حزب الله والمنطقة والمنافسة الجيوسياسية",
+  "rules_version": 3,
+  "selection_issue": 1290,
+  "created_at": "2026-10-08T12:54:43.930734+00:00",
+  "topic": "وزارة الخارجية الأميركية وحزب الله والسياسة الإقليمية",
   "error": null,
   "model": "claude-sonnet-5",
   "extract_model": "claude-haiku-4-5-20251001",
   "brave": {
-    "requests": 45,
+    "requests": 27,
     "skipped": null,
-    "monthly_usage": 334,
+    "monthly_usage": 361,
     "monthly_cap": 600
   },
   "model_calls": {
-    "total": 11,
+    "total": 13,
     "by_model": {
       "claude-haiku-4-5-20251001": 1,
-      "claude-sonnet-5": 10
+      "claude-sonnet-5": 12
     },
     "brief": 1,
     "by_point": {
-      "f10fd04092b4": 1,
+      "146b9028aaf8": 2,
       "80943d3f4957": 2,
-      "c03493d99307": 1,
-      "577c16cffbc9": 1,
-      "12af8d0d4503": 1,
-      "6bec9b71addc": 2,
-      "c7534cde2202": 1,
-      "292fb9802908": 1
+      "b9b509d74af8": 1,
+      "577c16cffbc9": 2,
+      "a845c7b1292b": 2,
+      "1997fd65564a": 1,
+      "af25bf4eec59": 1,
+      "71f90cd92b3a": 1
     }
   },
-  "truncated": {
-    "extracted": 9,
-    "judged": 8,
-    "skipped": [
-      {
-        "id": "71f90cd92b3a",
-        "text": "حزب الله جزء من المنظومة الإيرانية في المنطقة"
-      }
-    ]
-  },
+  "truncated": null,
   "points": [
     {
-      "id": "f10fd04092b4",
-      "text": "وزارة الخارجية الأميركية تصرّح بأن حزب الله لن يتعافى أبداً في ظل إدارة ترمب",
-      "claim": "وزارة الخارجية الأميركية تصرّح بأن حزب الله لن يتعافى أبداً في ظل إدارة ترمب",
+      "id": "146b9028aaf8",
+      "text": "وزارة الخارجية الأميركية أعلنت أن حزب الله لن يتعافى أبداً في ظل إدارة ترمب",
+      "claim": "وزارة الخارجية الأميركية أعلنت أن حزب الله لن يتعافى أبداً في ظل إدارة ترمب",
       "framing": "circulating",
       "circulating_context": "تصريحات منسوبة إلى وزارة الخارجية الأميركية",
       "asserted": "",
       "queries": [
-        "تصريح وزارة الخارجية حزب الله ترمب تحقق",
-        "وزارة الخارجية الأمريكية حزب الله ترمب التعافي"
+        "تصريحات وزارة الخارجية الأميركية عن حزب الله تحقق",
+        "وزارة الخارجية الأميركية تصريحات حزب الله ترمب"
       ],
       "site_queries": [
         "وزارة الخارجية الأميركية حزب الله site:misbar.com",
         "وزارة الخارجية الأميركية حزب الله site:fatabyyano.net",
         "وزارة الخارجية الأميركية حزب الله site:factcheck.afp.com",
-        "وزارة الخارجية الأميركية حزب الله site:reuters.com/fact-check"
+        "وزارة الخارجية الأميركية حزب الله site:reuters.com/fact-check",
+        "وزارة الخارجية الأميركية حزب الله site:state.gov"
       ],
       "engines": [
         "brave_web",
@@ -66,10 +58,11 @@
       ],
       "windows": [
         "days",
+        "days",
         "days"
       ],
       "brave_skipped": null,
-      "cache_hits": 0,
+      "cache_hits": 4,
       "checker_skipped": [
         {
           "publisher": "Misbar",
@@ -103,11 +96,6 @@
         },
         {
           "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%85%D8%AA%D8%AF%D8%A7%D9%88%D9%84-%D8%AE%D8%A7%D8%B1%D8%AC-%D8%B3%D9%8A%D8%A7%D9%82%D9%87-%D8%A7%D9%84%D8%A3%D8%B5%D9%84%D9%8A%D8%9B-%D9%88/",
-          "title": "هذا الفيديو مجتزأ من سياقه، لم يصف وزير الخارجية الالباني أمريكا بالشيطان امام بلينكن بل كان يتحدث عن رأي النظام السابق "
-        },
-        {
-          "publisher": "Fatabyyano",
           "link": "https://fatabyyano.net/en/%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%82%D8%AF%D9%8A%D9%85-%D9%84%D9%82%D8%A7%D8%AD-%D9%83%D9%88%D9%81%D9%8A%D8%AF19-%D9%84%D9%8A%D8%B3-%D9%84%D8%AA%D9%82%D9%84%D9%8A%D9%84-%D8%B3%D9%83%D8%A7%D9%86/",
           "title": "هذا المقطع قديم ومجتزأ والادعاء القائل بأن لقاح كوفيد-19 من أجل تقليل سكان العالم هو ادّعاء مضلل - فتبينوا"
         },
@@ -128,18 +116,8 @@
         },
         {
           "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/en/%D8%A7%D9%84%D8%AA%D8%B1%D8%AC%D9%85%D8%A9-%D8%A7%D9%84%D9%85%D8%B1%D9%81%D9%82%D8%A9-%D8%A8%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%85%D9%81%D8%A8%D8%B1%D9%83%D8%A9%D8%8C-%D9%88-5/",
-          "title": "الترجمة المرفقة بهذا المقطع مفبركة، ولم يصرح دونالد ترامب ان مداخيل الحج لا تخص السعودية وحدها - فتبينوا"
-        },
-        {
-          "publisher": "Fatabyyano",
           "link": "https://fatabyyano.net/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%82%D8%AF%D9%8A%D9%85%D8%8C-%D9%88%D9%84%D8%A7-%D9%8A%D8%B5%D9%88%D8%B1-%D8%B1%D9%81%D8%B6-%D9%88%D8%B2%D9%8A%D8%B1-%D8%A7%D9%84%D8%AE%D8%A7/",
           "title": "هذا المقطع قديم، ولا يصور رفض وزير الخارجية المغربي الإجابة على سؤال عن مقترح ترامب بترحيل سكان غزة - فتبينوا"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/AFP-USA",
-          "title": "AFP USA | Fact Check"
         },
         {
           "publisher": "AFP Fact Check",
@@ -155,11 +133,6 @@
           "publisher": "AFP Fact Check",
           "link": "https://factcheck.afp.com/Contact",
           "title": "Contact | Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/doc.afp.com.A33Y6NR",
-          "title": "Posts share fabricated Kim Jong Un warning to Israel over Middle East war | Fact Check"
         },
         {
           "publisher": "AFP Fact Check",
@@ -219,29 +192,43 @@
         },
         {
           "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%82%D8%AF%D9%8A%D9%85%D8%8C-%D9%88%D9%84%D9%8A%D8%B3-%D9%85%D9%86-%D8%A5%D8%B7%D9%84%D8%A7%D9%82-%D8%B5%D9%88%D8%A7%D8%B1%D9%8A%D8%AE/",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%85%D8%AA%D8%AF%D8%A7%D9%88%D9%84-%D8%AE%D8%A7%D8%B1%D8%AC-%D8%B3%D9%8A%D8%A7%D9%82%D9%87-%D8%A7%D9%84%D8%A3%D8%B5%D9%84%D9%8A%D8%9B-%D9%88/",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 2634,
-          "excerpt_chars": 649,
+          "page_chars": 1771,
+          "excerpt_chars": 1945,
           "same_event": false,
           "as_of": "",
           "superseded_by": null,
           "claim_review": {
-            "claim_reviewed": "مقطع فيديو يظهر اطلاق صواريخ من قبل حزب الله",
+            "claim_reviewed": "أشجع رئيس في العالم يقولها في وجه ممثل الشيطان أمريكا ثلاث شياطين في العالم هم أمريكا و إسرائيل و الاتحاد السوفياتي",
             "label": "مضلل",
-            "date_published": "2026-05-28"
+            "date_published": "2024-06-25"
           },
           "stance": "irrelevant"
         },
         {
-          "publisher": "Al Jazeera",
-          "link": "https://www.aljazeera.net/opinions/2026/7/23/%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D8%A8%D8%A7%D9%82-%D9%88%D9%87%D8%B0%D8%A7-%D9%85%D8%A7-%D8%A3%D8%B9%D8%B7%D8%A7%D9%87-%D8%AA%D8%B1%D9%85%D8%A8",
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/AFP-USA",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 7270,
+          "page_chars": 314,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "Iran International",
+          "link": "https://www.iranintl.com/ar/202609247897",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 20000,
           "excerpt_chars": 1800,
           "same_event": false,
           "as_of": "",
@@ -250,46 +237,46 @@
           "stance": "irrelevant"
         },
         {
-          "publisher": "verify-sy.com",
-          "link": "https://www.verify-sy.com/ar/topic/regional-global/newsroom/rubio-syria-hezbollah-trump-aoun",
+          "publisher": "صوت الإمارات",
+          "link": "https://www.voiceofemirates.com/politics/2026/10/08/%D9%81%D8%B4%D9%84-%D8%AA%D9%88%D8%B3%D9%8A%D8%B9-%D8%AE%D8%B7%D8%A9-%D9%86%D8%B2%D8%B9-%D8%B3%D9%84%D8%A7%D8%AD-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D8%A8%D8%AC%D9%86%D9%88%D8%A8-%D9%84%D8%A8/",
           "orig_link": null,
           "resolved": true,
           "engine": "google_news",
-          "page_chars": 5152,
-          "excerpt_chars": 1779,
-          "same_event": false,
+          "page_chars": 1704,
+          "excerpt_chars": 0,
+          "same_event": null,
           "as_of": "",
           "superseded_by": null,
           "claim_review": null,
-          "stance": "irrelevant"
+          "stance": "outside"
         },
         {
-          "publisher": "A5r5br",
-          "link": "https://a5r5br.net/lebanon/local-news/8262309-%D9%85%D8%B3%D8%A4%D9%88%D9%84-%D9%81%D9%8A-%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D9%84%D9%84%D8%AC%D8%AF%D9%8A%D8%AF-%D9%86%D9%88%D8%A7%D8%B5%D9%84-%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85-%D8%AC%D9%85%D9%8A%D8%B9-%D8%A7%D9%84%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AA%D8%A7%D8%AD%D8%A9-%D9%84%D8%AA%D8%B9%D8%B7%D9%8A%D9%84-%D8%B4%D8%A8%D9%83%D8%A7%D8%AA-%D8%A7%D9%84%D8%AF%D8%B9%D9%85-%D8%A7%D9%84%D9%85%D8%A7%D9%84%D9%8A-%D9%84%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87",
+          "publisher": "An Nahar",
+          "link": "https://www.annahar.com/lebanon/355044/%D8%B1%D8%AF-%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A-%D8%B9%D9%84%D9%89-%D8%AA%D9%82%D8%B1%D9%8A%D8%B1-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D8%A8%D9%80200-%D9%85%D9%84%D9%8A%D9%88%D9%86-%D8%AF%D9%88%D9%84%D8%A7%D8%B1-%D8%A7%D9%84%D8%A3%D9%85%D9%88%D8%A7%D9%84-%D8%BA%D9%8A%D8%B1-%D9%85%D9%88%D8%AC%D9%88%D8%AF%D8%A9",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 731,
-          "excerpt_chars": 731,
-          "same_event": false,
+          "page_chars": 1739,
+          "excerpt_chars": 0,
+          "same_event": null,
           "as_of": "",
           "superseded_by": null,
           "claim_review": null,
-          "stance": "related_other"
+          "stance": "outside"
         },
         {
-          "publisher": "Lebanon 24",
-          "link": "https://www.lebanon24.com/news/lebanon/1580170/%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%B3%D9%86%D9%88%D8%A7%D8%B5%D9%84-%D8%AE%D9%86%D9%82-%D9%85%D8%B5%D8%A7%D8%AF%D8%B1-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D8%A8%D8%A7%D9%84%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA",
+          "publisher": "A5r5br",
+          "link": "https://a5r5br.net/lebanon/local-news/8269880-%D9%85%D8%AA%D8%AD%D8%AF%D8%AB-%D8%A8%D8%A7%D8%B3%D9%85-%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%8A%D8%B3%D8%B9%D9%89-%D8%A5%D9%84%D9%89-%D8%AA%D8%B1%D9%88%D9%8A%D8%AC-%D8%B1%D9%88%D8%A7%D9%8A%D8%A7%D8%AA-%D8%B9%D8%A8%D8%B1-%D9%85%D8%B5%D8%A7%D8%AF%D8%B1-%D9%85%D8%AC%D9%87%D9%88%D9%84%D8%A9-%D9%88%D8%A7%D9%84%D8%A3%D9%85%D9%88%D8%A7%D9%84-%D8%A7%D9%84%D8%AA%D9%8A-%D9%8A%D8%AA%D8%AD%D8%AF%D8%AB-%D8%B9%D9%86%D9%87%D8%A7-%D8%BA%D9%8A%D8%B1-%D9%85%D9%88%D8%AC%D9%88%D8%AF%D8%A9",
           "orig_link": null,
           "resolved": true,
-          "engine": "google_news",
-          "page_chars": 2405,
-          "excerpt_chars": 1678,
-          "same_event": true,
+          "engine": "brave_web",
+          "page_chars": 1221,
+          "excerpt_chars": 0,
+          "same_event": null,
           "as_of": "",
           "superseded_by": null,
           "claim_review": null,
-          "stance": "supports"
+          "stance": "outside"
         },
         {
           "publisher": "إرم نيوز",
@@ -298,49 +285,105 @@
           "resolved": true,
           "engine": "google_news",
           "page_chars": 1511,
-          "excerpt_chars": 1511,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "Independent Arabia",
+          "link": "https://www.independentarabia.com/node/649638/%D8%A7%D9%84%D8%A3%D8%AE%D8%A8%D8%A7%D8%B1/%D9%88%D8%A7%D8%B4%D9%86%D8%B7%D9%86-%D8%AA%D8%B5%D8%B1%D9%8A%D8%AD%D8%A7%D8%AA-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D9%86-%D8%A7%D9%84%D8%B9%D8%A7%D9%85-%D9%84%D9%80-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%85%D8%AD%D8%A7%D9%88%D9%84%D8%A9-%D9%84%D9%86%D8%B4%D8%B1-%D8%A7%D9%84%D9%81%D9%88%D8%B6%D9%89-%D9%81%D9%8A-%D9%84%D8%A8%D9%86%D8%A7%D9%86",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 8030,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "صدى البلد",
+          "link": "https://www.elbalad.news/7124582",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 1498,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "الجزيرة نت",
+          "link": "https://www.aljazeera.net/news/2026/9/20/%D8%B9%D8%A7%D8%AC%D9%84-%D8%AA%D8%B1%D9%85%D8%A8-%D9%84%D9%81%D9%88%D9%83%D8%B3-%D9%86%D9%8A%D9%88%D8%B2-%D8%A7%D9%84%D8%AE%D9%8A%D8%A7%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D8%AD%D8%A7%D9%84%D9%8A%D8%A9",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 2518,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "U.S. Department of State",
+          "link": "https://www.state.gov/translations/%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9/%D9%81%D8%B1%D8%B6-%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA-%D8%B9%D9%84%D9%89-%D8%B4%D8%A8%D9%83%D8%A9-%D8%B9%D8%A7%D9%84%D9%85%D9%8A%D8%A9-%D8%AA%D8%AF%D8%B9%D9%85-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "shared",
+          "page_chars": 1874,
+          "excerpt_chars": 0,
           "same_event": true,
           "as_of": "",
           "superseded_by": null,
           "claim_review": null,
-          "stance": "supports"
+          "stance": "conflicts_detail"
         },
         {
-          "publisher": "LBCIV7",
-          "link": "https://www.lbcgroup.tv/news/breaking-news/961707/%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D9%81%D9%8A-%D8%B8%D9%84-%D8%A5%D8%AF%D8%A7%D8%B1%D8%A9-%D8%A7%D9%84%D8%B1%D8%A6%D9%8A%D8%B3-%D8%AA%D8%B1%D8%A7%D9%85%D8%A8-%D9%84%D9%86-%D9%8A%D8%AA%D9%85%D9%83%D9%86-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%85%D9%86-%D8%A7%D9%84%D8%AA%D8%B9%D8%A7/ar",
+          "publisher": "CNN",
+          "link": "https://cnnbusinessarabic.com/energy-and-sustainability/1149751/%D8%B1%D9%88%D9%8A%D8%AA%D8%B1%D8%B2-%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D8%A7-%D9%88%D8%B1%D9%88%D8%B3%D9%8A%D8%A7-%D8%AA%D8%A8%D8%AD%D8%AB%D8%A7%D9%86-%D8%A5%D8%B9%D8%A7%D8%AF%D8%A9-%D8%B6%D8%AE-%D8%A7%D9%84%D8%BA%D8%A7%D8%B2-%D8%A5%D9%84%D9%89-%D8%A3%D9%88%D8%B1%D9%88%D8%A8%D8%A7-%D8%B9%D8%A8%D8%B1-%D9%86%D9%88%D8%B1%D8%AF-%D8%B3%D8%AA%D8%B1%D9%8A%D9%85",
           "orig_link": null,
           "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 8003,
-          "excerpt_chars": 1747,
-          "same_event": true,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "supports"
-        },
-        {
-          "publisher": "Ajel",
-          "link": "https://ajel.sa/international/ya8s5yg7j",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 604,
-          "excerpt_chars": 604,
+          "engine": "shared",
+          "page_chars": 5161,
+          "excerpt_chars": 0,
           "same_event": false,
           "as_of": "",
           "superseded_by": null,
           "claim_review": null,
-          "stance": "related_other"
+          "stance": "irrelevant"
         },
         {
-          "publisher": "Lebanondebate",
-          "link": "https://www.lebanondebate.com/article/807715-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%81%D9%8A-%D8%A8%D9%8A%D8%A7%D9%86-%D9%86%D8%B3%D8%AA%D9%87%D8%AC%D9%86-%D8%A7%D9%84%D9%85%D8%B3%D8%A7%D8%B1%D8%B9%D8%A9-%D8%BA%D9%8A%D8%B1-%D8%A7%D9%84%D9%85%D8%B3%D8%A4%D9%88%D9%84%D8%A9-%D9%85%D9%86-%D9%82%D8%A8%D9%84-%D9%88%D8%B2%D8%A7%D8%B1%D8%A9-%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%A5%D9%84%D9%89-%D8%AA%D8%A8%D9%86%D9%8A-%D9%87%D8%B0%D9%87",
+          "publisher": "BBC",
+          "link": "https://www.bbc.com/arabic/articles/cg3xdwz8n5eo",
           "orig_link": null,
           "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 3070,
-          "excerpt_chars": 1800,
+          "engine": "shared",
+          "page_chars": 11113,
+          "excerpt_chars": 0,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "DW",
+          "link": "https://www.dw.com/ar/%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%81%D9%8A-%D9%85%D9%8A%D8%B2%D8%A7%D9%86-%D8%A7%D9%84%D9%86%D9%81%D9%88%D8%B0-%D8%A7%D9%84%D9%88%D8%B1%D9%82%D8%A9-%D8%A7%D9%84%D8%AA%D9%8A-%D8%AA%D8%AD%D9%85%D9%8A-%D8%B9%D9%85%D9%82-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86-%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%B1%D8%A7%D8%AA%D9%8A%D8%AC%D9%8A/a-77507201",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "shared",
+          "page_chars": 3766,
+          "excerpt_chars": 0,
           "same_event": false,
           "as_of": "",
           "superseded_by": null,
@@ -348,74 +391,72 @@
           "stance": "irrelevant"
         }
       ],
-      "docs_before": 11,
-      "docs_after": 10,
-      "verdict": "confirmed",
+      "docs_before": 16,
+      "docs_after": 15,
+      "verdict": "inaccurate",
       "primary_source": false,
-      "icon": "✅",
+      "support_level": "single",
+      "support_publisher": "U.S. Department of State",
+      "outside_docs": 6,
+      "icon": "✏️",
       "evidence": [
         {
-          "publisher": "Lebanon 24",
-          "link": "https://www.lebanon24.com/news/lebanon/1580170/%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%B3%D9%86%D9%88%D8%A7%D8%B5%D9%84-%D8%AE%D9%86%D9%82-%D9%85%D8%B5%D8%A7%D8%AF%D8%B1-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D8%A8%D8%A7%D9%84%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA",
-          "stance": "supports",
-          "excerpt": "وفي ظل إدارة ترامب، لن يتمكّن «حزب الله» أبدًا من التعافي أو إعادة بناء بنيته التحتية الإرهابية",
-          "detail": "",
-          "correct_form": "",
-          "as_of": "",
-          "detail_kind": ""
-        },
-        {
-          "publisher": "إرم نيوز",
-          "link": "https://www.eremnews.com/news/arab-world/z12ecdz",
-          "stance": "supports",
-          "excerpt": "وقالت الخارجية الأمريكية في بيان صحفي إن \"حزب الله لن يتعافى أبداً في ظل إدارة الرئيس دونالد ترامب\"",
-          "detail": "",
-          "correct_form": "",
-          "as_of": "",
-          "detail_kind": ""
-        },
-        {
-          "publisher": "LBCIV7",
-          "link": "https://www.lbcgroup.tv/news/breaking-news/961707/%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D9%81%D9%8A-%D8%B8%D9%84-%D8%A5%D8%AF%D8%A7%D8%B1%D8%A9-%D8%A7%D9%84%D8%B1%D8%A6%D9%8A%D8%B3-%D8%AA%D8%B1%D8%A7%D9%85%D8%A8-%D9%84%D9%86-%D9%8A%D8%AA%D9%85%D9%83%D9%86-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%85%D9%86-%D8%A7%D9%84%D8%AA%D8%B9%D8%A7/ar",
-          "stance": "supports",
-          "excerpt": "الخارجية الأميركية: في ظل إدارة الرئيس ترامب لن يتمكن حزب الله من التعافي أو إعادة بناء بنيته التحتية الإرهابية",
-          "detail": "",
-          "correct_form": "",
-          "as_of": "",
-          "detail_kind": ""
+          "publisher": "U.S. Department of State",
+          "link": "https://www.state.gov/translations/%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9/%D9%81%D8%B1%D8%B6-%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA-%D8%B9%D9%84%D9%89-%D8%B4%D8%A8%D9%83%D8%A9-%D8%B9%D8%A7%D9%84%D9%85%D9%8A%D8%A9-%D8%AA%D8%AF%D8%B9%D9%85-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD",
+          "stance": "conflicts_detail",
+          "excerpt": "ومن خلال قطع قنوات التمويل هذه، تتخذ الولايات المتحدة خطوات ملموسة للحد من قدرة حزب الله على تحقيق الإيرادات المالية لتمويل الإرهاب والتهرب من العقوبات.",
+          "detail": "البيان لا يتضمن عبارة 'لن يتعافى أبداً'، بل يتحدث عن فرض عقوبات لتعطيل قدرة حزب الله على تحقيق الإيرادات المالية والحد من قدرته، دون التصريح بأن الحزب لن يتعافى أبداً",
+          "correct_form": "تتخذ الولايات المتحدة خطوات ملموسة للحد من قدرة حزب الله على تحقيق الإيرادات المالية لتمويل الإرهاب والتهرب من العقوبات",
+          "as_of": "20 آذار/مارس 2026",
+          "detail_kind": "other"
         }
       ],
-      "correction": null,
+      "correction": {
+        "error": "البيان لا يتضمن عبارة 'لن يتعافى أبداً'، بل يتحدث عن فرض عقوبات لتعطيل قدرة حزب الله على تحقيق الإيرادات المالية والحد من قدرته، دون التصريح بأن الحزب لن يتعافى أبداً",
+        "correct": "تتخذ الولايات المتحدة خطوات ملموسة للحد من قدرة حزب الله على تحقيق الإيرادات المالية لتمويل الإرهاب والتهرب من العقوبات",
+        "correct_value": null,
+        "as_of": "20 آذار/مارس 2026",
+        "detail_kind": "other",
+        "sources": [
+          {
+            "publisher": "U.S. Department of State",
+            "link": "https://www.state.gov/translations/%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9/%D9%81%D8%B1%D8%B6-%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA-%D8%B9%D9%84%D9%89-%D8%B4%D8%A8%D9%83%D8%A9-%D8%B9%D8%A7%D9%84%D9%85%D9%8A%D8%A9-%D8%AA%D8%AF%D8%B9%D9%85-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD",
+            "excerpt": "ومن خلال قطع قنوات التمويل هذه، تتخذ الولايات المتحدة خطوات ملموسة للحد من قدرة حزب الله على تحقيق الإيرادات المالية لتمويل الإرهاب والتهرب من العقوبات.",
+            "as_of": "20 آذار/مارس 2026"
+          }
+        ]
+      },
       "refuted_by": null,
       "nearest": null,
-      "note": "⚠️ كل المؤيِّدين من خارج مصادرنا المسجّلة: Lebanon 24، إرم نيوز، LBCIV7 — راجع قبل الاختيار",
+      "note": "",
       "named_as": null,
-      "warnings": [
-        "⚠️ كل المؤيِّدين من خارج مصادرنا المسجّلة: Lebanon 24، إرم نيوز، LBCIV7 — راجع قبل الاختيار"
-      ],
+      "warnings": [],
       "call_error": false,
       "superseded_note": "",
       "superseded": [],
       "image_candidates": [],
-      "sources_read": 10,
+      "sources_read": 9,
       "dropped_reason": null,
-      "model_calls": 1,
-      "status": "written",
-      "selection_issue": 1285,
-      "action": "go2",
-      "draft_id": "f10fd04092b4",
-      "written_at": "2026-10-08T09:48:34.595111+00:00"
+      "model_calls": 2,
+      "shared_from": [
+        "U.S. Department of State",
+        "CNN",
+        "BBC",
+        "DW"
+      ],
+      "status": "offered",
+      "selection_issue": 1290
     },
     {
       "id": "80943d3f4957",
       "text": "حزب الله جلب البؤس للبنان وشعبه بشنّه حرباً نيابةً عن إيران",
       "claim": "حزب الله جلب البؤس للبنان وشعبه بشنّه حرباً نيابةً عن إيران",
       "framing": "circulating",
-      "circulating_context": "تصريحات منسوبة إلى وزارة الخارجية الأميركية",
+      "circulating_context": "منسوب إلى تصريحات وزارة الخارجية الأميركية",
       "asserted": "",
       "queries": [
-        "حزب الله حرب لبنان إيران تحقق",
-        "حزب الله حرب لبنان نيابة عن إيران"
+        "حزب الله الحرب نيابة عن إيران لبنان تحقق",
+        "حزب الله إيران حرب البنان المؤس"
       ],
       "site_queries": [
         "حزب الله لبنان إيران site:misbar.com",
@@ -532,32 +573,32 @@
           "stance": "deduped"
         },
         {
-          "publisher": "BBC",
-          "link": "https://www.bbc.com/arabic/articles/cqm2m6n86jgmo",
+          "publisher": "الشرق الأوسط",
+          "link": "https://aawsat.com/%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A/%D8%A7%D9%84%D9%85%D8%B4%D8%B1%D9%82-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A/5320995-%D8%A5%D8%AF%D8%A7%D8%B1%D8%A9-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86%D9%8A%D8%A9-%D9%84%D9%80%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D8%A8%D8%B9%D8%AF-%D8%A7%D9%84%D8%B6%D8%B1%D8%A8%D8%A7%D8%AA-%D8%A7%D9%84%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84%D9%8A%D8%A9",
           "orig_link": null,
           "resolved": true,
           "engine": "google_news",
-          "page_chars": 10930,
-          "excerpt_chars": 1800,
-          "same_event": false,
+          "page_chars": 6824,
+          "excerpt_chars": 0,
+          "same_event": null,
           "as_of": "",
           "superseded_by": null,
           "claim_review": null,
-          "stance": "irrelevant"
+          "stance": "outside"
         },
         {
-          "publisher": "وردنا",
-          "link": "https://waradana.com/article/275129-%D9%84%D8%A8%D9%86%D8%A7%D9%86-%D9%81%D9%8A-%D8%AA%D8%AD%D8%B0%D9%8A%D8%B1%D8%A7%D8%AA-%D9%85%D8%A7-%D9%82%D8%A8%D9%84-7-%D8%A3%D9%83%D8%AA%D9%88%D8%A8%D8%B1-%D9%85%D8%A7%D8%B0%D8%A7-%D9%82%D9%8A%D9%84-%D9%84%D9%86%D8%AA%D9%86%D9%8A%D8%A7%D9%87%D9%88-%D8%B9%D9%86-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87",
+          "publisher": "Elnashra",
+          "link": "https://www.elnashra.com/news/show/1803462/%D9%85%D8%AA%D8%AD%D8%AF%D8%AB-%D8%A8%D8%A7%D8%B3%D9%85-%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%8A%D8%B3%D8%B9%D9%89-%D8%A5%D9%84%D9%89-%D8%AA%D8%B1",
           "orig_link": null,
           "resolved": true,
           "engine": "google_news",
-          "page_chars": 2443,
-          "excerpt_chars": 1369,
-          "same_event": false,
+          "page_chars": 1101,
+          "excerpt_chars": 0,
+          "same_event": null,
           "as_of": "",
           "superseded_by": null,
           "claim_review": null,
-          "stance": "irrelevant"
+          "stance": "outside"
         },
         {
           "publisher": "Al Jazeera Centre for Studies",
@@ -574,46 +615,18 @@
           "stance": "deduped"
         },
         {
-          "publisher": "Beirut 24",
-          "link": "https://www.beirut24.org/2026/10/08/3-%D8%B3%D9%86%D9%88%D8%A7%D8%AA-%D8%B9%D9%84%D9%89-%D8%A5%D8%B3%D9%86%D8%A7%D8%AF-%D8%A7%D9%84%D8%AD%D8%B2%D8%A8-%D9%88%D8%A7%D9%84%D8%AD%D8%B1%D8%A8-%D8%A7%D9%84%D8%AC%D9%86%D9%88%D8%A8/",
+          "publisher": "True Studies",
+          "link": "https://truestudies.org/4514/",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 6791,
-          "excerpt_chars": 1786,
-          "same_event": true,
+          "page_chars": 20000,
+          "excerpt_chars": 0,
+          "same_event": null,
           "as_of": "",
           "superseded_by": null,
           "claim_review": null,
-          "stance": "related_other"
-        },
-        {
-          "publisher": "GULF CHANNELS",
-          "link": "https://www.gulfchannels.com/623573/",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 3330,
-          "excerpt_chars": 1759,
-          "same_event": true,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "related_other"
-        },
-        {
-          "publisher": "الشرق الأوسط",
-          "link": "https://aawsat.com/%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A/%D8%A7%D9%84%D9%85%D8%B4%D8%B1%D9%82-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A/5320995-%D8%A5%D8%AF%D8%A7%D8%B1%D8%A9-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86%D9%8A%D8%A9-%D9%84%D9%80%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D8%A8%D8%B9%D8%AF-%D8%A7%D9%84%D8%B6%D8%B1%D8%A8%D8%A7%D8%AA-%D8%A7%D9%84%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84%D9%8A%D8%A9",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "google_news",
-          "page_chars": 6824,
-          "excerpt_chars": 1688,
-          "same_event": false,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "irrelevant"
+          "stance": "outside"
         },
         {
           "publisher": "A5r5br",
@@ -622,34 +635,104 @@
           "resolved": true,
           "engine": "brave_web",
           "page_chars": 1221,
-          "excerpt_chars": 1221,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "https://www.akhbaralyawm.com/",
+          "link": "https://www.akhbaralyawm.com/news/582275/%D8%A7%D9%84%D8%A5%D8%B3%D9%86%D8%A7%D8%AF-%D8%A7%D9%84%D9%85%D8%A7%D9%84%D9%8A-%D8%A7%D9%84%D8%A5%D9%8A%D8%B1%D8%A7%D9%86%D9%8A-%D9%84%D9%80%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87...-%D9%87%D9%84-%D9%8A%D9%81%D8%AA%D8%AD-%D8%A7%D9%84%D8%B9%D9%8A%D9%86-%D8%A7%D9%84%D8%AD%D9%85%D8%B1%D8%A7%D8%A1-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%B9%D9%84%D9%89-%D9%84%D8%A8%D9%86%D8%A7%D9%86%D8%9F",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 6850,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "شفق نيوز",
+          "link": "https://shafaq.com/ar/%D8%A7%D9%84%D9%85%D9%86%D8%B7%D9%82%D8%A9-%D9%88%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85/%D8%B1%D9%88%D9%8A%D8%AA%D8%B1%D8%B2-%D9%8A%D8%B1%D8%A7%D9%86-%D8%B1%D8%B3%D9%84%D8%AA-200-%D9%85%D9%84%D9%8A%D9%88%D9%86-%D8%AF%D9%88%D9%84%D8%A7%D8%B1-%D9%84%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D8%A7%D9%84%D9%84%D8%A8%D9%86%D8%A7%D9%86%D9%8A",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 2172,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "وكالة عمون الاخبارية",
+          "link": "https://www.ammonnews.net/article/1035044",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 3268,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "U.S. Department of State",
+          "link": "https://www.state.gov/translations/%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9/%D9%81%D8%B1%D8%B6-%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA-%D8%B9%D9%84%D9%89-%D8%B4%D8%A8%D9%83%D8%A9-%D8%B9%D8%A7%D9%84%D9%85%D9%8A%D8%A9-%D8%AA%D8%AF%D8%B9%D9%85-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "shared",
+          "page_chars": 1874,
+          "excerpt_chars": 0,
           "same_event": true,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "supports"
+        },
+        {
+          "publisher": "CNN",
+          "link": "https://cnnbusinessarabic.com/energy-and-sustainability/1149751/%D8%B1%D9%88%D9%8A%D8%AA%D8%B1%D8%B2-%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D8%A7-%D9%88%D8%B1%D9%88%D8%B3%D9%8A%D8%A7-%D8%AA%D8%A8%D8%AD%D8%AB%D8%A7%D9%86-%D8%A5%D8%B9%D8%A7%D8%AF%D8%A9-%D8%B6%D8%AE-%D8%A7%D9%84%D8%BA%D8%A7%D8%B2-%D8%A5%D9%84%D9%89-%D8%A3%D9%88%D8%B1%D9%88%D8%A8%D8%A7-%D8%B9%D8%A8%D8%B1-%D9%86%D9%88%D8%B1%D8%AF-%D8%B3%D8%AA%D8%B1%D9%8A%D9%85",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "shared",
+          "page_chars": 5161,
+          "excerpt_chars": 0,
+          "same_event": false,
           "as_of": "",
           "superseded_by": null,
           "claim_review": null,
           "stance": "irrelevant"
         },
         {
-          "publisher": "الجزيرة نت",
-          "link": "https://www.aljazeera.net/politics/2026/9/28/%D8%A5%D8%A8%D8%A7%D8%AF%D8%A9-%D9%85%D8%B9-%D9%88%D9%82%D9%81-%D8%A7%D9%84%D8%AA%D9%86%D9%81%D9%8A%D8%B0-%D9%84%D9%85%D8%A7%D8%B0%D8%A7-%D8%A7%D8%B3%D8%AA%D8%B9%D8%AC%D9%84%D8%AA",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "google_news",
-          "page_chars": 3828,
-          "excerpt_chars": 0,
-          "same_event": null,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "deduped"
-        },
-        {
-          "publisher": "Lebanon 24",
-          "link": "https://www.lebanon24.com/news/lebanon/1580170/%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%B3%D9%86%D9%88%D8%A7%D8%B5%D9%84-%D8%AE%D9%86%D9%82-%D9%85%D8%B5%D8%A7%D8%AF%D8%B1-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D8%A8%D8%A7%D9%84%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA",
+          "publisher": "BBC",
+          "link": "https://www.bbc.com/arabic/articles/cg3xdwz8n5eo",
           "orig_link": null,
           "resolved": true,
           "engine": "shared",
-          "page_chars": 2405,
+          "page_chars": 11113,
+          "excerpt_chars": 0,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "DW",
+          "link": "https://www.dw.com/ar/%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%81%D9%8A-%D9%85%D9%8A%D8%B2%D8%A7%D9%86-%D8%A7%D9%84%D9%86%D9%81%D9%88%D8%B0-%D8%A7%D9%84%D9%88%D8%B1%D9%82%D8%A9-%D8%A7%D9%84%D8%AA%D9%8A-%D8%AA%D8%AD%D9%85%D9%8A-%D8%B9%D9%85%D9%82-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86-%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%B1%D8%A7%D8%AA%D9%8A%D8%AC%D9%8A/a-77507201",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "shared",
+          "page_chars": 3766,
           "excerpt_chars": 0,
           "same_event": true,
           "as_of": "",
@@ -658,27 +741,30 @@
           "stance": "supports"
         }
       ],
-      "docs_before": 15,
-      "docs_after": 13,
+      "docs_before": 16,
+      "docs_after": 16,
       "verdict": "confirmed",
       "primary_source": false,
+      "support_level": "multi",
+      "support_publisher": "",
+      "outside_docs": 7,
       "icon": "✅",
       "evidence": [
         {
-          "publisher": "A5r5br",
-          "link": "https://a5r5br.net/lebanon/local-news/8269880-%D9%85%D8%AA%D8%AD%D8%AF%D8%AB-%D8%A8%D8%A7%D8%B3%D9%85-%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%8A%D8%B3%D8%B9%D9%89-%D8%A5%D9%84%D9%89-%D8%AA%D8%B1%D9%88%D9%8A%D8%AC-%D8%B1%D9%88%D8%A7%D9%8A%D8%A7%D8%AA-%D8%B9%D8%A8%D8%B1-%D9%85%D8%B5%D8%A7%D8%AF%D8%B1-%D9%85%D8%AC%D9%87%D9%88%D9%84%D8%A9-%D9%88%D8%A7%D9%84%D8%A3%D9%85%D9%88%D8%A7%D9%84-%D8%A7%D9%84%D8%AA%D9%8A-%D9%8A%D8%AA%D8%AD%D8%AF%D8%AB-%D8%B9%D9%86%D9%87%D8%A7-%D8%BA%D9%8A%D8%B1-%D9%85%D9%88%D8%AC%D9%88%D8%AF%D8%A9",
+          "publisher": "U.S. Department of State",
+          "link": "https://www.state.gov/translations/%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9/%D9%81%D8%B1%D8%B6-%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA-%D8%B9%D9%84%D9%89-%D8%B4%D8%A8%D9%83%D8%A9-%D8%B9%D8%A7%D9%84%D9%85%D9%8A%D8%A9-%D8%AA%D8%AF%D8%B9%D9%85-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD",
           "stance": "supports",
-          "excerpt": "وأشار بيغوت إلى أن \"حزب الله لم يجلب إلى لبنان سوى المعاناة\"، متهماً إياه بخوض حرب نيابة عن طهران تسببت في أضرار بمليارات الدولارات.",
+          "excerpt": "إن الهجوم المتهور الذي شنه حزب الله على إسرائيل يثبت مرة أخرى أنه يمنح الأولوية لممارسة الإرهاب نيابة عن النظام الإيراني، على حساب سلامة الشعب اللبناني وأمنه.",
           "detail": "",
           "correct_form": "",
           "as_of": "",
           "detail_kind": ""
         },
         {
-          "publisher": "Lebanon 24",
-          "link": "https://www.lebanon24.com/news/lebanon/1580170/%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%B3%D9%86%D9%88%D8%A7%D8%B5%D9%84-%D8%AE%D9%86%D9%82-%D9%85%D8%B5%D8%A7%D8%AF%D8%B1-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D8%A8%D8%A7%D9%84%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA",
+          "publisher": "DW",
+          "link": "https://www.dw.com/ar/%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%81%D9%8A-%D9%85%D9%8A%D8%B2%D8%A7%D9%86-%D8%A7%D9%84%D9%86%D9%81%D9%88%D8%B0-%D8%A7%D9%84%D9%88%D8%B1%D9%82%D8%A9-%D8%A7%D9%84%D8%AA%D9%8A-%D8%AA%D8%AD%D9%85%D9%8A-%D8%B9%D9%85%D9%82-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86-%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%B1%D8%A7%D8%AA%D9%8A%D8%AC%D9%8A/a-77507201",
           "stance": "supports",
-          "excerpt": "ولم يجلب \"حزب الله\" للبنان وللأشخاص الذين يدّعي تمثيلهم سوى المعاناة. فقد بدأ حربًا بالنيابة عن طهران، ما أدّى إلى أضرار بمليارات الدولارات وتسبّب بها.",
+          "excerpt": "بعد اندلاع الحرب مع إيران في 28 فبراير/ شباط ومقتل المرشد الأعلى الإيراني آية الله علي خامنئي أطلقت ميليشيا \"حزب الله\" اللبنانية صواريخ على إسرائيل لتدخل بذلك في الحرب إلى جانب طهران. وردت إسرائيل بقصف الضاحية الجنوبية للعاصمة بيروت وأجزاء أخرى من الجارة الشمالية. ونتيجة لذلك امتدت الحرب إلى لبنان.",
           "detail": "",
           "correct_form": "",
           "as_of": "",
@@ -688,43 +774,41 @@
       "correction": null,
       "refuted_by": null,
       "nearest": null,
-      "note": "⚠️ كل المؤيِّدين من خارج مصادرنا المسجّلة: A5r5br، Lebanon 24 — راجع قبل الاختيار",
+      "note": "",
       "named_as": null,
-      "warnings": [
-        "⚠️ كل المؤيِّدين من خارج مصادرنا المسجّلة: A5r5br، Lebanon 24 — راجع قبل الاختيار"
-      ],
+      "warnings": [],
       "call_error": false,
       "superseded_note": "",
       "superseded": [],
       "image_candidates": [],
-      "sources_read": 12,
+      "sources_read": 9,
       "dropped_reason": null,
       "model_calls": 2,
       "shared_from": [
-        "Lebanon 24"
+        "U.S. Department of State",
+        "CNN",
+        "BBC",
+        "DW"
       ],
-      "status": "written",
-      "selection_issue": 1285,
-      "action": "go2",
-      "draft_id": "80943d3f4957",
-      "written_at": "2026-10-08T09:48:53.739611+00:00"
+      "status": "offered",
+      "selection_issue": 1290
     },
     {
-      "id": "c03493d99307",
-      "text": "الإدارة الأميركية ستواصل خنق حزب الله مالياً بالعقوبات",
-      "claim": "الإدارة الأميركية ستواصل خنق حزب الله مالياً بالعقوبات",
+      "id": "b9b509d74af8",
+      "text": "الولايات المتحدة ستواصل خنق حزب الله مالياً بفرض العقوبات",
+      "claim": "الولايات المتحدة ستواصل خنق حزب الله مالياً بفرض العقوبات",
       "framing": "circulating",
-      "circulating_context": "تصريحات منسوبة إلى وزارة الخارجية الأميركية",
+      "circulating_context": "منسوب إلى تصريحات وزارة الخارجية الأميركية",
       "asserted": "",
       "queries": [
-        "العقوبات الأمريكية حزب الله 2024 2025 تحقق",
-        "العقوبات الأمريكية حزب الله الخنق المالي"
+        "عقوبات أميركية حزب الله مالية تحقق",
+        "الولايات المتحدة عقوبات حزب الله اقتصادية"
       ],
       "site_queries": [
-        "الإدارة الأميركية حزب الله site:misbar.com",
-        "الإدارة الأميركية حزب الله site:fatabyyano.net",
-        "الإدارة الأميركية حزب الله site:factcheck.afp.com",
-        "الإدارة الأميركية حزب الله site:reuters.com/fact-check"
+        "الولايات المتحدة حزب الله site:misbar.com",
+        "الولايات المتحدة حزب الله site:fatabyyano.net",
+        "United States حزب الله site:factcheck.afp.com",
+        "United States حزب الله site:reuters.com/fact-check"
       ],
       "engines": [
         "brave_web",
@@ -735,7 +819,7 @@
         "days"
       ],
       "brave_skipped": null,
-      "cache_hits": 0,
+      "cache_hits": 4,
       "checker_skipped": [
         {
           "publisher": "Misbar",
@@ -744,53 +828,18 @@
         },
         {
           "publisher": "Misbar",
-          "link": "https://www.misbar.com/amp/factcheck/2026/02/22/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%84%D9%8A%D8%B3-%D9%84%D8%A7%D8%B3%D8%AA%D8%B9%D8%B1%D8%A7%D8%B6-%D8%B9%D8%B3%D9%83%D8%B1%D9%8A-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86%D9%8A-%D8%AE%D9%84%D8%A7%D9%84-%D8%A7%D9%84%D8%AA%D8%B5%D8%B9%D9%8A%D8%AF-%D8%A7%D9%84%D8%A3%D8%AE%D9%8A%D8%B1",
-          "title": "الفيديو ليس لاستعراض عسكري إيراني خلال التصعيد الأخير"
-        },
-        {
-          "publisher": "Misbar",
-          "link": "https://www.misbar.com/editorial/2024/10/22/%D8%AA%D8%AD%D9%82%D9%8A%D9%82-%D9%85%D8%B3%D8%A4%D9%88%D9%84%D8%A9-%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84%D9%8A%D8%A9-%D8%A3%D8%B3%D9%87%D9%85%D8%AA-%D9%81%D9%8A-%D8%A7%D9%84%D8%B1%D9%82%D8%A7%D8%A8%D8%A9-%D8%B9%D9%84-%D8%AD%D8%B3%D8%A7%D8%A8%D8%A7%D8%AA-%D8%AF%D8%A7%D8%B9%D9%85%D8%A9-%D9%84%D9%81%D9%84%D8%B3%D8%B7%D9%8A%D9%86-%D8%B9%D9%84-%D8%A5%D9%86%D8%B3%D8%AA%D8%BA%D8%B1%D8%A7%D9%85",
-          "title": "تحقيق: مسؤولة إسرائيلية أسهمت في الرقابة على حسابات داعمة لفلسطين على إنستغرام"
-        },
-        {
-          "publisher": "Misbar",
-          "link": "https://www.misbar.com/editorial/2026/04/09/%D8%B1%D8%BA%D9%85-%D8%AA%D9%88%D8%B3%D8%B9%D8%AA%D9%87%D8%A7-%D8%B3%D8%A7%D8%A8%D9%82%D9%8B%D8%A7-%D9%82%D8%A7%D8%B9%D8%AF%D8%A9-%D8%B9%D9%88%D9%81%D8%AF%D8%A7-%D8%A7%D9%84%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84%D9%8A%D8%A9-%D8%AA%D8%B4%D9%87%D8%AF-%D8%A7%D8%B2%D8%AF%D8%AD%D8%A7%D9%85%D9%8B%D8%A7-%D8%A8%D8%A7%D9%84%D8%B7%D8%A7%D8%A6%D8%B1%D8%A7%D8%AA-%D9%88%D8%A7%D9%84%D9%85%D9%82%D8%A7%D8%AA%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9",
-          "title": "رغم توسعتها سابقًا.. قاعدة عوفدا الإسرائيلية تشهد ازدحامًا بالطائرات والمقاتلات الأميركية"
-        },
-        {
-          "publisher": "Misbar",
-          "link": "https://www.misbar.com/factcheck/2024/10/21/%D8%A7%D9%84%D8%B5%D9%88%D8%B1-%D9%85%D9%88%D9%84%D8%AF%D8%A9-%D8%A8%D8%A7%D9%84%D8%B0%D9%83%D8%A7%D8%A1-%D8%A7%D9%84%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A-%D9%88%D9%84%D9%8A%D8%B3%D8%AA-%D9%85%D9%86-%D8%A7%D9%84%D8%BA%D8%A7%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84%D9%8A%D8%A9-%D9%82%D8%B1%D8%A8-%D9%85%D8%B7%D8%A7%D8%B1-%D8%A8%D9%8A%D8%B1%D9%88%D8%AA",
-          "title": "الصور مولدة بالذكاء الاصطناعي وليست من الغارات الإسرائيلية قرب مطار بيروت"
+          "link": "https://www.misbar.com/factcheck/2026/04/16/%D9%87%D9%84-%D8%AA%D9%8F%D8%B8%D9%87%D8%B1-%D8%A7%D9%84%D8%B5%D9%88%D8%B1%D8%A9-%D9%85%D8%B5%D8%A7%D9%81%D8%AD%D8%A9-%D8%A8%D9%8A%D9%86-%D8%B3%D9%81%D9%8A%D8%B1%D8%A9-%D9%84%D8%A8%D9%86%D8%A7%D9%86-%D9%84%D8%AF%D9%89-%D9%88%D8%A7%D8%B4%D9%86%D8%B7%D9%86-%D9%88%D8%A7%D9%84%D8%B3%D9%81%D9%8A%D8%B1-%D8%A7%D9%84%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84%D9%8A%D8%9F",
+          "title": "هل تُظهر الصورة مصافحة بين سفيرة لبنان لدى واشنطن والسفير الإسرائيلي؟"
         },
         {
           "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%82%D8%AF%D9%8A%D9%85%D8%8C-%D9%88%D9%8A%D8%B9%D9%88%D8%AF-%D8%A5%D9%84%D9%89-%D8%A7%D9%84%D9%82%D8%B5%D9%81-%D8%A7%D9%84%D8%A3%D9%85%D8%B1/",
-          "title": "هذا المقطع قديم، ويعود إلى القصف الأمريكي على مقرات الحشد الشعبي في العراق عام 2020، ولا يصور مشاهد من القصف الأمريكي ال"
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%8A%D8%B5%D9%88%D8%B1-%D9%85%D8%B4%D8%A7%D9%87%D8%AF-%D9%85%D9%86-%D8%A7%D8%AD%D8%AA%D8%AC%D8%A7%D8%AC%D8%A7%D8%AA-%D9%81%D9%8A-%D9%84%D8%A8/",
+          "title": "هذا المقطع يصور مشاهد من احتجاجات في لبنان عام 2020، وليس لاحتفالات إثر مقتل حسن نصر الله مؤخرًا - فتبينوا"
         },
         {
           "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%8A%D9%88%D8%AB%D9%82-%D8%AD%D8%A7%D9%84%D8%A7%D8%AA-%D8%A7%D8%AE%D8%AA%D9%86%D8%A7%D9%82-%D8%AE%D9%84%D8%A7%D9%84-%D8%A7%D8%AD%D8%AA/",
-          "title": "هذا الفيديو يوثق حالات اختناق خلال احتجاجات على طريق مطار بيروت في 15 فبراير، وليس خلال مراسم تشييع الأمين العام لحزب ال"
-        },
-        {
-          "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/en/fake_news/",
-          "title": "مقالات فتبينوا - فتبينوا"
-        },
-        {
-          "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%84%D8%A7-%D9%8A%D8%B8%D9%87%D8%B1-%D8%AA%D9%87%D8%B1%D9%8A%D8%A8-%D8%A3%D9%85%D9%88%D8%A7%D9%84-%D9%85%D9%86-%D8%A7%D9%84%D8%B9%D8%B1/",
-          "title": "هذا الفيديو لا يظهر تهريب أموال من العراق إلى لبنان مؤخرًا، بل يوثق ضبط أموال مهربة في مصر عام 2018 - فتبينوا"
-        },
-        {
-          "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/en/fatabyyano-team/",
-          "title": "من نحن - فتبينوا"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/AFP-USA",
-          "title": "AFP USA | Fact Check"
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%82%D8%AF%D9%8A%D9%85-%D9%88%D9%8A%D8%B9%D9%88%D8%AF-%D8%A5%D9%84%D9%89-%D8%A7%D9%86%D9%81%D8%AC%D8%A7%D8%B1-%D9%85%D8%B3%D8%AA%D9%88/",
+          "title": "هذا الفيديو قديم ويعود إلى انفجار مستودع ذخيرة في إدلب، ولا يظهر قصفًا إسرائيليًا حديثًا على مواقع عسكرية داخل سوريا - ف"
         },
         {
           "publisher": "AFP Fact Check",
@@ -799,43 +848,18 @@
         },
         {
           "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/AFP-Canada",
-          "title": "AFP Canada | Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/list/Donald-Trump",
-          "title": "Topics | Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/fact-checking-search-results",
-          "title": "Recherche | Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/Meet-team",
-          "title": "Meet the team | Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
           "link": "https://factcheck.afp.com/politics",
           "title": "politics | Fact Check"
         },
         {
           "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/about-afp",
-          "title": "About AFP | Fact Check"
+          "link": "https://factcheck.afp.com/doc.afp.com.A2ZE3T3",
+          "title": "Images claiming US-Israeli pilots bombed Iranian aircraft decoys are AI-generated | Fact Check"
         },
         {
           "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/Middle-East",
-          "title": "Middle East | Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/AFP-Pakistan",
-          "title": "AFP Pakistan | Fact Check"
+          "link": "https://factcheck.afp.com/doc.afp.com.33YY924",
+          "title": "Old Kim Jong Un address miscaptioned as comments on Israel-Hamas war | Fact Check"
         },
         {
           "publisher": "Reuters",
@@ -844,68 +868,68 @@
         },
         {
           "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/2020-clip-lebanon-protest-misrepresented-nasrallah-death-celebration-2024-09-30/",
-          "title": "Fact Check: 2020 clip of Lebanon protest misrepresented as Nasrallah death celebration | Reuters"
+          "link": "https://www.reuters.com/fact-check/arabic",
+          "title": "خدمة \"تقصي الحقيقة\" من رويترز"
         }
       ],
       "read_docs": [
         {
-          "publisher": "Misbar",
-          "link": "https://www.misbar.com/factcheck/2024/09/25/%D8%A7%D9%84%D8%B5%D9%88%D8%B1%D8%A9-%D9%84%D9%85%D8%B3%D8%A4%D9%88%D9%84-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86%D9%8A-%D9%88%D9%84%D9%8A%D8%B3%D8%AA-%D9%84%D9%82%D9%8A%D8%A7%D8%AF%D9%8A-%D9%81%D9%8A-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%87%D8%B1%D8%A8-%D8%A5%D9%84-%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 212,
-          "excerpt_chars": 317,
-          "same_event": false,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": {
-            "claim_reviewed": "صورة لقيادي في حزب الله هرب إلى إسرائيل.",
-            "label": "misleading",
-            "date_published": "2024-09-25T11:17:03+03:00"
-          },
-          "stance": "irrelevant"
-        },
-        {
           "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%82%D8%AF%D9%8A%D9%85%D8%8C-%D9%88%D9%84%D9%8A%D8%B3-%D9%85%D9%86-%D8%A5%D8%B7%D9%84%D8%A7%D9%82-%D8%B5%D9%88%D8%A7%D8%B1%D9%8A%D8%AE/",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%82%D8%AF%D9%8A%D9%85%D8%8C-%D9%88%D9%8A%D8%B9%D9%88%D8%AF-%D8%A5%D9%84%D9%89-%D8%A7%D9%84%D9%82%D8%B5%D9%81-%D8%A7%D9%84%D8%A3%D9%85%D8%B1/",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 2634,
-          "excerpt_chars": 649,
+          "page_chars": 2904,
+          "excerpt_chars": 1929,
           "same_event": false,
           "as_of": "",
           "superseded_by": null,
           "claim_review": {
-            "claim_reviewed": "مقطع فيديو يظهر اطلاق صواريخ من قبل حزب الله",
+            "claim_reviewed": "اثناء قصف مواقع ميلشيات ايران في صنعاء اسمع بقايا الفرس الحوثيون ينادون يا علي",
             "label": "مضلل",
-            "date_published": "2026-05-28"
+            "date_published": "2025-03-20"
           },
           "stance": "irrelevant"
         },
         {
-          "publisher": "الكتائب",
-          "link": "https://www.kataeb.org/articles/%D8%A7%D9%84%D8%A5%D8%B3%D9%86%D8%A7%D8%AF-%D8%A7%D9%84%D9%85%D8%A7%D9%84%D9%8A-%D8%A7%D9%84%D8%A5%D9%8A%D8%B1%D8%A7%D9%86%D9%8A-%D9%84%D9%80%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%87%D9%84-%D9%8A%D9%81%D8%AA%D8%AD-%D8%A7%D9%84%D8%B9%D9%8A%D9%86-%D8%A7%D9%84%D8%AD%D9%85%D8%B1%D8%A7%D8%A1-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%B9%D9%84%D9%89-%D9%84%D8%A8%D9%86%D8%A7%D9%86",
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2025/01/29/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%84%D9%8A%D8%B3-%D9%84%D8%A7%D9%81%D8%AA%D8%AA%D8%A7%D8%AD-%D8%AC%D9%84%D8%B3%D8%A9-%D9%85%D8%AC%D9%84%D8%B3-%D8%A7%D9%84%D8%B4%D9%8A%D9%88%D8%AE-%D8%A8%D8%AA%D9%84%D8%A7%D9%88%D8%A9-%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86-%D8%A8%D8%B9%D8%AF-%D8%AA%D9%86%D8%B5%D9%8A%D8%A8-%D8%AA%D8%B1%D8%A7%D9%85%D8%A8",
           "orig_link": null,
           "resolved": true,
-          "engine": "google_news",
-          "page_chars": 6891,
-          "excerpt_chars": 1786,
+          "engine": "brave_web",
+          "page_chars": 190,
+          "excerpt_chars": 293,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": {
+            "claim_reviewed": "افتتاح جلسة مجلس الشيوخ بقراءة القرآن.",
+            "label": "misleading",
+            "date_published": "2025-01-29T15:30:04+03:00"
+          },
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/BVYN7HCMORPS7C25K7QGJSWF4Y-2025-09-23/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 247,
+          "excerpt_chars": 247,
           "same_event": false,
           "as_of": "",
           "superseded_by": null,
           "claim_review": null,
-          "stance": "related_other"
+          "stance": "irrelevant"
         },
         {
-          "publisher": "U.S. Department of State",
-          "link": "https://www.state.gov/translations/%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9/%D8%A7%D8%B3%D8%AA%D9%87%D8%AF%D8%A7%D9%81-%D8%B9%D9%85%D9%84%D9%8A%D8%A7%D8%AA-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%88%D8%B4%D8%A8%D9%83%D8%A9-%D8%AF%D8%B9",
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/AFP-USA",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 1637,
+          "page_chars": 314,
           "excerpt_chars": 0,
           "same_event": null,
           "as_of": "",
@@ -914,18 +938,46 @@
           "stance": "deduped"
         },
         {
-          "publisher": "Almodon",
-          "link": "https://www.almodon.com/politics/2026/03/20/%D9%88%D8%A7%D8%B4%D9%86%D8%B7%D9%86-%D8%AA%D9%85%D8%B6%D9%8A-%D8%A8%D8%AE%D9%86%D9%82-%D8%B4%D8%A8%D9%83%D8%A9-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%A7%D9%84%D8%AD%D8%B2%D8%A8-%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA-%D9%8416-%D9%81%D8%B1%D8%AF%D8%A7-%D9%88%D9%83%D9%8A%D8%A7%D9%86%D8%A7",
+          "publisher": "الجزيرة نت",
+          "link": "https://www.aljazeera.net/news/2026/9/29/%D8%A8%D9%8A%D8%B3%D9%86%D8%AA-%D9%8A%D8%AF%D8%B9%D9%88-%D9%84%D8%A8%D9%86%D8%A7%D9%86-%D8%A5%D9%84%D9%89-%D8%AA%D8%B4%D8%AF%D9%8A%D8%AF-%D8%A7%D9%84%D8%AE%D9%86%D8%A7%D9%82-%D8%B9%D9%84%D9%89",
           "orig_link": null,
           "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 5121,
-          "excerpt_chars": 1775,
-          "same_event": true,
+          "engine": "google_news",
+          "page_chars": 1616,
+          "excerpt_chars": 0,
+          "same_event": null,
           "as_of": "",
           "superseded_by": null,
           "claim_review": null,
-          "stance": "supports"
+          "stance": "deduped"
+        },
+        {
+          "publisher": "جنوبية",
+          "link": "https://janoubia.com/2026/10/08/%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%A3%D9%85%D9%88%D8%A7%D9%84-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86-%D9%84%D9%80-%D8%AD%D8%B2/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 1734,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "الكتائب",
+          "link": "https://www.kataeb.org/articles/%D9%85%D8%B5%D8%A7%D8%AF%D8%B1-%D9%84%D8%A8%D9%86%D8%A7%D9%86%D9%8A%D8%A9-%D9%88%D8%A7%D8%B4%D9%86%D8%B7%D9%86-%D8%B7%D9%84%D8%A8%D8%AA-%D9%85%D9%86-%D8%A8%D9%8A%D8%B1%D9%88%D8%AA-%D8%AA%D9%81%D9%83%D9%8A%D9%83-%D8%B4%D8%A8%D9%83%D8%A9-%D8%AA%D8%AD%D9%88%D9%8A%D9%84%D8%A7%D8%AA-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 4124,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
         },
         {
           "publisher": "U.S. Department of State",
@@ -934,21 +986,7 @@
           "resolved": true,
           "engine": "brave_web",
           "page_chars": 1874,
-          "excerpt_chars": 1671,
-          "same_event": true,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "Erem News",
-          "link": "https://www.eremnews.com/news/arab-world/4yv9qe2",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 4341,
-          "excerpt_chars": 1749,
+          "excerpt_chars": 1394,
           "same_event": true,
           "as_of": "",
           "superseded_by": null,
@@ -956,18 +994,46 @@
           "stance": "supports"
         },
         {
-          "publisher": "جريدة الجريدة الكويتية",
-          "link": "https://www.aljarida.com/article/146754/amp",
+          "publisher": "Al Jadeed",
+          "link": "https://www.aljadeed.tv/news/%D8%A3%D8%AE%D8%A8%D8%A7%D8%B1-%D9%84%D8%A8%D9%86%D8%A7%D9%86/591235/%D9%88%D8%A7%D8%B4%D9%86%D8%B7%D9%86-%D8%AA%D9%84%D8%A7%D8%AD%D9%82-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%88%D8%A7%D9%84%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA-%D9%85%D8%B3%D8%AA%D9%85%D8%B1%D8%A9/ar",
           "orig_link": null,
           "resolved": true,
-          "engine": "google_news",
-          "page_chars": 3693,
-          "excerpt_chars": 1795,
-          "same_event": false,
+          "engine": "brave_web",
+          "page_chars": 5331,
+          "excerpt_chars": 0,
+          "same_event": null,
           "as_of": "",
           "superseded_by": null,
           "claim_review": null,
-          "stance": "related_other"
+          "stance": "outside"
+        },
+        {
+          "publisher": "https://www.akhbaralyawm.com/",
+          "link": "https://www.akhbaralyawm.com/news/581976/%D9%88%D8%A7%D8%B4%D9%86%D8%B7%D9%86-%D8%AA%D8%B9%D9%85%D9%84-%D8%B9%D9%84%D9%89-%D8%AA%D8%AC%D9%81%D9%8A%D9%81-%D9%85%D9%86%D8%A7%D8%A8%D8%B9-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%A7%D9%84%D8%AD%D8%B2%D8%A8-%D9%88%D8%A7%D9%84%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA-%D9%85%D8%B3%D8%AA%D9%85%D8%B1%D8%A9-%D8%B6%D8%AF-%D8%A7%D9%81%D8%B1%D8%A7%D8%AF%D9%87-%D9%88%D9%85%D8%A4%D8%B3%D8%B3%D8%A7%D8%AA%D9%87--",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 774,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "Al Jazeera",
+          "link": "https://www.aljazeera.net/news/2026/9/11/%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA-%D8%A3%D9%85%D8%B1%D9%8A%D9%83%D9%8A%D8%A9-%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9-%D8%AA%D8%B7%D8%A7%D9%84-%D8%B4%D8%A8%D9%83%D8%A7%D8%AA",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2852,
+          "excerpt_chars": 1641,
+          "same_event": true,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "supports"
         },
         {
           "publisher": "Alfasselnews",
@@ -976,59 +1042,38 @@
           "resolved": true,
           "engine": "brave_web",
           "page_chars": 2770,
-          "excerpt_chars": 1770,
-          "same_event": true,
+          "excerpt_chars": 0,
+          "same_event": null,
           "as_of": "",
           "superseded_by": null,
           "claim_review": null,
-          "stance": "supports"
-        },
-        {
-          "publisher": "Youm7",
-          "link": "https://www.youm7.com/story/2024/9/26/%D8%A7%D9%84%D9%88%D9%84%D8%A7%D9%8A%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AA%D8%AD%D8%AF%D8%A9-%D8%AA%D9%81%D8%B1%D8%B6-%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA-%D8%B9%D9%84%D9%89-%D8%B4%D8%A8%D9%83%D8%A7%D8%AA-%D8%AA%D9%8F%D9%8A%D8%B3%D8%B1-%D8%A7%D9%84%D8%AA%D8%AC%D8%A7%D8%B1%D8%A9-%D9%84%D8%B5%D8%A7%D9%84%D8%AD-%D8%AD%D8%B2%D8%A8/6720043",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 611,
-          "excerpt_chars": 611,
-          "same_event": true,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "irrelevant"
+          "stance": "outside"
         }
       ],
-      "docs_before": 12,
-      "docs_after": 10,
+      "docs_before": 16,
+      "docs_after": 12,
       "verdict": "confirmed",
       "primary_source": false,
+      "support_level": "multi",
+      "support_publisher": "",
+      "outside_docs": 5,
       "icon": "✅",
       "evidence": [
         {
-          "publisher": "Almodon",
-          "link": "https://www.almodon.com/politics/2026/03/20/%D9%88%D8%A7%D8%B4%D9%86%D8%B7%D9%86-%D8%AA%D9%85%D8%B6%D9%8A-%D8%A8%D8%AE%D9%86%D9%82-%D8%B4%D8%A8%D9%83%D8%A9-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%A7%D9%84%D8%AD%D8%B2%D8%A8-%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA-%D9%8416-%D9%81%D8%B1%D8%AF%D8%A7-%D9%88%D9%83%D9%8A%D8%A7%D9%86%D8%A7",
+          "publisher": "Al Jazeera",
+          "link": "https://www.aljazeera.net/news/2026/9/11/%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA-%D8%A3%D9%85%D8%B1%D9%8A%D9%83%D9%8A%D8%A9-%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9-%D8%AA%D8%B7%D8%A7%D9%84-%D8%B4%D8%A8%D9%83%D8%A7%D8%AA",
           "stance": "supports",
-          "excerpt": "فرضت وزارة الخزانة الأميركية، اليوم، عقوباتٍ على شبكةٍ عالمية تضمّ 16 فردًا وكيانًا، قالت إنّها تعمل على تحويل الأموال وغسلها لمصلحة \"حزب الله\"",
+          "excerpt": "فرضت الولايات المتحدة، الخميس، عقوبات جديدة على أفراد وشركات وجماعات مرتبطة بإيران في الشرق الأوسط أو تدعم حزب الله في لبنان والعراق، في إطار الحملة الأمريكية لعزل طهران اقتصاديا.",
           "detail": "",
           "correct_form": "",
           "as_of": "",
           "detail_kind": ""
         },
         {
-          "publisher": "Erem News",
-          "link": "https://www.eremnews.com/news/arab-world/4yv9qe2",
+          "publisher": "U.S. Department of State",
+          "link": "https://www.state.gov/translations/%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9/%D9%81%D8%B1%D8%B6-%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA-%D8%B9%D9%84%D9%89-%D8%B4%D8%A8%D9%83%D8%A9-%D8%B9%D8%A7%D9%84%D9%85%D9%8A%D8%A9-%D8%AA%D8%AF%D8%B9%D9%85-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD",
           "stance": "supports",
-          "excerpt": "كشفت مصادر لبنانية خاصة لـ\"إرم نيوز\"، عن بدء العمل على أكثر من مسار متواز لتضييق الخناق على ميليشيا حزب الله مالياً وقانونياً وعسكرياً",
-          "detail": "",
-          "correct_form": "",
-          "as_of": "",
-          "detail_kind": ""
-        },
-        {
-          "publisher": "Alfasselnews",
-          "link": "https://alfasselnews.com/ar/articles/gc1/features/2026/09/18/feature-02/%D8%A7%D9%84%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA-%D8%AA%D9%83%D8%B4%D9%81-%D8%B4%D8%A8%D9%83%D8%A9-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D8%BA%D9%8A%D8%B1-%D8%A7%D9%84%D9%85%D8%B4%D8%B1%D9%88%D8%B9%D8%A9-%D9%84%D8%AA%D9%87%D8%B1%D9%8A%D8%A8-%D8%A7%D9%84%D8%A3%D9%85%D9%88%D8%A7%D9%84",
-          "stance": "supports",
-          "excerpt": "كشف إدراج مكتب مراقبة الأصول الأجنبية التابع لوزارة الخزانة الأمريكية مؤخرا 10 أشخاص على قائمة العقوبات، عن شبكة متطورة وغير مشروعة لنقل الأموال نقدا تمول عمليات حزب الله.",
+          "excerpt": "فرضت الولايات المتحدة اليوم عقوبات تهدف إلى تعطيل شبكة مالية عالمية تقدم الدعم لحزب الله.",
           "detail": "",
           "correct_form": "",
           "as_of": "",
@@ -1038,41 +1083,35 @@
       "correction": null,
       "refuted_by": null,
       "nearest": null,
-      "note": "⚠️ كل المؤيِّدين من خارج مصادرنا المسجّلة: Almodon، Erem News، Alfasselnews — راجع قبل الاختيار",
+      "note": "",
       "named_as": null,
-      "warnings": [
-        "⚠️ كل المؤيِّدين من خارج مصادرنا المسجّلة: Almodon، Erem News، Alfasselnews — راجع قبل الاختيار"
-      ],
+      "warnings": [],
       "call_error": false,
       "superseded_note": "",
       "superseded": [],
       "image_candidates": [],
-      "sources_read": 9,
+      "sources_read": 6,
       "dropped_reason": null,
       "model_calls": 1,
       "status": "offered",
-      "selection_issue": 1287,
-      "action": "go2",
-      "write_error": "نسخ لفظي من مقتطفات المصادر: تطابق لفظي مع مقتطف مصدر مؤكِّد (Alfasselnews): 7 كلمة متتالية مشتركة — «مكتب مراقبه اصول اجنبيه تابع لوزاره خزانه» — الجملة الكاملة في المسودة: «وفي وقت سابق، كان مكتب مراقبة الأصول الأجنبية التابع لوزارة الخزانة الأميركية قد أدرج عشرة أشخاص آخرين على قوائم العقوبات، في خطوة كشفت عن وجود شبكة غير مشروعة لنقل الأموال نقدًا، استُخدمت بحسب ما ذُكر لتمويل عمليات حزب الله، ما يعني أن الإجراءات الأميركية الأخيرة لم تكن الأولى من نوعها بل جاءت استكمالًا لمسار سابق من التضييق المالي على الحزب.» — الجملة المقابلة في المصدر: «كشف إدراج مكتب مراقبة الأصول الأجنبية التابع لوزارة الخزانة الأمريكية مؤخرا 10 أشخاص على قائمة العقوبات، عن شبكة متطورة وغير مشروعة لنقل الأموال نقدا تمول عمليات حزب الله.»",
-      "failed_at": "2026-10-08T09:49:18.052366+00:00",
-      "write_failed": true
+      "selection_issue": 1290
     },
     {
       "id": "577c16cffbc9",
       "text": "الولايات المتحدة تواصل دعم الحكومة اللبنانية لإعادة إعمار الجنوب",
       "claim": "الولايات المتحدة تواصل دعم الحكومة اللبنانية لإعادة إعمار الجنوب",
       "framing": "circulating",
-      "circulating_context": "تصريحات منسوبة إلى وزارة الخارجية الأميركية",
+      "circulating_context": "منسوب إلى تصريحات وزارة الخارجية الأميركية",
       "asserted": "",
       "queries": [
-        "الدعم الأمريكي إعادة إعمار جنوب لبنان تحقق",
-        "دعم أمريكي إعادة إعمار جنوب لبنان"
+        "دعم أميركي إعادة إعمار جنوب لبنان تحقق",
+        "الولايات المتحدة دعم لبنان إعادة إعمار الجنوب"
       ],
       "site_queries": [
-        "الولايات المتحدة الحكومة اللبنانية site:misbar.com",
-        "الولايات المتحدة الحكومة اللبنانية site:fatabyyano.net",
-        "United States الحكومة اللبنانية site:factcheck.afp.com",
-        "United States الحكومة اللبنانية site:reuters.com/fact-check"
+        "الولايات المتحدة الحكومة اللبنانية لبنان site:misbar.com",
+        "الولايات المتحدة الحكومة اللبنانية لبنان site:fatabyyano.net",
+        "United States الحكومة اللبنانية لبنان site:factcheck.afp.com",
+        "United States الحكومة اللبنانية لبنان site:reuters.com/fact-check"
       ],
       "engines": [
         "brave_web",
@@ -1092,68 +1131,8 @@
         },
         {
           "publisher": "Misbar",
-          "link": "https://www.misbar.com/editorial/2023/10/26/%D9%87%D9%84-%D8%B7%D8%B1%D8%AF%D8%AA-%D9%84%D9%8A%D8%A8%D9%8A%D8%A7-%D8%B3%D9%81%D8%B1%D8%A7%D8%A1-%D8%AF%D9%88%D9%84-%D8%BA%D8%B1%D8%A8%D9%8A%D8%A9-%D8%AA%D8%AF%D8%B9%D9%85-%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84-%D9%81%D9%8A-%D8%B9%D8%AF%D9%88%D8%A7%D9%86%D9%87%D8%A7-%D8%B9%D9%84-%D8%BA%D8%B2%D8%A9",
-          "title": "هل طردت ليبيا سفراء دول غربية تدعم إسرائيل في عدوانها على غزة؟"
-        },
-        {
-          "publisher": "Misbar",
-          "link": "https://www.misbar.com/en/",
-          "title": "Fact-checking Website Misbar"
-        },
-        {
-          "publisher": "Misbar",
-          "link": "https://www.misbar.com/editorial/2024/10/30/%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84-%D9%88%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%85%D8%A7-%D8%AE%D9%84%D9%81%D9%8A%D8%A9-%D8%A7%D9%84%D8%A7%D8%AA%D9%87%D8%A7%D9%85%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AA%D8%A8%D8%A7%D8%AF%D9%84%D8%A9-%D8%A8%D8%A7%D8%AE%D8%AA%D8%B1%D8%A7%D9%82-%D9%82%D8%B1%D8%A7%D8%B1%D8%A7%D8%AA-%D9%85%D8%AC%D9%84%D8%B3-%D8%A7%D9%84%D8%A3%D9%85%D9%86-%D8%A7%D9%84%D8%AE%D8%A7%D8%B5%D8%A9-%D8%A8%D8%AC%D9%86%D9%88%D8%A8-%D9%84%D8%A8%D9%86%D8%A7%D9%86",
-          "title": "إسرائيل وحزب الله: ما خلفية الاتهامات المتبادلة باختراق قرارات مجلس الأمن الخاصة بجنوب لبنان؟"
-        },
-        {
-          "publisher": "Misbar",
-          "link": "https://www.misbar.com/amp/factcheck/2026/04/12/%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D8%AF%D9%87%D8%B3-%D8%B5%D9%88%D8%B1%D8%A9-%D9%86%D9%88%D8%A7%D9%81-%D8%B3%D9%84%D8%A7%D9%85-%D9%82%D8%AF%D9%8A%D9%85-%D9%88%D9%84%D9%8A%D8%B3-%D8%AE%D9%84%D8%A7%D9%84-%D8%A7%D9%84%D8%AD%D8%B1%D8%A8-%D8%A7%D9%84%D8%AC%D8%A7%D8%B1%D9%8A%D8%A9",
-          "title": "فيديو دهس صورة نواف سلام قديم وليس خلال الحرب الجارية"
-        },
-        {
-          "publisher": "Misbar",
-          "link": "https://www.misbar.com/tags/%D9%84%D8%A8%D9%86%D8%A7%D9%86",
-          "title": "لبنان"
-        },
-        {
-          "publisher": "Misbar",
-          "link": "https://www.misbar.com/factcheck/2025/01/30/%D8%A7%D9%84%D8%AA%D8%B5%D8%B1%D9%8A%D8%AD-%D8%B2%D8%A7%D8%A6%D9%81-%D9%88%D8%AA%D8%B1%D8%A7%D9%85%D8%A8-%D9%84%D9%85-%D9%8A%D9%82%D9%84-%D8%A5%D9%86-%D9%85%D8%AF%D8%A7%D8%AE%D9%8A%D9%84-%D8%A7%D9%84%D8%AD%D8%AC-%D9%84%D8%A7-%D8%AA%D8%AE%D8%B5%D9%91-%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%D8%A9-%D9%88%D8%AD%D8%AF%D9%87%D8%A7",
-          "title": "التصريح زائف وترامب لم يقل إن مداخيل الحج لا تخصّ السعودية وحدها"
-        },
-        {
-          "publisher": "Misbar",
-          "link": "https://www.misbar.com/editorial/2024/10/22/%D8%AA%D8%AD%D9%82%D9%8A%D9%82-%D9%85%D8%B3%D8%A4%D9%88%D9%84%D8%A9-%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84%D9%8A%D8%A9-%D8%A3%D8%B3%D9%87%D9%85%D8%AA-%D9%81%D9%8A-%D8%A7%D9%84%D8%B1%D9%82%D8%A7%D8%A8%D8%A9-%D8%B9%D9%84-%D8%AD%D8%B3%D8%A7%D8%A8%D8%A7%D8%AA-%D8%AF%D8%A7%D8%B9%D9%85%D8%A9-%D9%84%D9%81%D9%84%D8%B3%D8%B7%D9%8A%D9%86-%D8%B9%D9%84-%D8%A5%D9%86%D8%B3%D8%AA%D8%BA%D8%B1%D8%A7%D9%85",
-          "title": "تحقيق: مسؤولة إسرائيلية أسهمت في الرقابة على حسابات داعمة لفلسطين على إنستغرام"
-        },
-        {
-          "publisher": "Misbar",
-          "link": "https://www.misbar.com/factcheck/2024/12/26/%D8%A7%D9%84%D8%AA%D8%B5%D9%85%D9%8A%D9%85-%D9%85%D9%81%D8%A8%D8%B1%D9%83-%D9%88%D9%86%D8%AA%D9%86%D9%8A%D8%A7%D9%87%D9%88-%D9%84%D9%85-%D9%8A%D8%AF%D8%B9-%D9%84%D8%AF%D8%B9%D9%85-%D8%A7%D9%84%D8%AC%D9%88%D9%84%D8%A7%D9%86%D9%8A-%D9%81%D9%8A-%D8%A5%D8%AF%D8%A7%D8%B1%D8%A9-%D8%A7%D9%84%D8%AD%D9%83%D9%88%D9%85%D8%A9-%D8%A7%D9%84%D8%B3%D9%88%D8%B1%D9%8A%D8%A9-%D8%A7%D9%84%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9",
-          "title": "التصميم مفبرك ونتنياهو لم يدعُ لدعم أحمد الشرع في إدارة الحكومة السورية الجديدة"
-        },
-        {
-          "publisher": "Misbar",
-          "link": "https://www.misbar.com/factcheck/2023/05/06/%D8%A7%D9%84%D8%B3%D9%81%D8%A7%D8%B1%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D9%81%D9%8A-%D8%A8%D9%8A%D8%B1%D9%88%D8%AA-%D9%84%D9%8A%D8%B3%D8%AA-%D8%A3%D9%83%D8%A8%D8%B1-%D8%B3%D9%81%D8%A7%D8%B1%D8%A9-%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D9%81%D9%8A-%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85",
-          "title": "السفارة الأميركية في بيروت ليست أكبر سفارة أميركية في العالم"
-        },
-        {
-          "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D9%87-%D8%A7%D9%84%D8%B5%D9%88%D8%B1%D8%A9-%D9%85%D9%88%D9%84%D8%AF%D8%A9-%D8%A8%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85-%D8%A7%D9%84%D8%B0%D9%83%D8%A7%D8%A1-%D8%A7%D9%84%D8%B5%D9%86/",
-          "title": "هذه الصورة مولدة باستخدام الذكاء الصناعي، ولا تصور قصف مطار رفيق الحريري في لبنان مؤخرًا - فتبينوا"
-        },
-        {
-          "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/%D9%88%D8%A7%D8%B4%D9%86%D8%B7%D9%86-%D8%AA%D8%B9%D8%AA%D8%B1%D9%81-%D8%A8%D8%AA%D8%B5%D9%86%D9%8A%D8%B9-%D9%81%D9%8A%D8%B1%D9%88%D8%B3-%D9%83%D9%88%D8%B1%D9%88%D9%86%D8%A7-%D8%A7%D9%84%D9%82%D8%A7/",
-          "title": "واشنطن تعترف بتصنيع فيروس كورونا القاتل.. خبر زائف - فتبينوا"
-        },
-        {
-          "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%84%D8%A7-%D9%8A%D9%8F%D8%B8%D9%87%D8%B1-%D9%86%D9%82%D9%84-%D8%A8%D9%86%D9%8A%D8%A7%D9%85%D9%8A%D9%86-%D9%86%D8%AA%D9%86%D9%8A%D8%A7/",
-          "title": "هذا الفيديو لا يُظهر نقل بنيامين نتنياهو في سيارة إسعاف، بل غارة إسرائيلية حديثة على بيروت - فتبينوا"
-        },
-        {
-          "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/%D9%87%D8%B0%D9%87-%D8%A7%D9%84%D9%85%D8%B4%D8%A7%D9%87%D8%AF-%D9%84%D8%A7-%D8%AA%D8%B8%D9%87%D8%B1-%D8%A7%D9%86%D9%81%D8%AC%D8%A7%D8%B1%D9%8B%D8%A7-%D9%81%D9%8A-%D8%B7%D9%87%D8%B1%D8%A7%D9%86-%D8%A8/",
-          "title": "هذه المشاهد لا تظهر انفجارًا في طهران بسبب الهجوم الإسرائيلي الأخير، بل متداولة قبل ذلك بأيام لغارات على بيروت - فتبينوا"
+          "link": "https://www.misbar.com/publisher/almarsadonline.com",
+          "title": "مؤشر مسبار - المرصد أونلاين"
         },
         {
           "publisher": "AFP Fact Check",
@@ -1167,13 +1146,18 @@
         },
         {
           "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/AFP-Canada",
-          "title": "AFP Canada | Fact Check"
+          "link": "https://factcheck.afp.com/doc.afp.com.44MF4T4",
+          "title": "Clip shows missile-hit building in Lebanon, not Pakistan | Fact Check"
         },
         {
           "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/politics",
-          "title": "politics | Fact Check"
+          "link": "https://factcheck.afp.com/doc.afp.com.33YE94Z",
+          "title": "Claims of US embassy closure in Lebanon are false | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.36RR8D7",
+          "title": "False claims the Rothschild family owns central banks resurface online | Fact Check"
         },
         {
           "publisher": "AFP Fact Check",
@@ -1186,73 +1170,67 @@
           "title": "AFP Fact-Checking Stylebook | Fact Check"
         },
         {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/doc.afp.com.C7XG2WE",
-          "title": "Posts overstate US visa appointment suspensions | Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/list",
-          "title": "Topics | Fact Check"
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/T6XVPSELNRO57KJ337ODDQX7CM-2025-03-07/",
+          "title": "تقصي الحقيقة: فيديو يعرض تجمعا لأشخاص أمام سفارة مصر بتل أبيب يعود تاريخه إلى 2011 | رويترز"
         },
         {
           "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/arabic",
-          "title": "خدمة \"تقصي الحقيقة\" من رويترز"
+          "link": "https://www.reuters.com/fact-check/arabic/UKQRSS64E5JRZFO77AHBLEVWNU-2025-04-09/",
+          "title": "تقصي الحقيقة: صورة تعرض هجمات إيرانية على أربيل في 2023 وليست لاستهداف قاعدة إسرائيلية في الآونة الأخيرة | رويترز"
         },
         {
           "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/arabic/3YZWR25QDBN4XIIFLEQ4RNFCEQ-2024-01-23/",
-          "title": "تقصي الحقيقة: فيديو لصواريخ استهدفت السفارة الأمريكية ببغداد في 2022 وليس القنصلية الأمريكية في أربيل | رويترز"
+          "link": "https://www.reuters.com/fact-check/arabic/PL4HAKN3YVJNFMHI7ATOR3QLJ4-2024-12-09/",
+          "title": "تقصي الحقيقة: مشاركة صورة قديمة لتدريبات عسكرية في سول على أنها استجابة للأحكام العرفية في ديسمبر 2024 | رويترز"
         },
         {
           "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/",
-          "title": "Reuters Fact Check | Reuters"
-        },
-        {
-          "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/arabic/2SKMJHN3JBJULB4IENAIYTE4OE-2025-01-28/",
-          "title": "تقصي الحقيقة: فيديو مجتزأ من سياقه لترامب ليبدو وكأنه ينفي حدوث هجمات 11 سبتمبر | رويترز"
-        },
-        {
-          "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/arabic/3LP5WPAEJZN2FERGGOXHMPYNGU-2024-09-19/",
-          "title": "تقصي الحقيقة: فيديو من 2021 لرئيس الوزراء الإسرائيلي بنيامين نتنياهو وليس بعد تفجيرات بيجر في لبنان في 2024 | رويترز"
-        },
-        {
-          "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/arabic/NXSNLOZ7DNOAPESGGDKVDS2WMU-2024-05-21/",
-          "title": "تقصي الحقيقة: صورة تظهر مظاهرات في المجر وليست لاحتجاجات مؤيدة للفلسطينيين في الجامعات الأمريكية | رويترز"
+          "link": "https://www.reuters.com/fact-check/arabic/7FSLTD5NUJMWRGYY7HT3MPSOBE-2025-10-06/",
+          "title": "تقصي الحقيقة: فيديو لاشتباكات بين محتجين مؤيدين للفلسطينيين والشرطة في ميلانو وليس إحراق السفارة الإسرائيلية في روما | ر"
         }
       ],
       "read_docs": [
         {
-          "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%85%D9%81%D8%A8%D8%B1%D9%83%D8%8C-%D9%88%D9%8A%D8%B9%D9%88%D8%AF-%D9%84%D9%86%D8%B4%D8%B1%D8%A9-%D8%A5%D8%AE%D8%A8%D8%A7%D8%B1%D9%8A%D8%A9/",
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2024/10/30/%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84-%D9%88%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%85%D8%A7-%D8%AE%D9%84%D9%81%D9%8A%D8%A9-%D8%A7%D9%84%D8%A7%D8%AA%D9%87%D8%A7%D9%85%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AA%D8%A8%D8%A7%D8%AF%D9%84%D8%A9-%D8%A8%D8%A7%D8%AE%D8%AA%D8%B1%D8%A7%D9%82-%D9%82%D8%B1%D8%A7%D8%B1%D8%A7%D8%AA-%D9%85%D8%AC%D9%84%D8%B3-%D8%A7%D9%84%D8%A3%D9%85%D9%86-%D8%A7%D9%84%D8%AE%D8%A7%D8%B5%D8%A9-%D8%A8%D8%AC%D9%86%D9%88%D8%A8-%D9%84%D8%A8%D9%86%D8%A7%D9%86",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 2867,
-          "excerpt_chars": 1844,
+          "page_chars": 8654,
+          "excerpt_chars": 1778,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%82%D8%AF%D9%8A%D9%85-%D9%88%D9%8A%D8%B9%D9%88%D8%AF-%D8%A5%D9%84%D9%89-%D8%A7%D9%84%D8%B9%D8%B1%D8%A7%D9%82-%D8%B9%D8%A7%D9%85-2003/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 1469,
+          "excerpt_chars": 1553,
           "same_event": false,
           "as_of": "",
           "superseded_by": null,
           "claim_review": {
-            "claim_reviewed": "رسالة من ترمب للسوريين أعدكم بإنهاء قسد من سوريا",
-            "label": "مفبرك",
-            "date_published": "2025-10-02"
+            "claim_reviewed": "انفجارات قويه تهز تل ابيب",
+            "label": "مضلل",
+            "date_published": "2026-04-09"
           },
           "stance": "irrelevant"
         },
         {
           "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/arabic/ZX5ZWGI7RBPVJCEUKENO3CS2CQ-2025-01-30/",
+          "link": "https://www.reuters.com/fact-check/arabic/SXDS2KBUXNLIZGWJXHBEJSWR2M-2024-11-29/",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 257,
-          "excerpt_chars": 257,
+          "page_chars": 270,
+          "excerpt_chars": 270,
           "same_event": false,
           "as_of": "",
           "superseded_by": null,
@@ -1275,67 +1253,53 @@
         },
         {
           "publisher": "اليوم السابع",
+          "link": "https://www.youm7.com/story/2026/10/2/%D8%A7%D9%84%D9%85%D8%AF%D9%81%D8%B9%D9%8A%D8%A9-%D8%A7%D9%84%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84%D9%8A%D8%A9-%D8%AA%D9%82%D8%B5%D9%81-%D8%A8%D9%84%D8%AF%D8%A7%D8%AA-%D8%AC%D9%86%D9%88%D8%A8-%D9%84%D8%A8%D9%86%D8%A7%D9%86-%D8%AA%D9%81%D8%AC%D9%8A%D8%B1%D8%A7%D8%AA-%D9%81%D9%8A-%D8%A7%D9%84%D8%AE%D9%8A%D8%A7%D9%85-%D9%88%D9%85%D9%8A%D8%B3/7564934",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 4070,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "جريدة الأنباء الكويتية",
+          "link": "https://www.alanba.com.kw/1378597",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 2615,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "LBCIV7",
+          "link": "https://www.lbcgroup.tv/news/breaking-news/961702/%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%B3%D8%AA%D9%88%D8%A7%D8%B5%D9%84-%D8%A7%D9%84%D9%88%D9%84%D8%A7%D9%8A%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AA%D8%AD%D8%AF%D8%A9-%D8%AE%D9%86%D9%82-%D9%85%D8%B5%D8%A7%D8%AF%D8%B1-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%85%D9%86/ar",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 9275,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "اليوم السابع",
           "link": "https://www.youm7.com/story/2026/10/5/%D8%A7%D9%84%D8%AC%D9%86%D9%88%D8%A8-%D8%A7%D9%84%D9%84%D8%A8%D9%86%D8%A7%D9%86%D9%89-%D8%AA%D8%AD%D8%AA-%D9%86%D8%A7%D8%B1-%D8%A7%D9%84%D8%AA%D8%B5%D8%B9%D9%8A%D8%AF-%D9%88%D8%A7%D9%84%D8%A3%D9%86%D8%B8%D8%A7%D8%B1-%D8%AA%D8%AA%D8%AC%D9%87-%D8%A5%D9%84%D9%89-%D8%AA%D8%A7%D9%85%D8%A8%D8%A7-%D8%A8%D9%81%D9%84%D9%88%D8%B1%D9%8A%D8%AF%D8%A7/7567874",
           "orig_link": null,
           "resolved": true,
           "engine": "google_news",
           "page_chars": 3167,
-          "excerpt_chars": 1705,
-          "same_event": false,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "الوطن",
-          "link": "https://www.elwatannews.com/news/details/8367315",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "google_news",
-          "page_chars": 2963,
-          "excerpt_chars": 1800,
-          "same_event": true,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "supports"
-        },
-        {
-          "publisher": "BEIRUT NEWS CENTER",
-          "link": "https://beirutnewscenter.com/%D9%88%D8%AB%D9%8A%D9%82%D8%A9-%D8%B3%D8%B1%D9%8A%D8%A9-%D8%A5%D9%84%D9%89-%D8%AA%D8%B1%D8%A7%D9%85%D8%A8-40-%D9%85%D9%84%D9%8A%D8%A7%D8%B1-%D8%AF%D9%88%D9%84%D8%A7%D8%B1-%D9%84%D8%A5%D8%B9%D8%A7/",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 7901,
-          "excerpt_chars": 1800,
-          "same_event": false,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "related_other"
-        },
-        {
-          "publisher": "Al-Ahbar",
-          "link": "https://aawsat.com/%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A/%D8%A7%D9%84%D9%85%D8%B4%D8%B1%D9%82-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A/5325076-%D8%B3%D9%84%D8%A7%D9%85-%D8%AD%D8%A7%D8%AC%D8%A7%D8%AA-%D8%A5%D8%B9%D8%A7%D8%AF%D8%A9-%D8%A7%D9%84%D8%A5%D8%B9%D9%85%D8%A7%D8%B1-%D8%AA%D9%81%D9%88%D9%82-%D8%A5%D9%85%D9%83%D8%A7%D9%86%D8%A7%D8%AA-%D8%A7%D9%84%D8%AF%D9%88%D9%84%D8%A9-%D8%A7%D9%84%D9%84%D8%A8%D9%86%D8%A7%D9%86%D9%8A%D8%A9",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 2965,
-          "excerpt_chars": 1677,
-          "same_event": false,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "related_other"
-        },
-        {
-          "publisher": "الجزيرة نت",
-          "link": "https://www.aljazeera.net/politics/2026/9/23/%D9%85%D9%86-%D8%A7%D9%84%D9%86%D8%B2%D9%88%D8%AD-%D8%A5%D9%84%D9%89-%D8%A7%D9%84%D8%B1%D9%83%D8%A7%D9%85-%D9%85%D8%B7%D8%A7%D9%84%D8%A8-%D8%B3%D9%83%D8%A7%D9%86-%D8%A7%D9%84%D9%82%D8%B1%D9%89",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "google_news",
-          "page_chars": 5650,
           "excerpt_chars": 0,
           "same_event": null,
           "as_of": "",
@@ -1344,27 +1308,83 @@
           "stance": "deduped"
         },
         {
-          "publisher": "LBCIV7",
-          "link": "https://www.lbcgroup.tv/news/breaking-news/961702/%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%B3%D8%AA%D9%88%D8%A7%D8%B5%D9%84-%D8%A7%D9%84%D9%88%D9%84%D8%A7%D9%8A%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AA%D8%AD%D8%AF%D8%A9-%D8%AE%D9%86%D9%82-%D9%85%D8%B5%D8%A7%D8%AF%D8%B1-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%85%D9%86/ar",
+          "publisher": "Almodon",
+          "link": "https://www.almodon.com/politics/2026/10/07/%D8%A8%D8%B9%D8%AF-%D8%AA%D9%82%D8%B1%D9%8A%D8%B1-%D8%B1%D9%88%D9%8A%D8%AA%D8%B1%D8%B2%D9%88%D8%A7%D8%B4%D9%86%D8%B7%D9%86-%D8%AA%D9%86%D9%81%D9%8A-%D9%86%D9%82%D9%84-%D8%A3%D9%85%D9%88%D8%A7%D9%84-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86%D9%8A%D8%A9-%D8%A5%D9%84%D9%89-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 8227,
-          "excerpt_chars": 1097,
-          "same_event": true,
+          "page_chars": 3162,
+          "excerpt_chars": 0,
+          "same_event": null,
           "as_of": "",
           "superseded_by": null,
           "claim_review": null,
-          "stance": "supports"
+          "stance": "outside"
         },
         {
-          "publisher": "الهيئة الوطنية للإعلام",
-          "link": "https://www.maspero.eg/arab-and-world/2026/10/05/995194/%D8%B1%D8%A6%D9%8A%D8%B3-%D9%88%D8%B2%D8%B1%D8%A7%D8%A1-%D9%84%D8%A8%D9%86%D8%A7%D9%86-%D9%8A%D8%A8%D8%AD%D8%AB-%D9%85%D8%B9-%D8%B3%D9%81%D9%8A%D8%B1-%D8%A7%D9%84%D8%B3%D9%88%D9%8A%D8%AF-%D8%B3%D8%A8%D9%84-%D8%AF%D8%B9%D9%85-%D8%A7%D9%84%D8%AC%D9%86%D9%88%D8%A8-%D9%88%D8%AA%D8%B9%D8%B2%D9%8A%D8%B2-%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%82%D8%B1%D8%A7%D8%B1",
+          "publisher": "جنوبية",
+          "link": "https://janoubia.com/2026/10/06/%D9%88%D8%A7%D8%B4%D9%86%D8%B7%D9%86-%D8%AA%D8%B1%D9%81%D8%B9-%D8%B3%D9%82%D9%81-%D8%A7%D9%84%D8%B6%D8%BA%D8%B7-%D8%B9%D9%84%D9%89-%D9%84%D8%A8%D9%86%D8%A7%D9%86-%D9%86%D8%AA%D8%A7%D8%A6%D8%AC/",
           "orig_link": null,
           "resolved": true,
           "engine": "google_news",
-          "page_chars": 1383,
-          "excerpt_chars": 1383,
+          "page_chars": 1810,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "An Nahar",
+          "link": "https://www.annahar.com/lebanon/355044/%D8%B1%D8%AF-%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A-%D8%B9%D9%84%D9%89-%D8%AA%D9%82%D8%B1%D9%8A%D8%B1-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D8%A8%D9%80200-%D9%85%D9%84%D9%8A%D9%88%D9%86-%D8%AF%D9%88%D9%84%D8%A7%D8%B1-%D8%A7%D9%84%D8%A3%D9%85%D9%88%D8%A7%D9%84-%D8%BA%D9%8A%D8%B1-%D9%85%D9%88%D8%AC%D9%88%D8%AF%D8%A9",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 1739,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "Lebanon24",
+          "link": "https://www.lebanon24.com/news/breaking-news/1580146/%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%B3%D8%AA%D9%88%D8%A7%D8%B5%D9%84-%D8%A7%D9%84%D9%88%D9%84%D8%A7%D9%8A%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AA%D8%AD%D8%AF%D8%A9-%D8%AE%D9%86%D9%82-%D9%85%D8%B5%D8%A7%D8%AF%D8%B1-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%85%D9%86",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2677,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "Al Jazeera",
+          "link": "https://studies.aljazeera.net/ar/article/6108",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "shared",
+          "page_chars": 20000,
+          "excerpt_chars": 0,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "U.S. Department of State",
+          "link": "https://www.state.gov/translations/%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9/%D9%81%D8%B1%D8%B6-%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA-%D8%B9%D9%84%D9%89-%D8%B4%D8%A8%D9%83%D8%A9-%D8%B9%D8%A7%D9%84%D9%85%D9%8A%D8%A9-%D8%AA%D8%AF%D8%B9%D9%85-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "shared",
+          "page_chars": 1874,
+          "excerpt_chars": 0,
           "same_event": false,
           "as_of": "",
           "superseded_by": null,
@@ -1372,13 +1392,41 @@
           "stance": "related_other"
         },
         {
-          "publisher": "Beirut 24",
-          "link": "https://www.beirut24.org/2026/09/24/%D9%87%D9%84-%D9%8A%D8%B4%D8%AA%D8%B1%D8%B7-%D9%85%D8%A7%D9%86%D8%AD%D9%88-%D8%A7%D9%84%D9%85%D8%B3%D8%A7%D8%B9%D8%AF%D8%A7%D8%AA-%D9%84%D9%84%D8%A8%D9%86%D8%A7%D9%86-%D8%A5%D8%A8%D8%B9%D8%A7%D8%AF/",
+          "publisher": "CNN",
+          "link": "https://cnnbusinessarabic.com/energy-and-sustainability/1149751/%D8%B1%D9%88%D9%8A%D8%AA%D8%B1%D8%B2-%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D8%A7-%D9%88%D8%B1%D9%88%D8%B3%D9%8A%D8%A7-%D8%AA%D8%A8%D8%AD%D8%AB%D8%A7%D9%86-%D8%A5%D8%B9%D8%A7%D8%AF%D8%A9-%D8%B6%D8%AE-%D8%A7%D9%84%D8%BA%D8%A7%D8%B2-%D8%A5%D9%84%D9%89-%D8%A3%D9%88%D8%B1%D9%88%D8%A8%D8%A7-%D8%B9%D8%A8%D8%B1-%D9%86%D9%88%D8%B1%D8%AF-%D8%B3%D8%AA%D8%B1%D9%8A%D9%85",
           "orig_link": null,
           "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 10503,
-          "excerpt_chars": 1798,
+          "engine": "shared",
+          "page_chars": 5161,
+          "excerpt_chars": 0,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "BBC",
+          "link": "https://www.bbc.com/arabic/articles/cg3xdwz8n5eo",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "shared",
+          "page_chars": 11113,
+          "excerpt_chars": 0,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "DW",
+          "link": "https://www.dw.com/ar/%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%81%D9%8A-%D9%85%D9%8A%D8%B2%D8%A7%D9%86-%D8%A7%D9%84%D9%86%D9%81%D9%88%D8%B0-%D8%A7%D9%84%D9%88%D8%B1%D9%82%D8%A9-%D8%A7%D9%84%D8%AA%D9%8A-%D8%AA%D8%AD%D9%85%D9%8A-%D8%B9%D9%85%D9%82-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86-%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%B1%D8%A7%D8%AA%D9%8A%D8%AC%D9%8A/a-77507201",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "shared",
+          "page_chars": 3766,
+          "excerpt_chars": 0,
           "same_event": false,
           "as_of": "",
           "superseded_by": null,
@@ -1386,65 +1434,60 @@
           "stance": "irrelevant"
         }
       ],
-      "docs_before": 15,
-      "docs_after": 11,
-      "verdict": "confirmed",
+      "docs_before": 16,
+      "docs_after": 17,
+      "verdict": "not_found",
       "primary_source": false,
-      "icon": "✅",
-      "evidence": [
-        {
-          "publisher": "الوطن",
-          "link": "https://www.elwatannews.com/news/details/8367315",
-          "stance": "supports",
-          "excerpt": "فيما أكد وزير الخارجية الأمريكي، ضمن آخر الأخبار في جنوب لبنان، التزام بلاده دعم لبنان ومؤسساته الشرعية، ومواصلة دعم الجيش اللبناني وتعزيز قدراته.",
-          "detail": "",
-          "correct_form": "",
-          "as_of": "",
-          "detail_kind": ""
-        },
-        {
-          "publisher": "LBCIV7",
-          "link": "https://www.lbcgroup.tv/news/breaking-news/961702/%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%B3%D8%AA%D9%88%D8%A7%D8%B5%D9%84-%D8%A7%D9%84%D9%88%D9%84%D8%A7%D9%8A%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AA%D8%AD%D8%AF%D8%A9-%D8%AE%D9%86%D9%82-%D9%85%D8%B5%D8%A7%D8%AF%D8%B1-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%85%D9%86/ar",
-          "stance": "supports",
-          "excerpt": "الخارجية الأميركية: ستواصل الولايات المتحدة خنق مصادر تمويل حزب الله من خلال العقوبات بالتوازي مع دعم قدرة الحكومة اللبنانية الشرعية على إعادة إعمار الجنوب",
-          "detail": "",
-          "correct_form": "",
-          "as_of": "",
-          "detail_kind": ""
-        }
-      ],
+      "support_level": "",
+      "support_publisher": "",
+      "outside_docs": 7,
+      "icon": "🔍",
+      "evidence": [],
       "correction": null,
       "refuted_by": null,
-      "nearest": null,
-      "note": "⚠️ كل المؤيِّدين من خارج مصادرنا المسجّلة: الوطن، LBCIV7 — راجع قبل الاختيار",
+      "nearest": {
+        "kind": "single_source",
+        "title": "Homeالعربية ...فرض عقوبات على شبكة عالمية تدعم تمويل حزب الله hide فرض عقوبات على شبكة عالمية تدعم تمويل حزب الله ترجمات",
+        "description": "",
+        "shared_entity": "الولايات المتحدة",
+        "sources": [
+          {
+            "publisher": "U.S. Department of State",
+            "link": "https://www.state.gov/translations/%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9/%D9%81%D8%B1%D8%B6-%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA-%D8%B9%D9%84%D9%89-%D8%B4%D8%A8%D9%83%D8%A9-%D8%B9%D8%A7%D9%84%D9%85%D9%8A%D8%A9-%D8%AA%D8%AF%D8%B9%D9%85-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD",
+            "excerpt": "Homeالعربية ...فرض عقوبات على شبكة عالمية تدعم تمويل حزب الله hide فرض عقوبات على شبكة عالمية تدعم تمويل حزب الله ترجمات باللغة العربية 20 آذار/مارس 2026 بيان صحفي النائب الأول للمتحدث الرسمي، توماس “تومي” بيغوت 20 آذار/مارس 2026 فرضت الولايات المتحدة اليوم عقوبات تهدف إلى تعطيل شبكة مالية عالمية تقدم الدعم لحزب الله.\nويستهدف هذا الإجراء أفرادًا وكيانات ضالعة في غسل الأموال وجمع التبرعات لصالح الفريق المالي التابع لحزب الله، وذلك من خلال مجموعة من الشركات والمشاريع التي تعمل في أنحاء الشرق الأوسط وأوروبا وأمريكا الشمالية.\nومن خلال قطع قنوات التمويل هذه، تتخذ الولايات المتحدة خطوات ملموسة للحد من قدرة حزب الله على تحقيق الإيرادات المالية لتمويل الإرهاب والتهرب من العقوبات.\n[…]\nومن خلال استهداف الجهات التي تُمكّن حزب الله من الناحية المالية، تتخذ إدارة ترامب إجراءات حاسمة لتعطيل قدرة الجماعة على تهديد أمن الولايات المتحدة ومنطقة الشرق الأوسط."
+          }
+        ]
+      },
+      "note": "",
       "named_as": null,
-      "warnings": [
-        "⚠️ كل المؤيِّدين من خارج مصادرنا المسجّلة: الوطن، LBCIV7 — راجع قبل الاختيار"
-      ],
+      "warnings": [],
       "call_error": false,
       "superseded_note": "",
       "superseded": [],
       "image_candidates": [],
-      "sources_read": 11,
+      "sources_read": 9,
       "dropped_reason": null,
-      "model_calls": 1,
-      "status": "written",
-      "selection_issue": 1285,
-      "action": "go2",
-      "draft_id": "577c16cffbc9",
-      "written_at": "2026-10-08T09:49:35.965243+00:00"
+      "model_calls": 2,
+      "shared_from": [
+        "Al Jazeera",
+        "U.S. Department of State",
+        "CNN",
+        "BBC",
+        "DW"
+      ],
+      "status": "offered",
+      "selection_issue": 1290
     },
     {
-      "id": "12af8d0d4503",
-      "text": "روسيا تبيع الغاز بمقدار 42 مليون دولار يومياً إلى أوروبا، أي نحو 15 مليار دولار سنوياً",
-      "claim": "روسيا تبيع الغاز بمقدار 42 مليون دولار يومياً إلى أوروبا، أي نحو 15 مليار دولار سنوياً",
+      "id": "a845c7b1292b",
+      "text": "روسيا تبيع الغاز بمقدار 42 مليون دولار يومياً إلى أوروبا",
+      "claim": "روسيا تبيع الغاز بمقدار 42 مليون دولار يومياً إلى أوروبا",
       "framing": "direct",
       "circulating_context": "",
       "asserted": "",
       "queries": [
-        "روسيا غاز أوروبا 42 مليون دولار يومي تحقق",
-        "روسيا بيع الغاز أوروبا 42 مليون دولار يومياً",
-        "Russia gas sales Europe daily revenue 42 million"
+        "روسيا مبيعات الغاز أوروبا يومية تحقق",
+        "روسيا بيع الغاز أوروبا 42 مليون دولار يومياً"
       ],
       "site_queries": [
         "42 مليون 15 مليار روسيا site:misbar.com",
@@ -1458,14 +1501,11 @@
       ],
       "windows": [
         "days",
-        "wide",
-        "days",
-        "wide",
         "days",
         "wide"
       ],
       "brave_skipped": null,
-      "cache_hits": 0,
+      "cache_hits": 6,
       "checker_skipped": [
         {
           "publisher": "Misbar",
@@ -1640,32 +1680,18 @@
           "stance": "irrelevant"
         },
         {
-          "publisher": "BBC",
-          "link": "https://www.bbc.com/arabic/business-62322372",
+          "publisher": "بوابة بلوم",
+          "link": "https://bloom-gate.com/%D8%A3%D8%B3%D9%88%D8%A7%D9%82/%D8%A3%D9%85%D8%B1%D9%8A%D9%83%D8%A7-%D9%88%D8%B1%D9%88%D8%B3%D9%8A%D8%A7-%D8%AA%D8%A8%D8%AD%D8%AB%D8%A7%D9%86-%D8%AA%D8%B5%D8%AF%D9%8A%D8%B1-%D8%B5%D8%A7%D8%AF%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D8%BA/",
           "orig_link": null,
           "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 3720,
-          "excerpt_chars": 1800,
-          "same_event": false,
+          "engine": "google_news",
+          "page_chars": 2872,
+          "excerpt_chars": 0,
+          "same_event": null,
           "as_of": "",
           "superseded_by": null,
           "claim_review": null,
-          "stance": "related_other"
-        },
-        {
-          "publisher": "CNN",
-          "link": "https://arabic.cnn.com/business/article/2022/03/06/russia-to-europe-gas-pipeline-map-infographic",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 2190,
-          "excerpt_chars": 1758,
-          "same_event": true,
-          "as_of": "بعد الغزو (ارتفاعًا من حوالي 200 مليون يورو في فبراير)",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "conflicts_detail"
+          "stance": "outside"
         },
         {
           "publisher": "Al Jazeera",
@@ -1682,18 +1708,60 @@
           "stance": "related_other"
         },
         {
+          "publisher": "CNN Business Arabic",
+          "link": "https://cnnbusinessarabic.com/energy-and-sustainability/1144308/%D8%A3%D9%88%D8%B1%D9%88%D8%A8%D8%A7-%D8%AA%D8%B3%D8%AC%D9%84-%D8%B1%D9%82%D9%85%D8%A7-%D9%82%D9%8A%D8%A7%D8%B3%D9%8A%D8%A7-%D9%81%D9%8A-%D8%B4%D8%B1%D8%A7%D8%A1-%D8%A7%D9%84%D8%BA%D8%A7%D8%B2-%D8%A7%D9%84%D8%B1%D9%88%D8%B3%D9%8A-%D9%82%D8%A8%D9%84-%D8%AD%D8%B8%D8%B1%D9%87-%D9%83%D9%85-%D8%A8%D9%84%D8%BA",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 3950,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "CNN",
+          "link": "https://arabic.cnn.com/business/article/2022/03/06/russia-to-europe-gas-pipeline-map-infographic",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2190,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "Alwakeelnews",
+          "link": "https://www.alwakeelnews.com/Section_10/%D8%A3%D8%B3%D9%88%D8%A7%D9%82-%D9%88%D9%85%D8%A7%D9%84/%D8%B1%D9%88%D8%B3%D9%8A%D8%A7-18-%D8%A7%D8%B1%D8%AA%D9%81%D8%A7%D8%B9-%D8%B5%D8%A7%D8%AF%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D8%BA%D8%A7%D8%B2-%D8%A7%D9%84%D8%B7%D8%A8%D9%8A%D8%B9%D9%8A-%D8%A5%D9%84%D9%89-%D8%A3%D9%88%D8%B1%D9%88%D8%A8%D8%A7_781687",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 525,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
           "publisher": "اليوم السابع",
           "link": "https://www.youm7.com/story/2026/3/12/%D8%A7%D8%B1%D8%AA%D9%81%D8%A7%D8%B9-%D8%A3%D8%B3%D8%B9%D8%A7%D8%B1-%D8%A7%D9%84%D8%AA%D8%A3%D8%AC%D9%8A%D8%B1-%D8%A7%D9%84%D9%81%D9%88%D8%B1%D9%8A-%D9%84%D9%86%D8%A7%D9%82%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D8%BA%D8%A7%D8%B2-%D8%A3%D9%87%D9%85-%D9%85%D8%B3%D8%AA%D8%AC%D8%AF%D8%A7%D8%AA-%D8%A3%D8%B3%D9%88%D8%A7%D9%82-%D8%A7%D9%84%D8%BA%D8%A7%D8%B2/7338192",
           "orig_link": null,
           "resolved": true,
           "engine": "google_news",
           "page_chars": 2608,
-          "excerpt_chars": 1793,
-          "same_event": false,
+          "excerpt_chars": 0,
+          "same_event": null,
           "as_of": "",
           "superseded_by": null,
           "claim_review": null,
-          "stance": "irrelevant"
+          "stance": "outside"
         },
         {
           "publisher": "الجريدة العقارية",
@@ -1702,12 +1770,12 @@
           "resolved": true,
           "engine": "google_news",
           "page_chars": 3134,
-          "excerpt_chars": 1735,
-          "same_event": false,
+          "excerpt_chars": 0,
+          "same_event": null,
           "as_of": "",
           "superseded_by": null,
           "claim_review": null,
-          "stance": "irrelevant"
+          "stance": "outside"
         },
         {
           "publisher": "Al Khaleej",
@@ -1716,35 +1784,49 @@
           "resolved": true,
           "engine": "brave_web",
           "page_chars": 1740,
-          "excerpt_chars": 1740,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "U.S. Department of State",
+          "link": "https://www.state.gov/translations/%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9/%D9%81%D8%B1%D8%B6-%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA-%D8%B9%D9%84%D9%89-%D8%B4%D8%A8%D9%83%D8%A9-%D8%B9%D8%A7%D9%84%D9%85%D9%8A%D8%A9-%D8%AA%D8%AF%D8%B9%D9%85-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "shared",
+          "page_chars": 1874,
+          "excerpt_chars": 0,
           "same_event": false,
           "as_of": "",
           "superseded_by": null,
           "claim_review": null,
-          "stance": "related_other"
+          "stance": "irrelevant"
         },
         {
-          "publisher": "Daily Kos",
-          "link": "https://www.dailykos.com/stories/2026/8/9/800081818/community/russian-stuff-blowing-up/",
+          "publisher": "BBC",
+          "link": "https://www.bbc.com/arabic/articles/cg3xdwz8n5eo",
           "orig_link": null,
           "resolved": true,
-          "engine": "google_news",
-          "page_chars": 4271,
-          "excerpt_chars": 1472,
+          "engine": "shared",
+          "page_chars": 11113,
+          "excerpt_chars": 0,
           "same_event": false,
           "as_of": "",
           "superseded_by": null,
           "claim_review": null,
-          "stance": "related_other"
+          "stance": "irrelevant"
         },
         {
-          "publisher": "Rigzone",
-          "link": "https://www.rigzone.com/news/gas_trading_boosts_equinor_profit-06-may-2026-183621-article/",
+          "publisher": "DW",
+          "link": "https://www.dw.com/ar/%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%81%D9%8A-%D9%85%D9%8A%D8%B2%D8%A7%D9%86-%D8%A7%D9%84%D9%86%D9%81%D9%88%D8%B0-%D8%A7%D9%84%D9%88%D8%B1%D9%82%D8%A9-%D8%A7%D9%84%D8%AA%D9%8A-%D8%AA%D8%AD%D9%85%D9%8A-%D8%B9%D9%85%D9%82-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86-%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%B1%D8%A7%D8%AA%D9%8A%D8%AC%D9%8A/a-77507201",
           "orig_link": null,
           "resolved": true,
-          "engine": "google_news",
-          "page_chars": 6429,
-          "excerpt_chars": 1112,
+          "engine": "shared",
+          "page_chars": 3766,
+          "excerpt_chars": 0,
           "same_event": false,
           "as_of": "",
           "superseded_by": null,
@@ -1752,35 +1834,27 @@
           "stance": "irrelevant"
         }
       ],
-      "docs_before": 19,
-      "docs_after": 12,
+      "docs_before": 13,
+      "docs_after": 15,
       "verdict": "not_found",
       "primary_source": false,
+      "support_level": "",
+      "support_publisher": "",
+      "outside_docs": 5,
       "icon": "🔍",
-      "evidence": [
-        {
-          "publisher": "CNN",
-          "link": "https://arabic.cnn.com/business/article/2022/03/06/russia-to-europe-gas-pipeline-map-infographic",
-          "stance": "conflicts_detail",
-          "excerpt": "ارتفعت قيمة صادرات الغاز الطبيعي الروسي إلى الاتحاد الأوروبي إلى حوالي 500 مليون يورو (545 مليون دولار) يوميًا",
-          "detail": "القيمة اليومية لصادرات الغاز الروسي إلى أوروبا هي 500 مليون يورو (545 مليون دولار) يومياً، وليست 42 مليون دولار",
-          "correct_form": "حوالي 500 مليون يورو (545 مليون دولار) يوميًا",
-          "as_of": "بعد الغزو (ارتفاعًا من حوالي 200 مليون يورو في فبراير)",
-          "detail_kind": "number"
-        }
-      ],
+      "evidence": [],
       "correction": null,
       "refuted_by": null,
       "nearest": {
         "kind": "single_source",
-        "title": "روسيا وأوكرانيا: لماذا تقطع روسيا إمدادات الغاز عن أوروبا؟",
+        "title": "قفزة الـ 22%..",
         "description": "",
         "shared_entity": "روسيا",
         "sources": [
           {
-            "publisher": "BBC",
-            "link": "https://www.bbc.com/arabic/business-62322372",
-            "excerpt": "روسيا وأوكرانيا: لماذا تقطع روسيا إمدادات الغاز عن أوروبا؟\nخفضت روسيا كمية الغاز الطبيعي التي ترسلها إلى أوروبا عن طريق إغلاق توربين واحد على خط أنابيب نورد ستريم 1.\n[…]\nيمتد خط أنابيب نورد ستريم 1 على عمق 1200 كيلومتر تحت بحر البلطيق من الساحل الروسي بالقرب من سانت بطرسبرغ إلى شمال شرق ألمانيا.\nوافتتح الخط في عام 2011، ويمكنه إرسال 170 مليون متر مكعب من الغاز يومياً حداً أقصى من روسيا إلى ألمانيا.\n[…]\nوتستورد ألمانيا 55 في المئة من غازها من روسيا، ويأتي معظمه عبر نورد ستريم 1 - أما الباقي فيأتي من خطوط الأنابيب الأرضية.\nووافقت ألمانيا أيضاً على بناء خط أنابيب موازٍ - هو نورد ستريم 2 - لكنه لم يدخل حيز التشغيل بسبب الغزو الروسي لأوكرانيا.\nكيف قطعت روسيا الإمدادات، وكيف يضر ذلك بأوروبا؟\n[…]\nوفي منتصف يونيو/حزيران خفضت شركة غازبروم شحنات الغاز عبر نورد ستريم 1 بنسبة 75 في المئة - من 170 مليون متر مكعب من الغاز يومياً إلى حوالي 40 مليون متر مكعب.\n[…]\nوبعد وقت قصير من إعادة فتحه، خفضت شركة غازبروم الكمية التي توردها إلى النصف أي إلى 20 مليون متر مكعب.\nوعندما أعلنت روسيا عن نيتها تقييد الإمداد، زاد سعر الجملة للغاز في أوروبا خلال يوم واحد بنسبة 10 في المئة.\n[…]\nكيف تتفاعل أوروبا مع تخفيضات الإمداد؟\nتقول غازبروم إنها تقطع الإمدادات لأنها تحتاج إلى إغلاق أحد التوربينات من أجل الصيانة، لكن قلة في أوروبا تصدق ذلك.\n[…]\nأما الرئيس الأوكراني، فولوديمير زيلينسكي، فوصفها بأنها \"حرب غاز علنية تشنها روسيا على أوروبا الموحدة\".\nوتقول كيت دوريان، الزميلة في معهد الطاقة ومقره لندن: \"روسيا تعمل على استخدام الغاز سلاحاً أكثر فأكثر\".\nوتضيف: \"إنها تحاول إظهار أنها لا تزال قوة عظمى في مجال الطاقة، ويمكنها الانتقام من العقوبات التي فرضتها عليها أوروبا\".\nما الذي يمكن أن تفعله أوروبا؟\n[…]\nوتقول نخلة: \"لا يمكنك بناء اعتماد على الغاز الروسي كما فعلت ألمانيا، ثم تغير بعد ذلك مصادر الإمداد لديك بسرعة\".\n[…]\nكيف تخفض أوروبا الطلب على الغاز؟\nتوصل الاتحاد الأوروبي إلى اتفاق خفضت فيه الدول الأعضاء استخدام"
+            "publisher": "Al Jazeera",
+            "link": "https://www.aljazeera.net/ebusiness/2026/4/1/%D9%82%D9%81%D8%B2%D8%A9-%D8%A7%D9%84%D9%80-22-%D8%A5%D8%BA%D9%84%D8%A7%D9%82-%D9%85%D8%B6%D9%8A%D9%82-%D9%87%D8%B1%D9%85%D8%B2-%D9%8A%D8%B9%D9%8A%D8%AF-%D8%A7%D9%84%D8%BA%D8%A7%D8%B2",
+            "excerpt": "قفزة الـ 22%.. إغلاق \"مضيق هرمز\" يعيد الغاز الروسي إلى قلب أوروبا\nأظهرت حسابات أجرتها رويترز -اليوم الأربعاء- أن متوسط إمدادات الغاز الطبيعي اليومية التي تصدرها شركة غازبروم الروسية العملاقة للطاقة إلى أوروبا عبر خط أنابيب \"ترك ستريم\" ارتفع بنسبة 22% في شهر مارس/آذار المنصرم مقارنة بالشهر نفسه من العام الماضي، ليصل إلى 55 مليون متر مكعب.\n[…]\nوأصبحت تركيا الآن الطريق الوحيد لعبور الغاز الروسي إلى أوروبا بعد أن اختارت أوكرانيا عدم تمديد اتفاق مدته 5 سنوات مع موسكو انتهى سريانه في يناير/كانون الثاني 2025.\nوأظهرت الحسابات المستندة إلى بيانات الشبكة الأوروبية لمشغلي أنظمة النقل للغاز أن إجمالي إمدادات الغاز الروسي إلى أوروبا عبر خط أنابيب ترك ستريم بلغ 1.7 مليار متر مكعب الشهر الماضي، ارتفاعا من 1.4 مليار متر مكعب في مارس/آذار 2025. واتسمت الإمدادات بالاستقرار عموما منذ فبراير/شباط الماضي.\n[…]\nاتجاه معاكس لخطط أوروبا\nتشير حسابات رويترز إلى أن صادرات الغاز من الشركة إلى أوروبا انخفضت 44% العام الماضي لتصل إلى 18 مليار متر مكعب فقط، وهو أدنى مستوى منذ منتصف سبعينيات القرن الماضي، عقب إغلاق المسار الأوكراني.\nوبلغت صادرات الغاز الروسي عبر الأنابيب إلى أوروبا ذروتها عند حوالي 180 مليار متر مكعب سنويا في الفترة 2018-2019.\nوكانت روسيا تمد دول الاتحاد الأوروبي بنحو 40% من احتياجاتها من الغاز، سواء عن طريق الأنابيب أو عبر نقل الغاز الطبيعي المسال، لكن هذه النسبة انخفضت إلى 13% عام 2025، وفق وكالة رويترز.\nويسعى الاتحاد الأوروبي إلى وقف استيراد الغاز الروسي بشكل كامل في 2027.\nلكن هناك معارضة لخطة الاتحاد الأوروبي لوقف استيراد الغاز من روسيا من قبل بعض الدول الأوروبية مثل المجر التي تعتمد عليه بشكل كبير.\nوكان المتحدث باسم الكرملين ديمتري بيسكوف وصف سياسة قادة أوروبا الرامية لحظر استيراد الغاز الروسي بأنها أشبه \"بمن يطلق النار على قدميه\"، مشيرا إلى أن قادة أوروبا يلحقون الضرر بشعوبهم بهذه السياسة لأنها سوف تحملهم تكاليف أعلى للطاقة، فيما توجد لدى موسكو أسواق بديلة."
           }
         ]
       },
@@ -1791,22 +1865,27 @@
       "superseded_note": "",
       "superseded": [],
       "image_candidates": [],
-      "sources_read": 12,
+      "sources_read": 9,
       "dropped_reason": null,
-      "model_calls": 1,
-      "status": "unselected",
-      "selection_issue": 1285
+      "model_calls": 2,
+      "shared_from": [
+        "U.S. Department of State",
+        "BBC",
+        "DW"
+      ],
+      "status": "offered",
+      "selection_issue": 1290
     },
     {
-      "id": "6bec9b71addc",
-      "text": "روسيا تستخدم أموال بيع الغاز إلى أوروبا في تأمين تكاليف الحرب في أوكرانيا",
-      "claim": "روسيا تستخدم أموال بيع الغاز إلى أوروبا في تأمين تكاليف الحرب في أوكرانيا",
+      "id": "1997fd65564a",
+      "text": "روسيا تستخدم أموال مبيعات الغاز إلى أوروبا في تأمين تكاليف الحرب في أوكرانيا",
+      "claim": "روسيا تستخدم أموال مبيعات الغاز إلى أوروبا في تأمين تكاليف الحرب في أوكرانيا",
       "framing": "direct",
       "circulating_context": "",
       "asserted": "",
       "queries": [
-        "روسيا أموال غاز أوكرانيا تحقق",
-        "روسيا أموال الغاز الحرب أوكرانيا"
+        "روسيا استخدام أرباح الغاز أوكرانيا تحقق",
+        "روسيا أموال الغاز أوروبا تمويل الحرب أوكرانيا"
       ],
       "site_queries": [
         "روسيا أوروبا أوكرانيا site:misbar.com",
@@ -1823,7 +1902,7 @@
         "days"
       ],
       "brave_skipped": null,
-      "cache_hits": 0,
+      "cache_hits": 4,
       "checker_skipped": [],
       "read_docs": [
         {
@@ -1887,18 +1966,46 @@
           "stance": "irrelevant"
         },
         {
-          "publisher": "اليوم السابع",
-          "link": "https://www.youm7.com/story/2026/10/6/%D8%A3%D9%88%D9%83%D8%B1%D8%A7%D9%86%D9%8A%D8%A7-%D8%AA%D9%88%D8%A7%D8%AC%D9%87-%D8%A3%D8%B2%D9%85%D8%A9-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D9%84%D9%84%D8%AD%D8%B1%D8%A8-%D9%82%D8%A8%D9%84-%D8%A7%D9%84%D8%B4%D8%AA%D8%A7%D8%A1-27-%D9%85%D9%84%D9%8A%D8%A7%D8%B1-%D8%AF%D9%88%D9%84%D8%A7%D8%B1/7563801",
+          "publisher": "CNN الاقتصادية",
+          "link": "https://cnnbusinessarabic.com/energy-and-sustainability/1149751/%D8%B1%D9%88%D9%8A%D8%AA%D8%B1%D8%B2-%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D8%A7-%D9%88%D8%B1%D9%88%D8%B3%D9%8A%D8%A7-%D8%AA%D8%A8%D8%AD%D8%AB%D8%A7%D9%86-%D8%A5%D8%B9%D8%A7%D8%AF%D8%A9-%D8%B6%D8%AE-%D8%A7%D9%84%D8%BA%D8%A7%D8%B2-%D8%A5%D9%84%D9%89-%D8%A3%D9%88%D8%B1%D9%88%D8%A8%D8%A7-%D8%B9%D8%A8%D8%B1-%D9%86%D9%88%D8%B1%D8%AF-%D8%B3%D8%AA%D8%B1%D9%8A%D9%85",
           "orig_link": null,
           "resolved": true,
           "engine": "google_news",
-          "page_chars": 6262,
-          "excerpt_chars": 1792,
-          "same_event": false,
+          "page_chars": 5161,
+          "excerpt_chars": 0,
+          "same_event": null,
           "as_of": "",
           "superseded_by": null,
           "claim_review": null,
-          "stance": "related_other"
+          "stance": "deduped"
+        },
+        {
+          "publisher": "الجزيرة نت",
+          "link": "https://www.aljazeera.net/ebusiness/2026/10/8/%D8%A3%D9%85%D8%B1%D9%8A%D9%83%D8%A7-%D9%88%D8%B1%D9%88%D8%B3%D9%8A%D8%A7-%D8%AA%D8%A8%D8%AD%D8%AB%D8%A7%D9%86-%D8%A5%D8%B9%D8%A7%D8%AF%D8%A9-%D8%A7%D9%84%D8%BA%D8%A7%D8%B2-%D8%A5%D9%84%D9%89",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 3113,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "جريدة المال",
+          "link": "https://almalnews.com/2140089/%D9%88%D8%A7%D8%B4%D9%86%D8%B7%D9%86-%D9%88%D9%85%D9%88%D8%B3%D9%83%D9%88-%D8%AA%D8%A8%D8%AD%D8%AB%D8%A7%D9%86-%D8%B9%D9%88%D8%AF%D8%A9-%D8%A7%D9%84%D8%BA%D8%A7%D8%B2-%D8%A7%D9%84%D8%B1%D9%88%D8%B3%D9%8A-%D8%A5%D9%84%D9%89/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 2760,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
         },
         {
           "publisher": "Al Jazeera",
@@ -1916,62 +2023,6 @@
         },
         {
           "publisher": "BBC",
-          "link": "https://www.bbc.com/arabic/middleeast-61558371",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 6800,
-          "excerpt_chars": 0,
-          "same_event": null,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "deduped"
-        },
-        {
-          "publisher": "Icss",
-          "link": "https://icss.ae/assessments/view/%D8%AA%D8%AF%D8%A7%D8%B9%D9%8A%D8%A7%D8%AA-%D8%A5%D9%8A%D9%82%D8%A7%D9%81-%D8%A5%D9%85%D8%AF%D8%A7%D8%AF-%D8%A7%D9%84%D8%BA%D8%A7%D8%B2-%D8%A7%D9%84%D8%B1%D9%88%D8%B3%D9%8A-%D8%A5%D9%84%D9%89-%D8%A3%D9%88%D8%B1%D9%88%D8%A8%D8%A7-%D8%B9%D8%A8%D8%B1-%D8%A3%D9%88%D9%83%D8%B1%D8%A7%D9%86%D9%8A%D8%A7",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 6440,
-          "excerpt_chars": 1800,
-          "same_event": false,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "related_other"
-        },
-        {
-          "publisher": "CNN الاقتصادية",
-          "link": "https://cnnbusinessarabic.com/energy-and-sustainability/1149751/%D8%B1%D9%88%D9%8A%D8%AA%D8%B1%D8%B2-%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D8%A7-%D9%88%D8%B1%D9%88%D8%B3%D9%8A%D8%A7-%D8%AA%D8%A8%D8%AD%D8%AB%D8%A7%D9%86-%D8%A5%D8%B9%D8%A7%D8%AF%D8%A9-%D8%B6%D8%AE-%D8%A7%D9%84%D8%BA%D8%A7%D8%B2-%D8%A5%D9%84%D9%89-%D8%A3%D9%88%D8%B1%D9%88%D8%A8%D8%A7-%D8%B9%D8%A8%D8%B1-%D9%86%D9%88%D8%B1%D8%AF-%D8%B3%D8%AA%D8%B1%D9%8A%D9%85",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "google_news",
-          "page_chars": 5161,
-          "excerpt_chars": 0,
-          "same_event": null,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "deduped"
-        },
-        {
-          "publisher": "Al Jazeera",
-          "link": "https://www.aljazeera.net/ebusiness/2026/2/24/%D8%A8%D8%B9%D8%AF-4-%D8%B3%D9%86%D9%88%D8%A7%D8%AA-%D9%81%D8%A7%D8%AA%D9%88%D8%B1%D8%A9-%D8%AD%D8%B1%D8%A8-%D8%A3%D9%88%D9%83%D8%B1%D8%A7%D9%86%D9%8A%D8%A7-%D8%AA%D8%AB%D9%82%D9%84",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 3380,
-          "excerpt_chars": 0,
-          "same_event": null,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "deduped"
-        },
-        {
-          "publisher": "BBC",
           "link": "https://www.bbc.com/arabic/articles/cwynvm70zvzo",
           "orig_link": null,
           "resolved": true,
@@ -1985,12 +2036,12 @@
           "stance": "supports"
         },
         {
-          "publisher": "الجزيرة نت",
-          "link": "https://www.aljazeera.net/encyclopedia/2026/9/21/%D9%82%D8%A7%D9%86%D9%88%D9%86-%D8%BA%D8%B1%D8%A7%D9%87%D8%A7%D9%85",
+          "publisher": "CNN Business Arabic",
+          "link": "https://cnnbusinessarabic.com/energy-and-sustainability/1148772/683-%D9%85%D9%84%D9%8A%D8%A7%D8%B1-%D9%85%D8%AA%D8%B1-%D9%85%D9%83%D8%B9%D8%A8-%D8%B1%D9%88%D8%B3%D9%8A%D8%A7-%D8%AA%D8%AE%D9%81%D8%B6-%D8%AA%D9%88%D9%82%D8%B9%D8%A7%D8%AA-%D8%A5%D9%86%D8%AA%D8%A7%D8%AC-%D8%A7%D9%84%D8%BA%D8%A7%D8%B2-%D9%81%D9%8A-2026",
           "orig_link": null,
           "resolved": true,
-          "engine": "google_news",
-          "page_chars": 2007,
+          "engine": "brave_web",
+          "page_chars": 2615,
           "excerpt_chars": 0,
           "same_event": null,
           "as_of": "",
@@ -1999,89 +2050,48 @@
           "stance": "deduped"
         },
         {
-          "publisher": "A5r5br",
-          "link": "https://a5r5br.net/international/international-news/8131802-%D8%A7%D9%84%D8%AD%D9%88%D8%AB%D9%8A%D9%88%D9%86-%D9%8A%D8%AB%D8%A8%D8%AA%D9%88%D9%86-%D9%85%D9%88%D8%A7%D9%82%D8%B9-%D9%82%D8%B1%D8%A8-%D8%A8%D8%A7%D8%A8-%D8%A7%D9%84%D9%85%D9%86%D8%AF%D8%A8-%D8%A8%D8%AF%D8%B9%D9%85-%D9%85%D9%86-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86-%D9%88%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87",
+          "publisher": "الجزيرة نت",
+          "link": "https://www.aljazeera.net/amp/ebusiness/2026/10/8/%D8%A3%D9%85%D8%B1%D9%8A%D9%83%D8%A7-%D9%88%D8%B1%D9%88%D8%B3%D9%8A%D8%A7-%D8%AA%D8%A8%D8%AD%D8%AB%D8%A7%D9%86-%D8%A5%D8%B9%D8%A7%D8%AF%D8%A9-%D8%A7%D9%84%D8%BA%D8%A7%D8%B2-%D8%A5%D9%84%D9%89",
           "orig_link": null,
           "resolved": true,
-          "engine": "shared",
-          "page_chars": 1325,
+          "engine": "google_news",
+          "page_chars": 3113,
           "excerpt_chars": 0,
-          "same_event": false,
+          "same_event": null,
           "as_of": "",
           "superseded_by": null,
           "claim_review": null,
-          "stance": "irrelevant"
+          "stance": "deduped"
         },
-        {
-          "publisher": "Lebanon 24",
-          "link": "https://www.lebanon24.com/news/lebanon/1580170/%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%B3%D9%86%D9%88%D8%A7%D8%B5%D9%84-%D8%AE%D9%86%D9%82-%D9%85%D8%B5%D8%A7%D8%AF%D8%B1-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D8%A8%D8%A7%D9%84%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "shared",
-          "page_chars": 2405,
-          "excerpt_chars": 0,
-          "same_event": false,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "إرم نيوز",
-          "link": "https://www.eremnews.com/news/arab-world/z12ecdz",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "shared",
-          "page_chars": 1511,
-          "excerpt_chars": 0,
-          "same_event": false,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "irrelevant"
-        }
-      ],
-      "docs_before": 16,
-      "docs_after": 15,
-      "verdict": "confirmed",
-      "primary_source": false,
-      "icon": "✅",
-      "evidence": [
         {
           "publisher": "اليوم السابع",
           "link": "https://www.youm7.com/story/2026/10/6/%D8%A3%D9%88%D9%83%D8%B1%D8%A7%D9%86%D9%8A%D8%A7-%D8%AA%D9%88%D8%A7%D8%AC%D9%87-%D8%A3%D8%B2%D9%85%D8%A9-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D9%84%D9%84%D8%AD%D8%B1%D8%A8-%D9%82%D8%A8%D9%84-%D8%A7%D9%84%D8%B4%D8%AA%D8%A7%D8%A1-27-%D9%85%D9%84%D9%8A%D8%A7%D8%B1-%D8%AF%D9%88%D9%84%D8%A7%D8%B1/7563801",
-          "stance": "supports",
-          "excerpt": "لكن حجم اقتصادها وقدرتها على زيادة الضرائب يمنحان موسكو مجالا أوسع لمواصلة الإنفاق العسكرى",
-          "detail": "",
-          "correct_form": "",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 6262,
+          "excerpt_chars": 0,
+          "same_event": null,
           "as_of": "",
-          "detail_kind": ""
-        },
-        {
-          "publisher": "Al Jazeera",
-          "link": "https://www.aljazeera.net/ebusiness/2025/1/1/russia-gas-exports-europe-ukraine-halted",
-          "stance": "supports",
-          "excerpt": "كما ستخسر \"غازبروم\" نحو 5 مليارات دولار قيمة مبيعات الغاز إلى أوروبا عبر أوكرانيا",
-          "detail": "",
-          "correct_form": "",
-          "as_of": "",
-          "detail_kind": ""
-        },
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        }
+      ],
+      "docs_before": 16,
+      "docs_after": 12,
+      "verdict": "confirmed",
+      "primary_source": false,
+      "support_level": "single",
+      "support_publisher": "BBC",
+      "outside_docs": 2,
+      "icon": "✅",
+      "evidence": [
         {
           "publisher": "BBC",
           "link": "https://www.bbc.com/arabic/articles/cwynvm70zvzo",
           "stance": "supports",
           "excerpt": "تُظهر البيانات أن روسيا واصلت جني مليارات الدولارات من صادرات الوقود الأحفوري إلى الغرب، ما ساعد في تمويل غزوها الشامل لأوكرانيا",
-          "detail": "",
-          "correct_form": "",
-          "as_of": "",
-          "detail_kind": ""
-        },
-        {
-          "publisher": "Icss",
-          "link": "https://icss.ae/assessments/view/%D8%AA%D8%AF%D8%A7%D8%B9%D9%8A%D8%A7%D8%AA-%D8%A5%D9%8A%D9%82%D8%A7%D9%81-%D8%A5%D9%85%D8%AF%D8%A7%D8%AF-%D8%A7%D9%84%D8%BA%D8%A7%D8%B2-%D8%A7%D9%84%D8%B1%D9%88%D8%B3%D9%8A-%D8%A5%D9%84%D9%89-%D8%A3%D9%88%D8%B1%D9%88%D8%A8%D8%A7-%D8%B9%D8%A8%D8%B1-%D8%A3%D9%88%D9%83%D8%B1%D8%A7%D9%86%D9%8A%D8%A7",
-          "stance": "supports",
-          "excerpt": "لقد قطعت موسكو إمدادات الغاز عن أوروبا بعد حرب أوكرانيا في عام 2022",
           "detail": "",
           "correct_form": "",
           "as_of": "",
@@ -2098,36 +2108,28 @@
       "superseded_note": "",
       "superseded": [],
       "image_candidates": [],
-      "sources_read": 12,
+      "sources_read": 7,
       "dropped_reason": null,
-      "model_calls": 2,
-      "shared_from": [
-        "A5r5br",
-        "Lebanon 24",
-        "إرم نيوز"
-      ],
-      "status": "written",
-      "selection_issue": 1285,
-      "action": "go2",
-      "draft_id": "6bec9b71addc",
-      "written_at": "2026-10-08T09:49:58.169530+00:00"
+      "model_calls": 1,
+      "status": "offered",
+      "selection_issue": 1290
     },
     {
-      "id": "c7534cde2202",
-      "text": "روسيا تتدخل عبر إيران بدعم ميليشيات الحوثي لتعطيل الملاحة في باب المندب",
-      "claim": "روسيا تتدخل عبر إيران بدعم ميليشيات الحوثي لتعطيل الملاحة في باب المندب",
+      "id": "af25bf4eec59",
+      "text": "إيران تدعم ميليشيات الحوثي لتعطيل الملاحة في باب المندب وهرمز",
+      "claim": "إيران تدعم ميليشيات الحوثي لتعطيل الملاحة في باب المندب وهرمز",
       "framing": "direct",
       "circulating_context": "",
       "asserted": "",
       "queries": [
-        "روسيا إيران حوثيين باب المندب دعم تحقق",
-        "روسيا إيران دعم الحوثيين باب المندب"
+        "إيران الحوثي باب المندب الملاحة تحقق",
+        "إيران دعم الحوثي تعطيل الملاحة باب المندب"
       ],
       "site_queries": [
-        "روسيا إيران الحوثيين باب المندب site:misbar.com",
-        "روسيا إيران الحوثيين باب المندب site:fatabyyano.net",
-        "Russia Iran الحوثيين باب المندب site:factcheck.afp.com",
-        "Russia Iran الحوثيين باب المندب site:reuters.com/fact-check"
+        "إيران ميليشيات الحوثي باب المندب site:misbar.com",
+        "إيران ميليشيات الحوثي باب المندب site:fatabyyano.net",
+        "Iran ميليشيات الحوثي باب المندب site:factcheck.afp.com",
+        "Iran ميليشيات الحوثي باب المندب site:reuters.com/fact-check"
       ],
       "engines": [
         "brave_web",
@@ -2152,13 +2154,28 @@
         },
         {
           "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2026/04/08/%D9%87%D9%84-%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%84%D8%AA%D8%AC%D9%85%D8%B9-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86%D9%8A%D9%8A%D9%86-%D8%A3%D9%85%D8%A7%D9%85-%D9%85%D8%AD%D8%B7%D8%A7%D8%AA-%D8%A7%D9%84%D8%B7%D8%A7%D9%82%D8%A9-%D9%85%D9%86%D8%B9%D9%8B%D8%A7-%D9%84%D8%A7%D8%B3%D8%AA%D9%87%D8%AF%D8%A7%D9%81%D9%87%D8%A7%D8%9F",
+          "title": "هل الفيديو لتجمع إيرانيين أمام محطات الطاقة منعًا لاستهدافها؟"
+        },
+        {
+          "publisher": "Misbar",
           "link": "https://www.misbar.com/factcheck/2026/05/11/%D9%87%D9%84-%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%84%D8%A7%D8%B4%D8%AA%D8%A8%D8%A7%D9%83%D8%A7%D8%AA-%D8%AD%D8%AF%D9%8A%D8%AB%D8%A9-%D9%81%D9%8A-%D8%AC%D8%A8%D9%87%D8%A9-%D8%A8%D8%A7%D8%A8-%D8%BA%D9%84%D9%82-%D9%81%D9%8A-%D9%85%D8%AD%D8%A7%D9%81%D8%B8%D8%A9-%D8%A7%D9%84%D8%B6%D8%A7%D9%84%D8%B9%D8%9F",
           "title": "هل الفيديو لاشتباكات حديثة في جبهة باب غلق في محافظة الضالع؟"
         },
         {
           "publisher": "Misbar",
-          "link": "https://www.misbar.com/editorial/2026/07/13/%D8%A8%D8%B9%D8%AF-%D8%A7%D8%B3%D8%AA%D9%87%D8%AF%D8%A7%D9%81-%D9%85%D8%B7%D8%A7%D8%B1-%D8%B5%D9%86%D8%B9%D8%A7%D8%A1-%D8%B1%D8%B5%D8%AF-%D8%AA%D8%AD%D9%88%D9%8A%D9%84-%D9%85%D8%B3%D8%A7%D8%B1-%D8%B7%D8%A7%D8%A6%D8%B1%D8%A9-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86%D9%8A%D8%A9-%D8%A5%D9%84%D9%89-%D9%85%D8%B7%D8%A7%D8%B1-%D8%A7%D9%84%D8%AD%D8%AF%D9%8A%D8%AF%D8%A9",
-          "title": "بعد استهداف مطار صنعاء.. رصد تحويل مسار طائرة إيرانية إلى مطار الحديدة"
+          "link": "https://www.misbar.com/factcheck/2026/05/14/%D9%87%D9%84-%D9%8A%D9%88%D8%AB%D9%82-%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D8%A7%D8%B4%D8%AA%D8%A8%D8%A7%D9%83%D8%A7%D8%AA-%D8%AD%D8%AF%D9%8A%D8%AB%D8%A9-%D9%81%D9%8A-%D8%AC%D8%A8%D9%87%D8%A9-%D8%A7%D9%84%D8%AD%D8%AF-%D8%A8%D9%8A%D8%A7%D9%81%D8%B9%D8%9F",
+          "title": "هل يوثق الفيديو اشتباكات حديثة في جبهة الحد بيافع؟"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2025/02/22/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%82%D8%AF%D9%8A%D9%85-%D9%88%D9%84%D9%8A%D8%B3-%D9%85%D9%86-%D8%A7%D8%B3%D8%AA%D9%87%D8%AF%D8%A7%D9%81%D8%A7%D8%AA-%D8%A7%D9%84%D9%82%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D8%AD%D9%83%D9%88%D9%85%D9%8A%D8%A9-%D8%A7%D9%84%D9%8A%D9%85%D9%86%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D8%AE%D9%8A%D8%B1%D8%A9-%D9%84%D9%84%D8%AD%D9%88%D8%AB%D9%8A%D9%8A%D9%86-%D9%81%D9%8A-%D9%85%D8%A3%D8%B1%D8%A8",
+          "title": "الفيديو قديم وليس من استهدافات القوات الحكومية اليمنية الأخيرة للحوثيين في مأرب"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D8%B5%D9%88%D8%B1%D8%A9-%D9%84%D8%A7%D9%86%D9%81%D8%AC%D8%A7%D8%B1-%D8%A3%D9%86%D8%A7%D8%A8%D9%8A%D8%A8-%D8%B4%D8%B1%D9%83%D8%A9-%D9%86%D9%81%D8%B7-%D8%A7%D9%84%D8%A8%D8%AD%D8%B1%D9%8A%D9%86/",
+          "title": "هذه صورة انفجار أحد أنابيب شركة نفط في البحرين عام 2017 ولا علاقة لها بالسعودية - فتبينوا"
         },
         {
           "publisher": "Fatabyyano",
@@ -2167,334 +2184,18 @@
         },
         {
           "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/%D9%85%D8%B4%D8%A7%D9%87%D8%AF-%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%82%D8%AF%D9%8A%D9%85%D8%A9%D8%8C-%D9%88%D9%84%D8%A7-%D8%AA%D8%B5%D9%88%D8%B1-%D9%88%D8%B5%D9%88%D9%84-%D8%A7/",
-          "title": "مشاهد هذا المقطع قديمة، ولا تصور وصول القوات البحرية الأمريكية إلى الشواطئ اليمنية مؤخرًا - فتبينوا"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/list/topics/134?q=list%2Ftopics%2F134&page=11",
-          "title": "Topics | Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/Samad-UTHMAN",
-          "title": "Samad UTHMAN | Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/doc.afp.com.A7Z64G3",
-          "title": "Old clip of Iranian speedboat falsely linked to US blockade of the Strait of Hormuz | Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/doc.afp.com.C9MK9ZR",
-          "title": "Old fighter jet clips falsely linked to deadly airstrike in Myanmar | Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/AFP-Middle-East-North-Africa",
-          "title": "AFP Middle East & North Africa | Fact Check"
-        },
-        {
-          "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/arabic/N75F36TWUZLODDN2XKQNXRKTO4-2025-05-23/",
-          "title": "تقصي الحقيقة: صورة تظهر طائرة مشتعلة بعد القصف الإسرائيلي لمطار صنعاء منتجة بالذكاء الاصطناعي | رويترز"
-        },
-        {
-          "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/arabic/AY6VMDEJBBPHZAY5TSP7DKDYVE-2023-12-06/",
-          "title": "تقصي الحقيقة: سفينة شحن ترسو بأحد الموانئ ليست سفينة احتجزها الحوثيون مؤخرا | رويترز"
-        },
-        {
-          "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/arabic",
-          "title": "خدمة \"تقصي الحقيقة\" من رويترز"
-        }
-      ],
-      "read_docs": [
-        {
-          "publisher": "Fatabyyano",
-          "link": "https://staging.fatabyyano.net/%D9%87%D8%B0%D9%87-%D8%A7%D9%84%D8%B5%D9%88%D8%B1%D8%A9-%D9%84%D8%A7-%D8%AA%D8%B8%D9%87%D8%B1-%D8%A7%D8%AD%D8%AA%D8%B1%D8%A7%D9%82-%D8%B3%D9%81%D9%8A%D9%86%D8%A9-%D8%AD%D8%B1%D8%A8%D9%8A%D8%A9-%D8%A3/",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 3388,
-          "excerpt_chars": 185,
-          "same_event": false,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "Misbar",
-          "link": "https://www.misbar.com/factcheck/2026/10/06/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%84%D9%8A%D8%B3-%D9%85%D9%86-%D9%82%D8%B5%D9%81-%D8%B7%D8%A7%D8%A6%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D8%AA%D8%AD%D8%A7%D9%84%D9%81-%D9%85%D9%88%D8%A7%D9%82%D8%B9-%D8%A7%D9%84%D8%AD%D9%88%D8%AB%D9%8A%D9%8A%D9%86-%D9%81%D9%8A-%D8%A8%D8%A7%D8%A8-%D8%A7%D9%84%D9%85%D9%86%D8%AF%D8%A8",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 752,
-          "excerpt_chars": 874,
-          "same_event": false,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": {
-            "claim_reviewed": "فيديو لمشاركة مروحية تابعة لقوات التحالف في اليمن حديثًا.",
-            "label": "misleading",
-            "date_published": "2026-10-06T11:00:35+03:00"
-          },
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/arabic/ZHP4N3WMHFPQXEXON6MUCK4OHY-2025-03-19/",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 275,
-          "excerpt_chars": 275,
-          "same_event": false,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/list/Iran-0",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 260,
-          "excerpt_chars": 0,
-          "same_event": null,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "deduped"
-        },
-        {
-          "publisher": "المشاهد نت",
-          "link": "https://almushahid.net/opinion/144755/",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "google_news",
-          "page_chars": 10738,
-          "excerpt_chars": 1730,
-          "same_event": true,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "supports"
-        },
-        {
-          "publisher": "Yemenfuture",
-          "link": "https://yemenfuture.net/news/41610",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 6663,
-          "excerpt_chars": 1800,
-          "same_event": true,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "supports"
-        },
-        {
-          "publisher": "Khlaasa",
-          "link": "https://www.khlaasa.net/1498671",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 6608,
-          "excerpt_chars": 1772,
-          "same_event": true,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "supports"
-        },
-        {
-          "publisher": "بلقيس نت",
-          "link": "https://belqees.net/reports/%D9%84%D9%8A%D9%84%D8%A9-%D8%B3%D9%82%D9%88%D8%B7-%D8%A7%D9%84%D8%B3%D8%A7%D8%AD%D9%84-%D8%A7%D9%84%D8%BA%D8%B1%D8%A8%D9%8A-%D9%83%D9%8A%D9%81-%D8%B3%D9%8A%D8%B7%D8%B1-%D8%A7%D9%84%D8%AD%D9%88%D8%AB%D9%8A%D9%88%D9%86-%D8%B9%D9%84%D9%89-%D8%A7%D9%84%D8%A8%D8%AD%D8%B1-%D8%A7%D9%84%D8%A7%D8%AD%D9%85%D8%B1-%D9%88%D8%A8%D8%A7%D8%A8-%D8%A7%D9%84%D9%85%D9%86%D8%AF%D8%A8",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "google_news",
-          "page_chars": 9159,
-          "excerpt_chars": 1800,
-          "same_event": false,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "related_other"
-        },
-        {
-          "publisher": "A5r5br",
-          "link": "https://a5r5br.net/international/international-news/8131802-%D8%A7%D9%84%D8%AD%D9%88%D8%AB%D9%8A%D9%88%D9%86-%D9%8A%D8%AB%D8%A8%D8%AA%D9%88%D9%86-%D9%85%D9%88%D8%A7%D9%82%D8%B9-%D9%82%D8%B1%D8%A8-%D8%A8%D8%A7%D8%A8-%D8%A7%D9%84%D9%85%D9%86%D8%AF%D8%A8-%D8%A8%D8%AF%D8%B9%D9%85-%D9%85%D9%86-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86-%D9%88%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 1325,
-          "excerpt_chars": 1325,
-          "same_event": false,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "related_other"
-        },
-        {
-          "publisher": "Alquds Alarabi",
-          "link": "https://www.alquds.co.uk/%D8%A7%D9%84%D8%AA%D8%B5%D8%B9%D9%8A%D8%AF-%D8%A7%D9%84%D8%AD%D9%88%D8%AB%D9%8A-%D9%88%D9%87%D8%AF%D9%81-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86-%D9%81%D9%8A-%D8%A8%D8%A7%D8%A8-%D8%A7%D9%84%D9%85%D9%86%D8%AF/",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 4916,
-          "excerpt_chars": 1800,
-          "same_event": false,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "related_other"
-        },
-        {
-          "publisher": "CNN Arabic",
-          "link": "https://arabic.cnn.com/middle-east/video/2026/10/05/v202919-yemen-military-action-against-iran-backed-houthis-nr-vrtc",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "google_news",
-          "page_chars": 2888,
-          "excerpt_chars": 0,
-          "same_event": null,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "deduped"
-        },
-        {
-          "publisher": "Masrawy",
-          "link": "https://www.masrawy.com/news/news_publicaffairs/details/2026/9/20/3050868/%D8%A5%D9%8A%D8%B1%D8%A7%D9%86-%D9%81%D9%8A-%D8%A8%D8%A7%D8%A8-%D8%A7%D9%84%D9%85%D9%86%D8%AF%D8%A8-%D9%87%D9%84-%D8%AA%D8%B4%D8%B9%D9%84-%D8%B5%D8%B1%D8%A7%D8%B9-%D8%A7-%D9%85%D9%81%D8%AA%D9%88%D8%AD-%D8%A7-%D9%81%D9%8A-%D8%A7%D9%84%D9%85%D9%86%D8%B7%D9%82%D8%A9-",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "google_news",
-          "page_chars": 6133,
-          "excerpt_chars": 1800,
-          "same_event": false,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "related_other"
-        }
-      ],
-      "docs_before": 16,
-      "docs_after": 12,
-      "verdict": "confirmed",
-      "primary_source": false,
-      "icon": "✅",
-      "evidence": [
-        {
-          "publisher": "المشاهد نت",
-          "link": "https://almushahid.net/opinion/144755/",
-          "stance": "supports",
-          "excerpt": "إلا إذا كان الأمر يتعلق بتنسيقٍ روسي إيراني حوثي، بالنظر إلى أن وكالة بلومبيرج للأنباء كانت قد ذكرت عقب استهداف الحوثيين للملاحة في البحر الأحمر أن الحوثيين أبرموا اتفاقًا مع موسكو وبكين",
-          "detail": "",
-          "correct_form": "",
-          "as_of": "",
-          "detail_kind": ""
-        },
-        {
-          "publisher": "Yemenfuture",
-          "link": "https://yemenfuture.net/news/41610",
-          "stance": "supports",
-          "excerpt": "تتعامل روسيا مع الحوثيين بوصفهم جزءًا من تحالفها الاستراتيجي مع إيران، ولا تجري قنوات التعاون الأساسية بين موسكو والجماعة بمعزل عن طهران.",
-          "detail": "",
-          "correct_form": "",
-          "as_of": "",
-          "detail_kind": ""
-        },
-        {
-          "publisher": "Khlaasa",
-          "link": "https://www.khlaasa.net/1498671",
-          "stance": "supports",
-          "excerpt": "تتعامل روسيا مع الحوثيين بوصفهم جزءًا من تحالفها الاستراتيجي مع إيران، ولا تجري قنوات التعاون الأساسية بين موسكو والجماعة بمعزل عن طهران.",
-          "detail": "",
-          "correct_form": "",
-          "as_of": "",
-          "detail_kind": ""
-        }
-      ],
-      "correction": null,
-      "refuted_by": null,
-      "nearest": null,
-      "note": "⚠️ كل المؤيِّدين من خارج مصادرنا المسجّلة: المشاهد نت، Yemenfuture، Khlaasa — راجع قبل الاختيار",
-      "named_as": null,
-      "warnings": [
-        "⚠️ كل المؤيِّدين من خارج مصادرنا المسجّلة: المشاهد نت، Yemenfuture، Khlaasa — راجع قبل الاختيار"
-      ],
-      "call_error": false,
-      "superseded_note": "",
-      "superseded": [],
-      "image_candidates": [],
-      "sources_read": 12,
-      "dropped_reason": null,
-      "model_calls": 1,
-      "status": "written",
-      "selection_issue": 1285,
-      "action": "go2",
-      "draft_id": "c7534cde2202",
-      "written_at": "2026-10-08T09:50:12.256654+00:00"
-    },
-    {
-      "id": "292fb9802908",
-      "text": "الهدف الأساسي للنزاعات هو التحكم بالطاقة والممرات المائية (باب المندب ومضيق هرمز)",
-      "claim": "الهدف الأساسي للنزاعات هو التحكم بالطاقة والممرات المائية (باب المندب ومضيق هرمز)",
-      "framing": "direct",
-      "circulating_context": "",
-      "asserted": "",
-      "queries": [
-        "أهمية باب المندب مضيق هرمز الطاقة تحقق",
-        "التحكم الطاقة باب المندب مضيق هرمز"
-      ],
-      "site_queries": [
-        "باب المندب مضيق هرمز site:misbar.com",
-        "باب المندب مضيق هرمز site:fatabyyano.net",
-        "باب المندب مضيق هرمز site:factcheck.afp.com",
-        "باب المندب مضيق هرمز site:reuters.com/fact-check"
-      ],
-      "engines": [
-        "brave_web",
-        "google_news"
-      ],
-      "windows": [
-        "days",
-        "days"
-      ],
-      "brave_skipped": null,
-      "cache_hits": 0,
-      "checker_skipped": [
-        {
-          "publisher": "Misbar",
-          "link": "https://www.misbar.com/qna/2023/12/17/%D9%83%D9%85-%D9%85%D8%B6%D9%8A%D9%82-%D9%81%D9%8A-%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A",
-          "title": "كم مضيق في العالم العربي؟"
-        },
-        {
-          "publisher": "Misbar",
-          "link": "https://www.misbar.com/factcheck/2026/09/18/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%82%D8%AF%D9%8A%D9%85-%D9%88%D9%84%D9%8A%D8%B3-%D9%84%D8%B3%D9%8A%D8%B7%D8%B1%D8%A9-%D9%82%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D8%B9%D9%85%D8%A7%D9%84%D9%82%D8%A9-%D8%B9%D9%84%D9%89-%D8%AC%D8%A8%D8%A7%D9%84-%D9%83%D9%87%D8%A8%D9%88%D8%A8-%D8%AD%D8%AF%D9%8A%D8%AB%D9%8B%D8%A7",
-          "title": "الفيديو قديم وليس لسيطرة قوات العمالقة على جبال كهبوب حديثًا"
-        },
-        {
-          "publisher": "Misbar",
-          "link": "https://www.misbar.com/qna/2025/05/26/%D9%83%D9%85-%D8%B9%D8%AF%D8%AF-%D8%A7%D9%84%D8%AD%D8%B5%D9%88%D9%86-%D8%A7%D9%84%D9%85%D9%88%D8%AC%D9%88%D8%AF%D8%A9-%D8%B9%D9%84%D9%89-%D8%B3%D9%88%D8%B1-%D9%87%D8%A7%D8%AF%D8%B1%D9%8A%D8%A7%D9%86%D8%9F",
-          "title": "كم عدد الحصون الموجودة على سور هادريان؟"
+          "link": "https://fatabyyano.net/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%85%D9%82%D8%AA%D8%A8%D8%B3-%D9%85%D9%86-%D9%84%D8%B9%D8%A8%D8%A9-%D9%82%D8%AA%D8%A7%D9%84-%D8%A5%D9%84%D9%83%D8%AA%D8%B1%D9%88%D9%86%D9%8A/",
+          "title": "هذا المقطع مقتبس من لعبة قتال إلكترونية، ولا يصور مشاهد حقيقية من استهداف الحوثيين لسفينة حربية - فتبينوا"
         },
         {
           "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/%D8%B9%D9%84%D9%8A-%D9%83%D9%8A%D8%A7%D9%84%D9%8A-%D8%A3%D8%A8%D9%88%D8%A7%D8%A8-%D8%A7%D9%84%D8%B3%D9%85%D8%A7%D8%A1-%D9%88%D8%A7%D8%B1%D8%AA%D8%A8%D8%A7%D8%B7%D9%87%D8%A7-%D8%A8%D8%A7%D9%84%D8%B5",
-          "title": "الرئيسة - فتبينوا"
+          "link": "https://fatabyyano.net/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%8A%D8%B5%D9%88%D8%B1-%D8%A7%D8%B7%D9%84%D8%A7%D9%82-%D8%B3%D8%B1%D8%A7%D8%AD-%D9%85%D8%B9%D8%AA%D9%82%D9%84%D9%8A%D9%86-%D9%81%D9%8A-%D9%85/",
+          "title": "هذا المقطع يصور إطلاق سراح معتقلين في مصر عام 2017، وليس من إطلاق سراح السجناء في حماة مؤخرًا - فتبينوا"
         },
         {
           "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%8A%D8%B8%D9%87%D8%B1-%D8%A7%D9%84%D8%AA%D9%82%D8%A7%D8%A1-%D9%86%D9%87%D8%B1-%D9%81%D9%8A-%D9%83%D9%86%D8%AF%D8%A7-%D9%85%D8%B9-%D9%85%D8%B6/",
-          "title": "هذا المقطع يظهر التقاء نهر في كندا مع مضيق جورجيا، وليس المحيط الأطلسي مع الهادئ - فتبينوا"
+          "link": "https://fatabyyano.net/%D8%A7%D9%84%D8%AF%D8%A8%D9%84%D8%AC%D8%A9-%D8%A7%D9%84%D9%85%D8%B1%D9%81%D9%82%D8%A9-%D8%A8%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%85%D9%81%D8%A8%D8%B1%D9%83%D8%A9%D8%8C-%D9%88/",
+          "title": "الدبلجة المرفقة بهذا المقطع مفبركة، والمقطع الأصلي يعود لكلمة ألقاها جوشوا لينكولن في افتتاحية الدورة 65 للأمم المتحدة -"
         },
         {
           "publisher": "Fatabyyano",
@@ -2503,147 +2204,89 @@
         },
         {
           "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D8%AA%D8%B5%D9%85%D9%8A%D9%85-%D8%A7%D9%84%D9%85%D9%86%D8%B3%D9%88%D8%A8-%D9%84%D9%82%D9%86%D8%A7%D8%A9-%D8%A7%D9%84%D8%AC%D8%B2%D9%8A%D8%B1%D8%A9-%D9%85%D9%81%D8%A8-9/",
-          "title": "هذا التصميم المنسوب لقناة الجزيرة مفبرك، ولا صحة لمصرع جنود أمريكيين في البحر الأحمر - فتبينوا"
-        },
-        {
-          "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/en/%D9%84%D9%8A%D8%B3%D8%AA-%D8%B5%D9%88%D8%B1%D8%A9-%D8%BA%D9%88%D8%A7%D8%B5%D8%A9-%D9%86%D9%88%D9%88%D9%8A%D8%A9-%D8%AA%D8%B9%D8%B1%D8%B6%D8%AA-%D9%84%D9%84%D8%BA%D8%B1%D9%82/",
-          "title": "هذه صورة غواصة هندية غير نووية تدعى \"كرانج\" ولم تتعرض لحادث غرق أثناء انطلاقها - فتبينوا"
-        },
-        {
-          "publisher": "Fatabyyano",
-          "link": "https://fatabyyano.net/en/%D8%A7%D9%84%D8%B4%D9%84%D9%88%D9%84%D9%88_%D9%83%D9%88%D8%B1%D9%88%D9%86%D8%A7_%D8%A7%D9%84%D9%81%D9%8A%D8%B1%D9%88%D8%B3%D8%A7%D8%AA/",
-          "title": "الشلولو من أكفأ مضادات الكورونا وغيرها من الفيروسات.. خبر زائف - فتبينوا"
-        },
-        {
-          "publisher": "Fatabyyano",
           "link": "https://fatabyyano.net/%D9%85%D8%B4%D8%A7%D9%87%D8%AF-%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%82%D8%AF%D9%8A%D9%85%D8%A9%D8%8C-%D9%88%D9%84%D8%A7-%D8%AA%D8%B5%D9%88%D8%B1-%D9%88%D8%B5%D9%88%D9%84-%D8%A7/",
           "title": "مشاهد هذا المقطع قديمة، ولا تصور وصول القوات البحرية الأمريكية إلى الشواطئ اليمنية مؤخرًا - فتبينوا"
         },
         {
           "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/list/Iran-0",
-          "title": "Topics | Fact Check"
+          "link": "https://factcheck.afp.com/Samad-UTHMAN",
+          "title": "Samad UTHMAN | Fact Check"
         },
         {
           "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/Meet-team",
-          "title": "Meet the team | Fact Check"
+          "link": "https://factcheck.afp.com/doc.afp.com.34HA3JH",
+          "title": "Altered image claimed to be 'Red Sea attack' originally shows two old pictures | Fact Check"
         },
         {
           "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/fact-checking-search-results",
-          "title": "Recherche | Fact Check"
+          "link": "https://factcheck.afp.com/Middle-East",
+          "title": "Middle East | Fact Check"
         },
         {
           "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/taxonomy/term/6541",
-          "title": "Denis MEYNARD | Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/taxonomy/term/7042",
-          "title": "Anna MALPAS | Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/?page=1",
-          "title": "Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/node/63117/revisions",
-          "title": "Revisions for Laporan berita RTM disunting sebagai promosi 'lesen memandu tanpa ujian' | AFP Factuel"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/sitemap",
-          "title": "Sitemap | Fact Check"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/node/26142/revisions",
-          "title": "Revisions for No, this is not a real photo of an IKEA billboard mocking Australian politician Clive Palmer's election lo"
-        },
-        {
-          "publisher": "AFP Fact Check",
-          "link": "https://factcheck.afp.com/node/57460/revisions",
-          "title": "Revisions for Experts rubbish claim Greta Thunberg related to non-existent Rothschild | AFP Factuel"
-        },
-        {
-          "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/arabic",
-          "title": "خدمة \"تقصي الحقيقة\" من رويترز"
-        },
-        {
-          "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/arabic/RZD35DLHNFKFBO36A3WWQF5FXE-2024-12-09/",
-          "title": "تقصي الحقيقة: فيديو قديم لمجزرة حي التضامن بسوريا لا يعرض انتهاكات للمعارضة السورية بعد إسقاط الأسد في 2024 | رويترز"
-        },
-        {
-          "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/arabic/KEKYV4E52JKDBPQHWRFC6UGLAY-2024-11-13/",
-          "title": "فيديو لا يعرض اشتباكات بحرية بين الحوثيين والبحرية الأمريكية في البحر الأحمر في نوفمبر 2024 | رويترز"
-        },
-        {
-          "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/arabic/N75F36TWUZLODDN2XKQNXRKTO4-2025-05-23/",
-          "title": "تقصي الحقيقة: صورة تظهر طائرة مشتعلة بعد القصف الإسرائيلي لمطار صنعاء منتجة بالذكاء الاصطناعي | رويترز"
-        },
-        {
-          "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/arabic/ECTXQMIKYBJ5XGTNTC3OYNCQ2U-2025-04-14/",
-          "title": "تقصي الحقيقة: فيديو لعرض جوي خلال حفل تخريج دفعة عسكرية في مصر وليس لطائرات حربية تحلق فوق الحدود مع إسرائيل | رويترز"
-        },
-        {
-          "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/arabic/U4EZ5KRSTZKHJIY7BSQTOHUG54-2024-12-13/",
-          "title": "تقصي الحقيقة: صورة قديمة لحريق على متن ناقلة نفط إيرانية وليس سفينة بريطانية استهدفها الحوثيون في ديسمبر 2024 | رويترز"
-        },
-        {
-          "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/arabic/SL4X3YZHD5OFLJE524663FX7ZA-2025-01-30/",
-          "title": "تقصي الحقيقة: فيديو قديم لا يعرض تجمد بحيرة ميشيجان في يناير 2025 | رويترز"
+          "link": "https://factcheck.afp.com/doc.afp.com.B6FC7WE",
+          "title": "Old video misrepresented as attack on Iranian capital in June 2026 | Fact Check"
         }
       ],
       "read_docs": [
         {
           "publisher": "Misbar",
-          "link": "https://www.misbar.com/amp/qna/2024/04/18/%D8%A3%D9%8A%D9%86-%D9%8A%D9%82%D8%B9-%D9%85%D8%B6%D9%8A%D9%82-%D9%87%D8%B1%D9%85%D8%B2",
+          "link": "https://www.misbar.com/factcheck/2026/09/12/%D9%87%D9%84-%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%84%D8%A5%D8%B9%D9%84%D8%A7%D9%86-%D8%A7%D9%84%D9%86%D9%81%D9%8A%D8%B1-%D9%81%D9%8A-%D8%A7%D9%84%D8%B6%D8%A7%D9%84%D8%B9-%D9%88%D9%84%D8%AD%D8%AC-%D9%88%D9%8A%D8%A7%D9%81%D8%B9-%D9%84%D9%85%D9%86%D8%B9-%D8%B3%D9%8A%D8%B7%D8%B1%D8%A9-%D8%A7%D9%84%D8%AD%D9%88%D8%AB%D9%8A%D9%8A%D9%86-%D8%B9%D9%84%D9%89-%D8%A8%D8%A7%D8%A8-%D8%A7%D9%84%D9%85%D9%86%D8%AF%D8%A8%D8%9F",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 6323,
-          "excerpt_chars": 1794,
+          "page_chars": 256,
+          "excerpt_chars": 404,
           "same_event": false,
           "as_of": "",
           "superseded_by": null,
-          "claim_review": null,
-          "stance": "irrelevant"
-        },
-        {
-          "publisher": "Reuters",
-          "link": "https://www.reuters.com/fact-check/arabic/G5RP6GRHDVIG7MQJFWDLCIL25Y-2024-11-20/",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 390,
-          "excerpt_chars": 390,
-          "same_event": false,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
+          "claim_review": {
+            "claim_reviewed": "فيديو يوثق نفير أبناء الضالع ولحج ويافع لحماية باب المندب من السقوط في يد الحوثيين.",
+            "label": "misleading",
+            "date_published": "2026-09-12T10:04:32+03:00"
+          },
           "stance": "irrelevant"
         },
         {
           "publisher": "Fatabyyano",
-          "link": "https://staging.fatabyyano.net/%D9%87%D8%B0%D9%87-%D8%A7%D9%84%D8%B5%D9%88%D8%B1%D8%A9-%D9%84%D8%A7-%D8%AA%D8%B8%D9%87%D8%B1-%D8%A7%D8%AD%D8%AA%D8%B1%D8%A7%D9%82-%D8%B3%D9%81%D9%8A%D9%86%D8%A9-%D8%AD%D8%B1%D8%A8%D9%8A%D8%A9-%D8%A3/",
+          "link": "https://fatabyyano.net/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%8A%D8%B8%D9%87%D8%B1-%D8%A7%D8%AD%D8%AA%D8%B1%D8%A7%D9%82-%D8%B3%D9%81%D9%8A%D9%86%D8%A9-%D9%81%D9%8A-%D8%A7%D9%84%D8%B4%D8%A7%D8%B1%D9%82/",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 3388,
-          "excerpt_chars": 59,
+          "page_chars": 2097,
+          "excerpt_chars": 702,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": {
+            "claim_reviewed": "صاروخ كروز استهدف بارجة حربية إسرائيلية في باب المندب وسائل إعلام عبرية تتحدث عن احتراق السفينة وجهت نداءات إنقاذ",
+            "label": "مضلل",
+            "date_published": "2023-12-15"
+          },
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/Iran",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 44,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/time-cover-iran-protests-aftermath-is-not-authentic-2026-01-30/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 292,
+          "excerpt_chars": 292,
           "same_event": false,
           "as_of": "",
           "superseded_by": null,
@@ -2651,13 +2294,41 @@
           "stance": "irrelevant"
         },
         {
-          "publisher": "صوت الإمارات",
-          "link": "https://www.voiceofemirates.com/politics/reports-and-investigations/2026/09/28/%D8%A5%D9%8A%D8%B1%D8%A7%D9%86-%D8%AA%D9%84%D9%88%D9%8A%D8%AD-%D8%A8%D8%A5%D8%BA%D9%84%D8%A7%D9%82-%D9%85%D8%B6%D9%8A%D9%82-%D9%87%D8%B1%D9%85%D8%B2-%D9%88%D8%A8%D8%A7%D8%A8-%D8%A7%D9%84%D9%85%D9%86/",
+          "publisher": "مدار الساعة",
+          "link": "https://alsaa.net/article/653523/",
           "orig_link": null,
           "resolved": true,
           "engine": "google_news",
-          "page_chars": 1898,
-          "excerpt_chars": 1155,
+          "page_chars": 9463,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "الساحل الغربي",
+          "link": "https://www.alsahil.net/news44348.html",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 2452,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "CNN",
+          "link": "https://arabic.cnn.com/middle-east/article/2026/09/24/houthis-navigation-bab-al-mandab-saudi-arabia",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 1824,
+          "excerpt_chars": 1594,
           "same_event": false,
           "as_of": "",
           "superseded_by": null,
@@ -2665,13 +2336,13 @@
           "stance": "related_other"
         },
         {
-          "publisher": "جريدة النهار المصرية",
-          "link": "https://www.alnaharegypt.com/1196275",
+          "publisher": "Al Jazeera",
+          "link": "https://www.aljazeera.net/opinions/2026/8/4/%d8%a8%d8%a7%d8%a8-%d8%a7%d9%84%d9%85%d9%86%d8%af%d8%a8-%d9%87%d9%84-%d9%8a%d9%81%d8%ac%d8%b1-%d9%85%d8%b9%d8%b1%d9%83%d8%a9-%d8%a7%d8%b3%d8%aa%d8%b9%d8%a7%d8%af%d8%a9",
           "orig_link": null,
           "resolved": true,
-          "engine": "google_news",
-          "page_chars": 1493,
-          "excerpt_chars": 1493,
+          "engine": "brave_web",
+          "page_chars": 7087,
+          "excerpt_chars": 1800,
           "same_event": true,
           "as_of": "",
           "superseded_by": null,
@@ -2679,18 +2350,46 @@
           "stance": "supports"
         },
         {
-          "publisher": "Al Jazeera Centre for Studies",
-          "link": "https://studies.aljazeera.net/ar/article/6450",
+          "publisher": "BBC",
+          "link": "https://www.bbc.com/arabic/articles/cqx2zdjnrk26o",
           "orig_link": null,
           "resolved": true,
           "engine": "brave_web",
-          "page_chars": 6125,
+          "page_chars": 7272,
+          "excerpt_chars": 1800,
+          "same_event": true,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "supports"
+        },
+        {
+          "publisher": "الساحل الغربي",
+          "link": "https://www.alsahil.net/news44102.html",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 2641,
           "excerpt_chars": 0,
           "same_event": null,
           "as_of": "",
           "superseded_by": null,
           "claim_review": null,
-          "stance": "deduped"
+          "stance": "outside"
+        },
+        {
+          "publisher": "القدس العربي",
+          "link": "https://www.alquds.co.uk/%D9%85%D8%B9%D8%B1%D9%83%D8%A9-%D8%A8%D8%A7%D8%A8-%D8%A7%D9%84%D9%85%D9%86%D8%AF%D8%A8-%D8%A7%D8%AE%D8%AA%D8%A8%D8%A7%D8%B1-%D9%84%D8%AA%D8%B1%D8%A7%D9%85%D8%A8-%D9%88%D9%81%D8%B1%D8%B5%D8%A9/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 15303,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
         },
         {
           "publisher": "BBC",
@@ -2699,121 +2398,38 @@
           "resolved": true,
           "engine": "brave_web",
           "page_chars": 5280,
-          "excerpt_chars": 1797,
-          "same_event": false,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "related_other"
-        },
-        {
-          "publisher": "Forbes Middle East",
-          "link": "https://www.forbesmiddleeast.com/ar/industry/economy/strait-of-hormuz-bab-el-mandeb",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "brave_web",
-          "page_chars": 442,
-          "excerpt_chars": 442,
-          "same_event": true,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "supports"
-        },
-        {
-          "publisher": "الجزيرة نت",
-          "link": "https://www.aljazeera.net/ebusiness/2026/9/22/%D8%B9%D8%B3%D9%83%D8%B1%D8%A9-%D8%A7%D9%84%D9%85%D9%85%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D8%A8%D8%AD%D8%B1%D9%8A%D8%A9-%D9%81%D8%A7%D8%AA%D9%88%D8%B1%D8%A9-%D8%A8%D8%A7%D9%87%D8%B8%D8%A9",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "google_news",
-          "page_chars": 4754,
           "excerpt_chars": 0,
           "same_event": null,
           "as_of": "",
           "superseded_by": null,
           "claim_review": null,
           "stance": "deduped"
-        },
-        {
-          "publisher": "المنتصف نت",
-          "link": "https://www.almontasaf.net/news150263.html",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "google_news",
-          "page_chars": 12617,
-          "excerpt_chars": 1749,
-          "same_event": true,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "supports"
-        },
-        {
-          "publisher": "الساحل الغربي",
-          "link": "https://www.alsahil.net/news41751.html",
-          "orig_link": null,
-          "resolved": true,
-          "engine": "google_news",
-          "page_chars": 4380,
-          "excerpt_chars": 1320,
-          "same_event": true,
-          "as_of": "",
-          "superseded_by": null,
-          "claim_review": null,
-          "stance": "supports"
         }
       ],
-      "docs_before": 15,
-      "docs_after": 11,
+      "docs_before": 16,
+      "docs_after": 12,
       "verdict": "confirmed",
       "primary_source": false,
+      "support_level": "multi",
+      "support_publisher": "",
+      "outside_docs": 3,
       "icon": "✅",
       "evidence": [
         {
-          "publisher": "جريدة النهار المصرية",
-          "link": "https://www.alnaharegypt.com/1196275",
-          "stance": "supports",
-          "excerpt": "طهران تنظر إلى اليمن باعتباره إحدى أهم ساحات الضغط غير المباشر في صراعها الإقليمي مع الولايات المتحدة وإسرائيل ودول الخليج... يصبح وجود حليف مسلح وقادر على التأثير في باب المندب عاملًا مكملًا للضغط الإيراني في هرمز",
-          "detail": "",
-          "correct_form": "",
-          "as_of": "",
-          "detail_kind": ""
-        },
-        {
           "publisher": "Al Jazeera",
-          "link": "https://studies.aljazeera.net/ar/article/6450",
+          "link": "https://www.aljazeera.net/opinions/2026/8/4/%d8%a8%d8%a7%d8%a8-%d8%a7%d9%84%d9%85%d9%86%d8%af%d8%a8-%d9%87%d9%84-%d9%8a%d9%81%d8%ac%d8%b1-%d9%85%d8%b9%d8%b1%d9%83%d8%a9-%d8%a7%d8%b3%d8%aa%d8%b9%d8%a7%d8%af%d8%a9",
           "stance": "supports",
-          "excerpt": "يتحكم مضيق هرمز في خروج النفط والغاز الطبيعي المسال من الخليج، بينما يتحكم مضيق باب المندب في انتقال جزء معتبر من هذه التدفقات إلى البحر المتوسط وأوروبا عبر قناة السويس... أي اضطراب ممتد في إحدى الحلقتين يضغط على منظومة الطاقة والتجارة الدولية",
+          "excerpt": "ومن ناحية أخرى تخفيف الضغط على إيران من خلال التلويح بفتح ورقة باب المندب والملاحة في البحر الأحمر",
           "detail": "",
           "correct_form": "",
           "as_of": "",
           "detail_kind": ""
         },
         {
-          "publisher": "Forbes Middle East",
-          "link": "https://www.forbesmiddleeast.com/ar/industry/economy/strait-of-hormuz-bab-el-mandeb",
+          "publisher": "BBC",
+          "link": "https://www.bbc.com/arabic/articles/cqx2zdjnrk26o",
           "stance": "supports",
-          "excerpt": "تتحول هذه النقاط الضيقة إلى مراكز نفوذ قادرة على إعادة تشكيل خريطة التجارة والطاقة عالميًا",
-          "detail": "",
-          "correct_form": "",
-          "as_of": "",
-          "detail_kind": ""
-        },
-        {
-          "publisher": "المنتصف نت",
-          "link": "https://www.almontasaf.net/news150263.html",
-          "stance": "supports",
-          "excerpt": "محاولة الحرس الثوري الإيراني خنق صادرات الطاقة من كلا المضيقين في هرمز و باب المندب، حيث تشير التحليلات الدولية الحديثة إلى أن امتلاك الحوثيين نفوذًا على باب المندب يمنح إيران وحلفاءها إمكانية الضغط على ممرين بحريين",
-          "detail": "",
-          "correct_form": "",
-          "as_of": "",
-          "detail_kind": ""
-        },
-        {
-          "publisher": "الساحل الغربي",
-          "link": "https://www.alsahil.net/news41751.html",
-          "stance": "supports",
-          "excerpt": "الهدف الأساسي للنزاعات هو التحكم بالطاقة والممرات المائية (باب المندب ومضيق هرمز)",
+          "excerpt": "جاء هذا التقدم بعد أسابيع فقط من إعلان الحوثيين فرض حظر على الملاحة البحرية على \"العدو السعودي\". وتلا ذلك هجمات بالمسيّرات والصواريخ استهدفت مدناً ومنشآت طاقة سعودية، إضافة إلى هجمات تبنّتها ميليشيات عراقية مدعومة من إيران.",
           "detail": "",
           "correct_form": "",
           "as_of": "",
@@ -2830,15 +2446,324 @@
       "superseded_note": "",
       "superseded": [],
       "image_candidates": [],
-      "sources_read": 10,
+      "sources_read": 7,
       "dropped_reason": null,
       "model_calls": 1,
       "status": "offered",
-      "selection_issue": 1287,
-      "action": "go2",
-      "write_error": "نسخ لفظي من مقتطفات المصادر: تطابق لفظي مع مقتطف مصدر مؤكِّد (Al Jazeera): 7 كلمة متتالية مشتركة — «في خروج نفط والغاز طبيعي مسال من» — الجملة الكاملة في المسودة: «فمضيق هرمز يتحكم في خروج النفط والغاز الطبيعي المسال من منطقة الخليج، بينما يتولى باب المندب تمرير جزء معتبر من هذه التدفقات نحو البحر المتوسط وأوروبا عبر قناة السويس، بما يعني أن أي اضطراب يطول أحد هذين الممرين لفترة ممتدة ينعكس ضغطًا على منظومة الطاقة والتجارة الدولية بأكملها.» — الجملة المقابلة في المصدر: «يتحكم مضيق هرمز في خروج النفط والغاز الطبيعي المسال من الخليج، بينما يتحكم مضيق باب المندب في انتقال جزء معتبر من هذه التدفقات إلى البحر المتوسط وأوروبا عبر قناة السويس...»",
-      "failed_at": "2026-10-08T09:50:36.360712+00:00",
-      "write_failed": true
+      "selection_issue": 1290
+    },
+    {
+      "id": "71f90cd92b3a",
+      "text": "حزب الله جزء من المنظومة الإيرانية في المنطقة",
+      "claim": "حزب الله جزء من المنظومة الإيرانية في المنطقة",
+      "framing": "direct",
+      "circulating_context": "",
+      "asserted": "",
+      "queries": [
+        "حزب الله إيران الهيكل التنظيمي تحقق",
+        "حزب الله إيران المنظومة الإيرانية المنطقة"
+      ],
+      "site_queries": [
+        "حزب الله إيران site:misbar.com",
+        "حزب الله إيران site:fatabyyano.net",
+        "حزب الله Iran site:factcheck.afp.com",
+        "حزب الله Iran site:reuters.com/fact-check"
+      ],
+      "engines": [
+        "brave_web",
+        "google_news"
+      ],
+      "windows": [
+        "days",
+        "days"
+      ],
+      "brave_skipped": null,
+      "cache_hits": 0,
+      "checker_skipped": [
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%8A%D9%88%D8%AB%D9%82-%D8%AD%D8%A7%D9%84%D8%A7%D8%AA-%D8%A7%D8%AE%D8%AA%D9%86%D8%A7%D9%82-%D8%AE%D9%84%D8%A7%D9%84-%D8%A7%D8%AD%D8%AA/",
+          "title": "هذا الفيديو يوثق حالات اختناق خلال احتجاجات على طريق مطار بيروت في 15 فبراير، وليس خلال مراسم تشييع الأمين العام لحزب ال"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D9%87-%D8%A7%D9%84%D8%B5%D9%88%D8%B1%D8%A9-%D9%85%D8%AA%D8%AF%D8%A7%D9%88%D9%84%D8%A9-%D9%85%D9%86%D8%B0-%D9%8A%D9%86%D8%A7%D9%8A%D8%B1-%D8%A7%D9%84%D9%85%D8%A7%D8%B6%D9%8A%D8%8C-%D9%88/",
+          "title": "هذه الصورة متداولة منذ يناير الماضي، ولا تظهر خاتم يعود إلى حسن نصر الله بعد استهدافه في بيروت - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D9%87-%D8%A7%D9%84%D8%B5%D9%88%D8%B1%D8%A9-%D9%82%D8%AF%D9%8A%D9%85%D8%A9-%D9%85%D9%86-%D8%A7%D8%B3%D8%AA%D9%82%D8%A8%D8%A7%D9%84-%D8%AD%D8%B3%D9%86-%D9%86%D8%B5%D8%B1-%D8%A7%D9%84%D9%84/",
+          "title": "هذه الصورة قديمة من استقبال حسن نصر الله لماهر حمود عام 2022، ولا تصور حسن نصر الله على قيد الحياة - فتبينوا"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.36RR8D7",
+          "title": "False claims the Rothschild family owns central banks resurface online | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/Newzeland%20Tarrant",
+          "title": "هذه ليست صورة منفّذ هجوم نيوزيلندا بين عناصر من تنظيم الدولة الإسلامية | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/Feliks-TODTMANN",
+          "title": "Feliks TODTMANN | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/AFP-Canada",
+          "title": "AFP Canada | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/Middle-East",
+          "title": "Middle East | Fact Check"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/",
+          "title": "Reuters Fact Check | Reuters"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/about/",
+          "title": "About Reuters Fact Check | Reuters"
+        }
+      ],
+      "read_docs": [
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2024/09/25/%D8%A7%D9%84%D8%B5%D9%88%D8%B1%D8%A9-%D9%84%D9%85%D8%B3%D8%A4%D9%88%D9%84-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86%D9%8A-%D9%88%D9%84%D9%8A%D8%B3%D8%AA-%D9%84%D9%82%D9%8A%D8%A7%D8%AF%D9%8A-%D9%81%D9%8A-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%87%D8%B1%D8%A8-%D8%A5%D9%84-%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 212,
+          "excerpt_chars": 317,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": {
+            "claim_reviewed": "صورة لقيادي في حزب الله هرب إلى إسرائيل.",
+            "label": "misleading",
+            "date_published": "2024-09-25T11:17:03+03:00"
+          },
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%82%D8%AF%D9%8A%D9%85%D8%8C-%D9%88%D9%84%D9%8A%D8%B3-%D9%85%D9%86-%D8%A5%D8%B7%D9%84%D8%A7%D9%82-%D8%B5%D9%88%D8%A7%D8%B1%D9%8A%D8%AE/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2634,
+          "excerpt_chars": 1707,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": {
+            "claim_reviewed": "مقطع فيديو يظهر اطلاق صواريخ من قبل حزب الله",
+            "label": "مضلل",
+            "date_published": "2026-05-28"
+          },
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/Iran",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 44,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/2020-clip-lebanon-protest-misrepresented-nasrallah-death-celebration-2024-09-30/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 179,
+          "excerpt_chars": 179,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "libnanews.com",
+          "link": "https://libnanews.com/%D9%84%D9%85%D8%A7%D8%B0%D8%A7-%D9%8A%D8%B1%D9%81%D8%B6-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D8%A7%D9%84%D8%B9%D9%88%D8%AF%D8%A9-%D8%A7%D9%84%D9%89-%D8%A8%D8%B9%D8%A8%D8%AF%D8%A7-%D8%B1%D9%87/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 13275,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "Daily Beirut",
+          "link": "https://dailybeirut.com/%D9%84%D8%A8%D9%86%D8%A7%D9%86/%D9%85%D8%AD%D8%A7%D8%AF%D8%AB%D8%A7%D8%AA-%D8%B3%D8%B1%D9%8A%D9%91%D8%A9-%D8%A8%D9%8A%D9%86-%D8%A7%D9%84%D8%AD%D9%83%D9%88%D9%85%D8%A9-%D8%A7%D9%84%D8%B3%D9%88%D8%B1%D9%8A%D9%91%D8%A9-%D9%88%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 898,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "Al Jazeera Centre for Studies",
+          "link": "https://studies.aljazeera.net/ar/article/6108",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 20000,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "Arabi21",
+          "link": "https://arabi21.com/story/1629320/%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%85%D9%86-%D8%A7%D9%84%D8%AF%D8%A7%D8%AE%D9%84-%D8%AA%D8%B9%D8%B1%D9%81-%D8%A5%D9%84%D9%89-%D8%A3%D9%83%D8%A8%D8%B1-%D8%AA%D9%86%D8%B8%D9%8A%D9%85-%D8%B4%D9%8A%D8%B9%D9%8A-%D9%85%D8%B3%D9%84%D8%AD-%D9%81%D9%8A-%D9%84%D8%A8%D9%86%D8%A7%D9%86",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 6477,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "اسلام تايمز",
+          "link": "https://www.islamtimes.com/ar/article/1311256/3-%D8%B3%D9%86%D9%88%D8%A7%D8%AA-%D8%B9%D9%84%D9%89-%D8%A5%D8%B3%D9%86%D8%A7%D8%AF-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D8%A7%D9%84%D8%AC%D9%86%D9%88%D8%A8-%D9%81%D9%8A-%D9%85%D9%88%D8%A7%D8%AC%D9%87%D8%A9-%D8%A7%D9%84%D8%A7%D8%AD%D8%AA%D9%84%D8%A7%D9%84-%D9%88%D9%84%D8%A8%D9%86%D8%A7%D9%86-%D9%8A%D8%AF%D9%81%D8%B9-%D8%AB%D9%85%D9%86-%D8%A7%D9%84%D8%B9%D8%AF%D9%88%D8%A7%D9%86",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 2725,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "Lebanon ON",
+          "link": "https://www.lebanonon.com/news/436382",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 17226,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "BBC",
+          "link": "https://www.bbc.com/arabic/articles/cg3xdwz8n5eo",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 11113,
+          "excerpt_chars": 1800,
+          "same_event": true,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "supports"
+        },
+        {
+          "publisher": "DW",
+          "link": "https://www.dw.com/ar/%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%81%D9%8A-%D9%85%D9%8A%D8%B2%D8%A7%D9%86-%D8%A7%D9%84%D9%86%D9%81%D9%88%D8%B0-%D8%A7%D9%84%D9%88%D8%B1%D9%82%D8%A9-%D8%A7%D9%84%D8%AA%D9%8A-%D8%AA%D8%AD%D9%85%D9%8A-%D8%B9%D9%85%D9%82-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86-%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%B1%D8%A7%D8%AA%D9%8A%D8%AC%D9%8A/a-77507201",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 3766,
+          "excerpt_chars": 1800,
+          "same_event": true,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "supports"
+        }
+      ],
+      "docs_before": 15,
+      "docs_after": 12,
+      "verdict": "confirmed",
+      "primary_source": false,
+      "support_level": "multi",
+      "support_publisher": "",
+      "outside_docs": 5,
+      "icon": "✅",
+      "evidence": [
+        {
+          "publisher": "Al Jazeera",
+          "link": "https://studies.aljazeera.net/ar/article/6108",
+          "stance": "supports",
+          "excerpt": "حزب الله امتداد إيراني",
+          "detail": "",
+          "correct_form": "",
+          "as_of": "",
+          "detail_kind": "other"
+        },
+        {
+          "publisher": "BBC",
+          "link": "https://www.bbc.com/arabic/articles/cg3xdwz8n5eo",
+          "stance": "supports",
+          "excerpt": "يعرف محور المقاومة بأنّه تحالفٌ من الجماعات المعارضة لإسرائيل والنفوذ الأمريكي في منطقة الشرق الأوسط، تقود إيران هذا المحور، ويضم حزب الله في لبنان",
+          "detail": "",
+          "correct_form": "",
+          "as_of": "",
+          "detail_kind": "other"
+        },
+        {
+          "publisher": "DW",
+          "link": "https://www.dw.com/ar/%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%81%D9%8A-%D9%85%D9%8A%D8%B2%D8%A7%D9%86-%D8%A7%D9%84%D9%86%D9%81%D9%88%D8%B0-%D8%A7%D9%84%D9%88%D8%B1%D9%82%D8%A9-%D8%A7%D9%84%D8%AA%D9%8A-%D8%AA%D8%AD%D9%85%D9%8A-%D8%B9%D9%85%D9%82-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86-%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D8%B1%D8%A7%D8%AA%D9%8A%D8%AC%D9%8A/a-77507201",
+          "stance": "supports",
+          "excerpt": "يُعد \"حزب الله\" منذ عقود ركيزة أساسية في الاستراتيجية الإقليمية الإيرانية.",
+          "detail": "",
+          "correct_form": "",
+          "as_of": "",
+          "detail_kind": "other"
+        }
+      ],
+      "correction": null,
+      "refuted_by": null,
+      "nearest": null,
+      "note": "",
+      "named_as": null,
+      "warnings": [],
+      "call_error": false,
+      "superseded_note": "",
+      "superseded": [],
+      "image_candidates": [],
+      "sources_read": 7,
+      "dropped_reason": null,
+      "model_calls": 1,
+      "status": "offered",
+      "selection_issue": 1290
     }
   ]
 }
