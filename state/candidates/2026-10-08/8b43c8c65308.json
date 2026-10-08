@@ -1,0 +1,64 @@
+{
+  "id": "8b43c8c65308",
+  "created_at": "2026-10-08T15:08:18.256655+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.9,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 1,
+  "intrigue": 3,
+  "appeal_note": "غموض حول وفاة موظفة مختبر الطاعون الروسي، غرابة علمية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Official says WHO doesn’t know exactly how lab worker in Russia died in plague case",
+  "link": "https://www.thehindu.com/news/international/official-says-who-doesnt-know-exactly-how-lab-worker-in-russia-died-in-plague-case/article71557161.ece",
+  "publishers": [
+    "Hindustan Times — World",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Official says WHO doesn’t know exactly how lab worker in Russia died in plague case",
+    "link": "https://www.thehindu.com/news/international/official-says-who-doesnt-know-exactly-how-lab-worker-in-russia-died-in-plague-case/article71557161.ece",
+    "summary": "Maria Van Kerkhove, WHO director of Epidemic and Pandemic Management, said the agency doesn’t know what the “causative agent” was behind the woman’s October 2 death and urged Russia for more information",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-10-07T18:06:26+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/d8y658/article71557169.ece/alternates/LANDSCAPE_1200/AFP_D2J49T3.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/official-says-who-doesnt-know-exactly-how-lab-worker-in-russia-died-in-plague-case/article71557161.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/who-unsure-how-russian-lab-worker-died-in-suspected-plague-case-official-says-101791392021365.html"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/d8y658/article71557169.ece/alternates/LANDSCAPE_1200/AFP_D2J49T3.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1558.9139035219446,
+    "is_stale": false,
+    "score": 24.898448059296296,
+    "impact": 1,
+    "proximity": 1,
+    "intrigue": 3,
+    "appeal_note": "غموض حول وفاة موظفة مختبر الطاعون الروسي، غرابة علمية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

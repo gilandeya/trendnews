@@ -1,0 +1,64 @@
+{
+  "id": "3d2d3795e6b0",
+  "created_at": "2026-10-08T15:08:18.256068+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.15,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 2,
+  "intrigue": 3,
+  "appeal_note": "عامل عربي يواجه الإعدام لتعليق فيسبوك، قضية حقوق إنسانية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Sri Lankan migrant faces death penalty in Saudi Arabia over Facebook comment",
+  "link": "https://www.vanguardngr.com/2026/10/sri-lankan-migrant-faces-death-penalty-in-saudi-arabia-over-facebook-comment/",
+  "publishers": [
+    "Punch Nigeria",
+    "Vanguard Nigeria"
+  ],
+  "region": "ng",
+  "article": {
+    "title": "Sri Lankan migrant faces death penalty in Saudi Arabia over Facebook comment",
+    "link": "https://www.vanguardngr.com/2026/10/sri-lankan-migrant-faces-death-penalty-in-saudi-arabia-over-facebook-comment/",
+    "summary": "A 24-year-old Sri Lankan migrant worker is facing the death penalty in Saudi Arabia after an appellate court convicted him of blasphemy against Islam and the Prophet Muhammad over a comment he posted on Facebook. The post Sri Lankan migrant faces death penalty in Saudi Arabia over Facebook comment appeared first on Vanguard News .",
+    "source_name": "Vanguard Nigeria",
+    "region": "ng",
+    "weight": 0.9,
+    "published": "2026-10-08T15:05:00+00:00",
+    "image_url": "https://cdn.vanguardngr.com/wp-content/uploads/2026/10/Anojan-1.webp",
+    "publisher": "Vanguard Nigeria",
+    "cluster_sources": [
+      "Punch Nigeria",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/man-sentenced-to-death-in-saudi-arabia-over-facebook-comment/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/10/sri-lankan-migrant-faces-death-penalty-in-saudi-arabia-over-facebook-comment/"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/10/Anojan-1.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1558.9138547016667,
+    "is_stale": false,
+    "score": 26.146855469203704,
+    "impact": 0,
+    "proximity": 2,
+    "intrigue": 3,
+    "appeal_note": "عامل عربي يواجه الإعدام لتعليق فيسبوك، قضية حقوق إنسانية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

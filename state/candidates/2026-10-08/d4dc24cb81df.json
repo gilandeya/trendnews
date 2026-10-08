@@ -1,0 +1,86 @@
+{
+  "id": "d4dc24cb81df",
+  "created_at": "2026-10-08T15:08:18.256359+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.03,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "هجوم مدرسي ثانٍ في بولندا خلال يومين، حدث مثير",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "One dead, two injured in Poland’s second school attack in two days",
+  "link": "https://www.dailymaverick.co.za/article/2026-10-08-one-dead-two-injured-in-polands-second-school-attack-in-two-days/",
+  "publishers": [
+    "Daily Maverick",
+    "Free Malaysia Today",
+    "MyJoyOnline Ghana",
+    "NDTV — World",
+    "Reuters",
+    "South China Morning Post"
+  ],
+  "region": "za",
+  "article": {
+    "title": "One dead, two injured in Poland’s second school attack in two days",
+    "link": "https://www.dailymaverick.co.za/article/2026-10-08-one-dead-two-injured-in-polands-second-school-attack-in-two-days/",
+    "summary": "A 15-year-old former pupil killed one person and injured two others at a Polish school on Thursday, police said, just a day after a 19-year-old wounded 10 people including himself in an attack at another school.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-10-08T12:33:02+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/i/U8vvRsfsDFmQpNZtwEvLQipibN0=/800x0/smart/filters:strip_exif()/file/attachments/2998/14345663_704496.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Daily Maverick",
+      "Free Malaysia Today",
+      "MyJoyOnline Ghana",
+      "NDTV — World",
+      "Reuters",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-10-08-one-dead-two-injured-in-polands-second-school-attack-in-two-days/"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3370224/1-dead-polands-second-school-knife-attack-2-days-amid-copycat-fears?utm_source=rss_feed"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/1-dead-2-injured-in-polands-second-school-attack-in-two-days-12155637#publisher=newsstand"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/10/08/one-dead-two-injured-in-poland-s-second-school-attack-in-two-days"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/caretaker-killed-and-two-teachers-injured-in-knife-attack-at-poland-school/"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/i/U8vvRsfsDFmQpNZtwEvLQipibN0=/800x0/smart/filters:strip_exif()/file/attachments/2998/14345663_704496.jpg",
+      "https://c.ndtvimg.com/2026-10/2a6r11lg_poland-police_625x300_07_October_26.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+      "https://media.freemalaysiatoday.com/v3/2026/10/6b7e8d6b-2ed4-4b8d-9fd4-d9957e29a8f0-14345486.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 6,
+    "velocity": 1.0,
+    "age_hours": 1558.913797393889,
+    "is_stale": false,
+    "score": 26.032891127774583,
+    "impact": 1,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "هجوم مدرسي ثانٍ في بولندا خلال يومين، حدث مثير",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

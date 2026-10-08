@@ -1,0 +1,97 @@
+{
+  "id": "39692cd67e3b",
+  "created_at": "2026-10-08T15:08:18.255588+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 32.52,
+  "trend_score": 0.25,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "هجوم روسي يقتل عشرات بأوكرانيا، قضية حرب تمس العالم",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Russian attack on bus kills at least 30 people near Ukraine frontline",
+  "link": "https://www.theguardian.com/world/2026/oct/08/russian-attack-buses-ukraine-frontline-kramatorsk",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "Channel News Asia",
+    "France24",
+    "Meduza English",
+    "MyJoyOnline Ghana",
+    "New York Post",
+    "The Guardian — World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Russian attack on bus kills at least 30 people near Ukraine frontline",
+    "link": "https://www.theguardian.com/world/2026/oct/08/russian-attack-buses-ukraine-frontline-kramatorsk",
+    "summary": "Zelenskyy says Kremlin deliberately targeted ‘ordinary public transport stop’ in Kramatorsk, with 18 wounded Europe live – latest updates A Russian missile strike on a bus in the eastern city of Kramatorsk has killed at least 30 people, officials have said, in one of the worst attacks by Moscow on Ukrainian civilians this year. The regional prosecutor’s office in the Donetsk region said on Thursday the vehicle had been hit at 10am by an aerial bomb. “As of now, the death toll from this morning’s attack has risen to 30. Eighteen people were wounded,” it said, adding that all local public transport had been suspended. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-10-08T14:00:05+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/f6cb4a9eaf657f6399da688570ffe6304244c31f/340_18_2529_2023/master/2529.jpg?width=700&quality=85&auto=format&fit=max&s=fd10533f3543caacf6534526fc37247f",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "Channel News Asia",
+      "France24",
+      "Meduza English",
+      "MyJoyOnline Ghana",
+      "New York Post",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/10/8/russia-attack-in-ukraines-kramatorsk-kills-12?traffic_source=rss"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c875pwq134l3o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/oct/08/russian-attack-buses-ukraine-frontline-kramatorsk"
+      },
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/10/08/russian-strike-on-two-passenger-buses-in-ukraine-s-kramatorsk-kills-33"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20261008-30-dead-in-strike-on-ukraine-bus-as-russian-attacks-intensify"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/russian-strike-buses-kills-30-in-ukraines-frontline-city-kramatorsk-6443076"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/f6cb4a9eaf657f6399da688570ffe6304244c31f/340_18_2529_2023/master/2529.jpg?width=700&quality=85&auto=format&fit=max&s=fd10533f3543caacf6534526fc37247f",
+      "https://i.guim.co.uk/img/media/f6cb4a9eaf657f6399da688570ffe6304244c31f/340_18_2529_2023/master/2529.jpg?width=460&quality=85&auto=format&fit=max&s=6d31bd0f7e86c1c909aa857909a0a5a3",
+      "https://i.guim.co.uk/img/media/f6cb4a9eaf657f6399da688570ffe6304244c31f/340_18_2529_2023/master/2529.jpg?width=140&quality=85&auto=format&fit=max&s=6724e97a2f416215423fc1de10178be3",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/0a5b/live/25d71060-c2fa-11f1-b8c6-6d610e41a5d9.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/0a5b/live/25d71060-c2fa-11f1-b8c6-6d610e41a5d9.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/0a5b/live/25d71060-c2fa-11f1-b8c6-6d610e41a5d9.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.25,
+    "group_sources": 8,
+    "velocity": 1.0,
+    "age_hours": 1558.9137706366669,
+    "is_stale": false,
+    "score": 32.524725848685186,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "هجوم روسي يقتل عشرات بأوكرانيا، قضية حرب تمس العالم",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

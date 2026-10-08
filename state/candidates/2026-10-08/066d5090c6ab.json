@@ -1,0 +1,77 @@
+{
+  "id": "066d5090c6ab",
+  "created_at": "2026-10-08T15:08:18.256953+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.82,
+  "trend_score": 0.5,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "هجمات الحوثيين على السعودية وسقوط ضحايا مدنيين",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Yemen's Houthis claim responsibility for attacks on two Saudi airports",
+  "link": "http://www.africanews.com/2026/10/08/yemens-houthis-claim-responsibility-for-attacks-on-two-saudi-airports/",
+  "publishers": [
+    "Africanews",
+    "BBC World",
+    "The Hindu — International"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Yemen's Houthis claim responsibility for attacks on two Saudi airports",
+    "link": "http://www.africanews.com/2026/10/08/yemens-houthis-claim-responsibility-for-attacks-on-two-saudi-airports/",
+    "summary": "Saudi Arabia said three civilians were killed and 36 people injured in two separate attacks in the capital, Riyadh.",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-10-08T11:37:25+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/94/37/66/640x360_cmsv2_e4a592bb-50b7-5572-a2e3-e4501ef62e77-9943766.jpg?1791433157",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "BBC World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/yemens-houthis-claim-new-attacks-on-saudi-airports-as-conflict-deepens/article71557047.ece"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/10/08/yemens-houthis-claim-responsibility-for-attacks-on-two-saudi-airports/"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cwn8d5rx22rdo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/attacks-on-saudi-airports-claimed-by-houthi-rebels-kill-several/article71557187.ece"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/94/37/66/640x360_cmsv2_e4a592bb-50b7-5572-a2e3-e4501ef62e77-9943766.jpg?1791433157",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/bb7a/live/b062fdf0-c2b6-11f1-babe-4199b0e7ccea.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/bb7a/live/b062fdf0-c2b6-11f1-babe-4199b0e7ccea.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/bb7a/live/b062fdf0-c2b6-11f1-babe-4199b0e7ccea.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 1558.91378646,
+    "is_stale": true,
+    "score": 22.82109482514495,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "هجمات الحوثيين على السعودية وسقوط ضحايا مدنيين",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

@@ -275,7 +275,7 @@
      "published": "2026-10-06T10:16:28+00:00"
     }
    ],
-   "last_seen": "2026-10-08T09:08:05.709468+00:00",
+   "last_seen": "2026-10-08T15:07:49.816861+00:00",
    "outlets": 20,
    "regions": 16,
    "languages": 3,
@@ -2307,9 +2307,36 @@
      "language": "en",
      "link": "https://tass.com/world/2199047",
      "published": "2026-10-08T03:04:01+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Christa Pike is ‘up and walking’ for first time after failed execution, lawyer says",
+     "language": "en",
+     "link": "https://www.theguardian.com/us-news/2026/oct/08/christa-pike-health-update",
+     "published": "2026-10-08T12:32:46+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Christa Pike now walking after failed US execution, lawyer tells BBC",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c60rln74yzvxo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-08T15:02:32+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Christa Pike now walking after failed US execution, lawyer tells BBC",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/christa-pike-now-walking-after-failed-us-execution-lawyer-tells-bbc/",
+     "published": "2026-10-08T10:25:00+00:00"
     }
    ],
-   "last_seen": "2026-10-08T09:08:05.709468+00:00",
+   "last_seen": "2026-10-08T15:07:49.816861+00:00",
    "outlets": 14,
    "regions": 10,
    "languages": 1,
@@ -3383,6 +3410,134 @@
    "score": 33.0
   },
   {
+   "id": "0cf838e40682",
+   "first_seen": "2026-10-08T15:07:49.816861+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "South Korea recalls Ukraine envoy over prisoner-of-war row",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/ckwy48rrz95vo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-08T09:56:02+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "South Korea to recall Ukraine envoy in diplomatic row over POWs",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/8/south-korea-recalls-envoy-to-kyiv-over-diplomatic-row-with-ukraine?traffic_source=rss",
+     "published": "2026-10-08T12:44:31+00:00"
+    },
+    {
+     "outlet": "Yonhap News",
+     "region": "kr",
+     "bucket": "serious",
+     "title": "S. Korea to recall envoy to Ukraine amid dispute over disclosure of N.K. POWs",
+     "language": "en",
+     "link": "https://en.yna.co.kr/view/AEN20261008008400315",
+     "published": "2026-10-08T08:30:13+00:00"
+    },
+    {
+     "outlet": "Yonhap News",
+     "region": "kr",
+     "bucket": "serious",
+     "title": "(LEAD) S. Korea to recall envoy to Ukraine amid dispute over disclosure of N.K. POWs",
+     "language": "en",
+     "link": "https://en.yna.co.kr/view/AEN20261008008451315",
+     "published": "2026-10-08T08:51:19+00:00"
+    },
+    {
+     "outlet": "Deutsche Welle",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "South Korea recalls Ukraine ambassador amid POW dispute",
+     "language": "en",
+     "link": "https://www.dw.com/en/south-korea-recalls-ukraine-ambassador-amid-pow-dispute/a-79590511?maca=en-rss-en-world-4025-rdf",
+     "published": "2026-10-08T10:55:00+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "South Korea to recall ambassador from Ukraine amid deepening row",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/08/asia-pacific/politics/south-korea-ukraine-envoy-recall/",
+     "published": "2026-10-08T09:04:00+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "South Korea recalls Ukraine envoy over prisoner-of-war row",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/south-korea-recalls-ukraine-envoy-over-prisoner-of-war-row/",
+     "published": "2026-10-08T11:05:56+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "South Korea to recall its ambassador to Ukraine over North Korean POW dispute",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/08/g-s1-147115/south-korea-to-recall-its-ambassador-to-ukraine-over-north-korean-pow-dispute",
+     "published": "2026-10-08T12:13:54+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "South Korea recalls ambassador from Ukraine",
+     "language": "en",
+     "link": "https://tass.com/world/2199273",
+     "published": "2026-10-08T11:45:30+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "South Korea to recall its ambassador to Ukraine over North Korean POW dispute",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxNZDYxcDQ1My1SeHZsUXhFVGFlV19QaEdXN2ZzTktkd2NZMHlGb0dDWGlITXZNQ2tmTF8zLUhINDZzUlBSbmc3ajZNb1B5SUFRZWtXWUlZODRkLVEzeDNkQjB0bGJXT3FleDVLRmZLVnlrWU14TUxDdXhidXV0cHVPckFQQTZmVXd0M0lCODFnQ0hyaU5PZGdGcTBrZTJGU3hJd1BrQXd2OWxIQ0xsQl9hbVVGNFBzd04wSGRPVw?oc=5",
+     "published": "2026-10-08T12:13:54+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "South Korea to recall ambassador from Ukraine amid POW dispute",
+     "language": "en",
+     "link": "https://www.scmp.com/news/asia/east-asia/article/3370190/south-korea-recall-ambassador-ukraine-amid-pow-dispute?utm_source=rss_feed",
+     "published": "2026-10-08T09:36:55+00:00"
+    },
+    {
+     "outlet": "Yonhap News",
+     "region": "kr",
+     "bucket": "serious",
+     "title": "(URGENT) S. Korea to recall ambassador to Ukraine amid dispute over disclosure of N.K. POW transfer",
+     "language": "en",
+     "link": "https://en.yna.co.kr/view/AEN20261008008300315",
+     "published": "2026-10-08T08:17:14+00:00"
+    },
+    {
+     "outlet": "Meduza English",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "South Korea recalls ambassador from Ukraine, demands apology over Zelensky’s disclosure of North Korean POW transfer",
+     "language": "en",
+     "link": "https://meduza.io/en/news/2026/10/08/south-korea-recalls-ambassador-from-ukraine-demands-apology-over-zelensky-s-disclosure-of-north-korean-pow-transfer",
+     "published": "2026-10-08T12:18:02+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T15:07:49.816861+00:00",
+   "outlets": 11,
+   "regions": 10,
+   "languages": 1,
+   "score": 33.0
+  },
+  {
    "id": "c2196a3d81fa",
    "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
@@ -3859,6 +4014,190 @@
    "score": 25.0
   },
   {
+   "id": "9d74b44c397d",
+   "first_seen": "2026-10-07T18:07:47.065879+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "10 injured in knife attack at school in northeastern Poland",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3370092/10-injured-knife-attack-school-northeastern-poland?utm_source=rss_feed",
+     "published": "2026-10-07T14:55:41+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "9 injured in stabbing attack at Poland high school, teen suspect arrested",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/7-injured-in-stabbing-attack-at-poland-high-school-teen-suspect-arrested-101791371029555.html",
+     "published": "2026-10-07T11:04:27+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Seven wounded in Poland school stabbing attack",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/07/seven-wounded-in-poland-school-stabbing-attack",
+     "published": "2026-10-07T11:45:00+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Seven injured in school stabbing attack in Poland",
+     "language": "en",
+     "link": "https://tass.com/world/2198809",
+     "published": "2026-10-07T12:38:19+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Ten injured in knife attack at Polish school",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNWXI0Qll0ejFsSDdjcVpRZlFUX1FNZUpOS1Ftdi1Ld0dvRFNwdDJkV1ZPY1lRanRoMnNONXp4ZFVpQ181UlBoRk12MWg3Zmxwbm16TXhieDJ2UVFrVGlWdG04d1RsWWJIc2cwTHRUai1VajZhSERGNkN4OUZXNWM5RWlsZ2h0dUYtdTU0cHZPVlRIWEtWcGx2aGEydThwY2FkVXZGVUdmcDZsd2VoUU9j?oc=5",
+     "published": "2026-10-07T16:28:15+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "One dead, two injured in Poland’s second school attack in two days",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-08-one-dead-two-injured-in-polands-second-school-attack-in-two-days/",
+     "published": "2026-10-08T12:33:02+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "1 dead in Poland’s second school knife attack in 2 days, amid ‘copycat’ fears",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3370224/1-dead-polands-second-school-knife-attack-2-days-amid-copycat-fears?utm_source=rss_feed",
+     "published": "2026-10-08T14:00:22+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "1 Dead, 2 Injured In Poland's Second School Attack In Two Days",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/1-dead-2-injured-in-polands-second-school-attack-in-two-days-12155637#publisher=newsstand",
+     "published": "2026-10-08T09:07:21+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "One dead, 2 injured in Poland’s second school attack in two days",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/08/one-dead-two-injured-in-poland-s-second-school-attack-in-two-days",
+     "published": "2026-10-08T10:43:58+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Caretaker killed and two teachers injured in knife attack at Poland school",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/caretaker-killed-and-two-teachers-injured-in-knife-attack-at-poland-school/",
+     "published": "2026-10-08T11:02:06+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T15:07:49.816861+00:00",
+   "outlets": 8,
+   "regions": 7,
+   "languages": 1,
+   "score": 24.0
+  },
+  {
+   "id": "2f288ea0dcb3",
+   "first_seen": "2026-10-08T15:07:49.816861+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Russian attack on buses in Ukraine’s Kramatorsk kills at least 30 people",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/8/russia-attack-in-ukraines-kramatorsk-kills-12?traffic_source=rss",
+     "published": "2026-10-08T10:31:42+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Russian strike on buses kills at least 30, say officials, as deadly attacks on Ukraine surge",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c875pwq134l3o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-08T12:43:56+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Russian attack on bus kills at least 30 people near Ukraine frontline",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/08/russian-attack-buses-ukraine-frontline-kramatorsk",
+     "published": "2026-10-08T14:00:05+00:00"
+    },
+    {
+     "outlet": "Meduza English",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Russian strike on two passenger buses in Ukraine’s Kramatorsk kills 33",
+     "language": "en",
+     "link": "https://meduza.io/en/news/2026/10/08/russian-strike-on-two-passenger-buses-in-ukraine-s-kramatorsk-kills-33",
+     "published": "2026-10-08T10:26:47+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "30 dead in strike on Ukraine bus as Russian attacks intensify",
+     "language": "en",
+     "link": "https://www.france24.com/en/video/20261008-30-dead-in-strike-on-ukraine-bus-as-russian-attacks-intensify",
+     "published": "2026-10-08T13:44:30+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Russian strike on buses kills 30 in Ukraine's frontline city of Kramatorsk",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/russian-strike-buses-kills-30-in-ukraines-frontline-city-kramatorsk-6443076",
+     "published": "2026-10-08T13:46:38+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Russian strike on buses kills 33, say officials, as deadly attacks on Ukraine surge",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/russian-strike-on-buses-kills-33-say-officials-as-deadly-attacks-on-ukraine-surge/",
+     "published": "2026-10-08T10:51:38+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Russian bus stop bombing kills at least 33 in Ukraine",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQUmR2N3JEQ2J0SXItMFZFM1BnaGo4VnNoYldFSTZPOHZmRE82dEozd0FCYkZkdFlJZFFaS2wyMS0tRGFNWTAxZG04SFpPUkJzV2d6Zlo0aml6cktSeFp4a3lKdWdkZm5PdzNBY1dUM0VvZ3VzTWVTdlVmbDQ2TDVVb19KQWxHeG8wTVRLUTJ5NER3cEJvYThuVHFMNGY?oc=5",
+     "published": "2026-10-08T11:06:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T15:07:49.816861+00:00",
+   "outlets": 8,
+   "regions": 7,
+   "languages": 1,
+   "score": 24.0
+  },
+  {
    "id": "c90472109711",
    "first_seen": "2026-10-05T18:07:49.818707+00:00",
    "members": [
@@ -3936,6 +4275,89 @@
     }
    ],
    "last_seen": "2026-10-06T09:08:01.863235+00:00",
+   "outlets": 8,
+   "regions": 6,
+   "languages": 1,
+   "score": 22.0
+  },
+  {
+   "id": "2065ce1f6b8e",
+   "first_seen": "2026-10-08T03:08:02.336758+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Trump on why he thinks he deserves the Nobel Peace Prize",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/7/trump-on-why-he-thinks-he-deserves-the-nobel-peace-prize-2?traffic_source=rss",
+     "published": "2026-10-07T21:30:18+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Trump says he deserves Nobel Peace Prize but has doubts he will get it",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370107/trump-says-he-deserves-nobel-peace-prize-has-doubts-hell-get-it?utm_source=rss_feed",
+     "published": "2026-10-07T22:41:05+00:00"
+    },
+    {
+     "outlet": "Rappler",
+     "region": "ph",
+     "bucket": "serious",
+     "title": "Trump says he deserves Nobel Peace Prize but doubts he’ll get one",
+     "language": "en",
+     "link": "https://www.rappler.com/world/us-canada/trump-doubts-nobel-peace-prize/",
+     "published": "2026-10-07T23:59:42+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Trump says he deserves Nobel Peace Prize but has doubts he will get it",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2035634/trump-says-he-deserves-nobel-peace-prize-but-has-doubts-he-will-get-it",
+     "published": "2026-10-08T05:54:56+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Trump says he deserves Nobel Peace Prize but has doubts he will get it",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633663/trump-says-he-deserves-nobel-peace-prize-but-has-doubts-he-will-get-it",
+     "published": "2026-10-08T02:14:15+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump says he deserves Nobel Peace Prize, but doubts he will get it",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/trump-says-he-deserves-the-nobel-peace-prize-doubts-winning-this-year/article71558284.ece",
+     "published": "2026-10-08T04:19:27+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump Says He Should Win Nobel Peace Prize, But Has Doubts About Winning",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/donald-trump-says-he-should-win-nobel-peace-prize-but-has-doubts-about-winning-12153680#publisher=newsstand",
+     "published": "2026-10-07T21:44:01+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Trump says he deserves Nobel Peace Prize but has doubts he will get it",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOVEkzVEpocHRSSC0xV0JGVnotWHZGZDB4TzBoU0lIem5rMllUWHE5Q1g2NFZRZDd5eW9Vd2R4VTBiQlZWaHJGbjl0YTBPUFlJU1V6QnhJWll0SjZlVEY5bUlnTTJhZEM3dTNaVVpBV1oyRUxlZ3BmRHBvRk9NM3FTUy12X1Y2dU5ReTk3SUdCbk1pemlJSEJyYzhiMFExR1FXUmY4N0hBQ3VZb3RjbDFhU2dHNlV6dw?oc=5",
+     "published": "2026-10-07T20:45:43+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T15:07:49.816861+00:00",
    "outlets": 8,
    "regions": 6,
    "languages": 1,
@@ -4312,80 +4734,6 @@
    "score": 20.0
   },
   {
-   "id": "2065ce1f6b8e",
-   "first_seen": "2026-10-08T03:08:02.336758+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Trump on why he thinks he deserves the Nobel Peace Prize",
-     "language": "en",
-     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/7/trump-on-why-he-thinks-he-deserves-the-nobel-peace-prize-2?traffic_source=rss",
-     "published": "2026-10-07T21:30:18+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Trump says he deserves Nobel Peace Prize but has doubts he will get it",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370107/trump-says-he-deserves-nobel-peace-prize-has-doubts-hell-get-it?utm_source=rss_feed",
-     "published": "2026-10-07T22:41:05+00:00"
-    },
-    {
-     "outlet": "Rappler",
-     "region": "ph",
-     "bucket": "serious",
-     "title": "Trump says he deserves Nobel Peace Prize but doubts he’ll get one",
-     "language": "en",
-     "link": "https://www.rappler.com/world/us-canada/trump-doubts-nobel-peace-prize/",
-     "published": "2026-10-07T23:59:42+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Trump says he deserves Nobel Peace Prize but has doubts he will get it",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2035634/trump-says-he-deserves-nobel-peace-prize-but-has-doubts-he-will-get-it",
-     "published": "2026-10-08T05:54:56+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Trump says he deserves Nobel Peace Prize but has doubts he will get it",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633663/trump-says-he-deserves-nobel-peace-prize-but-has-doubts-he-will-get-it",
-     "published": "2026-10-08T02:14:15+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Trump says he deserves Nobel Peace Prize, but doubts he will get it",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/trump-says-he-deserves-the-nobel-peace-prize-doubts-winning-this-year/article71558284.ece",
-     "published": "2026-10-08T04:19:27+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Trump Says He Should Win Nobel Peace Prize, But Has Doubts About Winning",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/donald-trump-says-he-should-win-nobel-peace-prize-but-has-doubts-about-winning-12153680#publisher=newsstand",
-     "published": "2026-10-07T21:44:01+00:00"
-    }
-   ],
-   "last_seen": "2026-10-08T09:08:05.709468+00:00",
-   "outlets": 7,
-   "regions": 5,
-   "languages": 1,
-   "score": 19.0
-  },
-  {
    "id": "f847db6b3477",
    "first_seen": "2026-10-07T03:07:41.547243+00:00",
    "members": [
@@ -4590,62 +4938,6 @@
    "score": 17.0
   },
   {
-   "id": "9d74b44c397d",
-   "first_seen": "2026-10-07T18:07:47.065879+00:00",
-   "members": [
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "10 injured in knife attack at school in northeastern Poland",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/europe/article/3370092/10-injured-knife-attack-school-northeastern-poland?utm_source=rss_feed",
-     "published": "2026-10-07T14:55:41+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "9 injured in stabbing attack at Poland high school, teen suspect arrested",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/7-injured-in-stabbing-attack-at-poland-high-school-teen-suspect-arrested-101791371029555.html",
-     "published": "2026-10-07T11:04:27+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Seven wounded in Poland school stabbing attack",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/07/seven-wounded-in-poland-school-stabbing-attack",
-     "published": "2026-10-07T11:45:00+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Seven injured in school stabbing attack in Poland",
-     "language": "en",
-     "link": "https://tass.com/world/2198809",
-     "published": "2026-10-07T12:38:19+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Ten injured in knife attack at Polish school",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNWXI0Qll0ejFsSDdjcVpRZlFUX1FNZUpOS1Ftdi1Ld0dvRFNwdDJkV1ZPY1lRanRoMnNONXp4ZFVpQ181UlBoRk12MWg3Zmxwbm16TXhieDJ2UVFrVGlWdG04d1RsWWJIc2cwTHRUai1VajZhSERGNkN4OUZXNWM5RWlsZ2h0dUYtdTU0cHZPVlRIWEtWcGx2aGEydThwY2FkVXZGVUdmcDZsd2VoUU9j?oc=5",
-     "published": "2026-10-07T16:28:15+00:00"
-    }
-   ],
-   "last_seen": "2026-10-08T03:08:02.336758+00:00",
-   "outlets": 5,
-   "regions": 5,
-   "languages": 1,
-   "score": 17.0
-  },
-  {
    "id": "9c0449392bae",
    "first_seen": "2026-10-08T03:08:02.336758+00:00",
    "members": [
@@ -4716,6 +5008,71 @@
    "last_seen": "2026-10-08T09:08:05.709468+00:00",
    "outlets": 7,
    "regions": 4,
+   "languages": 1,
+   "score": 17.0
+  },
+  {
+   "id": "a80a6a359920",
+   "first_seen": "2026-10-08T09:08:05.709468+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Outspoken Indian actor Nana Patekar suddenly dies at 75",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cj3vqr5rknpeo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-08T03:41:34+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Acclaimed Indian actor Nana Patekar dies aged 75",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/8/acclaimed-indian-actor-nana-patekar-dies-aged-75?traffic_source=rss",
+     "published": "2026-10-08T06:30:42+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Veteran Bollywood actor Nana Patekar dies at 75",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633653/veteran-bollywood-actor-nana-patekar-dies-at-75",
+     "published": "2026-10-08T00:35:04+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Bollywood actor Nana Patekar dies aged 75",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/leisure/2026/10/08/bollywood-actor-nana-patekar-dies-aged-75",
+     "published": "2026-10-08T04:26:12+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Opinion: Blog | Nana Patekar, And The Sharp, Lasting Sting Of His 'Plain-Speak'",
+     "language": "en",
+     "link": "https://www.ndtv.com/opinion/nana-patekar-and-the-sense-of-an-ending-12155801#publisher=newsstand",
+     "published": "2026-10-08T09:58:50+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Nana Patekar: Five iconic roles that defined a singular screen career",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633690/nana-patekar-five-iconic-roles-that-defined-a-singular-screen-career",
+     "published": "2026-10-08T04:42:57+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T15:07:49.816861+00:00",
+   "outlets": 5,
+   "regions": 5,
    "languages": 1,
    "score": 17.0
   },
@@ -5063,6 +5420,62 @@
    "score": 15.0
   },
   {
+   "id": "db689d4db9dc",
+   "first_seen": "2026-10-08T03:08:02.336758+00:00",
+   "members": [
+    {
+     "outlet": "Boing Boing",
+     "region": "odd",
+     "bucket": "light",
+     "title": "Trump wants to turn his private golf club into a presidential retreat",
+     "language": "en",
+     "link": "https://boingboing.net/2026/10/07/trump-new-camp-david-golf-club.html",
+     "published": "2026-10-07T17:04:10+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Trump wants to turn his Florida golf course into presidential retreat",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370098/trump-wants-turn-florida-golf-course-presidential-retreat?utm_source=rss_feed",
+     "published": "2026-10-07T17:00:31+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump plans to turn Florida golf course into presidential retreat",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/trump-plans-to-turn-florida-golf-course-into-presidential-retreat-101791398399423.html",
+     "published": "2026-10-07T18:39:58+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Trump wants a new Camp David-like retreat at his Florida golf club",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c9gkvxjvl7v3o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-08T03:00:50+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump Proposes Camp David-Style Presidential Retreat At Florida Golf Club",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/trump-proposes-camp-david-style-presidential-retreat-at-florida-golf-club-12154035#publisher=newsstand",
+     "published": "2026-10-08T09:45:58+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T15:07:49.816861+00:00",
+   "outlets": 5,
+   "regions": 4,
+   "languages": 1,
+   "score": 15.0
+  },
+  {
    "id": "ce47f7f162bf",
    "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
@@ -5392,53 +5805,6 @@
    "score": 14.0
   },
   {
-   "id": "db689d4db9dc",
-   "first_seen": "2026-10-08T03:08:02.336758+00:00",
-   "members": [
-    {
-     "outlet": "Boing Boing",
-     "region": "odd",
-     "bucket": "light",
-     "title": "Trump wants to turn his private golf club into a presidential retreat",
-     "language": "en",
-     "link": "https://boingboing.net/2026/10/07/trump-new-camp-david-golf-club.html",
-     "published": "2026-10-07T17:04:10+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Trump wants to turn his Florida golf course into presidential retreat",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370098/trump-wants-turn-florida-golf-course-presidential-retreat?utm_source=rss_feed",
-     "published": "2026-10-07T17:00:31+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Trump plans to turn Florida golf course into presidential retreat",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/trump-plans-to-turn-florida-golf-course-into-presidential-retreat-101791398399423.html",
-     "published": "2026-10-07T18:39:58+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Trump wants a new Camp David-like retreat at his Florida golf club",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c9gkvxjvl7v3o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-08T03:00:50+00:00"
-    }
-   ],
-   "last_seen": "2026-10-08T09:08:05.709468+00:00",
-   "outlets": 4,
-   "regions": 4,
-   "languages": 1,
-   "score": 14.0
-  },
-  {
    "id": "1a01415a16dc",
    "first_seen": "2026-10-08T03:08:02.336758+00:00",
    "members": [
@@ -5526,54 +5892,54 @@
      "published": "2026-10-07T18:40:52+00:00"
     }
    ],
-   "last_seen": "2026-10-08T09:08:05.709468+00:00",
+   "last_seen": "2026-10-08T15:07:49.816861+00:00",
    "outlets": 4,
    "regions": 4,
    "languages": 1,
    "score": 14.0
   },
   {
-   "id": "a80a6a359920",
-   "first_seen": "2026-10-08T09:08:05.709468+00:00",
+   "id": "669e7a6372ea",
+   "first_seen": "2026-10-08T15:07:49.816861+00:00",
    "members": [
     {
-     "outlet": "BBC World",
-     "region": "uk",
+     "outlet": "France24",
+     "region": "eu",
      "bucket": "serious",
-     "title": "Outspoken Indian actor Nana Patekar suddenly dies at 75",
+     "title": "Maricarmen, the 87-year-old woman whose eviction shook Spain, dies",
      "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cj3vqr5rknpeo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-08T03:41:34+00:00"
+     "link": "https://www.france24.com/en/video/20261008-maricarmen-the-87-year-old-woman-whose-eviction-shook-spain-dies",
+     "published": "2026-10-08T11:54:08+00:00"
     },
     {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
+     "outlet": "NPR World",
+     "region": "us",
      "bucket": "serious",
-     "title": "Acclaimed Indian actor Nana Patekar dies aged 75",
+     "title": "Maricarmen, the 87-year-old woman whose eviction shook Spain, has died",
      "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/8/acclaimed-indian-actor-nana-patekar-dies-aged-75?traffic_source=rss",
-     "published": "2026-10-08T06:30:42+00:00"
+     "link": "https://www.npr.org/2026/10/08/nx-s1-5994868/maricarmen-eviction-spain-dies",
+     "published": "2026-10-08T05:56:02+00:00"
     },
     {
-     "outlet": "The Express Tribune",
-     "region": "pk",
+     "outlet": "Google News — World",
+     "region": "global",
      "bucket": "serious",
-     "title": "Veteran Bollywood actor Nana Patekar dies at 75",
+     "title": "Maricarmen, the 87-year-old woman whose eviction shook Spain, has died",
      "language": "en",
-     "link": "https://tribune.com.pk/story/2633653/veteran-bollywood-actor-nana-patekar-dies-at-75",
-     "published": "2026-10-08T00:35:04+00:00"
+     "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxQcTF2TEYxLTZ6MmtUbkFQZ2FZVHR5WElHcHFaR0RVUjYwdmkySERwWDhfQmlvd1RjMElULUhpdzNwbVFJSmNNWFNfNVBmOVZnSUM4WmdJSWVGdnFJMERhNUFmSnJGSDV0TVUtWjNLRW9JYmRBZXFXNGl0SXFmOXRVcg?oc=5",
+     "published": "2026-10-08T05:56:02+00:00"
     },
     {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
+     "outlet": "The Hindu — International",
+     "region": "in",
      "bucket": "serious",
-     "title": "Bollywood actor Nana Patekar dies aged 75",
+     "title": "Evicted Spanish octogenarian Maricarmen Abascal, heart of Spain's housing protests, has died",
      "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/leisure/2026/10/08/bollywood-actor-nana-patekar-dies-aged-75",
-     "published": "2026-10-08T04:26:12+00:00"
+     "link": "https://www.thehindu.com/news/international/evicted-spanish-octogenarian-maricarmen-abascal-heart-of-spains-housing-protests-has-died/article71557243.ece",
+     "published": "2026-10-07T21:23:37+00:00"
     }
    ],
-   "last_seen": "2026-10-08T09:08:05.709468+00:00",
+   "last_seen": "2026-10-08T15:07:49.816861+00:00",
    "outlets": 4,
    "regions": 4,
    "languages": 1,
@@ -6622,6 +6988,205 @@
    "score": 11.0
   },
   {
+   "id": "ccf170926f43",
+   "first_seen": "2026-10-08T15:07:49.816861+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Tanker hit by multiple projectiles in Gulf off Qatar, maritime agency says",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cqlydk7796wdo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-08T12:11:31+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Tanker off Qatar reports hits from multiple projectiles: U.K. maritime agency",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/oil-tanker-off-qatar-reports-hits-from-multiple-projectiles-hormuz-strait-october-7-2026/article71558152.ece",
+     "published": "2026-10-08T00:20:44+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Tanker hit by multiple projectiles off north coast of Qatar, UKMTO says",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQT3VxTFV6d2VnbXJoTGFqaGM5Vm1vRm41RHVyd2ExMUpKZ0pIN2wwSmplNUNsTWJWd1FsU1pzTndjLXF1VHNKOVhyMjc5R2psbmFsT3pTT1hENnllczNfd2F4LV9yM3B5aDNBaE9jTVd6MzlEU2I1Y29pTTY5dUN3ZjZ1Qm82R3A0enMzR1hkOXpSaTBBZkFVbFNmTHNxcVBJVU93UmZOam9lcDQwc25FcdIBtgFBVV95cUxPSWhORDRtcl9kQk0wOVdlcXJBSkxycGZnVHRRY2lta0xwZFNBQ3o2Z0pGWk1SVDUybW1PTllhdVV4eXlFWkhoT3ZneTRmSU5IcjRJSUg0QTZzeVhRUE12Y3NSYTVTWnBfcUctTnJyN3k5Z2lreEMzOEY2YU9zWWktaEFVNUN2aml0UUljMHdCWmFOZjQyUl9SMkZHUktyX1IzUTRPSzVFN3ZULUZBOU8zY3RqR3Fidw?oc=5",
+     "published": "2026-10-08T02:50:06+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T15:07:49.816861+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "6eee72b348fe",
+   "first_seen": "2026-10-08T15:07:49.816861+00:00",
+   "members": [
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Infantino promises further FIFA support for African football",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/sport/infantino-promises-further-fifa-support-african-football-6443036",
+     "published": "2026-10-08T13:27:04+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Infantino promises further Fifa support for African football",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/08/infantino-promises-further-fifa-support-for-african-football",
+     "published": "2026-10-08T14:02:34+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Infantino promises more FIFA funding for African football",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/infantino-promises-more-fifa-funding-for-african-football/",
+     "published": "2026-10-08T14:17:04+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T15:07:49.816861+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "182e65baf487",
+   "first_seen": "2026-10-08T15:07:49.816861+00:00",
+   "members": [
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Yemen’s Houthis claim new attacks on Saudi airports as conflict deepens",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/yemens-houthis-claim-new-attacks-on-saudi-airports-as-conflict-deepens/article71557047.ece",
+     "published": "2026-10-07T17:04:00+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Yemen's Houthis claim responsibility for attacks on two Saudi airports",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/08/yemens-houthis-claim-responsibility-for-attacks-on-two-saudi-airports/",
+     "published": "2026-10-08T11:37:25+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Three people killed in Houthi attacks on Saudi Arabia airports, officials say",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cwn8d5rx22rdo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-08T03:32:35+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Attacks on Saudi airports claimed by Houthi rebels kill 3 people, officials say",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/attacks-on-saudi-airports-claimed-by-houthi-rebels-kill-several/article71557187.ece",
+     "published": "2026-10-08T00:31:56+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T15:07:49.816861+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "813428a20cef",
+   "first_seen": "2026-10-08T15:07:49.816861+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "South Korea test-flies its first home-grown hypersonic weapon",
+     "language": "en",
+     "link": "https://www.scmp.com/news/asia/east-asia/article/3370218/south-korea-test-flies-its-first-home-grown-hypersonic-weapon?utm_source=rss_feed",
+     "published": "2026-10-08T13:05:04+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "South Korea test-flies its first domestically developed hypersonic weapon",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/08/g-s1-147113/south-korea-test-flies-its-first-domestically-developed-hypersonic-weapon",
+     "published": "2026-10-08T12:01:34+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "South Korea test-fires its first homegrown hypersonic weapon: presidency",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/08/asia-pacific/south-korea-hypersonic-test/",
+     "published": "2026-10-08T12:54:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T15:07:49.816861+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "1a73ed035434",
+   "first_seen": "2026-10-08T15:07:49.816861+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "French school blockades continue despite PM’s pledge to act",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3370201/french-school-blockades-continue-despite-pms-pledge-act?utm_source=rss_feed",
+     "published": "2026-10-08T10:45:37+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "French teens keep up school blockades despite prime minister's pledge to act",
+     "language": "en",
+     "link": "https://www.france24.com/en/video/20261008-french-teens-keep-up-school-blockades-despite-prime-minister-s-pledge-to-act",
+     "published": "2026-10-08T12:48:22+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "French youth ignores PM pledge to continue school blockades",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/europe/french-youth-ignores-pm-pledge-to-continue-school-blockades",
+     "published": "2026-10-08T11:01:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T15:07:49.816861+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
    "id": "55d7d97f75a2",
    "first_seen": "2026-10-07T18:07:47.065879+00:00",
    "members": [
@@ -7156,7 +7721,45 @@
      "published": "2026-10-08T07:39:00+00:00"
     }
    ],
-   "last_seen": "2026-10-08T09:08:05.709468+00:00",
+   "last_seen": "2026-10-08T15:07:49.816861+00:00",
+   "outlets": 3,
+   "regions": 1,
+   "languages": 1,
+   "score": 7.0
+  },
+  {
+   "id": "2d8bcdee9dcc",
+   "first_seen": "2026-10-08T15:07:49.816861+00:00",
+   "members": [
+    {
+     "outlet": "The Verge",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "Amazon’s new Kids Tablets let parents manage access to the Google Play store",
+     "language": "en",
+     "link": "https://www.theverge.com/tech/1007768/amazon-kids-tablet-android-kid-proof-case-google-play",
+     "published": "2026-10-08T13:48:48+00:00"
+    },
+    {
+     "outlet": "TechCrunch",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "Amazon unveils new Alexa tablets with Alexa+ and Google Play Store access",
+     "language": "en",
+     "link": "https://techcrunch.com/2026/10/08/amazon-unveils-new-alexa-tablets-with-alexa-and-google-play-store-access/",
+     "published": "2026-10-08T13:00:00+00:00"
+    },
+    {
+     "outlet": "Engadget",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "Amazon's new Alexa tablets will have full access to Google Play",
+     "language": "en",
+     "link": "https://www.engadget.com/2280936/amazon-alexa-tablets-access-google-play/",
+     "published": "2026-10-08T13:00:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T15:07:49.816861+00:00",
    "outlets": 3,
    "regions": 1,
    "languages": 1,
