@@ -1,0 +1,768 @@
+{
+  "run_date": "2026-10-08",
+  "stats": {
+    "points_in": 248,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 98,
+    "issues_clustered": 31,
+    "topics_merged": 3,
+    "topics_out": 3,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 2,
+    "topics_below_min_points": 16,
+    "topics_below_min_channels": 7,
+    "layers": {
+      "2": 1,
+      "1": 2
+    },
+    "agreement": 2,
+    "cross_source": 1,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "تحالف مكة الدفاعي وتفعيله",
+      "تهديد حوثي بهجوم على السعودية وتحذير أمريكي"
+    ],
+    [
+      "احتجاجات الطلاب الفرنسيين: الأسباب والمطالب",
+      "عنف الشرطة ضد المحتجين الطلاب في فرنسا"
+    ],
+    [
+      "أزمة الصناديق المالية التركية والفساد الاقتصادي",
+      "التضخم وأداء الاقتصاد التركي"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "تحالف مكة الدفاعي وتفعيله",
+      "event": "إعلان حلف مكة الدفاعي وتفعيل الدفاع المشترك بين السعودية والدول الإسلامية ردًا على اعتداءات الحوثي",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk",
+        "Halk TV",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        5,
+        14,
+        15,
+        16,
+        56,
+        95,
+        96,
+        97,
+        107,
+        108
+      ],
+      "total_points": 10,
+      "fresh_points": 10,
+      "dropped_reason": null,
+      "id": "123ac4be1a9d",
+      "created_at": "2026-10-08T04:02:10.892093+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1276
+    },
+    {
+      "title": "أزمة الصناديق المالية التركية والفساد الاقتصادي",
+      "event": "تحليل الأزمة المالية التركية (خسائر الصناديق الاستثمارية) ونسب المسؤولية بين التخريب الخارجي والفساد الداخلي",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        57,
+        58,
+        59,
+        61,
+        109,
+        110,
+        114,
+        116,
+        123,
+        124,
+        125,
+        126,
+        128
+      ],
+      "total_points": 13,
+      "fresh_points": 13,
+      "dropped_reason": null,
+      "id": "b38814731833",
+      "created_at": "2026-10-08T04:02:10.892093+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1276
+    },
+    {
+      "title": "انتقال جميل توغاي من الجمهوري إلى العدالة والتنمية",
+      "event": "انتقال رئيس بلدية إزمير/إسطنبول جميل توغاي من الحزب الجمهوري إلى حزب العدالة والتنمية وتداعياته السياسية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        102,
+        119,
+        120,
+        127
+      ],
+      "total_points": 12,
+      "fresh_points": 12,
+      "dropped_reason": null,
+      "id": "09bc69b8f80d",
+      "created_at": "2026-10-08T04:02:10.892093+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1276
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "احتجاجات الطلاب الفرنسيين: الأسباب والمطالب",
+      "event": "الاحتجاجات الطلابية في فرنسا على أوضاع التعليم والمرافق المدرسية ومطالبها",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        21,
+        22,
+        24,
+        35,
+        36,
+        37,
+        38,
+        40,
+        88,
+        91
+      ],
+      "total_points": 10,
+      "fresh_points": 3,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "تحالف مكة الدفاعي وتفعيله",
+      "event": "إعلان حلف مكة الدفاعي وتفعيل الدفاع المشترك بين السعودية والدول الإسلامية ردًا على اعتداءات الحوثي",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk",
+        "Halk TV",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        5,
+        14,
+        15,
+        16,
+        56,
+        95,
+        96,
+        97,
+        107,
+        108
+      ],
+      "total_points": 10,
+      "fresh_points": 10,
+      "dropped_reason": null
+    },
+    {
+      "title": "عمليات اليمن على باب المندب",
+      "event": "سيطرة القوات اليمنية الحكومية وحلفائها على باب المندب والمخا وذباب ورد فعل الحوثيين الصاروخي",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        4,
+        17,
+        18,
+        98
+      ],
+      "total_points": 4,
+      "fresh_points": 1,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "أزمة الصناديق المالية التركية والفساد الاقتصادي",
+      "event": "تحليل الأزمة المالية التركية (خسائر الصناديق الاستثمارية) ونسب المسؤولية بين التخريب الخارجي والفساد الداخلي",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        57,
+        58,
+        59,
+        61,
+        109,
+        110,
+        114,
+        116,
+        123,
+        124,
+        125,
+        126,
+        128
+      ],
+      "total_points": 13,
+      "fresh_points": 13,
+      "dropped_reason": null
+    },
+    {
+      "title": "تقييم أداء مجلس السلام بعد اتفاق غزة",
+      "event": "تقييم أداء مجلس السلام المنبثق عن اتفاق غزة في تخفيف المعاناة وإعادة الإعمار والضغط على إسرائيل",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        67,
+        69,
+        70,
+        72,
+        74,
+        76,
+        78,
+        79,
+        80
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "مفاوضات الصحراء الغربية وقرار مجلس الأمن 2797",
+      "event": "اعتماد مقترح الحكم الذاتي المغربي أساسًا للمفاوضات بموجب قرار مجلس الأمن 2797 وتباين تفسيرات الأطراف",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تهديد ترامب النووي لكاليفورنيا",
+      "event": "تصريح ترامب بأن إيران قادرة على تدمير لوس أنجلوس وسان دييغو لو امتلكت سلاحًا نوويًا، وتفسير دوافع التصريح",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        0,
+        2
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تعديل قانون الأخبار الكاذبة التونسي",
+      "event": "توقيع الرئيس التونسي تعديلًا على المرسوم 54 يخفف العقوبة السجنية إلى غرامات مالية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "رد الحكومة الفرنسية على مطالب الطلاب",
+      "event": "إجراءات الحكومة الفرنسية (منصة حوار، ميزانية التعليم) للاستجابة لمطالب الطلاب",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        89,
+        90
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "انتقال جميل توغاي من الجمهوري إلى العدالة والتنمية",
+      "event": "انتقال رئيس بلدية إزمير/إسطنبول جميل توغاي من الحزب الجمهوري إلى حزب العدالة والتنمية وتداعياته السياسية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        102,
+        119,
+        120,
+        127
+      ],
+      "total_points": 12,
+      "fresh_points": 12,
+      "dropped_reason": null
+    },
+    {
+      "title": "خطاب أردوغان حول القيم والأحزاب",
+      "event": "تصريحات أردوغان حول سياسة حزب العدالة والتنمية المبنية على الأخلاق والإقبال عليه من شخصيات أخرى",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        112,
+        113
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "إنجازات أردوغان المعلنة (الفضاء، الناتو)",
+      "event": "إعلانات أردوغان حول استضافة قمة الناتو وزيارة ترامب والمؤتمر الدولي للفضاء",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        111,
+        115
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "ضحايا الفلسطينيين بعد وقف إطلاق النار",
+      "event": "عدد الشهداء الفلسطينيين منذ إعلان وقف إطلاق النار في أكتوبر الماضي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        68,
+        77
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "أزمة الطاقة الأوروبية ومخزون النفط",
+      "event": "قرار مجموعة السبع تعبئة 10 ملايين برميل من الاحتياطيات الاستراتيجية وربطه بأسعار الكهرباء الشتوية والعجز في الميزانية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        92,
+        93,
+        94
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "انقسام المعارضة التركية ومستقبل إسطنبول الانتخابي",
+      "event": "انقسام حزب المعارضة التركية الجديد وتوقعات أدائه الانتخابي في إسطنبول",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        103,
+        104,
+        105,
+        106
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الأزمة النفسية المجتمعية المرتبطة بالاقتصاد التركي",
+      "event": "الأزمة النفسية المجتمعية الناتجة عن فقدان الثقة بالمستقبل وتفاوت عرض الثروة في تركيا",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        117,
+        118
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "سرد أحداث 7 أكتوبر وحصيلة الحرب",
+      "event": "سرد وقائع هجوم 7 أكتوبر 2023 وحصيلة القتلى من الجانبين والموقف الإيراني المؤيد له",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        130,
+        131,
+        132
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تحليل تأثير هجوم 7 أكتوبر وتوقعات حماس",
+      "event": "تحليل ما إذا كان الهجوم سرّع انهيار النظام الإسرائيلي وتوقعات حماس بشأن رد الفعل الإسرائيلي",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        133,
+        134
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "إعادة بناء المجتمعات الإسرائيلية المتضررة من هجوم أكتوبر",
+      "event": "جهود إعادة إعمار وبناء المنازل في مجتمعات مثل نيتيف هأسرا المتضررة من هجوم 7 أكتوبر وموقف السكان من العودة والسلام",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "All Israel News"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "فشل المخابرات الإسرائيلية قبل 7 أكتوبر",
+      "event": "تحليل كتاب عاموس هاريل لفشل المخابرات الإسرائيلية في اكتشاف استعدادات حماس قبل هجوم 7 أكتوبر",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "Haaretz"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        144,
+        145,
+        146,
+        147,
+        149
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "موقف ترامب وروبيو من عمليات اليمن والسعودية",
+      "event": "تصريحات ترامب وروبيو حول سير العمليات ضد الحوثيين والالتزامات الأمنية مع السعودية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        19,
+        20
+      ],
+      "total_points": 2,
+      "fresh_points": 1,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "كالينينغراد: الجغرافيا والتسليح والتوتر مع الناتو",
+      "event": "وضع كالينينغراد الجغرافي المنفصل عن روسيا وتحصينها وتهديد تسليحها بأسلحة نووية في سياق التوتر مع الناتو",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        9,
+        11,
+        12
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الهجمات الهجينة الروسية في أوروبا",
+      "event": "تصعيد روسيا للهجمات الهجينة (مسيّرات وتخريب) في أوروبا واختبار رد الناتو",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        10,
+        13
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "ضعف الحكومة الفرنسية وأزمتها السياسية",
+      "event": "تقييم ضعف الحكومة الفرنسية الحالية وافتقارها للأغلبية البرلمانية وسط الاحتجاجات",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        23,
+        25,
+        27
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "انتقادات باهتشلي لإسرائيل ونتنياهو",
+      "event": "انتقاد باهتشلي لإسرائيل كتهديد إقليمي ولخطاب نتنياهو أمام الأمم المتحدة",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        52,
+        53
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "دعوة باهتشلي لولاية ثالثة لأردوغان",
+      "event": "دعوة حزب الحركة القومية لانتخابات 2028 وتمكين أردوغان من الترشح لولاية ثالثة",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        49,
+        50,
+        51,
+        54,
+        55
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "اضطرابات أوروبا المرتبطة بالمهاجرين",
+      "event": "موجات العنف والاضطرابات في فرنسا وبريطانيا المرتبطة بأبناء الأحياء الشعبية والمهاجرين",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        62,
+        63,
+        64
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "صعود اليمين الجديد في أوروبا وتأثير الهجرة على التصويت",
+      "event": "نمو أحزاب اليمين في أوروبا وتأثير منح الجنسية للمهاجرين على نتائج الانتخابات",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        65,
+        66
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    }
+  ]
+}
