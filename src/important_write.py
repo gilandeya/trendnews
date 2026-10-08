@@ -555,7 +555,9 @@ def build_draft(point: dict, result: dict, written: dict, cfg, selection_issue: 
 # ───────────────────────────── منشور الخبر الرئيسي (Issue #1293، B2) ─────────────────────────────
 
 REASON_WORDS = "عدد كلمات المنشور {n} خارج المدى المقبول [{lo}، {hi}]"
-REASON_QUOTE = "اقتباس بين « » ليس في أي مقتطف معطى: «{quote}»"
+REASON_QUOTE = ("اقتباس بين « » ليس في أي مقتطف معطى: «{quote}» — انقله حرفيًا من المقتطف كما هو، "
+                "أو اكتبه كلامًا غير مباشر بلا علامتي تنصيص")
+REASON_QUOTE_CONVERTED = "اقتباس لم يطابق مصدره حرفيًا فحُوِّل إلى كلام غير مباشر: «{quote}» — راجعه"
 REASON_TITLE_QUESTION = "العنوان سؤال لا جملة خبرية"
 # نوع المنشور ← الحكم الذي تُبنى عليه شارة البطاقة (cards.card_origin): التفنيد بشارته، وغيره «هام»
 ARTICLE_VERDICT = {"verified": "confirmed", "nearest": "not_found", "refuted": "false"}
@@ -602,16 +604,44 @@ def word_count(text: str) -> int:
     return len(re.findall(r"\w+", text or "", re.UNICODE))
 
 
-def quote_violations(text: str, given: list[str]) -> list[str]:
-    """اقتباسات « » في النص غير الموجودة حرفيًا (مطابقة مطبَّعة) في أي نص من `given`."""
-    hay = " ".join(_norm(g) for g in given)
-    return [q for q in _QUOTE_RE.findall(text or "")
-            if _norm(q) and f" {_norm(q)} " not in f" {hay} "]
+def quote_violations(text: str, sources: list[str], allowed: list[str] | None = None) -> list[str]:
+    """اقتباسات « » في النص غير الموجودة حرفيًا في أي من `sources` (مقتطفات المصادر) أو `allowed`.
+    الدالة نفسها التي يستعملها verify_draft.check_originality (_quoted_spans + _normalized_words +
+    _contains_run) كي لا يحكم فحصان بحكمين مختلفين على اقتباس واحد فلا يصل الكاتب سبب واضح."""
+    pool = [verify_draft._normalized_words(t) for t in list(sources) + list(allowed or []) if t]
+    bad = []
+    for q in verify_draft._quoted_spans(text):
+        words = verify_draft._normalized_words(q)
+        if not words or not any(verify_draft._contains_run(src, words) for src in pool):
+            bad.append(q)
+    return bad
 
 
-def check_article(written: dict, given: list[str], cfg) -> str | None:
+def unquote_mismatches(written: dict, sources: list[str], allowed: list[str] | None = None
+                       ) -> tuple[dict, list[str]]:
+    """ينزع علامتي التنصيص عن كل اقتباس غير مطابق ويبقي نصه (تحويل إلى كلام غير مباشر بدل إسقاط
+    المنشور). يعيد (نسخة النص المحوَّلة، الاقتباسات المحوَّلة)."""
+    converted: list[str] = []
+
+    def fix(text: str) -> str:
+        def sub(m):
+            q = m.group(1).strip()
+            if q in quote_violations(m.group(0), sources, allowed):
+                converted.append(q)
+                return m.group(1)
+            return m.group(0)
+        return verify_draft.QUOTE_RE.sub(sub, text or "")
+
+    out = dict(written)
+    for key in ("post_title", "post_body"):
+        out[key] = fix(written.get(key, ""))
+    return out, list(dict.fromkeys(converted))
+
+
+def check_article(written: dict, given: list[str], cfg, allowed: list[str] | None = None) -> str | None:
     """سبب رفض منشور الخبر الرئيسي أو None: عدد الكلمات خارج [lo×0.85، hi×1.2]، عبارة المحرر/الرأي المحظورة
-    في «هام»، فعل حكم منسوب إلى وسيلة، اقتباس ليس في أي مقتطف معطى، أو عنوان سؤال."""
+    في «هام»، فعل حكم منسوب إلى وسيلة، اقتباس ليس في أي مقتطف معطى (`given` مقتطفات المصادر وحدها،
+    و`allowed` ادّعاءات refuted)، أو عنوان سؤال."""
     icfg = _icfg(cfg)
     lo, hi = icfg.get("article_words", [300, 450])
     t_lo, t_hi = icfg.get("article_words_tolerance", [0.85, 1.2])
@@ -628,7 +658,7 @@ def check_article(written: dict, given: list[str], cfg) -> str | None:
     violations = outlet_judgment_violations(f"{title}\n{body}", cfg)
     if violations:
         return violations[0]
-    bad = quote_violations(f"{title}\n{body}", given)
+    bad = quote_violations(f"{title}\n{body}", given, allowed)
     if bad:
         return REASON_QUOTE.format(quote=bad[0])
     if title.rstrip().endswith(("؟", "?")) or _is_question(title, cfg):
@@ -652,15 +682,22 @@ def write_article(result: dict, item: dict, cfg, sibling_texts: list[str] | None
     sibling_texts = list(sibling_texts or [])
     members = item_members(result, item)
     gap = important_gap.gather(result, item, members, cfg)
+    item["gap_sources"] = gap   # أثر للتشخيص ولو فشلت الكتابة
     grounded = article_grounded(members, gap, cfg)
     docs = article._source_docs(grounded)
     if not docs:
         return None, NO_FACTS_REASON, False
-    texts = [d["text"] for d in docs] + [p.get("claim") or "" for p in members]
-    allowed = [t for p in members for t in allowed_quotes(p)]
+    kind = item["kind"]
+    sources_text = [d["text"] for d in docs]
+    # نص النقطة العضو معروف للجمل غير المسندة إلا في nearest: نقاطها لم تثبت، فجملة تقرّرها تُنبَّه
+    claims = [] if kind == "nearest" else [p.get("claim") or "" for p in members]
+    texts = sources_text + claims
+    # الادّعاء يُقتبس ليُردّ عليه في refuted وحدها؛ لا نص نقطة عضو في verified ولا nearest
+    allowed = [t for p in members for t in allowed_quotes(p)] if kind == "refuted" else []
+    all_allowed = [t for p in members for t in allowed_quotes(p)]
     exempt = [t for p in members for t in exempt_texts(p)]
     question = result.get("main_story", "")
-    attempts = max(1, int(_icfg(cfg).get("write_attempts", 2)))
+    attempts = max(1, int(_icfg(cfg).get("article_write_attempts", 3)))
     acfg = cfg.get("article", {}) or {}
     wi = _icfg(cfg).get("writer_instructions", {}) or {}
     name_note = names_audit.names_note(texts, cfg)
@@ -671,31 +708,51 @@ def write_article(result: dict, item: dict, cfg, sibling_texts: list[str] | None
         editor_tag=acfg.get("editor_tag_phrase", "بحسب معلومات المحرر"),
         opinion_phrase=acfg.get("opinion_attribution_phrase", "وترى الصفحة أن"))
     wcfg = _article_cfg(cfg)
-    written, reason = None, ""
+    written, reason, converted = None, "", []
+    last = None
+
+    def originality(w: dict) -> str:
+        ok, why, _notes = verify_draft.check_originality(
+            w["post_body"], "", docs, int(acfg.get("max_shared_run_words", 7)),
+            allowed_quotes=all_allowed if kind == "refuted" else [], exempt_texts=exempt)
+        return "" if ok else f"{REASON_ORIGINALITY}: {why}"
+
     for attempt in range(attempts):
         got, err = article._draft_article(grounded, [], question, wcfg, avoid_note=note,
                                            system_note=system_note)
         if got is None:
             return None, err, err.startswith(TECHNICAL_PREFIX)
         normalize_statement_title(got, cfg)
-        reason = check_article(got, texts + allowed, cfg) or ""
+        last = got
+        reason = check_article(got, sources_text, cfg, allowed) or ""
         if not reason:
-            ok, why, _notes = verify_draft.check_originality(
-                got["post_body"], "", docs, int(acfg.get("max_shared_run_words", 7)),
-                allowed_quotes=allowed, exempt_texts=exempt)
-            reason = "" if ok else f"{REASON_ORIGINALITY}: {why}"
+            reason = originality(got)
         if not reason:
             written = got
             break
-        log.warning("منشور %s رُفض بعد الكتابة (محاولة %d/%d): %s", item["kind"], attempt + 1, attempts, reason)
+        log.warning("منشور %s رُفض بعد الكتابة (محاولة %d/%d): %s", kind, attempt + 1, attempts, reason)
         note = base_note + "\n" + wi.get("retry_note", "{reason}").format(reason=reason) + "\n"
+    if written is None and last is not None and reason.startswith(REASON_QUOTE.split("{")[0]):
+        # بقي الاقتباس سببًا وحيدًا؟ يُنزع تنصيصه ويُعاد الفحص كله على النص الناتج: نجاحه يعني أنه لم يكن
+        # هناك سبب آخر مقنَّع به (طول/نسبة حكم/عنوان/أصالة)، وإلا فالسبب الجديد هو سبب الفشل
+        fixed, converted = unquote_mismatches(last, sources_text, allowed)
+        again = check_article(fixed, sources_text, cfg, allowed) or originality(fixed)
+        if again:
+            reason = again
+        elif converted:
+            written, reason = fixed, ""
     if written is None:
+        if last is not None:
+            item["last_attempt"] = {"post_title": last.get("post_title", ""),
+                                    "post_body": last.get("post_body", ""), "reason": reason}
         return None, reason, False
+    item.pop("last_attempt", None)
 
     draft = build_article_draft(result, item, members, gap, written, cfg, selection_issue)
     known = " ".join(texts + [g["publisher"] for g in gap])
     warns = [w for p in members for w in p.get("warnings") or []]
     warns += unsourced_in(known, written, grounded, question, cfg)
+    warns += [REASON_QUOTE_CONVERTED.format(quote=q) for q in converted]
     if warns:
         draft["warnings"] = list(dict.fromkeys(warns))   # للمراجعة فقط: لا تدخل caption ولا تمنع النشر
     names_audit.run(draft, texts, cfg)

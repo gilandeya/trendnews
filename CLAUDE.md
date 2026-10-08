@@ -1400,6 +1400,20 @@ step (`article.wide_days`).
     و`reopen_selection` تبني قضية الترشيح الجديدة من العناصر المعادة، و`find_point` (صورة المرحلة 1 عبر `setimage`) تجد العنصر بمعرّفه
     فيُحفظ `manual_image` عليه ويصل مسودته. **نقطة معروفة:** `result_for_selection` تمسح كل `state/important` بحثًا عن رقم القضية، فأرقام
     قضايا مزيَّفة متصادمة بين اختبارين تخلط ملفيهما؛ اختبارات #1293 تضبط `rig.next` فريدًا لذلك.
+- **الاقتباس في المنشورات الثلاثة (Issue #1298، B3 — g95–g99 في `tests/test_guards_golden.py:test_important_1298_guards`):**
+  حادثة #1278 (قضية #1297): منشوران فشلا باقتباس مختصَر/مترجَم، وحكم `check_article` و`check_originality` كان مختلفًا على اقتباس واحد.
+  - **فحص واحد:** `important_write.quote_violations` تستعمل ما تستعمله `verify_draft.check_originality` نفسه (`_quoted_spans` +
+    `_normalized_words` + `_contains_run`). المسموح الاقتباس منه: مقتطفات المصادر المعطاة (أدلة الأعضاء + البحث المكمِّل) وحدها،
+    ومعها `allowed_quotes` للأعضاء في **refuted** فقط؛ لا نص نقطة عضو في verified ولا nearest. رسالة الرفض تقول: «انقله حرفيًا من المقتطف
+    كما هو، أو اكتبه كلامًا غير مباشر بلا علامتي تنصيص»، وفي `article_instructions.common` تعليمة تمنع « » حول المترجَم/المختصَر.
+  - **تحويل بدل إسقاط:** محاولات المنشور `important.article_write_attempts` (3؛ `write_point` القديمة على `write_attempts` بلا تغيير). إن بقي
+    الاقتباس سببًا وحيدًا بعد آخر محاولة تُنزع « » عن كل اقتباس غير مطابق (`unquote_mismatches`) ويُعاد الفحص كله (بما فيه الأصالة)
+    على النص الناتج؛ نجح ← المسودة تُحفظ وفي `warnings` «اقتباس لم يطابق مصدره حرفيًا فحُوِّل إلى كلام غير مباشر: «…» — راجعه»؛ ظهر سبب
+    آخر (طول/نسبة حكم/عنوان/أصالة) ← فشل كتابة بذلك السبب.
+  - **أثر الفشل:** عند فشل كتابة منشور يُحفظ على العنصر في `state/important/<issue>.json`: `last_attempt` `{post_title, post_body, reason}`
+    لآخر محاولة، و`gap_sources` كما جُمعت (وعلى المسودة عند النجاح كما كان).
+  - **nearest:** نصوص النقاط الأعضاء لا تدخل `texts` ولا `known` (`unsourced_in`) ولا الاقتباس المسموح، فجملة تقرّر نقطة معلّقة
+    بلا سند تظهر تنبيهًا للمراجعة. (verified وrefuted: claim العضو معروف للتنبيه كما كان.)
 - **تنبيهات تشغيلية:** `publish.yml` يودِع `drafts state` فيصل `state/important`؛ أما `image.yml` فيودِع `drafts state/candidates
   state/youtube_topics` فحسب، فصورة المرحلة 1 لنقطة «هام» (`manual_image` على النقطة) و`state/brave_usage.json` لا يُودَعان حتى يضيف
   صاحب المشروع `state/important` و`state/brave_usage.json` إليه. ملفات workflow الثلاثة `article.yml` و`request.yml` و`important-judge.yml`

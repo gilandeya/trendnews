@@ -2644,11 +2644,12 @@ def test_important_1293_guards() -> None:
           and "بي بي سي: تفصيل مؤكد" in rig1.calls[0]["prompt"]
           and "الخارجية: بيان رسمي" in rig1.calls[0]["prompt"], rig1.calls[0]["prompt"][:300])
     (d2, why2, _t), rig2 = run_write(items[0], [_b2_body(330, extra="وتعدّ BBC هذه الخطوة تصعيدًا خطيرًا.")])
-    check("(g91) «وتعدّ BBC…» ← رفض في المحاولتين وفشل كتابة بسبب حكم الوسيلة",
-          d2 is None and len(rig2.calls) == 2 and "حكم منسوب إلى وسيلة" in why2, (why2, len(rig2.calls)))
+    check("(g91) «وتعدّ BBC…» ← رفض في المحاولات الثلاث (important.article_write_attempts) وفشل كتابة بسبب حكم الوسيلة",
+          d2 is None and len(rig2.calls) == 3 and "حكم منسوب إلى وسيلة" in why2, (why2, len(rig2.calls)))
     (d3, why3, _t), _r = run_write(items[0], [_b2_body(330, extra="وقال «عبارة مختلقة لا وجود لها في أي مقتطف».")])
-    check("(g91) اقتباس « » ليس في أي مقتطف ← رفض بسببه",
-          d3 is None and why3.startswith("اقتباس بين « »"), why3)
+    check("(g91) اقتباس « » ليس في أي مقتطف ← يُحوَّل بعد المحاولات الثلاث إلى كلام غير مباشر بتنبيه (#1298) لا يُسقِط المنشور",
+          d3 is not None and "«" not in d3["arabic"]["post_body"]
+          and any("فحُوِّل" in w for w in d3.get("warnings", [])), why3)
     (d4, why4, _t), _r = run_write(items[0], [_b2_body(330, extra="وقالت «بيان رسمي عن الخبر الرئيسي» أيضًا.")])
     check("(g91) اقتباس موجود حرفيًا في مقتطف ← يمرّ", d4 is not None, why4)
     (d5, why5, _t), _r = run_write(items[2], [_b2_body(330)])
@@ -2781,3 +2782,84 @@ def test_important_1293_guards() -> None:
         check("(g94) القضية القديمة تُكتب بالمسار القديم: نقطة ← مسودة بمعرّفها بلا article_kind وبنداء كاتب واحد",
               d_old["point_id"] == chosen_pt["id"] and "article_kind" not in d_old
               and saved_old[chosen_pt["id"]]["status"] == "written" and len(rig.calls) == 1, d_old.get("point_id"))
+
+
+def test_important_1298_guards() -> None:
+    """Issue #1298 (B3): g95–g99 — فحص اقتباس واحد للمنشورات الثلاثة، وتحويل الاقتباس بدل إسقاط المنشور،
+    وحفظ أثر المحاولة الفاشلة (last_attempt وgap_sources)، وnearest لا تعامل نقاطها كمعروفة."""
+    import copy
+
+    from src import important_write
+    from tests.helpers import ImportantWriteRig, important_b2_result
+
+    cfg = load_config()
+    result = important_b2_result(89000)
+    items = {i["kind"]: i for i in result["article_items"]}
+    gap = [{"publisher": "State Department", "link": "https://www.state.gov/briefing",
+            "excerpt": "الخارجية: عقوبات لصالح الفريق المالي التابع لحزب الله في لبنان.", "question": "س؟"}]
+    good = {"category": "عالم", "hashtags": ["هام"], "image_query_en": "news story",
+            "post_title": "تطوّرات الخبر الرئيسي بين المؤكَّد والمتداول", "image_headline": "تطوّرات الخبر الرئيسي"}
+    bad_quote = "وفرضت عقوبات على «الفريق المالي لحزب الله» في لبنان."
+
+    def run(kind, bodies, res=None):
+        src_res = res or result
+        item = {i["kind"]: i for i in src_res["article_items"]}[kind]
+        seq = list(bodies)
+
+        def respond(prompt, system):
+            return {**good, "post_body": seq.pop(0) if len(seq) > 1 else seq[0]}
+        with ImportantWriteRig(respond, gap_sources=gap) as rig:
+            rig.next = 89600
+            out = important_write.write_article(src_res, item, cfg, [], 89100)
+        return out, rig, item
+
+    # ── g95) الفحص الموحَّد: اقتباس مختصَر يُرفض بسبب الاقتباس لا بسبب الأصالة ──
+    sources = [gap[0]["excerpt"]]
+    written = {"post_title": "عقوبات جديدة", "post_body": _b2_body(330, extra=bad_quote)}
+    why95 = important_write.check_article(written, sources, cfg)
+    check("(g95) «الفريق المالي لحزب الله» مقابل «…الفريق المالي التابع لحزب الله» ← رفض بسبب الاقتباس",
+          why95 is not None and why95.startswith("اقتباس بين « »") and "الفريق المالي لحزب الله" in why95
+          and "انقله حرفيًا من المقتطف كما هو" in why95 and "الأصالة" not in why95, why95)
+    check("(g95) الاقتباس الحرفي من المقتطف يمرّ",
+          important_write.check_article({"post_title": "عقوبات جديدة", "post_body": _b2_body(
+              330, extra="وفرضت عقوبات «لصالح الفريق المالي التابع لحزب الله» فعلًا.")}, sources, cfg) is None)
+
+    # ── g96) كاتب يقتبس خطأً في المحاولات الثلاث ← مسودة بلا علامتين وتنبيه تحويل ──
+    (d96, why96, _t), rig96, _it = run("verified", [_b2_body(330, extra=bad_quote)])
+    body96 = d96["arabic"]["post_body"] if d96 else ""
+    check("(g96) ثلاث محاولات ثم مسودة محفوظة: النص بلا « » حول الجملة والعبارة باقية",
+          d96 is not None and len(rig96.calls) == 3 and "«" not in body96
+          and "عقوبات على الفريق المالي لحزب الله في لبنان" in body96, (why96, len(rig96.calls)))
+    check("(g96) warnings فيها تنبيه التحويل بنصّه",
+          d96 and any(w == important_write.REASON_QUOTE_CONVERTED.format(quote="الفريق المالي لحزب الله")
+                      for w in d96.get("warnings", [])), d96 and d96.get("warnings"))
+
+    # ── g97) 120 كلمة في المحاولات الثلاث ← فشل كتابة وأثر على العنصر ──
+    (d97, why97, tech97), _r, it97 = run("verified", [_b2_body(120)])
+    check("(g97) فشل كتابة (لا مسودة ولا عطل تقني) بسبب الطول",
+          d97 is None and not tech97 and "عدد كلمات" in why97, why97)
+    check("(g97) على العنصر last_attempt: النص والسبب (يذكر الطول) وgap_sources محفوظة",
+          it97.get("last_attempt", {}).get("post_body") == _b2_body(120)
+          and "عدد كلمات" in it97["last_attempt"]["reason"] and it97["last_attempt"]["post_title"] == good["post_title"]
+          and it97.get("gap_sources") == gap, it97.get("last_attempt"))
+
+    # ── g98) nearest لا تعامل نقاطها معروفة، وverified لا يقتبس نص نقطة عضو ──
+    claim = "حزب الله لن يتعافى أبداً"
+    res98 = copy.deepcopy(result)
+    near = next(i for i in res98["article_items"] if i["kind"] == "nearest")
+    for p in res98["points"]:
+        if p["id"] in near["point_ids"]:
+            p["claim"] = claim
+    (d98, why98, _t), _r, _it = run("nearest", [_b2_body(330, extra=f"{claim}.")], res=res98)
+    check("(g98) nearest: جملة تقرّر نص النقطة العضو بلا سند ← مسودة فيها تنبيه unsourced لها",
+          d98 is not None and any("يتعافى" in w for w in d98.get("warnings", [])), (why98, d98 and d98.get("warnings")))
+    quoted_claim = {"post_title": "عقوبات جديدة", "post_body": _b2_body(330, extra=f"وقيل «{claim}» أيضًا.")}
+    check("(g98) verified: اقتباس نص نقطة عضو حرفيًا ← رفض (النص المسموح مقتطفات المصادر وحدها)",
+          (important_write.check_article(quoted_claim, sources, cfg) or "").startswith("اقتباس بين « »"))
+
+    # ── g99) refuted يقتبس claim العضو مرة واحدة ← مقبول ──
+    ref_claim = next(p for p in result["points"] if p["id"] in items["refuted"]["point_ids"])["claim"]
+    (d99, why99, _t), _r, _it = run("refuted", [_b2_body(300, extra=f"وتداول الناس «{ref_claim}».")])
+    check("(g99) refuted: اقتباس claim العضو حرفيًا ← مسودة بلا تحويل ولا تنبيه تحويل",
+          d99 is not None and f"«{ref_claim}»" in d99["arabic"]["post_body"]
+          and not any("فحُوِّل" in w for w in d99.get("warnings", [])), why99)
