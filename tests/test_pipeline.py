@@ -258,11 +258,12 @@ from tests.test_youtube import (
 from tests.test_guards_golden import (test_guards_golden, test_important_false_guard,
                                       test_important_write_guards, test_names_audit_guards,
                                       test_analysis_attribution_guards,
-                                      test_analysis_attribution_pipeline)
+                                      test_analysis_attribution_pipeline,
+                                      test_important_1282_guards)
 from tests.test_names_audit import (test_names_audit_brave_counter, test_names_audit_other_sites,
                                     test_names_audit_pipeline,
                                     test_names_audit_prevention_writer, test_names_audit_review_learning)
-from tests.test_important import (test_important_1203, test_important_1205, test_important_1207, test_important_1217, test_important_1221, test_important_1225, test_important_1229, test_important_1233,
+from tests.test_important import (test_important_1203, test_important_1205, test_important_1207, test_important_1217, test_important_1221, test_important_1225, test_important_1229, test_important_1233, test_important_1282,
                                   test_important_1210, test_important_1212, test_important_1214,
                                   test_important_pipeline, test_important_same_event_and_excerpts,
                                   test_important_search_and_extract)
@@ -615,6 +616,8 @@ def main() -> int:
     test_important_false_guard()
     print("\n── حارس الكتابة لمسار «هام» g36–g39 (Issue #1221) ──")
     test_important_write_guards()
+    print("\n── حارس «هام»: ثلاثة أقسام g66–g75 (Issue #1282) ──")
+    test_important_1282_guards()
     print("\n── حارس تدقيق أسماء الأشخاص g52–g56 (Issue #1252) ──")
     test_names_audit_guards()
     test_analysis_attribution_guards()
@@ -642,6 +645,7 @@ def main() -> int:
     test_important_1225()
     test_important_1229()
     test_important_1233()
+    test_important_1282()
 
     print(f"\n{'═' * 50}\nنجح {len(PASSED)} · فشل {len(FAILED)}")
     if FAILED:
