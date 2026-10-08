@@ -1,0 +1,58 @@
+{
+  "id": "a727b36f1104",
+  "created_at": "2026-10-08T18:08:23.219056+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.4,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "نائبة أوروبية تتعرض لتهديدات موت، قضية أمن سياسي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Rima Hassan porte plainte pour menaces de mort après une vidéo la ciblant sur un compte Instagram",
+  "link": "https://www.lemonde.fr/societe/article/2026/10/08/rima-hassan-porte-plainte-pour-menaces-de-mort-apres-une-video-la-ciblant-sur-un-compte-instagram_6790275_3224.html",
+  "publishers": [
+    "Le Monde"
+  ],
+  "region": "fr",
+  "article": {
+    "title": "Rima Hassan porte plainte pour menaces de mort après une vidéo la ciblant sur un compte Instagram",
+    "link": "https://www.lemonde.fr/societe/article/2026/10/08/rima-hassan-porte-plainte-pour-menaces-de-mort-apres-une-video-la-ciblant-sur-un-compte-instagram_6790275_3224.html",
+    "summary": "Sur cette vidéo, on peut voir « un homme braquer un fusil vers la caméra en la menaçant », a rapporté l’élue LFI. Cette vidéo a été publiée après que l’élue a été accusée au Parlement européen d’avoir renversé des drapeaux israélien et européen lors d’une exposition consacrée à l’attaque du 7-Octobre, des accusations qu’elle conteste.",
+    "source_name": "Le Monde",
+    "region": "fr",
+    "weight": 1.1,
+    "published": "2026-10-08T17:23:03+00:00",
+    "image_url": "https://img.lemde.fr/2026/10/06/410/0/6048/3024/644/322/60/0/8ea841b_ftp-1-0qg5mhtqxium-d4379c45130a424f8adff657cd5973bc-0-7cfd90112c2346189fa7dca885b669a4.jpg",
+    "publisher": "Le Monde",
+    "cluster_sources": [
+      "Le Monde"
+    ],
+    "cluster_members": [
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/societe/article/2026/10/08/rima-hassan-porte-plainte-pour-menaces-de-mort-apres-une-video-la-ciblant-sur-un-compte-instagram_6790275_3224.html"
+      }
+    ],
+    "image_candidates": [
+      "https://img.lemde.fr/2026/10/06/410/0/6048/3024/644/322/60/0/8ea841b_ftp-1-0qg5mhtqxium-d4379c45130a424f8adff657cd5973bc-0-7cfd90112c2346189fa7dca885b669a4.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 22.400087989351853,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "نائبة أوروبية تتعرض لتهديدات موت، قضية أمن سياسي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

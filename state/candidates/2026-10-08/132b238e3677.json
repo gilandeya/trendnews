@@ -1,0 +1,64 @@
+{
+  "id": "132b238e3677",
+  "created_at": "2026-10-08T18:08:23.218202+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.05,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 1,
+  "appeal_note": "باكستان تتهم الهند برعاية الإرهاب في أفغانستان",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "India sponsoring terrorism through proxies in Afghanistan, Pakistan tells UN",
+  "link": "https://www.geo.tv/latest/685538-india-sponsoring-terrorism-through-proxies-in-afghanistan-pakistan-tells-un",
+  "publishers": [
+    "Geo News",
+    "losing the cause!"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "India sponsoring terrorism through proxies in Afghanistan, Pakistan tells UN",
+    "link": "https://www.geo.tv/latest/685538-india-sponsoring-terrorism-through-proxies-in-afghanistan-pakistan-tells-un",
+    "summary": "Muhammad Jawad Ajmal, counsellor at Pakistan’s Permanent Mission to the United Nations, speaking at the UN. —X@PakistanUN_NY Islamabad says India is backing militant groups, including TTP, BLA.Says India supporting attacks through proxies based in Afghanistan.Envoy...",
+    "source_name": "Geo News",
+    "region": "pk",
+    "weight": 0.9,
+    "published": "2026-10-08T01:38:24+00:00",
+    "image_url": "https://www.geo.tv/assets/uploads/2026-10-08/685538_070933_updates.jpg",
+    "publisher": "Geo News",
+    "cluster_sources": [
+      "Geo News",
+      "losing the cause!"
+    ],
+    "cluster_members": [
+      {
+        "name": "losing the cause!",
+        "link": "https://tribune.com.pk/story/2633553/afghanistan-losing-the-cause"
+      },
+      {
+        "name": "Geo News",
+        "link": "https://www.geo.tv/latest/685538-india-sponsoring-terrorism-through-proxies-in-afghanistan-pakistan-tells-un"
+      }
+    ],
+    "image_candidates": [
+      "https://www.geo.tv/assets/uploads/2026-10-08/685538_070933_updates.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1561.916215041389,
+    "is_stale": false,
+    "score": 26.050476871944447,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 1,
+    "appeal_note": "باكستان تتهم الهند برعاية الإرهاب في أفغانستان",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

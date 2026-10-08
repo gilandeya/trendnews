@@ -275,7 +275,7 @@
      "published": "2026-10-06T10:16:28+00:00"
     }
    ],
-   "last_seen": "2026-10-08T15:07:49.816861+00:00",
+   "last_seen": "2026-10-08T18:07:58.260966+00:00",
    "outlets": 20,
    "regions": 16,
    "languages": 3,
@@ -556,7 +556,7 @@
      "published": "2026-10-06T06:12:00+00:00"
     }
    ],
-   "last_seen": "2026-10-08T09:08:05.709468+00:00",
+   "last_seen": "2026-10-08T18:07:58.260966+00:00",
    "outlets": 21,
    "regions": 16,
    "languages": 2,
@@ -3531,7 +3531,7 @@
      "published": "2026-10-08T12:18:02+00:00"
     }
    ],
-   "last_seen": "2026-10-08T15:07:49.816861+00:00",
+   "last_seen": "2026-10-08T18:07:58.260966+00:00",
    "outlets": 11,
    "regions": 10,
    "languages": 1,
@@ -3803,13 +3803,49 @@
      "language": "en",
      "link": "https://www.ndtv.com/world-news/ex-prince-andrew-seeks-to-quash-search-warrants-in-epstein-case-12143073#publisher=newsstand",
      "published": "2026-10-05T18:59:29+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "UK ex-prince Andrew search warrants quashed after police accept legal error",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/8/uk-ex-prince-andrew-search-warrants-quashed-after-police-accept-legal-error?traffic_source=rss",
+     "published": "2026-10-08T15:53:07+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Ex-prince Andrew search warrants quashed after UK police accept legal error",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2035706/ex-prince-andrew-search-warrants-quashed-after-uk-police-accept-legal-error",
+     "published": "2026-10-08T14:39:32+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "UK police accept ex-prince Andrew search warrants must be ‘legally quashed’",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3370227/uk-police-accept-ex-prince-andrew-search-warrants-must-be-legally-quashed?utm_source=rss_feed",
+     "published": "2026-10-08T15:20:53+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Ex-prince Andrew search warrants quashed after police accept legal error",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/08/ex-prince-andrew-search-warrants-quashed-after-police-accept-legal-error",
+     "published": "2026-10-08T14:21:35+00:00"
     }
    ],
-   "last_seen": "2026-10-06T03:07:51.967007+00:00",
-   "outlets": 9,
-   "regions": 7,
+   "last_seen": "2026-10-08T18:07:58.260966+00:00",
+   "outlets": 10,
+   "regions": 8,
    "languages": 1,
-   "score": 25.0
+   "score": 28.0
   },
   {
    "id": "bd1dfeaf51d0",
@@ -4106,9 +4142,18 @@
      "language": "en",
      "link": "https://www.myjoyonline.com/caretaker-killed-and-two-teachers-injured-in-knife-attack-at-poland-school/",
      "published": "2026-10-08T11:02:06+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Poland's second school knife attack in two days kills one, raises copycat fears",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOYU5NaDZXRmkwbklNck45Nkp2NWZpbWwzTXRGd2tCbVVRVzZUc3lleHQyakx6SGVjTTFrZDhBYVpwdENrZkRDXzQzZXhDcWdTUW9WUFN6VVRvRkszZzZyTFpUSUN4U2JXYnh2NzhhRTIyN2pBR0szSjN0TjljY015dGVldG53Ym15US16dk5jcnF6T21KUmE5YUdrMWtkNmV6WkRsWGtOOXNoV1FtY0cxVlpXb25vRUU?oc=5",
+     "published": "2026-10-08T14:50:44+00:00"
     }
    ],
-   "last_seen": "2026-10-08T15:07:49.816861+00:00",
+   "last_seen": "2026-10-08T18:07:58.260966+00:00",
    "outlets": 8,
    "regions": 7,
    "languages": 1,
@@ -4196,6 +4241,89 @@
    "regions": 7,
    "languages": 1,
    "score": 24.0
+  },
+  {
+   "id": "d031439b2a8d",
+   "first_seen": "2026-10-08T09:08:05.709468+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "UK renames East Jerusalem consulate as a mission; some diplomats to remain",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/8/signage-at-uk-consulate-in-east-jerusalem-removed-as-israels-deadline-over?traffic_source=rss",
+     "published": "2026-10-08T05:06:25+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Most UK diplomats to leave East Jerusalem consulate, Israel says, as Miliband says 'vital services' to remain",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cw33xd6vegnno?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-08T08:18:36+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Britain says consulate in Jerusalem to remain open as a UK Mission",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/britain-consulate-jerusalem-open-sanctions-west-bank-6441541",
+     "published": "2026-10-08T07:05:18+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Has Israel shut the UK consulate in East Jerusalem",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/8/has-israel-shut-the-uk-consulate-in-east-jerusalem-or-downgraded?traffic_source=rss",
+     "published": "2026-10-08T13:32:32+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Has Israel shut the UK consulate in East Jerusalem - or downgraded it?",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPcXRHN3cySy11S2dPZGl2WUZvMXVnSzR0MTI1Yk5qcDlpaXhSNG1QZFVYZFZvcEljV0F0RGRnNElxQmE5Nm1vT2pfR1ptMGNKQ0FTSEtYMk92WjhmMkRuclB2bFlmcGl3LTFkTkFVY1V2djFfTG5ScFFrWDNUQzhaNThyUVo4NGlScHhaX0dneTN3Szd2a0w5eDQ3QXVINGpoNHN6eTJHdG7SAa4BQVVfeXFMTjY4VU9fb3p6bjhQaFlzYnBfRmV6OExYSlNsUHZfdHB5MVg2WmVPcXZUQXRFZF9yS1JJQ1FHeF81T0JqX0o3QnJhMUdoWVNlWnVwdUVLTEp6dmttOHpQRHJtdXpJX1JyZ1RUamcxdnBlS3RsT25ENlhKOWhZU3dWMjE1aWFLTTlPNDdqWkFqYWNPdHNJVXdaZmZ1anJkc1ZaeG1JRmdtN3J3cWhpc2hn?oc=5",
+     "published": "2026-10-08T13:39:52+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Israel drastically reduces British diplomatic presence in Jerusalem, announces closure of consulate",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2035697/israel-drastically-reduces-british-diplomatic-presence-in-jerusalem-announces-closure-of-consulate",
+     "published": "2026-10-08T15:58:44+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Israel drastically reduces British diplomatic presence in Jerusalem",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/israel-drastically-reduces-british-diplomatic-presence-in-jerusalem/article71561112.ece",
+     "published": "2026-10-08T17:09:22+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Israel shuts British E. Jerusalem consulate as diplomatic rift grows",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/mid-east/israel-shuts-british-e-jerusalem-consulate-as-diplomatic-rift-grows",
+     "published": "2026-10-08T10:09:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T18:07:58.260966+00:00",
+   "outlets": 7,
+   "regions": 7,
+   "languages": 1,
+   "score": 23.0
   },
   {
    "id": "c90472109711",
@@ -4357,7 +4485,7 @@
      "published": "2026-10-07T20:45:43+00:00"
     }
    ],
-   "last_seen": "2026-10-08T15:07:49.816861+00:00",
+   "last_seen": "2026-10-08T18:07:58.260966+00:00",
    "outlets": 8,
    "regions": 6,
    "languages": 1,
@@ -4515,6 +4643,80 @@
     }
    ],
    "last_seen": "2026-10-06T09:08:01.863235+00:00",
+   "outlets": 7,
+   "regions": 6,
+   "languages": 1,
+   "score": 21.0
+  },
+  {
+   "id": "6e1544534ab3",
+   "first_seen": "2026-10-08T03:08:02.336758+00:00",
+   "members": [
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Eritrean troops deploy in Ethiopia's Tigray region, witnesses say",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/07/eritrean-troops-deploy-in-ethiopias-tigray-region-witnesses-say/",
+     "published": "2026-10-07T14:58:31+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Eritrean troops deploy in Ethiopia's Tigray region",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/eritrean-troops-deploy-in-ethiopia-s-tigray-region-101791399628939.html",
+     "published": "2026-10-07T19:00:28+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Eritrean troops move deep into Ethiopia's Tigray region as fighting escalates",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1sTG9Wa1o0dGJVN2k4M2wyeDQzWlE2WFhWbEFoa0lqUjhqQzFiTWo3VU5hdVNRUURVODg4TXV0SjBUY1JBSzhhLVZtMHJPMmMxcFIwemc0NGxmWXM?oc=5",
+     "published": "2026-10-07T18:40:52+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Eritrean troops move deep into Ethiopia's Tigray region, residents tell BBC",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/ckvgd63rj92lo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-07T18:40:52+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "light",
+     "title": "Ethiopia launches drone attack against Eritrean troops who crossed into Tigray",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/08/ethiopia-drone-attack-against-eritrean-troops-in-tigray",
+     "published": "2026-10-08T16:11:32+00:00"
+    },
+    {
+     "outlet": "Court House News",
+     "region": "court",
+     "bucket": "light",
+     "title": "Ethiopia drones hit Eritrean troops in Tigray",
+     "language": "en",
+     "link": "https://www.courthousenews.com/ethiopia-drones-hit-eritrean-troops-in-tigray/",
+     "published": "2026-10-08T17:42:01+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Ethiopia launches strikes at Eritrean troops venturing into N. Tigray",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/africa/ethiopia-launches-strikes-at-eritrean-troops-venturing-into-n-tigray",
+     "published": "2026-10-08T09:40:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T18:07:58.260966+00:00",
    "outlets": 7,
    "regions": 6,
    "languages": 1,
@@ -4734,6 +4936,71 @@
    "score": 20.0
   },
   {
+   "id": "e55aa4645468",
+   "first_seen": "2026-10-08T18:07:58.260966+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "US suspends Microsoft, major IT firms from green card programme",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370230/us-suspends-microsoft-major-it-firms-green-card-programme?utm_source=rss_feed",
+     "published": "2026-10-08T15:50:26+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "US suspends Microsoft, major IT firms from key green card programme",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633723/us-suspends-microsoft-major-it-firms-from-key-green-card-programme",
+     "published": "2026-10-08T10:14:22+00:00"
+    },
+    {
+     "outlet": "TechCrunch",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "US bars Microsoft, Adobe, and major IT firms from green card program for skilled foreign workers",
+     "language": "en",
+     "link": "https://techcrunch.com/2026/10/08/us-bars-microsoft-adobe-and-major-it-firms-from-green-card-program-for-skilled-foreign-workers/",
+     "published": "2026-10-08T15:42:26+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "US administration suspends Microsoft from green card program over fraud",
+     "language": "en",
+     "link": "https://www.dailysabah.com/business/tech/us-administration-suspends-microsoft-from-green-card-program-over-fraud",
+     "published": "2026-10-08T14:42:00+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Indian IT Firms Suspended From US Programme Sponsoring Workers For Green Card",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/indian-it-firms-suspended-from-us-programme-sponsoring-workers-for-green-card-12158246#publisher=newsstand",
+     "published": "2026-10-08T17:07:02+00:00"
+    },
+    {
+     "outlet": "Investing.com — الاقتصاد",
+     "region": "money",
+     "bucket": "useful",
+     "title": "U.S. suspends Microsoft, Adobe, others from green card program, cites abuse",
+     "language": "en",
+     "link": "https://www.investing.com/news/economy-news/us-suspends-microsoft-adobe-others-from-green-card-program-cites-abuse-4939382",
+     "published": "2026-10-08T17:53:15+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T18:07:58.260966+00:00",
+   "outlets": 6,
+   "regions": 6,
+   "languages": 1,
+   "score": 20.0
+  },
+  {
    "id": "f847db6b3477",
    "first_seen": "2026-10-07T03:07:41.547243+00:00",
    "members": [
@@ -4867,6 +5134,71 @@
     }
    ],
    "last_seen": "2026-10-08T09:08:05.709468+00:00",
+   "outlets": 6,
+   "regions": 5,
+   "languages": 1,
+   "score": 18.0
+  },
+  {
+   "id": "1a01415a16dc",
+   "first_seen": "2026-10-08T03:08:02.336758+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Maduro and wife to face new US charges over alleged torture of Americans",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/americas/article/3370104/venezuelas-maduro-face-new-us-charges-over-alleged-torture-americans-official-says?utm_source=rss_feed",
+     "published": "2026-10-07T20:58:12+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Venezuela's Maduro, wife to face new US charges over alleged torture",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/americas/venezuelas-maduro-wife-to-face-new-us-charges-over-alleged-torture",
+     "published": "2026-10-07T21:03:00+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Maduro expected to face new charges of torture of Americans in Venezuelan prisons",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/new-maduro-charges-torture-americans-venezuelan-prisons/",
+     "published": "2026-10-07T21:21:00+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "US considering new torture charges against Maduro, wife",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/us-considering-new-torture-charges-against-maduro-wife-report/",
+     "published": "2026-10-08T09:03:29+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Former Venezuelan President Nicolás Maduro expected to face more charges this week",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cx62y37r1p8eo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-07T22:50:00+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "New U.S. indictment charges former Venezuelan President Nicolás Maduro with torture",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/08/nx-s1-5995360/venezuela-nicolas-maduro-torture-charges",
+     "published": "2026-10-08T16:05:37+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T18:07:58.260966+00:00",
    "outlets": 6,
    "regions": 5,
    "languages": 1,
@@ -5469,7 +5801,7 @@
      "published": "2026-10-08T09:45:58+00:00"
     }
    ],
-   "last_seen": "2026-10-08T15:07:49.816861+00:00",
+   "last_seen": "2026-10-08T18:07:58.260966+00:00",
    "outlets": 5,
    "regions": 4,
    "languages": 1,
@@ -5805,100 +6137,6 @@
    "score": 14.0
   },
   {
-   "id": "1a01415a16dc",
-   "first_seen": "2026-10-08T03:08:02.336758+00:00",
-   "members": [
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Maduro and wife to face new US charges over alleged torture of Americans",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/americas/article/3370104/venezuelas-maduro-face-new-us-charges-over-alleged-torture-americans-official-says?utm_source=rss_feed",
-     "published": "2026-10-07T20:58:12+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Venezuela's Maduro, wife to face new US charges over alleged torture",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/americas/venezuelas-maduro-wife-to-face-new-us-charges-over-alleged-torture",
-     "published": "2026-10-07T21:03:00+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Maduro expected to face new charges of torture of Americans in Venezuelan prisons",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/new-maduro-charges-torture-americans-venezuelan-prisons/",
-     "published": "2026-10-07T21:21:00+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "US considering new torture charges against Maduro, wife",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/us-considering-new-torture-charges-against-maduro-wife-report/",
-     "published": "2026-10-08T09:03:29+00:00"
-    }
-   ],
-   "last_seen": "2026-10-08T09:08:05.709468+00:00",
-   "outlets": 4,
-   "regions": 4,
-   "languages": 1,
-   "score": 14.0
-  },
-  {
-   "id": "6e1544534ab3",
-   "first_seen": "2026-10-08T03:08:02.336758+00:00",
-   "members": [
-    {
-     "outlet": "Africanews",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Eritrean troops deploy in Ethiopia's Tigray region, witnesses say",
-     "language": "en",
-     "link": "http://www.africanews.com/2026/10/07/eritrean-troops-deploy-in-ethiopias-tigray-region-witnesses-say/",
-     "published": "2026-10-07T14:58:31+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Eritrean troops deploy in Ethiopia's Tigray region",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/eritrean-troops-deploy-in-ethiopia-s-tigray-region-101791399628939.html",
-     "published": "2026-10-07T19:00:28+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Eritrean troops move deep into Ethiopia's Tigray region as fighting escalates",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1sTG9Wa1o0dGJVN2k4M2wyeDQzWlE2WFhWbEFoa0lqUjhqQzFiTWo3VU5hdVNRUURVODg4TXV0SjBUY1JBSzhhLVZtMHJPMmMxcFIwemc0NGxmWXM?oc=5",
-     "published": "2026-10-07T18:40:52+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Eritrean troops move deep into Ethiopia's Tigray region, residents tell BBC",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/ckvgd63rj92lo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-07T18:40:52+00:00"
-    }
-   ],
-   "last_seen": "2026-10-08T15:07:49.816861+00:00",
-   "outlets": 4,
-   "regions": 4,
-   "languages": 1,
-   "score": 14.0
-  },
-  {
    "id": "669e7a6372ea",
    "first_seen": "2026-10-08T15:07:49.816861+00:00",
    "members": [
@@ -5939,7 +6177,54 @@
      "published": "2026-10-07T21:23:37+00:00"
     }
    ],
-   "last_seen": "2026-10-08T15:07:49.816861+00:00",
+   "last_seen": "2026-10-08T18:07:58.260966+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
+  },
+  {
+   "id": "af244ec47185",
+   "first_seen": "2026-10-08T18:07:58.260966+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Trump says US will not attack Iran before November’s midterm elections",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370235/trump-says-us-will-not-attack-iran-novembers-midterm-elections?utm_source=rss_feed",
+     "published": "2026-10-08T17:39:11+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Trump says US will not attack Iran before midterm elections",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633651/trump-says-iran-deal-isnt-really-something-that-i-want-to-do",
+     "published": "2026-10-08T00:17:00+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "No attack on Iran before November 3 mid-term elections: Trump",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/no-attack-on-iran-before-november-3-mid-term-elections-trump-101791477417541.html",
+     "published": "2026-10-08T16:37:22+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Trump promises not to resume Iran strikes before midterm elections",
+     "language": "en",
+     "link": "https://www.cbsnews.com/live-updates/iran-war-nuclear-donald-trump-vance-rubio-strait-of-hormuz/",
+     "published": "2026-10-08T17:56:36+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T18:07:58.260966+00:00",
    "outlets": 4,
    "regions": 4,
    "languages": 1,
@@ -6874,44 +7159,6 @@
    "score": 11.0
   },
   {
-   "id": "d031439b2a8d",
-   "first_seen": "2026-10-08T09:08:05.709468+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "UK renames East Jerusalem consulate as a mission; some diplomats to remain",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/8/signage-at-uk-consulate-in-east-jerusalem-removed-as-israels-deadline-over?traffic_source=rss",
-     "published": "2026-10-08T05:06:25+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Most UK diplomats to leave East Jerusalem consulate, Israel says, as Miliband says 'vital services' to remain",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cw33xd6vegnno?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-08T08:18:36+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Britain says consulate in Jerusalem to remain open as a UK Mission",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/world/britain-consulate-jerusalem-open-sanctions-west-bank-6441541",
-     "published": "2026-10-08T07:05:18+00:00"
-    }
-   ],
-   "last_seen": "2026-10-08T09:08:05.709468+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
    "id": "ce311588105e",
    "first_seen": "2026-10-08T09:08:05.709468+00:00",
    "members": [
@@ -7142,7 +7389,7 @@
      "published": "2026-10-08T12:54:00+00:00"
     }
    ],
-   "last_seen": "2026-10-08T15:07:49.816861+00:00",
+   "last_seen": "2026-10-08T18:07:58.260966+00:00",
    "outlets": 3,
    "regions": 3,
    "languages": 1,
@@ -7181,6 +7428,44 @@
     }
    ],
    "last_seen": "2026-10-08T15:07:49.816861+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "84511ea7fe22",
+   "first_seen": "2026-10-08T18:07:58.260966+00:00",
+   "members": [
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Ceferin to stand for fourth term as Uefa president",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/football/articles/cmn4ex2y53l8o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-08T14:24:43+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Uefa president Ceferin to stand for re-election in 2027",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/08/uefa-president-ceferin-to-stand-for-re-election-in-2027",
+     "published": "2026-10-08T15:46:05+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Ceferin to run for another term as UEFA president",
+     "language": "en",
+     "link": "https://tass.com/sports/2199501",
+     "published": "2026-10-08T17:13:43+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T18:07:58.260966+00:00",
    "outlets": 3,
    "regions": 3,
    "languages": 1,
@@ -7721,7 +8006,7 @@
      "published": "2026-10-08T07:39:00+00:00"
     }
    ],
-   "last_seen": "2026-10-08T15:07:49.816861+00:00",
+   "last_seen": "2026-10-08T18:07:58.260966+00:00",
    "outlets": 3,
    "regions": 1,
    "languages": 1,

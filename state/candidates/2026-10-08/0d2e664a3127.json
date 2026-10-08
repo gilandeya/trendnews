@@ -1,0 +1,99 @@
+{
+  "id": "0d2e664a3127",
+  "created_at": "2026-10-08T18:08:23.217758+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 29.88,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "اعتراض سعودي لصواريخ حوثية نحو الرياض",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Saudi-led coalition says it intercepts three Houthi ballistic missiles",
+  "link": "https://www.aljazeera.com/news/2026/10/8/saudi-led-coalition-says-it-intercepts-three-houthi-ballistic-missiles?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "Daily Sabah",
+    "Hindustan Times — World",
+    "Malay Mail",
+    "Mehr News",
+    "Reuters",
+    "TASS",
+    "The Express Tribune",
+    "The Hindu — International"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "Saudi-led coalition says it intercepts three Houthi ballistic missiles",
+    "link": "https://www.aljazeera.com/news/2026/10/8/saudi-led-coalition-says-it-intercepts-three-houthi-ballistic-missiles?traffic_source=rss",
+    "summary": "Saudi Arabia says two of the missiles intercepted were headed towards the capital, Riyadh.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-10-08T14:43:19+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/09/23/4/6186288.jpg",
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Daily Sabah",
+      "Hindustan Times — World",
+      "Malay Mail",
+      "Mehr News",
+      "Reuters",
+      "TASS",
+      "The Express Tribune",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/10/8/saudi-led-coalition-says-it-intercepts-three-houthi-ballistic-missiles?traffic_source=rss"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2633667/pakistani-among-36-injured-three-killed-in-houthi-attacks-on-saudi-airports"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/saudi-riyadh-airport-attack-yemen-houthis-ballistic-missile-king-khalid-airport-ops-affected-101791430915264.html"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/248425/Yemen-strikes-Riyadh-airport-with-ballistic-missile"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/national/air-india-indigo-cancel-and-divert-riyadh-flights-after-missile-threat/article71560628.ece"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/business/economy/airline-companies-suspend-riyadh-flights-after-houthi-attacks"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/09/23/4/6186288.jpg",
+      "https://th-i.thgim.com/public/incoming/9xb8qa/article71560745.ece/alternates/LANDSCAPE_1200/Centre-discontiGKBGA9NV5.5.jpg.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/10/08/464756.JPG",
+      "https://th-i.thgim.com/public/news/national/xwmk29/article71560448.ece/alternates/LANDSCAPE_1200/AFP__20261007__D2GU7CQ__v1__HighRes__YemenSaudiIranUsIsraelWar.jpg",
+      "https://th-i.thgim.com/public/news/national/4klymp/article71550268.ece/alternates/LANDSCAPE_1200/AFP__20260919__C8RQ4WJ__v1__HighRes__SaudiYemenIranUsIsraelWar.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/10/08/367187.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 9,
+    "velocity": 0.0,
+    "age_hours": 1561.9161080755555,
+    "is_stale": true,
+    "score": 29.882381513049157,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "اعتراض سعودي لصواريخ حوثية نحو الرياض",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
