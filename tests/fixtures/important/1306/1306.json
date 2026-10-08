@@ -1,0 +1,1941 @@
+{
+  "issue": 1306,
+  "body_hash": "4ea226775aa564da1f33466de012af2a6a2986b7",
+  "rules_version": 4,
+  "selection_issue": 1307,
+  "created_at": "2026-10-08T17:16:49.246072+00:00",
+  "topic": "السياسة الأميركية تجاه حزب الله والميليشيات الإقليمية",
+  "error": null,
+  "main_story": "وزارة الخارجية الأميركية تعلن عن سياسة جديدة تجاه حزب الله وإيران في منطقة الشرق الأوسط.",
+  "off_topic": [
+    {
+      "id": "99d23af404cd",
+      "text": "عصر الميليشيات انتهى والتركيز الدولي اليوم على الممرات المائية والطاقة"
+    },
+    {
+      "id": "12af8d0d4503",
+      "text": "روسيا تبيع الغاز بمقدار 42 مليون دولار يومياً إلى أوروبا، أي نحو 15 مليار دولار سنوياً"
+    },
+    {
+      "id": "c7534cde2202",
+      "text": "روسيا تتدخل عبر إيران بدعم ميليشيات الحوثي لتعطيل الملاحة في باب المندب"
+    },
+    {
+      "id": "71f90cd92b3a",
+      "text": "حزب الله جزء من المنظومة الإيرانية في المنطقة"
+    },
+    {
+      "id": "a1d2799b0bbf",
+      "text": "ستتم تفكيك كل الميليشيات والجماعات المسلحة في الشرق الأوسط"
+    }
+  ],
+  "articles": {
+    "verified": [
+      "23c484b9a35a",
+      "1a0261296191"
+    ],
+    "nearest": [
+      "146b9028aaf8",
+      "577c16cffbc9"
+    ],
+    "refuted": [
+      "916580c4a8ac"
+    ]
+  },
+  "model": "claude-sonnet-5",
+  "extract_model": "claude-haiku-4-5-20251001",
+  "brave": {
+    "requests": 11,
+    "skipped": null,
+    "monthly_usage": 409,
+    "monthly_cap": 600
+  },
+  "model_calls": {
+    "total": 9,
+    "by_model": {
+      "claude-haiku-4-5-20251001": 1,
+      "claude-sonnet-5": 8
+    },
+    "brief": 1,
+    "by_point": {
+      "146b9028aaf8": 2,
+      "916580c4a8ac": 1,
+      "23c484b9a35a": 1,
+      "577c16cffbc9": 2,
+      "1a0261296191": 2
+    }
+  },
+  "truncated": null,
+  "points": [
+    {
+      "id": "146b9028aaf8",
+      "text": "وزارة الخارجية الأميركية أعلنت أن حزب الله لن يتعافى أبداً في ظل إدارة ترمب",
+      "claim": "وزارة الخارجية الأميركية أعلنت أن حزب الله لن يتعافى أبداً في ظل إدارة ترمب",
+      "framing": "direct",
+      "circulating_context": "",
+      "asserted": "",
+      "queries": [
+        "وزارة الخارجية الأميركية تصريح حزب الله ترمب تحقق",
+        "وزارة الخارجية الأميركية حزب الله ترمب تعافي"
+      ],
+      "site_queries": [
+        "وزارة الخارجية الأميركية حزب الله site:misbar.com",
+        "وزارة الخارجية الأميركية حزب الله site:fatabyyano.net",
+        "وزارة الخارجية الأميركية حزب الله site:factcheck.afp.com",
+        "وزارة الخارجية الأميركية حزب الله site:reuters.com/fact-check",
+        "وزارة الخارجية الأميركية حزب الله site:state.gov"
+      ],
+      "engines": [
+        "brave_web",
+        "google_news"
+      ],
+      "windows": [
+        "days",
+        "days",
+        "days"
+      ],
+      "brave_skipped": null,
+      "cache_hits": 5,
+      "checker_skipped": [
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2024/10/22/%D8%AA%D8%AD%D9%82%D9%8A%D9%82-%D9%85%D8%B3%D8%A4%D9%88%D9%84%D8%A9-%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84%D9%8A%D8%A9-%D8%A3%D8%B3%D9%87%D9%85%D8%AA-%D9%81%D9%8A-%D8%A7%D9%84%D8%B1%D9%82%D8%A7%D8%A8%D8%A9-%D8%B9%D9%84-%D8%AD%D8%B3%D8%A7%D8%A8%D8%A7%D8%AA-%D8%AF%D8%A7%D8%B9%D9%85%D8%A9-%D9%84%D9%81%D9%84%D8%B3%D8%B7%D9%8A%D9%86-%D8%B9%D9%84-%D8%A5%D9%86%D8%B3%D8%AA%D8%BA%D8%B1%D8%A7%D9%85",
+          "title": "تحقيق: مسؤولة إسرائيلية أسهمت في الرقابة على حسابات داعمة لفلسطين على إنستغرام"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/en/",
+          "title": "موقع مكافحة الأخبار والمعلومات الكاذبة مسبار"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2025/05/23/%D8%B1%D8%AF%D9%88%D8%AF-%D8%A7%D9%84%D9%81%D8%B9%D9%84-%D8%A7%D9%84%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84%D9%8A%D8%A9-%D8%B9%D9%84%D9%89-%D8%B9%D9%85%D9%84%D9%8A%D8%A9-%D9%88%D8%A7%D8%B4%D9%86%D8%B7%D9%86-%D8%A8%D9%8A%D9%86-%D8%AA%D8%A8%D9%86%D9%8A-%D8%B3%D8%B1%D8%AF%D9%8A%D8%A9-%D8%A7%D9%84%D8%B6%D8%AD%D9%8A%D8%A9-%D9%88%D8%A5%D9%86%D9%83%D8%A7%D8%B1-%D8%A7%D9%84%D9%85%D8%AC%D8%A7%D8%B2%D8%B1-%D9%81%D9%8A-%D8%BA%D8%B2%D8%A9",
+          "title": "ردود الفعل الإسرائيلية على عملية واشنطن: بين تبني سردية الضحية وإنكار المجازر في غزة"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2024/11/13/%D8%A7%D9%84%D9%85%D8%B4%D8%A7%D9%87%D8%AF-%D9%85%D9%86-%D8%B9%D8%A7%D9%85-2020-%D9%88%D9%84%D9%8A%D8%B3%D8%AA-%D9%84%D8%A7%D8%AD%D8%AA%D8%B1%D8%A7%D9%82-%D8%AD%D8%A7%D9%85%D9%84%D8%A9-%D8%A7%D9%84%D8%B7%D8%A7%D8%A6%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%A3%D8%A8%D8%B1%D8%A7%D9%87%D8%A7%D9%85-%D9%81%D9%8A-%D8%A7%D9%84%D8%A8%D8%AD%D8%B1-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A",
+          "title": "المشاهد من عام 2020 وليست لاحتراق حاملة الطائرات الأميركية أبراهام في البحر العربي"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2024/09/30/%D8%AA%D9%82%D8%B1%D9%8A%D8%B1-%D8%A8%D9%84%D9%8A%D9%86%D9%83%D9%86-%D8%AD%D8%AC%D8%A8-%D9%85%D8%B9%D9%84%D9%88%D9%85%D8%A7%D8%AA-%D8%AD%D9%88%D9%84-%D9%85%D9%86%D8%B9-%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84-%D9%84%D9%84%D9%85%D8%B3%D8%A7%D8%B9%D8%AF%D8%A7%D8%AA-%D8%A7%D9%84%D8%A5%D9%86%D8%B3%D8%A7%D9%86%D9%8A%D8%A9-%D8%B9%D9%86-%D8%BA%D8%B2%D8%A9-%D9%84%D8%B6%D9%85%D8%A7%D9%86-%D8%AA%D8%B2%D9%88%D9%8A%D8%AF%D9%87%D8%A7-%D8%A8%D8%A7%D9%84%D8%A3%D8%B3%D9%84%D8%AD%D8%A9",
+          "title": "تقرير: بلينكن حجب معلومات حول منع إسرائيل للمساعدات الإنسانية عن غزة لضمان تزويدها بالأسلحة"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2025/01/30/%D8%A7%D9%84%D8%AA%D8%B5%D8%B1%D9%8A%D8%AD-%D8%B2%D8%A7%D8%A6%D9%81-%D9%88%D8%AA%D8%B1%D8%A7%D9%85%D8%A8-%D9%84%D9%85-%D9%8A%D9%82%D9%84-%D8%A5%D9%86-%D9%85%D8%AF%D8%A7%D8%AE%D9%8A%D9%84-%D8%A7%D9%84%D8%AD%D8%AC-%D9%84%D8%A7-%D8%AA%D8%AE%D8%B5%D9%91-%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%D8%A9-%D9%88%D8%AD%D8%AF%D9%87%D8%A7",
+          "title": "التصريح زائف وترامب لم يقل إن مداخيل الحج لا تخصّ السعودية وحدها"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%85%D8%AA%D8%AF%D8%A7%D9%88%D9%84-%D8%AE%D8%A7%D8%B1%D8%AC-%D8%B3%D9%8A%D8%A7%D9%82%D9%87-%D8%A7%D9%84%D8%A3%D8%B5%D9%84%D9%8A%D8%9B-%D9%88/",
+          "title": "هذا الفيديو مجتزأ من سياقه، لم يصف وزير الخارجية الالباني أمريكا بالشيطان امام بلينكن بل كان يتحدث عن رأي النظام السابق "
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%82%D8%AF%D9%8A%D9%85-%D9%84%D9%82%D8%A7%D8%AD-%D9%83%D9%88%D9%81%D9%8A%D8%AF19-%D9%84%D9%8A%D8%B3-%D9%84%D8%AA%D9%82%D9%84%D9%8A%D9%84-%D8%B3%D9%83%D8%A7%D9%86/",
+          "title": "هذا المقطع قديم ومجتزأ والادعاء القائل بأن لقاح كوفيد-19 من أجل تقليل سكان العالم هو ادّعاء مضلل - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%84%D8%A7-%D8%B5%D8%AD%D8%A9-%D9%84%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D8%AA%D8%B5%D8%B1%D9%8A%D8%AD-%D8%A7%D9%84%D9%85%D9%86%D8%B3%D9%88%D8%A8-%D9%84%D8%AA%D8%B1%D8%A7%D9%85%D8%A8-%D8%AD%D9%88%D9%84/",
+          "title": "لا صحة لهذا التصريح المنسوب لترامب حول مصادرة أموال مسؤولين عراقيين كما لم تنشر وزارة الخزينة الأمريكية هذه القائمة المر"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%82%D8%AF%D9%8A%D9%85-%D9%88%D9%8A%D8%B9%D9%88%D8%AF-%D8%A5%D9%84%D9%89-%D8%A7%D9%86%D9%81%D8%AC%D8%A7%D8%B1-%D9%85%D8%B3%D8%AA%D9%88/",
+          "title": "هذا الفيديو قديم ويعود إلى انفجار مستودع ذخيرة في إدلب، ولا يظهر قصفًا إسرائيليًا حديثًا على مواقع عسكرية داخل سوريا - ف"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/fake_news/",
+          "title": "مقالات فتبينوا - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D8%A7%D9%84%D8%AA%D8%B1%D8%AC%D9%85%D8%A9-%D8%A7%D9%84%D9%85%D8%B1%D9%81%D9%82%D8%A9-%D8%A8%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%85%D9%81%D8%A8%D8%B1%D9%83%D8%A9%D8%8C-%D9%88-5/",
+          "title": "الترجمة المرفقة بهذا المقطع مفبركة، ولم يصرح دونالد ترامب ان مداخيل الحج لا تخص السعودية وحدها - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%82%D8%AF%D9%8A%D9%85%D8%8C-%D9%88%D9%84%D8%A7-%D9%8A%D8%B5%D9%88%D8%B1-%D8%B1%D9%81%D8%B6-%D9%88%D8%B2%D9%8A%D8%B1-%D8%A7%D9%84%D8%AE%D8%A7/",
+          "title": "هذا المقطع قديم، ولا يصور رفض وزير الخارجية المغربي الإجابة على سؤال عن مقترح ترامب بترحيل سكان غزة - فتبينوا"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/AFP-USA",
+          "title": "AFP USA | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/",
+          "title": "Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/AFP-Canada",
+          "title": "AFP Canada | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/Contact",
+          "title": "Contact | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.A33Y6NR",
+          "title": "Posts share fabricated Kim Jong Un warning to Israel over Middle East war | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/politics",
+          "title": "politics | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/fact-checking-search-results",
+          "title": "Recherche | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/about-afp",
+          "title": "About AFP | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/AFP-Factual",
+          "title": "AFP Factual | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/corrections",
+          "title": "Corrections | Fact Check"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/",
+          "title": "Reuters Fact Check | Reuters"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/about/",
+          "title": "About Reuters Fact Check | Reuters"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/2020-clip-lebanon-protest-misrepresented-nasrallah-death-celebration-2024-09-30/",
+          "title": "Fact Check: 2020 clip of Lebanon protest misrepresented as Nasrallah death celebration | Reuters"
+        }
+      ],
+      "read_docs": [
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2024/10/30/%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84-%D9%88%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%85%D8%A7-%D8%AE%D9%84%D9%81%D9%8A%D8%A9-%D8%A7%D9%84%D8%A7%D8%AA%D9%87%D8%A7%D9%85%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AA%D8%A8%D8%A7%D8%AF%D9%84%D8%A9-%D8%A8%D8%A7%D8%AE%D8%AA%D8%B1%D8%A7%D9%82-%D9%82%D8%B1%D8%A7%D8%B1%D8%A7%D8%AA-%D9%85%D8%AC%D9%84%D8%B3-%D8%A7%D9%84%D8%A3%D9%85%D9%86-%D8%A7%D9%84%D8%AE%D8%A7%D8%B5%D8%A9-%D8%A8%D8%AC%D9%86%D9%88%D8%A8-%D9%84%D8%A8%D9%86%D8%A7%D9%86",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 8654,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%82%D8%AF%D9%8A%D9%85%D8%8C-%D9%88%D9%84%D9%8A%D8%B3-%D9%85%D9%86-%D8%A5%D8%B7%D9%84%D8%A7%D9%82-%D8%B5%D9%88%D8%A7%D8%B1%D9%8A%D8%AE/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2634,
+          "excerpt_chars": 649,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": {
+            "claim_reviewed": "مقطع فيديو يظهر اطلاق صواريخ من قبل حزب الله",
+            "label": "مضلل",
+            "date_published": "2026-05-28"
+          },
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "الشرق الأوسط",
+          "link": "https://aawsat.com/%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A/%D8%A7%D9%84%D9%85%D8%B4%D8%B1%D9%82-%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A/5327432-%D8%AA%D8%B4%D8%AF%D9%8A%D8%AF-%D8%A7%D9%84%D8%B6%D8%BA%D9%88%D8%B7-%D8%B9%D9%84%D9%89-%D9%84%D8%A8%D9%86%D8%A7%D9%86-%D9%84%D9%83%D8%A8%D8%AD-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%88%D9%85%D8%A4%D8%B3%D8%B3%D8%A7%D8%AA%D9%87",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 5634,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "U.S. Department of State (.gov)",
+          "link": "https://www.state.gov/translations/%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9/%D9%81%D8%AD%D9%88%D9%89-%D9%85%D9%83%D8%A7%D9%84%D9%85%D8%A9-%D9%88%D8%B2%D9%8A%D8%B1-%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%B1%D9%88%D8%A8%D9%8A%D9%88-%D9%85%D8%B9-%D8%A7%D9%84%D9%85/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 874,
+          "excerpt_chars": 782,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Daily Beirut",
+          "link": "https://dailybeirut.com/%D9%84%D8%A8%D9%86%D8%A7%D9%86/%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%8A%D8%B1%D9%88%D9%91%D8%AC-%D8%B1%D9%88%D8%A7%D9%8A%D8%A7%D8%AA-%D9%83%D8%A7%D8%B0%D8%A8%D8%A9-%D8%B9%D9%86-%D8%AA%D8%AF%D9%81%D9%91%D9%82-%D8%A3%D9%85%D9%88%D8%A7%D9%84-%D9%85%D9%86-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 940,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "صدى البلد",
+          "link": "https://www.elbalad.news/7124582",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 1498,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "A5r5br",
+          "link": "https://a5r5br.net/lebanon/local-news/8262309-%D9%85%D8%B3%D8%A4%D9%88%D9%84-%D9%81%D9%8A-%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D9%84%D9%84%D8%AC%D8%AF%D9%8A%D8%AF-%D9%86%D9%88%D8%A7%D8%B5%D9%84-%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85-%D8%AC%D9%85%D9%8A%D8%B9-%D8%A7%D9%84%D8%A3%D8%AF%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AA%D8%A7%D8%AD%D8%A9-%D9%84%D8%AA%D8%B9%D8%B7%D9%8A%D9%84-%D8%B4%D8%A8%D9%83%D8%A7%D8%AA-%D8%A7%D9%84%D8%AF%D8%B9%D9%85-%D8%A7%D9%84%D9%85%D8%A7%D9%84%D9%8A-%D9%84%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 731,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "LBCIV7",
+          "link": "https://www.lbcgroup.tv/news/breaking-news/961707/%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D9%81%D9%8A-%D8%B8%D9%84-%D8%A5%D8%AF%D8%A7%D8%B1%D8%A9-%D8%A7%D9%84%D8%B1%D8%A6%D9%8A%D8%B3-%D8%AA%D8%B1%D8%A7%D9%85%D8%A8-%D9%84%D9%86-%D9%8A%D8%AA%D9%85%D9%83%D9%86-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%85%D9%86-%D8%A7%D9%84%D8%AA%D8%B9%D8%A7/ar",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 8666,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "إرم نيوز",
+          "link": "https://www.eremnews.com/news/arab-world/z12ecdz",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 1511,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "عاجل",
+          "link": "https://ajel.sa/international/lo5qae2kl",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 452,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "BBC",
+          "link": "https://www.bbc.com/arabic/articles/cqm2m6n86jgmo",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "shared",
+          "page_chars": 10930,
+          "excerpt_chars": 0,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Al Jazeera",
+          "link": "https://studies.aljazeera.net/ar/article/6454",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "shared",
+          "page_chars": 9454,
+          "excerpt_chars": 0,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "U.S. Department of State",
+          "link": "https://www.state.gov/translations/%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9/%D9%81%D8%B1%D8%B6-%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA-%D8%B9%D9%84%D9%89-%D8%B4%D8%A8%D9%83%D8%A9-%D8%B9%D8%A7%D9%84%D9%85%D9%8A%D8%A9-%D8%AA%D8%AF%D8%B9%D9%85-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "shared",
+          "page_chars": 1874,
+          "excerpt_chars": 0,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        }
+      ],
+      "docs_before": 14,
+      "docs_after": 13,
+      "verdict": "not_found",
+      "primary_source": false,
+      "support_level": "",
+      "support_publisher": "",
+      "outside_docs": 7,
+      "icon": "🔍",
+      "evidence": [],
+      "correction": null,
+      "refuted_by": null,
+      "nearest": null,
+      "note": "",
+      "named_as": null,
+      "warnings": [],
+      "call_error": false,
+      "superseded_note": "",
+      "superseded": [],
+      "image_candidates": [],
+      "sources_read": 6,
+      "dropped_reason": "لا أثر ولا حدث قريب موثَّق",
+      "model_calls": 2,
+      "shared_from": [
+        "BBC",
+        "Al Jazeera",
+        "U.S. Department of State"
+      ],
+      "status": "dropped",
+      "selection_issue": null
+    },
+    {
+      "id": "916580c4a8ac",
+      "text": "حزب الله جلب البؤس للبنان وشعبه بشن حرب نيابة عن إيران",
+      "claim": "حزب الله جلب البؤس للبنان وشعبه بشن حرب نيابة عن إيران",
+      "framing": "direct",
+      "circulating_context": "",
+      "asserted": "",
+      "queries": [
+        "حزب الله حرب لبنان إيران تحقق",
+        "حزب الله حرب لبنان نيابة عن إيران"
+      ],
+      "site_queries": [
+        "حزب الله لبنان إيران site:misbar.com",
+        "حزب الله لبنان إيران site:fatabyyano.net",
+        "حزب الله لبنان Iran site:factcheck.afp.com",
+        "حزب الله لبنان Iran site:reuters.com/fact-check"
+      ],
+      "engines": [
+        "brave_web",
+        "google_news"
+      ],
+      "windows": [
+        "days",
+        "days"
+      ],
+      "brave_skipped": null,
+      "cache_hits": 8,
+      "checker_skipped": [
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/Samad-UTHMAN",
+          "title": "Samad UTHMAN | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.C9938ZQ",
+          "title": "2025 Riyadh fire video falsely shared as Houthi attack on Saudi airport | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/list/topics/141",
+          "title": "Topics | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/Middle-East",
+          "title": "Middle East | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/Joao-Pedro-CAPOBIANCO",
+          "title": "Joao Pedro CAPOBIANCO | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/AFP-Middle-East-North-Africa",
+          "title": "AFP Middle East & North Africa | Fact Check"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/video-shows-floods-lebanon-2018-not-west-bank-2023-2023-11-28/",
+          "title": "Fact Check: Video shows floods in Lebanon in 2018, not West Bank in 2023 | Reuters"
+        }
+      ],
+      "read_docs": [
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2024/07/02/%D8%A3%D8%A8%D8%B1%D8%B2-%D8%A7%D9%84%D8%A7%D8%AF%D8%B9%D8%A7%D8%A1%D8%A7%D8%AA-%D8%A7%D9%84%D8%AA%D9%8A-%D8%B1%D8%A7%D9%81%D9%82%D8%AA-%D8%A7%D9%84%D8%AA%D8%B5%D8%B9%D9%8A%D8%AF-%D8%A7%D9%84%D8%A3%D8%AE%D9%8A%D8%B1-%D8%A8%D9%8A%D9%86-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%88%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 4708,
+          "excerpt_chars": 1800,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%82%D8%AF%D9%8A%D9%85%D8%8C-%D9%88%D9%84%D9%8A%D8%B3-%D9%85%D9%86-%D8%A5%D8%B7%D9%84%D8%A7%D9%82-%D8%B5%D9%88%D8%A7%D8%B1%D9%8A%D8%AE/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2634,
+          "excerpt_chars": 1671,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": {
+            "claim_reviewed": "مقطع فيديو يظهر اطلاق صواريخ من قبل حزب الله",
+            "label": "مضلل",
+            "date_published": "2026-05-28"
+          },
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/A55G2FUHMZIWXFL2BHEM7US4UQ-2024-11-26/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 278,
+          "excerpt_chars": 278,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/Iran",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 44,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "BBC",
+          "link": "https://www.bbc.com/arabic/articles/cqm2m6n86jgmo",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 10930,
+          "excerpt_chars": 1800,
+          "same_event": true,
+          "as_of": "الثاني من مارس/آذار",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "conflicts_detail"
+        },
+        {
+          "publisher": "وردنا",
+          "link": "https://waradana.com/article/275129-%D9%84%D8%A8%D9%86%D8%A7%D9%86-%D9%81%D9%8A-%D8%AA%D8%AD%D8%B0%D9%8A%D8%B1%D8%A7%D8%AA-%D9%85%D8%A7-%D9%82%D8%A8%D9%84-7-%D8%A3%D9%83%D8%AA%D9%88%D8%A8%D8%B1-%D9%85%D8%A7%D8%B0%D8%A7-%D9%82%D9%8A%D9%84-%D9%84%D9%86%D8%AA%D9%86%D9%8A%D8%A7%D9%87%D9%88-%D8%B9%D9%86-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 2443,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "Al Jazeera Centre for Studies",
+          "link": "https://studies.aljazeera.net/ar/article/6454",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 9454,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "Beirut 24",
+          "link": "https://www.beirut24.org/2026/10/08/3-%D8%B3%D9%86%D9%88%D8%A7%D8%AA-%D8%B9%D9%84%D9%89-%D8%A5%D8%B3%D9%86%D8%A7%D8%AF-%D8%A7%D9%84%D8%AD%D8%B2%D8%A8-%D9%88%D8%A7%D9%84%D8%AD%D8%B1%D8%A8-%D8%A7%D9%84%D8%AC%D9%86%D9%88%D8%A8/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 6791,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "GULF CHANNELS",
+          "link": "https://www.gulfchannels.com/623573/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 3330,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "Elnashra",
+          "link": "https://www.elnashra.com/news/show/1803462/%D9%85%D8%AA%D8%AD%D8%AF%D8%AB-%D8%A8%D8%A7%D8%B3%D9%85-%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%8A%D8%B3%D8%B9%D9%89-%D8%A5%D9%84%D9%89-%D8%AA%D8%B1",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 1101,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "Daily Beirut",
+          "link": "https://dailybeirut.com/%D9%84%D8%A8%D9%86%D8%A7%D9%86/%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%8A%D8%B1%D9%88%D9%91%D8%AC-%D8%B1%D9%88%D8%A7%D9%8A%D8%A7%D8%AA-%D9%83%D8%A7%D8%B0%D8%A8%D8%A9-%D8%B9%D9%86-%D8%AA%D8%AF%D9%81%D9%91%D9%82-%D8%A3%D9%85%D9%88%D8%A7%D9%84-%D9%85%D9%86-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 940,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "A5r5br",
+          "link": "https://a5r5br.net/lebanon/local-news/8269880-%D9%85%D8%AA%D8%AD%D8%AF%D8%AB-%D8%A8%D8%A7%D8%B3%D9%85-%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%8A%D8%B3%D8%B9%D9%89-%D8%A5%D9%84%D9%89-%D8%AA%D8%B1%D9%88%D9%8A%D8%AC-%D8%B1%D9%88%D8%A7%D9%8A%D8%A7%D8%AA-%D8%B9%D8%A8%D8%B1-%D9%85%D8%B5%D8%A7%D8%AF%D8%B1-%D9%85%D8%AC%D9%87%D9%88%D9%84%D8%A9-%D9%88%D8%A7%D9%84%D8%A3%D9%85%D9%88%D8%A7%D9%84-%D8%A7%D9%84%D8%AA%D9%8A-%D9%8A%D8%AA%D8%AD%D8%AF%D8%AB-%D8%B9%D9%86%D9%87%D8%A7-%D8%BA%D9%8A%D8%B1-%D9%85%D9%88%D8%AC%D9%88%D8%AF%D8%A9",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 1221,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        }
+      ],
+      "docs_before": 16,
+      "docs_after": 12,
+      "verdict": "inaccurate",
+      "primary_source": false,
+      "support_level": "single",
+      "support_publisher": "BBC",
+      "outside_docs": 6,
+      "icon": "✏️",
+      "evidence": [
+        {
+          "publisher": "BBC",
+          "link": "https://www.bbc.com/arabic/articles/cqm2m6n86jgmo",
+          "stance": "conflicts_detail",
+          "excerpt": "لبنان الذي دخل في الحرب في الثاني من مارس/آذار بعد إطلاق حزب الله صواريخ على إسرائيل ردّاً على مقتل المرشد الإيراني علي خامنئي في اليوم الأول من الحرب",
+          "detail": "تاريخ إطلاق حزب الله الصواريخ رداً على مقتل خامنئي",
+          "correct_form": "أطلق حزب الله ستة صواريخ في فجر الثاني من مارس/آذار",
+          "as_of": "الثاني من مارس/آذار",
+          "detail_kind": "date"
+        }
+      ],
+      "correction": {
+        "error": "تاريخ إطلاق حزب الله الصواريخ رداً على مقتل خامنئي",
+        "correct": "أطلق حزب الله ستة صواريخ في فجر الثاني من مارس/آذار",
+        "correct_value": null,
+        "as_of": "الثاني من مارس/آذار",
+        "detail_kind": "date",
+        "sources": [
+          {
+            "publisher": "BBC",
+            "link": "https://www.bbc.com/arabic/articles/cqm2m6n86jgmo",
+            "excerpt": "لبنان الذي دخل في الحرب في الثاني من مارس/آذار بعد إطلاق حزب الله صواريخ على إسرائيل ردّاً على مقتل المرشد الإيراني علي خامنئي في اليوم الأول من الحرب",
+            "as_of": "الثاني من مارس/آذار"
+          }
+        ]
+      },
+      "refuted_by": null,
+      "nearest": null,
+      "note": "",
+      "named_as": null,
+      "warnings": [],
+      "call_error": false,
+      "superseded_note": "",
+      "superseded": [],
+      "image_candidates": [],
+      "sources_read": 6,
+      "dropped_reason": null,
+      "model_calls": 1,
+      "status": "offered",
+      "selection_issue": null
+    },
+    {
+      "id": "23c484b9a35a",
+      "text": "الولايات المتحدة ستواصل خنق حزب الله مالياً بالعقوبات",
+      "claim": "الولايات المتحدة ستواصل خنق حزب الله مالياً بالعقوبات",
+      "framing": "direct",
+      "circulating_context": "",
+      "asserted": "",
+      "queries": [
+        "عقوبات أميركية حزب الله خنق مالي تحقق",
+        "عقوبات أميركية حزب الله خنق مالي"
+      ],
+      "site_queries": [
+        "الولايات المتحدة حزب الله site:misbar.com",
+        "الولايات المتحدة حزب الله site:fatabyyano.net",
+        "United States حزب الله site:factcheck.afp.com",
+        "United States حزب الله site:reuters.com/fact-check"
+      ],
+      "engines": [
+        "brave_web",
+        "google_news"
+      ],
+      "windows": [
+        "days",
+        "days"
+      ],
+      "brave_skipped": null,
+      "cache_hits": 6,
+      "checker_skipped": [
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2024/01/25/%D8%AA%D8%B1%D8%A7%D9%85%D8%A8-%D9%84%D9%85-%D9%8A%D8%AA%D9%87%D9%85-%D8%A7%D9%84%D8%AD%D9%83%D9%88%D9%85%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%A8%D8%AA%D9%86%D9%81%D9%8A%D8%B0-%D9%87%D8%AC%D9%85%D8%A7%D8%AA-11-%D8%B3%D8%A8%D8%AA%D9%85%D8%A8%D8%B1",
+          "title": "ترامب لم يتهم الحكومة الأميركية بتنفيذ هجمات 11 سبتمبر"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2026/04/16/%D9%87%D9%84-%D8%AA%D9%8F%D8%B8%D9%87%D8%B1-%D8%A7%D9%84%D8%B5%D9%88%D8%B1%D8%A9-%D9%85%D8%B5%D8%A7%D9%81%D8%AD%D8%A9-%D8%A8%D9%8A%D9%86-%D8%B3%D9%81%D9%8A%D8%B1%D8%A9-%D9%84%D8%A8%D9%86%D8%A7%D9%86-%D9%84%D8%AF%D9%89-%D9%88%D8%A7%D8%B4%D9%86%D8%B7%D9%86-%D9%88%D8%A7%D9%84%D8%B3%D9%81%D9%8A%D8%B1-%D8%A7%D9%84%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84%D9%8A%D8%9F",
+          "title": "هل تُظهر الصورة مصافحة بين سفيرة لبنان لدى واشنطن والسفير الإسرائيلي؟"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%8A%D8%B5%D9%88%D8%B1-%D9%85%D8%B4%D8%A7%D9%87%D8%AF-%D9%85%D9%86-%D8%A7%D8%AD%D8%AA%D8%AC%D8%A7%D8%AC%D8%A7%D8%AA-%D9%81%D9%8A-%D9%84%D8%A8/",
+          "title": "هذا المقطع يصور مشاهد من احتجاجات في لبنان عام 2020، وليس لاحتفالات إثر مقتل حسن نصر الله مؤخرًا - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%82%D8%AF%D9%8A%D9%85-%D9%88%D9%8A%D8%B9%D9%88%D8%AF-%D8%A5%D9%84%D9%89-%D8%A7%D9%86%D9%81%D8%AC%D8%A7%D8%B1-%D9%85%D8%B3%D8%AA%D9%88/",
+          "title": "هذا الفيديو قديم ويعود إلى انفجار مستودع ذخيرة في إدلب، ولا يظهر قصفًا إسرائيليًا حديثًا على مواقع عسكرية داخل سوريا - ف"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/",
+          "title": "Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/politics",
+          "title": "politics | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.A2ZE3T3",
+          "title": "Images claiming US-Israeli pilots bombed Iranian aircraft decoys are AI-generated | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.33YY924",
+          "title": "Old Kim Jong Un address miscaptioned as comments on Israel-Hamas war | Fact Check"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/video-montages-show-beirut-explosion-fake-clip-not-fordow-attack-2025-06-30/",
+          "title": "Fact Check: Video montages show Beirut explosion and fake clip, not Fordow attack | Reuters"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic",
+          "title": "خدمة \"تقصي الحقيقة\" من رويترز"
+        }
+      ],
+      "read_docs": [
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%82%D8%AF%D9%8A%D9%85%D8%8C-%D9%88%D9%8A%D8%B9%D9%88%D8%AF-%D8%A5%D9%84%D9%89-%D8%A7%D9%84%D9%82%D8%B5%D9%81-%D8%A7%D9%84%D8%A3%D9%85%D8%B1/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2904,
+          "excerpt_chars": 1929,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": {
+            "claim_reviewed": "اثناء قصف مواقع ميلشيات ايران في صنعاء اسمع بقايا الفرس الحوثيون ينادون يا علي",
+            "label": "مضلل",
+            "date_published": "2025-03-20"
+          },
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2025/01/29/%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%84%D9%8A%D8%B3-%D9%84%D8%A7%D9%81%D8%AA%D8%AA%D8%A7%D8%AD-%D8%AC%D9%84%D8%B3%D8%A9-%D9%85%D8%AC%D9%84%D8%B3-%D8%A7%D9%84%D8%B4%D9%8A%D9%88%D8%AE-%D8%A8%D8%AA%D9%84%D8%A7%D9%88%D8%A9-%D8%A7%D9%84%D9%82%D8%B1%D8%A2%D9%86-%D8%A8%D8%B9%D8%AF-%D8%AA%D9%86%D8%B5%D9%8A%D8%A8-%D8%AA%D8%B1%D8%A7%D9%85%D8%A8",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 190,
+          "excerpt_chars": 293,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": {
+            "claim_reviewed": "افتتاح جلسة مجلس الشيوخ بقراءة القرآن.",
+            "label": "misleading",
+            "date_published": "2025-01-29T15:30:04+03:00"
+          },
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/BVYN7HCMORPS7C25K7QGJSWF4Y-2025-09-23/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 247,
+          "excerpt_chars": 247,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/AFP-USA",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 314,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "الجزيرة نت",
+          "link": "https://www.aljazeera.net/news/2026/10/7/%D8%B1%D9%88%D9%8A%D8%AA%D8%B1%D8%B2-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86-%D8%B3%D9%84%D9%85%D8%AA-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-200-%D9%85%D9%84%D9%8A%D9%88%D9%86",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 2595,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "جنوبية",
+          "link": "https://janoubia.com/2026/10/08/%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%A3%D9%85%D9%88%D8%A7%D9%84-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86-%D9%84%D9%80-%D8%AD%D8%B2/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 1734,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "Daily Beirut",
+          "link": "https://dailybeirut.com/%D9%84%D8%A8%D9%86%D8%A7%D9%86/%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%8A%D8%B1%D9%88%D9%91%D8%AC-%D8%B1%D9%88%D8%A7%D9%8A%D8%A7%D8%AA-%D9%83%D8%A7%D8%B0%D8%A8%D8%A9-%D8%B9%D9%86-%D8%AA%D8%AF%D9%81%D9%91%D9%82-%D8%A3%D9%85%D9%88%D8%A7%D9%84-%D9%85%D9%86-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 940,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "U.S. Department of State",
+          "link": "https://www.state.gov/translations/%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9/%D9%81%D8%B1%D8%B6-%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA-%D8%B9%D9%84%D9%89-%D8%B4%D8%A8%D9%83%D8%A9-%D8%B9%D8%A7%D9%84%D9%85%D9%8A%D8%A9-%D8%AA%D8%AF%D8%B9%D9%85-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 1874,
+          "excerpt_chars": 1800,
+          "same_event": true,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "supports"
+        },
+        {
+          "publisher": "Lebanon24",
+          "link": "https://www.lebanon24.com/news/lebanon/1580170/%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%B3%D9%86%D9%88%D8%A7%D8%B5%D9%84-%D8%AE%D9%86%D9%82-%D9%85%D8%B5%D8%A7%D8%AF%D8%B1-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D8%A8%D8%A7%D9%84%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2405,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "LBCIV7",
+          "link": "https://www.lbcgroup.tv/news/breaking-news/961702/%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%B3%D8%AA%D9%88%D8%A7%D8%B5%D9%84-%D8%A7%D9%84%D9%88%D9%84%D8%A7%D9%8A%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AA%D8%AD%D8%AF%D8%A9-%D8%AE%D9%86%D9%82-%D9%85%D8%B5%D8%A7%D8%AF%D8%B1-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%85%D9%86/ar",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 8745,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "إرم نيوز",
+          "link": "https://www.eremnews.com/news/arab-world/z12ecdz",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 1511,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "Almodon",
+          "link": "https://www.almodon.com/politics/2026/03/20/%D9%88%D8%A7%D8%B4%D9%86%D8%B7%D9%86-%D8%AA%D9%85%D8%B6%D9%8A-%D8%A8%D8%AE%D9%86%D9%82-%D8%B4%D8%A8%D9%83%D8%A9-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%A7%D9%84%D8%AD%D8%B2%D8%A8-%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA-%D9%8416-%D9%81%D8%B1%D8%AF%D8%A7-%D9%88%D9%83%D9%8A%D8%A7%D9%86%D8%A7",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 5121,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        }
+      ],
+      "docs_before": 16,
+      "docs_after": 12,
+      "verdict": "confirmed",
+      "primary_source": false,
+      "support_level": "single",
+      "support_publisher": "U.S. Department of State",
+      "outside_docs": 6,
+      "icon": "✅",
+      "evidence": [
+        {
+          "publisher": "U.S. Department of State",
+          "link": "https://www.state.gov/translations/%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9/%D9%81%D8%B1%D8%B6-%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA-%D8%B9%D9%84%D9%89-%D8%B4%D8%A8%D9%83%D8%A9-%D8%B9%D8%A7%D9%84%D9%85%D9%8A%D8%A9-%D8%AA%D8%AF%D8%B9%D9%85-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD",
+          "stance": "supports",
+          "excerpt": "فرضت الولايات المتحدة اليوم عقوبات تهدف إلى تعطيل شبكة مالية عالمية تقدم الدعم لحزب الله.",
+          "detail": "",
+          "correct_form": "",
+          "as_of": "",
+          "detail_kind": "other"
+        }
+      ],
+      "correction": null,
+      "refuted_by": null,
+      "nearest": null,
+      "note": "",
+      "named_as": null,
+      "warnings": [],
+      "call_error": false,
+      "superseded_note": "",
+      "superseded": [],
+      "image_candidates": [],
+      "sources_read": 6,
+      "dropped_reason": null,
+      "model_calls": 1,
+      "status": "offered",
+      "selection_issue": null
+    },
+    {
+      "id": "577c16cffbc9",
+      "text": "الولايات المتحدة تواصل دعم الحكومة اللبنانية لإعادة إعمار الجنوب",
+      "claim": "الولايات المتحدة تواصل دعم الحكومة اللبنانية لإعادة إعمار الجنوب",
+      "framing": "direct",
+      "circulating_context": "",
+      "asserted": "",
+      "queries": [
+        "دعم أميركي لبنان إعادة إعمار الجنوب تحقق",
+        "دعم أميركي لبنان إعادة إعمار الجنوب"
+      ],
+      "site_queries": [
+        "الولايات المتحدة الحكومة اللبنانية site:misbar.com",
+        "الولايات المتحدة الحكومة اللبنانية site:fatabyyano.net",
+        "United States الحكومة اللبنانية site:factcheck.afp.com",
+        "United States الحكومة اللبنانية site:reuters.com/fact-check"
+      ],
+      "engines": [
+        "brave_web",
+        "google_news"
+      ],
+      "windows": [
+        "days",
+        "days"
+      ],
+      "brave_skipped": null,
+      "cache_hits": 4,
+      "checker_skipped": [
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2024/01/25/%D8%AA%D8%B1%D8%A7%D9%85%D8%A8-%D9%84%D9%85-%D9%8A%D8%AA%D9%87%D9%85-%D8%A7%D9%84%D8%AD%D9%83%D9%88%D9%85%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%A8%D8%AA%D9%86%D9%81%D9%8A%D8%B0-%D9%87%D8%AC%D9%85%D8%A7%D8%AA-11-%D8%B3%D8%A8%D8%AA%D9%85%D8%A8%D8%B1",
+          "title": "ترامب لم يتهم الحكومة الأميركية بتنفيذ هجمات 11 سبتمبر"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2023/10/26/%D9%87%D9%84-%D8%B7%D8%B1%D8%AF%D8%AA-%D9%84%D9%8A%D8%A8%D9%8A%D8%A7-%D8%B3%D9%81%D8%B1%D8%A7%D8%A1-%D8%AF%D9%88%D9%84-%D8%BA%D8%B1%D8%A8%D9%8A%D8%A9-%D8%AA%D8%AF%D8%B9%D9%85-%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84-%D9%81%D9%8A-%D8%B9%D8%AF%D9%88%D8%A7%D9%86%D9%87%D8%A7-%D8%B9%D9%84-%D8%BA%D8%B2%D8%A9",
+          "title": "هل طردت ليبيا سفراء دول غربية تدعم إسرائيل في عدوانها على غزة؟"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/en/",
+          "title": "Fact-checking Website Misbar"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2024/10/30/%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84-%D9%88%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%85%D8%A7-%D8%AE%D9%84%D9%81%D9%8A%D8%A9-%D8%A7%D9%84%D8%A7%D8%AA%D9%87%D8%A7%D9%85%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AA%D8%A8%D8%A7%D8%AF%D9%84%D8%A9-%D8%A8%D8%A7%D8%AE%D8%AA%D8%B1%D8%A7%D9%82-%D9%82%D8%B1%D8%A7%D8%B1%D8%A7%D8%AA-%D9%85%D8%AC%D9%84%D8%B3-%D8%A7%D9%84%D8%A3%D9%85%D9%86-%D8%A7%D9%84%D8%AE%D8%A7%D8%B5%D8%A9-%D8%A8%D8%AC%D9%86%D9%88%D8%A8-%D9%84%D8%A8%D9%86%D8%A7%D9%86",
+          "title": "إسرائيل وحزب الله: ما خلفية الاتهامات المتبادلة باختراق قرارات مجلس الأمن الخاصة بجنوب لبنان؟"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/amp/factcheck/2026/04/12/%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D8%AF%D9%87%D8%B3-%D8%B5%D9%88%D8%B1%D8%A9-%D9%86%D9%88%D8%A7%D9%81-%D8%B3%D9%84%D8%A7%D9%85-%D9%82%D8%AF%D9%8A%D9%85-%D9%88%D9%84%D9%8A%D8%B3-%D8%AE%D9%84%D8%A7%D9%84-%D8%A7%D9%84%D8%AD%D8%B1%D8%A8-%D8%A7%D9%84%D8%AC%D8%A7%D8%B1%D9%8A%D8%A9",
+          "title": "فيديو دهس صورة نواف سلام قديم وليس خلال الحرب الجارية"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/tags/%D9%84%D8%A8%D9%86%D8%A7%D9%86",
+          "title": "لبنان"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2025/01/30/%D8%A7%D9%84%D8%AA%D8%B5%D8%B1%D9%8A%D8%AD-%D8%B2%D8%A7%D8%A6%D9%81-%D9%88%D8%AA%D8%B1%D8%A7%D9%85%D8%A8-%D9%84%D9%85-%D9%8A%D9%82%D9%84-%D8%A5%D9%86-%D9%85%D8%AF%D8%A7%D8%AE%D9%8A%D9%84-%D8%A7%D9%84%D8%AD%D8%AC-%D9%84%D8%A7-%D8%AA%D8%AE%D8%B5%D9%91-%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%D8%A9-%D9%88%D8%AD%D8%AF%D9%87%D8%A7",
+          "title": "التصريح زائف وترامب لم يقل إن مداخيل الحج لا تخصّ السعودية وحدها"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2024/10/22/%D8%AA%D8%AD%D9%82%D9%8A%D9%82-%D9%85%D8%B3%D8%A4%D9%88%D9%84%D8%A9-%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84%D9%8A%D8%A9-%D8%A3%D8%B3%D9%87%D9%85%D8%AA-%D9%81%D9%8A-%D8%A7%D9%84%D8%B1%D9%82%D8%A7%D8%A8%D8%A9-%D8%B9%D9%84-%D8%AD%D8%B3%D8%A7%D8%A8%D8%A7%D8%AA-%D8%AF%D8%A7%D8%B9%D9%85%D8%A9-%D9%84%D9%81%D9%84%D8%B3%D8%B7%D9%8A%D9%86-%D8%B9%D9%84-%D8%A5%D9%86%D8%B3%D8%AA%D8%BA%D8%B1%D8%A7%D9%85",
+          "title": "تحقيق: مسؤولة إسرائيلية أسهمت في الرقابة على حسابات داعمة لفلسطين على إنستغرام"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2024/12/26/%D8%A7%D9%84%D8%AA%D8%B5%D9%85%D9%8A%D9%85-%D9%85%D9%81%D8%A8%D8%B1%D9%83-%D9%88%D9%86%D8%AA%D9%86%D9%8A%D8%A7%D9%87%D9%88-%D9%84%D9%85-%D9%8A%D8%AF%D8%B9-%D9%84%D8%AF%D8%B9%D9%85-%D8%A7%D9%84%D8%AC%D9%88%D9%84%D8%A7%D9%86%D9%8A-%D9%81%D9%8A-%D8%A5%D8%AF%D8%A7%D8%B1%D8%A9-%D8%A7%D9%84%D8%AD%D9%83%D9%88%D9%85%D8%A9-%D8%A7%D9%84%D8%B3%D9%88%D8%B1%D9%8A%D8%A9-%D8%A7%D9%84%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9",
+          "title": "التصميم مفبرك ونتنياهو لم يدعُ لدعم أحمد الشرع في إدارة الحكومة السورية الجديدة"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2023/05/06/%D8%A7%D9%84%D8%B3%D9%81%D8%A7%D8%B1%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D9%81%D9%8A-%D8%A8%D9%8A%D8%B1%D9%88%D8%AA-%D9%84%D9%8A%D8%B3%D8%AA-%D8%A3%D9%83%D8%A8%D8%B1-%D8%B3%D9%81%D8%A7%D8%B1%D8%A9-%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D9%81%D9%8A-%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85",
+          "title": "السفارة الأميركية في بيروت ليست أكبر سفارة أميركية في العالم"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D9%87-%D8%A7%D9%84%D8%B5%D9%88%D8%B1%D8%A9-%D9%85%D9%88%D9%84%D8%AF%D8%A9-%D8%A8%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85-%D8%A7%D9%84%D8%B0%D9%83%D8%A7%D8%A1-%D8%A7%D9%84%D8%B5%D9%86/",
+          "title": "هذه الصورة مولدة باستخدام الذكاء الصناعي، ولا تصور قصف مطار رفيق الحريري في لبنان مؤخرًا - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/%D9%88%D8%A7%D8%B4%D9%86%D8%B7%D9%86-%D8%AA%D8%B9%D8%AA%D8%B1%D9%81-%D8%A8%D8%AA%D8%B5%D9%86%D9%8A%D8%B9-%D9%81%D9%8A%D8%B1%D9%88%D8%B3-%D9%83%D9%88%D8%B1%D9%88%D9%86%D8%A7-%D8%A7%D9%84%D9%82%D8%A7/",
+          "title": "واشنطن تعترف بتصنيع فيروس كورونا القاتل.. خبر زائف - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%84%D8%A7-%D9%8A%D9%8F%D8%B8%D9%87%D8%B1-%D9%86%D9%82%D9%84-%D8%A8%D9%86%D9%8A%D8%A7%D9%85%D9%8A%D9%86-%D9%86%D8%AA%D9%86%D9%8A%D8%A7/",
+          "title": "هذا الفيديو لا يُظهر نقل بنيامين نتنياهو في سيارة إسعاف، بل غارة إسرائيلية حديثة على بيروت - فتبينوا"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/%D9%87%D8%B0%D9%87-%D8%A7%D9%84%D9%85%D8%B4%D8%A7%D9%87%D8%AF-%D9%84%D8%A7-%D8%AA%D8%B8%D9%87%D8%B1-%D8%A7%D9%86%D9%81%D8%AC%D8%A7%D8%B1%D9%8B%D8%A7-%D9%81%D9%8A-%D8%B7%D9%87%D8%B1%D8%A7%D9%86-%D8%A8/",
+          "title": "هذه المشاهد لا تظهر انفجارًا في طهران بسبب الهجوم الإسرائيلي الأخير، بل متداولة قبل ذلك بأيام لغارات على بيروت - فتبينوا"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/",
+          "title": "Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/about-afp",
+          "title": "About AFP | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/AFP-Canada",
+          "title": "AFP Canada | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/politics",
+          "title": "politics | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/corrections",
+          "title": "Corrections | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/afp-fact-checking-stylebook",
+          "title": "AFP Fact-Checking Stylebook | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.C7XG2WE",
+          "title": "Posts overstate US visa appointment suspensions | Fact Check"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/list",
+          "title": "Topics | Fact Check"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic",
+          "title": "خدمة \"تقصي الحقيقة\" من رويترز"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/VHOH7HCRZVKPNGJNLJ6PJTMT5Q-2024-11-28/",
+          "title": "تقصي الحقيقة: صورة لجنود إسرائيليين في الضفة الغربية في 2015 لا تعرض حواجز للجيش الإسرائيلي في جنوب لبنان في 2024 | رويت"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/3YZWR25QDBN4XIIFLEQ4RNFCEQ-2024-01-23/",
+          "title": "تقصي الحقيقة: فيديو لصواريخ استهدفت السفارة الأمريكية ببغداد في 2022 وليس القنصلية الأمريكية في أربيل | رويترز"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/",
+          "title": "Reuters Fact Check | Reuters"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/2SKMJHN3JBJULB4IENAIYTE4OE-2025-01-28/",
+          "title": "تقصي الحقيقة: فيديو مجتزأ من سياقه لترامب ليبدو وكأنه ينفي حدوث هجمات 11 سبتمبر | رويترز"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/3LP5WPAEJZN2FERGGOXHMPYNGU-2024-09-19/",
+          "title": "تقصي الحقيقة: فيديو من 2021 لرئيس الوزراء الإسرائيلي بنيامين نتنياهو وليس بعد تفجيرات بيجر في لبنان في 2024 | رويترز"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/NXSNLOZ7DNOAPESGGDKVDS2WMU-2024-05-21/",
+          "title": "تقصي الحقيقة: صورة تظهر مظاهرات في المجر وليست لاحتجاجات مؤيدة للفلسطينيين في الجامعات الأمريكية | رويترز"
+        }
+      ],
+      "read_docs": [
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%85%D9%82%D8%B7%D8%B9-%D9%85%D9%81%D8%A8%D8%B1%D9%83%D8%8C-%D9%88%D9%8A%D8%B9%D9%88%D8%AF-%D9%84%D9%86%D8%B4%D8%B1%D8%A9-%D8%A5%D8%AE%D8%A8%D8%A7%D8%B1%D9%8A%D8%A9/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2867,
+          "excerpt_chars": 1844,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": {
+            "claim_reviewed": "رسالة من ترمب للسوريين أعدكم بإنهاء قسد من سوريا",
+            "label": "مفبرك",
+            "date_published": "2025-10-02"
+          },
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/arabic/ZX5ZWGI7RBPVJCEUKENO3CS2CQ-2025-01-30/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 257,
+          "excerpt_chars": 257,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/AFP-USA",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 314,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "جريدة الأنباء الكويتية",
+          "link": "https://www.alanba.com.kw/1378597",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 2615,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "annahar.com",
+          "link": "https://www.annahar.com/lebanon/349777/%D8%B3%D9%84%D8%A7%D9%85-%D9%8A%D9%84%D8%AA%D9%82%D9%8A-%D8%A7%D9%84%D8%B3%D9%8A%D9%86%D8%A7%D8%AA%D9%88%D8%B1-%D8%B4%D8%A7%D9%87%D9%8A%D9%86-%D9%84%D8%A8%D9%86%D8%A7%D9%86-%D8%A8%D8%AD%D8%A7%D8%AC%D8%A9-%D8%A5%D9%84%D9%89-%D8%A7%D8%B3%D8%AA%D9%85%D8%B1%D8%A7%D8%B1-%D9%88%D8%AC%D9%88%D8%AF-%D8%AF%D9%88%D9%84%D9%8A-%D9%81%D9%8A-%D8%A7%D9%84%D8%AC%D9%86%D9%88%D8%A8",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 2556,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "An Nahar",
+          "link": "https://www.annahar.com/lebanon/355044/%D8%B1%D8%AF-%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A-%D8%B9%D9%84%D9%89-%D8%AA%D9%82%D8%B1%D9%8A%D8%B1-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D8%A8%D9%80200-%D9%85%D9%84%D9%8A%D9%88%D9%86-%D8%AF%D9%88%D9%84%D8%A7%D8%B1-%D8%A7%D9%84%D8%A3%D9%85%D9%88%D8%A7%D9%84-%D8%BA%D9%8A%D8%B1-%D9%85%D9%88%D8%AC%D9%88%D8%AF%D8%A9",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 1739,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "Pressbee",
+          "link": "https://arabic.pressbee.net/show11036105.html",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 1092,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "LBCIV7",
+          "link": "https://www.lbcgroup.tv/news/breaking-news/961702/%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%B3%D8%AA%D9%88%D8%A7%D8%B5%D9%84-%D8%A7%D9%84%D9%88%D9%84%D8%A7%D9%8A%D8%A7%D8%AA-%D8%A7%D9%84%D9%85%D8%AA%D8%AD%D8%AF%D8%A9-%D8%AE%D9%86%D9%82-%D9%85%D8%B5%D8%A7%D8%AF%D8%B1-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD%D8%B2%D8%A8-%D8%A7%D9%84%D9%84%D9%87-%D9%85%D9%86/ar",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 8745,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "اليوم السابع",
+          "link": "https://www.youm7.com/story/2026/10/2/%D8%A7%D9%84%D9%85%D8%AF%D9%81%D8%B9%D9%8A%D8%A9-%D8%A7%D9%84%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84%D9%8A%D8%A9-%D8%AA%D9%82%D8%B5%D9%81-%D8%A8%D9%84%D8%AF%D8%A7%D8%AA-%D8%AC%D9%86%D9%88%D8%A8-%D9%84%D8%A8%D9%86%D8%A7%D9%86-%D8%AA%D9%81%D8%AC%D9%8A%D8%B1%D8%A7%D8%AA-%D9%81%D9%8A-%D8%A7%D9%84%D8%AE%D9%8A%D8%A7%D9%85-%D9%88%D9%85%D9%8A%D8%B3/7564934",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 4070,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "Daily Beirut",
+          "link": "https://dailybeirut.com/%D9%84%D8%A8%D9%86%D8%A7%D9%86/%D9%84%D9%82%D8%A7%D8%A1-%D8%B3%D9%84%D8%A7%D9%85-%D9%84%D8%A7%D9%86%D9%83%D9%81%D9%88%D8%B1%D8%AF-%D9%8A%D8%B1%D9%83%D8%B2-%D8%B9%D9%84%D9%89-%D8%AF%D8%B9%D9%85-%D8%A7%D9%84%D8%AC%D9%8A%D8%B4-%D9%88%D9%85%D8%B3%D8%A7%D8%B1-%D8%A5%D8%B9%D8%A7%D8%AF%D8%A9-%D8%A7%D9%84%D8%A5%D8%B9%D9%85%D8%A7%D8%B1-%D9%81%D9%8A-%D8%A7%D9%84%D8%AC%D9%86%D9%88%D8%A8/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 1013,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "سانا",
+          "link": "https://sana.sy/international/2600854/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 1213,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "BBC",
+          "link": "https://www.bbc.com/arabic/articles/cqm2m6n86jgmo",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "shared",
+          "page_chars": 10930,
+          "excerpt_chars": 0,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Al Jazeera",
+          "link": "https://studies.aljazeera.net/ar/article/6454",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "shared",
+          "page_chars": 9454,
+          "excerpt_chars": 0,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "related_other"
+        },
+        {
+          "publisher": "U.S. Department of State",
+          "link": "https://www.state.gov/translations/%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9/%D9%81%D8%B1%D8%B6-%D8%B9%D9%82%D9%88%D8%A8%D8%A7%D8%AA-%D8%B9%D9%84%D9%89-%D8%B4%D8%A8%D9%83%D8%A9-%D8%B9%D8%A7%D9%84%D9%85%D9%8A%D8%A9-%D8%AA%D8%AF%D8%B9%D9%85-%D8%AA%D9%85%D9%88%D9%8A%D9%84-%D8%AD",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "shared",
+          "page_chars": 1874,
+          "excerpt_chars": 0,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "related_other"
+        }
+      ],
+      "docs_before": 15,
+      "docs_after": 14,
+      "verdict": "not_found",
+      "primary_source": false,
+      "support_level": "",
+      "support_publisher": "",
+      "outside_docs": 8,
+      "icon": "🔍",
+      "evidence": [],
+      "correction": null,
+      "refuted_by": null,
+      "nearest": {
+        "kind": "single_source",
+        "title": "يمتلك حزب الله مبررات الرد على إسرائيل في أي وقت، بالنظر إلى استمرار استهدافها الأراضي اللبنانية حتى صباح الهجوم على",
+        "description": "",
+        "shared_entity": "الحكومة اللبنانية",
+        "sources": [
+          {
+            "publisher": "Al Jazeera",
+            "link": "https://studies.aljazeera.net/ar/article/6454",
+            "excerpt": "يمتلك حزب الله مبررات الرد على إسرائيل في أي وقت، بالنظر إلى استمرار استهدافها الأراضي اللبنانية حتى صباح الهجوم على إيران. غير أن السؤال هو: ما الذي تغيَّر الآن؟ ولماذا انتقل الحزب من سياسة ضبط النفس إلى الرد المباشر؟\n[…]\nواللافت أن حزب الله لم يتخلَّ عن تمسكه بوقف إطلاق النار، رغم أن إسرائيل لم تتوقف منذ الاتفاق عن استهداف منشآت و\"ناشطين\" تنسبهم للحزب، تجاوز عددهم 400 شخص، سواء جنوب الليطاني أو في مناطق أخرى، بذريعة منع حزب الله من إعادة بناء قدراته القتالية.\n[…]\nغير أن خطاب حزب الله شهد بعد الحرب الإسرائيلية على إيران تحولًا في قوته وفي مطالبه، فقد أخذ أمينه العام، الشيخ نعيم قاسم، يعلن عن تعافي الحزب بنبرة أكثر ثقة، وأنه مستعد لمواجهة إسرائيل، مع إعلان رفضه القاطع التخلي عن \"السلاح\" في شمال نهر الليطاني مؤكدًا أن اتفاق وقف إطلاق النار لا يشمل إلا منطقة جنوب الليطاني، مع تصعيد الخطاب ضد الحكومة اللبنانية منكرًا عليها سعيها إلى حصر السلاح في كل لبنان، وأنها لم تستطع أن تلجم إسرائيل عن الاستمرار في استهدافها للأراضي اللبنانية أو أن تدفعها للانسحاب من النقاط السبع التي لا تزال تحتلها.\n[…]\nوهو ما كانت تخشاه السلطات اللبنانية، لذلك سعت كل من الحكومة ورئاسة الجمهورية لأخذ موقف من حزب الله يؤكد فيه أنه لن يتدخل في هذه الحرب إلى أن فوجئوا ببيان حزب الله الصريح بإعلانه المسؤولية عن هذه العملية؛ ما وضع الدولة اللبنانية في موقف صعب؛ إذ لا يمكنها فرض قراراتها على حزب الله مهما كانت، ولا يمكنها أن تجبر إسرائيل على إيقاف \"عدوانها\" على لبنان.\nويبدو أن حركة أمل، وتحديدًا رئيسها رئيس مجلس النواب نبيه بري، ليس مرتاحًا على الأقل إلى خطوة الحزب هذه، بحكم سعيه إلى تثبيت وقف إطلاق النار بما ينهي التوتر نهائيًّا جنوبًا لا بما يجدده. لهذا لم يعارض وزراؤه القرار الذي اتخذته الحكومة اللبنانية في اجتماعها برئاسة رئيس الجمهورية اللبنانية، جوزاف عون، القاضي بحظر أنشطة \"حزب الله\" الأمنية والعسكرية، وحصر عمله في الإطار السياسي."
+          }
+        ]
+      },
+      "note": "",
+      "named_as": null,
+      "warnings": [],
+      "call_error": false,
+      "superseded_note": "",
+      "superseded": [],
+      "image_candidates": [],
+      "sources_read": 6,
+      "dropped_reason": null,
+      "model_calls": 2,
+      "shared_from": [
+        "BBC",
+        "Al Jazeera",
+        "U.S. Department of State"
+      ],
+      "status": "offered",
+      "selection_issue": null
+    },
+    {
+      "id": "1a0261296191",
+      "text": "الولايات المتحدة وواشنطن تريد خنق الأدوات الإيرانية وسحب السلاح منها",
+      "claim": "الولايات المتحدة وواشنطن تريد خنق الأدوات الإيرانية وسحب السلاح منها",
+      "framing": "direct",
+      "circulating_context": "",
+      "asserted": "",
+      "queries": [
+        "واشنطن خنق الأدوات الإيرانية تحقق",
+        "واشنطن خنق الأدوات الإيرانية سحب السلاح"
+      ],
+      "site_queries": [
+        "الولايات المتحدة إيران site:misbar.com",
+        "الولايات المتحدة إيران site:fatabyyano.net",
+        "United States Iran site:factcheck.afp.com",
+        "United States Iran site:reuters.com/fact-check"
+      ],
+      "engines": [
+        "brave_web",
+        "google_news"
+      ],
+      "windows": [
+        "days",
+        "days"
+      ],
+      "brave_skipped": null,
+      "cache_hits": 0,
+      "checker_skipped": [
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/en/",
+          "title": "موقع مكافحة الأخبار والمعلومات الكاذبة مسبار"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2026/04/13/%D8%B5%D9%88%D8%B1-%D8%A3%D9%82%D9%85%D8%A7%D8%B1-%D8%B5%D9%86%D8%A7%D8%B9%D9%8A%D8%A9-%D8%AA%D9%83%D8%B4%D9%81-%D8%AF%D9%85%D8%A7%D8%B1%D9%8B%D8%A7-%D9%88%D8%A7%D8%B3%D8%B9%D9%8B%D8%A7-%D9%81%D9%8A-%D9%85%D9%88%D9%82%D8%B9-%D8%B9%D8%B3%D9%83%D8%B1%D9%8A-%D8%AC%D9%86%D9%88%D8%A8-%D8%A3%D8%B5%D9%81%D9%87%D8%A7%D9%86",
+          "title": "صور أقمار صناعية تكشف دمارًا واسعًا في موقع عسكري جنوب أصفهان"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2025/01/30/%D8%A7%D9%84%D8%AA%D8%B5%D8%B1%D9%8A%D8%AD-%D8%B2%D8%A7%D8%A6%D9%81-%D9%88%D8%AA%D8%B1%D8%A7%D9%85%D8%A8-%D9%84%D9%85-%D9%8A%D9%82%D9%84-%D8%A5%D9%86-%D9%85%D8%AF%D8%A7%D8%AE%D9%8A%D9%84-%D8%A7%D9%84%D8%AD%D8%AC-%D9%84%D8%A7-%D8%AA%D8%AE%D8%B5%D9%91-%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%D8%A9-%D9%88%D8%AD%D8%AF%D9%87%D8%A7",
+          "title": "التصريح زائف وترامب لم يقل إن مداخيل الحج لا تخصّ السعودية وحدها"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/en/editorial",
+          "title": "مقالات مسبار"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/factcheck/2024/01/25/%D8%AA%D8%B1%D8%A7%D9%85%D8%A8-%D9%84%D9%85-%D9%8A%D8%AA%D9%87%D9%85-%D8%A7%D9%84%D8%AD%D9%83%D9%88%D9%85%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D8%A9-%D8%A8%D8%AA%D9%86%D9%81%D9%8A%D8%B0-%D9%87%D8%AC%D9%85%D8%A7%D8%AA-11-%D8%B3%D8%A8%D8%AA%D9%85%D8%A8%D8%B1",
+          "title": "ترامب لم يتهم الحكومة الأميركية بتنفيذ هجمات 11 سبتمبر"
+        },
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D8%AA%D8%B5%D9%85%D9%8A%D9%85-%D8%A7%D9%84%D9%85%D9%86%D8%B3%D9%88%D8%A8-%D9%84%D9%82%D9%86%D8%A7%D8%A9-%D8%A7%D9%84%D8%AC%D8%B2%D9%8A%D8%B1%D8%A9-%D9%85%D9%81%D8%A8-9/",
+          "title": "هذا التصميم المنسوب لقناة الجزيرة مفبرك، ولا صحة لمصرع جنود أمريكيين في البحر الأحمر - فتبينوا"
+        }
+      ],
+      "read_docs": [
+        {
+          "publisher": "Fatabyyano",
+          "link": "https://fatabyyano.net/en/%D9%87%D8%B0%D8%A7-%D8%A7%D9%84%D9%81%D9%8A%D8%AF%D9%8A%D9%88-%D9%84%D8%A7-%D9%8A%D9%8F%D8%B8%D9%87%D8%B1-%D9%82%D8%B5%D9%81-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86-%D9%85%D9%86-%D9%82%D8%A8%D9%84-%D8%A7%D9%84/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2666,
+          "excerpt_chars": 1774,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Misbar",
+          "link": "https://www.misbar.com/editorial/2025/06/24/%D8%A7%D9%84%D8%AA%D8%B6%D9%84%D9%8A%D9%84-%D9%83%D9%85%D9%86%D8%A7%D9%88%D8%B1%D8%A9-%D8%B3%D9%8A%D8%A7%D8%B3%D9%8A%D8%A9-%D8%AA%D8%B5%D8%B1%D9%8A%D8%AD%D8%A7%D8%AA-%D8%AA%D8%B1%D8%A7%D9%85%D8%A8-%D9%82%D8%A8%D9%8A%D9%84-%D8%B6%D8%B1%D8%A8-%D8%A7%D9%84%D9%85%D9%86%D8%B4%D8%A2%D8%AA-%D8%A7%D9%84%D9%86%D9%88%D9%88%D9%8A%D8%A9-%D8%A7%D9%84%D8%A5%D9%8A%D8%B1%D8%A7%D9%86%D9%8A%D8%A9",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 151,
+          "excerpt_chars": 151,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "AFP Fact Check",
+          "link": "https://factcheck.afp.com/doc.afp.com.B2U99ZR",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 341,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "Reuters",
+          "link": "https://www.reuters.com/fact-check/images-depicting-capture-us-delta-force-troops-iran-are-ai-generated-2026-03-11/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 340,
+          "excerpt_chars": 340,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Al Jazeera",
+          "link": "https://www.aljazeera.net/news/2026/9/27/%D9%88%D9%88%D9%84-%D8%B3%D8%AA%D8%B1%D9%8A%D8%AA-%D8%AC%D9%88%D8%B1%D9%86%D8%A7%D9%84-%D9%88%D8%B2%D8%A7%D8%B1%D8%A9-%D8%A7%D9%84%D8%AE%D8%B2%D8%A7%D9%86%D8%A9-%D8%AE%D9%8A%D8%B1%D8%AA",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 3112,
+          "excerpt_chars": 1781,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "A5r5br",
+          "link": "https://a5r5br.net/arab48/local-news/8206115-%D9%88%D8%A7%D8%B4%D9%86%D8%B7%D9%86-%D8%AA%D9%88%D8%B3%D8%B9-%D8%AD%D9%85%D9%84%D8%A9-%D8%AE%D9%86%D9%82-%D8%A7%D9%84%D8%A7%D9%82%D8%AA%D8%B5%D8%A7%D8%AF-%D8%A7%D9%84%D8%A5%D9%8A%D8%B1%D8%A7%D9%86%D9%8A-%D8%A7%D9%84%D8%B7%D9%8A%D8%B1%D8%A7%D9%86-%D9%88%D8%A7%D9%84%D9%85%D8%B5%D8%A7%D8%B1%D9%81-%D9%81%D9%8A-%D9%82%D9%84%D8%A8-%D8%A7%D9%84%D8%B6%D8%BA%D9%88%D8%B7-%D8%A7%D9%84%D8%AC%D8%AF%D9%8A%D8%AF%D8%A9",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 5129,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "Janoubia",
+          "link": "https://janoubia.com/2026/09/26/%D9%88%D8%A7%D8%B4%D9%86%D8%B7%D9%86-%D8%AA%D9%88%D8%B3%D9%91%D8%B9-%D8%AE%D9%86%D9%82-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86-%D8%A7%D8%B3%D8%AA%D9%87%D8%AF%D8%A7%D9%81-%D8%AE%D8%B7%D9%88%D8%B7-%D8%A7%D9%84/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2640,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "میدل ایست نیوز",
+          "link": "https://mdeast.news/ar/2026/09/29/%D8%A5%D9%82%D8%B5%D8%A7%D8%A1-%D8%A7%D9%84%D9%85%D9%86%D8%A7%D9%81%D8%B3-%D9%87%D9%84-%D8%AA%D9%86%D8%AC%D8%AD-%D9%88%D8%A7%D8%B4%D9%86%D8%B7%D9%86-%D9%81%D9%8A-%D8%AA%D8%B6%D9%8A%D9%8A%D9%82/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 4404,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "Al Jazeera",
+          "link": "https://www.aljazeera.net/news/2026/4/24/%D9%86%D9%8A%D9%88%D9%8A%D9%88%D8%B1%D9%83-%D8%AA%D8%A7%D9%8A%D9%85%D8%B2-%D8%AD%D8%B1%D8%A8-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86-%D8%A7%D8%B3%D8%AA%D9%86%D8%B2%D9%81%D8%AA",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2420,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "deduped"
+        },
+        {
+          "publisher": "U.S. Department of State",
+          "link": "https://www.state.gov/translations/%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9/%D8%AA%D8%B9%D8%B7%D9%8A%D9%84-%D8%B9%D9%85%D9%84%D9%8A%D8%A7%D8%AA-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86-%D9%84%D8%B4%D8%B1%D8%A7%D8%A1-%D8%A7%D9%84%D8%A3%D8%B3%D9%84%D8%AD%D8%A9",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 2111,
+          "excerpt_chars": 1654,
+          "same_event": false,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "irrelevant"
+        },
+        {
+          "publisher": "Youm7",
+          "link": "https://www.youm7.com/story/2026/10/2/%D9%85%D9%86-%D8%A8%D8%A7%D8%AA%D8%B1%D9%8A%D9%88%D8%AA-%D9%88-%D8%AB%D8%A7%D8%AF-%D8%A5%D9%84%D9%89-%D8%AA%D9%88%D9%85%D8%A7%D9%87%D9%88%D9%83-%D8%AD%D8%B1%D8%A8-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86-%D8%AA%D9%83%D8%B4%D9%81-%D8%A7%D9%84%D9%81%D8%AC%D9%88%D8%A9/7545583",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "brave_web",
+          "page_chars": 20000,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "جنوبية",
+          "link": "https://janoubia.com/2026/10/07/%D8%A7%D8%B3%D8%AA%D8%B1%D8%A7%D8%AA%D9%8A%D8%AC%D9%8A%D8%A9-%D8%A7%D9%84%D8%B6%D8%BA%D8%B7-%D8%A7%D9%84%D8%A3%D9%82%D8%B5%D9%89-%D9%88%D8%A7%D9%84%D8%AA%D9%86%D8%A7%D9%82%D8%B6-%D8%A7/",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "google_news",
+          "page_chars": 5695,
+          "excerpt_chars": 0,
+          "same_event": null,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "outside"
+        },
+        {
+          "publisher": "BBC",
+          "link": "https://www.bbc.com/arabic/articles/cqm2m6n86jgmo",
+          "orig_link": null,
+          "resolved": true,
+          "engine": "shared",
+          "page_chars": 10930,
+          "excerpt_chars": 0,
+          "same_event": true,
+          "as_of": "",
+          "superseded_by": null,
+          "claim_review": null,
+          "stance": "supports"
+        }
+      ],
+      "docs_before": 13,
+      "docs_after": 13,
+      "verdict": "confirmed",
+      "primary_source": false,
+      "support_level": "multi",
+      "support_publisher": "",
+      "outside_docs": 5,
+      "icon": "✅",
+      "evidence": [
+        {
+          "publisher": "Al Jazeera",
+          "link": "https://www.aljazeera.net/news/2026/9/27/%D9%88%D9%88%D9%84-%D8%B3%D8%AA%D8%B1%D9%8A%D8%AA-%D8%AC%D9%88%D8%B1%D9%86%D8%A7%D9%84-%D9%88%D8%B2%D8%A7%D8%B1%D8%A9-%D8%A7%D9%84%D8%AE%D8%B2%D8%A7%D9%86%D8%A9-%D8%AE%D9%8A%D8%B1%D8%AA",
+          "stance": "supports",
+          "excerpt": "وتأتي هذه التحركات في إطار \"عملية المنبوذ الاقتصادي\" التي أطلقتها وزارة الخزانة الأمريكية في أغسطس/آب الماضي بهدف قطع ما تصفه واشنطن بالقنوات المالية والتجارية المتبقية لإيران، مع توسيع نطاق العقوبات الثانوية على الجهات التي تواصل التعامل معها.",
+          "detail": "",
+          "correct_form": "",
+          "as_of": "",
+          "detail_kind": ""
+        },
+        {
+          "publisher": "U.S. Department of State",
+          "link": "https://www.state.gov/translations/%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9/%D8%AA%D8%B9%D8%B7%D9%8A%D9%84-%D8%B9%D9%85%D9%84%D9%8A%D8%A7%D8%AA-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86-%D9%84%D8%B4%D8%B1%D8%A7%D8%A1-%D8%A7%D9%84%D8%A3%D8%B3%D9%84%D8%AD%D8%A9",
+          "stance": "supports",
+          "excerpt": "اليوم، فرضت الولايات المتحدة عقوبات على ثلاثة عشر فردًا وكيانًا مقرها إيران وبيلاروسيا والصين بما فيها هونغ كونغ، سعت إلى توفير وشراء أسلحة، بما في ذلك أنظمة دفاع جوي محمولة (MANPADS)، نيابة عن الحرس الثوري الإسلامي.",
+          "detail": "",
+          "correct_form": "",
+          "as_of": "",
+          "detail_kind": ""
+        },
+        {
+          "publisher": "BBC",
+          "link": "https://www.bbc.com/arabic/articles/cqm2m6n86jgmo",
+          "stance": "supports",
+          "excerpt": "وقال وزير الخزانة سكوت بيسنت يوم السبت إن العقوبات الاقتصادية التي فرضتها الولايات المتحدة بدأت تلقي بظلالها على إيران.",
+          "detail": "",
+          "correct_form": "",
+          "as_of": "",
+          "detail_kind": ""
+        }
+      ],
+      "correction": null,
+      "refuted_by": null,
+      "nearest": null,
+      "note": "",
+      "named_as": null,
+      "warnings": [],
+      "call_error": false,
+      "superseded_note": "",
+      "superseded": [],
+      "image_candidates": [],
+      "sources_read": 7,
+      "dropped_reason": null,
+      "model_calls": 2,
+      "shared_from": [
+        "BBC"
+      ],
+      "status": "offered",
+      "selection_issue": null
+    }
+  ],
+  "article_items": [
+    {
+      "id": "ea1ea7937cc8",
+      "kind": "verified",
+      "point_ids": [
+        "23c484b9a35a",
+        "1a0261296191"
+      ],
+      "status": "written",
+      "selection_issue": 1307,
+      "action": "go2",
+      "gap_sources": [
+        {
+          "publisher": "Iran International",
+          "link": "https://www.iranintl.com/ar/202610076241",
+          "excerpt": "وجاء ذلك في مقابلة أجرتها معه مجلة \"تايم\" الأميركية، ونُشرت الخميس 1 أكتوبر (تشرين الأول).\n[…]\nترامب: إيران ستضطر في نهاية المطاف إلى التراجع وقبول الشروط النووية الأميركية\n[…]\nوأكد ترامب أن إيران يجب ألا تحصل على سلاح نووي، معتبرًا ذلك أحد الأهداف الرئيسية للعملية العسكرية والضغوط الاقتصادية الأميركية على النظام الإيراني.\n[…]\nوقال الرئيس الأميركي إن النظام الإيراني \"خدع نفسه\" بإغلاق المضيق، إذ كان هدف طهران إلحاق الضرر بالاقتصاد العالمي، لكن واشنطن غيّرت الظروف بحيث أصبحت دول المنطقة الأخرى قادرة على تصدير نفطها، بينما تراجعت عائدات النفط الإيرانية.\n[…]\nودافع الرئيس الأميركي مجددًا عن نهجه القائم على استخدام القوة الأميركية لإنهاء الحروب، وقال إن هدفه هو التوصل إلى اتفاقات توقف النزاعات.\n[…]\nوأضاف ترامب أن الضربات الأميركية الأولى كانت قد حققت بالفعل هدفها ضد المنشآت النووية الإيرانية، لكنه قرر مواصلة العمليات لأنه لم يكن يريد أن تعيد طهران بناء قدراتها \"بشكل مختلف\".\n[…]\nأوضح ترامب أن العمليات الأميركية دمرت القدرات النووية والبحرية والجوية والرادارية الإيرانية.\n[…]\nكما قال ترامب إنه يعتقد أن النتيجة النهائية في إيران ستشبه نتيجة العملية الأميركية في فنزويلا.\nوأضاف: \"نحن نبلي بلاءً جيدًا جدًا في إيران أيضًا. إنها منطقة أكبر بكثير، ودولة أكبر بكثير، وأبعد بكثير. لكن النتيجة ستكون نفسها\".",
+          "question": "ما آخر ما نُشر عن: وزارة الخارجية الأميركية تعلن عن سياسة جديدة تجاه حزب الله وإيران في منطقة الشرق الأوسط.؟"
+        },
+        {
+          "publisher": "CNN",
+          "link": "https://arabic.cnn.com/world/article/2026/09/16/rubio-announces-new-visa-restrictions-targeting-south-african-officials-for-race-based",
+          "excerpt": "(CNN)-- أعلن وزير الخارجية الأمريكي ماركو روبيو، الثلاثاء، عن سياسة جديدة لتقييد منح التأشيرات للمسؤولين في جنوب إفريقيا المتهمين بالتورط في \"التمييز العنصري\" و\"مصادرة الأراضي دون تعويض\".\n[…]\nوأضاف روبيو في بيانه: \"لم تعالج حكومة جنوب إفريقيا بشكل كافٍ المخاوف التي طُرحت سابقاً، ولذا فإنني أعلن اليوم عن سياسة جديدة لتقييد التأشيرات... تستهدف الرعايا الأجانب المسؤولين عن - أو المتواطئين في - سن أو تنفيذ قوانين أو سياسات تتيح مصادرة الأراضي دون تعويض، أو ممارسة التمييز العنصري، و/أو التحريض على عنف وشيك ضد أفراد من الأقليات العرقية أو الإثنية في جنوب إفريقيا\".\nوقال روبيو: \"لن تسمح الولايات المتحدة باستمرار مثل هذا السلوك دون رادع. فهذه التصرفات تقوّض بشكل مباشر السلام والاستقرار الاقتصادي وسيادة القانون، وتتعارض مع ركائز السياسة الخارجية الأمريكية\"، مضيفاً أنهم \"يحثون حكومة جنوب إفريقيا مرة أخرى وبشدة على معالجة هذه الممارسات الفظيعة بسرعة\".\n[…]\nوتحققت شبكةCNN من مزاعم \"الإبادة الجماعية\" التي تستهدف البيض في جنوب إفريقيا، ولم تجد أي أدلة تدعمها، وقال رامافوزا تعقيباً على الفيديو: \"ما رأيتموه في تلك الخطابات لا يمثل سياسة الحكومة. فنحن في جنوب إفريقيا نتمتع بنظام ديمقراطي تعددي يتيح للناس التعبير عن آرائهم\"، مضيفاً: \"إن سياسة حكومتنا تعارض تماماً - وبشكل قاطع - ما كان يقوله\".",
+          "question": "ما آخر ما نُشر عن: وزارة الخارجية الأميركية تعلن عن سياسة جديدة تجاه حزب الله وإيران في منطقة الشرق الأوسط.؟"
+        },
+        {
+          "publisher": "UA.NEWS",
+          "link": "https://ua.news/en/world/dzherela-povidomili-pro-200-mln-dolariv-iranu-dlia-khezbolli-cyprus-mail",
+          "excerpt": "Sources report Iran provided $200 million to Hezbollah — Cyprus Mail\nIn Lebanon, Hezbollah received $200 million in cash from Iran to assist its supporters who were displaced as a result of the war with Israel. Cyprus Mail reports, citing two people directly familiar with the transfer of funds.\nPayments for displaced families\nAccording to the sources, the funds arrived last month despite increased U.S. economic pressure on Iran and difficulties transferring money to Tehran's Lebanese ally. Intermediaries who delivered the money charged a 20% commission because of the risks of working with Hezbollah. One source said this was four times the usual rate.\nHezbollah plans to pay each family $3,000 at the initial stage, the sources said. Priority is to be given to people whose villages were destroyed or remain inaccessible because of the Israeli occupation. One source estimated that this concerns about 50,000 families.\nA Hezbollah representative said the group had secured a certain amount and would announce a plan for its distribution in the coming days, without specifying the origin of the money. Iran's Foreign Ministry, Iran's permanent mission in Geneva, the U.S. State Department and the Lebanese government did not respond to requests for comment.\nMore current news is available on the UA.News Telegram channel Telegram.\nTransfer difficulties and consequences of the war\nAccording to the U.S. Treasury Department, Iran transferred $1 billion to Hezbollah during the first ten months of 2025. Tehran has not officially acknowledged funding the group. After the collapse of an interim agreement with Iran in July, the United States increased sanctions pressure and imposed a naval blockade to limit Iranian oil exports.\nOne source said it is becoming increasingly difficult for Hezbolla",
+          "question": "ما آخر ما نُشر عن: وزارة الخارجية الأميركية تعلن عن سياسة جديدة تجاه حزب الله وإيران في منطقة الشرق الأوسط.؟"
+        },
+        {
+          "publisher": "U.S. Department of State",
+          "link": "https://www.state.gov/releases/office-of-the-spokesperson/2026/03/sanctioning-a-global-network-supporting-hizballah-financing",
+          "excerpt": "HomeOffice of the SpokesmanPress Releases…Sanctioning a Global Network Supporting Hizballah Financing Sanctioning a Global Network Supporting Hizballah Financing Press Statement Thomas \"Tommy\" Pigott, Principal Deputy Spokesperson March 20, 2026 Today, the United States is imposing sanctions to disrupt a global financial network that supports Hizballah. This action targets individuals and entities involved in laundering and raising funds for Hizballah’s finance team through a range of companies and projects operating across the Middle East, Europe, and North America. By cutting off these financial channels, the United States is taking concrete steps to limit Hizballah’s ability to generate revenue for terrorism and evade sanctions. Hizballah’s reckless attack on Israel demonstrates yet again that it prioritizes the pursuit of terrorism on behalf of the Iranian regime over the peace and safety of the Lebanese people. Hizballah continues to spend millions of dollars on terrorism, leaving Lebanese civilians to deal with the consequences and depriving them of a normal life. By targeting Hizballah’s financial enablers, the Trump Administration is taking decisive action to disrupt the group’s ability to threaten the security of the United States and the Middle East. Today’s action is being taken pursuant to the authorities under Executive Order (E.O.) 13224, as amended. The U.S. Department of State designated Hizballah as a Specially Designated Global Terrorist pursuant to E.O. 13224 on October 31, 2001, and as a Foreign Terrorist Organization pursuant to section 219 of the Immigration and Nationality Act on October 8, 1997. For more information on today’s action, please see the Department of the Treasury’s press release. Tags Bureau of Counterterrorism Bureau of Economic, En",
+          "question": "ما آخر ما نُشر عن: وزارة الخارجية الأميركية تعلن عن سياسة جديدة تجاه حزب الله وإيران في منطقة الشرق الأوسط.؟"
+        },
+        {
+          "publisher": "الجزيرة نت",
+          "link": "https://www.aljazeera.net/opinions/2026/10/6/%D9%86%D8%AD%D9%88-%D8%AF%D9%81%D8%A7%D8%B9-%D8%AC%D9%85%D8%A7%D8%B9%D9%8A-%D9%8A%D8%B9%D9%8A%D8%AF-%D8%B5%D9%8A%D8%A7%D8%BA%D8%A9-%D8%A7%D9%84%D8%AF%D9%88%D8%B1",
+          "excerpt": "تكمن المعضلة الأساسية في أن الإستراتيجية التي منحت الولايات المتحدة قدرة واسعة على إدارة التوازنات الإقليمية طوال العقود الماضية، أصبحت أكثر كلفة وأقل قدرة على إنتاج نتائج سياسية مستقرة.\n[…]\nومن هذه الزاوية، يكشف تعزيز الحضور العسكري الأمريكي في المرحلة الراهنة عن مفارقة أوسع في السياسة الأمريكية، فواشنطن تسعى من جهة إلى دفع شركائها نحو تحمل مسؤولية أكبر عن أمنهم، لكنها تعود من جهة أخرى إلى تكثيف حضورها المباشر كلما ارتفع مستوى التهديد. ولا تكمن المشكلة في هذا التعزيز بحد ذاته، بقدر ما تكمن في تحوله إلى نمط متكرر يجعل الأمن الإقليمي مرتبطا باستمرار القدرة الأمريكية على التدخل المباشر.\n[…]\nإن التحول من الهيمنة إلى الشراكة لا يبدأ بسحب القوات بل بإعادة تعريف الدور الأمريكي في الشرق الأوسط، فالمسألة ليست في مغادرة المنطقة أو البقاء فيها، وإنما في الانتقال من نموذج تتحمل فيه واشنطن العبء الأكبر في إدارة الأمن الإقليمي إلى نموذج يقوم على توزيع المسؤولية، وتمكين الشركاء\n[…]\nيبدأ الشرط الأول بإعادة تعريف المصلحة الأمريكية في الشرق الأوسط، فبدلا من محاولة التأثير في مجمل التوازنات والنتائج السياسية، يمكن تركيز الإستراتيجية على مجموعة محددة من المصالح القابلة للقياس، وفي مقدمتها حماية حرية الملاحة، ومنع الانتشار النووي، ومكافحة الإرهاب، والحفاظ على استقرار أسواق الطاقة. ويقتضي ذلك قبول قدر أكبر من الاستقلالية لدى الشركاء، بما في ذلك اتخاذهم قرارات لا تتطابق دائما مع التفضيلات الأمريكية، من دون تفسير ذلك باعتباره خروجا عن منظومة التحالف.\n[…]\nأما الشرط الرابع فهو بناء مسار دبلوماسي إقليمي أكثر شمولا، فالأمن الجماعي لا يمكن أن يقوم على الردع وحده، لأن منظومة أمنية تستبعد القوى الإقليمية الرئيسية ستظل معرضة لإعادة إنتاج الاستقطاب الذي تسعى إلى احتوائه، ومن هنا تبرز الحاجة إلى إطار دائم للحوار الأمني، يضم إلى جانب الدول العربية، إيران وتركيا، ويبدأ بملفات عملية قابلة للتفاوض، مثل خطوط الاتصال العسكرية، وأمن الملاحة، وآليات منع سوء التقدير، والترتيبات المرتبطة بالرقابة النووية.",
+          "question": "ماذا ستكون تأثيرات هذه السياسة الجديدة على الاستقرار الإقليمي طويل الأمد؟"
+        },
+        {
+          "publisher": "BBC",
+          "link": "https://www.bbc.com/arabic/articles/c33edxdjd7yo",
+          "excerpt": "- Author, علي القماطي\n[…]\nومع استعداد أمريكا لانتخاب رئيسها الـ47 في نوفمبر/تشرين الثاني، نسلط الضوء على أبرز السياسات الأمريكية في منطقة الشرق الأوسط، وكيف يتم وضعها.\n[…]\nومع تزايد الاهتمام الأمريكي، باتت السياسة التي تتبعها الولايات المتحدة الأمريكية تشكل عاملاً مهماً في استقرار المنطقة، فعلى ماذا تعتمد تلك السياسة؟\n[…]\nيرى وزير الخارجية الأمريكي السابق هنري كيسنجر في كتابه \"الدبلوماسية\" الذي صدر عام 1994، أن السياسة الأمريكية في الشرق الأوسط تعتمد على عدة عوامل من بينها المصالح الأمنية والاستراتيجية، والتحالفات الإقليمية والمصالح الاقتصادية المتمثلة في النفط والموارد الطبيعية.\n[…]\nويعتبر كيسنجر أن تحول العلاقات الأمريكية المصرية بعد حرب 1973 كان خير دليل على ذلك، ويقول: \"عندما أدار أنور السادات ظهره للاتحاد السوفييتي وتوجه نحو الغرب، كان ذلك بمثابة نقطة تحول في السياسة الأمريكية تجاه مصر، إذ أصبحت مصر حليفاً استراتيجياً لأمريكا في المنطقة، وهذا فتح الباب لمفاوضات كامب ديفيد\".\n[…]\nشرح معمق لأبرز الأحداث والموضوعات، لمساعدتك على فهم أهم المتغيرات حولك وأثرها على حياتك\n[…]\nيقول مدير برنامج الشؤون التشريعية بجامعة جورج واشنطن، إن وكالات الأمن والاستخبارات الأمريكية تلعب دوراً كبيراً في تشكيل سياسة الشرق الأوسط، وذلك من خلال توفير رؤى حاسمة تؤثر بدورها على الاستراتيجية المتبعة والاستجابة لأي أزمة.\n[…]\nيرى بروغيت أن سياسة كل من ترامب وهاريس ستعتمد بشكل كبير على السياسة العامة للجمهوريين والديمقراطيين، مع المحافظة على المصالح الأمريكية \"الثابتة نسبياً\"، موضحاً أن الجمهوريين غالباً ما يركزون على الدعم العسكري، بينما يميل الديمقراطيون نحو الدبلوماسية والتنمية، وهذه السياسات ستنعكس على توجه أي من المرشحين في حال فوزه.\nويقدّر بروغيت أنه مع صعود الصين وروسيا، قد تركز السياسة الأمريكية بشكل أكبر على مواجهة النفوذ الأجنبي في الشرق الأوسط، \"من خلال تعزيز التحالفات والشراكات الاقتصادية مع الحلفاء في المنطقة\"، مشيراً إلى أن هذا التحول يساعد على \"حضور أمريكي تعاوني أكثر من التدخل المب",
+          "question": "ماذا ستكون تأثيرات هذه السياسة الجديدة على الاستقرار الإقليمي طويل الأمد؟"
+        },
+        {
+          "publisher": "Al Jazeera",
+          "link": "https://www.aljazeera.net/opinions/2023/11/12/%D8%A7%D9%84%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9-%D8%A7%D9%84%D8%A3%D9%85%D9%8A%D8%B1%D9%83%D9%8A%D9%8E%D9%91%D8%A9-%D9%81%D9%8A-%D8%A7%D9%84%D8%B4%D8%B1%D9%82-%D8%A7%D9%84%D8%A3%D9%88%D8%B3%D8%B7",
+          "excerpt": "السياسة الأميركيَّة في الشرق الأوسط بعد 7 أكتوبر: ملامح التخبّط والانهيار\n[…]\nأمّا بالنسبة للوضع الاستراتيجي في منطقة الشرق الأوسط والخليج، فإنّ أميركا تعتبر أنّ أهمّ التهديدات لمصالحها وللنظام الإقليمي الذي تهيمن وتسيطر عليه إلى حدّ كبير، هو في سياسات إيران وحلفائها في المنطقة، ليس فقط في تنامي قدراتها العسكرية والتكنولوجية المتعاظمة والتي اكتسبتها منذ نهاية الحرب العراقية- الإيرانية منذ أكثر من ثلاثة عقود، ولكن أيضًا لقدرة السياسة الإيرانية على عمل اختراقات في أكثر من إقليم، خصوصًا على مستوى الصراع مع الكيان الصهيوني في فلسطين ولبنان، بالإضافة إلى نفوذها المتزايد في العراق وسوريا واليمن وسياساتها المتصالحة مع دول الخليج.\nفي ظلّ هذه التحديات ومع قرار الولايات المتحدة تخفيف وجودها العسكري المباشر في المنطقة حتّى تتفرغ للتحدي الصيني في شرق وجنوب شرق آسيا، أرادت أميركا أن تعيد تنظيم المنطقة لتوكِل لقوى إقليمية التصدّي للنفوذ الإيراني وسياساته المناوئة والحفاظ على الاستقرار الإقليميّ لضمان المصالح الاستراتيجية والاقتصادية الأميركية.\n[…]\nإنّ هذه السياسة المنحازة والمتهورة- التي اتخذتها الولايات المتحدة في سعيها للحفاظ على مصالحها، ولاستعادة قوة الردع العسكري للجيش الإسرائيلي الذي أُهين علنًا أمام شعبه والدول الإقليمية، ومن أجل تأكيدها على هيمنة الكيان الصهيوني على دول المنطقة- ستكون لها نتائج كارثيّة، ليس فقط على هيبتها وصورتها المنهارة أمام شعوب المنطقة، وإنما أيضًا على مصالحها الاقتصادية والاستراتيجية. بل ستكون لها نتائج وخيمة على مستقبل الكيان الصهيونيّ نفسه الذي تحاول إنقاذه وحمايته. بالإضافة إلى ذلك، فإنّ هذه السياسة ستعيق قدرتها على التوجّه نحو شرق آسيا لمواجهة التحدي الصيني. ختامًا؛ سيكون لهذه السياسة المتخبطة تأثيرٌ مباشرٌ على النظام الأمني الإقليمي، ومستقبل الأنظمة العربية المتحالفة مع أميركا بعد أن انكشفت هذه الأنظمة أمام شعوبها وثَبَت ضعفُها وعجزها بل تواطُؤ بعضها في أكبر جرائم حرب عرفها التّاريخ.",
+          "question": "ماذا ستكون تأثيرات هذه السياسة الجديدة على الاستقرار الإقليمي طويل الأمد؟"
+        },
+        {
+          "publisher": "The Sunday Guardian",
+          "link": "https://sundayguardianlive.com/world/us-israel-iran-war-latest-live-news-lebanon-condemns-houthi-attack-on-medina-power-distribution-centre-calls-strike-a-dangerous-escalation-and-threat-to-regional-peace-297178/",
+          "excerpt": "Lebanon has strongly condemned a Houthi attack targeting an electricity distribution centre in Medina, Saudi Arabia, describing the strike on civilian infrastructure as a serious escalation and a violation of international law.\nThe Lebanese Ministry of Foreign Affairs and Emigrants said targeting essential civilian facilities threatens regional stability and expressed solidarity with Saudi Arabia amid the latest escalation.\nLebanon Condemns Houthi Attack on Medina Power Station\nIn a statement, Lebanon’s Foreign Ministry condemned in the strongest terms the reported Houthi targeting of an electricity distribution station in Medina.\nThe ministry described the attack as a dangerous development, particularly because the facility is part of essential civilian infrastructure.\nLebanon Says Houthi Strike Violates International Law\nThe Lebanese ministry called the targeting of the power distribution centre a “dangerous escalation and a blatant violation of international law and international humanitarian law.”\nIt said attacks against civilian facilities raise concerns over the wider impact of the regional conflict and its potential consequences for civilians.\nMedina Power Distribution Centre Targeted\nThe reported attack focused on an electricity distribution facility in Medina. Power infrastructure is considered essential civilian infrastructure, making any attack against such facilities a significant regional security concern.\nLebanon’s condemnation comes as tensions continue across the Middle East, with attacks and military operations involving several regional actors increasing concerns about further escalation.\nLebanon Warns of Threat to Regional Stability\nThe Lebanese Foreign Ministry said the attack poses a threat to the stability of the region.\nBeirut’s statement comes ag",
+          "question": "ماذا ستكون تأثيرات هذه السياسة الجديدة على الاستقرار الإقليمي طويل الأمد؟"
+        }
+      ],
+      "draft_id": "ea1ea7937cc8",
+      "written_at": "2026-10-08T17:21:03.363405+00:00"
+    },
+    {
+      "id": "daec2c113f1c",
+      "kind": "nearest",
+      "point_ids": [
+        "146b9028aaf8",
+        "577c16cffbc9"
+      ],
+      "status": "written",
+      "selection_issue": 1307,
+      "action": "go2",
+      "gap_sources": [
+        {
+          "publisher": "Iran International",
+          "link": "https://www.iranintl.com/ar/202610076241",
+          "excerpt": "وجاء ذلك في مقابلة أجرتها معه مجلة \"تايم\" الأميركية، ونُشرت الخميس 1 أكتوبر (تشرين الأول).\n[…]\nترامب: إيران ستضطر في نهاية المطاف إلى التراجع وقبول الشروط النووية الأميركية\n[…]\nوأكد ترامب أن إيران يجب ألا تحصل على سلاح نووي، معتبرًا ذلك أحد الأهداف الرئيسية للعملية العسكرية والضغوط الاقتصادية الأميركية على النظام الإيراني.\n[…]\nوقال الرئيس الأميركي إن النظام الإيراني \"خدع نفسه\" بإغلاق المضيق، إذ كان هدف طهران إلحاق الضرر بالاقتصاد العالمي، لكن واشنطن غيّرت الظروف بحيث أصبحت دول المنطقة الأخرى قادرة على تصدير نفطها، بينما تراجعت عائدات النفط الإيرانية.\n[…]\nودافع الرئيس الأميركي مجددًا عن نهجه القائم على استخدام القوة الأميركية لإنهاء الحروب، وقال إن هدفه هو التوصل إلى اتفاقات توقف النزاعات.\n[…]\nوأضاف ترامب أن الضربات الأميركية الأولى كانت قد حققت بالفعل هدفها ضد المنشآت النووية الإيرانية، لكنه قرر مواصلة العمليات لأنه لم يكن يريد أن تعيد طهران بناء قدراتها \"بشكل مختلف\".\n[…]\nأوضح ترامب أن العمليات الأميركية دمرت القدرات النووية والبحرية والجوية والرادارية الإيرانية.\n[…]\nكما قال ترامب إنه يعتقد أن النتيجة النهائية في إيران ستشبه نتيجة العملية الأميركية في فنزويلا.\nوأضاف: \"نحن نبلي بلاءً جيدًا جدًا في إيران أيضًا. إنها منطقة أكبر بكثير، ودولة أكبر بكثير، وأبعد بكثير. لكن النتيجة ستكون نفسها\".",
+          "question": "ما آخر ما نُشر عن: وزارة الخارجية الأميركية تعلن عن سياسة جديدة تجاه حزب الله وإيران في منطقة الشرق الأوسط.؟"
+        },
+        {
+          "publisher": "CNN",
+          "link": "https://arabic.cnn.com/world/article/2026/09/16/rubio-announces-new-visa-restrictions-targeting-south-african-officials-for-race-based",
+          "excerpt": "(CNN)-- أعلن وزير الخارجية الأمريكي ماركو روبيو، الثلاثاء، عن سياسة جديدة لتقييد منح التأشيرات للمسؤولين في جنوب إفريقيا المتهمين بالتورط في \"التمييز العنصري\" و\"مصادرة الأراضي دون تعويض\".\n[…]\nوأضاف روبيو في بيانه: \"لم تعالج حكومة جنوب إفريقيا بشكل كافٍ المخاوف التي طُرحت سابقاً، ولذا فإنني أعلن اليوم عن سياسة جديدة لتقييد التأشيرات... تستهدف الرعايا الأجانب المسؤولين عن - أو المتواطئين في - سن أو تنفيذ قوانين أو سياسات تتيح مصادرة الأراضي دون تعويض، أو ممارسة التمييز العنصري، و/أو التحريض على عنف وشيك ضد أفراد من الأقليات العرقية أو الإثنية في جنوب إفريقيا\".\nوقال روبيو: \"لن تسمح الولايات المتحدة باستمرار مثل هذا السلوك دون رادع. فهذه التصرفات تقوّض بشكل مباشر السلام والاستقرار الاقتصادي وسيادة القانون، وتتعارض مع ركائز السياسة الخارجية الأمريكية\"، مضيفاً أنهم \"يحثون حكومة جنوب إفريقيا مرة أخرى وبشدة على معالجة هذه الممارسات الفظيعة بسرعة\".\n[…]\nوتحققت شبكةCNN من مزاعم \"الإبادة الجماعية\" التي تستهدف البيض في جنوب إفريقيا، ولم تجد أي أدلة تدعمها، وقال رامافوزا تعقيباً على الفيديو: \"ما رأيتموه في تلك الخطابات لا يمثل سياسة الحكومة. فنحن في جنوب إفريقيا نتمتع بنظام ديمقراطي تعددي يتيح للناس التعبير عن آرائهم\"، مضيفاً: \"إن سياسة حكومتنا تعارض تماماً - وبشكل قاطع - ما كان يقوله\".",
+          "question": "ما آخر ما نُشر عن: وزارة الخارجية الأميركية تعلن عن سياسة جديدة تجاه حزب الله وإيران في منطقة الشرق الأوسط.؟"
+        },
+        {
+          "publisher": "UA.NEWS",
+          "link": "https://ua.news/en/world/dzherela-povidomili-pro-200-mln-dolariv-iranu-dlia-khezbolli-cyprus-mail",
+          "excerpt": "Sources report Iran provided $200 million to Hezbollah — Cyprus Mail\nIn Lebanon, Hezbollah received $200 million in cash from Iran to assist its supporters who were displaced as a result of the war with Israel. Cyprus Mail reports, citing two people directly familiar with the transfer of funds.\nPayments for displaced families\nAccording to the sources, the funds arrived last month despite increased U.S. economic pressure on Iran and difficulties transferring money to Tehran's Lebanese ally. Intermediaries who delivered the money charged a 20% commission because of the risks of working with Hezbollah. One source said this was four times the usual rate.\nHezbollah plans to pay each family $3,000 at the initial stage, the sources said. Priority is to be given to people whose villages were destroyed or remain inaccessible because of the Israeli occupation. One source estimated that this concerns about 50,000 families.\nA Hezbollah representative said the group had secured a certain amount and would announce a plan for its distribution in the coming days, without specifying the origin of the money. Iran's Foreign Ministry, Iran's permanent mission in Geneva, the U.S. State Department and the Lebanese government did not respond to requests for comment.\nMore current news is available on the UA.News Telegram channel Telegram.\nTransfer difficulties and consequences of the war\nAccording to the U.S. Treasury Department, Iran transferred $1 billion to Hezbollah during the first ten months of 2025. Tehran has not officially acknowledged funding the group. After the collapse of an interim agreement with Iran in July, the United States increased sanctions pressure and imposed a naval blockade to limit Iranian oil exports.\nOne source said it is becoming increasingly difficult for Hezbolla",
+          "question": "ما آخر ما نُشر عن: وزارة الخارجية الأميركية تعلن عن سياسة جديدة تجاه حزب الله وإيران في منطقة الشرق الأوسط.؟"
+        },
+        {
+          "publisher": "الجزيرة نت",
+          "link": "https://www.aljazeera.net/news/2026/10/3/%D9%88%D8%A7%D8%B5%D9%84-%D8%A7%D8%B3%D8%AA%D9%87%D8%AF%D8%A7%D9%81-%D8%AC%D9%86%D9%88%D8%A8-%D9%84%D8%A8%D9%86%D8%A7%D9%86-%D8%A7%D9%84%D8%A7%D8%AD%D8%AA%D9%84%D8%A7%D9%84",
+          "excerpt": "وأفادت وكالة الأنباء اللبنانية الرسمية بأن القوات الإسرائيلية نفّذت \"عددا من التفجيرات الضخمة والعنيفة\" في بلدة المنصوري جنوبي مدينة صور.\n[…]\nورغم توقيع اتفاق وقف لإطلاق النار، تشنّ إسرائيل حربا على لبنان منذ مارس/آذار الماضي، وتواصل هجماتها على جنوبه، في حين لا تزال تحتل مناطق في الجنوب، بعضها منذ عقود، وأخرى سيطرت عليها خلال العمليات العسكرية الأخيرة.\nوفي 26 يونيو/حزيران الماضي، وقّع لبنان وإسرائيل في واشنطن \"صيغة إطار\" برعاية أمريكية، تنص على انسحاب إسرائيلي تدريجي من الأراضي اللبنانية، وانتشار الجيش اللبناني في المناطق التي تنسحب منها القوات الإسرائيلية.",
+          "question": "ما آخر ما تأكد في استهداف إسرائيل للأراضي اللبنانية قبل الحادثة الحالية؟"
+        },
+        {
+          "publisher": "BBC",
+          "link": "https://www.bbc.com/arabic/articles/cx2zvngjlnjo",
+          "excerpt": "أعلنت وزارة الصحة اللبنانية مقتل 13 شخصاً على الأقل، بينهم رضيعان ونساء ومسعف، في غارات إسرائيلية على جنوب لبنان، في حين كثّف الجيش الإسرائيلي هجماته على المنطقة خلال الأيام الأخيرة.\n[…]\nوتأتي الغارات في خضم تصعيد متواصل في جنوب لبنان، أسفر، بحسب وزارة الصحة اللبنانية، عن مقتل ما لا يقل عن 27 شخصاً خلال ثلاثة أيام.\n[…]\nاستهدفت أعنف الغارات الأخيرة بلدة كفررمان، الواقعة قرب النبطية وعلى مسافة قصيرة من تلة علي الطاهر، التي تقول إسرائيل إنها سيطرت عليها ضمن ما تسميه \"المنطقة الأمنية\" في جنوب لبنان.\n[…]\nوقالت إحدى المقيمات في النبطية إن \"الغارات كانت كثيفة جداً، إلى حد أنك تشعر بالأرض تهتز من تحتك\"، مضيفة أن استهداف كفررمان بعد الثانية فجراً دفع كثيرين إلى مغادرة منازلهم، فيما توجه آخرون إلى كورنيش صيدا، حيث أمضوا الليل في العراء قبل أن يعودوا صباحاً. وأضافت أن منزلاً في دير الزهراني قُصف بعد دقائق من توجيه إنذار بإخلائه، \"وفقدت العائلة بأكملها بيتها\".\nوقالت مقيمة أخرى إن إسرائيل \"توسّع نطاق هجماتها\"، موضحة أن العمليات كانت تتركز سابقاً إلى حد كبير داخل \"المنطقة الصفراء\"، لكنها امتدت خلال الأسبوع الماضي إلى خارجها، مضيفة أن \"معظم الغارات تتركز الآن على كفررمان\".\n[…]\nوفرّ عدد من سكان الحي عقب الغارة التي ألحقت أيضاً أضراراً بمبانٍ مجاورة. ولم يسبق استهداف المبنى أي إنذار بالإخلاء.\n[…]\nولم يصدر تعليق فوري من حزب الله على الغارات الأخيرة أو الاتهامات الإسرائيلية. ولم يعلن الحزب تنفيذ عمليات ضد إسرائيل منذ يونيو/حزيران.\n[…]\nوتقول السلطات اللبنانية إن إسرائيل تواصل الغارات وعمليات الهدم رغم وقف إطلاق النار. وبحسب رويترز، استمرت القوات الإسرائيلية في هدم مبانٍ داخل المناطق التي تسيطر عليها وشنّ غارات داخلها وإلى الشمال منها، غالباً من دون إنذارات مسبقة.\n[…]\nوبحسب وزارة الصحة اللبنانية، قُتل ما لا يقل عن 4,362 شخصاً منذ بدء تلك الجولة من القتال، بينهم 395 امرأة و259 طفلاً، من دون أن تميز الوزارة بين المدنيين والمقاتلين. وتقول إسرائيل إنّ 40 جندياً وأربعة مدنيين إسرائيليين قُتلوا خ",
+          "question": "ما آخر ما تأكد في استهداف إسرائيل للأراضي اللبنانية قبل الحادثة الحالية؟"
+        },
+        {
+          "publisher": "The Sunday Guardian",
+          "link": "https://sundayguardianlive.com/world/us-israel-iran-war-latest-live-news-israel-strikes-southern-lebanon-death-toll-reaches-4386-amid-sweep-operations-in-haddatha-al-mansouri-as-regional-tensions-rise-296444/",
+          "excerpt": "US-Israel-Iran War Latest Live News: Israeli forces have carried out fresh military operations in southern Lebanon, including a reported “sweep” with machine guns towards Haddatha in the Bint Jbeil district. The National News Agency also reported an Israeli air strike on al-Mansouri.\nThe latest attacks come amid continued Israeli military activity across southern Lebanon. Lebanese authorities have reported that at least 4,386 people have been killed and 12,407 injured since March 2 in the current conflict.\nUS-Israel-Iran War Live News: Israeli forces carry out ‘sweep’ operation towards Haddatha\nAccording to Lebanon’s National News Agency, Israeli troops carried out a machine-gun “sweep” towards Haddatha, a town in the Bint Jbeil district of southern Lebanon.\nThe report comes amid continued Israeli troop movements and attacks around several communities in southern Lebanon. Earlier reports also documented Israeli military activity around Haddatha, including tank movements, artillery fire and machine-gun fire.\nUS-Israel-Iran War Latest News: Israeli air strike reported on al-Mansouri\nAn Israeli air strike was also reported in al-Mansouri, in southern Lebanon.\nAl-Mansouri has been repeatedly targeted by Israeli forces in recent weeks. On September 28, the Israeli military said it had completed a brigade-level operation in the town, claiming that it had destroyed Hezbollah infrastructure there.\nUS-Israel-Iran War Latest Live News: Death toll in Lebanon reaches 4,386\nLebanese authorities have reported that Israeli military operations since March 2 have killed at least 4,386 people and injured 12,407 others.\nThe figures cover the broader conflict in Lebanon and should not be interpreted as the death toll from the latest strikes on Haddatha and al-Mansouri. A separate casualty ",
+          "question": "ما آخر ما تأكد في استهداف إسرائيل للأراضي اللبنانية قبل الحادثة الحالية؟"
+        },
+        {
+          "publisher": "Al Jazeera",
+          "link": "https://www.aljazeera.com/news/2026/9/29/lebanese-are-watching-israels-upcoming-election-but-few-expect-change",
+          "excerpt": "Lebanese are watching Israel’s upcoming election, but few expect change\nLebanese are anticipating continued Israeli aggression in Lebanon after the election.\nNabatieh, Lebanon: A pushcart that Hadi Nasrallah uses to sell fresh orange juice is all this Khiam resident has left to his name.\nHis home was destroyed by the Israeli bombing, while his village is among the dozens across southern Lebanon currently occupied by Israel.\nRecommended Stories\nlist of 4 items\n- list 1 of 4Gaza watches Israel’s elections with fear and antipathy\n- list 2 of 4Israel’s Netanyahu criticises opposition uniting against him for elections\n- list 3 of 4UAE confirms Israel PM Netanyahu’s visit to Abu Dhabi\n- list 4 of 4UNGA 81: Five key takeaways from general debate\nIn a few weeks, Israelis will head to the polls to elect a new government. But Nasrallah, like so many others Al Jazeera spoke to, expects little to change even if Prime Minister Benjamin Netanyahu – who launched the war on Lebanon in 2023 – is defeated in October’s general election.\n“Israel has territorial ambitions. It is about Greater Israel. That is why whoever wins in the election won’t stop the destructive military policies and leave southern Lebanon,” Nasrallah told Al Jazeera. “All this talk about creating security is a cover for their true intentions.”\nIsrael has been the enemy for many in southern Lebanon for decades. But over the past three years, under Netanyahu’s leadership, periodic clashes between the Israeli military and Hezbollah have transformed into an intense and sustained war.\nThe Israeli military says it is only against Hezbollah. But its attacks have rampantly targeted civilian areas, killing at least 8,920 people and injuring 30,595 others since October 2023. Almost 6 percent of Lebanese territory, along the bor",
+          "question": "ما آخر ما تأكد في استهداف إسرائيل للأراضي اللبنانية قبل الحادثة الحالية؟"
+        },
+        {
+          "publisher": "The Express Tribune",
+          "link": "https://tribune.com.pk/story/2631353/israeli-army-prepares-for-new-phase-of-fighting-in-southern-lebanon-report",
+          "excerpt": "Israeli patrol enters southern Syria, opens fire: state media\nIsraeli forces perform incursion into Kfar Shuba in southern Lebanon, surrounding farm with shepherds\nAn Israeli military patrol entered the Wadi al-Ruqad area in the western countryside of Syria's southern Daraa province on Friday and opened fire, Syrian state media reported.\nAn Israeli patrol \"opened fire indiscriminately during its incursion into the Wadi al-Ruqad area, causing tension among residents,\" Alikhbariah TV reported.\nNo casualties were immediately reported.\nWadi al-Ruqad lies within the Yarmouk Basin in western Daraa and has witnessed repeated Israeli incursions in recent months, including one on September 18 that ended with the detention of a shepherd.\nThe incursion comes amid escalating Israeli violations of Syrian territory, which President Ahmad al-Sharaa addressed Wednesday in his speech before the 81st session of the UN General Assembly.\nRead: Syria, Kuwait condemn Netanyahu’s incursion into Mount Hermon in occupied Syrian territory\nAl-Sharaa said Israel had carried out around 500 airstrikes and artillery attacks, more than 1,200 incursions and around 300 arrests and detentions since late 2024.\nHe rejected attempts to impose a fait accompli, reaffirmed Syria's commitment to the 1974 Separation of Forces Agreement and called for Israeli forces to withdraw to the positions they held before December 8, 2024.\nIsraeli forces perform incursion into Kfar Shuba in southern Lebanon, surrounding farm with shepherds\nAn Israeli army force carried out an incursion on the outskirts of Kfar Shuba town in southern Lebanon on Friday and surrounded a farm where several shepherds were present, as Israeli strikes, artillery shelling, and gunfire targeted several areas in the south.\nThe Israeli force raided th",
+          "question": "ما آخر ما تأكد في استهداف إسرائيل للأراضي اللبنانية قبل الحادثة الحالية؟"
+        }
+      ],
+      "draft_id": "daec2c113f1c",
+      "written_at": "2026-10-08T17:23:44.846608+00:00"
+    },
+    {
+      "id": "bbf1c1239a95",
+      "kind": "refuted",
+      "point_ids": [
+        "916580c4a8ac"
+      ],
+      "status": "written",
+      "selection_issue": 1307,
+      "action": "go2",
+      "gap_sources": [
+        {
+          "publisher": "Iran International",
+          "link": "https://www.iranintl.com/ar/202610076241",
+          "excerpt": "وجاء ذلك في مقابلة أجرتها معه مجلة \"تايم\" الأميركية، ونُشرت الخميس 1 أكتوبر (تشرين الأول).\n[…]\nترامب: إيران ستضطر في نهاية المطاف إلى التراجع وقبول الشروط النووية الأميركية\n[…]\nوأكد ترامب أن إيران يجب ألا تحصل على سلاح نووي، معتبرًا ذلك أحد الأهداف الرئيسية للعملية العسكرية والضغوط الاقتصادية الأميركية على النظام الإيراني.\n[…]\nوقال الرئيس الأميركي إن النظام الإيراني \"خدع نفسه\" بإغلاق المضيق، إذ كان هدف طهران إلحاق الضرر بالاقتصاد العالمي، لكن واشنطن غيّرت الظروف بحيث أصبحت دول المنطقة الأخرى قادرة على تصدير نفطها، بينما تراجعت عائدات النفط الإيرانية.\n[…]\nودافع الرئيس الأميركي مجددًا عن نهجه القائم على استخدام القوة الأميركية لإنهاء الحروب، وقال إن هدفه هو التوصل إلى اتفاقات توقف النزاعات.\n[…]\nوأضاف ترامب أن الضربات الأميركية الأولى كانت قد حققت بالفعل هدفها ضد المنشآت النووية الإيرانية، لكنه قرر مواصلة العمليات لأنه لم يكن يريد أن تعيد طهران بناء قدراتها \"بشكل مختلف\".\n[…]\nأوضح ترامب أن العمليات الأميركية دمرت القدرات النووية والبحرية والجوية والرادارية الإيرانية.\n[…]\nكما قال ترامب إنه يعتقد أن النتيجة النهائية في إيران ستشبه نتيجة العملية الأميركية في فنزويلا.\nوأضاف: \"نحن نبلي بلاءً جيدًا جدًا في إيران أيضًا. إنها منطقة أكبر بكثير، ودولة أكبر بكثير، وأبعد بكثير. لكن النتيجة ستكون نفسها\".",
+          "question": "ما آخر ما نُشر عن: وزارة الخارجية الأميركية تعلن عن سياسة جديدة تجاه حزب الله وإيران في منطقة الشرق الأوسط.؟"
+        },
+        {
+          "publisher": "CNN",
+          "link": "https://arabic.cnn.com/world/article/2026/09/16/rubio-announces-new-visa-restrictions-targeting-south-african-officials-for-race-based",
+          "excerpt": "(CNN)-- أعلن وزير الخارجية الأمريكي ماركو روبيو، الثلاثاء، عن سياسة جديدة لتقييد منح التأشيرات للمسؤولين في جنوب إفريقيا المتهمين بالتورط في \"التمييز العنصري\" و\"مصادرة الأراضي دون تعويض\".\n[…]\nوأضاف روبيو في بيانه: \"لم تعالج حكومة جنوب إفريقيا بشكل كافٍ المخاوف التي طُرحت سابقاً، ولذا فإنني أعلن اليوم عن سياسة جديدة لتقييد التأشيرات... تستهدف الرعايا الأجانب المسؤولين عن - أو المتواطئين في - سن أو تنفيذ قوانين أو سياسات تتيح مصادرة الأراضي دون تعويض، أو ممارسة التمييز العنصري، و/أو التحريض على عنف وشيك ضد أفراد من الأقليات العرقية أو الإثنية في جنوب إفريقيا\".\nوقال روبيو: \"لن تسمح الولايات المتحدة باستمرار مثل هذا السلوك دون رادع. فهذه التصرفات تقوّض بشكل مباشر السلام والاستقرار الاقتصادي وسيادة القانون، وتتعارض مع ركائز السياسة الخارجية الأمريكية\"، مضيفاً أنهم \"يحثون حكومة جنوب إفريقيا مرة أخرى وبشدة على معالجة هذه الممارسات الفظيعة بسرعة\".\n[…]\nوتحققت شبكةCNN من مزاعم \"الإبادة الجماعية\" التي تستهدف البيض في جنوب إفريقيا، ولم تجد أي أدلة تدعمها، وقال رامافوزا تعقيباً على الفيديو: \"ما رأيتموه في تلك الخطابات لا يمثل سياسة الحكومة. فنحن في جنوب إفريقيا نتمتع بنظام ديمقراطي تعددي يتيح للناس التعبير عن آرائهم\"، مضيفاً: \"إن سياسة حكومتنا تعارض تماماً - وبشكل قاطع - ما كان يقوله\".",
+          "question": "ما آخر ما نُشر عن: وزارة الخارجية الأميركية تعلن عن سياسة جديدة تجاه حزب الله وإيران في منطقة الشرق الأوسط.؟"
+        },
+        {
+          "publisher": "UA.NEWS",
+          "link": "https://ua.news/en/world/ssha-ogolosili-pro-viiskovi-prodazhi-gretsiyi-na-4-mlrd-anadolu-agency",
+          "excerpt": "US announces $4 billion in military sales to Greece — Anadolu Agency\nThe United States and Greece announced in Athens $4 billion in military sales to support Athens’ long-term defense plans. Anadolu Agency reports, citing a joint statement by the US State Department.\nSixth Strategic Dialogue\nThe announcement came after the sixth US-Greece Strategic Dialogue, which was led in Athens by US Secretary of State Marco Rubio and Greek Foreign Minister Giorgos Gerapetritis. The sides said the military sales are intended to support Greece’s defense plans and strengthen interoperability between the armed forces of the two countries.\nWashington and Athens also plan to explore further cooperation between their defense industries, particularly in innovative technologies. They formalized Greece’s participation in the US National Guard Bureau’s State Partnership Program with the state of Florida.\nMore current news is available on the UA.News Telegram channel Telegram.\nTechnology, energy and security\nThe countries agreed to enhance interoperability through the provision of Stryker vehicles to Greece. They also agreed to expand law enforcement cooperation and counterterrorism engagement, and reaffirmed their intention to address the issue of irregular migration.\nSeparately, the United States and Greece said they intend to strengthen trade and investment ties, cooperate on investment screening and protect procurement for critical infrastructure. Priorities also include high-performance computing, cybersecurity, advanced technologies, the Vertical Gas Corridor and hydrocarbon exploration. The governments extended an agreement on protecting cultural property and countering networks involved in the illicit trafficking of cultural heritage.",
+          "question": "ما آخر ما نُشر عن: وزارة الخارجية الأميركية تعلن عن سياسة جديدة تجاه حزب الله وإيران في منطقة الشرق الأوسط.؟"
+        },
+        {
+          "publisher": "U.S. Department of State",
+          "link": "https://www.state.gov/releases/office-of-the-spokesperson/2026/03/sanctioning-a-global-network-supporting-hizballah-financing",
+          "excerpt": "HomeOffice of the SpokesmanPress Releases…Sanctioning a Global Network Supporting Hizballah Financing Sanctioning a Global Network Supporting Hizballah Financing Press Statement Thomas \"Tommy\" Pigott, Principal Deputy Spokesperson March 20, 2026 Today, the United States is imposing sanctions to disrupt a global financial network that supports Hizballah. This action targets individuals and entities involved in laundering and raising funds for Hizballah’s finance team through a range of companies and projects operating across the Middle East, Europe, and North America. By cutting off these financial channels, the United States is taking concrete steps to limit Hizballah’s ability to generate revenue for terrorism and evade sanctions. Hizballah’s reckless attack on Israel demonstrates yet again that it prioritizes the pursuit of terrorism on behalf of the Iranian regime over the peace and safety of the Lebanese people. Hizballah continues to spend millions of dollars on terrorism, leaving Lebanese civilians to deal with the consequences and depriving them of a normal life. By targeting Hizballah’s financial enablers, the Trump Administration is taking decisive action to disrupt the group’s ability to threaten the security of the United States and the Middle East. Today’s action is being taken pursuant to the authorities under Executive Order (E.O.) 13224, as amended. The U.S. Department of State designated Hizballah as a Specially Designated Global Terrorist pursuant to E.O. 13224 on October 31, 2001, and as a Foreign Terrorist Organization pursuant to section 219 of the Immigration and Nationality Act on October 8, 1997. For more information on today’s action, please see the Department of the Treasury’s press release. Tags Bureau of Counterterrorism Bureau of Economic, En",
+          "question": "ما آخر ما نُشر عن: وزارة الخارجية الأميركية تعلن عن سياسة جديدة تجاه حزب الله وإيران في منطقة الشرق الأوسط.؟"
+        },
+        {
+          "publisher": "الجزيرة نت",
+          "link": "https://www.aljazeera.net/politics/2026/9/29/%D8%A8%D8%AA%D8%B5%D8%B1%D9%8A%D8%AD%D8%A7%D8%AA-%D8%BA%D8%A7%D9%85%D8%B6%D8%A9-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86-%D8%AA%D9%84%D9%88%D8%AD-%D8%A8%D8%AC%D8%A8%D9%87%D8%A7%D8%AA",
+          "excerpt": "بتصريحات غامضة.. إيران تلوح بجبهات جديدة لترسخ \"وحدة الممرات المائية\"\nأثارت تحذيرات اللواء يحيى رحيم صفوي مستشار القائد العام للقوات المسلحة الإيرانية بفتح \"جبهات جديدة\" إذا استأنفت واشنطن الحرب أسئلة كثيرة إقليميا ودوليا؛ وذلك لما انطوت عليه من \"غموض متعمد\" عده خبراء ومحللون جزءا من حسابات التكتيكات الدفاعية والردع غير المتماثل بين الطرفين.\n[…]\nويتزامن هذا التحول الإستراتيجي مع إعلان صريح – على لسان المسؤول الإيراني – بالاستثمار في تطوير قدرات حزب الله في لبنان، وتوسيع الإمكانات القتالية لجماعة أنصار الله (الحوثيين) في اليمن، بما يعكس توجها لنقل مركز الثقل العسكري نحو نقاط المرور البحرية الحاكمة لحركة التجارة العالمية وإمدادات الطاقة الدولية.\nوتشرع هذه المعادلة الباب أمام جملة من التساؤلات الملحة: ما الجبهات الجديدة المرشحة كأهداف مرشحة لإيران وحلفائها مستقبلا؟ وما مضامين إستراتيجية \"وحدة الممرات المائية\" بمفهومها العسكري وكقوة ردع؟ وما حدود قدرات الحوثيين لا سيما بعد توطين صناعات الصواريخ والمسيرات؟\nجبهات جديدة وبنك أهداف يتسع\nقد يصبح الغموض العسكري هدفا أساسيا في صياغة الرسائل التحذيرية؛ فالامتناع عن تحديد نطاق \"الجبهات الجديدة\" يدفع صانع القرار في الطرف المتلقي لتوسيع دائرة الترقب والتعامل مع جغرافيا مفتوحة على كافة الاحتمالات، مما يربك حساباته التكتيكية ويفرض نفقات استنزاف دفاعية تفوق كلفة العمل الهجومي ذاته.\n[…]\nويتسع أفق الجبهات المفترضة ليشمل المصالح الأمريكية والإسرائيلية في شرق البحر الأبيض المتوسط، وفق ما يرجحه خبير الأمن البحري اللواء محمد عبد الواحد، الذي يرى أن الردع الإيراني قد يتحول إلى المضائق والممرات الحاكمة عبر صواريخ باليستية تنطلق من داخل إيران أو الساحة العراقية، وصولا لتوظيف قدرات حزب الله.\n[…]\nويتطابق هذا التقييم مع التفاصيل الفنية التي يقدمها الخبير العسكري علي الذهب بشأن تطور ترسانة الحوثيين؛ مشيرا إلى اعتماد الجماعة على صواريخ ومسيرات هجينة مستنسخة من طراز \"358\" الإيراني، والمعروفة محليا باسم \"صقر\" و\"ناصر\".",
+          "question": "ما تفاصيل السياسة الجديدة التي أعلنتها الخارجية الأميركية بشأن حزب الله وإيران؟"
+        },
+        {
+          "publisher": "BBC",
+          "link": "https://www.bbc.com/arabic/articles/cy9rn2d1l3zo",
+          "excerpt": "لماذا تصر إيران على ربط حزب الله باتفاقها مع واشنطن؟\n[…]\nفي الواجهة، كانت القضية الرئيسية في هذا التفاهم إنهاء الحرب بين إيران والولايات المتحدة، وإعادة فتح مسارات الملاحة، واحتواء الأزمة الاقتصادية الناجمة عن إغلاق مضيق هرمز، وتمهيد الطريق للمفاوضات النووية. لكن إيران أصرّت على عدم ترك ساحة لبنان وجبهة حزب الله خارج هذا الإطار.\n[…]\nلكن لماذا لا تريد إيران فصل حزب الله في لبنان عن اتفاق مع الولايات المتحدة؟\nيبدو أن حزب الله، بالنسبة إلى إيران، ليس مجرد قوة عسكرية على حدود إسرائيل. فهذه الجماعة هي، في الوقت نفسه، جزء من أوراق الضغط التفاوضية لطهران، ورمز لمصداقية الجمهورية الإسلامية إقليمياً، وعنصر مهم في الطريقة التي ينظر بها أنصار النظام العقائديون إلى السياسة الخارجية لإيران.\n[…]\nما هو وضع حزب الله اليوم؟\n[…]\nويضيف: \"حزب الله عاد اليوم، إلى حد ما، إلى الأسلوب الذي اعتمده في سنوات تأسيسه الأولى وخلال مواجهاته الأولى مع إسرائيل: بنية أكثر لامركزية، واعتماد على وحدات أصغر، وحرب غير متكافئة، واستخدام تقنيات جديدة مثل الطائرات المسيّرة بنظام الرؤية من منظور الشخص الأول FPV\".\n[…]\nفي هذه الظروف، يبرز أحد الأسئلة الرئيسية التي يطرحها كثير من منتقدي سياسة إيران: ما المخاطر التي قد يسببها الإصرار على دعم حزب الله لوقف إطلاق النار الهش والتفاهم القائم حالياً؟\n[…]\nوقد تفسر هذه النظرة سلوك إيران على نحو أفضل: فإذا كانت طهران تعتقد أن الاتفاق مؤقت وهش، فإن التخلي عن حزب الله قد تكون له تداعيات كبيرة على السياسة الإقليمية للجمهورية الإسلامية.\n[…]\nهل تفوق تكلفة دعم حزب الله فائدته؟\n[…]\nإذا نجح الاتفاق، لماذا سيبقى حزب الله مهماً؟\n[…]\nبالنسبة للجمهورية الإسلامية، حزب الله ليس مجرّد سياسة خارجية\n[…]\nويصف عزيزي هذا الوضع بالقول: \"بالنسبة إلى القيادة الجديدة في الجمهورية الإسلامية، يشكل ضغط المتشددين في الداخل عاملاً مهماً. فهذه التيارات غير راضية عن الاتفاق مع الولايات المتحدة، ولا عن الوضع على الجبهة اللبنانية. لذلك، قد يفسَّر أي تراجع صريح عن حزب الله داخل إيران بوصفه علامة ضعف\".",
+          "question": "ما تفاصيل السياسة الجديدة التي أعلنتها الخارجية الأميركية بشأن حزب الله وإيران؟"
+        },
+        {
+          "publisher": "Al Jazeera",
+          "link": "https://www.aljazeera.com/news/2026/10/8/how-october-7-redrew-the-map-of-the-middle-east",
+          "excerpt": "Map of Middle East redrawn after October 7\nThree years of war have upended alliances, weakened US influence and reshaped the region’s power balance.\nIn the past three years, following the October 7 attacks and the start of Israel’s genocidal war on Gaza, the wider region has been marked by conflict, economic turmoil, and a shattering of the balance of power.\nThe network of alliances maintained by Iran, long central to its regional power, has been hit hard and severely weakened. Yemen’s Houthi rebels remain one notable exception.\nRecommended Stories\nlist of 4 items\n- list 1 of 4Trump launches midterms campaign blitz amid record low approval ratings\n- list 2 of 4New aircraft carrier, 10,000 US troops: Is the Iran war about to escalate?\n- list 3 of 4Trump vs Europe as US presses for release of emergency diesel stocks\n- list 4 of 4G7 nations to release oil and diesel stocks, will it bring down the prices?\nIsrael has made gains. Many of the leaders of the Lebanese group Hezbollah and the Palestinian group Hamas have been killed, while Iranian Supreme Leader Ayatollah Ali Khamenei was also assassinated in February. Israel occupies most of Gaza, where it has also killed more than 74,000 Palestinians and reduced much of the enclave to rubble.\nIts military aggression has come at a cost, isolating it from its traditional allies and making it globally unpopular, including in the United States. The potential for more normalisation deals with Arab countries seems unlikely, at least in the short term.\nInstead, Israel continues to launch attacks across the region, crossing previously held red lines – such as the 2025 attack on Doha, Qatar – and making many governments around the world view it as the primary source of unrest in the Middle East.\nUS not a protector\n“Before October 7, the",
+          "question": "ما تفاصيل السياسة الجديدة التي أعلنتها الخارجية الأميركية بشأن حزب الله وإيران؟"
+        },
+        {
+          "publisher": "The Sunday Guardian",
+          "link": "https://sundayguardianlive.com/world/us-israel-iran-war-latest-live-news-hezbollah-denies-link-to-syria-arrests-says-it-has-no-presence-in-country-amid-rising-lebanon-syria-tensions-295895/",
+          "excerpt": "US-Israel-Iran War Latest Live News: The latest developments in the US-Israel-Iran conflict on Wednesday, September 30, are centred on diplomatic efforts over Iran’s seven-day proposal, the reopening of the Strait of Hormuz and fresh security concerns in the region. Iran has received a US response to its proposal through Qatari mediators, while an analyst cited by Al Jazeera said Washington may be seeking changes to the sequence in which the proposed measures would be implemented. A tanker heading into the Strait of Hormuz was also reported to have been struck by an unknown projectile, according to the United Kingdom Maritime Trade Operations (UKMTO).\nUS-Israel-Iran War Latest Live News: US May Seek ‘New Sequencing’ In Iran Agreement\nThe latest US proposal to Iran may indicate that Washington is seeking to change the timeline or sequence of Tehran’s original seven-day plan, according to Lucciano Zaccara, an adjunct associate professor at Georgetown University in Qatar, as quoted by Al Jazeera.\nZaccara said the disagreement was reportedly not over the elements being discussed, but over how and when the different parts of a potential agreement would be implemented.\nThe development comes as Washington and Tehran continue indirect contacts through mediators over Iran’s proposal linked to reopening the Strait of Hormuz and resuming negotiations.\nUS-Israel-Iran War Latest Live News: Iran Receives US Response On Hormuz Plan\nIranian government spokeswoman Fatemeh Mohajerani said Foreign Minister Abbas Araghchi received the US response to Tehran’s proposal to reopen the Strait of Hormuz through Qatari mediators.\nAccording to a statement carried by Iran’s state news agency IRNA, the US proposal was also relayed to President Masoud Pezeshkian during a cabinet meeting on Wednesday.",
+          "question": "ما تفاصيل السياسة الجديدة التي أعلنتها الخارجية الأميركية بشأن حزب الله وإيران؟"
+        }
+      ],
+      "draft_id": "bbf1c1239a95",
+      "written_at": "2026-10-08T17:26:26.317274+00:00"
+    }
+  ]
+}

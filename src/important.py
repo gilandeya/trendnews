@@ -1462,6 +1462,24 @@ class _PointSearch:
         self.brave = {"requests": 0, "skipped": None}
         # HTML خام لصفحات fact_check_domains وحدها، من الجلب نفسه (#1210)؛ None = جُرِّب جلب إضافي وفشل
         self.html: dict[str, str | None] = {}
+        # تاريخ نشر كل صفحة (#1309): من نتيجة البحث (art_dates، RSS جوجل وحده فتاريخ Brave "الآن" لا يُعتمد) ثم
+        # htmldate على HTML الصفحة المقروءة (dates)؛ مفتاحهما الرابط
+        self.art_dates: dict[str, str] = {}
+        self.dates: dict[str, str] = {}
+
+    def published_of(self, doc: dict) -> str:
+        """YYYY-MM-DD لتاريخ نشر وثيقة مقروءة أو فارغ إن لم يُعرف (فلا تُخمَّن)."""
+        for link in (doc.get("link"), doc.get("orig_link")):
+            for table in (self.art_dates, self.dates):
+                if link and table.get(link):
+                    return table[link]
+        return ""
+
+    def _note_article_dates(self, arts) -> None:
+        for a in arts or []:
+            pub = getattr(a, "published", None)
+            if getattr(a, "link", "") and isinstance(pub, datetime):
+                self.art_dates.setdefault(a.link, pub.date().isoformat())
 
     def _cache_get(self, engine: str, phrase: str, window: str):
         """نتائج بحث محفوظة (بلا نصوص صفحات) أو None. الضربة لا تطلب شيئًا من المحرّك
@@ -1493,6 +1511,14 @@ class _PointSearch:
         """مستقبِل html_sink: يحفظ HTML صفحات المدقّقين بنطاقها وحدها (لا ذاكرة لصفحات الباقين)."""
         if _is_fact_checker_domain(url, self.icfg):
             self.html[url] = html
+        try:
+            import htmldate
+            found = htmldate.find_date(html, original_date=True, outputformat="%Y-%m-%d")
+        except Exception as exc:  # noqa: BLE001 — تاريخ النشر مساعد: غيابه يعني «تاريخ غير معروف» لا فشلًا
+            log.debug("htmldate فشل لـ%s: %s", url[:60], exc)
+            found = None
+        if found:
+            self.dates[url] = found
 
     def html_for(self, doc: dict) -> str | None:
         """HTML الخام لوثيقة مدقّق: من الجلب نفسه إن مرّ بها، وإلا جلب واحد إضافي بالمهلة نفسها
@@ -1547,6 +1573,7 @@ class _PointSearch:
             if ranked is None:
                 ranked = evidence.search(query, self.cfg, days, unrestricted=unrestricted)
                 self._cache_put("google_news", query, window, ranked)
+            self._note_article_dates(ranked)
             to_fetch, dropped = self._prefilter(ranked, f)
             raw_docs, _basis = evidence.gather_evidence(
                 to_fetch, self.cfg, relevance_text, max_chars=self.page_max_chars,
@@ -2026,6 +2053,23 @@ def _statement_is_stale(entry: dict, doc: dict, icfg, now: date | None) -> bool:
     return age > limit
 
 
+def _detail_in_point(kind: str, error: str, f: dict) -> bool:
+    """هل نوع التفصيل المخالَف موجود في النقطة نفسها (Issue #1309)؟ date ← للنقطة dates، number ← numbers،
+    name/place/other ← نص الخطأ أو كلمة منه (≥ 4 أحرف بعد _fold) واردة في claim. نوع غائب (تصنيف قديم) لا يُحكم
+    عليه هنا إبقاءً للسلوك السابق."""
+    kind = str(kind or "").strip().lower()
+    if kind == "date":
+        return bool(f.get("dates"))
+    if kind == "number":
+        return bool(f.get("numbers"))
+    if kind not in DETAIL_KINDS:
+        return True
+    claim = _fold(f.get("claim") or f.get("text") or "")
+    words = [w for w in _WORD_RE.findall(_fold(error)) if len(w) >= 4]
+    whole = " ".join(_WORD_RE.findall(_fold(error)))
+    return bool((whole and whole in " ".join(_WORD_RE.findall(claim))) or any(w in claim for w in words))
+
+
 def _read_stances(data: dict, pool: dict[str, dict], f: dict | None = None,
                   icfg=None, now: date | None = None) -> dict[str, dict]:
     """يحوّل رد النموذج إلى {اسم_مصدر_فعلي: موقف} — أسماء لا تطابق وثيقة
@@ -2080,7 +2124,13 @@ def _read_stances(data: dict, pool: dict[str, dict], f: dict | None = None,
             elif stance == "refutes" and _label_in(label, icfg, "misleading_labels"):
                 entry["raw_stance"] = stance
                 stance = entry["stance"] = "conflicts_detail"
-        if (stance == "conflicts_detail" and icfg and not _is_number_kind(entry["detail_kind"])
+        if (stance == "conflicts_detail" and f and icfg
+                and not _detail_in_point(entry["detail_kind"], entry["detail"], f)):
+            # تفصيل لا وجود له في النقطة لا يُصحَّح بها (#1309: «ستة صواريخ في فجر الثاني من مارس» صحّحت نقطة بلا تاريخ)
+            entry["stance"] = "related_other"
+            entry["raw_stance"] = stance
+            entry["no_detail"] = True
+        elif (stance == "conflicts_detail" and icfg and not _is_number_kind(entry["detail_kind"])
                 and _statement_is_stale(entry, pool[name], icfg, now)):
             # مصدر قديم لتصريح/حدث لا يصحّح نقطة حديثة (#1291): لا تصحيح ولا evidence
             entry["stance"] = "related_other"
@@ -2257,7 +2307,7 @@ def judge_point(f: dict, topic: str, search: _PointSearch, cfg, keep: dict | Non
                 cr = parse_claim_review(search.html_for(d))
             except Exception as exc:  # noqa: BLE001 — مساعد: السلوك كما قبل عند أي عطل
                 log.warning("تعذّرت قراءة ClaimReview لـ%s: %s", d.get("link", "")[:80], exc)
-        docs.append({**d, "claim_review": cr})
+        docs.append({**d, "claim_review": cr, "doc_published": search.published_of(d)})
     deduped = article._dedup_docs_by_publisher(docs, cfg)
     # مصادرنا وحدها (#1288): ما عداها لا يدخل التصنيف فلا يؤيد ولا ينفي ولا يكون nearest؛ يبقى في
     # read_docs بموقف "outside" وعدده في outside_docs
@@ -2331,6 +2381,7 @@ def _judge_pool(f: dict, got, docs: list[dict], pool_docs: list[dict], cfg,
             "publisher": n, "link": d.get("link", ""),
             "orig_link": d.get("orig_link"), "resolved": d.get("resolved", True),
             "engine": d.get("engine", ""), "page_chars": len(d.get("text") or ""),
+            "published": d.get("doc_published", ""),
             "excerpt_chars": excerpt_by.get(n, 0) if in_pool else 0,
             "same_event": st.get("same_event") if in_pool else None,
             "as_of": st.get("as_of", "") if in_pool else "",
@@ -2346,6 +2397,8 @@ def _judge_pool(f: dict, got, docs: list[dict], pool_docs: list[dict], cfg,
         dropped = decision["note"] if decision.get("confirm_blocked") else NO_TRACE_REASON
     return {
         "id": pid, "text": f["text"], "claim": f["text"],
+        # كيانات النقطة تبقى مع النتيجة: منها الكيان المحوري لفلتر صلة البحث المكمِّل (#1309)
+        "entities": [str(e) for e in f.get("entities") or [] if str(e).strip()],
         # framing/circulating_context (#1203): claim في «circulating» هو المضمون المزعوم؛
         # السياق («فيديو انتشر…») للعرض وحده ولا يدخل نداء التصنيف
         "framing": f.get("framing", "direct"),
