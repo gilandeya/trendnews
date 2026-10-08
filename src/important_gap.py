@@ -75,6 +75,10 @@ def gap_questions(result: dict, item: dict, members: list[dict], cfg) -> list[di
         ar, en = _cut(q.get("query_ar"), words), _cut(q.get("query_en"), words)
         if question and (ar or en):
             out.append({"question": question, "query_ar": ar, "query_en": en})
+    main = " ".join(str(result.get("main_story") or "").split())
+    if main and g.get("include_main_story", True):
+        # الخبر نفسه يُسأل عنه أولًا (#1303): أسئلة النموذج عن الفجوات قد لا تصل إلى بيانه الحديث
+        out.insert(0, {"question": main, "query_ar": _cut(main, words), "query_en": ""})
     return out[:n_max]
 
 

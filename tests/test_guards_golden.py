@@ -2644,8 +2644,10 @@ def test_important_1293_guards() -> None:
           and "بي بي سي: تفصيل مؤكد" in rig1.calls[0]["prompt"]
           and "الخارجية: بيان رسمي" in rig1.calls[0]["prompt"], rig1.calls[0]["prompt"][:300])
     (d2, why2, _t), rig2 = run_write(items[0], [_b2_body(330, extra="وتعدّ BBC هذه الخطوة تصعيدًا خطيرًا.")])
-    check("(g91) «وتعدّ BBC…» ← رفض في المحاولات الثلاث (important.article_write_attempts) وفشل كتابة بسبب حكم الوسيلة",
-          d2 is None and len(rig2.calls) == 3 and "حكم منسوب إلى وسيلة" in why2, (why2, len(rig2.calls)))
+    check("(g91) «وتعدّ BBC…» ← رفض في المحاولات الثلاث ثم مسودة بتنبيه «لم يجتز الفحص» بسبب حكم الوسيلة (#1303)",
+          d2 is not None and len(rig2.calls) == 3
+          and any(w.startswith("⚠️ لم يجتز الفحص") and "حكم منسوب إلى وسيلة" in w for w in d2.get("warnings", []))
+          and d2.get("check_warnings"), (why2, len(rig2.calls), d2 and d2.get("warnings")))
     (d3, why3, _t), _r = run_write(items[0], [_b2_body(330, extra="وقال «عبارة مختلقة لا وجود لها في أي مقتطف».")])
     check("(g91) اقتباس « » ليس في أي مقتطف ← يُحوَّل بعد المحاولات الثلاث إلى كلام غير مباشر بتنبيه (#1298) لا يُسقِط المنشور",
           d3 is not None and "«" not in d3["arabic"]["post_body"]
@@ -2836,12 +2838,11 @@ def test_important_1298_guards() -> None:
 
     # ── g97) 120 كلمة في المحاولات الثلاث ← فشل كتابة وأثر على العنصر ──
     (d97, why97, tech97), _r, it97 = run("verified", [_b2_body(120)])
-    check("(g97) فشل كتابة (لا مسودة ولا عطل تقني) بسبب الطول",
-          d97 is None and not tech97 and "عدد كلمات" in why97, why97)
-    check("(g97) على العنصر last_attempt: النص والسبب (يذكر الطول) وgap_sources محفوظة",
-          it97.get("last_attempt", {}).get("post_body") == _b2_body(120)
-          and "عدد كلمات" in it97["last_attempt"]["reason"] and it97["last_attempt"]["post_title"] == good["post_title"]
-          and it97.get("gap_sources") == gap, it97.get("last_attempt"))
+    check("(g97) الطول 120 كلمة ← لا فشل: مسودة محفوظة بتنبيه «لم يجتز الفحص» يذكر الطول (#1303)",
+          d97 is not None and not tech97 and any("عدد كلمات" in w and "لم يجتز الفحص" in w
+                                                  for w in d97.get("warnings", [])), (why97, d97 and d97.get("warnings")))
+    check("(g97) لا last_attempt على العنصر ما دامت المسودة حُفظت، وgap_sources محفوظة",
+          "last_attempt" not in it97 and it97.get("gap_sources") == gap, it97.get("last_attempt"))
 
     # ── g98) nearest لا تعامل نقاطها معروفة، وverified لا يقتبس نص نقطة عضو ──
     claim = "حزب الله لن يتعافى أبداً"
@@ -2863,3 +2864,63 @@ def test_important_1298_guards() -> None:
     check("(g99) refuted: اقتباس claim العضو حرفيًا ← مسودة بلا تحويل ولا تنبيه تحويل",
           d99 is not None and f"«{ref_claim}»" in d99["arabic"]["post_body"]
           and not any("فحُوِّل" in w for w in d99.get("warnings", [])), why99)
+
+
+def test_important_1303_guards() -> None:
+    """Issue #1303 (B4): لا يفشل منشور إلا بلا وقائع أو بعطل تقني — عنوان السؤال يُستبدل آليًا، وعتبة
+    نسخ 12 للمنشور الطويل، وأسماء المصادر بالعربية، وتحويل publish/go3 إلى go2 عند تنبيه فحص."""
+    from src import important_write
+    from tests.helpers import ImportantWriteRig, important_b2_result
+
+    cfg = load_config()
+    result = important_b2_result(90300)
+    gap = [{"publisher": "U.S. Department of State", "link": "https://www.state.gov/briefing",
+            "excerpt": "الخارجية: بيان رسمي عن الخبر الرئيسي.", "question": "س؟"}]
+    good = {"category": "عالم", "hashtags": ["هام"], "image_query_en": "news story",
+            "post_title": "هل تخنق واشنطن الفريق المالي؟", "image_headline": "تطوّرات الخبر الرئيسي"}
+    item = {i["kind"]: i for i in result["article_items"]}["verified"]
+
+    # publisher_ar: الخريطة، والاسم كما هو إن لم يُعرف
+    check("(g100) publisher_ar: خريطة config، وغير المعروف كما هو",
+          important_write.publisher_ar("U.S. Department of State", cfg) == "وزارة الخارجية الأميركية"
+          and important_write.publisher_ar("bbc", cfg) == "بي بي سي"
+          and important_write.publisher_ar("موقع مجهول", cfg) == "موقع مجهول")
+    w = {"post_title": "قالت BBC", "post_body": "وبحسب U.S. Department of State (.gov) وDW وCNN وBBCArabic"}
+    important_write.arabize_publishers(w, cfg)
+    check("(g100) استبدال الأسماء اللاتينية في العنوان والمتن بحدود الكلمة (BBCArabic لا يُمَسّ)",
+          w["post_title"] == "قالت بي بي سي"
+          and w["post_body"] == "وبحسب وزارة الخارجية الأميركية ودويتشه فيله وسي إن إن وBBCArabic", w)
+
+    # عنوان سؤال في المحاولات الثلاث ← عنوان خبري آليًا بلا فشل
+    with ImportantWriteRig(lambda p, s: {**good, "post_body": _b2_body(330)}, gap_sources=gap) as rig:
+        rig.next = 90600
+        d, why, tech = important_write.write_article(result, item, cfg, [], 90100)
+    check("(g101) عنوان سؤال ثلاث مرات ← لا فشل كتابة (مسودة محفوظة)", d is not None and not tech, why)
+    if d:
+        title = d["arabic"]["post_title"]
+        unresolved = any("العنوان سؤال" in w for w in d.get("warnings", []))
+        check("(g101) العنوان خبري بعد الإصلاح، أو بقي سؤالًا بتنبيه «لم يجتز الفحص»",
+              (not title.rstrip().endswith(("؟", "?")) and not unresolved) or unresolved, (title, d.get("warnings")))
+
+    # أصالة بعتبة 12: تتابع 8 كلمات من مقتطف لا يُرفض
+    run8 = "الخارجية بيان رسمي عن الخبر الرئيسي ثمانية كلمات"
+    gap8 = [{**gap[0], "excerpt": run8}]
+    body = _b2_body(330, extra=f"وبحسب البيان {run8} أيضًا.")
+    with ImportantWriteRig(lambda p, s: {**good, "post_title": "تطوّرات الخبر الرئيسي", "post_body": body},
+                           gap_sources=gap8) as rig:
+        rig.next = 90700
+        d8, why8, _t = important_write.write_article(result, item, cfg, [], 90100)
+    check("(g102) تتابع 8 كلمات منسوب لا يُسقِط المنشور ولا يضيف تنبيه أصالة (العتبة 12)",
+          d8 is not None and not any("الأصالة" in w for w in d8.get("warnings", [])),
+          (why8, d8 and d8.get("warnings")))
+    check("(g102) الإعداد article_max_shared_run_words = 12", cfg.path("important.article_max_shared_run_words") == 12)
+
+    # الكاتب يرى الاسم العربي
+    seen: list = []
+    with ImportantWriteRig(lambda p, s: seen.append(p) or {**good, "post_title": "تطوّرات الخبر الرئيسي",
+                                                            "post_body": _b2_body(330)}, gap_sources=gap) as rig:
+        rig.next = 90800
+        important_write.write_article(result, item, cfg, [], 90100)
+    check("(g103) مدخل الكاتب يحمل «وزارة الخارجية الأميركية» لا الاسم اللاتيني",
+          seen and "وزارة الخارجية الأميركية" in seen[0] and "U.S. Department of State" not in seen[0],
+          seen and seen[0][:200])

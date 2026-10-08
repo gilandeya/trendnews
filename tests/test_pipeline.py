@@ -261,7 +261,7 @@ from tests.test_guards_golden import (test_guards_golden, test_important_false_g
                                       test_analysis_attribution_pipeline,
                                       test_important_1282_guards, test_important_1288_guards,
                                       test_important_1291_guards, test_important_1293_guards,
-                                      test_important_1298_guards)
+                                      test_important_1298_guards, test_important_1303_guards)
 from tests.test_names_audit import (test_names_audit_brave_counter, test_names_audit_other_sites,
                                     test_names_audit_pipeline,
                                     test_names_audit_prevention_writer, test_names_audit_review_learning)
@@ -628,6 +628,7 @@ def main() -> int:
     test_important_1293_guards()
     print("\n── «هام»: الاقتباس الموحّد والتحويل وأثر المحاولة الفاشلة g95–g99 (Issue #1298) ──")
     test_important_1298_guards()
+    test_important_1303_guards()
     print("\n── حارس تدقيق أسماء الأشخاص g52–g56 (Issue #1252) ──")
     test_names_audit_guards()
     test_analysis_attribution_guards()

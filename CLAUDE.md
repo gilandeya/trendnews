@@ -1615,3 +1615,9 @@ regression case tied to a real Issue, not for ordinary feature coverage), call i
 rather than `assert`. If the new test needs a helper/fixture that's genuinely shared across
 domains, add it to `tests/helpers.py`; if it's domain-specific, keep it local to that one file
 instead.
+
+## «هام» B4 — لا يسقط منشور إلا بلا وقائع (Issue #1303، g100–g103)
+
+- `important_write.write_article`: بعد آخر محاولة يُصلَح آخر نص (عنوان السؤال ← أول عنوان خبري من `headlines_for_post(first_question=False)`، ثم تحويل الاقتباس) ويُعاد `check_article_all`؛ ما بقي من أسباب يُحفظ في `warnings` بصيغة `REASON_UNCHECKED` وفي `draft["check_warnings"]`. الفشل يبقى لـ`NO_FACTS_REASON` وللعطل التقني فقط. `write_point` القديمة لم تتغير.
+- `important_finalize.finalize`: مسودة فيها `check_warnings` اختير لها `publish`/`go3` تُحوَّل إلى `go2` مع تعليق على قضية الترشيح.
+- عتبة الأصالة للمنشورات الطويلة `important.article_max_shared_run_words` (12). أسماء المصادر: `important_write.publisher_ar` (name_ar ثم `important.publisher_ar`) في مدخل الكاتب، و`arabize_publishers` بعد الكتابة. البحث المكمِّل يسأل عن الخبر الرئيسي نفسه أولًا (`important.gap.include_main_story`).

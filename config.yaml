@@ -1413,6 +1413,25 @@ important:
   # الفعلي في الكود بعد الكتابة (important_write.check_text) لا في الموجّه وحده.
   write_attempts: 2              # الكتابة الأولى + إعادة واحدة بعد رفض الفحص (تُذكر العلّة للكاتب)
   article_write_attempts: 3     # محاولات منشور الخبر الرئيسي (أكثر من write_attempts: الاقتباس يُحوَّل بعدها لا يُسقِط)
+  # عتبة التتابع اللفظي لفحص أصالة المنشور الطويل (300–450 كلمة): مقال يستند إلى بيان رسمي منسوب يتشارك معه
+  # 7 كلمات طبيعيًا (قضية #1301)، و12 تلتقط النسخ الواسع؛ article.max_shared_run_words (7) تبقى لغيره
+  article_max_shared_run_words: 12
+  # أسماء المصادر بالعربية في المتن (#1303): name_ar من sources/channels أولًا ثم هذه الخريطة ثم الاسم كما هو؛
+  # وكل مفتاح لاتيني منها يرد في عنوان المنشور أو متنه يُستبدل بقيمته بعد الكتابة
+  publisher_ar:
+    "U.S. Department of State (.gov)": "وزارة الخارجية الأميركية"
+    "U.S. Department of State": "وزارة الخارجية الأميركية"
+    "U.S. Department of the Treasury": "وزارة الخزانة الأميركية"
+    "BBC": "بي بي سي"
+    "CNN": "سي إن إن"
+    "DW": "دويتشه فيله"
+    "Al Jazeera": "الجزيرة"
+    "الجزيرة نت": "الجزيرة"
+    "Reuters": "رويترز"
+    "Iran International": "إيران إنترناشيونال"
+    "The Guardian": "الغارديان"
+    "CBS News": "سي بي إس نيوز"
+    "World Bank": "البنك الدولي"
   write_max_sources: 4           # أقصى أدلة تدخل برومبت الكاتب (وتُسمّى في سطر المصدر)
   original_mention_overlap: 0.8  # نسبة كلمات النقطة الأصلية في جملة واحدة التي تُعدّ ذكرًا لها (أقرب حدث)
   not_found_forbidden:           # عبارات تعلن غياب الأثر: ممنوعة في مقال أقرب حدث
@@ -1504,6 +1523,7 @@ important:
     max_tokens: 1200
     max_tokens_cap: 2400
     max_questions: 4
+    include_main_story: true     # الخبر الرئيسي نفسه سؤال أول في البحث المكمِّل (#1303)
     query_max_words: 8
     max_docs: 8
     max_brave: 4

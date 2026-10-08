@@ -234,6 +234,11 @@ def finalize(issue_number: int, body: str, cfg) -> int:
         if not draft:
             continue
         written += 1
+        if draft.get("check_warnings") and chosen[pid] in ("publish", "go3"):
+            # منشور لم يجتز الفحص لا يُنشر ولا تُبنى له بطاقة بلا عين بشرية (#1303)
+            review.comment(issue_number, f"📝 حُوِّل {draft['arabic']['post_title']} إلى المراجعة "
+                                         "لأن فيه تنبيهات فحص")
+            chosen[pid] = "go2"
         if chosen[pid] == "go2":
             review_drafts.append(draft)
         else:
