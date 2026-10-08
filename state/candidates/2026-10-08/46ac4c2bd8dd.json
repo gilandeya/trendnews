@@ -1,0 +1,65 @@
+{
+  "id": "46ac4c2bd8dd",
+  "created_at": "2026-10-08T03:08:28.836291+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.16,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 1,
+  "appeal_note": "تأثر الأسواق الآسيوية بموجة ديون الذكاء الاصطناعي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Asia shares subdued, bonds swamped by AI debt wave",
+  "link": "https://www.channelnewsasia.com/business/asia-shares-subdued-bonds-swamped-ai-debt-wave-6441181",
+  "publishers": [
+    "Channel News Asia",
+    "Free Malaysia Today"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Asia shares subdued, bonds swamped by AI debt wave",
+    "link": "https://www.channelnewsasia.com/business/asia-shares-subdued-bonds-swamped-ai-debt-wave-6441181",
+    "summary": "",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-10-08T00:58:52+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--KwDxO-xD--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-10-08T005733Z_1_LYNXMPEM97027_RTROPTP_3_JAPAN-COMPANY-JPX.JPG?itok=hlmPRuGt",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Free Malaysia Today"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/business/asia-shares-subdued-bonds-swamped-ai-debt-wave-6441181"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/business/2026/10/08/asian-shares-subdued-bonds-swamped-by-ai-debt-wave"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--KwDxO-xD--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-10-08T005733Z_1_LYNXMPEM97027_RTROPTP_3_JAPAN-COMPANY-JPX.JPG?itok=hlmPRuGt",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/07/6daf2634-korea-market.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1546.9174668191665,
+    "is_stale": false,
+    "score": 21.1564754535,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 1,
+    "appeal_note": "تأثر الأسواق الآسيوية بموجة ديون الذكاء الاصطناعي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

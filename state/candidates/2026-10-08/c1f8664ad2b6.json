@@ -1,0 +1,65 @@
+{
+  "id": "c1f8664ad2b6",
+  "created_at": "2026-10-08T03:08:28.836018+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.32,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "حرب إيران: 81 طائرة عسكرية أمريكية تضررت أو دمرت",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "81 US military aircraft damaged or destroyed in Iran war",
+  "link": "https://news.cgtn.com/news/2026-10-07/81-US-military-aircraft-damaged-or-destroyed-in-Iran-war-1R2H1oeVf4Q/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+  "publishers": [
+    "CGTN",
+    "The Express Tribune"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "81 US military aircraft damaged or destroyed in Iran war",
+    "link": "https://news.cgtn.com/news/2026-10-07/81-US-military-aircraft-damaged-or-destroyed-in-Iran-war-1R2H1oeVf4Q/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+    "summary": "A total of 81 US military aircraft have been damaged or destroyed since the United States and Israel launched military strikes against Iran on February 28, according to a report released by the Congressional Research Service (CRS) on Monday.",
+    "source_name": "CGTN",
+    "region": "cn",
+    "weight": 0.7,
+    "published": "2026-10-07T04:11:56+00:00",
+    "image_url": "https://news.cgtn.com/news/2026-10-07/81-US-military-aircraft-damaged-or-destroyed-in-Iran-war-1R2H1oeVf4Q/img/2643a220b6014a099053df01e66c9b34/2643a220b6014a099053df01e66c9b34-1920.png",
+    "publisher": "CGTN",
+    "cluster_sources": [
+      "CGTN",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2633536/81-us-aircraft-lost-or-damaged-during-iran-war-congressional-document-shows"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-10-07/81-US-military-aircraft-damaged-or-destroyed-in-Iran-war-1R2H1oeVf4Q/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      }
+    ],
+    "image_candidates": [
+      "https://news.cgtn.com/news/2026-10-07/81-US-military-aircraft-damaged-or-destroyed-in-Iran-war-1R2H1oeVf4Q/img/2643a220b6014a099053df01e66c9b34/2643a220b6014a099053df01e66c9b34-1920.png",
+      "https://news.cgtn.com/news/2026-10-07/81-US-military-aircraft-damaged-or-destroyed-in-Iran-war-1R2H1oeVf4Q/img/2643a220b6014a099053df01e66c9b34/2643a220b6014a099053df01e66c9b34.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1546.9176680758335,
+    "is_stale": false,
+    "score": 21.320993968814815,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "حرب إيران: 81 طائرة عسكرية أمريكية تضررت أو دمرت",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

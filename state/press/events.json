@@ -275,7 +275,7 @@
      "published": "2026-10-06T10:16:28+00:00"
     }
    ],
-   "last_seen": "2026-10-07T18:07:47.065879+00:00",
+   "last_seen": "2026-10-08T03:08:02.336758+00:00",
    "outlets": 20,
    "regions": 16,
    "languages": 3,
@@ -556,7 +556,7 @@
      "published": "2026-10-06T06:12:00+00:00"
     }
    ],
-   "last_seen": "2026-10-07T18:07:47.065879+00:00",
+   "last_seen": "2026-10-08T03:08:02.336758+00:00",
    "outlets": 21,
    "regions": 16,
    "languages": 2,
@@ -837,7 +837,7 @@
      "published": "2026-10-07T07:50:09+00:00"
     }
    ],
-   "last_seen": "2026-10-07T18:07:47.065879+00:00",
+   "last_seen": "2026-10-08T03:08:02.336758+00:00",
    "outlets": 19,
    "regions": 14,
    "languages": 1,
@@ -1399,7 +1399,7 @@
      "published": "2026-10-07T07:04:23+00:00"
     }
    ],
-   "last_seen": "2026-10-07T18:07:47.065879+00:00",
+   "last_seen": "2026-10-08T03:08:02.336758+00:00",
    "outlets": 16,
    "regions": 13,
    "languages": 2,
@@ -2453,9 +2453,36 @@
      "language": "en",
      "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOLUZ6ZXMwR1ozY2liRC1LY0tqRkxtQ3g2by1tMkp1cXVjTGdkeDJJblV4SkF5d2FqMnVaVHNacjBJNElMQV83S2xtUC1MbUR1RTFSRGZSYVpEbkhCUVRrMHphSkdzbEN0TWp5Q3BGZ1RhVFFScFAzZWNtQk53Vkc5MWRPZWhQS3N5aVQyNkhKeDhEMkhHZHNRTHlYMnpoTm5wOHotVU5DWHZFd3ZJbjYteURiU3o?oc=5",
      "published": "2026-10-06T11:44:06+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Indian opposition leader Rahul Gandhi detained over election chief protest",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/7/indian-opposition-leader-rahul-gandhi-detained-over-election-chief-protest?traffic_source=rss",
+     "published": "2026-10-07T19:40:07+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Rahul Gandhi, Indian opposition lawmakers detained over election chief protest for 2nd day",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2035427/rahul-gandhi-indian-opposition-lawmakers-detained-over-election-chief-protest-for-2nd-day",
+     "published": "2026-10-07T13:44:02+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Rahul Gandhi, Indian opposition lawmakers detained over election chief protest for second day",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633522/rahul-gandhi-indian-opposition-lawmakers-detained-over-election-chief-protest-for-second-day",
+     "published": "2026-10-07T10:11:32+00:00"
     }
    ],
-   "last_seen": "2026-10-07T03:07:41.547243+00:00",
+   "last_seen": "2026-10-08T03:08:02.336758+00:00",
    "outlets": 11,
    "regions": 10,
    "languages": 2,
@@ -4157,6 +4184,71 @@
    "score": 20.0
   },
   {
+   "id": "5387d8460227",
+   "first_seen": "2026-10-07T09:07:47.348407+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Russian strikes kill 11 across Ukraine after Zelensky warning",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3369997/russian-barrage-hits-kyiv-hours-after-zelensky-warns-impending-attack?utm_source=rss_feed",
+     "published": "2026-10-07T06:04:10+00:00"
+    },
+    {
+     "outlet": "Meduza English",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Russian missile and drone strikes across Ukraine kill six and injure more than 20",
+     "language": "en",
+     "link": "https://meduza.io/en/news/2026/10/07/russian-missile-and-drone-strikes-across-ukraine-kill-six-and-injure-more-than-20",
+     "published": "2026-10-07T07:21:00+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Overnight Russian drone, missile strikes kill 8 across Ukraine",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/europe/overnight-russian-drone-missile-strikes-kill-8-across-ukraine",
+     "published": "2026-10-07T07:34:00+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "At least 28 killed in Ukraine, Zelenskiy condemns one of Russia’s most ‘vile strikes’",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-08-at-least-28-killed-in-ukraine-zelenskiy-condemns-one-of-russias-most-vile-strikes/",
+     "published": "2026-10-08T04:47:53+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Zelenskyy condemns one of Russia’s most ‘vile strikes’ as at least 28 killed in Ukraine",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/08/world/ukraine-russia-vile-strikes/",
+     "published": "2026-10-07T23:42:00+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Zelensky condemns ‘vile’ Russian strikes as at least 28 killed in Ukraine",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/08/zelensky-condemns-vile-russian-strike-as-at-least-28-killed-in-ukraine",
+     "published": "2026-10-07T23:43:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T03:08:02.336758+00:00",
+   "outlets": 6,
+   "regions": 6,
+   "languages": 1,
+   "score": 20.0
+  },
+  {
    "id": "f847db6b3477",
    "first_seen": "2026-10-07T03:07:41.547243+00:00",
    "members": [
@@ -4345,7 +4437,7 @@
      "published": "2026-10-07T16:28:15+00:00"
     }
    ],
-   "last_seen": "2026-10-07T18:07:47.065879+00:00",
+   "last_seen": "2026-10-08T03:08:02.336758+00:00",
    "outlets": 5,
    "regions": 5,
    "languages": 1,
@@ -5156,6 +5248,53 @@
    "score": 12.0
   },
   {
+   "id": "9c0449392bae",
+   "first_seen": "2026-10-08T03:08:02.336758+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Trump to give Musk top US science medal",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370106/trump-give-musk-top-us-science-medal?utm_source=rss_feed",
+     "published": "2026-10-07T22:29:00+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Satya Nadella, Elon Musk Among Top Tech CEOs To Receive US Science Medal",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/satya-nadella-elon-musk-among-top-tech-ceos-to-receive-us-science-medal-12153710#publisher=newsstand",
+     "published": "2026-10-07T22:20:54+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Trump to give Musk top US science medal",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/business/2026/10/08/trump-to-give-musk-top-us-science-medal",
+     "published": "2026-10-07T22:39:00+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Trump to honour Musk, tech chiefs with top US science awards",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/08/trump-to-honour-musk-tech-chiefs-with-top-us-science-awards/238176",
+     "published": "2026-10-08T01:27:43+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T03:08:02.336758+00:00",
+   "outlets": 4,
+   "regions": 3,
+   "languages": 1,
+   "score": 12.0
+  },
+  {
    "id": "fb5106e0cd4e",
    "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
@@ -5753,44 +5892,6 @@
    "score": 11.0
   },
   {
-   "id": "5387d8460227",
-   "first_seen": "2026-10-07T09:07:47.348407+00:00",
-   "members": [
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Russian strikes kill 11 across Ukraine after Zelensky warning",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/europe/article/3369997/russian-barrage-hits-kyiv-hours-after-zelensky-warns-impending-attack?utm_source=rss_feed",
-     "published": "2026-10-07T06:04:10+00:00"
-    },
-    {
-     "outlet": "Meduza English",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Russian missile and drone strikes across Ukraine kill six and injure more than 20",
-     "language": "en",
-     "link": "https://meduza.io/en/news/2026/10/07/russian-missile-and-drone-strikes-across-ukraine-kill-six-and-injure-more-than-20",
-     "published": "2026-10-07T07:21:00+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Overnight Russian drone, missile strikes kill 8 across Ukraine",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/europe/overnight-russian-drone-missile-strikes-kill-8-across-ukraine",
-     "published": "2026-10-07T07:34:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-07T09:07:47.348407+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
    "id": "86d61ed93463",
    "first_seen": "2026-10-07T09:07:47.348407+00:00",
    "members": [
@@ -5899,6 +6000,234 @@
     }
    ],
    "last_seen": "2026-10-07T18:07:47.065879+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "2065ce1f6b8e",
+   "first_seen": "2026-10-08T03:08:02.336758+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Trump on why he thinks he deserves the Nobel Peace Prize",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/7/trump-on-why-he-thinks-he-deserves-the-nobel-peace-prize-2?traffic_source=rss",
+     "published": "2026-10-07T21:30:18+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Trump says he deserves Nobel Peace Prize but has doubts he will get it",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370107/trump-says-he-deserves-nobel-peace-prize-has-doubts-hell-get-it?utm_source=rss_feed",
+     "published": "2026-10-07T22:41:05+00:00"
+    },
+    {
+     "outlet": "Rappler",
+     "region": "ph",
+     "bucket": "serious",
+     "title": "Trump says he deserves Nobel Peace Prize but doubts he’ll get one",
+     "language": "en",
+     "link": "https://www.rappler.com/world/us-canada/trump-doubts-nobel-peace-prize/",
+     "published": "2026-10-07T23:59:42+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T03:08:02.336758+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "3171fba09447",
+   "first_seen": "2026-10-08T03:08:02.336758+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "María del Carmen Abascal, symbol of Spain’s housing protests, dies aged 87",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/07/maria-del-carmen-abascal-spain-housing-protests-dies",
+     "published": "2026-10-07T20:57:51+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "The protests and polls in Spain",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/the-protests-and-polls-in-spain/article71554157.ece",
+     "published": "2026-10-07T03:09:18+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "María del Carmen Abascal, symbol of Spain’s housing protests, dies aged 87",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQemdZUFlKd1F2WE1ubXRsekw0eklCSURVNnVJcXRYbmd3STZSUHlHX2E4emlFbkdIWUZrUHI5VWNaWmdJeUw1U2xHU3UydFRjbGZSR1BhN21GcmluRFB1VGVtczBHX0swM1RZRGNrUlVoMjdjaTNrVjZVZl93M1Fiam5QcjQxaXFxNEV2UVZRU3FCNWVtR0ZCaUc4YTJKYjg?oc=5",
+     "published": "2026-10-07T22:57:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T03:08:02.336758+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "f154c5b14a0a",
+   "first_seen": "2026-10-08T03:08:02.336758+00:00",
+   "members": [
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "Trump administration plans to charge international students $70,000 for work authorization",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-07-trump-administration-plans-to-charge-international-students-70000-for-work-authorization/",
+     "published": "2026-10-07T20:37:54+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump administration plans to charge international students $70,000 for work authorisation",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/trump-administration-plans-to-charge-international-students-70000-for-work-authorisation/article71557192.ece",
+     "published": "2026-10-07T20:55:50+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "US plans to charge international students US$70,000 for work authorisation",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/08/us-plans-to-charge-international-students-us-70-000-for-work-authorisation",
+     "published": "2026-10-07T23:39:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T03:08:02.336758+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "db689d4db9dc",
+   "first_seen": "2026-10-08T03:08:02.336758+00:00",
+   "members": [
+    {
+     "outlet": "Boing Boing",
+     "region": "odd",
+     "bucket": "light",
+     "title": "Trump wants to turn his private golf club into a presidential retreat",
+     "language": "en",
+     "link": "https://boingboing.net/2026/10/07/trump-new-camp-david-golf-club.html",
+     "published": "2026-10-07T17:04:10+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Trump wants to turn his Florida golf course into presidential retreat",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370098/trump-wants-turn-florida-golf-course-presidential-retreat?utm_source=rss_feed",
+     "published": "2026-10-07T17:00:31+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump plans to turn Florida golf course into presidential retreat",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/trump-plans-to-turn-florida-golf-course-into-presidential-retreat-101791398399423.html",
+     "published": "2026-10-07T18:39:58+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T03:08:02.336758+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "1a01415a16dc",
+   "first_seen": "2026-10-08T03:08:02.336758+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Maduro and wife to face new US charges over alleged torture of Americans",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/americas/article/3370104/venezuelas-maduro-face-new-us-charges-over-alleged-torture-americans-official-says?utm_source=rss_feed",
+     "published": "2026-10-07T20:58:12+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Venezuela's Maduro, wife to face new US charges over alleged torture",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/americas/venezuelas-maduro-wife-to-face-new-us-charges-over-alleged-torture",
+     "published": "2026-10-07T21:03:00+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Maduro expected to face new charges of torture of Americans in Venezuelan prisons",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/new-maduro-charges-torture-americans-venezuelan-prisons/",
+     "published": "2026-10-07T21:21:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T03:08:02.336758+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "6e1544534ab3",
+   "first_seen": "2026-10-08T03:08:02.336758+00:00",
+   "members": [
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Eritrean troops deploy in Ethiopia's Tigray region, witnesses say",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/07/eritrean-troops-deploy-in-ethiopias-tigray-region-witnesses-say/",
+     "published": "2026-10-07T14:58:31+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Eritrean troops deploy in Ethiopia's Tigray region",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/eritrean-troops-deploy-in-ethiopia-s-tigray-region-101791399628939.html",
+     "published": "2026-10-07T19:00:28+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Eritrean troops move deep into Ethiopia's Tigray region as fighting escalates",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1sTG9Wa1o0dGJVN2k4M2wyeDQzWlE2WFhWbEFoa0lqUjhqQzFiTWo3VU5hdVNRUURVODg4TXV0SjBUY1JBSzhhLVZtMHJPMmMxcFIwemc0NGxmWXM?oc=5",
+     "published": "2026-10-07T18:40:52+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T03:08:02.336758+00:00",
    "outlets": 3,
    "regions": 3,
    "languages": 1,
@@ -6142,6 +6471,138 @@
    "score": 9.0
   },
   {
+   "id": "81e90ee6a1f9",
+   "first_seen": "2026-10-08T03:08:02.336758+00:00",
+   "members": [
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Ringgit opens slightly higher as markets eye Budget 2027",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/business/2026/10/08/ringgit-opens-slightly-higher-as-markets-eye-budget-2027",
+     "published": "2026-10-08T00:50:00+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Ringgit opens firmer against US dollar as markets await Budget 2027 clues on fiscal deficit",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/money/2026/10/08/ringgit-opens-firmer-against-us-dollar-as-markets-await-budget-2027-clues-on-fiscal-deficit/238168",
+     "published": "2026-10-08T01:13:28+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Malaysia budget 2027: Anwar faces balancing act on cost-of-living relief as general election looms",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/asia/malaysia-budget-anwar-ibrahim-balancing-act-election-6438551",
+     "published": "2026-10-07T22:00:00+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "PAS digesa bentang pelan ekonomi negara menjelang Belanjawan 2027",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/bahasa/tempatan/2026/10/08/pas-digesa-bentang-pelan-ekonomi-negara-menjelang-belanjawan-2027",
+     "published": "2026-10-07T23:30:00+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "PAS told to present national economic plan ahead of Budget 2027",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/nation/2026/10/08/pas-told-to-present-national-economic-plan-ahead-of-budget-2027",
+     "published": "2026-10-07T23:30:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T03:08:02.336758+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
+   "id": "fe4a6dccacf9",
+   "first_seen": "2026-10-08T03:08:02.336758+00:00",
+   "members": [
+    {
+     "outlet": "Nikkei Asia",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Japan's Kenso Soai and France's Henri Kagan win Nobel chemistry prize",
+     "language": "en",
+     "link": "https://asia.nikkei.com/business/science/japan-s-kenso-soai-and-france-s-henri-kagan-win-nobel-chemistry-prize",
+     "published": "2026-10-08T03:07:34.538020+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Japanese scientist Kenso Soai and France’s Henri B. Kagan win Nobel Prize in chemistry",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/07/japan/science-health/2026-nobel-prize-chemistry/",
+     "published": "2026-10-07T09:21:00+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Henri Kagan, Kenso Soai win Nobel for 'making chemistry choose a mirror image'",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/nobel-prize-in-chemistry-awarded-to-henri-kagan-and-kenso-soai-101791366205106.html",
+     "published": "2026-10-07T09:49:56+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T03:08:02.336758+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
+   "id": "9fdb0e5c9ef7",
+   "first_seen": "2026-10-08T03:08:02.336758+00:00",
+   "members": [
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "Rahm to leave LIV Golf after three seasons, reports say",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-07-rahm-to-leave-liv-golf-after-three-seasons-reports-say/",
+     "published": "2026-10-07T20:44:56+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Rahm to leave LIV Golf over 'unacceptable' terms",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/golf/articles/c65yngj00477o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-07T20:56:00+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Rahm to quit LIV Golf over 'unacceptable' terms",
+     "language": "en",
+     "link": "https://www.skysports.com/golf/news/12040/13596245/jon-rahm-set-to-end-liv-golf-involvement-over-unacceptable-terms-for-proposed-relaunch",
+     "published": "2026-10-07T17:15:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T03:08:02.336758+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
    "id": "df20cb21ca89",
    "first_seen": "2026-10-06T03:07:51.967007+00:00",
    "members": [
@@ -6269,7 +6730,7 @@
      "published": "2026-10-07T12:08:00+00:00"
     }
    ],
-   "last_seen": "2026-10-07T18:07:47.065879+00:00",
+   "last_seen": "2026-10-08T03:08:02.336758+00:00",
    "outlets": 3,
    "regions": 1,
    "languages": 1,
@@ -6307,7 +6768,7 @@
      "published": "2026-10-07T06:15:10+00:00"
     }
    ],
-   "last_seen": "2026-10-07T18:07:47.065879+00:00",
+   "last_seen": "2026-10-08T03:08:02.336758+00:00",
    "outlets": 3,
    "regions": 1,
    "languages": 1,
