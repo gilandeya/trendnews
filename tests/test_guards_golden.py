@@ -2354,3 +2354,136 @@ def test_important_1288_guards() -> None:
               [important_doc("BBC", event + " كلمةحارس82.")], by_name({"BBC": sup}))
     check("(g82) نقطة فيها «الخارجية الأميركية» ⇒ site_queries فيها عبارة site:state.gov",
           any("site:state.gov" in q for q in p82["site_queries"]), p82["site_queries"])
+
+
+def test_important_1291_guards() -> None:
+    """Issue #1291 (B1): g83–g87 — تصحيح بمصدر قديم، تنظيف نصوص القوائم، نسبة الأحكام إلى الوسائل،
+    خطة المنشورات الثلاثة، والخبر الرئيسي. حالات g83/g84 من ملف 1278b الحقيقي (نسخة state/important/1278.json)."""
+    import json
+    from datetime import date
+    from pathlib import Path
+
+    from src import important, important_issue, important_write
+
+    cfg = load_config()
+    icfg = cfg.get("important", {}) or {}
+    fx = json.loads((Path(__file__).parent / "fixtures" / "important" / "1278b.json").read_text(encoding="utf-8"))
+    by_id = {p["id"][:6]: p for p in fx["points"]}
+
+    # g83) 146b90: مقتطف state.gov الحقيقي بتاريخ 20 آذار/مارس 2026 لا يصحّح تصريحًا من أكتوبر 2026
+    p146 = by_id["146b90"]
+    src = p146["correction"]["sources"][0]
+    name = src["publisher"]
+    doc = {"name": name, "link": src["link"], "text": src["excerpt"], "from_text": True}
+    pool = {name: doc}
+    f146 = {"text": p146["text"], "dates": [], "entities": ["الخارجية الأميركية", "حزب الله"],
+            "framing": "circulating"}
+    today = date(2026, 10, 8)
+
+    def verdict_for(as_of):
+        data = {"sources": [important_stance(name, "conflicts_detail", src["excerpt"],
+                                             detail=p146["correction"]["error"],
+                                             correct_form=p146["correction"]["correct"],
+                                             as_of=as_of, detail_kind="other")]}
+        stances = important._read_stances(data, pool, f146, icfg, now=today)
+        return stances, important.decide(stances, pool, cfg, f146)
+
+    st, dec = verdict_for("20 آذار/مارس 2026")
+    check("(g83) تصحيح تصريح بمصدر عمره ~200 يوم ⇒ ليست inaccurate",
+          dec["verdict"] != "inaccurate", dec["verdict"])
+    check("(g83) state.gov ليس في correction والموقف related_other",
+          not dec.get("correction") and st[name]["stance"] == "related_other", (dec.get("correction"), st[name]))
+    st2, dec2 = verdict_for("5 تشرين الأول/أكتوبر 2026")
+    check("(g83) ضابطة: المقتطف نفسه بـas_of «5 تشرين الأول/أكتوبر 2026» ⇒ inaccurate كما الآن",
+          dec2["verdict"] == "inaccurate" and dec2["correction"]
+          and dec2["correction"]["sources"][0]["publisher"] == name, dec2)
+    st3, dec3 = verdict_for("")
+    check("(g83) ضابطة: تاريخ مجهول ⇒ السلوك السابق (inaccurate)", dec3["verdict"] == "inaccurate", dec3["verdict"])
+
+    # g84) 577c16: عنوان nearest الحقيقي بنصوص القوائم ينظَّف إلى عنوان الخبر
+    dirty = by_id["577c16"]["nearest"]["title"]
+    clean = important.clean_page_text(dirty, icfg)
+    check("(g84) clean_page_text على عنوان 577c16 الحقيقي ⇒ «فرض عقوبات على شبكة عالمية تدعم تمويل حزب الله»",
+          clean == "فرض عقوبات على شبكة عالمية تدعم تمويل حزب الله", clean)
+    ex = by_id["577c16"]["nearest"]["sources"][0]["excerpt"]
+    cex = important.select_excerpt(ex, {"entities": []}, icfg)
+    check("(g84) مقتطف 577c16 لا يبدأ بنصوص القوائم",
+          cex.startswith("فرض عقوبات") and "hide" not in cex[:120], cex[:120])
+    check("(g84) جملة عادية في وسط النص تحوي «Menu» لا تُمسّ",
+          important.clean_page_text("خبر أول\nطلبت Menu جديدة", icfg) == "خبر أول\nطلبت Menu جديدة", None)
+
+    # g85) الوسيلة ناقلة لا حَكَم
+    def viol(t):
+        return important_write.outlet_judgment_violations(t, cfg)
+
+    check("(g85) «وتعدّ BBC وDW الحزب ركيزة…» ⇒ مخالفة",
+          len(viol("وتعدّ BBC وDW الحزب ركيزة أساسية في الاستراتيجية الإيرانية.")) == 1, None)
+    check("(g85) «الجزيرة تعتبر أن…» ⇒ مخالفة", len(viol("الجزيرة تعتبر أن…")) == 1, None)
+    check("(g85) «أفادت BBC بأن الحزب دخل الحرب في 2 مارس.» ⇒ لا مخالفة",
+          viol("أفادت BBC بأن الحزب دخل الحرب في 2 مارس.") == [], None)
+    check("(g85) «قال المتحدث تومي بيغوت إن الأموال غير موجودة.» ⇒ لا مخالفة",
+          viol("قال المتحدث تومي بيغوت إن الأموال غير موجودة.") == [], None)
+    v = viol("الجزيرة تعتبر أن الحزب ضعيف.")[0]
+    check("(g85) نص المخالفة يحمل الجملة",
+          v.startswith("حكم منسوب إلى وسيلة إعلام (") and "انسبه إلى قائله" in v, v)
+    pt = {"verdict": "confirmed", "claim": "س", "text": "س"}
+    got = important_write.check_text(pt, {"post_title": "عنوان", "post_body": "تعتبر رويترز أن الحزب ضعيف."}, cfg)
+    check("(g85) check_text يرفض الحكم المنسوب إلى وسيلة", (got or "").startswith("حكم منسوب"), got)
+    note = icfg["writer_instructions"]["attribution_note"]
+    check("(g85) attribution_note تدخل تعليمات كل حكم",
+          all(note in important_write.instructions(
+              {"verdict": vd, "claim": "س", "text": "س", "correction": {"correct": "ص"},
+               "refuted_by": [{"publisher": "ف", "verdict_label": ""}], "nearest": {"title": "ع"}}, cfg)
+              for vd in ("confirmed", "inaccurate", "false", "not_found")), None)
+
+    # g86) خطة المنشورات الثلاثة
+    def mk(verdict, n=0, **k):
+        return {"id": f"{verdict}{n}", "verdict": verdict, **k}
+
+    pts = ([mk("confirmed", i) for i in range(4)] + [mk("not_found", i) for i in range(3)]
+           + [mk("false", i) for i in range(2)] + [mk("inaccurate")]
+           + [mk("not_found", 9, call_error=True)]
+           + [mk("confirmed", 8, about_main=False), mk("false", 8, about_main=False)])
+    on, off = important.split_off_topic(pts)
+    plan = important.plan_articles(on)
+    check("(g86) verified 4 · nearest 3 · refuted 3 · off_topic 2 (وcall_error خارج القوائم)",
+          (len(plan["verified"]), len(plan["nearest"]), len(plan["refuted"]), len(off)) == (4, 3, 3, 2)
+          and "not_found9" not in sum(plan.values(), []), plan)
+    check("(g86) plan_articles تتجاهل about_main=false بنفسها", important.plan_articles(pts) == plan, None)
+
+    # g87) الخبر الرئيسي: نقطتان خارجه لا بحث ولا تصنيف لهما
+    def rig_run(case, main_story):
+        pts_ = [{"claim": f"واقعة رئيسية {i} كلمةرئيسية{case}", "entities": [f"كلمةرئيسية{case}"],
+                 "queries": [{"lang": "ar", "q": f"كلمةرئيسية{case} {i}"}], "about_main": True}
+                for i in range(2)]
+        pts_ += [{"claim": f"موضوع آخر {i} كلمةجانبية{case}", "entities": [f"كلمةجانبية{case}"],
+                  "queries": [{"lang": "ar", "q": f"كلمةجانبية{case} {i}"}], "about_main": False}
+                 for i in range(2)]
+        docs = {f"كلمةرئيسية{case}": [important_doc("BBC", f"نص عن كلمةرئيسية{case}")],
+                f"كلمةجانبية{case}": [important_doc("Reuters", f"نص عن كلمةجانبية{case}")]}
+
+        def classify(point, names):
+            return {"sources": [important_stance(n, "supports", "نص عن") for n in names]}
+        with ImportantRig(pts_, docs, classify, main_story=main_story) as rig:
+            important.judge("نص", 98700 + case, cfg)
+        return rig, important.load_saved(98700 + case)
+
+    rig, res = rig_run(1, "الولايات المتحدة تواصل الضغط على حزب الله مالياً")
+    check("(g87) لا بحث عن النقطتين الخارجتين ولا نداء تصنيف لهما",
+          not any("كلمةجانبية1" in q for q in rig.queries)
+          and rig.calls.count("classify_sources") <= 2, (rig.queries, rig.calls))
+    check("(g87) النقطتان في off_topic ولا في points",
+          len(res["off_topic"]) == 2 and len(res["points"]) == 2
+          and all("موضوع آخر" in o["text"] for o in res["off_topic"]), res["off_topic"])
+    check("(g87) main_story وarticles محفوظان",
+          res["main_story"].startswith("الولايات المتحدة")
+          and set(res["articles"]) == {"verified", "nearest", "refuted"}, res.get("articles"))
+    body = important_issue.build_selection_body(res, cfg)
+    check("(g87) القضية: سطر «📌 الخبر الرئيسي» وكتلة «خارج الموضوع الرئيسي (2)»",
+          "📌 الخبر الرئيسي: الولايات المتحدة تواصل" in body
+          and "<summary>خارج الموضوع الرئيسي (2)</summary>" in body and "موضوع آخر 0" in body, body[:400])
+    rig2, res2 = rig_run(2, "")
+    check("(g87) ضابطة: main_story فارغ ⇒ كل النقاط تُحكم ولا off_topic",
+          len(res2["points"]) == 4 and res2["off_topic"] == []
+          and any("كلمةجانبية2" in q for q in rig2.queries), (len(res2["points"]), res2["off_topic"]))
+    check("(g87) rules_version 4", res["rules_version"] == 4, res["rules_version"])

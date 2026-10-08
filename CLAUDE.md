@@ -1332,6 +1332,31 @@ step (`article.wide_days`).
     `important.outside_docs_label` («🚫 استُبعدت {n} وثائق من خارج مصادرنا») إن كان `outside_docs > 0`؛ كل النصوص في config.
     **أثر ذلك على درجات not_found:** مؤيِّدو مجموعة واحدة من مصادرنا صاروا confirmed لا single_source، فالدرجة (أ) لا تبلغها إلا نقطة
     مُنع تأكيدها بحارس الجهة.
+- **الخبر الرئيسي وعمر التصحيح وتنظيف القوائم ونسبة الأحكام وخطة المنشورات (Issue #1291، B1 — الأساس لثلاثة منشورات
+  حول الخبر الرئيسي في B2؛ اختبارات g83–g87، fixture `tests/fixtures/important/1278b.json` نسخة حرفية من 1278):**
+  - **الخبر الرئيسي:** نداء التفكيك نفسه (لا نداء جديد) يعيد `main_story` (جملة خبرية ≤ 25 كلمة) و`about_main` لكل نقطة
+    (`EXTRACT_SCHEMA`). `extract_points` تعيد الآن أربعة عناصر `(نقاط، موضوع، خطأ، main_story)`. نقطة `about_main == false` لا
+    تُبنى لها عبارات ولا نداء لغات ولا بحث ولا تصنيف (`split_off_topic` في `judge`)، وتُحفظ في النتيجة `off_topic: [{id, text}]`؛
+    وسقف `max_points` على نقاط الخبر الرئيسي وحدها. **احتياط:** `main_story` فارغ أو كل النقاط خارجه ← كلها تُحكم مع `log.warning`؛
+    غياب `about_main` يُعدّ true. قضية الترشيح (`important_issue.build_selection_body`) تعرض في أعلاها «📌 الخبر الرئيسي» وفي آخرها
+    `<details>` «خارج الموضوع الرئيسي (n)»؛ نصوصها `important.main_story_label`/`off_topic_title`. عرض فقط، لا تغيير آخر في شكلها.
+  - **قاعدة عمر التصحيح:** `conflicts_detail` بـ`detail_kind` **غير رقمي** (تصريح/حدث) تاريخه (`as_of` بـ`parse_date`، وإلا
+    `published` الوثيقة إن عُرف) أقدم من تاريخ الحكم بأكثر من `important.statement_correction_max_age_days` (30) ← `related_other`
+    (`_statement_is_stale` في `_read_stances`، مع `stale=True`) فلا يدخل التصحيح ولا evidence. تاريخ مجهول ← السلوك السابق. شرط
+    `as_of` للأرقام (#1205) لا يتغير. تاريخ الحكم يمرّره `judge` (`now`) عبر `judge_point`/`_judge_pool`/`_share_pool`.
+  - **`important.clean_page_text(text, icfg)`:** تنظّف **الأسطر الأولى** وحدها (حتى أول سطر بلا كلمة قائمة) من
+    `important.page_chrome_words` (حساسة لحالة الأحرف اللاتينية): تفصل اللاتينية الملتصقة بعربية، وتحذف مع كلمة القائمة الملتصقة
+    الكلمة العربية الملتصقة بها («Homeالعربية» قائمة لغة)، وتقسم السطر عند كلمات القوائم، وتبقي المقطع المكرر متتاليًا مرة واحدة.
+    تُطبَّق على بداية `select_excerpt` وعلى عنوان الوثيقة في الدرجة (د) من `_nearest`؛ العنوان الفارغ بعد التنظيف أو الأطول من
+    `important.nearest_title_max_words` (20) يُستبدل بأول جملة من المقتطف النظيف بالسقف نفسه.
+  - **حارس نسبة الأحكام:** `important_write.outlet_judgment_violations(text, cfg)` — فعل حكم من `important.judgment_verbs` ضمن
+    `important.judgment_window` (3) كلمات من اسم وسيلة (`sources[].name/name_ar` + `important.outlet_aliases`، بتسامح حرف
+    العطف الملتصق) ← مخالفة نصها `important.outlet_judgment_violation`؛ أفعال النقل (أفادت/ذكرت/بحسب…) مسموحة. داخل `check_text`
+    فالرفض يعيد الكتابة مرة واحدة بذكر العلّة كبقية الفحوص. و`writer_instructions.attribution_note` تُلحَق بتعليمات كل الأحكام
+    (`important_write.instructions`).
+  - **خطة المنشورات `articles`:** تُحفظ في النتيجة فقط (`plan_articles`): `verified` = confirmed · `nearest` = not_found ·
+    `refuted` = false + inaccurate، بمعرّفات نقاط الخبر الرئيسي؛ ونقطة `call_error` لا تدخل أي قائمة. العرض والكتابة في B2.
+  - `important.rules_version` = 4.
 - **تنبيهات تشغيلية:** `publish.yml` يودِع `drafts state` فيصل `state/important`؛ أما `image.yml` فيودِع `drafts state/candidates
   state/youtube_topics` فحسب، فصورة المرحلة 1 لنقطة «هام» (`manual_image` على النقطة) و`state/brave_usage.json` لا يُودَعان حتى يضيف
   صاحب المشروع `state/important` و`state/brave_usage.json` إليه. ملفات workflow الثلاثة `article.yml` و`request.yml` و`important-judge.yml`
