@@ -1436,6 +1436,35 @@ step (`article.wide_days`).
     النموذج حتى `max_questions`. فشل النداء يترك السؤال الثابت بعربيته وحدها.
   - **(5) الزمن النسبي:** تعليمة في `important.article_instructions.common` تمنع نقل «اليوم/أمس/الأسبوع الماضي/الشهر الماضي» كما هي، وتنبيه بعد
     الكتابة «زمن نسبي في المتن: «…» — تحقّق من التاريخ» لكل عبارة من `important.relative_time_words` وردت.
+- **منشورات على الموضوع (Issue #1309، B5 — g107–g114 في `tests/test_guards_golden.py:test_important_1309_guards`، fixture
+  `tests/fixtures/important/1306/` نسخة من `state/important/1306.json` ومسوداته الثلاث):** حادثة #1308: خروج عن الموضوع (درعا،
+  تأشيرات جنوب أفريقيا، سلاح اليونان) وتكرار بين المنشورات وعقوبات قديمة قُدّمت «جديدة» وتصحيح بلا تفصيل. القرارات التسعة:
+  - **(1) حارس التصحيح بلا تفصيل (`important._detail_in_point` داخل `_read_stances`):** `conflicts_detail` لا يُقبل تصحيحًا إلا إن كان
+    نوع تفصيله موجودًا في النقطة نفسها: `date` ← للنقطة `dates` · `number` ← `numbers` · `name/place/other` ← نص `correction.error` أو
+    كلمة منه (≥ 4 أحرف بعد `_fold`) واردة في claim؛ وإلا `related_other` (لا تصحيح ولا evidence). نوع غائب (تصنيف قديم) لا يُحكم عليه.
+    `important.rules_version` = 5.
+  - **(2) أسئلة البحث المكمِّل لكل منشور (`important_gap.gap_questions`):** السؤال الثابت «ما آخر ما نُشر عن: {main_story}» لـverified
+    وحده؛ nearest وrefuted من claims أعضائهما وحدها ولا يدخل الخبر الرئيسي مدخل النموذج لهما.
+  - **(3) فلتر الصلة:** `important_gap.pivot_entities(members)` = الأكثر ورودًا في `entities` النقاط الأعضاء (التعادل ← كلهم)؛
+    النتيجة تحفظ الآن `entities` على النقطة (نتائج أقدم بلا entities ← لا فلتر). تُرمى وثيقة البحث المكمِّل التي لا يذكر مقتطفها (بعد
+    `clean_page_text`) أحدهم بـ`important._mentions` وصيغه، وتُعدّ في `item["gap_dropped_off_topic"]`؛ ويُحفظ `item["pivot_entities"]`.
+    أُضيفت مجموعة `entity_aliases` لـ«حزب الله» (Hezbollah/Hizballah…) كي لا تُرمى وثيقة إنجليزية عن الكيان نفسه.
+  - **(4) تاريخ كل مصدر:** `_PointSearch.published_of` = تاريخ نتيجة بحث جوجل (RSS؛ تاريخ Brave "الآن" لا يُعتمد) ثم `htmldate` على
+    HTML الصفحة المقروءة (`_keep_html`) ثم فارغ؛ يُحفظ `published` على كل وثيقة في `read_docs` وعلى مقتطفات البحث المكمِّل. مدخل الكاتب
+    يُلحَق بكل مقتطف «(نُشر: YYYY-MM-DD)» أو «(تاريخ غير معروف)» (`article_grounded`)، وتُرمى وثيقة بحث مكمِّل أقدم من
+    `important.gap.max_age_days` (120)؛ وتعليمة common: تاريخ كل حدث كتاريخ مصدره ولا «جديد/أخير» لما هو أقدم من 14 يومًا.
+  - **(5) لا حشو:** `important.article_words` = [180، 450] والتعليمة «الطول الأقصى 450 كلمة ولا حدّ أدنى ملزم…» وممنوع فقرة عن
+    دولة/قضية لا يذكرها الخبر الرئيسي ولا نقاطه. الطول **تنبيه لا رفض** (`length_reasons`: تحت `article_words_warn_below` 150 أو فوق
+    450×1.2، بقالب «لم يجتز الفحص» فيحوّل publish/go3 إلى go2). و`off_topic_warnings`: كل فقرة لا تذكر كيانًا محوريًا ←
+    «⚠️ فقرة قد تكون خارج الموضوع: «أول 12 كلمة…»».
+  - **(6) التكرار:** `repeat_warnings` — تتابع 12 كلمة فأكثر مع أحد إخوة المنشور (`verify_draft._normalized_words` + `_contains_run`)
+    ← «⚠️ تكرار مع منشور آخر من النص نفسه: «…»».
+  - **(7) التفنيد:** `refutation_warnings` — refuted لا يذكر متنه `correction.correct` (inaccurate) أو اسم أول `refuted_by` (false) ←
+    «⚠️ منشور التفنيد لا يذكر الصيغة الصحيحة أو جهة النفي لـ: …».
+  - **(8) العنوان الافتراضي:** في `build_article_draft` يصير `post_title` دائمًا أول عنوان خبري من `headlines_for_post` (القائمة المعروضة
+    نفسها)، وإن لم يُعِد المولّد عنوانًا خبريًا بقي عنوان الكاتب.
+  - **(9) أسماء المصادر:** أُضيفت إلى `important.publisher_ar`: Cyprus Mail · UA.NEWS · The Sunday Guardian · The Express Tribune ·
+    Anadolu Agency/AA · Time. (مطابقة غير حسّاسة للحالة بحدود الكلمات: «time» اللاتينية داخل متن عربي تُستبدل أيضًا.)
 - **تنبيهات تشغيلية:** `publish.yml` يودِع `drafts state` فيصل `state/important`؛ أما `image.yml` فيودِع `drafts state/candidates
   state/youtube_topics` فحسب، فصورة المرحلة 1 لنقطة «هام» (`manual_image` على النقطة) و`state/brave_usage.json` لا يُودَعان حتى يضيف
   صاحب المشروع `state/important` و`state/brave_usage.json` إليه. ملفات workflow الثلاثة `article.yml` و`request.yml` و`important-judge.yml`

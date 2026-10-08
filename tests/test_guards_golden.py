@@ -2486,7 +2486,8 @@ def test_important_1291_guards() -> None:
     check("(g87) ضابطة: main_story فارغ ⇒ كل النقاط تُحكم ولا off_topic",
           len(res2["points"]) == 4 and res2["off_topic"] == []
           and any("كلمةجانبية2" in q for q in rig2.queries), (len(res2["points"]), res2["off_topic"]))
-    check("(g87) rules_version 4", res["rules_version"] == 4, res["rules_version"])
+    # #1309: رُفع rules_version إلى 5 بحارس التصحيح بلا تفصيل في النقطة
+    check("(g87) rules_version 5", res["rules_version"] == 5, res["rules_version"])
 
 
 def _b2_body(words: int, tag: str = "", extra: str = "") -> str:
@@ -2630,17 +2631,18 @@ def test_important_1293_guards() -> None:
             rig_.next = 88600
             return important_write.write_article(result, item_, cfg, [], 88100), rig_
 
-    (d1, why1, _t), rig1 = run_write(items[0], [_b2_body(120), _b2_body(330)])
-    check("(g91) 120 كلمة ← رفض وإعادة كتابة واحدة بذكر العلّة ثم مسودة",
-          d1 is not None and len(rig1.calls) == 2 and "عدد كلمات" in rig1.calls[1]["prompt"]
-          and "عدد كلمات" not in rig1.calls[0]["prompt"], (why1, len(rig1.calls)))
+    # #1309: الطول لم يعد رفضًا (تنبيه فقط) فصار الرفض الذي تُختبر به إعادة الكتابة عبارة «بحسب معلومات المحرر»
+    (d1, why1, _t), rig1 = run_write(items[0], [_b2_body(330, extra="بحسب معلومات المحرر وقع ذلك."), _b2_body(330)])
+    check("(g91) عبارة المحرر ← رفض وإعادة كتابة واحدة بذكر العلّة ثم مسودة",
+          d1 is not None and len(rig1.calls) == 2 and "محاولتك السابقة رُفضت" in rig1.calls[1]["prompt"]
+          and "محاولتك السابقة رُفضت" not in rig1.calls[0]["prompt"], (why1, len(rig1.calls)))
     check("(g91) المسودة: ثلاثة عناوين، بطاقة important لـverified، والحقول article_kind/point_ids/main_story/gap_sources",
           d1 and len(d1["headlines"]) == 3 and cards.card_origin(d1) == "important" and d1["origin"] == "important"
           and d1["article_kind"] == "verified" and d1["point_ids"] == items[0]["point_ids"]
           and d1["main_story"] == result["main_story"] and d1["gap_sources"] == gap_src
           and d1["point_id"] == items[0]["id"], d1 and {k: d1.get(k) for k in ("article_kind", "point_ids")})
-    check("(g91) تعليمات الكاتب: 300 إلى 450 كلمة والخبر الرئيسي ومقتطفا BBC وState Department في المدخل",
-          "300 إلى 450 كلمة" in rig1.calls[0]["prompt"] and result["main_story"] in rig1.calls[0]["prompt"]
+    check("(g91) تعليمات الكاتب: الطول الأقصى 450 والخبر الرئيسي ومقتطفا BBC وState Department في المدخل",
+          "الطول الأقصى 450 كلمة" in rig1.calls[0]["prompt"] and result["main_story"] in rig1.calls[0]["prompt"]
           and "بي بي سي: تفصيل مؤكد" in rig1.calls[0]["prompt"]
           and "الخارجية: بيان رسمي" in rig1.calls[0]["prompt"], rig1.calls[0]["prompt"][:300])
     (d2, why2, _t), rig2 = run_write(items[0], [_b2_body(330, extra="وتعدّ BBC هذه الخطوة تصعيدًا خطيرًا.")])
@@ -2938,7 +2940,7 @@ def test_important_1304_guards() -> None:
             code = important_finalize.finalize(issue + 1, body, cfg)
         return code, rig
 
-    code_w, rig_w = staged(90410, {"verified": "publish", "nearest": "go3"}, 120)
+    code_w, rig_w = staged(90410, {"verified": "publish", "nearest": "go3"}, 80)
     moved = [t for _n, t in rig_w.comments if "إلى المراجعة لأن فيه تنبيهات فحص" in t and t.startswith("📝 حُوِّل ")]
     check("(g104) publish وgo3 لمنشورين فيهما تنبيه فحص ← تعليقان بالتحويل، ولا نشر ولا بطاقة",
           code_w == 0 and len(moved) == 2 and rig_w.published == [] and rig_w.builds == [],
@@ -3022,8 +3024,9 @@ def test_important_1298_guards() -> None:
                       for w in d96.get("warnings", [])), d96 and d96.get("warnings"))
 
     # ── g97) 120 كلمة في المحاولات الثلاث ← مسودة بتنبيه «لم يجتز الفحص» (#1304: الطول لم يعد سبب فشل) ──
-    (d97, why97, tech97), _r, it97 = run("verified", [_b2_body(120)])
-    check("(g97) 120 كلمة ← مسودة محفوظة لا فشل، وفيها تنبيه الطول بالقالب",
+    # #1309: 80 جملة-كلمات (~110 كلمة فعلية) تحت حدّ التنبيه 150؛ كان 120 اسميًا يتجاوزه بعدّ \w+ فلا تنبيه
+    (d97, why97, tech97), _r, it97 = run("verified", [_b2_body(80)])
+    check("(g97) ~110 كلمة ← مسودة محفوظة لا فشل، وفيها تنبيه الطول بالقالب",
           d97 is not None and not tech97 and any(
               w.startswith("⚠️ لم يجتز الفحص: عدد كلمات") and w.endswith("— راجعه قبل النشر")
               for w in d97.get("warnings", [])), (why97, d97 and d97.get("warnings")))
@@ -3050,3 +3053,223 @@ def test_important_1298_guards() -> None:
     check("(g99) refuted: اقتباس claim العضو حرفيًا ← مسودة بلا تحويل ولا تنبيه تحويل",
           d99 is not None and f"«{ref_claim}»" in d99["arabic"]["post_body"]
           and not any("فحُوِّل" in w for w in d99.get("warnings", [])), why99)
+
+
+def test_important_1309_guards() -> None:
+    """Issue #1309 (B5): g107–g114 على شاهد حقيقي (tests/fixtures/important/1306/: نتيجة الحكم والمسودات الثلاث
+    ea1ea7937cc8 وdaec2c113f1c وbbf1c1239a95) — حارس التصحيح بلا تفصيل، أسئلة البحث المكمِّل لكل منشور، فلتر الصلة،
+    تاريخ كل مصدر، تنبيه الفقرة الخارجة عن الموضوع والتكرار والتفنيد الناقص، والعنوان الافتراضي."""
+    import copy
+    import json
+    from datetime import datetime, timedelta, timezone
+
+    from src import headlines as headlines_mod, important, important_gap, important_write
+    from tests.helpers import (IMPORTANT_FIXTURES, ImportantRig, ImportantWriteRig, important_b2_result,
+                               important_synthetic_point)
+
+    cfg = load_config()
+    icfg = cfg.get("important", {}) or {}
+    fx = IMPORTANT_FIXTURES / "1306"
+    real = json.loads((fx / "1306.json").read_text(encoding="utf-8"))
+    drafts = {k: json.loads((fx / f"{k}.json").read_text(encoding="utf-8"))
+              for k in ("ea1ea7937cc8", "daec2c113f1c", "bbf1c1239a95")}
+    items = {i["kind"]: i for i in real["article_items"]}
+    p916 = next(p for p in real["points"] if p["id"].startswith("916580"))
+    ev = p916["evidence"][0]
+
+    # ── g107) تفصيل date/number/name في نقطة بلا ما يخالفه ← لا تصحيح؛ ضابطة بنقطة فيها تاريخ ──
+    pool = {"BBC": {"name": "BBC", "link": ev["link"], "text": ev["excerpt"]}}
+
+    def judged(f, kind="date", error=None):
+        src = {"source": "BBC", "stance": "conflicts_detail", "same_event": True,
+               "excerpt": ev["excerpt"], "detail": error or ev["detail"],
+               "correct_form": ev["correct_form"], "as_of": ev["as_of"], "detail_kind": kind}
+        st = important._read_stances({"sources": [src]}, pool, f, icfg)
+        return st, important.decide(st, pool, cfg, f)
+
+    f_no_date = {"text": p916["claim"], "entities": ["حزب الله", "لبنان", "إيران"], "numbers": [], "dates": []}
+    st, dec = judged(f_no_date)
+    check("(g107) النقطة 916580 بمقتطف BBC الحقيقي وdetail_kind=date بلا dates ← ليست inaccurate ولا تصحيح",
+          dec["verdict"] != "inaccurate" and st["BBC"]["stance"] == "related_other" and not dec.get("correction"),
+          (dec["verdict"], st["BBC"]["stance"]))
+    st_c, dec_c = judged({**f_no_date, "dates": ["2 مارس 2026"]})
+    check("(g107) ضابطة: النقطة نفسها وفيها تاريخ ← inaccurate كما كان",
+          dec_c["verdict"] == "inaccurate" and (dec_c["correction"] or {}).get("detail_kind") == "date", dec_c["verdict"])
+    check("(g107) number بلا numbers في النقطة ← لا تصحيح؛ ومعها numbers ← تصحيح",
+          judged(f_no_date, "number")[0]["BBC"]["stance"] == "related_other"
+          and judged({**f_no_date, "numbers": ["6"]}, "number")[0]["BBC"]["stance"] == "conflicts_detail")
+    check("(g107) name بخطأ لا يرد في claim ← لا تصحيح؛ وكلمة ≥ 4 أحرف من الخطأ واردة في claim ← تصحيح",
+          judged(f_no_date, "name", "الصواريخ الباليستية")[0]["BBC"]["stance"] == "related_other"
+          and judged(f_no_date, "name", "دور لبنان في الحرب")[0]["BBC"]["stance"] == "conflicts_detail")
+    check("(g107) rules_version 5", cfg.path("important.rules_version") == 5)
+
+    # ── g108) أسئلة البحث المكمِّل لكل منشور ──
+    qs_by, reqs_by = {}, {}
+    for kind in ("verified", "nearest", "refuted"):
+        with ImportantRig([], {}, lambda *a: {}, gap=[
+                {"question": "سؤال من نص النقطة؟", "query_ar": "حزب الله بيان", "query_en": "Hezbollah statement"}],
+                gap_main_story_en="US policy on Hezbollah and Lebanon") as rig_:
+            qs_by[kind] = important_gap.gap_questions(
+                real, items[kind], important_write.item_members(real, items[kind]), cfg)
+            reqs_by[kind] = list(rig_.gap_requests)
+    fixed_q = icfg.get("gap", {}).get("main_question").format(main_story=real["main_story"])
+    check("(g108) verified فيه السؤال الثابت أولًا وفي مدخل النموذج الخبر الرئيسي",
+          qs_by["verified"][0]["question"] == fixed_q and real["main_story"] in reqs_by["verified"][0],
+          qs_by["verified"])
+    check("(g108) nearest وrefuted ليس فيهما السؤال الثابت ولا الخبر الرئيسي في مدخل النموذج",
+          all(fixed_q not in [q["question"] for q in qs_by[k]] and real["main_story"] not in reqs_by[k][0]
+              for k in ("nearest", "refuted")), (qs_by["nearest"], qs_by["refuted"]))
+    check("(g108) أسئلتهما من claims أعضائهما: كل claim في مدخل النموذج",
+          all(m["claim"] in reqs_by[k][0] for k in ("nearest", "refuted")
+              for m in important_write.item_members(real, items[k])))
+
+    # ── g109) فلتر الصلة بوثائق gap الحقيقية: اليونان وجنوب أفريقيا ودرعا تُرمى ──
+    def gap_doc(kind, link_part):
+        g = next(g for g in items[kind]["gap_sources"] if link_part in g["link"])
+        return {"name": g["publisher"], "link": g["link"], "text": g["excerpt"]}
+
+    greece = gap_doc("refuted", "gretsiyi")
+    safrica = gap_doc("verified", "south-african")
+    daraa = gap_doc("nearest", "israeli-army-prepares")
+    sanctions = gap_doc("verified", "sanctioning-a-global-network")
+    iranintl = gap_doc("verified", "iranintl")
+
+    class StubSearch:
+        docs: list = []
+        dates: dict = {}
+
+        def __init__(self, cfg_, body):
+            self.brave = {"requests": 0, "skipped": None}
+            self.days = 21
+
+        def resolve_link(self, link):
+            return link, True
+
+        def run(self, *a, **k):
+            return [], list(StubSearch.docs), []
+
+        def run_brave(self, *a, **k):
+            return [], [], []
+
+        def published_of(self, d):
+            return StubSearch.dates.get(d["link"], "")
+
+    q_one = [{"question": "س؟", "query_ar": "حزب الله", "query_en": ""}]
+    real_search = important._PointSearch
+    important._PointSearch = StubSearch
+    try:
+        StubSearch.docs = [greece, safrica, daraa, sanctions]
+        stats: dict = {}
+        out = important_gap.search_gap(q_one, cfg, ["حزب الله"], stats)
+        kept_links = [g["link"] for g in out]
+        check("(g109) كيان محوري «حزب الله» ← الوثائق الثلاث (اليونان وجنوب أفريقيا ودرعا) تُرمى وتُعدّ",
+              not any(d["link"] in kept_links for d in (greece, safrica, daraa)) and stats["off_topic"] == 3,
+              (kept_links, stats))
+        check("(g109) ووثيقة عقوبات حزب الله (State Dept) تبقى", sanctions["link"] in kept_links, (kept_links, stats))
+        out_all = important_gap.search_gap(q_one, cfg, [], {})
+        check("(g109) بلا كيان محوري (نتيجة قديمة بلا entities) ← لا فلتر",
+              len(out_all) >= 3, [g["link"] for g in out_all])
+
+        # ── g110) وثيقة أقدم من 120 يومًا تُرمى؛ ومدخل الكاتب يحمل تاريخ النشر ──
+        today = datetime.now(timezone.utc).date()
+        recent = (today - timedelta(days=10)).isoformat()
+        StubSearch.docs = [sanctions, iranintl]
+        StubSearch.dates = {sanctions["link"]: "2025-01-05", iranintl["link"]: recent}
+        stats = {}
+        # بلا كيان محوري: وثيقة Iran International عن مقابلة «تايم» لا تذكر حزب الله فتُرمى بفلتر الصلة لا بالعمر
+        out = important_gap.search_gap(q_one, cfg, [], stats)
+    finally:
+        important._PointSearch = real_search
+    check("(g110) وثيقة published أقدم من 120 يومًا ← تُرمى، والحديثة تبقى بتاريخها",
+          [g["link"] for g in out] == [iranintl["link"]] and stats["too_old"] == 1
+          and out[0]["published"] == recent, (out, stats))
+    members_v = copy.deepcopy(important_write.item_members(real, items["verified"]))
+    ev_link = important_write.ordered_sources(members_v[0], cfg)[0]["link"]
+    members_v[0]["read_docs"] = [{"publisher": "x", "link": ev_link, "published": "2026-03-20"}]
+    grounded = important_write.article_grounded(members_v, [dict(out[0])], cfg)
+    texts = [s_["text"] for f in grounded for s_ in f["sources"]]
+    check("(g110) مدخل الكاتب: مقتطف البحث المكمِّل «(نُشر: YYYY-MM-DD)»",
+          any(t.endswith(f"(نُشر: {recent})") for t in texts), texts)
+    check("(g110) وأدلة العضو بتاريخ read_docs بالرابط",
+          any(t.endswith("(نُشر: 2026-03-20)") for t in texts), texts)
+    check("(g110) ما بلا تاريخ ← «(تاريخ غير معروف)»", any(t.endswith("(تاريخ غير معروف)") for t in texts), texts)
+    s_ = important._PointSearch(cfg, "")
+    s_._keep_html("https://x.example/a",
+                  '<html><head><meta property="article:published_time" content="2026-03-20T10:00:00Z">'
+                  "</head><body><p>خبر</p></body></html>")
+    check("(g110) htmldate على HTML الصفحة المقروءة ← تاريخها",
+          s_.published_of({"link": "https://x.example/a"}) == "2026-03-20", s_.dates)
+    common = icfg["article_instructions"]["common"]
+    check("(g110) تعليمات common: تاريخ المصدر وعتبة 14 يومًا والطول الأقصى بلا أدنى",
+          "14 يومًا" in common and "ولا حدّ أدنى ملزم" in common)
+
+    # ── g111) الفقرة اليونانية في نص bbf1c1239a95 الحقيقي ← تنبيه خارج الموضوع ──
+    bbf = drafts["bbf1c1239a95"]["arabic"]
+    warns111 = important_write.off_topic_warnings(bbf, ["حزب الله"], cfg)
+    greek_para = next((p for p in bbf["post_body"].split("\n") if "اليونان" in p), "")
+    check("(g111) فقرة اليونان ← «⚠️ فقرة قد تكون خارج الموضوع: «أول 12 كلمة…»»",
+          bool(greek_para)
+          and important_write.WARN_OFF_TOPIC.format(start=" ".join(greek_para.split()[:12])) in warns111,
+          (greek_para[:80], warns111))
+    check("(g111) فقرة تذكر حزب الله لا تُنبَّه، وبلا كيان محوري لا تنبيه",
+          important_write.off_topic_warnings({"post_body": "فرضت واشنطن عقوبات على حزب الله."}, ["حزب الله"], cfg) == []
+          and important_write.off_topic_warnings(bbf, [], cfg) == [])
+
+    # ── g112) ea1ea… وbbf1c… الحقيقيان يبدآن بالفقرتين نفسيهما ← تنبيه التكرار ──
+    ea = drafts["ea1ea7937cc8"]["arabic"]
+    sib = f"{ea['post_title']}\n{ea['post_body']}"
+    warns112 = important_write.repeat_warnings(bbf, [sib])
+    check("(g112) نصا ea1ea… وbbf1c… ← تنبيه تكرار بتتابع 12 كلمة",
+          len(warns112) == 1 and warns112[0].startswith("⚠️ تكرار مع منشور آخر من النص نفسه: «"), warns112)
+    check("(g112) نص غير متشابه ← لا تنبيه",
+          important_write.repeat_warnings(
+              {"post_title": "ت", "post_body": "نص مختلف تمامًا عن كل ما سبق " * 3}, [sib]) == [])
+
+    # ── g113) منشور التفنيد بلا الصيغة الصحيحة أو جهة النفي ──
+    false_pt = important_synthetic_point("false")
+    members_r = [copy.deepcopy(p916), false_pt]
+    warns113 = important_write.refutation_warnings(
+        "refuted", members_r, {"post_title": "ت", "post_body": "كلام عام."}, cfg)
+    check("(g113) refuted بلا الصيغة الصحيحة ولا اسم جهة النفي ← تنبيه يذكر النقطتين",
+          len(warns113) == 1
+          and warns113[0].startswith("⚠️ منشور التفنيد لا يذكر الصيغة الصحيحة أو جهة النفي لـ: ")
+          and p916["claim"] in warns113[0] and false_pt["claim"] in warns113[0], warns113)
+    ok_body = f"{p916['correction']['correct']}. وكذّبت Fatabyyano الادّعاء."
+    check("(g113) المتن يذكر الصيغة الصحيحة واسم المدقّق ← لا تنبيه؛ وغير refuted لا تنبيه",
+          important_write.refutation_warnings("refuted", members_r, {"post_title": "ت", "post_body": ok_body}, cfg) == []
+          and important_write.refutation_warnings("verified", members_r, {"post_title": "ت", "post_body": "ن"}, cfg) == [])
+
+    # ── g114) العنوان الافتراضي = أول عنوان خبري من headlines_for_post دائمًا ──
+    result = important_b2_result(91400)
+    good = {"category": "عالم", "hashtags": ["هام"], "image_query_en": "news story",
+            "post_title": "ما السياسة الأميركية الجديدة تجاه حزب الله", "image_headline": "السياسة الأميركية"}
+    gap = [{"publisher": "State Department", "link": "https://www.state.gov/briefing",
+            "excerpt": "الخارجية: بيان رسمي عن الخبر الرئيسي.", "question": "س؟"}]
+    real_hl = headlines_mod.headlines_for_post
+    try:
+        headlines_mod.headlines_for_post = lambda *a, **k: (
+            ["هل تغيّرت السياسة؟", "واشنطن تعدّل سياستها تجاه حزب الله", "عنوان ثالث"], None)
+        item = {i["kind"]: i for i in result["article_items"]}["verified"]
+        with ImportantWriteRig(lambda p, sy: {**good, "post_body": _b2_body(330)}, gap_sources=gap) as rig:
+            rig.next = 91600
+            d114, why114, _t = important_write.write_article(result, item, cfg, [], 91100)
+        check("(g114) الكاتب كتب عنوانًا ← post_title = أول عنوان خبري من القائمة المعروضة نفسها",
+              d114 is not None and d114["arabic"]["post_title"] == "واشنطن تعدّل سياستها تجاه حزب الله"
+              and d114["arabic"]["post_title"] in d114["headlines"], (why114, d114 and d114["arabic"]["post_title"]))
+        headlines_mod.headlines_for_post = lambda *a, **k: ([], "تعذّر")
+        with ImportantWriteRig(lambda p, sy: {**good, "post_title": "تحوّل في السياسة الأميركية",
+                                              "post_body": _b2_body(330)}, gap_sources=gap) as rig:
+            rig.next = 91700
+            d114b, _w, _t = important_write.write_article(result, item, cfg, [], 91100)
+        check("(g114) المولّد لم يُعِد عنوانًا ← يبقى عنوان الكاتب",
+              d114b is not None and d114b["arabic"]["post_title"] == "تحوّل في السياسة الأميركية")
+    finally:
+        headlines_mod.headlines_for_post = real_hl
+    check("(g114) publisher_ar: الأسماء الجديدة بالعربية",
+          [important_write.publisher_ar(n, cfg) for n in ("Cyprus Mail", "UA.NEWS", "The Sunday Guardian",
+                                                          "The Express Tribune", "Anadolu Agency", "AA", "Time")]
+          == ["سايبرس ميل", "يو إيه نيوز", "صنداي غارديان", "إكسبرس تريبيون", "الأناضول", "الأناضول", "تايم"])
+    check("(g114) الطول: تحت 150 أو فوق 540 تنبيه فقط، وبينهما لا شيء",
+          important_write.length_reasons({"post_body": _b2_body(40)}, cfg) != []
+          and important_write.length_reasons({"post_body": _b2_body(200)}, cfg) == []
+          and important_write.length_reasons({"post_body": _b2_body(900)}, cfg) != [])

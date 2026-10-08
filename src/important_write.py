@@ -562,6 +562,11 @@ REASON_TITLE_QUESTION = "العنوان سؤال لا جملة خبرية"
 # منشور الخبر الرئيسي لا يسقط بحارس شكلي (#1304): السبب الباقي بعد الإصلاح الآلي يُحفظ تنبيهًا بهذا القالب
 WARN_FAILED_CHECK = "⚠️ لم يجتز الفحص: {reason} — راجعه قبل النشر"
 WARN_FAILED_CHECK_PREFIX = "⚠️ لم يجتز الفحص"
+WARN_PUBLISHED = "(نُشر: {date})"
+WARN_NO_DATE = "(تاريخ غير معروف)"
+WARN_OFF_TOPIC = "⚠️ فقرة قد تكون خارج الموضوع: «{start}…»"
+WARN_REPEAT = "⚠️ تكرار مع منشور آخر من النص نفسه: «{run}…»"
+WARN_NO_REFUTATION = "⚠️ منشور التفنيد لا يذكر الصيغة الصحيحة أو جهة النفي لـ: {points}"
 WARN_RELATIVE_TIME = "زمن نسبي في المتن: «{phrase}» — تحقّق من التاريخ"
 WARN_NON_ARABIC_PUBLISHER = "اسم مصدر بغير العربية: {name}"
 # نوع المنشور ← الحكم الذي تُبنى عليه شارة البطاقة (cards.card_origin): التفنيد بشارته، وغيره «هام»
@@ -582,10 +587,20 @@ def article_grounded(members: list[dict], gap: list[dict], cfg) -> list[dict]:
         facts += build_grounded(p, cfg)[0]
     for g in gap:
         facts.append({"text": g["excerpt"], "sources": [
-            {"name": g["publisher"], "link": g["link"], "text": g["excerpt"]}]})
-    # الكاتب يرى اسم الناشر بالعربية فينقله إلى المتن كما هو (#1304)؛ المسار القديم (write_point) لا يتغير
+            {"name": g["publisher"], "link": g["link"], "text": g["excerpt"],
+             "published": g.get("published", "")}]})
+    # تاريخ نشر كل مصدر لأدلة الأعضاء: من read_docs الحكم بالرابط (#1309)
+    dates = {d.get("link"): d.get("published", "") for p in members for d in p.get("read_docs") or []}
     for f in facts:
-        f["sources"] = [{**src, "name": publisher_ar(src.get("name", ""), cfg)} for src in f["sources"]]
+        for src in f["sources"]:
+            src.setdefault("published", dates.get(src.get("link"), ""))
+    # الكاتب يرى اسم الناشر بالعربية فينقله إلى المتن كما هو (#1304)؛ المسار القديم (write_point) لا يتغير
+    # الكاتب يرى تاريخ نشر كل مقتطف (أو «تاريخ غير معروف») فلا يقدّم قديمًا على أنه جديد (#1309)
+    for f in facts:
+        f["sources"] = [{**src, "name": publisher_ar(src.get("name", ""), cfg),
+                         "text": f"{src.get('text', '')} "
+                                 + (WARN_PUBLISHED.format(date=src["published"]) if src.get("published")
+                                    else WARN_NO_DATE)} for src in f["sources"]]
     return facts
 
 
@@ -593,7 +608,7 @@ def article_instructions(result: dict, item: dict, members: list[dict], sibling_
     icfg = _icfg(cfg)
     ai = icfg.get("article_instructions", {}) or {}
     wi = icfg.get("writer_instructions", {}) or {}
-    lo, hi = icfg.get("article_words", [300, 450])
+    lo, hi = icfg.get("article_words", [180, 450])
     kind = item["kind"]
     points = "؛ ".join(f"«{p.get('claim') or p.get('text', '')}»" for p in members)
     body = ai.get("common", "").format(main_story=result.get("main_story", ""), lo=lo, hi=hi)
@@ -647,19 +662,13 @@ def unquote_mismatches(written: dict, sources: list[str], allowed: list[str] | N
 
 
 def article_reasons(written: dict, given: list[str], cfg, allowed: list[str] | None = None) -> list[str]:
-    """كل أسباب رفض منشور الخبر الرئيسي بترتيب الفحص: عدد الكلمات خارج [lo×0.85، hi×1.2]، عبارة المحرر/الرأي
+    """كل أسباب رفض منشور الخبر الرئيسي بترتيب الفحص (الطول خرج منها في #1309 إلى length_reasons تنبيهًا): عبارة المحرر/الرأي
     المحظورة في «هام»، فعل حكم منسوب إلى وسيلة، اقتباس ليس في أي مقتطف معطى (`given` مقتطفات المصادر
     وحدها، و`allowed` ادّعاءات refuted)، عنوان سؤال. تعيد القائمة كلها لا أولها كي يصير كل سبب باقٍ
     تنبيهًا مستقلًا بعد الإصلاح الآلي (#1304)."""
     icfg = _icfg(cfg)
-    lo, hi = icfg.get("article_words", [300, 450])
-    t_lo, t_hi = icfg.get("article_words_tolerance", [0.85, 1.2])
-    floor, ceil = int(lo * t_lo), int(hi * t_hi)
     title, body = written.get("post_title", ""), written.get("post_body", "")
     out: list[str] = []
-    n = word_count(body)
-    if n < floor or n > ceil:
-        out.append(REASON_WORDS.format(n=n, lo=floor, hi=ceil))
     acfg = cfg.get("article", {}) or {}
     for phrase in (acfg.get("editor_tag_phrase", "بحسب معلومات المحرر"),
                    acfg.get("opinion_attribution_phrase", "وترى الصفحة أن")):
@@ -673,6 +682,60 @@ def article_reasons(written: dict, given: list[str], cfg, allowed: list[str] | N
     if title.rstrip().endswith(("؟", "?")) or _is_question(title, cfg):
         out.append(REASON_TITLE_QUESTION)
     return out
+
+
+def length_reasons(written: dict, cfg) -> list[str]:
+    """الطول تنبيه لا رفض (#1309): تحت article_words_warn_below أو فوق أقصى×article_words_tolerance[1].
+    لا حدّ أدنى ملزم، فمنشور قصير لأن الوقائع المتصلة قليلة سليم."""
+    icfg = _icfg(cfg)
+    hi = icfg.get("article_words", [180, 450])[1]
+    floor = int(icfg.get("article_words_warn_below", 150))
+    ceil = int(hi * icfg.get("article_words_tolerance", [0.85, 1.2])[1])
+    n = word_count(written.get("post_body", ""))
+    return [REASON_WORDS.format(n=n, lo=floor, hi=ceil)] if (n < floor or n > ceil) else []
+
+
+def off_topic_warnings(written: dict, pivots: list[str], cfg) -> list[str]:
+    """كل فقرة لا تذكر أيًّا من الكيانات المحورية ← تنبيه بأول 12 كلمة منها (#1309). بلا كيانات محورية لا حكم."""
+    if not pivots:
+        return []
+    icfg = cfg.get("important", {}) or {}
+    out = []
+    for para in re.split(r"\n\s*\n|\n", written.get("post_body", "") or ""):
+        if para.strip() and not important_gap.mentions_pivot(para, pivots, icfg):
+            out.append(WARN_OFF_TOPIC.format(start=" ".join(para.split()[:12])))
+    return out
+
+
+def repeat_warnings(written: dict, siblings: list[str], run_words: int = 12) -> list[str]:
+    """تتابع run_words كلمة فأكثر مشترك مع أحد إخوة المنشور ← تنبيه (#1309)."""
+    words = verify_draft._normalized_words(f"{written.get('post_title', '')}\n{written.get('post_body', '')}")
+    for sib in siblings:
+        sw = verify_draft._normalized_words(sib)
+        for i in range(len(words) - run_words + 1):
+            if verify_draft._contains_run(sw, words[i:i + run_words]):
+                return [WARN_REPEAT.format(run=" ".join(words[i:i + run_words]))]
+    return []
+
+
+def refutation_warnings(kind: str, members: list[dict], written: dict, cfg) -> list[str]:
+    """منشور التفنيد يفنّد فعلًا (#1309): لكل عضو inaccurate يرد correction.correct، ولكل false اسم أول
+    refuted_by بالعربية (أو أصله) في المتن؛ وإلا تنبيه بنقاط الأعضاء الناقصة."""
+    if kind != "refuted":
+        return []
+    text = f"{written.get('post_title', '')} {written.get('post_body', '')}"
+    missing = []
+    for p in members:
+        if p.get("verdict") == "inaccurate":
+            ok = _contains(text, (p.get("correction") or {}).get("correct", ""))
+        elif p.get("verdict") == "false":
+            who = ((p.get("refuted_by") or [{}])[0]).get("publisher", "")
+            ok = bool(who) and (_contains(text, publisher_ar(who, cfg)) or _contains(text, who))
+        else:
+            continue
+        if not ok:
+            missing.append(p.get("claim") or p.get("text", ""))
+    return [WARN_NO_REFUTATION.format(points="؛ ".join(missing))] if missing else []
 
 
 def check_article(written: dict, given: list[str], cfg, allowed: list[str] | None = None) -> str | None:
@@ -735,9 +798,9 @@ def relative_time_warnings(written: dict, cfg) -> list[str]:
 
 def _article_cfg(cfg):
     """نسخة من cfg بطول المنشور المطلوب في article.post_length (يقرؤه article._draft_article)."""
-    lo, hi = _icfg(cfg).get("article_words", [300, 450])
+    hi = _icfg(cfg).get("article_words", [180, 450])[1]
     out = copy.copy(cfg)
-    out["article"] = {**(cfg.get("article", {}) or {}), "post_length": f"{lo} إلى {hi} كلمة"}
+    out["article"] = {**(cfg.get("article", {}) or {}), "post_length": f"حتى {hi} كلمة"}
     return out
 
 
@@ -846,6 +909,10 @@ def write_article(result: dict, item: dict, cfg, sibling_texts: list[str] | None
     warns += unsourced_in(known, written, grounded, question, cfg)
     warns += [REASON_QUOTE_CONVERTED.format(quote=q) for q in converted]
     warns += check_warns + latin_warns + relative_time_warnings(written, cfg)
+    warns += [WARN_FAILED_CHECK.format(reason=r) for r in length_reasons(written, cfg)]
+    warns += off_topic_warnings(written, item.get("pivot_entities") or [], cfg)
+    warns += repeat_warnings(written, sibling_texts)
+    warns += refutation_warnings(kind, members, written, cfg)
     if warns:
         draft["warnings"] = list(dict.fromkeys(warns))   # للمراجعة فقط: لا تدخل caption ولا تمنع النشر
     names_audit.run(draft, texts, cfg)
@@ -876,6 +943,11 @@ def build_article_draft(result: dict, item: dict, members: list[dict], gap: list
     if hl_error:
         log.warning("فشلت اقتراحات العناوين لمنشور %s: %s", kind, hl_error)
         headlines = []
+    # العنوان الافتراضي دائمًا أول عنوان خبري من القائمة المعروضة نفسها (#1309: عنوان الكاتب كان سؤالًا بلا «؟»
+    # في المنشورات الثلاثة)؛ لا مولّد/لا خبري ← يبقى عنوان الكاتب
+    first = next((h for h in headlines if h and not _is_question_title(h, cfg)), None)
+    if first:
+        written["post_title"] = first
 
     image_urls: list[str] = []
     for p in sorted(members, key=lambda p: not p.get("image_candidates")):

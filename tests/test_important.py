@@ -2609,7 +2609,7 @@ def test_important_1282() -> None:
           p23["verdict"] == "not_found" and "Lebanon 24" not in (p23.get("shared_from") or [])
           and bool(p23["dropped_reason"]), (p23["verdict"], p23.get("shared_from")))
     check("(1278) الملف المحفوظ يحمل rules_version الحالية",
-          result["rules_version"] == cfg.path("important.rules_version") == 4, result.get("rules_version"))
+          result["rules_version"] == cfg.path("important.rules_version") == 5, result.get("rules_version"))
 
     # القديم: build_selection_body · الجديد: build_points_body — بعد #1293 يعرض build_selection_body ثلاثة
     # منشورات (g88)؛ أقسام الأحكام وأسطر النسبة لكل نقطة تخصّ قضية النقاط القديمة التي تبقى تُقرأ وتُكتب

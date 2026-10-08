@@ -9,6 +9,8 @@
 from __future__ import annotations
 
 import logging
+from collections import Counter
+from datetime import date, datetime, timezone
 
 from . import article, evidence, important
 
@@ -55,13 +57,18 @@ def gap_questions(result: dict, item: dict, members: list[dict], cfg) -> list[di
     system = g.get("system", "").format(max_questions=n_max, query_max_words=words)
     if item.get("kind") == "nearest":
         system += "\n" + g.get("nearest_note", "")
-    content = (f"الخبر الرئيسي: {result.get('main_story', '')}\nنوع المنشور: {item.get('kind', '')}\n"
+    main = " ".join(str(result.get("main_story") or "").split())
+    # السؤال الثابت لمنشور verified وحده (#1309): في nearest وrefuted كان «ما آخر ما نُشر عن الخبر العام» يجلب
+    # وثائق خارج موضوع نقاطهما (درعا وتأشيرات جنوب أفريقيا والسلاح اليوناني) فيحشوها الكاتب؛ أسئلتهما من
+    # نصوص نقاطهما الأعضاء وحدها، فالخبر الرئيسي لا يدخل مدخل النموذج لهما
+    verified = item.get("kind") == "verified"
+    head = (f"الخبر الرئيسي: {main}\n" if verified else "")
+    content = (f"{head}نوع المنشور: {item.get('kind', '')}\n"
                "النقاط الأعضاء:\n" + "\n".join(
                    _member_block(m, important_write.ordered_sources(m, cfg)) for m in members))
-    main = " ".join(str(result.get("main_story") or "").split())
-    # الخبر نفسه أول الأسئلة دائمًا ومن الكود (#1304): لا يترك ما نُشر عنه حديثًا لاجتهاد النموذج
+    # الخبر نفسه أول الأسئلة دائمًا ومن الكود (#1304) لـverified وحده
     fixed = ([{"question": g.get("main_question", "ما آخر ما نُشر عن: {main_story}؟").format(main_story=main),
-               "query_ar": _cut(main, words), "query_en": ""}] if main else [])
+               "query_ar": _cut(main, words), "query_en": ""}] if (main and verified) else [])
     data, err = article._ask_model_with_retry(
         article._client(), g.get("model", "claude-haiku-4-5-20251001"),
         tools=[GAP_SCHEMA], tool_choice={"type": "tool", "name": "report_gap_questions"},
@@ -85,14 +92,53 @@ def gap_questions(result: dict, item: dict, members: list[dict], cfg) -> list[di
     return fixed + out[:n_max]
 
 
-def search_gap(questions: list[dict], cfg) -> list[dict]:
-    """[{publisher, link, excerpt, question}] من مصادرنا وحدها، حتى max_docs. _PointSearch جديد لكل منشور
+def pivot_entities(members: list[dict]) -> list[str]:
+    """الكيان المحوري للمنشور (#1309): الأكثر ورودًا في entities النقاط الأعضاء (يُعدّ مرة لكل نقطة)،
+    وعند التعادل كل المتعادلين. نقاط بلا entities (نتائج قديمة) ← [] فلا يُفلتر شيء."""
+    counts: Counter = Counter()
+    first: dict[str, str] = {}
+    for m in members:
+        seen: set[str] = set()
+        for e in m.get("entities") or []:
+            key = important._fold(e).strip()
+            if key and key not in seen:
+                seen.add(key)
+                counts[key] += 1
+                first.setdefault(key, str(e))
+    if not counts:
+        return []
+    top = max(counts.values())
+    return [first[k] for k, n in counts.items() if n == top]
+
+
+def mentions_pivot(text: str, pivots: list[str], icfg) -> bool:
+    """هل يذكر النص أحد الكيانات المحورية بأي من صيغه (important._mentions)؟"""
+    return any(important._mentions(text, v) for e in pivots if (v := important._entity_variants(e, icfg)))
+
+
+def _too_old(published: str, max_age_days: int) -> bool:
+    if not published or max_age_days <= 0:
+        return False
+    try:
+        when = datetime.fromisoformat(published[:10]).date()
+    except ValueError:
+        return False
+    return (datetime.now(timezone.utc).date() - when).days > max_age_days
+
+
+def search_gap(questions: list[dict], cfg, pivots: list[str] | None = None,
+               stats: dict | None = None) -> list[dict]:
+    """[{publisher, link, excerpt, question, published}] من مصادرنا وحدها، حتى max_docs. _PointSearch جديد لكل منشور
     فعدّاد طلبات Brave (search.brave) له وحده؛ ضربة ذاكرة لا تُحسب طلبًا. بلوغ العدّاد الشهري يمنع
     الطلب داخل brave_web_articles نفسها فيبقى Google وحده."""
     g = _gcfg(cfg)
     icfg = cfg.get("important", {}) or {}
     max_docs, max_brave = int(g.get("max_docs", 8)), int(g.get("max_brave", 4))
     search = important._PointSearch(cfg, "")
+    max_age = int(g.get("max_age_days", 0))
+    stats = stats if stats is not None else {}
+    stats.setdefault("off_topic", 0)
+    stats.setdefault("too_old", 0)
     out: list[dict] = []
     seen: set[str] = set()
 
@@ -109,8 +155,17 @@ def search_gap(questions: list[dict], cfg) -> list[dict]:
             excerpt = important.select_excerpt(important.clean_page_text(d.get("text", ""), icfg), f, icfg)
             if not excerpt.strip():
                 continue
+            # فلتر الصلة (#1309): مقتطف لا يذكر الكيان المحوري للمنشور خارج موضوعه ولو طابق السؤال
+            if pivots and not mentions_pivot(excerpt, pivots, icfg):
+                stats["off_topic"] += 1
+                continue
+            published = search.published_of(d)
+            if _too_old(published, max_age):
+                stats["too_old"] += 1
+                continue
             seen.add(link)
-            out.append({"publisher": name, "link": link, "excerpt": excerpt, "question": q["question"]})
+            out.append({"publisher": name, "link": link, "excerpt": excerpt, "question": q["question"],
+                        "published": published})
 
     for q in questions:
         for phrase in dict.fromkeys(p for p in (q.get("query_ar"), q.get("query_en")) if p):
@@ -128,7 +183,12 @@ def gather(result: dict, item: dict, members: list[dict], cfg) -> list[dict]:
     """نقطة الدخول: أسئلة ثم بحث. أي عطل ← [] وتحذير؛ الكاتب يكتب بأدلة النقاط وحدها."""
     try:
         questions = gap_questions(result, item, members, cfg)
-        return search_gap(questions, cfg) if questions else []
+        pivots = pivot_entities(members)
+        item["pivot_entities"] = pivots
+        stats: dict = {}
+        out = search_gap(questions, cfg, pivots, stats) if questions else []
+        item["gap_dropped_off_topic"] = stats.get("off_topic", 0)
+        return out
     except Exception:  # noqa: BLE001 — البحث المكمِّل مساعد: لا يُسقط كتابة المنشور
         log.exception("تعذّر البحث المكمِّل لمنشور %s", item.get("kind"))
         return []
