@@ -2487,7 +2487,7 @@ def test_important_1291_guards() -> None:
           len(res2["points"]) == 4 and res2["off_topic"] == []
           and any("كلمةجانبية2" in q for q in rig2.queries), (len(res2["points"]), res2["off_topic"]))
     # #1309: رُفع rules_version إلى 5 بحارس التصحيح بلا تفصيل في النقطة
-    check("(g87) rules_version 5", res["rules_version"] == 5, res["rules_version"])
+    check("(g87) rules_version 6", res["rules_version"] == 6, res["rules_version"])
 
 
 def _b2_body(words: int, tag: str = "", extra: str = "") -> str:
@@ -3101,7 +3101,7 @@ def test_important_1309_guards() -> None:
     check("(g107) name بخطأ لا يرد في claim ← لا تصحيح؛ وكلمة ≥ 4 أحرف من الخطأ واردة في claim ← تصحيح",
           judged(f_no_date, "name", "الصواريخ الباليستية")[0]["BBC"]["stance"] == "related_other"
           and judged(f_no_date, "name", "دور لبنان في الحرب")[0]["BBC"]["stance"] == "conflicts_detail")
-    check("(g107) rules_version 5", cfg.path("important.rules_version") == 5)
+    check("(g107) rules_version 6", cfg.path("important.rules_version") == 6)
 
     # ── g108) أسئلة البحث المكمِّل لكل منشور ──
     qs_by, reqs_by = {}, {}
@@ -3335,3 +3335,147 @@ def test_names_placeholder_guards() -> None:
     finally:
         store.load_config = real_load_config
         _clear()
+
+
+def test_important_1316_guards() -> None:
+    """Issue #1316 (B6): g116–g122 على شاهد حقيقي (tests/fixtures/important/1312.json) — تاريخ موثوق للمصدر،
+    استبعاد صفحات الفهارس، تحويل النقل الحرفي المنسوب إلى اقتباس، أسماء كيانات، واستبدال ناشرين حسّاس للحالة."""
+    import copy
+    import json
+
+    import htmldate
+
+    from src import important, important_gap, important_write, verify_draft
+    from tests.helpers import IMPORTANT_FIXTURES
+
+    cfg = load_config()
+    icfg = cfg.get("important", {}) or {}
+    real = json.loads((IMPORTANT_FIXTURES / "1312.json").read_text(encoding="utf-8"))
+    p80 = next(p for p in real["points"] if p["id"] == "80943d3f4957")
+    items = {i["kind"]: i for i in real["article_items"]}
+    state_ev = next(e for e in p80["evidence"] if "state.gov" in e["link"])
+
+    # ── g116) التاريخ الموثوق: الرابط ← جوجل ← htmldate بلا بحث موسّع ← فارغ ──
+    search = important._PointSearch(cfg, "")
+    real_find = htmldate.find_date
+    try:
+        htmldate.find_date = lambda *a, **k: "2022-04-01"
+        url_a = "https://www.aljazeera.net/news/2026/9/29/%D8%A8%D9%8A%D8%B3%D9%86%D8%AA"
+        search._keep_html(url_a, "<html></html>")
+        check("(g116) تاريخ في الرابط يغلب htmldate (2022-04-01) ← 2026-09-29",
+              search.published_of({"link": url_a}) == "2026-09-29", search.published_of({"link": url_a}))
+        url_f = "https://example.com/news/2099/1/1/story"
+        search.art_dates[url_f] = "2026-05-01"
+        check("(g116) تاريخ الرابط بعد اليوم يُهمل وينتقل إلى تاريخ نتيجة جوجل",
+              search.published_of({"link": url_f}) == "2026-05-01", search.published_of({"link": url_f}))
+        url_old = "https://example.com/news/1850/1/1/story"
+        check("(g116) تاريخ قبل min_doc_year يُهمل", search.published_of({"link": url_old}) == "")
+    finally:
+        htmldate.find_date = real_find
+    url_b = "https://example.com/story-without-date"
+    html_b = ("<html><body><p>خبر</p><ul><li><a href='/x'>April 1, 2022 related story</a></li></ul>"
+              "<footer>© 2022</footer></body></html>")
+    search._keep_html(url_b, html_b)
+    check("(g116) نص «April 1, 2022» في روابط ذات صلة و«© 2022» في التذييل ورابط بلا تاريخ ← فارغ",
+          search.published_of({"link": url_b}) == "", search.published_of({"link": url_b}))
+    url_c = "https://example.com/story-meta"
+    search._keep_html(url_c, '<html><head><meta property="article:published_time" '
+                             'content="2026-03-05T10:00:00Z"></head><body><p>خبر</p></body></html>')
+    check("(g116) meta article:published_time ← 2026-03-05",
+          search.published_of({"link": url_c}) == "2026-03-05", search.published_of({"link": url_c}))
+    check("(g116) min_doc_year في config", cfg.path("important.min_doc_year") == 2000)
+
+    # ── g117) مقتطف state.gov بلا تاريخ موثوق ← «(تاريخ غير معروف)» والتعليمة في المرسَل ──
+    member = copy.deepcopy(p80)
+    for d in member["read_docs"]:
+        d["published"] = ""
+    grounded = important_write.article_grounded([member], [], cfg)
+    texts_state = [s_["text"] for f in grounded for s_ in f["sources"] if "state.gov" in s_.get("link", "")]
+    instr = important_write.article_instructions(real, items["verified"], [member], [], cfg)
+    check("(g117) مقتطف state.gov بلا تاريخ ← «(تاريخ غير معروف)» في مدخل الكاتب",
+          texts_state and all(important_write.WARN_NO_DATE in t for t in texts_state), texts_state)
+    check("(g117) التعليمة «لا تذكر لحدثه تاريخًا إلا إن ورد في المقتطف نفسه» في التعليمات المرسَلة",
+          "لا تذكر لحدثه تاريخًا إلا إن ورد التاريخ في المقتطف نفسه" in instr)
+
+    # ── g118) صفحات الفهارس ──
+    check("(g118) bbc.com/arabic/topics/... فهرس ← مستبعد",
+          important.is_listing_url("https://www.bbc.com/arabic/topics/cdr56gdp0w1t", icfg))
+    check("(g118) bbc.com/arabic/articles/... مقال ← باقٍ",
+          not important.is_listing_url("https://www.bbc.com/arabic/articles/c627zld10y0o", icfg))
+    check("(g118) topics في النطاق لا المسار ← باقٍ",
+          not important.is_listing_url("https://topics.example.com/news/1", icfg))
+    gap_links = [g["link"] for g in items["nearest"]["gap_sources"]]
+    dropped = [l for l in gap_links if important.is_listing_url(l, icfg)]
+    check("(g118) على 1312: فلتر الفهارس على gap_sources يرمي رابط bbc topics وحده",
+          dropped == ["https://www.bbc.com/arabic/topics/cdr56gdp0w1t"], dropped)
+    check("(g118) rules_version 6", cfg.path("important.rules_version") == 6)
+    real_ps = important._PointSearch
+
+    class _FakeSearch(real_ps):
+        def run(self, *a, **k):
+            return [], [{"name": "BBC", "link": "https://www.bbc.com/arabic/topics/cdr56gdp0w1t",
+                         "text": "حزب الله لبنان خبر"}], []
+
+        def run_brave(self, *a, **k):
+            return [], [], []
+
+        def resolve_link(self, link):
+            return link, True
+
+    important._PointSearch = _FakeSearch
+    try:
+        stats: dict = {}
+        out = important_gap.search_gap([{"question": "س؟", "query_ar": "حزب الله", "query_en": ""}], cfg,
+                                       None, stats)
+    finally:
+        important._PointSearch = real_ps
+    check("(g118) search_gap: الفهرس يُرمى قبل القراءة ويُعدّ", out == [] and stats.get("listing") == 1,
+          (out, stats))
+
+    # ── g119–g121) النقل الحرفي المنسوب ──
+    sent = ("ففي أول أبريل/نيسان 2022، قالت وزارة الخارجية الأميركية إن الهجوم المتهور الذي شنه حزب الله على "
+            "إسرائيل يثبت مرة أخرى أنه يمنح الأولوية لممارسة الإرهاب نيابة عن النظام الإيراني، على حساب سلامة "
+            "الشعب اللبناني وأمنه.")
+    srcs = [{"name": state_ev["publisher"], "text": state_ev["excerpt"]}]
+    out119, conv = important_write.quote_attributed_copies({"post_title": "ت", "post_body": sent}, srcs, cfg)
+    check("(g119) المقطع بعد «إن» صار بين « » وقبله نص الجملة كما هو",
+          "قالت وزارة الخارجية الأميركية إن «الهجوم المتهور" in out119["post_body"]
+          and out119["post_body"].endswith("وأمنه».") and len(conv) == 1, out119["post_body"])
+    check("(g119) quote_violations فارغة بعد التحويل",
+          important_write.quote_violations(out119["post_body"], [state_ev["excerpt"]]) == [])
+    docs = [{"name": "وزارة الخارجية الأميركية", "text": state_ev["excerpt"]}]
+    ok119, why119, _n = verify_draft.check_originality(out119["post_body"], "", docs, 12)
+    ok_before, _w, _n2 = verify_draft.check_originality(sent, "", docs, 12)
+    check("(g119) فحص الأصالة لا يُبلغ بعد التحويل وكان يُبلغ قبله", ok119 and not ok_before, (why119, ok_before))
+    check("(g119) نص التنبيه ℹ️ في config",
+          icfg.get("quote_converted_note", "").startswith("ℹ️ نقل حرفي منسوب حُوِّل إلى اقتباس"))
+    unattributed = sent.replace("قالت وزارة الخارجية الأميركية", "قال مسؤولون")
+    out120, conv120 = important_write.quote_attributed_copies(
+        {"post_title": "ت", "post_body": unattributed}, srcs, cfg)
+    ok120, why120, _n3 =verify_draft.check_originality(out120["post_body"], "", docs, 12)
+    check("(g120) بلا ذكر للخارجية ← لا تحويل ويبقى سبب الأصالة",
+          out120["post_body"] == unattributed and conv120 == [] and not ok120, (conv120, why120))
+    bbc_srcs = [{"name": "BBC", "text": e["excerpt"]} for p in real["points"] for e in p["evidence"]
+                if e["publisher"] == "BBC"]
+    bbc_srcs += [{"name": g["publisher"], "text": g["excerpt"]} for g in items["nearest"]["gap_sources"]]
+    bbc_sent = ("تتواصل الضغوط الأميركية على حزب الله في إطار مسار بدأ في 19 حزيران/يونيو 2025، حين زار براك "
+                "بيروت لأول مرة حاملاً خريطة طريق أميركية، وتضمّنت مطالب واضحة بنزع سلاح حزب الله والفصائل "
+                "المسلحة كافة في لبنان بشكل كامل بحلول تشرين الثاني/نوفمبر 2025.")
+    out121, conv121 = important_write.quote_attributed_copies(
+        {"post_title": "ت", "post_body": bbc_sent}, bbc_srcs, cfg)
+    check("(g121) جملة بي بي سي في nearest بلا ذكر بي بي سي ← لا تحويل",
+          out121["post_body"] == bbc_sent and conv121 == [], conv121)
+
+    # ── g122) أسماء الكيانات + استبدال حسّاس للحالة ──
+    check("(g122) pivot «لبنان» يقبل مقتطفًا إنجليزيًا فيه Lebanon",
+          important_gap.mentions_pivot("Hezbollah operates in southern Lebanon.", ["لبنان"], icfg))
+    check("(g122) pivot «الحوثيون» يقبل Houthis",
+          important_gap.mentions_pivot("The Houthis launched missiles.", ["الحوثيون"], icfg))
+    check("(g122) pivot «لبنان» لا يقبل مقتطفًا عن الأردن",
+          not important_gap.mentions_pivot("Jordan announced a new policy.", ["لبنان"], icfg))
+    arab, _w = important_write.arabize_publishers(
+        {"post_title": "Time", "post_body": "نقلت Time و AA عن المصدر، وفي الوقت time ثم aa."}, [], cfg)
+    check("(g122) «Time» ← «تايم» و«AA» ← «الأناضول»", arab["post_title"] == "تايم"
+          and "نقلت تايم و الأناضول" in arab["post_body"], arab)
+    check("(g122) «time» و«aa» بحروف صغيرة تبقى", " time " in arab["post_body"] and " aa." in arab["post_body"],
+          arab["post_body"])

@@ -1469,7 +1469,22 @@ step (`article.wide_days`).
   - **(8) العنوان الافتراضي:** في `build_article_draft` يصير `post_title` دائمًا أول عنوان خبري من `headlines_for_post` (القائمة المعروضة
     نفسها)، وإن لم يُعِد المولّد عنوانًا خبريًا بقي عنوان الكاتب.
   - **(9) أسماء المصادر:** أُضيفت إلى `important.publisher_ar`: Cyprus Mail · UA.NEWS · The Sunday Guardian · The Express Tribune ·
-    Anadolu Agency/AA · Time. (مطابقة غير حسّاسة للحالة بحدود الكلمات: «time» اللاتينية داخل متن عربي تُستبدل أيضًا.)
+    Anadolu Agency/AA · Time.
+- **تواريخ موثوقة وفهارس ونقل منسوب وأسماء كيانات (Issue #1316، B6 — g116–g122 في `tests/test_guards_golden.py:test_important_1316_guards`،
+  fixture `tests/fixtures/important/1312.json` نسخة من `state/important/1312.json`):** حادثة #1312.
+  - **(1) تاريخ المصدر:** `_PointSearch.published_of` بالترتيب: تاريخ في مسار الرابط (`_date_in_url`: `/YYYY/M/D/` · `YYYY-MM-DD` · `YYYYMMDD`
+    بحدود غير رقمية) ← تاريخ نتيجة جوجل ← `htmldate.find_date(html, url=, extensive_search=False, original_date=True, max_date=اليوم)` ← فارغ
+    («تاريخ غير معروف»). تاريخ بعد اليوم أو قبل `important.min_doc_year` (2000) يُهمل. السبب: htmldate بالبحث الموسّع أعاد 2022-04-01 لبيان
+    صدر 2026 (تاريخ رابط ذي صلة في الصفحة). تعليمة `article_instructions.common` تمنع ذكر تاريخ لمقتطف «(تاريخ غير معروف)» إلا إن ورد فيه.
+  - **(2) صفحات الفهارس:** `important.listing_url_patterns` تُطابَق على مسار الرابط لا نطاقه (`is_listing_url`). في `judge_point` تُستبعد بموقف
+    `"listing"` (لا تصنيف ولا تأييد ولا nearest) وتُعدّ في `listing_docs`؛ وفي `important_gap.search_gap` تُرمى قبل القراءة وتُعدّ في
+    `item["gap_dropped_listing"]`. تاريخ الفهرس تاريخ آخر خبر فيه لا تاريخ ما يحويه. `rules_version` = 6.
+  - **(3) النقل الحرفي المنسوب:** `important_write.quote_attributed_copies` تعمل بعد كل محاولة كتابة وقبل الفحوص: جملة من `post_body` تشترك
+    مع مقتطف في تتابع ≥ `article_max_shared_run_words` (12) وتذكر ناشره (عربيه أو اسمه أو `outlet_aliases`) يُحاط المقطع بـ« » (بلا «إن/أن/بأن»
+    في أوله)، ويُضاف تنبيه `important.quote_converted_note` («ℹ️ نقل حرفي منسوب حُوِّل إلى اقتباس»). تعذّر ربط الكلمات واحدًا بواحد أو كون
+    المقطع داخل « » أصلًا ← لا تحويل. النقل غير المنسوب يبقى للفحوص (تنبيه «لم يجتز الفحص»).
+  - **(4) `entity_aliases`:** أُضيفت لبنان · اليمن · الحوثيون · حماس. **(5) `arabize_publishers`** صار حسّاسًا للحالة (حُذف `re.IGNORECASE`):
+    «Time»←«تايم» و«AA»←«الأناضول»، أما «time» و«aa» داخل المتن فتبقى.
 - **تنبيهات تشغيلية:** `publish.yml` يودِع `drafts state` فيصل `state/important`؛ أما `image.yml` فيودِع `drafts state/candidates
   state/youtube_topics` فحسب، فصورة المرحلة 1 لنقطة «هام» (`manual_image` على النقطة) و`state/brave_usage.json` لا يُودَعان حتى يضيف
   صاحب المشروع `state/important` و`state/brave_usage.json` إليه. ملفات workflow الثلاثة `article.yml` و`request.yml` و`important-judge.yml`

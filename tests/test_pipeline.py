@@ -262,7 +262,8 @@ from tests.test_guards_golden import (test_guards_golden, test_important_false_g
                                       test_important_1282_guards, test_important_1288_guards,
                                       test_important_1291_guards, test_important_1293_guards,
                                       test_important_1298_guards, test_important_1304_guards,
-                                      test_important_1309_guards, test_names_placeholder_guards)
+                                      test_important_1309_guards, test_names_placeholder_guards,
+                                      test_important_1316_guards)
 from tests.test_names_audit import (test_names_audit_brave_counter, test_names_audit_other_sites,
                                     test_names_audit_pipeline,
                                     test_names_audit_prevention_writer, test_names_audit_review_learning)
@@ -633,6 +634,7 @@ def main() -> int:
     test_important_1304_guards()
     print("\n── «هام»: منشورات على الموضوع g107–g114 (Issue #1309) ──")
     test_important_1309_guards()
+    test_important_1316_guards()
     print("\n── توحيد الأسماء: الرمز الوسيط لا يفسد الأرقام g115 (Issue #1315) ──")
     test_names_placeholder_guards()
     print("\n── حارس تدقيق أسماء الأشخاص g52–g56 (Issue #1252) ──")

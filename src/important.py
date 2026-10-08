@@ -954,6 +954,32 @@ def _agencies_in(text: str, icfg) -> list[list[str]]:
     return out
 
 
+_URL_DATE_RES = (
+    re.compile(r"/((?:19|20)\d{2})/(\d{1,2})/(\d{1,2})(?:/|$|[?#])"),
+    re.compile(r"(?<!\d)((?:19|20)\d{2})-(\d{2})-(\d{2})(?!\d)"),
+    re.compile(r"(?<!\d)((?:19|20)\d{2})(\d{2})(\d{2})(?!\d)"),
+)
+
+
+def _date_in_url(url: str) -> str:
+    """تاريخ مكتوب في مسار الرابط (/2026/9/29/ أو 2026-09-29 أو 20260929 بحدود غير رقمية) أو ""؛ تاريخ مستحيل يُهمل."""
+    path = urlparse(url or "").path
+    for rx in _URL_DATE_RES:
+        m = rx.search(path)
+        if m:
+            try:
+                return date(int(m[1]), int(m[2]), int(m[3])).isoformat()
+            except ValueError:
+                continue
+    return ""
+
+
+def is_listing_url(url: str, icfg) -> bool:
+    """صفحة فهرس (موضوع/وسم/تصنيف/كاتب…) بنمط في مسار الرابط لا نطاقه (#1316): تاريخها تاريخ آخر خبر فيها."""
+    path = urlparse(url or "").path.lower()
+    return any(p.lower() in path for p in icfg.get("listing_url_patterns") or [])
+
+
 def _is_agency_site(link: str, icfg) -> bool:
     """رابط ضمن نطاق أي جهة في important.agency_domains: موقع الجهة نفسها من «مصادرنا» (#1288)."""
     return _link_listed(link, [d for doms in (icfg.get("agency_domains") or {}).values()
@@ -1467,12 +1493,28 @@ class _PointSearch:
         self.art_dates: dict[str, str] = {}
         self.dates: dict[str, str] = {}
 
+    def _valid_date(self, value: str | None) -> str:
+        """تاريخ صالح YYYY-MM-DD أو "": بعد اليوم أو قبل min_doc_year يُهمل (#1316)."""
+        try:
+            d = datetime.fromisoformat(str(value or "")[:10]).date()
+        except ValueError:
+            return ""
+        if d > datetime.now(timezone.utc).date() or d.year < int(self.icfg.get("min_doc_year", 2000)):
+            return ""
+        return d.isoformat()
+
     def published_of(self, doc: dict) -> str:
-        """YYYY-MM-DD لتاريخ نشر وثيقة مقروءة أو فارغ إن لم يُعرف (فلا تُخمَّن)."""
-        for link in (doc.get("link"), doc.get("orig_link")):
-            for table in (self.art_dates, self.dates):
-                if link and table.get(link):
-                    return table[link]
+        """YYYY-MM-DD لتاريخ نشر وثيقة مقروءة أو فارغ إن لم يُعرف (فلا تُخمَّن). الترتيب (#1316): تاريخ في الرابط
+        نفسه ← تاريخ نتيجة جوجل ← htmldate على الصفحة (بلا بحث موسّع) ← فارغ. htmldate وحده كان يعيد تاريخ
+        رابط ذي صلة في الصفحة (2022-04-01 لبيان صدر 2026)، فصار آخر الحُجج لا أولها."""
+        links = [l for l in (doc.get("link"), doc.get("orig_link")) if l]
+        for link in links:
+            if (d := self._valid_date(_date_in_url(link))):
+                return d
+        for table in (self.art_dates, self.dates):
+            for link in links:
+                if (d := self._valid_date(table.get(link))):
+                    return d
         return ""
 
     def _note_article_dates(self, arts) -> None:
@@ -1513,7 +1555,9 @@ class _PointSearch:
             self.html[url] = html
         try:
             import htmldate
-            found = htmldate.find_date(html, original_date=True, outputformat="%Y-%m-%d")
+            found = htmldate.find_date(html, url=url, extensive_search=False, original_date=True,
+                                       max_date=datetime.now(timezone.utc).date().isoformat(),
+                                       outputformat="%Y-%m-%d")
         except Exception as exc:  # noqa: BLE001 — تاريخ النشر مساعد: غيابه يعني «تاريخ غير معروف» لا فشلًا
             log.debug("htmldate فشل لـ%s: %s", url[:60], exc)
             found = None
@@ -2311,9 +2355,14 @@ def judge_point(f: dict, topic: str, search: _PointSearch, cfg, keep: dict | Non
     deduped = article._dedup_docs_by_publisher(docs, cfg)
     # مصادرنا وحدها (#1288): ما عداها لا يدخل التصنيف فلا يؤيد ولا ينفي ولا يكون nearest؛ يبقى في
     # read_docs بموقف "outside" وعدده في outside_docs
-    ours = [_is_our_source(d.get("name", ""), d.get("link", ""), cfg) for d in deduped]
+    # صفحات الفهارس (#1316) تُستبعد في الموضع نفسه بموقف "listing"
+    icfg_ = cfg.get("important", {}) or {}
+    listing = [d for d in deduped if is_listing_url(d.get("link", ""), icfg_)]
+    listing_links = {d.get("link") for d in listing}
+    ours = [_is_our_source(d.get("name", ""), d.get("link", ""), cfg) and d.get("link") not in listing_links
+            for d in deduped]
     pool_docs = [d for d, ok in zip(deduped, ours) if ok]
-    outside = [d for d, ok in zip(deduped, ours) if not ok]
+    outside = [d for d, ok in zip(deduped, ours) if not ok and d.get("link") not in listing_links]
     rec, stances = _judge_pool(f, got, docs, pool_docs, cfg, outside, now)
     if keep is not None:
         keep[pid] = {"f": f, "got": got, "docs": docs, "pool_docs": pool_docs, "stances": stances,
@@ -2390,6 +2439,7 @@ def _judge_pool(f: dict, got, docs: list[dict], pool_docs: list[dict], cfg,
                               ("claim_reviewed", "label", "date_published")}
                              if d.get("claim_review") else None),
             "stance": (st.get("stance", "irrelevant") if in_pool
+                       else "listing" if is_listing_url(d.get("link", ""), cfg.get("important", {}) or {})
                        else "outside" if d.get("link") in outside_links else "deduped")})
 
     dropped = None
@@ -2417,6 +2467,7 @@ def _judge_pool(f: dict, got, docs: list[dict], pool_docs: list[dict], cfg,
         "support_level": decision.get("support_level", ""),
         "support_publisher": decision.get("support_publisher", ""),
         "outside_docs": len(outside),
+        "listing_docs": sum(1 for d in docs if is_listing_url(d.get("link", ""), cfg.get("important", {}) or {})),
         "icon": VERDICT_ICONS[decision["verdict"]],
         "evidence": evidence_rows, "correction": decision["correction"],
         "refuted_by": decision["refuted_by"], "nearest": nearest,
