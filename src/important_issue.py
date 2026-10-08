@@ -51,7 +51,10 @@ def display_title(p: dict) -> str:
 
 
 def _context_line(p: dict) -> str | None:
-    if p.get("verdict") == "not_found" and p.get("nearest"):
+    nearest = p.get("nearest")
+    if p.get("verdict") == "not_found" and nearest:
+        if nearest.get("title") == p.get("text"):
+            return None    # أقرب ما وُجد بنصّ النقطة نفسها (مصدر واحد): لا حاجة لتكرارها
         # العنوان صار عنوان الحدث، فالنقطة الأصلية تُحفظ هنا كي لا تضيع
         return f"  ↳ كما ورد عندك: {p.get('text', '')}"
     said = p.get("circulating_context") or p.get("asserted")
@@ -88,7 +91,15 @@ def _evidence_lines(p: dict, result: dict, cfg) -> list[str]:
     elif verdict == "not_found":
         nearest = p.get("nearest")
         if nearest:
-            out.append("  لا أثر للنقطة كما وردت. الأقرب:")
+            if nearest.get("kind") == "single_source":
+                first = (nearest.get("sources") or [{}])[0].get("publisher", "")
+                out.append("  " + icfg.get("nearest_single_label",
+                                            "🔍 أقرب ما وُجد · مصدر واحد: {publisher}").format(publisher=first))
+            else:
+                out.append("  " + icfg.get("nearest_intersection_label",
+                                            "🔍 أقرب ما وُجد · تقاطع {n} مصادر").format(
+                                                n=len(nearest.get("sources") or [])))
+                out.append("  لا أثر للنقطة كما وردت. الأقرب:")
             if nearest.get("description"):
                 out.append(f"  {nearest['description']}")
             for s in nearest.get("sources") or []:
@@ -122,8 +133,21 @@ def build_selection_body(result: dict, cfg=None) -> str:
 
     offered = [p for p in result["points"] if p.get("status") != "dropped"]
     dropped = [p for p in result["points"] if p.get("status") == "dropped"]
+    # ثلاثة أقسام بهذا الترتيب (#1282): ما ثبت (confirmed وinaccurate) · ما كُذِّب · ما لم يُحسم. الترقيم
+    # متصل والعلامات (go: والمعرّفات) لا تتغير فلا يتأثر أي قارئ؛ القسم الفارغ لا يُعرض
+    titles = icfg.get("section_titles", {}) or {}
+    section_of = {"confirmed": "confirmed", "inaccurate": "confirmed", "false": "false",
+                  "not_found": "not_found"}
+    offered = sorted(offered, key=lambda p: ("confirmed", "false", "not_found").index(
+        section_of.get(p["verdict"], "not_found")))
+    current = None
     for k, p in enumerate(offered, start=1):
         v = p["verdict"]
+        section = section_of.get(v, "not_found")
+        if section != current:
+            current = section
+            if titles.get(section):
+                parts += [f"## {titles[section]}", ""]
         title = display_title(p)
         if p.get("returned"):
             # نقطة أعادها المراجع من المرحلة 2/3 (Issue #1221، go1): الشارة أمام العنوان فيعرف
@@ -148,6 +172,8 @@ def build_selection_body(result: dict, cfg=None) -> str:
         ev = _evidence_lines(p, result, cfg)
         if ev:
             parts += [*ev, ""]
+        for w in p.get("warnings") or []:
+            parts += [f"  > {w}", ""]
         parts += [*_image_lines(p), "",
                   stages.image_field(p["id"], cfg), "",
                   *stages.options_block(1, p["id"], cfg, has_stage1=False), "",
@@ -217,8 +243,10 @@ def run(issue: int, cfg=None) -> int:
         return 0
 
     saved = important.load_saved(issue)
+    # إعادة الاستعمال بتساوي بصمة النص ونسخة القواعد معًا (#1282): رفعُ rules_version يعيد الحكم
     reused = bool(saved and not saved.get("error")
-                  and saved.get("body_hash") == important.body_hash(body))
+                  and saved.get("body_hash") == important.body_hash(body)
+                  and saved.get("rules_version") == important.rules_version(cfg))
     if reused:
         log.info("نص #%s لم يتغيّر — يُعاد استعمال الحكم المحفوظ", issue)
         result = saved

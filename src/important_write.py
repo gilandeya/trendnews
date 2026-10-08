@@ -193,7 +193,16 @@ def instructions(point: dict, cfg) -> str:
         body = template.format(rumor=point.get("claim") or point.get("text", ""),
                                checker=who.get("publisher", ""), label_clause=clause)
     elif verdict == "not_found":
-        body = template.format(nearest_title=(point.get("nearest") or {}).get("title", ""))
+        near = point.get("nearest") or {}
+        if near.get("kind") == "single_source":
+            # مصدر واحد (#1282): تعليمات خاصة تنسب كل شيء إليه ولا تكتبه حقيقة ثابتة
+            # عنوانه نصّ النقطة نفسها ← مفتاح لا يمنع ذكرها (الشرط نفسه في check_text)
+            same = near.get("title") in (point.get("claim"), point.get("text"))
+            template = wi.get("not_found_single_claim" if same else "not_found_single", template)
+            publisher = ((near.get("sources") or [{}])[0]).get("publisher", "")
+            body = template.format(nearest_title=near.get("title", ""), publisher=publisher)
+        else:
+            body = template.format(nearest_title=near.get("title", ""))
     else:
         body = template
     return f"\n{wi.get('title_note', '')}\n{body}\n{wi.get('quote_note', '')}\n"
@@ -300,16 +309,20 @@ def check_text(point: dict, written: dict, cfg) -> str | None:
         if not (_contains(title, correct) and _contains(first, correct)):
             return REASON_NO_CORRECT
     elif verdict == "not_found":
-        if _mentions_original(point, f"{title}\n{body}", icfg):
+        near = point.get("nearest") or {}
+        same = near.get("kind") == "single_source" and near.get("title") in (point.get("claim"), point.get("text"))
+        if _mentions_original(point, f"{title}\n{body}", icfg, claim_allowed=same):
             return REASON_ORIGINAL
     return None
 
 
-def _mentions_original(point: dict, text: str, icfg) -> bool:
+def _mentions_original(point: dict, text: str, icfg, claim_allowed: bool = False) -> bool:
     """هل يذكر النص النقطة الأصلية؟ جملتها حرفيًا، أو جملة واحدة تحوي نسبة كبيرة من كلماتها،
     أو عبارة تعلن غياب الأثر (important.not_found_forbidden)."""
     overlap = float(icfg.get("original_mention_overlap", 0.8))
-    for original in {point.get("claim", ""), point.get("text", "")} - {""}:
+    # أقرب ما وُجد بمصدر واحد وعنوانه نصّ النقطة نفسها (#1282، الدرجة أ): النقطة هي الموضوع المنسوب إلى
+    # المصدر، فذكرها مشروع؛ تبقى عبارات غياب الأثر ممنوعة
+    for original in ({point.get("claim", ""), point.get("text", "")} - {""}) if not claim_allowed else ():
         if _contains(text, original):
             return True
         words = {w for w in _norm(original).split() if len(w) >= 3}
@@ -383,7 +396,8 @@ def write_point(point: dict, result: dict, cfg, selection_issue: int | None = No
         return None, reason, False
 
     draft = build_draft(point, result, written, cfg, selection_issue)
-    warns = unsourced_sentences(point, written, grounded, question, cfg)
+    # تنبيهات الحكم (مؤيِّدون من خارج مصادرنا، #1282) أولًا ثم الجمل بلا مصدر
+    warns = list(point.get("warnings") or []) + unsourced_sentences(point, written, grounded, question, cfg)
     if warns:
         draft["warnings"] = warns   # للمراجعة فقط: لا تدخل caption ولا تمنع النشر
     # تدقيق أسماء الأشخاص بدليل بحث (Issue #1252): نصوص الأدلة وحدها مصدرًا، وتنبيهه يُلحَق بما قبله

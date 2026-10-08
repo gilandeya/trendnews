@@ -1476,11 +1476,13 @@ def test_important_false_guard() -> None:
           p44b["verdict"] == "not_found" and "أدلة متعارضة" in (p44b.get("note") or ""),
           (p44b["verdict"], p44b.get("note")))
 
-    # g45) مصدران مستقلان غير معروفين يؤيدان بلا أي نفي ← not_found «تأييد من مصادر غير معروفة فقط»
+    # g45) مصدران مستقلان غير معروفين يؤيدان بلا أي نفي ← confirmed بتنبيه «من خارج مصادرنا المسجّلة»
+    # (Issue #1282: كان not_found «تأييد من مصادر غير معروفة فقط»؛ أُلغي الشرط 2 بعد حادثة #1278)
     rules45 = {"موقع الشرق الإخباري": sup, "منصة الغرب الرقمية": sup}
     p45 = run_strict(45, "وقعت الحادثة @ في المدينة", unknown, by_name(rules45))
-    check("(g45) مؤيِّدان مستقلان غير معروفين بلا نفي ⇒ not_found بملاحظة «تأييد من مصادر غير معروفة فقط»",
-          p45["verdict"] == "not_found" and "تأييد من مصادر غير معروفة فقط" in (p45.get("note") or ""),
+    check("(g45) مؤيِّدان مستقلان غير معروفين بلا نفي ⇒ confirmed بتنبيه «من خارج مصادرنا المسجّلة» بالاسمين",
+          p45["verdict"] == "confirmed" and "من خارج مصادرنا المسجّلة" in (p45.get("note") or "")
+          and "موقع الشرق الإخباري" in (p45.get("note") or "") and "منصة الغرب الرقمية" in (p45.get("note") or ""),
           (p45["verdict"], p45.get("note")))
     # ضابطة g45: مؤيِّد معروف واحد (BBC بالاسم) بين اثنين يكفي ⇒ confirmed
     mixed = [important_doc("BBC", event), important_doc("منصة الغرب الرقمية", "تغطية مستقلة: " + event)]
@@ -1967,3 +1969,247 @@ def test_analysis_attribution_pipeline() -> None:
     # (d) مقال بلا عبارة ترجيح مقبول
     ok, why = ya._validate_article_text("# عنوان لقضية ما؟\n\n" + filler + "\n", cfg)
     check("(d) مقال بلا عبارة ترجيح ← مقبول", ok, why)
+
+
+def test_important_1282_guards() -> None:
+    """Issue #1282 (حادثة #1278): g66–g75 — ثلاثة أقسام «ما ثبت / ما كُذِّب / أقرب ما وُجد» ولا تسقط
+    نقطة إلا بلا أثر إطلاقًا. تُكتب قبل الكود، على الدوال الحقيقية بالأدوات القائمة
+    (ImportantRig وstrict_known=True) وبمقتطفات حقيقية من state/important/1278.json."""
+    import copy
+    from datetime import datetime, timezone
+
+    from src import important, important_finalize, important_issue
+
+    cfg = load_config()
+
+    def run(case, points, docs_by_marker, classify):
+        with ImportantRig(points, docs_by_marker, classify, strict_known=True):
+            important.judge("نص الـIssue كاملًا", 97000 + case, cfg)
+        return important.load_saved(97000 + case)["points"]
+
+    def one(case, claim, docs, classify, entities=None, **pt_extra):
+        marker = f"كلمةحارس{case}"
+        pt = {"claim": claim, "entities": entities if entities is not None else [marker],
+              "queries": [{"lang": "ar", "q": f"{marker} {claim}"}], **pt_extra}
+        return run(case, [pt], {marker: docs}, classify)[0]
+
+    def by_name(rules):
+        def classify(point, names):
+            rows = []
+            for n in names:
+                stance, excerpt, extra = rules.get(n, ("irrelevant", "", {}))
+                rows.append(important_stance(n, stance, excerpt, **extra))
+            return {"sources": rows}
+        return classify
+
+    # g66) 8e645204c867: ثلاثة مؤيِّدين خارج مصادرنا بمقتطفاتهم الحقيقية، بلا نفي ← confirmed + تنبيه
+    c66 = "لن يتعافى حزب الله أبداً في ظل إدارة ترمب"
+    ex66 = {
+        "إرم نيوز": 'وقالت الخارجية الأمريكية في بيان صحفي إن "حزب الله لن يتعافى أبداً في ظل إدارة '
+                    'الرئيس دونالد ترامب".',
+        "Lebanon 24": 'وتابع "وفي ظل إدارة ترامب، لن يتمكّن «حزب الله» أبدًا من التعافي أو إعادة بناء '
+                      'بنيته التحتية الإرهابية".',
+        "LBCIV7": "الخارجية الأميركية: في ظل إدارة الرئيس ترامب لن يتمكن حزب الله من التعافي أو إعادة "
+                  "بناء بنيته التحتية الإرهابية"}
+    docs66 = [important_doc(n, t) for n, t in ex66.items()]
+    p66 = one(66, c66, docs66, by_name({n: ("supports", t, {}) for n, t in ex66.items()}))
+    warn = " ".join(p66.get("warnings") or [])
+    check("(g66) ثلاثة مؤيِّدين خارج المصادر المسجّلة بمقتطفات حرفية بلا نفي ⇒ confirmed",
+          p66["verdict"] == "confirmed", (p66["verdict"], p66.get("note")))
+    check("(g66) والتنبيه «من خارج مصادرنا» فيه الأسماء الثلاثة، في note وwarnings",
+          "من خارج مصادرنا المسجّلة" in warn and all(n in warn for n in ex66)
+          and "من خارج مصادرنا المسجّلة" in (p66.get("note") or ""), (warn, p66.get("note")))
+    check("(g66) الاقتباسات بين علامات التنصيص لا تجعلها نسخًا (ثلاث مجموعات مستقلة)",
+          len(important._independent_groups(
+              list(ex66), {d["name"]: d for d in docs66}, cfg, excerpts=ex66)) == 3, None)
+
+    # g67) bd4e7be00831: نص واحد خارج التنصيص عند الأمناء نت وTarebhtoday وYemenfuture ← مجموعة واحدة
+    ex67 = {
+        "الأمناء نت": "تتعامل روسيا مع الحوثيين بوصفهم جزءًا من تحالفها الاستراتيجي مع إيران، ولا تجري "
+                      "قنوات التعاون الأساسية بين موسكو والجماعة بمعزل عن طهران. ... ويمنح النفوذ الحوثي "
+                      "عند الممرات البحرية روسيا وإيران قدرة على الضغط على الولايات المتحدة وحلفائها "
+                      "ورفع كلفة تحركاتهم الإقليمية",
+        "Tarebhtoday": "من الفيتو إلى الطائرات المسيّرة.. روسيا تتحول إلى شريك حرب للحوثيين ... تتعامل "
+                       "روسيا مع الحوثيين بوصفهم جزءًا من تحالفها الاستراتيجي مع إيران",
+        "Yemenfuture": "تتعامل روسيا مع الحوثيين بوصفهم جزءًا من تحالفها الاستراتيجي مع إيران، ولا تجري "
+                       "قنوات التعاون الأساسية بين موسكو والجماعة بمعزل عن طهران. ... ويمنح النفوذ الحوثي "
+                       "عند الممرات البحرية روسيا وإيران قدرة على الضغط على الولايات المتحدة وحلفائها"}
+    docs67 = [important_doc(n, t) for n, t in ex67.items()]
+    p67 = one(67, "روسيا تتدخل عبر إيران بدعم ميليشيات الحوثي لتعطيل الملاحة", docs67,
+              by_name({n: ("supports", t, {}) for n, t in ex67.items()}))
+    check("(g67) نص واحد عند ثلاثة مواقع ⇒ مجموعة واحدة ⇒ not_found بـnearest.kind=single_source ولا تسقط",
+          p67["verdict"] == "not_found" and (p67.get("nearest") or {}).get("kind") == "single_source"
+          and not p67.get("dropped_reason"), (p67["verdict"], p67.get("nearest"), p67.get("dropped_reason")))
+
+    # g68) fixture 9185665f38b8 (Fatabyyano «خبر كاذب» + مواقع تعيد نشر الشائعة) ← false
+    fx = important_fixture_point(1229, "confirmed")
+    by_pub = {e["publisher"]: e for e in fx["evidence"]}
+    other_event = {x["publisher"] for x in fx["read_docs"] if x["stance"] == "related_other"}
+    docs68, st68 = [], {}
+    for d in fx["read_docs"]:
+        if d["stance"] == "deduped":
+            continue
+        ev = by_pub.get(d["publisher"])
+        text = (ev["excerpt"] if ev else f"{d['publisher']}: نص لا صلة له بالادّعاء.") + " " + d["publisher"]
+        docs68.append(important_doc(d["publisher"], text, link=d["link"]))
+        if ev and d["stance"] in ("supports", "refutes"):
+            st68[d["publisher"]] = (d["stance"], ev["excerpt"])
+        elif d["stance"] == "related_other":
+            st68[d["publisher"]] = ("supports", "")
+
+    def classify68(point, names):
+        return {"sources": [important_stance(n, *st68.get(n, ("irrelevant", "")),
+                                             same_event=n not in other_event, verdict_label="")
+                            for n in names]}
+
+    p68 = one(68, fx["claim"], docs68, classify68)
+    refs = p68.get("refuted_by") or []
+    check("(g68) 9185665f38b8 ← false (مدقّق بمقتطف «كاذب» صريح ولو بلغ التأييد عتبته)",
+          fx["id"] == "9185665f38b8" and p68["verdict"] == "false", (p68["verdict"], p68.get("note")))
+    check("(g68) وrefuted_by فيه Fatabyyano بمقتطف «خبر كاذب»",
+          any(r["publisher"] == "Fatabyyano" and "خبر كاذب" in r["excerpt"] for r in refs), refs)
+
+    # g69) مدقّق بمقتطف «لم تقع الحادثة» (بلا كلمة صريحة ولا label) + مؤيِّدان ← أدلة متعارضة
+    event = "وقعت الحادثة الكبرى في المدينة بحسب التقارير المتداولة."
+    sup = ("supports", "وقعت الحادثة الكبرى في المدينة", {})
+    two = [important_doc("موقع الشرق الإخباري", event),
+           important_doc("منصة الغرب الرقمية", "تغطية مستقلة: " + event)]
+    fact = important_doc("Fatabyyano", "ادّعاء مضلّل لم تقع الحادثة أصلًا.",
+                         link="https://fatabyyano.net/en/x/")
+    p69 = one(69, "وقعت الحادثة كلمةحارس69 في المدينة", two + [fact],
+              by_name({"موقع الشرق الإخباري": sup, "منصة الغرب الرقمية": sup,
+                       "Fatabyyano": ("refutes", "لم تقع الحادثة", {"verdict_label": ""})}))
+    check("(g69) مدقّق بمقتطف بلا كلمة صريحة ولا label + مؤيِّدان ⇒ not_found «أدلة متعارضة» (سلوك g44)",
+          p69["verdict"] == "not_found" and "أدلة متعارضة" in (p69.get("note") or ""),
+          (p69["verdict"], p69.get("note")))
+
+    # g70) مقتطف سؤالي «هل هذا خبر كاذب؟» ← ليس false
+    q_text = "هل هذا خبر كاذب؟ يتحقق فريقنا من الادّعاء المتداول."
+    p70 = one(70, "وقعت الحادثة كلمةحارس70 في المدينة",
+              [important_doc("Fatabyyano", q_text, link="https://fatabyyano.net/en/y/")],
+              by_name({"Fatabyyano": ("refutes", "هل هذا خبر كاذب؟", {"verdict_label": ""})}))
+    check("(g70) مقتطف سؤالي «هل هذا خبر كاذب؟» من مدقّق ⇒ ليس false",
+          p70["verdict"] != "false" and not p70.get("refuted_by"), (p70["verdict"], p70.get("note")))
+
+    # g71) مدقّق بكلمة صريحة + مؤيِّد من primary_data_domains ← أدلة متعارضة (لا false)
+    p71 = one(71, "بلغ عدد سكان البلد 85 مليون نسمة كلمةحارس71", [
+        important_doc("البنك الدولي", "بلغ عدد سكان البلد 85 مليون نسمة في العام الأخير كلمةحارس71.",
+                      link="https://data.worldbank.org/indicator/SP.POP.TOTL"),
+        important_doc("Fatabyyano", "الرقم المتداول كاذب كلمةحارس71.", link="https://fatabyyano.net/en/z/")],
+        by_name({"البنك الدولي": ("supports", "بلغ عدد سكان البلد 85 مليون نسمة", {}),
+                 "Fatabyyano": ("refutes", "الرقم المتداول كاذب", {"verdict_label": ""})}),
+        numbers=["85 مليون"])
+    check("(g71) مدقّق بكلمة صريحة + مؤيِّد من جهة البيانات الأصلية ⇒ not_found «أدلة متعارضة»",
+          p71["verdict"] == "not_found" and "أدلة متعارضة" in (p71.get("note") or ""),
+          (p71["verdict"], p71.get("note")))
+
+    # g72) 24246e81cd44: BBC وYoum7 (تنقل عن BBC صراحة) ← مجموعة واحدة ← single_source، وتُكتب
+    bbc = ("تُظهر البيانات أن روسيا واصلت جني مليارات الدولارات من صادرات الوقود الأحفوري إلى الغرب، "
+           "ما ساعد في تمويل غزوها الشامل لأوكرانيا")
+    youm = ("كشفت هيئة الإذاعة البريطانية BBC أن روسيا واصلت جنى مليارات الدولارات من صادرات الوقود "
+            "الأحفورى إلى الغرب، بحسب ما أظهرت بيانات، مما ساعد موسكو فى تمويل عمليتها العسكرية فى أوكرانيا")
+    claim72 = "روسيا تستخدم أموال بيع الغاز في تأمين تكاليف الحرب في أوكرانيا"
+    p72 = one(72, claim72, [important_doc("BBC", bbc, link="https://www.bbc.com/arabic/articles/cwynvm70zvzo"),
+                            important_doc("Youm7", youm, link="https://www.youm7.com/story/2025/5/30/x")],
+              by_name({"BBC": ("supports", bbc, {}), "Youm7": ("supports", youm, {})}))
+    near = p72.get("nearest") or {}
+    check("(g72) BBC وYoum7 (تنقل عنها صراحة) ⇒ مجموعة واحدة ⇒ single_source بمصادر لها excerpt غير فارغ",
+          p72["verdict"] == "not_found" and near.get("kind") == "single_source"
+          and near.get("sources") and all(s.get("excerpt") for s in near["sources"]),
+          (p72["verdict"], near))
+    sel = 97500
+    p72 = copy.deepcopy(p72)
+    p72["selection_issue"] = sel
+    result = {"issue": 97072, "created_at": datetime.now(timezone.utc).isoformat(), "topic": "",
+              "error": None, "selection_issue": sel, "points": [p72]}
+    important.save(result)
+    body = important_marked_body(result, {p72["id"]: "go2"}, cfg)
+    data = {"category": "اقتصاد", "hashtags": ["روسيا"], "image_query_en": "oil gas russia",
+            "post_title": "عوائد الوقود الأحفوري تواصل تمويل الحرب في أوكرانيا بحسب بي بي سي",
+            "image_headline": "عوائد الوقود الأحفوري تموّل الحرب في أوكرانيا",
+            "post_body": "بحسب BBC، ظلّت موسكو تحصّل عوائد ضخمة من بيع الوقود إلى الغرب، وبحسبها "
+                         "أسهم ذلك في تغطية نفقات العمليات العسكرية في أوكرانيا."}
+    with ImportantWriteRig(lambda prompt, system: data) as rig:
+        important_finalize.finalize(sel, body, cfg)
+    saved = important.load_saved(97072)["points"][0]
+    check("(g72) write_point يكتبها بلا خطأ «لا وقائع مسندة»",
+          saved.get("status") == "written" and "لا وقائع مسندة" not in (saved.get("write_error") or ""),
+          (saved.get("status"), saved.get("write_error")))
+    check("(g72) وتعليمات الكاتب هي not_found_single (نسبة إلى المصدر وحده)",
+          any("كما أورده" in c["prompt"] for c in rig.calls), [c["prompt"][:80] for c in rig.calls])
+
+    # g73) nearest_events بحدث من مصدر واحد بكيان مشترك ← single_source؛ وضابطتها ← dropped
+    marker73 = "كلمةحارس73"
+    ev_doc = important_doc("مصدر الطاقة", f"أعلنت شركة الطاقة عن اتفاق جديد لتوريد الغاز يخص {marker73} هذا الأسبوع.")
+    rel = {"مصدر الطاقة": ("related_other", "", {"same_event": False})}
+
+    def classify73(point, names):
+        out = by_name(rel)(point, names)
+        out["nearest_events"] = [{"title": f"اتفاق توريد غاز جديد في {marker73}",
+                                  "description": "اتفاق جديد لتوريد الغاز.", "sources": ["مصدر الطاقة"]}]
+        return out
+
+    p73 = one(73, f"ادّعاء لا يطابق أي حدث {marker73}", [ev_doc], classify73)
+    check("(g73) حدث أقرب من مصدر واحد بكيان مشترك ⇒ single_source ولا يسقط",
+          p73["verdict"] == "not_found" and (p73.get("nearest") or {}).get("kind") == "single_source"
+          and not p73.get("dropped_reason") and p73["nearest"]["sources"][0].get("excerpt"),
+          (p73["verdict"], p73.get("nearest")))
+    cold = important_doc("مصدر الطاقة", "أعلنت شركة الطاقة عن اتفاق جديد لتوريد الغاز هذا الأسبوع.")
+    p73b = one(173, "ادّعاء لا يطابق أي حدث كلمةحارس173", [cold], by_name(rel))
+    check("(g73) ضابطة: لا حدث ولا وثيقة تشارك كيانًا ⇒ dropped بـNO_TRACE_REASON",
+          p73b["verdict"] == "not_found" and p73b.get("nearest") is None
+          and p73b.get("dropped_reason") == important.NO_TRACE_REASON, (p73b.get("dropped_reason"),))
+
+    # g74) نقطتان في نص واحد؛ الثانية بلا وثيقة من بحثها ووثيقة pool الأولى تؤيدها ← المخزون المشترك
+    m1, m2 = "كلمةأولى74", "كلمةثانية74"
+    shared_doc = important_doc("منصة الوقائع",
+                               f"تؤكد المنصة أن الواقعة {m1} والواقعة {m2} حدثتا فعلًا هذا الشهر.")
+    c74a, c74b = f"حدثت الواقعة {m1} هذا الشهر", f"حدثت الواقعة {m2} هذا الشهر"
+
+    def classify74(point, names):
+        return {"sources": [important_stance(n, "supports", f"الواقعة {m1 if m1 in point else m2} حدثتا فعلًا")
+                            for n in names]}
+
+    pts = [{"claim": c74a, "entities": [m1], "queries": [{"lang": "ar", "q": f"{m1} {c74a}"}]},
+           {"claim": c74b, "entities": [m2], "queries": [{"lang": "ar", "q": f"{m2} {c74b}"}]}]
+    out74 = run(74, pts, {m1: [shared_doc]}, classify74)
+    second = [p for p in out74 if m2 in p["text"]][0]
+    check("(g74) الثانية بلا وثيقة من بحثها ⇒ بعد المخزون المشترك لا تسقط، وshared_from فيه اسم الوثيقة",
+          second["verdict"] == "not_found" and not second.get("dropped_reason")
+          and "منصة الوقائع" in (second.get("shared_from") or [])
+          and (second.get("nearest") or {}).get("kind") == "single_source",
+          (second["verdict"], second.get("dropped_reason"), second.get("shared_from"), second.get("nearest")))
+
+    # g75) confirm_blocked بنفي ← لا يظهر أي من مؤيِّديها في nearest.sources
+    ev75 = "وقعت الحادثة الكبرى في المدينة بحسب التقارير المتداولة"
+    docs75 = [important_doc("موقع الشرق الإخباري", ev75 + " كلمةحارس75."),
+              important_doc("منصة الغرب الرقمية", "تغطية مستقلة: " + ev75 + " كلمةحارس75."),
+              important_doc("وكالة النفي المستقلة", "تؤكد المصادر أن الحادثة لم تقع إطلاقًا كلمةحارس75."),
+              important_doc("مصدر آخر", "تقرير قريب عن كلمةحارس75 في المدينة نفسها.")]
+
+    def classify75(point, names):
+        out = by_name({"موقع الشرق الإخباري": sup, "منصة الغرب الرقمية": sup,
+                       "وكالة النفي المستقلة": ("refutes", "الحادثة لم تقع إطلاقًا", {"verdict_label": ""}),
+                       "مصدر آخر": ("related_other", "", {"same_event": False})})(point, names)
+        out["nearest_events"] = [{"title": "حدث كلمةحارس75 قريب", "description": "",
+                                  "sources": ["موقع الشرق الإخباري", "منصة الغرب الرقمية"]}]
+        return out
+
+    p75 = one(75, "وقعت الحادثة كلمةحارس75 في المدينة", docs75, classify75)
+    named = [s["publisher"] for s in (p75.get("nearest") or {}).get("sources", [])]
+    check("(g75) نقطة منعها نفيٌ ⇒ لا يظهر مؤيِّدوها في nearest.sources",
+          p75["verdict"] == "not_found" and "موقع الشرق الإخباري" not in named
+          and "منصة الغرب الرقمية" not in named, (p75["verdict"], p75.get("nearest")))
+
+    # عرض الأقسام الثلاثة في قضية الترشيح بترقيم متصل وعناوين من config
+    sample = {"issue": 97099, "points": [
+        {**important_synthetic_point("not_found")},
+        {**important_synthetic_point("false")},
+        {**important_fixture_point(1229, "inaccurate")}]}
+    text = important_issue.build_selection_body(sample, cfg)
+    titles = [cfg.path("important.section_titles.confirmed"), cfg.path("important.section_titles.false"),
+              cfg.path("important.section_titles.not_found")]
+    pos = [text.find(t) for t in titles]
+    check("(g66+) الأقسام الثلاثة بعناوين config وبترتيب ما ثبت ثم ما كُذِّب ثم ما لم يُحسم",
+          all(p >= 0 for p in pos) and pos == sorted(pos), pos)
+    check("(g66+) الترقيم متصل عبر الأقسام", all(f"**{k}. " in text for k in (1, 2, 3)), text[:300])

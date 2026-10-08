@@ -271,6 +271,10 @@ def body_hash(body: str) -> str:
     return hashlib.sha1(" ".join((body or "").split()).encode("utf-8")).hexdigest()
 
 
+def rules_version(cfg) -> int:
+    return int((cfg.get("important", {}) or {}).get("rules_version", 1))
+
+
 def mark_status(points: list[dict]) -> None:
     """dropped = أسقطها الحَكَم (لا أثر ولا حدث قريب)؛ offered = تُعرض في قضية الترشيح."""
     for rec in points:
@@ -329,11 +333,33 @@ class _CountingClient:
 # ───────────────────────────── الاستقلال وجهات التدقيق ─────────────────────────────
 
 
-def _independent_groups(names: list[str], pool: dict[str, dict], cfg) -> list[list[str]]:
+_QUOTED_RE = re.compile(r"«[^»]*»|\"[^\"]*\"|“[^”]*”")
+
+
+def _unquoted_words(text: str) -> list[str]:
+    """كلمات النص مطبَّعة بعد حذف ما بين «» و"" و“”: نقل بيان واحد حرفيًا من عدة صحف ليس نسخًا
+    (حادثة #1278 — اقتباس الخارجية الأميركية في ثلاث صحف)، فالمنقول بتنصيص لا يُحسب في قاعدة النسخ."""
+    return _WORD_RE.findall(_fold(_QUOTED_RE.sub(" ", str(text or ""))))
+
+
+def _share_copy_run(a: str, b: str, run: int) -> bool:
+    """هل يشترك المقتطفان في تتابع من run كلمة فأكثر خارج التنصيص؟ (قاعدة النسخ، Issue #1282)"""
+    wa, wb = _unquoted_words(a), _unquoted_words(b)
+    if run <= 0 or len(wa) < run or len(wb) < run:
+        return False
+    grams = {tuple(wa[i:i + run]) for i in range(len(wa) - run + 1)}
+    return any(tuple(wb[i:i + run]) in grams for i in range(len(wb) - run + 1))
+
+
+def _independent_groups(names: list[str], pool: dict[str, dict], cfg,
+                        excerpts: dict[str, str] | None = None) -> list[list[str]]:
     """يجمّع المصادر في مجموعات «خبر واحد»: مصدران في مجموعة واحدة إن سمّى
     نصُّ أحدهما الآخر (ناقل/إعادة نشر — article._report_identity_kind) فلا
     يُحسبان إلا مصدرًا مستقلًا واحدًا. الفحص من الاتجاهين، وهو محافظ عمدًا:
-    أخطأ باتجاه عدّ أقل استقلالًا، وهذا الاتجاه هو الآمن لحارس false."""
+    أخطأ باتجاه عدّ أقل استقلالًا، وهذا الاتجاه هو الآمن لحارس false.
+    وقاعدة النسخ (Issue #1282): إن مُرِّر excerpts ضُمَّ إلى المجموعة نفسها كل مصدرين اشترك مقتطفاهما
+    في important.copy_run_words كلمة متتالية فأكثر خارج التنصيص — موقعان ينسخان فقرة واحدة خبر واحد."""
+    run = int(((cfg.get("important", {}) or {}).get("copy_run_words", 12)))
     parent = {n: n for n in names}
 
     def find(x):
@@ -345,7 +371,8 @@ def _independent_groups(names: list[str], pool: dict[str, dict], cfg) -> list[li
     for i, a in enumerate(names):
         for b in names[i + 1:]:
             if (article._report_identity_kind(a, pool[b], cfg)
-                    or article._report_identity_kind(b, pool[a], cfg)):
+                    or article._report_identity_kind(b, pool[a], cfg)
+                    or (excerpts and _share_copy_run(excerpts.get(a, ""), excerpts.get(b, ""), run))):
                 parent[find(a)] = find(b)
     groups: dict[str, list[str]] = {}
     for n in names:
@@ -825,6 +852,17 @@ def _superseded_text(sup: dict) -> str:
 UNKNOWN_ONLY_NOTE = "تأييد من مصادر غير معروفة فقط"
 
 
+def _has_explicit_false_word(excerpt: str, icfg) -> bool:
+    """مقتطف حكم يحوي كلمة صريحة من important.explicit_false_words (Issue #1282) — مطابقة مطبَّعة
+    بحدود الكلمات؛ «غير صحيح» عبارة من كلمتين تُطابَق متتالية."""
+    padded = " " + " ".join(_WORD_RE.findall(_fold(excerpt))) + " "
+    for w in icfg.get("explicit_false_words") or []:
+        words = " ".join(_WORD_RE.findall(_fold(w)))
+        if words and f" {words} " in padded:
+            return True
+    return False
+
+
 def _folded_words(text: str) -> list[str]:
     return _WORD_RE.findall(_fold(text))
 
@@ -890,25 +928,24 @@ def _agency_supported(agency: str, supports: list[str], stances: dict[str, dict]
         link = pool[n].get("link", "")
         if domains and _link_listed(link, domains):
             return True
-        if (_is_known_source(n, link, cfg)
-                and _mentions_words(stances[n].get("excerpt", ""), words)):
+        # أي مؤيِّد يذكر مقتطفُه الجهةَ صراحة (Issue #1282): كان «المعروف» وحده، وسقط به مؤيِّدون
+        # حقيقيون في #1278؛ والنفي الحرفي يُمنع قبل هنا (الشرط 1) فلا تُفتح ثغرة إعادة نشر الشائعة
+        if _mentions_words(stances[n].get("excerpt", ""), words):
             return True
     return False
 
 
 def _confirm_block(stances: dict[str, dict], pool: dict[str, dict], cfg, point: dict | None,
                    supports: list[str], primary: list[str], refuters: list[str]) -> str:
-    """سبب منع confirmed (نص ملاحظة not_found) أو فارغ. ثلاثة شروط، الأول أخطرها: (1) أي نفي
-    حرفي مُثبَت — من مدقّق ولو بلا حكم صريح أو بمقتطف سؤالي، أو من مصدر مستقل — يمنع التأكيد
-    التلقائي (ولا يصدر false إلا بشروطه القائمة)؛ (2) مؤيِّد «معروف» واحد على الأقل؛ (3) ادّعاء
-    يسند فعلًا لجهة يشترط مؤيِّدًا هو الجهة نفسها أو معروفًا ينقل عنها صراحة."""
+    """سبب منع confirmed (نص ملاحظة not_found) أو فارغ. شرطان (Issue #1282: أُلغي شرط «مؤيِّد معروف»
+    الذي أُضيف في #1229 — أسقط في #1278 ستّ نقاط عن بيان حقيقي واحد للخارجية الأميركية؛ وشائعة ناسا
+    أوقفها الشرط 1 لا هو، فروز اليوسف نفسها كرّرتها): (1) أي نفي حرفي مُثبَت — من مدقّق ولو بلا
+    حكم صريح أو بمقتطف سؤالي، أو من مصدر مستقل — يمنع التأكيد التلقائي (ولا يصدر false إلا بشروطه
+    القائمة)؛ (3) ادّعاء يسند فعلًا لجهة يشترط مؤيِّدًا هو الجهة نفسها أو يذكرها مقتطفه صراحة."""
     if refuters:
         who = "، ".join(dict.fromkeys(refuters))
         return f"أدلة متعارضة: نفي من {who} — لا تأكيد تلقائي"
     icfg = cfg.get("important", {}) or {}
-    known = [n for n in supports if _is_known_source(n, pool[n].get("link", ""), cfg)]
-    if not known and not primary:
-        return UNKNOWN_ONLY_NOTE
     claim = (point or {}).get("claim") or (point or {}).get("text") or ""
     agency = _attributed_agency(claim, icfg)
     if agency and not primary and not _agency_supported(agency, supports, stances, pool, cfg):
@@ -958,17 +995,20 @@ def _decide_base(stances: dict[str, dict], pool: dict[str, dict], cfg,
     conflicts = names_with("conflicts_detail")
     refuters = names_with("refutes")
 
-    n_support = len(_independent_groups(supports, pool, cfg)) if supports else 0
+    exc = {n: stances[n].get("excerpt", "") for n in stances}
+    n_support = len(_independent_groups(supports, pool, cfg, exc)) if supports else 0
     primary = _primary_supporters(stances, pool, point, icfg)
 
     # inaccurate: مصدران مستقلان فأكثر يخالفان بالتفصيل نفسه لزمن النقطة (صيغة صحيحة متفقة)
     agreeing = _pick_correction(conflicts, stances, pool, cfg, point)
 
     # false: نفي صريح مُثبَت بمقتطف من مصادر مستقلة كافية، أو من جهة تدقيق
-    refute_groups = _independent_groups(refuters, pool, cfg) if refuters else []
-    # مدقّق واحد يكفي لـfalse فقط بحكم صريح من false_labels وبمقتطف جملة حكم لا سؤال (#1207)
+    refute_groups = _independent_groups(refuters, pool, cfg, exc) if refuters else []
+    # مدقّق واحد يكفي لـfalse فقط بحكم صريح وبمقتطف جملة حكم لا سؤال (#1207). الحكم الصريح (#1282):
+    # verdict_label من false_labels، أو مقتطف حرفي غير سؤالي يحوي كلمة من explicit_false_words
     checkers = [n for n in refuters if _is_fact_checker(n, icfg, pool[n].get("link", ""))]
-    checker_hit = any(_label_in(stances[n].get("verdict_label", ""), icfg, "false_labels")
+    checker_hit = any((_label_in(stances[n].get("verdict_label", ""), icfg, "false_labels")
+                       or _has_explicit_false_word(stances[n]["excerpt"], icfg))
                       and not _is_question(stances[n]["excerpt"]) for n in checkers)
     refute_ok = len(refute_groups) >= min_refute or checker_hit
 
@@ -976,7 +1016,9 @@ def _decide_base(stances: dict[str, dict], pool: dict[str, dict], cfg,
     # تأييدًا للنقطة، وإلا حجبت ثلاثة مصادر تخالف «الشمس تشرق من المغرب» نفيَ مدقّقَين صريح
     event_documented = n_support >= min_confirm or bool(primary)
     note = ""
-    if refute_ok and not event_documented:
+    # حكم مدقّق صريح يصدر false ولو بلغ التأييد عتبته (#1282) — إلا إن أيّدت النقطةَ جهةُ بيانات
+    # أصلية، فحينها الأدلة متعارضة حقًّا ولا يُحكم تلقائيًا
+    if refute_ok and (not event_documented or (checker_hit and not primary)):
         refuted_by = [{"publisher": n, "link": pool[n].get("link", ""),
                        "excerpt": stances[n]["excerpt"],
                        # حكم المدقّق كما في صفحته: تعرضه قضية الترشيح بجانب اسمه (#1217)
@@ -987,7 +1029,7 @@ def _decide_base(stances: dict[str, dict], pool: dict[str, dict], cfg,
                 "refuted_by": refuted_by, "primary_source": False}
     if refute_ok and event_documented:
         return {"verdict": "not_found", "correction": None, "refuted_by": None,
-                "primary_source": False,
+                "primary_source": False, "negated": True,
                 "note": "أدلة متعارضة: نفي كافٍ وتأييد كافٍ معًا — لا حكم تلقائي"}
     if refuters:
         note = (f"{INSUFFICIENT_REFUTATION_NOTE} ({len(refute_groups)} مصدر مستقل "
@@ -1028,13 +1070,24 @@ def _decide_base(stances: dict[str, dict], pool: dict[str, dict], cfg,
     if n_support >= min_confirm or primary:
         blocked = _confirm_block(stances, pool, cfg, point, supports, primary, refuters)
         if blocked:
-            # لا nearest ولا عرض: مصادر التأييد المرفوضة نفسها قد تكون هي من أعادت نشر الشائعة (#1229)
+            # منع بنفي (الشرط 1) ← negated: مصادر التأييد قد تكون هي من أعادت نشر الشائعة (#1229)،
+            # فلا تدخل أقرب ما وُجد (#1282). منع الجهة (الشرط 3) لا يعني نفيًا
             return {"verdict": "not_found", "note": blocked, "correction": None,
-                    "refuted_by": None, "primary_source": False, "confirm_blocked": True}
-        return {"verdict": "confirmed", "note": note, "correction": None,
-                "refuted_by": None, "primary_source": bool(primary)}
+                    "refuted_by": None, "primary_source": False, "confirm_blocked": True,
+                    "negated": bool(refuters)}
+        decision = {"verdict": "confirmed", "note": note, "correction": None,
+                    "refuted_by": None, "primary_source": bool(primary)}
+        known = [n for n in supports if _is_known_source(n, pool[n].get("link", ""), cfg)]
+        if not known and not primary:
+            # كل المؤيِّدين خارج مصادرنا المسجّلة (#1282): يبقى confirmed بتنبيه يراه المراجع قبل الاختيار
+            tmpl = icfg.get("unknown_support_warning",
+                            "⚠️ كل المؤيِّدين من خارج مصادرنا المسجّلة: {names} — راجع قبل الاختيار")
+            line = tmpl.format(names="، ".join(dict.fromkeys(supports)))
+            decision["warnings"] = [line]
+            decision["note"] = " · ".join(x for x in (note, line) if x)
+        return decision
     return {"verdict": "not_found", "note": note, "correction": None,
-            "refuted_by": None, "primary_source": False}
+            "refuted_by": None, "primary_source": False, "negated": bool(refuters)}
 
 
 # ───────────────────────────── Brave (بحث الويب) ─────────────────────────────
@@ -1903,35 +1956,113 @@ def _read_stances(data: dict, pool: dict[str, dict], f: dict | None = None,
     return out
 
 
-def _nearest(data: dict, pool: dict[str, dict], cfg, entities: list[str]) -> dict | None:
-    """أقرب حدث موثَّق: يقترحه النموذج من النصوص نفسها، ويتحقق الكود أن مصدريه
-    معروفان ومستقلان (article.min_confirm_sources) — حدث بمصدر واحد لا يُحفظ —
-    وأن عنوانه أو وصفه يشارك النقطة كيانًا رئيسيًا واحدًا على الأقل من entities
-    (بمطابقة مطبَّعة تعدّد الصيغ). احتجاجات سوريا لنقطة عن تركيا لا تصلح أقربَ حدث
-    (#1200). بلا كيان مشترك ← null؛ ونقطة بلا كيانات لا nearest لها."""
+def _near_source(name: str, pool: dict[str, dict], f: dict, icfg) -> dict | None:
+    """مصدر في أقرب ما وُجد: ناشره ورابطه ومقتطف حرفي من نص صفحته بـselect_excerpt (Issue #1282).
+    كان _nearest يحفظ publisher وlink بلا excerpt فلا يجد الكاتب وقائع مسندة (24246e81cd44)؛
+    مصدر بلا مقتطف غير فارغ لا يدخل."""
+    d = pool[name]
+    excerpt = select_excerpt(d.get("text", ""), f, icfg).strip()
+    if not excerpt:
+        return None
+    return {"publisher": name, "link": d.get("link", ""), "excerpt": excerpt}
+
+
+def _near_sources(names: list[str], pool: dict[str, dict], f: dict, icfg) -> list[dict]:
+    out = [s for n in names if n in pool and (s := _near_source(n, pool, f, icfg))]
+    return out
+
+
+def _origin_first(group: list[str], pool: dict[str, dict], cfg) -> list[str]:
+    """أعضاء مجموعة «خبر واحد» والأصل أولًا: الذي تسمّيه نصوص الباقين (BBC تسمّيها Youm7) يتقدّم،
+    فهو الناشر الذي تُنسب إليه المعلومة في تعليمات الكاتب."""
+    def cited(n: str) -> int:
+        return sum(1 for m in group if m != n and article._report_identity_kind(n, pool[m], cfg))
+    return sorted(group, key=lambda n: -cited(n))
+
+
+def _nearest(data: dict | None, pool: dict[str, dict], cfg, entities: list[str],
+             f: dict | None = None, stances: dict[str, dict] | None = None,
+             negated: bool = False) -> dict | None:
+    """أقرب ما وُجد لنقطة not_found بلا خطأ تقني، بدرجات تُجرَّب بالترتيب وأول ما ينطبق يُعتمد (#1282):
+    (أ) للنقطة مؤيِّدون في مجموعة مستقلة واحدة ولا نفي ← single_source بنصّ النقطة؛
+    (ب) حدث اقترحه النموذج بكيان مشترك و≥2 مجموعات مستقلة ← intersection؛
+    (ج) مثله بمجموعة واحدة ← single_source؛
+    (د) احتياط في الكود: وثيقة موقفها related_other/supports/conflicts_detail تشارك عنوانها أو مقتطفها
+        كيانًا ← single_source، والأعلى بـevidence._candidate_score أولًا؛
+    وغير ذلك None (الدرجة هـ: تسقط النقطة بلا أثر إطلاقًا).
+    negated (المنع بنفي): تُتخطّى (أ) ولا يدخل مؤيِّد للنقطة مصدرًا في (ب)–(د)، فقد يكون من ناشري
+    الشائعة. كل مصدر يحمل excerpt؛ وحدث بلا أي excerpt لا يُعتمد فتنتقل إلى الدرجة التالية."""
     icfg = cfg.get("important", {}) or {}
     min_confirm = int((cfg.get("article", {}) or {}).get("min_confirm_sources", 2))
+    f = f or {"entities": entities}
+    stances = stances or {}
+    exc = {n: s.get("excerpt", "") for n, s in stances.items()}
+    supports = [n for n, s in stances.items() if s["stance"] == "supports"]
+    banned = set(supports) if negated else set()
+
+    # (أ)
+    if supports and not negated:
+        groups = _independent_groups(supports, pool, cfg, exc)
+        if len(groups) == 1:
+            srcs = _near_sources(_origin_first(groups[0], pool, cfg), pool, f, icfg)
+            if srcs:
+                return {"kind": "single_source", "title": f.get("text") or f.get("claim") or "",
+                        "description": "", "shared_entity": "", "sources": srcs}
+
+    # (ب) ثم (ج) من nearest_events
     docs = list(pool.values())
-    raw = data.get("nearest_events")
+    events = []
+    raw = (data or {}).get("nearest_events")
     for ev in raw if isinstance(raw, list) else []:
         if not isinstance(ev, dict) or not str(ev.get("title") or "").strip():
             continue
-        shared = _shared_entity(f"{ev.get('title', '')} {ev.get('description', '')}",
-                                entities, icfg)
+        shared = _shared_entity(f"{ev.get('title', '')} {ev.get('description', '')}", entities, icfg)
         if shared is None:
             continue
         names = []
         for cand in ev.get("sources") if isinstance(ev.get("sources"), list) else []:
             n = evidence._canonical_name(cand, docs)
-            if n and n not in names:
+            if n and n not in names and n not in banned:
                 names.append(n)
-        if len(_independent_groups(names, pool, cfg)) >= min_confirm:
-            return {"title": str(ev["title"]).strip(),
+        srcs = _near_sources(names, pool, f, icfg)
+        if not srcs:
+            continue
+        groups = _independent_groups([s["publisher"] for s in srcs], pool, cfg,
+                                     {s["publisher"]: s["excerpt"] for s in srcs})
+        events.append((ev, shared, srcs, groups))
+    for want_many in (True, False):
+        for ev, shared, srcs, groups in events:
+            if want_many and len(groups) >= min_confirm:
+                kind, chosen = "intersection", srcs
+            elif not want_many and len(groups) == 1:
+                kind, chosen = "single_source", srcs
+            else:
+                continue
+            return {"kind": kind, "title": str(ev["title"]).strip(),
                     "description": str(ev.get("description") or "").strip(),
-                    "shared_entity": shared,
-                    "sources": [{"publisher": n, "link": pool[n].get("link", "")}
-                                for n in names]}
-    return None
+                    "shared_entity": shared, "sources": chosen}
+
+    # (د)
+    wanted = norm_tokens(f.get("text") or f.get("claim") or "")
+    best, best_score = None, None
+    for n, s in stances.items():
+        if s["stance"] not in ("related_other", "supports", "conflicts_detail") or n in banned or n not in pool:
+            continue
+        src = _near_source(n, pool, f, icfg)
+        title = str(pool[n].get("title") or "").strip()
+        if not src:
+            continue
+        shared = _shared_entity(f"{title} {src['excerpt']}", entities, icfg)
+        if shared is None:
+            continue
+        score = evidence._candidate_score(evidence._publisher_weight(n, cfg),
+                                          len(wanted & norm_tokens(f"{title} {src['excerpt']}")))
+        if best_score is None or score > best_score:
+            first = re.split(r"(?<=[.!؟?۔])\s+|\n+", src["excerpt"], maxsplit=1)[0]
+            best = {"kind": "single_source", "title": title or first[:120].strip(),
+                    "description": "", "shared_entity": shared, "sources": [src]}
+            best_score = score
+    return best
 
 
 def _image_candidates(names: list[str], ranked: list, pool: dict[str, dict], cfg) -> list[dict]:
@@ -1952,10 +2083,11 @@ def _image_candidates(names: list[str], ranked: list, pool: dict[str, dict], cfg
 # ───────────────────────────── نقطة واحدة ─────────────────────────────
 
 
-def judge_point(f: dict, topic: str, search: _PointSearch, cfg) -> dict:
+def judge_point(f: dict, topic: str, search: _PointSearch, cfg, keep: dict | None = None) -> dict:
+    """keep (اختياري): يحفظ لكل نقطة حالتها الداخلية (الوثائق والمواقف) كي يعيد judge تصنيف نقاط
+    not_found على المخزون المشترك بين نقاط النص الواحد (#1282) دون بحث جديد."""
     pid = point_id(f["text"])
     got = search.collect(f, topic)
-    ranked, named, collect_note = got.ranked, got.named, got.note
     # ClaimReview لصفحات المدقّقين بالنطاق وحدها، من HTML الخام (#1210). تُحمل على الوثيقة
     # قبل توحيد الناشر كي تصل pool وread_docs معًا؛ فشل القراءة لا يوقف شيئًا
     docs = []
@@ -1968,6 +2100,16 @@ def judge_point(f: dict, topic: str, search: _PointSearch, cfg) -> dict:
                 log.warning("تعذّرت قراءة ClaimReview لـ%s: %s", d.get("link", "")[:80], exc)
         docs.append({**d, "claim_review": cr})
     pool_docs = article._dedup_docs_by_publisher(docs, cfg)
+    rec, stances = _judge_pool(f, got, docs, pool_docs, cfg)
+    if keep is not None:
+        keep[pid] = {"f": f, "got": got, "docs": docs, "pool_docs": pool_docs, "stances": stances}
+    return rec
+
+
+def _judge_pool(f: dict, got, docs: list[dict], pool_docs: list[dict], cfg) -> tuple[dict, dict]:
+    """التصنيف والحكم ودرجات أقرب ما وُجد على pool_docs (وثائق النقطة، أو موسَّعة بالمخزون المشترك)."""
+    pid = point_id(f["text"])
+    ranked, named, collect_note = got.ranked, got.named, got.note
     pool = {d["name"]: d for d in pool_docs}
 
     icfg = cfg.get("important", {}) or {}
@@ -1990,8 +2132,9 @@ def judge_point(f: dict, topic: str, search: _PointSearch, cfg) -> dict:
                     "note": f"⚠️ فشل نداء التصنيف تقنيًا: {call_error}"}
     else:
         decision = decide(stances, pool, cfg, f)
-        if decision["verdict"] == "not_found" and data and not decision.get("confirm_blocked"):
-            nearest = _nearest(data, pool, cfg, f.get("entities") or [])
+        if decision["verdict"] == "not_found":
+            nearest = _nearest(data, pool, cfg, f.get("entities") or [], f, stances,
+                               negated=bool(decision.get("negated")))
     note = " · ".join(x for x in (collect_note, decision["note"]) if x)
     superseded = [{"publisher": n, **stances[n]["superseded_by"]} for n in _superseded_names(stances)]
 
@@ -2051,11 +2194,62 @@ def judge_point(f: dict, topic: str, search: _PointSearch, cfg) -> dict:
         "evidence": evidence_rows, "correction": decision["correction"],
         "refuted_by": decision["refuted_by"], "nearest": nearest,
         "note": note, "named_as": named,
+        # تنبيهات المراجعة من الحكم نفسه (#1282): تُعرض تحت الأدلة وتنتقل إلى مسودة المرحلتين 2 و3
+        "warnings": list(decision.get("warnings") or []),
+        "call_error": bool(call_error),
         # تنبيه التجاوز الزمني (#1225): يُعرض سطرًا بارزًا في قضيتي المرحلتين؛ superseded ما ذكره كل مصدر
         "superseded_note": decision.get("superseded_note", ""), "superseded": superseded,
         "image_candidates": _image_candidates(img_names, ranked, pool, cfg),
         "sources_read": len(pool), "dropped_reason": dropped,
-    }
+    }, stances
+
+
+_RESCORED_KEYS = ("verdict", "primary_source", "icon", "evidence", "correction", "refuted_by", "nearest",
+                  "note", "warnings", "superseded_note", "superseded", "image_candidates",
+                  "sources_read", "dropped_reason")
+
+
+def _share_pool(keep: dict, cfg, counter: "_CallCounter", judged: list[dict]) -> None:
+    """المخزون المشترك بين نقاط النص الواحد (#1282): كل نقطة not_found بلا خطأ تقني تُصنَّف مرة واحدة
+    على pool موسَّع بوثائق النقاط الأخرى التي لم يكن موقفها irrelevant (والمكرَّرة سقطت في pool نقطتها
+    أصلًا)، بسقف important.shared_pool_max_docs. لا بحث جديد ولا Brave: وثائق قُرئت فعلًا لا غير.
+    حادثة #1278: مقال Lebanon 24 الذي قرأته نقطة ما هو نفسه دليل على نقطة أخرى لم تقرأه."""
+    icfg = cfg.get("important", {}) or {}
+    cap = int(icfg.get("shared_pool_max_docs", 12))
+    if cap <= 0:
+        return
+    for rec in judged:
+        pid = rec["id"]
+        if rec["verdict"] != "not_found" or rec.get("call_error"):
+            continue
+        mine = keep[pid]
+        own_names = {d["name"] for d in mine["pool_docs"]}
+        extras = [d for other, st in keep.items() if other != pid
+                  for d in st["pool_docs"]
+                  if (st["stances"].get(d["name"]) or {}).get("stance", "irrelevant") != "irrelevant"]
+        fresh = [d for d in article._dedup_docs_by_publisher(mine["pool_docs"] + extras, cfg)
+                 if d["name"] not in own_names][:max(0, cap - len(own_names))]
+        if not fresh:
+            continue
+        counter.key = pid
+        before = counter.by_key.get(pid, 0)
+        rec2, stances2 = _judge_pool(mine["f"], mine["got"], mine["docs"],
+                                     mine["pool_docs"] + fresh, cfg)
+        rec["model_calls"] = rec.get("model_calls", 0) + counter.by_key.get(pid, 0) - before
+        if rec2.get("call_error"):
+            continue
+        for k in _RESCORED_KEYS:
+            rec[k] = rec2[k]
+        rec["shared_from"] = [d["name"] for d in fresh]
+        # الوثائق الوافدة تظهر في read_docs بموقفها كي يبقى أثر كل مصدر في الحكم قابلًا للتتبع
+        rec["read_docs"] = rec["read_docs"] + [{
+            "publisher": d["name"], "link": d.get("link", ""), "orig_link": None, "resolved": True,
+            "engine": "shared", "page_chars": len(d.get("text") or ""), "excerpt_chars": 0,
+            "same_event": (stances2.get(d["name"]) or {}).get("same_event"), "as_of": "",
+            "superseded_by": None, "claim_review": None,
+            "stance": (stances2.get(d["name"]) or {}).get("stance", "irrelevant")} for d in fresh]
+        rec["docs_after"] = rec["docs_after"] + len(fresh)
+        mine["stances"] = stances2
 
 
 # ───────────────────────────── الأنبوب كاملًا ─────────────────────────────
@@ -2214,12 +2408,15 @@ def judge(body: str, issue_number: int, cfg=None) -> dict:
 
         search = _PointSearch(cfg, body)
         judged = []
+        keep: dict[str, dict] = {}
         for f in points:
             counter.key = point_id(f["text"])
             before = counter.by_key.get(counter.key, 0)
-            rec = judge_point(f, topic, search, cfg)
+            rec = judge_point(f, topic, search, cfg, keep)
             rec["model_calls"] = counter.by_key.get(counter.key, 0) - before
             judged.append(rec)
+        # بعد الحكم على كل النقاط: إعادة تصنيف not_found على المخزون المشترك (#1282)
+        _share_pool(keep, cfg, counter, judged)
     finally:
         article._client = real_client
 
@@ -2228,6 +2425,8 @@ def judge(body: str, issue_number: int, cfg=None) -> dict:
     result = {
         "issue": issue_number,
         "body_hash": body_hash(body),
+        # نسخة قواعد الحكم (#1282): الحكم المحفوظ لا يُعاد استعماله إلا بتساويها مع الإعداد الحالي
+        "rules_version": rules_version(cfg),
         "selection_issue": None,
         "created_at": datetime.now(timezone.utc).isoformat(),
         "topic": topic, "error": error,
