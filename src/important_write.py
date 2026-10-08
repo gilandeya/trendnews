@@ -196,7 +196,9 @@ def instructions(point: dict, cfg) -> str:
         near = point.get("nearest") or {}
         if near.get("kind") == "single_source":
             # مصدر واحد (#1282): تعليمات خاصة تنسب كل شيء إليه ولا تكتبه حقيقة ثابتة
-            template = wi.get("not_found_single", template)
+            # عنوانه نصّ النقطة نفسها ← مفتاح لا يمنع ذكرها (الشرط نفسه في check_text)
+            same = near.get("title") in (point.get("claim"), point.get("text"))
+            template = wi.get("not_found_single_claim" if same else "not_found_single", template)
             publisher = ((near.get("sources") or [{}])[0]).get("publisher", "")
             body = template.format(nearest_title=near.get("title", ""), publisher=publisher)
         else:

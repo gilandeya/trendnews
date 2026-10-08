@@ -111,9 +111,12 @@ def test_important_pipeline() -> None:
     check("(c) حدث قريب موثَّق بمصدرين ← nearest محفوظ والنقطة باقية",
           sc[q_near["text"]]["nearest"] is not None
           and sc[q_near["text"]]["dropped_reason"] is None, sc[q_near["text"]])
-    check("(c) حدث بمصدر واحد لا يُحفظ nearest ← تُسقط بسببها",
-          sc[q_one["text"]]["nearest"] is None
-          and sc[q_one["text"]]["dropped_reason"] == "لا أثر ولا حدث قريب موثَّق",
+    # السلوك القديم (حدث بمصدر واحد ← nearest فارغ والنقطة تسقط) أُلغي بالقرار 3 (ج) في #1282:
+    # لا تسقط نقطة لها أقرب حدث ولو بمصدر واحد، بل تُعرض بنسبة صريحة إليه
+    check("(c) حدث بمصدر واحد ← nearest من نوع single_source والنقطة معروضة لا مُسقطة",
+          (sc[q_one["text"]]["nearest"] or {}).get("kind") == "single_source"
+          and sc[q_one["text"]]["dropped_reason"] is None
+          and sc[q_one["text"]]["status"] == "offered",
           sc[q_one["text"]])
     check("(c) بلا مصدر إطلاقًا ← not_found مُسقطة بالسبب نفسه",
           sc[q_empty["text"]]["verdict"] == "not_found"
@@ -359,10 +362,13 @@ def test_important_search_and_extract() -> None:
     mc = saved["model_calls"]
     # #1203: نقطة كيانها «تركيا» بلا عبارة تركية من الاستخراج تُطلب لها عبارتها بنداء
     # Haiku ثانٍ قصير (نقطتان هنا) — فنداء التفكيك واحد، وكل نداءات «brief» من Haiku
+    # #1282: نداء Sonnet لكل نقطة + نداء إضافي لكل نقطة أُعيد تصنيفها على المخزون المشترك (shared_from)،
+    # فالعدد يُحسب من الملف لا يُثبَّت
+    expected_sonnet = len(pts) + sum(1 for p in pts if p.get("shared_from"))
     check("(a) نداء تفكيك واحد (Haiku) + نداءات لغة أم، كلها Haiku، والملف "
           "يحمل طلبات Brave وسبب غيابها",
           mc["brief"] >= 1 and mc["brief"] == mc["by_model"].get(cfg.path("important.extract_model"))
-          and mc["by_model"].get(cfg.path("article.model")) == len(pts)
+          and mc["by_model"].get(cfg.path("article.model")) == expected_sonnet
           and saved["brave"]["skipped"] == "no_key", (mc, saved.get("brave")))
 
     # ── (b) نقطة بلا أسماء ← تُبحث بعباراتها ولا تسقط قبل البحث ──
@@ -679,8 +685,15 @@ def test_important_same_event_and_excerpts() -> None:
     rel = {d["publisher"] for d in p1["read_docs"] if d["stance"] == "related_other"}
     check("(a) (1) nearest، إن وُجد، يشارك كيانًا ومصدراه related_other",
           n1 is None or (n1["shared_entity"] and {s["publisher"] for s in n1["sources"]} <= rel), n1)
+    # الغاية «ليس سوريا»: لا nearest، أو كيانه المشترك تركيا ولا مصدر فيه من وثائق سوريا (#1282)
+    syria_pubs = {d["publisher"] for d in p2["read_docs"]
+                  if "سوريا" in (d.get("title", "") + d.get("excerpt", ""))}
+    n2 = p2["nearest"]
     check("(a) (2) nearest ليس سوريا (لا كيان مشترك مع نقطة عن تركيا)",
-          p2["verdict"] == "not_found" and p2["nearest"] is None, p2["nearest"])
+          p2["verdict"] == "not_found"
+          and (n2 is None or (n2["shared_entity"] == "تركيا"
+                              and not ({s["publisher"] for s in n2["sources"]} & syria_pubs))),
+          p2["nearest"])
     check("(a) (3) ← false بمدقّق وبرابط misbar.com المحلول",
           p3["verdict"] == "false" and p3["refuted_by"][0]["link"].startswith("https://misbar.com/")
           and p3["refuted_by"][0]["fact_checker"], p3["refuted_by"])
@@ -1669,7 +1682,8 @@ def test_important_1217() -> None:
     def fake_judge(body, issue, cfg=None):
         state["judge"].append(issue)
         r = copy.deepcopy(fixture[issue])
-        r.update(issue=issue, body_hash=important.body_hash(body), selection_issue=None)
+        r.update(issue=issue, body_hash=important.body_hash(body), selection_issue=None,
+                 rules_version=important.rules_version(load_config()))
         important.mark_status(r["points"])
         important.save(r)
         return r
@@ -2593,6 +2607,18 @@ def test_important_1282() -> None:
     check("(1278) وتنبيه «من خارج مصادرنا» تحت أدلة المؤكَّدة، وأسطر أقرب ما وُجد بمصدر واحد",
           "⚠️ كل المؤيِّدين من خارج مصادرنا المسجّلة" in body
           and "🔍 أقرب ما وُجد · مصدر واحد:" in body, None)
+    # تعليمات الكاتب (#1282): عنوان nearest هو نص النقطة ← المفتاح الذي لا يمنع ذكرها؛ وإلا not_found_single
+    from src import important_write
+    ins24 = important_write.instructions(by_id["24246e81cd44"], cfg)
+    check("(1278) تعليمات 24246e81cd44 تنسب إلى BBC ولا تمنع ذكر النقطة الأصلية",
+          "بحسب BBC" in ins24 and "ممنوع ذكر النقطة الأصلية" not in ins24
+          and "لم يتأكد أو لا أثر له" in ins24, ins24)
+    other = {"verdict": "not_found", "claim": "ادّعاء آخر", "text": "ادّعاء آخر",
+             "nearest": {"kind": "single_source", "title": "حدث قريب مختلف",
+                         "sources": [{"publisher": "الصحيفة", "link": "u", "excerpt": "نص"}]}}
+    ins_c = important_write.instructions(other, cfg)
+    check("(1278) حالة (ج) بعنوان غير نص النقطة تبقى بتعليمات not_found_single",
+          "ممنوع ذكر النقطة الأصلية" in ins_c and "بحسب الصحيفة" in ins_c, ins_c)
     print("نتائج أنبوب #1278 (الحكم · درجة أقرب ما وُجد):")
     for p in result["points"]:
         n = p.get("nearest") or {}
