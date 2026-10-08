@@ -14,7 +14,7 @@ from urllib.parse import urlparse
 
 import requests
 
-from . import important, review, stages
+from . import important, important_write, review, stages
 from .config import load_config
 
 log = logging.getLogger("trendnews.important_issue")
@@ -138,8 +138,88 @@ def _image_lines(p: dict) -> list[str]:
             f"  🖼️ [صورة {img.get('publisher') or 'المصدر'}]({url}) · {urlparse(url).netloc}"]
 
 
+def item_title(item: dict, cfg) -> str:
+    return (_icfg(cfg).get("article_titles", {}) or {}).get(item.get("kind"), item.get("kind", ""))
+
+
+def _member_line(p: dict, cfg) -> str:
+    names = list(dict.fromkeys(r["publisher"] for r in important_write.ordered_sources(p, cfg)
+                               if r.get("publisher")))
+    tail = f" — {'، '.join(names)}" if names else ""
+    return f"- {p.get('icon', '')} {p.get('claim') or p.get('text', '')}{tail}"
+
+
+def build_items_body(result: dict, cfg) -> str:
+    """جسم قضية الترشيح بثلاثة منشورات (#1293، B2): سطر الخبر الرئيسي ← لكل عنصر (verified ثم nearest ثم
+    refuted): عنوانه ← سطر لكل نقطة عضو ← صورة أول عضو له صورة ← حقل الرابط ← الانتقال بمعرّف العنصر. لا علامة
+    go: لنقطة منفردة. ثم «خارج الموضوع الرئيسي» و«نقاط لم تدخل أي منشور» (call_error بسببها)."""
+    icfg = _icfg(cfg)
+    by_id = {p["id"]: p for p in result["points"]}
+    parts = [stages.stage_header(1, cfg), "",
+             cfg.path("stages.explainer_stage1", ""), "",
+             f"المصدر: نصّك في #{result['issue']}", ""]
+    if result.get("main_story"):
+        parts += [icfg.get("main_story_label", "📌 الخبر الرئيسي: {main_story}").format(
+            main_story=result["main_story"]), ""]
+    parts += ["---", ""]
+    for item in result.get("article_items") or []:
+        if item.get("status") not in (None, "offered", "selected"):
+            continue
+        members = [by_id[i] for i in item["point_ids"] if i in by_id]
+        title = item_title(item, cfg)
+        if item.get("returned"):
+            title = (cfg.path("stages.returned_badge", "↩️ أعدته من المرحلة {stage}")
+                     .format(stage=item.get("returned_from_stage") or 2) + f" · {title}")
+        if item.get("write_failed"):
+            n = int(icfg.get("write_error_chars", 90))
+            reason = (item.get("write_error") or "").strip()
+            reason = reason if len(reason) <= n else reason[:n].rstrip() + "…"
+            title = icfg.get("write_failed_badge", "⚠️ فشلت الكتابة: {reason}").format(reason=reason) \
+                + f" · {title}"
+        parts += [f"**{title}**", ""]
+        for p in members:
+            parts.append(_member_line(p, cfg))
+            if p.get("superseded_note"):
+                # تنبيه التجاوز الزمني (#1225) يبقى بارزًا تحت نقطته كي لا يضيع في العرض الجديد
+                parts.append(f"  > {p['superseded_note']}")
+        parts.append("")
+        first = next((p for p in members if _first_image(p)), None)
+        parts += [*_image_lines(first or {}), "",
+                  stages.image_field(item["id"], cfg), "",
+                  *stages.options_block(1, item["id"], cfg, has_stage1=False), "",
+                  "---", ""]
+
+    covered = {i for ids in (result.get("articles") or {}).values() for i in ids}
+    uncovered = [p for p in result["points"] if p["id"] not in covered]
+    if uncovered:
+        parts += [f"<details><summary>{icfg.get('uncovered_title', 'نقاط لم تدخل أي منشور ({n})').format(n=len(uncovered))}"
+                  "</summary>", ""]
+        for p in uncovered:
+            reason = p.get("call_error") or p.get("dropped_reason") or p.get("note") or ""
+            parts.append(f"- {p.get('text', '')}" + (f" — {reason}" if reason else ""))
+        parts += ["", "</details>", ""]
+    off_topic = result.get("off_topic") or []
+    if off_topic:
+        parts += [f"<details><summary>{icfg.get('off_topic_title', 'خارج الموضوع الرئيسي ({n})').format(n=len(off_topic))}"
+                  "</summary>", ""]
+        parts += [f"- {o.get('text', '')}" for o in off_topic]
+        parts += ["", "</details>", ""]
+    parts.append(f"<sub>{icfg.get('selection_footer_items', 'وسم `approved` = تنفيذ ما عُلِّم عليه لكل منشور')}</sub>")
+    return "\n".join(parts)
+
+
 def build_selection_body(result: dict, cfg=None) -> str:
-    """جسم قضية الترشيح: رأس المرحلة 1 ← الشرح ← المصدر، ثم لكل نقطة معروضة (بلا مربع
+    """نتيجة فيها خطة articles (B1 فما بعد) ← ثلاثة منشورات؛ ملف أقدم بلا خطة ← عرض النقاط القديم
+    (قضية فُتحت قبل #1293 تُقرأ وتُكتب بمساره أيضًا، انظر important_finalize)."""
+    cfg = cfg if cfg is not None else load_config()
+    if "articles" in result:
+        important.ensure_article_items(result)
+        return build_items_body(result, cfg)
+    return build_points_body(result, cfg)
+
+
+def build_points_body(result: dict, cfg=None) -> str:
+    """جسم قضية الترشيح القديم: رأس المرحلة 1 ← الشرح ← المصدر، ثم لكل نقطة معروضة (بلا مربع
     فوق بياناتها؛ معرّفها يظهر في علامات go: كتلة الانتقال وحدها): العنوان ← الشارة
     والحكم ← السياق ← الأدلة ← الصورة ← حقل رابط الصورة ← الانتقال. الساقطة في
     <details> بلا مربعات."""
@@ -229,6 +309,8 @@ def build_selection_body(result: dict, cfg=None) -> str:
 def selection_title(result: dict, cfg=None) -> str:
     cfg = cfg if cfg is not None else load_config()
     n = int(_icfg(cfg).get("selection_title_chars", 50))
+    if "articles" in result and result.get("main_story"):
+        return f"📌 هام — ترشيح من #{result['issue']}: {result['main_story'][:n]}"
     first = next((p for p in result["points"] if p.get("status") != "dropped"), None)
     topic = display_title(first)[:n] if first else ""
     return f"📌 هام — ترشيح من #{result['issue']}: {topic}"
@@ -291,14 +373,16 @@ def run(issue: int, cfg=None) -> int:
 
     sel = result.get("selection_issue")
     offered = [p for p in result["points"] if p.get("status") != "dropped"]
-    if offered and not (sel and _issue_open(sel)):
+    items = important.ensure_article_items(result) if "articles" in result else []
+    if (items or offered) and not (sel and _issue_open(sel)):
         review.ensure_labels()
         created = review.create_issue(selection_title(result, cfg),
                                       build_selection_body(result, cfg), labels=[LABEL])
         sel = created["number"]
         result["selection_issue"] = sel
-        for p in offered:
-            p["selection_issue"] = sel
+        # العناصر وحدها تحمل رقم القضية في العرض الجديد؛ النقاط المنفردة لا قضية لها (#1293)
+        for entry in (items if items else offered):
+            entry["selection_issue"] = sel
         important.save(result)
-    review.comment(issue, build_comment(result, sel if offered else None, cfg, reused))
+    review.comment(issue, build_comment(result, sel if (items or offered) else None, cfg, reused))
     return 0

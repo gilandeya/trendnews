@@ -154,7 +154,7 @@ def apply_selection_image(item_id: str, url: str, cfg, issue: int = 0,
         point["manual_image"] = url
         important.save(result)
         log.info("✓ صورة يدوية حُفظت على نقطة «هام» %s (تُستعمل عند الصياغة)", item_id)
-        return {"kind": "important", "title": (point.get("claim") or "")[:60]}, ""
+        return {"kind": "important", "title": (point.get("claim") or point.get("kind") or "")[:60]}, ""
 
     date_match = youtube_cluster.SELECTION_DATE_RE.search(issue_body or "")
     if date_match:

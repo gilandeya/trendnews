@@ -1357,11 +1357,54 @@ step (`article.wide_days`).
   - **خطة المنشورات `articles`:** تُحفظ في النتيجة فقط (`plan_articles`): `verified` = confirmed · `nearest` = not_found ·
     `refuted` = false + inaccurate، بمعرّفات نقاط الخبر الرئيسي؛ ونقطة `call_error` لا تدخل أي قائمة. العرض والكتابة في B2.
   - `important.rules_version` = 4.
+- **ثلاثة منشورات حول الخبر الرئيسي (Issue #1293، B2 — اختبارات g88–g94 في `tests/test_guards_golden.py:test_important_1293_guards`):**
+  قرار صاحب المشروع: نتيجة نصّ «هام» ثلاثة منشورات كحدٍّ أقصى، يستقل كل منها بموضوع واحد هو `result.main_story`؛ لا منشور لكل نقطة.
+  - **العناصر `result["article_items"]`:** `[{id, kind, point_ids, status, selection_issue, …}]` تبنيها `important.build_article_items` من
+    الخطة `result["articles"]` (B1) وتحفظها `judge`؛ معرّف العنصر `point_id(f"{issue}:{kind}")`. الشروط: **verified** إن ثبتت نقطة واحدة
+    على الأقل · **nearest** ما دامت نقطة لم تثبت ولم تُكذَّب (ولو بلا `nearest` وساقطة — البحث المكمِّل يجد الأقرب) · **refuted**
+    (false + inaccurate) إن كُذِّبت أو صُحّحت نقطة. القائمة الفارغة تُسقط عنصرها؛ ونقطة `call_error` لا تدخل أي عنصر وتظهر في كتلة
+    `<details>` «نقاط لم تدخل أي منشور (n)» بسببها. `important.ensure_article_items` تُكسب نتيجة B1 المحفوظة عناصرها (وتُستدعى في
+    `important_issue.run`)، ونتيجة قديمة بلا `articles` تبقى بلا عناصر.
+  - **قضية الترشيح (`important_issue.build_items_body`):** سطر الخبر الرئيسي ← لكل عنصر بترتيب verified/nearest/refuted: عنوانه من
+    `important.article_titles` ← سطر لكل نقطة عضو (أيقونة الحكم + نصها + أسماء ناشري أدلتها، وسطر `>` لتنبيه التجاوز الزمني) ← صورة أول
+    عضو له صورة ← `stages.image_field(item_id)` ← `stages.options_block(1, item_id)`؛ لا علامة `go:` ولا `imgurl:` لنقطة منفردة. ثم كتلتا
+    «خارج الموضوع الرئيسي» و«نقاط لم تدخل أي منشور»، وآخر سطر «وسم `approved` = تنفيذ ما عُلِّم عليه لكل منشور». عنوان القضية
+    `📌 هام — ترشيح من #N: <main_story>`. `run` تضع `selection_issue` على **العناصر** لا النقاط.
+  - **التوافق مع القضايا القديمة:** `build_selection_body` تعرض بالعناصر كل نتيجة فيها `articles`، وغيرها بـ`build_points_body` (عرض النقاط
+    القديم كما كان). وعند `approved` تقرأ `important_finalize.finalize` عناصر ملف الحكم التي `selection_issue` لها = رقم القضية؛ إن لم يكن
+    أي معرّف في الجسم عنصرًا (قضية فُتحت قبل #1293 علاماتها معرّفات نقاط) سلكت المسار القديم بلا أي تغيير (`write_point`). وهذا ما
+    يغطيه g94 على fixture `1278.json`. المساعد `tests/helpers.py:important_marked_body` صار يبني بـ`build_points_body` (قضية قديمة) كي تبقى
+    اختبارات الكتابة لكل نقطة تعمل على المسار القديم الحيّ، و`important_items_marked_body` للقضية الجديدة.
+  - **البحث المكمِّل (`src/important_gap.py`، عند الكتابة لا الحكم):** نداء Haiku واحد `gap_questions` (أداة `report_gap_questions`) من
+    الخبر الرئيسي ونوع المنشور والنقاط الأعضاء بمقتطفات أدلتها ← حتى `important.gap.max_questions` (4) أسئلة، لكل منها عبارة بحث عربية
+    وأخرى إنجليزية ≤ `query_max_words` (8) كلمات (القصّ في الكود)؛ لمنشور nearest يُطلب لكل نقطة معلّقة سؤال «ما آخر ما تأكد في الاتجاه
+    نفسه؟». ثم `search_gap` بآلة `_PointSearch` القائمة (Google ثم Brave web والذاكرة كما هي) — **مصادرنا وحدها** (`_is_our_source`
+    وما عداها يُرمى) و`clean_page_text` + `select_excerpt` على نص السؤال؛ سقف `gap.max_docs` (8) وثائق و`gap.max_brave` (4) طلبات Brave
+    لكل منشور (`_PointSearch` جديد لكل منشور فعدّاده له وحده) ضمن عدّاد `brave_monthly_cap` الشهري القائم الذي يمنع الطلب عند بلوغه فيبقى
+    Google. أي عطل ← `[]` وتحذير ولا يوقف الكتابة. المقتطفات تُعطى للكاتب بناشرها ورابطها وتُحفظ على المسودة في `gap_sources`.
+  - **الكتابة `important_write.write_article(result, item, cfg, sibling_texts, selection_issue)`:** نداء واحد بنموذج الكتابة القائم
+    (`article._draft_article`، `article.post_length` يُستبدل بنسخة cfg من `important.article_words` [300، 450]) بتعليمات
+    `important.article_instructions` (مشترك + verified/nearest/refuted + `siblings` بنصوص ما كُتب قبله + `attribution_note`). الفحص في
+    الكود بعد الكتابة (`check_article`): عدد الكلمات خارج [0.85×300، 1.2×450] (`article_words_tolerance`) · عبارة المحرر/الرأي ·
+    `outlet_judgment_violations` · اقتباس « » ليس حرفيًا في أي مقتطف معطى أو claim/correction · عنوان سؤال (بعد `normalize_statement_title`)
+    · ثم فحص الأصالة المشترك؛ الرفض يعيد الكتابة مرة واحدة بذكر العلّة ثم فشل كتابة بسببها. `unsourced_in` تنبيه لا رفض مقابل كل
+    المقتطفات المعطاة (`unsourced_sentences` القديمة تستدعيها)، و`names_audit.run` بنصوص كل المقتطفات. العناوين الثلاثة
+    `headlines_for_post(first_question=False, system=important.headline_system)` لكل الأنواع. المسودة `origin: "important"` والحقول
+    `article_kind` و`point_ids` و`main_story` و`gap_sources` و`point_id` = معرّف العنصر؛ `verdict` يتبع النوع (verified→confirmed ·
+    nearest→not_found · refuted→false) فبطاقة `cards.card_origin` = important · important · **important_false («تفنيد»)**. بلا مقتطف
+    مصدر فعلي (لا أدلة الأعضاء ولا البحث المكمِّل) ← `NO_FACTS_REASON` بلا نداء كاتب.
+  - **التوزيع `important_finalize`:** في قضية العناصر تُكتب المسودات بترتيب verified ثم nearest ثم refuted مهما كان ترتيب التعليم، ويُعطى كل
+    منشور نصوص مسودات إخوته المكتوبة (في هذه التشغيلة أو قبلها، `_sibling_texts`)؛ ثم تبقى go2/go3/publish وgo1 وفشل الكتابة
+    (`failed` ثم `reopen_failed`) وإعادة استعمال المسودة المعادة بلا نداء — يُعامَل العنصر كما كانت تُعامَل النقطة (`status` و`returned`
+    و`draft_id` على العنصر). `publish._return_important_to_selection` يجد العنصر في `article_items` بـ`draft["point_id"]`،
+    و`reopen_selection` تبني قضية الترشيح الجديدة من العناصر المعادة، و`find_point` (صورة المرحلة 1 عبر `setimage`) تجد العنصر بمعرّفه
+    فيُحفظ `manual_image` عليه ويصل مسودته. **نقطة معروفة:** `result_for_selection` تمسح كل `state/important` بحثًا عن رقم القضية، فأرقام
+    قضايا مزيَّفة متصادمة بين اختبارين تخلط ملفيهما؛ اختبارات #1293 تضبط `rig.next` فريدًا لذلك.
 - **تنبيهات تشغيلية:** `publish.yml` يودِع `drafts state` فيصل `state/important`؛ أما `image.yml` فيودِع `drafts state/candidates
   state/youtube_topics` فحسب، فصورة المرحلة 1 لنقطة «هام» (`manual_image` على النقطة) و`state/brave_usage.json` لا يُودَعان حتى يضيف
   صاحب المشروع `state/important` و`state/brave_usage.json` إليه. ملفات workflow الثلاثة `article.yml` و`request.yml` و`important-judge.yml`
   يحذفها صاحب المشروع بيده.
-- **الاختبارات:** `tests/test_important.py` (`test_important_pipeline` … `test_important_1233`) على `ImportantRig`/`ImportantWriteRig`
+- **الاختبارات:** `tests/test_important.py` (`test_important_pipeline` … `test_important_1233`، وg88–g94 للمنشورات الثلاثة في `test_guards_golden.py:test_important_1293_guards`) على `ImportantRig`/`ImportantWriteRig`
   في `tests/helpers.py`، وحالات الحرّاس g1–g51 في `tests/test_guards_golden.py` (`test_important_false_guard` و`test_important_write_guards`).
 
 ## ذاكرة الصحافة (Issue #1255) — `src/press_events.py`

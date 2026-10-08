@@ -12,12 +12,14 @@
 """
 from __future__ import annotations
 
+import copy
 import hashlib
 import logging
 import re
 from datetime import datetime, timezone
 
-from . import article, headlines as headlines_mod, important, names_audit, store, verify_draft, writer
+from . import (article, headlines as headlines_mod, important, important_gap, names_audit, store,
+               verify_draft, writer)
 from .request import norm_tokens
 from .sources import Article
 
@@ -245,21 +247,14 @@ def normalize_statement_title(written: dict, cfg) -> dict:
 # ───────────────────────────── تنبيه الجمل بلا مصدر (Issue #1233) ─────────────────────────────
 
 
-def unsourced_sentences(point: dict, written: dict, grounded: list[dict], question: str, cfg) -> list[str]:
-    """جمل المتن التي فيها رقم أو تتابع كلمات مضمون غائب عن مقتطفات أدلة النقطة وclaim وcorrection.
+def unsourced_in(known: str, written: dict, grounded: list[dict], question: str, cfg) -> list[str]:
+    """جمل المتن التي فيها رقم أو تتابع كلمات مضمون غائب عن `known` (نصوص الأدلة المعروفة).
     الكاشف هو article._unsourced_entities نفسه (لا كاشف ثانٍ) على كل جملة منفردة كي يُبلَّغ
     بالجملة لا بالشظية؛ source_texts=None فيبقى شرط الطول وحده (الجملة التي لم تأتِ من أي مصدر
     هي المقصودة، لا المنقولة منه). تنبيه لا رفض: النتيجة تُحفَظ في draft["warnings"] فقط."""
     ucfg = _icfg(cfg).get("unsourced", {}) or {}
     if not ucfg.get("enabled", True):
         return []
-    c = point.get("correction") or {}
-    known = " ".join(filter(None, [
-        point.get("claim"), point.get("circulating_context"), c.get("error"), c.get("correct"),
-        *[r.get("excerpt", "") for r in ordered_sources(point, cfg)],
-        *[r.get("publisher", "") for r in ordered_sources(point, cfg)],
-        *[r.get("verdict_label", "") for r in ordered_sources(point, cfg)],
-    ]))
     neutral = " ".join(ucfg.get("neutral_words") or [])
     out: list[str] = []
     for sentence in re.split(r"(?<=[.!؟?۔])\s+|\n+", written.get("post_body", "")):
@@ -270,6 +265,18 @@ def unsourced_sentences(point: dict, written: dict, grounded: list[dict], questi
                                        int(ucfg.get("min_run", 2)), attribution_phrase=neutral):
             out.append(sentence)
     return out
+
+
+def unsourced_sentences(point: dict, written: dict, grounded: list[dict], question: str, cfg) -> list[str]:
+    """جمل المتن بلا سند في claim النقطة وcorrection ومقتطفات أدلتها (#1233)."""
+    c = point.get("correction") or {}
+    known = " ".join(filter(None, [
+        point.get("claim"), point.get("circulating_context"), c.get("error"), c.get("correct"),
+        *[r.get("excerpt", "") for r in ordered_sources(point, cfg)],
+        *[r.get("publisher", "") for r in ordered_sources(point, cfg)],
+        *[r.get("verdict_label", "") for r in ordered_sources(point, cfg)],
+    ]))
+    return unsourced_in(known, written, grounded, question, cfg)
 
 
 # ───────────────────────────── الفحص بعد الكتابة ─────────────────────────────
@@ -542,4 +549,234 @@ def build_draft(point: dict, result: dict, written: dict, cfg, selection_issue: 
         draft["superseded_note"] = point["superseded_note"]   # يظهر بارزًا في قضية المرحلة 2
     if point.get("manual_image"):
         draft["manual_image"] = point["manual_image"]   # صورة المراجع من المرحلة 1 تغلب كالعادة
+    return draft
+
+
+# ───────────────────────────── منشور الخبر الرئيسي (Issue #1293، B2) ─────────────────────────────
+
+REASON_WORDS = "عدد كلمات المنشور {n} خارج المدى المقبول [{lo}، {hi}]"
+REASON_QUOTE = "اقتباس بين « » ليس في أي مقتطف معطى: «{quote}»"
+REASON_TITLE_QUESTION = "العنوان سؤال لا جملة خبرية"
+# نوع المنشور ← الحكم الذي تُبنى عليه شارة البطاقة (cards.card_origin): التفنيد بشارته، وغيره «هام»
+ARTICLE_VERDICT = {"verified": "confirmed", "nearest": "not_found", "refuted": "false"}
+_QUOTE_RE = re.compile(r"«([^»]*)»")
+
+
+def item_members(result: dict, item: dict) -> list[dict]:
+    by_id = {p["id"]: p for p in result["points"]}
+    return [by_id[i] for i in item["point_ids"] if i in by_id]
+
+
+def article_grounded(members: list[dict], gap: list[dict], cfg) -> list[dict]:
+    """وقائع الكاتب: أدلة كل نقطة عضو كما في write_point، ثم مقتطفات البحث المكمِّل واقعةً لكل مقتطف
+    بناشره ورابطه. بلا مقتطف مصدر فعلي لا وقائع مسندة."""
+    facts: list[dict] = []
+    for p in members:
+        facts += build_grounded(p, cfg)[0]
+    for g in gap:
+        facts.append({"text": g["excerpt"], "sources": [
+            {"name": g["publisher"], "link": g["link"], "text": g["excerpt"]}]})
+    return facts
+
+
+def article_instructions(result: dict, item: dict, members: list[dict], sibling_texts: list[str], cfg) -> str:
+    icfg = _icfg(cfg)
+    ai = icfg.get("article_instructions", {}) or {}
+    wi = icfg.get("writer_instructions", {}) or {}
+    lo, hi = icfg.get("article_words", [300, 450])
+    kind = item["kind"]
+    points = "؛ ".join(f"«{p.get('claim') or p.get('text', '')}»" for p in members)
+    body = ai.get("common", "").format(main_story=result.get("main_story", ""), lo=lo, hi=hi)
+    body += "\n" + ai.get(kind, "").format(points=points)
+    if kind == "verified":
+        for p in members:
+            if p.get("support_level") == "single":
+                publisher = p.get("support_publisher") or (ordered_sources(p, cfg) or [{}])[0].get("publisher", "")
+                body += "\n" + wi.get("confirmed_single", "").format(publisher=publisher)
+    if sibling_texts:
+        body += "\n" + ai.get("siblings", "{siblings}").format(siblings="\n---\n".join(sibling_texts))
+    return f"\n{wi.get('title_note', '')}\n{body}\n{wi.get('quote_note', '')}\n{wi.get('attribution_note', '')}\n"
+
+
+def word_count(text: str) -> int:
+    return len(re.findall(r"\w+", text or "", re.UNICODE))
+
+
+def quote_violations(text: str, given: list[str]) -> list[str]:
+    """اقتباسات « » في النص غير الموجودة حرفيًا (مطابقة مطبَّعة) في أي نص من `given`."""
+    hay = " ".join(_norm(g) for g in given)
+    return [q for q in _QUOTE_RE.findall(text or "")
+            if _norm(q) and f" {_norm(q)} " not in f" {hay} "]
+
+
+def check_article(written: dict, given: list[str], cfg) -> str | None:
+    """سبب رفض منشور الخبر الرئيسي أو None: عدد الكلمات خارج [lo×0.85، hi×1.2]، عبارة المحرر/الرأي المحظورة
+    في «هام»، فعل حكم منسوب إلى وسيلة، اقتباس ليس في أي مقتطف معطى، أو عنوان سؤال."""
+    icfg = _icfg(cfg)
+    lo, hi = icfg.get("article_words", [300, 450])
+    t_lo, t_hi = icfg.get("article_words_tolerance", [0.85, 1.2])
+    floor, ceil = int(lo * t_lo), int(hi * t_hi)
+    title, body = written.get("post_title", ""), written.get("post_body", "")
+    n = word_count(body)
+    if n < floor or n > ceil:
+        return REASON_WORDS.format(n=n, lo=floor, hi=ceil)
+    acfg = cfg.get("article", {}) or {}
+    for phrase in (acfg.get("editor_tag_phrase", "بحسب معلومات المحرر"),
+                   acfg.get("opinion_attribution_phrase", "وترى الصفحة أن")):
+        if _has_phrase(f"{title} {body}", phrase):
+            return REASON_EDITOR_TAG
+    violations = outlet_judgment_violations(f"{title}\n{body}", cfg)
+    if violations:
+        return violations[0]
+    bad = quote_violations(f"{title}\n{body}", given)
+    if bad:
+        return REASON_QUOTE.format(quote=bad[0])
+    if title.rstrip().endswith(("؟", "?")) or _is_question(title, cfg):
+        return REASON_TITLE_QUESTION
+    return None
+
+
+def _article_cfg(cfg):
+    """نسخة من cfg بطول المنشور المطلوب في article.post_length (يقرؤه article._draft_article)."""
+    lo, hi = _icfg(cfg).get("article_words", [300, 450])
+    out = copy.copy(cfg)
+    out["article"] = {**(cfg.get("article", {}) or {}), "post_length": f"{lo} إلى {hi} كلمة"}
+    return out
+
+
+def write_article(result: dict, item: dict, cfg, sibling_texts: list[str] | None = None,
+                  selection_issue: int | None = None) -> tuple[dict | None, str, bool]:
+    """يكتب منشور الخبر الرئيسي لعنصر مختار ويحفظ مسودته: بحث مكمِّل ← نداء كاتب واحد بنموذج
+    article.model ← فحص في الكود (رفض ثم إعادة كتابة مرة واحدة بذكر العلّة ثم فشل بسببها). يعيد
+    (المسودة، سبب الفشل، هل الفشل تقني) كـwrite_point."""
+    sibling_texts = list(sibling_texts or [])
+    members = item_members(result, item)
+    gap = important_gap.gather(result, item, members, cfg)
+    grounded = article_grounded(members, gap, cfg)
+    docs = article._source_docs(grounded)
+    if not docs:
+        return None, NO_FACTS_REASON, False
+    texts = [d["text"] for d in docs] + [p.get("claim") or "" for p in members]
+    allowed = [t for p in members for t in allowed_quotes(p)]
+    exempt = [t for p in members for t in exempt_texts(p)]
+    question = result.get("main_story", "")
+    attempts = max(1, int(_icfg(cfg).get("write_attempts", 2)))
+    acfg = cfg.get("article", {}) or {}
+    wi = _icfg(cfg).get("writer_instructions", {}) or {}
+    name_note = names_audit.names_note(texts, cfg)
+    base_note = (article_instructions(result, item, members, sibling_texts, cfg)
+                 + (f"\n{name_note}\n" if name_note else ""))
+    note = base_note
+    system_note = wi.get("no_editor_note", "").format(
+        editor_tag=acfg.get("editor_tag_phrase", "بحسب معلومات المحرر"),
+        opinion_phrase=acfg.get("opinion_attribution_phrase", "وترى الصفحة أن"))
+    wcfg = _article_cfg(cfg)
+    written, reason = None, ""
+    for attempt in range(attempts):
+        got, err = article._draft_article(grounded, [], question, wcfg, avoid_note=note,
+                                           system_note=system_note)
+        if got is None:
+            return None, err, err.startswith(TECHNICAL_PREFIX)
+        normalize_statement_title(got, cfg)
+        reason = check_article(got, texts + allowed, cfg) or ""
+        if not reason:
+            ok, why, _notes = verify_draft.check_originality(
+                got["post_body"], "", docs, int(acfg.get("max_shared_run_words", 7)),
+                allowed_quotes=allowed, exempt_texts=exempt)
+            reason = "" if ok else f"{REASON_ORIGINALITY}: {why}"
+        if not reason:
+            written = got
+            break
+        log.warning("منشور %s رُفض بعد الكتابة (محاولة %d/%d): %s", item["kind"], attempt + 1, attempts, reason)
+        note = base_note + "\n" + wi.get("retry_note", "{reason}").format(reason=reason) + "\n"
+    if written is None:
+        return None, reason, False
+
+    draft = build_article_draft(result, item, members, gap, written, cfg, selection_issue)
+    known = " ".join(texts + [g["publisher"] for g in gap])
+    warns = [w for p in members for w in p.get("warnings") or []]
+    warns += unsourced_in(known, written, grounded, question, cfg)
+    if warns:
+        draft["warnings"] = list(dict.fromkeys(warns))   # للمراجعة فقط: لا تدخل caption ولا تمنع النشر
+    names_audit.run(draft, texts, cfg)
+    store.save_draft(draft)
+    return draft, "", False
+
+
+def build_article_draft(result: dict, item: dict, members: list[dict], gap: list[dict], written: dict,
+                        cfg, selection_issue: int | None) -> dict:
+    icfg = _icfg(cfg)
+    kind = item["kind"]
+    verdict = ARTICLE_VERDICT[kind]
+    rows: list[dict] = []
+    for p in members:
+        rows += ordered_sources(p, cfg)
+    rows += [{"publisher": g["publisher"], "link": g["link"], "excerpt": g["excerpt"]} for g in gap]
+    uniq: dict[str, dict] = {}
+    for r in rows:
+        uniq.setdefault(r["publisher"] or r["link"], r)
+    rows = list(uniq.values())
+    publishers = [r["publisher"] for r in rows if r["publisher"]]
+    primary_link = rows[0]["link"] if rows else ""
+    title = result.get("main_story") or written["post_title"]
+
+    headlines, hl_error = headlines_mod.headlines_for_post(
+        written["post_title"], written["post_body"], cfg, first_question=False,
+        system=icfg.get("headline_system") or None)
+    if hl_error:
+        log.warning("فشلت اقتراحات العناوين لمنشور %s: %s", kind, hl_error)
+        headlines = []
+
+    image_urls: list[str] = []
+    for p in sorted(members, key=lambda p: not p.get("image_candidates")):
+        image_urls += [c["url"] for c in p.get("image_candidates") or []
+                       if isinstance(c, dict) and str(c.get("url", "")).startswith(("http://", "https://"))]
+    image_urls = list(dict.fromkeys(image_urls))
+    related_max = int(cfg.path("collect.related_links_max", 3))
+    related = [r for r in rows[1:] if r["link"]][:related_max]
+    art = Article(title=title, link=primary_link, summary=title,
+                  source_name=publishers[0] if publishers else "", region="global",
+                  weight=1.0, published=datetime.now(timezone.utc),
+                  publisher=publishers[0] if publishers else "", cluster_sources=publishers)
+    draft = {
+        "id": _draft_id(item, result["issue"]),
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "status": "pending",
+        "review_issue": None,
+        "origin": DRAFT_ORIGIN,
+        # point_id = معرّف العنصر: publish.return_to_selection يجده في article_items (go1)
+        "point_id": item["id"],
+        "point_ids": list(item["point_ids"]),
+        "article_kind": kind,
+        "main_story": result.get("main_story", ""),
+        "gap_sources": gap,
+        "source_issue": result["issue"],
+        "selection_issue": selection_issue,
+        "verdict": verdict,
+        "badge": (icfg.get("badges", {}) or {}).get(verdict, ""),
+        "score": 0.0, "bucket": "serious",
+        "analysed_sources": publishers,
+        "trend_score": 0.0, "velocity": 0.0, "age_hours": 0.0,
+        "is_followup": False, "state_media": False,
+        "source": {
+            "title": title, "link": primary_link,
+            "publisher": publishers[0] if publishers else "", "publishers": publishers,
+            "region": "global",
+            "image_url": image_urls[0] if image_urls else None,
+            "image_candidates": image_urls,
+            **({"related_links": [r["link"] for r in related],
+                "related_publishers": [r["publisher"] for r in related]} if related else {}),
+        },
+        "arabic": written,
+        "caption": writer.build_caption(written, art, cfg),
+        "headlines": headlines,
+        "headline_selected": 0,
+        "image_query_en": written.get("image_query_en"),
+        "reel": None,
+        "reel_spec": {"headline": written["image_headline"] or written["post_title"],
+                      "category": written["category"], "urgent": False,
+                      "image_candidates": image_urls},
+    }
+    if item.get("manual_image"):
+        draft["manual_image"] = item["manual_image"]
     return draft

@@ -2593,6 +2593,28 @@ def plan_articles(points: list[dict]) -> dict[str, list[str]]:
     return plan
 
 
+ARTICLE_KINDS = ("verified", "nearest", "refuted")
+
+
+def build_article_items(result: dict) -> list[dict]:
+    """عناصر قضية الترشيح (#1293، B2): لكل قائمة غير فارغة في result["articles"] عنصر واحد بمعرّف
+    point_id("<issue>:<kind>"). الأول يظهر إن ثبتت نقطة واحدة على الأقل، والثاني ما دامت نقطة لم تثبت
+    ولم تُكذَّب ولو بلا nearest (البحث المكمِّل يجد الأقرب)، والثالث إن كُذِّبت أو صُحّحت نقطة. القوائم
+    الفارغة تُسقط عنصرها، فشرط الظهور هو عدم فراغ القائمة نفسها (plan_articles تستثني call_error)."""
+    plan = result.get("articles") or {}
+    return [{"id": point_id(f"{result['issue']}:{kind}"), "kind": kind,
+             "point_ids": list(plan[kind]), "status": "offered", "selection_issue": None}
+            for kind in ARTICLE_KINDS if plan.get(kind)]
+
+
+def ensure_article_items(result: dict) -> list[dict]:
+    """نتيجة محفوظة في عهد B1 (فيها articles بلا article_items) تكتسب عناصرها هنا؛ وما فيه عناصر لا يُمسّ
+    كي لا تضيع حالتها. نتيجة قديمة بلا articles تبقى بلا عناصر فتُعرض وتُقرأ بالمسار القديم (نقاط)."""
+    if "articles" in result and "article_items" not in result:
+        result["article_items"] = build_article_items(result)
+    return result.get("article_items") or []
+
+
 def judge(body: str, issue_number: int, cfg=None) -> dict:
     """نص Issue كامل ← نقاط ← حكم لكل نقطة ← state/important/<issue>.json.
     يعيد الناتج نفسه الذي حُفظ."""
@@ -2657,6 +2679,7 @@ def judge(body: str, issue_number: int, cfg=None) -> dict:
         "truncated": truncated,
         "points": judged,
     }
+    ensure_article_items(result)
     save(result)
     return result
 
