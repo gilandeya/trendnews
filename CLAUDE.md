@@ -184,7 +184,12 @@ These are enforced by convention, not tooling, so hold to them deliberately:
   `previous_post`, fed into `writer.py`'s "did we already cover this" prompt instruction) are
   unaffected by design: neither is a strict equality/token check, both are free text handed to the
   model for a novelty judgment, so a spelling being unified there is at most a readability
-  improvement, never a broken match.
+  improvement, never a broken match. The two-stage replacement goes through an intermediate
+  placeholder `"" + str(i) + ""` (Unicode private-use characters, Issue #1315), never a
+  bare index: the placeholder was once the digit itself (`f"{i}"`), so `text.replace(placeholder,
+  canonical)` rewrote every matching digit in the text («2025» → «2أمريكي25») — private-use
+  characters cannot occur in ordinary text, so no digit or letter of a draft can ever collide with
+  one (golden case g115 in `tests/test_guards_golden.py`, run through the real `store.save_draft`).
 - **A second, self-learning layer sits on top of `names.aliases` so the dictionary above needs no
   manual maintenance (Issue #1074).** `names.normalize_names` now merges two dictionaries into one
   before doing the same plain-`str.replace` substitution described above (unchanged mechanics,

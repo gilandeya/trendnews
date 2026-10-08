@@ -3273,3 +3273,65 @@ def test_important_1309_guards() -> None:
           important_write.length_reasons({"post_body": _b2_body(40)}, cfg) != []
           and important_write.length_reasons({"post_body": _b2_body(200)}, cfg) == []
           and important_write.length_reasons({"post_body": _b2_body(900)}, cfg) != [])
+
+
+def test_names_placeholder_guards() -> None:
+    """g115 (Issue #1315): الرمز الوسيط في names.normalize_names كان الرقم نفسه فكان يفسد كل رقم مطابق
+    في النص («2025» ← «2أمريكي25»). تُختبر عبر store.save_draft الفعلي لا normalize_names وحدها."""
+    import json
+    from datetime import datetime, timezone
+    from src import names, names_learn
+
+    real_load_config = store.load_config
+
+    def _save(id_: str, text: str, cfg: dict) -> str:
+        store.load_config = lambda path=None: cfg
+        draft = {
+            "id": id_, "status": "pending", "score": 1.0, "bucket": "serious",
+            "state_media": False, "origin": "news",
+            "source": {"title": text, "link": f"https://example.com/{id_}",
+                       "publisher": "س", "publishers": ["س"]},
+            "arabic": {"post_title": text, "body": text, "caption": "",
+                       "category": "", "urgent": False},
+            "caption": "", "headlines": [], "headline_selected": 0,
+        }
+        p = store.save_draft(draft)
+        return json.loads(p.read_text(encoding="utf-8"))["arabic"]["post_title"]
+
+    def _clear() -> None:
+        names.SEEN_FILE.unlink(missing_ok=True)
+        names_learn.LEARNED_FILE.unlink(missing_ok=True)
+
+    _clear()
+    try:
+        # أ) معجم متعلَّم
+        now = datetime.now(timezone.utc).isoformat()
+        names_learn.save_learned({
+            "entries": {"أمريكي": {
+                "variants": ["أميركي"], "counts": {"أمريكي": 70, "أميركي": 9},
+                "learned_at": now, "verdict": "same_name"}},
+            "rejected_pairs": [], "last_run": now})
+        got = _save("g115a00000001", "في 7 أغسطس 2025 قال مسؤول أميركي إن 200 مليون دولار وصلت", {})
+        check("(g115أ) معجم متعلَّم: الأرقام سليمة والاسم موحَّد",
+              got == "في 7 أغسطس 2025 قال مسؤول أمريكي إن 200 مليون دولار وصلت", got)
+        _clear()
+
+        # ب) معجم يدوي
+        got = _save("g115b00000002", "قال ترمب 10 كلمات عام 2010",
+                    {"names": {"aliases": {"ترامب": ["ترمب"]}}})
+        check("(g115ب) معجم يدوي: «10» و«2010» سليمة",
+              got == "قال ترامب 10 كلمات عام 2010", got)
+
+        # ج) مدخل ببديلين وأرقام 0 و1 و10
+        got = _save("g115c00000003", "نتانياهو 0 ونيتنياهو 1 و10 مرات",
+                    {"names": {"aliases": {"نتنياهو": ["نتانياهو", "نيتنياهو"]}}})
+        check("(g115ج) بديلان معًا: الأرقام 0 و1 و10 سليمة والاسمان موحَّدان",
+              got == "نتنياهو 0 ونتنياهو 1 و10 مرات", got)
+
+        # د) أرقام هندية
+        got = _save("g115d00000004", "عام ٢٠٢٥ قال ترمب",
+                    {"names": {"aliases": {"ترامب": ["ترمب"]}}})
+        check("(g115د) الأرقام الهندية سليمة", got == "عام ٢٠٢٥ قال ترامب", got)
+    finally:
+        store.load_config = real_load_config
+        _clear()

@@ -142,7 +142,9 @@ def normalize_names(text: str, cfg: Any) -> str:
         for i, variant in enumerate(ordered):
             if variant not in text:
                 continue
-            placeholder = f"{i}"
+            # محارف من منطقة الاستخدام الخاص لا ترد في نص عادي: الرقم المجرّد
+            # كان يطابق كل رقم في النص فيفسده («2025» ← «2أمريكي25»، #1315)
+            placeholder = "" + str(i) + ""
             text = text.replace(variant, placeholder)
             placeholders.append(placeholder)
         for placeholder in placeholders:
