@@ -18385,5 +18385,27 @@
   "has_photo": true,
   "state_media": false,
   "created_hour": 9
+ },
+ {
+  "id": "12af8d0d4503",
+  "created_at": "2026-10-08T09:45:01.797659+00:00",
+  "decided_at": "2026-10-08T09:48:10.912736+00:00",
+  "decision": "unselected",
+  "reject_tag": "لم يُختر",
+  "origin": "important",
+  "category": "",
+  "angle": "",
+  "urgent": false,
+  "bucket": "",
+  "region": "",
+  "score": 0.0,
+  "trend_score": 0.0,
+  "velocity": 0.0,
+  "source_count": 0,
+  "body_len": 0,
+  "has_photo": false,
+  "state_media": false,
+  "created_hour": 9,
+  "selection_issue": 1285
  }
 ]
