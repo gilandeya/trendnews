@@ -29,7 +29,7 @@ import os
 import re
 import unicodedata
 from decimal import Decimal, InvalidOperation
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from urllib.parse import urlparse
 
 import requests
@@ -196,6 +196,10 @@ EXTRACT_SYSTEM = """أنت تفكّك نصًّا ملصقًا إلى «نقاط�
 - عبارات البحث تضم دائمًا عبارة بلغة البلد المعني إن كان الكيان بلدًا غير عربي.
 - is_unnamed_event: true فقط إن كان الادّعاء يصف «حدثًا» لا يسمّيه النص ولا
   يمكن بناء عبارة بحث منه (مثل «حادثة وقعت الأسبوع الماضي»).
+- main_story: جملة خبرية واحدة (لا تزيد على 25 كلمة، وليست سؤالًا) تلخّص الخبر الرئيسي
+  الذي يدور حوله النص.
+- about_main لكل نقطة: true إن خدمت الخبر الرئيسي مباشرة. النقاط التي تتناول موضوعًا آخر
+  في النص نفسه about_main = false.
 
 استخدم أداة extract_points دائمًا."""
 
@@ -206,6 +210,7 @@ EXTRACT_SCHEMA = {
         "type": "object",
         "properties": {
             "topic": {"type": "string"},
+            "main_story": {"type": "string"},
             "points": {
                 "type": "array",
                 "items": {
@@ -229,6 +234,7 @@ EXTRACT_SCHEMA = {
                         "framing": {"type": "string", "enum": ["direct", "circulating"]},
                         "circulating_context": {"type": "string"},
                         "is_unnamed_event": {"type": "boolean"},
+                        "about_main": {"type": "boolean"},
                     },
                     "required": ["claim"],
                 },
@@ -1844,6 +1850,44 @@ def _split_paragraphs(text: str) -> list[str]:
     return paras
 
 
+_LATIN_ARABIC_GLUE = re.compile(r"([A-Za-z]+)(?=[\u0600-\u06FF])")
+_ARABIC_WORD = r"[\u0600-\u06FF]+"
+
+
+def clean_page_text(text: str, icfg) -> str:
+    """ينظّف بداية عنوان الوثيقة أو نص الصفحة من نصوص القوائم (Issue #1291، 577c16 في #1278:
+    «Homeالعربية ...فرض عقوبات … hide فرض عقوبات … ترجمات»). تُعالَج الأسطر الأولى وحدها (حتى أول
+    سطر بلا كلمة قائمة)، فجملة عادية في وسط النص لا تُمسّ ولو ورد فيها «Menu». في كل سطر أول:
+    (1) تُفصل الكلمة اللاتينية الملتصقة بعربية؛ (2) كلمة قائمة لاتينية التصقت بعربية تُحذف معها
+    الكلمة العربية الملتصقة («Homeالعربية» قائمة لغة لا محتوى)؛ (3) كلمات القوائم فواصل تقسم السطر
+    إلى مقاطع؛ (4) المقطع المكرر مرتين متتاليتين يبقى مرة؛ (5) نقاط الحذف في أول المقطع تُزال.
+    كلمات القوائم من important.page_chrome_words؛ بلا إعداد أو بلا كلمة لا تغيير."""
+    words = [w for w in (icfg.get("page_chrome_words") or []) if str(w).strip()]
+    if not text or not words:
+        return text or ""
+    alt = "|".join(re.escape(w) for w in sorted(map(str, words), key=len, reverse=True))
+    chrome = re.compile(rf"(?<!\w)(?:{alt})(?!\w)")
+    glued = re.compile(rf"(?<!\w)(?:{alt})(?=[؀-ۿ]){_ARABIC_WORD}")
+    lines = text.split("\n")
+    out: list[str] = []
+    k = 0
+    while k < len(lines):
+        line = lines[k]
+        if not chrome.search(line) and not glued.search(line):
+            break
+        line = _LATIN_ARABIC_GLUE.sub(r"\1 ", glued.sub(" ", line))
+        segments = [re.sub(r"^[\s.…]+", "", seg).strip() for seg in chrome.split(line)]
+        kept: list[str] = []
+        for seg in segments:
+            seg = " ".join(seg.split())
+            if seg and (not kept or kept[-1] != seg):
+                kept.append(seg)
+        if kept:
+            out.append(" ".join(kept))
+        k += 1
+    return "\n".join(out + lines[k:]).strip()
+
+
 def select_excerpt(text: str, f: dict, icfg) -> str:
     """مقتطف الوثيقة المرسَل للتصنيف: الصفحة فقرات تُرتَّب بعدد ما تحويه من كيانات
     النقطة وأرقامها وكلمات ادّعائها، وتُؤخذ أعلاها حتى ميزانية tokens_per_source
@@ -1851,7 +1895,7 @@ def select_excerpt(text: str, f: dict, icfg) -> str:
     رقم النقطة (مليون مع إنترنت) تُقدَّم على غيرها. أول النص كان يضيّع الرقم في
     فقرة متأخرة (#1200). بلا أي فقرة مطابقة يُؤخذ أول النص كما كان."""
     budget = int(icfg.get("tokens_per_source", 600)) * int(icfg.get("chars_per_token", 3))
-    text = text or ""
+    text = clean_page_text(text or "", icfg)
     if len(text) <= budget:
         return text
     paras = _split_paragraphs(text)
@@ -1960,8 +2004,30 @@ def _read_superseded(raw) -> dict | None:
     return {"fact": fact, "date": str(raw.get("date") or "").strip()}
 
 
+def _statement_is_stale(entry: dict, doc: dict, icfg, now: date | None) -> bool:
+    """مصدر تصحيح تصريح/حدث (detail_kind غير رقمي) أقدم من تاريخ الحكم بأكثر من
+    important.statement_correction_max_age_days (Issue #1291، 146b90 في #1278: بيان 20 آذار/مارس
+    2026 صُحِّح به تصريح من أكتوبر). التاريخ: as_of بـparse_date، وإلا تاريخ نشر الوثيقة إن عُرف؛
+    مجهول ← False أي السلوك السابق. الأرقام خارج هذه القاعدة (شرط as_of القائم)."""
+    limit = int(icfg.get("statement_correction_max_age_days", 0) or 0)
+    if limit <= 0:
+        return False
+    when = parse_date(entry.get("as_of", ""), icfg)
+    if when is None:
+        iso = str((doc or {}).get("published") or "")[:10]
+        m = _ISO_DATE_RE.search(iso)
+        when = (int(m.group(1)), int(m.group(2)), int(m.group(3))) if m else None
+    if when is None:
+        return False
+    try:
+        age = ((now or datetime.now(timezone.utc).date()) - date(*when)).days
+    except ValueError:
+        return False
+    return age > limit
+
+
 def _read_stances(data: dict, pool: dict[str, dict], f: dict | None = None,
-                  icfg=None) -> dict[str, dict]:
+                  icfg=None, now: date | None = None) -> dict[str, dict]:
     """يحوّل رد النموذج إلى {اسم_مصدر_فعلي: موقف} — أسماء لا تطابق وثيقة
     معطاة فعلًا تُهمل (evidence._canonical_name)، ومصدر لم يُصنَّف irrelevant.
     نفيٌ بلا مقتطف يوجد حرفيًا في نص المصدر يُخفَّض إلى irrelevant: حارس false
@@ -2014,7 +2080,13 @@ def _read_stances(data: dict, pool: dict[str, dict], f: dict | None = None,
             elif stance == "refutes" and _label_in(label, icfg, "misleading_labels"):
                 entry["raw_stance"] = stance
                 stance = entry["stance"] = "conflicts_detail"
-        if stance in EVENT_BOUND_STANCES and not same_event:
+        if (stance == "conflicts_detail" and icfg and not _is_number_kind(entry["detail_kind"])
+                and _statement_is_stale(entry, pool[name], icfg, now)):
+            # مصدر قديم لتصريح/حدث لا يصحّح نقطة حديثة (#1291): لا تصحيح ولا evidence
+            entry["stance"] = "related_other"
+            entry["raw_stance"] = stance
+            entry["stale"] = True
+        elif stance in EVENT_BOUND_STANCES and not same_event:
             # موقف على حدث آخر لا يؤيد ولا يخالف ولا ينفي النقطة (#1200)
             entry["stance"] = "related_other"
             entry["raw_stance"] = stance
@@ -2131,7 +2203,7 @@ def _nearest(data: dict | None, pool: dict[str, dict], cfg, entities: list[str],
         if s["stance"] not in ("related_other", "supports", "conflicts_detail") or n in banned or n not in pool:
             continue
         src = _near_source(n, pool, f, icfg)
-        title = str(pool[n].get("title") or "").strip()
+        title = clean_page_text(str(pool[n].get("title") or ""), icfg).strip()
         if not src:
             continue
         shared = _shared_entity(f"{title} {src['excerpt']}", entities, icfg)
@@ -2140,8 +2212,12 @@ def _nearest(data: dict | None, pool: dict[str, dict], cfg, entities: list[str],
         score = evidence._candidate_score(evidence._publisher_weight(n, cfg),
                                           len(wanted & norm_tokens(f"{title} {src['excerpt']}")))
         if best_score is None or score > best_score:
-            first = re.split(r"(?<=[.!؟?۔])\s+|\n+", src["excerpt"], maxsplit=1)[0]
-            best = {"kind": "single_source", "title": title or first[:120].strip(),
+            # عنوان فارغ بعد التنظيف أو أطول من السقف ← أول جملة من المقتطف النظيف بالسقف نفسه (#1291)
+            cap = int(icfg.get("nearest_title_max_words", 20))
+            if not title or len(title.split()) > cap:
+                first = re.split(r"(?<=[.!؟?۔])\s+|\n+", src["excerpt"], maxsplit=1)[0]
+                title = " ".join(first.split()[:cap])
+            best = {"kind": "single_source", "title": title,
                     "description": "", "shared_entity": shared, "sources": [src]}
             best_score = score
     return best
@@ -2165,7 +2241,8 @@ def _image_candidates(names: list[str], ranked: list, pool: dict[str, dict], cfg
 # ───────────────────────────── نقطة واحدة ─────────────────────────────
 
 
-def judge_point(f: dict, topic: str, search: _PointSearch, cfg, keep: dict | None = None) -> dict:
+def judge_point(f: dict, topic: str, search: _PointSearch, cfg, keep: dict | None = None,
+                now: date | None = None) -> dict:
     """keep (اختياري): يحفظ لكل نقطة حالتها الداخلية (الوثائق والمواقف) كي يعيد judge تصنيف نقاط
     not_found على المخزون المشترك بين نقاط النص الواحد (#1282) دون بحث جديد."""
     pid = point_id(f["text"])
@@ -2187,15 +2264,15 @@ def judge_point(f: dict, topic: str, search: _PointSearch, cfg, keep: dict | Non
     ours = [_is_our_source(d.get("name", ""), d.get("link", ""), cfg) for d in deduped]
     pool_docs = [d for d, ok in zip(deduped, ours) if ok]
     outside = [d for d, ok in zip(deduped, ours) if not ok]
-    rec, stances = _judge_pool(f, got, docs, pool_docs, cfg, outside)
+    rec, stances = _judge_pool(f, got, docs, pool_docs, cfg, outside, now)
     if keep is not None:
         keep[pid] = {"f": f, "got": got, "docs": docs, "pool_docs": pool_docs, "stances": stances,
-                     "outside": outside}
+                     "outside": outside, "now": now}
     return rec
 
 
 def _judge_pool(f: dict, got, docs: list[dict], pool_docs: list[dict], cfg,
-                outside: list[dict] | None = None) -> tuple[dict, dict]:
+                outside: list[dict] | None = None, now: date | None = None) -> tuple[dict, dict]:
     """التصنيف والحكم ودرجات أقرب ما وُجد على pool_docs (وثائق النقطة، أو موسَّعة بالمخزون المشترك)."""
     pid = point_id(f["text"])
     ranked, named, collect_note = got.ranked, got.named, got.note
@@ -2212,7 +2289,7 @@ def _judge_pool(f: dict, got, docs: list[dict], pool_docs: list[dict], cfg,
         view_docs.append({**d, "text": text})
     data, call_error = _classify(f["text"], view_docs, cfg,
                                  circulating=f.get("framing") == "circulating")
-    stances = _read_stances(data, pool, f, icfg) if data else {
+    stances = _read_stances(data, pool, f, icfg, now) if data else {
         n: {"stance": "irrelevant", "excerpt": "", "detail": "", "correct_form": "",
             "as_of": "", "same_event": False} for n in pool}
     nearest = None
@@ -2331,7 +2408,8 @@ def _share_pool(keep: dict, cfg, counter: "_CallCounter", judged: list[dict]) ->
         counter.key = pid
         before = counter.by_key.get(pid, 0)
         rec2, stances2 = _judge_pool(mine["f"], mine["got"], mine["docs"],
-                                     mine["pool_docs"] + fresh, cfg, mine.get("outside"))
+                                     mine["pool_docs"] + fresh, cfg, mine.get("outside"),
+                                     mine.get("now"))
         rec["model_calls"] = rec.get("model_calls", 0) + counter.by_key.get(pid, 0) - before
         if rec2.get("call_error"):
             continue
@@ -2419,10 +2497,12 @@ def _native_queries(claim: str, entry: dict, cfg) -> list[dict]:
             for q in data["queries"] if str(q).strip()][:per_lang]
 
 
-def extract_points(body: str, cfg) -> tuple[list[dict], str, str | None]:
+def extract_points(body: str, cfg) -> tuple[list[dict], str, str | None, str]:
     """تفكيك خاص بمسار «هام» (Issue #1198): نداء Haiku واحد بأداة منظَّمة، ادّعاء
     واحد لكل نقطة (ما يقوله النص عن الادّعاء نفسه يُضمّ إليه في asserted)،
-    بلا تكرار نص (الهوية ثابتة لنص النقطة). النقطة بلا كيانات لا تسقط هنا."""
+    بلا تكرار نص (الهوية ثابتة لنص النقطة). النقطة بلا كيانات لا تسقط هنا.
+    يعيد (نقاط، موضوع، خطأ، الخبر الرئيسي). لكل نقطة about_main (#1291): خارج الخبر الرئيسي
+    لا تُبنى لها عبارات بحث ولا نداء لغات؛ main_story فارغ أو كل النقاط خارجه ← كلها about_main."""
     icfg = cfg.get("important", {}) or {}
     model = icfg.get("extract_model", "claude-haiku-4-5-20251001")
     per_lang = int(icfg.get("queries_per_lang", 2))
@@ -2436,12 +2516,13 @@ def extract_points(body: str, cfg) -> tuple[list[dict], str, str | None]:
         warn_label="تفكيك نص «هام»",
         truncation_message="تفكيك نص «هام» مقطوع — سقف extract_max_tokens غير كافٍ")
     if not data:
-        return [], "", err or "تعذّر استخراج النقاط"
+        return [], "", err or "تعذّر استخراج النقاط", ""
     raw = data.get("points")
     if not isinstance(raw, list):
-        return [], "", "شكل رد التفكيك غير مطابق (حقل points غائب أو ليس قائمة)"
+        return [], "", "شكل رد التفكيك غير مطابق (حقل points غائب أو ليس قائمة)", ""
+    main_story = " ".join(str(data.get("main_story") or "").split())
     seen: set[str] = set()
-    points: list[dict] = []
+    items: list[tuple[str, dict]] = []
     for item in raw:
         if not isinstance(item, dict):
             continue
@@ -2452,16 +2533,26 @@ def extract_points(body: str, cfg) -> tuple[list[dict], str, str | None]:
         if pid in seen:
             continue
         seen.add(pid)
+        items.append((claim, item))
+    # غياب about_main يُعدّ true: ردّ بلا الحقل يبقى بسلوكه السابق
+    flags = [item.get("about_main") is not False for _c, item in items]
+    if items and (not main_story or not any(flags)):
+        log.warning("تفكيك بلا خبر رئيسي صالح (%s) — تُحكم كل النقاط",
+                    "main_story فارغ" if not main_story else "كل النقاط خارج الخبر الرئيسي")
+        flags = [True] * len(items)
+    points: list[dict] = []
+    for (claim, item), about in zip(items, flags):
         entities = _clean_list(item.get("entities"))
         raw_queries = list(item.get("queries") or []) if isinstance(item.get("queries"), list) else []
         # عبارة بلغة البلد دائمًا: ما لم يعدها الاستخراج يُطلب نداء ثانٍ لها وحدها
-        for entry in _needed_languages(entities, icfg):
+        # (نقطة خارج الخبر الرئيسي لا تُحكم فلا ينفَق عليها نداء)
+        for entry in (_needed_languages(entities, icfg) if about else []):
             if not _has_lang(raw_queries, str(entry.get("lang", ""))):
                 raw_queries += _native_queries(claim, entry, cfg)
         circulating = item.get("framing") == "circulating"
         pairs = _queries_with_lang(raw_queries, per_lang)
         points.append({
-            "text": claim, "kind": POINT_KINDS[0],
+            "text": claim, "kind": POINT_KINDS[0], "about_main": about,
             "asserted": " ".join(str(item.get("asserted") or "").split()),
             "framing": "circulating" if circulating else "direct",
             "circulating_context": (" ".join(str(item.get("circulating_context") or "").split())
@@ -2478,7 +2569,28 @@ def extract_points(body: str, cfg) -> tuple[list[dict], str, str | None]:
             "is_unnamed_event": bool(item.get("is_unnamed_event") is True),
             "is_reference": False, "speaker": "", "merged_excerpts": [],
             "split_from": "", "publisher": "", "query_latin": ""})
-    return points, str(data.get("topic") or ""), None
+    return points, str(data.get("topic") or ""), None, main_story
+
+
+def split_off_topic(points: list[dict]) -> tuple[list[dict], list[dict]]:
+    """(تُحكم، خارج الموضوع الرئيسي) — about_main غائب يعني true (#1291)."""
+    return ([p for p in points if p.get("about_main") is not False],
+            [p for p in points if p.get("about_main") is False])
+
+
+def plan_articles(points: list[dict]) -> dict[str, list[str]]:
+    """خطة المنشورات الثلاثة (#1291، تُحفظ فقط؛ العرض والكتابة في B2) بمعرّفات نقاط الخبر الرئيسي:
+    verified = confirmed · nearest = not_found · refuted = false + inaccurate. نقطة بخطأ تقني
+    (call_error) لا تدخل قائمة: حكمها ليس حكمًا."""
+    plan: dict[str, list[str]] = {"verified": [], "nearest": [], "refuted": []}
+    key = {"confirmed": "verified", "not_found": "nearest", "false": "refuted", "inaccurate": "refuted"}
+    for p in points:
+        if p.get("about_main") is False or p.get("call_error"):
+            continue
+        k = key.get(p.get("verdict"))
+        if k:
+            plan[k].append(p.get("id") or point_id(p.get("text", "")))
+    return plan
 
 
 def judge(body: str, issue_number: int, cfg=None) -> dict:
@@ -2492,7 +2604,9 @@ def judge(body: str, issue_number: int, cfg=None) -> dict:
     real_client = article._client
     article._client = lambda: _CountingClient(real_client(), counter)
     try:
-        points, topic, error = extract_points(body, cfg)
+        points, topic, error, main_story = extract_points(body, cfg)
+        points, off = split_off_topic(points)
+        off_topic = [{"id": point_id(p["text"]), "text": p["text"]} for p in off]
         truncated = None
         if len(points) > max_points:
             skipped = [{"id": point_id(p["text"]), "text": p["text"]}
@@ -2504,12 +2618,13 @@ def judge(body: str, issue_number: int, cfg=None) -> dict:
             points = points[:max_points]
 
         search = _PointSearch(cfg, body)
+        now = datetime.now(timezone.utc).date()
         judged = []
         keep: dict[str, dict] = {}
         for f in points:
             counter.key = point_id(f["text"])
             before = counter.by_key.get(counter.key, 0)
-            rec = judge_point(f, topic, search, cfg, keep)
+            rec = judge_point(f, topic, search, cfg, keep, now=now)
             rec["model_calls"] = counter.by_key.get(counter.key, 0) - before
             judged.append(rec)
         # بعد الحكم على كل النقاط: إعادة تصنيف not_found على المخزون المشترك (#1282)
@@ -2527,6 +2642,9 @@ def judge(body: str, issue_number: int, cfg=None) -> dict:
         "selection_issue": None,
         "created_at": datetime.now(timezone.utc).isoformat(),
         "topic": topic, "error": error,
+        # الخبر الرئيسي والنقاط الخارجة عنه (#1291): off_topic لا بحث لها ولا حكم
+        "main_story": main_story, "off_topic": off_topic,
+        "articles": plan_articles(judged),
         "model": (cfg.get("article", {}) or {}).get("model", ""),
         "extract_model": icfg.get("extract_model", "claude-haiku-4-5-20251001"),
         "brave": {"requests": search.brave["requests"], "skipped": search.brave["skipped"],

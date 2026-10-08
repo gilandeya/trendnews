@@ -363,8 +363,11 @@ class ImportantRig:
     """
 
     def __init__(self, points, docs_by_marker, classify, brave_results=None,
-                 brave_key=None, unrestricted_only=(), native=None, strict_known=False):
+                 brave_key=None, unrestricted_only=(), native=None, strict_known=False,
+                 main_story=None):
         self.points = points
+        # الخبر الرئيسي الذي يعيده التفكيك المزيَّف (#1291)؛ None = الحقل غائب كما قبل
+        self.main_story = main_story
         # Issue #1229: شرط «مؤيِّد معروف» لـconfirmed. افتراضه مُعطَّل في المزيَّف (كل ناشر معروف) كي
         # تبقى الاختبارات القائمة — ناشروها «صحيفة الشرق»/«موقع الغرب» الوهميون — على دلالتها الأصلية؛
         # وحالات #1229 تمرّر strict_known=True فتجري على الحارس الحقيقي بلا أي تزييف
@@ -550,7 +553,8 @@ class ImportantRig:
                     "queries": p.get("queries") or [{"lang": "ar", "q": p["text"]}],
                     "factcheck_query": p.get("factcheck_query", ""),
                     "is_unnamed_event": bool(p.get("is_unnamed_event"))})
-        return {"topic": "موضوع اختبار", "points": out}
+        extra = {"main_story": self.main_story} if self.main_story is not None else {}
+        return {"topic": "موضوع اختبار", **extra, "points": out}
 
     def __exit__(self, *exc):
         import os

@@ -149,7 +149,12 @@ def build_selection_body(result: dict, cfg=None) -> str:
     names = icfg.get("verdict_names", {}) or {}
     parts = [stages.stage_header(1, cfg), "",
              cfg.path("stages.explainer_stage1", ""), "",
-             f"المصدر: نصّك في #{result['issue']}", "", "---", ""]
+             f"المصدر: نصّك في #{result['issue']}", ""]
+    if result.get("main_story"):
+        # الخبر الرئيسي (#1291): عرض فقط؛ ملفات قديمة بلا الحقل لا سطر لها
+        parts += [icfg.get("main_story_label", "📌 الخبر الرئيسي: {main_story}").format(
+            main_story=result["main_story"]), ""]
+    parts += ["---", ""]
 
     offered = [p for p in result["points"] if p.get("status") != "dropped"]
     dropped = [p for p in result["points"] if p.get("status") == "dropped"]
@@ -206,6 +211,14 @@ def build_selection_body(result: dict, cfg=None) -> str:
             if p.get("note"):
                 line += f" ({p['note']})"
             parts.append(line)
+        parts += ["", "</details>", ""]
+
+    off_topic = result.get("off_topic") or []
+    if off_topic:
+        # نقاط خارج الخبر الرئيسي (#1291): لا حكم لها ولا علامات — قائمة نصوص للعلم
+        parts += [f"<details><summary>{icfg.get('off_topic_title', 'خارج الموضوع الرئيسي ({n})').format(n=len(off_topic))}"
+                  "</summary>", ""]
+        parts += [f"- {o.get('text', '')}" for o in off_topic]
         parts += ["", "</details>", ""]
 
     parts.append("<sub>وسم `approved` = تنفيذ ما عُلِّم عليه لكل نقطة · "

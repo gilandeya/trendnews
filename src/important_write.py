@@ -209,7 +209,8 @@ def instructions(point: dict, cfg) -> str:
         # مصدر واحد من مصادرنا (#1288): تُنسب المعلومة إليه صراحة ولا تُكتب حقيقة ثابتة
         publisher = point.get("support_publisher") or (ordered_sources(point, cfg) or [{}])[0].get("publisher", "")
         body += "\n" + wi.get("confirmed_single", "").format(publisher=publisher)
-    return f"\n{wi.get('title_note', '')}\n{body}\n{wi.get('quote_note', '')}\n"
+    return (f"\n{wi.get('title_note', '')}\n{body}\n{wi.get('quote_note', '')}\n"
+            f"{wi.get('attribution_note', '')}\n")
 
 
 # ───────────────────────────── عنوان خبري (Issue #1233) ─────────────────────────────
@@ -274,6 +275,53 @@ def unsourced_sentences(point: dict, written: dict, grounded: list[dict], questi
 # ───────────────────────────── الفحص بعد الكتابة ─────────────────────────────
 
 
+def _outlet_names(cfg) -> list[list[str]]:
+    """أسماء الوسائل كسلاسل كلمات مطبَّعة: sources (name وname_ar) + important.outlet_aliases."""
+    raw = [str(s.get(k) or "") for s in cfg.get("sources", []) or [] for k in ("name", "name_ar")]
+    raw += [str(a) for a in _icfg(cfg).get("outlet_aliases") or []]
+    out = []
+    for n in raw:
+        toks = _norm(n).split()
+        if toks and toks not in out:
+            out.append(toks)
+    return out
+
+
+def outlet_judgment_violations(text: str, cfg) -> list[str]:
+    """الوسيلة الإعلامية ناقلة لا حَكَم (Issue #1291): جملة فيها فعل حكم (important.judgment_verbs)
+    ضمن judgment_window كلمات من اسم وسيلة، قبله أو بعده، مخالفة. أفعال النقل (أفادت/ذكرت/بحسب…)
+    ليست في القائمة فمسموحة. حرف العطف الملتصق («وتعدّ»، «وDW») يُتسامح فيه."""
+    icfg = _icfg(cfg)
+    window = int(icfg.get("judgment_window", 3))
+    verbs = {t for v in icfg.get("judgment_verbs") or [] for t in _norm(v).split()}
+    outlets = _outlet_names(cfg)
+    if not verbs or not outlets:
+        return []
+
+    def strip_w(tok: str) -> list[str]:
+        return [tok, tok[1:]] if tok[:1] in ("و", "ف") and len(tok) > 1 else [tok]
+
+    out: list[str] = []
+    for sentence in re.split(r"(?<=[.!؟?۔])\s+|\n+", text or ""):
+        toks = _norm(sentence).split()
+        v_at = [i for i, t in enumerate(toks) if any(c in verbs for c in strip_w(t))]
+        if not v_at:
+            continue
+        spans = []
+        for name in outlets:
+            n = len(name)
+            for i in range(len(toks) - n + 1):
+                head = strip_w(toks[i])
+                if any([h] + toks[i + 1:i + n] == name for h in head):
+                    spans.append((i, i + n - 1))
+        if any((vi - end - 1 <= window and vi > end) or (start - vi - 1 <= window and start > vi)
+               for vi in v_at for start, end in spans):
+            out.append(icfg.get("outlet_judgment_violation",
+                                "حكم منسوب إلى وسيلة إعلام ({sentence}): انسبه إلى قائله بالاسم أو احذفه"
+                                ).format(sentence=sentence.strip()))
+    return out
+
+
 def check_text(point: dict, written: dict, cfg) -> str | None:
     """يعيد سبب الرفض أو None. مطابقة مطبَّعة (_norm) في الكود — الموجّه وحده لا يكفي."""
     verdict = point.get("verdict")
@@ -317,6 +365,9 @@ def check_text(point: dict, written: dict, cfg) -> str | None:
         same = near.get("kind") == "single_source" and near.get("title") in (point.get("claim"), point.get("text"))
         if _mentions_original(point, f"{title}\n{body}", icfg, claim_allowed=same):
             return REASON_ORIGINAL
+    violations = outlet_judgment_violations(f"{title}\n{body}", cfg)
+    if violations:
+        return violations[0]
     return None
 
 
