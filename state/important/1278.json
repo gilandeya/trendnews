@@ -1,7 +1,7 @@
 {
   "issue": 1278,
   "body_hash": "4ea226775aa564da1f33466de012af2a6a2986b7",
-  "selection_issue": 1279,
+  "selection_issue": 1280,
   "created_at": "2026-10-08T07:48:23.370925+00:00",
   "topic": "بيانات وزارة الخارجية الأميركية بشأن حزب الله والسياسة الإقليمية",
   "error": null,
@@ -2244,7 +2244,11 @@
       "dropped_reason": null,
       "model_calls": 1,
       "status": "offered",
-      "selection_issue": 1279
+      "selection_issue": 1280,
+      "action": "go2",
+      "write_error": "لا وقائع مسندة من أدلة النقطة — لا كتابة من نص المستخدم في «هام»",
+      "failed_at": "2026-10-08T07:52:07.403252+00:00",
+      "write_failed": true
     },
     {
       "id": "bd4e7be00831",
