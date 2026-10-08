@@ -686,8 +686,9 @@ def test_important_same_event_and_excerpts() -> None:
     check("(a) (1) nearest، إن وُجد، يشارك كيانًا ومصدراه related_other",
           n1 is None or (n1["shared_entity"] and {s["publisher"] for s in n1["sources"]} <= rel), n1)
     # الغاية «ليس سوريا»: لا nearest، أو كيانه المشترك تركيا ولا مصدر فيه من وثائق سوريا (#1282)
-    syria_pubs = {d["publisher"] for d in p2["read_docs"]
-                  if "سوريا" in (d.get("title", "") + d.get("excerpt", ""))}
+    # #1288: كان يُبنى من title وexcerpt وهما غير موجودين في read_docs فكان فارغًا دائمًا (فحص يمرّ دائمًا)؛
+    # وثيقتا سوريا في هذا الاختبار CNN Arabic وعنب بلدي
+    syria_pubs = {"CNN Arabic", "عنب بلدي"}
     n2 = p2["nearest"]
     check("(a) (2) nearest ليس سوريا (لا كيان مشترك مع نقطة عن تركيا)",
           p2["verdict"] == "not_found"
@@ -2576,43 +2577,51 @@ def test_important_1282() -> None:
     def kind(pid):
         return (by_id[pid].get("nearest") or {}).get("kind")
 
-    check("(1278) 8e645204c867 و80943d3f4957 ← confirmed (مؤيِّدون من خارج مصادرنا بتنبيه)",
-          by_id["8e645204c867"]["verdict"] == "confirmed" and by_id["80943d3f4957"]["verdict"] == "confirmed"
-          and all(by_id[i]["warnings"] for i in ("8e645204c867", "80943d3f4957")),
-          [(by_id[i]["verdict"], by_id[i].get("note")) for i in ("8e645204c867", "80943d3f4957")])
-    for pid in ("bd4e7be00831", "24246e81cd44"):
-        n = by_id[pid].get("nearest") or {}
-        check(f"(1278) {pid} ← not_found بـsingle_source ومقتطفات غير فارغة ولا تسقط",
-              by_id[pid]["verdict"] == "not_found" and n.get("kind") == "single_source"
-              and n.get("sources") and all(s["excerpt"] for s in n["sources"])
-              and not by_id[pid]["dropped_reason"], (by_id[pid]["verdict"], n))
+    # #1288 (مصادرنا وحدها): كل مؤيِّدي هاتين النقطتين من خارج مصادرنا (إرم نيوز وLebanon 24 وLBCIV7…) فتُستبعد؛
+    # القديم confirmed بتنبيه، الجديد ليست confirmed (لا تؤيدها وثيقة من مصادرنا)
+    check("(1278) 8e645204c867 و80943d3f4957 ← ليست confirmed (مؤيِّدوها من خارج مصادرنا مستبعدون)",
+          all(by_id[i]["verdict"] != "confirmed" and by_id[i]["outside_docs"] > 0
+              for i in ("8e645204c867", "80943d3f4957")),
+          [(by_id[i]["verdict"], by_id[i].get("outside_docs")) for i in ("8e645204c867", "80943d3f4957")])
+    # القديم not_found بـsingle_source للنقطتين؛ الجديد: 24246e81cd44 ← confirmed بمصدر واحد (BBC؛ Youm7 مستبعدة)،
+    # وbd4e7be00831 ← not_found تسقط بلا أثر (ناشروها كلهم خارج مصادرنا)
+    p24 = by_id["24246e81cd44"]
+    check("(1278) 24246e81cd44 ← confirmed وsupport_level == single (BBC تبقى وYoum7 تُستبعد)",
+          p24["verdict"] == "confirmed" and p24["support_level"] == "single"
+          and p24["support_publisher"] == "BBC" and p24["outside_docs"] >= 1,
+          (p24["verdict"], p24.get("support_level"), p24.get("support_publisher")))
+    pbd = by_id["bd4e7be00831"]
+    check("(1278) bd4e7be00831 ← not_found تسقط بلا أثر (كل ناشريها خارج مصادرنا)",
+          pbd["verdict"] == "not_found" and pbd.get("nearest") is None and bool(pbd["dropped_reason"]),
+          (pbd["verdict"], pbd.get("nearest"), pbd["dropped_reason"]))
     for pid in ("ead62e9067e0", "90ff3a888844", "23c484b9a35a"):
         p = by_id[pid]
         check(f"(1278) {pid} لا تسقط إلا بالدرجة (هـ) (لا nearest ولا مصدر)",
               (p["dropped_reason"] is None and p["verdict"] != "not_found" or bool(p.get("nearest")))
               or (p["dropped_reason"] == important.NO_TRACE_REASON and p.get("nearest") is None),
               (p["verdict"], p["dropped_reason"], p.get("nearest")))
+    # القديم: تقرأ مقال Lebanon 24 من المخزون المشترك فتصير single_source؛ الجديد: Lebanon 24 خارج مصادرنا
+    # فلا تدخل المخزون المشترك ولا pool أصلًا، فتسقط
     p23 = by_id["23c484b9a35a"]
-    check("(1278) 23c484b9a35a تقرأ مقال Lebanon 24 من مخزون النقطة الأخرى فلا تسقط (shared_from)",
-          p23["verdict"] == "not_found" and (p23.get("nearest") or {}).get("kind") == "single_source"
-          and "Lebanon 24" in (p23.get("shared_from") or []) and not p23["dropped_reason"],
-          (p23["verdict"], p23.get("nearest"), p23.get("shared_from")))
+    check("(1278) 23c484b9a35a لا تقرأ Lebanon 24 (خارج مصادرنا) فتسقط",
+          p23["verdict"] == "not_found" and "Lebanon 24" not in (p23.get("shared_from") or [])
+          and bool(p23["dropped_reason"]), (p23["verdict"], p23.get("shared_from")))
     check("(1278) الملف المحفوظ يحمل rules_version الحالية",
-          result["rules_version"] == cfg.path("important.rules_version") == 2, result.get("rules_version"))
+          result["rules_version"] == cfg.path("important.rules_version") == 3, result.get("rules_version"))
 
     body = important_issue.build_selection_body(result, cfg)
     check("(1278) قضية الترشيح فيها القسمان «✅ ما ثبت» و«🔍 ما لم يُحسم»",
           "## ✅ ما ثبت" in body and "## 🔍 ما لم يُحسم — أقرب ما وُجد" in body
           and body.index("## ✅ ما ثبت") < body.index("## 🔍 ما لم يُحسم — أقرب ما وُجد"), body[:600])
-    check("(1278) وتنبيه «من خارج مصادرنا» تحت أدلة المؤكَّدة، وأسطر أقرب ما وُجد بمصدر واحد",
-          "⚠️ كل المؤيِّدين من خارج مصادرنا المسجّلة" in body
-          and "🔍 أقرب ما وُجد · مصدر واحد:" in body, None)
-    # تعليمات الكاتب (#1282): عنوان nearest هو نص النقطة ← المفتاح الذي لا يمنع ذكرها؛ وإلا not_found_single
+    check("(1278) وسطر «✅ من مصادرنا: BBC (مصدر واحد — يُنسب إليه)» وسطر الاستبعاد «🚫 استُبعدت»",
+          "✅ من مصادرنا: BBC (مصدر واحد — يُنسب إليه)" in body and "🚫 استُبعدت" in body
+          and "من خارج مصادرنا المسجّلة" not in body, None)
+    # تعليمات الكاتب (#1288): 24246e81cd44 صارت confirmed بمصدر واحد ← تُلحَق confirmed_single («بحسب BBC»)؛
+    # كانت not_found_single_claim (القديم)
     from src import important_write
     ins24 = important_write.instructions(by_id["24246e81cd44"], cfg)
-    check("(1278) تعليمات 24246e81cd44 تنسب إلى BBC ولا تمنع ذكر النقطة الأصلية",
-          "بحسب BBC" in ins24 and "ممنوع ذكر النقطة الأصلية" not in ins24
-          and "لم يتأكد أو لا أثر له" in ins24, ins24)
+    check("(1278) تعليمات 24246e81cd44 تنسب إلى BBC وحدها («بحسب BBC»)",
+          "بحسب BBC" in ins24 and "أوردها BBC وحده" in ins24, ins24)
     other = {"verdict": "not_found", "claim": "ادّعاء آخر", "text": "ادّعاء آخر",
              "nearest": {"kind": "single_source", "title": "حدث قريب مختلف",
                          "sources": [{"publisher": "الصحيفة", "link": "u", "excerpt": "نص"}]}}

@@ -106,6 +106,26 @@ def _evidence_lines(p: dict, result: dict, cfg) -> list[str]:
                 out.append(f"  - {_link(s.get('publisher', ''), s.get('link', ''))}")
         elif p.get("note"):
             out.append(f"  لم يكتمل التحقق: {p['note']}")
+    out += _provenance_lines(p, icfg)
+    return out
+
+
+def _provenance_lines(p: dict, icfg) -> list[str]:
+    """سطر نسبة التأييد تحت الحكم (#1288) وسطر الوثائق المستبعدة من خارج مصادرنا؛ نصوصها من الإعداد."""
+    out: list[str] = []
+    level = p.get("support_level")
+    labels = icfg.get("support_labels", {}) or {}
+    if p.get("verdict") in ("confirmed", "inaccurate") and level in labels:
+        if p["verdict"] == "confirmed":
+            names = [e.get("publisher", "") for e in p.get("evidence") or [] if e.get("stance") == "supports"]
+        else:
+            names = [s.get("publisher", "") for s in (p.get("correction") or {}).get("sources") or []]
+        publisher = p.get("support_publisher") or (names[0] if names else "")
+        out.append("  " + labels[level].format(publisher=publisher,
+                                               names="، ".join(dict.fromkeys(n for n in names if n))))
+    n = int(p.get("outside_docs") or 0)
+    if n > 0 and icfg.get("outside_docs_label"):
+        out.append("  " + icfg["outside_docs_label"].format(n=n))
     return out
 
 
