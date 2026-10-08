@@ -364,8 +364,11 @@ class ImportantRig:
 
     def __init__(self, points, docs_by_marker, classify, brave_results=None,
                  brave_key=None, unrestricted_only=(), native=None, strict_known=False,
-                 main_story=None):
+                 main_story=None, gap=None):
         self.points = points
+        # أسئلة البحث المكمِّل التي يعيدها نداء report_gap_questions المزيَّف (#1293)
+        self.gap = gap or []
+        self.gap_requests: list[str] = []
         # الخبر الرئيسي الذي يعيده التفكيك المزيَّف (#1291)؛ None = الحقل غائب كما قبل
         self.main_story = main_story
         # Issue #1229: شرط «مؤيِّد معروف» لـconfirmed. افتراضه مُعطَّل في المزيَّف (كل ناشر معروف) كي
@@ -483,6 +486,9 @@ class ImportantRig:
                 content = kw["messages"][0]["content"]
                 if kw["tool_choice"]["name"] == "extract_points":
                     return _Resp(rig._extract_input())
+                if kw["tool_choice"]["name"] == "report_gap_questions":
+                    rig.gap_requests.append(kw["messages"][0]["content"])
+                    return _Resp({"questions": list(rig.gap)})
                 if kw["tool_choice"]["name"] == "native_queries":
                     m = re.search(r"\(([a-z]{2})\)", kw["system"])
                     lang = m.group(1) if m else ""
@@ -720,12 +726,45 @@ def important_good_data(point: dict) -> dict:
 
 
 def important_marked_body(result: dict, marks: dict, cfg=None) -> str:
-    """جسم قضية الترشيح كما يبنيه important_issue، مع تعليم خيار الانتقال لكل نقطة
-    ({id: go2|go3|publish}) — محاكاة نقر المراجع."""
+    """جسم قضية الترشيح **القديمة** (علامات go: لكل نقطة، قبل #1293) مع تعليم خيار الانتقال لكل نقطة
+    ({id: go2|go3|publish}) — محاكاة نقر المراجع. بعد #1293 يبني build_selection_body ثلاثة منشورات
+    لأي نتيجة فيها articles، فهذا المساعد يستعمل build_points_body ليبقى مسار الكتابة لكل نقطة
+    (القضايا المفتوحة قبل التحديث) مغطًّى بالاختبارات نفسها؛ منشورات الخبر الرئيسي في
+    important_items_marked_body أدناه."""
     from src import important_issue
-    body = important_issue.build_selection_body(result, cfg or load_config())
+    body = important_issue.build_points_body(result, cfg or load_config())
     for pid, action in marks.items():
         body = tick_marker(body, f"go:{action}:{pid}")
+    return body
+
+
+def important_b2_result(issue: int = 88000, main_story: str = "تطوّرات الخبر الرئيسي في الاختبار") -> dict:
+    """نتيجة حكم بخطة منشورات {verified: 2، nearest: 2، refuted: 1} (#1293): نقطتان مؤكَّدتان من الملفين
+    الثابتين، ونقطتا not_found إحداهما بلا nearest وساقطة، ونقطة false. محفوظة في state/important."""
+    from src import important
+    conf1 = important_fixture_point(1209, "confirmed", 0)
+    conf2 = important_fixture_point(1201, "confirmed", 0)
+    nf1 = important_synthetic_point("not_found")
+    text2 = "قيل إن قوات دخلت مدينة المخا صباح اليوم"
+    nf2 = important_synthetic_point("not_found", id=important.point_id(text2), text=text2, claim=text2,
+                                    nearest=None, status="dropped", dropped_reason=important.NO_TRACE_REASON)
+    fl = important_synthetic_point("false")
+    points = [conf1, conf2, nf1, nf2, fl]
+    result = {"issue": issue, "body_hash": "x", "rules_version": 4, "selection_issue": None,
+              "created_at": "2026-10-08T00:00:00+00:00", "topic": "t", "error": None,
+              "main_story": main_story, "off_topic": [], "articles": important.plan_articles(points),
+              "points": points}
+    important.ensure_article_items(result)
+    important.save(result)
+    return result
+
+
+def important_items_marked_body(result: dict, marks: dict, cfg=None) -> str:
+    """جسم قضية الترشيح الجديد (ثلاثة منشورات) مع تعليم خيار الانتقال لكل عنصر ({معرّف_العنصر: go2|go3|publish})."""
+    from src import important_issue
+    body = important_issue.build_selection_body(result, cfg or load_config())
+    for iid, action in marks.items():
+        body = tick_marker(body, f"go:{action}:{iid}")
     return body
 
 
@@ -735,8 +774,12 @@ class ImportantWriteRig:
     ونشر cmd_burst/cmd_now/cmd_schedule، وتجسّس على بناء البطاقة (الناشرون وشارة الأصل).
     respond(prompt, system) ← قاموس حقول أداة write_article."""
 
-    def __init__(self, respond):
+    def __init__(self, respond, gap_sources=None):
         self.respond = respond
+        # مقتطفات البحث المكمِّل المزيَّفة (#1293): بها يُستبدل important_gap.gather كله؛ None = البحث الحقيقي
+        # (يلزم حينها ImportantRig متداخل). gap_calls تسجّل (النوع، أعضاء المنشور) لكل منشور.
+        self.gap_sources = gap_sources
+        self.gap_calls: list[tuple] = []
         self.calls: list[dict] = []
         self.created: list[dict] = []
         self.comments: list[tuple] = []
@@ -767,6 +810,14 @@ class ImportantWriteRig:
                     usage=types.SimpleNamespace(input_tokens=1, output_tokens=1))
 
         self._swap(article, "_client", lambda: types.SimpleNamespace(messages=_Messages()))
+        if self.gap_sources is not None:
+            from src import important_gap
+
+            def fake_gather(result, item, members, cfg):
+                rig.gap_calls.append((item["kind"], [m["id"] for m in members]))
+                return [dict(g) for g in rig.gap_sources]
+
+            self._swap(important_gap, "gather", fake_gather)
 
         def fake_create(title, body, labels=None):
             rig.next += 1

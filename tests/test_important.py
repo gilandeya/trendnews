@@ -2072,7 +2072,9 @@ def test_important_1221() -> None:
               and back["arabic"] == d_conf["arabic"] and "returned_from_stage" not in back
               and len(rig.created) == created_before + 1
               and rig.created[-1]["labels"] == ["pending-review"]
-              and f"<!-- draft:{d_conf['id']} -->" in rig.created[-1]["body"])
+              and f"<!-- draft:{d_conf['id']} -->" in rig.created[-1]["body"],
+              (code_r, len(rig.calls), writes, back["status"], len(rig.created), created_before,
+               rig.created[-1]["labels"]))
     res_d3 = make_result(number + 4, sel + 4, [inacc])
     body_d3 = important_marked_body(res_d3, {inacc["id"]: "go3"}, cfg)
     with ImportantWriteRig(respond_for([inacc])) as rig:
@@ -2609,7 +2611,9 @@ def test_important_1282() -> None:
     check("(1278) الملف المحفوظ يحمل rules_version الحالية",
           result["rules_version"] == cfg.path("important.rules_version") == 4, result.get("rules_version"))
 
-    body = important_issue.build_selection_body(result, cfg)
+    # القديم: build_selection_body · الجديد: build_points_body — بعد #1293 يعرض build_selection_body ثلاثة
+    # منشورات (g88)؛ أقسام الأحكام وأسطر النسبة لكل نقطة تخصّ قضية النقاط القديمة التي تبقى تُقرأ وتُكتب
+    body = important_issue.build_points_body(result, cfg)
     check("(1278) قضية الترشيح فيها القسمان «✅ ما ثبت» و«🔍 ما لم يُحسم»",
           "## ✅ ما ثبت" in body and "## 🔍 ما لم يُحسم — أقرب ما وُجد" in body
           and body.index("## ✅ ما ثبت") < body.index("## 🔍 ما لم يُحسم — أقرب ما وُجد"), body[:600])

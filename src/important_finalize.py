@@ -36,8 +36,9 @@ def result_for_selection(selection_issue: int) -> dict | None:
             data = json.loads(path.read_text(encoding="utf-8"))
         except (OSError, ValueError):
             continue
-        if isinstance(data, dict) and any(p.get("selection_issue") == selection_issue
-                                          for p in data.get("points") or []):
+        if isinstance(data, dict) and any(
+                p.get("selection_issue") == selection_issue
+                for p in (data.get("points") or []) + (data.get("article_items") or [])):
             return data
     return None
 
@@ -52,7 +53,10 @@ def find_point(point_id: str, selection_issue: int | None = None) -> tuple[dict,
             data = json.loads(path.read_text(encoding="utf-8"))
         except (OSError, ValueError):
             continue
-        for p in (data.get("points") or []) if isinstance(data, dict) else []:
+        # العناصر (#1293) بعد النقاط: معرّف المنشور يحمل صورة المرحلة 1 كما تحملها النقطة
+        entries = ((data.get("points") or []) + (data.get("article_items") or [])) \
+            if isinstance(data, dict) else []
+        for p in entries:
             if p.get("id") != point_id:
                 continue
             if selection_issue is None or p.get("selection_issue") == selection_issue:
@@ -96,8 +100,24 @@ def _reuse_returned(point: dict, issue_number: int) -> dict | None:
     return draft
 
 
-def _title(point: dict) -> str:
+def _title(point: dict, cfg=None) -> str:
+    if point.get("kind") in important.ARTICLE_KINDS and "point_ids" in point:
+        return important_issue.item_title(point, cfg if cfg is not None else {})[:60]
     return important_issue.display_title(point)[:60]
+
+
+def _sibling_texts(result: dict, item: dict) -> list[str]:
+    """نصوص المنشورات الأخرى للنص نفسه التي كُتبت مسودتها (في هذه التشغيلة أو قبلها): عنوانها ومتنها،
+    كي لا يكرّر المنشور الجديد وقائعها (#1293)."""
+    out = []
+    for other in result.get("article_items") or []:
+        if other.get("id") == item.get("id") or not other.get("draft_id"):
+            continue
+        found = store.load_draft(other["draft_id"])
+        if found:
+            ar = found[1].get("arabic") or {}
+            out.append(f"{ar.get('post_title', '')}\n{ar.get('post_body', '')}".strip())
+    return out
 
 
 def finalize(issue_number: int, body: str, cfg) -> int:
@@ -118,7 +138,12 @@ def finalize(issue_number: int, body: str, cfg) -> int:
         return 1
 
     actions, conflicts = stages.read_actions(body, 1)
-    points = {p["id"]: p for p in result["points"] if p.get("selection_issue") == issue_number}
+    # قضية بعلامات منشورات (#1293) تُقرأ عناصرها؛ قضية فُتحت قبله علاماتها معرّفات نقاط فتُقرأ بالمسار القديم
+    items = {i["id"]: i for i in result.get("article_items") or []
+             if i.get("selection_issue") == issue_number}
+    item_mode = any(i in items for i in all_ids)
+    points = items if item_mode else {
+        p["id"]: p for p in result["points"] if p.get("selection_issue") == issue_number}
     ids = [i for i in all_ids if i in points and points[i].get("status") in _OPEN_STATUSES]
     chosen = {i: actions[i] for i in ids if actions.get(i) in ("go2", "go3", "publish")}
     log.info("قضية «هام» #%s: %d نقطة في الجسم، %d معلَّمة، %d بتعارض",
@@ -130,7 +155,7 @@ def finalize(issue_number: int, body: str, cfg) -> int:
             if item["id"] not in points:
                 continue
             marked = " + ".join(stages.action_label(a, 1, cfg) for a in item["marked"])
-            rows.append(f"- «{_title(points[item['id']])}»: {marked} ← نُفِّذ: "
+            rows.append(f"- «{_title(points[item['id']], cfg)}»: {marked} ← نُفِّذ: "
                         f"{stages.action_label(item['marked'][0], 1, cfg)}")
         if rows:
             review.comment(
@@ -162,14 +187,18 @@ def finalize(issue_number: int, body: str, cfg) -> int:
         point = points[pid]
         draft = _reuse_returned(point, issue_number)
         if draft is None:
-            draft, reason, technical = important_write.write_point(point, result, cfg, issue_number)
+            if item_mode:
+                draft, reason, technical = important_write.write_article(
+                    result, point, cfg, _sibling_texts(result, point), issue_number)
+            else:
+                draft, reason, technical = important_write.write_point(point, result, cfg, issue_number)
             if draft is None:
                 point["write_error"] = reason
                 if not technical:
                     # رفض تحريري بعد إعادة المحاولة: failed ظاهرة لا «selected» صامتة (#1225)؛
                     # العطل التقني يبقى selected ليُعاد بإعادة وسم approved كما كان
                     point.update(status="failed", failed_at=datetime.now(timezone.utc).isoformat())
-                failures.append((_title(point), reason, technical))
+                failures.append((_title(point, cfg), reason, technical))
                 important.save(result)
                 return None
         for key in ("write_error", "write_failed", "failed_at"):
@@ -193,25 +222,25 @@ def finalize(issue_number: int, body: str, cfg) -> int:
             return None
         return loaded
 
-    for pid in [i for i in ids if chosen.get(i) == "publish"]:
+    # ترتيب الكتابة: النقاط بمجموعات الانتقال (نشر ثم مراجعة ثم بطاقة) كما كان؛ والمنشورات بنوعها
+    # (verified ثم nearest ثم refuted) كي يرى كل منشور نصوص ما كُتب قبله (#1293)
+    if item_mode:
+        order = sorted((i for i in ids if i in chosen),
+                       key=lambda i: important.ARTICLE_KINDS.index(points[i]["kind"]))
+    else:
+        order = [i for act in ("publish", "go2", "go3") for i in ids if chosen.get(i) == act]
+    for pid in order:
         draft = make(pid)
-        if draft:
-            written += 1
-            card = with_card(draft, "🚀")
-            if card:
-                now_drafts.append(card)
-    for pid in [i for i in ids if chosen.get(i) == "go2"]:
-        draft = make(pid)
-        if draft:
-            written += 1
+        if not draft:
+            continue
+        written += 1
+        if chosen[pid] == "go2":
             review_drafts.append(draft)
-    for pid in [i for i in ids if chosen.get(i) == "go3"]:
-        draft = make(pid)
-        if draft:
-            written += 1
-            card = with_card(draft, "🎴")
+        else:
+            label = "🚀" if chosen[pid] == "publish" else "🎴"
+            card = with_card(draft, label)
             if card:
-                card_drafts.append(card)
+                (now_drafts if chosen[pid] == "publish" else card_drafts).append(card)
 
     if failures:
         # كل فشل يُبلَّغ على قضية الترشيح نفسها بسببه (#1225): لا فشل صامت
@@ -247,7 +276,7 @@ def reopen_failed(selection_issue: int, cfg) -> int | None:
     result = result_for_selection(selection_issue)
     if not result:
         return None
-    failed = [p for p in result["points"]
+    failed = [p for p in (result.get("article_items") or []) + result["points"]
               if p.get("selection_issue") == selection_issue and p.get("status") == "failed"]
     if not failed:
         return None
@@ -264,13 +293,14 @@ def reopen_selection(source_issue: int, cfg) -> int | None:
     result = important.load_saved(source_issue)
     if not result:
         return None
-    back = [p for p in result["points"]
+    pool = result["article_items"] if result.get("article_items") else result["points"]
+    back = [p for p in pool
             if (p.get("returned") or p.get("write_failed"))
             and p.get("status") == "offered" and not p.get("selection_issue")]
     if not back:
         return None
     back.sort(key=lambda p: p.get("returned_at") or p.get("failed_at") or "")
-    view = {**result, "points": back}
+    view = {**result, "article_items": back} if result.get("article_items") else {**result, "points": back}
     review.ensure_labels()
     created = review.create_issue(important_issue.selection_title(view, cfg),
                                   important_issue.build_selection_body(view, cfg),

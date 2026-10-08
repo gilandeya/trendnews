@@ -670,7 +670,8 @@ def _return_important_to_selection(path, draft: dict, title: str, stage: int,
     from . import important
     source = draft.get("source_issue")
     result = important.load_saved(source) if source else None
-    point = next((p for p in (result or {}).get("points", [])
+    # منشور الخبر الرئيسي (#1293) معرّفه عنصر في article_items؛ المسودة القديمة نقطة في points
+    point = next((p for p in ((result or {}).get("article_items") or []) + ((result or {}).get("points") or [])
                   if p.get("id") == draft.get("point_id")), None)
     if not point:
         return (f"- ⚠️ {title} — لا نقطة محفوظة لهذه المسودة في state/important، بقيت في مكانها")

@@ -21,7 +21,7 @@ from tests.helpers import (check, load_config, evidence, store, DRAFTS_DIR, Impo
                            ImportantWriteRig, NamesAuditRig, NAMES_AUDIT_SOURCE, names_audit_doubt,
                            names_audit_draft, names_audit_hit, important_doc, important_fixture_point,
                            important_good_data, important_marked_body, important_point,
-                           important_stance, important_synthetic_point)
+                           important_stance, important_synthetic_point, brave_result)
 
 
 def test_guards_golden() -> None:
@@ -2487,3 +2487,297 @@ def test_important_1291_guards() -> None:
           len(res2["points"]) == 4 and res2["off_topic"] == []
           and any("كلمةجانبية2" in q for q in rig2.queries), (len(res2["points"]), res2["off_topic"]))
     check("(g87) rules_version 4", res["rules_version"] == 4, res["rules_version"])
+
+
+def _b2_body(words: int, tag: str = "", extra: str = "") -> str:
+    """متن مزيَّف بعدد كلمات معلوم وكلمات فريدة (لا تتابع مشترك مع المصادر فيمرّ فحص الأصالة)."""
+    sentences = []
+    n = 0
+    k = 0
+    while n < words:
+        sentences.append(f"الفقرة{tag}{k} تتناول جانبًا{k} مختلفًا{tag}{k} من القصة{k}.")
+        n += 5
+        k += 1
+    return " ".join(sentences) + (" " + extra if extra else "")
+
+
+def test_important_1293_guards() -> None:
+    """Issue #1293 (B2): g88–g94 — ثلاثة منشورات حول الخبر الرئيسي: قضية الترشيح وعناصرها، شروط الظهور،
+    البحث المكمِّل ومصادرنا وسقوف Brave، الكتابة وفحوصها، الترتيب وsibling_texts، go1 وإعادة الاستعمال،
+    وتوافق القضية القديمة (علامات النقاط)."""
+    import json
+    import re
+    import sys
+
+    from src import cards, imagesearch, important, important_finalize, important_gap, important_issue, \
+        important_write, publish
+    from tests.helpers import (IMPORTANT_FIXTURES, important_b2_result, important_items_marked_body,
+                               tick_marker)
+
+    cfg = load_config()
+    icfg = cfg.get("important", {}) or {}
+    kind_order = ("verified", "nearest", "refuted")
+
+    # ── g88) خطة {verified: 2، nearest: 2، refuted: 1} ← ثلاثة عناصر بثلاث كتل go: ولا علامة لنقطة منفردة ──
+    result = important_b2_result(88000)
+    items = result["article_items"]
+    body = important_issue.build_selection_body(result, cfg)
+    go_ids = re.findall(r"<!-- go:(?:go2|go3|publish):([0-9a-f]+) -->", body)
+    check("(g88) ثلاثة عناصر بمعرّف point_id(issue:kind) وبترتيب verified ثم nearest ثم refuted",
+          [i["kind"] for i in items] == list(kind_order)
+          and [i["id"] for i in items] == [important.point_id(f"88000:{k}") for k in kind_order]
+          and [len(i["point_ids"]) for i in items] == [2, 2, 1], items)
+    check("(g88) القضية فيها ثلاث كتل go: (3 خيارات لكل عنصر) بمعرّفات العناصر وحدها",
+          len(go_ids) == 9 and set(go_ids) == {i["id"] for i in items}, go_ids)
+    check("(g88) لا علامة go: ولا imgurl لأي نقطة منفردة",
+          not any(p["id"] in go_ids or f"imgurl:{p['id']}" in body for p in result["points"])
+          and body.count("imgurl:") == 3, [p["id"] for p in result["points"]])
+    titles = icfg["article_titles"]
+    check("(g88) عناوين العناصر الثلاثة من الإعداد بترتيبها",
+          all(titles[k] in body for k in kind_order)
+          and body.index(titles["verified"]) < body.index(titles["nearest"]) < body.index(titles["refuted"]),
+          body[:400])
+    check("(g88) النقاط الأعضاء مسرودة تحت عناصرها (أيقونة ونص)",
+          all(p["claim"] in body for p in result["points"] if p["verdict"] in ("confirmed", "false"))
+          and "- ✅ " in body and "- ❌ " in body and "- 🔍 " in body
+          and body.index(result["points"][0]["claim"]) < body.index(titles["nearest"]), body[:300])
+    check("(g88) سطر الخبر الرئيسي والسطر الأخير «وسم approved = تنفيذ ما عُلِّم عليه لكل منشور»",
+          "📌 الخبر الرئيسي: تطوّرات الخبر الرئيسي في الاختبار" in body
+          and "وسم `approved` = تنفيذ ما عُلِّم عليه لكل منشور" in body.splitlines()[-1], body.splitlines()[-1])
+    print("──── جسم قضية الترشيح بثلاثة منشورات (g88) ────")
+    print(body)
+
+    # ── g89) شروط الظهور ──
+    def plan_result(issue, points):
+        r = {"issue": issue, "main_story": "خبر", "off_topic": [], "points": points,
+             "articles": important.plan_articles(points)}
+        important.ensure_article_items(r)
+        return r
+
+    conf = important_fixture_point(1209, "confirmed", 0)
+    fl = important_synthetic_point("false")
+    text_nf = "قيل إن قوات دخلت مدينة المخا صباح اليوم"
+    nf_bare = important_synthetic_point("not_found", id=important.point_id(text_nf), text=text_nf, claim=text_nf,
+                                        nearest=None, status="dropped", dropped_reason=important.NO_TRACE_REASON)
+    only_nf = plan_result(88001, [nf_bare])
+    check("(g89) verified وrefuted فارغتان ← لا عنصر أول ولا ثالث، والثاني موجود ولو لنقطة بلا nearest",
+          [i["kind"] for i in only_nf["article_items"]] == ["nearest"]
+          and only_nf["article_items"][0]["point_ids"] == [nf_bare["id"]], only_nf["article_items"])
+    no_ref = plan_result(88002, [conf, nf_bare])
+    check("(g89) refuted فارغة ← لا عنصر ثالث",
+          [i["kind"] for i in no_ref["article_items"]] == ["verified", "nearest"])
+    no_ver = plan_result(88003, [fl, nf_bare])
+    check("(g89) verified فارغة ← لا عنصر أول",
+          [i["kind"] for i in no_ver["article_items"]] == ["nearest", "refuted"])
+    ce = dict(nf_bare, id="ce" + "0" * 10, text="نقطة فشل نداؤها", claim="نقطة فشل نداؤها",
+              call_error="انقطع النداء", dropped_reason=None, status="offered")
+    with_err = plan_result(88004, [conf, ce])
+    ebody = important_issue.build_selection_body(with_err, cfg)
+    check("(g89) نقطة call_error لا تدخل منشورًا وتظهر في كتلة «نقاط لم تدخل أي منشور (1)» بسببها",
+          [i["kind"] for i in with_err["article_items"]] == ["verified"]
+          and "<summary>نقاط لم تدخل أي منشور (1)</summary>" in ebody
+          and "- نقطة فشل نداؤها — انقطع النداء" in ebody, ebody[-500:])
+
+    # ── g90) البحث المكمِّل: مصادرنا وحدها، وسقف Brave لكل منشور، والسقف الشهري ──
+    imagesearch.BRAVE_USAGE_FILE.unlink(missing_ok=True)
+    bbc = {"name": "BBC", "link": "https://www.bbc.com/arabic/a1",
+           "text": "بي بي سي: تفصيل مؤكد عن الخبر الرئيسي وأرقامه."}
+    ext = {"name": "مدونة مجهولة", "link": "https://random-blog.example/p",
+           "text": "مدونة: كلام لا سند له عن الخبر."}
+    gov = {"name": "State Department", "link": "https://www.state.gov/briefing",
+           "text": "الخارجية: بيان رسمي عن الخبر الرئيسي."}
+    questions = [{"question": f"سؤال القارئ رقم {k}؟", "query_ar": f"MARK{k} عربي طويل جدا جدا جدا جدا جدا جدا جدا",
+                  "query_en": f"MARK{k} english"} for k in range(1, 6)]
+    docs_by_marker = {"MARK1": [bbc, ext], "MARK2": [gov], "MARK3": [ext], "MARK4": [], "MARK5": []}
+    brave = {f"MARK{k}": [brave_result(f"https://brave-{k}.example/x", "عنوان", "وصف", "موقع")]
+             for k in range(1, 6)}
+    item = result["article_items"][0]
+    members = important_write.item_members(result, item)
+    with ImportantRig([], docs_by_marker, lambda *a: {}, brave_results=brave, brave_key="k",
+                      strict_known=True, gap=questions) as rig:
+        got = important_gap.gather(result, item, members, cfg)
+        pubs = {g["publisher"] for g in got}
+        check("(g90) مدخل الكاتب فيه BBC وState Department وحدهما (الموقع الخارجي يُرمى)",
+              pubs == {"BBC", "State Department"}, got)
+        check("(g90) نداء أسئلة واحد وعبارات البحث ≤ 8 كلمات",
+              len(rig.gap_requests) == 1 and all(len(q.split()) <= 8 for q in rig.queries), rig.queries)
+        check("(g90) طلبات Brave ≤ important.gap.max_brave (4)",
+              0 < len(rig.brave_calls) <= int(icfg["gap"]["max_brave"]) == 4, rig.brave_calls)
+    imagesearch.BRAVE_USAGE_FILE.write_text(json.dumps({important._usage_key(): int(icfg["brave_monthly_cap"])}))
+    with ImportantRig([], docs_by_marker, lambda *a: {}, brave_results=brave, brave_key="k",
+                      strict_known=True, gap=questions) as rig:
+        got_capped = important_gap.gather(result, item, members, cfg)
+        check("(g90) بلوغ السقف الشهري يمنع طلب Brave ويبقى Google",
+              rig.brave_calls == [] and {g["publisher"] for g in got_capped} == {"BBC", "State Department"},
+              rig.brave_calls)
+    imagesearch.BRAVE_USAGE_FILE.unlink(missing_ok=True)
+
+    # ── g91) write_article بكاتب مزيَّف ──
+    gap_src = [{"publisher": "BBC", "link": "https://www.bbc.com/arabic/a1",
+                "excerpt": "بي بي سي: تفصيل مؤكد عن الخبر الرئيسي وأرقامه.", "question": "س؟"},
+               {"publisher": "State Department", "link": "https://www.state.gov/briefing",
+                "excerpt": "الخارجية: بيان رسمي عن الخبر الرئيسي.", "question": "س؟"}]
+    good = {"category": "عالم", "hashtags": ["هام"], "image_query_en": "news story",
+            "post_title": "تطوّرات الخبر الرئيسي بين المؤكَّد والمتداول",
+            "image_headline": "تطوّرات الخبر الرئيسي"}
+
+    def run_write(item_, bodies):
+        seq = list(bodies)
+
+        def respond(prompt, system):
+            return {**good, "post_body": seq.pop(0) if len(seq) > 1 else seq[0]}
+        with ImportantWriteRig(respond, gap_sources=gap_src) as rig_:
+            rig_.next = 88600
+            return important_write.write_article(result, item_, cfg, [], 88100), rig_
+
+    (d1, why1, _t), rig1 = run_write(items[0], [_b2_body(120), _b2_body(330)])
+    check("(g91) 120 كلمة ← رفض وإعادة كتابة واحدة بذكر العلّة ثم مسودة",
+          d1 is not None and len(rig1.calls) == 2 and "عدد كلمات" in rig1.calls[1]["prompt"]
+          and "عدد كلمات" not in rig1.calls[0]["prompt"], (why1, len(rig1.calls)))
+    check("(g91) المسودة: ثلاثة عناوين، بطاقة important لـverified، والحقول article_kind/point_ids/main_story/gap_sources",
+          d1 and len(d1["headlines"]) == 3 and cards.card_origin(d1) == "important" and d1["origin"] == "important"
+          and d1["article_kind"] == "verified" and d1["point_ids"] == items[0]["point_ids"]
+          and d1["main_story"] == result["main_story"] and d1["gap_sources"] == gap_src
+          and d1["point_id"] == items[0]["id"], d1 and {k: d1.get(k) for k in ("article_kind", "point_ids")})
+    check("(g91) تعليمات الكاتب: 300 إلى 450 كلمة والخبر الرئيسي ومقتطفا BBC وState Department في المدخل",
+          "300 إلى 450 كلمة" in rig1.calls[0]["prompt"] and result["main_story"] in rig1.calls[0]["prompt"]
+          and "بي بي سي: تفصيل مؤكد" in rig1.calls[0]["prompt"]
+          and "الخارجية: بيان رسمي" in rig1.calls[0]["prompt"], rig1.calls[0]["prompt"][:300])
+    (d2, why2, _t), rig2 = run_write(items[0], [_b2_body(330, extra="وتعدّ BBC هذه الخطوة تصعيدًا خطيرًا.")])
+    check("(g91) «وتعدّ BBC…» ← رفض في المحاولتين وفشل كتابة بسبب حكم الوسيلة",
+          d2 is None and len(rig2.calls) == 2 and "حكم منسوب إلى وسيلة" in why2, (why2, len(rig2.calls)))
+    (d3, why3, _t), _r = run_write(items[0], [_b2_body(330, extra="وقال «عبارة مختلقة لا وجود لها في أي مقتطف».")])
+    check("(g91) اقتباس « » ليس في أي مقتطف ← رفض بسببه",
+          d3 is None and why3.startswith("اقتباس بين « »"), why3)
+    (d4, why4, _t), _r = run_write(items[0], [_b2_body(330, extra="وقالت «بيان رسمي عن الخبر الرئيسي» أيضًا.")])
+    check("(g91) اقتباس موجود حرفيًا في مقتطف ← يمرّ", d4 is not None, why4)
+    (d5, why5, _t), _r = run_write(items[2], [_b2_body(330)])
+    check("(g91) منشور refuted ← بطاقة important_false («تفنيد»)",
+          d5 and cards.card_origin(d5) == "important_false" and d5["article_kind"] == "refuted"
+          and d5["badge"] == "تفنيد", d5 and cards.card_origin(d5))
+    (d6, why6, _t), _r = run_write(items[1], [_b2_body(330)])
+    check("(g91) منشور nearest ← بطاقة important", d6 and cards.card_origin(d6) == "important", why6)
+    check("(g91) العنوان سؤال ← رفض",
+          important_write.check_article({"post_title": "هل تغيّر الخبر؟", "post_body": _b2_body(330)}, [], cfg)
+          == important_write.REASON_TITLE_QUESTION
+          and important_write.check_article({"post_title": "ماذا جرى", "post_body": _b2_body(330)}, [], cfg)
+          == important_write.REASON_TITLE_QUESTION)
+
+    # ── g92 + g93) التوزيع: الترتيب وsibling_texts، وبطاقتا important وimportant_false، وgo1 وإعادة الاستعمال ──
+    result93 = important_b2_result(88200)
+    items93 = {i["kind"]: i for i in result93["article_items"]}
+    sel = 88300
+    for i in result93["article_items"]:
+        i["selection_issue"] = sel
+    important.save(result93)
+    body93 = important_items_marked_body(result93, {items93["refuted"]["id"]: "go2",
+                                                    items93["verified"]["id"]: "go2",
+                                                    items93["nearest"]["id"]: "go2"}, cfg)
+    writes_seen: list = []
+
+    def respond93(prompt, system):
+        writes_seen.append(1)
+        n = len(writes_seen)
+        return {**good, "post_title": f"عنوان منشور رقم {n}", "post_body": _b2_body(330, tag=f"م{n}x")}
+
+    with ImportantWriteRig(respond93, gap_sources=gap_src) as rig:
+        # أرقام قضايا مزيَّفة فريدة: finalize يبحث عن ملف الحكم برقم قضية الترشيح عبر كل state/important، فتصادم
+        # العدّاد الافتراضي (7000) مع ملف اختبار آخر يخلط الملفين
+        rig.next = 88700
+        code = important_finalize.finalize(sel, body93, cfg)
+        saved = important.load_saved(88200)
+        saved_items = {i["kind"]: i for i in saved["article_items"]}
+        drafts = {k: store.load_draft(saved_items[k]["draft_id"])[1] for k in kind_order}
+        writer_calls = [c for c in rig.calls if "أنت محرر يكتب مقالًا" in (c["system"] or "")]
+        check("(g92) الكتابة بترتيب verified ثم nearest ثم refuted ولو عُلِّمت بعكسه",
+              code == 0 and rig.gap_calls == [(k, items93[k]["point_ids"]) for k in kind_order], rig.gap_calls)
+        check("(g92) كتابة الثاني: مدخل الكاتب يحوي نص الأول (sibling_texts) ولا يحويه مدخل الأول؛ والثالث يحوي الاثنين",
+              drafts["verified"]["arabic"]["post_title"] in writer_calls[1]["prompt"]
+              and "الفقرةم1x0" in writer_calls[1]["prompt"]
+              and drafts["verified"]["arabic"]["post_title"] not in writer_calls[0]["prompt"]
+              and all(drafts[k]["arabic"]["post_title"] in writer_calls[2]["prompt"] for k in ("verified", "nearest")),
+              [c["prompt"][-300:] for c in writer_calls[:2]])
+        check("(g93) المسودات: بطاقتا important وimportant_false وحالة العناصر written",
+              cards.card_origin(drafts["verified"]) == "important"
+              and cards.card_origin(drafts["nearest"]) == "important"
+              and cards.card_origin(drafts["refuted"]) == "important_false"
+              and all(i["status"] == "written" for i in saved_items.values()), None)
+        hit = important_finalize.find_point(items93["verified"]["id"], sel)
+        check("(g93) صورة المرحلة 1 لعنصر منشور: find_point يجد العنصر بمعرّفه (setimage يحفظ manual_image عليه)",
+              hit is not None and hit[1]["kind"] == "verified", hit and hit[1])
+        stage2 = [c for c in rig.created if c["labels"] == ["pending-review"]]
+        check("(g93) قضية المرحلة 2 للمسودات الثلاث وفيها مربع go1",
+              len(stage2) == 1 and all(f"<!-- draft:{d['id']} -->" in stage2[0]["body"] for d in drafts.values())
+              and f"go:go1:{drafts['verified']['id']}" in stage2[0]["body"], stage2[:1])
+        # go1 على مسودة verified
+        stage2_body = tick_marker(stage2[0]["body"], f"go:go1:{drafts['verified']['id']}")
+        writes = len(rig.calls)
+        real_fetch, old_argv = publish.fetch_issue, sys.argv
+        publish.fetch_issue = lambda n: {"number": n, "body": stage2_body,
+                                         "labels": [{"name": "pending-review"}, {"name": "approved"}]}
+        sys.argv = ["publish", "--issue", "88401", "--skip-urgent"]
+        try:
+            publish.main()
+        finally:
+            publish.fetch_issue, sys.argv = real_fetch, old_argv
+        reopened = [c for c in rig.created if c["labels"] == ["important-selection"]]
+        returned = store.load_draft(drafts["verified"]["id"])[1]
+        item_after = {i["kind"]: i for i in important.load_saved(88200)["article_items"]}["verified"]
+        new_sel = reopened[0]["number"] if reopened else 0
+        check("(g93) go1 على verified ← قضية ترشيح جديدة بالعنصر نفسه (معرّفه) وشارة «أعدته من المرحلة 2»",
+              len(reopened) == 1 and f"go:go2:{items93['verified']['id']}" in reopened[0]["body"]
+              and "↩️ أعدته من المرحلة 2 · " in reopened[0]["body"]
+              and f"go:go2:{items93['nearest']['id']}" not in reopened[0]["body"]
+              and returned["status"] == "returned" and item_after["status"] == "offered"
+              and item_after["selection_issue"] == new_sel, (reopened[:1], item_after))
+        created_before = len(rig.created)
+        code_r = important_finalize.finalize(
+            new_sel, tick_marker(reopened[0]["body"], f"go:go2:{items93['verified']['id']}"), cfg)
+        back = store.load_draft(drafts["verified"]["id"])[1]
+        check("(g93) إعادة اختيار العنصر تعيد المسودة نفسها بلا نداء نموذج وقضية مرحلة 2 جديدة",
+              code_r == 0 and len(rig.calls) == writes and back["status"] == "pending"
+              and back["arabic"] == drafts["verified"]["arabic"]
+              and len(rig.created) == created_before + 1 and rig.created[-1]["labels"] == ["pending-review"],
+              (code_r, len(rig.calls), writes))
+    # اختيار verified وrefuted فقط ← مسودتان ببطاقتين، والثاني غير المعلَّم «لم يُختر»
+    result_b = important_b2_result(88210)
+    items_b = {i["kind"]: i for i in result_b["article_items"]}
+    for i in result_b["article_items"]:
+        i["selection_issue"] = sel + 1
+    important.save(result_b)
+    body_b = important_items_marked_body(result_b, {items_b["verified"]["id"]: "go2",
+                                                    items_b["refuted"]["id"]: "go3"}, cfg)
+    with ImportantWriteRig(lambda p, s: {**good, "post_body": _b2_body(330, tag="ب")}, gap_sources=gap_src) as rig:
+        rig.next = 88800
+        important_finalize.finalize(sel + 1, body_b, cfg)
+        saved_b = {i["kind"]: i for i in important.load_saved(88210)["article_items"]}
+        d_v = store.load_draft(saved_b["verified"]["draft_id"])[1]
+        d_r = store.load_draft(saved_b["refuted"]["draft_id"])[1]
+        check("(g93) اختيار verified وrefuted ← مسودتان ببطاقتي important وimportant_false، وnearest «لم يُختر»",
+              saved_b["nearest"]["status"] == "unselected" and "draft_id" not in saved_b["nearest"]
+              and cards.card_origin(d_v) == "important" and cards.card_origin(d_r) == "important_false"
+              and [k for k, _ in rig.gap_calls] == ["verified", "refuted"], rig.gap_calls)
+
+    # ── g94) قضية قديمة بعلامات نقاط (fixture 1278.json) ← تُعرض وتُكتب بالمسار القديم ──
+    fx = json.loads((IMPORTANT_FIXTURES / "1278.json").read_text(encoding="utf-8"))
+    old_body = important_issue.build_selection_body(fx, cfg)
+    check("(g94) fixture 1278 قديم بلا articles ← قضيته بعلامات النقاط لا العناصر",
+          "articles" not in fx and all(f"go:go2:{p['id']}" in old_body
+                                       for p in fx["points"] if p.get("status") != "dropped"), list(fx))
+    old = json.loads(json.dumps(fx))
+    old["issue"] = 88500
+    # نقطة 24246e القديمة بلا nearest.kind فلا تصلح للكتابة الآن؛ تُضاف إلى ملف 1278 نقطة مؤكَّدة صالحة للكتابة
+    chosen_pt = important_fixture_point(1209, "confirmed")
+    old["points"].append(chosen_pt)
+    for p in old["points"]:
+        p["selection_issue"] = 88600
+    important.save(old)
+    body_old = important_marked_body(old, {chosen_pt["id"]: "go2"}, cfg)
+    with ImportantWriteRig(lambda p, s: important_good_data(chosen_pt)) as rig:
+        rig.next = 88900
+        important_finalize.finalize(88600, body_old, cfg)
+        saved_old = {p["id"]: p for p in important.load_saved(88500)["points"]}
+        d_old = store.load_draft(saved_old[chosen_pt["id"]]["draft_id"])[1]
+        check("(g94) القضية القديمة تُكتب بالمسار القديم: نقطة ← مسودة بمعرّفها بلا article_kind وبنداء كاتب واحد",
+              d_old["point_id"] == chosen_pt["id"] and "article_kind" not in d_old
+              and saved_old[chosen_pt["id"]]["status"] == "written" and len(rig.calls) == 1, d_old.get("point_id"))
