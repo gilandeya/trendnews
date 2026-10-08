@@ -19,13 +19,14 @@ GAP_SCHEMA = {
     "description": "أسئلة القارئ التي لم تجب عنها الأدلة المعطاة، بعبارتي بحث",
     "input_schema": {
         "type": "object",
-        "properties": {"questions": {"type": "array", "items": {
+        "properties": {"main_story_en": {"type": "string"},
+                       "questions": {"type": "array", "items": {
             "type": "object",
             "properties": {"question": {"type": "string"},
                            "query_ar": {"type": "string"},
                            "query_en": {"type": "string"}},
             "required": ["question", "query_ar"]}}},
-        "required": ["questions"],
+        "required": ["questions", "main_story_en"],
     },
 }
 
@@ -45,7 +46,7 @@ def _member_block(member: dict, rows: list[dict]) -> str:
 
 
 def gap_questions(result: dict, item: dict, members: list[dict], cfg) -> list[dict]:
-    """[{question, query_ar, query_en}] حتى max_questions، وعبارة كل لغة ≤ query_max_words كلمات
+    """[{question, query_ar, query_en}]: سؤال الخبر الرئيسي الثابت أولًا ثم حتى max_questions من النموذج، وعبارة كل لغة ≤ query_max_words كلمات
     (الحد يُفرض هنا لا بالثقة بطاعة النموذج: كل عبارة طلب Brave محتمل). فشل النداء ← []."""
     from . import important_write
     g = _gcfg(cfg)
@@ -57,6 +58,10 @@ def gap_questions(result: dict, item: dict, members: list[dict], cfg) -> list[di
     content = (f"الخبر الرئيسي: {result.get('main_story', '')}\nنوع المنشور: {item.get('kind', '')}\n"
                "النقاط الأعضاء:\n" + "\n".join(
                    _member_block(m, important_write.ordered_sources(m, cfg)) for m in members))
+    main = " ".join(str(result.get("main_story") or "").split())
+    # الخبر نفسه أول الأسئلة دائمًا ومن الكود (#1304): لا يترك ما نُشر عنه حديثًا لاجتهاد النموذج
+    fixed = ([{"question": g.get("main_question", "ما آخر ما نُشر عن: {main_story}؟").format(main_story=main),
+               "query_ar": _cut(main, words), "query_en": ""}] if main else [])
     data, err = article._ask_model_with_retry(
         article._client(), g.get("model", "claude-haiku-4-5-20251001"),
         tools=[GAP_SCHEMA], tool_choice={"type": "tool", "name": "report_gap_questions"},
@@ -66,7 +71,9 @@ def gap_questions(result: dict, item: dict, members: list[dict], cfg) -> list[di
         truncation_message="أسئلة البحث المكمِّل مقطوعة — important.gap.max_tokens غير كافٍ")
     if not data or not isinstance(data.get("questions"), list):
         log.warning("تعذّرت أسئلة البحث المكمِّل: %s", err)
-        return []
+        return fixed
+    if fixed:
+        fixed[0]["query_en"] = _cut(data.get("main_story_en"), words)
     out: list[dict] = []
     for q in data["questions"]:
         if not isinstance(q, dict):
@@ -75,7 +82,7 @@ def gap_questions(result: dict, item: dict, members: list[dict], cfg) -> list[di
         ar, en = _cut(q.get("query_ar"), words), _cut(q.get("query_en"), words)
         if question and (ar or en):
             out.append({"question": question, "query_ar": ar, "query_en": en})
-    return out[:n_max]
+    return fixed + out[:n_max]
 
 
 def search_gap(questions: list[dict], cfg) -> list[dict]:

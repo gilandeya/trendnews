@@ -559,6 +559,11 @@ REASON_QUOTE = ("اقتباس بين « » ليس في أي مقتطف معطى:
                 "أو اكتبه كلامًا غير مباشر بلا علامتي تنصيص")
 REASON_QUOTE_CONVERTED = "اقتباس لم يطابق مصدره حرفيًا فحُوِّل إلى كلام غير مباشر: «{quote}» — راجعه"
 REASON_TITLE_QUESTION = "العنوان سؤال لا جملة خبرية"
+# منشور الخبر الرئيسي لا يسقط بحارس شكلي (#1304): السبب الباقي بعد الإصلاح الآلي يُحفظ تنبيهًا بهذا القالب
+WARN_FAILED_CHECK = "⚠️ لم يجتز الفحص: {reason} — راجعه قبل النشر"
+WARN_FAILED_CHECK_PREFIX = "⚠️ لم يجتز الفحص"
+WARN_RELATIVE_TIME = "زمن نسبي في المتن: «{phrase}» — تحقّق من التاريخ"
+WARN_NON_ARABIC_PUBLISHER = "اسم مصدر بغير العربية: {name}"
 # نوع المنشور ← الحكم الذي تُبنى عليه شارة البطاقة (cards.card_origin): التفنيد بشارته، وغيره «هام»
 ARTICLE_VERDICT = {"verified": "confirmed", "nearest": "not_found", "refuted": "false"}
 _QUOTE_RE = re.compile(r"«([^»]*)»")
@@ -578,6 +583,9 @@ def article_grounded(members: list[dict], gap: list[dict], cfg) -> list[dict]:
     for g in gap:
         facts.append({"text": g["excerpt"], "sources": [
             {"name": g["publisher"], "link": g["link"], "text": g["excerpt"]}]})
+    # الكاتب يرى اسم الناشر بالعربية فينقله إلى المتن كما هو (#1304)؛ المسار القديم (write_point) لا يتغير
+    for f in facts:
+        f["sources"] = [{**src, "name": publisher_ar(src.get("name", ""), cfg)} for src in f["sources"]]
     return facts
 
 
@@ -638,32 +646,91 @@ def unquote_mismatches(written: dict, sources: list[str], allowed: list[str] | N
     return out, list(dict.fromkeys(converted))
 
 
-def check_article(written: dict, given: list[str], cfg, allowed: list[str] | None = None) -> str | None:
-    """سبب رفض منشور الخبر الرئيسي أو None: عدد الكلمات خارج [lo×0.85، hi×1.2]، عبارة المحرر/الرأي المحظورة
-    في «هام»، فعل حكم منسوب إلى وسيلة، اقتباس ليس في أي مقتطف معطى (`given` مقتطفات المصادر وحدها،
-    و`allowed` ادّعاءات refuted)، أو عنوان سؤال."""
+def article_reasons(written: dict, given: list[str], cfg, allowed: list[str] | None = None) -> list[str]:
+    """كل أسباب رفض منشور الخبر الرئيسي بترتيب الفحص: عدد الكلمات خارج [lo×0.85، hi×1.2]، عبارة المحرر/الرأي
+    المحظورة في «هام»، فعل حكم منسوب إلى وسيلة، اقتباس ليس في أي مقتطف معطى (`given` مقتطفات المصادر
+    وحدها، و`allowed` ادّعاءات refuted)، عنوان سؤال. تعيد القائمة كلها لا أولها كي يصير كل سبب باقٍ
+    تنبيهًا مستقلًا بعد الإصلاح الآلي (#1304)."""
     icfg = _icfg(cfg)
     lo, hi = icfg.get("article_words", [300, 450])
     t_lo, t_hi = icfg.get("article_words_tolerance", [0.85, 1.2])
     floor, ceil = int(lo * t_lo), int(hi * t_hi)
     title, body = written.get("post_title", ""), written.get("post_body", "")
+    out: list[str] = []
     n = word_count(body)
     if n < floor or n > ceil:
-        return REASON_WORDS.format(n=n, lo=floor, hi=ceil)
+        out.append(REASON_WORDS.format(n=n, lo=floor, hi=ceil))
     acfg = cfg.get("article", {}) or {}
     for phrase in (acfg.get("editor_tag_phrase", "بحسب معلومات المحرر"),
                    acfg.get("opinion_attribution_phrase", "وترى الصفحة أن")):
         if _has_phrase(f"{title} {body}", phrase):
-            return REASON_EDITOR_TAG
-    violations = outlet_judgment_violations(f"{title}\n{body}", cfg)
-    if violations:
-        return violations[0]
+            out.append(REASON_EDITOR_TAG)
+            break
+    out += outlet_judgment_violations(f"{title}\n{body}", cfg)
     bad = quote_violations(f"{title}\n{body}", given, allowed)
     if bad:
-        return REASON_QUOTE.format(quote=bad[0])
+        out.append(REASON_QUOTE.format(quote=bad[0]))
     if title.rstrip().endswith(("؟", "?")) or _is_question(title, cfg):
-        return REASON_TITLE_QUESTION
-    return None
+        out.append(REASON_TITLE_QUESTION)
+    return out
+
+
+def check_article(written: dict, given: list[str], cfg, allowed: list[str] | None = None) -> str | None:
+    """أول سبب رفض (article_reasons) أو None — يقرؤه حلقة المحاولات: السبب الأول يكفي لتوجيه الكاتب."""
+    reasons = article_reasons(written, given, cfg, allowed)
+    return reasons[0] if reasons else None
+
+
+# ───────────── أسماء المصادر بالعربية والزمن النسبي (Issue #1304) ─────────────
+
+
+def _publisher_map(cfg) -> dict[str, str]:
+    """الاسم اللاتيني ← العربي: name_ar من sources/channels أولًا ثم important.publisher_ar (الأولى تغلب)."""
+    out = {str(k): str(v) for k, v in (_icfg(cfg).get("publisher_ar") or {}).items() if k and v}
+    for entry in list(cfg.get("sources", []) or []) + list(cfg.get("channels", []) or []):
+        if isinstance(entry, dict) and entry.get("name") and entry.get("name_ar"):
+            out[str(entry["name"])] = str(entry["name_ar"])
+    return out
+
+
+def publisher_ar(name: str, cfg) -> str:
+    """اسم الناشر بالعربية للكاتب والمتن؛ بلا مقابل يعاد الاسم كما هو (فيُنبَّه عليه إن لاتينيًا)."""
+    return _publisher_map(cfg).get(name) or next(
+        (v for k, v in _publisher_map(cfg).items() if k.casefold() == (name or "").casefold()), name)
+
+
+_LATIN_RE = re.compile(r"[A-Za-z]")
+_ARABIC_RE = re.compile(r"[\u0600-\u06FF]")
+
+
+def arabize_publishers(written: dict, names: list[str], cfg) -> tuple[dict, list[str]]:
+    """يستبدل في post_title وpost_body وimage_headline كل اسم لاتيني له مقابل عربي (الأطول أولًا كي لا يُقصّ
+    «U.S. Department of State (.gov)» إلى «… (.gov)»). يعيد (النسخة، تنبيهات اسم لاتيني بلا مقابل ورد في
+    المتن من `names` ناشري المنشور)."""
+    mapping = _publisher_map(cfg)
+    out = dict(written)
+    for key in ("post_title", "post_body", "image_headline"):
+        text = out.get(key) or ""
+        for latin in sorted(mapping, key=len, reverse=True):
+            if _LATIN_RE.search(latin):
+                text = re.sub(rf"(?<![\w]){re.escape(latin)}(?![\w])", mapping[latin], text,
+                              flags=re.IGNORECASE)
+        out[key] = text
+    shown = f"{out.get('post_title', '')}\n{out.get('post_body', '')}".casefold()
+    warns = []
+    for n in dict.fromkeys(names):
+        if n and _LATIN_RE.search(n) and not _ARABIC_RE.search(n) and publisher_ar(n, cfg) == n \
+                and n.casefold() in shown:
+            warns.append(WARN_NON_ARABIC_PUBLISHER.format(name=n))
+    return out, warns
+
+
+def relative_time_warnings(written: dict, cfg) -> list[str]:
+    """تنبيه لكل عبارة زمن نسبي (important.relative_time_words) وردت في العنوان أو المتن: «الشهر الماضي»
+    المنقولة من مصدر تُقرأ بتاريخ النشر لا بتاريخ المراجع."""
+    text = f"{written.get('post_title', '')} {written.get('post_body', '')}"
+    return [WARN_RELATIVE_TIME.format(phrase=w) for w in _icfg(cfg).get("relative_time_words") or []
+            if _contains(text, w)]
 
 
 def _article_cfg(cfg):
@@ -672,6 +739,36 @@ def _article_cfg(cfg):
     out = copy.copy(cfg)
     out["article"] = {**(cfg.get("article", {}) or {}), "post_length": f"{lo} إلى {hi} كلمة"}
     return out
+
+
+def _salvage(last: dict, sources_text: list[str], allowed: list[str], originality, cfg
+             ) -> tuple[dict, list[str], list[str]]:
+    """بعد آخر محاولة مرفوضة: إصلاح آلي على آخر نص ثم إعادة الفحص عليه (#1304). العنوان السؤال يُستبدل بأول
+    عنوان خبري من headlines_for_post (وإلا يبقى مع تنبيه)، والاقتباس غير المطابق يُنزع تنصيصه (#1298)،
+    وكل سبب باقٍ (طول، نسبة حكم، أصالة…) تنبيه «لم يجتز الفحص» لا فشل. يعيد (النص، الاقتباسات المحوَّلة،
+    التنبيهات)."""
+    fixed = dict(last)
+    if _is_question_title(fixed.get("post_title", ""), cfg):
+        heads, err = headlines_mod.headlines_for_post(
+            fixed["post_title"], fixed.get("post_body", ""), cfg, first_question=False,
+            system=_icfg(cfg).get("headline_system") or None)
+        first = next((h for h in heads or [] if h and not _is_question_title(h, cfg)), None) if not err else None
+        if first:
+            fixed["post_title"] = first
+            if _is_question_title(fixed.get("image_headline", ""), cfg):
+                fixed["image_headline"] = first
+    fixed, converted = unquote_mismatches(fixed, sources_text, allowed)
+    reasons = article_reasons(fixed, sources_text, cfg, allowed)
+    why = originality(fixed)
+    if why:
+        reasons.append(why)
+    warns = [WARN_FAILED_CHECK.format(reason=r) for r in reasons]
+    log.warning("منشور حُفظ بتنبيهات فحص بدل الفشل: %s", " | ".join(reasons) or "—")
+    return fixed, converted, warns
+
+
+def _is_question_title(title: str, cfg) -> bool:
+    return title.rstrip().endswith(("؟", "?")) or _is_question(title, cfg)
 
 
 def write_article(result: dict, item: dict, cfg, sibling_texts: list[str] | None = None,
@@ -699,6 +796,8 @@ def write_article(result: dict, item: dict, cfg, sibling_texts: list[str] | None
     question = result.get("main_story", "")
     attempts = max(1, int(_icfg(cfg).get("article_write_attempts", 3)))
     acfg = cfg.get("article", {}) or {}
+    # مقال من 300–450 كلمة يستند إلى بيان رسمي منسوب يتشارك معه تتابعًا أطول من عتبة المنشور القصير (#1304)
+    shared_run = int(_icfg(cfg).get("article_max_shared_run_words", acfg.get("max_shared_run_words", 7)))
     wi = _icfg(cfg).get("writer_instructions", {}) or {}
     name_note = names_audit.names_note(texts, cfg)
     base_note = (article_instructions(result, item, members, sibling_texts, cfg)
@@ -713,7 +812,7 @@ def write_article(result: dict, item: dict, cfg, sibling_texts: list[str] | None
 
     def originality(w: dict) -> str:
         ok, why, _notes = verify_draft.check_originality(
-            w["post_body"], "", docs, int(acfg.get("max_shared_run_words", 7)),
+            w["post_body"], "", docs, shared_run,
             allowed_quotes=all_allowed if kind == "refuted" else [], exempt_texts=exempt)
         return "" if ok else f"{REASON_ORIGINALITY}: {why}"
 
@@ -732,27 +831,21 @@ def write_article(result: dict, item: dict, cfg, sibling_texts: list[str] | None
             break
         log.warning("منشور %s رُفض بعد الكتابة (محاولة %d/%d): %s", kind, attempt + 1, attempts, reason)
         note = base_note + "\n" + wi.get("retry_note", "{reason}").format(reason=reason) + "\n"
-    if written is None and last is not None and reason.startswith(REASON_QUOTE.split("{")[0]):
-        # بقي الاقتباس سببًا وحيدًا؟ يُنزع تنصيصه ويُعاد الفحص كله على النص الناتج: نجاحه يعني أنه لم يكن
-        # هناك سبب آخر مقنَّع به (طول/نسبة حكم/عنوان/أصالة)، وإلا فالسبب الجديد هو سبب الفشل
-        fixed, converted = unquote_mismatches(last, sources_text, allowed)
-        again = check_article(fixed, sources_text, cfg, allowed) or originality(fixed)
-        if again:
-            reason = again
-        elif converted:
-            written, reason = fixed, ""
-    if written is None:
-        if last is not None:
-            item["last_attempt"] = {"post_title": last.get("post_title", ""),
-                                    "post_body": last.get("post_body", ""), "reason": reason}
-        return None, reason, False
+    check_warns: list[str] = []
+    if written is None and last is not None:
+        # لا يسقط منشور إلا بلا وقائع أو بعطل تقني (#1304): إصلاح آلي للعنوان والاقتباس، وما بقي تنبيه للمراجع
+        written, converted, check_warns = _salvage(last, sources_text, allowed, originality, cfg)
+        reason = ""
     item.pop("last_attempt", None)
 
+    publishers = [s_.get("name", "") for f in grounded for s_ in f["sources"]]
+    written, latin_warns = arabize_publishers(written, publishers + [g["publisher"] for g in gap], cfg)
     draft = build_article_draft(result, item, members, gap, written, cfg, selection_issue)
-    known = " ".join(texts + [g["publisher"] for g in gap])
+    known = " ".join(texts + [g["publisher"] for g in gap] + publishers)
     warns = [w for p in members for w in p.get("warnings") or []]
     warns += unsourced_in(known, written, grounded, question, cfg)
     warns += [REASON_QUOTE_CONVERTED.format(quote=q) for q in converted]
+    warns += check_warns + latin_warns + relative_time_warnings(written, cfg)
     if warns:
         draft["warnings"] = list(dict.fromkeys(warns))   # للمراجعة فقط: لا تدخل caption ولا تمنع النشر
     names_audit.run(draft, texts, cfg)

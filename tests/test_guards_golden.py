@@ -2644,8 +2644,11 @@ def test_important_1293_guards() -> None:
           and "بي بي سي: تفصيل مؤكد" in rig1.calls[0]["prompt"]
           and "الخارجية: بيان رسمي" in rig1.calls[0]["prompt"], rig1.calls[0]["prompt"][:300])
     (d2, why2, _t), rig2 = run_write(items[0], [_b2_body(330, extra="وتعدّ BBC هذه الخطوة تصعيدًا خطيرًا.")])
-    check("(g91) «وتعدّ BBC…» ← رفض في المحاولات الثلاث (important.article_write_attempts) وفشل كتابة بسبب حكم الوسيلة",
-          d2 is None and len(rig2.calls) == 3 and "حكم منسوب إلى وسيلة" in why2, (why2, len(rig2.calls)))
+    # #1304: نسبة الحكم إلى وسيلة لم تعد سبب فشل — بعد المحاولات الثلاث تُحفظ المسودة بتنبيه «لم يجتز الفحص»
+    check("(g91) «وتعدّ BBC…» ← ثلاث محاولات ثم مسودة محفوظة بتنبيه «لم يجتز الفحص» بسبب حكم الوسيلة (#1304)",
+          d2 is not None and len(rig2.calls) == 3
+          and any(w.startswith("⚠️ لم يجتز الفحص: حكم منسوب إلى وسيلة") for w in d2.get("warnings", [])),
+          (why2, len(rig2.calls), d2 and d2.get("warnings")))
     (d3, why3, _t), _r = run_write(items[0], [_b2_body(330, extra="وقال «عبارة مختلقة لا وجود لها في أي مقتطف».")])
     check("(g91) اقتباس « » ليس في أي مقتطف ← يُحوَّل بعد المحاولات الثلاث إلى كلام غير مباشر بتنبيه (#1298) لا يُسقِط المنشور",
           d3 is not None and "«" not in d3["arabic"]["post_body"]
@@ -2784,6 +2787,190 @@ def test_important_1293_guards() -> None:
               and saved_old[chosen_pt["id"]]["status"] == "written" and len(rig.calls) == 1, d_old.get("point_id"))
 
 
+def test_important_1304_guards() -> None:
+    """Issue #1304 (B4): g100–g106 — لا يسقط منشور إلا بلا وقائع أو بعطل تقني: إصلاح العنوان السؤال آليًا،
+    عتبة نسخ 12 للمنشورات الطويلة (شاهد 1300.json)، أسماء المصادر بالعربية، الخبر نفسه أول أسئلة البحث
+    المكمِّل، تحويل publish/go3 إلى go2 لمنشور فيه تنبيه فحص، تنبيه الزمن النسبي، وبلا مقتطف فشل."""
+    import copy
+    import json
+
+    from src import headlines as headlines_mod, important, important_finalize, important_gap, important_write
+    from tests.helpers import (IMPORTANT_FIXTURES, ImportantRig, ImportantWriteRig, important_b2_result,
+                               important_items_marked_body)
+
+    cfg = load_config()
+    result = important_b2_result(90400)
+    gap = [{"publisher": "State Department", "link": "https://www.state.gov/briefing",
+            "excerpt": "الخارجية: بيان رسمي عن الخبر الرئيسي.", "question": "س؟"}]
+    good = {"category": "عالم", "hashtags": ["هام"], "image_query_en": "news story",
+            "post_title": "تطوّرات الخبر الرئيسي بين المؤكَّد والمتداول", "image_headline": "تطوّرات الخبر الرئيسي"}
+
+    def run(kind, respond, res=None, gap_sources=gap, issue=90100):
+        src_res = res or result
+        item = {i["kind"]: i for i in src_res["article_items"]}[kind]
+        with ImportantWriteRig(respond, gap_sources=gap_sources) as rig:
+            rig.next = 90600
+            out = important_write.write_article(src_res, item, cfg, [], issue)
+        return out, rig, item
+
+    # ── g100) عنوان سؤالي في المحاولات الثلاث ← عنوان خبري من headlines_for_post، لا فشل ──
+    q_title = "هل تخنق واشنطن حزب الله ماليًا وتدعم إعمار لبنان؟"
+    asked: list = []
+    real_hl = headlines_mod.headlines_for_post
+
+    def fake_hl(post_title, post_body, cfg_, client=None, first_question=True, system=None):
+        asked.append((first_question, system))
+        return ["واشنطن تشدد الخناق المالي على حزب الله", "عنوان بديل ثانٍ", "عنوان بديل ثالث"], None
+    headlines_mod.headlines_for_post = fake_hl
+    try:
+        (d100, why100, tech100), rig100, _it = run(
+            "verified", lambda p, sy: {**good, "post_title": q_title, "image_headline": q_title,
+                                       "post_body": _b2_body(330)})
+        arabic100 = d100["arabic"] if d100 else {}
+        check("(g100) ثلاث محاولات بعنوان سؤالي ← مسودة بعنوان خبري من headlines_for_post لا فشل",
+              d100 is not None and len(rig100.calls) == 3 and not tech100
+              and arabic100["post_title"] == "واشنطن تشدد الخناق المالي على حزب الله"
+              and arabic100["image_headline"] == arabic100["post_title"]
+              and not any(w.startswith("⚠️ لم يجتز الفحص") for w in d100.get("warnings", [])),
+              (why100, arabic100.get("post_title"), d100 and d100.get("warnings")))
+        check("(g100) العناوين طُلبت بلا قاعدة «الأول سؤال» وبنظام important.headline_system",
+              (False, cfg.path("important.headline_system")) in asked, asked)
+        headlines_mod.headlines_for_post = lambda *a, **k: ([q_title, "هل هذا ثانٍ؟", "هل ثالث؟"], None)
+        (d100b, _w, _t), _r, _i = run("verified", lambda p, sy: {**good, "post_title": q_title,
+                                                                 "image_headline": q_title,
+                                                                 "post_body": _b2_body(330)})
+        check("(g100) المولِّد لم يعد عنوانًا خبريًا ← يبقى العنوان السؤال ومعه تنبيه «لم يجتز الفحص: العنوان سؤال»",
+              d100b is not None and d100b["arabic"]["post_title"] == q_title and any(
+                  w == important_write.WARN_FAILED_CHECK.format(reason=important_write.REASON_TITLE_QUESTION)
+                  for w in d100b.get("warnings", [])), d100b and d100b.get("warnings"))
+    finally:
+        headlines_mod.headlines_for_post = real_hl
+
+    # ── g101) last_attempt الحقيقي لمنشور nearest من 1300.json ← يجتاز الأصالة بالعتبة 12 ──
+    real = json.loads((IMPORTANT_FIXTURES / "1300.json").read_text(encoding="utf-8"))
+    near = next(i for i in real["article_items"] if i["kind"] == "nearest")
+    copied = near["last_attempt"]["post_body"]
+    real_gap = copy.deepcopy(near["gap_sources"])
+    (d101, why101, _t), _r, _i = run(
+        "nearest", lambda p, sy: {**good, "post_title": near["last_attempt"]["post_title"],
+                                  "image_headline": near["last_attempt"]["post_title"],
+                                  "post_body": copied}, res=copy.deepcopy(real), gap_sources=real_gap, issue=1300)
+    shared = [w for w in (d101 or {}).get("warnings", []) if "نسخ لفظي" in w]
+    check("(g101) نص 1300.json الحقيقي ← مسودة لا فشل، والتتابع الذي أسقطه (7 كلمات «شبكة مالية عالمية تقدم الدعم…») "
+          "لم يعد يُبلَّغ عنه؛ يبقى تنبيه واحد لتتابع حقيقي من 12 كلمة في جملة أخرى من النص نفسه",
+          d101 is not None and len(shared) == 1 and "12 كلمة" in shared[0] and "7 كلمة" not in shared[0],
+          (why101, shared))
+    sentence7 = ("فرضت الولايات المتحدة في 20 آذار/مارس 2026 عقوبات جديدة استهدفت شبكة مالية عالمية "
+                 "تقدم الدعم لحزب الله، بحسب بيان صادر عن النائب الأول للمتحدث الرسمي.")
+    (d101c, why101c, _t), _r, _i = run(
+        "nearest", lambda p, sy: {**good, "post_title": "عنوان خبري عادي لمنشور تجريبي",
+                                  "image_headline": "عنوان خبري عادي", "post_body": _b2_body(330, extra=sentence7)},
+        res=copy.deepcopy(real), gap_sources=copy.deepcopy(real_gap), issue=1300)
+    check("(g101) الجملة المنسوبة صراحة بتتابع 7 كلمات مع مقتطف state.gov ← تجتاز الأصالة بالعتبة 12 بلا تنبيه نسخ",
+          d101c is not None and not any("نسخ لفظي" in w for w in d101c.get("warnings", [])),
+          (why101c, d101c and d101c.get("warnings")))
+    check("(g101) العتبة من important.article_max_shared_run_words (12) لا article.max_shared_run_words (7)",
+          cfg.path("important.article_max_shared_run_words") == 12 and cfg.path("article.max_shared_run_words") == 7)
+    state_gov = next(g for g in real_gap if "state.gov" in g["link"])
+    run15 = " ".join(state_gov["excerpt"].split()[40:55])
+    (d101b, why101b, _t), _r, _i = run(
+        "nearest", lambda p, sy: {**good, "post_title": "عنوان خبري عادي لمنشور تجريبي",
+                                  "image_headline": "عنوان خبري عادي",
+                                  "post_body": _b2_body(330, extra=run15)},
+        res=copy.deepcopy(real), gap_sources=real_gap, issue=1300)
+    check("(g101) ضابطة: نسخ 15 كلمة متتالية ← مسودة محفوظة فيها «لم يجتز الفحص: نسخ لفظي…»",
+          d101b is not None and any(w.startswith("⚠️ لم يجتز الفحص: نسخ لفظي") for w in d101b.get("warnings", [])),
+          (why101b, d101b and d101b.get("warnings"), run15))
+
+    # ── g102) U.S. Department of State في المتن ← عربيه في المسودة، ومدخل الكاتب يحمل العربي ──
+    gap102 = [{"publisher": "U.S. Department of State", "link": "https://www.state.gov/briefing",
+               "excerpt": "الخارجية: بيان رسمي عن الخبر الرئيسي.", "question": "س؟"},
+              {"publisher": "Obscure Wire", "link": "https://www.bbc.com/arabic/z",
+               "excerpt": "مصدر ثانٍ: تفصيل عن الخبر الرئيسي.", "question": "س؟"}]
+    (d102, why102, _t), rig102, _i = run(
+        "verified", lambda p, sy: {**good, "post_body": _b2_body(
+            330, extra="وبحسب U.S. Department of State فالخطوة رسمية، وأفاد Obscure Wire بتفصيل آخر.")},
+        gap_sources=gap102)
+    body102 = d102["arabic"]["post_body"] if d102 else ""
+    check("(g102) «وبحسب U.S. Department of State» ← «وبحسب وزارة الخارجية الأميركية» في المسودة",
+          d102 is not None and "وبحسب وزارة الخارجية الأميركية" in body102
+          and "U.S. Department of State" not in body102, (why102, body102[-160:]))
+    first_prompt = rig102.calls[0]["prompt"]
+    check("(g102) مدخل الكاتب يحمل الاسم العربي لا اللاتيني",
+          "وزارة الخارجية الأميركية" in first_prompt and "U.S. Department of State" not in first_prompt,
+          first_prompt[:300])
+    check("(g102) اسم لاتيني بلا مقابل في المتن ← تنبيه «اسم مصدر بغير العربية»",
+          "اسم مصدر بغير العربية: Obscure Wire" in (d102 or {}).get("warnings", []), (d102 or {}).get("warnings"))
+    check("(g102) publisher_ar: الخريطة، ثم الاسم كما هو",
+          important_write.publisher_ar("BBC", cfg) == "بي بي سي"
+          and important_write.publisher_ar("U.S. Department of State (.gov)", cfg) == "وزارة الخارجية الأميركية"
+          and important_write.publisher_ar("مجهول", cfg) == "مجهول")
+
+    # ── g103) أول سؤال بحث مكمِّل = سؤال الخبر نفسه من الكود، وعبارتاه من main_story ──
+    main103 = "فرض عقوبات أميركية جديدة على شبكة تمويل حزب الله في لبنان وأوروبا"
+    with ImportantRig([], {}, lambda *a: {}, gap=[
+            {"question": "من فرض العقوبات؟", "query_ar": "عقوبات حزب الله", "query_en": "Hezbollah sanctions"}],
+            gap_main_story_en="Hezbollah financing sanctions news update today by US officials this week"):
+        res103 = important_b2_result(90300, main_story=main103)
+        it103 = res103["article_items"][0]
+        qs = important_gap.gap_questions(res103, it103, important_write.item_members(res103, it103), cfg)
+    check("(g103) أول سؤال «ما آخر ما نُشر عن: {main_story}؟» ثم أسئلة النموذج",
+          len(qs) == 2 and qs[0]["question"] == f"ما آخر ما نُشر عن: {main103}؟"
+          and qs[1]["question"] == "من فرض العقوبات؟", qs)
+    check("(g103) عبارتا السؤال الأول من main_story: العربية مقصوصة إلى 8 كلمات والإنجليزية من main_story_en",
+          qs[0]["query_ar"] == " ".join(main103.split()[:8]) and len(qs[0]["query_en"].split()) == 8
+          and qs[0]["query_en"].startswith("Hezbollah financing"), qs[0])
+    check("(g103) GAP_SCHEMA يطلب main_story_en",
+          "main_story_en" in important_gap.GAP_SCHEMA["input_schema"]["properties"]
+          and "main_story_en" in important_gap.GAP_SCHEMA["input_schema"]["required"])
+
+    # ── g104) publish/go3 لمنشور فيه «لم يجتز الفحص» ← go2 + تعليق؛ وبلا تنبيه يبقى كما هو ──
+    def staged(issue, actions, body_words):
+        res = important_b2_result(issue)
+        its = {i["kind"]: i for i in res["article_items"]}
+        for i in res["article_items"]:
+            i["selection_issue"] = issue + 1
+        important.save(res)
+        body = important_items_marked_body(res, {its[k]["id"]: a for k, a in actions.items()}, cfg)
+        with ImportantWriteRig(lambda p, sy: {**good, "post_body": _b2_body(body_words)},
+                               gap_sources=gap) as rig:
+            rig.next = issue + 500
+            code = important_finalize.finalize(issue + 1, body, cfg)
+        return code, rig
+
+    code_w, rig_w = staged(90410, {"verified": "publish", "nearest": "go3"}, 120)
+    moved = [t for _n, t in rig_w.comments if "إلى المراجعة لأن فيه تنبيهات فحص" in t and t.startswith("📝 حُوِّل ")]
+    check("(g104) publish وgo3 لمنشورين فيهما تنبيه فحص ← تعليقان بالتحويل، ولا نشر ولا بطاقة",
+          code_w == 0 and len(moved) == 2 and rig_w.published == [] and rig_w.builds == [],
+          (code_w, rig_w.comments, rig_w.published))
+    check("(g104) فُتحت قضية مرحلة 2 للمنشورين المحوَّلين",
+          any("pending-review" in (c.get("labels") or []) for c in rig_w.created), [c["labels"] for c in rig_w.created])
+    code_ok, rig_ok = staged(90430, {"verified": "publish"}, 330)
+    check("(g104) بلا تنبيه فحص ← publish كما هو: نشر ولا تعليق تحويل",
+          not [t for _n, t in rig_ok.comments if "إلى المراجعة لأن فيه تنبيهات فحص" in t] and rig_ok.published,
+          (rig_ok.comments, rig_ok.published))
+
+    # ── g105) «الشهر الماضي» في المتن ← تنبيه الزمن النسبي؛ وتعليمة النهي في الموجّه ──
+    (d105, why105, _t), rig105, _i = run(
+        "verified", lambda p, sy: {**good, "post_body": _b2_body(330, extra="وكانت رويترز نقلت الشهر الماضي خبرًا مشابهًا.")})
+    check("(g105) «الشهر الماضي» ← «زمن نسبي في المتن: «الشهر الماضي» — تحقّق من التاريخ»",
+          d105 is not None and "زمن نسبي في المتن: «الشهر الماضي» — تحقّق من التاريخ" in d105.get("warnings", []),
+          (why105, d105 and d105.get("warnings")))
+    check("(g105) بلا عبارة زمن نسبي ← لا تنبيه، والموجّه ينهى عن نقلها",
+          not important_write.relative_time_warnings({"post_title": "ت", "post_body": _b2_body(50)}, cfg)
+          and "لا تنقل عبارات الزمن النسبي" in rig105.calls[0]["prompt"], rig105.calls[0]["prompt"][:200])
+
+    # ── g106) بلا أي مقتطف ← فشل بـNO_FACTS_REASON ولا نداء كاتب ──
+    res106 = copy.deepcopy(result)
+    for p in res106["points"]:
+        p["evidence"], p["nearest"], p["refuted_by"], p["correction"] = [], None, [], None
+    (d106, why106, tech106), rig106, _i = run("nearest", lambda p, sy: {**good, "post_body": _b2_body(330)},
+                                              res=res106, gap_sources=[])
+    check("(g106) بلا مقتطف ← NO_FACTS_REASON وبلا نداء كاتب ولا عطل تقني",
+          d106 is None and why106 == important_write.NO_FACTS_REASON and not tech106 and rig106.calls == [],
+          (why106, len(rig106.calls)))
+
+
 def test_important_1298_guards() -> None:
     """Issue #1298 (B3): g95–g99 — فحص اقتباس واحد للمنشورات الثلاثة، وتحويل الاقتباس بدل إسقاط المنشور،
     وحفظ أثر المحاولة الفاشلة (last_attempt وgap_sources)، وnearest لا تعامل نقاطها كمعروفة."""
@@ -2834,14 +3021,14 @@ def test_important_1298_guards() -> None:
           d96 and any(w == important_write.REASON_QUOTE_CONVERTED.format(quote="الفريق المالي لحزب الله")
                       for w in d96.get("warnings", [])), d96 and d96.get("warnings"))
 
-    # ── g97) 120 كلمة في المحاولات الثلاث ← فشل كتابة وأثر على العنصر ──
+    # ── g97) 120 كلمة في المحاولات الثلاث ← مسودة بتنبيه «لم يجتز الفحص» (#1304: الطول لم يعد سبب فشل) ──
     (d97, why97, tech97), _r, it97 = run("verified", [_b2_body(120)])
-    check("(g97) فشل كتابة (لا مسودة ولا عطل تقني) بسبب الطول",
-          d97 is None and not tech97 and "عدد كلمات" in why97, why97)
-    check("(g97) على العنصر last_attempt: النص والسبب (يذكر الطول) وgap_sources محفوظة",
-          it97.get("last_attempt", {}).get("post_body") == _b2_body(120)
-          and "عدد كلمات" in it97["last_attempt"]["reason"] and it97["last_attempt"]["post_title"] == good["post_title"]
-          and it97.get("gap_sources") == gap, it97.get("last_attempt"))
+    check("(g97) 120 كلمة ← مسودة محفوظة لا فشل، وفيها تنبيه الطول بالقالب",
+          d97 is not None and not tech97 and any(
+              w.startswith("⚠️ لم يجتز الفحص: عدد كلمات") and w.endswith("— راجعه قبل النشر")
+              for w in d97.get("warnings", [])), (why97, d97 and d97.get("warnings")))
+    check("(g97) نجاح الكتابة لا يترك last_attempt، وgap_sources محفوظة على العنصر",
+          "last_attempt" not in it97 and it97.get("gap_sources") == gap, it97.get("last_attempt"))
 
     # ── g98) nearest لا تعامل نقاطها معروفة، وverified لا يقتبس نص نقطة عضو ──
     claim = "حزب الله لن يتعافى أبداً"
