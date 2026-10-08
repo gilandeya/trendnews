@@ -1,0 +1,65 @@
+{
+  "id": "0b5b3a9a0cb1",
+  "created_at": "2026-10-08T09:08:31.516608+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.26,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 1,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "عنف متكرر في إيران يمس أمن المنطقة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Police officer killed in armed attack near Zahedan as violence continues in southeast Iran",
+  "link": "https://www.iranintl.com/en/202610082660",
+  "publishers": [
+    "Iran International",
+    "Mehr News"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Police officer killed in armed attack near Zahedan as violence continues in southeast Iran",
+    "link": "https://www.iranintl.com/en/202610082660",
+    "summary": "An Iranian police officer was killed on Thursday when gunmen attacked a patrol near Zahedan in Sistan-Baluchestan, the latest in a series of deadly attacks and clashes involving security forces in southeastern Iran.",
+    "source_name": "Iran International",
+    "region": "ir",
+    "weight": 1.0,
+    "published": "2026-10-08T08:28:24+00:00",
+    "image_url": "https://i.iranintl.com/images/rdk9umy0/production/ed1ea204895db65daf03119b906b713abd22b202-1920x1080.png?rect=0,38,1920,1005&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format",
+    "publisher": "Iran International",
+    "cluster_sources": [
+      "Iran International",
+      "Mehr News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Iran International",
+        "link": "https://www.iranintl.com/en/202610082660"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/248419/Terrorist-killed-as-police-repel-attack-in-SE-Iran"
+      }
+    ],
+    "image_candidates": [
+      "https://i.iranintl.com/images/rdk9umy0/production/ed1ea204895db65daf03119b906b713abd22b202-1920x1080.png?rect=0,38,1920,1005&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format",
+      "https://media.mehrnews.com/d/2025/10/26/4/5742404.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 1552.9181876447221,
+    "is_stale": true,
+    "score": 24.25589462814815,
+    "impact": 1,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "عنف متكرر في إيران يمس أمن المنطقة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

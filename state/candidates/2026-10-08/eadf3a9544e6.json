@@ -1,0 +1,99 @@
+{
+  "id": "eadf3a9544e6",
+  "created_at": "2026-10-08T09:08:31.516186+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 35.52,
+  "trend_score": 1.0,
+  "velocity": 0.44,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "صراع خليجي مباشر يمس أمن المنطقة العربية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Yemen strikes Riyadh airport with ballistic missile",
+  "link": "https://en.mehrnews.com/news/248425/Yemen-strikes-Riyadh-airport-with-ballistic-missile",
+  "publishers": [
+    "BBC World",
+    "Daily Sabah",
+    "Hindustan Times — World",
+    "Mehr News",
+    "South China Morning Post",
+    "TASS",
+    "The Express Tribune",
+    "The Hindu — International",
+    "Vanguard Nigeria"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Yemen strikes Riyadh airport with ballistic missile",
+    "link": "https://en.mehrnews.com/news/248425/Yemen-strikes-Riyadh-airport-with-ballistic-missile",
+    "summary": "TEHRAN, Oct. 08 (MNA) – Yemen's armed forces announced a ballistic missile strike on Riyadh's King Khalid airport, saying it hit its target precisely and disrupted operations.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-10-08T05:54:12+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/09/23/4/6186288.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "BBC World",
+      "Daily Sabah",
+      "Hindustan Times — World",
+      "Mehr News",
+      "South China Morning Post",
+      "TASS",
+      "The Express Tribune",
+      "The Hindu — International",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/saudi-riyadh-airport-attack-yemen-houthis-ballistic-missile-king-khalid-airport-ops-affected-101791430915264.html"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/248425/Yemen-strikes-Riyadh-airport-with-ballistic-missile"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/world/2199053"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3370112/houthi-strikes-saudi-airports-leave-3-dead-dozens-wounded?utm_source=rss_feed"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/yemens-houthis-claim-new-attacks-on-saudi-airports-as-conflict-deepens/article71557047.ece"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cwn8d5rx22rdo?at_medium=RSS&at_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/09/23/4/6186288.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/bb7a/live/b062fdf0-c2b6-11f1-babe-4199b0e7ccea.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/bb7a/live/b062fdf0-c2b6-11f1-babe-4199b0e7ccea.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/bb7a/live/b062fdf0-c2b6-11f1-babe-4199b0e7ccea.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/10/07/464556.jpg",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2025/01/saudi-arabia.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 9,
+    "velocity": 0.44442160664683256,
+    "age_hours": 1552.918173853611,
+    "is_stale": false,
+    "score": 35.51644433267221,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "صراع خليجي مباشر يمس أمن المنطقة العربية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

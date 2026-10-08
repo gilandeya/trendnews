@@ -1,0 +1,76 @@
+{
+  "id": "1833ee26b67a",
+  "created_at": "2026-10-08T09:08:31.517466+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.27,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "عنف شرطي في احتجاجات طلابية أوروبية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "France suspends stun grenade use at student protests after pupil loses hand",
+  "link": "https://www.france24.com/en/france-suspends-stun-grenade-use-at-student-protests-after-pupil-loses-hand",
+  "publishers": [
+    "France24",
+    "South China Morning Post",
+    "The Hindu — International"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "France suspends stun grenade use at student protests after pupil loses hand",
+    "link": "https://www.france24.com/en/france-suspends-stun-grenade-use-at-student-protests-after-pupil-loses-hand",
+    "summary": "France has suspended the use of stun grenades by police at student-led demonstrations, the interior minister said Wednesday, as allegations of police brutality mounted after days of sometimes violent demonstrations across the country. Tens of thousands of people took to the streets across France on Tuesday demanding better conditions in high schools. FRANCE 24's Monte Francis reports.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-10-07T21:19:20+00:00",
+    "image_url": "https://s.france24.com/media/display/05157fc6-c294-11f1-9e7b-c55799ef8309/w:1024/p:16x9/EN-20261007-230627-230756-CS.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24",
+      "South China Morning Post",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3370096/france-halts-use-stun-grenades-policing-student-protests?utm_source=rss_feed"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/france-suspends-use-of-stun-grenades-to-police-student-protests/article71556872.ece"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/france/20261007-france-suspends-the-use-of-stun-grenades-after-student-protester-loses-hand"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/france-suspends-stun-grenade-use-at-student-protests-after-pupil-loses-hand"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/05157fc6-c294-11f1-9e7b-c55799ef8309/w:1024/p:16x9/EN-20261007-230627-230756-CS.jpg",
+      "https://th-i.thgim.com/public/incoming/33wy8x/article71556977.ece/alternates/LANDSCAPE_1200/2026-10-07T125720Z_1095917792_RC2BYNALSYDZ_RTRMADP_3_FRANCE-PROTEST.JPG",
+      "https://s.france24.com/media/display/03476172-c26d-11f1-9f15-ef6152f87623/w:1024/p:16x9/Protest-stun-grenades.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1552.9185853147221,
+    "is_stale": false,
+    "score": 22.267374703941247,
+    "impact": 1,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "عنف شرطي في احتجاجات طلابية أوروبية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

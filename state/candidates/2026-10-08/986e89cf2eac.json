@@ -1,0 +1,65 @@
+{
+  "id": "986e89cf2eac",
+  "created_at": "2026-10-08T09:08:31.516927+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.22,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "باكستان توافق على دعم صندوق النقد الدولي بمليار دولار",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Pakistan, IMF reach staff-level agreement for $1.2bn tranche",
+  "link": "https://www.dawn.com/news/2035602/pakistan-imf-reach-staff-level-agreement-for-12bn-tranche",
+  "publishers": [
+    "Dawn",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Pakistan, IMF reach staff-level agreement for $1.2bn tranche",
+    "link": "https://www.dawn.com/news/2035602/pakistan-imf-reach-staff-level-agreement-for-12bn-tranche",
+    "summary": "ISLAMABAD: The International Monetary Fund (IMF) on Thursday reached a staff-level agreement (SLA) with the Pakistani authorities on the fourth review under the $7 billion Extended Fund Facility (EFF) and the third review under the $1.4bn Resilience and Sustainability Facility (RSF), qualifying Pakistan to draw about $1.2bn from the Fund’s resources within four to five weeks. “The IMF team has reached an SLA with the Pakistani authorities on the fourth review of the 37-month Extended Arrangement under the Extended Fund Facility (EFF) and the third review of the 28-month arrangement under the Resilience and Sustainability Facility (RSF)”, the lending agency announced in an early morning statement . The SLA is subject to approval by the IMF Executive Board. Upon approval, Pakistan will have access to about $1bn (SDR 760 million) under the EFF and about $210 million (SDR 154 million) under the RSF, bringing total disbursements under the two arrangements to about $5.7bn, it said. The two sides also concluded Article IV consultations, the IMF announced from Washington headquarters. “Program implementation under the EFF has remained broadly on track despite a challenging external environ",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-10-08T05:40:17+00:00",
+    "image_url": "https://i.dawn.com/large/2026/10/08071424a3a31cc.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2035602/pakistan-imf-reach-staff-level-agreement-for-12bn-tranche"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2633649/pakistan-imf-reach-staff-level-agreement-on-12-billion-loan"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/10/08071424a3a31cc.webp",
+      "https://i.dawn.com/thumbnail/2026/10/08071424a3a31cc.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 1552.9181901952777,
+    "is_stale": true,
+    "score": 23.21909833151852,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "باكستان توافق على دعم صندوق النقد الدولي بمليار دولار",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

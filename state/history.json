@@ -1,124 +1,5 @@
 [
   {
-    "score": 22.57,
-    "bucket": "serious",
-    "tokens": [
-      "abandon",
-      "airstrikes",
-      "chiefs",
-      "military",
-      "ordered",
-      "putin",
-      "rules",
-      "russia",
-      "ukraine",
-      "war",
-      "zelensky"
-    ],
-    "link": "https://meduza.io/en/news/2026/10/02/zelensky-says-putin-ordered-russia-s-military-chiefs-to-abandon-rules-of-war-in-airstrikes-on-ukraine",
-    "title": "Zelensky says Putin ordered Russia’s military chiefs to abandon rules of war in airstrikes on Ukraine",
-    "posted_title": "زيلينسكي يكشف أن بوتين أمر قادته العسكريين بتجاوز قواعد الحرب في الغارات على أوكرانيا",
-    "region": "ru",
-    "seen_at": "2026-10-03T03:11:50.523264+00:00"
-  },
-  {
-    "score": 42.52,
-    "bucket": "serious",
-    "tokens": [
-      "attacked",
-      "axe",
-      "captain",
-      "flydubai",
-      "official",
-      "pilot",
-      "uae"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c61wv7lgex13o?at_medium=RSS&at_campaign=rss",
-    "title": "Flydubai co-pilot attacked captain with axe, UAE official says",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-10-03T09:08:05.364834+00:00"
-  },
-  {
-    "score": 31.07,
-    "bucket": "serious",
-    "tokens": [
-      "100m",
-      "barrels",
-      "diesel",
-      "emergency",
-      "oil",
-      "release",
-      "reserves"
-    ],
-    "link": "https://www.theguardian.com/business/2026/oct/02/g7-release-barrels-oil-diesel-reserves-emergency",
-    "title": "G7 to release up to 100m barrels of emergency oil and diesel reserves",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-10-03T09:08:05.365104+00:00"
-  },
-  {
-    "score": 23.88,
-    "bucket": "serious",
-    "tokens": [
-      "food",
-      "four",
-      "high",
-      "near",
-      "prices",
-      "say",
-      "september",
-      "world",
-      "year"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-10-02-world-food-prices-near-four-year-high-in-september-un-say/",
-    "title": "World food prices near four-year high in September, UN say",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-10-03T09:08:05.365316+00:00"
-  },
-  {
-    "score": 23.21,
-    "bucket": "serious",
-    "tokens": [
-      "charged",
-      "foiled",
-      "iranians",
-      "jews",
-      "manchester",
-      "plot",
-      "targeting",
-      "two"
-    ],
-    "link": "https://www.iranintl.com/en/202610024632",
-    "title": "Two Iranians charged over foiled plot targeting Manchester Jews",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-10-03T09:08:05.365559+00:00"
-  },
-  {
-    "score": 23.11,
-    "bucket": "serious",
-    "tokens": [
-      "16v",
-      "against",
-      "arrive",
-      "bolster",
-      "china",
-      "defences",
-      "fighter",
-      "first",
-      "jets",
-      "taiwan",
-      "two"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-10-02-taiwans-first-two-f-16v-fighter-jets-arrive-to-bolster-defences-against-china/",
-    "title": "Taiwan’s first two F-16V fighter jets arrive to bolster defences against China",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-10-03T09:08:05.365782+00:00"
-  },
-  {
     "score": 30.05,
     "bucket": "serious",
     "tokens": [
@@ -2050,5 +1931,105 @@
     "posted_title": "",
     "region": "tr",
     "seen_at": "2026-10-08T03:08:28.836810+00:00"
+  },
+  {
+    "score": 35.52,
+    "bucket": "serious",
+    "tokens": [
+      "airport",
+      "ballistic",
+      "missile",
+      "riyadh",
+      "strikes",
+      "yemen"
+    ],
+    "link": "https://en.mehrnews.com/news/248425/Yemen-strikes-Riyadh-airport-with-ballistic-missile",
+    "title": "Yemen strikes Riyadh airport with ballistic missile",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-10-08T09:08:31.516593+00:00"
+  },
+  {
+    "score": 24.26,
+    "bucket": "serious",
+    "tokens": [
+      "armed",
+      "attack",
+      "continues",
+      "iran",
+      "killed",
+      "near",
+      "officer",
+      "police",
+      "southeast",
+      "violence",
+      "zahedan"
+    ],
+    "link": "https://www.iranintl.com/en/202610082660",
+    "title": "Police officer killed in armed attack near Zahedan as violence continues in southeast Iran",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-10-08T09:08:31.516915+00:00"
+  },
+  {
+    "score": 23.22,
+    "bucket": "serious",
+    "tokens": [
+      "2bn",
+      "agreement",
+      "imf",
+      "level",
+      "pakistan",
+      "reach",
+      "staff",
+      "tranche"
+    ],
+    "link": "https://www.dawn.com/news/2035602/pakistan-imf-reach-staff-level-agreement-for-12bn-tranche",
+    "title": "Pakistan, IMF reach staff-level agreement for $1.2bn tranche",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-10-08T09:08:31.517196+00:00"
+  },
+  {
+    "score": 22.84,
+    "bucket": "serious",
+    "tokens": [
+      "blessing",
+      "diy",
+      "due",
+      "face",
+      "farmers",
+      "fertilizer",
+      "iran",
+      "prices",
+      "steep",
+      "war"
+    ],
+    "link": "https://www.npr.org/2026/10/07/g-s1-146541/fertilizer-diy-farmers-iran-war",
+    "title": "DIY fertilizer is a blessing as farmers face steep prices due to the Iran war",
+    "posted_title": "",
+    "region": "us",
+    "seen_at": "2026-10-08T09:08:31.517456+00:00"
+  },
+  {
+    "score": 22.27,
+    "bucket": "serious",
+    "tokens": [
+      "france",
+      "grenade",
+      "hand",
+      "loses",
+      "protests",
+      "pupil",
+      "student",
+      "stun",
+      "suspends",
+      "use"
+    ],
+    "link": "https://www.france24.com/en/france-suspends-stun-grenade-use-at-student-protests-after-pupil-loses-hand",
+    "title": "France suspends stun grenade use at student protests after pupil loses hand",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-10-08T09:08:31.517758+00:00"
   }
 ]

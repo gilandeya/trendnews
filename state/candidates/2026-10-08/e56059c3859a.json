@@ -1,0 +1,60 @@
+{
+  "id": "e56059c3859a",
+  "created_at": "2026-10-08T09:08:31.517206+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.84,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "الحرب الإيرانية ترفع أسعار الأسمدة، المزارعون يبحثون بدائل",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "DIY fertilizer is a blessing as farmers face steep prices due to the Iran war",
+  "link": "https://www.npr.org/2026/10/07/g-s1-146541/fertilizer-diy-farmers-iran-war",
+  "publishers": [
+    "NPR",
+    "NPR World"
+  ],
+  "region": "us",
+  "article": {
+    "title": "DIY fertilizer is a blessing as farmers face steep prices due to the Iran war",
+    "link": "https://www.npr.org/2026/10/07/g-s1-146541/fertilizer-diy-farmers-iran-war",
+    "summary": "It's hard enough being a small-scale farmer. Then the Iran war drove up fertilizer prices. So farmers are using a traditional Asian recipe to make their own. They call it a \"labor of love.\"",
+    "source_name": "NPR World",
+    "region": "us",
+    "weight": 0.9,
+    "published": "2026-10-07T13:32:37+00:00",
+    "image_url": "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=g-s1-146541",
+    "publisher": "NPR World",
+    "cluster_sources": [
+      "NPR",
+      "NPR World"
+    ],
+    "cluster_members": [
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/10/07/g-s1-146541/fertilizer-diy-farmers-iran-war"
+      }
+    ],
+    "image_candidates": [
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=g-s1-146541"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 1552.9182031599998,
+    "is_stale": true,
+    "score": 22.843913145944445,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "الحرب الإيرانية ترفع أسعار الأسمدة، المزارعون يبحثون بدائل",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

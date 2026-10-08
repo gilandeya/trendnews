@@ -275,7 +275,7 @@
      "published": "2026-10-06T10:16:28+00:00"
     }
    ],
-   "last_seen": "2026-10-08T03:08:02.336758+00:00",
+   "last_seen": "2026-10-08T09:08:05.709468+00:00",
    "outlets": 20,
    "regions": 16,
    "languages": 3,
@@ -556,7 +556,7 @@
      "published": "2026-10-06T06:12:00+00:00"
     }
    ],
-   "last_seen": "2026-10-08T03:08:02.336758+00:00",
+   "last_seen": "2026-10-08T09:08:05.709468+00:00",
    "outlets": 21,
    "regions": 16,
    "languages": 2,
@@ -837,7 +837,7 @@
      "published": "2026-10-07T07:50:09+00:00"
     }
    ],
-   "last_seen": "2026-10-08T03:08:02.336758+00:00",
+   "last_seen": "2026-10-08T09:08:05.709468+00:00",
    "outlets": 19,
    "regions": 14,
    "languages": 1,
@@ -2152,6 +2152,170 @@
    "score": 36.0
   },
   {
+   "id": "8299e0156b03",
+   "first_seen": "2026-10-07T03:07:41.547243+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Christa Pike lawyers say she is speaking one week after failed execution",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/6/christa-pike-lawyers-say-she-is-speaking-one-week-after-failed-execution?traffic_source=rss",
+     "published": "2026-10-06T23:01:05+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "US death row inmate Christa Pike awake and speaking after failed execution, lawyers say",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c8kgezxn54qko?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-07T00:56:59+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Christa Pike conscious and speaking after botched execution in US",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3369962/christa-pike-conscious-and-speaking-after-tennessee-failed-execution?utm_source=rss_feed",
+     "published": "2026-10-06T21:33:51+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Christa Pike is conscious and speaking after Tennessee failed execution, her attorneys say",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/christa-pike-is-conscious-and-speaking-after-tennessee-failed-execution-her-attorneys-say/article71553181.ece",
+     "published": "2026-10-06T22:21:20+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Christa Pike regains consciousness after botched Tennessee execution attempt",
+     "language": "en",
+     "link": "https://www.france24.com/en/americas/20261006-christa-pike-regains-consciousness-after-botched-tennessee-execution-attempt",
+     "published": "2026-10-06T23:30:18+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Christa Pike awake, speaking after surviving execution attempt",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/americas/christa-pike-awake-speaking-after-surviving-execution-attempt",
+     "published": "2026-10-06T20:54:00+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Christa Pike awake, talking after botched execution attempt",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/christa-pike-awake-talking-after-botched-execution-attempt-report/",
+     "published": "2026-10-06T21:34:23+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Christa Pike update: Death row inmate awake and speaking after failed execution",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/christa-pike-update-death-row-inmate-awake-and-speaking-after-failed-execution-attempt-101791323322965.html",
+     "published": "2026-10-06T22:02:07+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Tennessee execution survivor Christa Pike is conscious and speaking, lawyers say",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/07/world/crime-legal/christa-pike-tennessee-execution-survivor/",
+     "published": "2026-10-07T01:03:00+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Christa Pike faces lengthy recovery after botched execution attempt",
+     "language": "en",
+     "link": "https://tass.com/society/2198507",
+     "published": "2026-10-06T23:35:26+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "US death row inmate conscious, speaking after failed execution",
+     "language": "en",
+     "link": "https://punchng.com/us-death-row-inmate-conscious-speaking-after-failed-execution-report/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-07T07:09:57+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "US death row inmate Christa Pike awake and speaking after failed execution, lawyers say",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/us-death-row-inmate-christa-pike-awake-and-speaking-after-failed-execution-lawyers-say/",
+     "published": "2026-10-07T01:54:00+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Christa Pike Conscious And Speaking Days After Failed Execution In Tennessee",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/christa-pike-conscious-and-speaking-days-after-failed-execution-in-tennessee-12149490#publisher=newsstand",
+     "published": "2026-10-07T05:59:45+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Texas kills man in first US execution since botched lethal injection of Christa Pike",
+     "language": "en",
+     "link": "https://www.theguardian.com/us-news/2026/oct/07/texas-execution-jamaal-howard",
+     "published": "2026-10-08T01:32:29+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Texas carries out first US execution since Christa Pike's botched lethal injections",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cw4g1j2z5zvzo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-08T03:02:06+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Texas carries out first execution in U.S. since Christa Pike's failed lethal injection",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/texas-carries-out-first-execution-in-us-since-christa-pikes-failed-lethal-injection/article71558194.ece",
+     "published": "2026-10-08T01:59:20+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "US holds its first execution since Christa Pike incident",
+     "language": "en",
+     "link": "https://tass.com/world/2199047",
+     "published": "2026-10-08T03:04:01+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T09:08:05.709468+00:00",
+   "outlets": 14,
+   "regions": 10,
+   "languages": 1,
+   "score": 36.0
+  },
+  {
    "id": "49ee6206d4c3",
    "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
@@ -2707,134 +2871,6 @@
    "score": 35.0
   },
   {
-   "id": "8299e0156b03",
-   "first_seen": "2026-10-07T03:07:41.547243+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Christa Pike lawyers say she is speaking one week after failed execution",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/6/christa-pike-lawyers-say-she-is-speaking-one-week-after-failed-execution?traffic_source=rss",
-     "published": "2026-10-06T23:01:05+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "US death row inmate Christa Pike awake and speaking after failed execution, lawyers say",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c8kgezxn54qko?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-07T00:56:59+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Christa Pike conscious and speaking after botched execution in US",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3369962/christa-pike-conscious-and-speaking-after-tennessee-failed-execution?utm_source=rss_feed",
-     "published": "2026-10-06T21:33:51+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Christa Pike is conscious and speaking after Tennessee failed execution, her attorneys say",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/christa-pike-is-conscious-and-speaking-after-tennessee-failed-execution-her-attorneys-say/article71553181.ece",
-     "published": "2026-10-06T22:21:20+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Christa Pike regains consciousness after botched Tennessee execution attempt",
-     "language": "en",
-     "link": "https://www.france24.com/en/americas/20261006-christa-pike-regains-consciousness-after-botched-tennessee-execution-attempt",
-     "published": "2026-10-06T23:30:18+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Christa Pike awake, speaking after surviving execution attempt",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/americas/christa-pike-awake-speaking-after-surviving-execution-attempt",
-     "published": "2026-10-06T20:54:00+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Christa Pike awake, talking after botched execution attempt",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/christa-pike-awake-talking-after-botched-execution-attempt-report/",
-     "published": "2026-10-06T21:34:23+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Christa Pike update: Death row inmate awake and speaking after failed execution",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/christa-pike-update-death-row-inmate-awake-and-speaking-after-failed-execution-attempt-101791323322965.html",
-     "published": "2026-10-06T22:02:07+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Tennessee execution survivor Christa Pike is conscious and speaking, lawyers say",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/07/world/crime-legal/christa-pike-tennessee-execution-survivor/",
-     "published": "2026-10-07T01:03:00+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Christa Pike faces lengthy recovery after botched execution attempt",
-     "language": "en",
-     "link": "https://tass.com/society/2198507",
-     "published": "2026-10-06T23:35:26+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "US death row inmate conscious, speaking after failed execution",
-     "language": "en",
-     "link": "https://punchng.com/us-death-row-inmate-conscious-speaking-after-failed-execution-report/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-07T07:09:57+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "US death row inmate Christa Pike awake and speaking after failed execution, lawyers say",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/us-death-row-inmate-christa-pike-awake-and-speaking-after-failed-execution-lawyers-say/",
-     "published": "2026-10-07T01:54:00+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Christa Pike Conscious And Speaking Days After Failed Execution In Tennessee",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/christa-pike-conscious-and-speaking-days-after-failed-execution-in-tennessee-12149490#publisher=newsstand",
-     "published": "2026-10-07T05:59:45+00:00"
-    }
-   ],
-   "last_seen": "2026-10-07T09:07:47.348407+00:00",
-   "outlets": 13,
-   "regions": 10,
-   "languages": 1,
-   "score": 35.0
-  },
-  {
    "id": "363605fbbb2b",
    "first_seen": "2026-10-06T03:07:51.967007+00:00",
    "members": [
@@ -2978,6 +3014,107 @@
    "outlets": 14,
    "regions": 9,
    "languages": 1,
+   "score": 34.0
+  },
+  {
+   "id": "6ee8d6b3ad41",
+   "first_seen": "2026-10-07T03:07:41.547243+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Politicians slam Trump’s suggestion that Iran ‘take’ San Diego, Los Angeles",
+     "language": "es",
+     "link": "https://www.aljazeera.com/news/2026/10/7/politicians-slam-trumps-suggestion-that-iran-take-san-diego-los-angeles?traffic_source=rss",
+     "published": "2026-10-07T01:07:21+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Trump says Iran could ‘take out’ Los Angeles or San Diego, drawing backlash",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3369961/trump-says-iran-could-take-out-los-angeles-or-san-diego-drawing-backlash?utm_source=rss_feed",
+     "published": "2026-10-06T17:34:35+00:00"
+    },
+    {
+     "outlet": "Iran International",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "‘Let ’em take out Los Angeles’: Trump’s Iran remarks ignite backlash",
+     "language": "es",
+     "link": "https://www.iranintl.com/en/202610066353",
+     "published": "2026-10-06T20:00:00+00:00"
+    },
+    {
+     "outlet": "Rappler",
+     "region": "ph",
+     "bucket": "serious",
+     "title": "Californians blast Trump remark that Iran could ‘take out’ Los Angeles, San Diego",
+     "language": "es",
+     "link": "https://www.rappler.com/world/us-canada/californians-blast-trump-remark-iran-take-out-los-angeles-san-diego/",
+     "published": "2026-10-07T00:53:11+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Californians blast Trump remark that Iran could 'take out' Los Angeles, San Diego",
+     "language": "es",
+     "link": "https://www.channelnewsasia.com/world/trump-iran-bomb-los-angeles-san-diego-democrat-cities-remark-6437196",
+     "published": "2026-10-07T02:06:00+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Californians blast Trump remark that Iran could ‘take out’ Los Angeles, San Diego",
+     "language": "es",
+     "link": "https://www.japantimes.co.jp/news/2026/10/07/world/politics/trump-california-los-angeles-iran/",
+     "published": "2026-10-07T00:46:00+00:00"
+    },
+    {
+     "outlet": "CGTN",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Trump suggests Iran can 'take out' LA, San Diego, draws backlash",
+     "language": "fr",
+     "link": "https://news.cgtn.com/news/2026-10-06/Trump-suggests-Iran-can-take-out-LA-San-Diego-draws-backlash-1R1FU0eBavu/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+     "published": "2026-10-06T13:59:06+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Trump repeats his false claim that Iran could destroy Los Angeles or San Diego",
+     "language": "es",
+     "link": "https://www.theguardian.com/us-news/live/2026/oct/07/donald-trump-gavin-newsom-california-la-san-diego-iran-republicans-democrats-us-politics-latest-news-updates",
+     "published": "2026-10-08T02:31:06+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "‘You want to see trauma? Let them hit San Diego and Los Angeles’: Trump doubles down on comments suggesting Iran could strike California",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/you-want-to-see-trauma-let-them-hit-san-diego-and-los-angeles-trump-doubles-down-on-comments-suggesting-iran-could-strike-california-101791437073512.html",
+     "published": "2026-10-08T05:32:49+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Trump promises to prevent destruction of San Diego, Los Angeles",
+     "language": "en",
+     "link": "https://tass.com/world/2199043",
+     "published": "2026-10-08T02:20:01+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T09:08:05.709468+00:00",
+   "outlets": 10,
+   "regions": 9,
+   "languages": 3,
    "score": 34.0
   },
   {
@@ -3630,80 +3767,6 @@
    "score": 25.0
   },
   {
-   "id": "6ee8d6b3ad41",
-   "first_seen": "2026-10-07T03:07:41.547243+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Politicians slam Trump’s suggestion that Iran ‘take’ San Diego, Los Angeles",
-     "language": "es",
-     "link": "https://www.aljazeera.com/news/2026/10/7/politicians-slam-trumps-suggestion-that-iran-take-san-diego-los-angeles?traffic_source=rss",
-     "published": "2026-10-07T01:07:21+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Trump says Iran could ‘take out’ Los Angeles or San Diego, drawing backlash",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3369961/trump-says-iran-could-take-out-los-angeles-or-san-diego-drawing-backlash?utm_source=rss_feed",
-     "published": "2026-10-06T17:34:35+00:00"
-    },
-    {
-     "outlet": "Iran International",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "‘Let ’em take out Los Angeles’: Trump’s Iran remarks ignite backlash",
-     "language": "es",
-     "link": "https://www.iranintl.com/en/202610066353",
-     "published": "2026-10-06T20:00:00+00:00"
-    },
-    {
-     "outlet": "Rappler",
-     "region": "ph",
-     "bucket": "serious",
-     "title": "Californians blast Trump remark that Iran could ‘take out’ Los Angeles, San Diego",
-     "language": "es",
-     "link": "https://www.rappler.com/world/us-canada/californians-blast-trump-remark-iran-take-out-los-angeles-san-diego/",
-     "published": "2026-10-07T00:53:11+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Californians blast Trump remark that Iran could 'take out' Los Angeles, San Diego",
-     "language": "es",
-     "link": "https://www.channelnewsasia.com/world/trump-iran-bomb-los-angeles-san-diego-democrat-cities-remark-6437196",
-     "published": "2026-10-07T02:06:00+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Californians blast Trump remark that Iran could ‘take out’ Los Angeles, San Diego",
-     "language": "es",
-     "link": "https://www.japantimes.co.jp/news/2026/10/07/world/politics/trump-california-los-angeles-iran/",
-     "published": "2026-10-07T00:46:00+00:00"
-    },
-    {
-     "outlet": "CGTN",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Trump suggests Iran can 'take out' LA, San Diego, draws backlash",
-     "language": "fr",
-     "link": "https://news.cgtn.com/news/2026-10-06/Trump-suggests-Iran-can-take-out-LA-San-Diego-draws-backlash-1R1FU0eBavu/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
-     "published": "2026-10-06T13:59:06+00:00"
-    }
-   ],
-   "last_seen": "2026-10-07T03:07:41.547243+00:00",
-   "outlets": 7,
-   "regions": 6,
-   "languages": 3,
-   "score": 25.0
-  },
-  {
    "id": "42964e20da26",
    "first_seen": "2026-10-07T03:07:41.547243+00:00",
    "members": [
@@ -4249,6 +4312,80 @@
    "score": 20.0
   },
   {
+   "id": "2065ce1f6b8e",
+   "first_seen": "2026-10-08T03:08:02.336758+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Trump on why he thinks he deserves the Nobel Peace Prize",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/7/trump-on-why-he-thinks-he-deserves-the-nobel-peace-prize-2?traffic_source=rss",
+     "published": "2026-10-07T21:30:18+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Trump says he deserves Nobel Peace Prize but has doubts he will get it",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370107/trump-says-he-deserves-nobel-peace-prize-has-doubts-hell-get-it?utm_source=rss_feed",
+     "published": "2026-10-07T22:41:05+00:00"
+    },
+    {
+     "outlet": "Rappler",
+     "region": "ph",
+     "bucket": "serious",
+     "title": "Trump says he deserves Nobel Peace Prize but doubts he’ll get one",
+     "language": "en",
+     "link": "https://www.rappler.com/world/us-canada/trump-doubts-nobel-peace-prize/",
+     "published": "2026-10-07T23:59:42+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Trump says he deserves Nobel Peace Prize but has doubts he will get it",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2035634/trump-says-he-deserves-nobel-peace-prize-but-has-doubts-he-will-get-it",
+     "published": "2026-10-08T05:54:56+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Trump says he deserves Nobel Peace Prize but has doubts he will get it",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633663/trump-says-he-deserves-nobel-peace-prize-but-has-doubts-he-will-get-it",
+     "published": "2026-10-08T02:14:15+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump says he deserves Nobel Peace Prize, but doubts he will get it",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/trump-says-he-deserves-the-nobel-peace-prize-doubts-winning-this-year/article71558284.ece",
+     "published": "2026-10-08T04:19:27+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump Says He Should Win Nobel Peace Prize, But Has Doubts About Winning",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/donald-trump-says-he-should-win-nobel-peace-prize-but-has-doubts-about-winning-12153680#publisher=newsstand",
+     "published": "2026-10-07T21:44:01+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T09:08:05.709468+00:00",
+   "outlets": 7,
+   "regions": 5,
+   "languages": 1,
+   "score": 19.0
+  },
+  {
    "id": "f847db6b3477",
    "first_seen": "2026-10-07T03:07:41.547243+00:00",
    "members": [
@@ -4317,6 +4454,71 @@
     }
    ],
    "last_seen": "2026-10-07T18:07:47.065879+00:00",
+   "outlets": 6,
+   "regions": 5,
+   "languages": 1,
+   "score": 18.0
+  },
+  {
+   "id": "3171fba09447",
+   "first_seen": "2026-10-08T03:08:02.336758+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "María del Carmen Abascal, symbol of Spain’s housing protests, dies aged 87",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/07/maria-del-carmen-abascal-spain-housing-protests-dies",
+     "published": "2026-10-07T20:57:51+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "The protests and polls in Spain",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/the-protests-and-polls-in-spain/article71554157.ece",
+     "published": "2026-10-07T03:09:18+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "María del Carmen Abascal, symbol of Spain’s housing protests, dies aged 87",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQemdZUFlKd1F2WE1ubXRsekw0eklCSURVNnVJcXRYbmd3STZSUHlHX2E4emlFbkdIWUZrUHI5VWNaWmdJeUw1U2xHU3UydFRjbGZSR1BhN21GcmluRFB1VGVtczBHX0swM1RZRGNrUlVoMjdjaTNrVjZVZl93M1Fiam5QcjQxaXFxNEV2UVZRU3FCNWVtR0ZCaUc4YTJKYjg?oc=5",
+     "published": "2026-10-07T22:57:00+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Spanish pensioner whose eviction sparked nationwide protests dies",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c6e3x21ev9wwo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-08T07:15:45+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Spanish woman whose eviction sparked mass housing protests dies weeks later",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/08/world/society/spanish-woman-eviction-protests-dead/",
+     "published": "2026-10-08T03:08:00+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Madrid pensioner whose eviction sparked Spain housing protests dies at 87",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/08/madrid-pensioner-whose-eviction-sparked-spain-housing-protests-dies-at-87/238242",
+     "published": "2026-10-08T08:36:08+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T09:08:05.709468+00:00",
    "outlets": 6,
    "regions": 5,
    "languages": 1,
@@ -4440,6 +4642,80 @@
    "last_seen": "2026-10-08T03:08:02.336758+00:00",
    "outlets": 5,
    "regions": 5,
+   "languages": 1,
+   "score": 17.0
+  },
+  {
+   "id": "9c0449392bae",
+   "first_seen": "2026-10-08T03:08:02.336758+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Trump to give Musk top US science medal",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370106/trump-give-musk-top-us-science-medal?utm_source=rss_feed",
+     "published": "2026-10-07T22:29:00+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Satya Nadella, Elon Musk Among Top Tech CEOs To Receive US Science Medal",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/satya-nadella-elon-musk-among-top-tech-ceos-to-receive-us-science-medal-12153710#publisher=newsstand",
+     "published": "2026-10-07T22:20:54+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Trump to give Musk top US science medal",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/business/2026/10/08/trump-to-give-musk-top-us-science-medal",
+     "published": "2026-10-07T22:39:00+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Trump to honour Musk, tech chiefs with top US science awards",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/08/trump-to-honour-musk-tech-chiefs-with-top-us-science-awards/238176",
+     "published": "2026-10-08T01:27:43+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Trump to honour Elon Musk with US national medal of science",
+     "language": "en",
+     "link": "https://punchng.com/trump-to-honour-elon-musk-with-us-national-medal-of-science/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-08T09:26:35+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Elon Musk to get top US science medal along with Google's Sergei Brin, Nvidia's Jensen Huang and AMD's Lisa Su, Trump says",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/elon-musk-to-get-top-us-science-medal-along-with-googles-sergei-brin-nvidias-jensen-huang-and-amds-lisa-su-trump-says-101791416046193.html",
+     "published": "2026-10-07T23:38:37+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Trump to give Elon Musk top US science medal",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/trump-to-give-elon-musk-top-us-science-medal/",
+     "published": "2026-10-08T07:48:51+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T09:08:05.709468+00:00",
+   "outlets": 7,
+   "regions": 4,
    "languages": 1,
    "score": 17.0
   },
@@ -5116,6 +5392,194 @@
    "score": 14.0
   },
   {
+   "id": "db689d4db9dc",
+   "first_seen": "2026-10-08T03:08:02.336758+00:00",
+   "members": [
+    {
+     "outlet": "Boing Boing",
+     "region": "odd",
+     "bucket": "light",
+     "title": "Trump wants to turn his private golf club into a presidential retreat",
+     "language": "en",
+     "link": "https://boingboing.net/2026/10/07/trump-new-camp-david-golf-club.html",
+     "published": "2026-10-07T17:04:10+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Trump wants to turn his Florida golf course into presidential retreat",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370098/trump-wants-turn-florida-golf-course-presidential-retreat?utm_source=rss_feed",
+     "published": "2026-10-07T17:00:31+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump plans to turn Florida golf course into presidential retreat",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/trump-plans-to-turn-florida-golf-course-into-presidential-retreat-101791398399423.html",
+     "published": "2026-10-07T18:39:58+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Trump wants a new Camp David-like retreat at his Florida golf club",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c9gkvxjvl7v3o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-08T03:00:50+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T09:08:05.709468+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
+  },
+  {
+   "id": "1a01415a16dc",
+   "first_seen": "2026-10-08T03:08:02.336758+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Maduro and wife to face new US charges over alleged torture of Americans",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/americas/article/3370104/venezuelas-maduro-face-new-us-charges-over-alleged-torture-americans-official-says?utm_source=rss_feed",
+     "published": "2026-10-07T20:58:12+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Venezuela's Maduro, wife to face new US charges over alleged torture",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/americas/venezuelas-maduro-wife-to-face-new-us-charges-over-alleged-torture",
+     "published": "2026-10-07T21:03:00+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Maduro expected to face new charges of torture of Americans in Venezuelan prisons",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/new-maduro-charges-torture-americans-venezuelan-prisons/",
+     "published": "2026-10-07T21:21:00+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "US considering new torture charges against Maduro, wife",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/us-considering-new-torture-charges-against-maduro-wife-report/",
+     "published": "2026-10-08T09:03:29+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T09:08:05.709468+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
+  },
+  {
+   "id": "6e1544534ab3",
+   "first_seen": "2026-10-08T03:08:02.336758+00:00",
+   "members": [
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Eritrean troops deploy in Ethiopia's Tigray region, witnesses say",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/07/eritrean-troops-deploy-in-ethiopias-tigray-region-witnesses-say/",
+     "published": "2026-10-07T14:58:31+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Eritrean troops deploy in Ethiopia's Tigray region",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/eritrean-troops-deploy-in-ethiopia-s-tigray-region-101791399628939.html",
+     "published": "2026-10-07T19:00:28+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Eritrean troops move deep into Ethiopia's Tigray region as fighting escalates",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1sTG9Wa1o0dGJVN2k4M2wyeDQzWlE2WFhWbEFoa0lqUjhqQzFiTWo3VU5hdVNRUURVODg4TXV0SjBUY1JBSzhhLVZtMHJPMmMxcFIwemc0NGxmWXM?oc=5",
+     "published": "2026-10-07T18:40:52+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Eritrean troops move deep into Ethiopia's Tigray region, residents tell BBC",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/ckvgd63rj92lo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-07T18:40:52+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T09:08:05.709468+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
+  },
+  {
+   "id": "a80a6a359920",
+   "first_seen": "2026-10-08T09:08:05.709468+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Outspoken Indian actor Nana Patekar suddenly dies at 75",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cj3vqr5rknpeo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-08T03:41:34+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Acclaimed Indian actor Nana Patekar dies aged 75",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/8/acclaimed-indian-actor-nana-patekar-dies-aged-75?traffic_source=rss",
+     "published": "2026-10-08T06:30:42+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Veteran Bollywood actor Nana Patekar dies at 75",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633653/veteran-bollywood-actor-nana-patekar-dies-at-75",
+     "published": "2026-10-08T00:35:04+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Bollywood actor Nana Patekar dies aged 75",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/leisure/2026/10/08/bollywood-actor-nana-patekar-dies-aged-75",
+     "published": "2026-10-08T04:26:12+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T09:08:05.709468+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
+  },
+  {
    "id": "4295e00d2202",
    "first_seen": "2026-10-06T03:07:51.967007+00:00",
    "members": [
@@ -5248,47 +5712,47 @@
    "score": 12.0
   },
   {
-   "id": "9c0449392bae",
+   "id": "9fdb0e5c9ef7",
    "first_seen": "2026-10-08T03:08:02.336758+00:00",
    "members": [
     {
-     "outlet": "South China Morning Post",
-     "region": "cn",
+     "outlet": "Daily Maverick",
+     "region": "za",
      "bucket": "serious",
-     "title": "Trump to give Musk top US science medal",
+     "title": "Rahm to leave LIV Golf after three seasons, reports say",
      "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370106/trump-give-musk-top-us-science-medal?utm_source=rss_feed",
-     "published": "2026-10-07T22:29:00+00:00"
+     "link": "https://www.dailymaverick.co.za/article/2026-10-07-rahm-to-leave-liv-golf-after-three-seasons-reports-say/",
+     "published": "2026-10-07T20:44:56+00:00"
     },
     {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Satya Nadella, Elon Musk Among Top Tech CEOs To Receive US Science Medal",
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Rahm to leave LIV Golf over 'unacceptable' terms",
      "language": "en",
-     "link": "https://www.ndtv.com/world-news/satya-nadella-elon-musk-among-top-tech-ceos-to-receive-us-science-medal-12153710#publisher=newsstand",
-     "published": "2026-10-07T22:20:54+00:00"
+     "link": "https://www.bbc.co.uk/sport/golf/articles/c65yngj00477o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-07T20:56:00+00:00"
     },
     {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Trump to give Musk top US science medal",
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Rahm to quit LIV Golf over 'unacceptable' terms",
      "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/business/2026/10/08/trump-to-give-musk-top-us-science-medal",
-     "published": "2026-10-07T22:39:00+00:00"
+     "link": "https://www.skysports.com/golf/news/12040/13596245/jon-rahm-set-to-end-liv-golf-involvement-over-unacceptable-terms-for-proposed-relaunch",
+     "published": "2026-10-07T17:15:00+00:00"
     },
     {
-     "outlet": "Malay Mail",
-     "region": "my",
+     "outlet": "The Express Tribune",
+     "region": "pk",
      "bucket": "serious",
-     "title": "Trump to honour Musk, tech chiefs with top US science awards",
+     "title": "Rahm quitting LIV tour over 'unacceptable' terms",
      "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/08/trump-to-honour-musk-tech-chiefs-with-top-us-science-awards/238176",
-     "published": "2026-10-08T01:27:43+00:00"
+     "link": "https://tribune.com.pk/story/2633662/rahm-quitting-liv-tour-over-unacceptable-terms",
+     "published": "2026-10-08T02:10:31+00:00"
     }
    ],
-   "last_seen": "2026-10-08T03:08:02.336758+00:00",
+   "last_seen": "2026-10-08T09:08:05.709468+00:00",
    "outlets": 4,
    "regions": 3,
    "languages": 1,
@@ -6006,82 +6470,6 @@
    "score": 11.0
   },
   {
-   "id": "2065ce1f6b8e",
-   "first_seen": "2026-10-08T03:08:02.336758+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Trump on why he thinks he deserves the Nobel Peace Prize",
-     "language": "en",
-     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/7/trump-on-why-he-thinks-he-deserves-the-nobel-peace-prize-2?traffic_source=rss",
-     "published": "2026-10-07T21:30:18+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Trump says he deserves Nobel Peace Prize but has doubts he will get it",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370107/trump-says-he-deserves-nobel-peace-prize-has-doubts-hell-get-it?utm_source=rss_feed",
-     "published": "2026-10-07T22:41:05+00:00"
-    },
-    {
-     "outlet": "Rappler",
-     "region": "ph",
-     "bucket": "serious",
-     "title": "Trump says he deserves Nobel Peace Prize but doubts he’ll get one",
-     "language": "en",
-     "link": "https://www.rappler.com/world/us-canada/trump-doubts-nobel-peace-prize/",
-     "published": "2026-10-07T23:59:42+00:00"
-    }
-   ],
-   "last_seen": "2026-10-08T03:08:02.336758+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "3171fba09447",
-   "first_seen": "2026-10-08T03:08:02.336758+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "María del Carmen Abascal, symbol of Spain’s housing protests, dies aged 87",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/07/maria-del-carmen-abascal-spain-housing-protests-dies",
-     "published": "2026-10-07T20:57:51+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "The protests and polls in Spain",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/the-protests-and-polls-in-spain/article71554157.ece",
-     "published": "2026-10-07T03:09:18+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "María del Carmen Abascal, symbol of Spain’s housing protests, dies aged 87",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQemdZUFlKd1F2WE1ubXRsekw0eklCSURVNnVJcXRYbmd3STZSUHlHX2E4emlFbkdIWUZrUHI5VWNaWmdJeUw1U2xHU3UydFRjbGZSR1BhN21GcmluRFB1VGVtczBHX0swM1RZRGNrUlVoMjdjaTNrVjZVZl93M1Fiam5QcjQxaXFxNEV2UVZRU3FCNWVtR0ZCaUc4YTJKYjg?oc=5",
-     "published": "2026-10-07T22:57:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-08T03:08:02.336758+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
    "id": "f154c5b14a0a",
    "first_seen": "2026-10-08T03:08:02.336758+00:00",
    "members": [
@@ -6120,114 +6508,114 @@
    "score": 11.0
   },
   {
-   "id": "db689d4db9dc",
-   "first_seen": "2026-10-08T03:08:02.336758+00:00",
+   "id": "d031439b2a8d",
+   "first_seen": "2026-10-08T09:08:05.709468+00:00",
    "members": [
     {
-     "outlet": "Boing Boing",
-     "region": "odd",
-     "bucket": "light",
-     "title": "Trump wants to turn his private golf club into a presidential retreat",
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "UK renames East Jerusalem consulate as a mission; some diplomats to remain",
      "language": "en",
-     "link": "https://boingboing.net/2026/10/07/trump-new-camp-david-golf-club.html",
-     "published": "2026-10-07T17:04:10+00:00"
+     "link": "https://www.aljazeera.com/news/2026/10/8/signage-at-uk-consulate-in-east-jerusalem-removed-as-israels-deadline-over?traffic_source=rss",
+     "published": "2026-10-08T05:06:25+00:00"
     },
     {
-     "outlet": "South China Morning Post",
-     "region": "cn",
+     "outlet": "BBC World",
+     "region": "uk",
      "bucket": "serious",
-     "title": "Trump wants to turn his Florida golf course into presidential retreat",
+     "title": "Most UK diplomats to leave East Jerusalem consulate, Israel says, as Miliband says 'vital services' to remain",
      "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370098/trump-wants-turn-florida-golf-course-presidential-retreat?utm_source=rss_feed",
-     "published": "2026-10-07T17:00:31+00:00"
+     "link": "https://www.bbc.co.uk/news/articles/cw33xd6vegnno?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-08T08:18:36+00:00"
     },
     {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
+     "outlet": "Channel News Asia",
+     "region": "seasia",
      "bucket": "serious",
-     "title": "Trump plans to turn Florida golf course into presidential retreat",
+     "title": "Britain says consulate in Jerusalem to remain open as a UK Mission",
      "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/trump-plans-to-turn-florida-golf-course-into-presidential-retreat-101791398399423.html",
-     "published": "2026-10-07T18:39:58+00:00"
+     "link": "https://www.channelnewsasia.com/world/britain-consulate-jerusalem-open-sanctions-west-bank-6441541",
+     "published": "2026-10-08T07:05:18+00:00"
     }
    ],
-   "last_seen": "2026-10-08T03:08:02.336758+00:00",
+   "last_seen": "2026-10-08T09:08:05.709468+00:00",
    "outlets": 3,
    "regions": 3,
    "languages": 1,
    "score": 11.0
   },
   {
-   "id": "1a01415a16dc",
-   "first_seen": "2026-10-08T03:08:02.336758+00:00",
+   "id": "ce311588105e",
+   "first_seen": "2026-10-08T09:08:05.709468+00:00",
    "members": [
     {
-     "outlet": "South China Morning Post",
-     "region": "cn",
+     "outlet": "Al Jazeera English",
+     "region": "qa",
      "bucket": "serious",
-     "title": "Maduro and wife to face new US charges over alleged torture of Americans",
+     "title": "South Korea pledges legal action over alleged fuel exports to Russia",
      "language": "en",
-     "link": "https://www.scmp.com/news/world/americas/article/3370104/venezuelas-maduro-face-new-us-charges-over-alleged-torture-americans-official-says?utm_source=rss_feed",
-     "published": "2026-10-07T20:58:12+00:00"
+     "link": "https://www.aljazeera.com/news/2026/10/8/south-korea-pledges-legal-action-over-alleged-fuel-exports-to-russia?traffic_source=rss",
+     "published": "2026-10-08T04:14:11+00:00"
     },
     {
-     "outlet": "Daily Sabah",
-     "region": "tr",
+     "outlet": "The Guardian — World",
+     "region": "uk",
      "bucket": "serious",
-     "title": "Venezuela's Maduro, wife to face new US charges over alleged torture",
+     "title": "South Korea threatens legal action if fuel shipments to Russia found to have broken law",
      "language": "en",
-     "link": "https://www.dailysabah.com/world/americas/venezuelas-maduro-wife-to-face-new-us-charges-over-alleged-torture",
-     "published": "2026-10-07T21:03:00+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Maduro expected to face new charges of torture of Americans in Venezuelan prisons",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/new-maduro-charges-torture-americans-venezuelan-prisons/",
-     "published": "2026-10-07T21:21:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-08T03:08:02.336758+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "6e1544534ab3",
-   "first_seen": "2026-10-08T03:08:02.336758+00:00",
-   "members": [
-    {
-     "outlet": "Africanews",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Eritrean troops deploy in Ethiopia's Tigray region, witnesses say",
-     "language": "en",
-     "link": "http://www.africanews.com/2026/10/07/eritrean-troops-deploy-in-ethiopias-tigray-region-witnesses-say/",
-     "published": "2026-10-07T14:58:31+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Eritrean troops deploy in Ethiopia's Tigray region",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/eritrean-troops-deploy-in-ethiopia-s-tigray-region-101791399628939.html",
-     "published": "2026-10-07T19:00:28+00:00"
+     "link": "https://www.theguardian.com/world/2026/oct/08/south-korea-fuel-shipments-to-russia-domestic-law",
+     "published": "2026-10-08T04:45:07+00:00"
     },
     {
      "outlet": "Google News — World",
      "region": "global",
      "bucket": "serious",
-     "title": "Eritrean troops move deep into Ethiopia's Tigray region as fighting escalates",
+     "title": "South Korea pledges legal action over alleged fuel exports to Russia",
      "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1sTG9Wa1o0dGJVN2k4M2wyeDQzWlE2WFhWbEFoa0lqUjhqQzFiTWo3VU5hdVNRUURVODg4TXV0SjBUY1JBSzhhLVZtMHJPMmMxcFIwemc0NGxmWXM?oc=5",
-     "published": "2026-10-07T18:40:52+00:00"
+     "link": "https://news.google.com/rss/articles/CBMirgFBVV95cUxOeXhfcDhkcEFmTVRTVTN0clFQbXE4OXJ2X2tOVXRrNTFoSTFQZjNnbGVjVVZoYmlhTElqdXhGMDVQSzNzV1NvanVoNmt0NVMwZld4Y0VaTlQ0Q3JqMEE2dVBGYy1GSWlCZWJfNENBYnFORTJPUUpJTEo4QlptWEdrTHJMcVJtM2lnMmZBRzRPdy12RFhCUTdrNEFPb3ZlTnhVZWR4LTUxNzBOUk12c3fSAbMBQVVfeXFMTWhUSnd6U29tdmNMdlo1ZXh4Nm9oMW95dzdhZWw1dXdwc0FLMWJDZXdUeVZqNGthZUgtaFl2VjlnNmRrR1B6bnN6eVQxeEZOVkczdjQ3Nkd2SU5CejU2NWFHS184dHhVaW9JdVFTU3Y1ZV9mQzN4WkN2b3FfNlM1Wlo5VkNTdmNFcDJ0TlVnclZDdmRxNVVvUkVpZlcwWkZmOHdaN0lPaWVJQWoyaE9USnVnYXc?oc=5",
+     "published": "2026-10-08T04:16:06+00:00"
     }
    ],
-   "last_seen": "2026-10-08T03:08:02.336758+00:00",
+   "last_seen": "2026-10-08T09:08:05.709468+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "55376b610994",
+   "first_seen": "2026-10-08T09:08:05.709468+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "El Nino will intensify, then peak in December: UN",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2035638/el-nino-will-intensify-then-peak-in-december-un",
+     "published": "2026-10-08T05:52:04+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "El Nino set to intensify before peaking in December, UN warns",
+     "language": "en",
+     "link": "https://www.france24.com/en/environment/20261008-el-nino-set-to-intensify-before-peaking-in-december-un-warns",
+     "published": "2026-10-08T06:09:13+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "El Nino Will Intensify, Then Peak In December, United Nations Warns",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/el-nino-will-intensify-then-peak-in-december-united-nations-warns-12154285#publisher=newsstand",
+     "published": "2026-10-08T06:16:25+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T09:08:05.709468+00:00",
    "outlets": 3,
    "regions": 3,
    "languages": 1,
@@ -6565,44 +6953,6 @@
    "score": 9.0
   },
   {
-   "id": "9fdb0e5c9ef7",
-   "first_seen": "2026-10-08T03:08:02.336758+00:00",
-   "members": [
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "Rahm to leave LIV Golf after three seasons, reports say",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-07-rahm-to-leave-liv-golf-after-three-seasons-reports-say/",
-     "published": "2026-10-07T20:44:56+00:00"
-    },
-    {
-     "outlet": "BBC Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Rahm to leave LIV Golf over 'unacceptable' terms",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/sport/golf/articles/c65yngj00477o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-07T20:56:00+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Rahm to quit LIV Golf over 'unacceptable' terms",
-     "language": "en",
-     "link": "https://www.skysports.com/golf/news/12040/13596245/jon-rahm-set-to-end-liv-golf-involvement-over-unacceptable-terms-for-proposed-relaunch",
-     "published": "2026-10-07T17:15:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-08T03:08:02.336758+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 1,
-   "score": 9.0
-  },
-  {
    "id": "df20cb21ca89",
    "first_seen": "2026-10-06T03:07:51.967007+00:00",
    "members": [
@@ -6769,6 +7119,44 @@
     }
    ],
    "last_seen": "2026-10-08T03:08:02.336758+00:00",
+   "outlets": 3,
+   "regions": 1,
+   "languages": 1,
+   "score": 7.0
+  },
+  {
+   "id": "f794a75d1e9b",
+   "first_seen": "2026-10-08T09:08:05.709468+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "9 terrorists killed in North Waziristan IBO: state media",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2035640/9-terrorists-killed-in-north-waziristan-ibo-state-media",
+     "published": "2026-10-08T07:22:46+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Security forces kill nine terrorists in North Waziristan operation: state media",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633654/security-forces-kill-nine-terrorists-in-north-waziristan-operation-state-media",
+     "published": "2026-10-08T00:44:24+00:00"
+    },
+    {
+     "outlet": "Geo News",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Security forces kill nine terrorists in North Waziristan IBO: sources",
+     "language": "en",
+     "link": "https://www.geo.tv/latest/685564-security-forces-kill-9-terrorists-in-north-waziristan-ibo-sources",
+     "published": "2026-10-08T07:39:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-08T09:08:05.709468+00:00",
    "outlets": 3,
    "regions": 1,
    "languages": 1,
