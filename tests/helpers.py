@@ -364,10 +364,11 @@ class ImportantRig:
 
     def __init__(self, points, docs_by_marker, classify, brave_results=None,
                  brave_key=None, unrestricted_only=(), native=None, strict_known=False,
-                 main_story=None, gap=None):
+                 main_story=None, gap=None, gap_main_story_en=""):
         self.points = points
         # أسئلة البحث المكمِّل التي يعيدها نداء report_gap_questions المزيَّف (#1293)
         self.gap = gap or []
+        self.gap_main_story_en = gap_main_story_en   # ترجمة الخبر الرئيسي التي يعيدها النداء (#1304)
         self.gap_requests: list[str] = []
         # الخبر الرئيسي الذي يعيده التفكيك المزيَّف (#1291)؛ None = الحقل غائب كما قبل
         self.main_story = main_story
@@ -488,7 +489,7 @@ class ImportantRig:
                     return _Resp(rig._extract_input())
                 if kw["tool_choice"]["name"] == "report_gap_questions":
                     rig.gap_requests.append(kw["messages"][0]["content"])
-                    return _Resp({"questions": list(rig.gap)})
+                    return _Resp({"questions": list(rig.gap), "main_story_en": rig.gap_main_story_en})
                 if kw["tool_choice"]["name"] == "native_queries":
                     m = re.search(r"\(([a-z]{2})\)", kw["system"])
                     lang = m.group(1) if m else ""

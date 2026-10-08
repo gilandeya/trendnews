@@ -234,6 +234,11 @@ def finalize(issue_number: int, body: str, cfg) -> int:
         if not draft:
             continue
         written += 1
+        if chosen[pid] in ("publish", "go3") and any(
+                str(w).startswith(important_write.WARN_FAILED_CHECK_PREFIX) for w in draft.get("warnings") or []):
+            # منشور لم يجتز فحصًا لا يُنشر ولا تُبنى بطاقته قبل عين بشرية (#1304): يذهب إلى المرحلة 2
+            chosen[pid] = "go2"
+            review.comment(issue_number, f"📝 حُوِّل {_title(points[pid], cfg)} إلى المراجعة لأن فيه تنبيهات فحص")
         if chosen[pid] == "go2":
             review_drafts.append(draft)
         else:

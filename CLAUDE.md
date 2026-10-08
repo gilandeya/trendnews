@@ -1414,6 +1414,28 @@ step (`article.wide_days`).
     لآخر محاولة، و`gap_sources` كما جُمعت (وعلى المسودة عند النجاح كما كان).
   - **nearest:** نصوص النقاط الأعضاء لا تدخل `texts` ولا `known` (`unsourced_in`) ولا الاقتباس المسموح، فجملة تقرّر نقطة معلّقة
     بلا سند تظهر تنبيهًا للمراجعة. (verified وrefuted: claim العضو معروف للتنبيه كما كان.)
+- **لا يسقط منشور إلا بلا وقائع (Issue #1304، B4 — g100–g106 في `tests/test_guards_golden.py:test_important_1304_guards`، fixture
+  `tests/fixtures/important/1300.json` نسخة من `state/important/1300.json`):** حادثة #1301: منشوران جيدان مضمونًا سقطا بحارسين شكليين
+  (عنوان سؤال، وتتابع 7 كلمات من بيان state.gov منسوب إليه صراحة). القرارات الخمسة:
+  - **(1) الفشل للوقائع والعطل التقني فقط (`write_article`):** بعد آخر محاولة (`article_write_attempts`) تعمل `_salvage` على آخر نص:
+    العنوان السؤال ← أول عنوان خبري من `headlines_for_post(first_question=False, system=important.headline_system)` (وإن لم يعد
+    خبريًا يبقى مع تنبيه)؛ الاقتباس ← تحويل #1298؛ ثم تُعاد الفحوص كلها بـ`article_reasons` (كل الأسباب لا أولها؛ `check_article` غلاف
+    يعيد الأول) وكل سبب باقٍ (طول، نسبة حكم، عبارة محرر، أصالة…) يُحفظ في `warnings` بقالب `⚠️ لم يجتز الفحص: {السبب} — راجعه قبل النشر`
+    (`WARN_FAILED_CHECK`). يبقى الفشل لـ`NO_FACTS_REASON` وللعطل التقني. `last_attempt` لم يعد يُكتب (لا فشل تحريري)؛ `write_point` بلا تغيير.
+    **`important_finalize`:** منشور فيه تنبيه يبدأ بـ«⚠️ لم يجتز الفحص» اختير له `publish` أو `go3` يُحوَّل إلى `go2` (فلا بطاقة ولا نشر قبل
+    عين بشرية) مع تعليق على قضية الترشيح «📝 حُوِّل {العنوان} إلى المراجعة لأن فيه تنبيهات فحص».
+  - **(2) عتبة النسخ:** فحص الأصالة في `write_article` يستعمل `important.article_max_shared_run_words` (12) لا `article.max_shared_run_words` (7).
+    **ملاحظة من الشاهد الحقيقي:** نص 1300.json نفسه يحوي أيضًا تتابعًا حقيقيًا من 12 كلمة («أفرادًا وكيانات ضالعة في غسل الأموال…»)، فيبقى
+    عليه تنبيه نسخ واحد بعد الإصلاح؛ ما زال التتابع الذي أسقطه (7 كلمات) لا يُبلَّغ عنه.
+  - **(3) أسماء المصادر بالعربية:** `publisher_ar(name, cfg)`: `name_ar` من `sources`/`channels` ثم `important.publisher_ar` ثم الاسم كما هو.
+    مدخل الكاتب (`article_grounded`: وقائع النقاط ومقتطفات البحث المكمِّل) يحمل العربي؛ وبعد الكتابة `arabize_publishers` تستبدل في
+    `post_title`/`post_body`/`image_headline` كل اسم لاتيني من الخريطة بعربيه (الأطول أولًا)؛ واسم لاتيني لناشر بلا مقابل ورد في المتن ←
+    تنبيه «اسم مصدر بغير العربية: …». المسار القديم لا يتغير.
+  - **(4) الخبر نفسه أول أسئلة البحث المكمِّل:** `gap_questions` تضع من الكود `important.gap.main_question` («ما آخر ما نُشر عن: {main_story}؟»)
+    أولًا، عبارتها العربية main_story مقصوصة إلى `query_max_words` والإنجليزية من حقل `main_story_en` في `GAP_SCHEMA` (النداء نفسه)، ثم أسئلة
+    النموذج حتى `max_questions`. فشل النداء يترك السؤال الثابت بعربيته وحدها.
+  - **(5) الزمن النسبي:** تعليمة في `important.article_instructions.common` تمنع نقل «اليوم/أمس/الأسبوع الماضي/الشهر الماضي» كما هي، وتنبيه بعد
+    الكتابة «زمن نسبي في المتن: «…» — تحقّق من التاريخ» لكل عبارة من `important.relative_time_words` وردت.
 - **تنبيهات تشغيلية:** `publish.yml` يودِع `drafts state` فيصل `state/important`؛ أما `image.yml` فيودِع `drafts state/candidates
   state/youtube_topics` فحسب، فصورة المرحلة 1 لنقطة «هام» (`manual_image` على النقطة) و`state/brave_usage.json` لا يُودَعان حتى يضيف
   صاحب المشروع `state/important` و`state/brave_usage.json` إليه. ملفات workflow الثلاثة `article.yml` و`request.yml` و`important-judge.yml`
