@@ -1311,6 +1311,27 @@ step (`article.wide_days`).
     و`rules_version` معًا، فإعادة وسم نص قديم (كـ#1278) تعيد الحكم بالقواعد الجديدة وذاكرة البحث تُبقي كلفة Brave قليلة.
   - الاختبارات: g66–g75 في `tests/test_guards_golden.py:test_important_1282_guards` وأنبوب #1278 في
     `tests/test_important.py:test_important_1282`.
+- **مصادرنا وحدها، وموقع الجهة، والمصدر الواحد بنسبة صريحة (Issue #1288، بعد #1278 — اختبارات g76–g82):** قرار صاحب المشروع
+  «لا أريد أي خبر من خارج مصادرنا».
+  - **«مصدرنا»** = ما يقبله `important._is_known_source` (النطاقات الموثوقة وجهات البيانات والتدقيق وأسماء/خلاصات `sources`)،
+    **أو** رابط نطاقه ضمن أي قيمة في `important.agency_domains` (موقع الجهة نفسها: `_is_our_source`). في `judge_point`، بعد
+    `_dedup_docs_by_publisher` وقبل التصنيف، تُستبعد كل وثيقة ليست من مصادرنا: لا تدخل التصنيف ولا تؤيد ولا تنفي ولا تكون nearest،
+    وتبقى في `read_docs` بموقف `"outside"` ويُحفظ عددها على النقطة `outside_docs` (مادة مقال «ما لم تؤكّده مصادرنا» اللاحق).
+    المخزون المشترك (`_share_pool`) يرى pool المصادر الحالية وحدها فلا تتسرّب إليه وثيقة خارجية. **أُلغي** `unknown_support_warning`
+    وكل كوده (تنبيه «كل المؤيِّدين من خارج مصادرنا المسجّلة» الذي أضافته #1282) فلم يعد له موضع، و`rules_version` = 3.
+  - **موقع الجهة نفسها:** أُضيفت إلى `agency_domains` الخارجية/وزارة الخارجية الأميركية (state.gov) والخزانة (treasury.gov وhome.treasury.gov)
+    والبنتاغون/وزارة الدفاع (defense.gov وwar.gov). إن ورد مفتاح منها في نص النقطة (`_agencies_in`: بعد `_fold`، مطابقة جزئية بحدود
+    الكلمات مع سابقة عربية) تُضاف إلى `site_queries` عبارة `site:<أول نطاق>` واحدة لكل جهة (`_PointSearch.agency_queries`، تُبنى في الكود
+    بـ`site_phrase` نفسها لا من النموذج)، وتُرسَل عبر Google وحده بلا Brave. مؤيِّد من نطاق الجهة المذكورة في النقطة بمقتطف حرفي
+    يُعدّ primary كجهات البيانات الأصلية (`_agency_supporters`).
+  - **المصدر الواحد يكفي:** `important.min_our_sources` (1) لـconfirmed ولـinaccurate بصيغة تصحيح (`_pick_correction`)؛ عتبة التعارض مع
+    النفي وقواعد `false` وتجاوز الزمن (`superseded_by`) بلا تغيير. يُحفظ على النقطة `support_level`: `primary` (مؤيِّد من جهة النقطة أو من
+    بيانات أصلية) · `multi` (مجموعتان مستقلتان فأكثر) · `single` (مجموعة واحدة) و`support_publisher` (ناشر المصدر الواحد، الأصل أولًا).
+    الكاتب: `important.writer_instructions.confirmed_single` تُلحَق بتعليمات confirmed وinaccurate حين `support_level == "single"`
+    فتُنسب المعلومة صراحة («بحسب {publisher}»). قضية الترشيح تحت الحكم سطر من `important.support_labels` (single/multi/primary) وسطر
+    `important.outside_docs_label` («🚫 استُبعدت {n} وثائق من خارج مصادرنا») إن كان `outside_docs > 0`؛ كل النصوص في config.
+    **أثر ذلك على درجات not_found:** مؤيِّدو مجموعة واحدة من مصادرنا صاروا confirmed لا single_source، فالدرجة (أ) لا تبلغها إلا نقطة
+    مُنع تأكيدها بحارس الجهة.
 - **تنبيهات تشغيلية:** `publish.yml` يودِع `drafts state` فيصل `state/important`؛ أما `image.yml` فيودِع `drafts state/candidates
   state/youtube_topics` فحسب، فصورة المرحلة 1 لنقطة «هام» (`manual_image` على النقطة) و`state/brave_usage.json` لا يُودَعان حتى يضيف
   صاحب المشروع `state/important` و`state/brave_usage.json` إليه. ملفات workflow الثلاثة `article.yml` و`request.yml` و`important-judge.yml`

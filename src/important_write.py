@@ -205,6 +205,10 @@ def instructions(point: dict, cfg) -> str:
             body = template.format(nearest_title=near.get("title", ""))
     else:
         body = template
+    if verdict in ("confirmed", "inaccurate") and point.get("support_level") == "single":
+        # مصدر واحد من مصادرنا (#1288): تُنسب المعلومة إليه صراحة ولا تُكتب حقيقة ثابتة
+        publisher = point.get("support_publisher") or (ordered_sources(point, cfg) or [{}])[0].get("publisher", "")
+        body += "\n" + wi.get("confirmed_single", "").format(publisher=publisher)
     return f"\n{wi.get('title_note', '')}\n{body}\n{wi.get('quote_note', '')}\n"
 
 
