@@ -271,8 +271,8 @@ These are enforced by convention, not tooling, so hold to them deliberately:
   data and the old `draft:`/`card:`/`img:`/`back:` boxes are gone**: an item is its bold title line
   (which carries a bare `<!-- draft:id -->` so `review.all_draft_ids` still finds the ids), then
   badges/sources (+ sibling line), image source line + displayed image, the `<details>` text, stage 2
-  only: the headline `hl:` boxes, then `stages.image_field`, then the stage-2 🎬 reel box (a
-  publishing form, not a transition — stays a separate box), then the options block. Readers go
+  only: the headline `hl:` boxes, then `stages.image_field`, then the options block (the old stage-2 🎬 «publish as reel» box
+  was removed in Issue #1336 — see "مقال/ريل" below). Readers go
   through `stages.read_actions(body, stage)`: `go:` markers → `parse_actions`, else (issues opened
   before the update) `legacy_actions`. `publish.main` (stage 2) maps `publish` → old `draft:` alone,
   `go3` → old `draft:`+`card:` (`ids` = those two; `go3_ids` replaces `parse_card_requests`), anything
@@ -1620,6 +1620,20 @@ step (`article.wide_days`).
 - **الاختبارات:** g57–g65 في `tests/test_guards_golden.py` و`test_analysis_attribution_pipeline` (a–d). أثر `name_ar` الجديد على بطاقات
   التحليل (#1145/#1158) عدّل نصّين في `tests/test_review.py`/`test_guards_golden.py` وقاعدة #1145 في `test_collect.py` (مثال «اسم لاتيني بلا
   name_ar» صار ILTV بدل Iran International).
+
+## هيكل «مقال/ريل» في التحليل (Issue #1336، R1) — خلف `reel.enabled` (false افتراضيًا)
+
+الهيكل وحده؛ سيناريو الريل R2 وتركيبه R3 ونشره R4. مطفأً لا يتغير أي سلوك ولا نص (g159، مرجعه `tests/fixtures/reel/stage1_before.md`).
+
+- **المرحلة 1:** `youtube_cluster._format_block` تضع بعد حقل الصورة وقبل الانتقال «🧩 الصيغة» (`fmt:article:`/`fmt:reel:`، المقال معلَّم)؛
+  الانتقال يخص المقال. `parse_formats(body)` = None لقضية بلا علامات fmt: فتُقرأ مقالًا فقط كما كانت. `finalize_selection`: مقال = صيغة معلَّمة **و**
+  خيار انتقال؛ ريل = تعليمه وحده؛ مقال غير معلَّم مع انتقال ← لا مقال وصف في `article_conflicts` (تعليق التعارضات). يُحفظ `selected_formats` على الموضوع،
+  ويرجع `reel_topics`/`reel_only`، والسقف `max_per_run` على المقالات وحدها.
+- **المسودات:** المقال `format: "article"`، والريل `youtube_publish.build_reel_draft` (`format: "reel"`، `script_status: "awaiting_script"`، id = `point_id(f"{topic_id}:reel")`،
+  بلا caption/عناوين/image). `publish._create_reel_draft` تتجاوز الموجود وتعيد المُعاد `returned`؛ `_link_siblings` تضع `sibling_id` متبادلًا. `_returned_analysis_draft` تتجاهل الريل.
+- **المرحلة 2:** `youtube_publish.build_review_body` تجمع مسودات `topic_id` الواحد تحت سطر الموضوع (المقال قبل الريل)؛ بند الريل سطر «⏳» وخيار `go1` وحده
+  (`stages.options_block(..., only=("go1",))`)؛ خيارا «➕ أضف ريلًا/مقالًا» (`addfmt:`، `stages.parse_add_formats`) تعالجهما `publish.cmd_add_formats` من `publish.main` (المسار العادي).
+- **الأخبار:** حُذف مربع «🎬 انشره كريل بدل الصورة» وقراءته (`parse_reels`/`publish_as_reel`)؛ مربع `reel:` في قضية قديمة يُتجاهل. `src/reel.py` و`facebook.publish_reel` باقيان غير مربوطين.
 
 ## Retired paths
 

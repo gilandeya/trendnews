@@ -16,6 +16,8 @@ log = logging.getLogger(__name__)
 
 API = "https://api.github.com"
 ID_MARKER = re.compile(r"<!--\s*draft:([0-9a-f]+)\s*-->")
+# علامة مربع «انشره كريل» القديم (أُزيل في Issue #1336): تبقى لتتخطى parse_approved سطره في
+# قضية فُتحت قبل ذلك، لا لقراءة اختياره
 REEL_MARKER = re.compile(r"<!--\s*reel:([0-9a-f]+)\s*-->")
 # مربع «أعد المحاولة» في Issue إحياء الفشل (Issue #959) — صيغة منفصلة
 # (revive:) لا draft: كي لا يلتقطه parse_approved/all_draft_ids المعدَّان
@@ -265,9 +267,6 @@ def build_issue_body(drafts: list[dict], repo: str, branch: str = "main",
         parts += [
             stages.image_field(d["id"], cfg),
             "",
-            # الريل شكل نشر لا انتقال، فيبقى مربعه خارج كتلة الانتقال.
-            *([f"  - [ ] 🎬 انشره كريل بدل الصورة  <!-- reel:{d['id']} -->",
-               ""] if d.get("reel_spec") or d.get("reel") else []),
             *stages.options_block(2, d["id"], cfg,
                                   has_stage1=has_stage1(d),
                                   urgent=bool(ar.get("urgent"))),
@@ -409,22 +408,9 @@ def build_revival_body(drafts: list[dict], repo: str, branch: str = "main") -> s
     return "\n".join(parts)
 
 
-def parse_reels(body: str) -> set[str]:
-    """معرفات المسودات التي اختار المراجع نشرها كريل."""
-    chosen: set[str] = set()
-    for line in body.splitlines():
-        marker = REEL_MARKER.search(line)
-        if not marker:
-            continue
-        checkbox = re.search(r"\[([ xX])\]", line)
-        if checkbox and checkbox.group(1).lower() == "x":
-            chosen.add(marker.group(1))
-    return chosen
-
-
 def parse_card_requests(body: str) -> set[str]:
     """معرفات المسودات التي طلب المراجع عرض بطاقتها قبل النشر (Issue #858،
-    الجزء الثاني) -- نفس أسلوب parse_reels حرفيًا."""
+    الجزء الثاني) -- نفس أسلوب parse_back_requests حرفيًا."""
     chosen: set[str] = set()
     for line in body.splitlines():
         marker = CARD_MARKER.search(line)
@@ -438,7 +424,7 @@ def parse_card_requests(body: str) -> set[str]:
 
 def parse_back_requests(body: str) -> set[str]:
     """معرفات المسودات التي علّم المراجع «أعده للمراجعة الأولية» عليها في
-    Issue المراجعة النهائية (Issue #858) -- نفس أسلوب parse_reels حرفيًا."""
+    Issue المراجعة النهائية (Issue #858) -- نفس أسلوب parse_back_requests حرفيًا."""
     chosen: set[str] = set()
     for line in body.splitlines():
         marker = BACK_MARKER.search(line)
@@ -452,7 +438,7 @@ def parse_back_requests(body: str) -> set[str]:
 
 def parse_revival_ids(body: str) -> list[str]:
     """معرفات المسودات التي علّم المراجع «♻️ أعد المحاولة» عليها في Issue
-    الإحياء (Issue #959) -- نفس أسلوب parse_reels حرفيًا."""
+    الإحياء (Issue #959) -- نفس أسلوب parse_back_requests حرفيًا."""
     chosen: list[str] = []
     for line in body.splitlines():
         marker = REVIVE_MARKER.search(line)

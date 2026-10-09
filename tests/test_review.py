@@ -10117,9 +10117,9 @@ def test_stages_2_3_pipeline() -> None:
     sect = lines2[start:end]
     pos = [first(sect, n) for n in (
         "**1. خبر كامل الأقسام**", "<img", "<details>", "hl:" + full["id"],
-        "imgurl:" + full["id"], "reel:" + full["id"], "go:go3:" + full["id"])]
+        "imgurl:" + full["id"], "go:go3:" + full["id"])]
     check("(#1182-ي) ترتيب أقسام الخبر في المرحلة 2: العنوان ← الصورة ← النص ← العناوين "
-          "← حقل الصورة ← الريل ← الانتقال", -1 not in pos and pos == sorted(pos), pos)
+          "← حقل الصورة ← الانتقال (الريل القديم أُزيل في #1336)", -1 not in pos and pos == sorted(pos), pos)
     check("(#1182-ي) لا سطر «- [ ]» قبل سطر عنوان الخبر الأول",
           not any(re.match(r"\s*[-*]\s*\[", ln) for ln in lines2[:start]))
     check("(#1182-ي) لا سطر «- [ ]» بين بداية الخبر وسطر عنوانه",
