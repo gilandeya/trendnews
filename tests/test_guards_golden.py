@@ -2487,7 +2487,7 @@ def test_important_1291_guards() -> None:
           len(res2["points"]) == 4 and res2["off_topic"] == []
           and any("كلمةجانبية2" in q for q in rig2.queries), (len(res2["points"]), res2["off_topic"]))
     # #1309: رُفع rules_version إلى 5 بحارس التصحيح بلا تفصيل في النقطة
-    check("(g87) rules_version 5", res["rules_version"] == 5, res["rules_version"])
+    check("(g87) rules_version 6", res["rules_version"] == 6, res["rules_version"])
 
 
 def _b2_body(words: int, tag: str = "", extra: str = "") -> str:
@@ -3101,7 +3101,7 @@ def test_important_1309_guards() -> None:
     check("(g107) name بخطأ لا يرد في claim ← لا تصحيح؛ وكلمة ≥ 4 أحرف من الخطأ واردة في claim ← تصحيح",
           judged(f_no_date, "name", "الصواريخ الباليستية")[0]["BBC"]["stance"] == "related_other"
           and judged(f_no_date, "name", "دور لبنان في الحرب")[0]["BBC"]["stance"] == "conflicts_detail")
-    check("(g107) rules_version 5", cfg.path("important.rules_version") == 5)
+    check("(g107) rules_version 6 (رُفعت في #1316)", cfg.path("important.rules_version") == 6)
 
     # ── g108) أسئلة البحث المكمِّل لكل منشور ──
     qs_by, reqs_by = {}, {}
@@ -3273,6 +3273,166 @@ def test_important_1309_guards() -> None:
           important_write.length_reasons({"post_body": _b2_body(40)}, cfg) != []
           and important_write.length_reasons({"post_body": _b2_body(200)}, cfg) == []
           and important_write.length_reasons({"post_body": _b2_body(900)}, cfg) != [])
+
+
+def test_important_1316_guards() -> None:
+    """Issue #1316 (B6): g116–g122 على الشاهد الحقيقي tests/fixtures/important/1312.json — تاريخ موثوق للمصدر،
+    استبعاد صفحات الفهارس، تحويل النقل الحرفي المنسوب إلى اقتباس، أسماء كيانات، واستبدال أسماء الناشرين
+    الحسّاس للحالة."""
+    import json
+    from unittest import mock
+
+    from src import important, important_gap, important_write, verify_draft
+    from tests.helpers import IMPORTANT_FIXTURES
+
+    cfg = load_config()
+    icfg = cfg.get("important", {}) or {}
+    real = json.loads((IMPORTANT_FIXTURES / "1312.json").read_text(encoding="utf-8"))
+    items = {i["kind"]: i for i in real["article_items"]}
+    p809 = next(p for p in real["points"] if p["id"] == "80943d3f4957")
+    state_ev = next(e for e in p809["evidence"] if "state.gov" in e["link"])
+
+    # ── g116) ترتيب التاريخ: الرابط ← نتيجة جوجل ← htmldate، والمستقبلي/القديم يُهمل ──
+    def dated(link, html=None, art=None, found="__real__"):
+        s_ = important._PointSearch(cfg, "")
+        if art:
+            s_.art_dates[link] = art
+        if html is not None:
+            if found == "__real__":
+                s_._keep_html(link, html)
+            else:
+                with mock.patch("htmldate.find_date", return_value=found):
+                    s_._keep_html(link, html)
+        return s_.published_of({"link": link})
+
+    aj = "https://www.aljazeera.net/news/2026/9/29/%D8%A8%D9%8A%D8%B3%D9%86%D8%AA"
+    check("(g116) تاريخ في الرابط /2026/9/29/ يغلب htmldate (2022-04-01) ← 2026-09-29",
+          dated(aj, "<html><body>x</body></html>", found="2022-04-01") == "2026-09-29")
+    html_noise = ("<html><body><article><p>بيان عن عقوبات على شبكة تمويل.</p></article>"
+                  "<ul><li><a href='/a'>April 1, 2022</a></li><li><a href='/b'>Related story</a></li></ul>"
+                  "<footer>© 2022</footer></body></html>")
+    check("(g116) HTML لا تاريخ فيه إلا «April 1, 2022» في روابط ذات صلة و«© 2022» والرابط بلا تاريخ ← فارغ",
+          dated("https://www.state.gov/translations/x/sanctions", html_noise) == "")
+    meta = ('<html><head><meta property="article:published_time" content="2026-03-05T10:00:00Z"></head>'
+            "<body><p>خبر</p></body></html>")
+    check("(g116) meta article:published_time ← 2026-03-05",
+          dated("https://x.example/news/story", meta) == "2026-03-05")
+    check("(g116) تاريخ الرابط بعد اليوم يُهمل وينتقل إلى تاريخ جوجل",
+          dated("https://x.example/2099/1/1/story", art="2026-02-01") == "2026-02-01")
+    check("(g116) تاريخ قبل min_doc_year يُهمل ← فارغ؛ وصيغ الرابط الأخرى",
+          dated("https://x.example/1990/1/1/story") == ""
+          and important.url_date("https://x.example/a/2026-04-02-story") == "2026-04-02"
+          and important.url_date("https://x.example/a/story-20260402.html") == "2026-04-02"
+          and important.url_date("https://x.example/a/id12026040299") == "")
+    check("(g116) min_doc_year في config وتعليمة «تاريخ غير معروف» في common",
+          icfg.get("min_doc_year") == 2000
+          and "مقتطف عليه (تاريخ غير معروف): لا تذكر لحدثه تاريخًا إلا إن ورد التاريخ في المقتطف نفسه"
+          in icfg["article_instructions"]["common"])
+
+    # ── g117) مقتطف state.gov الحقيقي بلا تاريخ موثوق ← «(تاريخ غير معروف)» والتعليمة مرسَلة ──
+    members = [p809]
+    grounded = important_write.article_grounded(members, [], cfg)
+    state_texts = [s_["text"] for f in grounded for s_ in f["sources"] if s_["link"] == state_ev["link"]]
+    check("(g117) مدخل الكاتب لمقتطف state.gov يحمل «(تاريخ غير معروف)»",
+          bool(state_texts) and all(t.endswith("(تاريخ غير معروف)") for t in state_texts), state_texts)
+    sent = important_write.article_instructions(real, items["verified"], members, [], cfg)
+    check("(g117) والتعليمة موجودة في التعليمات المرسَلة", "مقتطف عليه (تاريخ غير معروف)" in sent)
+
+    # ── g118) صفحات الفهارس ──
+    bbc_topics = "https://www.bbc.com/arabic/topics/cdr56gdp0w1t"
+    check("(g118) /topics/ مستبعد، المقال باقٍ، ونطاق فيه topics بلا المسار باقٍ",
+          important.is_listing_url(bbc_topics, icfg)
+          and not important.is_listing_url("https://www.bbc.com/arabic/articles/c627zld10y0o", icfg)
+          and not important.is_listing_url("https://topics.example.com/news/1", icfg))
+
+    class StubSearch:
+        docs: list = []
+
+        def __init__(self, cfg_, body):
+            self.brave = {"requests": 0, "skipped": None}
+            self.days = 21
+
+        def resolve_link(self, link):
+            return link, True
+
+        def run(self, *a, **k):
+            return [], list(StubSearch.docs), []
+
+        def run_brave(self, *a, **k):
+            return [], [], []
+
+        def published_of(self, d):
+            return ""
+
+    saved = items["nearest"]["gap_sources"]
+    StubSearch.docs = [{"name": g["publisher"], "link": g["link"], "text": g["excerpt"]} for g in saved]
+    real_search = important._PointSearch
+    important._PointSearch = StubSearch
+    try:
+        stats: dict = {}
+        out = important_gap.search_gap([{"question": "س؟", "query_ar": "حزب الله", "query_en": ""}],
+                                       cfg, [], stats)
+    finally:
+        important._PointSearch = real_search
+    kept = [g["link"] for g in out]
+    check("(g118) إعادة فلتر البحث المكمِّل على gap_sources المحفوظة لـnearest ترمي رابط bbc topics وحده",
+          bbc_topics not in kept and stats["listing"] == 1
+          and all(g["link"] in kept for g in saved if g["link"] != bbc_topics), (kept, stats))
+    check("(g118) rules_version 6", icfg.get("rules_version") == 6)
+
+    # ── g119–g121) النقل الحرفي المنسوب ──
+    publisher = "وزارة الخارجية الأميركية"
+    sentence = ("ففي أول أبريل/نيسان 2022، قالت وزارة الخارجية الأميركية إن الهجوم المتهور الذي شنه حزب الله على "
+                "إسرائيل يثبت مرة أخرى أنه يمنح الأولوية لممارسة الإرهاب نيابة عن النظام الإيراني، على حساب "
+                "سلامة الشعب اللبناني وأمنه.")
+    src = [(publisher, state_ev["excerpt"])]
+    docs = [{"name": publisher, "text": state_ev["excerpt"]}]
+
+    def originality(body):
+        ok, _why, _n = verify_draft.check_originality(body, "", docs, 12, allowed_quotes=[], exempt_texts=[])
+        return ok
+
+    written = {"post_title": "ت", "post_body": f"افتتاحية قصيرة.\n\n{sentence}"}
+    check("(g119) قبل التحويل: النسخ الحرفي يُبلَّغ عنه (ضابطة)", not originality(written["post_body"]))
+    conv, starts = important_write.quote_attributed_copies(written, src, cfg)
+    body = conv["post_body"]
+    check("(g119) المقطع بعد «إن» صار بين « » وقبله «إن» خارجه",
+          "قالت وزارة الخارجية الأميركية إن «الهجوم المتهور" in body and body.rstrip().endswith("وأمنه»."), body)
+    check("(g119) quote_violations فارغة وفحص الأصالة لا يبلّغ عن الجملة",
+          important_write.quote_violations(body, [state_ev["excerpt"]]) == [] and originality(body), body)
+    warn = icfg["quote_converted_warning"].format(start=starts[0]) if starts else ""
+    check("(g119) تنبيه ℹ️ بأول 12 كلمة، والعنوان لا يُمسّ",
+          len(starts) == 1 and warn.startswith("ℹ️ نقل حرفي منسوب حُوِّل إلى اقتباس: «الهجوم المتهور")
+          and conv["post_title"] == "ت", (starts, warn))
+    again, starts2 = important_write.quote_attributed_copies(conv, src, cfg)
+    check("(g119) المقطع داخل « » أصلًا ← لا تحويل ثانٍ", starts2 == [] and again["post_body"] == body)
+
+    unattributed = {"post_title": "ت", "post_body": sentence.replace(publisher, "الإدارة الأميركية")}
+    conv120, starts120 = important_write.quote_attributed_copies(unattributed, src, cfg)
+    check("(g120) الجملة بلا ذكر للخارجية ← لا تحويل ويبقى سبب الأصالة",
+          starts120 == [] and conv120 == unattributed and not originality(conv120["post_body"]))
+
+    bbc_gap = next(g for g in saved if g["link"] == bbc_topics)
+    bbc_sentence = ("تتواصل الضغوط الأميركية على حزب الله في إطار مسار بدأ في 19 حزيران/يونيو 2025، حين زار توم "
+                    "براك بيروت لأول مرة حاملاً خريطة طريق أميركية مفصلة، وتضمّنت مطالب واضحة بنزع سلاح حزب الله "
+                    "والفصائل المسلحة كافة في لبنان بشكل كامل بحلول تشرين الثاني/نوفمبر 2025.")
+    conv121, starts121 = important_write.quote_attributed_copies(
+        {"post_title": "ت", "post_body": bbc_sentence}, [("بي بي سي", bbc_gap["excerpt"])], cfg)
+    check("(g121) جملة بي بي سي في nearest بلا ذكر بي بي سي ← لا تحويل", starts121 == [], conv121["post_body"])
+
+    # ── g122) أسماء كيانات وحسّاسية الحالة ──
+    check("(g122أ) pivot «لبنان» يقبل مقتطفًا فيه Lebanon، و«الحوثيون» يقبل Houthis",
+          important_gap.mentions_pivot("Hezbollah said Lebanon would not disarm.", ["لبنان"], icfg)
+          and important_gap.mentions_pivot("The Houthis launched a missile.", ["الحوثيون"], icfg)
+          and important_gap.mentions_pivot("Yemen talks resumed.", ["اليمن"], icfg)
+          and important_gap.mentions_pivot("Hamas leaders met.", ["حماس"], icfg)
+          and not important_gap.mentions_pivot("Greece bought arms.", ["لبنان"], icfg))
+    out122, _w = important_write.arabize_publishers(
+        {"post_title": "Time ينشر", "post_body": "نشرت Time خبرًا من AA. في ذلك time مبكر وهذا aa صغير."},
+        ["Time", "AA"], cfg)
+    check("(g122ب) «Time» ← «تايم»، «AA» ← «الأناضول»، و«time» و«aa» داخل المتن تبقيان",
+          out122["post_title"] == "تايم ينشر"
+          and out122["post_body"] == "نشرت تايم خبرًا من الأناضول. في ذلك time مبكر وهذا aa صغير.", out122)
 
 
 def test_names_placeholder_guards() -> None:

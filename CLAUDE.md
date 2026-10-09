@@ -1469,7 +1469,27 @@ step (`article.wide_days`).
   - **(8) العنوان الافتراضي:** في `build_article_draft` يصير `post_title` دائمًا أول عنوان خبري من `headlines_for_post` (القائمة المعروضة
     نفسها)، وإن لم يُعِد المولّد عنوانًا خبريًا بقي عنوان الكاتب.
   - **(9) أسماء المصادر:** أُضيفت إلى `important.publisher_ar`: Cyprus Mail · UA.NEWS · The Sunday Guardian · The Express Tribune ·
-    Anadolu Agency/AA · Time. (مطابقة غير حسّاسة للحالة بحدود الكلمات: «time» اللاتينية داخل متن عربي تُستبدل أيضًا.)
+    Anadolu Agency/AA · Time. (الاستبدال حسّاس للحالة منذ #1316 — انظر فقرة B6).
+- **تواريخ موثوقة وفهارس ونقل منسوب وأسماء كيانات (Issue #1316، B6 — g116–g122 في `tests/test_guards_golden.py:test_important_1316_guards`،
+  fixture `tests/fixtures/important/1312.json` نسخة حرفية من `state/important/1312.json`):** حادثة #1312: بيان state.gov نُسب إلى 2022-04-01
+  (htmldate الموسَّع التقط «April 1, 2022» من قائمة روابط)، ومنشور nearest بُني على صفحة فهرس `bbc.com/arabic/topics/…`، ونقل حرفي منسوب
+  للخارجية نُبِّه عليه نسخًا. القرارات:
+  - **(1) التاريخ الموثوق (`_PointSearch.published_of`/`_keep_html`):** الترتيب تاريخ في الرابط نفسه (`important.url_date`: `/YYYY/M/D/` أو
+    `YYYY-MM-DD` أو `YYYYMMDD` بحدود غير رقمية) ← تاريخ نتيجة جوجل ← `htmldate.find_date(html, url=url, extensive_search=False, original_date=True,
+    max_date=اليوم)` ← فارغ = «(تاريخ غير معروف)». أي تاريخ بعد اليوم أو قبل `important.min_doc_year` (2000) يُهمل (`_valid_doc_date`) وينتقل إلى
+    ما بعده؛ ويُستعمل المنطق نفسه في البحث المكمِّل. وفي `article_instructions.common` تعليمة: مقتطف عليه «تاريخ غير معروف» لا يُذكر لحدثه تاريخ إلا
+    إن ورد في المقتطف نفسه.
+  - **(2) صفحات الفهارس:** `important.listing_url_patterns` تُطابَق على **مسار** الرابط لا نطاقه (`important.is_listing_url`؛ `topics.example.com/news/1`
+    مقال). في `judge_point` تُستبعد بعد توحيد الناشر مع «من خارج مصادرنا» بموقف `"listing"` (لا تصنيف ولا تأييد ولا nearest) وتُعدّ في
+    `listing_docs` على النقطة؛ وفي `important_gap.search_gap` تُرمى قبل أخذ المقتطف وتُعدّ في `item["gap_dropped_listing"]`. `rules_version` = 6.
+  - **(3) النقل الحرفي المنسوب ← اقتباس (`important_write.quote_attributed_copies`، بعد كل محاولة كتابة وقبل الفحوص، لمتن `write_article` لا عنوانه):**
+    لكل جملة أطول تتابع مشترك (`verify_draft._normalized_words`) مع مقتطف معطى؛ إن بلغ `important.article_max_shared_run_words` (12) وذكرت
+    الجملةُ نفسها ناشر ذلك المقتطف (اسمه أو `publisher_ar` أو ما يطابقه من `outlet_aliases` بـ`important._mentions` بعد `_fold`) أُحيط المقطع
+    بـ« » (مع استبعاد «إن/أن/بأن» من بدايته). تعذّر ربط الكلمات المطبَّعة بكلمات الجملة واحدًا بواحد، أو كون المقطع داخل « » أصلًا ← لا تحويل.
+    بعده يمر النص بـ`quote_violations` وفحص الأصالة كالمعتاد، ويُضاف تنبيه `important.quote_converted_warning` («ℹ️ نقل حرفي منسوب حُوِّل إلى
+    اقتباس: «…»»). النقل غير المنسوب يبقى كما هو (تنبيه «لم يجتز الفحص»).
+  - **(4) `entity_aliases`:** أُضيفت مجموعات لبنان واليمن والحوثيين وحماس (بصيغها الإنجليزية والتركية والفرنسية) كي يقبل فلتر الصلة مقتطفًا أجنبيًا.
+  - **(5) `arabize_publishers` حسّاسة للحالة** (حُذف `re.IGNORECASE`): «Time» ← «تايم» و«AA» ← «الأناضول»، و«time»/«aa» داخل المتن تبقيان.
 - **تنبيهات تشغيلية:** `publish.yml` يودِع `drafts state` فيصل `state/important`؛ أما `image.yml` فيودِع `drafts state/candidates
   state/youtube_topics` فحسب، فصورة المرحلة 1 لنقطة «هام» (`manual_image` على النقطة) و`state/brave_usage.json` لا يُودَعان حتى يضيف
   صاحب المشروع `state/important` و`state/brave_usage.json` إليه. ملفات workflow الثلاثة `article.yml` و`request.yml` و`important-judge.yml`
