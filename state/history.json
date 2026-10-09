@@ -1,100 +1,5 @@
 [
   {
-    "score": 28.0,
-    "bucket": "serious",
-    "tokens": [
-      "arrested",
-      "japan",
-      "marine",
-      "murder",
-      "okinawa",
-      "woman"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cme3xw4yy28do?at_medium=RSS&at_campaign=rss",
-    "title": "US Marine arrested over murder of woman in Okinawa, Japan",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-10-04T15:08:06.555154+00:00"
-  },
-  {
-    "score": 22.54,
-    "bucket": "serious",
-    "tokens": [
-      "4th",
-      "asiad",
-      "beat",
-      "football",
-      "gold",
-      "japan",
-      "korea",
-      "lead",
-      "men's",
-      "straight"
-    ],
-    "link": "https://en.yna.co.kr/view/AEN20261003004451315",
-    "title": "(LEAD) (Asiad) S. Korea beat Japan for 4th straight men's football gold",
-    "posted_title": "",
-    "region": "kr",
-    "seen_at": "2026-10-04T15:08:06.555328+00:00"
-  },
-  {
-    "score": 21.97,
-    "bucket": "serious",
-    "tokens": [
-      "aramco",
-      "facility",
-      "hit",
-      "houthis",
-      "oil",
-      "sanaa",
-      "saudis",
-      "say",
-      "struck"
-    ],
-    "link": "https://www.scmp.com/news/world/middle-east/article/3369667/flames-smoke-seen-aramco-facility-south-saudi-capital?utm_source=rss_feed",
-    "title": "Houthis say they struck Aramco oil facility, as Saudis hit Sanaa",
-    "posted_title": "",
-    "region": "cn",
-    "seen_at": "2026-10-04T15:08:06.555467+00:00"
-  },
-  {
-    "score": 21.82,
-    "bucket": "serious",
-    "tokens": [
-      "000",
-      "away",
-      "hits",
-      "hypersonic",
-      "korean",
-      "missile",
-      "north",
-      "target"
-    ],
-    "link": "https://en.mehrnews.com/news/248292/North-Korean-hypersonic-missile-hits-target-1-000-km-away",
-    "title": "North Korean hypersonic missile hits target 1,000 km away",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-10-04T15:08:06.555638+00:00"
-  },
-  {
-    "score": 15.5,
-    "bucket": "serious",
-    "tokens": [
-      "chinese",
-      "cuts",
-      "dimming",
-      "hope",
-      "slump",
-      "soybeans",
-      "tariff"
-    ],
-    "link": "https://asia.nikkei.com/business/markets/commodities/soybeans-slump-on-dimming-hope-of-chinese-tariff-cuts",
-    "title": "Soybeans slump on dimming hope of Chinese tariff cuts",
-    "posted_title": "",
-    "region": "jp",
-    "seen_at": "2026-10-04T15:08:06.555791+00:00"
-  },
-  {
     "score": 36.35,
     "bucket": "serious",
     "tokens": [
@@ -2022,5 +1927,99 @@
     "posted_title": "كيف وصلت تبعات معركة الحوثيين والسعودية إلى جيبوتي وأفريقيا",
     "region": "africa",
     "seen_at": "2026-10-09T09:21:29.804842+00:00"
+  },
+  {
+    "score": 35.14,
+    "bucket": "serious",
+    "tokens": [
+      "airport",
+      "attacks",
+      "houthi",
+      "killed",
+      "nationals",
+      "riyadh",
+      "saudi",
+      "three"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cmz7xe37g5wro?at_medium=RSS&at_campaign=rss",
+    "title": "Three Saudi nationals killed in Houthi attacks on Riyadh airport",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-10-09T17:08:12.115111+00:00"
+  },
+  {
+    "score": 25.53,
+    "bucket": "serious",
+    "tokens": [
+      "2027",
+      "budget",
+      "highlights",
+      "key"
+    ],
+    "link": "https://www.freemalaysiatoday.com/category/nation/2026/10/09/2027-budget-the-key-highlights",
+    "title": "2027 budget: the key highlights",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-10-09T17:08:12.115409+00:00"
+  },
+  {
+    "score": 24.56,
+    "bucket": "serious",
+    "tokens": [
+      "hormuz",
+      "irgc",
+      "lpg",
+      "massive",
+      "tanker",
+      "targeted"
+    ],
+    "link": "https://en.mehrnews.com/news/248442/Massive-LPG-tanker-targeted-in-Hormuz-IRGC",
+    "title": "Massive LPG tanker targeted in Hormuz: IRGC",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-10-09T17:08:12.115720+00:00"
+  },
+  {
+    "score": 24.44,
+    "bucket": "serious",
+    "tokens": [
+      "behind",
+      "blogger",
+      "channel",
+      "detains",
+      "million",
+      "montenegro",
+      "pro",
+      "russian",
+      "rybar",
+      "subscribers",
+      "telegram",
+      "war"
+    ],
+    "link": "https://meduza.io/en/news/2026/10/09/montenegro-detains-russian-pro-war-blogger-behind-rybar-a-telegram-channel-with-1-5-million-subscribers",
+    "title": "Montenegro detains Russian pro-war blogger behind Rybar, a Telegram channel with 1.5 million subscribers",
+    "posted_title": "",
+    "region": "ru",
+    "seen_at": "2026-10-09T17:08:12.115993+00:00"
+  },
+  {
+    "score": 23.53,
+    "bucket": "serious",
+    "tokens": [
+      "back",
+      "casualties",
+      "civilian",
+      "donetsk",
+      "military",
+      "pushes",
+      "russia",
+      "soar",
+      "ukraine"
+    ],
+    "link": "https://www.aljazeera.com/news/2026/10/9/ukraine-pushes-russia-back-in-donetsk-as-military-civilian-casualties-soar?traffic_source=rss",
+    "title": "Ukraine pushes Russia back in Donetsk as military, civilian casualties soar",
+    "posted_title": "",
+    "region": "qa",
+    "seen_at": "2026-10-09T17:08:12.116251+00:00"
   }
 ]

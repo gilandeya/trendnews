@@ -1,0 +1,64 @@
+{
+  "id": "fd51f1da5002",
+  "created_at": "2026-10-09T17:08:12.115125+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.53,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 3,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "ميزانية 2027: إنفاق 80 مليار على الدعم والإعانات",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "2027 budget: the key highlights",
+  "link": "https://www.freemalaysiatoday.com/category/nation/2026/10/09/2027-budget-the-key-highlights",
+  "publishers": [
+    "Free Malaysia Today",
+    "‘live with dignity’"
+  ],
+  "region": "my",
+  "article": {
+    "title": "2027 budget: the key highlights",
+    "link": "https://www.freemalaysiatoday.com/category/nation/2026/10/09/2027-budget-the-key-highlights",
+    "summary": "The government expects to spend more than RM80 billion on subsidies, assistance and incentives in 2027, with fuel subsidies projected to remain high at RM40 billion.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-10-09T12:46:00+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/v3/2026/10/132e04bd-6bf3-46ba-aeb8-11b0a092a5c4-anwar-ibrahim-fbpic-bajet-091026.jpg",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "‘live with dignity’"
+    ],
+    "cluster_members": [
+      {
+        "name": "‘live with dignity’",
+        "link": "https://www.scmp.com/week-asia/economics/article/3370384/17-key-takeaways-malaysias-2027-budget-live-dignity?utm_source=rss_feed"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/nation/2026/10/09/2027-budget-the-key-highlights"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/v3/2026/10/132e04bd-6bf3-46ba-aeb8-11b0a092a5c4-anwar-ibrahim-fbpic-bajet-091026.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1584.9136472574999,
+    "is_stale": false,
+    "score": 25.5257619755,
+    "impact": 3,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "ميزانية 2027: إنفاق 80 مليار على الدعم والإعانات",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

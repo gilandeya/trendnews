@@ -1,0 +1,65 @@
+{
+  "id": "590303e7a929",
+  "created_at": "2026-10-09T17:08:12.115730+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.44,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "اعتقال مُنشئ قناة روسية موالية للحرب في الجبل الأسود",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Montenegro detains Russian pro-war blogger behind Rybar, a Telegram channel with 1.5 million subscribers",
+  "link": "https://meduza.io/en/news/2026/10/09/montenegro-detains-russian-pro-war-blogger-behind-rybar-a-telegram-channel-with-1-5-million-subscribers",
+  "publishers": [
+    "Balkan Insight",
+    "Meduza English"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "Montenegro detains Russian pro-war blogger behind Rybar, a Telegram channel with 1.5 million subscribers",
+    "link": "https://meduza.io/en/news/2026/10/09/montenegro-detains-russian-pro-war-blogger-behind-rybar-a-telegram-channel-with-1-5-million-subscribers",
+    "summary": "Montenegrin authorities detained Mikhail Zvinchuk, creator of the Z channel Rybar, local outlets Vijesti and Pobjeda reported.",
+    "source_name": "Meduza English",
+    "region": "ru",
+    "weight": 1.0,
+    "published": "2026-10-09T09:17:05+00:00",
+    "image_url": "https://meduza.io/imgly/share/1791537425/en/news/2026/10/09/montenegro-detains-russian-pro-war-blogger-behind-rybar-a-telegram-channel-with-1-5-million-subscribers",
+    "publisher": "Meduza English",
+    "cluster_sources": [
+      "Balkan Insight",
+      "Meduza English"
+    ],
+    "cluster_members": [
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/10/09/montenegro-detains-russian-pro-war-blogger-behind-rybar-a-telegram-channel-with-1-5-million-subscribers"
+      },
+      {
+        "name": "Balkan Insight",
+        "link": "https://balkaninsight.com/2026/10/09/montenegro-detains-co-founders-of-pro-russian-telegram-channel/bi/"
+      }
+    ],
+    "image_candidates": [
+      "https://meduza.io/imgly/share/1791537425/en/news/2026/10/09/montenegro-detains-russian-pro-war-blogger-behind-rybar-a-telegram-channel-with-1-5-million-subscribers",
+      "https://balkaninsight.com/wp-content/uploads/2026/10/zvincuk_u_cg-1.1280x747-focus_l459_t374_z0-640x374.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1584.9136575730556,
+    "is_stale": false,
+    "score": 24.443632345388888,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "اعتقال مُنشئ قناة روسية موالية للحرب في الجبل الأسود",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

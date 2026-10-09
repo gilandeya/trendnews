@@ -275,7 +275,7 @@
      "published": "2026-10-06T10:16:28+00:00"
     }
    ],
-   "last_seen": "2026-10-09T09:07:48.883639+00:00",
+   "last_seen": "2026-10-09T17:07:48.864691+00:00",
    "outlets": 20,
    "regions": 16,
    "languages": 3,
@@ -556,11 +556,292 @@
      "published": "2026-10-06T06:12:00+00:00"
     }
    ],
-   "last_seen": "2026-10-09T03:07:52.407678+00:00",
+   "last_seen": "2026-10-09T17:07:48.864691+00:00",
    "outlets": 21,
    "regions": 16,
    "languages": 2,
    "score": 57.0
+  },
+  {
+   "id": "363605fbbb2b",
+   "first_seen": "2026-10-06T03:07:51.967007+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Trump approves firing-squad execution of Fort Hood shooter, Pentagon says",
+     "language": "en",
+     "link": "https://www.theguardian.com/us-news/2026/oct/05/trump-fort-hood-shooter-execution",
+     "published": "2026-10-06T01:33:44+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Trump approves firing squad execution for US military base shooter Nidal Hasan",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3369851/trump-approves-firing-squad-execution-us-military-base-shooter-nidal-hasan?utm_source=rss_feed",
+     "published": "2026-10-06T02:17:38+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Trump approves firing-squad execution of Fort Hood shooter Nidal Hasan",
+     "language": "en",
+     "link": "https://www.france24.com/en/americas/20261006-trump-approves-firing-squad-execution-of-fort-hood-shooter-nidal-hasan",
+     "published": "2026-10-06T01:31:37+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Trump approves firing squad for convicted US military base shooter",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/us-trump-approves-firing-squad-military-base-shooter-6434831",
+     "published": "2026-10-06T02:24:17+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Trump authorises firing Squad for US military base shooter",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/06/trump-authorises-firing-squad-for-us-military-base-shooter/237853",
+     "published": "2026-10-06T01:21:56+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Trump approves firing squad execution for Fort Hood attacker Nidal Hasan",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/6/trump-approves-firing-squad-execution-for-fort-hood-attacker-nidal-hasan?traffic_source=rss",
+     "published": "2026-10-06T07:23:00+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump approves firing squad execution for Fort Hood shooter Nidal Hasan",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/trump-approves-firing-squad-execution-for-fort-hood-shooter-nidal-hasan/article71549975.ece",
+     "published": "2026-10-06T07:01:40+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Trump approves firing squad execution of US Army base shooter",
+     "language": "en",
+     "link": "https://punchng.com/trump-approves-firing-squad-execution-of-us-army-base-shooter/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-06T07:07:45+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Who is Nidal Hasan? Trump approves firing squad execution of 2009 Fort Hood shooter who killed 13 people in deadly massacre",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/who-is-nidal-hasan-trump-approves-firing-squad-execution-of-2009-fort-hood-shooter-who-killed-13-people-in-deadly-massacre-101791255659654.html",
+     "published": "2026-10-06T03:11:18+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Trump approves firing squad for convicted US military base shooter",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/trump-approves-firing-squad-for-convicted-us-military-base-shooter",
+     "published": "2026-10-06T05:39:00+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Trump approves firing squad for convicted US military base shooter",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/trump-approves-firing-squad-for-convicted-us-military-base-shooter/",
+     "published": "2026-10-06T07:52:15+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Trump approves firing-squad execution of 2009 Fort Hood shooter",
+     "language": "en",
+     "link": "https://tass.com/society/2197903",
+     "published": "2026-10-06T03:40:48+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Death By Firing Squad: Trump Orders Execution Of US Doctor Who Killed 13 People",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/death-by-firing-squad-trump-orders-execution-of-us-doctor-who-killed-13-people-12145015#publisher=newsstand",
+     "published": "2026-10-06T08:58:40+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Fort Hood shooter to be executed by firing squad - a first for US military since World War Two",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cq8ezkkkrpy1o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-06T02:22:24+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Fort Hood shooter to be executed by firing squad: All to know",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/6/fort-hood-shooter-to-be-executed-by-firing-squad-all-to-know?traffic_source=rss",
+     "published": "2026-10-06T10:21:53+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Pentagon says execution of Fort Hood shooter will be livestreamed",
+     "language": "en",
+     "link": "https://www.theguardian.com/us-news/2026/oct/08/hegseth-fort-hood-shooter-public-execution",
+     "published": "2026-10-08T23:18:29+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Hegseth says firing squad execution of Fort Hood shooter will be ‘public’",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/8/hegseth-says-firing-squad-execution-of-fort-hood-shooter-will-be-public?traffic_source=rss",
+     "published": "2026-10-08T23:36:44+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Fort Hood attacker's execution by firing squad will be livestreamed, Pentagon says",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cmy0r96xygx6o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-09T01:25:33+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "US to livestream Army firing squad execution of Fort Hood shooter, Pentagon says",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-09-us-to-livestream-army-firing-squad-execution-of-fort-hood-shooter-pentagon-says/",
+     "published": "2026-10-09T04:34:53+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Fort Hood shooter’s firing squad execution to be livestreamed, Pentagon says",
+     "language": "en",
+     "link": "https://www.france24.com/en/americas/20261008-fort-hood-shooter-firing-squad-execution-livestreamed-pentagon",
+     "published": "2026-10-08T22:01:15+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Pentagon says firing squad execution of Fort Hood shooter Nidal Malik Hasan will be livestreamed",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/pentagon-says-firing-squad-execution-of-fort-hood-shooter-nidal-malik-hasan-will-be-livestreamed/article71561622.ece",
+     "published": "2026-10-08T23:28:03+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Fort Hood shooter’s execution by firing squad will be livestreamed, Pentagon says",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/fort-hood-shooters-execution-by-firing-squad-will-be-livestreamed-pentagon-says/",
+     "published": "2026-10-08T23:08:00+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "U.S. military to livestream firing squad execution of Fort Hood shooter",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/09/world/fort-hood-shooter-execution-livestream/",
+     "published": "2026-10-09T00:41:00+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Pentagon says Fort Hood shooter’s firing-squad execution will be livestreamed",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/09/pentagon-says-fort-hood-shooters-firing-squad-execution-will-be-livestreamed/238309",
+     "published": "2026-10-09T00:54:53+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "US to live-stream firing squad execution of Fort Hood shooter Nidal Hasan",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370245/us-live-stream-firing-squad-execution-military-base-shooter-nidal-hasan?utm_source=rss_feed",
+     "published": "2026-10-08T22:05:41+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "US to livestream army firing squad execution of Fort Hood shooter, Pentagon says",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2035879/us-to-livestream-army-firing-squad-execution-of-fort-hood-shooter-pentagon-says",
+     "published": "2026-10-09T05:57:04+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "US to livestream Army firing squad execution of Fort Hood shooter, Pentagon says",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633862/us-to-livestream-army-firing-squad-execution-of-fort-hood-shooter-pentagon-says",
+     "published": "2026-10-09T02:04:42+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "US To Livestream Execution Of Fort Hood Shooter, 1st Time In 65 Years",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/execution-of-fort-hood-shooter-nidal-malik-hasan-will-be-livestreamed-pentagon-12159304#publisher=newsstand",
+     "published": "2026-10-09T02:48:52+00:00"
+    },
+    {
+     "outlet": "Boing Boing",
+     "region": "odd",
+     "bucket": "light",
+     "title": "Pentagon to publicly livestream execution of Fort Hood shooter Nidal Malik Hasan",
+     "language": "en",
+     "link": "https://boingboing.net/2026/10/09/pentagon-to-publicly-livestream-execution-of-fort-hood-shooter-nidal-malik-hasan.html",
+     "published": "2026-10-09T13:30:15+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "US to livestream Fort Hood shooter’s execution: Is that legal?​",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/9/us-to-livestream-fort-hood-shooters-execution-is-that?traffic_source=rss",
+     "published": "2026-10-09T14:37:08+00:00"
+    }
+   ],
+   "last_seen": "2026-10-09T17:07:48.864691+00:00",
+   "outlets": 20,
+   "regions": 14,
+   "languages": 1,
+   "score": 50.0
   },
   {
    "id": "9093e3b6ec98",
@@ -1122,269 +1403,6 @@
    "outlets": 15,
    "regions": 12,
    "languages": 4,
-   "score": 47.0
-  },
-  {
-   "id": "363605fbbb2b",
-   "first_seen": "2026-10-06T03:07:51.967007+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Trump approves firing-squad execution of Fort Hood shooter, Pentagon says",
-     "language": "en",
-     "link": "https://www.theguardian.com/us-news/2026/oct/05/trump-fort-hood-shooter-execution",
-     "published": "2026-10-06T01:33:44+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Trump approves firing squad execution for US military base shooter Nidal Hasan",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3369851/trump-approves-firing-squad-execution-us-military-base-shooter-nidal-hasan?utm_source=rss_feed",
-     "published": "2026-10-06T02:17:38+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Trump approves firing-squad execution of Fort Hood shooter Nidal Hasan",
-     "language": "en",
-     "link": "https://www.france24.com/en/americas/20261006-trump-approves-firing-squad-execution-of-fort-hood-shooter-nidal-hasan",
-     "published": "2026-10-06T01:31:37+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Trump approves firing squad for convicted US military base shooter",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/world/us-trump-approves-firing-squad-military-base-shooter-6434831",
-     "published": "2026-10-06T02:24:17+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Trump authorises firing Squad for US military base shooter",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/06/trump-authorises-firing-squad-for-us-military-base-shooter/237853",
-     "published": "2026-10-06T01:21:56+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Trump approves firing squad execution for Fort Hood attacker Nidal Hasan",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/6/trump-approves-firing-squad-execution-for-fort-hood-attacker-nidal-hasan?traffic_source=rss",
-     "published": "2026-10-06T07:23:00+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Trump approves firing squad execution for Fort Hood shooter Nidal Hasan",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/trump-approves-firing-squad-execution-for-fort-hood-shooter-nidal-hasan/article71549975.ece",
-     "published": "2026-10-06T07:01:40+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Trump approves firing squad execution of US Army base shooter",
-     "language": "en",
-     "link": "https://punchng.com/trump-approves-firing-squad-execution-of-us-army-base-shooter/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-06T07:07:45+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Who is Nidal Hasan? Trump approves firing squad execution of 2009 Fort Hood shooter who killed 13 people in deadly massacre",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/who-is-nidal-hasan-trump-approves-firing-squad-execution-of-2009-fort-hood-shooter-who-killed-13-people-in-deadly-massacre-101791255659654.html",
-     "published": "2026-10-06T03:11:18+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Trump approves firing squad for convicted US military base shooter",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/trump-approves-firing-squad-for-convicted-us-military-base-shooter",
-     "published": "2026-10-06T05:39:00+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Trump approves firing squad for convicted US military base shooter",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/trump-approves-firing-squad-for-convicted-us-military-base-shooter/",
-     "published": "2026-10-06T07:52:15+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Trump approves firing-squad execution of 2009 Fort Hood shooter",
-     "language": "en",
-     "link": "https://tass.com/society/2197903",
-     "published": "2026-10-06T03:40:48+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Death By Firing Squad: Trump Orders Execution Of US Doctor Who Killed 13 People",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/death-by-firing-squad-trump-orders-execution-of-us-doctor-who-killed-13-people-12145015#publisher=newsstand",
-     "published": "2026-10-06T08:58:40+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Fort Hood shooter to be executed by firing squad - a first for US military since World War Two",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cq8ezkkkrpy1o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-06T02:22:24+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Fort Hood shooter to be executed by firing squad: All to know",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/6/fort-hood-shooter-to-be-executed-by-firing-squad-all-to-know?traffic_source=rss",
-     "published": "2026-10-06T10:21:53+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Pentagon says execution of Fort Hood shooter will be livestreamed",
-     "language": "en",
-     "link": "https://www.theguardian.com/us-news/2026/oct/08/hegseth-fort-hood-shooter-public-execution",
-     "published": "2026-10-08T23:18:29+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Hegseth says firing squad execution of Fort Hood shooter will be ‘public’",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/8/hegseth-says-firing-squad-execution-of-fort-hood-shooter-will-be-public?traffic_source=rss",
-     "published": "2026-10-08T23:36:44+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Fort Hood attacker's execution by firing squad will be livestreamed, Pentagon says",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cmy0r96xygx6o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-09T01:25:33+00:00"
-    },
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "US to livestream Army firing squad execution of Fort Hood shooter, Pentagon says",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-09-us-to-livestream-army-firing-squad-execution-of-fort-hood-shooter-pentagon-says/",
-     "published": "2026-10-09T04:34:53+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Fort Hood shooter’s firing squad execution to be livestreamed, Pentagon says",
-     "language": "en",
-     "link": "https://www.france24.com/en/americas/20261008-fort-hood-shooter-firing-squad-execution-livestreamed-pentagon",
-     "published": "2026-10-08T22:01:15+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Pentagon says firing squad execution of Fort Hood shooter Nidal Malik Hasan will be livestreamed",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/pentagon-says-firing-squad-execution-of-fort-hood-shooter-nidal-malik-hasan-will-be-livestreamed/article71561622.ece",
-     "published": "2026-10-08T23:28:03+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Fort Hood shooter’s execution by firing squad will be livestreamed, Pentagon says",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/fort-hood-shooters-execution-by-firing-squad-will-be-livestreamed-pentagon-says/",
-     "published": "2026-10-08T23:08:00+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "U.S. military to livestream firing squad execution of Fort Hood shooter",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/09/world/fort-hood-shooter-execution-livestream/",
-     "published": "2026-10-09T00:41:00+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Pentagon says Fort Hood shooter’s firing-squad execution will be livestreamed",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/09/pentagon-says-fort-hood-shooters-firing-squad-execution-will-be-livestreamed/238309",
-     "published": "2026-10-09T00:54:53+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "US to live-stream firing squad execution of Fort Hood shooter Nidal Hasan",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370245/us-live-stream-firing-squad-execution-military-base-shooter-nidal-hasan?utm_source=rss_feed",
-     "published": "2026-10-08T22:05:41+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "US to livestream army firing squad execution of Fort Hood shooter, Pentagon says",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2035879/us-to-livestream-army-firing-squad-execution-of-fort-hood-shooter-pentagon-says",
-     "published": "2026-10-09T05:57:04+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "US to livestream Army firing squad execution of Fort Hood shooter, Pentagon says",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633862/us-to-livestream-army-firing-squad-execution-of-fort-hood-shooter-pentagon-says",
-     "published": "2026-10-09T02:04:42+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "US To Livestream Execution Of Fort Hood Shooter, 1st Time In 65 Years",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/execution-of-fort-hood-shooter-nidal-malik-hasan-will-be-livestreamed-pentagon-12159304#publisher=newsstand",
-     "published": "2026-10-09T02:48:52+00:00"
-    }
-   ],
-   "last_seen": "2026-10-09T09:07:48.883639+00:00",
-   "outlets": 19,
-   "regions": 13,
-   "languages": 1,
    "score": 47.0
   },
   {
@@ -2379,6 +2397,143 @@
    "score": 39.0
   },
   {
+   "id": "4fdc69627612",
+   "first_seen": "2026-10-09T17:07:48.864691+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "US imposes sanctions on ICC, hours after former judge Pillay wins Nobel peace prize",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/live/2026/oct/09/2026-nobel-peace-prize-winner-russia-ukraine-sudan-war-france-protests-poland-latest-news-updates",
+     "published": "2026-10-09T15:07:00+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "‘Rogue court’: US sanctions ICC hours after ex-judge wins Nobel Prize",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/9/rogue-court-us-sanctions-icc-hours-after-ex-judge-wins-nobel-prize?traffic_source=rss",
+     "published": "2026-10-09T15:59:04+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "US slaps sanctions on ICC, hours after ex-judge wins Nobel",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370403/us-slaps-sanctions-icc-hours-after-ex-judge-wins-nobel?utm_source=rss_feed",
+     "published": "2026-10-09T14:51:06+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "US imposes sanctions on International Criminal Court, hours after Nobel award to former judge",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2035945/us-imposes-sanctions-on-international-criminal-court-hours-after-nobel-award-to-former-judge",
+     "published": "2026-10-09T16:37:45+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "STRANGE TIMING: US imposes sanctions on ICC hours after South African judge wins Nobel Peace Prize",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-09-us-imposes-sanctions-on-icc-hours-after-former-judge-wins-nobel-peace-prize/",
+     "published": "2026-10-09T18:10:36+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "US imposes sanctions on ICC hours after former judge wins Nobel Peace Prize",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633930/us-imposes-sanctions-on-icc-hours-after-former-judge-wins-nobel-peace-prize",
+     "published": "2026-10-09T10:32:09+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "ICC rejects U.S. sanctions, says 'history will judge this moment'",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/icc-rejects-us-sanctions-says-history-will-judge-this-moment/article71565060.ece",
+     "published": "2026-10-09T15:24:53+00:00"
+    },
+    {
+     "outlet": "Clarín",
+     "region": "ar_country",
+     "bucket": "serious",
+     "title": "Fuerte reacción de Trump tras el Nobel de la Paz a Navi Pillay: lanza sanciones contra la Corte Penal Internacional que integró la jurista para desfinanciarla",
+     "language": "fr",
+     "link": "https://www.clarin.com/mundo/fuerte-reaccion-trump-nobel-paz-navi-pillay-lanza-sanciones-corte-penal-internacional-integro-jurista-desfinanciarla_0_4sQiOhbddr.html",
+     "published": "2026-10-09T16:11:14+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "ICC condemns sweeping US sanctions as assault on international law",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/icc-condemns-sweeping-us-sanctions-as-assault-on-international-law/news",
+     "published": "2026-10-09T15:03:00+00:00"
+    },
+    {
+     "outlet": "Nikkei Asia",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Nobel laureate Pillay calls sanctions on ICC judges 'shocking'",
+     "language": "en",
+     "link": "https://asia.nikkei.com/editor-s-picks/interview/nobel-laureate-pillay-calls-sanctions-on-icc-judges-shocking",
+     "published": "2026-10-09T17:07:39.297627+00:00"
+    },
+    {
+     "outlet": "Court House News",
+     "region": "court",
+     "bucket": "light",
+     "title": "Trump escalates war on International Criminal Court with deep sanctions",
+     "language": "en",
+     "link": "https://www.courthousenews.com/trump-escalates-war-on-international-criminal-court-with-deep-sanctions/",
+     "published": "2026-10-09T14:37:52+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "US imposes sanctions on International Criminal Court",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cj20vkkx3rdvo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-09T16:06:59+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "light",
+     "title": "US imposes new sanctions on international criminal court",
+     "language": "en",
+     "link": "https://www.theguardian.com/us-news/2026/oct/09/sanctions-icc-trump",
+     "published": "2026-10-09T16:13:13+00:00"
+    },
+    {
+     "outlet": "Deutsche Welle",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "US imposes sanctions aiming to 'dismantle' International Criminal Court",
+     "language": "en",
+     "link": "https://www.dw.com/en/us-imposes-sanctions-aiming-to-dismantle-international-criminal-court/a-79618577?maca=en-rss-en-world-4025-rdf",
+     "published": "2026-10-09T14:53:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-09T17:07:48.864691+00:00",
+   "outlets": 13,
+   "regions": 11,
+   "languages": 2,
+   "score": 39.0
+  },
+  {
    "id": "f4950bb60ba8",
    "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
@@ -2898,6 +3053,269 @@
    "score": 36.0
   },
   {
+   "id": "a056d2844c9a",
+   "first_seen": "2026-10-05T18:07:49.818707+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "LIVE: France vs Belgium",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/liveblog/2026/10/5/live-france-vs-belgium-uefa-nations-league?traffic_source=rss",
+     "published": "2026-10-05T15:47:00+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "France v Belgium, Italy v Turkey, Northern Ireland v Georgia: Nations League",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/live/2026/oct/05/france-v-belgium-italy-v-turkey-northern-ireland-v-georgia-nations-league-live",
+     "published": "2026-10-05T18:03:37+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Portugal sail into Nations League last 8, Greece frustrate Germany",
+     "language": "en",
+     "link": "https://www.dailysabah.com/sports/football/portugal-sail-into-nations-league-last-8-greece-frustrate-germany",
+     "published": "2026-10-05T13:10:00+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "What happened between Ireland and Israel in their Nations League match?",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/10/5/what-happened-between-ireland-and-israel-in-their-nations-league-match?traffic_source=rss",
+     "published": "2026-10-05T15:28:16+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Nations League roundup: Olise leads late charge as France bowl over Belgium",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/2026/oct/05/nations-league-roundup-olise-leads-late-charge-as-france-bowl-over-belgium",
+     "published": "2026-10-05T21:31:20+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Olise powers France to win over Belgium in Nations League",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/olise-powers-france-to-win-over-belgium-in-nations-league/",
+     "published": "2026-10-05T21:50:17+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Olise powers France to win over Belgium in Nations League",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/06/olise-powers-france-to-win-over-belgium-in-nations-league",
+     "published": "2026-10-05T22:11:58+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "France roar back in Nations League as Italy beat Turkey",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/06/france-roar-back-in-nations-league-as-italy-beat-turkey",
+     "published": "2026-10-05T22:45:32+00:00"
+    },
+    {
+     "outlet": "Le Monde",
+     "region": "fr",
+     "bucket": "serious",
+     "title": "France-Belgique : Michael Olise, le « talent pur » qui porte l’équipe de France de Zinédine Zidane",
+     "language": "tr",
+     "link": "https://www.lemonde.fr/sport/article/2026/10/06/france-belgique-michael-olise-le-talent-pur-qui-porte-l-equipe-de-france-de-zinedine-zidane_6788688_3242.html",
+     "published": "2026-10-06T01:17:16+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Super-subs help France demolish Belgium with late flurry",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/10/5/super-subs-help-france-demolish-belgium-with-late-flurry?traffic_source=rss",
+     "published": "2026-10-05T21:13:38+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "France roar back in Nations League as Italy beat Turkey",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633243/france-roar-back-in-nations-league-as-italy-beat-turkey",
+     "published": "2026-10-06T00:19:03+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Nations League: France defeat Belgium in second-half comeback",
+     "language": "en",
+     "link": "https://www.france24.com/en/tv-shows/sports/20261006-nations-league-france-defeat-belgium-in-second-half-comeback",
+     "published": "2026-10-06T06:28:17+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Türkiye fall 3-1 to Italy for 4th straight Nations League loss",
+     "language": "en",
+     "link": "https://www.dailysabah.com/sports/football/turkiye-fall-3-1-to-italy-for-4th-straight-nations-league-loss",
+     "published": "2026-10-05T21:43:00+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "LIVE: Croatia vs Spain",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/liveblog/2026/10/6/live-crostia-vs-spain-uefa-nations-league?traffic_source=rss",
+     "published": "2026-10-06T15:47:16+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Scotland v Slovenia, Croatia v Spain, and more: Nations League football",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/live/2026/oct/06/scotland-slovenia-croatia-spain-nations-league-football-live-score-updates",
+     "published": "2026-10-06T17:51:42+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "England v Czechia: Nations League football",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/live/2026/oct/06/england-v-czechia-nations-league-football-live",
+     "published": "2026-10-06T17:46:22+00:00"
+    },
+    {
+     "outlet": "IRNA English",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "England vs Czechia: Team news, predicted lineups, and stats",
+     "language": "en",
+     "link": "https://en.irna.ir/news/86285234/England-vs-Czechia-Team-news-predicted-lineups-and-stats",
+     "published": "2026-10-06T14:56:31+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Harry Kane equals England record, scores twice in 3-0 win over Czechia",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/10/6/kane-equals-england-record-and-scores-twice-in-3-0-win-against-czechia?traffic_source=rss",
+     "published": "2026-10-06T21:40:12+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Captain fantastic! Harry Kane equals Peter Shilton’s England record and scores twice in 3-0 Czech win",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/sports/2026/10/07/captain-fantastic-harry-kane-equals-peter-shiltons-england-record-and-scores-twice-in-3-0-czech-win/237982",
+     "published": "2026-10-07T00:58:22+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Harry Kane doubles up on landmark night as England cruise past Czechia",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/2026/oct/06/england-czechia-nations-league-match-report",
+     "published": "2026-10-06T20:50:39+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Merino scores twice as Spain beat Croatia 2-1 in Nations League",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/10/6/spains-merino-nets-twice-to-avoid-croatia-shock-and-maintain-perfect-start?traffic_source=rss",
+     "published": "2026-10-06T21:23:59+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Substitute Merino scores twice as Spain win in Croatia",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/substitute-merino-scores-twice-as-spain-win-in-croatia/",
+     "published": "2026-10-06T21:57:00+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Spain come from behind to beat 10-man Croatia, stretch unbeaten run to 42 games",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/sports/2026/10/07/spain-come-from-behind-to-beat-10-man-croatia-stretch-unbeaten-run-to-42-games/238015",
+     "published": "2026-10-07T02:08:13+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Man City case causing ‘uncertainty’ for whole Premier League, says Iraola",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/10/9/man-city-case-causing-uncertainty-for-whole-premier-league-says-iraola?traffic_source=rss",
+     "published": "2026-10-09T14:40:01+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Man City case creating uncertainty in Premier League",
+     "language": "en",
+     "link": "https://punchng.com/man-city-case-creating-uncertainty-in-premier-league-iraola/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-09T15:06:05+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Premier League team news: predicted lineups for the weekend action",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/2026/oct/09/premier-league-team-news-predicted-lineups-for-the-weekend-action",
+     "published": "2026-10-09T16:22:09+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Football Daily | The Premier League is back and you absolutely can’t look away",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/2026/oct/09/football-daily-email-premier-league",
+     "published": "2026-10-09T14:50:09+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Man City charges: How Premier League reacted",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/10/9/man-city-charges-how-premier-league-reacted-man-utd-arsenal-liverpool?traffic_source=rss",
+     "published": "2026-10-09T15:09:51+00:00"
+    }
+   ],
+   "last_seen": "2026-10-09T17:07:48.864691+00:00",
+   "outlets": 12,
+   "regions": 10,
+   "languages": 2,
+   "score": 36.0
+  },
+  {
    "id": "49ee6206d4c3",
    "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
@@ -3229,224 +3647,6 @@
     }
    ],
    "last_seen": "2026-10-08T03:08:02.336758+00:00",
-   "outlets": 11,
-   "regions": 10,
-   "languages": 2,
-   "score": 35.0
-  },
-  {
-   "id": "a056d2844c9a",
-   "first_seen": "2026-10-05T18:07:49.818707+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "LIVE: France vs Belgium",
-     "language": "en",
-     "link": "https://www.aljazeera.com/sports/liveblog/2026/10/5/live-france-vs-belgium-uefa-nations-league?traffic_source=rss",
-     "published": "2026-10-05T15:47:00+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "France v Belgium, Italy v Turkey, Northern Ireland v Georgia: Nations League",
-     "language": "en",
-     "link": "https://www.theguardian.com/football/live/2026/oct/05/france-v-belgium-italy-v-turkey-northern-ireland-v-georgia-nations-league-live",
-     "published": "2026-10-05T18:03:37+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Portugal sail into Nations League last 8, Greece frustrate Germany",
-     "language": "en",
-     "link": "https://www.dailysabah.com/sports/football/portugal-sail-into-nations-league-last-8-greece-frustrate-germany",
-     "published": "2026-10-05T13:10:00+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "What happened between Ireland and Israel in their Nations League match?",
-     "language": "en",
-     "link": "https://www.aljazeera.com/sports/2026/10/5/what-happened-between-ireland-and-israel-in-their-nations-league-match?traffic_source=rss",
-     "published": "2026-10-05T15:28:16+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Nations League roundup: Olise leads late charge as France bowl over Belgium",
-     "language": "en",
-     "link": "https://www.theguardian.com/football/2026/oct/05/nations-league-roundup-olise-leads-late-charge-as-france-bowl-over-belgium",
-     "published": "2026-10-05T21:31:20+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Olise powers France to win over Belgium in Nations League",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/olise-powers-france-to-win-over-belgium-in-nations-league/",
-     "published": "2026-10-05T21:50:17+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Olise powers France to win over Belgium in Nations League",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/06/olise-powers-france-to-win-over-belgium-in-nations-league",
-     "published": "2026-10-05T22:11:58+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "France roar back in Nations League as Italy beat Turkey",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/06/france-roar-back-in-nations-league-as-italy-beat-turkey",
-     "published": "2026-10-05T22:45:32+00:00"
-    },
-    {
-     "outlet": "Le Monde",
-     "region": "fr",
-     "bucket": "serious",
-     "title": "France-Belgique : Michael Olise, le « talent pur » qui porte l’équipe de France de Zinédine Zidane",
-     "language": "tr",
-     "link": "https://www.lemonde.fr/sport/article/2026/10/06/france-belgique-michael-olise-le-talent-pur-qui-porte-l-equipe-de-france-de-zinedine-zidane_6788688_3242.html",
-     "published": "2026-10-06T01:17:16+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Super-subs help France demolish Belgium with late flurry",
-     "language": "en",
-     "link": "https://www.aljazeera.com/sports/2026/10/5/super-subs-help-france-demolish-belgium-with-late-flurry?traffic_source=rss",
-     "published": "2026-10-05T21:13:38+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "France roar back in Nations League as Italy beat Turkey",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633243/france-roar-back-in-nations-league-as-italy-beat-turkey",
-     "published": "2026-10-06T00:19:03+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Nations League: France defeat Belgium in second-half comeback",
-     "language": "en",
-     "link": "https://www.france24.com/en/tv-shows/sports/20261006-nations-league-france-defeat-belgium-in-second-half-comeback",
-     "published": "2026-10-06T06:28:17+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Türkiye fall 3-1 to Italy for 4th straight Nations League loss",
-     "language": "en",
-     "link": "https://www.dailysabah.com/sports/football/turkiye-fall-3-1-to-italy-for-4th-straight-nations-league-loss",
-     "published": "2026-10-05T21:43:00+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "LIVE: Croatia vs Spain",
-     "language": "en",
-     "link": "https://www.aljazeera.com/sports/liveblog/2026/10/6/live-crostia-vs-spain-uefa-nations-league?traffic_source=rss",
-     "published": "2026-10-06T15:47:16+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Scotland v Slovenia, Croatia v Spain, and more: Nations League football",
-     "language": "en",
-     "link": "https://www.theguardian.com/football/live/2026/oct/06/scotland-slovenia-croatia-spain-nations-league-football-live-score-updates",
-     "published": "2026-10-06T17:51:42+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "England v Czechia: Nations League football",
-     "language": "en",
-     "link": "https://www.theguardian.com/football/live/2026/oct/06/england-v-czechia-nations-league-football-live",
-     "published": "2026-10-06T17:46:22+00:00"
-    },
-    {
-     "outlet": "IRNA English",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "England vs Czechia: Team news, predicted lineups, and stats",
-     "language": "en",
-     "link": "https://en.irna.ir/news/86285234/England-vs-Czechia-Team-news-predicted-lineups-and-stats",
-     "published": "2026-10-06T14:56:31+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Harry Kane equals England record, scores twice in 3-0 win over Czechia",
-     "language": "en",
-     "link": "https://www.aljazeera.com/sports/2026/10/6/kane-equals-england-record-and-scores-twice-in-3-0-win-against-czechia?traffic_source=rss",
-     "published": "2026-10-06T21:40:12+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Captain fantastic! Harry Kane equals Peter Shilton’s England record and scores twice in 3-0 Czech win",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/sports/2026/10/07/captain-fantastic-harry-kane-equals-peter-shiltons-england-record-and-scores-twice-in-3-0-czech-win/237982",
-     "published": "2026-10-07T00:58:22+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Harry Kane doubles up on landmark night as England cruise past Czechia",
-     "language": "en",
-     "link": "https://www.theguardian.com/football/2026/oct/06/england-czechia-nations-league-match-report",
-     "published": "2026-10-06T20:50:39+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Merino scores twice as Spain beat Croatia 2-1 in Nations League",
-     "language": "en",
-     "link": "https://www.aljazeera.com/sports/2026/10/6/spains-merino-nets-twice-to-avoid-croatia-shock-and-maintain-perfect-start?traffic_source=rss",
-     "published": "2026-10-06T21:23:59+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Substitute Merino scores twice as Spain win in Croatia",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/substitute-merino-scores-twice-as-spain-win-in-croatia/",
-     "published": "2026-10-06T21:57:00+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Spain come from behind to beat 10-man Croatia, stretch unbeaten run to 42 games",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/sports/2026/10/07/spain-come-from-behind-to-beat-10-man-croatia-stretch-unbeaten-run-to-42-games/238015",
-     "published": "2026-10-07T02:08:13+00:00"
-    }
-   ],
-   "last_seen": "2026-10-07T03:07:41.547243+00:00",
    "outlets": 11,
    "regions": 10,
    "languages": 2,
@@ -4854,6 +5054,98 @@
    "score": 24.0
   },
   {
+   "id": "eb275183d7fc",
+   "first_seen": "2026-10-09T09:07:48.883639+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Cars torched and shops looted as anti-migrant violence erupts in South Africa",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cwm24v45p4jgo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-09T08:28:57+00:00"
+    },
+    {
+     "outlet": "AllAfrica",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "South Africa: Ten Cars Torched As Xenophobic Violence Erupts in Soweto",
+     "language": "en",
+     "link": "https://allafrica.com/stories/202610090088.html",
+     "published": "2026-10-09T05:00:52+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "South Africa withdraws asylum processing following xenophobic clashes",
+     "language": "en",
+     "link": "https://punchng.com/south-africa-withdraws-asylum-processing-following-xenophobic-clashes/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-09T10:04:24+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Clashes lead South Africa to withdraw asylum processing order",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/09/clashes-lead-south-africa-to-withdraw-asylum-processing-order",
+     "published": "2026-10-09T07:51:00+00:00"
+    },
+    {
+     "outlet": "AllAfrica",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "South Africa: Home Affairs Withdraws Asylum Directive After Violent Anti-Immigration Protests",
+     "language": "en",
+     "link": "https://allafrica.com/stories/202610090210.html",
+     "published": "2026-10-09T06:35:22+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "South Africa protests turn violent amid rage over asylum ruling",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxORXpVYWQxQ0w5dlg0Z2RwZktubTV6aTZBTk9zOGMtZmgySlZZSmVleXRiSVB4ODBmOWh1MEE3S0xIS29GQWRRQjNhdUdUX0ZSd2xWemNrQUR2RlZiWWppVGlmR09lTHlaN0E2NFZuWmlxVUNFNmNfM09ISW1IRWdsMjN5SGdlWWNqbkR0bnVrQVQydDM4Tmx4amQ5cFp5M3Q2eEJUOFNLVdIBrAFBVV95cUxQdnBRa3FaTjhIZlNlZHc1SlZVX0gtUTJsSjRKcElzTU03b0xPcHNKUkxza21MTmVhOU5HTEFQY3p4a3ZvVGJPbWZ5TkRMRWxtMGU2YkF0YkhiRzVOaVhOSUFtX0hfdXlDWWFDVWZ1dVZtMzJxcUtBZ1UwNThZaUdfTHJHcFA4aWUyb0VtRUM5V2NnV09rdG44R1E3YV83VTRHV2xnWWtJaG8tQ3di?oc=5",
+     "published": "2026-10-08T20:51:42+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "South African anti-migrant protests: Cars torched and shops looted in Durban and Soweto",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFB5ejZ2RkxhSV9NSFZzTzZ6U2I0dmpseFl3b3JkNUpqWFFWS0ZWWXZOZVh5emhTWHZaQnJtT2dwVmJTQ196TENIMUFhYkptNG5DX2t0cXEtblpLTm8?oc=5",
+     "published": "2026-10-09T08:28:57+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "ANTI-FOREIGNER UNREST: Home Affairs scraps asylum seeker directive after violence in Durban and Soweto",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-09-home-affairs-scraps-asylum-seeker-directive-after-violence-in-durban-and-soweto/",
+     "published": "2026-10-09T11:54:13+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "South Africa scraps asylum directive after anti-immigrant violence",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/africa/south-africa-scraps-asylum-directive-after-anti-immigrant-violence",
+     "published": "2026-10-09T07:43:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-09T17:07:48.864691+00:00",
+   "outlets": 7,
+   "regions": 7,
+   "languages": 1,
+   "score": 23.0
+  },
+  {
    "id": "c90472109711",
    "first_seen": "2026-10-05T18:07:49.818707+00:00",
    "members": [
@@ -5473,6 +5765,136 @@
    "score": 20.0
   },
   {
+   "id": "b9d7cd9e1d43",
+   "first_seen": "2026-10-09T09:07:48.883639+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "USS Lincoln returns to US after long deployment supporting war on Iran",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/9/uss-lincoln-returns-to-us-after-long-deployment-supporting-war-on-iran?traffic_source=rss",
+     "published": "2026-10-09T00:39:20+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "USS Abraham Lincoln returns to US after 265 days at sea in Iran war mission",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370240/long-deployed-uss-abraham-lincoln-returns-home-san-diego-middle-east?utm_source=rss_feed",
+     "published": "2026-10-08T19:21:32+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "USS Abraham Lincoln returns to San Diego after supporting Iran war",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633848/uss-abraham-lincoln-returns-to-san-diego-after-supporting-iran-war",
+     "published": "2026-10-08T23:44:09+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "The long-deployed USS Lincoln returns home to San Diego Bay",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/08/nx-s1-5995911/the-long-deployed-uss-lincoln-returns-home-to-san-diego-bay",
+     "published": "2026-10-09T00:05:48+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Iran claims attack on LPG tanker, says vessels trying to cross Strait of Hormuz will be ‘punished’",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/iran-claims-attack-on-lpg-tanker-says-vessels-trying-to-cross-strait-of-hormuz-will-be-punished-us-iran-war-101791551103531.html",
+     "published": "2026-10-09T13:49:10+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Massive LPG tanker targeted in Hormuz: IRGC",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248442/Massive-LPG-tanker-targeted-in-Hormuz-IRGC",
+     "published": "2026-10-09T14:12:26+00:00"
+    }
+   ],
+   "last_seen": "2026-10-09T17:07:48.864691+00:00",
+   "outlets": 6,
+   "regions": 6,
+   "languages": 1,
+   "score": 20.0
+  },
+  {
+   "id": "b0355c8692a2",
+   "first_seen": "2026-10-09T17:07:48.864691+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "light",
+     "title": "Two Renoir paintings stolen from French museum are recovered",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cwkg50v1vn07o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-09T14:25:18+00:00"
+    },
+    {
+     "outlet": "Court House News",
+     "region": "court",
+     "bucket": "light",
+     "title": "2 Renoir paintings stolen from a French museum have been found, 6 arrested",
+     "language": "en",
+     "link": "https://www.courthousenews.com/2-renoir-paintings-stolen-from-a-french-museum-have-been-found-6-arrested/",
+     "published": "2026-10-09T16:38:20+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Renoir paintings stolen from French Riviera museum recovered, six suspects arrested",
+     "language": "en",
+     "link": "https://www.france24.com/en/france/20261009-renoir-paintings-stolen-from-french-riviera-museum-recovered-six-people-arrested",
+     "published": "2026-10-09T12:09:40+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "2 stolen Renoir paintings recovered in France, 6 arrested",
+     "language": "en",
+     "link": "https://www.dailysabah.com/arts/2-stolen-renoir-paintings-recovered-in-france-6-arrested/news",
+     "published": "2026-10-09T11:33:00+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Renoir heist solved: 2 paintings stolen from French museum recovered; 6 arrested",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/renoir-heist-solved-2-paintings-stolen-from-french-museum-recovered-6-arrested-101791545057442.html",
+     "published": "2026-10-09T11:56:09+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "2 Renoir paintings stolen from French museum recovered, mayor says",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/renoir-paintings-stolen-museum-france-recovered-mayor-says/",
+     "published": "2026-10-09T12:28:06+00:00"
+    }
+   ],
+   "last_seen": "2026-10-09T17:07:48.864691+00:00",
+   "outlets": 6,
+   "regions": 6,
+   "languages": 1,
+   "score": 20.0
+  },
+  {
    "id": "d4e675cb0d92",
    "first_seen": "2026-10-09T09:07:48.883639+00:00",
    "members": [
@@ -5911,71 +6333,6 @@
     }
    ],
    "last_seen": "2026-10-08T15:07:49.816861+00:00",
-   "outlets": 5,
-   "regions": 5,
-   "languages": 1,
-   "score": 17.0
-  },
-  {
-   "id": "eb275183d7fc",
-   "first_seen": "2026-10-09T09:07:48.883639+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Cars torched and shops looted as anti-migrant violence erupts in South Africa",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cwm24v45p4jgo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-09T08:28:57+00:00"
-    },
-    {
-     "outlet": "AllAfrica",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "South Africa: Ten Cars Torched As Xenophobic Violence Erupts in Soweto",
-     "language": "en",
-     "link": "https://allafrica.com/stories/202610090088.html",
-     "published": "2026-10-09T05:00:52+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "South Africa withdraws asylum processing following xenophobic clashes",
-     "language": "en",
-     "link": "https://punchng.com/south-africa-withdraws-asylum-processing-following-xenophobic-clashes/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-09T10:04:24+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Clashes lead South Africa to withdraw asylum processing order",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/09/clashes-lead-south-africa-to-withdraw-asylum-processing-order",
-     "published": "2026-10-09T07:51:00+00:00"
-    },
-    {
-     "outlet": "AllAfrica",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "South Africa: Home Affairs Withdraws Asylum Directive After Violent Anti-Immigration Protests",
-     "language": "en",
-     "link": "https://allafrica.com/stories/202610090210.html",
-     "published": "2026-10-09T06:35:22+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "South Africa protests turn violent amid rage over asylum ruling",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxORXpVYWQxQ0w5dlg0Z2RwZktubTV6aTZBTk9zOGMtZmgySlZZSmVleXRiSVB4ODBmOWh1MEE3S0xIS29GQWRRQjNhdUdUX0ZSd2xWemNrQUR2RlZiWWppVGlmR09lTHlaN0E2NFZuWmlxVUNFNmNfM09ISW1IRWdsMjN5SGdlWWNqbkR0bnVrQVQydDM4Tmx4amQ5cFp5M3Q2eEJUOFNLVdIBrAFBVV95cUxQdnBRa3FaTjhIZlNlZHc1SlZVX0gtUTJsSjRKcElzTU03b0xPcHNKUkxza21MTmVhOU5HTEFQY3p4a3ZvVGJPbWZ5TkRMRWxtMGU2YkF0YkhiRzVOaVhOSUFtX0hfdXlDWWFDVWZ1dVZtMzJxcUtBZ1UwNThZaUdfTHJHcFA4aWUyb0VtRUM5V2NnV09rdG44R1E3YV83VTRHV2xnWWtJaG8tQ3di?oc=5",
-     "published": "2026-10-08T20:51:42+00:00"
-    }
-   ],
-   "last_seen": "2026-10-09T09:07:48.883639+00:00",
    "outlets": 5,
    "regions": 5,
    "languages": 1,
@@ -6936,53 +7293,6 @@
      "language": "en",
      "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBaeVRNVWZIMkh5NHdMdTVLMzdJWUZ2eFZWMGFoeFltSUt4Q3pzOVJEZ1lOR21iSGI3RXAyRlJaXzUyclRxQUVjR29ibmtNT0QtVVZlR1BLcWVwMnc?oc=5",
      "published": "2026-10-08T16:24:05+00:00"
-    }
-   ],
-   "last_seen": "2026-10-09T09:07:48.883639+00:00",
-   "outlets": 4,
-   "regions": 4,
-   "languages": 1,
-   "score": 14.0
-  },
-  {
-   "id": "b9d7cd9e1d43",
-   "first_seen": "2026-10-09T09:07:48.883639+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "USS Lincoln returns to US after long deployment supporting war on Iran",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/9/uss-lincoln-returns-to-us-after-long-deployment-supporting-war-on-iran?traffic_source=rss",
-     "published": "2026-10-09T00:39:20+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "USS Abraham Lincoln returns to US after 265 days at sea in Iran war mission",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370240/long-deployed-uss-abraham-lincoln-returns-home-san-diego-middle-east?utm_source=rss_feed",
-     "published": "2026-10-08T19:21:32+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "USS Abraham Lincoln returns to San Diego after supporting Iran war",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633848/uss-abraham-lincoln-returns-to-san-diego-after-supporting-iran-war",
-     "published": "2026-10-08T23:44:09+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "The long-deployed USS Lincoln returns home to San Diego Bay",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/08/nx-s1-5995911/the-long-deployed-uss-lincoln-returns-home-to-san-diego-bay",
-     "published": "2026-10-09T00:05:48+00:00"
     }
    ],
    "last_seen": "2026-10-09T09:07:48.883639+00:00",
@@ -8374,6 +8684,82 @@
    "score": 11.0
   },
   {
+   "id": "5483b962f655",
+   "first_seen": "2026-10-09T17:07:48.864691+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "China agrees to ‘halve’ hybrid car exports to EU in landmark deal",
+     "language": "en",
+     "link": "https://www.theguardian.com/business/2026/oct/09/china-agrees-to-curb-hybrid-car-exports-to-eu-in-landmark-deal",
+     "published": "2026-10-09T15:05:57+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "China agrees to slash EU hybrid car exports in half, putting brake on trade war",
+     "language": "en",
+     "link": "https://www.scmp.com/economy/china-economy/article/3370385/china-and-eu-reach-understanding-hybrid-vehicles-after-crunch-trade-talks?utm_source=rss_feed",
+     "published": "2026-10-09T11:59:22+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "China agrees to slash EU hybrid car exports in half, putting brake on trade war",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNa2RCM0lJTlZrVnhlMmdjbldmMXpIekU5QzFIRzNqT25lNzNld25selhNcl9oYjFCWjRaX3ZSUzdGNDBrTmU0YzJJaUZneHRkQ2JZUmF4eUlSWG52QzE3VzBhLUFma0dqSG1wN1daLUd0Y0c0Q3NCblBKOV9sby1pQU1aUU1XWU1IbG1iQ2JiQUlrSzAwbDlFYnd5ZXkyblFYVjlxS1hVMFRRWVZmcmZ3OVpTekhjMnB6MW9rZ1BBYWg3eXJ4Yk1OM0d2NWTSAcwBQVVfeXFMTWk5X2h5SXFHS0JMQjVla2RTd0lUTC0ta0hWRVdVMzJHRU1FSlp2bUcyZkhTQlZ5UUktYW1BdFhuZ0pYX2ZDaFd3SmYteUNaRUhBbVBwelFfODBvMFhmeE1Lbmx1ZWdDSWVBRWlKRzJjMmVDbmp2c1VodGlXNGI4aDhFTDhuNUlQVjRjeUNIWXpaNzNuY1dBdkhGY3dwWklPMG9VT0wtZ3FUSEQxRzhtREkyV3JRRjF3TXlaYUxZWHpPVDVTamt0QWc4RDNo?oc=5",
+     "published": "2026-10-09T15:21:58+00:00"
+    }
+   ],
+   "last_seen": "2026-10-09T17:07:48.864691+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "e7c26d3cf713",
+   "first_seen": "2026-10-09T17:07:48.864691+00:00",
+   "members": [
+    {
+     "outlet": "The Verge",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "Meta is banning TikTok ads across its platforms",
+     "language": "en",
+     "link": "https://www.theverge.com/tech/1008658/meta-tiktok-bytedance-ads-ban",
+     "published": "2026-10-09T13:12:45+00:00"
+    },
+    {
+     "outlet": "BBC 中文",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "扎克伯格有形象問題，為何Meta的業務卻蒸蒸日上？",
+     "language": "zh",
+     "link": "https://www.bbc.com/zhongwen/articles/cvj6jz6e89n2o/trad?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-09T08:04:54+00:00"
+    },
+    {
+     "outlet": "Engadget",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "Meta bans TikTok ads from its platforms in tit-for-tat row",
+     "language": "en",
+     "link": "https://www.engadget.com/2281983/meta-bans-tiktok-ads/",
+     "published": "2026-10-09T09:54:24+00:00"
+    }
+   ],
+   "last_seen": "2026-10-09T17:07:48.864691+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 2,
+   "score": 11.0
+  },
+  {
    "id": "55d7d97f75a2",
    "first_seen": "2026-10-07T18:07:47.065879+00:00",
    "members": [
@@ -8743,6 +9129,44 @@
    "score": 9.0
   },
   {
+   "id": "31048a092620",
+   "first_seen": "2026-10-09T17:07:48.864691+00:00",
+   "members": [
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Customs intercept ₦3.67bn drugs hidden in imported cars, spare parts",
+     "language": "en",
+     "link": "https://punchng.com/customs-intercept-%e2%82%a63-67bn-drugs-hidden-in-imported-cars-spare-parts/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-09T15:28:14+00:00"
+    },
+    {
+     "outlet": "AllAfrica",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Nigeria: Customs Uncovers ₦3.67bn Drug Haul in Imported Cars, Spare Parts",
+     "language": "en",
+     "link": "https://allafrica.com/stories/202610090602.html",
+     "published": "2026-10-09T16:21:16+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Customs uncovers ₦3.67bn drug haul in imported cars, spare parts",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/customs-uncovers-%e2%82%a63-67bn-drug-haul-in-imported-cars-spare-parts/",
+     "published": "2026-10-09T15:25:49+00:00"
+    }
+   ],
+   "last_seen": "2026-10-09T17:07:48.864691+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
    "id": "df20cb21ca89",
    "first_seen": "2026-10-06T03:07:51.967007+00:00",
    "members": [
@@ -8973,7 +9397,7 @@
      "published": "2026-10-09T06:15:03+00:00"
     }
    ],
-   "last_seen": "2026-10-09T09:07:48.883639+00:00",
+   "last_seen": "2026-10-09T17:07:48.864691+00:00",
    "outlets": 3,
    "regions": 1,
    "languages": 1,

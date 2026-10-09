@@ -1,0 +1,70 @@
+{
+  "id": "35f98da3adaf",
+  "created_at": "2026-10-09T17:08:12.115419+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.56,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "تهديد مباشر للملاحة البحرية والإمدادات الطاقية العربية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Massive LPG tanker targeted in Hormuz: IRGC",
+  "link": "https://en.mehrnews.com/news/248442/Massive-LPG-tanker-targeted-in-Hormuz-IRGC",
+  "publishers": [
+    "Hindustan Times — World",
+    "Mehr News",
+    "The Express Tribune"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Massive LPG tanker targeted in Hormuz: IRGC",
+    "link": "https://en.mehrnews.com/news/248442/Massive-LPG-tanker-targeted-in-Hormuz-IRGC",
+    "summary": "TEHRAN, Oct. 09 (MNA) – The Islamic Revolutionary Guard Corps (IRGC) Navy said Friday a giant vessel that was carrying liquefied petroleum gas (LPG) was hit and caught fire in the south of Hormuz Strait.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-10-09T14:12:26+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/10/07/4/6207617.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "Mehr News",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2633848/uss-abraham-lincoln-returns-to-san-diego-after-supporting-iran-war"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/iran-claims-attack-on-lpg-tanker-says-vessels-trying-to-cross-strait-of-hormuz-will-be-punished-us-iran-war-101791551103531.html"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/248442/Massive-LPG-tanker-targeted-in-Hormuz-IRGC"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/10/07/4/6207617.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1584.913694185,
+    "is_stale": false,
+    "score": 24.560019846700506,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "تهديد مباشر للملاحة البحرية والإمدادات الطاقية العربية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

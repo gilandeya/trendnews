@@ -1,0 +1,94 @@
+{
+  "id": "96e0059faecd",
+  "created_at": "2026-10-09T17:08:12.114688+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 35.14,
+  "trend_score": 0.67,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "هجمات حوثية على السعودية تصعّد التوتر الإقليمي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Three Saudi nationals killed in Houthi attacks on Riyadh airport",
+  "link": "https://www.bbc.co.uk/news/articles/cmz7xe37g5wro?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "CBS News — World",
+    "Channel News Asia",
+    "NDTV — World",
+    "South China Morning Post",
+    "The New York Times"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Three Saudi nationals killed in Houthi attacks on Riyadh airport",
+    "link": "https://www.bbc.co.uk/news/articles/cmz7xe37g5wro?at_medium=RSS&at_campaign=rss",
+    "summary": "The missile attacks come amid an escalation in fighting between the Iran-backed group and Saudi Arabia, which backs Yemen's government.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-10-09T13:50:25+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/1ac9/live/3ddaf120-c3e2-11f1-a64c-550be9e3c66b.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "CBS News — World",
+      "Channel News Asia",
+      "NDTV — World",
+      "South China Morning Post",
+      "The New York Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/10/9/saudi-arabia-reopens-riyadh-airport-after-houthi-attack-kills-three?traffic_source=rss"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cmz7xe37g5wro?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3370366/saudi-arabia-says-3-killed-riyadh-airport-yemen-war-expands?utm_source=rss_feed"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/saudi-arabia-says-three-killed-airport-yemen-war-expands-6446871"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/3-including-pilot-killed-in-houthi-attacks-on-riyadh-airport-saudi-arabia-12162057#publisher=newsstand"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/live-updates/iran-war-trump-us-elections-saudi-arabia-yemen-houthis/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/1ac9/live/3ddaf120-c3e2-11f1-a64c-550be9e3c66b.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/1ac9/live/3ddaf120-c3e2-11f1-a64c-550be9e3c66b.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/1ac9/live/3ddaf120-c3e2-11f1-a64c-550be9e3c66b.jpg",
+      "https://dam.mediacorp.sg/image/upload/s--jAWvhPU6--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/10/09/2026-10-09t092241z_1_lynxmpem980mu_rtroptp_4_iran-crisis-yemen-houthis.jpg?itok=gwGeoKML",
+      "https://c.ndtvimg.com/2026-10/28lv0dj_riyadh-airport_625x300_06_October_26.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.6666666666666666,
+    "group_sources": 7,
+    "velocity": 1.0,
+    "age_hours": 1584.9135098191666,
+    "is_stale": false,
+    "score": 35.13606749132096,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "هجمات حوثية على السعودية تصعّد التوتر الإقليمي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
