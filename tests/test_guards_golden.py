@@ -1507,7 +1507,7 @@ def test_important_false_guard() -> None:
     # ضابطتا g46: نطاق الجهة نفسها مؤيِّدًا، أو معروف يسمّيها صراحة ⇒ confirmed
     nasa = [important_doc("Reuters", "تتحدث التقارير عن أن الأمر سيحدث غدًا في المنطقة."),
             important_doc("NASA", "بيان رسمي: الأمر سيحدث غدًا في المنطقة.",
-                          link="https://www.nasa.gov/news/release")]
+                          link="https://www.nasa.gov/news/release/2026/10/05/x")]
     p46b = run_strict(146, claim46, nasa, by_name({"Reuters": s46, "NASA": s46}))
     check("(g46) ضابطة: أحد المؤيِّدين من نطاق nasa.gov ⇒ confirmed", p46b["verdict"] == "confirmed",
           (p46b["verdict"], p46b.get("note")))
@@ -2100,7 +2100,7 @@ def test_important_1282_guards() -> None:
     # g71) مدقّق بكلمة صريحة + مؤيِّد من primary_data_domains ← أدلة متعارضة (لا false)
     p71 = one(71, "بلغ عدد سكان البلد 85 مليون نسمة كلمةحارس71", [
         important_doc("البنك الدولي", "بلغ عدد سكان البلد 85 مليون نسمة في العام الأخير كلمةحارس71.",
-                      link="https://data.worldbank.org/indicator/SP.POP.TOTL"),
+                      link="https://data.worldbank.org/2026/10/05/indicator/SP.POP.TOTL"),
         important_doc("Fatabyyano", "الرقم المتداول كاذب كلمةحارس71.", link="https://fatabyyano.net/en/z/")],
         by_name({"البنك الدولي": ("supports", "بلغ عدد سكان البلد 85 مليون نسمة", {}),
                  "Fatabyyano": ("refutes", "الرقم المتداول كاذب", {"verdict_label": ""})}),
@@ -2287,7 +2287,7 @@ def test_important_1288_guards() -> None:
     stmt = "الولايات المتحدة ستفرض عقوبات جديدة على الأفراد المعنيين"
     p79 = one(79, f"وزارة الخارجية الأميركية تصرّح بأن {stmt} @",
               [important_doc("State Department", f"بيان رسمي: {stmt} كلمةحارس79.",
-                             link="https://www.state.gov/releases/x")],
+                             link="https://www.state.gov/releases/2026/10/05/x")],
               by_name({"State Department": ("supports", stmt, {})}))
     check("(g79) وثيقة state.gov تؤيد «وزارة الخارجية الأميركية تصرّح…» ⇒ confirmed وsupport_level == primary",
           p79["verdict"] == "confirmed" and p79["support_level"] == "primary",
@@ -2346,8 +2346,39 @@ def test_important_1288_guards() -> None:
           by_id["24246e81cd44"]["verdict"] == "confirmed"
           and by_id["24246e81cd44"]["support_level"] == "single",
           (by_id["24246e81cd44"]["verdict"], by_id["24246e81cd44"].get("support_level")))
-    check("(g81) 8e645204c867: كل مؤيِّديها من خارج مصادرنا ⇒ ليست confirmed",
-          by_id["8e645204c867"]["verdict"] != "confirmed", by_id["8e645204c867"]["verdict"])
+    check("(g81) 8e645204c867: مؤيِّدها LBCIV7 صارت وسيلة لبنانية من مصادرنا (#1345) ⇒ confirmed",
+          by_id["8e645204c867"]["verdict"] == "confirmed", by_id["8e645204c867"]["verdict"])
+    # بديل يحفظ غرض #1288: مؤيِّدو النقطة من lebanon24.com وeremnews.com وalmanar.com.lb وحدها ⇒ ليست confirmed
+    # وموقفهم "outside" (الإعلام الحزبي والمواقع غير المسجَّلة تبقى خارج مصادرنا)
+    alt_marker = "نقطةg81"
+    pid8 = "8e645204c867"
+    p8 = chosen[pid8]
+    alt_docs, alt_stance = [], {}
+    for d in p8["read_docs"]:
+        if d["publisher"] in ("إرم نيوز", "Lebanon 24"):
+            ev = {e["publisher"]: e for e in p8["evidence"]}[d["publisher"]]
+            alt_docs.append(important_doc(d["publisher"], ev["excerpt"], link=d["link"]))
+            alt_stance[d["publisher"]] = ("supports", ev["excerpt"], True)
+    first_ev = next(e for e in p8["evidence"] if e["publisher"] == "إرم نيوز")
+    alt_docs.append(important_doc("المنار", first_ev["excerpt"], link="https://www.almanar.com.lb/2026/10/07/x"))
+    alt_stance["المنار"] = ("supports", first_ev["excerpt"], True)
+
+    def classify81b(point, names):
+        rows = []
+        for n in names:
+            kind, excerpt, same = alt_stance.get(n, ("irrelevant", "", False))
+            rows.append(important_stance(n, kind, excerpt, same_event=same, verdict_label=""))
+        return {"sources": rows}
+    with ImportantRig([{"claim": p8["claim"], "entities": [alt_marker, "حزب الله", "ترمب"],
+                        "queries": [{"lang": "ar", "q": f"{alt_marker} {p8['claim']}"}]}],
+                      {alt_marker: alt_docs}, classify81b, strict_known=True):
+        important.judge("نص g81 البديل", 98181, cfg)
+    alt = important.load_saved(98181)["points"][0]
+    stances = {d["publisher"]: d["stance"] for d in alt["read_docs"]}
+    check("(g81) بديل #1288: مؤيِّدو lebanon24 وeremnews وalmanar وحدها ⇒ ليست confirmed",
+          alt["verdict"] != "confirmed", alt["verdict"])
+    check("(g81) بديل #1288: موقف الثلاثة outside",
+          all(stances.get(n) == "outside" for n in ("إرم نيوز", "Lebanon 24", "المنار")), stances)
 
     # g82) نقطة نصها «الخارجية الأميركية» ← site_queries فيها عبارة site:state.gov
     p82 = one(82, "الخارجية الأميركية أعلنت عن @ في المدينة",
@@ -2487,7 +2518,7 @@ def test_important_1291_guards() -> None:
           len(res2["points"]) == 4 and res2["off_topic"] == []
           and any("كلمةجانبية2" in q for q in rig2.queries), (len(res2["points"]), res2["off_topic"]))
     # #1309: رُفع rules_version إلى 5 بحارس التصحيح بلا تفصيل في النقطة
-    check("(g87) rules_version 6", res["rules_version"] == 6, res["rules_version"])
+    check("(g87) rules_version 7", res["rules_version"] == 7, res["rules_version"])
 
 
 def _b2_body(words: int, tag: str = "", extra: str = "") -> str:
@@ -2622,12 +2653,15 @@ def test_important_1293_guards() -> None:
             "post_title": "تطوّرات الخبر الرئيسي بين المؤكَّد والمتداول",
             "image_headline": "تطوّرات الخبر الرئيسي"}
 
+    from tests.helpers import fresh_date, freshen_nearest
+    gap_fresh = [dict(g_, published=fresh_date()) for g_ in gap_src]   # مصدر «الأقرب» يحتاج تاريخًا حديثًا (#1345)
+
     def run_write(item_, bodies):
         seq = list(bodies)
 
         def respond(prompt, system):
             return {**good, "post_body": seq.pop(0) if len(seq) > 1 else seq[0]}
-        with ImportantWriteRig(respond, gap_sources=gap_src) as rig_:
+        with ImportantWriteRig(respond, gap_sources=gap_fresh if item_["kind"] == "nearest" else gap_src) as rig_:
             rig_.next = 88600
             return important_write.write_article(result, item_, cfg, [], 88100), rig_
 
@@ -2686,7 +2720,7 @@ def test_important_1293_guards() -> None:
         n = len(writes_seen)
         return {**good, "post_title": f"عنوان منشور رقم {n}", "post_body": _b2_body(330, tag=f"م{n}x")}
 
-    with ImportantWriteRig(respond93, gap_sources=gap_src) as rig:
+    with ImportantWriteRig(respond93, gap_sources=gap_fresh) as rig:
         # أرقام قضايا مزيَّفة فريدة: finalize يبحث عن ملف الحكم برقم قضية الترشيح عبر كل state/important، فتصادم
         # العدّاد الافتراضي (7000) مع ملف اختبار آخر يخلط الملفين
         rig.next = 88700
@@ -2753,7 +2787,7 @@ def test_important_1293_guards() -> None:
     important.save(result_b)
     body_b = important_items_marked_body(result_b, {items_b["verified"]["id"]: "go2",
                                                     items_b["refuted"]["id"]: "go3"}, cfg)
-    with ImportantWriteRig(lambda p, s: {**good, "post_body": _b2_body(330, tag="ب")}, gap_sources=gap_src) as rig:
+    with ImportantWriteRig(lambda p, s: {**good, "post_body": _b2_body(330, tag="ب")}, gap_sources=gap_fresh) as rig:
         rig.next = 88800
         important_finalize.finalize(sel + 1, body_b, cfg)
         saved_b = {i["kind"]: i for i in important.load_saved(88210)["article_items"]}
@@ -2853,6 +2887,9 @@ def test_important_1304_guards() -> None:
     near = next(i for i in real["article_items"] if i["kind"] == "nearest")
     copied = near["last_attempt"]["post_body"]
     real_gap = copy.deepcopy(near["gap_sources"])
+    from tests.helpers import fresh_date
+    for g_ in real_gap:       # مقتطفات الشاهد الحقيقي تاريخها قديم؛ التاريخ الحديث يُضاف في الإعداد لا في الملف (#1345)
+        g_["published"] = fresh_date()
     (d101, why101, _t), _r, _i = run(
         "nearest", lambda p, sy: {**good, "post_title": near["last_attempt"]["post_title"],
                                   "image_headline": near["last_attempt"]["post_title"],
@@ -2935,7 +2972,7 @@ def test_important_1304_guards() -> None:
         important.save(res)
         body = important_items_marked_body(res, {its[k]["id"]: a for k, a in actions.items()}, cfg)
         with ImportantWriteRig(lambda p, sy: {**good, "post_body": _b2_body(body_words)},
-                               gap_sources=gap) as rig:
+                               gap_sources=[dict(g_, published=fresh_date()) for g_ in gap]) as rig:
             rig.next = issue + 500
             code = important_finalize.finalize(issue + 1, body, cfg)
         return code, rig
@@ -2979,7 +3016,7 @@ def test_important_1298_guards() -> None:
     import copy
 
     from src import important_write
-    from tests.helpers import ImportantWriteRig, important_b2_result
+    from tests.helpers import ImportantWriteRig, fresh_date, important_b2_result
 
     cfg = load_config()
     result = important_b2_result(89000)
@@ -2997,7 +3034,9 @@ def test_important_1298_guards() -> None:
 
         def respond(prompt, system):
             return {**good, "post_body": seq.pop(0) if len(seq) > 1 else seq[0]}
-        with ImportantWriteRig(respond, gap_sources=gap) as rig:
+        # مقتطفات «الأقرب» تحتاج تاريخًا حديثًا محسوبًا وقت التشغيل (#1345)
+        with ImportantWriteRig(respond, gap_sources=[dict(g_, published=fresh_date()) for g_ in gap]
+                               if kind == "nearest" else gap) as rig:
             rig.next = 89600
             out = important_write.write_article(src_res, item, cfg, [], 89100)
         return out, rig, item
@@ -3101,7 +3140,7 @@ def test_important_1309_guards() -> None:
     check("(g107) name بخطأ لا يرد في claim ← لا تصحيح؛ وكلمة ≥ 4 أحرف من الخطأ واردة في claim ← تصحيح",
           judged(f_no_date, "name", "الصواريخ الباليستية")[0]["BBC"]["stance"] == "related_other"
           and judged(f_no_date, "name", "دور لبنان في الحرب")[0]["BBC"]["stance"] == "conflicts_detail")
-    check("(g107) rules_version 6 (رُفعت في #1316)", cfg.path("important.rules_version") == 6)
+    check("(g107) rules_version 7 (رُفعت في #1345)", cfg.path("important.rules_version") == 7)
 
     # ── g108) أسئلة البحث المكمِّل لكل منشور ──
     qs_by, reqs_by = {}, {}
@@ -3378,7 +3417,7 @@ def test_important_1316_guards() -> None:
     check("(g118) إعادة فلتر البحث المكمِّل على gap_sources المحفوظة لـnearest ترمي رابط bbc topics وحده",
           bbc_topics not in kept and stats["listing"] == 1
           and all(g["link"] in kept for g in saved if g["link"] != bbc_topics), (kept, stats))
-    check("(g118) rules_version 6", icfg.get("rules_version") == 6)
+    check("(g118) rules_version 7", icfg.get("rules_version") == 7)
 
     # ── g119–g121) النقل الحرفي المنسوب ──
     publisher = "وزارة الخارجية الأميركية"
@@ -3913,10 +3952,15 @@ def test_editor_shared_1327_guards() -> None:
         out = important_editor.review(d, real, items["verified"], cfg)
         again = store.load_draft(d["id"])[1]
         lines = "\n".join(review.warnings_block(again))
-        check("g143: طُبّق على العنوان 1 وعلى post_title وعلى caption",
-              again["headlines"][0] == new_h and again["arabic"]["post_title"] == new_h
-              and again["caption"].startswith(new_h) and out["headlines"][0] == new_h, again["headlines"])
-        check("g143: سطر «✏️ كان … صار» ظاهر في عرض المراجعة", "✏️ كان" in lines and new_h in lines, lines[:300])
+        from src import date_style as _ds
+        exp_h = _ds.normalize_text(new_h, cfg)
+        check("g143: طُبّق على العنوان 1 وعلى post_title وعلى caption (بصيغة الأشهر الموحَّدة)",
+              again["headlines"][0] == exp_h and again["arabic"]["post_title"] == exp_h
+              and again["caption"].startswith(exp_h) and out["headlines"][0] == exp_h, again["headlines"])
+        check("g143: fix المطبَّق في editor_review.applied مطبَّع بصيغة الأشهر فيطابق النص المحفوظ",
+              again["editor_review"]["applied"][0]["fix"] == exp_h and exp_h != new_h,
+              again["editor_review"]["applied"])
+        check("g143: سطر «✏️ كان … صار» ظاهر في عرض المراجعة", "✏️ كان" in lines and exp_h in lines, lines[:300])
         d = install("e4aac1357cd5")
         body_note = dict(note, location="body", original="عقوبات جديدة", fix="عقوبات")
         editor._create = fake_editor({"verified": [body_note]})
@@ -3943,7 +3987,8 @@ def test_editor_shared_1327_guards() -> None:
         good = {"category": "عالم", "hashtags": ["هام"], "image_query_en": "news story",
                 "post_title": "تطوّرات الخبر الرئيسي بين المؤكَّد والمتداول",
                 "image_headline": "تطوّرات الخبر الرئيسي"}
-        gap_src = [{"publisher": "BBC", "link": "https://www.bbc.com/arabic/a1",
+        from tests.helpers import fresh_date
+        gap_src = [{"publisher": "BBC", "link": "https://www.bbc.com/arabic/a1", "published": fresh_date(),
                     "excerpt": "بي بي سي: تفصيل مؤكد عن الخبر الرئيسي وأرقامه.", "question": "س؟"}]
         writes: list = []
 
@@ -5373,6 +5418,32 @@ def test_important_h7_guards() -> None:
           "أكتوبر/تشرين الأول" in cfg.path("editor.system")
           and "أكتوبر/تشرين الأول" in cfg.path("important.article_instructions.common")
           and cfg.path("important.rules_version") == 7 and cfg.path("date_style.enabled") is True, "")
+
+    # ── ح) فشل «الأقرب» القديم لا يفتح قضية ترشيح جديدة ──
+    from src import important_finalize
+    from tests.helpers import important_items_marked_body
+    res8 = copy.deepcopy(real)
+    res8["issue"] = 98990
+    for it in res8["article_items"]:
+        it["selection_issue"] = None
+        it["status"] = "offered"
+    near8 = next(i for i in res8["article_items"] if i["kind"] == "nearest")
+    near8["selection_issue"] = 98991
+    res8["selection_issue"] = 98991
+    with ImportantWriteRig(respond, gap_sources=[]) as rig_h:
+        rig_h.next = 99000
+        important.save(res8)
+        body8 = important_items_marked_body(res8, {near8["id"]: "go2"}, cfg)
+        created_before = len(getattr(rig_h, "created", []) or [])
+        important_finalize.run(98991, body8, cfg)
+        saved8 = important.load_saved(98990)
+        n8 = next(i for i in saved8["article_items"] if i["id"] == near8["id"])
+        comments = " ".join(str(c) for c in (getattr(rig_h, "comments", []) or []))
+    check("(h7-ح) «الأقرب» القديم: لا نداء كاتب", not rig_h.calls, len(rig_h.calls))
+    check("(h7-ح) لا قضية ترشيح جديدة (selection_issue لم يُمسح ولا write_failed)",
+          not n8.get("write_failed") and n8.get("selection_issue") == 98991
+          and len(getattr(rig_h, "created", []) or []) == created_before, n8)
+    check("(h7-ح) التعليق على قضية الترشيح موجود بسبب «لا مصدر حديث»", "لا مصدر حديث" in comments, comments[:300])
 
     # ── ز) عبر store.save_draft الحقيقي ──
     draft = {"id": "h7h7h7h7h7h7", "created_at": "2026-10-09T00:00:00+00:00", "status": "pending",

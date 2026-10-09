@@ -18,7 +18,7 @@ import re
 from datetime import datetime, timezone
 from typing import Any
 
-from . import imagesearch
+from . import date_style, imagesearch
 
 log = logging.getLogger(__name__)
 
@@ -323,6 +323,9 @@ def apply_review(draft: dict, adapter: Adapter, ctx: Any, notes: list[dict], cfg
                 ok = False       # الإصلاح يُحدث مخالفة جديدة ← يُلغى ويصير ملاحظة معروضة
             else:
                 title, body, headlines = new_title, new_body, new_heads
+                if note["fix"]:
+                    # سطر «✏️ كان/صار» يطابق ما حُفظ فعلًا بعد توحيد صيغة الأشهر (#1345)
+                    note["fix"] = date_style.normalize_text(note["fix"], cfg)
                 applied.append(note)
                 continue
         shown.append(note)
