@@ -2367,7 +2367,9 @@ def test_youtube_article() -> None:
         "quote_arabic": "لم نشهد توترًا بهذا الحجم منذ ستين عامًا",
         "video_title": "فيديو تجريبي", "video_url": "https://example.com/v", "timestamp": 12,
     }]
-    rich_client = _Client([_Resp([_Block("text", text=_valid_article())])])
+    # المتحدث «مسمّى» فاسمه يجب أن يرد في المتن (Issue #1326)
+    rich_client = _Client([_Resp([_Block("text", text=_valid_article(
+        extra_body="وقال أحمد فلان إن الأمر كذلك."))])])
     ya.draft_article(topic_a, rich_points, article_cfg, rich_client)
     sent_content = rich_client.messages.calls[0]["messages"][0]["content"]
     check("draft_article: الرقم/التاريخ الوارد في النقطة يصل نصّ الطلب",
