@@ -4981,8 +4981,10 @@ def test_reel_script_guards() -> None:
 
         # ── g175) names_audit على السيناريو، والمحرر يستقبل المقاطع بتواريخها ──
         check("g175: names_audit مرّ على نص السيناريو كله ومصدره اقتباسات النقاط الأصلية",
-              len(audits) == 1 and "عنوان الشاشة" in audits[0]["title"] and narr1 in audits[0]["body"]
-              and HE40 in audits[0]["sources"], audits)
+              len(audits) == 3 and "عنوان الشاشة" in audits[-1]["title"] and narr1 in audits[-1]["body"]
+              and HE40 in audits[-1]["sources"], audits)
+        check("g175: تدقيق المتحدثين يسبق تدقيق الراوي (مسودة وسيطة بلا عنوان)",
+              audits[-2]["title"] == "" and "إسحاق بريك" in audits[-2]["body"], audits[-2])
         msg = json.dumps(edits[0]["messages"], ensure_ascii=False) if edits else ""
         check("g175: المحرر بمُكيِّف reel: مقاطع بتواريخها وسطور القراءة فقط",
               len(edits) == 1 and "2099-10-30" in msg and pa["video_url"] in msg and a_id in msg, msg[:300])
@@ -5133,3 +5135,97 @@ def test_reel_script_guards() -> None:
         names_audit.run = real["audit"]
         ya.generate_headlines = real["hl"]
         reel_editor._create = real["ed_create"]
+
+
+def test_reel_speaker_audit_guards() -> None:
+    """تدقيق أسماء المتحدثين في مقاطع الريل قبل كتابة السيناريو (Issue #1343، g181–g185)."""
+    import json
+    from types import SimpleNamespace
+
+    from src import names_audit, reel_editor, reel_script
+    from src import youtube_article as ya
+    from src import youtube_publish as yp
+
+    cfg = load_config()
+    cfg.setdefault("reel", {})["enabled"] = True
+    D = "2099-11-02"
+
+    def pt(i, speaker, ts):
+        return {"video_id": f"w{i}", "bloc": "arabic", "channel": "الجزيرة", "speaker": speaker,
+                "statement": f"قول {i}", "quote_arabic": f"اقتباس {i}", "quote_original": " ".join(["كلمة"] * 20),
+                "type": "fact", "video_title": f"فيديو {i}", "video_url": f"https://youtube.com/watch?v=w{i}",
+                "timestamp": ts, "video_published": "2099-10-30"}
+
+    pa, pb, pc = pt(1, "حقان فيدان", 100), pt(2, "ليلى حداد", 200), pt(3, "مجهول الهوية", 300)
+    ids = {p["speaker"]: reel_script.point_key_id(p) for p in (pa, pb, pc)}
+    calls: list = []
+    narr = " ".join(f"س{i}" for i in range(45))
+    narr2 = " ".join(f"ص{i}" for i in range(45))
+
+    def fake_create(client, **kw):
+        calls.append(kw)
+        scenes = [{"kind": "cold_open_clip", "point_id": ids["حقان فيدان"]}, {"kind": "title_card", "text": "ع"},
+                  {"kind": "narration", "text": narr}, {"kind": "clip", "point_id": ids["ليلى حداد"]},
+                  {"kind": "narration", "text": narr2}, {"kind": "question", "text": "ما رأيك؟"},
+                  {"kind": "outro"}]
+        data = {"title": "ع", "question": "ما رأيك؟", "scenes": scenes}
+        return SimpleNamespace(content=[SimpleNamespace(type="tool_use", name="report_reel_script", input=data)],
+                               stop_reason="tool_use", usage=SimpleNamespace(input_tokens=1, output_tokens=1))
+
+    def fake_audit(draft, sources, c):
+        body = draft["arabic"]["post_body"]
+        if draft["arabic"]["post_title"] == "":  # تدقيق المتحدثين (مسودة وسيطة بلا عنوان)
+            draft["arabic"]["post_body"] = body.replace("حقان", "هاكان")
+            if "مجهول" in body:
+                draft["name_unresolved"] = [{"arabic": "مجهول الهوية", "latin": "X", "reason": "x"}]
+            draft["name_corrections"] = [{"from": "حقان فيدان", "to": "هاكان فيدان"}]
+        else:  # تدقيق نص الراوي
+            draft["name_unresolved"] = [{"arabic": "اسم راوٍ", "latin": "Y", "reason": "y"}]
+        return {}
+
+    real = {"create": reel_script._create, "audit": names_audit.run, "hl": ya.generate_headlines,
+            "ed": reel_editor._create}
+    reel_script._create = fake_create
+    names_audit.run = fake_audit
+    ya.generate_headlines = lambda *a, **k: (["هل؟", "ب", "ج"], None, None)
+    reel_editor._create = lambda client, **kw: SimpleNamespace(
+        content=[SimpleNamespace(type="tool_use", name="report_review", input={"notes": []})],
+        usage=SimpleNamespace(server_tool_use=None))
+    topic = {"id": "aaaa1111bbbb", "title": "موضوع", "event": "حدث"}
+
+    def new_draft(i):
+        d = yp.build_reel_draft({"id": "aaaa1111bbbb", "title": "موضوع", "layer": "a", "blocs": ["arabic"],
+                                 "channels": ["الجزيرة"], "agreement": "agreement", "event": "حدث"}, D, cfg)
+        d["id"] = i
+        return d
+
+    try:
+        # أ + ب + د: ثلاثة مقاطع، بلا مسودة مقال شقيقة (unresolved فارغة)، أحدها غير محسوم
+        d = new_draft("f1f1f1f1f1f1")
+        out = reel_script.write_for_draft(d, topic, [pa, pb, pc], "", [], cfg)
+        sc = d.get("script") or {}
+        clips = [s for s in sc.get("scenes", []) if s["kind"] in reel_script.CLIP_KINDS]
+        tl = "\n".join(reel_script.timeline_lines(sc, cfg))
+        check("g181: «حقان فيدان» ← «هاكان فيدان» في الشريط السفلي",
+              out["status"] == "ready" and bool(clips) and clips[0]["speaker_name"] == "هاكان فيدان", out)
+        check("g181: الجدول الزمني يعرض المصحَّح", "هاكان فيدان" in tl and "حقان" not in tl, tl)
+        check("g182/g184: غير المحسوم مستبعد بلا مسودة شقيقة ولا يظهر في مشهد ولا في مدخل النموذج",
+              len(clips) == 2 and "مجهول" not in json.dumps(sc, ensure_ascii=False)
+              and "مجهول" not in json.dumps(calls[0].get("messages"), ensure_ascii=False), len(clips))
+        names = [x.get("arabic") for x in d.get("name_unresolved") or []]
+        check("g185: name_unresolved يجمع تدقيق المتحدثين والراوي معًا",
+              "مجهول الهوية" in names and "اسم راوٍ" in names, names)
+        check("g185: name_corrections باقية", bool(d.get("name_corrections")), d.get("name_corrections"))
+
+        # ج: مقطعان صالحان أحدهما غير محسوم ← فشل بلا نداء
+        calls.clear()
+        d2 = new_draft("f2f2f2f2f2f2")
+        out = reel_script.write_for_draft(d2, topic, [pa, pc], "", [], cfg)
+        check("g183: فشل بسبب يذكر الاسم وبلا أي نداء نموذج",
+              out["status"] == "failed" and d2["script_status"] == "failed" and "مجهول الهوية" in d2["script_error"]
+              and "غير محسومة" in d2["script_error"] and not calls, (d2.get("script_error"), len(calls)))
+    finally:
+        reel_script._create = real["create"]
+        names_audit.run = real["audit"]
+        ya.generate_headlines = real["hl"]
+        reel_editor._create = real["ed"]
