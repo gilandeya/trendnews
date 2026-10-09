@@ -1,0 +1,82 @@
+{
+  "id": "19a541bf18c2",
+  "created_at": "2026-10-09T09:08:14.679903+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.1,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "أزمة دبلوماسية حول أسرى كوريين شماليين في أوكرانيا",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "(LEAD) S. Korea to recall envoy to Ukraine amid dispute over disclosure of N.K. POWs",
+  "link": "https://en.yna.co.kr/view/AEN20261008008451315",
+  "publishers": [
+    "Deutsche Welle",
+    "NPR World",
+    "Yonhap News"
+  ],
+  "region": "kr",
+  "article": {
+    "title": "(LEAD) S. Korea to recall envoy to Ukraine amid dispute over disclosure of N.K. POWs",
+    "link": "https://en.yna.co.kr/view/AEN20261008008451315",
+    "summary": "SEOUL, Oct. 8 (Yonhap) -- South Korea will recall its ambassador to Ukraine, the...",
+    "source_name": "Yonhap News",
+    "region": "kr",
+    "weight": 1.0,
+    "published": "2026-10-08T08:51:19+00:00",
+    "image_url": "https://img.yna.co.kr/etc/inner/EN/2026/10/08/AEN20261008008451315_03_i_P2.jpg",
+    "publisher": "Yonhap News",
+    "cluster_sources": [
+      "Deutsche Welle",
+      "NPR World",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20261008008300315"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20261008008400315"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20261008008451315"
+      },
+      {
+        "name": "Deutsche Welle",
+        "link": "https://www.dw.com/en/south-korea-recalls-ukraine-ambassador-amid-pow-dispute/a-79590511?maca=en-rss-en-world-4025-rdf"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/10/08/g-s1-147115/south-korea-to-recall-its-ambassador-to-ukraine-over-north-korean-pow-dispute"
+      }
+    ],
+    "image_candidates": [
+      "https://img.yna.co.kr/etc/inner/EN/2026/10/08/AEN20261008008451315_03_i_P2.jpg",
+      "https://img.yna.co.kr/etc/inner/EN/2026/10/08/AEN20261008008451315_01_i_P2.jpg",
+      "https://img.yna.co.kr/photo/cms/2023/08/24/07/PCM20230824000107990_P2.jpg",
+      "https://img.yna.co.kr/etc/inner/EN/2026/10/08/AEN20261008008400315_01_i_P2.jpg",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=g-s1-147115"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1576.9136231419443,
+    "is_stale": false,
+    "score": 25.103223210441246,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "أزمة دبلوماسية حول أسرى كوريين شماليين في أوكرانيا",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

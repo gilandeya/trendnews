@@ -1,0 +1,62 @@
+{
+  "id": "eb5628fabb4f",
+  "created_at": "2026-10-09T09:08:14.680709+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.02,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "تأثير الصراع اليمني على التجارة العربية والإفريقية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Africa: How the Houthi-Saudi Conflict is Affecting African Countries",
+  "link": "https://allafrica.com/stories/202610090212.html",
+  "publishers": [
+    "AllAfrica",
+    "and beyond"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Africa: How the Houthi-Saudi Conflict is Affecting African Countries",
+    "link": "https://allafrica.com/stories/202610090212.html",
+    "summary": "[DW] The Bab el-Mandeb Strait, which Yemeni government forces are trying to take back from the Houthis, is located not far from Djibouti and other African states.",
+    "source_name": "AllAfrica",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-10-09T06:54:25+00:00",
+    "image_url": null,
+    "publisher": "AllAfrica",
+    "cluster_sources": [
+      "AllAfrica",
+      "and beyond"
+    ],
+    "cluster_members": [
+      {
+        "name": "and beyond",
+        "link": "https://www.dw.com/en/how-the-houthi-saudi-conflict-is-affecting-countries-on-africa-s-red-sea-coast-and-beyond/a-79588992?maca=en-rss-en-world-4025-rdf"
+      },
+      {
+        "name": "AllAfrica",
+        "link": "https://allafrica.com/stories/202610090212.html"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1576.9136653827777,
+    "is_stale": false,
+    "score": 24.018446816962964,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "تأثير الصراع اليمني على التجارة العربية والإفريقية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

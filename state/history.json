@@ -1,103 +1,5 @@
 [
   {
-    "score": 23.24,
-    "bucket": "useful",
-    "tokens": [
-      "aramco",
-      "claim",
-      "facility",
-      "fighting",
-      "houthis",
-      "intensifies",
-      "saudi",
-      "strike",
-      "yemen"
-    ],
-    "link": "https://www.investing.com/news/economy-news/houthis-claim-strike-on-saudi-aramco-facility-as-yemen-fighting-intensifies-4930902",
-    "title": "Houthis claim strike on Saudi Aramco facility as Yemen fighting intensifies",
-    "posted_title": "",
-    "region": "money",
-    "seen_at": "2026-10-04T09:08:11.699245+00:00"
-  },
-  {
-    "score": 21.25,
-    "bucket": "serious",
-    "tokens": [
-      "100",
-      "agrees",
-      "barrels",
-      "fall",
-      "million",
-      "oil",
-      "prices",
-      "release",
-      "reserves"
-    ],
-    "link": "http://www.africanews.com/2026/10/03/oil-prices-fall-as-g7-agrees-to-release-100-million-barrels-of-reserves/",
-    "title": "Oil prices fall as G7 agrees to release 100 million barrels of reserves",
-    "posted_title": "",
-    "region": "africa",
-    "seen_at": "2026-10-04T09:08:11.699528+00:00"
-  },
-  {
-    "score": 21.12,
-    "bucket": "serious",
-    "tokens": [
-      "five",
-      "four",
-      "gaza",
-      "health",
-      "including",
-      "israeli",
-      "kills",
-      "officials",
-      "say",
-      "strike",
-      "women"
-    ],
-    "link": "https://www.thehindu.com/news/international/israeli-strike-kills-five-including-four-women-in-gaza-health-officials-say/article71541408.ece",
-    "title": "Israeli strike kills five, including four women, in Gaza, health officials say",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-10-04T09:08:11.699835+00:00"
-  },
-  {
-    "score": 19.85,
-    "bucket": "serious",
-    "tokens": [
-      "china",
-      "lie",
-      "slams",
-      "starbucks",
-      "stores",
-      "xinjiang"
-    ],
-    "link": "https://www.malaymail.com/news/money/2026/10/04/china-slams-us-lie-over-starbucks-stores-in-xinjiang/237628",
-    "title": "China slams US ‘lie’ over Starbucks stores in Xinjiang",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-10-04T09:08:11.700106+00:00"
-  },
-  {
-    "score": 18.75,
-    "bucket": "serious",
-    "tokens": [
-      "000",
-      "350",
-      "argentina",
-      "citizenship",
-      "dollars",
-      "foreigners",
-      "raise",
-      "sell"
-    ],
-    "link": "https://en.mercopress.com/2026/10/03/argentina-to-sell-citizenship-to-foreigners-for-us-350-000-to-raise-dollars?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
-    "title": "Argentina to sell citizenship to foreigners for US$350,000 to raise dollars",
-    "posted_title": "",
-    "region": "latam",
-    "seen_at": "2026-10-04T09:08:11.700368+00:00"
-  },
-  {
     "score": 28.0,
     "bucket": "serious",
     "tokens": [
@@ -2008,5 +1910,98 @@
     "posted_title": "",
     "region": "us",
     "seen_at": "2026-10-09T03:08:22.175384+00:00"
+  },
+  {
+    "score": 25.1,
+    "bucket": "serious",
+    "tokens": [
+      "disclosure",
+      "dispute",
+      "envoy",
+      "korea",
+      "lead",
+      "pows",
+      "recall",
+      "ukraine"
+    ],
+    "link": "https://en.yna.co.kr/view/AEN20261008008451315",
+    "title": "(LEAD) S. Korea to recall envoy to Ukraine amid dispute over disclosure of N.K. POWs",
+    "posted_title": "",
+    "region": "kr",
+    "seen_at": "2026-10-09T09:08:14.680376+00:00"
+  },
+  {
+    "score": 25.05,
+    "bucket": "serious",
+    "tokens": [
+      "forces",
+      "ibo",
+      "kill",
+      "media",
+      "north",
+      "security",
+      "state",
+      "terrorists",
+      "waziristan"
+    ],
+    "link": "https://www.dawn.com/news/2035888/security-forces-kill-7-terrorists-in-north-waziristan-ibo-state-media",
+    "title": "Security forces kill 7 terrorists in North Waziristan IBO: state media",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-10-09T09:08:14.680699+00:00"
+  },
+  {
+    "score": 24.02,
+    "bucket": "serious",
+    "tokens": [
+      "affecting",
+      "africa",
+      "african",
+      "conflict",
+      "countries",
+      "houthi",
+      "how",
+      "saudi"
+    ],
+    "link": "https://allafrica.com/stories/202610090212.html",
+    "title": "Africa: How the Houthi-Saudi Conflict is Affecting African Countries",
+    "posted_title": "",
+    "region": "africa",
+    "seen_at": "2026-10-09T09:08:14.680972+00:00"
+  },
+  {
+    "score": 23.34,
+    "bucket": "serious",
+    "tokens": [
+      "atiku",
+      "day",
+      "discount",
+      "fuel",
+      "speaks",
+      "tinubu"
+    ],
+    "link": "https://www.premiumtimesng.com/news/top-news/915586-atiku-speaks-on-tinubus-30-day-fuel-discount.html",
+    "title": "Atiku speaks on Tinubu’s 30-day fuel discount",
+    "posted_title": "",
+    "region": "ng",
+    "seen_at": "2026-10-09T09:08:14.681247+00:00"
+  },
+  {
+    "score": 21.87,
+    "bucket": "serious",
+    "tokens": [
+      "kenyans",
+      "killed",
+      "missing",
+      "revealed",
+      "russia",
+      "ukraine",
+      "war"
+    ],
+    "link": "https://www.standardmedia.co.ke/article/2001559706/revealed-84-kenyans-killed-52-missing-in-russia-ukraine-war",
+    "title": "Revealed: 84 Kenyans killed, 52 missing in Russia-Ukraine war",
+    "posted_title": "",
+    "region": "ke",
+    "seen_at": "2026-10-09T09:08:14.681545+00:00"
   }
 ]

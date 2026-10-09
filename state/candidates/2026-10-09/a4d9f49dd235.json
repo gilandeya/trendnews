@@ -1,0 +1,77 @@
+{
+  "id": "a4d9f49dd235",
+  "created_at": "2026-10-09T09:08:14.680389+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.05,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 1,
+  "appeal_note": "عملية أمنية ضد الإرهاب في باكستان المجاورة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Security forces kill 7 terrorists in North Waziristan IBO: state media",
+  "link": "https://www.dawn.com/news/2035888/security-forces-kill-7-terrorists-in-north-waziristan-ibo-state-media",
+  "publishers": [
+    "Dawn",
+    "Geo News",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Security forces kill 7 terrorists in North Waziristan IBO: state media",
+    "link": "https://www.dawn.com/news/2035888/security-forces-kill-7-terrorists-in-north-waziristan-ibo-state-media",
+    "summary": "Security forces killed seven terrorists in an intelligence-based operation (IBO) in Khyber Pakhtunkhwa’s North Waziristan district, state broadcaster Radio Pakistan reported on Friday. The terrorists belonged to Fitna al Khawarij , a term the state uses for terrorists belonging to the banned Tehreek-i-Taliban Pakistan (TTP). According to security sources, a large quantity of weapons and ammunition was also recovered from the terrorists. President Asif Ali Zardari commended the security forces’ operation, which also destroyed the terrorists’ hideouts. In a statement, the president said “the conspiracies of the terrorists’ foreign patrons and their local facilitators will be thwarted at any cost”. The entire nation stands with its security forces in the war against terrorism, he added. Prime Minister Shehbaz Sharif also paid tribute to the security forces for their successful operations against Fitna al-Khawarij , according to state broadcaster. In a statement, he reaffirmed the government’s resolve to completely eradicate terrorism from the country. KP has long faced security challenges. In August , the province, excluding the merged districts, recorded 54 terrorist attacks compared",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-10-09T06:46:31+00:00",
+    "image_url": "https://i.dawn.com/large/2026/10/09112442cbeeafa.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "Geo News",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2035888/security-forces-kill-7-terrorists-in-north-waziristan-ibo-state-media"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2633858/security-forces-kill-seven-terrorists-in-north-waziristan-ibo-state-media-1"
+      },
+      {
+        "name": "Geo News",
+        "link": "https://www.geo.tv/latest/685564-security-forces-kill-9-terrorists-in-north-waziristan-ibo-sources"
+      },
+      {
+        "name": "Geo News",
+        "link": "https://www.geo.tv/latest/685715-security-forces-neutralise-seven-india-backed-terrorists-in-north-waziristan-ibo-sources"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/10/09112442cbeeafa.webp",
+      "https://i.dawn.com/thumbnail/2026/10/09112442cbeeafa.webp",
+      "https://www.geo.tv/assets/uploads/2026-10-08/685564_121901_updates.jpg",
+      "https://www.geo.tv/assets/uploads/2026-10-09/685715_113708_updates.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1576.9136601427776,
+    "is_stale": false,
+    "score": 25.047889868996805,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 1,
+    "appeal_note": "عملية أمنية ضد الإرهاب في باكستان المجاورة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

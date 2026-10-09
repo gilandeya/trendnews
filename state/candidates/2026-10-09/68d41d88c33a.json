@@ -1,0 +1,64 @@
+{
+  "id": "68d41d88c33a",
+  "created_at": "2026-10-09T09:08:14.681257+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.87,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "كينيون في الحرب الأوكرانية: أرقام جديدة عن القتلى والمفقودين",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Revealed: 84 Kenyans killed, 52 missing in Russia-Ukraine war",
+  "link": "https://www.standardmedia.co.ke/article/2001559706/revealed-84-kenyans-killed-52-missing-in-russia-ukraine-war",
+  "publishers": [
+    "AllAfrica",
+    "The Standard Kenya"
+  ],
+  "region": "ke",
+  "article": {
+    "title": "Revealed: 84 Kenyans killed, 52 missing in Russia-Ukraine war",
+    "link": "https://www.standardmedia.co.ke/article/2001559706/revealed-84-kenyans-killed-52-missing-in-russia-ukraine-war",
+    "summary": "Mudavadi says 84 Kenyans are killed or missing in the Russia-Ukraine war, while 354 are on official records. Five Kenyans remain prisoners of war in Ukraine.",
+    "source_name": "The Standard Kenya",
+    "region": "ke",
+    "weight": 0.9,
+    "published": "2026-10-08T13:55:00+00:00",
+    "image_url": "https://cdn.standardmedia.co.ke/images/articles/thumbnails/RKL6GtiwUxMetUhgbqUdAcz1bucqcokFdnyJ5ZEw.jpg",
+    "publisher": "The Standard Kenya",
+    "cluster_sources": [
+      "AllAfrica",
+      "The Standard Kenya"
+    ],
+    "cluster_members": [
+      {
+        "name": "AllAfrica",
+        "link": "https://allafrica.com/stories/202610090107.html"
+      },
+      {
+        "name": "The Standard Kenya",
+        "link": "https://www.standardmedia.co.ke/article/2001559706/revealed-84-kenyans-killed-52-missing-in-russia-ukraine-war"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.standardmedia.co.ke/images/articles/thumbnails/RKL6GtiwUxMetUhgbqUdAcz1bucqcokFdnyJ5ZEw.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1576.91405611,
+    "is_stale": false,
+    "score": 21.86909495587037,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "كينيون في الحرب الأوكرانية: أرقام جديدة عن القتلى والمفقودين",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
