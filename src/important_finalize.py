@@ -19,8 +19,8 @@ import json
 import logging
 from datetime import datetime, timezone
 
-from . import (cards, collect_finalize, decisions, important, important_issue, important_write,
-               review, stages, store)
+from . import (cards, collect_finalize, decisions, editor, important, important_editor, important_issue,
+               important_write, review, stages, store)
 
 log = logging.getLogger("trendnews.important_finalize")
 
@@ -182,10 +182,13 @@ def finalize(issue_number: int, body: str, cfg) -> int:
     review_drafts: list[dict] = []
     card_drafts: list[dict] = []
     written = 0
+    reused: set[str] = set()
 
     def make(pid: str) -> dict | None:
         point = points[pid]
         draft = _reuse_returned(point, issue_number)
+        if draft is not None:
+            reused.add(pid)
         if draft is None:
             if item_mode:
                 draft, reason, technical = important_write.write_article(
@@ -229,14 +232,21 @@ def finalize(issue_number: int, body: str, cfg) -> int:
                        key=lambda i: important.ARTICLE_KINDS.index(points[i]["kind"]))
     else:
         order = [i for act in ("publish", "go2", "go3") for i in ids if chosen.get(i) == act]
+    # الكتابة كلها أولًا (ليرى المحرر كل الإخوة)، ثم المحرر الأخير لكل مسودة جديدة بترتيب الكتابة، ثم التوزيع (#1331)
+    made: list[tuple[str, dict]] = []
     for pid in order:
         draft = make(pid)
-        if not draft:
-            continue
+        if draft:
+            made.append((pid, draft))
+    if item_mode:
+        made = [(pid, draft if pid in reused else important_editor.review(draft, result, points[pid], cfg))
+                for pid, draft in made]
+    for pid, draft in made:
         written += 1
-        if chosen[pid] in ("publish", "go3") and any(
-                str(w).startswith(important_write.WARN_FAILED_CHECK_PREFIX) for w in draft.get("warnings") or []):
-            # منشور لم يجتز فحصًا لا يُنشر ولا تُبنى بطاقته قبل عين بشرية (#1304): يذهب إلى المرحلة 2
+        gated, _why = editor.gate_action(chosen[pid], draft, 1, cfg)
+        if chosen[pid] in ("publish", "go3") and (gated != chosen[pid] or any(
+                str(w).startswith(important_write.WARN_FAILED_CHECK_PREFIX) for w in draft.get("warnings") or [])):
+            # منشور لم يجتز فحصًا أو وجد فيه المحرر ما يمنعه لا يُنشر ولا تُبنى بطاقته قبل عين بشرية (#1304، #1331)
             chosen[pid] = "go2"
             review.comment(issue_number, f"📝 حُوِّل {_title(points[pid], cfg)} إلى المراجعة لأن فيه تنبيهات فحص")
         if chosen[pid] == "go2":

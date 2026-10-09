@@ -3803,3 +3803,322 @@ def test_analysis_editor_guards() -> None:
     check("g140: مدخل بلا wrong يختلف عدد كلمات رسمه بأكثر من 1 ← يُتجاهل",
           "selcuk bayraktaroglu" not in usable, list(usable))
     check("g140: المداخل السليمة تبقى", "imamoglu" in usable and "abbas araghchi" in usable, list(usable))
+
+
+def test_editor_shared_1327_guards() -> None:
+    """Issue #1331 (D1): g141–g150 — المحرر الأخير المشترك (src/editor.py) بمُكيِّفَي التحليل و«هام»، وإصلاحات «هام»
+    من القضية #1327. الشواهد نسخ حرفية في tests/fixtures/important/1327/ (حكم القضية ومسودتا verified وnearest).
+    نموذج المحرر مزيَّف (editor._create)؛ والكود الحقيقي هو الذي يبني الرسالة ويطبّق ويبوّب ويعرض."""
+    import copy
+    import json
+    import re
+    from datetime import datetime, timezone
+
+    from src import (editor, imagesearch, important, important_editor, important_finalize, important_gap,
+                     important_write, review)
+    from src import youtube_editor as ye
+    from tests.helpers import (IMPORTANT_FIXTURES, editor_response, important_b2_result,
+                               important_items_marked_body)
+
+    cfg = load_config()
+    fx = IMPORTANT_FIXTURES / "1327"
+    real = json.loads((fx / "1327.json").read_text(encoding="utf-8"))
+    items = {i["kind"]: i for i in real["article_items"]}
+
+    def install(name: str) -> dict:
+        """يعيد المسودة الأصلية للشاهد إلى المخزن (كل حالة تبدأ من الحقيقي) ويعيد نسخة منها."""
+        d = json.loads((fx / f"{name}.json").read_text(encoding="utf-8"))
+        store.save_draft(copy.deepcopy(d))
+        return store.load_draft(d["id"])[1]
+
+    saved_create, saved_ye = editor._create, ye._create
+    sent: list = []
+
+    def fake_editor(notes_by_kind: dict, searches: int = 0):
+        """notes_by_kind: {نوع المنشور: ملاحظات}؛ يسجّل نداءات المحرر كلها."""
+        def fake(client, **kw):
+            sent.append(kw)
+            msg = kw["messages"][0]["content"]
+            for kind, notes in notes_by_kind.items():
+                if f"نوع المنشور: {kind}" in msg:
+                    return editor_response(notes, searches=searches)
+            return editor_response([], searches=searches)
+        return fake
+
+    def reset_counter() -> None:
+        imagesearch.BRAVE_USAGE_FILE.unlink(missing_ok=True)
+
+    reset_counter()
+    try:
+        # g141) المحرر المشترك بمُكيِّف التحليل: الغلاف الرقيق والمُكيِّف والإعداد العام (وg128–g140 تمرّ بلا تعديل)
+        check("g141: فئتا stale_as_new وsibling_duplicate في الفئات، وsibling_duplicate لا تُطبَّق أبدًا",
+              "stale_as_new" in editor.CATEGORIES and "sibling_duplicate" in editor.CATEGORIES
+              and "sibling_duplicate" in editor.NEVER_APPLIED)
+        check("g141: كتلة editor عامة (paths وsystem_extra وstale_days 14) وyoutube.review.editor حُذفت",
+              cfg.path("youtube.review.editor") is None
+              and cfg.path("editor.paths") == {"analysis": True, "important": True, "news": False,
+                                               "breaking": False}
+              and cfg.path("editor.stale_days") == 14 and cfg.path("editor.monthly_search_cap") == 300
+              and set(cfg.path("editor.system_extra")) >= {"analysis", "important"}
+              and "قارن تاريخ كل حدث بتاريخ اليوم المعطى" in cfg.path("editor.system"),
+              cfg.path("editor.paths"))
+        check("g141: youtube_editor غلاف رقيق على المحرر المشترك (مُكيِّف التحليل)",
+              ye.ADAPTER.name == "analysis" and ye.gate_action is editor.gate_action
+              and ye.render_lines is editor.render_lines and not hasattr(ye, "_converse"))
+        fxa = IMPORTANT_FIXTURES.parent / "analysis" / "1322" / "8ec39e3d9456.json"
+        da = json.loads(fxa.read_text(encoding="utf-8"))
+        da2 = copy.deepcopy(da)
+        note_a = {"category": "headline_contradicts", "severity": "high", "location": "headline_1",
+                  "original": da["headlines"][0], "fix": "عنوان بديل مصحَّح", "note": "ملاحظة", "sources": []}
+        pts_a = [{"channel": "هابر ترك", "speaker": "ناطق", "video_url": "https://www.youtube.com/watch?v=abc",
+                  "timestamp": 1, "statement": "قول", "type": "claim", "video_published": "2026-10-09"}]
+        ye._create = lambda client, **kw: editor_response([note_a])
+        editor._create = lambda client, **kw: editor_response([note_a])
+        r1 = ye.run(da, pts_a, cfg)
+        r2 = editor.run(da2, ye.ADAPTER, pts_a, cfg)
+        check("g141: الغلاف والمحرر المشترك بمُكيِّف التحليل يعطيان النتيجة نفسها",
+              da["headlines"] == da2["headlines"] and da["headlines"][0] == "عنوان بديل مصحَّح"
+              and len(r1["applied"]) == len(r2["applied"]) == 1, (da["headlines"], da2["headlines"]))
+        ye._create = saved_ye
+        reset_counter()
+
+        # g142) رسالة المحرر لـd4dbc7461dc2: الشقيق والتاريخ والخبر الرئيسي وتاريخ كل مصدر
+        install("e4aac1357cd5")
+        near = install("d4dbc7461dc2")
+        sibling = json.loads((fx / "e4aac1357cd5.json").read_text(encoding="utf-8"))
+        sent.clear()
+        editor._create = fake_editor({})
+        important_editor.review(near, real, items["nearest"], cfg)
+        msg = sent[0]["messages"][0]["content"] if sent else ""
+        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        sources_part = msg.split("مقتطفات المصادر المعطاة للكاتب", 1)[-1].split("المنشورات الشقيقة", 1)[0]
+        dated = sources_part.count("(نُشر:") + sources_part.count("(تاريخ غير معروف)")
+        check("g142: الرسالة فيها تاريخ اليوم والخبر الرئيسي ونوع المنشور",
+              f"تاريخ اليوم: {today}" in msg and real["main_story"] in msg and "نوع المنشور: nearest" in msg,
+              msg[:200])
+        check("g142: عنوان الشقيق e4aac1357cd5 ومتنه ومعرّفه في الرسالة",
+              sibling["arabic"]["post_title"] in msg and sibling["arabic"]["post_body"][:60] in msg
+              and "[e4aac1357cd5]" in msg, msg[-300:])
+        n_sources = len(re.findall(r"^- [^\n|]+ \| https?://", sources_part, flags=re.M))
+        check("g142: لكل مصدر «(نُشر: …)» أو «(تاريخ غير معروف)»",
+              n_sources > 1 and dated >= n_sources, (dated, n_sources))
+
+        # g143) stale_as_new على العنوان ← يُطبَّق على العنوان وعلى post_title (المختار) وسطر «✏️ كان/صار»
+        d = install("e4aac1357cd5")
+        old_h = d["headlines"][0]
+        new_h = "الولايات المتحدة فرضت عقوبات في آذار/مارس على شبكة مالية عالمية تدعم حزب الله"
+        note = {"category": "stale_as_new", "severity": "low", "location": "headline_1", "original": old_h,
+                "fix": new_h, "note": "عقوبات 20 آذار/مارس عمرها أكثر من 14 يومًا", "sources": []}
+        editor._create = fake_editor({"verified": [note]})
+        out = important_editor.review(d, real, items["verified"], cfg)
+        again = store.load_draft(d["id"])[1]
+        lines = "\n".join(review.warnings_block(again))
+        check("g143: طُبّق على العنوان 1 وعلى post_title وعلى caption",
+              again["headlines"][0] == new_h and again["arabic"]["post_title"] == new_h
+              and again["caption"].startswith(new_h) and out["headlines"][0] == new_h, again["headlines"])
+        check("g143: سطر «✏️ كان … صار» ظاهر في عرض المراجعة", "✏️ كان" in lines and new_h in lines, lines[:300])
+        d = install("e4aac1357cd5")
+        body_note = dict(note, location="body", original="عقوبات جديدة", fix="عقوبات")
+        editor._create = fake_editor({"verified": [body_note]})
+        important_editor.review(d, real, items["verified"], cfg)
+        again = store.load_draft(d["id"])[1]
+        check("g143: stale_as_new في المتن لا تُطبَّق (العناوين وh1 وحدها)",
+              not again["editor_review"]["applied"] and len(again["editor_review"]["notes"]) == 1
+              and again["arabic"]["post_body"] == d["arabic"]["post_body"])
+
+        # g144) sibling_duplicate high ← لا تطبيق، وpublish من قضية الترشيح ← go2 مع التعليق
+        d = install("d4dbc7461dc2")
+        dup = {"category": "sibling_duplicate", "severity": "high", "location": "body", "original": "",
+               "fix": "", "note": "يعيد بيان 20 مارس نفسه الذي بُني عليه المنشور الأول", "sources": []}
+        editor._create = fake_editor({"nearest": [dup]})
+        important_editor.review(d, real, items["nearest"], cfg)
+        again = store.load_draft(d["id"])[1]
+        check("g144: لا تطبيق والملاحظة high معروضة",
+              not again["editor_review"]["applied"] and again["arabic"]["post_body"] == d["arabic"]["post_body"]
+              and again["editor_review"]["notes"][0]["severity"] == "high")
+        check("g144: publish/go3 من المرحلة 1 ← go2",
+              editor.gate_action("publish", again, 1, cfg)[0] == "go2"
+              and editor.gate_action("go3", again, 1, cfg)[0] == "go2")
+
+        good = {"category": "عالم", "hashtags": ["هام"], "image_query_en": "news story",
+                "post_title": "تطوّرات الخبر الرئيسي بين المؤكَّد والمتداول",
+                "image_headline": "تطوّرات الخبر الرئيسي"}
+        gap_src = [{"publisher": "BBC", "link": "https://www.bbc.com/arabic/a1",
+                    "excerpt": "بي بي سي: تفصيل مؤكد عن الخبر الرئيسي وأرقامه.", "question": "س؟"}]
+        writes: list = []
+
+        def respond(prompt, system):
+            writes.append(1)
+            return {**good, "post_title": f"عنوان منشور رقم {len(writes)}",
+                    "post_body": _b2_body(330, tag=f"ش{len(writes)}x")}
+
+        res = important_b2_result(88800)
+        its = {i["kind"]: i for i in res["article_items"]}
+        for i in res["article_items"]:
+            i["selection_issue"] = 88810
+        important.save(res)
+        body = important_items_marked_body(res, {its["nearest"]["id"]: "publish", its["verified"]["id"]: "go2",
+                                                 its["refuted"]["id"]: "go2"}, cfg)
+        editor._create = fake_editor({"nearest": [dup]})
+        sent.clear()
+        with ImportantWriteRig(respond, gap_sources=gap_src) as rig:
+            rig.next = 88900
+            code = important_finalize.finalize(88810, body, cfg)
+            near_id = important.load_saved(88800)["article_items"][1]["draft_id"]
+            stage2 = [c for c in rig.created if c["labels"] == ["pending-review"]]
+            check("g144: قضية الترشيح ← nearest المعلَّم publish حُوِّل إلى go2 مع تعليق، ولم يُنشر شيء",
+                  code == 0 and not rig.published
+                  and any("حُوِّل" in t and "تنبيهات فحص" in t for _n, t in rig.comments)
+                  and len(stage2) == 1 and f"<!-- draft:{near_id} -->" in stage2[0]["body"],
+                  (code, rig.comments, [c["labels"] for c in rig.created]))
+            order = [s["messages"][0]["content"].split("نوع المنشور: ")[1].split()[0] for s in sent]
+            check("g144: المحرر مرّ بالمنشورات الثلاثة بترتيب verified ← nearest ← refuted بعد كتابتها كلها",
+                  len(writes) == 3 and order == ["verified", "nearest", "refuted"], (len(writes), order))
+
+        # g145) البحث المكمِّل لـnearest يستبعد روابط الشقيق
+        state_link = next(g["link"] for g in items["verified"]["gap_sources"] if "state.gov" in g["link"])
+        r145 = copy.deepcopy(real)
+        it145 = next(i for i in r145["article_items"] if i["kind"] == "nearest")
+        members145 = important_write.item_members(r145, it145)
+        check("g145: روابط الشقيق تشمل state.gov لـnearest وتخلو لـverified",
+              state_link in important_gap.sibling_links(r145, it145)
+              and important_gap.sibling_links(r145, items["verified"]) == set())
+
+        class Stub:
+            def __init__(self, cfg_, body_):
+                self.brave = {"requests": 0, "skipped": None}
+                self.days = 21
+
+            def resolve_link(self, link):
+                return link, True
+
+            def run(self, *a, **k):
+                docs = [{"name": g["publisher"], "link": g["link"], "text": g["excerpt"]}
+                        for g in items["verified"]["gap_sources"]]
+                return [], docs, []
+
+            def run_brave(self, *a, **k):
+                return [], [], []
+
+            def published_of(self, d_):
+                return ""
+
+        real_search, real_q = important._PointSearch, important_gap.gap_questions
+        important._PointSearch = Stub
+        important_gap.gap_questions = lambda *a, **k: [{"question": "س؟", "query_ar": "حزب الله", "query_en": ""}]
+        try:
+            got145 = important_gap.gather(r145, it145, members145, cfg)
+            it_v = copy.deepcopy(items["verified"])
+            got_v = important_gap.gather(r145, it_v, important_write.item_members(r145, it_v), cfg)
+        finally:
+            important._PointSearch, important_gap.gap_questions = real_search, real_q
+        check("g145: nearest — رابط state.gov مستبعد وgap_dropped_sibling ≥ 1",
+              all(g["link"] != state_link for g in got145) and it145.get("gap_dropped_sibling", 0) >= 1,
+              ([g["link"] for g in got145], it145.get("gap_dropped_sibling")))
+        check("g145: verified نفسه لا يُستبعد منه شيء (gap_dropped_sibling = 0)",
+              it_v.get("gap_dropped_sibling") == 0 and any(g["link"] == state_link for g in got_v),
+              it_v.get("gap_dropped_sibling"))
+
+        # g146) النقل الحرفي المنسوب: «بيان وزارة الخارجية» ← اقتباس؛ وبعد «في» لا
+        excerpt = next(g["excerpt"] for g in items["verified"]["gap_sources"] if "state.gov" in g["link"])
+        publisher = "U.S. Department of State"
+        s_verified = ("وبحسب بيان وزارة الخارجية، فإن الهجوم المتهور الذي شنه حزب الله على إسرائيل يثبت مرة أخرى "
+                      "أنه يمنح الأولوية لممارسة الإرهاب نيابة عن النظام الإيراني، على حساب سلامة الشعب "
+                      "اللبناني وأمنه.")
+        conv, starts = important_write.quote_attributed_copies(
+            {"post_title": "ت", "post_body": s_verified}, [(publisher, excerpt)], cfg)
+        check("g146: verified — «فإن «الهجوم المتهور…»» بعد التحويل",
+              "فإن «الهجوم المتهور" in conv["post_body"] and conv["post_body"].rstrip().endswith("وأمنه».")
+              and len(starts) == 1, conv["post_body"])
+        s_near = ("وأوضح البيان أن وزارة الخارجية الأميركية صنّفت حزب الله ككيان إرهابي بموجب الأمر التنفيذي نفسه "
+                  "في 31 تشرين الأول/أكتوبر 2001، وكمنظمة إرهابية أجنبية بموجب المادة 219 من قانون الهجرة "
+                  "والجنسية بتاريخ 8 تشرين الأول/أكتوبر 1997.")
+        conv2, starts2 = important_write.quote_attributed_copies(
+            {"post_title": "ت", "post_body": s_near}, [(publisher, excerpt)], cfg)
+        check("g146: nearest — المقطع بعد «في» لا يتحوّل (لا اقتباس مبتور)",
+              starts2 == [] and "«" not in conv2["post_body"], conv2["post_body"])
+        colon = "قال بيان وزارة الخارجية: " + s_verified.split("فإن ", 1)[1]
+        check("g146: ما بعد نقطتين يتحوّل",
+              important_write.quote_attributed_copies({"post_title": "ت", "post_body": colon},
+                                                      [(publisher, excerpt)], cfg)[1] != [])
+
+        # g147) الاسم المركّب الملتصق بحرف العطف، وفقرة بيسنت
+        check("g147: «وحزب الله» و«لحزب الله» تطابقان «حزب الله»، و«حزب الله» وحدها كما كانت",
+              important._mentions("المنظومة التابعة لإيران وحزب الله في لبنان", ["حزب الله"])
+              and important._mentions("دعم لحزب الله", ["حزب الله"])
+              and important._mentions("هاجم حزب الله", ["حزب الله"])
+              and not important._mentions("واشنطن وحزبا الله", ["حزب الله"]))
+        nd = json.loads((fx / "d4dbc7461dc2.json").read_text(encoding="utf-8"))
+        pivots = important_gap.pivot_entities(important_write.item_members(real, items["nearest"]))
+        offs = important_write.off_topic_warnings(
+            {"post_title": nd["arabic"]["post_title"], "post_body": nd["arabic"]["post_body"]}, pivots, cfg)
+        check("g147: فقرة بيسنت (فيها «وحزب الله») لا تُنبَّه «خارج الموضوع»",
+              not any("بيسنت" in w for w in offs), (pivots, offs))
+
+        # g148) توحيد اسم المتحدث عبر store.save_draft الفعلي
+        real_load = store.load_config
+        try:
+            store.load_config = lambda path=None: cfg
+            d148 = {"id": "g148000000001", "status": "pending", "origin": "important", "score": 1.0,
+                    "bucket": "serious", "state_media": False,
+                    "source": {"title": "ت", "link": "https://example.com/g148", "publisher": "س",
+                               "publishers": ["س"]},
+                    "arabic": {"post_title": 'قال توماس "تومي" بيغوت', "body": "ب", "caption": "ت", "urgent": False},
+                    "caption": 'المتحدث توماس “تومي” بيغوت وتوماس تومي بيغوت', "headlines": ['توماس "تومي" بيغوت'],
+                    "headline_selected": 0}
+            p148 = store.save_draft(d148)
+        finally:
+            store.load_config = real_load
+        saved148 = json.loads(p148.read_text(encoding="utf-8"))
+        check("g148: «توماس \"تومي\" بيغوت» ← «تومي بيغوت» في العنوان والتعليق والعناوين",
+              saved148["arabic"]["post_title"] == "قال تومي بيغوت"
+              and saved148["caption"] == "المتحدث تومي بيغوت وتومي بيغوت"
+              and saved148["headlines"] == ["تومي بيغوت"], saved148["arabic"]["post_title"])
+
+        # g149) editor.paths.important=false ← لا نداء، والكتابة كما كانت
+        cfg149 = copy.deepcopy(cfg)
+        cfg149["editor"]["paths"]["important"] = False
+        res149 = important_b2_result(88820)
+        for i in res149["article_items"]:
+            i["selection_issue"] = 88830
+        important.save(res149)
+        body149 = important_items_marked_body(res149, {i["id"]: "go2" for i in res149["article_items"]}, cfg149)
+        writes.clear()
+        sent.clear()
+        editor._create = fake_editor({})
+        with ImportantWriteRig(respond, gap_sources=gap_src) as rig:
+            rig.next = 88950
+            code149 = important_finalize.finalize(88830, body149, cfg149)
+            saved149 = important.load_saved(88820)["article_items"]
+            d149 = [store.load_draft(i["draft_id"])[1] for i in saved149 if i.get("draft_id")]
+        check("g149: لا نداء محرر لـ«هام» والمسودات الثلاث مكتوبة بلا editor_review",
+              code149 == 0 and sent == [] and len(d149) == 3 and not any("editor_review" in x for x in d149)
+              and len(writes) == 3, (code149, len(sent), len(d149)))
+
+        # g150) العدّاد مشترك: بلوغه من التحليل ← محرر «هام» بلا web_search
+        reset_counter()
+        imagesearch.BRAVE_USAGE_FILE.parent.mkdir(parents=True, exist_ok=True)
+        imagesearch.BRAVE_USAGE_FILE.write_text(json.dumps({editor.usage_key(): 299}), encoding="utf-8")
+        da3 = json.loads(fxa.read_text(encoding="utf-8"))
+        ye._create = lambda client, **kw: editor_response([], searches=1)
+        ye.run(da3, pts_a, cfg)
+        ye._create = saved_ye
+        check("g150: محرر التحليل رفع العدّاد المشترك إلى 300", editor.search_usage() == 300, editor.search_usage())
+        d = install("d4dbc7461dc2")
+        sent.clear()
+        editor._create = fake_editor({})
+        important_editor.review(d, real, items["nearest"], cfg)
+        tool_names = [t.get("name") for t in sent[0]["tools"]] if sent else None
+        er = store.load_draft(d["id"])[1].get("editor_review") or {}
+        check("g150: محرر «هام» بلا web_search والمراجعة تعمل (search_skipped=cap)",
+              tool_names == ["report_review"] and er.get("search_skipped") == "cap" and er.get("error") is None,
+              (tool_names, er))
+        reset_counter()
+        imagesearch.BRAVE_USAGE_FILE.write_text(json.dumps({editor.usage_key(): 3}), encoding="utf-8")
+        sent.clear()
+        important_editor.review(install("d4dbc7461dc2"), real, items["nearest"], cfg)
+        check("g150: تحت السقف ← أداة البحث موجودة لـ«هام»",
+              [t.get("name") for t in sent[0]["tools"]] == ["web_search", "report_review"])
+    finally:
+        editor._create, ye._create = saved_create, saved_ye
+        reset_counter()

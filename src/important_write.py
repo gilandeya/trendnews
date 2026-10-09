@@ -803,6 +803,11 @@ def _publisher_forms(publisher: str, cfg) -> list[str]:
         fa = important._fold(alias)
         if fa and any(fa in f or f in fa for f in folded if f):
             names.append(alias)
+    # صيغ الذكر من الإعداد (#1331): «بيان وزارة الخارجية» لا يحوي اسم الناشر المسجَّل «وزارة الخارجية الأميركية»
+    for key, mentions in (_icfg(cfg).get("publisher_mentions") or {}).items():
+        fk = important._fold(key)
+        if fk and any(fk == f or fk in f or f in fk for f in folded if f):
+            names += list(mentions or [])
     forms = [" ".join(important._WORD_RE.findall(important._fold(n))) for n in names if n]
     return [f for f in dict.fromkeys(forms) if f]
 
@@ -855,6 +860,12 @@ def quote_attributed_copies(written: dict, sources: list[tuple[str, str]], cfg) 
         if n < 1:
             continue
         start, end = keep[i][0].start(), keep[i + n - 1][0].end()
+        # حدّ البداية (#1331): لا يُحاط إلا مقطع سبقه مباشرة أداة ربط أو فعل قول أو نقطتان؛ مقطع يبدأ من منتصف
+        # الجملة بعد حرف جر («في 31 تشرين الأول…») يصير اقتباسًا مبتورًا
+        lead = {verify_draft._normalized_words(w)[0] for w in _icfg(cfg).get("quote_lead_words") or []
+                if verify_draft._normalized_words(w)}
+        if not ((i > 0 and words[i - 1] in lead) or sentence[:start].rstrip().endswith(":")):
+            continue
         if any(m.start() < end and start < m.end() for m in verify_draft.QUOTE_RE.finditer(sentence)):
             continue   # داخل « » أصلًا
         converted.append(" ".join(sentence[start:end].split()[:12]))

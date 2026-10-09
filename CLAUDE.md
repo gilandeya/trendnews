@@ -1507,28 +1507,49 @@ step (`article.wide_days`).
 - **الاختبارات:** `tests/test_important.py` (`test_important_pipeline` … `test_important_1233`، وg88–g94 للمنشورات الثلاثة في `test_guards_golden.py:test_important_1293_guards`) على `ImportantRig`/`ImportantWriteRig`
   في `tests/helpers.py`، وحالات الحرّاس g1–g51 في `tests/test_guards_golden.py` (`test_important_false_guard` و`test_important_write_guards`).
 
-## المحرر الأخير لمقالات التحليل (#C2) — `src/youtube_editor.py` (Issue #1326)
+## المحرر الأخير المشترك لكل المسارات — `src/editor.py` (Issues #1326 التحليل، #1331 تعميمه وربطه بـ«هام»)
 
-السبب: كل نموذج في مسار التحليل يرى قطعة واحدة (العناوين من عنوان القضية لا من المقال). شواهد 2026-10-09 في
-`tests/fixtures/analysis/1322/` (مسودات فقط)؛ الحالات الذهبية g128–g140 في `tests/test_guards_golden.py:test_analysis_editor_guards`.
+السبب: كل نموذج في أي مسار يرى قطعة واحدة (العناوين من عنوان القضية، الكاتب من النقاط) ولا خطوة تقرأ المنشور كما يراه القارئ. وُلد المحرر في
+مسار التحليل (#1326، شواهد 2026-10-09 في `tests/fixtures/analysis/1322/`؛ g128–g140 في `test_analysis_editor_guards`) ثم عُمّم (#1331) لأن «هام»
+أخرج أخطاء كان سيلتقطها (شواهد #1327 في `tests/fixtures/important/1327/`؛ g141–g150 في `tests/test_guards_golden.py:test_editor_shared_1327_guards`).
 
-- **الجذر:** `youtube_article.generate_headlines(..., article_text=)` تبني العناوين من نص المقال المكتوب (و`_write_one_topic` تمرّره)؛ «الأول سؤال» باقية.
-- **المحرر:** `youtube_editor.run(draft, member_points, cfg, client)` في `publish.cmd_youtube_selection` بعد `names_audit.run` وقبل `store.save_draft`
-  (لا يُربط في `youtube_publish.build()` القديم كتدقيق الأسماء). نموذج `youtube.review.editor.model` بأداة بحث ويب خادمية (`max_searches`) وأداة
-  `report_review` معًا (`tool_choice` auto)؛ إن لم تُستدعَ `report_review` فنداء ثانٍ واحد بلا بحث بإلزامها. النظام النصي والنصوص المعروضة في
-  `youtube.review.editor` (system/texts)، والبحث للأسماء والتواريخ فقط ولا واقعة جديدة سوى تاريخ صريح. نقطة النداء الوحيدة `youtube_editor._create`
-  (يزيّفها `install_fakes` بتقرير فارغ، ويستبدلها كل اختبار بما يلزمه).
-- **التطبيق بالكود لا بالنموذج (`apply_review`):** يُطبَّق `fix` فقط إن كانت الفئة ضمن `editor.auto_fix` وكان `original` حرفيًا في موضعه (h1 / headline_n / body)؛
-  `name_doubtful` و`fact_outdated` و`other` لا تُطبَّق أبدًا؛ `stale_time` لا يُطبَّق بلا `sources`؛ `fix` فارغ = حذف الجملة (`unattributed_opinion`) أو العنوان
-  (`headline_*`، على ألا يبقى أقل من واحد). بعد كل تطبيق تُقارَن فحوص `article_violations` وعناوين النسبة المجهولة/الطول قبل التطبيق وبعده (بعد طيّ الأرقام)؛
-  مخالفة جديدة ← يُلغى التطبيق وتصير الملاحظة معروضة. الافتراضي بعد تغيير العناوين أول عنوان ينتهي بـ«؟» وإلا الأول. يُحفظ على المسودة `editor_review`
+- **البنية:** `src/editor.py` الآلة العامة وحدها: النداء مع بحث الويب وأداة `report_review`، والنداء الثاني الإجباري، والعدّاد الشهري، والتطبيق بشرط الحرفية،
+  وإلغاء الإصلاح الذي يُحدث مخالفة جديدة، و`gate_action` و`render_lines`. كل مسار يمرّر «مُكيِّفًا» (`editor.Adapter`) يحدد: (أ) الحقول (العنوان الرئيسي والمتن
+  والعناوين: `read`/`write`)، (ب) كتلة المصادر للمحرر (`sources_lines`: الناشر والرابط وتاريخ النشر أو «تاريخ غير معروف»)، (ج) دالة مخالفات المسار (`problems`).
+  المُكيِّفان: `youtube_editor.AnalysisAdapter` (و`youtube_editor.py` غلاف رقيق: `run(draft, member_points, cfg)` والتفويض إلى `editor._create` وقت النداء) و
+  `important_editor.ImportantAdapter`. **الإعداد كتلة `editor` عامة** (حُذفت `youtube.review.editor`): `enabled`/`model`/`max_searches` (3)/`monthly_search_cap` (300،
+  عدّاد واحد مشترك)/`stale_days` (14)/`auto_fix`/`texts`/`system` العام/`system_extra.<مسار>`/`paths: {analysis: true, important: true, news: false, breaking: false}`
+  (الأخبار والرادار تُفعَّلان في D2). `paths.<مسار>: false` ← لا نداء لذلك المسار وكتابته كما كانت.
+- **الفئات:** `headline_contradicts/overclaims/judgmental` · `h1_overclaims` · `name_doubtful` · `unattributed_opinion` · `vague_attribution` · `stale_time` · `fact_outdated` ·
+  `broken_quote` · **`stale_as_new`** (حدث أعمر من `editor.stale_days` يُوصف «جديد/أخير»؛ ضمن `auto_fix` لكن للعناوين وh1 وحدها — يرفضه الكود في المتن) ·
+  **`sibling_duplicate`** (منشور يعيد مضمون شقيقه؛ high ولا يُطبَّق أبدًا) · `other`. `NEVER_APPLIED` = `name_doubtful` و`fact_outdated` و`sibling_duplicate` و`other`.
+- **الجذر (التحليل):** `youtube_article.generate_headlines(..., article_text=)` تبني العناوين من نص المقال المكتوب؛ «الأول سؤال» باقية.
+- **التحليل:** `youtube_editor.run(draft, member_points, cfg, client)` في `publish.cmd_youtube_selection` بعد `names_audit.run` وقبل `store.save_draft`
+  (لا يُربط في `youtube_publish.build()` القديم). النداء بأداة بحث ويب خادمية وأداة `report_review` معًا (`tool_choice` auto)؛ إن لم تُستدعَ الثانية فنداء
+  ثانٍ واحد بلا بحث بإلزامها. البحث للأسماء والتواريخ فقط ولا واقعة جديدة سوى تاريخ صريح. نقطتا النداء: `editor._create` (المشتركة) و`youtube_editor._create`
+  (يستبدلها اختبار التحليل)، ويزيّفهما `install_fakes` بتقرير فارغ.
+- **التطبيق بالكود لا بالنموذج (`editor.apply_review`):** يُطبَّق `fix` فقط إن كانت الفئة ضمن `editor.auto_fix` وكان `original` حرفيًا في موضعه (h1 / headline_n / body)؛
+  `stale_time` لا يُطبَّق بلا `sources`؛ `fix` فارغ = حذف الجملة (`unattributed_opinion`) أو العنوان (`headline_*`، على ألا يبقى أقل من واحد). بعد كل تطبيق تُقارَن
+  مخالفات المُكيِّف قبل التطبيق وبعده (بعد طيّ الأرقام)؛ مخالفة جديدة ← يُلغى التطبيق وتصير الملاحظة معروضة. يُحفظ على المسودة `editor_review`
   (`applied`/`notes`/`error`/`searches`/`search_skipped`/`speaker_unresolved`). أي عطل ← المسودة كما هي + تنبيه «تعذّرت مراجعة المحرر: …» ولا تفشل الكتابة.
-- **البوابة (`gate_action`):** ملاحظة `high` غير مطبَّقة أو اسم متحدث في `name_unresolved` (يطابق `speaker` نقطة): من الاختيار publish/go3 ← go2، ومن المرحلة 2
-  publish ← go3 (`publish.main`)، مع تعليق `youtube.review.editor.texts.gate_comment`؛ المرحلة 3 قرارك.
-- **العرض:** `youtube_editor.render_lines` في `review.warnings_block` (المرحلتان 2 و3) وفي `youtube_publish.build_review_body`، قسم «🧑‍⚖️ مراجعة المحرر» قبل التنبيهات:
+- **البوابة (`editor.gate_action`):** ملاحظة `high` غير مطبَّقة أو اسم متحدث في `name_unresolved` (التحليل): من الاختيار publish/go3 ← go2، ومن المرحلة 2
+  publish ← go3 (`publish.main`)، مع تعليق `editor.texts.gate_comment`؛ المرحلة 3 قرارك.
+- **العرض:** `editor.render_lines` في `review.warnings_block` (المرحلتان 2 و3، لكل المسارات) وفي `youtube_publish.build_review_body`، قسم «🧑‍⚖️ مراجعة المحرر» قبل التنبيهات:
   `✏️ كان/صار` للمطبَّق، `⚠️`/`⛔` لغيره، ولـ`name_doubtful` رابط الفيديو مع `&t=<الطابع>s`.
-- **العدّاد:** مفتاح `editor_web:YYYY-MM` في `state/brave_usage.json` يُزاد بعد النداء من `usage.server_tool_use.web_search_requests`؛ بلوغ
-  `editor.monthly_search_cap` (300) ← نداء بلا أداة البحث (`search_skipped: "cap"`). `editor.enabled: false` يوقف الخطوة كلها. `publish.yml` يودِع `drafts state` فالعدّاد يُحفظ.
+- **العدّاد المشترك:** مفتاح `editor_web:YYYY-MM` في `state/brave_usage.json` يُزاد بعد النداء من `usage.server_tool_use.web_search_requests` لكل المسارات معًا؛ بلوغ
+  `editor.monthly_search_cap` (300) من أي مسار ← نداء المسارات كلها بلا أداة البحث (`search_skipped: "cap"`). `editor.enabled: false` يوقف الخطوة كلها. `publish.yml` يودِع `drafts state` فالعدّاد يُحفظ.
+- **«هام» (`src/important_editor.py`، Issue #1331):** في `important_finalize.finalize` (مسار العناصر) تُكتب **كل** منشورات القضية في التشغيلة أولًا، ثم يمرّ المحرر على كل
+  مسودة جديدة بالترتيب verified ← nearest ← refuted (`important_editor.review`)، ثم التوزيع go2/go3/publish. المسودة المعادة بلا كتابة (`returned`) لا تمرّ به ثانية. المدخل:
+  تاريخ اليوم و`main_story` ونوع المنشور والعنوان الرئيسي (`arabic.post_title`) والمتن (`post_body`) والعناوين الثلاثة، ومقتطفات المصادر المعطاة للكاتب بناشرها ورابطها
+  وتاريخها (`article_grounded`)، وعنوان كل منشور شقيق ومتنه ومعرّفه. مخالفاته = `important_write.article_reasons` + `quote_violations`. إصلاح العنوان المختار يغيّر
+  `arabic.post_title` و`caption` معًا. ملاحظة `high` غير مطبَّقة ← publish/go3 تتحول إلى go2 بتعليق «حُوِّل … إلى المراجعة لأن فيه تنبيهات فحص» نفسه المستعمل لـ«لم يجتز الفحص»
+  (مرحلة 1 فقط لـ«هام»). يُحفظ على المسودة بـ`store.update_draft` (caption/headlines/arabic/warnings/editor_review).
+- **إصلاحات «هام» من #1327:** (1) `important_gap.sibling_links` — روابط `gap_sources` لعنصر verified في النتيجة نفسها وروابط أدلة أعضائه تُستبعد من البحث المكمِّل لـnearest وrefuted،
+  والعدد في `item["gap_dropped_sibling"]`؛ أدلة أعضاء العنصر نفسه لا تُمسّ. (2) `quote_attributed_copies`: صيغ ذكر الناشر `important.publisher_mentions` تُضاف إلى `_publisher_forms`
+  («بيان وزارة الخارجية» لناشر «U.S. Department of State»)، وحدّ البداية `important.quote_lead_words` — لا يُحاط المقطع بـ« » إلا إن سبقه مباشرة (بعد حذف إن/أن/بأن) أداة ربط أو فعل قول أو «:»
+  (مقطع بعد «في» كان يصير اقتباسًا مبتورًا). (3) `important._mentions` تقبل الصيغة متعددة الكلمات ملتصقة بأول كلمة منها سابقة (و، ف، ب، ل، ك، وب، ول، فب، فل): «وحزب الله» و«لحزب الله».
+  (4) `names.aliases`: «تومي بيغوت». **ملاحظة:** `names.normalize_draft` لا تمسّ `arabic.post_body` (حقولها: post_title/body/caption + caption + headlines)، فمتن «هام» يبقى برسمه
+  الأصلي في `post_body` ويُوحَّد في `caption` المنشور؛ تغيير ذلك قرار مستقل.
 - **فحوص آلية حاسمة (`youtube_article.article_violations`):** `youtube.article.vague_attribution` ← رفض؛ المتحدث «المسمّى» (يبقى من `speaker` كلمة بعد حذف
   `youtube.article.role_words` واسم القناة) يجب أن يرد اسمه أو آخر كلمة منه في المتن؛ غير المسمّى يجوز بصفته وقناته. `video_published` تُحفظ على النقطة عند الاستخراج
   وتظهر في `_points_block` مع تعليمة `youtube.article.date_note`؛ تنبيه لكل عبارة من `youtube.article.relative_time_words` و«⏳ أحدث فيديو منشور قبل N أيام» حين يتجاوز `youtube.review.stale_days`؛
