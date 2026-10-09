@@ -3857,7 +3857,7 @@ def test_editor_shared_1327_guards() -> None:
         check("g141: كتلة editor عامة (paths وsystem_extra وstale_days 14) وyoutube.review.editor حُذفت",
               cfg.path("youtube.review.editor") is None
               and cfg.path("editor.paths") == {"analysis": True, "important": True, "news": True,
-                                               "breaking": True}
+                                               "breaking": True, "reel": True}
               and cfg.path("editor.stale_days") == 14 and cfg.path("editor.monthly_search_cap") == 300
               and set(cfg.path("editor.system_extra")) >= {"analysis", "important"}
               and "قارن تاريخ كل حدث بتاريخ اليوم المعطى" in cfg.path("editor.system"),
