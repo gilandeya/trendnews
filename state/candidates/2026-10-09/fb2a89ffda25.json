@@ -1,0 +1,71 @@
+{
+  "id": "fb2a89ffda25",
+  "created_at": "2026-10-09T03:08:22.174156+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.84,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "مادورو يواجه تهم تعذيب أمريكية: أزمة حليف عربي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US files new torture charges against Venezuela's Nicolas Maduro and wife Cilia Flores",
+  "link": "https://www.france24.com/en/americas/20261008-us-files-new-torture-charges-venezuela-nicolas-maduro-cilia-flores",
+  "publishers": [
+    "Al Jazeera English",
+    "France24",
+    "Malay Mail"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "US files new torture charges against Venezuela's Nicolas Maduro and wife Cilia Flores",
+    "link": "https://www.france24.com/en/americas/20261008-us-files-new-torture-charges-venezuela-nicolas-maduro-cilia-flores",
+    "summary": "The United States on Thursday charged ousted Venezuelan president Nicolas Maduro and his wife Cilia Flores with conspiracy to commit torture, adding to drug trafficking and firearms charges. Prosecutors allege detainees, including US citizens, suffered waterboarding, rape and beatings. The pair remain in US custody following a January military raid.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-10-08T23:56:36+00:00",
+    "image_url": "https://s.france24.com/media/display/98c20c5a-c337-11f1-a0bd-f50f6d982dc3/w:1024/p:16x9/2be2ec58aeeef8ac14d762080f9c1624a8e8fcec.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "France24",
+      "Malay Mail"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/10/8/us-charges-venezuelas-nicolas-maduro-over-torture-allegations?traffic_source=rss"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/americas/20261008-us-files-new-torture-charges-venezuela-nicolas-maduro-cilia-flores"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/10/09/venezuelas-maduro-wife-hit-with-new-us-torture-charges/238326"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/98c20c5a-c337-11f1-a0bd-f50f6d982dc3/w:1024/p:16x9/2be2ec58aeeef8ac14d762080f9c1624a8e8fcec.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/10/09/367225.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1570.9146030302777,
+    "is_stale": false,
+    "score": 24.842361640737543,
+    "impact": 1,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "مادورو يواجه تهم تعذيب أمريكية: أزمة حليف عربي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

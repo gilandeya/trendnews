@@ -1,0 +1,66 @@
+{
+  "id": "be550bae64bd",
+  "created_at": "2026-10-09T03:08:22.173671+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.6,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "ناقلة نفط تحت القصف بالخليج: تأثير على أسعار الطاقة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Tanker hit by multiple projectiles in Gulf off Qatar, maritime agency says",
+  "link": "https://www.bbc.co.uk/news/articles/cqlydk7796wdo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Tanker hit by multiple projectiles in Gulf off Qatar, maritime agency says",
+    "link": "https://www.bbc.co.uk/news/articles/cqlydk7796wdo?at_medium=RSS&at_campaign=rss",
+    "summary": "Casualties have been reported on the vessel, identified by a maritime intelligence firm as the oil and chemical tanker, Acers.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-10-08T12:11:31+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/f398/live/8524e1d0-c2fc-11f1-b8c6-6d610e41a5d9.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cqlydk7796wdo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/oil-tanker-off-qatar-reports-hits-from-multiple-projectiles-hormuz-strait-october-7-2026/article71558152.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/f398/live/8524e1d0-c2fc-11f1-b8c6-6d610e41a5d9.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/f398/live/8524e1d0-c2fc-11f1-b8c6-6d610e41a5d9.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/f398/live/8524e1d0-c2fc-11f1-b8c6-6d610e41a5d9.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1570.914563853889,
+    "is_stale": false,
+    "score": 26.604048213722223,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "ناقلة نفط تحت القصف بالخليج: تأثير على أسعار الطاقة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

@@ -275,7 +275,7 @@
      "published": "2026-10-06T10:16:28+00:00"
     }
    ],
-   "last_seen": "2026-10-08T18:07:58.260966+00:00",
+   "last_seen": "2026-10-09T03:07:52.407678+00:00",
    "outlets": 20,
    "regions": 16,
    "languages": 3,
@@ -556,7 +556,7 @@
      "published": "2026-10-06T06:12:00+00:00"
     }
    ],
-   "last_seen": "2026-10-08T18:07:58.260966+00:00",
+   "last_seen": "2026-10-09T03:07:52.407678+00:00",
    "outlets": 21,
    "regions": 16,
    "languages": 2,
@@ -837,7 +837,7 @@
      "published": "2026-10-07T07:50:09+00:00"
     }
    ],
-   "last_seen": "2026-10-08T09:08:05.709468+00:00",
+   "last_seen": "2026-10-09T03:07:52.407678+00:00",
    "outlets": 19,
    "regions": 14,
    "languages": 1,
@@ -1404,6 +1404,233 @@
    "regions": 13,
    "languages": 2,
    "score": 46.0
+  },
+  {
+   "id": "363605fbbb2b",
+   "first_seen": "2026-10-06T03:07:51.967007+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Trump approves firing-squad execution of Fort Hood shooter, Pentagon says",
+     "language": "en",
+     "link": "https://www.theguardian.com/us-news/2026/oct/05/trump-fort-hood-shooter-execution",
+     "published": "2026-10-06T01:33:44+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Trump approves firing squad execution for US military base shooter Nidal Hasan",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3369851/trump-approves-firing-squad-execution-us-military-base-shooter-nidal-hasan?utm_source=rss_feed",
+     "published": "2026-10-06T02:17:38+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Trump approves firing-squad execution of Fort Hood shooter Nidal Hasan",
+     "language": "en",
+     "link": "https://www.france24.com/en/americas/20261006-trump-approves-firing-squad-execution-of-fort-hood-shooter-nidal-hasan",
+     "published": "2026-10-06T01:31:37+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Trump approves firing squad for convicted US military base shooter",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/us-trump-approves-firing-squad-military-base-shooter-6434831",
+     "published": "2026-10-06T02:24:17+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Trump authorises firing Squad for US military base shooter",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/06/trump-authorises-firing-squad-for-us-military-base-shooter/237853",
+     "published": "2026-10-06T01:21:56+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Trump approves firing squad execution for Fort Hood attacker Nidal Hasan",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/6/trump-approves-firing-squad-execution-for-fort-hood-attacker-nidal-hasan?traffic_source=rss",
+     "published": "2026-10-06T07:23:00+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump approves firing squad execution for Fort Hood shooter Nidal Hasan",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/trump-approves-firing-squad-execution-for-fort-hood-shooter-nidal-hasan/article71549975.ece",
+     "published": "2026-10-06T07:01:40+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Trump approves firing squad execution of US Army base shooter",
+     "language": "en",
+     "link": "https://punchng.com/trump-approves-firing-squad-execution-of-us-army-base-shooter/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-06T07:07:45+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Who is Nidal Hasan? Trump approves firing squad execution of 2009 Fort Hood shooter who killed 13 people in deadly massacre",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/who-is-nidal-hasan-trump-approves-firing-squad-execution-of-2009-fort-hood-shooter-who-killed-13-people-in-deadly-massacre-101791255659654.html",
+     "published": "2026-10-06T03:11:18+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Trump approves firing squad for convicted US military base shooter",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/trump-approves-firing-squad-for-convicted-us-military-base-shooter",
+     "published": "2026-10-06T05:39:00+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Trump approves firing squad for convicted US military base shooter",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/trump-approves-firing-squad-for-convicted-us-military-base-shooter/",
+     "published": "2026-10-06T07:52:15+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Trump approves firing-squad execution of 2009 Fort Hood shooter",
+     "language": "en",
+     "link": "https://tass.com/society/2197903",
+     "published": "2026-10-06T03:40:48+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Death By Firing Squad: Trump Orders Execution Of US Doctor Who Killed 13 People",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/death-by-firing-squad-trump-orders-execution-of-us-doctor-who-killed-13-people-12145015#publisher=newsstand",
+     "published": "2026-10-06T08:58:40+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Fort Hood shooter to be executed by firing squad - a first for US military since World War Two",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cq8ezkkkrpy1o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-06T02:22:24+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Fort Hood shooter to be executed by firing squad: All to know",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/6/fort-hood-shooter-to-be-executed-by-firing-squad-all-to-know?traffic_source=rss",
+     "published": "2026-10-06T10:21:53+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Pentagon says execution of Fort Hood shooter will be livestreamed",
+     "language": "en",
+     "link": "https://www.theguardian.com/us-news/2026/oct/08/hegseth-fort-hood-shooter-public-execution",
+     "published": "2026-10-08T23:18:29+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Hegseth says firing squad execution of Fort Hood shooter will be ‘public’",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/8/hegseth-says-firing-squad-execution-of-fort-hood-shooter-will-be-public?traffic_source=rss",
+     "published": "2026-10-08T23:36:44+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Fort Hood attacker's execution by firing squad will be livestreamed, Pentagon says",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cmy0r96xygx6o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-09T01:25:33+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "US to livestream Army firing squad execution of Fort Hood shooter, Pentagon says",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-09-us-to-livestream-army-firing-squad-execution-of-fort-hood-shooter-pentagon-says/",
+     "published": "2026-10-09T04:34:53+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Fort Hood shooter’s firing squad execution to be livestreamed, Pentagon says",
+     "language": "en",
+     "link": "https://www.france24.com/en/americas/20261008-fort-hood-shooter-firing-squad-execution-livestreamed-pentagon",
+     "published": "2026-10-08T22:01:15+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Pentagon says firing squad execution of Fort Hood shooter Nidal Malik Hasan will be livestreamed",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/pentagon-says-firing-squad-execution-of-fort-hood-shooter-nidal-malik-hasan-will-be-livestreamed/article71561622.ece",
+     "published": "2026-10-08T23:28:03+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Fort Hood shooter’s execution by firing squad will be livestreamed, Pentagon says",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/fort-hood-shooters-execution-by-firing-squad-will-be-livestreamed-pentagon-says/",
+     "published": "2026-10-08T23:08:00+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "U.S. military to livestream firing squad execution of Fort Hood shooter",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/09/world/fort-hood-shooter-execution-livestream/",
+     "published": "2026-10-09T00:41:00+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Pentagon says Fort Hood shooter’s firing-squad execution will be livestreamed",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/09/pentagon-says-fort-hood-shooters-firing-squad-execution-will-be-livestreamed/238309",
+     "published": "2026-10-09T00:54:53+00:00"
+    }
+   ],
+   "last_seen": "2026-10-09T03:07:52.407678+00:00",
+   "outlets": 17,
+   "regions": 12,
+   "languages": 1,
+   "score": 43.0
   },
   {
    "id": "4bac7b46db6b",
@@ -2898,152 +3125,6 @@
    "score": 35.0
   },
   {
-   "id": "363605fbbb2b",
-   "first_seen": "2026-10-06T03:07:51.967007+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Trump approves firing-squad execution of Fort Hood shooter, Pentagon says",
-     "language": "en",
-     "link": "https://www.theguardian.com/us-news/2026/oct/05/trump-fort-hood-shooter-execution",
-     "published": "2026-10-06T01:33:44+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Trump approves firing squad execution for US military base shooter Nidal Hasan",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3369851/trump-approves-firing-squad-execution-us-military-base-shooter-nidal-hasan?utm_source=rss_feed",
-     "published": "2026-10-06T02:17:38+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Trump approves firing-squad execution of Fort Hood shooter Nidal Hasan",
-     "language": "en",
-     "link": "https://www.france24.com/en/americas/20261006-trump-approves-firing-squad-execution-of-fort-hood-shooter-nidal-hasan",
-     "published": "2026-10-06T01:31:37+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Trump approves firing squad for convicted US military base shooter",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/world/us-trump-approves-firing-squad-military-base-shooter-6434831",
-     "published": "2026-10-06T02:24:17+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Trump authorises firing Squad for US military base shooter",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/06/trump-authorises-firing-squad-for-us-military-base-shooter/237853",
-     "published": "2026-10-06T01:21:56+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Trump approves firing squad execution for Fort Hood attacker Nidal Hasan",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/6/trump-approves-firing-squad-execution-for-fort-hood-attacker-nidal-hasan?traffic_source=rss",
-     "published": "2026-10-06T07:23:00+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Trump approves firing squad execution for Fort Hood shooter Nidal Hasan",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/trump-approves-firing-squad-execution-for-fort-hood-shooter-nidal-hasan/article71549975.ece",
-     "published": "2026-10-06T07:01:40+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Trump approves firing squad execution of US Army base shooter",
-     "language": "en",
-     "link": "https://punchng.com/trump-approves-firing-squad-execution-of-us-army-base-shooter/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-06T07:07:45+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Who is Nidal Hasan? Trump approves firing squad execution of 2009 Fort Hood shooter who killed 13 people in deadly massacre",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/who-is-nidal-hasan-trump-approves-firing-squad-execution-of-2009-fort-hood-shooter-who-killed-13-people-in-deadly-massacre-101791255659654.html",
-     "published": "2026-10-06T03:11:18+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Trump approves firing squad for convicted US military base shooter",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/trump-approves-firing-squad-for-convicted-us-military-base-shooter",
-     "published": "2026-10-06T05:39:00+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Trump approves firing squad for convicted US military base shooter",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/trump-approves-firing-squad-for-convicted-us-military-base-shooter/",
-     "published": "2026-10-06T07:52:15+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Trump approves firing-squad execution of 2009 Fort Hood shooter",
-     "language": "en",
-     "link": "https://tass.com/society/2197903",
-     "published": "2026-10-06T03:40:48+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Death By Firing Squad: Trump Orders Execution Of US Doctor Who Killed 13 People",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/death-by-firing-squad-trump-orders-execution-of-us-doctor-who-killed-13-people-12145015#publisher=newsstand",
-     "published": "2026-10-06T08:58:40+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Fort Hood shooter to be executed by firing squad - a first for US military since World War Two",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cq8ezkkkrpy1o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-06T02:22:24+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Fort Hood shooter to be executed by firing squad: All to know",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/6/fort-hood-shooter-to-be-executed-by-firing-squad-all-to-know?traffic_source=rss",
-     "published": "2026-10-06T10:21:53+00:00"
-    }
-   ],
-   "last_seen": "2026-10-06T18:08:08.020436+00:00",
-   "outlets": 14,
-   "regions": 9,
-   "languages": 1,
-   "score": 34.0
-  },
-  {
    "id": "6ee8d6b3ad41",
    "first_seen": "2026-10-07T03:07:41.547243+00:00",
    "members": [
@@ -3142,6 +3223,125 @@
    "outlets": 10,
    "regions": 9,
    "languages": 3,
+   "score": 34.0
+  },
+  {
+   "id": "af244ec47185",
+   "first_seen": "2026-10-08T18:07:58.260966+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Trump says US will not attack Iran before November’s midterm elections",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370235/trump-says-us-will-not-attack-iran-novembers-midterm-elections?utm_source=rss_feed",
+     "published": "2026-10-08T17:39:11+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Trump says US will not attack Iran before midterm elections",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633651/trump-says-iran-deal-isnt-really-something-that-i-want-to-do",
+     "published": "2026-10-08T00:17:00+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "No attack on Iran before November 3 mid-term elections: Trump",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/no-attack-on-iran-before-november-3-mid-term-elections-trump-101791477417541.html",
+     "published": "2026-10-08T16:37:22+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Trump promises not to resume Iran strikes before midterm elections",
+     "language": "en",
+     "link": "https://www.cbsnews.com/live-updates/iran-war-nuclear-donald-trump-vance-rubio-strait-of-hormuz/",
+     "published": "2026-10-08T17:56:36+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Iran weighs US response as Trump rules out attack before midterms",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2035790/iran-weighs-us-response-as-trump-rules-out-attack-before-midterms",
+     "published": "2026-10-09T02:30:15+00:00"
+    },
+    {
+     "outlet": "Rappler",
+     "region": "ph",
+     "bucket": "serious",
+     "title": "Trump says US will not attack Iran before midterm elections in November",
+     "language": "en",
+     "link": "https://www.rappler.com/world/us-canada/trump-us-will-not-attack-iran-midterm-elections-november/",
+     "published": "2026-10-09T01:05:19+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Trump rules out new Iran attack before US midterm elections",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/trump-rules-out-iran-attack-us-midterm-election-6444841",
+     "published": "2026-10-09T01:58:00+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Trump rules out renewed Iran strikes before US midterms",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/americas/trump-rules-out-renewed-iran-strikes-before-us-midterms",
+     "published": "2026-10-08T16:32:00+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Trump rules out new Iran attack before US midterm elections",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/trump-rules-out-new-iran-attack-before-us-midterm-elections/",
+     "published": "2026-10-08T22:05:40+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump Rules Out New Iran Attack Before US Midterm Elections",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/donald-trump-rules-out-new-iran-attack-before-us-midterm-elections-12159127#publisher=newsstand",
+     "published": "2026-10-08T22:22:43+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Trump says U.S. won’t attack Iran before midterm elections",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/09/world/no-iran-attack-midterms/",
+     "published": "2026-10-09T00:24:00+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Trump rules out new Iran attack before US midterm elections, cites ‘productive discussions’",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/09/trump-rules-out-new-iran-attack-before-us-midterm-elections-cites-productive-discussions/238317",
+     "published": "2026-10-09T01:15:55+00:00"
+    }
+   ],
+   "last_seen": "2026-10-09T03:07:52.407678+00:00",
+   "outlets": 12,
+   "regions": 10,
+   "languages": 1,
    "score": 34.0
   },
   {
@@ -3531,7 +3731,7 @@
      "published": "2026-10-08T12:18:02+00:00"
     }
    ],
-   "last_seen": "2026-10-08T18:07:58.260966+00:00",
+   "last_seen": "2026-10-09T03:07:52.407678+00:00",
    "outlets": 11,
    "regions": 10,
    "languages": 1,
@@ -3846,6 +4046,98 @@
    "regions": 8,
    "languages": 1,
    "score": 28.0
+  },
+  {
+   "id": "1a01415a16dc",
+   "first_seen": "2026-10-08T03:08:02.336758+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Maduro and wife to face new US charges over alleged torture of Americans",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/americas/article/3370104/venezuelas-maduro-face-new-us-charges-over-alleged-torture-americans-official-says?utm_source=rss_feed",
+     "published": "2026-10-07T20:58:12+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Venezuela's Maduro, wife to face new US charges over alleged torture",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/americas/venezuelas-maduro-wife-to-face-new-us-charges-over-alleged-torture",
+     "published": "2026-10-07T21:03:00+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Maduro expected to face new charges of torture of Americans in Venezuelan prisons",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/new-maduro-charges-torture-americans-venezuelan-prisons/",
+     "published": "2026-10-07T21:21:00+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "US considering new torture charges against Maduro, wife",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/us-considering-new-torture-charges-against-maduro-wife-report/",
+     "published": "2026-10-08T09:03:29+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Former Venezuelan President Nicolás Maduro expected to face more charges this week",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cx62y37r1p8eo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-07T22:50:00+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "New U.S. indictment charges former Venezuelan President Nicolás Maduro with torture",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/08/nx-s1-5995360/venezuela-nicolas-maduro-torture-charges",
+     "published": "2026-10-08T16:05:37+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "US charges Venezuela’s Nicolas Maduro over torture allegations",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/8/us-charges-venezuelas-nicolas-maduro-over-torture-allegations?traffic_source=rss",
+     "published": "2026-10-08T20:47:43+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "US files new torture charges against Venezuela's Nicolas Maduro and wife Cilia Flores",
+     "language": "en",
+     "link": "https://www.france24.com/en/americas/20261008-us-files-new-torture-charges-venezuela-nicolas-maduro-cilia-flores",
+     "published": "2026-10-08T23:56:36+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Venezuela’s Maduro, wife hit with new US torture charges",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/09/venezuelas-maduro-wife-hit-with-new-us-torture-charges/238326",
+     "published": "2026-10-09T01:43:44+00:00"
+    }
+   ],
+   "last_seen": "2026-10-09T03:07:52.407678+00:00",
+   "outlets": 9,
+   "regions": 8,
+   "languages": 1,
+   "score": 27.0
   },
   {
    "id": "bd1dfeaf51d0",
@@ -4317,9 +4609,119 @@
      "language": "en",
      "link": "https://www.dailysabah.com/world/mid-east/israel-shuts-british-e-jerusalem-consulate-as-diplomatic-rift-grows",
      "published": "2026-10-08T10:09:00+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Israel drastically reduces British diplomatic presence in Jerusalem",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633742/israel-drastically-reduces-british-diplomatic-presence-in-jerusalem",
+     "published": "2026-10-08T12:25:25+00:00"
     }
    ],
-   "last_seen": "2026-10-08T18:07:58.260966+00:00",
+   "last_seen": "2026-10-09T03:07:52.407678+00:00",
+   "outlets": 8,
+   "regions": 7,
+   "languages": 1,
+   "score": 24.0
+  },
+  {
+   "id": "5387d8460227",
+   "first_seen": "2026-10-07T09:07:47.348407+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Russian strikes kill 11 across Ukraine after Zelensky warning",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3369997/russian-barrage-hits-kyiv-hours-after-zelensky-warns-impending-attack?utm_source=rss_feed",
+     "published": "2026-10-07T06:04:10+00:00"
+    },
+    {
+     "outlet": "Meduza English",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Russian missile and drone strikes across Ukraine kill six and injure more than 20",
+     "language": "en",
+     "link": "https://meduza.io/en/news/2026/10/07/russian-missile-and-drone-strikes-across-ukraine-kill-six-and-injure-more-than-20",
+     "published": "2026-10-07T07:21:00+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Overnight Russian drone, missile strikes kill 8 across Ukraine",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/europe/overnight-russian-drone-missile-strikes-kill-8-across-ukraine",
+     "published": "2026-10-07T07:34:00+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "At least 28 killed in Ukraine, Zelenskiy condemns one of Russia’s most ‘vile strikes’",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-08-at-least-28-killed-in-ukraine-zelenskiy-condemns-one-of-russias-most-vile-strikes/",
+     "published": "2026-10-08T04:47:53+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Zelenskyy condemns one of Russia’s most ‘vile strikes’ as at least 28 killed in Ukraine",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/08/world/ukraine-russia-vile-strikes/",
+     "published": "2026-10-07T23:42:00+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Zelensky condemns ‘vile’ Russian strikes as at least 28 killed in Ukraine",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/08/zelensky-condemns-vile-russian-strike-as-at-least-28-killed-in-ukraine",
+     "published": "2026-10-07T23:43:00+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Ukraine’s Zelensky accuses US of inaction as Russian strikes kill nearly 80 in 2 days",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3370253/ukraines-zelensky-accuses-us-inaction-russian-strikes-kill-nearly-80-2-days?utm_source=rss_feed",
+     "published": "2026-10-09T01:49:58+00:00"
+    },
+    {
+     "outlet": "Rappler",
+     "region": "ph",
+     "bucket": "serious",
+     "title": "Zelenskyy accuses US of inaction as Russian strikes kill over 70 in 2 days",
+     "language": "en",
+     "link": "https://www.rappler.com/world/europe/zelenskyy-accuses-us-inaction-russian-strikes-deaths-october-8-2026/",
+     "published": "2026-10-09T02:01:23+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Zelensky accuses US of inaction as Russian strikes kill over 70 in two days",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/09/zelensky-accuses-us-of-inaction-as-russian-strikes-kill-over-70-in-two-days",
+     "published": "2026-10-08T23:23:30+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Zelenskyy accuses U.S. of inaction as Russian strikes kill over 70 in two days",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/09/world/zelenskyy-us-inaction-russian-strikes/",
+     "published": "2026-10-09T01:13:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-09T03:07:52.407678+00:00",
    "outlets": 7,
    "regions": 7,
    "languages": 1,
@@ -4871,71 +5273,6 @@
    "score": 20.0
   },
   {
-   "id": "5387d8460227",
-   "first_seen": "2026-10-07T09:07:47.348407+00:00",
-   "members": [
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Russian strikes kill 11 across Ukraine after Zelensky warning",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/europe/article/3369997/russian-barrage-hits-kyiv-hours-after-zelensky-warns-impending-attack?utm_source=rss_feed",
-     "published": "2026-10-07T06:04:10+00:00"
-    },
-    {
-     "outlet": "Meduza English",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Russian missile and drone strikes across Ukraine kill six and injure more than 20",
-     "language": "en",
-     "link": "https://meduza.io/en/news/2026/10/07/russian-missile-and-drone-strikes-across-ukraine-kill-six-and-injure-more-than-20",
-     "published": "2026-10-07T07:21:00+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Overnight Russian drone, missile strikes kill 8 across Ukraine",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/europe/overnight-russian-drone-missile-strikes-kill-8-across-ukraine",
-     "published": "2026-10-07T07:34:00+00:00"
-    },
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "At least 28 killed in Ukraine, Zelenskiy condemns one of Russia’s most ‘vile strikes’",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-08-at-least-28-killed-in-ukraine-zelenskiy-condemns-one-of-russias-most-vile-strikes/",
-     "published": "2026-10-08T04:47:53+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Zelenskyy condemns one of Russia’s most ‘vile strikes’ as at least 28 killed in Ukraine",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/08/world/ukraine-russia-vile-strikes/",
-     "published": "2026-10-07T23:42:00+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Zelensky condemns ‘vile’ Russian strikes as at least 28 killed in Ukraine",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/08/zelensky-condemns-vile-russian-strike-as-at-least-28-killed-in-ukraine",
-     "published": "2026-10-07T23:43:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-08T03:08:02.336758+00:00",
-   "outlets": 6,
-   "regions": 6,
-   "languages": 1,
-   "score": 20.0
-  },
-  {
    "id": "e55aa4645468",
    "first_seen": "2026-10-08T18:07:58.260966+00:00",
    "members": [
@@ -4994,7 +5331,7 @@
      "published": "2026-10-08T17:53:15+00:00"
     }
    ],
-   "last_seen": "2026-10-08T18:07:58.260966+00:00",
+   "last_seen": "2026-10-09T03:07:52.407678+00:00",
    "outlets": 6,
    "regions": 6,
    "languages": 1,
@@ -5134,71 +5471,6 @@
     }
    ],
    "last_seen": "2026-10-08T09:08:05.709468+00:00",
-   "outlets": 6,
-   "regions": 5,
-   "languages": 1,
-   "score": 18.0
-  },
-  {
-   "id": "1a01415a16dc",
-   "first_seen": "2026-10-08T03:08:02.336758+00:00",
-   "members": [
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Maduro and wife to face new US charges over alleged torture of Americans",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/americas/article/3370104/venezuelas-maduro-face-new-us-charges-over-alleged-torture-americans-official-says?utm_source=rss_feed",
-     "published": "2026-10-07T20:58:12+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Venezuela's Maduro, wife to face new US charges over alleged torture",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/americas/venezuelas-maduro-wife-to-face-new-us-charges-over-alleged-torture",
-     "published": "2026-10-07T21:03:00+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Maduro expected to face new charges of torture of Americans in Venezuelan prisons",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/new-maduro-charges-torture-americans-venezuelan-prisons/",
-     "published": "2026-10-07T21:21:00+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "US considering new torture charges against Maduro, wife",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/us-considering-new-torture-charges-against-maduro-wife-report/",
-     "published": "2026-10-08T09:03:29+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Former Venezuelan President Nicolás Maduro expected to face more charges this week",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cx62y37r1p8eo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-07T22:50:00+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "New U.S. indictment charges former Venezuelan President Nicolás Maduro with torture",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/08/nx-s1-5995360/venezuela-nicolas-maduro-torture-charges",
-     "published": "2026-10-08T16:05:37+00:00"
-    }
-   ],
-   "last_seen": "2026-10-08T18:07:58.260966+00:00",
    "outlets": 6,
    "regions": 5,
    "languages": 1,
@@ -6184,47 +6456,94 @@
    "score": 14.0
   },
   {
-   "id": "af244ec47185",
-   "first_seen": "2026-10-08T18:07:58.260966+00:00",
+   "id": "813428a20cef",
+   "first_seen": "2026-10-08T15:07:49.816861+00:00",
    "members": [
     {
      "outlet": "South China Morning Post",
      "region": "cn",
      "bucket": "serious",
-     "title": "Trump says US will not attack Iran before November’s midterm elections",
+     "title": "South Korea test-flies its first home-grown hypersonic weapon",
      "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370235/trump-says-us-will-not-attack-iran-novembers-midterm-elections?utm_source=rss_feed",
-     "published": "2026-10-08T17:39:11+00:00"
+     "link": "https://www.scmp.com/news/asia/east-asia/article/3370218/south-korea-test-flies-its-first-home-grown-hypersonic-weapon?utm_source=rss_feed",
+     "published": "2026-10-08T13:05:04+00:00"
     },
     {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Trump says US will not attack Iran before midterm elections",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633651/trump-says-iran-deal-isnt-really-something-that-i-want-to-do",
-     "published": "2026-10-08T00:17:00+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "No attack on Iran before November 3 mid-term elections: Trump",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/no-attack-on-iran-before-november-3-mid-term-elections-trump-101791477417541.html",
-     "published": "2026-10-08T16:37:22+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
+     "outlet": "NPR World",
      "region": "us",
      "bucket": "serious",
-     "title": "Trump promises not to resume Iran strikes before midterm elections",
+     "title": "South Korea test-flies its first domestically developed hypersonic weapon",
      "language": "en",
-     "link": "https://www.cbsnews.com/live-updates/iran-war-nuclear-donald-trump-vance-rubio-strait-of-hormuz/",
-     "published": "2026-10-08T17:56:36+00:00"
+     "link": "https://www.npr.org/2026/10/08/g-s1-147113/south-korea-test-flies-its-first-domestically-developed-hypersonic-weapon",
+     "published": "2026-10-08T12:01:34+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "South Korea test-fires its first homegrown hypersonic weapon: presidency",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/08/asia-pacific/south-korea-hypersonic-test/",
+     "published": "2026-10-08T12:54:00+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "South Korea test-flies its first domestically developed hypersonic weapon",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/east-asia/south-korea-missile-test-hypersonic-weapon-6442551",
+     "published": "2026-10-09T01:40:00+00:00"
     }
    ],
-   "last_seen": "2026-10-08T18:07:58.260966+00:00",
+   "last_seen": "2026-10-09T03:07:52.407678+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
+  },
+  {
+   "id": "9595ab8ff9eb",
+   "first_seen": "2026-10-09T03:07:52.407678+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "India's 'Cockroach' movement says many members detained ahead of Delhi rally",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2035712/indias-cockroach-movement-says-many-members-detained-ahead-of-delhi-rally",
+     "published": "2026-10-08T18:13:38+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "India’s ‘Cockroach’ movement says many members detained ahead of Delhi rally",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-08-indias-cockroach-movement-says-many-members-detained-ahead-of-delhi-rally/",
+     "published": "2026-10-08T21:16:39+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "India’s ‘Cockroach’ movement says many members detained ahead of Delhi rally",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/09/india-s-cockroach-movement-says-many-members-detained-ahead-of-delhi-rally",
+     "published": "2026-10-08T22:28:28+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "India’s ‘Cockroach’ movement says many members detained ahead of Delhi rally",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/09/world/politics/cockroach-members-detained/",
+     "published": "2026-10-09T01:48:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-09T03:07:52.407678+00:00",
    "outlets": 4,
    "regions": 4,
    "languages": 1,
@@ -7358,44 +7677,6 @@
    "score": 11.0
   },
   {
-   "id": "813428a20cef",
-   "first_seen": "2026-10-08T15:07:49.816861+00:00",
-   "members": [
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "South Korea test-flies its first home-grown hypersonic weapon",
-     "language": "en",
-     "link": "https://www.scmp.com/news/asia/east-asia/article/3370218/south-korea-test-flies-its-first-home-grown-hypersonic-weapon?utm_source=rss_feed",
-     "published": "2026-10-08T13:05:04+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "South Korea test-flies its first domestically developed hypersonic weapon",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/08/g-s1-147113/south-korea-test-flies-its-first-domestically-developed-hypersonic-weapon",
-     "published": "2026-10-08T12:01:34+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "South Korea test-fires its first homegrown hypersonic weapon: presidency",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/08/asia-pacific/south-korea-hypersonic-test/",
-     "published": "2026-10-08T12:54:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-08T18:07:58.260966+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
    "id": "1a73ed035434",
    "first_seen": "2026-10-08T15:07:49.816861+00:00",
    "members": [
@@ -7466,6 +7747,120 @@
     }
    ],
    "last_seen": "2026-10-08T18:07:58.260966+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "a031ef2f4265",
+   "first_seen": "2026-10-09T03:07:52.407678+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Four astronauts return to earth after an eight-month space mission",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/8/four-astronauts-return-to-earth-after-an-eight-month-space-mission?traffic_source=rss",
+     "published": "2026-10-08T21:55:29+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "French, US and Russian astronauts return to Earth after eight months in space",
+     "language": "en",
+     "link": "https://www.france24.com/en/europe/20261008-french-us-and-russian-astronauts-return-to-earth-after-eight-months-in-space",
+     "published": "2026-10-08T16:02:26+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "4 astronauts return to Earth after 8-month ISS mission",
+     "language": "en",
+     "link": "https://www.dailysabah.com/life/science/4-astronauts-return-to-earth-after-8-month-iss-mission",
+     "published": "2026-10-08T17:05:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-09T03:07:52.407678+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "ed405d990512",
+   "first_seen": "2026-10-09T03:07:52.407678+00:00",
+   "members": [
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Everton's Sherif fined for breaching betting rules",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/football/articles/c54g13we4rero?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-08T14:24:34+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Everton’s Sherif fined for breaching betting rules",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/evertons-sherif-fined-for-breaching-betting-rules/",
+     "published": "2026-10-08T22:40:00+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Everton forward Sherif fined for breaching FA betting rules",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/09/everton-forward-sherif-fined-for-breaching-fa-betting-rules",
+     "published": "2026-10-08T22:55:07+00:00"
+    }
+   ],
+   "last_seen": "2026-10-09T03:07:52.407678+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "72aca2ef6592",
+   "first_seen": "2026-10-09T03:07:52.407678+00:00",
+   "members": [
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Two Latvian men arrested at UK base housing US and NATO intelligence hubs",
+     "language": "en",
+     "link": "https://www.france24.com/en/europe/20261008-two-latvian-men-arrested-at-uk-base-housing-us-and-nato-intelligence-hubs",
+     "published": "2026-10-08T16:57:19+00:00"
+    },
+    {
+     "outlet": "Meduza English",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "British police arrest two Latvian nationals at RAF Molesworth, a military base housing U.S. and NATO intelligence operations",
+     "language": "en",
+     "link": "https://meduza.io/en/news/2026/10/08/british-police-arrest-two-latvian-nationals-at-raf-molesworth-a-military-base-housing-u-s-and-nato-intelligence-operations",
+     "published": "2026-10-08T19:02:05+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "U.K. arrest two Latvians inside perimeter of RAF base housing U.S., NATO intelligence operations",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/uk-arrest-two-latvians-inside-perimeter-of-raf-base-housing-us-nato-intelligence-operations/article71561623.ece",
+     "published": "2026-10-08T23:36:01+00:00"
+    }
+   ],
+   "last_seen": "2026-10-09T03:07:52.407678+00:00",
    "outlets": 3,
    "regions": 3,
    "languages": 1,
@@ -8006,7 +8401,7 @@
      "published": "2026-10-08T07:39:00+00:00"
     }
    ],
-   "last_seen": "2026-10-08T18:07:58.260966+00:00",
+   "last_seen": "2026-10-09T03:07:52.407678+00:00",
    "outlets": 3,
    "regions": 1,
    "languages": 1,

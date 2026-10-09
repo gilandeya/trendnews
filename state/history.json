@@ -1,137 +1,5 @@
 [
   {
-    "score": 27.6,
-    "bucket": "serious",
-    "tokens": [
-      "aramco",
-      "facility",
-      "fire",
-      "near",
-      "riyadh",
-      "seen",
-      "smoke",
-      "witness"
-    ],
-    "link": "https://www.freemalaysiatoday.com/category/world/2026/10/03/fire-smoke-seen-near-aramco-facility-in-riyadh-says-witness",
-    "title": "Fire, smoke seen near Aramco facility in Riyadh, says witness",
-    "posted_title": "شاهد عيان يرصد ألسنة نيران ودخانًا كثيفًا قرب منشأة لأرامكو في الرياض",
-    "region": "my",
-    "seen_at": "2026-10-03T18:50:31.630697+00:00"
-  },
-  {
-    "score": 22.28,
-    "bucket": "serious",
-    "tokens": [
-      "before",
-      "money",
-      "race",
-      "runs",
-      "transform",
-      "world"
-    ],
-    "link": "https://www.japantimes.co.jp/business/2026/10/03/tech/ai-transform-world-money/",
-    "title": "AI’s race to transform the world before the money runs out",
-    "posted_title": "لماذا يضخ العالم تريليونات الدولارات في الذكاء الاصطناعي رغم غياب دليل واضح على جدواه الاقتصادية",
-    "region": "jp",
-    "seen_at": "2026-10-03T18:50:47.512445+00:00"
-  },
-  {
-    "score": 35.51,
-    "bucket": "serious",
-    "tokens": [
-      "attacked",
-      "axe",
-      "captain",
-      "flydubai",
-      "official",
-      "pilot",
-      "uae"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c61wv7lgex13o?at_medium=RSS&at_campaign=rss",
-    "title": "Flydubai co-pilot attacked captain with axe, UAE official says",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-10-04T03:08:08.494745+00:00"
-  },
-  {
-    "score": 29.09,
-    "bucket": "serious",
-    "tokens": [
-      "included",
-      "intermediate",
-      "korea",
-      "missile",
-      "north",
-      "range",
-      "strategic",
-      "test",
-      "use"
-    ],
-    "link": "https://www.dawn.com/news/2034486/north-korea-says-test-of-intermediate-range-strategic-missile-included-use-of-ai",
-    "title": "North Korea says test of intermediate-range strategic missile included use of AI",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-10-04T03:08:08.495018+00:00"
-  },
-  {
-    "score": 27.29,
-    "bucket": "sport",
-    "tokens": [
-      "abu",
-      "ahead",
-      "boss",
-      "dhabi",
-      "grand",
-      "prix",
-      "qatar"
-    ],
-    "link": "https://www.channelnewsasia.com/sport/qatar-and-abu-dhabi-grand-prix-go-ahead-f1-boss-6429611",
-    "title": "Qatar and Abu Dhabi Grand Prix to go ahead: F1 boss",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-10-04T03:08:08.495242+00:00"
-  },
-  {
-    "score": 27.15,
-    "bucket": "serious",
-    "tokens": [
-      "anniversary",
-      "deadly",
-      "gaza",
-      "hamas",
-      "israel",
-      "leader",
-      "strike",
-      "targets",
-      "top"
-    ],
-    "link": "https://www.channelnewsasia.com/world/israel-hamas-gaza-conflict-6430286",
-    "title": "Israel targets top Hamas leader in deadly Gaza strike on anniversary",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-10-04T03:08:08.495448+00:00"
-  },
-  {
-    "score": 22.16,
-    "bucket": "useful",
-    "tokens": [
-      "california",
-      "coast",
-      "coastal",
-      "levels",
-      "rise",
-      "sea",
-      "surges",
-      "wave",
-      "west"
-    ],
-    "link": "https://phys.org/news/2026-10-sea-california-coastal-surges-west.html",
-    "title": "Sea levels to rise in California as a coastal wave surges up the West Coast",
-    "posted_title": "",
-    "region": "science",
-    "seen_at": "2026-10-04T03:08:08.495636+00:00"
-  },
-  {
     "score": 23.24,
     "bucket": "useful",
     "tokens": [
@@ -2042,5 +1910,103 @@
     "posted_title": "",
     "region": "fr",
     "seen_at": "2026-10-08T18:08:23.219307+00:00"
+  },
+  {
+    "score": 26.6,
+    "bucket": "serious",
+    "tokens": [
+      "agency",
+      "gulf",
+      "hit",
+      "maritime",
+      "multiple",
+      "off",
+      "projectiles",
+      "qatar",
+      "tanker"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cqlydk7796wdo?at_medium=RSS&at_campaign=rss",
+    "title": "Tanker hit by multiple projectiles in Gulf off Qatar, maritime agency says",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-10-09T03:08:22.174140+00:00"
+  },
+  {
+    "score": 24.84,
+    "bucket": "serious",
+    "tokens": [
+      "against",
+      "charges",
+      "cilia",
+      "files",
+      "flores",
+      "maduro",
+      "nicolas",
+      "torture",
+      "venezuela's",
+      "wife"
+    ],
+    "link": "https://www.france24.com/en/americas/20261008-us-files-new-torture-charges-venezuela-nicolas-maduro-cilia-flores",
+    "title": "US files new torture charges against Venezuela's Nicolas Maduro and wife Cilia Flores",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-10-09T03:08:22.174495+00:00"
+  },
+  {
+    "score": 24.6,
+    "bucket": "serious",
+    "tokens": [
+      "card",
+      "firms",
+      "green",
+      "indian",
+      "programme",
+      "sponsoring",
+      "suspended",
+      "workers"
+    ],
+    "link": "https://www.ndtv.com/world-news/indian-it-firms-suspended-from-us-programme-sponsoring-workers-for-green-card-12158246#publisher=newsstand",
+    "title": "Indian IT Firms Suspended From US Programme Sponsoring Workers For Green Card",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-10-09T03:08:22.174814+00:00"
+  },
+  {
+    "score": 23.9,
+    "bucket": "serious",
+    "tokens": [
+      "killed",
+      "russian",
+      "set",
+      "strikes",
+      "talks",
+      "ukraine"
+    ],
+    "link": "https://www.ndtv.com/world-news/30-killed-in-russian-strikes-in-ukraine-as-talks-set-in-us-12159174#publisher=newsstand",
+    "title": "30 Killed In Russian Strikes In Ukraine As Talks Set In US",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-10-09T03:08:22.175088+00:00"
+  },
+  {
+    "score": 22.1,
+    "bucket": "serious",
+    "tokens": [
+      "blackouts",
+      "buses",
+      "dead",
+      "kyiv",
+      "leave",
+      "public",
+      "russian",
+      "strikes",
+      "ukraine's",
+      "worsen"
+    ],
+    "link": "https://www.npr.org/2026/10/08/g-s1-147106/russia-ukraine-war",
+    "title": "Russian strikes on Ukraine's public buses leave 30 dead as blackouts worsen in Kyiv",
+    "posted_title": "",
+    "region": "us",
+    "seen_at": "2026-10-09T03:08:22.175384+00:00"
   }
 ]
