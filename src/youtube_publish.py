@@ -719,18 +719,38 @@ parse_headline_choice = review.parse_headline_choice
 
 
 def _reel_item_lines(idx: int, d: dict, cfg) -> list[str]:
-    """بند الريل في المرحلة 2 (Issue #1336، R1): عنوان بعلامة draft: وسطر «⏳» واحد من
-    config وخيار go1 وحده -- لا go3 ولا publish حتى تُبنى مراحله (R3/R4)؛ ترك go1 بلا
-    تعليم = رفض المسودة كبقية البنود."""
+    """بند الريل في المرحلة 2 (Issue #1336، R1؛ السيناريو في #1338، R2). بلا سيناريو بعد (أو والمفتاح مطفأ):
+    سطر «⏳» وخيار go1 وحده. سيناريو فشل: سببه وgo1 وحده. سيناريو جاهز: العنوان وجنس الراوي والمدة المقدَّرة، جدول
+    زمني بالمشاهد، كتلة نص قابلة للتعديل، العناوين الثلاثة، المحرر والتنبيهات، وخياران: go1 وgo3 بنص الريل."""
     texts = cfg.path("reel.texts", {}) or {}
-    return [
-        f"**{idx}. {texts.get('reel', '🎬')} — {d['title']}**  <!-- draft:{d['id']} -->",
-        "",
-        f"  {texts.get('script_pending', '')}",
-        "",
-        *stages.options_block(2, d["id"], cfg, has_stage1=review.has_stage1(d), only=("go1",)),
-        "",
-    ]
+    out = [f"**{idx}. {texts.get('reel', '🎬')} — {d['title']}**  <!-- draft:{d['id']} -->", ""]
+    script = d.get("script")
+    on = bool(cfg.path("reel.enabled", False))
+    only, labels = ("go1",), None
+    if on and d.get("script_status") == "failed":
+        out += [f"  {texts.get('script_failed_line', '').format(reason=d.get('script_error', ''))}", ""]
+    elif on and script and d.get("script_status") == "ready":
+        from . import editor, reel_script
+        only, labels = ("go1", "go3"), {"go3": texts.get("go3", "")}
+        narrator = texts.get(f"narrator_{script.get('narrator')}", script.get("narrator", ""))
+        seconds = round(reel_script.estimate_seconds(script, cfg))
+        out += [f"  {texts.get('script_meta', '').format(narrator=narrator, seconds=seconds)}",
+                "", f"  {texts.get('timeline_header', '')}", "",
+                *reel_script.timeline_lines(script, cfg), "",
+                f"  {texts.get('edit_header', '')}", "",
+                *reel_script.edit_block(d["id"], script), "",
+                *review.headline_boxes(d, "🏷️ **العناوين المقترحة** (علّم المختار، الأول افتراضي):"),
+                *editor.render_lines(d, cfg)]
+        if d.get("warnings"):
+            out += [f"  ⚠️ **{len(d['warnings'])} تنبيه/تنبيهات للمراجعة:**", "",
+                    *[f"  - {w}" for w in d["warnings"]], ""]
+        fixes = names_audit.corrections_lines(d)
+        if fixes:
+            out += [*[f"  {line}" for line in fixes], ""]
+    else:
+        out += [f"  {texts.get('script_pending', '')}", ""]
+    out += [*stages.options_block(2, d["id"], cfg, has_stage1=review.has_stage1(d), only=only, labels=labels), ""]
+    return out
 
 
 def _add_format_lines(d: dict, group: list[dict], rtexts: dict) -> list[str]:
@@ -738,7 +758,9 @@ def _add_format_lines(d: dict, group: list[dict], rtexts: dict) -> list[str]:
     واحدة لكل موضوع، وللمسودات التي تحمل topic_id وحدها."""
     if not group or d is not group[-1]:
         return []
-    have = {x.get("format") or "article" for x in group}
+    # ريل فشل سيناريوه يُعدّ غائبًا: «➕ أضف ريلًا» هو طريق إحيائه (Issue #1338، R2)
+    have = {x.get("format") or "article" for x in group
+            if not (x.get("format") == "reel" and x.get("script_status") == "failed")}
     tid = d["topic_id"]
     lines = []
     if "reel" not in have:

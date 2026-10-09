@@ -42,9 +42,11 @@ def action_label(action: str, stage: int, cfg) -> str:
 
 
 def options_block(stage: int, item_id: str, cfg, has_stage1: bool = True,
-                  urgent: bool = False, only: tuple[str, ...] | None = None) -> list[str]:
+                  urgent: bool = False, only: tuple[str, ...] | None = None,
+                  labels: dict[str, str] | None = None) -> list[str]:
     """``only`` (Issue #1336): يحصر الخيارات بهذه الإجراءات -- بند الريل في المرحلة 2
-    يعرض go1 وحده حتى تُبنى مراحله اللاحقة (R3/R4)."""
+    يعرض go1 وحده حتى تُبنى مراحله اللاحقة (R3/R4). ``labels`` (Issue #1338، R2): نص بديل لخيار بعينه
+    (go3 للريل: «اعتمد السيناريو…»)."""
     lines = [cfg.path("stages.options_header", "")]
     for action in ACTIONS:
         if only is not None and action not in only:
@@ -53,7 +55,8 @@ def options_block(stage: int, item_id: str, cfg, has_stage1: bool = True,
             continue                      # لا خيار للانتقال إلى المرحلة الحالية
         if action == "go1" and not has_stage1:
             continue                      # مسار بلا مرحلة ترشيح لا يعود إليها
-        lines.append(f"- [ ] {_option_text(action, stage, cfg, urgent)}  "
+        text = (labels or {}).get(action) or _option_text(action, stage, cfg, urgent)
+        lines.append(f"- [ ] {text}  "
                      f"<!-- go:{action}:{item_id} -->")
     return lines
 

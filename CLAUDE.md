@@ -1635,6 +1635,36 @@ step (`article.wide_days`).
   (`stages.options_block(..., only=("go1",))`)؛ خيارا «➕ أضف ريلًا/مقالًا» (`addfmt:`، `stages.parse_add_formats`) تعالجهما `publish.cmd_add_formats` من `publish.main` (المسار العادي).
 - **الأخبار:** حُذف مربع «🎬 انشره كريل بدل الصورة» وقراءته (`parse_reels`/`publish_as_reel`)؛ مربع `reel:` في قضية قديمة يُتجاهل. `src/reel.py` و`facebook.publish_reel` باقيان غير مربوطين.
 
+## سيناريو الريل في التحليل (Issue #1338، R2) — خلف `reel.enabled` (false افتراضيًا)
+
+كاتب سيناريو لمسودة الريل (`format: "reel"`) وعرضه في المرحلة 2 وقراءة تعديلاته ومروره بالمحرر الأخير. التركيب R3 والنشر R4. مطفأً لا يتغير شيء
+(g180). الوحدات: `src/reel_script.py` (الاختيار والكتابة والتحقق والعرض) · `src/reel_editor.py` (مُكيِّف المحرر، `editor.paths.reel`).
+
+- **البنية في `draft["script"]`:** `{narrator, title, question, scenes}`؛ المشهد `kind`: `cold_open_clip`|`clip` (point_id, video_url, start, end,
+  speaker_name, speaker_role, channel_display, quote_arabic, language) · `narration` · `title_card` · `question` · `outro`. حقول المقطع **يملؤها الكود من
+  النقطة** لا النموذج (يختار point_id فقط). الترتيب الإلزامي: افتتاحية باردة ← عنوان ← (راوٍ ومقطع متناوبان بلا تجاور من النوع نفسه) ← راوٍ ختامي ← سؤال ← ختام.
+  `script_status`: `awaiting_script` → `ready` | `failed` (+ `script_error`)؛ بعد go3: `status="approved_script"` و`render_status="queued"`.
+- **المقاطع الصالحة (`valid_clips`، قبل النداء):** نقطة بـ`timestamp` و`quote_original` غير فارغ، متحدثها «مسمّى» (`youtube_article.speaker_name_tokens` بـ
+  `role_words`)، واسمه ليس في `name_unresolved` لأي مسودة للموضوع. النافذة: `start = timestamp − lead_seconds`، المدة = كلمات الاقتباس ÷ `speech_rate_wps`
+  محصورة بين `clip_min_seconds` و`clip_max_seconds`. أقل من `min_clips` ← لا نداء، `failed` بـ«لا مقاطع كافية: …» وتعليق على القضية.
+- **الكتابة:** نداء واحد بنموذج `youtube.article.model` وأداة `report_reel_script` (نظام `reel.script.system`)؛ مدخله العنوان والحدث ونص مقال الموضوع والمقاطع
+  بمعرّفاتها وتواريخ الفيديو وجنس الراوي. الكود يتحقق (`validate`): الترتيب، المقاطع من الصالحة وبالعدد `min(clips, الصالحة)` بلا تكرار، النصوص غير فارغة،
+  المدة = (كلمات الراوي والسؤال ÷ المعدل) + نوافذ المقاطع + `fixed_seconds` بين `min_seconds` و`max_seconds`. مخالفة ← إعادة واحدة بالسبب ثم `failed`.
+  الراوي يتناوب female/male عن آخر ريل محفوظ (`next_narrator`، أول ريل female). العناوين الثلاثة من `youtube_article.generate_headlines` (الأول سؤال) بنص
+  السيناريو، وتُحفظ في `headlines`؛ عنوان الشاشة `script.title` مستقل. ثم `names_audit.run` على نص السيناريو (مسودة وسيطة، مصدرها اقتباسات النقاط الأصلية)
+  ثم المحرر الأخير بمُكيِّف reel (الحقول: العنوان وكلام الراوي والسؤال والعناوين؛ سطور المقاطع للقراءة فقط؛ المخالفات = `validate`).
+- **متى يُكتب:** `publish._write_reel_script` عند إنشاء مسودة الريل في `cmd_youtube_selection` و`cmd_add_formats` (في التشغيلة نفسها؛ النقاط من
+  `prepare_window_points(topic_date)`). مسودة مُعادة `returned` بسيناريو جاهز لا تُكتب ثانيةً. ريل `failed` يُعدّ غائبًا في `_add_format_lines` فيظهر له
+  «➕ أضف ريلًا» وبه يُحيا (يعود pending ويُكتب سيناريوه من جديد، حتى لو رُفض ضمنًا عند الاعتماد نفسه).
+- **المرحلة 2 (`youtube_publish._reel_item_lines`):** العنوان وجنس الراوي والمدة، جدول زمني `[m:ss–m:ss]` بالمشاهد (المقطع برابط الفيديو `&t=<start>`)، كتلة
+  `<!-- reelscript:id -->` + ```text بسطر «[n] نص» لكل مشهد قابل للتعديل (العنوان والراوي والسؤال؛ n رقم المشهد)، عناوين `hl:`، قسم المحرر والتنبيهات،
+  وخيارا go1 وgo3 (نص go3 `reel.texts.go3` عبر `stages.options_block(..., labels=)`). `failed` ← سببه وgo1 وحده. بلا سيناريو ← سطر «⏳» وgo1.
+- **القراءة عند approved (`publish.approve_reel_scripts`، المسار العادي وحده):** يُفصل الريل عن مسار البطاقات والنشر. go3 ← تُطبَّق السطور المعدَّلة بالرقم
+  (`reel_script.apply_lines`: سطر محذوف أو رقم غير موجود أو فارغ يُتجاهل بتنبيه)، `approved_script` + `queued` + تعليق «سيُركَّب الريل حين تُفعَّل مرحلة
+  التركيب»، بلا نشر ولا بطاقة. سيناريو غير جاهز أو ملاحظة محرر `high` غير مطبَّقة (`editor.blocking_reasons`) ← لا يُنفَّذ، يبقى pending مع تعليق البوابة
+  (`editor.texts.gate_comment`)، ولا يُرفض ضمنًا. بلا تعليم = رفض كبقية البنود. الاختبارات: g169–g180 في `tests/test_guards_golden.py:test_reel_script_guards`
+  (يعزل `test_reel_structure_guards` كتابة السيناريو بتزييف `publish._write_reel_script` ليبقى R1 كما ثبّته).
+
 ## Retired paths
 
 - **«مقال» (`src/article.py`, label `مقال`, `.github/workflows/article.yml`) and «طلب» (`src/request.py`, label `طلب`

@@ -979,6 +979,11 @@ def _create_reel_draft(topic: dict, date_str: str, cfg) -> tuple[dict, bool]:
     draft = youtube_publish.build_reel_draft(topic, date_str, cfg)
     found = store.load_draft(draft["id"])
     if found is not None:
+        if found[1].get("script_status") == "failed" and found[1].get("status") in ("pending", "rejected"):
+            # إعادة المحاولة بعد فشل السيناريو (Issue #1338، R2): تعود pending وتُكتب من جديد
+            data = store.update_draft(found[0], status="pending", topic_date=date_str,
+                                      remove=["script_error", "review_issue"])
+            return data, True
         if found[1].get("status") == "returned":
             store.update_draft(found[0], status="pending", topic_date=date_str,
                                remove=["returned_from_stage", "returned_at", "review_issue"])
@@ -986,6 +991,86 @@ def _create_reel_draft(topic: dict, date_str: str, cfg) -> tuple[dict, bool]:
         return found[1], False
     store.save_draft(draft)
     return draft, True
+
+
+def _report_reel_script(draft: dict, issue_number: int | None, cfg) -> None:
+    """تعليق على القضية عند فشل سيناريو الريل بسببه (Issue #1338، R2)؛ الفشل قابل للإحياء بإعادة «➕ أضف ريلًا»."""
+    if draft.get("script_status") != "failed" or not issue_number:
+        return
+    texts = cfg.path("reel.texts", {}) or {}
+    review.comment(issue_number, "### 🎬 سيناريو الريل\n" + texts.get("script_failed_comment", "").format(
+        title=draft.get("title", "")[:50], reason=draft.get("script_error", "")))
+
+
+def _write_reel_script(draft: dict, topic_date: str, cfg, client=None, issue_number: int | None = None):
+    """يكتب سيناريو مسودة ريل أُنشئت للتوّ في التشغيلة نفسها (Issue #1338، R2) ويحفظه. النقاط تُحمَّل كما عند كتابة
+    المقال (prepare_window_points من تاريخ الموضوع). مفتاح الريل مطفأ أو سيناريو جاهز أصلًا (مسودة مُعادة) ← لا شيء.
+    يعيد نتيجة reel_script.write_for_draft أو None."""
+    if not cfg.path("reel.enabled", False):
+        return None
+    if draft.get("script_status") == "ready" and draft.get("script"):
+        return None
+    from . import reel_script, youtube_cluster
+    tid = draft.get("topic_id", "")
+    topic = next((t for t in youtube_cluster._load_topics_raw(topic_date).get("topics", [])
+                  if t.get("id") == tid), None)
+    member: list[dict] = []
+    if topic is not None:
+        points, _ = youtube_cluster.prepare_window_points(topic_date, cfg)
+        member = [points[pid] for pid in topic.get("point_ids", []) if 0 <= pid < len(points)]
+    topic = topic or {"id": tid, "title": draft.get("title", ""), "event": draft.get("event", "")}
+    rows = [d for _, d in _topic_drafts(tid)]
+    unresolved = [u for d in rows for u in (d.get("name_unresolved") or [])]
+    article_text = next((d.get("caption", "") for d in rows if d.get("format") != "reel"), "")
+    result = reel_script.write_for_draft(draft, topic, member, article_text, unresolved, cfg, client)
+    found = store.load_draft(draft["id"])
+    if found is not None:
+        keys = ("script", "script_status", "script_error", "headlines", "headline_selected", "warnings",
+                "editor_review", "name_corrections", "name_unresolved", "names_audit")
+        store.update_draft(found[0], remove=[k for k in keys if k not in draft],
+                           **{k: draft[k] for k in keys if k in draft})
+    _report_reel_script(draft, issue_number, cfg)
+    return result
+
+
+def approve_reel_scripts(issue_number: int, reel_ids: list[str], body: str, cfg) -> list[str]:
+    """go3 للريل في قضية المرحلة 2 (Issue #1338، R2): يُطبَّق ما عدّله المراجع في كتلة النص على المشاهد بالرقم، ثم
+    status="approved_script" وrender_status="queued" بلا نشر ولا بطاقة (التركيب في R3). سيناريو غير جاهز أو ملاحظة
+    محرر high غير مطبَّقة ← لا يُنفَّذ ويبقى pending في المرحلة 2. يعيد معرّفات ما لم يُنفَّذ."""
+    from datetime import datetime, timezone
+
+    from . import editor as editor_mod
+    from . import reel_script
+    texts = cfg.path("reel.texts", {}) or {}
+    blocks = reel_script.parse_edit_blocks(body)
+    lines: list[str] = []
+    blocked: list[str] = []
+    for did in reel_ids:
+        found = store.load_draft(did)
+        if not found or found[1].get("status") != "pending":
+            continue           # إعادة تشغيل المسارين لحدث واحد بلا أثر ثانٍ
+        path, d = found
+        title = d.get("title", did)[:50]
+        if d.get("script_status") != "ready" or not d.get("script"):
+            lines.append(texts.get("script_blocked", "").format(
+                title=title, reason=d.get("script_error") or "لا سيناريو جاهز"))
+            blocked.append(did)
+            continue
+        reasons = editor_mod.blocking_reasons(d, cfg)
+        if reasons:
+            lines.append("- " + cfg.path("editor.texts.gate_comment").format(title=title, reason="؛ ".join(reasons)))
+            blocked.append(did)
+            continue
+        script, warnings = d["script"], []
+        if did in blocks:
+            script, warnings = reel_script.apply_lines(d["script"], blocks[did], texts)
+        store.update_draft(path, status="approved_script", render_status="queued", script=script,
+                           approved_script_at=datetime.now(timezone.utc).isoformat())
+        lines.append(texts.get("script_approved", "").format(title=title))
+        lines += [texts.get("script_edit_warn", "").format(title=title, detail=w) for w in warnings]
+    if lines:
+        review.comment(issue_number, "### 🎬 سيناريو الريل\n" + "\n".join(lines))
+    return blocked
 
 
 def _write_topic_article(topic: dict, points: list[dict], date_str: str, cfg, client):
@@ -1021,12 +1106,19 @@ def cmd_add_formats(issue_number: int, body: str, cfg, client=None) -> int:
     added = 0
     for kind, topic_id in stages.parse_add_formats(body):
         rows = _topic_drafts(topic_id)
+        if not rows and kind == "reel":
+            # ريل فشل سيناريوه ورُفض ضمنًا عند الاعتماد نفسه (لم يُعلَّم) -- «أضف ريلًا» هو طريق إحيائه
+            from .important import point_id
+            dead = store.load_draft(point_id(f"{topic_id}:reel"))
+            rows = [dead] if dead and dead[1].get("script_status") == "failed" else []
         if not rows:
             lines.append(texts.get("add_missing_topic", "").format(id=topic_id))
             continue
         base = rows[0][1]
         title = base.get("title", topic_id)
-        if kind in {d.get("format") or "article" for _, d in rows}:
+        # ريل فشل سيناريوه يُعدّ غائبًا فيُعاد كتابته (Issue #1338، R2)
+        if kind in {d.get("format") or "article" for _, d in rows
+                    if not (d.get("format") == "reel" and d.get("script_status") == "failed")}:
             lines.append(texts.get("add_exists", "").format(title=title[:50]))
             continue
         topic_date = base.get("topic_date") or base.get("run_date")
@@ -1034,8 +1126,9 @@ def cmd_add_formats(issue_number: int, body: str, cfg, client=None) -> int:
             topic_like = {"id": topic_id, "title": title, "layer": base.get("tier", 1),
                           "blocs": base.get("blocs") or [], "channels": base.get("channels") or [],
                           "agreement": base.get("agreement", ""), "event": base.get("event", "")}
-            _, made = _create_reel_draft(topic_like, topic_date, cfg)
+            reel_draft, made = _create_reel_draft(topic_like, topic_date, cfg)
             if made:
+                _write_reel_script(reel_draft, topic_date, cfg, client, issue_number)
                 added += 1
                 lines.append(texts.get("reel_created", "").format(title=title[:50]))
         else:
@@ -1190,6 +1283,7 @@ def cmd_youtube_selection(issue_number: int, body: str, cfg, client=None) -> int
     for topic in reel_topics:
         reel_draft, made = _create_reel_draft(topic, date_str, cfg)
         if made:
+            _write_reel_script(reel_draft, date_str, cfg, client, issue_number)    # Issue #1338، R2
             review_ids.append(reel_draft["id"])
             lines.append(texts.get("reel_created", "").format(title=topic["title"][:50]))
     for tid in {t["id"] for t in to_write} | {t["id"] for t in reel_topics}:
@@ -1391,6 +1485,12 @@ def main() -> int:
     ids = [i for i in review.all_draft_ids(body)
            if actions.get(i) in ("publish", "go3")]
     go3_ids = {i for i in ids if actions[i] == "go3"}
+    # الريل (Issue #1338، R2): go3 له اعتماد السيناريو لا بطاقة ولا نشر، فيُفصل عن مسار البطاقات والنشر كله
+    reel_ids: list[str] = []
+    if cfg.path("reel.enabled", False):
+        reel_ids = [i for i in ids if (store.load_draft(i) or (None, {}))[1].get("format") == "reel"]
+        ids = [i for i in ids if i not in reel_ids]
+        go3_ids = {i for i in go3_ids if i not in reel_ids}
     # المحرر الأخير (Issue #1326، عُمِّم في #1334): publish من المرحلة 2 لمسودة تحمل editor_review وفيها ما يمنعه
     # (أيًّا كان أصلها) ← go3 (بطاقة ومراجعة أخيرة بعين بشرية). التعليق من المسار العادي وحده فالمسارين يقرآن
     # الحدث نفسه.
@@ -1522,7 +1622,7 @@ def main() -> int:
     # status == "pending" يمنع إعادة الرفض/التسجيل عند إعادة تشغيل هذا
     # المسار لنفس الـIssue (مثلًا مسار urgent ثم normal لنفس حدث approved).
     unapproved = [i for i in review.all_draft_ids(body)
-                  if i not in ids and i not in go1_ids]
+                  if i not in ids and i not in go1_ids and i not in reel_ids]
     if unapproved:
         entries = feedback.load()
         rejected_now = 0
@@ -1546,10 +1646,17 @@ def main() -> int:
     if add_requests and not args.urgent_only:
         cmd_add_formats(args.issue, body, cfg)
 
-    if not ids and (go1_ids or add_requests):
-        # كل ما عُلِّم عودة إلى الترشيح أو إضافة صيغة: لا نشر ولا «لم يُعلَّم» (Issue #1184)
+    reel_blocked: list[str] = []
+    if reel_ids and not args.urgent_only:
+        reel_blocked = approve_reel_scripts(args.issue, reel_ids, body, cfg)
+
+    if not ids and (go1_ids or add_requests or reel_ids):
+        # كل ما عُلِّم عودة إلى الترشيح أو إضافة صيغة أو اعتماد سيناريو: لا نشر ولا «لم يُعلَّم» (Issue #1184)
         if not args.urgent_only:
-            review.close_issue(args.issue)
+            if reel_blocked:
+                review.remove_label(args.issue, "approved")    # بند لم يُنفَّذ: تبقى القضية مفتوحة لإعادة الوسم
+            else:
+                review.close_issue(args.issue)
         return 0
 
     if not ids:
