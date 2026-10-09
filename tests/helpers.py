@@ -320,7 +320,8 @@ def install_fakes() -> None:
     from src import names_audit
     names_audit._detect = lambda texts, arabic, cfg: []  # type: ignore
     # المحرر الأخير (Issue #1326): افتراضيًا تقرير بلا ملاحظات، بلا شبكة
-    from src import youtube_editor
+    from src import editor, youtube_editor
+    editor._create = lambda client, **kw: editor_response([])  # type: ignore
     youtube_editor._create = lambda client, **kw: editor_response([])  # type: ignore
 
 

@@ -1062,7 +1062,7 @@ def cmd_youtube_selection(issue_number: int, body: str, cfg, client=None) -> int
         gated, why = youtube_editor.gate_action(action, draft, 1, cfg)
         if gated != action:
             actions[topic["id"]] = gated
-            review.comment(issue_number, cfg.path("youtube.review.editor.texts.gate_comment").format(
+            review.comment(issue_number, cfg.path("editor.texts.gate_comment").format(
                 title=draft["arabic"]["post_title"][:60], reason=why))
         _route(topic, draft["id"])
         written += 1
@@ -1281,7 +1281,7 @@ def main() -> int:
             go3_ids.add(did)
             actions[did] = "go3"
             if not args.urgent_only:
-                review.comment(args.issue, cfg.path("youtube.review.editor.texts.gate_comment").format(
+                review.comment(args.issue, cfg.path("editor.texts.gate_comment").format(
                     title=found[1]["arabic"]["post_title"][:60], reason=why))
     go1_ids = [i for i in review.all_draft_ids(body) if actions.get(i) == "go1"]
     if not args.urgent_only:          # المسار السريع يقرأ بالمثل ولا يكرّر التنبيه

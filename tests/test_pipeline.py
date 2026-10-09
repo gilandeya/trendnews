@@ -264,7 +264,7 @@ from tests.test_guards_golden import (test_guards_golden, test_important_false_g
                                       test_important_1298_guards, test_important_1304_guards,
                                       test_important_1309_guards, test_important_1316_guards,
                                       test_names_placeholder_guards, test_names_audit_1322_guards,
-                                      test_analysis_editor_guards)
+                                      test_analysis_editor_guards, test_editor_shared_1327_guards)
 from tests.test_names_audit import (test_names_audit_brave_counter, test_names_audit_other_sites,
                                     test_names_audit_pipeline,
                                     test_names_audit_prevention_writer, test_names_audit_review_learning)
@@ -644,6 +644,8 @@ def main() -> int:
     test_names_audit_1322_guards()
     print("\n── المحرر الأخير لمقالات التحليل g128–g140 (Issue #1326) ──")
     test_analysis_editor_guards()
+    print("\n── المحرر الأخير المشترك و«هام» g141–g150 (Issue #1331) ──")
+    test_editor_shared_1327_guards()
     test_analysis_attribution_guards()
     test_analysis_attribution_pipeline()
     print("\n── تدقيق أسماء الأشخاص على الأنبوب: 🚀 والمرحلتان 2 و3 والتعلّم والعدّاد (Issue #1252) ──")

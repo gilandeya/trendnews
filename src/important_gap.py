@@ -126,8 +126,25 @@ def _too_old(published: str, max_age_days: int) -> bool:
     return (datetime.now(timezone.utc).date() - when).days > max_age_days
 
 
+def sibling_links(result: dict, item: dict) -> set[str]:
+    """روابط ما بُني عليه منشور verified في النتيجة نفسها (#1331): مقتطفات بحثه المكمِّل وأدلة نقاطه الأعضاء.
+    nearest وrefuted لا يُبنيان عليها كي لا يعيدا بيانه (حادثة #1327: منشور nearest أعاد بيان 20 مارس نفسه).
+    لعنصر verified أو بلا verified في النتيجة ← فارغة؛ وأدلة أعضاء العنصر نفسه لا تدخل هنا أبدًا."""
+    if item.get("kind") not in ("nearest", "refuted"):
+        return set()
+    by_id = {p.get("id"): p for p in result.get("points") or []}
+    out: set[str] = set()
+    for other in result.get("article_items") or []:
+        if other.get("kind") != "verified" or other.get("id") == item.get("id"):
+            continue
+        out |= {g.get("link") for g in other.get("gap_sources") or [] if g.get("link")}
+        for pid in other.get("point_ids") or []:
+            out |= {r.get("link") for r in (by_id.get(pid) or {}).get("evidence") or [] if r.get("link")}
+    return out
+
+
 def search_gap(questions: list[dict], cfg, pivots: list[str] | None = None,
-               stats: dict | None = None) -> list[dict]:
+               stats: dict | None = None, exclude: set[str] | None = None) -> list[dict]:
     """[{publisher, link, excerpt, question, published}] من مصادرنا وحدها، حتى max_docs. _PointSearch جديد لكل منشور
     فعدّاد طلبات Brave (search.brave) له وحده؛ ضربة ذاكرة لا تُحسب طلبًا. بلوغ العدّاد الشهري يمنع
     الطلب داخل brave_web_articles نفسها فيبقى Google وحده."""
@@ -140,6 +157,8 @@ def search_gap(questions: list[dict], cfg, pivots: list[str] | None = None,
     stats.setdefault("off_topic", 0)
     stats.setdefault("too_old", 0)
     stats.setdefault("listing", 0)
+    stats.setdefault("sibling", 0)
+    exclude = exclude or set()
     out: list[dict] = []
     seen: set[str] = set()
 
@@ -153,6 +172,9 @@ def search_gap(questions: list[dict], cfg, pivots: list[str] | None = None,
             # صفحة فهرس (#1316) تُرمى قبل القراءة: تاريخها تاريخ آخر خبر فيها فتتجاوز فلتر العمر
             if link and important.is_listing_url(link, icfg):
                 stats["listing"] += 1
+                continue
+            if link and (link in exclude or (d.get("link") or "") in exclude):
+                stats["sibling"] += 1     # مصدر الشقيق (#1331): لا يُبنى عليه منشور ثانٍ
                 continue
             if (not link or link in seen or important._is_excluded_domain(link, icfg)
                     or not important._is_our_source(name, link, cfg)):
@@ -191,7 +213,9 @@ def gather(result: dict, item: dict, members: list[dict], cfg) -> list[dict]:
         pivots = pivot_entities(members)
         item["pivot_entities"] = pivots
         stats: dict = {}
-        out = search_gap(questions, cfg, pivots, stats) if questions else []
+        out = (search_gap(questions, cfg, pivots, stats, sibling_links(result, item))
+               if questions else [])
+        item["gap_dropped_sibling"] = stats.get("sibling", 0)
         item["gap_dropped_off_topic"] = stats.get("off_topic", 0)
         item["gap_dropped_listing"] = stats.get("listing", 0)
         return out

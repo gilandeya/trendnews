@@ -1884,11 +1884,16 @@ def _entity_variants(entity: str, icfg) -> list[str]:
     return [folded]
 
 
+# سوابق تلتصق بأول كلمة من اسم مركّب («وحزب الله» و«لحزب الله»): الاسم المركّب يُطابَق بنصه، فكان حرف العطف
+# الملتصق يُفلت منه وتُنبَّه فقرة سليمة «خارج الموضوع» (#1331)
+_COMPOUND_PREFIXES = ("و", "ف", "ب", "ل", "ك", "وب", "ول", "فب", "فل")
+
+
 def _mentions(text: str, variants: list[str]) -> bool:
     forms, joined = _token_forms(text)
     for v in variants:
         if " " in v:
-            if f" {v} " in joined:
+            if f" {v} " in joined or any(f" {p}{v} " in joined for p in _COMPOUND_PREFIXES):
                 return True
         elif v in forms:
             return True
