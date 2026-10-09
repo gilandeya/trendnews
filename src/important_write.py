@@ -776,8 +776,8 @@ def arabize_publishers(written: dict, names: list[str], cfg) -> tuple[dict, list
         text = out.get(key) or ""
         for latin in sorted(mapping, key=len, reverse=True):
             if _LATIN_RE.search(latin):
-                text = re.sub(rf"(?<![\w]){re.escape(latin)}(?![\w])", mapping[latin], text,
-                              flags=re.IGNORECASE)
+                # حسّاس للحالة (#1316): «time» الإنجليزية داخل المتن و«aa» لا تُستبدل باسم ناشر
+                text = re.sub(rf"(?<![\w]){re.escape(latin)}(?![\w])", mapping[latin], text)
         out[key] = text
     shown = f"{out.get('post_title', '')}\n{out.get('post_body', '')}".casefold()
     warns = []
@@ -786,6 +786,84 @@ def arabize_publishers(written: dict, names: list[str], cfg) -> tuple[dict, list
                 and n.casefold() in shown:
             warns.append(WARN_NON_ARABIC_PUBLISHER.format(name=n))
     return out, warns
+
+
+# ───────────── النقل الحرفي المنسوب يصير اقتباسًا (Issue #1316) ─────────────
+
+_TOKEN_RE = re.compile(r"[\w'\u0640\u064B-\u065F\u0670]+", re.UNICODE)
+_SENT_SPLIT_RE = re.compile(r"((?<=[.!؟?])\s+|\n+)")
+_LEAD_PARTICLES = {"ان", "بان"}   # بعد التطبيع (إن/أن/بأن): أداة ربط لا من كلام المصدر المنقول
+
+
+def _publisher_forms(publisher: str, cfg) -> list[str]:
+    """صيغ الناشر المطبَّعة للبحث عن ذكره في الجملة: اسمه وعربيه، وما يطابقه من outlet_aliases."""
+    names = [publisher, publisher_ar(publisher, cfg)]
+    folded = [important._fold(n) for n in names if n]
+    for alias in _icfg(cfg).get("outlet_aliases") or []:
+        fa = important._fold(alias)
+        if fa and any(fa in f or f in fa for f in folded if f):
+            names.append(alias)
+    forms = [" ".join(important._WORD_RE.findall(important._fold(n))) for n in names if n]
+    return [f for f in dict.fromkeys(forms) if f]
+
+
+def _longest_common_run(a: list[str], b: list[str]) -> tuple[int, int]:
+    """(بداية التتابع في a، طوله) لأطول تتابع متجاور مشترك."""
+    best, best_i = 0, 0
+    prev = [0] * (len(b) + 1)
+    for i in range(1, len(a) + 1):
+        cur = [0] * (len(b) + 1)
+        for j in range(1, len(b) + 1):
+            if a[i - 1] == b[j - 1]:
+                cur[j] = prev[j - 1] + 1
+                if cur[j] > best:
+                    best, best_i = cur[j], i - cur[j]
+        prev = cur
+    return best_i, best
+
+
+def quote_attributed_copies(written: dict, sources: list[tuple[str, str]], cfg) -> tuple[dict, list[str]]:
+    """نقل حرفي (تتابع ≥ article_max_shared_run_words كلمة مع مقتطف) داخل جملة تذكر ناشر ذلك المقتطف يُحاط
+    بـ« » فيصير اقتباسًا منسوبًا صحيحًا بدل نسخ يُنبَّه عليه (#1316: «قالت الخارجية إن …» نُقلت من بيان
+    state.gov حرفيًا). النقل غير المنسوب يبقى للأصالة؛ وتعذّر ربط الكلمات المطبَّعة بكلمات الجملة أو كون
+    المقطع داخل « » أصلًا ← لا تحويل. يعيد (نسخة النص، بدايات المقاطع المحوَّلة) ولا يمسّ العنوان."""
+    body = written.get("post_body") or ""
+    threshold = int(_icfg(cfg).get("article_max_shared_run_words", 12))
+    prepared = [(verify_draft._normalized_words(text), _publisher_forms(pub, cfg)) for pub, text in sources if text]
+    parts = _SENT_SPLIT_RE.split(body)
+    converted: list[str] = []
+    for k in range(0, len(parts), 2):
+        sentence = parts[k]
+        tokens = list(_TOKEN_RE.finditer(sentence))
+        norm = [verify_draft._normalized_words(m.group(0)) for m in tokens]
+        keep = [(m, n[0]) for m, n in zip(tokens, norm) if len(n) == 1]
+        if len(keep) != len(verify_draft._normalized_words(sentence)) or len(keep) < threshold:
+            continue   # الربط واحدًا بواحد متعذّر
+        words = [w for _m, w in keep]
+        best = None   # (طول، بداية)
+        for src_words, forms in prepared:
+            if not forms or not important._mentions(sentence, forms):
+                continue
+            i, n = _longest_common_run(words, src_words)
+            if n >= threshold and (best is None or n > best[0]):
+                best = (n, i)
+        if best is None:
+            continue
+        n, i = best
+        while n > 0 and words[i] in _LEAD_PARTICLES:
+            i, n = i + 1, n - 1
+        if n < 1:
+            continue
+        start, end = keep[i][0].start(), keep[i + n - 1][0].end()
+        if any(m.start() < end and start < m.end() for m in verify_draft.QUOTE_RE.finditer(sentence)):
+            continue   # داخل « » أصلًا
+        converted.append(" ".join(sentence[start:end].split()[:12]))
+        parts[k] = f"{sentence[:start]}«{sentence[start:end]}»{sentence[end:]}"
+    if not converted:
+        return written, []
+    out = dict(written)
+    out["post_body"] = "".join(parts)
+    return out, converted
 
 
 def relative_time_warnings(written: dict, cfg) -> list[str]:
@@ -872,6 +950,7 @@ def write_article(result: dict, item: dict, cfg, sibling_texts: list[str] | None
     wcfg = _article_cfg(cfg)
     written, reason, converted = None, "", []
     last = None
+    attributed: list[str] = []
 
     def originality(w: dict) -> str:
         ok, why, _notes = verify_draft.check_originality(
@@ -885,6 +964,9 @@ def write_article(result: dict, item: dict, cfg, sibling_texts: list[str] | None
         if got is None:
             return None, err, err.startswith(TECHNICAL_PREFIX)
         normalize_statement_title(got, cfg)
+        # نقل حرفي منسوب ← اقتباس، قبل الفحوص كلها (#1316)؛ ما لم يُنسب يبقى لفحص الأصالة
+        got, attributed = quote_attributed_copies(
+            got, [(s_.get("name", ""), s_.get("text", "")) for f in grounded for s_ in f["sources"]], cfg)
         last = got
         reason = check_article(got, sources_text, cfg, allowed) or ""
         if not reason:
@@ -908,6 +990,7 @@ def write_article(result: dict, item: dict, cfg, sibling_texts: list[str] | None
     warns = [w for p in members for w in p.get("warnings") or []]
     warns += unsourced_in(known, written, grounded, question, cfg)
     warns += [REASON_QUOTE_CONVERTED.format(quote=q) for q in converted]
+    warns += [_icfg(cfg).get("quote_converted_warning", "").format(start=q) for q in attributed]
     warns += check_warns + latin_warns + relative_time_warnings(written, cfg)
     warns += [WARN_FAILED_CHECK.format(reason=r) for r in length_reasons(written, cfg)]
     warns += off_topic_warnings(written, item.get("pivot_entities") or [], cfg)

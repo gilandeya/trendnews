@@ -139,6 +139,7 @@ def search_gap(questions: list[dict], cfg, pivots: list[str] | None = None,
     stats = stats if stats is not None else {}
     stats.setdefault("off_topic", 0)
     stats.setdefault("too_old", 0)
+    stats.setdefault("listing", 0)
     out: list[dict] = []
     seen: set[str] = set()
 
@@ -149,6 +150,10 @@ def search_gap(questions: list[dict], cfg, pivots: list[str] | None = None,
                 return
             link, _resolved = search.resolve_link(d.get("link") or "")
             name = d.get("name", "")
+            # صفحة فهرس (#1316) تُرمى قبل القراءة: تاريخها تاريخ آخر خبر فيها فتتجاوز فلتر العمر
+            if link and important.is_listing_url(link, icfg):
+                stats["listing"] += 1
+                continue
             if (not link or link in seen or important._is_excluded_domain(link, icfg)
                     or not important._is_our_source(name, link, cfg)):
                 continue
@@ -188,6 +193,7 @@ def gather(result: dict, item: dict, members: list[dict], cfg) -> list[dict]:
         stats: dict = {}
         out = search_gap(questions, cfg, pivots, stats) if questions else []
         item["gap_dropped_off_topic"] = stats.get("off_topic", 0)
+        item["gap_dropped_listing"] = stats.get("listing", 0)
         return out
     except Exception:  # noqa: BLE001 — البحث المكمِّل مساعد: لا يُسقط كتابة المنشور
         log.exception("تعذّر البحث المكمِّل لمنشور %s", item.get("kind"))

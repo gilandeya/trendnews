@@ -30,7 +30,7 @@ import re
 import unicodedata
 from decimal import Decimal, InvalidOperation
 from datetime import date, datetime, timedelta, timezone
-from urllib.parse import urlparse
+from urllib.parse import unquote, urlparse, urlsplit
 
 import requests
 
@@ -1433,6 +1433,44 @@ class _Collected:
         self.cache_hits = 0
 
 
+_URL_DATE_RES = (
+    re.compile(r"/((?:19|20)\d{2})/(\d{1,2})/(\d{1,2})(?:/|$)"),
+    re.compile(r"(?<!\d)((?:19|20)\d{2})-(\d{2})-(\d{2})(?!\d)"),
+    re.compile(r"(?<!\d)((?:19|20)\d{2})(\d{2})(\d{2})(?!\d)"),
+)
+
+
+def url_date(url: str) -> str:
+    """تاريخ مكتوب في الرابط نفسه (/YYYY/M/D/ أو YYYY-MM-DD أو YYYYMMDD) أو فارغ (#1316): أوثق من أي
+    استنتاج من نص الصفحة لأن الناشر هو من كتبه. غير الصالح تقويمًا يُتخطى إلى النمط التالي."""
+    path = unquote(urlsplit(url or "").path)
+    for rx in _URL_DATE_RES:
+        for m in rx.finditer(path):
+            try:
+                return date(int(m.group(1)), int(m.group(2)), int(m.group(3))).isoformat()
+            except ValueError:
+                continue
+    return ""
+
+
+def _valid_doc_date(value, icfg) -> str:
+    """التاريخ كما هو إن كان بين important.min_doc_year واليوم، وإلا فارغ (تاريخ مستقبلي أو قديم بلا معنى)."""
+    try:
+        when = date.fromisoformat(str(value or "")[:10])
+    except ValueError:
+        return ""
+    if when > datetime.now(timezone.utc).date() or when.year < int(icfg.get("min_doc_year", 2000)):
+        return ""
+    return when.isoformat()
+
+
+def is_listing_url(url: str, icfg) -> bool:
+    """رابط صفحة فهرس (موضوع/وسم/تصنيف/كاتب/قسم) لا مقال (#1316): تاريخها تاريخ آخر خبر فيها ومحتواها
+    متجدد. المطابقة على المسار وحده لا النطاق (topics.example.com/news/1 مقال)."""
+    path = urlsplit(url or "").path.lower()
+    return any(p.lower() in path for p in icfg.get("listing_url_patterns") or [])
+
+
 class _PointSearch:
     """بحث وجلب لنقطة واحدة بذاكرة مؤقتة عبر النقاط (نقاط تتشارك عبارات بحث
     تبني الاستعلام نفسه — القراءة هي الكلفة، فلا تتكرر)."""
@@ -1468,11 +1506,18 @@ class _PointSearch:
         self.dates: dict[str, str] = {}
 
     def published_of(self, doc: dict) -> str:
-        """YYYY-MM-DD لتاريخ نشر وثيقة مقروءة أو فارغ إن لم يُعرف (فلا تُخمَّن)."""
-        for link in (doc.get("link"), doc.get("orig_link")):
-            for table in (self.art_dates, self.dates):
-                if link and table.get(link):
-                    return table[link]
+        """YYYY-MM-DD لتاريخ نشر وثيقة مقروءة أو فارغ إن لم يُعرف (فلا تُخمَّن). الترتيب (#1316): تاريخ في الرابط
+        نفسه ثم تاريخ نتيجة جوجل ثم htmldate على الصفحة؛ وأي تاريخ مستقبلي أو قبل min_doc_year يُهمل وينتقل
+        إلى ما بعده."""
+        links = [x for x in (doc.get("link"), doc.get("orig_link")) if x]
+        sources = [[url_date(x) for x in links],
+                   [self.art_dates.get(x, "") for x in links],
+                   [self.dates.get(x, "") for x in links]]
+        for group in sources:
+            for found in group:
+                ok = _valid_doc_date(found, self.icfg)
+                if ok:
+                    return ok
         return ""
 
     def _note_article_dates(self, arts) -> None:
@@ -1513,12 +1558,17 @@ class _PointSearch:
             self.html[url] = html
         try:
             import htmldate
-            found = htmldate.find_date(html, original_date=True, outputformat="%Y-%m-%d")
+            # بحث غير موسَّع (#1316): الموسَّع التقط «April 1, 2022» من قائمة روابط ذات صلة فنُسب إلى بيان
+            # حديث؛ original_date وmax_date يمنعان تاريخ تحديث لاحق أو مستقبلي
+            found = htmldate.find_date(html, url=url, extensive_search=False, original_date=True,
+                                       max_date=datetime.now(timezone.utc).date().isoformat(),
+                                       outputformat="%Y-%m-%d")
         except Exception as exc:  # noqa: BLE001 — تاريخ النشر مساعد: غيابه يعني «تاريخ غير معروف» لا فشلًا
             log.debug("htmldate فشل لـ%s: %s", url[:60], exc)
             found = None
-        if found:
-            self.dates[url] = found
+        ok = _valid_doc_date(found, self.icfg)
+        if ok:
+            self.dates[url] = ok
 
     def html_for(self, doc: dict) -> str | None:
         """HTML الخام لوثيقة مدقّق: من الجلب نفسه إن مرّ بها، وإلا جلب واحد إضافي بالمهلة نفسها
@@ -2311,18 +2361,24 @@ def judge_point(f: dict, topic: str, search: _PointSearch, cfg, keep: dict | Non
     deduped = article._dedup_docs_by_publisher(docs, cfg)
     # مصادرنا وحدها (#1288): ما عداها لا يدخل التصنيف فلا يؤيد ولا ينفي ولا يكون nearest؛ يبقى في
     # read_docs بموقف "outside" وعدده في outside_docs
+    # صفحات الفهارس (#1316) تُستبعد في الموضع نفسه بموقف "listing": تاريخها تاريخ آخر خبر فيها ومحتواها متجدد
+    # فلا تصلح دليلًا ولا nearest
+    listing = [d for d in deduped if is_listing_url(d.get("link", ""), search.icfg)]
+    listing_links = {d.get("link") for d in listing}
+    deduped = [d for d in deduped if d.get("link") not in listing_links]
     ours = [_is_our_source(d.get("name", ""), d.get("link", ""), cfg) for d in deduped]
     pool_docs = [d for d, ok in zip(deduped, ours) if ok]
     outside = [d for d, ok in zip(deduped, ours) if not ok]
-    rec, stances = _judge_pool(f, got, docs, pool_docs, cfg, outside, now)
+    rec, stances = _judge_pool(f, got, docs, pool_docs, cfg, outside, now, listing)
     if keep is not None:
         keep[pid] = {"f": f, "got": got, "docs": docs, "pool_docs": pool_docs, "stances": stances,
-                     "outside": outside, "now": now}
+                     "outside": outside, "listing": listing, "now": now}
     return rec
 
 
 def _judge_pool(f: dict, got, docs: list[dict], pool_docs: list[dict], cfg,
-                outside: list[dict] | None = None, now: date | None = None) -> tuple[dict, dict]:
+                outside: list[dict] | None = None, now: date | None = None,
+                listing: list[dict] | None = None) -> tuple[dict, dict]:
     """التصنيف والحكم ودرجات أقرب ما وُجد على pool_docs (وثائق النقطة، أو موسَّعة بالمخزون المشترك)."""
     pid = point_id(f["text"])
     ranked, named, collect_note = got.ranked, got.named, got.note
@@ -2372,6 +2428,8 @@ def _judge_pool(f: dict, got, docs: list[dict], pool_docs: list[dict], cfg,
     excerpt_by = {d["name"]: len(d["text"]) for d in view_docs}
     outside = outside or []
     outside_links = {d.get("link") for d in outside}
+    listing = listing or []
+    listing_links = {d.get("link") for d in listing}
     read_docs = []
     for d in docs:
         n = d.get("name", "")
@@ -2390,6 +2448,7 @@ def _judge_pool(f: dict, got, docs: list[dict], pool_docs: list[dict], cfg,
                               ("claim_reviewed", "label", "date_published")}
                              if d.get("claim_review") else None),
             "stance": (st.get("stance", "irrelevant") if in_pool
+                       else "listing" if d.get("link") in listing_links
                        else "outside" if d.get("link") in outside_links else "deduped")})
 
     dropped = None
@@ -2417,6 +2476,7 @@ def _judge_pool(f: dict, got, docs: list[dict], pool_docs: list[dict], cfg,
         "support_level": decision.get("support_level", ""),
         "support_publisher": decision.get("support_publisher", ""),
         "outside_docs": len(outside),
+        "listing_docs": len(listing),
         "icon": VERDICT_ICONS[decision["verdict"]],
         "evidence": evidence_rows, "correction": decision["correction"],
         "refuted_by": decision["refuted_by"], "nearest": nearest,
@@ -2462,7 +2522,7 @@ def _share_pool(keep: dict, cfg, counter: "_CallCounter", judged: list[dict]) ->
         before = counter.by_key.get(pid, 0)
         rec2, stances2 = _judge_pool(mine["f"], mine["got"], mine["docs"],
                                      mine["pool_docs"] + fresh, cfg, mine.get("outside"),
-                                     mine.get("now"))
+                                     mine.get("now"), mine.get("listing"))
         rec["model_calls"] = rec.get("model_calls", 0) + counter.by_key.get(pid, 0) - before
         if rec2.get("call_error"):
             continue
