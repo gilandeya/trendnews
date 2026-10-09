@@ -134,45 +134,15 @@ def proxy_url() -> str | None:
 
 
 def _scrub(text: str) -> str:
-    for var in ("WEBSHARE_PROXY_USERNAME", "WEBSHARE_PROXY_PASSWORD"):
-        secret = os.environ.get(var)
-        if secret:
-            text = text.replace(secret, "***")
-    text = re.sub(r"\x1b\[[0-9;]*m", "", text)
-    return " ".join(text.split())[:ERROR_MAX_CHARS]
+    from src import reel_clips
+    return " ".join(reel_clips.scrub_text(text).split())[:ERROR_MAX_CHARS]
 
 
 def download_clip(video_id: str, start: int, end: int, height: int, out_path: Path,
                   proxy: str | None) -> dict:
-    """ينزّل النافذة وحدها بـyt-dlp. يعيد {"bytes": مقدّر المنقول}، ويرفع عند الفشل."""
-    import yt_dlp
-    from yt_dlp.utils import download_range_func
-
-    seen: dict[str, int] = {}
-
-    def hook(d: dict) -> None:
-        name = d.get("filename") or d.get("tmpfilename") or "?"
-        got = d.get("downloaded_bytes")
-        if isinstance(got, int):
-            seen[name] = max(seen.get(name, 0), got)
-
-    opts = {
-        "format": f"bv*[height<={height}]+ba/b[height<={height}]",
-        "merge_output_format": "mp4",
-        "download_ranges": download_range_func(None, [(start, end)]),
-        "force_keyframes_at_cuts": True,
-        "outtmpl": str(out_path.with_suffix("")) + ".%(ext)s",
-        "progress_hooks": [hook],
-        "quiet": True,
-        "no_warnings": True,
-        "noprogress": True,
-        "overwrites": True,
-    }
-    if proxy:
-        opts["proxy"] = proxy
-    with yt_dlp.YoutubeDL(opts) as ydl:
-        ydl.download([f"https://www.youtube.com/watch?v={video_id}"])
-    return {"bytes": sum(seen.values())}
+    """سلّم التنزيل (a/b/c) في src/reel_clips.py؛ يعيد {"bytes", "tier", ...} ويرفع عند فشل الكل."""
+    from src import reel_clips
+    return reel_clips.download_clip(video_id, start, end, height, out_path, proxy)
 
 
 def fetch_segments(video_id: str):
@@ -181,19 +151,28 @@ def fetch_segments(video_id: str):
     text, info, _ = youtube_extract.fetch_transcript(video_id, proxy_config.get_proxy_config())
     if text is None:
         return None, 0, info
-    return youtube_extract.parse_transcript_segments(text), len(text.encode("utf-8")), None
+    # العنصر الثالث عند النجاح لغة النص المستعمَلة فعلًا (لا لغة القناة المسجَّلة)
+    return youtube_extract.parse_transcript_segments(text), len(text.encode("utf-8")), info
 
 
 # ──────────────────────────── التشغيل ────────────────────────────
 
 
+def _row(idx: int, p: dict, height: int, start: int, end: int) -> dict:
+    return {"index": idx, "channel": p["channel"], "language": p.get("language"),
+            "quality": f"{height}p", "window_start": start, "window_end": end,
+            "ok": False, "error": None, "size_bytes": 0, "proxy_bytes": 0,
+            "tier": None, "failures": [], "format_id": None, "protocol": None}
+
+
 def run_probe(points: list[dict], seconds: int, out_dir: Path, *,
               downloader=download_clip, transcript_fetcher=fetch_segments,
-              proxy: str | None = None, clock=time.monotonic) -> list[dict]:
+              proxy: str | None = None, clock=time.monotonic, cfg=None) -> list[dict]:
+    from src import reel_clips, youtube_extract
     attempts: list[dict] = []
     transcripts: dict[str, tuple] = {}
     for idx, p in enumerate(points):
-        start, end = clip_window(p["timestamp"], seconds)
+        old_start, old_end = clip_window(p["timestamp"], seconds)
         vid = p["video_id"]
         first_use = vid not in transcripts
         if first_use:
@@ -201,14 +180,34 @@ def run_probe(points: list[dict], seconds: int, out_dir: Path, *,
                 transcripts[vid] = transcript_fetcher(vid)
             except Exception as exc:  # noqa: BLE001 -- فشل النص لا يوقف القياس
                 transcripts[vid] = (None, 0, _scrub(str(exc)))
-        segments, text_bytes, _err = transcripts[vid]
-        accuracy = check_window(p.get("quote_original"), segments, start, end)
+        segments, text_bytes, tr_info = transcripts[vid]
+        # القديمة للمقارنة كما هي، والجديدة هي التي تحدّد النافذة المنزَّلة
+        old = check_window(p.get("quote_original"), segments, old_start, old_end)
+        loc = (reel_clips.locate_quote(p.get("quote_original"), segments, p["timestamp"], cfg)
+               if segments is not None else
+               {"start": None, "end": None, "matches": 0, "status": "unavailable"})
+        anchor = " ".join((p.get("quote_original") or "").split()[:ANCHOR_WORDS])
+        old_found = youtube_extract.resolve_timestamp(anchor, segments) if segments is not None else None
+        delta = (loc["start"] - old_found) if loc["start"] is not None and old_found is not None else None
+        if loc["start"] is not None and loc["status"] == "found":
+            start = max(0, int(loc["start"]) - LEAD_SECONDS)
+            end = start + seconds
+        else:
+            start, end = old_start, old_end
+        meta = {"accuracy": old["status"], "offset_seconds": old["offset_seconds"],
+                "new_status": loc["status"], "new_level": loc.get("level"), "new_matches": loc["matches"], "start_delta": delta,
+                "transcript_language": tr_info if segments is not None else None}
+        meta["language_mismatch"] = bool(segments is not None and tr_info and p.get("language")
+                                         and tr_info != p.get("language"))
+        if loc["status"] in ("missing", "ambiguous"):
+            row = _row(idx + 1, p, QUALITIES[0], start, end)
+            row.update(meta, error=f"rejected_{loc['status']}", seconds=0)
+            attempts.append(row)
+            continue
         for q_i, height in enumerate(QUALITIES if idx < COMPARE_FIRST else QUALITIES[:1]):
             out_path = out_dir / f"{idx + 1:02d}_{p.get('language') or 'x'}_{height}p.mp4"
             t0 = clock()
-            row = {"index": idx + 1, "channel": p["channel"], "language": p.get("language"),
-                   "quality": f"{height}p", "window_start": start, "window_end": end,
-                   "ok": False, "error": None, "size_bytes": 0, "proxy_bytes": 0}
+            row = _row(idx + 1, p, height, start, end)
             try:
                 out_dir.mkdir(parents=True, exist_ok=True)
                 res = downloader(vid, start, end, height, out_path, proxy)
@@ -216,17 +215,20 @@ def run_probe(points: list[dict], seconds: int, out_dir: Path, *,
                     iter(sorted(out_dir.glob(out_path.stem + ".*"))), None)
                 row["size_bytes"] = actual.stat().st_size if actual else 0
                 row["proxy_bytes"] = int(res.get("bytes", 0))
+                row["tier"] = res.get("tier")
+                row["failures"] = res.get("failures", [])
+                row["format_id"], row["protocol"] = res.get("format_id"), res.get("protocol")
                 row["ok"] = row["size_bytes"] > 0
                 if not row["ok"]:
                     row["error"] = "لا ملف ناتج"
             except Exception as exc:  # noqa: BLE001 -- سبب كل فشل يُسجَّل والبقية تكمل
                 row["error"] = _scrub(str(exc)) or type(exc).__name__
+                row["failures"] = getattr(exc, "failures", [])
             row["seconds"] = round(clock() - t0, 2)
             # نص الفيديو يُحسب مرة واحدة: على أول محاولة لذلك الفيديو
             if first_use and q_i == 0:
                 row["proxy_bytes"] += text_bytes
-            row["accuracy"] = accuracy["status"]
-            row["offset_seconds"] = accuracy["offset_seconds"]
+            row.update(meta)
             attempts.append(row)
     return attempts
 
@@ -258,17 +260,23 @@ def _mb(n: float) -> str:
     return f"{n / (1024 * 1024):.2f}"
 
 
-def render_table(attempts: list[dict], s: dict) -> str:
-    lines = ["| # | القناة | اللغة | الجودة | النتيجة | الزمن ث | الحجم MB | المنقول MB | النافذة |",
-             "|---|---|---|---|---|---|---|---|---|"]
+def render_table(attempts: list[dict], s: dict, tts_rows: list[dict] | None = None,
+                 rate_line: str | None = None) -> str:
+    lines = ["| # | القناة | اللغة | الجودة | النتيجة | الدرجة | الزمن ث | الحجم MB | المنقول MB "
+             "| النافذة (قديم) | الحالة الجديدة | المطابقة | الفارق ث | لغة النص |",
+             "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
     for a in attempts:
         acc = a["accuracy"]
         if acc == "outside":
             acc = f"خارج ({a['offset_seconds']}ث)"
         result = "نجاح" if a["ok"] else f"فشل: {a['error']}"
+        delta = "—" if a.get("start_delta") is None else a["start_delta"]
+        tr_lang = a.get("transcript_language") or "—"
+        if a.get("language_mismatch"):
+            tr_lang += f" (≠{a['language']})"
         lines.append(f"| {a['index']} | {a['channel']} | {a['language']} | {a['quality']} | "
-                     f"{result} | {a['seconds']} | {_mb(a['size_bytes'])} | "
-                     f"{_mb(a['proxy_bytes'])} | {acc} |")
+                     f"{result} | {a.get('tier') or '—'} | {a['seconds']} | {_mb(a['size_bytes'])} | "
+                     f"{_mb(a['proxy_bytes'])} | {acc} | {a.get('new_status', '—')} | {a.get('new_level') or '—'} | {delta} | {tr_lang} |")
     ratio = "—" if s["exact_window_ratio"] is None else f"{s['exact_window_ratio']:.0%}"
     lines += ["",
               f"**المجموع:** نجاح {s['succeeded']} · فشل {s['failed']} من {s['attempts']} — "
@@ -280,13 +288,87 @@ def render_table(attempts: list[dict], s: dict) -> str:
               "",
               "_المنقول تقدير أدنى: لا يشمل طلبات yt-dlp الوصفية ولا ترويسات TLS/HTTP ولا "
               "إعادات المحاولة، ويشمل أجزاء الوسائط ونص الفيديو مرة لكل فيديو._"]
+    if tts_rows:
+        lines += ["", "| الصوت | الجنس | الحروف | المدة ث | كلمة/ث | الكلفة $ | الحالة |",
+                  "|---|---|---|---|---|---|---|"]
+        for t in tts_rows:
+            lines.append(f"| {t['voice']} | {t['gender']} | {t.get('chars', '—')} | "
+                         f"{t.get('seconds', '—')} | {t.get('wps', '—')} | {t.get('cost_usd', '—')} | "
+                         f"{t.get('skipped') or t.get('error') or 'ok'} |")
+    if rate_line:
+        lines += ["", rate_line]
     return "\n".join(lines)
 
 
-def build_report(date: str, args, attempts: list[dict], s: dict) -> dict:
+def build_report(date: str, args, attempts: list[dict], s: dict,
+                 tts_rows: list[dict] | None = None, rate_line: str | None = None) -> dict:
     """أرقام وأسباب فشل مختصرة فقط -- لا quote ولا anchor ولا نص فيديو."""
     return {"date": date, "clips": args.clips, "seconds": args.seconds,
-            "attempts": attempts, "summary": s}
+            "attempts": attempts, "summary": s, "tts": tts_rows or [], "tts_rate_line": rate_line}
+
+
+# ──────────────────────────── عينات الصوت ────────────────────────────
+
+
+def sample_lines(drafts_dir: Path, cfg) -> list[str]:
+    """سطور الراوي والسؤال من أحدث مسودة ريل script_status="ready"، وإلا reel.tts.sample_lines."""
+    best = None
+    for path in Path(drafts_dir).glob("*/*.json"):
+        try:
+            d = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        if d.get("format") == "reel" and d.get("script_status") == "ready":
+            stamp = str(d.get("created_at") or path.parent.name)
+            if best is None or stamp > best[0]:
+                best = (stamp, d)
+    if best:
+        scenes = (best[1].get("script") or {}).get("scenes") or []
+        lines = [sc.get("text") for sc in scenes if sc.get("kind") in ("narration", "question") and sc.get("text")]
+        if lines:
+            return lines
+    return list(cfg.path("reel.tts.sample_lines") or [])
+
+
+def audio_duration(path: Path) -> float | None:
+    import subprocess
+    try:
+        out = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of",
+                              "default=nw=1:nk=1", str(path)], capture_output=True, text=True, timeout=30)
+        return float(out.stdout.strip())
+    except (OSError, ValueError, subprocess.SubprocessError):
+        return None
+
+
+def run_tts(lines: list[str], out_dir: Path, cfg, *, synth=None,
+            duration=audio_duration) -> tuple[list[dict], str | None]:
+    from src import tts
+    synth = synth or tts.synthesize
+    text = " ".join(lines)
+    words = len(text.split())
+    rows: list[dict] = []
+    for gender, voice in tts.all_voices(cfg):
+        row = {"voice": voice, "gender": gender}
+        res = synth(text, voice, cfg)
+        if not res.get("ok"):
+            row.update(skipped=res.get("skipped"), error=res.get("error"))
+            rows.append(row)
+            continue
+        target = out_dir / "tts" / f"{voice}.mp3"
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(res["audio"])
+        secs = duration(target)
+        row.update(chars=len(text), seconds=None if secs is None else round(secs, 2),
+                   wps=round(words / secs, 2) if secs else None,
+                   cost_usd=round(tts.estimate_cost(len(text), voice, cfg), 4))
+        rows.append(row)
+    wps = [r["wps"] for r in rows if r.get("wps")]
+    current = cfg.path("reel.script.speech_rate_wps")
+    line = None
+    if wps:
+        line = (f"متوسط سرعة الأصوات {sum(wps) / len(wps):.2f} كلمة/ث مقابل "
+                f"reel.script.speech_rate_wps الحالية {current} (لم تُغيَّر)")
+    return rows, line
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -304,14 +386,18 @@ def main(argv: list[str] | None = None) -> int:
     points = select_points(load_points(Path(YOUTUBE_POINTS_DIR), args.days, now), args.clips)
     print(f"نقاط مختارة: {len(points)}", file=sys.stderr)
 
-    attempts = run_probe(points, args.seconds, Path(args.out_root) / date, proxy=proxy_url())
+    from src.config import DRAFTS_DIR, load_config
+    cfg = load_config()
+    attempts = run_probe(points, args.seconds, Path(args.out_root) / date, proxy=proxy_url(), cfg=cfg)
     s = summarize(attempts)
+    tts_rows, rate_line = run_tts(sample_lines(Path(DRAFTS_DIR), cfg), Path(args.out_root) / date, cfg)
     report_dir = Path(args.report_dir)
     report_dir.mkdir(parents=True, exist_ok=True)
     (report_dir / f"{date}.json").write_text(
-        json.dumps(build_report(date, args, attempts, s), ensure_ascii=False, indent=2),
+        json.dumps(build_report(date, args, attempts, s, tts_rows, rate_line),
+                   ensure_ascii=False, indent=2),
         encoding="utf-8")
-    table = render_table(attempts, s)
+    table = render_table(attempts, s, tts_rows, rate_line)
     print(table)
     summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
     if summary_path:

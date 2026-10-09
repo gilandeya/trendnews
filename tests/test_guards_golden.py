@@ -5455,3 +5455,129 @@ def test_important_h7_guards() -> None:
           "7 أكتوبر/تشرين الأول 2026" in saved_d["arabic"]["post_body"]
           and saved_d["headlines"] == ["بيان أكتوبر/تشرين الأول"]
           and "7 أكتوبر/تشرين الأول 2026" in saved_d["caption"], saved_d)
+
+
+def test_reel_probe_r3a_guards() -> None:
+    """قياس الريل قبل التركيب (Issue #1347، R3a): محدِّد الاقتباس، سلّم التنزيل، وصوت Google.
+    المنزِّل والشبكة مزيَّفان؛ لا yt-dlp ولا طلب حقيقي."""
+    import base64
+    import os
+    import tempfile
+    from pathlib import Path
+
+    from src import reel_clips, tts
+    from tools import reel_clip_probe as rp
+
+    cfg = load_config()
+    line = "واحد اثنان ثلاثة اربعة خمسة ستة"
+    segs = [(10, "واحد اثنان ثلاثة شيء آخر تمامًا"), (40, "كلام لا صلة له هنا"),
+            (69, line + " سبعة ثمانية"), (90, "ختام")]
+    quote = line
+    got = reel_clips.locate_quote(quote, segs, 72, cfg)
+    check("g181-أ: تكرار أول 3 كلمات مبكرًا ← found عند 69 لا 10",
+          got["status"] == "found" and got["start"] == 69, got)
+
+    two = [(20, "بداية الاقتباس هنا ثم"), (24, "يكتمل في السطر التالي كما ترى"), (60, "غير ذلك")]
+    got = reel_clips.locate_quote("بداية الاقتباس هنا ثم يكتمل في السطر التالي", two, 22, cfg)
+    check("g181-ب: اقتباس عابر لسطرين ← found وstart = بداية السطر الأول",
+          got["status"] == "found" and got["start"] == 20, got)
+    check("g181-ب: end = طابع السطر الأخير (قرار #1347 للدرجة full)", got["end"] == 24, got)
+
+    got = reel_clips.locate_quote("عبارة غير موجودة إطلاقًا في النص كله", segs, 50, cfg)
+    check("g181-ج: غائب ← missing", got["status"] == "missing", got)
+    amb = [(5, "واحد اثنان ثلاثة اولى"), (80, "واحد اثنان ثلاثة ثانية")]
+    got = reel_clips.locate_quote("واحد اثنان ثلاثة مختلف تمامًا بعد ذلك", amb, 50, cfg)
+    check("g181-ج: 3 كلمات بموضعين ← ambiguous", got["status"] == "ambiguous" and got["matches"] == 2, got)
+
+    # نص يوتيوب أسطر قصيرة والاقتباس يمتد عدّة أسطر (الدرجات full/8/5/3)
+    yt = [(10, "the situation is"), (30, "the situation on the ground"),
+          (60, "we have to understand that the"), (62, "situation on the ground is very"),
+          (65, "different from what they told us")]
+    q = "the situation on the ground is very different from what they told us"
+    got = reel_clips.locate_quote(q, yt, 63, cfg)
+    check("g181-ط: اقتباس عبر 3 أسطر ← found وstart=60 وlevel=full",
+          got["status"] == "found" and got["start"] == 60 and got.get("level") == "full", got)
+    five = [(100, "one two"), (103, "three four"), (106, "five six"), (109, "seven eight"), (112, "nine ten"),
+            (130, "unrelated")]
+    got = reel_clips.locate_quote("one two three four five six seven eight nine ten", five, 100, cfg)
+    check("g181-ي: اقتباس عبر 5 أسطر ← full وend = طابع السطر الخامس",
+          got["status"] == "found" and got.get("level") == "full" and got["end"] == 112, got)
+    two8 = [(10, "alpha beta gamma delta epsilon zeta eta theta iota"), (50, "filler words here"),
+            (90, "alpha beta gamma delta epsilon zeta eta theta kappa")]
+    got = reel_clips.locate_quote("alpha beta gamma delta epsilon zeta eta theta changed", two8, 88, cfg)
+    check("g181-ك: آخر كلمة معدّلة وأول 8 بموضعين ← found بالأقرب وlevel=8",
+          got["status"] == "found" and got["start"] == 90 and got.get("level") == "8", got)
+    two5 = [(10, "alpha beta gamma delta epsilon one"), (50, "filler"),
+            (90, "alpha beta gamma delta epsilon two")]
+    got = reel_clips.locate_quote("alpha beta gamma delta epsilon zeta eta theta", two5, 88, cfg)
+    check("g181-ل: أول 5 بموضعين ولا أطول ← ambiguous",
+          got["status"] == "ambiguous" and got["matches"] == 2, got)
+
+    tmp = Path(tempfile.mkdtemp())
+    try:
+        os.environ["WEBSHARE_PROXY_PASSWORD"] = "pw-FAKE-1"
+        os.environ["GOOGLE_TTS_API_KEY"] = "gkey-FAKE-2"
+        pt = {"channel": "c1", "language": "ar", "timestamp": 70, "video_id": "v1",
+              "quote_original": "عبارة غير موجودة إطلاقًا في النص كله"}
+        calls = []
+
+        def never(vid, start, end, height, out_path, proxy):
+            calls.append(vid)
+            out_path.write_bytes(b"x")
+            return {"bytes": 1}
+
+        fetch = lambda vid: (segs, 100, "ar")
+        rows = rp.run_probe([pt], 12, tmp / "a", downloader=never, transcript_fetcher=fetch)
+        check("g181-د: missing لا يستدعي المنزِّل", not calls and rows and not rows[0]["ok"]
+              and rows[0]["error"] == "rejected_missing", (calls, rows))
+
+        def fake_runner(tier, vid, start, end, height, out_path, proxy, capture):
+            capture.write("proxy pw-FAKE-1 key gkey-FAKE-2 failing")
+            if tier == "a":
+                raise RuntimeError("ffmpeg exited with code 8 pw-FAKE-1")
+            out_path.write_bytes(b"x" * 10)
+            return {"bytes": 10, "format_id": "18", "protocol": "https"}
+
+        good = dict(pt, quote_original=quote)
+        down = lambda vid, s, e, h, o, p: reel_clips.download_clip(vid, s, e, h, o, p, runner=fake_runner)
+        rows = rp.run_probe([good], 12, tmp / "b", downloader=down, transcript_fetcher=fetch)
+        r = rows[0]
+        blob = str(r.get("failures"))
+        check("g181-هـ: فشل (أ) ونجاح (ب) ← ok ودرجة b", r["ok"] and r["tier"] == "b", r)
+        check("g181-هـ: error_tail محفوظ بلا أسرار",
+              "code 8" in blob and "pw-FAKE-1" not in blob and "gkey-FAKE-2" not in blob, blob)
+        check("g181-هـ: النافذة تبدأ من start الجديد ناقص lead", r["window_start"] == 68, r["window_start"])
+        report = str(rp.build_report("2026-10-09", type("A", (), {"clips": 1, "seconds": 12})(), rows,
+                                     rp.summarize(rows)))
+        check("g181: التقرير بلا اقتباس", "اثنان ثلاثة" not in report)
+
+        sent = {}
+
+        def fake_post(url, headers, body, timeout):
+            sent.update(url=url, headers=headers, body=body)
+            return {"audioContent": base64.b64encode(b"MP3DATA").decode()}
+
+        real = tts._post
+        tts._post = fake_post
+        try:
+            res = tts.synthesize("نص", "ar-XA-Chirp3-HD-Kore", cfg)
+            check("g181-و: المفتاح في الترويسة لا الرابط",
+                  sent["headers"].get("X-Goog-Api-Key") == "gkey-FAKE-2" and "gkey-FAKE-2" not in sent["url"], sent)
+            check("g181-و: الجسم بالصوت وar-XA وMP3",
+                  sent["body"]["voice"] == {"languageCode": "ar-XA", "name": "ar-XA-Chirp3-HD-Kore"}
+                  and sent["body"]["audioConfig"] == {"audioEncoding": "MP3"}
+                  and sent["body"]["input"]["text"] == "نص" and res["audio"] == b"MP3DATA", sent)
+            sent.clear()
+            os.environ.pop("GOOGLE_TTS_API_KEY")
+            res = tts.synthesize("نص", "ar-XA-Chirp3-HD-Kore", cfg)
+            check("g181-و: بلا مفتاح ← skipped no_key بلا طلب",
+                  res.get("skipped") == "no_key" and not sent, (res, sent))
+        finally:
+            tts._post = real
+        check("g181-و: 800 حرف Chirp3-HD = 0.024$",
+              abs(tts.estimate_cost(800, "ar-XA-Chirp3-HD-Kore", cfg) - 0.024) < 1e-9)
+        check("g181-و: Wavenet بسعر 4", abs(tts.estimate_cost(1000000, "ar-XA-Wavenet-A", cfg) - 4) < 1e-9)
+    finally:
+        os.environ.pop("WEBSHARE_PROXY_PASSWORD", None)
+        os.environ.pop("GOOGLE_TTS_API_KEY", None)
+        shutil.rmtree(tmp, ignore_errors=True)

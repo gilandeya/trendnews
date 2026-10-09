@@ -267,7 +267,8 @@ from tests.test_guards_golden import (test_guards_golden, test_important_false_g
                                       test_names_placeholder_guards, test_names_audit_1322_guards,
                                       test_analysis_editor_guards, test_editor_shared_1327_guards,
                                       test_editor_news_breaking_guards, test_reel_structure_guards,
-                                      test_reel_script_guards, test_reel_speaker_audit_guards)
+                                      test_reel_script_guards, test_reel_speaker_audit_guards,
+                                      test_reel_probe_r3a_guards)
 from tests.test_names_audit import (test_names_audit_brave_counter, test_names_audit_other_sites,
                                     test_names_audit_pipeline,
                                     test_names_audit_prevention_writer, test_names_audit_review_learning)
@@ -657,6 +658,8 @@ def main() -> int:
     print("\n── كاتب سيناريو الريل وعرضه وقراءته ومحرره g169–g180 (Issue #1338) ──")
     test_reel_script_guards()
     test_reel_speaker_audit_guards()
+    print("\n── قياس الريل قبل التركيب g181 (Issue #1347) ──")
+    test_reel_probe_r3a_guards()
     test_analysis_attribution_guards()
     test_analysis_attribution_pipeline()
     print("\n── تدقيق أسماء الأشخاص على الأنبوب: 🚀 والمرحلتان 2 و3 والتعلّم والعدّاد (Issue #1252) ──")
