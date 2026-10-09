@@ -263,6 +263,7 @@ from tests.test_guards_golden import (test_guards_golden, test_important_false_g
                                       test_important_1291_guards, test_important_1293_guards,
                                       test_important_1298_guards, test_important_1304_guards,
                                       test_important_1309_guards, test_important_1316_guards,
+                                      test_important_h7_guards,
                                       test_names_placeholder_guards, test_names_audit_1322_guards,
                                       test_analysis_editor_guards, test_editor_shared_1327_guards,
                                       test_editor_news_breaking_guards, test_reel_structure_guards,
@@ -638,6 +639,7 @@ def main() -> int:
     print("\n── «هام»: منشورات على الموضوع g107–g114 (Issue #1309) ──")
     test_important_1309_guards()
     test_important_1316_guards()
+    test_important_h7_guards()
     print("\n── توحيد الأسماء: الرمز الوسيط لا يفسد الأرقام g115 (Issue #1315) ──")
     test_names_placeholder_guards()
     print("\n── حارس تدقيق أسماء الأشخاص g52–g56 (Issue #1252) ──")

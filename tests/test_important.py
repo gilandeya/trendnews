@@ -2581,10 +2581,14 @@ def test_important_1282() -> None:
 
     # #1288 (مصادرنا وحدها): كل مؤيِّدي هاتين النقطتين من خارج مصادرنا (إرم نيوز وLebanon 24 وLBCIV7…) فتُستبعد؛
     # القديم confirmed بتنبيه، الجديد ليست confirmed (لا تؤيدها وثيقة من مصادرنا)
-    check("(1278) 8e645204c867 و80943d3f4957 ← ليست confirmed (مؤيِّدوها من خارج مصادرنا مستبعدون)",
-          all(by_id[i]["verdict"] != "confirmed" and by_id[i]["outside_docs"] > 0
-              for i in ("8e645204c867", "80943d3f4957")),
-          [(by_id[i]["verdict"], by_id[i].get("outside_docs")) for i in ("8e645204c867", "80943d3f4957")])
+    # #1345: LBCIV7 (lbcgroup.tv) صارت من مصادرنا فتثبت 8e645204c867 بها، ويبقى استبعاد إرم نيوز وLebanon 24 (outside_docs).
+    # 80943d3f4957 لا تؤيدها LBCIV7 في هذا الشاهد (موقفها غير مؤيِّد) فتبقى ليست confirmed كما كانت
+    check("(1278) 8e645204c867 ← confirmed (مؤيِّدها LBCIV7 وسيلة لبنانية من مصادرنا) مع استبعاد الخارجية",
+          by_id["8e645204c867"]["verdict"] == "confirmed" and by_id["8e645204c867"]["outside_docs"] > 0,
+          (by_id["8e645204c867"]["verdict"], by_id["8e645204c867"].get("outside_docs")))
+    check("(1278) 80943d3f4957 ← ليست confirmed (مؤيِّدوها من خارج مصادرنا مستبعدون)",
+          by_id["80943d3f4957"]["verdict"] != "confirmed" and by_id["80943d3f4957"]["outside_docs"] > 0,
+          (by_id["80943d3f4957"]["verdict"], by_id["80943d3f4957"].get("outside_docs")))
     # القديم not_found بـsingle_source للنقطتين؛ الجديد: 24246e81cd44 ← confirmed بمصدر واحد (BBC؛ Youm7 مستبعدة)،
     # وbd4e7be00831 ← not_found تسقط بلا أثر (ناشروها كلهم خارج مصادرنا)
     p24 = by_id["24246e81cd44"]
@@ -2609,7 +2613,7 @@ def test_important_1282() -> None:
           p23["verdict"] == "not_found" and "Lebanon 24" not in (p23.get("shared_from") or [])
           and bool(p23["dropped_reason"]), (p23["verdict"], p23.get("shared_from")))
     check("(1278) الملف المحفوظ يحمل rules_version الحالية",
-          result["rules_version"] == cfg.path("important.rules_version") == 6, result.get("rules_version"))
+          result["rules_version"] == cfg.path("important.rules_version") == 7, result.get("rules_version"))
 
     # القديم: build_selection_body · الجديد: build_points_body — بعد #1293 يعرض build_selection_body ثلاثة
     # منشورات (g88)؛ أقسام الأحكام وأسطر النسبة لكل نقطة تخصّ قضية النقاط القديمة التي تبقى تُقرأ وتُكتب

@@ -593,6 +593,25 @@ def important_point(marker: str, text: str, **extra) -> dict:
             "split_from": "", "publisher": "", "query_latin": "", **extra}
 
 
+def fresh_date(days: int = 3) -> str:
+    """تاريخ نشر «حديث» محسوب وقت التشغيل (اليوم − days) لا ثابتًا، كي لا تنكسر الاختبارات بعد 14 يومًا (#1345)."""
+    return (datetime.now(timezone.utc).date() - timedelta(days=days)).isoformat()
+
+
+def freshen_nearest(result: dict, days: int = 3) -> dict:
+    """يعطي وثائق أعضاء كل عنصر nearest في نتيجة محمَّلة (من fixture حقيقي) تاريخ نشر حديثًا عند التحميل بلا لمس الملف:
+    منشور «الأقرب» لا يُكتب من مصادر قديمة وحدها (#1345). تعيد النتيجة نفسها."""
+    d = fresh_date(days)
+    by_id = {p["id"]: p for p in result.get("points") or []}
+    for item in result.get("article_items") or []:
+        if item.get("kind") != "nearest":
+            continue
+        for pid in item.get("point_ids") or []:
+            for doc in (by_id.get(pid) or {}).get("read_docs") or []:
+                doc["published"] = d
+    return result
+
+
 def important_doc(name: str, text: str, **extra) -> dict:
     return {"name": name, "text": text, "link": f"https://{name.replace(' ', '-')}.example/a",
             "from_text": True, **extra}

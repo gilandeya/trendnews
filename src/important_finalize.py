@@ -291,8 +291,12 @@ def reopen_failed(selection_issue: int, cfg) -> int | None:
     result = result_for_selection(selection_issue)
     if not result:
         return None
+    # «الأقرب» الذي رُفض لقِدَم مصادره لا يعود إلى قضية جديدة (#1345): إعادة عرضه تكرّر الرفض نفسه ما دامت
+    # المصادر هي هي؛ يكفي تعليق السبب على قضية الترشيح الذي نُشر في finalize
+    stale = cfg.path("important.nearest_stale_reason")
     failed = [p for p in (result.get("article_items") or []) + result["points"]
-              if p.get("selection_issue") == selection_issue and p.get("status") == "failed"]
+              if p.get("selection_issue") == selection_issue and p.get("status") == "failed"
+              and not (stale and p.get("write_error") == stale)]
     if not failed:
         return None
     for p in failed:

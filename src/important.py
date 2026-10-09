@@ -68,6 +68,8 @@ CLASSIFY_SYSTEM = f"""أنت تصنّف موقف كل مصدر من «نقطة»
 **أولًا، لكل مصدر قرّر same_event**: هل يتحدث النص عن الفاعل نفسه والفعل نفسه
 والموضوع نفسه الذي في النقطة؟ حدث آخر في البلد نفسه أو عن الموضوع العام نفسه
 (قانون آخر، احتجاج آخر، رقم آخر لشيء آخر) ليس الحدث نفسه: same_event=false.
+لكل وثيقة تاريخ نشرها بين قوسين (أو «تاريخ غير معروف») وتاريخ اليوم في رسالة المستخدم:
+وثيقة تصف واقعة سابقة مشابهة (تصريح أقدم، أو جولة عقوبات أقدم) ليست الحدث نفسه: same_event=false.
 **ثم** الموقف، واحدًا من خمسة:
 - supports: النص يؤيد النقطة كلها بما فيها تفاصيلها (رقم، تاريخ، اسم، مكان، جهة).
 - conflicts_detail: النص يوثّق الحدث نفسه لكن تفصيلًا في النقطة (رقم/تاريخ/
@@ -965,6 +967,17 @@ def _is_our_source(name: str, link: str, cfg) -> bool:
     return _is_known_source(name, link, cfg) or _is_agency_site(link, cfg.get("important", {}) or {})
 
 
+def _undated_agency_names(stances: dict[str, dict], pool: dict[str, dict], icfg) -> list[str]:
+    """مؤيِّدون/مصحِّحون من موقع جهة (agency_domains) تاريخ نشرهم غير معروف (#1345). صفحة state.gov/translations
+    لعقوبات 20 مارس 2026 أُكِّد بها تصريح من أكتوبر في #1339 لأن تاريخها فارغ فلا يُعرف أيّ حدث تصف.
+    «غير معروف» = مفتاح doc_published حاضر وفارغ (judge_point يضعه دائمًا؛ وثيقة بلا المفتاح أصلًا لم تمرّ
+    بقراءة التاريخ فلا حكم عليها هنا)."""
+    return [n for n, s in stances.items()
+            if s["stance"] in ("supports", "conflicts_detail")
+            and _is_agency_site(pool[n].get("link", ""), icfg)
+            and "doc_published" in pool[n] and not pool[n]["doc_published"]]
+
+
 def _agency_supporters(stances: dict[str, dict], pool: dict[str, dict], point: dict | None,
                        icfg) -> list[str]:
     """مؤيِّدون من نطاق جهة مذكورة في نص النقطة نفسها، بمقتطف حرفي في نصهم (#1288): يُعدّون primary."""
@@ -1025,6 +1038,12 @@ def decide(stances: dict[str, dict], pool: dict[str, dict], cfg, point: dict | N
     في note وsuperseded_note دون تغيير الحكم (confirmed/inaccurate وحدهما: غيرهما لا يُنشر
     على أنه صحيح)."""
     decision = _decide_base(stances, pool, cfg, point)
+    if decision["verdict"] == "not_found":
+        icfg0 = cfg.get("important", {}) or {}
+        tmpl0 = icfg0.get("undated_agency_warning", "⚠️ مؤيِّد من موقع الجهة بلا تاريخ معروف: {publisher} — لم يُعتمد وحده")
+        warns = [tmpl0.format(publisher=n) for n in _undated_agency_names(stances, pool, icfg0)]
+        if warns:
+            decision["warnings"] = list(decision.get("warnings") or []) + warns
     names = _superseded_names(stances)
     corr = decision.get("correction") or {}
     if (names and decision["verdict"] in ("confirmed", "inaccurate")
@@ -1059,15 +1078,18 @@ def _decide_base(stances: dict[str, dict], pool: dict[str, dict], cfg,
     def names_with(stance: str) -> list[str]:
         return [n for n, s in stances.items() if s["stance"] == stance]
 
-    supports = names_with("supports")
-    conflicts = names_with("conflicts_detail")
+    # مؤيِّد/مصحِّح من موقع جهة بلا تاريخ معروف لا يُحتسب (#1345)؛ النفي لا يتغير
+    undated = _undated_agency_names(stances, pool, icfg)
+    supports = [n for n in names_with("supports") if n not in undated]
+    conflicts = [n for n in names_with("conflicts_detail") if n not in undated]
     refuters = names_with("refutes")
 
-    exc = {n: stances[n].get("excerpt", "") for n in stances}
+    exc ={n: stances[n].get("excerpt", "") for n in stances}
     n_support = len(_independent_groups(supports, pool, cfg, exc)) if supports else 0
     primary = _primary_supporters(stances, pool, point, icfg)
     # موقع الجهة المذكورة في النقطة جهة أصلية كجهات البيانات (#1288)
     primary += [n for n in _agency_supporters(stances, pool, point, icfg) if n not in primary]
+    primary = [n for n in primary if n not in undated]
 
     # inaccurate: مصدران مستقلان فأكثر يخالفان بالتفصيل نفسه لزمن النقطة (صيغة صحيحة متفقة)
     agreeing = _pick_correction(conflicts, stances, pool, cfg, point)
@@ -2033,11 +2055,18 @@ def select_excerpt(text: str, f: dict, icfg) -> str:
 
 
 def _classify(point_text: str, pool: list[dict], cfg,
-              circulating: bool = False) -> tuple[dict | None, str | None]:
+              circulating: bool = False, today: date | None = None) -> tuple[dict | None, str | None]:
     """نداء واحد منظَّم (tool use) بنموذج article.model — لا Opus — يقرأ
-    مقتطفات المصادر ويصنّف. بلا وثائق لا نداء أصلًا (صفر مصادر ≠ نفي)."""
+    مقتطفات المصادر ويصنّف. بلا وثائق لا نداء أصلًا (صفر مصادر ≠ نفي).
+    تاريخ نشر كل وثيقة يُلحَق بنصها وتاريخ اليوم برسالة المستخدم (#1345): وثيقة عن عقوبات مارس صُنّفت same_event
+    لتصريح أكتوبر لأن النموذج لم يرَ تاريخها. النسخة المؤرَّخة للنداء وحده؛ pool الأصلي لا يتغير (شرط المقتطف
+    الحرفي يقرأ نصه الكامل)."""
     if not pool:
         return None, None
+    today = today or datetime.now(timezone.utc).date()
+    pool = [{**d, "text": f"{d.get('text', '')}\n"
+                          + (f"(نُشر: {d['doc_published']})" if d.get("doc_published") else "(تاريخ غير معروف)")}
+            for d in pool]
     acfg = cfg.get("article", {}) or {}
     icfg = cfg.get("important", {}) or {}
     model = acfg.get("model", "claude-sonnet-5")
@@ -2049,7 +2078,10 @@ def _classify(point_text: str, pool: list[dict], cfg,
         tool_choice={"type": "tool", "name": "classify_sources"},
         system=CLASSIFY_SYSTEM + (CIRCULATING_NOTE if circulating else ""),
         messages=[{"role": "user",
-                   "content": article._support_call_content(pool, f"النقطة: {point_text}")}],
+                   # تاريخ اليوم كتلة ثالثة لا جزءًا من نص النقطة: النص المتغير هو الكتلة الثانية وحدها
+                   # وتقرؤها المزيَّفات والأدوات بعد «النقطة:» فلا يلتصق به شيء
+                   "content": article._support_call_content(pool, f"النقطة: {point_text}")
+                   + [{"type": "text", "text": f"تاريخ اليوم: {today.isoformat()}"}]}],
         max_tokens=max_tokens, cap=cap,
         warn_label="تصنيف مواقف المصادر",
         truncation_message=(f"تصنيف مواقف المصادر مقطوع لـ{len(pool)} وثيقة — "
@@ -2399,7 +2431,7 @@ def _judge_pool(f: dict, got, docs: list[dict], pool_docs: list[dict], cfg,
             text = f"{_claim_review_line(d['claim_review'])}\n{text}"
         view_docs.append({**d, "text": text})
     data, call_error = _classify(f["text"], view_docs, cfg,
-                                 circulating=f.get("framing") == "circulating")
+                                 circulating=f.get("framing") == "circulating", today=now)
     stances = _read_stances(data, pool, f, icfg, now) if data else {
         n: {"stance": "irrelevant", "excerpt": "", "detail": "", "correct_form": "",
             "as_of": "", "same_event": False} for n in pool}
