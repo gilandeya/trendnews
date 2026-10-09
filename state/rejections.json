@@ -1,35 +1,5 @@
 [
  {
-  "id": "8e8f81d9a107",
-  "tag": "تافه",
-  "note": "",
-  "title": "طائرة حكومية إيرلندية تنقل دانيال كينيهان من دبي لمواجهة القضاء في دبلن",
-  "source_title": "Suspected crime boss Daniel Kinahan returning to Ireland in high-security operation",
-  "publishers": [
-   "BBC World",
-   "CNN",
-   "NDTV — World"
-  ],
-  "region": "uk",
-  "bucket": "serious",
-  "at": "2026-08-10T07:39:44.555117+00:00"
- },
- {
-  "id": "bb03c631e0c2",
-  "tag": "تافه",
-  "note": "",
-  "title": "ترامب يعيّن محاميه السابق ويل شارف مستشارًا قانونيًا للبيت الأبيض",
-  "source_title": "Trump appoints staff secretary Will Scharf as new White House counsel",
-  "publishers": [
-   "Al Jazeera English",
-   "NDTV — World",
-   "South China Morning Post"
-  ],
-  "region": "uk",
-  "bucket": "serious",
-  "at": "2026-08-10T07:45:55.800578+00:00"
- },
- {
   "id": "dff43803b2df",
   "tag": "مكرر",
   "note": "",
@@ -14887,5 +14857,67 @@
   "bucket": "",
   "origin": "analysis",
   "at": "2026-10-09T06:01:22.226511+00:00"
+ },
+ {
+  "id": "19a541bf18c2",
+  "tag": "لم يُختر",
+  "note": "لم يُختر ضمن مرشحي دفعته",
+  "title": "(LEAD) S. Korea to recall envoy to Ukraine amid dispute over disclosure of N.K. POWs",
+  "source_title": "(LEAD) S. Korea to recall envoy to Ukraine amid dispute over disclosure of N.K. POWs",
+  "publishers": [
+   "Deutsche Welle",
+   "NPR World",
+   "Yonhap News"
+  ],
+  "region": "kr",
+  "bucket": "serious",
+  "origin": "news",
+  "at": "2026-10-09T09:21:31.873577+00:00"
+ },
+ {
+  "id": "a4d9f49dd235",
+  "tag": "لم يُختر",
+  "note": "لم يُختر ضمن مرشحي دفعته",
+  "title": "Security forces kill 7 terrorists in North Waziristan IBO: state media",
+  "source_title": "Security forces kill 7 terrorists in North Waziristan IBO: state media",
+  "publishers": [
+   "Dawn",
+   "Geo News",
+   "The Express Tribune"
+  ],
+  "region": "pk",
+  "bucket": "serious",
+  "origin": "news",
+  "at": "2026-10-09T09:21:31.883555+00:00"
+ },
+ {
+  "id": "0e280771d48b",
+  "tag": "لم يُختر",
+  "note": "لم يُختر ضمن مرشحي دفعته",
+  "title": "Atiku speaks on Tinubu’s 30-day fuel discount",
+  "source_title": "Atiku speaks on Tinubu’s 30-day fuel discount",
+  "publishers": [
+   "AllAfrica",
+   "Premium Times"
+  ],
+  "region": "ng",
+  "bucket": "serious",
+  "origin": "news",
+  "at": "2026-10-09T09:21:31.892996+00:00"
+ },
+ {
+  "id": "68d41d88c33a",
+  "tag": "لم يُختر",
+  "note": "لم يُختر ضمن مرشحي دفعته",
+  "title": "Revealed: 84 Kenyans killed, 52 missing in Russia-Ukraine war",
+  "source_title": "Revealed: 84 Kenyans killed, 52 missing in Russia-Ukraine war",
+  "publishers": [
+   "AllAfrica",
+   "The Standard Kenya"
+  ],
+  "region": "ke",
+  "bucket": "serious",
+  "origin": "news",
+  "at": "2026-10-09T09:21:31.902324+00:00"
  }
 ]
