@@ -125,8 +125,9 @@ def warnings_block(d: dict) -> list[str]:
     الكود في المسودة (جمل بلا سند، أسماء لم تُحسم) بنصها، وتحتها سطر «✏️ صُحّح اسم» لكل اسم صُحّح
     آليًا. للمراجع وحده — لا يدخل النص المنشور ولا يمنع النشر. بلا تنبيهات ولا تصحيحات: لا شيء."""
     from .names_audit import corrections_lines
+    from .youtube_editor import render_lines
     fixes = corrections_lines(d)
-    out: list[str] = []
+    out: list[str] = render_lines(d)     # «🧑⚖️ مراجعة المحرر» قبل التنبيهات (Issue #1326)
     if d.get("warnings"):
         out += ["  ⚠️ تنبيهات للمراجعة:", "", *[f"  - {w}" for w in d["warnings"]], ""]
     if fixes:

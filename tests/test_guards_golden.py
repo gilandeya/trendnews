@@ -3580,3 +3580,226 @@ def test_names_audit_1322_guards() -> None:
         store.load_config = real_load
     check("g127: «إماموغلو» ← «إمام أوغلو» و«عراقتشي» ← «عراقجي»",
           got == "التقى أكرم إمام أوغلو بالوزير عباس عراقجي.", got)
+
+
+def test_analysis_editor_guards() -> None:
+    """«المحرر الأخير» لمقالات التحليل وفحوصه الآلية (Issue #1326، g128–g140). الشواهد نسخ حرفية من
+    drafts/2026-10-09 في tests/fixtures/analysis/1322/ (المسودات وحدها). نموذج المحرر مزيَّف:
+    server_tool_use ثم report_review؛ والكود الحقيقي هو الذي يطبّق ويفحص ويعرض ويبوّب."""
+    import copy
+    import json
+    from datetime import datetime, timedelta, timezone
+    from pathlib import Path
+
+    from src import imagesearch, names_audit, review
+    from src import youtube_article as ya
+    from src import youtube_editor as ye
+    from tests.helpers import editor_response
+
+    cfg = load_config()
+    fx = Path(__file__).parent / "fixtures" / "analysis" / "1322"
+
+    def load(name: str) -> dict:
+        return copy.deepcopy(json.loads((fx / f"{name}.json").read_text(encoding="utf-8")))
+
+    for n in ("8ec39e3d9456", "d96e19b97bd2", "9e692088a75a", "9cc353cd1d4d"):
+        check(f"g128: الشاهد {n} موجود", (fx / f"{n}.json").exists())
+
+    pts = [{"channel": "هابر ترك", "speaker": "ناطق", "video_url": "https://www.youtube.com/watch?v=abc",
+            "timestamp": 754, "statement": "قول", "type": "claim", "video_published": "2026-10-09"},
+           {"channel": "سي إن إن ترك", "speaker": "محمد شيمشك، خبير الشؤون اليمنية",
+            "video_url": "https://www.youtube.com/watch?v=xyz", "timestamp": 90, "statement": "قول آخر",
+            "type": "claim", "video_published": "2026-10-09"}]
+
+    def reset_counter() -> None:
+        imagesearch.BRAVE_USAGE_FILE.unlink(missing_ok=True)
+
+    def run_editor(draft: dict, responses, points=None):
+        """responses: قائمة ردود تُستهلك بالترتيب؛ تعيد (التقرير، سجل نداءات _create)."""
+        calls: list = []
+        it = iter(responses)
+        saved = ye._create
+
+        def fake(client, **kw):
+            calls.append(kw)
+            r = next(it)
+            if isinstance(r, Exception):
+                raise r
+            return r
+        ye._create = fake
+        try:
+            rev = ye.run(draft, points if points is not None else pts, cfg)
+        finally:
+            ye._create = saved
+        return rev, calls
+
+    # g128) العناوين تُبنى من متن المقال المكتوب
+    d8 = load("8ec39e3d9456")
+    sent: list = []
+
+    class _Block:
+        type = "tool_use"
+        input = {"headlines": ["عنوان أول يخص إزمير؟", "عنوان ثانٍ", "عنوان ثالث"]}
+
+    class _Resp:
+        content = [_Block()]
+
+    class _Msgs:
+        def create(self, **kw):
+            sent.append(kw["messages"][0]["content"])
+            return _Resp()
+
+    class _Client:
+        messages = _Msgs()
+    topic = {"title": "عنوان القضية القديم عن إسطنبول", "event": "", "id": "t1"}
+    hl, err, _ = ya.generate_headlines(topic, pts, cfg, _Client(), article_text=d8["caption"])
+    check("g128: نداء العناوين نجح", hl is not None, err)
+    check("g128: رسالة النداء تحوي متن المقال", bool(sent) and "رئيس بلدية إزمير الكبرى جميل توغاي" in sent[0],
+          sent[:1])
+    check("g128: عنوان القضية القديم غائب عن الرسالة", bool(sent) and "عنوان القضية القديم" not in sent[0])
+    check("g128: «الأول سؤال» باقية", hl is not None and hl[0].endswith("؟"))
+
+    # g129) headline_contradicts مع fix ← طُبّق وسطر «✏️ كان/صار» ظاهر
+    reset_counter()
+    d = load("8ec39e3d9456")
+    old_h1 = d["headlines"][0]
+    new_h1 = "هل ينضم رئيس بلدية إزمير جميل توغاي إلى العدالة والتنمية فعلًا؟"
+    note = {"category": "headline_contradicts", "severity": "high", "location": "headline_1",
+            "original": old_h1, "fix": new_h1, "note": "العنوان يتحدث عن عمدة إسطنبول والمتن عن إزمير",
+            "sources": ["https://www.aljazeera.net/x"]}
+    rev, calls = run_editor(d, [editor_response([note], searches=1)])
+    check("g129: الإصلاح طُبّق على العنوان 1", d["headlines"][0] == new_h1, d["headlines"])
+    check("g129: الافتراضي سؤال", d["arabic"]["post_title"] == new_h1 and d["headline_selected"] == 0)
+    lines = "\n".join(review.warnings_block(d))
+    check("g129: سطر «✏️ كان … صار» ظاهر مع المصدر",
+          "✏️ كان" in lines and new_h1 in lines and "aljazeera.net/x" in lines, lines[:300])
+    check("g129: النداء الأول فيه أداة البحث والتقرير",
+          [t.get("name") for t in calls[0]["tools"]] == ["web_search", "report_review"]
+          and calls[0]["tools"][0]["max_uses"] == 3, calls[0]["tools"])
+    check("g129: العدّاد الشهري زاد بما استُعمل", ye.search_usage() == 1, ye.search_usage())
+
+    # g130) original غير موجود حرفيًا ← لا تطبيق وتظهر ⚠️
+    d = load("8ec39e3d9456")
+    before = (d["caption"], list(d["headlines"]))
+    note = {"category": "headline_contradicts", "severity": "low", "location": "headline_1",
+            "original": "نص ليس في المقال إطلاقًا", "fix": "بديل", "note": "ملاحظة", "sources": []}
+    run_editor(d, [editor_response([note])])
+    check("g130: لا تطبيق", (d["caption"], d["headlines"]) == before)
+    check("g130: الملاحظة ⚠️ ظاهرة", "⚠️ ملاحظة" in "\n".join(ye.render_lines(d, cfg)), ye.render_lines(d, cfg))
+
+    # g131) fix يُدخل «المعطيات المتداولة» ← أُلغي التطبيق وتظهر الملاحظة
+    d = load("8ec39e3d9456")
+    body_before = d["caption"]
+    note = {"category": "vague_attribution", "severity": "low", "location": "body",
+            "original": "انتقل رئيس بلدية إزمير الكبرى جميل توغاي",
+            "fix": "أفادت المعطيات المتداولة بأن رئيس بلدية إزمير الكبرى جميل توغاي انتقل",
+            "note": "نسبة", "sources": []}
+    run_editor(d, [editor_response([note])])
+    check("g131: التطبيق أُلغي والنص كما هو", d["caption"] == body_before)
+    check("g131: الملاحظة معروضة", len(d["editor_review"]["notes"]) == 1 and not d["editor_review"]["applied"])
+
+    # g132) name_doubtful ← لا تطبيق أبدًا، ⛔ مع رابط الفيديو والطابع، وpublish من الاختيار ← go2
+    d = load("d96e19b97bd2")
+    cap = d["caption"]
+    note = {"category": "name_doubtful", "severity": "high", "location": "body",
+            "original": "محمد شيمشك", "fix": "محمد شمشك", "note": "اسم المتحدث غير محسوم", "sources": []}
+    run_editor(d, [editor_response([note])])
+    check("g132: لا تطبيق أبدًا", d["caption"] == cap and not d["editor_review"]["applied"])
+    out = "\n".join(ye.render_lines(d, cfg))
+    check("g132: ⛔ مع رابط الفيديو والطابع", "⛔" in out and "watch?v=xyz&t=90s" in out, out)
+    check("g132: publish من الاختيار ← go2", ye.gate_action("publish", d, 1, cfg)[0] == "go2")
+    check("g132: go3 من الاختيار ← go2", ye.gate_action("go3", d, 1, cfg)[0] == "go2")
+    check("g132: publish من المرحلة 2 ← go3", ye.gate_action("publish", d, 2, cfg)[0] == "go3")
+    check("g132: المرحلة 3 قرارك", ye.gate_action("publish", d, 3, cfg)[0] == "publish")
+    d2 = load("d96e19b97bd2")
+    run_editor(d2, [editor_response([])])
+    check("g132: اسم متحدث غير محسوم يمنع النشر المباشر وحده",
+          ye.gate_action("publish", d2, 1, cfg)[0] == "go2" and bool(d2["editor_review"]["speaker_unresolved"]),
+          d2["editor_review"])
+    d3 = load("8ec39e3d9456")
+    d3["name_unresolved"] = []
+    run_editor(d3, [editor_response([])])
+    check("g132: بلا ملاحظات ولا اسم غير محسوم ← يمضي كما هو", ye.gate_action("publish", d3, 1, cfg)[0] == "publish")
+
+    # g133) stale_time ← بمصدر يُطبَّق، وبلا مصدر لا
+    note = {"category": "stale_time", "severity": "low", "location": "body",
+            "original": "قبل ساعات", "fix": "في 5 أكتوبر/تشرين الأول", "note": "الإعلان أقدم", "sources": []}
+    d = load("d96e19b97bd2")
+    run_editor(d, [editor_response([dict(note, sources=["https://www.aljazeera.net/s"])])])
+    check("g133: بمصدر ← طُبّق", "في 5 أكتوبر/تشرين الأول" in d["caption"] and "قبل ساعات" not in d["caption"])
+    d = load("d96e19b97bd2")
+    run_editor(d, [editor_response([note])])
+    check("g133: بلا مصدر ← لا تطبيق", "قبل ساعات" in d["caption"] and not d["editor_review"]["applied"])
+
+    # g134) العدّاد بلغ السقف ← بلا أداة بحث والمراجعة تعمل
+    reset_counter()
+    imagesearch.BRAVE_USAGE_FILE.parent.mkdir(parents=True, exist_ok=True)
+    imagesearch.BRAVE_USAGE_FILE.write_text(json.dumps({ye._usage_key(): 300}), encoding="utf-8")
+    d = load("8ec39e3d9456")
+    note = {"category": "other", "severity": "low", "location": "body", "original": "", "fix": "",
+            "note": "ملاحظة عامة", "sources": []}
+    rev, calls = run_editor(d, [editor_response([note])])
+    check("g134: لا web_search في tools", [t.get("name") for t in calls[0]["tools"]] == ["report_review"],
+          calls[0]["tools"])
+    check("g134: المراجعة تعمل", rev["error"] is None and len(rev["notes"]) == 1 and rev["search_skipped"] == "cap")
+    reset_counter()
+
+    # g135) عطل في النداء ← المسودة محفوظة مع تنبيه
+    d = load("8ec39e3d9456")
+    cap = d["caption"]
+    rev, _ = run_editor(d, [RuntimeError("انقطع الاتصال")])
+    check("g135: لا استثناء والنص كما هو", d["caption"] == cap and bool(rev["error"]))
+    check("g135: تنبيه «تعذّرت مراجعة المحرر»", any("تعذّرت مراجعة المحرر" in w for w in d["warnings"]), d["warnings"])
+
+    # g136) عدم استدعاء report_review ← نداء ثانٍ إجباري بلا بحث
+    d = load("8ec39e3d9456")
+    rev, calls = run_editor(d, [editor_response([], report=False), editor_response([])])
+    check("g136: نداءان", len(calls) == 2, len(calls))
+    check("g136: الثاني بلا بحث وبإلزام report_review",
+          [t.get("name") for t in calls[1]["tools"]] == ["report_review"]
+          and calls[1]["tool_choice"] == {"type": "tool", "name": "report_review"}, calls[1])
+    check("g136: لا خطأ", rev["error"] is None)
+
+    # g137) الفقرة الأولى من d96e19b97bd2 ← رفض (نسبة مجهولة)
+    d = load("d96e19b97bd2")
+    v = ya.article_violations(d["caption"], cfg)
+    check("g137: نسبة مجهولة مرفوضة", any("نسبة مجهولة" in x for x in v), v)
+
+    # g138) المتحدث المسمّى لا يُحذف اسمه
+    filler = " ".join(["كلمة"] * 280)
+
+    def art(extra: str) -> str:
+        return f"# عنوان تجريبي؟\n\n{filler}\n\n{extra}\n"
+    v = ya.article_violations(art("وقال محلل عسكري في قناة الجزيرة إن الأمر كذلك."),
+                              cfg, [{"channel": "الجزيرة", "speaker": "محلل عسكري"}])
+    check("g138: «محلل عسكري» غير مسمّى ← لا مخالفة", v == [], v)
+    pt = [{"channel": "الجزيرة", "speaker": "أحمد كاراهان، محلل عسكري"}]
+    v = ya.article_violations(art("وقال محلل عسكري في قناة الجزيرة إن الأمر كذلك."), cfg, pt)
+    check("g138: اسم مسمّى غائب ← مخالفة", len(v) == 1 and "كاراهان" in v[0], v)
+    v = ya.article_violations(art("وقال أحمد كاراهان في قناة الجزيرة إن الأمر كذلك."), cfg, pt)
+    check("g138: اسمه حاضر ← قبول", v == [], v)
+
+    # g139) الزمن النسبي وعمر الفيديو
+    w = ya.relative_time_warnings(art("أُعلن ذلك قبل ساعات."), cfg)
+    check("g139: «قبل ساعات» ← تنبيه زمن نسبي", len(w) == 1 and "قبل ساعات" in w[0], w)
+    check("g139: بلا زمن نسبي ← لا تنبيه", ya.relative_time_warnings(art("أُعلن ذلك في 5 أكتوبر."), cfg) == [])
+    now = datetime(2026, 10, 9, tzinfo=timezone.utc)
+    old = [{"video_published": (now - timedelta(days=4)).strftime("%Y-%m-%d")}]
+    sw = ya.stale_video_warning(old, cfg, now)
+    check("g139: فيديو عمره 4 أيام ← تنبيه ⏳", sw is not None and "⏳" in sw and "4" in sw, sw)
+    fresh = [{"video_published": (now - timedelta(days=1)).strftime("%Y-%m-%d")}]
+    check("g139: فيديو عمره يوم ← لا تنبيه", ya.stale_video_warning(fresh, cfg, now) is None)
+
+    # g140) الأرقام الهندية، وسدّ ثغرة C1
+    d = load("8ec39e3d9456")
+    fixed = ya.normalize_digits(d["caption"])
+    check("g140: «٦٢ في المئة» ← «62 في المئة»", "62 في المئة" in fixed and "٦٢" not in fixed)
+    entries = {
+        "selcuk bayraktaroglu": {"latin": "Selçuk Bayraktaroğlu", "arabic": "قائد أركان الجيش التركي",
+                                 "wrong": []},
+        "imamoglu": {"latin": "İmamoğlu", "arabic": "إمام أوغلو", "wrong": []},
+        "abbas araghchi": {"latin": "Abbas Araghchi", "arabic": "عباس عراقجي", "wrong": []}}
+    usable = names_audit._usable(entries, cfg)
+    check("g140: مدخل بلا wrong يختلف عدد كلمات رسمه بأكثر من 1 ← يُتجاهل",
+          "selcuk bayraktaroglu" not in usable, list(usable))
+    check("g140: المداخل السليمة تبقى", "imamoglu" in usable and "abbas araghchi" in usable, list(usable))

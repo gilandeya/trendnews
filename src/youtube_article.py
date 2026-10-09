@@ -209,6 +209,7 @@ def _points_block(member_points: list[dict], cfg: Config | None = None) -> str:
             f"   الاقتباس العربي: {p.get('quote_arabic', '')}\n"
             f"   الفيديو: {p.get('video_title', '')} — {p.get('video_url', '')} "
             f"(الطابع: {ts})"
+            + (f" (نُشر الفيديو: {p['video_published']})" if p.get("video_published") else "")
         )
     return "\n".join(lines)
 
@@ -358,7 +359,7 @@ def _validate_headlines(headlines: list[str], quotes_original: str, known_figure
 
 
 def generate_headlines(topic: dict, member_points: list[dict], cfg: Config,
-                        client: Anthropic | None = None
+                        client: Anthropic | None = None, article_text: str | None = None
                         ) -> tuple[list[str] | None, str | None, str | None]:
     """غلاف رقيق فوق headlines_mod.propose_headlines (Issue #756) -- يبني
     مدخلات هذا المسار (نقاط القضية) ثم ينادي المشترك بكتلة config.yaml
@@ -380,7 +381,14 @@ def generate_headlines(topic: dict, member_points: list[dict], cfg: Config,
     # find_unsourced_name: aliases في known_figures صيغ لاتينية تُقارَن
     # بالاقتباس الأصلي بلغة الفيديو، لا بترجمته العربية.
     quotes_original = " ".join(p.get("quote_original", "") for p in member_points)
-    user_content = f"القضية: {topic['title']}\n\nالنقاط المصدرية:\n{_points_block(member_points, cfg)}"
+    # العناوين تُبنى من المقال المكتوب نفسه لا من عنوان القضية (Issue #1326): عنوان القضية يسبق الكتابة،
+    # فكان عنوانان يتحدثان عن «عمدة إسطنبول» والمتن عن رئيس بلدية إزمير. بلا نص مقال (استدعاء قديم)
+    # يبقى سلوك عنوان القضية كما كان.
+    if article_text:
+        user_content = (f"المقال المكتوب (العناوين يجب أن تصف ما فيه فعلًا لا ما سبقه):\n{article_text}\n\n"
+                        f"النقاط المصدرية:\n{_points_block(member_points, cfg)}")
+    else:
+        user_content = f"القضية: {topic['title']}\n\nالنقاط المصدرية:\n{_points_block(member_points, cfg)}"
 
     def extra_validate(hls: list[str]) -> tuple[bool, str]:
         return _validate_headlines(hls, quotes_original, known_figures, max_words)
@@ -609,6 +617,97 @@ def _unnamed_role_violations(body: str, cfg: Config) -> list[str]:
             for m in pat.finditer(folded)][:1]
 
 
+# ── نسبة مجهولة واسم المتحدث (Issue #1326، فحوص حاسمة في الكود لا تعتمد على المحرر) ──
+#
+# شاهد d96e19b97bd2: «أفادت المعطيات المتداولة…» لمصدر واحد غير محسوم الاسم، و«محلل عسكري في البرنامج
+# ذاته» لمتحدث له اسم. النسبة إلى «المعطيات المتداولة» لا تعرّف القارئ بمن قال، واسم المتحدث المسمّى
+# لا يجوز أن يسقط من المتن.
+def _vague_attribution_violations(body: str, cfg: Config) -> list[str]:
+    phrases = cfg.path("youtube.article.vague_attribution", []) or []
+    folded = _fold_mention(body)
+    found = [p for p in phrases if isinstance(p, str) and p and _fold_mention(p) in folded]
+    return [f"نسبة مجهولة ({' · '.join(found)}): انسب القول إلى متحدث باسمه أو إلى قناته"] if found else []
+
+
+def vague_phrases_in(text: str, cfg: Config) -> list[str]:
+    return [p for p in (cfg.path("youtube.article.vague_attribution", []) or [])
+            if isinstance(p, str) and p and _fold_mention(p) in _fold_mention(text)]
+
+
+def _arabic_tokens(text: str) -> list[str]:
+    toks = [t.strip(_WORD_STRIP_CHARS + ".,؟!-") for t in _fold_roles(text).replace("،", " ").split()]
+    return [t for t in toks if t and re.search(f"[{_AR_LETTER}]", t)]
+
+
+def speaker_name_tokens(speaker: str, channel: str, cfg: Config) -> list[str]:
+    """ما يبقى من حقل speaker بعد حذف كلمات الأدوار واسم القناة؛ فارغ = متحدث غير مسمّى (صفته وحدها)."""
+    roles = {_fold_mention(w) for w in (cfg.path("youtube.article.role_words", []) or []) if isinstance(w, str)}
+    chan = {_fold_mention(t) for t in _arabic_tokens(display_channel_name(channel, cfg))}
+    chan |= {_fold_mention(t) for t in _arabic_tokens(channel)}
+    out = []
+    for t in _arabic_tokens(speaker):
+        f = _fold_mention(t)
+        bare = f[2:] if f.startswith("ال") and len(f) > 3 else f
+        if f in roles or bare in roles or f in chan or len(f) < 2:
+            continue
+        out.append(t)
+    return out
+
+
+def _speaker_name_violations(body: str, member_points: list[dict], cfg: Config) -> list[str]:
+    folded = _fold_mention(body)
+    missing: list[str] = []
+    for p in member_points or []:
+        name = speaker_name_tokens(p.get("speaker", ""), p.get("channel", ""), cfg)
+        if not name:
+            continue
+        full = _fold_mention(" ".join(name))
+        if full in folded or _fold_mention(name[-1]) in folded:
+            continue
+        shown = " ".join(name)
+        if shown not in missing:
+            missing.append(shown)
+    return [f"اسم متحدث مسمّى غاب عن المتن ({' · '.join(missing)}): اذكر اسمه عند أول نسبة إليه"] if missing else []
+
+
+def relative_time_warnings(text: str, cfg: Config) -> list[str]:
+    """تنبيه لكل عبارة زمن نسبي في المتن (قبل ساعات، اليوم…): القارئ يقرأ بعد النشر بأيام."""
+    out = []
+    folded = _fold_mention(text)
+    for w in cfg.path("youtube.article.relative_time_words", []) or []:
+        if not isinstance(w, str) or not w:
+            continue
+        if re.search(rf"(?<![{_AR_LETTER}]){re.escape(_fold_mention(w))}(?![{_AR_LETTER}])", folded):
+            out.append(f"زمن نسبي في المتن: «{w}» — حوّله إلى تاريخ صريح من تاريخ الفيديو")
+    return out
+
+
+def stale_video_warning(member_points: list[dict], cfg: Config, now: datetime | None = None) -> str | None:
+    """«⏳ أحدث فيديو منشور قبل N أيام» حين يتجاوز youtube.review.stale_days: مقال عن حدث قد تجاوزه تطور."""
+    dates = []
+    for p in member_points or []:
+        try:
+            dates.append(datetime.strptime(str(p.get("video_published") or "")[:10], "%Y-%m-%d"))
+        except ValueError:
+            continue
+    if not dates:
+        return None
+    now = now or datetime.now(timezone.utc)
+    age = (now.replace(tzinfo=None) - max(dates)).days
+    if age > cfg.path("youtube.review.stale_days", 2):
+        return f"⏳ أحدث فيديو منشور قبل {age} أيام — تحقّق أن الحدث لم يتجاوزه تطور"
+    return None
+
+
+_HINDI_DIGITS = str.maketrans("٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹", "01234567890123456789")
+
+
+def normalize_digits(text: str) -> str:
+    """الأرقام الهندية ← لاتينية في عنوان المقال ومتنه بعد الكتابة (نمط واحد على البطاقة والمنشور)."""
+    return text.translate(_HINDI_DIGITS)
+
+
+
 def _quote_violations(body: str, cfg: Config) -> list[str]:
     max_words = cfg.path("youtube.article.max_quote_words", 25)
     out = []
@@ -768,8 +867,10 @@ def article_violations(text: str, cfg: Config, member_points: list[dict] | None 
         violations.append(f"تركيب التقابل تكرّر {contrast_count} مرات (الحدّ {max_contrast}): {desc}")
 
     violations += _unnamed_role_violations(body_for_checks, cfg)
+    violations += _vague_attribution_violations(body_for_checks, cfg)
     violations += _quote_violations(body_for_checks, cfg)
     if member_points is not None:
+        violations += _speaker_name_violations(body_for_checks, member_points, cfg)
         missing = _missing_channels(body_for_checks, member_points, cfg)
         if missing:
             violations.append(f"قناة/قنوات من النقاط غائبة عن المتن ({' · '.join(missing)}): "
@@ -811,6 +912,9 @@ def draft_article(topic: dict, member_points: list[dict], cfg: Config,
     name_note = names_audit.names_note(point_source_texts(member_points), cfg)
     if name_note:
         user_content += f"\n\n{name_note}"
+    date_note = cfg.path("youtube.article.date_note", "")
+    if date_note and any(p.get("video_published") for p in member_points):
+        user_content += f"\n\n{date_note}"
 
     last_reason = ""
     last_resp = None
@@ -1010,6 +1114,9 @@ def _write_one_topic(topic: dict, points: list[dict], cfg: Config,
         log.warning("فشلت كتابة مقال لـ%r: %s", topic["title"], error)
         return out
 
+    text = normalize_digits(text)
+    article_text = text
+
     # التحذيرات تُنقَل مع النقاط عبر العنقدة إلى ذيل المقال (Issue #662
     # العطل ٣) -- بعد نجاح التحقّق من البنية (_validate_article_text داخل
     # draft_article)، لا قبله: قسم التحذيرات ليس جزءًا من البنية المطلوبة
@@ -1017,6 +1124,11 @@ def _write_one_topic(topic: dict, points: list[dict], cfg: Config,
     warnings = _collect_warnings(member_points, cfg)
     # اقتباس مباشر لشخصية عامة (Issue #1272): تنبيه مراجعة لا رفض، يُنزَع قبل النشر
     warnings = [*warnings, *figure_quote_warnings(text, cfg)]
+    # زمن نسبي وعمر الفيديو (Issue #1326): تنبيها مراجعة لا رفض
+    warnings = [*warnings, *relative_time_warnings(text, cfg)]
+    stale = stale_video_warning(member_points, cfg)
+    if stale:
+        warnings.append(stale)
     # مؤشّر "فاعل الجملة متحدث" (Issue #695، البند ٣) -- تحذير استرشادي لا
     # رفض (انظر توثيق _speaker_subject_warning)، فيُلحَق بنفس قائمة تحذيرات
     # المراجعة الموجودة بدل حارس رفض منفصل.
@@ -1029,7 +1141,10 @@ def _write_one_topic(topic: dict, points: list[dict], cfg: Config,
     # عناوين مقترحة (Issue #680) -- فشل هذا النداء الإضافي لا يُسقِط مقالًا
     # كُتب فعلًا واجتاز التحقّق؛ احتياط بعنوانه الأصلي مكرَّرًا ثلاثًا (نفس
     # مبدأ عدم إسقاط عمل صالح بسبب خطوة لاحقة، انظر توثيق الوحدة أعلاه).
-    headlines, hl_error, image_query_en = generate_headlines(topic, member_points, cfg, client)
+    headlines, hl_error, image_query_en = generate_headlines(
+        topic, member_points, cfg, client, article_text=article_text)
+    if headlines:
+        headlines = [normalize_digits(h) for h in headlines]
     if hl_error:
         out["headline_failed"] = True
         log.warning("فشلت اقتراحات العناوين لـ%r -- استُعمل العنوان الأصلي مكرَّرًا: %s",

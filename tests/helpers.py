@@ -319,6 +319,9 @@ def install_fakes() -> None:
     # يرى شيئًا لكل الاختبارات؛ اختبارات التدقيق نفسها تضع كاشفها عبر NamesAuditRig
     from src import names_audit
     names_audit._detect = lambda texts, arabic, cfg: []  # type: ignore
+    # المحرر الأخير (Issue #1326): افتراضيًا تقرير بلا ملاحظات، بلا شبكة
+    from src import youtube_editor
+    youtube_editor._create = lambda client, **kw: editor_response([])  # type: ignore
 
 
 def card_plan(cfg, headline: str, badge_texts: list[str]) -> dict:
@@ -940,3 +943,23 @@ def names_audit_doubt(arabic: str = "فريدة المسلمي", latin: str = "F
     return {"arabic": arabic, "latin": latin, "gender": "male", "verdict": "doubtful",
             "reason": "تعارض جنس: اسم مؤنث مع «الباحث»", "candidates": list(candidates),
             "context": "تشاتام هاوس"}
+
+
+# ── المحرر الأخير (Issue #1326) ──
+class _NS:
+    def __init__(self, **kw):
+        self.__dict__.update(kw)
+
+
+def editor_response(notes, searches: int = 0, report: bool = True):
+    """رد مزيَّف لنداء المحرر: server_tool_use ثم report_review (أو بدونها)."""
+    content = []
+    if searches:
+        content.append(_NS(type="server_tool_use", name="web_search", input={"query": "q"}))
+    if report:
+        content.append(_NS(type="tool_use", name="report_review", input={"notes": notes}))
+    else:
+        content.append(_NS(type="text", text="لا تقرير"))
+    return _NS(content=content, stop_reason="end_turn",
+               usage=_NS(input_tokens=1, output_tokens=1,
+                         server_tool_use=_NS(web_search_requests=searches)))
