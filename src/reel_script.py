@@ -392,11 +392,51 @@ def _audit_names(draft: dict, script: dict, sources: list[str], cfg: Any) -> dic
     for s in new["scenes"]:
         if s.get("kind") == "title_card":
             s["text"] = new["title"]
-    for key in ("name_corrections", "name_unresolved", "names_audit"):
-        if proxy.get(key):
-            draft[key] = proxy[key]
-    draft.setdefault("warnings", []).extend(proxy.get("warnings") or [])
+    _merge_records(draft, proxy)
     return new
+
+
+def _merge_records(draft: dict, proxy: dict) -> None:
+    """يدمج سجلات تدقيق مسودة وسيطة في مسودة الريل بدل أن يستبدل ما سجّله تدقيق سابق (Issue #1343):
+    تدقيق المتحدثين وتدقيق نص الراوي يكتبان في الحقول نفسها، وأيهما استبدل الآخر أضاع أسماءً غير محسومة."""
+    for key in ("name_corrections", "name_unresolved", "names_audit"):
+        new = proxy.get(key)
+        if not new:
+            continue
+        old = list(draft.get(key) or [])
+        draft[key] = old + [x for x in new if x not in old]
+    draft.setdefault("warnings", []).extend(proxy.get("warnings") or [])
+
+
+def _audit_speakers(draft: dict, valid: list[dict], member_points: list[dict], cfg: Any) -> tuple[list[dict], list[str]]:
+    """تدقيق اسم كل متحدث في الشريط السفلي قبل أي نداء كتابة (Issue #1343): الاسم المعروض مع وجه صاحبه لا يُترك لرسم
+    النموذج الأول. سطر لكل مقطع (الاسم ثم الصفة) في مسودة وسيطة؛ المصحَّح يُكتب في speaker_name، وما بقي غير محسوم
+    يُستبعد المقطع كله لأن اسمًا غير محسوم لا يُعرض على الشاشة أبدًا. يعيد (المقاطع المتبقية، أسماء المستبعدة)."""
+    if not valid:
+        return valid, []
+    from . import names_audit
+    lines = [f"{c['speaker_name']} {c['speaker_role']}".strip() for c in valid]
+    proxy = {"arabic": {"post_title": "", "post_body": "\n".join(lines)}, "caption": "", "warnings": []}
+    by_id = {point_key_id(p): p for p in member_points}
+    sources = youtube_article.point_source_texts([by_id[c["point_id"]] for c in valid if c["point_id"] in by_id])
+    names_audit.run(proxy, sources, cfg)
+    out_lines = proxy["arabic"]["post_body"].split("\n")
+    if len(out_lines) != len(valid):
+        out_lines = lines  # أعاد المدقق شكلًا لا نفهمه ← لا تصحيح بالتخمين
+    bad = _unresolved_words(proxy.get("name_unresolved") or [])
+    kept: list[dict] = []
+    dropped: list[str] = []
+    for c, line in zip(valid, out_lines):
+        role = c["speaker_role"]
+        name = line[:-len(role)].strip() if role and line.endswith(role) else (line.strip() if not role else c["speaker_name"])
+        c = dict(c, speaker_name=name or c["speaker_name"])
+        words = {youtube_article._fold_mention(t) for t in c["speaker_name"].split()}
+        if bad and words & bad:
+            dropped.append(c["speaker_name"])
+            continue
+        kept.append(c)
+    _merge_records(draft, proxy)
+    return kept, dropped
 
 
 def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article_text: str, unresolved: list,
@@ -407,8 +447,13 @@ def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article
     valid = valid_clips(member_points, unresolved, cfg)
     min_clips = int(_rcfg(cfg, "min_clips", 2))
     draft.pop("script_error", None)
+    for key in ("name_corrections", "name_unresolved", "names_audit"):
+        draft.pop(key, None)  # إعادة كتابة تبدأ سجلاتها من جديد فلا تتراكم عن محاولة سابقة
+    valid, dropped = _audit_speakers(draft, valid, member_points, cfg)
     if len(valid) < min_clips:
         reason = f"لا مقاطع كافية: {len(valid)} صالحًا من {min_clips} مطلوبًا على الأقل"
+        if dropped:
+            reason += f" — استُبعدت لأسماء متحدثين غير محسومة: {'، '.join(dropped)}"
         draft.pop("script", None)
         draft.update(script_status="failed", script_error=reason)
         return {"status": "failed", "reason": reason}
