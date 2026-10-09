@@ -646,7 +646,8 @@ def speaker_name_tokens(speaker: str, channel: str, cfg: Config) -> list[str]:
     chan |= {_fold_mention(t) for t in _arabic_tokens(channel)}
     out = []
     for t in _arabic_tokens(speaker):
-        f = _fold_mention(t)
+        # رقم لاصق بالصفة («متحدث 2») ليس اسمًا
+        f = re.sub(r"[0-9]+", "", _fold_mention(t))
         bare = f[2:] if f.startswith("ال") and len(f) > 3 else f
         if f in roles or bare in roles or f in chan or len(f) < 2:
             continue
