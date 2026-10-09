@@ -42,9 +42,13 @@ def action_label(action: str, stage: int, cfg) -> str:
 
 
 def options_block(stage: int, item_id: str, cfg, has_stage1: bool = True,
-                  urgent: bool = False) -> list[str]:
+                  urgent: bool = False, only: tuple[str, ...] | None = None) -> list[str]:
+    """``only`` (Issue #1336): يحصر الخيارات بهذه الإجراءات -- بند الريل في المرحلة 2
+    يعرض go1 وحده حتى تُبنى مراحله اللاحقة (R3/R4)."""
     lines = [cfg.path("stages.options_header", "")]
     for action in ACTIONS:
+        if only is not None and action not in only:
+            continue
         if _TARGET_STAGE[action] == stage:
             continue                      # لا خيار للانتقال إلى المرحلة الحالية
         if action == "go1" and not has_stage1:
@@ -57,6 +61,21 @@ def options_block(stage: int, item_id: str, cfg, has_stage1: bool = True,
 def image_field(item_id: str, cfg) -> str:
     # علامة imgurl القائمة نفسها كي يبقى review.parse_image_requests يقرؤها.
     return f"{cfg.path('stages.image_field', '')}  <!-- imgurl:{item_id} -->"
+
+
+# خيار «➕ أضف ريلًا/مقالًا» في المرحلة 2 للتحليل (Issue #1336): علامته addfmt:<صيغة>:<topic_id>
+ADDFMT_MARKER = re.compile(r"<!--\s*addfmt:(article|reel):([0-9a-f]+)\s*-->")
+
+
+def parse_add_formats(body: str) -> list[tuple[str, str]]:
+    """[(الصيغة، topic_id)] للخيارات المعلَّمة بالترتيب الذي وردت به."""
+    out: list[tuple[str, str]] = []
+    for line in (body or "").splitlines():
+        match = ADDFMT_MARKER.search(line)
+        box = _CHECKED.match(line)
+        if match and box and box.group(1).lower() == "x":
+            out.append((match.group(1), match.group(2)))
+    return out
 
 
 def parse_actions(body: str) -> tuple[dict[str, str], list[dict]]:

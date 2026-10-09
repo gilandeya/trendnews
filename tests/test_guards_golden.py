@@ -4434,3 +4434,367 @@ def test_editor_news_breaking_guards() -> None:
               and "ترمب" not in got["analysis"], (got["image_headline"], got["analysis"]))
     finally:
         editor._create = saved_create
+
+
+def test_reel_structure_guards() -> None:
+    """هيكل «مقال/ريل» في مسار التحليل خلف reel.enabled، وإزالة خيار الريل القديم من الأخبار
+    (Issue #1336، R1، g159–g168). الكاتب (youtube_article._write_one_topic) مزيَّف ويُعدّ؛ باقي
+    الأنبوب (open_selection/finalize_selection/cmd_youtube_selection/open_review/publish.main) حقيقي.
+    مرجع g159 ملف tests/fixtures/reel/stage1_before.md ولّدته الشيفرة قبل التعديل على المدخل نفسه."""
+    import json
+    import os
+    import re
+    from pathlib import Path
+
+    from src import decisions, imagesearch, review
+    from src import publish as publish_mod
+    from src import youtube_article as ya
+    from src import youtube_cluster as ycl
+    from src import youtube_extract
+    from src import youtube_publish as yp
+    from src.important import point_id
+    from tests import test_review as tr
+    from tests.helpers import legacy_youtube_selection_body, restore_last_publish, tick_marker
+
+    fx = Path(__file__).parent / "fixtures" / "reel"
+    D = "2099-11-01"
+
+    def cfg_with(enabled: bool, cap: int = 5):
+        c = load_config()
+        c.setdefault("reel", {})["enabled"] = enabled
+        c.setdefault("youtube", {}).setdefault("article", {}).update(count=5, max_per_run=cap)
+        return c
+
+    cfg_off, cfg_on = cfg_with(False), cfg_with(True)
+    T = cfg_on.path("reel.texts")
+    # مقارنة جسم المرحلة 1 بالمرجع تتطلب الإعداد الافتراضي نفسه (سقف max_per_run يظهر في سطر الجسم)
+    body_off_cfg, body_on_cfg = load_config(), load_config()
+    body_off_cfg.setdefault("reel", {})["enabled"] = False
+    body_on_cfg.setdefault("reel", {})["enabled"] = True
+
+    # ── g159) المفتاح مطفأ ← الجسم حرفيًا كما قبل التعديل ولا علامات fmt: ──
+    base_topics = [
+        {"id": "aaaa1111bbbb", "title": "موضوع أول", "event": "حدث أول", "layer": "a",
+         "blocs": ["arabic", "turkish"], "channels": ["الجزيرة", "CNN Türk"],
+         "agreement": "cross_source", "point_ids": [0, 1]},
+        {"id": "cccc2222dddd", "title": "موضوع ثانٍ", "event": "حدث ثانٍ", "layer": "b",
+         "blocs": ["arabic"], "channels": ["الجزيرة"], "agreement": "agreement",
+         "point_ids": [0], "returned_from_stage": 2},
+    ]
+    base_points = [{"statement": "قول", "speaker": "متحدث", "channel": "الجزيرة"},
+                   {"statement": "قول٢", "speaker": "متحدث٢", "channel": "CNN Türk"}]
+    before = (fx / "stage1_before.md").read_text(encoding="utf-8")
+    check("g159: المفتاح افتراضيًا مطفأ", load_config().path("reel.enabled") is False)
+    off_body = ycl.build_selection_body("2099-01-01", base_topics, base_points, body_off_cfg)
+    check("g159: reel.enabled=false ← الجسم مطابق حرفيًا لما قبل التعديل", off_body == before)
+    check("g159: لا علامات fmt: ولا كتلة صيغة", "fmt:" not in off_body and T["format_header"] not in off_body)
+
+    # ── g160) المفتاح مشغَّل ← كتلة الصيغة في كل موضوع والمقال معلَّم والانتقال كما هو ──
+    on_body = ycl.build_selection_body("2099-01-01", base_topics, base_points, body_on_cfg)
+    ok160 = True
+    stripped = on_body
+    for t in base_topics:
+        tid = t["id"]
+        art = f"- [x] {T['article']}  <!-- fmt:article:{tid} -->"
+        reel_line = f"- [ ] {T['reel']}  <!-- fmt:reel:{tid} -->"
+        block = "\n".join([T["format_header"], art, reel_line, T["stage1_note"], ""]) + "\n"
+        ok160 = ok160 and block in on_body and all(f"<!-- go:{a}:{tid} -->" in on_body
+                                                    for a in ("go2", "go3", "publish"))
+        ok160 = ok160 and f"<!-- go:go1:{tid} -->" not in on_body
+        i_field, i_block = on_body.find(f"imgurl:{tid}"), on_body.find(block)
+        i_opts = on_body.find(f"go:go2:{tid}")
+        ok160 = ok160 and 0 < i_field < i_block < i_opts
+        stripped = stripped.replace(block, "")
+    check("g160: كتلة صيغ (مقال معلَّم/ريل لا) بعد حقل الصورة وقبل الانتقال لكل موضوع", ok160)
+    check("g160: حذف الكتل يعيد الجسم القديم حرفيًا (كتلة الانتقال لم تتغير)", stripped == before)
+    check("g160: قراءة الصيغ من الجسم الجديد",
+          ycl.parse_formats(on_body) == {"article": {t["id"] for t in base_topics}, "reel": set()},
+          ycl.parse_formats(on_body))
+    check("g160: جسم بلا علامات fmt: ← None (قضية قديمة)", ycl.parse_formats(before) is None)
+
+    # ═════ بيئة الأنبوب: الكاتب مزيَّف ويُعدّ، باقي الأنبوب حقيقي ═════
+    created: list[dict] = []
+    comments: list[str] = []
+    writes = {"n": 0}
+
+    def fake_create_issue(title, body, labels=None):
+        created.append({"title": title, "body": body, "labels": labels})
+        return {"number": 6000 + len(created), "html_url": "https://x/i"}
+
+    def fake_write(topic, points, cfg, client):
+        writes["n"] += 1
+        return {"item": {"text": f"متن مقال {topic['title']}", "video_ids": ["v1"]},
+                "skip_reason": None, "reason_kind": None, "seen_keys": set()}
+
+    real = {"create_issue": review.create_issue, "ensure_labels": review.ensure_labels,
+            "comment": review.comment, "remove_label": review.remove_label,
+            "close_issue": review.close_issue, "write": ya._write_one_topic,
+            "yp_photo": yp._photo_candidates, "ex_news_ok": youtube_extract.news_photo_available,
+            "find_images": imagesearch.find_images, "repo": os.environ.get("GITHUB_REPOSITORY")}
+    review.create_issue = fake_create_issue
+    review.ensure_labels = lambda: None
+    review.comment = lambda n, t: comments.append(t)
+    review.remove_label = lambda n, lbl: None
+    review.close_issue = lambda n: None
+    ya._write_one_topic = fake_write
+    yp._photo_candidates = lambda *a, **k: ["https://example.com/p.jpg"]
+    youtube_extract.news_photo_available = lambda *a, **k: False
+    imagesearch.find_images = lambda *a, **k: []
+    os.environ["GITHUB_REPOSITORY"] = "user/trendnews"
+
+    def fresh(titles: list[str], cfg_x):
+        """يصفّر drafts/ والمواضيع ويفتح قضية اختيار؛ يعيد (sel, body)."""
+        shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+        DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+        shutil.rmtree(ycl.TOPICS_DIR, ignore_errors=True)
+        ycl.TOPICS_DIR.mkdir(parents=True, exist_ok=True)
+        ycl.POINTS_DIR.mkdir(parents=True, exist_ok=True)
+        if decisions.DECISIONS_FILE.exists():
+            decisions.DECISIONS_FILE.unlink()
+        pts = [{"video_id": "g0", "bloc": "arabic", "channel": "الجزيرة", "speaker": "متحدث",
+                "statement": "قول", "quote_arabic": "اقتباس", "type": "fact", "video_title": "ف",
+                "video_url": "https://youtube.com/watch?v=g0", "timestamp": 1},
+               {"video_id": "g1", "bloc": "turkish", "channel": "CNN Türk", "speaker": "متحدث٢",
+                "statement": "قول٢", "quote_arabic": "اقتباس٢", "type": "fact", "video_title": "ف٢",
+                "video_url": "https://youtube.com/watch?v=g1", "timestamp": 2}]
+        (ycl.POINTS_DIR / f"{D}.json").write_text(json.dumps({"points": pts}, ensure_ascii=False),
+                                                  encoding="utf-8")
+        topics = [{"title": t, "event": f"حدث {t}", "layer": "a", "blocs": ["arabic", "turkish"],
+                   "channels": ["الجزيرة", "CNN Türk"], "agreement": "cross_source", "point_ids": [0, 1]}
+                  for t in titles]
+        (ycl.TOPICS_DIR / f"{D}.json").write_text(
+            json.dumps({"run_date": D, "topics": topics}, ensure_ascii=False), encoding="utf-8")
+        created.clear()
+        writes["n"] = 0
+        sel = ycl.open_selection(cfg_x, date_str=D)
+        return sel, created[-1]["body"]
+
+    def tick(body: str, kind: str, tid: str) -> str:
+        return tick_marker(body, f"{kind}:{tid}")
+
+    def untick_article(body: str, tid: str) -> str:
+        return body.replace(f"- [x] {T['article']}  <!-- fmt:article:{tid} -->",
+                            f"- [ ] {T['article']}  <!-- fmt:article:{tid} -->")
+
+    def go(sel, body: str, cfg_x) -> list[dict]:
+        comments.clear()
+        n0 = len(created)
+        publish_mod.cmd_youtube_selection(sel["issue"]["number"], body, cfg_x, client=None)
+        return created[n0:]
+
+    def drafts_of(tid: str) -> dict[str, dict]:
+        out: dict[str, dict] = {}
+        for p in sorted(DRAFTS_DIR.glob("*/*.json")):
+            d = json.loads(p.read_text(encoding="utf-8"))
+            if d.get("topic_id") == tid:
+                out[d.get("format") or "article"] = d
+        return out
+
+    try:
+        # ── g161) ريل وحده بلا أي انتقال ← لا كتابة مقال، ومسودة ريل pending ──
+        sel, body = fresh(["موضوع ريل"], cfg_on)
+        tid = sel["topics"][0]["id"]
+        new = go(sel, tick(body, "fmt:reel", tid), cfg_on)
+        got = drafts_of(tid)
+        rd = got.get("reel") or {}
+        check("g161: لا نداء كاتب", writes["n"] == 0, writes)
+        check("g161: لا مسودة مقال", "article" not in got, list(got))
+        check("g161: مسودة الريل بمعرّف point_id(topic:reel) وformat reel وpending",
+              rd.get("id") == point_id(f"{tid}:reel") and re.fullmatch(r"[0-9a-f]+", rd.get("id", "-"))
+              and rd.get("format") == "reel" and rd.get("status") == "pending", rd)
+        check("g161: origin analysis وtopic_id وtopic_date وscript_status awaiting_script",
+              rd.get("origin") == "analysis" and rd.get("topic_id") == tid and rd.get("topic_date") == D
+              and rd.get("script_status") == "awaiting_script", rd)
+        check("g161: بلا caption ولا عناوين بعد", not rd.get("caption") and not rd.get("headlines"), rd)
+        check("g161: فُتحت قضية مرحلة 2 فيها بند الريل",
+              any(c["labels"] == ["youtube-review"] and f"<!-- draft:{rd.get('id')} -->" in c["body"]
+                  for c in new), [c["labels"] for c in new])
+        check("g161: الموضوع حُسم attempted",
+              next(t for t in ycl._load_topics_raw(D)["topics"] if t["id"] == tid)["selection_status"]
+              == "attempted")
+
+        # ── g162) الاثنان معلَّمان + go2 للمقال، وسقف max_per_run=1 لا يمسّ الريل ──
+        cfg_cap1 = cfg_with(True, cap=1)
+        sel, body = fresh(["موضوع أ", "موضوع ب"], cfg_cap1)
+        ta, tb = (t["id"] for t in sel["topics"])
+        b2 = tick(tick(tick(body, "go:go2", ta), "fmt:reel", ta), "fmt:reel", tb)
+        new = go(sel, b2, cfg_cap1)
+        da, db = drafts_of(ta), drafts_of(tb)
+        check("g162: مقال الموضوع أ كُتب (نداء واحد) وformat article",
+              writes["n"] == 1 and da.get("article", {}).get("format") == "article", writes)
+        check("g162: مسودة ريل للموضوعين رغم السقف=1 (لا كتابة فلا سقف)",
+              "reel" in da and "reel" in db and "article" not in db)
+        check("g162: sibling_id متبادل بين مقال أ وريله",
+              da["article"].get("sibling_id") == da["reel"]["id"]
+              and da["reel"].get("sibling_id") == da["article"]["id"], (da["article"].get("sibling_id"),))
+        check("g162: ريل ب بلا sibling_id", not db["reel"].get("sibling_id"))
+        s2 = next((c["body"] for c in new if c["labels"] == ["youtube-review"]), "")
+        check("g162: المقال والريلان في قضية المرحلة 2",
+              all(f"<!-- draft:{x['id']} -->" in s2 for x in (da["article"], da["reel"], db["reel"])))
+        check("g162: المقال pending بانتظار المرحلة 2 (go2)", da["article"]["status"] == "pending")
+        art_a, reel_a = da["article"], da["reel"]
+
+        # ── g163) مقال غير معلَّم + go2 ← لا مقال وتعليق تعارض ──
+        sel, body = fresh(["موضوع ج"], cfg_on)
+        tc = sel["topics"][0]["id"]
+        go(sel, untick_article(tick(body, "go:go2", tc), tc), cfg_on)
+        check("g163: لا مقال ولا نداء كاتب ولا مسودة", writes["n"] == 0 and not drafts_of(tc), writes)
+        conflict = T["article_unchecked_conflict"].format(title="موضوع ج")
+        check("g163: تعليق التعارض يذكر الموضوع", any(conflict in c for c in comments), comments)
+        check("g163: الموضوع unselected",
+              next(t for t in ycl._load_topics_raw(D)["topics"] if t["id"] == tc)["selection_status"]
+              == "unselected")
+
+        # ── g164) قضية اختيار قديمة (بلا fmt:) ← مقال فقط كما كانت، ولا ريل ──
+        sel, _ = fresh(["موضوع د"], cfg_off)
+        td = sel["topics"][0]["id"]
+        legacy_sel = tick_marker(legacy_youtube_selection_body(D, sel["topics"]), f"topic:{td}")
+        res = ycl.finalize_selection(sel["issue"]["number"], legacy_sel, cfg_off)
+        check("g164: قديمة ← الموضوع للكتابة وبلا ريل",
+              [t["id"] for t in res["to_write"]] == [td] and not res.get("reel_topics"), res)
+        sel, body_off = fresh(["موضوع د"], cfg_off)
+        td = sel["topics"][0]["id"]
+        check("g164: جسم المفتاح المطفأ بلا fmt:", "fmt:" not in body_off)
+        go(sel, tick(body_off, "go:go2", td), cfg_off)
+        got = drafts_of(td)
+        check("g164: مقال وحده (نداء واحد) وبلا مسودة ريل ولا sibling_id",
+              writes["n"] == 1 and list(got) == ["article"] and not got["article"].get("sibling_id"), list(got))
+        sel, _ = fresh(["موضوع هـ"], cfg_on)
+        te = sel["topics"][0]["id"]
+        legacy_on = tick_marker(legacy_youtube_selection_body(D, sel["topics"]), f"topic:{te}")
+        go(sel, legacy_on, cfg_on)
+        check("g164: قضية قديمة بالمفتاح المشغَّل ← مقال فقط (يُقرأ كما كان)",
+              writes["n"] == 1 and list(drafts_of(te)) == ["article"], list(drafts_of(te)))
+
+        # ── g165) المرحلة 2: بندان متجاوران تحت سطر الموضوع ──
+        topic_line = T["topic_line"].format(title=art_a["title"])
+        s2 = yp.build_review_body([art_a, reel_a], "u/r", "main", cfg_on)
+        lines = s2.splitlines()
+        i_topic = next((i for i, ln in enumerate(lines) if ln.strip() == topic_line), -1)
+        i_art = next((i for i, ln in enumerate(lines) if f"<!-- draft:{art_a['id']} -->" in ln), -1)
+        i_reel = next((i for i, ln in enumerate(lines) if f"<!-- draft:{reel_a['id']} -->" in ln), -1)
+        check("g165: سطر الموضوع مرة واحدة قبل البندين المتجاورين",
+              s2.count(topic_line) == 1 and 0 <= i_topic < i_art < i_reel, (i_topic, i_art, i_reel))
+        art_part = "\n".join(lines[i_art:i_reel])
+        reel_part = "\n".join(lines[i_reel:])
+        check("g165: بند المقال بخياراته القائمة (go1/go3/publish)",
+              all(f"<!-- go:{a}:{art_a['id']} -->" in art_part for a in ("go1", "go3", "publish")))
+        check("g165: بند الريل سطر ⏳ من config وخيار go1 وحده",
+              T["script_pending"] in reel_part and f"<!-- go:go1:{reel_a['id']} -->" in reel_part
+              and f"go:go3:{reel_a['id']}" not in s2 and f"go:publish:{reel_a['id']}" not in s2
+              and f"go:go2:{reel_a['id']}" not in s2)
+        check("g165: بند الريل بلا عناوين ولا كتلة نص ولا حقل صورة",
+              f"hl:{reel_a['id']}" not in s2 and f"imgurl:{reel_a['id']}" not in s2
+              and f"cap:{reel_a['id']}" not in s2)
+        check("g165: مع الصيغتين معًا لا خيار «➕ أضف»",
+              "addfmt:" not in s2 and T["add_reel"] not in s2 and T["add_article"] not in s2)
+        s2_art_only = yp.build_review_body([art_a], "u/r", "main", cfg_on)
+        s2_reel_only = yp.build_review_body([reel_a], "u/r", "main", cfg_on)
+        check("g165: مقال وحده ← «➕ أضف ريلًا» فقط بعلامة addfmt",
+              f"- [ ] {T['add_reel']}  <!-- addfmt:reel:{art_a['topic_id']} -->" in s2_art_only
+              and "addfmt:article" not in s2_art_only)
+        check("g165: ريل وحده ← «➕ أضف مقالًا» فقط",
+              f"- [ ] {T['add_article']}  <!-- addfmt:article:{reel_a['topic_id']} -->" in s2_reel_only
+              and "addfmt:reel" not in s2_reel_only)
+        s2_off = yp.build_review_body([art_a], "u/r", "main", cfg_off)
+        check("g165: المفتاح مطفأ ← لا سطر موضوع ولا addfmt",
+              topic_line not in s2_off and "addfmt:" not in s2_off and T["script_pending"] not in s2_off)
+        check("g165: معرّفا البندين يجدهما review.all_draft_ids",
+              review.all_draft_ids(s2) == [art_a["id"], reel_a["id"]])
+
+        # ── g166) «➕ أضف ريلًا» ← مسودة ريل جديدة بلا أثر على المقال ──
+        sel, body = fresh(["موضوع و"], cfg_on)
+        tf = sel["topics"][0]["id"]
+        go(sel, tick(body, "go:go2", tf), cfg_on)
+        art_f = drafts_of(tf)["article"]
+        art_path = store.load_draft(art_f["id"])[0]
+        art_obj_before = json.loads(art_path.read_text(encoding="utf-8"))
+        s2f = yp.build_review_body([art_f], "u/r", "main", cfg_on)
+        n0 = len(created)
+        publish_mod.cmd_add_formats(7001, tick(s2f, "addfmt:reel", tf), cfg_on, client=None)
+        got = drafts_of(tf)
+        check("g166: ظهرت مسودة ريل بمعرّف point_id وscript_status awaiting_script",
+              got.get("reel", {}).get("id") == point_id(f"{tf}:reel")
+              and got["reel"].get("script_status") == "awaiting_script"
+              and got["reel"].get("topic_date") == D, got.get("reel"))
+        art_obj = json.loads(art_path.read_text(encoding="utf-8"))
+        sibling_after = art_obj.pop("sibling_id", None)
+        art_obj_before.pop("sibling_id", None)
+        check("g166: المقال لم يتغير سوى sibling_id (ولا كتابة جديدة)",
+              art_obj == art_obj_before and writes["n"] == 1, writes)
+        check("g166: الشقيقان متبادلان",
+              sibling_after == got["reel"]["id"] and got["reel"].get("sibling_id") == art_f["id"])
+        nxt = next((c["body"] for c in created[n0:] if c["labels"] == ["youtube-review"]), "")
+        check("g166: يظهر الريل في قضية المرحلة 2 التالية",
+              f"<!-- draft:{got['reel']['id']} -->" in nxt and f"<!-- draft:{art_f['id']} -->" not in nxt,
+              nxt[:200])
+        n1 = len(created)
+        publish_mod.cmd_add_formats(7001, tick(s2f, "addfmt:reel", tf), cfg_on, client=None)
+        check("g166: تكرار «أضف» لا ينشئ مسودة ثانية ولا قضية", len(created) == n1
+              and len([p for p in DRAFTS_DIR.glob("*/*.json")
+                       if json.loads(p.read_text(encoding="utf-8")).get("format") == "reel"]) == 1)
+
+        # ── g167) «➕ أضف مقالًا» لموضوع له ريل فقط ← يُكتب المقال (كاتب مزيَّف) ويدخل المرحلة 2 ──
+        sel, body = fresh(["موضوع ز"], cfg_on)
+        tg = sel["topics"][0]["id"]
+        go(sel, tick(body, "fmt:reel", tg), cfg_on)
+        check("g167: تمهيد: ريل فقط", list(drafts_of(tg)) == ["reel"] and writes["n"] == 0)
+        reel_g = drafts_of(tg)["reel"]
+        s2g = yp.build_review_body([reel_g], "u/r", "main", cfg_on)
+        n0 = len(created)
+        publish_mod.cmd_add_formats(7002, tick(s2g, "addfmt:article", tg), cfg_on, client=None)
+        got = drafts_of(tg)
+        check("g167: كُتب المقال بنداء كاتب واحد وformat article وpending",
+              writes["n"] == 1 and got.get("article", {}).get("format") == "article"
+              and got["article"]["status"] == "pending", (writes, list(got)))
+        check("g167: sibling_id متبادل",
+              got["article"].get("sibling_id") == reel_g["id"]
+              and got["reel"].get("sibling_id") == got["article"]["id"])
+        nxt = next((c["body"] for c in created[n0:] if c["labels"] == ["youtube-review"]), "")
+        check("g167: المقال في قضية المرحلة 2 التالية",
+              f"<!-- draft:{got['article']['id']} -->" in nxt, nxt[:200])
+        publish_mod.cmd_add_formats(7002, tick(s2g, "addfmt:article", tg), cfg_on, client=None)
+        check("g167: تكرار «أضف مقالًا» لا يعيد الكتابة", writes["n"] == 1, writes)
+    finally:
+        review.create_issue = real["create_issue"]
+        review.ensure_labels = real["ensure_labels"]
+        review.comment = real["comment"]
+        review.remove_label = real["remove_label"]
+        review.close_issue = real["close_issue"]
+        ya._write_one_topic = real["write"]
+        yp._photo_candidates = real["yp_photo"]
+        youtube_extract.news_photo_available = real["ex_news_ok"]
+        imagesearch.find_images = real["find_images"]
+        if real["repo"] is None:
+            os.environ.pop("GITHUB_REPOSITORY", None)
+        else:
+            os.environ["GITHUB_REPOSITORY"] = real["repo"]
+
+    # ── g168) الأخبار: لا سطر «🎬 انشره كريل»، وقضية قديمة بمربع معلَّم ← صورة عادية ──
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    news = tr._stage_news_draft("e1336000001", "خبر فيه مواصفات ريل",
+                                reel_spec={"headline": "خبر فيه مواصفات ريل"})
+    news_body = review.build_issue_body([news], "u/r", "main")
+    check("g168: قضية مرحلة 2 للأخبار بلا سطر «🎬 انشره كريل» ولا علامة reel:",
+          "انشره كريل" not in news_body and "<!-- reel:" not in news_body and "🎬" not in news_body)
+    check("g168: بقية البند سليمة (الانتقال وحقل الصورة)",
+          f"go:publish:{news['id']}" in news_body and f"imgurl:{news['id']}" in news_body)
+    check("g168: review.parse_reels محذوفة", not hasattr(review, "parse_reels"))
+    store.save_draft(news)
+    legacy_body = tr.legacy_stage2_body([(news["id"], "خبر فيه مواصفات ريل")])
+    legacy_body = tick_marker(tick_marker(legacy_body, f"draft:{news['id']}"), f"reel:{news['id']}")
+    reel_calls: list = []
+    from src import facebook as fb_mod
+    real_reel = fb_mod.publish_reel
+    fb_mod.publish_reel = lambda *a, **k: reel_calls.append(a) or {"id": "x"}
+    try:
+        out = tr._run_publish_issue(legacy_body, "approved", ["--now"])
+    finally:
+        fb_mod.publish_reel = real_reel
+        restore_last_publish()
+    got = store.load_draft(news["id"])[1]
+    check("g168: قديمة بمربع reel معلَّم ← نُشرت صورة عادية",
+          got["status"] == "published" and len(out["published"]) == 1 and not reel_calls,
+          (got["status"], out["published"]))
+    check("g168: publish_as_reel لا يُكتب", "publish_as_reel" not in got, list(got))

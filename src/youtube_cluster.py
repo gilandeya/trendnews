@@ -983,6 +983,24 @@ def save_output(result: dict) -> Path:
 
 SELECTION_DATE_RE = re.compile(r"<!--\s*selection-date:(\d{4}-\d{2}-\d{2})\s*-->")
 SELECTION_TOPIC_RE = re.compile(r"<!--\s*topic:([0-9a-f]+)\s*-->")
+# علامة كتلة الصيغة (Issue #1336، R1) -- لا تظهر إلا والمفتاح reel.enabled مشغَّل
+FORMAT_MARKER = re.compile(r"<!--\s*fmt:(article|reel):([0-9a-f]+)\s*-->")
+
+
+def parse_formats(body: str) -> dict[str, set[str]] | None:
+    """الصيغ المعلَّمة لكل موضوع: {"article": {ids}, "reel": {ids}}، أو None إن لم
+    تحمل القضية أي علامة fmt: -- قضية فُتحت قبل التحديث أو والمفتاح مطفأ، وتُقرأ
+    حينها كما كانت بالضبط (مقال فقط). التمييز بوجود علامة واحدة على الأقل لا
+    بالمفتاح الحالي، لأن القضية تُقرأ بعد أن يتغير المفتاح أحيانًا."""
+    if not FORMAT_MARKER.search(body or ""):
+        return None
+    out: dict[str, set[str]] = {"article": set(), "reel": set()}
+    for line in (body or "").splitlines():
+        match = FORMAT_MARKER.search(line)
+        box = re.match(r"\s*[-*]\s*\[([ xX])\]", line)
+        if match and box and box.group(1).lower() == "x":
+            out[match.group(1)].add(match.group(2))
+    return out
 
 _SEL_AGREEMENT_LABELS = {
     "cross_source": "خلاف قنوات", "internal": "خلاف داخلي",
@@ -1051,6 +1069,21 @@ def _sample_points_lines(topic: dict, points: list[dict], n: int = 3) -> list[st
     return lines
 
 
+def _format_block(topic_id: str, cfg) -> list[str]:
+    """كتلة «🧩 الصيغة» (مقال معلَّم افتراضيًا، ريل لا). فارغة والمفتاح مطفأ فيبقى
+    الجسم حرفيًا كما كان."""
+    if not cfg.path("reel.enabled", False):
+        return []
+    texts = cfg.path("reel.texts", {}) or {}
+    return [
+        texts.get("format_header", ""),
+        f"- [x] {texts.get('article', '')}  <!-- fmt:article:{topic_id} -->",
+        f"- [ ] {texts.get('reel', '')}  <!-- fmt:reel:{topic_id} -->",
+        texts.get("stage1_note", ""),
+        "",
+    ]
+
+
 def build_selection_body(date_str: str, topics: list[dict], points: list[dict], cfg=None) -> str:
     """كل معلومة معروضة هنا من بنية القضية المحفوظة أصلًا (title/event/
     layer/blocs/channels/agreement/point_ids) أو نصّ نقاطها الخام
@@ -1099,6 +1132,9 @@ def build_selection_body(date_str: str, topics: list[dict], points: list[dict], 
         parts += [
             stages.image_field(t["id"], cfg),
             "",
+            # كتلة الصيغة بعد حقل الصورة وقبل الانتقال (Issue #1336): كتلة الانتقال
+            # تخص المقال وحده، والريل بلا انتقال هنا -- تعليمه وحده اختياره
+            *_format_block(t["id"], cfg),
             *stages.options_block(1, t["id"], cfg, has_stage1=False),
             "",
             "---",
@@ -1251,7 +1287,8 @@ def finalize_selection(issue_number: int, body: str, cfg, is_reusable=None) -> d
                   "في الجسم -- جسم من نوع آخر وُسم youtube-selection سهوًا على الأرجح",
                   issue_number)
         return {"date_str": None, "to_write": [], "still_waiting": [], "unselected_now": 0,
-                "actions": {}, "conflicts": []}
+                "actions": {}, "conflicts": [], "reel_topics": [], "reel_only": [],
+                "article_conflicts": []}
 
     date_str = m.group(1)
     # القارئ الموحَّد للمرحلة 1 (Issue #1190): go: أو الترجمة القديمة لقضية
@@ -1268,6 +1305,9 @@ def finalize_selection(issue_number: int, body: str, cfg, is_reusable=None) -> d
     def _keys(t: dict) -> set[str]:
         return {point_key(points[pid]) for pid in t["point_ids"] if 0 <= pid < len(points)}
 
+    # الصيغ (Issue #1336): None = قضية قديمة أو والمفتاح مطفأ ← مقال فقط كما كانت
+    formats = parse_formats(body)
+    article_conflicts: list[dict] = []
     changed = False
     unselected_now = 0
     for t in offered:
@@ -1278,8 +1318,19 @@ def finalize_selection(issue_number: int, body: str, cfg, is_reusable=None) -> d
         if t.get("selection_status") != "pending":
             continue
         changed = True
-        if t["id"] in checked:
+        if formats is None:
+            wants_article, wants_reel = t["id"] in checked, False
+        else:
+            # المقال يلزمه تعليم الصيغة وخيار انتقال معًا؛ الريل يكفيه تعليمه وحده
+            wants_article = t["id"] in checked and t["id"] in formats["article"]
+            wants_reel = t["id"] in formats["reel"]
+            if t["id"] in checked and t["id"] not in formats["article"]:
+                article_conflicts.append({"id": t["id"], "title": t["title"],
+                                          "action": actions.get(t["id"])})
+        if wants_article or wants_reel:
             t["selection_status"] = "selected"
+            # تُحفظ الصيغ على الموضوع كي تُقرأ ثانيةً عند إعادة وسم approved لما فاته السقف
+            t["selected_formats"] = [f for f, on in (("article", wants_article), ("reel", wants_reel)) if on]
             continue
         t["selection_status"] = "unselected"
         decisions.record_unselected_topic(t)
@@ -1292,9 +1343,14 @@ def finalize_selection(issue_number: int, body: str, cfg, is_reusable=None) -> d
         _save_topics_raw(date_str, data)
 
     selected = [t for t in offered if t.get("selection_status") == "selected"]
+    # موضوع بلا selected_formats (اختير قبل هذا الإصدار) = مقال، كما كان
+    selected_articles = [t for t in selected if "article" in (t.get("selected_formats") or ["article"])]
+    reel_topics = [t for t in selected if "reel" in (t.get("selected_formats") or [])]
+    reel_only = [t for t in reel_topics if t not in selected_articles]
     max_per_run = cfg.path("youtube.article.max_per_run")
-    reused = [t for t in selected if is_reusable and is_reusable(t)]
-    rest = [t for t in selected if t not in reused]
+    reused = [t for t in selected_articles if is_reusable and is_reusable(t)]
+    # مسودة الريل لا تكلّف كتابة في R1 فلا تخضع للسقف: السقف على المقالات وحدها
+    rest = [t for t in selected_articles if t not in reused]
     if max_per_run:
         cap = int(max_per_run)
         to_write, still_waiting = reused + rest[:cap], rest[cap:]
@@ -1302,7 +1358,9 @@ def finalize_selection(issue_number: int, body: str, cfg, is_reusable=None) -> d
         to_write, still_waiting = reused + rest, []
 
     return {"date_str": date_str, "to_write": to_write, "still_waiting": still_waiting,
-            "unselected_now": unselected_now, "actions": actions, "conflicts": conflicts}
+            "unselected_now": unselected_now, "actions": actions, "conflicts": conflicts,
+            "reel_topics": reel_topics, "reel_only": reel_only,
+            "article_conflicts": article_conflicts}
 
 
 def mark_topics_attempted(date_str: str, topic_ids: set[str]) -> None:

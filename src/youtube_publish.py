@@ -523,6 +523,8 @@ def build_draft_from_text(topic: dict, text: str, video_ids: list[str],
         "created_at": datetime.now(timezone.utc).isoformat(),
         "status": "pending",
         "origin": "analysis",
+        # صيغة المسودة (Issue #1336): المسودات القديمة بلا الحقل = مقال
+        "format": "article",
         "title": default_title,
         "tier": youtube_cluster.layer_num(topic["layer"]),
         "blocs": topic["blocs"],
@@ -551,6 +553,38 @@ def build_draft_from_text(topic: dict, text: str, video_ids: list[str],
         # المسودة فيغلب كل مراحل الصورة عند بناء البطاقة (ensure_title_card)
         draft["manual_image"] = topic["manual_image"]
     return draft
+
+
+def build_reel_draft(topic: dict, date_str: str, cfg) -> dict:
+    """مسودة ريل لموضوع (Issue #1336، R1): الهيكل وحده -- لا سيناريو ولا caption ولا
+    عناوين بعد (يُكتب السيناريو في R2)، فلا تكلّف نداء نموذج ولا تخضع لسقف
+    youtube.article.max_per_run. المعرّف point_id(f"{topic_id}:reel") ستّ عشري كي تقرأه
+    علامات go: وتعيد الكتابة الواحدة المسودة نفسها. بلا حقل image عمدًا كمسودة المقال قبل
+    الاعتماد. ``topic`` يحمل id/title/layer/blocs/channels/agreement/event؛ ومن مسودة
+    مقال قائمة يُبنى بـlayer=tier (layer_num يقبل الرقم والحرف)."""
+    from .important import point_id
+    return {
+        "id": point_id(f"{topic['id']}:reel"),
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "status": "pending",
+        "origin": "analysis",
+        "format": "reel",
+        "script_status": "awaiting_script",
+        "title": topic["title"],
+        "tier": youtube_cluster.layer_num(topic["layer"]),
+        "blocs": topic["blocs"],
+        "channels": topic["channels"],
+        "agreement": topic["agreement"],
+        "event": topic.get("event", ""),
+        "warnings": [],
+        "run_date": date_str,
+        "arabic": {"post_title": topic["title"], "urgent": False, "category": "تحليل"},
+        "source": {"link": "", "publishers": topic["channels"]},
+        "score": compute_score(topic["blocs"], topic["channels"], topic["agreement"], cfg),
+        "source_videos": [],
+        "topic_id": topic["id"],
+        "topic_date": date_str,
+    }
 
 
 def _review_sort_key(d: dict) -> tuple:
@@ -684,6 +718,36 @@ HEADLINE_BOX_RE = review.HEADLINE_BOX_RE
 parse_headline_choice = review.parse_headline_choice
 
 
+def _reel_item_lines(idx: int, d: dict, cfg) -> list[str]:
+    """بند الريل في المرحلة 2 (Issue #1336، R1): عنوان بعلامة draft: وسطر «⏳» واحد من
+    config وخيار go1 وحده -- لا go3 ولا publish حتى تُبنى مراحله (R3/R4)؛ ترك go1 بلا
+    تعليم = رفض المسودة كبقية البنود."""
+    texts = cfg.path("reel.texts", {}) or {}
+    return [
+        f"**{idx}. {texts.get('reel', '🎬')} — {d['title']}**  <!-- draft:{d['id']} -->",
+        "",
+        f"  {texts.get('script_pending', '')}",
+        "",
+        *stages.options_block(2, d["id"], cfg, has_stage1=review.has_stage1(d), only=("go1",)),
+        "",
+    ]
+
+
+def _add_format_lines(d: dict, group: list[dict], rtexts: dict) -> list[str]:
+    """خيار «➕ أضف …» للصيغة الغائبة تحت آخر بند من الموضوع (Issue #1336). يُعرض مرة
+    واحدة لكل موضوع، وللمسودات التي تحمل topic_id وحدها."""
+    if not group or d is not group[-1]:
+        return []
+    have = {x.get("format") or "article" for x in group}
+    tid = d["topic_id"]
+    lines = []
+    if "reel" not in have:
+        lines.append(f"- [ ] {rtexts.get('add_reel', '')}  <!-- addfmt:reel:{tid} -->")
+    if "article" not in have:
+        lines.append(f"- [ ] {rtexts.get('add_article', '')}  <!-- addfmt:article:{tid} -->")
+    return [*lines, ""] if lines else []
+
+
 def build_review_body(drafts: list[dict], repo: str, branch: str, cfg=None) -> str:
     """نص قضية المرحلة 2 للتحليل (Issue #1187، المهمة 3 من توحيد المراحل) —
     الشكل نفسه الذي ثبّته #1182 لقضية الأخبار (review.build_issue_body): رأس
@@ -735,7 +799,37 @@ def build_review_body(drafts: list[dict], repo: str, branch: str, cfg=None) -> s
         "",
     ]
 
+    # هيكل مقال/ريل (Issue #1336): مسودات الموضوع الواحد متجاورة تحت سطر عنوانه،
+    # والمقال قبل الريل؛ مطفأً يبقى الترتيب والنص كما كانا
+    reel_on = bool(cfg.path("reel.enabled", False))
+    rtexts = cfg.path("reel.texts", {}) or {}
+    groups: dict[str, list[dict]] = {}
+    if reel_on:
+        for d in drafts:
+            if d.get("topic_id"):
+                groups.setdefault(d["topic_id"], []).append(d)
+        for tid in groups:
+            groups[tid].sort(key=lambda x: x.get("format") == "reel")     # المقال قبل الريل
+        order: list[dict] = []
+        seen_topics: set[str] = set()
+        for d in drafts:
+            tid = d.get("topic_id")
+            if not tid:
+                order.append(d)
+            elif tid not in seen_topics:
+                seen_topics.add(tid)
+                order += groups[tid]
+        drafts = order
+
     for idx, d in enumerate(drafts, start=1):
+        group = groups.get(d.get("topic_id") or "", [])
+        if group and d is group[0]:
+            parts += [rtexts.get("topic_line", "{title}").format(title=d["title"]), ""]
+        if d.get("format") == "reel":
+            parts += _reel_item_lines(idx, d, cfg)
+            parts += _add_format_lines(d, group, rtexts) if reel_on else []
+            parts += ["---", ""]
+            continue
         meta_line = (
             f"  تقاطع {youtube_cluster.layer_num(d['tier'])} كتل · "
             f"{' · '.join(bloc_label(b, cfg) for b in d['blocs']) or '—'} · "
@@ -807,6 +901,7 @@ def build_review_body(drafts: list[dict], repo: str, branch: str, cfg=None) -> s
             "",
             *stages.options_block(2, d["id"], cfg, has_stage1=review.has_stage1(d)),
             "",
+            *(_add_format_lines(d, group, rtexts) if reel_on else []),
             "---",
             "",
         ]
