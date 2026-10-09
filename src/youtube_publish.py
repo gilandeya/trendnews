@@ -130,7 +130,8 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-from . import cards, names_audit, publish, review, stages, store, youtube_article, youtube_cluster, youtube_extract
+from . import (cards, names_audit, publish, review, stages, store, youtube_article, youtube_cluster,
+               youtube_editor, youtube_extract)
 from .config import DRAFTS_DIR, env, load_config
 
 log = logging.getLogger(__name__)
@@ -754,6 +755,8 @@ def build_review_body(drafts: list[dict], repo: str, branch: str, cfg=None) -> s
             score_line,
             "",
         ]
+        # مراجعة المحرر الأخير (Issue #1326) قبل التنبيهات
+        parts += youtube_editor.render_lines(d, cfg)
         if d.get("warnings"):
             # هذا بالضبط ما يجعل المراجعة حقيقية (Issue #676) — عدد التنبيهات
             # ونصّها كاملًا، لا مجرّد إشارة صامتة.

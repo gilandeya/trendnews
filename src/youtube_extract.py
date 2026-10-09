@@ -869,6 +869,8 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
                         "language": lang_or_reason,
                         "video_title": video.video_title,
                         "video_url": video.video_url,
+                        # تاريخ نشر الفيديو (Issue #1326): يحوّل الكاتب الزمن النسبي إلى تاريخ صريح
+                        "video_published": (video.published_at or "")[:10],
                         "duration_seconds": video.duration_seconds,
                         "statement": p["statement"],
                         "speaker": p["speaker"],

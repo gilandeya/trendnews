@@ -1507,6 +1507,35 @@ step (`article.wide_days`).
 - **الاختبارات:** `tests/test_important.py` (`test_important_pipeline` … `test_important_1233`، وg88–g94 للمنشورات الثلاثة في `test_guards_golden.py:test_important_1293_guards`) على `ImportantRig`/`ImportantWriteRig`
   في `tests/helpers.py`، وحالات الحرّاس g1–g51 في `tests/test_guards_golden.py` (`test_important_false_guard` و`test_important_write_guards`).
 
+## المحرر الأخير لمقالات التحليل (#C2) — `src/youtube_editor.py` (Issue #1326)
+
+السبب: كل نموذج في مسار التحليل يرى قطعة واحدة (العناوين من عنوان القضية لا من المقال). شواهد 2026-10-09 في
+`tests/fixtures/analysis/1322/` (مسودات فقط)؛ الحالات الذهبية g128–g140 في `tests/test_guards_golden.py:test_analysis_editor_guards`.
+
+- **الجذر:** `youtube_article.generate_headlines(..., article_text=)` تبني العناوين من نص المقال المكتوب (و`_write_one_topic` تمرّره)؛ «الأول سؤال» باقية.
+- **المحرر:** `youtube_editor.run(draft, member_points, cfg, client)` في `publish.cmd_youtube_selection` بعد `names_audit.run` وقبل `store.save_draft`
+  (لا يُربط في `youtube_publish.build()` القديم كتدقيق الأسماء). نموذج `youtube.review.editor.model` بأداة بحث ويب خادمية (`max_searches`) وأداة
+  `report_review` معًا (`tool_choice` auto)؛ إن لم تُستدعَ `report_review` فنداء ثانٍ واحد بلا بحث بإلزامها. النظام النصي والنصوص المعروضة في
+  `youtube.review.editor` (system/texts)، والبحث للأسماء والتواريخ فقط ولا واقعة جديدة سوى تاريخ صريح. نقطة النداء الوحيدة `youtube_editor._create`
+  (يزيّفها `install_fakes` بتقرير فارغ، ويستبدلها كل اختبار بما يلزمه).
+- **التطبيق بالكود لا بالنموذج (`apply_review`):** يُطبَّق `fix` فقط إن كانت الفئة ضمن `editor.auto_fix` وكان `original` حرفيًا في موضعه (h1 / headline_n / body)؛
+  `name_doubtful` و`fact_outdated` و`other` لا تُطبَّق أبدًا؛ `stale_time` لا يُطبَّق بلا `sources`؛ `fix` فارغ = حذف الجملة (`unattributed_opinion`) أو العنوان
+  (`headline_*`، على ألا يبقى أقل من واحد). بعد كل تطبيق تُقارَن فحوص `article_violations` وعناوين النسبة المجهولة/الطول قبل التطبيق وبعده (بعد طيّ الأرقام)؛
+  مخالفة جديدة ← يُلغى التطبيق وتصير الملاحظة معروضة. الافتراضي بعد تغيير العناوين أول عنوان ينتهي بـ«؟» وإلا الأول. يُحفظ على المسودة `editor_review`
+  (`applied`/`notes`/`error`/`searches`/`search_skipped`/`speaker_unresolved`). أي عطل ← المسودة كما هي + تنبيه «تعذّرت مراجعة المحرر: …» ولا تفشل الكتابة.
+- **البوابة (`gate_action`):** ملاحظة `high` غير مطبَّقة أو اسم متحدث في `name_unresolved` (يطابق `speaker` نقطة): من الاختيار publish/go3 ← go2، ومن المرحلة 2
+  publish ← go3 (`publish.main`)، مع تعليق `youtube.review.editor.texts.gate_comment`؛ المرحلة 3 قرارك.
+- **العرض:** `youtube_editor.render_lines` في `review.warnings_block` (المرحلتان 2 و3) وفي `youtube_publish.build_review_body`، قسم «🧑‍⚖️ مراجعة المحرر» قبل التنبيهات:
+  `✏️ كان/صار` للمطبَّق، `⚠️`/`⛔` لغيره، ولـ`name_doubtful` رابط الفيديو مع `&t=<الطابع>s`.
+- **العدّاد:** مفتاح `editor_web:YYYY-MM` في `state/brave_usage.json` يُزاد بعد النداء من `usage.server_tool_use.web_search_requests`؛ بلوغ
+  `editor.monthly_search_cap` (300) ← نداء بلا أداة البحث (`search_skipped: "cap"`). `editor.enabled: false` يوقف الخطوة كلها. `publish.yml` يودِع `drafts state` فالعدّاد يُحفظ.
+- **فحوص آلية حاسمة (`youtube_article.article_violations`):** `youtube.article.vague_attribution` ← رفض؛ المتحدث «المسمّى» (يبقى من `speaker` كلمة بعد حذف
+  `youtube.article.role_words` واسم القناة) يجب أن يرد اسمه أو آخر كلمة منه في المتن؛ غير المسمّى يجوز بصفته وقناته. `video_published` تُحفظ على النقطة عند الاستخراج
+  وتظهر في `_points_block` مع تعليمة `youtube.article.date_note`؛ تنبيه لكل عبارة من `youtube.article.relative_time_words` و«⏳ أحدث فيديو منشور قبل N أيام» حين يتجاوز `youtube.review.stale_days`؛
+  الأرقام الهندية ← لاتينية في العنوان والمتن والعناوين (`normalize_digits`).
+- **سدّ ثغرة C1:** `names_audit._usable` يتجاهل المدخل المحفوظ بلا `wrong` إن اختلف عدد كلمات رسمه العربي عن أصله اللاتيني بأكثر من `names.audit.max_word_count_diff` (1).
+  نبّه: «أركان الجيش التركي» (3 كلمات) مقابل «Selçuk Bayraktaroğlu» (2) فرقها 1 فقط، فالقاعدة بحرفها لا تُسقطه؛ اختبار g140 يستعمل مثالًا بفرق 2.
+
 ## ذاكرة الصحافة (Issue #1255) — `src/press_events.py`
 
 بيانات فقط (لا نموذج ولا قضايا، ولا أثر على المرشحين أو قضية الترشيح أو الترتيب): تحفظ **من غطّى الحدث وبأي عنوان ولغة**، لأن

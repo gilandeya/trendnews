@@ -965,7 +965,7 @@ def cmd_youtube_selection(issue_number: int, body: str, cfg, client=None) -> int
     cmd_revival/cmd_final_review حرفيًا (Issue #961/#1008): الـIssue لا
     يُغلق، وسم approved يُزال عبر review.remove_label، وسطر ⏳ لكل موضوع باقٍ
     + سطر ختامي يطلب إعادة الوسم لمتابعة الباقي."""
-    from . import youtube_article, youtube_cluster, youtube_publish
+    from . import youtube_article, youtube_cluster, youtube_editor, youtube_publish
 
     result = youtube_cluster.finalize_selection(
         issue_number, body, cfg,
@@ -1054,7 +1054,16 @@ def cmd_youtube_selection(issue_number: int, body: str, cfg, client=None) -> int
         # تدقيق أسماء الأشخاص بدليل بحث (Issue #1252): مصدره اقتباسات النقاط بلغتها الأصلية
         names_audit.run(draft, youtube_article.point_source_texts(
             [points[pid] for pid in topic["point_ids"] if 0 <= pid < len(points)]), cfg)
+        # المحرر الأخير (Issue #1326): مراجعة المنشور كاملًا بنموذج قوي قبل الحفظ، لا يُفشل الكتابة
+        youtube_editor.run(draft, [points[pid] for pid in topic["point_ids"] if 0 <= pid < len(points)],
+                           cfg, client)
         store.save_draft(draft)
+        action = actions.get(topic["id"], "go2")
+        gated, why = youtube_editor.gate_action(action, draft, 1, cfg)
+        if gated != action:
+            actions[topic["id"]] = gated
+            review.comment(issue_number, cfg.path("youtube.review.editor.texts.gate_comment").format(
+                title=draft["arabic"]["post_title"][:60], reason=why))
         _route(topic, draft["id"])
         written += 1
         lines.append(f"- ✅ {draft['arabic']['post_title'][:50]} — كُتب، بانتظار المراجعة")
@@ -1260,6 +1269,20 @@ def main() -> int:
     ids = [i for i in review.all_draft_ids(body)
            if actions.get(i) in ("publish", "go3")]
     go3_ids = {i for i in ids if actions[i] == "go3"}
+    # المحرر الأخير (Issue #1326): publish من المرحلة 2 لمسودة تحليل فيها ما يمنعه ← go3 (بطاقة ومراجعة
+    # أخيرة بعين بشرية). التعليق من المسار العادي وحده فالمسارين يقرآن الحدث نفسه.
+    from . import youtube_editor
+    for did in [i for i in ids if actions[i] == "publish"]:
+        found = store.load_draft(did)
+        if not found or store.origin_of(found[1]) != "analysis":
+            continue
+        gated, why = youtube_editor.gate_action("publish", found[1], 2, cfg)
+        if gated == "go3":
+            go3_ids.add(did)
+            actions[did] = "go3"
+            if not args.urgent_only:
+                review.comment(args.issue, cfg.path("youtube.review.editor.texts.gate_comment").format(
+                    title=found[1]["arabic"]["post_title"][:60], reason=why))
     go1_ids = [i for i in review.all_draft_ids(body) if actions.get(i) == "go1"]
     if not args.urgent_only:          # المسار السريع يقرأ بالمثل ولا يكرّر التنبيه
         report_conflicts(args.issue, conflicts, 2, cfg)

@@ -161,8 +161,14 @@ def align_spelling(current: str, candidate: str, cfg: Any) -> str | None:
 
 def _usable(entries: dict, cfg: Any) -> dict:
     """المعتمد المحفوظ الذي يجتاز الحارس مع كل رسم خاطئ سُجّل له؛ ما يفشل يُتجاهل عند القراءة (#1322)."""
-    return {k: e for k, e in entries.items()
-            if all(align_spelling(w, e.get("arabic", ""), cfg) is not None for w in e.get("wrong") or [])}
+    limit = int(_acfg(cfg).get("max_word_count_diff", 1))
+
+    def sane(e: dict) -> bool:
+        # مدخل بلا wrong لم يمرّ بحارس المحاذاة أصلًا: يُفحص عدد الكلمات بدل ذلك (#1326)
+        if e.get("wrong"):
+            return all(align_spelling(w, e.get("arabic", ""), cfg) is not None for w in e["wrong"])
+        return abs(len(e.get("arabic", "").split()) - len(e.get("latin", "").split())) <= limit
+    return {k: e for k, e in entries.items() if sane(e)}
 
 
 def load_verified() -> dict:
