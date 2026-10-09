@@ -1919,8 +1919,18 @@
         "23c484b9a35a",
         "71f90cd92b3a"
       ],
-      "status": "offered",
-      "selection_issue": 1340
+      "status": "written",
+      "selection_issue": 1340,
+      "action": "go2",
+      "pivot_entities": [
+        "حزب الله"
+      ],
+      "gap_dropped_sibling": 0,
+      "gap_dropped_off_topic": 0,
+      "gap_dropped_listing": 1,
+      "gap_sources": [],
+      "draft_id": "b20c26059d4c",
+      "written_at": "2026-10-09T13:22:23.383702+00:00"
     },
     {
       "id": "4421a96074e8",
@@ -1929,8 +1939,18 @@
         "36f9b024dae5",
         "577c16cffbc9"
       ],
-      "status": "offered",
-      "selection_issue": 1340
+      "status": "written",
+      "selection_issue": 1340,
+      "action": "go2",
+      "pivot_entities": [
+        "الولايات المتحدة الأميركية"
+      ],
+      "gap_dropped_sibling": 0,
+      "gap_dropped_off_topic": 10,
+      "gap_dropped_listing": 0,
+      "gap_sources": [],
+      "draft_id": "4421a96074e8",
+      "written_at": "2026-10-09T13:23:59.620127+00:00"
     }
   ]
 }
