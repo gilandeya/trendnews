@@ -263,7 +263,7 @@ from tests.test_guards_golden import (test_guards_golden, test_important_false_g
                                       test_important_1291_guards, test_important_1293_guards,
                                       test_important_1298_guards, test_important_1304_guards,
                                       test_important_1309_guards, test_important_1316_guards,
-                                      test_names_placeholder_guards)
+                                      test_names_placeholder_guards, test_names_audit_1322_guards)
 from tests.test_names_audit import (test_names_audit_brave_counter, test_names_audit_other_sites,
                                     test_names_audit_pipeline,
                                     test_names_audit_prevention_writer, test_names_audit_review_learning)
@@ -639,6 +639,8 @@ def main() -> int:
     test_names_placeholder_guards()
     print("\n── حارس تدقيق أسماء الأشخاص g52–g56 (Issue #1252) ──")
     test_names_audit_guards()
+    print('\n── حارس محاذاة تدقيق الأسماء g123–g127 (Issue #1322) ──')
+    test_names_audit_1322_guards()
     test_analysis_attribution_guards()
     test_analysis_attribution_pipeline()
     print("\n── تدقيق أسماء الأشخاص على الأنبوب: 🚀 والمرحلتان 2 و3 والتعلّم والعدّاد (Issue #1252) ──")
