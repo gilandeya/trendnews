@@ -1,0 +1,710 @@
+{
+  "run_date": "2026-10-09",
+  "stats": {
+    "points_in": 218,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 68,
+    "issues_clustered": 27,
+    "topics_merged": 3,
+    "topics_out": 4,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 1,
+    "topics_below_min_points": 11,
+    "topics_below_min_channels": 8,
+    "layers": {
+      "3": 1,
+      "2": 2,
+      "1": 1
+    },
+    "agreement": 3,
+    "cross_source": 1,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "تحالف مكة الدفاعي",
+      "قمة الرياض حول الأزمة الحوثية وهجمات على السعودية"
+    ],
+    [
+      "تقييم أداء مجلس السلام في غزة",
+      "تمويل إعادة إعمار غزة"
+    ],
+    [
+      "انضمام جميل توغاي/تقاي لحزب العدالة والتنمية",
+      "خطاب أردوغان عن قيم حزب العدالة والتنمية"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "تحالف مكة الدفاعي",
+      "event": "الإعلان عن تحالف مكة العسكري الدفاعي بين السعودية وتركيا وباكستان ودول إسلامية ودوره وطبيعته",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk",
+        "Iran International",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        5,
+        36,
+        37,
+        38,
+        48,
+        49,
+        103,
+        116,
+        117,
+        118,
+        119,
+        120,
+        140
+      ],
+      "total_points": 13,
+      "fresh_points": 7,
+      "dropped_reason": null,
+      "id": "18097797750f",
+      "created_at": "2026-10-09T04:02:18.749552+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1319
+    },
+    {
+      "title": "استعادة القوات اليمنية لباب المندب",
+      "event": "استعادة القوات الحكومية اليمنية ميناء/مضيق باب المندب الاستراتيجي من الحوثيين وعمليات عسكرية ضد الحوثيين",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        4,
+        39,
+        102
+      ],
+      "total_points": 3,
+      "fresh_points": 2,
+      "dropped_reason": null,
+      "id": "09f178f2427c",
+      "created_at": "2026-10-09T04:02:18.749552+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1319
+    },
+    {
+      "title": "المفاوضات النووية الإيرانية الأمريكية وموقف طهران من التفاوض",
+      "event": "تطورات الرسائل بين طهران وواشنطن حول خطة السبعة أيام وموقف إيران من التخصيب وتسليم اليورانيوم ومن التفاوض عمومًا",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        3,
+        137,
+        138
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": null,
+      "id": "3eff8b989c32",
+      "created_at": "2026-10-09T04:02:18.749552+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1319
+    },
+    {
+      "title": "انضمام جميل توغاي/تقاي لحزب العدالة والتنمية",
+      "event": "انتقال رئيس بلدية إسطنبول/إزمير جميل توغاي إلى حزب العدالة والتنمية وتداعياته السياسية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        53,
+        54,
+        60,
+        61,
+        68,
+        123,
+        124,
+        125,
+        126,
+        128,
+        129,
+        134
+      ],
+      "total_points": 12,
+      "fresh_points": 9,
+      "dropped_reason": null,
+      "id": "502b7e8947e8",
+      "created_at": "2026-10-09T04:02:18.749552+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1319
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "تحالف مكة الدفاعي",
+      "event": "الإعلان عن تحالف مكة العسكري الدفاعي بين السعودية وتركيا وباكستان ودول إسلامية ودوره وطبيعته",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk",
+        "Iran International",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        5,
+        36,
+        37,
+        38,
+        48,
+        49,
+        103,
+        116,
+        117,
+        118,
+        119,
+        120,
+        140
+      ],
+      "total_points": 13,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "استعادة القوات اليمنية لباب المندب",
+      "event": "استعادة القوات الحكومية اليمنية ميناء/مضيق باب المندب الاستراتيجي من الحوثيين وعمليات عسكرية ضد الحوثيين",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        4,
+        39,
+        102
+      ],
+      "total_points": 3,
+      "fresh_points": 2,
+      "dropped_reason": null
+    },
+    {
+      "title": "المفاوضات النووية الإيرانية الأمريكية وموقف طهران من التفاوض",
+      "event": "تطورات الرسائل بين طهران وواشنطن حول خطة السبعة أيام وموقف إيران من التخصيب وتسليم اليورانيوم ومن التفاوض عمومًا",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        3,
+        137,
+        138
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": null
+    },
+    {
+      "title": "انضمام جميل توغاي/تقاي لحزب العدالة والتنمية",
+      "event": "انتقال رئيس بلدية إسطنبول/إزمير جميل توغاي إلى حزب العدالة والتنمية وتداعياته السياسية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        53,
+        54,
+        60,
+        61,
+        68,
+        123,
+        124,
+        125,
+        126,
+        128,
+        129,
+        134
+      ],
+      "total_points": 12,
+      "fresh_points": 9,
+      "dropped_reason": null
+    },
+    {
+      "title": "تهديد ترامب لإيران بشأن كاليفورنيا",
+      "event": "تصريح ترامب بأن إيران قادرة على تدمير لوس أنجلوس وسان دييغو لو امتلكت نوويًا، وتحليل دوافعه الانتخابية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        0,
+        2
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تقييم أداء مجلس السلام في غزة",
+      "event": "تقييم أداء مجلس السلام المنبثق عن اتفاق غزة وأثره على الأمن والإعمار والتهجير وحقوق الفلسطينيين",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        8,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        17,
+        19,
+        20,
+        21
+      ],
+      "total_points": 11,
+      "fresh_points": 11,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تقرير الأمين العام حول الصحراء الغربية وقرار مجلس الأمن 2797",
+      "event": "تقرير الأمين العام للأمم المتحدة وقرار مجلس الأمن 2797 بشأن اعتماد الحكم الذاتي أساسًا للمفاوضات في قضية الصحراء الغربية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "قدرات الحوثيين العسكرية المدعومة إيرانيًا",
+      "event": "تقييم قدرات الحوثيين العسكرية (صواريخ، مسيّرات) ومصدرها الإيراني",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        40,
+        121
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "فضيحة الصناديق الاستثمارية التركية",
+      "event": "فضيحة التلاعب بأسعار الأسهم والصناديق الاستثمارية في تركيا وتداعياتها السياسية والقضائية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        64,
+        65,
+        66,
+        67,
+        69,
+        70,
+        130,
+        131,
+        132,
+        135,
+        136
+      ],
+      "total_points": 11,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "قلق الأمريكيين من مراكز البيانات الضخمة",
+      "event": "تنامي قلق الناخبين الأمريكيين من مراكز البيانات الضخمة واستهلاكها للموارد",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        93,
+        94
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "هجمات المستوطنين وتوسع الاستيطان بالضفة",
+      "event": "تصعيد هجمات المستوطنين وتوسع السيطرة الاستيطانية على أراضي الضفة الغربية منذ أكتوبر 2023",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        95,
+        97,
+        101
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "أحكام قضائية دولية ضد الاحتلال وقادته",
+      "event": "حكم محكمة العدل الدولية بعدم قانونية الاحتلال ومذكرات اعتقال الجنايات الدولية ضد نتنياهو وغالانت",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        98,
+        99
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "اعتقال فريق تحرير منصة ما تصدقش في مصر",
+      "event": "اعتقال السلطات المصرية ستة من أعضاء فريق تحرير منصة ما تصدقش ضد الأخبار الكاذبة واتهامهم بالإرهاب",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "ذكرى السابع من أكتوبر في الإعلام الإسرائيلي",
+      "event": "استذكار الإعلام الإسرائيلي للذكرى الثالثة لأحداث السابع من أكتوبر وتأملات شخصية من المشاركين",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "قتلى فلسطينيون بعد وقف إطلاق النار",
+      "event": "إحصاء عدد الشهداء الفلسطينيين منذ إعلان وقف إطلاق النار في أكتوبر الماضي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        9,
+        18
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "احتجاجات الطلاب وتعليمات الأمن",
+      "event": "تعامل الحكومة مع احتجاجات الطلاب عبر تعليمات الأمن ومنصة الحوار وميزانية التعليم",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        29,
+        30,
+        31,
+        32
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "انضمام أوزجور أوزل والجدل الحزبي",
+      "event": "الجدل داخل المعارضة التركية حول انضمام أوزجور أوزل لحزب الشعب الجمهوري وانقسام المعارضة",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        43,
+        44
+      ],
+      "total_points": 2,
+      "fresh_points": 1,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تحليل نمط التصويت في إسطنبول",
+      "event": "تحليل الميول الانتخابية الأيديولوجية في إسطنبول/إزمير وتوقعات فوز حزب العدالة والتنمية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        45,
+        47
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "خطاب أردوغان حول الأداء الاقتصادي التركي",
+      "event": "إعلان أردوغان مؤشرات اقتصادية (صادرات، تضخم، بطالة) في خطابه",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        50,
+        51,
+        55
+      ],
+      "total_points": 3,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "الأزمة الاقتصادية والنفسية في تركيا",
+      "event": "تحليل الأزمة الاقتصادية الشاملة في تركيا وتداعياتها النفسية والاجتماعية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        57,
+        58,
+        59
+      ],
+      "total_points": 3,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "إحصاء ضحايا حرب غزة منذ 7 أكتوبر",
+      "event": "تحديث عدد القتلى في غزة والقتلى الإسرائيليين منذ هجوم 7 أكتوبر 2023",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        71,
+        72
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تأثير هجوم 7 أكتوبر على إسرائيل ووثائق حماس",
+      "event": "تحليل تأثير هجوم 7 أكتوبر على إسرائيل وتوقعات حماس المسبقة بناء على وثائق عُثر عليها",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        74,
+        75
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "شهادات أهالي نيتيف هأسرا بعد الحرب",
+      "event": "شهادات سكان نيتيف هأسرا حول استمرار التهديد وإعادة بناء مجتمعهم بعد هجوم 7 أكتوبر",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "All Israel News"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "كتاب عاموس هاريل عن فشل 7 أكتوبر",
+      "event": "صدور كتاب عاموس هاريل الذي يوثق فشل الاستخبارات الإسرائيلية قبيل هجوم 7 أكتوبر",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "Haaretz"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        85,
+        86,
+        87,
+        88,
+        90
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    }
+  ]
+}
