@@ -4531,6 +4531,9 @@ def test_reel_structure_guards() -> None:
             "close_issue": review.close_issue, "write": ya._write_one_topic,
             "yp_photo": yp._photo_candidates, "ex_news_ok": youtube_extract.news_photo_available,
             "find_images": imagesearch.find_images, "repo": os.environ.get("GITHUB_REPOSITORY")}
+    # كتابة السيناريو (R2) خارج نطاق اختبار الهيكل: تُعزل لتبقى مسودة الريل awaiting_script كما ثبّتها R1
+    real["write_reel_script"] = publish_mod._write_reel_script
+    publish_mod._write_reel_script = lambda *a, **k: None
     review.create_issue = fake_create_issue
     review.ensure_labels = lambda: None
     review.comment = lambda n, t: comments.append(t)
@@ -4756,6 +4759,7 @@ def test_reel_structure_guards() -> None:
         publish_mod.cmd_add_formats(7002, tick(s2g, "addfmt:article", tg), cfg_on, client=None)
         check("g167: تكرار «أضف مقالًا» لا يعيد الكتابة", writes["n"] == 1, writes)
     finally:
+        publish_mod._write_reel_script = real["write_reel_script"]
         review.create_issue = real["create_issue"]
         review.ensure_labels = real["ensure_labels"]
         review.comment = real["comment"]
@@ -4798,3 +4802,334 @@ def test_reel_structure_guards() -> None:
           got["status"] == "published" and len(out["published"]) == 1 and not reel_calls,
           (got["status"], out["published"]))
     check("g168: publish_as_reel لا يُكتب", "publish_as_reel" not in got, list(got))
+
+
+def test_reel_script_guards() -> None:
+    """كاتب سيناريو الريل وعرضه في المرحلة 2 وقراءته ومروره بالمحرر (Issue #1338، R2، g169–g180).
+    نداء النموذج مزيَّف ويُعدّ (reel_script._create)، والمحرر وتدقيق الأسماء يُلتقَط مدخلهما؛ باقي الأنبوب
+    (التحقق، العرض، publish.main) حقيقي."""
+    import json
+    import re
+    import sys
+    from types import SimpleNamespace
+
+    from src import names_audit, review
+    from src import publish as publish_mod
+    from src import reel_editor, reel_script
+    from src import youtube_article as ya
+    from src import youtube_publish as yp
+    from tests.helpers import tick_marker
+
+    def cfg_with(enabled: bool):
+        c = load_config()
+        c.setdefault("reel", {})["enabled"] = enabled
+        return c
+
+    cfg, cfg_off = cfg_with(True), cfg_with(False)
+    T = cfg.path("reel.texts")
+    D = "2099-11-02"
+    HE40 = " ".join(["שלום"] * 40)
+    AR20 = " ".join(["كلمة"] * 20)
+
+    def pt(i, speaker, ts, quote, channel="الجزيرة"):
+        return {"video_id": f"v{i}", "bloc": "arabic", "channel": channel, "speaker": speaker,
+                "statement": f"قول {i}", "quote_arabic": f"اقتباس عربي {i}", "quote_original": quote,
+                "type": "fact", "video_title": f"فيديو {i}", "video_url": f"https://youtube.com/watch?v=v{i}",
+                "timestamp": ts, "video_published": "2099-10-30"}
+
+    pa = pt(1, "إسحاق بريك", 100, HE40, "CNN Türk")
+    pb = pt(2, "ليلى حداد", 200, "five words only in quote")
+    pc = pt(3, "سامر النجار", 300, AR20)
+    pd = pt(4, "رامي خوري", None, "no timestamp quote here")
+    pe = pt(5, "محلل عسكري", 400, "unnamed analyst quote here")
+    pf = pt(6, "فارع المسلمي", 500, "unresolved name quote here")
+    points = [pa, pb, pc, pd, pe, pf]
+    unresolved = [{"arabic": "فارع المسلمي", "latin": "Farea", "reason": "x"}]
+
+    # ── g169) استبعاد: بلا timestamp، متحدث غير مسمّى، اسم في name_unresolved ──
+    valid = reel_script.valid_clips(points, unresolved, cfg)
+    check("g169: الصالحة ثلاث فقط (بلا timestamp ولا «محلل عسكري» ولا اسم غير محسوم)",
+          [c["speaker_name"] for c in valid] == ["إسحاق بريك", "ليلى حداد", "سامر النجار"],
+          [c["speaker_name"] for c in valid])
+    check("g169: المقطع يحمل رابطًا وقناة معروضة ولغة ومعرّفًا ستّ عشريًا",
+          all(c["video_url"] and c["channel_display"] and c["language"] and re.fullmatch(r"[0-9a-f]+", c["point_id"])
+              for c in valid), valid[:1])
+    check("g169: لغة الاقتباس تُكتشف (غير عربي للأول، عربي للثالث)",
+          valid[0]["language"] != "ar" and valid[2]["language"] == "ar", [c["language"] for c in valid])
+
+    # ── g171) نافذة المقطع ──
+    s40, e40 = reel_script.clip_window(pa, cfg)
+    s5, e5 = reel_script.clip_window(pb, cfg)
+    check("g171: 40 كلمة ← 15 ثانية، وبدايته timestamp − 1",
+          round(e40 - s40, 1) == 15 and s40 == 99, (s40, e40))
+    check("g171: 5 كلمات ← 6 ثوانٍ (الحد الأدنى)", round(e5 - s5, 1) == 6, (s5, e5))
+    check("g171: نافذة الصالحة هي نفسها", (valid[0]["start"], valid[0]["end"]) == (s40, e40))
+
+    # ═════ بيئة الكتابة: النموذج مزيَّف ويُعدّ ═════
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    calls: list[dict] = []
+    queue: list[dict] = []
+    a_id, b_id, c_id = (valid[0]["point_id"], valid[1]["point_id"], valid[2]["point_id"])
+    narr1 = " ".join(f"س{i}" for i in range(36))
+    narr2 = " ".join(f"ص{i}" for i in range(36))
+
+    def good_scenes():
+        return [{"kind": "cold_open_clip", "point_id": a_id},
+                {"kind": "title_card", "text": "عنوان الشاشة"},
+                {"kind": "clip", "point_id": b_id},
+                {"kind": "narration", "text": narr1},
+                {"kind": "clip", "point_id": c_id},
+                {"kind": "narration", "text": narr2},
+                {"kind": "question", "text": "ما رأيك؟"},
+                {"kind": "outro"}]
+
+    def fake_create(client, **kw):
+        calls.append(kw)
+        data = queue.pop(0) if queue else {"title": "عنوان الشاشة", "question": "ما رأيك؟", "scenes": good_scenes()}
+        block = SimpleNamespace(type="tool_use", name="report_reel_script", input=data)
+        return SimpleNamespace(content=[block], stop_reason="tool_use",
+                               usage=SimpleNamespace(input_tokens=1, output_tokens=1))
+
+    audits: list[dict] = []
+    edits: list[dict] = []
+    real = {"create": reel_script._create, "audit": names_audit.run, "hl": ya.generate_headlines,
+            "ed_create": reel_editor._create}
+
+    def fake_audit(draft, sources, c):
+        audits.append({"title": draft["arabic"]["post_title"], "body": draft["arabic"]["post_body"],
+                       "sources": list(sources)})
+        return {}
+
+    def fake_ed_create(client, **kw):
+        edits.append(kw)
+        block = SimpleNamespace(type="tool_use", name="report_review", input={"notes": []})
+        return SimpleNamespace(content=[block], usage=SimpleNamespace(server_tool_use=None))
+
+    reel_script._create = fake_create
+    names_audit.run = fake_audit
+    ya.generate_headlines = lambda *a, **k: (["هل يتغير الموقف؟", "عنوان ب", "عنوان ج"], None, None)
+    reel_editor._create = fake_ed_create
+
+    def new_draft(i="e1e1e1e1e1e1", **extra):
+        d = yp.build_reel_draft({"id": "aaaa1111bbbb", "title": "موضوع الريل", "layer": "a", "blocs": ["arabic"],
+                                 "channels": ["الجزيرة"], "agreement": "agreement", "event": "حدث"}, D, cfg)
+        d["id"] = i
+        d.update(extra)
+        return d
+
+    def reset_drafts():
+        shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+        DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+    topic = {"id": "aaaa1111bbbb", "title": "موضوع الريل", "event": "حدث الموضوع"}
+    try:
+        # ── g170) مقطع صالح واحد ← لا نداء، failed بالسبب، تعليق ──
+        d170 = new_draft()
+        out = reel_script.write_for_draft(d170, topic, [pa, pd, pe, pf], "", unresolved, cfg)
+        check("g170: لا نداء نموذج", not calls, len(calls))
+        check("g170: script_status failed وسبب «لا مقاطع كافية»",
+              d170["script_status"] == "failed" and "لا مقاطع كافية" in d170["script_error"]
+              and out["status"] == "failed", d170.get("script_error"))
+        store.save_draft(d170)
+        cm: list[str] = []
+        real_comment = review.comment
+        review.comment = lambda n, t: cm.append(t)
+        try:
+            publish_mod._report_reel_script(d170, 9100, cfg)
+        finally:
+            review.comment = real_comment
+        check("g170: تعليق على القضية بالسبب", len(cm) == 1 and "لا مقاطع كافية" in cm[0], cm)
+
+        # ── g174) تناوب الراوي ──
+        reset_drafts()
+        check("g174: أول ريل ← female", reel_script.next_narrator(cfg, "zzzz") == "female")
+        store.save_draft(new_draft("a0a0a0a0a0a0", script={"narrator": "female", "scenes": []},
+                                   script_status="ready", created_at="2099-01-01T00:00:00+00:00"))
+        check("g174: آخر ريل female ← male", reel_script.next_narrator(cfg, "zzzz") == "male")
+        path_old = store.load_draft("a0a0a0a0a0a0")[0]
+        store.update_draft(path_old, script={"narrator": "male", "scenes": []})
+        check("g174: آخر ريل male ← female", reel_script.next_narrator(cfg, "zzzz") == "female")
+        store.update_draft(path_old, script={"narrator": "female", "scenes": []})
+
+        # ── g172) سيناريو صحيح ──
+        d172 = new_draft()
+        out = reel_script.write_for_draft(d172, topic, points, "نص مقال الموضوع", unresolved, cfg)
+        sc = d172.get("script") or {}
+        kinds = [s["kind"] for s in sc.get("scenes", [])]
+        check("g172: نداء واحد وscript_status ready",
+              len(calls) == 1 and d172["script_status"] == "ready" and out["status"] == "ready", out)
+        check("g172: الترتيب الإلزامي للمشاهد",
+              kinds == ["cold_open_clip", "title_card", "clip", "narration", "clip", "narration", "question",
+                        "outro"], kinds)
+        est = reel_script.estimate_seconds(sc, cfg)
+        check("g172: المدة المقدَّرة بين 60 و120", 60 <= est <= 120, est)
+        check("g174: الراوي male بعد ريل female محفوظ", sc.get("narrator") == "male", sc.get("narrator"))
+        cold = sc["scenes"][0]
+        check("g172: المقطع مملوء بالكود من النقطة (رابط/نافذة/متحدث/قناة/ترجمة)",
+              cold["video_url"] == pa["video_url"] and cold["start"] == s40 and cold["end"] == e40
+              and cold["speaker_name"] == "إسحاق بريك" and cold["channel_display"]
+              and cold["quote_arabic"] == pa["quote_arabic"] and cold["language"] != "ar", cold)
+        check("g172: العناوين الثلاثة في headlines والشاشة title مستقل",
+              d172["headlines"] == ["هل يتغير الموقف؟", "عنوان ب", "عنوان ج"] and sc["title"] == "عنوان الشاشة")
+        prompt = json.dumps(calls[0].get("messages"), ensure_ascii=False)
+        check("g172: مدخل النموذج: النص ومعرّفات الصالحة وتاريخ الفيديو وجنس الراوي، لا غير الصالحة",
+              "نص مقال الموضوع" in prompt and a_id in prompt and "2099-10-30" in prompt and "male" in prompt
+              and "محلل عسكري" not in prompt and "فارع المسلمي" not in prompt)
+        check("g172: لا temperature ويُستعمل نموذج المقال",
+              "temperature" not in calls[0] and calls[0]["model"] == cfg.path("youtube.article.model"))
+
+        # ── g175) names_audit على السيناريو، والمحرر يستقبل المقاطع بتواريخها ──
+        check("g175: names_audit مرّ على نص السيناريو كله ومصدره اقتباسات النقاط الأصلية",
+              len(audits) == 1 and "عنوان الشاشة" in audits[0]["title"] and narr1 in audits[0]["body"]
+              and HE40 in audits[0]["sources"], audits)
+        msg = json.dumps(edits[0]["messages"], ensure_ascii=False) if edits else ""
+        check("g175: المحرر بمُكيِّف reel: مقاطع بتواريخها وسطور القراءة فقط",
+              len(edits) == 1 and "2099-10-30" in msg and pa["video_url"] in msg and a_id in msg, msg[:300])
+        check("g175: editor_review محفوظ على المسودة", "editor_review" in d172, list(d172))
+        check("g175: مسار reel في editor.paths", cfg.path("editor.paths.reel") is True)
+
+        # ── g173) مقطع ليس من الصالحة، أو ترتيب خاطئ ← إعادة واحدة بالسبب ثم failed ──
+        calls.clear()
+        bad_scenes = good_scenes()
+        bad_scenes[2] = {"kind": "clip", "point_id": "ffffffffffff"}
+        wrong_order = list(reversed(good_scenes()))
+        queue[:] = [{"title": "ع", "question": "س؟", "scenes": bad_scenes},
+                    {"title": "ع", "question": "س؟", "scenes": wrong_order}]
+        d173 = new_draft("e2e2e2e2e2e2")
+        reel_script.write_for_draft(d173, topic, points, "", unresolved, cfg)
+        retry_msg = json.dumps(calls[1]["messages"], ensure_ascii=False) if len(calls) > 1 else ""
+        check("g173: نداءان بالضبط (إعادة واحدة) ثم failed",
+              len(calls) == 2 and d173["script_status"] == "failed", (len(calls), d173.get("script_status")))
+        check("g173: الإعادة تذكر سبب الرفض الأول", "ffffffffffff" in retry_msg, retry_msg[-300:])
+        check("g173: السبب النهائي (الترتيب) محفوظ ولا script",
+              "الترتيب" in d173["script_error"] and not d173.get("script"), d173.get("script_error"))
+        calls.clear()
+        queue[:] = [{"title": "ع", "question": "س؟", "scenes": bad_scenes},
+                    {"title": "ع", "question": "س؟", "scenes": good_scenes()}]
+        d173b = new_draft("e3e3e3e3e3e3")
+        reel_script.write_for_draft(d173b, topic, points, "", unresolved, cfg)
+        check("g173: الإعادة الناجحة تُقبل (نداءان وready)", len(calls) == 2 and d173b["script_status"] == "ready")
+        short = good_scenes()
+        short[3]["text"] = "قصير"
+        short[5]["text"] = "قصير"
+        queue[:] = [{"title": "ع", "question": "س؟", "scenes": short}] * 2
+        d173c = new_draft("e4e4e4e4e4e4")
+        reel_script.write_for_draft(d173c, topic, points, "", unresolved, cfg)
+        check("g173: مدة تحت 60 ← failed بسبب المدة",
+              d173c["script_status"] == "failed" and "المدة" in d173c["script_error"], d173c.get("script_error"))
+
+        # ═════ المرحلة 2: العرض والقراءة ═════
+        reset_drafts()
+        queue.clear()
+        rd = new_draft("c1c1c1c1c1c1")
+        reel_script.write_for_draft(rd, topic, points, "", unresolved, cfg)
+        store.save_draft(rd)
+        reel_id = rd["id"]
+
+        # ── g176) العرض ──
+        s2 = yp.build_review_body([store.load_draft(reel_id)[1]], "u/r", "main", cfg)
+        check("g176: جدول زمني بمقطع يبدأ [0:00 ورابط الفيديو &t=",
+              "[0:00–0:15] 🎥 مقطع" in s2 and "https://youtube.com/watch?v=v1&t=99" in s2, s2[:1500])
+        check("g176: المقطع: الاسم · الصفة · القناة · «الاقتباس»",
+              "إسحاق بريك" in s2 and "«" + pa["quote_arabic"] + "»" in s2
+              and rd["script"]["scenes"][0]["channel_display"] in s2)
+        i_blk = s2.find(f"<!-- reelscript:{reel_id} -->")
+        blk = s2[i_blk:s2.find("```", s2.find("```text", i_blk) + 7)] if i_blk >= 0 else ""
+        check("g176: كتلة ```text قابلة للتعديل بسطر لكل [n] للعنوان والراوي والسؤال",
+              "```text" in blk and "[2] عنوان الشاشة" in blk and f"[4] {narr1}" in blk
+              and "[7] ما رأيك؟" in blk and "[1]" not in blk and "[3]" not in blk, blk)
+        check("g176: عناوين hl: الثلاثة، والعنوان وجنس الراوي والمدة المقدَّرة",
+              all(f"<!-- hl:{reel_id}:{k} -->" in s2 for k in range(3)) and "موضوع الريل" in s2
+              and T["narrator_" + rd["script"]["narrator"]] in s2 and "ث" in s2)
+        check("g176: خيارا go1 وgo3 فقط، ونص go3 من config",
+              f"<!-- go:go1:{reel_id} -->" in s2 and f"<!-- go:go3:{reel_id} -->" in s2
+              and f"go:go2:{reel_id}" not in s2 and f"go:publish:{reel_id}" not in s2
+              and T["go3"] in s2, s2[-600:])
+        failed = new_draft("c2c2c2c2c2c2", script_status="failed", script_error="لا مقاطع كافية: 1 من 2")
+        s2f = yp.build_review_body([failed], "u/r", "main", cfg)
+        check("g176: المسودة الفاشلة تُعرض بسببها مع go1 وحده",
+              "لا مقاطع كافية: 1 من 2" in s2f and f"go:go1:{failed['id']}" in s2f
+              and f"go:go3:{failed['id']}" not in s2f and "reelscript" not in s2f)
+
+        def run_main(body, number):
+            msgs: list[str] = []
+            saved = (publish_mod.fetch_issue, review.comment, review.close_issue, review.remove_label, sys.argv)
+            real_load = publish_mod.load_config
+            publish_mod.load_config = lambda *a, **k: cfg     # main يقرأ الإعداد بنفسه: المفتاح مشغَّل هنا
+            publish_mod.fetch_issue = lambda n: {"number": n, "body": body,
+                                                 "labels": [{"name": "youtube-review"}, {"name": "approved"}]}
+            review.comment = lambda n, t: msgs.append(t)
+            review.close_issue = lambda n: None
+            review.remove_label = lambda n, lbl: None
+            sys.argv = ["publish", "--issue", str(number), "--skip-urgent"]
+            try:
+                publish_mod.main()
+            finally:
+                (publish_mod.fetch_issue, review.comment, review.close_issue, review.remove_label, sys.argv) = saved
+                publish_mod.load_config = real_load
+            return msgs
+
+        # ── g177) تعديل سطر الراوي [4] ← يُطبَّق على المشهد 4 ──
+        edited = s2.replace(f"[4] {narr1}", "[4] نص راوٍ معدَّل بيد المراجع")
+        edited = edited.replace("[7] ما رأيك؟", "[7] سؤال معدَّل؟")
+        run1 = run_main(tick_marker(edited, f"go:go3:{reel_id}"), 9101)
+        got = store.load_draft(reel_id)[1]
+        scenes = got["script"]["scenes"]
+        check("g177: المشهد 4 صار النص المعدَّل والسؤال والباقي كما هو",
+              scenes[3]["text"] == "نص راوٍ معدَّل بيد المراجع" and scenes[6]["text"] == "سؤال معدَّل؟"
+              and got["script"]["question"] == "سؤال معدَّل؟" and scenes[5]["text"] == narr2, scenes[3])
+
+        # ── g178) go3 للريل ← approved_script وrender_status queued وتعليق ولا نشر ──
+        check("g178: status approved_script وrender_status queued",
+              got["status"] == "approved_script" and got["render_status"] == "queued", got["status"])
+        check("g178: التعليق «سيُركَّب الريل حين تُفعَّل مرحلة التركيب»",
+              any("سيُركَّب الريل حين تُفعَّل مرحلة التركيب" in m for m in run1), run1)
+        check("g178: لا نشر ولا بطاقة",
+              not got.get("image") and not got.get("published_at") and got["status"] != "published")
+
+        # سطر محذوف أو رقم غير موجود ← يُتجاهل مع تنبيه
+        store.update_draft(store.load_draft(reel_id)[0], status="pending", remove=["render_status"])
+        odd = s2.replace(f"[4] {narr1}\n", "").replace("[2] عنوان الشاشة",
+                                                       "[99] لا مشهد بهذا الرقم\n[2] عنوان الشاشة")
+        run2 = run_main(tick_marker(odd, f"go:go3:{reel_id}"), 9102)
+        got2 = store.load_draft(reel_id)[1]
+        check("g177: سطر محذوف/رقم غير موجود ← يُتجاهل مع تنبيه ويبقى النص",
+              got2["script"]["scenes"][3]["text"] == "نص راوٍ معدَّل بيد المراجع"
+              and any("99" in m and "[4]" in m for m in run2), run2)
+
+        # ترك الريل بلا تعليم = رفضه
+        store.update_draft(store.load_draft(reel_id)[0], status="pending", remove=["render_status"])
+        run_main(s2, 9103)
+        check("g178: ريل بلا تعليم ← مرفوض", store.load_draft(reel_id)[1]["status"] == "rejected")
+
+        # ── g179) ملاحظة high غير مطبَّقة ← go3 لا يُنفَّذ ويبقى pending مع تعليق البوابة ──
+        gd = new_draft("c3c3c3c3c3c3")
+        reel_script.write_for_draft(gd, topic, points, "", unresolved, cfg)
+        gd["editor_review"] = {"applied": [], "error": None, "speaker_unresolved": [],
+                               "notes": [{"category": "other", "severity": "high", "location": "body",
+                                          "original": "", "fix": "", "note": "ادّعاء بلا سند", "sources": []}]}
+        store.save_draft(gd)
+        s2g = yp.build_review_body([store.load_draft(gd["id"])[1]], "u/r", "main", cfg)
+        run3 = run_main(tick_marker(s2g, f"go:go3:{gd['id']}"), 9104)
+        gg = store.load_draft(gd["id"])[1]
+        check("g179: go3 لم يُنفَّذ والبند pending في المرحلة 2",
+              gg["status"] == "pending" and "render_status" not in gg, gg["status"])
+        check("g179: تعليق البوابة بسبب المحرر", any("ادّعاء بلا سند" in m for m in run3), run3)
+        check("g179: قسم المحرر في العرض", "ادّعاء بلا سند" in s2g)
+
+        # ── g180) reel.enabled=false ← لا شيء من هذا ──
+        off_body = yp.build_review_body([store.load_draft(reel_id)[1]], "u/r", "main", cfg_off)
+        check("g180: المفتاح مطفأ ← لا جدول ولا كتلة تعديل",
+              "reelscript" not in off_body and "🎥 مقطع" not in off_body, off_body[:300])
+        calls.clear()
+        d180 = new_draft("c4c4c4c4c4c4")
+        res = publish_mod._write_reel_script(d180, D, cfg_off, None, None)
+        check("g180: لا كتابة سيناريو ولا نداء",
+              not calls and res is None and d180.get("script_status") == "awaiting_script",
+              (len(calls), d180.get("script_status")))
+    finally:
+        reel_script._create = real["create"]
+        names_audit.run = real["audit"]
+        ya.generate_headlines = real["hl"]
+        reel_editor._create = real["ed_create"]
