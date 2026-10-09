@@ -2078,8 +2078,10 @@ def _classify(point_text: str, pool: list[dict], cfg,
         tool_choice={"type": "tool", "name": "classify_sources"},
         system=CLASSIFY_SYSTEM + (CIRCULATING_NOTE if circulating else ""),
         messages=[{"role": "user",
-                   "content": article._support_call_content(
-                       pool, f"النقطة: {point_text}\nتاريخ اليوم: {today.isoformat()}")}],
+                   # تاريخ اليوم كتلة ثالثة لا جزءًا من نص النقطة: النص المتغير هو الكتلة الثانية وحدها
+                   # وتقرؤها المزيَّفات والأدوات بعد «النقطة:» فلا يلتصق به شيء
+                   "content": article._support_call_content(pool, f"النقطة: {point_text}")
+                   + [{"type": "text", "text": f"تاريخ اليوم: {today.isoformat()}"}]}],
         max_tokens=max_tokens, cap=cap,
         warn_label="تصنيف مواقف المصادر",
         truncation_message=(f"تصنيف مواقف المصادر مقطوع لـ{len(pool)} وثيقة — "
