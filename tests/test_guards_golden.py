@@ -5481,13 +5481,37 @@ def test_reel_probe_r3a_guards() -> None:
     got = reel_clips.locate_quote("بداية الاقتباس هنا ثم يكتمل في السطر التالي", two, 22, cfg)
     check("g181-ب: اقتباس عابر لسطرين ← found وstart = بداية السطر الأول",
           got["status"] == "found" and got["start"] == 20, got)
-    check("g181-ب: end بعد بداية السطر الأخير", got["end"] > 24, got)
+    check("g181-ب: end = طابع السطر الأخير (قرار #1347 للدرجة full)", got["end"] == 24, got)
 
     got = reel_clips.locate_quote("عبارة غير موجودة إطلاقًا في النص كله", segs, 50, cfg)
     check("g181-ج: غائب ← missing", got["status"] == "missing", got)
     amb = [(5, "واحد اثنان ثلاثة اولى"), (80, "واحد اثنان ثلاثة ثانية")]
     got = reel_clips.locate_quote("واحد اثنان ثلاثة مختلف تمامًا بعد ذلك", amb, 50, cfg)
     check("g181-ج: 3 كلمات بموضعين ← ambiguous", got["status"] == "ambiguous" and got["matches"] == 2, got)
+
+    # نص يوتيوب أسطر قصيرة والاقتباس يمتد عدّة أسطر (الدرجات full/8/5/3)
+    yt = [(10, "the situation is"), (30, "the situation on the ground"),
+          (60, "we have to understand that the"), (62, "situation on the ground is very"),
+          (65, "different from what they told us")]
+    q = "the situation on the ground is very different from what they told us"
+    got = reel_clips.locate_quote(q, yt, 63, cfg)
+    check("g181-ط: اقتباس عبر 3 أسطر ← found وstart=60 وlevel=full",
+          got["status"] == "found" and got["start"] == 60 and got.get("level") == "full", got)
+    five = [(100, "one two"), (103, "three four"), (106, "five six"), (109, "seven eight"), (112, "nine ten"),
+            (130, "unrelated")]
+    got = reel_clips.locate_quote("one two three four five six seven eight nine ten", five, 100, cfg)
+    check("g181-ي: اقتباس عبر 5 أسطر ← full وend = طابع السطر الخامس",
+          got["status"] == "found" and got.get("level") == "full" and got["end"] == 112, got)
+    two8 = [(10, "alpha beta gamma delta epsilon zeta eta theta iota"), (50, "filler words here"),
+            (90, "alpha beta gamma delta epsilon zeta eta theta kappa")]
+    got = reel_clips.locate_quote("alpha beta gamma delta epsilon zeta eta theta changed", two8, 88, cfg)
+    check("g181-ك: آخر كلمة معدّلة وأول 8 بموضعين ← found بالأقرب وlevel=8",
+          got["status"] == "found" and got["start"] == 90 and got.get("level") == "8", got)
+    two5 = [(10, "alpha beta gamma delta epsilon one"), (50, "filler"),
+            (90, "alpha beta gamma delta epsilon two")]
+    got = reel_clips.locate_quote("alpha beta gamma delta epsilon zeta eta theta", two5, 88, cfg)
+    check("g181-ل: أول 5 بموضعين ولا أطول ← ambiguous",
+          got["status"] == "ambiguous" and got["matches"] == 2, got)
 
     tmp = Path(tempfile.mkdtemp())
     try:

@@ -40,53 +40,68 @@ def _speech_rate(cfg) -> float:
 
 
 def locate_quote(quote, segments, near, cfg=None) -> dict:
-    """{start, end, matches, status}: found | ambiguous | missing.
+    """{start, end, matches, status, level}: found | ambiguous | missing.
 
-    المطابقة بـ`_normalize_for_anchor` نفسها على نافذة سطرين متتاليين كي يُوجد الاقتباس العابر
-    لحد السطر، وكل المواضع تُجمع (لا أولها) ويُختار الأقرب إلى near. التراجع إلى أول 3 كلمات
-    لا يُقبل إلا بموضع واحد لأن ثلاث كلمات تتكرر كثيرًا فتُنسب إلى لحظة خاطئة بلا إنذار."""
+    أسطر يوتيوب قصيرة (2–4 ثوانٍ) والاقتباس يمتد عدّة أسطر، فيُبنى نص واحد موصول من كل الأسطر
+    المطبَّعة بـ`_normalize_for_anchor` نفسها مع خريطة موضع ← سطر، ويُبحث بالتدرّج: الاقتباس كاملًا
+    ثم أول 8 كلمات (كل المواضع، الأقرب إلى near) ثم 5 ثم 3 (موضع واحد فقط وإلا ambiguous)،
+    لأن الكلمات القليلة تتكرر فتُنسب إلى لحظة خاطئة بلا إنذار."""
+    from bisect import bisect_right
     from src import youtube_extract
     norm = youtube_extract._normalize_for_anchor
-    empty = {"start": None, "end": None, "matches": 0, "status": "missing"}
+    empty = {"start": None, "end": None, "matches": 0, "status": "missing", "level": None}
     if not isinstance(quote, str) or not segments:
         return empty
     target = norm(quote)
-    if not target:
+    words = target.split()
+    if not words:
         return empty
     lines = [norm(text) for _, text in segments]
+    starts, parts, pos = [], [], 0
+    for ln in lines:
+        starts.append(pos)
+        parts.append(ln)
+        pos += len(ln) + 1
+    joined = " ".join(parts)
     rate = _speech_rate(cfg)
 
-    def positions(needle: str) -> list[tuple[int, int]]:
-        """(فهرس سطر البداية، فهرس سطر النهاية) لكل موضع يبدأ داخل سطره."""
-        found = []
-        for i, cur in enumerate(lines):
-            joined = cur + (" " + lines[i + 1] if i + 1 < len(lines) else "")
-            idx = joined.find(needle)
-            while idx != -1 and idx < max(len(cur), 1):
-                end_i = i if idx + len(needle) <= len(cur) else i + 1
-                found.append((i, end_i))
-                break  # موضع واحد لكل سطر بداية يكفي
+    def positions(needle_words: list[str]) -> list[int]:
+        needle = " ".join(needle_words)
+        found, idx = [], joined.find(needle)
+        while idx != -1:
+            before_ok = idx == 0 or joined[idx - 1] == " "
+            after = idx + len(needle)
+            if before_ok and (after == len(joined) or joined[after] == " "):
+                found.append(idx)
+            idx = joined.find(needle, idx + 1)
         return found
 
-    def build(hits: list[tuple[int, int]], words: int, status: str) -> dict:
-        if near is not None:
-            hits = sorted(hits, key=lambda h: abs(segments[h[0]][0] - near))
-        first, last = hits[0]
-        end = segments[last][0] + words / rate
-        return {"start": segments[first][0], "end": round(end, 1),
-                "matches": len(hits), "status": status}
+    def line_of(offset: int) -> int:
+        return max(bisect_right(starts, offset) - 1, 0)
 
-    hits = positions(target)
+    def build(hits: list[int], level: str, status: str) -> dict:
+        if near is not None:
+            hits = sorted(hits, key=lambda h: abs(segments[line_of(h)][0] - near))
+        first = line_of(hits[0])
+        if level == "full":
+            end = float(segments[line_of(hits[0] + len(target) - 1)][0])
+        else:
+            end = round(segments[first][0] + len(words) / rate, 1)
+        return {"start": segments[first][0], "end": end, "matches": len(hits),
+                "status": status, "level": level}
+
+    hits = positions(words)
     if hits:
-        return build(hits, len(target.split()), "found")
-    words = target.split()
-    if len(words) > 3:
-        short = positions(" ".join(words[:3]))
-        if len(short) == 1:
-            return build(short, len(words), "found")
-        if short:
-            out = build(short, len(words), "ambiguous")
-            return out
+        return build(hits, "full", "found")
+    for n, level, multi_ok in ((8, "8", True), (5, "5", False), (3, "3", False)):
+        if len(words) <= n:
+            continue
+        hits = positions(words[:n])
+        if not hits:
+            continue
+        if multi_ok or len(hits) == 1:
+            return build(hits, level, "found")
+        return build(hits, level, "ambiguous")
     return empty
 
 

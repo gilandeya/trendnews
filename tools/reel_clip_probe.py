@@ -195,7 +195,7 @@ def run_probe(points: list[dict], seconds: int, out_dir: Path, *,
         else:
             start, end = old_start, old_end
         meta = {"accuracy": old["status"], "offset_seconds": old["offset_seconds"],
-                "new_status": loc["status"], "new_matches": loc["matches"], "start_delta": delta,
+                "new_status": loc["status"], "new_level": loc.get("level"), "new_matches": loc["matches"], "start_delta": delta,
                 "transcript_language": tr_info if segments is not None else None}
         meta["language_mismatch"] = bool(segments is not None and tr_info and p.get("language")
                                          and tr_info != p.get("language"))
@@ -263,8 +263,8 @@ def _mb(n: float) -> str:
 def render_table(attempts: list[dict], s: dict, tts_rows: list[dict] | None = None,
                  rate_line: str | None = None) -> str:
     lines = ["| # | القناة | اللغة | الجودة | النتيجة | الدرجة | الزمن ث | الحجم MB | المنقول MB "
-             "| النافذة (قديم) | الحالة الجديدة | الفارق ث | لغة النص |",
-             "|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
+             "| النافذة (قديم) | الحالة الجديدة | المطابقة | الفارق ث | لغة النص |",
+             "|---|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
     for a in attempts:
         acc = a["accuracy"]
         if acc == "outside":
@@ -276,7 +276,7 @@ def render_table(attempts: list[dict], s: dict, tts_rows: list[dict] | None = No
             tr_lang += f" (≠{a['language']})"
         lines.append(f"| {a['index']} | {a['channel']} | {a['language']} | {a['quality']} | "
                      f"{result} | {a.get('tier') or '—'} | {a['seconds']} | {_mb(a['size_bytes'])} | "
-                     f"{_mb(a['proxy_bytes'])} | {acc} | {a.get('new_status', '—')} | {delta} | {tr_lang} |")
+                     f"{_mb(a['proxy_bytes'])} | {acc} | {a.get('new_status', '—')} | {a.get('new_level') or '—'} | {delta} | {tr_lang} |")
     ratio = "—" if s["exact_window_ratio"] is None else f"{s['exact_window_ratio']:.0%}"
     lines += ["",
               f"**المجموع:** نجاح {s['succeeded']} · فشل {s['failed']} من {s['attempts']} — "
