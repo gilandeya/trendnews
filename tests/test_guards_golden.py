@@ -3495,3 +3495,88 @@ def test_names_placeholder_guards() -> None:
     finally:
         store.load_config = real_load_config
         _clear()
+
+
+def test_names_audit_1322_guards() -> None:
+    """حارس المحاذاة وتوحيد رسوم الأصل الواحد في تدقيق الأسماء (Issue #1322، g123–g127)؛ الشواهد
+    نسخ حرفية من drafts/2026-10-09 في tests/fixtures/names_audit/1322/. الكشف وBrave مزيَّفان فقط."""
+    import json
+    from pathlib import Path
+
+    from src import names_audit
+
+    cfg = load_config()
+    fx = Path(__file__).parent / "fixtures" / "names_audit" / "1322"
+    for name in ("9e692088a75a", "9cc353cd1d4d", "8ec39e3d9456"):
+        check(f"g123: الشاهد {name} موجود", (fx / f"{name}.json").exists())
+
+    def hit(name: str) -> list:
+        return [names_audit_hit("https://www.aljazeera.net/a", name),
+                names_audit_hit("https://www.alaraby.co.uk/b", name)]
+
+    def simple(text: str) -> dict:
+        d = names_audit_draft()
+        d["arabic"].update({"analysis": text, "post_body": text, "post_title": "عنوان", "image_headline": "عنوان"})
+        d["caption"], d["headlines"] = text, [text]
+        return d
+
+    # g123) مرشّح ليس رسمًا للاسم نفسه ← يُرفض والنص بلا تغيير وتنبيه
+    d = simple("قال سلتشوك بايراقتاروغلو إن الأمر كذلك ورئيس أركان الجيش التركي حاضر.")
+    before = d["caption"]
+    item = names_audit_doubt("سلتشوك بايراقتاروغلو", "Selçuk Bayraktaroğlu", ["أركان الجيش التركي"])
+    with NamesAuditRig([item], {"أركان الجيش التركي": hit("أركان الجيش التركي")}) as rig:
+        names_audit.run(d, ["Selçuk Bayraktaroğlu spoke."], cfg)
+        exists = names_audit.VERIFIED_FILE.exists()
+    check("g123: النص بلا تغيير", d["caption"] == before, d["caption"])
+    check("g123: تنبيه «اسم لم يُحسم» بسبب الحارس",
+          any(w.startswith("اسم لم يُحسم: سلتشوك") and "ليس رسمًا آخر للاسم نفسه" in w for w in d.get("warnings", [])),
+          d.get("warnings"))
+    check("g123: لا بحث ولا حفظ", rig.http_calls == [] and not exists, rig.http_calls)
+
+    # g124) المحاذاة: الاسم الأول يبقى، والملتصق يطابق المفصول
+    check("g124: «عباس عراقتشي» + «عراقجي» = «عباس عراقجي»",
+          names_audit.align_spelling("عباس عراقتشي", "عراقجي", cfg) == "عباس عراقجي")
+    check("g124: «هكان فيدان» + «هاكان فيدان» مقبول",
+          names_audit.align_spelling("هكان فيدان", "هاكان فيدان", cfg) == "هاكان فيدان")
+    check("g124: «إماموغلو» + «إمام أوغلو» مقبول",
+          names_audit.align_spelling("إماموغلو", "إمام أوغلو", cfg) == "إمام أوغلو")
+    d = simple("تحدث عباس عراقتشي أمس.")
+    item = names_audit_doubt("عباس عراقتشي", "Abbas Araghchi", ["عراقجي"])
+    with NamesAuditRig([item], {"عراقجي": hit("عراقجي")}) as rig:
+        names_audit.run(d, ["Abbas Araghchi spoke."], cfg)
+    check("g124: عبر التدقيق يبقى الاسم الأول", d["caption"] == "تحدث عباس عراقجي أمس.", d["caption"])
+
+    # g125) رسمان للأصل نفسه في المسودة: اعتماد أحدهما يوحّد الآخر
+    d = simple("قال حقان فيدان إن الحدث مهم. وأضاف هكان فيدان أيضًا.")
+    items = [names_audit_doubt("هكان فيدان", "Hakan Fidan", ["هاكان فيدان"]),
+             dict(arabic="حقان فيدان", latin="Hakan Fidan", gender="male", verdict="sound")]
+    with NamesAuditRig(items, {"هاكان فيدان": hit("هاكان فيدان")}) as rig:
+        names_audit.run(d, ["Hakan Fidan said it."], cfg)
+    check("g125: لا يبقى «حقان» ولا «هكان»", "حقان" not in d["caption"] and "هكان" not in d["caption"]
+          and d["caption"].count("هاكان فيدان") == 2, d["caption"])
+
+    # g126) مدخل محفوظ يفشل الحارس ← يُتجاهل: لا تصحيح ولا names_note
+    d = simple("قال سلتشوك بايراقتاروغلو شيئًا.")
+    before = d["caption"]
+    entry = dict(latin="Selçuk Bayraktaroğlu", arabic="أركان الجيش التركي", sources=["x.net"],
+                 source_kind="بحث", at="2026-10-08T00:00:00+00:00", wrong=["سلتشوك بايراقتاروغلو"])
+    with NamesAuditRig([], {}) as rig:
+        names_audit.save_verified(dict(entries={"selcuk bayraktaroglu": entry}))
+        names_audit.run(d, ["Selçuk Bayraktaroğlu said."], cfg)
+        note = names_audit.names_note(["Selçuk Bayraktaroğlu said."], cfg)
+    check("g126: لا تصحيح من المدخل الفاسد", d["caption"] == before, d["caption"])
+    check("g126: لا names_note", note == "", note)
+
+    # g127) المعجم اليدوي عبر store.save_draft الفعلي
+    real_load = store.load_config
+    try:
+        store.load_config = lambda path=None: cfg
+        d = simple("التقى أكرم إماموغلو بالوزير عباس عراقتشي.")
+        d.update({"id": "g127000000001", "status": "pending", "origin": "news"})
+        d["arabic"]["body"] = d["arabic"]["post_title"] = d["caption"]
+        p = store.save_draft(d)
+        got = json.loads(p.read_text(encoding="utf-8"))["arabic"]["body"]
+    finally:
+        store.load_config = real_load
+    check("g127: «إماموغلو» ← «إمام أوغلو» و«عراقتشي» ← «عراقجي»",
+          got == "التقى أكرم إمام أوغلو بالوزير عباس عراقجي.", got)

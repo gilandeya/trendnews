@@ -115,6 +115,56 @@ def _fold_ar(text: str) -> str:
     return _TASHKEEL_RE.sub("", text or "")
 
 
+_NOT_SAME_NAME = "المرشّح ليس رسمًا آخر للاسم نفسه"
+
+
+def _fold_word(text: str) -> str:
+    """طيّ الفروق الإملائية الشائعة قبل قياس المسافة: أ/إ/آ←ا، ى←ي، ة←ه (والتشكيل)."""
+    t = _fold_ar(text)
+    for a in "أإآ":
+        t = t.replace(a, "ا")
+    return t.replace("ى", "ي").replace("ة", "ه")
+
+
+def _close(a: str, b: str, max_change: float) -> bool:
+    from .names_learn import _levenshtein
+    fa, fb = _fold_word(a), _fold_word(b)
+    longest = max(len(fa), len(fb))
+    return longest > 0 and _levenshtein(fa, fb) / longest <= max_change
+
+
+def align_spelling(current: str, candidate: str, cfg: Any) -> str | None:
+    """حارس المحاذاة (#1322): يعيد النص الذي يحلّ محلّ `current` عند اعتماد `candidate`، أو None إن لم
+    يكن المرشّح رسمًا آخر للاسم نفسه. الشكل الملتصق بلا مسافات يُقارَن أولًا («إماموغلو» ↔ «إمام أوغلو»)؛
+    وإلا تُحاذى كلمة بكلمة: كلمة مرشّحة بلا نظير حالي ترفض المرشّح كله (فلا «أركان الجيش التركي» بدل
+    اسم شخص)، وكلمة حالية بلا نظير تبقى مكانها (فيصير «عباس عراقتشي» + «عراقجي» = «عباس عراقجي»)."""
+    limit = float(_acfg(cfg).get("max_word_change", 0.4))
+    cur, cand = current.split(), candidate.split()
+    if not cur or not cand:
+        return None
+    if _close("".join(cur), "".join(cand), limit):
+        return candidate
+    out, used = list(cur), set()
+    for cw in cand:
+        best = None
+        for i, w in enumerate(cur):
+            if i in used or not _close(w, cw, limit):
+                continue
+            if best is None or abs(len(w) - len(cw)) < abs(len(cur[best]) - len(cw)):
+                best = i
+        if best is None:
+            return None
+        used.add(best)
+        out[best] = cw
+    return " ".join(out)
+
+
+def _usable(entries: dict, cfg: Any) -> dict:
+    """المعتمد المحفوظ الذي يجتاز الحارس مع كل رسم خاطئ سُجّل له؛ ما يفشل يُتجاهل عند القراءة (#1322)."""
+    return {k: e for k, e in entries.items()
+            if all(align_spelling(w, e.get("arabic", ""), cfg) is not None for w in e.get("wrong") or [])}
+
+
 def load_verified() -> dict:
     try:
         data = json.loads(VERIFIED_FILE.read_text(encoding="utf-8"))
@@ -153,9 +203,9 @@ def _in_latin(folded_text: str, key: str) -> bool:
     return bool(key) and f" {key} " in f" {folded_text} "
 
 
-def preferred_names(texts: list[str]) -> list[dict]:
+def preferred_names(texts: list[str], cfg: Any = None) -> list[dict]:
     """المحفوظ من الأسماء الذي يرد أصله اللاتيني في نصوص المصدر."""
-    entries = load_verified()["entries"]
+    entries = _usable(load_verified()["entries"], cfg)
     if not entries:
         return []
     folded = _fold_latin(" ".join(t for t in texts if t))
@@ -167,7 +217,7 @@ def names_note(texts: list[str], cfg: Any) -> str:
     فارغة إن لم يرد شيء — فلا أثر على أي برومبت لا يحوي اسمًا محفوظًا."""
     if not _enabled(cfg):
         return ""
-    found = preferred_names(texts)
+    found = preferred_names(texts, cfg)
     if not found:
         return ""
     return ("- اكتب هذه الأسماء هكذا (رسم معتمد، بالعربية وحدها بلا لاتينية بين قوسين): "
@@ -375,6 +425,11 @@ def _resolve(item: dict, cfg: Any) -> dict:
     cands = cands[: int(acfg.get("max_candidates", 3))]
     if not cands:
         return {"status": "unresolved", "reason": "لا رسم مرشّح من الكاشف"}
+    # الحارس قبل أي بحث: مرشّح ليس رسمًا آخر للاسم نفسه لا يستحق طلب Brave
+    aligned = {c: align_spelling(arabic, c, cfg) for c in cands}
+    cands = [c for c in cands if aligned[c] is not None]
+    if not cands:
+        return {"status": "unresolved", "reason": _NOT_SAME_NAME}
 
     found: dict[str, list[str]] = {}
     for cand in cands:
@@ -398,7 +453,7 @@ def _resolve(item: dict, cfg: Any) -> dict:
     current = _arabic_domains(arabic, results, cfg)
     if len(current) >= len(found[best]):
         return {"status": "unresolved", "reason": "الرسم الحالي موثَّق في نطاقات عربية بالقدر نفسه"}
-    return {"status": "verified", "spelling": best, "domains": found[best]}
+    return {"status": "verified", "spelling": aligned[best], "domains": found[best]}
 
 
 def _arabic_slots(draft: dict):
@@ -464,20 +519,21 @@ def audit_draft(draft: dict, source_texts: list[str], cfg: Any) -> dict:
     if not texts or not _all_text(draft).strip():
         return report
 
-    verified = load_verified()["entries"]
+    verified = _usable(load_verified()["entries"], cfg)
     folded_src = _fold_latin(" ".join(texts))
 
     # قبل أي نداء: رسم خاطئ عرفناه سلفًا لاسم ورد أصله في المصدر يُستبدل مباشرة
     for key, e in verified.items():
         if _in_latin(folded_src, key):
             for w in e.get("wrong") or []:
-                _correct(draft, report, w, e["arabic"], e.get("latin", ""),
+                _correct(draft, report, w, align_spelling(w, e["arabic"], cfg) or e["arabic"], e.get("latin", ""),
                          e.get("sources") or [], e.get("source_kind", SEARCH_KIND))
 
     detected = _detect(texts, _all_text(draft), cfg)
     canon = _canonical_names(cfg)
     budget = int(_acfg(cfg).get("max_names", 4))
     searched = 0
+    chosen: dict[str, tuple[str, list[str]]] = {}   # الأصل اللاتيني المطوي ← (الرسم المعتمد، نطاقاته)
     for item in detected:
         arabic = str(item.get("arabic") or "").strip()
         latin = str(item.get("latin") or "").strip()
@@ -486,11 +542,13 @@ def audit_draft(draft: dict, source_texts: list[str], cfg: Any) -> dict:
         lk = _fold_latin(latin)
         entry = verified.get(lk) if lk else None
         if entry:
-            if entry["arabic"] != arabic:
-                if _correct(draft, report, arabic, entry["arabic"], latin,
+            right = align_spelling(arabic, entry["arabic"], cfg)
+            if right and right != arabic:
+                if _correct(draft, report, arabic, right, latin,
                             entry.get("sources") or [], entry.get("source_kind", SEARCH_KIND)):
-                    arabic = entry["arabic"]
+                    arabic = right
             report["names"].append({"arabic": arabic, "latin": latin})
+            chosen.setdefault(lk, (arabic, entry.get("sources") or []))
             continue
         report["names"].append({"arabic": arabic, "latin": latin})
         if item.get("verdict") != "doubtful" or arabic in canon:
@@ -505,9 +563,22 @@ def audit_draft(draft: dict, source_texts: list[str], cfg: Any) -> dict:
             if _correct(draft, report, arabic, res["spelling"], latin, res["domains"], SEARCH_KIND):
                 _remember(latin, res["spelling"], arabic, res["domains"], SEARCH_KIND)
                 report["names"][-1]["arabic"] = res["spelling"]
+                if lk:
+                    chosen[lk] = (res["spelling"], res["domains"])
                 continue
             res = {"status": "unresolved", "reason": "الرسم غير موجود في الحقول المصحَّحة"}
         report["unresolved"].append({"arabic": arabic, "latin": latin, "reason": res["reason"]})
+
+    # توحيد رسوم الأصل اللاتيني الواحد (#1322): الكاشف قد يبلغ عن رسمين لشخص واحد في المسودة نفسها،
+    # فاعتماد أحدهما لا يكفي — يُستبدل به كل رسم آخر لأصله شرط أن يجتاز الحارس
+    for r in report["names"]:
+        pick = chosen.get(_fold_latin(r.get("latin") or ""))
+        if not pick or r["arabic"] == pick[0] or r["arabic"] not in _all_text(draft):
+            continue
+        right = align_spelling(r["arabic"], pick[0], cfg)
+        if right and right != r["arabic"] and _correct(draft, report, r["arabic"], right, r["latin"],
+                                                         pick[1], SEARCH_KIND):
+            r["arabic"] = right
 
     for u in report["unresolved"]:
         _warn(draft, f"اسم لم يُحسم: {u['arabic']} ({u['latin'] or 'بلا أصل لاتيني'}) — {u['reason']}")
