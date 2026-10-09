@@ -20,7 +20,7 @@ import os
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from . import decisions, feedback, headlines as headlines_mod, names_audit, names_learn, preselect, press_events, store
+from . import decisions, feedback, headlines as headlines_mod, names_audit, names_learn, news_editor, preselect, press_events, store
 from .config import DRAFTS_DIR, load_config
 from .rank import apply_region_diversity, rank
 from .screen import screen
@@ -532,6 +532,8 @@ def main() -> int:
                 filled[art.bucket] = filled.get(art.bucket, 0) + 1
             # تدقيق أسماء الأشخاص بدليل بحث (Issue #1252): بعد الكتابة وقبل الحفظ، لا يكسر الحفظ أبدًا
             names_audit.run(draft, [art.title, art.summary or "", *[d["text"] for d in docs]], cfg)
+            # المحرر الأخير (Issue #1334): مسار بلا preselect
+            news_editor.run(draft, art, docs, cfg, "news")
             store.save_draft(draft)
             store.remember(history, art.title, art.link, written["post_title"],
                            region=art.region, score=art.score, bucket=art.bucket)

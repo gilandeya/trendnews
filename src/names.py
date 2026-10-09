@@ -27,7 +27,7 @@ log = logging.getLogger(__name__)
 
 # الحقول العربية الوحيدة التي يمسّها التوحيد -- لا شيء غيرها، خصوصًا لا
 # source ولا link ولا image ولا id ولا publishers (Issue #1070).
-_ARABIC_TEXT_FIELDS = ("post_title", "body", "caption")
+_ARABIC_TEXT_FIELDS = ("post_title", "post_body", "body", "caption", "image_headline", "analysis")
 
 # ملف الأسماء المتعلَّمة -- src/names_learn.py هو من يكتبه (المصدر الوحيد
 # للحقيقة لمنطق التعلّم)، ويستورد هذا الثابت من هنا (names_learn يستورد
