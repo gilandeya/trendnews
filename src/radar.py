@@ -16,7 +16,7 @@ import os
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from . import cards, merge, names_audit, preselect, review, store
+from . import cards, editor, merge, names_audit, news_editor, preselect, review, store
 from .config import STATE_DIR, load_config
 from .extract import gather as gather_texts
 from .rank import rank
@@ -194,6 +194,8 @@ def build_draft(art, cfg, urgent: bool = True,
     # تدقيق أسماء الأشخاص بدليل بحث (Issue #1252): مشترك مع request.py (يمرّ من build_draft)؛
     # يسبق النشر التلقائي كذلك فيبلغه المنشور بلا مراجعة
     names_audit.run(draft, [art.title, art.summary or "", *[d["text"] for d in docs]], cfg)
+    # المحرر الأخير (Issue #1334): قبل النشر التلقائي الذي لا مراجعة بعده
+    news_editor.run(draft, art, docs, cfg, "breaking")
     draft.update(extra or {})
     return draft
 
@@ -303,6 +305,17 @@ def main() -> int:
         draft = build_draft(art, cfg, docs=docs)
         if not draft:
             continue
+
+        # صمام المحرر الأخير (Issue #1334): النشر التلقائي بلا مراجعة بشرية، فما وجد فيه المحرر ما يمنع
+        # النشر (أو تعطّلت مراجعته) يرجع إلى المراجعة العادية: المسودة تبقى pending ولا يُزاد العدّاد
+        if ok:
+            reasons = editor.blocking_reasons(draft, cfg)
+            er = draft.get("editor_review") or {}
+            if er.get("error") and cfg.path("editor.block_auto_publish_on_error", True):
+                reasons.append(cfg.path("editor.texts.error").format(error=er["error"]))
+            if reasons:
+                ok, why = False, "المحرر: " + "؛ ".join(reasons)
+                log.info("🧑‍⚖️ منع المحرر النشر التلقائي: %s", why[:120])
 
         draft["auto_publish_decision"] = why
         store.save_draft(draft)

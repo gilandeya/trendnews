@@ -1269,14 +1269,15 @@ def main() -> int:
     ids = [i for i in review.all_draft_ids(body)
            if actions.get(i) in ("publish", "go3")]
     go3_ids = {i for i in ids if actions[i] == "go3"}
-    # المحرر الأخير (Issue #1326): publish من المرحلة 2 لمسودة تحليل فيها ما يمنعه ← go3 (بطاقة ومراجعة
-    # أخيرة بعين بشرية). التعليق من المسار العادي وحده فالمسارين يقرآن الحدث نفسه.
-    from . import youtube_editor
+    # المحرر الأخير (Issue #1326، عُمِّم في #1334): publish من المرحلة 2 لمسودة تحمل editor_review وفيها ما يمنعه
+    # (أيًّا كان أصلها) ← go3 (بطاقة ومراجعة أخيرة بعين بشرية). التعليق من المسار العادي وحده فالمسارين يقرآن
+    # الحدث نفسه.
+    from . import editor as editor_mod
     for did in [i for i in ids if actions[i] == "publish"]:
         found = store.load_draft(did)
-        if not found or store.origin_of(found[1]) != "analysis":
+        if not found or not found[1].get("editor_review"):
             continue
-        gated, why = youtube_editor.gate_action("publish", found[1], 2, cfg)
+        gated, why = editor_mod.gate_action("publish", found[1], 2, cfg)
         if gated == "go3":
             go3_ids.add(did)
             actions[did] = "go3"

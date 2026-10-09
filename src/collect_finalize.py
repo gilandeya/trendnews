@@ -27,7 +27,8 @@ import logging
 import os
 from datetime import datetime, timezone
 
-from . import cards, decisions, feedback, headlines as headlines_mod, names_audit, preselect, review, stages, store
+from . import (cards, decisions, editor, feedback, headlines as headlines_mod, names_audit, news_editor, preselect,
+               review, stages, store)
 from .extract import gather as gather_texts
 from .writer import WriteFailure, build_caption, write_arabic
 
@@ -197,6 +198,8 @@ def _write_selected(cid: str, history: list[dict], dupe_threshold: float,
         draft["source"]["related_publishers"] = related_publishers
     # تدقيق أسماء الأشخاص بدليل بحث (Issue #1252): بعد الكتابة وقبل الحفظ، لا يكسر الحفظ أبدًا
     names_audit.run(draft, [art.title, art.summary or "", *[d["text"] for d in docs]], cfg)
+    # المحرر الأخير (Issue #1334): بعد تدقيق الأسماء وقبل الحفظ؛ المسودة المعادة returned خرجت قبل هذا الموضع فلا تمرّ ثانية
+    news_editor.run(draft, art, docs, cfg, "news")
     store.save_draft(draft)
     store.remember(history, art.title, art.link, written["post_title"],
                    region=art.region, score=art.score, bucket=art.bucket)
@@ -400,12 +403,29 @@ def finalize(issue_number: int, body: str, cfg) -> int:
     # تُصَغ مسودة" — فلا يُخلَط مع فشل الصياغة التقني (write_errors).
     now_drafts: list[dict] = []
     now_written = 0
+    review_drafts: list[dict] = []
+    gated_count = 0
+
+    def _gated_to_review(draft: dict, action: str) -> bool:
+        nonlocal gated_count
+        """المحرر الأخير (Issue #1334): publish/go3 لمسودة فيها ما يمنع النشر ← go2 (مراجعة أولية) مع تعليق."""
+        gated, why = editor.gate_action(action, draft, 1, cfg)
+        if gated == action:
+            return False
+        review.comment(issue_number, cfg.path("editor.texts.gate_comment").format(
+            title=draft["arabic"]["post_title"][:60], reason=why))
+        review_drafts.append(draft)
+        gated_count += 1       # عُدّت في now_written/card_written أيضًا فتُطرح من المجموع
+        return True
+
     for cid in now_ids:
         draft = _write_selected(cid, history, dupe_threshold, acfg, rcfg, cfg,
                                 write_errors, issue_number)
         if not draft:
             continue
         now_written += 1
+        if _gated_to_review(draft, "publish"):
+            continue
         found = store.load_draft(draft["id"])
         if not found:
             continue
@@ -425,7 +445,6 @@ def finalize(issue_number: int, body: str, cfg) -> int:
                  now_draft["arabic"]["post_title"][:60])
     now_published_ids = [d["id"] for d in now_drafts]
 
-    review_drafts: list[dict] = []
     for cid in draft_ids:
         draft = _write_selected(cid, history, dupe_threshold, acfg, rcfg, cfg,
                                 write_errors, issue_number)
@@ -448,6 +467,8 @@ def finalize(issue_number: int, body: str, cfg) -> int:
         if not draft:
             continue
         card_written += 1
+        if _gated_to_review(draft, "go3"):
+            continue
         found = store.load_draft(draft["id"])
         if not found:
             continue
@@ -472,7 +493,7 @@ def finalize(issue_number: int, body: str, cfg) -> int:
     unselected = [i for i in all_ids if i not in selected_ids]
     _record_rejections(unselected, issue_number)
 
-    total_drafted = now_written + len(review_drafts) + card_written
+    total_drafted = now_written + len(review_drafts) + card_written - gated_count
     log.info("صيغت %d مسودة من %d معتمد (فشلت الصياغة لـ %d) — %d غير مختار سُجّل في feedback",
              total_drafted, len(selected_ids), len(selected_ids) - total_drafted,
              len(unselected))

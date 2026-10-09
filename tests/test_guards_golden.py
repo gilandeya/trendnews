@@ -3856,8 +3856,8 @@ def test_editor_shared_1327_guards() -> None:
               and "sibling_duplicate" in editor.NEVER_APPLIED)
         check("g141: كتلة editor عامة (paths وsystem_extra وstale_days 14) وyoutube.review.editor حُذفت",
               cfg.path("youtube.review.editor") is None
-              and cfg.path("editor.paths") == {"analysis": True, "important": True, "news": False,
-                                               "breaking": False}
+              and cfg.path("editor.paths") == {"analysis": True, "important": True, "news": True,
+                                               "breaking": True}
               and cfg.path("editor.stale_days") == 14 and cfg.path("editor.monthly_search_cap") == 300
               and set(cfg.path("editor.system_extra")) >= {"analysis", "important"}
               and "قارن تاريخ كل حدث بتاريخ اليوم المعطى" in cfg.path("editor.system"),
@@ -4122,3 +4122,315 @@ def test_editor_shared_1327_guards() -> None:
     finally:
         editor._create, ye._create = saved_create, saved_ye
         reset_counter()
+
+
+def test_editor_news_breaking_guards() -> None:
+    """Issue #1334 (D2): g151–g158 — المحرر الأخير لمسارَي الأخبار والرادار وبواباتهما وتوحيد الأسماء في كل الحقول.
+    الشاهد نسخة حرفية من drafts/2026-10-08/eadf3a9544e6.json في tests/fixtures/editor/news/. نموذج المحرر مزيَّف
+    (editor._create)؛ والكود الحقيقي هو الذي يبني الرسالة ويطبّق ويبوّب."""
+    import copy
+    import json
+    import os
+    import sys
+    import tempfile
+    from datetime import datetime, timezone
+    from pathlib import Path
+
+    from src import (collect_finalize, editor, facebook, headlines as headlines_mod, preselect, radar, review,
+                     youtube_publish)
+    from src import publish as publish_mod
+    from src.config import STATE_DIR
+    from src.sources import Article
+    from tests.helpers import editor_response, tick_marker
+
+    cfg = load_config()
+    root = Path(__file__).resolve().parent
+    real = json.loads((root / "fixtures/editor/news/eadf3a9544e6.json").read_text(encoding="utf-8"))
+    src = real["source"]
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    TASS = "https://tass.com/world/2199053"
+    HIGH = {"category": "other", "severity": "high", "location": "body", "original": "", "fix": "",
+            "note": "العنوان يخالف المتن", "sources": []}
+    sent: list = []
+    counter = [0]
+
+    def fake_editor(notes=None, fail: bool = False):
+        def fake(client, **kw):
+            sent.append(kw)
+            if fail:
+                raise RuntimeError("عطل نداء المحرر")
+            return editor_response(list(notes or []))
+        return fake
+
+    def make_art() -> Article:
+        """خبر الشاهد برابط فريد لكل حالة (المعرّف من الرابط) كي لا تتداخل الحالات."""
+        counter[0] += 1
+        link = f"{src['link']}?case={counter[0]}"
+        art = Article(title=src["title"], link=link, summary="Houthi missile hits Riyadh airport.",
+                      source_name="Mehr News", region="ir", weight=1.0,
+                      published=datetime(2026, 10, 8, 8, 0, tzinfo=timezone.utc), bucket="serious",
+                      publisher="Mehr News", score=40.0, group_sources=9)
+        art.cluster_sources = list(src["publishers"])
+        art.cluster_members = [{"name": "Mehr News", "link": link}, {"name": "TASS", "link": TASS}]
+        return art
+
+    def docs_for(art) -> list[dict]:
+        return [{"name": "Mehr News", "link": art.link, "text": "Yemen strikes Riyadh airport with a missile."},
+                {"name": "TASS", "link": TASS, "text": "Houthis said they hit King Khalid airport."}]
+
+    def written_for() -> dict:
+        w = copy.deepcopy(real["arabic"])
+        w["post_title"] = real["headlines"][0]
+        w["image_headline"] = w["post_title"]     # عنوان البطاقة يتبع العنوان المختار
+        return w
+
+    class Run:
+        pass
+
+    def finalize_case(marker: str, notes=None, fail: bool = False, run_cfg=None) -> Run:
+        art = make_art()
+        cand = preselect.build_candidate(art)
+        store.save_candidate(cand)
+        out = Run()
+        out.art, out.comments, out.dispatched, out.id = art, [], [], art.uid
+        written, docs = written_for(), docs_for(art)
+        heads = [written["post_title"], *real["headlines"][1:]]
+        names = ["write_arabic", "gather_texts"]
+        saved = [getattr(collect_finalize, n) for n in names]
+        saved_misc = (headlines_mod.headlines_for_post, publish_mod.cmd_burst, publish_mod.cmd_now,
+                      publish_mod.cmd_schedule, review.comment, review.close_issue, review.remove_label,
+                      review.ensure_labels, collect_finalize.cards.ensure, editor._create)
+        old_repo = os.environ.get("GITHUB_REPOSITORY")
+        collect_finalize.write_arabic = lambda a, c, previous_post=None, source_docs=None: copy.deepcopy(written)
+        collect_finalize.gather_texts = lambda members, limit=2: (docs, [])
+        headlines_mod.headlines_for_post = lambda *a, **k: (list(heads), None)
+
+        def record(ids, *a, **k):
+            out.dispatched.append(list(ids))
+            return 0
+
+        publish_mod.cmd_burst = publish_mod.cmd_now = publish_mod.cmd_schedule = record
+        review.comment = lambda n, text: out.comments.append(text)
+        review.close_issue = review.remove_label = lambda *a, **k: None
+        review.ensure_labels = lambda *a, **k: None
+        collect_finalize.cards.ensure = lambda path, draft, c, **kw: path
+        editor._create = fake_editor(notes, fail)
+        os.environ.pop("GITHUB_REPOSITORY", None)      # لا قضايا حقيقية
+        sent.clear()
+        try:
+            body = tick_marker(preselect.build_selection_issue_body([cand]), f"<!-- go:{marker}:{art.uid} -->")
+            out.code = collect_finalize.finalize(9000 + counter[0], body, run_cfg or cfg)
+        finally:
+            for n, v in zip(names, saved):
+                setattr(collect_finalize, n, v)
+            (headlines_mod.headlines_for_post, publish_mod.cmd_burst, publish_mod.cmd_now,
+             publish_mod.cmd_schedule, review.comment, review.close_issue, review.remove_label,
+             review.ensure_labels, collect_finalize.cards.ensure, editor._create) = saved_misc
+            if old_repo is not None:
+                os.environ["GITHUB_REPOSITORY"] = old_repo
+        found = store.load_draft(art.uid)
+        out.draft = found[1] if found else None
+        return out
+
+    saved_create = editor._create
+    try:
+        # g151) رسالة المحرر: ناشر كل مصدر وتاريخه وتاريخ اليوم؛ وإصلاح العنوان 1 يصل العناوين والتعليق والبطاقة
+        new_h = "الحوثيون يعلنون استهداف مطار الملك خالد بصاروخ باليستي"
+        fix = {"category": "headline_overclaims", "severity": "low", "location": "headline_1",
+               "original": real["headlines"][0], "fix": new_h, "note": "العنوان يبالغ", "sources": []}
+        r = finalize_case("go2", [fix])
+        msg = sent[0]["messages"][0]["content"] if sent else ""
+        check("g151: الرسالة فيها تاريخ اليوم والناشران وتاريخ كل مصدر (المعروف وغير المعروف)",
+              f"تاريخ اليوم: {today}" in msg and "Mehr News | " in msg and f"TASS | {TASS}" in msg
+              and "(نُشر: 2026-10-08)" in msg and "(تاريخ غير معروف)" in msg, msg[:400])
+        check("g151: الرسالة فيها عنوان الخبر الأصلي وملخصه ونص doc",
+              src["title"] in msg and "Houthi missile hits Riyadh airport." in msg
+              and "Houthis said they hit King Khalid airport." in msg)
+        d = r.draft or {}
+        check("g151: طُبّق الإصلاح على العناوين وعلى post_title وعلى caption وعلى عنوان البطاقة",
+              d.get("headlines", [""])[0] == new_h and d["arabic"]["post_title"] == new_h
+              and d["caption"].startswith(new_h) and d["arabic"]["image_headline"] == new_h
+              and d["reel_spec"]["headline"] == new_h, d.get("headlines"))
+        check("g151: editor_review محفوظ على المسودة وسطر ✏️ في عرض المراجعة",
+              len((d.get("editor_review") or {}).get("applied", [])) == 1
+              and "✏️ كان" in "\n".join(review.warnings_block(d)))
+
+        # g152) publish/go3 من قضية الترشيح مع ملاحظة high ← go2 مع التعليق؛ وgo2 بلا تغيير
+        for act in ("publish", "go3"):
+            r = finalize_case(act, [HIGH])
+            check(f"g152: {act} + ملاحظة high ← لا نشر ومسودة pending وتعليق «حُوِّل»",
+                  r.code == 0 and not r.dispatched and r.draft and r.draft["status"] == "pending"
+                  and any("حُوِّل" in c and "لأن المحرر وجد: العنوان يخالف المتن" in c for c in r.comments),
+                  (r.code, r.dispatched, r.comments))
+        r = finalize_case("go2", [HIGH])
+        check("g152: go2 بلا تغيير (لا تعليق تحويل)",
+              r.draft is not None and not any("حُوِّل" in c for c in r.comments), r.comments)
+        r = finalize_case("publish", [])
+        check("g152: publish بلا ملاحظات يمضي إلى النشر",
+              r.dispatched == [[r.id]] and not any("حُوِّل" in c for c in r.comments), (r.dispatched, r.comments))
+
+        # g153) publish من المرحلة 2 لمسودة خبر فيها ملاحظة high ← go3؛ ومسودة تحليل كما كانت
+        def put(base: dict, did: str, er=None) -> None:
+            dd = copy.deepcopy(base)
+            dd.update(id=did, status="pending")
+            for k in ("image", "facebook", "published_at"):
+                dd.pop(k, None)
+            if er is not None:
+                dd["editor_review"] = er
+            store.save_draft(dd)
+
+        ana = json.loads((root / "fixtures/analysis/1322/8ec39e3d9456.json").read_text(encoding="utf-8"))
+        put(real, "153a00000001", {"notes": [HIGH], "applied": []})
+        put(real, "153b00000002")
+        put(ana, "153c00000003", {"notes": [HIGH], "applied": []})
+        calls: dict = {"final": [], "burst": [], "yt": [], "comments": []}
+        saved53 = (publish_mod.fetch_issue, publish_mod.open_final_review, publish_mod.cmd_burst,
+                   publish_mod.cards.ensure, review.comment, youtube_publish.publish_ids, sys.argv)
+        stage2 = review.build_issue_body([store.load_draft(i)[1] for i in ("153a00000001", "153b00000002")],
+                                         "u/r", "main")
+        for i in ("153a00000001", "153b00000002"):
+            stage2 = tick_marker(stage2, f"<!-- go:publish:{i} -->")
+        ana_body = tick_marker(review.build_issue_body([store.load_draft("153c00000003")[1]], "u/r", "main"),
+                               "<!-- go:publish:153c00000003 -->")
+        box = {"body": stage2}
+        publish_mod.fetch_issue = lambda n: {"number": n, "body": box["body"],
+                                             "labels": [{"name": "pending-review"}, {"name": "approved"}]}
+        publish_mod.open_final_review = lambda issue, ids, c: calls["final"].append(sorted(ids))
+        publish_mod.cmd_burst = lambda ids, *a, **k: calls["burst"].append(list(ids)) or 0
+        publish_mod.cards.ensure = lambda path, draft, c, **kw: path
+        review.comment = lambda n, text: calls["comments"].append(text)
+
+        def fake_publish_ids(ids, *a, **k):
+            calls["yt"].append((list(ids), sorted(k.get("go3_ids") or [])))
+            return [], [], [], []
+
+        youtube_publish.publish_ids = fake_publish_ids
+        sys.argv = ["publish", "--issue", "93530", "--skip-urgent"]
+        try:
+            publish_mod.main()
+            box["body"] = ana_body
+            publish_mod.main()
+        finally:
+            (publish_mod.fetch_issue, publish_mod.open_final_review, publish_mod.cmd_burst,
+             publish_mod.cards.ensure, review.comment, youtube_publish.publish_ids, sys.argv) = saved53
+        check("g153: مسودة الخبر ذات editor_review high ← مرحلة 3 لا النشر، والعادية تُنشر",
+              calls["final"] == [["153a00000001"]] and calls["burst"] == [["153b00000002"]],
+              (calls["final"], calls["burst"]))
+        check("g153: تعليق «حُوِّل … لأن المحرر وجد» على القضية",
+              any("حُوِّل" in c and "العنوان يخالف المتن" in c for c in calls["comments"]), calls["comments"])
+        check("g153: مسودة التحليل كما كانت: تُمرَّر إلى publish_ids بخيار go3",
+              bool(calls["yt"]) and calls["yt"][-1][1] == ["153c00000003"], calls["yt"])
+
+        # الرادار: مستوفٍ للنشر التلقائي
+        def run_radar(notes=None, fail: bool = False, run_cfg=None) -> Run:
+            shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+            shutil.rmtree(STATE_DIR, ignore_errors=True)
+            DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+            rc = copy.deepcopy(run_cfg or cfg)
+            rc["radar"] = {**(rc.get("radar") or {}), "enabled": True, "auto_publish": True,
+                           "auto_publish_daily_limit": 3, "auto_publish_min_score": 0.0,
+                           "auto_publish_min_sources": 1, "preselect_fallback": False, "max_per_run": 1}
+            art = make_art()
+            out = Run()
+            out.art, out.published = art, []
+            summary = Path(tempfile.mkdtemp()) / "summary.md"
+            saved_r = (radar.scan, radar.write_arabic, radar.gather_texts, radar.merge.find_duplicate_event,
+                       radar.load_config, facebook.publish_photo, publish_mod.ROOT, editor._create, sys.argv)
+            old_env = {k: os.environ.get(k) for k in ("GITHUB_STEP_SUMMARY", "GITHUB_REPOSITORY")}
+            radar.scan = lambda c: [art]
+            radar.write_arabic = lambda a, c, retries=3, previous_post=None, source_docs=None: written_for()
+            radar.gather_texts = lambda members, limit=2: (docs_for(art), [])
+            radar.merge.find_duplicate_event = lambda title, recent, c: (True, None)
+            radar.load_config = lambda path=None: rc
+            publish_mod.ROOT = DRAFTS_DIR.parent
+
+            def fake_photo(image_path, caption, api_version, first_comment=None):
+                out.published.append(image_path)
+                return {"url": "https://fb.example/r", "id": "1"}
+
+            facebook.publish_photo = fake_photo
+            editor._create = fake_editor(notes, fail)
+            os.environ["GITHUB_STEP_SUMMARY"] = str(summary)
+            os.environ.pop("GITHUB_REPOSITORY", None)
+            sys.argv = ["radar"]
+            sent.clear()
+            try:
+                out.code = radar.main()
+            finally:
+                (radar.scan, radar.write_arabic, radar.gather_texts, radar.merge.find_duplicate_event,
+                 radar.load_config, publish_mod.ROOT, editor._create, sys.argv) = (
+                    saved_r[0], saved_r[1], saved_r[2], saved_r[3], saved_r[4], saved_r[6], saved_r[7], saved_r[8])
+                facebook.publish_photo = saved_r[5]
+                for k, v in old_env.items():
+                    if v is None:
+                        os.environ.pop(k, None)
+                    else:
+                        os.environ[k] = v
+            found = store.load_draft(art.uid)
+            out.draft = found[1] if found else None
+            out.counter = radar.auto_published_today(radar._load_state())
+            out.report = summary.read_text(encoding="utf-8") if summary.exists() else ""
+            return out
+
+        # g154) مستوفٍ + ملاحظة high ← لا نشر، pending، العدّاد بلا زيادة، وسطر التقرير فيه «المحرر:»
+        r = run_radar([HIGH])
+        check("g154: لا يُستدعى نشر والمسودة pending والعدّاد صفر",
+              r.code == 0 and not r.published and r.draft and r.draft["status"] == "pending"
+              and r.counter == 0, (r.code, r.published, r.draft and r.draft["status"], r.counter))
+        check("g154: التقرير «📋 بانتظار مراجعتك» والسبب «المحرر: …»",
+              "📋 بانتظار مراجعتك" in r.report and "المحرر: العنوان يخالف المتن" in r.report
+              and "نُشر تلقائيًا" not in r.report, r.report)
+        check("g154: قرار النشر التلقائي المحفوظ على المسودة يحمل السبب",
+              (r.draft or {}).get("auto_publish_decision", "").startswith("المحرر:"))
+
+        # g155) مستوفٍ + عطل في نداء المحرر ← لا نشر تلقائي بالسبب نفسه
+        r = run_radar(fail=True)
+        check("g155: عطل المحرر ← لا نشر والمسودة pending والعدّاد صفر وفي المسودة editor_review.error",
+              not r.published and r.draft and r.draft["status"] == "pending" and r.counter == 0
+              and (r.draft.get("editor_review") or {}).get("error"), (r.published, r.counter))
+        check("g155: سطر التقرير «المحرر: تعذّرت مراجعة المحرر»",
+              "📋 بانتظار مراجعتك" in r.report and "المحرر: تعذّرت مراجعة المحرر" in r.report, r.report)
+        cfg155 = copy.deepcopy(cfg)
+        cfg155["editor"]["block_auto_publish_on_error"] = False
+        r = run_radar(fail=True, run_cfg=cfg155)
+        check("g155: block_auto_publish_on_error=false ← يُنشر كما قبل D2", len(r.published) == 1, r.published)
+
+        # g156) مستوفٍ + محرر بلا ملاحظات ← يُنشر كما كان
+        r = run_radar([])
+        check("g156: يُنشر تلقائيًا مرة واحدة والعدّاد 1 والحالة published",
+              len(r.published) == 1 and r.counter == 1 and r.draft and r.draft["status"] == "published",
+              (r.published, r.counter))
+        check("g156: التقرير «نُشر تلقائيًا» ومراجعة المحرر محفوظة بلا ملاحظات",
+              "🚀 **نُشر تلقائيًا**" in r.report and (r.draft["editor_review"]["notes"] == []), r.report)
+        check("g156: نداء محرر واحد وفيه system_extra الخاص بالمسار",
+              len(sent) == 1 and "الخبر قصير: لا تقترح إطالة" in sent[0]["system"], len(sent))
+
+        # g157) paths.news = breaking = false ← لا نداء، والسلوك كما قبل D2
+        cfg157 = copy.deepcopy(cfg)
+        cfg157["editor"]["paths"]["news"] = cfg157["editor"]["paths"]["breaking"] = False
+        r = run_radar([HIGH], run_cfg=cfg157)
+        check("g157: الرادار — لا نداء للمحرر ويُنشر ولا editor_review",
+              not sent and len(r.published) == 1 and "editor_review" not in (r.draft or {}),
+              (len(sent), r.published))
+        r = finalize_case("publish", [HIGH], run_cfg=cfg157)
+        check("g157: الأخبار — لا نداء ولا تحويل وتمضي المسودة إلى النشر",
+              not sent and r.dispatched == [[r.id]] and not any("حُوِّل" in c for c in r.comments)
+              and "editor_review" not in (r.draft or {}), (len(sent), r.dispatched))
+
+        # g158) توحيد الأسماء في post_body وimage_headline وanalysis عبر store.save_draft الفعلي
+        d158 = {"id": "g158name0001", "status": "pending", "origin": "news",
+                "source": {"title": "t", "link": "https://x/158", "publisher": "p", "publishers": ["p"]},
+                "arabic": {"post_title": "عنوان", "category": "عالم", "urgent": False, "hashtags": [],
+                           "post_body": 'قال توماس "تومي" بيغوت إن الأمر انتهى.',
+                           "image_headline": "ترمب يردّ على بيغوت",
+                           "analysis": "ويرى ترمب أن الأمر انتهى."},
+                "caption": "عنوان", "headlines": ["عنوان"]}
+        store.save_draft(d158)
+        got = store.load_draft("g158name0001")[1]["arabic"]
+        check("g158: «توماس \"تومي\" بيغوت» ← «تومي بيغوت» في post_body",
+              "تومي بيغوت" in got["post_body"] and "توماس" not in got["post_body"], got["post_body"])
+        check("g158: «ترمب» ← «ترامب» في image_headline وفي analysis",
+              got["image_headline"] == "ترامب يردّ على بيغوت" and "ترامب" in got["analysis"]
+              and "ترمب" not in got["analysis"], (got["image_headline"], got["analysis"]))
+    finally:
+        editor._create = saved_create

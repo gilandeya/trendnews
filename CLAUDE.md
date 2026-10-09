@@ -172,8 +172,12 @@ These are enforced by convention, not tooling, so hold to them deliberately:
   `names.aliases` in `config.yaml` — no code change. Because `store.save_draft`/`update_draft` are
   the single application point every path already funnels through (the same reasoning as the
   `origin` field above), this needs no per-path wiring and no path can bypass it by construction.
-  It touches exactly five fields and nothing else — `arabic.post_title`, `arabic.body`,
-  `arabic.caption`, the top-level `caption`, and each string in `headlines` — never `source`,
+  It touches exactly these fields and nothing else (Issue #1334 widened the original five) —
+  `arabic.post_title`, `arabic.post_body`, `arabic.body`, `arabic.caption`, `arabic.image_headline`,
+  `arabic.analysis` (`names._ARABIC_TEXT_FIELDS`), the top-level `caption`, and each string in
+  `headlines`. Why widened: a «توماس "تومي" بيغوت» spelling survived in `post_body` of an «هام» draft
+  because `post_body` was not covered, and the card title is drawn from `image_headline`, so a name left
+  there shows on the published image — never `source`,
   `link`, `image`, `id`, or `publishers`; a replacement inside a link or an id would corrupt it,
   not fix it. Within one alias entry, the longest variant is substituted first, regardless of the
   order it's written in the config, so a shorter spelling contained in a longer one can't produce a
@@ -1556,6 +1560,23 @@ step (`article.wide_days`).
   الأرقام الهندية ← لاتينية في العنوان والمتن والعناوين (`normalize_digits`).
 - **سدّ ثغرة C1:** `names_audit._usable` يتجاهل المدخل المحفوظ بلا `wrong` إن اختلف عدد كلمات رسمه العربي عن أصله اللاتيني بأكثر من `names.audit.max_word_count_diff` (1).
   نبّه: «أركان الجيش التركي» (3 كلمات) مقابل «Selçuk Bayraktaroğlu» (2) فرقها 1 فقط، فالقاعدة بحرفها لا تُسقطه؛ اختبار g140 يستعمل مثالًا بفرق 2.
+
+- **الأخبار والرادار (Issue #1334، D2 — g151–g158 في `tests/test_guards_golden.py:test_editor_news_breaking_guards`، الشاهد
+  `tests/fixtures/editor/news/eadf3a9544e6.json`):** السبب أن الرادار ينشر حتى 3 منشورات يوميًا بلا مراجعة بشرية فلا صمام قبل النشر.
+  - **المُكيِّف `src/news_editor.py`** (باسمين `news`/`breaking` والآلة واحدة): الحقول `arabic.post_title/post_body` والعناوين؛ الكتابة تحدّث
+    `caption` و`arabic.image_headline` و`reel_spec.headline` بالاتساق. مصادر المحرر: عنوان الخبر الأصلي وملخصه ثم نصوص `docs` المقروءة،
+    لكلٍّ ناشره ورابطه وتاريخه (`Article.published` للرابط الرئيسي أو تاريخ عضو العنقود، وإلا «تاريخ غير معروف») وتاريخ اليوم. المخالفات =
+    `important_write.quote_violations(العنوان+المتن، نصوص المصادر)` وألّا يبقى بلا عناوين (استيراد `important_write` متأخر داخل الدالة
+    لحلقة الاستيراد مع `collect`). `news_editor.run(draft, art, docs, cfg, path)` لا يرفع أبدًا.
+  - **الربط** بعد `names_audit.run` وقبل `store.save_draft`: `collect_finalize._write_selected` (والمسودة المعادة `returned` تخرج قبله فلا تمرّ ثانية)
+    وفرع `collect.py` بلا preselect و`radar.build_draft` (ومنه `request.py`). `editor.paths` كلها `true`؛ `paths.news/breaking: false` ← لا نداء.
+    `editor.system_extra.news/breaking`: «الخبر قصير: لا تقترح إطالة …».
+  - **البوابات:** من قضية الترشيح (`collect_finalize.finalize`) publish/go3 لمسودة فيها `editor.blocking_reasons` ← go2 مع
+    `editor.texts.gate_comment` (تُحسب في `total_drafted` مرة واحدة). من المرحلة 2 (`publish.main`) صارت بوابة publish ← go3 لكل مسودة
+    تحمل `editor_review` أيًّا كان أصلها (كانت للتحليل وحده).
+  - **صمام الرادار (`radar.main`):** مسودة مستوفية للنشر التلقائي (`ok`) وفيها ما يمنع النشر، أو `editor_review.error` مع
+    `editor.block_auto_publish_on_error: true` ← `ok=False` وسببه «المحرر: <الأسباب>»؛ المسودة تبقى `pending` فتلتقطها قضية المراجعة،
+    وعدّاد `auto_published` لا يُزاد، والتقرير يذكر السبب في سطر «📋 بانتظار مراجعتك». غير المستوفية أصلًا بلا تغيير.
 
 ## ذاكرة الصحافة (Issue #1255) — `src/press_events.py`
 
