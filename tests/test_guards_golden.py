@@ -5229,3 +5229,158 @@ def test_reel_speaker_audit_guards() -> None:
         names_audit.run = real["audit"]
         ya.generate_headlines = real["hl"]
         reel_editor._create = real["ed"]
+
+
+def test_important_h7_guards() -> None:
+    """Issue #1345 (هام-7): الحالات الذهبية أ–ز على شاهد حقيقي (tests/fixtures/important/1339/: نتيجة الحكم
+    1339.json والمسودتان b20c26059d4c و4421a96074e8 كما حُفظتا). تُكتب قبل الكود: مصادر لبنانية، مؤيِّد جهة بلا
+    تاريخ، تاريخ المصدر في التصنيف، «الأقرب» القديم، حذف المحرر، وصيغة الأشهر."""
+    import copy
+    import json
+    from datetime import datetime, timedelta, timezone
+
+    from src import article, date_style, editor, important, important_editor, important_write
+    from tests.helpers import IMPORTANT_FIXTURES, ImportantWriteRig
+
+    cfg = load_config()
+    fx = IMPORTANT_FIXTURES / "1339"
+    real = json.loads((fx / "1339.json").read_text(encoding="utf-8"))
+    d4421 = json.loads((fx / "4421a96074e8.json").read_text(encoding="utf-8"))
+
+    # ── أ) المصادر اللبنانية المقبولة والحزبية المستبعدة ──
+    ours = ["https://www.lbcgroup.tv/news/x", "https://www.elnashra.com/news/show/1", "https://www.mtv.com.lb/news/1",
+            "https://www.annahar.com/arabic/article/1"]
+    outs = ["https://www.almanar.com.lb/1", "https://al-akhbar.com/Politics/1", "https://www.kataeb.org/news/1"]
+    check("(h7-أ) lbcgroup.tv وelnashra.com وmtv.com.lb وannahar.com من مصادرنا",
+          all(important._is_our_source("", u, cfg) for u in ours),
+          [important._is_our_source("", u, cfg) for u in ours])
+    check("(h7-أ) almanar.com.lb وal-akhbar.com وkataeb.org خارج مصادرنا",
+          not any(important._is_our_source("", u, cfg) for u in outs),
+          [important._is_our_source("", u, cfg) for u in outs])
+    pa = cfg.path("important.publisher_ar") or {}
+    check("(h7-أ) أسماء الناشرين اللبنانيين بالعربية",
+          all(v in pa.values() for v in ("إل بي سي آي", "النهار", "لوريان لوجور", "المدن", "النشرة", "إم تي في")),
+          list(pa.values())[-12:])
+
+    # ── ب) مؤيِّد من موقع الجهة بلا تاريخ لا يكفي وحده ──
+    ev = "فرضت الولايات المتحدة عقوبات جديدة على شبكة التمويل المعنية"
+
+    def judge(case, docs, rules):
+        marker = f"كلمةسبعة{case}"
+        pt = {"claim": f"{ev} {marker}", "entities": [marker], "queries": [{"lang": "ar", "q": marker}]}
+
+        def classify(point, names):
+            return {"sources": [important_stance(n, *rules.get(n, ("irrelevant", ""))) for n in names]}
+        with ImportantRig([pt], {marker: [dict(d, text=d["text"] + f" {marker}") for d in docs]}, classify,
+                          strict_known=True):
+            important.judge("نص الـIssue كاملًا", 98700 + case, cfg)
+        return important.load_saved(98700 + case)["points"][0]
+
+    state_doc = important_doc("U.S. Department of State", ev + ".", link="https://www.state.gov/translations/abc")
+    p_b1 = judge(1, [state_doc], {"U.S. Department of State": ("supports", ev)})
+    check("(h7-ب) مؤيِّد وحيد صفحة state.gov بلا تاريخ ← not_found",
+          p_b1["verdict"] == "not_found", (p_b1["verdict"], p_b1.get("note")))
+    check("(h7-ب) مع تنبيه «مؤيِّد من موقع الجهة بلا تاريخ معروف»",
+          any("مؤيِّد من موقع الجهة بلا تاريخ معروف" in w and "U.S. Department of State" in w
+              and "لم يُعتمد وحده" in w for w in p_b1.get("warnings") or []), p_b1.get("warnings"))
+    lbc_doc = important_doc("LBCI", ev + ".", link="https://www.lbcgroup.tv/news/2026/10/07/x")
+    p_b2 = judge(2, [state_doc, lbc_doc], {"U.S. Department of State": ("supports", ev), "LBCI": ("supports", ev)})
+    check("(h7-ب) النقطة نفسها مع مؤيِّد إضافي من lbcgroup.tv مؤرَّخ ← confirmed",
+          p_b2["verdict"] == "confirmed", (p_b2["verdict"], p_b2.get("note")))
+
+    # ── ج) مدخل _classify يحمل تاريخ كل وثيقة وتاريخ اليوم ──
+    sent: list = []
+    saved = (article._ask_model_with_retry, article._client)
+    article._ask_model_with_retry = lambda client, model, **kw: sent.append(kw) or ({"sources": []}, None)
+    article._client = lambda: None
+    try:
+        important._classify("نقطة للاختبار", [
+            {"name": "LBCI", "text": "نص أول", "link": "https://a.example/1", "doc_published": "2026-10-07"},
+            {"name": "مجهول", "text": "نص ثانٍ", "link": "https://b.example/2", "doc_published": ""}], cfg)
+    finally:
+        article._ask_model_with_retry, article._client = saved
+    blob = json.dumps(sent[0]["messages"], ensure_ascii=False) if sent else ""
+    today = datetime.now(timezone.utc).date().isoformat()
+    check("(h7-ج) المدخل فيه «(نُشر: 2026-10-07)» و«(تاريخ غير معروف)» وتاريخ اليوم",
+          "(نُشر: 2026-10-07)" in blob and "(تاريخ غير معروف)" in blob and today in blob, blob[:400])
+    check("(h7-ج) CLASSIFY_SYSTEM يمنع واقعة سابقة مشابهة من same_event",
+          "واقعة سابقة مشابهة" in important.CLASSIFY_SYSTEM, "")
+
+    # ── د) «الأقرب» القديم لا يُكتب ──
+    result = copy.deepcopy(real)
+    item = next(i for i in result["article_items"] if i["kind"] == "nearest")
+
+    def respond(p, sy):
+        return {"category": "عالم", "hashtags": ["هام"], "image_query_en": "news", "post_title": "عنوان خبري",
+                "image_headline": "عنوان", "post_body": "نص " * 60}
+    with ImportantWriteRig(respond, gap_sources=[]) as rig_d1:
+        rig_d1.next = 98800
+        out1 = important_write.write_article(result, item, cfg, [], 98750)
+    check("(h7-د) مقتطفات BBC 2025-08-05 + الجزيرة بلا تاريخ ← لا نداء كاتب وسبب «لا مصدر حديث»",
+          out1[0] is None and not rig_d1.calls and "لا مصدر حديث" in out1[1] and not out1[2], (out1[1], len(rig_d1.calls)))
+    fresh = (datetime.now(timezone.utc).date() - timedelta(days=3)).isoformat()
+    gap = [{"publisher": "LBCI", "link": "https://www.lbcgroup.tv/news/x",
+            "excerpt": "أعلنت واشنطن موقفًا جديدًا من حزب الله وتمويله", "published": fresh, "question": "س؟"}]
+    with ImportantWriteRig(respond, gap_sources=gap) as rig_d2:
+        rig_d2.next = 98900
+        out2 = important_write.write_article(copy.deepcopy(real), copy.deepcopy(item), cfg, [], 98751)
+    check("(h7-د) مع مقتطف إضافي مؤرَّخ قبل 3 أيام ← يُنادى الكاتب",
+          len(rig_d2.calls) >= 1 and "لا مصدر حديث" not in (out2[1] or ""), (out2[1], len(rig_d2.calls)))
+
+    # ── هـ) حذف المحرر لا يقصّ وسط جملة ──
+    clause = ("يبقى الربط الذي تطرحه الخطة الأمريكية واضحاً: استمرار سياسة خنق حزب الله مالياً يسير بالتوازي "
+              "مع ملفات الانسحاب الإسرائيلي ووقف الاعتداءات على لبنان")
+    broken = d4421["arabic"]["post_body"]
+    before_body = broken.replace("الأمريكي، ،", f"الأمريكي، {clause}،", 1)
+    check("(h7-هـ) المتن المُعاد بناؤه قبل الحذف يحوي المقطع", clause in before_body, before_body[-300:])
+
+    def apply(body, original, fix=""):
+        d = {"arabic": {"post_title": "عنوان", "post_body": body}, "headlines": ["عنوان"], "caption": ""}
+        note = {"category": "unattributed_opinion", "severity": "high", "location": "body", "original": original,
+                "fix": fix, "note": "رأي بلا نسبة", "sources": []}
+        res = editor.apply_review(d, important_editor.ADAPTER, {}, [note], cfg)
+        return d["arabic"]["post_body"], res
+    new_body, res = apply(before_body, clause)
+    check("(h7-هـ) fix فارغ على مقطع وسط جملة ← لا يُطبَّق ويبقى المتن كما هو والملاحظة معروضة",
+          new_body == before_body and not res["applied"] and len(res["notes"]) == 1, (new_body[-200:], res))
+    whole = "جملة أولى سليمة. هذه جملة كاملة من رأي الكاتب بلا نسبة. جملة ثالثة سليمة."
+    new_whole, res_w = apply(whole, "هذه جملة كاملة من رأي الكاتب بلا نسبة.")
+    check("(h7-هـ) جملة كاملة بـfix فارغ ← تُحذف",
+          len(res_w["applied"]) == 1 and "هذه جملة كاملة" not in new_whole and "جملة ثالثة سليمة" in new_whole, new_whole)
+    comma_body = "بين الضغطين، يرى المحلل أن الأمر كذلك، وهذا واضح."
+    new_v, res_v = apply(comma_body, "يرى المحلل أن الأمر كذلك،", "")
+    check("(h7-هـ) صمام «، ،»: تطبيق يُنتج فاصلتين متجاورتين ← يُلغى",
+          not res_v["applied"] and new_v == comma_body, (new_v, res_v))
+    junk_body = "مقدمة،\nرأي الكاتب بلا نسبة.\n، تتمة"
+    new_f, res_f = apply(junk_body, "رأي الكاتب بلا نسبة.")
+    check("(h7-هـ) صمام: حذف جملة كاملة يُنتج «،» ثم «،» ← يُلغى ويصير ملاحظة",
+          not res_f["applied"] and len(res_f["notes"]) == 1 and new_f == junk_body, (new_f, res_f))
+
+    # ── و) صيغة الأشهر ──
+    def fx_(t):
+        return date_style.normalize_text(t, cfg)
+    check("(h7-و) «7-8 تشرين الأول/أكتوبر 2026» ← «7-8 أكتوبر/تشرين الأول 2026»",
+          fx_("7-8 تشرين الأول/أكتوبر 2026") == "7-8 أكتوبر/تشرين الأول 2026", fx_("7-8 تشرين الأول/أكتوبر 2026"))
+    check("(h7-و) «في 20 مارس 2026» ← «في 20 مارس/آذار 2026»",
+          fx_("في 20 مارس 2026") == "في 20 مارس/آذار 2026", fx_("في 20 مارس 2026"))
+    check("(h7-و) «مارس الضغط» بلا تغيير", fx_("مارس الضغط على الحزب") == "مارس الضغط على الحزب", "")
+    q = "قال: «في 2 آذار 2026» وأضاف"
+    check("(h7-و) داخل « » بلا تغيير", fx_(q) == q, fx_(q))
+    check("(h7-و) «مايو/أيار» بلا تغيير", fx_("في 3 مايو/أيار 2026") == "في 3 مايو/أيار 2026", fx_("في 3 مايو/أيار 2026"))
+    check("(h7-و) «شامي / ميلادي» بمسافات ← «ميلادي/شامي»",
+          fx_("في 5 كانون الثاني / يناير 2026") == "في 5 يناير/كانون الثاني 2026", fx_("في 5 كانون الثاني / يناير 2026"))
+    check("(h7-و) الإعداد والتعليمة في editor.system وarticle_instructions.common",
+          "أكتوبر/تشرين الأول" in cfg.path("editor.system")
+          and "أكتوبر/تشرين الأول" in cfg.path("important.article_instructions.common")
+          and cfg.path("important.rules_version") == 7 and cfg.path("date_style.enabled") is True, "")
+
+    # ── ز) عبر store.save_draft الحقيقي ──
+    draft = {"id": "h7h7h7h7h7h7", "created_at": "2026-10-09T00:00:00+00:00", "status": "pending",
+             "arabic": {"post_title": "عنوان", "post_body": "صدر البيان في 7 تشرين الأول/أكتوبر 2026 رسميًا."},
+             "caption": "بيان 7 تشرين الأول/أكتوبر 2026", "headlines": ["بيان تشرين الأول/أكتوبر"]}
+    path = store.save_draft(draft)
+    saved_d = json.loads(path.read_text(encoding="utf-8"))
+    check("(h7-ز) save_draft: post_body وheadlines وcaption بـ«أكتوبر/تشرين الأول»",
+          "7 أكتوبر/تشرين الأول 2026" in saved_d["arabic"]["post_body"]
+          and saved_d["headlines"] == ["بيان أكتوبر/تشرين الأول"]
+          and "7 أكتوبر/تشرين الأول 2026" in saved_d["caption"], saved_d)

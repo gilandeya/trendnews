@@ -6,7 +6,7 @@ import logging
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from . import names
+from . import date_style, names
 from .config import DRAFTS_DIR, STATE_DIR, load_config
 from .rank import similarity, tokens
 
@@ -159,6 +159,8 @@ def save_draft(draft: dict) -> Path:
     # توحيد رسم أسماء الأعلام هنا فقط (Issue #1070) -- نقطة التطبيق الوحيدة
     # عبر كل المسارات، فلا يحتاج أي كاتب نص لتكرارها بنفسه.
     names.normalize_draft(draft, cfg)
+    # صيغة الأشهر «أكتوبر/تشرين الأول» (Issue #1345) في النقطة نفسها وعلى الحقول نفسها
+    date_style.normalize_draft(draft, cfg)
     path.write_text(json.dumps(draft, ensure_ascii=False, indent=2), encoding="utf-8")
     return path
 
@@ -209,6 +211,7 @@ def update_draft(path: Path, remove: list[str] | None = None, **changes) -> dict
     # نفس توحيد save_draft (Issue #1070): تعديل يدوي على عنوان/تعليق فيه
     # رسم بديل (تحرير المراجع مثلًا) يُوحَّد هنا أيضًا، لا في save_draft وحدها.
     names.normalize_draft(data, load_config())
+    date_style.normalize_draft(data, load_config())
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
     return data
 

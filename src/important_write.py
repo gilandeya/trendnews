@@ -16,7 +16,7 @@ import copy
 import hashlib
 import logging
 import re
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 
 from . import (article, headlines as headlines_mod, important, important_gap, names_audit, store,
                verify_draft, writer)
@@ -923,6 +923,21 @@ def _is_question_title(title: str, cfg) -> bool:
     return title.rstrip().endswith(("؟", "?")) or _is_question(title, cfg)
 
 
+def _has_fresh_source(grounded: list[dict], cfg) -> bool:
+    """هل بين مقتطفات الكاتب واحد مؤرَّخ خلال important.nearest_fresh_days من اليوم؟ غير المؤرَّخ لا يُحتسب."""
+    days = int(_icfg(cfg).get("nearest_fresh_days", 14))
+    today = datetime.now(timezone.utc).date()
+    for f in grounded:
+        for src in f.get("sources") or []:
+            try:
+                age = (today - date.fromisoformat(str(src.get("published") or "")[:10])).days
+            except ValueError:
+                continue
+            if age <= days:
+                return True
+    return False
+
+
 def write_article(result: dict, item: dict, cfg, sibling_texts: list[str] | None = None,
                   selection_issue: int | None = None) -> tuple[dict | None, str, bool]:
     """يكتب منشور الخبر الرئيسي لعنصر مختار ويحفظ مسودته: بحث مكمِّل ← نداء كاتب واحد بنموذج
@@ -937,6 +952,10 @@ def write_article(result: dict, item: dict, cfg, sibling_texts: list[str] | None
     if not docs:
         return None, NO_FACTS_REASON, False
     kind = item["kind"]
+    # «الأقرب» لا يُكتب من مصادر قديمة وحدها (#1345): في #1339 بُني على BBC من 2025-08-05 وصفحة بلا تاريخ فخرج
+    # منشور يقدّم صيف 2025 على أنه الراهن. يُعامَل كغياب الوقائع: لا نداء كاتب
+    if kind == "nearest" and not _has_fresh_source(grounded, cfg):
+        return None, _icfg(cfg).get("nearest_stale_reason", NO_FACTS_REASON), False
     sources_text = [d["text"] for d in docs]
     # نص النقطة العضو معروف للجمل غير المسندة إلا في nearest: نقاطها لم تثبت، فجملة تقرّرها تُنبَّه
     claims = [] if kind == "nearest" else [p.get("claim") or "" for p in members]

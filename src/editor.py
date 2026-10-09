@@ -235,6 +235,28 @@ def _delete_text(body: str, original: str) -> str:
     return re.sub(r"\n{3,}", "\n\n", out)
 
 
+_SENTENCE_END = ".؟!:?"
+_JUNK_RE = re.compile(r"،\s*،|،\s*\.")
+
+
+def _is_whole_sentence(body: str, original: str) -> bool:
+    """هل original جملة كاملة في body؟ ما قبله بداية المتن أو سطر جديد أو علامة نهاية جملة ثم مسافة، وما بعده
+    نهاية المتن أو سطر جديد أو علامة نهاية جملة (أو أن original ينتهي بعلامة هو نفسه)."""
+    i = body.find(original)
+    if i < 0:
+        return False
+    before, after = body[:i], body[i + len(original):]
+    start_ok = (not before or before.endswith("\n")
+                or (before[-1] in " \t" and before.rstrip(" \t")[-1:] in _SENTENCE_END))
+    end_ok = (not after or after.startswith("\n") or after[0] in _SENTENCE_END
+              or original[-1] in _SENTENCE_END)
+    return start_ok and end_ok
+
+
+def _punct_junk(text: str) -> int:
+    return len(_JUNK_RE.findall(text))
+
+
 def apply_review(draft: dict, adapter: Adapter, ctx: Any, notes: list[dict], cfg: Any) -> dict:
     """يطبّق الملاحظات المسموحة على نسخة العمل ثم يحدّث المسودة. يعيد {applied, notes}."""
     auto = set(ecfg(cfg).get("auto_fix", []))
@@ -273,7 +295,8 @@ def apply_review(draft: dict, adapter: Adapter, ctx: Any, notes: list[dict], cfg
         if ok and not note["fix"]:
             # fix فارغ: حذف الجملة للرأي بلا نسبة، وحذف العنوان للعناوين (على ألا يبقى أقل من واحد)
             if cat == "unattributed_opinion" and loc == "body":
-                pass
+                # الحذف لجملة كاملة وحدها (#1345): حذف مقطع وسط جملة ترك «، ،» في متن 4421a96074e8
+                ok = _is_whole_sentence(body, note["original"])
             elif loc.startswith("headline_") and len(headlines) > 1:
                 pass
             else:
@@ -291,6 +314,9 @@ def apply_review(draft: dict, adapter: Adapter, ctx: Any, notes: list[dict], cfg
                     new_heads[idx] = new_heads[idx].replace(note["original"], note["fix"], 1)
                 else:
                     del new_heads[idx]
+            if loc == "body" and _punct_junk(new_body) > _punct_junk(body):
+                ok = False       # صمام عام: التطبيق يترك «، ،» أو «،،» أو «، .» في المتن ← يُلغى (#1345)
+        if ok:
             before = adapter.problems(title, body, headlines, ctx, cfg)
             after = adapter.problems(new_title, new_body, new_heads, ctx, cfg)
             if after - before:
