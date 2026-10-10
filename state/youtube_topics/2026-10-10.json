@@ -65,8 +65,11 @@
       "dropped_reason": null,
       "id": "4744e2858aee",
       "created_at": "2026-10-10T04:02:21.180746+00:00",
-      "selection_status": "pending",
-      "selection_issue": 1350
+      "selection_status": "attempted",
+      "selection_issue": 1350,
+      "selected_formats": [
+        "article"
+      ]
     },
     {
       "title": "سيطرة الشرعية اليمنية على باب المندب",
@@ -93,8 +96,11 @@
       "dropped_reason": null,
       "id": "7250e5da10e0",
       "created_at": "2026-10-10T04:02:21.180746+00:00",
-      "selection_status": "pending",
-      "selection_issue": 1350
+      "selection_status": "attempted",
+      "selection_issue": 1350,
+      "selected_formats": [
+        "article"
+      ]
     },
     {
       "title": "فضيحة الصندوق الاستثماري وفاطمة بتول",
@@ -132,7 +138,7 @@
       "dropped_reason": null,
       "id": "7c8425a6b6bb",
       "created_at": "2026-10-10T04:02:21.180746+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1350
     }
   ],
