@@ -1,0 +1,719 @@
+{
+  "run_date": "2026-10-10",
+  "stats": {
+    "points_in": 219,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 69,
+    "issues_clustered": 30,
+    "topics_merged": 2,
+    "topics_out": 3,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 3,
+    "topics_below_min_points": 18,
+    "topics_below_min_channels": 3,
+    "layers": {
+      "2": 2,
+      "1": 1
+    },
+    "agreement": 2,
+    "cross_source": 1,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "اعتقال فريق منصة ما تصدقش في مصر",
+      "توقيف صحفيين بتهمة التضليل حول أزمة الصناديق"
+    ],
+    [
+      "فضيحة الصندوق الاستثماري وفاطمة بتول",
+      "تحقيقات حزب العدالة والتنمية في قضية الصناديق",
+      "قانون تعويض ضحايا الصناديق الاستثمارية"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "اعتقال فريق منصة ما تصدقش في مصر",
+      "event": "اعتقال السلطات المصرية لأعضاء فريق تحرير منصة ما تصدقش لتدقيق الأخبار",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        125,
+        126,
+        127,
+        128
+      ],
+      "total_points": 11,
+      "fresh_points": 11,
+      "dropped_reason": null,
+      "id": "4744e2858aee",
+      "created_at": "2026-10-10T04:02:21.180746+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1350
+    },
+    {
+      "title": "سيطرة الشرعية اليمنية على باب المندب",
+      "event": "سيطرة القوات الحكومية اليمنية على مضيق باب المندب وجزيرة ميون من الحوثيين",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        80,
+        81,
+        82,
+        83,
+        146
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null,
+      "id": "7250e5da10e0",
+      "created_at": "2026-10-10T04:02:21.180746+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1350
+    },
+    {
+      "title": "فضيحة الصندوق الاستثماري وفاطمة بتول",
+      "event": "الاتهامات الموجهة لفاطمة بتول صايانكايا وزوجها بتحقيق أرباح غير مشروعة من الصندوق الاستثماري",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        53,
+        59,
+        101,
+        102,
+        103,
+        117,
+        119,
+        121,
+        122,
+        123,
+        124,
+        126,
+        129,
+        130,
+        131,
+        132
+      ],
+      "total_points": 16,
+      "fresh_points": 16,
+      "dropped_reason": null,
+      "id": "7c8425a6b6bb",
+      "created_at": "2026-10-10T04:02:21.180746+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1350
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "موقف تركيا من حلف مكة الدفاعي",
+      "event": "تأكيد وزير الخارجية التركي أن حلف مكة دفاعي ولا يشمل إرسال قوات تركية هجومية خارج أراضيها",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        26,
+        40,
+        41,
+        89,
+        104
+      ],
+      "total_points": 5,
+      "fresh_points": 2,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "اعتقال فريق منصة ما تصدقش في مصر",
+      "event": "اعتقال السلطات المصرية لأعضاء فريق تحرير منصة ما تصدقش لتدقيق الأخبار",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        125,
+        126,
+        127,
+        128
+      ],
+      "total_points": 11,
+      "fresh_points": 11,
+      "dropped_reason": null
+    },
+    {
+      "title": "هجمات الحوثيين على مطارات سعودية",
+      "event": "هجمات الحوثيين الصاروخية على مطارات سعودية وضحاياها",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        39,
+        87
+      ],
+      "total_points": 2,
+      "fresh_points": 1,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "سيطرة الشرعية اليمنية على باب المندب",
+      "event": "سيطرة القوات الحكومية اليمنية على مضيق باب المندب وجزيرة ميون من الحوثيين",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        80,
+        81,
+        82,
+        83,
+        146
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "انتقال جميل توغاي من الشعب الجمهوري للعدالة والتنمية",
+      "event": "انتقال رئيس بلدية إزمير جميل توغاي إلى حزب العدالة والتنمية وتداعياته السياسية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk",
+        "SÖZCÜ"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        46,
+        47,
+        48,
+        51,
+        52,
+        57,
+        106
+      ],
+      "total_points": 7,
+      "fresh_points": 1,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "فضيحة الصندوق الاستثماري وفاطمة بتول",
+      "event": "الاتهامات الموجهة لفاطمة بتول صايانكايا وزوجها بتحقيق أرباح غير مشروعة من الصندوق الاستثماري",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        53,
+        59,
+        101,
+        102,
+        103,
+        117,
+        119,
+        121,
+        122,
+        123,
+        124,
+        126,
+        129,
+        130,
+        131,
+        132
+      ],
+      "total_points": 16,
+      "fresh_points": 16,
+      "dropped_reason": null
+    },
+    {
+      "title": "تمويل إعادة إعمار غزة",
+      "event": "الحاجة لـ71 مليار دولار لإعادة إعمار غزة وعدم جمع التمويل",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        4,
+        96
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "احتمال انتقال بلدية أتاشهير",
+      "event": "احتمال انتقال بلدية أتاشهير إلى حزب العدالة والتنمية بسبب توازن المجلس البلدي",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        49,
+        108
+      ],
+      "total_points": 2,
+      "fresh_points": 1,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "ازدواجية المعايير القضائية التركية",
+      "event": "اتهامات بتطبيق معايير قضائية مختلفة بين المعارضة وأنصار الحكومة في تركيا",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        54,
+        131,
+        132
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "استحالة الحسم العسكري في السودان",
+      "event": "تقييم خبراء لاستحالة الحسم العسكري الكامل لأي طرف في حرب السودان",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        74,
+        76,
+        78,
+        79
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "معارك تعز وأهميتها للشرعية",
+      "event": "استمرار المعارك الشرسة في تعز ومحاولات الحوثيين اختراقها وأهمية استعادتها",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        85,
+        86
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "انهيار الاقتصاد في غزة",
+      "event": "انهيار نصيب الفرد من الناتج المحلي والقدرة الإنتاجية في غزة بسبب الحرب",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        94,
+        95
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "افتتاح خط القطار السريع تشركزكوي-جابوكول",
+      "event": "افتتاح قسم من خط القطار السريع بين تشركزكوي وجابوكول وتأثيره على وقت السفر والنقل",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        111,
+        112,
+        113
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تأثير الانقسام الحزبي على بلديات الشعب الجمهوري",
+      "event": "تأثير انقسام حزب الشعب الجمهوري والحزب الجديد على فقدان البلديات",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        114,
+        135
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "رقم قياسي في الصادرات التركية",
+      "event": "تحقيق تركيا رقماً قياسياً في الصادرات السنوية والشهرية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        115,
+        116
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "إعدامات سياسية إيرانية بعد انتفاضة يناير",
+      "event": "إحصاء الإعدامات السياسية والأمنية في إيران منذ انتفاضة يناير",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        136,
+        145
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "توقف صادرات النفط الإيرانية وتأثيرها",
+      "event": "توقف إيران الكامل عن تحميل النفط الخام على الناقلات وتأثير ذلك على الإيرادات واحتياطيات العملة",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        138,
+        139
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "سجن الإيرانيين بسبب الديون",
+      "event": "سجن الجمهورية الإسلامية للآلاف بسبب العجز عن سداد الديون",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        140,
+        141
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تقييم أداء مجلس السلام في غزة",
+      "event": "تقييم محللين عرب لأداء مجلس السلام الدولي ومدى تنفيذه لاتفاق غزة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        2,
+        5,
+        7,
+        11,
+        12,
+        13
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "قتلى فلسطينيون منذ وقف إطلاق النار",
+      "event": "إحصاء عدد الشهداء الفلسطينيين منذ إعلان وقف إطلاق النار في أكتوبر",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        1,
+        10
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "استمرار التهجير والرؤية الإسرائيلية",
+      "event": "استمرار الرؤية الإسرائيلية تجاه تهجير سكان غزة بعد الاتفاق",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        3,
+        8,
+        9
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "قلق أمريكي من مراكز البيانات الضخمة",
+      "event": "قلق الناخبين الأمريكيين من مراكز البيانات الضخمة وإجماع الحزبين على معارضتها",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        16,
+        17
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "هجمات المستوطنين وتوسع الاستيطان في الضفة",
+      "event": "تصعيد هجمات المستوطنين وتوسع البؤر الاستيطانية في الضفة الغربية منذ أكتوبر 2023",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        18,
+        20,
+        24
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "أحكام قضائية دولية ضد الاحتلال",
+      "event": "أحكام محكمة العدل الدولية والجنايات الدولية ضد إسرائيل بشأن الاحتلال",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        21,
+        22
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الإمكانات العسكرية السعودية والحوثية",
+      "event": "تقييم القدرات العسكرية البرية السعودية والقدرات العسكرية للحوثيين المدعومة إيرانياً",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        42,
+        44
+      ],
+      "total_points": 2,
+      "fresh_points": 1,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "المفاوضات النووية الإيرانية الأمريكية الحالية",
+      "event": "الموقف الإيراني الرافض للتنازل عن التخصيب وتبادل الرسائل مع واشنطن بشأن خطة السبعة أيام",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        60,
+        61
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "ذكرى السابع من أكتوبر الثالثة إسرائيلياً",
+      "event": "إحياء الذكرى السنوية الثالثة لأحداث السابع من أكتوبر في الإعلام الإسرائيلي",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    }
+  ]
+}
