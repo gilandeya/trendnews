@@ -837,7 +837,7 @@
      "published": "2026-10-10T09:50:01+00:00"
     }
    ],
-   "last_seen": "2026-10-10T09:07:48.714447+00:00",
+   "last_seen": "2026-10-10T17:07:48.257605+00:00",
    "outlets": 21,
    "regions": 16,
    "languages": 2,
@@ -2134,11 +2134,220 @@
      "published": "2026-10-09T18:58:37+00:00"
     }
    ],
-   "last_seen": "2026-10-10T09:07:48.714447+00:00",
+   "last_seen": "2026-10-10T17:07:48.257605+00:00",
    "outlets": 16,
    "regions": 13,
    "languages": 2,
    "score": 46.0
+  },
+  {
+   "id": "8a9cacec0541",
+   "first_seen": "2026-10-10T09:07:48.714447+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Zelenskyy furious as Trump announces deal to buy Russian diesel",
+     "language": "en",
+     "link": "https://www.theguardian.com/us-news/2026/oct/09/trump-putin-russian-diesel-ukraine",
+     "published": "2026-10-09T23:39:31+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Trump announces deal for Russian diesel as Zelensky calls it a gift to Putin",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cm1dwgr666wno?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-10T04:38:20+00:00"
+    },
+    {
+     "outlet": "Meduza English",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "‘We’re being used as a front,’ Zelensky says of Trump’s diesel deal with Putin",
+     "language": "en",
+     "link": "https://meduza.io/en/feature/2026/10/10/we-re-being-used-as-a-front-zelensky-says-of-trump-s-diesel-deal-with-putin",
+     "published": "2026-10-10T00:02:06+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Trump announces Russian diesel deal amid US fuel price surge",
+     "language": "en",
+     "link": "https://www.dailysabah.com/business/energy/trump-announces-russian-diesel-deal-amid-us-fuel-price-surge",
+     "published": "2026-10-09T21:21:00+00:00"
+    },
+    {
+     "outlet": "Investing.com — الاقتصاد",
+     "region": "money",
+     "bucket": "useful",
+     "title": "Trump reaches Russian diesel supply deal as U.S. fuel prices surge",
+     "language": "en",
+     "link": "https://www.investing.com/news/economy-news/trump-reaches-russian-diesel-supply-deal-as-us-fuel-prices-surge-4941896",
+     "published": "2026-10-10T00:37:35+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Trump publicly thanks Putin for diesel fuel supply deal",
+     "language": "en",
+     "link": "https://tass.com/world/2200203",
+     "published": "2026-10-10T01:46:35+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Australia says it won’t buy Russian fuel despite Trump’s diesel agreement",
+     "language": "en",
+     "link": "https://www.scmp.com/news/asia/australasia/article/3370422/australia-says-it-wont-buy-russian-fuel-despite-trumps-diesel-agreement?utm_source=rss_feed",
+     "published": "2026-10-10T04:09:39+00:00"
+    },
+    {
+     "outlet": "Meduza English",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Trump says he’s reached a deal with Putin to supply Russian diesel to U.S. and global markets. Zelensky calls it ‘an investment in a war that must be ended, not prolonged.’",
+     "language": "en",
+     "link": "https://meduza.io/en/news/2026/10/09/trump-says-he-reached-a-deal-with-putin-to-supply-russian-diesel-to-u-s-and-global-markets-breaking-with-years-of-american-sanctions-policy",
+     "published": "2026-10-09T19:32:27+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump-Putin deal: How much diesel will Russia supply to the US?",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/trumpputin-deal-how-much-diesel-will-russia-supply-to-the-us-101791578877226.html",
+     "published": "2026-10-09T21:25:40+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Trump says Russia to supply diesel to U.S. and global markets",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/10/world/politics/trump-russia-diesel-us-global-markets/",
+     "published": "2026-10-09T22:49:00+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Russia ready to supply oil to US, global markets",
+     "language": "en",
+     "link": "https://tass.com/economy/2200067",
+     "published": "2026-10-09T20:21:09+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Ukraine hit by deadly Russian strikes as ‘thanks’ for Trump diesel deal, Zelenskyy says",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/10/ukraine-russia-strikes-war-trump-diesel-deal-zelenskyy",
+     "published": "2026-10-10T14:45:15+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Russian attacks kill 20 in Ukraine after Trump strikes diesel deal with Putin",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3370451/russian-attacks-kill-15-ukraine-after-trump-strikes-diesel-deal-putin?utm_source=rss_feed",
+     "published": "2026-10-10T12:25:26+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Russian attacks kill 20 in Ukraine after Trump strikes diesel deal with Putin",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/russian-attacks-kill-11-in-ukraine-after-trump-strikes-diesel-deal-with-putin/article71567786.ece",
+     "published": "2026-10-10T16:15:42+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Russian strikes kill 8 in Ukraine as Trump’s diesel deal backfires",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/europe/russian-strikes-kill-8-in-ukraine-as-trumps-diesel-deal-backfires",
+     "published": "2026-10-10T09:02:00+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Russian strikes on Ukraine kill 11 including 3 children",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/10/russian-strikes-kill-11-including-3-children",
+     "published": "2026-10-10T10:14:00+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Russian strikes kill 20 in Ukraine after Trump gets diesel deal with Moscow",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/russia-strikes-ukraine-trump-diesel-deal/",
+     "published": "2026-10-10T16:11:42+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Ukraine warns Trump-Putin diesel deal will bankroll Russia’s war",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/10/ukraine-warns-trump-putin-diesel-deal-will-bankroll-russias-war?traffic_source=rss",
+     "published": "2026-10-10T12:33:07+00:00"
+    },
+    {
+     "outlet": "CGTN",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Trump strikes deal with Putin on oil",
+     "language": "en",
+     "link": "https://newsus.cgtn.com/news/2026-10-10/Trump-strikes-deal-with-Putin-on-oil--1R79VL8POE0/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+     "published": "2026-10-09T22:11:02+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Trump hails Russia deal to release diesel as midterms loom",
+     "language": "en",
+     "link": "https://www.france24.com/en/video/20261010-trump-hails-russia-deal-to-release-diesel-as-midterms-loom",
+     "published": "2026-10-10T09:12:51+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Trump hails Russia deal to release diesel as midterms loom",
+     "language": "en",
+     "link": "https://punchng.com/trump-hails-russia-deal-to-release-diesel-as-midterms-loom/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-10T10:14:58+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump strikes major diesel deal with Russia in bid to lower US fuel prices ahead of midterms",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/trump-strikes-major-diesel-deal-with-russia-in-bid-to-lower-us-fuel-prices-ahead-of-midterms-101791579605811.html",
+     "published": "2026-10-09T21:15:08+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T17:07:48.257605+00:00",
+   "outlets": 16,
+   "regions": 12,
+   "languages": 1,
+   "score": 42.0
   },
   {
    "id": "4bac7b46db6b",
@@ -2696,6 +2905,224 @@
    "score": 40.0
   },
   {
+   "id": "61fa5cba09fb",
+   "first_seen": "2026-10-06T09:08:01.863235+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "India opposition leader Rahul Gandhi briefly detained during protest seeking election chief’s resignation",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2035136/india-opposition-leader-rahul-gandhi-briefly-detained-during-protest-seeking-election-chiefs-resignation",
+     "published": "2026-10-06T07:29:02+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "India opposition leaders briefly detained in election protest",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/asia/india-opposition-rahul-gandhi-protest-march-election-resignation-6435051",
+     "published": "2026-10-06T07:50:20+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "India’s opposition leaders briefly detained in election protest",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/india-opposition-leaders-briefly-detained-in-election-protest",
+     "published": "2026-10-06T08:06:59+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Indian opposition MPs detained in protest against election chief",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/crpdgvx82831o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-06T10:05:22+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "India opposition leaders briefly arrested in protest against election chief",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/6/india-opposition-leaders-briefly-arrested-in-protest-against-election-chief?traffic_source=rss",
+     "published": "2026-10-06T11:16:48+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "India opposition lawmakers detained over protest against election chief",
+     "language": "en",
+     "link": "https://www.scmp.com/news/asia/south-asia/article/3369942/india-opposition-lawmakers-detained-over-protest-against-election-chief?utm_source=rss_feed",
+     "published": "2026-10-06T12:01:02+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "India opposition parties rally for election chief’s exit over voter list changes",
+     "language": "en",
+     "link": "https://www.france24.com/en/video/20261006-india-opposition-parties-rally-for-election-chief-s-exit-over-voter-list-changes",
+     "published": "2026-10-06T14:06:37+00:00"
+    },
+    {
+     "outlet": "El País",
+     "region": "es",
+     "bucket": "serious",
+     "title": "La oposición en la India marcha para exigir la dimisión del presidente de la Comisión Electoral nombrado por Modi",
+     "language": "fr",
+     "link": "https://elpais.com/internacional/2026-10-06/la-oposicion-en-india-marcha-para-exigir-la-dimision-del-presidente-de-la-comision-electoral-nombrado-por-modi.html",
+     "published": "2026-10-06T13:34:24+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "What to know about nationwide protests in India over voter list changes",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/06/g-s1-146636/what-to-know-about-nationwide-protests-in-india-over-voter-list-changes",
+     "published": "2026-10-06T11:44:06+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Police detain Indian opposition leader Rahul Gandhi at poll chief protest",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633252/police-detain-indian-opposition-leader-rahul-gandhi-at-poll-chief-protest",
+     "published": "2026-10-06T01:39:46+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "What to know about nationwide protests in India over voter list changes",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOLUZ6ZXMwR1ozY2liRC1LY0tqRkxtQ3g2by1tMkp1cXVjTGdkeDJJblV4SkF5d2FqMnVaVHNacjBJNElMQV83S2xtUC1MbUR1RTFSRGZSYVpEbkhCUVRrMHphSkdzbEN0TWp5Q3BGZ1RhVFFScFAzZWNtQk53Vkc5MWRPZWhQS3N5aVQyNkhKeDhEMkhHZHNRTHlYMnpoTm5wOHotVU5DWHZFd3ZJbjYteURiU3o?oc=5",
+     "published": "2026-10-06T11:44:06+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Indian opposition leader Rahul Gandhi detained over election chief protest",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/7/indian-opposition-leader-rahul-gandhi-detained-over-election-chief-protest?traffic_source=rss",
+     "published": "2026-10-07T19:40:07+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Rahul Gandhi, Indian opposition lawmakers detained over election chief protest for 2nd day",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2035427/rahul-gandhi-indian-opposition-lawmakers-detained-over-election-chief-protest-for-2nd-day",
+     "published": "2026-10-07T13:44:02+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Rahul Gandhi, Indian opposition lawmakers detained over election chief protest for second day",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633522/rahul-gandhi-indian-opposition-lawmakers-detained-over-election-chief-protest-for-second-day",
+     "published": "2026-10-07T10:11:32+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "India's 'cockroach' movement chief detained ahead of major protest",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2036128/indias-cockroach-movement-chief-detained-ahead-of-major-protest",
+     "published": "2026-10-10T06:45:16+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "India's 'cockroach' movement chief detained ahead of major protest",
+     "language": "en",
+     "link": "https://www.france24.com/en/asia-pacific/20261010-india-s-cockroach-movement-chief-detained-ahead-of-major-protest",
+     "published": "2026-10-10T06:37:40+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "‘We are living under an absolute dictatorship’: India’s ‘cockroach’ movement chief detained ahead of major protest",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/10/indias-cockroach-movement-chief-detained-ahead-of-major-protest/238567",
+     "published": "2026-10-10T06:35:14+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "India deploys police and restricts transport ahead of mass protest in Delhi",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/10/india-deploys-police-and-restricts-transport-ahead-of-mass-protest-in-delhi?traffic_source=rss",
+     "published": "2026-10-10T04:07:30+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "India deploys police, restricts transport ahead of major protest demanding election chief resign",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/10/india-deploys-police-restricts-transport-ahead-of-major-protest-demanding-election-chief-resign/238549",
+     "published": "2026-10-10T05:08:05+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "‘Cockroach’ leader among thousands detained in Delhi protest crackdown",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/10/cockroach-party-rally-delhi-protests-chief-election-officer-resigns",
+     "published": "2026-10-10T11:17:38+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "‘Cockroach’ group leaders among hundreds detained in Delhi protest",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/cockroach-group-leaders-among-hundreds-detained-in-delhi-protest/",
+     "published": "2026-10-10T13:13:55+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "India’s ‘Cockroach’ leaders detained; New Delhi in lockdown",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxNWGp5bTN6SWFLOFZzRUh1dW91ZFFvQUh6a0ZsVGJ0QXRrUzVabE1zeWc1VmJpSVhzR1hpdjR4cWhoVmxnNjMwZk9RM0J2YmtVcERyMk1PaFlQUi1DTnlqNk9hcFU3UUhzZllwLVJ5MW1WWDJnQm5yWnBNY1JOcFZ1U01RUFphSl9qWEVYSTZIOU9MNUdDSTZMSHJRR3FYUdIBowFBVV95cUxNaGdET2tqRll6Q2U3d3JaMTJRcmtadlI5aVp2MExsRWR1bm83b3FxWkFhYkh1VkxGRzhCNWQ0Z0VJS3QwLXhwYUh1YXRyVTJtX1k2TmRWUkY5UVJqaHcwSENzSTYzQzBRWXh6a0t0NEN1d3d2V0NQUWJKTXpFREc0alRVNDRZaTJPSDljY0tFMnJ3Vk5MV1hiUjlFWmtOSWluTDA0?oc=5",
+     "published": "2026-10-10T13:00:09+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "India's 'cockroach' movement: \"This is unprecedented\"",
+     "language": "en",
+     "link": "https://www.france24.com/en/video/20261010-india-s-cockroach-movement-this-is-unprecedented",
+     "published": "2026-10-10T09:20:21+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T17:07:48.257605+00:00",
+   "outlets": 14,
+   "regions": 11,
+   "languages": 2,
+   "score": 40.0
+  },
+  {
    "id": "af244ec47185",
    "first_seen": "2026-10-08T18:07:58.260966+00:00",
    "members": [
@@ -2849,6 +3276,188 @@
    "regions": 11,
    "languages": 1,
    "score": 39.0
+  },
+  {
+   "id": "182e65baf487",
+   "first_seen": "2026-10-08T15:07:49.816861+00:00",
+   "members": [
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Yemen’s Houthis claim new attacks on Saudi airports as conflict deepens",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/yemens-houthis-claim-new-attacks-on-saudi-airports-as-conflict-deepens/article71557047.ece",
+     "published": "2026-10-07T17:04:00+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Yemen's Houthis claim responsibility for attacks on two Saudi airports",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/08/yemens-houthis-claim-responsibility-for-attacks-on-two-saudi-airports/",
+     "published": "2026-10-08T11:37:25+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Three people killed in Houthi attacks on Saudi Arabia airports, officials say",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cwn8d5rx22rdo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-08T03:32:35+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Attacks on Saudi airports claimed by Houthi rebels kill 3 people, officials say",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/attacks-on-saudi-airports-claimed-by-houthi-rebels-kill-several/article71557187.ece",
+     "published": "2026-10-08T00:31:56+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Three Saudis killed in Riyadh airport attack claimed by Houthis",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/09/riyadh-airport-flights-suspended-houthis-claim-attack",
+     "published": "2026-10-09T09:47:10+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Saudi authorities say three killed in Houthi-claimed attacks on Riyadh airport",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/saudi-authorities-say-three-killed-in-houthi-claimed-attacks-on-riyadh-airport/article71565580.ece",
+     "published": "2026-10-09T17:26:32+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "IN BRIEF: Three killed, several injured in attack on Riyadh airport",
+     "language": "en",
+     "link": "https://tass.com/emergencies/2199827",
+     "published": "2026-10-09T11:37:07+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Several injured in attack on airport in Saudi capital Riyadh",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cw33x4y8k82no?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-10T16:56:32+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Several injured as Saudi capital airport reportedly hit again",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/several-injured-as-saudi-capital-airport-reportedly-hit-again/",
+     "published": "2026-10-10T16:28:59+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Evacuations, injuries at Riyadh airport after alleged Houthi attack",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/10/evacuations-injuries-at-riyadh-airport-after-alleged-houthi-attack",
+     "published": "2026-10-10T15:24:00+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Evacuations, injuries at Riyadh airport after alleged Houthi attack",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/evacuations-injuries-at-riyadh-airport-after-alleged-houthi-attack/",
+     "published": "2026-10-10T16:06:03+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Dozens reported injured in Yemeni Houthi attack at Riyadh airport",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/10/yemen-government-allied-forces-recapture-bab-al-mandab-strait-houthis-taiz",
+     "published": "2026-10-10T15:54:12+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Many Injured As Missile Strikes Passenger Terminal At Riyadh Airport: Report",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/riyadh-airport-attacked-again-evacuated-air-traffic-stopped-report-12166907#publisher=newsstand",
+     "published": "2026-10-10T15:59:18+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Riyadh airport attacked again, loud blast heard two days after Houthi strike kills 3; flight ops impacted",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/riyadh-airport-attacked-again-loud-blast-heard-two-days-after-houthi-strike-kills-3-101791642511162.html",
+     "published": "2026-10-10T14:32:48+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Loud blast at Riyadh airport as travellers evacuated, airlines cancel flights",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/middle-east/article/3370454/loud-blast-heard-riyadh-airport-airlines-cancel-more-flights?utm_source=rss_feed",
+     "published": "2026-10-10T14:19:25+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Blast reported at Saudi Arabia's Riyadh airport",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248468/Blast-reported-at-Saudi-Arabia-s-Riyadh-airport",
+     "published": "2026-10-10T15:55:52+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Multiple people wounded in blast at Riyadh airport, say eyewitnesses",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2634108/multiple-people-wounded-in-blast-at-riyadh-airport-say-eyewitnesses",
+     "published": "2026-10-10T11:04:16+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Saudi Arabia Closes Airport in Riyadh After Damaging New Houthi Attack",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOY3A1N0dSaEowdHRsQm11d1EzUnJneHRRYWRYa2NWU0ZfeUgwOUNzMHpNN2dVWFJQeVRZRDdYTTJ5YUtwX2YwUEprdWowUW1hYXplbjlsbnBuaTk1RUc3ZnBseDgyMFI2Q09BNllMRXVUWm52RXQ1R3ViSEZpZW1OOWlqenhMSDlPMXY2NWVzOEpHTkctQld3WWJaNVh0M05rdUhTQlBCNGl2SXVqR29UbkVNMm8wR00?oc=5",
+     "published": "2026-10-10T16:57:00+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Riyadh airport suspends operations",
+     "language": "en",
+     "link": "https://tass.com/economy/2200307",
+     "published": "2026-10-10T16:02:46+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T17:07:48.257605+00:00",
+   "outlets": 14,
+   "regions": 11,
+   "languages": 1,
+   "score": 38.0
   },
   {
    "id": "f4950bb60ba8",
@@ -3624,191 +4233,27 @@
      "language": "en",
      "link": "https://www.aljazeera.com/sports/2026/10/9/man-city-charges-how-premier-league-reacted-man-utd-arsenal-liverpool?traffic_source=rss",
      "published": "2026-10-09T15:09:51+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Manchester United vs Tottenham LIVE: Premier League",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/liveblog/2026/10/10/manchester-united-vs-tottenham-live-premier-league?traffic_source=rss",
+     "published": "2026-10-10T11:31:27+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Manchester United v Tottenham: Premier League",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/live/2026/oct/10/manchester-united-v-tottenham-premier-league-live",
+     "published": "2026-10-10T16:51:47+00:00"
     }
    ],
-   "last_seen": "2026-10-09T17:07:48.864691+00:00",
-   "outlets": 12,
-   "regions": 10,
-   "languages": 2,
-   "score": 36.0
-  },
-  {
-   "id": "61fa5cba09fb",
-   "first_seen": "2026-10-06T09:08:01.863235+00:00",
-   "members": [
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "India opposition leader Rahul Gandhi briefly detained during protest seeking election chief’s resignation",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2035136/india-opposition-leader-rahul-gandhi-briefly-detained-during-protest-seeking-election-chiefs-resignation",
-     "published": "2026-10-06T07:29:02+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "India opposition leaders briefly detained in election protest",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/asia/india-opposition-rahul-gandhi-protest-march-election-resignation-6435051",
-     "published": "2026-10-06T07:50:20+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "India’s opposition leaders briefly detained in election protest",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/india-opposition-leaders-briefly-detained-in-election-protest",
-     "published": "2026-10-06T08:06:59+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Indian opposition MPs detained in protest against election chief",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/crpdgvx82831o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-06T10:05:22+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "India opposition leaders briefly arrested in protest against election chief",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/6/india-opposition-leaders-briefly-arrested-in-protest-against-election-chief?traffic_source=rss",
-     "published": "2026-10-06T11:16:48+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "India opposition lawmakers detained over protest against election chief",
-     "language": "en",
-     "link": "https://www.scmp.com/news/asia/south-asia/article/3369942/india-opposition-lawmakers-detained-over-protest-against-election-chief?utm_source=rss_feed",
-     "published": "2026-10-06T12:01:02+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "India opposition parties rally for election chief’s exit over voter list changes",
-     "language": "en",
-     "link": "https://www.france24.com/en/video/20261006-india-opposition-parties-rally-for-election-chief-s-exit-over-voter-list-changes",
-     "published": "2026-10-06T14:06:37+00:00"
-    },
-    {
-     "outlet": "El País",
-     "region": "es",
-     "bucket": "serious",
-     "title": "La oposición en la India marcha para exigir la dimisión del presidente de la Comisión Electoral nombrado por Modi",
-     "language": "fr",
-     "link": "https://elpais.com/internacional/2026-10-06/la-oposicion-en-india-marcha-para-exigir-la-dimision-del-presidente-de-la-comision-electoral-nombrado-por-modi.html",
-     "published": "2026-10-06T13:34:24+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "What to know about nationwide protests in India over voter list changes",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/06/g-s1-146636/what-to-know-about-nationwide-protests-in-india-over-voter-list-changes",
-     "published": "2026-10-06T11:44:06+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Police detain Indian opposition leader Rahul Gandhi at poll chief protest",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633252/police-detain-indian-opposition-leader-rahul-gandhi-at-poll-chief-protest",
-     "published": "2026-10-06T01:39:46+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "What to know about nationwide protests in India over voter list changes",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOLUZ6ZXMwR1ozY2liRC1LY0tqRkxtQ3g2by1tMkp1cXVjTGdkeDJJblV4SkF5d2FqMnVaVHNacjBJNElMQV83S2xtUC1MbUR1RTFSRGZSYVpEbkhCUVRrMHphSkdzbEN0TWp5Q3BGZ1RhVFFScFAzZWNtQk53Vkc5MWRPZWhQS3N5aVQyNkhKeDhEMkhHZHNRTHlYMnpoTm5wOHotVU5DWHZFd3ZJbjYteURiU3o?oc=5",
-     "published": "2026-10-06T11:44:06+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Indian opposition leader Rahul Gandhi detained over election chief protest",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/7/indian-opposition-leader-rahul-gandhi-detained-over-election-chief-protest?traffic_source=rss",
-     "published": "2026-10-07T19:40:07+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Rahul Gandhi, Indian opposition lawmakers detained over election chief protest for 2nd day",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2035427/rahul-gandhi-indian-opposition-lawmakers-detained-over-election-chief-protest-for-2nd-day",
-     "published": "2026-10-07T13:44:02+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Rahul Gandhi, Indian opposition lawmakers detained over election chief protest for second day",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633522/rahul-gandhi-indian-opposition-lawmakers-detained-over-election-chief-protest-for-second-day",
-     "published": "2026-10-07T10:11:32+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "India's 'cockroach' movement chief detained ahead of major protest",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2036128/indias-cockroach-movement-chief-detained-ahead-of-major-protest",
-     "published": "2026-10-10T06:45:16+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "India's 'cockroach' movement chief detained ahead of major protest",
-     "language": "en",
-     "link": "https://www.france24.com/en/asia-pacific/20261010-india-s-cockroach-movement-chief-detained-ahead-of-major-protest",
-     "published": "2026-10-10T06:37:40+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "‘We are living under an absolute dictatorship’: India’s ‘cockroach’ movement chief detained ahead of major protest",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/10/indias-cockroach-movement-chief-detained-ahead-of-major-protest/238567",
-     "published": "2026-10-10T06:35:14+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "India deploys police and restricts transport ahead of mass protest in Delhi",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/10/india-deploys-police-and-restricts-transport-ahead-of-mass-protest-in-delhi?traffic_source=rss",
-     "published": "2026-10-10T04:07:30+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "India deploys police, restricts transport ahead of major protest demanding election chief resign",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/10/india-deploys-police-restricts-transport-ahead-of-major-protest-demanding-election-chief-resign/238549",
-     "published": "2026-10-10T05:08:05+00:00"
-    }
-   ],
-   "last_seen": "2026-10-10T09:07:48.714447+00:00",
+   "last_seen": "2026-10-10T17:07:48.257605+00:00",
    "outlets": 12,
    "regions": 10,
    "languages": 2,
@@ -4012,6 +4457,188 @@
    "outlets": 13,
    "regions": 9,
    "languages": 2,
+   "score": 35.0
+  },
+  {
+   "id": "f7535344ce98",
+   "first_seen": "2026-10-05T18:07:49.818707+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Flydubai co-pilot planned to crash plane into Tel Aviv airport or building, reports say",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cm3691y79xp5o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-05T11:34:59+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Flydubai co-pilot planned to crash plane into Tel Aviv airport or building, reports say",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/flydubai-co-pilot-planned-to-crash-plane-into-tel-aviv-airport-or-building-reports-say/",
+     "published": "2026-10-05T16:44:30+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "FlyDubai co-pilot planned to crash jet into Israeli airport, official says",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/flydubai-co-pilot-planned-crash-into-israel-airport-security-lapses/",
+     "published": "2026-10-05T16:47:38+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Israel prepared for fighter jets to shoot down FlyDubai flight if necessary, Israeli sources say",
+     "language": "en",
+     "link": "https://www.cbsnews.com/video/israel-prepared-fighter-jets-shoot-down-flydubai-flight-necessary-israeli-sources-say/",
+     "published": "2026-10-05T23:44:02+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Israel was prepared to shoot down FlyDubai plane, sources say",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/israel-flydubai-plane-shoot-down-threat/",
+     "published": "2026-10-05T23:45:36+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "FlyDubai attacker intended to crash plane into Tel Aviv airport, investigation finds",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/05/nx-s1-5990802/midair-attack-flydubai",
+     "published": "2026-10-05T10:53:46+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Co-pilot accused of trying to hijack flydubai plane likely acted alone: Reports",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/co-pilot-accused-of-trying-to-hijack-flydubai-plane-likely-acted-alone-reports/article71544657.ece",
+     "published": "2026-10-05T05:01:21+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "More details emerge about FlyDubai co-pilot who tried to crash plane",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/flydubai-plane-attempted-crash-hijacking-israel-dubai-what-to-know/",
+     "published": "2026-10-05T16:01:00+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Hero passengers on the terrifying FlyDubai flight detail how they saved the plane",
+     "language": "en",
+     "link": "https://www.cbsnews.com/video/israeli-forces-were-prepared-to-shoot-down-flydubai-plane-source-says/",
+     "published": "2026-10-05T13:54:53+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Flydubai co-pilot planned suicide attack on Israeli airport, UAE prosecutors say",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/09/flydubai-co-pilot-planned-suicide-attack-on-israeli-airport-uae-prosecutors-say",
+     "published": "2026-10-09T20:38:11+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Omani Flydubai co-pilot planned to crash plane into Israeli airport, UAE says",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/middle-east/article/3370407/omani-flydubai-co-pilot-planned-crash-plane-israeli-airport-uae-says?utm_source=rss_feed",
+     "published": "2026-10-09T17:01:59+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "🔴 FlyDubai co-pilot planned suicide attack on Tel Aviv airport, inspired by 9/11, UAE prosecutor says",
+     "language": "en",
+     "link": "https://www.france24.com/en/middle-east/20261009-flydubai-co-pilot-planned-suicide-attack-on-tel-aviv-airport-inspired-by-9-11",
+     "published": "2026-10-09T17:09:59+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "flydubai co-pilot intended to crash plane into Tel Aviv airport, UAE prosecutor says",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/flydubai-co-pilot-intended-to-crash-plane-into-tel-aviv-airport-uae-prosecutor-says/article71565815.ece",
+     "published": "2026-10-09T22:50:19+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "FlyDubai co-pilot intended to crash plane into Tel Aviv airport, UAE prosecutor says",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/flydubai-co-pilot-intended-to-crash-plane-into-tel-aviv-airport-uae-prosecutor-says-101791570864154.html",
+     "published": "2026-10-09T18:34:23+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Flydubai co-pilot planned suicide attack on Tel Aviv airport",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/10/world/flydubai-suicide-attack-tel-aviv/",
+     "published": "2026-10-10T00:13:00+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "UAE prosecutor: Flydubai co-pilot planned suicide attack on Tel Aviv airport, sought ‘greatest possible loss of life’",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/10/uae-prosecutor-flydubai-co-pilot-planned-suicide-attack-on-tel-aviv-airport-sought-greatest-possible-loss-of-life/238587",
+     "published": "2026-10-10T08:58:38+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Flydubai co-pilot planned terrorist attack at Tel Aviv airport",
+     "language": "en",
+     "link": "https://tass.com/society/2200015",
+     "published": "2026-10-09T18:09:01+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Flydubai attacker began a 'drift towards extremism and terrorism' in Australia, UAE says",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cw3dj5n538jpo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-10T04:34:55+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Flydubai co-pilot planned suicide attack in Israel inspired by 9/11",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPcTMwcGsySlNhN2l4QTJJMi11SF9Ja2ZvZ0E2SHBSNkpxb3NwaUk4LWtzRmdlR2dDTEdqY2o5RDNEZzk3YVBVMjd2NTFUR3VkODZSanA4bGJ1TjVnT05ENGFDMkZwT1VwZGpCQkdQa3BzTEJlMTM1bkZXN09xV0puRlFXVkNyOUVoR2ZRMFBzdFdaUmxWS0d4SUtxSW1JLW5GQ0lMbnV4QlBRR3hmUlBPSjJR?oc=5",
+     "published": "2026-10-09T18:29:39+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T17:07:48.257605+00:00",
+   "outlets": 13,
+   "regions": 10,
+   "languages": 1,
    "score": 35.0
   },
   {
@@ -4509,177 +5136,141 @@
    "score": 33.0
   },
   {
-   "id": "f7535344ce98",
-   "first_seen": "2026-10-05T18:07:49.818707+00:00",
+   "id": "9d74b44c397d",
+   "first_seen": "2026-10-07T18:07:47.065879+00:00",
    "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Flydubai co-pilot planned to crash plane into Tel Aviv airport or building, reports say",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cm3691y79xp5o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-05T11:34:59+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Flydubai co-pilot planned to crash plane into Tel Aviv airport or building, reports say",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/flydubai-co-pilot-planned-to-crash-plane-into-tel-aviv-airport-or-building-reports-say/",
-     "published": "2026-10-05T16:44:30+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "FlyDubai co-pilot planned to crash jet into Israeli airport, official says",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/flydubai-co-pilot-planned-crash-into-israel-airport-security-lapses/",
-     "published": "2026-10-05T16:47:38+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Israel prepared for fighter jets to shoot down FlyDubai flight if necessary, Israeli sources say",
-     "language": "en",
-     "link": "https://www.cbsnews.com/video/israel-prepared-fighter-jets-shoot-down-flydubai-flight-necessary-israeli-sources-say/",
-     "published": "2026-10-05T23:44:02+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Israel was prepared to shoot down FlyDubai plane, sources say",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/israel-flydubai-plane-shoot-down-threat/",
-     "published": "2026-10-05T23:45:36+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "FlyDubai attacker intended to crash plane into Tel Aviv airport, investigation finds",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/05/nx-s1-5990802/midair-attack-flydubai",
-     "published": "2026-10-05T10:53:46+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Co-pilot accused of trying to hijack flydubai plane likely acted alone: Reports",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/co-pilot-accused-of-trying-to-hijack-flydubai-plane-likely-acted-alone-reports/article71544657.ece",
-     "published": "2026-10-05T05:01:21+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "More details emerge about FlyDubai co-pilot who tried to crash plane",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/flydubai-plane-attempted-crash-hijacking-israel-dubai-what-to-know/",
-     "published": "2026-10-05T16:01:00+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Hero passengers on the terrifying FlyDubai flight detail how they saved the plane",
-     "language": "en",
-     "link": "https://www.cbsnews.com/video/israeli-forces-were-prepared-to-shoot-down-flydubai-plane-source-says/",
-     "published": "2026-10-05T13:54:53+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Flydubai co-pilot planned suicide attack on Israeli airport, UAE prosecutors say",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/09/flydubai-co-pilot-planned-suicide-attack-on-israeli-airport-uae-prosecutors-say",
-     "published": "2026-10-09T20:38:11+00:00"
-    },
     {
      "outlet": "South China Morning Post",
      "region": "cn",
      "bucket": "serious",
-     "title": "Omani Flydubai co-pilot planned to crash plane into Israeli airport, UAE says",
+     "title": "10 injured in knife attack at school in northeastern Poland",
      "language": "en",
-     "link": "https://www.scmp.com/news/world/middle-east/article/3370407/omani-flydubai-co-pilot-planned-crash-plane-israeli-airport-uae-says?utm_source=rss_feed",
-     "published": "2026-10-09T17:01:59+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "🔴 FlyDubai co-pilot planned suicide attack on Tel Aviv airport, inspired by 9/11, UAE prosecutor says",
-     "language": "en",
-     "link": "https://www.france24.com/en/middle-east/20261009-flydubai-co-pilot-planned-suicide-attack-on-tel-aviv-airport-inspired-by-9-11",
-     "published": "2026-10-09T17:09:59+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "flydubai co-pilot intended to crash plane into Tel Aviv airport, UAE prosecutor says",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/flydubai-co-pilot-intended-to-crash-plane-into-tel-aviv-airport-uae-prosecutor-says/article71565815.ece",
-     "published": "2026-10-09T22:50:19+00:00"
+     "link": "https://www.scmp.com/news/world/europe/article/3370092/10-injured-knife-attack-school-northeastern-poland?utm_source=rss_feed",
+     "published": "2026-10-07T14:55:41+00:00"
     },
     {
      "outlet": "Hindustan Times — World",
      "region": "in",
      "bucket": "serious",
-     "title": "FlyDubai co-pilot intended to crash plane into Tel Aviv airport, UAE prosecutor says",
+     "title": "9 injured in stabbing attack at Poland high school, teen suspect arrested",
      "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/flydubai-co-pilot-intended-to-crash-plane-into-tel-aviv-airport-uae-prosecutor-says-101791570864154.html",
-     "published": "2026-10-09T18:34:23+00:00"
+     "link": "https://www.hindustantimes.com/world-news/7-injured-in-stabbing-attack-at-poland-high-school-teen-suspect-arrested-101791371029555.html",
+     "published": "2026-10-07T11:04:27+00:00"
     },
     {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Flydubai co-pilot planned suicide attack on Tel Aviv airport",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/10/world/flydubai-suicide-attack-tel-aviv/",
-     "published": "2026-10-10T00:13:00+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
+     "outlet": "Free Malaysia Today",
      "region": "my",
      "bucket": "serious",
-     "title": "UAE prosecutor: Flydubai co-pilot planned suicide attack on Tel Aviv airport, sought ‘greatest possible loss of life’",
+     "title": "Seven wounded in Poland school stabbing attack",
      "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/10/uae-prosecutor-flydubai-co-pilot-planned-suicide-attack-on-tel-aviv-airport-sought-greatest-possible-loss-of-life/238587",
-     "published": "2026-10-10T08:58:38+00:00"
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/07/seven-wounded-in-poland-school-stabbing-attack",
+     "published": "2026-10-07T11:45:00+00:00"
     },
     {
      "outlet": "TASS",
      "region": "ru",
      "bucket": "serious",
-     "title": "Flydubai co-pilot planned terrorist attack at Tel Aviv airport",
+     "title": "Seven injured in school stabbing attack in Poland",
      "language": "en",
-     "link": "https://tass.com/society/2200015",
-     "published": "2026-10-09T18:09:01+00:00"
+     "link": "https://tass.com/world/2198809",
+     "published": "2026-10-07T12:38:19+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Ten injured in knife attack at Polish school",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNWXI0Qll0ejFsSDdjcVpRZlFUX1FNZUpOS1Ftdi1Ld0dvRFNwdDJkV1ZPY1lRanRoMnNONXp4ZFVpQ181UlBoRk12MWg3Zmxwbm16TXhieDJ2UVFrVGlWdG04d1RsWWJIc2cwTHRUai1VajZhSERGNkN4OUZXNWM5RWlsZ2h0dUYtdTU0cHZPVlRIWEtWcGx2aGEydThwY2FkVXZGVUdmcDZsd2VoUU9j?oc=5",
+     "published": "2026-10-07T16:28:15+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "One dead, two injured in Poland’s second school attack in two days",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-08-one-dead-two-injured-in-polands-second-school-attack-in-two-days/",
+     "published": "2026-10-08T12:33:02+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "1 dead in Poland’s second school knife attack in 2 days, amid ‘copycat’ fears",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3370224/1-dead-polands-second-school-knife-attack-2-days-amid-copycat-fears?utm_source=rss_feed",
+     "published": "2026-10-08T14:00:22+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "1 Dead, 2 Injured In Poland's Second School Attack In Two Days",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/1-dead-2-injured-in-polands-second-school-attack-in-two-days-12155637#publisher=newsstand",
+     "published": "2026-10-08T09:07:21+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "One dead, 2 injured in Poland’s second school attack in two days",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/08/one-dead-two-injured-in-poland-s-second-school-attack-in-two-days",
+     "published": "2026-10-08T10:43:58+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Caretaker killed and two teachers injured in knife attack at Poland school",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/caretaker-killed-and-two-teachers-injured-in-knife-attack-at-poland-school/",
+     "published": "2026-10-08T11:02:06+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Poland's second school knife attack in two days kills one, raises copycat fears",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOYU5NaDZXRmkwbklNck45Nkp2NWZpbWwzTXRGd2tCbVVRVzZUc3lleHQyakx6SGVjTTFrZDhBYVpwdENrZkRDXzQzZXhDcWdTUW9WUFN6VVRvRkszZzZyTFpUSUN4U2JXYnh2NzhhRTIyN2pBR0szSjN0TjljY015dGVldG53Ym15US16dk5jcnF6T21KUmE5YUdrMWtkNmV6WkRsWGtOOXNoV1FtY0cxVlpXb25vRUU?oc=5",
+     "published": "2026-10-08T14:50:44+00:00"
     },
     {
      "outlet": "BBC World",
      "region": "uk",
      "bucket": "serious",
-     "title": "Flydubai attacker began a 'drift towards extremism and terrorism' in Australia, UAE says",
+     "title": "Woman injures three people in third Poland school knife attack in a week",
      "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cw3dj5n538jpo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-10T04:34:55+00:00"
+     "link": "https://www.bbc.co.uk/news/articles/cv8ezd246z1wo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-10T14:58:55+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Three injured in third school attack in Poland in less than a week",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/10/three-injured-in-third-school-attack-in-poland-in-less-than-a-week?traffic_source=rss",
+     "published": "2026-10-10T15:13:55+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Woman injures three people in third Poland school knife attack in a week",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE14dWZGbHJzTUk1Mmc1X3ZuYUV0VzNEZmhuaFliUm9iNXBxd0xJSFVxVkRfcVVIQ0YzQlc3TEZreTZQaEZWMlZuaTlSQmlQRTNCQTBQWlY3WjAxbU0?oc=5",
+     "published": "2026-10-10T14:58:55+00:00"
     }
    ],
-   "last_seen": "2026-10-10T09:07:48.714447+00:00",
-   "outlets": 12,
+   "last_seen": "2026-10-10T17:07:48.257605+00:00",
+   "outlets": 10,
    "regions": 9,
    "languages": 1,
-   "score": 32.0
+   "score": 30.0
   },
   {
    "id": "c2196a3d81fa",
@@ -4986,6 +5577,125 @@
     }
    ],
    "last_seen": "2026-10-08T18:07:58.260966+00:00",
+   "outlets": 10,
+   "regions": 8,
+   "languages": 1,
+   "score": 28.0
+  },
+  {
+   "id": "2fad27aebeea",
+   "first_seen": "2026-10-06T09:08:01.863235+00:00",
+   "members": [
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Israel puts military on alert for October 7 anniversary, warns Gazans",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/israel-puts-military-on-alert-for-october-7-anniversary-warns-gazans/article71550358.ece",
+     "published": "2026-10-06T07:25:35+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Israel warns Gazans will pay 'heavy price' for any October 7 attacks on military",
+     "language": "en",
+     "link": "https://www.france24.com/en/middle-east/20261006-israel-warns-gazans-will-pay-heavy-price-for-any-october-7-attacks-on-military",
+     "published": "2026-10-06T07:50:10+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Israel puts military on alert ahead of October 7 anniversary",
+     "language": "en",
+     "link": "https://punchng.com/israel-puts-military-on-alert-ahead-of-october-7-anniversary/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-06T08:23:01+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Israel puts military on alert for Oct 7 anniversary, warns Gazans",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/israel-puts-military-on-alert-for-oct-7-anniversary-warns-gazans",
+     "published": "2026-10-06T07:19:34+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Verstappen wins chaotic Singapore GP F1 sprint after Russell crashes",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/10/10/verstappen-singapore-gp-sprint-rain-russell-hamilton-leclerc?traffic_source=rss",
+     "published": "2026-10-10T13:08:35+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Verstappen wins sprint after Russell crashes out",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/formula1/articles/cwn73gmz78reo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-10T13:43:47+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Verstappen breaks Singapore duck in wild sprint after Russell crashes out of the lead",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/sports/2026/10/10/verstappen-wins-singapore-sprint-after-russell-crashes/238598",
+     "published": "2026-10-10T10:26:44+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Verstappen wins rain-hit Singapore sprint as Russell crashes out",
+     "language": "en",
+     "link": "https://www.dailysabah.com/sports/motorsports/verstappen-wins-rain-hit-singapore-sprint-as-russell-crashes-out",
+     "published": "2026-10-10T10:39:00+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Verstappen wins Singapore sprint after chaotic start in wet conditions",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/10/verstappen-wins-singapore-sprint-after-chaotic-start-in-wet-conditions",
+     "published": "2026-10-10T10:53:00+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Verstappen beats Ferraris to Singapore pole",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/formula1/articles/cvj6j5kyx2p1o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-10T15:29:12+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Verstappen surge continues with Singapore pole ahead of Ferraris",
+     "language": "en",
+     "link": "https://www.skysports.com/f1/news/12040/13597102/singapore-gp-qualifying-max-verstappen-claims-pole-position-again-as-charles-leclerc-pips-lewis-hamilton-to-second-on-grid",
+     "published": "2026-10-10T15:45:00+00:00"
+    },
+    {
+     "outlet": "Buenos Aires Times",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "Israel continues to surge ahead",
+     "language": "en",
+     "link": "https://www.batimes.com.ar/news/opinion-and-analysis/israel-continues-to-surge-ahead.phtml",
+     "published": "2026-10-10T09:06:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T17:07:48.257605+00:00",
    "outlets": 10,
    "regions": 8,
    "languages": 1,
@@ -5405,226 +6115,6 @@
    "score": 25.0
   },
   {
-   "id": "8a9cacec0541",
-   "first_seen": "2026-10-10T09:07:48.714447+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Zelenskyy furious as Trump announces deal to buy Russian diesel",
-     "language": "en",
-     "link": "https://www.theguardian.com/us-news/2026/oct/09/trump-putin-russian-diesel-ukraine",
-     "published": "2026-10-09T23:39:31+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Trump announces deal for Russian diesel as Zelensky calls it a gift to Putin",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cm1dwgr666wno?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-10T04:38:20+00:00"
-    },
-    {
-     "outlet": "Meduza English",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "‘We’re being used as a front,’ Zelensky says of Trump’s diesel deal with Putin",
-     "language": "en",
-     "link": "https://meduza.io/en/feature/2026/10/10/we-re-being-used-as-a-front-zelensky-says-of-trump-s-diesel-deal-with-putin",
-     "published": "2026-10-10T00:02:06+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Trump announces Russian diesel deal amid US fuel price surge",
-     "language": "en",
-     "link": "https://www.dailysabah.com/business/energy/trump-announces-russian-diesel-deal-amid-us-fuel-price-surge",
-     "published": "2026-10-09T21:21:00+00:00"
-    },
-    {
-     "outlet": "Investing.com — الاقتصاد",
-     "region": "money",
-     "bucket": "useful",
-     "title": "Trump reaches Russian diesel supply deal as U.S. fuel prices surge",
-     "language": "en",
-     "link": "https://www.investing.com/news/economy-news/trump-reaches-russian-diesel-supply-deal-as-us-fuel-prices-surge-4941896",
-     "published": "2026-10-10T00:37:35+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Trump publicly thanks Putin for diesel fuel supply deal",
-     "language": "en",
-     "link": "https://tass.com/world/2200203",
-     "published": "2026-10-10T01:46:35+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Australia says it won’t buy Russian fuel despite Trump’s diesel agreement",
-     "language": "en",
-     "link": "https://www.scmp.com/news/asia/australasia/article/3370422/australia-says-it-wont-buy-russian-fuel-despite-trumps-diesel-agreement?utm_source=rss_feed",
-     "published": "2026-10-10T04:09:39+00:00"
-    },
-    {
-     "outlet": "Meduza English",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Trump says he’s reached a deal with Putin to supply Russian diesel to U.S. and global markets. Zelensky calls it ‘an investment in a war that must be ended, not prolonged.’",
-     "language": "en",
-     "link": "https://meduza.io/en/news/2026/10/09/trump-says-he-reached-a-deal-with-putin-to-supply-russian-diesel-to-u-s-and-global-markets-breaking-with-years-of-american-sanctions-policy",
-     "published": "2026-10-09T19:32:27+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Trump-Putin deal: How much diesel will Russia supply to the US?",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/trumpputin-deal-how-much-diesel-will-russia-supply-to-the-us-101791578877226.html",
-     "published": "2026-10-09T21:25:40+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Trump says Russia to supply diesel to U.S. and global markets",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/10/world/politics/trump-russia-diesel-us-global-markets/",
-     "published": "2026-10-09T22:49:00+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Russia ready to supply oil to US, global markets",
-     "language": "en",
-     "link": "https://tass.com/economy/2200067",
-     "published": "2026-10-09T20:21:09+00:00"
-    }
-   ],
-   "last_seen": "2026-10-10T09:07:48.714447+00:00",
-   "outlets": 9,
-   "regions": 7,
-   "languages": 1,
-   "score": 25.0
-  },
-  {
-   "id": "9d74b44c397d",
-   "first_seen": "2026-10-07T18:07:47.065879+00:00",
-   "members": [
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "10 injured in knife attack at school in northeastern Poland",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/europe/article/3370092/10-injured-knife-attack-school-northeastern-poland?utm_source=rss_feed",
-     "published": "2026-10-07T14:55:41+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "9 injured in stabbing attack at Poland high school, teen suspect arrested",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/7-injured-in-stabbing-attack-at-poland-high-school-teen-suspect-arrested-101791371029555.html",
-     "published": "2026-10-07T11:04:27+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Seven wounded in Poland school stabbing attack",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/07/seven-wounded-in-poland-school-stabbing-attack",
-     "published": "2026-10-07T11:45:00+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Seven injured in school stabbing attack in Poland",
-     "language": "en",
-     "link": "https://tass.com/world/2198809",
-     "published": "2026-10-07T12:38:19+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Ten injured in knife attack at Polish school",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxNWXI0Qll0ejFsSDdjcVpRZlFUX1FNZUpOS1Ftdi1Ld0dvRFNwdDJkV1ZPY1lRanRoMnNONXp4ZFVpQ181UlBoRk12MWg3Zmxwbm16TXhieDJ2UVFrVGlWdG04d1RsWWJIc2cwTHRUai1VajZhSERGNkN4OUZXNWM5RWlsZ2h0dUYtdTU0cHZPVlRIWEtWcGx2aGEydThwY2FkVXZGVUdmcDZsd2VoUU9j?oc=5",
-     "published": "2026-10-07T16:28:15+00:00"
-    },
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "One dead, two injured in Poland’s second school attack in two days",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-08-one-dead-two-injured-in-polands-second-school-attack-in-two-days/",
-     "published": "2026-10-08T12:33:02+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "1 dead in Poland’s second school knife attack in 2 days, amid ‘copycat’ fears",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/europe/article/3370224/1-dead-polands-second-school-knife-attack-2-days-amid-copycat-fears?utm_source=rss_feed",
-     "published": "2026-10-08T14:00:22+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "1 Dead, 2 Injured In Poland's Second School Attack In Two Days",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/1-dead-2-injured-in-polands-second-school-attack-in-two-days-12155637#publisher=newsstand",
-     "published": "2026-10-08T09:07:21+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "One dead, 2 injured in Poland’s second school attack in two days",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/08/one-dead-two-injured-in-poland-s-second-school-attack-in-two-days",
-     "published": "2026-10-08T10:43:58+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Caretaker killed and two teachers injured in knife attack at Poland school",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/caretaker-killed-and-two-teachers-injured-in-knife-attack-at-poland-school/",
-     "published": "2026-10-08T11:02:06+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Poland's second school knife attack in two days kills one, raises copycat fears",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOYU5NaDZXRmkwbklNck45Nkp2NWZpbWwzTXRGd2tCbVVRVzZUc3lleHQyakx6SGVjTTFrZDhBYVpwdENrZkRDXzQzZXhDcWdTUW9WUFN6VVRvRkszZzZyTFpUSUN4U2JXYnh2NzhhRTIyN2pBR0szSjN0TjljY015dGVldG53Ym15US16dk5jcnF6T21KUmE5YUdrMWtkNmV6WkRsWGtOOXNoV1FtY0cxVlpXb25vRUU?oc=5",
-     "published": "2026-10-08T14:50:44+00:00"
-    }
-   ],
-   "last_seen": "2026-10-08T18:07:58.260966+00:00",
-   "outlets": 8,
-   "regions": 7,
-   "languages": 1,
-   "score": 24.0
-  },
-  {
    "id": "2f288ea0dcb3",
    "first_seen": "2026-10-08T15:07:49.816861+00:00",
    "members": [
@@ -5800,6 +6290,89 @@
    "score": 24.0
   },
   {
+   "id": "493ae8954612",
+   "first_seen": "2026-10-10T09:07:48.714447+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Commentator Katie Zacharia picked as new White House press secretary",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c5rmy73zr0rro?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-09T22:41:21+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Trump picks Truth Social’s Katie Zacharia as White House press secretary",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370413/trump-picks-truth-socials-katie-zacharia-white-house-press-secretary?utm_source=rss_feed",
+     "published": "2026-10-09T22:37:12+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Katie Zacharia picked as White House press secretary",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/katie-zacharia-picked-as-white-house-press-secretary/article71565837.ece",
+     "published": "2026-10-09T22:45:49+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Trump offers White House press secretary role to Katie Zacharia",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/americas/trump-offers-white-house-press-secretary-role-to-katie-zacharia",
+     "published": "2026-10-09T18:33:00+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump Picks Katie Zacharia As New White House Press Secretary",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/trump-picks-katie-zacharia-as-new-white-house-press-secretary-12164006#publisher=newsstand",
+     "published": "2026-10-10T01:24:42+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Trump appoints ‘devoted fan’ Katie Zacharia as White House press secretary",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/10/trump-appoints-devoted-fan-katie-zacharia-as-white-house-press-secretary/238537",
+     "published": "2026-10-10T04:14:31+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Trump appoints ‘devoted fan’ Katie Zacharia as press secretary",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/trump-appoints-devoted-fan-katie-zacharia-as-press-secretary/",
+     "published": "2026-10-10T07:09:58+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Commentator Katie Zacharia picked as new White House press secretary",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/commentator-katie-zacharia-picked-as-new-white-house-press-secretary/",
+     "published": "2026-10-10T16:45:10+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T17:07:48.257605+00:00",
+   "outlets": 8,
+   "regions": 7,
+   "languages": 1,
+   "score": 24.0
+  },
+  {
    "id": "b0355c8692a2",
    "first_seen": "2026-10-09T17:07:48.864691+00:00",
    "members": [
@@ -5867,7 +6440,7 @@
      "published": "2026-10-10T01:23:12+00:00"
     }
    ],
-   "last_seen": "2026-10-10T09:07:48.714447+00:00",
+   "last_seen": "2026-10-10T17:07:48.257605+00:00",
    "outlets": 7,
    "regions": 7,
    "languages": 1,
@@ -6280,76 +6853,94 @@
    "score": 21.0
   },
   {
-   "id": "493ae8954612",
+   "id": "5213bbd5cf19",
    "first_seen": "2026-10-10T09:07:48.714447+00:00",
    "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Anthropic AI model submits false homicide tip to Philadelphia police",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/10/anthropic-ai-model-submits-false-homicide-tip-to-philadelphia-police?traffic_source=rss",
+     "published": "2026-10-10T04:54:59+00:00"
+    },
+    {
+     "outlet": "The Verge",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "Anthropic’s AI gave Philadelphia police a fake tip about an unsolved homicide",
+     "language": "en",
+     "link": "https://www.theverge.com/ai-artificial-intelligence/1009090/anthropic-fake-homicide-information-philadelphia-pd-tip",
+     "published": "2026-10-09T21:15:38+00:00"
+    },
+    {
+     "outlet": "TechCrunch",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "An Anthropic AI model sent a false homicide tip to Philadelphia police",
+     "language": "en",
+     "link": "https://techcrunch.com/2026/10/09/an-anthropic-ai-model-sent-a-false-homicide-tip-to-philadelphia-police/",
+     "published": "2026-10-09T19:36:56+00:00"
+    },
+    {
+     "outlet": "Engadget",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "An Anthropic model submitted a false homicide tip to Philadelphia police",
+     "language": "en",
+     "link": "https://www.engadget.com/2282713/an-anthropic-model-submitted-a-false-homicide-tip-to-philadelphia-police/",
+     "published": "2026-10-09T20:00:30+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Anthropic under fire as AI model submits false homicide tip to Philadelphia police",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/anthropic-under-fire-as-ai-model-submits-false-homicide-tip-to-philadelphia-police-101791582807050.html",
+     "published": "2026-10-09T22:15:07+00:00"
+    },
     {
      "outlet": "BBC World",
      "region": "uk",
      "bucket": "serious",
-     "title": "Commentator Katie Zacharia picked as new White House press secretary",
+     "title": "Rogue Anthropic AI agent gave police fake tip in unsolved murder case",
      "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c5rmy73zr0rro?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-09T22:41:21+00:00"
+     "link": "https://www.bbc.co.uk/news/articles/cqkg50j1yd5lo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-10T10:06:23+00:00"
     },
     {
-     "outlet": "South China Morning Post",
-     "region": "cn",
+     "outlet": "Dawn",
+     "region": "pk",
      "bucket": "serious",
-     "title": "Trump picks Truth Social’s Katie Zacharia as White House press secretary",
+     "title": "Anthropic AI model sent fake murder tip to US police in Philadelphia",
      "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370413/trump-picks-truth-socials-katie-zacharia-white-house-press-secretary?utm_source=rss_feed",
-     "published": "2026-10-09T22:37:12+00:00"
+     "link": "https://www.dawn.com/news/2036155/anthropic-ai-model-sent-fake-murder-tip-to-us-police-in-philadelphia",
+     "published": "2026-10-10T11:21:28+00:00"
     },
     {
-     "outlet": "The Hindu — International",
-     "region": "in",
+     "outlet": "The Express Tribune",
+     "region": "pk",
      "bucket": "serious",
-     "title": "Katie Zacharia picked as White House press secretary",
+     "title": "Anthropic discloses fake tip to police among new rogue AI incidents",
      "language": "en",
-     "link": "https://www.thehindu.com/news/international/katie-zacharia-picked-as-white-house-press-secretary/article71565837.ece",
-     "published": "2026-10-09T22:45:49+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Trump offers White House press secretary role to Katie Zacharia",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/americas/trump-offers-white-house-press-secretary-role-to-katie-zacharia",
-     "published": "2026-10-09T18:33:00+00:00"
+     "link": "https://tribune.com.pk/story/2634095/anthropic-discloses-fake-tip-to-police-among-new-rogue-ai-incidents",
+     "published": "2026-10-10T08:21:00+00:00"
     },
     {
      "outlet": "NDTV — World",
      "region": "in",
      "bucket": "serious",
-     "title": "Trump Picks Katie Zacharia As New White House Press Secretary",
+     "title": "Anthropic AI Sent Fake Tip In Unsolved Homicide Case, Philadelphia Police Say",
      "language": "en",
-     "link": "https://www.ndtv.com/world-news/trump-picks-katie-zacharia-as-new-white-house-press-secretary-12164006#publisher=newsstand",
-     "published": "2026-10-10T01:24:42+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Trump appoints ‘devoted fan’ Katie Zacharia as White House press secretary",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/10/trump-appoints-devoted-fan-katie-zacharia-as-white-house-press-secretary/238537",
-     "published": "2026-10-10T04:14:31+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Trump appoints ‘devoted fan’ Katie Zacharia as press secretary",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/trump-appoints-devoted-fan-katie-zacharia-as-press-secretary/",
-     "published": "2026-10-10T07:09:58+00:00"
+     "link": "https://www.ndtv.com/world-news/anthropic-ai-sent-fake-tip-in-unsolved-homicide-case-philadelphia-police-say-12166225#publisher=newsstand",
+     "published": "2026-10-10T11:21:10+00:00"
     }
    ],
-   "last_seen": "2026-10-10T09:07:48.714447+00:00",
-   "outlets": 7,
-   "regions": 6,
+   "last_seen": "2026-10-10T17:07:48.257605+00:00",
+   "outlets": 9,
+   "regions": 5,
    "languages": 1,
    "score": 21.0
   },
@@ -6632,6 +7223,71 @@
    "score": 20.0
   },
   {
+   "id": "7de4fe658af2",
+   "first_seen": "2026-10-10T17:07:48.257605+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "England international Cole Palmer signs new Chelsea deal until 2034",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/10/10/england-international-cole-palmer-signs-new-chelsea-deal-until-2034?traffic_source=rss",
+     "published": "2026-10-10T12:37:14+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Palmer signs new Chelsea contract until 2034",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/football/articles/cwe9lngxzjpno?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-10T09:51:09+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Palmer signs Chelsea contract until 2034",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/sport/palmer-signs-chelsea-contract-until-2034-6448711",
+     "published": "2026-10-10T10:44:38+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Palmer signs contract to stay at Chelsea until 2034",
+     "language": "en",
+     "link": "https://punchng.com/palmer-signs-contract-to-stay-at-chelsea-until-2034/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-10T13:28:02+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Palmer signs Chelsea contract until 2034",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/10/palmer-signs-chelsea-contract-until-2034",
+     "published": "2026-10-10T10:41:24+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Palmer signs new Chelsea contract until 2034",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/palmer-signs-new-chelsea-contract-until-2034/",
+     "published": "2026-10-10T10:56:28+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T17:07:48.257605+00:00",
+   "outlets": 6,
+   "regions": 6,
+   "languages": 1,
+   "score": 20.0
+  },
+  {
    "id": "d4e675cb0d92",
    "first_seen": "2026-10-09T09:07:48.883639+00:00",
    "members": [
@@ -6872,6 +7528,89 @@
    "score": 18.0
   },
   {
+   "id": "038833f82242",
+   "first_seen": "2026-10-10T09:07:48.714447+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Hurricane Isaias makes landfall in Florida and hammers Gulf coast",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/09/hurricane-isaias-makes-landfall",
+     "published": "2026-10-10T03:56:50+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Hurricane Isaias downgraded after making landfall in Florida",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c3vgx4450v2lo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-10T08:29:59+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Isaias weakens after making landfall in US Gulf Coast as hurricane",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/10/isaias-weakens-after-making-landfall-in-us-gulf-coast-as-hurricane?traffic_source=rss",
+     "published": "2026-10-10T08:33:44+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Hurricane Isaias makes landfall in Florida",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/10/hurricane-isaias",
+     "published": "2026-10-10T06:06:36+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "4,00,000 Without Power In Florida As Hurricane Isaias Makes Landfall",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/isaias-makes-landfall-along-the-us-gulf-coast-as-a-dangerous-category-2-hurricane-12164557#publisher=newsstand",
+     "published": "2026-10-10T06:42:42+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Two dead as Isaias weakens to post-tropical cyclone after striking Florida panhandle",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/10/isaias-weakens-to-post-tropical-cyclone",
+     "published": "2026-10-10T14:34:15+00:00"
+    },
+    {
+     "outlet": "Phys.org",
+     "region": "science",
+     "bucket": "useful",
+     "title": "Isaias downgraded to post-tropical cyclone after landfall in Florida",
+     "language": "en",
+     "link": "https://phys.org/news/2026-10-isaias-downgraded-tropical-cyclone-landfall.html",
+     "published": "2026-10-10T12:10:01+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Isaias downgraded to post-tropical cyclone after landfall in Florida",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/10/isaias-downgraded-to-post-tropical-cyclone-after-landfall-in-florida",
+     "published": "2026-10-10T11:58:32+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T17:07:48.257605+00:00",
+   "outlets": 6,
+   "regions": 5,
+   "languages": 1,
+   "score": 18.0
+  },
+  {
    "id": "fc3143ecaa68",
    "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
@@ -7070,6 +7809,127 @@
     }
    ],
    "last_seen": "2026-10-08T15:07:49.816861+00:00",
+   "outlets": 5,
+   "regions": 5,
+   "languages": 1,
+   "score": 17.0
+  },
+  {
+   "id": "3e894f7f6bc0",
+   "first_seen": "2026-10-10T17:07:48.257605+00:00",
+   "members": [
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Bayern concede fastest Bundesliga goal after eight seconds",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/10/bayern-concede-fastest-bundesliga-goal-after-eight-seconds",
+     "published": "2026-10-10T14:19:46+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Bayern concede fastest-ever Bundesliga goal after 8 seconds",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/bayern-concede-fastest-ever-bundesliga-goal-after-8-seconds/",
+     "published": "2026-10-10T14:46:35+00:00"
+    },
+    {
+     "outlet": "Der Spiegel",
+     "region": "de",
+     "bucket": "serious",
+     "title": "Fußball-Bundesliga: Vier Abseitstore, ein Punkt – die Rechnung des FC Bayern geht nicht auf",
+     "language": "de",
+     "link": "https://www.spiegel.de/sport/fussball/fussball-bundesliga-vier-abseitstore-ein-punkt-die-rechnung-des-fc-bayern-geht-nicht-auf-a-9b9458c9-a025-4579-907f-8a339b397296#ref=rss",
+     "published": "2026-10-10T16:46:00+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Augsburg’s midfielder scores fastest goal in Bundesliga history against Bayern Munich",
+     "language": "en",
+     "link": "https://punchng.com/augsburgs-midfielder-scores-fastest-goal-in-bundesliga-history-against-bayern-munich/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-10T16:49:55+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Augsburg score fastest Bundesliga goal but Bayern snatch comeback draw",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/sport/augsburg-score-fastest-bundesliga-goal-bayern-snatch-comeback-draw-6448946",
+     "published": "2026-10-10T14:22:49+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T17:07:48.257605+00:00",
+   "outlets": 5,
+   "regions": 4,
+   "languages": 2,
+   "score": 17.0
+  },
+  {
+   "id": "d6e8444bb564",
+   "first_seen": "2026-10-10T17:07:48.257605+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Abbas postpones Palestinian legislative elections to September 2027",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/10/abbas-postpones-palestinian-legislative-elections-to-september-2027?traffic_source=rss",
+     "published": "2026-10-10T14:18:09+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Palestinian president postpones legislative elections to September 2027",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2036165/palestinian-president-postpones-legislative-elections-to-september-2027",
+     "published": "2026-10-10T12:54:44+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Palestinian leader Abbas postpones elections to September 2027",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/middle-east/article/3370455/palestinian-leader-abbas-postpones-elections-september-2027?utm_source=rss_feed",
+     "published": "2026-10-10T15:09:00+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Palestinian president Abbas postpones legislative, presidential elections to September 2027",
+     "language": "en",
+     "link": "https://www.france24.com/en/middle-east/20261010-palestinian-president-abbas-postpones-legislative-elections-to-september-2027",
+     "published": "2026-10-10T11:56:40+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Abbas postpones Palestinian elections, sets presidential poll for September 2027",
+     "language": "en",
+     "link": "https://www.france24.com/en/video/20261010-abbas-postpones-palestinian-elections-sets-presidential-poll-for-september-2027",
+     "published": "2026-10-10T16:09:13+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Abbas postpones Palestinian legislative elections to September 2027",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/10/abbas-postpones-palestinian-legislative-elections-to-september-2027",
+     "published": "2026-10-10T13:20:37+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T17:07:48.257605+00:00",
    "outlets": 5,
    "regions": 5,
    "languages": 1,
@@ -7383,130 +8243,56 @@
    "score": 15.0
   },
   {
-   "id": "182e65baf487",
-   "first_seen": "2026-10-08T15:07:49.816861+00:00",
+   "id": "52d2d9b346a7",
+   "first_seen": "2026-10-10T17:07:48.257605+00:00",
    "members": [
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Yemen’s Houthis claim new attacks on Saudi airports as conflict deepens",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/yemens-houthis-claim-new-attacks-on-saudi-airports-as-conflict-deepens/article71557047.ece",
-     "published": "2026-10-07T17:04:00+00:00"
-    },
-    {
-     "outlet": "Africanews",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Yemen's Houthis claim responsibility for attacks on two Saudi airports",
-     "language": "en",
-     "link": "http://www.africanews.com/2026/10/08/yemens-houthis-claim-responsibility-for-attacks-on-two-saudi-airports/",
-     "published": "2026-10-08T11:37:25+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Three people killed in Houthi attacks on Saudi Arabia airports, officials say",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cwn8d5rx22rdo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-08T03:32:35+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Attacks on Saudi airports claimed by Houthi rebels kill 3 people, officials say",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/attacks-on-saudi-airports-claimed-by-houthi-rebels-kill-several/article71557187.ece",
-     "published": "2026-10-08T00:31:56+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Three Saudis killed in Riyadh airport attack claimed by Houthis",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/09/riyadh-airport-flights-suspended-houthis-claim-attack",
-     "published": "2026-10-09T09:47:10+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Saudi authorities say three killed in Houthi-claimed attacks on Riyadh airport",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/saudi-authorities-say-three-killed-in-houthi-claimed-attacks-on-riyadh-airport/article71565580.ece",
-     "published": "2026-10-09T17:26:32+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "IN BRIEF: Three killed, several injured in attack on Riyadh airport",
-     "language": "en",
-     "link": "https://tass.com/emergencies/2199827",
-     "published": "2026-10-09T11:37:07+00:00"
-    }
-   ],
-   "last_seen": "2026-10-10T09:07:48.714447+00:00",
-   "outlets": 5,
-   "regions": 4,
-   "languages": 1,
-   "score": 15.0
-  },
-  {
-   "id": "038833f82242",
-   "first_seen": "2026-10-10T09:07:48.714447+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Hurricane Isaias makes landfall in Florida and hammers Gulf coast",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/09/hurricane-isaias-makes-landfall",
-     "published": "2026-10-10T03:56:50+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Hurricane Isaias downgraded after making landfall in Florida",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c3vgx4450v2lo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-10T08:29:59+00:00"
-    },
     {
      "outlet": "Al Jazeera English",
      "region": "qa",
      "bucket": "serious",
-     "title": "Isaias weakens after making landfall in US Gulf Coast as hurricane",
+     "title": "Arsenal beat Leeds 2-1 in comeback win to move level with Man City at top",
      "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/10/isaias-weakens-after-making-landfall-in-us-gulf-coast-as-hurricane?traffic_source=rss",
-     "published": "2026-10-10T08:33:44+00:00"
+     "link": "https://www.aljazeera.com/sports/2026/10/10/arsenal-beat-leeds-2-1-in-comeback-win-to-move-level-with-man-city-at-top?traffic_source=rss",
+     "published": "2026-10-10T14:42:39+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Arsenal hit back to beat Leeds and draw level with Man City",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/arsenal-hit-back-to-beat-leeds-and-draw-level-with-man-city/",
+     "published": "2026-10-10T13:44:09+00:00"
     },
     {
      "outlet": "Free Malaysia Today",
      "region": "my",
      "bucket": "serious",
-     "title": "Hurricane Isaias makes landfall in Florida",
+     "title": "Arsenal fight back to beat Leeds, draw level on points with Man City",
      "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/10/hurricane-isaias",
-     "published": "2026-10-10T06:06:36+00:00"
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/10/arsenal-fight-back-to-beat-leeds-draw-level-on-points-with-man-city",
+     "published": "2026-10-10T13:51:36+00:00"
     },
     {
-     "outlet": "NDTV — World",
-     "region": "in",
+     "outlet": "Channel News Asia",
+     "region": "seasia",
      "bucket": "serious",
-     "title": "4,00,000 Without Power In Florida As Hurricane Isaias Makes Landfall",
+     "title": "Guimaraes grabs winner as Arsenal rally to beat Leeds",
      "language": "en",
-     "link": "https://www.ndtv.com/world-news/isaias-makes-landfall-along-the-us-gulf-coast-as-a-dangerous-category-2-hurricane-12164557#publisher=newsstand",
-     "published": "2026-10-10T06:42:42+00:00"
+     "link": "https://www.channelnewsasia.com/sport/guimaraes-grabs-winner-arsenal-rally-beat-leeds-6448891",
+     "published": "2026-10-10T13:33:39+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "EPL: Guimaraes’ winner helps Arsenal fight back to beat Leeds 2-1",
+     "language": "en",
+     "link": "https://punchng.com/epl-guimaraes-winner-helps-arsenal-fight-back-to-beat-leeds-2-1/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-10T14:48:46+00:00"
     }
    ],
-   "last_seen": "2026-10-10T09:07:48.714447+00:00",
+   "last_seen": "2026-10-10T17:07:48.257605+00:00",
    "outlets": 5,
    "regions": 4,
    "languages": 1,
@@ -7739,53 +8525,6 @@
      "language": "en",
      "link": "https://www.ndtv.com/artificial-intelligence/wikipedia-operator-says-openais-rogue-agents-possibly-tied-to-data-service-disruption-in-may-12144067#publisher=newsstand",
      "published": "2026-10-06T05:10:46+00:00"
-    }
-   ],
-   "last_seen": "2026-10-06T09:08:01.863235+00:00",
-   "outlets": 4,
-   "regions": 4,
-   "languages": 1,
-   "score": 14.0
-  },
-  {
-   "id": "2fad27aebeea",
-   "first_seen": "2026-10-06T09:08:01.863235+00:00",
-   "members": [
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Israel puts military on alert for October 7 anniversary, warns Gazans",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/israel-puts-military-on-alert-for-october-7-anniversary-warns-gazans/article71550358.ece",
-     "published": "2026-10-06T07:25:35+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Israel warns Gazans will pay 'heavy price' for any October 7 attacks on military",
-     "language": "en",
-     "link": "https://www.france24.com/en/middle-east/20261006-israel-warns-gazans-will-pay-heavy-price-for-any-october-7-attacks-on-military",
-     "published": "2026-10-06T07:50:10+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Israel puts military on alert ahead of October 7 anniversary",
-     "language": "en",
-     "link": "https://punchng.com/israel-puts-military-on-alert-ahead-of-october-7-anniversary/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-06T08:23:01+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Israel puts military on alert for Oct 7 anniversary, warns Gazans",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/israel-puts-military-on-alert-for-oct-7-anniversary-warns-gazans",
-     "published": "2026-10-06T07:19:34+00:00"
     }
    ],
    "last_seen": "2026-10-06T09:08:01.863235+00:00",
@@ -8133,6 +8872,53 @@
    "score": 14.0
   },
   {
+   "id": "cd987ac59539",
+   "first_seen": "2026-10-10T17:07:48.257605+00:00",
+   "members": [
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Ronaldo provisionally suspended after national team walkout, media reports say",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/sport/ronaldo-provisionally-suspended-after-national-team-walkout-media-reports-say-6448901",
+     "published": "2026-10-10T13:35:45+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Ronaldo provisionally suspended by Portugal FA after walkout",
+     "language": "en",
+     "link": "https://www.skysports.com/football/news/12040/13597244/cristiano-ronaldo-portuguese-football-federation-provisionally-suspends-forward-after-walkout-following-disagreement-with-manager-jorge-jesus",
+     "published": "2026-10-10T17:15:00+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Ronaldo provisionally suspended after Portugal walkout",
+     "language": "en",
+     "link": "https://www.dailysabah.com/sports/football/ronaldo-provisionally-suspended-after-portugal-walkout",
+     "published": "2026-10-10T13:11:00+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Ronaldo provisionally suspended after national team walkout, say media reports",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/10/ronaldo-provisionally-suspended-after-national-team-walkout-say-media-reports",
+     "published": "2026-10-10T14:04:26+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T17:07:48.257605+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
+  },
+  {
    "id": "4295e00d2202",
    "first_seen": "2026-10-06T03:07:51.967007+00:00",
    "members": [
@@ -8168,62 +8954,6 @@
    "outlets": 3,
    "regions": 3,
    "languages": 2,
-   "score": 13.0
-  },
-  {
-   "id": "5213bbd5cf19",
-   "first_seen": "2026-10-10T09:07:48.714447+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Anthropic AI model submits false homicide tip to Philadelphia police",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/10/anthropic-ai-model-submits-false-homicide-tip-to-philadelphia-police?traffic_source=rss",
-     "published": "2026-10-10T04:54:59+00:00"
-    },
-    {
-     "outlet": "The Verge",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "Anthropic’s AI gave Philadelphia police a fake tip about an unsolved homicide",
-     "language": "en",
-     "link": "https://www.theverge.com/ai-artificial-intelligence/1009090/anthropic-fake-homicide-information-philadelphia-pd-tip",
-     "published": "2026-10-09T21:15:38+00:00"
-    },
-    {
-     "outlet": "TechCrunch",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "An Anthropic AI model sent a false homicide tip to Philadelphia police",
-     "language": "en",
-     "link": "https://techcrunch.com/2026/10/09/an-anthropic-ai-model-sent-a-false-homicide-tip-to-philadelphia-police/",
-     "published": "2026-10-09T19:36:56+00:00"
-    },
-    {
-     "outlet": "Engadget",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "An Anthropic model submitted a false homicide tip to Philadelphia police",
-     "language": "en",
-     "link": "https://www.engadget.com/2282713/an-anthropic-model-submitted-a-false-homicide-tip-to-philadelphia-police/",
-     "published": "2026-10-09T20:00:30+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Anthropic under fire as AI model submits false homicide tip to Philadelphia police",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/anthropic-under-fire-as-ai-model-submits-false-homicide-tip-to-philadelphia-police-101791582807050.html",
-     "published": "2026-10-09T22:15:07+00:00"
-    }
-   ],
-   "last_seen": "2026-10-10T09:07:48.714447+00:00",
-   "outlets": 5,
-   "regions": 3,
-   "languages": 1,
    "score": 13.0
   },
   {
@@ -8455,7 +9185,54 @@
      "published": "2026-10-10T00:15:00+00:00"
     }
    ],
-   "last_seen": "2026-10-10T09:07:48.714447+00:00",
+   "last_seen": "2026-10-10T17:07:48.257605+00:00",
+   "outlets": 4,
+   "regions": 3,
+   "languages": 1,
+   "score": 12.0
+  },
+  {
+   "id": "044523cf6eeb",
+   "first_seen": "2026-10-10T09:07:48.714447+00:00",
+   "members": [
+    {
+     "outlet": "Nikkei Asia",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Bessent to skip IMF, World Bank meetings in Bangkok",
+     "language": "en",
+     "link": "https://asia.nikkei.com/politics/international-relations/bessent-to-skip-imf-world-bank-meetings-in-bangkok",
+     "published": "2026-10-10T09:07:38.988148+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "U.S. Treasury chief Scott Bessent to skip IMF-World Bank meetings in Bangkok",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/business/2026/10/10/economy/scott-bessent-skip-imf-world-bank-meetings/",
+     "published": "2026-10-10T01:37:00+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "US Treasury chief Bessent to skip IMF annual meetings in Bangkok",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/money/2026/10/10/us-treasury-chief-bessent-to-skip-imf-annual-meetings-in-bangkok/238532",
+     "published": "2026-10-10T03:58:43+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Finance minister heads to Bangkok for IMF, World Bank meetings",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2036191/finance-minister-heads-to-bangkok-for-imf-world-bank-meetings",
+     "published": "2026-10-10T16:28:01+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T17:07:48.257605+00:00",
    "outlets": 4,
    "regions": 3,
    "languages": 1,
@@ -9694,6 +10471,82 @@
    "score": 11.0
   },
   {
+   "id": "944d1b8954d7",
+   "first_seen": "2026-10-10T17:07:48.257605+00:00",
+   "members": [
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Rayo-Bilbao match abandoned after fans' protest against club owner",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/sport/rayo-bilbao-match-abandoned-after-fans-protest-against-club-owner-6448951",
+     "published": "2026-10-10T14:18:51+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "La Liga: Rayo match against Bilbao abandoned after fan protests",
+     "language": "en",
+     "link": "https://punchng.com/la-liga-rayo-match-against-bilbao-abandoned-after-fan-protests/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-10T15:13:56+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Rayo La Liga match abandoned after fan protests",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/10/rayo-liga-match-abandoned-after-fan-protests",
+     "published": "2026-10-10T14:34:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T17:07:48.257605+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "4ff16308f748",
+   "first_seen": "2026-10-10T17:07:48.257605+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Drone strike by Sudan paramilitary kills 41 near Ethiopian border, rights group says",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c8vgx9ew571wo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-10T14:49:32+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Rights group says paramilitary drone strike in Sudan killed 41 near Ethiopian border",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/rights-group-says-paramilitary-drone-strike-in-sudan-killed-41-near-ethiopian-border/article71569304.ece",
+     "published": "2026-10-10T16:54:08+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Drone strike by Sudan paramilitary kills 41 near Ethiopian border, rights group says",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/drone-strike-by-sudan-paramilitary-kills-41-near-ethiopian-border-rights-group-says/",
+     "published": "2026-10-10T16:38:42+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T17:07:48.257605+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
    "id": "55d7d97f75a2",
    "first_seen": "2026-10-07T18:07:47.065879+00:00",
    "members": [
@@ -10148,38 +11001,85 @@
    "score": 9.0
   },
   {
-   "id": "044523cf6eeb",
-   "first_seen": "2026-10-10T09:07:48.714447+00:00",
+   "id": "3b6e815cc695",
+   "first_seen": "2026-10-10T17:07:48.257605+00:00",
    "members": [
     {
-     "outlet": "Nikkei Asia",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Bessent to skip IMF, World Bank meetings in Bangkok",
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Henderson stars as Chelsea thrash Bournemouth",
      "language": "en",
-     "link": "https://asia.nikkei.com/politics/international-relations/bessent-to-skip-imf-world-bank-meetings-in-bangkok",
-     "published": "2026-10-10T09:07:38.988148+00:00"
+     "link": "https://www.skysports.com/football/chelsea-vs-bournemouth/report/559496",
+     "published": "2026-10-10T17:00:00+00:00"
     },
     {
-     "outlet": "The Japan Times",
-     "region": "jp",
+     "outlet": "Punch Nigeria",
+     "region": "ng",
      "bucket": "serious",
-     "title": "U.S. Treasury chief Scott Bessent to skip IMF-World Bank meetings in Bangkok",
+     "title": "EPL: Henderson, Pedro score twice as Chelsea thrash Bournemouth 5-1",
      "language": "en",
-     "link": "https://www.japantimes.co.jp/business/2026/10/10/economy/scott-bessent-skip-imf-world-bank-meetings/",
-     "published": "2026-10-10T01:37:00+00:00"
+     "link": "https://punchng.com/epl-henderson-pedro-score-twice-as-chelsea-thrash-bournemouth-5-1/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-10T17:57:12+00:00"
     },
     {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "US Treasury chief Bessent to skip IMF annual meetings in Bangkok",
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Chelsea 5-1 Bournemouth, Sunderland 0-2 Brighton, and more: football",
      "language": "en",
-     "link": "https://www.malaymail.com/news/money/2026/10/10/us-treasury-chief-bessent-to-skip-imf-annual-meetings-in-bangkok/238532",
-     "published": "2026-10-10T03:58:43+00:00"
+     "link": "https://www.theguardian.com/football/live/2026/oct/10/chelsea-v-bournemouth-sunderland-v-brighton-and-more-football-live",
+     "published": "2026-10-10T16:22:46+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Henderson and João Pedro lead Chelsea charge against Bournemouth",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/2026/oct/10/chelsea-bournemouth-premier-league-match-report",
+     "published": "2026-10-10T16:18:07+00:00"
     }
    ],
-   "last_seen": "2026-10-10T09:07:48.714447+00:00",
+   "last_seen": "2026-10-10T17:07:48.257605+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
+   "id": "af4840577ade",
+   "first_seen": "2026-10-10T17:07:48.257605+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Man named Hitler Mussolini elected mayor in Peru",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cmdxwn9dr42yo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-09T16:32:22+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Candidate named Hitler Mussolini elected mayor in Peru",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/10/peru-election-hitler-mussolini-simeon-flores-mayor",
+     "published": "2026-10-10T12:00:10+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Candidate named Hitler Mussolini elected mayor in Peru",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQLW9tLVRndFhpNERZNmU1cGtqTlk0NmNwTUZKd0lUaVFlZ09ybDJ0Qk5KUVdtdnZXdDg1U0RKWFRTakJRU0J4ckdueDRvRVNGNGE2enZVaU9oZWkzdzRJd25BbHlNa2NqV0JvdkdzNGNuWmF6ZHJEMUlCWkhRcHVLNGZ1OUR3WlQ3ZkVXdXVIWEUxTDJjWHp5OHF0Y00?oc=5",
+     "published": "2026-10-10T10:52:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T17:07:48.257605+00:00",
    "outlets": 3,
    "regions": 2,
    "languages": 1,
@@ -10455,6 +11355,44 @@
     }
    ],
    "last_seen": "2026-10-08T15:07:49.816861+00:00",
+   "outlets": 3,
+   "regions": 1,
+   "languages": 1,
+   "score": 7.0
+  },
+  {
+   "id": "ed52e48e9510",
+   "first_seen": "2026-10-10T17:07:48.257605+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Islamabad ATC disposes of plea to drop terrorism charges against Imaan, Hadi in security breach case",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2036142/islamabad-atc-disposes-of-plea-to-drop-terrorism-charges-against-imaan-hadi-in-security-breach-case",
+     "published": "2026-10-10T09:14:07+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Barricade removal case: ATC rejects plea to drop terrorism charges against Imaan, Hadi",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2634071/barricade-removal-case-atc-rejects-plea-to-drop-terrorism-charges-against-imaan-hadi",
+     "published": "2026-10-10T03:29:16+00:00"
+    },
+    {
+     "outlet": "Geo News",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "ATC disposes of Imaan, Hadi's plea against terrorism provisions in security breach case",
+     "language": "en",
+     "link": "https://www.geo.tv/latest/685915-atc-disposes-of-imaan-hadis-plea-against-terrorism-provisions-in-security-breach-case",
+     "published": "2026-10-10T10:35:26+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T17:07:48.257605+00:00",
    "outlets": 3,
    "regions": 1,
    "languages": 1,

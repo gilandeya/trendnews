@@ -1,0 +1,90 @@
+{
+  "id": "1aa05768b0ef",
+  "created_at": "2026-10-10T17:08:14.752127+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.13,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 3,
+  "intrigue": 1,
+  "appeal_note": "عباس يؤجل الانتخابات الفلسطينية إلى سبتمبر 2027",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Palestinian president postpones legislative elections to September 2027",
+  "link": "https://www.dawn.com/news/2036165/palestinian-president-postpones-legislative-elections-to-september-2027",
+  "publishers": [
+    "Al Jazeera English",
+    "Dawn",
+    "France24",
+    "Free Malaysia Today",
+    "South China Morning Post"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Palestinian president postpones legislative elections to September 2027",
+    "link": "https://www.dawn.com/news/2036165/palestinian-president-postpones-legislative-elections-to-september-2027",
+    "summary": "Palestinian President Mahmoud Abbas on Saturday postponed legislative elections to September next year, official media said, confirming widespread speculation over the polls which were last held in 2006. The vote will be held alongside presidential elections on September 11, 2027, Abbas said in a decree, blaming “obstacles” imposed by Israel, according to the Palestinian Wafa news agency. The legislative elections, which the international community has strongly advocated for, had been scheduled for November 28 this year, while a presidential vote was expected in early 2027. Israel had blasted Abbas’s Palestinian Authority as “corrupt” over the anticipated delay. “Abbas issued a presidential decree on Saturday calling for simultaneous presidential and legislative elections to be held on September 11, 2027,” Abbas’s office said in a statement published by Wafa . The presidency blamed the delay on “obstacles imposed by Israeli measures that prevent elections from being held on their previously scheduled date, as well as the need to create appropriate political, security and on-the-ground conditions to ensure free, fair and inclusive elections”. This week, Abbas’ Ramallah-based Palesti",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-10-10T12:54:44+00:00",
+    "image_url": "https://i.dawn.com/large/2026/10/1017534586c73c5.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Dawn",
+      "France24",
+      "Free Malaysia Today",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/10/10/abbas-postpones-palestinian-legislative-elections-to-september-2027?traffic_source=rss"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2036165/palestinian-president-postpones-legislative-elections-to-september-2027"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3370455/palestinian-leader-abbas-postpones-elections-september-2027?utm_source=rss_feed"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20261010-palestinian-president-abbas-postpones-legislative-elections-to-september-2027"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20261010-abbas-postpones-palestinian-elections-sets-presidential-poll-for-september-2027"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/10/10/abbas-postpones-palestinian-legislative-elections-to-september-2027"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/10/1017534586c73c5.webp",
+      "https://i.dawn.com/thumbnail/2026/10/1017534586c73c5.webp",
+      "https://s.france24.com/media/display/68f8bf20-b818-11f1-a7c2-4d88a6d99c48/w:1024/p:16x9/AP25356421415725.jpg",
+      "https://s.france24.com/media/display/90bb82c0-b2a2-11f1-ac22-a1d0582895b1/w:1024/p:16x9/2026-09-17T020105Z-1030100538-RC2QRHA3TWBR-RTRMADP-3-ISRAEL-PALESTINIANS-USA-UN.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2025/04/c1eaf34b-mahmoud-abbas.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 1608.9133957422223,
+    "is_stale": false,
+    "score": 26.13459451012505,
+    "impact": 1,
+    "proximity": 3,
+    "intrigue": 1,
+    "appeal_note": "عباس يؤجل الانتخابات الفلسطينية إلى سبتمبر 2027",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

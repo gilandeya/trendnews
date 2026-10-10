@@ -1,139 +1,5 @@
 [
   {
-    "score": 17.42,
-    "bucket": "serious",
-    "tokens": [
-      "britain",
-      "class",
-      "form",
-      "green",
-      "party",
-      "racism",
-      "votes",
-      "zionism"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-10-04-britains-green-party-votes-to-class-zionism-as-a-form-of-racism/",
-    "title": "Britain’s Green Party votes to class Zionism as a form of racism",
-    "posted_title": "لماذا منعت إسرائيل زعيم حزب الخضر البريطاني من دخول أراضيها",
-    "region": "za",
-    "seen_at": "2026-10-05T09:18:29.498142+00:00"
-  },
-  {
-    "score": 31.06,
-    "bucket": "serious",
-    "tokens": [
-      "awarded",
-      "breakthrough",
-      "medicine",
-      "nobel",
-      "prize",
-      "research",
-      "scientists",
-      "three"
-    ],
-    "link": "http://www.africanews.com/2026/10/05/nobel-prize-in-medicine-awarded-to-three-scientists-for-breakthrough-research/",
-    "title": "Nobel Prize in medicine awarded to three scientists for breakthrough research",
-    "posted_title": "",
-    "region": "africa",
-    "seen_at": "2026-10-05T15:08:10.675486+00:00"
-  },
-  {
-    "score": 29.91,
-    "bucket": "useful",
-    "tokens": [
-      "advance",
-      "bab",
-      "forces",
-      "government",
-      "mandeb",
-      "strait",
-      "towards",
-      "yemeni"
-    ],
-    "link": "https://www.investing.com/news/economy-news/yemeni-government-forces-advance-towards-bab-elmandeb-strait--reuters-4931871",
-    "title": "Yemeni government forces advance towards Bab el-Mandeb Strait",
-    "posted_title": "",
-    "region": "money",
-    "seen_at": "2026-10-05T15:08:10.675735+00:00"
-  },
-  {
-    "score": 23.55,
-    "bucket": "useful",
-    "tokens": [
-      "chief",
-      "climate",
-      "extreme",
-      "heat",
-      "newborns",
-      "pregnant",
-      "putting",
-      "risk",
-      "women"
-    ],
-    "link": "https://phys.org/news/2026-10-extreme-pregnant-women-newborns-climate.html",
-    "title": "Extreme heat putting pregnant women, newborns at risk: UN climate chief",
-    "posted_title": "",
-    "region": "science",
-    "seen_at": "2026-10-05T15:08:10.675953+00:00"
-  },
-  {
-    "score": 21.97,
-    "bucket": "serious",
-    "tokens": [
-      "'super",
-      "clayton",
-      "czar",
-      "force'",
-      "intelligence",
-      "jay",
-      "lead",
-      "names",
-      "trump"
-    ],
-    "link": "https://www.france24.com/en/tv-shows/business/20261005-trump-names-jay-clayton-as-ai-czar-to-lead-super-intelligence-force",
-    "title": "Trump names Jay Clayton as AI czar to lead 'Super Intelligence Force'",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-10-05T15:08:10.676147+00:00"
-  },
-  {
-    "score": 21.09,
-    "bucket": "serious",
-    "tokens": [
-      "deepfake",
-      "italy",
-      "meloni",
-      "risks",
-      "seeks",
-      "trademark",
-      "voice"
-    ],
-    "link": "https://www.channelnewsasia.com/business/italy-pm-meloni-seeks-eu-trademark-her-voice-amid-ai-deepfake-risks-6433096",
-    "title": "Italy PM Meloni seeks EU trademark for her voice amid AI deepfake risks",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-10-05T15:08:10.676336+00:00"
-  },
-  {
-    "score": 31.06,
-    "bucket": "serious",
-    "tokens": [
-      "awarded",
-      "breakthrough",
-      "medicine",
-      "nobel",
-      "prize",
-      "research",
-      "scientists",
-      "three"
-    ],
-    "link": "http://www.africanews.com/2026/10/05/nobel-prize-in-medicine-awarded-to-three-scientists-for-breakthrough-research/",
-    "title": "Nobel Prize in medicine awarded to three scientists for breakthrough research",
-    "posted_title": "كيف يمكن إشعال خلية عصبية أو إطفاؤها بشعاع ضوء فقط",
-    "region": "africa",
-    "seen_at": "2026-10-05T15:19:41.682325+00:00"
-  },
-  {
     "score": 28.07,
     "bucket": "serious",
     "tokens": [
@@ -1763,5 +1629,110 @@
     "posted_title": "",
     "region": "tr",
     "seen_at": "2026-10-10T09:08:14.719515+00:00"
+  },
+  {
+    "score": 38.19,
+    "bucket": "serious",
+    "tokens": [
+      "airport",
+      "attack",
+      "capital",
+      "injured",
+      "riyadh",
+      "saudi",
+      "several"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cw33x4y8k82no?at_medium=RSS&at_campaign=rss",
+    "title": "Several injured in attack on airport in Saudi capital Riyadh",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-10-10T17:08:14.751381+00:00"
+  },
+  {
+    "score": 32.44,
+    "bucket": "serious",
+    "tokens": [
+      "deadly",
+      "deal",
+      "diesel",
+      "hit",
+      "russian",
+      "strikes",
+      "thanks",
+      "trump",
+      "ukraine",
+      "zelenskyy"
+    ],
+    "link": "https://www.theguardian.com/world/2026/oct/10/ukraine-russia-strikes-war-trump-diesel-deal-zelenskyy",
+    "title": "Ukraine hit by deadly Russian strikes as ‘thanks’ for Trump diesel deal, Zelenskyy says",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-10-10T17:08:14.751773+00:00"
+  },
+  {
+    "score": 27.69,
+    "bucket": "light",
+    "tokens": [
+      "2026",
+      "africa",
+      "apartheid",
+      "human",
+      "jurists",
+      "leading",
+      "navi",
+      "nobel",
+      "one",
+      "peace",
+      "pillay",
+      "prize",
+      "raised",
+      "rights",
+      "south",
+      "winner",
+      "world"
+    ],
+    "link": "https://www.smithsonianmag.com/smart-news/raised-in-apartheid-south-africa-2026-nobel-peace-prize-winner-navi-pillay-is-one-of-the-worlds-leading-human-rights-jurists-180989667/",
+    "title": "Raised in Apartheid South Africa, 2026 Nobel Peace Prize Winner Navi Pillay Is One of the World’s Leading Human Rights Jurists",
+    "posted_title": "",
+    "region": "odd",
+    "seen_at": "2026-10-10T17:08:14.752117+00:00"
+  },
+  {
+    "score": 26.13,
+    "bucket": "serious",
+    "tokens": [
+      "2027",
+      "elections",
+      "legislative",
+      "palestinian",
+      "postpones",
+      "president",
+      "september"
+    ],
+    "link": "https://www.dawn.com/news/2036165/palestinian-president-postpones-legislative-elections-to-september-2027",
+    "title": "Palestinian president postpones legislative elections to September 2027",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-10-10T17:08:14.752420+00:00"
+  },
+  {
+    "score": 23.15,
+    "bucket": "serious",
+    "tokens": [
+      "2027",
+      "abbas",
+      "delays",
+      "elections",
+      "marking",
+      "palestinian",
+      "vote",
+      "without",
+      "years"
+    ],
+    "link": "https://www.cbsnews.com/news/mahmoud-abbas-postpones-palestinian-legislative-elections/",
+    "title": "Abbas delays Palestinian elections to 2027, marking 20 years without a vote",
+    "posted_title": "",
+    "region": "us",
+    "seen_at": "2026-10-10T17:08:14.752674+00:00"
   }
 ]
