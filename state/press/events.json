@@ -275,7 +275,7 @@
      "published": "2026-10-06T10:16:28+00:00"
     }
    ],
-   "last_seen": "2026-10-09T17:07:48.864691+00:00",
+   "last_seen": "2026-10-10T09:07:48.714447+00:00",
    "outlets": 20,
    "regions": 16,
    "languages": 3,
@@ -557,6 +557,287 @@
     }
    ],
    "last_seen": "2026-10-09T17:07:48.864691+00:00",
+   "outlets": 21,
+   "regions": 16,
+   "languages": 2,
+   "score": 57.0
+  },
+  {
+   "id": "4fdc69627612",
+   "first_seen": "2026-10-09T17:07:48.864691+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "US imposes sanctions on ICC, hours after former judge Pillay wins Nobel peace prize",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/live/2026/oct/09/2026-nobel-peace-prize-winner-russia-ukraine-sudan-war-france-protests-poland-latest-news-updates",
+     "published": "2026-10-09T15:07:00+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "‘Rogue court’: US sanctions ICC hours after ex-judge wins Nobel Prize",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/9/rogue-court-us-sanctions-icc-hours-after-ex-judge-wins-nobel-prize?traffic_source=rss",
+     "published": "2026-10-09T15:59:04+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "US slaps sanctions on ICC, hours after ex-judge wins Nobel",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370403/us-slaps-sanctions-icc-hours-after-ex-judge-wins-nobel?utm_source=rss_feed",
+     "published": "2026-10-09T14:51:06+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "US imposes sanctions on International Criminal Court, hours after Nobel award to former judge",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2035945/us-imposes-sanctions-on-international-criminal-court-hours-after-nobel-award-to-former-judge",
+     "published": "2026-10-09T16:37:45+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "STRANGE TIMING: US imposes sanctions on ICC hours after South African judge wins Nobel Peace Prize",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-09-us-imposes-sanctions-on-icc-hours-after-former-judge-wins-nobel-peace-prize/",
+     "published": "2026-10-09T18:10:36+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "US imposes sanctions on ICC hours after former judge wins Nobel Peace Prize",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633930/us-imposes-sanctions-on-icc-hours-after-former-judge-wins-nobel-peace-prize",
+     "published": "2026-10-09T10:32:09+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "ICC rejects U.S. sanctions, says 'history will judge this moment'",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/icc-rejects-us-sanctions-says-history-will-judge-this-moment/article71565060.ece",
+     "published": "2026-10-09T15:24:53+00:00"
+    },
+    {
+     "outlet": "Clarín",
+     "region": "ar_country",
+     "bucket": "serious",
+     "title": "Fuerte reacción de Trump tras el Nobel de la Paz a Navi Pillay: lanza sanciones contra la Corte Penal Internacional que integró la jurista para desfinanciarla",
+     "language": "fr",
+     "link": "https://www.clarin.com/mundo/fuerte-reaccion-trump-nobel-paz-navi-pillay-lanza-sanciones-corte-penal-internacional-integro-jurista-desfinanciarla_0_4sQiOhbddr.html",
+     "published": "2026-10-09T16:11:14+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "ICC condemns sweeping US sanctions as assault on international law",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/icc-condemns-sweeping-us-sanctions-as-assault-on-international-law/news",
+     "published": "2026-10-09T15:03:00+00:00"
+    },
+    {
+     "outlet": "Nikkei Asia",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Nobel laureate Pillay calls sanctions on ICC judges 'shocking'",
+     "language": "en",
+     "link": "https://asia.nikkei.com/editor-s-picks/interview/nobel-laureate-pillay-calls-sanctions-on-icc-judges-shocking",
+     "published": "2026-10-09T17:07:39.297627+00:00"
+    },
+    {
+     "outlet": "Court House News",
+     "region": "court",
+     "bucket": "light",
+     "title": "Trump escalates war on International Criminal Court with deep sanctions",
+     "language": "en",
+     "link": "https://www.courthousenews.com/trump-escalates-war-on-international-criminal-court-with-deep-sanctions/",
+     "published": "2026-10-09T14:37:52+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "US imposes sanctions on International Criminal Court",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cj20vkkx3rdvo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-09T16:06:59+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "light",
+     "title": "US imposes new sanctions on international criminal court",
+     "language": "en",
+     "link": "https://www.theguardian.com/us-news/2026/oct/09/sanctions-icc-trump",
+     "published": "2026-10-09T16:13:13+00:00"
+    },
+    {
+     "outlet": "Deutsche Welle",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "US imposes sanctions aiming to 'dismantle' International Criminal Court",
+     "language": "en",
+     "link": "https://www.dw.com/en/us-imposes-sanctions-aiming-to-dismantle-international-criminal-court/a-79618577?maca=en-rss-en-world-4025-rdf",
+     "published": "2026-10-09T14:53:00+00:00"
+    },
+    {
+     "outlet": "Premium Times",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Allies frown as US sanctions ICC after Navi Pillay wins Nobel Peace Prize",
+     "language": "en",
+     "link": "https://www.premiumtimesng.com/foreign/915837-allies-frown-as-us-sanctions-icc-after-navi-pillay-wins-nobel-peace-prize.html",
+     "published": "2026-10-10T07:03:19+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Navi Pillay wins Nobel Peace Prize as US sanctions threaten international justice",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/09/navi-pillay-wins-nobel-peace-prize-as-us-sanctions-threaten-international-justice/",
+     "published": "2026-10-09T18:49:16+00:00"
+    },
+    {
+     "outlet": "MercoPress",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "US sanctions the International Criminal Court hours after a former judge wins the Nobel Peace Prize",
+     "language": "en",
+     "link": "https://en.mercopress.com/2026/10/09/us-sanctions-the-international-criminal-court-hours-after-a-former-judge-wins-the-nobel-peace-prize?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
+     "published": "2026-10-09T20:53:00+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump announces sanctions on ICC hours after Indian-origin ex-judge Navi Pillay wins Nobel Peace Prize",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/trump-announces-sanctions-icc-hours-after-indian-origin-ex-judge-navi-pillay-wins-nobel-peace-prize-101791565730404.html",
+     "published": "2026-10-09T17:14:51+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Trump hits International Criminal Court with sanctions after Nobel goes to former judge",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQbnIxSGZ1cXZ1OGRKT21CTV9oa2U3WjJYSW9NS290alRJdHgxQWxxWHN5WTAwM25RTHZmTHl5WEtiRE14MEx3cGoyTHVwNWxLeHFzWmFRelNlek5SbGkwVHRSdjA4RTQ5cWNqallxamtiN3JZMm1JRFZNVk8tWmFveXJMR2U2STV2d1I2V25XMG5JRUdhNS1EdWx5bDJyUU5zcmxCSjFkbGJVUlF0YXlz?oc=5",
+     "published": "2026-10-10T04:00:22+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "‘Betrayal of international law’: US sanctions on ICC draw widespread condemnation",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2036132/betrayal-of-international-law-us-sanctions-on-icc-draw-widespread-condemnation",
+     "published": "2026-10-10T06:39:13+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Takaichi again in a bind as U.S. threatens to ‘end’ ICC",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/10/japan/politics/japan-us-icc-takaichi-trump/",
+     "published": "2026-10-10T04:29:00+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Takaichi says Japan ‘deeply concerned’ by US sanctions on ICC",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/10/takaichi-says-japan-deeply-concerned-by-us-sanctions-on-icc",
+     "published": "2026-10-10T04:19:00+00:00"
+    },
+    {
+     "outlet": "Nikkei Asia",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Nobel laureate Pillay calls US sanctions on ICC judges 'shocking'",
+     "language": "en",
+     "link": "https://asia.nikkei.com/editor-s-picks/interview/nobel-laureate-pillay-calls-us-sanctions-on-icc-judges-shocking",
+     "published": "2026-10-10T09:07:38.988234+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Japan protests Russia’s extradition requests for ICC president Tomoko Akane and eight other court staff",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/japan-protests-russias-extradition-requests-for-icc-president-tomoko-akane-and-eight-other-court-staff/article71565657.ece",
+     "published": "2026-10-09T17:44:04+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Trump fumes over Nobel peace prize snub and criticizes Norway",
+     "language": "en",
+     "link": "https://www.theguardian.com/us-news/2026/oct/09/trump-nobel-peace-prize",
+     "published": "2026-10-10T01:57:03+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "'Stain on the country': Trump criticises Norway over Nobel Peace Prize",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/ckgj921e14jdo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-10T04:07:11+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Trump slams Norway for not awarding him Nobel Peace Prize",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/10/trump-slams-norway-for-not-awarding-him-nobel-peace-prize?traffic_source=rss",
+     "published": "2026-10-10T06:47:10+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Trump slams Norway and Nobel committee after missing out on Peace Prize",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370418/trump-slams-norway-and-nobel-committee-after-missing-out-peace-prize?utm_source=rss_feed",
+     "published": "2026-10-10T02:19:36+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump says Norway has 'indelible stain' for not awarding him Nobel Peace Prize",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/trump-says-norway-has-indelible-stain-for-not-awarding-him-nobel-peace-prize/article71566988.ece",
+     "published": "2026-10-10T02:23:25+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Trump slams Nobel Peace Prize choice as ‘disgraceful’",
+     "language": "en",
+     "link": "https://punchng.com/trump-slams-nobel-peace-prize-choice-as-disgraceful/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-10T09:50:01+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T09:07:48.714447+00:00",
    "outlets": 21,
    "regions": 16,
    "languages": 2,
@@ -1687,6 +1968,179 @@
    "score": 46.0
   },
   {
+   "id": "08f08679bc7c",
+   "first_seen": "2026-10-10T09:07:48.714447+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Powerful magnitude 7.7 earthquake hits Panama, damaging buildings",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c620r39zdp9wo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-09T21:26:30+00:00"
+    },
+    {
+     "outlet": "MercoPress",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "A magnitude 7.7 earthquake shakes Panama",
+     "language": "en",
+     "link": "https://en.mercopress.com/2026/10/09/a-magnitude-7.7-earthquake-shakes-panama?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
+     "published": "2026-10-09T22:38:00+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Magnitude 7.6 earthquake shakes Panama, USGS reports",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/panama-earthquake-toll-injuries-damage-update-october-10-2026/article71565816.ece",
+     "published": "2026-10-09T22:40:31+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Major earthquake hits Panama, injures at least 27",
+     "language": "en",
+     "link": "https://punchng.com/major-earthquake-hits-panama-injures-at-least-27/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-10T10:04:06+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Major earthquake hits Panama, injures at least 27",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/10/world/panama-quake/",
+     "published": "2026-10-09T23:49:00+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Powerful 7.6 magnitude quake shakes Panama, triggering tsunami warnings",
+     "language": "en",
+     "link": "https://www.france24.com/en/americas/20261009-powerful-7-6-magnitude-quake-shakes-panama-triggering-tsunami-warning",
+     "published": "2026-10-09T18:39:03+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "7.7-magnitude quake rocks Panama, triggers tsunami warning",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/77magnitude-quake-rocks-panama-triggers-tsunami-warning-101791583521778.html",
+     "published": "2026-10-09T22:05:21+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Panama rocked by 2 powerful earthquakes, multiple aftershocks",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/americas/article/3370411/panama-rocked-2-powerful-earthquakes-multiple-aftershocks?utm_source=rss_feed",
+     "published": "2026-10-09T22:10:33+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Panama rocked by 2 powerful earthquakes and multiple aftershocks, prompting evacuations",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPVl9TaDlyMTA4emtwWlhyemdqTUY2ak9BUzU4TWlyT3d6dEtfWGs1RWVESTZ3YlhBcmx0S1dhajROOEJjY2NvbDlHc0h0Z2s2a1RFY3dRSDJTSlFrOTVWWk5PVjBlVGtUTEtPSEpMeS1nZFE1eTFmWWJzUGd4Ym5mOE1KZw?oc=5",
+     "published": "2026-10-10T02:53:00+00:00"
+    },
+    {
+     "outlet": "Le Monde",
+     "region": "fr",
+     "bucket": "serious",
+     "title": "Au Panama, un premier bilan de plusieurs blessés et d’importants dégâts à la suite du séisme",
+     "language": "fr",
+     "link": "https://www.lemonde.fr/planete/article/2026/10/10/au-panama-un-premier-bilan-fait-etat-de-plusieurs-blesses-et-d-importants-degats-apres-le-seisme_6790968_3244.html",
+     "published": "2026-10-10T07:02:48+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "27 Injured, Many Buildings Collapse After 7.7 Earthquake In Panama",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/panama-president-declares-major-disaster-after-earthquake-12164373#publisher=newsstand",
+     "published": "2026-10-10T07:58:44+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Powerful 7.7-magnitude earthquake strikes Panama and triggers panic in capital",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/09/panama-earthquake",
+     "published": "2026-10-10T00:13:15+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "7.7 Magnitude Earthquake Hits Panama, Tsunami Warning Lifted",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/earthquake-of-magnitude-8-strikes-panama-sets-off-panic-in-capital-12163870#publisher=newsstand",
+     "published": "2026-10-10T00:57:43+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Powerful quake hits Panama, damages homes; canal operations normal",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2035973/powerful-quake-hits-panama-damages-homes-canal-operations-normal",
+     "published": "2026-10-09T19:35:19+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "VIDEO: Huge destruction due to 7.7-magnitude quake in Panama",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248452/VIDEO-Huge-destruction-due-to-7-7-magnitude-quake-in-Panama",
+     "published": "2026-10-10T06:19:52+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Dual quakes devastate southern Panama",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/10/dual-quakes-devastate-southern-panama?traffic_source=rss",
+     "published": "2026-10-10T00:53:15+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Magnitude 7.6 earthquake rocks Panama, tremors reach Colombia",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/americas/magnitude-76-earthquake-rocks-panama-tremors-reach-colombia",
+     "published": "2026-10-09T19:19:00+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Panama earthquake: Videos show people fleeing as buildings shake; resident says 'everyone is scared'",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/panama-earthquake-update-videos-show-people-fleeing-as-buildings-shake-resident-says-everyone-is-scared-101791569731233.html",
+     "published": "2026-10-09T18:58:37+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T09:07:48.714447+00:00",
+   "outlets": 16,
+   "regions": 13,
+   "languages": 2,
+   "score": 46.0
+  },
+  {
    "id": "4bac7b46db6b",
    "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
@@ -2394,143 +2848,6 @@
    "outlets": 15,
    "regions": 11,
    "languages": 1,
-   "score": 39.0
-  },
-  {
-   "id": "4fdc69627612",
-   "first_seen": "2026-10-09T17:07:48.864691+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "US imposes sanctions on ICC, hours after former judge Pillay wins Nobel peace prize",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/live/2026/oct/09/2026-nobel-peace-prize-winner-russia-ukraine-sudan-war-france-protests-poland-latest-news-updates",
-     "published": "2026-10-09T15:07:00+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "‘Rogue court’: US sanctions ICC hours after ex-judge wins Nobel Prize",
-     "language": "en",
-     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/9/rogue-court-us-sanctions-icc-hours-after-ex-judge-wins-nobel-prize?traffic_source=rss",
-     "published": "2026-10-09T15:59:04+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "US slaps sanctions on ICC, hours after ex-judge wins Nobel",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370403/us-slaps-sanctions-icc-hours-after-ex-judge-wins-nobel?utm_source=rss_feed",
-     "published": "2026-10-09T14:51:06+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "US imposes sanctions on International Criminal Court, hours after Nobel award to former judge",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2035945/us-imposes-sanctions-on-international-criminal-court-hours-after-nobel-award-to-former-judge",
-     "published": "2026-10-09T16:37:45+00:00"
-    },
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "STRANGE TIMING: US imposes sanctions on ICC hours after South African judge wins Nobel Peace Prize",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-09-us-imposes-sanctions-on-icc-hours-after-former-judge-wins-nobel-peace-prize/",
-     "published": "2026-10-09T18:10:36+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "US imposes sanctions on ICC hours after former judge wins Nobel Peace Prize",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633930/us-imposes-sanctions-on-icc-hours-after-former-judge-wins-nobel-peace-prize",
-     "published": "2026-10-09T10:32:09+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "ICC rejects U.S. sanctions, says 'history will judge this moment'",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/icc-rejects-us-sanctions-says-history-will-judge-this-moment/article71565060.ece",
-     "published": "2026-10-09T15:24:53+00:00"
-    },
-    {
-     "outlet": "Clarín",
-     "region": "ar_country",
-     "bucket": "serious",
-     "title": "Fuerte reacción de Trump tras el Nobel de la Paz a Navi Pillay: lanza sanciones contra la Corte Penal Internacional que integró la jurista para desfinanciarla",
-     "language": "fr",
-     "link": "https://www.clarin.com/mundo/fuerte-reaccion-trump-nobel-paz-navi-pillay-lanza-sanciones-corte-penal-internacional-integro-jurista-desfinanciarla_0_4sQiOhbddr.html",
-     "published": "2026-10-09T16:11:14+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "ICC condemns sweeping US sanctions as assault on international law",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/icc-condemns-sweeping-us-sanctions-as-assault-on-international-law/news",
-     "published": "2026-10-09T15:03:00+00:00"
-    },
-    {
-     "outlet": "Nikkei Asia",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Nobel laureate Pillay calls sanctions on ICC judges 'shocking'",
-     "language": "en",
-     "link": "https://asia.nikkei.com/editor-s-picks/interview/nobel-laureate-pillay-calls-sanctions-on-icc-judges-shocking",
-     "published": "2026-10-09T17:07:39.297627+00:00"
-    },
-    {
-     "outlet": "Court House News",
-     "region": "court",
-     "bucket": "light",
-     "title": "Trump escalates war on International Criminal Court with deep sanctions",
-     "language": "en",
-     "link": "https://www.courthousenews.com/trump-escalates-war-on-international-criminal-court-with-deep-sanctions/",
-     "published": "2026-10-09T14:37:52+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "US imposes sanctions on International Criminal Court",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cj20vkkx3rdvo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-09T16:06:59+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "light",
-     "title": "US imposes new sanctions on international criminal court",
-     "language": "en",
-     "link": "https://www.theguardian.com/us-news/2026/oct/09/sanctions-icc-trump",
-     "published": "2026-10-09T16:13:13+00:00"
-    },
-    {
-     "outlet": "Deutsche Welle",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "US imposes sanctions aiming to 'dismantle' International Criminal Court",
-     "language": "en",
-     "link": "https://www.dw.com/en/us-imposes-sanctions-aiming-to-dismantle-international-criminal-court/a-79618577?maca=en-rss-en-world-4025-rdf",
-     "published": "2026-10-09T14:53:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-09T17:07:48.864691+00:00",
-   "outlets": 13,
-   "regions": 11,
-   "languages": 2,
    "score": 39.0
   },
   {
@@ -3316,6 +3633,188 @@
    "score": 36.0
   },
   {
+   "id": "61fa5cba09fb",
+   "first_seen": "2026-10-06T09:08:01.863235+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "India opposition leader Rahul Gandhi briefly detained during protest seeking election chief’s resignation",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2035136/india-opposition-leader-rahul-gandhi-briefly-detained-during-protest-seeking-election-chiefs-resignation",
+     "published": "2026-10-06T07:29:02+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "India opposition leaders briefly detained in election protest",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/asia/india-opposition-rahul-gandhi-protest-march-election-resignation-6435051",
+     "published": "2026-10-06T07:50:20+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "India’s opposition leaders briefly detained in election protest",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/india-opposition-leaders-briefly-detained-in-election-protest",
+     "published": "2026-10-06T08:06:59+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Indian opposition MPs detained in protest against election chief",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/crpdgvx82831o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-06T10:05:22+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "India opposition leaders briefly arrested in protest against election chief",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/6/india-opposition-leaders-briefly-arrested-in-protest-against-election-chief?traffic_source=rss",
+     "published": "2026-10-06T11:16:48+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "India opposition lawmakers detained over protest against election chief",
+     "language": "en",
+     "link": "https://www.scmp.com/news/asia/south-asia/article/3369942/india-opposition-lawmakers-detained-over-protest-against-election-chief?utm_source=rss_feed",
+     "published": "2026-10-06T12:01:02+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "India opposition parties rally for election chief’s exit over voter list changes",
+     "language": "en",
+     "link": "https://www.france24.com/en/video/20261006-india-opposition-parties-rally-for-election-chief-s-exit-over-voter-list-changes",
+     "published": "2026-10-06T14:06:37+00:00"
+    },
+    {
+     "outlet": "El País",
+     "region": "es",
+     "bucket": "serious",
+     "title": "La oposición en la India marcha para exigir la dimisión del presidente de la Comisión Electoral nombrado por Modi",
+     "language": "fr",
+     "link": "https://elpais.com/internacional/2026-10-06/la-oposicion-en-india-marcha-para-exigir-la-dimision-del-presidente-de-la-comision-electoral-nombrado-por-modi.html",
+     "published": "2026-10-06T13:34:24+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "What to know about nationwide protests in India over voter list changes",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/06/g-s1-146636/what-to-know-about-nationwide-protests-in-india-over-voter-list-changes",
+     "published": "2026-10-06T11:44:06+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Police detain Indian opposition leader Rahul Gandhi at poll chief protest",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633252/police-detain-indian-opposition-leader-rahul-gandhi-at-poll-chief-protest",
+     "published": "2026-10-06T01:39:46+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "What to know about nationwide protests in India over voter list changes",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOLUZ6ZXMwR1ozY2liRC1LY0tqRkxtQ3g2by1tMkp1cXVjTGdkeDJJblV4SkF5d2FqMnVaVHNacjBJNElMQV83S2xtUC1MbUR1RTFSRGZSYVpEbkhCUVRrMHphSkdzbEN0TWp5Q3BGZ1RhVFFScFAzZWNtQk53Vkc5MWRPZWhQS3N5aVQyNkhKeDhEMkhHZHNRTHlYMnpoTm5wOHotVU5DWHZFd3ZJbjYteURiU3o?oc=5",
+     "published": "2026-10-06T11:44:06+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Indian opposition leader Rahul Gandhi detained over election chief protest",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/7/indian-opposition-leader-rahul-gandhi-detained-over-election-chief-protest?traffic_source=rss",
+     "published": "2026-10-07T19:40:07+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Rahul Gandhi, Indian opposition lawmakers detained over election chief protest for 2nd day",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2035427/rahul-gandhi-indian-opposition-lawmakers-detained-over-election-chief-protest-for-2nd-day",
+     "published": "2026-10-07T13:44:02+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Rahul Gandhi, Indian opposition lawmakers detained over election chief protest for second day",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633522/rahul-gandhi-indian-opposition-lawmakers-detained-over-election-chief-protest-for-second-day",
+     "published": "2026-10-07T10:11:32+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "India's 'cockroach' movement chief detained ahead of major protest",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2036128/indias-cockroach-movement-chief-detained-ahead-of-major-protest",
+     "published": "2026-10-10T06:45:16+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "India's 'cockroach' movement chief detained ahead of major protest",
+     "language": "en",
+     "link": "https://www.france24.com/en/asia-pacific/20261010-india-s-cockroach-movement-chief-detained-ahead-of-major-protest",
+     "published": "2026-10-10T06:37:40+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "‘We are living under an absolute dictatorship’: India’s ‘cockroach’ movement chief detained ahead of major protest",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/10/indias-cockroach-movement-chief-detained-ahead-of-major-protest/238567",
+     "published": "2026-10-10T06:35:14+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "India deploys police and restricts transport ahead of mass protest in Delhi",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/10/india-deploys-police-and-restricts-transport-ahead-of-mass-protest-in-delhi?traffic_source=rss",
+     "published": "2026-10-10T04:07:30+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "India deploys police, restricts transport ahead of major protest demanding election chief resign",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/10/india-deploys-police-restricts-transport-ahead-of-major-protest-demanding-election-chief-resign/238549",
+     "published": "2026-10-10T05:08:05+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T09:07:48.714447+00:00",
+   "outlets": 12,
+   "regions": 10,
+   "languages": 2,
+   "score": 36.0
+  },
+  {
    "id": "49ee6206d4c3",
    "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
@@ -3512,143 +4011,6 @@
    "last_seen": "2026-10-06T18:08:08.020436+00:00",
    "outlets": 13,
    "regions": 9,
-   "languages": 2,
-   "score": 35.0
-  },
-  {
-   "id": "61fa5cba09fb",
-   "first_seen": "2026-10-06T09:08:01.863235+00:00",
-   "members": [
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "India opposition leader Rahul Gandhi briefly detained during protest seeking election chief’s resignation",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2035136/india-opposition-leader-rahul-gandhi-briefly-detained-during-protest-seeking-election-chiefs-resignation",
-     "published": "2026-10-06T07:29:02+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "India opposition leaders briefly detained in election protest",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/asia/india-opposition-rahul-gandhi-protest-march-election-resignation-6435051",
-     "published": "2026-10-06T07:50:20+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "India’s opposition leaders briefly detained in election protest",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/india-opposition-leaders-briefly-detained-in-election-protest",
-     "published": "2026-10-06T08:06:59+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Indian opposition MPs detained in protest against election chief",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/crpdgvx82831o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-06T10:05:22+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "India opposition leaders briefly arrested in protest against election chief",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/6/india-opposition-leaders-briefly-arrested-in-protest-against-election-chief?traffic_source=rss",
-     "published": "2026-10-06T11:16:48+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "India opposition lawmakers detained over protest against election chief",
-     "language": "en",
-     "link": "https://www.scmp.com/news/asia/south-asia/article/3369942/india-opposition-lawmakers-detained-over-protest-against-election-chief?utm_source=rss_feed",
-     "published": "2026-10-06T12:01:02+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "India opposition parties rally for election chief’s exit over voter list changes",
-     "language": "en",
-     "link": "https://www.france24.com/en/video/20261006-india-opposition-parties-rally-for-election-chief-s-exit-over-voter-list-changes",
-     "published": "2026-10-06T14:06:37+00:00"
-    },
-    {
-     "outlet": "El País",
-     "region": "es",
-     "bucket": "serious",
-     "title": "La oposición en la India marcha para exigir la dimisión del presidente de la Comisión Electoral nombrado por Modi",
-     "language": "fr",
-     "link": "https://elpais.com/internacional/2026-10-06/la-oposicion-en-india-marcha-para-exigir-la-dimision-del-presidente-de-la-comision-electoral-nombrado-por-modi.html",
-     "published": "2026-10-06T13:34:24+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "What to know about nationwide protests in India over voter list changes",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/06/g-s1-146636/what-to-know-about-nationwide-protests-in-india-over-voter-list-changes",
-     "published": "2026-10-06T11:44:06+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Police detain Indian opposition leader Rahul Gandhi at poll chief protest",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633252/police-detain-indian-opposition-leader-rahul-gandhi-at-poll-chief-protest",
-     "published": "2026-10-06T01:39:46+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "What to know about nationwide protests in India over voter list changes",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOLUZ6ZXMwR1ozY2liRC1LY0tqRkxtQ3g2by1tMkp1cXVjTGdkeDJJblV4SkF5d2FqMnVaVHNacjBJNElMQV83S2xtUC1MbUR1RTFSRGZSYVpEbkhCUVRrMHphSkdzbEN0TWp5Q3BGZ1RhVFFScFAzZWNtQk53Vkc5MWRPZWhQS3N5aVQyNkhKeDhEMkhHZHNRTHlYMnpoTm5wOHotVU5DWHZFd3ZJbjYteURiU3o?oc=5",
-     "published": "2026-10-06T11:44:06+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Indian opposition leader Rahul Gandhi detained over election chief protest",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/7/indian-opposition-leader-rahul-gandhi-detained-over-election-chief-protest?traffic_source=rss",
-     "published": "2026-10-07T19:40:07+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Rahul Gandhi, Indian opposition lawmakers detained over election chief protest for 2nd day",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2035427/rahul-gandhi-indian-opposition-lawmakers-detained-over-election-chief-protest-for-2nd-day",
-     "published": "2026-10-07T13:44:02+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Rahul Gandhi, Indian opposition lawmakers detained over election chief protest for second day",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633522/rahul-gandhi-indian-opposition-lawmakers-detained-over-election-chief-protest-for-second-day",
-     "published": "2026-10-07T10:11:32+00:00"
-    }
-   ],
-   "last_seen": "2026-10-08T03:08:02.336758+00:00",
-   "outlets": 11,
-   "regions": 10,
    "languages": 2,
    "score": 35.0
   },
@@ -4147,6 +4509,179 @@
    "score": 33.0
   },
   {
+   "id": "f7535344ce98",
+   "first_seen": "2026-10-05T18:07:49.818707+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Flydubai co-pilot planned to crash plane into Tel Aviv airport or building, reports say",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cm3691y79xp5o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-05T11:34:59+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Flydubai co-pilot planned to crash plane into Tel Aviv airport or building, reports say",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/flydubai-co-pilot-planned-to-crash-plane-into-tel-aviv-airport-or-building-reports-say/",
+     "published": "2026-10-05T16:44:30+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "FlyDubai co-pilot planned to crash jet into Israeli airport, official says",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/flydubai-co-pilot-planned-crash-into-israel-airport-security-lapses/",
+     "published": "2026-10-05T16:47:38+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Israel prepared for fighter jets to shoot down FlyDubai flight if necessary, Israeli sources say",
+     "language": "en",
+     "link": "https://www.cbsnews.com/video/israel-prepared-fighter-jets-shoot-down-flydubai-flight-necessary-israeli-sources-say/",
+     "published": "2026-10-05T23:44:02+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Israel was prepared to shoot down FlyDubai plane, sources say",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/israel-flydubai-plane-shoot-down-threat/",
+     "published": "2026-10-05T23:45:36+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "FlyDubai attacker intended to crash plane into Tel Aviv airport, investigation finds",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/05/nx-s1-5990802/midair-attack-flydubai",
+     "published": "2026-10-05T10:53:46+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Co-pilot accused of trying to hijack flydubai plane likely acted alone: Reports",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/co-pilot-accused-of-trying-to-hijack-flydubai-plane-likely-acted-alone-reports/article71544657.ece",
+     "published": "2026-10-05T05:01:21+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "More details emerge about FlyDubai co-pilot who tried to crash plane",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/flydubai-plane-attempted-crash-hijacking-israel-dubai-what-to-know/",
+     "published": "2026-10-05T16:01:00+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Hero passengers on the terrifying FlyDubai flight detail how they saved the plane",
+     "language": "en",
+     "link": "https://www.cbsnews.com/video/israeli-forces-were-prepared-to-shoot-down-flydubai-plane-source-says/",
+     "published": "2026-10-05T13:54:53+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Flydubai co-pilot planned suicide attack on Israeli airport, UAE prosecutors say",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/09/flydubai-co-pilot-planned-suicide-attack-on-israeli-airport-uae-prosecutors-say",
+     "published": "2026-10-09T20:38:11+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Omani Flydubai co-pilot planned to crash plane into Israeli airport, UAE says",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/middle-east/article/3370407/omani-flydubai-co-pilot-planned-crash-plane-israeli-airport-uae-says?utm_source=rss_feed",
+     "published": "2026-10-09T17:01:59+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "🔴 FlyDubai co-pilot planned suicide attack on Tel Aviv airport, inspired by 9/11, UAE prosecutor says",
+     "language": "en",
+     "link": "https://www.france24.com/en/middle-east/20261009-flydubai-co-pilot-planned-suicide-attack-on-tel-aviv-airport-inspired-by-9-11",
+     "published": "2026-10-09T17:09:59+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "flydubai co-pilot intended to crash plane into Tel Aviv airport, UAE prosecutor says",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/flydubai-co-pilot-intended-to-crash-plane-into-tel-aviv-airport-uae-prosecutor-says/article71565815.ece",
+     "published": "2026-10-09T22:50:19+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "FlyDubai co-pilot intended to crash plane into Tel Aviv airport, UAE prosecutor says",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/flydubai-co-pilot-intended-to-crash-plane-into-tel-aviv-airport-uae-prosecutor-says-101791570864154.html",
+     "published": "2026-10-09T18:34:23+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Flydubai co-pilot planned suicide attack on Tel Aviv airport",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/10/world/flydubai-suicide-attack-tel-aviv/",
+     "published": "2026-10-10T00:13:00+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "UAE prosecutor: Flydubai co-pilot planned suicide attack on Tel Aviv airport, sought ‘greatest possible loss of life’",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/10/uae-prosecutor-flydubai-co-pilot-planned-suicide-attack-on-tel-aviv-airport-sought-greatest-possible-loss-of-life/238587",
+     "published": "2026-10-10T08:58:38+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Flydubai co-pilot planned terrorist attack at Tel Aviv airport",
+     "language": "en",
+     "link": "https://tass.com/society/2200015",
+     "published": "2026-10-09T18:09:01+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Flydubai attacker began a 'drift towards extremism and terrorism' in Australia, UAE says",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cw3dj5n538jpo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-10T04:34:55+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T09:07:48.714447+00:00",
+   "outlets": 12,
+   "regions": 9,
+   "languages": 1,
+   "score": 32.0
+  },
+  {
    "id": "c2196a3d81fa",
    "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
@@ -4567,6 +5102,107 @@
    "score": 26.0
   },
   {
+   "id": "eb275183d7fc",
+   "first_seen": "2026-10-09T09:07:48.883639+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Cars torched and shops looted as anti-migrant violence erupts in South Africa",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cwm24v45p4jgo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-09T08:28:57+00:00"
+    },
+    {
+     "outlet": "AllAfrica",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "South Africa: Ten Cars Torched As Xenophobic Violence Erupts in Soweto",
+     "language": "en",
+     "link": "https://allafrica.com/stories/202610090088.html",
+     "published": "2026-10-09T05:00:52+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "South Africa withdraws asylum processing following xenophobic clashes",
+     "language": "en",
+     "link": "https://punchng.com/south-africa-withdraws-asylum-processing-following-xenophobic-clashes/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-09T10:04:24+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Clashes lead South Africa to withdraw asylum processing order",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/09/clashes-lead-south-africa-to-withdraw-asylum-processing-order",
+     "published": "2026-10-09T07:51:00+00:00"
+    },
+    {
+     "outlet": "AllAfrica",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "South Africa: Home Affairs Withdraws Asylum Directive After Violent Anti-Immigration Protests",
+     "language": "en",
+     "link": "https://allafrica.com/stories/202610090210.html",
+     "published": "2026-10-09T06:35:22+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "South Africa protests turn violent amid rage over asylum ruling",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxORXpVYWQxQ0w5dlg0Z2RwZktubTV6aTZBTk9zOGMtZmgySlZZSmVleXRiSVB4ODBmOWh1MEE3S0xIS29GQWRRQjNhdUdUX0ZSd2xWemNrQUR2RlZiWWppVGlmR09lTHlaN0E2NFZuWmlxVUNFNmNfM09ISW1IRWdsMjN5SGdlWWNqbkR0bnVrQVQydDM4Tmx4amQ5cFp5M3Q2eEJUOFNLVdIBrAFBVV95cUxQdnBRa3FaTjhIZlNlZHc1SlZVX0gtUTJsSjRKcElzTU03b0xPcHNKUkxza21MTmVhOU5HTEFQY3p4a3ZvVGJPbWZ5TkRMRWxtMGU2YkF0YkhiRzVOaVhOSUFtX0hfdXlDWWFDVWZ1dVZtMzJxcUtBZ1UwNThZaUdfTHJHcFA4aWUyb0VtRUM5V2NnV09rdG44R1E3YV83VTRHV2xnWWtJaG8tQ3di?oc=5",
+     "published": "2026-10-08T20:51:42+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "South African anti-migrant protests: Cars torched and shops looted in Durban and Soweto",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFB5ejZ2RkxhSV9NSFZzTzZ6U2I0dmpseFl3b3JkNUpqWFFWS0ZWWXZOZVh5emhTWHZaQnJtT2dwVmJTQ196TENIMUFhYkptNG5DX2t0cXEtblpLTm8?oc=5",
+     "published": "2026-10-09T08:28:57+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "ANTI-FOREIGNER UNREST: Home Affairs scraps asylum seeker directive after violence in Durban and Soweto",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-09-home-affairs-scraps-asylum-seeker-directive-after-violence-in-durban-and-soweto/",
+     "published": "2026-10-09T11:54:13+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "South Africa scraps asylum directive after anti-immigrant violence",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/africa/south-africa-scraps-asylum-directive-after-anti-immigrant-violence",
+     "published": "2026-10-09T07:43:00+00:00"
+    },
+    {
+     "outlet": "CGTN",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "South Africa withdraws asylum directive after anti-migrant violence",
+     "language": "en",
+     "link": "https://newsaf.cgtn.com/news/2026-10-09/South-Africa-withdraws-asylum-directive-after-anti-migrant-violence-1R6DJYOHz3O/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+     "published": "2026-10-09T15:12:03+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T09:07:48.714447+00:00",
+   "outlets": 8,
+   "regions": 8,
+   "languages": 1,
+   "score": 26.0
+  },
+  {
    "id": "bd1dfeaf51d0",
    "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
@@ -4763,6 +5399,116 @@
     }
    ],
    "last_seen": "2026-10-07T18:07:47.065879+00:00",
+   "outlets": 9,
+   "regions": 7,
+   "languages": 1,
+   "score": 25.0
+  },
+  {
+   "id": "8a9cacec0541",
+   "first_seen": "2026-10-10T09:07:48.714447+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Zelenskyy furious as Trump announces deal to buy Russian diesel",
+     "language": "en",
+     "link": "https://www.theguardian.com/us-news/2026/oct/09/trump-putin-russian-diesel-ukraine",
+     "published": "2026-10-09T23:39:31+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Trump announces deal for Russian diesel as Zelensky calls it a gift to Putin",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cm1dwgr666wno?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-10T04:38:20+00:00"
+    },
+    {
+     "outlet": "Meduza English",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "‘We’re being used as a front,’ Zelensky says of Trump’s diesel deal with Putin",
+     "language": "en",
+     "link": "https://meduza.io/en/feature/2026/10/10/we-re-being-used-as-a-front-zelensky-says-of-trump-s-diesel-deal-with-putin",
+     "published": "2026-10-10T00:02:06+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Trump announces Russian diesel deal amid US fuel price surge",
+     "language": "en",
+     "link": "https://www.dailysabah.com/business/energy/trump-announces-russian-diesel-deal-amid-us-fuel-price-surge",
+     "published": "2026-10-09T21:21:00+00:00"
+    },
+    {
+     "outlet": "Investing.com — الاقتصاد",
+     "region": "money",
+     "bucket": "useful",
+     "title": "Trump reaches Russian diesel supply deal as U.S. fuel prices surge",
+     "language": "en",
+     "link": "https://www.investing.com/news/economy-news/trump-reaches-russian-diesel-supply-deal-as-us-fuel-prices-surge-4941896",
+     "published": "2026-10-10T00:37:35+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Trump publicly thanks Putin for diesel fuel supply deal",
+     "language": "en",
+     "link": "https://tass.com/world/2200203",
+     "published": "2026-10-10T01:46:35+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Australia says it won’t buy Russian fuel despite Trump’s diesel agreement",
+     "language": "en",
+     "link": "https://www.scmp.com/news/asia/australasia/article/3370422/australia-says-it-wont-buy-russian-fuel-despite-trumps-diesel-agreement?utm_source=rss_feed",
+     "published": "2026-10-10T04:09:39+00:00"
+    },
+    {
+     "outlet": "Meduza English",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Trump says he’s reached a deal with Putin to supply Russian diesel to U.S. and global markets. Zelensky calls it ‘an investment in a war that must be ended, not prolonged.’",
+     "language": "en",
+     "link": "https://meduza.io/en/news/2026/10/09/trump-says-he-reached-a-deal-with-putin-to-supply-russian-diesel-to-u-s-and-global-markets-breaking-with-years-of-american-sanctions-policy",
+     "published": "2026-10-09T19:32:27+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump-Putin deal: How much diesel will Russia supply to the US?",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/trumpputin-deal-how-much-diesel-will-russia-supply-to-the-us-101791578877226.html",
+     "published": "2026-10-09T21:25:40+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Trump says Russia to supply diesel to U.S. and global markets",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/10/world/politics/trump-russia-diesel-us-global-markets/",
+     "published": "2026-10-09T22:49:00+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Russia ready to supply oil to US, global markets",
+     "language": "en",
+     "link": "https://tass.com/economy/2200067",
+     "published": "2026-10-09T20:21:09+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T09:07:48.714447+00:00",
    "outlets": 9,
    "regions": 7,
    "languages": 1,
@@ -5054,92 +5800,74 @@
    "score": 24.0
   },
   {
-   "id": "eb275183d7fc",
-   "first_seen": "2026-10-09T09:07:48.883639+00:00",
+   "id": "b0355c8692a2",
+   "first_seen": "2026-10-09T17:07:48.864691+00:00",
    "members": [
     {
      "outlet": "BBC World",
      "region": "uk",
-     "bucket": "serious",
-     "title": "Cars torched and shops looted as anti-migrant violence erupts in South Africa",
+     "bucket": "light",
+     "title": "Two Renoir paintings stolen from French museum are recovered",
      "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cwm24v45p4jgo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-09T08:28:57+00:00"
+     "link": "https://www.bbc.co.uk/news/articles/cwkg50v1vn07o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-09T14:25:18+00:00"
     },
     {
-     "outlet": "AllAfrica",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "South Africa: Ten Cars Torched As Xenophobic Violence Erupts in Soweto",
+     "outlet": "Court House News",
+     "region": "court",
+     "bucket": "light",
+     "title": "2 Renoir paintings stolen from a French museum have been found, 6 arrested",
      "language": "en",
-     "link": "https://allafrica.com/stories/202610090088.html",
-     "published": "2026-10-09T05:00:52+00:00"
+     "link": "https://www.courthousenews.com/2-renoir-paintings-stolen-from-a-french-museum-have-been-found-6-arrested/",
+     "published": "2026-10-09T16:38:20+00:00"
     },
     {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
+     "outlet": "France24",
+     "region": "eu",
      "bucket": "serious",
-     "title": "South Africa withdraws asylum processing following xenophobic clashes",
+     "title": "Renoir paintings stolen from French Riviera museum recovered, six suspects arrested",
      "language": "en",
-     "link": "https://punchng.com/south-africa-withdraws-asylum-processing-following-xenophobic-clashes/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-09T10:04:24+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Clashes lead South Africa to withdraw asylum processing order",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/09/clashes-lead-south-africa-to-withdraw-asylum-processing-order",
-     "published": "2026-10-09T07:51:00+00:00"
-    },
-    {
-     "outlet": "AllAfrica",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "South Africa: Home Affairs Withdraws Asylum Directive After Violent Anti-Immigration Protests",
-     "language": "en",
-     "link": "https://allafrica.com/stories/202610090210.html",
-     "published": "2026-10-09T06:35:22+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "South Africa protests turn violent amid rage over asylum ruling",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxORXpVYWQxQ0w5dlg0Z2RwZktubTV6aTZBTk9zOGMtZmgySlZZSmVleXRiSVB4ODBmOWh1MEE3S0xIS29GQWRRQjNhdUdUX0ZSd2xWemNrQUR2RlZiWWppVGlmR09lTHlaN0E2NFZuWmlxVUNFNmNfM09ISW1IRWdsMjN5SGdlWWNqbkR0bnVrQVQydDM4Tmx4amQ5cFp5M3Q2eEJUOFNLVdIBrAFBVV95cUxQdnBRa3FaTjhIZlNlZHc1SlZVX0gtUTJsSjRKcElzTU03b0xPcHNKUkxza21MTmVhOU5HTEFQY3p4a3ZvVGJPbWZ5TkRMRWxtMGU2YkF0YkhiRzVOaVhOSUFtX0hfdXlDWWFDVWZ1dVZtMzJxcUtBZ1UwNThZaUdfTHJHcFA4aWUyb0VtRUM5V2NnV09rdG44R1E3YV83VTRHV2xnWWtJaG8tQ3di?oc=5",
-     "published": "2026-10-08T20:51:42+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "South African anti-migrant protests: Cars torched and shops looted in Durban and Soweto",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFB5ejZ2RkxhSV9NSFZzTzZ6U2I0dmpseFl3b3JkNUpqWFFWS0ZWWXZOZVh5emhTWHZaQnJtT2dwVmJTQ196TENIMUFhYkptNG5DX2t0cXEtblpLTm8?oc=5",
-     "published": "2026-10-09T08:28:57+00:00"
-    },
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "ANTI-FOREIGNER UNREST: Home Affairs scraps asylum seeker directive after violence in Durban and Soweto",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-09-home-affairs-scraps-asylum-seeker-directive-after-violence-in-durban-and-soweto/",
-     "published": "2026-10-09T11:54:13+00:00"
+     "link": "https://www.france24.com/en/france/20261009-renoir-paintings-stolen-from-french-riviera-museum-recovered-six-people-arrested",
+     "published": "2026-10-09T12:09:40+00:00"
     },
     {
      "outlet": "Daily Sabah",
      "region": "tr",
      "bucket": "serious",
-     "title": "South Africa scraps asylum directive after anti-immigrant violence",
+     "title": "2 stolen Renoir paintings recovered in France, 6 arrested",
      "language": "en",
-     "link": "https://www.dailysabah.com/world/africa/south-africa-scraps-asylum-directive-after-anti-immigrant-violence",
-     "published": "2026-10-09T07:43:00+00:00"
+     "link": "https://www.dailysabah.com/arts/2-stolen-renoir-paintings-recovered-in-france-6-arrested/news",
+     "published": "2026-10-09T11:33:00+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Renoir heist solved: 2 paintings stolen from French museum recovered; 6 arrested",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/renoir-heist-solved-2-paintings-stolen-from-french-museum-recovered-6-arrested-101791545057442.html",
+     "published": "2026-10-09T11:56:09+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "2 Renoir paintings stolen from French museum recovered, mayor says",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/renoir-paintings-stolen-museum-france-recovered-mayor-says/",
+     "published": "2026-10-09T12:28:06+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Two Renoir paintings recovered after France museum heist, mayor says",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/10/two-renoir-paintings-recovered-after-france-museum-heist-mayor-says?traffic_source=rss",
+     "published": "2026-10-10T01:23:12+00:00"
     }
    ],
-   "last_seen": "2026-10-09T17:07:48.864691+00:00",
+   "last_seen": "2026-10-10T09:07:48.714447+00:00",
    "outlets": 7,
    "regions": 7,
    "languages": 1,
@@ -5552,6 +6280,80 @@
    "score": 21.0
   },
   {
+   "id": "493ae8954612",
+   "first_seen": "2026-10-10T09:07:48.714447+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Commentator Katie Zacharia picked as new White House press secretary",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c5rmy73zr0rro?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-09T22:41:21+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Trump picks Truth Social’s Katie Zacharia as White House press secretary",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370413/trump-picks-truth-socials-katie-zacharia-white-house-press-secretary?utm_source=rss_feed",
+     "published": "2026-10-09T22:37:12+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Katie Zacharia picked as White House press secretary",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/katie-zacharia-picked-as-white-house-press-secretary/article71565837.ece",
+     "published": "2026-10-09T22:45:49+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Trump offers White House press secretary role to Katie Zacharia",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/americas/trump-offers-white-house-press-secretary-role-to-katie-zacharia",
+     "published": "2026-10-09T18:33:00+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump Picks Katie Zacharia As New White House Press Secretary",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/trump-picks-katie-zacharia-as-new-white-house-press-secretary-12164006#publisher=newsstand",
+     "published": "2026-10-10T01:24:42+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Trump appoints ‘devoted fan’ Katie Zacharia as White House press secretary",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/10/trump-appoints-devoted-fan-katie-zacharia-as-white-house-press-secretary/238537",
+     "published": "2026-10-10T04:14:31+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Trump appoints ‘devoted fan’ Katie Zacharia as press secretary",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/trump-appoints-devoted-fan-katie-zacharia-as-press-secretary/",
+     "published": "2026-10-10T07:09:58+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T09:07:48.714447+00:00",
+   "outlets": 7,
+   "regions": 6,
+   "languages": 1,
+   "score": 21.0
+  },
+  {
    "id": "9c7fd4c09d21",
    "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
@@ -5821,71 +6623,6 @@
      "language": "en",
      "link": "https://en.mehrnews.com/news/248442/Massive-LPG-tanker-targeted-in-Hormuz-IRGC",
      "published": "2026-10-09T14:12:26+00:00"
-    }
-   ],
-   "last_seen": "2026-10-09T17:07:48.864691+00:00",
-   "outlets": 6,
-   "regions": 6,
-   "languages": 1,
-   "score": 20.0
-  },
-  {
-   "id": "b0355c8692a2",
-   "first_seen": "2026-10-09T17:07:48.864691+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "light",
-     "title": "Two Renoir paintings stolen from French museum are recovered",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cwkg50v1vn07o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-09T14:25:18+00:00"
-    },
-    {
-     "outlet": "Court House News",
-     "region": "court",
-     "bucket": "light",
-     "title": "2 Renoir paintings stolen from a French museum have been found, 6 arrested",
-     "language": "en",
-     "link": "https://www.courthousenews.com/2-renoir-paintings-stolen-from-a-french-museum-have-been-found-6-arrested/",
-     "published": "2026-10-09T16:38:20+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Renoir paintings stolen from French Riviera museum recovered, six suspects arrested",
-     "language": "en",
-     "link": "https://www.france24.com/en/france/20261009-renoir-paintings-stolen-from-french-riviera-museum-recovered-six-people-arrested",
-     "published": "2026-10-09T12:09:40+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "2 stolen Renoir paintings recovered in France, 6 arrested",
-     "language": "en",
-     "link": "https://www.dailysabah.com/arts/2-stolen-renoir-paintings-recovered-in-france-6-arrested/news",
-     "published": "2026-10-09T11:33:00+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Renoir heist solved: 2 paintings stolen from French museum recovered; 6 arrested",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/renoir-heist-solved-2-paintings-stolen-from-french-museum-recovered-6-arrested-101791545057442.html",
-     "published": "2026-10-09T11:56:09+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "2 Renoir paintings stolen from French museum recovered, mayor says",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/renoir-paintings-stolen-museum-france-recovered-mayor-says/",
-     "published": "2026-10-09T12:28:06+00:00"
     }
    ],
    "last_seen": "2026-10-09T17:07:48.864691+00:00",
@@ -6534,98 +7271,6 @@
    "score": 15.0
   },
   {
-   "id": "f7535344ce98",
-   "first_seen": "2026-10-05T18:07:49.818707+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Flydubai co-pilot planned to crash plane into Tel Aviv airport or building, reports say",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cm3691y79xp5o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-05T11:34:59+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Flydubai co-pilot planned to crash plane into Tel Aviv airport or building, reports say",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/flydubai-co-pilot-planned-to-crash-plane-into-tel-aviv-airport-or-building-reports-say/",
-     "published": "2026-10-05T16:44:30+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "FlyDubai co-pilot planned to crash jet into Israeli airport, official says",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/flydubai-co-pilot-planned-crash-into-israel-airport-security-lapses/",
-     "published": "2026-10-05T16:47:38+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Israel prepared for fighter jets to shoot down FlyDubai flight if necessary, Israeli sources say",
-     "language": "en",
-     "link": "https://www.cbsnews.com/video/israel-prepared-fighter-jets-shoot-down-flydubai-flight-necessary-israeli-sources-say/",
-     "published": "2026-10-05T23:44:02+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Israel was prepared to shoot down FlyDubai plane, sources say",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/israel-flydubai-plane-shoot-down-threat/",
-     "published": "2026-10-05T23:45:36+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "FlyDubai attacker intended to crash plane into Tel Aviv airport, investigation finds",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/05/nx-s1-5990802/midair-attack-flydubai",
-     "published": "2026-10-05T10:53:46+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Co-pilot accused of trying to hijack flydubai plane likely acted alone: Reports",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/co-pilot-accused-of-trying-to-hijack-flydubai-plane-likely-acted-alone-reports/article71544657.ece",
-     "published": "2026-10-05T05:01:21+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "More details emerge about FlyDubai co-pilot who tried to crash plane",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/flydubai-plane-attempted-crash-hijacking-israel-dubai-what-to-know/",
-     "published": "2026-10-05T16:01:00+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Hero passengers on the terrifying FlyDubai flight detail how they saved the plane",
-     "language": "en",
-     "link": "https://www.cbsnews.com/video/israeli-forces-were-prepared-to-shoot-down-flydubai-plane-source-says/",
-     "published": "2026-10-05T13:54:53+00:00"
-    }
-   ],
-   "last_seen": "2026-10-06T03:07:51.967007+00:00",
-   "outlets": 5,
-   "regions": 4,
-   "languages": 1,
-   "score": 15.0
-  },
-  {
    "id": "117d1cae3f5a",
    "first_seen": "2026-10-06T15:07:42.509147+00:00",
    "members": [
@@ -6732,6 +7377,136 @@
     }
    ],
    "last_seen": "2026-10-08T18:07:58.260966+00:00",
+   "outlets": 5,
+   "regions": 4,
+   "languages": 1,
+   "score": 15.0
+  },
+  {
+   "id": "182e65baf487",
+   "first_seen": "2026-10-08T15:07:49.816861+00:00",
+   "members": [
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Yemen’s Houthis claim new attacks on Saudi airports as conflict deepens",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/yemens-houthis-claim-new-attacks-on-saudi-airports-as-conflict-deepens/article71557047.ece",
+     "published": "2026-10-07T17:04:00+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Yemen's Houthis claim responsibility for attacks on two Saudi airports",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/08/yemens-houthis-claim-responsibility-for-attacks-on-two-saudi-airports/",
+     "published": "2026-10-08T11:37:25+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Three people killed in Houthi attacks on Saudi Arabia airports, officials say",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cwn8d5rx22rdo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-08T03:32:35+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Attacks on Saudi airports claimed by Houthi rebels kill 3 people, officials say",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/attacks-on-saudi-airports-claimed-by-houthi-rebels-kill-several/article71557187.ece",
+     "published": "2026-10-08T00:31:56+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Three Saudis killed in Riyadh airport attack claimed by Houthis",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/09/riyadh-airport-flights-suspended-houthis-claim-attack",
+     "published": "2026-10-09T09:47:10+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Saudi authorities say three killed in Houthi-claimed attacks on Riyadh airport",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/saudi-authorities-say-three-killed-in-houthi-claimed-attacks-on-riyadh-airport/article71565580.ece",
+     "published": "2026-10-09T17:26:32+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "IN BRIEF: Three killed, several injured in attack on Riyadh airport",
+     "language": "en",
+     "link": "https://tass.com/emergencies/2199827",
+     "published": "2026-10-09T11:37:07+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T09:07:48.714447+00:00",
+   "outlets": 5,
+   "regions": 4,
+   "languages": 1,
+   "score": 15.0
+  },
+  {
+   "id": "038833f82242",
+   "first_seen": "2026-10-10T09:07:48.714447+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Hurricane Isaias makes landfall in Florida and hammers Gulf coast",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/09/hurricane-isaias-makes-landfall",
+     "published": "2026-10-10T03:56:50+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Hurricane Isaias downgraded after making landfall in Florida",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c3vgx4450v2lo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-10T08:29:59+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Isaias weakens after making landfall in US Gulf Coast as hurricane",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/10/isaias-weakens-after-making-landfall-in-us-gulf-coast-as-hurricane?traffic_source=rss",
+     "published": "2026-10-10T08:33:44+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Hurricane Isaias makes landfall in Florida",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/10/hurricane-isaias",
+     "published": "2026-10-10T06:06:36+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "4,00,000 Without Power In Florida As Hurricane Isaias Makes Landfall",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/isaias-makes-landfall-along-the-us-gulf-coast-as-a-dangerous-category-2-hurricane-12164557#publisher=newsstand",
+     "published": "2026-10-10T06:42:42+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T09:07:48.714447+00:00",
    "outlets": 5,
    "regions": 4,
    "languages": 1,
@@ -7302,6 +8077,62 @@
    "score": 14.0
   },
   {
+   "id": "5483b962f655",
+   "first_seen": "2026-10-09T17:07:48.864691+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "China agrees to ‘halve’ hybrid car exports to EU in landmark deal",
+     "language": "en",
+     "link": "https://www.theguardian.com/business/2026/oct/09/china-agrees-to-curb-hybrid-car-exports-to-eu-in-landmark-deal",
+     "published": "2026-10-09T15:05:57+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "China agrees to slash EU hybrid car exports in half, putting brake on trade war",
+     "language": "en",
+     "link": "https://www.scmp.com/economy/china-economy/article/3370385/china-and-eu-reach-understanding-hybrid-vehicles-after-crunch-trade-talks?utm_source=rss_feed",
+     "published": "2026-10-09T11:59:22+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "China agrees to slash EU hybrid car exports in half, putting brake on trade war",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNa2RCM0lJTlZrVnhlMmdjbldmMXpIekU5QzFIRzNqT25lNzNld25selhNcl9oYjFCWjRaX3ZSUzdGNDBrTmU0YzJJaUZneHRkQ2JZUmF4eUlSWG52QzE3VzBhLUFma0dqSG1wN1daLUd0Y0c0Q3NCblBKOV9sby1pQU1aUU1XWU1IbG1iQ2JiQUlrSzAwbDlFYnd5ZXkyblFYVjlxS1hVMFRRWVZmcmZ3OVpTekhjMnB6MW9rZ1BBYWg3eXJ4Yk1OM0d2NWTSAcwBQVVfeXFMTWk5X2h5SXFHS0JMQjVla2RTd0lUTC0ta0hWRVdVMzJHRU1FSlp2bUcyZkhTQlZ5UUktYW1BdFhuZ0pYX2ZDaFd3SmYteUNaRUhBbVBwelFfODBvMFhmeE1Lbmx1ZWdDSWVBRWlKRzJjMmVDbmp2c1VodGlXNGI4aDhFTDhuNUlQVjRjeUNIWXpaNzNuY1dBdkhGY3dwWklPMG9VT0wtZ3FUSEQxRzhtREkyV3JRRjF3TXlaYUxZWHpPVDVTamt0QWc4RDNo?oc=5",
+     "published": "2026-10-09T15:21:58+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "China and EU strike deal to halve Chinese hybrid exports",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/business/2026/10/10/economy/china-eu-hybrid-exports/",
+     "published": "2026-10-09T23:55:00+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "EU and China clinch deal to curb hybrid car exports",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNQ0lUbmdELTJidlhxM1VOeGZuZi12QW5xSnRLZ21mczZkQThFZ09uN1VGdDJyOHpKaW9Ya2d4ZXBCVks5aHhGWDdhTW9waG5LOWVQaVZOcnBBT1dZT2N6bC1KYmhaZU1FRFdHRVRNNjJOdVl5S0tJclFxVFZ1ei1hQzBFZndtUnJWY1MtbnhlUHNremV6UVE?oc=5",
+     "published": "2026-10-09T12:50:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T09:07:48.714447+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
+  },
+  {
    "id": "4295e00d2202",
    "first_seen": "2026-10-06T03:07:51.967007+00:00",
    "members": [
@@ -7337,6 +8168,62 @@
    "outlets": 3,
    "regions": 3,
    "languages": 2,
+   "score": 13.0
+  },
+  {
+   "id": "5213bbd5cf19",
+   "first_seen": "2026-10-10T09:07:48.714447+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Anthropic AI model submits false homicide tip to Philadelphia police",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/10/anthropic-ai-model-submits-false-homicide-tip-to-philadelphia-police?traffic_source=rss",
+     "published": "2026-10-10T04:54:59+00:00"
+    },
+    {
+     "outlet": "The Verge",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "Anthropic’s AI gave Philadelphia police a fake tip about an unsolved homicide",
+     "language": "en",
+     "link": "https://www.theverge.com/ai-artificial-intelligence/1009090/anthropic-fake-homicide-information-philadelphia-pd-tip",
+     "published": "2026-10-09T21:15:38+00:00"
+    },
+    {
+     "outlet": "TechCrunch",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "An Anthropic AI model sent a false homicide tip to Philadelphia police",
+     "language": "en",
+     "link": "https://techcrunch.com/2026/10/09/an-anthropic-ai-model-sent-a-false-homicide-tip-to-philadelphia-police/",
+     "published": "2026-10-09T19:36:56+00:00"
+    },
+    {
+     "outlet": "Engadget",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "An Anthropic model submitted a false homicide tip to Philadelphia police",
+     "language": "en",
+     "link": "https://www.engadget.com/2282713/an-anthropic-model-submitted-a-false-homicide-tip-to-philadelphia-police/",
+     "published": "2026-10-09T20:00:30+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Anthropic under fire as AI model submits false homicide tip to Philadelphia police",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/anthropic-under-fire-as-ai-model-submits-false-homicide-tip-to-philadelphia-police-101791582807050.html",
+     "published": "2026-10-09T22:15:07+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T09:07:48.714447+00:00",
+   "outlets": 5,
+   "regions": 3,
+   "languages": 1,
    "score": 13.0
   },
   {
@@ -7475,6 +8362,100 @@
     }
    ],
    "last_seen": "2026-10-08T09:08:05.709468+00:00",
+   "outlets": 4,
+   "regions": 3,
+   "languages": 1,
+   "score": 12.0
+  },
+  {
+   "id": "7ff17f8e6863",
+   "first_seen": "2026-10-10T09:07:48.714447+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Taiwan president says defence spending boost aims to ‘deter war’",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/10/taiwan-president-says-defence-spending-boost-aims-to-deter-war?traffic_source=rss",
+     "published": "2026-10-10T05:08:49+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Taiwan’s leader says increasing defence spending to ‘deter war’",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/10/taiwan-s-leader-says-increasing-defence-spending-to-deter-war",
+     "published": "2026-10-10T03:23:30+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Taiwan’s leader says increasing defense spending to ‘deter war’",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/10/asia-pacific/politics/taiwan-lai-increasing-defense-spending/",
+     "published": "2026-10-10T04:29:00+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Taiwan’s leader says increasing defence spending to ‘deter war’",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/10/taiwans-leader-says-increasing-defence-spending-to-deter-war/238566",
+     "published": "2026-10-10T06:28:52+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T09:07:48.714447+00:00",
+   "outlets": 4,
+   "regions": 3,
+   "languages": 1,
+   "score": 12.0
+  },
+  {
+   "id": "9b861eeaf775",
+   "first_seen": "2026-10-10T09:07:48.714447+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Three men found guilty of murdering Australian brothers and US friend in Mexico",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cj5ynwnye009o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-09T21:55:51+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Three men found guilty of murders of Australian surfer brothers and US friend in Mexico",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/10/jake-callum-robinson-australian-surfers-carter-rhoad-mexico-murder-guilty-verdict-ntwnfb",
+     "published": "2026-10-10T00:50:52+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "3 men found guilty in murders of American, Australian surfers in Mexico",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/men-guilty-mexico-australian-american-surfer-murders/",
+     "published": "2026-10-10T00:15:00+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "3 men found guilty of killing American and Australian brothers on surfing trip in Mexico",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPdnJnMWFyM09qblFLcTZVZE9DbldxZy1xNXRWUElqY0huc2h4MXpjWE9jUlRvVnE5TUNucXZzNzdDVDFNcTJfYklKQkhxOFJpQjR6NHdCRDlhM2ZySHEwckNLWlV6X3dyT0JJelRPY0lOYUYxdUpzaXNwcW9sUWlHXzk2SW1DcklZeHc?oc=5",
+     "published": "2026-10-10T00:15:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T09:07:48.714447+00:00",
    "outlets": 4,
    "regions": 3,
    "languages": 1,
@@ -8382,53 +9363,6 @@
    "score": 11.0
   },
   {
-   "id": "182e65baf487",
-   "first_seen": "2026-10-08T15:07:49.816861+00:00",
-   "members": [
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Yemen’s Houthis claim new attacks on Saudi airports as conflict deepens",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/yemens-houthis-claim-new-attacks-on-saudi-airports-as-conflict-deepens/article71557047.ece",
-     "published": "2026-10-07T17:04:00+00:00"
-    },
-    {
-     "outlet": "Africanews",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Yemen's Houthis claim responsibility for attacks on two Saudi airports",
-     "language": "en",
-     "link": "http://www.africanews.com/2026/10/08/yemens-houthis-claim-responsibility-for-attacks-on-two-saudi-airports/",
-     "published": "2026-10-08T11:37:25+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Three people killed in Houthi attacks on Saudi Arabia airports, officials say",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cwn8d5rx22rdo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-08T03:32:35+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Attacks on Saudi airports claimed by Houthi rebels kill 3 people, officials say",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/attacks-on-saudi-airports-claimed-by-houthi-rebels-kill-several/article71557187.ece",
-     "published": "2026-10-08T00:31:56+00:00"
-    }
-   ],
-   "last_seen": "2026-10-08T15:07:49.816861+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
    "id": "1a73ed035434",
    "first_seen": "2026-10-08T15:07:49.816861+00:00",
    "members": [
@@ -8684,44 +9618,6 @@
    "score": 11.0
   },
   {
-   "id": "5483b962f655",
-   "first_seen": "2026-10-09T17:07:48.864691+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "China agrees to ‘halve’ hybrid car exports to EU in landmark deal",
-     "language": "en",
-     "link": "https://www.theguardian.com/business/2026/oct/09/china-agrees-to-curb-hybrid-car-exports-to-eu-in-landmark-deal",
-     "published": "2026-10-09T15:05:57+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "China agrees to slash EU hybrid car exports in half, putting brake on trade war",
-     "language": "en",
-     "link": "https://www.scmp.com/economy/china-economy/article/3370385/china-and-eu-reach-understanding-hybrid-vehicles-after-crunch-trade-talks?utm_source=rss_feed",
-     "published": "2026-10-09T11:59:22+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "China agrees to slash EU hybrid car exports in half, putting brake on trade war",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNa2RCM0lJTlZrVnhlMmdjbldmMXpIekU5QzFIRzNqT25lNzNld25selhNcl9oYjFCWjRaX3ZSUzdGNDBrTmU0YzJJaUZneHRkQ2JZUmF4eUlSWG52QzE3VzBhLUFma0dqSG1wN1daLUd0Y0c0Q3NCblBKOV9sby1pQU1aUU1XWU1IbG1iQ2JiQUlrSzAwbDlFYnd5ZXkyblFYVjlxS1hVMFRRWVZmcmZ3OVpTekhjMnB6MW9rZ1BBYWg3eXJ4Yk1OM0d2NWTSAcwBQVVfeXFMTWk5X2h5SXFHS0JMQjVla2RTd0lUTC0ta0hWRVdVMzJHRU1FSlp2bUcyZkhTQlZ5UUktYW1BdFhuZ0pYX2ZDaFd3SmYteUNaRUhBbVBwelFfODBvMFhmeE1Lbmx1ZWdDSWVBRWlKRzJjMmVDbmp2c1VodGlXNGI4aDhFTDhuNUlQVjRjeUNIWXpaNzNuY1dBdkhGY3dwWklPMG9VT0wtZ3FUSEQxRzhtREkyV3JRRjF3TXlaYUxZWHpPVDVTamt0QWc4RDNo?oc=5",
-     "published": "2026-10-09T15:21:58+00:00"
-    }
-   ],
-   "last_seen": "2026-10-09T17:07:48.864691+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
    "id": "e7c26d3cf713",
    "first_seen": "2026-10-09T17:07:48.864691+00:00",
    "members": [
@@ -8757,6 +9653,44 @@
    "outlets": 3,
    "regions": 2,
    "languages": 2,
+   "score": 11.0
+  },
+  {
+   "id": "de840e1d8ab0",
+   "first_seen": "2026-10-10T09:07:48.714447+00:00",
+   "members": [
+    {
+     "outlet": "Meduza English",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Ukraine strikes Russian tech giant Yandex’s data centers for a second straight day as new peace talks involving Kyiv, the U.S., and Europe get underway in Miami",
+     "language": "en",
+     "link": "https://meduza.io/en/feature/2026/10/09/ukraine-strikes-russian-tech-giant-yandex-s-data-centers-for-a-second-straight-day-as-new-peace-talks-involving-ukraine-the-u-s-and-europe-get-underway-in-miami",
+     "published": "2026-10-09T18:14:02+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Ukraine intensifies drone strikes on data centers of Russia's Yandex",
+     "language": "en",
+     "link": "https://www.dailysabah.com/business/economy/ukraine-intensifies-drone-strikes-on-data-centers-of-russias-yandex",
+     "published": "2026-10-09T09:10:00+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Ukraine strikes Russian tech giant’s data centres",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxObUxpOTJRZU5aeVJFcGxzaGw4WnJnTE5Za3A0S1JycHFscWZNdTZGbHc2a3JaMUMxOFNHd2M3RlFxVkpsdUNPUjVSYmtPNFJyRFBzTlg2Q1BQLUFIeEtZY3o1NDhPaWJORnkwdXF2MklNWmpuWnU3RXFnVk9ZTFdHRUdTX0I?oc=5",
+     "published": "2026-10-09T11:55:51+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T09:07:48.714447+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
    "score": 11.0
   },
   {
@@ -9161,6 +10095,91 @@
     }
    ],
    "last_seen": "2026-10-09T17:07:48.864691+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
+   "id": "2b5a6e61f1d5",
+   "first_seen": "2026-10-10T09:07:48.714447+00:00",
+   "members": [
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "As it happened - All Blacks POWER away vs Australia to retain Bledisloe Cup",
+     "language": "en",
+     "link": "https://www.skysports.com/rugby-union/live-blog/12040/13596789/new-zealand-vs-australia-live-all-blacks-host-wallabies-in-first-bledisloe-cup-test-updates-latest-scores-team-news-commentary",
+     "published": "2026-10-10T06:50:00+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "All Blacks crush Australia with second-half blitz to retain Bledisloe Cup",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/sport/all-blacks-crush-australia-second-half-blitz-retain-bledisloe-cup-6448591",
+     "published": "2026-10-10T08:22:16+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Dominant All Blacks score 50 points in big win over Australia",
+     "language": "en",
+     "link": "https://www.skysports.com/rugby-union/new-zealand-vs-australia/report/111859",
+     "published": "2026-10-10T09:29:00+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "New Zealand 50-19 Australia: Bledisloe Cup rugby union international",
+     "language": "en",
+     "link": "https://www.theguardian.com/sport/live/2026/oct/10/nz-vs-aus-australia-wallabies-v-new-zealand-all-blacks-bledisloe-cup-rugby-union-test-live-updates",
+     "published": "2026-10-10T08:18:15+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T09:07:48.714447+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
+   "id": "044523cf6eeb",
+   "first_seen": "2026-10-10T09:07:48.714447+00:00",
+   "members": [
+    {
+     "outlet": "Nikkei Asia",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Bessent to skip IMF, World Bank meetings in Bangkok",
+     "language": "en",
+     "link": "https://asia.nikkei.com/politics/international-relations/bessent-to-skip-imf-world-bank-meetings-in-bangkok",
+     "published": "2026-10-10T09:07:38.988148+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "U.S. Treasury chief Scott Bessent to skip IMF-World Bank meetings in Bangkok",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/business/2026/10/10/economy/scott-bessent-skip-imf-world-bank-meetings/",
+     "published": "2026-10-10T01:37:00+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "US Treasury chief Bessent to skip IMF annual meetings in Bangkok",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/money/2026/10/10/us-treasury-chief-bessent-to-skip-imf-annual-meetings-in-bangkok/238532",
+     "published": "2026-10-10T03:58:43+00:00"
+    }
+   ],
+   "last_seen": "2026-10-10T09:07:48.714447+00:00",
    "outlets": 3,
    "regions": 2,
    "languages": 1,

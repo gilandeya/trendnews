@@ -1,0 +1,58 @@
+{
+  "id": "09b388e4a997",
+  "created_at": "2026-10-10T09:08:14.719270+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.06,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "العالم العربي يتابع موقف أمريكا من العدالة الدولية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US sanctions on ICC spark global backlash, European calls for action",
+  "link": "https://www.dailysabah.com/world/europe/us-sanctions-on-icc-spark-global-backlash-european-calls-for-action",
+  "publishers": [
+    "Daily Sabah"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "US sanctions on ICC spark global backlash, European calls for action",
+    "link": "https://www.dailysabah.com/world/europe/us-sanctions-on-icc-spark-global-backlash-european-calls-for-action",
+    "summary": "The U.S. faced mounting international criticism Friday over its sweeping sanctions against the International Criminal Court (ICC), as European governments, Canada and Japan rallied...",
+    "source_name": "Daily Sabah",
+    "region": "tr",
+    "weight": 0.9,
+    "published": "2026-10-09T16:50:00+00:00",
+    "image_url": "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/10/09/464945.jpg",
+    "publisher": "Daily Sabah",
+    "cluster_sources": [
+      "Daily Sabah"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/europe/us-sanctions-on-icc-spark-global-backlash-european-calls-for-action"
+      }
+    ],
+    "image_candidates": [
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/10/09/464945.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 1600.9135381591666,
+    "is_stale": true,
+    "score": 20.063542529703703,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "العالم العربي يتابع موقف أمريكا من العدالة الدولية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

@@ -1,361 +1,5 @@
 [
   {
-    "score": 36.35,
-    "bucket": "serious",
-    "tokens": [
-      "against",
-      "announces",
-      "houthis",
-      "leader",
-      "major",
-      "military",
-      "operations",
-      "yemen"
-    ],
-    "link": "https://www.dawn.com/news/2034695/yemen-leader-announces-major-military-operations-against-houthis",
-    "title": "Yemen leader announces major military operations against Houthis",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-10-04T18:08:27.238391+00:00"
-  },
-  {
-    "score": 24.83,
-    "bucket": "serious",
-    "tokens": [
-      "cut",
-      "houthis",
-      "road",
-      "supply",
-      "taiz",
-      "vital",
-      "yemen"
-    ],
-    "link": "https://www.freemalaysiatoday.com/category/world/2026/10/04/houthis-cut-vital-supply-road-to-yemen-s-taiz",
-    "title": "Houthis cut vital supply road to Yemen’s Taiz",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-10-04T18:08:27.238692+00:00"
-  },
-  {
-    "score": 24.77,
-    "bucket": "serious",
-    "tokens": [
-      "attacks",
-      "calls",
-      "flydubai",
-      "isn't",
-      "pilot",
-      "praises",
-      "qaeda",
-      "war"
-    ],
-    "link": "https://www.ndtv.com/world-news/al-qaeda-praises-flydubai-co-pilot-calls-for-similar-attacks-on-us-israel-12137276#publisher=newsstand",
-    "title": "\"War Isn't Over\": Al-Qaeda Praises flydubai Co-Pilot, Calls For More Attacks",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-10-04T18:08:27.238971+00:00"
-  },
-  {
-    "score": 24.51,
-    "bucket": "serious",
-    "tokens": [
-      "guidance",
-      "kim",
-      "korea",
-      "launch",
-      "missile",
-      "north",
-      "oversees"
-    ],
-    "link": "https://www.freemalaysiatoday.com/category/world/2026/10/04/north-korea-s-kim-oversees-missile-launch-with-ai-guidance",
-    "title": "North Korea’s Kim oversees missile launch with AI guidance",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-10-04T18:08:27.239251+00:00"
-  },
-  {
-    "score": 24.23,
-    "bucket": "serious",
-    "tokens": [
-      "believe",
-      "flydubai",
-      "investigators",
-      "israeli",
-      "likely",
-      "lone",
-      "pilot",
-      "wolf"
-    ],
-    "link": "https://www.cbsnews.com/news/flydubai-co-pilot-alleged-hijacking-lone-wolf/",
-    "title": "FlyDubai co-pilot was likely lone wolf, Israeli investigators believe",
-    "posted_title": "",
-    "region": "us",
-    "seen_at": "2026-10-04T18:08:27.239540+00:00"
-  },
-  {
-    "score": 19.85,
-    "bucket": "serious",
-    "tokens": [
-      "china",
-      "lie",
-      "slams",
-      "starbucks",
-      "stores",
-      "xinjiang"
-    ],
-    "link": "https://www.malaymail.com/news/money/2026/10/04/china-slams-us-lie-over-starbucks-stores-in-xinjiang/237628",
-    "title": "China slams US ‘lie’ over Starbucks stores in Xinjiang",
-    "posted_title": "واشنطن تطالب ستاربكس بإغلاق أول فرعين لها في شينجيانغ والصين ترد بـ\"كذبة\"",
-    "region": "my",
-    "seen_at": "2026-10-04T18:51:34.263682+00:00"
-  },
-  {
-    "score": 18.75,
-    "bucket": "serious",
-    "tokens": [
-      "000",
-      "350",
-      "argentina",
-      "citizenship",
-      "dollars",
-      "foreigners",
-      "raise",
-      "sell"
-    ],
-    "link": "https://en.mercopress.com/2026/10/03/argentina-to-sell-citizenship-to-foreigners-for-us-350-000-to-raise-dollars?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
-    "title": "Argentina to sell citizenship to foreigners for US$350,000 to raise dollars",
-    "posted_title": "الأرجنتين تطرح جنسيتها للبيع مقابل 350 ألف دولار لجمع العملة الصعبة",
-    "region": "latam",
-    "seen_at": "2026-10-04T18:51:52.334047+00:00"
-  },
-  {
-    "score": 36.35,
-    "bucket": "serious",
-    "tokens": [
-      "against",
-      "announces",
-      "houthis",
-      "leader",
-      "major",
-      "military",
-      "operations",
-      "yemen"
-    ],
-    "link": "https://www.dawn.com/news/2034695/yemen-leader-announces-major-military-operations-against-houthis",
-    "title": "Yemen leader announces major military operations against Houthis",
-    "posted_title": "لماذا أعلن رئيس المجلس الرئاسي اليمني عملية عسكرية شاملة ضد الحوثيين الآن تحديدًا",
-    "region": "pk",
-    "seen_at": "2026-10-04T18:52:50.145808+00:00"
-  },
-  {
-    "score": 24.83,
-    "bucket": "serious",
-    "tokens": [
-      "cut",
-      "houthis",
-      "road",
-      "supply",
-      "taiz",
-      "vital",
-      "yemen"
-    ],
-    "link": "https://www.freemalaysiatoday.com/category/world/2026/10/04/houthis-cut-vital-supply-road-to-yemen-s-taiz",
-    "title": "Houthis cut vital supply road to Yemen’s Taiz",
-    "posted_title": "الحوثيون يسيطرون على منطقة الصافية ويقطعون شريان تعز الحيوي مع عدن",
-    "region": "my",
-    "seen_at": "2026-10-04T18:53:06.357759+00:00"
-  },
-  {
-    "score": 31.83,
-    "bucket": "serious",
-    "tokens": [
-      "attack",
-      "flights",
-      "flydubai",
-      "israel",
-      "netanyahu",
-      "orders",
-      "review",
-      "security"
-    ],
-    "link": "https://www.japantimes.co.jp/news/2026/10/05/world/israel-flight-security-flydubai-attack/",
-    "title": "Netanyahu orders security review of flights to Israel after Flydubai attack",
-    "posted_title": "",
-    "region": "jp",
-    "seen_at": "2026-10-05T03:08:07.742222+00:00"
-  },
-  {
-    "score": 26.66,
-    "bucket": "serious",
-    "tokens": [
-      "capital",
-      "ethiopian",
-      "forces",
-      "rebel",
-      "regional",
-      "tigray",
-      "withdraw"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cqm249v07j4xo?at_medium=RSS&at_campaign=rss",
-    "title": "Ethiopian rebel forces withdraw from Tigray regional capital",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-10-05T03:08:07.742549+00:00"
-  },
-  {
-    "score": 24.07,
-    "bucket": "serious",
-    "tokens": [
-      "demanding",
-      "imran",
-      "islamabad",
-      "khan",
-      "launches",
-      "march",
-      "party",
-      "release"
-    ],
-    "link": "https://www.aljazeera.com/video/newsfeed/2026/10/4/imran-khans-party-launches-march-to-islamabad-demanding-his-release?traffic_source=rss",
-    "title": "Imran Khan’s party launches march to Islamabad demanding his release",
-    "posted_title": "",
-    "region": "qa",
-    "seen_at": "2026-10-05T03:08:07.742817+00:00"
-  },
-  {
-    "score": 20.09,
-    "bucket": "serious",
-    "tokens": [
-      "chief",
-      "climate",
-      "extreme",
-      "heat",
-      "newborns",
-      "pregnant",
-      "putting",
-      "risk",
-      "women"
-    ],
-    "link": "https://www.channelnewsasia.com/sustainability/extreme-heat-pregnant-women-newborns-risk-un-climate-6431901",
-    "title": "Extreme heat putting pregnant women, newborns at risk: UN climate chief",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-10-05T03:08:07.743099+00:00"
-  },
-  {
-    "score": 18.99,
-    "bucket": "serious",
-    "tokens": [
-      "african",
-      "business",
-      "call",
-      "capital",
-      "continent",
-      "egypt",
-      "leaders",
-      "summit",
-      "unlock"
-    ],
-    "link": "http://www.africanews.com/2026/10/04/african-leaders-call-for-continent-to-unlock-capital-at-egypt-business-summit/",
-    "title": "African leaders call for continent to unlock capital at Egypt business summit",
-    "posted_title": "",
-    "region": "africa",
-    "seen_at": "2026-10-05T03:08:07.743360+00:00"
-  },
-  {
-    "score": 23.06,
-    "bucket": "serious",
-    "tokens": [
-      "given",
-      "iran",
-      "minister",
-      "oil",
-      "reason",
-      "resigns"
-    ],
-    "link": "https://www.thehindu.com/news/international/irans-oil-minister-resigns-no-reason-given/article71544761.ece",
-    "title": "Iran’s Oil Minister resigns, no reason given",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-10-05T09:08:06.154575+00:00"
-  },
-  {
-    "score": 22.87,
-    "bucket": "serious",
-    "tokens": [
-      "access",
-      "counterterrorism",
-      "deadlock",
-      "imran",
-      "khan",
-      "led",
-      "policy",
-      "pti",
-      "talks"
-    ],
-    "link": "https://tribune.com.pk/story/2632966/pti-says-access-to-imran-khan-k-p-counterterrorism-policy-led-to-talks-deadlock",
-    "title": "PTI says access to Imran Khan, K-P counterterrorism policy led to talks deadlock",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-10-05T09:08:06.154755+00:00"
-  },
-  {
-    "score": 19.8,
-    "bucket": "serious",
-    "tokens": [
-      "air",
-      "aselsan",
-      "defense",
-      "drones",
-      "eyes",
-      "japan",
-      "ties",
-      "türkiye's",
-      "underwater"
-    ],
-    "link": "https://www.dailysabah.com/business/defense/turkiyes-aselsan-eyes-japan-ties-in-air-defense-underwater-drones",
-    "title": "Türkiye's Aselsan eyes Japan ties in air defense, underwater drones",
-    "posted_title": "",
-    "region": "tr",
-    "seen_at": "2026-10-05T09:08:06.154898+00:00"
-  },
-  {
-    "score": 18.26,
-    "bucket": "serious",
-    "tokens": [
-      "2026",
-      "dollar",
-      "exchange",
-      "naira",
-      "october",
-      "rate",
-      "today"
-    ],
-    "link": "https://www.vanguardngr.com/2026/10/dollar-to-naira-exchange-rate-today-october-5-2026/",
-    "title": "Dollar to Naira exchange rate today, October 5, 2026",
-    "posted_title": "",
-    "region": "ng",
-    "seen_at": "2026-10-05T09:08:06.155024+00:00"
-  },
-  {
-    "score": 17.42,
-    "bucket": "serious",
-    "tokens": [
-      "britain",
-      "class",
-      "form",
-      "green",
-      "party",
-      "racism",
-      "votes",
-      "zionism"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-10-04-britains-green-party-votes-to-class-zionism-as-a-form-of-racism/",
-    "title": "Britain’s Green Party votes to class Zionism as a form of racism",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-10-05T09:08:06.155172+00:00"
-  },
-  {
     "score": 17.42,
     "bucket": "serious",
     "tokens": [
@@ -2021,5 +1665,103 @@
     "posted_title": "",
     "region": "qa",
     "seen_at": "2026-10-09T17:08:12.116251+00:00"
+  },
+  {
+    "score": 22.04,
+    "bucket": "serious",
+    "tokens": [
+      "abuse",
+      "child",
+      "content",
+      "detect",
+      "facebook",
+      "instagram",
+      "meta",
+      "sexual",
+      "using"
+    ],
+    "link": "https://www.thehindu.com/sci-tech/technology/meta-says-it-is-using-ai-to-detect-child-sexual-abuse-content-on-instagram-and-facebook/article71558704.ece",
+    "title": "Meta says it is using AI to detect child sexual abuse content on Instagram and Facebook",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-10-10T09:08:14.718388+00:00"
+  },
+  {
+    "score": 21.04,
+    "bucket": "serious",
+    "tokens": [
+      "abuse",
+      "child",
+      "indian",
+      "jailed",
+      "leading",
+      "man",
+      "online",
+      "paris",
+      "ring"
+    ],
+    "link": "https://www.thehindu.com/news/international/indian-man-jailed-in-paris-over-leading-online-child-abuse-ring/article71567145.ece",
+    "title": "Indian man jailed in Paris over leading online child abuse ring",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-10-10T09:08:14.718692+00:00"
+  },
+  {
+    "score": 20.91,
+    "bucket": "serious",
+    "tokens": [
+      "2032",
+      "audi",
+      "barcelona",
+      "con",
+      "eléctrico",
+      "negocia",
+      "partir",
+      "producir",
+      "seat",
+      "volkswagen"
+    ],
+    "link": "https://cincodias.elpais.com/companias/2026-10-10/seat-negocia-con-volkswagen-producir-el-audi-q4-electrico-en-barcelona-a-partir-de-2032.html",
+    "title": "Seat negocia con Volkswagen producir el Audi Q4 eléctrico en Barcelona a partir de 2032",
+    "posted_title": "",
+    "region": "es",
+    "seen_at": "2026-10-10T09:08:14.718989+00:00"
+  },
+  {
+    "score": 20.55,
+    "bucket": "serious",
+    "tokens": [
+      "businessman",
+      "daughter",
+      "lifts",
+      "linked",
+      "military",
+      "myanmar",
+      "sanctions"
+    ],
+    "link": "https://www.japantimes.co.jp/news/2026/10/10/asia-pacific/politics/us-sanctions-myanmar-businessman/",
+    "title": "U.S. lifts sanctions on daughter of Myanmar military-linked businessman",
+    "posted_title": "",
+    "region": "jp",
+    "seen_at": "2026-10-10T09:08:14.719260+00:00"
+  },
+  {
+    "score": 20.06,
+    "bucket": "serious",
+    "tokens": [
+      "action",
+      "backlash",
+      "calls",
+      "european",
+      "global",
+      "icc",
+      "sanctions",
+      "spark"
+    ],
+    "link": "https://www.dailysabah.com/world/europe/us-sanctions-on-icc-spark-global-backlash-european-calls-for-action",
+    "title": "US sanctions on ICC spark global backlash, European calls for action",
+    "posted_title": "",
+    "region": "tr",
+    "seen_at": "2026-10-10T09:08:14.719515+00:00"
   }
 ]

@@ -1,0 +1,67 @@
+{
+  "id": "d1ed4f68d7a7",
+  "created_at": "2026-10-10T09:08:14.717939+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.04,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 1,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "ميتا تستخدم ذكاء اصطناعي لكشف استغلال الأطفال",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Meta says it is using AI to detect child sexual abuse content on Instagram and Facebook",
+  "link": "https://www.thehindu.com/sci-tech/technology/meta-says-it-is-using-ai-to-detect-child-sexual-abuse-content-on-instagram-and-facebook/article71558704.ece",
+  "publishers": [
+    "BBC 中文",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Meta says it is using AI to detect child sexual abuse content on Instagram and Facebook",
+    "link": "https://www.thehindu.com/sci-tech/technology/meta-says-it-is-using-ai-to-detect-child-sexual-abuse-content-on-instagram-and-facebook/article71558704.ece",
+    "summary": "Meta said that between January and June 2026, it actioned 5.3 million pieces of child sexual exploitation content on Facebook and Instagram in India",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-10-10T05:11:18+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/va51ut/article71558680.ece/alternates/LANDSCAPE_1200/2026-10-07T171045Z_819003145_RC29CCA8NAT9_RTRMADP_3_META-FLORIDA-INJUNCTION.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "BBC 中文",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/sci-tech/technology/meta-says-it-is-using-ai-to-detect-child-sexual-abuse-content-on-instagram-and-facebook/article71558704.ece"
+      },
+      {
+        "name": "BBC 中文",
+        "link": "https://www.bbc.com/zhongwen/articles/cvj6jz6e89n2o/trad?at_medium=RSS&at_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/va51ut/article71558680.ece/alternates/LANDSCAPE_1200/2026-10-07T171045Z_819003145_RC29CCA8NAT9_RTRMADP_3_META-FLORIDA-INJUNCTION.JPG",
+      "https://ichef.bbci.co.uk/ace/ws/1024/cpsprodpb/7b64/live/f290d3b0-c300-11f1-bc2e-018d645d8d21.jpg",
+      "https://ichef.bbci.co.uk/ace/ws/800/cpsprodpb/7b64/live/f290d3b0-c300-11f1-bc2e-018d645d8d21.jpg",
+      "https://ichef.bbci.co.uk/ace/ws/240/cpsprodpb/7b64/live/f290d3b0-c300-11f1-bc2e-018d645d8d21.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 1600.9134874736112,
+    "is_stale": true,
+    "score": 22.037209200851855,
+    "impact": 1,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "ميتا تستخدم ذكاء اصطناعي لكشف استغلال الأطفال",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

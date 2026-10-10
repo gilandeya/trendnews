@@ -1,0 +1,58 @@
+{
+  "id": "b30902b19556",
+  "created_at": "2026-10-10T09:08:14.718702+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.91,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 1,
+  "appeal_note": "استثمار صناعي أوروبي، آفاق توظيف محتملة، قطاع السيارات",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Seat negocia con Volkswagen producir el Audi Q4 eléctrico en Barcelona a partir de 2032",
+  "link": "https://cincodias.elpais.com/companias/2026-10-10/seat-negocia-con-volkswagen-producir-el-audi-q4-electrico-en-barcelona-a-partir-de-2032.html",
+  "publishers": [
+    "El País"
+  ],
+  "region": "es",
+  "article": {
+    "title": "Seat negocia con Volkswagen producir el Audi Q4 eléctrico en Barcelona a partir de 2032",
+    "link": "https://cincodias.elpais.com/companias/2026-10-10/seat-negocia-con-volkswagen-producir-el-audi-q4-electrico-en-barcelona-a-partir-de-2032.html",
+    "summary": "La filial española ha intensificado las conversaciones con vistas a que haya un anuncio para la fábrica el año que viene. Podría llegar un segundo modelo, aunque depende de la evolución de la crisis del grupo",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-10-10T03:15:00+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/P2THBETVLNGW3NRNO7FETIKCG4.jpg?auth=205f3307dcfa90a1877c959f0aa029306b90a2e82470087fa33650cd2bd302ad",
+    "publisher": "El País",
+    "cluster_sources": [
+      "El País"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://cincodias.elpais.com/companias/2026-10-10/seat-negocia-con-volkswagen-producir-el-audi-q4-electrico-en-barcelona-a-partir-de-2032.html"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/P2THBETVLNGW3NRNO7FETIKCG4.jpg?auth=205f3307dcfa90a1877c959f0aa029306b90a2e82470087fa33650cd2bd302ad"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 20.907986975666667,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 1,
+    "appeal_note": "استثمار صناعي أوروبي، آفاق توظيف محتملة، قطاع السيارات",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

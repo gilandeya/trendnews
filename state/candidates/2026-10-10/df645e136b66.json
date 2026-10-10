@@ -1,0 +1,65 @@
+{
+  "id": "df645e136b66",
+  "created_at": "2026-10-10T09:08:14.718999+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.55,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "سياسة أمريكية تجاه ميانمار، انقلاب عسكري، تغيير مسار دبلوماسي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "U.S. lifts sanctions on daughter of Myanmar military-linked businessman",
+  "link": "https://www.japantimes.co.jp/news/2026/10/10/asia-pacific/politics/us-sanctions-myanmar-businessman/",
+  "publishers": [
+    "Al Jazeera English",
+    "The Japan Times"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "U.S. lifts sanctions on daughter of Myanmar military-linked businessman",
+    "link": "https://www.japantimes.co.jp/news/2026/10/10/asia-pacific/politics/us-sanctions-myanmar-businessman/",
+    "summary": "The move comes a after report that said the administration of U.S. President Donald Trump had opened talks with Myanmar's military-installed government.",
+    "source_name": "The Japan Times",
+    "region": "jp",
+    "weight": 0.9,
+    "published": "2026-10-10T00:11:00+00:00",
+    "image_url": "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/10/567829.jpg",
+    "publisher": "The Japan Times",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/10/10/us-lifts-sanctions-on-daughter-of-military-linked-myanmar-tycoon?traffic_source=rss"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/10/10/asia-pacific/politics/us-sanctions-myanmar-businessman/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/10/567829.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/10/thumbs/400x400/567829.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1600.9137722041667,
+    "is_stale": false,
+    "score": 20.553542522833332,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "سياسة أمريكية تجاه ميانمار، انقلاب عسكري، تغيير مسار دبلوماسي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
