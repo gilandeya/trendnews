@@ -20336,5 +20336,26 @@
   "state_media": false,
   "created_hour": 17,
   "selection_issue": 1361
+ },
+ {
+  "id": "4a02b28b6538",
+  "created_at": "2026-10-11T19:20:03.505661+00:00",
+  "decided_at": "2026-10-11T20:01:03.565546+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "news",
+  "category": "عالم",
+  "angle": "تفسير",
+  "urgent": false,
+  "bucket": "serious",
+  "region": "eu",
+  "score": 25.84,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "source_count": 4,
+  "body_len": 614,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 19
  }
 ]
