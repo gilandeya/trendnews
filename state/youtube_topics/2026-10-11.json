@@ -67,8 +67,11 @@
       "dropped_reason": null,
       "id": "b3f3000ca2cb",
       "created_at": "2026-10-11T04:02:07.186756+00:00",
-      "selection_status": "pending",
-      "selection_issue": 1355
+      "selection_status": "attempted",
+      "selection_issue": 1355,
+      "selected_formats": [
+        "article"
+      ]
     },
     {
       "title": "الوساطة الروسية بين إيران وأمريكا",
@@ -94,8 +97,11 @@
       "dropped_reason": null,
       "id": "ea0adb65d363",
       "created_at": "2026-10-11T04:02:07.186756+00:00",
-      "selection_status": "pending",
-      "selection_issue": 1355
+      "selection_status": "attempted",
+      "selection_issue": 1355,
+      "selected_formats": [
+        "article"
+      ]
     },
     {
       "title": "فضيحة صناديق الاستثمار التركية والتحقيقات",
@@ -140,7 +146,7 @@
       "dropped_reason": null,
       "id": "dc3ef0f98fdf",
       "created_at": "2026-10-11T04:02:07.186756+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1355
     },
     {
@@ -188,7 +194,7 @@
       "dropped_reason": null,
       "id": "0680a79fa037",
       "created_at": "2026-10-11T04:02:07.186756+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1355
     },
     {
@@ -215,7 +221,7 @@
       "dropped_reason": null,
       "id": "71deb38ebce8",
       "created_at": "2026-10-11T04:02:07.186756+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1355
     },
     {
@@ -243,8 +249,11 @@
       "dropped_reason": null,
       "id": "5eb598659cd2",
       "created_at": "2026-10-11T04:02:07.186756+00:00",
-      "selection_status": "pending",
-      "selection_issue": 1355
+      "selection_status": "attempted",
+      "selection_issue": 1355,
+      "selected_formats": [
+        "article"
+      ]
     }
   ],
   "all_topics": [
