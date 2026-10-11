@@ -1,0 +1,129 @@
+{
+  "id": "6c4b509c4c00",
+  "created_at": "2026-10-11T17:08:09.777661+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 41.98,
+  "trend_score": 1.0,
+  "velocity": 0.96,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "هجوم حوثي على الرياض وتداعيات أمريكية مباشرة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Twelve killed and hundreds injured in Houthi attack at Riyadh airport",
+  "link": "https://www.theguardian.com/world/2026/oct/10/yemen-government-allied-forces-recapture-bab-al-mandab-strait-houthis-taiz",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "CBS News — World",
+    "CGTN",
+    "Daily Sabah",
+    "Dawn",
+    "France24",
+    "Hindustan Times — World",
+    "Investing.com — الاقتصاد",
+    "Iran International",
+    "Mehr News",
+    "NDTV — World",
+    "NPR World",
+    "NYT",
+    "Rubio",
+    "Saudi Arabia’s aviation authority",
+    "South China Morning Post",
+    "TASS",
+    "The Express Tribune",
+    "The Guardian — World",
+    "The Hindu — International",
+    "The Japan Times",
+    "agency",
+    "government"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Twelve killed and hundreds injured in Houthi attack at Riyadh airport",
+    "link": "https://www.theguardian.com/world/2026/oct/10/yemen-government-allied-forces-recapture-bab-al-mandab-strait-houthis-taiz",
+    "summary": "Donald Trump evaluating whether US should join Saudi strikes against the Iran-backed Yemeni rebels The latest attack on the international airport in Saudi Arabia’s capital of Riyadh killed 12 people and injured more than 300 others, civil aviation authorities said early on Sunday, with some in a critical condition. A Saudi-led coalition blamed Iran-backed Houthi rebels in neighbouring Yemen. A missile struck a King Khalid international airport complex housing terminals 3 and 4 for domestic flights, a regional official said, speaking on condition of anonymity because they weren’t authorised to speak to the media. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-10-10T23:37:27+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/abe5f1d89f32a73c4f4c63ed040fa686b4c5512a/617_0_5447_4359/master/5447.jpg?width=700&quality=85&auto=format&fit=max&s=dc2f4876d1ea1054378ac7a701ec54d8",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "CBS News — World",
+      "CGTN",
+      "Daily Sabah",
+      "Dawn",
+      "France24",
+      "Hindustan Times — World",
+      "Investing.com — الاقتصاد",
+      "Iran International",
+      "Mehr News",
+      "NDTV — World",
+      "NPR World",
+      "NYT",
+      "Rubio",
+      "Saudi Arabia’s aviation authority",
+      "South China Morning Post",
+      "TASS",
+      "The Express Tribune",
+      "The Guardian — World",
+      "The Hindu — International",
+      "The Japan Times",
+      "agency",
+      "government"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/oct/10/yemen-government-allied-forces-recapture-bab-al-mandab-strait-houthis-taiz"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/saudi-arabia-houthis-us-iran-war-live-updates-yemen-riyadh-airport-attack-strait-of-hormuz-uae-latest-news-middle-east-101791730654664.html"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/248468/Blast-reported-at-Saudi-Arabia-s-Riyadh-airport"
+      },
+      {
+        "name": "Saudi Arabia’s aviation authority",
+        "link": "https://tass.com/world/2200331"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-10-11/news-1R91QtVGJlm/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      },
+      {
+        "name": "Rubio",
+        "link": "https://tass.com/world/2200409"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/abe5f1d89f32a73c4f4c63ed040fa686b4c5512a/617_0_5447_4359/master/5447.jpg?width=700&quality=85&auto=format&fit=max&s=dc2f4876d1ea1054378ac7a701ec54d8",
+      "https://i.guim.co.uk/img/media/abe5f1d89f32a73c4f4c63ed040fa686b4c5512a/617_0_5447_4359/master/5447.jpg?width=460&quality=85&auto=format&fit=max&s=be3fd4d408119a9e8070c724e0b97bbe",
+      "https://i.guim.co.uk/img/media/abe5f1d89f32a73c4f4c63ed040fa686b4c5512a/617_0_5447_4359/master/5447.jpg?width=140&quality=85&auto=format&fit=max&s=60168aa8828b75b69f99885fff3e8c29",
+      "https://media.mehrnews.com/d/2026/10/07/4/6207238.jpg",
+      "https://news.cgtn.com/news/2026-10-11/news-1R91QtVGJlm/img/efa5116d74604411a3dfca1a4e993067/efa5116d74604411a3dfca1a4e993067-750.png",
+      "https://news.cgtn.com/news/2026-10-11/news-1R91QtVGJlm/img/efa5116d74604411a3dfca1a4e993067/efa5116d74604411a3dfca1a4e993067.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 24,
+    "velocity": 0.9584054309792212,
+    "age_hours": 1632.9125019077778,
+    "is_stale": false,
+    "score": 41.97990998009661,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "هجوم حوثي على الرياض وتداعيات أمريكية مباشرة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

@@ -837,7 +837,7 @@
      "published": "2026-10-10T09:50:01+00:00"
     }
    ],
-   "last_seen": "2026-10-11T09:07:45.219118+00:00",
+   "last_seen": "2026-10-11T17:07:45.259726+00:00",
    "outlets": 21,
    "regions": 16,
    "languages": 2,
@@ -1118,7 +1118,7 @@
      "published": "2026-10-11T07:10:39+00:00"
     }
    ],
-   "last_seen": "2026-10-11T09:07:45.219118+00:00",
+   "last_seen": "2026-10-11T17:07:45.259726+00:00",
    "outlets": 22,
    "regions": 16,
    "languages": 1,
@@ -2685,9 +2685,18 @@
      "language": "en",
      "link": "https://www.vanguardngr.com/2026/10/ukraine-needs-a-new-president-trump/",
      "published": "2026-10-11T07:51:38+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Trump says Ukraine and Russia agree to ‘energy ceasefire’",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/11/trump-says-ukraine-russia-agree-to-energy-ceasefire-2?traffic_source=rss",
+     "published": "2026-10-11T15:10:27+00:00"
     }
    ],
-   "last_seen": "2026-10-11T09:07:45.219118+00:00",
+   "last_seen": "2026-10-11T17:07:45.259726+00:00",
    "outlets": 18,
    "regions": 13,
    "languages": 1,
@@ -2963,6 +2972,188 @@
    "outlets": 15,
    "regions": 12,
    "languages": 2,
+   "score": 43.0
+  },
+  {
+   "id": "84c54dde451b",
+   "first_seen": "2026-10-11T09:07:45.219118+00:00",
+   "members": [
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Pope says death penalty \"inadmissible\" amid U.S. plans to livestream execution",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/pope-leo-death-penalty-us-fort-hood-execution-firing-squad/",
+     "published": "2026-10-10T15:28:45+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Pope Leo XIV calls death penalty ‘inadmissible’ after US announces plans to livestream Nidal Hasan's execution: ‘Attack on the dignity of the person’",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/pope-leo-xiv-calls-death-penalty-inadmissible-after-us-announces-plans-to-livestream-nidal-hasans-execution-attack-on-the-dignity-of-the-person-101791677637878.html",
+     "published": "2026-10-11T00:20:56+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Pope Leo XIV rejects death penalty as attack on dignity of human person",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQbWcxT3dTZGJmeThXc2pTUDRfcENVU29HM2d3OEVkSUx1N3NTV3ZiWWtMeTFyc0IxVTZ1a3BzeW1sdTJCbkVDZVM2eXd6NFNCY3d6VHdSX1pGNVBCTnVnakhDYnVHQlF4LTFyRkphYWUxY1E1aTVHZDZtaEllVEZXNFJJM0R0S2NSTkRrM3hLZWVuZWtldDI3NlUwYVN3S0tIMU5RMUhFS1djc04yeklWOUMzaw?oc=5",
+     "published": "2026-10-10T11:31:27+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Pope Leo to have surgery after lump found on lung",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c6m2dnngvw8xo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-11T13:38:55+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Pope Leo to undergo surgery to remove lung nodule",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/11/pope-leo-to-undergo-surgery-to-remove-lung-nodule?traffic_source=rss",
+     "published": "2026-10-11T14:59:38+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Pope Leo XIV to undergo surgery after lump found in lung",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/11/pope-leo-xiv-to-undergo-surgery-after-lump-found-in-lung?traffic_source=rss",
+     "published": "2026-10-11T15:24:50+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Pope Leo to undergo surgery for small growth on lung",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3370499/pope-leo-undergo-surgery-small-growth-lung?utm_source=rss_feed",
+     "published": "2026-10-11T10:58:17+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Pope Leo says will undergo surgery for early-stage lung nodule",
+     "language": "en",
+     "link": "https://www.france24.com/en/europe/20261011-pope-leo-says-will-undergo-surgery-for-early-stage-lung-nodule",
+     "published": "2026-10-11T10:34:22+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Pope Leo to undergo surgery for small growth on lung",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/pope-leo-undergo-surgery-small-growth-lung-6450191",
+     "published": "2026-10-11T11:28:00+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Pope Leo XIV to undergo surgery to remove lung nodule",
+     "language": "en",
+     "link": "https://punchng.com/pope-leo-xiv-to-undergo-surgery-to-remove-lung-nodule/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-11T12:57:20+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Pope Leo says he will undergo surgery for small growth on lung",
+     "language": "en",
+     "link": "https://www.france24.com/en/video/20261011-pope-leo-says-he-will-undergo-surgery-for-small-growth-on-lung",
+     "published": "2026-10-11T15:17:39+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Pope Leo Says Will Undergo Surgery \"In Few Days\" To Remove Nodule In Lung",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/pope-leo-says-will-undergo-surgery-in-few-days-to-remove-nodule-in-lung-12169758#publisher=newsstand",
+     "published": "2026-10-11T11:14:33+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Pope Leo XIV announces surgery in coming days after lung nodule detected",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/11/pope-leo-xiv-announces-surgery-in-coming-days-after-lung-nodule-detected/238714",
+     "published": "2026-10-11T11:22:32+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Pope Leo to undergo surgery after nodular lesion found in lung, Vatican says",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/pope-leo-surgery-nodular-lesion-lung-vatican/",
+     "published": "2026-10-11T11:29:22+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Pope Leo says will undergo surgery for small growth on lung",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/11/world/pope-lung-growth/",
+     "published": "2026-10-11T11:59:00+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Pope Leo XIV to undergo lung surgery this week",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/11/nx-s1-5998027/pope-leo-xiv-to-undergo-lung-surgery-this-week",
+     "published": "2026-10-11T12:54:25+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Pope Leo to have surgery after lump found in lung",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/pope-leo-to-have-surgery-after-lump-found-in-lung/",
+     "published": "2026-10-11T14:48:41+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Pope Leo XIV says is to undergo lung surgery",
+     "language": "en",
+     "link": "https://tass.com/world/2200547",
+     "published": "2026-10-11T15:07:03+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Pope Leo to have surgery to remove nodule on his lung",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOWXJhZDdLSEp6QkVPZDJZQlZDNGhxeDJvWmpJWjJnRUFEeWJXcXlvaWtQNGRKOHhHN2JscmVNNy1wYWd0bTNTbWNHNUZCc3VxRk5jalJDeURhNDlzNmphOFRTSmFqSG5DUVJ3cVNvd2pfRG94QjBXTm5pcVFWc0Q3NGQ4cHRRV1c3?oc=5",
+     "published": "2026-10-11T15:20:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-11T17:07:45.259726+00:00",
+   "outlets": 15,
+   "regions": 13,
+   "languages": 1,
    "score": 43.0
   },
   {
@@ -3858,9 +4049,36 @@
      "language": "en",
      "link": "https://www.scmp.com/plus/news/china/diplomacy/article/3369805/brazil-china-ties-focus-bolsonaro-gets-election-edge-over-lula?utm_source=rss_feed",
      "published": "2026-10-05T09:46:21+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Brazil’s Lula accuses Meta of election interference",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/brazils-lula-accuses-meta-of-election-interference/article71571012.ece",
+     "published": "2026-10-11T09:01:39+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Brazil's Lula accuses social media giant Meta of election interference amid tight run-off campaign",
+     "language": "en",
+     "link": "https://www.france24.com/en/americas/20261011-brazil-lula-accuses-social-media-giant-meta-election-interference-amid-tight-run-campaign",
+     "published": "2026-10-11T13:12:09+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Brazil’s Lula accuses Meta of election interference",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/11/brazil-s-lula-accuses-meta-of-election-interference",
+     "published": "2026-10-11T08:49:00+00:00"
     }
    ],
-   "last_seen": "2026-10-05T18:07:49.818707+00:00",
+   "last_seen": "2026-10-11T17:07:45.259726+00:00",
    "outlets": 14,
    "regions": 10,
    "languages": 1,
@@ -5352,6 +5570,161 @@
    "score": 33.0
   },
   {
+   "id": "2fad27aebeea",
+   "first_seen": "2026-10-06T09:08:01.863235+00:00",
+   "members": [
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Israel puts military on alert for October 7 anniversary, warns Gazans",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/israel-puts-military-on-alert-for-october-7-anniversary-warns-gazans/article71550358.ece",
+     "published": "2026-10-06T07:25:35+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Israel warns Gazans will pay 'heavy price' for any October 7 attacks on military",
+     "language": "en",
+     "link": "https://www.france24.com/en/middle-east/20261006-israel-warns-gazans-will-pay-heavy-price-for-any-october-7-attacks-on-military",
+     "published": "2026-10-06T07:50:10+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Israel puts military on alert ahead of October 7 anniversary",
+     "language": "en",
+     "link": "https://punchng.com/israel-puts-military-on-alert-ahead-of-october-7-anniversary/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-06T08:23:01+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Israel puts military on alert for Oct 7 anniversary, warns Gazans",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/israel-puts-military-on-alert-for-oct-7-anniversary-warns-gazans",
+     "published": "2026-10-06T07:19:34+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Verstappen wins chaotic Singapore GP F1 sprint after Russell crashes",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/10/10/verstappen-singapore-gp-sprint-rain-russell-hamilton-leclerc?traffic_source=rss",
+     "published": "2026-10-10T13:08:35+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Verstappen wins sprint after Russell crashes out",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/formula1/articles/cwn73gmz78reo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-10T13:43:47+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Verstappen breaks Singapore duck in wild sprint after Russell crashes out of the lead",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/sports/2026/10/10/verstappen-wins-singapore-sprint-after-russell-crashes/238598",
+     "published": "2026-10-10T10:26:44+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Verstappen wins rain-hit Singapore sprint as Russell crashes out",
+     "language": "en",
+     "link": "https://www.dailysabah.com/sports/motorsports/verstappen-wins-rain-hit-singapore-sprint-as-russell-crashes-out",
+     "published": "2026-10-10T10:39:00+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Verstappen wins Singapore sprint after chaotic start in wet conditions",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/10/verstappen-wins-singapore-sprint-after-chaotic-start-in-wet-conditions",
+     "published": "2026-10-10T10:53:00+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Verstappen beats Ferraris to Singapore pole",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/formula1/articles/cvj6j5kyx2p1o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-10T15:29:12+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Verstappen surge continues with Singapore pole ahead of Ferraris",
+     "language": "en",
+     "link": "https://www.skysports.com/f1/news/12040/13597102/singapore-gp-qualifying-max-verstappen-claims-pole-position-again-as-charles-leclerc-pips-lewis-hamilton-to-second-on-grid",
+     "published": "2026-10-10T15:45:00+00:00"
+    },
+    {
+     "outlet": "Buenos Aires Times",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "Israel continues to surge ahead",
+     "language": "en",
+     "link": "https://www.batimes.com.ar/news/opinion-and-analysis/israel-continues-to-surge-ahead.phtml",
+     "published": "2026-10-10T09:06:00+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Max Verstappen takes F1 Singapore GP pole from Leclerc after sprint win",
+     "language": "en",
+     "link": "https://www.theguardian.com/sport/2026/oct/10/max-verstappen-takes-f1-singapore-gp-pole-from-leclerc-after-sprint-win",
+     "published": "2026-10-10T15:17:40+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Verstappen dominates for first Singapore Grand Prix win",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/formula1/articles/c84g1p2ql9z5o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-11T14:46:06+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Max Verstappen wins Singapore Grand Prix for first time",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/sport/max-verstappen-singapore-grand-prix-first-win-6450371",
+     "published": "2026-10-11T13:59:00+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Verstappen claims dominant first Singapore GP win",
+     "language": "en",
+     "link": "https://www.skysports.com/f1/news/12040/13597650/singapore-gp-max-verstappen-wins-event-for-first-time-in-f1-career-ahead-of-charles-leclerc-as-lewis-hamilton-apologises-for-strategy",
+     "published": "2026-10-11T15:09:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-11T17:07:45.259726+00:00",
+   "outlets": 12,
+   "regions": 9,
+   "languages": 1,
+   "score": 32.0
+  },
+  {
    "id": "9d74b44c397d",
    "first_seen": "2026-10-07T18:07:47.065879+00:00",
    "members": [
@@ -5492,6 +5865,107 @@
     }
    ],
    "last_seen": "2026-10-11T09:07:45.219118+00:00",
+   "outlets": 10,
+   "regions": 9,
+   "languages": 1,
+   "score": 30.0
+  },
+  {
+   "id": "2c8b7acb76f3",
+   "first_seen": "2026-10-11T17:07:45.259726+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "At least 139 dead, 84 missing as migrant boat capsizes off Djibouti",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/11/at-least-109-dead-over-100-missing-as-migrant-boat-capsizes-off-djibouti?traffic_source=rss",
+     "published": "2026-10-11T11:34:40+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Children among 139 dead after boat capsizes off Djibouti, UN says",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cwy7lxx60dg5o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-11T15:32:23+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "At least 139 migrants dead, including some children, after boat from Djibouti to Yemen capsizes, UN agency says",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2036408/at-least-139-migrants-dead-including-some-children-after-boat-from-djibouti-to-yemen-capsizes-un-agency-says",
+     "published": "2026-10-11T15:36:57+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "At least 139 migrants dead, more than 84 missing after boat capsizes off Djibouti",
+     "language": "en",
+     "link": "https://www.france24.com/en/africa/20261011-at-least-hundred-migrants-dead-scores-missing-after-boat-capsizes-off-djibouti",
+     "published": "2026-10-11T09:24:40+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "At least 139 people dead after migrant boat capsizes off Djibouti",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/11/at-least-139-people-dead-after-migrant-boat-capsizes-off-djibouti/",
+     "published": "2026-10-11T15:19:39+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "UN reports 109 dead when migrant boat capsizes off Djibouti",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/africa/un-reports-109-dead-when-migrant-boat-capsizes-off-djibouti",
+     "published": "2026-10-11T09:50:00+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "At least 139 migrants, including children, killed after boat capsizes off Djibouti; 84 missing",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/boat-capsizes-off-coast-of-djibouti-in-east-africa-death-toll-injured-migrants-children-rescue-operations-101791717482564.html",
+     "published": "2026-10-11T11:19:56+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "139 Migrants, Including Children, Dead After Boat Overturns Off Djibouti",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/109-migrants-including-15-children-dead-after-boat-overturns-off-djibouti-12170218#publisher=newsstand",
+     "published": "2026-10-11T14:08:03+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Children among 109 dead after boat capsizes off Djibouti, UN says",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/children-among-109-dead-after-boat-capsizes-off-djibouti-un-says/",
+     "published": "2026-10-11T14:20:56+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Djibouti boat capsize: Children among 109 dead with 116 still missing, UN says",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9jMVZWeHN5VjRNUTVZUnlwS0pLMzhsYlJOUHVzY05LTGVycnVSa3AyVGlTOW1FYVhwMmF5bWtPU3N2Q05oaUsySGN0R1ZXMV9ObmpZSXcwZ2xiWTg?oc=5",
+     "published": "2026-10-11T12:08:20+00:00"
+    }
+   ],
+   "last_seen": "2026-10-11T17:07:45.259726+00:00",
    "outlets": 10,
    "regions": 9,
    "languages": 1,
@@ -5665,134 +6139,6 @@
     }
    ],
    "last_seen": "2026-10-06T15:07:42.509147+00:00",
-   "outlets": 11,
-   "regions": 8,
-   "languages": 1,
-   "score": 29.0
-  },
-  {
-   "id": "2fad27aebeea",
-   "first_seen": "2026-10-06T09:08:01.863235+00:00",
-   "members": [
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Israel puts military on alert for October 7 anniversary, warns Gazans",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/israel-puts-military-on-alert-for-october-7-anniversary-warns-gazans/article71550358.ece",
-     "published": "2026-10-06T07:25:35+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Israel warns Gazans will pay 'heavy price' for any October 7 attacks on military",
-     "language": "en",
-     "link": "https://www.france24.com/en/middle-east/20261006-israel-warns-gazans-will-pay-heavy-price-for-any-october-7-attacks-on-military",
-     "published": "2026-10-06T07:50:10+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Israel puts military on alert ahead of October 7 anniversary",
-     "language": "en",
-     "link": "https://punchng.com/israel-puts-military-on-alert-ahead-of-october-7-anniversary/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-06T08:23:01+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Israel puts military on alert for Oct 7 anniversary, warns Gazans",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/israel-puts-military-on-alert-for-oct-7-anniversary-warns-gazans",
-     "published": "2026-10-06T07:19:34+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Verstappen wins chaotic Singapore GP F1 sprint after Russell crashes",
-     "language": "en",
-     "link": "https://www.aljazeera.com/sports/2026/10/10/verstappen-singapore-gp-sprint-rain-russell-hamilton-leclerc?traffic_source=rss",
-     "published": "2026-10-10T13:08:35+00:00"
-    },
-    {
-     "outlet": "BBC Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Verstappen wins sprint after Russell crashes out",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/sport/formula1/articles/cwn73gmz78reo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-10T13:43:47+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Verstappen breaks Singapore duck in wild sprint after Russell crashes out of the lead",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/sports/2026/10/10/verstappen-wins-singapore-sprint-after-russell-crashes/238598",
-     "published": "2026-10-10T10:26:44+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Verstappen wins rain-hit Singapore sprint as Russell crashes out",
-     "language": "en",
-     "link": "https://www.dailysabah.com/sports/motorsports/verstappen-wins-rain-hit-singapore-sprint-as-russell-crashes-out",
-     "published": "2026-10-10T10:39:00+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Verstappen wins Singapore sprint after chaotic start in wet conditions",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/10/verstappen-wins-singapore-sprint-after-chaotic-start-in-wet-conditions",
-     "published": "2026-10-10T10:53:00+00:00"
-    },
-    {
-     "outlet": "BBC Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Verstappen beats Ferraris to Singapore pole",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/sport/formula1/articles/cvj6j5kyx2p1o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-10T15:29:12+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Verstappen surge continues with Singapore pole ahead of Ferraris",
-     "language": "en",
-     "link": "https://www.skysports.com/f1/news/12040/13597102/singapore-gp-qualifying-max-verstappen-claims-pole-position-again-as-charles-leclerc-pips-lewis-hamilton-to-second-on-grid",
-     "published": "2026-10-10T15:45:00+00:00"
-    },
-    {
-     "outlet": "Buenos Aires Times",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "Israel continues to surge ahead",
-     "language": "en",
-     "link": "https://www.batimes.com.ar/news/opinion-and-analysis/israel-continues-to-surge-ahead.phtml",
-     "published": "2026-10-10T09:06:00+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Max Verstappen takes F1 Singapore GP pole from Leclerc after sprint win",
-     "language": "en",
-     "link": "https://www.theguardian.com/sport/2026/oct/10/max-verstappen-takes-f1-singapore-gp-pole-from-leclerc-after-sprint-win",
-     "published": "2026-10-10T15:17:40+00:00"
-    }
-   ],
-   "last_seen": "2026-10-11T09:07:45.219118+00:00",
    "outlets": 11,
    "regions": 8,
    "languages": 1,
@@ -6230,9 +6576,18 @@
      "language": "en",
      "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOVDlQaFVTdEV6TXhYd1VZMjJXMHZCdllxUjl2akVnb1pmb01aMFdDa2lkZWxxZGdzUGgtazdILUVUMHJqbmswYUJzdmlveFVfbDlDcDhoRnNVdnI1OVRncjdDeUNOcEl3cTBFdmwzS1g1dUFWd3hRVl9EdURGWkxDX0NLWDYtUmktcnlzMGJhdi0?oc=5",
      "published": "2026-10-10T14:08:00+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Mahmoud Abbas postpones Palestinian legislative elections another year",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNV2M3dUc4WTQ4Q3IyNDY2bVg2ejJuZkR3NTlGdWluNzBpZmRtbFpPMlBFckpoVkZRMnViT2taZWp3UXl4MnhzSXkwY0t3UzhkckowUEN3NkRKWXlwbmYtN1RjUFZNTURROEVJc24xckxqb2VLVFktcG9ZcDNIRlJuVzhaWDJpeEMtaU9SdUh0UlVad29N?oc=5",
+     "published": "2026-10-10T18:19:00+00:00"
     }
    ],
-   "last_seen": "2026-10-11T09:07:45.219118+00:00",
+   "last_seen": "2026-10-11T17:07:45.259726+00:00",
    "outlets": 8,
    "regions": 8,
    "languages": 1,
@@ -6435,6 +6790,143 @@
     }
    ],
    "last_seen": "2026-10-07T18:07:47.065879+00:00",
+   "outlets": 9,
+   "regions": 7,
+   "languages": 1,
+   "score": 25.0
+  },
+  {
+   "id": "038833f82242",
+   "first_seen": "2026-10-10T09:07:48.714447+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Hurricane Isaias makes landfall in Florida and hammers Gulf coast",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/09/hurricane-isaias-makes-landfall",
+     "published": "2026-10-10T03:56:50+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Hurricane Isaias downgraded after making landfall in Florida",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c3vgx4450v2lo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-10T08:29:59+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Isaias weakens after making landfall in US Gulf Coast as hurricane",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/10/isaias-weakens-after-making-landfall-in-us-gulf-coast-as-hurricane?traffic_source=rss",
+     "published": "2026-10-10T08:33:44+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Hurricane Isaias makes landfall in Florida",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/10/hurricane-isaias",
+     "published": "2026-10-10T06:06:36+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "4,00,000 Without Power In Florida As Hurricane Isaias Makes Landfall",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/isaias-makes-landfall-along-the-us-gulf-coast-as-a-dangerous-category-2-hurricane-12164557#publisher=newsstand",
+     "published": "2026-10-10T06:42:42+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Two dead as Isaias weakens to post-tropical cyclone after striking Florida panhandle",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/10/isaias-weakens-to-post-tropical-cyclone",
+     "published": "2026-10-10T14:34:15+00:00"
+    },
+    {
+     "outlet": "Phys.org",
+     "region": "science",
+     "bucket": "useful",
+     "title": "Isaias downgraded to post-tropical cyclone after landfall in Florida",
+     "language": "en",
+     "link": "https://phys.org/news/2026-10-isaias-downgraded-tropical-cyclone-landfall.html",
+     "published": "2026-10-10T12:10:01+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Isaias downgraded to post-tropical cyclone after landfall in Florida",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/10/isaias-downgraded-to-post-tropical-cyclone-after-landfall-in-florida",
+     "published": "2026-10-10T11:58:32+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Four dead and thousands without power after Hurricane Isaias lashes US",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cmje5x80yg70o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-10T23:19:55+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Hurricane Isaias kills four, leaves 650,000 without power in Florida",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/11/10-10-clip-isaias-is-here-us?traffic_source=rss",
+     "published": "2026-10-11T04:28:51+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Isaias kills 4 in US, leaves 670,000 without power",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370463/isaias-kills-4-us-leaves-670000-without-power?utm_source=rss_feed",
+     "published": "2026-10-10T20:29:50+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "At least 4 dead as cyclone Isaias drenches southern US",
+     "language": "en",
+     "link": "https://www.france24.com/en/video/20261011-at-least-4-dead-as-cyclone-isaias-drenches-southern-us",
+     "published": "2026-10-11T09:18:48+00:00"
+    },
+    {
+     "outlet": "Phys.org",
+     "region": "science",
+     "bucket": "useful",
+     "title": "At least 4 dead as cyclone Isaias drenches southern U.S.",
+     "language": "en",
+     "link": "https://phys.org/news/2026-10-dead-cyclone-isaias-drenches-southern.html",
+     "published": "2026-10-11T16:20:04+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "At least 4 dead as cyclone Isaias drenches southern US",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/at-least-4-dead-as-cyclone-isaias-drenches-southern-us-101791676396696.html",
+     "published": "2026-10-10T23:53:16+00:00"
+    }
+   ],
+   "last_seen": "2026-10-11T17:07:45.259726+00:00",
    "outlets": 9,
    "regions": 7,
    "languages": 1,
@@ -6767,6 +7259,80 @@
     }
    ],
    "last_seen": "2026-10-10T17:07:48.257605+00:00",
+   "outlets": 7,
+   "regions": 7,
+   "languages": 1,
+   "score": 23.0
+  },
+  {
+   "id": "f90631193a91",
+   "first_seen": "2026-10-11T09:07:45.219118+00:00",
+   "members": [
+    {
+     "outlet": "Court House News",
+     "region": "court",
+     "bucket": "light",
+     "title": "Simon strengthens into a Category 4 hurricane as it approaches Mexico’s coast",
+     "language": "en",
+     "link": "https://www.courthousenews.com/simon-strengthens-into-a-category-4-hurricane-as-it-approaches-mexicos-coast/",
+     "published": "2026-10-10T17:52:12+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "light",
+     "title": "Hurricane Simon strengthens to Category 4 off Mexico coast",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/hurricane-simon-intensifies-to-category-4-off-mexico-coast/article71570561.ece",
+     "published": "2026-10-11T03:07:26+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Hurricane Simon strengthens into Category 4 storm as it takes aim at Mexico",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/hurricane-simon-takes-aim-mexico-pacific-coast/",
+     "published": "2026-10-11T03:28:31+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Hurricane Simon strengthens as it nears western Mexico",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/11/hurricane-simon-strengthens-as-it-nears-western-mexico",
+     "published": "2026-10-11T07:31:29+00:00"
+    },
+    {
+     "outlet": "CGTN",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Hurricane Simon strengthens to category 4 as it nears western Mexico",
+     "language": "en",
+     "link": "https://news.cgtn.com/news/2026-10-11/Hurricane-Simon-strengthens-to-category-4-as-it-nears-western-Mexico-1R95S6A4R4k/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+     "published": "2026-10-11T01:00:18+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Hurricane Simon strengthens into Category 4 storm as it takes aim at Mexico's Pacific coast",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQeUVqLWk5eDJ6Z0J0Ny13SFg1M1BaUFhEcnFxaWlXNmp2RlQtdlA3cXlheHBaSHFuRE5aczVtRDgxQU5sTHNDaEdEY2o0TDFJVjFHY3NIb1ZZYi1uYVJYVDN2Q2FHaEc3b0t5VWk5Qmp5bG8yc0JSWG9LVFFXbTRNNjB3?oc=5",
+     "published": "2026-10-11T03:28:31+00:00"
+    },
+    {
+     "outlet": "Phys.org",
+     "region": "science",
+     "bucket": "light",
+     "title": "Hurricane Simon strengthens as it nears western Mexico",
+     "language": "en",
+     "link": "https://phys.org/news/2026-10-hurricane-simon-nears-western-mexico.html",
+     "published": "2026-10-11T16:00:01+00:00"
+    }
+   ],
+   "last_seen": "2026-10-11T17:07:45.259726+00:00",
    "outlets": 7,
    "regions": 7,
    "languages": 1,
@@ -7271,116 +7837,6 @@
    "score": 21.0
   },
   {
-   "id": "038833f82242",
-   "first_seen": "2026-10-10T09:07:48.714447+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Hurricane Isaias makes landfall in Florida and hammers Gulf coast",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/09/hurricane-isaias-makes-landfall",
-     "published": "2026-10-10T03:56:50+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Hurricane Isaias downgraded after making landfall in Florida",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c3vgx4450v2lo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-10T08:29:59+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Isaias weakens after making landfall in US Gulf Coast as hurricane",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/10/isaias-weakens-after-making-landfall-in-us-gulf-coast-as-hurricane?traffic_source=rss",
-     "published": "2026-10-10T08:33:44+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Hurricane Isaias makes landfall in Florida",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/10/hurricane-isaias",
-     "published": "2026-10-10T06:06:36+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "4,00,000 Without Power In Florida As Hurricane Isaias Makes Landfall",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/isaias-makes-landfall-along-the-us-gulf-coast-as-a-dangerous-category-2-hurricane-12164557#publisher=newsstand",
-     "published": "2026-10-10T06:42:42+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Two dead as Isaias weakens to post-tropical cyclone after striking Florida panhandle",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/10/isaias-weakens-to-post-tropical-cyclone",
-     "published": "2026-10-10T14:34:15+00:00"
-    },
-    {
-     "outlet": "Phys.org",
-     "region": "science",
-     "bucket": "useful",
-     "title": "Isaias downgraded to post-tropical cyclone after landfall in Florida",
-     "language": "en",
-     "link": "https://phys.org/news/2026-10-isaias-downgraded-tropical-cyclone-landfall.html",
-     "published": "2026-10-10T12:10:01+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Isaias downgraded to post-tropical cyclone after landfall in Florida",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/10/isaias-downgraded-to-post-tropical-cyclone-after-landfall-in-florida",
-     "published": "2026-10-10T11:58:32+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Four dead and thousands without power after Hurricane Isaias lashes US",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cmje5x80yg70o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-10T23:19:55+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Hurricane Isaias kills four, leaves 650,000 without power in Florida",
-     "language": "en",
-     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/11/10-10-clip-isaias-is-here-us?traffic_source=rss",
-     "published": "2026-10-11T04:28:51+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Isaias kills 4 in US, leaves 670,000 without power",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370463/isaias-kills-4-us-leaves-670000-without-power?utm_source=rss_feed",
-     "published": "2026-10-10T20:29:50+00:00"
-    }
-   ],
-   "last_seen": "2026-10-11T09:07:45.219118+00:00",
-   "outlets": 7,
-   "regions": 6,
-   "languages": 1,
-   "score": 21.0
-  },
-  {
    "id": "9c7fd4c09d21",
    "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
@@ -7718,71 +8174,6 @@
     }
    ],
    "last_seen": "2026-10-10T17:07:48.257605+00:00",
-   "outlets": 6,
-   "regions": 6,
-   "languages": 1,
-   "score": 20.0
-  },
-  {
-   "id": "f90631193a91",
-   "first_seen": "2026-10-11T09:07:45.219118+00:00",
-   "members": [
-    {
-     "outlet": "Court House News",
-     "region": "court",
-     "bucket": "light",
-     "title": "Simon strengthens into a Category 4 hurricane as it approaches Mexico’s coast",
-     "language": "en",
-     "link": "https://www.courthousenews.com/simon-strengthens-into-a-category-4-hurricane-as-it-approaches-mexicos-coast/",
-     "published": "2026-10-10T17:52:12+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "light",
-     "title": "Hurricane Simon strengthens to Category 4 off Mexico coast",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/hurricane-simon-intensifies-to-category-4-off-mexico-coast/article71570561.ece",
-     "published": "2026-10-11T03:07:26+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Hurricane Simon strengthens into Category 4 storm as it takes aim at Mexico",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/hurricane-simon-takes-aim-mexico-pacific-coast/",
-     "published": "2026-10-11T03:28:31+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Hurricane Simon strengthens as it nears western Mexico",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/11/hurricane-simon-strengthens-as-it-nears-western-mexico",
-     "published": "2026-10-11T07:31:29+00:00"
-    },
-    {
-     "outlet": "CGTN",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Hurricane Simon strengthens to category 4 as it nears western Mexico",
-     "language": "en",
-     "link": "https://news.cgtn.com/news/2026-10-11/Hurricane-Simon-strengthens-to-category-4-as-it-nears-western-Mexico-1R95S6A4R4k/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
-     "published": "2026-10-11T01:00:18+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Hurricane Simon strengthens into Category 4 storm as it takes aim at Mexico's Pacific coast",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQeUVqLWk5eDJ6Z0J0Ny13SFg1M1BaUFhEcnFxaWlXNmp2RlQtdlA3cXlheHBaSHFuRE5aczVtRDgxQU5sTHNDaEdEY2o0TDFJVjFHY3NIb1ZZYi1uYVJYVDN2Q2FHaEc3b0t5VWk5Qmp5bG8yc0JSWG9LVFFXbTRNNjB3?oc=5",
-     "published": "2026-10-11T03:28:31+00:00"
-    }
-   ],
-   "last_seen": "2026-10-11T09:07:45.219118+00:00",
    "outlets": 6,
    "regions": 6,
    "languages": 1,
@@ -8159,9 +8550,148 @@
      "language": "en",
      "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1hNVE4NkdyTkFGQVVpeEh4aDBpQWRjT0FBN0xKRV9BdWtWbWg0NjNlV24zWndpRklocW45UllwTGZnZkozbi1sZWsxVDZtNmhqMUxyM3BPdmVpZjg?oc=5",
      "published": "2026-10-11T06:58:54+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Man dies after entering tiger enclosure at England wildlife park",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPRlQ1WjlVVXFrM3FOU3IwaGswbzA3SDFNY096NFQzbjNnZXdhcTdkSlFNVnZtYndVQU4yNmo1ejg5YTc3cTNyM0dkS2Ffd0pNLTNJRXRpeDAxSUI3QUplZjdNcDl1NjcxaHBnVzJlMjJSRU4yUzNVUVk5cF9TNmVhY3dhamd1YVRjcV9ESFhIWFAwX3J6T2pCdmZFbDVTODNodUlQV3NkdmhuZ9IBrwFBVV95cUxPTjYtZ3JFRndNN1ZwTkREZndpMFFYaHpYX001dFppZDBWek1LdGtqX0pydXJPNUhFd29udzBKcHR6V2NrYzhLdUR3bnVGeUE4TXdRN2dNQ2dLTjNhNXB3ZE9EV0dkS0hIcmRheldCOUNkR3Fnd1hKOGhRZUp0Y3RfZmozX255S096UmNFOGhCbEVISXp3OVVnVzQ0OWhrbnBDcDQwNUV1RmtrOGlHVHZr?oc=5",
+     "published": "2026-10-11T16:17:04+00:00"
     }
    ],
-   "last_seen": "2026-10-11T09:07:45.219118+00:00",
+   "last_seen": "2026-10-11T17:07:45.259726+00:00",
+   "outlets": 6,
+   "regions": 5,
+   "languages": 1,
+   "score": 18.0
+  },
+  {
+   "id": "83a1958d8586",
+   "first_seen": "2026-10-11T09:07:45.219118+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Nine people, including children, dead after mass shooting in Pennsylvania",
+     "language": "en",
+     "link": "https://www.theguardian.com/us-news/2026/oct/10/nine-people-mass-shooting-pennsylvania",
+     "published": "2026-10-10T23:24:52+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "9 dead, including children and pregnant woman, in shooting in Erie, Pennsylvania",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370464/9-dead-including-children-and-pregnant-woman-shooting-erie-pennsylvania?utm_source=rss_feed",
+     "published": "2026-10-10T21:25:34+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Nine dead in mass shooting at Pennsylvania home",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/nine-dead-in-mass-shooting-at-pennsylvania-home/",
+     "published": "2026-10-10T17:58:23+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "9 people including child killed in a shooting in Pennsylvania",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248478/9-people-including-child-killed-in-a-shooting-in-Pennsylvania",
+     "published": "2026-10-11T05:34:43+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Shooting leaves 9 dead including suspect in Erie, Pennsylvania, police say",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/nine-killed-in-shooting-at-pennsylvania-home-local-media/article71569174.ece",
+     "published": "2026-10-11T11:56:06+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Shooting leaves 9 dead including suspect in Erie, Pennsylvania, police say",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/shooting-leaves-9-dead-including-suspect-in-erie-pennsylvania-police-say-101791660325700.html",
+     "published": "2026-10-10T19:25:25+00:00"
+    }
+   ],
+   "last_seen": "2026-10-11T17:07:45.259726+00:00",
+   "outlets": 6,
+   "regions": 5,
+   "languages": 1,
+   "score": 18.0
+  },
+  {
+   "id": "044523cf6eeb",
+   "first_seen": "2026-10-10T09:07:48.714447+00:00",
+   "members": [
+    {
+     "outlet": "Nikkei Asia",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Bessent to skip IMF, World Bank meetings in Bangkok",
+     "language": "en",
+     "link": "https://asia.nikkei.com/politics/international-relations/bessent-to-skip-imf-world-bank-meetings-in-bangkok",
+     "published": "2026-10-10T09:07:38.988148+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "U.S. Treasury chief Scott Bessent to skip IMF-World Bank meetings in Bangkok",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/business/2026/10/10/economy/scott-bessent-skip-imf-world-bank-meetings/",
+     "published": "2026-10-10T01:37:00+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "US Treasury chief Bessent to skip IMF annual meetings in Bangkok",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/money/2026/10/10/us-treasury-chief-bessent-to-skip-imf-annual-meetings-in-bangkok/238532",
+     "published": "2026-10-10T03:58:43+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Finance minister heads to Bangkok for IMF, World Bank meetings",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2036191/finance-minister-heads-to-bangkok-for-imf-world-bank-meetings",
+     "published": "2026-10-10T16:28:01+00:00"
+    },
+    {
+     "outlet": "Investing.com — الاقتصاد",
+     "region": "money",
+     "bucket": "useful",
+     "title": "Middle East war, high debt levels to dominate IMF-World Bank meetings in Bangkok",
+     "language": "en",
+     "link": "https://www.investing.com/news/economy-news/middle-east-war-high-debt-levels-to-dominate-imfworld-bank-meetings-in-bangkok-4942461",
+     "published": "2026-10-11T15:30:36+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Middle East war, high debt levels to dominate IMF-World Bank meetings in Bangkok",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQWlZqTVZkYlUxR2xKODRtSHFhLUI5ZVk4MWlwUURPZTRJSy1UYjdKak1ZbzdGMG80dmNOTVlVbUtvbW1zUU9hWE5QeU9xc19wWE50TnR4M05sQ0c0aFI0ZmYtTGN6Q0hwanJUajNzSlRfaVBQNXdPMUlfQlpfb1JHTGlQWkg5aVdOTE5SZ29NRXZLSW85enZHa2dCOVFSWmFpUEptcWMxa1JxVW15ZGhLLTRRcDEyeXBEWkw0RnJR?oc=5",
+     "published": "2026-10-11T04:03:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-11T17:07:45.259726+00:00",
    "outlets": 6,
    "regions": 5,
    "languages": 1,
@@ -8480,6 +9010,161 @@
    "last_seen": "2026-10-11T09:07:45.219118+00:00",
    "outlets": 5,
    "regions": 5,
+   "languages": 1,
+   "score": 17.0
+  },
+  {
+   "id": "ea2133d1444b",
+   "first_seen": "2026-10-09T09:07:48.883639+00:00",
+   "members": [
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Maresca to hold first press conference since Man City verdict LIVE!",
+     "language": "en",
+     "link": "https://www.skysports.com/football/live-blog/12040/13025499/man-city-transfer-news-rumours-and-gossip-live-updates-and-latest-on-deals-signings-loans-and-contracts",
+     "published": "2026-10-09T09:30:00+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Enzo Maresca speaks to media for first time since Manchester City guilty verdict",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/live/2026/oct/09/premier-league-resumes-manchester-city-in-spotlight-football-news-live",
+     "published": "2026-10-09T08:57:11+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Maresca will be demanding a siege mentality from Man City",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/football/articles/cmy4x3908kpqo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-09T05:25:04+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "EPL: Man City face Anfield cauldron after guilty Premier League verdicts",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/epl-man-city-face-anfield-cauldron-after-guilty-premier-league-verdicts/",
+     "published": "2026-10-09T07:37:57+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "I could be 80 before Man City verdict arrives",
+     "language": "en",
+     "link": "https://punchng.com/i-could-be-80-before-man-city-verdict-arrives-mourinho/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-09T08:29:30+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Glasner urges quick end to Manchester City saga and fears damage to Premier League",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/2026/oct/08/glasner-urges-quick-end-to-manchester-city-saga-and-fears-damage-to-premier-league",
+     "published": "2026-10-08T17:00:24+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Manchester City face hostile Liverpool reception after guilty verdict",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/live/2026/oct/11/manchester-city-face-hostile-liverpool-reception-after-guilty-verdict-matchday-live",
+     "published": "2026-10-11T08:56:14+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "EPL: Man City brace for hostile Liverpool crowd after guilty verdict",
+     "language": "en",
+     "link": "https://punchng.com/epl-man-city-brace-for-hostile-liverpool-crowd-after-guilty-verdict/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-11T09:37:59+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "EPL: Man City face hostile Liverpool test amid £900m financial breach verdict",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/epl-man-city-face-hostile-liverpool-test-amid-900m-financial-breach-verdict/",
+     "published": "2026-10-11T08:33:01+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Liverpool vs Man City live: Premier League",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/liveblog/2026/10/11/live-liverpool-vs-manchester-city-premier-league-football?traffic_source=rss",
+     "published": "2026-10-11T12:20:30+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Liverpool v Manchester City: Premier League",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/live/2026/oct/11/liverpool-v-manchester-city-premier-league-live-score-updates",
+     "published": "2026-10-11T16:56:56+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Man City branded ‘cheats’ in hostile Liverpool reception after guilty verdict",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/man-city-branded-cheats-in-hostile-liverpool-reception-after-guilty-verdict/",
+     "published": "2026-10-11T16:00:37+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Tension, ‘cheat’ banners and inflatable bananas: Manchester City’s welcome to Anfield",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/2026/oct/11/tension-banners-and-inflatable-bananas-manchester-citys-welcome-to-anfield",
+     "published": "2026-10-11T16:50:12+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Football fans speak about City’s charges as they face Liverpool",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/11/football-fans-speak-about-citys-charges-as-they-face-liverpool?traffic_source=rss",
+     "published": "2026-10-11T16:18:45+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Top five Liverpool-Man City moments",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/football/videos/cqvg0m1my97go?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-11T05:37:52+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Manchester City met at Anfield with boos and 'cheat' taunts",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/sport/manchester-city-met-anfield-boos-and-cheat-taunts-6450491",
+     "published": "2026-10-11T15:55:21+00:00"
+    }
+   ],
+   "last_seen": "2026-10-11T17:07:45.259726+00:00",
+   "outlets": 7,
+   "regions": 4,
    "languages": 1,
    "score": 17.0
   },
@@ -9563,54 +10248,54 @@
      "published": "2026-10-11T07:59:33+00:00"
     }
    ],
-   "last_seen": "2026-10-11T09:07:45.219118+00:00",
+   "last_seen": "2026-10-11T17:07:45.259726+00:00",
    "outlets": 4,
    "regions": 4,
    "languages": 1,
    "score": 14.0
   },
   {
-   "id": "83a1958d8586",
-   "first_seen": "2026-10-11T09:07:45.219118+00:00",
+   "id": "0354463469e1",
+   "first_seen": "2026-10-11T17:07:45.259726+00:00",
    "members": [
     {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Nine people, including children, dead after mass shooting in Pennsylvania",
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Bezzecchi wins as Martin retakes championship lead",
      "language": "en",
-     "link": "https://www.theguardian.com/us-news/2026/oct/10/nine-people-mass-shooting-pennsylvania",
-     "published": "2026-10-10T23:24:52+00:00"
+     "link": "https://www.bbc.co.uk/sport/motorsport/articles/cm79p8dgqyp8o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-11T09:27:37+00:00"
     },
     {
-     "outlet": "South China Morning Post",
-     "region": "cn",
+     "outlet": "The Express Tribune",
+     "region": "pk",
      "bucket": "serious",
-     "title": "9 dead, including children and pregnant woman, in shooting in Erie, Pennsylvania",
+     "title": "Bezzecchi wins in Indonesia",
      "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370464/9-dead-including-children-and-pregnant-woman-shooting-erie-pennsylvania?utm_source=rss_feed",
-     "published": "2026-10-10T21:25:34+00:00"
+     "link": "https://tribune.com.pk/story/2634243/bezzecchi-wins-in-indonesia",
+     "published": "2026-10-11T06:10:54+00:00"
     },
     {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
+     "outlet": "Free Malaysia Today",
+     "region": "my",
      "bucket": "serious",
-     "title": "Nine dead in mass shooting at Pennsylvania home",
+     "title": "Bezzecchi wins in Indonesia as Martin retakes MotoGP championship lead",
      "language": "en",
-     "link": "https://www.myjoyonline.com/nine-dead-in-mass-shooting-at-pennsylvania-home/",
-     "published": "2026-10-10T17:58:23+00:00"
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/11/bezzecchi-wins-in-indonesia-as-martin-retakes-motogp-championship-lead",
+     "published": "2026-10-11T08:18:22+00:00"
     },
     {
-     "outlet": "Mehr News",
-     "region": "ir",
+     "outlet": "Daily Sabah",
+     "region": "tr",
      "bucket": "serious",
-     "title": "9 people including child killed in a shooting in Pennsylvania",
+     "title": "Bezzecchi wins Indonesian GP to hand Martin championship lead",
      "language": "en",
-     "link": "https://en.mehrnews.com/news/248478/9-people-including-child-killed-in-a-shooting-in-Pennsylvania",
-     "published": "2026-10-11T05:34:43+00:00"
+     "link": "https://www.dailysabah.com/sports/motorsports/bezzecchi-wins-indonesian-gp-to-hand-martin-championship-lead",
+     "published": "2026-10-11T12:01:00+00:00"
     }
    ],
-   "last_seen": "2026-10-11T09:07:45.219118+00:00",
+   "last_seen": "2026-10-11T17:07:45.259726+00:00",
    "outlets": 4,
    "regions": 4,
    "languages": 1,
@@ -9890,47 +10575,47 @@
    "score": 12.0
   },
   {
-   "id": "044523cf6eeb",
-   "first_seen": "2026-10-10T09:07:48.714447+00:00",
+   "id": "b338c86d38d7",
+   "first_seen": "2026-10-11T09:07:45.219118+00:00",
    "members": [
     {
-     "outlet": "Nikkei Asia",
-     "region": "jp",
+     "outlet": "Free Malaysia Today",
+     "region": "my",
      "bucket": "serious",
-     "title": "Bessent to skip IMF, World Bank meetings in Bangkok",
+     "title": "Indonesia releases 8 orangutans rescued from fires to protected forest",
      "language": "en",
-     "link": "https://asia.nikkei.com/politics/international-relations/bessent-to-skip-imf-world-bank-meetings-in-bangkok",
-     "published": "2026-10-10T09:07:38.988148+00:00"
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/11/indonesia-releases-8-orangutans-rescued-from-fires-to-protected-forest",
+     "published": "2026-10-11T04:54:01+00:00"
     },
     {
      "outlet": "The Japan Times",
      "region": "jp",
      "bucket": "serious",
-     "title": "U.S. Treasury chief Scott Bessent to skip IMF-World Bank meetings in Bangkok",
+     "title": "Indonesia releases eight orangutans rescued from fires to protected forest",
      "language": "en",
-     "link": "https://www.japantimes.co.jp/business/2026/10/10/economy/scott-bessent-skip-imf-world-bank-meetings/",
-     "published": "2026-10-10T01:37:00+00:00"
+     "link": "https://www.japantimes.co.jp/news/2026/10/11/asia-pacific/science-health/indonesia-fires-orangutan-released/",
+     "published": "2026-10-11T05:11:00+00:00"
     },
     {
      "outlet": "Malay Mail",
      "region": "my",
      "bucket": "serious",
-     "title": "US Treasury chief Bessent to skip IMF annual meetings in Bangkok",
+     "title": "Indonesia releases eight orangutans rescued from fires to protected forest",
      "language": "en",
-     "link": "https://www.malaymail.com/news/money/2026/10/10/us-treasury-chief-bessent-to-skip-imf-annual-meetings-in-bangkok/238532",
-     "published": "2026-10-10T03:58:43+00:00"
+     "link": "https://www.malaymail.com/news/world/2026/10/11/indonesia-releases-eight-orangutans-rescued-from-fires-to-protected-forest/238681",
+     "published": "2026-10-11T06:55:08+00:00"
     },
     {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Finance minister heads to Bangkok for IMF, World Bank meetings",
+     "outlet": "Phys.org",
+     "region": "science",
+     "bucket": "useful",
+     "title": "Indonesia releases eight orangutans rescued from fires to protected forest",
      "language": "en",
-     "link": "https://www.dawn.com/news/2036191/finance-minister-heads-to-bangkok-for-imf-world-bank-meetings",
-     "published": "2026-10-10T16:28:01+00:00"
+     "link": "https://phys.org/news/2026-10-indonesia-orangutans-forest.html",
+     "published": "2026-10-11T16:40:01+00:00"
     }
    ],
-   "last_seen": "2026-10-10T17:07:48.257605+00:00",
+   "last_seen": "2026-10-11T17:07:45.259726+00:00",
    "outlets": 4,
    "regions": 3,
    "languages": 1,
@@ -11028,98 +11713,6 @@
    "score": 11.0
   },
   {
-   "id": "ea2133d1444b",
-   "first_seen": "2026-10-09T09:07:48.883639+00:00",
-   "members": [
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Maresca to hold first press conference since Man City verdict LIVE!",
-     "language": "en",
-     "link": "https://www.skysports.com/football/live-blog/12040/13025499/man-city-transfer-news-rumours-and-gossip-live-updates-and-latest-on-deals-signings-loans-and-contracts",
-     "published": "2026-10-09T09:30:00+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Enzo Maresca speaks to media for first time since Manchester City guilty verdict",
-     "language": "en",
-     "link": "https://www.theguardian.com/football/live/2026/oct/09/premier-league-resumes-manchester-city-in-spotlight-football-news-live",
-     "published": "2026-10-09T08:57:11+00:00"
-    },
-    {
-     "outlet": "BBC Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Maresca will be demanding a siege mentality from Man City",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/sport/football/articles/cmy4x3908kpqo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-09T05:25:04+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "EPL: Man City face Anfield cauldron after guilty Premier League verdicts",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/epl-man-city-face-anfield-cauldron-after-guilty-premier-league-verdicts/",
-     "published": "2026-10-09T07:37:57+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "I could be 80 before Man City verdict arrives",
-     "language": "en",
-     "link": "https://punchng.com/i-could-be-80-before-man-city-verdict-arrives-mourinho/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-09T08:29:30+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Glasner urges quick end to Manchester City saga and fears damage to Premier League",
-     "language": "en",
-     "link": "https://www.theguardian.com/football/2026/oct/08/glasner-urges-quick-end-to-manchester-city-saga-and-fears-damage-to-premier-league",
-     "published": "2026-10-08T17:00:24+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Manchester City face hostile Liverpool reception after guilty verdict",
-     "language": "en",
-     "link": "https://www.theguardian.com/football/live/2026/oct/11/manchester-city-face-hostile-liverpool-reception-after-guilty-verdict-matchday-live",
-     "published": "2026-10-11T08:56:14+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "EPL: Man City brace for hostile Liverpool crowd after guilty verdict",
-     "language": "en",
-     "link": "https://punchng.com/epl-man-city-brace-for-hostile-liverpool-crowd-after-guilty-verdict/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-11T09:37:59+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "EPL: Man City face hostile Liverpool test amid £900m financial breach verdict",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/epl-man-city-face-hostile-liverpool-test-amid-900m-financial-breach-verdict/",
-     "published": "2026-10-11T08:33:01+00:00"
-    }
-   ],
-   "last_seen": "2026-10-11T09:07:45.219118+00:00",
-   "outlets": 5,
-   "regions": 2,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
    "id": "e7c26d3cf713",
    "first_seen": "2026-10-09T17:07:48.864691+00:00",
    "members": [
@@ -11263,44 +11856,6 @@
      "language": "en",
      "link": "https://www.vanguardngr.com/2026/10/messi-nets-brace-to-win-in-first-match-after-argentina-exit/",
      "published": "2026-10-11T08:20:35+00:00"
-    }
-   ],
-   "last_seen": "2026-10-11T09:07:45.219118+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "84c54dde451b",
-   "first_seen": "2026-10-11T09:07:45.219118+00:00",
-   "members": [
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Pope says death penalty \"inadmissible\" amid U.S. plans to livestream execution",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/pope-leo-death-penalty-us-fort-hood-execution-firing-squad/",
-     "published": "2026-10-10T15:28:45+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Pope Leo XIV calls death penalty ‘inadmissible’ after US announces plans to livestream Nidal Hasan's execution: ‘Attack on the dignity of the person’",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/pope-leo-xiv-calls-death-penalty-inadmissible-after-us-announces-plans-to-livestream-nidal-hasans-execution-attack-on-the-dignity-of-the-person-101791677637878.html",
-     "published": "2026-10-11T00:20:56+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Pope Leo XIV rejects death penalty as attack on dignity of human person",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQbWcxT3dTZGJmeThXc2pTUDRfcENVU29HM2d3OEVkSUx1N3NTV3ZiWWtMeTFyc0IxVTZ1a3BzeW1sdTJCbkVDZVM2eXd6NFNCY3d6VHdSX1pGNVBCTnVnakhDYnVHQlF4LTFyRkphYWUxY1E1aTVHZDZtaEllVEZXNFJJM0R0S2NSTkRrM3hLZWVuZWtldDI3NlUwYVN3S0tIMU5RMUhFS1djc04yeklWOUMzaw?oc=5",
-     "published": "2026-10-10T11:31:27+00:00"
     }
    ],
    "last_seen": "2026-10-11T09:07:45.219118+00:00",
@@ -11952,44 +12507,6 @@
    "score": 9.0
   },
   {
-   "id": "b338c86d38d7",
-   "first_seen": "2026-10-11T09:07:45.219118+00:00",
-   "members": [
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Indonesia releases 8 orangutans rescued from fires to protected forest",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/11/indonesia-releases-8-orangutans-rescued-from-fires-to-protected-forest",
-     "published": "2026-10-11T04:54:01+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Indonesia releases eight orangutans rescued from fires to protected forest",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/11/asia-pacific/science-health/indonesia-fires-orangutan-released/",
-     "published": "2026-10-11T05:11:00+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Indonesia releases eight orangutans rescued from fires to protected forest",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/11/indonesia-releases-eight-orangutans-rescued-from-fires-to-protected-forest/238681",
-     "published": "2026-10-11T06:55:08+00:00"
-    }
-   ],
-   "last_seen": "2026-10-11T09:07:45.219118+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 1,
-   "score": 9.0
-  },
-  {
    "id": "df20cb21ca89",
    "first_seen": "2026-10-06T03:07:51.967007+00:00",
    "members": [
@@ -12297,6 +12814,82 @@
     }
    ],
    "last_seen": "2026-10-10T17:07:48.257605+00:00",
+   "outlets": 3,
+   "regions": 1,
+   "languages": 1,
+   "score": 7.0
+  },
+  {
+   "id": "3163a08f7c17",
+   "first_seen": "2026-10-11T17:07:45.259726+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Emergency, governor's rule imposed in KP as president approves cabinet decision",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2036352/emergency-governors-rule-imposed-in-kp-as-president-approves-cabinet-decision",
+     "published": "2026-10-11T16:09:32+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Emergency, governor's rule imposed in K-P after president signs summary on PM Shehbaz's advice",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2634200/pm-shehbaz-chairs-cabinet-meeting-to-discuss-terrorism-governance-in-k-p",
+     "published": "2026-10-11T00:47:34+00:00"
+    },
+    {
+     "outlet": "Geo News",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Emergency, governor's rule imposed in KP as President Zardari approves summary on cabinet's advice",
+     "language": "en",
+     "link": "https://www.geo.tv/latest/686054-emergency-governors-rule-imposed-in-kp-as-president-zardari-approves-summary-on-pms-advice",
+     "published": "2026-10-11T12:33:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-11T17:07:45.259726+00:00",
+   "outlets": 3,
+   "regions": 1,
+   "languages": 1,
+   "score": 7.0
+  },
+  {
+   "id": "c63bea295e2e",
+   "first_seen": "2026-10-11T17:07:45.259726+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Soldier martyred, 12 terrorists killed as security forces foil infiltration attempt in Kurram: ISPR",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2036382/soldier-martyred-12-terrorists-killed-as-security-forces-foil-infiltration-attempt-in-kurram-ispr",
+     "published": "2026-10-11T11:09:34+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "One soldier martyred, 12 terrorists killed as security forces foil infiltration attempt in Kurram: ISPR",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2634214/one-soldier-martyred-12-terrorists-killed-as-security-forces-foil-infiltration-attempt-in-kurram",
+     "published": "2026-10-11T01:45:57+00:00"
+    },
+    {
+     "outlet": "Geo News",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "12 terrorists, Afghan Taliban personnel killed as security forces foil infiltration bid in Kurram",
+     "language": "en",
+     "link": "https://www.geo.tv/latest/686013-12-terrorists-afghan-taliban-personnel-killed-as-security-forces-foil-infiltration-bid-in-kurram",
+     "published": "2026-10-11T08:28:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-11T17:07:45.259726+00:00",
    "outlets": 3,
    "regions": 1,
    "languages": 1,

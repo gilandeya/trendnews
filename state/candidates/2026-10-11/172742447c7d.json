@@ -1,0 +1,73 @@
+{
+  "id": "172742447c7d",
+  "created_at": "2026-10-11T17:08:09.778747+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.62,
+  "trend_score": 0.2,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "إندونيسيا تحرر إنسان الغاب المنقذ من حرائق",
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Indonesia releases eight orangutans rescued from fires to protected forest",
+  "link": "https://phys.org/news/2026-10-indonesia-orangutans-forest.html",
+  "publishers": [
+    "Malay Mail",
+    "Phys.org",
+    "The Japan Times"
+  ],
+  "region": "science",
+  "article": {
+    "title": "Indonesia releases eight orangutans rescued from fires to protected forest",
+    "link": "https://phys.org/news/2026-10-indonesia-orangutans-forest.html",
+    "summary": "Eight orangutans rescued in recent weeks from blazes that tore through Borneo island have been released into a protected forest, Indonesian authorities and rescuers said on Sunday.",
+    "source_name": "Phys.org",
+    "region": "science",
+    "weight": 1.0,
+    "published": "2026-10-11T16:40:01+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2026/indonesian-authorities.jpg",
+    "publisher": "Phys.org",
+    "cluster_sources": [
+      "Malay Mail",
+      "Phys.org",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Phys.org",
+        "link": "https://phys.org/news/2026-10-indonesia-orangutans-forest.html"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/10/11/asia-pacific/science-health/indonesia-fires-orangutan-released/"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/10/11/indonesia-releases-eight-orangutans-rescued-from-fires-to-protected-forest/238681"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2026/indonesian-authorities.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/11/567930.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/11/thumbs/400x400/567930.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/10/11/367751.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.2,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1632.912566715278,
+    "is_stale": false,
+    "score": 24.62406800716347,
+    "impact": 1,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "إندونيسيا تحرر إنسان الغاب المنقذ من حرائق",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

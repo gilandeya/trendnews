@@ -1,0 +1,79 @@
+{
+  "id": "6ea2b526fb75",
+  "created_at": "2026-10-11T17:08:09.778057+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 27.37,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 1,
+  "appeal_note": "باكستان تؤكد دعمها السعودية بعد هجمات الحوثيين",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "FO reiterates Pakistan's 'firm and unshakeable' commitment to Saudi Arabia's security after Riyadh attack",
+  "link": "https://www.dawn.com/news/2036347/fo-reiterates-pakistans-firm-and-unshakeable-commitment-to-saudi-arabias-security-after-riyadh-attack",
+  "publishers": [
+    "Daily Sabah",
+    "Dawn",
+    "The Express Tribune",
+    "Yonhap News"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "FO reiterates Pakistan's 'firm and unshakeable' commitment to Saudi Arabia's security after Riyadh attack",
+    "link": "https://www.dawn.com/news/2036347/fo-reiterates-pakistans-firm-and-unshakeable-commitment-to-saudi-arabias-security-after-riyadh-attack",
+    "summary": "The Foreign Office (FO) on Sunday condemned a fresh wave of Houthi attacks against Saudi Arabia, reaffirming Pakistan’s “firm and unshakeable” commitment to the sovereignty, territorial integrity, security and stability of the Gulf state under the Makkah Joint Defence Agreement. The defence pact , of which Turkiye is also a part, was signed on August 7 and aims to strengthen collective deterrence and empower its signatory states to treat an attack against one of them as an attack against all of them. The statement comes following Saturday’s attack on Riyadh’s international airport, which killed at least 12 people and wounded 309 others. In a post on X, FO said the targeting of a civilian airport constituted “a heinous act of terrorism, a flagrant violation of international law and a grave threat to regional peace and security”. It expressed concern over the casualties resulting from the attack, extending condolences to the bereaved families and wishing a swift recovery to the injured. “The continued targeting of civilian population and critical infrastructure by the Houthi militia is utterly unacceptable and must be condemned unequivocally by the international community,” the state",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-10-11T15:52:56+00:00",
+    "image_url": "https://i.dawn.com/large/2026/10/1109111026ada66.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Dawn",
+      "The Express Tribune",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2036347/fo-reiterates-pakistans-firm-and-unshakeable-commitment-to-saudi-arabias-security-after-riyadh-attack"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20261011002900315"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/turkiye-slams-latest-houthi-attack-on-saudi-capital-riyadh"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2634263/fm-dar-condemns-houthi-attack-on-riyadh-airport-says-pakistan-is-in-touch-with-saudi-authorities"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/10/1109111026ada66.webp",
+      "https://i.dawn.com/thumbnail/2026/10/1109111026ada66.webp",
+      "https://img.yna.co.kr/photo/ap/2026/10/11/PAP20261011225801009_P2.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/10/11/465093.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 1632.9125066294444,
+    "is_stale": true,
+    "score": 27.366865691462962,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 1,
+    "appeal_note": "باكستان تؤكد دعمها السعودية بعد هجمات الحوثيين",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

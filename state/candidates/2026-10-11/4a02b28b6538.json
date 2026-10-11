@@ -1,0 +1,77 @@
+{
+  "id": "4a02b28b6538",
+  "created_at": "2026-10-11T17:08:09.778536+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.84,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "ترامب وزيلينسكي يتبادلان الاتهامات حول العقوبات الروسية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump, Zelensky clash over diesel deal as Russian strikes kill 21",
+  "link": "https://www.france24.com/en/video/20261011-trump-zelensky-clash-over-diesel-deal-as-russian-strikes-kill-21",
+  "publishers": [
+    "France24",
+    "South China Morning Post",
+    "The Hindu — International",
+    "media"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Trump, Zelensky clash over diesel deal as Russian strikes kill 21",
+    "link": "https://www.france24.com/en/video/20261011-trump-zelensky-clash-over-diesel-deal-as-russian-strikes-kill-21",
+    "summary": "US President Donald Trump and Ukrainian leader Volodymyr Zelensky traded barbs Saturday after Washington moved to ease sanctions on Russian diesel and Moscow's continued strikes on Ukraine killed at least 21 people, including four children.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-10-11T10:10:20+00:00",
+    "image_url": "https://s.france24.com/media/display/14ffaa84-c559-11f1-b8e4-e362370cce2e/w:1024/p:16x9/EN-20261011-110713-110852-CS.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "France24",
+      "South China Morning Post",
+      "The Hindu — International",
+      "media"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3370451/russian-attacks-kill-15-ukraine-after-trump-strikes-diesel-deal-putin?utm_source=rss_feed"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/russian-attacks-kill-11-in-ukraine-after-trump-strikes-diesel-deal-with-putin/article71567786.ece"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20261011-trump-zelensky-clash-over-diesel-deal-as-russian-strikes-kill-21"
+      },
+      {
+        "name": "media",
+        "link": "https://tass.com/world/2200363"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/14ffaa84-c559-11f1-b8e4-e362370cce2e/w:1024/p:16x9/EN-20261011-110713-110852-CS.jpg",
+      "https://th-i.thgim.com/public/incoming/lbwsp6/article71567804.ece/alternates/LANDSCAPE_1200/2026-10-10T100339Z_1469746430_RC290OAEUK8L_RTRMADP_3_UKRAINE-CRISIS-ATTACK-KYIV-DRONE.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1632.9126033052778,
+    "is_stale": false,
+    "score": 25.836199022537038,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "ترامب وزيلينسكي يتبادلان الاتهامات حول العقوبات الروسية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

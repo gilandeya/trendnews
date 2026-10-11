@@ -1,111 +1,5 @@
 [
   {
-    "score": 29.95,
-    "bucket": "serious",
-    "tokens": [
-      "case",
-      "confirms",
-      "congo",
-      "ebola",
-      "first",
-      "kenya",
-      "province",
-      "surges",
-      "virus"
-    ],
-    "link": "https://www.theguardian.com/world/2026/oct/06/kenya-first-ebola-case-death-drc",
-    "title": "Kenya confirms first Ebola case as virus ‘surges’ in DR Congo province",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-10-06T15:08:09.387284+00:00"
-  },
-  {
-    "score": 23.83,
-    "bucket": "serious",
-    "tokens": [
-      "areas",
-      "bab",
-      "fighting",
-      "forces",
-      "government",
-      "intensifies",
-      "key",
-      "mandeb",
-      "near",
-      "retake",
-      "yemen"
-    ],
-    "link": "http://www.africanews.com/2026/10/06/yemen-fighting-intensifies-as-government-forces-retake-key-areas-near-bab-el-mandeb/",
-    "title": "Yemen fighting intensifies as government forces retake key areas near Bab el-Mandeb",
-    "posted_title": "",
-    "region": "africa",
-    "seen_at": "2026-10-06T15:08:09.387458+00:00"
-  },
-  {
-    "score": 23.67,
-    "bucket": "useful",
-    "tokens": [
-      "cause",
-      "died",
-      "got",
-      "institute",
-      "plague",
-      "pneumonia",
-      "reports",
-      "russia",
-      "siberian",
-      "unknown",
-      "worker"
-    ],
-    "link": "https://phys.org/news/2026-10-russia-worker-siberian-plague-pneumonia.html",
-    "title": "Russia reports a worker at a Siberian plague institute got pneumonia from an unknown cause and died",
-    "posted_title": "",
-    "region": "science",
-    "seen_at": "2026-10-06T15:08:09.387608+00:00"
-  },
-  {
-    "score": 22.38,
-    "bucket": "serious",
-    "tokens": [
-      "buzz",
-      "drones",
-      "hellish",
-      "hunker",
-      "kill",
-      "overhead",
-      "troops",
-      "ukraine's",
-      "underground",
-      "zone"
-    ],
-    "link": "https://www.npr.org/2026/10/05/nx-s1-5925803/drones-buzz-overhead-troops-hunker-underground-in-ukraines-hellish-kill-zone",
-    "title": "Drones buzz overhead, troops hunker underground in Ukraine's hellish kill zone",
-    "posted_title": "",
-    "region": "us",
-    "seen_at": "2026-10-06T15:08:09.387780+00:00"
-  },
-  {
-    "score": 21.99,
-    "bucket": "serious",
-    "tokens": [
-      "black",
-      "bulgaria",
-      "crew",
-      "drones",
-      "hit",
-      "missing",
-      "sea",
-      "searches",
-      "ships",
-      "two"
-    ],
-    "link": "https://www.france24.com/en/europe/20261006-bulgaria-searches-for-missing-crew-as-drones-hit-two-more-black-sea-ships",
-    "title": "Bulgaria searches for missing crew as drones hit two Black Sea ships",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-10-06T15:08:09.387920+00:00"
-  },
-  {
     "score": 25.37,
     "bucket": "serious",
     "tokens": [
@@ -1541,5 +1435,102 @@
     "posted_title": "هل تهدد هجمات الحوثيين على الرياض استضافة السعودية لمونديال 2034؟ وسط حرب متصاعدة مع اليمن",
     "region": "cn",
     "seen_at": "2026-10-11T10:08:36.498283+00:00"
+  },
+  {
+    "score": 41.98,
+    "bucket": "serious",
+    "tokens": [
+      "airport",
+      "attack",
+      "houthi",
+      "hundreds",
+      "injured",
+      "killed",
+      "riyadh",
+      "twelve"
+    ],
+    "link": "https://www.theguardian.com/world/2026/oct/10/yemen-government-allied-forces-recapture-bab-al-mandab-strait-houthis-taiz",
+    "title": "Twelve killed and hundreds injured in Houthi attack at Riyadh airport",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-10-11T17:08:09.778047+00:00"
+  },
+  {
+    "score": 27.37,
+    "bucket": "serious",
+    "tokens": [
+      "'firm",
+      "arabia's",
+      "attack",
+      "commitment",
+      "pakistan's",
+      "reiterates",
+      "riyadh",
+      "saudi",
+      "security",
+      "unshakeable'"
+    ],
+    "link": "https://www.dawn.com/news/2036347/fo-reiterates-pakistans-firm-and-unshakeable-commitment-to-saudi-arabias-security-after-riyadh-attack",
+    "title": "FO reiterates Pakistan's 'firm and unshakeable' commitment to Saudi Arabia's security after Riyadh attack",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-10-11T17:08:09.778309+00:00"
+  },
+  {
+    "score": 27.14,
+    "bucket": "serious",
+    "tokens": [
+      "approves",
+      "cabinet",
+      "decision",
+      "emergency",
+      "governor's",
+      "imposed",
+      "president",
+      "rule"
+    ],
+    "link": "https://www.dawn.com/news/2036352/emergency-governors-rule-imposed-in-kp-as-president-approves-cabinet-decision",
+    "title": "Emergency, governor's rule imposed in KP as president approves cabinet decision",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-10-11T17:08:09.778529+00:00"
+  },
+  {
+    "score": 25.84,
+    "bucket": "serious",
+    "tokens": [
+      "clash",
+      "deal",
+      "diesel",
+      "kill",
+      "russian",
+      "strikes",
+      "trump",
+      "zelensky"
+    ],
+    "link": "https://www.france24.com/en/video/20261011-trump-zelensky-clash-over-diesel-deal-as-russian-strikes-kill-21",
+    "title": "Trump, Zelensky clash over diesel deal as Russian strikes kill 21",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-10-11T17:08:09.778740+00:00"
+  },
+  {
+    "score": 24.62,
+    "bucket": "useful",
+    "tokens": [
+      "eight",
+      "fires",
+      "forest",
+      "indonesia",
+      "orangutans",
+      "protected",
+      "releases",
+      "rescued"
+    ],
+    "link": "https://phys.org/news/2026-10-indonesia-orangutans-forest.html",
+    "title": "Indonesia releases eight orangutans rescued from fires to protected forest",
+    "posted_title": "",
+    "region": "science",
+    "seen_at": "2026-10-11T17:08:09.778937+00:00"
   }
 ]
