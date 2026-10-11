@@ -1,7 +1,7 @@
 {
   "id": "03fd1fa2b114",
   "created_at": "2026-10-11T06:17:28.855714+00:00",
-  "status": "pending",
+  "status": "queued",
   "origin": "analysis",
   "format": "article",
   "title": "هل يدفع التلويح الأمريكي بضربات الحوثيين المضيق البحري نحو الإغلاق؟",
@@ -221,5 +221,6 @@
     "web_search_query": null,
     "web_search_tried": 0,
     "web_search_skipped": null
-  }
+  },
+  "publish_at": "2026-10-11T10:56:37.383695+00:00"
 }
