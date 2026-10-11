@@ -20249,5 +20249,26 @@
   "has_photo": true,
   "state_media": false,
   "created_hour": 13
+ },
+ {
+  "id": "da06e967482f",
+  "created_at": "2026-10-11T10:07:08.156479+00:00",
+  "decided_at": "2026-10-11T19:17:33.505284+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "news",
+  "category": "رياضة",
+  "angle": "تفسير",
+  "urgent": false,
+  "bucket": "serious",
+  "region": "cn",
+  "score": 25.13,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "source_count": 3,
+  "body_len": 636,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 10
  }
 ]
