@@ -1,0 +1,203 @@
+{
+  "id": "6c4b509c4c00",
+  "created_at": "2026-10-11T19:18:32.281279+00:00",
+  "status": "pending",
+  "review_issue": 1362,
+  "origin": "news",
+  "score": 41.98,
+  "bucket": "serious",
+  "analysed_sources": [
+    "The Guardian — World",
+    "Hindustan Times — World"
+  ],
+  "trend_score": 1.0,
+  "velocity": 0.96,
+  "age_hours": 1632.9,
+  "is_followup": false,
+  "state_media": false,
+  "source": {
+    "title": "Twelve killed and hundreds injured in Houthi attack at Riyadh airport",
+    "link": "https://www.theguardian.com/world/2026/oct/10/yemen-government-allied-forces-recapture-bab-al-mandab-strait-houthis-taiz",
+    "publisher": "The Guardian — World",
+    "publishers": [
+      "Al Jazeera English",
+      "BBC World",
+      "CBS News — World",
+      "CGTN",
+      "Daily Sabah",
+      "Dawn",
+      "France24",
+      "Hindustan Times — World",
+      "Investing.com — الاقتصاد",
+      "Iran International",
+      "Mehr News",
+      "NDTV — World",
+      "NPR World",
+      "NYT",
+      "Rubio",
+      "Saudi Arabia’s aviation authority",
+      "South China Morning Post",
+      "TASS",
+      "The Express Tribune",
+      "The Guardian — World",
+      "The Hindu — International",
+      "The Japan Times",
+      "agency",
+      "government"
+    ],
+    "region": "uk",
+    "image_url": "https://i.guim.co.uk/img/media/abe5f1d89f32a73c4f4c63ed040fa686b4c5512a/617_0_5447_4359/master/5447.jpg?width=700&quality=85&auto=format&fit=max&s=dc2f4876d1ea1054378ac7a701ec54d8",
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/abe5f1d89f32a73c4f4c63ed040fa686b4c5512a/617_0_5447_4359/master/5447.jpg?width=700&quality=85&auto=format&fit=max&s=dc2f4876d1ea1054378ac7a701ec54d8",
+      "https://i.guim.co.uk/img/media/abe5f1d89f32a73c4f4c63ed040fa686b4c5512a/617_0_5447_4359/master/5447.jpg?width=460&quality=85&auto=format&fit=max&s=be3fd4d408119a9e8070c724e0b97bbe",
+      "https://i.guim.co.uk/img/media/abe5f1d89f32a73c4f4c63ed040fa686b4c5512a/617_0_5447_4359/master/5447.jpg?width=140&quality=85&auto=format&fit=max&s=60168aa8828b75b69f99885fff3e8c29",
+      "https://media.mehrnews.com/d/2026/10/07/4/6207238.jpg",
+      "https://news.cgtn.com/news/2026-10-11/news-1R91QtVGJlm/img/efa5116d74604411a3dfca1a4e993067/efa5116d74604411a3dfca1a4e993067-750.png",
+      "https://news.cgtn.com/news/2026-10-11/news-1R91QtVGJlm/img/efa5116d74604411a3dfca1a4e993067/efa5116d74604411a3dfca1a4e993067.png"
+    ],
+    "related_links": [
+      "https://www.hindustantimes.com/world-news/saudi-arabia-houthis-us-iran-war-live-updates-yemen-riyadh-airport-attack-strait-of-hormuz-uae-latest-news-middle-east-101791730654664.html",
+      "https://en.mehrnews.com/news/248468/Blast-reported-at-Saudi-Arabia-s-Riyadh-airport",
+      "https://tass.com/world/2200331"
+    ],
+    "related_publishers": [
+      "Hindustan Times — World",
+      "Mehr News",
+      "Saudi Arabia’s aviation authority"
+    ]
+  },
+  "arabic": {
+    "angle": "تفسير",
+    "analysis": "يربط التحالف بقيادة السعودية الهجوم بجماعة الحوثي المدعومة من إيران، فيما لم يصدر عن الجماعة أي تعليق رسمي رغم اتهامها في وقت سابق السعودية بقصف مطار صنعاء الدولي. ويكشف تصريح الرئيس الأمريكي دونالد ترامب عن تحول محتمل في الموقف الأمريكي، إذ قال إنه يدرس انضمام بلاده إلى الضربات السعودية ضد الحوثيين، بينما وصف وزير الخارجية ماركو روبيو الهجمات بأنها بغيضة ويجب أن تتوقف فورا. وتفيد تغطيات لاحقة بأن الحوثيين زعموا تنفيذ 124 غارة جوية سعودية خلال 24 ساعة ردا على التصعيد، وادعوا أيضا استهداف مطار الدمام ومواقع تابعة لأرامكو في شرق المملكة، وهو ادعاء لم تؤكده الرياض حتى الآن، ما يعكس تضاربا في روايات الطرفين حول حجم الرد المتبادل.",
+    "urgent": false,
+    "category": "عالم",
+    "image_headline": "12 قتيلا و300 جريح في هجوم على مطار الرياض",
+    "post_title": "هجوم صاروخي يضرب مطار الملك خالد في الرياض ويخلف 12 قتيلا وأكثر من 300 جريح",
+    "post_body": "صاروخ أصاب مجمع صالات 3 و4 للرحلات الداخلية في مطار الملك خالد الدولي بالرياض عصر السبت 10 أكتوبر/تشرين الأول، ما أسفر عن مقتل 12 شخصا وإصابة أكثر من 300 آخرين، بعضهم في حالة حرجة. شملت قائمة القتلى أربعة سعوديين وبنغلاديشيين وفلسطينيا وأمريكيا ومصريا وأردنيا وسوريا وسودانيا. سقط مقذوف أيضا قرب مطار الملك فهد الدولي في الدمام. وأعلنت وزارة التعليم تحويل الدراسة في مدارس الرياض إلى التعلم عن بعد لمدة أسبوع. هذا هو الهجوم الثالث على المطار خلال أسبوع واحد، بعد أن قتل هجومان سابقان أربعة أشخاص وألحقا أضرارا بطائرة.",
+    "hashtags": [
+      "الرياض",
+      "الحوثي",
+      "السعودية",
+      "مطار_الملك_خالد"
+    ]
+  },
+  "caption": "هجوم صاروخي يضرب مطار الملك خالد في الرياض ويخلف 12 قتيلا وأكثر من 300 جريح\n\nصاروخ أصاب مجمع صالات 3 و4 للرحلات الداخلية في مطار الملك خالد الدولي بالرياض عصر السبت 10 أكتوبر/تشرين الأول، ما أسفر عن مقتل 12 شخصا وإصابة أكثر من 300 آخرين، بعضهم في حالة حرجة. شملت قائمة القتلى أربعة سعوديين وبنغلاديشيين وفلسطينيا وأمريكيا ومصريا وأردنيا وسوريا وسودانيا. سقط مقذوف أيضا قرب مطار الملك فهد الدولي في الدمام. وأعلنت وزارة التعليم تحويل الدراسة في مدارس الرياض إلى التعلم عن بعد لمدة أسبوع. هذا هو الهجوم الثالث على المطار خلال أسبوع واحد، بعد أن قتل هجومان سابقان أربعة أشخاص وألحقا أضرارا بطائرة.\n\nخلف الخبر\nيربط التحالف بقيادة السعودية الهجوم بجماعة الحوثي المدعومة من إيران، فيما لم يصدر عن الجماعة أي تعليق رسمي رغم اتهامها في وقت سابق السعودية بقصف مطار صنعاء الدولي. ويكشف تصريح الرئيس الأمريكي دونالد ترامب عن تحول محتمل في الموقف الأمريكي، إذ قال إنه يدرس انضمام بلاده إلى الضربات السعودية ضد الحوثيين، بينما وصف وزير الخارجية ماركو روبيو الهجمات بأنها بغيضة ويجب أن تتوقف فورا. وتفيد تغطيات لاحقة بأن الحوثيين زعموا تنفيذ 124 غارة جوية سعودية خلال 24 ساعة ردا على التصعيد، وادعوا أيضا استهداف مطار الدمام ومواقع تابعة لأرامكو في شرق المملكة، وهو ادعاء لم تؤكده الرياض حتى الآن، ما يعكس تضاربا في روايات الطرفين حول حجم الرد المتبادل.\n\n#الرياض #الحوثي #السعودية #مطار_الملك_خالد",
+  "headlines": [
+    "هل يزيد تكرار الهجمات على المطارات السعودية من تهديد الأمن؟",
+    "هجوم على مطار الملك خالد بالرياض يوقع 12 قتيلا وأكثر من 300 جريح",
+    "ثلاث هجمات في أسبوع على مطار الملك خالد بالرياض"
+  ],
+  "headline_selected": 0,
+  "reel": null,
+  "reel_spec": {
+    "headline": "12 قتيلا و300 جريح في هجوم على مطار الرياض",
+    "category": "عالم",
+    "urgent": false,
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/abe5f1d89f32a73c4f4c63ed040fa686b4c5512a/617_0_5447_4359/master/5447.jpg?width=700&quality=85&auto=format&fit=max&s=dc2f4876d1ea1054378ac7a701ec54d8",
+      "https://i.guim.co.uk/img/media/abe5f1d89f32a73c4f4c63ed040fa686b4c5512a/617_0_5447_4359/master/5447.jpg?width=460&quality=85&auto=format&fit=max&s=be3fd4d408119a9e8070c724e0b97bbe",
+      "https://i.guim.co.uk/img/media/abe5f1d89f32a73c4f4c63ed040fa686b4c5512a/617_0_5447_4359/master/5447.jpg?width=140&quality=85&auto=format&fit=max&s=60168aa8828b75b69f99885fff3e8c29",
+      "https://media.mehrnews.com/d/2026/10/07/4/6207238.jpg",
+      "https://news.cgtn.com/news/2026-10-11/news-1R91QtVGJlm/img/efa5116d74604411a3dfca1a4e993067/efa5116d74604411a3dfca1a4e993067-750.png",
+      "https://news.cgtn.com/news/2026-10-11/news-1R91QtVGJlm/img/efa5116d74604411a3dfca1a4e993067/efa5116d74604411a3dfca1a4e993067.png"
+    ]
+  },
+  "names_audit": [
+    {
+      "arabic": "دونالد ترامب",
+      "latin": "Donald Trump"
+    },
+    {
+      "arabic": "ماركو روبيو",
+      "latin": "Marco Rubio"
+    }
+  ],
+  "editor_review": {
+    "at": "2026-10-11T19:18:33.865882+00:00",
+    "applied": [
+      {
+        "category": "stale_time",
+        "severity": "high",
+        "location": "body",
+        "original": "في مطار الملك خالد الدولي بالرياض مساء السبت",
+        "fix": "في مطار الملك خالد الدولي بالرياض عصر السبت 10 أكتوبر/تشرين الأول",
+        "note": "بيان هيئة الطيران المدني السعودية حدد وقوع الاعتداء عصر السبت 10 أكتوبر/تشرين الأول لا مساءً، كما أن الإشارة بـ«السبت» وحدها دون تاريخ تتقادم.",
+        "sources": [
+          "https://www.alarabiya.net/saudi-today/2026/10/11/%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%D8%A9-%D9%88%D9%81%D8%A7%D8%A9-12-%D8%B4%D8%AE%D8%B5%D8%A7-%D9%88%D8%A7%D8%B5%D8%A7%D8%A8%D8%A9-309-%D8%A7%D8%AE%D8%B1%D9%8A%D9%86-%D8%A7%D8%AB%D8%B1-%D8%A7%D9%84%D8%A7%D8%B9%D8%AA%D8%AF%D8%A7%D8%A1-%D8%A7%D9%84%D8%BA%D8%A7%D8%B4%D9%85-%D8%B9%D9%84%D9%89-%D9%85%D8%B7%D8%A7%D8%B1-%D8%A7%D9%84%D9%85%D9%84%D9%83-%D8%AE%D8%A7%D9%84%D8%AF-%D8%A7%D9%84%D8%AF%D9%88%D9%84%D9%8A-",
+          "https://www.skynewsarabia.com/middle-east/1897616"
+        ]
+      },
+      {
+        "category": "headline_overclaims",
+        "severity": "high",
+        "location": "headline_2",
+        "original": "هجمات صاروخية متتالية تستهدف مطارات الرياض والدمام بضحايا وجرحى",
+        "fix": "هجوم على مطار الملك خالد بالرياض يوقع 12 قتيلا وأكثر من 300 جريح",
+        "note": "العنوان يوحي بسقوط ضحايا وجرحى في مطاري الرياض والدمام معا، بينما المتن والمصادر تذكر سقوط مقذوف قرب مطار الملك فهد في الدمام دون إصابات، والقتلى كلهم في الرياض. كما أن «مطارات الرياض» جمع لا يسنده النص (مطار واحد).",
+        "sources": [
+          "https://www.theguardian.com/world/2026/oct/10/yemen-government-allied-forces-recapture-bab-al-mandab-strait-houthis-taiz"
+        ]
+      },
+      {
+        "category": "h1_overclaims",
+        "severity": "low",
+        "location": "h1",
+        "original": "ويخلف 12 قتيلا و300 جريح",
+        "fix": "ويخلف 12 قتيلا وأكثر من 300 جريح",
+        "note": "الحصيلة الرسمية 309 مصابين، والمصادر تقول «أكثر من 300»؛ تحديد الرقم بـ300 يقلّل من الحصيلة ويخالف المتن نفسه («أكثر من 300»).",
+        "sources": [
+          "https://www.alarabiya.net/saudi-today/2026/10/11/%D8%A7%D9%84%D8%B3%D8%B9%D9%88%D8%AF%D9%8A%D8%A9-%D9%88%D9%81%D8%A7%D8%A9-12-%D8%B4%D8%AE%D8%B5%D8%A7-%D9%88%D8%A7%D8%B5%D8%A7%D8%A8%D8%A9-309-%D8%A7%D8%AE%D8%B1%D9%8A%D9%86-%D8%A7%D8%AB%D8%B1-%D8%A7%D9%84%D8%A7%D8%B9%D8%AA%D8%AF%D8%A7%D8%A1-%D8%A7%D9%84%D8%BA%D8%A7%D8%B4%D9%85-%D8%B9%D9%84%D9%89-%D9%85%D8%B7%D8%A7%D8%B1-%D8%A7%D9%84%D9%85%D9%84%D9%83-%D8%AE%D8%A7%D9%84%D8%AF-%D8%A7%D9%84%D8%AF%D9%88%D9%84%D9%8A-"
+        ]
+      },
+      {
+        "category": "headline_judgmental",
+        "severity": "low",
+        "location": "headline_3",
+        "original": "تصاعد الاستهدافات تخيّم على المطارات السعودية: ثلاث هجمات في أسبوع",
+        "fix": "ثلاث هجمات في أسبوع على مطار الملك خالد بالرياض",
+        "note": "صياغة إنشائية تقييمية («تخيّم») لا تسندها المادة، كما أن «ثلاث هجمات في أسبوع» تخص مطار الملك خالد وحده لا «المطارات السعودية».",
+        "sources": [
+          "https://www.cnn.com/2026/10/11/world/video/riyadh-saudi-airport-attack-vrtc"
+        ]
+      }
+    ],
+    "notes": [
+      {
+        "category": "fact_outdated",
+        "severity": "high",
+        "location": "body",
+        "original": "هذا هو الهجوم الثالث على المطار خلال أسبوع واحد، بعد أن قتل هجومان سابقان أربعة أشخاص وألحقا أضرارا بطائرة.",
+        "fix": "وهو ثالث هجوم على المطار خلال أسبوع، بعد هجومين سابقين الخميس قتلا أربعة أشخاص وألحقا أضرارا بطائرة. وتعرض المطار لهجوم جديد الأحد 11 أكتوبر/تشرين الأول أفادت السلطات السعودية بوقوع إصابات فيه.",
+        "note": "المتن توقف عند هجوم السبت، بينما وقع هجوم رابع على المطار نفسه الأحد 11 أكتوبر/تشرين الأول مع إصابات وإغلاق للمطار. نشر النص كما هو يقدّم صورة متجاوزة.",
+        "sources": [
+          "https://www.npr.org/2026/10/10/g-s1-147682/attack-on-riyadh-airport-killed-12-people-and-wounded-over-300-more-saudi-authorities-say",
+          "https://www.cnn.com/2026/10/10/middleeast/riyadh-airport-saudi-houthis-intl"
+        ]
+      },
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "ما أسفر عن مقتل 12 شخصا وإصابة أكثر من 300 آخرين، بعضهم في حالة حرجة",
+        "fix": "وقالت هيئة الطيران المدني السعودية إنه أسفر عن مقتل 12 شخصا وإصابة أكثر من 300 آخرين، بعضهم في حالة حرجة",
+        "note": "الحصيلة والقول إن صاروخا أصاب مجمع الصالات منسوبان في المصدر إلى هيئة الطيران المدني وإلى مسؤول إقليمي طلب عدم كشف هويته، بينما وردا في المتن كوقائع مجردة بلا نسبة.",
+        "sources": [
+          "https://www.theguardian.com/world/2026/oct/10/yemen-government-allied-forces-recapture-bab-al-mandab-strait-houthis-taiz"
+        ]
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "headline_1",
+        "original": "هل يزيد تكرار الهجمات على المطارات السعودية من تهديد الأمن؟",
+        "fix": "هجوم على مطار الرياض يوقع 12 قتيلا وأكثر من 300 جريح",
+        "note": "عنوان استفهامي تحليلي يبتعد عن جوهر الخبر (حصيلة القتلى والجرحى) ويطرح تقديرا مستقبليا لا تتناوله المادة.",
+        "sources": []
+      }
+    ],
+    "error": null,
+    "searches": 2,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  }
+}

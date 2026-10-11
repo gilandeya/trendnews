@@ -1,105 +1,5 @@
 [
   {
-    "score": 25.37,
-    "bucket": "serious",
-    "tokens": [
-      "backed",
-      "five",
-      "india",
-      "injured",
-      "killed",
-      "north",
-      "security",
-      "sources",
-      "terrorists",
-      "two",
-      "waziristan"
-    ],
-    "link": "https://www.geo.tv/latest/685201-five-india-backed-terrorists-killed-two-injured-in-north-waziristan-security-sources",
-    "title": "Five India-backed terrorists killed, two injured in North Waziristan: security sources",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-10-06T18:08:31.802758+00:00"
-  },
-  {
-    "score": 24.78,
-    "bucket": "serious",
-    "tokens": [
-      "2036",
-      "among",
-      "countries",
-      "india",
-      "ioc",
-      "olympics",
-      "seven",
-      "vying"
-    ],
-    "link": "https://tribune.com.pk/story/2633306/india-among-seven-countries-vying-for-2036-olympics-ioc-says",
-    "title": "India among seven countries vying for 2036 Olympics, IOC says",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-10-06T18:08:31.803044+00:00"
-  },
-  {
-    "score": 23.4,
-    "bucket": "serious",
-    "tokens": [
-      "arrested",
-      "british",
-      "connection",
-      "fairford",
-      "incident",
-      "national",
-      "raf"
-    ],
-    "link": "https://www.myjoyonline.com/british-national-arrested-in-connection-with-raf-fairford-incident/",
-    "title": "British national arrested in connection with RAF Fairford incident",
-    "posted_title": "",
-    "region": "gh",
-    "seen_at": "2026-10-06T18:08:31.803300+00:00"
-  },
-  {
-    "score": 22.37,
-    "bucket": "serious",
-    "tokens": [
-      "air",
-      "aircraft",
-      "attack",
-      "base",
-      "british",
-      "drone",
-      "exit",
-      "iranian",
-      "led",
-      "potential"
-    ],
-    "link": "https://www.japantimes.co.jp/news/2026/10/06/world/terror-threat-us-uk-base/",
-    "title": "Potential Iranian drone attack led to exit of U.S. aircraft from British air base",
-    "posted_title": "",
-    "region": "jp",
-    "seen_at": "2026-10-06T18:08:31.803540+00:00"
-  },
-  {
-    "score": 22.09,
-    "bucket": "serious",
-    "tokens": [
-      "alleged",
-      "arrested",
-      "buying",
-      "chief",
-      "classified",
-      "former",
-      "german",
-      "information",
-      "spy"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-10-06-former-german-spy-chief-arrested-over-alleged-buying-of-classified-information/",
-    "title": "Former German spy chief arrested over alleged buying of classified information",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-10-06T18:08:31.803808+00:00"
-  },
-  {
     "score": 30.43,
     "bucket": "serious",
     "tokens": [
@@ -1532,5 +1432,43 @@
     "posted_title": "",
     "region": "science",
     "seen_at": "2026-10-11T17:08:09.778937+00:00"
+  },
+  {
+    "score": 41.98,
+    "bucket": "serious",
+    "tokens": [
+      "airport",
+      "attack",
+      "houthi",
+      "hundreds",
+      "injured",
+      "killed",
+      "riyadh",
+      "twelve"
+    ],
+    "link": "https://www.theguardian.com/world/2026/oct/10/yemen-government-allied-forces-recapture-bab-al-mandab-strait-houthis-taiz",
+    "title": "Twelve killed and hundreds injured in Houthi attack at Riyadh airport",
+    "posted_title": "هجوم صاروخي يضرب مطار الملك خالد في الرياض ويخلف 12 قتيلا وأكثر من 300 جريح",
+    "region": "uk",
+    "seen_at": "2026-10-11T19:19:47.547625+00:00"
+  },
+  {
+    "score": 25.84,
+    "bucket": "serious",
+    "tokens": [
+      "clash",
+      "deal",
+      "diesel",
+      "kill",
+      "russian",
+      "strikes",
+      "trump",
+      "zelensky"
+    ],
+    "link": "https://www.france24.com/en/video/20261011-trump-zelensky-clash-over-diesel-deal-as-russian-strikes-kill-21",
+    "title": "Trump, Zelensky clash over diesel deal as Russian strikes kill 21",
+    "posted_title": "غارات روسية تقتل 20 شخصًا في أوكرانيا بعد يوم من إعلان ترامب صفقة ديزل مع بوتين",
+    "region": "eu",
+    "seen_at": "2026-10-11T19:20:59.922127+00:00"
   }
 ]
