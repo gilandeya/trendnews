@@ -1,0 +1,886 @@
+{
+  "run_date": "2026-10-11",
+  "stats": {
+    "points_in": 240,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 90,
+    "issues_clustered": 31,
+    "topics_merged": 3,
+    "topics_out": 6,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 1,
+    "topics_below_min_points": 16,
+    "topics_below_min_channels": 5,
+    "layers": {
+      "3": 1,
+      "2": 1,
+      "1": 4
+    },
+    "agreement": 2,
+    "cross_source": 4,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "هجوم الحوثيين على مطار الملك خالد",
+      "الموقف الأمريكي من الحوثيين بعد هجوم الرياض"
+    ],
+    [
+      "فضيحة صناديق الاستثمار التركية والتحقيقات",
+      "توقيفات أمنية وصحفية مرتبطة بفضيحة الصناديق"
+    ],
+    [
+      "دوافع ترامب الانتخابية في القرارات الخارجية",
+      "ترامب والضربات العسكرية ضد إيران قبل الانتخابات"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "دوافع ترامب الانتخابية في القرارات الخارجية",
+      "event": "تأثير انتخابات الشيوخ النصفية على قرارات ترامب الخارجية",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Iran International",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        50,
+        62,
+        74,
+        139,
+        143,
+        145
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null,
+      "id": "b3f3000ca2cb",
+      "created_at": "2026-10-11T04:02:07.186756+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1355
+    },
+    {
+      "title": "الوساطة الروسية بين إيران وأمريكا",
+      "event": "نقل بوتين رؤية إيرانية لترامب بشأن إنهاء النزاع ومدى الثقة بهذه الوساطة",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        51,
+        52,
+        140,
+        144
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null,
+      "id": "ea0adb65d363",
+      "created_at": "2026-10-11T04:02:07.186756+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1355
+    },
+    {
+      "title": "فضيحة صناديق الاستثمار التركية والتحقيقات",
+      "event": "التحقيق في فضيحة صناديق الاستثمار التركية وتعويض المتضررين",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        28,
+        29,
+        30,
+        44,
+        45,
+        102,
+        103,
+        104,
+        105,
+        106,
+        110,
+        111,
+        120,
+        121,
+        124,
+        125,
+        126,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134
+      ],
+      "total_points": 23,
+      "fresh_points": 19,
+      "dropped_reason": null,
+      "id": "dc3ef0f98fdf",
+      "created_at": "2026-10-11T04:02:07.186756+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1355
+    },
+    {
+      "title": "انتقال سياسيين أتراك بين الأحزاب",
+      "event": "موجة انتقال رؤساء بلديات وأعضاء مجالس من حزب الشعب الجمهوري إلى حزب العدالة والتنمية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk",
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        33,
+        34,
+        35,
+        36,
+        37,
+        41,
+        88,
+        89,
+        91,
+        92,
+        93,
+        94,
+        96,
+        97,
+        98,
+        99,
+        101,
+        107,
+        108,
+        109,
+        112,
+        122,
+        123,
+        135
+      ],
+      "total_points": 24,
+      "fresh_points": 24,
+      "dropped_reason": null,
+      "id": "0680a79fa037",
+      "created_at": "2026-10-11T04:02:07.186756+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1355
+    },
+    {
+      "title": "نزاع انتخابات أتاشهير البلدية",
+      "event": "نزاع سياسي حول نتائج انتخابات نائب رئيس بلدية أتاشهير وانتقال الولاءات",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "SÖZCÜ"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        95,
+        96,
+        97,
+        122,
+        123
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null,
+      "id": "71deb38ebce8",
+      "created_at": "2026-10-11T04:02:07.186756+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1355
+    },
+    {
+      "title": "هجوم الحوثيين على مطار الملك خالد",
+      "event": "استهداف الحوثيين مطار الملك خالد الدولي بصاروخ باليستي وتداعياته",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        14,
+        15,
+        46,
+        47,
+        48,
+        49
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null,
+      "id": "5eb598659cd2",
+      "created_at": "2026-10-11T04:02:07.186756+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1355
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "دوافع ترامب الانتخابية في القرارات الخارجية",
+      "event": "تأثير انتخابات الشيوخ النصفية على قرارات ترامب الخارجية",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Iran International",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        50,
+        62,
+        74,
+        139,
+        143,
+        145
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "الوساطة الروسية بين إيران وأمريكا",
+      "event": "نقل بوتين رؤية إيرانية لترامب بشأن إنهاء النزاع ومدى الثقة بهذه الوساطة",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        51,
+        52,
+        140,
+        144
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "صفقة ديزل أمريكية-روسية رغم العقوبات",
+      "event": "موافقة إدارة ترامب على صفقة استيراد ديزل روسي رغم العقوبات",
+      "layer": 2,
+      "blocs": [
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "Iran International"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        114,
+        147
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الموقف التركي من التدخل العسكري في اليمن",
+      "event": "رفض تركيا إرسال قوات لمهاجمة الحوثيين بموجب اتفاق مكة",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        16,
+        31
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "فضيحة صناديق الاستثمار التركية والتحقيقات",
+      "event": "التحقيق في فضيحة صناديق الاستثمار التركية وتعويض المتضررين",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        28,
+        29,
+        30,
+        44,
+        45,
+        102,
+        103,
+        104,
+        105,
+        106,
+        110,
+        111,
+        120,
+        121,
+        124,
+        125,
+        126,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134
+      ],
+      "total_points": 23,
+      "fresh_points": 19,
+      "dropped_reason": null
+    },
+    {
+      "title": "انتقال سياسيين أتراك بين الأحزاب",
+      "event": "موجة انتقال رؤساء بلديات وأعضاء مجالس من حزب الشعب الجمهوري إلى حزب العدالة والتنمية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk",
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        33,
+        34,
+        35,
+        36,
+        37,
+        41,
+        88,
+        89,
+        91,
+        92,
+        93,
+        94,
+        96,
+        97,
+        98,
+        99,
+        101,
+        107,
+        108,
+        109,
+        112,
+        122,
+        123,
+        135
+      ],
+      "total_points": 24,
+      "fresh_points": 24,
+      "dropped_reason": null
+    },
+    {
+      "title": "نزاع انتخابات أتاشهير البلدية",
+      "event": "نزاع سياسي حول نتائج انتخابات نائب رئيس بلدية أتاشهير وانتقال الولاءات",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "SÖZCÜ"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        95,
+        96,
+        97,
+        122,
+        123
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "تأجيل الانتخابات الفلسطينية",
+      "event": "مرسوم عباس بإلغاء الانتخابات التشريعية وتأجيلها إلى سبتمبر 2025",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "انتقادات دولية لانتقال جميل طوغاي",
+      "event": "انتقادات أوروبية وتركية لانتقال رئيس بلدية إسطنبول جميل طوغاي لحزب العدالة والتنمية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        107,
+        108,
+        109,
+        112
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "سيطرة اليمن الحكومية على باب المندب",
+      "event": "سيطرة القوات الحكومية اليمنية على مضيق باب المندب وجزيرة ميون",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        7,
+        8,
+        9,
+        10,
+        60,
+        61
+      ],
+      "total_points": 6,
+      "fresh_points": 2,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "هجوم الحوثيين على مطار الملك خالد",
+      "event": "استهداف الحوثيين مطار الملك خالد الدولي بصاروخ باليستي وتداعياته",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        14,
+        15,
+        46,
+        47,
+        48,
+        49
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "احتجاجات الطلاب في فرنسا",
+      "event": "احتجاجات طلابية في باريس ضد سياسات التعليم الحكومية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        64,
+        65,
+        66
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "التحديات والتوقعات الاقتصادية المغربية",
+      "event": "تحديات ارتفاع الأسعار والبطالة في المغرب وتوقعات النمو المستقبلية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        68,
+        69,
+        70,
+        71,
+        72,
+        73
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "قضية الحجاب بين تركيا وأذربيجان",
+      "event": "توتر دبلوماسي بين تركيا وأذربيجان بسبب قضية الحجاب ورد إلهام علييف",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        76,
+        87
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تحليل اتفاق مكة الدفاعي",
+      "event": "تحليل خلفيات ودوافع اتفاق مكة الدفاعي بين تركيا والسعودية وباكستان",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        77,
+        78,
+        82
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "عملية مرسين الأمنية وأهدافها السياسية",
+      "event": "العملية الأمنية في بلدية مرسين وأهدافها السياسية المحتملة لاستهداف المعارضة",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        115,
+        116,
+        117,
+        135
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الانقسام الاقتصادي داخل حزب العدالة والتنمية",
+      "event": "خلاف داخل حزب العدالة والتنمية حول النموذج الاقتصادي التركي ودور وزير المالية شمشك",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        118,
+        119
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تراجع اقتصادي وسياسي لإيران",
+      "event": "تحليل الانهيار الاقتصادي والسياسي طويل الأمد للجمهورية الإسلامية في إيران",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        136,
+        137
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "شروط تفاوضية ومستقبل حرب السودان",
+      "event": "الصراع العسكري المستمر بين الجيش السوداني وقوات الدعم السريع وشروط التفاوض",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "عملية فجر اليمن وتحرير تعز",
+      "event": "عملية فجر اليمن العسكرية لتحرير صنعاء وتعز من الحوثيين",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        11,
+        12,
+        13
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "طبيعة جماعة الحوثي وممارساتها",
+      "event": "تحليل طبيعة جماعة الحوثي الطائفية وفرضها قانون الخمس",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        18,
+        19,
+        20
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الاقتصاد الفلسطيني بعد حرب غزة",
+      "event": "الانهيار الاقتصادي في قطاع غزة وتكلفة إعادة الإعمار",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        21,
+        22,
+        23
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الاقتصاد الإسرائيلي خلال الحرب",
+      "event": "أداء الاقتصاد الإسرائيلي من استثمارات تكنولوجية وارتفاع الدين خلال الحرب",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        24,
+        25
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الاقتصاد البرازيلي ونموه",
+      "event": "نمو الاقتصاد البرازيلي وثروته من المعادن النادرة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        26,
+        27
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "مشروع القطار السريع التركي",
+      "event": "افتتاح خط القطار السريع تشركزكوي-جابوكول وتأثيره",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        38,
+        39,
+        40
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الصادرات التركية القياسية",
+      "event": "تحقيق تركيا رقماً قياسياً في الصادرات خلال العام الحالي",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        42,
+        43
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الانسحاب الأمريكي من الأمم المتحدة",
+      "event": "انسحاب إدارة ترامب من الأمم المتحدة وعشرات وكالاتها",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        75,
+        84
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "حملة إسرائيلية دعائية عبر الذكاء الاصطناعي",
+      "event": "إنشاء إسرائيل مركز أبحاث وهمي لنشر مقالات مؤيدة لها عبر الذكاء الاصطناعي",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        80,
+        86
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    }
+  ]
+}
