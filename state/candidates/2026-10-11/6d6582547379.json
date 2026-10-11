@@ -1,0 +1,66 @@
+{
+  "id": "6d6582547379",
+  "created_at": "2026-10-11T09:08:16.687593+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.63,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "فيضانات تجرف مبانيَ في نيبال",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Flash flood sweeps away buildings in Nepal",
+  "link": "https://www.aljazeera.com/video/newsfeed/2026/10/11/flash-flood-sweeps-away-buildings-in-nepal?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "Hindustan Times — World"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "Flash flood sweeps away buildings in Nepal",
+    "link": "https://www.aljazeera.com/video/newsfeed/2026/10/11/flash-flood-sweeps-away-buildings-in-nepal?traffic_source=rss",
+    "summary": "Flash flooding in Nepal has swept away buildings along the Budhi Gandaki river on Sunday.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-10-11T06:34:31+00:00",
+    "image_url": null,
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/10/11/flash-flood-sweeps-away-buildings-in-nepal?traffic_source=rss"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/flash-flood-sweeps-away-houses-bridges-in-nepal-s-gorkha-101791694660321.html"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/nepal-issues-mass-evacuation-after-landslide-triggered-flash-flood-sweeps-away-homes-bridges-in-gorkha-101791701010367.html"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1624.9125600077778,
+    "is_stale": false,
+    "score": 25.629736851925927,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "فيضانات تجرف مبانيَ في نيبال",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

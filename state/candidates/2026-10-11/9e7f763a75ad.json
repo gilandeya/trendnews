@@ -1,0 +1,87 @@
+{
+  "id": "9e7f763a75ad",
+  "created_at": "2026-10-11T09:08:16.687047+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.65,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 1,
+  "appeal_note": "إعصار سيمون يقترب من ساحل المكسيك بقوة",
+  "bucket": "light",
+  "state_media": false,
+  "title": "Hurricane Simon strengthens to Category 4 off Mexico coast",
+  "link": "https://www.thehindu.com/news/international/hurricane-simon-intensifies-to-category-4-off-mexico-coast/article71570561.ece",
+  "publishers": [
+    "CBS News",
+    "CBS News — World",
+    "CGTN",
+    "Court House News",
+    "Free Malaysia Today",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Hurricane Simon strengthens to Category 4 off Mexico coast",
+    "link": "https://www.thehindu.com/news/international/hurricane-simon-intensifies-to-category-4-off-mexico-coast/article71570561.ece",
+    "summary": "Simon is expected to approach the ‌west-central coast of Mexico as a major hurricane late on October 10 or early October 11, and some additional strengthening remains possible before landfall",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-10-11T03:07:26+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/jx5h47/article71570582.ece/alternates/LANDSCAPE_1200/2026-10-10T225022Z_202617605_RC2L0OAQ3J7I_RTRMADP_3_STORM-SIMON.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "CBS News",
+      "CBS News — World",
+      "CGTN",
+      "Court House News",
+      "Free Malaysia Today",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/simon-strengthens-into-a-category-4-hurricane-as-it-approaches-mexicos-coast/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/hurricane-simon-intensifies-to-category-4-off-mexico-coast/article71570561.ece"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/hurricane-simon-takes-aim-mexico-pacific-coast/"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/10/11/hurricane-simon-strengthens-as-it-nears-western-mexico"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-10-11/Hurricane-Simon-strengthens-to-category-4-as-it-nears-western-Mexico-1R95S6A4R4k/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/jx5h47/article71570582.ece/alternates/LANDSCAPE_1200/2026-10-10T225022Z_202617605_RC2L0OAQ3J7I_RTRMADP_3_STORM-SIMON.JPG",
+      "https://media.freemalaysiatoday.com/v3/2026/10/92d5f159-3935-43df-8818-198a95597db1-EPA-Mexico-Storm-11102026.webp",
+      "https://news.cgtn.com/news/2026-10-11/Hurricane-Simon-strengthens-to-category-4-as-it-nears-western-Mexico-1R95S6A4R4k/img/9b04cda62f064630b232673edcbdf67c/9b04cda62f064630b232673edcbdf67c-750.jpeg",
+      "https://news.cgtn.com/news/2026-10-11/Hurricane-Simon-strengthens-to-category-4-as-it-nears-western-Mexico-1R95S6A4R4k/img/9b04cda62f064630b232673edcbdf67c/9b04cda62f064630b232673edcbdf67c.jpeg"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 6,
+    "velocity": 1.0,
+    "age_hours": 1624.9125393358333,
+    "is_stale": false,
+    "score": 25.65453176401532,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 1,
+    "appeal_note": "إعصار سيمون يقترب من ساحل المكسيك بقوة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
