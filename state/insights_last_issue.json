@@ -1,25 +1,25 @@
 {
-  "issue": 1258,
+  "issue": 1368,
   "recommendations": [
     {
-      "id": "fp_5ebc2917eb91",
-      "text": "إشارة الترند متعادلة مع التغطية — اترك `trends.weight` كما هو.",
-      "key": null,
-      "suggested": null
+      "id": "trends.weight",
+      "text": "الأخبار الرائجة 🔥 تتفوق (2 مقابل 2). ارفع `trends.weight` من 8.0 إلى 10.",
+      "key": "trends.weight",
+      "suggested": 10.0
     },
     {
       "id": "facebook.peak_hours",
-      "text": "أفضل ساعات التفاعل فعليًا: 20, 0, 22. الإعداد الحالي: [12, 18, 21]. حدّث `facebook.peak_hours`.",
+      "text": "أفضل ساعات التفاعل فعليًا: 20, 22, 7. الإعداد الحالي: [12, 18, 21]. حدّث `facebook.peak_hours`.",
       "key": "facebook.peak_hours",
       "suggested": [
-        0,
+        7,
         20,
         22
       ]
     },
     {
-      "id": "fp_3f7e9bc1bc96",
-      "text": "أفضل مصدر أداءً: AP News (4 تفاعل، 5 منشور). ارفع وزنه في `sources`.",
+      "id": "fp_55bf9bd08c8f",
+      "text": "أفضل مصدر أداءً: BBC (3 تفاعل، 3 منشور). ارفع وزنه في `sources`.",
       "key": null,
       "suggested": null
     }
