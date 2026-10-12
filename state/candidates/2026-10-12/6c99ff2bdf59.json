@@ -1,0 +1,72 @@
+{
+  "id": "6c99ff2bdf59",
+  "created_at": "2026-10-12T17:08:17.969413+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.21,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "اتفاق روسي أوكراني على وقف طاقة — تطور دولي مباشر",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump says Russia and Ukraine agree to an 'energy ceasefire'",
+  "link": "https://www.npr.org/2026/10/12/nx-s1-5998614/trump-russia-ukraine-energy-ceasefire",
+  "publishers": [
+    "CGTN",
+    "Deutsche Welle",
+    "NPR World"
+  ],
+  "region": "us",
+  "article": {
+    "title": "Trump says Russia and Ukraine agree to an 'energy ceasefire'",
+    "link": "https://www.npr.org/2026/10/12/nx-s1-5998614/trump-russia-ukraine-energy-ceasefire",
+    "summary": "President Trump said Sunday that Russia and Ukraine had agreed to an \"energy ceasefire,\" but he offered no details on it and Kyiv reported attacks by Moscow on energy sites after his statement.",
+    "source_name": "NPR World",
+    "region": "us",
+    "weight": 0.9,
+    "published": "2026-10-12T06:41:57+00:00",
+    "image_url": "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5998614",
+    "publisher": "NPR World",
+    "cluster_sources": [
+      "CGTN",
+      "Deutsche Welle",
+      "NPR World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Deutsche Welle",
+        "link": "https://www.dw.com/en/trump-claims-russia-and-ukraine-agreed-to-energy-ceasefire/a-79634509?maca=en-rss-en-world-4025-rdf"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/10/12/nx-s1-5998614/trump-russia-ukraine-energy-ceasefire"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-10-11/news-1Ra5cISdAIg/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      }
+    ],
+    "image_candidates": [
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-5998614",
+      "https://news.cgtn.com/news/2026-10-11/news-1Ra5cISdAIg/img/fe2d68bcb7d1412b8b85897c145de41a/fe2d68bcb7d1412b8b85897c145de41a-1280.png",
+      "https://news.cgtn.com/news/2026-10-11/news-1Ra5cISdAIg/img/8bca3e6dcf984b96b8ecd166a7764daa/8bca3e6dcf984b96b8ecd166a7764daa.jpeg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1656.9138801644444,
+    "is_stale": false,
+    "score": 25.20947733962643,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "اتفاق روسي أوكراني على وقف طاقة — تطور دولي مباشر",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

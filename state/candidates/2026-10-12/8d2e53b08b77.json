@@ -1,0 +1,93 @@
+{
+  "id": "8d2e53b08b77",
+  "created_at": "2026-10-12T17:08:17.969105+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 28.04,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "سباق صواريخ كوري: تطور عسكري إقليمي متسارع",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "North Korea fires missiles days after South Korea’s hypersonic test",
+  "link": "https://www.dailymaverick.co.za/article/2026-10-12-north-korea-fires-missiles-days-after-south-koreas-hypersonic-test/",
+  "publishers": [
+    "AP News",
+    "CBS News — World",
+    "Daily Maverick",
+    "Mehr News",
+    "The Japan Times",
+    "Yonhap News"
+  ],
+  "region": "za",
+  "article": {
+    "title": "North Korea fires missiles days after South Korea’s hypersonic test",
+    "link": "https://www.dailymaverick.co.za/article/2026-10-12-north-korea-fires-missiles-days-after-south-koreas-hypersonic-test/",
+    "summary": "SEOUL, Oct 12 (Reuters) - North Korea fired multiple ballistic missiles toward the sea off its east coast on Monday, South Korea’s military said, marking Pyongyang’s fourth launch in a month and following Seoul’s recent test of a hypersonic missile.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-10-12T04:38:06+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/i/7MIJmuQ39HyGGOOfAuhjyhQaNLo=/800x0/smart/filters:strip_exif()/file/attachments/2998/14356594_915011.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "AP News",
+      "CBS News — World",
+      "Daily Maverick",
+      "Mehr News",
+      "The Japan Times",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-10-12-north-korea-fires-missiles-days-after-south-koreas-hypersonic-test/"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20261012002751315"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20261012002752315"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/10/12/japan/north-korea-multiple-ballistic-missiles-launch/"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/north-korea-fires-ballistic-missiles-tests/"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/248507/North-Korea-fires-several-missiles-Seoul-says"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/i/7MIJmuQ39HyGGOOfAuhjyhQaNLo=/800x0/smart/filters:strip_exif()/file/attachments/2998/14356594_915011.jpg",
+      "https://img.yna.co.kr/photo/yna/YH/2026/10/04/PYH2026100402340031500_P2.jpg",
+      "https://img.yna.co.kr/photo/yna/YH/2026/10/09/PYH2026100906100001300_P2.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/12/568003.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/12/thumbs/400x400/568003.jpg",
+      "https://media.mehrnews.com/d/2025/11/01/4/5752094.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 6,
+    "velocity": 1.0,
+    "age_hours": 1656.9136334366667,
+    "is_stale": false,
+    "score": 28.0385329084968,
+    "impact": 1,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "سباق صواريخ كوري: تطور عسكري إقليمي متسارع",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

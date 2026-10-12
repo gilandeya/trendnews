@@ -1,0 +1,78 @@
+{
+  "id": "1beb17cdb799",
+  "created_at": "2026-10-12T17:08:17.968352+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 35.34,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 3,
+  "appeal_note": "مجزرة على الحدود السودانية: آلاف العمال وغموض الجهة المسؤولة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "72 Killed In Airstrike On Gold Mine At Sudan-Egypt Disputed Border",
+  "link": "https://www.ndtv.com/world-news/72-killed-in-airstrike-on-gold-mine-at-sudan-egypt-disputed-border-12172177#publisher=newsstand",
+  "publishers": [
+    "AP News",
+    "Al Jazeera English",
+    "AllAfrica",
+    "Deutsche Welle",
+    "NDTV — World"
+  ],
+  "region": "in",
+  "article": {
+    "title": "72 Killed In Airstrike On Gold Mine At Sudan-Egypt Disputed Border",
+    "link": "https://www.ndtv.com/world-news/72-killed-in-airstrike-on-gold-mine-at-sudan-egypt-disputed-border-12172177#publisher=newsstand",
+    "summary": "A survivor said there were thousands of people working at the remote site.",
+    "source_name": "NDTV — World",
+    "region": "in",
+    "weight": 0.9,
+    "published": "2026-10-12T05:29:05+00:00",
+    "image_url": "https://c.ndtvimg.com/2026-09/sj4dtaqo_sudan-gold-mining-residues_625x300_16_September_26.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720",
+    "publisher": "NDTV — World",
+    "cluster_sources": [
+      "AP News",
+      "Al Jazeera English",
+      "AllAfrica",
+      "Deutsche Welle",
+      "NDTV — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/10/12/deadly-gold-mine-air-strikes-highlight-egypt-sudan-border-insecurity?traffic_source=rss"
+      },
+      {
+        "name": "Deutsche Welle",
+        "link": "https://www.dw.com/en/air-strikes-kill-dozens-of-gold-miners-on-sudan-egypt-border/a-79634889?maca=en-rss-en-world-4025-rdf"
+      },
+      {
+        "name": "AllAfrica",
+        "link": "https://allafrica.com/stories/202610120126.html"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/72-killed-in-airstrike-on-gold-mine-at-sudan-egypt-disputed-border-12172177#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://c.ndtvimg.com/2026-09/sj4dtaqo_sudan-gold-mining-residues_625x300_16_September_26.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 1656.9136097655557,
+    "is_stale": false,
+    "score": 35.33941117314357,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 3,
+    "appeal_note": "مجزرة على الحدود السودانية: آلاف العمال وغموض الجهة المسؤولة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

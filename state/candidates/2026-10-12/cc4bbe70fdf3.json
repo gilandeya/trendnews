@@ -1,0 +1,72 @@
+{
+  "id": "cc4bbe70fdf3",
+  "created_at": "2026-10-12T17:08:17.969686+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.78,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "إعصار سيمون يهدد المكسيك: كارثة طبيعية قادمة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Hurricane Simon lashes Mexico’s Pacific coast, threatening landfall",
+  "link": "https://www.freemalaysiatoday.com/category/world/2026/10/12/hurricane-simon-lashes-mexico-s-pacific-coast-threatening-landfall",
+  "publishers": [
+    "CBS News",
+    "CBS News — World",
+    "Deutsche Welle",
+    "Free Malaysia Today"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Hurricane Simon lashes Mexico’s Pacific coast, threatening landfall",
+    "link": "https://www.freemalaysiatoday.com/category/world/2026/10/12/hurricane-simon-lashes-mexico-s-pacific-coast-threatening-landfall",
+    "summary": "The US National Hurricane Center said Simon is expected 'to move inland across west-central Mexico around midweek'.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-10-12T11:35:07+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/v3/2026/10/92d5f159-3935-43df-8818-198a95597db1-EPA-Mexico-Storm-11102026.webp",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "CBS News",
+      "CBS News — World",
+      "Deutsche Welle",
+      "Free Malaysia Today"
+    ],
+    "cluster_members": [
+      {
+        "name": "Deutsche Welle",
+        "link": "https://www.dw.com/en/hurricane-simon-batters-mexico-s-pacific-coast/a-79636873?maca=en-rss-en-world-4025-rdf"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/10/12/hurricane-simon-lashes-mexico-s-pacific-coast-threatening-landfall"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/hurricane-simon-takes-aim-mexico-pacific-coast/"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/v3/2026/10/92d5f159-3935-43df-8818-198a95597db1-EPA-Mexico-Storm-11102026.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1656.9138143675,
+    "is_stale": false,
+    "score": 24.780330582888887,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "إعصار سيمون يهدد المكسيك: كارثة طبيعية قادمة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

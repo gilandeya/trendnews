@@ -275,7 +275,7 @@
      "published": "2026-10-06T10:16:28+00:00"
     }
    ],
-   "last_seen": "2026-10-10T09:07:48.714447+00:00",
+   "last_seen": "2026-10-12T17:07:49.159577+00:00",
    "outlets": 20,
    "regions": 16,
    "languages": 3,
@@ -556,7 +556,7 @@
      "published": "2026-10-06T06:12:00+00:00"
     }
    ],
-   "last_seen": "2026-10-12T09:07:45.429910+00:00",
+   "last_seen": "2026-10-12T17:07:49.159577+00:00",
    "outlets": 21,
    "regions": 16,
    "languages": 2,
@@ -1123,6 +1123,260 @@
    "regions": 16,
    "languages": 1,
    "score": 56.0
+  },
+  {
+   "id": "84c54dde451b",
+   "first_seen": "2026-10-11T09:07:45.219118+00:00",
+   "members": [
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Pope says death penalty \"inadmissible\" amid U.S. plans to livestream execution",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/pope-leo-death-penalty-us-fort-hood-execution-firing-squad/",
+     "published": "2026-10-10T15:28:45+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Pope Leo XIV calls death penalty ‘inadmissible’ after US announces plans to livestream Nidal Hasan's execution: ‘Attack on the dignity of the person’",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/pope-leo-xiv-calls-death-penalty-inadmissible-after-us-announces-plans-to-livestream-nidal-hasans-execution-attack-on-the-dignity-of-the-person-101791677637878.html",
+     "published": "2026-10-11T00:20:56+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Pope Leo XIV rejects death penalty as attack on dignity of human person",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQbWcxT3dTZGJmeThXc2pTUDRfcENVU29HM2d3OEVkSUx1N3NTV3ZiWWtMeTFyc0IxVTZ1a3BzeW1sdTJCbkVDZVM2eXd6NFNCY3d6VHdSX1pGNVBCTnVnakhDYnVHQlF4LTFyRkphYWUxY1E1aTVHZDZtaEllVEZXNFJJM0R0S2NSTkRrM3hLZWVuZWtldDI3NlUwYVN3S0tIMU5RMUhFS1djc04yeklWOUMzaw?oc=5",
+     "published": "2026-10-10T11:31:27+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Pope Leo to have surgery after lump found on lung",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c6m2dnngvw8xo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-11T13:38:55+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Pope Leo to undergo surgery to remove lung nodule",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/11/pope-leo-to-undergo-surgery-to-remove-lung-nodule?traffic_source=rss",
+     "published": "2026-10-11T14:59:38+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Pope Leo XIV to undergo surgery after lump found in lung",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/11/pope-leo-xiv-to-undergo-surgery-after-lump-found-in-lung?traffic_source=rss",
+     "published": "2026-10-11T15:24:50+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Pope Leo to undergo surgery for small growth on lung",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3370499/pope-leo-undergo-surgery-small-growth-lung?utm_source=rss_feed",
+     "published": "2026-10-11T10:58:17+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Pope Leo says will undergo surgery for early-stage lung nodule",
+     "language": "en",
+     "link": "https://www.france24.com/en/europe/20261011-pope-leo-says-will-undergo-surgery-for-early-stage-lung-nodule",
+     "published": "2026-10-11T10:34:22+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Pope Leo to undergo surgery for small growth on lung",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/pope-leo-undergo-surgery-small-growth-lung-6450191",
+     "published": "2026-10-11T11:28:00+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Pope Leo XIV to undergo surgery to remove lung nodule",
+     "language": "en",
+     "link": "https://punchng.com/pope-leo-xiv-to-undergo-surgery-to-remove-lung-nodule/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-11T12:57:20+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Pope Leo says he will undergo surgery for small growth on lung",
+     "language": "en",
+     "link": "https://www.france24.com/en/video/20261011-pope-leo-says-he-will-undergo-surgery-for-small-growth-on-lung",
+     "published": "2026-10-11T15:17:39+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Pope Leo Says Will Undergo Surgery \"In Few Days\" To Remove Nodule In Lung",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/pope-leo-says-will-undergo-surgery-in-few-days-to-remove-nodule-in-lung-12169758#publisher=newsstand",
+     "published": "2026-10-11T11:14:33+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Pope Leo XIV announces surgery in coming days after lung nodule detected",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/11/pope-leo-xiv-announces-surgery-in-coming-days-after-lung-nodule-detected/238714",
+     "published": "2026-10-11T11:22:32+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Pope Leo to undergo surgery after nodular lesion found in lung, Vatican says",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/pope-leo-surgery-nodular-lesion-lung-vatican/",
+     "published": "2026-10-11T11:29:22+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Pope Leo says will undergo surgery for small growth on lung",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/11/world/pope-lung-growth/",
+     "published": "2026-10-11T11:59:00+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Pope Leo XIV to undergo lung surgery this week",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/11/nx-s1-5998027/pope-leo-xiv-to-undergo-lung-surgery-this-week",
+     "published": "2026-10-11T12:54:25+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Pope Leo to have surgery after lump found in lung",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/pope-leo-to-have-surgery-after-lump-found-in-lung/",
+     "published": "2026-10-11T14:48:41+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Pope Leo XIV says is to undergo lung surgery",
+     "language": "en",
+     "link": "https://tass.com/world/2200547",
+     "published": "2026-10-11T15:07:03+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Pope Leo to have surgery to remove nodule on his lung",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOWXJhZDdLSEp6QkVPZDJZQlZDNGhxeDJvWmpJWjJnRUFEeWJXcXlvaWtQNGRKOHhHN2JscmVNNy1wYWd0bTNTbWNHNUZCc3VxRk5jalJDeURhNDlzNmphOFRTSmFqSG5DUVJ3cVNvd2pfRG94QjBXTm5pcVFWc0Q3NGQ4cHRRV1c3?oc=5",
+     "published": "2026-10-11T15:20:00+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Pope Leo to undergo surgery for growth on lung",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/pope-leo-to-undergo-surgery-for-growth-on-lung/article71572904.ece",
+     "published": "2026-10-12T04:51:11+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Pope Leo continues working after lung surgery announcement",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/12/pope-leo-continues-working-after-lung-surgery-announcement?traffic_source=rss",
+     "published": "2026-10-12T16:10:01+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Pope to undergo lung surgery Tuesday",
+     "language": "en",
+     "link": "https://punchng.com/pope-to-undergo-lung-surgery-tuesday/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-12T15:49:20+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Pope Leo to go to hospital Tuesday for lung nodule surgery",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/pope-leo-hospital-lung-nodule-surgery/",
+     "published": "2026-10-12T16:44:01+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Pope Leo to be hospitalized Tuesday for surgery to remove a lung nodule",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQNlhjR0VrVjNqLU1EcjhyRUVHQ3JGR29Lcnc1bUVERllyazdqTWQ1ZFBNZU4yRF9OQ3lwWnJiUTNTQ3d4Q3BQeDJiVzcwSC1PeGpkVXRib3N3dnl3QTRPWVBGOVlTMVdzYjhTbzF2RjBDRG1zX1B2bTB6Q2NrNmh6eXFLekhINHFzdU5uRVVCczVVMTlDaHZVVnU5b2xld0VxMjhKR05IQlNaNVhSZGh3ZmV0Z3Z3d2hIVUE?oc=5",
+     "published": "2026-10-12T12:53:08+00:00"
+    },
+    {
+     "outlet": "MercoPress",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "Pope Leo XIV to undergo surgery on a lung nodule a month before his tour of Uruguay, Argentina and Peru",
+     "language": "en",
+     "link": "https://en.mercopress.com/2026/10/12/pope-leo-xiv-to-undergo-surgery-on-a-lung-nodule-a-month-before-his-tour-of-uruguay-argentina-and-peru?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
+     "published": "2026-10-12T08:59:00+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Pope Leo XIV to have surgery to remove lung nodule",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/12/pope-leo-xiv-to-have-surgery-to-remove-lung-nodule/",
+     "published": "2026-10-12T10:56:47+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Pope Leo sticks to busy schedule before surgery to remove lung nodule",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/12/pope-leo-sticks-to-busy-schedule-before-surgery-to-remove-lung-nodule",
+     "published": "2026-10-12T10:15:12+00:00"
+    }
+   ],
+   "last_seen": "2026-10-12T17:07:49.159577+00:00",
+   "outlets": 19,
+   "regions": 15,
+   "languages": 1,
+   "score": 51.0
   },
   {
    "id": "363605fbbb2b",
@@ -2696,202 +2950,11 @@
      "published": "2026-10-11T15:10:27+00:00"
     }
    ],
-   "last_seen": "2026-10-12T09:07:45.429910+00:00",
+   "last_seen": "2026-10-12T17:07:49.159577+00:00",
    "outlets": 18,
    "regions": 13,
    "languages": 1,
    "score": 46.0
-  },
-  {
-   "id": "84c54dde451b",
-   "first_seen": "2026-10-11T09:07:45.219118+00:00",
-   "members": [
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Pope says death penalty \"inadmissible\" amid U.S. plans to livestream execution",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/pope-leo-death-penalty-us-fort-hood-execution-firing-squad/",
-     "published": "2026-10-10T15:28:45+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Pope Leo XIV calls death penalty ‘inadmissible’ after US announces plans to livestream Nidal Hasan's execution: ‘Attack on the dignity of the person’",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/pope-leo-xiv-calls-death-penalty-inadmissible-after-us-announces-plans-to-livestream-nidal-hasans-execution-attack-on-the-dignity-of-the-person-101791677637878.html",
-     "published": "2026-10-11T00:20:56+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Pope Leo XIV rejects death penalty as attack on dignity of human person",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQbWcxT3dTZGJmeThXc2pTUDRfcENVU29HM2d3OEVkSUx1N3NTV3ZiWWtMeTFyc0IxVTZ1a3BzeW1sdTJCbkVDZVM2eXd6NFNCY3d6VHdSX1pGNVBCTnVnakhDYnVHQlF4LTFyRkphYWUxY1E1aTVHZDZtaEllVEZXNFJJM0R0S2NSTkRrM3hLZWVuZWtldDI3NlUwYVN3S0tIMU5RMUhFS1djc04yeklWOUMzaw?oc=5",
-     "published": "2026-10-10T11:31:27+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Pope Leo to have surgery after lump found on lung",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c6m2dnngvw8xo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-11T13:38:55+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Pope Leo to undergo surgery to remove lung nodule",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/11/pope-leo-to-undergo-surgery-to-remove-lung-nodule?traffic_source=rss",
-     "published": "2026-10-11T14:59:38+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Pope Leo XIV to undergo surgery after lump found in lung",
-     "language": "en",
-     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/11/pope-leo-xiv-to-undergo-surgery-after-lump-found-in-lung?traffic_source=rss",
-     "published": "2026-10-11T15:24:50+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Pope Leo to undergo surgery for small growth on lung",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/europe/article/3370499/pope-leo-undergo-surgery-small-growth-lung?utm_source=rss_feed",
-     "published": "2026-10-11T10:58:17+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Pope Leo says will undergo surgery for early-stage lung nodule",
-     "language": "en",
-     "link": "https://www.france24.com/en/europe/20261011-pope-leo-says-will-undergo-surgery-for-early-stage-lung-nodule",
-     "published": "2026-10-11T10:34:22+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Pope Leo to undergo surgery for small growth on lung",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/world/pope-leo-undergo-surgery-small-growth-lung-6450191",
-     "published": "2026-10-11T11:28:00+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Pope Leo XIV to undergo surgery to remove lung nodule",
-     "language": "en",
-     "link": "https://punchng.com/pope-leo-xiv-to-undergo-surgery-to-remove-lung-nodule/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-11T12:57:20+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Pope Leo says he will undergo surgery for small growth on lung",
-     "language": "en",
-     "link": "https://www.france24.com/en/video/20261011-pope-leo-says-he-will-undergo-surgery-for-small-growth-on-lung",
-     "published": "2026-10-11T15:17:39+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Pope Leo Says Will Undergo Surgery \"In Few Days\" To Remove Nodule In Lung",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/pope-leo-says-will-undergo-surgery-in-few-days-to-remove-nodule-in-lung-12169758#publisher=newsstand",
-     "published": "2026-10-11T11:14:33+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Pope Leo XIV announces surgery in coming days after lung nodule detected",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/11/pope-leo-xiv-announces-surgery-in-coming-days-after-lung-nodule-detected/238714",
-     "published": "2026-10-11T11:22:32+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Pope Leo to undergo surgery after nodular lesion found in lung, Vatican says",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/pope-leo-surgery-nodular-lesion-lung-vatican/",
-     "published": "2026-10-11T11:29:22+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Pope Leo says will undergo surgery for small growth on lung",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/11/world/pope-lung-growth/",
-     "published": "2026-10-11T11:59:00+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Pope Leo XIV to undergo lung surgery this week",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/11/nx-s1-5998027/pope-leo-xiv-to-undergo-lung-surgery-this-week",
-     "published": "2026-10-11T12:54:25+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Pope Leo to have surgery after lump found in lung",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/pope-leo-to-have-surgery-after-lump-found-in-lung/",
-     "published": "2026-10-11T14:48:41+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Pope Leo XIV says is to undergo lung surgery",
-     "language": "en",
-     "link": "https://tass.com/world/2200547",
-     "published": "2026-10-11T15:07:03+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Pope Leo to have surgery to remove nodule on his lung",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOWXJhZDdLSEp6QkVPZDJZQlZDNGhxeDJvWmpJWjJnRUFEeWJXcXlvaWtQNGRKOHhHN2JscmVNNy1wYWd0bTNTbWNHNUZCc3VxRk5jalJDeURhNDlzNmphOFRTSmFqSG5DUVJ3cVNvd2pfRG94QjBXTm5pcVFWc0Q3NGQ4cHRRV1c3?oc=5",
-     "published": "2026-10-11T15:20:00+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Pope Leo to undergo surgery for growth on lung",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/pope-leo-to-undergo-surgery-for-growth-on-lung/article71572904.ece",
-     "published": "2026-10-12T04:51:11+00:00"
-    }
-   ],
-   "last_seen": "2026-10-12T09:07:45.429910+00:00",
-   "outlets": 16,
-   "regions": 13,
-   "languages": 1,
-   "score": 44.0
   },
   {
    "id": "61fa5cba09fb",
@@ -3348,9 +3411,18 @@
      "language": "en",
      "link": "https://en.irna.ir/news/86289861/Security-chief-US-response-to-Iran-s-7-conditions-insufficient",
      "published": "2026-10-11T16:55:00+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Iran maintains indirect comms as it weighs US' Hormuz plan reply",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/mid-east/iran-maintains-indirect-comms-as-it-weighs-us-hormuz-plan-reply",
+     "published": "2026-10-12T09:43:00+00:00"
     }
    ],
-   "last_seen": "2026-10-12T09:07:45.429910+00:00",
+   "last_seen": "2026-10-12T17:07:49.159577+00:00",
    "outlets": 17,
    "regions": 12,
    "languages": 1,
@@ -3527,6 +3599,179 @@
    "outlets": 15,
    "regions": 12,
    "languages": 1,
+   "score": 41.0
+  },
+  {
+   "id": "2c8b7acb76f3",
+   "first_seen": "2026-10-11T17:07:45.259726+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "At least 139 dead, 84 missing as migrant boat capsizes off Djibouti",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/11/at-least-109-dead-over-100-missing-as-migrant-boat-capsizes-off-djibouti?traffic_source=rss",
+     "published": "2026-10-11T11:34:40+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Children among 139 dead after boat capsizes off Djibouti, UN says",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cwy7lxx60dg5o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-11T15:32:23+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "At least 139 migrants dead, including some children, after boat from Djibouti to Yemen capsizes, UN agency says",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2036408/at-least-139-migrants-dead-including-some-children-after-boat-from-djibouti-to-yemen-capsizes-un-agency-says",
+     "published": "2026-10-11T15:36:57+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "At least 139 migrants dead, more than 84 missing after boat capsizes off Djibouti",
+     "language": "en",
+     "link": "https://www.france24.com/en/africa/20261011-at-least-hundred-migrants-dead-scores-missing-after-boat-capsizes-off-djibouti",
+     "published": "2026-10-11T09:24:40+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "At least 139 people dead after migrant boat capsizes off Djibouti",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/11/at-least-139-people-dead-after-migrant-boat-capsizes-off-djibouti/",
+     "published": "2026-10-11T15:19:39+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "UN reports 109 dead when migrant boat capsizes off Djibouti",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/africa/un-reports-109-dead-when-migrant-boat-capsizes-off-djibouti",
+     "published": "2026-10-11T09:50:00+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "At least 139 migrants, including children, killed after boat capsizes off Djibouti; 84 missing",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/boat-capsizes-off-coast-of-djibouti-in-east-africa-death-toll-injured-migrants-children-rescue-operations-101791717482564.html",
+     "published": "2026-10-11T11:19:56+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "139 Migrants, Including Children, Dead After Boat Overturns Off Djibouti",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/109-migrants-including-15-children-dead-after-boat-overturns-off-djibouti-12170218#publisher=newsstand",
+     "published": "2026-10-11T14:08:03+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Children among 109 dead after boat capsizes off Djibouti, UN says",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/children-among-109-dead-after-boat-capsizes-off-djibouti-un-says/",
+     "published": "2026-10-11T14:20:56+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Djibouti boat capsize: Children among 109 dead with 116 still missing, UN says",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9jMVZWeHN5VjRNUTVZUnlwS0pLMzhsYlJOUHVzY05LTGVycnVSa3AyVGlTOW1FYVhwMmF5bWtPU3N2Q05oaUsySGN0R1ZXMV9ObmpZSXcwZ2xiWTg?oc=5",
+     "published": "2026-10-11T12:08:20+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "At least 139 dead as migrant boat from Djibouti to Yemen capsizes",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/12/at-least-139-dead-as-migrant-boat-from-djibouti-to-yemen-capsizes?traffic_source=rss",
+     "published": "2026-10-12T03:09:11+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "At least 139 migrants dead, dozens missing after boat capsizes off Djibouti",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/middle-east/article/3370522/least-139-migrants-dead-dozens-missing-after-boat-capsizes-djibouti?utm_source=rss_feed",
+     "published": "2026-10-12T01:05:42+00:00"
+    },
+    {
+     "outlet": "Rappler",
+     "region": "ph",
+     "bucket": "serious",
+     "title": "At least 139 migrants dead after boat from Djibouti to Yemen capsizes, UN agency says",
+     "language": "en",
+     "link": "https://www.rappler.com/world/africa/migrants-deaths-boat-djibouti-yemen-capsizes-october-2026/",
+     "published": "2026-10-12T03:09:59+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "At least 139 migrants dead, including some children, after boat from Djibouti to Yemen capsizes, UN agency says",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/at-least-139-migrants-dead-including-some-children-after-boat-from-djibouti-to-yemen-capsizes-un-agency-says/",
+     "published": "2026-10-12T02:06:00+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "139 Migrants Die As Overcrowded Yemen-Headed Boat Capsizes Off Djibouti",
+     "language": "de",
+     "link": "https://www.ndtv.com/world-news/139-migrants-die-as-overcrowded-yemen-headed-boat-capsizes-off-djibouti-east-africa-12172139#publisher=newsstand",
+     "published": "2026-10-12T05:14:26+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Over 100 Migrants Are Dead After Boat Capsizes Near Djibouti",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPZHNjanMzTk9UN254YWxOMktHR2xBTVhmUlNIc21rdGEwYUVwZzlhMVE2YlhyclIyTktOaUl0NmNoSTE4UFFjR2ZrenhCRXEwenFoVk9yTlc4R0RhWHZSeGlSU2o1T2RrOW5JRkdvRlhaNHU1b29jUmp6VlViUXg3SFpVbmJrVUtIX2l1Rm9kZWtyb25TRHBmVw?oc=5",
+     "published": "2026-10-11T14:38:27+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "139 people dead, including 15 children, after migrant boat capsizes",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/migrant-boat-capsizes-djibouti-over-100-dead/",
+     "published": "2026-10-12T10:45:43+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "139 migrants, including children, die after boat capsizes off Djibouti",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOTDZ6aGY5VTg1dXZJY3NBSzM3OGtrRG1sS0JFaXdXVjdQRzUzUUd2Y1EyWVcxN0VHWHppU2M4dEJJZTg2em43X2FPNzRPaHhXYU9nNU9oV1F5eER2ZEdCdGRxZ0M4TUpFZl9FOFlmSUxmekFHQlNxcFF3T1VVd0Z2dkhvSTNQNWNGendJc0xLZ1ZPUGdwc0tPckdzTGc4QVRsVWFMT3RHY3k?oc=5",
+     "published": "2026-10-12T04:44:11+00:00"
+    }
+   ],
+   "last_seen": "2026-10-12T17:07:49.159577+00:00",
+   "outlets": 13,
+   "regions": 12,
+   "languages": 2,
    "score": 41.0
   },
   {
@@ -4312,168 +4557,249 @@
      "language": "en",
      "link": "https://en.yna.co.kr/view/AEN20261012002751315",
      "published": "2026-10-12T03:10:39+00:00"
+    },
+    {
+     "outlet": "Yonhap News",
+     "region": "kr",
+     "bucket": "serious",
+     "title": "(3rd LD) N. Korea fires multiple ballistic missiles after S. Korea's hypersonic weapon test",
+     "language": "en",
+     "link": "https://en.yna.co.kr/view/AEN20261012002752315",
+     "published": "2026-10-12T09:23:25+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "North Korea fires multiple ballistic missiles, adding to streak of weapons tests",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPZ2FsdGE3YUJ5V3VpbjBDWEpDaF9FMk9IbE9ZWFRUZ0l2SEJmQi1pbFZxNzFscG5LVDJiUUxpRzZ3c2dvbzl0R3RWQmlKTTN0TDdwX1FST0IydGp5c0NwY0lpTTFOQklXZU5LZ2piMnBQRl9pcUg2M3VLTTVSU1k1NngwMkdab3BWeVFuUXh2NTBCTld2?oc=5",
+     "published": "2026-10-12T06:50:00+00:00"
     }
    ],
-   "last_seen": "2026-10-12T09:07:45.429910+00:00",
+   "last_seen": "2026-10-12T17:07:49.159577+00:00",
    "outlets": 14,
    "regions": 12,
    "languages": 1,
    "score": 40.0
   },
   {
-   "id": "2c8b7acb76f3",
-   "first_seen": "2026-10-11T17:07:45.259726+00:00",
+   "id": "c2196a3d81fa",
+   "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
     {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
+     "outlet": "Premium Times",
+     "region": "ng",
      "bucket": "serious",
-     "title": "At least 139 dead, 84 missing as migrant boat capsizes off Djibouti",
+     "title": "UPDATED: Nigerian military aircraft crashes in Ondo",
      "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/11/at-least-109-dead-over-100-missing-as-migrant-boat-capsizes-off-djibouti?traffic_source=rss",
-     "published": "2026-10-11T11:34:40+00:00"
+     "link": "https://www.premiumtimesng.com/regional/ssouth-west/914599-helicopter-crashes-in-ondo.html",
+     "published": "2026-10-05T12:36:45+00:00"
     },
     {
-     "outlet": "BBC World",
-     "region": "uk",
+     "outlet": "Punch Nigeria",
+     "region": "ng",
      "bucket": "serious",
-     "title": "Children among 139 dead after boat capsizes off Djibouti, UN says",
+     "title": "UPDATED: Military aircraft crashed near Ondo naval base, 32 on board",
      "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cwy7lxx60dg5o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-11T15:32:23+00:00"
+     "link": "https://punchng.com/updated-military-aircraft-crashed-near-ondo-naval-base-32-on-board-keyamo/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-05T14:44:55+00:00"
     },
     {
-     "outlet": "Dawn",
-     "region": "pk",
+     "outlet": "AllAfrica",
+     "region": "africa",
      "bucket": "serious",
-     "title": "At least 139 migrants dead, including some children, after boat from Djibouti to Yemen capsizes, UN agency says",
+     "title": "Nigeria: Breaking - 32 People On Board Crashed Nigerian Military Aircraft",
      "language": "en",
-     "link": "https://www.dawn.com/news/2036408/at-least-139-migrants-dead-including-some-children-after-boat-from-djibouti-to-yemen-capsizes-un-agency-says",
-     "published": "2026-10-11T15:36:57+00:00"
+     "link": "https://allafrica.com/stories/202610050482.html",
+     "published": "2026-10-05T15:03:59+00:00"
     },
     {
-     "outlet": "France24",
-     "region": "eu",
+     "outlet": "Punch Nigeria",
+     "region": "ng",
      "bucket": "serious",
-     "title": "At least 139 migrants dead, more than 84 missing after boat capsizes off Djibouti",
+     "title": "NAF confirms crashed military aircraft in Ondo",
      "language": "en",
-     "link": "https://www.france24.com/en/africa/20261011-at-least-hundred-migrants-dead-scores-missing-after-boat-capsizes-off-djibouti",
-     "published": "2026-10-11T09:24:40+00:00"
+     "link": "https://punchng.com/naf-confirms-crashed-military-aircraft-in-ondo/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-05T15:12:19+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Nigeria military aircraft with 32 on board crashes",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/nigeria-military-aircraft-with-32-on-board-crashes/",
+     "published": "2026-10-05T14:08:15+00:00"
     },
     {
      "outlet": "Africanews",
      "region": "africa",
      "bucket": "serious",
-     "title": "At least 139 people dead after migrant boat capsizes off Djibouti",
+     "title": "Military aircraft with 32 people on board crashes in southern Nigeria",
      "language": "en",
-     "link": "http://www.africanews.com/2026/10/11/at-least-139-people-dead-after-migrant-boat-capsizes-off-djibouti/",
-     "published": "2026-10-11T15:19:39+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "UN reports 109 dead when migrant boat capsizes off Djibouti",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/africa/un-reports-109-dead-when-migrant-boat-capsizes-off-djibouti",
-     "published": "2026-10-11T09:50:00+00:00"
+     "link": "http://www.africanews.com/2026/10/05/military-aircraft-with-32-people-on-board-crashes-in-southern-nigeria/",
+     "published": "2026-10-05T14:51:17+00:00"
     },
     {
      "outlet": "Hindustan Times — World",
      "region": "in",
      "bucket": "serious",
-     "title": "At least 139 migrants, including children, killed after boat capsizes off Djibouti; 84 missing",
+     "title": "All 32 onboard killed after military aircraft crashes in southern Nigeria: President Bola Tinubu",
      "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/boat-capsizes-off-coast-of-djibouti-in-east-africa-death-toll-injured-migrants-children-rescue-operations-101791717482564.html",
-     "published": "2026-10-11T11:19:56+00:00"
+     "link": "https://www.hindustantimes.com/world-news/military-aircraft-with-32-people-on-board-crashes-in-southern-nigeria-rescue-operations-on-101791214311017.html",
+     "published": "2026-10-05T16:35:49+00:00"
     },
     {
      "outlet": "NDTV — World",
      "region": "in",
      "bucket": "serious",
-     "title": "139 Migrants, Including Children, Dead After Boat Overturns Off Djibouti",
+     "title": "Nigerian Military Aircraft With 32 Onboard Crashes, Rescue Ops Underway",
      "language": "en",
-     "link": "https://www.ndtv.com/world-news/109-migrants-including-15-children-dead-after-boat-overturns-off-djibouti-12170218#publisher=newsstand",
-     "published": "2026-10-11T14:08:03+00:00"
+     "link": "https://www.ndtv.com/world-news/nigerian-military-aircraft-with-32-onboard-crashes-rescue-ops-underway-12141960#publisher=newsstand",
+     "published": "2026-10-05T14:16:20+00:00"
     },
     {
      "outlet": "MyJoyOnline Ghana",
      "region": "gh",
      "bucket": "serious",
-     "title": "Children among 109 dead after boat capsizes off Djibouti, UN says",
+     "title": "Nigerian military aircraft crashes, killing 32",
      "language": "en",
-     "link": "https://www.myjoyonline.com/children-among-109-dead-after-boat-capsizes-off-djibouti-un-says/",
-     "published": "2026-10-11T14:20:56+00:00"
+     "link": "https://www.myjoyonline.com/nigerian-military-aircraft-crashes-killing-32/",
+     "published": "2026-10-05T22:33:53+00:00"
     },
     {
      "outlet": "Google News — World",
      "region": "global",
      "bucket": "serious",
-     "title": "Djibouti boat capsize: Children among 109 dead with 116 still missing, UN says",
+     "title": "Nigerian military aircraft crashes, killing 32",
      "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9jMVZWeHN5VjRNUTVZUnlwS0pLMzhsYlJOUHVzY05LTGVycnVSa3AyVGlTOW1FYVhwMmF5bWtPU3N2Q05oaUsySGN0R1ZXMV9ObmpZSXcwZ2xiWTg?oc=5",
-     "published": "2026-10-11T12:08:20+00:00"
+     "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNcTVNcjc5Rk9CNVRSWWwtNm96QmVtNGFKQVFTOGwzVmY4d29peTJ4UGFIWEpZLWF1ODFMSkszT3YyZ3N5SFNkSXBSYmd5dnhDYmwwWjU1UGpKUEJmVWZJbldGTWhQRFlnU1RFNVhKOFBEYi1YZkdvY1B2ZnJkcXBHbEg3UWNVNkVVWWRaM2RKOC1ZOVlia0xGYU9SSmxUanFscURjRjU0RlI5bFlXYXFEcE85SC1BODRKYjVMdW5n?oc=5",
+     "published": "2026-10-05T20:55:24+00:00"
     },
     {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
+     "outlet": "Daily Sabah",
+     "region": "tr",
      "bucket": "serious",
-     "title": "At least 139 dead as migrant boat from Djibouti to Yemen capsizes",
+     "title": "Türkiye extends condolences to Nigeria over deadly military plane crash",
      "language": "en",
-     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/12/at-least-139-dead-as-migrant-boat-from-djibouti-to-yemen-capsizes?traffic_source=rss",
-     "published": "2026-10-12T03:09:11+00:00"
+     "link": "https://www.dailysabah.com/politics/diplomacy/turkiye-extends-condolences-to-nigeria-over-deadly-military-plane-crash",
+     "published": "2026-10-05T20:52:00+00:00"
     },
     {
-     "outlet": "South China Morning Post",
-     "region": "cn",
+     "outlet": "Free Malaysia Today",
+     "region": "my",
      "bucket": "serious",
-     "title": "At least 139 migrants dead, dozens missing after boat capsizes off Djibouti",
+     "title": "Military plane crash kills 32 in Nigeria",
      "language": "en",
-     "link": "https://www.scmp.com/news/world/middle-east/article/3370522/least-139-migrants-dead-dozens-missing-after-boat-capsizes-djibouti?utm_source=rss_feed",
-     "published": "2026-10-12T01:05:42+00:00"
-    },
-    {
-     "outlet": "Rappler",
-     "region": "ph",
-     "bucket": "serious",
-     "title": "At least 139 migrants dead after boat from Djibouti to Yemen capsizes, UN agency says",
-     "language": "en",
-     "link": "https://www.rappler.com/world/africa/migrants-deaths-boat-djibouti-yemen-capsizes-october-2026/",
-     "published": "2026-10-12T03:09:59+00:00"
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/military-plane-crash-kills-32-in-nigeria",
+     "published": "2026-10-05T23:37:00+00:00"
     },
     {
      "outlet": "MyJoyOnline Ghana",
      "region": "gh",
      "bucket": "serious",
-     "title": "At least 139 migrants dead, including some children, after boat from Djibouti to Yemen capsizes, UN agency says",
+     "title": "Nigeria launches rescue after military plane crashes with 32 aboard",
      "language": "en",
-     "link": "https://www.myjoyonline.com/at-least-139-migrants-dead-including-some-children-after-boat-from-djibouti-to-yemen-capsizes-un-agency-says/",
-     "published": "2026-10-12T02:06:00+00:00"
+     "link": "https://www.myjoyonline.com/nigeria-launches-rescue-after-military-plane-crashes-with-32-aboard/",
+     "published": "2026-10-05T19:07:58+00:00"
     },
     {
-     "outlet": "NDTV — World",
-     "region": "in",
+     "outlet": "Premium Times",
+     "region": "ng",
      "bucket": "serious",
-     "title": "139 Migrants Die As Overcrowded Yemen-Headed Boat Capsizes Off Djibouti",
-     "language": "de",
-     "link": "https://www.ndtv.com/world-news/139-migrants-die-as-overcrowded-yemen-headed-boat-capsizes-off-djibouti-east-africa-12172139#publisher=newsstand",
-     "published": "2026-10-12T05:14:26+00:00"
+     "title": "Military Aircraft Crash: Tinubu declares three-day mourning, says victims to be named",
+     "language": "en",
+     "link": "https://www.premiumtimesng.com/news/top-news/914783-military-aircraft-crash-tinubu-declares-three-day-mourning-says-victims-to-be-named.html",
+     "published": "2026-10-05T20:47:30+00:00"
     },
     {
-     "outlet": "Google News — World",
-     "region": "global",
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
      "bucket": "serious",
-     "title": "Over 100 Migrants Are Dead After Boat Capsizes Near Djibouti",
+     "title": "Nigeria declares three days of mourning after military aircraft crash kills 32",
      "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPZHNjanMzTk9UN254YWxOMktHR2xBTVhmUlNIc21rdGEwYUVwZzlhMVE2YlhyclIyTktOaUl0NmNoSTE4UFFjR2ZrenhCRXEwenFoVk9yTlc4R0RhWHZSeGlSU2o1T2RrOW5JRkdvRlhaNHU1b29jUmp6VlViUXg3SFpVbmJrVUtIX2l1Rm9kZWtyb25TRHBmVw?oc=5",
-     "published": "2026-10-11T14:38:27+00:00"
+     "link": "https://www.myjoyonline.com/nigeria-declares-three-days-of-mourning-after-military-aircraft-crash-kills-32/",
+     "published": "2026-10-06T08:58:39+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Nigeria mourns 32 killed as military plane crashes into swamp",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/ck1wvjer20qqo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-06T09:02:03+00:00"
+    },
+    {
+     "outlet": "AllAfrica",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Nigeria: Air Force Unveils Identities of Ondo Crash Victims",
+     "language": "en",
+     "link": "https://allafrica.com/stories/202610060218.html",
+     "published": "2026-10-06T10:40:14+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Nigeria air force lowers plane crash toll to 25, civilians among victims",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/06/nigeria-air-force-lowers-plane-crash-toll-to-25-civilians-among-victims/",
+     "published": "2026-10-06T11:22:19+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "2 Pakistan Army pilots martyred as training aircraft crashes in Quetta: ISPR",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2036611/2-pakistan-army-pilots-martyred-as-training-aircraft-crashes-in-quetta-ispr",
+     "published": "2026-10-12T14:09:17+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Two Pakistan Army pilots martyred after training aircraft crashes near Quetta: ISPR",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2634414/two-pakistan-army-pilots-martyred-after-training-aircraft-crashes-near-quetta-ispr",
+     "published": "2026-10-12T04:23:34+00:00"
+    },
+    {
+     "outlet": "Geo News",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Two Pakistan Army pilots martyred in trainer aircraft crash incident in Quetta",
+     "language": "en",
+     "link": "https://www.geo.tv/latest/686143-two-pakistan-army-pilots-martyred-in-trainer-aircraft-crash-incident-near-quetta",
+     "published": "2026-10-12T09:37:00+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "2 army pilots killed in aircraft crash in SW Pakistan",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248529/2-army-pilots-killed-in-aircraft-crash-in-SW-Pakistan",
+     "published": "2026-10-12T13:59:11+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Pakistani army training aircraft crashes, killing two pilots",
+     "language": "en",
+     "link": "https://tass.com/world/2200943",
+     "published": "2026-10-12T12:59:22+00:00"
     }
    ],
-   "last_seen": "2026-10-12T09:07:45.429910+00:00",
-   "outlets": 12,
+   "last_seen": "2026-10-12T17:07:49.159577+00:00",
+   "outlets": 16,
    "regions": 11,
-   "languages": 2,
-   "score": 38.0
+   "languages": 1,
+   "score": 40.0
   },
   {
    "id": "8299e0156b03",
@@ -6253,186 +6579,49 @@
      "language": "en",
      "link": "https://www.myjoyonline.com/woman-injures-three-people-in-third-poland-school-knife-attack-in-a-week/",
      "published": "2026-10-10T17:16:11+00:00"
-    }
-   ],
-   "last_seen": "2026-10-11T09:07:45.219118+00:00",
-   "outlets": 10,
-   "regions": 9,
-   "languages": 1,
-   "score": 30.0
-  },
-  {
-   "id": "c2196a3d81fa",
-   "first_seen": "2026-10-05T15:07:44.573046+00:00",
-   "members": [
-    {
-     "outlet": "Premium Times",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "UPDATED: Nigerian military aircraft crashes in Ondo",
-     "language": "en",
-     "link": "https://www.premiumtimesng.com/regional/ssouth-west/914599-helicopter-crashes-in-ondo.html",
-     "published": "2026-10-05T12:36:45+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "UPDATED: Military aircraft crashed near Ondo naval base, 32 on board",
-     "language": "en",
-     "link": "https://punchng.com/updated-military-aircraft-crashed-near-ondo-naval-base-32-on-board-keyamo/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-05T14:44:55+00:00"
-    },
-    {
-     "outlet": "AllAfrica",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Nigeria: Breaking - 32 People On Board Crashed Nigerian Military Aircraft",
-     "language": "en",
-     "link": "https://allafrica.com/stories/202610050482.html",
-     "published": "2026-10-05T15:03:59+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "NAF confirms crashed military aircraft in Ondo",
-     "language": "en",
-     "link": "https://punchng.com/naf-confirms-crashed-military-aircraft-in-ondo/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-05T15:12:19+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Nigeria military aircraft with 32 on board crashes",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/nigeria-military-aircraft-with-32-on-board-crashes/",
-     "published": "2026-10-05T14:08:15+00:00"
-    },
-    {
-     "outlet": "Africanews",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Military aircraft with 32 people on board crashes in southern Nigeria",
-     "language": "en",
-     "link": "http://www.africanews.com/2026/10/05/military-aircraft-with-32-people-on-board-crashes-in-southern-nigeria/",
-     "published": "2026-10-05T14:51:17+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "All 32 onboard killed after military aircraft crashes in southern Nigeria: President Bola Tinubu",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/military-aircraft-with-32-people-on-board-crashes-in-southern-nigeria-rescue-operations-on-101791214311017.html",
-     "published": "2026-10-05T16:35:49+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Nigerian Military Aircraft With 32 Onboard Crashes, Rescue Ops Underway",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/nigerian-military-aircraft-with-32-onboard-crashes-rescue-ops-underway-12141960#publisher=newsstand",
-     "published": "2026-10-05T14:16:20+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Nigerian military aircraft crashes, killing 32",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/nigerian-military-aircraft-crashes-killing-32/",
-     "published": "2026-10-05T22:33:53+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Nigerian military aircraft crashes, killing 32",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNcTVNcjc5Rk9CNVRSWWwtNm96QmVtNGFKQVFTOGwzVmY4d29peTJ4UGFIWEpZLWF1ODFMSkszT3YyZ3N5SFNkSXBSYmd5dnhDYmwwWjU1UGpKUEJmVWZJbldGTWhQRFlnU1RFNVhKOFBEYi1YZkdvY1B2ZnJkcXBHbEg3UWNVNkVVWWRaM2RKOC1ZOVlia0xGYU9SSmxUanFscURjRjU0RlI5bFlXYXFEcE85SC1BODRKYjVMdW5n?oc=5",
-     "published": "2026-10-05T20:55:24+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Türkiye extends condolences to Nigeria over deadly military plane crash",
-     "language": "en",
-     "link": "https://www.dailysabah.com/politics/diplomacy/turkiye-extends-condolences-to-nigeria-over-deadly-military-plane-crash",
-     "published": "2026-10-05T20:52:00+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Military plane crash kills 32 in Nigeria",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/military-plane-crash-kills-32-in-nigeria",
-     "published": "2026-10-05T23:37:00+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Nigeria launches rescue after military plane crashes with 32 aboard",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/nigeria-launches-rescue-after-military-plane-crashes-with-32-aboard/",
-     "published": "2026-10-05T19:07:58+00:00"
-    },
-    {
-     "outlet": "Premium Times",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Military Aircraft Crash: Tinubu declares three-day mourning, says victims to be named",
-     "language": "en",
-     "link": "https://www.premiumtimesng.com/news/top-news/914783-military-aircraft-crash-tinubu-declares-three-day-mourning-says-victims-to-be-named.html",
-     "published": "2026-10-05T20:47:30+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Nigeria declares three days of mourning after military aircraft crash kills 32",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/nigeria-declares-three-days-of-mourning-after-military-aircraft-crash-kills-32/",
-     "published": "2026-10-06T08:58:39+00:00"
     },
     {
      "outlet": "BBC World",
      "region": "uk",
      "bucket": "serious",
-     "title": "Nigeria mourns 32 killed as military plane crashes into swamp",
+     "title": "Pupil arrested after two teachers shot at French school",
      "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/ck1wvjer20qqo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-06T09:02:03+00:00"
+     "link": "https://www.bbc.co.uk/news/articles/cm2keg7910gvo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-12T14:13:16+00:00"
     },
     {
-     "outlet": "AllAfrica",
-     "region": "africa",
+     "outlet": "Free Malaysia Today",
+     "region": "my",
      "bucket": "serious",
-     "title": "Nigeria: Air Force Unveils Identities of Ondo Crash Victims",
+     "title": "Headmaster shot in French school, teen arrested",
      "language": "en",
-     "link": "https://allafrica.com/stories/202610060218.html",
-     "published": "2026-10-06T10:40:14+00:00"
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/12/headmaster-shot-in-french-school-teen-arrested",
+     "published": "2026-10-12T10:15:19+00:00"
     },
     {
-     "outlet": "Africanews",
-     "region": "africa",
+     "outlet": "NDTV — World",
+     "region": "in",
      "bucket": "serious",
-     "title": "Nigeria air force lowers plane crash toll to 25, civilians among victims",
+     "title": "Headmaster, Teacher Shot With Hunting Rifle In French School, Teen Arrested",
      "language": "en",
-     "link": "http://www.africanews.com/2026/10/06/nigeria-air-force-lowers-plane-crash-toll-to-25-civilians-among-victims/",
-     "published": "2026-10-06T11:22:19+00:00"
+     "link": "https://www.ndtv.com/world-news/headmaster-teacher-shot-with-hunting-rifle-in-french-school-teen-arrested-12173578#publisher=newsstand",
+     "published": "2026-10-12T10:35:20+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Pupil arrested after two teachers shot at French school",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/pupil-arrested-after-two-teachers-shot-at-french-school/",
+     "published": "2026-10-12T14:13:42+00:00"
     }
    ],
-   "last_seen": "2026-10-06T15:07:42.509147+00:00",
-   "outlets": 11,
-   "regions": 8,
+   "last_seen": "2026-10-12T17:07:49.159577+00:00",
+   "outlets": 10,
+   "regions": 9,
    "languages": 1,
-   "score": 29.0
+   "score": 30.0
   },
   {
    "id": "c2ed5607be1f",
@@ -6566,6 +6755,143 @@
     }
    ],
    "last_seen": "2026-10-08T18:07:58.260966+00:00",
+   "outlets": 10,
+   "regions": 8,
+   "languages": 1,
+   "score": 28.0
+  },
+  {
+   "id": "4ff16308f748",
+   "first_seen": "2026-10-10T17:07:48.257605+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Drone strike by Sudan paramilitary kills 41 near Ethiopian border, rights group says",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c8vgx9ew571wo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-10T14:49:32+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Rights group says paramilitary drone strike in Sudan killed 41 near Ethiopian border",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/rights-group-says-paramilitary-drone-strike-in-sudan-killed-41-near-ethiopian-border/article71569304.ece",
+     "published": "2026-10-10T16:54:08+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Drone strike by Sudan paramilitary kills 41 near Ethiopian border, rights group says",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/drone-strike-by-sudan-paramilitary-kills-41-near-ethiopian-border-rights-group-says/",
+     "published": "2026-10-10T16:38:42+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Drone strike by Sudan paramilitary kills 41 near Ethiopian border, rights group says",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE43WG51QTk5R3R0d2d3VjNYUE8za0FEZkdUTVdKS1ZVcWVJbk5fQkptYnNWU0JZN1daTkhZVkh2UUROWHpONGZTeEI5ZFRiMXNoaFNIS05iSnZPMVk?oc=5",
+     "published": "2026-10-10T14:49:32+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Dozens of gold prospectors killed in strikes on Egypt-Sudan border, rights group says",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cqy43vrk8wv8o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-11T21:12:44+00:00"
+    },
+    {
+     "outlet": "Deutsche Welle",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Air strikes kill dozens of gold miners on Sudan-Egypt border",
+     "language": "en",
+     "link": "https://www.dw.com/en/air-strikes-kill-dozens-of-gold-miners-on-sudan-egypt-border/a-79634889?maca=en-rss-en-world-4025-rdf",
+     "published": "2026-10-11T19:41:00+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Scores of gold miners killed in air strikes on Egypt-Sudan border, rights group says",
+     "language": "en",
+     "link": "https://www.france24.com/en/africa/20261012-egypt-sudan-border-airstrikes-gold-miners-killed",
+     "published": "2026-10-12T01:28:27+00:00"
+    },
+    {
+     "outlet": "AllAfrica",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Sudan: Air Strikes Kill Dozens of Gold Miners on Sudan-Egypt Border",
+     "language": "en",
+     "link": "https://allafrica.com/stories/202610120126.html",
+     "published": "2026-10-12T05:37:59+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Dozens of gold prospectors killed in strikes on Egypt-Sudan border, rights group says",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/dozens-of-gold-prospectors-killed-in-strikes-on-egypt-sudan-border-rights-group-says/",
+     "published": "2026-10-12T03:47:00+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "72 Killed In Airstrike On Gold Mine At Sudan-Egypt Disputed Border",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/72-killed-in-airstrike-on-gold-mine-at-sudan-egypt-disputed-border-12172177#publisher=newsstand",
+     "published": "2026-10-12T05:29:05+00:00"
+    },
+    {
+     "outlet": "CGTN",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Air strikes kill dozens at Sudan-Egypt border gold mines",
+     "language": "en",
+     "link": "https://newsaf.cgtn.com/news/2026-10-11/Air-strikes-kill-dozens-at-Sudan-Egypt-border-gold-mines-1R9Cp39Nr0I/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+     "published": "2026-10-11T09:54:41+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Dozens of gold prospectors killed in strikes on Egypt-Sudan border, rights group says",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5WcTYtVFBqWGp1RnRSbEM1NlBCcG5hZkpRcUF0OWVCYkJIQTZRNzhLTmNKX2VsUGs3MFBjV2I0c3FJZW9vd1FEZVU4aWtydHJpbmY0cUp5RjN1RVk?oc=5",
+     "published": "2026-10-11T21:12:44+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Deadly gold mine air strikes highlight Egypt-Sudan border insecurity",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/12/deadly-gold-mine-air-strikes-highlight-egypt-sudan-border-insecurity?traffic_source=rss",
+     "published": "2026-10-12T15:30:08+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "A deadly airstrike hits a Sudan-Egypt border gold mine, killing at least 13 miners",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNcE4zVU5aRzlpV0NOaGtxM1BYYmMzc0tRUG9mVHJpZ0NBRHFNd2c0dmlOQjFrX01Fb1cxSDFpa2RzTzFhamlhQVFtYUc5bzczcThPc0poQkdpbG8ydGcySGNBMjZnRkRtbWVQeUpqUXI1a0pwdWVuUUFuY1R3UHg2ZDJmcUZhT3dqeHI2c0ViR3NxcmVsay1OU0pUa01lS0E?oc=5",
+     "published": "2026-10-11T16:17:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-12T17:07:49.159577+00:00",
    "outlets": 10,
    "regions": 8,
    "languages": 1,
@@ -6878,6 +7204,98 @@
     }
    ],
    "last_seen": "2026-10-11T17:07:45.259726+00:00",
+   "outlets": 8,
+   "regions": 8,
+   "languages": 1,
+   "score": 26.0
+  },
+  {
+   "id": "f90631193a91",
+   "first_seen": "2026-10-11T09:07:45.219118+00:00",
+   "members": [
+    {
+     "outlet": "Court House News",
+     "region": "court",
+     "bucket": "light",
+     "title": "Simon strengthens into a Category 4 hurricane as it approaches Mexico’s coast",
+     "language": "en",
+     "link": "https://www.courthousenews.com/simon-strengthens-into-a-category-4-hurricane-as-it-approaches-mexicos-coast/",
+     "published": "2026-10-10T17:52:12+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "light",
+     "title": "Hurricane Simon strengthens to Category 4 off Mexico coast",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/hurricane-simon-intensifies-to-category-4-off-mexico-coast/article71570561.ece",
+     "published": "2026-10-11T03:07:26+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Hurricane Simon strengthens into Category 4 storm as it takes aim at Mexico",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/hurricane-simon-takes-aim-mexico-pacific-coast/",
+     "published": "2026-10-11T03:28:31+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Hurricane Simon strengthens as it nears western Mexico",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/11/hurricane-simon-strengthens-as-it-nears-western-mexico",
+     "published": "2026-10-11T07:31:29+00:00"
+    },
+    {
+     "outlet": "CGTN",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Hurricane Simon strengthens to category 4 as it nears western Mexico",
+     "language": "en",
+     "link": "https://news.cgtn.com/news/2026-10-11/Hurricane-Simon-strengthens-to-category-4-as-it-nears-western-Mexico-1R95S6A4R4k/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+     "published": "2026-10-11T01:00:18+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Hurricane Simon strengthens into Category 4 storm as it takes aim at Mexico's Pacific coast",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQeUVqLWk5eDJ6Z0J0Ny13SFg1M1BaUFhEcnFxaWlXNmp2RlQtdlA3cXlheHBaSHFuRE5aczVtRDgxQU5sTHNDaEdEY2o0TDFJVjFHY3NIb1ZZYi1uYVJYVDN2Q2FHaEc3b0t5VWk5Qmp5bG8yc0JSWG9LVFFXbTRNNjB3?oc=5",
+     "published": "2026-10-11T03:28:31+00:00"
+    },
+    {
+     "outlet": "Phys.org",
+     "region": "science",
+     "bucket": "light",
+     "title": "Hurricane Simon strengthens as it nears western Mexico",
+     "language": "en",
+     "link": "https://phys.org/news/2026-10-hurricane-simon-nears-western-mexico.html",
+     "published": "2026-10-11T16:00:01+00:00"
+    },
+    {
+     "outlet": "Deutsche Welle",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Hurricane Simon batters Mexico's Pacific Coast",
+     "language": "en",
+     "link": "https://www.dw.com/en/hurricane-simon-batters-mexico-s-pacific-coast/a-79636873?maca=en-rss-en-world-4025-rdf",
+     "published": "2026-10-12T06:50:00+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Hurricane Simon lashes Mexico’s Pacific coast, threatening landfall",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/12/hurricane-simon-lashes-mexico-s-pacific-coast-threatening-landfall",
+     "published": "2026-10-12T11:35:07+00:00"
+    }
+   ],
+   "last_seen": "2026-10-12T17:07:49.159577+00:00",
    "outlets": 8,
    "regions": 8,
    "languages": 1,
@@ -7223,119 +7641,92 @@
    "score": 25.0
   },
   {
-   "id": "4ff16308f748",
-   "first_seen": "2026-10-10T17:07:48.257605+00:00",
+   "id": "2cfef58d005e",
+   "first_seen": "2026-10-12T09:07:45.429910+00:00",
    "members": [
     {
-     "outlet": "BBC World",
-     "region": "uk",
+     "outlet": "Al Jazeera English",
+     "region": "qa",
      "bucket": "serious",
-     "title": "Drone strike by Sudan paramilitary kills 41 near Ethiopian border, rights group says",
+     "title": "UK PM Andy Burnham says it is ‘clear’ Russia interfered in 2016 Brexit vote",
      "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c8vgx9ew571wo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-10T14:49:32+00:00"
+     "link": "https://www.aljazeera.com/news/2026/10/12/uk-pm-andy-burnham-says-it-is-clear-russia-interfered-in-2016-brexit-vote?traffic_source=rss",
+     "published": "2026-10-12T01:12:35+00:00"
     },
     {
-     "outlet": "The Hindu — International",
-     "region": "in",
+     "outlet": "South China Morning Post",
+     "region": "cn",
      "bucket": "serious",
-     "title": "Rights group says paramilitary drone strike in Sudan killed 41 near Ethiopian border",
+     "title": "UK’s Burnham says Russia interfered in 2016 Brexit vote",
      "language": "en",
-     "link": "https://www.thehindu.com/news/international/rights-group-says-paramilitary-drone-strike-in-sudan-killed-41-near-ethiopian-border/article71569304.ece",
-     "published": "2026-10-10T16:54:08+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Drone strike by Sudan paramilitary kills 41 near Ethiopian border, rights group says",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/drone-strike-by-sudan-paramilitary-kills-41-near-ethiopian-border-rights-group-says/",
-     "published": "2026-10-10T16:38:42+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Drone strike by Sudan paramilitary kills 41 near Ethiopian border, rights group says",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE43WG51QTk5R3R0d2d3VjNYUE8za0FEZkdUTVdKS1ZVcWVJbk5fQkptYnNWU0JZN1daTkhZVkh2UUROWHpONGZTeEI5ZFRiMXNoaFNIS05iSnZPMVk?oc=5",
-     "published": "2026-10-10T14:49:32+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Dozens of gold prospectors killed in strikes on Egypt-Sudan border, rights group says",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cqy43vrk8wv8o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-11T21:12:44+00:00"
-    },
-    {
-     "outlet": "Deutsche Welle",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Air strikes kill dozens of gold miners on Sudan-Egypt border",
-     "language": "en",
-     "link": "https://www.dw.com/en/air-strikes-kill-dozens-of-gold-miners-on-sudan-egypt-border/a-79634889?maca=en-rss-en-world-4025-rdf",
-     "published": "2026-10-11T19:41:00+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Scores of gold miners killed in air strikes on Egypt-Sudan border, rights group says",
-     "language": "en",
-     "link": "https://www.france24.com/en/africa/20261012-egypt-sudan-border-airstrikes-gold-miners-killed",
-     "published": "2026-10-12T01:28:27+00:00"
-    },
-    {
-     "outlet": "AllAfrica",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Sudan: Air Strikes Kill Dozens of Gold Miners on Sudan-Egypt Border",
-     "language": "en",
-     "link": "https://allafrica.com/stories/202610120126.html",
-     "published": "2026-10-12T05:37:59+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Dozens of gold prospectors killed in strikes on Egypt-Sudan border, rights group says",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/dozens-of-gold-prospectors-killed-in-strikes-on-egypt-sudan-border-rights-group-says/",
-     "published": "2026-10-12T03:47:00+00:00"
+     "link": "https://www.scmp.com/news/world/europe/article/3370514/it-clear-russia-interfered-brexit-referendum-says-uk-pm-burnham?utm_source=rss_feed",
+     "published": "2026-10-11T18:11:43+00:00"
     },
     {
      "outlet": "NDTV — World",
      "region": "in",
      "bucket": "serious",
-     "title": "72 Killed In Airstrike On Gold Mine At Sudan-Egypt Disputed Border",
+     "title": "UK's Andy Burnham Claims Russian Interference In 2016 Brexit Vote",
      "language": "en",
-     "link": "https://www.ndtv.com/world-news/72-killed-in-airstrike-on-gold-mine-at-sudan-egypt-disputed-border-12172177#publisher=newsstand",
-     "published": "2026-10-12T05:29:05+00:00"
+     "link": "https://www.ndtv.com/world-news/uks-andy-burnham-claims-russian-interference-in-2016-brexit-vote-12171247#publisher=newsstand",
+     "published": "2026-10-11T18:36:34+00:00"
     },
     {
-     "outlet": "CGTN",
-     "region": "cn",
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
      "bucket": "serious",
-     "title": "Air strikes kill dozens at Sudan-Egypt border gold mines",
+     "title": "PM says it is ‘clear’ Russia interfered with Brexit vote",
      "language": "en",
-     "link": "https://newsaf.cgtn.com/news/2026-10-11/Air-strikes-kill-dozens-at-Sudan-Egypt-border-gold-mines-1R9Cp39Nr0I/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
-     "published": "2026-10-11T09:54:41+00:00"
+     "link": "https://www.myjoyonline.com/pm-says-it-is-clear-russia-interfered-with-brexit-vote/",
+     "published": "2026-10-12T03:03:00+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "‘Yes, there was’: UK PM Andy Burnham says Russia ‘clearly’ interfered in 2016 Brexit vote",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/yes-there-was-uk-pm-andy-burnham-says-russia-clearly-interfered-in-2016-brexit-vote-101791780378921.html",
+     "published": "2026-10-12T05:24:20+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "UK PM Burnham says 'clear' Russia meddled in Brexit vote",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2634448/uk-pm-burnham-says-clear-russia-meddled-in-brexit-vote",
+     "published": "2026-10-12T10:11:16+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "U.K. PM Burnham says Russia interfered in 2016 Brexit vote",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/uk-pm-burnham-says-russia-interfered-in-2016-brexit-vote/article71575137.ece",
+     "published": "2026-10-12T13:11:57+00:00"
+    },
+    {
+     "outlet": "Investing.com — الاقتصاد",
+     "region": "money",
+     "bucket": "useful",
+     "title": "UK PM Burnham says Russia interfered in 2016 Brexit vote",
+     "language": "en",
+     "link": "https://www.investing.com/news/economy-news/uk-pm-burnham-says-russia-interfered-in-2016-brexit-vote-4944337",
+     "published": "2026-10-12T12:30:51+00:00"
     },
     {
      "outlet": "Google News — World",
      "region": "global",
      "bucket": "serious",
-     "title": "Dozens of gold prospectors killed in strikes on Egypt-Sudan border, rights group says",
+     "title": "UK PM Andy Burnham says it is ‘clear’ Russia interfered in 2016 Brexit vote",
      "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5WcTYtVFBqWGp1RnRSbEM1NlBCcG5hZkpRcUF0OWVCYkJIQTZRNzhLTmNKX2VsUGs3MFBjV2I0c3FJZW9vd1FEZVU4aWtydHJpbmY0cUp5RjN1RVk?oc=5",
-     "published": "2026-10-11T21:12:44+00:00"
+     "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNNVFTc2taSDIwbVVBQ0JmTHkyRnZiWUt6ek82ZVNsTFJIaHo3Y01TUWVKRmI0MnVoVnUxVlRCSlE0eUk3THJiSm9LWUY2dFRKNTVmZUh2bGFOM3BqWnZqdlVpOXVxdGhNeU9NZ3RVazR5N2J6UmE2ZVp4SGgxY1NkUFVnb1o2STNmV1pLT1hONm9NMDltTHh2X2R5cm9YZmpxeF9RUDJ4MEVTZDVwUjI0SHY0eFlTZ9IBuwFBVV95cUxQZnQ3ZElNLUdGTmxUbEREVTNua2hvNTZqMVpSWnVqakUwRnlHemkwYkpES3FXVE53Q1VQZTc0MjV0M3Z1MVRFWGVSMmRoRVNiNV9ma0hvS1J0ZUowa0lNR2ZndW5wOXhVRTFBSmJoSkViT3RRemxucVFUcDZhYkdkTGhCSFQ2QkJ2YzBsUG5zMkxaS2VLdmJ3NG5SYy1VY1Q2Q0xVdzJabjZLclU0c1oyb1dfRnMwa2VCemFv?oc=5",
+     "published": "2026-10-12T01:16:27+00:00"
     }
    ],
-   "last_seen": "2026-10-12T09:07:45.429910+00:00",
+   "last_seen": "2026-10-12T17:07:49.159577+00:00",
    "outlets": 9,
    "regions": 7,
    "languages": 1,
@@ -7760,80 +8151,6 @@
     }
    ],
    "last_seen": "2026-10-10T17:07:48.257605+00:00",
-   "outlets": 7,
-   "regions": 7,
-   "languages": 1,
-   "score": 23.0
-  },
-  {
-   "id": "f90631193a91",
-   "first_seen": "2026-10-11T09:07:45.219118+00:00",
-   "members": [
-    {
-     "outlet": "Court House News",
-     "region": "court",
-     "bucket": "light",
-     "title": "Simon strengthens into a Category 4 hurricane as it approaches Mexico’s coast",
-     "language": "en",
-     "link": "https://www.courthousenews.com/simon-strengthens-into-a-category-4-hurricane-as-it-approaches-mexicos-coast/",
-     "published": "2026-10-10T17:52:12+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "light",
-     "title": "Hurricane Simon strengthens to Category 4 off Mexico coast",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/hurricane-simon-intensifies-to-category-4-off-mexico-coast/article71570561.ece",
-     "published": "2026-10-11T03:07:26+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Hurricane Simon strengthens into Category 4 storm as it takes aim at Mexico",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/hurricane-simon-takes-aim-mexico-pacific-coast/",
-     "published": "2026-10-11T03:28:31+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Hurricane Simon strengthens as it nears western Mexico",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/11/hurricane-simon-strengthens-as-it-nears-western-mexico",
-     "published": "2026-10-11T07:31:29+00:00"
-    },
-    {
-     "outlet": "CGTN",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Hurricane Simon strengthens to category 4 as it nears western Mexico",
-     "language": "en",
-     "link": "https://news.cgtn.com/news/2026-10-11/Hurricane-Simon-strengthens-to-category-4-as-it-nears-western-Mexico-1R95S6A4R4k/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
-     "published": "2026-10-11T01:00:18+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Hurricane Simon strengthens into Category 4 storm as it takes aim at Mexico's Pacific coast",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiggFBVV95cUxQeUVqLWk5eDJ6Z0J0Ny13SFg1M1BaUFhEcnFxaWlXNmp2RlQtdlA3cXlheHBaSHFuRE5aczVtRDgxQU5sTHNDaEdEY2o0TDFJVjFHY3NIb1ZZYi1uYVJYVDN2Q2FHaEc3b0t5VWk5Qmp5bG8yc0JSWG9LVFFXbTRNNjB3?oc=5",
-     "published": "2026-10-11T03:28:31+00:00"
-    },
-    {
-     "outlet": "Phys.org",
-     "region": "science",
-     "bucket": "light",
-     "title": "Hurricane Simon strengthens as it nears western Mexico",
-     "language": "en",
-     "link": "https://phys.org/news/2026-10-hurricane-simon-nears-western-mexico.html",
-     "published": "2026-10-11T16:00:01+00:00"
-    }
-   ],
-   "last_seen": "2026-10-11T17:07:45.259726+00:00",
    "outlets": 7,
    "regions": 7,
    "languages": 1,
@@ -8400,6 +8717,80 @@
    "outlets": 5,
    "regions": 5,
    "languages": 3,
+   "score": 21.0
+  },
+  {
+   "id": "ca8bd8bdf7fd",
+   "first_seen": "2026-10-12T09:07:45.429910+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "China sanctions Paraguay, Belize ministers over Taiwan ties",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/12/china-sanctions-paraguay-belize-ministers-over-taiwan-ties?traffic_source=rss",
+     "published": "2026-10-12T04:58:01+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "China announces sanctions on Paraguay, Belize ministers over Taiwan ties",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/east-asia/china-sanctions-paraguay-belize-ministers-taiwan-6451931",
+     "published": "2026-10-12T03:55:13+00:00"
+    },
+    {
+     "outlet": "Nikkei Asia",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "China sanctions Paraguay, Belize ministers over Taiwan ties",
+     "language": "en",
+     "link": "https://asia.nikkei.com/politics/international-relations/china-sanctions-paraguay-belize-ministers-over-taiwan-ties",
+     "published": "2026-10-12T09:07:33.289126+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "China sanctions ministers from Paraguay and Belize over Taiwan ties",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/12/asia-pacific/china-paraguay-belize-sanctions-taiwan/",
+     "published": "2026-10-12T03:51:00+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "China sanctions Paraguay, Belize ministers, freezes their assets over Taiwan ties; visa ban also imposed",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/china-sanctions-paraguay-belize-ministers-over-diplomatic-ties-with-taiwan-beijing-freezes-assets-and-imposes-visa-bans-101791779894051.html",
+     "published": "2026-10-12T05:00:00+00:00"
+    },
+    {
+     "outlet": "Court House News",
+     "region": "court",
+     "bucket": "light",
+     "title": "China says sanctions on Latin American ministers over Taiwan ties ‘a warning to others’",
+     "language": "en",
+     "link": "https://www.courthousenews.com/china-says-sanctions-on-latin-american-ministers-over-taiwan-ties-a-warning-to-others/",
+     "published": "2026-10-12T16:41:04+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "light",
+     "title": "China sanctions ‘pawn’ Paraguay, Belize ministers over Taiwan ties",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-12-china-sanctions-pawn-paraguay-belize-ministers-over-taiwan-ties/",
+     "published": "2026-10-12T12:17:46+00:00"
+    }
+   ],
+   "last_seen": "2026-10-12T17:07:49.159577+00:00",
+   "outlets": 7,
+   "regions": 6,
+   "languages": 1,
    "score": 21.0
   },
   {
@@ -9193,6 +9584,71 @@
     }
    ],
    "last_seen": "2026-10-12T09:07:45.429910+00:00",
+   "outlets": 6,
+   "regions": 5,
+   "languages": 1,
+   "score": 18.0
+  },
+  {
+   "id": "86aa6aeba5fa",
+   "first_seen": "2026-10-12T17:07:49.159577+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "US agents search home of Ilhan Omar, Trump critic and Congress member",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/12/trump-critic-democratic-rep-ilhan-omars-home-searched-by-federal-agents?traffic_source=rss",
+     "published": "2026-10-12T14:59:53+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "US federal agents raid home of Democratic congresswoman and Trump critic Ilhan Omar",
+     "language": "en",
+     "link": "https://www.france24.com/en/americas/20261012-us-federal-agents-raid-home-of-democratic-congresswoman-and-trump-critic-ilhan-omar",
+     "published": "2026-10-12T15:13:20+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "US federal agents search home of Rep. Ilhan Omar as part of probe",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/americas/us-federal-agents-search-home-of-rep-ilhan-omar-as-part-of-probe",
+     "published": "2026-10-12T14:25:00+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Immigration agents search Congresswoman Ilhan Omar's home",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cvp8glg97393o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-12T16:51:44+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "US authorities raid Congresswoman Ilhan Omar's home following probe into immigration documents",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2036652/us-authorities-raid-congresswoman-ilhan-omars-home-following-probe-into-immigration-documents",
+     "published": "2026-10-12T14:56:47+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "US launches immigration raid of Democratic congresswoman Ilhan Omar's home",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2634435/us-launches-immigration-raid-of-democratic-congresswoman-ilhan-omars-home",
+     "published": "2026-10-12T08:52:03+00:00"
+    }
+   ],
+   "last_seen": "2026-10-12T17:07:49.159577+00:00",
    "outlets": 6,
    "regions": 5,
    "languages": 1,
@@ -10033,62 +10489,6 @@
    "score": 15.0
   },
   {
-   "id": "ca8bd8bdf7fd",
-   "first_seen": "2026-10-12T09:07:45.429910+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "China sanctions Paraguay, Belize ministers over Taiwan ties",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/12/china-sanctions-paraguay-belize-ministers-over-taiwan-ties?traffic_source=rss",
-     "published": "2026-10-12T04:58:01+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "China announces sanctions on Paraguay, Belize ministers over Taiwan ties",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/east-asia/china-sanctions-paraguay-belize-ministers-taiwan-6451931",
-     "published": "2026-10-12T03:55:13+00:00"
-    },
-    {
-     "outlet": "Nikkei Asia",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "China sanctions Paraguay, Belize ministers over Taiwan ties",
-     "language": "en",
-     "link": "https://asia.nikkei.com/politics/international-relations/china-sanctions-paraguay-belize-ministers-over-taiwan-ties",
-     "published": "2026-10-12T09:07:33.289126+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "China sanctions ministers from Paraguay and Belize over Taiwan ties",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/12/asia-pacific/china-paraguay-belize-sanctions-taiwan/",
-     "published": "2026-10-12T03:51:00+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "China sanctions Paraguay, Belize ministers, freezes their assets over Taiwan ties; visa ban also imposed",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/china-sanctions-paraguay-belize-ministers-over-diplomatic-ties-with-taiwan-beijing-freezes-assets-and-imposes-visa-bans-101791779894051.html",
-     "published": "2026-10-12T05:00:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-12T09:07:45.429910+00:00",
-   "outlets": 5,
-   "regions": 4,
-   "languages": 1,
-   "score": 15.0
-  },
-  {
    "id": "b896f6196410",
    "first_seen": "2026-10-12T09:07:45.429910+00:00",
    "members": [
@@ -10133,62 +10533,6 @@
    "outlets": 3,
    "regions": 3,
    "languages": 3,
-   "score": 15.0
-  },
-  {
-   "id": "2cfef58d005e",
-   "first_seen": "2026-10-12T09:07:45.429910+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "UK PM Andy Burnham says it is ‘clear’ Russia interfered in 2016 Brexit vote",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/12/uk-pm-andy-burnham-says-it-is-clear-russia-interfered-in-2016-brexit-vote?traffic_source=rss",
-     "published": "2026-10-12T01:12:35+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "UK’s Burnham says Russia interfered in 2016 Brexit vote",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/europe/article/3370514/it-clear-russia-interfered-brexit-referendum-says-uk-pm-burnham?utm_source=rss_feed",
-     "published": "2026-10-11T18:11:43+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "UK's Andy Burnham Claims Russian Interference In 2016 Brexit Vote",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/uks-andy-burnham-claims-russian-interference-in-2016-brexit-vote-12171247#publisher=newsstand",
-     "published": "2026-10-11T18:36:34+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "PM says it is ‘clear’ Russia interfered with Brexit vote",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/pm-says-it-is-clear-russia-interfered-with-brexit-vote/",
-     "published": "2026-10-12T03:03:00+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "‘Yes, there was’: UK PM Andy Burnham says Russia ‘clearly’ interfered in 2016 Brexit vote",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/yes-there-was-uk-pm-andy-burnham-says-russia-clearly-interfered-in-2016-brexit-vote-101791780378921.html",
-     "published": "2026-10-12T05:24:20+00:00"
-    }
-   ],
-   "last_seen": "2026-10-12T09:07:45.429910+00:00",
-   "outlets": 5,
-   "regions": 4,
-   "languages": 1,
    "score": 15.0
   },
   {
@@ -10906,6 +11250,109 @@
    "score": 14.0
   },
   {
+   "id": "cadd5a26b847",
+   "first_seen": "2026-10-12T17:07:49.159577+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Iran’s Revolutionary Guards ‘almost certainly’ behind RAF Fairford threats, says Burnham",
+     "language": "en",
+     "link": "https://www.theguardian.com/uk-news/2026/oct/12/iran-revolutionary-guards-irgc-raf-fairford-threats",
+     "published": "2026-10-12T15:52:18+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "U.K. PM Burnham says Iran’s IRGC likely behind RAF Fairford incident",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/uk-pm-burnham-says-irans-irgc-likely-behind-raf-fairford-incident/article71576118.ece",
+     "published": "2026-10-12T15:24:46+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "British airbase plot ‘almost certainly directed’ by Iran’s Guards, says UK PM",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/12/british-airbase-plot-almost-certainly-directed-by-iran-s-guards-says-uk-pm",
+     "published": "2026-10-12T15:46:26+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "30 countries condemn Iran over UK airbase incident",
+     "language": "en",
+     "link": "https://punchng.com/30-countries-condemn-iran-over-uk-airbase-incident/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-12T17:25:48+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "UK summons Iran envoy, freezes assets of two nationals",
+     "language": "en",
+     "link": "https://punchng.com/uk-summons-iran-envoy-freezes-assets-of-two-nationals/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-12T17:08:40+00:00"
+    }
+   ],
+   "last_seen": "2026-10-12T17:07:49.159577+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
+  },
+  {
+   "id": "04db9d9be45f",
+   "first_seen": "2026-10-12T17:07:49.159577+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Bergs stuns Alcaraz in Shanghai as Zverev claims year’s top tennis ranking",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/10/12/zizou-bergs-stuns-alcaraz-in-shanghai-as-zverev-claims-year-end-top-ranking?traffic_source=rss",
+     "published": "2026-10-12T14:14:04+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Bergs stuns Alcaraz in Shanghai as Zverev claims year-end top ranking",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/sport/bergs-stuns-alcaraz-in-shanghai-zverev-claims-year-end-top-ranking-6453191",
+     "published": "2026-10-12T12:57:31+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Alcaraz dumped out of Shanghai Masters as Zverev confirmed as year-end No 1",
+     "language": "en",
+     "link": "https://www.skysports.com/tennis/news/12040/13598151/carlos-alcaraz-dumped-out-of-shanghai-masters-in-third-round-by-zizou-bergs-as-alexander-zverev-confirmed-as-year-end-world-no-1",
+     "published": "2026-10-12T13:15:00+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Alcaraz dumped out of Shanghai Masters by Bergs in straight-sets loss",
+     "language": "en",
+     "link": "https://www.dailysabah.com/sports/tennis/alcaraz-dumped-out-of-shanghai-masters-by-bergs-in-straight-sets-loss",
+     "published": "2026-10-12T13:29:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-12T17:07:49.159577+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
+  },
+  {
    "id": "4295e00d2202",
    "first_seen": "2026-10-06T03:07:51.967007+00:00",
    "members": [
@@ -10938,6 +11385,109 @@
     }
    ],
    "last_seen": "2026-10-06T03:07:51.967007+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 2,
+   "score": 13.0
+  },
+  {
+   "id": "b096d9cf93db",
+   "first_seen": "2026-10-12T17:07:49.159577+00:00",
+   "members": [
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Hormuz Strait management strategic duty of Iran Armed Forces",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248525/Hormuz-Strait-management-strategic-duty-of-Iran-Armed-Forces",
+     "published": "2026-10-12T11:39:35+00:00"
+    },
+    {
+     "outlet": "IRNA English",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "‘Iran to counter US naval blockade through strategic management of Strait of Hormuz’",
+     "language": "en",
+     "link": "https://en.irna.ir/news/86290513/Iran-to-counter-US-naval-blockade-through-strategic-management",
+     "published": "2026-10-12T11:28:50+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Iran Guards say struck vessel in Strait of Hormuz",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/iran-guards-say-struck-vessel-in-strait-of-hormuz/article71576235.ece",
+     "published": "2026-10-12T15:36:48+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Iran sets crosshairs on ‘US-UAE’ oil shuttle out of Strait of Hormuz",
+     "language": "en",
+     "link": "https://www.aljazeera.com/economy/2026/10/12/iran-sets-crosshairs-on-us-uae-oil-shuttle-out-of-strait-of-hormuz?traffic_source=rss",
+     "published": "2026-10-12T14:25:55+00:00"
+    },
+    {
+     "outlet": "Tehran Times",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Iran pledges stronger deterrence, asserts sovereignty over Strait of Hormuz",
+     "language": "en",
+     "link": "https://www.tehrantimes.com/news/531006/Iran-pledges-stronger-deterrence-asserts-sovereignty-over-Strait",
+     "published": "2026-10-12T16:34:44+00:00"
+    }
+   ],
+   "last_seen": "2026-10-12T17:07:49.159577+00:00",
+   "outlets": 5,
+   "regions": 3,
+   "languages": 1,
+   "score": 13.0
+  },
+  {
+   "id": "59da4f041184",
+   "first_seen": "2026-10-12T17:07:49.159577+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Fire destroys Marché des Enfants Rouges, ‘coolest market in Paris’",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/12/fire-destroys-marche-des-enfants-rouges-coolest-market-in-paris",
+     "published": "2026-10-12T13:41:21+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Adieu aux ‘Enfants Rouges’: Tears and shock as fire destroys Paris’s oldest covered food market",
+     "language": "en",
+     "link": "https://www.france24.com/en/france/20261012-adieu-aux-enfants-rouges-tears-shock-fire-destroys-paris-oldest-covered-food-market",
+     "published": "2026-10-12T15:28:36+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "France: Fire destroys historic covered food market in Paris",
+     "language": "en",
+     "link": "https://www.france24.com/en/france-fire-destroys-historic-covered-food-market-in-paris",
+     "published": "2026-10-12T16:23:53+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Fire Devastates Paris’s Oldest Covered Food Market, Le Marché des Enfants Rouges",
+     "language": "fr",
+     "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxPRDlmRHMxOTBCY3VfZjVsNjRHYV91SzFxRDhQbEZNN0VXV1QtWHlzdHc0MDdPUDAwWC1VTkxvR01WdjlqQUJXcVBiaWJUcGdaNnd1QlY3NE1lNFk5TmpoaEtlQUVwa3kwM29oSTVaSE9PS3l2TUVOd0oySm9UVDdDUzVJYUZ0S21qLWJvMUJmZElBSmlYb0lWNE9lSlBqOUVF?oc=5",
+     "published": "2026-10-12T12:36:54+00:00"
+    }
+   ],
+   "last_seen": "2026-10-12T17:07:49.159577+00:00",
    "outlets": 3,
    "regions": 3,
    "languages": 2,
@@ -11271,100 +11821,6 @@
    "regions": 3,
    "languages": 1,
    "score": 12.0
-  },
-  {
-   "id": "fb5106e0cd4e",
-   "first_seen": "2026-10-05T15:07:44.573046+00:00",
-   "members": [
-    {
-     "outlet": "Phys.org",
-     "region": "science",
-     "bucket": "useful",
-     "title": "Extreme heat putting pregnant women, newborns at risk: UN climate chief",
-     "language": "en",
-     "link": "https://phys.org/news/2026-10-extreme-pregnant-women-newborns-climate.html",
-     "published": "2026-10-05T07:30:01+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Extreme heat putting births in jeopardy, U.N. climate chief warns",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/climate-change-extreme-heat-births-jeopardy-un-extreme-heat/",
-     "published": "2026-10-05T12:00:00+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Extreme heat putting births in jeopardy, U.N. climate chief warns",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPNEtFR1FyQkJQRFlQV2dRVU5xOVRfNEtNNllzbExuV013Zk51eEFRYWZDOGN3Ykl4ZjB3dVZMOERZVW1aOXR0MllLTWxESVZVcTB5N1A1X0RaM2U5eWIzZmZXNFpldG9zR0hKcEtwSl9MQUcwcTFia2lwQVNraVQwZThZRmRYVGVRSE1qYlpTRFpXa3c?oc=5",
-     "published": "2026-10-05T14:32:12+00:00"
-    }
-   ],
-   "last_seen": "2026-10-05T15:07:44.573046+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "b38ce8fc26e7",
-   "first_seen": "2026-10-05T15:07:44.573046+00:00",
-   "members": [
-    {
-     "outlet": "Yonhap News",
-     "region": "kr",
-     "bucket": "serious",
-     "title": "(URGENT) S. Korean military concludes DMZ blast caused by N. Korean mines 'planted' south of MDL",
-     "language": "en",
-     "link": "https://en.yna.co.kr/view/AEN20261005003700315",
-     "published": "2026-10-05T07:10:31+00:00"
-    },
-    {
-     "outlet": "Yonhap News",
-     "region": "kr",
-     "bucket": "serious",
-     "title": "(LEAD) S. Korean military says N. Korean mines in DMZ blast 'planted' south of border",
-     "language": "en",
-     "link": "https://en.yna.co.kr/view/AEN20261005001251315",
-     "published": "2026-10-05T07:48:20+00:00"
-    },
-    {
-     "outlet": "Yonhap News",
-     "region": "kr",
-     "bucket": "serious",
-     "title": "(2nd LD) S. Korean military concludes N.K.-planted mines caused DMZ blast",
-     "language": "en",
-     "link": "https://en.yna.co.kr/view/AEN20261005001252315",
-     "published": "2026-10-05T09:37:39+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "South Korean probe concludes Pyongyang planted DMZ mines",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/east-asia/south-korea-pyongyang-dmz-mines-6432796",
-     "published": "2026-10-05T09:39:47+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "South Korean probe concludes North Korea planted DMZ mines",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/05/asia-pacific/south-korea-probe-north-mines/",
-     "published": "2026-10-05T09:51:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-05T15:07:44.573046+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
   },
   {
    "id": "62b0dbe529e6",
@@ -12516,6 +12972,158 @@
    "score": 11.0
   },
   {
+   "id": "37227bc43142",
+   "first_seen": "2026-10-12T17:07:49.159577+00:00",
+   "members": [
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "More than 100 foreign trekkers stranded in flood-hit region of Nepal, official says",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-12-more-than-100-foreign-trekkers-stranded-in-flood-hit-region-of-nepal-official-says/",
+     "published": "2026-10-12T12:17:40+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "More than 100 foreign trekkers stranded in flood-hit region of Nepal, official says",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2634441/more-than-100-foreign-trekkers-stranded-in-flood-hit-region-of-nepal-official-says",
+     "published": "2026-10-12T09:16:00+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "More than 100 foreign trekkers stranded in flood-hit region of Nepal, official says",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/nepal-flood-100-stranded-trekkers-landslide-6453776",
+     "published": "2026-10-12T16:37:15+00:00"
+    }
+   ],
+   "last_seen": "2026-10-12T17:07:49.159577+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "067f82fc3add",
+   "first_seen": "2026-10-12T17:07:49.159577+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Fugitive businessman taken into US custody in Venezuela bribery case",
+     "language": "en",
+     "link": "https://www.theguardian.com/us-news/2026/oct/12/fugitive-venezuela-bribery-case",
+     "published": "2026-10-12T13:14:14+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Fugitive businessman taken into US custody in Venezuela bribery case",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/fugitive-businessman-taken-into-us-custody-in-venezuela-bribery-case-101791756677109.html",
+     "published": "2026-10-11T22:11:16+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Fugitive businessman taken into US custody in Venezuela bribery case",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQRWdaNDVEMFNqcUkzSUYwaTYtTl9oazJ1YTZkaG9SWnN3b2VVcEZrdnQ1ZVpXRWhpYXIySzFvcW1QaXZwZEJqczRmeDFQaWYtbGRvcVVZbmpjSlBBZzlneV9fQXRvN0wzaU9JbmZfbE02NUxxczFQWjFGelRhUndGMWpod2NSWlpHZjZSRVZpRjJnQ09wNlRGbE1Ec0gzNF9rVWtzc1dlMXJCaG9S?oc=5",
+     "published": "2026-10-12T00:32:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-12T17:07:49.159577+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "18f426020380",
+   "first_seen": "2026-10-12T17:07:49.159577+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "UK comedian Russell Brand in London court for rape trial start",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3370619/uk-comedian-russell-brand-london-court-rape-trial-start?utm_source=rss_feed",
+     "published": "2026-10-12T11:10:16+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Comedian Russell Brand appears in UK court for start of rape trial",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/12/comedian-russell-brand-appears-in-uk-court-for-start-of-rape-trial/238845",
+     "published": "2026-10-12T10:19:28+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "British comedian Russell Brand’s rape trial begins in London",
+     "language": "en",
+     "link": "https://www.dailysabah.com/arts/british-comedian-russell-brands-rape-trial-begins-in-london/news",
+     "published": "2026-10-12T12:20:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-12T17:07:49.159577+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "dfe4932f7423",
+   "first_seen": "2026-10-12T17:07:49.159577+00:00",
+   "members": [
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Microsoft president says milk faces more regulation than AI",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2634426/microsoft-president-says-milk-faces-more-regulation-than-ai",
+     "published": "2026-10-12T06:52:29+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Milk faces more regulation than AI, Microsoft president says",
+     "language": "en",
+     "link": "https://www.dailysabah.com/business/economy/milk-faces-more-regulation-than-ai-microsoft-president-says",
+     "published": "2026-10-12T09:41:00+00:00"
+    },
+    {
+     "outlet": "Investing.com — الاقتصاد",
+     "region": "money",
+     "bucket": "useful",
+     "title": "Microsoft president says milk faces more regulation than AI",
+     "language": "en",
+     "link": "https://www.investing.com/news/economy-news/microsoft-president-says-milk-faces-more-regulation-than-ai-4943603",
+     "published": "2026-10-12T14:24:51+00:00"
+    }
+   ],
+   "last_seen": "2026-10-12T17:07:49.159577+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
    "id": "55d7d97f75a2",
    "first_seen": "2026-10-07T18:07:47.065879+00:00",
    "members": [
@@ -13234,6 +13842,44 @@
    "score": 9.0
   },
   {
+   "id": "43ed92578eb9",
+   "first_seen": "2026-10-12T17:07:49.159577+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Fridges in French supermarkets hit by cyber attack",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/crq5nzxv9q4yo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-12T16:17:59+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Hackers force French supermarket fridges to heat up to 50C in ‘unprecedented’ cyber-attack",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/12/cyber-attack-defrosts-refrigerators-france-supermarket-chains-intermarche-cooperative-u",
+     "published": "2026-10-12T16:38:36+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Fridges in French supermarkets hit by cyber attack",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/fridges-in-french-supermarkets-hit-by-cyber-attack/",
+     "published": "2026-10-12T16:35:11+00:00"
+    }
+   ],
+   "last_seen": "2026-10-12T17:07:49.159577+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
    "id": "df20cb21ca89",
    "first_seen": "2026-10-06T03:07:51.967007+00:00",
    "members": [
@@ -13702,6 +14348,44 @@
     }
    ],
    "last_seen": "2026-10-12T09:07:45.429910+00:00",
+   "outlets": 3,
+   "regions": 1,
+   "languages": 1,
+   "score": 7.0
+  },
+  {
+   "id": "fa20c0e4008d",
+   "first_seen": "2026-10-12T17:07:49.159577+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Islamabad court grants police 5-day remand of suspect in case of suicide over visa fraud",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2036623/islamabad-court-grants-police-5-day-remand-of-suspect-in-case-of-suicide-over-visa-fraud",
+     "published": "2026-10-12T11:31:01+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Islamabad court grants five-day remand of suspect in Laiba suicide case",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2634408/islamabad-court-grants-five-day-remand-of-suspect-in-laiba-suicide-case",
+     "published": "2026-10-12T03:49:10+00:00"
+    },
+    {
+     "outlet": "Geo News",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Islamabad student suicide case: Suspect sent on five-day physical remand",
+     "language": "en",
+     "link": "https://www.geo.tv/latest/686135-islamabad-student-suicide-case-suspect-sent-on-five-day-physical-remand",
+     "published": "2026-10-12T11:09:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-12T17:07:49.159577+00:00",
    "outlets": 3,
    "regions": 1,
    "languages": 1,

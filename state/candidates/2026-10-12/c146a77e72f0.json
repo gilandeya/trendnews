@@ -1,0 +1,97 @@
+{
+  "id": "c146a77e72f0",
+  "created_at": "2026-10-12T17:08:17.968782+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 33.06,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "الحوثيون يستهدفون الرياض: تصعيد نوعي والرد السعودي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Saudi minister vows 'serious response' to Houthi attacks on airports",
+  "link": "https://www.bbc.co.uk/news/articles/cjly0zqq27e4o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC",
+    "BBC World",
+    "CGTN",
+    "Channel News Asia",
+    "MyJoyOnline Ghana",
+    "South China Morning Post",
+    "The Guardian — World",
+    "The Japan Times"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Saudi minister vows 'serious response' to Houthi attacks on airports",
+    "link": "https://www.bbc.co.uk/news/articles/cjly0zqq27e4o?at_medium=RSS&at_campaign=rss",
+    "summary": "It comes after the armed group hit Riyadh's international airport and another facility, killing 13 people, in a significant escalation.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-10-12T14:00:03+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/b82e/live/50a18f00-c629-11f1-a509-ab6554d795a2.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC",
+      "BBC World",
+      "CGTN",
+      "Channel News Asia",
+      "MyJoyOnline Ghana",
+      "South China Morning Post",
+      "The Guardian — World",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cjly0zqq27e4o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/saudi-minister-vows-serious-response-to-houthi-attacks-on-airports/"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/oct/11/saudi-coalition-retaliation-houthi-attack-riyadh-airport"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/10/12/world/riyadh-airport-houthi-attack/"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-10-12/news-1RaGMGW3VZe/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3370628/saudi-arabia-faces-more-drone-missile-attacks-after-houthis-fatal-airport-strikes?utm_source=rss_feed"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/b82e/live/50a18f00-c629-11f1-a509-ab6554d795a2.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/b82e/live/50a18f00-c629-11f1-a509-ab6554d795a2.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/b82e/live/50a18f00-c629-11f1-a509-ab6554d795a2.jpg",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/10/arf.jpg",
+      "https://i.guim.co.uk/img/media/9b4e6e48853e9dd686eb9b4b5721f686040d96b3/0_34_1130_903/master/1130.jpg?width=700&quality=85&auto=format&fit=max&s=df2a3cf5bb65303ce299f6dcc7fd7ab4",
+      "https://i.guim.co.uk/img/media/9b4e6e48853e9dd686eb9b4b5721f686040d96b3/0_34_1130_903/master/1130.jpg?width=460&quality=85&auto=format&fit=max&s=251bfbaafb15bdc587d911ba9fb277dc"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 8,
+    "velocity": 1.0,
+    "age_hours": 1656.9136203275,
+    "is_stale": false,
+    "score": 33.05803429275926,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "الحوثيون يستهدفون الرياض: تصعيد نوعي والرد السعودي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
