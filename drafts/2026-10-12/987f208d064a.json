@@ -204,7 +204,25 @@
       "دينيز غوخان قايش"
     ]
   },
-  "has_photo": false,
+  "has_photo": true,
   "has_news_photo": true,
-  "review_issue": 1365
+  "review_issue": 1366,
+  "image": "drafts/2026-10-12/987f208d064a.jpg",
+  "image_info": {
+    "used_original": false,
+    "illustrative": false,
+    "composite": false,
+    "chosen_url": "https://www.annahar.com/Assets/ContentPhotos/Photos/Mideast_Wars_Yemen_26278457164744_153919_large.webp",
+    "candidates_tried": 0,
+    "manual": false,
+    "kind": "web_search",
+    "news_photo_publisher": null,
+    "candidate_failures": [],
+    "fallback_tried": false,
+    "fallback_candidates": 0,
+    "web_search_domain": "annahar.com",
+    "web_search_query": "مطار الرياض تحت النار.. وترامب يلوّح بالرد وسط حسابات باب المندب",
+    "web_search_tried": 1,
+    "web_search_skipped": null
+  }
 }
