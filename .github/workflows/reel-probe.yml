@@ -39,6 +39,11 @@ jobs:
           python-version: "3.12"
           cache: pip
 
+      - name: تثبيت Deno (لفك تشفير مشغّل يوتيوب)
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
       - name: تثبيت ffmpeg
         run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
 
