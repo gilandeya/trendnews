@@ -1466,5 +1466,41 @@
     "posted_title": "",
     "region": "my",
     "seen_at": "2026-10-12T17:08:17.969977+00:00"
+  },
+  {
+    "score": 33.06,
+    "bucket": "serious",
+    "tokens": [
+      "'serious",
+      "airports",
+      "attacks",
+      "houthi",
+      "minister",
+      "response'",
+      "saudi",
+      "vows"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cjly0zqq27e4o?at_medium=RSS&at_campaign=rss",
+    "title": "Saudi minister vows 'serious response' to Houthi attacks on airports",
+    "posted_title": "هجمات متكررة على مطارات سعودية ووزير الطاقة يتوعد بـ«رد صارم»",
+    "region": "uk",
+    "seen_at": "2026-10-12T17:32:27.588147+00:00"
+  },
+  {
+    "score": 25.21,
+    "bucket": "serious",
+    "tokens": [
+      "'energy",
+      "agree",
+      "ceasefire'",
+      "russia",
+      "trump",
+      "ukraine"
+    ],
+    "link": "https://www.npr.org/2026/10/12/nx-s1-5998614/trump-russia-ukraine-energy-ceasefire",
+    "title": "Trump says Russia and Ukraine agree to an 'energy ceasefire'",
+    "posted_title": "ترامب يعلن هدنة طاقة بين موسكو وكييف فيما تتحدث أوكرانيا عن قصف لمحطة كهرباء بعدها بساعات",
+    "region": "us",
+    "seen_at": "2026-10-12T17:33:54.760539+00:00"
   }
 ]
