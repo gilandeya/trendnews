@@ -1,0 +1,85 @@
+{
+  "id": "11ba8faeb64e",
+  "created_at": "2026-10-12T09:08:12.564468+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.97,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "سبتة: نزاع إسباني مغربي تاريخي يعود للواجهة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Ceuta or Sebta? Why one city has two names and a disputed status",
+  "link": "https://www.aljazeera.com/news/2026/10/12/ceuta-or-sebta-why-one-city-has-two-names-and-a-disputed-status?traffic_source=rss",
+  "publishers": [
+    "Africanews",
+    "Al Jazeera",
+    "Al Jazeera English",
+    "El País",
+    "Le Monde"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "Ceuta or Sebta? Why one city has two names and a disputed status",
+    "link": "https://www.aljazeera.com/news/2026/10/12/ceuta-or-sebta-why-one-city-has-two-names-and-a-disputed-status?traffic_source=rss",
+    "summary": "Felipe VI’s first visit to Ceuta and Melilla as king brings Spain’s territorial dispute with Morocco back into focus.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-10-12T00:14:46+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/WMKF6UTVKJC3VCBIGT6TSM43FE.jfif?auth=77b666a24e80617adfe15b2a8b63a3ea993c213d21778bba6fc2d5b280066ae9",
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Africanews",
+      "Al Jazeera",
+      "Al Jazeera English",
+      "El País",
+      "Le Monde"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/10/12/ceuta-or-sebta-why-one-city-has-two-names-and-a-disputed-status?traffic_source=rss"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/espana/2026-10-12/buques-de-guerra-marroquies-invadieron-aguas-de-ceuta-coincidiendo-con-la-entrada-masiva-de-inmigrantes.html"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/10/11/spainish-police-clear-last-ceuta-migrant-beach-camp-ahead-of-kings-visit/"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/10/11/spains-slow-response-in-ceuta-leaves-teen-migrants-still-living-on-streets/"
+      },
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/international/article/2026/10/11/pourquoi-ceuta-et-melilla-restent-un-sujet-de-discorde-entre-l-espagne-et-le-maroc_6791307_3210.html"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/WMKF6UTVKJC3VCBIGT6TSM43FE.jfif?auth=77b666a24e80617adfe15b2a8b63a3ea993c213d21778bba6fc2d5b280066ae9",
+      "http://images.euronews.com/articles/stories/09/94/77/92/640x360_cmsv2_e1e000ab-27a0-5163-b8d9-ec79badd3883-9947792.jpg?1791719683",
+      "http://images.euronews.com/articles/stories/09/94/72/39/640x360_cmsv2_7574965e-7f81-5d8b-bff1-9e203d472c2a-9947239.jpg?1791640642",
+      "https://img.lemde.fr/2026/10/08/1227/0/8256/4128/644/322/60/0/df36e56_upload-1-0kg4zkqylmd2-sipa-sipahub-60212016000004.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.0,
+    "age_hours": 1648.9125815730554,
+    "is_stale": true,
+    "score": 26.973572812236164,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "سبتة: نزاع إسباني مغربي تاريخي يعود للواجهة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
