@@ -1,0 +1,249 @@
+{
+  "date": "2026-10-12",
+  "clips": 3,
+  "seconds": 12,
+  "attempts": [
+    {
+      "index": 1,
+      "channel": "الجزيرة",
+      "language": "ar",
+      "quality": "720p",
+      "window_start": 537,
+      "window_end": 549,
+      "ok": true,
+      "error": null,
+      "size_bytes": 752243,
+      "proxy_bytes": 810401,
+      "tier": "b",
+      "failures": [
+        {
+          "tier": "a",
+          "error_tail": [
+            "[youtube] Extracting URL: https://www.youtube.com/watch?v=XF_kHpWSRZ8",
+            "[youtube] XF_kHpWSRZ8: Downloading webpage",
+            "[youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt",
+            "[youtube] XF_kHpWSRZ8: Downloading visionos player API JSON",
+            "[youtube] XF_kHpWSRZ8: Downloading m3u8 information",
+            "[info] XF_kHpWSRZ8: Downloading 1 format(s): 398+251",
+            "[info] XF_kHpWSRZ8: Downloading 1 time ranges: 537.0-549.0",
+            "[download] Destination: /home/runner/work/trendnews/trendnews/youtube-data/reel_probe/2026-10-12/01_ar_720p.mp4",
+            "ERROR: ffmpeg exited with code 251",
+            "ERROR: ffmpeg exited with code 251"
+          ],
+          "format_id": null,
+          "protocol": null
+        }
+      ],
+      "format_id": "397+251",
+      "protocol": "https+https",
+      "seconds": 111.22,
+      "accuracy": "inside",
+      "offset_seconds": 0,
+      "new_status": "found",
+      "new_level": "full",
+      "new_matches": 1,
+      "start_delta": 0,
+      "transcript_language": "ar",
+      "language_mismatch": false
+    },
+    {
+      "index": 1,
+      "channel": "الجزيرة",
+      "language": "ar",
+      "quality": "480p",
+      "window_start": 537,
+      "window_end": 549,
+      "ok": true,
+      "error": null,
+      "size_bytes": 752243,
+      "proxy_bytes": 752243,
+      "tier": "a",
+      "failures": [],
+      "format_id": "397+251",
+      "protocol": "https+https",
+      "seconds": 41.53,
+      "accuracy": "inside",
+      "offset_seconds": 0,
+      "new_status": "found",
+      "new_level": "full",
+      "new_matches": 1,
+      "start_delta": 0,
+      "transcript_language": "ar",
+      "language_mismatch": false
+    },
+    {
+      "index": 2,
+      "channel": "Habertürk",
+      "language": "tr",
+      "quality": "720p",
+      "window_start": 377,
+      "window_end": 389,
+      "ok": true,
+      "error": null,
+      "size_bytes": 2085087,
+      "proxy_bytes": 2261023,
+      "tier": "a",
+      "failures": [],
+      "format_id": "398+251",
+      "protocol": "https+https",
+      "seconds": 47.99,
+      "accuracy": "inside",
+      "offset_seconds": 0,
+      "new_status": "found",
+      "new_level": "full",
+      "new_matches": 1,
+      "start_delta": 0,
+      "transcript_language": "tr",
+      "language_mismatch": false
+    },
+    {
+      "index": 2,
+      "channel": "Habertürk",
+      "language": "tr",
+      "quality": "480p",
+      "window_start": 377,
+      "window_end": 389,
+      "ok": true,
+      "error": null,
+      "size_bytes": 1255659,
+      "proxy_bytes": 1255659,
+      "tier": "a",
+      "failures": [],
+      "format_id": "397+251",
+      "protocol": "https+https",
+      "seconds": 55.9,
+      "accuracy": "inside",
+      "offset_seconds": 0,
+      "new_status": "found",
+      "new_level": "full",
+      "new_matches": 1,
+      "start_delta": 0,
+      "transcript_language": "tr",
+      "language_mismatch": false
+    },
+    {
+      "index": 3,
+      "channel": "Iran International",
+      "language": "fa",
+      "quality": "720p",
+      "window_start": 194,
+      "window_end": 206,
+      "ok": true,
+      "error": null,
+      "size_bytes": 937964,
+      "proxy_bytes": 1003762,
+      "tier": "b",
+      "failures": [
+        {
+          "tier": "a",
+          "error_tail": [
+            "[youtube] Extracting URL: https://www.youtube.com/watch?v=ZRiHJelUi-E",
+            "[youtube] ZRiHJelUi-E: Downloading webpage",
+            "[youtube] No supported JavaScript runtime could be found. Only deno is enabled by default; to use another runtime add  --js-runtimes RUNTIME[:PATH]  to your command/config. YouTube extraction without a JS runtime has been deprecated, and some formats may be missing. See  https://github.com/yt-dlp/yt",
+            "[youtube] ZRiHJelUi-E: Downloading visionos player API JSON",
+            "[youtube] ZRiHJelUi-E: Downloading m3u8 information",
+            "[info] ZRiHJelUi-E: Downloading 1 format(s): 398+251",
+            "[info] ZRiHJelUi-E: Downloading 1 time ranges: 194.0-206.0",
+            "[download] Destination: /home/runner/work/trendnews/trendnews/youtube-data/reel_probe/2026-10-12/03_fa_720p.mp4",
+            "ERROR: ffmpeg exited with code 251",
+            "ERROR: ffmpeg exited with code 251"
+          ],
+          "format_id": null,
+          "protocol": null
+        }
+      ],
+      "format_id": "397+251",
+      "protocol": "https+https",
+      "seconds": 358.15,
+      "accuracy": "inside",
+      "offset_seconds": 0,
+      "new_status": "found",
+      "new_level": "full",
+      "new_matches": 1,
+      "start_delta": 0,
+      "transcript_language": "fa",
+      "language_mismatch": false
+    }
+  ],
+  "summary": {
+    "attempts": 5,
+    "succeeded": 5,
+    "failed": 0,
+    "avg_size_bytes": 1156639.2,
+    "avg_seconds": 122.96,
+    "total_proxy_bytes": 6083088,
+    "avg_proxy_bytes_by_quality": {
+      "480p": 1003951.0,
+      "720p": 1358395.33
+    },
+    "exact_window_ratio": 1.0,
+    "monthly_proxy_bytes_estimate": 141740779
+  },
+  "tts": [
+    {
+      "voice": "ar-XA-Chirp3-HD-Kore",
+      "gender": "female",
+      "chars": 387,
+      "seconds": 35.93,
+      "wps": 1.89,
+      "cost_usd": 0.0116
+    },
+    {
+      "voice": "ar-XA-Chirp3-HD-Aoede",
+      "gender": "female",
+      "chars": 387,
+      "seconds": 40.54,
+      "wps": 1.68,
+      "cost_usd": 0.0116
+    },
+    {
+      "voice": "ar-XA-Chirp3-HD-Leda",
+      "gender": "female",
+      "chars": 387,
+      "seconds": 37.78,
+      "wps": 1.8,
+      "cost_usd": 0.0116
+    },
+    {
+      "voice": "ar-XA-Wavenet-A",
+      "gender": "female",
+      "chars": 387,
+      "seconds": 40.68,
+      "wps": 1.67,
+      "cost_usd": 0.0015
+    },
+    {
+      "voice": "ar-XA-Chirp3-HD-Charon",
+      "gender": "male",
+      "chars": 387,
+      "seconds": 36.98,
+      "wps": 1.84,
+      "cost_usd": 0.0116
+    },
+    {
+      "voice": "ar-XA-Chirp3-HD-Orus",
+      "gender": "male",
+      "chars": 387,
+      "seconds": 37.37,
+      "wps": 1.82,
+      "cost_usd": 0.0116
+    },
+    {
+      "voice": "ar-XA-Chirp3-HD-Fenrir",
+      "gender": "male",
+      "chars": 387,
+      "seconds": 36.7,
+      "wps": 1.85,
+      "cost_usd": 0.0116
+    },
+    {
+      "voice": "ar-XA-Wavenet-B",
+      "gender": "male",
+      "chars": 387,
+      "seconds": 40.82,
+      "wps": 1.67,
+      "cost_usd": 0.0015
+    }
+  ],
+  "tts_rate_line": "متوسط سرعة الأصوات 1.78 كلمة/ث مقابل reel.script.speech_rate_wps الحالية 2.3 (لم تُغيَّر)"
+}
