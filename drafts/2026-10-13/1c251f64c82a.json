@@ -1,10 +1,10 @@
 {
   "id": "1c251f64c82a",
   "created_at": "2026-10-13T12:39:47.371886+00:00",
-  "status": "rejected",
+  "status": "pending",
   "origin": "analysis",
   "format": "reel",
-  "script_status": "failed",
+  "script_status": "ready",
   "title": "هجوم الحوثيين على مطار الملك خالد بالرياض",
   "tier": 4,
   "blocs": [
@@ -47,9 +47,101 @@
   "source_videos": [],
   "topic_id": "509169ebc59e",
   "topic_date": "2026-10-13",
-  "script_error": "الترتيب الإلزامي مخالف: افتتاحية باردة ← عنوان ← (راوٍ ومقطع متناوبان) ← راوٍ ختامي ← سؤال ← ختام؛ جاء: cold_open_clip ← title_card ← narration ← clip ← narration ← clip ← narration؛ سُمّي متحدث غير موثَّق: الطاقة، السعودية",
   "sibling_id": "f1dfec321e5a",
   "has_photo": false,
   "has_news_photo": true,
-  "review_issue": 1387
+  "script": {
+    "narrator": "female",
+    "title": "الرياض: هجوم على مطار الملك خالد وتحذيرات من اتساع التصعيد",
+    "question": "كيف تقرأون مسار التصعيد بعد استهداف مطار الملك خالد الدولي؟",
+    "scenes": [
+      {
+        "kind": "cold_open_clip",
+        "point_id": "9db8124d0e4e",
+        "video_url": "https://www.youtube.com/watch?v=0rNNJ-aJqo8",
+        "start": 213.0,
+        "end": 226.5,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "هآرتس",
+        "quote_arabic": "وقع هجوم كبير على المطار الرئيسي في الرياض بالمملكة العربية السعودية ليل الأحد. أسفر الهجوم عن مقتل 12 شخصاً. إنه الهجوم الأكثر دموية في المملكة العربية السعودية منذ أكثر من عقد.",
+        "language": "ar",
+        "video_published": "2026-10-12"
+      },
+      {
+        "kind": "title_card",
+        "text": "الرياض: هجوم على مطار الملك خالد وتحذيرات من اتساع التصعيد"
+      },
+      {
+        "kind": "narration",
+        "text": "في الحادي عشر من أكتوبر 2026، عرضت قناة الجزيرة حصيلة الهجوم على مطار الملك خالد الدولي في الرياض: اثنا عشر قتيلاً وأكثر من ثلاثمئة جريح، ضمن سلسلة هجمات نُسبت إلى جماعة أنصار الله الحوثية."
+      },
+      {
+        "kind": "clip",
+        "point_id": "3ae33f6f7bcb",
+        "video_url": "https://www.youtube.com/watch?v=CiMzOSB3FzQ",
+        "start": 59.0,
+        "end": 73.8,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "الجزيرة",
+        "quote_arabic": "مؤشرات للتصعيد تتصدرها هجمات جماعة أنصار الله الحوثية على أهداف داخل السعودية خلفت قتلى وجرحى في مطار الملك خالد، والهجوم بالأمس الذي أودى بحياة 12 شخصاً وأدى إلى إصابة أكثر من 300 شخص.",
+        "language": "ar",
+        "video_published": "2026-10-11"
+      },
+      {
+        "kind": "narration",
+        "text": "وفي الثاني عشر من أكتوبر 2026، توقفت قناة العربية عند هوية الضحايا، ومنهم معتمرون في ملابس الإحرام قبيل صعودهم إلى طائراتهم. ضيف القناة يصف ما جرى."
+      },
+      {
+        "kind": "clip",
+        "point_id": "b7d41f6ea080",
+        "video_url": "https://www.youtube.com/watch?v=DIx3HcaR6Q0",
+        "start": 212.0,
+        "end": 219.4,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "العربية",
+        "quote_arabic": "لم يسبق أن تعرض معتمرون للاعتداء بأي شكل من الأشكال، لم يسبق بهذا الشكل بهذه الجريمة الوحشية",
+        "language": "ar",
+        "video_published": "2026-10-12"
+      },
+      {
+        "kind": "narration",
+        "text": "ويبقى السؤال مفتوحًا حول امتداد الاستهداف إلى منشآت الطاقة، وحول مصير التهديدات الموجهة للوجود الأمريكي في المنطقة."
+      },
+      {
+        "kind": "question",
+        "text": "كيف تقرأون مسار التصعيد بعد استهداف مطار الملك خالد الدولي؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ]
+  },
+  "headlines": [
+    "هل يشير الهجوم على مطار الملك خالد إلى مرحلة جديدة من التصعيد الإقليمي؟",
+    "هجوم حوثي يودي بحياة 12 شخصاً على مطار الرياض وسط تحذيرات من امتداد الاستهداف",
+    "استهداف معتمرين في مطار الملك خالد يعكس تطوراً خطيراً في نمط الهجمات الحوثية"
+  ],
+  "headline_selected": 0,
+  "editor_review": {
+    "at": "2026-10-13T14:30:37.130208+00:00",
+    "applied": [],
+    "notes": [],
+    "error": null,
+    "searches": 2,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "review_issue": 1391
 }
