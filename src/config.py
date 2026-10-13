@@ -28,6 +28,11 @@ YOUTUBE_POINTS_DIR = Path(os.environ["TRENDNEWS_YOUTUBE_POINTS_DIR"]) if os.envi
 YOUTUBE_ARTICLES_DIR = Path(os.environ["TRENDNEWS_YOUTUBE_ARTICLES_DIR"]) if os.environ.get(
     "TRENDNEWS_YOUTUBE_ARTICLES_DIR") else STATE_DIR / "youtube_articles"
 
+# الريلز المركَّبة mp4 + gif (Issue #1381): ملفات ثقيلة ومقاطع من مواد محمية بحقوق نشر، فمكانها المستودع الخاص
+# في CI (مجلد reels/ في سحب trendnews-data) ولا تدخل هذا المستودع العام أبدًا؛ الافتراضي المحلي مُهمَل في .gitignore.
+REELS_DIR = Path(os.environ["TRENDNEWS_REELS_DIR"]) if os.environ.get(
+    "TRENDNEWS_REELS_DIR") else STATE_DIR / "reels"
+
 
 class Config(dict):
     """قاموس إعدادات يدعم الوصول بالنقاط عبر get_path."""

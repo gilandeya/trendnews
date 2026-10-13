@@ -35,7 +35,7 @@ def scrub_text(text: str) -> str:
 
 
 def _speech_rate(cfg) -> float:
-    rate = cfg.path("reel.script.speech_rate_wps") if cfg is not None else None
+    rate = cfg.path("reel.script.speaker_wps") if cfg is not None else None
     return float(rate) if rate else 2.3
 
 
@@ -84,7 +84,13 @@ def locate_quote(quote, segments, near, cfg=None) -> dict:
             hits = sorted(hits, key=lambda h: abs(segments[line_of(h)][0] - near))
         first = line_of(hits[0])
         if level == "full":
-            end = float(segments[line_of(hits[0] + len(target) - 1)][0])
+            # نهاية الاقتباس = بداية السطر التالي لآخر سطر في الموضع (لا بداية آخر سطر نفسه فيُقصّ كلامه)،
+            # وآخر سطر في النص لا تالي له فتُقدَّر مدته من كلماته بمعدل المتحدث
+            last = line_of(hits[0] + len(target) - 1)
+            if last + 1 < len(segments):
+                end = float(segments[last + 1][0])
+            else:
+                end = round(segments[last][0] + len(lines[last].split()) / rate, 1)
         else:
             end = round(segments[first][0] + len(words) / rate, 1)
         return {"start": segments[first][0], "end": end, "matches": len(hits),

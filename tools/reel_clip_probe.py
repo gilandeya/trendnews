@@ -447,11 +447,11 @@ def run_tts(lines: list[str], out_dir: Path, cfg, *, synth=None, duration=audio_
                        cost_usd=round(tts.estimate_cost(chars, voice, cfg), 4),
                        diacritized=shown if key != "A" else None, warning="؛ ".join(warnings) or None)
     wps = [r["wps"] for r in rows if r.get("wps")]
-    current = cfg.path("reel.script.speech_rate_wps")
+    current = cfg.path("reel.script.narration_wps")
     line = None
     if wps:
         line = (f"متوسط سرعة الأصوات {sum(wps) / len(wps):.2f} كلمة/ث مقابل "
-                f"reel.script.speech_rate_wps الحالية {current} (لم تُغيَّر)")
+                f"reel.script.narration_wps الحالية {current} (لم تُغيَّر)")
     return rows, line
 
 
