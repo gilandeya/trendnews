@@ -88,8 +88,12 @@
       "dropped_reason": null,
       "id": "509169ebc59e",
       "created_at": "2026-10-13T12:32:24.212288+00:00",
-      "selection_status": "pending",
-      "selection_issue": 1386
+      "selection_status": "attempted",
+      "selection_issue": 1386,
+      "selected_formats": [
+        "article",
+        "reel"
+      ]
     }
   ],
   "all_topics": [
