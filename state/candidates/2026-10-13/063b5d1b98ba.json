@@ -1,0 +1,77 @@
+{
+  "id": "063b5d1b98ba",
+  "created_at": "2026-10-13T09:08:30.518929+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 27.22,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "القوات الإثيوبية تتقدم في تيغراي وتضيق الخناق",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Ethiopian govt forces enter key Tigray town near Eritrea border",
+  "link": "https://www.france24.com/en/ethiopian-govt-forces-enter-key-tigray-town-near-eritrea-border",
+  "publishers": [
+    "Africanews",
+    "France24",
+    "The Hindu — International"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Ethiopian govt forces enter key Tigray town near Eritrea border",
+    "link": "https://www.france24.com/en/ethiopian-govt-forces-enter-key-tigray-town-near-eritrea-border",
+    "summary": "In tonight's edition, Ethiopian forces tighten their grip on Tigray, advancing into the key town of Adwa after rebels withdrew. Also, police arrested 30 people amid violence across South Africa. And we head to Tunisia, where ancient Sufi chants collide with pulsating electronic beats!",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-10-12T20:34:04+00:00",
+    "image_url": "https://s.france24.com/media/display/a726f12e-c67b-11f1-8fe9-3774aeac812a/w:1024/p:16x9/DN197525-A-01-20261007-01.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "Africanews",
+      "France24",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/10/12/ethiopian-govt-forces-enter-key-tigray-town-near-eritrea-border/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/ethiopian-govt-forces-enter-key-tigray-town-near-eritrea-border/article71576602.ece"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/ethiopian-govt-forces-enter-key-tigray-town-near-eritrea-border"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/10/13/tigray-residents-say-life-is-returning-to-normal-as-ethiopian-forces-retake-control/"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/a726f12e-c67b-11f1-8fe9-3774aeac812a/w:1024/p:16x9/DN197525-A-01-20261007-01.jpg",
+      "http://images.euronews.com/articles/stories/09/94/80/98/640x360_cmsv2_9704c090-a655-5bf4-9f8c-38a9b96e390f-9948098.jpg?1791777494",
+      "https://th-i.thgim.com/public/incoming/2n5kxn/article71576700.ece/alternates/LANDSCAPE_1200/2026-10-11T083049Z_499203646_RC2FZNAZMTUW_RTRMADP_3_ETHIOPIA-SECURITY.JPG",
+      "http://images.euronews.com/articles/stories/09/94/96/44/640x360_cmsv2_bb9424d7-1037-55d4-b28b-a4685ef3fcb0-9949644.jpg?1791869030"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1672.9192960980556,
+    "is_stale": false,
+    "score": 27.217006677219025,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "القوات الإثيوبية تتقدم في تيغراي وتضيق الخناق",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

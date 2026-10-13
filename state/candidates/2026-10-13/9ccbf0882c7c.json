@@ -1,0 +1,71 @@
+{
+  "id": "9ccbf0882c7c",
+  "created_at": "2026-10-13T09:08:30.519832+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.47,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "توتر نووي مباشر بين الكوريتين يهدد الاستقرار الإقليمي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "(3rd LD) N. Korea fires multiple ballistic missiles after S. Korea's hypersonic weapon test",
+  "link": "https://en.yna.co.kr/view/AEN20261012002752315",
+  "publishers": [
+    "Hindustan Times — World",
+    "Yonhap News",
+    "media"
+  ],
+  "region": "kr",
+  "article": {
+    "title": "(3rd LD) N. Korea fires multiple ballistic missiles after S. Korea's hypersonic weapon test",
+    "link": "https://en.yna.co.kr/view/AEN20261012002752315",
+    "summary": "SEOUL, Oct. 12 (Yonhap) -- North Korea launched multiple ballistic missiles towa...",
+    "source_name": "Yonhap News",
+    "region": "kr",
+    "weight": 1.0,
+    "published": "2026-10-12T09:23:25+00:00",
+    "image_url": "https://img.yna.co.kr/photo/yna/YH/2026/10/04/PYH2026100402340031500_P2.jpg",
+    "publisher": "Yonhap News",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "Yonhap News",
+      "media"
+    ],
+    "cluster_members": [
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20261012002752315"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/north-korea-fires-missiles-days-after-south-korea-s-hypersonic-test-101791832816234.html"
+      },
+      {
+        "name": "media",
+        "link": "https://tass.com/world/2201159"
+      }
+    ],
+    "image_candidates": [
+      "https://img.yna.co.kr/photo/yna/YH/2026/10/04/PYH2026100402340031500_P2.jpg",
+      "https://img.yna.co.kr/photo/yna/YH/2026/10/09/PYH2026100906100001300_P2.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1672.9193825905556,
+    "is_stale": false,
+    "score": 22.471840006719024,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "توتر نووي مباشر بين الكوريتين يهدد الاستقرار الإقليمي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

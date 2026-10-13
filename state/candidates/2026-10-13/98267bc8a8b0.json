@@ -1,0 +1,72 @@
+{
+  "id": "98267bc8a8b0",
+  "created_at": "2026-10-13T09:08:30.519363+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.12,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "بريطانيا تتهم إيران بوراء حادثة قاعدة جوية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "U.K. PM Burnham says Iran’s IRGC likely behind RAF Fairford incident",
+  "link": "https://www.thehindu.com/news/international/uk-pm-burnham-says-irans-irgc-likely-behind-raf-fairford-incident/article71576118.ece",
+  "publishers": [
+    "DW.com",
+    "Deutsche Welle",
+    "South China Morning Post",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "U.K. PM Burnham says Iran’s IRGC likely behind RAF Fairford incident",
+    "link": "https://www.thehindu.com/news/international/uk-pm-burnham-says-irans-irgc-likely-behind-raf-fairford-incident/article71576118.ece",
+    "summary": "The RAF ⁠Fairfordbase had been used by U.S. bombers to carry out strikes on Iran but last week, U.S. President Donald Trump said a ‌threat linked to Iran had prompted the removal of the planes",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-10-12T15:24:46+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/2p9mya/article71576184.ece/alternates/LANDSCAPE_1200/2026-10-04T211151Z_853467629_RC28SNA4H0MR_RTRMADP_3_BRITAIN-USA-FAIRFORD.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "DW.com",
+      "Deutsche Welle",
+      "South China Morning Post",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3370646/uk-pm-burnham-says-irans-irgc-highly-likely-have-been-behind-raf-fairford-incident?utm_source=rss_feed"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/uk-pm-burnham-says-irans-irgc-likely-behind-raf-fairford-incident/article71576118.ece"
+      },
+      {
+        "name": "Deutsche Welle",
+        "link": "https://www.dw.com/en/uk-iran-highly-likely-to-be-behind-raf-fairford-incident/a-79645941?maca=en-rss-en-world-4025-rdf"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/2p9mya/article71576184.ece/alternates/LANDSCAPE_1200/2026-10-04T211151Z_853467629_RC28SNA4H0MR_RTRMADP_3_BRITAIN-USA-FAIRFORD.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1672.919332883611,
+    "is_stale": false,
+    "score": 25.118452505685184,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "بريطانيا تتهم إيران بوراء حادثة قاعدة جوية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
