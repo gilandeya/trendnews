@@ -1964,7 +1964,7 @@ reel:
     # فلا يتحرك. قيمة ≥ min(lead_seconds, clip_tail_seconds) تُخفَّض إلى ذلك الحد − 0.1 كي لا يقع كلام المقطع في التلاشي
     transition: {type: slideleft, outro_type: fade, seconds: 0.35}
     # نسخة التركيب: رفعها تعيد --pending تركيب كل ريل معتمد مُركَّب بنسخة أقدم (المنشور والمرفوض لا يُمسّان)
-    version: 5
+    version: 6
     # عطل تنزيل مقطع (Issue #1404): يُعاد السلّم كاملًا download_retries مرة بانتظار retry_wait_seconds قبل كل إعادة؛
     # فإن بقي مقطع لم يُنزَّل لا يُحفظ ريل ناقص بل يعود queued حتى max_attempts محاولة تركيب ثم failed
     download_retries: 2
@@ -1985,8 +1985,10 @@ reel:
     safe: {top: 210, bottom: 420, right_col_width: 130, right_col_from: 900, right_col_to: 1500}
     # line_gap: الفراغ بين حبر سطر وحبر التالي في الشريط (التقدّم من نقطة الرسم كان يُنتج تداخلًا ~10 px)
     # slide_seconds: دخول الشريط من اليمين بعد انتهاء الانتقال؛ cover: كحلي معتم من أسفل الشريط إلى أسفل الشاشة يغطي
-    # شريط القناة الأصلية (شفافية 0.94 أبقته ظاهرًا باهتًا)، false ← بلا غطاء
-    band: {top: 1260, height: 240, edge: 24, alpha: 0.94, line_gap: 12, slide_seconds: 0.4, cover: true}   # شريط المتحدث السفلي
+    # شريط القناة الأصلية (شفافية 0.94 أبقته ظاهرًا باهتًا)، false ← بلا غطاء؛ auto (الافتراضي) ← الغطاء وشريطنا معتم تمامًا (alpha 1)
+    # فقط حين يكشف cover_detect شريط أخبار أو لافتة في أسفل المقطع (صف حافة مستقيمة في frame_fraction من اللقطات)
+    band: {top: 1260, height: 240, edge: 24, alpha: 0.94, line_gap: 12, slide_seconds: 0.4, cover: auto,
+            cover_detect: {samples: 6, grad: 25, row_fraction: 0.7, frame_fraction: 0.8}}   # شريط المتحدث السفلي
     gif: {seconds: 6, width: 270, height: 480, fps: 8}
     repo_subdir: reels         # مجلد الريلز داخل المستودع الخاص (reel_file/reel_gif نسبيان إلى جذره)
     # صاحب المشروع يتأكد من اسم الفرع (main) قبل الاعتماد على هذين الرابطين
