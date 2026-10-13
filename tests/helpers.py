@@ -259,8 +259,12 @@ def install_fakes() -> None:
     sources.requests.head = lambda url, **kw: FakeResponse(b"", url=url)  # type: ignore
     sources.image_from_page = lambda url, timeout=12: "https://example.com/og.jpg"  # type: ignore
 
+    # فحص مسارات المقطع (Issue #1406) بلا ffprobe: الافتراضي صورة وصوت معًا؛ اختبار يحتاج غيره يحقن Deps.streams
+    from src import reel_render
+    reel_render.probe_streams = lambda path: {"video", "audio"}  # type: ignore
+
     # صورة "ناشر" اصطناعية بدل التحميل الحقيقي
-    fake = Image.new("RGB", (1400, 800), (34, 52, 92))
+    fake =Image.new("RGB", (1400, 800), (34, 52, 92))
     ImageDraw.Draw(fake).ellipse([500, 100, 900, 500], fill=(226, 194, 150))
     fake.save("/tmp/_fixture_photo.jpg")
     imaging.download_image = (  # type: ignore

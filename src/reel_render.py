@@ -49,6 +49,15 @@ def probe_duration(path) -> float | None:
     return int(m.group(1)) * 3600 + int(m.group(2)) * 60 + float(m.group(3)) if m else None
 
 
+def probe_streams(path) -> set[str]:
+    """أنواع مسارات ملف وسائط ({"video","audio"}) بـffprobe؛ تعذّر القراءة يرفع فيُعدّ المقطع غير صالح (Issue #1406)."""
+    proc = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "stream=codec_type", "-of", "csv=p=0", str(path)],
+                          capture_output=True, text=True, timeout=60)
+    if proc.returncode != 0:
+        raise RuntimeError("ffprobe فشل: " + " ".join((proc.stderr or "").split())[-150:])
+    return {ln.strip() for ln in proc.stdout.splitlines() if ln.strip()}
+
+
 def _detect_faces(clip, fractions) -> tuple[int, int, list[float]]:
     """لقطات من المقطع المنزَّل عند نِسب مدته، ومركز أكبر وجه في كل منها بكاشف imaging.
     يرفع إن تعذّر قراءة المقطع؛ والمستدعي يعود إلى نافذة المنتصف."""
@@ -107,6 +116,8 @@ class Deps:
     faces: Callable[[Any, list], tuple[int, int, list[float]]] | None = None
     # انتظار بين إعادات التنزيل؛ حقن الاختبار يمنع الانتظار الحقيقي
     sleep: Callable[[float], None] | None = None
+    # أنواع مسارات الملف؛ مقطع بلا صورة أو بلا صوت لا يُقبل (Issue #1406)
+    streams: Callable[[Any], set] | None = None
 
     def resolved(self, cfg) -> "Deps":
         def fetch(video_id):
@@ -139,6 +150,7 @@ class Deps:
             load_points=self.load_points or points,
             faces=self.faces or _detect_faces,
             sleep=self.sleep or time.sleep,
+            streams=self.streams or probe_streams,
             comment=self.comment or comment)
 
 
@@ -503,18 +515,40 @@ class ClipDownloadFailed(RuntimeError):
         self.channel, self.reason = channel, reason
 
 
-def _download_with_retries(deps: Deps, rcfg, vid: str, wstart: int, wend: int, out: Path) -> None:
+NO_STREAMS_REASON = "المقطع بلا صورة أو بلا صوت"
+
+
+def _clip_files(out: Path) -> list[Path]:
+    found = [out] if out.exists() else []
+    return found + [p for p in sorted(out.parent.glob(f"{out.stem}.*")) if p != out]
+
+
+def _download_with_retries(deps: Deps, rcfg, vid: str, wstart: int, wend: int, out: Path) -> Path | None:
     """السلّم كاملًا ثم إعادته download_retries مرة بانتظار retry_wait_seconds قبل كل إعادة: العطل عابر عادة
-    (المقطع نفسه نزل في تركيبين سابقين)، فإسقاطه يترك راويًا بلا مقطع."""
+    (المقطع نفسه نزل في تركيبين سابقين)، فإسقاطه يترك راويًا بلا مقطع. يعيد الملف المقبول (فيه صورة وصوت معًا)؛
+    فشل جزء الصورة يترك جزء الصوت وحده وكان يُحسب نجاحًا (Issue #1406)، فيُعدّ الآن فشل محاولة. لا ملف إطلاقًا ← None
+    (إسقاط كما كان)."""
     retries = int(rcfg.get("download_retries", 2))
     for attempt in range(retries + 1):
+        for p in _clip_files(out):      # بقايا محاولة سابقة تُحذف كي لا يلتقطها الاحتياط
+            p.unlink(missing_ok=True)
         try:
             deps.download_clip(vid, wstart, wend, int(rcfg["clip_height"]), out)
-            return
+            files = _clip_files(out)
+            if not files:
+                return None
+            for f in files:
+                try:
+                    if {"video", "audio"} <= set(deps.streams(f)):
+                        return f
+                except Exception:  # noqa: BLE001 -- ملف لا يُقرأ ليس مقبولًا
+                    continue
+            raise RuntimeError(NO_STREAMS_REASON)
         except Exception:  # noqa: BLE001
             if attempt >= retries:
                 raise
             deps.sleep(float(rcfg.get("retry_wait_seconds", 20)))
+    return None
 
 
 def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path) -> tuple[dict, list, list]:
@@ -568,18 +602,16 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path) -> tuple
                 wend = wstart + int(scfg.get("clip_min_seconds", 6))
         out = tmp / f"clip_{i}.mp4"
         try:
-            _download_with_retries(deps, rcfg, vid, wstart, wend, out)
+            got = _download_with_retries(deps, rcfg, vid, wstart, wend, out)
         except Exception as exc:  # noqa: BLE001 -- عطل تنزيل لا إسقاط تحريري: الريل كله يؤجَّل
             raise ClipDownloadFailed(scene.get("channel_display", ""),
                                      "فشل تنزيل المقطع: " + reel_clips.scrub_text(str(exc))[:120]) from exc
-        if not out.exists():
-            found = sorted(tmp.glob(f"clip_{i}.*"))
-            if not found:
-                _drop(dropped, scene, "لم يُنتج التنزيل ملفًا")
-                if approx and approx[-1]["point_id"] == scene.get("point_id", ""):
-                    approx.pop()
-                continue
-            out = found[0]
+        if got is None:
+            _drop(dropped, scene, "لم يُنتج التنزيل ملفًا")
+            if approx and approx[-1]["point_id"] == scene.get("point_id", ""):
+                approx.pop()
+            continue
+        out = got
         secs = deps.probe(out) or float(wend - wstart)
         clips[i] = {"file": out, "seconds": float(secs)}
     return clips, dropped, approx
@@ -938,7 +970,10 @@ def queued_reels(cfg=None) -> list[tuple[Path, dict]]:
             continue
         stale = (version is not None and d.get("status") == "approved_script" and d.get("render_status") == "rendered"
                  and int(d.get("render_version") or 0) < version)
-        if d.get("render_status") == "queued" or stale:
+        # failed بنسخة أقدم يُحيا تلقائيًا (Issue #1406): سببه قد يكون عطلًا أُصلح في النسخة الجديدة
+        revive = (version is not None and d.get("status") == "approved_script" and d.get("render_status") == "failed"
+                  and int(d.get("render_version") or 0) < version)
+        if d.get("render_status") == "queued" or stale or revive:
             out.append((p, d))
     out.sort(key=lambda pd: (pd[1].get("approved_script_at") or "", pd[0].name))
     return out
@@ -946,7 +981,12 @@ def queued_reels(cfg=None) -> list[tuple[Path, dict]]:
 
 def pending_batch(cfg) -> list[tuple[Path, dict]]:
     """ما تركّبه تشغيلة --pending: المنتظر ثم المعتمد بنسخة أقدم، حتى reel.render.max_per_run."""
-    return queued_reels(cfg)[: int(cfg.path("reel.render.max_per_run", 1))]
+    out = []
+    for path, d in queued_reels(cfg)[: int(cfg.path("reel.render.max_per_run", 1))]:
+        if d.get("render_status") == "failed":
+            d = store.update_draft(path, remove=["render_error"], render_status="queued", render_attempts=0)
+        out.append((path, d))
+    return out
 
 
 def retry(draft_id: str, cfg) -> bool:
@@ -955,7 +995,7 @@ def retry(draft_id: str, cfg) -> bool:
     if not found or found[1].get("render_status") != "failed":
         return False
     store.update_draft(found[0], remove=["render_error", "render_dropped", "render_approx"],
-                       render_status="queued")
+                       render_status="queued", render_attempts=0)
     return True
 
 
