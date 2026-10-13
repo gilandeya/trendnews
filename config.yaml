@@ -1845,7 +1845,7 @@ reel:
     scene_cold: "🎥 مقطع افتتاحي: {band} · «{quote}» · [الفيديو]({url}) · {badge}"
     scene_clip: "🎥 مقطع: {band} · «{quote}» · [الفيديو]({url}) · {badge}"
     # ── هوية المتحدث (Issue #1377، R2c) ──
-    guest_label: "ضيف على قناة {channel}"
+    guest_label: "من قناة {channel}"
     verified_title: "✅ موثَّق من عنوان الفيديو"
     verified_description: "✅ موثَّق من وصف الفيديو"
     guest_badge: "👤 ضيف غير مسمّى"
@@ -1857,7 +1857,7 @@ reel:
     script_failed_line: "❌ تعذّرت كتابة السيناريو: {reason}"
     script_failed_comment: "- ⚠️ {title} — تعذّرت كتابة سيناريو الريل: {reason}. أعد «➕ أضف ريلًا» لإعادة المحاولة"
     go3: "🎴 اعتمد السيناريو: ركّبه واعرضه في المرحلة 3"
-    script_approved: "- 🎬 {title} — سيُركَّب الريل حين تُفعَّل مرحلة التركيب"
+    script_approved: "- 🎬 {title} — ✅ اعتُمد السيناريو — شغّل «🎬 تركيب الريل» من Actions لتركيبه"
     script_blocked: "- ⛔ {title} — لم يُعتمد السيناريو: {reason}"
     script_edit_warn: "- ⚠️ {title}: {detail}"
     edit_ignored_missing: "سطر [{n}] محذوف من الكتلة فبقي نصه الأصلي"
@@ -1959,6 +1959,9 @@ reel:
     question_tail_seconds: 1.5 # يضاف إلى مدة صوت السؤال
     crf: 22
     audio_rate: 48000
+    # توحيد الصوت: مقاطع الضيوف تأتي أعلى من صوت الراوية بنحو 8 LUFS فيقفز الصوت بين المشاهد (الشاهد −23…−14)؛
+    # كل مقطع وكل جملة راوٍ والملف النهائي يمرّون بـloudnorm أحادي المرور إلى هذا الهدف
+    loudness: {target_lufs: -16, true_peak: -1.5}
     # المقطع يملأ الشاشة الرأسية باقتطاع بعرض ارتفاع_المصدر×9÷16 يتبع أكبر وجه (وسيط مراكز اللقطات)؛
     # لا وجه ← المنتصف، وmode: center يلغي الكشف. النافذة ثابتة طوال المقطع بلا تحريك
     crop: {mode: face, samples: [0.2, 0.5, 0.8]}
@@ -1982,6 +1985,7 @@ reel:
       clips_from: "المقاطع من: {channels} · الصوت آلي"
       comment: "### 🎬 تركيب الريل\n- ⏱️ المدة: {seconds} ث\n- 🎞️ [الملف]({video}) · [المعاينة]({gif})"
       comment_dropped: "- ✂️ حُذف {n}: {details}"
+      comment_approx: "- ⚠️ نافذة تقديرية لمقطع {channel} ({window}): {reason} — راجع بداية المقطع ونهايته"
       comment_failed: "### 🎬 تعذّر تركيب الريل\n- ❌ {reason}"
   duration_seconds: 10
   fps: 30
