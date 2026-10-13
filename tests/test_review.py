@@ -11227,9 +11227,9 @@ def test_analysis_stages_pipeline() -> None:
             ensure_ascii=False), encoding="utf-8")
         ycl.save_output({"run_date": D4, "topics": [mk_topic("نتيجة عنقدة جديدة")]})
         kept = topics_file(D4)["topics"]
-        check("(#1187-ط) save_output لتشغيلة ثانية لليوم نفسه تحفظ المواضيع returned وحدها "
-              "في البداية وتمحو الحالات الأخرى كما كانت",
-              [t.get("title") for t in kept] == ["أُعيد اليوم", "نتيجة عنقدة جديدة"], kept)
+        check("(#1187-ط) save_output لتشغيلة ثانية لليوم نفسه تحفظ كل موضوع عُرض (returned وattempted…) "
+              "في البداية قبل الجديد (Issue #1392: لم تعد تمحو المعروض)",
+              [t.get("title") for t in kept] == ["أُعيد اليوم", "قديم عُرض", "نتيجة عنقدة جديدة"], kept)
     finally:
         review.create_issue = real["create_issue"]
         review.ensure_labels = real["ensure_labels"]

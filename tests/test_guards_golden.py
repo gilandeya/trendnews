@@ -6555,6 +6555,8 @@ def test_analysis_go1_reopen_guards() -> None:
     real_repo = os.environ.get("GITHUB_REPOSITORY")
     os.environ["GITHUB_REPOSITORY"] = "user/trendnews"
     real_script = publish_mod._write_reel_script
+    real_photo = yp._photo_candidates
+    yp._photo_candidates = lambda *a, **k: ["https://example.com/photo.jpg"]
     try:
         # ── g203: اعتماد قضية الإعادة بـ🎬 ريل وحده لموضوع ريله rejected بفشل سيناريو ──
         cfg_reel = load_config()
@@ -6608,6 +6610,7 @@ def test_analysis_go1_reopen_guards() -> None:
         check("g205: mark_topic_returned لموضوع selected بقي بعد التشغيلة الثانية ينجح", got is not None, got)
     finally:
         publish_mod._write_reel_script = real_script
+        yp._photo_candidates = real_photo
         for k, v in real.items():
             setattr(review, k, v)
         if real_repo is None:
