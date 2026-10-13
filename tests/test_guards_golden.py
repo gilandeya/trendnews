@@ -6160,6 +6160,9 @@ def test_reel_render_r3b1_guards() -> None:
             expected = (float(cfg.path("reel.render.title_seconds")) + 3.0 + 3.0 + 1.35 + 1.35
                         + float(cfg.path("reel.render.question_tail_seconds"))
                         + float(cfg.path("reel.render.outro_seconds")))
+            # R3b-1d: صمت بداية الراوي والسؤال يزيد، وخمسة انتقالات تأكل مدتها
+            tsec = float(cfg.path("reel.render.transition.seconds"))
+            expected += 2 * tsec - 5 * tsec
             real = reel_render.probe_duration(mp4)
             check("r3b1-ط: المدة = مجموع المشاهد ±0.5", real is not None and abs(real - expected) <= 0.5,
                   (real, expected))
@@ -6780,5 +6783,167 @@ def test_reel_render_r3b1c_guards() -> None:
         check("g211: نص اعتماد السيناريو الجديد",
               "✅ اعتُمد السيناريو — شغّل «🎬 تركيب الريل» من Actions لتركيبه" in cfg.path("reel.texts.script_approved")
               and "مرحلة التركيب" not in cfg.path("reel.texts.script_approved"), cfg.path("reel.texts.script_approved"))
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def test_reel_transitions_r3b1d_guards() -> None:
+    """Issue #1397 (R3b-1d، g212–g218): انتقال «دفع من اليمين» بين مشاهد الريل (fade للختام) بـxfade/acrossfade،
+    والشعار مرة واحدة بعد الضمّ، وصمت بداية الراوي والسؤال، وإعادة تركيب المعتمد عند تغيّر reel.render.version."""
+    import json
+    import logging
+    import re
+    import tempfile
+    from pathlib import Path
+
+    from src import reel_render, reel_script
+
+    D = "2099-12-03"
+    transcripts = {
+        "v1": "[00:10] alpha beta gamma delta\n[00:14] epsilon zeta eta theta\n[00:18] tail line",
+        "v2": "[00:30] iota kappa lambda mu\n[00:34] nu xi omicron pi\n[00:38] tail two",
+    }
+    quotes = {"v1": "alpha beta gamma delta epsilon zeta eta theta", "v2": "iota kappa lambda mu nu xi omicron pi"}
+    points = [{"video_id": v, "statement": "s " + v, "quote_original": q, "quote_arabic": "ترجمة " + v,
+               "speaker": "متحدث", "channel": "قناة", "video_url": "https://youtube.com/watch?v=" + v,
+               "timestamp": t} for (v, q), t in zip(quotes.items(), (10, 30))]
+    ids = {p["video_id"]: reel_script.point_key_id(p) for p in points}
+
+    def clip_scene(v, kind="clip"):
+        return {"kind": kind, "point_id": ids[v], "video_url": "https://youtube.com/watch?v=" + v, "start": 9,
+                "end": 20, "speaker_name": "", "speaker_role": "", "speaker_verified": False,
+                "speaker_name_latin": "", "channel_display": "قناة", "quote_arabic": "ترجمة " + v, "language": "en"}
+
+    def make_draft(did, scenes, **extra):
+        d = {"id": did, "origin": "analysis", "format": "reel", "status": "approved_script",
+             "render_status": "queued", "topic_id": "t1", "topic_date": D, "title": "ريل", "script_status": "ready",
+             "script": {"narrator": "female", "title": "عنوان", "question": "هل؟", "scenes": scenes}}
+        d.update(extra)
+        return store.save_draft(d), d
+
+    five = [clip_scene("v1", "cold_open_clip"), {"kind": "title_card", "text": "عنوان"}, clip_scene("v2"),
+            clip_scene("v1"), {"kind": "outro"}]
+    mixed = [clip_scene("v1", "cold_open_clip"), {"kind": "narration", "text": "جملة واحدة."}, clip_scene("v2"),
+             {"kind": "question", "text": "هل؟"}, {"kind": "outro"}]
+    durs = {0: 10.0, 1: 2.5, 2: 8.0, 3: 12.0, 4: 3.0}
+
+    def make_deps(log, scene_durs=None):
+        def run(cmd):
+            log["cmds"].append(list(cmd))
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+
+        def probe(p):
+            name = Path(p).name
+            if scene_durs and name.startswith("scene_"):
+                return scene_durs[int(name[6:8])]
+            return 41.0 if "reels" in Path(p).parts else 2.0
+
+        def download(video_id, start, end, height, out_path):
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        return reel_render.Deps(
+            fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
+            synthesize=lambda text, voice: {"ok": True, "audio": b"mp3", "chars": len(text)},
+            diacritize=lambda text: (text, None), run=run, probe=probe, load_points=lambda date: points,
+            comment=lambda i, t: log["comments"].append((i, t)), faces=lambda f, fr: (1280, 720, []))
+
+    tmp = Path(tempfile.mkdtemp())
+    try:
+        def render(did, scenes, c, scene_durs=None):
+            log = {"cmds": [], "comments": []}
+            path, d = make_draft(did, scenes)
+            reel_render.render_draft(path, d, c, make_deps(log, scene_durs), reels_dir=tmp / "reels",
+                                     workdir=tmp / "work")
+            return log, [" ".join(x) for x in log["cmds"]], json.loads(path.read_text(encoding="utf-8"))
+
+        cfg = load_config()
+        tr = cfg.path("reel.render.transition") or {}
+        check("g212: الإعداد transition وversion",
+              (tr.get("type"), tr.get("outro_type"), tr.get("seconds")) == ("slideleft", "fade", 0.35)
+              and cfg.path("reel.render.version") == 2, tr)
+
+        # ── g212/g213: أمر ضمّ واحد بأربعة xfade وأربعة acrossfade ──
+        log, cmds, saved = render("r3b1d0000a01", five, cfg, durs)
+        joins = [c for c in cmds if "xfade" in c]
+        j = joins[0] if joins else ""
+        xf = re.findall(r"xfade=transition=(\w+):duration=([\d.]+):offset=([\d.]+)", j)
+        check("g212: أمر ضمّ واحد وفيه أربعة xfade", len(joins) == 1 and len(xf) == 4, (len(joins), xf))
+        check("g212: الأنواع والـoffsets والمدة",
+              xf == [("slideleft", "0.350", "9.650"), ("slideleft", "0.350", "11.800"),
+                     ("slideleft", "0.350", "19.450"), ("fade", "0.350", "31.100")], xf)
+        check("g213: أربعة acrossfade بـd=0.350", re.findall(r"acrossfade=d=([\d.]+)", j) == ["0.350"] * 4, j[:300])
+        check("g212: duration_seconds من probe الملف النهائي لا مجموع المدد", saved.get("duration_seconds") == 41.0,
+              saved.get("duration_seconds"))
+
+        # ── g214: صمت بداية الراوي والسؤال وحدهما ──
+        log, cmds, saved = render("r3b1d0000a02", mixed, cfg)
+        spoken = [c for c in cmds if "_frames.txt" in c]
+        check("g214: مشهدا الراوي والسؤال بـadelay=350", len(spoken) == 2 and all("adelay=350" in c for c in spoken), spoken)
+        check("g214: المقطع بلا صمت مضاف", not any("adelay" in c for c in cmds if "crop=" in c))
+
+        # ── g215: الشعار بعد الضمّ وإطار الراوي بلا شعار ──
+        log, cmds, _ = render("r3b1d0000a03", five, cfg, durs)
+        ji = next((i for i, c in enumerate(cmds) if "xfade" in c), -1)
+        li = next((i for i, c in enumerate(cmds) if "overlay=W-w-" in c), -1)
+        lg = cfg.path("reel.render.logo")
+        check("g215: الضمّ ثم الشعار وبموضع الإعداد",
+              0 <= ji < li and f"overlay=W-w-{lg['right']}:{lg['top']}" in cmds[li], (ji, li))
+        check("g215: لا أمر قبل الضمّ يذكر الشعار", not any("logo" in c.lower() for c in cmds[:max(ji, 0)]), cmds[:2])
+        img = reel_render.frame_narration(cfg, "جملة قصيرة")
+        navy = reel_render.imaging.hex_rgb(cfg.path("brand.primary_color"))
+        x1 = 1080 - lg["right"]
+        box = img.crop((x1 - lg["width"], lg["top"], x1, lg["top"] + lg["width"]))
+        check("g215: صندوق الشعار بلون الخلفية في إطار الراوي", set(box.getdata()) == {navy}, set(box.getdata()))
+
+        # ── g216: seconds = 0 ← concat كما اليوم ──
+        c0 = load_config()
+        c0["reel"]["render"]["transition"]["seconds"] = 0
+        log, cmds, saved = render("r3b1d0000a04", mixed, c0)
+        check("g216: concat -c copy بلا xfade ولا acrossfade ولا صمت",
+              any("-f concat" in c and "-c copy" in c and "scenes.txt" in c for c in cmds)
+              and not any(w in c for c in cmds for w in ("xfade", "acrossfade", "adelay")), [c[:80] for c in cmds])
+
+        # ── g217: seconds = 1.2 ← 0.9 مع تحذير ──
+        c1 = load_config()
+        c1["reel"]["render"]["transition"]["seconds"] = 1.2
+        warns: list = []
+
+        class _H(logging.Handler):
+            def emit(self, record):
+                warns.append(record.getMessage())
+        h = _H(level=logging.WARNING)
+        lgr = logging.getLogger("trendnews.reel_render")
+        lgr.addHandler(h)
+        try:
+            log, cmds, saved = render("r3b1d0000a05", five, c1, durs)
+        finally:
+            lgr.removeHandler(h)
+        j = next((c for c in cmds if "xfade" in c), "")
+        check("g217: الانتقال 0.900 مع تحذير",
+              "duration=0.900" in j and "acrossfade=d=0.900" in j and "duration=1.200" not in j
+              and any("انتقال" in w for w in warns), (j[:200], warns))
+
+        # ── g218: إعادة تركيب المعتمد بنسخة أقدم ──
+        shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+        DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+        c2 = load_config()
+        c2["reel"]["render"]["max_per_run"] = 50
+        p_old, _ = make_draft("r3b1d0000b01", mixed, render_status="rendered", approved_script_at="2099-01-01")
+        p_pub, _ = make_draft("r3b1d0000b02", mixed, status="published", render_status="rendered")
+        p_rej, _ = make_draft("r3b1d0000b03", mixed, status="rejected", render_status="rendered")
+        p_new, _ = make_draft("r3b1d0000b04", mixed, render_status="rendered", render_version=2)
+        picked = [p.stem for p, _ in reel_render.pending_batch(c2)]
+        check("g218: يلتقط القديم النسخة وحده", picked == [p_old.stem], picked)
+        for p, d in reel_render.pending_batch(c2):
+            reel_render.render_draft(p, d, c2, make_deps({"cmds": [], "comments": []}), reels_dir=tmp / "reels",
+                                     workdir=tmp / "work")
+        s = json.loads(p_old.read_text(encoding="utf-8"))
+        check("g218: render_version = 2 بعد التركيب", s.get("render_status") == "rendered" and s.get("render_version") == 2, s)
+        left = reel_render.pending_batch(c2)
+        check("g218: التشغيلة الثانية لا تعيدها", left == [], [p.stem for p, _ in left])
+        check("g218: المنشور والمرفوض لم يُمسّا",
+              all(json.loads(p.read_text(encoding="utf-8")).get("render_version") is None for p in (p_pub, p_rej)))
     finally:
         shutil.rmtree(tmp, ignore_errors=True)

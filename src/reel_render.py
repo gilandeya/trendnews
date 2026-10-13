@@ -507,17 +507,22 @@ def _speech(text: str, voice: str, cfg, deps: Deps, tmp: Path, tag: str) -> tupl
     return audio, parts
 
 
-def _timed_scene(frames: list[tuple[Path, float]], audio: Path, out: Path, cfg, deps: Deps, tmp: Path, tail: float) -> float:
-    """مشهد صوتي بإطارات متتابعة (جملة لكل إطار بمدتها الفعلية)؛ يعيد مدته."""
+def _timed_scene(frames: list[tuple[Path, float]], audio: Path, out: Path, cfg, deps: Deps, tmp: Path, tail: float,
+                 lead: float = 0.0) -> float:
+    """مشهد صوتي بإطارات متتابعة (جملة لكل إطار بمدتها الفعلية)؛ يعيد مدته.
+    lead: صمت في أول الصوت يمتد معه الإطار الأول، كي لا تقع أول كلمة في التلاشي المتقاطع مع المشهد السابق."""
     rcfg = cfg.path("reel.render")
     frames = list(frames)
     frames[-1] = (frames[-1][0], frames[-1][1] + tail)
+    if lead > 0:
+        frames[0] = (frames[0][0], frames[0][1] + lead)
     total = sum(d for _, d in frames)
     lst = tmp / (out.stem + "_frames.txt")
     body = "".join(f"file '{f}'\nduration {_fmt(d)}\n" for f, d in frames) + f"file '{frames[-1][0]}'\n"
     lst.write_text(body, encoding="utf-8")
     deps.run(_base("-f", "concat", "-safe", "0", "-i", str(lst), "-i", str(audio), "-vf",
-                   f"fps={rcfg['fps']},format=yuv420p", "-af", "apad", "-t", _fmt(total), *_enc(rcfg), str(out)))
+                   f"fps={rcfg['fps']},format=yuv420p", "-af",
+                   f"adelay={int(round(lead * 1000))}:all=1,apad" if lead > 0 else "apad", "-t", _fmt(total), *_enc(rcfg), str(out)))
     return total
 
 
@@ -576,26 +581,42 @@ def _trimmed_logo(cfg, tmp: Path) -> Path:
     return _save(img, tmp / "logo_trimmed.png")
 
 
-def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str) -> tuple[list[Path], float]:
+def transition_seconds(cfg) -> float:
+    """مدة الانتقال الفعلية: 0 تعني بلا انتقال. تُخفَّض إلى min(lead_seconds، clip_tail_seconds) − 0.1 إن بلغتهما،
+    لأن المقطع يبدأ قبل كلامه بـlead وينتهي بعده بـtail فلا يقع كلام في التلاشي إلا إن تجاوزته المدة."""
+    seconds = float(cfg.path("reel.render.transition.seconds", 0) or 0)
+    if seconds <= 0:
+        return 0.0
+    cap = min(float(cfg.path("reel.script.lead_seconds", 1)), float(cfg.path("reel.script.clip_tail_seconds", 1.0)))
+    if seconds >= cap:
+        reduced = round(cap - 0.1, 3)
+        log.warning("مدة الانتقال %s تبلغ حدّ المقطع %s فخُفّضت إلى %s", seconds, cap, reduced)
+        return reduced
+    return seconds
+
+
+def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str) -> tuple[list[Path], list[str], list[float]]:
     rcfg = cfg.path("reel.render")
+    lead = transition_seconds(cfg)
     date_text = datetime.now().strftime("%Y/%m/%d")
     channels = "، ".join(dict.fromkeys(s.get("channel_display", "") for i, s in enumerate(script["scenes"])
                                         if i in clips and s.get("channel_display")))
     scene_files: list[Path] = []
-    total = 0.0
+    kinds: list[str] = []
+    durs: list[float] = []
     for i, scene in enumerate(script["scenes"]):
         kind, out = scene.get("kind"), tmp / f"scene_{i:02d}.mp4"
         if kind in reel_script.CLIP_KINDS:
             if i not in clips:
                 continue
             overlay = _save(frame_clip_overlay(cfg, scene), tmp / f"overlay_{i}.png")
-            total += _clip_scene(clips[i], overlay, out, cfg, deps)
+            dur = _clip_scene(clips[i], overlay, out, cfg, deps)
         elif kind == "title_card":
             png = _save(frame_title(cfg, scene.get("text") or script.get("title", ""), date_text), tmp / f"title_{i}.png")
-            total += _still_scene(png, float(rcfg["title_seconds"]), out, cfg, deps)
+            dur = _still_scene(png, float(rcfg["title_seconds"]), out, cfg, deps)
         elif kind == "outro":
             png = _save(frame_outro(cfg, channels), tmp / f"outro_{i}.png")
-            total += _still_scene(png, float(rcfg["outro_seconds"]), out, cfg, deps)
+            dur = _still_scene(png, float(rcfg["outro_seconds"]), out, cfg, deps)
         elif kind in ("narration", "question"):
             audio, parts = _speech(scene.get("text", ""), voice, cfg, deps, tmp, f"s{i:02d}")
             if kind == "narration":
@@ -606,11 +627,42 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str)
                 png = _save(frame_question(cfg, scene.get("text", "")), tmp / f"q_{i}.png")
                 frames = [(png, sum(d for _, d in parts))]
                 tail = float(rcfg["question_tail_seconds"])
-            total += _timed_scene(frames, audio, out, cfg, deps, tmp, tail)
+            dur = _timed_scene(frames, audio, out, cfg, deps, tmp, tail, lead)
         else:
             continue
         scene_files.append(out)
-    return scene_files, total
+        kinds.append(kind)
+        durs.append(dur)
+    return scene_files, kinds, durs
+
+
+def _join(scene_files: list[Path], kinds: list[str], durs: list[float], cfg, deps: Deps, tmp: Path) -> Path:
+    """يضمّ ملفات المشاهد: بانتقالات xfade/acrossfade بأمر واحد، أو concat -c copy حين لا انتقال (seconds=0 أو مشهد واحد).
+    الانتقال رقم k يبدأ عند مجموع مدد أول k مشهدًا ناقص k×seconds لأن كل انتقال يأكل مدته من الطول الكلي."""
+    rcfg = cfg.path("reel.render")
+    joined = tmp / "joined.mp4"
+    secs = transition_seconds(cfg)
+    if secs <= 0 or len(scene_files) < 2:
+        lst = tmp / "scenes.txt"
+        lst.write_text("".join(f"file '{f}'\n" for f in scene_files), encoding="utf-8")
+        deps.run(_base("-f", "concat", "-safe", "0", "-i", str(lst), "-c", "copy", str(joined)))
+        return joined
+    # مدة الملف المقيسة هي الحقيقية؛ المحسوبة احتياط إن تعذّر القياس
+    real = [float(deps.probe(f) or d) for f, d in zip(scene_files, durs)]
+    tcfg = cfg.path("reel.render.transition")
+    vparts, aparts = [], []
+    vprev, aprev, acc = "0:v", "0:a", 0.0
+    for k in range(1, len(scene_files)):
+        acc += real[k - 1]
+        kind = tcfg.get("outro_type", "fade") if kinds[k] == "outro" else tcfg.get("type", "slideleft")
+        vparts.append(f"[{vprev}][{k}:v]xfade=transition={kind}:duration={_fmt(secs)}:offset={_fmt(acc - k * secs)}[v{k}]")
+        aparts.append(f"[{aprev}][{k}:a]acrossfade=d={_fmt(secs)}[a{k}]")
+        vprev, aprev = f"v{k}", f"a{k}"
+    last = len(scene_files) - 1
+    inputs = [x for f in scene_files for x in ("-i", str(f))]
+    deps.run(_base(*inputs, "-filter_complex", ";".join(vparts + aparts), "-map", f"[v{last}]", "-map", f"[a{last}]",
+                   *_enc(rcfg), str(joined)))
+    return joined
 
 
 def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path, dropped: list,
@@ -627,12 +679,8 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     if len(clips) < need:
         raise RuntimeError(f"بقي {len(clips)} مقطعًا من {wanted} بعد الحذف والأدنى المطلوب {need}")
     voice = cfg.path(f"reel.tts.narrator_voices.{script.get('narrator', 'female')}")
-    scene_files, total = _assemble(script, clips, cfg, deps, tmp, voice)
-
-    lst = tmp / "scenes.txt"
-    lst.write_text("".join(f"file '{f}'\n" for f in scene_files), encoding="utf-8")
-    joined = tmp / "joined.mp4"
-    deps.run(_base("-f", "concat", "-safe", "0", "-i", str(lst), "-c", "copy", str(joined)))
+    scene_files, kinds, durs = _assemble(script, clips, cfg, deps, tmp, voice)
+    joined = _join(scene_files, kinds, durs, cfg, deps, tmp)
 
     rel_dir = f"{path.parent.name}"
     dest = reels_dir / rel_dir / f"{path.stem}.mp4"
@@ -646,13 +694,15 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
                    "-map", "[v]", "-map", "0:a", "-c:v", "libx264", "-preset", "veryfast", "-crf", str(rcfg.get("crf", 22)),
                    "-pix_fmt", "yuv420p", "-af", _loudnorm(cfg), "-c:a", "aac", "-b:a", "128k",
                    "-ar", str(rcfg.get("audio_rate", 48000)), "-ac", "2", "-movflags", "+faststart", str(dest)))
+    # مدة الملف النهائي المقيسة لا مجموع المدد: الانتقالات تقصّر الطول الكلي
+    total = deps.probe(dest) or (sum(durs) - transition_seconds(cfg) * max(len(durs) - 1, 0))
     g = rcfg["gif"]
     deps.run(_base("-t", str(g["seconds"]), "-i", str(dest), "-vf",
                    f"fps={g['fps']},scale={g['width']}:{g['height']}:flags=lanczos,split[x][y];[x]palettegen[p];"
                    f"[y][p]paletteuse", "-loop", "0", str(gif)))
     sub = rcfg.get("repo_subdir", "reels")
     return {"reel_file": f"{sub}/{rel_dir}/{dest.name}", "reel_gif": f"{sub}/{rel_dir}/{gif.name}",
-            "duration_seconds": round(total, 1),
+            "duration_seconds": round(total, 1), "render_version": int(rcfg.get("version", 1)),
             "render_crops": {str(i): c["crop"] for i, c in clips.items() if "crop" in c}}
 
 
@@ -715,19 +765,30 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
 # ───────────────────────────── الطابور ─────────────────────────────
 
 
-def queued_reels() -> list[tuple[Path, dict]]:
-    """مسودات الريل المنتظرة التركيب، الأقدم اعتمادًا أولًا."""
+def queued_reels(cfg=None) -> list[tuple[Path, dict]]:
+    """مسودات الريل المنتظرة التركيب، الأقدم اعتمادًا أولًا. مع cfg تُضاف المعتمدة المُركَّبة بنسخة أقدم من
+    reel.render.version (أو بلا نسخة) فتُعاد كأنها queued؛ المنشور والمرفوض وغير المعتمد لا يُمسّ."""
     import json
+    version = int(cfg.path("reel.render.version", 1)) if cfg is not None else None
     out = []
     for p in sorted(store.DRAFTS_DIR.glob("*/*.json")):
         try:
             d = json.loads(p.read_text(encoding="utf-8"))
         except json.JSONDecodeError:
             continue
-        if d.get("format") == "reel" and d.get("render_status") == "queued":
+        if d.get("format") != "reel":
+            continue
+        stale = (version is not None and d.get("status") == "approved_script" and d.get("render_status") == "rendered"
+                 and int(d.get("render_version") or 0) < version)
+        if d.get("render_status") == "queued" or stale:
             out.append((p, d))
     out.sort(key=lambda pd: (pd[1].get("approved_script_at") or "", pd[0].name))
     return out
+
+
+def pending_batch(cfg) -> list[tuple[Path, dict]]:
+    """ما تركّبه تشغيلة --pending: المنتظر ثم المعتمد بنسخة أقدم، حتى reel.render.max_per_run."""
+    return queued_reels(cfg)[: int(cfg.path("reel.render.max_per_run", 1))]
 
 
 def retry(draft_id: str, cfg) -> bool:
@@ -751,7 +812,7 @@ def main(argv: list[str] | None = None) -> int:
         ok = retry(args.retry, cfg)
         print(f"{'أُعيد إلى queued' if ok else 'لا ريل failed بهذا المعرّف'}: {args.retry}")
     if args.pending:
-        batch = queued_reels()[: int(cfg.path("reel.render.max_per_run", 1))]
+        batch = pending_batch(cfg)
         for path, draft in batch:
             res = render_draft(path, draft, cfg)
             print(f"{path.stem}: {res['render_status']} {res.get('render_error', '')}")
