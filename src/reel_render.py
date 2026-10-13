@@ -16,6 +16,7 @@ import re
 import shutil
 import subprocess
 import tempfile
+import time
 from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 from pathlib import Path
@@ -104,6 +105,8 @@ class Deps:
     comment: Callable[[int, str], None] | None = None
     # (ملف المقطع، نِسب العيّنات) ← (عرض المصدر، ارتفاعه، مراكز أكبر وجه أفقيًا لكل لقطة فيها وجه)
     faces: Callable[[Any, list], tuple[int, int, list[float]]] | None = None
+    # انتظار بين إعادات التنزيل؛ حقن الاختبار يمنع الانتظار الحقيقي
+    sleep: Callable[[float], None] | None = None
 
     def resolved(self, cfg) -> "Deps":
         def fetch(video_id):
@@ -135,6 +138,7 @@ class Deps:
             probe=self.probe or probe_duration,
             load_points=self.load_points or points,
             faces=self.faces or _detect_faces,
+            sleep=self.sleep or time.sleep,
             comment=self.comment or comment)
 
 
@@ -491,6 +495,28 @@ def _approx_window(point: dict, scene: dict) -> tuple[int, int] | None:
     return (start, end) if end > start else None
 
 
+class ClipDownloadFailed(RuntimeError):
+    """مقطع لم يُنزَّل بعد كل الإعادات: الريل لا يُركَّب ناقصًا بل يُعاد في تشغيلة لاحقة (Issue #1404)."""
+
+    def __init__(self, channel: str, reason: str):
+        super().__init__(reason)
+        self.channel, self.reason = channel, reason
+
+
+def _download_with_retries(deps: Deps, rcfg, vid: str, wstart: int, wend: int, out: Path) -> None:
+    """السلّم كاملًا ثم إعادته download_retries مرة بانتظار retry_wait_seconds قبل كل إعادة: العطل عابر عادة
+    (المقطع نفسه نزل في تركيبين سابقين)، فإسقاطه يترك راويًا بلا مقطع."""
+    retries = int(rcfg.get("download_retries", 2))
+    for attempt in range(retries + 1):
+        try:
+            deps.download_clip(vid, wstart, wend, int(rcfg["clip_height"]), out)
+            return
+        except Exception:  # noqa: BLE001
+            if attempt >= retries:
+                raise
+            deps.sleep(float(rcfg.get("retry_wait_seconds", 20)))
+
+
 def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path) -> tuple[dict, list, list]:
     """لكل مشهد مقطع: نص الفيديو ← تحديد موضع الاقتباس ← تنزيل نافذته. يعيد ({فهرس المشهد: {file, seconds}}, المحذوف,
     المقاطع بنافذة تقديرية). تعذّر النص (استثناء أو فارغ) لا يُسقط المقطع بل يستعمل نافذة المشهد؛ أما نص متاح لا يطابق
@@ -542,12 +568,10 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path) -> tuple
                 wend = wstart + int(scfg.get("clip_min_seconds", 6))
         out = tmp / f"clip_{i}.mp4"
         try:
-            deps.download_clip(vid, wstart, wend, int(rcfg["clip_height"]), out)
-        except Exception as exc:  # noqa: BLE001 -- فشل كل درجات التنزيل يحذف المشهد لا الريل
-            _drop(dropped, scene, "فشل تنزيل المقطع: " + reel_clips.scrub_text(str(exc))[:120])
-            if approx and approx[-1]["point_id"] == scene.get("point_id", ""):
-                approx.pop()     # لم يُركَّب فلا نافذة تقديرية تُراجَع
-            continue
+            _download_with_retries(deps, rcfg, vid, wstart, wend, out)
+        except Exception as exc:  # noqa: BLE001 -- عطل تنزيل لا إسقاط تحريري: الريل كله يؤجَّل
+            raise ClipDownloadFailed(scene.get("channel_display", ""),
+                                     "فشل تنزيل المقطع: " + reel_clips.scrub_text(str(exc))[:120]) from exc
         if not out.exists():
             found = sorted(tmp.glob(f"clip_{i}.*"))
             if not found:
@@ -815,6 +839,7 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     sub = rcfg.get("repo_subdir", "reels")
     return {"reel_file": f"{sub}/{rel_dir}/{dest.name}", "reel_gif": f"{sub}/{rel_dir}/{gif.name}",
             "duration_seconds": round(total, 1), "render_version": int(rcfg.get("version", 1)),
+            "render_attempts": 0,
             "render_crops": {str(i): c["crop"] for i, c in clips.items() if "crop" in c}}
 
 
@@ -852,6 +877,27 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
     approx: list = []
     try:
         result = {"render_status": "rendered", **_render(path, draft, cfg, deps, reels_dir, tmp, dropped, approx)}
+    except ClipDownloadFailed as exc:
+        # لا ريل ناقص: لا ملف جديد ولا مساس بـreel_file السابق؛ يُعاد في التشغيلة التالية حتى max_attempts
+        shutil.rmtree(tmp, ignore_errors=True)
+        t = cfg.path("reel.render.texts")
+        limit = int(cfg.path("reel.render.max_attempts", 3))
+        attempts = int(draft.get("render_attempts") or 0) + 1
+        if attempts < limit:
+            changes = {"render_status": "queued", "render_attempts": attempts}
+            text = t["comment_download_retry"].format(channel=exc.channel, n=attempts, max=limit)
+        else:
+            changes = {"render_status": "failed", "render_attempts": attempts, "render_error": exc.reason}
+            text = t["comment_download_failed"].format(channel=exc.channel, max=limit, reason=exc.reason)
+        log.warning("تأجيل تركيب الريل %s: %s", path.stem, exc.reason)
+        store.update_draft(path, **changes)
+        issue = draft.get("review_issue")
+        if issue:
+            try:
+                deps.comment(int(issue), text)
+            except Exception as cexc:  # noqa: BLE001
+                log.warning("تعذّر التعليق على القضية %s: %s", issue, str(cexc)[:150])
+        return changes
     except Exception as exc:  # noqa: BLE001 -- failed يجب أن يحمل سببه ويُحيى بـ--retry
         reason = reel_clips.scrub_text(str(exc))
         reason = " ".join(reason.split())[:300] or exc.__class__.__name__
