@@ -247,6 +247,42 @@ class _Pen:
             y += lh
         return y
 
+    def typed_block(self, text: str, prefix: str, font_path: str, weight: str | None, fill, y_mid: int, *, start: int,
+                    minimum: int, max_lines: int = 8) -> None:
+        """block وسطيّ بالتخطيط نفسه (حجم الخط وتقسيم الأسطر من الجملة كاملة) لكن يُرسم منه ما كُتب حتى prefix.
+        الحروف لا تتحرك: السطر الجزئي يُحاذى بحافة حبره اليمنى عند حافة السطر نفسه مكتملًا، ولا يبدأ سطر قبل اكتمال سابقه.
+        العدّ بالحروف غير المسافة لأن prefix قد تتغير مسافاته، وتقسيم الأسطر لا يغيّر الحروف نفسها."""
+        font, lines, lh = imaging.fit_text(self.d, text, font_path, self.max_w, max_lines, start, minimum, weight)
+        total = lh * len(lines)
+        safe = self._safe()
+        y = max(safe[0], min(int(y_mid - total / 2), safe[1] - total))
+        shown = sum(1 for c in prefix if not c.isspace())
+        for ln in lines:
+            if shown <= 0:
+                break
+            n = sum(1 for c in ln if not c.isspace())
+            full_xy = (self.cx, y)
+            if shown >= n:
+                imaging.draw_text(self.d, full_xy, ln, font, fill, anchor="ma")
+                self.boxes.append(tuple(self.ink(ln, font, full_xy, "ma")))
+            else:
+                seen, cut = 0, len(ln)
+                for i, c in enumerate(ln):
+                    seen += 0 if c.isspace() else 1
+                    if seen == shown:
+                        cut = i + 1
+                        break
+                part = ln[:cut]
+                right = self.ink(ln, font, full_xy, "ma")[2]
+                # الحبر الفعلي لا نقطة المرساة هو ما يُطابَق: حرف أول السطر قد يتغيّر انحناؤه بين الجزئي والكامل
+                right_now = self.ink(part, font, (right, y), "ra")[2]
+                xy = (right + (right - right_now), y)
+                imaging.draw_text(self.d, xy, part, font, fill, anchor="ra")
+                self.boxes.append(tuple(self.ink(part, font, xy, "ra")))
+                break
+            shown -= n
+            y += lh
+
     def _safe(self) -> tuple[int, int]:
         return 230, 1480
 
@@ -280,6 +316,42 @@ def frame_narration(cfg, sentence: str, boxes=None) -> Image.Image:
     return p.rgb()
 
 
+def frame_narration_typed(cfg, sentence: str, prefix: str, boxes=None) -> Image.Image:
+    """إطار الراوي وقد كُتب من الجملة ما قبل prefix. الجملة كاملة ← frame_narration نفسه بالبكسل."""
+    if sum(1 for c in prefix if not c.isspace()) >= sum(1 for c in sentence if not c.isspace()):
+        return frame_narration(cfg, sentence, boxes)
+    p = _Pen(cfg, boxes)
+    p.typed_block(sentence, prefix, TAJAWAL_XB, None, p.white, 860, start=72, minimum=40)
+    return p.rgb()
+
+
+def typewriter_steps(text: str, speech_seconds: float, hold_seconds: float, fps: float) -> list[tuple[str, float]]:
+    """خطوات الكتابة حرفًا حرفًا: [(البادئة، المدة)]. الحرف k من N (غير المسافة) يظهر عند k/N من speech_seconds،
+    والمسافة تظهر مع الحرف الذي يليها. أول خطوة بادئتها فارغة (يمتد معها صمت الانتقال)، وآخر خطوة النص كاملًا تبقى
+    hold_seconds. لا خطوة أقصر من إطار: الأحرف التي تقع في إطار واحد تُدمج فيظهر آخرها. المجموع = speech + hold."""
+    text = text.strip()
+    frame = 1.0 / fps
+    speech = max(float(speech_seconds), 0.0)
+    hold = max(float(hold_seconds), frame)
+    idx = [i for i, c in enumerate(text) if not c.isspace()]
+    if not idx or speech < frame:
+        return [(text, speech + hold)]
+    n = len(idx)
+    groups: dict[int, str] = {}
+    for k, i in enumerate(idx, 1):
+        # أول حرف لا يسبق الإطار الأول كي تبقى الخطوة الفارغة بمدة إطار على الأقل
+        groups[max(1, round(k / n * speech * fps))] = text[: i + 1]
+    ordered = sorted(groups.items())
+    starts = [0.0] + [f / fps for f, _ in ordered]
+    prefixes = [""] + [p for _, p in ordered]
+    starts[-1] = speech        # النص الكامل يظهر عند نهاية الكلام تمامًا لا عند أقرب إطار
+    for i in range(len(starts) - 2, 0, -1):
+        if starts[i + 1] - starts[i] < frame - 1e-9:
+            del starts[i], prefixes[i]
+    durs = [starts[i + 1] - starts[i] for i in range(len(starts) - 1)] + [hold]
+    return list(zip(prefixes, durs))
+
+
 def frame_question(cfg, question: str, boxes=None) -> Image.Image:
     p = _Pen(cfg, boxes)
     r = 120
@@ -306,13 +378,26 @@ def frame_outro(cfg, channels: str, boxes=None) -> Image.Image:
 
 
 def frame_clip_overlay(cfg, scene: dict, boxes=None) -> Image.Image:
-    """شفافة بحجم الشاشة: الترجمة في صندوق داكن فوق الشريط، والشريط السفلي بحافته الذهبية على اليمين."""
-    p = _Pen(cfg, boxes, transparent=True)
+    """الطبقتان مدموجتان في صورة شفافة واحدة (الشكل النهائي الثابت للشريط بعد انتهاء حركته)."""
+    static, band = frame_clip_layers(cfg, scene, boxes)
+    return Image.alpha_composite(static, band)
+
+
+def frame_clip_layers(cfg, scene: dict, boxes=None) -> tuple[Image.Image, Image.Image]:
+    """طبقتان شفافتان بحجم الشاشة (Issue #1400): الثابتة (صندوق الترجمة والغطاء الكحلي المعتم من أسفل الشريط)
+    وطبقة الشريط (المستطيل والحافة الذهبية والنصوص) التي تدخل متحركة من اليمين. الغطاء يخفي شريط القناة الأصلية
+    المقصوص؛ شفافية 0.94 أبقته ظاهرًا باهتًا فهو معتم تمامًا."""
+    st = _Pen(cfg, boxes, transparent=True)
+    bd = _Pen(cfg, st.boxes, transparent=True)
+    p = st
     band = cfg.path("reel.render.band")
     top, height, edge = int(band["top"]), int(band["height"]), int(band["edge"])
     navy_a = p.navy + (round(255 * float(band["alpha"])),)
-    p.d.rectangle((0, top, p.w, top + height), fill=navy_a)
-    p.d.rectangle((p.w - edge, top, p.w, top + height), fill=p.gold + (255,))
+    if band.get("cover"):
+        # الصف top+height للشريط نفسه، فيبدأ الغطاء بعده
+        st.d.rectangle((0, top + height + 1, st.w, st.h), fill=st.navy + (255,))
+    bd.d.rectangle((0, top, bd.w, top + height), fill=navy_a)
+    bd.d.rectangle((bd.w - edge, top, bd.w, top + height), fill=bd.gold + (255,))
     quote = (scene.get("quote_arabic") or "").strip()
     if quote:
         font, lines, lh = imaging.fit_text(p.d, quote, TAJAWAL_B, p.max_w, 3, 46, 30, None)
@@ -325,6 +410,7 @@ def frame_clip_overlay(cfg, scene: dict, boxes=None) -> Image.Image:
             imaging.draw_text(p.d, (p.cx, y), ln, font, p.white, anchor="ma")
             p.boxes.append((p.cx - w / 2, y, p.cx + w / 2, y + int(lh * 0.8)))
             y += lh
+    p = bd
     verified = scene.get("speaker_verified") and scene.get("speaker_name")
     channel = scene.get("channel_display", "")
     y = top + 30
@@ -346,7 +432,7 @@ def frame_clip_overlay(cfg, scene: dict, boxes=None) -> Image.Image:
     else:
         label = cfg.path("reel.texts.guest_label", "ضيف على قناة {channel}").format(channel=channel)
         p.line(label, p.font(CAIRO, 52, "Black"), p.white, top + 80, align="right")
-    return p.img
+    return st.img, bd.img
 
 
 def layout_boxes(cfg) -> list[tuple]:
@@ -550,8 +636,9 @@ def _crop_for(clip: dict, cfg, deps: Deps) -> dict:
         return {"w": None, "h": None, "x": None, "source": "center"}
 
 
-def _clip_scene(clip: dict, overlay: Path, out: Path, cfg, deps: Deps) -> float:
-    """المقطع يملأ الشاشة الرأسية باقتطاع ثابت (يتبع الوجه)، ثم الشريط والترجمة؛ صوته كما هو."""
+def _clip_scene(clip: dict, overlays: tuple[Path, Path], out: Path, cfg, deps: Deps) -> float:
+    """المقطع يملأ الشاشة الرأسية باقتطاع ثابت (يتبع الوجه)، ثم الطبقة الثابتة، ثم طبقة الشريط تدخل من اليمين
+    بتباطؤ في آخر الحركة: x = W×(1−p)^3 مع p من 0 إلى 1 خلال slide_seconds بعد انتهاء الانتقال (قبلها خارج الشاشة)."""
     rcfg = cfg.path("reel.render")
     w, h = rcfg["width"], rcfg["height"]
     crop = _crop_for(clip, cfg, deps)
@@ -561,9 +648,16 @@ def _clip_scene(clip: dict, overlay: Path, out: Path, cfg, deps: Deps) -> float:
         clip["crop"]["x"] = "center"
     else:
         cexpr = f"crop={crop['w']}:{crop['h']}:{crop['x']}:0"
+    slide = float(cfg.path("reel.render.band.slide_seconds", 0) or 0)
+    if slide > 0:
+        pos = f"x='W*pow(1-min(max((t-{_fmt(transition_seconds(cfg))})/{_fmt(slide)},0),1),3)':y=0"
+    else:
+        pos = "0:0"
     graph = (f"[0:v]{cexpr},scale={w}:{h}[v0];"
-             f"[v0][1:v]overlay=0:0:shortest=1,fps={rcfg['fps']},format=yuv420p[v]")
-    deps.run(_base("-i", str(clip["file"]), "-loop", "1", "-framerate", str(rcfg["fps"]), "-i", str(overlay),
+             f"[v0][1:v]overlay=0:0:shortest=1[v1];"
+             f"[v1][2:v]overlay={pos}:shortest=1,fps={rcfg['fps']},format=yuv420p[v]")
+    loops = [x for ov in overlays for x in ("-loop", "1", "-framerate", str(rcfg["fps"]), "-i", str(ov))]
+    deps.run(_base("-i", str(clip["file"]), *loops,
                    "-filter_complex", graph, "-map", "[v]", "-map", "0:a:0", "-af",
                    f"aresample={rcfg.get('audio_rate', 48000)},aformat=channel_layouts=stereo,{_loudnorm(cfg)}",
                    "-t", _fmt(clip["seconds"]), *_enc(rcfg), str(out)))
@@ -595,6 +689,24 @@ def transition_seconds(cfg) -> float:
     return seconds
 
 
+def _narration_frames(parts: list[tuple[str, float]], i: int, cfg, tmp: Path, lead: float) -> list[tuple[Path, float]]:
+    """إطارات مشهد الراوي. مع typewriter: خطوة لكل حرف (typewriter_steps) بمدة كلام الجملة = مدة صوتها − الصمت بعدها،
+    ويبقى النص كاملًا خلال الصمت. بدونه: إطار كامل لكل جملة كما كان. أول إطار فارغ كي يقع صمت الانتقال بلا نص."""
+    if not cfg.path("reel.render.typewriter.enabled", False):
+        return [(_save(frame_narration(cfg, text), tmp / f"nar_{i}_{k}.png"), dur) for k, (text, dur) in enumerate(parts)]
+    silence = float(cfg.path("reel.tts.sentence_silence", 0.35))
+    fps = float(cfg.path("reel.render.fps"))
+    frames: list[tuple[Path, float]] = []
+    for k, (text, dur) in enumerate(parts):
+        hold = min(silence, dur)
+        steps = typewriter_steps(text, dur - hold, hold, fps)
+        if k == 0 and lead > 0 and steps[0][0]:
+            steps = [("", 0.0)] + steps    # lead يُضاف إلى هذه الخطوة الفارغة في _timed_scene
+        for j, (prefix, d) in enumerate(steps):
+            frames.append((_save(frame_narration_typed(cfg, text, prefix), tmp / f"nar_{i}_{k}_{j}.png"), d))
+    return frames
+
+
 def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str) -> tuple[list[Path], list[str], list[float]]:
     rcfg = cfg.path("reel.render")
     lead = transition_seconds(cfg)
@@ -609,8 +721,9 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str)
         if kind in reel_script.CLIP_KINDS:
             if i not in clips:
                 continue
-            overlay = _save(frame_clip_overlay(cfg, scene), tmp / f"overlay_{i}.png")
-            dur = _clip_scene(clips[i], overlay, out, cfg, deps)
+            static, band = frame_clip_layers(cfg, scene)
+            overlays = (_save(static, tmp / f"overlay_{i}_static.png"), _save(band, tmp / f"overlay_{i}_band.png"))
+            dur = _clip_scene(clips[i], overlays, out, cfg, deps)
         elif kind == "title_card":
             png = _save(frame_title(cfg, scene.get("text") or script.get("title", ""), date_text), tmp / f"title_{i}.png")
             dur = _still_scene(png, float(rcfg["title_seconds"]), out, cfg, deps)
@@ -620,8 +733,7 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str)
         elif kind in ("narration", "question"):
             audio, parts = _speech(scene.get("text", ""), voice, cfg, deps, tmp, f"s{i:02d}")
             if kind == "narration":
-                frames = [(_save(frame_narration(cfg, text), tmp / f"nar_{i}_{k}.png"), dur)
-                          for k, (text, dur) in enumerate(parts)]
+                frames = _narration_frames(parts, i, cfg, tmp, lead)
                 tail = 0.0
             else:
                 png = _save(frame_question(cfg, scene.get("text", "")), tmp / f"q_{i}.png")

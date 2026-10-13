@@ -6862,7 +6862,7 @@ def test_reel_transitions_r3b1d_guards() -> None:
         tr = cfg.path("reel.render.transition") or {}
         check("g212: الإعداد transition وversion",
               (tr.get("type"), tr.get("outro_type"), tr.get("seconds")) == ("slideleft", "fade", 0.35)
-              and cfg.path("reel.render.version") == 2, tr)
+              and cfg.path("reel.render.version") == 3, tr)
 
         # ── g212/g213: أمر ضمّ واحد بأربعة xfade وأربعة acrossfade ──
         log, cmds, saved = render("r3b1d0000a01", five, cfg, durs)
@@ -6933,17 +6933,194 @@ def test_reel_transitions_r3b1d_guards() -> None:
         p_old, _ = make_draft("r3b1d0000b01", mixed, render_status="rendered", approved_script_at="2099-01-01")
         p_pub, _ = make_draft("r3b1d0000b02", mixed, status="published", render_status="rendered")
         p_rej, _ = make_draft("r3b1d0000b03", mixed, status="rejected", render_status="rendered")
-        p_new, _ = make_draft("r3b1d0000b04", mixed, render_status="rendered", render_version=2)
+        p_new, _ = make_draft("r3b1d0000b04", mixed, render_status="rendered", render_version=3)
         picked = [p.stem for p, _ in reel_render.pending_batch(c2)]
         check("g218: يلتقط القديم النسخة وحده", picked == [p_old.stem], picked)
         for p, d in reel_render.pending_batch(c2):
             reel_render.render_draft(p, d, c2, make_deps({"cmds": [], "comments": []}), reels_dir=tmp / "reels",
                                      workdir=tmp / "work")
         s = json.loads(p_old.read_text(encoding="utf-8"))
-        check("g218: render_version = 2 بعد التركيب", s.get("render_status") == "rendered" and s.get("render_version") == 2, s)
+        check("g218: render_version = 3 بعد التركيب", s.get("render_status") == "rendered" and s.get("render_version") == 3, s)
         left = reel_render.pending_batch(c2)
         check("g218: التشغيلة الثانية لا تعيدها", left == [], [p.stem for p, _ in left])
         check("g218: المنشور والمرفوض لم يُمسّا",
               all(json.loads(p.read_text(encoding="utf-8")).get("render_version") is None for p in (p_pub, p_rej)))
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def test_reel_typewriter_r3b2a_guards() -> None:
+    """Issue #1400 (R3b-2a، g219–g225): كتابة نص الراوي حرفًا حرفًا متزامنة مع الصوت، والشريط السفلي يدخل متحركًا
+    من اليمين، والغطاء الكحلي المعتم تحت الشريط، وreel.render.version = 3."""
+    import json
+    import re
+    import tempfile
+    from pathlib import Path
+
+    from PIL import Image, ImageChops
+
+    from src import reel_render, reel_script, tts
+
+    FPS = 30
+
+    def step_checks(tag, text, speech, hold, steps):
+        prefixes, ds = [p for p, _ in steps], [d for _, d in steps]
+        incr = all(len(a) < len(b) and b.startswith(a) for a, b in zip(prefixes, prefixes[1:]))
+        check(f"{tag}: البادئات متزايدة وآخرها النص كاملًا", incr and prefixes[-1] == text, prefixes[-2:])
+        check(f"{tag}: لا بادئة تنتهي بمسافة", not any(p.endswith(" ") for p in prefixes))
+        check(f"{tag}: مجموع المدد = الكلام + الصمت", abs(sum(ds) - (speech + hold)) <= 0.001, sum(ds))
+        check(f"{tag}: النص الكامل عند نهاية الكلام ويبقى hold",
+              abs(sum(ds[:-1]) - speech) <= 1 / FPS + 1e-6 and abs(ds[-1] - hold) <= 1e-6, (sum(ds[:-1]), ds[-1]))
+        check(f"{tag}: لا مدة أقل من إطار", min(ds) >= 1 / FPS - 1e-6, min(ds))
+
+    # ── g219 ──
+    text = "أعلن الحزب إخلاء مواقعه."
+    step_checks("g219", text, 2.0, 0.35, reel_render.typewriter_steps(text, 2.0, 0.35, FPS))
+
+    # ── g220: جملة 300 حرف في 3 ثوانٍ ──
+    long_text = " ".join(["كلمةطويلة"] * 30)[:300].rstrip()
+    steps = reel_render.typewriter_steps(long_text, 3.0, 0.35, FPS)
+    check("g220: عدد الخطوات ≤ 91", len(steps) <= 91, len(steps))
+    step_checks("g220", long_text, 3.0, 0.35, steps)
+
+    cfg = load_config()
+    navy = reel_render.imaging.hex_rgb(cfg.path("brand.primary_color"))
+
+    # ── g221: جملة من سطرين ──
+    probe = reel_render._Pen(cfg, None)
+    sentence = ""
+    for n in range(4, 40):
+        cand = " ".join(["مستشفى"] * n)
+        _, lines, _ = reel_render.imaging.fit_text(probe.d, cand, reel_render.TAJAWAL_XB, probe.max_w, 8, 72, 40, None)
+        if len(lines) == 2:
+            sentence = cand
+            break
+    full_boxes: list = []
+    full = reel_render.frame_narration(cfg, sentence, full_boxes)
+    last = reel_render.frame_narration_typed(cfg, sentence, sentence)
+    check("g221: الإطار الأخير مطابق بالبكسل لـframe_narration", last.tobytes() == full.tobytes())
+    prefix = sentence[:len(sentence) // 4].rstrip()
+    part = reel_render.frame_narration_typed(cfg, sentence, prefix)
+    bg = Image.new("RGB", full.size, navy)
+
+    def region_bbox(img, box):
+        y0, y1 = int(box[1]), int(box[3]) + 1
+        return ImageChops.difference(img.crop((0, y0, img.size[0], y1)), bg.crop((0, y0, img.size[0], y1))).getbbox()
+
+    check("g221: سطران في الإطار الكامل", len(full_boxes) == 2, full_boxes)
+    b_full, b_part = region_bbox(full, full_boxes[0]), region_bbox(part, full_boxes[0])
+    check("g221: حافة حبر السطر الأول اليمنى ثابتة (±2px)",
+          bool(b_full and b_part) and abs(b_full[2] - b_part[2]) <= 2, (b_full, b_part))
+    check("g221: لا حبر في صفوف السطر الثاني", region_bbox(part, full_boxes[1]) is None)
+
+    D = "2099-12-04"
+    quote = "alpha beta gamma delta epsilon zeta eta theta"
+    points = [{"video_id": "v1", "statement": "s", "quote_original": quote, "quote_arabic": "ترجمة",
+               "speaker": "متحدث", "channel": "قناة", "video_url": "https://youtube.com/watch?v=v1", "timestamp": 10}]
+    pid = reel_script.point_key_id(points[0])
+    clip = {"kind": "clip", "point_id": pid, "video_url": "https://youtube.com/watch?v=v1", "start": 9, "end": 20,
+            "speaker_name": "", "speaker_role": "", "speaker_verified": False, "speaker_name_latin": "",
+            "channel_display": "قناة", "quote_arabic": "ترجمة", "language": "en"}
+    scenes = [dict(clip, kind="cold_open_clip"),
+              {"kind": "narration", "text": "جملة أولى قصيرة. وجملة ثانية أطول قليلًا."}, dict(clip),
+              {"kind": "question", "text": "هل؟"}, {"kind": "outro"}]
+    transcripts = {"v1": "[00:10] alpha beta gamma delta\n[00:14] epsilon zeta eta theta\n[00:18] tail line"}
+
+    def make_draft(did, **extra):
+        d = {"id": did, "origin": "analysis", "format": "reel", "status": "approved_script",
+             "render_status": "queued", "topic_id": "t1", "topic_date": D, "title": "ريل", "script_status": "ready",
+             "script": {"narrator": "female", "title": "عنوان", "question": "هل؟", "scenes": scenes}}
+        d.update(extra)
+        return store.save_draft(d), d
+
+    def make_deps(log):
+        def run(cmd):
+            log["cmds"].append(list(cmd))
+            for a in cmd:
+                if str(a).endswith("_frames.txt"):
+                    log["lists"].append(Path(a).read_text(encoding="utf-8"))
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+
+        def download(video_id, start, end, height, out_path):
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        return reel_render.Deps(
+            fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
+            synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
+            diacritize=lambda t: (t, None), run=run,
+            probe=lambda p: 41.0 if "reels" in Path(p).parts else 2.0, load_points=lambda date: points,
+            comment=lambda i, t: None, faces=lambda f, fr: (1280, 720, []))
+
+    tmp = Path(tempfile.mkdtemp())
+    try:
+        def render(did, c):
+            log = {"cmds": [], "lists": []}
+            path, d = make_draft(did)
+            reel_render.render_draft(path, d, c, make_deps(log), reels_dir=tmp / "reels", workdir=tmp / "work")
+            return log, [" ".join(x) for x in log["cmds"]]
+
+        def entries(body):
+            return [float(x) for x in re.findall(r"duration ([\d.]+)", body)]
+
+        sents = [tts.strip_tashkeel(s) for s in tts.split_sentences(scenes[1]["text"])]
+        silence = float(cfg.path("reel.tts.sentence_silence", 0.35))
+        expect = [reel_render.typewriter_steps(s, 2.0 - silence, silence, FPS) for s in sents]
+
+        # ── g222 ──
+        log, cmds = render("r3b2a0000a01", cfg)
+        check("g222: مشهدا الراوي والسؤال لكلٍّ قائمة إطارات", len(log["lists"]) == 2, len(log["lists"]))
+        nar, ques = (log["lists"] + ["", ""])[:2]
+        d_nar = entries(nar)
+        want_n = sum(len(e) for e in expect)
+        check("g222: صور الراوي بعدد خطوات جمله", len(d_nar) == want_n, (len(d_nar), want_n))
+        lead = reel_render.transition_seconds(cfg)
+        check("g222: مدة أول خطوة تتضمن lead", abs(d_nar[0] - (expect[0][0][1] + lead)) < 0.002, (d_nar[0], lead))
+        check("g222: السؤال صورة واحدة", len(entries(ques)) == 1, entries(ques))
+        check("g222: الشعار والانتقالات بلا تغيير",
+              any("xfade" in c for c in cmds) and any("overlay=W-w-" in c for c in cmds))
+
+        # ── g223 ──
+        clip_cmds = [c for c in cmds if "crop=" in c]
+        fc = clip_cmds[0] if clip_cmds else ""
+        check("g223: overlay ثانٍ في أمر المقطع", fc.count("overlay=") == 2 and fc.count("-loop 1") == 2, fc[:300])
+        mx = re.search(r"overlay=x='([^']+)'", fc)
+        slide = cfg.path("reel.render.band.slide_seconds")
+        check("g223: slide_seconds في الإعداد 0.4", slide == 0.4, slide)
+        check("g223: تعبير x يحمل البدء 0.350 والمدة 0.400",
+              bool(mx) and "0.350" in mx.group(1) and "0.400" in mx.group(1) and "pow(" in mx.group(1),
+              mx and mx.group(1))
+        static, band = reel_render.frame_clip_layers(cfg, dict(clip))
+        check("g223: الطبقة الثابتة عند (540،1700) كحلي معتم", static.getpixel((540, 1700)) == navy + (255,),
+              static.getpixel((540, 1700)))
+        check("g223: صندوق الترجمة في الثابتة وحدها",
+              static.getpixel((540, 1215))[3] > 0 and band.getpixel((540, 1215))[3] == 0,
+              (static.getpixel((540, 1215)), band.getpixel((540, 1215))))
+        check("g223: الشريط في طبقته ولا غطاء فيها",
+              band.getpixel((300, 1380))[3] > 0 and band.getpixel((540, 1700))[3] == 0)
+
+        # ── g224 ──
+        c_off = load_config()
+        c_off["reel"]["render"]["typewriter"] = {"enabled": False}
+        c_off["reel"]["render"]["band"]["cover"] = False
+        log, cmds = render("r3b2a0000a02", c_off)
+        check("g224: بلا كتابة ← إطار لكل جملة", len(entries(log["lists"][0])) == len(sents), entries(log["lists"][0]))
+        static_off, _ = reel_render.frame_clip_layers(c_off, dict(clip))
+        check("g224: بلا غطاء ← الثابتة شفافة عند (540،1700)", static_off.getpixel((540, 1700))[3] == 0)
+
+        # ── g225 ──
+        shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+        DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+        p_old, _ = make_draft("r3b2a0000b01", render_status="rendered", render_version=2,
+                              approved_script_at="2099-01-01")
+        picked = [p.stem for p, _ in reel_render.pending_batch(cfg)]
+        check("g225: --pending يلتقط الريل بنسخة 2", picked == [p_old.stem], picked)
+        for p, d in reel_render.pending_batch(cfg):
+            reel_render.render_draft(p, d, cfg, make_deps({"cmds": [], "lists": []}), reels_dir=tmp / "reels",
+                                     workdir=tmp / "work")
+        s = json.loads(p_old.read_text(encoding="utf-8"))
+        check("g225: render_version = 3 بعد التركيب",
+              s.get("render_status") == "rendered" and s.get("render_version") == 3, s)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
