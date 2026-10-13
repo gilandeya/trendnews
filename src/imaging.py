@@ -395,6 +395,26 @@ def face_score(img: Image.Image) -> float:
     return max(w * h for _, _, w, h in faces) / max(area, 1)
 
 
+def face_boxes(img: Image.Image) -> list[tuple[int, int, int, int]]:
+    """صناديق الوجوه (x, y, w, h) بإحداثيات الصورة الأصلية، بالكاشف نفسه الذي يستعمله face_score.
+    فارغة إن تعذّر الكشف أو غابت المكتبة."""
+    try:
+        import cv2
+        import numpy as np
+    except ImportError:
+        return []
+    try:
+        small = img.convert("L")
+        scale = min(480 / max(small.size), 1.0)
+        if scale < 1:
+            small = small.resize((max(int(small.width * scale), 1), max(int(small.height * scale), 1)))
+        cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
+        faces = cascade.detectMultiScale(np.array(small), scaleFactor=1.1, minNeighbors=5, minSize=(24, 24))
+    except Exception:  # noqa: BLE001 — الكشف تحسين لا شرط
+        return []
+    return [(int(x / scale), int(y / scale), int(w / scale), int(h / scale)) for x, y, w, h in faces]
+
+
 def visual_hash(img: Image.Image, size: int = 10) -> list[int]:
     """
     بصمة بصرية بسيطة (difference hash) تصف *محتوى* الصورة لا رابطها.

@@ -109,3 +109,56 @@ def diacritize(text: str, cfg, client=None) -> tuple[str, str | None]:
     except Exception as exc:  # noqa: BLE001 -- عطل التشكيل لا يوقف القياس
         log.warning("تشكيل: %s", str(exc)[:200])
     return text, DIACRITIZE_WARNING
+
+
+# ───────────────────────────── الوقف والجمل (Issue #1381، R3b-1) ─────────────────────────────
+
+_WORD_RE = re.compile("[ء-ي][ء-يً-ْٰ]*")
+# كلمة يليها وقف: علامة ترقيم نهائية أو نهاية النص، بعد أي قوس/تنصيص إغلاق
+_PAUSE_AFTER = re.compile(r"""(?:[»"”)\]]*\s*(?:[.؟!:?]|$))""")
+_HARAKA = "ً-ِ"
+_SUKUN, _SHADDA, _FATHA, _FATHATAN = "ْ", "ّ", "َ", "ً"
+_SENTENCE_END = re.compile(r"(?<=[.؟!?])[»\"”)\]]*\s+")
+
+
+def _waqf_word(word: str) -> str:
+    """وقف كلمة واحدة: الحركة أو التنوين الأخير ← سكون، والشدة تبقى، وما ينتهي بألف أو ألف مقصورة أو سكون يبقى.
+    تنوين الفتح قبل ألف أخيرة (كِتَابًا) يصير فتحة على الحرف قبلها (كِتَابَا) لأن الألف لا تُسكَّن."""
+    m = re.match(f"^(.*?)([ء-ي])([{_HARAKA}ّْٰ]*)$", word, re.S)
+    if not m:
+        return word
+    head, letter, tail = m.groups()
+    if _SUKUN in tail or letter == "ى":
+        return word
+    if letter == "ا":
+        prev = re.match(f"^(.*[ء-ي])([{_HARAKA}ّْٰ]*)$", head, re.S)
+        if prev is None:
+            return word
+        body, marks = prev.groups()
+        if _FATHATAN in tail and not re.search(f"[{_HARAKA}]", marks):
+            return body + marks + _FATHA + letter     # تنوين على الألف نفسها
+        if _FATHATAN in marks:
+            return body + marks.replace(_FATHATAN, _FATHA) + letter
+        return word
+    if not re.search(f"[{_HARAKA}]", tail):
+        return word          # بلا حركة أصلًا: لا يُوضع سكون على ما لم يُشكَّل
+    return head + letter + (_SHADDA if _SHADDA in tail else "") + _SUKUN
+
+
+def apply_waqf(sentence: str) -> str:
+    """يسكّن آخر كلمة قبل كل وقف (. ؟ ! : أو نهاية الجملة) لأن TTS يقرأ إعراب الحرف الأخير فيبدو الوقف مصطنعًا.
+    كلمات وسط الجملة لا تُمسّ."""
+    out, pos = [], 0
+    for m in _WORD_RE.finditer(sentence):
+        if _PAUSE_AFTER.match(sentence, m.end()):
+            out.append(sentence[pos:m.start()])
+            out.append(_waqf_word(m.group()))
+            pos = m.end()
+    out.append(sentence[pos:])
+    return "".join(out)
+
+
+def split_sentences(text: str) -> list[str]:
+    """جمل عند . ؟ ! ؛ لا عند نقطة بين رقمين (1.4: ليس بعدها فراغ) ولا عند الفاصلة العربية «،»."""
+    parts = _SENTENCE_END.split((text or "").strip())
+    return [p.strip() for p in parts if p and p.strip()]

@@ -5669,7 +5669,7 @@ def test_reel_probe_r3a_guards() -> None:
     got = reel_clips.locate_quote("بداية الاقتباس هنا ثم يكتمل في السطر التالي", two, 22, cfg)
     check("g181-ب: اقتباس عابر لسطرين ← found وstart = بداية السطر الأول",
           got["status"] == "found" and got["start"] == 20, got)
-    check("g181-ب: end = طابع السطر الأخير (قرار #1347 للدرجة full)", got["end"] == 24, got)
+    check("g181-ب: end = min(التالي، بداية الأخير + كلماته ÷ speaker_wps + clip_tail) = 27.6", got["end"] == 27.6, got)
 
     got = reel_clips.locate_quote("عبارة غير موجودة إطلاقًا في النص كله", segs, 50, cfg)
     check("g181-ج: غائب ← missing", got["status"] == "missing", got)
@@ -5688,8 +5688,8 @@ def test_reel_probe_r3a_guards() -> None:
     five = [(100, "one two"), (103, "three four"), (106, "five six"), (109, "seven eight"), (112, "nine ten"),
             (130, "unrelated")]
     got = reel_clips.locate_quote("one two three four five six seven eight nine ten", five, 100, cfg)
-    check("g181-ي: اقتباس عبر 5 أسطر ← full وend = طابع السطر الخامس",
-          got["status"] == "found" and got.get("level") == "full" and got["end"] == 112, got)
+    check("g181-ي: اقتباس عبر 5 أسطر ← full وend محدود بالسقف = 113.9",
+          got["status"] == "found" and got.get("level") == "full" and got["end"] == 113.9, got)
     two8 = [(10, "alpha beta gamma delta epsilon zeta eta theta iota"), (50, "filler words here"),
             (90, "alpha beta gamma delta epsilon zeta eta theta kappa")]
     got = reel_clips.locate_quote("alpha beta gamma delta epsilon zeta eta theta changed", two8, 88, cfg)
@@ -5872,3 +5872,296 @@ def test_reel_tts_r3a3_guards() -> None:
             setattr(rp, n, f)
         tts.synthesize, tts.diacritize = saved_tts
         shutil.rmtree(tmp, ignore_errors=True)
+
+
+def test_reel_render_r3b1_guards() -> None:
+    """محرك تركيب الريل: من السيناريو المعتمد إلى mp4 بلا نشر (Issue #1381، R3b-1).
+    نص الفيديو والمنزِّل والصوت والتشكيل ومشغّل ffmpeg مزيَّفة كلها؛ والتركيب الحقيقي يُجرَّب إن وُجد ffmpeg."""
+    import json
+    import shutil as _shutil
+    import subprocess
+    import tempfile
+    from pathlib import Path
+
+    from src import reel_clips, reel_render, reel_script, tts
+    from src.config import ROOT
+
+    cfg = load_config()
+
+    # ── أ) apply_waqf ──
+    cases = [("الْجَنُوبِيَّةِ.", "الْجَنُوبِيَّةْ."), ("دُولَارٍ.", "دُولَارْ."), ("كِتَابًا.", "كِتَابَا."),
+             ("عَلِيٌّ.", "عَلِيّْ."), ("التَّصْعِيدِ؟", "التَّصْعِيدْ؟"),
+             ("مُصْطَفَى.", "مُصْطَفَى."), ("رَأْيَكُمْ.", "رَأْيَكُمْ.")]
+    for src_text, want in cases:
+        got = tts.apply_waqf(src_text)
+        check(f"r3b1-أ: waqf {src_text}", got == want, (got, want))
+    mid = "ذَهَبَ الرَّجُلُ إِلَى السُّوقِ."
+    check("r3b1-أ: كلمة وسط الجملة لا تُمسّ", tts.apply_waqf(mid) == "ذَهَبَ الرَّجُلُ إِلَى السُّوقْ.",
+          tts.apply_waqf(mid))
+
+    # ── ب) تقسيم الجمل ──
+    got = tts.split_sentences("جملة أولى. وثانية؟ وثالثة!")
+    check("r3b1-ب: ثلاث جمل", got == ["جملة أولى.", "وثانية؟", "وثالثة!"], got)
+    check("r3b1-ب: نقطة بين رقمين لا تقسم", tts.split_sentences("قيمتها 1.4 مليار دولار.")
+          == ["قيمتها 1.4 مليار دولار."])
+    check("r3b1-ب: الفاصلة العربية لا تقسم", len(tts.split_sentences("أولًا، ثانيًا، ثالثًا.")) == 1)
+
+    # ── ج) locate_quote: نهاية الدرجة full ──
+    segs = [(10, "alpha beta gamma delta"), (14, "epsilon zeta eta theta"), (18, "next line here")]
+    got = reel_clips.locate_quote("alpha beta gamma delta epsilon zeta eta theta", segs, near=10, cfg=cfg)
+    check("r3b1-ج: end = min(التالي 18، 14+4÷2.3+1 = 16.7)", got["status"] == "found" and got["level"] == "full"
+          and got["start"] == 10 and got["end"] == 16.7, got)
+    last = [(10, "one two three"), (14, "alpha beta gamma delta")]
+    got = reel_clips.locate_quote("alpha beta gamma delta", last, near=14, cfg=cfg)
+    want = round(14 + 4 / float(cfg.path("reel.script.speaker_wps")) + float(cfg.path("reel.script.clip_tail_seconds")), 1)
+    check("r3b1-ج: آخر سطر ← بدايته + كلماته ÷ speaker_wps + clip_tail", got["end"] == want, (got, want))
+
+    # ── د) معدلا الكلام ──
+    c2 = load_config()
+    c2["reel"]["script"]["narration_wps"] = 1.0
+    c2["reel"]["script"]["speaker_wps"] = 4.0
+    check("r3b1-د: الإعدادان موجودان وspeech_rate_wps محذوف",
+          cfg.path("reel.script.narration_wps") == 1.7 and cfg.path("reel.script.speaker_wps") == 2.3
+          and cfg.path("reel.script.speech_rate_wps") is None)
+    script = {"scenes": [{"kind": "narration", "text": " ".join(["كلمة"] * 10)}]}
+    est = reel_script.estimate_seconds(script, c2)
+    check("r3b1-د: estimate_seconds تستعمل narration_wps",
+          abs(est - (10 / 1.0 + float(c2.path("reel.script.fixed_seconds")))) < 1e-6, est)
+    pt = {"timestamp": 100, "quote_original": " ".join(["w"] * 20)}
+    s, e = reel_script.clip_window(pt, c2)
+    check("r3b1-د: clip_window تستعمل speaker_wps (20÷4=5 ← حد أدنى 6)", round(e - s, 1) == 6.0, (s, e))
+    c2["reel"]["script"]["speaker_wps"] = 2.0
+    s, e = reel_script.clip_window(pt, c2)
+    check("r3b1-د: clip_window (20÷2=10)", round(e - s, 1) == 10.0, (s, e))
+
+    # ── هـ) التركيب بمزيَّفات ──
+    D = "2099-12-01"
+    transcripts = {
+        "v1": "[00:10] alpha beta gamma delta\n[00:14] epsilon zeta eta theta\n[00:18] tail line",
+        "v2": "[00:30] iota kappa lambda mu\n[00:34] nu xi omicron pi\n[00:38] tail two",
+        "v3": "[01:00] unrelated words only\n[01:04] nothing here",
+    }
+    quotes = {"v1": "alpha beta gamma delta epsilon zeta eta theta", "v2": "iota kappa lambda mu nu xi omicron pi",
+              "v3": "rho sigma tau upsilon phi chi psi omega"}
+    stamps = {"v1": 10, "v2": 30, "v3": 60}
+    points = [{"video_id": v, "statement": f"statement {v}", "quote_original": q, "quote_arabic": f"ترجمة {v}",
+               "speaker": "متحدث", "channel": "قناة", "video_url": f"https://youtube.com/watch?v={v}",
+               "timestamp": stamps[v]} for v, q in quotes.items()]
+    ids = {p["video_id"]: reel_script.point_key_id(p) for p in points}
+
+    def clip_scene(v, kind="clip"):
+        return {"kind": kind, "point_id": ids[v], "video_url": f"https://youtube.com/watch?v={v}", "start": 9,
+                "end": 20, "speaker_name": "", "speaker_role": "", "speaker_verified": False,
+                "speaker_name_latin": "", "channel_display": "قناة", "quote_arabic": f"ترجمة {v}", "language": "en"}
+
+    def make_draft(did, vids):
+        scenes = [clip_scene(vids[0], "cold_open_clip"), {"kind": "title_card", "text": "عنوان الريل"},
+                  {"kind": "narration", "text": "جملة أولى. وثانية؟"}]
+        for v in vids[1:]:
+            scenes += [clip_scene(v), {"kind": "narration", "text": "ربط قصير."}]
+        scenes += [{"kind": "question", "text": "هل يتغير الموقف؟"}, {"kind": "outro"}]
+        d = {"id": did, "origin": "analysis", "format": "reel", "status": "approved_script",
+             "render_status": "queued", "topic_id": "t1", "topic_date": D, "review_issue": 4242, "title": "ريل",
+             "script_status": "ready", "script": {"narrator": "female", "title": "عنوان الريل",
+                                                   "question": "هل يتغير الموقف؟", "scenes": scenes}}
+        path = store.save_draft(d)
+        return path, d
+
+    def make_deps(log, faces=None):
+        def run(cmd):
+            log["cmds"].append(list(cmd))
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+
+        def download(video_id, start, end, height, out_path):
+            log["downloads"].append((video_id, start, end, height))
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        def synth(text, voice):
+            log["synth"].append((text, voice))
+            return {"ok": True, "audio": b"mp3", "chars": len(text)}
+
+        def comment(issue, text):
+            log["comments"].append((issue, text))
+
+        return reel_render.Deps(
+            fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download, synthesize=synth,
+            diacritize=lambda text: (text, None), run=run, probe=lambda p: 2.0,
+            load_points=lambda date: points, comment=comment, faces=faces)
+
+    tmp = Path(tempfile.mkdtemp())
+    try:
+        log = {"cmds": [], "downloads": [], "synth": [], "comments": []}
+        path, d = make_draft("r3b1000000a1", ["v1", "v2", "v3"])
+        reel_render.render_draft(path, d, cfg, make_deps(log), reels_dir=tmp / "reels", workdir=tmp / "work")
+        saved = json.loads(path.read_text(encoding="utf-8"))
+        check("r3b1-هـ: مقطع missing يُحذف والباقي يُركَّب", saved.get("render_status") == "rendered",
+              saved.get("render_error"))
+        dropped = saved.get("render_dropped") or []
+        check("r3b1-هـ: render_dropped فيه سبب المحذوف", len(dropped) == 1 and ids["v3"] in json.dumps(dropped)
+              and dropped[0].get("reason"), dropped)
+        check("r3b1-هـ: التنزيل بـ720 وللموجود وحده", sorted(x[0] for x in log["downloads"]) == ["v1", "v2"]
+              and all(x[3] == 720 for x in log["downloads"]), log["downloads"])
+        v1 = next(x for x in log["downloads"] if x[0] == "v1")
+        check("r3b1-هـ: نافذة v1 من 10−lead حتى ceil(16.7)=17 (قاعدة سقف النهاية)", v1[1] == 9 and v1[2] == 17, v1)
+        voice = cfg.path("reel.tts.narrator_voices.female")
+        check("r3b1-هـ: صوت الراوي من الإعداد وجملة لكل نداء", len(log["synth"]) == 5
+              and all(v == voice for _, v in log["synth"]), log["synth"])
+        check("r3b1-هـ: تعليق على قضية المراجعة برابطين", len(log["comments"]) == 1
+              and log["comments"][0][0] == 4242
+              and cfg.path("reel.render.data_link_base") in log["comments"][0][1], log["comments"])
+        check("r3b1-هـ: المجلد المؤقت للمقاطع حُذف", not (tmp / "work").exists() or not any((tmp / "work").iterdir()))
+
+        # ── و) تمريرة الشعار مرة واحدة ──
+        logo_cmds = [c for c in log["cmds"] if "overlay=W-w-54:108" in " ".join(c)]
+        lg = cfg.path("reel.render.logo")
+        check("r3b1-و: الإعداد 108/54/168", (lg["top"], lg["right"], lg["width"]) == (108, 54, 168), lg)
+        check("r3b1-و: تمريرة شعار واحدة بعرض 168", len(logo_cmds) == 1 and "scale=168" in " ".join(logo_cmds[0]),
+              len(logo_cmds))
+        check("r3b1-و: الشعار في أمر واحد فقط (لا في المشاهد)",
+              sum(1 for c in log["cmds"] if "logo" in " ".join(c).lower()) == 1)
+
+        # ── ز) حقول المسودة بلا اقتباس أصلي ──
+        raw = path.read_text(encoding="utf-8")
+        check("r3b1-ز: حقول التركيب", saved.get("reel_file") and saved.get("reel_gif")
+              and saved.get("duration_seconds") and saved.get("rendered_at")
+              and saved["reel_file"].endswith(".mp4"),
+              {k: saved.get(k) for k in ("reel_file", "reel_gif", "duration_seconds", "rendered_at")})
+        check("r3b1-ز: لا quote_original في JSON المسودة", "quote_original" not in raw)
+        check("r3b1-ز: لا نص الاقتباس الأصلي في المسودة", not any(q in raw for q in quotes.values()))
+
+        # ── مقطعان من ثلاثة missing ← failed ──
+        log2 = {"cmds": [], "downloads": [], "synth": [], "comments": []}
+        saved_tr = dict(transcripts)
+        transcripts["v2"] = "[00:30] unrelated words\n[00:34] other words"
+        path2, d2 = make_draft("r3b1000000a2", ["v1", "v2", "v3"])
+        reel_render.render_draft(path2, d2, cfg, make_deps(log2), reels_dir=tmp / "reels", workdir=tmp / "work")
+        s2 = json.loads(path2.read_text(encoding="utf-8"))
+        check("r3b1-هـ: أقل من min_clips ← failed بالسبب", s2.get("render_status") == "failed"
+              and s2.get("render_error") and len(s2.get("render_dropped") or []) == 2, s2.get("render_error"))
+        check("r3b1-هـ: لا شعار عند الفشل", not any("overlay=W-w-54:108" in " ".join(c) for c in log2["cmds"]))
+        transcripts.update(saved_tr)
+
+        # ── --retry ──
+        reel_render.retry(path2.stem, cfg)
+        s2 = json.loads(path2.read_text(encoding="utf-8"))
+        check("r3b1-هـ: retry يعيد failed إلى queued", s2.get("render_status") == "queued"
+              and "render_error" not in s2, s2.get("render_status"))
+        picked = [p.stem for p, _ in reel_render.queued_reels()]
+        check("r3b1-هـ: queued_reels تلتقط المسودة", path2.stem in picked and path.stem not in picked, picked)
+
+        # ── المنطقة الآمنة ──
+        boxes = reel_render.layout_boxes(cfg)
+        sz = cfg.path("reel.render.safe")
+        bad = [b for b in boxes if b[1] < sz["top"] or b[3] > 1920 - sz["bottom"]
+               or (b[2] > 1080 - sz["right_col_width"] and b[3] > sz["right_col_from"] and b[1] < sz["right_col_to"])]
+        check("r3b1-و: لا نص خارج المنطقة الآمنة", boxes and not bad, bad[:3])
+
+        # ── م) نافذة الاقتطاع تتبع الوجه ──
+        check("r3b1-م: crop في config", cfg.path("reel.render.crop.mode") == "face"
+              and cfg.path("reel.render.crop.samples") == [0.2, 0.5, 0.8], cfg.path("reel.render.crop"))
+        cases_m = [([1100], 875, "face"), ([300], 98, "face"), ([300, 320, 1000], 118, "face"), ([], 437, "center")]
+        for centers, want_x, want_src in cases_m:
+            got = reel_render.crop_window(1280, 720, centers)
+            check(f"r3b1-م: مراكز {centers} ← عرض 405 وx={want_x}",
+                  got["w"] == 405 and got["x"] == want_x and got["source"] == want_src, got)
+        got = reel_render.crop_window(1280, 720, [300], mode="center")
+        check("r3b1-م: mode=center يلغي الكشف", got["x"] == 437 and got["source"] == "center", got)
+        for centers, want_x, want_src in cases_m:
+            logm = {"cmds": [], "downloads": [], "synth": [], "comments": []}
+            pm, dm = make_draft("r3b1000000m%d" % want_x, ["v1", "v2"])
+            reel_render.render_draft(pm, dm, cfg, make_deps(logm, faces=lambda f, fr, c=centers: (1280, 720, c)),
+                                     reels_dir=tmp / "reels", workdir=tmp / "work")
+            joined_m = [" ".join(c) for c in logm["cmds"]]
+            clip_cmds = [c for c in joined_m if f"crop=405:720:{want_x}:0" in c]
+            check(f"r3b1-م: مرشّح ffmpeg فيه crop=405:720:{want_x}:0 ثم scale=1080:1920",
+                  len(clip_cmds) == 2 and all("scale=1080:1920" in c and c.index("crop=") < c.index("scale=1080:1920")
+                                              for c in clip_cmds), joined_m[:3])
+            check("r3b1-م: لا boxblur", not any("boxblur" in c for c in joined_m))
+            sm = json.loads(pm.read_text(encoding="utf-8"))
+            crops = list((sm.get("render_crops") or {}).values())
+            check("r3b1-م: render_crops على المسودة لكل مقطع",
+                  len(crops) == 2 and all(c.get("x") == want_x and c.get("source") == want_src for c in crops),
+                  sm.get("render_crops"))
+
+        # ── ي/ك/ل) الخطوط وحارس الحروف ──
+        from src import imaging as _im
+        for name in ("Ayşe Demir", "Işık Kuşçu", "Doğan"):
+            f = reel_render.pick_font(name, reel_render.TAJAWAL_R, 34)
+            cps = _im._font_codepoints(f) if f is not None else set()
+            check(f"r3b1-ي: «{name}» بخط يحوي كل حروفها", f is not None and all(ord(c) in cps for c in name if c != " "),
+                  getattr(f, "path", None))
+        boxes_k: list = []
+        pen = reel_render._Pen(cfg, boxes_k)
+        try:
+            ok = True
+            y2 = pen.text_line("ab\U00013000cd", reel_render.CAIRO, "Black", 40, (255, 255, 255), 500)
+        except Exception as exc:  # noqa: BLE001
+            ok, y2 = False, exc
+        check("r3b1-ك: حرف غائب من كل الخطوط ← السطر لا يُرسم ولا استثناء", ok and not boxes_k, (y2, boxes_k))
+        boxes_l: list = []
+        reel_render.frame_clip_overlay(cfg, {"kind": "clip", "speaker_verified": True, "speaker_name": "عائشة دميرال",
+                                             "speaker_name_latin": "Ayşe Demir", "speaker_role": "باحثة",
+                                             "channel_display": "قناة", "quote_arabic": "ترجمة"}, boxes_l)
+        ar_box, la_box = boxes_l[-3], boxes_l[-2]
+        check("r3b1-ل: أعلى اللاتيني ≥ أسفل العربي + 10", la_box[1] >= ar_box[3] + 10, (ar_box, la_box))
+    finally:
+        _shutil.rmtree(tmp, ignore_errors=True)
+
+    # ── ح) المتطلبات و.gitignore ──
+    reqs = (ROOT / "requirements.txt").read_text(encoding="utf-8")
+    check("r3b1-ح: yt-dlp[default] في requirements", "yt-dlp[default]" in reqs)
+    check("r3b1-ح: state/reels/ في .gitignore", "state/reels/" in (ROOT / ".gitignore").read_text(encoding="utf-8"))
+    check("r3b1-ح: قالب workflow موجود", (ROOT / "tools/workflows/reel-render.yml").exists())
+
+    # ── ط) تركيب حقيقي إن وُجد ffmpeg ──
+    if not _shutil.which("ffmpeg"):
+        print("  ⚠️ r3b1-ط: ffmpeg غير موجود — تخطّي اختبار الدخان (تنبيه لا فشل)")
+        return
+    work = Path(tempfile.mkdtemp())
+    try:
+        def ff(*args):
+            subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *args], check=True)
+
+        clip_src = work / "src.mp4"
+        ff("-f", "lavfi", "-i", "testsrc=size=640x360:rate=25:duration=3", "-f", "lavfi",
+           "-i", "sine=frequency=440:duration=3", "-shortest", "-c:v", "libx264", "-pix_fmt", "yuv420p",
+           "-c:a", "aac", str(clip_src))
+        tone = work / "tone.wav"
+        ff("-f", "lavfi", "-i", "sine=frequency=300:duration=1", str(tone))
+
+        def run_real(cmd):
+            subprocess.run(cmd, check=True, capture_output=True)
+
+        def dl(video_id, start, end, height, out_path):
+            _shutil.copy(clip_src, out_path)
+            return {"tier": "a", "bytes": 1, "failures": []}
+
+        deps = reel_render.Deps(
+            fetch_transcript=lambda vid: transcripts.get(vid), download_clip=dl,
+            synthesize=lambda text, voice: {"ok": True, "audio": tone.read_bytes(), "chars": len(text)},
+            diacritize=lambda text: (text, None), run=run_real, probe=reel_render.probe_duration,
+            load_points=lambda date: points, comment=lambda i, t: None)
+        scenes = [clip_scene("v1", "cold_open_clip"), {"kind": "title_card", "text": "عنوان"},
+                  {"kind": "narration", "text": "جملة واحدة."}, clip_scene("v2"),
+                  {"kind": "question", "text": "هل؟"}, {"kind": "outro"}]
+        d = {"id": "r3b1000000b1", "origin": "analysis", "format": "reel", "status": "approved_script",
+             "render_status": "queued", "topic_id": "t1", "topic_date": D, "title": "ريل",
+             "script": {"narrator": "male", "title": "عنوان", "question": "هل؟", "scenes": scenes}}
+        sp = store.save_draft(d)
+        reel_render.render_draft(sp, d, cfg, deps, reels_dir=work / "reels", workdir=work / "w")
+        sd = json.loads(sp.read_text(encoding="utf-8"))
+        check("r3b1-ط: التركيب الحقيقي نجح", sd.get("render_status") == "rendered", sd.get("render_error"))
+        if sd.get("render_status") == "rendered":
+            mp4 = work / "reels" / Path(sd["reel_file"]).relative_to(cfg.path("reel.render.repo_subdir"))
+            info = subprocess.run(["ffmpeg", "-i", str(mp4)], capture_output=True, text=True).stderr
+            check("r3b1-ط: المقاس 1080×1920", "1080x1920" in info, info[-300:])
+            expected = (float(cfg.path("reel.render.title_seconds")) + 3.0 + 3.0 + 1.35 + 1.35
+                        + float(cfg.path("reel.render.question_tail_seconds"))
+                        + float(cfg.path("reel.render.outro_seconds")))
+            real = reel_render.probe_duration(mp4)
+            check("r3b1-ط: المدة = مجموع المشاهد ±0.5", real is not None and abs(real - expected) <= 0.5,
+                  (real, expected))
+    finally:
+        _shutil.rmtree(work, ignore_errors=True)

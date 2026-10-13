@@ -71,7 +71,7 @@ def clip_window(point: dict, cfg: Any) -> tuple[float, float]:
     """نافذة المقطع: تبدأ قبل طابع النقطة بـlead_seconds، ومدتها مقدَّرة من كلمات الاقتباس الأصلي ÷ معدل الكلام،
     محصورة بين الحدّين."""
     start = max(0.0, float(point["timestamp"]) - float(_rcfg(cfg, "lead_seconds", 1)))
-    est = _words(point.get("quote_original", "")) / float(_rcfg(cfg, "speech_rate_wps", 2.3))
+    est = _words(point.get("quote_original", "")) / float(_rcfg(cfg, "speaker_wps", 2.3))
     dur = min(max(est, float(_rcfg(cfg, "clip_min_seconds", 6))), float(_rcfg(cfg, "clip_max_seconds", 15)))
     return start, round(start + dur, 1)
 
@@ -236,7 +236,7 @@ def estimate_seconds(script: dict, cfg: Any) -> float:
     """كلمات الراوي (مشاهده وسؤال الختام) ÷ معدل الكلام + مجموع نوافذ المقاطع + ثواني العنوان والختام الثابتة."""
     clips = sum(max(0.0, float(s.get("end", 0)) - float(s.get("start", 0)))
                 for s in script.get("scenes") or [] if s.get("kind") in CLIP_KINDS)
-    return spoken_words(script) / float(_rcfg(cfg, "speech_rate_wps", 2.3)) + clips + float(_rcfg(cfg, "fixed_seconds", 8))
+    return spoken_words(script) / float(_rcfg(cfg, "narration_wps", 1.7)) + clips + float(_rcfg(cfg, "fixed_seconds", 8))
 
 
 def _unverified_name_violations(script: dict, valid: list[dict], cfg: Any) -> list[str]:
@@ -471,7 +471,7 @@ def scene_duration(scene: dict, cfg: Any) -> float:
     if kind in CLIP_KINDS:
         return max(0.0, float(scene.get("end", 0)) - float(scene.get("start", 0)))
     if kind in ("narration", "question"):
-        return _words(scene.get("text", "")) / float(_rcfg(cfg, "speech_rate_wps", 2.3))
+        return _words(scene.get("text", "")) / float(_rcfg(cfg, "narration_wps", 1.7))
     fixed, title = float(_rcfg(cfg, "fixed_seconds", 8)), float(_rcfg(cfg, "title_seconds", 3))
     return title if kind == "title_card" else max(0.0, fixed - title)
 

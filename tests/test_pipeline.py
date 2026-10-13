@@ -269,7 +269,8 @@ from tests.test_guards_golden import (test_guards_golden, test_important_false_g
                                       test_editor_news_breaking_guards, test_reel_structure_guards,
                                       test_reel_script_guards, test_reel_speaker_audit_guards,
                                       test_reel_identity_r2c_guards,
-                                      test_reel_probe_r3a_guards, test_reel_tts_r3a3_guards)
+                                      test_reel_probe_r3a_guards, test_reel_tts_r3a3_guards,
+                                      test_reel_render_r3b1_guards)
 from tests.test_names_audit import (test_names_audit_brave_counter, test_names_audit_other_sites,
                                     test_names_audit_pipeline,
                                     test_names_audit_prevention_writer, test_names_audit_review_learning)
@@ -663,6 +664,8 @@ def main() -> int:
     print("\n── قياس الريل قبل التركيب g181 (Issue #1347) ──")
     test_reel_probe_r3a_guards()
     test_reel_tts_r3a3_guards()
+    print("\n── تركيب الريل mp4 بلا نشر (Issue #1381، R3b-1) ──")
+    test_reel_render_r3b1_guards()
     test_analysis_attribution_guards()
     test_analysis_attribution_pipeline()
     print("\n── تدقيق أسماء الأشخاص على الأنبوب: 🚀 والمرحلتان 2 و3 والتعلّم والعدّاد (Issue #1252) ──")

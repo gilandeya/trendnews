@@ -24,4 +24,4 @@ imageio-ffmpeg>=0.5
 # Webshare -- انظر src/proxy_config.py.
 youtube-transcript-api>=1.0
 # أداة قياس الريلات tools/reel_clip_probe.py (Issue #1236) فقط -- تنزيل نافذة زمنية من فيديو عبر البروكسي.
-yt-dlp>=2025.10.22
+yt-dlp[default]>=2025.10.22
