@@ -1,48 +1,5 @@
 [
  {
-  "id": "fbea7074f224",
-  "tag": "لم يُختر",
-  "note": "مرشح معلَّق من تشغيلة سابقة أُسقط قبل فتح Issue اختيار له",
-  "title": "Ukrainekrieg: Schwerer russischer Bombenangriff auf Kramatorsk",
-  "source_title": "Ukrainekrieg: Schwerer russischer Bombenangriff auf Kramatorsk",
-  "publishers": [
-   "Der Spiegel",
-   "Le Monde"
-  ],
-  "region": "de",
-  "bucket": "serious",
-  "at": "2026-08-14T09:07:55.470219+00:00"
- },
- {
-  "id": "230b93359199",
-  "tag": "لم يُختر",
-  "note": "لم يُختر ضمن مرشحي دفعته",
-  "title": "Hundreds still missing in Colombia as desperation grips earthquake rescue effort",
-  "source_title": "Hundreds still missing in Colombia as desperation grips earthquake rescue effort",
-  "publishers": [
-   "Daily Maverick",
-   "The Japan Times"
-  ],
-  "region": "za",
-  "bucket": "serious",
-  "at": "2026-08-14T09:14:04.571995+00:00"
- },
- {
-  "id": "867e078fa4f4",
-  "tag": "لم يُختر",
-  "note": "لم يُختر ضمن مرشحي دفعته",
-  "title": "Iran dismisses US claims to reiterate control over Strait of Hormuz",
-  "source_title": "Iran dismisses US claims to reiterate control over Strait of Hormuz",
-  "publishers": [
-   "Africanews",
-   "CBS News — World",
-   "Daily Sabah"
-  ],
-  "region": "tr",
-  "bucket": "serious",
-  "at": "2026-08-14T09:14:04.572578+00:00"
- },
- {
   "id": "65d2875af3be",
   "tag": "لم يُختر",
   "note": "لم يُختر ضمن مرشحي دفعته",
@@ -13769,5 +13726,21 @@
   "bucket": "",
   "origin": "analysis",
   "at": "2026-10-13T08:43:50.288138+00:00"
+ },
+ {
+  "id": "1c251f64c82a",
+  "tag": "لم يُعتمد",
+  "note": "",
+  "title": "هجوم الحوثيين على مطار الملك خالد بالرياض",
+  "source_title": "",
+  "publishers": [
+   "CNN Türk",
+   "Haaretz",
+   "Halk TV"
+  ],
+  "region": "",
+  "bucket": "",
+  "origin": "analysis",
+  "at": "2026-10-13T13:37:43.538014+00:00"
  }
 ]
