@@ -6417,3 +6417,205 @@ def test_reel_script_r2d_guards() -> None:
         body = f"ERR {type(exc).__name__}: {exc}"
     check("g199: نص قضية المرحلة 2 بلا speaker_name_guess",
           not body.startswith("ERR") and "اسمسري" not in body and "speaker_name_guess" not in body, body[:200])
+
+
+def test_analysis_go1_reopen_guards() -> None:
+    """Issue #1392 (A-go1، g200–g205): go1 في التحليل يفتح قضية الاختيار فورًا، وإعادة العنقدة في اليوم نفسه لا تمحو
+    المواضيع المعروضة (الشاهد: موضوع 27f23b12cc2a ضاع من ملف 2026-10-13 فصار go1 اللاحق «موضوعها غير موجود»)."""
+    import json
+    import os
+    from datetime import datetime, timedelta, timezone
+
+    from src import publish as publish_mod
+    from src import review
+    from src import youtube_cluster as ycl
+    from src import youtube_publish as yp
+    from tests.helpers import tick_marker
+    from tests.test_review import _run_publish_issue
+
+    cfg = load_config()
+    now = datetime.now(timezone.utc)
+    today = now.strftime("%Y-%m-%d")
+    yesterday = (now - timedelta(days=1)).strftime("%Y-%m-%d")
+    fixed = "2099-10-10"
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    shutil.rmtree(ycl.TOPICS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    ycl.TOPICS_DIR.mkdir(parents=True, exist_ok=True)
+    ycl.POINTS_DIR.mkdir(parents=True, exist_ok=True)
+    points = [dict(video_id=f"g20{i}", bloc="arabic", channel="الجزيرة", speaker="متحدث",
+                   statement=f"قول{i}", quote_arabic="اقتباس", type="fact", video_title="فيديو",
+                   video_url=f"https://youtube.com/watch?v=g20{i}", timestamp=i + 1) for i in range(2)]
+    for day in (today, yesterday, fixed):
+        (ycl.POINTS_DIR / f"{day}.json").write_text(json.dumps(dict(points=points), ensure_ascii=False),
+                                                    encoding="utf-8")
+
+    def mk_topic(title: str, **extra) -> dict:
+        return dict(title=title, event=f"حدث {title}", layer="a", blocs=["arabic"],
+                    channels=["الجزيرة"], agreement="agreement", point_ids=[0, 1], **extra)
+
+    def write_file(day: str, topics: list) -> None:
+        (ycl.TOPICS_DIR / f"{day}.json").write_text(
+            json.dumps(dict(run_date=day, topics=topics), ensure_ascii=False), encoding="utf-8")
+
+    def read_file(day: str) -> list:
+        return json.loads((ycl.TOPICS_DIR / f"{day}.json").read_text(encoding="utf-8"))["topics"]
+
+    def state(did: str) -> dict:
+        return store.load_draft(did)[1]
+
+    def mk_draft(topic: dict, day: str) -> dict:
+        d = yp.build_draft_from_text(
+            topic, f"# {topic['title']}\n\nمتن {topic['title']}\n\n---\n\n"
+            f"{yp.youtube_article.HEADLINES_HEADER}\n\n1. {topic['title']}\n2. بديل\n3. بديل ثالث\n", [], day, cfg)
+        store.save_draft(d)
+        return d
+
+    def setup(n: int) -> list:
+        """n موضوعًا مختارًا في ملف أمس بمقال pending لكلٍّ؛ وفي ملف اليوم موضوع لم يُعرض."""
+        shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+        DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+        rows = [mk_topic(f"موضوع {i}", id=f"a{i}0000000000", selection_status="attempted",
+                         selection_issue=77) for i in range(n)]
+        write_file(yesterday, rows)
+        write_file(today, [mk_topic("موضوع لم يُعرض")])
+        return [mk_draft(t, yesterday) for t in rows]
+
+    def review_body(drafts: list) -> str:
+        return yp.build_review_body(drafts, "u/r", "main", cfg)
+
+    def selections(res: dict) -> list:
+        return [c for c in res["created"] if c["labels"] == ["youtube-selection"]]
+
+    # ── g200: go1 من المرحلة 2 (المسار العادي) ← قضية اختيار فورية بالمُعاد وحده ──
+    drafts = setup(1)
+    tid = drafts[0]["topic_id"]
+    real_run = ycl.run
+
+    def no_cluster(*a, **k):
+        raise AssertionError("لا عنقدة ولا نداء نموذج عند go1")
+    ycl.run = no_cluster
+    try:
+        res = _run_publish_issue(tick_marker(review_body(drafts), f"<!-- go:go1:{drafts[0]['id']} -->"),
+                                 "youtube-review", ["--skip-urgent"])
+    finally:
+        ycl.run = real_run
+    sel = selections(res)
+    badge = cfg.path("stages.returned_badge").format(stage=2)
+    check("g200: قضية youtube-selection واحدة فيها المُعاد وحده بشارة الإعادة ولو بقي في اليوم موضوع لم يُعرض",
+          len(sel) == 1 and f"topic:{tid}" in sel[0]["body"] and badge in sel[0]["body"]
+          and "موضوع لم يُعرض" not in sel[0]["body"] and "↩️ إعادة ترشيح مواضيع التحليل" in sel[0]["title"],
+          [(c["title"], c["labels"]) for c in res["created"]])
+    number = 9800 + res["created"].index(sel[0]) + 1 if sel else None
+    copy = next((t for t in read_file(today) if t.get("id") == tid), {})
+    orig = next((t for t in read_file(yesterday) if t.get("id") == tid), {})
+    check("g200: النسخة pending وselection_issue = رقم القضية الجديدة، والأصل moved",
+          copy.get("selection_status") == "pending" and copy.get("selection_issue") == number
+          and orig.get("selection_status") == "moved", (copy, orig))
+    check("g200: تعليق قضية المرحلة 2 يحمل «#رقمها»",
+          any(f"#{number}" in t and "أُعيد موضوعها إلى الترشيح" in t for _, t in res["comments"]),
+          [t for _, t in res["comments"]])
+
+    # ── g201: بندان من موضوعين ← قضية واحدة فيها الموضوعان ──
+    drafts = setup(2)
+    body = review_body(drafts)
+    for d in drafts:
+        body = tick_marker(body, f"<!-- go:go1:{d['id']} -->")
+    res = _run_publish_issue(body, "youtube-review", ["--skip-urgent"])
+    sel = selections(res)
+    check("g201: قضية إعادة واحدة فيها الموضوعان",
+          len(sel) == 1 and all(f"topic:{d['topic_id']}" in sel[0]["body"] for d in drafts), len(sel))
+
+    # ── g202: المسار السريع لا يفتح، والمسار العادي مرتين لا يفتح ثانية ──
+    drafts = setup(1)
+    body = tick_marker(review_body(drafts), f"<!-- go:go1:{drafts[0]['id']} -->")
+    res_u = _run_publish_issue(body, "youtube-review", ["--urgent-only"])
+    check("g202: --urgent-only لا يفتح قضية ولا يعيد المسودة",
+          not selections(res_u) and state(drafts[0]["id"])["status"] == "pending",
+          [c["labels"] for c in res_u["created"]])
+    res_n1 = _run_publish_issue(body, "youtube-review", ["--skip-urgent"])
+    res_n2 = _run_publish_issue(body, "youtube-review", ["--skip-urgent"])
+    check("g202: المسار العادي يفتح قضية واحدة، وتشغيله ثانية للحدث نفسه لا يفتح أخرى",
+          len(selections(res_n1)) == 1 and not selections(res_n2),
+          ([c["labels"] for c in res_n1["created"]], [c["labels"] for c in res_n2["created"]]))
+
+    # ── fakes مشتركة لـg203–g205 (استدعاء مباشر لا عبر publish.main) ──
+    created: list = []
+    real = {k: getattr(review, k) for k in ("create_issue", "ensure_labels", "comment", "close_issue",
+                                            "remove_label")}
+
+    def fake_create(title, body, labels=None):
+        created.append(dict(title=title, body=body, labels=labels))
+        return {"number": 9900 + len(created), "html_url": "https://x/i"}
+    review.create_issue = fake_create
+    review.ensure_labels = lambda: None
+    review.comment = lambda n, t: None
+    review.close_issue = lambda n: None
+    review.remove_label = lambda n, lbl: None
+    real_repo = os.environ.get("GITHUB_REPOSITORY")
+    os.environ["GITHUB_REPOSITORY"] = "user/trendnews"
+    real_script = publish_mod._write_reel_script
+    real_photo = yp._photo_candidates
+    yp._photo_candidates = lambda *a, **k: ["https://example.com/photo.jpg"]
+    try:
+        # ── g203: اعتماد قضية الإعادة بـ🎬 ريل وحده لموضوع ريله rejected بفشل سيناريو ──
+        cfg_reel = load_config()
+        cfg_reel.setdefault("reel", {})["enabled"] = True
+        drafts = setup(1)
+        d_art = drafts[0]
+        topic_like = dict(id=d_art["topic_id"], title=d_art["title"], layer="a", blocs=["arabic"],
+                          channels=["الجزيرة"], agreement="agreement", event="ح")
+        reel = yp.build_reel_draft(topic_like, yesterday, cfg_reel)
+        reel.update(status="rejected", script_status="failed", script_error="عطل")
+        store.save_draft(reel)
+        publish_mod.return_to_selection([d_art["id"]], 2)
+        # go1 فتح قضية الإعادة فورًا؛ جسمها يُعاد بناؤه بإعداد الريل من النسخة المحفوظة ليحمل علامات fmt:
+        copy = next(t for t in read_file(today) if t["id"] == d_art["topic_id"])
+        body = ycl.build_selection_body(today, [copy], points, cfg_reel)
+        body = tick_marker(body, f"<!-- fmt:reel:{d_art['topic_id']} -->")
+        wrote: list = []
+        publish_mod._write_reel_script = lambda draft, *a, **k: wrote.append(draft["id"])
+        publish_mod.cmd_youtube_selection(copy["selection_issue"], body, cfg_reel, client=None)
+        check("g203: الريل المرفوض بفشل السيناريو يعود pending ويُكتب سيناريوه",
+              state(reel["id"])["status"] == "pending" and wrote == [reel["id"]],
+              (state(reel["id"]).get("status"), wrote))
+        check("g203: المقال المُعاد يبقى returned بلا كتابة", state(d_art["id"])["status"] == "returned",
+              state(d_art["id"])["status"])
+        publish_mod._write_reel_script = real_script
+
+        # ── g204/g205: ملف يوم فيه selected وpending في قضية مفتوحة وموضوع لم يُعرض ──
+        ids = [ycl._topic_id(fixed, 0), ycl._topic_id(fixed, 1)]
+        write_file(fixed, [
+            mk_topic("مختار", id=ids[0], selection_status="selected", selection_issue=11,
+                     selected_formats=["article"]),
+            mk_topic("معلّق", id=ids[1], selection_status="pending", selection_issue=12, created_at="t"),
+            mk_topic("لم يُعرض قديم")])
+        ycl.save_output(dict(run_date=fixed, topics=[mk_topic("جديد أ"), mk_topic("جديد ب")]))
+        by_title = {t["title"]: t for t in read_file(fixed)}
+        check("g204: المختار والمعلّق باقيان بحقولهما والموضوع الذي لم يُعرض استُبدل",
+              by_title.get("مختار", {}).get("selection_status") == "selected"
+              and by_title["مختار"].get("selection_issue") == 11
+              and by_title.get("معلّق", {}).get("selection_issue") == 12
+              and "لم يُعرض قديم" not in by_title and "جديد أ" in by_title, list(by_title))
+        out = ycl.open_selection(cfg, date_str=fixed, now=now)
+        all_ids = [t["id"] for t in read_file(fixed)]
+        check("g204: لا معرّف مكرر بين القديم والجديد بعد open_selection",
+              len(all_ids) == len(set(all_ids)) and len(out["topics"]) == 2, all_ids)
+        pend_body = ycl.build_selection_body(fixed, [by_title["معلّق"]], points, cfg)
+        pend_body = tick_marker(pend_body, f"<!-- go:go2:{ids[1]} -->")
+        fin = ycl.finalize_selection(12, pend_body, cfg)
+        check("g204: finalize_selection للقضية المفتوحة تجد موضوعها",
+              [t["id"] for t in fin["to_write"]] == [ids[1]], fin)
+        got = ycl.mark_topic_returned(fixed, ids[0], "dr", 2, now.isoformat())
+        check("g205: mark_topic_returned لموضوع selected بقي بعد التشغيلة الثانية ينجح", got is not None, got)
+    finally:
+        publish_mod._write_reel_script = real_script
+        yp._photo_candidates = real_photo
+        for k, v in real.items():
+            setattr(review, k, v)
+        if real_repo is None:
+            os.environ.pop("GITHUB_REPOSITORY", None)
+        else:
+            os.environ["GITHUB_REPOSITORY"] = real_repo
+        for day in (today, yesterday, fixed):
+            (ycl.TOPICS_DIR / f"{day}.json").unlink(missing_ok=True)

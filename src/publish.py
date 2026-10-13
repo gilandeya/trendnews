@@ -605,8 +605,11 @@ def _return_analysis_to_selection(path: Path, draft: dict, title: str, stage: in
     store.update_draft(path, status="returned", returned_from_stage=stage,
                        returned_at=now)
     decisions.record_returned(draft, stage, topic.get("selection_issue"))
-    return (f"- ↩️ {title} — أُعيد موضوعها إلى مرحلة ترشيح المواضيع "
-            "(يظهر في أعلى أول قضية اختيار تالية، ولا كتابة جديدة عند اختياره)")
+    return _ANALYSIS_RETURNED_LINE.format(title=title)
+
+
+# سطر نجاح go1 للتحليل قبل معرفة رقم القضية؛ return_to_selection تستبدله بالرقم بعد فتحها (Issue #1392)
+_ANALYSIS_RETURNED_LINE = "- ↩️ {title} — أُعيد موضوعها إلى الترشيح"
 
 
 def return_to_selection(draft_ids: list[str], stage: int) -> list[str]:
@@ -621,6 +624,7 @@ def return_to_selection(draft_ids: list[str], stage: int) -> list[str]:
     بذلك بدل أن تموت بصمت."""
     lines: list[str] = []
     important_sources: set[int] = set()
+    analysis_lines: list[int] = []
     for draft_id in draft_ids:
         found = store.load_draft(draft_id)
         if not found:
@@ -631,6 +635,8 @@ def return_to_selection(draft_ids: list[str], stage: int) -> list[str]:
         title = (draft.get("arabic") or {}).get("post_title", draft_id)[:50]
         if store.origin_of(draft) == "analysis":
             lines.append(_return_analysis_to_selection(path, draft, title, stage))
+            if lines[-1] == _ANALYSIS_RETURNED_LINE.format(title=title):
+                analysis_lines.append(len(lines) - 1)
             continue
         if store.origin_of(draft) == "important":
             lines.append(_return_important_to_selection(path, draft, title, stage,
@@ -651,6 +657,23 @@ def return_to_selection(draft_ids: list[str], stage: int) -> list[str]:
         decisions.record_returned(draft, stage, cand_data.get("selection_issue"))
         lines.append(f"- ↩️ {title} — أُعيد إلى مرحلة ترشيح المواضيع "
                      "(يظهر في أول قضية ترشيح تالية، ولا صياغة جديدة عند تقدّمه)")
+    if analysis_lines:
+        # التحليل (Issue #1392): تُفتح قضية الاختيار فورًا بالمُعاد وحده بدل انتظار العنقدة التالية،
+        # مرة واحدة لكل الدفعة. المساران السريعان لا يصلان هنا (المستدعون يحمون المسار العادي وحده).
+        # عطل فتحها يترك المواضيع returned فتلتقطها العنقدة التالية، والسطر يقول ذلك.
+        from . import youtube_cluster
+        try:
+            opened = youtube_cluster.reopen_returned(load_config(), datetime.now(timezone.utc))
+            number = (opened.get("issue") or {}).get("number")
+        except Exception as exc:  # noqa: BLE001 — عطل GitHub لا يُسقط معالجة go1
+            log.warning("تعذّر فتح قضية إعادة ترشيح التحليل: %s", exc)
+            number = None
+        for i in analysis_lines:
+            if number:
+                lines[i] += f": #{number}"
+            else:
+                lines[i] += (" (تعذّر فتح قضية الترشيح الآن — بقي موضوعها returned "
+                             "ويظهر في أول قضية اختيار تالية)")
     if important_sources:
         # «هام» (Issue #1221): لا فاتح دوري لقضايا ترشيحه كما للأخبار، فتُفتح القضية الجديدة هنا
         # فورًا من الملف المحفوظ بلا حكم جديد
