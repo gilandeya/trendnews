@@ -954,11 +954,14 @@ def save_output(result: dict) -> Path:
     path = TOPICS_DIR / f"{result['run_date']}.json"
     # موضوع أُعيد إلى الترشيح (Issue #1187) ومازال ينتظر نسخه إلى قضية اختيار
     # تالية يعيش في ملف تاريخه؛ تشغيلة عنقدة ثانية لليوم نفسه تكتب الملف من
-    # جديد فتمحوه ويبقى مقاله returned بلا موضوع يعود إليه. فتُنقل هذه
-    # المواضيع وحدها إلى الملف الجديد (الحالات الأخرى تُمحى كما كانت دائمًا).
+    # جديد فتمحوه ويبقى مقاله returned بلا موضوع يعود إليه. وكذلك كل موضوع عُرض
+    # (Issue #1392: selected/pending/unselected/attempted/moved) — محوه يضيّع
+    # موضوع مقال منشور فيفشل go1 اللاحق، أو موضوعًا في قضية اختيار مفتوحة فلا يجد
+    # finalize_selection شيئًا. فتبقى كلها قبل الجديد؛ وما لم يُعرض بعد
+    # (selection_status فارغ) يُستبدل بالجديد كما كان دائمًا.
     if path.exists():
         kept = [t for t in _load_topics_raw(result["run_date"]).get("topics", [])
-                if t.get("selection_status") == "returned"]
+                if t.get("selection_status")]
         if kept:
             result = {**result, "topics": kept + list(result.get("topics", []))}
     path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -1228,7 +1231,33 @@ def open_selection(cfg=None, date_str: str | None = None, now: datetime | None =
     cfg = cfg or load_config()
     now = now or datetime.now(timezone.utc)
     date_str = date_str or now.strftime("%Y-%m-%d")
+    return _open_selection_issue(cfg, date_str, now, with_fresh=True)
+
+
+def reopen_returned(cfg=None, now: datetime | None = None) -> dict:
+    """فتح فوري لقضية اختيار بالمواضيع المُعادة وحدها (Issue #1392): go1 للتحليل
+    يستدعيها بدل انتظار العنقدة التالية. هي open_selection نفسها بلا مواضيع جديدة
+    (لا عنقدة ولا نداء نموذج)، فمواضيع ملف اليوم التي لم تُعرض تبقى فيه كما هي.
+    لا مواضيع مُعادة ← لا قضية. فشل فتح القضية يُرفع بعد استعادة الملفات فيبقى
+    الموضوع returned وتلتقطه العنقدة التالية."""
+    cfg = cfg or load_config()
+    now = now or datetime.now(timezone.utc)
+    return _open_selection_issue(cfg, now.strftime("%Y-%m-%d"), now, with_fresh=False)
+
+
+def _open_selection_issue(cfg, date_str: str, now: datetime, with_fresh: bool) -> dict:
+    """الجزء المشترك بين open_selection وreopen_returned: نقل المُعاد، ثم (للأولى
+    وحدها) مواضيع اليوم الجديدة، ثم القضية وربط النسخ بها وحفظ الملف."""
     count = cfg.path("youtube.article.count", 10)
+
+    # لقطة للملفات قبل النقل: _carry_returned_topics تحفظ ملفات الأيام الأقدم فورًا
+    # (الأصل moved)، فلو فشل إنشاء القضية بعدها ضاعت النسخة. بالاستعادة يبقى
+    # الموضوع returned وتفتحه محاولة لاحقة.
+    snapshot: dict[Path, str | None] = {}
+    if TOPICS_DIR.exists():
+        for path in TOPICS_DIR.glob("*.json"):
+            snapshot[path] = path.read_text(encoding="utf-8")
+    snapshot.setdefault(_topics_path(date_str), None)
 
     data = _load_topics_raw(date_str)
     returned = _carry_returned_topics(data, date_str, cfg, now)
@@ -1237,7 +1266,7 @@ def open_selection(cfg=None, date_str: str | None = None, now: datetime | None =
     # اختيار مكرّرًا لنفس القضايا.
     carried = {id(t) for t in returned}
     fresh = [t for t in data.get("topics", [])
-             if not t.get("selection_status") and id(t) not in carried][:count]
+             if not t.get("selection_status") and id(t) not in carried][:count] if with_fresh else []
     candidates = returned + fresh
     if not candidates:
         return {"issue": None, "topics": []}
@@ -1245,20 +1274,36 @@ def open_selection(cfg=None, date_str: str | None = None, now: datetime | None =
     points, _ = prepare_window_points(date_str, cfg)
 
     # معرّف الموضوع الجديد من فهرسه بين الجدد وحدهم: المُعاد يحتفظ بمعرّفه
-    # الأصلي، وإدخاله في العدّ كان سيزيح معرّفات مواضيع اليوم.
-    for idx, t in enumerate(fresh):
-        t["id"] = _topic_id(date_str, idx)
+    # الأصلي، وإدخاله في العدّ كان سيزيح معرّفات مواضيع اليوم. والمعرّف مشتق من
+    # التاريخ والفهرس فتشغيلة ثانية لليوم نفسه تعيد إنتاج معرّفات الأولى، وقد بقيت
+    # مواضيعها المعروضة في الملف (save_output)؛ فيُزاد الفهرس حتى معرّف غير مستعمل.
+    fresh_ids = {id(t) for t in fresh}
+    used = {t["id"] for t in data.get("topics", []) if t.get("id") and id(t) not in fresh_ids}
+    n = 0
+    for t in fresh:
+        while _topic_id(date_str, n) in used:
+            n += 1
+        t["id"] = _topic_id(date_str, n)
+        used.add(t["id"])
+        n += 1
     for t in candidates:
         t["created_at"] = now.isoformat()
         t["selection_status"] = "pending"
         t["selection_issue"] = None
 
     body = build_selection_body(date_str, candidates, points, cfg)
-    review.ensure_labels()
-    issue = review.create_issue(
-        title=f"🗳️ اختيار مواضيع التحليل {now:%Y-%m-%d} UTC — {len(candidates)}",
-        body=body, labels=["youtube-selection"],
-    )
+    title = (f"🗳️ اختيار مواضيع التحليل {now:%Y-%m-%d} UTC — {len(candidates)}" if with_fresh
+             else f"↩️ إعادة ترشيح مواضيع التحليل {now:%Y-%m-%d} UTC — {len(candidates)}")
+    try:
+        review.ensure_labels()
+        issue = review.create_issue(title=title, body=body, labels=["youtube-selection"])
+    except Exception:
+        for path, text in snapshot.items():
+            if text is None:
+                path.unlink(missing_ok=True)
+            else:
+                path.write_text(text, encoding="utf-8")
+        raise
     for t in candidates:
         t["selection_issue"] = issue["number"]
 
