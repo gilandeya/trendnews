@@ -1964,7 +1964,7 @@ reel:
     # فلا يتحرك. قيمة ≥ min(lead_seconds, clip_tail_seconds) تُخفَّض إلى ذلك الحد − 0.1 كي لا يقع كلام المقطع في التلاشي
     transition: {type: slideleft, outro_type: fade, seconds: 0.35}
     # نسخة التركيب: رفعها تعيد --pending تركيب كل ريل معتمد مُركَّب بنسخة أقدم (المنشور والمرفوض لا يُمسّان)
-    version: 4
+    version: 5
     # عطل تنزيل مقطع (Issue #1404): يُعاد السلّم كاملًا download_retries مرة بانتظار retry_wait_seconds قبل كل إعادة؛
     # فإن بقي مقطع لم يُنزَّل لا يُحفظ ريل ناقص بل يعود queued حتى max_attempts محاولة تركيب ثم failed
     download_retries: 2

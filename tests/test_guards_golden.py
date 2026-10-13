@@ -7237,3 +7237,128 @@ def test_reel_no_partial_r3b2a2_guards() -> None:
               s.get("render_attempts") == 0 and s.get("render_version") == 4 and s.get("render_status") == "rendered", s)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
+
+
+
+def test_reel_clip_streams_r3b2a3_guards() -> None:
+    """Issue #1406 (R3b-2a3، g231–g234): مقطع بلا مسار صورة أو صوت يُعدّ فشل تنزيل (تسري الإعادات)، والريل الفاشل
+    بنسخة أقدم يُعاد تلقائيًا في --pending، وretry يصفّر المحاولات؛ reel.render.version = 5."""
+    import json
+    import tempfile
+    from pathlib import Path
+
+    from src import reel_render, reel_script
+
+    D = "2099-12-06"
+    q1, q2 = "alpha beta gamma delta epsilon zeta", "one two three four five six"
+    points = [{"video_id": "v1", "statement": "s", "quote_original": q1, "quote_arabic": "ترجمة",
+               "speaker": "متحدث", "channel": "قناة", "video_url": "https://youtube.com/watch?v=v1", "timestamp": 10},
+              {"video_id": "v2", "statement": "s2", "quote_original": q2, "quote_arabic": "ترجمة٢",
+               "speaker": "متحدث٢", "channel": "قناة٢", "video_url": "https://youtube.com/watch?v=v2", "timestamp": 10}]
+    pid1, pid2 = reel_script.point_key_id(points[0]), reel_script.point_key_id(points[1])
+
+    def clip(pid, url, ch, kind="clip"):
+        return {"kind": kind, "point_id": pid, "video_url": url, "start": 9, "end": 20, "speaker_name": "",
+                "speaker_role": "", "speaker_verified": False, "speaker_name_latin": "", "channel_display": ch,
+                "quote_arabic": "ترجمة", "language": "en"}
+
+    # مقطع v2 في الفهرس 3 فيكون ملفه clip_3.*
+    scenes = [clip(pid1, "https://youtube.com/watch?v=v1", "قناة", "cold_open_clip"),
+              {"kind": "narration", "text": "جملة أولى قصيرة."}, {"kind": "narration", "text": "جملة ثانية."},
+              clip(pid2, "https://youtube.com/watch?v=v2", "قناة٢"),
+              {"kind": "question", "text": "هل؟"}, {"kind": "outro"}]
+    transcripts = {"v1": "[00:10] alpha beta gamma delta\n[00:14] epsilon zeta eta theta\n[00:18] tail line",
+                   "v2": "[00:10] one two three four\n[00:14] five six seven eight\n[00:18] tail line"}
+
+    def make_draft(did, **extra):
+        d = {"id": did, "origin": "analysis", "format": "reel", "status": "approved_script",
+             "render_status": "queued", "topic_id": "t1", "topic_date": D, "title": "ريل", "script_status": "ready",
+             "review_issue": 78, "approved_script_at": "1999-01-01T00:00:00",
+             "script": {"narrator": "female", "title": "عنوان", "question": "هل؟", "scenes": scenes}}
+        d.update(extra)
+        return store.save_draft(d), d
+
+    def make_deps(log, v2_plan):
+        """v2_plan: ما تنتجه محاولات تنزيل v2 بالترتيب ("part" جزء صوت وحده، "full" الملف الكامل)؛ الأخيرة تتكرر."""
+        calls = {"n": 0}
+
+        def run(cmd):
+            log["cmds"].append(list(cmd))
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+
+        def download(video_id, start, end, height, out_path):
+            out_path = Path(out_path)
+            if video_id == "v2":
+                log["leftover"].append(sorted(p.name for p in out_path.parent.glob(f"{out_path.stem}.*")))
+                kind = v2_plan[min(calls["n"], len(v2_plan) - 1)]
+                calls["n"] += 1
+                if kind == "part":
+                    (out_path.parent / f"{out_path.stem}.f140.m4a").write_bytes(b"audio")
+                    return {"tier": "a", "bytes": 5, "failures": []}
+            out_path.write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        def streams(p):
+            return {"audio"} if str(p).endswith(".m4a") else {"video", "audio"}
+
+        return reel_render.Deps(
+            fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
+            synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
+            diacritize=lambda t: (t, None), run=run, streams=streams,
+            probe=lambda p: 41.0 if "reels" in Path(p).parts else 2.0, load_points=lambda date: points,
+            comment=lambda i, t: log["comments"].append(t), faces=lambda f, fr: (1280, 720, []),
+            sleep=lambda s: log["sleeps"].append(s))
+
+    def run_one(did, plan, **extra):
+        log = {"cmds": [], "comments": [], "sleeps": [], "leftover": []}
+        path, d = make_draft(did, **extra)
+        reel_render.render_draft(path, d, cfg, make_deps(log, plan), reels_dir=tmp / "reels", workdir=tmp / "work")
+        return log, json.loads(path.read_text(encoding="utf-8")), [" ".join(c) for c in log["cmds"]]
+
+    cfg = load_config()
+    check("g231: reel.render.version = 5", cfg.path("reel.render.version") == 5, cfg.path("reel.render.version"))
+    tmp = Path(tempfile.mkdtemp())
+    try:
+        # ── g231 ──
+        log, s, cmds = run_one("r3b2a3000a01", ["part"])
+        check("g231: queued ومحاولة 1", s.get("render_status") == "queued" and s.get("render_attempts") == 1, s)
+        check("g231: لا أمر ffmpeg لمشهد المقطع", not any("clip_3" in c for c in cmds), cmds[:3])
+        check("g231: التعليق يحمل المحاولة 1 من 3", any("محاولة 1 من 3" in c for c in log["comments"]), log["comments"])
+        check("g231: الإعادات جرت (انتظار مرتين)", log["sleeps"] == [20, 20], log["sleeps"])
+        _, s2, _ = run_one("r3b2a3000a02", ["part"], render_attempts=2)
+        check("g231: السبب «المقطع بلا صورة أو بلا صوت» عند الاستنفاد",
+              s2.get("render_status") == "failed" and "المقطع بلا صورة أو بلا صوت" in (s2.get("render_error") or ""), s2)
+
+        # ── g232 ──
+        log, s, cmds = run_one("r3b2a3000b01", ["part", "full"])
+        check("g232: مركَّب", s.get("render_status") == "rendered", s)
+        check("g232: مشهد المقطع يقرأ clip_3.mp4 لا m4a",
+              any("clip_3.mp4" in c for c in cmds) and not any(".m4a" in c for c in cmds), cmds[:4])
+        check("g232: الجزئي حُذف قبل الإعادة", log["leftover"][1] == [], log["leftover"])
+
+        # ── g233 ──
+        p_old, _ = make_draft("r3b2a3000c01", status="approved_script", render_status="failed", render_version=4,
+                              render_attempts=3, render_error="ffmpeg فشل", approved_script_at="1998-01-01T00:00:00")
+        p_new, _ = make_draft("r3b2a3000c02", status="approved_script", render_status="failed", render_version=5,
+                              render_attempts=3, render_error="ffmpeg فشل", approved_script_at="1999-01-02T00:00:00")
+        ids = [p.stem for p, _d in reel_render.queued_reels(cfg)]
+        check("g233: failed بنسخة 4 تُلتقط وبنسخة 5 لا", "r3b2a3000c01" in ids and "r3b2a3000c02" not in ids, ids)
+        batch = reel_render.pending_batch(cfg)
+        got = {p.stem: d for p, d in batch}
+        check("g233: pending_batch تلتقط القديمة", "r3b2a3000c01" in got, list(got))
+        s = json.loads(p_old.read_text(encoding="utf-8"))
+        check("g233: render_attempts = 0 وrender_error محذوف قبل التركيب",
+              s.get("render_attempts") == 0 and "render_error" not in s and s.get("render_status") == "queued", s)
+        s = json.loads(p_new.read_text(encoding="utf-8"))
+        check("g233: بنسخة 5 باقية failed", s.get("render_status") == "failed" and s.get("render_attempts") == 3, s)
+
+        # ── g234 ──
+        p, _ = make_draft("r3b2a3000d01", status="approved_script", render_status="failed", render_attempts=3,
+                          render_error="x")
+        ok = reel_render.retry("r3b2a3000d01", cfg)
+        s = json.loads(p.read_text(encoding="utf-8"))
+        check("g234: retry ← queued وrender_attempts = 0",
+              ok and s.get("render_status") == "queued" and s.get("render_attempts") == 0, s)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
