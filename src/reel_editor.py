@@ -16,11 +16,11 @@ def _create(client, **kwargs):
     return editor._create(client, **kwargs)
 
 
-def _clip_lines(script: dict) -> list[str]:
+def _clip_lines(script: dict, cfg: Any = None) -> list[str]:
     out = []
     for i, s in enumerate(script.get("scenes") or [], start=1):
         if s.get("kind") in reel_script.CLIP_KINDS:
-            who = " · ".join(x for x in (s.get("speaker_name"), s.get("speaker_role"), s.get("channel_display")) if x)
+            who = reel_script.speaker_band(s, cfg)
             out.append(f"[{i}] مقطع {s.get('point_id', '')} — {who} — «{s.get('quote_arabic', '')}» — "
                        f"{reel_script.video_link(s)} (للقراءة فقط)")
     return out
@@ -47,7 +47,8 @@ class ReelAdapter(editor.Adapter):
 
     def article_lines(self, draft: dict) -> list[str]:
         title, body, _ = self.read(draft)
-        return [f"# {title}", body, "", "سطور المقاطع (للقراءة فقط):", *_clip_lines(draft.get("script") or {})]
+        return [f"# {title}", body, "", "سطور المقاطع (للقراءة فقط):",
+                *_clip_lines(draft.get("script") or {}, None)]
 
     def context_lines(self, draft: dict, ctx: dict) -> list[str]:
         return ["المنشور سيناريو ريل: h1 هو العنوان على الشاشة، وسطور [n] هي كلام الراوي وسؤال الختام."]
@@ -58,8 +59,10 @@ class ReelAdapter(editor.Adapter):
     def sources_lines(self, draft: dict, ctx: dict) -> list[str]:
         lines = []
         for c in ctx.get("valid") or []:
-            lines.append(f"- {c['point_id']} | القناة: {c['channel_display']} | المتحدث: {c['speaker_name']} "
-                         f"{c['speaker_role']}\n  القول: {c['statement']}\n  الاقتباس بالعربية: {c['quote_arabic']}\n"
+            lines.append(f"- {c['point_id']} | القناة: {c['channel_display']} | الشريط: "
+                         f"{reel_script.speaker_band(c, None)}"
+                         f" ({'موثَّق من ' + ('العنوان' if c.get('speaker_verified_from') == 'title' else 'الوصف') if c.get('speaker_verified') else 'غير موثَّق'})"
+                         f"\n  القول: {c['statement']}\n  الاقتباس بالعربية: {c['quote_arabic']}\n"
                          f"  الفيديو: {c['video_url']} (نُشر: {c.get('video_published') or 'غير معروف'})")
         return lines
 
@@ -73,6 +76,8 @@ class ReelAdapter(editor.Adapter):
         bad = reel_script._unresolved_words(draft.get("name_unresolved") or [])
         out = []
         for c in ctx.get("valid") or []:
+            if not c.get("speaker_verified"):
+                continue  # لا اسم لغير الموثَّق فلا شيء يُنبَّه عليه (Issue #1377)
             if any(w and w in bad for w in
                    (reel_script.youtube_article._fold_mention(t) for t in c["speaker_name"].split())):
                 out.append(c["speaker_name"])

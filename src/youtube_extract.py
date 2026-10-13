@@ -623,6 +623,13 @@ def _truncate_transcript(text: str, max_chars: int) -> str:
     return text[:half] + f"\n{TRUNCATION_MARKER}\n" + text[-half:]
 
 
+def video_description(video, cfg: Config) -> str:
+    """وصف الفيديو مقصوصًا إلى youtube.extract.description_max_chars: يحمله كل نقطة ليتحقق الريل من اسم متحدثها
+    (Issue #1377)؛ القصّ يمنع تضخّم ملف النقاط بوصف طويل مليء بالروابط."""
+    limit = int(cfg.path("youtube.extract.description_max_chars", 1500))
+    return (getattr(video, "description", "") or "")[:limit]
+
+
 def extract_points(video_title: str, transcript_text: str, language: str, duration_seconds: int,
                     cfg: Config, client: Anthropic | None = None
                     ) -> tuple[list[dict], list[dict], str | None, str | None]:
@@ -868,6 +875,7 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
                         "bloc": video.bloc,
                         "language": lang_or_reason,
                         "video_title": video.video_title,
+                        "video_description": video_description(video, cfg),
                         "video_url": video.video_url,
                         # تاريخ نشر الفيديو (Issue #1326): يحوّل الكاتب الزمن النسبي إلى تاريخ صريح
                         "video_published": (video.published_at or "")[:10],
