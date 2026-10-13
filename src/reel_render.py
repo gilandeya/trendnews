@@ -185,20 +185,44 @@ class _Pen:
     def font(self, path: str, size: int, weight: str | None = None):
         return imaging.load_font(path, size, weight)
 
+    def ink(self, text: str, font, xy, anchor: str, ltr: bool = False) -> tuple:
+        """صندوق الحبر الفعلي لنص يُرسم عند xy بالمرساة نفسها (النص المحضَّر والخيارات نفسها كالرسم).
+        التقدّم بـsize×1.45 من نقطة الرسم لا من الحبر هو ما أخفى تداخل الشريط السفلي عن اختبار المنطقة الآمنة."""
+        if ltr:
+            kw = {"direction": "ltr", "language": "en"} if imaging.HAS_RAQM else {}
+            return self.d.textbbox(xy, text, font=font, anchor=anchor, **kw)
+        return self.d.textbbox(xy, imaging._prepare(text), font=font, anchor=anchor, **imaging._kwargs())
+
     def line(self, text: str, font, fill, y: int, *, align: str = "center", ltr: bool = False) -> int:
         """سطر واحد؛ يعيد y التالي. المحاذاة وسطية أو يمينية عند الحدّ الآمن."""
-        w, h = imaging.measure(self.d, text, font)
+        _, h = imaging.measure(self.d, text, font)
         lh = int(font.size * 1.45) if hasattr(font, "size") else h
-        if align == "center":
-            xy, anchor, x0 = (self.cx, y), "ma", self.cx - w / 2
-        else:
-            xy, anchor, x0 = (self.x1, y), "ra", self.x1 - w
+        xy, anchor = ((self.cx, y), "ma") if align == "center" else ((self.x1, y), "ra")
         if ltr:
             imaging.draw_text_ltr(self.d, xy, text, font, fill, anchor=anchor)
         else:
             imaging.draw_text(self.d, xy, text, font, fill, anchor=anchor)
-        self.boxes.append((x0, y, x0 + w, y + max(h, int(lh * 0.8))))
+        self.boxes.append(tuple(self.ink(text, font, xy, anchor, ltr)))
         return y + lh
+
+    def ink_line(self, text: str, font_path: str, weight: str | None, size: int, fill, *, prev_bottom: int,
+                 gap: int, limit: int, min_size: int | None = None, ltr: bool = False) -> int | None:
+        """سطر يمينيّ يوضع بحبره: أعلى حبره = prev_bottom + gap، ويُصغَّر بخطوة 2 حتى min_size إن تجاوز حبره limit.
+        يعيد أسفل حبره، أو None (مع تحذير) إن لم يسعه الحدّ أو غاب حرفه من كل الخطوط."""
+        for sz in range(size, (min_size if min_size is not None else size) - 1, -2):
+            font = pick_font(text, font_path, sz, weight)
+            if font is None:
+                return None
+            top0, bottom0 = self.ink(text, font, (self.x1, 0), "ra", ltr)[1::2]
+            y = prev_bottom + gap - top0
+            if y + bottom0 <= limit:
+                return self.line_at(text, font, fill, y, ltr)
+        log.warning("سطر لا يسع الشريط السفلي فحُذف: %r", text[:40])
+        return None
+
+    def line_at(self, text: str, font, fill, y: int, ltr: bool) -> int:
+        self.line(text, font, fill, y, align="right", ltr=ltr)
+        return int(self.boxes[-1][3])
 
     def text_line(self, text: str, font_path: str, weight: str | None, size: int, fill, y: int, *,
                   align: str = "center", ltr: bool = False) -> int:
@@ -217,13 +241,9 @@ class _Pen:
         y = y_top if y_top is not None else int(y_mid - total / 2)
         y = max(safe[0], min(y, safe[1] - total))
         for ln in lines:
-            w, h = imaging.measure(self.d, ln, font)
-            if align == "center":
-                xy, anchor, x0 = (self.cx, y), "ma", self.cx - w / 2
-            else:
-                xy, anchor, x0 = (self.x1, y), "ra", self.x1 - w
+            xy, anchor = ((self.cx, y), "ma") if align == "center" else ((self.x1, y), "ra")
             imaging.draw_text(self.d, xy, ln, font, fill, anchor=anchor)
-            self.boxes.append((x0, y, x0 + w, y + int(lh * 0.8)))
+            self.boxes.append(tuple(self.ink(ln, font, xy, anchor)))
             y += lh
         return y
 
@@ -309,13 +329,20 @@ def frame_clip_overlay(cfg, scene: dict, boxes=None) -> Image.Image:
     channel = scene.get("channel_display", "")
     y = top + 30
     if verified:
-        y = p.text_line(scene["speaker_name"], CAIRO, "Black", 56, p.white, y, align="right")
+        n0 = len(p.boxes)
+        p.text_line(scene["speaker_name"], CAIRO, "Black", 56, p.white, y, align="right")
+        # كل سطر بعد الأول يوضع بحبره: أعلى حبره = أسفل حبر السابق + line_gap، فلا يتداخل سطران أبدًا
+        bottom = int(p.boxes[-1][3]) if len(p.boxes) > n0 else y
+        gap, limit = int(band.get("line_gap", 12)), top + height - 16
         if scene.get("speaker_name_latin"):
-            # اللاتيني بعد أسفل صندوق الاسم العربي بـ10 px على الأقل، وبـCairo لأن Tajawal يفتقد ş ğ İ
-            below = int(p.boxes[-1][3]) + 10 if p.boxes else y
-            y = p.text_line(scene["speaker_name_latin"], CAIRO, "Bold", 34, p.gold, max(y - 6, below), align="right", ltr=True)
-        p.text_line(" · ".join(x for x in (scene.get("speaker_role", ""), channel) if x), TAJAWAL_B, None, 40,
-                    (214, 222, 238), y - 4, align="right")
+            # بـCairo لأن Tajawal يفتقد ş ğ İ
+            nb = p.ink_line(scene["speaker_name_latin"], CAIRO, "Bold", 34, p.gold, prev_bottom=bottom, gap=gap,
+                            limit=limit, ltr=True)
+            bottom = bottom if nb is None else nb
+        role_line = " · ".join(x for x in (scene.get("speaker_role", ""), channel) if x)
+        if role_line:
+            p.ink_line(role_line, TAJAWAL_B, None, 40, (214, 222, 238), prev_bottom=bottom, gap=gap, limit=limit,
+                       min_size=30)
     else:
         label = cfg.path("reel.texts.guest_label", "ضيف على قناة {channel}").format(channel=channel)
         p.line(label, p.font(CAIRO, 52, "Black"), p.white, top + 80, align="right")
