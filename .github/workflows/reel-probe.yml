@@ -55,6 +55,7 @@ jobs:
           WEBSHARE_PROXY_USERNAME: ${{ secrets.WEBSHARE_PROXY_USERNAME }}
           WEBSHARE_PROXY_PASSWORD: ${{ secrets.WEBSHARE_PROXY_PASSWORD }}
           GOOGLE_TTS_API_KEY: ${{ secrets.GOOGLE_TTS_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           TRENDNEWS_YOUTUBE_POINTS_DIR: ${{ github.workspace }}/youtube-data/state/youtube_points
         run: python tools/reel_clip_probe.py --clips ${{ inputs.clips }} --seconds ${{ inputs.seconds }}
 
