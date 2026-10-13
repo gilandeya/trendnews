@@ -217,10 +217,15 @@ def identify_speakers(valid: list[dict], member_points: list[dict], cfg: Any, cl
         latin = (r.get("name_latin") or "").strip()
         arabic = " ".join((r.get("name_arabic") or "").split())
         how = verify_latin(latin, c.get("video_title", ""), c.get("video_description", "")) if arabic else ""
+        c["speaker_identity_ran"] = True
         if how:
             c.update(speaker_verified=True, speaker_verified_from=how, speaker_name_latin=latin,
                      speaker_name=names.normalize_names(arabic, cfg),
                      speaker_role=" ".join((r.get("role_arabic") or "").split()))
+        else:
+            # ما سمّاه التعرّف (قد يكون فارغًا) هو «الاسم» الذي يحرسه الحارس؛ حقل speaker المستخرج وصف أحيانًا
+            # فكلماته العامة («الطاقة»، «السعودية») ليست اسمًا. للحارس وحده: لا يُنسخ إلى مشاهد السيناريو.
+            c["speaker_name_guess"] = arabic
     return out
 
 
@@ -250,7 +255,13 @@ def _unverified_name_violations(script: dict, valid: list[dict], cfg: Any) -> li
     for c in valid:
         if c.get("speaker_verified"):
             continue
-        for w in youtube_article.speaker_name_tokens(c.get("speaker_text", ""), c.get("channel_display", ""), cfg):
+        if c.get("speaker_identity_ran"):
+            words = [w[2:] if w.startswith("ال") else w
+                     for w in (youtube_article._fold_mention(x) for x in (c.get("speaker_name_guess") or "").split())]
+            words = [w for w in words if len(w) >= 4]
+        else:
+            words = youtube_article.speaker_name_tokens(c.get("speaker_text", ""), c.get("channel_display", ""), cfg)
+        for w in words:
             if len(w) >= 4 and youtube_article._fold_mention(w) in tokens and w not in hit:
                 hit.append(w)
     tmpl = cfg.path("reel.identity.reject_reason", "سُمّي متحدث غير موثَّق: {words}")
@@ -372,16 +383,18 @@ def _build(data: dict, valid: list[dict], narrator: str) -> dict:
             scenes.append(scene)
         elif kind == "title_card":
             title = title or text
-            scenes.append({"kind": kind, "text": title})
         elif kind == "question":
             question = question or text
-            scenes.append({"kind": kind, "text": question})
         elif kind == "narration":
             scenes.append({"kind": kind, "text": text})
         elif kind == "outro":
-            scenes.append({"kind": kind})
+            continue
         else:
             scenes.append({"kind": str(kind)})
+    # العنوان والسؤال والختام ثابتة البنية (نصّاها من حقلي title وquestion): يضعها الكود لا حكم النموذج
+    if scenes:
+        scenes.insert(1, {"kind": "title_card", "text": title})
+    scenes += [{"kind": "question", "text": question}, {"kind": "outro"}]
     return {"narrator": narrator, "title": title, "question": question, "scenes": scenes}
 
 
