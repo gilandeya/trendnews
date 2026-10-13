@@ -6316,3 +6316,104 @@ def test_reel_lowerthird_f1b_guards() -> None:
     check("g194-أ: خمسة نداءات ← ≤ 1 قراءة config والنتيجة نفسها", calls["load"] <= 1
           and all(r == results[0] for r in results) and bool(results[0]), (calls, results[:2]))
     check("g194-ب: FaceDetectorYN.create مرة واحدة", calls["create"] <= 1, calls)
+
+
+def test_reel_script_r2d_guards() -> None:
+    """سببان أسقطا سيناريو ريل حقيقيًا (Issue #1388، R2d، g195–g199): هيكل العنوان والسؤال والختام يبنيه الكود لا النموذج،
+    وحارس الاسم يحرس ما سمّاه التعرّف اسمًا لا وصف المتحدث المستخرج (المسودة 1c251f64c82a)."""
+    import json
+    from types import SimpleNamespace
+
+    from src import reel_script
+    from src import youtube_publish as yp
+
+    cfg = load_config()
+    valid = [{"point_id": f"p{i}", "video_url": f"https://youtu.be/v{i}", "start": 10 * i, "end": 10 * i + 12,
+              "speaker_name": "", "speaker_role": "", "speaker_verified": False, "speaker_verified_from": "",
+              "speaker_name_latin": "", "channel_display": "قناة", "quote_arabic": "ق", "language": "ar",
+              "video_published": "", "speaker_text": "محلل", "video_title": "حدث", "video_description": "",
+              "statement": "س"} for i in range(3)]
+    narr = "تناولت الحلقة تطورات الحدث وتبعاته على المنطقة وفق ما عرضه المتحدثون في المقاطع التالية."
+    model_scenes = [{"kind": "cold_open_clip", "point_id": "p0"}, {"kind": "title_card", "text": "ع"},
+                    {"kind": "narration", "text": narr}, {"kind": "clip", "point_id": "p1"},
+                    {"kind": "narration", "text": narr}, {"kind": "clip", "point_id": "p2"},
+                    {"kind": "narration", "text": narr}]
+
+    def kinds(s):
+        return [x["kind"] for x in s["scenes"]]
+
+    # ── g195: شكل الحادثة: لا question ولا outro ──
+    s = reel_script._build({"title": "عنوان", "question": "هل تتسع الهجمات؟", "scenes": model_scenes}, valid, "female")
+    check("g195: آخر مشهدين question بنص الحقل ثم outro",
+          kinds(s)[-2:] == ["question", "outro"] and s["scenes"][-2].get("text") == "هل تتسع الهجمات؟", kinds(s))
+    reasons = reel_script.validate(s, valid, cfg, 3)
+    check("g195: validate لا تعيد سبب الترتيب", not any("الترتيب الإلزامي" in r for r in reasons), reasons)
+
+    # ── g196: question وoutro في الوسط ومكرَّران وبلا title_card ──
+    messy = [model_scenes[0], {"kind": "question", "text": "وسط"}, model_scenes[2], {"kind": "outro"},
+             model_scenes[3], model_scenes[4], {"kind": "question", "text": "آخر"}, model_scenes[5],
+             {"kind": "outro"}, model_scenes[6]]
+    s = reel_script._build({"title": "عنوان", "question": "سؤال الحقل", "scenes": messy}, valid, "female")
+    check("g196: title_card واحد في الموضع الثاني بنص title",
+          kinds(s).count("title_card") == 1 and kinds(s)[1:2] == ["title_card"]
+          and s["scenes"][1].get("text") == "عنوان", kinds(s))
+    check("g196: question وoutro واحد في الآخر والوسط بترتيبه",
+          kinds(s) == ["cold_open_clip", "title_card", "narration", "clip", "narration", "clip", "narration",
+                       "question", "outro"] and s["scenes"][-2].get("text") == "سؤال الحقل", kinds(s))
+    s2 = reel_script._build({"title": "عنوان", "question": "", "scenes": messy}, valid, "female")
+    check("g196: حقل question فارغ ← نص أول question أعاده النموذج", s2["scenes"][-2].get("text") == "وسط", s2["scenes"][-2])
+
+    # ── التعرّف: مزيَّف يعيد الصفوف المعطاة ──
+    real_create = reel_script._create
+
+    def identify(rows, fail=False):
+        def fake(client, **kw):
+            if fail:
+                raise RuntimeError("down")
+            blk = SimpleNamespace(type="tool_use", name=reel_script.SPEAKERS_TOOL["name"], input={"speakers": rows})
+            return SimpleNamespace(content=[blk])
+        reel_script._create = fake
+        try:
+            clips = [dict(valid[0], speaker_text="خبير في شؤون الطاقة من السعودية"),
+                     dict(valid[1], speaker_text="ضيفة")]
+            return reel_script.identify_speakers(clips, [], cfg)
+        finally:
+            reel_script._create = real_create
+
+    def script_with(text):
+        return {"narrator": "female", "title": "ع", "question": "ما رأيك؟",
+                "scenes": [{"kind": "narration", "text": text}]}
+
+    # ── g197: التعرّف نجح بـname_arabic فارغ والوصف يحوي «السعودية» ──
+    got = identify([{"point_id": "p0", "name_latin": "", "name_arabic": "", "role_arabic": ""}])
+    check("g197: speaker_identity_ran وspeaker_name_guess فارغ",
+          got[0].get("speaker_identity_ran") is True and got[0].get("speaker_name_guess") == "", got[0])
+    r = reel_script._unverified_name_violations(script_with("استهدفت منشآت الطاقة في السعودية"), got, cfg)
+    check("g197: وصف بلا اسم ← لا «سُمّي متحدث غير موثَّق»", r == [], r)
+
+    # ── g198: الاسم المقترح غير الموثَّق يُحرس ──
+    got = identify([{"point_id": "p0", "name_latin": "Nihal Karaca", "name_arabic": "نهال بنكيسو قره جا",
+                     "role_arabic": ""}])
+    r = reel_script._unverified_name_violations(script_with("وقالت نهال إن الهجمات ستتسع"), got, cfg)
+    check("g198: «نهال» لغير موثَّق ← «سُمّي متحدث غير موثَّق: نهال»", len(r) == 1 and r[0].endswith("نهال"), r)
+
+    got = identify([], fail=True)
+    check("g198: فشل التعرّف ← لا speaker_identity_ran والحارس على speaker_text احتياطًا",
+          not got[0].get("speaker_identity_ran")
+          and bool(reel_script._unverified_name_violations(script_with("في السعودية"), got, cfg)), got[0])
+
+    # ── g199: الحقلان للحارس وحده ──
+    guessed = dict(valid[0], speaker_identity_ran=True, speaker_name_guess="اسمسري")
+    s = reel_script._build({"title": "عنوان", "question": "س", "scenes": model_scenes}, [guessed] + valid[1:], "female")
+    dumped = json.dumps(s, ensure_ascii=False)
+    check("g199: لا speaker_name_guess ولا speaker_identity_ran في مشاهد السيناريو",
+          "speaker_name_guess" not in dumped and "speaker_identity_ran" not in dumped and "اسمسري" not in dumped, dumped[:200])
+    d = yp.build_reel_draft({"id": "aaaa1111bbbb", "title": "موضوع", "layer": "a", "blocs": ["turkish"],
+                             "channels": ["قناة"], "agreement": "agreement", "event": "حدث"}, "2026-10-13", cfg)
+    d.update(script=s, script_status="ready")
+    try:
+        body = yp.build_review_body([d], "o/r", "main", cfg)
+    except Exception as exc:  # noqa: BLE001 — يظهر في التفصيل ويُفشل الفحص
+        body = f"ERR {type(exc).__name__}: {exc}"
+    check("g199: نص قضية المرحلة 2 بلا speaker_name_guess",
+          not body.startswith("ERR") and "اسمسري" not in body and "speaker_name_guess" not in body, body[:200])
