@@ -5141,8 +5141,8 @@ def test_reel_script_guards() -> None:
         # ── g178) go3 للريل ← approved_script وrender_status queued وتعليق ولا نشر ──
         check("g178: status approved_script وrender_status queued",
               got["status"] == "approved_script" and got["render_status"] == "queued", got["status"])
-        check("g178: التعليق «سيُركَّب الريل حين تُفعَّل مرحلة التركيب»",
-              any("سيُركَّب الريل حين تُفعَّل مرحلة التركيب" in m for m in run1), run1)
+        check("g178: التعليق «✅ اعتُمد السيناريو — شغّل «🎬 تركيب الريل» من Actions لتركيبه»",
+              any("✅ اعتُمد السيناريو — شغّل «🎬 تركيب الريل» من Actions لتركيبه" in m for m in run1), run1)
         check("g178: لا نشر ولا بطاقة",
               not got.get("image") and not got.get("published_at") and got["status"] != "published")
 
@@ -5277,10 +5277,10 @@ def test_reel_speaker_audit_guards() -> None:
         check("g181: «حقان فيدان» ← «هاكان فيدان» في الشريط السفلي",
               out["status"] == "ready" and bool(clips) and clips[0]["speaker_name"] == "هاكان فيدان", out)
         check("g181: الجدول الزمني يعرض المصحَّح", "هاكان فيدان" in tl and "حقان" not in tl, tl)
-        # R2c (#1377): لا استبعاد بالاسم؛ المقطع يبقى بشريط «ضيف على قناة X» ولا يظهر اسمه في مشهد ولا في مدخل الكاتب
-        check("g182/g184: غير المحسوم يبقى بشريط «ضيف على قناة X» ولا يظهر اسمه في مشهد ولا في مدخل الكاتب",
+        # R2c (#1377): لا استبعاد بالاسم؛ المقطع يبقى بشريط «من قناة X» ولا يظهر اسمه في مشهد ولا في مدخل الكاتب
+        check("g182/g184: غير المحسوم يبقى بشريط «من قناة X» ولا يظهر اسمه في مشهد ولا في مدخل الكاتب",
               len(clips) == 3 and "مجهول" not in json.dumps(sc, ensure_ascii=False)
-              and "ضيف على قناة" in reel_script.speaker_band({"channel_display": "الجزيرة"}, cfg)
+              and "من قناة" in reel_script.speaker_band({"channel_display": "الجزيرة"}, cfg)
               and "مجهول" not in json.dumps(calls[-1].get("messages"), ensure_ascii=False), len(clips))
         names = [x.get("arabic") for x in d.get("name_unresolved") or []]
         # R2c: تدقيق المتحدثين يخص الموثَّق وحده، فغير الموثَّق «مجهول الهوية» لا يدخل المدقق أصلًا
@@ -5380,7 +5380,7 @@ def test_reel_identity_r2c_guards() -> None:
         band = reel_script.speaker_band(b, cfg)
         check("g187: «Çetiner Çetin» غائب عن العنوان والوصف ← غير موثَّق بلا اسم ولا صفة",
               b["speaker_verified"] is False and b["speaker_name"] == "" and b["speaker_role"] == "", b)
-        check("g187: الشريط «ضيف على قناة هابرتورك»", band == "ضيف على قناة هابرتورك", band)
+        check("g187: الشريط «من قناة هابرتورك»", band == "من قناة هابرتورك", band)
 
         # ── ج) المطابقة: حروف صغيرة، وتركية، وكلمات متتالية ──
         v = reel_script.verify_latin
@@ -5410,8 +5410,8 @@ def test_reel_identity_r2c_guards() -> None:
         check("g189: السيناريو يُكتب بمقطعين رغم name_unresolved", out["status"] == "ready" and len(clips) == 2, out)
         check("g189: شريط الموثَّق باسمه وصفته وقناته وعلامة الوصف في المرحلة 2",
               "نهال بنكيسو قره جا" in tl and "كاتبة صحفية" in tl and "✅ موثَّق من وصف الفيديو" in tl, tl)
-        check("g189: شريط غير الموثَّق «ضيف على قناة هابرتورك» و«👤 ضيف غير مسمّى»",
-              "ضيف على قناة هابرتورك" in tl and "👤 ضيف غير مسمّى" in tl, tl)
+        check("g189: شريط غير الموثَّق «من قناة هابرتورك» و«👤 ضيف غير مسمّى»",
+              "من قناة هابرتورك" in tl and "👤 ضيف غير مسمّى" in tl, tl)
         check("g189: الموثَّق الذي اسمه في name_unresolved يُبلَّغ للمحرر تنبيهًا",
               reel_editor.ADAPTER.speakers_unresolved(
                   {"name_unresolved": [{"arabic": "نهال بنكيسو قره جا", "latin": "N", "reason": "x"},
@@ -5445,9 +5445,9 @@ def test_reel_identity_r2c_guards() -> None:
         out2 = reel_script.write_for_draft(d2, topic, [pa, pb], "", [], cfg)
         mode["fail"] = False
         check("g191: السيناريو يُكتب (ready) بلا فشل", out2["status"] == "ready", out2)
-        check("g191: مدخل الكاتب فيه تعليمة عدم تسمية غير الموثَّق وشريط «ضيف على قناة»",
-              "ضيف على قناة هابرتورك" in json.dumps(calls[-1].get("messages"), ensure_ascii=False)
-              or any("ضيف على قناة هابرتورك" in json.dumps(c.get("messages"), ensure_ascii=False) for c in calls))
+        check("g191: مدخل الكاتب فيه تعليمة عدم تسمية غير الموثَّق وشريط «من قناة»",
+              "من قناة هابرتورك" in json.dumps(calls[-1].get("messages"), ensure_ascii=False)
+              or any("من قناة هابرتورك" in json.dumps(c.get("messages"), ensure_ascii=False) for c in calls))
     finally:
         reel_script._create = real["create"]
         names_audit.run = real["audit"]
@@ -6619,3 +6619,166 @@ def test_analysis_go1_reopen_guards() -> None:
             os.environ["GITHUB_REPOSITORY"] = real_repo
         for day in (today, yesterday, fixed):
             (ycl.TOPICS_DIR / f"{day}.json").unlink(missing_ok=True)
+
+
+def test_reel_render_r3b1c_guards() -> None:
+    """Issue #1394 (R3b-1c، g206–g211): نافذة احتياطية عند تعذّر جلب النص، وتوحيد الصوت بـloudnorm، ونص «من قناة X».
+    الشاهد: الريل 1c251f64c82a سقط مقطعه الافتتاحي لفشل جلب نص فيديو، وتفاوت الصوت −23…−14 LUFS، والشريط «ضيف» على مذيعة."""
+    import json
+    import tempfile
+    from pathlib import Path
+
+    from src import reel_render, reel_script
+
+    cfg = load_config()
+    D = "2099-12-02"
+    transcripts = {
+        "v1": "[00:10] alpha beta gamma delta\n[00:14] epsilon zeta eta theta\n[00:18] tail line",
+        "v2": "[00:30] iota kappa lambda mu\n[00:34] nu xi omicron pi\n[00:38] tail two",
+    }
+    quotes = {"v1": "alpha beta gamma delta epsilon zeta eta theta", "v2": "iota kappa lambda mu nu xi omicron pi"}
+    stamps = {"v1": 10, "v2": 30}
+    points = [{"video_id": v, "statement": "statement " + v, "quote_original": q, "quote_arabic": "ترجمة " + v,
+               "speaker": "متحدث", "channel": "قناة", "video_url": "https://youtube.com/watch?v=" + v,
+               "timestamp": stamps[v]} for v, q in quotes.items()]
+    ids = {p["video_id"]: reel_script.point_key_id(p) for p in points}
+
+    def clip_scene(v, kind="clip"):
+        return {"kind": kind, "point_id": ids[v], "video_url": "https://youtube.com/watch?v=" + v, "start": 9,
+                "end": 20, "speaker_name": "", "speaker_role": "", "speaker_verified": False,
+                "speaker_name_latin": "", "channel_display": "قناة", "quote_arabic": "ترجمة " + v, "language": "en"}
+
+    def make_draft(did):
+        scenes = [clip_scene("v1", "cold_open_clip"), {"kind": "title_card", "text": "عنوان"},
+                  {"kind": "narration", "text": "جملة أولى. وثانية؟"}, clip_scene("v2"),
+                  {"kind": "question", "text": "هل يتغير الموقف؟"}, {"kind": "outro"}]
+        d = {"id": did, "origin": "analysis", "format": "reel", "status": "approved_script",
+             "render_status": "queued", "topic_id": "t1", "topic_date": D, "review_issue": 4243, "title": "ريل",
+             "script_status": "ready", "script": {"narrator": "female", "title": "عنوان",
+                                                   "question": "هل يتغير الموقف؟", "scenes": scenes}}
+        return store.save_draft(d), d
+
+    def make_deps(log, fetch, pts=None):
+        def run(cmd):
+            log["cmds"].append(list(cmd))
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+
+        def download(video_id, start, end, height, out_path):
+            log["downloads"].append((video_id, start, end))
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        return reel_render.Deps(
+            fetch_transcript=fetch, download_clip=download,
+            synthesize=lambda text, voice: {"ok": True, "audio": b"mp3", "chars": len(text)},
+            diacritize=lambda text: (text, None), run=run, probe=lambda p: 2.0,
+            load_points=lambda date: pts if pts is not None else points,
+            comment=lambda issue, text: log["comments"].append(text),
+            faces=lambda f, fr: (1280, 720, []))
+
+    def new_log():
+        return {"cmds": [], "downloads": [], "comments": []}
+
+    tmp = Path(tempfile.mkdtemp())
+    try:
+        def render(did, fetch, pts=None, c=cfg):
+            log = new_log()
+            path, d = make_draft(did)
+            reel_render.render_draft(path, d, c, make_deps(log, fetch, pts), reels_dir=tmp / "reels",
+                                     workdir=tmp / "work")
+            return log, json.loads(path.read_text(encoding="utf-8"))
+
+        # ── g206) fetch_transcript يرفع لفيديو الافتتاح ← نافذة المشهد لا إسقاط ──
+        def boom_v1(vid):
+            if vid == "v1":
+                raise RuntimeError("blocked")
+            return transcripts.get(vid)
+
+        log, s = render("r3b1c00000a1", boom_v1)
+        approx = s.get("render_approx") or []
+        check("g206: المقطع الافتتاحي لا يُسقط ويُنزَّل بنافذة المشهد 9–20",
+              s.get("render_status") == "rendered" and ("v1", 9, 20) in log["downloads"]
+              and not any(ids["v1"] in json.dumps(x) for x in (s.get("render_dropped") or [])),
+              (s.get("render_status"), s.get("render_error"), log["downloads"], s.get("render_dropped")))
+        check("g206: render_approx فيه المقطع بسببه ونافذته",
+              len(approx) == 1 and approx[0].get("point_id") == ids["v1"] and approx[0].get("kind") == "cold_open_clip"
+              and approx[0].get("start") == 9 and approx[0].get("end") == 20 and approx[0].get("reason"), approx)
+        check("g206: تعليق التركيب فيه «⚠️ نافذة تقديرية»",
+              log["comments"] and "⚠️ نافذة تقديرية" in log["comments"][0] and "تعذّر جلب نص الفيديو" in log["comments"][0],
+              log["comments"])
+
+        # ── g207) fetch_transcript يعيد None ← السلوك نفسه ──
+        log, s = render("r3b1c00000a2", lambda vid: None if vid == "v1" else transcripts.get(vid))
+        check("g207: None ← نافذة احتياطية أيضًا",
+              s.get("render_status") == "rendered" and ("v1", 9, 20) in log["downloads"]
+              and len(s.get("render_approx") or []) == 1 and not s.get("render_dropped"),
+              (s.get("render_status"), s.get("render_approx"), s.get("render_dropped")))
+
+        # ── g208) النص متاح والاقتباس غير موجود ← إسقاط بلا render_approx ──
+        bad = dict(transcripts, v1="[00:10] unrelated words here\n[00:14] nothing at all")
+        log, s = render("r3b1c00000a3", lambda vid: bad.get(vid))
+        check("g208: اقتباس غائب من نص متاح ← يبقى إسقاطًا بلا render_approx",
+              len(s.get("render_dropped") or []) == 1 and ids["v1"] in json.dumps(s["render_dropped"])
+              and not s.get("render_approx") and all(x[0] != "v1" for x in log["downloads"]),
+              (s.get("render_dropped"), s.get("render_approx"), log["downloads"]))
+
+        # ── g209) بلا timestamp في النقطة مع فشل النص ← إسقاط ──
+        no_ts = [dict(p) for p in points]
+        no_ts[0].pop("timestamp")
+        log = new_log()
+        path, d = make_draft("r3b1c00000a4")
+        d["script"]["scenes"][0]["point_id"] = reel_script.point_key_id(no_ts[0])
+        store.update_draft(path, script=d["script"])
+        reel_render.render_draft(path, d, cfg, make_deps(log, lambda vid: None if vid == "v1" else transcripts.get(vid),
+                                                         no_ts), reels_dir=tmp / "reels", workdir=tmp / "work")
+        s = json.loads(path.read_text(encoding="utf-8"))
+        check("g209: بلا timestamp ← يُسقط ولا نافذة تقديرية",
+              len(s.get("render_dropped") or []) == 1 and not s.get("render_approx")
+              and all(x[0] != "v1" for x in log["downloads"]),
+              (s.get("render_dropped"), s.get("render_approx")))
+
+        # ── g210) loudnorm لكل مقطع وكل جملة راوٍ وللملف النهائي ──
+        def loud_checks(c, target, tag):
+            log, s = render("r3b1c0000" + tag, lambda vid: transcripts.get(vid), c=c)
+            joined = [" ".join(x) for x in log["cmds"]]
+            want = "loudnorm=I=" + str(target) + ":TP=" + str(c.path("reel.render.loudness.true_peak")) + ":LRA=11"
+            clip_cmds = [x for x in joined if "crop=" in x]
+            sent_cmds = [x for x in joined if ".mp3" in x]
+            final = [x for x in joined if "overlay=W-w-" in x]
+            check("g210: مقطعان بمرشح " + want, len(clip_cmds) == 2 and all(want in x for x in clip_cmds), clip_cmds[:1])
+            check("g210: كل جملة راوٍ (3) بمرشح " + want, len(sent_cmds) == 3 and all(want in x for x in sent_cmds),
+                  sent_cmds[:1])
+            check("g210: أمر الملف النهائي يحمله (" + str(target) + ")", len(final) == 1 and want in final[0], final)
+
+        check("g210: الإعداد -16 و-1.5",
+              cfg.path("reel.render.loudness.target_lufs") == -16 and cfg.path("reel.render.loudness.true_peak") == -1.5,
+              cfg.path("reel.render.loudness"))
+        loud_checks(cfg, -16, "b1")
+        cfg2 = load_config()
+        cfg2["reel"]["render"]["loudness"]["target_lufs"] = -18
+        loud_checks(cfg2, -18, "b2")
+
+        # ── g211) «من قناة X» للمتحدث غير الموثَّق ──
+        seen: list = []
+        orig_draw = reel_render.imaging.draw_text
+
+        def spy(d_, xy, text, *a, **k):
+            seen.append(text)
+            return orig_draw(d_, xy, text, *a, **k)
+
+        reel_render.imaging.draw_text = spy
+        try:
+            reel_render.frame_clip_overlay(cfg, {"kind": "clip", "speaker_verified": False,
+                                                 "channel_display": "الجزيرة", "quote_arabic": ""})
+        finally:
+            reel_render.imaging.draw_text = orig_draw
+        check("g211: النص المرسوم «من قناة الجزيرة»", "من قناة الجزيرة" in seen and not any("ضيف" in t for t in seen), seen)
+        check("g211: شارة المرحلة 2 من المفتاح نفسه",
+              reel_script.speaker_band({"channel_display": "الجزيرة"}, cfg) == "من قناة الجزيرة"
+              and cfg.path("reel.texts.guest_label") == "من قناة {channel}", cfg.path("reel.texts.guest_label"))
+        check("g211: نص اعتماد السيناريو الجديد",
+              "✅ اعتُمد السيناريو — شغّل «🎬 تركيب الريل» من Actions لتركيبه" in cfg.path("reel.texts.script_approved")
+              and "مرحلة التركيب" not in cfg.path("reel.texts.script_approved"), cfg.path("reel.texts.script_approved"))
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)

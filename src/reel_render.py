@@ -376,6 +376,12 @@ def _base(*args) -> list[str]:
     return ["ffmpeg", "-y", "-loglevel", "error", *args]
 
 
+def _loudnorm(cfg) -> str:
+    """مرشح توحيد الصوت أحادي المرور؛ الهدف والذروة من الإعداد. LRA ثابت 11 (القيمة الافتراضية للمرشح نفسه)."""
+    lc = cfg.path("reel.render.loudness")
+    return f"loudnorm=I={lc['target_lufs']}:TP={lc['true_peak']}:LRA=11"
+
+
 def _fmt(x: float) -> str:
     return f"{x:.3f}"
 
@@ -390,13 +396,25 @@ def _drop(dropped: list, scene: dict, reason: str) -> None:
     dropped.append({"point_id": scene.get("point_id", ""), "kind": scene.get("kind", ""), "reason": reason})
 
 
-def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path) -> tuple[dict, list]:
-    """لكل مشهد مقطع: نص الفيديو ← تحديد موضع الاقتباس ← تنزيل نافذته. يعيد ({فهرس المشهد: {file, seconds}}, المحذوف)."""
+def _approx_window(point: dict, scene: dict) -> tuple[int, int] | None:
+    """نافذة احتياطية من المشهد المحفوظ عند تعذّر نص الفيديو: تتطلب timestamp في النقطة (حُسم من النص عند الاستخراج)
+    وstart/end في المشهد؛ غير ذلك None فيُسقط المقطع كما كان."""
+    if point.get("timestamp") is None or scene.get("start") is None or scene.get("end") is None:
+        return None
+    start, end = int(math.floor(float(scene["start"]))), int(math.ceil(float(scene["end"])))
+    return (start, end) if end > start else None
+
+
+def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path) -> tuple[dict, list, list]:
+    """لكل مشهد مقطع: نص الفيديو ← تحديد موضع الاقتباس ← تنزيل نافذته. يعيد ({فهرس المشهد: {file, seconds}}, المحذوف,
+    المقاطع بنافذة تقديرية). تعذّر النص (استثناء أو فارغ) لا يُسقط المقطع بل يستعمل نافذة المشهد؛ أما نص متاح لا يطابق
+    الاقتباس فيبقى إسقاطًا لأن النص هناك ولا يؤيد المقطع."""
     rcfg, scfg = cfg.path("reel.render"), cfg.path("reel.script")
     by_id = {reel_script.point_key_id(p): p for p in deps.load_points(draft.get("topic_date", ""))}
     transcripts: dict[str, list] = {}
     clips: dict[int, dict] = {}
     dropped: list = []
+    approx: list = []
     from . import youtube_extract
     for i, scene in enumerate(script["scenes"]):
         if scene.get("kind") not in reel_script.CLIP_KINDS:
@@ -414,36 +432,47 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path) -> tuple
                 text = None
             transcripts[vid] = youtube_extract.parse_transcript_segments(text) if text else []
         if not transcripts[vid]:
-            _drop(dropped, scene, "تعذّر جلب نص الفيديو")
-            continue
-        near = point.get("timestamp", scene.get("start"))
-        loc = reel_clips.locate_quote(point.get("quote_original", ""), transcripts[vid], near=near, cfg=cfg)
-        if loc["status"] == "ambiguous":
-            _drop(dropped, scene, "موضع الاقتباس في الفيديو غير حاسم (يتكرر)")
-            continue
-        if loc["status"] != "found":
-            _drop(dropped, scene, "الاقتباس غير موجود في نص الفيديو")
-            continue
-        wstart = int(max(0, loc["start"] - float(scfg.get("lead_seconds", 1))))
-        wend = int(math.ceil(loc["end"]))
-        wend = min(wend, wstart + int(scfg.get("clip_max_seconds", 15)))
-        if wend <= wstart:     # نافذة معدومة (اقتباس في آخر سطر) تُمدّ إلى الحد الأدنى لا تُسقط المقطع
-            wend = wstart + int(scfg.get("clip_min_seconds", 6))
+            win = _approx_window(point, scene)
+            if win is None:
+                _drop(dropped, scene, "تعذّر جلب نص الفيديو")
+                continue
+            wstart, wend = win
+            approx.append({"point_id": scene.get("point_id", ""), "kind": scene.get("kind", ""),
+                           "start": wstart, "end": wend, "reason": "تعذّر جلب نص الفيديو",
+                           "channel": scene.get("channel_display", "")})
+        else:
+            near = point.get("timestamp", scene.get("start"))
+            loc = reel_clips.locate_quote(point.get("quote_original", ""), transcripts[vid], near=near, cfg=cfg)
+            if loc["status"] == "ambiguous":
+                _drop(dropped, scene, "موضع الاقتباس في الفيديو غير حاسم (يتكرر)")
+                continue
+            if loc["status"] != "found":
+                _drop(dropped, scene, "الاقتباس غير موجود في نص الفيديو")
+                continue
+            wstart = int(max(0, loc["start"] - float(scfg.get("lead_seconds", 1))))
+            wend = int(math.ceil(loc["end"]))
+            wend = min(wend, wstart + int(scfg.get("clip_max_seconds", 15)))
+            if wend <= wstart:     # نافذة معدومة (اقتباس في آخر سطر) تُمدّ إلى الحد الأدنى لا تُسقط المقطع
+                wend = wstart + int(scfg.get("clip_min_seconds", 6))
         out = tmp / f"clip_{i}.mp4"
         try:
             deps.download_clip(vid, wstart, wend, int(rcfg["clip_height"]), out)
         except Exception as exc:  # noqa: BLE001 -- فشل كل درجات التنزيل يحذف المشهد لا الريل
             _drop(dropped, scene, "فشل تنزيل المقطع: " + reel_clips.scrub_text(str(exc))[:120])
+            if approx and approx[-1]["point_id"] == scene.get("point_id", ""):
+                approx.pop()     # لم يُركَّب فلا نافذة تقديرية تُراجَع
             continue
         if not out.exists():
             found = sorted(tmp.glob(f"clip_{i}.*"))
             if not found:
                 _drop(dropped, scene, "لم يُنتج التنزيل ملفًا")
+                if approx and approx[-1]["point_id"] == scene.get("point_id", ""):
+                    approx.pop()
                 continue
             out = found[0]
         secs = deps.probe(out) or float(wend - wstart)
         clips[i] = {"file": out, "seconds": float(secs)}
-    return clips, dropped
+    return clips, dropped, approx
 
 
 def _speech(text: str, voice: str, cfg, deps: Deps, tmp: Path, tag: str) -> tuple[Path, list[tuple[str, float]]]:
@@ -465,7 +494,8 @@ def _speech(text: str, voice: str, cfg, deps: Deps, tmp: Path, tag: str) -> tupl
         mp3.write_bytes(res["audio"])
         wav = tmp / f"{tag}_{k}.wav"
         deps.run(_base("-i", str(mp3), "-af",
-                       f"aresample={rcfg.get('audio_rate', 48000)},aformat=channel_layouts=stereo,apad=pad_dur={silence}",
+                       f"aresample={rcfg.get('audio_rate', 48000)},aformat=channel_layouts=stereo,{_loudnorm(cfg)},"
+                       f"apad=pad_dur={silence}",
                        str(wav)))
         dur = deps.probe(wav)
         parts.append((tts.strip_tashkeel(sentence), float(dur or 0)))
@@ -530,7 +560,7 @@ def _clip_scene(clip: dict, overlay: Path, out: Path, cfg, deps: Deps) -> float:
              f"[v0][1:v]overlay=0:0:shortest=1,fps={rcfg['fps']},format=yuv420p[v]")
     deps.run(_base("-i", str(clip["file"]), "-loop", "1", "-framerate", str(rcfg["fps"]), "-i", str(overlay),
                    "-filter_complex", graph, "-map", "[v]", "-map", "0:a:0", "-af",
-                   f"aresample={rcfg.get('audio_rate', 48000)},aformat=channel_layouts=stereo",
+                   f"aresample={rcfg.get('audio_rate', 48000)},aformat=channel_layouts=stereo,{_loudnorm(cfg)}",
                    "-t", _fmt(clip["seconds"]), *_enc(rcfg), str(out)))
     return clip["seconds"]
 
@@ -583,13 +613,15 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str)
     return scene_files, total
 
 
-def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path, dropped: list) -> dict:
+def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path, dropped: list,
+            approx: list) -> dict:
     rcfg, scfg = cfg.path("reel.render"), cfg.path("reel.script")
     script = draft.get("script") or {}
     if not script.get("scenes"):
         raise RuntimeError("لا سيناريو معتمد")
-    clips, drops = _fetch_clips(script, draft, cfg, deps, tmp)
+    clips, drops, approx_found = _fetch_clips(script, draft, cfg, deps, tmp)
     dropped.extend(drops)
+    approx.extend(approx_found)
     wanted = sum(1 for s in script["scenes"] if s.get("kind") in reel_script.CLIP_KINDS)
     need = int(scfg.get("min_clips", 2))
     if len(clips) < need:
@@ -612,7 +644,8 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     deps.run(_base("-i", str(joined), "-i", str(logo), "-filter_complex",
                    f"[1:v]scale={lg['width']}:-1[lg];[0:v][lg]overlay=W-w-{lg['right']}:{lg['top']}[v]",
                    "-map", "[v]", "-map", "0:a", "-c:v", "libx264", "-preset", "veryfast", "-crf", str(rcfg.get("crf", 22)),
-                   "-pix_fmt", "yuv420p", "-c:a", "copy", "-movflags", "+faststart", str(dest)))
+                   "-pix_fmt", "yuv420p", "-af", _loudnorm(cfg), "-c:a", "aac", "-b:a", "128k",
+                   "-ar", str(rcfg.get("audio_rate", 48000)), "-ac", "2", "-movflags", "+faststart", str(dest)))
     g = rcfg["gif"]
     deps.run(_base("-t", str(g["seconds"]), "-i", str(dest), "-vf",
                    f"fps={g['fps']},scale={g['width']}:{g['height']}:flags=lanczos,split[x][y];[x]palettegen[p];"
@@ -623,7 +656,12 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
             "render_crops": {str(i): c["crop"] for i, c in clips.items() if "crop" in c}}
 
 
-def _comment_text(cfg, draft: dict, result: dict, dropped: list) -> str:
+def _mmss(sec) -> str:
+    sec = int(sec)
+    return f"{sec // 60}:{sec % 60:02d}"
+
+
+def _comment_text(cfg, draft: dict, result: dict, dropped: list, approx: list | None = None) -> str:
     t = cfg.path("reel.render.texts")
     base = cfg.path("reel.render.data_link_base")
     if result.get("render_status") == "failed":
@@ -634,6 +672,9 @@ def _comment_text(cfg, draft: dict, result: dict, dropped: list) -> str:
     if dropped:
         details = "؛ ".join(f"{d['kind']} ({d['reason']})" for d in dropped)
         text += "\n" + t["comment_dropped"].format(n=len(dropped), details=details)
+    for a in approx or []:
+        text += "\n" + t["comment_approx"].format(
+            channel=a.get("channel", ""), window=f"{_mmss(a['start'])}–{_mmss(a['end'])}", reason=a["reason"])
     return text
 
 
@@ -646,8 +687,9 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
     tmp = Path(workdir) if workdir else Path(tempfile.mkdtemp(prefix="reel_render_"))
     tmp.mkdir(parents=True, exist_ok=True)
     dropped: list = []
+    approx: list = []
     try:
-        result = {"render_status": "rendered", **_render(path, draft, cfg, deps, reels_dir, tmp, dropped)}
+        result = {"render_status": "rendered", **_render(path, draft, cfg, deps, reels_dir, tmp, dropped, approx)}
     except Exception as exc:  # noqa: BLE001 -- failed يجب أن يحمل سببه ويُحيى بـ--retry
         reason = reel_clips.scrub_text(str(exc))
         reason = " ".join(reason.split())[:300] or exc.__class__.__name__
@@ -655,13 +697,16 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
         result = {"render_status": "failed", "render_error": reason}
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
-    changes = {**result, "render_dropped": dropped, "rendered_at": datetime.now(timezone.utc).isoformat()}
+    # القناة حقل عرض للتعليق وحده؛ المحفوظ على المسودة {point_id, kind, start, end, reason}
+    approx_saved = [{k: v for k, v in a.items() if k != "channel"} for a in approx]
+    changes = {**result, "render_dropped": dropped, "render_approx": approx_saved,
+               "rendered_at": datetime.now(timezone.utc).isoformat()}
     remove = ["render_error"] if result["render_status"] == "rendered" else ["reel_file", "reel_gif", "duration_seconds"]
     store.update_draft(path, remove=remove, **changes)
     issue = draft.get("review_issue")
     if issue:
         try:
-            deps.comment(int(issue), _comment_text(cfg, draft, result, dropped))
+            deps.comment(int(issue), _comment_text(cfg, draft, result, dropped, approx))
         except Exception as exc:  # noqa: BLE001 -- التعليق إخبار لا شرط للتركيب
             log.warning("تعذّر التعليق على القضية %s: %s", issue, str(exc)[:150])
     return result
@@ -690,7 +735,8 @@ def retry(draft_id: str, cfg) -> bool:
     found = store.load_draft(draft_id)
     if not found or found[1].get("render_status") != "failed":
         return False
-    store.update_draft(found[0], remove=["render_error", "render_dropped"], render_status="queued")
+    store.update_draft(found[0], remove=["render_error", "render_dropped", "render_approx"],
+                       render_status="queued")
     return True
 
 
