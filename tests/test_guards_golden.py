@@ -6165,3 +6165,75 @@ def test_reel_render_r3b1_guards() -> None:
                   (real, expected))
     finally:
         _shutil.rmtree(work, ignore_errors=True)
+
+
+def test_face_detection_f1_guards() -> None:
+    """كشف الوجوه بـYuNet (cv2.FaceDetectorYN) بعد حذف OpenCV 5 للـCascadeClassifier (Issue #1383، F1).
+    كان face_boxes/face_score يعيدان «لا وجه» دائمًا بصمت فتعطّل فحص وجوه الصور المجانية واقتطاع الريل."""
+    import logging
+    from pathlib import Path
+
+    from PIL import Image
+
+    from src import imaging, reel_render
+
+    cfg = load_config()
+    fx = Path(__file__).parent / "fixtures" / "faces" / "astronaut.jpg"
+    face = Image.open(fx).convert("RGB")
+
+    def on_bg(x: int) -> Image.Image:
+        bg = Image.new("RGB", (1280, 720), (90, 90, 90))
+        bg.paste(face, (x, 100))
+        return bg
+
+    # ── أ) الصندوق بإحداثيات الصورة الأصلية ──
+    right, left = imaging.face_boxes(on_bg(820)), imaging.face_boxes(on_bg(60))
+    cx_r = [x + w / 2 for x, _, w, _ in right]
+    cx_l = [x + w / 2 for x, _, w, _ in left]
+    check("f1-أ: وجه عند x=820 ← مركزه الأفقي بين 900 و1100",
+          len(right) >= 1 and 900 <= cx_r[0] <= 1100, right)
+    check("f1-أ: وجه عند x=60 ← مركزه الأفقي بين 160 و320",
+          len(left) >= 1 and 160 <= cx_l[0] <= 320, left)
+
+    # ── ب) بلا وجه ──
+    check("f1-ب: خلفية بلا وجه ← قائمة فارغة",
+          imaging.face_boxes(Image.new("RGB", (1280, 720), (90, 90, 90))) == [])
+
+    # ── ج) face_score ──
+    score = imaging.face_score(on_bg(820))
+    check("f1-ج: face_score للصورة (أ) بين 0 و1", 0 < score < 1, score)
+
+    # ── د) النموذج غائب ← فارغة + تحذير مرة واحدة، بلا استثناء ──
+    records: list = []
+
+    class _H(logging.Handler):
+        def emit(self, record):
+            records.append(record)
+
+    h = _H(level=logging.WARNING)
+    lg = logging.getLogger("src.imaging")
+    old_model, old_flag = imaging.YUNET_MODEL, getattr(imaging, "_face_warned", False)
+    lg.addHandler(h)
+    try:
+        imaging.YUNET_MODEL = Path("/nonexistent/yunet.onnx")
+        imaging._face_warned = False
+        try:
+            got1, got2, sc = imaging.face_boxes(on_bg(820)), imaging.face_boxes(on_bg(60)), imaging.face_score(on_bg(820))
+            ok = True
+        except Exception as exc:  # noqa: BLE001
+            got1 = got2 = sc = exc
+            ok = False
+    finally:
+        imaging.YUNET_MODEL, imaging._face_warned = old_model, old_flag
+        lg.removeHandler(h)
+    check("f1-د: النموذج غائب ← قوائم فارغة وface_score=0 بلا استثناء", ok and got1 == [] and got2 == [] and sc == 0.0,
+          (got1, got2, sc))
+    check("f1-د: تحذير واحد مسجَّل للتشغيلة", len(records) == 1, [r.getMessage() for r in records])
+
+    # ── هـ) crop_window بمراكز الوجه الحقيقية ──
+    win = reel_render.crop_window(1280, 720, cx_r)
+    want_x = int(max(0, min(cx_r[0] - 405 // 2, 1280 - 405)))
+    check("f1-هـ: مراكز حقيقية ← source=face وx محصور", win["source"] == "face" and win["x"] == want_x
+          and 0 <= win["x"] <= 1280 - 405 and win["x"] != 437, win)
+    check("f1-هـ: config يحمل عتبتي الكاشف", cfg.path("image.face_score_threshold") == 0.6
+          and cfg.path("image.face_nms_threshold") == 0.3, cfg.path("image"))

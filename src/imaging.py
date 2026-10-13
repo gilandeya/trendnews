@@ -359,6 +359,60 @@ def paste_logo(canvas: Image.Image, logo_path: Path, box: tuple[int, int, int, i
     return True
 
 
+# نموذج YuNet (MIT) — OpenCV 5 حذف CascadeClassifier فلا بديل إلا FaceDetectorYN
+YUNET_MODEL = Path(__file__).resolve().parent.parent / "assets" / "models" / "face_detection_yunet_2023mar.onnx"
+_face_warned = False
+_FACE_SIDE = 640  # أطول ضلع للصورة المصغّرة المدخلة للكاشف
+
+
+def _warn_face_once(reason: str) -> None:
+    """تحذير واحد لكل تشغيلة: تعطّل الكشف بصمت هو ما أخفى هذا العطل أشهرًا."""
+    global _face_warned
+    if not _face_warned:
+        _face_warned = True
+        log.warning("كشف الوجوه معطَّل (%s) — تُعاد قائمة فارغة", reason)
+
+
+def face_boxes(img: Image.Image) -> list[tuple[int, int, int, int]]:
+    """صناديق الوجوه (x, y, w, h) بإحداثيات الصورة الأصلية بـYuNet.
+    فارغة مع تحذير واحد إن غاب النموذج أو المكتبة أو وقع أي عطل."""
+    try:
+        import cv2
+        import numpy as np
+    except ImportError:
+        _warn_face_once("OpenCV غير مثبّتة")
+        return []
+    try:
+        if not YUNET_MODEL.exists():
+            _warn_face_once(f"ملف النموذج غائب: {YUNET_MODEL}")
+            return []
+        from .config import load_config
+        cfg = load_config()
+        rgb = img.convert("RGB")
+        # الكاشف يعمل على صورة مصغّرة؛ ثم نعيد الإحداثيات إلى مقاس الأصل
+        scale = min(_FACE_SIDE / max(rgb.size), 1.0)
+        if scale < 1:
+            rgb = rgb.resize((max(int(img.width * scale), 1), max(int(img.height * scale), 1)))
+        bgr = np.array(rgb)[:, :, ::-1].copy()
+        det = cv2.FaceDetectorYN.create(
+            str(YUNET_MODEL), "", (rgb.width, rgb.height),
+            score_threshold=float(cfg.path("image.face_score_threshold", 0.6)),
+            nms_threshold=float(cfg.path("image.face_nms_threshold", 0.3)))
+        det.setInputSize((rgb.width, rgb.height))
+        _, faces = det.detect(bgr)
+    except Exception as exc:  # noqa: BLE001 — الكشف تحسين لا شرط
+        _warn_face_once(f"{type(exc).__name__}: {exc}")
+        return []
+    if faces is None:
+        return []
+    out = []
+    for f in faces:
+        x, y, w, h = (float(v) / scale for v in f[:4])
+        x0, y0 = max(int(x), 0), max(int(y), 0)
+        out.append((x0, y0, min(int(w), img.width - x0), min(int(h), img.height - y0)))
+    return out
+
+
 def face_score(img: Image.Image) -> float:
     """
     مقياس حضور الوجوه في الصورة: نسبة أكبر وجه إلى مساحة الصورة.
@@ -367,52 +421,12 @@ def face_score(img: Image.Image) -> float:
     هي اللقطة القريبة، فتذهب إلى **الدائرة**، والمشهد الواسع (مبنى،
     شارع، بحر) يذهب إلى الخلفية حيث تتسع مساحته.
 
-    يعيد 0.0 إن تعذّر الكشف، فلا يتعطّل شيء بغياب المكتبة.
+    مبنية على صناديق face_boxes نفسها؛ 0.0 إن لم يُكشف وجه أو تعذّر الكشف.
     """
-    try:
-        import cv2
-        import numpy as np
-    except ImportError:
+    boxes = face_boxes(img)
+    if not boxes:
         return 0.0
-
-    try:
-        small = img.convert("L")
-        scale = 480 / max(small.size)
-        if scale < 1:
-            small = small.resize((max(int(small.width * scale), 1),
-                                  max(int(small.height * scale), 1)))
-        grey = np.array(small)
-        cascade = cv2.CascadeClassifier(
-            cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
-        faces = cascade.detectMultiScale(grey, scaleFactor=1.1, minNeighbors=5,
-                                         minSize=(24, 24))
-    except Exception:  # noqa: BLE001 — الكشف تحسين لا شرط
-        return 0.0
-
-    if len(faces) == 0:
-        return 0.0
-    area = grey.shape[0] * grey.shape[1]
-    return max(w * h for _, _, w, h in faces) / max(area, 1)
-
-
-def face_boxes(img: Image.Image) -> list[tuple[int, int, int, int]]:
-    """صناديق الوجوه (x, y, w, h) بإحداثيات الصورة الأصلية، بالكاشف نفسه الذي يستعمله face_score.
-    فارغة إن تعذّر الكشف أو غابت المكتبة."""
-    try:
-        import cv2
-        import numpy as np
-    except ImportError:
-        return []
-    try:
-        small = img.convert("L")
-        scale = min(480 / max(small.size), 1.0)
-        if scale < 1:
-            small = small.resize((max(int(small.width * scale), 1), max(int(small.height * scale), 1)))
-        cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
-        faces = cascade.detectMultiScale(np.array(small), scaleFactor=1.1, minNeighbors=5, minSize=(24, 24))
-    except Exception:  # noqa: BLE001 — الكشف تحسين لا شرط
-        return []
-    return [(int(x / scale), int(y / scale), int(w / scale), int(h / scale)) for x, y, w, h in faces]
+    return max(w * h for _, _, w, h in boxes) / max(img.width * img.height, 1)
 
 
 def visual_hash(img: Image.Image, size: int = 10) -> list[int]:
