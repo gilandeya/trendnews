@@ -1892,9 +1892,25 @@ reel:
   # صوت الراوي (Issue #1347، R3a): قياس عينات فقط؛ لا يقرؤه مسار التركيب بعد.
   tts:
     provider: google
+    # اختيار صاحب المشروع (Issue #1375): يستعملها التركيب R3b؛ عينات القياس أدناه تقتصر عليهما
+    narrator_voices:
+      female: ar-XA-Chirp3-HD-Aoede
+      male: ar-XA-Chirp3-HD-Charon
     voices:
-      female: [ar-XA-Chirp3-HD-Kore, ar-XA-Chirp3-HD-Aoede, ar-XA-Chirp3-HD-Leda, ar-XA-Wavenet-A]
-      male: [ar-XA-Chirp3-HD-Charon, ar-XA-Chirp3-HD-Orus, ar-XA-Chirp3-HD-Fenrir, ar-XA-Wavenet-B]
+      female: [ar-XA-Chirp3-HD-Aoede]
+      male: [ar-XA-Chirp3-HD-Charon]
+    # تشكيل النص قبل أن يقرأه جوجل؛ الحارس في الكود يرفض أي تغيير غير الحركات
+    diacritize:
+      enabled: true
+      model: claude-sonnet-5
+      max_tokens: 4000
+      system: >-
+        شكّل النص العربي تشكيلًا كاملًا بالفصحى الإخبارية مع حركات الإعراب، وسكّن آخر كل كلمة يليها وقف
+        (، . ؟ ! : أو نهاية السطر). شكّل الأسماء الأجنبية بما يطابق نطقها الشائع. لا تغيّر أي حرف، ولا تضف كلمة
+        ولا تحذفها، ولا تغيّر علامات الترقيم ولا الأرقام.
+    # الصمت بين مقاطع العينة C/D بالثواني، وجملة تُفصل في نداء خاص ليُقرأ السؤال قبلها بنبرته
+    segment_silence: 0.4
+    closing_phrase: "شاركونا رأيكم."
     # دولار لكل مليون حرف. صفحة أسعار Google، أكتوبر 2026؛ الحصة المجانية مليون/أربعة ملايين حرف شهريًا
     price_per_million:
       chirp3_hd: 30

@@ -5581,3 +5581,106 @@ def test_reel_probe_r3a_guards() -> None:
         os.environ.pop("WEBSHARE_PROXY_PASSWORD", None)
         os.environ.pop("GOOGLE_TTS_API_KEY", None)
         shutil.rmtree(tmp, ignore_errors=True)
+
+
+def test_reel_tts_r3a3_guards() -> None:
+    """قياس الصوت وحده: التشكيل بحارس حرفي ونبرة السؤال الختامي (Issue #1375، R3a-3).
+    نموذج التشكيل والمنزِّل وgoogle وffmpeg مزيَّفة كلها."""
+    import tempfile
+    from pathlib import Path
+    from types import SimpleNamespace
+
+    from src import tts
+    from tools import reel_clip_probe as rp
+
+    cfg = load_config()
+
+    class FakeModel:
+        def __init__(self, outputs):
+            self.outputs, self.calls = list(outputs), []
+            self.messages = self
+
+        def create(self, **kw):
+            self.calls.append(kw)
+            out = self.outputs[min(len(self.calls) - 1, len(self.outputs) - 1)]
+            block = SimpleNamespace(type="tool_use", name="report_diacritized", input=dict(text=out))
+            return SimpleNamespace(content=[block], stop_reason="tool_use",
+                                   usage=SimpleNamespace(input_tokens=1, output_tokens=1))
+
+    orig = "قال وزير الخارجية"
+    ok = "قَالَ وَزِيرُ الخَارِجِيَّةِ"
+    m = FakeModel([ok])
+    got, warn = tts.diacritize(orig, cfg, client=m)
+    check("r3a3-أ: تشكيل سليم يُقبل بنداء واحد", got == ok and warn is None and len(m.calls) == 1, (got, warn))
+
+    m = FakeModel(["قَالَ وُزَرَاءُ الخَارِجِيَّةِ"])
+    got, warn = tts.diacritize(orig, cfg, client=m)
+    check("r3a3-ب: حرف مغيَّر ← إعادة واحدة ثم الأصل وتنبيه",
+          len(m.calls) == 2 and got == orig and warn and "تعذّر التشكيل" in warn, (got, warn, len(m.calls)))
+
+    m = FakeModel(["قَالَ الخَارِجِيَّةِ"])
+    got, warn = tts.diacritize(orig, cfg, client=m)
+    check("r3a3-ج: كلمة محذوفة ← الرفض نفسه",
+          len(m.calls) == 2 and got == orig and warn and "تعذّر التشكيل" in warn, (got, warn, len(m.calls)))
+
+    off = load_config()
+    off["reel"]["tts"]["diacritize"]["enabled"] = False
+    m = FakeModel([ok])
+    got, warn = tts.diacritize(orig, off, client=m)
+    check("r3a3-ز: enabled=false ← الأصل بلا نداء", got == orig and warn is None and not m.calls, (got, m.calls))
+
+    check("r3a3: أصوات القياس وأصوات الراوي من الإعداد",
+          cfg.path("reel.tts.voices.female") == ["ar-XA-Chirp3-HD-Aoede"]
+          and cfg.path("reel.tts.voices.male") == ["ar-XA-Chirp3-HD-Charon"]
+          and cfg.path("reel.tts.narrator_voices.male") == "ar-XA-Chirp3-HD-Charon"
+          and cfg.path("reel.tts.diacritize.enabled") is True)
+
+    # د: --clips 0 ← لا منزِّل ولا جالب نص ولا اختيار نقاط ولا بروكسي
+    tmp = Path(tempfile.mkdtemp())
+    calls = dict(dl=0, fetch=0, probe=0)
+
+    def bump(key, ret=None):
+        def fn(*a, **k):
+            calls[key] += 1
+            return ret
+        return fn
+
+    names = ("download_clip", "fetch_segments", "run_probe", "proxy_url", "audio_duration", "concat_audio")
+    saved = [getattr(rp, n) for n in names]
+    saved_tts = (tts.synthesize, tts.diacritize)
+    fake_concat = lambda parts, target, silence=0.4: Path(target).write_bytes(b"x")
+    try:
+        rp.download_clip, rp.fetch_segments = bump("dl"), bump("fetch")
+        rp.run_probe, rp.proxy_url = bump("probe", []), bump("dl")
+        rp.audio_duration = lambda p: 10.0
+        rp.concat_audio = fake_concat
+        tts.synthesize = lambda text, voice, c: dict(ok=True, audio=b"MP3", chars=len(text))
+        tts.diacritize = lambda text, c, client=None: (text, None)
+        rc = rp.main(["--clips", "0", "--out-root", str(tmp / "o"), "--report-dir", str(tmp / "r")])
+        check("r3a3-د: --clips 0 ← صفر منزِّل وجالب نص وبروكسي واختيار",
+              rc == 0 and calls == dict(dl=0, fetch=0, probe=0), calls)
+        files = sorted(p.name for p in (tmp / "o").glob("*/tts/*.mp3"))
+        check("r3a3: ثمانية ملفات (صوتان × A–D)",
+              len(files) == 8 and "ar-XA-Chirp3-HD-Charon_D.mp3" in files, files)
+
+        lines = list(cfg.path("reel.tts.sample_lines"))
+        sent = []
+
+        def synth(text, voice, c):
+            sent.append(text)
+            return dict(ok=True, audio=b"MP3", chars=len(text))
+
+        common = dict(synth=synth, duration=lambda p: 10.0, diacritize=lambda t, c: (t, None), concat=fake_concat,
+                      voices=[("male", "v")])
+        rp.run_tts(lines, tmp / "p2", cfg, samples=("C",), **common)
+        check("r3a3-هـ: C = سطور + 1 والأخير «شاركونا رأيكم.» وحدها",
+              len(sent) == len(lines) + 1 and sent[-1] == "شاركونا رأيكم.", sent)
+        sent.clear()
+        rp.run_tts(lines, tmp / "p3", cfg, samples=("D",), **common)
+        check("r3a3-و: D ← سطر السؤال ينتهي بـ? لا ؟ والبقية كما هي",
+              sent[-2].endswith("?") and "؟" not in sent[-2] and sent[:-2] == lines[:-1], sent)
+    finally:
+        for n, f in zip(names, saved):
+            setattr(rp, n, f)
+        tts.synthesize, tts.diacritize = saved_tts
+        shutil.rmtree(tmp, ignore_errors=True)

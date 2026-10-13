@@ -289,10 +289,10 @@ def render_table(attempts: list[dict], s: dict, tts_rows: list[dict] | None = No
               "_المنقول تقدير أدنى: لا يشمل طلبات yt-dlp الوصفية ولا ترويسات TLS/HTTP ولا "
               "إعادات المحاولة، ويشمل أجزاء الوسائط ونص الفيديو مرة لكل فيديو._"]
     if tts_rows:
-        lines += ["", "| الصوت | الجنس | الحروف | المدة ث | كلمة/ث | الكلفة $ | الحالة |",
-                  "|---|---|---|---|---|---|---|"]
+        lines += ["", "| الصوت | العينة | الجنس | الحروف | المدة ث | كلمة/ث | الكلفة $ | الحالة |",
+                  "|---|---|---|---|---|---|---|---|"]
         for t in tts_rows:
-            lines.append(f"| {t['voice']} | {t['gender']} | {t.get('chars', '—')} | "
+            lines.append(f"| {t['voice']} | {t.get('sample', '—')} | {t['gender']} | {t.get('chars', '—')} | "
                          f"{t.get('seconds', '—')} | {t.get('wps', '—')} | {t.get('cost_usd', '—')} | "
                          f"{t.get('skipped') or t.get('error') or 'ok'} |")
     if rate_line:
@@ -340,28 +340,112 @@ def audio_duration(path: Path) -> float | None:
         return None
 
 
-def run_tts(lines: list[str], out_dir: Path, cfg, *, synth=None,
-            duration=audio_duration) -> tuple[list[dict], str | None]:
+SAMPLES = ("A", "B", "C", "D")
+SAMPLE_NAMES = {"A": "A_plain", "B": "B_tashkeel", "C": "C_segments", "D": "D_segments_ascii_q"}
+
+
+def concat_audio(parts: list[Path], target: Path, silence: float = 0.4) -> None:
+    """يصل الملفات بـffmpeg مع صمت بين كل ملفين (apad على كل ملف عدا الأخير)."""
+    import subprocess
+    n = len(parts)
+    chains = []
+    for i in range(n):
+        pad = f",apad=pad_dur={silence}" if i < n - 1 else ""
+        chains.append(f"[{i}:a]aresample=24000,aformat=channel_layouts=mono{pad}[a{i}]")
+    graph = ";".join(chains) + ";" + "".join(f"[a{i}]" for i in range(n)) + f"concat=n={n}:v=0:a=1[out]"
+    cmd = ["ffmpeg", "-y", "-v", "error"]
+    for p in parts:
+        cmd += ["-i", str(p)]
+    cmd += ["-filter_complex", graph, "-map", "[out]", "-c:a", "libmp3lame", str(target)]
+    subprocess.run(cmd, check=True, capture_output=True, timeout=120)
+
+
+def split_segments(lines: list[str], closing: str) -> list[str]:
+    """سطر لكل مقطع، وعبارة الختام في آخر سطر تُفصل وحدها ليُقرأ السؤال قبلها بنبرته."""
+    segs = list(lines)
+    if closing and segs and segs[-1].rstrip().endswith(closing):
+        head = segs[-1].rstrip()[: -len(closing)].strip()
+        segs = segs[:-1] + ([head] if head else []) + [closing]
+    return segs
+
+
+def run_tts(lines: list[str], out_dir: Path, cfg, *, synth=None, duration=audio_duration,
+            diacritize=None, concat=None, samples=SAMPLES, voices=None) -> tuple[list[dict], str | None]:
+    """أربع عينات لكل صوت (A عادية · B مشكولة · C مقاطع · D مقاطع و«?» للسؤال)."""
     from src import tts
     synth = synth or tts.synthesize
-    text = " ".join(lines)
-    words = len(text.split())
+    diacritize = diacritize or tts.diacritize
+    concat = concat or concat_audio
+    closing = cfg.path("reel.tts.closing_phrase") or ""
+    silence = float(cfg.path("reel.tts.segment_silence") or 0.4)
+    plain = " ".join(lines)
+    words = len(plain.split())
+    cache: dict[str, tuple[str, str | None]] = {}
+
+    def shaped(text: str) -> tuple[str, str | None]:
+        # الذاكرة تمنع تكرار نداء النموذج لنص واحد بين الأصوات
+        if text not in cache:
+            cache[text] = diacritize(text, cfg)
+        return cache[text]
+
     rows: list[dict] = []
-    for gender, voice in tts.all_voices(cfg):
-        row = {"voice": voice, "gender": gender}
-        res = synth(text, voice, cfg)
-        if not res.get("ok"):
-            row.update(skipped=res.get("skipped"), error=res.get("error"))
+    for gender, voice in (voices if voices is not None else tts.all_voices(cfg)):
+        for key in samples:
+            row = {"voice": voice, "gender": gender, "sample": SAMPLE_NAMES[key]}
             rows.append(row)
-            continue
-        target = out_dir / "tts" / f"{voice}.mp3"
-        target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_bytes(res["audio"])
-        secs = duration(target)
-        row.update(chars=len(text), seconds=None if secs is None else round(secs, 2),
-                   wps=round(words / secs, 2) if secs else None,
-                   cost_usd=round(tts.estimate_cost(len(text), voice, cfg), 4))
-        rows.append(row)
+            warnings: list[str] = []
+            if key == "A":
+                sends, shown = [plain], plain
+            elif key == "B":
+                shown, w = shaped(plain)
+                sends = [shown]
+                warnings += [w] if w else []
+            else:
+                segs = split_segments(lines, closing)
+                sends = []
+                for seg in segs:
+                    s, w = shaped(seg)
+                    warnings += [w] if w else []
+                    sends.append(s)
+                if key == "D":
+                    # «؟» الأخيرة في سطر السؤال وحدها تصير «?»؛ عبارة الختام وبقية السطور كما هي
+                    qi = len(sends) - 2 if closing and segs[-1] == closing and len(sends) > 1 else len(sends) - 1
+                    sends[qi] = sends[qi].rstrip()
+                    if sends[qi].endswith("؟"):
+                        sends[qi] = sends[qi][:-1] + "?"
+                shown = " | ".join(sends)
+            parts: list[bytes] = []
+            failure = None
+            for send in sends:
+                res = synth(send, voice, cfg)
+                if not res.get("ok"):
+                    failure = res
+                    break
+                parts.append(res["audio"])
+            if failure:
+                row.update(skipped=failure.get("skipped"), error=failure.get("error"))
+                continue
+            target = out_dir / "tts" / f"{voice}_{key}.mp3"
+            target.parent.mkdir(parents=True, exist_ok=True)
+            if len(parts) == 1:
+                target.write_bytes(parts[0])
+            else:
+                tmp_parts = []
+                for i, data in enumerate(parts):
+                    part = target.with_name(f"{voice}_{key}_part{i}.mp3")
+                    part.write_bytes(data)
+                    tmp_parts.append(part)
+                try:
+                    concat(tmp_parts, target, silence)
+                finally:
+                    for part in tmp_parts:
+                        part.unlink(missing_ok=True)
+            secs = duration(target)
+            chars = sum(len(s) for s in sends)
+            row.update(chars=chars, seconds=None if secs is None else round(secs, 2),
+                       wps=round(words / secs, 2) if secs else None,
+                       cost_usd=round(tts.estimate_cost(chars, voice, cfg), 4),
+                       diacritized=shown if key != "A" else None, warning="؛ ".join(warnings) or None)
     wps = [r["wps"] for r in rows if r.get("wps")]
     current = cfg.path("reel.script.speech_rate_wps")
     line = None
@@ -371,24 +455,39 @@ def run_tts(lines: list[str], out_dir: Path, cfg, *, synth=None,
     return rows, line
 
 
+def render_diacritized(tts_rows: list[dict]) -> str:
+    """النص المشكول كاملًا (نصنا لا نص مصدر) وأي تنبيه تشكيل، مرة لكل نص."""
+    out, seen = [], set()
+    for t in tts_rows:
+        if t.get("warning"):
+            out.append(f"⚠️ {t['voice']} {t['sample']}: {t['warning']}")
+        shown = t.get("diacritized")
+        if shown and shown not in seen:
+            seen.add(shown)
+            out += ["", f"**{t['sample']}:**", shown]
+    return "\n".join(out)
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    ap.add_argument("--clips", type=int, default=6)
+    ap.add_argument("--clips", type=int, default=6, help="0 = عينات الصوت وحدها بلا نقاط ولا تنزيل ولا بروكسي")
     ap.add_argument("--seconds", type=int, default=12)
     ap.add_argument("--days", type=int, default=3)
     ap.add_argument("--out-root", default=str(ROOT / "youtube-data" / "reel_probe"))
     ap.add_argument("--report-dir", default=str(ROOT / "state" / "reel_probe"))
     args = ap.parse_args(argv)
 
-    from src.config import YOUTUBE_POINTS_DIR
-    now = datetime.now(timezone.utc)
-    date = now.strftime("%Y-%m-%d")
-    points = select_points(load_points(Path(YOUTUBE_POINTS_DIR), args.days, now), args.clips)
-    print(f"نقاط مختارة: {len(points)}", file=sys.stderr)
-
     from src.config import DRAFTS_DIR, load_config
     cfg = load_config()
-    attempts = run_probe(points, args.seconds, Path(args.out_root) / date, proxy=proxy_url(), cfg=cfg)
+    now = datetime.now(timezone.utc)
+    date = now.strftime("%Y-%m-%d")
+    if args.clips > 0:
+        from src.config import YOUTUBE_POINTS_DIR
+        points = select_points(load_points(Path(YOUTUBE_POINTS_DIR), args.days, now), args.clips)
+        print(f"نقاط مختارة: {len(points)}", file=sys.stderr)
+        attempts = run_probe(points, args.seconds, Path(args.out_root) / date, proxy=proxy_url(), cfg=cfg)
+    else:
+        attempts = []
     s = summarize(attempts)
     tts_rows, rate_line = run_tts(sample_lines(Path(DRAFTS_DIR), cfg), Path(args.out_root) / date, cfg)
     report_dir = Path(args.report_dir)
@@ -398,6 +497,9 @@ def main(argv: list[str] | None = None) -> int:
                    ensure_ascii=False, indent=2),
         encoding="utf-8")
     table = render_table(attempts, s, tts_rows, rate_line)
+    extra = render_diacritized(tts_rows)
+    if extra:
+        table += "\n\n" + extra
     print(table)
     summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
     if summary_path:
