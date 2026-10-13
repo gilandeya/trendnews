@@ -103,6 +103,9 @@ class Video:
     duration_seconds: int
     published_at: str
     is_live: bool
+    # وصف الفيديو (Issue #1374، R2c): يُجلب أصلًا مع snippet؛ يوثّق اسم المتحدث في الريل. افتراضي فارغ كي تعمل
+    # كل مُنشئات Video القديمة.
+    description: str = ""
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -126,6 +129,7 @@ def parse_video_item(item: dict, channel: dict) -> Video:
         duration_seconds=parse_iso8601_duration(content.get("duration", "PT0S")),
         published_at=snippet.get("publishedAt", ""),
         is_live=is_live,
+        description=snippet.get("description", "") or "",
     )
 
 

@@ -5276,6 +5276,181 @@ def test_reel_speaker_audit_guards() -> None:
         reel_editor._create = real["ed"]
 
 
+def test_reel_identity_r2c_guards() -> None:
+    """هوية متحدث الريل من الفيديو نفسه (Issue #1374، R2c، أ–ز). نداء النموذج مزيَّف (reel_script._create) ويفرّق
+    بين أداتي report_speakers وreport_reel_script؛ التوثيق والشريط والحارس والعرض كود حقيقي."""
+    from types import SimpleNamespace
+
+    from src import names_audit, reel_editor, reel_script
+    from src import youtube_article as ya
+    from src import youtube_extract as ye
+    from src import youtube_publish as yp
+    from src.youtube_collect import Video, parse_video_item
+
+    cfg = load_config()
+    cfg.setdefault("reel", {})["enabled"] = True
+    D = "2099-11-02"
+    CH = "هابرتورك"
+    NARR = " ".join(f"س{i}" for i in range(45))
+    NARR2 = " ".join(f"ص{i}" for i in range(45))
+
+    def pt(i, speaker, ts, title="", desc=""):
+        return {"video_id": f"r{i}", "bloc": "turkish", "channel": CH, "speaker": speaker,
+                "statement": f"قول {i}", "quote_arabic": f"اقتباس {i}", "quote_original": " ".join(["كلمة"] * 20),
+                "type": "fact", "video_title": title or f"فيديو {i}", "video_description": desc,
+                "video_url": f"https://youtube.com/watch?v=r{i}", "timestamp": ts, "video_published": "2099-10-30"}
+
+    pa = pt(1, "نيهال بينجه سو كاراجا كاتبة صحافية هابرتورك", 100, "برنامج المساء",
+            "Konuk: Nihal Bengisu Karaca\nمقدمة")
+    pb = pt(2, "السيد كاراجا", 200, "برنامج آخر", "لا اسم هنا")
+    ida, idb = reel_script.point_key_id(pa), reel_script.point_key_id(pb)
+    state = {"answers": {}, "fail": False, "bad_first": False, "script_calls": [], "id_calls": []}
+
+    def fake_create(client, **kw):
+        tool = kw["tools"][0]["name"]
+        if tool == "report_speakers":
+            state["id_calls"].append(kw)
+            if state["fail"]:
+                raise RuntimeError("boom")
+            rows = [{"point_id": k, "name_latin": v[0], "name_arabic": v[1], "role_arabic": v[2]}
+                    for k, v in state["answers"].items()]
+            return SimpleNamespace(content=[SimpleNamespace(type="tool_use", name=tool, input={"speakers": rows})],
+                                   stop_reason="tool_use", usage=SimpleNamespace(input_tokens=1, output_tokens=1))
+        state["script_calls"].append(kw)
+        first = NARR + (" كاراجا" if state["bad_first"] and len(state["script_calls"]) == 1 else "")
+        scenes = [{"kind": "cold_open_clip", "point_id": ida}, {"kind": "title_card", "text": "ع"},
+                  {"kind": "narration", "text": first}, {"kind": "clip", "point_id": idb},
+                  {"kind": "narration", "text": NARR2}, {"kind": "question", "text": "ما رأيك؟"}, {"kind": "outro"}]
+        data = {"title": "ع", "question": "ما رأيك؟", "scenes": scenes}
+        return SimpleNamespace(content=[SimpleNamespace(type="tool_use", name=tool, input=data)],
+                               stop_reason="tool_use", usage=SimpleNamespace(input_tokens=1, output_tokens=1))
+
+    real = {"create": reel_script._create, "audit": names_audit.run, "hl": ya.generate_headlines,
+            "ed": reel_editor._create}
+    reel_script._create = fake_create
+    names_audit.run = lambda draft, sources, c: {}
+    ya.generate_headlines = lambda *a, **k: (["هل؟", "ب", "ج"], None, None)
+    reel_editor._create = lambda client, **kw: SimpleNamespace(
+        content=[SimpleNamespace(type="tool_use", name="report_review", input={"notes": []})],
+        usage=SimpleNamespace(server_tool_use=None))
+    topic = {"id": "aaaa1111bbbb", "title": "موضوع", "event": "حدث"}
+
+    def new_draft(i):
+        d = yp.build_reel_draft({"id": "aaaa1111bbbb", "title": "موضوع", "layer": "a", "blocs": ["turkish"],
+                                 "channels": [CH], "agreement": "agreement", "event": "حدث"}, D, cfg)
+        d["id"] = i
+        return d
+
+    def clips_of(d):
+        return [s for s in (d.get("script") or {}).get("scenes", []) if s["kind"] in reel_script.CLIP_KINDS]
+
+    try:
+        # أ + ب: موثَّق من الوصف بلا صفة ولا قناة في الاسم؛ والآخر ضيف بشريط «ضيف على قناة هابرتورك»
+        state["answers"] = {ida: ("Nihal Bengisu Karaca", "نهال بنكيسو قره جا", "كاتبة صحفية"),
+                            idb: ("Çetiner Çetin", "جتينر جتين", "محلل")}
+        d = new_draft("a1a1a1a1a1a1")
+        out = reel_script.write_for_draft(d, topic, [pa, pb], "", [], cfg)
+        cl = clips_of(d)
+        tl = "\n".join(reel_script.timeline_lines(d.get("script") or {}, cfg))
+        check("أ: موثَّق من الوصف، والاسم بلا «كاتبة» ولا «هابرتورك»",
+              out["status"] == "ready" and bool(cl) and cl[0].get("speaker_verified") is True
+              and cl[0]["speaker_name"] == "نهال بنكيسو قره جا" and "كاتبة" not in cl[0]["speaker_name"]
+              and "هابرتورك" not in cl[0]["speaker_name"] and cl[0]["speaker_role"] == "كاتبة صحفية"
+              and cl[0].get("speaker_name_latin") == "Nihal Bengisu Karaca", (out, cl[:1]))
+        check("ب: اسم لاتيني غائب عن العنوان والوصف ← غير موثَّق والاسم والصفة فارغان",
+              len(cl) == 2 and cl[1].get("speaker_verified") is False and cl[1]["speaker_name"] == ""
+              and cl[1]["speaker_role"] == "", cl[1:])
+        check("ب: الشريط «ضيف على قناة هابرتورك»", "ضيف على قناة هابرتورك" in tl, tl)
+        check("5: الجدول يذكر مصدر التوثيق وعلم الضيف", "✅ موثَّق من وصف الفيديو" in tl and "👤 ضيف غير مسمّى" in tl, tl)
+        msg0 = state["script_calls"][0]["messages"][0]["content"] if state["script_calls"] else ""
+        check("4: مدخل الكاتب يحمل الشريط النهائي وتعليمة عدم تسمية غير الموثَّق، ولا رسم الضيف الخام",
+              "ضيف على قناة هابرتورك" in msg0 and "لا تسمِّ متحدثًا غير موثَّق" in msg0
+              and "السيد كاراجا" not in msg0, msg0[:300])
+
+        # ج: المطابقة بلا حساسية للحالة والتشكيل اللاتيني وبكلمات كاملة متتالية
+        pc1 = pt(3, "س", 300, "x", "nihal bengisu karaca")
+        pc2 = pt(4, "ص", 310, "ÇETİNER ÇETİN konuşuyor", "")
+        pc3 = pt(5, "ع", 320, "Karaca Show", "")
+        pc4 = pt(6, "ل", 330, "x", "Kara ca")
+        ids = [reel_script.point_key_id(p) for p in (pc1, pc2, pc3, pc4)]
+        state["answers"] = {ids[0]: ("Nihal Bengisu Karaca", "ن", "ر"), ids[1]: ("Çetiner Çetin", "ج", "ر"),
+                            ids[2]: ("Karaca", "ك", "ر"), ids[3]: ("Karaca", "ك", "ر")}
+        valid = reel_script.valid_clips([pc1, pc2, pc3, pc4], [], cfg)
+        got = {c["point_id"]: c for c in reel_script.identify_speakers(valid, [pc1, pc2, pc3, pc4], cfg, None)}
+        check("ج: وصف بحروف صغيرة ← موثَّق من الوصف", got[ids[0]]["speaker_verified"] is True
+              and got[ids[0]].get("verified_from") == "description", got[ids[0]])
+        check("ج: العنوان بحروف تركية كبيرة (İ) ← موثَّق من العنوان", got[ids[1]]["speaker_verified"] is True
+              and got[ids[1]].get("verified_from") == "title", got[ids[1]])
+        check("ج: «Karaca» في العنوان ← موثَّق", got[ids[2]]["speaker_verified"] is True, got[ids[2]])
+        check("ج: «Kara ca» لا تطابق «Karaca» (كلمات كاملة)", got[ids[3]]["speaker_verified"] is False, got[ids[3]])
+
+        # د: اسم المتحدث في name_unresolved لمسودة شقيقة ← لا استبعاد
+        v = reel_script.valid_clips([pa, pb], [{"arabic": "نيهال بينجه سو كاراجا", "latin": "X", "reason": "x"}], cfg)
+        check("د: المقطع لا يُستبعد بسبب name_unresolved ولا بسبب غياب اسم علم", len(v) == 2, [c["point_id"] for c in v])
+
+        # هـ: الراوي يسمّي ضيفًا غير موثَّق ← رفض بسبب محدد ثم إعادة
+        unv = [dict(c, speaker_verified=False) for c in v]
+        script = {"title": "ع", "question": "ما رأيك؟", "scenes": [
+            {"kind": "cold_open_clip", "point_id": ida}, {"kind": "title_card", "text": "ع"},
+            {"kind": "narration", "text": NARR + " قال كاراجا"}, {"kind": "clip", "point_id": idb},
+            {"kind": "narration", "text": NARR2}, {"kind": "question", "text": "ما رأيك؟"}, {"kind": "outro"}]}
+        for s in script["scenes"]:
+            if s["kind"] in reel_script.CLIP_KINDS:
+                c = next(x for x in unv if x["point_id"] == s["point_id"])
+                s.update(start=c["start"], end=c["end"])
+        reasons = reel_script.validate(script, unv, cfg, 2)
+        check("هـ: ذكر «كاراجا» لغير موثَّق ← سبب «سُمّي متحدث غير موثَّق»",
+              any("سُمّي متحدث غير موثَّق" in r for r in reasons), reasons)
+        script["scenes"][2]["text"] = NARR + " وقال ضيف على قناة هابرتورك"
+        reasons = reel_script.validate(script, unv, cfg, 2)
+        check("هـ: ذكر القناة لا يُرفض", not any("سُمّي" in r for r in reasons), reasons)
+        state.update(answers={}, bad_first=True)
+        state["script_calls"].clear()
+        d5 = new_draft("e5e5e5e5e5e5")
+        out = reel_script.write_for_draft(d5, topic, [pa, pb], "", [], cfg)
+        check("هـ: الإعادة الواحدة بذكر السبب ثم السيناريو يُكتب",
+              out["status"] == "ready" and len(state["script_calls"]) == 2
+              and "سُمّي متحدث غير موثَّق" in state["script_calls"][1]["messages"][0]["content"], out)
+        state["bad_first"] = False
+
+        # و: فشل نداء التعرّف ← كلهم غير موثَّقين والسيناريو يُكتب
+        state["fail"] = True
+        d6 = new_draft("f6f6f6f6f6f6")
+        out = reel_script.write_for_draft(d6, topic, [pa, pb], "", [], cfg)
+        check("و: فشل التعرّف ← الريل يُكتب وكل المقاطع غير موثَّقة",
+              out["status"] == "ready" and len(clips_of(d6)) == 2
+              and all(s.get("speaker_verified") is False and s["speaker_name"] == "" for s in clips_of(d6)), out)
+        state["fail"] = False
+
+        # 6: speakers_unresolved للموثَّقين وحدهم
+        ctx = {"valid": [{"speaker_name": "نهال بنكيسو", "speaker_verified": True},
+                         {"speaker_name": "", "speaker_verified": False}]}
+        got = reel_editor.ADAPTER.speakers_unresolved({"name_unresolved": [{"arabic": "نهال بنكيسو"}]}, ctx)
+        check("6: speakers_unresolved يعيد الموثَّق وحده", got == ["نهال بنكيسو"], got)
+
+        # ز: الاستخراج يحفظ وصف الفيديو مقصوصًا
+        mx = int(cfg.path("youtube.extract.description_max_chars", 0))
+        check("ز: description_max_chars = 1500", mx == 1500, mx)
+        vid = Video(video_id="z", channel=CH, bloc="turkish", language="tr", video_title="عنوان", video_url="u",
+                    duration_seconds=600, published_at="2099-10-30T10:00:00Z", is_live=False,
+                    description="ي" * 3000)
+        f = ye.video_point_fields(vid, cfg)
+        check("ز: الوصف مقصوص إلى الحد والعنوان محفوظ", len(f["video_description"]) == mx
+              and f["video_title"] == "عنوان", len(f.get("video_description", "")))
+        old = Video(video_id="z", channel=CH, bloc="turkish", language="tr", video_title="t", video_url="u",
+                    duration_seconds=1, published_at="", is_live=False)
+        check("ز: فيديو بلا وصف ← حقل فارغ", ye.video_point_fields(old, cfg)["video_description"] == "")
+        item = {"id": "z1", "snippet": {"title": "T", "description": "وصف", "publishedAt": ""},
+                "contentDetails": {"duration": "PT5M"}}
+        check("ز: parse_video_item يحتفظ بـsnippet.description",
+              parse_video_item(item, {"name": CH, "bloc": "turkish"}).description == "وصف")
+    finally:
+        reel_script._create = real["create"]
+        names_audit.run = real["audit"]
+        ya.generate_headlines = real["hl"]
+        reel_editor._create = real["ed"]
+
+
 def test_important_h7_guards() -> None:
     """Issue #1345 (هام-7): الحالات الذهبية أ–ز على شاهد حقيقي (tests/fixtures/important/1339/: نتيجة الحكم
     1339.json والمسودتان b20c26059d4c و4421a96074e8 كما حُفظتا). تُكتب قبل الكود: مصادر لبنانية، مؤيِّد جهة بلا

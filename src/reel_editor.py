@@ -20,7 +20,9 @@ def _clip_lines(script: dict) -> list[str]:
     out = []
     for i, s in enumerate(script.get("scenes") or [], start=1):
         if s.get("kind") in reel_script.CLIP_KINDS:
-            who = " · ".join(x for x in (s.get("speaker_name"), s.get("speaker_role"), s.get("channel_display")) if x)
+            who = " · ".join(x for x in (
+                ("ضيف غير مسمّى",) if s.get("speaker_verified") is False else (s.get("speaker_name"), s.get("speaker_role")))
+                + (s.get("channel_display"),) if x)
             out.append(f"[{i}] مقطع {s.get('point_id', '')} — {who} — «{s.get('quote_arabic', '')}» — "
                        f"{reel_script.video_link(s)} (للقراءة فقط)")
     return out
@@ -58,8 +60,9 @@ class ReelAdapter(editor.Adapter):
     def sources_lines(self, draft: dict, ctx: dict) -> list[str]:
         lines = []
         for c in ctx.get("valid") or []:
-            lines.append(f"- {c['point_id']} | القناة: {c['channel_display']} | المتحدث: {c['speaker_name']} "
-                         f"{c['speaker_role']}\n  القول: {c['statement']}\n  الاقتباس بالعربية: {c['quote_arabic']}\n"
+            who = (f"{c['speaker_name']} {c['speaker_role']}".strip() + " (موثَّق من الفيديو)"
+                   if c.get("speaker_verified") else "ضيف غير مسمّى")
+            lines.append(f"- {c['point_id']} | القناة: {c['channel_display']} | المتحدث: {who}\n  القول: {c['statement']}\n  الاقتباس بالعربية: {c['quote_arabic']}\n"
                          f"  الفيديو: {c['video_url']} (نُشر: {c.get('video_published') or 'غير معروف'})")
         return lines
 
@@ -73,6 +76,8 @@ class ReelAdapter(editor.Adapter):
         bad = reel_script._unresolved_words(draft.get("name_unresolved") or [])
         out = []
         for c in ctx.get("valid") or []:
+            if not c.get("speaker_verified"):
+                continue  # الضيف غير المسمّى بلا اسم أصلًا، والتنبيه للموثَّق وحده
             if any(w and w in bad for w in
                    (reel_script.youtube_article._fold_mention(t) for t in c["speaker_name"].split())):
                 out.append(c["speaker_name"])

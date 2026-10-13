@@ -752,6 +752,13 @@ def extract_points(video_title: str, transcript_text: str, language: str, durati
     return valid, rejected, None, truncation_note
 
 
+def video_point_fields(video, cfg: Config) -> dict:
+    """عنوان الفيديو ووصفه على كل نقطة (Issue #1374، R2c): الريل يوثّق اسم المتحدث منهما لا من رسم الصحافة العربية.
+    الوصف يُقصّ إلى youtube.extract.description_max_chars كي لا يتضخم ملف النقاط؛ فيديو بلا وصف يعطي نصًا فارغًا."""
+    mx = int(cfg.path("youtube.extract.description_max_chars", 1500))
+    return {"video_title": video.video_title, "video_description": (getattr(video, "description", "") or "")[:mx]}
+
+
 # ──────────────────────────── التشغيلة الكاملة ────────────────────────────
 
 
@@ -867,7 +874,7 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
                         "channel": video.channel,
                         "bloc": video.bloc,
                         "language": lang_or_reason,
-                        "video_title": video.video_title,
+                        **video_point_fields(video, cfg),
                         "video_url": video.video_url,
                         # تاريخ نشر الفيديو (Issue #1326): يحوّل الكاتب الزمن النسبي إلى تاريخ صريح
                         "video_published": (video.published_at or "")[:10],
