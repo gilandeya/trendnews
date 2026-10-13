@@ -148,10 +148,14 @@
   "approved_script_at": "2026-10-13T14:49:15.888698+00:00",
   "reel_file": "reels/2026-10-13/1c251f64c82a.mp4",
   "reel_gif": "reels/2026-10-13/1c251f64c82a.gif",
-  "duration_seconds": 81.6,
+  "duration_seconds": 95.3,
   "render_crops": {
+    "0": {
+      "x": 465,
+      "source": "face"
+    },
     "3": {
-      "x": 295,
+      "x": 440,
       "source": "face"
     },
     "5": {
@@ -159,12 +163,8 @@
       "source": "center"
     }
   },
-  "render_dropped": [
-    {
-      "point_id": "9db8124d0e4e",
-      "kind": "cold_open_clip",
-      "reason": "تعذّر جلب نص الفيديو"
-    }
-  ],
-  "rendered_at": "2026-10-13T15:06:10.340488+00:00"
+  "render_dropped": [],
+  "rendered_at": "2026-10-13T17:15:31.050870+00:00",
+  "render_version": 2,
+  "render_approx": []
 }
