@@ -507,17 +507,36 @@ def _speech(text: str, voice: str, cfg, deps: Deps, tmp: Path, tag: str) -> tupl
     return audio, parts
 
 
-def _timed_scene(frames: list[tuple[Path, float]], audio: Path, out: Path, cfg, deps: Deps, tmp: Path, tail: float) -> float:
-    """مشهد صوتي بإطارات متتابعة (جملة لكل إطار بمدتها الفعلية)؛ يعيد مدته."""
+def transition_seconds(cfg) -> float:
+    """مدة الانتقال الفعلية. تُخفَّض إلى أقل من min(lead_seconds، clip_tail_seconds) بـ0.1 لأن المقطع يبدأ قبل أول كلمة
+    بـlead وينتهي بعد آخر كلمة بـtail، فانتقال أطول منهما يلتهم كلامًا."""
+    secs = float(cfg.path("reel.render.transition.seconds", 0) or 0)
+    if secs <= 0:
+        return 0.0
+    scfg = cfg.path("reel.script")
+    limit = min(float(scfg.get("lead_seconds", 1)), float(scfg.get("clip_tail_seconds", 1.0)))
+    if secs >= limit:
+        capped = round(limit - 0.1, 3)
+        log.warning("مدة الانتقال %s تبلغ حدّ المقطع %s فخُفّضت إلى %s", secs, limit, capped)
+        return capped
+    return secs
+
+
+def _timed_scene(frames: list[tuple[Path, float]], audio: Path, out: Path, cfg, deps: Deps, tmp: Path, tail: float,
+                 lead: float = 0.0) -> float:
+    """مشهد صوتي بإطارات متتابعة (جملة لكل إطار بمدتها الفعلية)؛ يعيد مدته. lead: صمت قبل الصوت يمتد به الإطار الأول،
+    كي لا تقع أول كلمة في التلاشي المتقاطع الذي يبدأ به المشهد."""
     rcfg = cfg.path("reel.render")
     frames = list(frames)
+    frames[0] = (frames[0][0], frames[0][1] + lead)
     frames[-1] = (frames[-1][0], frames[-1][1] + tail)
     total = sum(d for _, d in frames)
     lst = tmp / (out.stem + "_frames.txt")
     body = "".join(f"file '{f}'\nduration {_fmt(d)}\n" for f, d in frames) + f"file '{frames[-1][0]}'\n"
     lst.write_text(body, encoding="utf-8")
     deps.run(_base("-f", "concat", "-safe", "0", "-i", str(lst), "-i", str(audio), "-vf",
-                   f"fps={rcfg['fps']},format=yuv420p", "-af", "apad", "-t", _fmt(total), *_enc(rcfg), str(out)))
+                   f"fps={rcfg['fps']},format=yuv420p", "-af", ("adelay=%d:all=1," % round(lead * 1000) if lead else "") + "apad",
+                   "-t", _fmt(total), *_enc(rcfg), str(out)))
     return total
 
 
@@ -576,12 +595,14 @@ def _trimmed_logo(cfg, tmp: Path) -> Path:
     return _save(img, tmp / "logo_trimmed.png")
 
 
-def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str) -> tuple[list[Path], float]:
+def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str) -> tuple[list[Path], float, list[str]]:
     rcfg = cfg.path("reel.render")
+    lead = transition_seconds(cfg)
     date_text = datetime.now().strftime("%Y/%m/%d")
     channels = "، ".join(dict.fromkeys(s.get("channel_display", "") for i, s in enumerate(script["scenes"])
                                         if i in clips and s.get("channel_display")))
     scene_files: list[Path] = []
+    kinds: list[str] = []
     total = 0.0
     for i, scene in enumerate(script["scenes"]):
         kind, out = scene.get("kind"), tmp / f"scene_{i:02d}.mp4"
@@ -606,11 +627,38 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str)
                 png = _save(frame_question(cfg, scene.get("text", "")), tmp / f"q_{i}.png")
                 frames = [(png, sum(d for _, d in parts))]
                 tail = float(rcfg["question_tail_seconds"])
-            total += _timed_scene(frames, audio, out, cfg, deps, tmp, tail)
+            total += _timed_scene(frames, audio, out, cfg, deps, tmp, tail, lead)
         else:
             continue
         scene_files.append(out)
-    return scene_files, total
+        kinds.append(kind)
+    return scene_files, total, kinds
+
+
+def _join_scenes(scene_files: list[Path], kinds: list[str], joined: Path, cfg, deps: Deps, tmp: Path) -> None:
+    """يضمّ ملفات المشاهد بأمر واحد: xfade/acrossfade بين كل متتاليين (الختام يتلاشى fade)، أو concat -c copy
+    حين seconds = 0 أو بقي مشهد واحد. الشعار لا يدخل هنا أبدًا: يُركَّب على الناتج وحده."""
+    rcfg = cfg.path("reel.render")
+    secs = transition_seconds(cfg)
+    if secs <= 0 or len(scene_files) < 2:
+        lst = tmp / "scenes.txt"
+        lst.write_text("".join(f"file '{f}'\n" for f in scene_files), encoding="utf-8")
+        deps.run(_base("-f", "concat", "-safe", "0", "-i", str(lst), "-c", "copy", str(joined)))
+        return
+    tcfg = cfg.path("reel.render.transition")
+    durs = [float(deps.probe(f) or 0) for f in scene_files]
+    vparts, aparts = [], []
+    vprev, aprev, elapsed = "[0:v]", "[0:a]", 0.0
+    for n in range(1, len(scene_files)):
+        elapsed += durs[n - 1]
+        kind = tcfg.get("outro_type", "fade") if kinds[n] == "outro" else tcfg.get("type", "slideleft")
+        vout, aout = f"[v{n}]", f"[a{n}]"
+        vparts.append(f"{vprev}[{n}:v]xfade=transition={kind}:duration={_fmt(secs)}:offset={_fmt(elapsed - n * secs)}{vout}")
+        aparts.append(f"{aprev}[{n}:a]acrossfade=d={_fmt(secs)}{aout}")
+        vprev, aprev = vout, aout
+    inputs = [x for f in scene_files for x in ("-i", str(f))]
+    deps.run(_base(*inputs, "-filter_complex", ";".join(vparts + aparts), "-map", vprev, "-map", aprev,
+                   *_enc(rcfg), str(joined)))
 
 
 def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path, dropped: list,
@@ -627,12 +675,10 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     if len(clips) < need:
         raise RuntimeError(f"بقي {len(clips)} مقطعًا من {wanted} بعد الحذف والأدنى المطلوب {need}")
     voice = cfg.path(f"reel.tts.narrator_voices.{script.get('narrator', 'female')}")
-    scene_files, total = _assemble(script, clips, cfg, deps, tmp, voice)
+    scene_files, total, kinds = _assemble(script, clips, cfg, deps, tmp, voice)
 
-    lst = tmp / "scenes.txt"
-    lst.write_text("".join(f"file '{f}'\n" for f in scene_files), encoding="utf-8")
     joined = tmp / "joined.mp4"
-    deps.run(_base("-f", "concat", "-safe", "0", "-i", str(lst), "-c", "copy", str(joined)))
+    _join_scenes(scene_files, kinds, joined, cfg, deps, tmp)
 
     rel_dir = f"{path.parent.name}"
     dest = reels_dir / rel_dir / f"{path.stem}.mp4"
@@ -652,7 +698,8 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
                    f"[y][p]paletteuse", "-loop", "0", str(gif)))
     sub = rcfg.get("repo_subdir", "reels")
     return {"reel_file": f"{sub}/{rel_dir}/{dest.name}", "reel_gif": f"{sub}/{rel_dir}/{gif.name}",
-            "duration_seconds": round(total, 1),
+            # المدة المقيسة من الملف النهائي: الانتقالات تقصّر الناتج عن مجموع مدد المشاهد
+            "duration_seconds": round(float(deps.probe(dest) or total), 1),
             "render_crops": {str(i): c["crop"] for i, c in clips.items() if "crop" in c}}
 
 
@@ -689,7 +736,8 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
     dropped: list = []
     approx: list = []
     try:
-        result = {"render_status": "rendered", **_render(path, draft, cfg, deps, reels_dir, tmp, dropped, approx)}
+        result = {"render_status": "rendered", **_render(path, draft, cfg, deps, reels_dir, tmp, dropped, approx),
+                  "render_version": int(cfg.path("reel.render.version", 1))}
     except Exception as exc:  # noqa: BLE001 -- failed يجب أن يحمل سببه ويُحيى بـ--retry
         reason = reel_clips.scrub_text(str(exc))
         reason = " ".join(reason.split())[:300] or exc.__class__.__name__
@@ -715,16 +763,23 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
 # ───────────────────────────── الطابور ─────────────────────────────
 
 
-def queued_reels() -> list[tuple[Path, dict]]:
-    """مسودات الريل المنتظرة التركيب، الأقدم اعتمادًا أولًا."""
+def queued_reels(cfg=None) -> list[tuple[Path, dict]]:
+    """مسودات الريل المنتظرة التركيب، الأقدم اعتمادًا أولًا. تشمل المعتمدة المركَّبة بنسخة أقدم من
+    reel.render.version (أو بلا نسخة) لتُعاد بالتركيب الجديد؛ المنشور والمرفوض وغير المعتمد لا يُمسّ."""
     import json
+    cfg = cfg or load_config()
+    version = int(cfg.path("reel.render.version", 1))
     out = []
     for p in sorted(store.DRAFTS_DIR.glob("*/*.json")):
         try:
             d = json.loads(p.read_text(encoding="utf-8"))
         except json.JSONDecodeError:
             continue
-        if d.get("format") == "reel" and d.get("render_status") == "queued":
+        if d.get("format") != "reel":
+            continue
+        stale = (d.get("status") == "approved_script" and d.get("render_status") == "rendered"
+                 and int(d.get("render_version") or 0) < version)
+        if d.get("render_status") == "queued" or stale:
             out.append((p, d))
     out.sort(key=lambda pd: (pd[1].get("approved_script_at") or "", pd[0].name))
     return out
@@ -740,6 +795,12 @@ def retry(draft_id: str, cfg) -> bool:
     return True
 
 
+def run_pending(cfg, deps: Deps | None = None, *, reels_dir: Path | None = None) -> list[tuple[str, dict]]:
+    """يركّب المنتظر (حتى reel.render.max_per_run)، الأقدم أولًا."""
+    batch = queued_reels(cfg)[: int(cfg.path("reel.render.max_per_run", 1))]
+    return [(path.stem, render_draft(path, draft, cfg, deps, reels_dir=reels_dir)) for path, draft in batch]
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="تركيب الريل mp4 من السيناريو المعتمد (بلا نشر)")
     ap.add_argument("--pending", action="store_true", help="ركّب المنتظر (حتى reel.render.max_per_run)")
@@ -751,11 +812,10 @@ def main(argv: list[str] | None = None) -> int:
         ok = retry(args.retry, cfg)
         print(f"{'أُعيد إلى queued' if ok else 'لا ريل failed بهذا المعرّف'}: {args.retry}")
     if args.pending:
-        batch = queued_reels()[: int(cfg.path("reel.render.max_per_run", 1))]
-        for path, draft in batch:
-            res = render_draft(path, draft, cfg)
-            print(f"{path.stem}: {res['render_status']} {res.get('render_error', '')}")
-        if not batch:
+        done = run_pending(cfg)
+        for stem, res in done:
+            print(f"{stem}: {res['render_status']} {res.get('render_error', '')}")
+        if not done:
             print("لا ريل منتظر التركيب")
     return 0
 

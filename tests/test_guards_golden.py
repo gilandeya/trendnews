@@ -6782,3 +6782,184 @@ def test_reel_render_r3b1c_guards() -> None:
               and "مرحلة التركيب" not in cfg.path("reel.texts.script_approved"), cfg.path("reel.texts.script_approved"))
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
+
+
+def test_reel_transitions_r3b1d_guards() -> None:
+    """Issue #1396 (R3b-1d، g212–g218): انتقال «دفع من اليمين» بين المشاهد (fade للختام) والشعار ثابت فوق الملف المضموم،
+    وصمت أول مشهدَي الراوي والسؤال كي لا تُبتلع كلمة، وإعادة تركيب المعتمد عند تغيّر reel.render.version.
+    ملاحظة: offset الانتقال الرابع في g212 = 10+2.5+8+12−4×0.35 = 31.100 بالقاعدة المكتوبة نفسها (القضية ذكرت 30.950)."""
+    import json
+    import logging
+    import re
+    import tempfile
+    from pathlib import Path
+
+    from src import reel_render, reel_script
+
+    cfg = load_config()
+    D = "2099-12-03"
+    transcripts = {
+        "v1": "[00:10] alpha beta gamma delta\n[00:14] epsilon zeta eta theta\n[00:18] tail line",
+        "v2": "[00:30] iota kappa lambda mu\n[00:34] nu xi omicron pi\n[00:38] tail two",
+    }
+    quotes = {"v1": "alpha beta gamma delta epsilon zeta eta theta", "v2": "iota kappa lambda mu nu xi omicron pi"}
+    stamps = {"v1": 10, "v2": 30}
+    points = [{"video_id": v, "statement": "statement " + v, "quote_original": q, "quote_arabic": "ترجمة " + v,
+               "speaker": "متحدث", "channel": "قناة", "video_url": "https://youtube.com/watch?v=" + v,
+               "timestamp": stamps[v]} for v, q in quotes.items()]
+    ids = {p["video_id"]: reel_script.point_key_id(p) for p in points}
+
+    def clip_scene(v, kind="clip"):
+        return {"kind": kind, "point_id": ids[v], "video_url": "https://youtube.com/watch?v=" + v, "start": 9,
+                "end": 20, "speaker_name": "", "speaker_role": "", "speaker_verified": False,
+                "speaker_name_latin": "", "channel_display": "قناة", "quote_arabic": "ترجمة " + v, "language": "en"}
+
+    def make_draft(did, scenes, issue=4396, **extra):
+        d = {"id": did, "origin": "analysis", "format": "reel", "status": "approved_script",
+             "render_status": "queued", "topic_id": "t1", "topic_date": D, "review_issue": issue, "title": "ريل",
+             "script_status": "ready", "script": {"narrator": "female", "title": "عنوان",
+                                                   "question": "هل؟", "scenes": scenes}}
+        d.update(extra)
+        return store.save_draft(d), d
+
+    def five():
+        return [clip_scene("v1", "cold_open_clip"), {"kind": "title_card", "text": "عنوان"},
+                {"kind": "narration", "text": "جملة أولى."}, clip_scene("v2"), {"kind": "outro"}]
+
+    def six():
+        return [clip_scene("v1", "cold_open_clip"), {"kind": "title_card", "text": "عنوان"},
+                {"kind": "narration", "text": "جملة أولى."}, clip_scene("v2"),
+                {"kind": "question", "text": "هل يتغير؟"}, {"kind": "outro"}]
+
+    scene_durs = {0: 10.0, 1: 2.5, 2: 8.0, 3: 12.0, 4: 3.0}
+
+    def make_deps(log):
+        def run(cmd):
+            log["cmds"].append(list(cmd))
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+
+        def probe(p):
+            m = re.match(r"scene_(\d+)\.mp4", Path(p).name)
+            return scene_durs.get(int(m.group(1)), 2.0) if m else 2.0
+
+        def download(video_id, start, end, height, out_path):
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        return reel_render.Deps(
+            fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
+            synthesize=lambda text, voice: {"ok": True, "audio": b"mp3", "chars": len(text)},
+            diacritize=lambda text: (text, None), run=run, probe=probe, load_points=lambda date: points,
+            comment=lambda issue, text: log["comments"].append((issue, text)), faces=lambda f, fr: (1280, 720, []))
+
+    tmp = Path(tempfile.mkdtemp())
+    try:
+        def render(did, scenes, c=cfg):
+            log = {"cmds": [], "comments": []}
+            path, d = make_draft(did, scenes)
+            reel_render.render_draft(path, d, c, make_deps(log), reels_dir=tmp / "reels", workdir=tmp / "work")
+            return log, json.loads(path.read_text(encoding="utf-8"))
+
+        check("r3b1d: الإعداد", cfg.path("reel.render.transition.type") == "slideleft"
+              and cfg.path("reel.render.transition.outro_type") == "fade"
+              and cfg.path("reel.render.transition.seconds") == 0.35 and cfg.path("reel.render.version") == 2,
+              (cfg.path("reel.render.transition"), cfg.path("reel.render.version")))
+        log, s = render("r3b1d0000a001", five())
+        joined = [" ".join(c) for c in log["cmds"]]
+        join_idx = [i for i, c in enumerate(joined) if "xfade" in c]
+
+        # ── g212) أربعة xfade بالإزاحات ──
+        check("g212: أمر ضمّ واحد", s.get("render_status") == "rendered" and len(join_idx) == 1,
+              (s.get("render_error"), len(join_idx)))
+        j = joined[join_idx[0]] if join_idx else ""
+        xf = re.findall(r"xfade=transition=(\w+):duration=([\d.]+):offset=([\d.]+)", j)
+        check("g212: أربعة xfade: ثلاثة slideleft وأخيرها fade بإزاحاتها",
+              xf == [("slideleft", "0.350", "9.650"), ("slideleft", "0.350", "11.800"),
+                     ("slideleft", "0.350", "19.450"), ("fade", "0.350", "31.100")], xf)
+        # ── g213) acrossfade ──
+        af = re.findall(r"acrossfade=d=([\d.]+)", j)
+        check("g213: أربعة acrossfade بـd=0.350", af == ["0.350"] * 4, af)
+        check("g212: duration_seconds من probe الملف النهائي لا مجموع المدد", s.get("duration_seconds") == 2.0,
+              s.get("duration_seconds"))
+
+        # ── g214) صمت الراوي والسؤال ──
+        log6, s6 = render("r3b1d0000a002", six())
+        j6 = [" ".join(c) for c in log6["cmds"]]
+        timed = [c for c in j6 if "_frames.txt" in c]
+        clips_c = [c for c in j6 if "crop=" in c]
+        check("g214: مشهدا الراوي والسؤال بصمت 350ms", len(timed) == 2 and all("adelay=350:all=1" in c for c in timed),
+              timed)
+        check("g214: المقاطع بلا صمت مضاف", len(clips_c) == 2 and not any("adelay" in c for c in clips_c), clips_c)
+
+        # ── g215) الشعار بعد الضمّ وحده ──
+        lg = cfg.path("reel.render.logo")
+        logo_i = [i for i, c in enumerate(j6) if f"overlay=W-w-{lg['right']}:{lg['top']}" in c]
+        xf_i = [i for i, c in enumerate(j6) if "xfade" in c]
+        check("g215: الشعار بعد الضمّ ولا ذكر له قبله",
+              len(logo_i) == 1 and len(xf_i) == 1 and xf_i[0] < logo_i[0]
+              and not any("logo" in c.lower() for c in j6[:xf_i[0] + 1]), (logo_i, xf_i))
+        img = reel_render.frame_narration(cfg, "جملة")
+        navy = img.getpixel((5, 5))
+        box = [img.getpixel((x, y)) for x in range(1080 - lg["right"] - lg["width"], 1080 - lg["right"], 6)
+               for y in range(lg["top"], lg["top"] + 100, 6)]
+        check("g215: صندوق الشعار في frame_narration بلون الخلفية", all(p == navy for p in box), set(box))
+
+        # ── g216) seconds = 0 ← concat كما اليوم ──
+        c0 = load_config()
+        c0["reel"]["render"]["transition"]["seconds"] = 0
+        log0, s0 = render("r3b1d0000a003", six(), c0)
+        j0 = [" ".join(c) for c in log0["cmds"]]
+        check("g216: concat -c copy بلا xfade ولا acrossfade ولا صمت",
+              s0.get("render_status") == "rendered"
+              and not any(("xfade" in c or "acrossfade" in c or "adelay" in c) for c in j0)
+              and any("scenes.txt" in c and "-c copy" in c for c in j0), s0.get("render_error"))
+
+        # ── g217) seconds = 1.2 ← 0.9 مع تحذير ──
+        c1 = load_config()
+        c1["reel"]["render"]["transition"]["seconds"] = 1.2
+
+        class _H(logging.Handler):
+            def __init__(self):
+                super().__init__()
+                self.msgs = []
+
+            def emit(self, rec):
+                self.msgs.append((rec.levelno, rec.getMessage()))
+
+        h = _H()
+        lgr = logging.getLogger("trendnews.reel_render")
+        lgr.addHandler(h)
+        try:
+            log1, s1 = render("r3b1d0000a004", five(), c1)
+        finally:
+            lgr.removeHandler(h)
+        j1 = next((" ".join(c) for c in log1["cmds"] if "xfade" in " ".join(c)), "")
+        check("g217: 1.2 ← 0.900", re.findall(r"duration=([\d.]+)", j1) == ["0.900"] * 4
+              and re.findall(r"acrossfade=d=([\d.]+)", j1) == ["0.900"] * 4, j1[:300])
+        check("g217: تحذير", any(lv >= logging.WARNING for lv, _ in h.msgs), h.msgs)
+
+        # ── g218) --pending يعيد تركيب المعتمد القديم وحده ──
+        cp = load_config()
+        cp["reel"]["render"]["max_per_run"] = 500
+        base = dict(render_status="rendered", reel_file="reels/x/old.mp4", reel_gif="reels/x/old.gif",
+                    duration_seconds=30.0)
+        p_old, _ = make_draft("r3b1d0000a005", five(), issue=4397, **base)
+        p_pub, _ = make_draft("r3b1d0000a006", five(), issue=4398, **dict(base, status="published"))
+        p_rej, _ = make_draft("r3b1d0000a007", five(), issue=4399, **dict(base, status="rejected"))
+        p_new, _ = make_draft("r3b1d0000a008", five(), issue=4400, **dict(base, render_version=2))
+        before = {p: p.read_text(encoding="utf-8") for p in (p_pub, p_rej, p_new)}
+        logp = {"cmds": [], "comments": []}
+        reel_render.run_pending(cp, make_deps(logp), reels_dir=tmp / "reels")
+        s_old = json.loads(p_old.read_text(encoding="utf-8"))
+        check("g218: المعتمد بلا render_version يُعاد تركيبه ويحمل 2",
+              s_old.get("render_status") == "rendered" and s_old.get("render_version") == 2
+              and any(i == 4397 for i, _ in logp["comments"]), (s_old.get("render_version"), s_old.get("render_error")))
+        check("g218: المنشور والمرفوض والحديث لا يُمسّ",
+              all(p.read_text(encoding="utf-8") == t for p, t in before.items()))
+        n_before = len(logp["comments"])
+        reel_render.run_pending(cp, make_deps(logp), reels_dir=tmp / "reels")
+        check("g218: تشغيلة ثانية لا تعيده", not any(i == 4397 for i, _ in logp["comments"][n_before:]),
+              logp["comments"][n_before:])
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
