@@ -68,7 +68,7 @@
       "dropped_reason": null,
       "id": "509169ebc59e",
       "created_at": "2026-10-13T04:02:14.214325+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1372
     },
     {
@@ -98,8 +98,12 @@
       "dropped_reason": null,
       "id": "27f23b12cc2a",
       "created_at": "2026-10-13T04:02:14.214325+00:00",
-      "selection_status": "pending",
-      "selection_issue": 1372
+      "selection_status": "attempted",
+      "selection_issue": 1372,
+      "selected_formats": [
+        "article",
+        "reel"
+      ]
     }
   ],
   "all_topics": [

@@ -1,0 +1,61 @@
+{
+  "id": "f75f529f4845",
+  "created_at": "2026-10-13T05:40:15.447620+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "failed",
+  "title": "انسحاب حزب العمال الكردستاني من قواعده في شمال العراق",
+  "tier": 1,
+  "blocs": [
+    "turkish"
+  ],
+  "channels": [
+    "Habertürk",
+    "Halk TV"
+  ],
+  "agreement": "agreement",
+  "event": "إخلاء معسكرات حزب العمال الكردستاني (بي كي كي) في منطقة متينة شمال العراق والانسحاب نحو قنديل ضمن عملية السلام",
+  "warnings": [
+    "اسم لم يُحسم: كاراجا (Karaca) — لا رسم مرشّح من الكاشف"
+  ],
+  "run_date": "2026-10-13",
+  "arabic": {
+    "post_title": "انسحاب حزب العمال الكردستاني من قواعده في شمال العراق",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "Habertürk",
+      "Halk TV"
+    ]
+  },
+  "score": 2,
+  "source_videos": [],
+  "topic_id": "27f23b12cc2a",
+  "topic_date": "2026-10-13",
+  "script_error": "لا مقاطع كافية: 0 صالحًا من 2 مطلوبًا على الأقل — استُبعدت لأسماء متحدثين غير محسومة: نيهال بينجه سو كاراجا كاتبة صحافية هابرتورك",
+  "name_unresolved": [
+    {
+      "arabic": "كاراجا",
+      "latin": "Karaca",
+      "reason": "لا رسم مرشّح من الكاشف"
+    }
+  ],
+  "names_audit": [
+    {
+      "arabic": "نيهال بينجه سو كاراجا",
+      "latin": "Nihal Bince Su Karaca"
+    },
+    {
+      "arabic": "كاراجا",
+      "latin": "Karaca"
+    }
+  ],
+  "sibling_id": "6ddbf91aa04b",
+  "has_photo": false,
+  "has_news_photo": true,
+  "review_issue": 1373
+}
