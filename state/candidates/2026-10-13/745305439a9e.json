@@ -1,0 +1,64 @@
+{
+  "id": "745305439a9e",
+  "created_at": "2026-10-13T17:08:17.492352+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.05,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "مشروبات مزيفة خطيرة في نيجيريا قبل الأعياد",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "NAFDAC uncovers fake drinks den in Lagos, arrests two",
+  "link": "https://www.vanguardngr.com/2026/10/nafdac-uncovers-fake-drinks-den-in-lagos-arrests-two/",
+  "publishers": [
+    "Punch Nigeria",
+    "Vanguard Nigeria"
+  ],
+  "region": "ng",
+  "article": {
+    "title": "NAFDAC uncovers fake drinks den in Lagos, arrests two",
+    "link": "https://www.vanguardngr.com/2026/10/nafdac-uncovers-fake-drinks-den-in-lagos-arrests-two/",
+    "summary": "Ojo said the agency intensified its enforcement activities ahead of the festive season, when demand for alcoholic and other beverages typically rises. The post NAFDAC uncovers fake drinks den in Lagos, arrests two appeared first on Vanguard News .",
+    "source_name": "Vanguard Nigeria",
+    "region": "ng",
+    "weight": 0.9,
+    "published": "2026-10-13T15:34:21+00:00",
+    "image_url": "https://cdn.vanguardngr.com/wp-content/uploads/2026/10/NAFDAC-LAGOS-1024x682.jpeg",
+    "publisher": "Vanguard Nigeria",
+    "cluster_sources": [
+      "Punch Nigeria",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/video-nafdac-uncovers-fake-drinks-factory-in-lagos-arrests-two/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/10/nafdac-uncovers-fake-drinks-den-in-lagos-arrests-two/"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/10/NAFDAC-LAGOS-1024x682.jpeg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1680.9135077150002,
+    "is_stale": false,
+    "score": 23.046161944703705,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "مشروبات مزيفة خطيرة في نيجيريا قبل الأعياد",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

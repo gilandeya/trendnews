@@ -1,225 +1,5 @@
 [
   {
-    "score": 35.52,
-    "bucket": "serious",
-    "tokens": [
-      "airport",
-      "ballistic",
-      "missile",
-      "riyadh",
-      "strikes",
-      "yemen"
-    ],
-    "link": "https://en.mehrnews.com/news/248425/Yemen-strikes-Riyadh-airport-with-ballistic-missile",
-    "title": "Yemen strikes Riyadh airport with ballistic missile",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-10-08T09:08:31.516593+00:00"
-  },
-  {
-    "score": 24.26,
-    "bucket": "serious",
-    "tokens": [
-      "armed",
-      "attack",
-      "continues",
-      "iran",
-      "killed",
-      "near",
-      "officer",
-      "police",
-      "southeast",
-      "violence",
-      "zahedan"
-    ],
-    "link": "https://www.iranintl.com/en/202610082660",
-    "title": "Police officer killed in armed attack near Zahedan as violence continues in southeast Iran",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-10-08T09:08:31.516915+00:00"
-  },
-  {
-    "score": 23.22,
-    "bucket": "serious",
-    "tokens": [
-      "2bn",
-      "agreement",
-      "imf",
-      "level",
-      "pakistan",
-      "reach",
-      "staff",
-      "tranche"
-    ],
-    "link": "https://www.dawn.com/news/2035602/pakistan-imf-reach-staff-level-agreement-for-12bn-tranche",
-    "title": "Pakistan, IMF reach staff-level agreement for $1.2bn tranche",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-10-08T09:08:31.517196+00:00"
-  },
-  {
-    "score": 22.84,
-    "bucket": "serious",
-    "tokens": [
-      "blessing",
-      "diy",
-      "due",
-      "face",
-      "farmers",
-      "fertilizer",
-      "iran",
-      "prices",
-      "steep",
-      "war"
-    ],
-    "link": "https://www.npr.org/2026/10/07/g-s1-146541/fertilizer-diy-farmers-iran-war",
-    "title": "DIY fertilizer is a blessing as farmers face steep prices due to the Iran war",
-    "posted_title": "",
-    "region": "us",
-    "seen_at": "2026-10-08T09:08:31.517456+00:00"
-  },
-  {
-    "score": 22.27,
-    "bucket": "serious",
-    "tokens": [
-      "france",
-      "grenade",
-      "hand",
-      "loses",
-      "protests",
-      "pupil",
-      "student",
-      "stun",
-      "suspends",
-      "use"
-    ],
-    "link": "https://www.france24.com/en/france-suspends-stun-grenade-use-at-student-protests-after-pupil-loses-hand",
-    "title": "France suspends stun grenade use at student protests after pupil loses hand",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-10-08T09:08:31.517758+00:00"
-  },
-  {
-    "score": 35.52,
-    "bucket": "serious",
-    "tokens": [
-      "airport",
-      "ballistic",
-      "missile",
-      "riyadh",
-      "strikes",
-      "yemen"
-    ],
-    "link": "https://en.mehrnews.com/news/248425/Yemen-strikes-Riyadh-airport-with-ballistic-missile",
-    "title": "Yemen strikes Riyadh airport with ballistic missile",
-    "posted_title": "الحوثيون يعلنون ضرب مطار الملك خالد بصاروخ باليستي للمرة الثالثة خلال أسبوع",
-    "region": "ir",
-    "seen_at": "2026-10-08T09:16:17.562521+00:00"
-  },
-  {
-    "score": 32.52,
-    "bucket": "serious",
-    "tokens": [
-      "attack",
-      "bus",
-      "frontline",
-      "kills",
-      "least",
-      "near",
-      "people",
-      "russian",
-      "ukraine"
-    ],
-    "link": "https://www.theguardian.com/world/2026/oct/08/russian-attack-buses-ukraine-frontline-kramatorsk",
-    "title": "Russian attack on bus kills at least 30 people near Ukraine frontline",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-10-08T15:08:18.256055+00:00"
-  },
-  {
-    "score": 26.15,
-    "bucket": "serious",
-    "tokens": [
-      "arabia",
-      "comment",
-      "death",
-      "facebook",
-      "faces",
-      "lankan",
-      "migrant",
-      "penalty",
-      "saudi",
-      "sri"
-    ],
-    "link": "https://www.vanguardngr.com/2026/10/sri-lankan-migrant-faces-death-penalty-in-saudi-arabia-over-facebook-comment/",
-    "title": "Sri Lankan migrant faces death penalty in Saudi Arabia over Facebook comment",
-    "posted_title": "",
-    "region": "ng",
-    "seen_at": "2026-10-08T15:08:18.256348+00:00"
-  },
-  {
-    "score": 26.03,
-    "bucket": "serious",
-    "tokens": [
-      "attack",
-      "days",
-      "dead",
-      "injured",
-      "one",
-      "poland",
-      "school",
-      "second",
-      "two"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-10-08-one-dead-two-injured-in-polands-second-school-attack-in-two-days/",
-    "title": "One dead, two injured in Poland’s second school attack in two days",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-10-08T15:08:18.256645+00:00"
-  },
-  {
-    "score": 24.9,
-    "bucket": "serious",
-    "tokens": [
-      "case",
-      "died",
-      "doesn",
-      "exactly",
-      "how",
-      "know",
-      "lab",
-      "official",
-      "plague",
-      "russia",
-      "who",
-      "worker"
-    ],
-    "link": "https://www.thehindu.com/news/international/official-says-who-doesnt-know-exactly-how-lab-worker-in-russia-died-in-plague-case/article71557161.ece",
-    "title": "Official says WHO doesn’t know exactly how lab worker in Russia died in plague case",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-10-08T15:08:18.256943+00:00"
-  },
-  {
-    "score": 22.82,
-    "bucket": "serious",
-    "tokens": [
-      "airports",
-      "attacks",
-      "claim",
-      "houthis",
-      "responsibility",
-      "saudi",
-      "two",
-      "yemen's"
-    ],
-    "link": "http://www.africanews.com/2026/10/08/yemens-houthis-claim-responsibility-for-attacks-on-two-saudi-airports/",
-    "title": "Yemen's Houthis claim responsibility for attacks on two Saudi airports",
-    "posted_title": "",
-    "region": "africa",
-    "seen_at": "2026-10-08T15:08:18.257222+00:00"
-  },
-  {
     "score": 29.88,
     "bucket": "serious",
     "tokens": [
@@ -1406,5 +1186,113 @@
     "posted_title": "",
     "region": "ir",
     "seen_at": "2026-10-13T09:08:30.520219+00:00"
+  },
+  {
+    "score": 28.87,
+    "bucket": "serious",
+    "tokens": [
+      "against",
+      "attacks",
+      "entering",
+      "houthi",
+      "official",
+      "saudis",
+      "war",
+      "warns",
+      "weather",
+      "yemen"
+    ],
+    "link": "https://www.scmp.com/news/world/middle-east/article/3370729/houthi-official-warns-us-against-entering-war-yemen-saudis-weather-attacks?utm_source=rss_feed",
+    "title": "Houthi official warns US against entering war in Yemen as Saudis weather attacks",
+    "posted_title": "",
+    "region": "cn",
+    "seen_at": "2026-10-13T17:08:17.492033+00:00"
+  },
+  {
+    "score": 23.89,
+    "bucket": "serious",
+    "tokens": [
+      "fires",
+      "food",
+      "french",
+      "fridges",
+      "hackers",
+      "heat",
+      "sparking",
+      "spoiling",
+      "supermarket"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-10-12-hackers-heat-french-supermarket-fridges-sparking-fires-and-spoiling-food/",
+    "title": "Hackers heat French supermarket fridges, sparking fires and spoiling food",
+    "posted_title": "",
+    "region": "za",
+    "seen_at": "2026-10-13T17:08:17.492342+00:00"
+  },
+  {
+    "score": 23.05,
+    "bucket": "serious",
+    "tokens": [
+      "arrests",
+      "den",
+      "drinks",
+      "fake",
+      "lagos",
+      "nafdac",
+      "two",
+      "uncovers"
+    ],
+    "link": "https://www.vanguardngr.com/2026/10/nafdac-uncovers-fake-drinks-den-in-lagos-arrests-two/",
+    "title": "NAFDAC uncovers fake drinks den in Lagos, arrests two",
+    "posted_title": "",
+    "region": "ng",
+    "seen_at": "2026-10-13T17:08:17.492620+00:00"
+  },
+  {
+    "score": 19.96,
+    "bucket": "serious",
+    "tokens": [
+      "arrest",
+      "far",
+      "georgescu",
+      "house",
+      "politician",
+      "put",
+      "right",
+      "romanian",
+      "under"
+    ],
+    "link": "https://balkaninsight.com/2026/10/13/romanian-far-right-politician-georgescu-put-under-house-arrest/bi/",
+    "title": "Romanian Far-Right Politician Georgescu Put Under House Arrest",
+    "posted_title": "",
+    "region": "balkans",
+    "seen_at": "2026-10-13T17:08:17.492911+00:00"
+  },
+  {
+    "score": 19.63,
+    "bucket": "serious",
+    "tokens": [
+      "behind",
+      "commander",
+      "counteroffensive",
+      "deep",
+      "defeat",
+      "drones",
+      "envisions",
+      "how",
+      "invasion",
+      "lines",
+      "missile",
+      "nato",
+      "russian",
+      "strikes",
+      "top",
+      "wall",
+      "would"
+    ],
+    "link": "https://meduza.io/en/feature/2026/10/12/how-would-nato-defeat-a-russian-invasion-its-top-commander-envisions-a-wall-of-drones-a-counteroffensive-and-missile-strikes-deep-behind-russian-lines",
+    "title": "How would NATO defeat a Russian invasion? Its top commander envisions a wall of drones, a counteroffensive, and missile strikes deep behind Russian lines.",
+    "posted_title": "",
+    "region": "ru",
+    "seen_at": "2026-10-13T17:08:17.493189+00:00"
   }
 ]

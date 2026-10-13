@@ -1,0 +1,71 @@
+{
+  "id": "a92a991dc4a8",
+  "created_at": "2026-10-13T17:08:17.492046+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.89,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 3,
+  "appeal_note": "قراصنة يخترقون ثلاجات سوبرماركت فرنسية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Hackers heat French supermarket fridges, sparking fires and spoiling food",
+  "link": "https://www.dailymaverick.co.za/article/2026-10-12-hackers-heat-french-supermarket-fridges-sparking-fires-and-spoiling-food/",
+  "publishers": [
+    "Daily Maverick",
+    "Hindustan Times — World",
+    "The Hindu — International"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Hackers heat French supermarket fridges, sparking fires and spoiling food",
+    "link": "https://www.dailymaverick.co.za/article/2026-10-12-hackers-heat-french-supermarket-fridges-sparking-fires-and-spoiling-food/",
+    "summary": "PARIS, Oct 12 (Reuters) - Hackers raised the temperature of refrigerators and freezers at hundreds of French supermarkets to as high as 50 degrees Celsius (122 degrees Fahrenheit) overnight, causing fires and spoiling food.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-10-12T21:26:45+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/i/emSgj0iP3myqmCfkg_QTI4Nhbo8=/800x0/smart/filters:strip_exif()/file/attachments/2999/14357984_463819.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Daily Maverick",
+      "Hindustan Times — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-10-12-hackers-heat-french-supermarket-fridges-sparking-fires-and-spoiling-food/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/hackers-heat-french-supermarket-fridges-sparking-fires-and-spoiling-food/article71577848.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/hackers-heat-french-supermarket-fridges-sparking-fires-and-spoiling-food-101791830187857.html"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/i/emSgj0iP3myqmCfkg_QTI4Nhbo8=/800x0/smart/filters:strip_exif()/file/attachments/2999/14357984_463819.jpg",
+      "https://th-i.thgim.com/public/news/international/lhojow/article71577859.ece/alternates/LANDSCAPE_1200/hacker.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1680.9134606330554,
+    "is_stale": false,
+    "score": 23.892605011219025,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 3,
+    "appeal_note": "قراصنة يخترقون ثلاجات سوبرماركت فرنسية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

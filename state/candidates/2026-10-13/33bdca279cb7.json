@@ -1,0 +1,85 @@
+{
+  "id": "33bdca279cb7",
+  "created_at": "2026-10-13T17:08:17.491584+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 28.87,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "تحذير حوثي للأمريكيين بشأن اليمن والسعودية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Houthi official warns US against entering war in Yemen as Saudis weather attacks",
+  "link": "https://www.scmp.com/news/world/middle-east/article/3370729/houthi-official-warns-us-against-entering-war-yemen-saudis-weather-attacks?utm_source=rss_feed",
+  "publishers": [
+    "France24",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "South China Morning Post",
+    "The Hindu — International"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "Houthi official warns US against entering war in Yemen as Saudis weather attacks",
+    "link": "https://www.scmp.com/news/world/middle-east/article/3370729/houthi-official-warns-us-against-entering-war-yemen-saudis-weather-attacks?utm_source=rss_feed",
+    "summary": "A Houthi official has warned the US it would receive a “painful response” if it entered the war in Yemen, where Saudi Arabia has reportedly requested Washington’s help in dealing with the group as it weathers repeated attacks. Yemen’s civil war - in which a Saudi-led military coalition supports the government against the Iran-backed Houthis - reignited in July, months into the wider regional conflict that has roiled energy markets and plunged the Middle East into crisis. The Houthis quickly...",
+    "source_name": "South China Morning Post",
+    "region": "cn",
+    "weight": 1.1,
+    "published": "2026-10-13T09:00:25+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/dpyu12/article71580870.ece/alternates/LANDSCAPE_1200/AP01_18_2022_000150A.jpg",
+    "publisher": "South China Morning Post",
+    "cluster_sources": [
+      "France24",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "South China Morning Post",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3370729/houthi-official-warns-us-against-entering-war-yemen-saudis-weather-attacks?utm_source=rss_feed"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20261013-oil-facility-near-yemen-capital-sanaa-hit-by-saudi-arabia-houthis-say"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/houthi-media-says-saudi-arabia-hit-oil-facility-near-sanaa/article71580863.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/saudi-military-coalition-says-it-intercepted-three-drones-north-of-riyadh-airport-houthi-strikes-101791892747448.html"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/10/13/houthi-media-says-saudi-arabia-hit-oil-facility-near-sanaa"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/dpyu12/article71580870.ece/alternates/LANDSCAPE_1200/AP01_18_2022_000150A.jpg",
+      "https://s.france24.com/media/display/09974fea-c710-11f1-8feb-e362370cce2e/w:1024/p:16x9/2026-10-04T160923Z-192328429-RC2AWNASBLFE-RTRMADP-3-IRAN-CRISIS-YEMEN.jpg",
+      "https://www.hindustantimes.com/ht-img/img/2026/10/13/1600x900/IRAN-CRISIS-SAUDI-YEMEN-W_1791892876064_3wLq_1791892876172_yFFU_0ef1bbb0-9370-4200-a39d-ad63fe3bdc12_W1Wn.JPG",
+      "https://media.freemalaysiatoday.com/v3/2026/10/48118f2b-04cc-44d5-8e31-20cfddfb60f8-AFP__20261003__D26C29L__v2__HighRes__TopshotSaudiYemenIranUsIsraelWar_1_cropped_.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.0,
+    "age_hours": 1680.9133497449998,
+    "is_stale": true,
+    "score": 28.874242537310238,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "تحذير حوثي للأمريكيين بشأن اليمن والسعودية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
