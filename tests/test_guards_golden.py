@@ -7124,3 +7124,116 @@ def test_reel_typewriter_r3b2a_guards() -> None:
               s.get("render_status") == "rendered" and s.get("render_version") == 3, s)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
+
+
+def test_reel_no_partial_r3b2a2_guards() -> None:
+    """Issue #1404 (R3b-2a2، g226–g230): لا يُحفظ ريل سقط منه مقطع بعطل تنزيل — إعادة السلّم ثم طابور بمحاولات؛
+    الإسقاط التحريري يبقى؛ reel.render.version = 4."""
+    import json
+    import tempfile
+    from pathlib import Path
+
+    from src import reel_render, reel_script
+
+    D = "2099-12-05"
+    q1, q2 = "alpha beta gamma delta epsilon zeta", "one two three four five six"
+    points = [{"video_id": "v1", "statement": "s", "quote_original": q1, "quote_arabic": "ترجمة",
+               "speaker": "متحدث", "channel": "قناة", "video_url": "https://youtube.com/watch?v=v1", "timestamp": 10},
+              {"video_id": "v2", "statement": "s2", "quote_original": q2, "quote_arabic": "ترجمة٢",
+               "speaker": "متحدث٢", "channel": "قناة٢", "video_url": "https://youtube.com/watch?v=v2", "timestamp": 10}]
+    pid1, pid2 = reel_script.point_key_id(points[0]), reel_script.point_key_id(points[1])
+
+    def clip(pid, url, ch, kind="clip"):
+        return {"kind": kind, "point_id": pid, "video_url": url, "start": 9, "end": 20, "speaker_name": "",
+                "speaker_role": "", "speaker_verified": False, "speaker_name_latin": "", "channel_display": ch,
+                "quote_arabic": "ترجمة", "language": "en"}
+
+    scenes = [clip(pid1, "https://youtube.com/watch?v=v1", "قناة", "cold_open_clip"),
+              {"kind": "narration", "text": "جملة أولى قصيرة."},
+              clip(pid2, "https://youtube.com/watch?v=v2", "قناة٢"),
+              {"kind": "narration", "text": "جملة ثانية."},
+              clip(pid1, "https://youtube.com/watch?v=v1", "قناة"),
+              {"kind": "question", "text": "هل؟"}, {"kind": "outro"}]
+    transcripts = {"v1": "[00:10] alpha beta gamma delta\n[00:14] epsilon zeta eta theta\n[00:18] tail line",
+                   "v2": "[00:10] one two three four\n[00:14] five six seven eight\n[00:18] tail line"}
+
+    def make_draft(did, **extra):
+        d = {"id": did, "origin": "analysis", "format": "reel", "status": "approved_script",
+             "render_status": "queued", "topic_id": "t1", "topic_date": D, "title": "ريل", "script_status": "ready",
+             "review_issue": 77, "reel_file": "reels/old.mp4", "reel_gif": "reels/old.gif",
+             "script": {"narrator": "female", "title": "عنوان", "question": "هل؟", "scenes": scenes}}
+        d.update(extra)
+        return store.save_draft(d), d
+
+    def make_deps(log, fail_v2=0, trans=None):
+        """fail_v2: عدد مرات فشل تنزيل v2 قبل النجاح؛ -1 ← دائمًا."""
+        left = {"n": fail_v2}
+
+        def run(cmd):
+            log["cmds"].append(list(cmd))
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+
+        def download(video_id, start, end, height, out_path):
+            if video_id == "v2" and left["n"] != 0:
+                if left["n"] > 0:
+                    left["n"] -= 1
+                raise RuntimeError("فشلت كل الدرجات: ERROR: ffmpeg exited with code 8")
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        return reel_render.Deps(
+            fetch_transcript=lambda vid: (trans or transcripts).get(vid), download_clip=download,
+            synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
+            diacritize=lambda t: (t, None), run=run,
+            probe=lambda p: 41.0 if "reels" in Path(p).parts else 2.0, load_points=lambda date: points,
+            comment=lambda i, t: log["comments"].append(t), faces=lambda f, fr: (1280, 720, []),
+            sleep=lambda s: log["sleeps"].append(s))
+
+    def run_one(did, fail_v2, trans=None, **extra):
+        log = {"cmds": [], "comments": [], "sleeps": []}
+        path, d = make_draft(did, **extra)
+        reel_render.render_draft(path, d, cfg, make_deps(log, fail_v2, trans), reels_dir=tmp / "reels",
+                                 workdir=tmp / "work")
+        return log, json.loads(path.read_text(encoding="utf-8")), [" ".join(c) for c in log["cmds"]]
+
+    cfg = load_config()
+    tmp = Path(tempfile.mkdtemp())
+    try:
+        # ── g226 ──
+        log, s, _ = run_one("r3b2a2000a01", 2)
+        check("g226: مركَّب كاملًا بلا render_dropped",
+              s.get("render_status") == "rendered" and not s.get("render_dropped"), s)
+        check("g226: الانتظار مرتين بـ20", log["sleeps"] == [20, 20], log["sleeps"])
+
+        # ── g227 ──
+        log, s, cmds = run_one("r3b2a2000b01", -1)
+        check("g227: لا أمر ضمّ ولا شعار", not any("xfade" in c or "overlay=W-w-" in c for c in cmds), cmds[:3])
+        check("g227: reel_file السابق باقٍ",
+              s.get("reel_file") == "reels/old.mp4" and s.get("reel_gif") == "reels/old.gif", s)
+        check("g227: queued ومحاولة 1", s.get("render_status") == "queued" and s.get("render_attempts") == 1, s)
+        check("g227: التعليق «محاولة 1 من 3»",
+              any("محاولة 1 من 3" in c and "قناة٢" in c for c in log["comments"]), log["comments"])
+        check("g227: انتظار بين الإعادات فقط", log["sleeps"] == [20, 20], log["sleeps"])
+
+        # ── g228 ──
+        log, s, _ = run_one("r3b2a2000c01", -1, render_attempts=2)
+        check("g228: failed وrender_error بالسبب",
+              s.get("render_status") == "failed" and "ffmpeg exited with code 8" in (s.get("render_error") or ""), s)
+        check("g228: التعليق «بعد 3 محاولات»", any("بعد 3 محاولات" in c for c in log["comments"]), log["comments"])
+        check("g228: reel_file السابق باقٍ", s.get("reel_file") == "reels/old.mp4", s)
+
+        # ── g229 ──
+        bad = dict(transcripts, v2="[00:10] nothing relevant here\n[00:14] at all\n[00:18] tail line")
+        log, s, _ = run_one("r3b2a2000d01", 0, trans=bad)
+        check("g229: الاقتباس غير الموجود إسقاط والباقي يُركَّب",
+              s.get("render_status") == "rendered" and len(s.get("render_dropped") or []) == 1
+              and "الاقتباس غير موجود" in s["render_dropped"][0]["reason"], s)
+        check("g229: لا انتظار", log["sleeps"] == [], log["sleeps"])
+
+        # ── g230 ──
+        log, s, _ = run_one("r3b2a2000e01", 0, render_attempts=2)
+        check("g230: render_attempts = 0 وrender_version = 4",
+              s.get("render_attempts") == 0 and s.get("render_version") == 4 and s.get("render_status") == "rendered", s)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)

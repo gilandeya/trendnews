@@ -1964,7 +1964,12 @@ reel:
     # فلا يتحرك. قيمة ≥ min(lead_seconds, clip_tail_seconds) تُخفَّض إلى ذلك الحد − 0.1 كي لا يقع كلام المقطع في التلاشي
     transition: {type: slideleft, outro_type: fade, seconds: 0.35}
     # نسخة التركيب: رفعها تعيد --pending تركيب كل ريل معتمد مُركَّب بنسخة أقدم (المنشور والمرفوض لا يُمسّان)
-    version: 3
+    version: 4
+    # عطل تنزيل مقطع (Issue #1404): يُعاد السلّم كاملًا download_retries مرة بانتظار retry_wait_seconds قبل كل إعادة؛
+    # فإن بقي مقطع لم يُنزَّل لا يُحفظ ريل ناقص بل يعود queued حتى max_attempts محاولة تركيب ثم failed
+    download_retries: 2
+    retry_wait_seconds: 20
+    max_attempts: 3
     # كتابة نص الراوي حرفًا حرفًا (Issue #1400): الحرف k من N يظهر عند k/N من مدة كلام الجملة، والنص الكامل يبقى خلال
     # صمتها؛ الجملة الأولى كانت إطارًا ثابتًا ~20 ث. false ← إطار كامل لكل جملة كما في النسخة 2
     typewriter: {enabled: true}
@@ -1998,6 +2003,8 @@ reel:
       comment_dropped: "- ✂️ حُذف {n}: {details}"
       comment_approx: "- ⚠️ نافذة تقديرية لمقطع {channel} ({window}): {reason} — راجع بداية المقطع ونهايته"
       comment_failed: "### 🎬 تعذّر تركيب الريل\n- ❌ {reason}"
+      comment_download_retry: "⏳ تعذّر تنزيل مقطع {channel} — سيُعاد التركيب في التشغيلة التالية (محاولة {n} من {max})"
+      comment_download_failed: "❌ تعذّر تنزيل مقطع {channel} بعد {max} محاولات — راجع السبب: {reason}"
   duration_seconds: 10
   fps: 30
   zoom: 1.12               # قوة التقريب البطيء
