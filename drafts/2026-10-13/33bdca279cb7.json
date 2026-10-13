@@ -2,7 +2,7 @@
   "id": "33bdca279cb7",
   "created_at": "2026-10-13T17:26:17.899829+00:00",
   "status": "pending",
-  "review_issue": 1401,
+  "review_issue": 1402,
   "origin": "news",
   "score": 28.87,
   "bucket": "serious",
@@ -167,5 +167,6 @@
     "web_search_query": null,
     "web_search_tried": 0,
     "web_search_skipped": null
-  }
+  },
+  "caption_edited": true
 }
