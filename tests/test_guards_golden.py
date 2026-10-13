@@ -6862,7 +6862,7 @@ def test_reel_transitions_r3b1d_guards() -> None:
         tr = cfg.path("reel.render.transition") or {}
         check("g212: الإعداد transition وversion",
               (tr.get("type"), tr.get("outro_type"), tr.get("seconds")) == ("slideleft", "fade", 0.35)
-              and cfg.path("reel.render.version") == 3, tr)
+              and cfg.path("reel.render.version") == 4, tr)
 
         # ── g212/g213: أمر ضمّ واحد بأربعة xfade وأربعة acrossfade ──
         log, cmds, saved = render("r3b1d0000a01", five, cfg, durs)
@@ -6933,14 +6933,14 @@ def test_reel_transitions_r3b1d_guards() -> None:
         p_old, _ = make_draft("r3b1d0000b01", mixed, render_status="rendered", approved_script_at="2099-01-01")
         p_pub, _ = make_draft("r3b1d0000b02", mixed, status="published", render_status="rendered")
         p_rej, _ = make_draft("r3b1d0000b03", mixed, status="rejected", render_status="rendered")
-        p_new, _ = make_draft("r3b1d0000b04", mixed, render_status="rendered", render_version=3)
+        p_new, _ = make_draft("r3b1d0000b04", mixed, render_status="rendered", render_version=4)
         picked = [p.stem for p, _ in reel_render.pending_batch(c2)]
         check("g218: يلتقط القديم النسخة وحده", picked == [p_old.stem], picked)
         for p, d in reel_render.pending_batch(c2):
             reel_render.render_draft(p, d, c2, make_deps({"cmds": [], "comments": []}), reels_dir=tmp / "reels",
                                      workdir=tmp / "work")
         s = json.loads(p_old.read_text(encoding="utf-8"))
-        check("g218: render_version = 3 بعد التركيب", s.get("render_status") == "rendered" and s.get("render_version") == 3, s)
+        check("g218: render_version = 4 بعد التركيب", s.get("render_status") == "rendered" and s.get("render_version") == 4, s)
         left = reel_render.pending_batch(c2)
         check("g218: التشغيلة الثانية لا تعيدها", left == [], [p.stem for p, _ in left])
         check("g218: المنشور والمرفوض لم يُمسّا",
@@ -7120,8 +7120,8 @@ def test_reel_typewriter_r3b2a_guards() -> None:
             reel_render.render_draft(p, d, cfg, make_deps({"cmds": [], "lists": []}), reels_dir=tmp / "reels",
                                      workdir=tmp / "work")
         s = json.loads(p_old.read_text(encoding="utf-8"))
-        check("g225: render_version = 3 بعد التركيب",
-              s.get("render_status") == "rendered" and s.get("render_version") == 3, s)
+        check("g225: render_version = 4 بعد التركيب",
+              s.get("render_status") == "rendered" and s.get("render_version") == 4, s)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 
