@@ -6237,3 +6237,82 @@ def test_face_detection_f1_guards() -> None:
           and 0 <= win["x"] <= 1280 - 405 and win["x"] != 437, win)
     check("f1-هـ: config يحمل عتبتي الكاشف", cfg.path("image.face_score_threshold") == 0.6
           and cfg.path("image.face_nms_threshold") == 0.3, cfg.path("image"))
+
+
+def test_reel_lowerthird_f1b_guards() -> None:
+    """تداخل سطور الشريط السفلي وتسريع كشف الوجوه (Issue #1383، F1b، g193–g194).
+    كان حبر اللاتيني يتداخل مع سطر الصفة بنحو 10 px لأن _Pen.line يتقدّم من نقطة الرسم لا من الحبر،
+    وصندوقه المسجَّل ليس صندوق الحبر فلم يلتقطه اختبار المنطقة الآمنة."""
+    from pathlib import Path
+
+    import numpy as np
+    from PIL import Image
+
+    from src import config as _config, imaging, reel_render
+
+    cfg = load_config()
+    band = cfg.path("reel.render.band")
+    top, height, edge = int(band["top"]), int(band["height"]), int(band["edge"])
+    scene = {"kind": "clip", "speaker_verified": True, "speaker_name": "عائشة دمير",
+             "speaker_name_latin": "Ayşe Demir", "speaker_role": "كاتبة صحفية",
+             "channel_display": "هابرتورك", "quote_arabic": "ترجمة قصيرة"}
+
+    def band_arr(sc, boxes=None):
+        img = reel_render.frame_clip_overlay(cfg, sc, boxes).convert("RGBA")
+        return np.array(img)[top:top + height, :img.width - edge - 4, :].astype(int)
+
+    def rows(mask):
+        r = np.where(mask.any(axis=1))[0]
+        return (int(r[0]), int(r[-1])) if len(r) else None
+
+    def measure(sc, boxes=None):
+        a = band_arr(sc, boxes)
+        gold = (a[..., 0] > 200) & (a[..., 1] > 140) & (a[..., 1] < 210) & (a[..., 2] < 100) & (a[..., 3] > 200)
+        white = (a[..., 0] > 240) & (a[..., 1] > 240) & (a[..., 2] > 240) & (a[..., 3] > 200)
+        blank = band_arr({**sc, "speaker_role": "", "channel_display": ""})
+        diff = (a != blank).any(axis=2)
+        return rows(white), rows(gold), rows(diff)
+
+    boxes_a: list = []
+    ar, la, role = measure(scene, boxes_a)
+    ok = bool(ar and la and role)
+    check("g193-أ: عربي ← لاتيني بفاصل ≥10 px", ok and ar[1] + 10 <= la[0], (ar, la, role))
+    check("g193-أ: لاتيني ← صفة بفاصل ≥10 px", ok and la[1] + 10 <= role[0], (ar, la, role))
+    check("g193-ب: أسفل حبر آخر سطر ≤ band.top+height−16", ok and role[1] <= height - 16, role)
+
+    long_role = " ".join(["كلمة"] * 40)
+    ar2, la2, role2 = measure({**scene, "speaker_role": long_role})
+    inside = bool(ar2 and la2) and (role2 is None or (la2[1] + 10 <= role2[0] and role2[1] <= height - 16))
+    check("g193-ج: صفة طويلة جدًا ← لا تداخل وكل الحبر داخل الشريط", inside, (ar2, la2, role2))
+
+    lb = [b for b in boxes_a if la and b[1] - top <= la[0] and b[3] - top >= la[1]]
+    check("g193-د: صندوق اللاتيني المسجَّل يحوي كل صفوفه الذهبية", bool(lb), (boxes_a[-3:], la))
+
+    # ── g194: كشف الوجوه ──
+    import cv2
+    face = Image.open(Path(__file__).parent / "fixtures" / "faces" / "astronaut.jpg").convert("RGB")
+    calls = {"load": 0, "create": 0}
+    real_load, real_create = _config.load_config, cv2.FaceDetectorYN.create
+
+    def counting_load(*a, **k):
+        calls["load"] += 1
+        return real_load(*a, **k)
+
+    def counting_create(*a, **k):
+        calls["create"] += 1
+        return real_create(*a, **k)
+
+    # تصفير أي ذاكرة على مستوى الوحدة ليُقاس أول نداء حقيقي
+    reset = getattr(imaging, "_reset_face_cache", None)
+    if reset:
+        reset()
+    _config.load_config = counting_load
+    cv2.FaceDetectorYN.create = staticmethod(counting_create)
+    try:
+        results = [imaging.face_boxes(face) for _ in range(5)]
+    finally:
+        _config.load_config = real_load
+        cv2.FaceDetectorYN.create = real_create
+    check("g194-أ: خمسة نداءات ← ≤ 1 قراءة config والنتيجة نفسها", calls["load"] <= 1
+          and all(r == results[0] for r in results) and bool(results[0]), (calls, results[:2]))
+    check("g194-ب: FaceDetectorYN.create مرة واحدة", calls["create"] <= 1, calls)

@@ -1966,7 +1966,8 @@ reel:
     logo: {top: 108, right: 54, width: 168}
     # لا نص في أعلى top ولا أسفل bottom، ولا في عمود اليمين بين الارتفاعين
     safe: {top: 210, bottom: 420, right_col_width: 130, right_col_from: 900, right_col_to: 1500}
-    band: {top: 1260, height: 240, edge: 24, alpha: 0.94}   # شريط المتحدث السفلي
+    # line_gap: الفراغ بين حبر سطر وحبر التالي في الشريط (التقدّم من نقطة الرسم كان يُنتج تداخلًا ~10 px)
+    band: {top: 1260, height: 240, edge: 24, alpha: 0.94, line_gap: 12}   # شريط المتحدث السفلي
     gif: {seconds: 6, width: 270, height: 480, fps: 8}
     repo_subdir: reels         # مجلد الريلز داخل المستودع الخاص (reel_file/reel_gif نسبيان إلى جذره)
     # صاحب المشروع يتأكد من اسم الفرع (main) قبل الاعتماد على هذين الرابطين

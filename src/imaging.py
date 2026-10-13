@@ -363,6 +363,31 @@ def paste_logo(canvas: Image.Image, logo_path: Path, box: tuple[int, int, int, i
 YUNET_MODEL = Path(__file__).resolve().parent.parent / "assets" / "models" / "face_detection_yunet_2023mar.onnx"
 _face_warned = False
 _FACE_SIDE = 640  # أطول ضلع للصورة المصغّرة المدخلة للكاشف
+# ذاكرة على مستوى العملية: load_config يكلّف ~0.2 ث وإنشاء الكاشف أغلى، وكلاهما ثابت طوال التشغيلة
+_face_state: dict = {}
+
+
+def _reset_face_cache() -> None:
+    _face_state.clear()
+
+
+def _face_detector(cv2):
+    """كاشف YuNet واحد يُعاد استعماله (العتبتان من الإعداد تُقرآن مرة واحدة)."""
+    det = _face_state.get("det")
+    if det is None:
+        from .config import load_config
+        cfg = load_config()
+        # يُسكت سطر «setPreferableTarget…» الذي يتكرر عند كل إنشاء؛ تحذيرنا الخاص (_warn_face_once) باقٍ
+        try:
+            cv2.utils.logging.setLogLevel(cv2.utils.logging.LOG_LEVEL_ERROR)
+        except Exception:  # noqa: BLE001 — إسكات السجل تحسين لا شرط
+            pass
+        det = cv2.FaceDetectorYN.create(
+            str(YUNET_MODEL), "", (_FACE_SIDE, _FACE_SIDE),
+            score_threshold=float(cfg.path("image.face_score_threshold", 0.6)),
+            nms_threshold=float(cfg.path("image.face_nms_threshold", 0.3)))
+        _face_state["det"] = det
+    return det
 
 
 def _warn_face_once(reason: str) -> None:
@@ -386,18 +411,13 @@ def face_boxes(img: Image.Image) -> list[tuple[int, int, int, int]]:
         if not YUNET_MODEL.exists():
             _warn_face_once(f"ملف النموذج غائب: {YUNET_MODEL}")
             return []
-        from .config import load_config
-        cfg = load_config()
         rgb = img.convert("RGB")
         # الكاشف يعمل على صورة مصغّرة؛ ثم نعيد الإحداثيات إلى مقاس الأصل
         scale = min(_FACE_SIDE / max(rgb.size), 1.0)
         if scale < 1:
             rgb = rgb.resize((max(int(img.width * scale), 1), max(int(img.height * scale), 1)))
         bgr = np.array(rgb)[:, :, ::-1].copy()
-        det = cv2.FaceDetectorYN.create(
-            str(YUNET_MODEL), "", (rgb.width, rgb.height),
-            score_threshold=float(cfg.path("image.face_score_threshold", 0.6)),
-            nms_threshold=float(cfg.path("image.face_nms_threshold", 0.3)))
+        det = _face_detector(cv2)
         det.setInputSize((rgb.width, rgb.height))
         _, faces = det.detect(bgr)
     except Exception as exc:  # noqa: BLE001 — الكشف تحسين لا شرط
