@@ -146,8 +146,9 @@ def speaker_badge(clip: dict, cfg: Any) -> str:
 
 
 def _latin_tokens(text: str) -> list[str]:
-    """casefold ثم NFKD بلا علامات التشكيل اللاتينية (ç←c وş←s وİ←i)؛ ı التركية بلا نقطة لا تتفكك فتُطوى يدويًا."""
-    t = unicodedata.normalize("NFKD", (text or "").casefold().replace("ı", "i"))
+    """casefold ثم NFKD بلا علامات التشكيل اللاتينية (ç←c وş←s)؛ ı وİ التركيتان تُطويان إلى i يدويًا قبل casefold
+    لأن ı بلا نقطة لا تتفكك أصلًا، وİ تتحول بـcasefold إلى i+نقطة مركّبة يتوقف تنظيفها على ترتيب الخطوات."""
+    t = unicodedata.normalize("NFKD", (text or "").replace("ı", "i").replace("İ", "i").casefold())
     t = "".join(ch for ch in t if not unicodedata.combining(ch))
     return re.findall(r"\w+", t)
 
