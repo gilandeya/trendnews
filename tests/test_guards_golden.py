@@ -5669,7 +5669,7 @@ def test_reel_probe_r3a_guards() -> None:
     got = reel_clips.locate_quote("بداية الاقتباس هنا ثم يكتمل في السطر التالي", two, 22, cfg)
     check("g181-ب: اقتباس عابر لسطرين ← found وstart = بداية السطر الأول",
           got["status"] == "found" and got["start"] == 20, got)
-    check("g181-ب: end = طابع السطر الأخير (قرار #1347 للدرجة full)", got["end"] == 24, got)
+    check("g181-ب: end = min(التالي، بداية الأخير + كلماته ÷ speaker_wps + clip_tail) = 27.6", got["end"] == 27.6, got)
 
     got = reel_clips.locate_quote("عبارة غير موجودة إطلاقًا في النص كله", segs, 50, cfg)
     check("g181-ج: غائب ← missing", got["status"] == "missing", got)
@@ -5688,8 +5688,8 @@ def test_reel_probe_r3a_guards() -> None:
     five = [(100, "one two"), (103, "three four"), (106, "five six"), (109, "seven eight"), (112, "nine ten"),
             (130, "unrelated")]
     got = reel_clips.locate_quote("one two three four five six seven eight nine ten", five, 100, cfg)
-    check("g181-ي: اقتباس عبر 5 أسطر ← full وend = طابع السطر الخامس",
-          got["status"] == "found" and got.get("level") == "full" and got["end"] == 112, got)
+    check("g181-ي: اقتباس عبر 5 أسطر ← full وend محدود بالسقف = 113.9",
+          got["status"] == "found" and got.get("level") == "full" and got["end"] == 113.9, got)
     two8 = [(10, "alpha beta gamma delta epsilon zeta eta theta iota"), (50, "filler words here"),
             (90, "alpha beta gamma delta epsilon zeta eta theta kappa")]
     got = reel_clips.locate_quote("alpha beta gamma delta epsilon zeta eta theta changed", two8, 88, cfg)
@@ -5909,12 +5909,12 @@ def test_reel_render_r3b1_guards() -> None:
     # ── ج) locate_quote: نهاية الدرجة full ──
     segs = [(10, "alpha beta gamma delta"), (14, "epsilon zeta eta theta"), (18, "next line here")]
     got = reel_clips.locate_quote("alpha beta gamma delta epsilon zeta eta theta", segs, near=10, cfg=cfg)
-    check("r3b1-ج: end = طابع السطر التالي", got["status"] == "found" and got["level"] == "full"
-          and got["start"] == 10 and got["end"] == 18, got)
+    check("r3b1-ج: end = min(التالي 18، 14+4÷2.3+1 = 16.7)", got["status"] == "found" and got["level"] == "full"
+          and got["start"] == 10 and got["end"] == 16.7, got)
     last = [(10, "one two three"), (14, "alpha beta gamma delta")]
     got = reel_clips.locate_quote("alpha beta gamma delta", last, near=14, cfg=cfg)
-    want = round(14 + 4 / float(cfg.path("reel.script.speaker_wps")), 1)
-    check("r3b1-ج: آخر سطر ← بدايته + كلماته ÷ speaker_wps", got["end"] == want, (got, want))
+    want = round(14 + 4 / float(cfg.path("reel.script.speaker_wps")) + float(cfg.path("reel.script.clip_tail_seconds")), 1)
+    check("r3b1-ج: آخر سطر ← بدايته + كلماته ÷ speaker_wps + clip_tail", got["end"] == want, (got, want))
 
     # ── د) معدلا الكلام ──
     c2 = load_config()
@@ -5967,7 +5967,7 @@ def test_reel_render_r3b1_guards() -> None:
         path = store.save_draft(d)
         return path, d
 
-    def make_deps(log):
+    def make_deps(log, faces=None):
         def run(cmd):
             log["cmds"].append(list(cmd))
             Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
@@ -5988,7 +5988,7 @@ def test_reel_render_r3b1_guards() -> None:
         return reel_render.Deps(
             fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download, synthesize=synth,
             diacritize=lambda text: (text, None), run=run, probe=lambda p: 2.0,
-            load_points=lambda date: points, comment=comment)
+            load_points=lambda date: points, comment=comment, faces=faces)
 
     tmp = Path(tempfile.mkdtemp())
     try:
@@ -6004,7 +6004,7 @@ def test_reel_render_r3b1_guards() -> None:
         check("r3b1-هـ: التنزيل بـ720 وللموجود وحده", sorted(x[0] for x in log["downloads"]) == ["v1", "v2"]
               and all(x[3] == 720 for x in log["downloads"]), log["downloads"])
         v1 = next(x for x in log["downloads"] if x[0] == "v1")
-        check("r3b1-هـ: نافذة v1 من 10−lead حتى 18", v1[1] == 9 and v1[2] == 18, v1)
+        check("r3b1-هـ: نافذة v1 من 10−lead حتى ceil(16.7)=17 (قاعدة سقف النهاية)", v1[1] == 9 and v1[2] == 17, v1)
         voice = cfg.path("reel.tts.narrator_voices.female")
         check("r3b1-هـ: صوت الراوي من الإعداد وجملة لكل نداء", len(log["synth"]) == 5
               and all(v == voice for _, v in log["synth"]), log["synth"])
@@ -6057,6 +6057,55 @@ def test_reel_render_r3b1_guards() -> None:
         bad = [b for b in boxes if b[1] < sz["top"] or b[3] > 1920 - sz["bottom"]
                or (b[2] > 1080 - sz["right_col_width"] and b[3] > sz["right_col_from"] and b[1] < sz["right_col_to"])]
         check("r3b1-و: لا نص خارج المنطقة الآمنة", boxes and not bad, bad[:3])
+
+        # ── م) نافذة الاقتطاع تتبع الوجه ──
+        check("r3b1-م: crop في config", cfg.path("reel.render.crop.mode") == "face"
+              and cfg.path("reel.render.crop.samples") == [0.2, 0.5, 0.8], cfg.path("reel.render.crop"))
+        cases_m = [([1100], 875, "face"), ([300], 98, "face"), ([300, 320, 1000], 118, "face"), ([], 437, "center")]
+        for centers, want_x, want_src in cases_m:
+            got = reel_render.crop_window(1280, 720, centers)
+            check(f"r3b1-م: مراكز {centers} ← عرض 405 وx={want_x}",
+                  got["w"] == 405 and got["x"] == want_x and got["source"] == want_src, got)
+        got = reel_render.crop_window(1280, 720, [300], mode="center")
+        check("r3b1-م: mode=center يلغي الكشف", got["x"] == 437 and got["source"] == "center", got)
+        for centers, want_x, want_src in cases_m:
+            logm = {"cmds": [], "downloads": [], "synth": [], "comments": []}
+            pm, dm = make_draft("r3b1000000m%d" % want_x, ["v1", "v2"])
+            reel_render.render_draft(pm, dm, cfg, make_deps(logm, faces=lambda f, fr, c=centers: (1280, 720, c)),
+                                     reels_dir=tmp / "reels", workdir=tmp / "work")
+            joined_m = [" ".join(c) for c in logm["cmds"]]
+            clip_cmds = [c for c in joined_m if f"crop=405:720:{want_x}:0" in c]
+            check(f"r3b1-م: مرشّح ffmpeg فيه crop=405:720:{want_x}:0 ثم scale=1080:1920",
+                  len(clip_cmds) == 2 and all("scale=1080:1920" in c and c.index("crop=") < c.index("scale=1080:1920")
+                                              for c in clip_cmds), joined_m[:3])
+            check("r3b1-م: لا boxblur", not any("boxblur" in c for c in joined_m))
+            sm = json.loads(pm.read_text(encoding="utf-8"))
+            crops = list((sm.get("render_crops") or {}).values())
+            check("r3b1-م: render_crops على المسودة لكل مقطع",
+                  len(crops) == 2 and all(c.get("x") == want_x and c.get("source") == want_src for c in crops),
+                  sm.get("render_crops"))
+
+        # ── ي/ك/ل) الخطوط وحارس الحروف ──
+        from src import imaging as _im
+        for name in ("Ayşe Demir", "Işık Kuşçu", "Doğan"):
+            f = reel_render.pick_font(name, reel_render.TAJAWAL_R, 34)
+            cps = _im._font_codepoints(f) if f is not None else set()
+            check(f"r3b1-ي: «{name}» بخط يحوي كل حروفها", f is not None and all(ord(c) in cps for c in name if c != " "),
+                  getattr(f, "path", None))
+        boxes_k: list = []
+        pen = reel_render._Pen(cfg, boxes_k)
+        try:
+            ok = True
+            y2 = pen.text_line("ab\U00013000cd", reel_render.CAIRO, "Black", 40, (255, 255, 255), 500)
+        except Exception as exc:  # noqa: BLE001
+            ok, y2 = False, exc
+        check("r3b1-ك: حرف غائب من كل الخطوط ← السطر لا يُرسم ولا استثناء", ok and not boxes_k, (y2, boxes_k))
+        boxes_l: list = []
+        reel_render.frame_clip_overlay(cfg, {"kind": "clip", "speaker_verified": True, "speaker_name": "عائشة دميرال",
+                                             "speaker_name_latin": "Ayşe Demir", "speaker_role": "باحثة",
+                                             "channel_display": "قناة", "quote_arabic": "ترجمة"}, boxes_l)
+        ar_box, la_box = boxes_l[-3], boxes_l[-2]
+        check("r3b1-ل: أعلى اللاتيني ≥ أسفل العربي + 10", la_box[1] >= ar_box[3] + 10, (ar_box, la_box))
     finally:
         _shutil.rmtree(tmp, ignore_errors=True)
 

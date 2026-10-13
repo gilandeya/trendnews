@@ -48,6 +48,42 @@ def probe_duration(path) -> float | None:
     return int(m.group(1)) * 3600 + int(m.group(2)) * 60 + float(m.group(3)) if m else None
 
 
+def _detect_faces(clip, fractions) -> tuple[int, int, list[float]]:
+    """لقطات من المقطع المنزَّل عند نِسب مدته، ومركز أكبر وجه في كل منها بكاشف imaging.
+    يرفع إن تعذّر قراءة المقطع؛ والمستدعي يعود إلى نافذة المنتصف."""
+    import io
+    dur = probe_duration(clip)
+    if not dur:
+        raise RuntimeError("مدة المقطع مجهولة")
+    centers, size = [], None
+    for f in fractions:
+        out = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{dur * float(f):.2f}", "-i", str(clip),
+                              "-frames:v", "1", "-f", "image2pipe", "-vcodec", "png", "-"],
+                             capture_output=True, timeout=60).stdout
+        if not out:
+            continue
+        img = Image.open(io.BytesIO(out)).convert("RGB")
+        size = img.size
+        boxes = imaging.face_boxes(img)
+        if boxes:
+            x, _, w, _ = max(boxes, key=lambda b: b[2] * b[3])
+            centers.append(x + w / 2)
+    if size is None:
+        raise RuntimeError("تعذّر استخراج لقطة")
+    return size[0], size[1], centers
+
+
+def crop_window(src_w: int, src_h: int, centers: list, mode: str = "face") -> dict:
+    """نافذة اقتطاع عرضها ارتفاع_المصدر×9÷16: تتوسّط وسيط مراكز الوجوه وتُحصر في حدود الصورة،
+    ولا وجه (أو mode=center) ← المنتصف. {w, x, source}"""
+    w = int(src_h * 9 / 16)
+    if mode == "face" and centers:
+        cs = sorted(centers)
+        mid = cs[len(cs) // 2] if len(cs) % 2 else (cs[len(cs) // 2 - 1] + cs[len(cs) // 2]) / 2
+        return {"w": w, "h": src_h, "x": int(max(0, min(mid - w // 2, src_w - w))), "source": "face"}
+    return {"w": w, "h": src_h, "x": (src_w - w) // 2, "source": "center"}
+
+
 def _run(cmd: list[str], timeout: int = 600) -> None:
     proc = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
     if proc.returncode != 0:
@@ -66,6 +102,8 @@ class Deps:
     probe: Callable[[Any], float | None] | None = None
     load_points: Callable[[str], list[dict]] | None = None
     comment: Callable[[int, str], None] | None = None
+    # (ملف المقطع، نِسب العيّنات) ← (عرض المصدر، ارتفاعه، مراكز أكبر وجه أفقيًا لكل لقطة فيها وجه)
+    faces: Callable[[Any, list], tuple[int, int, list[float]]] | None = None
 
     def resolved(self, cfg) -> "Deps":
         def fetch(video_id):
@@ -96,10 +134,34 @@ class Deps:
             run=self.run or (lambda cmd: _run(cmd, timeout)),
             probe=self.probe or probe_duration,
             load_points=self.load_points or points,
+            faces=self.faces or _detect_faces,
             comment=self.comment or comment)
 
 
 # ───────────────────────────── رسم الإطارات ─────────────────────────────
+
+
+_INVISIBLE = {0x200C, 0x200D, 0x200E, 0x200F, 0x061C}
+
+
+def _lacks(text: str, font) -> bool:
+    """هل في النص حرف مرئي غائب من خريطة رموز الخط؟ خط لا تُقرأ خريطته يُعدّ كافيًا."""
+    cps = imaging._font_codepoints(font)
+    if cps is None:
+        return False
+    return any(not c.isspace() and ord(c) not in cps and ord(c) not in _INVISIBLE for c in text)
+
+
+def pick_font(text: str, path: str, size: int, weight: str | None = None):
+    """الخط المطلوب إن غطّى كل حروف النص وإلا Cairo؛ وإن بقي ناقصًا None فلا يُرسم مربع أبدًا."""
+    font = imaging.load_font(path, size, weight)
+    if not _lacks(text, font):
+        return font
+    alt = imaging.load_font(CAIRO, size, "Bold")
+    if not _lacks(text, alt):
+        return alt
+    log.warning("نص بحروف غائبة من كل الخطوط لم يُرسم: %r", text[:40])
+    return None
 
 
 class _Pen:
@@ -137,6 +199,14 @@ class _Pen:
             imaging.draw_text(self.d, xy, text, font, fill, anchor=anchor)
         self.boxes.append((x0, y, x0 + w, y + max(h, int(lh * 0.8))))
         return y + lh
+
+    def text_line(self, text: str, font_path: str, weight: str | None, size: int, fill, y: int, *,
+                  align: str = "center", ltr: bool = False) -> int:
+        """سطر بحارس الخط: ينتقل إلى Cairo عند حرف غائب، ويُحذف السطر إن بقي ناقصًا. يعيد y التالي."""
+        font = pick_font(text, font_path, size, weight)
+        if font is None:
+            return y
+        return self.line(text, font, fill, y, align=align, ltr=ltr)
 
     def block(self, text: str, font_path: str, weight: str | None, fill, y_mid: int, *, start: int, minimum: int,
               max_lines: int = 8, align: str = "center", y_top: int | None = None) -> int:
@@ -239,11 +309,13 @@ def frame_clip_overlay(cfg, scene: dict, boxes=None) -> Image.Image:
     channel = scene.get("channel_display", "")
     y = top + 30
     if verified:
-        y = p.line(scene["speaker_name"], p.font(CAIRO, 56, "Black"), p.white, y, align="right")
+        y = p.text_line(scene["speaker_name"], CAIRO, "Black", 56, p.white, y, align="right")
         if scene.get("speaker_name_latin"):
-            y = p.line(scene["speaker_name_latin"], p.font(TAJAWAL_R, 34), p.gold, y - 6, align="right", ltr=True)
-        p.line(" · ".join(x for x in (scene.get("speaker_role", ""), channel) if x), p.font(TAJAWAL_B, 40),
-               (214, 222, 238), y - 4, align="right")
+            # اللاتيني بعد أسفل صندوق الاسم العربي بـ10 px على الأقل، وبـCairo لأن Tajawal يفتقد ş ğ İ
+            below = int(p.boxes[-1][3]) + 10 if p.boxes else y
+            y = p.text_line(scene["speaker_name_latin"], CAIRO, "Bold", 34, p.gold, max(y - 6, below), align="right", ltr=True)
+        p.text_line(" · ".join(x for x in (scene.get("speaker_role", ""), channel) if x), TAJAWAL_B, None, 40,
+                    (214, 222, 238), y - 4, align="right")
     else:
         label = cfg.path("reel.texts.guest_label", "ضيف على قناة {channel}").format(channel=channel)
         p.line(label, p.font(CAIRO, 52, "Black"), p.white, top + 80, align="right")
@@ -401,12 +473,33 @@ def _still_scene(png: Path, seconds: float, out: Path, cfg, deps: Deps) -> float
     return seconds
 
 
+def _crop_for(clip: dict, cfg, deps: Deps) -> dict:
+    """نافذة الاقتطاع الثابتة للمقطع. تعذّر الكشف أو قراءة المقطع ← المنتصف بتعبير ffmpeg نفسه."""
+    ccfg = cfg.path("reel.render.crop") or {}
+    mode = ccfg.get("mode", "face")
+    try:
+        if mode != "face":
+            raise RuntimeError("mode=center")
+        sw, sh, centers = deps.faces(clip["file"], list(ccfg.get("samples", [0.2, 0.5, 0.8])))
+        return crop_window(int(sw), int(sh), centers, mode)
+    except Exception as exc:  # noqa: BLE001 -- الكشف تحسين لا شرط
+        if mode == "face":
+            log.warning("تعذّر كشف الوجه فنافذة المنتصف: %s", str(exc)[:100])
+        return {"w": None, "h": None, "x": None, "source": "center"}
+
+
 def _clip_scene(clip: dict, overlay: Path, out: Path, cfg, deps: Deps) -> float:
-    """المقطع بعرض الشاشة في الوسط فوق نسخته المكبّرة المضبَّبة، ثم الشريط والترجمة؛ صوته كما هو."""
+    """المقطع يملأ الشاشة الرأسية باقتطاع ثابت (يتبع الوجه)، ثم الشريط والترجمة؛ صوته كما هو."""
     rcfg = cfg.path("reel.render")
     w, h = rcfg["width"], rcfg["height"]
-    graph = (f"[0:v]split[a][b];[a]scale={w}:{h}:force_original_aspect_ratio=increase,crop={w}:{h},"
-             f"boxblur=40:5[bg];[b]scale={w}:-2[fg];[bg][fg]overlay=(W-w)/2:(H-h)/2[v0];"
+    crop = _crop_for(clip, cfg, deps)
+    clip["crop"] = {"x": crop["x"], "source": crop["source"]}
+    if crop["x"] is None:      # أبعاد المصدر مجهولة: المنتصف بتعبير يحسبه ffmpeg
+        cexpr = "crop=ih*9/16:ih:(iw-ih*9/16)/2:0"
+        clip["crop"]["x"] = "center"
+    else:
+        cexpr = f"crop={crop['w']}:{crop['h']}:{crop['x']}:0"
+    graph = (f"[0:v]{cexpr},scale={w}:{h}[v0];"
              f"[v0][1:v]overlay=0:0:shortest=1,fps={rcfg['fps']},format=yuv420p[v]")
     deps.run(_base("-i", str(clip["file"]), "-loop", "1", "-framerate", str(rcfg["fps"]), "-i", str(overlay),
                    "-filter_complex", graph, "-map", "[v]", "-map", "0:a:0", "-af",
@@ -499,7 +592,8 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
                    f"[y][p]paletteuse", "-loop", "0", str(gif)))
     sub = rcfg.get("repo_subdir", "reels")
     return {"reel_file": f"{sub}/{rel_dir}/{dest.name}", "reel_gif": f"{sub}/{rel_dir}/{gif.name}",
-            "duration_seconds": round(total, 1)}
+            "duration_seconds": round(total, 1),
+            "render_crops": {str(i): c["crop"] for i, c in clips.items() if "crop" in c}}
 
 
 def _comment_text(cfg, draft: dict, result: dict, dropped: list) -> str:

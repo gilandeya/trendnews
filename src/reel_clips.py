@@ -84,13 +84,13 @@ def locate_quote(quote, segments, near, cfg=None) -> dict:
             hits = sorted(hits, key=lambda h: abs(segments[line_of(h)][0] - near))
         first = line_of(hits[0])
         if level == "full":
-            # نهاية الاقتباس = بداية السطر التالي لآخر سطر في الموضع (لا بداية آخر سطر نفسه فيُقصّ كلامه)،
-            # وآخر سطر في النص لا تالي له فتُقدَّر مدته من كلماته بمعدل المتحدث
+            # نهاية الاقتباس = الأصغر من بداية السطر التالي ومن تقدير نهاية كلام آخر سطر + ذيل قصير:
+            # صمت طويل بعد الاقتباس كان يمدّ النافذة إلى السطر التالي (24 ← 60)؛ وآخر سطر في النص
+            # لا تالي له فالتقدير وحده
             last = line_of(hits[0] + len(target) - 1)
-            if last + 1 < len(segments):
-                end = float(segments[last + 1][0])
-            else:
-                end = round(segments[last][0] + len(lines[last].split()) / rate, 1)
+            tail = float(cfg.path("reel.script.clip_tail_seconds", 1.0)) if cfg is not None else 1.0
+            est = segments[last][0] + len(lines[last].split()) / rate + tail
+            end = round(min(float(segments[last + 1][0]), est) if last + 1 < len(segments) else est, 1)
         else:
             end = round(segments[first][0] + len(words) / rate, 1)
         return {"start": segments[first][0], "end": end, "matches": len(hits),
