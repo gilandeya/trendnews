@@ -1,0 +1,661 @@
+{
+  "run_date": "2026-10-13",
+  "stats": {
+    "points_in": 279,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 129,
+    "issues_clustered": 29,
+    "topics_merged": 4,
+    "topics_out": 2,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 2,
+    "topics_below_min_points": 12,
+    "topics_below_min_channels": 8,
+    "layers": {
+      "1": 2
+    },
+    "agreement": 1,
+    "cross_source": 1,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "هجوم الحوثيين على مطار الملك خالد بالرياض",
+      "تحليل دوافع وأبعاد هجوم مطار الرياض",
+      "رد الحوثيين وتبريرهم للهجمات"
+    ],
+    [
+      "أزمة السكن في إسبانيا وإخلاء مسنة",
+      "أزمة السكن في ألمانيا وبرلين"
+    ],
+    [
+      "انتخابات بلدية أتاشهير وأيوب سلطان",
+      "انتقالات سياسية بين الأحزاب التركية المحلية"
+    ],
+    [
+      "انسحاب حزب العمال الكردستاني من قواعده في شمال العراق",
+      "اتهامات الحزب الجديد للحكومة بالضغط على البلديات"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "انتخابات بلدية أتاشهير وأيوب سلطان",
+      "event": "نتائج ومزاعم تزوير في انتخابات إعادة العمدة المحلية في أتاشهير وأيوب سلطان بإسطنبول",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        58,
+        94,
+        95,
+        96,
+        100,
+        110,
+        111
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null,
+      "id": "509169ebc59e",
+      "created_at": "2026-10-13T04:02:14.214325+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1372
+    },
+    {
+      "title": "انسحاب حزب العمال الكردستاني من قواعده في شمال العراق",
+      "event": "إخلاء معسكرات حزب العمال الكردستاني (بي كي كي) في منطقة متينة شمال العراق والانسحاب نحو قنديل ضمن عملية السلام",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        48,
+        97,
+        98,
+        99,
+        104,
+        109,
+        110,
+        114
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null,
+      "id": "27f23b12cc2a",
+      "created_at": "2026-10-13T04:02:14.214325+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1372
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "هجوم الحوثيين على مطار الملك خالد بالرياض",
+      "event": "هجوم صاروخي حوثي على مطار الملك خالد الدولي بالرياض أسفر عن قتلى وجرحى بينهم معتمرون",
+      "layer": 4,
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Haaretz",
+        "Halk TV",
+        "Iran International",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        1,
+        2,
+        3,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        42,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        89,
+        92,
+        93,
+        124,
+        130,
+        144
+      ],
+      "total_points": 31,
+      "fresh_points": 15,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "انتخابات بلدية أتاشهير وأيوب سلطان",
+      "event": "نتائج ومزاعم تزوير في انتخابات إعادة العمدة المحلية في أتاشهير وأيوب سلطان بإسطنبول",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        58,
+        94,
+        95,
+        96,
+        100,
+        110,
+        111
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "فضيحة الصناديق الاستثمارية التركية",
+      "event": "فضيحة فساد تتعلق بـ214 شخصًا استفادوا من صناديق استثمارية تركية بقيمة 187 مليار ليرة",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        49,
+        50,
+        51,
+        52,
+        53,
+        115,
+        116,
+        117,
+        118
+      ],
+      "total_points": 9,
+      "fresh_points": 4,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "احتجاجات الطلاب في فرنسا",
+      "event": "احتجاجات طلابية واسعة في فرنسا على أوضاع التعليم واتهامات باستغلالها سياسيًا",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        61,
+        62
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الحرب السودانية في جنوب كردفان والنيل الأزرق",
+      "event": "تطورات المعارك بين الجيش السوداني وقوات الدعم السريع في الدلنج والنيل الأزرق وموقف البرهان من التفاوض",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "القمة الرباعية بالعلمين وتوتر إثيوبيا",
+      "event": "قمة العلمين بين مصر والسودان وإريتريا والصومال وبيانها المرتبط بالتوتر مع إثيوبيا وسد النهضة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الهدنة الأمريكية بشأن منشآت الطاقة بين روسيا وأوكرانيا",
+      "event": "إعلان ترامب هدنة تشمل منشآت الطاقة بين روسيا وأوكرانيا دون إخطار زيلينسكي مسبقًا وردود الفعل عليها",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تهديد الحوثيين لأمريكا",
+      "event": "إعلان الحوثيين قدرتهم على استهداف المصالح الأمريكية في المنطقة في حال التدخل",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        87,
+        88
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تهديد إيراني بحصار السعودية",
+      "event": "تصريح محسن رضائي بفرض حصار بحري وإغلاق المطارات السعودية",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        125,
+        126
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الرأي العام التركي حول إدارة الاقتصاد",
+      "event": "استطلاعات رأي تظهر استياء غالبية الأتراك من إدارة الاقتصاد رغم استمرار دعمهم الانتخابي للحزب الحاكم",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        54,
+        55,
+        119,
+        120,
+        121
+      ],
+      "total_points": 5,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "أزمة طائرة فلاي دبي والفشل الأمني الإسرائيلي",
+      "event": "تحليل استغلال نتنياهو لأزمة طائرة فلاي دبي والتقصير الأمني المرتبط بمساعد الطيار",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        59,
+        60
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "ظاهرة الآباء المؤثرين واستغلال الأطفال رقميًا",
+      "event": "تحليل ظاهرة الآباء المؤثرين الذين يربحون من نشر محتوى أطفالهم دون حماية قانونية لهم",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        63,
+        64,
+        65
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "انسحاب حزب العمال الكردستاني من قواعده في شمال العراق",
+      "event": "إخلاء معسكرات حزب العمال الكردستاني (بي كي كي) في منطقة متينة شمال العراق والانسحاب نحو قنديل ضمن عملية السلام",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        48,
+        97,
+        98,
+        99,
+        104,
+        109,
+        110,
+        114
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null
+    },
+    {
+      "title": "انتخابات نقابات المحامين التركية (البارات)",
+      "event": "انتخابات نقابات المحامين في أنقرة وإسطنبول وفضيحة ترقيات قضائية مرتبطة بالفساد",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        101,
+        102,
+        103
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الحزب الجديد التركي ونظامه الداخلي الديمقراطي",
+      "event": "اعتماد الحزب الجديد في تركيا نظام الاختيار المباشر من الأعضاء بدلاً من نظام المندوبين",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        47,
+        108,
+        113
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تراجع شعبية ترامب وقرار قضائي ضد حملته",
+      "event": "انخفاض نسبة تأييد ترامب بين الجمهوريين وصدور قرار قضائي فيدرالي بوقف إعلانات حملته",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        106,
+        107
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "اتهام إيران بمحاولة اغتيال مسؤولين لبنانيين",
+      "event": "اتهامات لإيران بمحاولة تنفيذ اغتيال رئيس الوزراء والرئيس اللبناني ووصفها بمحاولة انقلاب",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        122,
+        127,
+        128
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "اتهام بريطانيا لإيران بشأن حادثة القاعدة الجوية",
+      "event": "اتهامات بريطانية لإيران بالتورط في عملية أمنية استهدفت قاعدة جوية بريطانية",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        123,
+        129,
+        133
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "سياسات بن غفير الأمنية في منصبه",
+      "event": "إجراءات وزير الأمن الداخلي الإسرائيلي بن غفير في التسليح والهدم والسجون والتجنيد ومبرراته للسابع من أكتوبر وبقائه بالمنصب",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تحليل الانتخابات الإسرائيلية المقبلة",
+      "event": "تحليل نتائج الانتخابات الإسرائيلية المرتقبة وغياب فائز حاسم وحملات الذكاء الاصطناعي الانتخابية",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "Haaretz"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        143,
+        146,
+        147,
+        148,
+        149
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "موقف إيران من الحرب الأوكرانية ومصالح ترامب",
+      "event": "تحليل دوافع ترامب لإنهاء الحرب الأوكرانية وربطها بالمصالح الإيرانية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        4,
+        5
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تقييم عمرو موسى للأزمات العربية والقضية الفلسطينية",
+      "event": "تحليل عمرو موسى لأسباب فشل القضية الفلسطينية وتطورات السابع من أكتوبر والعلاقة مع إسرائيل",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "أزمة السكن في إسبانيا وإخلاء مسنة",
+      "event": "إخلاء امرأة إسبانية مسنة من منزلها وتفاعل الرأي العام والسياسة معه",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        35,
+        36,
+        37,
+        38,
+        39
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "أزمة التشرد في إيرلندا وتنظيم الإيجارات",
+      "event": "بيانات عن معدل التشرد القياسي في إيرلندا ونظام قيود الإيجار المطبق",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        40,
+        41
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    }
+  ]
+}
