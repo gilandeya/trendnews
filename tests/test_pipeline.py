@@ -267,7 +267,7 @@ from tests.test_guards_golden import (test_guards_golden, test_important_false_g
                                       test_names_placeholder_guards, test_names_audit_1322_guards,
                                       test_analysis_editor_guards, test_editor_shared_1327_guards,
                                       test_editor_news_breaking_guards, test_reel_structure_guards,
-                                      test_reel_script_guards, test_reel_speaker_audit_guards,
+                                      test_reel_script_guards, test_reel_speaker_audit_guards, test_face_detection_f1_guards,
                                       test_reel_identity_r2c_guards,
                                       test_reel_probe_r3a_guards, test_reel_tts_r3a3_guards,
                                       test_reel_render_r3b1_guards)
@@ -666,6 +666,7 @@ def main() -> int:
     test_reel_tts_r3a3_guards()
     print("\n── تركيب الريل mp4 بلا نشر (Issue #1381، R3b-1) ──")
     test_reel_render_r3b1_guards()
+    test_face_detection_f1_guards()
     test_analysis_attribution_guards()
     test_analysis_attribution_pipeline()
     print("\n── تدقيق أسماء الأشخاص على الأنبوب: 🚀 والمرحلتان 2 و3 والتعلّم والعدّاد (Issue #1252) ──")

@@ -1775,6 +1775,8 @@ image:
   inset_smart_side: true     # الدائرة تذهب للجهة الأقل ازدحامًا
   prefer_faces: true         # الصورة ذات الوجه الأبرز تتصدّر الخلفية
   face_min_ratio: 0.02       # أقل نسبة مساحة وجه تُعتد بها
+  face_score_threshold: 0.6  # أدنى ثقة لصندوق YuNet (أقل منها ضجيج كشف)
+  face_nms_threshold: 0.3    # دمج الصناديق المتداخلة لوجه واحد
   inset_ratio: 0.20          # نصف قطر الدائرة كنسبة من عرض الصورة
   inset_min_difference: 0.28 # أقل فارق في الشكل بين الصورتين
   inset_min_palette: 0.30    # أقل فارق لوني: أقل منه = صورة واحدة
