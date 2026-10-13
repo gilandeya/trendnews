@@ -148,7 +148,7 @@
   "approved_script_at": "2026-10-13T14:49:15.888698+00:00",
   "reel_file": "reels/2026-10-13/1c251f64c82a.mp4",
   "reel_gif": "reels/2026-10-13/1c251f64c82a.gif",
-  "duration_seconds": 95.3,
+  "duration_seconds": 85.3,
   "render_crops": {
     "0": {
       "x": 465,
@@ -157,14 +157,16 @@
     "3": {
       "x": 440,
       "source": "face"
-    },
-    "5": {
-      "x": 292,
-      "source": "center"
     }
   },
-  "render_dropped": [],
-  "rendered_at": "2026-10-13T17:15:31.050870+00:00",
-  "render_version": 2,
+  "render_dropped": [
+    {
+      "point_id": "b7d41f6ea080",
+      "kind": "clip",
+      "reason": "فشل تنزيل المقطع: فشلت كل الدرجات: ERROR: ffmpeg exited with code 8"
+    }
+  ],
+  "rendered_at": "2026-10-13T18:56:37.245159+00:00",
+  "render_version": 3,
   "render_approx": []
 }
