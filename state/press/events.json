@@ -556,7 +556,7 @@
      "published": "2026-10-06T06:12:00+00:00"
     }
    ],
-   "last_seen": "2026-10-12T17:07:49.159577+00:00",
+   "last_seen": "2026-10-14T17:07:55.411222+00:00",
    "outlets": 21,
    "regions": 16,
    "languages": 2,
@@ -1599,7 +1599,7 @@
      "published": "2026-10-13T00:00:08+00:00"
     }
    ],
-   "last_seen": "2026-10-14T09:07:42.321915+00:00",
+   "last_seen": "2026-10-14T17:07:55.411222+00:00",
    "outlets": 20,
    "regions": 16,
    "languages": 1,
@@ -3701,9 +3701,18 @@
      "language": "en",
      "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNV1cxWnBFeFdKVGpCdVF1NDFjR29CX2QtQldvZjV6bDE0UFJUWUNYOTdybnZ1ajB0WlAzWGljRWdjd3B6NWhkNnFrdmEyR1RUMW0xam13Mk1qWDRub1FZMmh5ZlVYZTRWME5tLWhJMjBWbGJCVDIwY3pmRnVDN3RVbGx3a3c?oc=5",
      "published": "2026-10-13T18:30:07+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Russia arrests Japanese journalist on suspicion of ‘espionage’",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/14/russia-arrests-japanese-journalist-on-suspicion-of?traffic_source=rss",
+     "published": "2026-10-14T13:22:46+00:00"
     }
    ],
-   "last_seen": "2026-10-14T09:07:42.321915+00:00",
+   "last_seen": "2026-10-14T17:07:55.411222+00:00",
    "outlets": 16,
    "regions": 13,
    "languages": 1,
@@ -5221,6 +5230,224 @@
     }
    ],
    "last_seen": "2026-10-13T09:08:09.573950+00:00",
+   "outlets": 14,
+   "regions": 11,
+   "languages": 1,
+   "score": 38.0
+  },
+  {
+   "id": "b9d7cd9e1d43",
+   "first_seen": "2026-10-09T09:07:48.883639+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "USS Lincoln returns to US after long deployment supporting war on Iran",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/9/uss-lincoln-returns-to-us-after-long-deployment-supporting-war-on-iran?traffic_source=rss",
+     "published": "2026-10-09T00:39:20+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "USS Abraham Lincoln returns to US after 265 days at sea in Iran war mission",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370240/long-deployed-uss-abraham-lincoln-returns-home-san-diego-middle-east?utm_source=rss_feed",
+     "published": "2026-10-08T19:21:32+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "USS Abraham Lincoln returns to San Diego after supporting Iran war",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633848/uss-abraham-lincoln-returns-to-san-diego-after-supporting-iran-war",
+     "published": "2026-10-08T23:44:09+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "The long-deployed USS Lincoln returns home to San Diego Bay",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/08/nx-s1-5995911/the-long-deployed-uss-lincoln-returns-home-to-san-diego-bay",
+     "published": "2026-10-09T00:05:48+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Iran claims attack on LPG tanker, says vessels trying to cross Strait of Hormuz will be ‘punished’",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/iran-claims-attack-on-lpg-tanker-says-vessels-trying-to-cross-strait-of-hormuz-will-be-punished-us-iran-war-101791551103531.html",
+     "published": "2026-10-09T13:49:10+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Massive LPG tanker targeted in Hormuz: IRGC",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248442/Massive-LPG-tanker-targeted-in-Hormuz-IRGC",
+     "published": "2026-10-09T14:12:26+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "IRGC Navy warns ships against turning off navigation systems",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248503/IRGC-Navy-warns-ships-against-turning-off-navigation-systems",
+     "published": "2026-10-12T03:31:37+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Iran warns ships against transiting Strait of Hormuz with their navigation systems off",
+     "language": "en",
+     "link": "https://tass.com/world/2200591",
+     "published": "2026-10-11T19:36:08+00:00"
+    },
+    {
+     "outlet": "IRNA English",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "IRGC warns vessels violating in Strait of Hormuz",
+     "language": "en",
+     "link": "https://en.irna.ir/news/86290048/IRGC-warns-vessels-violating-in-Strait-of-Hormuz",
+     "published": "2026-10-12T05:18:20+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Container ship hit by projectile sinks in Strait of Hormuz, Singapore says",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/crkg7q97z078o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-14T15:34:19+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Container ship sinks near strait of Hormuz amid surge in Iranian attacks",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/14/container-ship-sinks-strait-of-hormuz-surge-iranian-attacks-iran-us-midterm-elections",
+     "published": "2026-10-14T16:33:45+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Container Ship Sinks Near Hormuz After Being Hit By Projectile: Report",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/us-iran-war-container-ship-sinks-near-strait-of-hormuz-after-being-hit-by-projectile-report-12185423#publisher=newsstand",
+     "published": "2026-10-14T14:00:04+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Container carrier sinks in Strait of Hormuz after explosion",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248588/Container-carrier-sinks-in-Strait-of-Hormuz-after-explosion",
+     "published": "2026-10-14T09:28:04+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Container ship sinks after hitting mine in Strait of Hormuz",
+     "language": "en",
+     "link": "https://tass.com/world/2201801",
+     "published": "2026-10-14T09:48:08+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Container ship sinks in Strait of Hormuz as Iran steps up attacks",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQMWFKMzFFcmxqYVdxcTVUYmZBZTZHejZpWTJmZ3o3Z3lFbnA0NTV4MkFlb1ZEMmRGQmw3MjJkc2RnTFgtX19YRkZOUDR4WXhNeWg5Zy1qV3FpeVpTVUo5QVBOVmJxcXVhc0NqandfT2ltQ3BseThmbG5oQTJhYUJ4MV9nM240c3I3ZG5wai1fY3ZIYWdpbGfSAZsBQVVfeXFMUHl0VWNMbEpIOXhweHBSVTdYdHNjd1V5a2NfNkJSdFk5UUV0R2lDSUtZV1BpMEM3aWxZOXlWRTBRRTNtVkxRcDZtYVFDdnA5X3RPLW4zTm42M0hzVFJYNGtoMWJHcjVGVlJ1a2Jja1F5SnFDUHVTYVFkYXRYTFFnbDd1REZsc0haTlNibWhxdTU0aHZCcjVYQ0x1Vm8?oc=5",
+     "published": "2026-10-14T15:47:29+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Two Singapore-registered vessels struck in Strait of Hormuz, one sinks",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/singapore/vessels-singapore-registered-struck-strait-hormuz-6459176",
+     "published": "2026-10-14T12:57:00+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Oil prices today: Brent crude hits $106.60 after Saudi Aramco attack, ship strikes near Hormuz",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/oil-prices-today-brent-crude-hits-106-60-after-saudi-aramco-attack-ship-strikes-near-hormuz-101791982617184.html",
+     "published": "2026-10-14T13:13:11+00:00"
+    },
+    {
+     "outlet": "IRNA English",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Ship carrying 2,500 containers hits mine, sinks south of Strait of Hormuz",
+     "language": "en",
+     "link": "https://en.irna.ir/news/86292706/Ship-carrying-2-500-containers-hits-mine-sinks-south-of-Strait",
+     "published": "2026-10-14T10:35:58+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Strait of Hormuz traffic plunges once again amid new wave of Houthi attacks",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2634754/iran-shifting-tactics-to-step-up-attacks-on-shipping-before-us-vote-officials-say",
+     "published": "2026-10-13T23:46:55+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Iran increases threat to Strait of Hormuz shipping, and other Middle East developments",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/iran-increases-threat-to-strait-of-hormuz-shipping-and-other-middle-east-developments-101791918610454.html",
+     "published": "2026-10-13T19:10:10+00:00"
+    },
+    {
+     "outlet": "IRNA English",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Iranian Navy identifies oil tanker that caught fire in Strait of Hormuz",
+     "language": "en",
+     "link": "https://en.irna.ir/news/86291981/Iranian-Navy-identifies-oil-tanker-that-caught-fire-in-Strait",
+     "published": "2026-10-13T16:23:44+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Iran mulls tactical shift in Hormuz attacks before key US vote",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/mid-east/iran-mulls-tactical-shift-in-hormuz-attacks-before-key-usvote",
+     "published": "2026-10-14T12:55:00+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "UN official warns of looming food crisis as Hormuz fertiliser plan stalls",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/14/un-official-warns-of-looming-food-crisis-as-hormuz-fertiliser-plan-stalls?traffic_source=rss",
+     "published": "2026-10-14T16:08:09+00:00"
+    }
+   ],
+   "last_seen": "2026-10-14T17:07:55.411222+00:00",
    "outlets": 14,
    "regions": 11,
    "languages": 1,
@@ -8490,98 +8717,6 @@
    "score": 24.0
   },
   {
-   "id": "b9d7cd9e1d43",
-   "first_seen": "2026-10-09T09:07:48.883639+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "USS Lincoln returns to US after long deployment supporting war on Iran",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/9/uss-lincoln-returns-to-us-after-long-deployment-supporting-war-on-iran?traffic_source=rss",
-     "published": "2026-10-09T00:39:20+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "USS Abraham Lincoln returns to US after 265 days at sea in Iran war mission",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370240/long-deployed-uss-abraham-lincoln-returns-home-san-diego-middle-east?utm_source=rss_feed",
-     "published": "2026-10-08T19:21:32+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "USS Abraham Lincoln returns to San Diego after supporting Iran war",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633848/uss-abraham-lincoln-returns-to-san-diego-after-supporting-iran-war",
-     "published": "2026-10-08T23:44:09+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "The long-deployed USS Lincoln returns home to San Diego Bay",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/08/nx-s1-5995911/the-long-deployed-uss-lincoln-returns-home-to-san-diego-bay",
-     "published": "2026-10-09T00:05:48+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Iran claims attack on LPG tanker, says vessels trying to cross Strait of Hormuz will be ‘punished’",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/iran-claims-attack-on-lpg-tanker-says-vessels-trying-to-cross-strait-of-hormuz-will-be-punished-us-iran-war-101791551103531.html",
-     "published": "2026-10-09T13:49:10+00:00"
-    },
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Massive LPG tanker targeted in Hormuz: IRGC",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248442/Massive-LPG-tanker-targeted-in-Hormuz-IRGC",
-     "published": "2026-10-09T14:12:26+00:00"
-    },
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "IRGC Navy warns ships against turning off navigation systems",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248503/IRGC-Navy-warns-ships-against-turning-off-navigation-systems",
-     "published": "2026-10-12T03:31:37+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Iran warns ships against transiting Strait of Hormuz with their navigation systems off",
-     "language": "en",
-     "link": "https://tass.com/world/2200591",
-     "published": "2026-10-11T19:36:08+00:00"
-    },
-    {
-     "outlet": "IRNA English",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "IRGC warns vessels violating in Strait of Hormuz",
-     "language": "en",
-     "link": "https://en.irna.ir/news/86290048/IRGC-warns-vessels-violating-in-Strait-of-Hormuz",
-     "published": "2026-10-12T05:18:20+00:00"
-    }
-   ],
-   "last_seen": "2026-10-12T09:07:45.429910+00:00",
-   "outlets": 8,
-   "regions": 7,
-   "languages": 1,
-   "score": 24.0
-  },
-  {
    "id": "ca8bd8bdf7fd",
    "first_seen": "2026-10-12T09:07:45.429910+00:00",
    "members": [
@@ -8742,6 +8877,89 @@
     }
    ],
    "last_seen": "2026-10-14T09:07:42.321915+00:00",
+   "outlets": 8,
+   "regions": 7,
+   "languages": 1,
+   "score": 24.0
+  },
+  {
+   "id": "b289b03b731a",
+   "first_seen": "2026-10-14T09:07:42.321915+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Trump says oil, gas and mineral exploration to begin in Greenland",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/14/trump-says-oil-gas-and-mineral-exploration-to-begin-in-greenland?traffic_source=rss",
+     "published": "2026-10-14T08:08:42+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Trump says major oil, gas, mineral exploration to begin in Greenland",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2634763/trump-says-major-oil-gas-mineral-exploration-to-begin-in-greenland",
+     "published": "2026-10-14T00:54:50+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Trump says 'massive' oil, gas and mineral exploration to begin in Greenland",
+     "language": "en",
+     "link": "https://www.france24.com/en/europe/20261014-trump-says-massive-oil-gas-and-mineral-exploration-to-begin-in-greenland",
+     "published": "2026-10-14T06:41:15+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Trump says Greenland oil, gas and mineral exploration \"getting ready to begin\"",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/greenland-trump-oil-minerals-gas-exploration/",
+     "published": "2026-10-14T05:33:26+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Trump says ‘massive’ oil, gas, mineral exploration to begin in Greenland",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/14/trump-says-massive-oil-gas-mineral-exploration-to-begin-in-greenland",
+     "published": "2026-10-14T07:39:45+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Trump says ‘massive’ oil, gas and mineral exploration to begin in Greenland",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370906/trump-says-massive-oil-gas-and-mineral-exploration-begin-greenland?utm_source=rss_feed",
+     "published": "2026-10-14T13:08:29+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Trump says ‘massive’ oil, gas, mineral exploration to begin in Greenland after security deal",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/14/trump-says-massive-oil-gas-mineral-exploration-to-begin-in-greenland-after-security-deal/239118",
+     "published": "2026-10-14T10:24:47+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump announces 'massive' oil, gas, mineral exploration to begin in Greenland",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/trump-announces-massive-oil-gas-mineral-exploration-to-begin-in-greenland-101791985118704.html",
+     "published": "2026-10-14T13:41:50+00:00"
+    }
+   ],
+   "last_seen": "2026-10-14T17:07:55.411222+00:00",
    "outlets": 8,
    "regions": 7,
    "languages": 1,
@@ -9569,6 +9787,98 @@
    "score": 20.0
   },
   {
+   "id": "03a251a36305",
+   "first_seen": "2026-10-14T09:07:42.321915+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "light",
+     "title": "Duane ‘Keffe D’ Davis sentenced to 40 years to life over Tupac Shakur’s murder",
+     "language": "en",
+     "link": "https://www.theguardian.com/music/2026/oct/13/duane-davis-sentencing-tupac-shakur-murder",
+     "published": "2026-10-13T19:43:45+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "Ex-gang leader sentenced to 40 years to life in prison for Tupac Shakur murder",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-13-ex-gang-leader-sentenced-to-40-years-to-life-in-prison-for-tupac-shakur-murder/",
+     "published": "2026-10-13T21:33:32+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Former gang leader sentenced to 40 years to life for Tupac Shakur murder",
+     "language": "en",
+     "link": "https://www.france24.com/en/americas/20261013-former-gang-leader-sentenced-to-40-years-to-life-for-tupac-shakur-murder",
+     "published": "2026-10-13T19:57:31+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Former gang leader sentenced to minimum 40 years for Tupac killing",
+     "language": "en",
+     "link": "https://www.france24.com/en/former-gang-leader-sentenced-to-minimum-40-years-for-tupac-killing",
+     "published": "2026-10-13T20:33:25+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Ex-gang leader sentenced to 40 years to life in prison for Tupac Shakur murder",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/ex-gang-leader-sentenced-to-40-years-to-life-in-prison-for-tupac-shakur-murder/article71581327.ece",
+     "published": "2026-10-13T22:55:33+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Ex-gang leader faces life in prison for Tupac Shakur killing",
+     "language": "en",
+     "link": "https://www.dailysabah.com/arts/music/ex-gang-leader-faces-life-in-prison-for-tupac-shakur-killing",
+     "published": "2026-10-13T12:17:00+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Ex-gang leader gets 40 years to life in Tupac Shakur murder",
+     "language": "en",
+     "link": "https://www.dailysabah.com/arts/music/ex-gang-leader-gets-40-years-to-life-in-tupac-shakur-murder",
+     "published": "2026-10-14T07:50:00+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Keffe D sentenced to 40 years to life for Tupac Shakur murder",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2634801/keffe-d-sentenced-to-40-years-to-life-for-tupac-shakur-murder",
+     "published": "2026-10-14T04:27:00+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Duane Davis sentenced to minimum 40 years for Tupac killing",
+     "language": "en",
+     "link": "https://www.france24.com/en/video/20261014-duane-davis-sentenced-to-minimum-40-years-for-tupac-killing",
+     "published": "2026-10-14T13:48:46+00:00"
+    }
+   ],
+   "last_seen": "2026-10-14T17:07:55.411222+00:00",
+   "outlets": 6,
+   "regions": 6,
+   "languages": 1,
+   "score": 20.0
+  },
+  {
    "id": "d4e675cb0d92",
    "first_seen": "2026-10-09T09:07:48.883639+00:00",
    "members": [
@@ -10161,6 +10471,71 @@
    "score": 18.0
   },
   {
+   "id": "cdb9cf26f1ff",
+   "first_seen": "2026-10-14T09:07:42.321915+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Germany puts Ukrainian on trial accused of blowing up Nord Stream pipelines",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cw99zpmnxzmjo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-13T23:42:22+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Ukrainian ex-officer goes on trial in Germany over Nord Stream blasts",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/14/ukrainian-ex-officer-goes-on-trial-in-germany-over-nord-stream-blasts?traffic_source=rss",
+     "published": "2026-10-14T03:06:42+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Ukrainian soldier to go on trial over sabotage of Nord Stream gas pipelines",
+     "language": "en",
+     "link": "https://www.theguardian.com/business/2026/oct/14/ukrainian-soldier-to-go-on-trial-over-sabotage-of-nord-stream-gas-pipelines",
+     "published": "2026-10-14T06:00:47+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Germany puts Ukrainian on trial accused of blowing up Nord Stream pipelines",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9nV1c3TWdoUG1JS01sSXlFSks1dllZM1ZpZG8xTFpDck9JSk9iVzBtbkZONHhady1CWjdHX0llSm9weXJsb0U2QkJBVW9IaDJ0MnpmWGdXSmRUMU0?oc=5",
+     "published": "2026-10-13T23:42:22+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Ukrainian accused of Nord Stream pipeline sabotage goes on trial in Germany",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/russia-central-asia/article/3370911/ukrainian-accused-nord-stream-pipeline-sabotage-goes-trial-germany?utm_source=rss_feed",
+     "published": "2026-10-14T13:43:17+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Ukrainian ex-officer stands trial in Germany over Nord Stream bombing",
+     "language": "en",
+     "link": "https://www.france24.com/en/video/20261014-ukrainian-ex-officer-stands-trial-in-germany-over-nord-stream-bombing",
+     "published": "2026-10-14T09:45:57+00:00"
+    }
+   ],
+   "last_seen": "2026-10-14T17:07:55.411222+00:00",
+   "outlets": 6,
+   "regions": 5,
+   "languages": 1,
+   "score": 18.0
+  },
+  {
    "id": "9c0449392bae",
    "first_seen": "2026-10-08T03:08:02.336758+00:00",
    "members": [
@@ -10552,136 +10927,6 @@
     }
    ],
    "last_seen": "2026-10-13T09:08:09.573950+00:00",
-   "outlets": 5,
-   "regions": 5,
-   "languages": 1,
-   "score": 17.0
-  },
-  {
-   "id": "03a251a36305",
-   "first_seen": "2026-10-14T09:07:42.321915+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "light",
-     "title": "Duane ‘Keffe D’ Davis sentenced to 40 years to life over Tupac Shakur’s murder",
-     "language": "en",
-     "link": "https://www.theguardian.com/music/2026/oct/13/duane-davis-sentencing-tupac-shakur-murder",
-     "published": "2026-10-13T19:43:45+00:00"
-    },
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "Ex-gang leader sentenced to 40 years to life in prison for Tupac Shakur murder",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-13-ex-gang-leader-sentenced-to-40-years-to-life-in-prison-for-tupac-shakur-murder/",
-     "published": "2026-10-13T21:33:32+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Former gang leader sentenced to 40 years to life for Tupac Shakur murder",
-     "language": "en",
-     "link": "https://www.france24.com/en/americas/20261013-former-gang-leader-sentenced-to-40-years-to-life-for-tupac-shakur-murder",
-     "published": "2026-10-13T19:57:31+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Former gang leader sentenced to minimum 40 years for Tupac killing",
-     "language": "en",
-     "link": "https://www.france24.com/en/former-gang-leader-sentenced-to-minimum-40-years-for-tupac-killing",
-     "published": "2026-10-13T20:33:25+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Ex-gang leader sentenced to 40 years to life in prison for Tupac Shakur murder",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/ex-gang-leader-sentenced-to-40-years-to-life-in-prison-for-tupac-shakur-murder/article71581327.ece",
-     "published": "2026-10-13T22:55:33+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Ex-gang leader faces life in prison for Tupac Shakur killing",
-     "language": "en",
-     "link": "https://www.dailysabah.com/arts/music/ex-gang-leader-faces-life-in-prison-for-tupac-shakur-killing",
-     "published": "2026-10-13T12:17:00+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Ex-gang leader gets 40 years to life in Tupac Shakur murder",
-     "language": "en",
-     "link": "https://www.dailysabah.com/arts/music/ex-gang-leader-gets-40-years-to-life-in-tupac-shakur-murder",
-     "published": "2026-10-14T07:50:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-14T09:07:42.321915+00:00",
-   "outlets": 5,
-   "regions": 5,
-   "languages": 1,
-   "score": 17.0
-  },
-  {
-   "id": "b289b03b731a",
-   "first_seen": "2026-10-14T09:07:42.321915+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Trump says oil, gas and mineral exploration to begin in Greenland",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/14/trump-says-oil-gas-and-mineral-exploration-to-begin-in-greenland?traffic_source=rss",
-     "published": "2026-10-14T08:08:42+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Trump says major oil, gas, mineral exploration to begin in Greenland",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2634763/trump-says-major-oil-gas-mineral-exploration-to-begin-in-greenland",
-     "published": "2026-10-14T00:54:50+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Trump says 'massive' oil, gas and mineral exploration to begin in Greenland",
-     "language": "en",
-     "link": "https://www.france24.com/en/europe/20261014-trump-says-massive-oil-gas-and-mineral-exploration-to-begin-in-greenland",
-     "published": "2026-10-14T06:41:15+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Trump says Greenland oil, gas and mineral exploration \"getting ready to begin\"",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/greenland-trump-oil-minerals-gas-exploration/",
-     "published": "2026-10-14T05:33:26+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Trump says ‘massive’ oil, gas, mineral exploration to begin in Greenland",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/14/trump-says-massive-oil-gas-mineral-exploration-to-begin-in-greenland",
-     "published": "2026-10-14T07:39:45+00:00"
-    }
-   ],
-   "last_seen": "2026-10-14T09:07:42.321915+00:00",
    "outlets": 5,
    "regions": 5,
    "languages": 1,
@@ -11935,176 +12180,6 @@
    "score": 12.0
   },
   {
-   "id": "cdb9cf26f1ff",
-   "first_seen": "2026-10-14T09:07:42.321915+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Germany puts Ukrainian on trial accused of blowing up Nord Stream pipelines",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cw99zpmnxzmjo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-13T23:42:22+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Ukrainian ex-officer goes on trial in Germany over Nord Stream blasts",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/14/ukrainian-ex-officer-goes-on-trial-in-germany-over-nord-stream-blasts?traffic_source=rss",
-     "published": "2026-10-14T03:06:42+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Ukrainian soldier to go on trial over sabotage of Nord Stream gas pipelines",
-     "language": "en",
-     "link": "https://www.theguardian.com/business/2026/oct/14/ukrainian-soldier-to-go-on-trial-over-sabotage-of-nord-stream-gas-pipelines",
-     "published": "2026-10-14T06:00:47+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Germany puts Ukrainian on trial accused of blowing up Nord Stream pipelines",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9nV1c3TWdoUG1JS01sSXlFSks1dllZM1ZpZG8xTFpDck9JSk9iVzBtbkZONHhady1CWjdHX0llSm9weXJsb0U2QkJBVW9IaDJ0MnpmWGdXSmRUMU0?oc=5",
-     "published": "2026-10-13T23:42:22+00:00"
-    }
-   ],
-   "last_seen": "2026-10-14T09:07:42.321915+00:00",
-   "outlets": 4,
-   "regions": 3,
-   "languages": 1,
-   "score": 12.0
-  },
-  {
-   "id": "2d8d8ece3e5e",
-   "first_seen": "2026-10-07T09:07:47.348407+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Israeli settlers beat press photographer as soldiers watch in West Bank",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/06/israeli-settlers-beat-press-photographer-as-soldiers-watch-in-west-bank",
-     "published": "2026-10-06T21:00:28+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Israeli settlers beat AFP photographer covering violence in West Bank",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOeHRjeXZFTmNHTWhYUmpIRXlsR3VER1VPMWFGbzhTdEFMZnh4MUVFa2hFTWRDVDV5ZW9hM0R0U0txUVlXTlBaZHk5OEphY2tyRFNsWnpnWU0ySk41UnEtcElPMzdwY2JxTUZHdmR2TXh0N3lQeWdyUTc5S2drVlpLdG93ckZwMEJnWjNNTFkySnNQZmJGbkQyb0pheFdKRHJkQ2JjT1JicS1wdXUxYk5xWkNHT0EzUQ?oc=5",
-     "published": "2026-10-07T03:43:58+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Three years of Israel’s mass dispossession of West Bank Palestinians",
-     "language": "en",
-     "link": "https://www.aljazeera.com/features/2026/10/7/three-years-of-israels-mass-dispossession-of-west-bank-palestinians?traffic_source=rss",
-     "published": "2026-10-07T08:22:19+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Israeli troops seen smashing memorial in occupied West Bank",
-     "language": "en",
-     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/7/israeli-troops-seen-smashing-memorial-in-occupied-west-bank?traffic_source=rss",
-     "published": "2026-10-07T08:16:17+00:00"
-    }
-   ],
-   "last_seen": "2026-10-07T09:07:47.348407+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "86d61ed93463",
-   "first_seen": "2026-10-07T09:07:47.348407+00:00",
-   "members": [
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Israel strikes Gaza on October 7 anniversary, at least two dead: officials",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633452/israel-strikes-gaza-on-october-7-anniversary-at-least-two-dead-officials",
-     "published": "2026-10-07T01:05:27+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Israel Strikes Gaza On 3rd Anniversary Of October 7 Hamas Attack, 2 Dead",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/israel-strikes-gaza-on-3rd-anniversary-of-october-7-hamas-attack-2-dead-12149268#publisher=newsstand",
-     "published": "2026-10-07T05:39:51+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Israel strikes Gaza on October 7 anniversary, at least two dead",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/israel-strikes-gaza-on-october-7-anniversary-at-least-two-dead-officials/",
-     "published": "2026-10-07T09:04:46+00:00"
-    }
-   ],
-   "last_seen": "2026-10-07T09:07:47.348407+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "a69a019ba56e",
-   "first_seen": "2026-10-07T09:07:47.348407+00:00",
-   "members": [
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Japan raids beer giants over alleged price cartel",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/east-asia/japan-raid-beer-giants-anti-monopoly-prices-6438606",
-     "published": "2026-10-07T07:28:49+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Japan raids beer giants over alleged price cartel",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/business/2026/10/07/japan-raids-beer-giants-over-alleged-price-cartel",
-     "published": "2026-10-07T05:22:34+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Japan watchdog raids four major brewers over suspected beer price cartel",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/business/2026/10/07/companies/beer-cartel-ftc/",
-     "published": "2026-10-07T06:14:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-07T09:07:47.348407+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
    "id": "dfb1b313b105",
    "first_seen": "2026-10-07T18:07:47.065879+00:00",
    "members": [
@@ -13263,6 +13338,82 @@
    "score": 11.0
   },
   {
+   "id": "f8a6780da59d",
+   "first_seen": "2026-10-14T17:07:55.411222+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Netflix to lay off 1,000 staff in steepest cuts since 2022",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c6zxj0gzk4x4o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-14T16:47:32+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Netflix cuts 1,000 jobs in its biggest layoffs since 2022; CEOs issue letter to staff",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/netflix-cuts-1-000-jobs-in-its-biggest-layoffs-since-2022-ceos-issue-letter-to-staff-our-mission-is-101791988785124.html",
+     "published": "2026-10-14T14:48:04+00:00"
+    },
+    {
+     "outlet": "Engadget",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "Netflix to lay off roughly 1,000 employees in biggest round of job cuts since 2022",
+     "language": "en",
+     "link": "https://www.engadget.com/2286699/netflix-to-lay-off-roughly-1000-employees-in-biggest-round-of-job-cuts-since-2022/",
+     "published": "2026-10-14T16:36:47+00:00"
+    }
+   ],
+   "last_seen": "2026-10-14T17:07:55.411222+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "ae95b817aa65",
+   "first_seen": "2026-10-14T17:07:55.411222+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Sally Rooney says she can no longer sell books in UK due to Palestine Action support",
+     "language": "en",
+     "link": "https://www.theguardian.com/uk-news/2026/oct/14/sally-rooney-says-she-can-no-longer-sell-books-in-the-uk-because-of-palestine-action-support",
+     "published": "2026-10-14T16:06:42+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Sally Rooney books can’t be sold in UK amid Palestine Action ban, publisher says",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3370918/sally-rooney-books-cant-be-sold-uk-amid-palestine-action-ban-publisher-says?utm_source=rss_feed",
+     "published": "2026-10-14T16:41:07+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Sally Rooney says she can no longer sell books in UK due to Palestine Action support",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxNOWJqN2oyMjJHbkl6dnhoLTNDSmkyczhTSFpSSXF2a1AxWVp6dTBLRWUyckcxclJoc1BRZnRzRVJVS1VTRXlWOU5wTDJYNFJmT0VlcHhMMG0teHBrbGNaWjR6OGVXa2pPM1JHajM1NW1XZW5xM21CajlrSEEyTUlBVmZGR3loQjJGZDBnLVcwMEpjQklFNU1IcW5ZWkZTaGhVa3NaeWxkTHhlR1VpVDFFd081V3doOFhqMkxPVXRFbmdMN2JDeDVHYjZMWUsySnJkRXBWblpWbw?oc=5",
+     "published": "2026-10-14T13:06:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-14T17:07:55.411222+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
    "id": "55d7d97f75a2",
    "first_seen": "2026-10-07T18:07:47.065879+00:00",
    "members": [
@@ -13364,82 +13515,6 @@
    "regions": 2,
    "languages": 1,
    "score": 10.0
-  },
-  {
-   "id": "cdb578e68f8d",
-   "first_seen": "2026-10-07T03:07:41.547243+00:00",
-   "members": [
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Pezeshkian to meet Putin in Turkmenistan",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248380/Pezeshkian-to-meet-Putin-in-Turkmenistan",
-     "published": "2026-10-06T17:52:00+00:00"
-    },
-    {
-     "outlet": "IRNA English",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Pezeshkian to meet Putin in Turkmenistan",
-     "language": "en",
-     "link": "https://en.irna.ir/news/86285375/Pezeshkian-to-meet-Putin-in-Turkmenistan",
-     "published": "2026-10-06T18:13:05+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "CIS summit, meeting with Pezeshkian, Caspian ecology: on Putin’s visit to Turkmenistan",
-     "language": "en",
-     "link": "https://tass.com/politics/2198439",
-     "published": "2026-10-06T18:32:09+00:00"
-    }
-   ],
-   "last_seen": "2026-10-07T09:07:47.348407+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 1,
-   "score": 9.0
-  },
-  {
-   "id": "89f452eb0139",
-   "first_seen": "2026-10-07T09:07:47.348407+00:00",
-   "members": [
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Indian central bank hikes rates for first time since 2023",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/business/india-central-bank-interest-rates-hike-first-time-2003-6438586",
-     "published": "2026-10-07T06:47:01+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "India’s central bank hikes rates for first time in more than 3 years",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/business/2026/10/07/india-s-central-bank-hikes-rates-for-first-time-in-more-than-3-years",
-     "published": "2026-10-07T05:43:00+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "India’s central bank breaks three-year pause with rate hike amid Middle East war",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/money/2026/10/07/indias-central-bank-breaks-three-year-pause-with-rate-hike-amid-middle-east-war/238071",
-     "published": "2026-10-07T05:29:30+00:00"
-    }
-   ],
-   "last_seen": "2026-10-07T09:07:47.348407+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 1,
-   "score": 9.0
   },
   {
    "id": "8bc4c12d3785",
@@ -14035,6 +14110,73 @@
    "regions": 2,
    "languages": 1,
    "score": 9.0
+  },
+  {
+   "id": "9a8c83344d32",
+   "first_seen": "2026-10-14T17:07:55.411222+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Iranian woman handed death sentence for ‘blasphemy’ in social media post",
+     "language": "en",
+     "link": "https://www.theguardian.com/global-development/2026/oct/14/najmeh-amini-blasphemy-death-sentence-insulting-prophet",
+     "published": "2026-10-14T04:00:44+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Who is Najmeh Amini? 23-year-old Iranian woman sentenced to death over social media post",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/trending/who-is-najmeh-amini-23-year-old-iranian-woman-sentenced-to-death-over-social-media-post-101791980074471.html",
+     "published": "2026-10-14T12:30:16+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Who Is Najmeh Amini? 23-Year-Old Iranian Student Sentenced To Death For Blasphemy Over Online Post",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/who-is-najmeh-amini-23-year-old-iranian-student-sentenced-to-death-for-blasphemy-over-online-post-12185340#publisher=newsstand",
+     "published": "2026-10-14T14:11:42+00:00"
+    }
+   ],
+   "last_seen": "2026-10-14T17:07:55.411222+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
+   "id": "303226f0667e",
+   "first_seen": "2026-10-14T17:07:55.411222+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "What we know about OpenAI engineer arrested over office spying",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/14/what-we-know-about-openai-engineer-arrested-over-office-spying?traffic_source=rss",
+     "published": "2026-10-14T13:18:02+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Toilet paper and secret recorders: What we know about the arrest of the Saudi OpenAI engineer",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cm04054ykqqqo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-14T15:54:04+00:00"
+    }
+   ],
+   "last_seen": "2026-10-14T17:07:55.411222+00:00",
+   "outlets": 2,
+   "regions": 2,
+   "languages": 1,
+   "score": 8.0
   },
   {
    "id": "7b30b3d54a2a",

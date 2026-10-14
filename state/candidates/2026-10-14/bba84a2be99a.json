@@ -1,0 +1,65 @@
+{
+  "id": "bba84a2be99a",
+  "created_at": "2026-10-14T17:08:11.292480+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.96,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 3,
+  "proximity": 1,
+  "intrigue": 1,
+  "appeal_note": "ارتفاع التضخم الأمريكي يؤثر على الأسعار عالميًا",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US consumer inflation rises more than expected in September",
+  "link": "https://www.freemalaysiatoday.com/category/business/2026/10/14/us-consumer-inflation-rises-more-than-expected-in-september",
+  "publishers": [
+    "Daily Sabah",
+    "Free Malaysia Today"
+  ],
+  "region": "my",
+  "article": {
+    "title": "US consumer inflation rises more than expected in September",
+    "link": "https://www.freemalaysiatoday.com/category/business/2026/10/14/us-consumer-inflation-rises-more-than-expected-in-september",
+    "summary": "The consumer price index rose 3.7% year-on-year in September, according to the labour department.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-10-14T14:21:00+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/v3/2026/10/9549608c-53e2-4aef-9622-351369fdffed-AFP__20261014__D39V863__v1__HighRes__FilesUsEconomyConsumerInflation_cropped_1.webp",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Free Malaysia Today"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/business/economy/us-inflation-jumps-more-than-expected-to-37-in-september"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/business/2026/10/14/us-consumer-inflation-rises-more-than-expected-in-september"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/v3/2026/10/9549608c-53e2-4aef-9622-351369fdffed-AFP__20261014__D39V863__v1__HighRes__FilesUsEconomyConsumerInflation_cropped_1.webp",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/10/14/465651.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1704.915527871389,
+    "is_stale": false,
+    "score": 21.96452964101852,
+    "impact": 3,
+    "proximity": 1,
+    "intrigue": 1,
+    "appeal_note": "ارتفاع التضخم الأمريكي يؤثر على الأسعار عالميًا",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

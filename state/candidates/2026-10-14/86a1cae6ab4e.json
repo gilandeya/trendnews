@@ -1,0 +1,97 @@
+{
+  "id": "86a1cae6ab4e",
+  "created_at": "2026-10-14T17:08:11.292135+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.33,
+  "trend_score": 0.0,
+  "velocity": 0.0,
+  "impact": 3,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "الحوثيون يهددون منشآت أرامكو والمطارات السعودية",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Houthis vow more attacks on Saudi airports, oil facilities after claiming they targeted Aramco",
+  "link": "https://www.dawn.com/news/2037136/houthis-vow-more-attacks-on-saudi-airports-oil-facilities-after-claiming-they-targeted-aramco",
+  "publishers": [
+    "Court House News",
+    "Daily Sabah",
+    "Dawn",
+    "France24",
+    "Free Malaysia Today",
+    "Reuters",
+    "The Express Tribune",
+    "The Hindu — International"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Houthis vow more attacks on Saudi airports, oil facilities after claiming they targeted Aramco",
+    "link": "https://www.dawn.com/news/2037136/houthis-vow-more-attacks-on-saudi-airports-oil-facilities-after-claiming-they-targeted-aramco",
+    "summary": "Yemen’s Houthi rebels said on Wednesday they had targeted facilities belonging to Saudi Aramco, after Saudi officials reported a strike on a building in an area in Riyadh housing the energy giant’s operations centre. Powerful explosions meanwhile rattled the Saudi capital, as the coalition fighting the Houthis said it had intercepted a missile fired by the group towards Riyadh. Saudi Arabia, the world’s top crude oil exporter, has in recent days come under sustained attack in a dramatic escalation in the war with the Houthis. It has hit back with strikes against the group’s stronghold in the Yemeni capital Sanaa, which for years has been under their grip. Yahya Saree, Houthi military spokesman, said their forces had conducted “a high-quality military operation targeting Aramco in Dhahran” as well as strikes targeting Riyadh airport and a refinery in the capital. “This was carried out using a large number of ballistic missiles, cruise missiles and drones,” he said, adding that “operations toward Saudi depths will continue in the coming days, targeting Saudi enemy airports and oil facilities”. Earlier, a Saudi energy ministry official said a building belonging to Aramco in Dhahran wa",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-10-14T15:19:12+00:00",
+    "image_url": "https://i.dawn.com/large/2026/10/141944576cf5887.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Court House News",
+      "Daily Sabah",
+      "Dawn",
+      "France24",
+      "Free Malaysia Today",
+      "Reuters",
+      "The Express Tribune",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2037136/houthis-vow-more-attacks-on-saudi-airports-oil-facilities-after-claiming-they-targeted-aramco"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2634770/saudi-aramco-administrative-building-attacked-limited-fire-reported"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/yemens-houthis-vow-more-attacks-on-saudi-airports-oil-facilities-after-aramco-hq-hit/article71583859.ece"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/video/20261014-houthis-say-targeted-saudi-oil-giant-aramco-vow-more-attacks"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/houthis-vow-to-ramp-up-saudi-attacks-after-hitting-oil-giants-hq"
+      },
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/iran-backed-houthis-strike-saudi-oil-company-aramcos-headquarters-officials-say/"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/10/141944576cf5887.webp",
+      "https://i.dawn.com/thumbnail/2026/10/141944576cf5887.webp",
+      "https://th-i.thgim.com/public/incoming/uymqdp/article71583948.ece/alternates/LANDSCAPE_1200/2026-10-14T111436Z_801603707_RC2N5MANL7VX_RTRMADP_3_IRAN-CRISIS-SAUDI-YEMEN-ARAMCO.JPG",
+      "https://s.france24.com/media/display/3b6e2700-c7c4-11f1-99b1-77317c09f325/w:1024/p:16x9/EN-20261014-131055-131242-CS.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/10/14/465650.jpg",
+      "https://s.france24.com/media/display/84e4ed72-bf65-11f1-8c8d-13420ab900a2/w:1024/p:16x9/000-D26B6KC.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 8,
+    "velocity": 0.0,
+    "age_hours": 1704.915339031111,
+    "is_stale": true,
+    "score": 24.329196318907407,
+    "impact": 3,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "الحوثيون يهددون منشآت أرامكو والمطارات السعودية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

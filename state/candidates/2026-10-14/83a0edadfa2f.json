@@ -1,0 +1,65 @@
+{
+  "id": "83a0edadfa2f",
+  "created_at": "2026-10-14T17:08:11.291732+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.49,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 3,
+  "appeal_note": "تهديد عسكري إيراني مباشر في الخليج، عنوان مشحون",
+  "bucket": "serious",
+  "state_media": true,
+  "title": "US carriers dare not approach Hormuz, we are waiting to sink them",
+  "link": "https://www.tehrantimes.com/news/531090/US-carriers-dare-not-approach-Hormuz-we-are-waiting-to-sink",
+  "publishers": [
+    "Mehr News",
+    "Tehran Times"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "US carriers dare not approach Hormuz, we are waiting to sink them",
+    "link": "https://www.tehrantimes.com/news/531090/US-carriers-dare-not-approach-Hormuz-we-are-waiting-to-sink",
+    "summary": "TEHRAN – The commander of the Islamic Revolution Guards Corps Navy says American warships have withdrawn to hundreds of kilometers from the Strait of Hormuz out of vulnerability, warning that Iranian forces are counting the moments for them to come within range.",
+    "source_name": "Tehran Times",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-10-14T16:56:57+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/10/14/4/6218649.jpg",
+    "publisher": "Tehran Times",
+    "cluster_sources": [
+      "Mehr News",
+      "Tehran Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/248568/If-US-ships-approach-Hormuz-Strait-we-will-sink-them"
+      },
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/531090/US-carriers-dare-not-approach-Hormuz-we-are-waiting-to-sink"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/10/14/4/6218649.jpg",
+      "https://media.mehrnews.com/d/2026/10/13/4/6217074.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 1704.9153336247223,
+    "is_stale": true,
+    "score": 24.487807430277776,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 3,
+    "appeal_note": "تهديد عسكري إيراني مباشر في الخليج، عنوان مشحون",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
