@@ -148,12 +148,12 @@
   "approved_script_at": "2026-10-13T14:49:15.888698+00:00",
   "render_crops": {
     "0": {
-      "x": 309,
+      "x": 312,
       "source": "face",
       "cover": false
     },
     "3": {
-      "x": 440,
+      "x": 295,
       "source": "face",
       "cover": false
     },
@@ -164,17 +164,33 @@
     }
   },
   "render_dropped": [],
-  "rendered_at": "2026-10-14T06:53:45.149123+00:00",
-  "render_version": 7,
-  "render_approx": [],
+  "rendered_at": "2026-10-14T10:10:58.394969+00:00",
+  "render_version": 8,
+  "render_approx": [
+    {
+      "point_id": "9db8124d0e4e",
+      "kind": "cold_open_clip",
+      "start": 213,
+      "end": 227,
+      "reason": "تعذّر جلب نص الفيديو"
+    },
+    {
+      "point_id": "3ae33f6f7bcb",
+      "kind": "clip",
+      "start": 59,
+      "end": 74,
+      "reason": "تعذّر جلب نص الفيديو"
+    }
+  ],
   "render_attempts": 0,
   "reel_file": "reels/2026-10-13/1c251f64c82a.mp4",
   "reel_gif": "reels/2026-10-13/1c251f64c82a.gif",
-  "duration_seconds": 96.2,
+  "duration_seconds": 93.3,
   "reel_bg": {
     "url": "https://www.aljazeera.com/wp-content/uploads/2026/10/reuters_6ace3b9f-1791900575.jpg?resize=1200%2C675",
     "kind": "news_photo",
     "publisher": "Al Jazeera",
     "layout": "A"
-  }
+  },
+  "reel_music": "kulakovka-financial-news-614884.mp3"
 }
