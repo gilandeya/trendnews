@@ -1,0 +1,860 @@
+{
+  "run_date": "2026-10-14",
+  "stats": {
+    "points_in": 258,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 108,
+    "issues_clustered": 34,
+    "topics_merged": 4,
+    "topics_out": 5,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 2,
+    "topics_below_min_points": 16,
+    "topics_below_min_channels": 6,
+    "layers": {
+      "3": 2,
+      "1": 3
+    },
+    "agreement": 3,
+    "cross_source": 2,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "الحرب في جنوب كردفان والنيل الأزرق",
+      "توقعات مآلات الحرب السودانية"
+    ],
+    [
+      "هجمات الحوثيين على السعودية وتداعياتها",
+      "تحليل أهداف وأسباب الهجمات الحوثية",
+      "الدعم الإيراني العسكري للحوثيين"
+    ],
+    [
+      "انتقالات سياسية بين الأحزاب التركية المحلية",
+      "اتهامات فساد وتضييق على الحزب الجديد في بلديات إسطنبول"
+    ],
+    [
+      "فضيحة فساد صناديق الاستثمار التركية",
+      "اعتقال صحفيين ويوتيوبرز في تركيا على خلفية قضايا مالية"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "هجمات الحوثيين على السعودية وتداعياتها",
+      "event": "موجة هجمات صاروخية حوثية على مطار الملك خالد والرياض وخميس مشيط وردود الفعل الدولية",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Iran International",
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        14,
+        16,
+        17,
+        19,
+        28,
+        29,
+        30,
+        33,
+        34,
+        65,
+        68,
+        69,
+        76,
+        79,
+        101,
+        102,
+        104,
+        105,
+        106
+      ],
+      "total_points": 19,
+      "fresh_points": 12,
+      "dropped_reason": null,
+      "id": "fb89d3a078b3",
+      "created_at": "2026-10-14T04:02:17.033474+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1409
+    },
+    {
+      "title": "مزاعم مؤامرة إيرانية ضد قاعدة بريطانية",
+      "event": "اتهامات بريطانية وغربية لإيران بالتخطيط لهجوم على قاعدة جوية بريطانية تستخدمها أمريكا",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "ILTV",
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        64,
+        72,
+        137,
+        138,
+        139,
+        146
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null,
+      "id": "7a038091ac5b",
+      "created_at": "2026-10-14T04:02:17.033474+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1409
+    },
+    {
+      "title": "الموقف الأمريكي من الحرب السعودية-الحوثية",
+      "event": "تقييم موقف إدارة ترامب من التدخل في الحرب بين السعودية والحوثيين",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        18,
+        20,
+        71,
+        80
+      ],
+      "total_points": 4,
+      "fresh_points": 2,
+      "dropped_reason": null,
+      "id": "51356d25dc32",
+      "created_at": "2026-10-14T04:02:17.033474+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1409
+    },
+    {
+      "title": "فضيحة فساد صناديق الاستثمار التركية",
+      "event": "كشف فضيحة فساد مالي في صناديق الاستثمار التركية وقائمة المتورطين فيها",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        56,
+        57,
+        58,
+        112,
+        113,
+        115,
+        116,
+        117,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134
+      ],
+      "total_points": 14,
+      "fresh_points": 14,
+      "dropped_reason": null,
+      "id": "e8c5f46ee53c",
+      "created_at": "2026-10-14T04:02:17.033474+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1409
+    },
+    {
+      "title": "نشاط المعارضة التركية الجديدة وانتقاد الحكومة",
+      "event": "تصريحات رئيس حزب الشعب الجمهوري الجديد حول نشاط حزبه الشعبي مقابل الحزب الحاكم وانتقاد سياسات قضائية وانتخابية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        108,
+        112,
+        126,
+        127,
+        128
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null,
+      "id": "10de7354dc7f",
+      "created_at": "2026-10-14T04:02:17.033474+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1409
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "هجمات الحوثيين على السعودية وتداعياتها",
+      "event": "موجة هجمات صاروخية حوثية على مطار الملك خالد والرياض وخميس مشيط وردود الفعل الدولية",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Iran International",
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        14,
+        16,
+        17,
+        19,
+        28,
+        29,
+        30,
+        33,
+        34,
+        65,
+        68,
+        69,
+        76,
+        79,
+        101,
+        102,
+        104,
+        105,
+        106
+      ],
+      "total_points": 19,
+      "fresh_points": 12,
+      "dropped_reason": null
+    },
+    {
+      "title": "مزاعم مؤامرة إيرانية ضد قاعدة بريطانية",
+      "event": "اتهامات بريطانية وغربية لإيران بالتخطيط لهجوم على قاعدة جوية بريطانية تستخدمها أمريكا",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "ILTV",
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        64,
+        72,
+        137,
+        138,
+        139,
+        146
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "الموقف الإيراني من التصعيد في الخليج",
+      "event": "تصريحات إيرانية بشأن القلق من التصعيد في شبه الجزيرة العربية وعرض الوساطة بين السعودية والحوثيين",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        15,
+        67,
+        70
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الموقف الأمريكي من الحرب السعودية-الحوثية",
+      "event": "تقييم موقف إدارة ترامب من التدخل في الحرب بين السعودية والحوثيين",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        18,
+        20,
+        71,
+        80
+      ],
+      "total_points": 4,
+      "fresh_points": 2,
+      "dropped_reason": null
+    },
+    {
+      "title": "انتقالات سياسية بين الأحزاب التركية المحلية",
+      "event": "تنقلات رؤساء بلديات بين الأحزاب في أنطاليا وإسطنبول وتداعياتها الأخلاقية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "Halk TV"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        35,
+        36,
+        37,
+        41,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55
+      ],
+      "total_points": 11,
+      "fresh_points": 3,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "الحرب الأهلية في تيغراي وتوتر إثيوبيا-إريتريا",
+      "event": "سيطرة القوات الفيدرالية الإثيوبية على مدن تيغراي وتداعياتها على العلاقة مع إريتريا",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "زيارة الملك الإسباني لسبتة ومليلية والسيادة عليهما",
+      "event": "تأكيد الملك الإسباني سيادة إسبانيا على سبتة ومليلية وردود الفعل المغربية والأوروبية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "استقالة الحكومة الموريتانية وتشكيل حكومة جديدة",
+      "event": "استقالة الحكومة الموريتانية عقب حريقين في منشآت كهربائية وتشكيل حكومة جديدة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        95,
+        96,
+        97,
+        98,
+        99,
+        100
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "احتجاجات الطلاب في فرنسا",
+      "event": "احتجاجات طلابية واسعة في فرنسا على أوضاع التعليم واتهامات باختراقها سياسيًا",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        2,
+        3
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الحرب في جنوب كردفان والنيل الأزرق",
+      "event": "استمرار المعارك بين الجيش السوداني وقوات الدعم السريع في جنوب كردفان والنيل الأزرق",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        7,
+        8,
+        9,
+        11,
+        12,
+        13
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "القمة الرباعية في العلمين",
+      "event": "قمة مصر والسودان وإريتريا والصومال في العلمين وبيانها الختامي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        21,
+        22,
+        23,
+        24
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "فضيحة فساد صناديق الاستثمار التركية",
+      "event": "كشف فضيحة فساد مالي في صناديق الاستثمار التركية وقائمة المتورطين فيها",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        56,
+        57,
+        58,
+        112,
+        113,
+        115,
+        116,
+        117,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134
+      ],
+      "total_points": 14,
+      "fresh_points": 14,
+      "dropped_reason": null
+    },
+    {
+      "title": "استهداف التحالف للبنية الاقتصادية الحوثية",
+      "event": "استهداف التحالف العربي البنية الاقتصادية والعسكرية في مناطق سيطرة الحوثيين",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        74,
+        75
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "اتفاق إيران وعمان بشأن مضيق هرمز",
+      "event": "التوصل إلى اتفاق بين إيران وعمان على مسار آمن مؤقت في مضيق هرمز دون إعادة فتحه الكامل",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        78,
+        103
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "نشاط المعارضة التركية الجديدة وانتقاد الحكومة",
+      "event": "تصريحات رئيس حزب الشعب الجمهوري الجديد حول نشاط حزبه الشعبي مقابل الحزب الحاكم وانتقاد سياسات قضائية وانتخابية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        108,
+        112,
+        126,
+        127,
+        128
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "تحذيرات دولية من ممارسات إيران العدائية وتأثيرها على مكانتها",
+      "event": "تحليلات حول تأثير السياسات الإيرانية العدائية والإرهابية على موقفها التفاوضي الدولي",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        140,
+        141,
+        142
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "مقتل طالب إسرائيلي في انفجار خلال رحلة مدرسية",
+      "event": "مقتل الفتى إيلاتسار يا فيلينسكي في انفجار ذخيرة غير منفجرة قرب حدود لبنان خلال رحلة مدرسية",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ILTV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        143,
+        144,
+        145
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "فيلم وثائقي إسرائيلي مضاد لفيلم نازا عن غزة",
+      "event": "إنتاج فيلم وثائقي إسرائيلي يحمّل حماس مسؤولية الخسائر المدنية ردًا على فيلم نازا",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ILTV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        147,
+        148
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "أزمة طائرة فلاي دبي",
+      "event": "حادث طائرة فلاي دبي وتجاهل السلطات الإسرائيلية معلومات مسبقة عن مساعد الطيار",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        1
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الآباء المؤثرون واستغلال الأطفال",
+      "event": "ظاهرة الآباء المؤثرين الذين يحققون أرباحًا من نشر محتوى أطفالهم دون حماية قانونية لهم",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        4,
+        5,
+        6
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "موقف تركيا من الهجمات الحوثية",
+      "event": "تصريحات أردوغان بإدانة الهجمات الحوثية على السعودية ودعم تركيا للسعودية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        31,
+        32
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "أزمة العلاقات المصرية الإثيوبية وسد النهضة",
+      "event": "قطع العلاقات الدبلوماسية بين مصر وإثيوبيا وتصعيد خلاف سد النهضة وبناء سدود جديدة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        25,
+        26,
+        27
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "انسحاب حزب العمال الكردستاني من شمال العراق",
+      "event": "إخلاء معسكرات حزب العمال الكردستاني في متينة شمال العراق وانسحابها نحو قنديل",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        38,
+        39,
+        40,
+        45
+      ],
+      "total_points": 4,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "انتخابات نقابات المحامين في تركيا",
+      "event": "انتخابات نقابات المحامين في أنقرة وإسطنبول وفضايا فساد مرتبطة بالترقيات القضائية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        42,
+        43,
+        44
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تراجع شعبية ترامب وقرار قضائي ضد دعايته",
+      "event": "انخفاض نسبة تأييد ترامب قبيل الانتخابات النصفية وقرار محكمة بوقف إعلانات حملته",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        47,
+        48
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تقييم أداء النظام الرئاسي التركي والاقتصاد",
+      "event": "تقييم أثر النظام الرئاسي على المؤسسات وتدهور الاقتصاد التركي وفق استطلاعات الرأي",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        59,
+        60,
+        61,
+        62
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "إرسال جنود أتراك إلى اليمن",
+      "event": "انتقاد المعارضة التركية لخطة إرسال جنود أتراك إلى اليمن باعتبارها خدمة لمصالح أمريكا وإسرائيل",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        110,
+        124
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الهجمات على السفن التركية في البحر الأسود",
+      "event": "تعرض سفن تركية لهجمات في البحر الأسود وصمت الحكومة التركية إزاءها",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        111,
+        123
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "التضخم الغذائي في تركيا مقارنة بأوروبا",
+      "event": "بيانات عن ارتفاع التضخم الغذائي في تركيا بمقارنة مع الاتحاد الأوروبي",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        109,
+        125
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    }
+  ]
+}
