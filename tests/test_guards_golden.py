@@ -8464,8 +8464,10 @@ def test_reel_text_r5a_guards() -> None:
             "channel_original": "FRANCE 24 Arabic", "channel_display": "فرانس 24 عربي"}
     d1 = drawn({**base, "speaker_name_latin": "ميساء شجاع الدين"})
     check("g272: لا سطر ذهبي حين اللاتيني عربي", not any(f == gold for _, f in d1), d1)
-    check("g272: السطر الثالث بالصفة والقناة اللاتينية ثم العربية",
-          any(t == "باحثة في مركز صنعاء للدراسات الاستراتيجية · FRANCE 24 Arabic فرانس 24 عربي" for t, _ in d1), d1)
+    # الصفة الطويلة لا تسع العرض عند 26 فتُحذف وتبقى القناة (قرار المتابعة): السطر إما كامل أو القناة وحدها
+    check("g272: السطر الثالث بالصفة والقناة اللاتينية ثم العربية (أو القناة وحدها إن لم تسع الصفة)",
+          any(t in ("باحثة في مركز صنعاء للدراسات الاستراتيجية · FRANCE 24 Arabic فرانس 24 عربي",
+                    "FRANCE 24 Arabic فرانس 24 عربي") for t, _ in d1), d1)
     d2 = drawn({**base, "speaker_name_latin": "Ahmet Kayapaşa"})
     check("g272: السطر الذهبي يظهر للاسم اللاتيني", ("Ahmet Kayapaşa", gold) in d2, d2)
     guest = {"speaker_verified": False, "speaker_name": "", "channel_original": "CNN TÜRK", "channel_display": "سي إن إن ترك"}
@@ -8511,7 +8513,7 @@ def test_reel_text_r5a_guards() -> None:
           any(t in ("FRANCE 24 Arabic فرانس 24 عربي", "فرانس 24 عربي") for t in t2)
           and not any("محلل" in t for t in t2), t2)
     check("g276: صناديق الصفة الطويلة بين 0 وW", all(0 <= b[0] and b[2] <= W for b in bx2), bx2)
-    long_name = " ".join(["عبدالرحمن"] * 6)
+    long_name = "محمد عبدالرحمن بن علي الأنصاري الحسيني"
     bx3, dr3 = band_boxes({**maysaa, "speaker_name": long_name})
     check("g276: اسم من 6 كلمات طويلة يُصغَّر ويبقى بين الحدّين",
           any(t == long_name for t, _ in dr3) and all(0 <= b[0] and b[2] <= W for b in bx3), bx3)

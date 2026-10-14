@@ -401,19 +401,22 @@ class _Pen:
         self.boxes.append(tuple(self.ink(text, font, xy, anchor, ltr)))
         return y + lh
 
-    def ink_line(self, text: str, font_path: str, weight: str | None, size: int, fill, *, prev_bottom: int,
-                 gap: int, limit: int, min_size: int | None = None, ltr: bool = False) -> int | None:
-        """سطر يمينيّ يوضع بحبره: أعلى حبره = prev_bottom + gap، ويُصغَّر بخطوة 2 حتى min_size إن تجاوز حبره limit.
-        يعيد أسفل حبره، أو None (مع تحذير) إن لم يسعه الحدّ أو غاب حرفه من كل الخطوط."""
+    def ink_line(self, text: str, font_path: str, weight: str | None, size: int, fill, *, prev_bottom: int | None,
+                 gap: int, limit: int, min_size: int | None = None, ltr: bool = False, warn: bool = True,
+                 y_top: int | None = None) -> int | None:
+        """سطر يمينيّ يوضع بحبره: أعلى حبره = prev_bottom + gap (أو y_top)، ويُصغَّر بخطوة 2 حتى min_size إن تجاوز حبره
+        الحدّ السفلي limit أو خرج عن x0..x1 أفقيًا (كان التصغير للحد السفلي وحده فبدأ حبر سطر طويل عند x=−294).
+        يعيد أسفل حبره، أو None (مع تحذير إن warn) إن لم يسعه الحدّان أو غاب حرفه من كل الخطوط."""
         for sz in range(size, (min_size if min_size is not None else size) - 1, -2):
             font = pick_font(text, font_path, sz, weight)
             if font is None:
                 return None
-            top0, bottom0 = self.ink(text, font, (self.x1, 0), "ra", ltr)[1::2]
-            y = prev_bottom + gap - top0
-            if y + bottom0 <= limit:
+            left0, top0, _, bottom0 = self.ink(text, font, (self.x1, 0), "ra", ltr)
+            y = (y_top if y_top is not None else prev_bottom + gap) - top0
+            if y + bottom0 <= limit and left0 >= self.x0:
                 return self.line_at(text, font, fill, y, ltr)
-        log.warning("سطر لا يسع الشريط السفلي فحُذف: %r", text[:40])
+        if warn:
+            log.warning("سطر لا يسع الشريط السفلي فحُذف: %r", text[:40])
         return None
 
     def line_at(self, text: str, font, fill, y: int, ltr: bool) -> int:
@@ -829,25 +832,36 @@ def frame_clip_layers(cfg, scene: dict, boxes=None, cover: bool | None = None) -
     channel = channel_label(scene)
     y = top + 30
     if verified:
-        n0 = len(p.boxes)
-        p.text_line(scene["speaker_name"], CAIRO, "Black", 56, p.white, y, align="right")
-        # كل سطر بعد الأول يوضع بحبره: أعلى حبره = أسفل حبر السابق + line_gap، فلا يتداخل سطران أبدًا
-        bottom = int(p.boxes[-1][3]) if len(p.boxes) > n0 else y
+        # كل سطر يُصغَّر بخطوة 2 حتى يقع حبره بين x0 وx1 وفوق الحد السفلي؛ حدود التصغير من الإعداد
+        mins = band.get("min_sizes") or {}
         gap, limit = int(band.get("line_gap", 12)), top + height - 16
+        bottom = p.ink_line(scene["speaker_name"], CAIRO, "Black", 56, p.white, prev_bottom=None, gap=gap, limit=limit,
+                            min_size=int(mins.get("name", 40)), y_top=y)
+        bottom = y if bottom is None else bottom
         latin = (scene.get("speaker_name_latin") or "").strip()
         # السطر الذهبي للاسم اللاتيني فقط: حين وضع السيناريو الاسم العربي نفسه هنا تكرّر الاسم في سطرين
         if re.search(r"[A-Za-z]", latin) and latin.casefold() != scene["speaker_name"].strip().casefold():
             # بـCairo لأن Tajawal يفتقد ş ğ İ
             nb = p.ink_line(latin, CAIRO, "Bold", 34, p.gold, prev_bottom=bottom, gap=gap,
-                            limit=limit, ltr=True)
+                            limit=limit, min_size=int(mins.get("latin", 26)), ltr=True)
             bottom = bottom if nb is None else nb
-        role_line = " · ".join(x for x in (scene.get("speaker_role", ""), channel) if x)
-        if role_line:
-            p.ink_line(role_line, TAJAWAL_B, None, 40, (214, 222, 238), prev_bottom=bottom, gap=gap, limit=limit,
-                       min_size=30)
+        # الصفة · القناة حتى min_sizes.role؛ إن لم يسع حُذفت الصفة وبقيت القناة من 40، وإن لم تسع القناة اللاتينية
+        # والعربية معًا بقي channel_display وحده
+        role = scene.get("speaker_role", "")
+        display = (scene.get("channel_display") or "").strip()
+        tries = [" · ".join(x for x in (role, channel) if x)]
+        if role and channel:
+            tries.append(channel)
+        if display and display != channel:
+            tries.append(display)
+        for i, txt in enumerate(tries):
+            if txt and p.ink_line(txt, TAJAWAL_B, None, 40, (214, 222, 238), prev_bottom=bottom, gap=gap, limit=limit,
+                                  min_size=int(mins.get("role", 26)), warn=i == len(tries) - 1) is not None:
+                break
     else:
         label = cfg.path("reel.texts.guest_label", "ضيف على {channel}").format(channel=channel)
-        p.line(label, p.font(CAIRO, 52, "Black"), p.white, top + 80, align="right")
+        p.ink_line(label, CAIRO, "Black", 52, p.white, prev_bottom=None, gap=0, limit=top + height - 16,
+                   min_size=int(band.get("min_sizes", {}).get("guest", 30)), y_top=top + 80)
     return st.img, bd.img
 
 
@@ -863,6 +877,11 @@ def layout_boxes(cfg) -> list[tuple]:
     frame_clip_overlay(cfg, base, boxes)
     frame_clip_overlay(cfg, {**base, "speaker_verified": True, "speaker_name": "الاسم العربي الكامل للمتحدث",
                              "speaker_name_latin": "Full Latin Name", "speaker_role": "محلل سياسي"}, boxes)
+    # صفة طويلة وقناة لاتينية طويلة: أسوأ حالة لعرض الشريط
+    frame_clip_overlay(cfg, {"speaker_verified": True, "speaker_name": "الاسم العربي الكامل للمتحدث",
+                             "speaker_name_latin": "Full Latin Name", "speaker_role": " ".join(["محلل"] * 20),
+                             "channel_original": "A Very Long Latin Channel Name International Edition",
+                             "channel_display": "قناة طويلة الاسم جدًا للتجربة"}, boxes)
     return boxes
 
 
