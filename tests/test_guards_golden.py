@@ -6862,7 +6862,7 @@ def test_reel_transitions_r3b1d_guards() -> None:
         tr = cfg.path("reel.render.transition") or {}
         check("g212: الإعداد transition وversion",
               (tr.get("type"), tr.get("outro_type"), tr.get("seconds")) == ("slideleft", "fade", 0.35)
-              and cfg.path("reel.render.version") == 6, tr)
+              and cfg.path("reel.render.version") == 7, tr)
 
         # ── g212/g213: أمر ضمّ واحد بأربعة xfade وأربعة acrossfade ──
         log, cmds, saved = render("r3b1d0000a01", five, cfg, durs)
@@ -6933,14 +6933,14 @@ def test_reel_transitions_r3b1d_guards() -> None:
         p_old, _ = make_draft("r3b1d0000b01", mixed, render_status="rendered", approved_script_at="2099-01-01")
         p_pub, _ = make_draft("r3b1d0000b02", mixed, status="published", render_status="rendered")
         p_rej, _ = make_draft("r3b1d0000b03", mixed, status="rejected", render_status="rendered")
-        p_new, _ = make_draft("r3b1d0000b04", mixed, render_status="rendered", render_version=6)
+        p_new, _ = make_draft("r3b1d0000b04", mixed, render_status="rendered", render_version=7)
         picked = [p.stem for p, _ in reel_render.pending_batch(c2)]
         check("g218: يلتقط القديم النسخة وحده", picked == [p_old.stem], picked)
         for p, d in reel_render.pending_batch(c2):
             reel_render.render_draft(p, d, c2, make_deps({"cmds": [], "comments": []}), reels_dir=tmp / "reels",
                                      workdir=tmp / "work")
         s = json.loads(p_old.read_text(encoding="utf-8"))
-        check("g218: render_version = 6 بعد التركيب", s.get("render_status") == "rendered" and s.get("render_version") == 6, s)
+        check("g218: render_version = 7 بعد التركيب", s.get("render_status") == "rendered" and s.get("render_version") == 7, s)
         left = reel_render.pending_batch(c2)
         check("g218: التشغيلة الثانية لا تعيدها", left == [], [p.stem for p, _ in left])
         check("g218: المنشور والمرفوض لم يُمسّا",
@@ -7120,8 +7120,8 @@ def test_reel_typewriter_r3b2a_guards() -> None:
             reel_render.render_draft(p, d, cfg, make_deps({"cmds": [], "lists": []}), reels_dir=tmp / "reels",
                                      workdir=tmp / "work")
         s = json.loads(p_old.read_text(encoding="utf-8"))
-        check("g225: render_version = 6 بعد التركيب",
-              s.get("render_status") == "rendered" and s.get("render_version") == 6, s)
+        check("g225: render_version = 7 بعد التركيب",
+              s.get("render_status") == "rendered" and s.get("render_version") == 7, s)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 
@@ -7233,8 +7233,8 @@ def test_reel_no_partial_r3b2a2_guards() -> None:
 
         # ── g230 ──
         log, s, _ = run_one("r3b2a2000e01", 0, render_attempts=2)
-        check("g230: render_attempts = 0 وrender_version = 6",
-              s.get("render_attempts") == 0 and s.get("render_version") == 6 and s.get("render_status") == "rendered", s)
+        check("g230: render_attempts = 0 وrender_version = 7",
+              s.get("render_attempts") == 0 and s.get("render_version") == 7 and s.get("render_status") == "rendered", s)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 
@@ -7317,7 +7317,7 @@ def test_reel_clip_streams_r3b2a3_guards() -> None:
         return log, json.loads(path.read_text(encoding="utf-8")), [" ".join(c) for c in log["cmds"]]
 
     cfg = load_config()
-    check("g231: reel.render.version = 6", cfg.path("reel.render.version") == 6,cfg.path("reel.render.version"))
+    check("g231: reel.render.version = 7", cfg.path("reel.render.version") == 7,cfg.path("reel.render.version"))
     tmp = Path(tempfile.mkdtemp())
     try:
         # ── g231 ──
@@ -7340,7 +7340,7 @@ def test_reel_clip_streams_r3b2a3_guards() -> None:
         # ── g233 ──
         p_old, _ = make_draft("r3b2a3000c01", status="approved_script", render_status="failed", render_version=4,
                               render_attempts=3, render_error="ffmpeg فشل", approved_script_at="1998-01-01T00:00:00")
-        p_new, _ = make_draft("r3b2a3000c02", status="approved_script", render_status="failed", render_version=6,
+        p_new, _ = make_draft("r3b2a3000c02", status="approved_script", render_status="failed", render_version=7,
                               render_attempts=3, render_error="ffmpeg فشل", approved_script_at="1999-01-02T00:00:00")
         ids = [p.stem for p, _d in reel_render.queued_reels(cfg)]
         check("g233: failed بنسخة 4 تُلتقط وبنسخة 5 لا", "r3b2a3000c01" in ids and "r3b2a3000c02" not in ids, ids)
@@ -7465,7 +7465,7 @@ def test_reel_cover_auto_r3b2a4_guards() -> None:
         top = int(cfg.path("reel.render.band.top"))
         alpha = float(cfg.path("reel.render.band.alpha"))
         check("g241: الإعداد الافتراضي auto", cfg.path("reel.render.band.cover") == "auto", cfg.path("reel.render.band.cover"))
-        check("g241: reel.render.version = 6", cfg.path("reel.render.version") == 6)
+        check("g241: reel.render.version = 7", cfg.path("reel.render.version") == 7)
         s = render("r3b2a4000a01", cfg)
         crops = s.get("render_crops") or {}
         check("g241: render_crops يحمل cover لكل مقطع",
