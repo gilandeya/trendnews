@@ -8529,3 +8529,234 @@ def test_reel_text_r5a_guards() -> None:
     import inspect
     check("g277: layout_boxes تضم مشهد الصفة الطويلة والقناة اللاتينية الطويلة",
           "channel_original" in inspect.getsource(reel_render.layout_boxes))
+
+
+def test_reel_r5a2_guards() -> None:
+    """Issue #1423 (R5a2، g280–g285): الحجم البصري الفعلي للرقعة، والوقف وأسماء الأعلام، وصورة الخلفية (بلا وجه ولا تاريخ
+    قديم ولا تخطيط ب)، وسطر الصفة في الشريط السفلي، وترتيب التركيب."""
+    import json
+    import tempfile
+    from pathlib import Path
+
+    import numpy as np
+    from PIL import Image, ImageDraw
+
+    from src import imaging, reel_render, tts
+
+    cfg = load_config()
+    W = int(cfg.path("reel.render.width"))
+    aref = cfg.path("reel.render.fonts.display")
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def ink_h(font_path, size, text="ومن"):
+        d = ImageDraw.Draw(Image.new("RGB", (10, 10)))
+        font = imaging.load_font(font_path, size, None)
+        b = d.textbbox((0, 0), imaging._prepare(text), font=font, anchor="la", **imaging._kwargs())
+        return b[3] - b[1]
+
+    # ── g280: الحجم البصري ──
+    def g280():
+        _, kw = reel_render._narration_pen(cfg, "جملة", [], None)
+        base_h = ink_h(reel_render.TAJAWAL_XB, 72)
+        new_h = ink_h(aref, kw["start"])
+        check("g280: ارتفاع حبر «ومن» بالراوي ≥ 1.45× Tajawal-ExtraBold 72", new_h >= 1.45 * base_h, (new_h, base_h))
+        check("g280: الراوي start 160 / minimum 140 / 4 أسطر",
+              (kw["start"], kw["minimum"], kw["max_lines"]) == (160, 140, 4), kw)
+        sizes, line_counts = [], []
+        longs = "، ".join(["وفي الثالث عشر من أكتوبر قدّمت الباحثة قراءة لحجم الترسانة الصاروخية للجماعة"] * 4)
+        lf = float(cfg.path("reel.render.fonts.display_line_factor"))
+        for seg in reel_render.narration_segments(cfg, longs):
+            lines = reel_render.narration_lines(cfg, seg)
+            p, k = reel_render._narration_pen(cfg, seg, [], None)
+            fnt, _, _ = reel_render._fit(p.d, seg, aref, p.max_w, k["max_lines"], k["start"], k["minimum"], None, lf)
+            sizes.append(fnt.size)
+            line_counts.append(len(lines))
+        check("g280: كل مقطع مرسوم ≥ 140 وكل مقطع ≤ 4 أسطر",
+              bool(sizes) and min(sizes) >= 140 and max(line_counts) <= 4, (sizes, line_counts))
+        scale = float(cfg.path("reel.render.fonts.display_scale", 0))
+        check("g280: display_scale = 1.45", scale == 1.45, scale)
+        rec: list = []
+        o_fit, o_pick = reel_render._fit, reel_render.pick_font
+
+        def fit_rec(d, t, fp, mw, ml, st, mn, wt, lf_):
+            rec.append(("fit", st, mn))
+            return o_fit(d, t, fp, mw, ml, st, mn, wt, lf_)
+
+        def pick_rec(t, fp, sz, wt=None):
+            rec.append(("pick", sz, 0))
+            return o_pick(t, fp, sz, wt)
+
+        reel_render._fit, reel_render.pick_font = fit_rec, pick_rec
+        try:
+            for name, fn, want in (
+                    ("العنوان", lambda b: reel_render.frame_title(cfg, "عنوان", "2099/01/01", b), ("fit", 139, 75)),
+                    ("السؤال", lambda b: reel_render.frame_question(cfg, "هل تتجه المنطقة إلى تسوية؟", b), ("fit", 110, 64)),
+                    ("تابعوا الموجز", lambda b: reel_render.frame_outro(cfg, "الجزيرة", b), ("pick", 162, 0))):
+                rec.clear()
+                fn([])
+                check(f"g280: {name} بحجم ≥ display_scale × القديم", want in rec, rec)
+        finally:
+            reel_render._fit, reel_render.pick_font = o_fit, o_pick
+        check("g280: كل صناديق layout_boxes داخل العرض الآمن أفقيًا",
+              all(b[0] >= 0 and b[2] <= W for b in reel_render.layout_boxes(cfg)))
+    guarded("g280", g280)
+
+    # ── g281: الوقف ──
+    def g281():
+        out = tts.apply_waqf("تُعلنُ الحكومةُ الخطةَ،")
+        check("g281: «الخطةَ،» ← «الخطهْ،» والباقي كما هو", out == "تُعلنُ الحكومةُ الخطهْ،", out)
+        o2 = tts.apply_waqf("قال الوزير")
+        check("g281: كلمة أخيرة بلا تشكيل تأخذ سكونًا", o2 == "قال الوزيرْ", o2)
+        a, b = tts.apply_waqf("قال الوزيرُ؛ ثم"), tts.apply_waqf("قال الوزيرُ, ثم")
+        check("g281: «؛» و«,» موضعا وقف", a == "قال الوزيرْ؛ ثم" and b == "قال الوزيرْ, ثم", (a, b))
+        o3 = tts.apply_waqf("وصلت رسالةٌ.")
+        check("g281: رسالةٌ ← رسالهْ", o3 == "وصلت رسالهْ.", o3)
+        sent = "تُعلنُ الحكومةُ الخطةَ."
+        got: list = []
+        tmp = Path(tempfile.mkdtemp())
+        try:
+            def synth(t, v):
+                got.append(t)
+                return {"ok": True, "audio": b"x"}
+            deps = reel_render.Deps(synthesize=synth, diacritize=lambda t: (sent, None),
+                                    run=lambda cmd: None, probe=lambda p: 1.0)
+            _, parts = reel_render._speech("تعلن الحكومة الخطة.", "v", cfg, deps, tmp, "t")
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+        check("g281: الصوت بـ«الخطهْ» والمعروض «الخطة»",
+              got == ["تُعلنُ الحكومةُ الخطهْ."] and parts[0][0] == "تعلن الحكومة الخطة.", (got, parts))
+    guarded("g281", g281)
+
+    # ── g282: الأعلام ──
+    def g282():
+        text = "قالت قناةُ سِي إِنْ إِنْ تُرْكٍ إنّ مطارَ الملكِ خالدٍ استُهدفَ."
+        nouns = [{"text": "سي إن إن ترك", "foreign": True}, {"text": "مطار الملك خالد", "foreign": False}]
+        out = tts.apply_proper_nouns(text, nouns)
+        check("g282: الأجنبي: وقف على كل كلماته", "سِيْ إِنْ إِنْ تُرْكْ" in out, out)
+        check("g282: العربي: وقف على الأخيرة وحركات ما قبلها تبقى", "مطارَ الملكِ خالدْ" in out, out)
+        check("g282: النص عدا الحركات لم يتغير", tts.strip_tashkeel(out) == tts.strip_tashkeel(text), out)
+        same = tts.apply_proper_nouns(text, [{"text": "اسم غير موجود", "foreign": True}])
+        check("g282: عَلَم غير موجود يُتجاهل بلا استثناء", same == text, same)
+    guarded("g282", g282)
+
+    # ── g283: الخلفية ──
+    def g283():
+        astro = Image.open("tests/fixtures/faces/astronaut.jpg").convert("RGB")
+        xs = np.linspace(20, 235, 1400, dtype=np.uint8)
+        grad = Image.fromarray(np.stack([np.tile(xs, (800, 1)), np.tile(xs[::-1], (800, 1)),
+                                         np.full((800, 1400), 140, np.uint8)], axis=2))
+        faced = {"https://n/face.jpg": astro}
+
+        def pv(urls):
+            return {"news": lambda *a: [{"url": u, "publisher": "R"} for u in urls],
+                    "web": lambda *a, **k: [], "free": lambda *a: [],
+                    "download": lambda u: faced.get(u, grad)}
+        base = {"id": "r5a2000g283", "title": "عنوان", "event": "حدث"}
+        r = reel_render.pick_background(base, cfg, pv(["https://n/face.jpg", "https://n/ok.jpg"]), draft_date="2026-10-14")
+        check("g283: وجه كبير ثم بلا وجه ← الثاني", r["url"] == "https://n/ok.jpg", r)
+        r = reel_render.pick_background(base, cfg, pv(["https://n/2021/10/a.jpg"]), draft_date="2026-10-14")
+        check("g283: /2021/10/ لمسودة 2026-10-14 ← يُرفض", r["kind"] == "none", r)
+        r = reel_render.pick_background(base, cfg, pv(["https://n/2026/09/a.jpg"]), draft_date="2026-10-14")
+        check("g283: /2026/09/ ← يُقبل", r["url"] == "https://n/2026/09/a.jpg", r)
+        r = reel_render.pick_background(base, cfg, pv(["https://n/2024/a.jpg"]), draft_date="2026-10-14")
+        check("g283: /2024/ وحدها لسنة 2026 ← يُرفض", r["kind"] == "none", r)
+        r = reel_render.pick_background(dict(base, manual_image="https://n/face.jpg"), cfg, pv([]), draft_date="2026-10-14")
+        check("g283: manual لا يُرفض", r["kind"] == "manual", r)
+        check("g283: prepare_background لا ينتج B أبدًا",
+              reel_render.prepare_background(cfg, astro)["layout"] == "A"
+              and reel_render.prepare_background(cfg, grad)["layout"] == "A")
+        path = store.save_draft({"id": "r5a2000g283b", "origin": "analysis", "format": "reel", "title": "ريل",
+                                 "status": "approved_script", "render_status": "queued", "script": {"scenes": []},
+                                 "reel_bg": {"url": "https://n/face.jpg", "kind": "news_photo", "publisher": "R"}})
+        draft = json.loads(path.read_text(encoding="utf-8"))
+        deps = reel_render.Deps(bg_image=lambda u: faced.get(u, grad), bg_providers=pv(["https://n/ok.jpg"]))
+        bg, saved = reel_render._resolve_background(path, draft, cfg, deps, [])
+        now = json.loads(path.read_text(encoding="utf-8")).get("reel_bg") or {}
+        check("g283: reel_bg محفوظ بوجه ← يُستبدل ويُحفظ الجديد",
+              saved.get("url") == "https://n/ok.jpg" and now.get("url") == "https://n/ok.jpg", (saved, now))
+        check("g283: التخطيط A", bg is not None and bg["layout"] == "A", bg and bg["layout"])
+        mpath = store.save_draft({"id": "r5a2000g283c", "origin": "analysis", "format": "reel", "title": "ريل",
+                                  "status": "approved_script", "render_status": "queued", "script": {"scenes": []},
+                                  "manual_image": "https://n/face.jpg"})
+        mdraft = json.loads(mpath.read_text(encoding="utf-8"))
+        bg2, _ = reel_render._resolve_background(mpath, mdraft, cfg, deps, [])
+        check("g283: manual بوجه ← يُقبل بالتخطيط A",
+              bg2 is not None and bg2["layout"] == "A" and bg2["used"]["kind"] == "manual", bg2 and bg2["layout"])
+        b = cfg.path("reel.render.background") or {}
+        check("g283: مفاتيح التخطيط B محذوفة من config",
+              not any(k in b for k in ("shade_b", "box_alpha", "box_top", "box_bottom", "gold_px", "pad",
+                                       "text_start", "text_min", "text_lines")), list(b))
+    guarded("g283", g283)
+
+    # ── g284: سطر الصفة ──
+    def g284():
+        scene = {"speaker_verified": True, "speaker_name": "ميساء شجاع الدين", "speaker_name_latin": "ميساء شجاع الدين",
+                 "speaker_role": "باحثة في مركز صنعاء للدراسات الاستراتيجية",
+                 "channel_original": "FRANCE 24 Arabic", "channel_display": "فرانس 24 عربي"}
+        drawn: list = []
+        o1, o2 = imaging.draw_text, imaging.draw_text_ltr
+
+        def d1(d, xy, t, f, fill, **k):
+            drawn.append(t)
+            return o1(d, xy, t, f, fill, **k)
+
+        def d2(d, xy, t, f, fill, **k):
+            drawn.append(t)
+            return o2(d, xy, t, f, fill, **k)
+        imaging.draw_text, imaging.draw_text_ltr = d1, d2
+        bx: list = []
+        try:
+            reel_render.frame_clip_overlay(cfg, scene, bx)
+        finally:
+            imaging.draw_text, imaging.draw_text_ltr = o1, o2
+        role, chan = scene["speaker_role"], "FRANCE 24 Arabic فرانس 24 عربي"
+        check("g284: سطر الصفة كاملًا وسطر القناة تحته",
+              role in drawn and chan in drawn and drawn.index(chan) > drawn.index(role)
+              and not any(" · " in t for t in drawn), drawn)
+        band = cfg.path("reel.render.band")
+        top, limit = int(band["top"]), int(band["top"]) + int(band["height"])
+        x0 = int(cfg.path("reel.render.safe.right_col_width"))
+        x1 = W - x0
+        inside = [b for b in bx if b[1] >= top]
+        check("g284: كل الصناديق بين x0 وx1 وفوق الحد السفلي",
+              bool(inside) and all(b[0] >= x0 and b[2] <= x1 and b[3] <= limit for b in inside), inside)
+    guarded("g284", g284)
+
+    # ── g285: ترتيب التركيب والنسخة ──
+    def g285():
+        def fresh():
+            shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+            DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+
+        def mk(did, status, ver, at):
+            return store.save_draft({"id": did, "origin": "analysis", "format": "reel", "title": "ريل",
+                                     "status": "approved_script", "render_status": status, "render_version": ver,
+                                     "approved_script_at": at, "script": {"scenes": []}})
+        fresh()
+        mk("r5a2000g285a", "queued", 10, "2099-01-01T00:00:00+00:00")
+        mk("r5a2000g285b", "rendered", 1, "2099-01-02T00:00:00+00:00")
+        order = [p.stem for p, _ in reel_render.queued_reels(cfg)]
+        check("g285: queued أمس قبل stale اليوم", order == ["r5a2000g285a", "r5a2000g285b"], order)
+        fresh()
+        mk("r5a2000g285c", "queued", 10, "2099-01-01T00:00:00+00:00")
+        mk("r5a2000g285d", "rendered", 1, "2099-01-05T00:00:00+00:00")
+        mk("r5a2000g285e", "rendered", 1, "2099-01-09T00:00:00+00:00")
+        order = [p.stem for p, _ in reel_render.queued_reels(cfg)]
+        check("g285: المنتظر أولًا ثم المعاد تركيبه الأحدث اعتمادًا أولًا",
+              order == ["r5a2000g285c", "r5a2000g285e", "r5a2000g285d"], order)
+        fresh()
+        mk("r5a2000g285f", "queued", 10, "2099-01-01T00:00:00+00:00")
+        mk("r5a2000g285g", "queued", 10, "2099-01-03T00:00:00+00:00")
+        mk("r5a2000g285h", "rendered", 1, "2099-01-09T00:00:00+00:00")
+        order = [p.stem for p, _ in reel_render.queued_reels(cfg)]
+        check("g285: داخل المنتظر الأحدث اعتمادًا أولًا والمعاد تركيبه بعده",
+              order == ["r5a2000g285g", "r5a2000g285f", "r5a2000g285h"], order)
+        fresh()
+        check("g285: render_version == 10", int(cfg.path("reel.render.version")) == 10, cfg.path("reel.render.version"))
+        check("g285: max_per_run == 1", int(cfg.path("reel.render.max_per_run")) == 1)
+    guarded("g285", g285)
