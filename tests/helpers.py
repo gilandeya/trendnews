@@ -262,6 +262,9 @@ def install_fakes() -> None:
     # فحص مسارات المقطع (Issue #1406) بلا ffprobe: الافتراضي صورة وصوت معًا؛ اختبار يحتاج غيره يحقن Deps.streams
     from src import reel_render
     reel_render.probe_streams = lambda path: {"video", "audio"}  # type: ignore
+    # مزوّدات صور خلفية الراوي (Issue #1411) فارغة افتراضيًا: تبقى الخلفية الكحلية في كل اختبار لا يحقن مزوّدات
+    reel_render._default_providers = lambda: {  # type: ignore
+        "news": lambda *a: [], "web": lambda *a: [], "free": lambda *a: [], "download": lambda url: None}
     # كاشف شريط الأسفل (Issue #1408) بلا ffmpeg: الافتراضي لقطات ناعمة بلا شريط ← بلا غطاء؛ اختبار يحتاج غيره يحقن Deps.frames
     import numpy as np
     reel_render._extract_gray_frames = (  # type: ignore

@@ -718,6 +718,21 @@ HEADLINE_BOX_RE = review.HEADLINE_BOX_RE
 parse_headline_choice = review.parse_headline_choice
 
 
+def _reel_bg_lines(d: dict, cfg, texts: dict) -> list[str]:
+    """سطر خلفية الراوي والمعاينة وحقل الصورة (Issue #1411، R3b-2b). manual_image يغلب reel_bg كما في التركيب؛
+    الرابط الملصوق يحفظه setimage manual_image فيُركَّب به."""
+    manual = (d.get("manual_image") or "").strip()
+    bg = d.get("reel_bg") if isinstance(d.get("reel_bg"), dict) else {}
+    kind, url, publisher = ("manual", manual, "") if manual else (bg.get("kind"), bg.get("url"), bg.get("publisher", ""))
+    if url and kind and kind != "none":
+        label = (texts.get("bg_kinds") or {}).get(kind, kind)
+        parts = " · ".join(x for x in (label, publisher) if x)
+        head = [f"  {texts.get('bg_line', '').format(parts=parts)}", "", f"  <img src=\"{url}\" width=\"260\" />", ""]
+    else:
+        head = [f"  {texts.get('bg_none', '')}", ""]
+    return [*head, f"  {stages.image_field(d['id'], cfg)}", ""]
+
+
 def _reel_item_lines(idx: int, d: dict, cfg) -> list[str]:
     """بند الريل في المرحلة 2 (Issue #1336، R1؛ السيناريو في #1338، R2). بلا سيناريو بعد (أو والمفتاح مطفأ):
     سطر «⏳» وخيار go1 وحده. سيناريو فشل: سببه وgo1 وحده. سيناريو جاهز: العنوان وجنس الراوي والمدة المقدَّرة، جدول
@@ -737,6 +752,7 @@ def _reel_item_lines(idx: int, d: dict, cfg) -> list[str]:
         out += [f"  {texts.get('script_meta', '').format(narrator=narrator, seconds=seconds)}",
                 "", f"  {texts.get('timeline_header', '')}", "",
                 *reel_script.timeline_lines(script, cfg), "",
+                *_reel_bg_lines(d, cfg, texts),
                 f"  {texts.get('edit_header', '')}", "",
                 *reel_script.edit_block(d["id"], script), "",
                 *review.headline_boxes(d, "🏷️ **العناوين المقترحة** (علّم المختار، الأول افتراضي):"),
