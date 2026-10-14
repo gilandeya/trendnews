@@ -8264,3 +8264,207 @@ def test_llm_haiku55_guards() -> None:
         check("g265: log.error مرة واحدة", len(errs) == 1, len(errs))
     finally:
         undo()
+
+
+def test_reel_text_r5a_guards() -> None:
+    """Issue #1419 (R5a، g266–g274): توسيط نص الريل، وخط الرقعة للنصوص الكبيرة وحدها، وظهور الراوي سطرًا فسطرًا بخط أكبر،
+    وشريط المتحدث الجديد (الاسم اللاتيني للقناة)."""
+    import copy
+    import hashlib
+    import tempfile
+    from pathlib import Path
+
+    from PIL import Image, ImageDraw
+
+    from src import imaging, reel_render, reel_script
+
+    cfg = load_config()
+    W = int(cfg.path("reel.render.width"))
+    aref = cfg.path("reel.render.fonts.display")
+    factor = float(cfg.path("reel.render.fonts.display_line_factor", 1.85))
+    long_text = " ".join(["كلمة"] * 40)
+
+    # ── g266: التوسيط ──
+    pen = reel_render._Pen(cfg, [])
+    check("g266: cx == 540", pen.cx == 540, pen.cx)
+    check("g266: الهامشان متساويان x0 == W − x1", pen.x0 == W - pen.x1, (pen.x0, pen.x1))
+    check("g266: max_w == 820", pen.max_w == 820, pen.max_w)
+    for name, fn in (("frame_title", lambda b: reel_render.frame_title(cfg, long_text, "2099/01/01", b)),
+                     ("frame_question", lambda b: reel_render.frame_question(cfg, long_text, b)),
+                     ("frame_narration", lambda b: reel_render.frame_narration(cfg, long_text, b))):
+        boxes: list = []
+        fn(boxes)
+        off = [round((b[0] + b[2]) / 2 - 540, 1) for b in boxes]
+        check(f"g266: {name} مركز حبر كل سطر ضمن ±4 من 540", bool(boxes) and all(abs(o) <= 4 for o in off), off)
+
+    # ── g267: ملف الخط والرخصة وحارس المسار ──
+    def sha(path: str) -> str:
+        p = Path(path)
+        return hashlib.sha256(p.read_bytes()).hexdigest() if p.exists() else ""
+
+    check("g267: بصمة ArefRuqaa-Bold.ttf",
+          sha("assets/fonts/ArefRuqaa-Bold.ttf") == "247071015b7eefd63f94d6e47949c5d10294ed31bd432f809ba9a219d93f91bb",
+          sha("assets/fonts/ArefRuqaa-Bold.ttf"))
+    check("g267: بصمة ArefRuqaa-OFL.txt",
+          sha("assets/fonts/ArefRuqaa-OFL.txt") == "41ac14451a624c69490e24b9aaaaa1f65dc9dc17c3f6f38172fc43d5ba654a1b",
+          sha("assets/fonts/ArefRuqaa-OFL.txt"))
+    check("g267: إعداد الخط", aref == "assets/fonts/ArefRuqaa-Bold.ttf", aref)
+
+    def record(fn):
+        fits, loads = [], []
+        o_fit, o_load = imaging.fit_text, imaging.load_font
+
+        def fit_spy(draw, text, font_path, *a, **k):
+            fits.append(font_path)
+            return o_fit(draw, text, font_path, *a, **k)
+
+        def load_spy(path, *a, **k):
+            loads.append(path)
+            return o_load(path, *a, **k)
+
+        imaging.fit_text, imaging.load_font = fit_spy, load_spy
+        try:
+            fn()
+        finally:
+            imaging.fit_text, imaging.load_font = o_fit, o_load
+        return fits, loads
+
+    fits, loads = record(lambda: reel_render.frame_title(cfg, "عنوان قصير", "2099/01/01"))
+    check("g267: عنوان frame_title بالرقعة وحدها في fit_text", fits == [aref], fits)
+    check("g267: الشارة بـCairo والتاريخ والمعرّف بـTajawal", reel_render.CAIRO in loads and reel_render.TAJAWAL_B in loads, loads)
+    fits, loads = record(lambda: reel_render.frame_question(cfg, "سؤال قصير"))
+    check("g267: السؤال بالرقعة وعلامة الاستفهام وشاركونا بخطيهما", fits == [aref] and reel_render.CAIRO in loads
+          and reel_render.TAJAWAL_B in loads, (fits, loads))
+    fits, loads = record(lambda: reel_render.frame_narration(cfg, "جملة قصيرة"))
+    check("g267: الراوي بالرقعة", fits == [aref], fits)
+    fits, loads = record(lambda: reel_render.frame_outro(cfg, "الجزيرة", credit="الصورة: وكالة"))
+    check("g267: «تابعوا الموجز» بالرقعة والباقي بخطه", aref in loads and fits == [reel_render.TAJAWAL_B, reel_render.TAJAWAL_R],
+          (fits, loads))
+    fits, loads = record(lambda: reel_render.frame_clip_overlay(
+        cfg, {"quote_arabic": "ترجمة", "speaker_verified": True, "speaker_name": "اسم", "speaker_role": "صفة",
+              "channel_display": "قناة"}))
+    check("g267: صندوق الترجمة والشريط السفلي بلا رقعة", aref not in fits + loads
+          and fits == [reel_render.TAJAWAL_B], (fits, loads))
+
+    # ── g268: لا تداخل بين صندوقَي حبر سطرين متتاليين بالرقعة ──
+    sentence = ("وفي الثالث عشر من أكتوبر 2026، قدّمت ميساء شجاع الدين، الباحثة في مركز صنعاء للدراسات الاستراتيجية، "
+                "قراءة لحجم الترسانة الصاروخية")
+    for size in (108, 80):
+        boxes = []
+        pn = reel_render._Pen(cfg, boxes)
+        pn.block(sentence, aref, None, pn.white, 860, start=size, minimum=size, max_lines=12, line_factor=factor)
+        ok = len(boxes) >= 2 and all(boxes[i][3] < boxes[i + 1][1] for i in range(len(boxes) - 1))
+        check(f"g268: لا تداخل أسطر بالحجم {size}", ok, boxes)
+
+    # ── g269: دالة التوقيت ──
+    chars, speech, hold, fps, fade = [30, 25, 45], 6.0, 0.35, 30.0, 0.25
+    steps = reel_render.reveal_steps(chars, speech, hold, fps, fade)
+    t, first = 0.0, [None] * 3
+    for alphas, d in steps:
+        for k, a in enumerate(alphas):
+            if a > 0 and first[k] is None:
+                first[k] = t
+        t += d
+    want = [speech * sum(chars[:k]) / sum(chars) for k in range(3)]
+    check("g269: بداية ظهور كل سطر عند نسبة حروفه ±إطار",
+          all(f is not None and abs(f - w) <= 1 / fps + 1e-6 for f, w in zip(first, want)), (first, want))
+    check("g269: الأسطر كلها ظاهرة كاملة في آخر إطار", all(a == 1.0 for a in steps[-1][0]), steps[-1])
+    check("g269: مجموع المدد = الكلام + الصمت", abs(sum(d for _, d in steps) - (speech + hold)) < 1e-6,
+          sum(d for _, d in steps))
+    seg = "جملة قصيرة نسبيا تكفي لثلاثة أسطر على الأقل في الشاشة هذه وهي طويلة بما يكفي لتقسم " * 2
+    n_lines = len(reel_render.narration_lines(cfg, seg))
+    st = reel_render.reveal_steps([10] * n_lines, 3.0, 0.35, fps, fade)
+    ref = None
+    stable = True
+    for alphas, _ in st:
+        if alphas[0] != 1.0:
+            continue
+        bx: list = []
+        reel_render.frame_narration_reveal(cfg, seg, alphas, bx)
+        ref = ref or bx[0]
+        stable = stable and tuple(bx[0]) == tuple(ref)
+    check("g269: صندوق حبر السطر الأول ثابت بعد اكتمال تلاشيه", ref is not None and stable, ref)
+
+    # ── g270: التقسيم إلى مقاطع ──
+    def fits5(text: str) -> bool:
+        d = ImageDraw.Draw(Image.new("RGB", (10, 10)))
+        font = imaging.load_font(aref, 80, None)
+        return len(imaging.wrap(d, text, font, 820)) <= 5
+
+    clauses = ["وفي الثالث عشر من أكتوبر 2026 قدّمت ميساء شجاع الدين الباحثة في مركز صنعاء للدراسات الاستراتيجية قراءة",
+               "لحجم الترسانة الصاروخية التي تملكها الجماعة بحسب ما أعلنته مصادر مطلعة في العاصمة صنعاء",
+               "ثم تحدثت عن أثر ذلك في مسار المفاوضات الجارية بين الأطراف المتنازعة في المنطقة"]
+    longs = "، ".join(clauses * 2)
+    check("g270: الجملة الطويلة لا تسع 5 أسطر", not fits5(longs))
+    segs = reel_render.narration_segments(cfg, longs)
+    check("g270: عدة مقاطع يسع كلًّا منها", len(segs) > 1 and all(fits5(s) for s in segs), [len(s) for s in segs])
+    check("g270: وصل المقاطع = الجملة", " ".join(segs).split() == longs.split())
+    check("g270: التقسيم عند الفاصلة", all(s.endswith("،") for s in segs[:-1]), segs)
+    nocomma = " ".join(["كلمة"] * 120)
+    segs2 = reel_render.narration_segments(cfg, nocomma)
+    check("g270: بلا فاصلة تُقسم عند مسافة", len(segs2) > 1 and all(fits5(s) for s in segs2)
+          and " ".join(segs2).split() == nocomma.split(), len(segs2))
+    check("g270: الجملة القصيرة مقطع واحد", reel_render.narration_segments(cfg, "جملة قصيرة") == ["جملة قصيرة"])
+
+    # ── g271: أحجام الراوي والوضع القديم ──
+    bgA = {"image": Image.new("RGB", (1080, 1920), (10, 10, 10)), "layout": "A"}
+    for label, bg in (("بلا خلفية", None), ("التخطيط A", bgA)):
+        _, kw = reel_render._narration_pen(cfg, "جملة", [], bg)
+        check(f"g271: حجم الراوي {label}", (kw["start"], kw["minimum"], kw["max_lines"]) == (108, 80, 5), kw)
+    c2 = copy.deepcopy(cfg)
+    c2["reel"]["render"]["reveal"]["mode"] = "typewriter"
+    with tempfile.TemporaryDirectory() as td:
+        got = reel_render._narration_frames([("جملة قصيرة للتجربة", 2.0)], 0, c2, Path(td), 0.0)
+    exp = reel_render.typewriter_steps("جملة قصيرة للتجربة", 2.0 - 0.35, 0.35, 30.0)
+    check("g271: mode=typewriter يعطي خطوات typewriter_steps نفسها",
+          [round(d, 6) for _, d in got] == [round(d, 6) for _, d in exp], (len(got), len(exp)))
+    check("g271: الإعداد الافتراضي lines", cfg.path("reel.render.reveal.mode") == "lines"
+          and cfg.path("reel.render.reveal.fade") == 0.25 and cfg.path("reel.render.reveal.rise") == 18)
+
+    # ── g272–g273: الشريط السفلي ──
+    def drawn(scene) -> list[tuple]:
+        out = []
+        o1, o2 = imaging.draw_text, imaging.draw_text_ltr
+
+        def s1(d, xy, text, font, fill, **k):
+            out.append((text, fill))
+            return o1(d, xy, text, font, fill, **k)
+
+        def s2(d, xy, text, font, fill, **k):
+            out.append((text, fill))
+            return o2(d, xy, text, font, fill, **k)
+
+        imaging.draw_text, imaging.draw_text_ltr = s1, s2
+        try:
+            reel_render.frame_clip_overlay(cfg, scene)
+        finally:
+            imaging.draw_text, imaging.draw_text_ltr = o1, o2
+        return out
+
+    gold = imaging.hex_rgb(cfg.path("brand.accent_color"))
+    base = {"speaker_verified": True, "speaker_name": "ميساء شجاع الدين",
+            "speaker_role": "باحثة في مركز صنعاء للدراسات الاستراتيجية",
+            "channel_original": "FRANCE 24 Arabic", "channel_display": "فرانس 24 عربي"}
+    d1 = drawn({**base, "speaker_name_latin": "ميساء شجاع الدين"})
+    check("g272: لا سطر ذهبي حين اللاتيني عربي", not any(f == gold for _, f in d1), d1)
+    check("g272: السطر الثالث بالصفة والقناة اللاتينية ثم العربية",
+          any(t == "باحثة في مركز صنعاء للدراسات الاستراتيجية · FRANCE 24 Arabic فرانس 24 عربي" for t, _ in d1), d1)
+    d2 = drawn({**base, "speaker_name_latin": "Ahmet Kayapaşa"})
+    check("g272: السطر الذهبي يظهر للاسم اللاتيني", ("Ahmet Kayapaşa", gold) in d2, d2)
+    guest = {"speaker_verified": False, "speaker_name": "", "channel_original": "CNN TÜRK", "channel_display": "سي إن إن ترك"}
+    d3 = drawn(guest)
+    check("g273: ضيف على CNN TÜRK سي إن إن ترك", any(t == "ضيف على CNN TÜRK سي إن إن ترك" for t, _ in d3), d3)
+    d4 = drawn({**guest, "channel_original": "الجزيرة", "channel_display": "الجزيرة"})
+    check("g273: اسم القناة العربي وحده ← ضيف على الجزيرة", any(t == "ضيف على الجزيرة" for t, _ in d4), d4)
+    check("g273: القناة من النقطة حين تغيب من المشهد",
+          reel_render.channel_original_of({"channel_display": "x"}, {"channel": "CNN TÜRK"}) == "CNN TÜRK"
+          and reel_render.channel_original_of({"channel_original": "A"}, {"channel": "B"}) == "A")
+    check("g273: لا «من قناة» في أي نص مرسوم",
+          not any("من قناة" in t for t, _ in d1 + d2 + d3 + d4) and "من قناة" not in cfg.path("reel.texts.guest_label"))
+
+    # ── g274: النسخة وحقل القناة الأصلية ──
+    check("g274: render_version == 9", int(cfg.path("reel.render.version")) == 9, cfg.path("reel.render.version"))
+    pts = [{"timestamp": 100, "quote_original": "some words here", "video_url": "https://youtu.be/x",
+            "channel": "FRANCE 24 Arabic", "quote_arabic": "ترجمة", "speaker": "ميساء", "video_id": "x"}]
+    clips = reel_script.valid_clips(pts, [], cfg)
+    check("g274: valid_clips تضع channel_original", bool(clips) and clips[0].get("channel_original") == "FRANCE 24 Arabic", clips)
