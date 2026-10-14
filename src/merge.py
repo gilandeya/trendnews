@@ -21,6 +21,7 @@ import re
 from anthropic import Anthropic, APIError
 
 from .config import env
+from . import llm
 from .sources import Article
 
 log = logging.getLogger(__name__)
@@ -83,15 +84,15 @@ def _group_titles(titles: list[str], cfg) -> list[list[int]] | None:
     فشل الإعادة أيضًا: None (لا دمج هذه الدورة)، لكن بسطر ERROR يسمّي القطع
     سببًا صريحًا لا برسالة عامة."""
     mcfg = cfg.get("merge", {}) or {}
-    model = mcfg.get("model", "claude-haiku-4-5-20251001")
+    model = mcfg.get("model", "haiku")
     listing = "\n".join(f"{i}. {t}" for i, t in enumerate(titles))
     n_titles = len(titles)
     max_tokens = _group_titles_max_tokens(n_titles, mcfg)
     cap = int(mcfg.get("max_tokens_cap", 6000))
 
     def _call(tokens: int):
-        resp = _client().messages.create(
-            model=model,
+        resp = llm.create(
+            _client(), model=model,
             max_tokens=tokens,
             system=SYSTEM,
             messages=[{"role": "user", "content": f"العناوين:\n\n{listing}"}],

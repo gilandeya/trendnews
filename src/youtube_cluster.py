@@ -102,7 +102,7 @@ from pathlib import Path
 
 from anthropic import Anthropic, APIError
 
-from . import decisions, review, stages
+from . import decisions, llm, review, stages
 from .config import STATE_DIR, YOUTUBE_POINTS_DIR, Config, env, load_config
 
 log = logging.getLogger(__name__)
@@ -680,7 +680,7 @@ def merge_duplicate_events(issues: list[dict], cfg: Config, client: Anthropic | 
         return issues, [], None
 
     model = cfg.path("youtube.cluster.merge_model",
-                      cfg.path("youtube.extract.model", "claude-haiku-4-5-20251001"))
+                      cfg.path("youtube.extract.model", "haiku"))
     max_tokens = cfg.path("youtube.cluster.merge_max_tokens", 2000)
     max_retries = cfg.path("youtube.cluster.merge_max_retries", 2)
     merge_max_tokens_cap = cfg.path("youtube.cluster.merge_max_tokens_cap", 8000)
@@ -693,8 +693,8 @@ def merge_duplicate_events(issues: list[dict], cfg: Config, client: Anthropic | 
     current_tokens = max_tokens
     for attempt in range(1, max_retries + 1):
         try:
-            resp = client.messages.create(
-                model=model,
+            resp = llm.create(
+                client, model=model,
                 max_tokens=current_tokens,
                 tools=[MERGE_SCHEMA],
                 tool_choice={"type": "tool", "name": "merge_duplicate_events"},

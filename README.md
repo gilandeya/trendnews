@@ -552,7 +552,7 @@ YouTube Data API v3) و`YOUTUBE_DATA_TOKEN` (Personal Access Token بصلاحي�
 | `selection.dedupe_memory_days` | مدة منع إعادة نشر خبر مشابه |
 | `selection.blocklist_keywords` | كلمات تستبعد الخبر تمامًا |
 | `selection.appeal.impact_weight` / `proximity_weight` / `intrigue_weight` | أوزان عوامل الجذب الثلاثة (أثر · قرب · تشويق) في مؤشر الترند؛ صفّرها للعودة للسلوك القديم |
-| `writer.model` | `claude-sonnet-5` للجودة، أو `claude-haiku-4-5-20251001` للتوفير |
+| `writer.model` | `claude-sonnet-5` للجودة، أو `haiku` للتوفير (يُحلّ من `llm.haiku_model`) |
 | `writer.tone` | نبرة الكتابة العربية |
 | `radar.auto_publish` | `false` يعطّل النشر بلا مراجعة نهائيًا (يبقى الفحص/الصياغة فعّالين) |
 | `radar.auto_publish_daily_limit` | سقف عدد المنشورات المنشورة تلقائيًا يوميًا |

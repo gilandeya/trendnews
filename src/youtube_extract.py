@@ -74,7 +74,7 @@ from typing import Any
 import requests
 from anthropic import Anthropic, APIError
 
-from . import evidence, imagesearch, imaging, sources, youtube_collect
+from . import evidence, imagesearch, imaging, llm, sources, youtube_collect
 from .config import YOUTUBE_POINTS_DIR, Config, env, load_config
 from .proxy_config import get_proxy_config
 
@@ -546,12 +546,12 @@ def classify_topic(video_title: str, transcript_excerpt: str, cfg: Config,
     الفيديو نشرة أو رياضة، وإسقاطه صامتًا لهذا السبب يناقض مبدأ المشروع في
     عدم الفشل الصامت."""
     model = cfg.path("youtube.extract.topic_guard_model",
-                      cfg.path("youtube.extract.model", "claude-haiku-4-5-20251001"))
+                      cfg.path("youtube.extract.model", "haiku"))
     excerpt_chars = cfg.path("youtube.extract.topic_guard_excerpt_chars", 2000)
     client = client or Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
     try:
-        resp = client.messages.create(
-            model=model,
+        resp = llm.create(
+            client, model=model,
             max_tokens=50,
             tools=[TOPIC_SCHEMA],
             tool_choice={"type": "tool", "name": "classify_video_topic"},
@@ -655,7 +655,7 @@ def extract_points(video_title: str, transcript_text: str, language: str, durati
     في log (Issue #642 العطل ٣د) -- بلا هذا لا نعرف كم مرة يقع القصّ فعليًا
     عبر التشغيلات، وهو الشاهد التشخيصي وراء اختلاق الأختام في الفيديوهات
     الطويلة (العطل ٣)."""
-    model = cfg.path("youtube.extract.model", "claude-haiku-4-5-20251001")
+    model = cfg.path("youtube.extract.model", "haiku")
     max_tokens = cfg.path("youtube.extract.max_tokens", 2000)
     max_retries = cfg.path("youtube.extract.max_retries", 2)
     max_transcript_chars = cfg.path("youtube.extract.max_transcript_chars", 60000)
@@ -673,8 +673,8 @@ def extract_points(video_title: str, transcript_text: str, language: str, durati
     last_resp = None
     for attempt in range(1, max_retries + 1):
         try:
-            resp = client.messages.create(
-                model=model,
+            resp = llm.create(
+                client, model=model,
                 max_tokens=max_tokens,
                 tools=[EXTRACT_POINTS_SCHEMA],
                 tool_choice={"type": "tool", "name": "extract_points"},
