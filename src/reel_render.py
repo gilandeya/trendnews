@@ -756,14 +756,32 @@ def frame_question(cfg, question: str, boxes=None) -> Image.Image:
     imaging.draw_text(p.d, (p.cx, cy - qh // 2 - 26), "؟", qfont, p.navy, anchor="ma")
     fpath, lf = display_font(cfg)
     start, minimum = scaled(cfg, 76), scaled(cfg, 44)
-    span = p._safe()[1] - p._safe()[0]
-    while start > 44:       # سؤال طويل جدًا يُصغَّر (حتى الحجم القديم) ليسع المنطقة الآمنة بدل أن يخرج منها
-        _, lines_, lh_ = _fit(p.d, question, fpath, p.max_w, 8, start, min(minimum, start), None, lf)
-        if lh_ * len(lines_) <= span:
-            break
-        start -= 2
-    p.block(question, fpath, None, p.white, 930, start=start, minimum=min(minimum, start), line_factor=lf)
-    p.line(cfg.path("reel.render.texts.share"), p.font(TAJAWAL_B, 46), p.gold, 1250)
+    share_font = p.font(TAJAWAL_B, 46)
+    share_text = cfg.path("reel.render.texts.share")
+    # السؤال يبدأ بحبره تحت الدائرة بـ50 بكسلًا (لا يتمركز حول نقطة فيلامسها حين يطول) وينتهي حبره قبل «شاركونا» بـ30
+    top_ink = cy + r + 50
+    bottom_ink = p.ink(share_text, share_font, (p.cx, 1250), "ma")[1] - 30
+    best = None
+    for max_lines in range(8, 0, -1):
+        for size in range(start, min(minimum, start) - 1, -2):
+            font, lines_, lh_ = _fit(p.d, question, fpath, p.max_w, max_lines, size, min(minimum, size), None, lf)
+            if not lines_:
+                continue
+            y = top_ink - min(p.ink(ln, font, (p.cx, 0), "ma")[1] for ln in lines_)
+            low = y + (len(lines_) - 1) * lh_ + max(p.ink(ln, font, (p.cx, 0), "ma")[3] for ln in lines_)
+            best = (font, lines_, lh_, y)
+            if low <= bottom_ink:
+                break
+        else:
+            continue
+        break
+    if best is not None:        # أصغر محاولة تُعتمد إن لم يسع شيء (سؤال شاذ الطول) ولا يُحذف النص
+        font, lines_, lh_, y = best
+        for ln in lines_:
+            imaging.draw_text(p.d, (p.cx, y), ln, font, p.white, anchor="ma")
+            p.boxes.append(tuple(p.ink(ln, font, (p.cx, y), "ma")))
+            y += lh_
+    p.line(share_text, share_font, p.gold, 1250)
     return p.rgb()
 
 
