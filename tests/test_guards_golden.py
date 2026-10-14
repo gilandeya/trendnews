@@ -7777,3 +7777,225 @@ def test_reel_background_r3b2b_guards() -> None:
         guarded("g251", g251)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
+
+
+def test_reel_music_r3b2c_guards() -> None:
+    """Issue #1413 (R3b-2c، g252–g256): موسيقى خلفية تتناوب بين مقطوعات المستودع الخاص (MUSIC_DIR) وتُمزج تحت الكلام في أمر
+    الشعار الأخير نفسه، واسم مصدر الصورة بالعربية في سطر مستقل تحت «المقاطع من» لا ملحقًا به."""
+    import json
+    import tempfile
+    from pathlib import Path
+
+    from src import imaging, reel_render, reel_script
+
+    cfg = load_config()
+    D = "2099-12-08"
+    quote = "alpha beta gamma delta epsilon zeta eta theta"
+    points = [{"video_id": v, "statement": "s", "quote_original": quote, "quote_arabic": "ترجمة", "speaker": "متحدث",
+               "channel": "قناة", "video_url": "https://youtube.com/watch?v=" + v, "timestamp": 10} for v in ("v1", "v2")]
+    clip = {"kind": "clip", "start": 9, "end": 20, "speaker_name": "", "speaker_role": "", "speaker_verified": False,
+            "speaker_name_latin": "", "channel_display": "قناة", "quote_arabic": "ترجمة", "language": "en"}
+    scenes = [dict(clip, kind="cold_open_clip", video_url=points[0]["video_url"], point_id=reel_script.point_key_id(points[0])),
+              {"kind": "narration", "text": "جملة تجريبية للراوي"},
+              dict(clip, video_url=points[1]["video_url"], point_id=reel_script.point_key_id(points[1])),
+              {"kind": "question", "text": "هل؟"}, {"kind": "outro"}]
+    transcripts = {v: "[00:10] alpha beta gamma delta\n[00:14] epsilon zeta eta theta\n[00:18] tail line"
+                   for v in ("v1", "v2")}
+    tmp = Path(tempfile.mkdtemp())
+    music = tmp / "music"
+    real_dir = getattr(reel_render, "MUSIC_DIR", None)
+    cmds: list = []
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def make_deps(providers=None):
+        def run(cmd):
+            cmds.append(list(cmd))
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+
+        def download(video_id, start, end, height, out_path):
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        empty = {"news": lambda *a: [], "web": lambda *a, **k: [], "free": lambda *a: [], "download": lambda u: None}
+        return reel_render.Deps(
+            fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
+            synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)}, diacritize=lambda t: (t, None),
+            run=run, probe=lambda p: 40.0, load_points=lambda date: points, comment=lambda i, t: None,
+            streams=lambda p: {"video", "audio"},
+            faces=lambda f, fr: (1280, 720, []), bg_image=(lambda u: __import__("PIL.Image").Image.new("RGB", (1400, 800), (90, 120, 160))) if providers
+            else (lambda u: None),
+            bg_providers=providers or empty)
+
+    def new_draft(did, **extra):
+        return {"id": did, "origin": "analysis", "format": "reel", "status": "approved_script", "render_status": "queued",
+                "topic_id": "t1", "topic_date": D, "title": "ريل", "script_status": "ready",
+                "script": {"narrator": "female", "title": "عنوان", "question": "هل؟", "scenes": scenes}, **extra}
+
+    def render(did, c=cfg, **extra):
+        d0 = new_draft(did, **extra)
+        path = store.save_draft(d0)
+        cmds.clear()
+        reel_render.render_draft(path, d0, c, make_deps(), reels_dir=tmp / "reels", workdir=tmp / "work")
+        return path, json.loads(path.read_text(encoding="utf-8"))
+
+    def final_cmd():
+        return next((c for c in cmds if any("overlay=W-w-" in str(x) for x in c)), [])
+
+    def seed(did, name, at):
+        return store.save_draft({"id": did, "origin": "analysis", "format": "reel", "status": "approved_script",
+                                 "render_status": "rendered", "reel_music": name, "rendered_at": at, "title": "ريل"})
+
+    try:
+        music.mkdir()
+        for n in ("a.mp3", "b.mp3", "c.mp3"):
+            (music / n).write_bytes(b"ID3")
+        reel_render.MUSIC_DIR = music
+
+        # ── g252: التناوب بالاسم ──
+        def g252():
+            pm = reel_render.pick_music
+            check("g252: لا ريل سابق ← a.mp3", pm({"id": "r3b2c00g252x"}, cfg) == "a.mp3")
+            p1 = seed("r3b2c00g252a", "b.mp3", "2099-01-01T00:00:00+00:00")
+            check("g252: آخر ريل b.mp3 ← c.mp3", pm({"id": "r3b2c00g252x"}, cfg) == "c.mp3")
+            p2 = seed("r3b2c00g252b", "c.mp3", "2099-02-01T00:00:00+00:00")
+            check("g252: الأحدث c.mp3 ← a.mp3 (دورة)", pm({"id": "r3b2c00g252x"}, cfg) == "a.mp3")
+            check("g252: إعادة تركيب reel_music = b.mp3 تبقيه",
+                  pm({"id": "r3b2c00g252x", "reel_music": "b.mp3"}, cfg) == "b.mp3")
+            check("g252: مقطوعة محفوظة لم تعد موجودة ← تناوب عادي",
+                  pm({"id": "r3b2c00g252x", "reel_music": "gone.mp3"}, cfg) == "a.mp3")
+            p1.unlink()
+            p2.unlink()
+            check("g252: بعد الحذف ← a.mp3", pm({"id": "r3b2c00g252x"}, cfg) == "a.mp3")
+            p3 = seed("r3b2c00g252c", "a.mp3", "2099-03-01T00:00:00+00:00")
+            check("g252: إعادة تركيب a.mp3 تبقيه a.mp3",
+                  pm({"id": "r3b2c00g252x", "reel_music": "a.mp3"}, cfg) == "a.mp3")
+            p3.unlink()
+        guarded("g252", g252)
+
+        # ── g253: مرشحات المزج ──
+        def g253():
+            path, d = render("r3b2c00g253a")
+            cmd = final_cmd()
+            i = cmd.index("-stream_loop") if "-stream_loop" in cmd else -1
+            check("g253: -stream_loop -1 قبل ملف المقطوعة", i >= 0 and cmd[i + 1] == "-1" and cmd[i + 2] == "-i"
+                  and str(cmd[i + 3]).endswith("a.mp3"), cmd[:14])
+            fc = str(cmd[cmd.index("-filter_complex") + 1]) if "-filter_complex" in cmd else ""
+            check("g253: loudnorm المقطوعة −26", "loudnorm=I=-26:TP=-3:LRA=11" in fc, fc)
+            check("g253: ظهور تدريجي 1.5", "afade=t=in:d=1.5" in fc, fc)
+            check("g253: اختفاء تدريجي st = 40 − 3", "afade=t=out:st=37" in fc and ":d=3" in fc, fc)
+            check("g253: sidechaincompress بقيم duck",
+                  "sidechaincompress=threshold=0.03:ratio=8:attack=30:release=500:makeup=1" in fc, fc)
+            check("g253: asplit للصوت", "asplit=2" in fc, fc)
+            k = fc.find("amix=inputs=2:normalize=0")
+            check("g253: amix ثم loudnorm النهائي −16", k >= 0 and "loudnorm=I=-16" in fc[k:], fc)
+            check("g253: حُفظ reel_music", d.get("reel_music") == "a.mp3", d.get("reel_music"))
+            check("g253: لا -af منفصل (المزج في filter_complex)", "-af" not in cmd, cmd)
+        guarded("g253", g253)
+
+        # ── g254: بلا موسيقى = أمر اليوم حرفيًا ──
+        def g254():
+            rc = cfg.path("reel.render")
+            lg = rc["logo"]
+            scale = "[1:v]scale=" + str(lg["width"]) + ":-1[lg];[0:v][lg]overlay=W-w-" + str(lg["right"]) + ":" \
+                + str(lg["top"]) + "[v]"
+            want = ["-filter_complex", scale, "-map", "[v]", "-map", "0:a", "-c:v", "libx264", "-preset", "veryfast",
+                    "-crf", str(rc.get("crf", 22)), "-pix_fmt", "yuv420p", "-af", "loudnorm=I=-16:TP=-1.5:LRA=11",
+                    "-c:a", "aac", "-b:a", "128k", "-ar", str(rc.get("audio_rate", 48000)), "-ac", "2",
+                    "-movflags", "+faststart"]
+
+            def tail(cmd):
+                return cmd[cmd.index("-filter_complex"):-1] if "-filter_complex" in cmd else None
+
+            reel_render.MUSIC_DIR = tmp / "nonexistent"
+            _, d = render("r3b2c00g254a")
+            check("g254: مجلد غير موجود ← أمر اليوم", tail(final_cmd()) == want and "reel_music" not in d,
+                  tail(final_cmd()))
+            empty = tmp / "empty"
+            empty.mkdir()
+            reel_render.MUSIC_DIR = empty
+            _, d = render("r3b2c00g254b")
+            check("g254: مجلد فارغ ← أمر اليوم", tail(final_cmd()) == want and "reel_music" not in d)
+            reel_render.MUSIC_DIR = music
+            c2 = load_config()
+            c2["reel"]["music"]["enabled"] = False
+            _, d = render("r3b2c00g254c", c2)
+            check("g254: enabled=false ← أمر اليوم", tail(final_cmd()) == want and "reel_music" not in d)
+            reel_render.MUSIC_DIR = music
+        guarded("g254", g254)
+
+        # ── g255: سطر مصدر الصورة ──
+        def g255():
+            oc = reel_render.outro_credit
+            got = oc(cfg, {"kind": "news_photo", "publisher": "Al Jazeera"})
+            check("g255: Al Jazeera ← «الصورة: الجزيرة»", got == "الصورة: الجزيرة", got)
+            check("g255: free ← «صورة تعبيرية»", oc(cfg, {"kind": "free"}) == "صورة تعبيرية")
+            check("g255: none وmanual ← لا سطر", oc(cfg, {"kind": "none"}) == "" and oc(cfg, {"kind": "manual"}) == "")
+            base: list = []
+            reel_render.frame_outro(cfg, "قناة", base)
+            ar: list = []
+            reel_render.frame_outro(cfg, "قناة", ar, "الصورة: الجزيرة")
+            check("g255: العربي سطر مستقل واحد تحت «المقاطع من»",
+                  len(ar) == len(base) + 1 and ar[-1][1] >= base[-1][3] - 2, (len(ar), len(base), ar[-1:], base[-1:]))
+            seen: list = []
+            real = imaging.draw_text_ltr
+
+            def spy_ltr(d, xy, text, *a, **k):
+                seen.append(text)
+                return real(d, xy, text, *a, **k)
+            imaging.draw_text_ltr = spy_ltr
+            try:
+                la: list = []
+                reel_render.frame_outro(cfg, "قناة", la, "الصورة: www.example-news.com")
+                long: list = []
+                reel_render.frame_outro(cfg, "قناة", long, "الصورة: " + "www.very-long-example-news-domain-name" * 2 + ".com")
+            finally:
+                imaging.draw_text_ltr = real
+            check("g255: الاسم اللاتيني مرسوم LTR وسطر واحد بصندوقين متجاورين",
+                  any("example-news" in s for s in seen) and len(la) == len(base) + 2
+                  and abs(la[-1][3] - la[-2][3]) < 40 and la[-1][2] <= la[-2][0] + 30, (seen, la[-2:]))
+            check("g255: الاسم الطويل يُصغَّر ولا يتجاوز الحدود",
+                  len(long) == len(base) + 2 and min(b[0] for b in long[-2:]) >= 0, long[-2:])
+            seen2: list = []
+            real_outro = reel_render.frame_outro
+
+            def spy(c, ch, boxes=None, credit=""):
+                seen2.append(credit)
+                return real_outro(c, ch, boxes, credit)
+            reel_render.frame_outro = spy
+            try:
+                pv = {"news": lambda *a: [{"url": "https://n/1.jpg", "publisher": "Al Jazeera"}],
+                      "web": lambda *a, **k: [], "free": lambda *a: [], "download": lambda u: object()}
+                d0 = new_draft("r3b2c00g255")
+                path = store.save_draft(d0)
+                reel_render.render_draft(path, d0, cfg, make_deps(pv), reels_dir=tmp / "reels", workdir=tmp / "work")
+            finally:
+                reel_render.frame_outro = real_outro
+            check("g255: التركيب يمرّر «الصورة: الجزيرة» وحدها", "الصورة: الجزيرة" in seen2, seen2)
+        guarded("g255", g255)
+
+        # ── g256: --pending ──
+        def g256():
+            check("g256: reel.render.version = 8", cfg.path("reel.render.version") == 8, cfg.path("reel.render.version"))
+            d0 = new_draft("r3b2c00g256", render_status="rendered", render_version=7,
+                           approved_script_at="2000-01-01T00:00:00+00:00")
+            path = store.save_draft(d0)
+            c2 = load_config()
+            c2["reel"]["render"]["max_per_run"] = 500
+            batch = {p.stem: d for p, d in reel_render.pending_batch(c2)}
+            check("g256: --pending يعيد ريل النسخة 7", "r3b2c00g256" in batch, list(batch)[:3])
+            reel_render.render_draft(path, batch.get("r3b2c00g256", d0), c2, make_deps(),
+                                     reels_dir=tmp / "reels", workdir=tmp / "work")
+            d = json.loads(path.read_text(encoding="utf-8"))
+            check("g256: reel_music وrender_version = 8", d.get("reel_music") in ("a.mp3", "b.mp3", "c.mp3")
+                  and d.get("render_version") == 8, (d.get("reel_music"), d.get("render_version")))
+        guarded("g256", g256)
+    finally:
+        if real_dir is not None:
+            reel_render.MUSIC_DIR = real_dir
+        shutil.rmtree(tmp, ignore_errors=True)
