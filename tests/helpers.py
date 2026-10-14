@@ -262,6 +262,10 @@ def install_fakes() -> None:
     # فحص مسارات المقطع (Issue #1406) بلا ffprobe: الافتراضي صورة وصوت معًا؛ اختبار يحتاج غيره يحقن Deps.streams
     from src import reel_render
     reel_render.probe_streams = lambda path: {"video", "audio"}  # type: ignore
+    # كاشف شريط الأسفل (Issue #1408) بلا ffmpeg: الافتراضي لقطات ناعمة بلا شريط ← بلا غطاء؛ اختبار يحتاج غيره يحقن Deps.frames
+    import numpy as np
+    reel_render._extract_gray_frames = (  # type: ignore
+        lambda clip, fractions: [np.full((720, 1280), 120, dtype=np.uint8) for _ in fractions])
 
     # صورة "ناشر" اصطناعية بدل التحميل الحقيقي
     fake =Image.new("RGB", (1400, 800), (34, 52, 92))

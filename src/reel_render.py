@@ -83,6 +83,66 @@ def _detect_faces(clip, fractions) -> tuple[int, int, list[float]]:
     return size[0], size[1], centers
 
 
+def _extract_gray_frames(clip, fractions) -> list:
+    """لقطات رمادية من المقطع المنزَّل بمقاسه الأصلي عند نِسب مدته؛ يرفع إن تعذّر أي استخراج
+    (الكاشف يعدّ العطل «غطاء» لأنه الأحوط)."""
+    import io
+
+    import numpy as np
+    dur = probe_duration(clip)
+    if not dur:
+        raise RuntimeError("مدة المقطع مجهولة")
+    out = []
+    for f in fractions:
+        raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{dur * float(f):.2f}", "-i", str(clip),
+                              "-frames:v", "1", "-f", "image2pipe", "-vcodec", "png", "-"],
+                             capture_output=True, timeout=60).stdout
+        if not raw:
+            raise RuntimeError("تعذّر استخراج لقطة")
+        out.append(np.asarray(Image.open(io.BytesIO(raw)).convert("L")))
+    return out
+
+
+def has_bottom_graphics(frames, crop_x, crop_w, cfg) -> bool:
+    """هل في أسفل المقطع شريط أخبار أو لافتة؟ صف «حافة» = نسبة أعمدة نافذة الاقتطاع التي فيها |I(y)−I(y−2)| > grad
+    بلغت row_fraction؛ والقرار True إن كان صف واحد حافةً في frame_fraction فأكثر من الإطارات. الشريط ثابت المكان
+    في كل اللقطات، أما حواف المشهد فتتحرك. أي عطل في القراءة ← True (الأحوط: غطاء)."""
+    try:
+        import numpy as np
+        dcfg = cfg.path("reel.render.band.cover_detect") or {}
+        grad, row_frac = float(dcfg.get("grad", 25)), float(dcfg.get("row_fraction", 0.7))
+        frame_frac = float(dcfg.get("frame_fraction", 0.8))
+        top_frac = int(cfg.path("reel.render.band.top")) / int(cfg.path("reel.render.height"))
+        if not frames:
+            return True
+        counts = None
+        for fr in frames:
+            g = np.asarray(fr, dtype=np.int16)
+            if g.ndim != 2:
+                return True
+            h, w = g.shape
+            cw = int(crop_w) if crop_w else int(h * 9 / 16)
+            x0 = int(crop_x) if crop_x is not None else (w - cw) // 2
+            y0 = max(2, int(h * top_frac))
+            diff = np.abs(g[y0:, x0:x0 + cw] - g[y0 - 2:-2, x0:x0 + cw]) > grad
+            edge = (diff.mean(axis=1) >= row_frac).astype(int)
+            counts = edge if counts is None else counts + edge
+        return bool(counts.max() / len(frames) >= frame_frac)
+    except Exception as exc:  # noqa: BLE001 -- الكاشف تحسين: العطل ← غطاء
+        log.warning("تعذّر كشف شريط الأسفل فالغطاء: %s", str(exc)[:100])
+        return True
+
+
+def detect_cover(clip_file, crop_x, crop_w, cfg, extractor) -> bool:
+    """لقطات samples عند ((k+0.5)/samples) من المدة بدالة الاستخراج ثم الكاشف؛ عطل الاستخراج ← True."""
+    try:
+        n = max(1, int(cfg.path("reel.render.band.cover_detect.samples", 6)))
+        return has_bottom_graphics(extractor(clip_file, [(k + 0.5) / n for k in range(n)]), crop_x, crop_w, cfg)
+    except Exception as exc:  # noqa: BLE001
+        log.warning("تعذّر استخراج لقطات الكاشف فالغطاء: %s", str(exc)[:100])
+        return True
+
+
 def crop_window(src_w: int, src_h: int, centers: list, mode: str = "face") -> dict:
     """نافذة اقتطاع عرضها ارتفاع_المصدر×9÷16: تتوسّط وسيط مراكز الوجوه وتُحصر في حدود الصورة،
     ولا وجه (أو mode=center) ← المنتصف. {w, x, source}"""
@@ -118,6 +178,8 @@ class Deps:
     sleep: Callable[[float], None] | None = None
     # أنواع مسارات الملف؛ مقطع بلا صورة أو بلا صوت لا يُقبل (Issue #1406)
     streams: Callable[[Any], set] | None = None
+    # (ملف المقطع، نِسب اللقطات) ← إطارات رمادية (مصفوفات) بمقاس المصدر لكاشف شريط الأسفل (Issue #1408)
+    frames: Callable[[Any, list], list] | None = None
 
     def resolved(self, cfg) -> "Deps":
         def fetch(video_id):
@@ -151,6 +213,7 @@ class Deps:
             faces=self.faces or _detect_faces,
             sleep=self.sleep or time.sleep,
             streams=self.streams or probe_streams,
+            frames=self.frames or (lambda clip, fractions: _extract_gray_frames(clip, fractions)),
             comment=self.comment or comment)
 
 
@@ -399,7 +462,7 @@ def frame_clip_overlay(cfg, scene: dict, boxes=None) -> Image.Image:
     return Image.alpha_composite(static, band)
 
 
-def frame_clip_layers(cfg, scene: dict, boxes=None) -> tuple[Image.Image, Image.Image]:
+def frame_clip_layers(cfg, scene: dict, boxes=None, cover: bool | None = None) -> tuple[Image.Image, Image.Image]:
     """طبقتان شفافتان بحجم الشاشة (Issue #1400): الثابتة (صندوق الترجمة والغطاء الكحلي المعتم من أسفل الشريط)
     وطبقة الشريط (المستطيل والحافة الذهبية والنصوص) التي تدخل متحركة من اليمين. الغطاء يخفي شريط القناة الأصلية
     المقصوص؛ شفافية 0.94 أبقته ظاهرًا باهتًا فهو معتم تمامًا."""
@@ -408,8 +471,16 @@ def frame_clip_layers(cfg, scene: dict, boxes=None) -> tuple[Image.Image, Image.
     p = st
     band = cfg.path("reel.render.band")
     top, height, edge = int(band["top"]), int(band["height"]), int(band["edge"])
-    navy_a = p.navy + (round(255 * float(band["alpha"])),)
-    if band.get("cover"):
+    # cover: true/false ثابتان كما كانا (شفافية الشريط من الإعداد)؛ auto: القرار للمقطع (cover) فالمعتم تمامًا مع الغطاء،
+    # وبلا قرار مُمرَّر يُفترض الغطاء (الأحوط)
+    mode = band.get("cover")
+    if mode is True or mode is False:
+        use_cover, opaque = mode, False
+    else:
+        use_cover = True if cover is None else bool(cover)
+        opaque = use_cover
+    navy_a = p.navy + (255 if opaque else round(255 * float(band["alpha"])),)
+    if use_cover:
         # الصف top+height للشريط نفسه، فيبدأ الغطاء بعده
         st.d.rectangle((0, top + height + 1, st.w, st.h), fill=st.navy + (255,))
     bd.d.rectangle((0, top, bd.w, top + height), fill=navy_a)
@@ -692,7 +763,7 @@ def _crop_for(clip: dict, cfg, deps: Deps) -> dict:
         return {"w": None, "h": None, "x": None, "source": "center"}
 
 
-def _clip_scene(clip: dict, overlays: tuple[Path, Path], out: Path, cfg, deps: Deps) -> float:
+def _clip_scene(clip: dict, overlays: tuple[Path, Path], out: Path, cfg, deps: Deps, scene: dict | None = None) -> float:
     """المقطع يملأ الشاشة الرأسية باقتطاع ثابت (يتبع الوجه)، ثم الطبقة الثابتة، ثم طبقة الشريط تدخل من اليمين
     بتباطؤ في آخر الحركة: x = W×(1−p)^3 مع p من 0 إلى 1 خلال slide_seconds بعد انتهاء الانتقال (قبلها خارج الشاشة)."""
     rcfg = cfg.path("reel.render")
@@ -704,6 +775,12 @@ def _clip_scene(clip: dict, overlays: tuple[Path, Path], out: Path, cfg, deps: D
         clip["crop"]["x"] = "center"
     else:
         cexpr = f"crop={crop['w']}:{crop['h']}:{crop['x']}:0"
+    if scene is not None and cfg.path("reel.render.band.cover") not in (True, False):
+        # الغطاء والشريط المعتم فقط حين في أسفل المقطع شريط أخبار أو لافتة (Issue #1408)؛ القرار يُحفظ للمراجعة
+        cover = detect_cover(clip["file"], crop["x"], crop["w"], cfg, deps.frames)
+        clip["crop"]["cover"] = cover
+        overlays = tuple(_save(im, Path(ov).with_name(Path(ov).stem + "_auto.png"))
+                         for im, ov in zip(frame_clip_layers(cfg, scene, cover=cover), overlays))
     slide = float(cfg.path("reel.render.band.slide_seconds", 0) or 0)
     if slide > 0:
         pos = f"x='W*pow(1-min(max((t-{_fmt(transition_seconds(cfg))})/{_fmt(slide)},0),1),3)':y=0"
@@ -779,7 +856,7 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str)
                 continue
             static, band = frame_clip_layers(cfg, scene)
             overlays = (_save(static, tmp / f"overlay_{i}_static.png"), _save(band, tmp / f"overlay_{i}_band.png"))
-            dur = _clip_scene(clips[i], overlays, out, cfg, deps)
+            dur = _clip_scene(clips[i], overlays, out, cfg, deps, scene)
         elif kind == "title_card":
             png = _save(frame_title(cfg, scene.get("text") or script.get("title", ""), date_text), tmp / f"title_{i}.png")
             dur = _still_scene(png, float(rcfg["title_seconds"]), out, cfg, deps)
