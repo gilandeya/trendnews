@@ -17,6 +17,7 @@ import logging
 
 from anthropic import Anthropic, APIError
 
+from . import llm
 from .config import Config, env
 
 log = logging.getLogger(__name__)
@@ -107,7 +108,7 @@ def propose_headlines(user_content: str, cfg: Config, cfg_prefix: str, *,
 
     ``first_question`` (Issue #1233): ``False`` ينقل قاعدة «الأول سؤال» إلى «الأول خبري»
     في التحقّق ووصف المخطط معًا (النظام يمرّره المستدعي عبر ``system``)."""
-    model = cfg.path(f"{cfg_prefix}.model", "claude-haiku-4-5-20251001")
+    model = cfg.path(f"{cfg_prefix}.model", "haiku")
     max_tokens = cfg.path(f"{cfg_prefix}.max_tokens", 600)
     max_retries = cfg.path(f"{cfg_prefix}.max_retries", 2)
     max_words = cfg.path(f"{cfg_prefix}.max_words", 15)
@@ -140,8 +141,8 @@ def propose_headlines(user_content: str, cfg: Config, cfg_prefix: str, *,
     last_reason = ""
     for attempt in range(1, max_retries + 1):
         try:
-            resp = client.messages.create(
-                model=model,
+            resp = llm.create(
+                client, model=model,
                 max_tokens=max_tokens,
                 tools=[schema],
                 tool_choice={"type": "tool", "name": "propose_headlines"},

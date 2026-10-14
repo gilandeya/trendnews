@@ -2632,7 +2632,7 @@ def _native_queries(claim: str, entry: dict, cfg) -> list[dict]:
     icfg = cfg.get("important", {}) or {}
     per_lang = int(icfg.get("queries_per_lang", 2))
     data, err = article._ask_model_with_retry(
-        article._client(), icfg.get("extract_model", "claude-haiku-4-5-20251001"),
+        article._client(), icfg.get("extract_model", "haiku"),
         tools=[NATIVE_SCHEMA], tool_choice={"type": "tool", "name": "native_queries"},
         system=NATIVE_SYSTEM.format(lang_name=entry.get("name", ""), lang=entry.get("lang", "")),
         messages=[{"role": "user", "content": claim}],
@@ -2654,7 +2654,7 @@ def extract_points(body: str, cfg) -> tuple[list[dict], str, str | None, str]:
     يعيد (نقاط، موضوع، خطأ، الخبر الرئيسي). لكل نقطة about_main (#1291): خارج الخبر الرئيسي
     لا تُبنى لها عبارات بحث ولا نداء لغات؛ main_story فارغ أو كل النقاط خارجه ← كلها about_main."""
     icfg = cfg.get("important", {}) or {}
-    model = icfg.get("extract_model", "claude-haiku-4-5-20251001")
+    model = icfg.get("extract_model", "haiku")
     per_lang = int(icfg.get("queries_per_lang", 2))
     cap = int(icfg.get("extract_max_tokens_cap", 8000))
     data, err = article._ask_model_with_retry(
@@ -2818,7 +2818,7 @@ def judge(body: str, issue_number: int, cfg=None) -> dict:
         "main_story": main_story, "off_topic": off_topic,
         "articles": plan_articles(judged),
         "model": (cfg.get("article", {}) or {}).get("model", ""),
-        "extract_model": icfg.get("extract_model", "claude-haiku-4-5-20251001"),
+        "extract_model": icfg.get("extract_model", "haiku"),
         "brave": {"requests": search.brave["requests"], "skipped": search.brave["skipped"],
                   "monthly_usage": brave_usage(),
                   "monthly_cap": int(icfg.get("brave_monthly_cap", 300))},

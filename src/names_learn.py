@@ -28,6 +28,7 @@ from anthropic import Anthropic, APIError
 from . import names
 from .config import STATE_DIR, env
 from .writer import record_usage
+from . import llm
 
 log = logging.getLogger(__name__)
 
@@ -208,8 +209,8 @@ def _ask_batch(client, model: str, batch: list[tuple[str, str, int, int]],
     listing = "\n".join(
         f'{i}. "{a}" مقابل "{b}"' for i, (a, b, _, _) in enumerate(batch))
     max_tokens = _max_tokens_for(len(batch), lcfg)
-    resp = client.messages.create(
-        model=model,
+    resp = llm.create(
+        client, model=model,
         max_tokens=max_tokens,
         system=SYSTEM,
         messages=[{"role": "user", "content": f"احكم على هذه الأزواج:\n\n{listing}"}],
@@ -328,7 +329,7 @@ def run(cfg: Any) -> None:
         save_learned(data)
         return
 
-    model = names.cfg_get(cfg, "screening.model", "claude-haiku-4-5-20251001")
+    model = names.cfg_get(cfg, "screening.model", "haiku")
     lcfg = names.cfg_get(cfg, "names.learn", {}) or {}
     try:
         client = _client()

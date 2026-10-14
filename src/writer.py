@@ -8,6 +8,7 @@ import time
 
 from anthropic import Anthropic, APIError
 
+from . import llm
 from .config import env
 from .sources import Article
 
@@ -250,7 +251,8 @@ def _extract_json(text: str) -> dict:
 PRICES = {          # دولار لكل مليون توكن: (إدخال، إخراج)
     "claude-sonnet-5": (2.0, 10.0),
     "claude-opus-5": (15.0, 75.0),
-    "claude-haiku-4-5-20251001": (1.0, 5.0),
+    "claude-haiku-5-5": (0.10, 0.50),
+    "claude-haiku-4-5-20251001": (1.0, 5.0),   # يبقى للتراجع (llm.haiku_model)
 }
 USAGE = {"input": 0, "output": 0, "cached": 0, "calls": 0, "cost": 0.0}
 
@@ -265,7 +267,8 @@ def record_usage(resp, model: str) -> None:
     cached = getattr(u, "cache_read_input_tokens", 0) or 0
     written = getattr(u, "cache_creation_input_tokens", 0) or 0
 
-    p_in, p_out = PRICES.get(model, (2.0, 10.0))
+    from . import llm
+    p_in, p_out = PRICES.get(llm.resolve(model), (2.0, 10.0))
     USAGE["input"] += inp + written
     USAGE["cached"] += cached
     USAGE["output"] += out
@@ -429,7 +432,9 @@ def _call_model(prompt: str, cfg, retries: int = 3) -> dict:
 
     for attempt in range(1, retries + 1):
         try:
-            resp = client.messages.create(
+            # writer.model قد يكون «haiku» (البديل الأرخص) فيمر بنقطة التحويل لا بالـAPI مباشرة
+            resp = llm.create(
+                client, cfg=cfg,
                 model=w.get("model", "claude-sonnet-5"),
                 max_tokens=int(w.get("max_tokens", 3000)),
                 tools=[POST_SCHEMA],

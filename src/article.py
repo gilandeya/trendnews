@@ -49,7 +49,7 @@ from pathlib import Path
 
 from anthropic import Anthropic, APIError
 
-from . import evidence, extract, headlines as headlines_mod, review, store, verify_draft, writer
+from . import evidence, extract, headlines as headlines_mod, llm, review, store, verify_draft, writer
 from .config import STATE_DIR, env, load_config
 from .imagesearch import find_images
 from .request import _AR_MARKS, _AR_STOP, _AR_TRANS, _WORD_RE, STOPWORDS, has_arabic, norm_tokens
@@ -226,8 +226,8 @@ def _ask_model_with_retry(client: Anthropic, model: str, *, tools: list[dict],
     "لا نتيجة" الشرعي) قبل أن تُكتشف كسبب الانهيار."""
 
     def _call(tokens: int):
-        resp = client.messages.create(
-            model=model,
+        resp = llm.create(
+            client, model=model,
             max_tokens=tokens,
             tools=tools,
             tool_choice=tool_choice,

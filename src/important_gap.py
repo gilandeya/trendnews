@@ -70,7 +70,7 @@ def gap_questions(result: dict, item: dict, members: list[dict], cfg) -> list[di
     fixed = ([{"question": g.get("main_question", "ما آخر ما نُشر عن: {main_story}؟").format(main_story=main),
                "query_ar": _cut(main, words), "query_en": ""}] if (main and verified) else [])
     data, err = article._ask_model_with_retry(
-        article._client(), g.get("model", "claude-haiku-4-5-20251001"),
+        article._client(), g.get("model", "haiku"),
         tools=[GAP_SCHEMA], tool_choice={"type": "tool", "name": "report_gap_questions"},
         system=system, messages=[{"role": "user", "content": content}],
         max_tokens=int(g.get("max_tokens", 1200)), cap=int(g.get("max_tokens_cap", 2400)),

@@ -1665,6 +1665,14 @@ step (`article.wide_days`).
   (`editor.texts.gate_comment`)، ولا يُرفض ضمنًا. بلا تعليم = رفض كبقية البنود. الاختبارات: g169–g180 في `tests/test_guards_golden.py:test_reel_script_guards`
   (يعزل `test_reel_structure_guards` كتابة السيناريو بتزييف `publish._write_reel_script` ليبقى R1 كما ثبّته).
 
+## نماذج Haiku — `src/llm.py` (Issue #1416)
+
+كل نداء Haiku يمر بـ`llm.create(client, ...)`، والتراجع إلى 4.5 بسطر واحد: `llm.haiku_model` في `config.yaml`. مفاتيح النماذج الرخيصة قيمتها
+الاسم المختصر `"haiku"` (يحلّه `llm.resolve`، وكذلك `writer.record_usage`)؛ لنموذج يبدأ بـ`claude-haiku-5` تُضاف `thinking`/`output_config.effort`
+(`llm.haiku_thinking`/`haiku_effort`) ويُضرب `max_tokens` في `llm.haiku_token_factor`، ولغيره (4.5 وSonnet وOpus) لا يتغير شيء. رفض 400 يذكر هذه المعاملات
+← `log.error` مرة لكل عملية وإعادة واحدة بدونها؛ `stop_reason == "refusal"` ← `log.warning` ويُعاد الرد كما هو. نداء جديد بنموذج Haiku يستعمل `llm.create` لا
+`client.messages.create`. الاختبار: g257–g263 في `tests/test_guards_golden.py:test_llm_haiku55_guards`.
+
 ## Retired paths
 
 - **«مقال» (`src/article.py`, label `مقال`, `.github/workflows/article.yml`) and «طلب» (`src/request.py`, label `طلب`

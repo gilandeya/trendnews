@@ -7999,3 +7999,268 @@ def test_reel_music_r3b2c_guards() -> None:
         if real_dir is not None:
             reel_render.MUSIC_DIR = real_dir
         shutil.rmtree(tmp, ignore_errors=True)
+
+
+def test_llm_haiku55_guards() -> None:
+    """Issue #1416 (LLM-1، g257–g263): كل نداء Haiku يمر بنقطة تحويل واحدة `src/llm.py`؛ التراجع إلى 4.5 بسطر `llm.haiku_model`."""
+    import importlib.util
+    import logging
+    import math
+    from pathlib import Path
+    from types import SimpleNamespace
+
+    import anthropic
+    import httpx
+
+    from src import llm, merge, names_audit, preselect, screen, writer, youtube_extract
+    from src.sources import Article
+
+    cfg = load_config()
+    root = Path(__file__).resolve().parent.parent
+    OLD = "claude-haiku-4-5-20251001"
+    NEW = "claude-haiku-5-5"
+    KEYS = ["preselect.translate.model", "headlines.model", "important.extract_model", "important.gap.model",
+            "merge.model", "screening.model", "names.audit.model", "youtube.extract.model",
+            "youtube.extract.topic_guard_model", "youtube.cluster.merge_model", "youtube.article.guard_model",
+            "youtube.review.headlines.model"]
+
+    class Fake:
+        """عميل مزيَّف يسجّل kwargs كل نداء؛ ``script`` قائمة ردود/استثناءات تُستهلك بالترتيب."""
+
+        def __init__(self, script=None, tool=None):
+            self.calls: list[dict] = []
+            self.script = list(script or [])
+            self.tool = tool
+            self.messages = self
+
+        def create(self, **kw):
+            self.calls.append(kw)
+            if self.script:
+                item = self.script.pop(0)
+                if isinstance(item, Exception):
+                    raise item
+                return item
+            if self.tool is not None:
+                blocks = [SimpleNamespace(type="tool_use", input=self.tool)]
+            else:
+                blocks = [SimpleNamespace(type="text", text="{}")]
+            return SimpleNamespace(content=blocks, stop_reason="end_turn",
+                                   usage=SimpleNamespace(input_tokens=10, output_tokens=5))
+
+    def bad_request(msg: str):
+        req = httpx.Request("POST", "https://api.anthropic.com/v1/messages")
+        return anthropic.BadRequestError(msg, response=httpx.Response(400, request=req), body=None)
+
+    class Capture(logging.Handler):
+        def __init__(self):
+            super().__init__(logging.DEBUG)
+            self.records: list[logging.LogRecord] = []
+
+        def emit(self, record):
+            self.records.append(record)
+
+    def capture():
+        h = Capture()
+        lg = logging.getLogger("src.llm")
+        lg.addHandler(h)
+        old = lg.level
+        lg.setLevel(logging.DEBUG)
+        return h, lambda: (lg.removeHandler(h), lg.setLevel(old))
+
+    def articles():
+        from datetime import datetime, timezone
+        return [Article(title="عنوان تجريبي", link="https://a/1", summary="ملخص", source_name="مصدر",
+                        region="intl", weight=1.0, published=datetime.now(timezone.utc))]
+
+    def run_sites():
+        """نداء واحد عبر كل موقع من المواقع الخمسة؛ يعيد kwargs كل نداء وسقف max_tokens القديم (قبل الضرب)."""
+        out, old_tokens = {}, {}
+        scfg = cfg.get("screening", {}) or {}
+        batch = articles()
+        f = Fake()
+        screen._screen_call(f, cfg.path("screening.model"), batch, "s", scfg)
+        out["screen"] = f.calls[-1]
+        old_tokens["screen"] = screen._max_tokens_for(len(batch), scfg)
+
+        f = Fake()
+        real = merge._client
+        merge._client = lambda: f
+        try:
+            merge._group_titles(["a b c", "d e f"], cfg)
+        finally:
+            merge._client = real
+        out["merge"] = f.calls[-1]
+        old_tokens["merge"] = merge._group_titles_max_tokens(2, cfg.get("merge", {}) or {})
+
+        f = Fake()
+        real = preselect._client
+        preselect._client = lambda: f
+        try:
+            preselect.translate_titles([{"id": "c1", "title": "English headline about oil prices"}], cfg)
+        finally:
+            preselect._client = real
+        out["preselect"] = f.calls[-1]
+        old_tokens["preselect"] = preselect._translate_max_tokens(1, cfg.path("preselect.translate", {}) or {})
+
+        f = Fake(tool={"category": "political_analysis"})
+        youtube_extract.classify_topic("عنوان", "نص", cfg, client=f)
+        out["topic"] = f.calls[-1]
+        old_tokens["topic"] = 50
+
+        # install_fakes يستبدل names_audit._detect في الحزمة الكاملة، فنحمّل نسخة معزولة من الملف لنختبر الدالة الحقيقية
+        spec = importlib.util.spec_from_file_location("src._names_audit_real", root / "src" / "names_audit.py")
+        real_mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(real_mod)
+        f = Fake(tool={"names": []})
+        real_mod._client = lambda: f
+        real_mod._detect(["text"], "نص", cfg)
+        out["names"] = f.calls[-1]
+        old_tokens["names"] = int(cfg.path("names.audit.max_tokens", 1500))
+        return out, old_tokens
+
+    # ── g257: لا اسم 4.5 حرفيًا خارج PRICES وتعليق التراجع، والمفاتيح كلها «haiku» ──
+    leaks = [p.name for p in sorted((root / "src").glob("*.py"))
+             if p.name != "writer.py" and OLD in p.read_text(encoding="utf-8")]
+    wr = (root / "src" / "writer.py").read_text(encoding="utf-8")
+    check("g257: اسم 4.5 في src/ لا يرد إلا في writer.PRICES", not leaks and wr.count(OLD) == 1, (leaks, wr.count(OLD)))
+    code_hits = [ln for ln in (root / "config.yaml").read_text(encoding="utf-8").splitlines()
+                 if OLD in ln and OLD not in ln.partition("#")[2]]
+    check("g257: اسم 4.5 في config.yaml تعليقًا فقط", not code_hits, code_hits)
+    bad = {k: cfg.path(k) for k in KEYS if cfg.path(k) != "haiku"}
+    check("g257: مفاتيح النماذج الاثنا عشر قيمتها haiku", not bad, bad)
+    check("g257: resolve('haiku') = claude-haiku-5-5", llm.resolve("haiku", cfg) == NEW, llm.resolve("haiku", cfg))
+    check("g257: resolve لا يمسّ غير haiku", llm.resolve("claude-sonnet-5", cfg) == "claude-sonnet-5")
+    check("g257: كتلة llm في config",
+          (cfg.path("llm.haiku_effort"), cfg.path("llm.haiku_thinking"), cfg.path("llm.haiku_token_factor"))
+          == ("low", "disabled", 1.3), cfg.path("llm"))
+
+    # ── g258: haiku_params ──
+    want = {"thinking": {"type": "disabled"}, "output_config": {"effort": "low"}}
+    check("g258: haiku → thinking disabled وeffort low", llm.haiku_params("haiku", cfg) == want,
+          llm.haiku_params("haiku", cfg))
+    for m in (OLD, "claude-sonnet-5", "claude-opus-5"):
+        check("g258: " + m + " → فارغ", llm.haiku_params(m, cfg) == {}, llm.haiku_params(m, cfg))
+
+    # ── g259: خمسة مواقع تصل بنموذج 5.5 ومعاملاته وسقف مضروب ──
+    out, old = run_sites()
+    for name, kw in out.items():
+        check(f"g259: {name} → model", kw.get("model") == NEW, kw.get("model"))
+        check(f"g259: {name} → thinking disabled", kw.get("thinking") == {"type": "disabled"}, kw.get("thinking"))
+        check(f"g259: {name} → effort low", kw.get("output_config") == {"effort": "low"}, kw.get("output_config"))
+        expect = math.ceil(old[name] * 1.3)
+        check(f"g259: {name} → max_tokens {old[name]}×1.3", kw.get("max_tokens") == expect, (kw.get("max_tokens"), expect))
+    check("g259: حارس الموضوع 50 ← 65", out["topic"].get("max_tokens") == 65, out["topic"].get("max_tokens"))
+
+    # ── g260: 400 يذكر output_config ← إعادة واحدة بلا المعاملات، وlog.error مرة واحدة ──
+    llm._reset_for_tests()
+    h, undo = capture()
+    try:
+        ok = SimpleNamespace(content=[SimpleNamespace(type="text", text="ok")], stop_reason="end_turn",
+                             usage=SimpleNamespace(input_tokens=1, output_tokens=1))
+        f = Fake([bad_request("output_config.effort: not supported"), ok, ok])
+        r = llm.create(f, cfg=cfg, model="haiku", max_tokens=100, messages=[])
+        check("g260: النداء الثاني ينجح ويُعاد رده", r is ok and len(f.calls) == 2, len(f.calls))
+        second = f.calls[1] if len(f.calls) > 1 else {}
+        check("g260: الثاني بلا thinking ولا output_config",
+              "thinking" not in second and "output_config" not in second, list(second))
+        check("g260: الثاني بالسقف المضروب نفسه", second.get("max_tokens") == 130, second.get("max_tokens"))
+        llm.create(f, cfg=cfg, model="haiku", max_tokens=100, messages=[])
+        errs = [x for x in h.records if x.levelno == logging.ERROR]
+        check("g260: log.error مرة واحدة لكل عملية", len(errs) == 1, len(errs))
+        f2 = Fake([bad_request("messages: invalid")])
+        raised = False
+        try:
+            llm.create(f2, cfg=cfg, model="haiku", max_tokens=100, messages=[])
+        except anthropic.BadRequestError:
+            raised = True
+        check("g260: 400 آخر يُرفع بلا إعادة", raised and len(f2.calls) == 1, len(f2.calls))
+    finally:
+        undo()
+
+    # ── g261: refusal ← طريق الفشل القائم بلا استثناء ──
+    h, undo = capture()
+    try:
+        refusal = SimpleNamespace(content=[], stop_reason="refusal",
+                                  usage=SimpleNamespace(input_tokens=1, output_tokens=0))
+        err = None
+        res = None
+        try:
+            res = screen._screen_call(Fake([refusal]), cfg.path("screening.model"), articles(), "s",
+                                      cfg.get("screening", {}) or {})
+        except Exception as exc:  # noqa: BLE001
+            err = exc
+        check("g261: screen يسلك طريق فشله بلا استثناء", err is None and res is not None and res[0] is None, (err, res))
+        warns = [x for x in h.records if x.levelno == logging.WARNING and "refusal" in x.getMessage()]
+        check("g261: log.warning فيه refusal", len(warns) == 1, [x.getMessage() for x in h.records])
+    finally:
+        undo()
+
+    # ── g262: تكلفة «haiku» بسعر 5.5 ──
+    before = writer.USAGE["cost"]
+    writer.record_usage(SimpleNamespace(usage=SimpleNamespace(input_tokens=1_000_000, output_tokens=1_000_000)), "haiku")
+    cost = writer.USAGE["cost"] - before
+    check("g262: مليون إدخال + مليون إخراج = 0.60$", abs(cost - 0.60) < 0.001, cost)
+
+    # ── g263: التراجع بسطر llm.haiku_model ──
+    old_default = llm._DEFAULT
+    rolled = load_config()
+    rolled["llm"]["haiku_model"] = OLD
+    llm._DEFAULT = rolled
+    try:
+        out, olds = run_sites()
+    finally:
+        llm._DEFAULT = old_default
+    for name, kw in out.items():
+        check(f"g263: {name} → model 4.5", kw.get("model") == OLD, kw.get("model"))
+        check(f"g263: {name} بلا thinking ولا output_config",
+              "thinking" not in kw and "output_config" not in kw, list(kw))
+        check(f"g263: {name} بسقف غير مضروب", kw.get("max_tokens") == olds[name], (kw.get("max_tokens"), olds[name]))
+
+    # ── g264: writer._call_model يمر بـllm.create ← «haiku» يُحلّ، وSonnet لا يُمسّ ──
+    llm._reset_for_tests()
+    tool_resp = SimpleNamespace(content=[SimpleNamespace(type="tool_use", input={})], stop_reason="end_turn",
+                                usage=SimpleNamespace(input_tokens=1, output_tokens=1))
+    old_client = writer._client
+    try:
+        for wmodel in ("haiku", "claude-sonnet-5"):
+            wcfg = load_config()
+            wcfg["writer"]["model"] = wmodel
+            wcfg["writer"]["max_tokens"] = 3000
+            fw = Fake([tool_resp])
+            writer._client = lambda fw=fw: fw
+            try:
+                writer._call_model("نص", wcfg, retries=1)
+            except Exception:  # noqa: BLE001 — المهم kwargs النداء لا تفسير الرد
+                pass
+            kw = fw.calls[0] if fw.calls else {}
+            if wmodel == "haiku":
+                check("g264: writer.model=haiku ← النموذج المحلول", kw.get("model") == NEW, kw.get("model"))
+                check("g264: thinking disabled", kw.get("thinking") == {"type": "disabled"}, kw.get("thinking"))
+                check("g264: effort low", kw.get("output_config") == {"effort": "low"}, kw.get("output_config"))
+                check("g264: max_tokens = ceil(3000×1.3) = 3900", kw.get("max_tokens") == 3900, kw.get("max_tokens"))
+                check("g264: system ما زال يحمل cache_control",
+                      bool(kw.get("system")) and "cache_control" in kw["system"][0], kw.get("system"))
+            else:
+                check("g264: Sonnet بلا thinking ولا output_config",
+                      kw.get("model") == "claude-sonnet-5" and "thinking" not in kw and "output_config" not in kw, list(kw))
+                check("g264: Sonnet بسقف غير مضروب", kw.get("max_tokens") == 3000, kw.get("max_tokens"))
+    finally:
+        writer._client = old_client
+
+    # ── g265: بعد رفض 400 مرة تُرسل النداءات التالية بلا المعاملات مباشرة (3 طلبات لا 4) ──
+    llm._reset_for_tests()
+    h, undo = capture()
+    try:
+        ok = SimpleNamespace(content=[SimpleNamespace(type="text", text="ok")], stop_reason="end_turn",
+                             usage=SimpleNamespace(input_tokens=1, output_tokens=1))
+        f = Fake([bad_request("output_config.effort: not supported"), ok, ok])
+        llm.create(f, cfg=cfg, model="haiku", max_tokens=100, messages=[])
+        llm.create(f, cfg=cfg, model="haiku", max_tokens=100, messages=[])
+        check("g265: مجموع الطلبات 3 لا 4", len(f.calls) == 3, len(f.calls))
+        third = f.calls[2] if len(f.calls) > 2 else {}
+        check("g265: الثالث بلا thinking ولا output_config", "thinking" not in third and "output_config" not in third, list(third))
+        check("g265: الثالث بسقف مضروب 130", third.get("max_tokens") == 130, third.get("max_tokens"))
+        errs = [x for x in h.records if x.levelno == logging.ERROR]
+        check("g265: log.error مرة واحدة", len(errs) == 1, len(errs))
+    finally:
+        undo()

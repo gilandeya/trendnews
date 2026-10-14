@@ -241,13 +241,14 @@ def _client():
 
 def _detect(texts: list[str], arabic: str, cfg: Any) -> list[dict]:
     """نداء واحد بأداة منظَّمة. يرفع عند أي فشل (يلتقطه run فيمضي النص كما هو)."""
+    from . import llm
     from .writer import record_usage
     acfg = _acfg(cfg)
-    model = acfg.get("model", "claude-haiku-4-5-20251001")
+    model = acfg.get("model", "haiku")
     limit = int(acfg.get("source_chars", 6000))
     source = "\n\n".join(t for t in texts if t)[:limit]
-    resp = _client().messages.create(
-        model=model, max_tokens=int(acfg.get("max_tokens", 1500)), system=SYSTEM,
+    resp = llm.create(
+        _client(), model=model, max_tokens=int(acfg.get("max_tokens", 1500)), system=SYSTEM,
         tools=[SCHEMA], tool_choice={"type": "tool", "name": "report_names"},
         messages=[{"role": "user", "content":
                    f"نصوص المصدر:\n{source}\n\nالنص العربي:\n{arabic}"}])

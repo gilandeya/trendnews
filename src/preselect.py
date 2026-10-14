@@ -32,6 +32,7 @@ from . import stages
 from .config import env, load_config
 from .sources import Article
 from .writer import record_usage
+from . import llm
 
 log = logging.getLogger(__name__)
 
@@ -177,7 +178,7 @@ def translate_titles(candidates: list[dict], cfg) -> dict[str, str]:
                  skipped)
         return {}
 
-    model = tcfg.get("model", "claude-haiku-4-5-20251001")
+    model = tcfg.get("model", "haiku")
     listing = "\n".join(f"{i}. {c['title']}" for i, c in enumerate(todo, start=1))
     n_todo = len(todo)
     max_tokens = _translate_max_tokens(n_todo, tcfg)
@@ -185,8 +186,8 @@ def translate_titles(candidates: list[dict], cfg) -> dict[str, str]:
 
     def _call(tokens: int):
         client = _client()
-        resp = client.messages.create(
-            model=model,
+        resp = llm.create(
+            client, model=model,
             max_tokens=tokens,
             system=TRANSLATE_SYSTEM,
             messages=[{"role": "user", "content": f"ترجم هذه العناوين:\n\n{listing}"}],

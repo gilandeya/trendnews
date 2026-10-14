@@ -21,6 +21,7 @@ from anthropic import Anthropic, APIError
 from .config import env
 from .sources import Article
 from .writer import record_usage
+from . import llm
 
 log = logging.getLogger(__name__)
 
@@ -131,8 +132,8 @@ def _screen_call(client, model: str, batch: list[Article], system_prompt: str,
         for i, a in enumerate(batch)
     )
     max_tokens = _max_tokens_for(len(batch), scfg)
-    resp = client.messages.create(
-        model=model,
+    resp = llm.create(
+        client, model=model,
         max_tokens=max_tokens,
         system=system_prompt,
         messages=[{"role": "user", "content":
@@ -196,7 +197,7 @@ def screen(articles: list[Article], cfg, batch_size: int | None = None,
     if not scfg.get("enabled", True) or not articles:
         return articles
 
-    model = scfg.get("model", "claude-haiku-4-5-20251001")
+    model = scfg.get("model", "haiku")
     if batch_size is None:
         batch_size = int(scfg.get("batch_size", 12))
 

@@ -56,7 +56,7 @@ from pathlib import Path
 from anthropic import Anthropic, APIError
 
 from . import headlines as headlines_mod
-from . import youtube_cluster, youtube_extract
+from . import llm, youtube_cluster, youtube_extract
 from .config import YOUTUBE_ARTICLES_DIR, Config, env, load_config
 
 log = logging.getLogger(__name__)
@@ -169,11 +169,11 @@ def check_forbidden(topic: dict, member_points: list[dict], cfg: Config,
     يُخبر الطالب بأن هذا التجاوز وقع تحديدًا، لتغذية عدّاد
     topics_blocked_no_reason في run() -- تمييزًا عن حظر عادي بسبب مكتوب."""
     model = cfg.path("youtube.article.guard_model",
-                      cfg.path("youtube.extract.model", "claude-haiku-4-5-20251001"))
+                      cfg.path("youtube.extract.model", "haiku"))
     client = client or Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
     try:
-        resp = client.messages.create(
-            model=model,
+        resp = llm.create(
+            client, model=model,
             max_tokens=200,
             tools=[GUARD_SCHEMA],
             tool_choice={"type": "tool", "name": "check_forbidden_topic"},
