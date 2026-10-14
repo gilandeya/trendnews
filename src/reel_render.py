@@ -25,7 +25,7 @@ from typing import Any, Callable
 from PIL import Image, ImageDraw
 
 from . import imaging, reel_clips, reel_script, store, tts
-from .config import REELS_DIR, load_config
+from .config import MUSIC_DIR, REELS_DIR, load_config
 
 log = logging.getLogger("trendnews.reel_render")
 
@@ -310,12 +310,13 @@ def prepare_background(cfg, img: Image.Image) -> dict:
 
 
 def outro_credit(cfg, bg: dict | None) -> str:
-    """ما يُلحَق بسطر «المقاطع من» في الختام: «· الصورة: الناشر» لصورة الخبر وبحث الويب، و«· صورة تعبيرية» للحرة؛
-    لا شيء لـnone ولا manual (ولا حين لم تُستعمل صورة أصلًا)."""
+    """نص سطر مصدر الصورة المستقل تحت «المقاطع من» في الختام: «الصورة: الناشر» لصورة الخبر وبحث الويب (الناشر بالعربية
+    عبر publisher_ar حين له مقابل)، و«صورة تعبيرية» للحرة؛ لا شيء لـnone ولا manual (ولا حين لم تُستعمل صورة أصلًا)."""
+    from .important_write import publisher_ar  # متأخر: important_write يستورد وحدات أثقل
     t = cfg.path("reel.render.texts")
     kind, publisher = (bg or {}).get("kind"), (bg or {}).get("publisher", "")
     if kind in ("news_photo", "web_search") and publisher:
-        return t["bg_credit_publisher"].format(publisher=publisher)
+        return t["bg_credit_publisher"].format(publisher=publisher_ar(publisher, cfg))
     if kind == "free":
         return t["bg_credit_free"]
     return ""
@@ -583,9 +584,40 @@ def frame_outro(cfg, channels: str, boxes=None, credit: str = "") -> Image.Image
     p.rule(y + 10)
     y = p.block(t["tagline"], TAJAWAL_B, None, p.white, 0, start=52, minimum=36, max_lines=3, y_top=y + 60)
     p.line(cfg.path("brand.handle") or "@almujez", p.font(TAJAWAL_B, 54), p.gold, y + 20, ltr=True)
-    p.block(t["clips_from"].format(channels=channels) + credit, TAJAWAL_R, None, (200, 208, 224), 0, start=36, minimum=26,
-            max_lines=4, y_top=1180)
+    y = p.block(t["clips_from"].format(channels=channels), TAJAWAL_R, None, (200, 208, 224), 0, start=36, minimum=26,
+                max_lines=4, y_top=1180)
+    if credit:
+        _credit_line(p, cfg, credit, y)
     return p.rgb()
+
+
+def _credit_line(p: "_Pen", cfg, credit: str, y: int) -> None:
+    """سطر مصدر الصورة المستقل بخط سطر «المقاطع من» نفسه، يُصغَّر حتى يسع عرض النص الآمن فلا يُقسم أبدًا.
+    اسم لاتيني بقي بلا مقابل عربي (نطاق موقع) يُرسم وحده LTR ملاصقًا لـ«الصورة:» على يسارها: سطر bidi واحد يقلب النقاط
+    والشرطات في النطاق."""
+    label, _, name = credit.partition(": ")
+    latin = bool(name) and bool(re.search(r"[A-Za-z]", name)) and not re.search(r"[؀-ۿ]", name)
+    fill = (200, 208, 224)
+    for size in range(36, 15, -2):
+        font = p.font(TAJAWAL_R, size)
+        if not latin:
+            if imaging.measure(p.d, credit, font)[0] <= p.max_w:
+                p.line(credit, font, fill, y)
+                return
+            continue
+        lw = p.ink(label + ":", font, (0, 0), "la")
+        nw = p.ink(name, font, (0, 0), "la", True)
+        gap = max(size // 4, 6)
+        total = (lw[2] - lw[0]) + gap + (nw[2] - nw[0])
+        if total <= p.max_w:
+            right = p.cx + total // 2
+            imaging.draw_text(p.d, (right, y), label + ":", font, fill, anchor="ra")
+            p.boxes.append(tuple(p.ink(label + ":", font, (right, y), "ra")))
+            xy = (right - (lw[2] - lw[0]) - gap, y)
+            imaging.draw_text_ltr(p.d, xy, name, font, fill, anchor="ra")
+            p.boxes.append(tuple(p.ink(name, font, xy, "ra", True)))
+            return
+    log.warning("سطر مصدر الصورة لا يسع الشاشة فحُذف: %r", credit[:40])
 
 
 def frame_clip_overlay(cfg, scene: dict, boxes=None) -> Image.Image:
@@ -689,6 +721,53 @@ def _loudnorm(cfg) -> str:
 
 def _fmt(x: float) -> str:
     return f"{x:.3f}"
+
+
+def pick_music(draft: dict, cfg) -> str | None:
+    """اسم مقطوعة الريل (Issue #1413): تناوب بالاسم بعد مقطوعة آخر ريل مُركَّب (أحدث rendered_at بين مسودات الريل التي تحمل
+    reel_music)، وأول ريل يأخذ الأولى. إعادة تركيب ريل يبقي مقطوعته المحفوظة ما دامت موجودة كي لا يتبدّل صوته بلا سبب.
+    لا مجلد أو لا mp3 أو music.enabled=false ← None (ريل بلا موسيقى كما كان)، وسطر log.info واحد عند غياب الملفات."""
+    import json
+    mcfg = cfg.path("reel.music") or {}
+    if not mcfg.get("enabled"):
+        return None
+    files = sorted(p.name for p in Path(MUSIC_DIR).glob("*.mp3")) if Path(MUSIC_DIR).is_dir() else []
+    if not files:
+        log.info("لا مقطوعات موسيقى في %s — ريل بلا موسيقى", MUSIC_DIR)
+        return None
+    kept = draft.get("reel_music")
+    if kept in files:
+        return kept
+    last, last_at = None, ""
+    for p in store.DRAFTS_DIR.glob("*/*.json"):
+        try:
+            d = json.loads(p.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            continue
+        if d.get("format") == "reel" and d.get("reel_music") and (d.get("rendered_at") or "") >= last_at \
+                and d.get("id") != draft.get("id"):
+            last, last_at = d["reel_music"], d.get("rendered_at") or ""
+    # آخر مقطوعة لم تعد موجودة ← الأولى؛ وإلا التالية بدورة مغلقة
+    return files[(files.index(last) + 1) % len(files)] if last in files else files[0]
+
+
+def _music_mix(cfg, music: Path, seconds: float) -> tuple[list[str], str]:
+    """(مدخل المقطوعة، مرشحات الصوت في filter_complex). المرشحات مطابقة للمزج الذي سمعه صاحب المشروع: الموسيقى
+    loudnorm إلى bed_lufs بظهور/اختفاء تدريجيين، ومفتاح الضغط الجانبي هو نسخة من الصوت فتنخفض تحت أي كلام، ثم المزج
+    فـloudnorm النهائي كما كان. -stream_loop -1 يكرّر المقطوعة إن كان الريل أطول منها، وamix duration=first يقصّ الصوت
+    بطول الفيديو (الصوت الأصلي هو الأول)."""
+    m = cfg.path("reel.music")
+    dk = m["duck"]
+    fade_out = float(m["fade_out"])
+    start = max(seconds - fade_out, 0.0)
+    rate = cfg.path("reel.render.audio_rate", 48000)
+    audio = (f"[2:a]aresample={rate},aformat=channel_layouts=stereo,loudnorm=I={m['bed_lufs']}:TP=-3:LRA=11,"
+             f"afade=t=in:d={m['fade_in']},afade=t=out:st={_fmt(start)}:d={m['fade_out']}[music];"
+             f"[0:a]asplit=2[voice][key];"
+             f"[music][key]sidechaincompress=threshold={dk['threshold']}:ratio={dk['ratio']}:attack={dk['attack']}:"
+             f"release={dk['release']}:makeup=1[bed];"
+             f"[voice][bed]amix=inputs=2:normalize=0:duration=first,{_loudnorm(cfg)}[a]")
+    return ["-stream_loop", "-1", "-i", str(music)], audio
 
 
 def _save(img: Image.Image, path: Path) -> Path:
@@ -1099,11 +1178,22 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     lg = rcfg["logo"]
     logo = _trimmed_logo(cfg, tmp)
     # الشعار مرة واحدة فوق الفيديو المجمَّع كله: مكانه وحجمه ثابتان في كل لحظة بلا استثناء
-    deps.run(_base("-i", str(joined), "-i", str(logo), "-filter_complex",
-                   f"[1:v]scale={lg['width']}:-1[lg];[0:v][lg]overlay=W-w-{lg['right']}:{lg['top']}[v]",
-                   "-map", "[v]", "-map", "0:a", "-c:v", "libx264", "-preset", "veryfast", "-crf", str(rcfg.get("crf", 22)),
-                   "-pix_fmt", "yuv420p", "-af", _loudnorm(cfg), "-c:a", "aac", "-b:a", "128k",
-                   "-ar", str(rcfg.get("audio_rate", 48000)), "-ac", "2", "-movflags", "+faststart", str(dest)))
+    video_f = f"[1:v]scale={lg['width']}:-1[lg];[0:v][lg]overlay=W-w-{lg['right']}:{lg['top']}[v]"
+    music = pick_music(draft, cfg)
+    if music:
+        # المدة المقيسة للمجمَّع تحدد بداية الاختفاء التدريجي؛ فشل القياس ← مجموع المدد ناقص الانتقالات
+        seconds = deps.probe(joined) or (sum(durs) - transition_seconds(cfg) * max(len(durs) - 1, 0))
+        music_in, audio_f = _music_mix(cfg, Path(MUSIC_DIR) / music, float(seconds))
+        deps.run(_base("-i", str(joined), "-i", str(logo), *music_in, "-filter_complex", video_f + ";" + audio_f,
+                       "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-preset", "veryfast",
+                       "-crf", str(rcfg.get("crf", 22)), "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "128k",
+                       "-ar", str(rcfg.get("audio_rate", 48000)), "-ac", "2", "-movflags", "+faststart", str(dest)))
+    else:
+        deps.run(_base("-i", str(joined), "-i", str(logo), "-filter_complex", video_f,
+                       "-map", "[v]", "-map", "0:a", "-c:v", "libx264", "-preset", "veryfast",
+                       "-crf", str(rcfg.get("crf", 22)), "-pix_fmt", "yuv420p", "-af", _loudnorm(cfg), "-c:a", "aac",
+                       "-b:a", "128k", "-ar", str(rcfg.get("audio_rate", 48000)), "-ac", "2", "-movflags", "+faststart",
+                       str(dest)))
     # مدة الملف النهائي المقيسة لا مجموع المدد: الانتقالات تقصّر الطول الكلي
     total = deps.probe(dest) or (sum(durs) - transition_seconds(cfg) * max(len(durs) - 1, 0))
     g = rcfg["gif"]
@@ -1113,7 +1203,7 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     sub = rcfg.get("repo_subdir", "reels")
     return {"reel_file": f"{sub}/{rel_dir}/{dest.name}", "reel_gif": f"{sub}/{rel_dir}/{gif.name}",
             "duration_seconds": round(total, 1), "render_version": int(rcfg.get("version", 1)),
-            "render_attempts": 0,
+            "render_attempts": 0, **({"reel_music": music} if music else {}),
             # الشكل المستعمل في هذا التركيب يُحفظ مع reel_bg؛ بلا صورة منزَّلة لا شكل
             "reel_bg": {**{k: v for k, v in bg_saved.items() if k != "layout"}, **({"layout": bg["layout"]} if bg else {})},
             "render_crops": {str(i): c["crop"] for i, c in clips.items() if "crop" in c}}
