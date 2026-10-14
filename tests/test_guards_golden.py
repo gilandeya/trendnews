@@ -8152,7 +8152,7 @@ def test_llm_haiku55_guards() -> None:
     check("g259: حارس الموضوع 50 ← 65", out["topic"].get("max_tokens") == 65, out["topic"].get("max_tokens"))
 
     # ── g260: 400 يذكر output_config ← إعادة واحدة بلا المعاملات، وlog.error مرة واحدة ──
-    llm._FALLBACK_LOGGED.clear()
+    llm._reset_for_tests()
     h, undo = capture()
     try:
         ok = SimpleNamespace(content=[SimpleNamespace(type="text", text="ok")], stop_reason="end_turn",
@@ -8215,3 +8215,52 @@ def test_llm_haiku55_guards() -> None:
         check(f"g263: {name} بلا thinking ولا output_config",
               "thinking" not in kw and "output_config" not in kw, list(kw))
         check(f"g263: {name} بسقف غير مضروب", kw.get("max_tokens") == olds[name], (kw.get("max_tokens"), olds[name]))
+
+    # ── g264: writer._call_model يمر بـllm.create ← «haiku» يُحلّ، وSonnet لا يُمسّ ──
+    llm._reset_for_tests()
+    tool_resp = SimpleNamespace(content=[SimpleNamespace(type="tool_use", input={})], stop_reason="end_turn",
+                                usage=SimpleNamespace(input_tokens=1, output_tokens=1))
+    old_client = writer._client
+    try:
+        for wmodel in ("haiku", "claude-sonnet-5"):
+            wcfg = load_config()
+            wcfg["writer"]["model"] = wmodel
+            wcfg["writer"]["max_tokens"] = 3000
+            fw = Fake([tool_resp])
+            writer._client = lambda fw=fw: fw
+            try:
+                writer._call_model("نص", wcfg, retries=1)
+            except Exception:  # noqa: BLE001 — المهم kwargs النداء لا تفسير الرد
+                pass
+            kw = fw.calls[0] if fw.calls else {}
+            if wmodel == "haiku":
+                check("g264: writer.model=haiku ← النموذج المحلول", kw.get("model") == NEW, kw.get("model"))
+                check("g264: thinking disabled", kw.get("thinking") == {"type": "disabled"}, kw.get("thinking"))
+                check("g264: effort low", kw.get("output_config") == {"effort": "low"}, kw.get("output_config"))
+                check("g264: max_tokens = ceil(3000×1.3) = 3900", kw.get("max_tokens") == 3900, kw.get("max_tokens"))
+                check("g264: system ما زال يحمل cache_control",
+                      bool(kw.get("system")) and "cache_control" in kw["system"][0], kw.get("system"))
+            else:
+                check("g264: Sonnet بلا thinking ولا output_config",
+                      kw.get("model") == "claude-sonnet-5" and "thinking" not in kw and "output_config" not in kw, list(kw))
+                check("g264: Sonnet بسقف غير مضروب", kw.get("max_tokens") == 3000, kw.get("max_tokens"))
+    finally:
+        writer._client = old_client
+
+    # ── g265: بعد رفض 400 مرة تُرسل النداءات التالية بلا المعاملات مباشرة (3 طلبات لا 4) ──
+    llm._reset_for_tests()
+    h, undo = capture()
+    try:
+        ok = SimpleNamespace(content=[SimpleNamespace(type="text", text="ok")], stop_reason="end_turn",
+                             usage=SimpleNamespace(input_tokens=1, output_tokens=1))
+        f = Fake([bad_request("output_config.effort: not supported"), ok, ok])
+        llm.create(f, cfg=cfg, model="haiku", max_tokens=100, messages=[])
+        llm.create(f, cfg=cfg, model="haiku", max_tokens=100, messages=[])
+        check("g265: مجموع الطلبات 3 لا 4", len(f.calls) == 3, len(f.calls))
+        third = f.calls[2] if len(f.calls) > 2 else {}
+        check("g265: الثالث بلا thinking ولا output_config", "thinking" not in third and "output_config" not in third, list(third))
+        check("g265: الثالث بسقف مضروب 130", third.get("max_tokens") == 130, third.get("max_tokens"))
+        errs = [x for x in h.records if x.levelno == logging.ERROR]
+        check("g265: log.error مرة واحدة", len(errs) == 1, len(errs))
+    finally:
+        undo()
