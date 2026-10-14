@@ -167,7 +167,7 @@ class Deps:
     fetch_transcript: Callable[[str], str | None] | None = None
     download_clip: Callable[..., dict] | None = None
     synthesize: Callable[[str, str], dict] | None = None
-    diacritize: Callable[[str], tuple[str, str | None]] | None = None
+    diacritize: Callable[[str], tuple] | None = None     # (نص، تنبيه) أو (نص، تنبيه، أعلام)
     run: Callable[[list], None] | None = None
     probe: Callable[[Any], float | None] | None = None
     load_points: Callable[[str], list[dict]] | None = None
@@ -209,7 +209,7 @@ class Deps:
             fetch_transcript=self.fetch_transcript or fetch,
             download_clip=self.download_clip or download,
             synthesize=self.synthesize or (lambda text, voice: tts.synthesize(text, voice, cfg)),
-            diacritize=self.diacritize or (lambda text: tts.diacritize(text, cfg)),
+            diacritize=self.diacritize or (lambda text: tts.diacritize_full(text, cfg)),
             run=self.run or (lambda cmd: _run(cmd, timeout)),
             probe=self.probe or probe_duration,
             load_points=self.load_points or points,
@@ -231,14 +231,52 @@ def _default_providers() -> dict:
             "free": youtube_extract.photo_candidates, "download": lambda url: imaging.download_image(url)}
 
 
-def pick_background(draft: dict, cfg, providers: dict | None = None) -> dict:
+_URL_YM = re.compile(r"/((?:19|20)\d\d)/(0?[1-9]|1[0-2])(?:/|$)")
+_URL_Y = re.compile(r"/((?:19|20)\d\d)(?:/|$)")
+
+
+def stale_url_reason(url: str, draft_date: str | None) -> str | None:
+    """سبب رفض رابط يدل على تاريخ قديم (Issue #1423): /YYYY/MM/ أقدم من الشهر السابق لتاريخ المسودة، أو /YYYY/ وحدها بسنة
+    أقدم من سنة المسودة. الشهر السابق لا الحالي كي تُقبل صورة نُشرت قبيل الخبر. تاريخ مسودة غير مقروء ← لا رفض."""
+    from urllib.parse import urlparse
+    m = re.match(r"(\d{4})-(\d{2})", draft_date or "")
+    if not m:
+        return None
+    y, mo = int(m.group(1)), int(m.group(2))
+    py, pm = (y, mo - 1) if mo > 1 else (y - 1, 12)
+    path = urlparse(url).path
+    found = _URL_YM.search(path)
+    if found:
+        uy, um = int(found.group(1)), int(found.group(2))
+        return f"رابطها يدل على {uy}/{um:02d} وهو أقدم من {py}/{pm:02d}" if (uy, um) < (py, pm) else None
+    found = _URL_Y.search(path)
+    if found and int(found.group(1)) < y:
+        return f"رابطها يدل على سنة {found.group(1)} وهي أقدم من {y}"
+    return None
+
+
+def face_reason(cfg, img) -> str | None:
+    """سبب رفض صورة فيها وجه بمساحة ≥ image.face_min_ratio (لا نعرض شخصًا لا يتكلم في الريل)؛ عطل الكشف ← لا رفض."""
+    try:
+        iw, ih = img.size
+        faces = imaging.face_boxes(img.convert("RGB"))
+    except Exception as exc:  # noqa: BLE001 -- الكشف تحسين لا شرط (وحقن الاختبار قد يعيد غير صورة)
+        log.debug("تعذّر كشف الوجوه في مرشّح الخلفية: %s", str(exc)[:100])
+        return None
+    ratio = float(cfg.path("image.face_min_ratio", 0.02))
+    return "فيها وجه كبير" if any(fw * fh >= ratio * iw * ih for _, _, fw, fh in faces) else None
+
+
+def pick_background(draft: dict, cfg, providers: dict | None = None, draft_date: str | None = None) -> dict:
     """يختار صورة خلفية الراوي بسلّم كسول: يدوية ← صورة خبر ← بحث ويب ← حرة (بحارس الوجه القائم) ← لا شيء.
-    لا تُستدعى درجة إن نجحت السابقة؛ المرشّح يُقبل إن نجح تنزيله فقط. يعيد {url, kind, publisher} والرابط وحده لا الملف.
-    عطل أي مزوّد يُسجَّل ويُنتقل إلى الدرجة التالية، فالاختيار لا يرفع أبدًا."""
+    لا تُستدعى درجة إن نجحت السابقة؛ المرشّح يُقبل إن نجح تنزيله ولم يكن فيه وجه كبير ولم يدل رابطه على تاريخ قديم
+    (كل رفض يُسجَّل بسببه). draft_date تاريخ مجلد المسودة (YYYY-MM-DD) وإلا اليوم. يعيد {url, kind, publisher} والرابط
+    وحده لا الملف. عطل أي مزوّد يُسجَّل ويُنتقل إلى الدرجة التالية، فالاختيار لا يرفع أبدًا."""
     pv = {**_default_providers(), **(providers or {})}
     manual = (draft.get("manual_image") or "").strip()
     if manual:
         return {"url": manual, "kind": "manual", "publisher": ""}
+    draft_date = draft_date or datetime.now(timezone.utc).strftime("%Y-%m-%d")
     tries = int(cfg.path("reel.render.background.max_tries", 5))
     title = draft.get("title") or (draft.get("script") or {}).get("title", "")
     event = draft.get("event") or ""
@@ -252,7 +290,18 @@ def pick_background(draft: dict, cfg, providers: dict | None = None) -> dict:
 
     def usable(url: str) -> bool:
         try:
-            return bool(url) and pv["download"](url) is not None
+            if not url:
+                return False
+            reason = stale_url_reason(url, draft_date)
+            if not reason:
+                img = pv["download"](url)
+                if img is None:
+                    return False
+                reason = face_reason(cfg, img)
+            if reason:
+                log.info("رُفض مرشّح خلفية الراوي %s: %s", url[:80], reason)
+                return False
+            return True
         except Exception as exc:  # noqa: BLE001
             log.warning("تعذّر تنزيل مرشّح الخلفية: %s", str(exc)[:100])
             return False
@@ -278,9 +327,9 @@ def pick_background(draft: dict, cfg, providers: dict | None = None) -> dict:
 
 
 def prepare_background(cfg, img: Image.Image) -> dict:
-    """يحوّل الصورة المنزَّلة إلى طبقة خلفية 1080×1920 مظلَّلة ويقرّر الشكل منها: (ب) إن أعاد الكشف وجهًا مساحته
-    ≥ image.face_min_ratio من مساحة الصورة وإلا (أ). الاقتطاع الأفقي يتوسّط مراكز الوجوه كاقتطاع المقاطع، وإلا المنتصف.
-    يعيد {"layout": "A"|"B", "image": RGB}."""
+    """يحوّل الصورة المنزَّلة إلى طبقة خلفية 1080×1920 مظلَّلة بالكحلي shade_a. الاقتطاع الأفقي يتوسّط مراكز الوجوه
+    كاقتطاع المقاطع، وإلا المنتصف. تخطيط واحد "A" (حُذف تخطيط الصندوق السفلي في Issue #1423: صورة فيها وجه كبير تُرفض
+    عند الاختيار، واليدوية تُعرض بالتخطيط نفسه). يعيد {"layout": "A", "image": RGB}."""
     b = cfg.path("reel.render.background")
     w, h = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
     img = img.convert("RGB")
@@ -290,8 +339,6 @@ def prepare_background(cfg, img: Image.Image) -> dict:
     except Exception as exc:  # noqa: BLE001 -- الكشف تحسين لا شرط
         log.warning("تعذّر كشف الوجوه في خلفية الراوي: %s", str(exc)[:100])
         faces = []
-    ratio = float(cfg.path("image.face_min_ratio", 0.02))
-    layout = "B" if any(fw * fh >= ratio * iw * ih for _, _, fw, fh in faces) else "A"
     scale = max(w / iw, h / ih)
     sw, sh = max(w, round(iw * scale)), max(h, round(ih * scale))
     cx = sum(x + fw / 2 for x, _, fw, _ in faces) / len(faces) if faces else iw / 2
@@ -299,14 +346,8 @@ def prepare_background(cfg, img: Image.Image) -> dict:
     top = (sh - h) // 2
     out = img.resize((sw, sh), Image.LANCZOS).crop((left, top, left + w, top + h))
     navy = imaging.hex_rgb(cfg.path("brand.primary_color"))
-    out = Image.blend(out, Image.new("RGB", out.size, navy), float(b["shade_a"] if layout == "A" else b["shade_b"]))
-    if layout == "B":
-        bx0, bx1, by0, by1 = 36, w - 36, int(b["box_top"]), int(b["box_bottom"])
-        region = out.crop((bx0, by0, bx1, by1))
-        out.paste(Image.blend(region, Image.new("RGB", region.size, navy), float(b["box_alpha"])), (bx0, by0))
-        ImageDraw.Draw(out).rectangle((bx0, by0, bx1 - 1, by0 + int(b["gold_px"]) - 1),
-                                      fill=imaging.hex_rgb(cfg.path("brand.accent_color")))
-    return {"layout": layout, "image": out}
+    out = Image.blend(out, Image.new("RGB", out.size, navy), float(b["shade_a"]))
+    return {"layout": "A", "image": out}
 
 
 def outro_credit(cfg, bg: dict | None) -> str:
@@ -358,6 +399,11 @@ def _fit(draw, text, font_path, max_width, max_lines, start, minimum, weight, li
 def display_font(cfg) -> tuple[str, float]:
     """خط الرقعة للنصوص الكبيرة وحدها (العنوان والسؤال والراوي وتابعوا الموجز) ومعامل مسافة أسطره (Issue #1419)."""
     return (cfg.path("reel.render.fonts.display", CAIRO), float(cfg.path("reel.render.fonts.display_line_factor", 1.62)))
+
+
+def scaled(cfg, size: int) -> int:
+    """حجم نص الرقعة: الحجم القديم × reel.render.fonts.display_scale (Issue #1423)."""
+    return round(size * float(cfg.path("reel.render.fonts.display_scale", 1.0)))
 
 
 class _Pen:
@@ -504,7 +550,17 @@ def frame_title(cfg, title: str, date_text: str, boxes=None) -> Image.Image:
                           fill=imaging.hex_rgb(r.get("badge_bg", "#8EC5FF")))
     p.line(badge, bfont, p.navy, top + 14)
     fpath, lf = display_font(cfg)
-    y = p.block(title, fpath, None, p.white, 0, start=96, minimum=52, max_lines=6, y_top=top + bh + 110, line_factor=lf)
+    y_top, below = top + bh + 110, 206      # below: القاعدة والتاريخ والمعرّف تحت العنوان
+    start, minimum = scaled(cfg, 96), scaled(cfg, 52)
+    # العنوان الأكبر لا يدفع التاريخ والمعرّف خارج المنطقة الآمنة: يُصغَّر (max_lines كما هو) حتى يسعهما
+    floor = 52           # الحجم القديم: أدنى ما يُصغَّر إليه العنوان الطويل جدًا ليبقى كل شيء في المنطقة الآمنة
+    while start > floor:
+        _, lines_, lh_ = _fit(p.d, title, fpath, p.max_w, 6, start, min(minimum, start), None, lf)
+        if y_top + lh_ * len(lines_) + below <= p._safe()[1]:
+            break
+        start -= 2
+    y = p.block(title, fpath, None, p.white, 0, start=start, minimum=min(minimum, start), max_lines=6, y_top=y_top,
+                line_factor=lf)
     p.rule(y + 30)
     y = p.line(date_text, p.font(TAJAWAL_B, 44), p.gold, y + 70)
     p.line(cfg.path("brand.handle") or "@almujez", p.font(TAJAWAL_B, 44), p.white, y + 10, ltr=True)
@@ -512,37 +568,18 @@ def frame_title(cfg, title: str, date_text: str, boxes=None) -> Image.Image:
 
 
 def _narration_pen(cfg, sentence: str, boxes, bg: dict | None):
-    """لوحة الراوي ومعاملات نصها. بلا خلفية: القيم الأصلية حرفيًا (كحلي، وسط الشاشة). (أ): الصورة المظلَّلة والنص
-    كما هو. (ب): النص في الصندوق السفلي بأكبر حجم ≤ text_start يسعه أربعة أسطر داخل ارتفاع الصندوق؛ التخطيط من الجملة
-    كاملة فلا يتحرك سطر بين إطارات الكتابة."""
+    """لوحة الراوي ومعاملات نصها. بلا خلفية: كحلي، وسط الشاشة. بخلفية: الصورة المظلَّلة والنص كما هو (تخطيط واحد).
+    الأحجام 160/140 وأربعة أسطر (Issue #1423): حروف الرقعة أصغر بصريًا من Tajawal (حبر «ومن»: XB 72 ← 56 بكسل، الرقعة 108
+    ← 60)، فـ«أكبر 50%» في #1419 لم يتحقق؛ والجملة التي لا تسع تُقسم إلى مقاطع (narration_segments)."""
     p = _Pen(cfg, boxes)
-    # بخط أكبر 50% (Issue #1419): 108 بدل 72، وخمسة أسطر كحد أقصى؛ والجملة التي لا تسع تُقسم إلى مقاطع (narration_segments)
-    big = dict(y_mid=860, start=108, minimum=80, max_lines=5)
-    if bg is None:
-        return p, big
-    p.img = bg["image"].convert("RGBA")
-    p.d = ImageDraw.Draw(p.img)
-    if bg["layout"] != "B":
-        return p, big
-    b = cfg.path("reel.render.background")
-    top, bottom = int(b["box_top"]) + int(b["gold_px"]), int(b["box_bottom"])
-    avail = bottom - top - 2 * int(b["pad"])
-    lo, lines = int(b["text_min"]), int(b["text_lines"])
-    size = int(b["text_start"])
-    while True:
-        font, wrapped, lh = imaging.fit_text(p.d, sentence, TAJAWAL_XB, p.max_w, lines, size, lo, None)
-        if lh * len(wrapped) <= avail or size <= lo:
-            break
-        size -= 2
-    if len(imaging.wrap(p.d, sentence, font, p.max_w)) > lines:
-        log.warning("جملة الراوي أطول من أسطر الصندوق السفلي فقُصّت: %r", sentence[:40])
-    return p, dict(y_mid=(top + bottom) // 2, start=size, minimum=lo, max_lines=lines)
+    if bg is not None:
+        p.img = bg["image"].convert("RGBA")
+        p.d = ImageDraw.Draw(p.img)
+    return p, dict(y_mid=860, start=160, minimum=140, max_lines=4)
 
 
 def _narration_font(cfg, bg: dict | None) -> tuple[str, float | None]:
-    """خط الراوي ومعامل مسافته: الرقعة إلا في التخطيط (ب) الذي لا يُمسّ في هذه المهمة (يُحذف في R5a2)."""
-    if bg is not None and bg["layout"] == "B":
-        return TAJAWAL_XB, None
+    """خط الراوي ومعامل مسافته: الرقعة دائمًا."""
     return display_font(cfg)
 
 
@@ -718,15 +755,50 @@ def frame_question(cfg, question: str, boxes=None) -> Image.Image:
     qw, qh = imaging.measure(p.d, "؟", qfont)
     imaging.draw_text(p.d, (p.cx, cy - qh // 2 - 26), "؟", qfont, p.navy, anchor="ma")
     fpath, lf = display_font(cfg)
-    p.block(question, fpath, None, p.white, 930, start=76, minimum=44, line_factor=lf)
-    p.line(cfg.path("reel.render.texts.share"), p.font(TAJAWAL_B, 46), p.gold, 1250)
+    start, minimum = scaled(cfg, 76), scaled(cfg, 44)
+    share_font = p.font(TAJAWAL_B, 46)
+    share_text = cfg.path("reel.render.texts.share")
+    # السؤال يبدأ بحبره تحت الدائرة بـ50 بكسلًا (لا يتمركز حول نقطة فيلامسها حين يطول) وينتهي حبره قبل «شاركونا» بـ30
+    top_ink = cy + r + 50
+    bottom_ink = p.ink(share_text, share_font, (p.cx, 1250), "ma")[1] - 30
+    best = None
+    for max_lines in range(8, 0, -1):
+        for size in range(start, min(minimum, start) - 1, -2):
+            font, lines_, lh_ = _fit(p.d, question, fpath, p.max_w, max_lines, size, min(minimum, size), None, lf)
+            if not lines_:
+                continue
+            y = top_ink - min(p.ink(ln, font, (p.cx, 0), "ma")[1] for ln in lines_)
+            low = y + (len(lines_) - 1) * lh_ + max(p.ink(ln, font, (p.cx, 0), "ma")[3] for ln in lines_)
+            best = (font, lines_, lh_, y)
+            if low <= bottom_ink:
+                break
+        else:
+            continue
+        break
+    if best is not None:        # أصغر محاولة تُعتمد إن لم يسع شيء (سؤال شاذ الطول) ولا يُحذف النص
+        font, lines_, lh_, y = best
+        for ln in lines_:
+            imaging.draw_text(p.d, (p.cx, y), ln, font, p.white, anchor="ma")
+            p.boxes.append(tuple(p.ink(ln, font, (p.cx, y), "ma")))
+            y += lh_
+    p.line(share_text, share_font, p.gold, 1250)
     return p.rgb()
 
 
 def frame_outro(cfg, channels: str, boxes=None, credit: str = "") -> Image.Image:
     p = _Pen(cfg, boxes)
     t = cfg.path("reel.render.texts")
-    y = p.text_line(t["follow"], display_font(cfg)[0], None, 112, p.white, 560)
+    # «تابعوا الموجز» بحجم 162 ويُصغَّر عند الحاجة حتى يسع العرض الآمن
+    size, ffont = scaled(cfg, 112), display_font(cfg)[0]
+    while size > 40:
+        font = pick_font(t["follow"], ffont, size)
+        if font is None:
+            break
+        box = p.ink(t["follow"], font, (p.cx, 0), "ma")
+        if box[2] - box[0] <= p.max_w:
+            break
+        size -= 2
+    y = p.text_line(t["follow"], ffont, None, size, p.white, 560)
     p.rule(y + 10)
     y = p.block(t["tagline"], TAJAWAL_B, None, p.white, 0, start=52, minimum=36, max_lines=3, y_top=y + 60)
     p.line(cfg.path("brand.handle") or "@almujez", p.font(TAJAWAL_B, 54), p.gold, y + 20, ltr=True)
@@ -840,7 +912,8 @@ def frame_clip_layers(cfg, scene: dict, boxes=None, cover: bool | None = None) -
         bottom = y if bottom is None else bottom
         latin = (scene.get("speaker_name_latin") or "").strip()
         # السطر الذهبي للاسم اللاتيني فقط: حين وضع السيناريو الاسم العربي نفسه هنا تكرّر الاسم في سطرين
-        if re.search(r"[A-Za-z]", latin) and latin.casefold() != scene["speaker_name"].strip().casefold():
+        has_latin = bool(re.search(r"[A-Za-z]", latin)) and latin.casefold() != scene["speaker_name"].strip().casefold()
+        if has_latin:
             # بـCairo لأن Tajawal يفتقد ş ğ İ
             nb = p.ink_line(latin, CAIRO, "Bold", 34, p.gold, prev_bottom=bottom, gap=gap,
                             limit=limit, min_size=int(mins.get("latin", 26)), ltr=True)
@@ -849,14 +922,30 @@ def frame_clip_layers(cfg, scene: dict, boxes=None, cover: bool | None = None) -
         # والعربية معًا بقي channel_display وحده
         role = scene.get("speaker_role", "")
         display = (scene.get("channel_display") or "").strip()
+        role_min = int(mins.get("role", 26))
+        grey = (214, 222, 238)
+        # بلا سطر لاتيني والصفة والقناة لا تسعان معًا عند الحد الأدنى: الصفة في سطر والقناة تحته (Issue #1423) بدل حذف الصفة
+        if role and channel and not has_latin:
+            if p.ink_line(" · ".join((role, channel)), TAJAWAL_B, None, 40, grey, prev_bottom=bottom, gap=gap,
+                          limit=limit, min_size=role_min, warn=False) is not None:
+                return st.img, bd.img
+            rb = p.ink_line(role, TAJAWAL_B, None, 40, grey, prev_bottom=bottom, gap=gap, limit=limit,
+                            min_size=role_min, warn=False)
+            if rb is not None:
+                # لا يسع اسم القناة الكامل تحت الصفة: الاسم العربي وحده، وإلا تبقى الصفة (الرسم لا يُتراجع عنه)
+                for txt in (channel, display):
+                    if txt and p.ink_line(txt, TAJAWAL_B, None, 40, grey, prev_bottom=rb, gap=gap, limit=limit,
+                                          min_size=role_min, warn=txt == display) is not None:
+                        break
+                return st.img, bd.img
         tries = [" · ".join(x for x in (role, channel) if x)]
         if role and channel:
             tries.append(channel)
         if display and display != channel:
             tries.append(display)
         for i, txt in enumerate(tries):
-            if txt and p.ink_line(txt, TAJAWAL_B, None, 40, (214, 222, 238), prev_bottom=bottom, gap=gap, limit=limit,
-                                  min_size=int(mins.get("role", 26)), warn=i == len(tries) - 1) is not None:
+            if txt and p.ink_line(txt, TAJAWAL_B, None, 40, grey, prev_bottom=bottom, gap=gap, limit=limit,
+                                  min_size=role_min, warn=i == len(tries) - 1) is not None:
                 break
     else:
         label = cfg.path("reel.texts.guest_label", "ضيف على {channel}").format(channel=channel)
@@ -1090,9 +1179,12 @@ def _speech(text: str, voice: str, cfg, deps: Deps, tmp: Path, tag: str) -> tupl
     """صوت مشهد: تشكيل النص كله ← جمل ← وقف ← نداء لكل جملة ← وصل بصمت. يعيد (ملف الصوت، [(نص الجملة للعرض، مدتها)])."""
     rcfg = cfg.path("reel.render")
     silence = float(cfg.path("reel.tts.sentence_silence", 0.35))
-    shown, warn = deps.diacritize(text)
+    res = deps.diacritize(text)       # ثنائية (المزيَّفات القديمة) أو ثلاثية (مع الأعلام)
+    shown, warn = res[0], res[1]
+    nouns = res[2] if len(res) > 2 else []
     if warn:
         log.warning("تشكيل %s: %s", tag, warn)
+    shown = tts.apply_proper_nouns(shown, nouns)
     sentences = tts.split_sentences(shown)
     if not sentences:
         raise RuntimeError(f"مشهد {tag} بلا جمل")
@@ -1230,8 +1322,7 @@ def _narration_frames(parts: list[tuple[str, float]], i: int, cfg, tmp: Path, le
     silence = float(cfg.path("reel.tts.sentence_silence", 0.35))
     fps = float(cfg.path("reel.render.fps"))
     frames: list[tuple[Path, float]] = []
-    # التخطيط (ب) لا يُمسّ في R5a فيبقى بالكتابة حرفًا حرفًا
-    if cfg.path("reel.render.reveal.mode", "lines") == "lines" and not (bg is not None and bg["layout"] == "B"):
+    if cfg.path("reel.render.reveal.mode", "lines") == "lines":
         fade = float(cfg.path("reel.render.reveal.fade", 0.25))
         for k, (text, dur) in enumerate(parts):
             hold = min(silence, dur)
@@ -1330,14 +1421,28 @@ def _join(scene_files: list[Path], kinds: list[str], durs: list[float], cfg, dep
 
 
 def _resolve_background(path: Path, draft: dict, cfg, deps: Deps, notes: list) -> tuple[dict | None, dict]:
-    """خلفية الراوي للتركيب: (الطبقة المحضَّرة أو None، reel_bg المحفوظ). manual_image يغلب reel_bg؛ مسودة بلا reel_bg
-    (سيناريو قديم) تختار الآن وتُحفظ فورًا. فشل التنزيل ← None (الخلفية الكحلية) وسطر في التعليق، لا فشل تركيب."""
+    """خلفية الراوي للتركيب: (الطبقة المحضَّرة أو None، reel_bg المحفوظ). manual_image يغلب reel_bg ولا يُرفض أبدًا؛
+    مسودة بلا reel_bg (سيناريو قديم) تختار الآن وتُحفظ فورًا. reel_bg محفوظ يُعاد فحصه بقاعدتَي الوجه والتاريخ
+    (Issue #1423): فإن سقط يُختار غيره ويُحفظ. فشل التنزيل ← None (الخلفية الكحلية) وسطر في التعليق، لا فشل تركيب."""
     stored = draft.get("reel_bg") if isinstance(draft.get("reel_bg"), dict) and draft["reel_bg"].get("kind") else None
+    manual = (draft.get("manual_image") or "").strip()
+    draft_date = path.parent.name
+    if stored is not None and not manual and stored.get("url"):
+        reason = stale_url_reason(stored["url"], draft_date)
+        if not reason:
+            try:
+                img0 = deps.bg_image(stored["url"])
+            except Exception as exc:  # noqa: BLE001
+                log.warning("تعذّر تنزيل صورة خلفية الراوي: %s", str(exc)[:100])
+                img0 = None
+            reason = face_reason(cfg, img0) if img0 is not None else None
+        if reason:
+            log.info("سقطت خلفية الراوي المحفوظة %s: %s", stored["url"][:80], reason)
+            stored = None
     if stored is None:
         providers = {**(deps.bg_providers or {}), "download": deps.bg_image}
-        stored = pick_background(draft, cfg, providers)
+        stored = pick_background(draft, cfg, providers, draft_date)
         store.update_draft(path, reel_bg=stored)
-    manual = (draft.get("manual_image") or "").strip()
     used = {"url": manual, "kind": "manual", "publisher": ""} if manual else stored
     if not used.get("url"):
         return None, stored
@@ -1496,6 +1601,11 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
 # ───────────────────────────── الطابور ─────────────────────────────
 
 
+def _newest_first(stamp) -> tuple:
+    """مفتاح فرز تنازلي لنص زمني: الأحدث أولًا، وبلا ختم آخرًا."""
+    return (0, tuple(-ord(c) for c in stamp)) if stamp else (1, ())
+
+
 def queued_reels(cfg=None) -> list[tuple[Path, dict]]:
     """مسودات الريل المنتظرة التركيب، الأقدم اعتمادًا أولًا. مع cfg تُضاف المعتمدة المُركَّبة بنسخة أقدم من
     reel.render.version (أو بلا نسخة) فتُعاد كأنها queued؛ المنشور والمرفوض وغير المعتمد لا يُمسّ."""
@@ -1516,7 +1626,9 @@ def queued_reels(cfg=None) -> list[tuple[Path, dict]]:
                   and int(d.get("render_version") or 0) < version)
         if d.get("render_status") == "queued" or stale or revive:
             out.append((p, d))
-    out.sort(key=lambda pd: (pd[1].get("approved_script_at") or "", pd[0].name))
+    # مجموعتان (Issue #1423): المنتظر أولًا ثم المعاد تركيبه (stale وrevive)، وداخل كل مجموعة الأحدث اعتمادًا أولًا
+    out.sort(key=lambda pd: (pd[1].get("render_status") != "queued", _newest_first(pd[1].get("approved_script_at")),
+                             pd[0].name))
     return out
 
 
