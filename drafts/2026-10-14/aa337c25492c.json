@@ -1,0 +1,215 @@
+{
+  "id": "aa337c25492c",
+  "created_at": "2026-10-14T10:50:35.174029+00:00",
+  "status": "published",
+  "review_issue": null,
+  "origin": "news",
+  "score": 32.84,
+  "bucket": "serious",
+  "analysed_sources": [
+    "BBC World",
+    "TechCrunch"
+  ],
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "age_hours": 1696.9,
+  "is_followup": false,
+  "state_media": false,
+  "source": {
+    "title": "Saudi employee charged with planting recording device in OpenAI office",
+    "link": "https://www.bbc.co.uk/news/articles/cwg5jq4vlddzo?at_medium=RSS&at_campaign=rss",
+    "publisher": "BBC World",
+    "publishers": [
+      "BBC World",
+      "Daily Sabah",
+      "NDTV — World",
+      "Rappler",
+      "TASS",
+      "TechCrunch",
+      "The Express Tribune",
+      "The Hindu — International"
+    ],
+    "region": "uk",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/e7bf/live/83811950-c790-11f1-a64c-550be9e3c66b.jpg",
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/e7bf/live/83811950-c790-11f1-a64c-550be9e3c66b.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/e7bf/live/83811950-c790-11f1-a64c-550be9e3c66b.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/e7bf/live/83811950-c790-11f1-a64c-550be9e3c66b.jpg",
+      "https://th-i.thgim.com/public/incoming/pment7/article71582206.ece/alternates/LANDSCAPE_1200/2026-10-13T200140Z_2047224655_RC2QRLARIBNM_RTRMADP_3_OPENAI-SPYING-FBI.JPG",
+      "https://c.ndtvimg.com/2026-10/9lt3p2n4_saudi-openai-engineer-planting-recording-device_625x300_14_October_26.jpeg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/10/14/465515.JPG"
+    ],
+    "related_links": [
+      "https://techcrunch.com/2026/10/13/fbi-arrests-openai-employee-accused-of-planting-hidden-recording-device-in-conference-room/",
+      "https://tribune.com.pk/story/2634767/fbi-arrests-saudi-openai-engineer-over-covert-recording-device-doj-says",
+      "https://www.thehindu.com/sci-tech/technology/openai-fires-employee-after-finding-recording-device-in-conference-room/article71582204.ece"
+    ],
+    "related_publishers": [
+      "TechCrunch",
+      "The Express Tribune",
+      "The Hindu — International"
+    ]
+  },
+  "arabic": {
+    "angle": "تفسير",
+    "analysis": "يربط مدير مكتب التحقيقات الفيدرالي كاش باتيل الحادثة مباشرة بحماية ما وصفه بتقنية \"الذكاء الخارق\"، معتبرًا أن حماية الابتكار الأمريكي في هذا المجال باتت من أولويات مكافحة التجسس لدى الوكالة، وهو ما يرفع القضية من واقعة تجسس داخلية إلى ملف أمن قومي. وبحسب ما كشفته النيابة، لم يكتفِ المتهم بزرع الجهاز بل عاد في 5 أكتوبر/تشرين الأول ليتفقده داخل القاعة نفسها، حيث كانت الشركة قد ركبت كاميرا مراقبة رصدته متلبسًا وهو يتفحص المكان خلف الشاشة، في خطوة ساعدت التحقيق على ربطه بالواقعة بشكل قاطع.",
+    "urgent": false,
+    "category": "تقنية",
+    "image_headline": "جهاز تنصت سري في مكاتب OpenAI يطيح بمهندس سعودي",
+    "post_title": "OpenAI: استخدمنا نماذجنا لتحديد من زرع جهاز التنصت بعد عثور موظفين عليه",
+    "post_body": "وجّهت النيابة الفيدرالية الأمريكية تهمة رسمية للمهندس السعودي عبدالرحمن الفوزان، الذي كان يعمل في OpenAI منذ يوليو/تموز 2025، بزرع جهاز تسجيل صوتي سري داخل قاعة اجتماعات تنفيذية في مكتب الشركة بسان فرانسيسكو. عثر موظفون على الجهاز في 30 سبتمبر/أيلول، أي بعد يومين فقط من تركيبه، مخفيًا داخل ورق مرحاض ومدسوسًا في منفذ USB خلف شاشة تلفزيون. وقالت OpenAI إنها استخدمت نماذجها لفهم الجهاز وتحديد مصدره، وأوضحت أنه مزوّد بتشفير متقدم وقدرات مراقبة صوتية، فيما ذكر الادعاء أن محتوياته كانت مشفرة. أُلقي القبض على الفوزان في 9 أكتوبر/تشرين الأول، وطُرد من عمله، وهو يواجه عقوبة قد تصل إلى خمس سنوات سجن إن أُدين.",
+    "hashtags": [
+      "اوبن_ايه_اي",
+      "جاسوسية",
+      "الذكاء_الاصطناعي",
+      "تشات_جي_بي_تي"
+    ]
+  },
+  "caption": "OpenAI: استخدمنا نماذجنا لتحديد من زرع جهاز التنصت بعد عثور موظفين عليه\n\nوجّهت النيابة الفيدرالية الأمريكية تهمة رسمية للمهندس السعودي عبدالرحمن الفوزان، الذي كان يعمل في OpenAI منذ يوليو/تموز 2025، بزرع جهاز تسجيل صوتي سري داخل قاعة اجتماعات تنفيذية في مكتب الشركة بسان فرانسيسكو. عثر موظفون على الجهاز في 30 سبتمبر/أيلول، أي بعد يومين فقط من تركيبه، مخفيًا داخل ورق مرحاض ومدسوسًا في منفذ USB خلف شاشة تلفزيون. وقالت OpenAI إنها استخدمت نماذجها لفهم الجهاز وتحديد مصدره، وأوضحت أنه مزوّد بتشفير متقدم وقدرات مراقبة صوتية، فيما ذكر الادعاء أن محتوياته كانت مشفرة. أُلقي القبض على الفوزان في 9 أكتوبر/تشرين الأول، وطُرد من عمله، وهو يواجه عقوبة قد تصل إلى خمس سنوات سجن إن أُدين.\n\nخلف الخبر\nيربط مدير مكتب التحقيقات الفيدرالي كاش باتيل الحادثة مباشرة بحماية ما وصفه بتقنية \"الذكاء الخارق\"، معتبرًا أن حماية الابتكار الأمريكي في هذا المجال باتت من أولويات مكافحة التجسس لدى الوكالة، وهو ما يرفع القضية من واقعة تجسس داخلية إلى ملف أمن قومي. وبحسب ما كشفته النيابة، لم يكتفِ المتهم بزرع الجهاز بل عاد في 5 أكتوبر/تشرين الأول ليتفقده داخل القاعة نفسها، حيث كانت الشركة قد ركبت كاميرا مراقبة رصدته متلبسًا وهو يتفحص المكان خلف الشاشة، في خطوة ساعدت التحقيق على ربطه بالواقعة بشكل قاطع.\n\n#اوبن_ايه_اي #جاسوسية #الذكاء_الاصطناعي #تشات_جي_بي_تي",
+  "headlines": [
+    "كيف استعانت OpenAI بنماذجها لتحديد من زرع جهاز التنصت في مكتبها؟",
+    "اتهام موظف سعودي في OpenAI بزرع جهاز تسجيل سري في مكتب الشركة في سان فرانسيسكو",
+    "كيف ساعدت نماذج OpenAI في تحديد مصدر جهاز التنصت بعد العثور عليه؟"
+  ],
+  "headline_selected": 0,
+  "reel": null,
+  "reel_spec": {
+    "headline": "جهاز تنصت سري في مكاتب OpenAI يطيح بمهندس سعودي",
+    "category": "تقنية",
+    "urgent": false,
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/e7bf/live/83811950-c790-11f1-a64c-550be9e3c66b.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/e7bf/live/83811950-c790-11f1-a64c-550be9e3c66b.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/e7bf/live/83811950-c790-11f1-a64c-550be9e3c66b.jpg",
+      "https://th-i.thgim.com/public/incoming/pment7/article71582206.ece/alternates/LANDSCAPE_1200/2026-10-13T200140Z_2047224655_RC2QRLARIBNM_RTRMADP_3_OPENAI-SPYING-FBI.JPG",
+      "https://c.ndtvimg.com/2026-10/9lt3p2n4_saudi-openai-engineer-planting-recording-device_625x300_14_October_26.jpeg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/10/14/465515.JPG"
+    ]
+  },
+  "names_audit": [
+    {
+      "arabic": "عبدالرحمن الفوزان",
+      "latin": "Abdulrahman Alfozan"
+    },
+    {
+      "arabic": "كاش باتيل",
+      "latin": "Kash Patel"
+    }
+  ],
+  "editor_review": {
+    "at": "2026-10-14T10:50:37.538121+00:00",
+    "applied": [
+      {
+        "category": "h1_overclaims",
+        "severity": "high",
+        "location": "h1",
+        "original": "كيف كشفت OpenAI جهاز تنصت زرعه أحد موظفيها بأدوات الذكاء الاصطناعي نفسها",
+        "fix": "OpenAI: استخدمنا نماذجنا لتحديد من زرع جهاز التنصت بعد عثور موظفين عليه",
+        "note": "العنوان ينسب اكتشاف الجهاز إلى أدوات الذكاء الاصطناعي، بينما المتن والمصادر تقول إن موظفين هم من عثروا عليه في 30 سبتمبر/أيلول، وإن النماذج استُخدمت لاحقًا لفهم الجهاز وتحديد مصدره. كما يجزم بأن الموظف زرعه، وهي رواية الادعاء/الشركة ولم تُثبت قضائيًا.",
+        "sources": [
+          "https://abc7news.com/post/employee-arrested-listening-device-found-sf-openai-conference-room-fbi-company-say/19936054/",
+          "https://www.nbcnews.com/tech/tech-news/openai-employee-arrested-hidden-listening-device-company-says-rcna603262"
+        ]
+      },
+      {
+        "category": "headline_contradicts",
+        "severity": "high",
+        "location": "headline_1",
+        "original": "هل استطاعت أدوات OpenAI الذكية كشف جهاز التنصت الذي زرعه موظفوها؟",
+        "fix": "كيف استعانت OpenAI بنماذجها لتحديد من زرع جهاز التنصت في مكتبها؟",
+        "note": "صيغة الجمع «موظفوها» تناقض المتن والمصادر: المتهم موظف واحد. كما أن صيغة السؤال توحي بالشك في أمر يؤكده المتن (أن الشركة استخدمت نماذجها فعلًا)، فضلًا عن نسبة «الكشف» للأدوات لا للموظفين الذين عثروا على الجهاز.",
+        "sources": [
+          "https://www.nbcnews.com/tech/tech-news/openai-employee-arrested-hidden-listening-device-company-says-rcna603262"
+        ]
+      },
+      {
+        "category": "headline_overclaims",
+        "severity": "high",
+        "location": "headline_2",
+        "original": "موظف سعودي بـ OpenAI يزرع جهاز تسجيل سري في مكتب الشركة فيسان فرانسيسكو",
+        "fix": "اتهام موظف سعودي في OpenAI بزرع جهاز تسجيل سري في مكتب الشركة في سان فرانسيسكو",
+        "note": "العنوان يجزم بوقوع الفعل من الموظف، والمتن والمصادر تتحدث عن «تهمة» ومثول أمام المحكمة ولا حكم بالإدانة حتى الآن؛ يلزم صيغة الاتهام.",
+        "sources": [
+          "https://thehackernews.com/2026/10/openai-employee-arrested-for-allegedly.html",
+          "https://www.washingtonpost.com/technology/2026/10/13/fbi-arrests-openai-employee-allegedly-planting-bug-office/"
+        ]
+      },
+      {
+        "category": "headline_overclaims",
+        "severity": "low",
+        "location": "headline_3",
+        "original": "كيف تمكنت نماذج الذكاء الاصطناعي من كشف جهاز تنصت داخل مقر OpenAI؟",
+        "fix": "كيف ساعدت نماذج OpenAI في تحديد مصدر جهاز التنصت بعد العثور عليه؟",
+        "note": "النماذج لم تكشف الجهاز؛ عثر عليه موظفون، ثم استُخدمت النماذج لفهمه وتحديد من زرعه، وفق بيان الشركة.",
+        "sources": [
+          "https://abc7news.com/post/employee-arrested-listening-device-found-sf-openai-conference-room-fbi-company-say/19936054/"
+        ]
+      },
+      {
+        "category": "vague_attribution",
+        "severity": "low",
+        "location": "body",
+        "original": "استخدمت الشركة نماذجها الخاصة لتتبع مصدر الجهاز، وتبين أنه مشفر ومزوّد بخاصية مراقبة صوتية.",
+        "fix": "وقالت OpenAI إنها استخدمت نماذجها لفهم الجهاز وتحديد مصدره، وأوضحت أنه مزوّد بتشفير متقدم وقدرات مراقبة صوتية، فيما ذكر الادعاء أن محتوياته كانت مشفرة.",
+        "note": "ما ورد هنا رواية الشركة عن نفسها ووصفها للجهاز، ويُقدَّم في المتن كواقعة مثبتة بلا نسبة.",
+        "sources": [
+          "https://www.nbcnews.com/tech/tech-news/openai-employee-arrested-hidden-listening-device-company-says-rcna603262",
+          "https://arabic.cnn.com/middle-east/article/2026/10/14/saudi-national-arrested-for-installing-surreptitious-audio-recording-device-at-openai"
+        ]
+      }
+    ],
+    "notes": [
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "headline_2",
+        "original": "فيسان فرانسيسكو",
+        "fix": "في سان فرانسيسكو",
+        "note": "خطأ طباعي: التصقت «في» باسم المدينة.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "عثر موظفون على الجهاز في 30 سبتمبر",
+        "fix": "عثر موظفون على الجهاز في 30 سبتمبر/أيلول 2026",
+        "note": "ضبط صيغة الشهر (الميلادي ثم الشامي) وإضافة السنة؛ وينطبق الأمر نفسه على «9 أكتوبر» ← «9 أكتوبر/تشرين الأول». التواريخ نفسها صحيحة بحسب المصادر (التركيب نحو 28 سبتمبر/أيلول، الاكتشاف 30 سبتمبر/أيلول، التوقيف 9 أكتوبر/تشرين الأول).",
+        "sources": [
+          "https://thehackernews.com/2026/10/openai-employee-arrested-for-allegedly.html"
+        ]
+      }
+    ],
+    "error": null,
+    "searches": 2,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "image": "drafts/2026-10-14/aa337c25492c.jpg",
+  "has_photo": true,
+  "image_info": {
+    "used_original": true,
+    "illustrative": false,
+    "composite": false,
+    "chosen_url": "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/e7bf/live/83811950-c790-11f1-a64c-550be9e3c66b.jpg",
+    "candidates_tried": 4,
+    "manual": false,
+    "kind": null,
+    "news_photo_publisher": null,
+    "candidate_failures": [],
+    "fallback_tried": false,
+    "fallback_candidates": 0,
+    "web_search_domain": null,
+    "web_search_query": null,
+    "web_search_tried": 0,
+    "web_search_skipped": null
+  },
+  "publish_at": "2026-10-14T10:51:40.608395+00:00",
+  "published_at": "2026-10-14T10:51:46.217966+00:00",
+  "facebook": {
+    "post_id": "631680090321390_1385939496956404",
+    "photo_id": "1385939470289740",
+    "url": "https://www.facebook.com/631680090321390_1385939496956404",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) You do not have sufficient permissions to perform this action"
+  }
+}

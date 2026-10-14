@@ -1,117 +1,5 @@
 [
   {
-    "score": 25.1,
-    "bucket": "serious",
-    "tokens": [
-      "disclosure",
-      "dispute",
-      "envoy",
-      "korea",
-      "lead",
-      "pows",
-      "recall",
-      "ukraine"
-    ],
-    "link": "https://en.yna.co.kr/view/AEN20261008008451315",
-    "title": "(LEAD) S. Korea to recall envoy to Ukraine amid dispute over disclosure of N.K. POWs",
-    "posted_title": "",
-    "region": "kr",
-    "seen_at": "2026-10-09T09:08:14.680376+00:00"
-  },
-  {
-    "score": 25.05,
-    "bucket": "serious",
-    "tokens": [
-      "forces",
-      "ibo",
-      "kill",
-      "media",
-      "north",
-      "security",
-      "state",
-      "terrorists",
-      "waziristan"
-    ],
-    "link": "https://www.dawn.com/news/2035888/security-forces-kill-7-terrorists-in-north-waziristan-ibo-state-media",
-    "title": "Security forces kill 7 terrorists in North Waziristan IBO: state media",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-10-09T09:08:14.680699+00:00"
-  },
-  {
-    "score": 24.02,
-    "bucket": "serious",
-    "tokens": [
-      "affecting",
-      "africa",
-      "african",
-      "conflict",
-      "countries",
-      "houthi",
-      "how",
-      "saudi"
-    ],
-    "link": "https://allafrica.com/stories/202610090212.html",
-    "title": "Africa: How the Houthi-Saudi Conflict is Affecting African Countries",
-    "posted_title": "",
-    "region": "africa",
-    "seen_at": "2026-10-09T09:08:14.680972+00:00"
-  },
-  {
-    "score": 23.34,
-    "bucket": "serious",
-    "tokens": [
-      "atiku",
-      "day",
-      "discount",
-      "fuel",
-      "speaks",
-      "tinubu"
-    ],
-    "link": "https://www.premiumtimesng.com/news/top-news/915586-atiku-speaks-on-tinubus-30-day-fuel-discount.html",
-    "title": "Atiku speaks on Tinubu’s 30-day fuel discount",
-    "posted_title": "",
-    "region": "ng",
-    "seen_at": "2026-10-09T09:08:14.681247+00:00"
-  },
-  {
-    "score": 21.87,
-    "bucket": "serious",
-    "tokens": [
-      "kenyans",
-      "killed",
-      "missing",
-      "revealed",
-      "russia",
-      "ukraine",
-      "war"
-    ],
-    "link": "https://www.standardmedia.co.ke/article/2001559706/revealed-84-kenyans-killed-52-missing-in-russia-ukraine-war",
-    "title": "Revealed: 84 Kenyans killed, 52 missing in Russia-Ukraine war",
-    "posted_title": "",
-    "region": "ke",
-    "seen_at": "2026-10-09T09:08:14.681545+00:00"
-  },
-  {
-    "score": 24.02,
-    "bucket": "serious",
-    "tokens": [
-      "affecting",
-      "africa",
-      "african",
-      "conflict",
-      "countries",
-      "houthi",
-      "how",
-      "saudi"
-    ],
-    "link": "https://allafrica.com/stories/202610090212.html",
-    "title": "Africa: How the Houthi-Saudi Conflict is Affecting African Countries",
-    "posted_title": "كيف وصلت تبعات معركة الحوثيين والسعودية إلى جيبوتي وأفريقيا",
-    "region": "africa",
-    "seen_at": "2026-10-09T09:21:29.804842+00:00"
-  },
-  {
     "score": 35.14,
     "bucket": "serious",
     "tokens": [
@@ -1215,5 +1103,24 @@
     "posted_title": "",
     "region": "in",
     "seen_at": "2026-10-14T09:08:10.173458+00:00"
+  },
+  {
+    "score": 32.84,
+    "bucket": "serious",
+    "tokens": [
+      "charged",
+      "device",
+      "employee",
+      "office",
+      "openai",
+      "planting",
+      "recording",
+      "saudi"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cwg5jq4vlddzo?at_medium=RSS&at_campaign=rss",
+    "title": "Saudi employee charged with planting recording device in OpenAI office",
+    "posted_title": "OpenAI: استخدمنا نماذجنا لتحديد من زرع جهاز التنصت بعد عثور موظفين عليه",
+    "region": "uk",
+    "seen_at": "2026-10-14T10:51:38.032993+00:00"
   }
 ]
