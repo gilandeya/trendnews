@@ -8755,6 +8755,27 @@ def test_reel_r5a2_guards() -> None:
         check("g285: max_per_run == 1", int(cfg.path("reel.render.max_per_run")) == 1)
     guarded("g285", g285)
 
+    # ── g286: موضع السؤال تحت الدائرة الذهبية وفوق «شاركونا» ──
+    def g286():
+        circle_bottom = 520 + 120
+        long_q = "كيف تقرأون مسار التصعيد بعد استهداف مطار الملك خالد الدولي وما الذي ينتظر المنطقة؟"
+        boxes: list = []
+        reel_render.frame_question(cfg, long_q, boxes)
+        q, share = boxes[:-1], boxes[-1]
+        top, bottom = min(b[1] for b in q), max(b[3] for b in q)
+        check("g286: أعلى حبر السؤال الطويل ≥ 690 (أسفل الدائرة + 50)", top >= circle_bottom + 50, (top, circle_bottom))
+        check("g286: أسفل حبر السؤال ≤ أعلى حبر «شاركونا» − 30", bottom <= share[1] - 30, (bottom, share))
+        boxes2: list = []
+        reel_render.frame_question(cfg, "هل تتجه المنطقة إلى تسوية؟", boxes2)
+        q2 = boxes2[:-1]
+        h2 = max(b[3] for b in q2) - min(b[1] for b in q2)
+        check("g286: سؤال قصير من 4 كلمات بسطر واحد وأعلى حبره ≥ 690",
+              len(q2) == 1 and min(b[1] for b in q2) >= circle_bottom + 50, q2)
+        full_h = ink_h(aref, reel_render.scaled(cfg, 76), "هل تتجه المنطقة إلى تسوية؟")
+        check("g286: السؤال القصير بالحجم الكامل (ارتفاع حبره = ارتفاع الحجم الكامل)",
+              abs(h2 - full_h) <= 2, (h2, full_h))
+    guarded("g286", g286)
+
 
 def test_speed_t1_guards() -> None:
     """Issue #1422 (T1، g278–g279): تسريع حزمة الاختبارات — preset الترميز من الإعداد (حقيقيه veryfast وفي الاختبارات ultrafast)
