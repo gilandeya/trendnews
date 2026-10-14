@@ -180,6 +180,46 @@
   "has_photo": false,
   "has_news_photo": true,
   "review_issue": 1417,
-  "render_status": "queued",
-  "approved_script_at": "2026-10-14T13:48:39.963300+00:00"
+  "render_status": "rendered",
+  "approved_script_at": "2026-10-14T13:48:39.963300+00:00",
+  "reel_bg": {
+    "url": "https://www.khaligyoun.com/wp-content/uploads/2021/10/khaligyoun18765.jpg",
+    "kind": "news_photo",
+    "publisher": "خليجيون",
+    "layout": "B"
+  },
+  "reel_file": "reels/2026-10-14/79c224cd69b0.mp4",
+  "reel_gif": "reels/2026-10-14/79c224cd69b0.gif",
+  "duration_seconds": 92.9,
+  "render_version": 8,
+  "render_attempts": 0,
+  "reel_music": "nastelbom-news-501715.mp3",
+  "render_crops": {
+    "0": {
+      "x": 54,
+      "source": "face",
+      "cover": true
+    },
+    "3": {
+      "x": 406,
+      "source": "face",
+      "cover": true
+    },
+    "5": {
+      "x": 875,
+      "source": "face",
+      "cover": true
+    }
+  },
+  "render_dropped": [],
+  "render_approx": [
+    {
+      "point_id": "e6314be03c55",
+      "kind": "cold_open_clip",
+      "start": 105,
+      "end": 112,
+      "reason": "تعذّر جلب نص الفيديو"
+    }
+  ],
+  "rendered_at": "2026-10-14T15:07:40.139203+00:00"
 }
