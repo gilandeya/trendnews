@@ -116,6 +116,7 @@ def valid_clips(member_points: list[dict], unresolved: list, cfg: Any) -> list[d
                     "video_title": p.get("video_title", "") or "",
                     "video_description": p.get("video_description") or "",
                     "channel_display": youtube_article.display_channel_name(p.get("channel", ""), cfg),
+                    "channel_original": p.get("channel", "") or "",    # اسم القناة اللاتيني للشريط السفلي (Issue #1419)
                     "quote_arabic": p.get("quote_arabic", ""), "quote_original": p.get("quote_original", ""),
                     "language": detect_language(p["quote_original"]),
                     "video_published": p.get("video_published") or "", "statement": p.get("statement", "")})
@@ -134,7 +135,7 @@ def speaker_band(clip: dict, cfg: Any) -> str:
     if clip.get("speaker_verified") and clip.get("speaker_name"):
         return " · ".join(x for x in (clip["speaker_name"], clip.get("speaker_role", ""),
                                       clip.get("channel_display", "")) if x)
-    return texts.get("guest_label", "ضيف على قناة {channel}").format(channel=clip.get("channel_display", ""))
+    return texts.get("guest_label", "ضيف على {channel}").format(channel=clip.get("channel_display", ""))
 
 
 def speaker_badge(clip: dict, cfg: Any) -> str:
@@ -378,7 +379,7 @@ def _build(data: dict, valid: list[dict], narrator: str) -> dict:
             if c:
                 scene.update({k: c.get(k, "") for k in (
                     "video_url", "start", "end", "speaker_name", "speaker_role", "speaker_verified",
-                    "speaker_verified_from", "speaker_name_latin", "channel_display", "quote_arabic", "language",
+                    "speaker_verified_from", "speaker_name_latin", "channel_display", "channel_original", "quote_arabic", "language",
                     "video_published")})
             scenes.append(scene)
         elif kind == "title_card":

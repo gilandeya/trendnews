@@ -1864,7 +1864,7 @@ reel:
     scene_cold: "🎥 مقطع افتتاحي: {band} · «{quote}» · [الفيديو]({url}) · {badge}"
     scene_clip: "🎥 مقطع: {band} · «{quote}» · [الفيديو]({url}) · {badge}"
     # ── هوية المتحدث (Issue #1377، R2c) ──
-    guest_label: "من قناة {channel}"
+    guest_label: "ضيف على {channel}"      # {channel} = «اللاتيني العربي» كما في الشريط السفلي (Issue #1419)
     verified_title: "✅ موثَّق من عنوان الفيديو"
     verified_description: "✅ موثَّق من وصف الفيديو"
     guest_badge: "👤 ضيف غير مسمّى"
@@ -1983,7 +1983,12 @@ reel:
     # فلا يتحرك. قيمة ≥ min(lead_seconds, clip_tail_seconds) تُخفَّض إلى ذلك الحد − 0.1 كي لا يقع كلام المقطع في التلاشي
     transition: {type: slideleft, outro_type: fade, seconds: 0.35}
     # نسخة التركيب: رفعها تعيد --pending تركيب كل ريل معتمد مُركَّب بنسخة أقدم (المنشور والمرفوض لا يُمسّان)
-    version: 8
+    version: 9
+    # خط الرقعة للنصوص الكبيرة وحدها (العنوان والسؤال والراوي وتابعوا الموجز)؛ نوازله تلامس السطر التالي عند 1.62
+    # فمعامل مسافته أكبر. الباقي بخطه القديم، وحرف غائب منه يرجع إلى Cairo (pick_font)
+    fonts: {display: "assets/fonts/ArefRuqaa-Bold.ttf", display_line_factor: 1.85}
+    # ظهور الراوي: lines ← سطرًا فسطرًا بتلاشٍ من الشفافية (fade ثانية) وصعود rise بكسل إلى موضعه؛ typewriter ← حرفًا حرفًا
+    reveal: {mode: lines, fade: 0.25, rise: 18}
     # صورة خلفية واحدة لكل مشاهد الراوي (Issue #1411، R3b-2b). تُختار عند كتابة السيناريو وتُحفظ رابطًا وحده على المسودة
     # (reel_bg)، والتركيب ينزّلها ويقرّر الشكل من الصورة نفسها: (أ) بلا وجه كبير ← تظليل كحلي shade_a والنص في الوسط؛
     # (ب) فيها وجه بمساحة ≥ image.face_min_ratio ← تظليل خفيف shade_b والنص في صندوق سفلي (box_alpha) بخط ذهبي أعلاه
@@ -2012,7 +2017,7 @@ reel:
     # slide_seconds: دخول الشريط من اليمين بعد انتهاء الانتقال؛ cover: كحلي معتم من أسفل الشريط إلى أسفل الشاشة يغطي
     # شريط القناة الأصلية (شفافية 0.94 أبقته ظاهرًا باهتًا)، false ← بلا غطاء؛ auto (الافتراضي) ← الغطاء وشريطنا معتم تمامًا (alpha 1)
     # فقط حين يكشف cover_detect شريط أخبار أو لافتة في أسفل المقطع (صف حافة مستقيمة في frame_fraction من اللقطات)
-    band: {top: 1260, height: 240, edge: 24, alpha: 0.94, line_gap: 12, slide_seconds: 0.4, cover: auto,
+    band: {top: 1260, height: 240, edge: 24, alpha: 0.94, line_gap: 12, min_sizes: {name: 40, latin: 26, role: 26, guest: 30}, slide_seconds: 0.4, cover: auto,
             cover_detect: {samples: 6, grad: 25, row_fraction: 0.7, frame_fraction: 0.8}}   # شريط المتحدث السفلي
     gif: {seconds: 6, width: 270, height: 480, fps: 8}
     repo_subdir: reels         # مجلد الريلز داخل المستودع الخاص (reel_file/reel_gif نسبيان إلى جذره)
