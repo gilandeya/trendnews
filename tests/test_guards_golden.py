@@ -8282,7 +8282,7 @@ def test_llm_haiku55_guards() -> None:
 
 
 def test_reel_text_r5a_guards() -> None:
-    """Issue #1419 (R5a، g266–g274): توسيط نص الريل، وخط الرقعة للنصوص الكبيرة وحدها، وظهور الراوي سطرًا فسطرًا بخط أكبر،
+    """Issue #1419 (R5a، g266–g277): توسيط نص الريل، وخط الرقعة للنصوص الكبيرة وحدها، وظهور الراوي سطرًا فسطرًا بخط أكبر،
     وشريط المتحدث الجديد (الاسم اللاتيني للقناة)."""
     import copy
     import hashlib
@@ -8485,3 +8485,45 @@ def test_reel_text_r5a_guards() -> None:
             "channel": "FRANCE 24 Arabic", "quote_arabic": "ترجمة", "speaker": "ميساء", "video_id": "x"}]
     clips = reel_script.valid_clips(pts, [], cfg)
     check("g274: valid_clips تضع channel_original", bool(clips) and clips[0].get("channel_original") == "FRANCE 24 Arabic", clips)
+
+    # ── g275–g277: الشريط السفلي يسع العرض (متابعة #1419) ──
+    def band_boxes(scene) -> tuple[list, list]:
+        bx: list = []
+        reel_render.frame_clip_overlay(cfg, scene, bx)
+        band_top = int(cfg.path("reel.render.band.top"))
+        return [b for b in bx if b[1] >= band_top], drawn(scene)
+
+    maysaa = {**base, "speaker_name_latin": "Maysaa Shuja al-Deen"}
+    bx, dr = band_boxes(maysaa)
+    texts = [t for t, _ in dr]
+    third = [t for t in texts if "فرانس 24 عربي" in t]
+    check("g275: ثلاثة أسطر مرسومة للمتحدث الموثَّق",
+          "ميساء شجاع الدين" in texts and "Maysaa Shuja al-Deen" in texts and len(third) == 1, texts)
+    check("g275: كل صناديق الشريط بين 0 وW", bool(bx) and all(0 <= b[0] and b[2] <= W for b in bx), bx)
+    check("g275: الصفة كاملة أو محذوفة والقناة كاملة", bool(third) and third[0] in (
+        "باحثة في مركز صنعاء للدراسات الاستراتيجية · FRANCE 24 Arabic فرانس 24 عربي",
+        "FRANCE 24 Arabic فرانس 24 عربي", "فرانس 24 عربي"), third)
+
+    long_role = " ".join(["محلل"] * 20)
+    bx2, dr2 = band_boxes({**maysaa, "speaker_role": long_role})
+    t2 = [t for t, _ in dr2]
+    check("g276: صفة من 20 كلمة ← السطر الثالث بلا صفة والقناة كاملة",
+          any(t in ("FRANCE 24 Arabic فرانس 24 عربي", "فرانس 24 عربي") for t in t2)
+          and not any("محلل" in t for t in t2), t2)
+    check("g276: صناديق الصفة الطويلة بين 0 وW", all(0 <= b[0] and b[2] <= W for b in bx2), bx2)
+    long_name = " ".join(["عبدالرحمن"] * 6)
+    bx3, dr3 = band_boxes({**maysaa, "speaker_name": long_name})
+    check("g276: اسم من 6 كلمات طويلة يُصغَّر ويبقى بين الحدّين",
+          any(t == long_name for t, _ in dr3) and all(0 <= b[0] and b[2] <= W for b in bx3), bx3)
+
+    lb: list = []
+    reel_render.frame_clip_overlay(cfg, {"speaker_verified": True, "speaker_name": "الاسم العربي الكامل للمتحدث",
+                                         "speaker_name_latin": "Full Latin Name", "speaker_role": long_role,
+                                         "channel_original": "A Very Long Latin Channel Name International Edition",
+                                         "channel_display": "قناة طويلة الاسم جدًا للتجربة"}, lb)
+    allb = reel_render.layout_boxes(cfg) + lb
+    check("g277: لا صندوق في layout_boxes يتجاوز 0 أو W أفقيًا",
+          all(b[0] >= 0 and b[2] <= W for b in allb), [b for b in allb if b[0] < 0 or b[2] > W])
+    import inspect
+    check("g277: layout_boxes تضم مشهد الصفة الطويلة والقناة اللاتينية الطويلة",
+          "channel_original" in inspect.getsource(reel_render.layout_boxes))
