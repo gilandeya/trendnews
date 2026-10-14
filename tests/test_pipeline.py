@@ -277,7 +277,7 @@ from tests.test_guards_golden import (test_guards_golden, test_important_false_g
                                       test_reel_clip_streams_r3b2a3_guards, test_reel_cover_auto_r3b2a4_guards,
                                       test_reel_background_r3b2b_guards, test_reel_music_r3b2c_guards,
                                       test_llm_haiku55_guards, test_reel_text_r5a_guards,
-                                      test_reel_r5a2_guards)
+                                      test_speed_t1_guards, test_reel_r5a2_guards)
 from tests.test_names_audit import (test_names_audit_brave_counter, test_names_audit_other_sites,
                                     test_names_audit_pipeline,
                                     test_names_audit_prevention_writer, test_names_audit_review_learning)
@@ -687,6 +687,7 @@ def main() -> int:
     test_reel_music_r3b2c_guards()
     test_llm_haiku55_guards()
     test_reel_text_r5a_guards()
+    test_speed_t1_guards()
     test_analysis_attribution_guards()
     test_reel_r5a2_guards()
     test_analysis_attribution_pipeline()

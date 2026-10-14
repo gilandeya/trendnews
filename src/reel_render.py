@@ -960,7 +960,7 @@ def layout_boxes(cfg) -> list[tuple]:
 
 
 def _enc(rcfg: dict) -> list[str]:
-    return ["-c:v", "libx264", "-preset", "veryfast", "-crf", str(rcfg.get("crf", 22)), "-pix_fmt", "yuv420p",
+    return ["-c:v", "libx264", "-preset", str(rcfg.get("preset", "veryfast")), "-crf", str(rcfg.get("crf", 22)), "-pix_fmt", "yuv420p",
             "-c:a", "aac", "-b:a", "128k", "-ar", str(rcfg.get("audio_rate", 48000)), "-ac", "2"]
 
 
@@ -1027,7 +1027,8 @@ def _music_mix(cfg, music: Path, seconds: float) -> tuple[list[str], str]:
 
 def _save(img: Image.Image, path: Path) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
-    img.save(path)
+    # الإطارات ملفات مؤقتة تُحذف بعد التركيب فضغطها الأعلى هدر وقت؛ البكسلات نفسها بلا تغيير
+    img.save(path, compress_level=1)
     return path
 
 

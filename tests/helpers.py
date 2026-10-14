@@ -33,8 +33,18 @@ from src import collect, evidence, extract, facebook, headlines, imagesearch, im
 from src import youtube_article, youtube_cluster, youtube_collect, youtube_extract  # noqa: E402
 from src import youtube_publish  # noqa: E402
 from src.config import (  # noqa: E402
-    DRAFTS_DIR, STATE_DIR, YOUTUBE_ARTICLES_DIR, YOUTUBE_POINTS_DIR, load_config,
+    DRAFTS_DIR, STATE_DIR, YOUTUBE_ARTICLES_DIR, YOUTUBE_POINTS_DIR, load_config as _real_load_config,
 )
+
+
+def load_config(path=None):
+    """إعداد الاختبارات: كالحقيقي لكن preset ترميز الريل ultrafast (الترميز الحقيقي لفيديو 1080×1920 عشرات المرات هو
+    ثلث مدة الحزمة؛ config.yaml نفسه لا يُمسّ فيبقى veryfast في الإنتاج) — Issue #1422."""
+    cfg = _real_load_config(path)
+    rcfg = cfg.get("reel", {}).get("render") if isinstance(cfg.get("reel"), dict) else None
+    if isinstance(rcfg, dict):
+        rcfg["preset"] = "ultrafast"
+    return cfg
 from src.rank import cluster, rank, similarity, tokens  # noqa: E402
 from src.sources import Article  # noqa: E402
 from tools import measure_channels, test_actions_block  # noqa: E402

@@ -8754,3 +8754,49 @@ def test_reel_r5a2_guards() -> None:
         check("g285: render_version == 10", int(cfg.path("reel.render.version")) == 10, cfg.path("reel.render.version"))
         check("g285: max_per_run == 1", int(cfg.path("reel.render.max_per_run")) == 1)
     guarded("g285", g285)
+
+
+def test_speed_t1_guards() -> None:
+    """Issue #1422 (T1، g278–g279): تسريع حزمة الاختبارات — preset الترميز من الإعداد (حقيقيه veryfast وفي الاختبارات ultrafast)
+    وحفظ إطارات PNG المؤقتة بضغط خفيف دون تغيير البكسلات."""
+    import random
+    import tempfile
+    from pathlib import Path
+
+    from PIL import Image
+
+    from src import config as real_config
+    from src import reel_render
+
+    # ── g278: preset من الإعداد ──
+    real = real_config.load_config()
+    test_cfg = load_config()
+    real_preset = real.path("reel.render.preset")
+    test_preset = test_cfg.path("reel.render.preset")
+    check("g278: config.yaml الحقيقي preset == veryfast", real_preset == "veryfast", real_preset)
+    check("g278: cfg اختبارات الريل preset == ultrafast", test_preset == "ultrafast", test_preset)
+    for label, c in (("real", real), ("test", test_cfg)):
+        enc = reel_render._enc(c.path("reel.render"))
+        i = enc.index("-preset") if "-preset" in enc else -1
+        check(f"g278: _enc({label}) يحمل -preset تليه قيمة الإعداد",
+              i >= 0 and enc[i + 1] == c.path("reel.render.preset"), enc)
+
+    # ── g279: _save بضغط خفيف وبكسلات مطابقة ──
+    rnd = random.Random(1422)
+    img = Image.frombytes("RGB", (1080, 1920), rnd.randbytes(1080 * 1920 * 3))
+    seen: list[dict] = []
+    real_save = Image.Image.save
+
+    def spy(self, fp, *a, **kw):
+        seen.append(kw)
+        return real_save(self, fp, *a, **kw)
+
+    with tempfile.TemporaryDirectory() as d:
+        Image.Image.save = spy  # type: ignore
+        try:
+            out = reel_render._save(img, Path(d) / "f.png")
+        finally:
+            Image.Image.save = real_save  # type: ignore
+        same = Image.open(out).convert("RGB").tobytes() == img.tobytes()
+    check("g279: البكسلات مطابقة بعد الحفظ والقراءة", same)
+    check("g279: الحفظ يمرّر compress_level=1", any(k.get("compress_level") == 1 for k in seen), seen)
