@@ -33,6 +33,11 @@ YOUTUBE_ARTICLES_DIR = Path(os.environ["TRENDNEWS_YOUTUBE_ARTICLES_DIR"]) if os.
 REELS_DIR = Path(os.environ["TRENDNEWS_REELS_DIR"]) if os.environ.get(
     "TRENDNEWS_REELS_DIR") else STATE_DIR / "reels"
 
+# مقطوعات موسيقى الريل (Issue #1413): ترخيص Pixabay يمنع توزيعها وحدها فلا تدخل هذا المستودع العام أبدًا؛ في CI يشير
+# REELS_DIR إلى reels/ في سحب trendnews-data فيصير assets/music بجواره (youtube-data/assets/music) بلا تعديل workflow.
+MUSIC_DIR = Path(os.environ["TRENDNEWS_MUSIC_DIR"]) if os.environ.get(
+    "TRENDNEWS_MUSIC_DIR") else REELS_DIR.parent / "assets" / "music"
+
 
 class Config(dict):
     """قاموس إعدادات يدعم الوصول بالنقاط عبر get_path."""
