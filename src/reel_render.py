@@ -348,6 +348,18 @@ def pick_font(text: str, path: str, size: int, weight: str | None = None):
     return None
 
 
+def _fit(draw, text, font_path, max_width, max_lines, start, minimum, weight, line_factor):
+    """imaging.fit_text بمعامل مسافة اختياري؛ بلا معامل يبقى النداء القديم نفسه."""
+    if line_factor is None:
+        return imaging.fit_text(draw, text, font_path, max_width, max_lines, start, minimum, weight)
+    return imaging.fit_text(draw, text, font_path, max_width, max_lines, start, minimum, weight, line_factor=line_factor)
+
+
+def display_font(cfg) -> tuple[str, float]:
+    """خط الرقعة للنصوص الكبيرة وحدها (العنوان والسؤال والراوي وتابعوا الموجز) ومعامل مسافة أسطره (Issue #1419)."""
+    return (cfg.path("reel.render.fonts.display", CAIRO), float(cfg.path("reel.render.fonts.display_line_factor", 1.62)))
+
+
 class _Pen:
     """لوحة 1080×1920 ترسم نصًا عربيًا بأدوات imaging وتسجّل صندوق كل نص لفحص المنطقة الآمنة."""
 
@@ -360,9 +372,9 @@ class _Pen:
         self.img = Image.new("RGBA", (self.w, self.h), (0, 0, 0, 0) if transparent else self.navy + (255,))
         self.d = ImageDraw.Draw(self.img)
         self.boxes = boxes if boxes is not None else []
-        # الحدّ الأيمن للنص يحجز عمود الأزرار على يمين الشاشة؛ والأيسر هامش متماثل
+        # الهامشان متساويان بعرض عمود الأزرار فيقع مركز النص في منتصف الشاشة تمامًا (كان x0=60 يزيحه 35 بكسل يسارًا)
         self.x1 = self.w - int(r["safe"]["right_col_width"])
-        self.x0 = 60
+        self.x0 = int(r["safe"]["right_col_width"])
         self.cx = (self.x0 + self.x1) // 2
         self.max_w = self.x1 - self.x0
 
@@ -417,9 +429,10 @@ class _Pen:
         return self.line(text, font, fill, y, align=align, ltr=ltr)
 
     def block(self, text: str, font_path: str, weight: str | None, fill, y_mid: int, *, start: int, minimum: int,
-              max_lines: int = 8, align: str = "center", y_top: int | None = None) -> int:
+              max_lines: int = 8, align: str = "center", y_top: int | None = None,
+              line_factor: float | None = None) -> int:
         """نص متعدد الأسطر يُصغَّر ليسع العرض الآمن؛ يتمركز رأسيًا حول y_mid (أو يبدأ من y_top)."""
-        font, lines, lh = imaging.fit_text(self.d, text, font_path, self.max_w, max_lines, start, minimum, weight)
+        font, lines, lh = _fit(self.d, text, font_path, self.max_w, max_lines, start, minimum, weight, line_factor)
         total = lh * len(lines)
         safe = self._safe()
         y = y_top if y_top is not None else int(y_mid - total / 2)
@@ -432,11 +445,11 @@ class _Pen:
         return y
 
     def typed_block(self, text: str, prefix: str, font_path: str, weight: str | None, fill, y_mid: int, *, start: int,
-                    minimum: int, max_lines: int = 8) -> None:
+                    minimum: int, max_lines: int = 8, line_factor: float | None = None) -> None:
         """block وسطيّ بالتخطيط نفسه (حجم الخط وتقسيم الأسطر من الجملة كاملة) لكن يُرسم منه ما كُتب حتى prefix.
         الحروف لا تتحرك: السطر الجزئي يُحاذى بحافة حبره اليمنى عند حافة السطر نفسه مكتملًا، ولا يبدأ سطر قبل اكتمال سابقه.
         العدّ بالحروف غير المسافة لأن prefix قد تتغير مسافاته، وتقسيم الأسطر لا يغيّر الحروف نفسها."""
-        font, lines, lh = imaging.fit_text(self.d, text, font_path, self.max_w, max_lines, start, minimum, weight)
+        font, lines, lh = _fit(self.d, text, font_path, self.max_w, max_lines, start, minimum, weight, line_factor)
         total = lh * len(lines)
         safe = self._safe()
         y = max(safe[0], min(int(y_mid - total / 2), safe[1] - total))
@@ -487,7 +500,8 @@ def frame_title(cfg, title: str, date_text: str, boxes=None) -> Image.Image:
     p.d.rounded_rectangle((p.cx - bw // 2 - 40, top, p.cx + bw // 2 + 40, top + bh + 50), radius=28,
                           fill=imaging.hex_rgb(r.get("badge_bg", "#8EC5FF")))
     p.line(badge, bfont, p.navy, top + 14)
-    y = p.block(title, CAIRO, "Black", p.white, 0, start=96, minimum=52, max_lines=6, y_top=top + bh + 110)
+    fpath, lf = display_font(cfg)
+    y = p.block(title, fpath, None, p.white, 0, start=96, minimum=52, max_lines=6, y_top=top + bh + 110, line_factor=lf)
     p.rule(y + 30)
     y = p.line(date_text, p.font(TAJAWAL_B, 44), p.gold, y + 70)
     p.line(cfg.path("brand.handle") or "@almujez", p.font(TAJAWAL_B, 44), p.white, y + 10, ltr=True)
@@ -499,12 +513,14 @@ def _narration_pen(cfg, sentence: str, boxes, bg: dict | None):
     كما هو. (ب): النص في الصندوق السفلي بأكبر حجم ≤ text_start يسعه أربعة أسطر داخل ارتفاع الصندوق؛ التخطيط من الجملة
     كاملة فلا يتحرك سطر بين إطارات الكتابة."""
     p = _Pen(cfg, boxes)
+    # بخط أكبر 50% (Issue #1419): 108 بدل 72، وخمسة أسطر كحد أقصى؛ والجملة التي لا تسع تُقسم إلى مقاطع (narration_segments)
+    big = dict(y_mid=860, start=108, minimum=80, max_lines=5)
     if bg is None:
-        return p, dict(y_mid=860, start=72, minimum=40, max_lines=8)
+        return p, big
     p.img = bg["image"].convert("RGBA")
     p.d = ImageDraw.Draw(p.img)
     if bg["layout"] != "B":
-        return p, dict(y_mid=860, start=72, minimum=40, max_lines=8)
+        return p, big
     b = cfg.path("reel.render.background")
     top, bottom = int(b["box_top"]) + int(b["gold_px"]), int(b["box_bottom"])
     avail = bottom - top - 2 * int(b["pad"])
@@ -520,10 +536,18 @@ def _narration_pen(cfg, sentence: str, boxes, bg: dict | None):
     return p, dict(y_mid=(top + bottom) // 2, start=size, minimum=lo, max_lines=lines)
 
 
+def _narration_font(cfg, bg: dict | None) -> tuple[str, float | None]:
+    """خط الراوي ومعامل مسافته: الرقعة إلا في التخطيط (ب) الذي لا يُمسّ في هذه المهمة (يُحذف في R5a2)."""
+    if bg is not None and bg["layout"] == "B":
+        return TAJAWAL_XB, None
+    return display_font(cfg)
+
+
 def frame_narration(cfg, sentence: str, boxes=None, bg: dict | None = None) -> Image.Image:
     p, kw = _narration_pen(cfg, sentence, boxes, bg)
-    p.block(sentence, TAJAWAL_XB, None, p.white, kw["y_mid"], start=kw["start"], minimum=kw["minimum"],
-            max_lines=kw["max_lines"])
+    fpath, lf = _narration_font(cfg, bg)
+    p.block(sentence, fpath, None, p.white, kw["y_mid"], start=kw["start"], minimum=kw["minimum"],
+            max_lines=kw["max_lines"], line_factor=lf)
     return p.rgb()
 
 
@@ -532,8 +556,126 @@ def frame_narration_typed(cfg, sentence: str, prefix: str, boxes=None, bg: dict 
     if sum(1 for c in prefix if not c.isspace()) >= sum(1 for c in sentence if not c.isspace()):
         return frame_narration(cfg, sentence, boxes, bg)
     p, kw = _narration_pen(cfg, sentence, boxes, bg)
-    p.typed_block(sentence, prefix, TAJAWAL_XB, None, p.white, kw["y_mid"], start=kw["start"], minimum=kw["minimum"],
-                  max_lines=kw["max_lines"])
+    fpath, lf = _narration_font(cfg, bg)
+    p.typed_block(sentence, prefix, fpath, None, p.white, kw["y_mid"], start=kw["start"], minimum=kw["minimum"],
+                  max_lines=kw["max_lines"], line_factor=lf)
+    return p.rgb()
+
+
+# ───────────── ظهور الراوي سطرًا فسطرًا (Issue #1419) ─────────────
+
+
+def _nonspace(text: str) -> int:
+    return sum(1 for c in text if not c.isspace())
+
+
+def _fits(draw, text: str, font, max_w: int, max_lines: int) -> bool:
+    return len(imaging.wrap(draw, text, font, max_w)) <= max_lines
+
+
+def _split_mid(draw, text: str, font, max_w: int, max_lines: int) -> list[str]:
+    """مقطع بلا فاصلة لا يسع: يُقسم عند أقرب مسافة لمنتصفه، ويتكرر على كل نصف حتى يسع. كلمة واحدة لا تُقسم أبدًا."""
+    if _fits(draw, text, font, max_w, max_lines) or " " not in text:
+        return [text]
+    mid = len(text) / 2
+    cut = min((i for i, c in enumerate(text) if c == " "), key=lambda i: abs(i - mid))
+    return (_split_mid(draw, text[:cut], font, max_w, max_lines)
+            + _split_mid(draw, text[cut + 1:], font, max_w, max_lines))
+
+
+def narration_segments(cfg, sentence: str, bg: dict | None = None) -> list[str]:
+    """وحدات العرض «مقاطع» من الجملة: تسع الجملة خمسة أسطر بأصغر حجم (80) فمقطع واحد، وإلا تُقسم عند «،» و«؛» إلى أقل
+    عدد من المقاطع يسع كلًّا منها (تقسيم جشع من أولها)، والمقطع الذي لا يسعه فاصلة يُقسم عند مسافة. لا كلمة تُحذف
+    أو تتكرر: وصل المقاطع بمسافة يساوي الجملة بعد توحيد مسافاتها."""
+    sentence = " ".join(sentence.split())
+    p, kw = _narration_pen(cfg, sentence, [], bg)
+    fpath, _ = _narration_font(cfg, bg)
+    font = imaging.load_font(fpath, kw["minimum"], None)
+    if _fits(p.d, sentence, font, p.max_w, kw["max_lines"]):
+        return [sentence]
+    clauses = re.split(r"(?<=[،؛])\s+", sentence)
+    out: list[str] = []
+    cur = ""
+    for clause in clauses:
+        joined = f"{cur} {clause}".strip()
+        if _fits(p.d, joined, font, p.max_w, kw["max_lines"]):
+            cur = joined
+            continue
+        if cur:
+            out.append(cur)
+        cur = ""
+        if _fits(p.d, clause, font, p.max_w, kw["max_lines"]):
+            cur = clause
+        else:
+            out.extend(_split_mid(p.d, clause, font, p.max_w, kw["max_lines"]))
+    if cur:
+        out.append(cur)
+    return out
+
+
+def narration_lines(cfg, segment: str, bg: dict | None = None) -> list[str]:
+    """أسطر المقطع كما ستُرسم (حجم الخط من المقطع كاملًا فلا يتغير بين الإطارات)."""
+    p, kw = _narration_pen(cfg, segment, [], bg)
+    fpath, lf = _narration_font(cfg, bg)
+    return _fit(p.d, segment, fpath, p.max_w, kw["max_lines"], kw["start"], kw["minimum"], None, lf)[1]
+
+
+def reveal_steps(line_chars: list[int], speech_seconds: float, hold_seconds: float, fps: float,
+                 fade: float) -> list[tuple[tuple, float]]:
+    """خطوات ظهور أسطر مقطع: [(شفافية كل سطر 0..1، المدة)]. السطر k يبدأ عند نسبة حروف ما قبله (غير المسافة) من مدة
+    الكلام ويتلاشى خلال fade بإطارات على fps؛ ما استقر من الحالات المتتالية يُدمج. آخر حالة (كل الأسطر كاملة) تبقى
+    حتى نهاية الصمت. المجموع = الكلام + الصمت."""
+    frame = 1.0 / fps
+    speech = max(float(speech_seconds), 0.0)
+    total = speech + max(float(hold_seconds), 0.0)
+    n = len(line_chars)
+    all_chars = sum(line_chars) or 1
+    starts = [speech * sum(line_chars[:k]) / all_chars for k in range(n)]
+    fade = max(float(fade), frame)
+    full = (1.0,) * n
+    steps: list[list] = []
+    i = 0
+    while i * frame < total - 1e-9:
+        t = i * frame
+        state = tuple(round(min(max((t - s) / fade, 0.0), 1.0), 4) for s in starts)
+        if state == full:
+            break
+        dur = min(frame, total - t)
+        if steps and steps[-1][0] == state:
+            steps[-1][1] += dur
+        else:
+            steps.append([state, dur])
+        i += 1
+    rest = total - sum(d for _, d in steps)
+    if rest > 1e-9:
+        steps.append([full, rest])
+    return [(s, d) for s, d in steps] or [(full, max(total, frame))]
+
+
+def frame_narration_reveal(cfg, segment: str, alphas, boxes=None, bg: dict | None = None) -> Image.Image:
+    """إطار مقطع الراوي وسطوره بشفافياتها: التخطيط (حجم الخط وأماكن الأسطر) من المقطع كاملًا فلا يتحرك سطر بعد اكتمال
+    ظهوره، والسطر الظاهر جزئيًا يصعد reveal.rise بكسل إلى موضعه. كل الشفافيات 1 ← frame_narration نفسه بالبكسل."""
+    p, kw = _narration_pen(cfg, segment, boxes, bg)
+    fpath, lf = _narration_font(cfg, bg)
+    font, lines, lh = _fit(p.d, segment, fpath, p.max_w, kw["max_lines"], kw["start"], kw["minimum"], None, lf)
+    total = lh * len(lines)
+    safe = p._safe()
+    y = max(safe[0], min(int(kw["y_mid"] - total / 2), safe[1] - total))
+    rise = float(cfg.path("reel.render.reveal.rise", 0) or 0)
+    for k, ln in enumerate(lines):
+        a = float(alphas[k]) if k < len(alphas) else 1.0
+        if a > 0:
+            yy = y + round(rise * (1 - a))
+            xy = (p.cx, yy)
+            if a >= 1.0:
+                imaging.draw_text(p.d, xy, ln, font, p.white, anchor="ma")
+            else:
+                layer = Image.new("RGBA", p.img.size, (0, 0, 0, 0))
+                imaging.draw_text(ImageDraw.Draw(layer), xy, ln, font, p.white, anchor="ma")
+                layer.putalpha(layer.getchannel("A").point(lambda v, a=a: int(v * a)))
+                p.img.alpha_composite(layer)
+            p.boxes.append(tuple(p.ink(ln, font, xy, "ma")))
+        y += lh
     return p.rgb()
 
 
@@ -572,7 +714,8 @@ def frame_question(cfg, question: str, boxes=None) -> Image.Image:
     qfont = p.font(CAIRO, 170, "Black")
     qw, qh = imaging.measure(p.d, "؟", qfont)
     imaging.draw_text(p.d, (p.cx, cy - qh // 2 - 26), "؟", qfont, p.navy, anchor="ma")
-    p.block(question, CAIRO, "Black", p.white, 930, start=76, minimum=44)
+    fpath, lf = display_font(cfg)
+    p.block(question, fpath, None, p.white, 930, start=76, minimum=44, line_factor=lf)
     p.line(cfg.path("reel.render.texts.share"), p.font(TAJAWAL_B, 46), p.gold, 1250)
     return p.rgb()
 
@@ -580,7 +723,7 @@ def frame_question(cfg, question: str, boxes=None) -> Image.Image:
 def frame_outro(cfg, channels: str, boxes=None, credit: str = "") -> Image.Image:
     p = _Pen(cfg, boxes)
     t = cfg.path("reel.render.texts")
-    y = p.line(t["follow"], p.font(CAIRO, 112, "Black"), p.white, 560)
+    y = p.text_line(t["follow"], display_font(cfg)[0], None, 112, p.white, 560)
     p.rule(y + 10)
     y = p.block(t["tagline"], TAJAWAL_B, None, p.white, 0, start=52, minimum=36, max_lines=3, y_top=y + 60)
     p.line(cfg.path("brand.handle") or "@almujez", p.font(TAJAWAL_B, 54), p.gold, y + 20, ltr=True)
@@ -618,6 +761,26 @@ def _credit_line(p: "_Pen", cfg, credit: str, y: int) -> None:
             p.boxes.append(tuple(p.ink(name, font, xy, "ra", True)))
             return
     log.warning("سطر مصدر الصورة لا يسع الشاشة فحُذف: %r", credit[:40])
+
+
+_ARABIC_CHARS = re.compile(r"[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]")
+
+
+def channel_original_of(scene: dict, point: dict | None = None) -> str:
+    """اسم القناة الأصلي: من المشهد، وإلا (سيناريو قديم) من حقل channel في نقطة المقطع."""
+    return scene.get("channel_original") or (point or {}).get("channel") or ""
+
+
+def channel_label(scene: dict) -> str:
+    """القناة في الشريط السفلي: «{اللاتيني} {العربي}». اللاتيني هو channel_original بلا حروفه العربية؛ فإن لم يبق فيه حرف
+    لاتيني، أو كان العربي يحويه أصلًا (قناة بلا name_ar)، يُستعمل channel_display وحده فلا يتكرر الاسم."""
+    display = (scene.get("channel_display") or "").strip()
+    latin = " ".join(_ARABIC_CHARS.sub(" ", scene.get("channel_original") or "").split())
+    if not re.search(r"[A-Za-z]", latin):
+        return display
+    if not display or latin.casefold() in display.casefold():
+        return display or latin
+    return f"{latin} {display}"
 
 
 def frame_clip_overlay(cfg, scene: dict, boxes=None) -> Image.Image:
@@ -663,7 +826,7 @@ def frame_clip_layers(cfg, scene: dict, boxes=None, cover: bool | None = None) -
             y += lh
     p = bd
     verified = scene.get("speaker_verified") and scene.get("speaker_name")
-    channel = scene.get("channel_display", "")
+    channel = channel_label(scene)
     y = top + 30
     if verified:
         n0 = len(p.boxes)
@@ -671,9 +834,11 @@ def frame_clip_layers(cfg, scene: dict, boxes=None, cover: bool | None = None) -
         # كل سطر بعد الأول يوضع بحبره: أعلى حبره = أسفل حبر السابق + line_gap، فلا يتداخل سطران أبدًا
         bottom = int(p.boxes[-1][3]) if len(p.boxes) > n0 else y
         gap, limit = int(band.get("line_gap", 12)), top + height - 16
-        if scene.get("speaker_name_latin"):
+        latin = (scene.get("speaker_name_latin") or "").strip()
+        # السطر الذهبي للاسم اللاتيني فقط: حين وضع السيناريو الاسم العربي نفسه هنا تكرّر الاسم في سطرين
+        if re.search(r"[A-Za-z]", latin) and latin.casefold() != scene["speaker_name"].strip().casefold():
             # بـCairo لأن Tajawal يفتقد ş ğ İ
-            nb = p.ink_line(scene["speaker_name_latin"], CAIRO, "Bold", 34, p.gold, prev_bottom=bottom, gap=gap,
+            nb = p.ink_line(latin, CAIRO, "Bold", 34, p.gold, prev_bottom=bottom, gap=gap,
                             limit=limit, ltr=True)
             bottom = bottom if nb is None else nb
         role_line = " · ".join(x for x in (scene.get("speaker_role", ""), channel) if x)
@@ -681,7 +846,7 @@ def frame_clip_layers(cfg, scene: dict, boxes=None, cover: bool | None = None) -
             p.ink_line(role_line, TAJAWAL_B, None, 40, (214, 222, 238), prev_bottom=bottom, gap=gap, limit=limit,
                        min_size=30)
     else:
-        label = cfg.path("reel.texts.guest_label", "ضيف على قناة {channel}").format(channel=channel)
+        label = cfg.path("reel.texts.guest_label", "ضيف على {channel}").format(channel=channel)
         p.line(label, p.font(CAIRO, 52, "Black"), p.white, top + 80, align="right")
     return st.img, bd.img
 
@@ -851,6 +1016,8 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path) -> tuple
         if not point or not point.get("video_id"):
             _drop(dropped, scene, "نقطة المقطع غير موجودة في نافذة النقاط")
             continue
+        # سيناريوهات كُتبت قبل R5a بلا channel_original: الاسم اللاتيني للقناة يؤخذ من النقطة نفسها التي نقرؤها هنا
+        scene["channel_original"] = channel_original_of(scene, point)
         vid = point["video_id"]
         if vid not in transcripts:
             try:
@@ -1043,6 +1210,22 @@ def _narration_frames(parts: list[tuple[str, float]], i: int, cfg, tmp: Path, le
     silence = float(cfg.path("reel.tts.sentence_silence", 0.35))
     fps = float(cfg.path("reel.render.fps"))
     frames: list[tuple[Path, float]] = []
+    # التخطيط (ب) لا يُمسّ في R5a فيبقى بالكتابة حرفًا حرفًا
+    if cfg.path("reel.render.reveal.mode", "lines") == "lines" and not (bg is not None and bg["layout"] == "B"):
+        fade = float(cfg.path("reel.render.reveal.fade", 0.25))
+        for k, (text, dur) in enumerate(parts):
+            hold = min(silence, dur)
+            segs = narration_segments(cfg, text, bg)
+            counts = [_nonspace(s) for s in segs]
+            for j, seg in enumerate(segs):
+                lines = narration_lines(cfg, seg, bg)
+                span = (dur - hold) * counts[j] / (sum(counts) or 1)
+                # آخر مقطع وحده يحمل صمت ما بعد الجملة؛ ما قبله يُمسح عند بدء التالي
+                steps = reveal_steps([_nonspace(ln) for ln in lines], span, hold if j == len(segs) - 1 else 0.0, fps, fade)
+                for m, (alphas, d) in enumerate(steps):
+                    im = frame_narration_reveal(cfg, seg, alphas, bg=bg)
+                    frames.append((_save(im, tmp / f"nar_{i}_{k}_{j}_{m}.png"), d))
+        return frames
     for k, (text, dur) in enumerate(parts):
         hold = min(silence, dur)
         steps = typewriter_steps(text, dur - hold, hold, fps)

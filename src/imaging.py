@@ -181,17 +181,19 @@ def wrap(draw, text: str, font, max_width: int) -> list[str]:
 
 
 def fit_text(draw, text: str, font_path: str | None, max_width: int,
-             max_lines: int, start: int, minimum: int, weight: str | None = None):
-    """يصغّر الخط حتى يستوعب الصندوق النص ضمن عدد الأسطر المسموح."""
+             max_lines: int, start: int, minimum: int, weight: str | None = None,
+             line_factor: float = 1.62):
+    """يصغّر الخط حتى يستوعب الصندوق النص ضمن عدد الأسطر المسموح.
+    line_factor: مسافة الأسطر؛ خط الرقعة تلامس نوازله السطر التالي عند 1.62 فيمرّر الريل معاملًا أكبر."""
     size = start
     while size > minimum:
         font = load_font(font_path, size, weight)
         lines = wrap(draw, text, font, max_width)
         if len(lines) <= max_lines:
-            return font, lines, int(size * 1.62)
+            return font, lines, int(size * line_factor)
         size -= 2
     font = load_font(font_path, minimum, weight)
-    return font, wrap(draw, text, font, max_width)[:max_lines], int(minimum * 1.62)
+    return font, wrap(draw, text, font, max_width)[:max_lines], int(minimum * line_factor)
 
 
 # ──────────────────────────── الألوان ────────────────────────────
