@@ -8003,6 +8003,7 @@ def test_reel_music_r3b2c_guards() -> None:
 
 def test_llm_haiku55_guards() -> None:
     """Issue #1416 (LLM-1، g257–g263): كل نداء Haiku يمر بنقطة تحويل واحدة `src/llm.py`؛ التراجع إلى 4.5 بسطر `llm.haiku_model`."""
+    import importlib.util
     import logging
     import math
     from pathlib import Path
@@ -8106,13 +8107,13 @@ def test_llm_haiku55_guards() -> None:
         out["topic"] = f.calls[-1]
         old_tokens["topic"] = 50
 
+        # install_fakes يستبدل names_audit._detect في الحزمة الكاملة، فنحمّل نسخة معزولة من الملف لنختبر الدالة الحقيقية
+        spec = importlib.util.spec_from_file_location("src._names_audit_real", root / "src" / "names_audit.py")
+        real_mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(real_mod)
         f = Fake(tool={"names": []})
-        real = names_audit._client
-        names_audit._client = lambda: f
-        try:
-            names_audit._detect(["text"], "نص", cfg)
-        finally:
-            names_audit._client = real
+        real_mod._client = lambda: f
+        real_mod._detect(["text"], "نص", cfg)
         out["names"] = f.calls[-1]
         old_tokens["names"] = int(cfg.path("names.audit.max_tokens", 1500))
         return out, old_tokens
