@@ -1599,7 +1599,7 @@
      "published": "2026-10-13T00:00:08+00:00"
     }
    ],
-   "last_seen": "2026-10-13T17:07:48.267468+00:00",
+   "last_seen": "2026-10-14T09:07:42.321915+00:00",
    "outlets": 20,
    "regions": 16,
    "languages": 1,
@@ -3177,7 +3177,7 @@
      "published": "2026-10-11T15:10:27+00:00"
     }
    ],
-   "last_seen": "2026-10-12T17:07:49.159577+00:00",
+   "last_seen": "2026-10-14T09:07:42.321915+00:00",
    "outlets": 18,
    "regions": 13,
    "languages": 1,
@@ -3463,6 +3463,251 @@
    "regions": 13,
    "languages": 1,
    "score": 46.0
+  },
+  {
+   "id": "cf3f3c17f2ae",
+   "first_seen": "2026-10-06T15:07:42.509147+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Former German spy chief arrested for espionage and treason",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c58jzyer1kr0o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-06T10:05:42+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Former German spy chief arrested on suspicion of treason and espionage",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/6/former-german-spy-chief-arrested-on-suspicion-of-treason-and-espionage?traffic_source=rss",
+     "published": "2026-10-06T12:52:28+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "Former German spy chief arrested over alleged buying of classified information",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-06-former-german-spy-chief-arrested-over-alleged-buying-of-classified-information/",
+     "published": "2026-10-06T12:44:58+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Former German spy chief arrested over alleged buying of classified information",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633284/former-german-spy-chief-arrested-over-alleged-buying-of-classified-information",
+     "published": "2026-10-06T05:56:42+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Ex-spy chief is arrested in Germany on suspicion of trading state secrets, treason",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/ex-spy-chief-is-arrested-in-germany-on-suspicion-of-trading-state-secrets-treason/article71551683.ece",
+     "published": "2026-10-06T13:19:38+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Ex-spy chief is arrested in Germany on suspicion of trading state secrets and treason",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/06/g-s1-146630/germany-ex-spy-chief-state-secrets",
+     "published": "2026-10-06T11:31:48+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Germany's ex-spy chief arrested for espionage, disclosing state secrets and attempted treason",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOdGVPUGtVUnkxZGhzSk1idV82dFpKZUVzcXFEQWNoaGltWU52b1N1R3g1c0M5ZU94LUxhcXB6bFV6VUw0WDgxQmx2Qnl3NnhmaWRSb29zdjR2OEhNeWN2NUdsOHZ6c2hiQWowQlhxRWhtU21pQnFjb2ZvRWhpbUNraTdIZ9IBgwFBVV95cUxNVERYVmpkaHdJTnBueXdVYk5VaEhMdDREUXdhUXA4WGljb2Z6TmJBMFp1Q2tLOUlFVDZCT0dxMFlzY3Y3UVBNdFlST3ZJM01lY3hzQzJZdDVvcWRGZGphWG4tTlhwQ0NWOEtyN3kwWFZWOG9qa2NuV05pQ3pwMVhhQlV4Zw?oc=5",
+     "published": "2026-10-06T14:47:54+00:00"
+    },
+    {
+     "outlet": "Court House News",
+     "region": "court",
+     "bucket": "light",
+     "title": "Ex-spy chief is arrested in Germany on suspicion of trading state secrets and treason",
+     "language": "en",
+     "link": "https://www.courthousenews.com/ex-spy-chief-is-arrested-in-germany-on-suspicion-of-trading-state-secrets-and-treason/",
+     "published": "2026-10-06T16:43:17+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "German ex-spy chief arrested for suspected espionage, treason",
+     "language": "en",
+     "link": "https://www.france24.com/en/german-ex-spy-chief-arrested-for-suspected-espionage-treason",
+     "published": "2026-10-06T19:42:27+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Former German spy chief detained over suspected treasonous espionage",
+     "language": "en",
+     "link": "https://www.france24.com/en/europe/20261006-former-german-spy-chief-detained-over-suspected-treasonous-espionage",
+     "published": "2026-10-06T21:34:02+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Ex-German Spy Chief Arrested For Espionage, Treason",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/ex-german-spy-chief-august-hanning-arrested-for-espionage-treason-12148375#publisher=newsstand",
+     "published": "2026-10-06T19:28:49+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "German ex-spy chief arrested for suspected espionage, treason",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/07/german-ex-spy-chief-arrested-for-suspected-espionage-treason/237978",
+     "published": "2026-10-07T00:50:12+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Former German spy chief arrested for attempted treason, obtaining state secrets",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/former-german-spy-chief-arrested-for-attempted-treason-obtaining-state-secrets-101791311487230.html",
+     "published": "2026-10-06T18:31:26+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Former German spy chief arrested for attempted treason, obtaining state secrets",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/07/world/crime-legal/germany-spy-chief-treason-arrest/",
+     "published": "2026-10-07T01:55:00+00:00"
+    },
+    {
+     "outlet": "Meduza English",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Former German spy chief arrested on espionage charges. He made at least seven trips to Russia after leaving office.",
+     "language": "en",
+     "link": "https://meduza.io/en/news/2026/10/06/former-german-spy-chief-arrested-on-espionage-charges-he-made-at-least-seven-trips-to-russia-after-leaving-office",
+     "published": "2026-10-06T13:18:27+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Former German spy chief to face charges of espionage and attempted treason",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/07/nx-s1-5992954/former-german-spy-chief-to-face-charges-of-espionage-and-attempted-treason",
+     "published": "2026-10-07T08:43:59+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Germany's former foreign intelligence chief arrested on suspicion of espionage and attempted treason",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQSE1QSWgzLVNrRy1fbFdqc0FwdkctYmcyZ2UxcmxxdWdyRENwM3VKSFpqbnpxVUdpcHJISDlpVV96eDdSV3pyZ0UzZUtRZzR1UEhIQlNhaDdjRVVNWUJrN3dyRDAyMTZjcl9rbWx2QW54ZkV4V1lRNXU5bFJURmlhTG42RkxHODJPWmpOWi1hOWVMVDY1N1phMVJrZWtUSDNOcS0zWWdvZlBBNU1YOFNwWmdYaGMzcFg4ODd2c1dB?oc=5",
+     "published": "2026-10-07T01:38:00+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "German ex-spy chief arrested for treason: What we know",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/7/german-ex-spy-chief-arrested-for-treason-what-we-know?traffic_source=rss",
+     "published": "2026-10-07T12:04:51+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "What we know about espionage, treason allegations against Germany's ex-spy chief",
+     "language": "en",
+     "link": "https://www.france24.com/en/europe/20261007-what-we-know-about-espionage-treason-allegations-against-germany-s-ex-spy-chief",
+     "published": "2026-10-07T14:06:59+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "German ex-spy chief arrested for treason: What we know",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPQUg3UDFxcm4wcTBEUHFHeXpDX1ZUbnVleVZYYjcxSHBWOUIzNVIybWE5WmRvMWg0UmtjaDVJQnhlZWF5MzJLZ2xjY2JyMDV6cDA1QUJmT19ITEV2SFBXNkdaZnBQaEVwNFpUVWt2UGYtSXI0eHJDSTdZSUc2bkxBVGdmNW5sQXpJUm9yOHFQR2VMcWFDNHBHa2pR0gGfAUFVX3lxTFBVMGZPRmE3b1o2QnBHTk1FVUtHZWJrTFUtVlR2VFBKOU5Oc2J4ZXhiUkU4akVyZ0pUaXNNNUF6TkhaN2hzX1l1aW9PSWYwWXJnRUNpVm1ucXlCNUxRUmp4ak5HYUk5Rlh2ZlpYZWxRS0U1SlFOaE55Q1UzbFNielRnY3VocWt2NkJ5Y0ZsV2o3a051Xy1wbWkzd1RibGs4bw?oc=5",
+     "published": "2026-10-07T12:09:21+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Russia arrests Japanese journalist on allegations of spying",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/14/russia-detains-japanese-journalist-suspicion-spying",
+     "published": "2026-10-14T01:05:25+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Russia arrests Japanese journalist on spying charges",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cwp9g1el7x9zo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-14T08:00:03+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Russia detains Japanese journalist suspected of spying",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/russia-central-asia/article/3370789/russia-detains-japanese-journalist-suspicion-spying?utm_source=rss_feed",
+     "published": "2026-10-13T22:08:47+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Russia says arrested Japanese journalist on spying charges",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/russia-says-arrested-japanese-journalist-on-spying-charges-101791917059705.html",
+     "published": "2026-10-13T18:44:19+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Russia detains Japanese journalist on suspicion of spying",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/14/japan/russia-arrests-japanese-journalist-espionage/",
+     "published": "2026-10-14T04:17:00+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Russia arrests Japanese journalist on espionage charges",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNV1cxWnBFeFdKVGpCdVF1NDFjR29CX2QtQldvZjV6bDE0UFJUWUNYOTdybnZ1ajB0WlAzWGljRWdjd3B6NWhkNnFrdmEyR1RUMW0xam13Mk1qWDRub1FZMmh5ZlVYZTRWME5tLWhJMjBWbGJCVDIwY3pmRnVDN3RVbGx3a3c?oc=5",
+     "published": "2026-10-13T18:30:07+00:00"
+    }
+   ],
+   "last_seen": "2026-10-14T09:07:42.321915+00:00",
+   "outlets": 16,
+   "regions": 13,
+   "languages": 1,
+   "score": 44.0
   },
   {
    "id": "61fa5cba09fb",
@@ -4335,197 +4580,6 @@
    "regions": 12,
    "languages": 2,
    "score": 41.0
-  },
-  {
-   "id": "cf3f3c17f2ae",
-   "first_seen": "2026-10-06T15:07:42.509147+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Former German spy chief arrested for espionage and treason",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c58jzyer1kr0o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-06T10:05:42+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Former German spy chief arrested on suspicion of treason and espionage",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/6/former-german-spy-chief-arrested-on-suspicion-of-treason-and-espionage?traffic_source=rss",
-     "published": "2026-10-06T12:52:28+00:00"
-    },
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "Former German spy chief arrested over alleged buying of classified information",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-06-former-german-spy-chief-arrested-over-alleged-buying-of-classified-information/",
-     "published": "2026-10-06T12:44:58+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Former German spy chief arrested over alleged buying of classified information",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633284/former-german-spy-chief-arrested-over-alleged-buying-of-classified-information",
-     "published": "2026-10-06T05:56:42+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Ex-spy chief is arrested in Germany on suspicion of trading state secrets, treason",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/ex-spy-chief-is-arrested-in-germany-on-suspicion-of-trading-state-secrets-treason/article71551683.ece",
-     "published": "2026-10-06T13:19:38+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Ex-spy chief is arrested in Germany on suspicion of trading state secrets and treason",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/06/g-s1-146630/germany-ex-spy-chief-state-secrets",
-     "published": "2026-10-06T11:31:48+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Germany's ex-spy chief arrested for espionage, disclosing state secrets and attempted treason",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOdGVPUGtVUnkxZGhzSk1idV82dFpKZUVzcXFEQWNoaGltWU52b1N1R3g1c0M5ZU94LUxhcXB6bFV6VUw0WDgxQmx2Qnl3NnhmaWRSb29zdjR2OEhNeWN2NUdsOHZ6c2hiQWowQlhxRWhtU21pQnFjb2ZvRWhpbUNraTdIZ9IBgwFBVV95cUxNVERYVmpkaHdJTnBueXdVYk5VaEhMdDREUXdhUXA4WGljb2Z6TmJBMFp1Q2tLOUlFVDZCT0dxMFlzY3Y3UVBNdFlST3ZJM01lY3hzQzJZdDVvcWRGZGphWG4tTlhwQ0NWOEtyN3kwWFZWOG9qa2NuV05pQ3pwMVhhQlV4Zw?oc=5",
-     "published": "2026-10-06T14:47:54+00:00"
-    },
-    {
-     "outlet": "Court House News",
-     "region": "court",
-     "bucket": "light",
-     "title": "Ex-spy chief is arrested in Germany on suspicion of trading state secrets and treason",
-     "language": "en",
-     "link": "https://www.courthousenews.com/ex-spy-chief-is-arrested-in-germany-on-suspicion-of-trading-state-secrets-and-treason/",
-     "published": "2026-10-06T16:43:17+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "German ex-spy chief arrested for suspected espionage, treason",
-     "language": "en",
-     "link": "https://www.france24.com/en/german-ex-spy-chief-arrested-for-suspected-espionage-treason",
-     "published": "2026-10-06T19:42:27+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Former German spy chief detained over suspected treasonous espionage",
-     "language": "en",
-     "link": "https://www.france24.com/en/europe/20261006-former-german-spy-chief-detained-over-suspected-treasonous-espionage",
-     "published": "2026-10-06T21:34:02+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Ex-German Spy Chief Arrested For Espionage, Treason",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/ex-german-spy-chief-august-hanning-arrested-for-espionage-treason-12148375#publisher=newsstand",
-     "published": "2026-10-06T19:28:49+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "German ex-spy chief arrested for suspected espionage, treason",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/07/german-ex-spy-chief-arrested-for-suspected-espionage-treason/237978",
-     "published": "2026-10-07T00:50:12+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Former German spy chief arrested for attempted treason, obtaining state secrets",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/former-german-spy-chief-arrested-for-attempted-treason-obtaining-state-secrets-101791311487230.html",
-     "published": "2026-10-06T18:31:26+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Former German spy chief arrested for attempted treason, obtaining state secrets",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/07/world/crime-legal/germany-spy-chief-treason-arrest/",
-     "published": "2026-10-07T01:55:00+00:00"
-    },
-    {
-     "outlet": "Meduza English",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Former German spy chief arrested on espionage charges. He made at least seven trips to Russia after leaving office.",
-     "language": "en",
-     "link": "https://meduza.io/en/news/2026/10/06/former-german-spy-chief-arrested-on-espionage-charges-he-made-at-least-seven-trips-to-russia-after-leaving-office",
-     "published": "2026-10-06T13:18:27+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Former German spy chief to face charges of espionage and attempted treason",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/07/nx-s1-5992954/former-german-spy-chief-to-face-charges-of-espionage-and-attempted-treason",
-     "published": "2026-10-07T08:43:59+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Germany's former foreign intelligence chief arrested on suspicion of espionage and attempted treason",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQSE1QSWgzLVNrRy1fbFdqc0FwdkctYmcyZ2UxcmxxdWdyRENwM3VKSFpqbnpxVUdpcHJISDlpVV96eDdSV3pyZ0UzZUtRZzR1UEhIQlNhaDdjRVVNWUJrN3dyRDAyMTZjcl9rbWx2QW54ZkV4V1lRNXU5bFJURmlhTG42RkxHODJPWmpOWi1hOWVMVDY1N1phMVJrZWtUSDNOcS0zWWdvZlBBNU1YOFNwWmdYaGMzcFg4ODd2c1dB?oc=5",
-     "published": "2026-10-07T01:38:00+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "German ex-spy chief arrested for treason: What we know",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/7/german-ex-spy-chief-arrested-for-treason-what-we-know?traffic_source=rss",
-     "published": "2026-10-07T12:04:51+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "What we know about espionage, treason allegations against Germany's ex-spy chief",
-     "language": "en",
-     "link": "https://www.france24.com/en/europe/20261007-what-we-know-about-espionage-treason-allegations-against-germany-s-ex-spy-chief",
-     "published": "2026-10-07T14:06:59+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "German ex-spy chief arrested for treason: What we know",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPQUg3UDFxcm4wcTBEUHFHeXpDX1ZUbnVleVZYYjcxSHBWOUIzNVIybWE5WmRvMWg0UmtjaDVJQnhlZWF5MzJLZ2xjY2JyMDV6cDA1QUJmT19ITEV2SFBXNkdaZnBQaEVwNFpUVWt2UGYtSXI0eHJDSTdZSUc2bkxBVGdmNW5sQXpJUm9yOHFQR2VMcWFDNHBHa2pR0gGfAUFVX3lxTFBVMGZPRmE3b1o2QnBHTk1FVUtHZWJrTFUtVlR2VFBKOU5Oc2J4ZXhiUkU4akVyZ0pUaXNNNUF6TkhaN2hzX1l1aW9PSWYwWXJnRUNpVm1ucXlCNUxRUmp4ak5HYUk5Rlh2ZlpYZWxRS0U1SlFOaE55Q1UzbFNielRnY3VocWt2NkJ5Y0ZsV2o3a051Xy1wbWkzd1RibGs4bw?oc=5",
-     "published": "2026-10-07T12:09:21+00:00"
-    }
-   ],
-   "last_seen": "2026-10-07T18:07:47.065879+00:00",
-   "outlets": 14,
-   "regions": 12,
-   "languages": 1,
-   "score": 40.0
   },
   {
    "id": "902b9d7f57a8",
@@ -5802,211 +5856,11 @@
      "published": "2026-10-10T16:51:47+00:00"
     }
    ],
-   "last_seen": "2026-10-13T09:08:09.573950+00:00",
+   "last_seen": "2026-10-14T09:07:42.321915+00:00",
    "outlets": 12,
    "regions": 10,
    "languages": 2,
    "score": 36.0
-  },
-  {
-   "id": "49ee6206d4c3",
-   "first_seen": "2026-10-05T15:07:44.573046+00:00",
-   "members": [
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Alcaraz rallies past Munar into Japan Open final",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633095/alcaraz-rallies-past-munar-into-japan-open-final",
-     "published": "2026-10-05T06:04:09+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Alcaraz battles past Munar to reach up Japan Open final",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/sport/alcaraz-battles-past-munar-reach-up-japan-open-final-6432901",
-     "published": "2026-10-05T10:16:50+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Alcaraz advances to Japan Open final",
-     "language": "en",
-     "link": "https://punchng.com/alcaraz-advances-to-japan-open-final/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-05T12:56:34+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Alcaraz rallies past Munar to reach Japan Open final",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/sports/2026/10/05/alcaraz-rallies-past-munar-to-reach-japan-open-final/237820",
-     "published": "2026-10-05T10:47:13+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Alcaraz advances to Japan Open final",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/05/alcaraz-advances-to-japan-open-final",
-     "published": "2026-10-05T11:05:48+00:00"
-    },
-    {
-     "outlet": "BBC Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Metcalfe back in Wales WXV reckoning for Japan",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/sport/rugby-union/articles/c61m49y3nd7po?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-05T12:30:08+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Alcaraz recovers from shaky start to punch Japan Open final ticket",
-     "language": "en",
-     "link": "https://www.dailysabah.com/sports/tennis/alcaraz-recovers-from-shaky-start-to-punch-japan-open-final-ticket",
-     "published": "2026-10-05T13:09:00+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Alcaraz wins Japan Open in first final since wrist injury",
-     "language": "en",
-     "link": "https://www.skysports.com/tennis/news/12040/13595696/carlos-alcaraz-spaniard-wins-japan-open-in-first-final-since-coming-back-from-injury-lay-off-for-wrist-injury",
-     "published": "2026-10-06T11:58:00+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Alcaraz wins Japan Open for first title since return from injury",
-     "language": "en",
-     "link": "https://punchng.com/alcaraz-wins-japan-open-for-first-title-since-return-from-injury/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-06T12:40:21+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Alcaraz wins Japan Open for first title since return from injury",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/06/alcaraz-wins-japan-open-for-first-title-since-return-from-injury",
-     "published": "2026-10-06T11:47:42+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Alcaraz wins Japan Open, claims first title since wrist injury comeback",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/alcaraz-wins-japan-open-claims-first-title-since-wrist-injury-comeback/",
-     "published": "2026-10-06T13:35:56+00:00"
-    },
-    {
-     "outlet": "El País",
-     "region": "es",
-     "bucket": "serious",
-     "title": "Alcaraz reduce a Lehecka y repite título en Tokio",
-     "language": "es",
-     "link": "https://elpais.com/deportes/tenis/2026-10-06/alcaraz-reduce-a-lecheka-y-reconquista-tokio.html",
-     "published": "2026-10-06T10:55:42+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Alcaraz finds his groove again with Japan Open triumph",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/sports/2026/10/06/alcaraz-finds-his-groove-again-with-japan-open-triumph/237970",
-     "published": "2026-10-06T12:00:55+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Alcaraz beats Lehecka to retain Japan Open gold after injury return",
-     "language": "en",
-     "link": "https://www.dailysabah.com/sports/tennis/alcaraz-beats-lehecka-to-retain-japan-open-gold-after-injury-return",
-     "published": "2026-10-06T11:51:00+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Djokovic caps remarkable week with China Open title while Alcaraz claims glory in Japan",
-     "language": "en",
-     "link": "https://www.theguardian.com/sport/2026/oct/06/alcaraz-japan-open-djokovic-de-minaur-china-open-sinner-injury-tennis",
-     "published": "2026-10-06T13:35:03+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Djokovic claims 102nd title of career with China Open win",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/djokovic-claims-102nd-title-of-career-with-china-open-win/",
-     "published": "2026-10-06T13:43:42+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Djokovic wins China Open without needing a match point in semi-final and final",
-     "language": "en",
-     "link": "https://www.skysports.com/tennis/news/12040/13595697/novak-djokovic-former-world-no-1-wins-china-open-title-without-facing-a-match-point-in-semi-final-and-final",
-     "published": "2026-10-06T14:24:00+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Djokovic wins China Open, keeps unbeaten record after opponent retires",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/djokovic-wins-china-open-keeps-unbeaten-record-after-opponent-retires/",
-     "published": "2026-10-06T13:55:16+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Tennis scores: Djokovic and Alcaraz win events",
-     "language": "en",
-     "link": "https://www.skysports.com/tennis/scores-schedule",
-     "published": "2026-10-06T11:00:00+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Djokovic wins China Open after de Minaur retires, Alcaraz wins Japan Open",
-     "language": "en",
-     "link": "https://www.aljazeera.com/sports/2026/10/6/djokovic-wins-china-open-after-de-minaur-retires-alcaraz-wins-japan-open?traffic_source=rss",
-     "published": "2026-10-06T16:53:37+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Djokovic wins China Open and keeps unbeaten record after de Minaur retires",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/06/djokovic-wins-china-open-and-keeps-unbeaten-record-after-de-minaur-retires",
-     "published": "2026-10-06T14:14:22+00:00"
-    }
-   ],
-   "last_seen": "2026-10-06T18:08:08.020436+00:00",
-   "outlets": 13,
-   "regions": 9,
-   "languages": 2,
-   "score": 35.0
   },
   {
    "id": "f7535344ce98",
@@ -6831,6 +6685,143 @@
    "score": 32.0
   },
   {
+   "id": "144bf80223b4",
+   "first_seen": "2026-10-13T17:07:48.267468+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "US ambassador to Greece resigns amid misconduct allegations",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/13/trumps-ambassador-to-greece-asked-to-resign-amid-misconduct-allegations?traffic_source=rss",
+     "published": "2026-10-13T15:37:32+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Kimberly Guilfoyle resigns as US ambassador to Greece, makes major statement amid misconduct allegations",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/kimberly-guilfoyle-resigns-as-us-ambassador-to-greece-makes-major-statement-amid-misconduct-allegations-101791908314591.html",
+     "published": "2026-10-13T16:23:17+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Kimberly Guilfoyle steps down as US ambassador to Greece after alleged misconduct",
+     "language": "en",
+     "link": "https://www.theguardian.com/us-news/2026/oct/13/kimberly-guilfoyle-ambassador-greece-step-down",
+     "published": "2026-10-13T15:50:28+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "US asks Greece ambassador Kimberly Guilfoyle to resign over alleged misconduct",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370779/us-asks-greece-ambassador-kimberly-guilfoyle-resign-over-alleged-misconduct?utm_source=rss_feed",
+     "published": "2026-10-13T15:02:49+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "White House says it has asked Kimberly Guilfoyle to resign as US ambassador to Greece",
+     "language": "en",
+     "link": "https://www.theguardian.com/us-news/live/2026/oct/13/donald-trump-ilhan-omar-katie-zacharia-alaska-midterms-latest-news-updates",
+     "published": "2026-10-13T16:39:36+00:00"
+    },
+    {
+     "outlet": "Der Spiegel",
+     "region": "de",
+     "bucket": "serious",
+     "title": "Kimberly Guilfoyle: Umstrittene US-Botschafterin muss Posten in Athen räumen",
+     "language": "en",
+     "link": "https://www.spiegel.de/ausland/kimberly-guilfoyle-umstrittene-us-botschafterin-muss-posten-in-athen-raeumen-a-0169f30c-e123-448a-8636-6bd456c18ffb#ref=rss",
+     "published": "2026-10-13T14:23:00+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Kimberly Guilfoyle marriages and relationship in focus amid misconduct allegations: All on her ex-husbands and son",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/kimberly-guilfoyle-marriages-and-relationship-in-focus-amid-misconduct-allegations-all-on-her-ex-husbands-and-children-101791893823197.html",
+     "published": "2026-10-13T12:54:26+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Trump asks Greece ambassador to resign amid ethics scandal",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2036922/trump-asks-greece-ambassador-to-resign-amid-ethics-scandal",
+     "published": "2026-10-13T16:40:47+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Trump envoy to Greece asked to resign amid ethics scandal",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/americas/trump-envoy-to-greece-asked-to-resign-amid-ethics-scandal",
+     "published": "2026-10-13T14:11:00+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Trump asks Greece ambassador to resign amid bribery scandal",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/13/trump-asks-greece-ambassador-to-resign-amid-bribery-scandal",
+     "published": "2026-10-13T14:40:48+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Katie Zacharia gives massive update on Kimberly Guilfoyle's resignation",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/donald-trump-asks-kimberly-guilfoyle-to-resign-as-ambassador-to-greece-amid-misconduct-allegations-101791901247612.html",
+     "published": "2026-10-13T14:28:06+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Trump ousts Kimberly Guilfoyle as US ambassador to Greece after corruption allegations",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cr5ynplvpg7lo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-13T19:23:28+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Trump asks US ambassador to Greece Kimberly Guilfoyle to resign over bribery allegations",
+     "language": "en",
+     "link": "https://www.france24.com/en/americas/20261014-trump-asks-us-ambassador-to-greece-kimberly-guilfoyle-to-resign-over-allegations",
+     "published": "2026-10-14T03:23:40+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump Fires Greece Ambassador Over Misconduct Allegations",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/donald-trump-asks-greece-ambassador-kimberly-guilfoyle-to-resign-over-corruption-allegations-12181304#publisher=newsstand",
+     "published": "2026-10-13T20:47:59+00:00"
+    }
+   ],
+   "last_seen": "2026-10-14T09:07:42.321915+00:00",
+   "outlets": 11,
+   "regions": 9,
+   "languages": 1,
+   "score": 31.0
+  },
+  {
    "id": "f90631193a91",
    "first_seen": "2026-10-11T09:07:45.219118+00:00",
    "members": [
@@ -6993,6 +6984,98 @@
    "regions": 9,
    "languages": 1,
    "score": 30.0
+  },
+  {
+   "id": "ea3c2d7142ff",
+   "first_seen": "2026-10-13T09:08:09.573950+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "IMF raises UK growth forecast as economist says Healey should ‘stay the course’",
+     "language": "en",
+     "link": "https://www.theguardian.com/business/2026/oct/13/john-healey-uk-finances-imf-gdp-growth-forecast-2026",
+     "published": "2026-10-13T07:58:56+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "IMF raises inflation forecast to 9.9%",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2634539/imf-raises-inflation-forecast-to-99",
+     "published": "2026-10-12T21:33:54+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "IMF raises Japan’s growth forecast for 2026 to 0.7%",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/business/2026/10/13/economy/imf-growth-forecast/",
+     "published": "2026-10-13T08:24:00+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "IMF upgrades 2026 growth forecast but warns of 'split' outlook",
+     "language": "en",
+     "link": "https://www.france24.com/en/live-news/20261013-imf-upgrades-2026-growth-forecast-but-warns-of-split-outlook-1",
+     "published": "2026-10-13T03:57:42+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "IMF upgrades 2026 growth forecast but warns of ‘split’ outlook",
+     "language": "en",
+     "link": "https://www.thehindu.com/business/Economy/imf-slightly-raises-forecast-for-2026-global-growth-to-31-citing-resilience-to-shocks/article71577836.ece",
+     "published": "2026-10-13T06:40:05+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "IMF upgrades forecast for Nigeria’s economic growth to 4.2%",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/imf-upgrades-forecast-for-nigerias-economic-growth-to-4-2/",
+     "published": "2026-10-13T08:30:25+00:00"
+    },
+    {
+     "outlet": "Yonhap News",
+     "region": "kr",
+     "bucket": "serious",
+     "title": "IMF raises S. Korea's growth forecast to 3.3 pct amid chip supercycle",
+     "language": "en",
+     "link": "https://en.yna.co.kr/view/AEN20261012006600320",
+     "published": "2026-10-13T02:00:07+00:00"
+    },
+    {
+     "outlet": "Buenos Aires Times",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "IMF slashes Argentina’s 2026 growth forecast to 2.1%",
+     "language": "en",
+     "link": "https://www.batimes.com.ar/news/economy/imf-slashes-argentinas-2026-growth-forecast-to-21.phtml",
+     "published": "2026-10-13T14:15:38+00:00"
+    },
+    {
+     "outlet": "CGTN",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "IMF raises 2026 global growth forecast to 3.1%",
+     "language": "en",
+     "link": "https://news.cgtn.com/news/2026-10-13/IMF-raises-2026-global-growth-forecast-to-3-1--1RcEPm28WWI/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+     "published": "2026-10-13T03:53:11+00:00"
+    }
+   ],
+   "last_seen": "2026-10-14T09:07:42.321915+00:00",
+   "outlets": 9,
+   "regions": 9,
+   "languages": 1,
+   "score": 29.0
   },
   {
    "id": "c2ed5607be1f",
@@ -7263,6 +7346,134 @@
     }
    ],
    "last_seen": "2026-10-12T17:07:49.159577+00:00",
+   "outlets": 10,
+   "regions": 8,
+   "languages": 1,
+   "score": 28.0
+  },
+  {
+   "id": "bdb2651fed6c",
+   "first_seen": "2026-10-13T17:07:48.267468+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Houthi official warns US against entering war in Yemen as Saudis weather attacks",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/middle-east/article/3370729/houthi-official-warns-us-against-entering-war-yemen-saudis-weather-attacks?utm_source=rss_feed",
+     "published": "2026-10-13T09:00:25+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Oil facility near Yemen capital Sanaa hit by Saudi Arabia, Houthis say",
+     "language": "en",
+     "link": "https://www.france24.com/en/middle-east/20261013-oil-facility-near-yemen-capital-sanaa-hit-by-saudi-arabia-houthis-say",
+     "published": "2026-10-13T14:53:39+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Houthi media says Saudi Arabia hit oil facility near Sanaa",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/houthi-media-says-saudi-arabia-hit-oil-facility-near-sanaa/article71580863.ece",
+     "published": "2026-10-13T16:38:49+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Saudi Arabia strikes oil facility near Yemen’s Sanaa after evacuation warning",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/saudi-military-coalition-says-it-intercepted-three-drones-north-of-riyadh-airport-houthi-strikes-101791892747448.html",
+     "published": "2026-10-13T12:05:35+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Houthi media says Saudi Arabia hit oil facility near Sanaa",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/13/houthi-media-says-saudi-arabia-hit-oil-facility-near-sanaa",
+     "published": "2026-10-13T15:11:30+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Saudi Arabia strikes oil depots in Yemen and says missiles launched toward location of Saudi Aramco HQ",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/13/saudi-arabia-strikes-strategic-oil-depots-near-yemen-capital",
+     "published": "2026-10-13T17:26:08+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Houthi missiles intercepted over Saudi Arabia as battles intensify",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/14/houthi-missiles-intercepted-over-saudi-arabia-as-battles-intensify?traffic_source=rss",
+     "published": "2026-10-14T03:09:46+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump says Houthis are ‘behaving very badly’, hints at asking Erdogan to help Saudi Arabia amid attacks",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/trump-says-houthis-are-behaving-very-badly-hints-at-asking-erdogan-to-help-saudi-arabia-amid-attacks-101791913143136.html",
+     "published": "2026-10-13T18:16:47+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "As Houthis strike Riyadh, Saudi Arabia confronts the costs of U.S. war on Iran",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPQXU0Wi0tVm5aMk5WYWZNYTBlLW9uVktRN2VyRUxPQUpUazM3cXVLRnZNMF9ad01tVWFZUlBRWV9WVU9BOGoxXzdFWWMyQndhclVId3R5VlBIeTBOTF9JbnN4eVdnWThmd19ZWktfYlJwYTdHNkRZaGFtX3Roci12TWR3OE5EVi1ERDhWOHlGSV9XTDRScG9uakVjRlVzTnBpYk0zZWthdHg4SG9tRmVkVkZsWDM?oc=5",
+     "published": "2026-10-13T18:39:31+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Why advanced U.S. weapons aren’t stopping Houthi attacks in Saudi Arabia",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxObUlWVHRLU2g4MU80VGtLUWNCYk9oSDNXeW1kbFV3VEJLWDRwZXFtTEpJNURtZ0JKMl91bG15d0pUQlpya2JaNzRrY1ZybUs5S1JJellKOW9QeEZsYTN5NHlXaldscEVLMlpmZDNOSDNwblFvcEFZZU9XbFZhNDM3Zl9QLThDR0oxVTJmRHVjZ3hwem9ETDEyUjZ3djVEZw?oc=5",
+     "published": "2026-10-13T17:55:27+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "IMF chief says Saudi attacks could have negative spillover ‘everywhere’",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/business/2026/10/14/imf-chief-says-saudi-attacks-could-have-negative-spillover-everywhere",
+     "published": "2026-10-14T06:35:19+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "IMF chief: Saudi attacks could have negative spillover ‘everywhere’, warns global resilience ‘reaching its limits’",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/money/2026/10/14/imf-chief-saudi-attacks-could-have-negative-spillover-everywhere-warns-global-resilience-reaching-its-limits/239074",
+     "published": "2026-10-14T06:58:26+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Houthis say Saudi Arabia delivered over 100 strikes against Yemen in past day",
+     "language": "en",
+     "link": "https://tass.com/world/2201631",
+     "published": "2026-10-13T20:08:25+00:00"
+    }
+   ],
+   "last_seen": "2026-10-14T09:07:42.321915+00:00",
    "outlets": 10,
    "regions": 8,
    "languages": 1,
@@ -7581,196 +7792,122 @@
    "score": 26.0
   },
   {
-   "id": "ea3c2d7142ff",
-   "first_seen": "2026-10-13T09:08:09.573950+00:00",
+   "id": "5eb79ed8389e",
+   "first_seen": "2026-10-14T09:07:42.321915+00:00",
    "members": [
     {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "IMF raises UK growth forecast as economist says Healey should ‘stay the course’",
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Arsenal 3-0 Lille: Champions League",
      "language": "en",
-     "link": "https://www.theguardian.com/business/2026/oct/13/john-healey-uk-finances-imf-gdp-growth-forecast-2026",
-     "published": "2026-10-13T07:58:56+00:00"
+     "link": "https://www.theguardian.com/football/live/2026/oct/13/arsenal-v-lille-champions-league-live-score-updates",
+     "published": "2026-10-13T21:18:41+00:00"
     },
     {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "IMF raises inflation forecast to 9.9%",
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Saka shines as Arsenal cruise to Champions League win over Lille",
      "language": "en",
-     "link": "https://tribune.com.pk/story/2634539/imf-raises-inflation-forecast-to-99",
-     "published": "2026-10-12T21:33:54+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "IMF raises Japan’s growth forecast for 2026 to 0.7%",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/business/2026/10/13/economy/imf-growth-forecast/",
-     "published": "2026-10-13T08:24:00+00:00"
+     "link": "https://www.skysports.com/football/arsenal-vs-lille/report/577615",
+     "published": "2026-10-13T21:45:00+00:00"
     },
     {
      "outlet": "France24",
      "region": "eu",
      "bucket": "serious",
-     "title": "IMF upgrades 2026 growth forecast but warns of 'split' outlook",
+     "title": "Champions League: Arsenal leave no chance to Lille and Olivier Giroud",
      "language": "en",
-     "link": "https://www.france24.com/en/live-news/20261013-imf-upgrades-2026-growth-forecast-but-warns-of-split-outlook-1",
-     "published": "2026-10-13T03:57:42+00:00"
+     "link": "https://www.france24.com/en/tv-shows/sports/20261014-champions-league-arsenal-leave-no-chance-to-lille-and-olivier-giroud",
+     "published": "2026-10-14T05:49:21+00:00"
     },
     {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "IMF upgrades 2026 growth forecast but warns of ‘split’ outlook",
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Timber’s touch of class and supersub Saka secure Arsenal win against Lille",
      "language": "en",
-     "link": "https://www.thehindu.com/business/Economy/imf-slightly-raises-forecast-for-2026-global-growth-to-31-citing-resilience-to-shocks/article71577836.ece",
-     "published": "2026-10-13T06:40:05+00:00"
+     "link": "https://www.theguardian.com/football/2026/oct/13/arsenal-lille-champions-league-match-report",
+     "published": "2026-10-13T21:02:51+00:00"
     },
     {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "IMF upgrades forecast for Nigeria’s economic growth to 4.2%",
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Arsenal latest: We can win the quadruple, says Merino",
      "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/imf-upgrades-forecast-for-nigerias-economic-growth-to-4-2/",
-     "published": "2026-10-13T08:30:25+00:00"
+     "link": "https://www.skysports.com/football/live-blog/12040/13025486/arsenal-transfer-news-rumours-and-gossip-live-updates-and-latest-on-deals-signings-loans-and-contracts",
+     "published": "2026-10-13T12:22:00+00:00"
     },
     {
-     "outlet": "Yonhap News",
-     "region": "kr",
+     "outlet": "Hürriyet (تركي)",
+     "region": "tr",
      "bucket": "serious",
-     "title": "IMF raises S. Korea's growth forecast to 3.3 pct amid chip supercycle",
-     "language": "en",
-     "link": "https://en.yna.co.kr/view/AEN20261012006600320",
-     "published": "2026-10-13T02:00:07+00:00"
+     "title": "İspanya, Barça’nın Galatasaray galibiyetini konuşuyor! ‘Ve Yamal 'Yeter' dedi! Cehennemde dans etti’",
+     "language": "tr",
+     "link": "https://www.hurriyet.com.tr/sporarena/ispanya-barcanin-galatasaray-galibiyetini-konusuyor-ve-yamal-yeter-dedi-cehennemde-dans-etti-43340875",
+     "published": "2026-10-14T07:10:00+00:00"
     },
     {
-     "outlet": "Buenos Aires Times",
-     "region": "latam",
+     "outlet": "Hürriyet (تركي)",
+     "region": "tr",
      "bucket": "serious",
-     "title": "IMF slashes Argentina’s 2026 growth forecast to 2.1%",
-     "language": "en",
-     "link": "https://www.batimes.com.ar/news/economy/imf-slashes-argentinas-2026-growth-forecast-to-21.phtml",
-     "published": "2026-10-13T14:15:38+00:00"
-    }
-   ],
-   "last_seen": "2026-10-13T17:07:48.267468+00:00",
-   "outlets": 8,
-   "regions": 8,
-   "languages": 1,
-   "score": 26.0
-  },
-  {
-   "id": "144bf80223b4",
-   "first_seen": "2026-10-13T17:07:48.267468+00:00",
-   "members": [
+     "title": "Lamine Yamal'dan Galatasaray itirafı: 'Soyunma odasında konuştuk! Çok daha zor olabilirdi'",
+     "language": "tr",
+     "link": "https://www.hurriyet.com.tr/sporarena/lamine-yamaldan-galatasaray-itirafi-soyunma-odasinda-konustuk-cok-daha-zor-olabilirdi-43340746",
+     "published": "2026-10-14T05:49:37+00:00"
+    },
+    {
+     "outlet": "Hürriyet (تركي)",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Galatasaray'ın Barcelona yenilgisi sonrası dikkat çeken sözler! 'Aklımıza gelen başımıza geldi! Baş etmek mümkün değil'",
+     "language": "tr",
+     "link": "https://www.hurriyet.com.tr/sporarena/galatasarayin-barcelona-yenilgisi-sonrasi-dikkat-ceken-sozler-aklimiza-gelen-basimiza-43340725",
+     "published": "2026-10-14T04:57:04+00:00"
+    },
     {
      "outlet": "Al Jazeera English",
      "region": "qa",
      "bucket": "serious",
-     "title": "US ambassador to Greece resigns amid misconduct allegations",
+     "title": "Yamal magic helps Barcelona beat Galatasaray in Champions League",
      "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/13/trumps-ambassador-to-greece-asked-to-resign-amid-misconduct-allegations?traffic_source=rss",
-     "published": "2026-10-13T15:37:32+00:00"
+     "link": "https://www.aljazeera.com/sports/2026/10/14/yamal-magic-helps-barcelona-beat-galatasaray-in-champions-league?traffic_source=rss",
+     "published": "2026-10-14T07:35:43+00:00"
     },
     {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
+     "outlet": "El País",
+     "region": "es",
      "bucket": "serious",
-     "title": "Kimberly Guilfoyle resigns as US ambassador to Greece, makes major statement amid misconduct allegations",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/kimberly-guilfoyle-resigns-as-us-ambassador-to-greece-makes-major-statement-amid-misconduct-allegations-101791908314591.html",
-     "published": "2026-10-13T16:23:17+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Kimberly Guilfoyle steps down as US ambassador to Greece after alleged misconduct",
-     "language": "en",
-     "link": "https://www.theguardian.com/us-news/2026/oct/13/kimberly-guilfoyle-ambassador-greece-step-down",
-     "published": "2026-10-13T15:50:28+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "US asks Greece ambassador Kimberly Guilfoyle to resign over alleged misconduct",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370779/us-asks-greece-ambassador-kimberly-guilfoyle-resign-over-alleged-misconduct?utm_source=rss_feed",
-     "published": "2026-10-13T15:02:49+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "White House says it has asked Kimberly Guilfoyle to resign as US ambassador to Greece",
-     "language": "en",
-     "link": "https://www.theguardian.com/us-news/live/2026/oct/13/donald-trump-ilhan-omar-katie-zacharia-alaska-midterms-latest-news-updates",
-     "published": "2026-10-13T16:39:36+00:00"
-    },
-    {
-     "outlet": "Der Spiegel",
-     "region": "de",
-     "bucket": "serious",
-     "title": "Kimberly Guilfoyle: Umstrittene US-Botschafterin muss Posten in Athen räumen",
-     "language": "en",
-     "link": "https://www.spiegel.de/ausland/kimberly-guilfoyle-umstrittene-us-botschafterin-muss-posten-in-athen-raeumen-a-0169f30c-e123-448a-8636-6bd456c18ffb#ref=rss",
-     "published": "2026-10-13T14:23:00+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Kimberly Guilfoyle marriages and relationship in focus amid misconduct allegations: All on her ex-husbands and son",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/kimberly-guilfoyle-marriages-and-relationship-in-focus-amid-misconduct-allegations-all-on-her-ex-husbands-and-children-101791893823197.html",
-     "published": "2026-10-13T12:54:26+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Trump asks Greece ambassador to resign amid ethics scandal",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2036922/trump-asks-greece-ambassador-to-resign-amid-ethics-scandal",
-     "published": "2026-10-13T16:40:47+00:00"
+     "title": "Lamine deslumbra en la goleada del Barcelona contra el Galatasaray",
+     "language": "es",
+     "link": "https://elpais.com/deportes/futbol/2026-10-13/lamine-deslumbra-en-la-goleada-del-barcelona-contra-el-galatasaray.html",
+     "published": "2026-10-13T21:30:19+00:00"
     },
     {
      "outlet": "Daily Sabah",
      "region": "tr",
      "bucket": "serious",
-     "title": "Trump envoy to Greece asked to resign amid ethics scandal",
+     "title": "Galatasaray’s Champions League woes deepen after 4-1 loss to Barca",
      "language": "en",
-     "link": "https://www.dailysabah.com/world/americas/trump-envoy-to-greece-asked-to-resign-amid-ethics-scandal",
-     "published": "2026-10-13T14:11:00+00:00"
+     "link": "https://www.dailysabah.com/sports/football/galatasarays-champions-league-woes-deepen-after-4-1-loss-to-barca",
+     "published": "2026-10-13T21:10:00+00:00"
     },
     {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
+     "outlet": "The Express Tribune",
+     "region": "pk",
      "bucket": "serious",
-     "title": "Trump asks Greece ambassador to resign amid bribery scandal",
+     "title": "Yamal inspires Barcelona past Galatasaray",
      "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/13/trump-asks-greece-ambassador-to-resign-amid-bribery-scandal",
-     "published": "2026-10-13T14:40:48+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Katie Zacharia gives massive update on Kimberly Guilfoyle's resignation",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/donald-trump-asks-kimberly-guilfoyle-to-resign-as-ambassador-to-greece-amid-misconduct-allegations-101791901247612.html",
-     "published": "2026-10-13T14:28:06+00:00"
+     "link": "https://tribune.com.pk/story/2634780/yamal-inspires-barcelona-past-galatasaray",
+     "published": "2026-10-14T02:10:15+00:00"
     }
    ],
-   "last_seen": "2026-10-13T17:07:48.267468+00:00",
+   "last_seen": "2026-10-14T09:07:42.321915+00:00",
    "outlets": 8,
-   "regions": 8,
-   "languages": 1,
+   "regions": 6,
+   "languages": 3,
    "score": 26.0
   },
   {
@@ -8528,6 +8665,89 @@
    "score": 24.0
   },
   {
+   "id": "a280debe630e",
+   "first_seen": "2026-10-14T09:07:42.321915+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Saudi employee charged with planting recording device in OpenAI office",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cwg5jq4vlddzo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-13T21:42:49+00:00"
+    },
+    {
+     "outlet": "TechCrunch",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "FBI arrests OpenAI employee accused of planting hidden recording device in conference room",
+     "language": "en",
+     "link": "https://techcrunch.com/2026/10/13/fbi-arrests-openai-employee-accused-of-planting-hidden-recording-device-in-conference-room/",
+     "published": "2026-10-13T20:59:11+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "FBI arrests Saudi OpenAI engineer over covert recording device, DOJ says",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2634767/fbi-arrests-saudi-openai-engineer-over-covert-recording-device-doj-says",
+     "published": "2026-10-14T01:07:37+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "OpenAI fires employee after finding recording device in conference room",
+     "language": "en",
+     "link": "https://www.thehindu.com/sci-tech/technology/openai-fires-employee-after-finding-recording-device-in-conference-room/article71582204.ece",
+     "published": "2026-10-14T06:09:53+00:00"
+    },
+    {
+     "outlet": "Rappler",
+     "region": "ph",
+     "bucket": "serious",
+     "title": "FBI arrests Saudi OpenAI engineer over covert recording device, DOJ says",
+     "language": "en",
+     "link": "https://www.rappler.com/technology/fbi-arrests-saudi-openai-engineer-covert-recording-device/",
+     "published": "2026-10-14T08:27:05+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Saudi National Arrested For Planting Recording Device At OpenAI Office",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/saudi-openai-engineer-abdulrahman-alfozan-arrested-for-allegedly-planting-recording-device-in-office-12181631#publisher=newsstand",
+     "published": "2026-10-13T23:26:26+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "OpenAI employee arrested over alleged planting of listening device",
+     "language": "en",
+     "link": "https://www.dailysabah.com/business/tech/openai-employee-arrested-over-alleged-planting-of-listening-device",
+     "published": "2026-10-14T07:52:00+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Saudi national arrested for installing audio recording device at OpenAI office",
+     "language": "en",
+     "link": "https://tass.com/society/2201669",
+     "published": "2026-10-14T02:25:50+00:00"
+    }
+   ],
+   "last_seen": "2026-10-14T09:07:42.321915+00:00",
+   "outlets": 8,
+   "regions": 7,
+   "languages": 1,
+   "score": 24.0
+  },
+  {
    "id": "b0355c8692a2",
    "first_seen": "2026-10-09T17:07:48.864691+00:00",
    "members": [
@@ -9142,6 +9362,80 @@
    "outlets": 5,
    "regions": 5,
    "languages": 3,
+   "score": 21.0
+  },
+  {
+   "id": "bf85d17c7ca0",
+   "first_seen": "2026-10-14T09:07:42.321915+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Judge extends White House access to banned media outlets CNN, MS Now and Politico",
+     "language": "en",
+     "link": "https://www.theguardian.com/us-news/2026/oct/14/white-house-media-ban-lifted-cnn-msnow-politico",
+     "published": "2026-10-14T04:34:29+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Judge extends White House access for CNN, MS NOW, Politico amid legal fight",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2634773/judge-extends-white-house-access-for-cnn-ms-now-politico-amid-legal-fight",
+     "published": "2026-10-14T01:28:18+00:00"
+    },
+    {
+     "outlet": "Rappler",
+     "region": "ph",
+     "bucket": "serious",
+     "title": "Judge extends White House access for CNN, MS NOW, Politico amid legal fight",
+     "language": "en",
+     "link": "https://www.rappler.com/world/us-canada/judge-extends-white-house-access-cnn-ms-now-politico-october-13-2026/",
+     "published": "2026-10-14T06:28:16+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "U.S. judge backs CNN, MS Now, Politico access to White House",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/us-judge-backs-cnn-ms-now-politico-access-to-white-house/article71582606.ece",
+     "published": "2026-10-14T08:17:11+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Judge extends White House access for CNN, MS NOW, Politico amid legal fight",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/14/judge-extends-white-house-access-for-cnn-ms-now-politico-amid-legal-fight",
+     "published": "2026-10-14T04:13:00+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Judge extends White House access for CNN, MS NOW, Politico amid legal fight",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/judge-extends-white-house-access-for-cnn-ms-now-politico-amid-legal-fight/",
+     "published": "2026-10-14T04:15:00+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "US judge blocks Trump’s ban, restores White House access for CNN, MS Now, Politico",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/money/2026/10/14/us-judge-blocks-trumps-ban-restores-white-house-access-for-cnn-ms-now-politico/239062",
+     "published": "2026-10-14T06:11:37+00:00"
+    }
+   ],
+   "last_seen": "2026-10-14T09:07:42.321915+00:00",
+   "outlets": 7,
+   "regions": 6,
+   "languages": 1,
    "score": 21.0
   },
   {
@@ -10264,69 +10558,134 @@
    "score": 17.0
   },
   {
-   "id": "b135550d5381",
-   "first_seen": "2026-10-05T18:07:49.818707+00:00",
+   "id": "03a251a36305",
+   "first_seen": "2026-10-14T09:07:42.321915+00:00",
    "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "light",
+     "title": "Duane ‘Keffe D’ Davis sentenced to 40 years to life over Tupac Shakur’s murder",
+     "language": "en",
+     "link": "https://www.theguardian.com/music/2026/oct/13/duane-davis-sentencing-tupac-shakur-murder",
+     "published": "2026-10-13T19:43:45+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "Ex-gang leader sentenced to 40 years to life in prison for Tupac Shakur murder",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-13-ex-gang-leader-sentenced-to-40-years-to-life-in-prison-for-tupac-shakur-murder/",
+     "published": "2026-10-13T21:33:32+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Former gang leader sentenced to 40 years to life for Tupac Shakur murder",
+     "language": "en",
+     "link": "https://www.france24.com/en/americas/20261013-former-gang-leader-sentenced-to-40-years-to-life-for-tupac-shakur-murder",
+     "published": "2026-10-13T19:57:31+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Former gang leader sentenced to minimum 40 years for Tupac killing",
+     "language": "en",
+     "link": "https://www.france24.com/en/former-gang-leader-sentenced-to-minimum-40-years-for-tupac-killing",
+     "published": "2026-10-13T20:33:25+00:00"
+    },
     {
      "outlet": "The Hindu — International",
      "region": "in",
      "bucket": "serious",
-     "title": "British Airways London-Chicago flight declares ‘emergency’ mid air; makes U-turn after take-off",
+     "title": "Ex-gang leader sentenced to 40 years to life in prison for Tupac Shakur murder",
      "language": "en",
-     "link": "https://www.thehindu.com/news/international/british-airways-london-chicago-flight-declares-emergency-mid-air-makes-u-turn-after-take-off/article71548161.ece",
-     "published": "2026-10-05T15:10:11+00:00"
+     "link": "https://www.thehindu.com/news/international/ex-gang-leader-sentenced-to-40-years-to-life-in-prison-for-tupac-shakur-murder/article71581327.ece",
+     "published": "2026-10-13T22:55:33+00:00"
     },
     {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
+     "outlet": "Daily Sabah",
+     "region": "tr",
      "bucket": "serious",
-     "title": "British Airways London-Chicago flight descends to 9,000 ft over Ireland, declares emergency",
+     "title": "Ex-gang leader faces life in prison for Tupac Shakur killing",
      "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/british-airways-london-chicago-flight-squawks-7700-descends-to-9-000-ft-over-ireland-declares-emergency-drops-28000-feet-within-minutes-101791209263768.html",
-     "published": "2026-10-05T14:16:16+00:00"
+     "link": "https://www.dailysabah.com/arts/music/ex-gang-leader-faces-life-in-prison-for-tupac-shakur-killing",
+     "published": "2026-10-13T12:17:00+00:00"
     },
     {
-     "outlet": "Google News — World",
-     "region": "global",
+     "outlet": "Daily Sabah",
+     "region": "tr",
      "bucket": "serious",
-     "title": "British Airways flight to Chicago drops 27,000 feet, returns to London",
+     "title": "Ex-gang leader gets 40 years to life in Tupac Shakur murder",
      "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOUlZhN3lET1lNdXE3ak14OVVkZnpndktHMEhHWnNCNDd4Qjd2dEF4UDRnTnBfQVROT3ZCSk83T05sT3hiSF8tcTdiZm10Q3BWeEV3RkFGMGY3MmR0NGNhRGhORzJTaU95UW1yY24zSG1zcHByQ2pSVUxqdW9UcDE5QjI1M00yOWdLcUNzSzNycldUUWF1cS16Rjh5Tmt5RExwLXJHTDZLVTcxTUFRSDJUdmQyd0EyT0o0X3c?oc=5",
-     "published": "2026-10-05T16:09:00+00:00"
+     "link": "https://www.dailysabah.com/arts/music/ex-gang-leader-gets-40-years-to-life-in-tupac-shakur-murder",
+     "published": "2026-10-14T07:50:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-14T09:07:42.321915+00:00",
+   "outlets": 5,
+   "regions": 5,
+   "languages": 1,
+   "score": 17.0
+  },
+  {
+   "id": "b289b03b731a",
+   "first_seen": "2026-10-14T09:07:42.321915+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Trump says oil, gas and mineral exploration to begin in Greenland",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/14/trump-says-oil-gas-and-mineral-exploration-to-begin-in-greenland?traffic_source=rss",
+     "published": "2026-10-14T08:08:42+00:00"
     },
     {
-     "outlet": "NDTV — World",
-     "region": "in",
+     "outlet": "The Express Tribune",
+     "region": "pk",
      "bucket": "serious",
-     "title": "Emergency Alert, 28,000 Descent In Minutes: US-Bound Plane Returns To London",
+     "title": "Trump says major oil, gas, mineral exploration to begin in Greenland",
      "language": "en",
-     "link": "https://www.ndtv.com/world-news/flydubai-british-airways-ba295-emergency-london-to-chicago-ireland-12141824#publisher=newsstand",
-     "published": "2026-10-05T17:10:14+00:00"
+     "link": "https://tribune.com.pk/story/2634763/trump-says-major-oil-gas-mineral-exploration-to-begin-in-greenland",
+     "published": "2026-10-14T00:54:50+00:00"
     },
     {
-     "outlet": "The Guardian — World",
-     "region": "uk",
+     "outlet": "France24",
+     "region": "eu",
      "bucket": "serious",
-     "title": "London to Chicago BA flight declares emergency after dropping 28,000 feet",
+     "title": "Trump says 'massive' oil, gas and mineral exploration to begin in Greenland",
      "language": "en",
-     "link": "https://www.theguardian.com/business/2026/oct/05/london-to-chicago-ba-flight-declares-emergency-after-dropping-28000-feet",
-     "published": "2026-10-05T20:33:30+00:00"
+     "link": "https://www.france24.com/en/europe/20261014-trump-says-massive-oil-gas-and-mineral-exploration-to-begin-in-greenland",
+     "published": "2026-10-14T06:41:15+00:00"
     },
     {
      "outlet": "CBS News — World",
      "region": "us",
      "bucket": "serious",
-     "title": "British Airways flight drops 27,000 feet, returns to London",
+     "title": "Trump says Greenland oil, gas and mineral exploration \"getting ready to begin\"",
      "language": "en",
-     "link": "https://www.cbsnews.com/news/british-airways-flight-drops-chicago-returns-london/",
-     "published": "2026-10-05T22:22:22+00:00"
+     "link": "https://www.cbsnews.com/news/greenland-trump-oil-minerals-gas-exploration/",
+     "published": "2026-10-14T05:33:26+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Trump says ‘massive’ oil, gas, mineral exploration to begin in Greenland",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/14/trump-says-massive-oil-gas-mineral-exploration-to-begin-in-greenland",
+     "published": "2026-10-14T07:39:45+00:00"
     }
    ],
-   "last_seen": "2026-10-06T18:08:08.020436+00:00",
-   "outlets": 6,
-   "regions": 4,
+   "last_seen": "2026-10-14T09:07:42.321915+00:00",
+   "outlets": 5,
+   "regions": 5,
    "languages": 1,
-   "score": 16.0
+   "score": 17.0
   },
   {
    "id": "cc43ca365663",
@@ -10616,109 +10975,6 @@
    "regions": 3,
    "languages": 3,
    "score": 15.0
-  },
-  {
-   "id": "bdb2651fed6c",
-   "first_seen": "2026-10-13T17:07:48.267468+00:00",
-   "members": [
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Houthi official warns US against entering war in Yemen as Saudis weather attacks",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/middle-east/article/3370729/houthi-official-warns-us-against-entering-war-yemen-saudis-weather-attacks?utm_source=rss_feed",
-     "published": "2026-10-13T09:00:25+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Oil facility near Yemen capital Sanaa hit by Saudi Arabia, Houthis say",
-     "language": "en",
-     "link": "https://www.france24.com/en/middle-east/20261013-oil-facility-near-yemen-capital-sanaa-hit-by-saudi-arabia-houthis-say",
-     "published": "2026-10-13T14:53:39+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Houthi media says Saudi Arabia hit oil facility near Sanaa",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/houthi-media-says-saudi-arabia-hit-oil-facility-near-sanaa/article71580863.ece",
-     "published": "2026-10-13T16:38:49+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Saudi Arabia strikes oil facility near Yemen’s Sanaa after evacuation warning",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/saudi-military-coalition-says-it-intercepted-three-drones-north-of-riyadh-airport-houthi-strikes-101791892747448.html",
-     "published": "2026-10-13T12:05:35+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Houthi media says Saudi Arabia hit oil facility near Sanaa",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/13/houthi-media-says-saudi-arabia-hit-oil-facility-near-sanaa",
-     "published": "2026-10-13T15:11:30+00:00"
-    }
-   ],
-   "last_seen": "2026-10-13T17:07:48.267468+00:00",
-   "outlets": 5,
-   "regions": 4,
-   "languages": 1,
-   "score": 15.0
-  },
-  {
-   "id": "4e3796638ee1",
-   "first_seen": "2026-10-06T15:07:42.509147+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "US televangelist Jim Bakker, disgraced from sex scandal and fraud, dies at 86",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/ckly02gd1xppo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-06T13:31:56+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Jim Bakker cause of death: What we know so far as televangelist dies at 86? All on scandal, family, and net worth",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/jim-bakker-cause-of-death-what-we-know-so-far-as-televangelist-dies-at-86-all-on-scandal-family-and-net-worth-101791262100735.html",
-     "published": "2026-10-06T05:07:01+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Jim Bakker, televangelist disgraced by sex scandal, dies at 86",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/jim-bakker-televangelist-disgraced-by-sex-scandal-dies-at-86",
-     "published": "2026-10-06T09:34:46+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "US televangelist Jim Bakker, disgraced from sex scandal and fraud, dies at 86",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/us-televangelist-jim-bakker-disgraced-from-sex-scandal-and-fraud-dies-at-86/",
-     "published": "2026-10-06T21:31:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-07T03:07:41.547243+00:00",
-   "outlets": 4,
-   "regions": 4,
-   "languages": 1,
-   "score": 14.0
   },
   {
    "id": "669e7a6372ea",
@@ -11679,156 +11935,51 @@
    "score": 12.0
   },
   {
-   "id": "0c9d00f07da9",
-   "first_seen": "2026-10-06T18:08:08.020436+00:00",
+   "id": "cdb9cf26f1ff",
+   "first_seen": "2026-10-14T09:07:42.321915+00:00",
    "members": [
     {
-     "outlet": "Court House News",
-     "region": "court",
-     "bucket": "light",
-     "title": "Russia denies imposing anti-plague measures after death of worker",
-     "language": "en",
-     "link": "https://www.courthousenews.com/russia-denies-imposing-anti-plague-measures-after-death-of-worker/",
-     "published": "2026-10-06T16:58:05+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "light",
-     "title": "Russia denies imposing anti-plague measures after death of worker",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2035170/russia-denies-imposing-anti-plague-measures-after-death-of-worker",
-     "published": "2026-10-06T10:49:12+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
+     "outlet": "BBC World",
+     "region": "uk",
      "bucket": "serious",
-     "title": "Russia denies imposing anti-plague measures after death of worker",
+     "title": "Germany puts Ukrainian on trial accused of blowing up Nord Stream pipelines",
      "language": "en",
-     "link": "https://www.channelnewsasia.com/world/russia-plague-lab-worker-death-rubio-urge-info-6437211",
-     "published": "2026-10-06T16:37:48+00:00"
+     "link": "https://www.bbc.co.uk/news/articles/cw99zpmnxzmjo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-13T23:42:22+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Ukrainian ex-officer goes on trial in Germany over Nord Stream blasts",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/14/ukrainian-ex-officer-goes-on-trial-in-germany-over-nord-stream-blasts?traffic_source=rss",
+     "published": "2026-10-14T03:06:42+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Ukrainian soldier to go on trial over sabotage of Nord Stream gas pipelines",
+     "language": "en",
+     "link": "https://www.theguardian.com/business/2026/oct/14/ukrainian-soldier-to-go-on-trial-over-sabotage-of-nord-stream-gas-pipelines",
+     "published": "2026-10-14T06:00:47+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Germany puts Ukrainian on trial accused of blowing up Nord Stream pipelines",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9nV1c3TWdoUG1JS01sSXlFSks1dllZM1ZpZG8xTFpDck9JSk9iVzBtbkZONHhady1CWjdHX0llSm9weXJsb0U2QkJBVW9IaDJ0MnpmWGdXSmRUMU0?oc=5",
+     "published": "2026-10-13T23:42:22+00:00"
     }
    ],
-   "last_seen": "2026-10-06T18:08:08.020436+00:00",
-   "outlets": 3,
+   "last_seen": "2026-10-14T09:07:42.321915+00:00",
+   "outlets": 4,
    "regions": 3,
    "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "94d026bdbf8b",
-   "first_seen": "2026-10-06T18:08:08.020436+00:00",
-   "members": [
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "White House denies Trump suggested Iran should 'take out' US cities",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633331/white-house-denies-trump-suggested-iran-should-take-out-us-cities",
-     "published": "2026-10-06T10:57:59+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "White House denies Trump suggested Iran should 'take out' US cities",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/world/trump-democrats-us-cities-la-san-diego-iran-6437256",
-     "published": "2026-10-06T17:59:06+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "White House denies Trump suggested Iran should ‘take out’ US cities",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/white-house-denies-trump-suggested-iran-should-take-out-us-cities",
-     "published": "2026-10-06T14:38:44+00:00"
-    }
-   ],
-   "last_seen": "2026-10-06T18:08:08.020436+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "0671dd81b8aa",
-   "first_seen": "2026-10-07T03:07:41.547243+00:00",
-   "members": [
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Dollar holds losses as markets await Fed minutes, speakers",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/business/dollar-holds-losses-markets-await-fed-minutes-speakers-6437936",
-     "published": "2026-10-07T01:16:05+00:00"
-    },
-    {
-     "outlet": "Investing.com — الاقتصاد",
-     "region": "money",
-     "bucket": "useful",
-     "title": "Dollar holds losses as markets await Fed minutes, speakers",
-     "language": "en",
-     "link": "https://www.investing.com/news/economy-news/dollar-holds-losses-as-markets-await-fed-minutes-speakers-4935511",
-     "published": "2026-10-07T01:18:28+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Dollar holds losses as markets await Fed minutes, speakers",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/business/2026/10/07/dollar-holds-losses-as-markets-await-fed-minutes-speakers",
-     "published": "2026-10-07T01:36:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-07T03:07:41.547243+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "51d4efd79d40",
-   "first_seen": "2026-10-07T03:07:41.547243+00:00",
-   "members": [
-    {
-     "outlet": "Investing.com — الاقتصاد",
-     "region": "money",
-     "bucket": "useful",
-     "title": "Japan considers another extra budget for disaster relief, Yomiuri says",
-     "language": "en",
-     "link": "https://www.investing.com/news/economy-news/japan-considers-another-extra-budget-for-disaster-relief-yomiuri-says-4935398",
-     "published": "2026-10-06T23:30:27+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Japan considers another extra budget for disaster relief",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/07/japan-considers-another-extra-budget-for-disaster-relief-says-yomiuri",
-     "published": "2026-10-07T00:40:29+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Japan considering another extra budget for disaster relief, Yomiuri reports",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/07/japan/japan-extra-disaster-budget/",
-     "published": "2026-10-07T02:20:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-07T03:07:41.547243+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
+   "score": 12.0
   },
   {
    "id": "2d8d8ece3e5e",
@@ -13074,6 +13225,44 @@
    "score": 11.0
   },
   {
+   "id": "c81ea94fd8ca",
+   "first_seen": "2026-10-14T09:07:42.321915+00:00",
+   "members": [
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Investigators hunt French supermarket fridge hackers, no claim of responsibility",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2634627/investigators-hunt-french-supermarket-fridge-hackers-no-claim-of-responsibility",
+     "published": "2026-10-13T07:22:10+00:00"
+    },
+    {
+     "outlet": "Rappler",
+     "region": "ph",
+     "bucket": "serious",
+     "title": "Investigators hunt French supermarket fridge hackers, no claim of responsibility",
+     "language": "en",
+     "link": "https://www.rappler.com/technology/investigators-hunt-french-supermarket-fridge-hackers/",
+     "published": "2026-10-14T04:54:59+00:00"
+    },
+    {
+     "outlet": "CGTN",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Investigators hunt French supermarket fridge hackers, no claim made",
+     "language": "en",
+     "link": "https://news.cgtn.com/news/2026-10-13/Investigators-hunt-French-supermarket-fridge-hackers-no-claim-made-1Rdl0qLhQjK/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+     "published": "2026-10-13T14:30:05+00:00"
+    }
+   ],
+   "last_seen": "2026-10-14T09:07:42.321915+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
    "id": "55d7d97f75a2",
    "first_seen": "2026-10-07T18:07:47.065879+00:00",
    "members": [
@@ -13175,44 +13364,6 @@
    "regions": 2,
    "languages": 1,
    "score": 10.0
-  },
-  {
-   "id": "dc7e34b77504",
-   "first_seen": "2026-10-07T03:07:41.547243+00:00",
-   "members": [
-    {
-     "outlet": "The Verge",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "Apple and LG team up on new smart home gear, starting with a lock, doorbell, and thermostat",
-     "language": "en",
-     "link": "https://www.theverge.com/news/1006238/apple-lg-homekit-rumor-fcc",
-     "published": "2026-10-06T21:39:53+00:00"
-    },
-    {
-     "outlet": "TechCrunch",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "Apple is reportedly partnering with LG to launch a smart lock, thermostat, and doorbell",
-     "language": "en",
-     "link": "https://techcrunch.com/2026/10/06/apple-is-reportedly-partnering-with-lg-to-launch-a-smart-lock-thermostat-and-doorbell/",
-     "published": "2026-10-06T22:53:09+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Apple’s smart home push includes doorbell, lock and thermostat codeveloped with LG",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/business/2026/10/07/apple-smart-home-lg-electronics/",
-     "published": "2026-10-07T01:26:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-07T03:07:41.547243+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 1,
-   "score": 9.0
   },
   {
    "id": "cdb578e68f8d",
@@ -13810,33 +13961,80 @@
    "score": 9.0
   },
   {
-   "id": "6fcca99844f5",
-   "first_seen": "2026-10-07T03:07:41.547243+00:00",
+   "id": "0732ad237a4f",
+   "first_seen": "2026-10-14T09:07:42.321915+00:00",
+   "members": [
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Swiatek wins all-Polish battle to launch Wuhan campaign",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2634776/swiatek-wins-all-polish-battle-to-launch-wuhan-campaign",
+     "published": "2026-10-14T01:46:56+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Relentless Swiatek wins all-Polish battle to launch Wuhan campaign",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/14/relentless-swiatek-wins-all-polish-battle-to-launch-wuhan-campaign",
+     "published": "2026-10-14T06:12:15+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Relentless Swiatek wins all-Polish battle to launch Wuhan campaign",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/sports/2026/10/14/relentless-swiatek-wins-all-polish-battle-to-launch-wuhan-campaign/239083",
+     "published": "2026-10-14T07:37:51+00:00"
+    }
+   ],
+   "last_seen": "2026-10-14T09:07:42.321915+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
+   "id": "40cd4623c03e",
+   "first_seen": "2026-10-14T09:07:42.321915+00:00",
    "members": [
     {
      "outlet": "BBC World",
      "region": "uk",
      "bucket": "serious",
-     "title": "Finland orders halt to work on two Google data centres",
+     "title": "MI5 chief warns of threats to UK from Russia, Iran and AI",
      "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cvj6jkx6g1r0o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-06T17:15:46+00:00"
+     "link": "https://www.bbc.co.uk/news/articles/c60rl5vwpk02o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-13T15:52:15+00:00"
     },
     {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
+     "outlet": "Hindustan Times — World",
+     "region": "in",
      "bucket": "serious",
-     "title": "Finland orders halt to work on two Google data centres",
+     "title": "Britain’s MI5 spy chief warns of Iranian threats, AI-fuelled cyber risks: 'UK entering new era of national security’",
      "language": "en",
-     "link": "https://www.myjoyonline.com/finland-orders-halt-to-work-on-two-google-data-centres/",
-     "published": "2026-10-06T22:06:17+00:00"
+     "link": "https://www.hindustantimes.com/world-news/britains-mi5-spy-chief-warns-of-iranian-threats-ai-fuelled-cyber-risks-uk-entering-new-era-of-national-security-101791900800308.html",
+     "published": "2026-10-13T15:06:21+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Iran, Russia, AI, Terrorists: MI5 Chief Flags Threats To UK",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/iran-russia-ai-terrorists-mi5-chief-ken-mccallum-flags-threats-to-uk-12182023#publisher=newsstand",
+     "published": "2026-10-14T02:55:54+00:00"
     }
    ],
-   "last_seen": "2026-10-07T03:07:41.547243+00:00",
-   "outlets": 2,
+   "last_seen": "2026-10-14T09:07:42.321915+00:00",
+   "outlets": 3,
    "regions": 2,
    "languages": 1,
-   "score": 8.0
+   "score": 9.0
   },
   {
    "id": "7b30b3d54a2a",

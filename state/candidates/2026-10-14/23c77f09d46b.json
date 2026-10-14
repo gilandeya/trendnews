@@ -1,0 +1,64 @@
+{
+  "id": "23c77f09d46b",
+  "created_at": "2026-10-14T09:08:10.173205+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.44,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "التحالف السعودي يقصف مواقع نفطية يمنية ردًا على الحوثيين",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Saudi coalition strikes Yemen oil sites after Houthi attacks",
+  "link": "https://www.thehindu.com/news/international/houthi-media-says-saudi-arabia-hit-oil-facility-near-sanaa/article71580863.ece",
+  "publishers": [
+    "Hindustan Times — World",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Saudi coalition strikes Yemen oil sites after Houthi attacks",
+    "link": "https://www.thehindu.com/news/international/houthi-media-says-saudi-arabia-hit-oil-facility-near-sanaa/article71580863.ece",
+    "summary": "The Saudi-led coalition had earlier warned civilians to evacuate the Al-Sabaha station near the Houthi-held capital, which belongs to the Yemen Petroleum Company (YPC), following a spate of deadly Houthi attacks in Saudi Arabia, particularly on Riyadh airport.",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-10-13T20:09:50+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/dpyu12/article71580870.ece/alternates/LANDSCAPE_1200/AP01_18_2022_000150A.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/houthi-media-says-saudi-arabia-hit-oil-facility-near-sanaa/article71580863.ece"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/saudiled-coalition-struck-oil-facilities-west-of-yemen-s-capital-houthi-run-broadcaster-says-101791917980169.html"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/dpyu12/article71580870.ece/alternates/LANDSCAPE_1200/AP01_18_2022_000150A.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1696.911728181111,
+    "is_stale": false,
+    "score": 26.435697875574075,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "التحالف السعودي يقصف مواقع نفطية يمنية ردًا على الحوثيين",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

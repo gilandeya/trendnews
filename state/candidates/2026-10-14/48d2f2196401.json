@@ -1,0 +1,79 @@
+{
+  "id": "48d2f2196401",
+  "created_at": "2026-10-14T09:08:10.173040+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 29.76,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 3,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "أسعار النفط ترتفع وسط مخاوف الإمدادات السعودية والحوثي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Oil prices climb as traders weigh Saudi supply risk, Russian diesel flow",
+  "link": "https://www.myjoyonline.com/oil-prices-climb-as-traders-weigh-saudi-supply-risk-russian-diesel-flow/",
+  "publishers": [
+    "Mehr News",
+    "MyJoyOnline Ghana",
+    "NPR World",
+    "The Hindu — International"
+  ],
+  "region": "gh",
+  "article": {
+    "title": "Oil prices climb as traders weigh Saudi supply risk, Russian diesel flow",
+    "link": "https://www.myjoyonline.com/oil-prices-climb-as-traders-weigh-saudi-supply-risk-russian-diesel-flow/",
+    "summary": "Oil prices climbed on Wednesday as traders weighed supply risk from fighting between Yemen's Iran-allied Houthis and Saudi Arabia against the ​prospect of increased diesel from Russia.",
+    "source_name": "MyJoyOnline Ghana",
+    "region": "gh",
+    "weight": 0.9,
+    "published": "2026-10-14T03:13:00+00:00",
+    "image_url": "https://www.myjoyonline.com/wp-content/uploads/2026/05/image-3114-1024x683.png",
+    "publisher": "MyJoyOnline Ghana",
+    "cluster_sources": [
+      "Mehr News",
+      "MyJoyOnline Ghana",
+      "NPR World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/oil-prices-climb-as-traders-weigh-saudi-supply-risk-russian-diesel-flow/"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/248573/Oil-prices-edge-higher-as-traders-weigh-Saudi-supply-risks"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/national/how-does-the-us-russia-diesel-deal-impact-india/article71578205.ece"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/10/13/nx-s1-6000118/how-will-a-diesel-deal-with-russia-impact-the-u-s-market"
+      }
+    ],
+    "image_candidates": [
+      "https://www.myjoyonline.com/wp-content/uploads/2026/05/image-3114-1024x683.png",
+      "https://media.mehrnews.com/d/2026/10/06/4/6205769.jpg",
+      "https://th-i.thgim.com/public/incoming/712jvm/article71578359.ece/alternates/LANDSCAPE_1200/2299886758.jpg",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-6000118"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1696.9117020922222,
+    "is_stale": false,
+    "score": 29.75588306192593,
+    "impact": 3,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "أسعار النفط ترتفع وسط مخاوف الإمدادات السعودية والحوثي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
