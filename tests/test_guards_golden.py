@@ -8157,7 +8157,7 @@ def test_llm_haiku55_guards() -> None:
     try:
         ok = SimpleNamespace(content=[SimpleNamespace(type="text", text="ok")], stop_reason="end_turn",
                              usage=SimpleNamespace(input_tokens=1, output_tokens=1))
-        f = Fake([bad_request("output_config.effort: not supported"), ok, bad_request("thinking: bad"), ok])
+        f = Fake([bad_request("output_config.effort: not supported"), ok, ok])
         r = llm.create(f, cfg=cfg, model="haiku", max_tokens=100, messages=[])
         check("g260: النداء الثاني ينجح ويُعاد رده", r is ok and len(f.calls) == 2, len(f.calls))
         second = f.calls[1] if len(f.calls) > 1 else {}

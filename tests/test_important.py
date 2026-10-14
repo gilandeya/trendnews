@@ -11,6 +11,7 @@ from tests.helpers import (check, load_config, ImportantRig, ImportantWriteRig, 
                            important_fixture_point, important_good_data, important_marked_body,
                            important_point, important_stance, important_synthetic_point,
                            brave_result, DRAFTS_DIR, store)
+from src import llm
 
 
 def _body(n: int) -> str:
@@ -163,8 +164,8 @@ def test_important_pipeline() -> None:
           mc["total"] == len(rig.calls) == 5 and sum(mc["by_point"].values()) == 4
           and mc["brief"] == 1, (mc, rig.calls))
     check("(f) النداءات مفصَّلة حسب النموذج: التفكيك Haiku والتصنيف article.model",
-          mc["by_model"].get(cfg.path("important.extract_model")) == 1
-          and mc["by_model"].get(cfg.path("article.model", "claude-sonnet-5")) == 4,
+          mc["by_model"].get(llm.resolve(cfg.path("important.extract_model"), cfg)) == 1
+          and mc["by_model"].get(llm.resolve(cfg.path("article.model", "claude-sonnet-5"), cfg)) == 4,
           mc["by_model"])
     check("(f) نداء تصنيف واحد لكل نقطة وفي كل نقطة حقل model_calls",
           all(p["model_calls"] == 1 for p in saved["points"])
@@ -367,8 +368,8 @@ def test_important_search_and_extract() -> None:
     expected_sonnet = len(pts) + sum(1 for p in pts if p.get("shared_from"))
     check("(a) نداء تفكيك واحد (Haiku) + نداءات لغة أم، كلها Haiku، والملف "
           "يحمل طلبات Brave وسبب غيابها",
-          mc["brief"] >= 1 and mc["brief"] == mc["by_model"].get(cfg.path("important.extract_model"))
-          and mc["by_model"].get(cfg.path("article.model")) == expected_sonnet
+          mc["brief"] >= 1 and mc["brief"] == mc["by_model"].get(llm.resolve(cfg.path("important.extract_model"), cfg))
+          and mc["by_model"].get(llm.resolve(cfg.path("article.model"), cfg)) == expected_sonnet
           and saved["brave"]["skipped"] == "no_key", (mc, saved.get("brave")))
 
     # ── (b) نقطة بلا أسماء ← تُبحث بعباراتها ولا تسقط قبل البحث ──

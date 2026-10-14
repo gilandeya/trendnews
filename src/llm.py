@@ -26,6 +26,14 @@ _PARAM_WORDS = ("thinking", "output_config", "effort")
 _DEFAULT = None
 # أسباب الرفض التي سُجّل لها ERROR في هذه العملية: سطر واحد لكل عملية لا لكل نداء
 _FALLBACK_LOGGED: set[str] = set()
+# المعرّفات المحلولة التي رفضها الـAPI لمعاملات 5.x: النداءات التالية تُرسَل بلا المعاملات مباشرة
+# بطلب واحد، وإلا دفعنا طلبين (مرفوض ثم معاد) عن كل نداء طوال التشغيل
+_PARAMS_REJECTED: set[str] = set()
+
+
+def _reset_for_tests() -> None:
+    _FALLBACK_LOGGED.clear()
+    _PARAMS_REJECTED.clear()
 
 
 def default_cfg():
@@ -69,13 +77,17 @@ def create(client, *, cfg=None, **kwargs):
         factor = float(cfg.path("llm.haiku_token_factor", 1.3))
         if "max_tokens" in kwargs:
             kwargs["max_tokens"] = math.ceil(kwargs["max_tokens"] * factor)
-        kwargs.update(params)
+        if model not in _PARAMS_REJECTED:
+            kwargs.update(params)
+        else:
+            params = {}
     try:
         resp = client.messages.create(**kwargs)
     except BadRequestError as exc:
         text = str(exc).lower()
         if not params or not any(w in text for w in _PARAM_WORDS):
             raise
+        _PARAMS_REJECTED.add(model)
         if "params" not in _FALLBACK_LOGGED:
             _FALLBACK_LOGGED.add("params")
             log.error("رفض النموذج %s معاملات thinking/output_config (%s) — إعادة النداء بدونها؛ "

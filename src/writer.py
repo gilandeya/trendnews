@@ -8,6 +8,7 @@ import time
 
 from anthropic import Anthropic, APIError
 
+from . import llm
 from .config import env
 from .sources import Article
 
@@ -431,7 +432,9 @@ def _call_model(prompt: str, cfg, retries: int = 3) -> dict:
 
     for attempt in range(1, retries + 1):
         try:
-            resp = client.messages.create(
+            # writer.model قد يكون «haiku» (البديل الأرخص) فيمر بنقطة التحويل لا بالـAPI مباشرة
+            resp = llm.create(
+                client, cfg=cfg,
                 model=w.get("model", "claude-sonnet-5"),
                 max_tokens=int(w.get("max_tokens", 3000)),
                 tools=[POST_SCHEMA],
