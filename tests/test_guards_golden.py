@@ -7490,3 +7490,288 @@ def test_reel_cover_auto_r3b2a4_guards() -> None:
                   (st.getpixel((540, 1700))[3] == 255) is val and bd.getpixel((540, top + 10))[3] == round(255 * alpha))
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
+
+
+def test_reel_background_r3b2b_guards() -> None:
+    """Issue #1411 (R3b-2b، g243–g251): صورة خلفية واحدة لمشاهد الراوي. تُختار عند كتابة السيناريو بسلّم كسول
+    (يدوية ← خبر ← بحث ويب ← حرة ← لا شيء)، وتُعرض في المرحلة 2، وتُركَّب بشكلين: (أ) بلا أشخاص مظلَّلة بالكحلي (0.72)
+    و(ب) فيها أشخاص بتظليل خفيف وصندوق سفلي كحلي بخط ذهبي؛ فشل التنزيل ← الكحلي الحالي حرفيًا."""
+    import json
+    import tempfile
+    from pathlib import Path
+
+    import numpy as np
+    from PIL import Image
+
+    from src import imaging, reel_render, reel_script, stages, youtube_publish
+
+    cfg = load_config()
+    sentence = " ".join(["جملة تجريبية للراوي"] * 7)
+    astro = Image.open("tests/fixtures/faces/astronaut.jpg").convert("RGB")
+    xs = np.linspace(20, 235, 1400, dtype=np.uint8)
+    grad = Image.fromarray(np.stack([np.tile(xs, (800, 1)), np.tile(xs[::-1], (800, 1)),
+                                     np.full((800, 1400), 140, np.uint8)], axis=2))
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def mask(a, b, thr=40):
+        return np.abs(np.asarray(a.convert("RGB"), dtype=int) - np.asarray(b.convert("RGB"), dtype=int)).max(axis=2) > thr
+
+    def bbox(m):
+        ys, xs_ = np.where(m)
+        return None if len(ys) == 0 else (int(xs_.min()), int(ys.min()), int(xs_.max()), int(ys.max()))
+
+    # ── g243: السلّم الكسول ──
+    def g243():
+        def rig(news=None, web=None, free=None, ok=lambda u: True):
+            calls = {"news": 0, "web": 0, "free": 0}
+
+            def n(*a):
+                calls["news"] += 1
+                return news or []
+
+            def w(q, c, state=None):
+                calls["web"] += 1
+                if web == "cap" and state is not None:
+                    state["skipped"] = "cap"
+                    return []
+                return web or []
+
+            def f(*a):
+                calls["free"] += 1
+                return free or []
+
+            return calls, {"news": n, "web": w, "free": f, "download": lambda u: object() if ok(u) else None}
+
+        base = {"id": "r3b2b000g243", "title": "عنوان", "event": "حدث"}
+        calls, pv = rig()
+        r = reel_render.pick_background(dict(base, manual_image="https://m/x.jpg"), cfg, pv)
+        check("g243: manual ← kind manual ولا مزوّد", r["kind"] == "manual" and r["url"] == "https://m/x.jpg"
+              and sum(calls.values()) == 0, (r, calls))
+        calls, pv = rig(news=[{"url": "https://n/1.jpg", "publisher": "Reuters"}],
+                        web=[{"url": "https://w/1.jpg", "domain": "w"}], free=["https://f/1.jpg"])
+        r = reel_render.pick_background(dict(base), cfg, pv)
+        check("g243: صورة خبر ← news_photo بلا ويب ولا حرة", r["kind"] == "news_photo" and r["publisher"] == "Reuters"
+              and calls == {"news": 1, "web": 0, "free": 0}, (r, calls))
+        calls, pv = rig(news=[], web=[{"url": "https://w/1.jpg", "domain": "w.com"}], free=["https://f/1.jpg"])
+        r = reel_render.pick_background(dict(base), cfg, pv)
+        check("g243: خبر فارغ ← web_search بلا حرة", r["kind"] == "web_search" and r["publisher"] == "w.com"
+              and calls["free"] == 0, (r, calls))
+        calls, pv = rig(news=[{"url": "https://n/1.jpg", "publisher": "R"}],
+                        web=[{"url": "https://w/1.jpg", "domain": "w.com"}], ok=lambda u: "n/" not in u)
+        r = reel_render.pick_background(dict(base), cfg, pv)
+        check("g243: فشل تنزيل مرشّح الخبر ← الدرجة التالية", r["kind"] == "web_search", r)
+        calls, pv = rig(web="cap", free=["https://f/1.jpg"])
+        r = reel_render.pick_background(dict(base), cfg, pv)
+        check("g243: الويب متخطّى بالسقف ← free", r["kind"] == "free" and r["url"] == "https://f/1.jpg", (r, calls))
+        calls, pv = rig()
+        r = reel_render.pick_background(dict(base), cfg, pv)
+        check("g243: الكل فارغ ← none", r["kind"] == "none" and not r["url"], r)
+    guarded("g243", g243)
+
+    # ── g244: kind none ← إطارات اليوم بالبكسل ──
+    def g244():
+        tmp0 = Path(tempfile.mkdtemp())
+        try:
+            parts = [(sentence, 2.0), ("جملة ثانية قصيرة.", 1.2)]
+            fps = float(cfg.path("reel.render.fps"))
+            silence = float(cfg.path("reel.tts.sentence_silence", 0.35))
+            made = reel_render._narration_frames(parts, 1, cfg, tmp0, 0.0, None)
+            expected = []
+            for text, dur in parts:
+                hold = min(silence, dur)
+                for prefix, _ in reel_render.typewriter_steps(text, dur - hold, hold, fps):
+                    expected.append(reel_render.frame_narration_typed(cfg, text, prefix))
+            same = len(made) == len(expected) and all(
+                not mask(Image.open(p), e, 0).any() for (p, _), e in zip(made, expected))
+            check("g244: بلا خلفية ← إطارات الراوي مطابقة بالبكسل لإطارات اليوم", same, (len(made), len(expected)))
+            full = reel_render.frame_narration(cfg, sentence)
+            check("g244: bg=None ← frame_narration نفسه",
+                  not mask(reel_render.frame_narration(cfg, sentence, bg=None), full, 0).any())
+        finally:
+            shutil.rmtree(tmp0, ignore_errors=True)
+    guarded("g244", g244)
+
+    # ── g245: اختيار الشكل ──
+    def g245():
+        check("g245: صورة رائد فضاء ← layout B", reel_render.prepare_background(cfg, astro)["layout"] == "B")
+        check("g245: تدرّج لوني بلا وجه ← layout A", reel_render.prepare_background(cfg, grad)["layout"] == "A")
+    guarded("g245", g245)
+
+    # ── g246: الشكل (أ) ──
+    def g246():
+        bg = reel_render.prepare_background(cfg, grad)
+        empty = reel_render.frame_narration_typed(cfg, sentence, "", bg=bg)
+        full = reel_render.frame_narration(cfg, sentence, bg=bg)
+        plain = reel_render.frame_narration(cfg, sentence)
+        navy = Image.new("RGB", plain.size, imaging.hex_rgb(cfg.path("brand.primary_color")))
+        ink_bg, ink_plain = bbox(mask(full, empty)), bbox(mask(plain, navy))
+        close = ink_bg and ink_plain and all(abs(a - b) <= 3 for a, b in zip(ink_bg, ink_plain))
+        check("g246: حبر النص في مواضع frame_narration نفسها", bool(close), (ink_bg, ink_plain))
+        arr = np.asarray(empty, dtype=float)
+        check("g246: الخلفية ليست لونًا واحدًا", arr.std() > 3, arr.std())
+
+        def lum(a):
+            return float(np.asarray(a.convert("L"), dtype=float).mean())
+        orig = grad.resize(empty.size)
+        check("g246: الإضاءة أقل من الصورة الأصلية", lum(empty) < lum(orig) - 20, (lum(empty), lum(orig)))
+    guarded("g246", g246)
+
+    # ── g247: الشكل (ب) ──
+    def g247():
+        bg = reel_render.prepare_background(cfg, astro)
+        empty = reel_render.frame_narration_typed(cfg, sentence, "", bg=bg)
+        full = reel_render.frame_narration(cfg, sentence, bg=bg)
+        gold = imaging.hex_rgb(cfg.path("brand.accent_color"))
+        row = [tuple(int(v) for v in np.asarray(empty.convert("RGB"))[1200, x]) for x in (100, 400, 700, 900)]
+        check("g247: صف y=1200 ذهبي على عرض الصندوق", all(p == gold for p in row), row)
+        m = mask(full, empty)
+        rows = np.where(m.any(axis=1))[0]
+        check("g247: لا حبر نص بين 230 و1190", not m[230:1191].any())
+        check("g247: كل الحبر بين 1200 و1480", len(rows) > 0 and rows.min() >= 1200 and rows.max() <= 1480,
+              (rows.min() if len(rows) else None, rows.max() if len(rows) else None))
+        last = reel_render.frame_narration_typed(cfg, sentence, sentence, bg=bg)
+        check("g247: الإطار الأخير مطابق للكامل", not mask(last, full, 0).any())
+        mid = reel_render.frame_narration_typed(cfg, sentence, sentence[: len(sentence) // 2], bg=bg)
+        mm = mask(mid, empty)
+        check("g247: إطار جزئي حبره داخل حبر الكامل", mm.any() and not (mm & ~m).any())
+    guarded("g247", g247)
+
+    # ── أدوات التركيب بمزيَّفات ──
+    D = "2099-12-07"
+    quote = "alpha beta gamma delta epsilon zeta eta theta"
+    points = [{"video_id": v, "statement": "s", "quote_original": quote, "quote_arabic": "ترجمة", "speaker": "متحدث",
+               "channel": "قناة", "video_url": "https://youtube.com/watch?v=" + v, "timestamp": 10} for v in ("v1", "v2")]
+    clip = {"kind": "clip", "start": 9, "end": 20, "speaker_name": "", "speaker_role": "", "speaker_verified": False,
+            "speaker_name_latin": "", "channel_display": "قناة", "quote_arabic": "ترجمة", "language": "en"}
+    scenes = [dict(clip, kind="cold_open_clip", video_url=points[0]["video_url"], point_id=reel_script.point_key_id(points[0])),
+              {"kind": "narration", "text": sentence},
+              dict(clip, video_url=points[1]["video_url"], point_id=reel_script.point_key_id(points[1])),
+              {"kind": "question", "text": "هل؟"}, {"kind": "outro"}]
+    transcripts = {v: "[00:10] alpha beta gamma delta\n[00:14] epsilon zeta eta theta\n[00:18] tail line"
+                   for v in ("v1", "v2")}
+    tmp = Path(tempfile.mkdtemp())
+    comments: list = []
+
+    def make_deps(bg_image=None, providers=None):
+        def run(cmd):
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+
+        def download(video_id, start, end, height, out_path):
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        return reel_render.Deps(
+            fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
+            synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)}, diacritize=lambda t: (t, None),
+            run=run, probe=lambda p: 41.0 if "reels" in Path(p).parts else 2.0, load_points=lambda date: points,
+            comment=lambda i, t: comments.append((i, t)), faces=lambda f, fr: (1280, 720, []),
+            bg_image=bg_image, bg_providers=providers)
+
+    def render(did, c, deps, **extra):
+        d0 = {"id": did, "origin": "analysis", "format": "reel", "status": "approved_script", "render_status": "queued",
+              "topic_id": "t1", "topic_date": D, "title": "ريل", "script_status": "ready", "review_issue": 5,
+              "script": {"narrator": "female", "title": "عنوان", "question": "هل؟", "scenes": scenes}, **extra}
+        path = store.save_draft(d0)
+        reel_render.render_draft(path, d0, c, deps, reels_dir=tmp / "reels", workdir=tmp / "work")
+        return path, json.loads(path.read_text(encoding="utf-8"))
+
+    try:
+        # ── g248: بند المرحلة 2 ──
+        def g248():
+            d = {"id": "r3b2b000g248", "title": "ريل", "format": "reel", "script_status": "ready",
+                 "headlines": ["أ", "ب", "ج"], "headline_selected": 0,
+                 "script": {"narrator": "female", "title": "عنوان", "question": "هل؟", "scenes": scenes},
+                 "reel_bg": {"url": "https://img.example/bg.jpg", "kind": "news_photo", "publisher": "Reuters"}}
+            text = "\n".join(youtube_publish._reel_item_lines(1, d, cfg))
+            check("g248: «خلفية الراوي» وصورة بالرابط", "خلفية الراوي" in text and "<img" in text
+                  and "https://img.example/bg.jpg" in text and "Reuters" in text)
+            check("g248: حقل الصورة لمعرّف المسودة", stages.image_field(d["id"], cfg) in text)
+            text2 = "\n".join(youtube_publish._reel_item_lines(1, {**d, "manual_image": "https://img.example/manual.jpg"}, cfg))
+            check("g248: manual_image يُعرض بدل المحفوظ", "https://img.example/manual.jpg" in text2
+                  and "https://img.example/bg.jpg" not in text2)
+            d3 = {k: v for k, v in d.items() if k != "reel_bg"}
+            text3 = "\n".join(youtube_publish._reel_item_lines(1, d3, cfg))
+            check("g248: بلا صورة ← خلفية كحلية", "خلفية كحلية" in text3 and "<img" not in text3)
+        guarded("g248", g248)
+
+        news_pv = {"news": lambda *a: [{"url": "https://n/1.jpg", "publisher": "Reuters"}], "web": lambda *a: [],
+                   "free": lambda *a: [], "download": lambda u: astro}
+
+        # ── g249: الختام ──
+        def g249():
+            oc = reel_render.outro_credit
+            check("g249: news_photo ← «الصورة: Reuters»",
+                  "الصورة: Reuters" in oc(cfg, {"kind": "news_photo", "publisher": "Reuters"}))
+            check("g249: web_search ← «الصورة: x.com»",
+                  "الصورة: x.com" in oc(cfg, {"kind": "web_search", "publisher": "x.com"}))
+            check("g249: free ← «صورة تعبيرية»", "صورة تعبيرية" in oc(cfg, {"kind": "free", "publisher": ""}))
+            check("g249: none وmanual ← لا شيء", oc(cfg, {"kind": "none"}) == "" and oc(cfg, {"kind": "manual"}) == "")
+            seen: list = []
+            real = reel_render.frame_outro
+
+            def spy(cfg_, channels, boxes=None, credit=""):
+                seen.append(credit)
+                return real(cfg_, channels, boxes, credit)
+            reel_render.frame_outro = spy
+            try:
+                render("r3b2b000g249", cfg, make_deps(bg_image=lambda u: astro, providers=news_pv))
+            finally:
+                reel_render.frame_outro = real
+            check("g249: التركيب يمرّر الاعتماد إلى الختام", any("الصورة: Reuters" in c for c in seen), seen)
+        guarded("g249", g249)
+
+        # ── g250: فشل التنزيل ──
+        def g250():
+            calls: list = []
+            r_n, r_t = reel_render.frame_narration, reel_render.frame_narration_typed
+
+            def spy_n(c, s, boxes=None, bg=None):
+                calls.append(bg)
+                return r_n(c, s, boxes, bg)
+
+            def spy_t(c, s, p, boxes=None, bg=None):
+                calls.append(bg)
+                return r_t(c, s, p, boxes, bg)
+            reel_render.frame_narration, reel_render.frame_narration_typed = spy_n, spy_t
+            comments.clear()
+            try:
+                _, d = render("r3b2b000g250", cfg, make_deps(bg_image=lambda u: None),
+                              reel_bg={"url": "https://img.example/bad.jpg", "kind": "news_photo", "publisher": "R"})
+            finally:
+                reel_render.frame_narration, reel_render.frame_narration_typed = r_n, r_t
+            check("g250: التركيب نجح بإطارات كحلية",
+                  d.get("render_status") == "rendered" and calls and all(b is None for b in calls),
+                  (d.get("render_status"), len(calls)))
+            check("g250: التعليق فيه «تعذّر تنزيل صورة خلفية الراوي»",
+                  any("تعذّر تنزيل صورة خلفية الراوي" in t for _, t in comments), comments)
+        guarded("g250", g250)
+
+        # ── g251: --pending ──
+        def g251():
+            check("g251: reel.render.version = 7", cfg.path("reel.render.version") == 7, cfg.path("reel.render.version"))
+            d0 = {"id": "r3b2b000g251", "origin": "analysis", "format": "reel", "status": "approved_script",
+                  "render_status": "rendered", "render_version": 6, "topic_id": "t1", "topic_date": D, "title": "ريل",
+                  "script_status": "ready", "approved_script_at": "2000-01-01T00:00:00+00:00",
+                  "script": {"narrator": "female", "title": "عنوان", "question": "هل؟", "scenes": scenes}}
+            path = store.save_draft(d0)
+            c2 = load_config()
+            c2["reel"]["render"]["max_per_run"] = 500
+            batch = {p.stem: d for p, d in reel_render.pending_batch(c2)}
+            check("g251: --pending يعيد ريل النسخة 6", "r3b2b000g251" in batch, list(batch)[:3])
+            reel_render.render_draft(path, batch.get("r3b2b000g251", d0), c2,
+                                     make_deps(bg_image=lambda u: astro, providers=news_pv),
+                                     reels_dir=tmp / "reels", workdir=tmp / "work")
+            d = json.loads(path.read_text(encoding="utf-8"))
+            bg = d.get("reel_bg") or {}
+            check("g251: اختار الخلفية وحفظها", bg.get("kind") == "news_photo" and bg.get("url") == "https://n/1.jpg", bg)
+            check("g251: الشكل محفوظ والنسخة 7", bg.get("layout") == "B" and d.get("render_version") == 7,
+                  (bg.get("layout"), d.get("render_version")))
+        guarded("g251", g251)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
