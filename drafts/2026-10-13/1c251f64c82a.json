@@ -148,12 +148,12 @@
   "approved_script_at": "2026-10-13T14:49:15.888698+00:00",
   "render_crops": {
     "0": {
-      "x": 465,
+      "x": 309,
       "source": "face",
       "cover": false
     },
     "3": {
-      "x": 295,
+      "x": 440,
       "source": "face",
       "cover": false
     },
@@ -164,11 +164,17 @@
     }
   },
   "render_dropped": [],
-  "rendered_at": "2026-10-14T05:12:17.864344+00:00",
-  "render_version": 6,
+  "rendered_at": "2026-10-14T06:53:45.149123+00:00",
+  "render_version": 7,
   "render_approx": [],
   "render_attempts": 0,
   "reel_file": "reels/2026-10-13/1c251f64c82a.mp4",
   "reel_gif": "reels/2026-10-13/1c251f64c82a.gif",
-  "duration_seconds": 95.4
+  "duration_seconds": 96.2,
+  "reel_bg": {
+    "url": "https://www.aljazeera.com/wp-content/uploads/2026/10/reuters_6ace3b9f-1791900575.jpg?resize=1200%2C675",
+    "kind": "news_photo",
+    "publisher": "Al Jazeera",
+    "layout": "A"
+  }
 }
