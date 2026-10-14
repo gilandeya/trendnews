@@ -180,6 +180,9 @@ class Deps:
     streams: Callable[[Any], set] | None = None
     # (ملف المقطع، نِسب اللقطات) ← إطارات رمادية (مصفوفات) بمقاس المصدر لكاشف شريط الأسفل (Issue #1408)
     frames: Callable[[Any, list], list] | None = None
+    # رابط ← صورة خلفية الراوي منزَّلة (أو None) بقواعد imaging.download_image؛ ومزوّدات اختيارها (Issue #1411)
+    bg_image: Callable[[str], Any] | None = None
+    bg_providers: dict | None = None
 
     def resolved(self, cfg) -> "Deps":
         def fetch(video_id):
@@ -214,7 +217,108 @@ class Deps:
             sleep=self.sleep or time.sleep,
             streams=self.streams or probe_streams,
             frames=self.frames or (lambda clip, fractions: _extract_gray_frames(clip, fractions)),
+            bg_image=self.bg_image or (lambda url: imaging.download_image(url)),
             comment=self.comment or comment)
+
+
+# ───────────────────── صورة خلفية الراوي (Issue #1411، R3b-2b) ─────────────────────
+
+
+def _default_providers() -> dict:
+    """المزوّدات الحقيقية؛ دالة لا ثابت كي يستبدلها الاختبار فتبقى الخلفية الكحلية في كل اختبار لا يحقن مزوّدات."""
+    from . import imagesearch, youtube_extract
+    return {"news": youtube_extract.news_photo_candidates, "web": imagesearch.search_web_images,
+            "free": youtube_extract.photo_candidates, "download": lambda url: imaging.download_image(url)}
+
+
+def pick_background(draft: dict, cfg, providers: dict | None = None) -> dict:
+    """يختار صورة خلفية الراوي بسلّم كسول: يدوية ← صورة خبر ← بحث ويب ← حرة (بحارس الوجه القائم) ← لا شيء.
+    لا تُستدعى درجة إن نجحت السابقة؛ المرشّح يُقبل إن نجح تنزيله فقط. يعيد {url, kind, publisher} والرابط وحده لا الملف.
+    عطل أي مزوّد يُسجَّل ويُنتقل إلى الدرجة التالية، فالاختيار لا يرفع أبدًا."""
+    pv = {**_default_providers(), **(providers or {})}
+    manual = (draft.get("manual_image") or "").strip()
+    if manual:
+        return {"url": manual, "kind": "manual", "publisher": ""}
+    tries = int(cfg.path("reel.render.background.max_tries", 5))
+    title = draft.get("title") or (draft.get("script") or {}).get("title", "")
+    event = draft.get("event") or ""
+    query_en = draft.get("image_query_en")
+    if not query_en and draft.get("sibling_id"):
+        try:
+            found = store.load_draft(draft["sibling_id"])
+            query_en = (found[1].get("image_query_en") if found else None)
+        except Exception as exc:  # noqa: BLE001 -- عبارة البحث تحسين لا شرط
+            log.warning("تعذّرت قراءة المقال الشقيق لعبارة الصورة: %s", str(exc)[:100])
+
+    def usable(url: str) -> bool:
+        try:
+            return bool(url) and pv["download"](url) is not None
+        except Exception as exc:  # noqa: BLE001
+            log.warning("تعذّر تنزيل مرشّح الخلفية: %s", str(exc)[:100])
+            return False
+
+    def safe(name, call):
+        try:
+            return call() or []
+        except Exception as exc:  # noqa: BLE001 -- مزوّد معطّل لا يُسقط الاختيار
+            log.warning("مزوّد صور الخلفية %s فشل: %s", name, str(exc)[:100])
+            return []
+
+    for cand in safe("news", lambda: pv["news"](title, event, cfg, query_en))[:tries]:
+        if usable(cand.get("url", "")):
+            return {"url": cand["url"], "kind": "news_photo", "publisher": cand.get("publisher", "")}
+    state: dict = {}
+    for cand in safe("web", lambda: pv["web"](query_en or title, cfg, state))[:tries]:
+        if usable(cand.get("url", "")):
+            return {"url": cand["url"], "kind": "web_search", "publisher": cand.get("domain", "")}
+    for url in safe("free", lambda: pv["free"](title, event, cfg, query_en))[:tries]:
+        if usable(url):
+            return {"url": url, "kind": "free", "publisher": ""}
+    return {"url": "", "kind": "none", "publisher": ""}
+
+
+def prepare_background(cfg, img: Image.Image) -> dict:
+    """يحوّل الصورة المنزَّلة إلى طبقة خلفية 1080×1920 مظلَّلة ويقرّر الشكل منها: (ب) إن أعاد الكشف وجهًا مساحته
+    ≥ image.face_min_ratio من مساحة الصورة وإلا (أ). الاقتطاع الأفقي يتوسّط مراكز الوجوه كاقتطاع المقاطع، وإلا المنتصف.
+    يعيد {"layout": "A"|"B", "image": RGB}."""
+    b = cfg.path("reel.render.background")
+    w, h = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
+    img = img.convert("RGB")
+    iw, ih = img.size
+    try:
+        faces = imaging.face_boxes(img)
+    except Exception as exc:  # noqa: BLE001 -- الكشف تحسين لا شرط
+        log.warning("تعذّر كشف الوجوه في خلفية الراوي: %s", str(exc)[:100])
+        faces = []
+    ratio = float(cfg.path("image.face_min_ratio", 0.02))
+    layout = "B" if any(fw * fh >= ratio * iw * ih for _, _, fw, fh in faces) else "A"
+    scale = max(w / iw, h / ih)
+    sw, sh = max(w, round(iw * scale)), max(h, round(ih * scale))
+    cx = sum(x + fw / 2 for x, _, fw, _ in faces) / len(faces) if faces else iw / 2
+    left = min(max(round(cx * scale - w / 2), 0), sw - w)
+    top = (sh - h) // 2
+    out = img.resize((sw, sh), Image.LANCZOS).crop((left, top, left + w, top + h))
+    navy = imaging.hex_rgb(cfg.path("brand.primary_color"))
+    out = Image.blend(out, Image.new("RGB", out.size, navy), float(b["shade_a"] if layout == "A" else b["shade_b"]))
+    if layout == "B":
+        bx0, bx1, by0, by1 = 36, w - 36, int(b["box_top"]), int(b["box_bottom"])
+        region = out.crop((bx0, by0, bx1, by1))
+        out.paste(Image.blend(region, Image.new("RGB", region.size, navy), float(b["box_alpha"])), (bx0, by0))
+        ImageDraw.Draw(out).rectangle((bx0, by0, bx1 - 1, by0 + int(b["gold_px"]) - 1),
+                                      fill=imaging.hex_rgb(cfg.path("brand.accent_color")))
+    return {"layout": layout, "image": out}
+
+
+def outro_credit(cfg, bg: dict | None) -> str:
+    """ما يُلحَق بسطر «المقاطع من» في الختام: «· الصورة: الناشر» لصورة الخبر وبحث الويب، و«· صورة تعبيرية» للحرة؛
+    لا شيء لـnone ولا manual (ولا حين لم تُستعمل صورة أصلًا)."""
+    t = cfg.path("reel.render.texts")
+    kind, publisher = (bg or {}).get("kind"), (bg or {}).get("publisher", "")
+    if kind in ("news_photo", "web_search") and publisher:
+        return t["bg_credit_publisher"].format(publisher=publisher)
+    if kind == "free":
+        return t["bg_credit_free"]
+    return ""
 
 
 # ───────────────────────────── رسم الإطارات ─────────────────────────────
@@ -389,18 +493,46 @@ def frame_title(cfg, title: str, date_text: str, boxes=None) -> Image.Image:
     return p.rgb()
 
 
-def frame_narration(cfg, sentence: str, boxes=None) -> Image.Image:
+def _narration_pen(cfg, sentence: str, boxes, bg: dict | None):
+    """لوحة الراوي ومعاملات نصها. بلا خلفية: القيم الأصلية حرفيًا (كحلي، وسط الشاشة). (أ): الصورة المظلَّلة والنص
+    كما هو. (ب): النص في الصندوق السفلي بأكبر حجم ≤ text_start يسعه أربعة أسطر داخل ارتفاع الصندوق؛ التخطيط من الجملة
+    كاملة فلا يتحرك سطر بين إطارات الكتابة."""
     p = _Pen(cfg, boxes)
-    p.block(sentence, TAJAWAL_XB, None, p.white, 860, start=72, minimum=40)
+    if bg is None:
+        return p, dict(y_mid=860, start=72, minimum=40, max_lines=8)
+    p.img = bg["image"].convert("RGBA")
+    p.d = ImageDraw.Draw(p.img)
+    if bg["layout"] != "B":
+        return p, dict(y_mid=860, start=72, minimum=40, max_lines=8)
+    b = cfg.path("reel.render.background")
+    top, bottom = int(b["box_top"]) + int(b["gold_px"]), int(b["box_bottom"])
+    avail = bottom - top - 2 * int(b["pad"])
+    lo, lines = int(b["text_min"]), int(b["text_lines"])
+    size = int(b["text_start"])
+    while True:
+        font, wrapped, lh = imaging.fit_text(p.d, sentence, TAJAWAL_XB, p.max_w, lines, size, lo, None)
+        if lh * len(wrapped) <= avail or size <= lo:
+            break
+        size -= 2
+    if len(imaging.wrap(p.d, sentence, font, p.max_w)) > lines:
+        log.warning("جملة الراوي أطول من أسطر الصندوق السفلي فقُصّت: %r", sentence[:40])
+    return p, dict(y_mid=(top + bottom) // 2, start=size, minimum=lo, max_lines=lines)
+
+
+def frame_narration(cfg, sentence: str, boxes=None, bg: dict | None = None) -> Image.Image:
+    p, kw = _narration_pen(cfg, sentence, boxes, bg)
+    p.block(sentence, TAJAWAL_XB, None, p.white, kw["y_mid"], start=kw["start"], minimum=kw["minimum"],
+            max_lines=kw["max_lines"])
     return p.rgb()
 
 
-def frame_narration_typed(cfg, sentence: str, prefix: str, boxes=None) -> Image.Image:
+def frame_narration_typed(cfg, sentence: str, prefix: str, boxes=None, bg: dict | None = None) -> Image.Image:
     """إطار الراوي وقد كُتب من الجملة ما قبل prefix. الجملة كاملة ← frame_narration نفسه بالبكسل."""
     if sum(1 for c in prefix if not c.isspace()) >= sum(1 for c in sentence if not c.isspace()):
-        return frame_narration(cfg, sentence, boxes)
-    p = _Pen(cfg, boxes)
-    p.typed_block(sentence, prefix, TAJAWAL_XB, None, p.white, 860, start=72, minimum=40)
+        return frame_narration(cfg, sentence, boxes, bg)
+    p, kw = _narration_pen(cfg, sentence, boxes, bg)
+    p.typed_block(sentence, prefix, TAJAWAL_XB, None, p.white, kw["y_mid"], start=kw["start"], minimum=kw["minimum"],
+                  max_lines=kw["max_lines"])
     return p.rgb()
 
 
@@ -444,14 +576,14 @@ def frame_question(cfg, question: str, boxes=None) -> Image.Image:
     return p.rgb()
 
 
-def frame_outro(cfg, channels: str, boxes=None) -> Image.Image:
+def frame_outro(cfg, channels: str, boxes=None, credit: str = "") -> Image.Image:
     p = _Pen(cfg, boxes)
     t = cfg.path("reel.render.texts")
     y = p.line(t["follow"], p.font(CAIRO, 112, "Black"), p.white, 560)
     p.rule(y + 10)
     y = p.block(t["tagline"], TAJAWAL_B, None, p.white, 0, start=52, minimum=36, max_lines=3, y_top=y + 60)
     p.line(cfg.path("brand.handle") or "@almujez", p.font(TAJAWAL_B, 54), p.gold, y + 20, ltr=True)
-    p.block(t["clips_from"].format(channels=channels), TAJAWAL_R, None, (200, 208, 224), 0, start=36, minimum=26,
+    p.block(t["clips_from"].format(channels=channels) + credit, TAJAWAL_R, None, (200, 208, 224), 0, start=36, minimum=26,
             max_lines=4, y_top=1180)
     return p.rgb()
 
@@ -822,11 +954,13 @@ def transition_seconds(cfg) -> float:
     return seconds
 
 
-def _narration_frames(parts: list[tuple[str, float]], i: int, cfg, tmp: Path, lead: float) -> list[tuple[Path, float]]:
+def _narration_frames(parts: list[tuple[str, float]], i: int, cfg, tmp: Path, lead: float,
+                      bg: dict | None = None) -> list[tuple[Path, float]]:
     """إطارات مشهد الراوي. مع typewriter: خطوة لكل حرف (typewriter_steps) بمدة كلام الجملة = مدة صوتها − الصمت بعدها،
     ويبقى النص كاملًا خلال الصمت. بدونه: إطار كامل لكل جملة كما كان. أول إطار فارغ كي يقع صمت الانتقال بلا نص."""
     if not cfg.path("reel.render.typewriter.enabled", False):
-        return [(_save(frame_narration(cfg, text), tmp / f"nar_{i}_{k}.png"), dur) for k, (text, dur) in enumerate(parts)]
+        return [(_save(frame_narration(cfg, text, bg=bg) if bg is not None else frame_narration(cfg, text),
+                       tmp / f"nar_{i}_{k}.png"), dur) for k, (text, dur) in enumerate(parts)]
     silence = float(cfg.path("reel.tts.sentence_silence", 0.35))
     fps = float(cfg.path("reel.render.fps"))
     frames: list[tuple[Path, float]] = []
@@ -836,11 +970,13 @@ def _narration_frames(parts: list[tuple[str, float]], i: int, cfg, tmp: Path, le
         if k == 0 and lead > 0 and steps[0][0]:
             steps = [("", 0.0)] + steps    # lead يُضاف إلى هذه الخطوة الفارغة في _timed_scene
         for j, (prefix, d) in enumerate(steps):
-            frames.append((_save(frame_narration_typed(cfg, text, prefix), tmp / f"nar_{i}_{k}_{j}.png"), d))
+            im = frame_narration_typed(cfg, text, prefix, bg=bg) if bg is not None else frame_narration_typed(cfg, text, prefix)
+            frames.append((_save(im, tmp / f"nar_{i}_{k}_{j}.png"), d))
     return frames
 
 
-def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str) -> tuple[list[Path], list[str], list[float]]:
+def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str, bg: dict | None = None,
+              credit: str = "") -> tuple[list[Path], list[str], list[float]]:
     rcfg = cfg.path("reel.render")
     lead = transition_seconds(cfg)
     date_text = datetime.now().strftime("%Y/%m/%d")
@@ -861,12 +997,13 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str)
             png = _save(frame_title(cfg, scene.get("text") or script.get("title", ""), date_text), tmp / f"title_{i}.png")
             dur = _still_scene(png, float(rcfg["title_seconds"]), out, cfg, deps)
         elif kind == "outro":
-            png = _save(frame_outro(cfg, channels), tmp / f"outro_{i}.png")
+            png = _save(frame_outro(cfg, channels, credit=credit) if credit else frame_outro(cfg, channels),
+                        tmp / f"outro_{i}.png")
             dur = _still_scene(png, float(rcfg["outro_seconds"]), out, cfg, deps)
         elif kind in ("narration", "question"):
             audio, parts = _speech(scene.get("text", ""), voice, cfg, deps, tmp, f"s{i:02d}")
             if kind == "narration":
-                frames = _narration_frames(parts, i, cfg, tmp, lead)
+                frames = _narration_frames(parts, i, cfg, tmp, lead, bg)
                 tail = 0.0
             else:
                 png = _save(frame_question(cfg, scene.get("text", "")), tmp / f"q_{i}.png")
@@ -910,8 +1047,33 @@ def _join(scene_files: list[Path], kinds: list[str], durs: list[float], cfg, dep
     return joined
 
 
+def _resolve_background(path: Path, draft: dict, cfg, deps: Deps, notes: list) -> tuple[dict | None, dict]:
+    """خلفية الراوي للتركيب: (الطبقة المحضَّرة أو None، reel_bg المحفوظ). manual_image يغلب reel_bg؛ مسودة بلا reel_bg
+    (سيناريو قديم) تختار الآن وتُحفظ فورًا. فشل التنزيل ← None (الخلفية الكحلية) وسطر في التعليق، لا فشل تركيب."""
+    stored = draft.get("reel_bg") if isinstance(draft.get("reel_bg"), dict) and draft["reel_bg"].get("kind") else None
+    if stored is None:
+        providers = {**(deps.bg_providers or {}), "download": deps.bg_image}
+        stored = pick_background(draft, cfg, providers)
+        store.update_draft(path, reel_bg=stored)
+    manual = (draft.get("manual_image") or "").strip()
+    used = {"url": manual, "kind": "manual", "publisher": ""} if manual else stored
+    if not used.get("url"):
+        return None, stored
+    try:
+        img = deps.bg_image(used["url"])
+    except Exception as exc:  # noqa: BLE001
+        log.warning("تعذّر تنزيل صورة خلفية الراوي: %s", str(exc)[:100])
+        img = None
+    if img is None:
+        notes.append(cfg.path("reel.render.texts.comment_bg_failed"))
+        return None, stored
+    prepared = prepare_background(cfg, img)
+    prepared["used"] = used
+    return prepared, stored
+
+
 def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path, dropped: list,
-            approx: list) -> dict:
+            approx: list, notes: list | None = None) -> dict:
     rcfg, scfg = cfg.path("reel.render"), cfg.path("reel.script")
     script = draft.get("script") or {}
     if not script.get("scenes"):
@@ -924,7 +1086,10 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     if len(clips) < need:
         raise RuntimeError(f"بقي {len(clips)} مقطعًا من {wanted} بعد الحذف والأدنى المطلوب {need}")
     voice = cfg.path(f"reel.tts.narrator_voices.{script.get('narrator', 'female')}")
-    scene_files, kinds, durs = _assemble(script, clips, cfg, deps, tmp, voice)
+    notes = notes if notes is not None else []
+    bg, bg_saved = _resolve_background(path, draft, cfg, deps, notes)
+    scene_files, kinds, durs = _assemble(script, clips, cfg, deps, tmp, voice, bg,
+                                         outro_credit(cfg, bg["used"]) if bg else "")
     joined = _join(scene_files, kinds, durs, cfg, deps, tmp)
 
     rel_dir = f"{path.parent.name}"
@@ -949,6 +1114,8 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     return {"reel_file": f"{sub}/{rel_dir}/{dest.name}", "reel_gif": f"{sub}/{rel_dir}/{gif.name}",
             "duration_seconds": round(total, 1), "render_version": int(rcfg.get("version", 1)),
             "render_attempts": 0,
+            # الشكل المستعمل في هذا التركيب يُحفظ مع reel_bg؛ بلا صورة منزَّلة لا شكل
+            "reel_bg": {**{k: v for k, v in bg_saved.items() if k != "layout"}, **({"layout": bg["layout"]} if bg else {})},
             "render_crops": {str(i): c["crop"] for i, c in clips.items() if "crop" in c}}
 
 
@@ -957,7 +1124,8 @@ def _mmss(sec) -> str:
     return f"{sec // 60}:{sec % 60:02d}"
 
 
-def _comment_text(cfg, draft: dict, result: dict, dropped: list, approx: list | None = None) -> str:
+def _comment_text(cfg, draft: dict, result: dict, dropped: list, approx: list | None = None,
+                  notes: list | None = None) -> str:
     t = cfg.path("reel.render.texts")
     base = cfg.path("reel.render.data_link_base")
     if result.get("render_status") == "failed":
@@ -971,6 +1139,8 @@ def _comment_text(cfg, draft: dict, result: dict, dropped: list, approx: list | 
     for a in approx or []:
         text += "\n" + t["comment_approx"].format(
             channel=a.get("channel", ""), window=f"{_mmss(a['start'])}–{_mmss(a['end'])}", reason=a["reason"])
+    for n in notes or []:
+        text += "\n" + n
     return text
 
 
@@ -984,8 +1154,9 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
     tmp.mkdir(parents=True, exist_ok=True)
     dropped: list = []
     approx: list = []
+    notes: list = []
     try:
-        result = {"render_status": "rendered", **_render(path, draft, cfg, deps, reels_dir, tmp, dropped, approx)}
+        result = {"render_status": "rendered", **_render(path, draft, cfg, deps, reels_dir, tmp, dropped, approx, notes)}
     except ClipDownloadFailed as exc:
         # لا ريل ناقص: لا ملف جديد ولا مساس بـreel_file السابق؛ يُعاد في التشغيلة التالية حتى max_attempts
         shutil.rmtree(tmp, ignore_errors=True)
@@ -1023,7 +1194,7 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
     issue = draft.get("review_issue")
     if issue:
         try:
-            deps.comment(int(issue), _comment_text(cfg, draft, result, dropped, approx))
+            deps.comment(int(issue), _comment_text(cfg, draft, result, dropped, approx, notes))
         except Exception as exc:  # noqa: BLE001 -- التعليق إخبار لا شرط للتركيب
             log.warning("تعذّر التعليق على القضية %s: %s", issue, str(exc)[:150])
     return result

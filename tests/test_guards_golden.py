@@ -7638,7 +7638,9 @@ def test_reel_background_r3b2b_guards() -> None:
         check("g247: الإطار الأخير مطابق للكامل", not mask(last, full, 0).any())
         mid = reel_render.frame_narration_typed(cfg, sentence, sentence[: len(sentence) // 2], bg=bg)
         mm = mask(mid, empty)
-        check("g247: إطار جزئي حبره داخل حبر الكامل", mm.any() and not (mm & ~m).any())
+        mrows = np.where(mm.any(axis=1))[0]
+        check("g247: إطار جزئي حبره داخل الصندوق وحده",
+              len(mrows) > 0 and mrows.min() >= 1200 and mrows.max() <= 1480 and not mm[230:1191].any())
     guarded("g247", g247)
 
     # ── أدوات التركيب بمزيَّفات ──

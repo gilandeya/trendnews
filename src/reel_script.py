@@ -612,4 +612,14 @@ def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article
     ctx = {"script": script, "valid": valid, "want": min(int(_rcfg(cfg, "clips", 3)), len(valid)),
            "points": used}
     reel_editor.run(draft, ctx, cfg, client)
+    _pick_background(draft, cfg)
     return {"status": "ready", "reason": ""}
+
+
+def _pick_background(draft: dict, cfg: Any) -> None:
+    """صورة خلفية الراوي بعد نجاح السيناريو (Issue #1411)؛ الرابط وحده يُحفظ على المسودة. لا يُسقط سيناريو صالحًا أبدًا."""
+    from . import reel_render  # مؤجَّل: reel_render يستورد هذا الملف
+    try:
+        draft["reel_bg"] = reel_render.pick_background(draft, cfg)
+    except Exception as exc:  # noqa: BLE001
+        log.warning("تعذّر اختيار خلفية الراوي: %s", str(exc)[:100])
