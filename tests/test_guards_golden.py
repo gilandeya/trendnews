@@ -9084,6 +9084,256 @@ def test_reel_speaker_r5b_guards() -> None:
         shutil.rmtree(tmp, ignore_errors=True)
 
 
+def test_reel_hook_r5c1_guards() -> None:
+    """Issue #1429 (R5c1، g298–g304): الهوك (عنوان السيناريو يقرؤه الراوي فوق خلفية متحركة) يُنقل إلى أول الريل بدل بطاقة العنوان،
+    والشعار الكبير الذي ينتقل إلى الزاوية، واختيار المتكلم الأعلى حركة بلا شرط margin، ومركز «؟» في دائرة السؤال. لا شبكة."""
+    import json
+    import re
+    import tempfile
+    from pathlib import Path
+
+    import numpy as np
+    from PIL import Image
+
+    from src import imaging, reel_render, reel_script, tts
+
+    cfg = load_config()
+    SW, SH = 640, 360
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    D = "2099-12-08"
+    quote = "alpha beta gamma delta epsilon zeta eta theta"
+    points = [{"video_id": "v1", "statement": "s", "quote_original": quote, "quote_arabic": "ترجمة", "speaker": "متحدث",
+               "channel": "CNN TÜRK", "video_url": "https://youtube.com/watch?v=v1", "timestamp": 10},
+              {"video_id": "v2", "statement": "s2", "quote_original": quote, "quote_arabic": "ترجمة٢", "speaker": "متحدث٢",
+               "channel": "CNN TÜRK", "video_url": "https://youtube.com/watch?v=v2", "timestamp": 10}]
+    clip = {"kind": "clip", "start": 9, "end": 20, "speaker_name": "", "speaker_role": "", "speaker_verified": False,
+            "speaker_name_latin": "", "channel_display": "سي إن إن ترك", "channel_original": "CNN TÜRK",
+            "quote_arabic": "ترجمة", "language": "tr"}
+    transcripts = {v: "[00:10] alpha beta gamma delta\n[00:14] epsilon zeta eta theta\n[00:18] tail line" for v in ("v1", "v2")}
+    title = "عنوان الهوك"
+    xs = np.linspace(20, 235, 1400, dtype=np.uint8)
+    grad = Image.fromarray(np.stack([np.tile(xs, (800, 1)), np.tile(xs[::-1], (800, 1)),
+                                     np.full((800, 1400), 140, np.uint8)], axis=2))
+    empty_pv = {"news": lambda *a: [], "web": lambda *a, **k: [], "free": lambda *a: []}
+
+    def scenes():
+        return [dict(clip, kind="cold_open_clip", video_url=points[0]["video_url"],
+                     point_id=reel_script.point_key_id(points[0])),
+                {"kind": "title_card", "text": title},
+                {"kind": "narration", "text": "جملة."},
+                dict(clip, video_url=points[1]["video_url"], point_id=reel_script.point_key_id(points[1])),
+                {"kind": "question", "text": "هل؟"}, {"kind": "outro"}]
+
+    def render(did, tmp, *, hook_audio=2.0, extra=None, with_bg=False, hook_dl_fail=False):
+        cmds, comments, synths, downloads, joined = [], [], [], [], {}
+        titled: list = []
+
+        def run(cmd):
+            cmds.append([str(c) for c in cmd])
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+
+        def download(video_id, start, end, height, out_path):
+            downloads.append((video_id, start, end))
+            if hook_dl_fail and video_id == "hv1":
+                raise RuntimeError("down")
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        def probe(p):
+            name = Path(p).name
+            if "reels" in Path(p).parts:
+                return 41.0
+            return hook_audio if name.startswith("s01_") else 2.0
+        deps = reel_render.Deps(
+            fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
+            synthesize=lambda t, voice: (synths.append(t), {"ok": True, "audio": b"mp3", "chars": len(t)})[1],
+            diacritize=lambda t: (t, None), run=run, probe=probe, sleep=lambda s: None,
+            load_points=lambda date: points, comment=lambda i, t: comments.append(t),
+            faces=lambda f, fr: (SW, SH, []), frames=lambda p, fr: [np.full((SH, SW), 100, np.uint8)] * len(fr),
+            streams=lambda p: {"video", "audio"}, read_chyron=lambda f, c: None,
+            bg_image=(lambda u: grad) if with_bg else (lambda u: None), bg_providers=empty_pv)
+        d0 = {"id": did, "origin": "analysis", "format": "reel", "status": "approved_script", "render_status": "queued",
+              "topic_id": "t1", "topic_date": D, "title": "ريل", "script_status": "ready", "review_issue": 4243,
+              "script": {"narrator": "female", "title": title, "question": "هل؟", "scenes": scenes()}, **(extra or {})}
+        if with_bg:
+            d0["reel_bg"] = {"url": "https://n/ok.jpg", "kind": "news_photo", "publisher": "R"}
+        path = store.save_draft(d0)
+        o_join, o_title = reel_render._join, reel_render.frame_title
+
+        def spy_join(files, kinds, durs, c, dp, t):
+            joined.update(kinds=list(kinds), durs=list(durs))
+            return o_join(files, kinds, durs, c, dp, t)
+
+        def spy_title(*a, **k):
+            titled.append(1)
+            return o_title(*a, **k)
+        reel_render._join, reel_render.frame_title = spy_join, spy_title
+        try:
+            reel_render.render_draft(path, d0, cfg, deps, reels_dir=tmp / "reels", workdir=tmp / "work")
+        finally:
+            reel_render._join, reel_render.frame_title = o_join, o_title
+        state = json.loads(path.read_text(encoding="utf-8"))
+        return {"state": state, "cmds": cmds, "comments": comments, "synths": synths, "downloads": downloads,
+                "joined": joined, "title_calls": len(titled)}
+
+    def final_cmd(r):
+        """تمريرة الشعار الأخيرة: الأمر الذي ملفه الناتج mp4 داخل مجلد reels."""
+        found = [c for c in r["cmds"] if c[-1].endswith(".mp4") and "reels" in Path(c[-1]).parts]
+        return found[-1] if found else []
+
+    tmp = Path(tempfile.mkdtemp())
+    try:
+        # ── g298: ترتيب المشاهد ──
+        def g298():
+            r = render("r5c1000g298a1", tmp)
+            kinds = r["joined"].get("kinds", [])
+            check("g298: التركيب نجح", r["state"].get("render_status") == "rendered", r["state"].get("render_error"))
+            check("g298: أول مشهد hook ثم cold_open_clip", kinds[:2] == ["hook", "cold_open_clip"], kinds)
+            check("g298: title_card لا يبقى مشهدًا والباقي بترتيبه",
+                  kinds == ["hook", "cold_open_clip", "narration", "clip", "question", "outro"], kinds)
+            check("g298: frame_title لا يُستدعى", r["title_calls"] == 0, r["title_calls"])
+        guarded("g298", g298)
+
+        # ── g299: مدة الهوك وصوت العنوان ──
+        def g299():
+            for n, (audio, want) in enumerate(((1.5, 3.5), (4.0, 4.8), (9.0, 7.0))):
+                r = render(f"r5c1000g299a{n}", tmp, hook_audio=audio)
+                durs = r["joined"].get("durs") or [0]
+                check(f"g299: صوت {audio} ث ← مدة الهوك {want}", abs(durs[0] - want) < 0.05, durs)
+                first = r["synths"][0] if r["synths"] else ""
+                check(f"g299: أول توليد صوتي نصه العنوان", tts.strip_tashkeel(first) == title, r["synths"][:1])
+        guarded("g299", g299)
+
+        # ── g300: خلفية الهوك ──
+        def g300():
+            w = int(cfg.path("reel.render.width"))
+            img_w = 1210
+            check("g300: pan_x(0) أقصى اليمين", abs(reel_render.pan_x(0, cfg, img_w) - (img_w - w)) < 1e-6,
+                  reel_render.pan_x(0, cfg, img_w))
+            check("g300: pan_x يتناقص 40 بكسل/ث", abs(reel_render.pan_x(1, cfg, img_w) - (img_w - w - 40)) < 1e-6)
+            check("g300: pan_x لا ينزل عن 0", reel_render.pan_x(60, cfg, img_w) == 0, reel_render.pan_x(60, cfg, img_w))
+            timed = re.compile(r"crop=1080:1920:x='[^']*\bt\b[^']*'")
+            center = "crop=ih*9/16:ih:(iw-ih*9/16)/2:0"
+            hv = {"video_id": "hv1", "start": 5, "end": 12}
+            r = render("r5c1000g300a1", tmp, extra={"hook_video": hv}, with_bg=True)
+            check("g300: hook_video ← تنزيل بنافذته", ("hv1", 5, 12) in r["downloads"], r["downloads"])
+            check("g300: hook_video ← crop من المنتصف", any(center in " ".join(c) for c in r["cmds"]))
+            check("g300: hook_video ← لا crop زمني", not any(timed.search(" ".join(c)) for c in r["cmds"]))
+            r = render("r5c1000g300b1", tmp, with_bg=True)
+            check("g300: بلا hook_video مع reel_bg ← crop زمني", any(timed.search(" ".join(c)) for c in r["cmds"]))
+            check("g300: بلا تنزيل للهوك", not any(d[0] == "hv1" for d in r["downloads"]), r["downloads"])
+            r = render("r5c1000g300c1", tmp, extra={"hook_video": hv}, with_bg=True, hook_dl_fail=True)
+            note = cfg.path("reel.render.texts.comment_hook_video_failed")
+            check("g300: فشل تنزيل hook_video ← التركيب ينجح", r["state"].get("render_status") == "rendered",
+                  r["state"].get("render_error"))
+            check("g300: فشل التنزيل ← خلفية الصورة المتحركة", any(timed.search(" ".join(c)) for c in r["cmds"]))
+            check("g300: فشل التنزيل ← سطر في التعليق", bool(note) and any(note in c for c in r["comments"]), r["comments"])
+            r = render("r5c1000g300d1", tmp)
+            check("g300: بلا صورة ← كحلي ثابت (لا crop زمني) والتركيب ينجح",
+                  r["state"].get("render_status") == "rendered" and not any(timed.search(" ".join(c)) for c in r["cmds"]),
+                  r["state"].get("render_error"))
+        guarded("g300", g300)
+
+        # ── g301: حالة الشعار وأمر التمريرة الأخيرة ──
+        def g301():
+            end = 5.0
+            x, y, wd, a = reel_render.logo_state(0, cfg, end)
+            check("g301: t=0 شفاف بعرض 336", a == 0 and abs(wd - 336) < 1e-6, (x, y, wd, a))
+            x, y, wd, a = reel_render.logo_state(0.5, cfg, end)
+            check("g301: t=0.5 بعرض 560 وسط الشاشة وأعلاه 420",
+                  abs(wd - 560) < 1e-6 and abs(x - (1080 - 560) / 2) < 1e-6 and abs(y - 420) < 1e-6 and abs(a - 1) < 1e-6,
+                  (x, y, wd, a))
+            x, y, wd, a = reel_render.logo_state(end + 0.3, cfg, end)
+            check("g301: منتصف الحركة بعرض بين 168 و560", 168 < wd < 560, wd)
+            x, y, wd, a = reel_render.logo_state(end + 0.6, cfg, end)
+            check("g301: بعد الحركة في الزاوية", abs(wd - 168) < 1e-6 and abs(x - (1080 - 54 - 168)) < 1e-6
+                  and abs(y - 108) < 1e-6 and abs(a - 1) < 1e-6, (x, y, wd, a))
+            x, y, wd, a = reel_render.logo_state(30, cfg, end)
+            check("g301: يبقى في الزاوية حتى النهاية", abs(wd - 168) < 1e-6 and abs(x - 858) < 1e-6 and abs(y - 108) < 1e-6)
+            r = render("r5c1000g301a1", tmp)
+            g = " ".join(final_cmd(r))
+            check("g301: الأمر الأخير فيه eval=frame", "eval=frame" in g, g[-300:])
+            check("g301: تعابير overlay بالزمن t", re.search(r"overlay=x='[^']*\bt\b", g) is not None, g[-300:])
+            check("g301: لا overlay ثابت للشعار", "overlay=W-w-" not in g, g[-300:])
+        guarded("g301", g301)
+
+        # ── g302: المتكلم بلا شرط margin ──
+        def g302():
+            frames = [np.full((SH, SW), 100, np.uint8) for _ in range(20)]
+            boxes = [[(120, 100, 100, 120), (420, 100, 100, 120)] for _ in range(20)]
+            o = reel_render._region_diff
+            mtop = float(cfg.path("reel.render.speaker.mouth_top"))
+
+            def fake(left, right):
+                def diff(fa, box_a, fb, box_b, top, bottom, width, search):
+                    if abs(top - mtop) > 1e-6:
+                        return 0.0
+                    return left if box_a[0] < 300 else right
+                return diff
+            try:
+                for tag, (l, rt), want, center in (("1.0 و0.9", (0.9, 1.0), "speaker", 470),
+                                                   ("0.2 و0.1", (0.1, 0.2), "face", None),
+                                                   ("1.0 و1.0", (1.0, 1.0), "face", None)):
+                    reel_render._region_diff = fake(l, rt)
+                    res = reel_render.speaker_track(frames, boxes, cfg)
+                    ok = res.get("source") == want and (center is None or abs(res["center"] - center) < 1)
+                    check(f"g302: درجتان {tag} ← {want}", ok, res)
+            finally:
+                reel_render._region_diff = o
+            check("g302: talk_min في الإعداد", float(cfg.path("reel.render.speaker.talk_min", 0)) == 0.3,
+                  cfg.path("reel.render.speaker"))
+        guarded("g302", g302)
+
+        # ── g303: مركز «؟» في الدائرة ──
+        def g303():
+            img = reel_render.frame_question(cfg, "هل تتجه المنطقة إلى تسوية؟").convert("RGB")
+            arr = np.asarray(img).astype(int)
+            cx, cy, r = 540, 520, 120
+            yy, xx = np.mgrid[0:arr.shape[0], 0:arr.shape[1]]
+            inside = (xx - cx) ** 2 + (yy - cy) ** 2 <= (r - 4) ** 2
+            ink = inside & (arr[:, :, 0] < 150)
+            ys, xs_ = np.nonzero(ink)
+            check("g303: وُجد حبر داخل الدائرة", len(ys) > 200, len(ys))
+            mx, my = (xs_.min() + xs_.max()) / 2, (ys.min() + ys.max()) / 2
+            check("g303: مركز حبر «؟» ضمن ±6 من مركز الدائرة", abs(mx - cx) <= 6 and abs(my - cy) <= 6, (mx, my))
+            # الذيل داخل الدائرة: لا حبر خارجها قرب حدّها السفلي
+            check("g303: حبر الدائرة كله داخل حدّها (±4)", ys.max() < cy + r - 4 and ys.min() > cy - r + 4)
+        guarded("g303", g303)
+
+        # ── g304: نص الهوك والنسخة ──
+        def g304():
+            long_title = " ".join(["كلمة"] * 7 + ["عنوان"] * 7)
+            seen: list = []
+            o_fit = reel_render._fit
+
+            def spy(d, t, fp, mw, ml, st, mn, wt, lf):
+                seen.append((fp, ml, st, mn))
+                return o_fit(d, t, fp, mw, ml, st, mn, wt, lf)
+            reel_render._fit = spy
+            boxes: list = []
+            try:
+                reel_render.frame_hook_text(cfg, long_title, boxes)
+            finally:
+                reel_render._fit = o_fit
+            disp = cfg.path("reel.render.fonts.display")
+            check("g304: بالرقعة وmax_lines 4 وحجم 139/75", any(s == (disp, 4, 139, 75) for s in seen), seen)
+            x0 = int(cfg.path("reel.render.safe.right_col_width"))
+            top, bottom = int(cfg.path("reel.render.safe.top")), 1920 - int(cfg.path("reel.render.safe.bottom"))
+            check("g304: كل الصناديق داخل المنطقة الآمنة",
+                  bool(boxes) and all(b[0] >= x0 and b[2] <= 1080 - x0 and b[1] >= top and b[3] <= bottom for b in boxes), boxes)
+            check("g304: render_version == 12", int(cfg.path("reel.render.version")) == 12, cfg.path("reel.render.version"))
+        guarded("g304", g304)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
 def test_speed_t1_guards() -> None:
     """Issue #1422 (T1، g278–g279): تسريع حزمة الاختبارات — preset الترميز من الإعداد (حقيقيه veryfast وفي الاختبارات ultrafast)
     وحفظ إطارات PNG المؤقتة بضغط خفيف دون تغيير البكسلات."""
