@@ -10181,3 +10181,257 @@ def test_reel_clip_fallback_r5f_guards() -> None:
               (approx, dropped, downloads))
         check("g327: render_version == 16", int(cfg.path("reel.render.version")) == 16, cfg.path("reel.render.version"))
     guarded("g327", g327)
+
+
+def test_reel_hook_search_r5c2_guards() -> None:
+    """Issue #1440 (R5c2، g328–g334): بحث آلي عن لقطة فيديو من الحدث نفسه للهوك (يوتيوب + Haiku بالصور) تُحفظ في
+    draft.hook_video فيستعملها مسار R5c1؛ اليدوي يغلب، وأي عطل يُبقي الهوك بصورة الخبر. لا شبكة ولا ffmpeg."""
+    import json
+    import os
+    import shutil
+    import tempfile
+    from pathlib import Path
+    from types import SimpleNamespace
+
+    import numpy as np
+    from PIL import Image
+
+    from src import llm, reel_hook_search, reel_render, reel_script, store
+
+    cfg = load_config()
+    D = "2099-12-08"
+    title = "عنوان الهوك"
+    quote = "alpha beta gamma delta epsilon zeta eta theta"
+    points = [{"video_id": f"v{n}", "statement": "s", "quote_original": quote, "quote_arabic": "ترجمة", "speaker": "متحدث",
+               "channel": "CNN TÜRK", "video_url": f"https://youtube.com/watch?v=v{n}", "timestamp": 10} for n in (1, 2)]
+    clip = {"kind": "clip", "start": 9, "end": 20, "speaker_name": "", "speaker_role": "", "speaker_verified": False,
+            "speaker_name_latin": "", "channel_display": "سي إن إن ترك", "channel_original": "CNN TÜRK",
+            "quote_arabic": "ترجمة", "language": "tr"}
+    transcripts = {v: "[00:10] alpha beta gamma delta\n[00:14] epsilon zeta eta theta\n[00:18] tail line" for v in ("v1", "v2")}
+    empty_pv = {"news": lambda *a: [], "web": lambda *a, **k: [], "free": lambda *a: []}
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def scenes():
+        return [dict(clip, kind="cold_open_clip", video_url=points[0]["video_url"],
+                     point_id=reel_script.point_key_id(points[0])),
+                {"kind": "title_card", "text": title}, {"kind": "narration", "text": "جملة."},
+                dict(clip, video_url=points[1]["video_url"], point_id=reel_script.point_key_id(points[1])),
+                {"kind": "question", "text": "هل؟"}, {"kind": "outro"}]
+
+    def hit(vid, channel, name="t"):
+        return {"video_id": vid, "channel": channel, "title": name}
+
+    def render(did, tmp, *, extra=None, search=None, durations=None, plan=None, key="k", fail=None):
+        """plan: معرّف الفيديو ← مدى الثواني الصالحة؛ fail: الخطوة التي ترفع (search/download/classify/queries)."""
+        counts = {"search": 0, "durations": 0, "download": 0, "classify": 0, "queries": 0, "frames": 0}
+        cmds, comments, state, credits = [], [], {"cur": None}, []
+
+        def run(cmd):
+            cmds.append([str(c) for c in cmd])
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+
+        def download(video_id, start, end, height, out_path):
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        def yt_search(query, after, before, max_results):
+            counts["search"] += 1
+            state["range"] = (after, before, max_results)
+            if fail == "search":
+                raise RuntimeError("search down")
+            return list((search or {}).get(query, []))
+
+        def yt_durations(ids):
+            counts["durations"] += 1
+            return {i: (durations or {}).get(i, 60) for i in ids}
+
+        def scan_download(video_id, seconds, height, out_path):
+            counts["download"] += 1
+            if fail == "download":
+                raise RuntimeError("dl down")
+            Path(out_path).write_bytes(video_id.encode())
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        def scan_frames(path, seconds, c):
+            counts["frames"] += 1
+            state["cur"] = Path(path).read_bytes().decode()
+            return [Image.new("RGB", (64, 36), (10, 10, 10)) for _ in range(20)]
+
+        def classify(jpeg, event, first_t, count, c):
+            counts["classify"] += 1
+            if fail == "classify":
+                raise RuntimeError("model down")
+            good = (plan or {}).get(state["cur"], range(0))
+            return [{"t": t, "kind": "event_footage" if t in good else "studio", "relevant": t in good}
+                    for t in range(first_t, first_t + count)]
+
+        def make_queries(script, draft, c):
+            counts["queries"] += 1
+            if fail == "queries":
+                raise RuntimeError("haiku down")
+            return ["q ar", "q en", "q tr"]
+
+        deps = reel_render.Deps(
+            fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
+            synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
+            diacritize=lambda t: (t, None), run=run,
+            probe=lambda p: 41.0 if Path(p).name == "final.mp4" or "reels" in Path(p).parts else 2.0,
+            sleep=lambda s: None, load_points=lambda date: points, comment=lambda i, t: comments.append(t),
+            faces=lambda f, fr: (640, 360, []), frames=lambda p, fr: [np.full((360, 640), 100, np.uint8)] * len(fr),
+            streams=lambda p: {"video", "audio"}, read_chyron=lambda f, c: None, bg_image=lambda u: None,
+            bg_providers=empty_pv, yt_search=yt_search, yt_durations=yt_durations, scan_download=scan_download,
+            scan_frames=scan_frames, classify_sheet=classify, make_queries=make_queries)
+        d0 = {"id": did, "origin": "analysis", "format": "reel", "status": "approved_script", "render_status": "queued",
+              "topic_id": "t1", "topic_date": D, "title": "ريل", "script_status": "ready", "review_issue": 4244,
+              "script": {"narrator": "female", "title": title, "question": "هل؟", "scenes": scenes()}, **(extra or {})}
+        path = store.save_draft(d0)
+        o_outro = reel_render.frame_outro
+
+        def spy_outro(c, channels, **k):
+            credits.append(channels)
+            return o_outro(c, channels, **k)
+        reel_render.frame_outro = spy_outro
+        old = os.environ.get("YOUTUBE_API_KEY")
+        if key is None:
+            os.environ.pop("YOUTUBE_API_KEY", None)
+        else:
+            os.environ["YOUTUBE_API_KEY"] = key
+        try:
+            reel_render.render_draft(path, d0, cfg, deps, reels_dir=tmp / "reels", workdir=tmp / "work")
+        finally:
+            reel_render.frame_outro = o_outro
+            if old is None:
+                os.environ.pop("YOUTUBE_API_KEY", None)
+            else:
+                os.environ["YOUTUBE_API_KEY"] = old
+        return {"state": json.loads(path.read_text(encoding="utf-8")), "counts": counts, "comments": comments,
+                "credits": credits, "range": state.get("range")}
+
+    t = cfg.path("reel.render.texts")
+    tmp = Path(tempfile.mkdtemp())
+    try:
+        # ── g328: اليدوي يغلب وغياب المفتاح ──
+        def g328():
+            r = render("r5c2000g328a1", tmp, extra={"hook_video": {"video_id": "hv1", "start": 5, "end": 12}},
+                       search={"q ar": [hit("a1", "Reuters")]})
+            check("g328: hook_video يدوي ← لا نداء بحث إطلاقًا", sum(r["counts"].values()) == 0, r["counts"])
+            check("g328: اليدوي باقٍ كما هو", r["state"].get("hook_video") == {"video_id": "hv1", "start": 5, "end": 12},
+                  r["state"].get("hook_video"))
+            r = render("r5c2000g328b1", tmp, key=None, search={"q ar": [hit("a1", "Reuters")]})
+            check("g328: بلا YOUTUBE_API_KEY ← لا نداء", sum(r["counts"].values()) == 0, r["counts"])
+            check("g328: بلا مفتاح ← التركيب ينجح بالصورة ولا hook_video",
+                  r["state"].get("render_status") == "rendered" and not r["state"].get("hook_video"),
+                  r["state"].get("render_error"))
+        guarded("g328", g328)
+
+        # ── g329: تصفية القناة والمدة والمكررات والسقف ──
+        def g329():
+            res = {"q ar": [hit("c1", "Reuters"), hit("x1", "Random Vlog"), hit("long1", "BBC News"),
+                            hit("c2", "الجزيرة مباشر"), hit("c1", "Reuters")],
+                   "q en": [hit("c2", "Al Jazeera English"), hit("c3", "AP"), hit("c4", "france 24"), hit("c5", "CNN")],
+                   "q tr": [hit("c6", "TRT World")]}
+            r = render("r5c2000g329a1", tmp, search=res, durations={"long1": 900})
+            hs = r["state"].get("hook_search") or {}
+            ids = [c["video_id"] for c in hs.get("candidates", [])]
+            check("g329: القناة خارج القائمة والفيديو 900 ث مستبعدان", "x1" not in ids and "long1" not in ids, ids)
+            check("g329: المكررات تُزال", len(ids) == len(set(ids)), ids)
+            check("g329: لا أكثر من 4 مرشّحين بترتيب الظهور", ids == ["c1", "c2", "c3", "c4"], ids)
+            check("g329: نافذة التاريخ ±2 وmaxResults=15",
+                  r["range"] and r["range"][2] == 15 and r["range"][0].startswith("2099-12-06")
+                  and r["range"][1].startswith("2099-12-10"), r["range"])
+        guarded("g329", g329)
+
+        # ── g330: الاختيار ──
+        def g330():
+            res = {"q ar": [hit("c1", "Reuters", "first"), hit("c2", "AFP", "second")]}
+            r = render("r5c2000g330a1", tmp, search=res, plan={"c1": range(3, 5), "c2": range(10, 19)})
+            hv = r["state"].get("hook_video") or {}
+            check("g330: يُختار المرشّح الثاني (9 ث) لا الأول (2 ث)", hv.get("video_id") == "c2", hv)
+            check("g330: النافذة 7 ث من وسط السلسلة", (hv.get("start"), hv.get("end")) == (11, 18), hv)
+            check("g330: source auto وقناة وعنوان وسبب",
+                  hv.get("source") == "auto" and hv.get("channel") == "AFP" and hv.get("title") == "second"
+                  and bool(hv.get("reason")), hv)
+            hs = r["state"].get("hook_search") or {}
+            check("g330: hook_search فيه عبارات ومرشّحون ومختار",
+                  hs.get("queries") == ["q ar", "q en", "q tr"] and (hs.get("picked") or {}).get("video_id") == "c2", hs)
+        guarded("g330", g330)
+
+        # ── g331: لا سلسلة صالحة ──
+        def g331():
+            res = {"q ar": [hit("c1", "Reuters"), hit("c2", "AFP")]}
+            r = render("r5c2000g331a1", tmp, search=res, plan={"c1": range(0, 2), "c2": [1, 2, 4, 5, 7]})
+            check("g331: لا hook_video", not r["state"].get("hook_video"), r["state"].get("hook_video"))
+            check("g331: hook_search.picked == null",
+                  "hook_search" in r["state"] and r["state"]["hook_search"].get("picked") is None,
+                  r["state"].get("hook_search"))
+            check("g331: سطر «لم أجد» في التعليق", any(t["comment_hook_none"] in c for c in r["comments"]), r["comments"])
+            check("g331: التركيب ينجح", r["state"].get("render_status") == "rendered", r["state"].get("render_error"))
+        guarded("g331", g331)
+
+        # ── g332: عطل في أي خطوة ──
+        def g332():
+            res = {"q ar": [hit("c1", "Reuters")]}
+            for n, step in enumerate(("search", "download", "classify", "queries")):
+                r = render(f"r5c2000g332a{n}", tmp, search=res, plan={"c1": range(0, 9)}, fail=step)
+                check(f"g332: عطل {step} ← التركيب ينجح بالصورة",
+                      r["state"].get("render_status") == "rendered" and not r["state"].get("hook_video"),
+                      r["state"].get("render_error"))
+                check(f"g332: عطل {step} ← سطر في التعليق",
+                      any(t["comment_hook_failed"] in c for c in r["comments"]), r["comments"])
+        guarded("g332", g332)
+
+        # ── g333: الصفيحة ونداء التصنيف الحقيقي ──
+        def g333():
+            imgs = [Image.new("RGB", (64, 36), (0, 0, 0)) for _ in range(12)]
+            sheet = reel_hook_search.build_sheet(imgs, 40, cfg)
+            cw, ch = reel_hook_search.CELL_W, reel_hook_search.CELL_H
+            check("g333: 4×3 = 12 خانة", reel_hook_search.COLS == 4 and reel_hook_search.ROWS == 3
+                  and sheet.size == (4 * cw, 3 * ch), sheet.size)
+            arr = np.asarray(sheet.convert("L"))
+            lit = [int((arr[r * ch:r * ch + ch // 2, c * cw:c * cw + cw // 2] > 128).sum())
+                   for r in range(3) for c in range(4)]
+            check("g333: على كل خانة رقمها", all(n > 20 for n in lit), lit)
+            blank = np.asarray(reel_hook_search.build_sheet([], 40, cfg).convert("L"))
+            check("g333: الخانة الفارغة بلا رقم", int((blank > 128).sum()) == 0)
+            seen = {}
+
+            def create(**kw):
+                seen.update(kw)
+                blk = SimpleNamespace(type="tool_use", name="classify_seconds",
+                                      input={"seconds": [{"t": 40, "kind": "event_footage", "relevant": True}]})
+                return SimpleNamespace(stop_reason="tool_use", content=[blk])
+            client = SimpleNamespace(messages=SimpleNamespace(create=create))
+            out = reel_hook_search.call_classify_model(reel_hook_search.sheet_jpeg(sheet), "قصف مطار", 40, 12, cfg, client)
+            content = seen["messages"][0]["content"]
+            blocks = [b for b in content if b.get("type") == "image"]
+            check("g333: كتلة image jpeg واحدة base64",
+                  len(blocks) == 1 and blocks[0]["source"]["media_type"] == "image/jpeg"
+                  and blocks[0]["source"]["type"] == "base64", blocks)
+            tc = seen.get("tool_choice") or {}
+            check("g333: أداة إجبارية classify_seconds",
+                  [x["name"] for x in seen.get("tools", [])] == ["classify_seconds"]
+                  and tc.get("name") == "classify_seconds", (seen.get("tools"), tc))
+            check("g333: النموذج llm.resolve('haiku')", seen.get("model") == llm.resolve("haiku"), seen.get("model"))
+            check("g333: الناتج مقروء", bool(out) and out[0]["t"] == 40, out)
+        guarded("g333", g333)
+
+        # ── g334: الاعتماد والنسخة ──
+        def g334():
+            res = {"q ar": [hit("c1", "Reuters", "قصف [مطار]")]}
+            r = render("r5c2000g334a1", tmp, search=res, plan={"c1": range(2, 7)})
+            hv = r["state"].get("hook_video") or {}
+            check("g334: قناة الهوك في سطر «المقاطع من»",
+                  bool(r["credits"]) and "Reuters" in r["credits"][-1] and "سي إن إن ترك" in r["credits"][-1], r["credits"])
+            want = t["comment_hook_found"].format(channel="Reuters", title="قصف مطار", id="c1", start=hv.get("start"),
+                                                  end=hv.get("end"))
+            check("g334: سطر 🎞️ في التعليق", want in "\n".join(r["comments"]), r["comments"])
+            check("g334: render_version == 17", int(cfg.path("reel.render.version")) == 17, cfg.path("reel.render.version"))
+        guarded("g334", g334)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
