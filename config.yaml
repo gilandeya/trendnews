@@ -2016,14 +2016,16 @@ reel:
     # فلا يتحرك. قيمة ≥ min(lead_seconds, clip_tail_seconds) تُخفَّض إلى ذلك الحد − 0.1 كي لا يقع كلام المقطع في التلاشي
     transition: {type: slideleft, outro_type: fade, seconds: 0.35}
     # نسخة التركيب: رفعها تعيد --pending تركيب كل ريل معتمد مُركَّب بنسخة أقدم (المنشور والمرفوض لا يُمسّان)
-    version: 17
+    version: 18
     # أقصى نقص مقبول للريل النهائي عن المتوقع (مجموع المدد الموحَّدة − الانتقالات) قبل رفضه عطل تركيب (Issue #1436)
     duration_tolerance: 1.5
-    # خط الرقعة للنصوص الكبيرة وحدها (العنوان والسؤال والراوي وتابعوا الموجز)؛ نوازله تلامس السطر التالي عند 1.62
-    # فمعامل مسافته أكبر. الباقي بخطه القديم، وحرف غائب منه يرجع إلى Cairo (pick_font)
-    # display_scale (Issue #1423): حروف الرقعة أصغر بصريًا من Tajawal (حبر «ومن»: XB 72 ← 56 بكسل، الرقعة 108 ← 60)، فتُضرب
-    # أحجام start وminimum للعنوان والسؤال و«تابعوا الموجز» به؛ الراوي بأحجام ثابتة في الكود (160/140، 4 أسطر)
-    fonts: {display: "assets/fonts/ArefRuqaa-Bold.ttf", display_line_factor: 1.85, display_scale: 1.45}
+    # خطوط الريل كلها (Issue #1441، R5g): Playpen Sans Arabic المتغيّر للعربية — display_weight للعناوين (الهوك والسؤال و«تابعوا
+    # الموجز» واسم المتحدث وسطر «ضيف على») وbody_weight لباقي النصوص (الراوي والترجمة والصفة والختام والمصادر) — وKalam-Bold
+    # لكل سطر لاتيني خالص؛ والسطر المختلط بـPlaypen كاملًا. حرف غائب من الخط يرجع إلى Cairo (pick_font). line_factor مسافة الأسطر
+    fonts: {arabic: "assets/fonts/PlaypenSansArabic-VF.ttf", display_weight: "ExtraBold", body_weight: "Bold",
+            latin: "assets/fonts/Kalam-Bold.ttf", line_factor: 1.62}
+    # أحجام النصوص الكبيرة [البداية، الأدنى]؛ تُصغَّر بخطوة 2 داخل المنطقة الآمنة. حبر «ومن» Playpen Bold 104 = 90 بكسل
+    sizes: {narration: [104, 90], hook: [110, 70], question: [90, 56], follow: 112}
     # ظهور الراوي: lines ← سطرًا فسطرًا بتلاشٍ من الشفافية (fade ثانية) وصعود rise بكسل إلى موضعه؛ typewriter ← حرفًا حرفًا
     reveal: {mode: lines, fade: 0.25, rise: 18}
     # صورة خلفية واحدة لكل مشاهد الراوي (Issue #1411، R3b-2b). تُختار عند كتابة السيناريو وتُحفظ رابطًا وحده على المسودة

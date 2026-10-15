@@ -1852,3 +1852,11 @@ instead.
   تنزيل أول 180 ث بارتفاع 240 ← صفائح 4×3 بأرقام الثواني ← `classify_seconds` (Haiku بالصور، سقف `max_sheets` 12 للريل) ← أطول سلسلة `event_footage` وrelevant ≥ 3 ث تُقصّ
   من وسطها إلى `hook.max_seconds`. تُحفظ `hook_video` (`source: "auto"`) و`hook_search` (`queries`/`candidates`/`picked`). قناة اللقطة تُضاف إلى «المقاطع من».
   عطل مرشّح واحد (تنزيل/تصنيف) يتخطاه إلى التالي. `render_version` = 17. الاختبارات g328–g334.
+
+## خطوط الريل الجديدة (Issue #1441، R5g) — `src/reel_render.py`
+
+- **الإعداد:** `reel.render.fonts: {arabic: Playpen Sans Arabic VF, display_weight: ExtraBold, body_weight: Bold, latin: Kalam-Bold, line_factor: 1.62}` وأحجام النصوص الكبيرة
+  `reel.render.sizes: {narration: [104, 90], hook: [110, 70], question: [90, 56], follow: 112}`؛ حُذفت `display`/`display_line_factor`/`display_scale`، وملفات الرقعة وTajawal تبقى في assets بلا استعمال.
+- **القاعدة (`face(cfg, text, kind)`):** سطر لاتيني خالص (فيه حرف لاتيني ولا عربي: `latin_only`) ← Kalam-Bold؛ وغيره، المختلط منه، ← Playpen بوزن `display` (الهوك والسؤال و«تابعوا الموجز» واسم المتحدث وسطر «ضيف على») أو `body`
+  (الراوي والترجمة والصفة والختام والمصادر). حارس الحرف الغائب (`pick_font` ← Cairo) باقٍ. `ink_line` يزيح السطر يسارًا بتجاوز حبره لـ`x1` (انحياز Playpen وKalam الجانبي) بدل تصغيره.
+- `render_version` = 18. الاختبارات g335–g338 في `tests/test_guards_golden.py:test_reel_fonts_r5g_guards`.
