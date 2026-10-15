@@ -571,7 +571,7 @@ def _audit_speakers(draft: dict, valid: list[dict], member_points: list[dict], c
 
 
 def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article_text: str, unresolved: list,
-                    cfg: Any, client=None) -> dict:
+                    cfg: Any, client=None, hook_deps=None) -> dict:
     """يكتب سيناريو مسودة الريل في الذاكرة (لا يحفظ): المقاطع الصالحة ← نداء ← تحقق ← عناوين ← تدقيق الأسماء ← المحرر
     الأخير. فشل ← script_status="failed" وscript_error بالسبب. يعيد {"status": "ready"|"failed", "reason"}."""
     from . import reel_editor
@@ -614,7 +614,19 @@ def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article
            "points": used}
     reel_editor.run(draft, ctx, cfg, client)
     _pick_background(draft, cfg)
+    _pick_hook(draft, cfg, hook_deps)
     return {"status": "ready", "reason": ""}
+
+
+def _pick_hook(draft: dict, cfg: Any, hook_deps=None) -> None:
+    """مرشّحو لقطة الهوك بعد نجاح السيناريو (Issue #1445، R5c3). لا يُسقط سيناريو صالحًا أبدًا."""
+    from . import reel_hook_search
+    if not cfg.path("reel.hook_search.enabled", False):
+        return
+    try:
+        reel_hook_search.pick_hook_candidates(draft, cfg, hook_deps)
+    except Exception as exc:  # noqa: BLE001
+        log.warning("تعذّر اختيار مرشّحي لقطة الهوك: %s", str(exc)[:100])
 
 
 def _pick_background(draft: dict, cfg: Any) -> None:
