@@ -1314,8 +1314,8 @@ def _download_with_retries(deps: Deps, rcfg, vid: str, wstart: int, wend: int, o
 
 def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path) -> tuple[dict, list, list]:
     """لكل مشهد مقطع: نص الفيديو ← تحديد موضع الاقتباس ← تنزيل نافذته. يعيد ({فهرس المشهد: {file, seconds}}, المحذوف,
-    المقاطع بنافذة تقديرية). تعذّر النص (استثناء أو فارغ) لا يُسقط المقطع بل يستعمل نافذة المشهد؛ أما نص متاح لا يطابق
-    الاقتباس فيبقى إسقاطًا لأن النص هناك ولا يؤيد المقطع."""
+    المقاطع بنافذة تقديرية). تعذّر النص (استثناء أو فارغ) أو نص لا يحوي الاقتباس أو يكرره لا يُسقط المقطع بل يستعمل نافذة
+    المشهد من طابع النقطة؛ ولا إسقاط إلا إن لم توجد نافذة (Issue #1438)."""
     rcfg, scfg = cfg.path("reel.render"), cfg.path("reel.script")
     by_id = {reel_script.point_key_id(p): p for p in deps.load_points(draft.get("topic_date", ""))}
     transcripts: dict[str, list] = {}
@@ -1352,17 +1352,27 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path) -> tuple
         else:
             near = point.get("timestamp", scene.get("start"))
             loc = reel_clips.locate_quote(point.get("quote_original", ""), transcripts[vid], near=near, cfg=cfg)
-            if loc["status"] == "ambiguous":
-                _drop(dropped, scene, "موضع الاقتباس في الفيديو غير حاسم (يتكرر)")
-                continue
             if loc["status"] != "found":
-                _drop(dropped, scene, "الاقتباس غير موجود في نص الفيديو")
-                continue
-            wstart = int(max(0, loc["start"] - float(scfg.get("lead_seconds", 1))))
-            wend = int(math.ceil(loc["end"]))
-            wend = min(wend, wstart + int(scfg.get("clip_max_seconds", 15)))
-            if wend <= wstart:     # نافذة معدومة (اقتباس في آخر سطر) تُمدّ إلى الحد الأدنى لا تُسقط المقطع
-                wend = wstart + int(scfg.get("clip_min_seconds", 6))
+                # نص مجلوب لا يحوي الاقتباس (غالبًا مسار ترجمة بغير اللغة الأصلية) أو يكرره: طابع النقطة أُخذ من النص
+                # الأصلي عند الاستخراج فهو أوثق، فيعامَل كفشل الجلب ولا يُحذف المقطع إلا بلا نافذة (Issue #1438)
+                ambiguous = loc["status"] == "ambiguous"
+                win = _approx_window(point, scene)
+                if win is None:
+                    _drop(dropped, scene, "موضع الاقتباس في الفيديو غير حاسم (يتكرر)" if ambiguous
+                          else "الاقتباس غير موجود في نص الفيديو")
+                    continue
+                wstart, wend = win
+                approx.append({"point_id": scene.get("point_id", ""), "kind": scene.get("kind", ""),
+                               "start": wstart, "end": wend,
+                               "reason": cfg.path("reel.render.texts.approx_ambiguous" if ambiguous
+                                                  else "reel.render.texts.approx_not_found"),
+                               "channel": scene.get("channel_display", "")})
+            else:
+                wstart = int(max(0, loc["start"] - float(scfg.get("lead_seconds", 1))))
+                wend = int(math.ceil(loc["end"]))
+                wend = min(wend, wstart + int(scfg.get("clip_max_seconds", 15)))
+                if wend <= wstart:     # نافذة معدومة (اقتباس في آخر سطر) تُمدّ إلى الحد الأدنى لا تُسقط المقطع
+                    wend = wstart + int(scfg.get("clip_min_seconds", 6))
         out = tmp / f"clip_{i}.mp4"
         try:
             got = _download_with_retries(deps, rcfg, vid, wstart, wend, out)
