@@ -10915,3 +10915,224 @@ def test_reel_hook_script_r5c3_guards() -> None:
         check("g345: render_version == 19", int(cfg.path("reel.render.version")) == 19, cfg.path("reel.render.version"))
     finally:
         shutil.rmtree(tmp2, ignore_errors=True)
+
+
+def test_reel_narration_bg_r5d1_guards() -> None:
+    """Issue #1447 (R5d1، g346–g350): خلفية الراوي طبقة فيديو مستقلة تتحرك من اليمين إلى اليسار، وقصّ شريط القناة من لقطة الهوك،
+    وفك ترميز HTML في عناوين يوتيوب. g350 بـffmpeg حقيقي ويُتخطّى إن غاب."""
+    import re
+    import shutil
+    import subprocess
+    import tempfile
+    from pathlib import Path
+    from types import SimpleNamespace
+
+    import numpy as np
+    from PIL import Image
+
+    from src import imaging, reel_hook_search, reel_render
+
+    cfg = load_config()
+    W, H = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
+    lead = reel_render.transition_seconds(cfg)
+    work_root = Path(tempfile.mkdtemp())
+
+    def wdir(name):
+        d = work_root / name
+        d.mkdir(parents=True, exist_ok=True)
+        return d
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def make_deps(cmds, seconds=6.0, faces=(640, 360, []), frames=None):
+        def run(cmd):
+            cmds.append([str(x) for x in cmd])
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+
+        def download(video_id, start, end, height, out_path):
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        return reel_render.Deps(
+            download_clip=download, synthesize=lambda t, v: {"ok": True, "audio": b"mp3", "chars": len(t)},
+            diacritize=lambda t: (t, None), run=run, probe=lambda p: seconds, sleep=lambda s: None,
+            streams=lambda p: {"video", "audio"}, faces=lambda f, fr: faces,
+            frames=frames or (lambda clip, fr: [np.full((360, 640), 100, np.uint8)] * len(fr)),
+            read_chyron=lambda f, c: None).resolved(cfg)
+
+    def bg_layer():
+        return {"layout": "A", "image": Image.new("RGB", (W, H), (120, 40, 40)), "raw": Image.new("RGB", (W, H), (200, 50, 50)),
+                "used": {"url": "u", "kind": "manual", "publisher": ""}}
+
+    def scene_cmd(cmds, idx):
+        for c in cmds:
+            if c[-1].endswith(f"scene_{idx:02d}.mp4"):
+                return c
+        return []
+
+    def pan_value(cmd):
+        m = re.search(r"x='(max\([^']*\))'", " ".join(cmd))
+        return None if not m else eval(m.group(1), {"max": max, "t": 0})  # noqa: S307 -- تعبير ثابت من الكود نفسه
+
+    sizes = round(H * float(cfg.path("reel.render.narration_bg.pan_zoom", 1.12)))
+    img_w = round(W * sizes / H)
+
+    # ── g346: إطار النص شفاف بخلفية، وكحلي بلا خلفية، وأمر الطبقتين ──
+    def g346():
+        work = wdir("g346a")
+        cmds: list = []
+        script = {"scenes": [{"kind": "narration", "text": "جملة."}]}
+        reel_render._assemble(script, {}, cfg, make_deps(cmds), work, "v", bg_layer(), "", {}, [], {})
+        pngs = sorted(work.glob("nar_0_*.png"))
+        im = Image.open(pngs[0]) if pngs else None
+        check("g346: إطار النص RGBA بخلفية", im is not None and im.mode == "RGBA", im and im.mode)
+        check("g346: زاوية الإطار شفافة (alpha=0)", im is not None and im.getpixel((5, 5))[3] == 0,
+              im and im.getpixel((5, 5)))
+        graph = " ".join(scene_cmd(cmds, 0))
+        check("g346: أمر المشهد فيه crop زمني للخلفية", re.search(r"crop=%d:%d:x='[^']*\bt\b" % (W, H), graph) is not None, graph[:400])
+        check("g346: وoverlay لتيار النص وconcat الإطارات", "overlay" in graph and "-f concat" in graph, graph[:400])
+        work2 = wdir("g346b")
+        cmds2: list = []
+        reel_render._assemble(script, {}, cfg, make_deps(cmds2), work2, "v", None, "", {}, [], {})
+        pngs2 = sorted(work2.glob("nar_0_*.png"))
+        im2 = Image.open(pngs2[0]) if pngs2 else None
+        navy = imaging.hex_rgb(cfg.path("brand.primary_color"))
+        check("g346: بلا خلفية إطار RGB كحلي كما اليوم",
+              im2 is not None and im2.mode == "RGB" and im2.getpixel((5, 5)) == navy, im2 and (im2.mode, im2.getpixel((5, 5))))
+        graph2 = " ".join(scene_cmd(cmds2, 0))
+        check("g346: بلا خلفية لا تيار خلفية ولا crop", "crop=" not in graph2 and "-loop" not in graph2, graph2[:400])
+    guarded("g346", g346)
+
+    # ── g347: الحركة متصلة بين مشاهد الراوي ──
+    def g347():
+        speed = float(cfg.path("reel.render.narration_bg.pan_speed"))
+        check("g347: سرعة الراوي 24 بكسل/ث", speed == 24.0, speed)
+        check("g347: pan_x بسرعة 24 لا ينزل عن 0",
+              reel_render.pan_x(1000, cfg, img_w, speed=24) == 0 and reel_render.pan_x(0, cfg, img_w, speed=24) == img_w - W,
+              (reel_render.pan_x(1000, cfg, img_w, speed=24), img_w))
+        cmds: list = []
+        script = {"scenes": [{"kind": "narration", "text": "جملة."}, {"kind": "narration", "text": "أخرى."}]}
+        reel_render._assemble(script, {}, cfg, make_deps(cmds, seconds=6.0), wdir("g347a"), "v", bg_layer(), "", {}, [], {})
+        first, second = pan_value(scene_cmd(cmds, 0)), pan_value(scene_cmd(cmds, 1))
+        check("g347: المشهد الأول يبدأ من أقصى اليمين", first == img_w - W, first)
+        check("g347: الثاني يبدأ من pan_x(6) لا من أقصى اليمين",
+              second == reel_render.pan_x(6.0, cfg, img_w, speed=24) and second != first, (second, first))
+        check("g347: زمن البداية في التعبير", "+6.000" in " ".join(scene_cmd(cmds, 1)), " ".join(scene_cmd(cmds, 1))[:400])
+        cmds3: list = []
+        script3 = {"scenes": [{"kind": "narration", "text": t} for t in ("أ.", "ب.", "ج.")]}
+        reel_render._assemble(script3, {}, cfg, make_deps(cmds3, seconds=2.0), wdir("g347b"), "v", bg_layer(), "", {}, [], {})
+        third = pan_value(scene_cmd(cmds3, 2))
+        check("g347: الثالث يبدأ من حيث انتهى الثاني (4 ث)", third == reel_render.pan_x(4.0, cfg, img_w, speed=24), third)
+    guarded("g347", g347)
+
+    # ── g348: قصّ شريط القناة من لقطة الهوك ──
+    def g348():
+        script = {"scenes": [{"kind": "title_card", "text": "ع"}]}
+        draft = {"hook_video": {"video_id": "abcdefghijk", "start": 10, "end": 17}}
+        ticker = np.zeros((360, 640), np.uint8)
+        ticker[300:] = 255
+        for frames, expect in ((lambda clip, fr: [ticker] * len(fr), True), (None, False)):
+            cmds: list = []
+            crops: dict = {}
+            reel_render._assemble(script, {}, cfg, make_deps(cmds, frames=frames), wdir(("g348" + str(expect))), "v", None,
+                                  "", {}, [], draft, crops)
+            graph = " ".join(scene_cmd(cmds, 0))
+            if expect:
+                ch = round(360 * float(cfg.path("reel.render.hook.ticker_crop")))
+                cw = round(ch * 9 / 16)
+                want = f"crop={cw}:{ch}:{(640 - cw) // 2}:0"
+                check("g348: بشريط ← الاقتطاع 0.8 من الارتفاع من الأعلى وعرضه ×9/16 متمركزًا", want in graph, (want, graph[:300]))
+                check("g348: بشريط ← ثم التكبير إلى 1080×1920", f"scale={W}:{H}" in graph, graph[:300])
+            else:
+                check("g348: بلا شريط ← الاقتطاع الحالي", "crop=ih*9/16:ih:(iw-ih*9/16)/2:0" in graph, graph[:300])
+            check(f"g348: render_crops.hook.ticker == {expect}", (crops.get("hook") or {}).get("ticker") is expect, crops)
+    guarded("g348", g348)
+
+    # ── g349: فك ترميز HTML في عناوين يوتيوب، ونسخة التركيب 20 ──
+    def g349():
+        import os
+
+        import requests
+
+        raw = "Houthis &amp; Riyadh"
+        hits = [{"video_id": "v1", "channel": "Reuters", "title": raw, "published": "2099-11-02T08:00:00Z"}]
+        hdeps = reel_hook_search.HookDeps(
+            yt_search=lambda q, a, b, n, d: list(hits), yt_details=lambda ids: {i: {"duration": 100, "views": 5} for i in ids},
+            make_queries=lambda *a, **k: ["q"],
+            judge_titles=lambda items, event, c: {i["video_id"]: {"relevant": True, "footage": True} for i in items})
+        draft = {"script": {"title": "ع"}, "topic_date": "2099-11-02"}
+        old = os.environ.get("YOUTUBE_API_KEY")
+        os.environ["YOUTUBE_API_KEY"] = "k"
+        real_get = requests.get
+        try:
+            reel_hook_search.pick_hook_candidates(draft, cfg, hdeps)
+
+            class Resp:
+                def raise_for_status(self):
+                    pass
+
+                def json(self):
+                    return {"items": [{"id": {"videoId": "v1"}, "snippet": {"channelTitle": "Reuters", "title": raw,
+                                                                            "publishedAt": "2099-11-02T08:00:00Z"}}]}
+            requests.get = lambda *a, **k: Resp()
+            searched = reel_hook_search.real_yt_search("q", "a", "b", 5, None)
+        finally:
+            requests.get = real_get
+            if old is None:
+                os.environ.pop("YOUTUBE_API_KEY", None)
+            else:
+                os.environ["YOUTUBE_API_KEY"] = old
+        titles = [c["title"] for c in draft.get("hook_candidates", [])]
+        check("g349: hook_candidates يحفظ «Houthis & Riyadh»", titles == ["Houthis & Riyadh"], titles)
+        check("g349: real_yt_search يفك الترميز", [r["title"] for r in searched] == ["Houthis & Riyadh"], searched)
+        frames = [Image.new("RGB", (64, 36), (10, 10, 10)) for _ in range(20)]
+        sdeps = SimpleNamespace(scan_download=lambda v, s, h, p: Path(p).write_bytes(b"x"), scan_frames=lambda p, s, c: frames,
+                                classify_sheet=lambda jpeg, ev, first, n, c: [
+                                    {"t": t, "kind": "event_footage", "relevant": True} for t in range(first, first + n)])
+        cand = {"video_id": "v1", "title": raw, "channel": "Reuters", "views": 5, "duration": 100, "published": ""}
+        res = reel_hook_search.scan_candidates(draft, draft["script"], [cand], cfg, sdeps, work_root)
+        check("g349: hook_video يحفظ «Houthis & Riyadh»", (res.get("hook_video") or {}).get("title") == "Houthis & Riyadh", res)
+        check("g349: render_version == 20", int(cfg.path("reel.render.version")) == 20, cfg.path("reel.render.version"))
+    guarded("g349", g349)
+
+    # ── g350: دخان بـffmpeg حقيقي ──
+    def g350():
+        if not (shutil.which("ffmpeg") and shutil.which("ffprobe")):
+            check("g350: تُخطّي — لا ffmpeg في هذه البيئة", True)
+            return
+        silence = float(cfg.path("reel.tts.sentence_silence", 0.35))
+        speech = 3.0 - silence - lead
+        mp3 = subprocess.run(["ffmpeg", "-v", "error", "-f", "lavfi", "-i", f"sine=frequency=440:duration={speech}",
+                              "-f", "mp3", "-"], capture_output=True, check=True).stdout
+        img = Image.new("RGB", (1600, 900))
+        px = img.load()
+        for x in range(1600):
+            for y in range(900):
+                px[x, y] = (255, 255, 255) if (x // 40) % 2 else (0, 0, 0)
+        bg = reel_render.prepare_background(cfg, img)
+        bg["used"] = {"url": "u", "kind": "manual", "publisher": ""}
+        deps = reel_render.Deps(synthesize=lambda t, v: {"ok": True, "audio": mp3, "chars": len(t)},
+                                diacritize=lambda t: (t, None)).resolved(cfg)
+        work = wdir("g350")
+        files, _, durs = reel_render._assemble({"scenes": [{"kind": "narration", "text": "جملة."}]}, {}, cfg, deps, work, "v",
+                                               bg, "", {}, [], {})
+        out = files[0]
+        dur = reel_render.probe_duration(out)
+        info = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=width,height",
+                               "-of", "csv=p=0", str(out)], capture_output=True, text=True).stdout.strip()
+        check("g350: 1080×1920", info == f"{W},{H}", info)
+        check("g350: المدة 3 ث ±0.1", dur is not None and abs(dur - 3.0) <= 0.1, dur)
+
+        def grab(at, name):
+            p = work / name
+            subprocess.run(["ffmpeg", "-y", "-v", "error", "-ss", str(at), "-i", str(out), "-frames:v", "1", str(p)], check=True)
+            return np.asarray(Image.open(p).convert("L"), dtype=np.int16)[100:300]
+        a, b = grab(0.0, "first.png"), grab(max((dur or 3.0) - 0.15, 0), "last.png")
+        check("g350: الخلفية تحركت بين الأول والأخير", float(np.abs(a - b).mean()) > 1.0, float(np.abs(a - b).mean()))
+    guarded("g350", g350)
+    shutil.rmtree(work_root, ignore_errors=True)
