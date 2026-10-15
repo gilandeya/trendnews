@@ -9862,3 +9862,163 @@ def test_speed_t1_guards() -> None:
         same = Image.open(out).convert("RGB").tobytes() == img.tobytes()
     check("g279: البكسلات مطابقة بعد الحفظ والقراءة", same)
     check("g279: الحفظ يمرّر compress_level=1", any(k.get("compress_level") == 1 for k in seen), seen)
+
+
+def test_reel_truncation_r5e_guards() -> None:
+    """Issue #1436 (R5e، g318–g322): توحيد طول صورة المشهد وصوته قبل الضمّ فلا يقع offset انتقال بعد نهاية الصورة فيُقطع
+    الريل صامتًا، وحارس مدة نهائي يرفض ريلًا أقصر من المتوقع. لا شبكة؛ g321 وحده يحتاج ffmpeg حقيقيًا ويُتخطّى بتنبيه."""
+    import json
+    import shutil as _shutil
+    import subprocess
+    import tempfile
+    from pathlib import Path
+
+    import numpy as np
+
+    from src import reel_render, reel_script
+
+    cfg = load_config()
+    secs = float(cfg.path("reel.render.transition.seconds"))
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    # ── g318: scene_fix_plan نقية ──
+    def g318():
+        p = reel_render.scene_fix_plan(5.0, 7.0)
+        check("g318: صوت أطول ← pad_video 2 وpad_audio 0", p == {"pad_video": 2.0, "pad_audio": 0.0}, p)
+        p = reel_render.scene_fix_plan(6.0, 4.5)
+        check("g318: صورة أطول ← pad_audio 1.5", p == {"pad_video": 0.0, "pad_audio": 1.5}, p)
+        p = reel_render.scene_fix_plan(5.0, 5.03)
+        check("g318: فرق ضمن التسامح ← لا شيء", p == {"pad_video": 0.0, "pad_audio": 0.0}, p)
+    guarded("g318", g318)
+
+    # ── g319: _join يوحّد المشهد الثاني ويحسب offset من المدة الموحَّدة ──
+    def g319():
+        tmp = Path(tempfile.mkdtemp())
+        try:
+            def run_join(streams):
+                cmds = []
+
+                def run(cmd):
+                    cmds.append(list(cmd))
+                    Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+                    Path(cmd[-1]).write_bytes(b"x")
+                files = [tmp / f"s{i}.mp4" for i in range(4)]
+                for f in files:
+                    f.write_bytes(b"x")
+                deps = reel_render.Deps(run=run, probe=lambda p: 99.0,
+                                        stream_durations=lambda p: streams[Path(p).name]).resolved(cfg)
+                info: dict = {}
+                reel_render._join(files, ["clip"] * 4, [5.0, 7.0, 6.0, 4.0], cfg, deps, tmp, info)
+                return cmds, info
+            uneven = {"s0.mp4": (5.0, 5.0), "s1.mp4": (5.0, 7.0), "s2.mp4": (6.0, 6.0), "s3.mp4": (4.0, 4.0)}
+            cmds, info = run_join(uneven)
+            fix = [c for c in cmds if any("tpad=stop_mode=clone" in x for x in c)]
+            check("g319: أمر إعادة ترميز واحد للمشهد الثاني", len(fix) == 1 and "s1.mp4" in " ".join(fix[0]), fix)
+            check("g319: tpad بفرق 2", bool(fix) and any("stop_duration=2" in x for x in fix[0]), fix)
+            graph = " ".join(cmds[-1])
+            check("g319: offset الانتقال الثاني من 7 لا 5", f"offset={reel_render._fmt(12 - 2 * secs)}" in graph
+                  and f"offset={reel_render._fmt(10 - 2 * secs)}" not in graph, graph[-400:])
+            check("g319: المتوقع = 22 − 3×انتقال", abs(info.get("expected", 0) - (22 - 3 * secs)) < 1e-6, info)
+            even = {n: (5.0, 5.0) for n in uneven}
+            cmds, _ = run_join(even)
+            check("g319: المتساوية لا تُعاد ترميزها", not any("tpad" in " ".join(c) or "apad" in " ".join(c) for c in cmds), cmds)
+        finally:
+            _shutil.rmtree(tmp, ignore_errors=True)
+    guarded("g319", g319)
+
+    # ── g320: حارس المدة النهائي ──
+    def g320():
+        SW, SH = 640, 360
+        quote = "alpha beta gamma delta epsilon zeta eta theta"
+        D = "2099-12-11"
+        points = [{"video_id": v, "statement": "s", "quote_original": quote, "quote_arabic": "ترجمة", "speaker": "متحدث",
+                   "channel": "CNN TÜRK", "video_url": f"https://youtube.com/watch?v={v}", "timestamp": 10}
+                  for v in ("v1", "v2")]
+        clip = {"kind": "clip", "start": 9, "end": 20, "speaker_name": "", "speaker_role": "", "speaker_verified": False,
+                "speaker_name_latin": "", "channel_display": "سي إن إن ترك", "channel_original": "CNN TÜRK",
+                "quote_arabic": "ترجمة", "language": "tr"}
+        tr = {v: "[00:10] alpha beta gamma delta\n[00:14] epsilon zeta eta theta\n[00:18] tail line" for v in ("v1", "v2")}
+        tmp = Path(tempfile.mkdtemp())
+        try:
+            def render(did, final):
+                def run(cmd):
+                    Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+                    Path(cmd[-1]).write_bytes(b"x")
+
+                def download(video_id, start, end, height, out_path):
+                    Path(out_path).write_bytes(b"clip")
+                    return {"tier": "a", "bytes": 4, "failures": []}
+                comments = []
+                deps = reel_render.Deps(
+                    fetch_transcript=lambda vid: tr.get(vid), download_clip=download,
+                    synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
+                    diacritize=lambda t: (t, None), run=run,
+                    probe=lambda p: final if "reels" in Path(p).parts else 2.0, sleep=lambda s: None,
+                    stream_durations=lambda p: (18.0, 18.0),
+                    load_points=lambda date: points, comment=lambda i, t: comments.append(t),
+                    faces=lambda f, fr: (SW, SH, []), frames=lambda p, fr: [np.full((SH, SW), 100, np.uint8)] * len(fr),
+                    streams=lambda p: {"video", "audio"}, read_chyron=lambda f, c: None,
+                    face_tracks=lambda f, c: None, bg_image=lambda u: None,
+                    bg_providers={"news": lambda *a: [], "web": lambda *a, **k: [], "free": lambda *a: []})
+                scenes = [dict(clip, kind="cold_open_clip", video_url=points[0]["video_url"],
+                               point_id=reel_script.point_key_id(points[0])),
+                          {"kind": "narration", "text": "جملة."},
+                          dict(clip, video_url=points[1]["video_url"], point_id=reel_script.point_key_id(points[1])),
+                          {"kind": "question", "text": "هل؟"}, {"kind": "outro"}]
+                d0 = {"id": did, "origin": "analysis", "format": "reel", "status": "approved_script",
+                      "render_status": "queued", "topic_id": "t1", "topic_date": D, "title": "ريل", "script_status": "ready",
+                      "review_issue": 4436, "reel_file": "reels/old/old.mp4",
+                      "script": {"narrator": "female", "title": "عنوان", "question": "هل؟", "scenes": scenes}}
+                path = store.save_draft(d0)
+                reel_render.render_draft(path, d0, cfg, deps, reels_dir=tmp / "reels", workdir=tmp / "work")
+                return json.loads(path.read_text(encoding="utf-8")), comments
+
+            s, comments = render("r5e000g320a1", 63.0)
+            check("g320: مدة قصيرة ← failed", s.get("render_status") == "failed", s.get("render_status"))
+            check("g320: render_error يحوي «أقصر من المتوقع»", "أقصر من المتوقع" in (s.get("render_error") or ""), s.get("render_error"))
+            check("g320: reel_file القديم لم يتغير", s.get("reel_file") == "reels/old/old.mp4", s.get("reel_file"))
+            check("g320: لا ملف جديد في reels_dir", not list((tmp / "reels").rglob("*.mp4")), list((tmp / "reels").rglob("*")))
+            check("g320: سطر في تعليق التركيب", any("أقصر من المتوقع" in c for c in comments), comments)
+            s, _ = render("r5e000g320b1", 88.0)
+            check("g320: مدة ضمن التسامح ← rendered", s.get("render_status") == "rendered", (s.get("render_status"), s.get("render_error")))
+        finally:
+            _shutil.rmtree(tmp, ignore_errors=True)
+    guarded("g320", g320)
+
+    # ── g321: دخان بـffmpeg حقيقي ──
+    def g321():
+        if not _shutil.which("ffmpeg") or not _shutil.which("ffprobe"):
+            print("  ⚠️ g321: ffmpeg غير موجود — تخطّي اختبار الدخان (تنبيه لا فشل)")
+            return
+        from PIL import Image
+        work = Path(tempfile.mkdtemp())
+        try:
+            def ff(*args):
+                subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *args], check=True, capture_output=True)
+            colors = ["red", "green", "blue", "yellow"]
+            specs = [(5, 5), (5, 7), (6, 6), (4, 4)]
+            files = []
+            for i, (c, (v, a)) in enumerate(zip(colors, specs)):
+                f = work / f"s{i}.mp4"
+                ff("-f", "lavfi", "-i", f"color=c={c}:s=320x240:r=30:d={v}", "-f", "lavfi",
+                   "-i", f"sine=frequency=300:sample_rate=48000:duration={a}", "-c:v", "libx264", "-pix_fmt", "yuv420p",
+                   "-c:a", "aac", "-ar", "48000", "-ac", "2", str(f))
+                files.append(f)
+            deps = reel_render.Deps(run=lambda cmd: subprocess.run(cmd, check=True, capture_output=True)).resolved(cfg)
+            joined = reel_render._join(files, ["clip", "clip", "clip", "outro"], [5.0, 7.0, 6.0, 4.0], cfg, deps, work)
+            dur = reel_render.probe_duration(joined)
+            check("g321: مدة المضموم ≥ 20.5", dur is not None and dur >= 20.5, dur)
+            png = work / "last.png"
+            ff("-sseof", "-0.3", "-i", str(joined), "-frames:v", "1", str(png))
+            r, g, b = Image.open(png).convert("RGB").getpixel((160, 120))
+            check("g321: آخر إطار بلون المشهد الأخير (أصفر)", r > 180 and g > 180 and b < 90, (r, g, b))
+        finally:
+            _shutil.rmtree(work, ignore_errors=True)
+    guarded("g321", g321)
+
+    check("g322: render_version == 15", int(cfg.path("reel.render.version")) == 15, cfg.path("reel.render.version"))
