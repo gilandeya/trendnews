@@ -1318,7 +1318,7 @@
      "published": "2026-10-11T07:10:39+00:00"
     }
    ],
-   "last_seen": "2026-10-12T09:07:45.429910+00:00",
+   "last_seen": "2026-10-15T09:07:47.013401+00:00",
    "outlets": 22,
    "regions": 16,
    "languages": 1,
@@ -1599,7 +1599,7 @@
      "published": "2026-10-13T00:00:08+00:00"
     }
    ],
-   "last_seen": "2026-10-14T17:07:55.411222+00:00",
+   "last_seen": "2026-10-15T09:07:47.013401+00:00",
    "outlets": 20,
    "regions": 16,
    "languages": 1,
@@ -2168,287 +2168,6 @@
    "score": 49.0
   },
   {
-   "id": "74e705b67b90",
-   "first_seen": "2026-10-06T03:07:51.967007+00:00",
-   "members": [
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Messi prepares to bid farewell to Argentina shirt",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/sports/2026/10/06/messi-prepares-to-bid-farewell-to-argentina-shirt/237785",
-     "published": "2026-10-05T23:00:00+00:00"
-    },
-    {
-     "outlet": "Folha de S.Paulo",
-     "region": "br",
-     "bucket": "serious",
-     "title": "Argentina faz festa para despedida de Messi enquanto pensa em como jogar sem ele",
-     "language": "pt",
-     "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://www1.folha.uol.com.br/esporte/2026/10/argentina-faz-festa-para-despedida-de-messi-enquanto-pensa-em-como-jogar-sem-ele.shtml",
-     "published": "2026-10-06T02:00:00+00:00"
-    },
-    {
-     "outlet": "Buenos Aires Times",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "Messi readies for final farewell in Argentina send-off against Benin",
-     "language": "en",
-     "link": "https://www.batimes.com.ar/news/sports/messi-readies-for-final-farewell-in-argentina-send-off-against-benin.phtml",
-     "published": "2026-10-05T16:13:12+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Emotional Argentina hold breath for Messi magic one last time",
-     "language": "en",
-     "link": "https://www.dailysabah.com/sports/football/emotional-argentina-hold-breath-for-messi-magic-one-last-time",
-     "published": "2026-10-05T13:07:00+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "End of an era as Messi prepares to hang up Argentina boots",
-     "language": "en",
-     "link": "https://punchng.com/end-of-an-era-as-messi-prepares-to-hang-up-argentina-boots/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-06T08:53:49+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "End of an era as Messi prepares to hang up Argentina boots",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/end-of-an-era-as-messi-prepares-to-hang-up-argentina-boots/",
-     "published": "2026-10-06T08:30:31+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "sport",
-     "title": "Owner, businessman & player: Messi has big plans as a golden era ends",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/sport/football/articles/cwly3lpmyye9o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-06T05:39:49+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Emotion, tears as Messi retires from Argentina national team",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/sport/lionel-messi-retires-argentina-national-team-6438146",
-     "published": "2026-10-07T03:02:43+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Emotion, tears as Messi prepares for Argentina farewell",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/07/emotion-tears-as-messi-prepares-for-argentina-farewell",
-     "published": "2026-10-06T23:44:25+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Emotion, tears as Messi retires from Argentina national team",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/sports/2026/10/07/soccer/messi-argentina-final-match/",
-     "published": "2026-10-07T02:30:00+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Messi bids farewell to Argentina fans in emotional international finale",
-     "language": "en",
-     "link": "https://www.france24.com/en/sport/20261007-messi-bids-farewell-to-argentina-fans-in-emotional-international-finale",
-     "published": "2026-10-07T01:59:10+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "‘The Last Tango’: Messi scores in emotional Argentina farewell, 85,000 fans say goodbye to their No. 10",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/sports/2026/10/07/the-last-tango-messi-scores-in-emotional-argentina-farewell-85000-fans-say-goodbye-to-their-no-10/238024",
-     "published": "2026-10-07T02:46:55+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Lionel Messi bids Argentina adieu with goal and two assists in 3-0 win over Benin",
-     "language": "en",
-     "link": "https://www.theguardian.com/football/live/2026/oct/06/lionel-messi-farewell-match-live-updates-analysis-argentina-benin",
-     "published": "2026-10-07T01:41:52+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Lionel Messi bids a tearful farewell to Argentina after 3-0 win over Benin",
-     "language": "en",
-     "link": "https://www.theguardian.com/football/2026/oct/06/lionel-messi-argentina-benin-international-retirement",
-     "published": "2026-10-07T02:38:51+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Messi’s final goodbye: Argentina icon admits quitting national team is the ‘saddest day’ of his career",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/sports/2026/10/07/messis-final-goodbye-argentina-icon-admits-quitting-national-team-is-the-saddest-day-of-his-career/238029",
-     "published": "2026-10-07T03:05:37+00:00"
-    },
-    {
-     "outlet": "Buenos Aires Times",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "'I'm going to miss you' – Messi thanks Argentina fans after 'painful' retirement",
-     "language": "en",
-     "link": "https://www.batimes.com.ar/news/sports/im-going-to-miss-you-messi-thanks-argentina-fans-after-painful-retirement.phtml",
-     "published": "2026-10-07T02:52:06+00:00"
-    },
-    {
-     "outlet": "Clarín",
-     "region": "ar_country",
-     "bucket": "serious",
-     "title": "El discurso de despedida de Lionel Messi, entre el recuerdo de su papá Jorge y el futuro de la Selección: \"Para objetivos grandes, grupos fuertes\"",
-     "language": "es",
-     "link": "https://www.clarin.com/deportes/discurso-despedida-lionel-messi-recuerdo-papa-jorge-futuro-seleccion-objetivos-grandes-grupos-fuertes_0_enDXqXfxNp.html",
-     "published": "2026-10-07T02:04:08+00:00"
-    },
-    {
-     "outlet": "Clarín",
-     "region": "ar_country",
-     "bucket": "serious",
-     "title": "La emoción de los famosos por la despedida de Lionel Messi en la Selección Argentina",
-     "language": "fr",
-     "link": "https://www.clarin.com/fama/emocion-famosos-despedida-lionel-messi-seleccion-argentina_0_XQFiHH87xC.html",
-     "published": "2026-10-07T01:45:09+00:00"
-    },
-    {
-     "outlet": "Clarín",
-     "region": "ar_country",
-     "bucket": "serious",
-     "title": "De Lionel Messi para Nico Paz: la conexión del golazo ante Benín que marcó el traspaso de mando ¿de la 10? en la despedida del capitán de la Selección",
-     "language": "es",
-     "link": "https://www.clarin.com/deportes/lionel-messi-nico-paz-conexion-golazo-benin-marco-traspaso-mando-10-despedida-capitan-seleccion_0_H0jhSZUlzo.html",
-     "published": "2026-10-07T01:18:58+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "‘The world thanks you’ — Neymar bids farewell to Messi ahead of Argentina final game",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/the-world-thanks-you-neymar-bids-farewell-to-messi-ahead-of-argentina-final-game/",
-     "published": "2026-10-06T19:20:29+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Onazi, Okocha, Neymar lead tributes to Messi after Argentina retirement",
-     "language": "en",
-     "link": "https://punchng.com/onazi-okocha-neymar-lead-tributes-to-messi-after-argentina-retirement/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-07T03:59:44+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Messi signs off in tears after one last Argentina master class",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/sport/messi-signs-in-tears-after-one-last-argentina-master-class-6438066",
-     "published": "2026-10-07T02:23:02+00:00"
-    },
-    {
-     "outlet": "Folha de S.Paulo",
-     "region": "br",
-     "bucket": "serious",
-     "title": "Eu não quero ir embora, diz Messi após se despedir da Argentina",
-     "language": "pt",
-     "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://www1.folha.uol.com.br/esporte/2026/10/eu-nao-quero-ir-embora-diz-messi-apos-se-despedir-da-argentina.shtml",
-     "published": "2026-10-07T02:21:00+00:00"
-    },
-    {
-     "outlet": "Folha de S.Paulo",
-     "region": "br",
-     "bucket": "serious",
-     "title": "Messi se deixa emocionar, é ovacionado por 85 mil e se despede da Argentina",
-     "language": "es",
-     "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://www1.folha.uol.com.br/esporte/2026/10/messi-se-deixa-emocionar-e-ovacionado-por-85-mil-e-se-despede-da-argentina.shtml",
-     "published": "2026-10-07T01:27:00+00:00"
-    },
-    {
-     "outlet": "Buenos Aires Times",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "Records upon records: Lionel Messi's numbers with Argentina",
-     "language": "en",
-     "link": "https://www.batimes.com.ar/news/sports/records-upon-records-lionel-messis-numbers-with-argentina.phtml",
-     "published": "2026-10-06T14:57:53+00:00"
-    },
-    {
-     "outlet": "Folha de S.Paulo",
-     "region": "br",
-     "bucket": "serious",
-     "title": "Em lágrimas, Messi se despede da camisa 10 da Argentina com gol e assistências",
-     "language": "pt",
-     "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://www1.folha.uol.com.br/esporte/2026/10/em-lagrimas-messi-e-argentinos-se-despedem-da-camisa-10.shtml",
-     "published": "2026-10-07T00:41:00+00:00"
-    },
-    {
-     "outlet": "Folha de S.Paulo",
-     "region": "br",
-     "bucket": "serious",
-     "title": "Neymar publica homenagem a Messi em dia de adeus do craque à Argentina",
-     "language": "pt",
-     "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://www1.folha.uol.com.br/esporte/2026/10/neymar-publica-homenagem-a-messi-em-dia-de-adeus-do-craque-a-argentina.shtml",
-     "published": "2026-10-06T21:32:00+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "End of an era as Messi prepares to hang up Argentina boots",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633287/end-of-an-era-as-messi-prepares-to-hang-up-argentina-boots",
-     "published": "2026-10-06T06:02:48+00:00"
-    },
-    {
-     "outlet": "Premium Times",
-     "region": "ng",
-     "bucket": "sport",
-     "title": "Messi signs off with goal, two assists as Argentina beat Benin 3-0",
-     "language": "en",
-     "link": "https://www.premiumtimesng.com/sports/football/915152-messi-signs-off-with-goal-two-assists-as-argentina-beat-benin-3-0.html",
-     "published": "2026-10-07T08:34:14+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Messi bows out with goal, two assists as Argentina beat Benin 3-0",
-     "language": "en",
-     "link": "https://punchng.com/messi-bows-out-with-goal-two-assists-as-argentina-beat-benin-3-0/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-07T04:37:32+00:00"
-    }
-   ],
-   "last_seen": "2026-10-07T18:07:47.065879+00:00",
-   "outlets": 15,
-   "regions": 12,
-   "languages": 4,
-   "score": 47.0
-  },
-  {
    "id": "d7e40dc3e136",
    "first_seen": "2026-10-05T18:07:49.818707+00:00",
    "members": [
@@ -2723,7 +2442,7 @@
      "published": "2026-10-07T07:04:23+00:00"
     }
    ],
-   "last_seen": "2026-10-08T03:08:02.336758+00:00",
+   "last_seen": "2026-10-15T09:07:47.013401+00:00",
    "outlets": 16,
    "regions": 13,
    "languages": 2,
@@ -3458,7 +3177,7 @@
      "published": "2026-10-13T04:00:55+00:00"
     }
    ],
-   "last_seen": "2026-10-13T17:07:48.267468+00:00",
+   "last_seen": "2026-10-15T09:07:47.013401+00:00",
    "outlets": 18,
    "regions": 13,
    "languages": 1,
@@ -4773,9 +4492,63 @@
      "language": "en",
      "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE40dGpnc2h2RU5lNVAzOXFOc0FkN0lpNUVXNUdOYWtHOVNfQmZaSHhEb21rSDVtQWk4eVlKMHNrUTVOdUUyN1NMNFdDeTQzSEZkSkw2bVYxZUpDQ0k?oc=5",
      "published": "2026-10-07T12:46:39+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Kenya confirms second Ebola case",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cw5yn8rn04ljo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-14T17:23:01+00:00"
+    },
+    {
+     "outlet": "AllAfrica",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Kenya: Kenya Confirms Second Ebola Case",
+     "language": "en",
+     "link": "https://allafrica.com/stories/202610140451.html",
+     "published": "2026-10-14T15:30:40+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Kenya reports second Ebola case",
+     "language": "en",
+     "link": "https://www.france24.com/en/kenya-reports-second-ebola-case",
+     "published": "2026-10-14T20:32:00+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Kenya reports second Ebola case, family member of first patient",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/14/kenya-reports-second-ebola-case-family-member-of-first-patient/",
+     "published": "2026-10-15T07:08:20+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Kenya confirms second Ebola case",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/kenya-confirms-second-ebola-case-a-relative-of-the-first-victim/",
+     "published": "2026-10-15T02:42:00+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Kenya reports second Ebola case, family member of first patient",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQQnB0VUNhaE9mWmNPNmJLbl80d2g3WXdKcU5hLUxHYVFaLXllSWNZeUI5Q1FJRjNtdjN4clpNTWRJR3VNUHhDUXJtcGQyWTYybGhpSUU0eHdKWFg2alVPQ0hsQ01SYkJhS1pacGZ4VVBOVWZJQTRRMXVET2J0QldMOTRYWTR4UVJ5VXRtSDVUc0xnWEQzYVJNUGZpVGxDTWJxdlFfcXZ5VFQ4LWZ3cmN3X05sOWoyY0lyQ0lCQmUxSTBydDBNUHBBdkl4RQ?oc=5",
+     "published": "2026-10-14T16:43:15+00:00"
     }
    ],
-   "last_seen": "2026-10-07T18:07:47.065879+00:00",
+   "last_seen": "2026-10-15T09:07:47.013401+00:00",
    "outlets": 16,
    "regions": 11,
    "languages": 1,
@@ -5018,6 +4791,242 @@
    "score": 40.0
   },
   {
+   "id": "b9d7cd9e1d43",
+   "first_seen": "2026-10-09T09:07:48.883639+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "USS Lincoln returns to US after long deployment supporting war on Iran",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/9/uss-lincoln-returns-to-us-after-long-deployment-supporting-war-on-iran?traffic_source=rss",
+     "published": "2026-10-09T00:39:20+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "USS Abraham Lincoln returns to US after 265 days at sea in Iran war mission",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370240/long-deployed-uss-abraham-lincoln-returns-home-san-diego-middle-east?utm_source=rss_feed",
+     "published": "2026-10-08T19:21:32+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "USS Abraham Lincoln returns to San Diego after supporting Iran war",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633848/uss-abraham-lincoln-returns-to-san-diego-after-supporting-iran-war",
+     "published": "2026-10-08T23:44:09+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "The long-deployed USS Lincoln returns home to San Diego Bay",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/08/nx-s1-5995911/the-long-deployed-uss-lincoln-returns-home-to-san-diego-bay",
+     "published": "2026-10-09T00:05:48+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Iran claims attack on LPG tanker, says vessels trying to cross Strait of Hormuz will be ‘punished’",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/iran-claims-attack-on-lpg-tanker-says-vessels-trying-to-cross-strait-of-hormuz-will-be-punished-us-iran-war-101791551103531.html",
+     "published": "2026-10-09T13:49:10+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Massive LPG tanker targeted in Hormuz: IRGC",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248442/Massive-LPG-tanker-targeted-in-Hormuz-IRGC",
+     "published": "2026-10-09T14:12:26+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "IRGC Navy warns ships against turning off navigation systems",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248503/IRGC-Navy-warns-ships-against-turning-off-navigation-systems",
+     "published": "2026-10-12T03:31:37+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Iran warns ships against transiting Strait of Hormuz with their navigation systems off",
+     "language": "en",
+     "link": "https://tass.com/world/2200591",
+     "published": "2026-10-11T19:36:08+00:00"
+    },
+    {
+     "outlet": "IRNA English",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "IRGC warns vessels violating in Strait of Hormuz",
+     "language": "en",
+     "link": "https://en.irna.ir/news/86290048/IRGC-warns-vessels-violating-in-Strait-of-Hormuz",
+     "published": "2026-10-12T05:18:20+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Container ship hit by projectile sinks in Strait of Hormuz, Singapore says",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/crkg7q97z078o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-14T15:34:19+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Container ship sinks near strait of Hormuz amid surge in Iranian attacks",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/14/container-ship-sinks-strait-of-hormuz-surge-iranian-attacks-iran-us-midterm-elections",
+     "published": "2026-10-14T16:33:45+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Container Ship Sinks Near Hormuz After Being Hit By Projectile: Report",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/us-iran-war-container-ship-sinks-near-strait-of-hormuz-after-being-hit-by-projectile-report-12185423#publisher=newsstand",
+     "published": "2026-10-14T14:00:04+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Container carrier sinks in Strait of Hormuz after explosion",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248588/Container-carrier-sinks-in-Strait-of-Hormuz-after-explosion",
+     "published": "2026-10-14T09:28:04+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Container ship sinks after hitting mine in Strait of Hormuz",
+     "language": "en",
+     "link": "https://tass.com/world/2201801",
+     "published": "2026-10-14T09:48:08+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Container ship sinks in Strait of Hormuz as Iran steps up attacks",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQMWFKMzFFcmxqYVdxcTVUYmZBZTZHejZpWTJmZ3o3Z3lFbnA0NTV4MkFlb1ZEMmRGQmw3MjJkc2RnTFgtX19YRkZOUDR4WXhNeWg5Zy1qV3FpeVpTVUo5QVBOVmJxcXVhc0NqandfT2ltQ3BseThmbG5oQTJhYUJ4MV9nM240c3I3ZG5wai1fY3ZIYWdpbGfSAZsBQVVfeXFMUHl0VWNMbEpIOXhweHBSVTdYdHNjd1V5a2NfNkJSdFk5UUV0R2lDSUtZV1BpMEM3aWxZOXlWRTBRRTNtVkxRcDZtYVFDdnA5X3RPLW4zTm42M0hzVFJYNGtoMWJHcjVGVlJ1a2Jja1F5SnFDUHVTYVFkYXRYTFFnbDd1REZsc0haTlNibWhxdTU0aHZCcjVYQ0x1Vm8?oc=5",
+     "published": "2026-10-14T15:47:29+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Two Singapore-registered vessels struck in Strait of Hormuz, one sinks",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/singapore/vessels-singapore-registered-struck-strait-hormuz-6459176",
+     "published": "2026-10-14T12:57:00+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Oil prices today: Brent crude hits $106.60 after Saudi Aramco attack, ship strikes near Hormuz",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/oil-prices-today-brent-crude-hits-106-60-after-saudi-aramco-attack-ship-strikes-near-hormuz-101791982617184.html",
+     "published": "2026-10-14T13:13:11+00:00"
+    },
+    {
+     "outlet": "IRNA English",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Ship carrying 2,500 containers hits mine, sinks south of Strait of Hormuz",
+     "language": "en",
+     "link": "https://en.irna.ir/news/86292706/Ship-carrying-2-500-containers-hits-mine-sinks-south-of-Strait",
+     "published": "2026-10-14T10:35:58+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Strait of Hormuz traffic plunges once again amid new wave of Houthi attacks",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2634754/iran-shifting-tactics-to-step-up-attacks-on-shipping-before-us-vote-officials-say",
+     "published": "2026-10-13T23:46:55+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Iran increases threat to Strait of Hormuz shipping, and other Middle East developments",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/iran-increases-threat-to-strait-of-hormuz-shipping-and-other-middle-east-developments-101791918610454.html",
+     "published": "2026-10-13T19:10:10+00:00"
+    },
+    {
+     "outlet": "IRNA English",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Iranian Navy identifies oil tanker that caught fire in Strait of Hormuz",
+     "language": "en",
+     "link": "https://en.irna.ir/news/86291981/Iranian-Navy-identifies-oil-tanker-that-caught-fire-in-Strait",
+     "published": "2026-10-13T16:23:44+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Iran mulls tactical shift in Hormuz attacks before key US vote",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/mid-east/iran-mulls-tactical-shift-in-hormuz-attacks-before-key-usvote",
+     "published": "2026-10-14T12:55:00+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "UN official warns of looming food crisis as Hormuz fertiliser plan stalls",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/14/un-official-warns-of-looming-food-crisis-as-hormuz-fertiliser-plan-stalls?traffic_source=rss",
+     "published": "2026-10-14T16:08:09+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Two ships sink near Hormuz after being hit by projectiles",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2037223/two-ships-sink-near-hormuz-after-being-hit-by-projectiles",
+     "published": "2026-10-15T03:02:25+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Iranian attacks sink two ships in Strait of Hormuz",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPNVg0eWh4OTZ1NG5IR1M1ZWJJejUxUncyYVVWeHB3QTdHaHYzUnRDOHBpaFpEZldsb0RNZG5SNVZDMWJIVUV6U0JZRVhLSmdtWEZfSnpGSDlXWVU1UlRRSF9wT0JSbktPRTRWT2dkazNCSmJoWDBaUl9wZEI3bjVpLUNZS2ZDWW9IQk9oUndRNU1qYUpHclhnUzhVYVU1RE0?oc=5",
+     "published": "2026-10-15T03:36:29+00:00"
+    }
+   ],
+   "last_seen": "2026-10-15T09:07:47.013401+00:00",
+   "outlets": 15,
+   "regions": 11,
+   "languages": 1,
+   "score": 39.0
+  },
+  {
    "id": "9d74b44c397d",
    "first_seen": "2026-10-07T18:07:47.065879+00:00",
    "members": [
@@ -5236,222 +5245,332 @@
    "score": 38.0
   },
   {
-   "id": "b9d7cd9e1d43",
-   "first_seen": "2026-10-09T09:07:48.883639+00:00",
+   "id": "2fad27aebeea",
+   "first_seen": "2026-10-06T09:08:01.863235+00:00",
    "members": [
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Israel puts military on alert for October 7 anniversary, warns Gazans",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/israel-puts-military-on-alert-for-october-7-anniversary-warns-gazans/article71550358.ece",
+     "published": "2026-10-06T07:25:35+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Israel warns Gazans will pay 'heavy price' for any October 7 attacks on military",
+     "language": "en",
+     "link": "https://www.france24.com/en/middle-east/20261006-israel-warns-gazans-will-pay-heavy-price-for-any-october-7-attacks-on-military",
+     "published": "2026-10-06T07:50:10+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Israel puts military on alert ahead of October 7 anniversary",
+     "language": "en",
+     "link": "https://punchng.com/israel-puts-military-on-alert-ahead-of-october-7-anniversary/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-06T08:23:01+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Israel puts military on alert for Oct 7 anniversary, warns Gazans",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/israel-puts-military-on-alert-for-oct-7-anniversary-warns-gazans",
+     "published": "2026-10-06T07:19:34+00:00"
+    },
     {
      "outlet": "Al Jazeera English",
      "region": "qa",
      "bucket": "serious",
-     "title": "USS Lincoln returns to US after long deployment supporting war on Iran",
+     "title": "Verstappen wins chaotic Singapore GP F1 sprint after Russell crashes",
      "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/9/uss-lincoln-returns-to-us-after-long-deployment-supporting-war-on-iran?traffic_source=rss",
-     "published": "2026-10-09T00:39:20+00:00"
+     "link": "https://www.aljazeera.com/sports/2026/10/10/verstappen-singapore-gp-sprint-rain-russell-hamilton-leclerc?traffic_source=rss",
+     "published": "2026-10-10T13:08:35+00:00"
     },
     {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "USS Abraham Lincoln returns to US after 265 days at sea in Iran war mission",
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Verstappen wins sprint after Russell crashes out",
      "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370240/long-deployed-uss-abraham-lincoln-returns-home-san-diego-middle-east?utm_source=rss_feed",
-     "published": "2026-10-08T19:21:32+00:00"
+     "link": "https://www.bbc.co.uk/sport/formula1/articles/cwn73gmz78reo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-10T13:43:47+00:00"
     },
     {
-     "outlet": "The Express Tribune",
-     "region": "pk",
+     "outlet": "Malay Mail",
+     "region": "my",
      "bucket": "serious",
-     "title": "USS Abraham Lincoln returns to San Diego after supporting Iran war",
+     "title": "Verstappen breaks Singapore duck in wild sprint after Russell crashes out of the lead",
      "language": "en",
-     "link": "https://tribune.com.pk/story/2633848/uss-abraham-lincoln-returns-to-san-diego-after-supporting-iran-war",
-     "published": "2026-10-08T23:44:09+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "The long-deployed USS Lincoln returns home to San Diego Bay",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/08/nx-s1-5995911/the-long-deployed-uss-lincoln-returns-home-to-san-diego-bay",
-     "published": "2026-10-09T00:05:48+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Iran claims attack on LPG tanker, says vessels trying to cross Strait of Hormuz will be ‘punished’",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/iran-claims-attack-on-lpg-tanker-says-vessels-trying-to-cross-strait-of-hormuz-will-be-punished-us-iran-war-101791551103531.html",
-     "published": "2026-10-09T13:49:10+00:00"
-    },
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Massive LPG tanker targeted in Hormuz: IRGC",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248442/Massive-LPG-tanker-targeted-in-Hormuz-IRGC",
-     "published": "2026-10-09T14:12:26+00:00"
-    },
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "IRGC Navy warns ships against turning off navigation systems",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248503/IRGC-Navy-warns-ships-against-turning-off-navigation-systems",
-     "published": "2026-10-12T03:31:37+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Iran warns ships against transiting Strait of Hormuz with their navigation systems off",
-     "language": "en",
-     "link": "https://tass.com/world/2200591",
-     "published": "2026-10-11T19:36:08+00:00"
-    },
-    {
-     "outlet": "IRNA English",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "IRGC warns vessels violating in Strait of Hormuz",
-     "language": "en",
-     "link": "https://en.irna.ir/news/86290048/IRGC-warns-vessels-violating-in-Strait-of-Hormuz",
-     "published": "2026-10-12T05:18:20+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Container ship hit by projectile sinks in Strait of Hormuz, Singapore says",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/crkg7q97z078o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-14T15:34:19+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Container ship sinks near strait of Hormuz amid surge in Iranian attacks",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/14/container-ship-sinks-strait-of-hormuz-surge-iranian-attacks-iran-us-midterm-elections",
-     "published": "2026-10-14T16:33:45+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Container Ship Sinks Near Hormuz After Being Hit By Projectile: Report",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/us-iran-war-container-ship-sinks-near-strait-of-hormuz-after-being-hit-by-projectile-report-12185423#publisher=newsstand",
-     "published": "2026-10-14T14:00:04+00:00"
-    },
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Container carrier sinks in Strait of Hormuz after explosion",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248588/Container-carrier-sinks-in-Strait-of-Hormuz-after-explosion",
-     "published": "2026-10-14T09:28:04+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Container ship sinks after hitting mine in Strait of Hormuz",
-     "language": "en",
-     "link": "https://tass.com/world/2201801",
-     "published": "2026-10-14T09:48:08+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Container ship sinks in Strait of Hormuz as Iran steps up attacks",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQMWFKMzFFcmxqYVdxcTVUYmZBZTZHejZpWTJmZ3o3Z3lFbnA0NTV4MkFlb1ZEMmRGQmw3MjJkc2RnTFgtX19YRkZOUDR4WXhNeWg5Zy1qV3FpeVpTVUo5QVBOVmJxcXVhc0NqandfT2ltQ3BseThmbG5oQTJhYUJ4MV9nM240c3I3ZG5wai1fY3ZIYWdpbGfSAZsBQVVfeXFMUHl0VWNMbEpIOXhweHBSVTdYdHNjd1V5a2NfNkJSdFk5UUV0R2lDSUtZV1BpMEM3aWxZOXlWRTBRRTNtVkxRcDZtYVFDdnA5X3RPLW4zTm42M0hzVFJYNGtoMWJHcjVGVlJ1a2Jja1F5SnFDUHVTYVFkYXRYTFFnbDd1REZsc0haTlNibWhxdTU0aHZCcjVYQ0x1Vm8?oc=5",
-     "published": "2026-10-14T15:47:29+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Two Singapore-registered vessels struck in Strait of Hormuz, one sinks",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/singapore/vessels-singapore-registered-struck-strait-hormuz-6459176",
-     "published": "2026-10-14T12:57:00+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Oil prices today: Brent crude hits $106.60 after Saudi Aramco attack, ship strikes near Hormuz",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/oil-prices-today-brent-crude-hits-106-60-after-saudi-aramco-attack-ship-strikes-near-hormuz-101791982617184.html",
-     "published": "2026-10-14T13:13:11+00:00"
-    },
-    {
-     "outlet": "IRNA English",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Ship carrying 2,500 containers hits mine, sinks south of Strait of Hormuz",
-     "language": "en",
-     "link": "https://en.irna.ir/news/86292706/Ship-carrying-2-500-containers-hits-mine-sinks-south-of-Strait",
-     "published": "2026-10-14T10:35:58+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Strait of Hormuz traffic plunges once again amid new wave of Houthi attacks",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2634754/iran-shifting-tactics-to-step-up-attacks-on-shipping-before-us-vote-officials-say",
-     "published": "2026-10-13T23:46:55+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Iran increases threat to Strait of Hormuz shipping, and other Middle East developments",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/iran-increases-threat-to-strait-of-hormuz-shipping-and-other-middle-east-developments-101791918610454.html",
-     "published": "2026-10-13T19:10:10+00:00"
-    },
-    {
-     "outlet": "IRNA English",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Iranian Navy identifies oil tanker that caught fire in Strait of Hormuz",
-     "language": "en",
-     "link": "https://en.irna.ir/news/86291981/Iranian-Navy-identifies-oil-tanker-that-caught-fire-in-Strait",
-     "published": "2026-10-13T16:23:44+00:00"
+     "link": "https://www.malaymail.com/news/sports/2026/10/10/verstappen-wins-singapore-sprint-after-russell-crashes/238598",
+     "published": "2026-10-10T10:26:44+00:00"
     },
     {
      "outlet": "Daily Sabah",
      "region": "tr",
      "bucket": "serious",
-     "title": "Iran mulls tactical shift in Hormuz attacks before key US vote",
+     "title": "Verstappen wins rain-hit Singapore sprint as Russell crashes out",
      "language": "en",
-     "link": "https://www.dailysabah.com/world/mid-east/iran-mulls-tactical-shift-in-hormuz-attacks-before-key-usvote",
-     "published": "2026-10-14T12:55:00+00:00"
+     "link": "https://www.dailysabah.com/sports/motorsports/verstappen-wins-rain-hit-singapore-sprint-as-russell-crashes-out",
+     "published": "2026-10-10T10:39:00+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Verstappen wins Singapore sprint after chaotic start in wet conditions",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/10/verstappen-wins-singapore-sprint-after-chaotic-start-in-wet-conditions",
+     "published": "2026-10-10T10:53:00+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Verstappen beats Ferraris to Singapore pole",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/formula1/articles/cvj6j5kyx2p1o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-10T15:29:12+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Verstappen surge continues with Singapore pole ahead of Ferraris",
+     "language": "en",
+     "link": "https://www.skysports.com/f1/news/12040/13597102/singapore-gp-qualifying-max-verstappen-claims-pole-position-again-as-charles-leclerc-pips-lewis-hamilton-to-second-on-grid",
+     "published": "2026-10-10T15:45:00+00:00"
+    },
+    {
+     "outlet": "Buenos Aires Times",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "Israel continues to surge ahead",
+     "language": "en",
+     "link": "https://www.batimes.com.ar/news/opinion-and-analysis/israel-continues-to-surge-ahead.phtml",
+     "published": "2026-10-10T09:06:00+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Max Verstappen takes F1 Singapore GP pole from Leclerc after sprint win",
+     "language": "en",
+     "link": "https://www.theguardian.com/sport/2026/oct/10/max-verstappen-takes-f1-singapore-gp-pole-from-leclerc-after-sprint-win",
+     "published": "2026-10-10T15:17:40+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Verstappen dominates for first Singapore Grand Prix win",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/formula1/articles/c84g1p2ql9z5o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-11T14:46:06+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Max Verstappen wins Singapore Grand Prix for first time",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/sport/max-verstappen-singapore-grand-prix-first-win-6450371",
+     "published": "2026-10-11T13:59:00+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Verstappen claims dominant first Singapore GP win",
+     "language": "en",
+     "link": "https://www.skysports.com/f1/news/12040/13597650/singapore-gp-max-verstappen-wins-event-for-first-time-in-f1-career-ahead-of-charles-leclerc-as-lewis-hamilton-apologises-for-strategy",
+     "published": "2026-10-11T15:09:00+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Anthropic flags revenue surge to investors ahead of stock market debut",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cqzjx448vxkgo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-15T07:20:45+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Anthropic flags revenue surge to investors ahead of stock market debut",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/anthropic-flags-revenue-surge-to-investors-ahead-of-stock-market-debut/",
+     "published": "2026-10-15T04:10:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-15T09:07:47.013401+00:00",
+   "outlets": 14,
+   "regions": 11,
+   "languages": 1,
+   "score": 38.0
+  },
+  {
+   "id": "6f4635a98794",
+   "first_seen": "2026-10-15T09:07:47.013401+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "At least 28 killed, including 27 students, in Peshawar school roof collapse",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2037299/at-least-28-killed-including-27-students-in-peshawar-school-roof-collapse",
+     "published": "2026-10-15T08:44:11+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "At least 28 children, two teachers killed as school roof collapses in Peshawar",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2634963/at-least-seven-including-six-children-killed-as-school-roof-collapses-in-peshawar",
+     "published": "2026-10-15T00:29:35+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "17 children, teacher killed, over 40 injured as school roof collapses in Pakistan’s Peshawar",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/students-teacher-killed-in-school-roof-collapse-in-pakistan-peshwar/article71586942.ece",
+     "published": "2026-10-15T06:54:45+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Pakistan school roof collapse kills dozens of pupils, teacher in Peshawar",
+     "language": "en",
+     "link": "https://www.france24.com/en/asia-pacific/20261015-pakistan-school-roof-collapse-kills-dozens-of-pupils-teacher-in-peshawar",
+     "published": "2026-10-15T08:02:53+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "School roof collapse kills teacher, 27 children in Pakistan",
+     "language": "en",
+     "link": "https://punchng.com/school-roof-collapse-kills-teacher-27-children-in-pakistan/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-15T09:40:48+00:00"
+    },
+    {
+     "outlet": "Geo News",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "At least 30, mostly children, killed after school roof collapses in Peshawar",
+     "language": "en",
+     "link": "https://www.geo.tv/latest/686623-at-least-four-children-die-in-roof-collapse-incident-at-private-school-in-peshawar",
+     "published": "2026-10-15T05:47:00+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "School roof collapse kills teacher, 27 children in Pakistan",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/school-roof-collapse-kills-teacher-27-children-in-pakistan/",
+     "published": "2026-10-15T07:03:14+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "27 Students, Teacher Killed After School Roof Collapses In Pakistan",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/pakistan-21-students-teacher-killed-after-school-roof-collapses-in-peshawar-12188465#publisher=newsstand",
+     "published": "2026-10-15T07:39:26+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "27 children, 1 teacher dead in NW Pakistan school roof collapse",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/asia-pacific/27-children-1-teacher-dead-in-nw-pakistan-school-roof-collapse",
+     "published": "2026-10-15T07:54:00+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Pakistan’s school roof collapse kills 27 students, 1 teacher",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/15/pakistan-school-roof-collapse-kills-27-students-one-teacher",
+     "published": "2026-10-15T08:00:08+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "School roof collapse kills at least 29, injures more than 3 dozen in Pakistan",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/15/nx-s1-6003437/school-roof-collapse-pakistan",
+     "published": "2026-10-15T08:22:07+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Pakistan school collapse kills almost 30 students and a teacher",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/pakistan-school-collapse-peshawar-student-teacher-deaths/",
+     "published": "2026-10-15T09:03:30+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Experts slam Tinubu’s N100.5bn airport reimbursement plan for Yobe",
+     "language": "en",
+     "link": "https://punchng.com/experts-slam-tinubus-n100-5bn-airport-reimbursement-plan-for-yobe/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-15T07:50:31+00:00"
     },
     {
      "outlet": "Al Jazeera English",
      "region": "qa",
      "bucket": "serious",
-     "title": "UN official warns of looming food crisis as Hormuz fertiliser plan stalls",
+     "title": "School roof collapses in northwestern Pakistan, killing at least 29 people",
      "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/14/un-official-warns-of-looming-food-crisis-as-hormuz-fertiliser-plan-stalls?traffic_source=rss",
-     "published": "2026-10-14T16:08:09+00:00"
+     "link": "https://www.aljazeera.com/news/2026/10/15/school-roof-collapses-in-northwestern-pakistan-killing-at-least-29-people?traffic_source=rss",
+     "published": "2026-10-15T08:30:41+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Roof collapses in Parkistani school, killing 29 people",
+     "language": "en",
+     "link": "https://tass.com/emergencies/2202329",
+     "published": "2026-10-15T08:10:42+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "At least 27 children killed after school roof collapses in Pakistan",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNSkVlVmNnNGxBTW1kYldjUGVxM3ZJWDUtUHUwa2EzT3Vnckg3QmpnUlFOYWk3bjItSU1rd1d0ak5mYURqNXd1Rlk1Q09qWF9lWGFrZzZZX0x1TkJjVExpV2UtbXU3Tzg0b2o5WmI1aFppNGliVmFMRlhrTFVFRDAyR2ZSektQQUtJ?oc=5",
+     "published": "2026-10-15T07:40:04+00:00"
     }
    ],
-   "last_seen": "2026-10-14T17:07:55.411222+00:00",
-   "outlets": 14,
-   "regions": 11,
+   "last_seen": "2026-10-15T09:07:47.013401+00:00",
+   "outlets": 15,
+   "regions": 10,
    "languages": 1,
-   "score": 38.0
+   "score": 37.0
   },
   {
    "id": "8299e0156b03",
@@ -6483,150 +6602,49 @@
      "language": "en",
      "link": "https://www.hindustantimes.com/world-news/us-news/who-is-ilhan-omar-why-federal-agents-searched-her-home-what-we-know-about-the-investigation-101791811174125.html",
      "published": "2026-10-12T13:42:25+00:00"
-    }
-   ],
-   "last_seen": "2026-10-13T09:08:09.573950+00:00",
-   "outlets": 12,
-   "regions": 9,
-   "languages": 2,
-   "score": 34.0
-  },
-  {
-   "id": "9f07066a4b4c",
-   "first_seen": "2026-10-06T15:07:42.509147+00:00",
-   "members": [
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Paramount wraps up mega Warner Bros merger to create Hollywood powerhouse Skydance",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/entertainment/paramount-warner-bros-merger-skydance-6436746",
-     "published": "2026-10-06T13:18:00+00:00"
     },
     {
-     "outlet": "TechCrunch",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "Paramount closes historic Warner Bros. merger to form Skydance",
-     "language": "en",
-     "link": "https://techcrunch.com/2026/10/06/paramount-closes-historic-warner-bros-merger-to-form-skydance/",
-     "published": "2026-10-06T13:57:32+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
+     "outlet": "The Guardian — World",
+     "region": "uk",
      "bucket": "serious",
-     "title": "Paramount takes over Warner Bros in $110bn Hollywood merger",
+     "title": "Ilhan Omar’s phone seized and relatives subpoenaed in criminal inquiry, source says",
      "language": "en",
-     "link": "https://www.myjoyonline.com/paramount-takes-over-warner-bros-in-110bn-hollywood-merger/",
-     "published": "2026-10-06T14:45:34+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Paramount wraps up mega Warner Bros merger to create Hollywood powerhouse Skydance",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633335/paramount-wraps-up-mega-warner-bros-merger-to-create-hollywood-powerhouse-skydance",
-     "published": "2026-10-06T11:19:16+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Paramount takes over Warner Bros in $110bn Hollywood merger",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/bond-market-turnover-rises-77-to-gh%c2%a22-76bn-2/",
-     "published": "2026-10-06T14:04:00+00:00"
+     "link": "https://www.theguardian.com/us-news/2026/oct/14/ilhan-omar-phone-seized-relatives-subpoenaed",
+     "published": "2026-10-14T22:22:14+00:00"
     },
     {
      "outlet": "Hindustan Times — World",
      "region": "in",
      "bucket": "serious",
-     "title": "Paramount completes $81 billion takeover of Warner Bros Discovery in Hollywood mega-merger to form Skydance",
+     "title": "Rep Ilhan Omar's phone seized, relatives subpoenaed amid criminal probe ahead of midterms",
      "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/paramount-completes-81-billion-takeover-of-warner-bros-discovery-in-hollywood-mega-merger-to-form-skydance-101791295936233.html",
-     "published": "2026-10-06T15:08:22+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Paramount Completes Warner Bros Takeover, 'Skydance' Is Post-Merger Name",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/paramount-completes-warner-bros-takeover-combined-company-named-skydance-12147599#publisher=newsstand",
-     "published": "2026-10-06T15:58:34+00:00"
+     "link": "https://www.hindustantimes.com/world-news/us-news/rep-ilhan-omars-phone-seized-relatives-subpoenaed-amid-criminal-probe-ahead-of-midterms-101792011832422.html",
+     "published": "2026-10-14T21:47:07+00:00"
     },
     {
      "outlet": "Al Jazeera English",
      "region": "qa",
      "bucket": "serious",
-     "title": "CNN, CBS News now under one roof as Paramount-Warner Bros merger closes",
+     "title": "Trump administration seeks to strip Ilhan Omar of US citizenship: WSJ",
      "language": "en",
-     "link": "https://www.aljazeera.com/economy/2026/10/6/cnn-cbs-news-now-under-one-roof-as-paramount-warner-bros-merger-closes?traffic_source=rss",
-     "published": "2026-10-06T21:33:59+00:00"
+     "link": "https://www.aljazeera.com/news/2026/10/15/trump-administration-seeks-to-strip-ilhan-omar-of-us-citizenship-wsj?traffic_source=rss",
+     "published": "2026-10-15T03:03:00+00:00"
     },
     {
-     "outlet": "CBS News — World",
-     "region": "us",
+     "outlet": "Hindustan Times — World",
+     "region": "in",
      "bucket": "serious",
-     "title": "10/5: CBS Evening News",
+     "title": "Ilhan Omar faces potential citizenship revocation as Trump-era investigation expands after FBI search",
      "language": "en",
-     "link": "https://www.cbsnews.com/video/100526-cbs-evening-news/",
-     "published": "2026-10-05T22:30:00+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "10/6: CBS Evening News",
-     "language": "en",
-     "link": "https://www.cbsnews.com/video/100626-cbs-evening-news/",
-     "published": "2026-10-06T22:30:00+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Paramount–Warner Bros deal closes, bringing HBO, CNN, CBS and more under one roof",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/money/2026/10/07/paramountwarner-bros-deal-closes-bringing-hbo-cnn-cbs-and-more-under-one-roof/237985",
-     "published": "2026-10-07T01:07:41+00:00"
-    },
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "Paramount wraps up mega Warner Bros merger to create Hollywood powerhouse Skydance",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-07-paramount-wraps-up-mega-warner-bros-merger-to-create-hollywood-powerhouse-skydance/",
-     "published": "2026-10-07T04:37:31+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Paramount takes over Warner Bros in $110bn Hollywood merger",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/paramount-takes-over-warner-bros-in-110bn-hollywood-merger-2/",
-     "published": "2026-10-06T21:14:00+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "What $81B Paramount-Warner Bros. merger means for Hollywood",
-     "language": "en",
-     "link": "https://www.dailysabah.com/arts/what-81b-paramount-warner-bros-merger-means-for-hollywood/news",
-     "published": "2026-10-07T09:31:58+00:00"
+     "link": "https://www.hindustantimes.com/world-news/us-news/ilhan-omar-faces-potential-citizenship-revocation-as-trump-era-investigation-expands-after-fbi-search-101792042172033.html",
+     "published": "2026-10-15T06:31:57+00:00"
     }
    ],
-   "last_seen": "2026-10-07T18:07:47.065879+00:00",
-   "outlets": 11,
-   "regions": 10,
-   "languages": 1,
-   "score": 33.0
+   "last_seen": "2026-10-15T09:07:47.013401+00:00",
+   "outlets": 12,
+   "regions": 9,
+   "languages": 2,
+   "score": 34.0
   },
   {
    "id": "0cf838e40682",
@@ -6757,159 +6775,285 @@
    "score": 33.0
   },
   {
-   "id": "2fad27aebeea",
-   "first_seen": "2026-10-06T09:08:01.863235+00:00",
+   "id": "5eb79ed8389e",
+   "first_seen": "2026-10-14T09:07:42.321915+00:00",
    "members": [
     {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Israel puts military on alert for October 7 anniversary, warns Gazans",
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Arsenal 3-0 Lille: Champions League",
      "language": "en",
-     "link": "https://www.thehindu.com/news/international/israel-puts-military-on-alert-for-october-7-anniversary-warns-gazans/article71550358.ece",
-     "published": "2026-10-06T07:25:35+00:00"
+     "link": "https://www.theguardian.com/football/live/2026/oct/13/arsenal-v-lille-champions-league-live-score-updates",
+     "published": "2026-10-13T21:18:41+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Saka shines as Arsenal cruise to Champions League win over Lille",
+     "language": "en",
+     "link": "https://www.skysports.com/football/arsenal-vs-lille/report/577615",
+     "published": "2026-10-13T21:45:00+00:00"
     },
     {
      "outlet": "France24",
      "region": "eu",
      "bucket": "serious",
-     "title": "Israel warns Gazans will pay 'heavy price' for any October 7 attacks on military",
+     "title": "Champions League: Arsenal leave no chance to Lille and Olivier Giroud",
      "language": "en",
-     "link": "https://www.france24.com/en/middle-east/20261006-israel-warns-gazans-will-pay-heavy-price-for-any-october-7-attacks-on-military",
-     "published": "2026-10-06T07:50:10+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Israel puts military on alert ahead of October 7 anniversary",
-     "language": "en",
-     "link": "https://punchng.com/israel-puts-military-on-alert-ahead-of-october-7-anniversary/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-06T08:23:01+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Israel puts military on alert for Oct 7 anniversary, warns Gazans",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/israel-puts-military-on-alert-for-oct-7-anniversary-warns-gazans",
-     "published": "2026-10-06T07:19:34+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Verstappen wins chaotic Singapore GP F1 sprint after Russell crashes",
-     "language": "en",
-     "link": "https://www.aljazeera.com/sports/2026/10/10/verstappen-singapore-gp-sprint-rain-russell-hamilton-leclerc?traffic_source=rss",
-     "published": "2026-10-10T13:08:35+00:00"
-    },
-    {
-     "outlet": "BBC Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Verstappen wins sprint after Russell crashes out",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/sport/formula1/articles/cwn73gmz78reo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-10T13:43:47+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Verstappen breaks Singapore duck in wild sprint after Russell crashes out of the lead",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/sports/2026/10/10/verstappen-wins-singapore-sprint-after-russell-crashes/238598",
-     "published": "2026-10-10T10:26:44+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Verstappen wins rain-hit Singapore sprint as Russell crashes out",
-     "language": "en",
-     "link": "https://www.dailysabah.com/sports/motorsports/verstappen-wins-rain-hit-singapore-sprint-as-russell-crashes-out",
-     "published": "2026-10-10T10:39:00+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Verstappen wins Singapore sprint after chaotic start in wet conditions",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/10/verstappen-wins-singapore-sprint-after-chaotic-start-in-wet-conditions",
-     "published": "2026-10-10T10:53:00+00:00"
-    },
-    {
-     "outlet": "BBC Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Verstappen beats Ferraris to Singapore pole",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/sport/formula1/articles/cvj6j5kyx2p1o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-10T15:29:12+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Verstappen surge continues with Singapore pole ahead of Ferraris",
-     "language": "en",
-     "link": "https://www.skysports.com/f1/news/12040/13597102/singapore-gp-qualifying-max-verstappen-claims-pole-position-again-as-charles-leclerc-pips-lewis-hamilton-to-second-on-grid",
-     "published": "2026-10-10T15:45:00+00:00"
-    },
-    {
-     "outlet": "Buenos Aires Times",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "Israel continues to surge ahead",
-     "language": "en",
-     "link": "https://www.batimes.com.ar/news/opinion-and-analysis/israel-continues-to-surge-ahead.phtml",
-     "published": "2026-10-10T09:06:00+00:00"
+     "link": "https://www.france24.com/en/tv-shows/sports/20261014-champions-league-arsenal-leave-no-chance-to-lille-and-olivier-giroud",
+     "published": "2026-10-14T05:49:21+00:00"
     },
     {
      "outlet": "The Guardian — Sport",
      "region": "sport",
      "bucket": "sport",
-     "title": "Max Verstappen takes F1 Singapore GP pole from Leclerc after sprint win",
+     "title": "Timber’s touch of class and supersub Saka secure Arsenal win against Lille",
      "language": "en",
-     "link": "https://www.theguardian.com/sport/2026/oct/10/max-verstappen-takes-f1-singapore-gp-pole-from-leclerc-after-sprint-win",
-     "published": "2026-10-10T15:17:40+00:00"
-    },
-    {
-     "outlet": "BBC Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Verstappen dominates for first Singapore Grand Prix win",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/sport/formula1/articles/c84g1p2ql9z5o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-11T14:46:06+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Max Verstappen wins Singapore Grand Prix for first time",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/sport/max-verstappen-singapore-grand-prix-first-win-6450371",
-     "published": "2026-10-11T13:59:00+00:00"
+     "link": "https://www.theguardian.com/football/2026/oct/13/arsenal-lille-champions-league-match-report",
+     "published": "2026-10-13T21:02:51+00:00"
     },
     {
      "outlet": "Sky Sports — Football",
      "region": "sport",
      "bucket": "sport",
-     "title": "Verstappen claims dominant first Singapore GP win",
+     "title": "Arsenal latest: We can win the quadruple, says Merino",
      "language": "en",
-     "link": "https://www.skysports.com/f1/news/12040/13597650/singapore-gp-max-verstappen-wins-event-for-first-time-in-f1-career-ahead-of-charles-leclerc-as-lewis-hamilton-apologises-for-strategy",
-     "published": "2026-10-11T15:09:00+00:00"
+     "link": "https://www.skysports.com/football/live-blog/12040/13025486/arsenal-transfer-news-rumours-and-gossip-live-updates-and-latest-on-deals-signings-loans-and-contracts",
+     "published": "2026-10-13T12:22:00+00:00"
+    },
+    {
+     "outlet": "Hürriyet (تركي)",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "İspanya, Barça’nın Galatasaray galibiyetini konuşuyor! ‘Ve Yamal 'Yeter' dedi! Cehennemde dans etti’",
+     "language": "tr",
+     "link": "https://www.hurriyet.com.tr/sporarena/ispanya-barcanin-galatasaray-galibiyetini-konusuyor-ve-yamal-yeter-dedi-cehennemde-dans-etti-43340875",
+     "published": "2026-10-14T07:10:00+00:00"
+    },
+    {
+     "outlet": "Hürriyet (تركي)",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Lamine Yamal'dan Galatasaray itirafı: 'Soyunma odasında konuştuk! Çok daha zor olabilirdi'",
+     "language": "tr",
+     "link": "https://www.hurriyet.com.tr/sporarena/lamine-yamaldan-galatasaray-itirafi-soyunma-odasinda-konustuk-cok-daha-zor-olabilirdi-43340746",
+     "published": "2026-10-14T05:49:37+00:00"
+    },
+    {
+     "outlet": "Hürriyet (تركي)",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Galatasaray'ın Barcelona yenilgisi sonrası dikkat çeken sözler! 'Aklımıza gelen başımıza geldi! Baş etmek mümkün değil'",
+     "language": "tr",
+     "link": "https://www.hurriyet.com.tr/sporarena/galatasarayin-barcelona-yenilgisi-sonrasi-dikkat-ceken-sozler-aklimiza-gelen-basimiza-43340725",
+     "published": "2026-10-14T04:57:04+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Yamal magic helps Barcelona beat Galatasaray in Champions League",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/10/14/yamal-magic-helps-barcelona-beat-galatasaray-in-champions-league?traffic_source=rss",
+     "published": "2026-10-14T07:35:43+00:00"
+    },
+    {
+     "outlet": "El País",
+     "region": "es",
+     "bucket": "serious",
+     "title": "Lamine deslumbra en la goleada del Barcelona contra el Galatasaray",
+     "language": "es",
+     "link": "https://elpais.com/deportes/futbol/2026-10-13/lamine-deslumbra-en-la-goleada-del-barcelona-contra-el-galatasaray.html",
+     "published": "2026-10-13T21:30:19+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Galatasaray’s Champions League woes deepen after 4-1 loss to Barca",
+     "language": "en",
+     "link": "https://www.dailysabah.com/sports/football/galatasarays-champions-league-woes-deepen-after-4-1-loss-to-barca",
+     "published": "2026-10-13T21:10:00+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Yamal inspires Barcelona past Galatasaray",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2634780/yamal-inspires-barcelona-past-galatasaray",
+     "published": "2026-10-14T02:10:15+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "PSG beat Manchester City in Champions League after financial rules verdict",
+     "language": "en",
+     "link": "https://www.france24.com/en/sport/20261014-psg-beat-manchester-city-champions-league",
+     "published": "2026-10-14T21:48:26+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "PSG outgun Manchester City in Champions League thriller",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2634973/psg-outgun-manchester-city-in-champions-league-thriller",
+     "published": "2026-10-15T01:17:07+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "PSG put on a show with win at Manchester City in Champions League thriller",
+     "language": "en",
+     "link": "https://www.france24.com/en/tv-shows/sports/20261015-psg-put-on-a-show-with-win-at-manchester-city-champions-league-thriller",
+     "published": "2026-10-15T05:45:36+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "PSG holds off Manchester City in Champions League clash",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/sports/2026/10/15/soccer/psg-manchester-city-champions-league/",
+     "published": "2026-10-15T01:01:00+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Brilliant Barcola scores first hat-trick to get lift-off at Liverpool",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/football/videos/cmx237q7nl21o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-14T21:00:28+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Barcola scores hat-trick as Liverpool thrash LASK",
+     "language": "en",
+     "link": "https://www.skysports.com/football/linz-ask-vs-liverpool/report/577627",
+     "published": "2026-10-14T19:30:00+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "PSG pile misery on Man City as Champions League sets scoring record",
+     "language": "en",
+     "link": "https://www.dailysabah.com/sports/football/psg-pile-misery-on-man-city-as-champions-league-sets-scoring-record",
+     "published": "2026-10-15T05:57:56+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Perfect PSG - can anybody stop the defending champions?",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/football/videos/ck0j07zegp7xo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-14T23:07:16+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "PSG on different level - but where do they rank against other great sides?",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/football/articles/cmx2wegg2pw5o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-14T21:55:37+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Barcola shines as Liverpool score six to beat LASK",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/football/videos/c68jzlwpk01zo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-14T21:00:24+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "On night of mayhem for Liverpool, Barcola arrives in style",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/football/articles/c39wzg59x1yxo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-14T20:46:35+00:00"
+    },
+    {
+     "outlet": "El País",
+     "region": "es",
+     "bucket": "serious",
+     "title": "El PSG sacude al City y proclama el asalto a su tercera Champions sucesiva",
+     "language": "es",
+     "link": "https://elpais.com/deportes/futbol/2026-10-14/el-psg-sacude-al-city-y-proclama-el-asalto-a-su-tercera-champions-sucesiva.html",
+     "published": "2026-10-14T22:07:14+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Manchester City 2-4 Paris Saint-Germain: Champions League",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/live/2026/oct/14/manchester-city-v-paris-saint-germain-champions-league-live-score-updates",
+     "published": "2026-10-14T21:30:22+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Quickfire Doué and Dembélé inspire PSG to thrilling win at Manchester City",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/2026/oct/14/manchester-city-psg-champions-league-league-stage-match-report",
+     "published": "2026-10-14T21:13:26+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "FULL LIST: Barcola joins 12 other Liverpool’s European Cup hat-trick scorers",
+     "language": "en",
+     "link": "https://punchng.com/full-list-barcola-joins-12-other-liverpools-european-cup-hat-trick-scorers/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-15T07:44:07+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Lask 3-6 Liverpool: Champions League",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/live/2026/oct/14/lask-v-liverpool-champions-league-live-score-updates",
+     "published": "2026-10-14T19:04:44+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Bradley Barcola’s clinical hat-trick inspires Liverpool to 6-3 rout of Lask",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/2026/oct/14/lask-liverpool-champions-league-league-stage-match-report",
+     "published": "2026-10-14T18:51:39+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Real Madrid stun Roma after dramatic late comeback",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/football/videos/cmx239x97ddvo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-14T21:31:34+00:00"
     }
    ],
-   "last_seen": "2026-10-11T17:07:45.259726+00:00",
-   "outlets": 12,
-   "regions": 9,
-   "languages": 1,
-   "score": 32.0
+   "last_seen": "2026-10-15T09:07:47.013401+00:00",
+   "outlets": 11,
+   "regions": 8,
+   "languages": 3,
+   "score": 33.0
   },
   {
    "id": "144bf80223b4",
@@ -8017,217 +8161,6 @@
    "regions": 8,
    "languages": 1,
    "score": 26.0
-  },
-  {
-   "id": "5eb79ed8389e",
-   "first_seen": "2026-10-14T09:07:42.321915+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Arsenal 3-0 Lille: Champions League",
-     "language": "en",
-     "link": "https://www.theguardian.com/football/live/2026/oct/13/arsenal-v-lille-champions-league-live-score-updates",
-     "published": "2026-10-13T21:18:41+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Saka shines as Arsenal cruise to Champions League win over Lille",
-     "language": "en",
-     "link": "https://www.skysports.com/football/arsenal-vs-lille/report/577615",
-     "published": "2026-10-13T21:45:00+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Champions League: Arsenal leave no chance to Lille and Olivier Giroud",
-     "language": "en",
-     "link": "https://www.france24.com/en/tv-shows/sports/20261014-champions-league-arsenal-leave-no-chance-to-lille-and-olivier-giroud",
-     "published": "2026-10-14T05:49:21+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Timber’s touch of class and supersub Saka secure Arsenal win against Lille",
-     "language": "en",
-     "link": "https://www.theguardian.com/football/2026/oct/13/arsenal-lille-champions-league-match-report",
-     "published": "2026-10-13T21:02:51+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Arsenal latest: We can win the quadruple, says Merino",
-     "language": "en",
-     "link": "https://www.skysports.com/football/live-blog/12040/13025486/arsenal-transfer-news-rumours-and-gossip-live-updates-and-latest-on-deals-signings-loans-and-contracts",
-     "published": "2026-10-13T12:22:00+00:00"
-    },
-    {
-     "outlet": "Hürriyet (تركي)",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "İspanya, Barça’nın Galatasaray galibiyetini konuşuyor! ‘Ve Yamal 'Yeter' dedi! Cehennemde dans etti’",
-     "language": "tr",
-     "link": "https://www.hurriyet.com.tr/sporarena/ispanya-barcanin-galatasaray-galibiyetini-konusuyor-ve-yamal-yeter-dedi-cehennemde-dans-etti-43340875",
-     "published": "2026-10-14T07:10:00+00:00"
-    },
-    {
-     "outlet": "Hürriyet (تركي)",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Lamine Yamal'dan Galatasaray itirafı: 'Soyunma odasında konuştuk! Çok daha zor olabilirdi'",
-     "language": "tr",
-     "link": "https://www.hurriyet.com.tr/sporarena/lamine-yamaldan-galatasaray-itirafi-soyunma-odasinda-konustuk-cok-daha-zor-olabilirdi-43340746",
-     "published": "2026-10-14T05:49:37+00:00"
-    },
-    {
-     "outlet": "Hürriyet (تركي)",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Galatasaray'ın Barcelona yenilgisi sonrası dikkat çeken sözler! 'Aklımıza gelen başımıza geldi! Baş etmek mümkün değil'",
-     "language": "tr",
-     "link": "https://www.hurriyet.com.tr/sporarena/galatasarayin-barcelona-yenilgisi-sonrasi-dikkat-ceken-sozler-aklimiza-gelen-basimiza-43340725",
-     "published": "2026-10-14T04:57:04+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Yamal magic helps Barcelona beat Galatasaray in Champions League",
-     "language": "en",
-     "link": "https://www.aljazeera.com/sports/2026/10/14/yamal-magic-helps-barcelona-beat-galatasaray-in-champions-league?traffic_source=rss",
-     "published": "2026-10-14T07:35:43+00:00"
-    },
-    {
-     "outlet": "El País",
-     "region": "es",
-     "bucket": "serious",
-     "title": "Lamine deslumbra en la goleada del Barcelona contra el Galatasaray",
-     "language": "es",
-     "link": "https://elpais.com/deportes/futbol/2026-10-13/lamine-deslumbra-en-la-goleada-del-barcelona-contra-el-galatasaray.html",
-     "published": "2026-10-13T21:30:19+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Galatasaray’s Champions League woes deepen after 4-1 loss to Barca",
-     "language": "en",
-     "link": "https://www.dailysabah.com/sports/football/galatasarays-champions-league-woes-deepen-after-4-1-loss-to-barca",
-     "published": "2026-10-13T21:10:00+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Yamal inspires Barcelona past Galatasaray",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2634780/yamal-inspires-barcelona-past-galatasaray",
-     "published": "2026-10-14T02:10:15+00:00"
-    }
-   ],
-   "last_seen": "2026-10-14T09:07:42.321915+00:00",
-   "outlets": 8,
-   "regions": 6,
-   "languages": 3,
-   "score": 26.0
-  },
-  {
-   "id": "42964e20da26",
-   "first_seen": "2026-10-07T03:07:41.547243+00:00",
-   "members": [
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "In interview, US Vice President Vance says Iran must cut enrichment to end war",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/world/jd-vance-iran-cut-nuclear-enrichment-end-war-6437781",
-     "published": "2026-10-07T01:36:00+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Iran must cut enrichment to end war, U.S. Vice-President Vance says",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/iran-must-cut-enrichment-to-end-war-us-vice-president-vance-says/article71554105.ece",
-     "published": "2026-10-07T01:46:04+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Iran Must Cut Enrichment To End War: JD Vance",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/iran-must-cut-enrichment-to-end-war-jd-vance-12148654#publisher=newsstand",
-     "published": "2026-10-06T23:27:12+00:00"
-    },
-    {
-     "outlet": "Investing.com — الاقتصاد",
-     "region": "money",
-     "bucket": "useful",
-     "title": "Vance says Iran must reduce nuclear enrichment capacity to end war",
-     "language": "en",
-     "link": "https://www.investing.com/news/economy-news/vance-says-iran-must-reduce-nuclear-enrichment-capacity-to-end-war--reuters-4935512",
-     "published": "2026-10-07T01:18:58+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Iran should reduce uranium enrichment capacity to end war with US",
-     "language": "en",
-     "link": "https://tass.com/world/2198519",
-     "published": "2026-10-07T02:50:11+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "US Vice President Vance says Iran must cut enrichment to end war",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2035354/us-vice-president-vance-says-iran-must-cut-enrichment-to-end-war",
-     "published": "2026-10-07T04:01:53+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Vance says Iran must cut enrichment to end war",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633439/vance-says-iran-must-cut-enrichment-to-end-war",
-     "published": "2026-10-06T23:34:02+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Vance says Iran must cut nuclear enrichment to end war",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/07/us-vice-president-vance-says-iran-must-cut-enrichment-to-end-war",
-     "published": "2026-10-07T04:29:04+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "US Vice President Vance ties ending war to Iran cutting enrichment",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/americas/us-vice-president-vance-ties-ending-war-to-iran-cutting-enrichment",
-     "published": "2026-10-07T09:47:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-07T18:07:47.065879+00:00",
-   "outlets": 9,
-   "regions": 7,
-   "languages": 1,
-   "score": 25.0
   },
   {
    "id": "038833f82242",
@@ -10128,80 +10061,6 @@
    "score": 19.0
   },
   {
-   "id": "f847db6b3477",
-   "first_seen": "2026-10-07T03:07:41.547243+00:00",
-   "members": [
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "North Korea's Kim pledges 'invariable support' in Putin birthday letter",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/east-asia/north-korea-kim-support-putin-birthday-letter-6437946",
-     "published": "2026-10-07T01:24:00+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "N. Korea’s Kim pledges ‘invariable support’ in Putin birthday letter",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/07/n-korea-s-kim-pledges-invariable-support-in-putin-birthday-letter",
-     "published": "2026-10-07T00:33:27+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "In Birthday Letter To Putin, Kim Jong Un's \"Invariable Support\" Promise",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/in-birthday-letter-to-vladimir-putin-kim-jong-uns-invariable-support-promise-ukraine-war-12148815#publisher=newsstand",
-     "published": "2026-10-07T02:02:18+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "North Korea warns U.S. over Taiwan while Kim pledges support for Russia",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/north-korea-warns-us-over-taiwan-while-kim-pledges-support-for-russia/article71553315.ece",
-     "published": "2026-10-06T22:37:37+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "North Korea warns U.S. over Taiwan while Kim pledges support for Russia",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/07/asia-pacific/north-korea-us-taiwan-russia/",
-     "published": "2026-10-07T01:09:00+00:00"
-    },
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "North Korea criticises US support for Taiwan, pledges backing for Russia",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-07-north-korea-criticises-us-support-for-taiwan-pledges-backing-for-russia/",
-     "published": "2026-10-07T10:03:46+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "North Korea warns U.S. over Taiwan while Kim pledges support for Russia",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/07/asia-pacific/politics/north-korea-us-taiwan-russia/",
-     "published": "2026-10-07T06:57:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-07T18:07:47.065879+00:00",
-   "outlets": 6,
-   "regions": 5,
-   "languages": 1,
-   "score": 18.0
-  },
-  {
    "id": "3171fba09447",
    "first_seen": "2026-10-08T03:08:02.336758+00:00",
    "members": [
@@ -10933,80 +10792,6 @@
    "score": 17.0
   },
   {
-   "id": "cc43ca365663",
-   "first_seen": "2026-10-06T03:07:51.967007+00:00",
-   "members": [
-    {
-     "outlet": "BBC Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Gauff condemns racist abuse after China Open win",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/sport/tennis/articles/cqd09z0x9xd8o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-05T21:41:17+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Gauff receives racist abuse online after China Open incident",
-     "language": "en",
-     "link": "https://www.skysports.com/tennis/news/12040/13595569/coco-gauff-reports-online-racial-abuse-after-incident-during-her-victory-over-sun-xinran-at-china-open",
-     "published": "2026-10-05T21:40:00+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Gauff condemns racist abuse after China Open win",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/gauff-condemns-racist-abuse-after-china-open-win/",
-     "published": "2026-10-05T21:48:00+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Gauff calls out online racism after China Open win",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633294/gauff-calls-out-online-racism-after-china-open-win",
-     "published": "2026-10-06T06:21:10+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Coco Gauff says online racist abuse was ‘draining’ after China Open exit",
-     "language": "en",
-     "link": "https://www.aljazeera.com/sports/2026/10/7/coco-gauff-says-online-racist-abuse-was-draining-after-china-open-exit?traffic_source=rss",
-     "published": "2026-10-07T12:53:11+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Gauff left 'drained' by online racist abuse after losing at China Open",
-     "language": "en",
-     "link": "https://www.skysports.com/tennis/news/12040/13596041/coco-gauff-admits-being-drained-by-online-racist-abuse-after-shock-defeat-to-elise-mertens-at-china-open",
-     "published": "2026-10-07T11:23:00+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Coco Gauff says online racist abuse during China Open was ‘draining’ after loss to Mertens",
-     "language": "en",
-     "link": "https://www.theguardian.com/sport/2026/oct/07/coco-gauff-racist-abuse-online-china-open-disputed-point",
-     "published": "2026-10-07T11:39:07+00:00"
-    }
-   ],
-   "last_seen": "2026-10-07T18:07:47.065879+00:00",
-   "outlets": 6,
-   "regions": 4,
-   "languages": 1,
-   "score": 16.0
-  },
-  {
    "id": "f5c492f7f19f",
    "first_seen": "2026-10-11T09:07:45.219118+00:00",
    "members": [
@@ -11219,6 +11004,71 @@
    "outlets": 3,
    "regions": 3,
    "languages": 3,
+   "score": 15.0
+  },
+  {
+   "id": "ae95b817aa65",
+   "first_seen": "2026-10-14T17:07:55.411222+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Sally Rooney says she can no longer sell books in UK due to Palestine Action support",
+     "language": "en",
+     "link": "https://www.theguardian.com/uk-news/2026/oct/14/sally-rooney-says-she-can-no-longer-sell-books-in-the-uk-because-of-palestine-action-support",
+     "published": "2026-10-14T16:06:42+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Sally Rooney books can’t be sold in UK amid Palestine Action ban, publisher says",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3370918/sally-rooney-books-cant-be-sold-uk-amid-palestine-action-ban-publisher-says?utm_source=rss_feed",
+     "published": "2026-10-14T16:41:07+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Sally Rooney says she can no longer sell books in UK due to Palestine Action support",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxNOWJqN2oyMjJHbkl6dnhoLTNDSmkyczhTSFpSSXF2a1AxWVp6dTBLRWUyckcxclJoc1BRZnRzRVJVS1VTRXlWOU5wTDJYNFJmT0VlcHhMMG0teHBrbGNaWjR6OGVXa2pPM1JHajM1NW1XZW5xM21CajlrSEEyTUlBVmZGR3loQjJGZDBnLVcwMEpjQklFNU1IcW5ZWkZTaGhVa3NaeWxkTHhlR1VpVDFFd081V3doOFhqMkxPVXRFbmdMN2JDeDVHYjZMWUsySnJkRXBWblpWbw?oc=5",
+     "published": "2026-10-14T13:06:00+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Sally Rooney books withdrawn in UK over Palestine Action support",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cmx23q4g307vo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-14T16:56:21+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Sally Rooney books pulled from UK over Palestine Action support",
+     "language": "en",
+     "link": "https://www.dailysabah.com/arts/sally-rooney-books-pulled-from-uk-over-palestine-action-support/news",
+     "published": "2026-10-15T07:45:00+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Sally Rooney Can’t Publish in the U.K. Because of Her Palestine Support",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQRUV6ZDVRMFdnR21NbnJCYWU0aWVzN0tDNWhTNVEtYWg5Y0ZIYXFMUUJuTWozRVRlVXN3bkRUWFZITnoxM0dyNnVWaUNSY0ZGLV8xelRGenNESWY3c0ltaF8ycW5fRktTQUl2MC0wOWkzOFp3WEdWLUp0aE9EWmUzVDUydDVabEh5c1E?oc=5",
+     "published": "2026-10-14T20:47:06+00:00"
+    }
+   ],
+   "last_seen": "2026-10-15T09:07:47.013401+00:00",
+   "outlets": 5,
+   "regions": 4,
+   "languages": 1,
    "score": 15.0
   },
   {
@@ -11701,6 +11551,147 @@
    "score": 14.0
   },
   {
+   "id": "f8a6780da59d",
+   "first_seen": "2026-10-14T17:07:55.411222+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Netflix to lay off 1,000 staff in steepest cuts since 2022",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c6zxj0gzk4x4o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-14T16:47:32+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Netflix cuts 1,000 jobs in its biggest layoffs since 2022; CEOs issue letter to staff",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/netflix-cuts-1-000-jobs-in-its-biggest-layoffs-since-2022-ceos-issue-letter-to-staff-our-mission-is-101791988785124.html",
+     "published": "2026-10-14T14:48:04+00:00"
+    },
+    {
+     "outlet": "Engadget",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "Netflix to lay off roughly 1,000 employees in biggest round of job cuts since 2022",
+     "language": "en",
+     "link": "https://www.engadget.com/2286699/netflix-to-lay-off-roughly-1000-employees-in-biggest-round-of-job-cuts-since-2022/",
+     "published": "2026-10-14T16:36:47+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Netflix cuts about 6% of jobs in biggest layoff since 2022",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2634866/netflix-cuts-about-6-of-jobs-in-biggest-layoff-since-2022",
+     "published": "2026-10-14T13:18:15+00:00"
+    }
+   ],
+   "last_seen": "2026-10-15T09:07:47.013401+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
+  },
+  {
+   "id": "4eba2115232d",
+   "first_seen": "2026-10-15T09:07:47.013401+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "US considers hitting Iran with 'Mother of All Bombs': report",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2037331/us-considers-hitting-iran-with-mother-of-all-bombs-report",
+     "published": "2026-10-15T09:04:55+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "US military weighs using 'mother of all bombs' against Iran in future strikes: Report",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/us-military-mother-of-all-bombs-iran-strikes-gbu-43-b-massive-ordnance-air-blast-bomb-trump-tehran-war-news-101792041121080.html",
+     "published": "2026-10-15T05:29:55+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "US considers hitting Iran with ‘Mother of All Bombs’",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/us-considers-hitting-iran-with-mother-of-all-bombs-report/",
+     "published": "2026-10-15T07:24:39+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "US reportedly weighs dropping 'Mother of All Bombs' on Iran",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/mid-east/us-reportedly-weighs-dropping-mother-of-all-bombs-on-iran",
+     "published": "2026-10-15T08:30:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-15T09:07:47.013401+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
+  },
+  {
+   "id": "72f3d3c55397",
+   "first_seen": "2026-10-15T09:07:47.013401+00:00",
+   "members": [
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "China and North Korea open New Yalu River Bridge after 12-year delay",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/15/china-and-north-korea-open-new-yalu-river-bridge-after-12-year-delay/",
+     "published": "2026-10-15T08:15:44+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "New bridge between China and North Korea opens",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/15/asia-pacific/china-north-korea-bridge-open/",
+     "published": "2026-10-15T03:52:00+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "North Korea and China open new bridge after 12-year delay",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/north-korea-and-china-open-new-bridge-after-12-year-delay/",
+     "published": "2026-10-15T04:19:00+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "North Korea and China open new bridge after 12-year delay",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9HWEd5VU9mVlpobVFOQXRDWlZ6Y3B4VmsxdTlJV1BBcW9lMGgwbmJ0YXBCdGlJX1BuYzJTdmhLUFJlX3BESmZ0TlNKZ3pvaTAwdDQ5TEtvMHJOSnM?oc=5",
+     "published": "2026-10-15T02:59:30+00:00"
+    }
+   ],
+   "last_seen": "2026-10-15T09:07:47.013401+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
+  },
+  {
    "id": "b096d9cf93db",
    "first_seen": "2026-10-12T17:07:49.159577+00:00",
    "members": [
@@ -11849,53 +11840,6 @@
    "regions": 3,
    "languages": 2,
    "score": 13.0
-  },
-  {
-   "id": "3a8e301d2f79",
-   "first_seen": "2026-10-07T18:07:47.065879+00:00",
-   "members": [
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "US Troops Face Curfew, Alcohol Ban In Japan's Okinawa Amid Murder Probe",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/us-troops-face-curfew-alcohol-ban-in-japans-okinawa-amid-murder-probe-12150399#publisher=newsstand",
-     "published": "2026-10-07T09:43:42+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "US troops slapped with curfew, alcohol ban over Okinawa murder",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/asia-pacific/us-troops-slapped-with-curfew-alcohol-ban-over-okinawa-murder",
-     "published": "2026-10-07T10:29:00+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "U.S. troops on Okinawa facing curfew, alcohol ban after murder charge vs. Marine",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/u-s-troops-on-okinawa-facing-curfew-alcohol-ban-after-marine-charged-with-murder/",
-     "published": "2026-10-07T10:34:12+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "US forces face 48-hour alcohol ban, 30-day curfew in Japan's Okinawa after murder case",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-forces-face-48-hour-alcohol-ban-30-day-curfew-in-japans-okinawa-after-murder-case-101791379579312.html",
-     "published": "2026-10-07T14:59:44+00:00"
-    }
-   ],
-   "last_seen": "2026-10-07T18:07:47.065879+00:00",
-   "outlets": 4,
-   "regions": 3,
-   "languages": 1,
-   "score": 12.0
   },
   {
    "id": "9fdb0e5c9ef7",
@@ -12178,82 +12122,6 @@
    "regions": 3,
    "languages": 1,
    "score": 12.0
-  },
-  {
-   "id": "dfb1b313b105",
-   "first_seen": "2026-10-07T18:07:47.065879+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Canada suspends plans to expand assisted dying to people with mental illness",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cqd09g0gj50ko?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-07T17:29:46+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Canada suspends mental illness assisted dying plans",
-     "language": "en",
-     "link": "https://punchng.com/canada-suspends-mental-illness-assisted-dying-plans/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-07T17:34:21+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Canada suspends plans to expand assisted dying to people with mental illness",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/canada-suspends-plans-to-expand-assisted-dying-to-people-with-mental-illness/",
-     "published": "2026-10-07T16:28:31+00:00"
-    }
-   ],
-   "last_seen": "2026-10-07T18:07:47.065879+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "f154c5b14a0a",
-   "first_seen": "2026-10-08T03:08:02.336758+00:00",
-   "members": [
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "Trump administration plans to charge international students $70,000 for work authorization",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-07-trump-administration-plans-to-charge-international-students-70000-for-work-authorization/",
-     "published": "2026-10-07T20:37:54+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Trump administration plans to charge international students $70,000 for work authorisation",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/trump-administration-plans-to-charge-international-students-70000-for-work-authorisation/article71557192.ece",
-     "published": "2026-10-07T20:55:50+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "US plans to charge international students US$70,000 for work authorisation",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/08/us-plans-to-charge-international-students-us-70-000-for-work-authorisation",
-     "published": "2026-10-07T23:39:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-08T03:08:02.336758+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
   },
   {
    "id": "ce311588105e",
@@ -13338,127 +13206,194 @@
    "score": 11.0
   },
   {
-   "id": "f8a6780da59d",
-   "first_seen": "2026-10-14T17:07:55.411222+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Netflix to lay off 1,000 staff in steepest cuts since 2022",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c6zxj0gzk4x4o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-14T16:47:32+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Netflix cuts 1,000 jobs in its biggest layoffs since 2022; CEOs issue letter to staff",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/netflix-cuts-1-000-jobs-in-its-biggest-layoffs-since-2022-ceos-issue-letter-to-staff-our-mission-is-101791988785124.html",
-     "published": "2026-10-14T14:48:04+00:00"
-    },
-    {
-     "outlet": "Engadget",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "Netflix to lay off roughly 1,000 employees in biggest round of job cuts since 2022",
-     "language": "en",
-     "link": "https://www.engadget.com/2286699/netflix-to-lay-off-roughly-1000-employees-in-biggest-round-of-job-cuts-since-2022/",
-     "published": "2026-10-14T16:36:47+00:00"
-    }
-   ],
-   "last_seen": "2026-10-14T17:07:55.411222+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "ae95b817aa65",
-   "first_seen": "2026-10-14T17:07:55.411222+00:00",
+   "id": "aac17905e9a2",
+   "first_seen": "2026-10-15T09:07:47.013401+00:00",
    "members": [
     {
      "outlet": "The Guardian — World",
      "region": "uk",
      "bucket": "serious",
-     "title": "Sally Rooney says she can no longer sell books in UK due to Palestine Action support",
+     "title": "Elon Musk suggests US government was behind Starlink restrictions in Ukraine",
      "language": "en",
-     "link": "https://www.theguardian.com/uk-news/2026/oct/14/sally-rooney-says-she-can-no-longer-sell-books-in-the-uk-because-of-palestine-action-support",
-     "published": "2026-10-14T16:06:42+00:00"
+     "link": "https://www.theguardian.com/world/live/2026/oct/15/ukraine-russia-war-starlink-zelenskyy-putin-elon-musk-trump-europe-latest-news",
+     "published": "2026-10-15T08:45:04+00:00"
     },
     {
-     "outlet": "South China Morning Post",
-     "region": "cn",
+     "outlet": "Meduza English",
+     "region": "ru",
      "bucket": "serious",
-     "title": "Sally Rooney books can’t be sold in UK amid Palestine Action ban, publisher says",
+     "title": "‘Starshield systems are owned and controlled by the U.S. government.’ Musk responds to Ukraine’s complaints about restrictions on the military version of Starlink.",
      "language": "en",
-     "link": "https://www.scmp.com/news/world/europe/article/3370918/sally-rooney-books-cant-be-sold-uk-amid-palestine-action-ban-publisher-says?utm_source=rss_feed",
-     "published": "2026-10-14T16:41:07+00:00"
+     "link": "https://meduza.io/en/news/2026/10/14/starshield-systems-are-owned-and-controlled-by-the-u-s-government-musk-responds-to-ukraine-s-complaints-about-restrictions-on-the-military-version-of-starlink",
+     "published": "2026-10-14T20:34:10+00:00"
     },
     {
-     "outlet": "Google News — World",
-     "region": "global",
+     "outlet": "The Japan Times",
+     "region": "jp",
      "bucket": "serious",
-     "title": "Sally Rooney says she can no longer sell books in UK due to Palestine Action support",
+     "title": "What is Starshield, SpaceX’s military version of Starlink?",
      "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxNOWJqN2oyMjJHbkl6dnhoLTNDSmkyczhTSFpSSXF2a1AxWVp6dTBLRWUyckcxclJoc1BRZnRzRVJVS1VTRXlWOU5wTDJYNFJmT0VlcHhMMG0teHBrbGNaWjR6OGVXa2pPM1JHajM1NW1XZW5xM21CajlrSEEyTUlBVmZGR3loQjJGZDBnLVcwMEpjQklFNU1IcW5ZWkZTaGhVa3NaeWxkTHhlR1VpVDFFd081V3doOFhqMkxPVXRFbmdMN2JDeDVHYjZMWUsySnJkRXBWblpWbw?oc=5",
-     "published": "2026-10-14T13:06:00+00:00"
+     "link": "https://www.japantimes.co.jp/news/2026/10/15/world/starshield-explainer/",
+     "published": "2026-10-15T02:30:00+00:00"
     }
    ],
-   "last_seen": "2026-10-14T17:07:55.411222+00:00",
+   "last_seen": "2026-10-15T09:07:47.013401+00:00",
    "outlets": 3,
    "regions": 3,
    "languages": 1,
    "score": 11.0
   },
   {
-   "id": "55d7d97f75a2",
-   "first_seen": "2026-10-07T18:07:47.065879+00:00",
+   "id": "272585de028f",
+   "first_seen": "2026-10-15T09:07:47.013401+00:00",
    "members": [
     {
      "outlet": "BBC Sport",
      "region": "sport",
      "bucket": "sport",
-     "title": "Eckert free to stay as Southampton boss as Spygate ban suspended",
+     "title": "'Shameless' - Mourinho critical of Vinicius Jr ban timing",
      "language": "en",
-     "link": "https://www.bbc.co.uk/sport/football/articles/cqj9knmvm2ryo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-07T16:11:15+00:00"
+     "link": "https://www.bbc.co.uk/sport/football/articles/ckd7qg5q87qvo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-14T23:13:20+00:00"
     },
     {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Southampton manager Tonda Eckert given six-week suspended ban for Spygate scandal",
-     "language": "en",
-     "link": "https://www.theguardian.com/football/2026/oct/07/southampton-manager-tonda-eckert-six-week-suspended-ban-spygate-fa",
-     "published": "2026-10-07T15:12:21+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
+     "outlet": "Daily Sabah",
+     "region": "tr",
      "bucket": "serious",
-     "title": "Southampton manager Eckert fined, given suspended ban for 'spygate' role",
+     "title": "Vinicius to miss Clasico after 4-game ban as Mourinho blasts timing",
      "language": "en",
-     "link": "https://www.channelnewsasia.com/sport/southampton-manager-eckert-fined-given-suspended-ban-spygate-role-6440186",
-     "published": "2026-10-07T15:58:31+00:00"
+     "link": "https://www.dailysabah.com/sports/football/vinicius-to-miss-clasico-after-4-game-ban-as-mourinho-blasts-timing",
+     "published": "2026-10-15T04:46:00+00:00"
     },
     {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Eckert to remain Saints boss after getting suspended ban for Spygate",
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Mourinho blasts ‘shameless’ timing of Vinicius ban decision",
      "language": "en",
-     "link": "https://www.skysports.com/football/news/12040/13567723/spygate-southampton-boss-tonda-eckert-keeps-job-after-receiving-six-week-suspended-ban-and-28000-fine",
-     "published": "2026-10-07T16:00:00+00:00"
+     "link": "https://www.vanguardngr.com/2026/10/mourinho-blasts-shameless-timing-of-vinicius-ban-decision/",
+     "published": "2026-10-15T07:15:07+00:00"
     }
    ],
-   "last_seen": "2026-10-07T18:07:47.065879+00:00",
-   "outlets": 4,
-   "regions": 2,
+   "last_seen": "2026-10-15T09:07:47.013401+00:00",
+   "outlets": 3,
+   "regions": 3,
    "languages": 1,
-   "score": 10.0
+   "score": 11.0
+  },
+  {
+   "id": "2346a43bb40a",
+   "first_seen": "2026-10-15T09:07:47.013401+00:00",
+   "members": [
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Oil prices retreat as investors weigh supply outlook, Middle East tensions",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2634964/oil-prices-retreat-as-investors-weigh-supply-outlook-middle-east-tensions",
+     "published": "2026-10-15T00:30:54+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Oil prices retreat as investors weigh supply outlook, West Asia tensions",
+     "language": "en",
+     "link": "https://www.thehindu.com/business/oil-prices-dip-as-supply-risks-from-west-asia-tensions-clash/article71586615.ece",
+     "published": "2026-10-15T04:31:55+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Oil prices retreat as investors weigh supply outlook, Middle East tensions",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/oil-prices-retreat-as-investors-weigh-supply-outlook-middle-east-tensions/",
+     "published": "2026-10-15T05:54:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-15T09:07:47.013401+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "1f3aafdf3890",
+   "first_seen": "2026-10-15T09:07:47.013401+00:00",
+   "members": [
+    {
+     "outlet": "Investing.com — الاقتصاد",
+     "region": "money",
+     "bucket": "useful",
+     "title": "Prolonged war, renewed disruptions pose biggest risk to Middle East region, IMF says",
+     "language": "en",
+     "link": "https://www.investing.com/news/economy-news/prolonged-war-renewed-disruptions-pose-biggest-risk-to-middle-east-region-imf-says-4950509",
+     "published": "2026-10-15T06:36:22+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Prolonged war, renewed disruptions pose biggest risk to Middle East region, says IMF",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/business/2026/10/15/prolonged-war-renewed-disruptions-pose-biggest-risk-to-middle-east-region-says-imf",
+     "published": "2026-10-15T07:21:59+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Prolonged war, disruptions present biggest risk to Mideast economies",
+     "language": "en",
+     "link": "https://www.dailysabah.com/business/economy/prolonged-war-disruptions-present-biggest-risk-to-mideast-economies",
+     "published": "2026-10-15T07:42:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-15T09:07:47.013401+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "5dafb8cfa4a9",
+   "first_seen": "2026-10-15T09:07:47.013401+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Israeli settlers set fire to mosque in occupied West Bank",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2037224/israeli-settlers-set-fire-to-mosque-in-occupied-west-bank",
+     "published": "2026-10-15T02:52:32+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Israeli settlers set fire to mosque in occupied West Bank",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/israeli-settlers-set-fire-to-mosque-in-occupied-west-bank/article71584999.ece",
+     "published": "2026-10-14T15:55:34+00:00"
+    },
+    {
+     "outlet": "Tehran Times",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Israeli forces raid West Bank villages as settlers torch mosque",
+     "language": "en",
+     "link": "https://www.tehrantimes.com/news/531087/Israeli-forces-raid-West-Bank-villages-as-settlers-torch-mosque",
+     "published": "2026-10-14T15:36:30+00:00"
+    }
+   ],
+   "last_seen": "2026-10-15T09:07:47.013401+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
   },
   {
    "id": "11cabfbc55e8",
@@ -13515,138 +13450,6 @@
    "regions": 2,
    "languages": 1,
    "score": 10.0
-  },
-  {
-   "id": "8bc4c12d3785",
-   "first_seen": "2026-10-07T18:07:47.065879+00:00",
-   "members": [
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "All schools in Johor to close for two days amid worsening haze",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/asia/johor-all-schools-close-two-days-haze-6439396",
-     "published": "2026-10-07T12:53:00+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Haze: All Johor schools to close for two days starting tomorrow by Regent’s decree over unhealthy API",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/malaysia/2026/10/07/haze-all-johor-schools-to-close-for-two-days-starting-tomorrow-by-regents-decree-over-unhealthy-api/238152",
-     "published": "2026-10-07T12:19:03+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Johor schools to close for 2 days as haze worsens",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/nation/2026/10/07/johor-schools-to-close-for-2-days-as-haze-worsens",
-     "published": "2026-10-07T12:42:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-07T18:07:47.065879+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 1,
-   "score": 9.0
-  },
-  {
-   "id": "81e90ee6a1f9",
-   "first_seen": "2026-10-08T03:08:02.336758+00:00",
-   "members": [
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Ringgit opens slightly higher as markets eye Budget 2027",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/business/2026/10/08/ringgit-opens-slightly-higher-as-markets-eye-budget-2027",
-     "published": "2026-10-08T00:50:00+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Ringgit opens firmer against US dollar as markets await Budget 2027 clues on fiscal deficit",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/money/2026/10/08/ringgit-opens-firmer-against-us-dollar-as-markets-await-budget-2027-clues-on-fiscal-deficit/238168",
-     "published": "2026-10-08T01:13:28+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Malaysia budget 2027: Anwar faces balancing act on cost-of-living relief as general election looms",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/asia/malaysia-budget-anwar-ibrahim-balancing-act-election-6438551",
-     "published": "2026-10-07T22:00:00+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "PAS digesa bentang pelan ekonomi negara menjelang Belanjawan 2027",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/bahasa/tempatan/2026/10/08/pas-digesa-bentang-pelan-ekonomi-negara-menjelang-belanjawan-2027",
-     "published": "2026-10-07T23:30:00+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "PAS told to present national economic plan ahead of Budget 2027",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/nation/2026/10/08/pas-told-to-present-national-economic-plan-ahead-of-budget-2027",
-     "published": "2026-10-07T23:30:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-08T03:08:02.336758+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 1,
-   "score": 9.0
-  },
-  {
-   "id": "fe4a6dccacf9",
-   "first_seen": "2026-10-08T03:08:02.336758+00:00",
-   "members": [
-    {
-     "outlet": "Nikkei Asia",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Japan's Kenso Soai and France's Henri Kagan win Nobel chemistry prize",
-     "language": "en",
-     "link": "https://asia.nikkei.com/business/science/japan-s-kenso-soai-and-france-s-henri-kagan-win-nobel-chemistry-prize",
-     "published": "2026-10-08T03:07:34.538020+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Japanese scientist Kenso Soai and France’s Henri B. Kagan win Nobel Prize in chemistry",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/07/japan/science-health/2026-nobel-prize-chemistry/",
-     "published": "2026-10-07T09:21:00+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Henri Kagan, Kenso Soai win Nobel for 'making chemistry choose a mirror image'",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/nobel-prize-in-chemistry-awarded-to-henri-kagan-and-kenso-soai-101791366205106.html",
-     "published": "2026-10-07T09:49:56+00:00"
-    }
-   ],
-   "last_seen": "2026-10-08T03:08:02.336758+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 1,
-   "score": 9.0
   },
   {
    "id": "2f691732dcfe",
@@ -14179,82 +13982,6 @@
    "score": 8.0
   },
   {
-   "id": "7b30b3d54a2a",
-   "first_seen": "2026-10-07T18:07:47.065879+00:00",
-   "members": [
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Pakistan Navy conducts 2 counter-narcotics operations, seizes drugs worth $96m: ISPR",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2035411/pakistan-navy-conducts-2-counter-narcotics-operations-seizes-drugs-worth-96m-ispr",
-     "published": "2026-10-07T12:45:23+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Pakistan Navy seizes narcotics worth $96m in Arabian Sea: ISPR",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633496/pakistan-navy-seizes-narcotics-worth-96m-in-arabian-sea-ispr",
-     "published": "2026-10-07T06:23:23+00:00"
-    },
-    {
-     "outlet": "Geo News",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Pakistan Navy seizes $96m worth of narcotics in Arabian Sea operations",
-     "language": "en",
-     "link": "https://www.geo.tv/latest/685440-pakistan-navy-seizes-96m-worth-of-narcotics-in-arabian-sea-operations",
-     "published": "2026-10-07T12:08:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-08T03:08:02.336758+00:00",
-   "outlets": 3,
-   "regions": 1,
-   "languages": 1,
-   "score": 7.0
-  },
-  {
-   "id": "73f6a8561262",
-   "first_seen": "2026-10-07T18:07:47.065879+00:00",
-   "members": [
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "US attacks damaged 111 petrochemical, medical sites in Iran",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248388/US-attacks-damaged-111-petrochemical-medical-sites-in-Iran",
-     "published": "2026-10-07T04:02:44+00:00"
-    },
-    {
-     "outlet": "Tehran Times",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "US attacks damaged 111 petrochemical and pharmaceutical facilities, Iran says",
-     "language": "en",
-     "link": "https://www.tehrantimes.com/news/530872/US-attacks-damaged-111-petrochemical-and-pharmaceutical-facilities",
-     "published": "2026-10-07T18:02:35+00:00"
-    },
-    {
-     "outlet": "IRNA English",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Iran envoy: US attacks damaged 111 petrochemical, pharmaceutical facilities",
-     "language": "en",
-     "link": "https://en.irna.ir/news/86285592/Iran-envoy-US-attacks-damaged-111-petrochemical-pharmaceutical",
-     "published": "2026-10-07T06:15:10+00:00"
-    }
-   ],
-   "last_seen": "2026-10-08T03:08:02.336758+00:00",
-   "outlets": 3,
-   "regions": 1,
-   "languages": 1,
-   "score": 7.0
-  },
-  {
    "id": "f794a75d1e9b",
    "first_seen": "2026-10-08T09:08:05.709468+00:00",
    "members": [
@@ -14627,6 +14354,53 @@
     }
    ],
    "last_seen": "2026-10-13T09:08:09.573950+00:00",
+   "outlets": 3,
+   "regions": 1,
+   "languages": 1,
+   "score": 7.0
+  },
+  {
+   "id": "9b9902dceea0",
+   "first_seen": "2026-10-15T09:07:47.013401+00:00",
+   "members": [
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Man City show fight but fall short of fightback against slick PSG",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/football/videos/cqp8gn9x801po?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-14T21:19:45+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Enzo Maresca insists Manchester City are ‘close’ to PSG despite home defeat",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/2026/oct/14/enzo-maresca-insists-manchester-city-are-close-to-psg-despite-home-defeat",
+     "published": "2026-10-14T22:40:38+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Man City beaten by PSG in thriller as Guardiola returns to Etihad",
+     "language": "en",
+     "link": "https://www.skysports.com/football/manchester-city-vs-paris-saint-germain/report/577628",
+     "published": "2026-10-14T21:50:00+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Manchester City are suddenly box-office in age of charge-rage and mega defiance | Barney Ronay",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/2026/oct/15/manchester-city-paris-saint-germain-psg-champions-league",
+     "published": "2026-10-14T23:00:51+00:00"
+    }
+   ],
+   "last_seen": "2026-10-15T09:07:47.013401+00:00",
    "outlets": 3,
    "regions": 1,
    "languages": 1,

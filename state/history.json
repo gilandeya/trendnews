@@ -1,99 +1,5 @@
 [
   {
-    "score": 35.14,
-    "bucket": "serious",
-    "tokens": [
-      "airport",
-      "attacks",
-      "houthi",
-      "killed",
-      "nationals",
-      "riyadh",
-      "saudi",
-      "three"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cmz7xe37g5wro?at_medium=RSS&at_campaign=rss",
-    "title": "Three Saudi nationals killed in Houthi attacks on Riyadh airport",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-10-09T17:08:12.115111+00:00"
-  },
-  {
-    "score": 25.53,
-    "bucket": "serious",
-    "tokens": [
-      "2027",
-      "budget",
-      "highlights",
-      "key"
-    ],
-    "link": "https://www.freemalaysiatoday.com/category/nation/2026/10/09/2027-budget-the-key-highlights",
-    "title": "2027 budget: the key highlights",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-10-09T17:08:12.115409+00:00"
-  },
-  {
-    "score": 24.56,
-    "bucket": "serious",
-    "tokens": [
-      "hormuz",
-      "irgc",
-      "lpg",
-      "massive",
-      "tanker",
-      "targeted"
-    ],
-    "link": "https://en.mehrnews.com/news/248442/Massive-LPG-tanker-targeted-in-Hormuz-IRGC",
-    "title": "Massive LPG tanker targeted in Hormuz: IRGC",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-10-09T17:08:12.115720+00:00"
-  },
-  {
-    "score": 24.44,
-    "bucket": "serious",
-    "tokens": [
-      "behind",
-      "blogger",
-      "channel",
-      "detains",
-      "million",
-      "montenegro",
-      "pro",
-      "russian",
-      "rybar",
-      "subscribers",
-      "telegram",
-      "war"
-    ],
-    "link": "https://meduza.io/en/news/2026/10/09/montenegro-detains-russian-pro-war-blogger-behind-rybar-a-telegram-channel-with-1-5-million-subscribers",
-    "title": "Montenegro detains Russian pro-war blogger behind Rybar, a Telegram channel with 1.5 million subscribers",
-    "posted_title": "",
-    "region": "ru",
-    "seen_at": "2026-10-09T17:08:12.115993+00:00"
-  },
-  {
-    "score": 23.53,
-    "bucket": "serious",
-    "tokens": [
-      "back",
-      "casualties",
-      "civilian",
-      "donetsk",
-      "military",
-      "pushes",
-      "russia",
-      "soar",
-      "ukraine"
-    ],
-    "link": "https://www.aljazeera.com/news/2026/10/9/ukraine-pushes-russia-back-in-donetsk-as-military-civilian-casualties-soar?traffic_source=rss",
-    "title": "Ukraine pushes Russia back in Donetsk as military, civilian casualties soar",
-    "posted_title": "",
-    "region": "qa",
-    "seen_at": "2026-10-09T17:08:12.116251+00:00"
-  },
-  {
     "score": 22.04,
     "bucket": "serious",
     "tokens": [
@@ -1218,5 +1124,104 @@
     "posted_title": "",
     "region": "health",
     "seen_at": "2026-10-14T17:08:11.293304+00:00"
+  },
+  {
+    "score": 25.81,
+    "bucket": "serious",
+    "tokens": [
+      "biggest",
+      "disruptions",
+      "economies",
+      "mideast",
+      "present",
+      "prolonged",
+      "risk",
+      "war"
+    ],
+    "link": "https://www.dailysabah.com/business/economy/prolonged-war-disruptions-present-biggest-risk-to-mideast-economies",
+    "title": "Prolonged war, disruptions present biggest risk to Mideast economies",
+    "posted_title": "",
+    "region": "tr",
+    "seen_at": "2026-10-15T09:08:02.810902+00:00"
+  },
+  {
+    "score": 25.7,
+    "bucket": "serious",
+    "tokens": [
+      "arabia",
+      "comment",
+      "death",
+      "facebook",
+      "lanka",
+      "man",
+      "overturns",
+      "saudi",
+      "sentence",
+      "sri"
+    ],
+    "link": "https://www.myjoyonline.com/saudi-arabia-overturns-death-sentence-for-man-over-facebook-comment-sri-lanka-says/",
+    "title": "Saudi Arabia overturns death sentence for man over Facebook comment, Sri Lanka says",
+    "posted_title": "",
+    "region": "gh",
+    "seen_at": "2026-10-15T09:08:02.811279+00:00"
+  },
+  {
+    "score": 25.17,
+    "bucket": "serious",
+    "tokens": [
+      "call",
+      "deal",
+      "diesel",
+      "negotiation",
+      "putin",
+      "russia",
+      "supply",
+      "trump",
+      "under"
+    ],
+    "link": "http://www.africanews.com/2026/10/14/russia-says-diesel-supply-deal-with-us-under-negotiation-after-trump-putin-call/",
+    "title": "Russia says diesel supply deal with US under negotiation after Trump-Putin call",
+    "posted_title": "",
+    "region": "africa",
+    "seen_at": "2026-10-15T09:08:02.811606+00:00"
+  },
+  {
+    "score": 24.35,
+    "bucket": "serious",
+    "tokens": [
+      "attacks",
+      "change",
+      "climate",
+      "crisis",
+      "drone",
+      "exacerbate",
+      "humanitarian",
+      "sudan",
+      "sudan's"
+    ],
+    "link": "https://allafrica.com/stories/202610150223.html",
+    "title": "Sudan: Climate Change, Drone Attacks Exacerbate Sudan's Humanitarian Crisis",
+    "posted_title": "",
+    "region": "africa",
+    "seen_at": "2026-10-15T09:08:02.811881+00:00"
+  },
+  {
+    "score": 24.33,
+    "bucket": "serious",
+    "tokens": [
+      "attack",
+      "capital",
+      "houthis",
+      "launch",
+      "mulls",
+      "saudi",
+      "strikes",
+      "trump"
+    ],
+    "link": "https://www.cbsnews.com/live-updates/iran-war-us-houthi-saudi-arabia-trump/",
+    "title": "Houthis launch new attack on Saudi capital as Trump mulls strikes",
+    "posted_title": "",
+    "region": "us",
+    "seen_at": "2026-10-15T09:08:02.812150+00:00"
   }
 ]

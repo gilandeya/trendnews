@@ -1,0 +1,82 @@
+{
+  "id": "0694cc60de7c",
+  "created_at": "2026-10-15T09:08:02.811291+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.17,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 1,
+  "appeal_note": "صفقة ديزل بين روسيا وأمريكا تحت التفاوض بعد اتصال ترامب ببوتين",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Russia says diesel supply deal with US under negotiation after Trump-Putin call",
+  "link": "http://www.africanews.com/2026/10/14/russia-says-diesel-supply-deal-with-us-under-negotiation-after-trump-putin-call/",
+  "publishers": [
+    "Africanews",
+    "Daily Sabah",
+    "Novak",
+    "The Hindu — International"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Russia says diesel supply deal with US under negotiation after Trump-Putin call",
+    "link": "http://www.africanews.com/2026/10/14/russia-says-diesel-supply-deal-with-us-under-negotiation-after-trump-putin-call/",
+    "summary": "Hours after Trump announced a deal with Putin, Russia says negotiations are still underway. Trump claims Moscow will immediately supply over 300,000 tons of diesel, with more shipments promised in November and beyond.",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-10-15T07:09:30+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/95/24/60/640x360_cmsv2_7bfce681-0b01-5c07-9e28-4961e28e9e5d-9952460.jpg?1791997975",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "Daily Sabah",
+      "Novak",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/10/14/russia-says-diesel-supply-deal-with-us-under-negotiation-after-trump-putin-call/"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/europe/zelenskyy-feels-betrayed-by-trump-over-russia-diesel-deal"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/us-russia-deal-on-diesel-is-very-risky-choice-says-italy-pm-giorgia-meloni/article71583478.ece"
+      },
+      {
+        "name": "Novak",
+        "link": "https://tass.com/economy/2202365"
+      },
+      {
+        "name": "Novak",
+        "link": "https://tass.com/economy/2202349"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/95/24/60/640x360_cmsv2_7bfce681-0b01-5c07-9e28-4961e28e9e5d-9952460.jpg?1791997975",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/10/14/465709.jpg",
+      "https://th-i.thgim.com/public/incoming/2z5zx3/article71583513.ece/alternates/LANDSCAPE_1200/2026-10-14T104936Z_1034852574_RC2Y2OASBRZK_RTRMADP_3_USA-RUSSIA-ITALY-MELONI.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 1720.9130224175,
+    "is_stale": true,
+    "score": 25.16857405924074,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 1,
+    "appeal_note": "صفقة ديزل بين روسيا وأمريكا تحت التفاوض بعد اتصال ترامب ببوتين",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
