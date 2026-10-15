@@ -9416,6 +9416,213 @@ def test_reel_hook_r5c1_guards() -> None:
         shutil.rmtree(tmp, ignore_errors=True)
 
 
+def test_reel_speaker_vision_r5b2_guards() -> None:
+    """Issue #1431 (R5b2، g308–g312): حين يظهر أكثر من وجه يحسم الرؤية (ثلاث لقطات بمستطيلات مرقّمة) من المتكلم، فإن لم تُقبل
+    عادت حركة الفم بشرط التفوق margin وإلا أكبر وجه؛ مسار واحد لا نداء له. لا شبكة ولا ffmpeg."""
+    import base64
+    import io
+    import json
+    import tempfile
+    from pathlib import Path
+
+    import numpy as np
+    from PIL import Image
+
+    from src import llm, reel_render, reel_script
+
+    cfg = load_config()
+    SW, SH = 640, 360
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    D = "2099-12-09"
+    quote = "alpha beta gamma delta epsilon zeta eta theta"
+    points = [{"video_id": "v1", "statement": "s", "quote_original": quote, "quote_arabic": "ترجمة", "speaker": "متحدث",
+               "channel": "CNN TÜRK", "video_url": "https://youtube.com/watch?v=v1", "timestamp": 10},
+              {"video_id": "v2", "statement": "s2", "quote_original": quote, "quote_arabic": "ترجمة٢", "speaker": "متحدث٢",
+               "channel": "CNN TÜRK", "video_url": "https://youtube.com/watch?v=v2", "timestamp": 10}]
+    clip = {"kind": "clip", "start": 9, "end": 20, "speaker_name": "", "speaker_role": "", "speaker_verified": False,
+            "speaker_name_latin": "", "channel_display": "سي إن إن ترك", "channel_original": "CNN TÜRK",
+            "quote_arabic": "ترجمة", "language": "tr"}
+    transcripts = {v: "[00:10] alpha beta gamma delta\n[00:14] epsilon zeta eta theta\n[00:18] tail line" for v in ("v1", "v2")}
+    empty_pv = {"news": lambda *a: [], "web": lambda *a, **k: [], "free": lambda *a: []}
+    two = [(120, 100, 100, 120), (420, 100, 100, 120)]      # مركزان 170 و470؛ الرقم 1 = الأيمن (470)
+    FRAMES = [np.full((SH, SW), 100, np.uint8) for _ in range(20)]
+
+    def scenes():
+        return [dict(clip, kind="cold_open_clip", video_url=points[0]["video_url"],
+                     point_id=reel_script.point_key_id(points[0])),
+                {"kind": "narration", "text": "جملة."},
+                dict(clip, video_url=points[1]["video_url"], point_id=reel_script.point_key_id(points[1])),
+                {"kind": "question", "text": "هل؟"}, {"kind": "outro"}]
+
+    def fake_diff(left, right):
+        mtop = float(cfg.path("reel.render.speaker.mouth_top"))
+
+        def diff(fa, box_a, fb, box_b, top, bottom, width, search):
+            if abs(top - mtop) > 1e-6:
+                return 0.0
+            return left if box_a[0] < 300 else right
+        return diff
+
+    def render(did, tmp, *, boxes=two, pick=None, left=3.0, right=0.5):
+        cmds, comments, calls = [], [], []
+
+        def run(cmd):
+            cmds.append([str(c) for c in cmd])
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+
+        def download(video_id, start, end, height, out_path):
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        def spy_pick(f, tracks, scene, c):
+            calls.append(len(tracks))
+            return pick(f, tracks, scene, c)
+        deps = reel_render.Deps(
+            fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
+            synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
+            diacritize=lambda t: (t, None), run=run,
+            probe=lambda p: 41.0 if "reels" in Path(p).parts else 2.0, sleep=lambda s: None,
+            load_points=lambda date: points, comment=lambda i, t: comments.append(t),
+            faces=lambda f, fr: (SW, SH, [170.0, 170.0]), frames=lambda p, fr: [np.full((SH, SW), 100, np.uint8)] * len(fr),
+            streams=lambda p: {"video", "audio"}, read_chyron=lambda f, c: None,
+            face_tracks=lambda f, c: (SW, SH, FRAMES, [list(boxes) for _ in FRAMES]),
+            pick_speaker=spy_pick if pick else None, bg_image=lambda u: None, bg_providers=empty_pv)
+        d0 = {"id": did, "origin": "analysis", "format": "reel", "status": "approved_script", "render_status": "queued",
+              "topic_id": "t1", "topic_date": D, "title": "ريل", "script_status": "ready", "review_issue": 4244,
+              "script": {"narrator": "female", "title": "عنوان", "question": "هل؟", "scenes": scenes()}}
+        path = store.save_draft(d0)
+        o = reel_render._region_diff
+        reel_render._region_diff = fake_diff(left, right)
+        try:
+            reel_render.render_draft(path, d0, cfg, deps, reels_dir=tmp / "reels", workdir=tmp / "work")
+        finally:
+            reel_render._region_diff = o
+        return {"state": json.loads(path.read_text(encoding="utf-8")), "comments": comments, "calls": calls}
+
+    def votes(*nums):
+        return lambda f, tracks, scene, c: [{"speaker": n, "archive": [], "reason": ""} for n in nums]
+
+    def crop0(r):
+        return (r["state"].get("render_crops") or {}).get("0") or {}
+
+    tmp = Path(tempfile.mkdtemp())
+    try:
+        # ── g308: الرؤية تغلب حركة الفم (لقطات أرشيفية) ──
+        def g308():
+            want = reel_render.crop_window(SW, SH, [170.0], "face")["x"]
+            r = render("r5b2000g308a1", tmp, pick=votes(2, 2, 0))        # حركة فم المسار الأيمن (1) أعلى بكثير
+            c = crop0(r)
+            check("g308: التركيب نجح", r["state"].get("render_status") == "rendered", r["state"].get("render_error"))
+            check("g308: source == speaker_vision", c.get("source") == "speaker_vision", c)
+            check("g308: النافذة تتوسّط المسار الثاني (الأيسر)", c.get("x") == want, (c.get("x"), want))
+            check("g308: vision يحمل pick وagree وarchive",
+                  c.get("vision", {}).get("pick") == 2 and c["vision"].get("agree") == 2 and "archive" in c["vision"], c)
+        guarded("g308", g308)
+
+        # ── g309: عدم قبول الرؤية ← حركة الفم بشرط التفوق ثم أكبر وجه ──
+        def g309():
+            for n, (tag, pk) in enumerate((("0 و0 و0", votes(0, 0, 0)), ("1 و2 و0 (اختلاف)", votes(1, 2, 0)))):
+                r = render(f"r5b2000g309a{n}", tmp, pick=pk, left=1.0, right=0.9)
+                check(f"g309: {tag}، 1.0 و0.9 ← face", crop0(r).get("source") == "face", crop0(r))
+                r = render(f"r5b2000g309b{n}", tmp, pick=pk, left=0.5, right=1.0)
+                c = crop0(r)
+                check(f"g309: {tag}، 1.0 و0.5 ← speaker للأعلى (470)",
+                      c.get("source") == "speaker" and c.get("x") == reel_render.crop_window(SW, SH, [470.0], "face")["x"], c)
+            check("g309: speaker.margin في الإعداد", float(cfg.path("reel.render.speaker.margin", 0)) == 1.25,
+                  cfg.path("reel.render.speaker"))
+        guarded("g309", g309)
+
+        # ── g310: عطل الرؤية، ومسار واحد بلا نداء ──
+        def g310():
+            def boom(f, tracks, scene, c):
+                raise RuntimeError("down")
+            r = render("r5b2000g310a1", tmp, pick=boom, left=1.0, right=0.9)
+            check("g310: استثناء ← التركيب ينجح", r["state"].get("render_status") == "rendered", r["state"].get("render_error"))
+            check("g310: استثناء ← face (1.0 و0.9)", crop0(r).get("source") == "face", crop0(r))
+            r = render("r5b2000g310b1", tmp, pick=boom, left=0.5, right=1.0)
+            check("g310: استثناء ← speaker (1.0 و0.5)", crop0(r).get("source") == "speaker", crop0(r))
+            r = render("r5b2000g310c1", tmp, boxes=two[:1], pick=votes(1, 1, 1))
+            check("g310: مسار واحد ← لا نداء", r["calls"] == [], r["calls"])
+            check("g310: مسار واحد ← التركيب ينجح", r["state"].get("render_status") == "rendered",
+                  r["state"].get("render_error"))
+        guarded("g310", g310)
+
+        # ── g311: النداء الحقيقي ──
+        def g311():
+            tracks = [{"center": 470.0, "box": (420, 100, 100, 120)}, {"center": 170.0, "box": (120, 100, 100, 120)}]
+            raw = Image.new("RGB", (SW, SH), (120, 120, 120))
+            jpg = reel_render.annotated_jpeg(raw, tracks, cfg)
+            sent = np.asarray(Image.open(io.BytesIO(jpg)).convert("RGB")).astype(int)
+            base = np.asarray(raw).astype(int)
+            region = (slice(94, 232), slice(114, 226))
+            check("g311: المستطيل مرسوم (اللقطة تختلف في منطقته)",
+                  np.abs(sent[region] - base[region]).mean() > 3, np.abs(sent[region] - base[region]).mean())
+            check("g311: خارج المستطيل لا تغيير", np.abs(sent[:60, :60] - base[:60, :60]).mean() < 3)
+            big = reel_render.annotated_jpeg(Image.new("RGB", (2560, 1440), (120, 120, 120)), tracks, cfg)
+            check("g311: التصغير إلى عرض 1280", Image.open(io.BytesIO(big)).width == 1280)
+            seen: dict = {}
+
+            class Block:
+                type = "tool_use"
+                name = "pick_speaker"
+                input = {"frames": [{"speaker": 2, "archive": [1], "reason": "r"}] * 3}
+
+            class Resp:
+                stop_reason = "tool_use"
+                content = [Block()]
+
+            class Msgs:
+                def create(self, **kw):
+                    seen.update(kw)
+                    return Resp()
+
+            class Client:
+                messages = Msgs()
+            out = reel_render.call_pick_speaker_model([jpg, jpg, jpg], dict(clip, speaker_name="فلان"), cfg, Client())
+            blocks = [b for m in seen.get("messages", []) for b in (m["content"] if isinstance(m["content"], list) else [])
+                      if b.get("type") == "image"]
+            text = " ".join(b.get("text", "") for m in seen.get("messages", []) for b in
+                            (m["content"] if isinstance(m["content"], list) else []) if b.get("type") == "text")
+            check("g311: النموذج haiku المحلول", seen.get("model") == llm.resolve("haiku"), seen.get("model"))
+            check("g311: ثلاث كتل image base64 jpeg",
+                  len(blocks) == 3 and all(b["source"]["type"] == "base64" and b["source"]["media_type"] == "image/jpeg"
+                                           for b in blocks), blocks)
+            check("g311: الصورة المرسلة هي المشروحة", base64.b64decode(blocks[0]["source"]["data"]) == jpg if blocks else False)
+            tc = seen.get("tool_choice") or {}
+            check("g311: أداة إجبارية pick_speaker", [t["name"] for t in seen.get("tools") or []] == ["pick_speaker"]
+                  and tc.get("type") == "tool" and tc.get("name") == "pick_speaker", tc)
+            check("g311: quote_arabic واسم المتحدث والقناة في الرسالة",
+                  all(s in text for s in ("ترجمة", "فلان", "سي إن إن ترك")), text)
+            check("g311: تعليمة النظام من الإعداد", bool(seen.get("system")) and "مستطيلات" in str(seen.get("system")))
+            check("g311: الناتج ثلاثة إطارات", isinstance(out, list) and len(out) == 3 and out[0]["speaker"] == 2, out)
+        guarded("g311", g311)
+
+        # ── g312: سطر 🎯 وrender_version ──
+        def g312():
+            r = render("r5b2000g312a1", tmp, pick=votes(2, 2, 2))
+            lines = [ln for c in r["comments"] for ln in c.splitlines() if "🎯" in ln]
+            check("g312: سطر 🎯 لكل مقطع بوجهين", len(lines) == 2, lines)
+            check("g312: السطر يحمل القناة وعدد الوجوه والرؤية",
+                  bool(lines) and "سي إن إن ترك" in lines[0] and "2 وجوه" in lines[0] and "بالرؤية" in lines[0], lines)
+            r = render("r5b2000g312b1", tmp, pick=votes(0, 0, 0), left=0.5, right=1.0)
+            check("g312: بحركة الفم", any("بحركة الفم" in c for c in r["comments"]), r["comments"])
+            r = render("r5b2000g312c1", tmp, pick=votes(0, 0, 0), left=1.0, right=0.9)
+            check("g312: أكبر وجه", any("أكبر وجه" in c and "🎯" in c for c in r["comments"]), r["comments"])
+            r = render("r5b2000g312d1", tmp, boxes=two[:1], pick=votes(1, 1, 1))
+            check("g312: لا سطر لمقطع بوجه واحد", not any("🎯" in c for c in r["comments"]), r["comments"])
+            check("g312: render_version == 13", int(cfg.path("reel.render.version")) == 13, cfg.path("reel.render.version"))
+        guarded("g312", g312)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
 def test_speed_t1_guards() -> None:
     """Issue #1422 (T1، g278–g279): تسريع حزمة الاختبارات — preset الترميز من الإعداد (حقيقيه veryfast وفي الاختبارات ultrafast)
     وحفظ إطارات PNG المؤقتة بضغط خفيف دون تغيير البكسلات."""
