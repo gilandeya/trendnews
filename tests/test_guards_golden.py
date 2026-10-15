@@ -10558,3 +10558,357 @@ def test_reel_fonts_r5g_guards() -> None:
               [b for b in boxes if b[0] < 0 or b[2] > 1080])
         check("g338: render_version == 18", int(cfg.path("reel.render.version")) == 18, cfg.path("reel.render.version"))
     guarded("g338", g338)
+
+
+def test_reel_hook_script_r5c3_guards() -> None:
+    """Issue #1445 (R5c3، g339–g345): اختيار لقطة الهوك آليًا في مرحلة السيناريو (الأكثر مشاهدة من لقطات الحدث) وعرضه في قضية
+    المراجعة، والفحص البصري وحده في التركيب. لا شبكة ولا ffmpeg."""
+    import json
+    import os
+    import shutil
+    import tempfile
+    from pathlib import Path
+    from types import SimpleNamespace
+
+    import numpy as np
+    from PIL import Image
+
+    from src import names_audit, reel_editor, reel_hook_search, reel_render, reel_script, store
+    from src import youtube_article as ya
+    from src import youtube_publish as yp
+
+    cfg = load_config()
+    cfg.setdefault("reel", {})["enabled"] = True
+    D = "2099-11-02"
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def hit(vid, channel, title="t", published="2099-11-02T08:00:00Z"):
+        return {"video_id": vid, "channel": channel, "title": title, "published": published}
+
+    def hook_deps(search=None, details=None, judge=None, queries=None, fail=None):
+        """search: (عبارة، مدة) ← نتائج؛ queries: قائمة عبارات لكل محاولة بترتيبها."""
+        c = {"search": 0, "details": 0, "queries": 0, "judge": 0, "calls": [], "broad": []}
+
+        def yt_search(query, after, before, max_results, duration):
+            c["search"] += 1
+            c["calls"].append((query, duration, after, before))
+            if fail == "search":
+                raise RuntimeError("search down")
+            return list((search or {}).get((query, duration), []))
+
+        def yt_details(ids):
+            c["details"] += 1
+            return {i: (details or {}).get(i, {"duration": 100, "views": 0}) for i in ids}
+
+        def make_queries(script, draft, cfg_, broad=False):
+            c["queries"] += 1
+            c["broad"].append(broad)
+            qs = queries or [["a", "b", "c"], ["d", "e", "f"]]
+            return qs[min(c["queries"], len(qs)) - 1]
+
+        def judge_titles(items, event, cfg_):
+            c["judge"] += 1
+            default = lambda v: {"relevant": True, "footage": True}
+            return {i["video_id"]: (judge or default)(i["video_id"]) for i in items}
+
+        return reel_hook_search.HookDeps(yt_search=yt_search, yt_details=yt_details, make_queries=make_queries,
+                                         judge_titles=judge_titles), c
+
+    # ── منصّة كتابة السيناريو (مزيَّفات R2c نفسها) ──
+    def pt(i, speaker, ts):
+        return {"video_id": f"w{i}", "bloc": "arabic", "channel": "الجزيرة", "speaker": speaker,
+                "statement": f"قول {i}", "quote_arabic": f"اقتباس {i}", "quote_original": " ".join(["كلمة"] * 20),
+                "type": "fact", "video_title": f"فيديو {i}", "video_url": f"https://youtube.com/watch?v=w{i}",
+                "timestamp": ts, "video_published": "2099-10-30", "video_description": ""}
+
+    pa, pb = pt(1, "حقان فيدان", 100), pt(2, "ليلى حداد", 200)
+    ids = {p["speaker"]: reel_script.point_key_id(p) for p in (pa, pb)}
+    narr = " ".join(f"س{i}" for i in range(45))
+    narr2 = " ".join(f"ص{i}" for i in range(45))
+
+    def fake_create(client, **kw):
+        if kw["tools"][0]["name"] == "report_speakers":
+            return SimpleNamespace(content=[SimpleNamespace(type="tool_use", name="report_speakers", input={"speakers": []})],
+                                   stop_reason="tool_use", usage=SimpleNamespace(input_tokens=1, output_tokens=1))
+        scenes = [{"kind": "cold_open_clip", "point_id": ids["حقان فيدان"]}, {"kind": "title_card", "text": "ع"},
+                  {"kind": "narration", "text": narr}, {"kind": "clip", "point_id": ids["ليلى حداد"]},
+                  {"kind": "narration", "text": narr2}, {"kind": "question", "text": "ما رأيك؟"}, {"kind": "outro"}]
+        data = {"title": "ع", "question": "ما رأيك؟", "scenes": scenes}
+        return SimpleNamespace(content=[SimpleNamespace(type="tool_use", name="report_reel_script", input=data)],
+                               stop_reason="tool_use", usage=SimpleNamespace(input_tokens=1, output_tokens=1))
+
+    topic = {"id": "aaaa1111bbbb", "title": "موضوع", "event": "حدث"}
+
+    def new_draft(i):
+        d = yp.build_reel_draft({"id": "aaaa1111bbbb", "title": "موضوع", "layer": "a", "blocs": ["arabic"],
+                                 "channels": ["الجزيرة"], "agreement": "agreement", "event": "حدث"}, D, cfg)
+        d["id"] = i
+        d["topic_date"] = D
+        return d
+
+    real = {"create": reel_script._create, "audit": names_audit.run, "hl": ya.generate_headlines,
+            "ed": reel_editor._create}
+    reel_script._create = fake_create
+    names_audit.run = lambda draft, sources, c: {}
+    ya.generate_headlines = lambda *a, **k: (["هل؟", "ب", "ج"], None, None)
+    reel_editor._create = lambda client, **kw: SimpleNamespace(
+        content=[SimpleNamespace(type="tool_use", name="report_review", input={"notes": []})],
+        usage=SimpleNamespace(server_tool_use=None))
+
+    def write(did, deps, key="k"):
+        d = new_draft(did)
+        old = os.environ.get("YOUTUBE_API_KEY")
+        if key is None:
+            os.environ.pop("YOUTUBE_API_KEY", None)
+        else:
+            os.environ["YOUTUBE_API_KEY"] = key
+        try:
+            out = reel_script.write_for_draft(d, topic, [pa, pb], "", [], cfg, hook_deps=deps)
+        finally:
+            if old is None:
+                os.environ.pop("YOUTUBE_API_KEY", None)
+            else:
+                os.environ["YOUTUBE_API_KEY"] = old
+        return d, out
+
+    try:
+        # ── g339: الفلاتر والترتيب والأعداد ──
+        def g339():
+            search = {("a", "short"): [hit("ok1", "Reuters"), hit("out1", "Random Vlog"), hit("long1", "BBC News")],
+                      ("a", "medium"): [hit("ok2", "AP"), hit("disc1", "CNN")],
+                      ("b", "short"): [hit("ok3", "AFP")]}
+            details = {"ok1": {"duration": 90, "views": 5000}, "ok2": {"duration": 200, "views": 90000},
+                       "ok3": {"duration": 60, "views": 700}, "long1": {"duration": 1300, "views": 8000000},
+                       "disc1": {"duration": 300, "views": 9999999}}
+            deps, c = hook_deps(search, details, judge=lambda v: {"relevant": True, "footage": v != "disc1"})
+            d, out = write("h339a1a1a1a1", deps)
+            ids_ = [x["video_id"] for x in d.get("hook_candidates", [])]
+            check("g339: الترتيب بالمشاهدات تنازليًا وبعد الفلاتر الثلاثة", ids_ == ["ok2", "ok1", "ok3"], ids_)
+            check("g339: حقول المرشّح", bool(ids_) and set(d["hook_candidates"][0]) >= {
+                "video_id", "title", "channel", "views", "duration", "published"}, d.get("hook_candidates"))
+            a = ((d.get("hook_search") or {}).get("attempts") or [{}])[0]
+            check("g339: عدّاد كل مرحلة", (a.get("duration_ok"), a.get("judged_ok")) == (4, 3), a)
+            qs = a.get("queries", [])
+            check("g339: لكل عبارة raw وchannel_ok",
+                  [(q["raw"], q["channel_ok"]) for q in qs] == [(5, 4), (1, 1), (0, 0)], qs)
+            check("g339: القناة المرفوضة مسجَّلة", a.get("rejected_channels") == ["Random Vlog"], a.get("rejected_channels"))
+            check("g339: السيناريو جاهز ومحاولة واحدة",
+                  out["status"] == "ready" and len((d.get("hook_search") or {}).get("attempts", [])) == 1, out)
+            check("g339: نداء judge_titles واحد", c["judge"] == 1, c["judge"])
+        guarded("g339", g339)
+
+        # ── g340: نداءان لكل عبارة، والمحاولة الثانية، ولا ثالثة ──
+        def g340():
+            deps, c = hook_deps({("d", "short"): [hit("n1", "Reuters")]}, {"n1": {"duration": 50, "views": 10}})
+            d, _ = write("h340a1a1a1a1", deps)
+            first = c["calls"][:6]
+            check("g340: لكل عبارة short ثم medium",
+                  [(q, dur) for q, dur, _, _ in first] == [("a", "short"), ("a", "medium"), ("b", "short"),
+                                                           ("b", "medium"), ("c", "short"), ("c", "medium")], first)
+            check("g340: نافذة الأولى ±2", bool(first) and first[0][2].startswith("2099-10-31")
+                  and first[0][3].startswith("2099-11-04"), first[:1])
+            second = c["calls"][6] if len(c["calls"]) > 6 else ("", "", "", "")
+            check("g340: نافذة الثانية −4/+3", second[2].startswith("2099-10-29") and second[3].startswith("2099-11-05"),
+                  second)
+            check("g340: عبارات الثانية أعمّ وجديدة", c["broad"] == [False, True] and second[0] == "d", (c["broad"], second))
+            hs = d.get("hook_search") or {}
+            check("g340: المحاولة الثانية محفوظة وفيها مرشّح",
+                  len(hs.get("attempts", [])) == 2 and [x["video_id"] for x in d.get("hook_candidates", [])] == ["n1"], hs)
+            deps2, c2 = hook_deps({})
+            d2, _ = write("h340b1b1b1b1", deps2)
+            check("g340: لا ثالثة — make_queries مرتان", c2["queries"] == 2, c2["queries"])
+            check("g340: مجموع search.list ≤ 12", c2["search"] == 12, c2["search"])
+            check("g340: بلا مرشّح ← hook_candidates فارغة ومحاولتان", d2.get("hook_candidates") == []
+                  and len((d2.get("hook_search") or {}).get("attempts", [])) == 2, d2.get("hook_search"))
+        guarded("g340", g340)
+
+        # ── g341: بلا مفتاح وعطل البحث ──
+        def g341():
+            deps, c = hook_deps({("a", "short"): [hit("x", "Reuters")]})
+            d, out = write("h341a1a1a1a1", deps, key=None)
+            check("g341: بلا مفتاح ← skipped no_key", d.get("hook_search") == {"skipped": "no_key"}, d.get("hook_search"))
+            check("g341: بلا أي نداء والسيناريو جاهز",
+                  c["search"] == 0 and c["queries"] == 0 and c["details"] == 0 and out["status"] == "ready"
+                  and d.get("script_status") == "ready", c)
+            deps2, _ = hook_deps(fail="search")
+            d2, out2 = write("h341b1b1b1b1", deps2)
+            check("g341: عطل البحث ← السيناريو جاهز أيضًا", out2["status"] == "ready" and d2.get("script_status") == "ready"
+                  and not d2.get("hook_candidates"), out2)
+        guarded("g341", g341)
+
+        # ── g342: قضية المراجعة ──
+        def g342():
+            T = cfg.path("reel.texts")
+            search = {("a", "short"): [hit("ok1", "Reuters", "قصف مطار"), hit("ok2", "AP", "دخان فوق المدينة")]}
+            details = {"ok1": {"duration": 125, "views": 90000}, "ok2": {"duration": 60, "views": 5000}}
+            deps, _ = hook_deps(search, details)
+            d, _ = write("h342a1a1a1a1", deps)
+            body = yp.build_review_body([d], "u/r", "main", cfg)
+            check("g342: سطر 🎞️ بالرابط والقناة والمدة",
+                  "🎞️ لقطة الهوك" in body and "https://www.youtube.com/watch?v=ok1" in body and "Reuters" in body
+                  and "02:05" in body, body[:1500])
+            check("g342: الصورة المصغّرة", "![](https://i.ytimg.com/vi/ok1/mqdefault.jpg)" in body)
+            check("g342: سطر البدائل",
+                  "بدائل" in body and "2) [دخان فوق المدينة](https://www.youtube.com/watch?v=ok2)" in body, body)
+            deps2, _ = hook_deps({})
+            d2, _ = write("h342b1b1b1b1", deps2)
+            body2 = yp.build_review_body([d2], "u/r", "main", cfg)
+            check("g342: بلا مرشّحين ← سطر «لم أجد» بالأعداد",
+                  "لم أجد لقطة للحدث" in body2
+                  and "نتائج 0 · من القائمة 0 · بالمدة 0 · لقطات من الحدث 0" in body2, body2[:1500])
+            d3, _ = write("h342c1c1c1c1", deps2, key=None)
+            body3 = yp.build_review_body([d3], "u/r", "main", cfg)
+            check("g342: بلا مفتاح ← سطر «معطَّل»", "بحث لقطة الهوك معطَّل (لا مفتاح يوتيوب)" in body3, body3[:1500])
+            check("g342: النصوص في reel.texts", all(k in T for k in ("hook_line", "hook_none", "hook_off")), list(T))
+        guarded("g342", g342)
+    finally:
+        reel_script._create = real["create"]
+        names_audit.run = real["audit"]
+        ya.generate_headlines = real["hl"]
+        reel_editor._create = real["ed"]
+
+    # ── التركيب ──
+    title = "عنوان الهوك"
+    quote = "alpha beta gamma delta epsilon zeta eta theta"
+    points = [{"video_id": f"v{n}", "statement": "s", "quote_original": quote, "quote_arabic": "ترجمة", "speaker": "متحدث",
+               "channel": "CNN TÜRK", "video_url": f"https://youtube.com/watch?v=v{n}", "timestamp": 10} for n in (1, 2)]
+    clip = {"kind": "clip", "start": 9, "end": 20, "speaker_name": "", "speaker_role": "", "speaker_verified": False,
+            "speaker_name_latin": "", "channel_display": "سي إن إن ترك", "channel_original": "CNN TÜRK",
+            "quote_arabic": "ترجمة", "language": "tr"}
+    transcripts = {v: "[00:10] alpha beta gamma delta\n[00:14] epsilon zeta eta theta\n[00:18] tail line" for v in ("v1", "v2")}
+    empty_pv = {"news": lambda *a: [], "web": lambda *a, **k: [], "free": lambda *a: []}
+    scenes = [dict(clip, kind="cold_open_clip", video_url=points[0]["video_url"], point_id=reel_script.point_key_id(points[0])),
+              {"kind": "title_card", "text": title}, {"kind": "narration", "text": "جملة."},
+              dict(clip, video_url=points[1]["video_url"], point_id=reel_script.point_key_id(points[1])),
+              {"kind": "question", "text": "هل؟"}, {"kind": "outro"}]
+
+    def render_rig(plan, search=None):
+        c = {"search": 0, "queries": 0, "details": 0, "judge": 0, "scanned": [], "pick": 0}
+        state = {"cur": None}
+
+        def run(cmd):
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+
+        def download(video_id, start, end, height, out_path):
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        def yt_search(query, after, before, max_results, duration=None):
+            c["search"] += 1
+            return list((search or {}).get((query, duration), []))
+
+        def yt_details(ids_):
+            c["details"] += 1
+            return {i: {"duration": 100, "views": 777} for i in ids_}
+
+        def make_queries(script, draft, c_, broad=False):
+            c["queries"] += 1
+            return ["a", "b", "c"]
+
+        def judge_titles(items, event, c_):
+            c["judge"] += 1
+            return {i["video_id"]: {"relevant": True, "footage": True} for i in items}
+
+        def scan_download(video_id, seconds, height, out_path):
+            c["scanned"].append(video_id)
+            Path(out_path).write_bytes(video_id.encode())
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        def scan_frames(path, seconds, c_):
+            state["cur"] = Path(path).read_bytes().decode()
+            return [Image.new("RGB", (64, 36), (10, 10, 10)) for _ in range(20)]
+
+        def classify(jpeg, event, first_t, count, c_):
+            good = plan.get(state["cur"], range(0))
+            return [{"t": t, "kind": "event_footage" if t in good else "studio", "relevant": t in good}
+                    for t in range(first_t, first_t + count)]
+
+        comments: list = []
+        deps = reel_render.Deps(
+            fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
+            synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
+            diacritize=lambda t: (t, None), run=run,
+            probe=lambda p: 41.0 if Path(p).name == "final.mp4" or "reels" in Path(p).parts else 2.0,
+            sleep=lambda s: None, load_points=lambda date: points, comment=lambda i, t: comments.append(t),
+            faces=lambda f, fr: (640, 360, []), frames=lambda p, fr: [np.full((360, 640), 100, np.uint8)] * len(fr),
+            streams=lambda p: {"video", "audio"}, read_chyron=lambda f, c_: None, bg_image=lambda u: None,
+            bg_providers=empty_pv, yt_search=yt_search, yt_details=yt_details, scan_download=scan_download,
+            scan_frames=scan_frames, classify_sheet=classify, make_queries=make_queries, judge_titles=judge_titles)
+        return deps, c, comments
+
+    def go(did, deps, work, extra=None, path=None, key="k"):
+        if path is None:
+            d0 = {"id": did, "origin": "analysis", "format": "reel", "status": "approved_script", "render_status": "queued",
+                  "topic_id": "t1", "topic_date": D, "title": "ريل", "script_status": "ready", "review_issue": 4245,
+                  "script": {"narrator": "female", "title": title, "question": "هل؟", "scenes": list(scenes)}, **(extra or {})}
+            path = store.save_draft(d0)
+        else:
+            store.update_draft(path, render_status="queued", status="approved_script")
+        d = json.loads(path.read_text(encoding="utf-8"))
+        old = os.environ.get("YOUTUBE_API_KEY")
+        os.environ["YOUTUBE_API_KEY"] = key
+        try:
+            reel_render.render_draft(path, d, cfg, deps, reels_dir=work / "reels", workdir=work / "work")
+        finally:
+            if old is None:
+                os.environ.pop("YOUTUBE_API_KEY", None)
+            else:
+                os.environ["YOUTUBE_API_KEY"] = old
+        return path, json.loads(path.read_text(encoding="utf-8"))
+
+    def cand(vid, views):
+        return {"video_id": vid, "title": "t " + vid, "channel": "Reuters", "views": views, "duration": 90,
+                "published": "2099-11-02T08:00:00Z"}
+
+    tmp2 = Path(tempfile.mkdtemp())
+    try:
+        # ── g343: الفحص البصري بترتيب المرشّحين بلا بحث ──
+        def g343():
+            deps, c, _ = render_rig({"c1": range(0, 2), "c2": range(10, 19)})
+            _, st = go("r5c3000g343a1", deps, tmp2,
+                       extra={"hook_candidates": [cand("c1", 900), cand("c2", 500)], "hook_search": {"attempts": []}})
+            hv = st.get("hook_video") or {}
+            check("g343: المرشّح الأول بلا سلسلة ← يُعتمد الثاني", hv.get("video_id") == "c2" and c["scanned"] == ["c1", "c2"],
+                  (hv, c["scanned"]))
+            check("g343: views وsource auto", hv.get("views") == 500 and hv.get("source") == "auto", hv)
+            check("g343: لا نداء بحث عند التركيب", c["search"] == 0 and c["queries"] == 0 and c["details"] == 0, c)
+            deps2, c2, comments2 = render_rig({})
+            _, st2 = go("r5c3000g343b1", deps2, tmp2,
+                        extra={"hook_candidates": [cand("c1", 900)], "hook_search": {"attempts": []}})
+            check("g343: فشل كل المرشّحين بصريًا ← بلا hook_video وسطر الفشل",
+                  not st2.get("hook_video") and any("المرشّحون لم يحوِ" in m for m in comments2), comments2)
+        guarded("g343", g343)
+
+        # ── g344: مسودة قديمة بلا hook_search ──
+        def g344():
+            search = {("a", "short"): [hit("c1", "Reuters")]}
+            deps, c, _ = render_rig({}, search=search)
+            real_pick = reel_hook_search.pick_hook_candidates
+
+            def counting(*a, **k):
+                c["pick"] += 1
+                return real_pick(*a, **k)
+            reel_hook_search.pick_hook_candidates = counting
+            try:
+                path, st = go("r5c3000g344a1", deps, tmp2)
+                first = (c["pick"], c["search"])
+                check("g344: الاستدعاء مرة عند التركيب وبحث فعلي", first[0] == 1 and first[1] > 0, first)
+                check("g344: النتيجة محفوظة على المسودة",
+                      "attempts" in (st.get("hook_search") or {}) and "hook_candidates" in st, st.get("hook_search"))
+                go("r5c3000g344a1", deps, tmp2, path=path)
+                check("g344: تركيب ثانٍ ← لا استدعاء ولا بحث", (c["pick"], c["search"]) == first,
+                      (c["pick"], c["search"], first))
+            finally:
+                reel_hook_search.pick_hook_candidates = real_pick
+        guarded("g344", g344)
+
+        # ── g345 ──
+        check("g345: render_version == 19", int(cfg.path("reel.render.version")) == 19, cfg.path("reel.render.version"))
+    finally:
+        shutil.rmtree(tmp2, ignore_errors=True)
