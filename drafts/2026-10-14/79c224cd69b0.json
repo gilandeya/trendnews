@@ -190,34 +190,51 @@
   },
   "reel_file": "reels/2026-10-14/79c224cd69b0.mp4",
   "reel_gif": "reels/2026-10-14/79c224cd69b0.gif",
-  "duration_seconds": 99.0,
-  "render_version": 11,
+  "duration_seconds": 89.9,
+  "render_version": 12,
   "render_attempts": 0,
   "reel_music": "nastelbom-news-501715.mp3",
   "render_crops": {
     "0": {
       "x": 324,
       "source": "speaker",
-      "speaker_score": 0.93,
+      "speaker_score": 0.98,
       "tracks": 2,
       "cover": true
     },
     "3": {
-      "x": 426,
+      "x": 429,
       "source": "speaker",
-      "speaker_score": 0.96,
+      "speaker_score": 1.04,
       "tracks": 1,
       "cover": true
     },
     "5": {
-      "x": 875,
-      "source": "face",
+      "x": 247,
+      "source": "speaker",
+      "speaker_score": 1.16,
+      "tracks": 2,
       "cover": true
     }
   },
   "render_dropped": [],
-  "render_approx": [],
-  "rendered_at": "2026-10-15T06:21:44.093647+00:00",
+  "render_approx": [
+    {
+      "point_id": "e6314be03c55",
+      "kind": "cold_open_clip",
+      "start": 105,
+      "end": 112,
+      "reason": "تعذّر جلب نص الفيديو"
+    },
+    {
+      "point_id": "9ce69ae93241",
+      "kind": "clip",
+      "start": 585,
+      "end": 593,
+      "reason": "تعذّر جلب نص الفيديو"
+    }
+  ],
+  "rendered_at": "2026-10-15T08:07:53.062961+00:00",
   "render_speakers": {
     "0": {
       "name_original": "",
