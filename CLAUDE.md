@@ -1853,6 +1853,19 @@ instead.
   من وسطها إلى `hook.max_seconds`. تُحفظ `hook_video` (`source: "auto"`) و`hook_search` (`queries`/`candidates`/`picked`). قناة اللقطة تُضاف إلى «المقاطع من».
   عطل مرشّح واحد (تنزيل/تصنيف) يتخطاه إلى التالي. `render_version` = 17. الاختبارات g328–g334.
 
+## لقطة الهوك آلية بالكامل (Issue #1445، R5c3) — `src/reel_hook_search.py`
+
+- **الاختيار في مرحلة السيناريو والفحص البصري في التركيب.** `reel_script.write_for_draft` تستدعي بعد `_pick_background` الدالة `reel_hook_search.pick_hook_candidates(draft, cfg)`
+  فتحفظ `draft.hook_candidates` (أول 4: video_id/title/channel/views/duration/published، الأعلى مشاهدة أولًا) و`draft.hook_search` (`{"skipped":"no_key"}` بلا `YOUTUBE_API_KEY`
+  وبلا أي نداء، أو `{"attempts":[…],"picked":[…]}`، و`error` عند العطل — لا يُسقط سيناريو صالحًا). المحاولة: Haiku للعبارات ← `search.list` مرتين لكل عبارة (short ثم medium) ← `videos.list`
+  (المدة والمشاهدات) ← فلاتر بالترتيب: قائمة القنوات ثم المدة ≤ 1200 ث ثم `judge_titles` (relevant وfootage). بلا مرشّح ← محاولة ثانية واحدة بعبارات أعمّ ونافذة −4/+3 أيام ولا ثالثة؛
+  وسقف 12 طلب `search.list` للمحاولتين. العرض في قضية المرحلة 2 (`youtube_publish._reel_hook_lines`، نصوصه `reel.texts.hook_*`).
+- **التركيب** (`reel_render._auto_hook`) لا يبحث: يفحص `hook_candidates` بترتيبها بالفحص البصري (تنزيل أول 180 ث، صفائح، `classify_seconds`، أطول سلسلة ≥ 3 ث) ويعتمد أول
+  مرشّح صالح (`hook_video` بـ`source:"auto"` ومعه `views`). `hook_video` اليدوي يغلب. استثناء وحيد: مسودة بلا `hook_search` ببنية R5c3 (`attempts`/`skipped`/`error`) تُستدعى لها
+  `pick_hook_candidates` مرة وتُحفظ نتيجتها. `render_version` = 19.
+- **تنبيه تشغيلي:** `YOUTUBE_API_KEY` يجب أن يكون في `publish.yml` (مرحلة السيناريو تجري في خطوة الاختيار من قضية الترشيح) — يضيفه صاحب المشروع بيده.
+- الاختبارات: g339–g345 في `tests/test_guards_golden.py:test_reel_hook_script_r5c3_guards`.
+
 ## خطوط الريل الجديدة (Issue #1441، R5g) — `src/reel_render.py`
 
 - **الإعداد:** `reel.render.fonts: {arabic: Playpen Sans Arabic VF, display_weight: ExtraBold, body_weight: Bold, latin: Kalam-Bold, line_factor: 1.62}` وأحجام النصوص الكبيرة

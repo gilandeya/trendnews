@@ -367,8 +367,10 @@ class Deps:
     # بحث لقطة الهوك الآلي (Issue #1440، R5c2): (عبارة، بعد، قبل، العدد) ← [{video_id, channel, title}]؛ معرّفات ← {id: مدة ث}؛
     # (فيديو، ثوانٍ، ارتفاع، ملف) ← تنزيل أول ثوانيه؛ (ملف، ثوانٍ، cfg) ← لقطة كل ثانية؛ (صفيحة jpeg، الحدث، أول ثانية، العدد، cfg)
     # ← نتائج الثواني؛ (سيناريو، مسودة، cfg) ← عبارات. المزيَّفات القديمة تحقن download_clip ولا تعرفها: تبقى None فتُتخطى الخطوة
+    # R5c3: البحث نفسه انتقل إلى مرحلة السيناريو؛ yt_search/yt_details/make_queries/judge_titles هنا لمسودة قديمة بلا hook_search وحدها
     yt_search: Callable[..., list] | None = None
-    yt_durations: Callable[[list], dict] | None = None
+    yt_details: Callable[[list], dict] | None = None
+    judge_titles: Callable[..., dict] | None = None
     scan_download: Callable[..., dict] | None = None
     scan_frames: Callable[[Any, int, Any], list] | None = None
     classify_sheet: Callable[..., list] | None = None
@@ -419,13 +421,16 @@ class Deps:
             comment=self.comment or comment,
             # الحقيقي لا يُملأ إلا حين لا حقن إطلاقًا (download_clip=None)؛ وإلا None وتُتخطى الخطوة بلا أي نداء شبكة
             yt_search=self.yt_search or (reel_hook_search.real_yt_search if real else None),
-            yt_durations=self.yt_durations or (reel_hook_search.real_yt_durations if real else None),
+            yt_details=self.yt_details or (reel_hook_search.real_yt_details if real else None),
+            judge_titles=self.judge_titles or (
+                (lambda items, event, c: reel_hook_search.call_judge_titles(items, event, c)) if real else None),
             scan_download=self.scan_download or (reel_hook_search.real_scan_download if real else None),
             scan_frames=self.scan_frames or (reel_hook_search.real_scan_frames if real else None),
             classify_sheet=self.classify_sheet or (
                 (lambda jpeg, event, first, n, c: reel_hook_search.call_classify_model(jpeg, event, first, n, c)) if real else None),
             make_queries=self.make_queries or (
-                (lambda script, draft, c: reel_hook_search.call_make_queries(script, draft, c)) if real else None))
+                (lambda script, draft, c, broad=False: reel_hook_search.call_make_queries(script, draft, c, broad=broad))
+                if real else None))
 
 
 # ───────────────────── صورة خلفية الراوي (Issue #1411، R3b-2b) ─────────────────────
@@ -2220,39 +2225,63 @@ def _resolve_background(path: Path, draft: dict, cfg, deps: Deps, notes: list) -
 
 def _hook_note(cfg, hv: dict) -> str:
     return cfg.path("reel.render.texts.comment_hook_found").format(
-        channel=hv.get("channel", ""), title=hv.get("title", ""), id=hv["video_id"], start=hv["start"], end=hv["end"])
+        channel=hv.get("channel", ""), title=hv.get("title", ""), id=hv["video_id"], start=hv["start"], end=hv["end"],
+        views=f"{int(hv.get('views') or 0):,}")
+
+
+def _hook_searched(draft: dict) -> bool:
+    """هل جرى بحث مرحلة السيناريو (R5c3) لهذه المسودة؟ مسودة R5c2 تحمل hook_search بلا attempts ولا skipped ولا error، فتُعدّ قديمة."""
+    hs = draft.get("hook_search")
+    return isinstance(hs, dict) and any(k in hs for k in ("attempts", "skipped", "error"))
 
 
 def _auto_hook(path: Path, draft: dict, script: dict, cfg, deps: Deps, tmp: Path, notes: list) -> None:
-    """بحث آلي عن لقطة الهوك (Issue #1440، R5c2) قبل مشهده. hook_video الموجود (اليدوي أولًا) يغلب فلا بحث؛ وبلا مفتاح يوتيوب
-    أو بلا مشهد هوك أو بلا حقن/تفعيل تُتخطى الخطوة. أي عطل يُبقي الهوك بصورة الخبر وسطرًا في التعليق، ولا يُفشل التركيب."""
+    """الفحص البصري لمرشّحي لقطة الهوك (Issue #1445، R5c3) قبل مشهده. hook_video الموجود (اليدوي أولًا) يغلب؛ وإلا يُفحص
+    draft.hook_candidates بترتيبهم ويُعتمد أول مرشّح فيه سلسلة صالحة. لا بحث هنا إلا لمسودة قديمة بلا hook_search: يُستدعى لها
+    pick_hook_candidates مرة وتُحفظ نتيجته فلا يتكرر. أي عطل يُبقي الهوك بصورة الخبر وسطرًا في التعليق، ولا يُفشل التركيب."""
     t = cfg.path("reel.render.texts")
     hv = draft.get("hook_video")
     if isinstance(hv, dict) and hv.get("video_id"):
         if hv.get("source") == "auto":
             notes.append(_hook_note(cfg, hv))
         return
-    if not cfg.path("reel.hook_search.enabled", False) or deps.yt_search is None or deps.make_queries is None:
+    if not cfg.path("reel.hook_search.enabled", False) or deps.scan_download is None or deps.classify_sheet is None:
         return
     if not any(s.get("kind") == "title_card" for s in script.get("scenes", [])):
         return
-    if not os.environ.get("YOUTUBE_API_KEY", "").strip():
-        log.info("بحث لقطة الهوك: YOUTUBE_API_KEY غائب — تخطٍّ")
+    if not _hook_searched(draft):
+        if (deps.yt_search is None or deps.make_queries is None or deps.yt_details is None or deps.judge_titles is None
+                or not os.environ.get("YOUTUBE_API_KEY", "").strip()):
+            log.info("بحث لقطة الهوك: لا حقن أو YOUTUBE_API_KEY غائب — تخطٍّ")
+            return
+        draft.setdefault("topic_date", path.parent.name)
+        reel_hook_search.pick_hook_candidates(draft, cfg, reel_hook_search.HookDeps(
+            yt_search=deps.yt_search, yt_details=deps.yt_details, make_queries=deps.make_queries,
+            judge_titles=deps.judge_titles))
+        store.update_draft(path, hook_candidates=draft.get("hook_candidates", []), hook_search=draft.get("hook_search"))
+        if (draft.get("hook_search") or {}).get("error"):
+            notes.append(t["comment_hook_failed"])
+            return
+    cands = draft.get("hook_candidates") or []
+    if not cands:
+        if not (draft.get("hook_search") or {}).get("skipped"):
+            notes.append(t["comment_hook_none"])
         return
     try:
-        res = reel_hook_search.search_hook(draft, script, draft.get("topic_date") or path.parent.name, cfg, deps, tmp)
+        res = reel_hook_search.scan_candidates(draft, script, cands, cfg, deps, tmp)
     except Exception as exc:  # noqa: BLE001 -- لقطة الهوك تحسين: الهوك يبقى بصورة الخبر
-        log.warning("تعذّر البحث عن لقطة الهوك: %s", reel_clips.scrub_text(str(exc))[:150])
+        log.warning("تعذّر فحص مرشّحي لقطة الهوك: %s", reel_clips.scrub_text(str(exc))[:150])
         notes.append(t["comment_hook_failed"])
         return
-    search = {k: res[k] for k in ("queries", "candidates", "picked")}
     if res.get("hook_video"):
         draft["hook_video"] = res["hook_video"]
+        search = dict(draft.get("hook_search") or {})
+        search["picked"] = [res["hook_video"]["video_id"]]
         store.update_draft(path, hook_video=res["hook_video"], hook_search=search)
         notes.append(_hook_note(cfg, res["hook_video"]))
     else:
-        store.update_draft(path, hook_search=search)
-        notes.append(t["comment_hook_failed"] if res.get("errors") else t["comment_hook_none"])
+        notes.append(t["comment_hook_failed"] if res.get("errors") and res["errors"] >= len(cands)
+                     else t["comment_hook_no_valid"])
 
 
 def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path, dropped: list,

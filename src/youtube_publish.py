@@ -733,6 +733,41 @@ def _reel_bg_lines(d: dict, cfg, texts: dict) -> list[str]:
     return [*head, f"  {stages.image_field(d['id'], cfg)}", ""]
 
 
+def _reel_hook_lines(d: dict, texts: dict) -> list[str]:
+    """سطر لقطة الهوك المختارة آليًا في السيناريو مع صورتها المصغّرة وبدائلها (Issue #1445، R5c3). مسودة بلا hook_search
+    (كُتبت قبل المهمة) لا تعرض شيئًا."""
+    hs = d.get("hook_search")
+    if not isinstance(hs, dict) or not hs:
+        return []
+    if hs.get("skipped") == "no_key":
+        return [f"  {texts.get('hook_off', '')}", ""]
+    cands = [c for c in d.get("hook_candidates") or [] if isinstance(c, dict) and c.get("video_id")]
+    if not cands:
+        if hs.get("error"):
+            return [f"  {texts.get('hook_error', '')}", ""]
+        att = [a for a in hs.get("attempts") or [] if isinstance(a, dict)]
+        total = {k: sum(int(a.get(k) or 0) for a in att) for k in ("duration_ok", "judged_ok")}
+        total["raw"] = sum(int(q.get("raw") or 0) for a in att for q in a.get("queries", []))
+        total["channel_ok"] = sum(int(q.get("channel_ok") or 0) for a in att for q in a.get("queries", []))
+        return [f"  {texts.get('hook_none', '').format(**total)}", ""]
+
+    def title_of(c):
+        return str(c.get("title", "")).replace("[", "").replace("]", "")
+
+    top = cands[0]
+    sec = int(top.get("duration") or 0)
+    top_line = texts.get("hook_line", "").format(
+        title=title_of(top), id=top["video_id"], channel=top.get("channel", ""),
+        views=f"{int(top.get('views') or 0):,}", duration=f"{sec // 60:02d}:{sec % 60:02d}")
+    out = [f"  {top_line}", "", f"  ![](https://i.ytimg.com/vi/{top['video_id']}/mqdefault.jpg)", ""]
+    alts = [texts.get("hook_alt", "").format(n=n, title=title_of(c), id=c["video_id"], channel=c.get("channel", ""),
+                                             views=f"{int(c.get('views') or 0):,}")
+            for n, c in enumerate(cands[1:], start=2)]
+    if alts:
+        out += [f"  {texts.get('hook_alts_header', '')} " + " ؛ ".join(alts), ""]
+    return out
+
+
 def _reel_item_lines(idx: int, d: dict, cfg) -> list[str]:
     """بند الريل في المرحلة 2 (Issue #1336، R1؛ السيناريو في #1338، R2). بلا سيناريو بعد (أو والمفتاح مطفأ):
     سطر «⏳» وخيار go1 وحده. سيناريو فشل: سببه وgo1 وحده. سيناريو جاهز: العنوان وجنس الراوي والمدة المقدَّرة، جدول
@@ -752,6 +787,7 @@ def _reel_item_lines(idx: int, d: dict, cfg) -> list[str]:
         out += [f"  {texts.get('script_meta', '').format(narrator=narrator, seconds=seconds)}",
                 "", f"  {texts.get('timeline_header', '')}", "",
                 *reel_script.timeline_lines(script, cfg), "",
+                *_reel_hook_lines(d, texts),
                 *_reel_bg_lines(d, cfg, texts),
                 f"  {texts.get('edit_header', '')}", "",
                 *reel_script.edit_block(d["id"], script), "",

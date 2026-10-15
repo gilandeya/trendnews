@@ -1,7 +1,8 @@
-"""بحث آلي عن لقطة فيديو من الحدث نفسه لخلفية الهوك (Issue #1440، R5c2).
+"""بحث آلي عن لقطة فيديو من الحدث نفسه لخلفية الهوك (Issue #1440، R5c2؛ Issue #1445، R5c3).
 
-التدفق: عبارات بصرية من Haiku ← بحث يوتيوب مقصور على قنوات الأخبار والوكالات ← تنزيل أول ثوانٍ من كل مرشّح ← صفائح 4×3 بالثواني
-مرقّمة يصنّفها Haiku بالصور ← أطول سلسلة ثوانٍ كلها لقطات من الحدث نفسه. كل شبكة وملف وفحص عبر Deps كي تُزيَّف، وهذه الوحدة لا تستورد
+مرحلتان: (١) في السيناريو `pick_hook_candidates`: عبارات من Haiku ← بحث يوتيوب (short ثم medium) ← فلاتر القناة والمدة وحكم العناوين ←
+الأكثر مشاهدة أولًا تُحفظ مرشّحات على المسودة وتُعرض في قضية المراجعة؛ (٢) في التركيب `scan_candidates`: تنزيل أول ثوانٍ من كل
+مرشّح ← صفائح 4×3 بالثواني مرقّمة يصنّفها Haiku بالصور ← أطول سلسلة ثوانٍ كلها لقطات من الحدث نفسه، وأول مرشّح فيه سلسلة صالحة يُعتمد. كل شبكة وملف وفحص عبر Deps كي تُزيَّف، وهذه الوحدة لا تستورد
 reel_render (تستورده هي) فلا حلقة استيراد. لا يُرفع منها فشل إلى التركيب: المستدعي يلتقط ويُبقي الهوك بصورة الخبر."""
 from __future__ import annotations
 
@@ -10,8 +11,10 @@ import io
 import logging
 import os
 import re
+from dataclasses import dataclass
 from datetime import date, timedelta
 from pathlib import Path
+from typing import Callable
 
 from PIL import Image, ImageDraw
 
@@ -28,6 +31,15 @@ MAKE_QUERIES_TOOL = {
     "description": "عبارات بحث قصيرة تصف المشهد البصري للحدث",
     "input_schema": {"type": "object", "properties": {"queries": {"type": "array", "items": {"type": "string"}}},
                      "required": ["queries"]},
+}
+
+JUDGE_TOOL = {
+    "name": "judge_titles",
+    "description": "حكم على كل عنوان فيديو: عن الحدث نفسه؟ ولقطات منه أم نقاش وتحليل؟",
+    "input_schema": {"type": "object", "properties": {"judgments": {"type": "array", "items": {
+        "type": "object",
+        "properties": {"id": {"type": "string"}, "relevant": {"type": "boolean"}, "footage": {"type": "boolean"}},
+        "required": ["id", "relevant", "footage"]}}}, "required": ["judgments"]},
 }
 
 CLASSIFY_TOOL = {
@@ -64,10 +76,26 @@ def event_text(script: dict, draft: dict) -> str:
     return " — ".join(str(p) for p in parts if p)
 
 
-def call_make_queries(script: dict, draft: dict, cfg, client=None) -> list[str]:
+def call_judge_titles(items: list[dict], event: str, cfg, client=None) -> dict:
+    """نداء Haiku واحد على عناوين الباقين وقنواتهم ← {id: {relevant, footage}}؛ عنوان لم يُحكم عليه يُعدّ مرفوضًا."""
+    hcfg = cfg.path("reel.hook_search")
+    listing = "\n".join(f"{i['video_id']} | {i.get('channel', '')} | {i.get('title', '')}" for i in items)
+    resp = llm.create(client or _client(), cfg=cfg, model=hcfg.get("model", "haiku"), max_tokens=int(hcfg.get("judge_max_tokens", 1200)),
+                      system=hcfg.get("judge_system", ""), tools=[JUDGE_TOOL],
+                      tool_choice={"type": "tool", "name": JUDGE_TOOL["name"]},
+                      messages=[{"role": "user", "content": f"الحدث: {event}\nالعناوين (المعرّف | القناة | العنوان):\n{listing}"}])
+    rows = _tool_input(resp, JUDGE_TOOL["name"]).get("judgments")
+    if not isinstance(rows, list):
+        raise ValueError("ردّ غير صالح من حاكم العناوين")
+    return {str(r.get("id")): {"relevant": r.get("relevant") is True, "footage": r.get("footage") is True}
+            for r in rows if isinstance(r, dict)}
+
+
+def call_make_queries(script: dict, draft: dict, cfg, client=None, broad: bool = False) -> list[str]:
+    """broad: المحاولة الثانية — عبارات أعمّ (الحدث ومكانه دون تفاصيل بصرية) بتعليمتها الخاصة."""
     hcfg = cfg.path("reel.hook_search")
     resp = llm.create(client or _client(), cfg=cfg, model=hcfg.get("model", "haiku"), max_tokens=int(hcfg.get("queries_max_tokens", 400)),
-                      system=hcfg.get("queries_system", ""), tools=[MAKE_QUERIES_TOOL],
+                      system=hcfg.get("queries_system_broad" if broad else "queries_system", ""), tools=[MAKE_QUERIES_TOOL],
                       tool_choice={"type": "tool", "name": MAKE_QUERIES_TOOL["name"]},
                       messages=[{"role": "user", "content": "الحدث: " + event_text(script, draft)}])
     qs = _tool_input(resp, MAKE_QUERIES_TOOL["name"]).get("queries")
@@ -79,11 +107,29 @@ def call_make_queries(script: dict, draft: dict, cfg, client=None) -> list[str]:
 
 # ───────────────────────────── البحث ─────────────────────────────
 
-def search_window(topic_date: str, hcfg) -> tuple[str, str]:
+@dataclass
+class HookDeps:
+    """كل ما يلمس الشبكة في مرحلة السيناريو؛ الحقل الفارغ يُملأ بالحقيقي في `resolved` والاختبارات تحقن مزيَّفات.
+    yt_search(عبارة، بعد، قبل، العدد، المدة) ← [{video_id, channel, title, published}]؛ yt_details(معرّفات) ← {id: {duration, views}}؛
+    make_queries(سيناريو، مسودة، cfg، broad) ← عبارات؛ judge_titles(عناصر، الحدث، cfg) ← {id: {relevant, footage}}."""
+    yt_search: Callable[..., list] | None = None
+    yt_details: Callable[[list], dict] | None = None
+    make_queries: Callable[..., list] | None = None
+    judge_titles: Callable[..., dict] | None = None
+
+    def resolved(self) -> "HookDeps":
+        return HookDeps(
+            yt_search=self.yt_search or real_yt_search,
+            yt_details=self.yt_details or real_yt_details,
+            make_queries=self.make_queries or (
+                lambda script, draft, cfg, broad=False: call_make_queries(script, draft, cfg, broad=broad)),
+            judge_titles=self.judge_titles or (lambda items, event, cfg: call_judge_titles(items, event, cfg)))
+
+
+def search_window(topic_date: str, days_before: int, days_after: int) -> tuple[str, str]:
     d = date.fromisoformat(str(topic_date)[:10])
-    after = d - timedelta(days=int(hcfg.get("days_before", 2)))
-    before = d + timedelta(days=int(hcfg.get("days_after", 2)))
-    return f"{after.isoformat()}T00:00:00Z", f"{before.isoformat()}T00:00:00Z"
+    return (f"{(d - timedelta(days=days_before)).isoformat()}T00:00:00Z",
+            f"{(d + timedelta(days=days_after)).isoformat()}T00:00:00Z")
 
 
 def channel_allowed(channel: str, hcfg) -> bool:
@@ -91,22 +137,88 @@ def channel_allowed(channel: str, hcfg) -> bool:
     return any(str(n).casefold() in low for n in hcfg.get("channels", []) if str(n).strip())
 
 
-def find_candidates(queries: list[str], topic_date: str, cfg, deps) -> list[dict]:
-    """نتائج كل العبارات بترتيب الظهور، مقبولها قناة من القائمة ومدته ≤ max_video_seconds، بلا مكرر، أول max_candidates."""
+def _attempt(draft: dict, script: dict, topic_date: str, cfg, deps: HookDeps, broad: bool, budget: list) -> tuple[list[dict], dict]:
+    """محاولة بحث واحدة ← (مرشّحون مرتّبون بالمشاهدات، تشخيصها). budget[0] = ما بقي من طلبات search.list للمحاولتين معًا."""
     hcfg = cfg.path("reel.hook_search")
-    after, before = search_window(topic_date, hcfg)
+    # المحاولة الثانية أوسع نافذةً لأن الحدث قد يُغطّى قبله أو بعده بأيام أكثر مما قدّرنا
+    days = ((int(hcfg.get("retry_days_before", 4)), int(hcfg.get("retry_days_after", 3))) if broad
+            else (int(hcfg.get("days_before", 2)), int(hcfg.get("days_after", 2))))
+    after, before = search_window(topic_date, *days)
+    queries = deps.make_queries(script, draft, cfg, broad)
+    diag: dict = {"broad": broad, "window": [after, before], "queries": [], "duration_ok": 0, "judged_ok": 0,
+                  "rejected_channels": []}
     seen: dict[str, dict] = {}
+    rejected: list[str] = []
     for q in queries:
-        for r in deps.yt_search(q, after, before, int(hcfg.get("search_results", 15))) or []:
-            vid = r.get("video_id")
-            if vid and vid not in seen and channel_allowed(r.get("channel", ""), hcfg):
-                seen[vid] = r
+        raw = ok = 0
+        for duration in hcfg.get("durations", ["short", "medium"]):
+            if budget[0] <= 0:
+                break
+            budget[0] -= 1
+            for r in deps.yt_search(q, after, before, int(hcfg.get("search_results", 15)), duration) or []:
+                raw += 1
+                if channel_allowed(r.get("channel", ""), hcfg):
+                    ok += 1
+                    if r.get("video_id") and r["video_id"] not in seen:
+                        seen[r["video_id"]] = r
+                else:
+                    name = str(r.get("channel", "")).strip()
+                    if name and name not in rejected:
+                        rejected.append(name)
+        diag["queries"].append({"query": q, "raw": raw, "channel_ok": ok})
+    diag["rejected_channels"] = rejected[:8]
     if not seen:
-        return []
-    durations = deps.yt_durations(list(seen)) or {}
-    limit = float(hcfg.get("max_video_seconds", 600))
-    ok = [r for vid, r in seen.items() if durations.get(vid) is not None and float(durations[vid]) <= limit]
-    return ok[:int(hcfg.get("max_candidates", 4))]
+        return [], diag
+    details = deps.yt_details(list(seen)) or {}
+    limit = float(hcfg.get("max_video_seconds", 1200))
+    short = []
+    for vid, r in seen.items():
+        info = details.get(vid) or {}
+        if info.get("duration") is not None and float(info["duration"]) <= limit:
+            short.append({"video_id": vid, "title": str(r.get("title", "")), "channel": r.get("channel", ""),
+                          "views": int(info.get("views") or 0), "duration": int(info["duration"]),
+                          "published": r.get("published", "")})
+    diag["duration_ok"] = len(short)
+    if not short:
+        return [], diag
+    verdicts = deps.judge_titles([{"video_id": c["video_id"], "title": c["title"], "channel": c["channel"]} for c in short],
+                                 event_text(script, draft), cfg) or {}
+    judged = [c for c in short if (verdicts.get(c["video_id"]) or {}).get("relevant") is True
+              and (verdicts.get(c["video_id"]) or {}).get("footage") is True]
+    diag["judged_ok"] = len(judged)
+    judged.sort(key=lambda c: c["views"], reverse=True)
+    return judged[:int(hcfg.get("max_candidates", 4))], diag
+
+
+def pick_hook_candidates(draft: dict, cfg, deps: HookDeps | None = None) -> None:
+    """يحفظ على المسودة hook_candidates وhook_search (Issue #1445). بلا YOUTUBE_API_KEY ← skipped بلا أي نداء. محاولة ثانية واحدة
+    بعبارات أعمّ ونافذة أوسع حين لا مرشّح، ولا ثالثة. أي عطل يُسجَّل في hook_search["error"] ولا يُرفع: السيناريو الصالح لا يسقط."""
+    if not os.environ.get("YOUTUBE_API_KEY", "").strip():
+        draft.pop("hook_candidates", None)
+        draft["hook_search"] = {"skipped": "no_key"}
+        return
+    hcfg = cfg.path("reel.hook_search")
+    deps = (deps or HookDeps()).resolved()
+    script = draft.get("script") or {}
+    topic_date = draft.get("topic_date") or str(draft.get("date") or "")[:10] or date.today().isoformat()
+    budget = [int(hcfg.get("max_search_calls", 12))]
+    attempts: list[dict] = []
+    cands: list[dict] = []
+    search: dict = {"attempts": attempts}
+    try:
+        for broad in (False, True):
+            cands, diag = _attempt(draft, script, topic_date, cfg, deps, broad, budget)
+            attempts.append(diag)
+            if cands:
+                break
+    except Exception as exc:  # noqa: BLE001 -- لقطة الهوك تحسين: لا تُسقط سيناريو صالحًا
+        from . import reel_clips
+        search["error"] = reel_clips.scrub_text(str(exc))[:150]
+        log.warning("تعذّر البحث عن مرشّحي لقطة الهوك: %s", search["error"])
+        cands = []
+    search["picked"] = [c["video_id"] for c in cands]
+    draft["hook_candidates"] = cands
+    draft["hook_search"] = search
 
 
 # ───────────────────────────── الصفيحة والتصنيف ─────────────────────────────
@@ -181,20 +293,16 @@ def window(run: tuple[int, int], max_seconds: int) -> tuple[int, int]:
     return start, start + n
 
 
-# ───────────────────────────── التدفق ─────────────────────────────
+# ───────────────────────────── الفحص البصري (التركيب) ─────────────────────────────
 
-def search_hook(draft: dict, script: dict, topic_date: str, cfg, deps, tmp: Path) -> dict:
-    """يعيد {queries, candidates, picked, hook_video?, errors}؛ يرفع فقط عند عطل العبارات أو البحث نفسه. عطل مرشّح واحد
+def scan_candidates(draft: dict, script: dict, cands: list[dict], cfg, deps, tmp: Path) -> dict:
+    """يفحص المرشّحين بترتيبهم ويعتمد أول من فيه سلسلة لقطات صالحة. يعيد {hook_video?, errors}؛ عطل مرشّح واحد
     (تنزيل أو تصنيف) يتخطاه إلى التالي ويُعدّ في errors."""
     hcfg = cfg.path("reel.hook_search")
     event = event_text(script, draft)
-    queries = deps.make_queries(script, draft, cfg)
-    cands = find_candidates(queries, topic_date, cfg, deps)
-    out = {"queries": queries, "candidates": [{"video_id": c["video_id"], "channel": c.get("channel", "")} for c in cands],
-           "picked": None, "errors": 0}
+    out: dict = {"errors": 0}
     sheets_left = int(hcfg.get("max_sheets", 12))
     min_s, cap = int(hcfg.get("min_seconds", 3)), int(cfg.path("reel.render.hook.max_seconds", 7))
-    best = None
     for c in cands:
         if sheets_left <= 0:
             break
@@ -217,18 +325,13 @@ def search_hook(draft: dict, script: dict, topic_date: str, cfg, deps, tmp: Path
             out["errors"] += 1
             continue
         run = best_run(good)
-        if run and run[1] >= min_s and (best is None or run[1] > best[1][1]):
-            best = (c, run)
-            if run[1] >= cap:
-                break
-    if best:
-        c, run = best
-        start, end = window(run, cap)
-        title = re.sub(r"[\[\]]", "", str(c.get("title", ""))).strip()
-        reason = f"{run[1]} ث متتالية من لقطات الحدث"
-        out["hook_video"] = {"video_id": c["video_id"], "start": start, "end": end, "channel": c.get("channel", ""),
-                             "title": title, "source": "auto", "reason": reason}
-        out["picked"] = {"video_id": c["video_id"], "channel": c.get("channel", ""), "start": start, "end": end}
+        if run and run[1] >= min_s:
+            start, end = window(run, cap)
+            title = re.sub(r"[\[\]]", "", str(c.get("title", ""))).strip()
+            out["hook_video"] = {"video_id": c["video_id"], "start": start, "end": end, "channel": c.get("channel", ""),
+                                 "title": title, "source": "auto", "views": int(c.get("views") or 0),
+                                 "reason": f"{run[1]} ث متتالية من لقطات الحدث"}
+            break  # الأعلى مشاهدة أولًا: لا مقارنة بين المرشّحين
     return out
 
 
@@ -241,14 +344,17 @@ def _api_key() -> str:
     return key
 
 
-def real_yt_search(query: str, after: str, before: str, max_results: int) -> list[dict]:
+def real_yt_search(query: str, after: str, before: str, max_results: int, duration: str | None = None) -> list[dict]:
     import requests
-    r = requests.get("https://www.googleapis.com/youtube/v3/search", timeout=30, params={
-        "part": "snippet", "type": "video", "q": query, "maxResults": max_results, "publishedAfter": after,
-        "publishedBefore": before, "key": _api_key()})
+    params = {"part": "snippet", "type": "video", "q": query, "maxResults": max_results, "publishedAfter": after,
+              "publishedBefore": before, "key": _api_key()}
+    if duration:
+        params["videoDuration"] = duration
+    r = requests.get("https://www.googleapis.com/youtube/v3/search", timeout=30, params=params)
     r.raise_for_status()
     return [{"video_id": (i.get("id") or {}).get("videoId"), "channel": (i.get("snippet") or {}).get("channelTitle", ""),
-             "title": (i.get("snippet") or {}).get("title", "")} for i in r.json().get("items", [])]
+             "title": (i.get("snippet") or {}).get("title", ""), "published": (i.get("snippet") or {}).get("publishedAt", "")}
+            for i in r.json().get("items", [])]
 
 
 def _iso_seconds(text: str) -> int:
@@ -259,16 +365,18 @@ def _iso_seconds(text: str) -> int:
     return d * 86400 + h * 3600 + mi * 60 + s
 
 
-def real_yt_durations(ids: list[str]) -> dict[str, int]:
+def real_yt_details(ids: list[str]) -> dict[str, dict]:
+    """videos.list بـpart=contentDetails,statistics ← {id: {duration, views}}."""
     import requests
-    out: dict[str, int] = {}
+    out: dict[str, dict] = {}
     for i in range(0, len(ids), 50):
         r = requests.get("https://www.googleapis.com/youtube/v3/videos", timeout=30, params={
-            "part": "contentDetails", "id": ",".join(ids[i:i + 50]), "key": _api_key()})
+            "part": "contentDetails,statistics", "id": ",".join(ids[i:i + 50]), "key": _api_key()})
         r.raise_for_status()
         for item in r.json().get("items", []):
             try:
-                out[item["id"]] = _iso_seconds(item["contentDetails"]["duration"])
+                out[item["id"]] = {"duration": _iso_seconds(item["contentDetails"]["duration"]),
+                                   "views": int((item.get("statistics") or {}).get("viewCount") or 0)}
             except (KeyError, ValueError):
                 continue
     return out
