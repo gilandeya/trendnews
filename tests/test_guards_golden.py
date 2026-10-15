@@ -5987,7 +5987,7 @@ def test_reel_render_r3b1_guards() -> None:
 
         return reel_render.Deps(
             fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download, synthesize=synth,
-            diacritize=lambda text: (text, None), run=run, probe=lambda p: 2.0,
+            diacritize=lambda text: (text, None), run=run, probe=lambda p: 41.0 if "reels" in Path(p).parts else 2.0,
             load_points=lambda date: points, comment=comment, faces=faces)
 
     tmp = Path(tempfile.mkdtemp())
@@ -6681,7 +6681,7 @@ def test_reel_render_r3b1c_guards() -> None:
         return reel_render.Deps(
             fetch_transcript=fetch, download_clip=download,
             synthesize=lambda text, voice: {"ok": True, "audio": b"mp3", "chars": len(text)},
-            diacritize=lambda text: (text, None), run=run, probe=lambda p: 2.0,
+            diacritize=lambda text: (text, None), run=run, probe=lambda p: 41.0 if "reels" in Path(p).parts else 2.0,
             load_points=lambda date: pts if pts is not None else points,
             comment=lambda issue, text: log["comments"].append(text),
             faces=lambda f, fr: (1280, 720, []))
@@ -6869,7 +6869,7 @@ def test_reel_transitions_r3b1d_guards() -> None:
         tr = cfg.path("reel.render.transition") or {}
         check("g212: الإعداد transition وversion",
               (tr.get("type"), tr.get("outro_type"), tr.get("seconds")) == ("slideleft", "fade", 0.35)
-              and cfg.path("reel.render.version") == 14, tr)
+              and cfg.path("reel.render.version") == 15, tr)
 
         # ── g212/g213: أمر ضمّ واحد بأربعة xfade وأربعة acrossfade ──
         log, cmds, saved = render("r3b1d0000a01", five, cfg, durs)
@@ -6944,14 +6944,14 @@ def test_reel_transitions_r3b1d_guards() -> None:
         p_old, _ = make_draft("r3b1d0000b01", mixed, render_status="rendered", approved_script_at="2099-01-01")
         p_pub, _ = make_draft("r3b1d0000b02", mixed, status="published", render_status="rendered")
         p_rej, _ = make_draft("r3b1d0000b03", mixed, status="rejected", render_status="rendered")
-        p_new, _ = make_draft("r3b1d0000b04", mixed, render_status="rendered", render_version=14)
+        p_new, _ = make_draft("r3b1d0000b04", mixed, render_status="rendered", render_version=15)
         picked = [p.stem for p, _ in reel_render.pending_batch(c2)]
         check("g218: يلتقط القديم النسخة وحده", picked == [p_old.stem], picked)
         for p, d in reel_render.pending_batch(c2):
             reel_render.render_draft(p, d, c2, make_deps({"cmds": [], "comments": []}), reels_dir=tmp / "reels",
                                      workdir=tmp / "work")
         s = json.loads(p_old.read_text(encoding="utf-8"))
-        check("g218: render_version = 14 بعد التركيب", s.get("render_status") == "rendered" and s.get("render_version") == 14, s)
+        check("g218: render_version = 15 بعد التركيب", s.get("render_status") == "rendered" and s.get("render_version") == 15, s)
         left = reel_render.pending_batch(c2)
         check("g218: التشغيلة الثانية لا تعيدها", left == [], [p.stem for p, _ in left])
         check("g218: المنشور والمرفوض لم يُمسّا",
@@ -7137,7 +7137,7 @@ def test_reel_typewriter_r3b2a_guards() -> None:
                                      workdir=tmp / "work")
         s = json.loads(p_old.read_text(encoding="utf-8"))
         check("g225: render_version = 8 بعد التركيب",
-              s.get("render_status") == "rendered" and s.get("render_version") == 14, s)
+              s.get("render_status") == "rendered" and s.get("render_version") == 15, s)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 
@@ -7250,7 +7250,7 @@ def test_reel_no_partial_r3b2a2_guards() -> None:
         # ── g230 ──
         log, s, _ = run_one("r3b2a2000e01", 0, render_attempts=2)
         check("g230: render_attempts = 0 وrender_version = 9",
-              s.get("render_attempts") == 0 and s.get("render_version") == 14 and s.get("render_status") == "rendered", s)
+              s.get("render_attempts") == 0 and s.get("render_version") == 15 and s.get("render_status") == "rendered", s)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 
@@ -7333,7 +7333,7 @@ def test_reel_clip_streams_r3b2a3_guards() -> None:
         return log, json.loads(path.read_text(encoding="utf-8")), [" ".join(c) for c in log["cmds"]]
 
     cfg = load_config()
-    check("g231: reel.render.version = 14", cfg.path("reel.render.version") == 14,cfg.path("reel.render.version"))
+    check("g231: reel.render.version = 15", cfg.path("reel.render.version") == 15,cfg.path("reel.render.version"))
     tmp = Path(tempfile.mkdtemp())
     try:
         # ── g231 ──
@@ -7356,7 +7356,7 @@ def test_reel_clip_streams_r3b2a3_guards() -> None:
         # ── g233 ──
         p_old, _ = make_draft("r3b2a3000c01", status="approved_script", render_status="failed", render_version=4,
                               render_attempts=3, render_error="ffmpeg فشل", approved_script_at="1998-01-01T00:00:00")
-        p_new, _ = make_draft("r3b2a3000c02", status="approved_script", render_status="failed", render_version=14,
+        p_new, _ = make_draft("r3b2a3000c02", status="approved_script", render_status="failed", render_version=15,
                               render_attempts=3, render_error="ffmpeg فشل", approved_script_at="1999-01-02T00:00:00")
         ids = [p.stem for p, _d in reel_render.queued_reels(cfg)]
         check("g233: failed بنسخة 4 تُلتقط وبنسخة 5 لا", "r3b2a3000c01" in ids and "r3b2a3000c02" not in ids, ids)
@@ -7481,7 +7481,7 @@ def test_reel_cover_auto_r3b2a4_guards() -> None:
         top = int(cfg.path("reel.render.band.top"))
         alpha = float(cfg.path("reel.render.band.alpha"))
         check("g241: الإعداد الافتراضي auto", cfg.path("reel.render.band.cover") == "auto", cfg.path("reel.render.band.cover"))
-        check("g241: reel.render.version = 14", cfg.path("reel.render.version") == 14)
+        check("g241: reel.render.version = 15", cfg.path("reel.render.version") == 15)
         s = render("r3b2a4000a01", cfg)
         crops = s.get("render_crops") or {}
         check("g241: render_crops يحمل cover لكل مقطع",
@@ -7776,7 +7776,7 @@ def test_reel_background_r3b2b_guards() -> None:
 
         # ── g251: --pending ──
         def g251():
-            check("g251: reel.render.version = 14", cfg.path("reel.render.version") == 14, cfg.path("reel.render.version"))
+            check("g251: reel.render.version = 15", cfg.path("reel.render.version") == 15, cfg.path("reel.render.version"))
             d0 = {"id": "r3b2b000g251", "origin": "analysis", "format": "reel", "status": "approved_script",
                   "render_status": "rendered", "render_version": 6, "topic_id": "t1", "topic_date": D, "title": "ريل",
                   "script_status": "ready", "approved_script_at": "2000-01-01T00:00:00+00:00",
@@ -7792,7 +7792,7 @@ def test_reel_background_r3b2b_guards() -> None:
             d = json.loads(path.read_text(encoding="utf-8"))
             bg = d.get("reel_bg") or {}
             check("g251: اختار الخلفية وحفظها", bg.get("kind") == "news_photo" and bg.get("url") == "https://n/1.jpg", bg)
-            check("g251: الشكل محفوظ والنسخة 14", bg.get("layout") == "A" and d.get("render_version") == 14,
+            check("g251: الشكل محفوظ والنسخة 15", bg.get("layout") == "A" and d.get("render_version") == 15,
                   (bg.get("layout"), d.get("render_version")))
         guarded("g251", g251)
     finally:
@@ -7846,7 +7846,7 @@ def test_reel_music_r3b2c_guards() -> None:
         return reel_render.Deps(
             fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
             synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)}, diacritize=lambda t: (t, None),
-            run=run, probe=lambda p: 40.0, load_points=lambda date: points, comment=lambda i, t: None,
+            run=run, probe=lambda p: 40.0, stream_durations=lambda p: (2.0, 2.0), load_points=lambda date: points, comment=lambda i, t: None,
             streams=lambda p: {"video", "audio"},
             faces=lambda f, fr: (1280, 720, []), bg_image=(lambda u: __import__("PIL.Image").Image.new("RGB", (1400, 800), (90, 120, 160))) if providers
             else (lambda u: None),
@@ -8001,7 +8001,7 @@ def test_reel_music_r3b2c_guards() -> None:
 
         # ── g256: --pending ──
         def g256():
-            check("g256: reel.render.version = 14", cfg.path("reel.render.version") == 14, cfg.path("reel.render.version"))
+            check("g256: reel.render.version = 15", cfg.path("reel.render.version") == 15, cfg.path("reel.render.version"))
             d0 = new_draft("r3b2c00g256", render_status="rendered", render_version=7,
                            approved_script_at="2000-01-01T00:00:00+00:00")
             path = store.save_draft(d0)
@@ -8013,7 +8013,7 @@ def test_reel_music_r3b2c_guards() -> None:
                                      reels_dir=tmp / "reels", workdir=tmp / "work")
             d = json.loads(path.read_text(encoding="utf-8"))
             check("g256: reel_music وrender_version = 8", d.get("reel_music") in ("a.mp3", "b.mp3", "c.mp3")
-                  and d.get("render_version") == 14, (d.get("reel_music"), d.get("render_version")))
+                  and d.get("render_version") == 15, (d.get("reel_music"), d.get("render_version")))
         guarded("g256", g256)
     finally:
         if real_dir is not None:
@@ -8487,7 +8487,7 @@ def test_reel_text_r5a_guards() -> None:
           not any("من قناة" in t for t, _ in d1 + d2 + d3 + d4) and "من قناة" not in cfg.path("reel.texts.guest_label"))
 
     # ── g274: النسخة وحقل القناة الأصلية ──
-    check("g274: render_version == 14", int(cfg.path("reel.render.version")) == 14, cfg.path("reel.render.version"))
+    check("g274: render_version == 15", int(cfg.path("reel.render.version")) == 15, cfg.path("reel.render.version"))
     pts = [{"timestamp": 100, "quote_original": "some words here", "video_url": "https://youtu.be/x",
             "channel": "FRANCE 24 Arabic", "quote_arabic": "ترجمة", "speaker": "ميساء", "video_id": "x"}]
     clips = reel_script.valid_clips(pts, [], cfg)
@@ -8762,7 +8762,7 @@ def test_reel_r5a2_guards() -> None:
         check("g285: داخل المنتظر الأحدث اعتمادًا أولًا والمعاد تركيبه بعده",
               order == ["r5a2000g285g", "r5a2000g285f", "r5a2000g285h"], order)
         fresh()
-        check("g285: render_version == 14", int(cfg.path("reel.render.version")) == 14, cfg.path("reel.render.version"))
+        check("g285: render_version == 15", int(cfg.path("reel.render.version")) == 15, cfg.path("reel.render.version"))
         check("g285: max_per_run == 1", int(cfg.path("reel.render.max_per_run")) == 1)
     guarded("g285", g285)
 
@@ -9087,7 +9087,7 @@ def test_reel_speaker_r5b_guards() -> None:
                   and tc.get("type") == "tool" and tc.get("name") == "read_lower_third", (tools and tools[0]["name"], tc))
             check("g294: الناتج ثلاثة إطارات", isinstance(out, list) and len(out) == 3
                   and out[0]["name_original"] == "Ahmet Kayapınar", out)
-            check("g294: render_version == 14", int(cfg.path("reel.render.version")) == 14, cfg.path("reel.render.version"))
+            check("g294: render_version == 15", int(cfg.path("reel.render.version")) == 15, cfg.path("reel.render.version"))
             check("g294: إعداد chyron", (cfg.path("reel.render.chyron") or {}).get("frames") == [0.25, 0.5, 0.75]
                   and cfg.path("reel.render.chyron.max_width") == 1280, cfg.path("reel.render.chyron"))
         guarded("g294", g294)
@@ -9178,9 +9178,9 @@ def test_reel_hook_r5c1_guards() -> None:
         path = store.save_draft(d0)
         o_join, o_title = reel_render._join, reel_render.frame_title
 
-        def spy_join(files, kinds, durs, c, dp, t):
+        def spy_join(files, kinds, durs, c, dp, t, *extra):
             joined.update(kinds=list(kinds), durs=list(durs))
-            return o_join(files, kinds, durs, c, dp, t)
+            return o_join(files, kinds, durs, c, dp, t, *extra)
 
         def spy_title(*a, **k):
             titled.append(1)
@@ -9341,7 +9341,7 @@ def test_reel_hook_r5c1_guards() -> None:
             top, bottom = int(cfg.path("reel.render.safe.top")), 1920 - int(cfg.path("reel.render.safe.bottom"))
             check("g304: كل الصناديق داخل المنطقة الآمنة",
                   bool(boxes) and all(b[0] >= x0 and b[2] <= 1080 - x0 and b[1] >= top and b[3] <= bottom for b in boxes), boxes)
-            check("g304: render_version == 14", int(cfg.path("reel.render.version")) == 14, cfg.path("reel.render.version"))
+            check("g304: render_version == 15", int(cfg.path("reel.render.version")) == 15, cfg.path("reel.render.version"))
         guarded("g304", g304)
 
         # ── g305: خلفية الهوك الخام (بلا تظليل الكحلي المسبق) ──
@@ -9618,7 +9618,7 @@ def test_reel_speaker_vision_r5b2_guards() -> None:
             check("g312: أكبر وجه", any("أكبر وجه" in c and "🎯" in c for c in r["comments"]), r["comments"])
             r = render("r5b2000g312d1", tmp, boxes=two[:1], pick=votes(1, 1, 1))
             check("g312: لا سطر لمقطع بوجه واحد", not any("🎯" in c for c in r["comments"]), r["comments"])
-            check("g312: render_version == 14", int(cfg.path("reel.render.version")) == 14, cfg.path("reel.render.version"))
+            check("g312: render_version == 15", int(cfg.path("reel.render.version")) == 15, cfg.path("reel.render.version"))
         guarded("g312", g312)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
@@ -9812,7 +9812,7 @@ def test_reel_speaker_gesture_r5b3_guards() -> None:
             r = render("r5b3000g317b1", tmp, mid, {270: (1.0, 3.0), 120: (0.9, 0.5)}, votes(0, 0, 0))
             check("g317: سطر 🎯 للمركّبة", any("🎯" in c and "بالفم واليدين والموقع" in c for c in r["comments"]),
                   r["comments"])
-            check("g317: render_version == 14", int(cfg.path("reel.render.version")) == 14, cfg.path("reel.render.version"))
+            check("g317: render_version == 15", int(cfg.path("reel.render.version")) == 15, cfg.path("reel.render.version"))
         guarded("g317", g317)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
