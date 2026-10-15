@@ -25,7 +25,7 @@ from typing import Any, Callable
 
 from PIL import Image, ImageDraw
 
-from . import imaging, reel_clips, reel_script, store, tts
+from . import imaging, reel_clips, reel_hook_search, reel_script, store, tts
 from .config import MUSIC_DIR, REELS_DIR, load_config
 
 log = logging.getLogger("trendnews.reel_render")
@@ -367,6 +367,15 @@ class Deps:
     bg_providers: dict | None = None
     # ملف مشهد ← (مدة الصورة، مدة الصوت) منفصلتين (Issue #1436)؛ المزيَّفات القديمة تحقن probe وحده فتُعطى مدتين متساويتين منه
     stream_durations: Callable[[Any], tuple] | None = None
+    # بحث لقطة الهوك الآلي (Issue #1440، R5c2): (عبارة، بعد، قبل، العدد) ← [{video_id, channel, title}]؛ معرّفات ← {id: مدة ث}؛
+    # (فيديو، ثوانٍ، ارتفاع، ملف) ← تنزيل أول ثوانيه؛ (ملف، ثوانٍ، cfg) ← لقطة كل ثانية؛ (صفيحة jpeg، الحدث، أول ثانية، العدد، cfg)
+    # ← نتائج الثواني؛ (سيناريو، مسودة، cfg) ← عبارات. المزيَّفات القديمة تحقن download_clip ولا تعرفها: تبقى None فتُتخطى الخطوة
+    yt_search: Callable[..., list] | None = None
+    yt_durations: Callable[[list], dict] | None = None
+    scan_download: Callable[..., dict] | None = None
+    scan_frames: Callable[[Any, int, Any], list] | None = None
+    classify_sheet: Callable[..., list] | None = None
+    make_queries: Callable[[dict, dict, Any], list] | None = None
 
     def resolved(self, cfg) -> "Deps":
         def fetch(video_id):
@@ -388,6 +397,7 @@ class Deps:
             review.comment(issue, text)
 
         timeout = int(cfg.path("reel.render.ffmpeg_timeout", 600))
+        real = self.download_clip is None
         return replace(
             self,
             fetch_transcript=self.fetch_transcript or fetch,
@@ -409,7 +419,16 @@ class Deps:
                 probe_stream_durations if self.probe is None else (lambda p: (self.probe(p), self.probe(p)))),
             frames=self.frames or (lambda clip, fractions: _extract_gray_frames(clip, fractions)),
             bg_image=self.bg_image or (lambda url: imaging.download_image(url)),
-            comment=self.comment or comment)
+            comment=self.comment or comment,
+            # الحقيقي لا يُملأ إلا حين لا حقن إطلاقًا (download_clip=None)؛ وإلا None وتُتخطى الخطوة بلا أي نداء شبكة
+            yt_search=self.yt_search or (reel_hook_search.real_yt_search if real else None),
+            yt_durations=self.yt_durations or (reel_hook_search.real_yt_durations if real else None),
+            scan_download=self.scan_download or (reel_hook_search.real_scan_download if real else None),
+            scan_frames=self.scan_frames or (reel_hook_search.real_scan_frames if real else None),
+            classify_sheet=self.classify_sheet or (
+                (lambda jpeg, event, first, n, c: reel_hook_search.call_classify_model(jpeg, event, first, n, c)) if real else None),
+            make_queries=self.make_queries or (
+                (lambda script, draft, c: reel_hook_search.call_make_queries(script, draft, c)) if real else None))
 
 
 # ───────────────────── صورة خلفية الراوي (Issue #1411، R3b-2b) ─────────────────────
@@ -2024,8 +2043,13 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
               ) -> tuple[list[Path], list[str], list[float]]:
     rcfg = cfg.path("reel.render")
     lead = transition_seconds(cfg)
-    channels = "، ".join(dict.fromkeys(s.get("channel_display", "") for i, s in enumerate(script["scenes"])
-                                        if i in clips and s.get("channel_display")))
+    names = list(dict.fromkeys(s.get("channel_display", "") for i, s in enumerate(script["scenes"])
+                               if i in clips and s.get("channel_display")))
+    # قناة لقطة الهوك تُنسب في الختام إن لم تكن فيه (Issue #1440)
+    hook_channel = ((draft or {}).get("hook_video") or {}).get("channel") if isinstance((draft or {}).get("hook_video"), dict) else None
+    if hook_channel and hook_channel.casefold() not in (n.casefold() for n in names):
+        names.append(hook_channel)
+    channels = "، ".join(names)
     scene_files: list[Path] = []
     kinds: list[str] = []
     durs: list[float] = []
@@ -2168,6 +2192,43 @@ def _resolve_background(path: Path, draft: dict, cfg, deps: Deps, notes: list) -
     return prepared, stored
 
 
+def _hook_note(cfg, hv: dict) -> str:
+    return cfg.path("reel.render.texts.comment_hook_found").format(
+        channel=hv.get("channel", ""), title=hv.get("title", ""), id=hv["video_id"], start=hv["start"], end=hv["end"])
+
+
+def _auto_hook(path: Path, draft: dict, script: dict, cfg, deps: Deps, tmp: Path, notes: list) -> None:
+    """بحث آلي عن لقطة الهوك (Issue #1440، R5c2) قبل مشهده. hook_video الموجود (اليدوي أولًا) يغلب فلا بحث؛ وبلا مفتاح يوتيوب
+    أو بلا مشهد هوك أو بلا حقن/تفعيل تُتخطى الخطوة. أي عطل يُبقي الهوك بصورة الخبر وسطرًا في التعليق، ولا يُفشل التركيب."""
+    t = cfg.path("reel.render.texts")
+    hv = draft.get("hook_video")
+    if isinstance(hv, dict) and hv.get("video_id"):
+        if hv.get("source") == "auto":
+            notes.append(_hook_note(cfg, hv))
+        return
+    if not cfg.path("reel.hook_search.enabled", False) or deps.yt_search is None or deps.make_queries is None:
+        return
+    if not any(s.get("kind") == "title_card" for s in script.get("scenes", [])):
+        return
+    if not os.environ.get("YOUTUBE_API_KEY", "").strip():
+        log.info("بحث لقطة الهوك: YOUTUBE_API_KEY غائب — تخطٍّ")
+        return
+    try:
+        res = reel_hook_search.search_hook(draft, script, draft.get("topic_date") or path.parent.name, cfg, deps, tmp)
+    except Exception as exc:  # noqa: BLE001 -- لقطة الهوك تحسين: الهوك يبقى بصورة الخبر
+        log.warning("تعذّر البحث عن لقطة الهوك: %s", reel_clips.scrub_text(str(exc))[:150])
+        notes.append(t["comment_hook_failed"])
+        return
+    search = {k: res[k] for k in ("queries", "candidates", "picked")}
+    if res.get("hook_video"):
+        draft["hook_video"] = res["hook_video"]
+        store.update_draft(path, hook_video=res["hook_video"], hook_search=search)
+        notes.append(_hook_note(cfg, res["hook_video"]))
+    else:
+        store.update_draft(path, hook_search=search)
+        notes.append(t["comment_hook_failed"] if res.get("errors") else t["comment_hook_none"])
+
+
 def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path, dropped: list,
             approx: list, notes: list | None = None) -> dict:
     rcfg, scfg = cfg.path("reel.render"), cfg.path("reel.script")
@@ -2184,6 +2245,7 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     voice = cfg.path(f"reel.tts.narrator_voices.{script.get('narrator', 'female')}")
     notes = notes if notes is not None else []
     bg, bg_saved = _resolve_background(path, draft, cfg, deps, notes)
+    _auto_hook(path, draft, script, cfg, deps, tmp, notes)
     speakers: dict = {}
     scene_files, kinds, durs = _assemble(script, clips, cfg, deps, tmp, voice, bg,
                                          outro_credit(cfg, bg["used"]) if bg else "", speakers, notes, draft)
