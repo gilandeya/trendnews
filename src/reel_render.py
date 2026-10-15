@@ -264,8 +264,9 @@ def speaker_track(frames, boxes_per_frame, cfg) -> dict:
 
     ranked = sorted(((score(t), t) for t in valid), key=lambda st: -st[0])
     top, second = ranked[0][0], (ranked[1][0] if len(ranked) > 1 else None)
-    # صفر مقابل صفر لا يحسم: الأعلى يجب أن يتفوق فعلًا لا أن يبلغ العتبة بالتعادل
-    if second is None or (top > second and top >= float(sc.get("margin", 1.25)) * second):
+    # بلا نسبة تفوق (Issue #1429): حين يتكلم وجهان يكفي أن يكون الأعلى متكلمًا فعلًا (≥ talk_min) وأعلى من الثاني؛ تعادل أو
+    # كل الدرجات دون talk_min (لا أحد يتكلم) لا يحسم فيبقى أكبر وجه
+    if second is None or (top > second and top >= float(sc.get("talk_min", 0.3))):
         centers = sorted(c for _, c in ranked[0][1]["obs"].values())
         mid = centers[len(centers) // 2] if len(centers) % 2 else (centers[len(centers) // 2 - 1] + centers[len(centers) // 2]) / 2
         return {"source": "speaker", "center": mid, "speaker_score": top, "tracks": len(valid)}
@@ -694,6 +695,16 @@ def frame_title(cfg, title: str, date_text: str, boxes=None) -> Image.Image:
     return p.rgb()
 
 
+def frame_hook_text(cfg, title: str, boxes=None, transparent: bool = True) -> Image.Image:
+    """نص الهوك (Issue #1429): عنوان السيناريو بالرقعة أبيض متمركزًا رأسيًا حول hook.text_y داخل المنطقة الآمنة. شفاف فوق
+    خلفية متحركة، وبلا خلفية يُرسم على الكحلي الثابت."""
+    p = _Pen(cfg, boxes, transparent=transparent)
+    fpath, lf = display_font(cfg)
+    p.block(title, fpath, None, p.white, int(cfg.path("reel.render.hook.text_y", 1180)), start=scaled(cfg, 96),
+            minimum=scaled(cfg, 52), max_lines=4, line_factor=lf)
+    return p.img if transparent else p.rgb()
+
+
 def _narration_pen(cfg, sentence: str, boxes, bg: dict | None):
     """لوحة الراوي ومعاملات نصها. بلا خلفية: كحلي، وسط الشاشة. بخلفية: الصورة المظلَّلة والنص كما هو (تخطيط واحد).
     الأحجام 160/140 وأربعة أسطر (Issue #1423): حروف الرقعة أصغر بصريًا من Tajawal (حبر «ومن»: XB 72 ← 56 بكسل، الرقعة 108
@@ -879,8 +890,9 @@ def frame_question(cfg, question: str, boxes=None) -> Image.Image:
     cy = 520
     p.d.ellipse((p.cx - r, cy - r, p.cx + r, cy + r), fill=p.gold)
     qfont = p.font(CAIRO, 170, "Black")
-    qw, qh = imaging.measure(p.d, "؟", qfont)
-    imaging.draw_text(p.d, (p.cx, cy - qh // 2 - 26), "؟", qfont, p.navy, anchor="ma")
+    # مركز الحبر الفعلي لا مركز مربع الخط عند مركز الدائرة (Issue #1429): الذيل السفلي كان يخرج منها بإزاحة ثابتة
+    ink = p.ink("؟", qfont, (p.cx, 0), "ma")
+    imaging.draw_text(p.d, (p.cx + p.cx - (ink[0] + ink[2]) / 2, cy - (ink[1] + ink[3]) / 2), "؟", qfont, p.navy, anchor="ma")
     fpath, lf = display_font(cfg)
     start, minimum = scaled(cfg, 76), scaled(cfg, 44)
     share_font = p.font(TAJAWAL_B, 46)
@@ -1620,20 +1632,138 @@ def _apply_chyron(scene: dict, clip: dict, cfg, deps: Deps, speakers: dict, note
         scene["speaker_presenter"] = True
 
 
+# ───────────────────── الهوك والشعار الكبير (Issue #1429، R5c1) ─────────────────────
+
+
+def pan_x(t: float, cfg, img_w: float) -> float:
+    """إزاحة x لنافذة 1080 فوق صورة عرضها img_w: تبدأ من أقصى اليمين وتتناقص بسرعة ثابتة hook.pan_speed ولا تنزل عن 0."""
+    w = float(cfg.path("reel.render.width"))
+    return max(img_w - w - float(cfg.path("reel.render.hook.pan_speed")) * t, 0.0)
+
+
+def _pan_x_expr(cfg, img_w: int) -> str:
+    """تعبير crop الزمني نفسه الذي تحسبه pan_x (الصيغة مطابقة: أقصى اليمين ناقص السرعة × t ولا أقل من 0)."""
+    w = int(cfg.path("reel.render.width"))
+    return f"max({img_w - w}-{_fmt(float(cfg.path('reel.render.hook.pan_speed')))}*t,0)"
+
+
+def _ease_out(p: float) -> float:
+    return 1 - (1 - p) ** 3
+
+
+def _ease_in_out(p: float) -> float:
+    return p * p * (3 - 2 * p)
+
+
+def logo_state(t: float, cfg, hook_end: float) -> tuple[float, float, float, float]:
+    """(x, y, العرض, الشفافية) للشعار عند الزمن t: يدخل خلال hook.logo_in من نسبة logo_from إلى 1.0 من hook.logo_width
+    بشفافية 0←1 بتسارع ease-out وسط الشاشة وأعلاه hook.logo_top، ثم يبدأ عند hook_end (بدء الانتقال إلى المشهد التالي)
+    انتقاله خلال hook.logo_move بتسارع ease-in-out إلى موضع الزاوية (reel.render.logo) ويبقى فيه."""
+    hk, lg = cfg.path("reel.render.hook"), cfg.path("reel.render.logo")
+    w = float(cfg.path("reel.render.width"))
+    e1 = _ease_out(min(max(t / float(hk["logo_in"]), 0.0), 1.0))
+    big_w = float(hk["logo_width"]) * (float(hk["logo_from"]) + (1 - float(hk["logo_from"])) * e1)
+    big_x, big_y = (w - big_w) / 2, float(hk["logo_top"])
+    e2 = _ease_in_out(min(max((t - hook_end) / float(hk["logo_move"]), 0.0), 1.0))
+    small_w = float(lg["width"])
+    small_x, small_y = w - float(lg["right"]) - small_w, float(lg["top"])
+    return (big_x + (small_x - big_x) * e2, big_y + (small_y - big_y) * e2, big_w + (small_w - big_w) * e2, e1)
+
+
+def _logo_exprs(cfg, hook_end: float) -> dict:
+    """تعابير ffmpeg (بالمتغير t) لدالة logo_state نفسها: w وx وy للمرشحين scale وoverlay، وalpha (بالمتغير T) لـgeq."""
+    hk, lg = cfg.path("reel.render.hook"), cfg.path("reel.render.logo")
+    w = int(cfg.path("reel.render.width"))
+
+    def e1(v):
+        return f"(1-pow(1-min(max({v}/{_fmt(float(hk['logo_in']))},0),1),3))"
+    p2 = f"min(max((t-{_fmt(hook_end)})/{_fmt(float(hk['logo_move']))},0),1)"
+    e2 = f"({p2}*{p2}*(3-2*{p2}))"
+    frm = float(hk["logo_from"])
+    big_w = f"({_fmt(float(hk['logo_width']))}*({_fmt(frm)}+{_fmt(1 - frm)}*{e1('t')}))"
+    big_x = f"(({w}-{big_w})/2)"
+    small_w, small_x = int(lg["width"]), w - int(lg["right"]) - int(lg["width"])
+    return {"w": f"({big_w}+({small_w}-{big_w})*{e2})",
+            "x": f"({big_x}+({small_x}-{big_x})*{e2})",
+            "y": f"({int(hk['logo_top'])}+({int(lg['top'])}-{int(hk['logo_top'])})*{e2})",
+            "alpha": e1("T")}
+
+
+def _shade_filter(cfg) -> str:
+    r, g, b = imaging.hex_rgb(cfg.path("brand.primary_color"))
+    return f"drawbox=x=0:y=0:w=iw:h=ih:color=0x{r:02X}{g:02X}{b:02X}@{_fmt(float(cfg.path('reel.render.hook.shade')))}:t=fill"
+
+
+def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None, voice: str, cfg, deps: Deps, tmp: Path,
+                out: Path, notes: list) -> float:
+    """مشهد الهوك: الراوي يقرأ عنوان السيناريو فوق خلفية بالأولوية (أ) hook_video المدخل يدويًا (يُقتطع 9:16 من المنتصف وصوته
+    الأصلي تحت الراوي بمستوى hook.ambient ويتكرر إن قصر) (ب) صورة reel_bg المحضَّرة تتحرك من اليمين إلى اليسار (ج) الكحلي الثابت.
+    فشل تنزيل hook_video لا يفشل التركيب: سطر في التعليق وتنتقل الخلفية إلى (ب). يعيد مدته: مدة الصوت + tail بين الحدّين."""
+    rcfg, hk = cfg.path("reel.render"), cfg.path("reel.render.hook")
+    w, h, fps = int(rcfg["width"]), int(rcfg["height"]), rcfg["fps"]
+    title = script.get("title") or scene.get("text", "")
+    audio, parts = _speech(title, voice, cfg, deps, tmp, f"s{i:02d}")
+    speech = sum(d for _, d in parts)
+    seconds = min(max(speech + float(hk["tail"]), float(hk["min_seconds"])), float(hk["max_seconds"]))
+    clip = None
+    hv = draft.get("hook_video")
+    if isinstance(hv, dict) and hv.get("video_id"):
+        try:
+            clip = _download_with_retries(deps, rcfg, str(hv["video_id"]), int(hv["start"]), int(hv["end"]),
+                                          tmp / "hook_clip.mp4")
+        except Exception as exc:  # noqa: BLE001 -- فيديو الهوك تحسين: الخلفية تنتقل إلى الصورة
+            log.warning("تعذّر تنزيل فيديو الهوك: %s", reel_clips.scrub_text(str(exc))[:120])
+        if clip is None:
+            notes.append(cfg.path("reel.render.texts.comment_hook_video_failed"))
+    animated = clip is not None or bg is not None
+    png = _save(frame_hook_text(cfg, title, transparent=animated), tmp / f"hook_{i}.png")
+    loop = ["-loop", "1", "-framerate", str(fps)]
+    rate = rcfg.get("audio_rate", 48000)
+    if clip is not None:
+        inputs = ["-stream_loop", "-1", "-i", str(clip), *loop, "-i", str(png), "-i", str(audio)]
+        vg = (f"[0:v]crop=ih*9/16:ih:(iw-ih*9/16)/2:0,scale={w}:{h},{_shade_filter(cfg)},fps={fps}[b];"
+              f"[b][1:v]overlay=0:0:shortest=1,format=yuv420p[v]")
+        ag = (f"[0:a]aresample={rate},aformat=channel_layouts=stereo,volume={_fmt(float(hk['ambient']))}[am];"
+              f"[2:a]aresample={rate},aformat=channel_layouts=stereo,apad[sp];"
+              f"[sp][am]amix=inputs=2:normalize=0:duration=first[a]")
+    elif bg is not None:
+        bgpng = _save(bg["image"], tmp / f"hook_bg_{i}.png")
+        sh = round(h * float(hk["pan_zoom"]))
+        img_w = round(w * sh / h)
+        inputs = [*loop, "-i", str(bgpng), *loop, "-i", str(png), "-i", str(audio)]
+        vg = (f"[0:v]scale={img_w}:{sh}:flags=lanczos,crop={w}:{h}:x='{_pan_x_expr(cfg, img_w)}':y='(ih-oh)/2',"
+              f"{_shade_filter(cfg)},fps={fps}[b];[b][1:v]overlay=0:0:shortest=1,format=yuv420p[v]")
+        ag = "[2:a]apad[a]"
+    else:
+        inputs = [*loop, "-i", str(png), "-i", str(audio)]
+        vg, ag = "[0:v]fps=%s,format=yuv420p[v]" % fps, "[1:a]apad[a]"
+    deps.run(_base(*inputs, "-filter_complex", vg + ";" + ag, "-map", "[v]", "-map", "[a]", "-t", _fmt(seconds),
+                   *_enc(rcfg), str(out)))
+    return seconds
+
+
 def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str, bg: dict | None = None,
-              credit: str = "", speakers: dict | None = None, notes: list | None = None
+              credit: str = "", speakers: dict | None = None, notes: list | None = None, draft: dict | None = None
               ) -> tuple[list[Path], list[str], list[float]]:
     rcfg = cfg.path("reel.render")
     lead = transition_seconds(cfg)
-    date_text = datetime.now().strftime("%Y/%m/%d")
     channels = "، ".join(dict.fromkeys(s.get("channel_display", "") for i, s in enumerate(script["scenes"])
                                         if i in clips and s.get("channel_display")))
     scene_files: list[Path] = []
     kinds: list[str] = []
     durs: list[float] = []
-    for i, scene in enumerate(script["scenes"]):
+    # مشهد title_card هوك يتقدّم إلى أول الريل ثم cold_open_clip ثم الباقي بترتيبه (Issue #1429)؛ الفهرس الأصلي يبقى لمفاتيح clips
+    order = list(enumerate(script["scenes"]))
+    hooks = [x for x in order if x[1].get("kind") == "title_card"][:1]
+    hook_idx = hooks[0][0] if hooks else None
+    order = hooks + [x for x in order if x[0] != hook_idx]
+    for i, scene in order:
         kind, out = scene.get("kind"), tmp / f"scene_{i:02d}.mp4"
-        if kind in reel_script.CLIP_KINDS:
+        if i == hook_idx:
+            kind = "hook"
+            dur = _hook_scene(i, scene, script, draft or {}, bg, voice, cfg, deps, tmp, out,
+                              notes if notes is not None else [])
+        elif kind in reel_script.CLIP_KINDS:
             if i not in clips:
                 continue
             # قبل رسم الشريط: الاسم المقروء من الشاشة يغيّر نص الشريط نفسه
@@ -1642,9 +1772,6 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
             static, band = frame_clip_layers(cfg, scene)
             overlays = (_save(static, tmp / f"overlay_{i}_static.png"), _save(band, tmp / f"overlay_{i}_band.png"))
             dur = _clip_scene(clips[i], overlays, out, cfg, deps, scene)
-        elif kind == "title_card":
-            png = _save(frame_title(cfg, scene.get("text") or script.get("title", ""), date_text), tmp / f"title_{i}.png")
-            dur = _still_scene(png, float(rcfg["title_seconds"]), out, cfg, deps)
         elif kind == "outro":
             png = _save(frame_outro(cfg, channels, credit=credit) if credit else frame_outro(cfg, channels),
                         tmp / f"outro_{i}.png")
@@ -1753,7 +1880,7 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     bg, bg_saved = _resolve_background(path, draft, cfg, deps, notes)
     speakers: dict = {}
     scene_files, kinds, durs = _assemble(script, clips, cfg, deps, tmp, voice, bg,
-                                         outro_credit(cfg, bg["used"]) if bg else "", speakers, notes)
+                                         outro_credit(cfg, bg["used"]) if bg else "", speakers, notes, draft)
     joined = _join(scene_files, kinds, durs, cfg, deps, tmp)
 
     rel_dir = f"{path.parent.name}"
@@ -1763,18 +1890,29 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     lg = rcfg["logo"]
     logo = _trimmed_logo(cfg, tmp)
     # الشعار مرة واحدة فوق الفيديو المجمَّع كله: مكانه وحجمه ثابتان في كل لحظة بلا استثناء
-    video_f = f"[1:v]scale={lg['width']}:-1[lg];[0:v][lg]overlay=W-w-{lg['right']}:{lg['top']}[v]"
+    logo_in: list[str] = []
+    if kinds and kinds[0] == "hook":
+        # شعار الهوك الكبير ينتقل إلى الزاوية (Issue #1429): مدخل مكرَّر بالإطارات كي تُقيَّم تعابير t كل إطار، وgeq لشفافية الدخول
+        # (يُصغَّر أولًا إلى أكبر عرض فلا تُحسب الشفافية على صورة كبيرة)، وscale/overlay بـeval=frame؛ ما زال مرة واحدة هنا
+        ex = _logo_exprs(cfg, durs[0] - transition_seconds(cfg))
+        logo_in = ["-loop", "1", "-framerate", str(rcfg["fps"])]
+        video_f = (f"[1:v]scale={int(cfg.path('reel.render.hook.logo_width'))}:-1,format=rgba,"
+                   f"geq=r='r(X,Y)':g='g(X,Y)':b='b(X,Y)':a='alpha(X,Y)*{ex['alpha']}'[lg0];"
+                   f"[lg0]scale=w='{ex['w']}':h=-1:eval=frame[lg];"
+                   f"[0:v][lg]overlay=x='{ex['x']}':y='{ex['y']}':eval=frame:shortest=1[v]")
+    else:
+        video_f = f"[1:v]scale={lg['width']}:-1[lg];[0:v][lg]overlay=W-w-{lg['right']}:{lg['top']}[v]"
     music = pick_music(draft, cfg)
     if music:
         # المدة المقيسة للمجمَّع تحدد بداية الاختفاء التدريجي؛ فشل القياس ← مجموع المدد ناقص الانتقالات
         seconds = deps.probe(joined) or (sum(durs) - transition_seconds(cfg) * max(len(durs) - 1, 0))
         music_in, audio_f = _music_mix(cfg, Path(MUSIC_DIR) / music, float(seconds))
-        deps.run(_base("-i", str(joined), "-i", str(logo), *music_in, "-filter_complex", video_f + ";" + audio_f,
+        deps.run(_base("-i", str(joined), *logo_in, "-i", str(logo), *music_in, "-filter_complex", video_f + ";" + audio_f,
                        "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-preset", "veryfast",
                        "-crf", str(rcfg.get("crf", 22)), "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "128k",
                        "-ar", str(rcfg.get("audio_rate", 48000)), "-ac", "2", "-movflags", "+faststart", str(dest)))
     else:
-        deps.run(_base("-i", str(joined), "-i", str(logo), "-filter_complex", video_f,
+        deps.run(_base("-i", str(joined), *logo_in, "-i", str(logo), "-filter_complex", video_f,
                        "-map", "[v]", "-map", "0:a", "-c:v", "libx264", "-preset", "veryfast",
                        "-crf", str(rcfg.get("crf", 22)), "-pix_fmt", "yuv420p", "-af", _loudnorm(cfg), "-c:a", "aac",
                        "-b:a", "128k", "-ar", str(rcfg.get("audio_rate", 48000)), "-ac", "2", "-movflags", "+faststart",

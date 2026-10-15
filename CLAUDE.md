@@ -1833,4 +1833,12 @@ instead.
   `deps.face_tracks(clip, cfg)`؛ مزيَّفات قديمة تحقن `faces` تُعطى سلوكًا لا يغيّر شيئًا، وعطله يعيد السلوك القديم ولا يرفع.
 - **شريط القناة:** لمقطع `speaker_verified` false فقط، نداء Haiku واحد بثلاث لقطات (`reel.render.chyron`) وأداة `read_lower_third` عبر `deps.read_chyron`.
   قبول الاسم بتطابقه في لقطتين (`resolve_chyron`) ← `speaker_verified_from="chyron"`؛ بلا اسم ومذيع في لقطتين ← القناة وحدها (`speaker_presenter`)؛ غير ذلك
-  «ضيف على». لا يُرفع فشل أبدًا. الناتج `render_speakers` على المسودة وسطر 👤 في تعليق التركيب. `render_version` = 11. الاختبارات g287–g294.
+  «ضيف على». لا يُرفع فشل أبدًا. الناتج `render_speakers` على المسودة وسطر 👤 في تعليق التركيب. `render_version` = 11 (صارت 12 في R5c1). الاختبارات g287–g294.
+
+## الهوك والشعار الكبير في تركيب الريل (Issue #1429، R5c1) — `src/reel_render.py`
+
+- **الترتيب:** مشهد `title_card` في السيناريو المحفوظ يُركَّب هوكًا (`kind` الداخلي `hook`) ويتقدّم إلى أول الريل: هوك ← `cold_open_clip` ← الباقي بترتيبه؛ `frame_title` باقية في الكود ولا تُستدعى.
+- **الهوك (`_hook_scene`):** عنوان السيناريو بالرقعة (`frame_hook_text`، `display_scale × 96` حتى `× 52`، 4 أسطر، حول `hook.text_y`) يقرؤه الراوي بمسار `_speech`؛ المدة = الصوت + `hook.tail` بين `hook.min_seconds` و`hook.max_seconds`. الخلفية: `draft.hook_video` يدوي (`{video_id,start,end}`، يُقتطع 9:16 من المنتصف وصوته تحت الراوي بـ`hook.ambient`) ← صورة `reel_bg` المحضَّرة تنتقل يمينًا إلى يسار (`pan_x`، `hook.pan_zoom`/`pan_speed`) ← كحلي ثابت؛ فشل تنزيل الفيديو ← الصورة وسطر `comment_hook_video_failed`. تظليل `hook.shade` فوق الأوليين.
+- **الشعار:** `logo_state(t, cfg, hook_end)` دالة نقية، وتعابير ffmpeg تُبنى منها (`_logo_exprs`: scale بـ`eval=frame` وoverlay بتعابير `t` وgeq لشفافية الدخول) في التمريرة الأخيرة وحدها؛ بلا هوك يبقى overlay الزاوية الثابت.
+- **`speaker_track`:** حُذف شرط `margin`؛ المتكلم الأعلى إن بلغ `speaker.talk_min` وتفوّق على الثاني، وإلا أكبر وجه. علامة «؟» تُمركَّز بحبرها في دائرة السؤال. `render_version` = 12. الاختبارات g298–g304.
+- **لم يُجرَّب على ffmpeg حقيقي** (لا ffmpeg في بيئة التطوير): صياغة geq/scale/crop الزمنية تحتاج تشغيلًا فعليًا.
