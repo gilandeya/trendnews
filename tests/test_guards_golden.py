@@ -9337,6 +9337,76 @@ def test_reel_hook_r5c1_guards() -> None:
                   bool(boxes) and all(b[0] >= x0 and b[2] <= 1080 - x0 and b[1] >= top and b[3] <= bottom for b in boxes), boxes)
             check("g304: render_version == 12", int(cfg.path("reel.render.version")) == 12, cfg.path("reel.render.version"))
         guarded("g304", g304)
+
+        # ── g305: خلفية الهوك الخام (بلا تظليل الكحلي المسبق) ──
+        def g305():
+            light = Image.new("RGB", (1400, 800), (230, 230, 230))
+            bgd = reel_render.prepare_background(cfg, light)
+            raw = bgd.get("raw")
+            check("g305: prepare_background يعيد raw", raw is not None, list(bgd))
+            if raw is None:
+                return
+            check("g305: raw بمقاس 1080×1920", raw.size == (1080, 1920), raw.size)
+            check("g305: سطوع raw أعلى من image لصورة فاتحة",
+                  np.asarray(raw.convert("L")).mean() > np.asarray(bgd["image"].convert("L")).mean() + 20)
+            o_prep, o_save = reel_render.prepare_background, reel_render._save
+            made, saved = [], {}
+
+            def spy_prep(c, img):
+                res = o_prep(c, img)
+                made.append(res)
+                return res
+
+            def spy_save(img, path):
+                out = o_save(img, path)
+                saved[str(out)] = img
+                return out
+            reel_render.prepare_background, reel_render._save = spy_prep, spy_save
+            try:
+                r = render("r5c1000g305a1", tmp, with_bg=True)
+            finally:
+                reel_render.prepare_background, reel_render._save = o_prep, o_save
+            hb = [a for c in r["cmds"] for a in c if re.search(r"hook_bg_\d+\.png$", a)]
+            check("g305: أمر الهوك (ب) يقرأ hook_bg", bool(hb) and bool(made), (hb, len(made)))
+            if hb and made:
+                src = saved.get(hb[0])
+                check("g305: الملف المحفوظ من raw لا من image", src is made[-1].get("raw") and src is not made[-1]["image"])
+        guarded("g305", g305)
+
+        # ── g306: التمريرة الأخيرة بلا geq وبمدخل شعار محدود ──
+        def g306():
+            r = render("r5c1000g306a1", tmp)
+            c = final_cmd(r)
+            g = " ".join(c)
+            for needle in ("fade=t=in", "eof_action=pass", "enable='gte(t,"):
+                check(f"g306: الأمر الأخير يحتوي {needle}", needle in g, g[-400:])
+            check("g306: الأمر الأخير بلا geq", "geq" not in g, g[-400:])
+            check("g306: overlay المتحرك بلا shortest", "eval=frame:shortest=1" not in g, g[-400:])
+            hook_end = r["joined"]["durs"][0] - reel_render.transition_seconds(cfg)
+            want = hook_end + float(cfg.path("reel.render.hook.logo_move")) + 0.1
+            loops = [i for i, a in enumerate(c) if a == "-loop"]
+            pre = bool(loops) and c[loops[0] + 4] == "-t" and abs(float(c[loops[0] + 5]) - want) <= 0.01
+            check("g306: مدخل الشعار المتحرك مسبوق بـ -t = hook_end+logo_move+0.1", pre, (want, c[:12]))
+            check("g306: alpha عند 0.25 تساوي 0.5", abs(reel_render.logo_state(0.25, cfg, 5.0)[3] - 0.5) < 1e-6,
+                  reel_render.logo_state(0.25, cfg, 5.0))
+        guarded("g306", g306)
+
+        # ── g307: لا قفزة عند التبديل إلى الشعار الثابت ──
+        def g307():
+            end = 5.0
+            move = float(cfg.path("reel.render.hook.logo_move"))
+            x, y, wd, a = reel_render.logo_state(end + move, cfg, end)
+            check("g307: آخر حالة متحركة = الثابت تمامًا",
+                  (x, y, wd, a) == (1080 - 54 - 168, 108, 168, 1.0), (x, y, wd, a))
+            r = render("r5c1000g307a1", tmp)
+            g = " ".join(final_cmd(r))
+            hook_end = r["joined"]["durs"][0] - reel_render.transition_seconds(cfg)
+            check("g307: overlay ثابت بالموضع القديم", "overlay=W-w-54:108" in g, g[-400:])
+            m = re.search(r"enable='gte\(t,([\d.]+)\)'", g)
+            check("g307: يبدأ عند hook_end + logo_move", bool(m) and abs(float(m.group(1)) - (hook_end + move)) <= 0.01,
+                  (m.group(1) if m else None, hook_end + move))
+            check("g307: scale ثابت بعرض 168", "scale=168:-1" in g, g[-400:])
+        guarded("g307", g307)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 
