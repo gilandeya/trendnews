@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import logging
 import math
+import os
 import re
 import shutil
 import subprocess
@@ -47,6 +48,34 @@ def probe_duration(path) -> float | None:
         return None
     m = re.search(r"Duration:\s*(\d+):(\d+):(\d+(?:\.\d+)?)", proc.stderr or "")
     return int(m.group(1)) * 3600 + int(m.group(2)) * 60 + float(m.group(3)) if m else None
+
+
+def probe_stream_durations(path) -> tuple[float | None, float | None]:
+    """(مدة مسار الصورة، مدة مسار الصوت) كلٌّ على حدة بـffprobe (Issue #1436): مدة الحاوية هي الأطول بين المسارين فلا تكشف
+    مشهدًا صوته أطول من صورته. مسار غائب أو N/A ← None لذاك المسار؛ عطل ffprobe كله ← (None, None) فيرجع المستدعي للمقيسة."""
+    out: list[float | None] = []
+    for sel in ("v:0", "a:0"):
+        try:
+            proc = subprocess.run(["ffprobe", "-v", "error", "-select_streams", sel, "-show_entries", "stream=duration",
+                                   "-of", "csv=p=0", str(path)], capture_output=True, text=True, timeout=60)
+            out.append(float((proc.stdout or "").strip().splitlines()[0].strip(",")) if proc.returncode == 0 else None)
+        except Exception:  # noqa: BLE001 -- غياب القياس يعني الرجوع إلى مدة الحاوية لا فشل التركيب
+            out.append(None)
+    return out[0], out[1]
+
+
+def scene_fix_plan(v: float, a: float, tol: float = 0.05) -> dict:
+    """ما يلزم لتساوي مسارَي مشهد: صوت أطول ← تمديد الصورة بتثبيت آخر إطار، صورة أطول ← تمديد الصوت بصمت؛ ضمن tol لا شيء."""
+    diff = a - v
+    if diff > tol:
+        return {"pad_video": round(diff, 3), "pad_audio": 0.0}
+    if -diff > tol:
+        return {"pad_video": 0.0, "pad_audio": round(-diff, 3)}
+    return {"pad_video": 0.0, "pad_audio": 0.0}
+
+
+class ShortRender(RuntimeError):
+    """ريل نهائي أقصر من المتوقع (Issue #1436): يُعامَل عطل تركيب لكن لا يُمسّ ملف ريل سابق."""
 
 
 def probe_streams(path) -> set[str]:
@@ -336,6 +365,8 @@ class Deps:
     # رابط ← صورة خلفية الراوي منزَّلة (أو None) بقواعد imaging.download_image؛ ومزوّدات اختيارها (Issue #1411)
     bg_image: Callable[[str], Any] | None = None
     bg_providers: dict | None = None
+    # ملف مشهد ← (مدة الصورة، مدة الصوت) منفصلتين (Issue #1436)؛ المزيَّفات القديمة تحقن probe وحده فتُعطى مدتين متساويتين منه
+    stream_durations: Callable[[Any], tuple] | None = None
 
     def resolved(self, cfg) -> "Deps":
         def fetch(video_id):
@@ -374,6 +405,8 @@ class Deps:
             pick_speaker=self.pick_speaker or (_real_pick_speaker if self.download_clip is None else (lambda *a: None)),
             sleep=self.sleep or time.sleep,
             streams=self.streams or probe_streams,
+            stream_durations=self.stream_durations or (
+                probe_stream_durations if self.probe is None else (lambda p: (self.probe(p), self.probe(p)))),
             frames=self.frames or (lambda clip, fractions: _extract_gray_frames(clip, fractions)),
             bg_image=self.bg_image or (lambda url: imaging.download_image(url)),
             comment=self.comment or comment)
@@ -2028,19 +2061,48 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
     return scene_files, kinds, durs
 
 
-def _join(scene_files: list[Path], kinds: list[str], durs: list[float], cfg, deps: Deps, tmp: Path) -> Path:
+def _unify_scenes(scene_files: list[Path], durs: list[float], cfg, deps: Deps, tmp: Path) -> tuple[list[Path], list[float]]:
+    """يوحّد طول صورة كل مشهد وصوته (Issue #1436): مقطع صوته أطول من صورته كان يضع offset الانتقال التالي بعد نهاية الصورة
+    فيتوقف الفيديو ويضيع كل ما بعده. يُعاد ترميز المسار الأقصر وحده، والمتساويان لا يُلمسان. المدة الموحَّدة = الأطول."""
+    rcfg = cfg.path("reel.render")
+    out_files, unified = [], []
+    for k, (f, d) in enumerate(zip(scene_files, durs)):
+        v, a = deps.stream_durations(f)
+        if not v or not a:
+            # قياس المسارين تعذّر: مدة الحاوية المقيسة هي الأقرب، وإلا المحسوبة
+            v = a = float(deps.probe(f) or d)
+        plan = scene_fix_plan(float(v), float(a))
+        fixed = Path(f)
+        if plan["pad_video"] > 0:
+            fixed = tmp / f"fix{k}.mp4"
+            deps.run(_base("-i", str(f), "-vf", f"tpad=stop_mode=clone:stop_duration={_fmt(plan['pad_video'])}",
+                           "-c:v", "libx264", "-preset", str(rcfg.get("preset", "veryfast")), "-crf", str(rcfg.get("crf", 22)),
+                           "-pix_fmt", "yuv420p", "-c:a", "copy", str(fixed)))
+        elif plan["pad_audio"] > 0:
+            fixed = tmp / f"fix{k}.mp4"
+            deps.run(_base("-i", str(f), "-af", f"apad=whole_dur={_fmt(float(v))}", "-c:v", "copy",
+                           "-c:a", "aac", "-b:a", "128k", "-ar", str(rcfg.get("audio_rate", 48000)), "-ac", "2", str(fixed)))
+        out_files.append(fixed)
+        unified.append(max(float(v), float(a)))
+    return out_files, unified
+
+
+def _join(scene_files: list[Path], kinds: list[str], durs: list[float], cfg, deps: Deps, tmp: Path,
+          info: dict | None = None) -> Path:
     """يضمّ ملفات المشاهد: بانتقالات xfade/acrossfade بأمر واحد، أو concat -c copy حين لا انتقال (seconds=0 أو مشهد واحد).
-    الانتقال رقم k يبدأ عند مجموع مدد أول k مشهدًا ناقص k×seconds لأن كل انتقال يأكل مدته من الطول الكلي."""
+    الانتقال رقم k يبدأ عند مجموع مدد أول k مشهدًا ناقص k×seconds لأن كل انتقال يأكل مدته من الطول الكلي.
+    المدد من _unify_scenes لا من الحاوية؛ info["expected"] يعيد المدة المتوقعة للضمّ لحارس المدة النهائي."""
     rcfg = cfg.path("reel.render")
     joined = tmp / "joined.mp4"
     secs = transition_seconds(cfg)
+    scene_files, real = _unify_scenes(scene_files, durs, cfg, deps, tmp)
+    if info is not None:
+        info["expected"] = sum(real) - max(secs, 0.0) * max(len(real) - 1, 0) if len(real) > 1 else sum(real)
     if secs <= 0 or len(scene_files) < 2:
         lst = tmp / "scenes.txt"
         lst.write_text("".join(f"file '{f}'\n" for f in scene_files), encoding="utf-8")
         deps.run(_base("-f", "concat", "-safe", "0", "-i", str(lst), "-c", "copy", str(joined)))
         return joined
-    # مدة الملف المقيسة هي الحقيقية؛ المحسوبة احتياط إن تعذّر القياس
-    real = [float(deps.probe(f) or d) for f, d in zip(scene_files, durs)]
     tcfg = cfg.path("reel.render.transition")
     vparts, aparts = [], []
     vprev, aprev, acc = "0:v", "0:a", 0.0
@@ -2115,12 +2177,14 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     speakers: dict = {}
     scene_files, kinds, durs = _assemble(script, clips, cfg, deps, tmp, voice, bg,
                                          outro_credit(cfg, bg["used"]) if bg else "", speakers, notes, draft)
-    joined = _join(scene_files, kinds, durs, cfg, deps, tmp)
+    join_info: dict = {}
+    joined = _join(scene_files, kinds, durs, cfg, deps, tmp, join_info)
 
     rel_dir = f"{path.parent.name}"
     dest = reels_dir / rel_dir / f"{path.stem}.mp4"
     gif = reels_dir / rel_dir / f"{path.stem}.gif"
-    dest.parent.mkdir(parents=True, exist_ok=True)
+    # التمريرة الأخيرة تكتب إلى ملف مؤقت لا إلى dest: dest هو ملف الريل السابق نفسه، وفشل حارس المدة يجب ألا يُتلفه
+    final = tmp / "final.mp4"
     lg = rcfg["logo"]
     logo = _trimmed_logo(cfg, tmp)
     # الشعار مرة واحدة فوق الفيديو المجمَّع كله: مكانه وحجمه ثابتان في كل لحظة بلا استثناء
@@ -2155,15 +2219,23 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
                        "-filter_complex", video_f + ";" + audio_f,
                        "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-preset", "veryfast",
                        "-crf", str(rcfg.get("crf", 22)), "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "128k",
-                       "-ar", str(rcfg.get("audio_rate", 48000)), "-ac", "2", "-movflags", "+faststart", str(dest)))
+                       "-ar", str(rcfg.get("audio_rate", 48000)), "-ac", "2", "-movflags", "+faststart", str(final)))
     else:
         deps.run(_base("-i", str(joined), *logo_in, "-i", str(logo), *logo_static, "-filter_complex", video_f,
                        "-map", "[v]", "-map", "0:a", "-c:v", "libx264", "-preset", "veryfast",
                        "-crf", str(rcfg.get("crf", 22)), "-pix_fmt", "yuv420p", "-af", _loudnorm(cfg), "-c:a", "aac",
                        "-b:a", "128k", "-ar", str(rcfg.get("audio_rate", 48000)), "-ac", "2", "-movflags", "+faststart",
-                       str(dest)))
+                       str(final)))
     # مدة الملف النهائي المقيسة لا مجموع المدد: الانتقالات تقصّر الطول الكلي
-    total = deps.probe(dest) or (sum(durs) - transition_seconds(cfg) * max(len(durs) - 1, 0))
+    measured = deps.probe(final)
+    total = measured or (sum(durs) - transition_seconds(cfg) * max(len(durs) - 1, 0))
+    # حارس المدة (Issue #1436): ريل أقصر من المتوقع مقطوع وليس ناقصًا بحدّ مقبول؛ لا يُحفظ ولا يُرفع ولا يُمسّ ملف سابق
+    expected = join_info.get("expected")
+    if measured and expected and expected - float(measured) > float(rcfg.get("duration_tolerance", 1.5)):
+        raise ShortRender(rcfg["texts"]["error_short"].format(actual=round(float(measured), 1), expected=round(expected, 1)))
+    # نجح الحارس: استبدال ذري لـdest ثم الـGIF منه
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    os.replace(final, dest)
     g = rcfg["gif"]
     deps.run(_base("-t", str(g["seconds"]), "-i", str(dest), "-vf",
                    f"fps={g['fps']},scale={g['width']}:{g['height']}:flags=lanczos,split[x][y];[x]palettegen[p];"
@@ -2214,6 +2286,7 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
     dropped: list = []
     approx: list = []
     notes: list = []
+    keep_files = False
     try:
         result = {"render_status": "rendered", **_render(path, draft, cfg, deps, reels_dir, tmp, dropped, approx, notes)}
     except ClipDownloadFailed as exc:
@@ -2241,6 +2314,7 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
         reason = reel_clips.scrub_text(str(exc))
         reason = " ".join(reason.split())[:300] or exc.__class__.__name__
         log.error("فشل تركيب الريل %s: %s", path.stem, reason)
+        keep_files = isinstance(exc, ShortRender)
         result = {"render_status": "failed", "render_error": reason}
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
@@ -2248,7 +2322,8 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
     approx_saved = [{k: v for k, v in a.items() if k != "channel"} for a in approx]
     changes = {**result, "render_dropped": dropped, "render_approx": approx_saved,
                "rendered_at": datetime.now(timezone.utc).isoformat()}
-    remove = ["render_error"] if result["render_status"] == "rendered" else ["reel_file", "reel_gif", "duration_seconds"]
+    remove = (["render_error"] if result["render_status"] == "rendered"
+              else [] if keep_files else ["reel_file", "reel_gif", "duration_seconds"])
     store.update_draft(path, remove=remove, **changes)
     issue = draft.get("review_issue")
     if issue:

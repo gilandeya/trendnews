@@ -5987,7 +5987,7 @@ def test_reel_render_r3b1_guards() -> None:
 
         return reel_render.Deps(
             fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download, synthesize=synth,
-            diacritize=lambda text: (text, None), run=run, probe=lambda p: 2.0,
+            diacritize=lambda text: (text, None), run=run, probe=lambda p: 41.0 if (Path(p).name == "final.mp4" or "reels" in Path(p).parts) else 2.0,
             load_points=lambda date: points, comment=comment, faces=faces)
 
     tmp = Path(tempfile.mkdtemp())
@@ -6681,7 +6681,7 @@ def test_reel_render_r3b1c_guards() -> None:
         return reel_render.Deps(
             fetch_transcript=fetch, download_clip=download,
             synthesize=lambda text, voice: {"ok": True, "audio": b"mp3", "chars": len(text)},
-            diacritize=lambda text: (text, None), run=run, probe=lambda p: 2.0,
+            diacritize=lambda text: (text, None), run=run, probe=lambda p: 41.0 if (Path(p).name == "final.mp4" or "reels" in Path(p).parts) else 2.0,
             load_points=lambda date: pts if pts is not None else points,
             comment=lambda issue, text: log["comments"].append(text),
             faces=lambda f, fr: (1280, 720, []))
@@ -6844,7 +6844,7 @@ def test_reel_transitions_r3b1d_guards() -> None:
             name = Path(p).name
             if scene_durs and name.startswith("scene_"):
                 return scene_durs[int(name[6:8])]
-            return 41.0 if "reels" in Path(p).parts else 2.0
+            return 41.0 if (name == "final.mp4" or "reels" in Path(p).parts) else 2.0
 
         def download(video_id, start, end, height, out_path):
             Path(out_path).write_bytes(b"clip")
@@ -6869,7 +6869,7 @@ def test_reel_transitions_r3b1d_guards() -> None:
         tr = cfg.path("reel.render.transition") or {}
         check("g212: الإعداد transition وversion",
               (tr.get("type"), tr.get("outro_type"), tr.get("seconds")) == ("slideleft", "fade", 0.35)
-              and cfg.path("reel.render.version") == 14, tr)
+              and cfg.path("reel.render.version") == 15, tr)
 
         # ── g212/g213: أمر ضمّ واحد بأربعة xfade وأربعة acrossfade ──
         log, cmds, saved = render("r3b1d0000a01", five, cfg, durs)
@@ -6944,14 +6944,14 @@ def test_reel_transitions_r3b1d_guards() -> None:
         p_old, _ = make_draft("r3b1d0000b01", mixed, render_status="rendered", approved_script_at="2099-01-01")
         p_pub, _ = make_draft("r3b1d0000b02", mixed, status="published", render_status="rendered")
         p_rej, _ = make_draft("r3b1d0000b03", mixed, status="rejected", render_status="rendered")
-        p_new, _ = make_draft("r3b1d0000b04", mixed, render_status="rendered", render_version=14)
+        p_new, _ = make_draft("r3b1d0000b04", mixed, render_status="rendered", render_version=15)
         picked = [p.stem for p, _ in reel_render.pending_batch(c2)]
         check("g218: يلتقط القديم النسخة وحده", picked == [p_old.stem], picked)
         for p, d in reel_render.pending_batch(c2):
             reel_render.render_draft(p, d, c2, make_deps({"cmds": [], "comments": []}), reels_dir=tmp / "reels",
                                      workdir=tmp / "work")
         s = json.loads(p_old.read_text(encoding="utf-8"))
-        check("g218: render_version = 14 بعد التركيب", s.get("render_status") == "rendered" and s.get("render_version") == 14, s)
+        check("g218: render_version = 15 بعد التركيب", s.get("render_status") == "rendered" and s.get("render_version") == 15, s)
         left = reel_render.pending_batch(c2)
         check("g218: التشغيلة الثانية لا تعيدها", left == [], [p.stem for p, _ in left])
         check("g218: المنشور والمرفوض لم يُمسّا",
@@ -7062,7 +7062,7 @@ def test_reel_typewriter_r3b2a_guards() -> None:
             fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
             synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
             diacritize=lambda t: (t, None), run=run,
-            probe=lambda p: 41.0 if "reels" in Path(p).parts else 2.0, load_points=lambda date: points,
+            probe=lambda p: 41.0 if (Path(p).name == "final.mp4" or "reels" in Path(p).parts) else 2.0, load_points=lambda date: points,
             comment=lambda i, t: None, faces=lambda f, fr: (1280, 720, []))
 
     tmp = Path(tempfile.mkdtemp())
@@ -7137,7 +7137,7 @@ def test_reel_typewriter_r3b2a_guards() -> None:
                                      workdir=tmp / "work")
         s = json.loads(p_old.read_text(encoding="utf-8"))
         check("g225: render_version = 8 بعد التركيب",
-              s.get("render_status") == "rendered" and s.get("render_version") == 14, s)
+              s.get("render_status") == "rendered" and s.get("render_version") == 15, s)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 
@@ -7202,7 +7202,7 @@ def test_reel_no_partial_r3b2a2_guards() -> None:
             fetch_transcript=lambda vid: (trans or transcripts).get(vid), download_clip=download,
             synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
             diacritize=lambda t: (t, None), run=run,
-            probe=lambda p: 41.0 if "reels" in Path(p).parts else 2.0, load_points=lambda date: points,
+            probe=lambda p: 41.0 if (Path(p).name == "final.mp4" or "reels" in Path(p).parts) else 2.0, load_points=lambda date: points,
             comment=lambda i, t: log["comments"].append(t), faces=lambda f, fr: (1280, 720, []),
             sleep=lambda s: log["sleeps"].append(s))
 
@@ -7250,7 +7250,7 @@ def test_reel_no_partial_r3b2a2_guards() -> None:
         # ── g230 ──
         log, s, _ = run_one("r3b2a2000e01", 0, render_attempts=2)
         check("g230: render_attempts = 0 وrender_version = 9",
-              s.get("render_attempts") == 0 and s.get("render_version") == 14 and s.get("render_status") == "rendered", s)
+              s.get("render_attempts") == 0 and s.get("render_version") == 15 and s.get("render_status") == "rendered", s)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 
@@ -7322,7 +7322,7 @@ def test_reel_clip_streams_r3b2a3_guards() -> None:
             fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
             synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
             diacritize=lambda t: (t, None), run=run, streams=streams,
-            probe=lambda p: 41.0 if "reels" in Path(p).parts else 2.0, load_points=lambda date: points,
+            probe=lambda p: 41.0 if (Path(p).name == "final.mp4" or "reels" in Path(p).parts) else 2.0, load_points=lambda date: points,
             comment=lambda i, t: log["comments"].append(t), faces=lambda f, fr: (1280, 720, []),
             sleep=lambda s: log["sleeps"].append(s))
 
@@ -7333,7 +7333,7 @@ def test_reel_clip_streams_r3b2a3_guards() -> None:
         return log, json.loads(path.read_text(encoding="utf-8")), [" ".join(c) for c in log["cmds"]]
 
     cfg = load_config()
-    check("g231: reel.render.version = 14", cfg.path("reel.render.version") == 14,cfg.path("reel.render.version"))
+    check("g231: reel.render.version = 15", cfg.path("reel.render.version") == 15,cfg.path("reel.render.version"))
     tmp = Path(tempfile.mkdtemp())
     try:
         # ── g231 ──
@@ -7356,7 +7356,7 @@ def test_reel_clip_streams_r3b2a3_guards() -> None:
         # ── g233 ──
         p_old, _ = make_draft("r3b2a3000c01", status="approved_script", render_status="failed", render_version=4,
                               render_attempts=3, render_error="ffmpeg فشل", approved_script_at="1998-01-01T00:00:00")
-        p_new, _ = make_draft("r3b2a3000c02", status="approved_script", render_status="failed", render_version=14,
+        p_new, _ = make_draft("r3b2a3000c02", status="approved_script", render_status="failed", render_version=15,
                               render_attempts=3, render_error="ffmpeg فشل", approved_script_at="1999-01-02T00:00:00")
         ids = [p.stem for p, _d in reel_render.queued_reels(cfg)]
         check("g233: failed بنسخة 4 تُلتقط وبنسخة 5 لا", "r3b2a3000c01" in ids and "r3b2a3000c02" not in ids, ids)
@@ -7465,7 +7465,7 @@ def test_reel_cover_auto_r3b2a4_guards() -> None:
             fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
             synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
             diacritize=lambda t: (t, None), run=run,
-            probe=lambda p: 41.0 if "reels" in Path(p).parts else 2.0, load_points=lambda date: points,
+            probe=lambda p: 41.0 if (Path(p).name == "final.mp4" or "reels" in Path(p).parts) else 2.0, load_points=lambda date: points,
             comment=lambda i, t: None, faces=lambda f, fr: (W, H, []), frames=get_frames)
 
     tmp = Path(tempfile.mkdtemp())
@@ -7481,7 +7481,7 @@ def test_reel_cover_auto_r3b2a4_guards() -> None:
         top = int(cfg.path("reel.render.band.top"))
         alpha = float(cfg.path("reel.render.band.alpha"))
         check("g241: الإعداد الافتراضي auto", cfg.path("reel.render.band.cover") == "auto", cfg.path("reel.render.band.cover"))
-        check("g241: reel.render.version = 14", cfg.path("reel.render.version") == 14)
+        check("g241: reel.render.version = 15", cfg.path("reel.render.version") == 15)
         s = render("r3b2a4000a01", cfg)
         crops = s.get("render_crops") or {}
         check("g241: render_crops يحمل cover لكل مقطع",
@@ -7684,7 +7684,7 @@ def test_reel_background_r3b2b_guards() -> None:
         return reel_render.Deps(
             fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
             synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)}, diacritize=lambda t: (t, None),
-            run=run, probe=lambda p: 41.0 if "reels" in Path(p).parts else 2.0, load_points=lambda date: points,
+            run=run, probe=lambda p: 41.0 if (Path(p).name == "final.mp4" or "reels" in Path(p).parts) else 2.0, load_points=lambda date: points,
             comment=lambda i, t: comments.append((i, t)), faces=lambda f, fr: (1280, 720, []),
             bg_image=bg_image, bg_providers=providers)
 
@@ -7776,7 +7776,7 @@ def test_reel_background_r3b2b_guards() -> None:
 
         # ── g251: --pending ──
         def g251():
-            check("g251: reel.render.version = 14", cfg.path("reel.render.version") == 14, cfg.path("reel.render.version"))
+            check("g251: reel.render.version = 15", cfg.path("reel.render.version") == 15, cfg.path("reel.render.version"))
             d0 = {"id": "r3b2b000g251", "origin": "analysis", "format": "reel", "status": "approved_script",
                   "render_status": "rendered", "render_version": 6, "topic_id": "t1", "topic_date": D, "title": "ريل",
                   "script_status": "ready", "approved_script_at": "2000-01-01T00:00:00+00:00",
@@ -7792,7 +7792,7 @@ def test_reel_background_r3b2b_guards() -> None:
             d = json.loads(path.read_text(encoding="utf-8"))
             bg = d.get("reel_bg") or {}
             check("g251: اختار الخلفية وحفظها", bg.get("kind") == "news_photo" and bg.get("url") == "https://n/1.jpg", bg)
-            check("g251: الشكل محفوظ والنسخة 14", bg.get("layout") == "A" and d.get("render_version") == 14,
+            check("g251: الشكل محفوظ والنسخة 15", bg.get("layout") == "A" and d.get("render_version") == 15,
                   (bg.get("layout"), d.get("render_version")))
         guarded("g251", g251)
     finally:
@@ -7846,7 +7846,7 @@ def test_reel_music_r3b2c_guards() -> None:
         return reel_render.Deps(
             fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
             synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)}, diacritize=lambda t: (t, None),
-            run=run, probe=lambda p: 40.0, load_points=lambda date: points, comment=lambda i, t: None,
+            run=run, probe=lambda p: 40.0, stream_durations=lambda p: (2.0, 2.0), load_points=lambda date: points, comment=lambda i, t: None,
             streams=lambda p: {"video", "audio"},
             faces=lambda f, fr: (1280, 720, []), bg_image=(lambda u: __import__("PIL.Image").Image.new("RGB", (1400, 800), (90, 120, 160))) if providers
             else (lambda u: None),
@@ -8001,7 +8001,7 @@ def test_reel_music_r3b2c_guards() -> None:
 
         # ── g256: --pending ──
         def g256():
-            check("g256: reel.render.version = 14", cfg.path("reel.render.version") == 14, cfg.path("reel.render.version"))
+            check("g256: reel.render.version = 15", cfg.path("reel.render.version") == 15, cfg.path("reel.render.version"))
             d0 = new_draft("r3b2c00g256", render_status="rendered", render_version=7,
                            approved_script_at="2000-01-01T00:00:00+00:00")
             path = store.save_draft(d0)
@@ -8013,7 +8013,7 @@ def test_reel_music_r3b2c_guards() -> None:
                                      reels_dir=tmp / "reels", workdir=tmp / "work")
             d = json.loads(path.read_text(encoding="utf-8"))
             check("g256: reel_music وrender_version = 8", d.get("reel_music") in ("a.mp3", "b.mp3", "c.mp3")
-                  and d.get("render_version") == 14, (d.get("reel_music"), d.get("render_version")))
+                  and d.get("render_version") == 15, (d.get("reel_music"), d.get("render_version")))
         guarded("g256", g256)
     finally:
         if real_dir is not None:
@@ -8487,7 +8487,7 @@ def test_reel_text_r5a_guards() -> None:
           not any("من قناة" in t for t, _ in d1 + d2 + d3 + d4) and "من قناة" not in cfg.path("reel.texts.guest_label"))
 
     # ── g274: النسخة وحقل القناة الأصلية ──
-    check("g274: render_version == 14", int(cfg.path("reel.render.version")) == 14, cfg.path("reel.render.version"))
+    check("g274: render_version == 15", int(cfg.path("reel.render.version")) == 15, cfg.path("reel.render.version"))
     pts = [{"timestamp": 100, "quote_original": "some words here", "video_url": "https://youtu.be/x",
             "channel": "FRANCE 24 Arabic", "quote_arabic": "ترجمة", "speaker": "ميساء", "video_id": "x"}]
     clips = reel_script.valid_clips(pts, [], cfg)
@@ -8762,7 +8762,7 @@ def test_reel_r5a2_guards() -> None:
         check("g285: داخل المنتظر الأحدث اعتمادًا أولًا والمعاد تركيبه بعده",
               order == ["r5a2000g285g", "r5a2000g285f", "r5a2000g285h"], order)
         fresh()
-        check("g285: render_version == 14", int(cfg.path("reel.render.version")) == 14, cfg.path("reel.render.version"))
+        check("g285: render_version == 15", int(cfg.path("reel.render.version")) == 15, cfg.path("reel.render.version"))
         check("g285: max_per_run == 1", int(cfg.path("reel.render.max_per_run")) == 1)
     guarded("g285", g285)
 
@@ -8942,7 +8942,7 @@ def test_reel_speaker_r5b_guards() -> None:
         deps = reel_render.Deps(
             fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
             synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
-            diacritize=lambda t: (t, None), run=run, probe=lambda p: 41.0 if "reels" in Path(p).parts else 2.0,
+            diacritize=lambda t: (t, None), run=run, probe=lambda p: 41.0 if (Path(p).name == "final.mp4" or "reels" in Path(p).parts) else 2.0,
             load_points=lambda date: points, comment=lambda i, t: comments.append(t),
             faces=lambda f, fr: (SW, SH, []), frames=lambda p, fr: [np.full((SH, SW), 100, np.uint8)] * len(fr),
             streams=lambda p: {"video", "audio"}, read_chyron=read_chyron)
@@ -9087,7 +9087,7 @@ def test_reel_speaker_r5b_guards() -> None:
                   and tc.get("type") == "tool" and tc.get("name") == "read_lower_third", (tools and tools[0]["name"], tc))
             check("g294: الناتج ثلاثة إطارات", isinstance(out, list) and len(out) == 3
                   and out[0]["name_original"] == "Ahmet Kayapınar", out)
-            check("g294: render_version == 14", int(cfg.path("reel.render.version")) == 14, cfg.path("reel.render.version"))
+            check("g294: render_version == 15", int(cfg.path("reel.render.version")) == 15, cfg.path("reel.render.version"))
             check("g294: إعداد chyron", (cfg.path("reel.render.chyron") or {}).get("frames") == [0.25, 0.5, 0.75]
                   and cfg.path("reel.render.chyron.max_width") == 1280, cfg.path("reel.render.chyron"))
         guarded("g294", g294)
@@ -9159,7 +9159,7 @@ def test_reel_hook_r5c1_guards() -> None:
 
         def probe(p):
             name = Path(p).name
-            if "reels" in Path(p).parts:
+            if name == "final.mp4" or "reels" in Path(p).parts:
                 return 41.0
             return hook_audio if name.startswith("s01_") else 2.0
         deps = reel_render.Deps(
@@ -9178,9 +9178,9 @@ def test_reel_hook_r5c1_guards() -> None:
         path = store.save_draft(d0)
         o_join, o_title = reel_render._join, reel_render.frame_title
 
-        def spy_join(files, kinds, durs, c, dp, t):
+        def spy_join(files, kinds, durs, c, dp, t, *extra):
             joined.update(kinds=list(kinds), durs=list(durs))
-            return o_join(files, kinds, durs, c, dp, t)
+            return o_join(files, kinds, durs, c, dp, t, *extra)
 
         def spy_title(*a, **k):
             titled.append(1)
@@ -9196,7 +9196,7 @@ def test_reel_hook_r5c1_guards() -> None:
 
     def final_cmd(r):
         """تمريرة الشعار الأخيرة: الأمر الذي ملفه الناتج mp4 داخل مجلد reels."""
-        found = [c for c in r["cmds"] if c[-1].endswith(".mp4") and "reels" in Path(c[-1]).parts]
+        found = [c for c in r["cmds"] if c[-1].endswith(".mp4") and Path(c[-1]).name == "final.mp4"]
         return found[-1] if found else []
 
     tmp = Path(tempfile.mkdtemp())
@@ -9341,7 +9341,7 @@ def test_reel_hook_r5c1_guards() -> None:
             top, bottom = int(cfg.path("reel.render.safe.top")), 1920 - int(cfg.path("reel.render.safe.bottom"))
             check("g304: كل الصناديق داخل المنطقة الآمنة",
                   bool(boxes) and all(b[0] >= x0 and b[2] <= 1080 - x0 and b[1] >= top and b[3] <= bottom for b in boxes), boxes)
-            check("g304: render_version == 14", int(cfg.path("reel.render.version")) == 14, cfg.path("reel.render.version"))
+            check("g304: render_version == 15", int(cfg.path("reel.render.version")) == 15, cfg.path("reel.render.version"))
         guarded("g304", g304)
 
         # ── g305: خلفية الهوك الخام (بلا تظليل الكحلي المسبق) ──
@@ -9489,7 +9489,7 @@ def test_reel_speaker_vision_r5b2_guards() -> None:
             fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
             synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
             diacritize=lambda t: (t, None), run=run,
-            probe=lambda p: 41.0 if "reels" in Path(p).parts else 2.0, sleep=lambda s: None,
+            probe=lambda p: 41.0 if (Path(p).name == "final.mp4" or "reels" in Path(p).parts) else 2.0, sleep=lambda s: None,
             load_points=lambda date: points, comment=lambda i, t: comments.append(t),
             faces=lambda f, fr: (SW, SH, [170.0, 170.0]), frames=lambda p, fr: [np.full((SH, SW), 100, np.uint8)] * len(fr),
             streams=lambda p: {"video", "audio"}, read_chyron=lambda f, c: None,
@@ -9618,7 +9618,7 @@ def test_reel_speaker_vision_r5b2_guards() -> None:
             check("g312: أكبر وجه", any("أكبر وجه" in c and "🎯" in c for c in r["comments"]), r["comments"])
             r = render("r5b2000g312d1", tmp, boxes=two[:1], pick=votes(1, 1, 1))
             check("g312: لا سطر لمقطع بوجه واحد", not any("🎯" in c for c in r["comments"]), r["comments"])
-            check("g312: render_version == 14", int(cfg.path("reel.render.version")) == 14, cfg.path("reel.render.version"))
+            check("g312: render_version == 15", int(cfg.path("reel.render.version")) == 15, cfg.path("reel.render.version"))
         guarded("g312", g312)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
@@ -9697,7 +9697,7 @@ def test_reel_speaker_gesture_r5b3_guards() -> None:
             fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
             synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
             diacritize=lambda t: (t, None), run=run,
-            probe=lambda p: 41.0 if "reels" in Path(p).parts else 2.0, sleep=lambda s: None,
+            probe=lambda p: 41.0 if (Path(p).name == "final.mp4" or "reels" in Path(p).parts) else 2.0, sleep=lambda s: None,
             load_points=lambda date: points, comment=lambda i, t: comments.append(t),
             faces=lambda f, fr: (SW, SH, [170.0, 170.0]), frames=lambda p, fr: [np.full((SH, SW), 100, np.uint8)] * len(fr),
             streams=lambda p: {"video", "audio"}, read_chyron=lambda f, c: None,
@@ -9812,7 +9812,7 @@ def test_reel_speaker_gesture_r5b3_guards() -> None:
             r = render("r5b3000g317b1", tmp, mid, {270: (1.0, 3.0), 120: (0.9, 0.5)}, votes(0, 0, 0))
             check("g317: سطر 🎯 للمركّبة", any("🎯" in c and "بالفم واليدين والموقع" in c for c in r["comments"]),
                   r["comments"])
-            check("g317: render_version == 14", int(cfg.path("reel.render.version")) == 14, cfg.path("reel.render.version"))
+            check("g317: render_version == 15", int(cfg.path("reel.render.version")) == 15, cfg.path("reel.render.version"))
         guarded("g317", g317)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
@@ -9862,3 +9862,234 @@ def test_speed_t1_guards() -> None:
         same = Image.open(out).convert("RGB").tobytes() == img.tobytes()
     check("g279: البكسلات مطابقة بعد الحفظ والقراءة", same)
     check("g279: الحفظ يمرّر compress_level=1", any(k.get("compress_level") == 1 for k in seen), seen)
+
+
+def test_reel_truncation_r5e_guards() -> None:
+    """Issue #1436 (R5e، g318–g322): توحيد طول صورة المشهد وصوته قبل الضمّ فلا يقع offset انتقال بعد نهاية الصورة فيُقطع
+    الريل صامتًا، وحارس مدة نهائي يرفض ريلًا أقصر من المتوقع. لا شبكة؛ g321 وحده يحتاج ffmpeg حقيقيًا ويُتخطّى بتنبيه."""
+    import json
+    import shutil as _shutil
+    import subprocess
+    import tempfile
+    from pathlib import Path
+
+    import numpy as np
+
+    from src import reel_render, reel_script
+
+    cfg = load_config()
+    secs = float(cfg.path("reel.render.transition.seconds"))
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    # ── g318: scene_fix_plan نقية ──
+    def g318():
+        p = reel_render.scene_fix_plan(5.0, 7.0)
+        check("g318: صوت أطول ← pad_video 2 وpad_audio 0", p == {"pad_video": 2.0, "pad_audio": 0.0}, p)
+        p = reel_render.scene_fix_plan(6.0, 4.5)
+        check("g318: صورة أطول ← pad_audio 1.5", p == {"pad_video": 0.0, "pad_audio": 1.5}, p)
+        p = reel_render.scene_fix_plan(5.0, 5.03)
+        check("g318: فرق ضمن التسامح ← لا شيء", p == {"pad_video": 0.0, "pad_audio": 0.0}, p)
+    guarded("g318", g318)
+
+    # ── g319: _join يوحّد المشهد الثاني ويحسب offset من المدة الموحَّدة ──
+    def g319():
+        tmp = Path(tempfile.mkdtemp())
+        try:
+            def run_join(streams):
+                cmds = []
+
+                def run(cmd):
+                    cmds.append(list(cmd))
+                    Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+                    Path(cmd[-1]).write_bytes(b"x")
+                files = [tmp / f"s{i}.mp4" for i in range(4)]
+                for f in files:
+                    f.write_bytes(b"x")
+                deps = reel_render.Deps(run=run, probe=lambda p: 99.0,
+                                        stream_durations=lambda p: streams[Path(p).name]).resolved(cfg)
+                info: dict = {}
+                reel_render._join(files, ["clip"] * 4, [5.0, 7.0, 6.0, 4.0], cfg, deps, tmp, info)
+                return cmds, info
+            uneven = {"s0.mp4": (5.0, 5.0), "s1.mp4": (5.0, 7.0), "s2.mp4": (6.0, 6.0), "s3.mp4": (4.0, 4.0)}
+            cmds, info = run_join(uneven)
+            fix = [c for c in cmds if any("tpad=stop_mode=clone" in x for x in c)]
+            check("g319: أمر إعادة ترميز واحد للمشهد الثاني", len(fix) == 1 and "s1.mp4" in " ".join(fix[0]), fix)
+            check("g319: tpad بفرق 2", bool(fix) and any("stop_duration=2" in x for x in fix[0]), fix)
+            graph = " ".join(cmds[-1])
+            check("g319: offset الانتقال الثاني من 7 لا 5", f"offset={reel_render._fmt(12 - 2 * secs)}" in graph
+                  and f"offset={reel_render._fmt(10 - 2 * secs)}" not in graph, graph[-400:])
+            check("g319: المتوقع = 22 − 3×انتقال", abs(info.get("expected", 0) - (22 - 3 * secs)) < 1e-6, info)
+            even = {n: (5.0, 5.0) for n in uneven}
+            cmds, _ = run_join(even)
+            check("g319: المتساوية لا تُعاد ترميزها", not any("tpad" in " ".join(c) or "apad" in " ".join(c) for c in cmds), cmds)
+        finally:
+            _shutil.rmtree(tmp, ignore_errors=True)
+    guarded("g319", g319)
+
+    # ── g320: حارس المدة النهائي ──
+    def g320():
+        SW, SH = 640, 360
+        quote = "alpha beta gamma delta epsilon zeta eta theta"
+        D = "2099-12-11"
+        points = [{"video_id": v, "statement": "s", "quote_original": quote, "quote_arabic": "ترجمة", "speaker": "متحدث",
+                   "channel": "CNN TÜRK", "video_url": f"https://youtube.com/watch?v={v}", "timestamp": 10}
+                  for v in ("v1", "v2")]
+        clip = {"kind": "clip", "start": 9, "end": 20, "speaker_name": "", "speaker_role": "", "speaker_verified": False,
+                "speaker_name_latin": "", "channel_display": "سي إن إن ترك", "channel_original": "CNN TÜRK",
+                "quote_arabic": "ترجمة", "language": "tr"}
+        tr = {v: "[00:10] alpha beta gamma delta\n[00:14] epsilon zeta eta theta\n[00:18] tail line" for v in ("v1", "v2")}
+        tmp = Path(tempfile.mkdtemp())
+        try:
+            def render(did, final):
+                def run(cmd):
+                    Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+                    Path(cmd[-1]).write_bytes(b"x")
+
+                def download(video_id, start, end, height, out_path):
+                    Path(out_path).write_bytes(b"clip")
+                    return {"tier": "a", "bytes": 4, "failures": []}
+                comments = []
+                deps = reel_render.Deps(
+                    fetch_transcript=lambda vid: tr.get(vid), download_clip=download,
+                    synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
+                    diacritize=lambda t: (t, None), run=run,
+                    probe=lambda p: final if (Path(p).name == "final.mp4" or "reels" in Path(p).parts) else 2.0, sleep=lambda s: None,
+                    stream_durations=lambda p: (18.0, 18.0),
+                    load_points=lambda date: points, comment=lambda i, t: comments.append(t),
+                    faces=lambda f, fr: (SW, SH, []), frames=lambda p, fr: [np.full((SH, SW), 100, np.uint8)] * len(fr),
+                    streams=lambda p: {"video", "audio"}, read_chyron=lambda f, c: None,
+                    face_tracks=lambda f, c: None, bg_image=lambda u: None,
+                    bg_providers={"news": lambda *a: [], "web": lambda *a, **k: [], "free": lambda *a: []})
+                scenes = [dict(clip, kind="cold_open_clip", video_url=points[0]["video_url"],
+                               point_id=reel_script.point_key_id(points[0])),
+                          {"kind": "narration", "text": "جملة."},
+                          dict(clip, video_url=points[1]["video_url"], point_id=reel_script.point_key_id(points[1])),
+                          {"kind": "question", "text": "هل؟"}, {"kind": "outro"}]
+                d0 = {"id": did, "origin": "analysis", "format": "reel", "status": "approved_script",
+                      "render_status": "queued", "topic_id": "t1", "topic_date": D, "title": "ريل", "script_status": "ready",
+                      "review_issue": 4436, "reel_file": "reels/old/old.mp4",
+                      "script": {"narrator": "female", "title": "عنوان", "question": "هل؟", "scenes": scenes}}
+                path = store.save_draft(d0)
+                reel_render.render_draft(path, d0, cfg, deps, reels_dir=tmp / "reels", workdir=tmp / "work")
+                return json.loads(path.read_text(encoding="utf-8")), comments
+
+            s, comments = render("r5e000g320a1", 63.0)
+            check("g320: مدة قصيرة ← failed", s.get("render_status") == "failed", s.get("render_status"))
+            check("g320: render_error يحوي «أقصر من المتوقع»", "أقصر من المتوقع" in (s.get("render_error") or ""), s.get("render_error"))
+            check("g320: reel_file القديم لم يتغير", s.get("reel_file") == "reels/old/old.mp4", s.get("reel_file"))
+            check("g320: لا ملف جديد في reels_dir", not list((tmp / "reels").rglob("*.mp4")), list((tmp / "reels").rglob("*")))
+            check("g320: سطر في تعليق التركيب", any("أقصر من المتوقع" in c for c in comments), comments)
+            s, _ = render("r5e000g320b1", 88.0)
+            check("g320: مدة ضمن التسامح ← rendered", s.get("render_status") == "rendered", (s.get("render_status"), s.get("render_error")))
+        finally:
+            _shutil.rmtree(tmp, ignore_errors=True)
+    guarded("g320", g320)
+
+    # ── g323: حارس المدة لا يمسّ الملف القديم؛ التمريرة الأخيرة في ملف مؤقت ثم استبدال ذري ──
+    def g323():
+        SW, SH = 640, 360
+        quote = "alpha beta gamma delta epsilon zeta eta theta"
+        D = "2099-12-12"
+        points = [{"video_id": v, "statement": "s", "quote_original": quote, "quote_arabic": "ترجمة", "speaker": "متحدث",
+                   "channel": "CNN TÜRK", "video_url": f"https://youtube.com/watch?v={v}", "timestamp": 10}
+                  for v in ("v1", "v2")]
+        clip = {"kind": "clip", "start": 9, "end": 20, "speaker_name": "", "speaker_role": "", "speaker_verified": False,
+                "speaker_name_latin": "", "channel_display": "سي إن إن ترك", "channel_original": "CNN TÜRK",
+                "quote_arabic": "ترجمة", "language": "tr"}
+        tr = {v: "[00:10] alpha beta gamma delta\n[00:14] epsilon zeta eta theta\n[00:18] tail line" for v in ("v1", "v2")}
+        tmp = Path(tempfile.mkdtemp())
+        try:
+            def render(did, final):
+                def run(cmd):
+                    Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+                    Path(cmd[-1]).write_bytes(b"NEW")
+
+                def download(video_id, start, end, height, out_path):
+                    Path(out_path).write_bytes(b"clip")
+                    return {"tier": "a", "bytes": 4, "failures": []}
+                deps = reel_render.Deps(
+                    fetch_transcript=lambda vid: tr.get(vid), download_clip=download,
+                    synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
+                    diacritize=lambda t: (t, None), run=run,
+                    probe=lambda p: final if (Path(p).name == "final.mp4" or "reels" in Path(p).parts) else 2.0,
+                    sleep=lambda s: None, stream_durations=lambda p: (18.0, 18.0),
+                    load_points=lambda date: points, comment=lambda i, t: None,
+                    faces=lambda f, fr: (SW, SH, []), frames=lambda p, fr: [np.full((SH, SW), 100, np.uint8)] * len(fr),
+                    streams=lambda p: {"video", "audio"}, read_chyron=lambda f, c: None,
+                    face_tracks=lambda f, c: None, bg_image=lambda u: None,
+                    bg_providers={"news": lambda *a: [], "web": lambda *a, **k: [], "free": lambda *a: []})
+                scenes = [dict(clip, kind="cold_open_clip", video_url=points[0]["video_url"],
+                               point_id=reel_script.point_key_id(points[0])),
+                          {"kind": "narration", "text": "جملة."},
+                          dict(clip, video_url=points[1]["video_url"], point_id=reel_script.point_key_id(points[1])),
+                          {"kind": "question", "text": "هل؟"}, {"kind": "outro"}]
+                d0 = {"id": did, "origin": "analysis", "format": "reel", "status": "approved_script",
+                      "render_status": "queued", "topic_id": "t1", "topic_date": D, "title": "ريل", "script_status": "ready",
+                      "script": {"narrator": "female", "title": "عنوان", "question": "هل؟", "scenes": scenes}}
+                path = store.save_draft(d0)
+                folder = tmp / "reels" / path.parent.name
+                folder.mkdir(parents=True, exist_ok=True)
+                (folder / f"{did}.mp4").write_bytes(b"OLDMP4")
+                (folder / f"{did}.gif").write_bytes(b"OLDGIF")
+                store.update_draft(path, reel_file=f"reels/{path.parent.name}/{did}.mp4",
+                                   reel_gif=f"reels/{path.parent.name}/{did}.gif")
+                d1 = json.loads(path.read_text(encoding="utf-8"))
+                reel_render.render_draft(path, d1, cfg, deps, reels_dir=tmp / "reels", workdir=tmp / "work")
+                return json.loads(path.read_text(encoding="utf-8")), folder
+
+            did = "r5e000g323a1"
+            s, folder = render(did, 63.0)
+            check("g323: فشل الحارس ← failed", s.get("render_status") == "failed", s.get("render_status"))
+            check("g323: mp4 القديم باقٍ ببايتاته", (folder / f"{did}.mp4").exists()
+                  and (folder / f"{did}.mp4").read_bytes() == b"OLDMP4")
+            check("g323: gif القديم باقٍ ببايتاته", (folder / f"{did}.gif").exists()
+                  and (folder / f"{did}.gif").read_bytes() == b"OLDGIF")
+            check("g323: reel_file على المسودة يشير إليه", s.get("reel_file") == f"reels/{folder.name}/{did}.mp4", s.get("reel_file"))
+            check("g323: reel_gif على المسودة يشير إليه", s.get("reel_gif") == f"reels/{folder.name}/{did}.gif", s.get("reel_gif"))
+            did = "r5e000g323b1"
+            s, folder = render(did, 88.0)
+            check("g323: تركيب ناجح ← rendered", s.get("render_status") == "rendered", (s.get("render_status"), s.get("render_error")))
+            check("g323: dest صار الملف الجديد", (folder / f"{did}.mp4").read_bytes() == b"NEW",
+                  (folder / f"{did}.mp4").read_bytes())
+            check("g323: لا final.mp4 خارج tmp", not list((tmp / "reels").rglob("final.mp4")), list((tmp / "reels").rglob("*")))
+        finally:
+            _shutil.rmtree(tmp, ignore_errors=True)
+    guarded("g323", g323)
+
+    # ── g321: دخان بـffmpeg حقيقي ──
+    def g321():
+        if not _shutil.which("ffmpeg") or not _shutil.which("ffprobe"):
+            print("  ⚠️ g321: ffmpeg غير موجود — تخطّي اختبار الدخان (تنبيه لا فشل)")
+            return
+        from PIL import Image
+        work = Path(tempfile.mkdtemp())
+        try:
+            def ff(*args):
+                subprocess.run(["ffmpeg", "-y", "-loglevel", "error", *args], check=True, capture_output=True)
+            colors = ["red", "green", "blue", "yellow"]
+            specs = [(5, 5), (5, 7), (6, 6), (4, 4)]
+            files = []
+            for i, (c, (v, a)) in enumerate(zip(colors, specs)):
+                f = work / f"s{i}.mp4"
+                ff("-f", "lavfi", "-i", f"color=c={c}:s=320x240:r=30:d={v}", "-f", "lavfi",
+                   "-i", f"sine=frequency=300:sample_rate=48000:duration={a}", "-c:v", "libx264", "-pix_fmt", "yuv420p",
+                   "-c:a", "aac", "-ar", "48000", "-ac", "2", str(f))
+                files.append(f)
+            deps = reel_render.Deps(run=lambda cmd: subprocess.run(cmd, check=True, capture_output=True)).resolved(cfg)
+            joined = reel_render._join(files, ["clip", "clip", "clip", "outro"], [5.0, 7.0, 6.0, 4.0], cfg, deps, work)
+            dur = reel_render.probe_duration(joined)
+            check("g321: مدة المضموم ≥ 20.5", dur is not None and dur >= 20.5, dur)
+            png = work / "last.png"
+            ff("-sseof", "-0.3", "-i", str(joined), "-frames:v", "1", str(png))
+            r, g, b = Image.open(png).convert("RGB").getpixel((160, 120))
+            check("g321: آخر إطار بلون المشهد الأخير (أصفر)", r > 180 and g > 180 and b < 90, (r, g, b))
+        finally:
+            _shutil.rmtree(work, ignore_errors=True)
+    guarded("g321", g321)
+
+    check("g322: render_version == 15", int(cfg.path("reel.render.version")) == 15, cfg.path("reel.render.version"))

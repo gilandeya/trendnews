@@ -1987,7 +1987,9 @@ reel:
     # فلا يتحرك. قيمة ≥ min(lead_seconds, clip_tail_seconds) تُخفَّض إلى ذلك الحد − 0.1 كي لا يقع كلام المقطع في التلاشي
     transition: {type: slideleft, outro_type: fade, seconds: 0.35}
     # نسخة التركيب: رفعها تعيد --pending تركيب كل ريل معتمد مُركَّب بنسخة أقدم (المنشور والمرفوض لا يُمسّان)
-    version: 14
+    version: 15
+    # أقصى نقص مقبول للريل النهائي عن المتوقع (مجموع المدد الموحَّدة − الانتقالات) قبل رفضه عطل تركيب (Issue #1436)
+    duration_tolerance: 1.5
     # خط الرقعة للنصوص الكبيرة وحدها (العنوان والسؤال والراوي وتابعوا الموجز)؛ نوازله تلامس السطر التالي عند 1.62
     # فمعامل مسافته أكبر. الباقي بخطه القديم، وحرف غائب منه يرجع إلى Cairo (pick_font)
     # display_scale (Issue #1423): حروف الرقعة أصغر بصريًا من Tajawal (حبر «ومن»: XB 72 ← 56 بكسل، الرقعة 108 ← 60)، فتُضرب
@@ -2128,6 +2130,7 @@ reel:
       comment_dropped: "- ✂️ حُذف {n}: {details}"
       comment_approx: "- ⚠️ نافذة تقديرية لمقطع {channel} ({window}): {reason} — راجع بداية المقطع ونهايته"
       comment_failed: "### 🎬 تعذّر تركيب الريل\n- ❌ {reason}"
+      error_short: "الريل أقصر من المتوقع: {actual} ث بدل {expected} ث"
       comment_download_retry: "⏳ تعذّر تنزيل مقطع {channel} — سيُعاد التركيب في التشغيلة التالية (محاولة {n} من {max})"
       comment_download_failed: "❌ تعذّر تنزيل مقطع {channel} بعد {max} محاولات — راجع السبب: {reason}"
   duration_seconds: 10
