@@ -10093,3 +10093,82 @@ def test_reel_truncation_r5e_guards() -> None:
     guarded("g321", g321)
 
     check("g322: render_version == 15", int(cfg.path("reel.render.version")) == 15, cfg.path("reel.render.version"))
+
+
+def test_reel_clip_fallback_r5f_guards() -> None:
+    """Issue #1438 (R5f، g324–g327): نص مجلوب لا يحوي الاقتباس (أو يكرره) لا يُسقط المقطع بل تُستعمل نافذة تقريبية من طابع
+    النقطة كما عند فشل الجلب؛ لا إسقاط إلا بلا نافذة. لا شبكة ولا ffmpeg: يُستدعى _fetch_clips وحده."""
+    import shutil as _shutil
+    import tempfile
+    from pathlib import Path
+
+    from src import reel_render, reel_script
+
+    cfg = load_config()
+    quote = "alpha beta gamma delta epsilon zeta eta theta"
+    good = "[01:45] alpha beta gamma delta\n[01:49] epsilon zeta eta theta\n[01:53] tail line"
+    absent = "[01:45] unrelated words here\n[01:49] nothing at all"
+    repeated = "[00:10] aa bb cc xx\n[01:45] aa bb cc yy\n[02:30] tail"
+
+    def run(transcript, ts=105, q=quote):
+        point = {"video_id": "v1", "statement": "s", "quote_original": q, "quote_arabic": "ترجمة", "speaker": "متحدث",
+                 "channel": "CNN TÜRK", "video_url": "https://youtube.com/watch?v=v1"}
+        if ts is not None:
+            point["timestamp"] = ts
+        scene = {"kind": "clip", "point_id": reel_script.point_key_id(point), "start": 100, "end": 112,
+                 "channel_display": "سي إن إن ترك", "language": "tr"}
+        downloads = []
+
+        def download(video_id, start, end, height, out_path):
+            downloads.append((video_id, start, end))
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+        tmp = Path(tempfile.mkdtemp())
+        try:
+            deps = reel_render.Deps(fetch_transcript=lambda vid: transcript, download_clip=download,
+                                    load_points=lambda date: [point], probe=lambda p: 5.0,
+                                    streams=lambda p: {"video", "audio"}, sleep=lambda s: None).resolved(cfg)
+            clips, dropped, approx = reel_render._fetch_clips({"scenes": [scene]}, {"topic_date": "2099-12-20"}, cfg, deps, tmp)
+            return clips, dropped, approx, downloads, scene, point
+        finally:
+            _shutil.rmtree(tmp, ignore_errors=True)
+
+    t = cfg.path("reel.render.texts")
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def g324():
+        clips, dropped, approx, downloads, scene, point = run(absent)
+        win = reel_render._approx_window(point, scene)
+        check("g324: المقطع لا يُحذف", 0 in clips and not dropped, (clips, dropped))
+        check("g324: نافذة التنزيل = _approx_window", downloads == [("v1", win[0], win[1])], (downloads, win))
+        check("g324: render_approx فيه السبب الجديد",
+              len(approx) == 1 and approx[0]["reason"] == t["approx_not_found"], approx)
+    guarded("g324", g324)
+
+    def g325():
+        clips, dropped, approx, downloads, scene, point = run(repeated, q="aa bb cc dd ee ff gg hh")
+        win = reel_render._approx_window(point, scene)
+        check("g325: متكرر ← نافذة من طابع النقطة لا حذف",
+              0 in clips and not dropped and downloads == [("v1", win[0], win[1])], (dropped, downloads))
+        check("g325: السبب «يتكرر»", len(approx) == 1 and approx[0]["reason"] == t["approx_ambiguous"], approx)
+    guarded("g325", g325)
+
+    def g326():
+        clips, dropped, approx, downloads, *_ = run(absent, ts=None)
+        check("g326: بلا timestamp ← حذف بالسبب القديم",
+              not clips and not approx and len(dropped) == 1
+              and dropped[0]["reason"] == "الاقتباس غير موجود في نص الفيديو", (dropped, approx))
+    guarded("g326", g326)
+
+    def g327():
+        clips, dropped, approx, downloads, *_ = run(good)
+        check("g327: found ← لا approx ولا حذف والنافذة من locate_quote",
+              0 in clips and not approx and not dropped and len(downloads) == 1 and downloads[0][1] == 104,
+              (approx, dropped, downloads))
+        check("g327: render_version == 16", int(cfg.path("reel.render.version")) == 16, cfg.path("reel.render.version"))
+    guarded("g327", g327)
