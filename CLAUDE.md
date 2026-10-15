@@ -1842,3 +1842,13 @@ instead.
 - **الشعار:** `logo_state(t, cfg, hook_end)` دالة نقية، وتعابير ffmpeg تُبنى منها (`_logo_exprs`: scale بـ`eval=frame` وoverlay بتعابير `t` وgeq لشفافية الدخول) في التمريرة الأخيرة وحدها؛ بلا هوك يبقى overlay الزاوية الثابت.
 - **`speaker_track`:** حُذف شرط `margin`؛ المتكلم الأعلى إن بلغ `speaker.talk_min` وتفوّق على الثاني، وإلا أكبر وجه. علامة «؟» تُمركَّز بحبرها في دائرة السؤال. `render_version` = 12. الاختبارات g298–g304.
 - **لم يُجرَّب على ffmpeg حقيقي** (لا ffmpeg في بيئة التطوير): صياغة geq/scale/crop الزمنية تحتاج تشغيلًا فعليًا.
+
+## البحث الآلي عن لقطة الهوك (Issue #1440، R5c2) — `src/reel_hook_search.py`
+
+- **متى:** `reel_render._auto_hook` في `_render` قبل التجميع، فقط إن لم يوجد `draft.hook_video` (اليدوي يغلب)، و`reel.hook_search.enabled`، و`YOUTUBE_API_KEY`،
+  ومشهد `title_card`، وحقن/حقيقي لحقول `Deps` الجديدة (`yt_search`/`yt_durations`/`scan_download`/`scan_frames`/`classify_sheet`/`make_queries`؛ تبقى `None` للمزيَّفات القديمة فتُتخطى الخطوة).
+  أي عطل لا يُفشل التركيب: الهوك بصورة الخبر وسطر `comment_hook_failed`؛ بلا نتيجة صالحة `comment_hook_none`.
+- **التدفق:** Haiku (`make_queries`) ← `search.list` لكل عبارة بنافذة تاريخ الموضوع ± يومين ← قنوات `reel.hook_search.channels` احتواءً + `videos.list` للمدة ≤ 600 ← أول 4 ←
+  تنزيل أول 180 ث بارتفاع 240 ← صفائح 4×3 بأرقام الثواني ← `classify_seconds` (Haiku بالصور، سقف `max_sheets` 12 للريل) ← أطول سلسلة `event_footage` وrelevant ≥ 3 ث تُقصّ
+  من وسطها إلى `hook.max_seconds`. تُحفظ `hook_video` (`source: "auto"`) و`hook_search` (`queries`/`candidates`/`picked`). قناة اللقطة تُضاف إلى «المقاطع من».
+  عطل مرشّح واحد (تنزيل/تصنيف) يتخطاه إلى التالي. `render_version` = 17. الاختبارات g328–g334.
