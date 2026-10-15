@@ -190,33 +190,32 @@
   },
   "reel_file": "reels/2026-10-14/79c224cd69b0.mp4",
   "reel_gif": "reels/2026-10-14/79c224cd69b0.gif",
-  "duration_seconds": 95.0,
-  "render_version": 18,
+  "duration_seconds": 96.5,
+  "render_version": 19,
   "render_attempts": 0,
   "reel_music": "nastelbom-news-501715.mp3",
   "render_crops": {
     "0": {
-      "x": 487,
-      "source": "speaker_motion_override",
-      "speaker_score": 0.92,
+      "x": 324,
+      "source": "speaker_vision",
+      "speaker_score": 0.99,
       "tracks": 2,
       "vision": {
-        "pick": 2,
-        "agree": 2,
-        "archive": [],
-        "overridden_by": 1
+        "pick": 1,
+        "agree": 3,
+        "archive": []
       },
       "cover": true
     },
     "3": {
-      "x": 286,
+      "x": 426,
       "source": "speaker",
-      "speaker_score": 0.95,
+      "speaker_score": 0.96,
       "tracks": 1,
       "cover": true
     },
     "5": {
-      "x": 584,
+      "x": 875,
       "source": "speaker_vision",
       "speaker_score": 1.02,
       "tracks": 2,
@@ -237,10 +236,10 @@
       "kind": "cold_open_clip",
       "start": 105,
       "end": 112,
-      "reason": "الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة"
+      "reason": "تعذّر جلب نص الفيديو"
     }
   ],
-  "rendered_at": "2026-10-15T17:25:47.744163+00:00",
+  "rendered_at": "2026-10-15T19:18:29.294692+00:00",
   "render_speakers": {
     "0": {
       "name_original": "",
@@ -260,12 +259,74 @@
     }
   },
   "hook_search": {
-    "queries": [
-      "اعتراض صواريخ فوق سماء الرياض",
-      "Saudi air defense intercepting missiles over Riyadh",
-      "الرياض دفاعات جوية ودخان في السماء"
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-10-12T00:00:00Z",
+          "2026-10-16T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "صواريخ تعترضها الدفاعات السعودية فوق الرياض",
+            "raw": 19,
+            "channel_ok": 2
+          },
+          {
+            "query": "Saudi air defense intercepts missiles over Riyadh night sky",
+            "raw": 8,
+            "channel_ok": 1
+          },
+          {
+            "query": "الرياض اعتراض صاروخ باليستي دخان ومطار الملك خالد",
+            "raw": 1,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 3,
+        "judged_ok": 2,
+        "rejected_channels": [
+          "Shams TV",
+          "عتبة",
+          "NDTV",
+          "العربي - أخبار",
+          "The Raj7i l مرضي الراجحي",
+          "AI News Arab",
+          "شبكة نيوز الأخبارية - نحن أفضل تلخيصا للخبر",
+          "Canal 26"
+        ]
+      }
     ],
-    "candidates": [],
-    "picked": null
+    "picked": [
+      "iKEMO4iEnf0"
+    ]
+  },
+  "hook_candidates": [
+    {
+      "video_id": "iKEMO4iEnf0",
+      "title": "Saudi Aramco HQ hit as Houthis &amp; Riyadh trade strikes",
+      "channel": "CNN",
+      "views": 519315,
+      "duration": 849,
+      "published": "2026-10-14T15:42:43Z"
+    },
+    {
+      "video_id": "Ih3Ub2WjqFA",
+      "title": "مباشر من الرياض.. آخر التطورات بعد اعتداءات الحوثي - أخبار الشرق",
+      "channel": "Asharq News - الشرق للأخبار",
+      "views": 13566,
+      "duration": 981,
+      "published": "2026-10-13T20:30:31Z"
+    }
+  ],
+  "hook_video": {
+    "video_id": "iKEMO4iEnf0",
+    "start": 22,
+    "end": 29,
+    "channel": "CNN",
+    "title": "Saudi Aramco HQ hit as Houthis &amp; Riyadh trade strikes",
+    "source": "auto",
+    "views": 519315,
+    "reason": "14 ث متتالية من لقطات الحدث"
   }
 }
