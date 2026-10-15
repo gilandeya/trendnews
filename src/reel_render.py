@@ -270,9 +270,27 @@ def speaker_track(frames, boxes_per_frame, cfg) -> dict:
         return vals[len(vals) // 2] if len(vals) % 2 else (vals[len(vals) // 2 - 1] + vals[len(vals) // 2]) / 2
 
     # مسارات المرشَّحين للرؤية (Issue #1431) مرقّمة من اليمين إلى اليسار بوسيط الموضع والحجم؛ المستدعي يرسمها ويختار منها
+    gcfg = sc.get("gesture") or {}
+    g_width, g_below = float(gcfg.get("width", 3.0)), float(gcfg.get("below", 2.5))
+    half = np.asarray(frames[0]).shape[1] / 2
+
+    def gesture(t):
+        # الإيماء (Issue #1434): حركة الجسد تحت الوجه بالتعويض عن الحركة نفسه؛ يد تتحرك أو إشارة إلى خريطة لا تظهر في الفم
+        vals = []
+        for k, (box, _) in t["obs"].items():
+            nxt = t["obs"].get(k + 1)
+            if nxt is None:
+                continue
+            d = _region_diff(frames[k], box, frames[k + 1], nxt[0], 1.0, 1.0 + g_below, g_width, search)
+            if d is not None:
+                vals.append(d)
+        return statistics.median(vals) if vals else 0.0
+
     track_list = sorted(({"center": median([c for _, c in t["obs"].values()]),
-                          "box": tuple(median([b[i] for b, _ in t["obs"].values()]) for i in range(4)), "score": s}
-                         for s, t in ranked), key=lambda x: -x["center"])
+                          "box": tuple(median([b[i] for b, _ in t["obs"].values()]) for i in range(4)), "score": s,
+                          "gesture": gesture(t)} for s, t in ranked), key=lambda x: -x["center"])
+    for tr in track_list:
+        tr["centrality"] = 1 - abs(tr["center"] - half) / half
     # عاد شرط التفوق (Issue #1431): حركة الفم وحدها خدعتها لقطات أرشيفية لشخص يتكلم، فلا يكفي أن يكون الأعلى أعلى بهامش
     # ضئيل؛ يلزم ≥ talk_min و≥ margin × الثاني، وإلا يبقى أكبر وجه. مسار واحد لا ثاني له فيُحسم مباشرة
     if second is None or (top >= float(sc.get("talk_min", 0.3)) and top >= float(sc.get("margin", 1.25)) * second):
@@ -1512,6 +1530,43 @@ def resolve_speaker_pick(frames: list, n_tracks: int) -> dict:
     return {"pick": best[0] if best[1] >= 2 else 0, "agree": best[1], "archive": sorted(archive)}
 
 
+SPEAKER_SOURCES = ("speaker", "speaker_vision", "speaker_motion_override", "speaker_combined")
+
+
+def motion_override(tracks: list, pick: int, cfg) -> int:
+    """(Issue #1434، دالة نقية) رقم المسار (1-based) الذي يغلب اختيار الرؤية، أو 0: مسار آخر فمه وإيماؤه معًا ≥ override_margin ×
+    المختار. الرؤية أخطأت مقدّمًا يحرك يديه عدّته أرشيفًا، وحركة الفم وحدها خدعتها لقطات أرشيفية؛ فلا يغلبها إلا الاثنان معًا."""
+    m = float(cfg.path("reel.render.speaker.override_margin", 1.25))
+    chosen = tracks[pick - 1]
+    best = 0
+    for i, t in enumerate(tracks, 1):
+        if i == pick:
+            continue
+        if (t["score"] >= m * chosen["score"] and t.get("gesture", 0) >= m * chosen.get("gesture", 0)
+                and (t["score"] > chosen["score"] or t.get("gesture", 0) > chosen.get("gesture", 0))
+                and (not best or t["score"] > tracks[best - 1]["score"])):
+            best = i
+    return best
+
+
+def combined_pick(tracks: list, cfg) -> int:
+    """(Issue #1434، دالة نقية) رقم المسار (1-based) بالدرجة المركّبة = فم/أعلى_فم + إيماء/أعلى_إيماء + center_weight × القرب من
+    الوسط، أو 0 إن لم يحسم: يلزم فم الأعلى ≥ talk_min ودرجته ≥ combined_margin × الثاني."""
+    sc = cfg.path("reel.render.speaker") or {}
+    top_m = max((t["score"] for t in tracks), default=0.0)
+    top_g = max((t.get("gesture", 0.0) for t in tracks), default=0.0)
+    cw = float(sc.get("center_weight", 0.5))
+    comp = [(t["score"] / top_m if top_m > 0 else 0.0) + (t.get("gesture", 0.0) / top_g if top_g > 0 else 0.0)
+            + cw * t.get("centrality", 0.0) for t in tracks]
+    order = sorted(range(len(tracks)), key=lambda i: -comp[i])
+    best = order[0]
+    if tracks[best]["score"] < float(sc.get("talk_min", 0.3)):
+        return 0
+    if len(order) > 1 and comp[best] < float(sc.get("combined_margin", 1.15)) * comp[order[1]]:
+        return 0
+    return best + 1
+
+
 def _speaker_crop(clip: dict, cfg, deps: Deps, scene: dict | None = None) -> tuple[dict | None, dict]:
     """(نافذة تتوسّط الوجه المتكلم أو None، بيانات للشفافية). الترتيب: الرؤية حين يوجد مساران صالحان فأكثر، ثم حركة الفم بشرط
     التفوق، وإلا None فيبقى أكبر وجه (لا حقن، لا مسارات، غير محسوم، أو عطل). البيانات {tracks, vision?} حين تعدّد الوجوه."""
@@ -1527,20 +1582,35 @@ def _speaker_crop(clip: dict, cfg, deps: Deps, scene: dict | None = None) -> tup
         tracks = res.get("track_list") or []
         if res["tracks"] >= 2:
             meta["tracks"] = res["tracks"]
+        attempted = False
         if (len(tracks) >= 2 and cfg.path("reel.render.speaker.vision.enabled", False)
                 and getattr(deps, "pick_speaker", None) is not None):
+            attempted = True
             try:
                 voted = deps.pick_speaker(clip["file"], tracks, scene or {}, cfg)
                 if isinstance(voted, list) and voted:
                     vis = resolve_speaker_pick(voted, len(tracks))
                     meta["vision"] = vis
                     if vis["pick"]:
-                        chosen = tracks[vis["pick"] - 1]
+                        over = motion_override(tracks, vis["pick"], cfg)
+                        if over:
+                            # حركة جسدية صريحة (فم وإيماء) تغلب الرؤية (Issue #1434)
+                            vis["overridden_by"] = over
+                        chosen = tracks[(over or vis["pick"]) - 1]
                         win = crop_window(int(sw), int(sh), [chosen["center"]], "face")
-                        return {**win, "source": "speaker_vision", "speaker_score": round(float(chosen["score"]), 2),
-                                "tracks": res["tracks"]}, meta
-            except Exception as exc:  # noqa: BLE001 -- الرؤية تحسين: العطل ← حركة الفم
-                log.warning("تعذّر تحديد المتكلم بالرؤية فحركة الفم: %s", str(exc)[:100])
+                        return {**win, "source": "speaker_motion_override" if over else "speaker_vision",
+                                "speaker_score": round(float(chosen["score"]), 2), "tracks": res["tracks"]}, meta
+            except Exception as exc:  # noqa: BLE001 -- الرؤية تحسين: العطل ← الفم واليدان والموقع
+                log.warning("تعذّر تحديد المتكلم بالرؤية فالدرجة المركّبة: %s", str(exc)[:100])
+        if attempted:
+            # الرؤية لم تحسم (0 أو اختلاف أو عطل أو رفض) ← فم ويدان وقرب من الوسط (Issue #1434)
+            pick = combined_pick(tracks, cfg)
+            if not pick:
+                return None, meta
+            chosen = tracks[pick - 1]
+            win = crop_window(int(sw), int(sh), [chosen["center"]], "face")
+            return {**win, "source": "speaker_combined", "speaker_score": round(float(chosen["score"]), 2),
+                    "tracks": res["tracks"]}, meta
         if res["source"] != "speaker":
             return None, meta
         win = crop_window(int(sw), int(sh), [res["center"]], "face")
@@ -1578,13 +1648,15 @@ def _clip_scene(clip: dict, overlays: tuple[Path, Path], out: Path, cfg, deps: D
     crop = _crop_for(clip, cfg, deps, scene)
     clip["crop"] = {"x": crop["x"], "source": crop["source"],
                     **({"speaker_score": crop["speaker_score"], "tracks": crop["tracks"]}
-                       if crop["source"] in ("speaker", "speaker_vision") else {}),
-                    **({"tracks": crop["tracks"]} if "tracks" in crop and crop["source"] not in ("speaker", "speaker_vision") else {}),
+                       if crop["source"] in SPEAKER_SOURCES else {}),
+                    **({"tracks": crop["tracks"]} if "tracks" in crop and crop["source"] not in SPEAKER_SOURCES else {}),
                     **({"vision": crop["vision"]} if "vision" in crop else {})}
     if notes is not None and int(crop.get("tracks") or 0) >= 2:
         # سطر لكل مقطع تعدّدت وجوهه يبيّن بأي طريقة حُسم المتكلم، فيراجع صاحب المشروع القرار دون فتح الملف
         t = cfg.path("reel.render.texts")
-        how = {"speaker_vision": t["speaker_how_vision"], "speaker": t["speaker_how_motion"]}.get(crop["source"], t["speaker_how_face"])
+        how = {"speaker_vision": t["speaker_how_vision"], "speaker": t["speaker_how_motion"],
+               "speaker_motion_override": t["speaker_how_override"],
+               "speaker_combined": t["speaker_how_combined"]}.get(crop["source"], t["speaker_how_face"])
         notes.append(t["comment_speaker_pick"].format(channel=(scene or {}).get("channel_display", ""), n=crop["tracks"], how=how))
     if crop["x"] is None:      # أبعاد المصدر مجهولة: المنتصف بتعبير يحسبه ffmpeg
         cexpr = "crop=ih*9/16:ih:(iw-ih*9/16)/2:0"
