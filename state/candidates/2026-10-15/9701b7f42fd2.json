@@ -1,0 +1,78 @@
+{
+  "id": "9701b7f42fd2",
+  "created_at": "2026-10-15T17:08:12.950149+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.11,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 0,
+  "intrigue": 3,
+  "appeal_note": "انهيار سقف مدرسة يودي بحياة 28 طفلًا",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Pakistan school roof collapse kills 28; more deaths feared",
+  "link": "https://www.dailymaverick.co.za/article/2026-10-15-pakistan-school-roof-collapse-kills-28-more-deaths-feared/",
+  "publishers": [
+    "CBS News — World",
+    "Daily Maverick",
+    "Malay Mail",
+    "NPR World"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Pakistan school roof collapse kills 28; more deaths feared",
+    "link": "https://www.dailymaverick.co.za/article/2026-10-15-pakistan-school-roof-collapse-kills-28-more-deaths-feared/",
+    "summary": "At least 27 students, most younger than 13, were killed in Pakistan on Thursday, along with a teacher, when a school roof collapsed during classes in the northwestern city of Peshawar, authorities said, warning that the death toll could rise.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-10-15T12:35:17+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/i/7pZQsZVKn8bMRL5kGZtwQWX9xiE=/800x0/smart/filters:strip_exif()/file/attachments/2999/14365180_620629.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "CBS News — World",
+      "Daily Maverick",
+      "Malay Mail",
+      "NPR World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-10-15-pakistan-school-roof-collapse-kills-28-more-deaths-feared/"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/10/15/school-roof-collapse-kills-21-students-in-pakistan-renews-concerns-over-building-safety/239213"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/10/15/nx-s1-6003437/school-roof-collapse-pakistan"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/pakistan-school-collapse-peshawar-student-teacher-deaths/"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/i/7pZQsZVKn8bMRL5kGZtwQWX9xiE=/800x0/smart/filters:strip_exif()/file/attachments/2999/14365180_620629.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/10/15/368523.jpg",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-6003437"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1728.9159703816667,
+    "is_stale": false,
+    "score": 25.112857912976903,
+    "impact": 2,
+    "proximity": 0,
+    "intrigue": 3,
+    "appeal_note": "انهيار سقف مدرسة يودي بحياة 28 طفلًا",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

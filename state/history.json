@@ -1,103 +1,5 @@
 [
   {
-    "score": 22.04,
-    "bucket": "serious",
-    "tokens": [
-      "abuse",
-      "child",
-      "content",
-      "detect",
-      "facebook",
-      "instagram",
-      "meta",
-      "sexual",
-      "using"
-    ],
-    "link": "https://www.thehindu.com/sci-tech/technology/meta-says-it-is-using-ai-to-detect-child-sexual-abuse-content-on-instagram-and-facebook/article71558704.ece",
-    "title": "Meta says it is using AI to detect child sexual abuse content on Instagram and Facebook",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-10-10T09:08:14.718388+00:00"
-  },
-  {
-    "score": 21.04,
-    "bucket": "serious",
-    "tokens": [
-      "abuse",
-      "child",
-      "indian",
-      "jailed",
-      "leading",
-      "man",
-      "online",
-      "paris",
-      "ring"
-    ],
-    "link": "https://www.thehindu.com/news/international/indian-man-jailed-in-paris-over-leading-online-child-abuse-ring/article71567145.ece",
-    "title": "Indian man jailed in Paris over leading online child abuse ring",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-10-10T09:08:14.718692+00:00"
-  },
-  {
-    "score": 20.91,
-    "bucket": "serious",
-    "tokens": [
-      "2032",
-      "audi",
-      "barcelona",
-      "con",
-      "eléctrico",
-      "negocia",
-      "partir",
-      "producir",
-      "seat",
-      "volkswagen"
-    ],
-    "link": "https://cincodias.elpais.com/companias/2026-10-10/seat-negocia-con-volkswagen-producir-el-audi-q4-electrico-en-barcelona-a-partir-de-2032.html",
-    "title": "Seat negocia con Volkswagen producir el Audi Q4 eléctrico en Barcelona a partir de 2032",
-    "posted_title": "",
-    "region": "es",
-    "seen_at": "2026-10-10T09:08:14.718989+00:00"
-  },
-  {
-    "score": 20.55,
-    "bucket": "serious",
-    "tokens": [
-      "businessman",
-      "daughter",
-      "lifts",
-      "linked",
-      "military",
-      "myanmar",
-      "sanctions"
-    ],
-    "link": "https://www.japantimes.co.jp/news/2026/10/10/asia-pacific/politics/us-sanctions-myanmar-businessman/",
-    "title": "U.S. lifts sanctions on daughter of Myanmar military-linked businessman",
-    "posted_title": "",
-    "region": "jp",
-    "seen_at": "2026-10-10T09:08:14.719260+00:00"
-  },
-  {
-    "score": 20.06,
-    "bucket": "serious",
-    "tokens": [
-      "action",
-      "backlash",
-      "calls",
-      "european",
-      "global",
-      "icc",
-      "sanctions",
-      "spark"
-    ],
-    "link": "https://www.dailysabah.com/world/europe/us-sanctions-on-icc-spark-global-backlash-european-calls-for-action",
-    "title": "US sanctions on ICC spark global backlash, European calls for action",
-    "posted_title": "",
-    "region": "tr",
-    "seen_at": "2026-10-10T09:08:14.719515+00:00"
-  },
-  {
     "score": 38.19,
     "bucket": "serious",
     "tokens": [
@@ -1223,5 +1125,98 @@
     "posted_title": "",
     "region": "us",
     "seen_at": "2026-10-15T09:08:02.812150+00:00"
+  },
+  {
+    "score": 32.18,
+    "bucket": "serious",
+    "tokens": [
+      "bridge",
+      "china",
+      "delay",
+      "korea",
+      "north",
+      "open",
+      "year"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/ck1exgw3j115o?at_medium=RSS&at_campaign=rss",
+    "title": "North Korea and China open new bridge after 12-year delay",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-10-15T17:08:12.949657+00:00"
+  },
+  {
+    "score": 25.37,
+    "bucket": "sport",
+    "tokens": [
+      "against",
+      "australia",
+      "clinch",
+      "cup",
+      "opener",
+      "thrilling",
+      "world",
+      "zealand"
+    ],
+    "link": "https://www.bbc.co.uk/sport/rugby-league/videos/cmn4eqpvw1ppo?at_medium=RSS&at_campaign=rss",
+    "title": "Australia clinch thrilling World Cup opener against New Zealand",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-10-15T17:08:12.949916+00:00"
+  },
+  {
+    "score": 25.28,
+    "bucket": "serious",
+    "tokens": [
+      "aden",
+      "attack",
+      "complex",
+      "houthis",
+      "officials",
+      "palace",
+      "presidential",
+      "say",
+      "unharmed",
+      "yemen's"
+    ],
+    "link": "https://tribune.com.pk/story/2634972/saudi-led-coalition-intercepts-and-destroys-drone-in-eastern-saudi-arabia",
+    "title": "Houthis attack presidential palace complex in Yemen's Aden, PM unharmed, officials say",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-10-15T17:08:12.950140+00:00"
+  },
+  {
+    "score": 25.11,
+    "bucket": "serious",
+    "tokens": [
+      "collapse",
+      "deaths",
+      "feared",
+      "kills",
+      "pakistan",
+      "roof",
+      "school"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-10-15-pakistan-school-roof-collapse-kills-28-more-deaths-feared/",
+    "title": "Pakistan school roof collapse kills 28; more deaths feared",
+    "posted_title": "",
+    "region": "za",
+    "seen_at": "2026-10-15T17:08:12.950397+00:00"
+  },
+  {
+    "score": 23.22,
+    "bucket": "serious",
+    "tokens": [
+      "easing",
+      "fleet",
+      "sanctions",
+      "shadow",
+      "tankers",
+      "weighs"
+    ],
+    "link": "https://meduza.io/en/news/2026/10/15/us-weighs-easing-sanctions-on-shadow-fleet-tankers",
+    "title": "US weighs easing sanctions on ‘shadow fleet’ tankers",
+    "posted_title": "",
+    "region": "ru",
+    "seen_at": "2026-10-15T17:08:12.950609+00:00"
   }
 ]

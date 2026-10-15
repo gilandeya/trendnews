@@ -1,0 +1,95 @@
+{
+  "id": "48d7144fded9",
+  "created_at": "2026-10-15T17:08:12.949152+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 32.18,
+  "trend_score": 1.0,
+  "velocity": 0.25,
+  "impact": 1,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "جسر بعد اثني عشر عامًا وسط العقوبات على بيونغ يانغ",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "North Korea and China open new bridge after 12-year delay",
+  "link": "https://www.bbc.co.uk/news/articles/ck1exgw3j115o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Africanews",
+    "Al Jazeera English",
+    "BBC World",
+    "Daily Sabah",
+    "Deutsche Welle",
+    "France24",
+    "The Japan Times"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "North Korea and China open new bridge after 12-year delay",
+    "link": "https://www.bbc.co.uk/news/articles/ck1exgw3j115o?at_medium=RSS&at_campaign=rss",
+    "summary": "China is the North's largest trading partner and a lifeline against the sanctions Pyongyang faces.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-10-15T06:24:45+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/481d/live/54fdb770-c83d-11f1-9346-f78c578493f4.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Africanews",
+      "Al Jazeera English",
+      "BBC World",
+      "Daily Sabah",
+      "Deutsche Welle",
+      "France24",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/ck1exgw3j115o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/gallery/2026/10/15/photos-china-and-north-korea-open-new-border-bridge-amid-deepening-ties?traffic_source=rss"
+      },
+      {
+        "name": "Deutsche Welle",
+        "link": "https://www.dw.com/en/north-korea-china-open-border-bridge-after-12-year-delay/a-79666112?maca=en-rss-en-world-4025-rdf"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/10/15/china-and-north-korea-open-new-yalu-river-bridge-after-12-year-delay/"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/tv-shows/business/20261015-china-north-korea-open-long-delayed-trade-bridge"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/10/15/asia-pacific/china-north-korea-bridge-open/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/481d/live/54fdb770-c83d-11f1-9346-f78c578493f4.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/481d/live/54fdb770-c83d-11f1-9346-f78c578493f4.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/481d/live/54fdb770-c83d-11f1-9346-f78c578493f4.jpg",
+      "http://images.euronews.com/articles/stories/09/95/30/79/640x360_cmsv2_ad92eb69-8e2f-560c-907f-3fcef504da61-9953079.jpg?1792051382",
+      "https://s.france24.com/media/display/8d479a1a-c892-11f1-b7e4-6313a763b466/w:1024/p:16x9/capture-333e0e64.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/15/568672.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 7,
+    "velocity": 0.24993293178213383,
+    "age_hours": 1728.9157941955555,
+    "is_stale": false,
+    "score": 32.18224462415551,
+    "impact": 1,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "جسر بعد اثني عشر عامًا وسط العقوبات على بيونغ يانغ",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

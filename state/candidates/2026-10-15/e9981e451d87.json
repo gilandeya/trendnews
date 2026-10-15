@@ -1,0 +1,62 @@
+{
+  "id": "e9981e451d87",
+  "created_at": "2026-10-15T17:08:12.949674+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.37,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 1,
+  "intrigue": 3,
+  "appeal_note": "مباراة درامية وثلاثية مفاجئة من لاعب يخوض أول مباراة",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Australia clinch thrilling World Cup opener against New Zealand",
+  "link": "https://www.bbc.co.uk/sport/rugby-league/videos/cmn4eqpvw1ppo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC",
+    "BBC Sport"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Australia clinch thrilling World Cup opener against New Zealand",
+    "link": "https://www.bbc.co.uk/sport/rugby-league/videos/cmn4eqpvw1ppo?at_medium=RSS&at_campaign=rss",
+    "summary": "Australia beat New Zealand 24-22 in a dramatic Rugby League World Cup opener in Sydney, with debutant Jack Bostock scoring a hat-trick to see the hosts snatch victory late on.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-10-15T17:00:06+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/3e8a/live/bac7ea70-c8ac-11f1-9a39-31b474234113.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "BBC",
+      "BBC Sport"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/rugby-league/videos/cmn4eqpvw1ppo?at_medium=RSS&at_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/3e8a/live/bac7ea70-c8ac-11f1-9a39-31b474234113.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/3e8a/live/bac7ea70-c8ac-11f1-9a39-31b474234113.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/3e8a/live/bac7ea70-c8ac-11f1-9a39-31b474234113.jpg"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1728.9158878536111,
+    "is_stale": false,
+    "score": 25.366126777457634,
+    "impact": 0,
+    "proximity": 1,
+    "intrigue": 3,
+    "appeal_note": "مباراة درامية وثلاثية مفاجئة من لاعب يخوض أول مباراة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
