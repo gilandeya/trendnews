@@ -182,17 +182,33 @@ def _detect_face_tracks(clip, cfg) -> tuple[int, int, list, list]:
     return size[0], size[1], frames, boxes
 
 
-def _region_gray(frame, box, top: float, bottom: float, width: float, size) -> Any:
-    """منطقة من صندوق الوجه (نسبتا الارتفاع top وbottom، والعرض width من وسطه) رمادية مصغّرة إلى size؛ None إن خلت."""
+def _region_diff(fa, box_a, fb, box_b, top: float, bottom: float, width: float, search: float) -> float | None:
+    """أصغر متوسط فرق مطلق بين منطقة من صندوق اللقطة a ومناطق اللقطة b المزاحة حول إزاحة الصندوقين الابتدائية (Issue #1427).
+    البحث بدقة اللقطة الأصلية بلا تصغير: حركة رأس تُزيح الوجه كله فتجد المقارنةُ المنطقةَ نفسها في مكانها الجديد فلا تُحسب
+    كلامًا، وحركة الفم وحدها تبقى فرقًا لا إزاحة تزيله. None إن لم تبقَ منطقة صالحة (أقل من 4 بكسل)."""
     import numpy as np
-    g = np.asarray(frame)
-    x, y, w, h = box
+    ga, gb = np.asarray(fa, dtype=np.float32), np.asarray(fb, dtype=np.float32)
+    x, y, w, h = box_a
+    off_x = int(round((box_b[0] + box_b[2] / 2) - (x + w / 2)))
+    off_y = int(round((box_b[1] + box_b[3] / 2) - (y + h / 2)))
+    rad = max(3, int(round(search * w)))
+    margin = rad + max(abs(off_x), abs(off_y))
+    # تُقصّ المنطقة إلى ما يبقى داخل اللقطة لكل الإزاحات، فلا يُقرأ خارجها ولا يُحسب فرق على حشو
     x0, x1 = int(x + w * (1 - width) / 2), int(x + w * (1 + width) / 2)
     y0, y1 = int(y + h * top), int(y + h * bottom)
-    x0, y0, x1, y1 = max(0, x0), max(0, y0), min(g.shape[1], x1), min(g.shape[0], y1)
-    if x1 <= x0 or y1 <= y0:
+    x0, y0 = max(x0, margin), max(y0, margin)
+    x1, y1 = min(x1, ga.shape[1] - margin, gb.shape[1] - margin), min(y1, ga.shape[0] - margin, gb.shape[0] - margin)
+    if x1 - x0 < 4 or y1 - y0 < 4:
         return None
-    return np.asarray(Image.fromarray(g[y0:y1, x0:x1]).resize(tuple(size), Image.BOX), dtype=np.float32)
+    ref = ga[y0:y1, x0:x1]
+    best = None
+    for dy in range(-rad, rad + 1):
+        for dx in range(-rad, rad + 1):
+            cand = gb[y0 + off_y + dy:y1 + off_y + dy, x0 + off_x + dx:x1 + off_x + dx]
+            d = float(np.abs(cand - ref).mean())
+            if best is None or d < best:
+                best = d
+    return best
 
 
 def speaker_track(frames, boxes_per_frame, cfg) -> dict:
@@ -229,7 +245,7 @@ def speaker_track(frames, boxes_per_frame, cfg) -> dict:
     valid = [t for t in tracks if len(t["obs"]) / n >= float(sc.get("min_presence", 0.4))]
     if not valid:
         return undecided
-    size = sc.get("size", [32, 16])
+    search = float(sc.get("search", 0.05))
     mtop, mwidth = float(sc.get("mouth_top", 0.6667)), float(sc.get("mouth_width", 0.6))
     e0, e1 = (float(v) for v in sc.get("eyes", [0.2, 0.45]))
 
@@ -239,11 +255,11 @@ def speaker_track(frames, boxes_per_frame, cfg) -> dict:
             nxt = t["obs"].get(k + 1)
             if nxt is None:
                 continue
-            m0, m1 = (_region_gray(frames[j], b, mtop, 1.0, mwidth, size) for j, b in ((k, box), (k + 1, nxt[0])))
-            e_0, e_1 = (_region_gray(frames[j], b, e0, e1, 1.0, size) for j, b in ((k, box), (k + 1, nxt[0])))
-            if m0 is None or m1 is None or e_0 is None or e_1 is None:
+            mouth = _region_diff(frames[k], box, frames[k + 1], nxt[0], mtop, 1.0, mwidth, search)
+            eyes = _region_diff(frames[k], box, frames[k + 1], nxt[0], e0, e1, 1.0, search)
+            if mouth is None or eyes is None:
                 continue
-            vals.append(float(np.abs(m1 - m0).mean()) / (float(np.abs(e_1 - e_0).mean()) + 1))
+            vals.append(mouth / (eyes + 1))
         return statistics.median(vals) if vals else 0.0
 
     ranked = sorted(((score(t), t) for t in valid), key=lambda st: -st[0])
