@@ -1,0 +1,691 @@
+{
+  "run_date": "2026-10-15",
+  "stats": {
+    "points_in": 248,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 98,
+    "issues_clustered": 36,
+    "topics_merged": 8,
+    "topics_out": 2,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 4,
+    "topics_below_min_points": 12,
+    "topics_below_min_channels": 8,
+    "layers": {
+      "2": 1,
+      "1": 1
+    },
+    "agreement": 0,
+    "cross_source": 1,
+    "internal": 0,
+    "echo": 1
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "الدور الإيراني في دعم الحوثيين عسكريًا",
+      "طبيعة ودرجة استقلالية الحوثيين عن إيران"
+    ],
+    [
+      "موقف دولي غربي مُدين لإيران بعد هجوم مخطط على قاعدة بريطانية",
+      "تأثير النشاط الإيراني العدائي على موقف إيران التفاوضي"
+    ],
+    [
+      "السيطرة الفيدرالية الإثيوبية على مدن تيغراي الرئيسية",
+      "تحذير إريتريا من امتداد العمليات الإثيوبية إلى أراضيها"
+    ],
+    [
+      "استقالة الحكومة الموريتانية وتشكيل حكومة جديدة",
+      "تقييم الوضع الاقتصادي في موريتانيا"
+    ],
+    [
+      "انتقاد خطة إرسال جنود أتراك إلى اليمن",
+      "صمت الحكومة التركية إزاء هجمات على السفن التركية في البحر الأسود"
+    ],
+    [
+      "تحيز التغطية الإعلامية الفرنسية للاحتجاجات الطلابية",
+      "أسباب الاحتجاجات الطلابية الفرنسية المرتبطة بميزانية التعليم",
+      "شهادات طلاب حول طبيعة الاحتجاجات وتعامل الحكومة معها"
+    ],
+    [
+      "موقف جبهة البوليساريو من مقترح الحكم الذاتي ومبدأ تقرير المصير",
+      "موقف مغربي متفائل بشأن مسار المفاوضات وضمانات الحل"
+    ],
+    [
+      "تحالف اليمين وهدف الحصول على 61 مقعدًا في الانتخابات",
+      "تقدير الوضع المالي والثروة الشخصية ليائير غولان",
+      "تحليل الشخصية النفسية والجسدية ليائير غولان"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "الدور الإيراني في دعم الحوثيين عسكريًا",
+      "event": "تقديم إيران السلاح والتدريب والمستشارين العسكريين للحوثيين وتوجيه عملياتهم",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        1,
+        9,
+        12,
+        37,
+        92,
+        98,
+        127,
+        128,
+        130
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": null,
+      "id": "56ed089a9248",
+      "created_at": "2026-10-15T04:02:37.195506+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1426
+    },
+    {
+      "title": "انتقاد خطة إرسال جنود أتراك إلى اليمن",
+      "event": "انتقاد المعارضة التركية لخطة إرسال جنود أتراك إلى اليمن باعتبارها تخدم مصالح إسرائيل وأمريكا لا تركيا",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        43,
+        44,
+        56,
+        57
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null,
+      "id": "1c37f2df6ac3",
+      "created_at": "2026-10-15T04:02:37.195506+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1426
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "الدور الإيراني في دعم الحوثيين عسكريًا",
+      "event": "تقديم إيران السلاح والتدريب والمستشارين العسكريين للحوثيين وتوجيه عملياتهم",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        1,
+        9,
+        12,
+        37,
+        92,
+        98,
+        127,
+        128,
+        130
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": null
+    },
+    {
+      "title": "موقف دولي غربي مُدين لإيران بعد هجوم مخطط على قاعدة بريطانية",
+      "event": "إصدار بريطانيا ودول أخرى بيانًا وعقوبات ضد إيران بعد كشف مخطط هجوم على قاعدة بريطانية، وتحذير الاستخبارات البريطانية",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        5,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75
+      ],
+      "total_points": 7,
+      "fresh_points": 3,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "سيناريوهات سقوط أو تغيير النظام الإيراني عبر حرب أو صفقة",
+      "event": "نقاش حول احتمال سقوط الجمهورية الإسلامية عبر حرب حاسمة أو صفقة تدار أمريكيًا على غرار النموذج الفنزويلي",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        134,
+        135,
+        136,
+        137
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تأثير المسيرات الرخيصة على موازين القوى العسكرية",
+      "event": "نقاش حول تأثير المسيرات الرخيصة على موازين القوى العسكرية وقدرتها على تعويض الفارق بين الأطراف الأقوى والأضعف",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        77,
+        78,
+        79,
+        80,
+        81,
+        82
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "موقف جبهة البوليساريو من مقترح الحكم الذاتي ومبدأ تقرير المصير",
+      "event": "تمسك جبهة البوليساريو بمبدأ تقرير المصير ورفضها مقترح الحكم الذاتي المغربي كحل نهائي مسبق",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        114,
+        115,
+        117,
+        118,
+        119
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "دعوى رونن بار القضائية ضد نتنياهو",
+      "event": "رفع رونن بار دعوى تعويض ضد نتنياهو بسبب تشهير يتعلق بتحذيراته من تصاعد حماس قبل هجوم 7 أكتوبر",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        138,
+        139,
+        141
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "وساطة إيرانية بين السعودية والحوثيين",
+      "event": "عرض إيران الوساطة بين السعودية والحوثيين عقب اتصال بين وزيري الخارجية وتقييم جدواها ودوافعها",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        0,
+        3
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "السيطرة الفيدرالية الإثيوبية على مدن تيغراي الرئيسية",
+      "event": "إعلان الحكومة الإثيوبية سيطرة قواتها على المدن الرئيسية في تيغراي بعد دخول أدوى وأكسوم",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        14,
+        15,
+        16,
+        19
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تقييم اتفاق بريتوريا وأثره على جبهة تيغراي",
+      "event": "تقييم مدى نجاح اتفاق بريتوريا في تفريق أجنحة جبهة تيغراي وإنهاء الصراع",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        17,
+        18,
+        20
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "زيارة الملك الإسباني لسبتة ومليلية وتأكيد السيادة الإسبانية",
+      "event": "زيارة الملك فيليبي السادس لسبتة ومليلية وتأكيده سيادة إسبانيا عليهما ورد الفعل المغربي والأوروبي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "استقالة الحكومة الموريتانية وتشكيل حكومة جديدة",
+      "event": "استقالة الحكومة الموريتانية وإعادة تكليف المختار ولد الجاي بتشكيل حكومة جديدة عقب تقرير حريقي كهرباء",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        28,
+        29,
+        30,
+        31,
+        32,
+        33
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "هجمات الحوثيين الأخيرة على السعودية",
+      "event": "استهداف الحوثيين مطار الملك خالد وقاعدة خميس مشيط واعتراض التحالف لصواريخ ومسيرات",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        2,
+        96
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "عدم وجود مفاوضات حالية بين الحوثيين والسعودية",
+      "event": "غياب طاولة مفاوضات أو مطالب تفاوضية معلنة من الحوثيين تجاه السعودية حاليًا",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        36,
+        91
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "شدة وتصاعد الحرب اليمنية",
+      "event": "تسارع واشتداد وتيرة الحرب اليمنية واختراق خطوط حمراء متعددة في وقت قصير",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        8,
+        95
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "أزمة صناديق الاستثمار التركية والاتهامات بالفساد",
+      "event": "أزمة صناديق الاستثمار في تركيا وتجميد ورفع الحسابات والاتهامات بتورط مقربين من أردوغان",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        45,
+        46,
+        49,
+        50,
+        53,
+        61,
+        62,
+        63,
+        66,
+        67,
+        121
+      ],
+      "total_points": 11,
+      "fresh_points": 2,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "الاعتراف الإسرائيلي بأرض الصومال وتبعاته",
+      "event": "تقييم أثر الاعتراف الإسرائيلي المحتمل بأرض الصومال على وضعها القانوني واحتمال قواعد عسكرية إسرائيلية في بربرة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        86,
+        87,
+        88
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "عدم وجود تسوية قريبة في الحرب اليمنية",
+      "event": "تقييم عدم وجود تسوية قريبة في اليمن لعدم تغير موازين القوى بشكل جوهري",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        89,
+        90
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "استهداف منشأة الوقود في باجل ضمن تصعيد التحالف ضد الحوثيين",
+      "event": "استهداف التحالف منشأة الوقود في باجل كمرحلة جديدة من استهداف البنية التحتية العسكرية للحوثيين",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        7,
+        95
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "موقف الحكومة اليمنية والدعم المصري ضد تهديد الحوثيين",
+      "event": "تصريحات رئيس مجلس القيادة الرئاسي اليمني ووزير الخارجية المصري بشأن ضرورة إنهاء تهديد الحوثيين ودعم السعودية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        97,
+        99
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تحيز التغطية الإعلامية الفرنسية للاحتجاجات الطلابية",
+      "event": "انتقاد تركيز الإعلام الفرنسي على أعمال العنف في الاحتجاجات الطلابية وتغييب مطالب الطلاب",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        109,
+        110,
+        111,
+        112,
+        113
+      ],
+      "total_points": 11,
+      "fresh_points": 11,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تحالف اليمين وهدف الحصول على 61 مقعدًا في الانتخابات",
+      "event": "تصريحات رئيس حزب شاس حول ضرورة توحد اليمين للحصول على 61 مقعدًا في الانتخابات المقبلة",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "التصعيد الحوثي ضد السعودية بعد مذكرات التفاهم الإيرانية الأمريكية",
+      "event": "تصعيد الحوثيين خطابهم وهجماتهم ضد السعودية استغلالًا لفرصة سياسية بعد مذكرات التفاهم إيران-أمريكا",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        34,
+        35
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "قضايا حرية الصحافة في تركيا (اعتقالات صحفيين)",
+      "event": "اعتقال واحتجاز عدد من الصحفيين الأتراك على خلفية تغطيتهم قضايا حساسة",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        64,
+        65,
+        68
+      ],
+      "total_points": 3,
+      "fresh_points": 1,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "توقعات بتصعيد أمريكي عسكري ضد إيران بعد الانتخابات النصفية",
+      "event": "احتمال شن الولايات المتحدة عملاً عسكريًا كبيرًا ضد إيران بعد انتخابات 3 نوفمبر النصفية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        4,
+        13
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "تضخم الأسعار الغذائية في تركيا مقارنة بأوروبا",
+      "event": "ارتفاع التضخم الغذائي في تركيا إلى 27.6% مقابل 0.3% في الاتحاد الأوروبي",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        42,
+        58
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "انتقاد خطة إرسال جنود أتراك إلى اليمن",
+      "event": "انتقاد المعارضة التركية لخطة إرسال جنود أتراك إلى اليمن باعتبارها تخدم مصالح إسرائيل وأمريكا لا تركيا",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        43,
+        44,
+        56,
+        57
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    }
+  ]
+}
