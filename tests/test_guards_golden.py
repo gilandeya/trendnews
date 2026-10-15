@@ -8865,6 +8865,40 @@ def test_reel_speaker_r5b_guards() -> None:
               res.get("tracks") == 2 and res.get("source") == "speaker" and abs(res["center"] - 470) < 1, res)
     guarded("g289", g289)
 
+    # ── g295–g296: حركة رأس بالإزاحة (وجه يتبعه صندوقه) لا تُحسب كلامًا، حتى قرب حافة اللقطة (Issue #1427 متابعة) ──
+    def shifted_head(base_y, dy_of):
+        """وجه أيسر = رقعة نسيج عشوائي ثابت المحتوى (فمها قوي التباين وعيناها شبه ثابتتين) تُزاح بين اللقطات وصندوقها يتبعها،
+        ووجه أيمن ثابت الموضع يتبدّل فمه وحده بفرق ضعيف؛ بلا تعويض الإزاحة تتفوق درجة الأيسر خطأً."""
+        rng = np.random.default_rng(7)
+        tex = np.clip(100 + rng.integers(-1, 2, (120, 100)), 0, 255)
+        tex[24:54, :] = 100 + rng.integers(-1, 2, (30, 100))
+        tex[80:120, 20:80] = 100 + rng.integers(-100, 101, (40, 60))
+        tex = tex.astype(np.uint8)
+        frames, boxes = [], []
+        for k in range(20):
+            im = np.full((SH, SW), 100, np.uint8)
+            x, y = 120 + ((k * 11) % 31) - 15, base_y + dy_of(k)
+            im[y:y + 120, x:x + 100] = tex
+            im[180:220, 440:500] = 105 if k % 2 else 95
+            frames.append(im)
+            # الكاشف الحقيقي لا يتبع الوجه بدقة البكسل: خطأ ±2 في الصندوق يفصله عن الرقعة
+            ex, ey = (k * 5) % 5 - 2, (k * 3) % 5 - 2
+            boxes.append([(x + ex, y + ey, 100, 120), (420, 100, 100, 120)])
+        return frames, boxes
+
+    def g295():
+        fr, bx = shifted_head(100, lambda k: ((k * 7) % 31) - 15)
+        res = reel_render.speaker_track(fr, bx, cfg)
+        check("g295: حركة رأس بالإزاحة ±15 ← المتكلم الأيمن", res.get("source") == "speaker" and abs(res["center"] - 470) < 1, res)
+    guarded("g295", g295)
+
+    def g296():
+        fr, bx = shifted_head(232, lambda k: -((k * 7) % 16))
+        check("g296: أسفل صندوق الأيسر على 8 بكسل من الحافة", 350 <= max(b[0][1] + 120 for b in bx) <= 354, bx[0])
+        res = reel_render.speaker_track(fr, bx, cfg)
+        check("g296: قرب الحافة السفلية ← الأيمن بلا استثناء", res.get("source") == "speaker" and abs(res["center"] - 470) < 1, res)
+    guarded("g296", g296)
+
     # ── قالب تركيب ريل بمشهدَي مقطع لـg290–g293 ──
     D = "2099-12-08"
     quote = "alpha beta gamma delta epsilon zeta eta theta"
