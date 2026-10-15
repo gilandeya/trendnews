@@ -122,6 +122,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import html
 import logging
 import os
 import re
@@ -752,7 +753,8 @@ def _reel_hook_lines(d: dict, texts: dict) -> list[str]:
         return [f"  {texts.get('hook_none', '').format(**total)}", ""]
 
     def title_of(c):
-        return str(c.get("title", "")).replace("[", "").replace("]", "")
+        # مرشّحون محفوظون قبل #1447 قد يحملون «&amp;» فيُفك عند العرض أيضًا
+        return html.unescape(str(c.get("title", ""))).replace("[", "").replace("]", "")
 
     top = cands[0]
     sec = int(top.get("duration") or 0)

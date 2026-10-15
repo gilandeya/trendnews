@@ -816,13 +816,11 @@ def frame_hook_text(cfg, title: str, boxes=None, transparent: bool = True) -> Im
 
 
 def _narration_pen(cfg, sentence: str, boxes, bg: dict | None):
-    """لوحة الراوي ومعاملات نصها. بلا خلفية: كحلي، وسط الشاشة. بخلفية: الصورة المظلَّلة والنص كما هو (تخطيط واحد).
+    """لوحة الراوي ومعاملات نصها. بلا خلفية: كحلي، وسط الشاشة. بخلفية: لوحة شفافة والنص كما هو (تخطيط واحد).
     الأحجام 160/140 وأربعة أسطر (Issue #1423): حروف الرقعة أصغر بصريًا من Tajawal (حبر «ومن»: XB 72 ← 56 بكسل، الرقعة 108
     ← 60)، فـ«أكبر 50%» في #1419 لم يتحقق؛ والجملة التي لا تسع تُقسم إلى مقاطع (narration_segments)."""
-    p = _Pen(cfg, boxes)
-    if bg is not None:
-        p.img = bg["image"].convert("RGBA")
-        p.d = ImageDraw.Draw(p.img)
+    # بخلفية: إطار شفاف بلا صورة (الخلفية تيار فيديو مستقل يتحرك تحته، Issue #1447)؛ بلا خلفية: الكحلي كما كان
+    p = _Pen(cfg, boxes, transparent=bg is not None)
     start, minimum = size_pair(cfg, "narration")
     return p, dict(y_mid=860, start=start, minimum=minimum, max_lines=4)
 
@@ -838,7 +836,7 @@ def frame_narration(cfg, sentence: str, boxes=None, bg: dict | None = None) -> I
     fpath, fw, lf = _narration_font(cfg, bg, sentence)
     p.block(sentence, fpath, fw, p.white, kw["y_mid"], start=kw["start"], minimum=kw["minimum"],
             max_lines=kw["max_lines"], line_factor=lf)
-    return p.rgb()
+    return p.img if bg is not None else p.rgb()
 
 
 def frame_narration_typed(cfg, sentence: str, prefix: str, boxes=None, bg: dict | None = None) -> Image.Image:
@@ -849,7 +847,7 @@ def frame_narration_typed(cfg, sentence: str, prefix: str, boxes=None, bg: dict 
     fpath, fw, lf = _narration_font(cfg, bg, sentence)
     p.typed_block(sentence, prefix, fpath, fw, p.white, kw["y_mid"], start=kw["start"], minimum=kw["minimum"],
                   max_lines=kw["max_lines"], line_factor=lf)
-    return p.rgb()
+    return p.img if bg is not None else p.rgb()
 
 
 # ───────────── ظهور الراوي سطرًا فسطرًا (Issue #1419) ─────────────
@@ -966,7 +964,7 @@ def frame_narration_reveal(cfg, segment: str, alphas, boxes=None, bg: dict | Non
                 p.img.alpha_composite(layer)
             p.boxes.append(tuple(p.ink(ln, font, xy, "ma")))
         y += lh
-    return p.rgb()
+    return p.img if bg is not None else p.rgb()
 
 
 def typewriter_steps(text: str, speech_seconds: float, hold_seconds: float, fps: float) -> list[tuple[str, float]]:
@@ -1476,9 +1474,11 @@ def _speech(text: str, voice: str, cfg, deps: Deps, tmp: Path, tag: str) -> tupl
 
 
 def _timed_scene(frames: list[tuple[Path, float]], audio: Path, out: Path, cfg, deps: Deps, tmp: Path, tail: float,
-                 lead: float = 0.0) -> float:
+                 lead: float = 0.0, bg_png: Path | None = None, bg_start: float = 0.0) -> float:
     """مشهد صوتي بإطارات متتابعة (جملة لكل إطار بمدتها الفعلية)؛ يعيد مدته.
-    lead: صمت في أول الصوت يمتد معه الإطار الأول، كي لا تقع أول كلمة في التلاشي المتقاطع مع المشهد السابق."""
+    lead: صمت في أول الصوت يمتد معه الإطار الأول، كي لا تقع أول كلمة في التلاشي المتقاطع مع المشهد السابق.
+    bg_png: خلفية الراوي تيار مستقل بمدة المشهد كاملة (Issue #1447، R5d1)؛ الإطارات PNG شفافة تُركَّب فوقه في الأمر نفسه.
+    bg_start: زمن بداية المشهد التراكمي بين مشاهد الراوي فتتصل حركة الصورة ولا تقفز."""
     rcfg = cfg.path("reel.render")
     frames = list(frames)
     frames[-1] = (frames[-1][0], frames[-1][1] + tail)
@@ -1488,6 +1488,20 @@ def _timed_scene(frames: list[tuple[Path, float]], audio: Path, out: Path, cfg, 
     lst = tmp / (out.stem + "_frames.txt")
     body = "".join(f"file '{f}'\nduration {_fmt(d)}\n" for f, d in frames) + f"file '{frames[-1][0]}'\n"
     lst.write_text(body, encoding="utf-8")
+    if bg_png is not None:
+        nb = cfg.path("reel.render.narration_bg")
+        w, h, fps = int(rcfg["width"]), int(rcfg["height"]), rcfg["fps"]
+        sh = round(h * float(nb["pan_zoom"]))
+        img_w = round(w * sh / h)
+        pan = _pan_x_expr(cfg, img_w, float(nb["pan_speed"]), bg_start)
+        afilter = f"adelay={int(round(lead * 1000))}:all=1,apad" if lead > 0 else "apad"
+        vg = (f"[0:v]scale={img_w}:{sh}:flags=lanczos,crop={w}:{h}:x='{pan}':y='(ih-oh)/2',"
+              f"{_shade_filter(cfg, 'narration_bg')},fps={fps}[b];"
+              f"[1:v]fps={fps},format=rgba[t];[b][t]overlay=0:0:shortest=1,format=yuv420p[v];[2:a]{afilter}[a]")
+        deps.run(_base("-loop", "1", "-framerate", str(fps), "-i", str(bg_png), "-f", "concat", "-safe", "0", "-i", str(lst),
+                       "-i", str(audio), "-filter_complex", vg, "-map", "[v]", "-map", "[a]", "-t", _fmt(total),
+                       *_enc(rcfg), str(out)))
+        return total
     deps.run(_base("-f", "concat", "-safe", "0", "-i", str(lst), "-i", str(audio), "-vf",
                    f"fps={rcfg['fps']},format=yuv420p", "-af",
                    f"adelay={int(round(lead * 1000))}:all=1,apad" if lead > 0 else "apad", "-t", _fmt(total), *_enc(rcfg), str(out)))
@@ -1961,16 +1975,21 @@ def _apply_chyron(scene: dict, clip: dict, cfg, deps: Deps, speakers: dict, note
 # ───────────────────── الهوك والشعار الكبير (Issue #1429، R5c1) ─────────────────────
 
 
-def pan_x(t: float, cfg, img_w: float) -> float:
-    """إزاحة x لنافذة 1080 فوق صورة عرضها img_w: تبدأ من أقصى اليمين وتتناقص بسرعة ثابتة hook.pan_speed ولا تنزل عن 0."""
+def pan_x(t: float, cfg, img_w: float, speed: float | None = None) -> float:
+    """إزاحة x لنافذة 1080 فوق صورة عرضها img_w: تبدأ من أقصى اليمين وتتناقص بسرعة ثابتة ولا تنزل عن 0 (فإن بلغت الحافة
+    اليسرى ثبتت). السرعة الافتراضية hook.pan_speed، ويمرّر الراوي سرعته الأبطأ narration_bg.pan_speed."""
     w = float(cfg.path("reel.render.width"))
-    return max(img_w - w - float(cfg.path("reel.render.hook.pan_speed")) * t, 0.0)
+    speed = float(cfg.path("reel.render.hook.pan_speed")) if speed is None else float(speed)
+    return max(img_w - w - speed * t, 0.0)
 
 
-def _pan_x_expr(cfg, img_w: int) -> str:
-    """تعبير crop الزمني نفسه الذي تحسبه pan_x (الصيغة مطابقة: أقصى اليمين ناقص السرعة × t ولا أقل من 0)."""
+def _pan_x_expr(cfg, img_w: int, speed: float | None = None, t0: float = 0.0) -> str:
+    """تعبير crop الزمني نفسه الذي تحسبه pan_x (الصيغة مطابقة: أقصى اليمين ناقص السرعة × t ولا أقل من 0). t0 زمن بداية المشهد
+    التراكمي فتتصل الحركة بين مشاهد الراوي (الإزاحة تبدأ من حيث انتهت في السابق)؛ 0 يعيد تعبير الهوك كما كان حرفيًا."""
     w = int(cfg.path("reel.render.width"))
-    return f"max({img_w - w}-{_fmt(float(cfg.path('reel.render.hook.pan_speed')))}*t,0)"
+    speed = float(cfg.path("reel.render.hook.pan_speed")) if speed is None else float(speed)
+    at = "t" if not t0 else f"(t+{_fmt(t0)})"
+    return f"max({img_w - w}-{_fmt(speed)}*{at},0)"
 
 
 def _ease_out(p: float) -> float:
@@ -2016,13 +2035,34 @@ def _logo_exprs(cfg, hook_end: float) -> dict:
             "y": f"({int(hk['logo_top'])}+({int(lg['top'])}-{int(hk['logo_top'])})*{e2})"}
 
 
-def _shade_filter(cfg) -> str:
+def _shade_filter(cfg, key: str = "hook") -> str:
     r, g, b = imaging.hex_rgb(cfg.path("brand.primary_color"))
-    return f"drawbox=x=0:y=0:w=iw:h=ih:color=0x{r:02X}{g:02X}{b:02X}@{_fmt(float(cfg.path('reel.render.hook.shade')))}:t=fill"
+    return f"drawbox=x=0:y=0:w=iw:h=ih:color=0x{r:02X}{g:02X}{b:02X}@{_fmt(float(cfg.path(f'reel.render.{key}.shade')))}:t=fill"
+
+
+def _hook_crop(clip: Path, cfg, deps: Deps, crops: dict | None) -> str:
+    """تعبير اقتطاع 9:16 للقطة الهوك (Issue #1447، R5d1). كاشف شريط الأسفل نفسه يُطبَّق على العرض الكامل (لا على نافذة 9:16)
+    لأن الشريط يمتد على عرض الكادر؛ فإن كُشف اقتُطع أعلى hook.ticker_crop من ارتفاع المصدر بعرض ذلك الارتفاع ×9/16 في الوسط
+    فيخرج الشريط من الكادر. تعذّر قراءة أبعاد المصدر ← الاقتطاع القديم. القرار يُحفظ في crops["hook"] للمراجعة."""
+    default = "crop=ih*9/16:ih:(iw-ih*9/16)/2:0"
+    try:
+        sw, sh, _ = deps.faces(clip, list((cfg.path("reel.render.crop") or {}).get("samples", [0.2, 0.5, 0.8])))
+        sw, sh = int(sw), int(sh)
+        ticker = detect_cover(clip, 0, sw, cfg, deps.frames)
+    except Exception as exc:  # noqa: BLE001 -- الكشف تحسين لا شرط
+        log.warning("تعذّر كشف شريط القناة في لقطة الهوك: %s", str(exc)[:100])
+        return default
+    if crops is not None:
+        crops["hook"] = {"ticker": bool(ticker)}
+    if not ticker:
+        return default
+    ch = round(sh * float(cfg.path("reel.render.hook.ticker_crop")))
+    cw = round(ch * 9 / 16)
+    return f"crop={cw}:{ch}:{(sw - cw) // 2}:0"
 
 
 def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None, voice: str, cfg, deps: Deps, tmp: Path,
-                out: Path, notes: list) -> float:
+                out: Path, notes: list, crops: dict | None = None) -> float:
     """مشهد الهوك: الراوي يقرأ عنوان السيناريو فوق خلفية بالأولوية (أ) hook_video المدخل يدويًا (يُقتطع 9:16 من المنتصف وصوته
     الأصلي تحت الراوي بمستوى hook.ambient ويتكرر إن قصر) (ب) صورة reel_bg المحضَّرة تتحرك من اليمين إلى اليسار (ج) الكحلي الثابت.
     فشل تنزيل hook_video لا يفشل التركيب: سطر في التعليق وتنتقل الخلفية إلى (ب). يعيد مدته: مدة الصوت + tail بين الحدّين."""
@@ -2042,13 +2082,16 @@ def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None,
             log.warning("تعذّر تنزيل فيديو الهوك: %s", reel_clips.scrub_text(str(exc))[:120])
         if clip is None:
             notes.append(cfg.path("reel.render.texts.comment_hook_video_failed"))
+    cexpr = "crop=ih*9/16:ih:(iw-ih*9/16)/2:0"
+    if clip is not None:
+        cexpr = _hook_crop(clip, cfg, deps, crops)
     animated = clip is not None or bg is not None
     png = _save(frame_hook_text(cfg, title, transparent=animated), tmp / f"hook_{i}.png")
     loop = ["-loop", "1", "-framerate", str(fps)]
     rate = rcfg.get("audio_rate", 48000)
     if clip is not None:
         inputs = ["-stream_loop", "-1", "-i", str(clip), *loop, "-i", str(png), "-i", str(audio)]
-        vg = (f"[0:v]crop=ih*9/16:ih:(iw-ih*9/16)/2:0,scale={w}:{h},{_shade_filter(cfg)},fps={fps}[b];"
+        vg = (f"[0:v]{cexpr},scale={w}:{h},{_shade_filter(cfg)},fps={fps}[b];"
               f"[b][1:v]overlay=0:0:shortest=1,format=yuv420p[v]")
         ag = (f"[0:a]aresample={rate},aformat=channel_layouts=stereo,volume={_fmt(float(hk['ambient']))}[am];"
               f"[2:a]aresample={rate},aformat=channel_layouts=stereo,apad[sp];"
@@ -2070,8 +2113,8 @@ def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None,
 
 
 def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str, bg: dict | None = None,
-              credit: str = "", speakers: dict | None = None, notes: list | None = None, draft: dict | None = None
-              ) -> tuple[list[Path], list[str], list[float]]:
+              credit: str = "", speakers: dict | None = None, notes: list | None = None, draft: dict | None = None,
+              crops: dict | None = None) -> tuple[list[Path], list[str], list[float]]:
     rcfg = cfg.path("reel.render")
     lead = transition_seconds(cfg)
     names = list(dict.fromkeys(s.get("channel_display", "") for i, s in enumerate(script["scenes"])
@@ -2089,12 +2132,14 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
     hooks = [x for x in order if x[1].get("kind") == "title_card"][:1]
     hook_idx = hooks[0][0] if hooks else None
     order = hooks + [x for x in order if x[0] != hook_idx]
+    nar_t = 0.0       # زمن مشاهد الراوي التراكمي: بداية خلفيتها المتحركة (الانتقال يأكل lead من كل مشهد)
+    nar_bg: Path | None = None
     for i, scene in order:
         kind, out = scene.get("kind"), tmp / f"scene_{i:02d}.mp4"
         if i == hook_idx:
             kind = "hook"
             dur = _hook_scene(i, scene, script, draft or {}, bg, voice, cfg, deps, tmp, out,
-                              notes if notes is not None else [])
+                              notes if notes is not None else [], crops)
         elif kind in reel_script.CLIP_KINDS:
             if i not in clips:
                 continue
@@ -2113,6 +2158,15 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
             if kind == "narration":
                 frames = _narration_frames(parts, i, cfg, tmp, lead, bg)
                 tail = 0.0
+                if bg is not None:
+                    if nar_bg is None:
+                        nar_bg = _save(bg.get("raw") or bg["image"], tmp / "nar_bg.png")
+                    dur = _timed_scene(frames, audio, out, cfg, deps, tmp, tail, lead, bg_png=nar_bg, bg_start=nar_t)
+                    nar_t += dur - lead
+                    scene_files.append(out)
+                    kinds.append(kind)
+                    durs.append(dur)
+                    continue
             else:
                 png = _save(frame_question(cfg, scene.get("text", "")), tmp / f"q_{i}.png")
                 frames = [(png, sum(d for _, d in parts))]
@@ -2302,8 +2356,9 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     bg, bg_saved = _resolve_background(path, draft, cfg, deps, notes)
     _auto_hook(path, draft, script, cfg, deps, tmp, notes)
     speakers: dict = {}
+    hook_crops: dict = {}
     scene_files, kinds, durs = _assemble(script, clips, cfg, deps, tmp, voice, bg,
-                                         outro_credit(cfg, bg["used"]) if bg else "", speakers, notes, draft)
+                                         outro_credit(cfg, bg["used"]) if bg else "", speakers, notes, draft, hook_crops)
     join_info: dict = {}
     joined = _join(scene_files, kinds, durs, cfg, deps, tmp, join_info)
 
@@ -2373,7 +2428,7 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
             "render_attempts": 0, **({"reel_music": music} if music else {}),
             # الشكل المستعمل في هذا التركيب يُحفظ مع reel_bg؛ بلا صورة منزَّلة لا شكل
             "reel_bg": {**{k: v for k, v in bg_saved.items() if k != "layout"}, **({"layout": bg["layout"]} if bg else {})},
-            "render_crops": {str(i): c["crop"] for i, c in clips.items() if "crop" in c},
+            "render_crops": {**{str(i): c["crop"] for i, c in clips.items() if "crop" in c}, **hook_crops},
             **({"render_speakers": speakers} if speakers else {})}
 
 

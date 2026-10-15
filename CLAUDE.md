@@ -1873,3 +1873,9 @@ instead.
 - **القاعدة (`face(cfg, text, kind)`):** سطر لاتيني خالص (فيه حرف لاتيني ولا عربي: `latin_only`) ← Kalam-Bold؛ وغيره، المختلط منه، ← Playpen بوزن `display` (الهوك والسؤال و«تابعوا الموجز» واسم المتحدث وسطر «ضيف على») أو `body`
   (الراوي والترجمة والصفة والختام والمصادر). حارس الحرف الغائب (`pick_font` ← Cairo) باقٍ. `ink_line` يزيح السطر يسارًا بتجاوز حبره لـ`x1` (انحياز Playpen وKalam الجانبي) بدل تصغيره.
 - `render_version` = 18. الاختبارات g335–g338 في `tests/test_guards_golden.py:test_reel_fonts_r5g_guards`.
+
+## خلفية الراوي المتحركة وقصّ شريط الهوك (Issue #1447، R5d1) — `src/reel_render.py`
+
+- **الراوي بطبقتين:** بخلفية، إطارات النص (`frame_narration*`) تُرسم RGBA شفافة بلا صورة (`_narration_pen`)، والخلفية تيار مستقل: `bg["raw"]` مكبَّرة `narration_bg.pan_zoom` ونافذة 1080 تتحرك بسرعة `narration_bg.pan_speed` (24 بكسل/ث) عبر `pan_x(..., speed=)`/`_pan_x_expr(..., t0)` ثم تظليل `narration_bg.shade`، وoverlay تيار الإطارات فوقها في أمر ffmpeg واحد (`_timed_scene(bg_png=, bg_start=)`). الإزاحة تبدأ في كل مشهد راوٍ من الزمن التراكمي لمشاهد الراوي (`مدة − lead` لكل مشهد سابق) فلا تقفز. بلا خلفية: كحلي ثابت كما كان. `prepare_background` و`background.shade_a` باقيان للهوك والتوافق.
+- **شريط القناة في الهوك:** `_hook_crop` يطبّق `detect_cover` على العرض الكامل لـ`hook_video`؛ كُشف شريط ← اقتطاع `hook.ticker_crop` (0.80) من ارتفاع المصدر من الأعلى بعرض ذلك ×9/16 متمركزًا ثم التكبير، وإلا الاقتطاع القديم. القرار في `render_crops["hook"] = {ticker}`.
+- **عناوين يوتيوب:** `reel_hook_search.clean_title` (`html.unescape`) في `real_yt_search` و`hook_candidates` و`hook_video` وعرض المرشّحين. `render_version` = 20. الاختبارات g346–g350 (`test_reel_narration_bg_r5d1_guards`؛ g350 بـffmpeg حقيقي ويُتخطّى إن غاب، ولم يُشغَّل في بيئة التطوير فصياغة filter_complex الجديدة لم تُجرَّب على ffmpeg حقيقي).
