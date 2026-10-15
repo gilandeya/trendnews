@@ -10181,3 +10181,127 @@ def test_reel_clip_fallback_r5f_guards() -> None:
               (approx, dropped, downloads))
         check("g327: render_version == 16", int(cfg.path("reel.render.version")) == 16, cfg.path("reel.render.version"))
     guarded("g327", g327)
+
+
+def test_reel_fonts_r5g_guards() -> None:
+    """Issue #1441 (R5g، g335–g338): Playpen Sans Arabic (ExtraBold للعناوين وBold للنصوص) للعربية وKalam-Bold للاتيني الخالص
+    في كل نصوص الريل؛ لا رقعة ولا Cairo ولا Tajawal إلا احتياطًا في pick_font."""
+    import hashlib
+    from pathlib import Path
+
+    from PIL import Image, ImageDraw
+
+    from src import imaging, reel_render
+
+    cfg = load_config()
+    PLAYPEN = "assets/fonts/PlaypenSansArabic-VF.ttf"
+    KALAM = "assets/fonts/Kalam-Bold.ttf"
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def g335():
+        want = {
+            "PlaypenSansArabic-VF.ttf": "31122f11b6aa8a36a283f95797663a575afffbe2d52b69e496f3a2440942a226",
+            "PlaypenSansArabic-OFL.txt": "59440310cc2c539b53c835306f74ac8c01f1ece58bf4c65e556fca275b80a730",
+            "Kalam-Bold.ttf": "2f6576601db015d4f6c08678120277fc8510b98c06e932ce7a6a9cbff4cbdded",
+            "Kalam-OFL.txt": "f62ef357d3a1c3d27edd35a6e1ba350e8a8d13499797964eeadefbf0b3b15d1f",
+        }
+        got = {n: hashlib.sha256(Path("assets/fonts", n).read_bytes()).hexdigest() for n in want}
+        check("g335: بصمات الملفات الأربعة", got == want, got)
+        f = cfg.path("reel.render.fonts")
+        check("g335: إعداد الخطوط", dict(f) == {"arabic": PLAYPEN, "display_weight": "ExtraBold", "body_weight": "Bold",
+                                                "latin": KALAM, "line_factor": 1.62}, f)
+    guarded("g335", g335)
+
+    def traced(fn):
+        """(النص، مسار الخط، الوزن) لكل نص رُسم؛ الخطوط تُحمَّل عبر imaging.load_font وحده."""
+        meta: dict = {}
+        out: list = []
+        ol, o1, o2 = imaging.load_font, imaging.draw_text, imaging.draw_text_ltr
+
+        def lf(path, size, weight=None):
+            font = ol(path, size, weight)
+            meta[id(font)] = (path, weight)
+            return font
+
+        def rec(orig):
+            def w(d, xy, text, font, fill, **k):
+                out.append((text, *meta.get(id(font), (None, None))))
+                return orig(d, xy, text, font, fill, **k)
+            return w
+        imaging.load_font, imaging.draw_text, imaging.draw_text_ltr = lf, rec(o1), rec(o2)
+        try:
+            fn()
+        finally:
+            imaging.load_font, imaging.draw_text, imaging.draw_text_ltr = ol, o1, o2
+        return out
+
+    def g336():
+        scene = {"kind": "clip", "speaker_verified": True, "speaker_name": "أحمد كاياباشا",
+                 "speaker_name_latin": "Ahmet Kayapaşa", "speaker_role": "باحث", "channel_display": "سي إن إن ترك",
+                 "quote_arabic": "ترجمة المقطع"}
+        guest = {"kind": "clip", "quote_arabic": "ترجمة", "channel_original": "CNN TÜRK", "channel_display": "سي إن إن ترك"}
+        runs = traced(lambda: (
+            reel_render.frame_hook_text(cfg, "عنوان الهوك الكبير"),
+            reel_render.frame_question(cfg, "هل يتغير الموقف؟"),
+            reel_render.frame_outro(cfg, "الجزيرة", credit="الصورة: Reuters"),
+            reel_render.frame_narration(cfg, "جملة الراوي هنا"),
+            reel_render.frame_clip_overlay(cfg, scene),
+            reel_render.frame_clip_overlay(cfg, guest)))
+        by: dict = {}
+        for text, path, weight in runs:
+            by.setdefault(text, set()).add((path, weight))
+        for text in ("عنوان الهوك الكبير", "هل يتغير الموقف؟", "تابعوا الموجز", "أحمد كاياباشا"):
+            check(f"g336: «{text}» Playpen ExtraBold", by.get(text) == {(PLAYPEN, "ExtraBold")}, by.get(text))
+        for text in ("جملة الراوي هنا", "ترجمة المقطع"):
+            check(f"g336: «{text}» Playpen Bold", by.get(text) == {(PLAYPEN, "Bold")}, by.get(text))
+        role = [t for t in by if "باحث" in t and t != "أحمد كاياباشا"]
+        check("g336: سطر الصفة Playpen Bold", bool(role) and all(by[t] == {(PLAYPEN, "Bold")} for t in role), role)
+        check("g336: الاسم اللاتيني Kalam-Bold", by.get("Ahmet Kayapaşa") == {(KALAM, None)}, by.get("Ahmet Kayapaşa"))
+        check("g336: @almujez Kalam-Bold", by.get("@almujez") == {(KALAM, None)}, by.get("@almujez"))
+        mixed = [t for t in by if t.startswith("ضيف على") and "CNN TÜRK" in t]
+        check("g336: «ضيف على CNN TÜRK سي إن إن ترك» Playpen كاملًا",
+              bool(mixed) and all(p == PLAYPEN for t in mixed for p, _ in by[t]), (mixed, [by[t] for t in mixed]))
+        check("g336: لا رقعة ولا Cairo ولا Tajawal", not any(
+            p and ("ArefRuqaa" in p or "Cairo" in p or "Tajawal" in p) for _, p, _ in runs),
+            sorted({p for _, p, _ in runs if p}))
+        check("g336: كل نص رُسم بخط معروف", all(p for _, p, _ in runs), [t for t, p, _ in runs if not p])
+    guarded("g336", g336)
+
+    def g337():
+        text = "وفي الثالث عشر من أكتوبر 2026، قدّمت ميساء شجاع الدين، الباحثة في مركز صنعاء للدراسات الاستراتيجية"
+        d = ImageDraw.Draw(Image.new("RGB", (10, 10)))
+        pen = reel_render._Pen(cfg, [])
+        factor = float(cfg.path("reel.render.fonts.line_factor"))
+        for size in (104, 90):
+            font = imaging.load_font(PLAYPEN, size, "Bold")
+            ok = True
+            segs = reel_render.narration_segments(cfg, text)
+            for seg in segs:
+                lines = imaging.wrap(d, seg, font, pen.max_w)
+                lh = int(size * factor)
+                boxes = [d.textbbox((0, i * lh), imaging._prepare(ln), font=font, anchor="la", **imaging._kwargs())
+                         for i, ln in enumerate(lines)]
+                ok = ok and len(lines) <= 4 and all(a[3] <= b[1] for a, b in zip(boxes, boxes[1:]))
+            check(f"g337: حجم {size} ← مقاطع ≤ 4 أسطر بلا تداخل حبر", bool(segs) and ok, segs)
+        font = imaging.load_font(PLAYPEN, 104, "Bold")
+        b = d.textbbox((0, 0), imaging._prepare("ومن"), font=font, anchor="la", **imaging._kwargs())
+        check("g337: حبر «ومن» بحجم 104 ≥ 85", b[3] - b[1] >= 85, b)
+        _, kw = reel_render._narration_pen(cfg, text, [], None)
+        check("g337: أحجام الراوي 104/90 وأربعة أسطر", (kw["start"], kw["minimum"], kw["max_lines"]) == (104, 90, 4), kw)
+    guarded("g337", g337)
+
+    def g338():
+        boxes = reel_render.layout_boxes(cfg)
+        sz = cfg.path("reel.render.safe")
+        bad = [b for b in boxes if b[1] < sz["top"] or b[3] > 1920 - sz["bottom"]
+               or (b[2] > 1080 - sz["right_col_width"] and b[3] > sz["right_col_from"] and b[1] < sz["right_col_to"])]
+        check("g338: لا نص خارج المنطقة الآمنة بالخطوط الجديدة", bool(boxes) and not bad, bad[:3])
+        check("g338: لا صندوق يتجاوز 0 أو W", all(b[0] >= 0 and b[2] <= 1080 for b in boxes),
+              [b for b in boxes if b[0] < 0 or b[2] > 1080])
+        check("g338: render_version == 18", int(cfg.path("reel.render.version")) == 18, cfg.path("reel.render.version"))
+    guarded("g338", g338)
