@@ -154,6 +154,124 @@ def crop_window(src_w: int, src_h: int, centers: list, mode: str = "face") -> di
     return {"w": w, "h": src_h, "x": (src_w - w) // 2, "source": "center"}
 
 
+def _detect_face_tracks(clip, cfg) -> tuple[int, int, list, list]:
+    """لقطات من المقطع المنزَّل بمعدل speaker.fps على مدته كلها (سقفها speaker.max_frames) ← (عرض، ارتفاع، إطارات رمادية،
+    صناديق كل وجه في كل لقطة). يرفع إن تعذّر قراءة المقطع؛ والمستدعي يعود إلى السلوك القديم."""
+    import io
+
+    import numpy as np
+    sc = cfg.path("reel.render.speaker") or {}
+    dur = probe_duration(clip)
+    if not dur:
+        raise RuntimeError("مدة المقطع مجهولة")
+    # المعدل يُخفَّض لمقطع طويل كي تغطي لقطات السقف المقطع كله لا أوله
+    rate = min(float(sc.get("fps", 5)), int(sc.get("max_frames", 60)) / dur)
+    raw = subprocess.run(["ffmpeg", "-v", "error", "-i", str(clip), "-vf", f"fps={rate:.4f}",
+                          "-frames:v", str(int(sc.get("max_frames", 60))), "-f", "image2pipe", "-vcodec", "png", "-"],
+                         capture_output=True, timeout=300).stdout
+    sig = b"\x89PNG\r\n\x1a\n"
+    pngs = [sig + part for part in raw.split(sig) if part]
+    if not pngs:
+        raise RuntimeError("تعذّر استخراج لقطات")
+    frames, boxes, size = [], [], None
+    for blob in pngs:
+        img = Image.open(io.BytesIO(blob)).convert("RGB")
+        size = img.size
+        frames.append(np.asarray(img.convert("L")))
+        boxes.append(list(imaging.face_boxes(img)))
+    return size[0], size[1], frames, boxes
+
+
+def _region_diff(fa, box_a, fb, box_b, top: float, bottom: float, width: float, search: float) -> float | None:
+    """أصغر متوسط فرق مطلق بين منطقة من صندوق اللقطة a ومناطق اللقطة b المزاحة حول إزاحة الصندوقين الابتدائية (Issue #1427).
+    البحث بدقة اللقطة الأصلية بلا تصغير: حركة رأس تُزيح الوجه كله فتجد المقارنةُ المنطقةَ نفسها في مكانها الجديد فلا تُحسب
+    كلامًا، وحركة الفم وحدها تبقى فرقًا لا إزاحة تزيله. None إن لم تبقَ منطقة صالحة (أقل من 4 بكسل)."""
+    import numpy as np
+    ga, gb = np.asarray(fa, dtype=np.float32), np.asarray(fb, dtype=np.float32)
+    x, y, w, h = box_a
+    off_x = int(round((box_b[0] + box_b[2] / 2) - (x + w / 2)))
+    off_y = int(round((box_b[1] + box_b[3] / 2) - (y + h / 2)))
+    rad = max(3, int(round(search * w)))
+    margin = rad + max(abs(off_x), abs(off_y))
+    # تُقصّ المنطقة إلى ما يبقى داخل اللقطة لكل الإزاحات، فلا يُقرأ خارجها ولا يُحسب فرق على حشو
+    x0, x1 = int(x + w * (1 - width) / 2), int(x + w * (1 + width) / 2)
+    y0, y1 = int(y + h * top), int(y + h * bottom)
+    x0, y0 = max(x0, margin), max(y0, margin)
+    x1, y1 = min(x1, ga.shape[1] - margin, gb.shape[1] - margin), min(y1, ga.shape[0] - margin, gb.shape[0] - margin)
+    if x1 - x0 < 4 or y1 - y0 < 4:
+        return None
+    ref = ga[y0:y1, x0:x1]
+    best = None
+    for dy in range(-rad, rad + 1):
+        for dx in range(-rad, rad + 1):
+            cand = gb[y0 + off_y + dy:y1 + off_y + dy, x0 + off_x + dx:x1 + off_x + dx]
+            d = float(np.abs(cand - ref).mean())
+            if best is None or d < best:
+                best = d
+    return best
+
+
+def speaker_track(frames, boxes_per_frame, cfg) -> dict:
+    """اختيار الوجه المتكلم (Issue #1427): تُربط الوجوه في مسارات عبر اللقطات، وتُحسب لكل مسار درجة = حركة الفم ÷ (حركة
+    العينين + 1) بوسيط الأزواج المتتالية. {source: "speaker"|"face", center, speaker_score, tracks}؛ "face" = غير محسوم
+    فيبقى أكبر وجه. دالة نقية: لا ffmpeg ولا كاشف."""
+    import statistics
+
+    import numpy as np
+    sc = cfg.path("reel.render.speaker") or {}
+    undecided = {"source": "face", "center": None, "speaker_score": None, "tracks": 0}
+    n = len(frames)
+    if n == 0:
+        return undecided
+    link = float(sc.get("link", 0.12)) * np.asarray(frames[0]).shape[1]
+    tracks: list[dict] = []
+    for k, boxes in enumerate(boxes_per_frame):
+        used: set[int] = set()
+        for box in boxes:
+            cx = box[0] + box[2] / 2
+            best = None
+            for ti, t in enumerate(tracks):
+                d = abs(cx - t["last"])
+                if ti not in used and d < link and (best is None or d < best[0]):
+                    best = (d, ti)
+            if best is None:
+                tracks.append({"last": cx, "obs": {}})
+                ti = len(tracks) - 1
+            else:
+                ti = best[1]
+            used.add(ti)
+            tracks[ti]["obs"][k] = (box, cx)
+            tracks[ti]["last"] = cx
+    valid = [t for t in tracks if len(t["obs"]) / n >= float(sc.get("min_presence", 0.4))]
+    if not valid:
+        return undecided
+    search = float(sc.get("search", 0.05))
+    mtop, mwidth = float(sc.get("mouth_top", 0.6667)), float(sc.get("mouth_width", 0.6))
+    e0, e1 = (float(v) for v in sc.get("eyes", [0.2, 0.45]))
+
+    def score(t):
+        vals = []
+        for k, (box, _) in t["obs"].items():
+            nxt = t["obs"].get(k + 1)
+            if nxt is None:
+                continue
+            mouth = _region_diff(frames[k], box, frames[k + 1], nxt[0], mtop, 1.0, mwidth, search)
+            eyes = _region_diff(frames[k], box, frames[k + 1], nxt[0], e0, e1, 1.0, search)
+            if mouth is None or eyes is None:
+                continue
+            vals.append(mouth / (eyes + 1))
+        return statistics.median(vals) if vals else 0.0
+
+    ranked = sorted(((score(t), t) for t in valid), key=lambda st: -st[0])
+    top, second = ranked[0][0], (ranked[1][0] if len(ranked) > 1 else None)
+    # صفر مقابل صفر لا يحسم: الأعلى يجب أن يتفوق فعلًا لا أن يبلغ العتبة بالتعادل
+    if second is None or (top > second and top >= float(sc.get("margin", 1.25)) * second):
+        centers = sorted(c for _, c in ranked[0][1]["obs"].values())
+        mid = centers[len(centers) // 2] if len(centers) % 2 else (centers[len(centers) // 2 - 1] + centers[len(centers) // 2]) / 2
+        return {"source": "speaker", "center": mid, "speaker_score": top, "tracks": len(valid)}
+    return {**undecided, "tracks": len(valid)}
+
+
 def _run(cmd: list[str], timeout: int = 600) -> None:
     proc = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
     if proc.returncode != 0:
@@ -174,6 +292,11 @@ class Deps:
     comment: Callable[[int, str], None] | None = None
     # (ملف المقطع، نِسب العيّنات) ← (عرض المصدر، ارتفاعه، مراكز أكبر وجه أفقيًا لكل لقطة فيها وجه)
     faces: Callable[[Any, list], tuple[int, int, list[float]]] | None = None
+    # (ملف المقطع، cfg) ← (عرض المصدر، ارتفاعه، إطارات رمادية، صناديق كل وجه في كل إطار) لاختيار الوجه المتكلم (Issue #1427)؛
+    # None أو عطل ← السلوك القديم (أكبر وجه عبر faces)
+    face_tracks: Callable[[Any, Any], tuple | None] | None = None
+    # (ملف المقطع، cfg) ← قائمة نتائج اللقطات الثلاث من شريط القناة (أو None)؛ لا يُرفع منه شيء مقبول
+    read_chyron: Callable[[Any, Any], list | None] | None = None
     # انتظار بين إعادات التنزيل؛ حقن الاختبار يمنع الانتظار الحقيقي
     sleep: Callable[[float], None] | None = None
     # أنواع مسارات الملف؛ مقطع بلا صورة أو بلا صوت لا يُقبل (Issue #1406)
@@ -214,6 +337,10 @@ class Deps:
             probe=self.probe or probe_duration,
             load_points=self.load_points or points,
             faces=self.faces or _detect_faces,
+            # مزيَّفات الاختبار القديمة تحقن faces أو download_clip ولا تعرف الحقلين الجديدين: تُعطى سلوكًا لا يغيّر شيئًا
+            # فلا يلمس أي اختبار ffmpeg حقيقيًا ولا شبكة؛ الحقيقيان لا يُستعملان إلا حين لا حقن إطلاقًا
+            face_tracks=self.face_tracks or (_detect_face_tracks if self.faces is None else (lambda clip, c: None)),
+            read_chyron=self.read_chyron or (_real_read_chyron if self.download_clip is None else (lambda clip, c: None)),
             sleep=self.sleep or time.sleep,
             streams=self.streams or probe_streams,
             frames=self.frames or (lambda clip, fractions: _extract_gray_frames(clip, fractions)),
@@ -948,7 +1075,9 @@ def frame_clip_layers(cfg, scene: dict, boxes=None, cover: bool | None = None) -
                                   min_size=role_min, warn=i == len(tries) - 1) is not None:
                 break
     else:
-        label = cfg.path("reel.texts.guest_label", "ضيف على {channel}").format(channel=channel)
+        # مذيع القناة نفسها لا «ضيف عليها»: القناة بصيغتها وحدها (Issue #1427)
+        label = (channel or (scene.get("channel_display") or "").strip()) if scene.get("speaker_presenter") else \
+            cfg.path("reel.texts.guest_label", "ضيف على {channel}").format(channel=channel)
         p.ink_line(label, CAIRO, "Black", 52, p.white, prev_bottom=None, gap=0, limit=top + height - 16,
                    min_size=int(band.get("min_sizes", {}).get("guest", 30)), y_top=top + 80)
     return st.img, bd.img
@@ -1238,13 +1367,36 @@ def _still_scene(png: Path, seconds: float, out: Path, cfg, deps: Deps) -> float
     return seconds
 
 
+def _speaker_crop(clip: dict, cfg, deps: Deps) -> dict | None:
+    """نافذة تتوسّط الوجه المتكلم إن حُسم؛ غير ذلك (لا حقن، لا مسارات، غير محسوم، أو عطل) None فيبقى أكبر وجه."""
+    if getattr(deps, "face_tracks", None) is None:
+        return None
+    try:
+        got = deps.face_tracks(clip["file"], cfg)
+        if not got:
+            return None
+        sw, sh, frames, boxes = got
+        res = speaker_track(frames, boxes, cfg)
+        if res["source"] != "speaker":
+            return None
+        win = crop_window(int(sw), int(sh), [res["center"]], "face")
+        return {**win, "source": "speaker", "speaker_score": round(float(res["speaker_score"]), 2), "tracks": res["tracks"]}
+    except Exception as exc:  # noqa: BLE001 -- اختيار المتكلم تحسين: العطل ← السلوك الحالي
+        log.warning("تعذّر اختيار الوجه المتكلم فأكبر وجه: %s", str(exc)[:100])
+        return None
+
+
 def _crop_for(clip: dict, cfg, deps: Deps) -> dict:
-    """نافذة الاقتطاع الثابتة للمقطع. تعذّر الكشف أو قراءة المقطع ← المنتصف بتعبير ffmpeg نفسه."""
+    """نافذة الاقتطاع الثابتة للمقطع: الوجه المتكلم إن حُسم، وإلا أكبر وجه. تعذّر الكشف أو قراءة المقطع ← المنتصف بتعبير
+    ffmpeg نفسه."""
     ccfg = cfg.path("reel.render.crop") or {}
     mode = ccfg.get("mode", "face")
     try:
         if mode != "face":
             raise RuntimeError("mode=center")
+        picked = _speaker_crop(clip, cfg, deps)
+        if picked is not None:
+            return picked
         sw, sh, centers = deps.faces(clip["file"], list(ccfg.get("samples", [0.2, 0.5, 0.8])))
         return crop_window(int(sw), int(sh), centers, mode)
     except Exception as exc:  # noqa: BLE001 -- الكشف تحسين لا شرط
@@ -1259,7 +1411,8 @@ def _clip_scene(clip: dict, overlays: tuple[Path, Path], out: Path, cfg, deps: D
     rcfg = cfg.path("reel.render")
     w, h = rcfg["width"], rcfg["height"]
     crop = _crop_for(clip, cfg, deps)
-    clip["crop"] = {"x": crop["x"], "source": crop["source"]}
+    clip["crop"] = {"x": crop["x"], "source": crop["source"],
+                    **({"speaker_score": crop["speaker_score"], "tracks": crop["tracks"]} if crop["source"] == "speaker" else {})}
     if crop["x"] is None:      # أبعاد المصدر مجهولة: المنتصف بتعبير يحسبه ffmpeg
         cexpr = "crop=ih*9/16:ih:(iw-ih*9/16)/2:0"
         clip["crop"]["x"] = "center"
@@ -1348,8 +1501,128 @@ def _narration_frames(parts: list[tuple[str, float]], i: int, cfg, tmp: Path, le
     return frames
 
 
+# ───────────────────── اسم المتحدث وصفته من شريط القناة (Issue #1427، R5b) ─────────────────────
+
+CHYRON_TOOL = {
+    "name": "read_lower_third",
+    "description": "يعيد لكل لقطة ما هو مكتوب على الشاشة من اسم المتحدث وصفته، بالترتيب نفسه",
+    "input_schema": {"type": "object", "properties": {"frames": {"type": "array", "items": {
+        "type": "object",
+        "properties": {"has_caption": {"type": "boolean"}, "name_original": {"type": "string"},
+                       "name_arabic": {"type": "string"}, "role_original": {"type": "string"},
+                       "role_arabic": {"type": "string"}, "is_presenter": {"type": "boolean"}},
+        "required": ["has_caption", "name_original", "name_arabic", "role_original", "role_arabic", "is_presenter"]}}},
+        "required": ["frames"]},
+}
+_LATIN_CHARS = re.compile(r"[A-Za-z\u00C0-\u024F]")
+
+
+def _chyron_jpegs(clip, cfg) -> list[bytes]:
+    """لقطات كاملة غير مقتطعة عند نِسب مدة المقطع، مصغَّرة إلى عرض max_width بصيغة JPEG؛ يرفع إن تعذّر استخراج لقطة."""
+    import io
+    ccfg = cfg.path("reel.render.chyron") or {}
+    dur = probe_duration(clip)
+    if not dur:
+        raise RuntimeError("مدة المقطع مجهولة")
+    out = []
+    for f in ccfg.get("frames", [0.25, 0.5, 0.75]):
+        raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{dur * float(f):.2f}", "-i", str(clip),
+                              "-frames:v", "1", "-f", "image2pipe", "-vcodec", "png", "-"],
+                             capture_output=True, timeout=60).stdout
+        if not raw:
+            raise RuntimeError("تعذّر استخراج لقطة")
+        img = Image.open(io.BytesIO(raw)).convert("RGB")
+        width = int(ccfg.get("max_width", 1280))
+        if img.width > width:
+            img = img.resize((width, round(img.height * width / img.width)), Image.LANCZOS)
+        buf = io.BytesIO()
+        img.save(buf, "JPEG", quality=85)
+        out.append(buf.getvalue())
+    return out
+
+
+def call_chyron_model(jpegs: list[bytes], cfg, client=None) -> list[dict]:
+    """نداء واحد بكل اللقطات وأداة إجبارية read_lower_third ← قائمة نتائج بعدد اللقطات. الرفض أو ردّ غير صالح يرفع."""
+    import base64
+
+    from . import llm
+    ccfg = cfg.path("reel.render.chyron") or {}
+    if client is None:
+        from anthropic import Anthropic
+
+        from .config import env
+        client = Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
+    content = [{"type": "image", "source": {"type": "base64", "media_type": "image/jpeg",
+                                            "data": base64.b64encode(b).decode("ascii")}} for b in jpegs]
+    content.append({"type": "text", "text": f"اللقطات {len(jpegs)} بالترتيب؛ أعد نتيجة واحدة لكل لقطة."})
+    resp = llm.create(client, cfg=cfg, model=ccfg.get("model", "haiku"), max_tokens=int(ccfg.get("max_tokens", 600)),
+                      system=ccfg.get("system", ""), tools=[CHYRON_TOOL],
+                      tool_choice={"type": "tool", "name": CHYRON_TOOL["name"]},
+                      messages=[{"role": "user", "content": content}])
+    if getattr(resp, "stop_reason", "") == "refusal":
+        raise RuntimeError("رفض النموذج قراءة اللقطات")
+    for b in getattr(resp, "content", None) or []:
+        if getattr(b, "type", "") == "tool_use" and getattr(b, "name", "") == CHYRON_TOOL["name"]:
+            frames = (getattr(b, "input", None) or {}).get("frames")
+            if isinstance(frames, list) and frames and all(isinstance(f, dict) for f in frames):
+                return frames
+    raise ValueError("ردّ غير صالح من قارئ الشريط")
+
+
+def _real_read_chyron(clip, cfg) -> list[dict]:
+    return call_chyron_model(_chyron_jpegs(clip, cfg), cfg)
+
+
+def resolve_chyron(frames: list, cfg) -> dict:
+    """القبول من نتائج اللقطات (دالة نقية): اسم متطابق بعد توحيد المسافات وحالة الأحرف في لقطتين فأكثر؛ الصفة من أول لقطة
+    فيها ذلك الاسم. is_presenter صحيحة إن قالتها لقطتان فأكثر. {name_original, name_arabic, role_arabic, is_presenter,
+    frames_agreeing, accepted}"""
+    groups: dict[str, list[dict]] = {}
+    for f in frames:
+        name = " ".join(str(f.get("name_original") or "").split())
+        if name:
+            groups.setdefault(name.casefold(), []).append(f)
+    best = max(groups.values(), key=len) if groups else []
+    first = best[0] if best else {}
+    agreeing = len(best)
+    name_ar = " ".join(str(first.get("name_arabic") or "").split())
+    return {"name_original": " ".join(str(first.get("name_original") or "").split()), "name_arabic": name_ar,
+            "role_arabic": " ".join(str(first.get("role_arabic") or "").split()),
+            "is_presenter": sum(1 for f in frames if f.get("is_presenter") is True) >= 2,
+            "frames_agreeing": agreeing, "accepted": agreeing >= 2 and bool(name_ar)}
+
+
+def _apply_chyron(scene: dict, clip: dict, cfg, deps: Deps, speakers: dict, notes: list, index: int) -> None:
+    """يوثّق متحدث مقطع غير موثَّق من شريط القناة. الموثَّق من العنوان أو الوصف لا يُمسّ ولا يُرسل؛ ولا يُرفع فشل أبدًا
+    (العطل أو الرفض أو الردّ غير الصالح يُبقي «ضيف على»)."""
+    if not cfg.path("reel.render.chyron.enabled", False) or scene.get("speaker_verified") and scene.get("speaker_name"):
+        return
+    if getattr(deps, "read_chyron", None) is None:
+        return
+    try:
+        frames = deps.read_chyron(clip["file"], cfg)
+        if not isinstance(frames, list) or not frames:
+            return
+        res = resolve_chyron([f for f in frames if isinstance(f, dict)], cfg)
+    except Exception as exc:  # noqa: BLE001 -- القراءة تحسين لا شرط
+        log.warning("تعذّرت قراءة شريط القناة فيبقى «ضيف على»: %s", str(exc)[:120])
+        return
+    speakers[str(index)] = res
+    if res["accepted"]:
+        scene.update(speaker_verified=True, speaker_verified_from="chyron", speaker_name=res["name_arabic"],
+                     speaker_name_latin=res["name_original"] if _LATIN_CHARS.search(res["name_original"]) else "",
+                     speaker_role=res["role_arabic"])
+        line = cfg.path("reel.render.texts.comment_chyron").format(
+            name_arabic=res["name_arabic"], name_original=res["name_original"], role_arabic=res["role_arabic"])
+        if line not in notes:
+            notes.append(line)
+    elif res["is_presenter"]:
+        scene["speaker_presenter"] = True
+
+
 def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str, bg: dict | None = None,
-              credit: str = "") -> tuple[list[Path], list[str], list[float]]:
+              credit: str = "", speakers: dict | None = None, notes: list | None = None
+              ) -> tuple[list[Path], list[str], list[float]]:
     rcfg = cfg.path("reel.render")
     lead = transition_seconds(cfg)
     date_text = datetime.now().strftime("%Y/%m/%d")
@@ -1363,6 +1636,9 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
         if kind in reel_script.CLIP_KINDS:
             if i not in clips:
                 continue
+            # قبل رسم الشريط: الاسم المقروء من الشاشة يغيّر نص الشريط نفسه
+            _apply_chyron(scene, clips[i], cfg, deps, speakers if speakers is not None else {},
+                          notes if notes is not None else [], i)
             static, band = frame_clip_layers(cfg, scene)
             overlays = (_save(static, tmp / f"overlay_{i}_static.png"), _save(band, tmp / f"overlay_{i}_band.png"))
             dur = _clip_scene(clips[i], overlays, out, cfg, deps, scene)
@@ -1475,8 +1751,9 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     voice = cfg.path(f"reel.tts.narrator_voices.{script.get('narrator', 'female')}")
     notes = notes if notes is not None else []
     bg, bg_saved = _resolve_background(path, draft, cfg, deps, notes)
+    speakers: dict = {}
     scene_files, kinds, durs = _assemble(script, clips, cfg, deps, tmp, voice, bg,
-                                         outro_credit(cfg, bg["used"]) if bg else "")
+                                         outro_credit(cfg, bg["used"]) if bg else "", speakers, notes)
     joined = _join(scene_files, kinds, durs, cfg, deps, tmp)
 
     rel_dir = f"{path.parent.name}"
@@ -1514,7 +1791,8 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
             "render_attempts": 0, **({"reel_music": music} if music else {}),
             # الشكل المستعمل في هذا التركيب يُحفظ مع reel_bg؛ بلا صورة منزَّلة لا شكل
             "reel_bg": {**{k: v for k, v in bg_saved.items() if k != "layout"}, **({"layout": bg["layout"]} if bg else {})},
-            "render_crops": {str(i): c["crop"] for i, c in clips.items() if "crop" in c}}
+            "render_crops": {str(i): c["crop"] for i, c in clips.items() if "crop" in c},
+            **({"render_speakers": speakers} if speakers else {})}
 
 
 def _mmss(sec) -> str:

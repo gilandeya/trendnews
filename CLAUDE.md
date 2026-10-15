@@ -1824,3 +1824,13 @@ regression case tied to a real Issue, not for ordinary feature coverage), call i
 rather than `assert`. If the new test needs a helper/fixture that's genuinely shared across
 domains, add it to `tests/helpers.py`; if it's domain-specific, keep it local to that one file
 instead.
+
+## الوجه المتكلم وشريط القناة في تركيب الريل (Issue #1427، R5b) — `src/reel_render.py`
+
+- **الوجه المتكلم:** `speaker_track(frames, boxes_per_frame, cfg)` دالة نقية: الوجوه تُربط في مسارات (`reel.render.speaker.link` × عرض اللقطة)، ويُهمل
+  المسار الأقل حضورًا من `min_presence`، والدرجة = حركة الفم ÷ (حركة العينين + 1) بوسيط الأزواج المتتالية؛ يحسم الأعلى إن تفوّق فعلًا (أكبر من الثاني
+  وبنسبة `margin`) وإلا يبقى أكبر وجه (`render_crops[i].source == "face"`). الحسم ← `source: "speaker"` مع `speaker_score` و`tracks`. الكشف عبر
+  `deps.face_tracks(clip, cfg)`؛ مزيَّفات قديمة تحقن `faces` تُعطى سلوكًا لا يغيّر شيئًا، وعطله يعيد السلوك القديم ولا يرفع.
+- **شريط القناة:** لمقطع `speaker_verified` false فقط، نداء Haiku واحد بثلاث لقطات (`reel.render.chyron`) وأداة `read_lower_third` عبر `deps.read_chyron`.
+  قبول الاسم بتطابقه في لقطتين (`resolve_chyron`) ← `speaker_verified_from="chyron"`؛ بلا اسم ومذيع في لقطتين ← القناة وحدها (`speaker_presenter`)؛ غير ذلك
+  «ضيف على». لا يُرفع فشل أبدًا. الناتج `render_speakers` على المسودة وسطر 👤 في تعليق التركيب. `render_version` = 11. الاختبارات g287–g294.
