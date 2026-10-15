@@ -8777,6 +8777,279 @@ def test_reel_r5a2_guards() -> None:
     guarded("g286", g286)
 
 
+def test_reel_speaker_r5b_guards() -> None:
+    """Issue #1427 (R5b، g287–g294): اختيار الوجه المتكلم من حركة الفم حين يظهر أكثر من وجه، وقراءة اسم المتحدث وصفته من
+    شريط القناة بـHaiku (ثلاث لقطات، لقطتان متفقتان)، والمذيع يُعرض بقناته وحدها. لا نداء شبكة في أي حالة."""
+    import json
+    import tempfile
+    from pathlib import Path
+
+    import numpy as np
+
+    from src import imaging, llm, reel_render, reel_script
+
+    cfg = load_config()
+    SW, SH = 640, 360
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def synth(n, faces):
+        """إطارات رمادية 640×360 وصناديق وجوه (x, 100, 100, 120). كل وجه: x، النمط (mouth فم وحده، head فم وعينان معًا،
+        still ثابت)، lo/hi شدّة التبديل، وframes الإطارات التي يظهر فيها (الافتراضي كلها)."""
+        frames, boxes = [], []
+        for k in range(n):
+            im = np.full((SH, SW), 100, np.uint8)
+            bx = []
+            for f in faces:
+                if k not in f.get("frames", range(n)):
+                    continue
+                x = f["x"]
+                bx.append((x, 100, 100, 120))
+                val = f.get("hi", 200) if k % 2 else f.get("lo", 60)
+                if f["mode"] in ("mouth", "head"):
+                    im[180:220, x + 20:x + 80] = val
+                if f["mode"] == "head":
+                    im[124:154, x:x + 100] = val
+            frames.append(im)
+            boxes.append(bx)
+        return frames, boxes
+
+    def crop_of(frames, boxes, faces_fallback=None):
+        deps = reel_render.Deps(face_tracks=lambda f, c: (SW, SH, frames, boxes),
+                                faces=lambda f, fr: (SW, SH, faces_fallback or []))
+        return reel_render._crop_for({"file": "x.mp4"}, cfg, deps)
+
+    # ── g287: الفم المتحرك يحدد المتكلم ──
+    def g287():
+        fr, bx = synth(20, [{"x": 120, "mode": "still"}, {"x": 420, "mode": "mouth"}])
+        res = reel_render.speaker_track(fr, bx, cfg)
+        check("g287: المتكلم الأيمن بمسارين", res.get("source") == "speaker" and res.get("tracks") == 2
+              and abs(res["center"] - 470) < 1, res)
+        c = crop_of(fr, bx)
+        w = int(SH * 9 / 16)
+        check("g287: النافذة تتوسّط مركزه وsource == speaker",
+              c["source"] == "speaker" and c["x"] == int(470 - w // 2) and c.get("tracks") == 2
+              and c.get("speaker_score", 0) > 100, c)
+        fr, bx = synth(20, [{"x": 120, "mode": "mouth"}, {"x": 420, "mode": "still"}])
+        c = crop_of(fr, bx)
+        check("g287: بعكس الحركة ← الأيسر", c["source"] == "speaker" and c["x"] == int(170 - w // 2), c)
+    guarded("g287", g287)
+
+    # ── g288: تعادل الحركة ← أكبر وجه، ووجه واحد ← هو ──
+    def g288():
+        fr, bx = synth(20, [{"x": 120, "mode": "mouth"}, {"x": 420, "mode": "mouth"}])
+        check("g288: النسبة < 1.25 ← غير محسوم", reel_render.speaker_track(fr, bx, cfg).get("source") == "face")
+        c = crop_of(fr, bx, faces_fallback=[470])
+        w = int(SH * 9 / 16)
+        check("g288: السلوك القديم أكبر وجه وsource == face", c["source"] == "face" and c["x"] == int(470 - w // 2), c)
+        fr, bx = synth(20, [{"x": 120, "mode": "still"}, {"x": 420, "mode": "still"}])
+        check("g288: صفر مقابل صفر ← غير محسوم", reel_render.speaker_track(fr, bx, cfg).get("source") == "face")
+        fr, bx = synth(20, [{"x": 420, "mode": "still"}])
+        res = reel_render.speaker_track(fr, bx, cfg)
+        check("g288: وجه واحد ← هو بلا مقارنة", res.get("source") == "speaker" and res.get("tracks") == 1, res)
+    guarded("g288", g288)
+
+    # ── g289: حركة الرأس لا تُحسب كلامًا، والمسار العابر يُهمل ──
+    def g289():
+        fr, bx = synth(20, [{"x": 120, "mode": "head"}, {"x": 420, "mode": "mouth"}])
+        res = reel_render.speaker_track(fr, bx, cfg)
+        check("g289: حركة الرأس كاملة في الأيسر ← الأيمن", res.get("source") == "speaker" and abs(res["center"] - 470) < 1, res)
+        fr, bx = synth(20, [{"x": 120, "mode": "still"}, {"x": 420, "mode": "mouth", "lo": 80, "hi": 160},
+                            {"x": 270, "mode": "mouth", "frames": range(6)}])
+        res = reel_render.speaker_track(fr, bx, cfg)
+        check("g289: مسار 30% من الإطارات مُهمل (مساران لا ثلاثة) والأيمن المتكلم",
+              res.get("tracks") == 2 and res.get("source") == "speaker" and abs(res["center"] - 470) < 1, res)
+    guarded("g289", g289)
+
+    # ── قالب تركيب ريل بمشهدَي مقطع لـg290–g293 ──
+    D = "2099-12-08"
+    quote = "alpha beta gamma delta epsilon zeta eta theta"
+    points = [{"video_id": "v1", "statement": "s", "quote_original": quote, "quote_arabic": "ترجمة", "speaker": "متحدث",
+               "channel": "CNN TÜRK", "video_url": "https://youtube.com/watch?v=v1", "timestamp": 10},
+              {"video_id": "v2", "statement": "s2", "quote_original": quote, "quote_arabic": "ترجمة٢", "speaker": "متحدث٢",
+               "channel": "CNN TÜRK", "video_url": "https://youtube.com/watch?v=v2", "timestamp": 10}]
+    clip = {"kind": "clip", "start": 9, "end": 20, "speaker_name": "", "speaker_role": "", "speaker_verified": False,
+            "speaker_name_latin": "", "channel_display": "سي إن إن ترك", "channel_original": "CNN TÜRK",
+            "quote_arabic": "ترجمة", "language": "tr"}
+    transcripts = {v: "[00:10] alpha beta gamma delta\n[00:14] epsilon zeta eta theta\n[00:18] tail line" for v in ("v1", "v2")}
+
+    def scenes_for(**over):
+        return [dict(clip, kind="cold_open_clip", video_url=points[0]["video_url"],
+                     point_id=reel_script.point_key_id(points[0]), **over),
+                {"kind": "narration", "text": "جملة."},
+                dict(clip, video_url=points[1]["video_url"], point_id=reel_script.point_key_id(points[1]), **over),
+                {"kind": "question", "text": "هل؟"}, {"kind": "outro"}]
+
+    def rendered(did, scenes, read_chyron, tmp):
+        comments = []
+
+        def run(cmd):
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+
+        def download(video_id, start, end, height, out_path):
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+        deps = reel_render.Deps(
+            fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
+            synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
+            diacritize=lambda t: (t, None), run=run, probe=lambda p: 41.0 if "reels" in Path(p).parts else 2.0,
+            load_points=lambda date: points, comment=lambda i, t: comments.append(t),
+            faces=lambda f, fr: (SW, SH, []), frames=lambda p, fr: [np.full((SH, SW), 100, np.uint8)] * len(fr),
+            read_chyron=read_chyron)
+        d0 = {"id": did, "origin": "analysis", "format": "reel", "status": "approved_script", "render_status": "queued",
+              "topic_id": "t1", "topic_date": D, "title": "ريل", "script_status": "ready", "review_issue": 4243,
+              "script": {"narrator": "female", "title": "عنوان", "question": "هل؟", "scenes": scenes}}
+        path = store.save_draft(d0)
+        drawn: list = []
+        o1, o2 = imaging.draw_text, imaging.draw_text_ltr
+
+        def d1(d, xy, t, f, fill, **k):
+            drawn.append(t)
+            return o1(d, xy, t, f, fill, **k)
+
+        def d2(d, xy, t, f, fill, **k):
+            drawn.append(t)
+            return o2(d, xy, t, f, fill, **k)
+        imaging.draw_text, imaging.draw_text_ltr = d1, d2
+        try:
+            reel_render.render_draft(path, d0, cfg, deps, reels_dir=tmp / "reels", workdir=tmp / "work")
+        finally:
+            imaging.draw_text, imaging.draw_text_ltr = o1, o2
+        return json.loads(path.read_text(encoding="utf-8")), drawn, comments
+
+    def name_frame(name="Ahmet Kayapınar", ar="أحمد كايابينار", role="محلل سياسي", pres=False):
+        return {"has_caption": bool(name), "name_original": name, "name_arabic": ar, "role_original": "Siyaset analisti",
+                "role_arabic": role, "is_presenter": pres}
+
+    empty = {"has_caption": False, "name_original": "", "name_arabic": "", "role_original": "", "role_arabic": "",
+             "is_presenter": False}
+    guest = "ضيف على"
+
+    tmp = Path(tempfile.mkdtemp())
+    try:
+        # ── g290: اسم متطابق في لقطتين ← موثَّق من الشريط ──
+        def g290():
+            s, drawn, comments = rendered("r5b000g290a1", scenes_for(),
+                                          lambda f, c: [name_frame(), name_frame(), empty], tmp)
+            check("g290: التركيب نجح", s.get("render_status") == "rendered", s.get("render_error"))
+            want = ["أحمد كايابينار", "Ahmet Kayapınar", "محلل سياسي · CNN TÜRK سي إن إن ترك"]
+            pos = [drawn.index(t) if t in drawn else -1 for t in want]
+            check("g290: الشريط: الاسم العربي ثم اللاتيني ثم «الصفة · القناة»",
+                  all(p >= 0 for p in pos) and pos == sorted(pos), (pos, drawn))
+            check("g290: بلا «ضيف على»", not any(str(t).startswith(guest) for t in drawn), drawn)
+            sp = (s.get("render_speakers") or {}).get("0") or {}
+            check("g290: render_speakers محفوظ",
+                  sp.get("name_original") == "Ahmet Kayapınar" and sp.get("name_arabic") == "أحمد كايابينار"
+                  and sp.get("role_arabic") == "محلل سياسي" and sp.get("is_presenter") is False
+                  and sp.get("frames_agreeing") == 2 and sp.get("accepted") is True, s.get("render_speakers"))
+            line = "👤 من شريط القناة: أحمد كايابينار (Ahmet Kayapınar) — محلل سياسي"
+            check("g290: سطر 👤 في التعليق", any(line in c for c in comments), comments)
+        guarded("g290", g290)
+
+        # ── g291: لقطة واحدة أو اسمان مختلفان ← لا قبول ──
+        def g291():
+            for tag, res in (("لقطة واحدة", [name_frame(), empty, empty]),
+                             ("اسمان", [name_frame(), name_frame("Mehmet Yilmaz", "محمد يلماز"), empty])):
+                s, drawn, comments = rendered("r5b000g291" + ("a" if tag == "لقطة واحدة" else "b"), scenes_for(),
+                                              lambda f, c, r=res: r, tmp)
+                sp = (s.get("render_speakers") or {}).get("0") or {}
+                check(f"g291: {tag} ← لا قبول و«ضيف على»",
+                      s.get("render_status") == "rendered" and sp.get("accepted") is False
+                      and any(str(t).startswith(guest) for t in drawn) and "أحمد كايابينار" not in drawn
+                      and not any("من شريط القناة" in c for c in comments), (sp, drawn))
+        guarded("g291", g291)
+
+        # ── g292: مذيع القناة ← القناة وحدها ──
+        def g292():
+            s, drawn, _ = rendered("r5b000g292a1", scenes_for(),
+                                   lambda f, c: [empty, dict(empty, is_presenter=True), dict(empty, is_presenter=True)], tmp)
+            check("g292: الشريط «CNN TÜRK سي إن إن ترك» وحده بلا «ضيف على»",
+                  s.get("render_status") == "rendered" and "CNN TÜRK سي إن إن ترك" in drawn
+                  and not any(str(t).startswith(guest) for t in drawn), drawn)
+            sp = (s.get("render_speakers") or {}).get("0") or {}
+            check("g292: render_speakers.is_presenter صحيحة وغير مقبول", sp.get("is_presenter") is True
+                  and sp.get("accepted") is False, sp)
+            cl = dict(clip, channel_display="الجزيرة", channel_original="", speaker_presenter=True)
+            d: list = []
+            o1 = imaging.draw_text
+            imaging.draw_text = lambda dr, xy, t, f, fill, **k: (d.append(t), o1(dr, xy, t, f, fill, **k))[1]
+            try:
+                reel_render.frame_clip_overlay(cfg, cl, [])
+            finally:
+                imaging.draw_text = o1
+            check("g292: «الجزيرة» وحدها", "الجزيرة" in d and not any(str(t).startswith(guest) for t in d), d)
+        guarded("g292", g292)
+
+        # ── g293: الموثَّق لا يُرسل، والعطل لا يُسقط ──
+        def g293():
+            n = {"c": 0}
+
+            def counting(f, c):
+                n["c"] += 1
+                return [name_frame()] * 3
+            s, drawn, _ = rendered("r5b000g293a1",
+                                   scenes_for(speaker_name="فلان الفلاني", speaker_verified=True,
+                                              speaker_verified_from="description"), counting, tmp)
+            check("g293: موثَّق من الوصف ← لا نداء", n["c"] == 0 and s.get("render_status") == "rendered"
+                  and "فلان الفلاني" in drawn and not s.get("render_speakers"), (n, s.get("render_speakers")))
+
+            def boom(f, c):
+                raise RuntimeError("api down")
+            s, drawn, _ = rendered("r5b000g293b1", scenes_for(), boom, tmp)
+            check("g293: استثناء النداء ← «ضيف على» والتركيب ينجح",
+                  s.get("render_status") == "rendered" and any(str(t).startswith(guest) for t in drawn),
+                  (s.get("render_status"), s.get("render_error")))
+            s, drawn, _ = rendered("r5b000g293c1", scenes_for(), lambda f, c: None, tmp)
+            check("g293: None ← «ضيف على»", s.get("render_status") == "rendered"
+                  and any(str(t).startswith(guest) for t in drawn))
+        guarded("g293", g293)
+
+        # ── g294: النداء الحقيقي بعميل مزيَّف ──
+        def g294():
+            seen: dict = {}
+
+            class Block:
+                type = "tool_use"
+                name = "read_lower_third"
+                input = {"frames": [name_frame(), name_frame(), empty]}
+
+            class Resp:
+                stop_reason = "tool_use"
+                content = [Block()]
+
+            class Msgs:
+                def create(self, **kw):
+                    seen.update(kw)
+                    return Resp()
+
+            class Client:
+                messages = Msgs()
+            out = reel_render.call_chyron_model([b"\xff\xd8a", b"\xff\xd8b", b"\xff\xd8c"], cfg, Client())
+            blocks = [b for m in seen.get("messages", []) for b in (m["content"] if isinstance(m["content"], list) else [])
+                      if b.get("type") == "image"]
+            check("g294: النموذج haiku المحلول", seen.get("model") == llm.resolve("haiku"), seen.get("model"))
+            check("g294: ثلاث كتل image base64 بصيغة jpeg",
+                  len(blocks) == 3 and all(b["source"]["type"] == "base64" and b["source"]["media_type"] == "image/jpeg"
+                                           for b in blocks), blocks)
+            tools = seen.get("tools") or []
+            tc = seen.get("tool_choice") or {}
+            check("g294: أداة إجبارية read_lower_third", [t["name"] for t in tools] == ["read_lower_third"]
+                  and tc.get("type") == "tool" and tc.get("name") == "read_lower_third", (tools and tools[0]["name"], tc))
+            check("g294: الناتج ثلاثة إطارات", isinstance(out, list) and len(out) == 3
+                  and out[0]["name_original"] == "Ahmet Kayapınar", out)
+            check("g294: render_version == 11", int(cfg.path("reel.render.version")) == 11, cfg.path("reel.render.version"))
+            check("g294: إعداد chyron", (cfg.path("reel.render.chyron") or {}).get("frames") == [0.25, 0.5, 0.75]
+                  and cfg.path("reel.render.chyron.max_width") == 1280, cfg.path("reel.render.chyron"))
+        guarded("g294", g294)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
 def test_speed_t1_guards() -> None:
     """Issue #1422 (T1، g278–g279): تسريع حزمة الاختبارات — preset الترميز من الإعداد (حقيقيه veryfast وفي الاختبارات ultrafast)
     وحفظ إطارات PNG المؤقتة بضغط خفيف دون تغيير البكسلات."""
