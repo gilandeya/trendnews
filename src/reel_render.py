@@ -472,10 +472,11 @@ def prepare_background(cfg, img: Image.Image) -> dict:
     cx = sum(x + fw / 2 for x, _, fw, _ in faces) / len(faces) if faces else iw / 2
     left = min(max(round(cx * scale - w / 2), 0), sw - w)
     top = (sh - h) // 2
-    out = img.resize((sw, sh), Image.LANCZOS).crop((left, top, left + w, top + h))
+    raw = img.resize((sw, sh), Image.LANCZOS).crop((left, top, left + w, top + h))
     navy = imaging.hex_rgb(cfg.path("brand.primary_color"))
-    out = Image.blend(out, Image.new("RGB", out.size, navy), float(b["shade_a"]))
-    return {"layout": "A", "image": out}
+    out = Image.blend(raw, Image.new("RGB", raw.size, navy), float(b["shade_a"]))
+    # raw للهوك وحده: يُظلَّل بـhook.shade فقط، فلا يتراكب على تظليل الراوي shade_a فتكاد الصورة لا تُرى (Issue #1429)
+    return {"layout": "A", "image": out, "raw": raw}
 
 
 def outro_credit(cfg, bg: dict | None) -> str:
@@ -1661,17 +1662,19 @@ def logo_state(t: float, cfg, hook_end: float) -> tuple[float, float, float, flo
     انتقاله خلال hook.logo_move بتسارع ease-in-out إلى موضع الزاوية (reel.render.logo) ويبقى فيه."""
     hk, lg = cfg.path("reel.render.hook"), cfg.path("reel.render.logo")
     w = float(cfg.path("reel.render.width"))
-    e1 = _ease_out(min(max(t / float(hk["logo_in"]), 0.0), 1.0))
+    # الشفافية خطّية لأنها تُنفَّذ بمرشح fade (أرخص بكثير من geq)؛ الحجم وحده بتسارع ease-out
+    alpha = min(max(t / float(hk["logo_in"]), 0.0), 1.0)
+    e1 = _ease_out(alpha)
     big_w = float(hk["logo_width"]) * (float(hk["logo_from"]) + (1 - float(hk["logo_from"])) * e1)
     big_x, big_y = (w - big_w) / 2, float(hk["logo_top"])
     e2 = _ease_in_out(min(max((t - hook_end) / float(hk["logo_move"]), 0.0), 1.0))
     small_w = float(lg["width"])
     small_x, small_y = w - float(lg["right"]) - small_w, float(lg["top"])
-    return (big_x + (small_x - big_x) * e2, big_y + (small_y - big_y) * e2, big_w + (small_w - big_w) * e2, e1)
+    return (big_x + (small_x - big_x) * e2, big_y + (small_y - big_y) * e2, big_w + (small_w - big_w) * e2, alpha)
 
 
 def _logo_exprs(cfg, hook_end: float) -> dict:
-    """تعابير ffmpeg (بالمتغير t) لدالة logo_state نفسها: w وx وy للمرشحين scale وoverlay، وalpha (بالمتغير T) لـgeq."""
+    """تعابير ffmpeg (بالمتغير t) لدالة logo_state نفسها: w وx وy للمرشحين scale وoverlay؛ الشفافية بمرشح fade خارجها."""
     hk, lg = cfg.path("reel.render.hook"), cfg.path("reel.render.logo")
     w = int(cfg.path("reel.render.width"))
 
@@ -1685,8 +1688,7 @@ def _logo_exprs(cfg, hook_end: float) -> dict:
     small_w, small_x = int(lg["width"]), w - int(lg["right"]) - int(lg["width"])
     return {"w": f"({big_w}+({small_w}-{big_w})*{e2})",
             "x": f"({big_x}+({small_x}-{big_x})*{e2})",
-            "y": f"({int(hk['logo_top'])}+({int(lg['top'])}-{int(hk['logo_top'])})*{e2})",
-            "alpha": e1("T")}
+            "y": f"({int(hk['logo_top'])}+({int(lg['top'])}-{int(hk['logo_top'])})*{e2})"}
 
 
 def _shade_filter(cfg) -> str:
@@ -1727,7 +1729,7 @@ def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None,
               f"[2:a]aresample={rate},aformat=channel_layouts=stereo,apad[sp];"
               f"[sp][am]amix=inputs=2:normalize=0:duration=first[a]")
     elif bg is not None:
-        bgpng = _save(bg["image"], tmp / f"hook_bg_{i}.png")
+        bgpng = _save(bg.get("raw") or bg["image"], tmp / f"hook_bg_{i}.png")
         sh = round(h * float(hk["pan_zoom"]))
         img_w = round(w * sh / h)
         inputs = [*loop, "-i", str(bgpng), *loop, "-i", str(png), "-i", str(audio)]
@@ -1891,28 +1893,39 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     logo = _trimmed_logo(cfg, tmp)
     # الشعار مرة واحدة فوق الفيديو المجمَّع كله: مكانه وحجمه ثابتان في كل لحظة بلا استثناء
     logo_in: list[str] = []
+    logo_static: list[str] = []
+    music = pick_music(draft, cfg)
     if kinds and kinds[0] == "hook":
-        # شعار الهوك الكبير ينتقل إلى الزاوية (Issue #1429): مدخل مكرَّر بالإطارات كي تُقيَّم تعابير t كل إطار، وgeq لشفافية الدخول
-        # (يُصغَّر أولًا إلى أكبر عرض فلا تُحسب الشفافية على صورة كبيرة)، وscale/overlay بـeval=frame؛ ما زال مرة واحدة هنا
-        ex = _logo_exprs(cfg, durs[0] - transition_seconds(cfg))
-        logo_in = ["-loop", "1", "-framerate", str(rcfg["fps"])]
-        video_f = (f"[1:v]scale={int(cfg.path('reel.render.hook.logo_width'))}:-1,format=rgba,"
-                   f"geq=r='r(X,Y)':g='g(X,Y)':b='b(X,Y)':a='alpha(X,Y)*{ex['alpha']}'[lg0];"
+        # شعار الهوك الكبير ينتقل إلى الزاوية (Issue #1429): مدخل متحرك مكرَّر بالإطارات ومحدود بـ-t فلا تعمل تعابير t وscale/overlay
+        # بـeval=frame إلا على ثواني الهوك والانتقال، والشفافية بمرشح fade لا geq؛ بعدها overlay ثابت بالطريقة القديمة من مدخل
+        # منفصل. آخر حالة متحركة تساوي الثابت تمامًا فلا قفزة عند التبديل؛ ما زال الشعار يُركَّب في هذه التمريرة الأخيرة وحدها
+        hk = cfg.path("reel.render.hook")
+        hook_end = durs[0] - transition_seconds(cfg)
+        ex = _logo_exprs(cfg, hook_end)
+        logo_in = ["-loop", "1", "-framerate", str(rcfg["fps"]), "-t", _fmt(hook_end + float(hk["logo_move"]) + 0.1)]
+        # مدخل الموسيقى مثبَّت على الفهرس 2 في _music_mix فيأتي الشعار الثابت بعده
+        logo_static = ["-i", str(logo)]
+        static_idx = 3 if music else 2
+        video_f = (f"[1:v]scale={int(hk['logo_width'])}:-1,format=rgba,"
+                   f"fade=t=in:st=0:d={_fmt(float(hk['logo_in']))}:alpha=1[lg0];"
                    f"[lg0]scale=w='{ex['w']}':h=-1:eval=frame[lg];"
-                   f"[0:v][lg]overlay=x='{ex['x']}':y='{ex['y']}':eval=frame:shortest=1[v]")
+                   f"[0:v][lg]overlay=x='{ex['x']}':y='{ex['y']}':eval=frame:eof_action=pass[v1];"
+                   f"[{static_idx}:v]scale={lg['width']}:-1[lgs];"
+                   f"[v1][lgs]overlay=W-w-{lg['right']}:{lg['top']}:"
+                   f"enable='gte(t,{_fmt(hook_end + float(hk['logo_move']))})'[v]")
     else:
         video_f = f"[1:v]scale={lg['width']}:-1[lg];[0:v][lg]overlay=W-w-{lg['right']}:{lg['top']}[v]"
-    music = pick_music(draft, cfg)
     if music:
         # المدة المقيسة للمجمَّع تحدد بداية الاختفاء التدريجي؛ فشل القياس ← مجموع المدد ناقص الانتقالات
         seconds = deps.probe(joined) or (sum(durs) - transition_seconds(cfg) * max(len(durs) - 1, 0))
         music_in, audio_f = _music_mix(cfg, Path(MUSIC_DIR) / music, float(seconds))
-        deps.run(_base("-i", str(joined), *logo_in, "-i", str(logo), *music_in, "-filter_complex", video_f + ";" + audio_f,
+        deps.run(_base("-i", str(joined), *logo_in, "-i", str(logo), *music_in, *logo_static,
+                       "-filter_complex", video_f + ";" + audio_f,
                        "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-preset", "veryfast",
                        "-crf", str(rcfg.get("crf", 22)), "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "128k",
                        "-ar", str(rcfg.get("audio_rate", 48000)), "-ac", "2", "-movflags", "+faststart", str(dest)))
     else:
-        deps.run(_base("-i", str(joined), *logo_in, "-i", str(logo), "-filter_complex", video_f,
+        deps.run(_base("-i", str(joined), *logo_in, "-i", str(logo), *logo_static, "-filter_complex", video_f,
                        "-map", "[v]", "-map", "0:a", "-c:v", "libx264", "-preset", "veryfast",
                        "-crf", str(rcfg.get("crf", 22)), "-pix_fmt", "yuv420p", "-af", _loudnorm(cfg), "-c:a", "aac",
                        "-b:a", "128k", "-ar", str(rcfg.get("audio_rate", 48000)), "-ac", "2", "-movflags", "+faststart",

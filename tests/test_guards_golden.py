@@ -6159,7 +6159,11 @@ def test_reel_render_r3b1_guards() -> None:
             mp4 = work / "reels" / Path(sd["reel_file"]).relative_to(cfg.path("reel.render.repo_subdir"))
             info = subprocess.run(["ffmpeg", "-i", str(mp4)], capture_output=True, text=True).stderr
             check("r3b1-ط: المقاس 1080×1920", "1080x1920" in info, info[-300:])
-            expected = (float(cfg.path("reel.render.title_seconds")) + 3.0 + 3.0 + 1.35 + 1.35
+            # الهوك (R5c1) بدل بطاقة العنوان: صوت العنوان (نغمة ثانية + صمت الجملة) + hook.tail بين حدّي الهوك
+            hk = cfg.path("reel.render.hook")
+            hook_sec = min(max(1.0 + float(cfg.path("reel.tts.sentence_silence", 0.35)) + float(hk["tail"]),
+                               float(hk["min_seconds"])), float(hk["max_seconds"]))
+            expected = (hook_sec + 3.0 + 3.0 + 1.35 + 1.35
                         + float(cfg.path("reel.render.question_tail_seconds"))
                         + float(cfg.path("reel.render.outro_seconds")))
             # R3b-1d: صمت بداية الراوي والسؤال يزيد، وخمسة انتقالات تأكل مدتها
@@ -9268,7 +9272,8 @@ def test_reel_hook_r5c1_guards() -> None:
             g = " ".join(final_cmd(r))
             check("g301: الأمر الأخير فيه eval=frame", "eval=frame" in g, g[-300:])
             check("g301: تعابير overlay بالزمن t", re.search(r"overlay=x='[^']*\bt\b", g) is not None, g[-300:])
-            check("g301: لا overlay ثابت للشعار", "overlay=W-w-" not in g, g[-300:])
+            check("g301: overlay الزاوية الثابت لا يعمل إلا بعد الانتقال (enable)",
+                  re.search(r"overlay=W-w-54:108:enable='gte\(t,", g) is not None, g[-300:])
         guarded("g301", g301)
 
         # ── g302: المتكلم بلا شرط margin ──
