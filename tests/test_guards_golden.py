@@ -9990,6 +9990,77 @@ def test_reel_truncation_r5e_guards() -> None:
             _shutil.rmtree(tmp, ignore_errors=True)
     guarded("g320", g320)
 
+    # ── g323: حارس المدة لا يمسّ الملف القديم؛ التمريرة الأخيرة في ملف مؤقت ثم استبدال ذري ──
+    def g323():
+        SW, SH = 640, 360
+        quote = "alpha beta gamma delta epsilon zeta eta theta"
+        D = "2099-12-12"
+        points = [{"video_id": v, "statement": "s", "quote_original": quote, "quote_arabic": "ترجمة", "speaker": "متحدث",
+                   "channel": "CNN TÜRK", "video_url": f"https://youtube.com/watch?v={v}", "timestamp": 10}
+                  for v in ("v1", "v2")]
+        clip = {"kind": "clip", "start": 9, "end": 20, "speaker_name": "", "speaker_role": "", "speaker_verified": False,
+                "speaker_name_latin": "", "channel_display": "سي إن إن ترك", "channel_original": "CNN TÜRK",
+                "quote_arabic": "ترجمة", "language": "tr"}
+        tr = {v: "[00:10] alpha beta gamma delta\n[00:14] epsilon zeta eta theta\n[00:18] tail line" for v in ("v1", "v2")}
+        tmp = Path(tempfile.mkdtemp())
+        try:
+            def render(did, final):
+                def run(cmd):
+                    Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+                    Path(cmd[-1]).write_bytes(b"NEW")
+
+                def download(video_id, start, end, height, out_path):
+                    Path(out_path).write_bytes(b"clip")
+                    return {"tier": "a", "bytes": 4, "failures": []}
+                deps = reel_render.Deps(
+                    fetch_transcript=lambda vid: tr.get(vid), download_clip=download,
+                    synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
+                    diacritize=lambda t: (t, None), run=run,
+                    probe=lambda p: final if (Path(p).name == "final.mp4" or "reels" in Path(p).parts) else 2.0,
+                    sleep=lambda s: None, stream_durations=lambda p: (18.0, 18.0),
+                    load_points=lambda date: points, comment=lambda i, t: None,
+                    faces=lambda f, fr: (SW, SH, []), frames=lambda p, fr: [np.full((SH, SW), 100, np.uint8)] * len(fr),
+                    streams=lambda p: {"video", "audio"}, read_chyron=lambda f, c: None,
+                    face_tracks=lambda f, c: None, bg_image=lambda u: None,
+                    bg_providers={"news": lambda *a: [], "web": lambda *a, **k: [], "free": lambda *a: []})
+                scenes = [dict(clip, kind="cold_open_clip", video_url=points[0]["video_url"],
+                               point_id=reel_script.point_key_id(points[0])),
+                          {"kind": "narration", "text": "جملة."},
+                          dict(clip, video_url=points[1]["video_url"], point_id=reel_script.point_key_id(points[1])),
+                          {"kind": "question", "text": "هل؟"}, {"kind": "outro"}]
+                d0 = {"id": did, "origin": "analysis", "format": "reel", "status": "approved_script",
+                      "render_status": "queued", "topic_id": "t1", "topic_date": D, "title": "ريل", "script_status": "ready",
+                      "script": {"narrator": "female", "title": "عنوان", "question": "هل؟", "scenes": scenes}}
+                path = store.save_draft(d0)
+                folder = tmp / "reels" / path.parent.name
+                folder.mkdir(parents=True, exist_ok=True)
+                (folder / f"{did}.mp4").write_bytes(b"OLDMP4")
+                (folder / f"{did}.gif").write_bytes(b"OLDGIF")
+                store.update_draft(path, reel_file=f"reels/{path.parent.name}/{did}.mp4",
+                                   reel_gif=f"reels/{path.parent.name}/{did}.gif")
+                d1 = json.loads(path.read_text(encoding="utf-8"))
+                reel_render.render_draft(path, d1, cfg, deps, reels_dir=tmp / "reels", workdir=tmp / "work")
+                return json.loads(path.read_text(encoding="utf-8")), folder
+
+            did = "r5e000g323a1"
+            s, folder = render(did, 63.0)
+            check("g323: فشل الحارس ← failed", s.get("render_status") == "failed", s.get("render_status"))
+            check("g323: mp4 القديم باقٍ ببايتاته", (folder / f"{did}.mp4").exists()
+                  and (folder / f"{did}.mp4").read_bytes() == b"OLDMP4")
+            check("g323: gif القديم باقٍ ببايتاته", (folder / f"{did}.gif").exists()
+                  and (folder / f"{did}.gif").read_bytes() == b"OLDGIF")
+            check("g323: reel_file على المسودة يشير إليه", s.get("reel_file") == f"reels/{folder.name}/{did}.mp4", s.get("reel_file"))
+            check("g323: reel_gif على المسودة يشير إليه", s.get("reel_gif") == f"reels/{folder.name}/{did}.gif", s.get("reel_gif"))
+            did = "r5e000g323b1"
+            s, folder = render(did, 88.0)
+            check("g323: تركيب ناجح ← rendered", s.get("render_status") == "rendered", (s.get("render_status"), s.get("render_error")))
+            check("g323: dest صار الملف الجديد", (folder / f"{did}.mp4").read_bytes() == b"NEW",
+                  (folder / f"{did}.mp4").read_bytes())
+            check("g323: لا final.mp4 خارج tmp", not list((tmp / "reels").rglob("final.mp4")), list((tmp / "reels").rglob("*")))
+        finally:
+            _shutil.rmtree(tmp, ignore_errors=True)
+    guarded("g323", g323)
+
     # ── g321: دخان بـffmpeg حقيقي ──
     def g321():
         if not _shutil.which("ffmpeg") or not _shutil.which("ffprobe"):
