@@ -31,9 +31,6 @@ from .config import MUSIC_DIR, REELS_DIR, load_config
 log = logging.getLogger("trendnews.reel_render")
 
 CAIRO = "assets/fonts/Cairo.ttf"
-TAJAWAL_XB = "assets/fonts/Tajawal-ExtraBold.ttf"
-TAJAWAL_B = "assets/fonts/Tajawal-Bold.ttf"
-TAJAWAL_R = "assets/fonts/Tajawal-Regular.ttf"
 SAMPLE_DATE = "2099/01/01"
 
 
@@ -607,14 +604,28 @@ def _fit(draw, text, font_path, max_width, max_lines, start, minimum, weight, li
     return imaging.fit_text(draw, text, font_path, max_width, max_lines, start, minimum, weight, line_factor=line_factor)
 
 
-def display_font(cfg) -> tuple[str, float]:
-    """خط الرقعة للنصوص الكبيرة وحدها (العنوان والسؤال والراوي وتابعوا الموجز) ومعامل مسافة أسطره (Issue #1419)."""
-    return (cfg.path("reel.render.fonts.display", CAIRO), float(cfg.path("reel.render.fonts.display_line_factor", 1.62)))
+_ARABIC_RE = re.compile("[\u0600-\u06ff\u0750-\u077f\ufb50-\ufdff\ufe70-\ufeff]")
+_LATIN_RE = re.compile("[A-Za-z\u00c0-\u024f]")
 
 
-def scaled(cfg, size: int) -> int:
-    """حجم نص الرقعة: الحجم القديم × reel.render.fonts.display_scale (Issue #1423)."""
-    return round(size * float(cfg.path("reel.render.fonts.display_scale", 1.0)))
+def latin_only(text: str) -> bool:
+    """سطر لاتيني خالص: فيه حرف لاتيني ولا حرف عربي. المختلط يبقى بخط العربية كاملًا (Issue #1441)."""
+    return bool(_LATIN_RE.search(text)) and not _ARABIC_RE.search(text)
+
+
+def face(cfg, text: str, kind: str) -> tuple[str, str | None]:
+    """(مسار الخط، الوزن) لنص في الريل (Issue #1441): اللاتيني الخالص Kalam-Bold، وغيره Playpen بوزن العناوين (display)
+    أو النصوص (body)."""
+    f = cfg.path("reel.render.fonts")
+    if latin_only(text):
+        return f["latin"], None
+    return f["arabic"], f["display_weight" if kind == "display" else "body_weight"]
+
+
+def size_pair(cfg, key: str) -> tuple[int, int]:
+    """(حجم البداية، الأدنى) لنص كبير من reel.render.sizes."""
+    s = cfg.path("reel.render.sizes")[key]
+    return int(s[0]), int(s[1])
 
 
 class _Pen:
@@ -634,9 +645,16 @@ class _Pen:
         self.x0 = int(r["safe"]["right_col_width"])
         self.cx = (self.x0 + self.x1) // 2
         self.max_w = self.x1 - self.x0
+        self.cfg = cfg
 
     def font(self, path: str, size: int, weight: str | None = None):
         return imaging.load_font(path, size, weight)
+
+    def face(self, text: str, kind: str) -> tuple[str, str | None]:
+        return face(self.cfg, text, kind)
+
+    def fnt(self, text: str, kind: str, size: int):
+        return imaging.load_font(*self.face(text, kind)[:1], size, self.face(text, kind)[1])
 
     def ink(self, text: str, font, xy, anchor: str, ltr: bool = False) -> tuple:
         """صندوق الحبر الفعلي لنص يُرسم عند xy بالمرساة نفسها (النص المحضَّر والخيارات نفسها كالرسم).
@@ -646,11 +664,11 @@ class _Pen:
             return self.d.textbbox(xy, text, font=font, anchor=anchor, **kw)
         return self.d.textbbox(xy, imaging._prepare(text), font=font, anchor=anchor, **imaging._kwargs())
 
-    def line(self, text: str, font, fill, y: int, *, align: str = "center", ltr: bool = False) -> int:
+    def line(self, text: str, font, fill, y: int, *, align: str = "center", ltr: bool = False, dx: int = 0) -> int:
         """سطر واحد؛ يعيد y التالي. المحاذاة وسطية أو يمينية عند الحدّ الآمن."""
         _, h = imaging.measure(self.d, text, font)
         lh = int(font.size * 1.45) if hasattr(font, "size") else h
-        xy, anchor = ((self.cx, y), "ma") if align == "center" else ((self.x1, y), "ra")
+        xy, anchor = ((self.cx, y), "ma") if align == "center" else ((self.x1 - dx, y), "ra")
         if ltr:
             imaging.draw_text_ltr(self.d, xy, text, font, fill, anchor=anchor)
         else:
@@ -668,16 +686,18 @@ class _Pen:
             font = pick_font(text, font_path, sz, weight)
             if font is None:
                 return None
-            left0, top0, _, bottom0 = self.ink(text, font, (self.x1, 0), "ra", ltr)
+            left0, top0, right0, bottom0 = self.ink(text, font, (self.x1, 0), "ra", ltr)
             y = (y_top if y_top is not None else prev_bottom + gap) - top0
-            if y + bottom0 <= limit and left0 >= self.x0:
-                return self.line_at(text, font, fill, y, ltr)
+            # حبر Playpen وKalam يتجاوز مرساة اليمين بكسلين أحيانًا (انحياز جانبي): يُزاح السطر يسارًا بالتجاوز فلا يتخطى حبره x1
+            over = max(0, right0 - self.x1)
+            if y + bottom0 <= limit and left0 - over >= self.x0:
+                return self.line_at(text, font, fill, y, ltr, over)
         if warn:
             log.warning("سطر لا يسع الشريط السفلي فحُذف: %r", text[:40])
         return None
 
-    def line_at(self, text: str, font, fill, y: int, ltr: bool) -> int:
-        self.line(text, font, fill, y, align="right", ltr=ltr)
+    def line_at(self, text: str, font, fill, y: int, ltr: bool, over: int = 0) -> int:
+        self.line(text, font, fill, y, align="right", ltr=ltr, dx=over)
         return int(self.boxes[-1][3])
 
     def text_line(self, text: str, font_path: str, weight: str | None, size: int, fill, y: int, *,
@@ -754,27 +774,28 @@ def frame_title(cfg, title: str, date_text: str, boxes=None) -> Image.Image:
     p = _Pen(cfg, boxes)
     r = cfg.path("reel.render")
     badge = r.get("badge_text", "تحليل")
-    bfont = p.font(CAIRO, 54, "Black")
+    bfont = p.fnt(badge, "display", 54)
     bw, bh = imaging.measure(p.d, badge, bfont)
     top = 520
     p.d.rounded_rectangle((p.cx - bw // 2 - 40, top, p.cx + bw // 2 + 40, top + bh + 50), radius=28,
                           fill=imaging.hex_rgb(r.get("badge_bg", "#8EC5FF")))
     p.line(badge, bfont, p.navy, top + 14)
-    fpath, lf = display_font(cfg)
+    (fpath, fw), lf = p.face(title, "display"), float(cfg.path("reel.render.fonts.line_factor"))
     y_top, below = top + bh + 110, 206      # below: القاعدة والتاريخ والمعرّف تحت العنوان
-    start, minimum = scaled(cfg, 96), scaled(cfg, 52)
+    start, minimum = 96, 52
     # العنوان الأكبر لا يدفع التاريخ والمعرّف خارج المنطقة الآمنة: يُصغَّر (max_lines كما هو) حتى يسعهما
     floor = 52           # الحجم القديم: أدنى ما يُصغَّر إليه العنوان الطويل جدًا ليبقى كل شيء في المنطقة الآمنة
     while start > floor:
-        _, lines_, lh_ = _fit(p.d, title, fpath, p.max_w, 6, start, min(minimum, start), None, lf)
+        _, lines_, lh_ = _fit(p.d, title, fpath, p.max_w, 6, start, min(minimum, start), fw, lf)
         if y_top + lh_ * len(lines_) + below <= p._safe()[1]:
             break
         start -= 2
-    y = p.block(title, fpath, None, p.white, 0, start=start, minimum=min(minimum, start), max_lines=6, y_top=y_top,
+    y = p.block(title, fpath, fw, p.white, 0, start=start, minimum=min(minimum, start), max_lines=6, y_top=y_top,
                 line_factor=lf)
     p.rule(y + 30)
-    y = p.line(date_text, p.font(TAJAWAL_B, 44), p.gold, y + 70)
-    p.line(cfg.path("brand.handle") or "@almujez", p.font(TAJAWAL_B, 44), p.white, y + 10, ltr=True)
+    y = p.line(date_text, p.fnt(date_text, "body", 44), p.gold, y + 70)
+    handle = cfg.path("brand.handle") or "@almujez"
+    p.line(handle, p.fnt(handle, "body", 44), p.white, y + 10, ltr=True)
     return p.rgb()
 
 
@@ -782,9 +803,10 @@ def frame_hook_text(cfg, title: str, boxes=None, transparent: bool = True) -> Im
     """نص الهوك (Issue #1429): عنوان السيناريو بالرقعة أبيض متمركزًا رأسيًا حول hook.text_y داخل المنطقة الآمنة. شفاف فوق
     خلفية متحركة، وبلا خلفية يُرسم على الكحلي الثابت."""
     p = _Pen(cfg, boxes, transparent=transparent)
-    fpath, lf = display_font(cfg)
-    p.block(title, fpath, None, p.white, int(cfg.path("reel.render.hook.text_y", 1180)), start=scaled(cfg, 96),
-            minimum=scaled(cfg, 52), max_lines=4, line_factor=lf)
+    (fpath, fw), lf = p.face(title, "display"), float(cfg.path("reel.render.fonts.line_factor"))
+    start, minimum = size_pair(cfg, "hook")
+    p.block(title, fpath, fw, p.white, int(cfg.path("reel.render.hook.text_y", 1180)), start=start,
+            minimum=minimum, max_lines=4, line_factor=lf)
     return p.img if transparent else p.rgb()
 
 
@@ -796,18 +818,20 @@ def _narration_pen(cfg, sentence: str, boxes, bg: dict | None):
     if bg is not None:
         p.img = bg["image"].convert("RGBA")
         p.d = ImageDraw.Draw(p.img)
-    return p, dict(y_mid=860, start=160, minimum=140, max_lines=4)
+    start, minimum = size_pair(cfg, "narration")
+    return p, dict(y_mid=860, start=start, minimum=minimum, max_lines=4)
 
 
-def _narration_font(cfg, bg: dict | None) -> tuple[str, float | None]:
-    """خط الراوي ومعامل مسافته: الرقعة دائمًا."""
-    return display_font(cfg)
+def _narration_font(cfg, bg: dict | None, text: str = "") -> tuple[str, str | None, float | None]:
+    """خط الراوي ووزنه ومعامل مسافته: Playpen Bold (Issue #1441)."""
+    path, weight = face(cfg, text, "body")
+    return path, weight, float(cfg.path("reel.render.fonts.line_factor"))
 
 
 def frame_narration(cfg, sentence: str, boxes=None, bg: dict | None = None) -> Image.Image:
     p, kw = _narration_pen(cfg, sentence, boxes, bg)
-    fpath, lf = _narration_font(cfg, bg)
-    p.block(sentence, fpath, None, p.white, kw["y_mid"], start=kw["start"], minimum=kw["minimum"],
+    fpath, fw, lf = _narration_font(cfg, bg, sentence)
+    p.block(sentence, fpath, fw, p.white, kw["y_mid"], start=kw["start"], minimum=kw["minimum"],
             max_lines=kw["max_lines"], line_factor=lf)
     return p.rgb()
 
@@ -817,8 +841,8 @@ def frame_narration_typed(cfg, sentence: str, prefix: str, boxes=None, bg: dict 
     if sum(1 for c in prefix if not c.isspace()) >= sum(1 for c in sentence if not c.isspace()):
         return frame_narration(cfg, sentence, boxes, bg)
     p, kw = _narration_pen(cfg, sentence, boxes, bg)
-    fpath, lf = _narration_font(cfg, bg)
-    p.typed_block(sentence, prefix, fpath, None, p.white, kw["y_mid"], start=kw["start"], minimum=kw["minimum"],
+    fpath, fw, lf = _narration_font(cfg, bg, sentence)
+    p.typed_block(sentence, prefix, fpath, fw, p.white, kw["y_mid"], start=kw["start"], minimum=kw["minimum"],
                   max_lines=kw["max_lines"], line_factor=lf)
     return p.rgb()
 
@@ -850,8 +874,8 @@ def narration_segments(cfg, sentence: str, bg: dict | None = None) -> list[str]:
     أو تتكرر: وصل المقاطع بمسافة يساوي الجملة بعد توحيد مسافاتها."""
     sentence = " ".join(sentence.split())
     p, kw = _narration_pen(cfg, sentence, [], bg)
-    fpath, _ = _narration_font(cfg, bg)
-    font = imaging.load_font(fpath, kw["minimum"], None)
+    fpath, fw, _ = _narration_font(cfg, bg, sentence)
+    font = imaging.load_font(fpath, kw["minimum"], fw)
     if _fits(p.d, sentence, font, p.max_w, kw["max_lines"]):
         return [sentence]
     clauses = re.split(r"(?<=[،؛])\s+", sentence)
@@ -877,8 +901,8 @@ def narration_segments(cfg, sentence: str, bg: dict | None = None) -> list[str]:
 def narration_lines(cfg, segment: str, bg: dict | None = None) -> list[str]:
     """أسطر المقطع كما ستُرسم (حجم الخط من المقطع كاملًا فلا يتغير بين الإطارات)."""
     p, kw = _narration_pen(cfg, segment, [], bg)
-    fpath, lf = _narration_font(cfg, bg)
-    return _fit(p.d, segment, fpath, p.max_w, kw["max_lines"], kw["start"], kw["minimum"], None, lf)[1]
+    fpath, fw, lf = _narration_font(cfg, bg, segment)
+    return _fit(p.d, segment, fpath, p.max_w, kw["max_lines"], kw["start"], kw["minimum"], fw, lf)[1]
 
 
 def reveal_steps(line_chars: list[int], speech_seconds: float, hold_seconds: float, fps: float,
@@ -917,8 +941,8 @@ def frame_narration_reveal(cfg, segment: str, alphas, boxes=None, bg: dict | Non
     """إطار مقطع الراوي وسطوره بشفافياتها: التخطيط (حجم الخط وأماكن الأسطر) من المقطع كاملًا فلا يتحرك سطر بعد اكتمال
     ظهوره، والسطر الظاهر جزئيًا يصعد reveal.rise بكسل إلى موضعه. كل الشفافيات 1 ← frame_narration نفسه بالبكسل."""
     p, kw = _narration_pen(cfg, segment, boxes, bg)
-    fpath, lf = _narration_font(cfg, bg)
-    font, lines, lh = _fit(p.d, segment, fpath, p.max_w, kw["max_lines"], kw["start"], kw["minimum"], None, lf)
+    fpath, fw, lf = _narration_font(cfg, bg, segment)
+    font, lines, lh = _fit(p.d, segment, fpath, p.max_w, kw["max_lines"], kw["start"], kw["minimum"], fw, lf)
     total = lh * len(lines)
     safe = p._safe()
     y = max(safe[0], min(int(kw["y_mid"] - total / 2), safe[1] - total))
@@ -972,21 +996,21 @@ def frame_question(cfg, question: str, boxes=None) -> Image.Image:
     r = 120
     cy = 520
     p.d.ellipse((p.cx - r, cy - r, p.cx + r, cy + r), fill=p.gold)
-    qfont = p.font(CAIRO, 170, "Black")
+    qfont = p.fnt("؟", "display", 170)
     # مركز الحبر الفعلي لا مركز مربع الخط عند مركز الدائرة (Issue #1429): الذيل السفلي كان يخرج منها بإزاحة ثابتة
     ink = p.ink("؟", qfont, (p.cx, 0), "ma")
     imaging.draw_text(p.d, (p.cx + p.cx - (ink[0] + ink[2]) / 2, cy - (ink[1] + ink[3]) / 2), "؟", qfont, p.navy, anchor="ma")
-    fpath, lf = display_font(cfg)
-    start, minimum = scaled(cfg, 76), scaled(cfg, 44)
-    share_font = p.font(TAJAWAL_B, 46)
+    (fpath, fw), lf = p.face(question, "display"), float(cfg.path("reel.render.fonts.line_factor"))
+    start, minimum = size_pair(cfg, "question")
     share_text = cfg.path("reel.render.texts.share")
+    share_font = p.fnt(share_text, "body", 46)
     # السؤال يبدأ بحبره تحت الدائرة بـ50 بكسلًا (لا يتمركز حول نقطة فيلامسها حين يطول) وينتهي حبره قبل «شاركونا» بـ30
     top_ink = cy + r + 50
     bottom_ink = p.ink(share_text, share_font, (p.cx, 1250), "ma")[1] - 30
     best = None
     for max_lines in range(8, 0, -1):
         for size in range(start, min(minimum, start) - 1, -2):
-            font, lines_, lh_ = _fit(p.d, question, fpath, p.max_w, max_lines, size, min(minimum, size), None, lf)
+            font, lines_, lh_ = _fit(p.d, question, fpath, p.max_w, max_lines, size, min(minimum, size), fw, lf)
             if not lines_:
                 continue
             y = top_ink - min(p.ink(ln, font, (p.cx, 0), "ma")[1] for ln in lines_)
@@ -1011,21 +1035,22 @@ def frame_outro(cfg, channels: str, boxes=None, credit: str = "") -> Image.Image
     p = _Pen(cfg, boxes)
     t = cfg.path("reel.render.texts")
     # «تابعوا الموجز» بحجم 162 ويُصغَّر عند الحاجة حتى يسع العرض الآمن
-    size, ffont = scaled(cfg, 112), display_font(cfg)[0]
+    size, (ffont, fweight) = int(cfg.path("reel.render.sizes.follow")), p.face(t["follow"], "display")
     while size > 40:
-        font = pick_font(t["follow"], ffont, size)
+        font = pick_font(t["follow"], ffont, size, fweight)
         if font is None:
             break
         box = p.ink(t["follow"], font, (p.cx, 0), "ma")
         if box[2] - box[0] <= p.max_w:
             break
         size -= 2
-    y = p.text_line(t["follow"], ffont, None, size, p.white, 560)
+    y = p.text_line(t["follow"], ffont, fweight, size, p.white, 560)
     p.rule(y + 10)
-    y = p.block(t["tagline"], TAJAWAL_B, None, p.white, 0, start=52, minimum=36, max_lines=3, y_top=y + 60)
-    p.line(cfg.path("brand.handle") or "@almujez", p.font(TAJAWAL_B, 54), p.gold, y + 20, ltr=True)
-    y = p.block(t["clips_from"].format(channels=channels), TAJAWAL_R, None, (200, 208, 224), 0, start=36, minimum=26,
-                max_lines=4, y_top=1180)
+    y = p.block(t["tagline"], *p.face(t["tagline"], "body"), p.white, 0, start=52, minimum=36, max_lines=3, y_top=y + 60)
+    handle = cfg.path("brand.handle") or "@almujez"
+    p.line(handle, p.fnt(handle, "body", 54), p.gold, y + 20, ltr=True)
+    clips = t["clips_from"].format(channels=channels)
+    y = p.block(clips, *p.face(clips, "body"), (200, 208, 224), 0, start=36, minimum=26, max_lines=4, y_top=1180)
     if credit:
         _credit_line(p, cfg, credit, y)
     return p.rgb()
@@ -1039,14 +1064,15 @@ def _credit_line(p: "_Pen", cfg, credit: str, y: int) -> None:
     latin = bool(name) and bool(re.search(r"[A-Za-z]", name)) and not re.search(r"[؀-ۿ]", name)
     fill = (200, 208, 224)
     for size in range(36, 15, -2):
-        font = p.font(TAJAWAL_R, size)
+        font = p.fnt(credit, "body", size)
         if not latin:
             if imaging.measure(p.d, credit, font)[0] <= p.max_w:
                 p.line(credit, font, fill, y)
                 return
             continue
+        nfont = p.fnt(name, "body", size)       # اسم الناشر اللاتيني بـKalam وبطاقة «الصورة:» بـPlaypen
         lw = p.ink(label + ":", font, (0, 0), "la")
-        nw = p.ink(name, font, (0, 0), "la", True)
+        nw = p.ink(name, nfont, (0, 0), "la", True)
         gap = max(size // 4, 6)
         total = (lw[2] - lw[0]) + gap + (nw[2] - nw[0])
         if total <= p.max_w:
@@ -1054,8 +1080,8 @@ def _credit_line(p: "_Pen", cfg, credit: str, y: int) -> None:
             imaging.draw_text(p.d, (right, y), label + ":", font, fill, anchor="ra")
             p.boxes.append(tuple(p.ink(label + ":", font, (right, y), "ra")))
             xy = (right - (lw[2] - lw[0]) - gap, y)
-            imaging.draw_text_ltr(p.d, xy, name, font, fill, anchor="ra")
-            p.boxes.append(tuple(p.ink(name, font, xy, "ra", True)))
+            imaging.draw_text_ltr(p.d, xy, name, nfont, fill, anchor="ra")
+            p.boxes.append(tuple(p.ink(name, nfont, xy, "ra", True)))
             return
     log.warning("سطر مصدر الصورة لا يسع الشاشة فحُذف: %r", credit[:40])
 
@@ -1111,7 +1137,7 @@ def frame_clip_layers(cfg, scene: dict, boxes=None, cover: bool | None = None) -
     bd.d.rectangle((bd.w - edge, top, bd.w, top + height), fill=bd.gold + (255,))
     quote = (scene.get("quote_arabic") or "").strip()
     if quote:
-        font, lines, lh = imaging.fit_text(p.d, quote, TAJAWAL_B, p.max_w, 3, 46, 30, None)
+        font, lines, lh = imaging.fit_text(p.d, quote, *p.face(quote, "body")[:1], p.max_w, 3, 46, 30, p.face(quote, "body")[1])
         box_h = lh * len(lines) + 36
         by = top - 24 - box_h
         p.d.rectangle((p.x0 - 24, by, p.x1 + 24, by + box_h), fill=(8, 14, 28, 175))
@@ -1129,15 +1155,15 @@ def frame_clip_layers(cfg, scene: dict, boxes=None, cover: bool | None = None) -
         # كل سطر يُصغَّر بخطوة 2 حتى يقع حبره بين x0 وx1 وفوق الحد السفلي؛ حدود التصغير من الإعداد
         mins = band.get("min_sizes") or {}
         gap, limit = int(band.get("line_gap", 12)), top + height - 16
-        bottom = p.ink_line(scene["speaker_name"], CAIRO, "Black", 56, p.white, prev_bottom=None, gap=gap, limit=limit,
+        bottom = p.ink_line(scene["speaker_name"], *p.face(scene["speaker_name"], "display"), 56, p.white, prev_bottom=None, gap=gap, limit=limit,
                             min_size=int(mins.get("name", 40)), y_top=y)
         bottom = y if bottom is None else bottom
         latin = (scene.get("speaker_name_latin") or "").strip()
         # السطر الذهبي للاسم اللاتيني فقط: حين وضع السيناريو الاسم العربي نفسه هنا تكرّر الاسم في سطرين
         has_latin = bool(re.search(r"[A-Za-z]", latin)) and latin.casefold() != scene["speaker_name"].strip().casefold()
         if has_latin:
-            # بـCairo لأن Tajawal يفتقد ş ğ İ
-            nb = p.ink_line(latin, CAIRO, "Bold", 34, p.gold, prev_bottom=bottom, gap=gap,
+            # Kalam-Bold للاتيني الخالص (يغطي ş ğ İ)
+            nb = p.ink_line(latin, *p.face(latin, "body"), 34, p.gold, prev_bottom=bottom, gap=gap,
                             limit=limit, min_size=int(mins.get("latin", 26)), ltr=True)
             bottom = bottom if nb is None else nb
         # الصفة · القناة حتى min_sizes.role؛ إن لم يسع حُذفت الصفة وبقيت القناة من 40، وإن لم تسع القناة اللاتينية
@@ -1148,15 +1174,15 @@ def frame_clip_layers(cfg, scene: dict, boxes=None, cover: bool | None = None) -
         grey = (214, 222, 238)
         # بلا سطر لاتيني والصفة والقناة لا تسعان معًا عند الحد الأدنى: الصفة في سطر والقناة تحته (Issue #1423) بدل حذف الصفة
         if role and channel and not has_latin:
-            if p.ink_line(" · ".join((role, channel)), TAJAWAL_B, None, 40, grey, prev_bottom=bottom, gap=gap,
+            if p.ink_line(" · ".join((role, channel)), *p.face(" · ".join((role, channel)), "body"), 40, grey, prev_bottom=bottom, gap=gap,
                           limit=limit, min_size=role_min, warn=False) is not None:
                 return st.img, bd.img
-            rb = p.ink_line(role, TAJAWAL_B, None, 40, grey, prev_bottom=bottom, gap=gap, limit=limit,
+            rb = p.ink_line(role, *p.face(role, "body"), 40, grey, prev_bottom=bottom, gap=gap, limit=limit,
                             min_size=role_min, warn=False)
             if rb is not None:
                 # لا يسع اسم القناة الكامل تحت الصفة: الاسم العربي وحده، وإلا تبقى الصفة (الرسم لا يُتراجع عنه)
                 for txt in (channel, display):
-                    if txt and p.ink_line(txt, TAJAWAL_B, None, 40, grey, prev_bottom=rb, gap=gap, limit=limit,
+                    if txt and p.ink_line(txt, *p.face(txt, "body"), 40, grey, prev_bottom=rb, gap=gap, limit=limit,
                                           min_size=role_min, warn=txt == display) is not None:
                         break
                 return st.img, bd.img
@@ -1166,14 +1192,14 @@ def frame_clip_layers(cfg, scene: dict, boxes=None, cover: bool | None = None) -
         if display and display != channel:
             tries.append(display)
         for i, txt in enumerate(tries):
-            if txt and p.ink_line(txt, TAJAWAL_B, None, 40, grey, prev_bottom=bottom, gap=gap, limit=limit,
+            if txt and p.ink_line(txt, *p.face(txt, "body"), 40, grey, prev_bottom=bottom, gap=gap, limit=limit,
                                   min_size=role_min, warn=i == len(tries) - 1) is not None:
                 break
     else:
         # مذيع القناة نفسها لا «ضيف عليها»: القناة بصيغتها وحدها (Issue #1427)
         label = (channel or (scene.get("channel_display") or "").strip()) if scene.get("speaker_presenter") else \
             cfg.path("reel.texts.guest_label", "ضيف على {channel}").format(channel=channel)
-        p.ink_line(label, CAIRO, "Black", 52, p.white, prev_bottom=None, gap=0, limit=top + height - 16,
+        p.ink_line(label, *p.face(label, "display"), 52, p.white, prev_bottom=None, gap=0, limit=top + height - 16,
                    min_size=int(band.get("min_sizes", {}).get("guest", 30)), y_top=top + 80)
     return st.img, bd.img
 
