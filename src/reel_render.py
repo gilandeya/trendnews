@@ -12,6 +12,7 @@ from __future__ import annotations
 import argparse
 import logging
 import math
+import os
 import re
 import shutil
 import subprocess
@@ -2182,7 +2183,8 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     rel_dir = f"{path.parent.name}"
     dest = reels_dir / rel_dir / f"{path.stem}.mp4"
     gif = reels_dir / rel_dir / f"{path.stem}.gif"
-    dest.parent.mkdir(parents=True, exist_ok=True)
+    # التمريرة الأخيرة تكتب إلى ملف مؤقت لا إلى dest: dest هو ملف الريل السابق نفسه، وفشل حارس المدة يجب ألا يُتلفه
+    final = tmp / "final.mp4"
     lg = rcfg["logo"]
     logo = _trimmed_logo(cfg, tmp)
     # الشعار مرة واحدة فوق الفيديو المجمَّع كله: مكانه وحجمه ثابتان في كل لحظة بلا استثناء
@@ -2217,21 +2219,23 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
                        "-filter_complex", video_f + ";" + audio_f,
                        "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-preset", "veryfast",
                        "-crf", str(rcfg.get("crf", 22)), "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "128k",
-                       "-ar", str(rcfg.get("audio_rate", 48000)), "-ac", "2", "-movflags", "+faststart", str(dest)))
+                       "-ar", str(rcfg.get("audio_rate", 48000)), "-ac", "2", "-movflags", "+faststart", str(final)))
     else:
         deps.run(_base("-i", str(joined), *logo_in, "-i", str(logo), *logo_static, "-filter_complex", video_f,
                        "-map", "[v]", "-map", "0:a", "-c:v", "libx264", "-preset", "veryfast",
                        "-crf", str(rcfg.get("crf", 22)), "-pix_fmt", "yuv420p", "-af", _loudnorm(cfg), "-c:a", "aac",
                        "-b:a", "128k", "-ar", str(rcfg.get("audio_rate", 48000)), "-ac", "2", "-movflags", "+faststart",
-                       str(dest)))
+                       str(final)))
     # مدة الملف النهائي المقيسة لا مجموع المدد: الانتقالات تقصّر الطول الكلي
-    measured = deps.probe(dest)
+    measured = deps.probe(final)
     total = measured or (sum(durs) - transition_seconds(cfg) * max(len(durs) - 1, 0))
     # حارس المدة (Issue #1436): ريل أقصر من المتوقع مقطوع وليس ناقصًا بحدّ مقبول؛ لا يُحفظ ولا يُرفع ولا يُمسّ ملف سابق
     expected = join_info.get("expected")
     if measured and expected and expected - float(measured) > float(rcfg.get("duration_tolerance", 1.5)):
-        dest.unlink(missing_ok=True)
         raise ShortRender(rcfg["texts"]["error_short"].format(actual=round(float(measured), 1), expected=round(expected, 1)))
+    # نجح الحارس: استبدال ذري لـdest ثم الـGIF منه
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    os.replace(final, dest)
     g = rcfg["gif"]
     deps.run(_base("-t", str(g["seconds"]), "-i", str(dest), "-vf",
                    f"fps={g['fps']},scale={g['width']}:{g['height']}:flags=lanczos,split[x][y];[x]palettegen[p];"

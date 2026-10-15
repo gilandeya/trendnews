@@ -5987,7 +5987,7 @@ def test_reel_render_r3b1_guards() -> None:
 
         return reel_render.Deps(
             fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download, synthesize=synth,
-            diacritize=lambda text: (text, None), run=run, probe=lambda p: 41.0 if "reels" in Path(p).parts else 2.0,
+            diacritize=lambda text: (text, None), run=run, probe=lambda p: 41.0 if (Path(p).name == "final.mp4" or "reels" in Path(p).parts) else 2.0,
             load_points=lambda date: points, comment=comment, faces=faces)
 
     tmp = Path(tempfile.mkdtemp())
@@ -6681,7 +6681,7 @@ def test_reel_render_r3b1c_guards() -> None:
         return reel_render.Deps(
             fetch_transcript=fetch, download_clip=download,
             synthesize=lambda text, voice: {"ok": True, "audio": b"mp3", "chars": len(text)},
-            diacritize=lambda text: (text, None), run=run, probe=lambda p: 41.0 if "reels" in Path(p).parts else 2.0,
+            diacritize=lambda text: (text, None), run=run, probe=lambda p: 41.0 if (Path(p).name == "final.mp4" or "reels" in Path(p).parts) else 2.0,
             load_points=lambda date: pts if pts is not None else points,
             comment=lambda issue, text: log["comments"].append(text),
             faces=lambda f, fr: (1280, 720, []))
@@ -6844,7 +6844,7 @@ def test_reel_transitions_r3b1d_guards() -> None:
             name = Path(p).name
             if scene_durs and name.startswith("scene_"):
                 return scene_durs[int(name[6:8])]
-            return 41.0 if "reels" in Path(p).parts else 2.0
+            return 41.0 if (name == "final.mp4" or "reels" in Path(p).parts) else 2.0
 
         def download(video_id, start, end, height, out_path):
             Path(out_path).write_bytes(b"clip")
@@ -7062,7 +7062,7 @@ def test_reel_typewriter_r3b2a_guards() -> None:
             fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
             synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
             diacritize=lambda t: (t, None), run=run,
-            probe=lambda p: 41.0 if "reels" in Path(p).parts else 2.0, load_points=lambda date: points,
+            probe=lambda p: 41.0 if (Path(p).name == "final.mp4" or "reels" in Path(p).parts) else 2.0, load_points=lambda date: points,
             comment=lambda i, t: None, faces=lambda f, fr: (1280, 720, []))
 
     tmp = Path(tempfile.mkdtemp())
@@ -7202,7 +7202,7 @@ def test_reel_no_partial_r3b2a2_guards() -> None:
             fetch_transcript=lambda vid: (trans or transcripts).get(vid), download_clip=download,
             synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
             diacritize=lambda t: (t, None), run=run,
-            probe=lambda p: 41.0 if "reels" in Path(p).parts else 2.0, load_points=lambda date: points,
+            probe=lambda p: 41.0 if (Path(p).name == "final.mp4" or "reels" in Path(p).parts) else 2.0, load_points=lambda date: points,
             comment=lambda i, t: log["comments"].append(t), faces=lambda f, fr: (1280, 720, []),
             sleep=lambda s: log["sleeps"].append(s))
 
@@ -7322,7 +7322,7 @@ def test_reel_clip_streams_r3b2a3_guards() -> None:
             fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
             synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
             diacritize=lambda t: (t, None), run=run, streams=streams,
-            probe=lambda p: 41.0 if "reels" in Path(p).parts else 2.0, load_points=lambda date: points,
+            probe=lambda p: 41.0 if (Path(p).name == "final.mp4" or "reels" in Path(p).parts) else 2.0, load_points=lambda date: points,
             comment=lambda i, t: log["comments"].append(t), faces=lambda f, fr: (1280, 720, []),
             sleep=lambda s: log["sleeps"].append(s))
 
@@ -7465,7 +7465,7 @@ def test_reel_cover_auto_r3b2a4_guards() -> None:
             fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
             synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
             diacritize=lambda t: (t, None), run=run,
-            probe=lambda p: 41.0 if "reels" in Path(p).parts else 2.0, load_points=lambda date: points,
+            probe=lambda p: 41.0 if (Path(p).name == "final.mp4" or "reels" in Path(p).parts) else 2.0, load_points=lambda date: points,
             comment=lambda i, t: None, faces=lambda f, fr: (W, H, []), frames=get_frames)
 
     tmp = Path(tempfile.mkdtemp())
@@ -7684,7 +7684,7 @@ def test_reel_background_r3b2b_guards() -> None:
         return reel_render.Deps(
             fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
             synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)}, diacritize=lambda t: (t, None),
-            run=run, probe=lambda p: 41.0 if "reels" in Path(p).parts else 2.0, load_points=lambda date: points,
+            run=run, probe=lambda p: 41.0 if (Path(p).name == "final.mp4" or "reels" in Path(p).parts) else 2.0, load_points=lambda date: points,
             comment=lambda i, t: comments.append((i, t)), faces=lambda f, fr: (1280, 720, []),
             bg_image=bg_image, bg_providers=providers)
 
@@ -8942,7 +8942,7 @@ def test_reel_speaker_r5b_guards() -> None:
         deps = reel_render.Deps(
             fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
             synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
-            diacritize=lambda t: (t, None), run=run, probe=lambda p: 41.0 if "reels" in Path(p).parts else 2.0,
+            diacritize=lambda t: (t, None), run=run, probe=lambda p: 41.0 if (Path(p).name == "final.mp4" or "reels" in Path(p).parts) else 2.0,
             load_points=lambda date: points, comment=lambda i, t: comments.append(t),
             faces=lambda f, fr: (SW, SH, []), frames=lambda p, fr: [np.full((SH, SW), 100, np.uint8)] * len(fr),
             streams=lambda p: {"video", "audio"}, read_chyron=read_chyron)
@@ -9159,7 +9159,7 @@ def test_reel_hook_r5c1_guards() -> None:
 
         def probe(p):
             name = Path(p).name
-            if "reels" in Path(p).parts:
+            if name == "final.mp4" or "reels" in Path(p).parts:
                 return 41.0
             return hook_audio if name.startswith("s01_") else 2.0
         deps = reel_render.Deps(
@@ -9196,7 +9196,7 @@ def test_reel_hook_r5c1_guards() -> None:
 
     def final_cmd(r):
         """تمريرة الشعار الأخيرة: الأمر الذي ملفه الناتج mp4 داخل مجلد reels."""
-        found = [c for c in r["cmds"] if c[-1].endswith(".mp4") and "reels" in Path(c[-1]).parts]
+        found = [c for c in r["cmds"] if c[-1].endswith(".mp4") and Path(c[-1]).name == "final.mp4"]
         return found[-1] if found else []
 
     tmp = Path(tempfile.mkdtemp())
@@ -9489,7 +9489,7 @@ def test_reel_speaker_vision_r5b2_guards() -> None:
             fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
             synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
             diacritize=lambda t: (t, None), run=run,
-            probe=lambda p: 41.0 if "reels" in Path(p).parts else 2.0, sleep=lambda s: None,
+            probe=lambda p: 41.0 if (Path(p).name == "final.mp4" or "reels" in Path(p).parts) else 2.0, sleep=lambda s: None,
             load_points=lambda date: points, comment=lambda i, t: comments.append(t),
             faces=lambda f, fr: (SW, SH, [170.0, 170.0]), frames=lambda p, fr: [np.full((SH, SW), 100, np.uint8)] * len(fr),
             streams=lambda p: {"video", "audio"}, read_chyron=lambda f, c: None,
@@ -9697,7 +9697,7 @@ def test_reel_speaker_gesture_r5b3_guards() -> None:
             fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
             synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
             diacritize=lambda t: (t, None), run=run,
-            probe=lambda p: 41.0 if "reels" in Path(p).parts else 2.0, sleep=lambda s: None,
+            probe=lambda p: 41.0 if (Path(p).name == "final.mp4" or "reels" in Path(p).parts) else 2.0, sleep=lambda s: None,
             load_points=lambda date: points, comment=lambda i, t: comments.append(t),
             faces=lambda f, fr: (SW, SH, [170.0, 170.0]), frames=lambda p, fr: [np.full((SH, SW), 100, np.uint8)] * len(fr),
             streams=lambda p: {"video", "audio"}, read_chyron=lambda f, c: None,
@@ -9958,7 +9958,7 @@ def test_reel_truncation_r5e_guards() -> None:
                     fetch_transcript=lambda vid: tr.get(vid), download_clip=download,
                     synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
                     diacritize=lambda t: (t, None), run=run,
-                    probe=lambda p: final if "reels" in Path(p).parts else 2.0, sleep=lambda s: None,
+                    probe=lambda p: final if (Path(p).name == "final.mp4" or "reels" in Path(p).parts) else 2.0, sleep=lambda s: None,
                     stream_durations=lambda p: (18.0, 18.0),
                     load_points=lambda date: points, comment=lambda i, t: comments.append(t),
                     faces=lambda f, fr: (SW, SH, []), frames=lambda p, fr: [np.full((SH, SW), 100, np.uint8)] * len(fr),
