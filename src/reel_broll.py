@@ -101,7 +101,7 @@ ASSIGN_TOOL = {
 def assign(needy: list[dict], chains: list[dict], cfg: Any, client=None) -> list[dict]:
     """نداء Haiku نصي واحد: لكل جملة ذات visual رقم سلسلة (من 1) أو لا شيء. القرار النهائي للمدقّق القطعي resolve لا لهذا الرد."""
     bcfg = cfg.path("reel.broll", {}) or {}
-    sents = "\n".join("[%d] (%.1f ث) %s ← يجب أن يُرى: %s" % (s["n"], s["dur"], s.get("text", ""), s["visual"]) for s in needy)
+    sents = "\n".join("[%d] (%.1f ث) %s ← يُتوقع أن يُرى: %s" % (s["n"], s["dur"], s.get("text", ""), s["visual"]) for s in needy)
     opts = "\n".join("[%d] %s · %.0f ث · %s" % (i, c["channel"], c["end"] - c["start"], c["desc"]) for i, c in enumerate(chains, 1))
     resp = _create(client, cfg=cfg, model=bcfg.get("model", "haiku"), max_tokens=int(bcfg.get("assign_max_tokens", 1500)),
                    system=bcfg.get("assign_system", ""), tools=[ASSIGN_TOOL],
