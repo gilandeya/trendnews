@@ -205,6 +205,219 @@
   "has_photo": false,
   "has_news_photo": true,
   "review_issue": 1457,
-  "render_status": "queued",
-  "approved_script_at": "2026-10-16T10:48:47.729584+00:00"
+  "render_status": "rendered",
+  "approved_script_at": "2026-10-16T10:48:47.729584+00:00",
+  "reel_bg": {
+    "url": "https://img.etimg.com/thumb/msid-134992960,width-1200,height-900,imgsize-90892,overlay-etdefence/articleshow.jpg",
+    "kind": "news_photo",
+    "publisher": "The Economic Times",
+    "layout": "A"
+  },
+  "broll_plan": [
+    {
+      "scene": 2,
+      "sentence": 0,
+      "text": "ضيف على قناة الجزيرة، في حلقة بثّت يوم 13 أكتوبر 2026، يحصر مصدر قوة الحوثيين في طهران: سلاح وتمويل ومستشارون، وتوقيت تصعيد بطلب إيراني.",
+      "visual": "شحنات أسلحة على متن سفينة في البحر"
+    },
+    {
+      "scene": 2,
+      "sentence": 1,
+      "text": "وفي اليوم نفسه، على القناة ذاتها، يضع ضيف آخر المعركة داخل نمط إيراني أوسع.",
+      "visual": ""
+    },
+    {
+      "scene": 4,
+      "sentence": 0,
+      "text": "وعلى قناة فرانس 24 عربي، في 15 أكتوبر 2026، يعرض ضيف الوجه الثاني من الصورة: ترسانة تُبنى داخل اليمن، من مدرعات خفيفة وأسلحة وذخيرة، وقطع مسيّرات تُستورد ثم تُجمّع.",
+      "visual": "مدرعات خفيفة تتحرك في منطقة جبلية يمنية"
+    },
+    {
+      "scene": 6,
+      "sentence": 0,
+      "text": "دعم خارجي من جهة، وخطوط تصنيع محلية من جهة أخرى.",
+      "visual": "مسيّرات قيد التجميع في ورشة صناعية"
+    },
+    {
+      "scene": 6,
+      "sentence": 1,
+      "text": "وبين القراءتين تبقى المسافة قائمة بين تفسيرٍ يردّ القوة إلى طهران وآخر يردّها إلى التصنيع الداخلي.",
+      "visual": ""
+    }
+  ],
+  "hook_candidates": [
+    {
+      "video_id": "zSiYC9Gcg8Q",
+      "title": "من صنعاء إلى الجوف.. أهداف الحوثيين تحت نيران الضربات الجوية",
+      "channel": "AlArabiya العربية",
+      "views": 38777,
+      "duration": 727,
+      "published": "2026-10-12T08:40:26Z"
+    },
+    {
+      "video_id": "XvaTwkZq46c",
+      "title": "العاشرة | بـ\"مكونات صينية\".. مليشيا الحوثي تحاول تصنيع صواريخ متطورة",
+      "channel": "AlArabiya العربية",
+      "views": 9331,
+      "duration": 782,
+      "published": "2026-10-14T22:00:13Z"
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-10-14T00:00:00Z",
+          "2026-10-18T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "مسيرات وصواريخ حوثية تُطلق من اليمن",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "Houthi missile launch from Yemen footage",
+            "raw": 30,
+            "channel_ok": 2
+          },
+          {
+            "query": "Jemen Huthi Raketenstart Kamera Nachrichten",
+            "raw": 0,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 2,
+        "judged_ok": 0,
+        "rejected_channels": [
+          "CRUX",
+          "DNAIndiaNews",
+          "News Frame",
+          "Kompas.com",
+          "NewsX Live",
+          "Serambinews",
+          "Tribunnews",
+          "Tribun Video"
+        ]
+      },
+      {
+        "broad": true,
+        "window": [
+          "2026-10-12T00:00:00Z",
+          "2026-10-19T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "دعم إيران للحوثيين",
+            "raw": 30,
+            "channel_ok": 8
+          },
+          {
+            "query": "Iran support Houthis weapons",
+            "raw": 30,
+            "channel_ok": 3
+          },
+          {
+            "query": "İran Husiler silah desteği",
+            "raw": 2,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 11,
+        "judged_ok": 2,
+        "rejected_channels": [
+          "عربي بوست - Arabic Post",
+          "العربي - أخبار",
+          "CBN News",
+          "قناة التغيير",
+          "وكالة سوار نيوز - Sewar News Agency",
+          "Eye On Iran | عين على إيران",
+          "Headline عربي",
+          "Summary"
+        ]
+      }
+    ],
+    "picked": [
+      "zSiYC9Gcg8Q",
+      "XvaTwkZq46c"
+    ]
+  },
+  "reel_file": "reels/2026-10-16/b05ca971ffe2.mp4",
+  "reel_gif": "reels/2026-10-16/b05ca971ffe2.gif",
+  "duration_seconds": 103.0,
+  "render_version": 23,
+  "render_attempts": 0,
+  "reel_music": "nastelbom-news-news-2-473288.mp3",
+  "render_crops": {
+    "0": {
+      "x": 275,
+      "source": "speaker",
+      "speaker_score": 0.73,
+      "tracks": 1,
+      "cover": true
+    },
+    "3": {
+      "x": 403,
+      "source": "speaker",
+      "speaker_score": 1.26,
+      "tracks": 1,
+      "cover": false
+    },
+    "5": {
+      "x": 875,
+      "source": "speaker_vision",
+      "speaker_score": 1.13,
+      "tracks": 2,
+      "vision": {
+        "pick": 1,
+        "agree": 2,
+        "archive": [
+          1,
+          2
+        ]
+      },
+      "cover": true
+    }
+  },
+  "render_speakers": {
+    "0": {
+      "name_original": "لقصة بقية",
+      "name_arabic": "لقصة بقية",
+      "role_arabic": "برنامج \"لقصة بقية\" ويناقش الاتجار غير القانوني بالنفايات والأزمة البيئية الناجمة",
+      "is_presenter": false,
+      "frames_agreeing": 3,
+      "rejected": "program",
+      "accepted": false
+    },
+    "3": {
+      "name_original": "Niqash Al-Sa'a",
+      "name_arabic": "نقاش الساعة",
+      "role_arabic": "",
+      "is_presenter": false,
+      "frames_agreeing": 3,
+      "rejected": "program",
+      "accepted": false
+    },
+    "5": {
+      "name_original": "علي البخيتي",
+      "name_arabic": "علي البخيتي",
+      "role_arabic": "كاتب سياسي | لندن",
+      "is_presenter": false,
+      "frames_agreeing": 3,
+      "rejected": "",
+      "accepted": true
+    }
+  },
+  "render_dropped": [],
+  "render_approx": [
+    {
+      "point_id": "b5a8bd8b21bb",
+      "kind": "cold_open_clip",
+      "start": 439,
+      "end": 446,
+      "reason": "تعذّر جلب نص الفيديو"
+    }
+  ],
+  "rendered_at": "2026-10-16T13:54:32.108565+00:00"
 }
