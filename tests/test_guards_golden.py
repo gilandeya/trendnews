@@ -11139,4 +11139,160 @@ def test_reel_narration_bg_r5d1_guards() -> None:
         a, b = grab(0.0, "first.png"), grab(max((dur or 3.0) - 0.15, 0), "last.png")
         check("g350: الخلفية تحركت بين الأول والأخير", float(np.abs(a - b).mean()) > 1.0, float(np.abs(a - b).mean()))
     guarded("g350", g350)
+
+    # ── أدوات R5d1-متابعة (g351–g355): خطة الحركة على صورة كاملة بنسبتها ──
+    import math
+
+    def pan_eval(expr, t):
+        return eval(expr, {"max": max, "t": t})  # noqa: S307 -- تعبير ثابت من الكود نفسه
+
+    def x_at(plan, t):
+        return plan["x0"] - plan["speed"] * t
+
+    # ── g351: prepare_background تعيد wide بنسبة الصورة الأصلية ومركزها ──
+    def g351():
+        img = Image.new("RGB", (1200, 630), (90, 90, 90))
+        real_faces = imaging.face_boxes
+        try:
+            imaging.face_boxes = lambda im: []
+            bg = reel_render.prepare_background(cfg, img)
+            imaging.face_boxes = lambda im: [(100, 100, 200, 200)]
+            bg_f = reel_render.prepare_background(cfg, img)
+        finally:
+            imaging.face_boxes = real_faces
+        wide = bg.get("wide")
+        check("g351: wide موجودة", wide is not None, list(bg))
+        if wide is None:
+            return
+        check("g351: wide بنسبتها الأصلية وارتفاعها 2150", abs(wide.size[0] - 4096) <= 2 and abs(wide.size[1] - 2150) <= 2, wide.size)
+        check("g351: raw وimage باقيتان 1080×1920", bg["raw"].size == (W, H) and bg["image"].size == (W, H),
+              (bg["raw"].size, bg["image"].size))
+        check("g351: بلا وجوه wide_cx = المنتصف", abs(bg.get("wide_cx", -1) - wide.size[0] / 2) <= 2, bg.get("wide_cx"))
+        scale = wide.size[1] / 630
+        check("g351: بوجه مزيَّف wide_cx = مركزه مضروبًا بمقياس wide", abs(bg_f.get("wide_cx", -1) - 200 * scale) <= 2,
+              (bg_f.get("wide_cx"), 200 * scale))
+    guarded("g351", g351)
+
+    # ── g352: pan_plan خالصة ──
+    def g352():
+        if not hasattr(reel_render, "pan_plan"):
+            check("g352: pan_plan موجودة", False)
+            return
+        plan_ = reel_render.pan_plan
+        mid = plan_(cfg, "narration_bg", 4096, 2150, 50, 2048)
+        check("g352(أ): أفقية واسعة: speed=24 وzoom=1 وعرض 4096",
+              mid["speed"] == 24 and abs(mid["zoom"] - 1.0) < 1e-9 and mid["img_w"] == 4096, mid)
+        check("g352(أ): المقطع متمركز حول cx (x0 = cx−540+need/2)", abs(mid["x0"] - (2048 - 540 + 24 * 50 / 2)) < 0.01, mid)
+        edge = plan_(cfg, "narration_bg", 4096, 2150, 50, 4000)
+        check("g352(أ): cx قرب الحافة اليمنى ← يُقصّ داخل الحدود (x0 = img_w−1080)", abs(edge["x0"] - (4096 - 1080)) < 0.01, edge)
+        left = plan_(cfg, "narration_bg", 4096, 2150, 50, 100)
+        check("g352(أ): cx قرب الحافة اليسرى ← x(T) = 0", abs(x_at(left, 50)) < 0.01 and left["speed"] == 24, left)
+        tall = plan_(cfg, "narration_bg", 1433, 2150, 50, 716)
+        check("g352(ب): عمودية: zoom ≤ 1.5 وأكبر من 1", 1.0 < tall["zoom"] <= 1.5 + 1e-9, tall)
+        check("g352(ب): speed = المدى ÷ T وليست دون 8", abs(tall["speed"] - (tall["img_w"] - 1080) / 50) < 0.01 and tall["speed"] >= 8, tall)
+        mild = plan_(cfg, "narration_bg", 2000, 2150, 50, 1000)
+        check("g352(ب): تكبير يكفي فتبقى السرعة المفضلة 24", mild["speed"] == 24 and mild["zoom"] <= 1.5 + 1e-9 and mild["zoom"] > 1.0, mild)
+        hook = plan_(cfg, "hook", 4096, 2150, 7, 2048)
+        check("g352: مفتاح hook يقرأ سرعته 40", hook["speed"] == 40, hook)
+        tiny = plan_(cfg, "narration_bg", 1080, 1920, 100, 540)
+        check("g352(ب): مدى قاصر دون الحدّ الأدنى ← يبقى داخل الحدود", tiny["speed"] < 8 and x_at(tiny, 100) > -0.01, tiny)
+        for name, pl, T in (("mid", mid, 50), ("edge", edge, 50), ("left", left, 50), ("tall", tall, 50), ("mild", mild, 50),
+                            ("hook", hook, 7), ("tiny", tiny, 100)):
+            check(f"g352(ج): {name}: x(0) ≤ img_w−1080 وx(T) ≥ 0",
+                  x_at(pl, 0) <= pl["img_w"] - 1080 + 1e-6 and x_at(pl, T) >= -1e-6, pl)
+            ok = all(-1e-6 <= x_at(pl, T * k / 20) <= pl["img_w"] - 1080 + 1e-6 for k in range(21))
+            check(f"g352(ج): {name}: داخل الحدود طوال المدة", ok, pl)
+        for t0 in (0.0, 12.0):
+            expr = reel_render._pan_x_expr(mid["x0"], mid["speed"], t0)
+            bad = [t for t in (0.0, 1.3, 7.0, 20.0, 49.9) if abs(pan_eval(expr, t) - reel_render.pan_x(t + t0, mid["x0"], mid["speed"])) > 1e-6]
+            check(f"g352(د): pan_x يطابق تعبير ffmpeg (t0={t0})", not bad, (bad, expr))
+    guarded("g352", g352)
+
+    # ── g353: _assemble: تمريرة أولى للصوت، وخطة واحدة تتصل بين المشهدين ──
+    def g353():
+        calls: list = []
+        cmds: list = []
+        deps = make_deps(cmds, seconds=6.0)
+        real_syn = deps.synthesize
+        deps.synthesize = lambda t, v: (calls.append(t), real_syn(t, v))[1]
+        script = {"scenes": [{"kind": "narration", "text": "جملة أولى. جملة ثانية."}, {"kind": "narration", "text": "جملة ثالثة."}]}
+        _, _, durs = reel_render._assemble(script, {}, cfg, deps, wdir("g353"), "v", bg_layer(), "", {}, [], {})
+        check("g353: synthesize يُستدعى 3 مرات بالضبط", len(calls) == 3, calls)
+        c0, c1 = " ".join(scene_cmd(cmds, 0)), " ".join(scene_cmd(cmds, 1))
+        m0 = re.search(r"x='max\(([\d.]+)-([\d.]+)\*t,0\)'", c0)
+        t0 = durs[0] - lead if durs else None
+        m1 = re.search(r"x='max\(([\d.]+)-([\d.]+)\*\(t\+([\d.]+)\),0\)'", c1)
+        check("g353: تعبيرا المشهدين بصيغة x0−speed·t", m0 is not None and m1 is not None, (c0[:300], c1[:300]))
+        if m0 and m1:
+            check("g353: x0 وspeed نفسهما في المشهدين", m0.group(1) == m1.group(1) and m0.group(2) == m1.group(2),
+                  (m0.groups(), m1.groups()))
+            check("g353: t0 للثاني = مدة الأول − lead", abs(float(m1.group(3)) - t0) < 0.002, (m1.group(3), t0))
+    guarded("g353", g353)
+
+    def stripes(w, h, seed=7):
+        rng = np.random.RandomState(seed)
+        cols = np.repeat(rng.randint(0, 256, size=w // 4 + 1), 4)[:w]
+        arr = np.tile(cols[None, :], (h, 1)).astype(np.uint8)
+        return Image.fromarray(np.stack([arr] * 3, axis=-1))
+
+    def ffmpeg_ok():
+        return bool(shutil.which("ffmpeg"))
+
+    def grab_gray(out, at, work, name):
+        p = work / name
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-ss", f"{at:.3f}", "-i", str(out), "-frames:v", "1", str(p)], check=True)
+        return np.asarray(Image.open(p).convert("L"), dtype=np.float64)[80:400, 100:600].mean(axis=0)
+
+    def shift_between(a, b):
+        best = min(range(-60, 61), key=lambda s: np.abs(a[60:300] - b[60 + s:300 + s]).mean())
+        return best
+
+    def sine_mp3(seconds):
+        return subprocess.run(["ffmpeg", "-v", "error", "-f", "lavfi", "-i", f"sine=frequency=440:duration={seconds:.3f}",
+                               "-f", "mp3", "-"], capture_output=True, check=True).stdout
+
+    # ── g354: ffmpeg حقيقي: الحركة مستمرة عبر مشهدَي راوٍ ولا قفزة بينهما ──
+    def g354():
+        if not ffmpeg_ok():
+            check("g354: تُخطّي — لا ffmpeg في هذه البيئة", True)
+            return
+        silence = float(cfg.path("reel.tts.sentence_silence", 0.35))
+        mp3 = sine_mp3(9.0 - silence - lead)
+        bg = reel_render.prepare_background(cfg, stripes(1200, 630))
+        bg["used"] = {"url": "u", "kind": "manual", "publisher": ""}
+        deps = reel_render.Deps(synthesize=lambda t, v: {"ok": True, "audio": mp3, "chars": len(t)},
+                                diacritize=lambda t: (t, None)).resolved(cfg)
+        work = wdir("g354")
+        files, _, durs = reel_render._assemble({"scenes": [{"kind": "narration", "text": "جملة."},
+                                                           {"kind": "narration", "text": "أخرى."}]},
+                                               {}, cfg, deps, work, "v", bg, "", {}, [], {})
+        for k, at in ((0, 1.0), (0, 7.0), (1, 1.0), (1, 7.0)):
+            a, b = grab_gray(files[k], at, work, f"a{k}_{at}.png"), grab_gray(files[k], at + 1.0, work, f"b{k}_{at}.png")
+            sh = shift_between(a, b)
+            check(f"g354: إزاحة ثانية واحدة عند مشهد {k + 1} t={at} ← 24±4", abs(sh - 24) <= 4, sh)
+        end1 = grab_gray(files[0], durs[0] - lead, work, "end1.png")
+        start2 = grab_gray(files[1], 0.0, work, "start2.png")
+        check("g354: لا قفزة بين نهاية الأول (عند بدء الانتقال) وبداية الثاني (≤ 4 بكسل)", abs(shift_between(end1, start2)) <= 4,
+              shift_between(end1, start2))
+    guarded("g354", g354)
+
+    # ── g355: ffmpeg حقيقي: الهوك بخلفية صورة لا يتوقف ──
+    def g355():
+        if not ffmpeg_ok():
+            check("g355: تُخطّي — لا ffmpeg في هذه البيئة", True)
+            return
+        silence = float(cfg.path("reel.tts.sentence_silence", 0.35))
+        mp3 = sine_mp3(6.4 - silence)
+        bg = reel_render.prepare_background(cfg, stripes(1200, 630, seed=11))
+        bg["used"] = {"url": "u", "kind": "manual", "publisher": ""}
+        deps = reel_render.Deps(synthesize=lambda t, v: {"ok": True, "audio": mp3, "chars": len(t)},
+                                diacritize=lambda t: (t, None)).resolved(cfg)
+        work = wdir("g355")
+        files, _, durs = reel_render._assemble({"scenes": [{"kind": "title_card", "text": "ع"}]}, {}, cfg, deps, work, "v", bg,
+                                               "", {}, [], {})
+        check("g355: مدة الهوك قرابة 7 ث", 6.5 <= durs[0] <= 7.05, durs)
+        a, b = grab_gray(files[0], 5.5, work, "h55.png"), grab_gray(files[0], 6.5, work, "h65.png")
+        sh = shift_between(a, b)
+        check("g355: الإزاحة بين 5.5 و6.5 ث = 40±5 (لم تتوقف)", abs(sh - 40) <= 5, sh)
+    guarded("g355", g355)
     shutil.rmtree(work_root, ignore_errors=True)
