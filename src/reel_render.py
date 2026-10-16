@@ -1484,6 +1484,12 @@ def scene_seconds(body: float, tail: float, lead: float) -> float:
     return body + (tail if tail > 0 else 0.0) + (lead if lead > 0 else 0.0)
 
 
+def _still_bg_prefix(fps) -> str:
+    """سابقة سلسلة الفلتر لصورة خلفية كبيرة (4096×2150) تُدخل بـ-i مرة واحدة: loop يكرّر إطارها المفكوك، وsetpts يعيد الزمن
+    إلى زمن المشهد فيبقى t في crop صحيحًا. -loop 1 على PNG كبيرة يعيد فك ضغطها كل إطار (قيس: 30 ث بدل 4 ث لمقطع 11 ث)."""
+    return f"[0:v]loop=loop=-1:size=1:start=0,setpts=N/{fps}/TB,"
+
+
 def _timed_scene(frames: list[tuple[Path, float]], audio: Path, out: Path, cfg, deps: Deps, tmp: Path, tail: float,
                  lead: float = 0.0, bg_png: Path | None = None, bg_start: float = 0.0,
                  bg_pan: tuple[float, float] = (0.0, 0.0)) -> float:
@@ -1505,10 +1511,10 @@ def _timed_scene(frames: list[tuple[Path, float]], audio: Path, out: Path, cfg, 
         w, h, fps = int(rcfg["width"]), int(rcfg["height"]), rcfg["fps"]
         pan = _pan_x_expr(bg_pan[0], bg_pan[1], bg_start)
         afilter = f"adelay={int(round(lead * 1000))}:all=1,apad" if lead > 0 else "apad"
-        vg = (f"[0:v]crop={w}:{h}:x='{pan}':y='(ih-oh)/2',"
+        vg = (f"{_still_bg_prefix(fps)}crop={w}:{h}:x='{pan}':y='(ih-oh)/2',"
               f"{_shade_filter(cfg, 'narration_bg')},fps={fps}[b];"
               f"[1:v]fps={fps},format=rgba[t];[b][t]overlay=0:0:shortest=1,format=yuv420p[v];[2:a]{afilter}[a]")
-        deps.run(_base("-loop", "1", "-framerate", str(fps), "-i", str(bg_png), "-f", "concat", "-safe", "0", "-i", str(lst),
+        deps.run(_base("-i", str(bg_png), "-f", "concat", "-safe", "0", "-i", str(lst),
                        "-i", str(audio), "-filter_complex", vg, "-map", "[v]", "-map", "[a]", "-t", _fmt(total),
                        *_enc(rcfg), str(out)))
         return total
@@ -2150,8 +2156,8 @@ def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None,
         wide, wcx = _wide_of(bg)
         plan = pan_plan(cfg, "hook", wide.size[0], wide.size[1], seconds, wcx)
         bgpng = _pan_background(wide, plan, tmp, f"hook_bg_{i}.png")
-        inputs = [*loop, "-i", str(bgpng), *loop, "-i", str(png), "-i", str(audio)]
-        vg = (f"[0:v]crop={w}:{h}:x='{_pan_x_expr(plan['x0'], plan['speed'])}':y='(ih-oh)/2',"
+        inputs = ["-i", str(bgpng), *loop, "-i", str(png), "-i", str(audio)]
+        vg = (f"{_still_bg_prefix(fps)}crop={w}:{h}:x='{_pan_x_expr(plan['x0'], plan['speed'])}':y='(ih-oh)/2',"
               f"{_shade_filter(cfg)},fps={fps}[b];[b][1:v]overlay=0:0:shortest=1,format=yuv420p[v]")
         ag = "[2:a]apad[a]"
     else:
