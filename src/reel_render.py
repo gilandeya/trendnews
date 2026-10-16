@@ -1204,9 +1204,8 @@ def frame_clip_layers(cfg, scene: dict, boxes=None, cover: bool | None = None) -
                                   min_size=role_min, warn=i == len(tries) - 1) is not None:
                 break
     else:
-        # مذيع القناة نفسها لا «ضيف عليها»: القناة بصيغتها وحدها (Issue #1427)
-        label = (channel or (scene.get("channel_display") or "").strip()) if scene.get("speaker_presenter") else \
-            cfg.path("reel.texts.guest_label", "ضيف على {channel}").format(channel=channel)
+        # غير الموثَّق مذيعًا كان أو ضيفًا: القناة بصيغتها وحدها، فـ«ضيف على» ادّعاء لا نعرفه (Issue #1450)
+        label = channel or (scene.get("channel_display") or "").strip()
         p.ink_line(label, *p.face(label, "display"), 52, p.white, prev_bottom=None, gap=0, limit=top + height - 16,
                    min_size=int(band.get("min_sizes", {}).get("guest", 30)), y_top=top + 80)
     return st.img, bd.img
@@ -1878,8 +1877,10 @@ CHYRON_TOOL = {
         "type": "object",
         "properties": {"has_caption": {"type": "boolean"}, "name_original": {"type": "string"},
                        "name_arabic": {"type": "string"}, "role_original": {"type": "string"},
-                       "role_arabic": {"type": "string"}, "is_presenter": {"type": "boolean"}},
-        "required": ["has_caption", "name_original", "name_arabic", "role_original", "role_arabic", "is_presenter"]}}},
+                       "role_arabic": {"type": "string"}, "is_presenter": {"type": "boolean"},
+                       "name_kind": {"type": "string", "enum": ["person", "program", "channel", "other"]}},
+        "required": ["has_caption", "name_original", "name_arabic", "role_original", "role_arabic", "is_presenter",
+                     "name_kind"]}}},
         "required": ["frames"]},
 }
 _LATIN_CHARS = re.compile(r"[A-Za-z\u00C0-\u024F]")
@@ -1941,23 +1942,61 @@ def _real_read_chyron(clip, cfg) -> list[dict]:
     return call_chyron_model(_chyron_jpegs(clip, cfg), cfg)
 
 
-def resolve_chyron(frames: list, cfg) -> dict:
-    """القبول من نتائج اللقطات (دالة نقية): اسم متطابق بعد توحيد المسافات وحالة الأحرف في لقطتين فأكثر؛ الصفة من أول لقطة
-    فيها ذلك الاسم. is_presenter صحيحة إن قالتها لقطتان فأكثر. {name_original, name_arabic, role_arabic, is_presenter,
-    frames_agreeing, accepted}"""
-    groups: dict[str, list[dict]] = {}
+def _fold_name(text: str) -> str:
+    """توحيد للمقارنة وحدها: مسافات وحالة أحرف، وحذف «ال» من أول الكلمة الأولى فيطابق «النقاش» «نقاش» (Issue #1450)."""
+    words = " ".join(str(text or "").split()).casefold().split(" ")
+    if words and words[0].startswith("ال") and len(words[0]) > 3:
+        words[0] = words[0][2:]
+    return " ".join(w for w in words if w)
+
+
+def _chyron_reject_reason(frame: dict, cfg, channels: list) -> str:
+    """لماذا لا تُعدّ هذه اللقطة اسمَ شخص؛ فارغ إن كانت كذلك. name_kind الغائب يُقبل (توافقًا مع المزيَّفات القديمة)، وnot_names
+    شبكة أمان لا بديل عن name_kind لأن النموذج يخطئ في تصنيف اسم برنامج شخصًا."""
+    kind = frame.get("name_kind")
+    if kind in ("program", "channel"):
+        return kind
+    if kind not in (None, "", "person"):
+        return "not_names"
+    forms = {_fold_name(frame.get("name_original")), _fold_name(frame.get("name_arabic"))} - {""}
+    banned = {_fold_name(n) for n in (cfg.path("reel.render.chyron.not_names") or [])} - {""}
+    if forms & banned:
+        return "not_names"
+    for ch in channels:
+        ch = _fold_name(ch)
+        if len(ch) >= 3 and any(ch in form for form in forms):
+            return "channel"
+    return ""
+
+
+def resolve_chyron(frames: list, cfg, channel: str | list = "") -> dict:
+    """القبول من نتائج اللقطات (دالة نقية): اسم شخص متطابق بعد توحيد المسافات وحالة الأحرف في لقطتين فأكثر؛ الصفة من أول لقطة
+    فيها ذلك الاسم. اسم البرنامج أو القناة لا يُعدّ (Issue #1450). is_presenter صحيحة إن قالتها لقطتان فأكثر.
+    {name_original, name_arabic, role_arabic, is_presenter, frames_agreeing, accepted, rejected}؛ rejected سبب إسقاط الاسم
+    الأكثر تكرارًا: program | channel | not_names، وفارغ إن لم يُسقَط شيء."""
+    channels = [channel] if isinstance(channel, str) else list(channel or [])
+    valid: dict[str, list[dict]] = {}
+    invalid: dict[str, list[dict]] = {}
     for f in frames:
         name = " ".join(str(f.get("name_original") or "").split())
         if name:
-            groups.setdefault(name.casefold(), []).append(f)
-    best = max(groups.values(), key=len) if groups else []
+            (invalid if _chyron_reject_reason(f, cfg, channels) else valid).setdefault(name.casefold(), []).append(f)
+    best = max(valid.values(), key=len) if valid else []
+    rejected = ""
+    if len(best) < 2 and invalid:
+        # لا اسم شخص مقبول: يبقى الأكثر تكرارًا بين المرفوضات سببًا وللتعليق اسمًا
+        worst = max(invalid.values(), key=len)
+        if not best:
+            best = worst
+        rejected = _chyron_reject_reason(worst[0], cfg, channels)
     first = best[0] if best else {}
     agreeing = len(best)
     name_ar = " ".join(str(first.get("name_arabic") or "").split())
     return {"name_original": " ".join(str(first.get("name_original") or "").split()), "name_arabic": name_ar,
             "role_arabic": " ".join(str(first.get("role_arabic") or "").split()),
             "is_presenter": sum(1 for f in frames if f.get("is_presenter") is True) >= 2,
-            "frames_agreeing": agreeing, "accepted": agreeing >= 2 and bool(name_ar)}
+            "frames_agreeing": agreeing, "rejected": rejected,
+            "accepted": agreeing >= 2 and bool(name_ar) and not rejected}
 
 
 def _apply_chyron(scene: dict, clip: dict, cfg, deps: Deps, speakers: dict, notes: list, index: int) -> None:
@@ -1971,7 +2010,8 @@ def _apply_chyron(scene: dict, clip: dict, cfg, deps: Deps, speakers: dict, note
         frames = deps.read_chyron(clip["file"], cfg)
         if not isinstance(frames, list) or not frames:
             return
-        res = resolve_chyron([f for f in frames if isinstance(f, dict)], cfg)
+        res = resolve_chyron([f for f in frames if isinstance(f, dict)], cfg,
+                             [scene.get("channel_original") or "", scene.get("channel_display") or ""])
     except Exception as exc:  # noqa: BLE001 -- القراءة تحسين لا شرط
         log.warning("تعذّرت قراءة شريط القناة فيبقى «ضيف على»: %s", str(exc)[:120])
         return
@@ -1984,8 +2024,14 @@ def _apply_chyron(scene: dict, clip: dict, cfg, deps: Deps, speakers: dict, note
             name_arabic=res["name_arabic"], name_original=res["name_original"], role_arabic=res["role_arabic"])
         if line not in notes:
             notes.append(line)
-    elif res["is_presenter"]:
-        scene["speaker_presenter"] = True
+    else:
+        if res["is_presenter"]:
+            scene["speaker_presenter"] = True
+        if res.get("rejected") in ("program", "channel"):
+            # اسم البرنامج يُعرض لو قُبل اسمًا لشخص فيُنبَّه المراجع إلى أن الشريط عُوملَ كأنه بلا اسم
+            line = cfg.path("reel.render.texts.comment_chyron_program").format(name=res["name_arabic"] or res["name_original"])
+            if line not in notes:
+                notes.append(line)
 
 
 # ───────────────────── الهوك والشعار الكبير (Issue #1429، R5c1) ─────────────────────
