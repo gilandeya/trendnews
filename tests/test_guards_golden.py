@@ -11689,7 +11689,7 @@ def test_reel_broll_r5d2_guards() -> None:
               "script": {"narrator": "female", "title": title, "question": "هل؟", "scenes": sc},
               "hook_candidates": [cand("c1", 900), cand("c2", 500)], "hook_search": {"attempts": []},
               "reel_bg": {"kind": "news_photo", "url": "https://example.com/bg.jpg", "publisher": "Reuters"},
-              "broll_plan": plan_items, **(extra or {})}
+              **({} if plan_items is None else {"broll_plan": plan_items}), **(extra or {})}
         path = store.save_draft(d0)
         d = json.loads(path.read_text(encoding="utf-8"))
         old = os.environ.get("YOUTUBE_API_KEY")
@@ -12000,5 +12000,160 @@ def test_reel_broll_r5d2_guards() -> None:
         check("g369: rejected=not_names ← سطر 🏷️ مرة واحدة", len(lines) == 1 and "نقاش الساعة" in lines[0], notes)
     guarded("g369", g369)
 
+    # ───────────────────────── g373: خطة اللقطات الناقصة تُكتب مرة واحدة قبل التركيب (Issue #1458، R5d3) ─────────────────────────
+    def g373():
+        calls: list = []
+        real_bc = getattr(reel_broll, "_create", None)
+
+        def counting(client, **kw):
+            calls.append(kw)
+            return tool_resp("plan_broll", {"items": PLAN_ITEMS})
+        reel_broll._create = counting
+        try:
+            deps, _, _ = full_rig({"c1": set(range(0, 30))})
+            path, st = full_go("r5d3000g373a1", deps, work_root / "g373a", None)
+            check("g373: بلا مفتاح broll_plan ← plan_broll مرة واحدة", len(calls) == 1, len(calls))
+            plan = st.get("broll_plan")
+            check("g373: الخطة محفوظة على المسودة (قائمة غير فارغة)", isinstance(plan, list) and len(plan) == 3, plan)
+            d_saved = json.loads(path.read_text(encoding="utf-8"))
+            reel_render._ensure_broll_plan(path, d_saved, cfg)
+            try:
+                reel_render.render_draft(path, d_saved, cfg, deps, reels_dir=work_root / "g373a" / "reels2",
+                                         workdir=work_root / "g373a" / "work2")
+            except Exception:  # noqa: BLE001 -- المهم أنه لا نداء ثانيًا
+                pass
+            check("g373: تركيب ثانٍ لا يستدعي plan_broll", len(calls) == 1, len(calls))
+            deps2, _, _ = full_rig({"c1": set(range(0, 30))})
+            full_go("r5d3000g373b1", deps2, work_root / "g373b", [])
+            check("g373: broll_plan=[] لا يُعاد", len(calls) == 1, len(calls))
+        finally:
+            if real_bc is not None:
+                reel_broll._create = real_bc
+    guarded("g373", g373)
+
     import shutil
     shutil.rmtree(work_root, ignore_errors=True)
+
+
+def test_reel_script_keys_r5d3_guards() -> None:
+    """Issue #1458 (R5d3، g370–g372): ما تكتبه reel_script.write_for_draft على المسودة (الخلفية ومرشّحو الهوك وخطة اللقطات) يصل القرص
+    عبر الطريق الحقيقي publish._write_reel_script لا عبر write_for_draft وحدها. لا شبكة."""
+    import re
+    import tempfile
+    from types import SimpleNamespace
+
+    from src import names_audit, publish as publish_mod, reel_broll, reel_editor, reel_hook_search, reel_render, reel_script, store
+    from src import youtube_article as ya
+    from src import youtube_cluster
+    from src import youtube_publish as yp
+
+    cfg = load_config()
+    cfg.setdefault("reel", {})["enabled"] = True
+    cfg["reel"].setdefault("hook_search", {})["enabled"] = True
+    cfg["reel"].setdefault("broll", {})["enabled"] = True
+    D = "2099-11-03"
+    TID = "cccc1111dddd"
+
+    def tool_resp(name, data):
+        return SimpleNamespace(content=[SimpleNamespace(type="tool_use", name=name, input=data)], stop_reason="tool_use",
+                               usage=SimpleNamespace(input_tokens=1, output_tokens=1, server_tool_use=None))
+
+    def pt(i, speaker, ts):
+        return {"video_id": f"k{i}", "bloc": "arabic", "channel": "الجزيرة", "speaker": speaker,
+                "statement": f"قول {i}", "quote_arabic": f"اقتباس {i}", "quote_original": " ".join(["كلمة"] * 20),
+                "type": "fact", "video_title": f"فيديو {i}", "video_url": f"https://youtube.com/watch?v=k{i}",
+                "timestamp": ts, "video_published": "2099-10-30", "video_description": ""}
+
+    pa, pb = pt(1, "حقان فيدان", 100), pt(2, "ليلى حداد", 200)
+    ids = {p["speaker"]: reel_script.point_key_id(p) for p in (pa, pb)}
+    words = [f"س{i}" for i in range(45)]
+    narr = ". ".join(" ".join(words[k:k + 15]) for k in (0, 15, 30)) + "."
+    words2 = [f"ص{i}" for i in range(45)]
+    narr2 = ". ".join(" ".join(words2[k:k + 22]) for k in (0, 22)) + "."
+
+    def fake_create(client, **kw):
+        if kw["tools"][0]["name"] == "report_speakers":
+            return tool_resp("report_speakers", {"speakers": []})
+        scenes = [{"kind": "cold_open_clip", "point_id": ids["حقان فيدان"]}, {"kind": "title_card", "text": "ع"},
+                  {"kind": "narration", "text": narr}, {"kind": "clip", "point_id": ids["ليلى حداد"]},
+                  {"kind": "narration", "text": narr2}, {"kind": "question", "text": "ما رأيك؟"}, {"kind": "outro"}]
+        return tool_resp("report_reel_script", {"title": "ع", "question": "ما رأيك؟", "scenes": scenes})
+
+    PLAN_ITEMS = [{"scene": 2, "sentence": 0, "visual": "صاروخ يُعترض في سماء ليلية"},
+                  {"scene": 2, "sentence": 1, "visual": ""}, {"scene": 2, "sentence": 2, "visual": "دخان فوق مطار"},
+                  {"scene": 4, "sentence": 0, "visual": ""}, {"scene": 4, "sentence": 1, "visual": "طائرة فوق ميناء"}]
+
+    def fake_hook(draft, c, deps=None):
+        draft["hook_candidates"] = [{"video_id": "hk1", "title": "لقطة", "channel": "Reuters", "views": 900,
+                                     "duration": 300, "published": "2099-11-02T08:00:00Z"}]
+        draft["hook_search"] = {"attempts": [], "picked": ["hk1"]}
+
+    real = {"create": reel_script._create, "audit": names_audit.run, "hl": ya.generate_headlines,
+            "ed": reel_editor._create, "bc": getattr(reel_broll, "_create", None),
+            "hook": reel_hook_search.pick_hook_candidates, "bg": reel_render.pick_background,
+            "topics": youtube_cluster._load_topics_raw, "win": youtube_cluster.prepare_window_points}
+    reel_script._create = fake_create
+    names_audit.run = lambda draft, sources, c: {}
+    ya.generate_headlines = lambda *a, **k: (["هل؟", "ب", "ج"], None, None)
+    reel_editor._create = lambda client, **kw: tool_resp("report_review", {"notes": []})
+    reel_broll._create = lambda client, **kw: tool_resp("plan_broll", {"items": PLAN_ITEMS})
+    reel_hook_search.pick_hook_candidates = fake_hook
+    reel_render.pick_background = lambda draft, c: {"kind": "news_photo", "url": "https://example.com/bg.jpg",
+                                                    "publisher": "Reuters"}
+    youtube_cluster._load_topics_raw = lambda date: {"topics": [{"id": TID, "point_ids": [0, 1]}]}
+    youtube_cluster.prepare_window_points = lambda date, c: ([pa, pb], None)
+
+    def new_draft(i):
+        d = yp.build_reel_draft({"id": TID, "title": "موضوع", "layer": "a", "blocs": ["arabic"],
+                                 "channels": ["الجزيرة"], "agreement": "agreement", "event": "حدث"}, D, cfg)
+        d["id"] = i
+        d["topic_date"] = D
+        return d
+
+    try:
+        def g370():
+            d = new_draft("b370a1a1a1a1")
+            store.save_draft(d)
+            res = publish_mod._write_reel_script(d, D, cfg, None, None)
+            found = store.load_draft(d["id"])
+            disk = found[1] if found else {}
+            check("g370: السيناريو جاهز عبر الطريق الحقيقي", bool(res) and res.get("status") == "ready"
+                  and disk.get("script_status") == "ready", res)
+            for k in ("reel_bg", "hook_candidates", "hook_search", "broll_plan"):
+                check(f"g370: {k} على القرص بعد _write_reel_script", bool(disk.get(k)), disk.get(k))
+        g370()
+
+        def g371():
+            d = {"id": "b371a1a1a1a1"}
+            before = set(d)
+            reel_script.write_for_draft(d, {"id": TID, "title": "موضوع", "event": "حدث"}, [pa, pb], "", [], cfg)
+            added = set(d) - before
+            missing = sorted(added - set(reel_script.SCRIPT_KEYS))
+            check("g371: كل مفتاح تكتبه write_for_draft موجود في SCRIPT_KEYS", not missing and bool(added), missing)
+            # مسار الفشل أيضًا (بلا مقاطع كافية) يكتب script_status/script_error
+            d2 = {"id": "b371b1b1b1b1"}
+            reel_script.write_for_draft(d2, {"id": TID}, [], "", [], cfg)
+            check("g371: مفاتيح مسار الفشل ضمن SCRIPT_KEYS", set(d2) - {"id"} <= set(reel_script.SCRIPT_KEYS), set(d2))
+        g371()
+
+        def g372():
+            d = new_draft("b372a1a1a1a1")
+            store.save_draft(d)
+            publish_mod._write_reel_script(d, D, cfg, None, None)
+            disk = store.load_draft(d["id"])[1]
+            body = yp.build_review_body([disk], "u/r", "main", cfg)
+            check("g372: سطر الهوك وصورته في قضية المرحلة 2", "i.ytimg.com/vi/hk1/" in body, body[-400:])
+            lines = [ln for ln in body.splitlines() if re.search(r"🎞️ \d+ «", ln)]
+            check("g372: سطور «ما سيُرى خلف كل جملة»", len(lines) == 5, lines)
+        g372()
+    finally:
+        reel_script._create = real["create"]
+        names_audit.run = real["audit"]
+        ya.generate_headlines = real["hl"]
+        reel_editor._create = real["ed"]
+        if real["bc"] is not None:
+            reel_broll._create = real["bc"]
+        reel_hook_search.pick_hook_candidates = real["hook"]
+        reel_render.pick_background = real["bg"]
+        youtube_cluster._load_topics_raw = real["topics"]
+        youtube_cluster.prepare_window_points = real["win"]
