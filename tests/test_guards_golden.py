@@ -12322,6 +12322,37 @@ def test_reel_broll_r5d2_guards() -> None:
         check("g386: render_version == 26", int(cfg.path("reel.render.version")) == 26, cfg.path("reel.render.version"))
     guarded("g386", g386)
 
+    # ───────────────────────── g387: هوك auto_topic المحفوظ يُعاد اختياره بالمعنى (Issue #1465، متابعة R5d6) ─────────────────────────
+    def g387():
+        old_hv = {"video_id": "c1", "start": 0, "end": 12, "title": "قديم", "channel": "Reuters", "source": "auto_topic", "views": 900}
+
+        def rig():
+            deps, c, comments = full_rig({"c1": set(range(0, 30)), "c2": set(range(40, 50))}, nframes=200, relevant=False)
+            base = deps.assign_broll
+
+            def assign(needy, chains, c_):
+                if len(needy) == 1 and needy[0]["n"] == 0:
+                    c.setdefault("hook_calls", []).append(needy)
+                    k = min(range(len(chains)), key=lambda i: chains[i]["end"] - chains[i]["start"])
+                    return [{"n": 0, "chain": k + 1}]
+                return base(needy, chains, c_)
+            deps.assign_broll = assign
+            return deps, c
+        deps, c = rig()
+        path, st = full_go("r5d6000g387a1", deps, work_root / "g387", PLAN3, extra={"hook_video": dict(old_hv)})
+        hv = st.get("hook_video") or {}
+        check("g387: hook_video بمصدر auto_topic أُعيد اختياره من السلسلة الثانية", hv.get("video_id") == "c2"
+              and hv.get("source") == "auto_topic", hv)
+        check("g387: assign_broll استُدعي للهوك", bool(c.get("hook_calls")), c.get("hook_calls"))
+        # المصدر auto (الحدث نفسه) لا يُحذف ولا يُسند له
+        deps2, c2 = rig()
+        path2, st2 = full_go("r5d6000g387a2", deps2, work_root / "g387b", PLAN3,
+                             extra={"hook_video": dict(old_hv, source="auto")})
+        hv2 = st2.get("hook_video") or {}
+        check("g387: مع source=auto لا يُحذف", hv2.get("video_id") == "c1" and hv2.get("source") == "auto", hv2)
+        check("g387: ولا يُستدعى الإسناد للهوك", not c2.get("hook_calls"), c2.get("hook_calls"))
+    guarded("g387", g387)
+
     import shutil
     shutil.rmtree(work_root, ignore_errors=True)
 
