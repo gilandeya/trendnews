@@ -2530,11 +2530,43 @@ def _hook_searched(draft: dict) -> bool:
     return isinstance(hs, dict) and any(k in hs for k in ("attempts", "skipped", "error"))
 
 
+def _ensure_broll_plan(path: Path, draft: dict, cfg) -> None:
+    """مسودة سيناريوها جاهز بلا المفتاح broll_plan أصلًا (قديمة، أو ضاعت خطتها قبل #1458) تُكتب خطتها مرة واحدة وتُحفظ فلا
+    تتكرر في التركيب التالي. مفتاح موجود، ولو فارغًا بعد عطل، لا يُعاد: الفشل المسجَّل لا يُكرَّر نداؤه في كل تركيب."""
+    if "broll_plan" in draft or not cfg.path("reel.broll.enabled", False) or not (draft.get("script") or {}).get("scenes"):
+        return
+    reel_broll.write_plan(draft, cfg)
+    store.update_draft(path, broll_plan=draft.get("broll_plan", []), **(
+        {"broll_plan_error": draft["broll_plan_error"]} if "broll_plan_error" in draft else {}))
+
+
+def _ensure_hook_candidates(path: Path, draft: dict, script: dict, cfg, deps: Deps, notes: list) -> None:
+    """البحث الاحتياطي لمسودة قديمة بلا hook_search (R5c3): يُستدعى pick_hook_candidates مرة وتُحفظ نتيجته فلا يتكرر. يسبق حساب
+    want_broll لأن _broll_wanted يشترط hook_candidates، وإلا ركّبت المسودة القديمة بلا لقطات حتى بخطة مكتوبة (#1458)."""
+    hv = draft.get("hook_video")
+    if isinstance(hv, dict) and hv.get("video_id"):
+        return
+    if not cfg.path("reel.hook_search.enabled", False) or deps.scan_download is None or deps.classify_sheet is None:
+        return
+    if not any(s.get("kind") == "title_card" for s in script.get("scenes", [])) or _hook_searched(draft):
+        return
+    if (deps.yt_search is None or deps.make_queries is None or deps.yt_details is None or deps.judge_titles is None
+            or not os.environ.get("YOUTUBE_API_KEY", "").strip()):
+        log.info("بحث لقطة الهوك: لا حقن أو YOUTUBE_API_KEY غائب — تخطٍّ")
+        return
+    draft.setdefault("topic_date", path.parent.name)
+    reel_hook_search.pick_hook_candidates(draft, cfg, reel_hook_search.HookDeps(
+        yt_search=deps.yt_search, yt_details=deps.yt_details, make_queries=deps.make_queries,
+        judge_titles=deps.judge_titles))
+    store.update_draft(path, hook_candidates=draft.get("hook_candidates", []), hook_search=draft.get("hook_search"))
+    if (draft.get("hook_search") or {}).get("error"):
+        notes.append(cfg.path("reel.render.texts")["comment_hook_failed"])
+
+
 def _auto_hook(path: Path, draft: dict, script: dict, cfg, deps: Deps, tmp: Path, notes: list,
                state: "reel_hook_search.ScanState | None" = None, want_broll: bool = False) -> None:
     """الفحص البصري لمرشّحي لقطة الهوك (Issue #1445، R5c3) قبل مشهده. hook_video الموجود (اليدوي أولًا) يغلب؛ وإلا يُفحص
-    draft.hook_candidates بترتيبهم ويُعتمد أول مرشّح فيه سلسلة صالحة. لا بحث هنا إلا لمسودة قديمة بلا hook_search: يُستدعى لها
-    pick_hook_candidates مرة وتُحفظ نتيجته فلا يتكرر. أي عطل يُبقي الهوك بصورة الخبر وسطرًا في التعليق، ولا يُفشل التركيب."""
+    draft.hook_candidates بترتيبهم ويُعتمد أول مرشّح فيه سلسلة صالحة. لا بحث هنا: البحث الاحتياطي في _ensure_hook_candidates قبله. أي عطل يُبقي الهوك بصورة الخبر وسطرًا في التعليق، ولا يُفشل التركيب."""
     t = cfg.path("reel.render.texts")
     hv = draft.get("hook_video")
     if isinstance(hv, dict) and hv.get("video_id"):
@@ -2546,18 +2578,9 @@ def _auto_hook(path: Path, draft: dict, script: dict, cfg, deps: Deps, tmp: Path
     if not any(s.get("kind") == "title_card" for s in script.get("scenes", [])):
         return
     if not _hook_searched(draft):
-        if (deps.yt_search is None or deps.make_queries is None or deps.yt_details is None or deps.judge_titles is None
-                or not os.environ.get("YOUTUBE_API_KEY", "").strip()):
-            log.info("بحث لقطة الهوك: لا حقن أو YOUTUBE_API_KEY غائب — تخطٍّ")
-            return
-        draft.setdefault("topic_date", path.parent.name)
-        reel_hook_search.pick_hook_candidates(draft, cfg, reel_hook_search.HookDeps(
-            yt_search=deps.yt_search, yt_details=deps.yt_details, make_queries=deps.make_queries,
-            judge_titles=deps.judge_titles))
-        store.update_draft(path, hook_candidates=draft.get("hook_candidates", []), hook_search=draft.get("hook_search"))
-        if (draft.get("hook_search") or {}).get("error"):
-            notes.append(t["comment_hook_failed"])
-            return
+        return
+    if (draft.get("hook_search") or {}).get("error") and t["comment_hook_failed"] in notes:
+        return  # عطل بحث هذا التركيب سُجّل سطره في _ensure_hook_candidates
     cands = draft.get("hook_candidates") or []
     if not cands:
         if not (draft.get("hook_search") or {}).get("skipped"):
@@ -2614,6 +2637,8 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     voice = cfg.path(f"reel.tts.narrator_voices.{script.get('narrator', 'female')}")
     notes = notes if notes is not None else []
     bg, bg_saved = _resolve_background(path, draft, cfg, deps, notes)
+    _ensure_broll_plan(path, draft, cfg)
+    _ensure_hook_candidates(path, draft, script, cfg, deps, notes)
     want_broll = _broll_wanted(draft, cfg, deps, bg)
     scan_state = reel_hook_search.ScanState()
     _auto_hook(path, draft, script, cfg, deps, tmp, notes, state=scan_state, want_broll=want_broll)
