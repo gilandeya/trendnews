@@ -21845,5 +21845,26 @@
   "state_media": true,
   "created_hour": 9,
   "selection_issue": 1453
+ },
+ {
+  "id": "f11ce64c16fb",
+  "created_at": "2026-10-16T09:16:43.211183+00:00",
+  "decided_at": "2026-10-16T09:33:35.034328+00:00",
+  "decision": "published",
+  "reject_tag": null,
+  "origin": "news",
+  "category": "ثقافة",
+  "angle": "تفسير",
+  "urgent": false,
+  "bucket": "light",
+  "region": "culture",
+  "score": 22.82,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "source_count": 4,
+  "body_len": 454,
+  "has_photo": true,
+  "state_media": false,
+  "created_hour": 9
  }
 ]
