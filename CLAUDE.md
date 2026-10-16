@@ -1925,3 +1925,11 @@ instead.
 ## ترتيب التركيب لمسودة قديمة (Issue #1458، متابعة R5d3) — `src/reel_render.py`
 
 - `_render`: `_resolve_background` ← `_ensure_broll_plan` ← `_ensure_hook_candidates` ← `want_broll` ← `_auto_hook` (بلا بحث بعد الآن) ← `_scan_broll`. البحث الاحتياطي (`pick_hook_candidates` لمسودة بلا `hook_search`) استُخرج من `_auto_hook` إلى `_ensure_hook_candidates` لأن `_broll_wanted` يشترط `hook_candidates`، فكانت المسودة القديمة تُركَّب بلا لقطات رغم خطتها. بحث يوتيوب مرة واحدة في التركيب؛ `render_version` = 23؛ الاختبار g374.
+
+## معيار لقطات الجمل وتوزيع الفحص (Issue #1460، R5d4) — `src/reel_hook_search.py`، `src/reel_render.py`
+
+- **حادثة b05ca971ffe2 (#1457):** لا لقطات رغم فيديوهين مفحوصين، ولا أثر محفوظ. السبب: معيار الهوك (`event_footage` وrelevant للحدث المجرّد) كان يُطبَّق على الجمل، وصفائح الهوك والمسح صُرفت كلها على الفيديو الأول.
+- **المعياران:** الهوك بلا تغيير (`_is_good`/`good_seconds`). السلاسل تُبنى من ثوانٍ `kind == "event_footage"` لها `desc` (`footage` في `_entry`) سواء relevant أم لا؛ يُحفظ على السلسلة `relevant` (كل ثوانيها relevant) للمراجعة، والإسناد والمدقّق القطعي هما الحَكَم.
+- **التوزيع:** `reel.broll.max_sheets_per_video` (15) للهوك والجمل معًا في `ScanState.video_sheets`، ضمن `broll.max_sheets` (30)؛ فيصل المسح إلى الفيديو الثاني. نتيجة معروفة: المسح من الفيديو الأول يبلغ نحو 250 ث فقط.
+- **لا صمت:** كل تركيب طُلبت فيه لقطات يكتب «🎞️ لقطات الحدث: N من M» ويحفظ `render_broll` بسبب لكل جملة (جديد `no_chains`)، وحين لا سلاسل سطر `comment_broll_scan`. `draft["broll_scan"]` = `{videos: {id: {downloaded, classified, sheets, kinds, footage_relevant, footage_other, chains, longest, error?}}, sheets_used}`.
+- `render_version` = 24. الاختبارات g375–g378 في `tests/test_guards_golden.py:test_reel_broll_r5d2_guards`.
