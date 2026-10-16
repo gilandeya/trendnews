@@ -12352,6 +12352,42 @@ def test_reel_broll_r5d2_guards() -> None:
         check("g387: ولا يُستدعى الإسناد للهوك", not c2.get("hook_calls"), c2.get("hook_calls"))
     guarded("g387", g387)
 
+    # ───────────────────────── g388: إعادة محاولة تنزيل الفحص وحفظ سببه (Issue #1467، R5d7) ─────────────────────────
+    def g388():
+        script = {"title": "ع", "scenes": [{"kind": "title_card", "text": "ع"}]}
+        per = reel_hook_search.COLS * reel_hook_search.ROWS
+        step = int(cfg.path("reel.broll.step"))
+        nframes = per * step * 2
+        attempts = int(cfg.path("reel.broll.scan_download_attempts", 3))
+
+        def rig(fail_times):
+            deps = sheet_fail_rig({"c1": set(range(0, nframes))}, set(), nframes)
+            calls = {"dl": 0, "sleep": []}
+            base = deps.scan_download
+
+            def dl(video_id, seconds, height, out_path):
+                calls["dl"] += 1
+                if calls["dl"] <= fail_times:
+                    raise RuntimeError("انقطع التنزيل العابر")
+                return base(video_id, seconds, height, out_path)
+            deps.scan_download = dl
+            deps.sleep = lambda s: calls["sleep"].append(s)
+            return deps, calls
+        cands = [cand("c1", 900)]
+        deps, calls = rig(2)
+        state = reel_hook_search.ScanState()
+        res = reel_hook_search.scan_broll({"topic_date": D}, script, cands, cfg, deps, work_root, state, hook=None)
+        check("g388: فشل مرتين ثم نجح ← الفيديو يُفحص وتتكوّن سلاسله", "c1" not in state.failed and bool(res.get("chains")), (state.failed, res))
+        check("g388: deps.sleep استُدعي مرتين وscan_download ثلاثًا", len(calls["sleep"]) == 2 and calls["dl"] == 3, calls)
+        deps2, calls2 = rig(99)
+        state2 = reel_hook_search.ScanState()
+        res2 = reel_hook_search.scan_broll({"topic_date": D}, script, cands, cfg, deps2, work_root, state2, hook=None)
+        v2 = (res2.get("scan") or {}).get("videos", {}).get("c1", {})
+        check("g388: فشل ثلاث مرات ← error وerror_text فيه رسالة العطل",
+              v2.get("error") is True and "انقطع التنزيل العابر" in (v2.get("error_text") or ""), v2)
+        check("g388: scan_download لا يُستدعى أكثر من 3 مرات للفيديو الواحد", calls2["dl"] == attempts == 3, (calls2, attempts))
+    guarded("g388", g388)
+
     import shutil
     shutil.rmtree(work_root, ignore_errors=True)
 
