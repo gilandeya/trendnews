@@ -1921,3 +1921,7 @@ instead.
 
 - `reel_script.SCRIPT_KEYS` هو القائمة الوحيدة بما تكتبه `write_for_draft` على المسودة (ومنه `reel_bg` و`hook_candidates` و`hook_search` و`broll_plan`)، و`publish._write_reel_script` يحفظ بها وحدها؛ مفتاح جديد يُكتب في `write_for_draft` يُضاف إليها وإلا ضاع (g371 يفحص ذلك، وg370/g372 يمرّان بالطريق الحقيقي).
 - التركيب: `reel_render._ensure_broll_plan` يكتب خطة اللقطات مرة واحدة لمسودة سيناريوها جاهز بلا المفتاح `broll_plan` أصلًا ويحفظها؛ مفتاح موجود (ولو `[]`) لا يُعاد (g373). `render_version` يبقى 23.
+
+## ترتيب التركيب لمسودة قديمة (Issue #1458، متابعة R5d3) — `src/reel_render.py`
+
+- `_render`: `_resolve_background` ← `_ensure_broll_plan` ← `_ensure_hook_candidates` ← `want_broll` ← `_auto_hook` (بلا بحث بعد الآن) ← `_scan_broll`. البحث الاحتياطي (`pick_hook_candidates` لمسودة بلا `hook_search`) استُخرج من `_auto_hook` إلى `_ensure_hook_candidates` لأن `_broll_wanted` يشترط `hook_candidates`، فكانت المسودة القديمة تُركَّب بلا لقطات رغم خطتها. بحث يوتيوب مرة واحدة في التركيب؛ `render_version` = 23؛ الاختبار g374.
