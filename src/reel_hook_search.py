@@ -455,16 +455,35 @@ def _chains_of(c: dict, known: dict, hook: dict | None, min_s: int) -> list[dict
     return out
 
 
-def topic_hook(chains: list[dict], cands: list[dict], cfg) -> tuple[dict | None, list[dict]]:
-    """هوك احتياطي من لقطات الموضوع (Issue #1462، R5d5) حين لم يجد مسح الهوك ثواني relevant للحدث نفسه: أطول سلسلة ميدانية من
-    سلاسل الجمل بطول ≥ hook.min_seconds، بنافذة من وسطها لا تتجاوز hook.max_seconds، وsource = "auto_topic". يعيد (hook_video أو None،
-    السلاسل بعد إزالة نافذته منها) كي لا تُسند لقطة الهوك نفسها لجملة."""
+def topic_hook(chains: list[dict], cands: list[dict], cfg, deps=None, script: dict | None = None,
+               draft: dict | None = None) -> tuple[dict | None, list[dict], list]:
+    """هوك احتياطي من لقطات الموضوع (Issue #1462، R5d5؛ بالمعنى لا بالطول منذ Issue #1465، R5d6): الأطول كان ضبابًا لا معنى له تحت
+    العنوان، فيُسأل deps.assign_broll بمدخل واحد {n: 0, dur: hook.max_seconds, text: عنوان السيناريو, visual: وصف الحدث} على السلاسل
+    بطول ≥ hook.min_seconds. أُسندت سلسلة ← الهوك منها بنافذة من وسطها لا تتجاوز hook.max_seconds وsource = "auto_topic"؛ لم تُسند
+    ← لا هوك احتياطي. يعيد (hook_video أو None، السلاسل بعد إزالة نافذته، الردّ الخام للحفظ)."""
     min_h = float(cfg.path("reel.render.hook.min_seconds", 3.5))
     cap = int(cfg.path("reel.render.hook.max_seconds", 7))
     long_ones = [c for c in chains if c["end"] - c["start"] >= min_h]
-    if not long_ones:
-        return None, list(chains)
-    best = max(long_ones, key=lambda c: c["end"] - c["start"])  # التساوي: الأسبق في القائمة
+    if not long_ones or deps is None or getattr(deps, "assign_broll", None) is None:
+        return None, list(chains), []
+    script, draft = script or {}, draft or {}
+    item = {"n": 0, "dur": cap, "text": str(script.get("title") or draft.get("title") or ""), "visual": event_text(script, draft)}
+    try:
+        raw = deps.assign_broll([item], long_ones, cfg) or []
+    except Exception as exc:  # noqa: BLE001 -- الهوك الاحتياطي تحسين: يبقى الهوك بصورة الخبر
+        log.warning("تعذّر إسناد الهوك الاحتياطي: %s", str(exc)[:150])
+        return None, list(chains), []
+    pick = None
+    for r in raw:
+        try:
+            if int(r["n"]) == 0 and 1 <= int(r["chain"]) <= len(long_ones):
+                pick = long_ones[int(r["chain"]) - 1]
+                break
+        except (TypeError, ValueError, KeyError):
+            continue
+    if pick is None:
+        return None, list(chains), raw
+    best = pick
     start, end = window((int(best["start"]), int(best["end"]) - int(best["start"])), cap)
     meta = next((c for c in cands if c.get("video_id") == best["video_id"]), {})
     title = re.sub(r"[\[\]]", "", clean_title(meta.get("title", ""))).strip()
@@ -480,7 +499,7 @@ def topic_hook(chains: list[dict], cands: list[dict], cfg) -> tuple[dict | None,
         for a, b in ((c["start"], start), (end, c["end"])):
             if b - a >= min_s:
                 rest.append({**c, "start": a, "end": b})
-    return hook, rest
+    return hook, rest, raw
 
 
 def scan_report(state: ScanState, cands: list[dict], chains: list[dict], bcfg) -> dict:

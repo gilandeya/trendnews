@@ -12168,6 +12168,15 @@ def test_reel_broll_r5d2_guards() -> None:
     def g381():
         mx = int(cfg.path("reel.render.hook.max_seconds"))
         deps, c, comments = full_rig({"c1": set(range(10, 22)), "c2": set(range(100, 130))}, nframes=200, relevant=False)
+        base_assign = deps.assign_broll
+
+        def pick_longest(needy, chains, c_):
+            # الهوك الاحتياطي صار بالإسناد لا بالطول (R5d6): هنا «النموذج» يختار سلسلة الـ30 ث لأنها تطابق العنوان
+            if len(needy) == 1 and needy[0]["n"] == 0:
+                k = max(range(len(chains)), key=lambda i: chains[i]["end"] - chains[i]["start"])
+                return [{"n": 0, "chain": k + 1}]
+            return base_assign(needy, chains, c_)
+        deps.assign_broll = pick_longest
         path, st = full_go("r5d5000g381a1", deps, work_root / "g381", PLAN3)
         hv = st.get("hook_video") or {}
         check("g381: الهوك من سلسلة الـ30 ث بمصدر auto_topic", hv.get("video_id") == "c2" and hv.get("source") == "auto_topic", hv)
