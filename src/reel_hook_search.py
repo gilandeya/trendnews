@@ -12,6 +12,7 @@ import io
 import logging
 import os
 import re
+from collections import Counter
 from dataclasses import dataclass, field
 from datetime import date, timedelta
 from pathlib import Path
@@ -313,10 +314,21 @@ class ScanState:
     classified: dict = field(default_factory=dict)
     failed: set = field(default_factory=set)
     sheets_used: int = 0
+    # صفائح كل فيديو (الهوك والجمل معًا) وثواني ما نزل منه: سقف الفيديو الواحد وتقرير الفحص (Issue #1460، R5d4)
+    video_sheets: dict = field(default_factory=dict)
+    downloaded: dict = field(default_factory=dict)
 
 
 def _is_good(r: dict) -> bool:
     return r.get("kind") == "event_footage" and r.get("relevant") is True
+
+
+def _entry(r: dict, step: int) -> dict:
+    """مدخل الثانية المصنَّفة: good معيار الهوك (ميدانية وrelevant للحدث)، وfootage معيار لقطات الجمل (ميدانية بوصف، relevant أم لا)
+    لأن الجملة تطلب مشهدًا بعينه لا الحدث المجرّد، والحَكَم بين السلسلة والجملة هو الإسناد والمدقّق (Issue #1460)."""
+    desc = str(r.get("desc") or "").strip()
+    return {"good": _is_good(r), "desc": desc, "step": step, "kind": str(r.get("kind") or ""),
+            "relevant": r.get("relevant") is True, "footage": r.get("kind") == "event_footage" and bool(desc)}
 
 
 def _load_frames(c: dict, hcfg, cfg, deps, tmp: Path, state: ScanState, seconds: int) -> list:
@@ -326,6 +338,7 @@ def _load_frames(c: dict, hcfg, cfg, deps, tmp: Path, state: ScanState, seconds:
         path = tmp / f"hook_scan_{vid}.mp4"
         deps.scan_download(vid, seconds, int(hcfg.get("scan_height", 240)), path)
         state.frames[vid] = deps.scan_frames(path, seconds, cfg)
+        state.downloaded[vid] = len(state.frames[vid])
     return state.frames[vid]
 
 
@@ -360,6 +373,7 @@ def scan_candidates(draft: dict, script: dict, cands: list[dict], cfg, deps, tmp
                 chunk = frames[first:first + per]
                 sheets_left -= 1
                 state.sheets_used += 1
+                state.video_sheets[vid] = state.video_sheets.get(vid, 0) + 1
                 jpeg = sheet_jpeg(build_sheet(chunk, first, cfg))
                 results = deps.classify_sheet(jpeg, event, first, len(chunk), cfg)
                 good |= {t for t in good_seconds(results) if first <= t < first + len(chunk)}
@@ -369,7 +383,7 @@ def scan_candidates(draft: dict, script: dict, cands: list[dict], cfg, deps, tmp
                     except (TypeError, ValueError, KeyError):
                         continue
                     if first <= t < first + len(chunk):
-                        known[t] = {"good": _is_good(r), "desc": str(r.get("desc") or "").strip(), "step": 1}
+                        known[t] = _entry(r, 1)
         except Exception as exc:  # noqa: BLE001 -- مرشّح معطوب لا يُسقط البقية
             log.warning("تعذّر فحص مرشّح الهوك %s: %s", c.get("video_id"), str(exc)[:150])
             out["errors"] += 1
@@ -388,15 +402,15 @@ def scan_candidates(draft: dict, script: dict, cands: list[dict], cfg, deps, tmp
 
 def _chains_of(c: dict, known: dict, hook: dict | None, min_s: int) -> list[dict]:
     """سلاسل الثواني الصالحة المتتالية للمرشّح [{video_id,start,end,desc,channel}] بعد استبعاد نافذة الهوك وما دون min_s ثوانٍ."""
-    secs: dict[int, str] = {}
+    secs: dict[int, tuple[str, bool]] = {}
     for t, r in known.items():
-        if not r.get("good"):
+        if not r.get("footage"):
             continue
         for u in range(t, t + max(int(r.get("step", 1)), 1)):
-            # ثانية صنِّفت بمفردها (الهوك) غير صالحة لا تُرثها عيّنة أوسع
-            if u != t and (u in known and not known[u].get("good")):
+            # ثانية صنِّفت بمفردها (الهوك) غير ميدانية لا تُرثها عيّنة أوسع
+            if u != t and (u in known and not known[u].get("footage")):
                 continue
-            secs.setdefault(u, r.get("desc", ""))
+            secs.setdefault(u, (r.get("desc", ""), bool(r.get("relevant"))))
     if hook and hook.get("video_id") == c["video_id"]:
         for u in range(int(hook.get("start", 0)), int(hook.get("end", 0))):
             secs.pop(u, None)
@@ -405,10 +419,10 @@ def _chains_of(c: dict, known: dict, hook: dict | None, min_s: int) -> list[dict
 
     def flush():
         if len(run) >= min_s:
-            descs = [secs[u] for u in run if secs[u]]
+            descs = [secs[u][0] for u in run if secs[u][0]]
             out.append({"video_id": c["video_id"], "start": run[0], "end": run[-1] + 1,
                         "desc": descs[0] if descs else clean_title(c.get("title", "")),
-                        "channel": c.get("channel", "")})
+                        "channel": c.get("channel", ""), "relevant": all(secs[u][1] for u in run)})
     for u in sorted(secs):
         if run and u != run[-1] + 1:
             flush()
@@ -417,6 +431,33 @@ def _chains_of(c: dict, known: dict, hook: dict | None, min_s: int) -> list[dict
     if run:
         flush()
     return out
+
+
+def scan_report(state: ScanState, cands: list[dict], chains: list[dict], bcfg) -> dict:
+    """ما رآه الفحص لكل مرشّح (يُحفظ draft["broll_scan"]): بلا هذا لا يُعرف لماذا خرج المسح صفرًا (Issue #1460)."""
+    videos: dict = {}
+    for c in cands:
+        vid = c["video_id"]
+        known = state.classified.get(vid) or {}
+        if vid not in state.downloaded and vid not in state.failed and not known:
+            continue
+        kinds: Counter = Counter()
+        rel = other = 0
+        for r in known.values():
+            w = max(int(r.get("step", 1)), 1)
+            kinds[r.get("kind") or "unknown"] += w
+            if r.get("kind") == "event_footage":
+                if r.get("relevant"):
+                    rel += w
+                else:
+                    other += w
+        mine = [x for x in chains if x["video_id"] == vid]
+        videos[vid] = {"downloaded": state.downloaded.get(vid, 0), "classified": sum(kinds.values()),
+                       "sheets": state.video_sheets.get(vid, 0), "kinds": dict(kinds), "footage_relevant": rel,
+                       "footage_other": other, "chains": len(mine),
+                       "longest": max((x["end"] - x["start"] for x in mine), default=0),
+                       **({"error": True} if vid in state.failed else {})}
+    return {"videos": videos, "sheets_used": state.sheets_used}
 
 
 def scan_broll(draft: dict, script: dict, cands: list[dict], cfg, deps, tmp: Path, state: ScanState,
@@ -429,6 +470,7 @@ def scan_broll(draft: dict, script: dict, cands: list[dict], cfg, deps, tmp: Pat
     scan_s, step = int(bcfg.get("scan_seconds", 600)), max(int(bcfg.get("step", 2)), 1)
     min_s = int(bcfg.get("min_seconds", 3))
     budget = int(bcfg.get("max_sheets", 30)) - state.sheets_used
+    video_cap = int(bcfg.get("max_sheets_per_video", 15))
     per = COLS * ROWS
     chains: list[dict] = []
     errors = 0
@@ -437,18 +479,21 @@ def scan_broll(draft: dict, script: dict, cands: list[dict], cfg, deps, tmp: Pat
         if vid in state.failed:
             continue
         known = state.classified.setdefault(vid, {})
-        if budget <= 0 and not known:
+        room = min(budget, video_cap - state.video_sheets.get(vid, 0))
+        if room <= 0 and not known:
             continue
         try:
-            if budget > 0:
+            if room > 0:
                 frames = _load_frames(c, hcfg, cfg, deps, tmp, state, scan_s)
                 labels = [t for t in range(0, min(len(frames), scan_s), step) if t not in known]
                 for i in range(0, len(labels), per):
-                    if budget <= 0:
+                    if room <= 0:
                         break
                     chunk = labels[i:i + per]
+                    room -= 1
                     budget -= 1
                     state.sheets_used += 1
+                    state.video_sheets[vid] = state.video_sheets.get(vid, 0) + 1
                     jpeg = sheet_jpeg(build_sheet([frames[t] for t in chunk], chunk[0], cfg, labels=chunk))
                     results = deps.classify_sheet(jpeg, event, chunk[0], len(chunk), cfg, labels=chunk)
                     by_t = {}
@@ -459,7 +504,7 @@ def scan_broll(draft: dict, script: dict, cands: list[dict], cfg, deps, tmp: Pat
                             continue
                     for t in chunk:
                         if t in by_t:
-                            known[t] = {"good": _is_good(by_t[t]), "desc": str(by_t[t].get("desc") or "").strip(), "step": step}
+                            known[t] = _entry(by_t[t], step)
         except Exception as exc:  # noqa: BLE001 -- مرشّح معطوب لا يُسقط البقية
             log.warning("تعذّر مسح لقطات المرشّح %s: %s", vid, str(exc)[:150])
             errors += 1
@@ -468,7 +513,7 @@ def scan_broll(draft: dict, script: dict, cands: list[dict], cfg, deps, tmp: Pat
             continue
         state.frames.pop(vid, None)    # الذاكرة: لقطات المرشّح لا تُحتاج بعد تصنيفه
         chains.extend(_chains_of(c, known, hook, min_s))
-    return {"chains": chains, "errors": errors}
+    return {"chains": chains, "errors": errors, "scan": scan_report(state, cands, chains, bcfg)}
 
 
 # ───────────────────────────── التنفيذات الحقيقية لـDeps ─────────────────────────────

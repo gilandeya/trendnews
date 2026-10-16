@@ -2291,6 +2291,8 @@ def _prepare_broll(script: dict, nar_idx: list[int], speech_cache: dict, plan: l
     chains = broll.get("chains") or []
     acc: dict[int, dict] = {}
     rej: dict[int, str] = {}
+    if needy and not chains:
+        rej = {x["n"]: "no_chains" for x in needy}
     if needy and chains:
         try:
             raw = deps.assign_broll(needy, chains, cfg) or []
@@ -2325,6 +2327,12 @@ def _prepare_broll(script: dict, nar_idx: list[int], speech_cache: dict, plan: l
             entry["photo"] = reasons.get(r["reason"], r["reason"])
         result.append(entry)
     total, used = len(recs), len(used_channels)
+    if recs and not chains:
+        videos = (broll.get("scan") or {}).get("videos") or {}
+        notes.append(t["comment_broll_scan"].format(
+            s=sum(v.get("classified", 0) for v in videos.values()), n=len(videos),
+            f=sum(v.get("footage_relevant", 0) + v.get("footage_other", 0) for v in videos.values()),
+            min=int(cfg.path("reel.broll.min_seconds", 3))))
     if recs:
         counts = Counter(c for c in used_channels if c)
         names = f" ({'، '.join(f'{c} ×{k}' for c, k in counts.items())})" if counts else ""
@@ -2610,15 +2618,16 @@ def _broll_wanted(draft: dict, cfg, deps: Deps, bg: dict | None) -> bool:
                 and deps.scan_frames is not None and deps.assign_broll is not None)
 
 
-def _scan_broll(draft: dict, script: dict, cfg, deps: Deps, tmp: Path, state: "reel_hook_search.ScanState") -> dict | None:
-    """مسح اللقطات بعد اختيار الهوك (يستبعد نافذته). أي عطل ← None والجمل كلها بالصورة ولا يفشل التركيب."""
+def _scan_broll(draft: dict, script: dict, cfg, deps: Deps, tmp: Path, state: "reel_hook_search.ScanState") -> dict:
+    """مسح اللقطات بعد اختيار الهوك (يستبعد نافذته). يعيد دائمًا {chains, hook, scan}: العطل أو انعدام السلاسل لا يفشل التركيب
+    بل تبقى الجمل بالصورة ويُكتب سببها وتقرير الفحص (Issue #1460: الصمت كان يخفي سبب الصفر)."""
     hook = draft.get("hook_video") if isinstance(draft.get("hook_video"), dict) else None
     try:
         res = reel_hook_search.scan_broll(draft, script, draft.get("hook_candidates") or [], cfg, deps, tmp, state, hook=hook)
     except Exception as exc:  # noqa: BLE001 -- لقطات الحدث تحسين لا شرط
         log.warning("تعذّر مسح لقطات الحدث: %s", reel_clips.scrub_text(str(exc))[:150])
-        return None
-    return {"chains": res["chains"], "hook": hook} if res.get("chains") else None
+        return {"chains": [], "hook": hook, "scan": {"videos": {}, "sheets_used": state.sheets_used, "error": True}}
+    return {"chains": res["chains"], "hook": hook, "scan": res.get("scan") or {}}
 
 
 def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path, dropped: list,
@@ -2719,7 +2728,8 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
             "reel_bg": {**{k: v for k, v in bg_saved.items() if k != "layout"}, **({"layout": bg["layout"]} if bg else {})},
             "render_crops": {**{str(i): c["crop"] for i, c in clips.items() if "crop" in c}, **hook_crops},
             **({"render_speakers": speakers} if speakers else {}),
-            **({"render_broll": broll["result"]} if broll and broll.get("result") else {})}
+            **({"render_broll": broll["result"]} if broll and broll.get("result") else {}),
+            **({"broll_scan": broll["scan"]} if broll and broll.get("result") and broll.get("scan") else {})}
 
 
 def _mmss(sec) -> str:
@@ -2794,7 +2804,7 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
     approx_saved = [{k: v for k, v in a.items() if k != "channel"} for a in approx]
     changes = {**result, "render_dropped": dropped, "render_approx": approx_saved,
                "rendered_at": datetime.now(timezone.utc).isoformat()}
-    remove = ((["render_error"] + ([] if "render_broll" in result else ["render_broll"]))
+    remove = ((["render_error"] + ([] if "render_broll" in result else ["render_broll", "broll_scan"]))
               if result["render_status"] == "rendered"
               else [] if keep_files else ["reel_file", "reel_gif", "duration_seconds"])
     store.update_draft(path, remove=remove, **changes)
