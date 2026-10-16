@@ -419,9 +419,10 @@ def _chains_of(c: dict, known: dict, hook: dict | None, min_s: int) -> list[dict
 
     def flush():
         if len(run) >= min_s:
-            descs = [secs[u][0] for u in run if secs[u][0]]
+            # حتى 3 أوصاف مختلفة بترتيبها الزمني: سلسلة 68 ث بوصف أول ثانية وحده تبدو للإسناد مشهدًا واحدًا (Issue #1462)
+            descs = list(dict.fromkeys(secs[u][0] for u in run if secs[u][0]))[:3]
             out.append({"video_id": c["video_id"], "start": run[0], "end": run[-1] + 1,
-                        "desc": descs[0] if descs else clean_title(c.get("title", "")),
+                        "desc": " · ".join(descs) if descs else clean_title(c.get("title", "")),
                         "channel": c.get("channel", ""), "relevant": all(secs[u][1] for u in run)})
     for u in sorted(secs):
         if run and u != run[-1] + 1:

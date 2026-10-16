@@ -2296,6 +2296,7 @@ def _prepare_broll(script: dict, nar_idx: list[int], speech_cache: dict, plan: l
     if needy and chains:
         try:
             raw = deps.assign_broll(needy, chains, cfg) or []
+            broll["assign"] = raw   # الردّ الخام يُحفظ للمراجعة: بدونه لا يُعرف ما الذي رُفض (Issue #1462)
             acc, rej = reel_broll.resolve(raw, needy, chains, broll.get("hook"))
         except Exception as exc:  # noqa: BLE001 -- الإسناد تحسين: الجمل كلها بالصورة
             log.warning("تعذّر إسناد لقطات الحدث: %s", reel_clips.scrub_text(str(exc))[:150])
@@ -2729,7 +2730,8 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
             "render_crops": {**{str(i): c["crop"] for i, c in clips.items() if "crop" in c}, **hook_crops},
             **({"render_speakers": speakers} if speakers else {}),
             **({"render_broll": broll["result"]} if broll and broll.get("result") else {}),
-            **({"broll_scan": broll["scan"]} if broll and broll.get("result") and broll.get("scan") else {})}
+            **({"broll_scan": {**broll["scan"], "chains": broll.get("chains") or [], "assign": broll.get("assign") or []}}
+               if broll and broll.get("result") and broll.get("scan") else {})}
 
 
 def _mmss(sec) -> str:
