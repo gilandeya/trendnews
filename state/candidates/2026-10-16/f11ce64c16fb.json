@@ -1,0 +1,80 @@
+{
+  "id": "f11ce64c16fb",
+  "created_at": "2026-10-16T09:08:04.983830+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.82,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "موقف كاتبة بريطانية داعم لفلسطين، ومرتبط بقضية مقاطعة كتبها.",
+  "bucket": "light",
+  "state_media": false,
+  "title": "Sally Rooney’s stand on Palestine is brave and humane",
+  "link": "https://www.theguardian.com/books/2026/oct/15/sally-rooneys-stand-on-palestine-is-brave-and-humane",
+  "publishers": [
+    "CBS News — World",
+    "El País",
+    "France24",
+    "The Guardian — Culture"
+  ],
+  "region": "culture",
+  "article": {
+    "title": "Sally Rooney’s stand on Palestine is brave and humane",
+    "link": "https://www.theguardian.com/books/2026/oct/15/sally-rooneys-stand-on-palestine-is-brave-and-humane",
+    "summary": "The Normal People author’s determination to support Palestine Action, even if it means that her books are withdrawn from sale in the UK, makes a mockery of Britain’s terrorism laws It’s hard to think of a published author in living memory who risked arrest in the UK for their political beliefs, hard to think of one whose books could be published anywhere but here. Sally Rooney went into this debacle with her eyes open: she said last July that royalties from her books, and their BBC adaptations, would be used to support Palestine Action. Rooney’s courage is not so much in risking imprisonment , since there is a fix for that, which is what she’s doing – avoiding the UK. Rather, she has chosen the thorniest possible path for this cause. Authors can write essays and sign letters in support of the Palestinian people; actors can voice it in interviews, musicians can say it from the stage, and there is always a cost to it, whether it’s in plain sight and they’ve been kicked off a global tour, or it’s behind closed doors and they are simply excluded from opportunities. But such actions, even if they logically suggest support for a proscribed organisation, don’t entail actively breaking the",
+    "source_name": "The Guardian — Culture",
+    "region": "culture",
+    "weight": 1.0,
+    "published": "2026-10-15T10:56:22+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/6ddf65204691be40ee6f871355a5f77339e39c93/1495_1602_1914_1531/master/1914.jpg?width=700&quality=85&auto=format&fit=max&s=6b80b8de25e99466c718072a0c249630",
+    "publisher": "The Guardian — Culture",
+    "cluster_sources": [
+      "CBS News — World",
+      "El País",
+      "France24",
+      "The Guardian — Culture"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — Culture",
+        "link": "https://www.theguardian.com/books/2026/oct/15/sally-rooneys-stand-on-palestine-is-brave-and-humane"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/cultura/2026-10-15/la-escritora-sally-rooney-ya-no-vendera-sus-libros-en-el-reino-unido-por-su-activismo-propalestino.html"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/sally-rooney-books-withdrawn-uk-palestine-action-designated-terror-support/"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/europe/20261016-uk-bookstores-scramble-as-sally-rooney-novels-pulled-over-palestine-action-support"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/6ddf65204691be40ee6f871355a5f77339e39c93/1495_1602_1914_1531/master/1914.jpg?width=700&quality=85&auto=format&fit=max&s=6b80b8de25e99466c718072a0c249630",
+      "https://i.guim.co.uk/img/media/6ddf65204691be40ee6f871355a5f77339e39c93/1495_1602_1914_1531/master/1914.jpg?width=460&quality=85&auto=format&fit=max&s=766477175f7f8c88e428260136d4011e",
+      "https://i.guim.co.uk/img/media/6ddf65204691be40ee6f871355a5f77339e39c93/1495_1602_1914_1531/master/1914.jpg?width=140&quality=85&auto=format&fit=max&s=b5f522e8fa1f5d5254e4b7294a65f7e7",
+      "https://imagenes.elpais.com/resizer/v2/NIT6YH6BDVIFTE3PYLYMGVIZCM.jpg?auth=dc498e8bd529b71828853773374170fe2cd5fb9237be8a1a773372a73f6da4b9",
+      "https://s.france24.com/media/display/0420bd06-c924-11f1-923c-4dd8ac2cf3bf/w:1024/p:16x9/2026-10-14T151142Z-1755491356-RC233OAKW8RS-RTRMADP-3-BRITAIN-SALLY-ROONEY.jpg"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 1744.9135597997224,
+    "is_stale": true,
+    "score": 22.82061097803704,
+    "impact": 0,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "موقف كاتبة بريطانية داعم لفلسطين، ومرتبط بقضية مقاطعة كتبها.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

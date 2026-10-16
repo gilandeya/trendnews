@@ -1,110 +1,5 @@
 [
   {
-    "score": 38.19,
-    "bucket": "serious",
-    "tokens": [
-      "airport",
-      "attack",
-      "capital",
-      "injured",
-      "riyadh",
-      "saudi",
-      "several"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cw33x4y8k82no?at_medium=RSS&at_campaign=rss",
-    "title": "Several injured in attack on airport in Saudi capital Riyadh",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-10-10T17:08:14.751381+00:00"
-  },
-  {
-    "score": 32.44,
-    "bucket": "serious",
-    "tokens": [
-      "deadly",
-      "deal",
-      "diesel",
-      "hit",
-      "russian",
-      "strikes",
-      "thanks",
-      "trump",
-      "ukraine",
-      "zelenskyy"
-    ],
-    "link": "https://www.theguardian.com/world/2026/oct/10/ukraine-russia-strikes-war-trump-diesel-deal-zelenskyy",
-    "title": "Ukraine hit by deadly Russian strikes as ‘thanks’ for Trump diesel deal, Zelenskyy says",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-10-10T17:08:14.751773+00:00"
-  },
-  {
-    "score": 27.69,
-    "bucket": "light",
-    "tokens": [
-      "2026",
-      "africa",
-      "apartheid",
-      "human",
-      "jurists",
-      "leading",
-      "navi",
-      "nobel",
-      "one",
-      "peace",
-      "pillay",
-      "prize",
-      "raised",
-      "rights",
-      "south",
-      "winner",
-      "world"
-    ],
-    "link": "https://www.smithsonianmag.com/smart-news/raised-in-apartheid-south-africa-2026-nobel-peace-prize-winner-navi-pillay-is-one-of-the-worlds-leading-human-rights-jurists-180989667/",
-    "title": "Raised in Apartheid South Africa, 2026 Nobel Peace Prize Winner Navi Pillay Is One of the World’s Leading Human Rights Jurists",
-    "posted_title": "",
-    "region": "odd",
-    "seen_at": "2026-10-10T17:08:14.752117+00:00"
-  },
-  {
-    "score": 26.13,
-    "bucket": "serious",
-    "tokens": [
-      "2027",
-      "elections",
-      "legislative",
-      "palestinian",
-      "postpones",
-      "president",
-      "september"
-    ],
-    "link": "https://www.dawn.com/news/2036165/palestinian-president-postpones-legislative-elections-to-september-2027",
-    "title": "Palestinian president postpones legislative elections to September 2027",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-10-10T17:08:14.752420+00:00"
-  },
-  {
-    "score": 23.15,
-    "bucket": "serious",
-    "tokens": [
-      "2027",
-      "abbas",
-      "delays",
-      "elections",
-      "marking",
-      "palestinian",
-      "vote",
-      "without",
-      "years"
-    ],
-    "link": "https://www.cbsnews.com/news/mahmoud-abbas-postpones-palestinian-legislative-elections/",
-    "title": "Abbas delays Palestinian elections to 2027, marking 20 years without a vote",
-    "posted_title": "",
-    "region": "us",
-    "seen_at": "2026-10-10T17:08:14.752674+00:00"
-  },
-  {
     "score": 25.65,
     "bucket": "light",
     "tokens": [
@@ -1218,5 +1113,93 @@
     "posted_title": "",
     "region": "ru",
     "seen_at": "2026-10-15T17:08:12.950609+00:00"
+  },
+  {
+    "score": 24.24,
+    "bucket": "serious",
+    "tokens": [
+      "closed",
+      "hormuz",
+      "iran",
+      "remain",
+      "respected",
+      "rights",
+      "strait"
+    ],
+    "link": "https://en.mehrnews.com/news/248610/If-rights-not-observed-restrictions-to-continue-in-Hormuz",
+    "title": "If Iran rights not respected, Hormuz Strait to remain closed",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-10-16T09:08:04.983814+00:00"
+  },
+  {
+    "score": 22.82,
+    "bucket": "light",
+    "tokens": [
+      "brave",
+      "humane",
+      "palestine",
+      "rooney",
+      "sally",
+      "stand"
+    ],
+    "link": "https://www.theguardian.com/books/2026/oct/15/sally-rooneys-stand-on-palestine-is-brave-and-humane",
+    "title": "Sally Rooney’s stand on Palestine is brave and humane",
+    "posted_title": "",
+    "region": "culture",
+    "seen_at": "2026-10-16T09:08:04.984172+00:00"
+  },
+  {
+    "score": 22.2,
+    "bucket": "serious",
+    "tokens": [
+      "beşiktaş",
+      "güncellendi",
+      "kazandı",
+      "puanı",
+      "trabzonspor",
+      "uefa",
+      "ülke"
+    ],
+    "link": "https://www.hurriyet.com.tr/sporarena/besiktas-ve-trabzonspor-kazandi-uefa-ulke-puani-guncellendi-43343650",
+    "title": "Beşiktaş ve Trabzonspor kazandı! UEFA ülke puanı güncellendi",
+    "posted_title": "",
+    "region": "tr",
+    "seen_at": "2026-10-16T09:08:04.984512+00:00"
+  },
+  {
+    "score": 21.01,
+    "bucket": "serious",
+    "tokens": [
+      "about",
+      "china",
+      "denuclearisation",
+      "russia",
+      "talking",
+      "trump"
+    ],
+    "link": "https://www.ndtv.com/world-news/trump-says-he-is-talking-to-russia-and-china-about-denuclearisation-12193734#publisher=newsstand",
+    "title": "Trump Says He Is Talking To Russia And China About Denuclearisation",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-10-16T09:08:04.984833+00:00"
+  },
+  {
+    "score": 20.37,
+    "bucket": "serious",
+    "tokens": [
+      "colombia",
+      "embassy",
+      "iran",
+      "occupied",
+      "opening",
+      "quds",
+      "slams"
+    ],
+    "link": "https://en.mehrnews.com/news/248614/Iran-slams-Colombia-s-opening-of-embassy-in-Occupied-Al-Quds",
+    "title": "Iran slams Colombia’s opening of embassy in Occupied Al-Quds",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-10-16T09:08:04.985113+00:00"
   }
 ]

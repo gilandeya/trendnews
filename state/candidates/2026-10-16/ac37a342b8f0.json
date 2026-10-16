@@ -1,0 +1,70 @@
+{
+  "id": "ac37a342b8f0",
+  "created_at": "2026-10-16T09:08:04.984844+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.37,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 3,
+  "intrigue": 1,
+  "appeal_note": "إيران تدين افتتاح كولومبيا سفارة في القدس المحتلة.",
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Iran slams Colombia’s opening of embassy in Occupied Al-Quds",
+  "link": "https://en.mehrnews.com/news/248614/Iran-slams-Colombia-s-opening-of-embassy-in-Occupied-Al-Quds",
+  "publishers": [
+    "IRNA English",
+    "Mehr News"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Iran slams Colombia’s opening of embassy in Occupied Al-Quds",
+    "link": "https://en.mehrnews.com/news/248614/Iran-slams-Colombia-s-opening-of-embassy-in-Occupied-Al-Quds",
+    "summary": "TEHRAN, Oct. 16 (MNA) – The Iranian Foreign Ministry has strongly condemned Colombia’s decision to open an embassy in occupied al-Quds, describing the move as contrary to the United Nations Charter and the fundamental principles of international law.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-10-16T07:14:47+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/10/16/4/6220355.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "IRNA English",
+      "Mehr News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/248606/Qatar-condemns-Colombia-s-opening-of-embassy-in-al-Quds"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/248614/Iran-slams-Colombia-s-opening-of-embassy-in-Occupied-Al-Quds"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86293949/Iran-condemns-Colombia-s-action-to-open-embassy-in-occupied-al-Quds"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/10/16/4/6220355.jpg",
+      "https://media.mehrnews.com/d/2024/11/10/4/5242490.jpg",
+      "https://img9.irna.ir/d/r2/2026/10/16/4/173174651.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1744.9137915769445,
+    "is_stale": false,
+    "score": 20.374407259092592,
+    "impact": 0,
+    "proximity": 3,
+    "intrigue": 1,
+    "appeal_note": "إيران تدين افتتاح كولومبيا سفارة في القدس المحتلة.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

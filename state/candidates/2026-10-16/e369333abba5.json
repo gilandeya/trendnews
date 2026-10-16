@@ -1,0 +1,65 @@
+{
+  "id": "e369333abba5",
+  "created_at": "2026-10-16T09:08:04.984184+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.2,
+  "trend_score": 1.0,
+  "velocity": 0.2,
+  "impact": 0,
+  "proximity": 1,
+  "intrigue": 0,
+  "appeal_note": "تحديث روتيني لترتيب الدوري الأوروبي لكرة القدم.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Beşiktaş ve Trabzonspor kazandı! UEFA ülke puanı güncellendi",
+  "link": "https://www.hurriyet.com.tr/sporarena/besiktas-ve-trabzonspor-kazandi-uefa-ulke-puani-guncellendi-43343650",
+  "publishers": [
+    "Daily Sabah",
+    "Hürriyet (تركي)"
+  ],
+  "region": "tr",
+  "article": {
+    "title": "Beşiktaş ve Trabzonspor kazandı! UEFA ülke puanı güncellendi",
+    "link": "https://www.hurriyet.com.tr/sporarena/besiktas-ve-trabzonspor-kazandi-uefa-ulke-puani-guncellendi-43343650",
+    "summary": "Beşiktaş, UEFA Avrupa Ligi'nde Hoffenheim'ı mağlup ederken Trabzonspor ise Kups'u deplasmanda devirdi. Maçların tamamlamasıyla birlikte UEFA ülke puanı güncellendi.",
+    "source_name": "Hürriyet (تركي)",
+    "region": "tr",
+    "weight": 1.0,
+    "published": "2026-10-16T07:33:38+00:00",
+    "image_url": "https://image.hurimg.com/i/hurriyet/90/620x350/6ad1d18d4735ad389d6029f9.jpg",
+    "publisher": "Hürriyet (تركي)",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Hürriyet (تركي)"
+    ],
+    "cluster_members": [
+      {
+        "name": "Hürriyet (تركي)",
+        "link": "https://www.hurriyet.com.tr/sporarena/besiktas-ve-trabzonspor-kazandi-uefa-ulke-puani-guncellendi-43343650"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/sports/football/ohs-double-helps-besiktas-see-off-hoffenheim-in-5-goal-thriller"
+      }
+    ],
+    "image_candidates": [
+      "https://image.hurimg.com/i/hurriyet/90/620x350/6ad1d18d4735ad389d6029f9.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/10/15/465896.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.2,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 22.195351720555557,
+    "impact": 0,
+    "proximity": 1,
+    "intrigue": 0,
+    "appeal_note": "تحديث روتيني لترتيب الدوري الأوروبي لكرة القدم.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

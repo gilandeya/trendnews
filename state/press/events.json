@@ -1318,7 +1318,7 @@
      "published": "2026-10-11T07:10:39+00:00"
     }
    ],
-   "last_seen": "2026-10-15T09:07:47.013401+00:00",
+   "last_seen": "2026-10-16T09:07:49.020316+00:00",
    "outlets": 22,
    "regions": 16,
    "languages": 1,
@@ -1842,13 +1842,49 @@
      "language": "en",
      "link": "https://www.malaymail.com/news/world/2026/10/15/school-roof-collapse-kills-21-students-in-pakistan-renews-concerns-over-building-safety/239213",
      "published": "2026-10-15T07:33:52+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Three children, one teacher killed in Oregon school shooting",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/15/at-least-4-including-3-children-killed-in-us-elementary-school-shooting?traffic_source=rss",
+     "published": "2026-10-15T22:51:56+00:00"
+    },
+    {
+     "outlet": "Court House News",
+     "region": "court",
+     "bucket": "light",
+     "title": "3 children, 1 teacher and suspect killed in Oregon elementary school shooting",
+     "language": "en",
+     "link": "https://www.courthousenews.com/3-children-1-teacher-and-suspect-killed-in-oregon-elementary-school-shooting/",
+     "published": "2026-10-16T01:32:02+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Teen shooter kills three children and teacher at Oregon elementary school",
+     "language": "en",
+     "link": "https://www.france24.com/en/americas/20261015-two-hospitalised-after-shooting-at-oregon-elementary-school-gunman-dead",
+     "published": "2026-10-15T21:58:33+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "light",
+     "title": "Shooting at elementary school in Oregon leaves at least five dead",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/shooting-at-elementary-school-in-oregon-leaves-several-hospitalised-shooter-dead/article71590073.ece",
+     "published": "2026-10-16T01:26:00+00:00"
     }
    ],
-   "last_seen": "2026-10-15T17:07:57.070042+00:00",
-   "outlets": 21,
-   "regions": 14,
+   "last_seen": "2026-10-16T09:07:49.020316+00:00",
+   "outlets": 22,
+   "regions": 15,
    "languages": 1,
-   "score": 51.0
+   "score": 54.0
   },
   {
    "id": "363605fbbb2b",
@@ -2130,287 +2166,6 @@
    "regions": 14,
    "languages": 1,
    "score": 50.0
-  },
-  {
-   "id": "9093e3b6ec98",
-   "first_seen": "2026-10-05T15:07:44.573046+00:00",
-   "members": [
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Hundreds of French high schools shut as protests persist",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2034917/hundreds-of-french-high-schools-shut-as-protests-persist",
-     "published": "2026-10-05T12:09:50+00:00"
-    },
-    {
-     "outlet": "Deutsche Welle",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Hundreds of French schools closed amid protests",
-     "language": "en",
-     "link": "https://www.dw.com/en/hundreds-of-french-schools-closed-amid-protests/a-79542656?maca=en-rss-en-world-4025-rdf",
-     "published": "2026-10-05T05:48:00+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Hundreds of French high schools close as student protests continue",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/world/france-high-schools-shut-protests-students-6433056",
-     "published": "2026-10-05T12:10:31+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Hundreds Of Schools Stay Closed In France Amid Raging Student Protests",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/hundreds-of-schools-stay-closed-in-france-amid-raging-student-protests-12140507#publisher=newsstand",
-     "published": "2026-10-05T10:01:32+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Schoolboy, 15, loses hand after picking up police stun grenade during French school protests",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/05/schoolboy-loses-hand-police-stun-grenade-french-school-protests",
-     "published": "2026-10-05T12:25:45+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Teenager loses hand picking up grenade in France school protests",
-     "language": "en",
-     "link": "https://punchng.com/teenager-loses-hand-picking-up-grenade-in-france-school-protests/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-05T13:41:45+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Teenager loses hand picking up grenade in France school protests",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/05/teenager-loses-hand-picking-up-grenade-in-france-school-protests",
-     "published": "2026-10-05T12:49:29+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Teenager loses hand picking up grenade in France school protests",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/teenager-loses-hand-picking-up-grenade-in-france-school-protests-2/",
-     "published": "2026-10-05T14:02:04+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Teenager loses hand picking up grenade in France school protests",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/world/france-protests-grenade-schools-students-6433971",
-     "published": "2026-10-05T17:00:06+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Teenager loses hand picking up grenade in France school protests",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/teen-hand-police-grenade-france-school-protests/",
-     "published": "2026-10-05T16:01:16+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Teenager's hand blown off during confrontation between France school protesters and police",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c9zrdmxp4vy6o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-05T16:32:18+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Teenager's hand blown off during confrontation between France school protesters and police",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFB0eUZUVGl6Z2MyWVVfSlgtQmNVSlItaUs1bjVycEVRZktrb2FQOFdWTFhlTE9ma05EM0RIVGUzTVlZRlplaWphOHhSSzZ1VFBhWUxYRU85c1QzTTA?oc=5",
-     "published": "2026-10-05T14:30:31+00:00"
-    },
-    {
-     "outlet": "Deutsche Welle",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Hundreds of French schools shut, teen loses hand in protests",
-     "language": "en",
-     "link": "https://www.dw.com/en/hundreds-of-french-schools-shut-teen-loses-hand-in-protests/a-79542656?maca=en-rss-en-world-4025-rdf",
-     "published": "2026-10-05T05:48:00+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "France braces for national day of school protests after injuries and mass arrests",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cr4g1q1elxnjo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-05T21:18:10+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Teenager loses hand picking up grenade in France school protests",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/teenager-loses-hand-picking-up-grenade-in-france-school-protests/article71549735.ece",
-     "published": "2026-10-06T00:02:37+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "France braces for national day of school protests after injuries and mass arrests",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/melcom-serves-1000-meals-to-children-in-selected-orphanage-homes/",
-     "published": "2026-10-05T17:59:55+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Teenager loses hand picking up grenade in France school protests",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/06/teenager-loses-hand-picking-up-grenade-in-france-school-protests/237861",
-     "published": "2026-10-06T01:40:52+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "France school protests: teenager’s hand blown off after picking up grenade",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/europe/article/3369829/france-school-protests-teenagers-hand-blown-after-picking-grenade?utm_source=rss_feed",
-     "published": "2026-10-05T14:20:36+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Teen loses hand picking up police grenade as France school protests continue",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNN2NtN191X3phU1MwWXFXYWdXRzhfeVRWWFFMNVE0V3JjR1ZYT0pZaTVOR0Q4UlB6QVF2SlhjYVhaUFpHZmFiTWVUQ1lpaG16b2RvdVJTRjVSeFd1ZVRCTzVqNFF6OXJ5RW9iVVBZUnpwWExjT0p1SzJBc2hBcnh0X29hRQ?oc=5",
-     "published": "2026-10-05T16:00:00+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "France’s student protests grow as hundreds of schools close",
-     "language": "en",
-     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/6/frances-student-protests-grow-as-hundreds-of-schools-close?traffic_source=rss",
-     "published": "2026-10-06T11:58:53+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Student protests disrupt hundreds of high schools across France",
-     "language": "en",
-     "link": "https://www.dailysabah.com/gallery/student-protests-disrupt-hundreds-of-high-schools-across-france/images",
-     "published": "2026-10-06T11:11:00+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "French school unrest: students, teachers march on biggest day of protests",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/europe/article/3369936/french-school-unrest-students-teachers-march-biggest-day-protests?utm_source=rss_feed",
-     "published": "2026-10-06T11:35:05+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Students, teachers march in France on biggest day of school protests",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/school-protests-france-teachers-students-clashes-police-october-6-2026/article71551195.ece",
-     "published": "2026-10-06T13:23:18+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "France school protests: Students determined to win 'concessions that mean something'",
-     "language": "en",
-     "link": "https://www.france24.com/en/video/20261006-france-school-protests-students-determined-to-win-concessions-that-mean-something",
-     "published": "2026-10-06T12:24:56+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "France suspends high school classes as protesters clash with police",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/6/demonstrators-clash-with-riot-police-in-france-as-education-protests-mount?traffic_source=rss",
-     "published": "2026-10-06T13:28:54+00:00"
-    },
-    {
-     "outlet": "Court House News",
-     "region": "court",
-     "bucket": "light",
-     "title": "French police clash with high school protesters demanding change",
-     "language": "en",
-     "link": "https://www.courthousenews.com/french-police-clash-with-high-school-protesters-demanding-change/",
-     "published": "2026-10-06T16:45:05+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Live: France suspends stun grenade use in school protests after 15-year-old loses hand",
-     "language": "en",
-     "link": "https://www.france24.com/en/france/20261007-live-france-suspends-stun-grenade-use-school-protests-after-15-year-old-loses-hand",
-     "published": "2026-10-07T07:47:49+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "France suspends stun grenade use at student protests ahead of PM speech",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/world/france-student-protests-stun-grenade-schools-6438781",
-     "published": "2026-10-07T08:12:06+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "France suspends stun grenades at student protests after teen loses hand",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/07/france-suspends-stun-grenades-at-student-protests-after-teen-loses-hand/238102",
-     "published": "2026-10-07T07:36:50+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "France suspends stun grenade use at student protests",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/07/france-suspends-stun-grenade-use-at-student-protests",
-     "published": "2026-10-07T07:50:09+00:00"
-    }
-   ],
-   "last_seen": "2026-10-09T03:07:52.407678+00:00",
-   "outlets": 19,
-   "regions": 14,
-   "languages": 1,
-   "score": 49.0
   },
   {
    "id": "d7e40dc3e136",
@@ -2858,9 +2613,36 @@
      "language": "en",
      "link": "https://www.hindustantimes.com/world-news/panama-earthquake-update-videos-show-people-fleeing-as-buildings-shake-resident-says-everyone-is-scared-101791569731233.html",
      "published": "2026-10-09T18:58:37+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Earthquake Of Magnitude 7 Strikes Russia, Japan Mistakenly Issues 9.9 Warning",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/russia-earthquake-earthquake-of-magnitude-7-strikes-russias-kamchatka-peninsula-12193129#publisher=newsstand",
+     "published": "2026-10-16T04:59:51+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Japan mistakenly issues 9.9-magnitude quake alert after 6.9 tremor near Russia, retracts it within minutes",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/japan-mistakenly-issues-9-9-magnitude-quake-alert-after-6-9-tremor-near-russia-later-withdraws-warning-101792125223053.html",
+     "published": "2026-10-16T05:06:23+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Japan mistakenly issues warning for magnitude 9.9 earthquake",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxPN1B0M2t6UWlwNzA1RmgwaklYZ3RYZE1TNVVKbXRER3JIS3ZIZC1EdDl1VWlCY0ExaEw4TGUxRFVqREEtamZ5c2dwYWhZeUlPNFJ6Q3ZqWTJKNWx3bm5DSy0zaS1KMTF6bkh6dFgwSC0zU2tMdmxzbmI0eFo5TzBoNFRYbkwzRWV3azVzci1nVTVMUEZnZUxsUTJYcjFmd1ZJ?oc=5",
+     "published": "2026-10-16T04:14:40+00:00"
     }
    ],
-   "last_seen": "2026-10-10T17:07:48.257605+00:00",
+   "last_seen": "2026-10-16T09:07:49.020316+00:00",
    "outlets": 16,
    "regions": 13,
    "languages": 2,
@@ -3141,7 +2923,7 @@
      "published": "2026-10-11T15:10:27+00:00"
     }
    ],
-   "last_seen": "2026-10-15T17:07:57.070042+00:00",
+   "last_seen": "2026-10-16T09:07:49.020316+00:00",
    "outlets": 18,
    "regions": 13,
    "languages": 1,
@@ -3957,7 +3739,7 @@
      "published": "2026-10-12T05:51:48+00:00"
     }
    ],
-   "last_seen": "2026-10-12T09:07:45.429910+00:00",
+   "last_seen": "2026-10-16T09:07:49.020316+00:00",
    "outlets": 15,
    "regions": 12,
    "languages": 2,
@@ -5890,143 +5672,6 @@
    "score": 36.0
   },
   {
-   "id": "1a01415a16dc",
-   "first_seen": "2026-10-08T03:08:02.336758+00:00",
-   "members": [
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Maduro and wife to face new US charges over alleged torture of Americans",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/americas/article/3370104/venezuelas-maduro-face-new-us-charges-over-alleged-torture-americans-official-says?utm_source=rss_feed",
-     "published": "2026-10-07T20:58:12+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Venezuela's Maduro, wife to face new US charges over alleged torture",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/americas/venezuelas-maduro-wife-to-face-new-us-charges-over-alleged-torture",
-     "published": "2026-10-07T21:03:00+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Maduro expected to face new charges of torture of Americans in Venezuelan prisons",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/new-maduro-charges-torture-americans-venezuelan-prisons/",
-     "published": "2026-10-07T21:21:00+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "US considering new torture charges against Maduro, wife",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/us-considering-new-torture-charges-against-maduro-wife-report/",
-     "published": "2026-10-08T09:03:29+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Former Venezuelan President Nicolás Maduro expected to face more charges this week",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cx62y37r1p8eo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-07T22:50:00+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "New U.S. indictment charges former Venezuelan President Nicolás Maduro with torture",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/08/nx-s1-5995360/venezuela-nicolas-maduro-torture-charges",
-     "published": "2026-10-08T16:05:37+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "US charges Venezuela’s Nicolas Maduro over torture allegations",
-     "language": "en",
-     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/8/us-charges-venezuelas-nicolas-maduro-over-torture-allegations?traffic_source=rss",
-     "published": "2026-10-08T20:47:43+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "US files new torture charges against Venezuela's Nicolas Maduro and wife Cilia Flores",
-     "language": "en",
-     "link": "https://www.france24.com/en/americas/20261008-us-files-new-torture-charges-venezuela-nicolas-maduro-cilia-flores",
-     "published": "2026-10-08T23:56:36+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Venezuela’s Maduro, wife hit with new US torture charges",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/09/venezuelas-maduro-wife-hit-with-new-us-torture-charges/238326",
-     "published": "2026-10-09T01:43:44+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Venezuela's ex-leader Nicolás Maduro charged with conspiracy to commit torture",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c5pvgn7xvxpzo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-08T17:38:59+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Venezuela’s ex-leader Nicolás Maduro charged with conspiracy to commit torture",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/venezuelas-ex-leader-nicolas-maduro-charged-with-conspiracy-to-commit-torture-2/",
-     "published": "2026-10-09T00:06:00+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Maduro, his wife charged with conspiracy to commit torture",
-     "language": "en",
-     "link": "https://tass.com/world/2199489",
-     "published": "2026-10-08T16:50:58+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Ex-Venezuelan President Nicolas Maduro likely to face new criminal charges over torture allegations",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/ex-venezuelan-president-nicolas-maduro-to-face-new-criminal-charges-over-torture-allegations-101791438275840.html",
-     "published": "2026-10-08T06:15:20+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Nicolas Maduro, wife face torture charge in new U.S. indictment",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/nicolas-maduro-cilia-flores-new-torture-charge/",
-     "published": "2026-10-08T16:07:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-09T09:07:48.883639+00:00",
-   "outlets": 12,
-   "regions": 11,
-   "languages": 1,
-   "score": 36.0
-  },
-  {
    "id": "a056d2844c9a",
    "first_seen": "2026-10-05T18:07:49.818707+00:00",
    "members": [
@@ -6645,134 +6290,6 @@
    "score": 34.0
   },
   {
-   "id": "0cf838e40682",
-   "first_seen": "2026-10-08T15:07:49.816861+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "South Korea recalls Ukraine envoy over prisoner-of-war row",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/ckwy48rrz95vo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-08T09:56:02+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "South Korea to recall Ukraine envoy in diplomatic row over POWs",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/8/south-korea-recalls-envoy-to-kyiv-over-diplomatic-row-with-ukraine?traffic_source=rss",
-     "published": "2026-10-08T12:44:31+00:00"
-    },
-    {
-     "outlet": "Yonhap News",
-     "region": "kr",
-     "bucket": "serious",
-     "title": "S. Korea to recall envoy to Ukraine amid dispute over disclosure of N.K. POWs",
-     "language": "en",
-     "link": "https://en.yna.co.kr/view/AEN20261008008400315",
-     "published": "2026-10-08T08:30:13+00:00"
-    },
-    {
-     "outlet": "Yonhap News",
-     "region": "kr",
-     "bucket": "serious",
-     "title": "(LEAD) S. Korea to recall envoy to Ukraine amid dispute over disclosure of N.K. POWs",
-     "language": "en",
-     "link": "https://en.yna.co.kr/view/AEN20261008008451315",
-     "published": "2026-10-08T08:51:19+00:00"
-    },
-    {
-     "outlet": "Deutsche Welle",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "South Korea recalls Ukraine ambassador amid POW dispute",
-     "language": "en",
-     "link": "https://www.dw.com/en/south-korea-recalls-ukraine-ambassador-amid-pow-dispute/a-79590511?maca=en-rss-en-world-4025-rdf",
-     "published": "2026-10-08T10:55:00+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "South Korea to recall ambassador from Ukraine amid deepening row",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/08/asia-pacific/politics/south-korea-ukraine-envoy-recall/",
-     "published": "2026-10-08T09:04:00+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "South Korea recalls Ukraine envoy over prisoner-of-war row",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/south-korea-recalls-ukraine-envoy-over-prisoner-of-war-row/",
-     "published": "2026-10-08T11:05:56+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "South Korea to recall its ambassador to Ukraine over North Korean POW dispute",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/08/g-s1-147115/south-korea-to-recall-its-ambassador-to-ukraine-over-north-korean-pow-dispute",
-     "published": "2026-10-08T12:13:54+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "South Korea recalls ambassador from Ukraine",
-     "language": "en",
-     "link": "https://tass.com/world/2199273",
-     "published": "2026-10-08T11:45:30+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "South Korea to recall its ambassador to Ukraine over North Korean POW dispute",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMivAFBVV95cUxNZDYxcDQ1My1SeHZsUXhFVGFlV19QaEdXN2ZzTktkd2NZMHlGb0dDWGlITXZNQ2tmTF8zLUhINDZzUlBSbmc3ajZNb1B5SUFRZWtXWUlZODRkLVEzeDNkQjB0bGJXT3FleDVLRmZLVnlrWU14TUxDdXhidXV0cHVPckFQQTZmVXd0M0lCODFnQ0hyaU5PZGdGcTBrZTJGU3hJd1BrQXd2OWxIQ0xsQl9hbVVGNFBzd04wSGRPVw?oc=5",
-     "published": "2026-10-08T12:13:54+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "South Korea to recall ambassador from Ukraine amid POW dispute",
-     "language": "en",
-     "link": "https://www.scmp.com/news/asia/east-asia/article/3370190/south-korea-recall-ambassador-ukraine-amid-pow-dispute?utm_source=rss_feed",
-     "published": "2026-10-08T09:36:55+00:00"
-    },
-    {
-     "outlet": "Yonhap News",
-     "region": "kr",
-     "bucket": "serious",
-     "title": "(URGENT) S. Korea to recall ambassador to Ukraine amid dispute over disclosure of N.K. POW transfer",
-     "language": "en",
-     "link": "https://en.yna.co.kr/view/AEN20261008008300315",
-     "published": "2026-10-08T08:17:14+00:00"
-    },
-    {
-     "outlet": "Meduza English",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "South Korea recalls ambassador from Ukraine, demands apology over Zelensky’s disclosure of North Korean POW transfer",
-     "language": "en",
-     "link": "https://meduza.io/en/news/2026/10/08/south-korea-recalls-ambassador-from-ukraine-demands-apology-over-zelensky-s-disclosure-of-north-korean-pow-transfer",
-     "published": "2026-10-08T12:18:02+00:00"
-    }
-   ],
-   "last_seen": "2026-10-09T09:07:48.883639+00:00",
-   "outlets": 11,
-   "regions": 10,
-   "languages": 1,
-   "score": 33.0
-  },
-  {
    "id": "5eb79ed8389e",
    "first_seen": "2026-10-14T09:07:42.321915+00:00",
    "members": [
@@ -7052,6 +6569,235 @@
    "regions": 8,
    "languages": 3,
    "score": 33.0
+  },
+  {
+   "id": "72f3d3c55397",
+   "first_seen": "2026-10-15T09:07:47.013401+00:00",
+   "members": [
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "China and North Korea open New Yalu River Bridge after 12-year delay",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/15/china-and-north-korea-open-new-yalu-river-bridge-after-12-year-delay/",
+     "published": "2026-10-15T08:15:44+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "New bridge between China and North Korea opens",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/15/asia-pacific/china-north-korea-bridge-open/",
+     "published": "2026-10-15T03:52:00+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "North Korea and China open new bridge after 12-year delay",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/north-korea-and-china-open-new-bridge-after-12-year-delay/",
+     "published": "2026-10-15T04:19:00+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "North Korea and China open new bridge after 12-year delay",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9HWEd5VU9mVlpobVFOQXRDWlZ6Y3B4VmsxdTlJV1BBcW9lMGgwbmJ0YXBCdGlJX1BuYzJTdmhLUFJlX3BESmZ0TlNKZ3pvaTAwdDQ5TEtvMHJOSnM?oc=5",
+     "published": "2026-10-15T02:59:30+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "North Korea and China open new bridge after 12-year delay",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/ck1exgw3j115o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-15T06:24:45+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Photos: China and North Korea open new border bridge amid deepening ties",
+     "language": "en",
+     "link": "https://www.aljazeera.com/gallery/2026/10/15/photos-china-and-north-korea-open-new-border-bridge-amid-deepening-ties?traffic_source=rss",
+     "published": "2026-10-15T12:54:00+00:00"
+    },
+    {
+     "outlet": "Deutsche Welle",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "North Korea, China open border bridge after 12-year delay",
+     "language": "en",
+     "link": "https://www.dw.com/en/north-korea-china-open-border-bridge-after-12-year-delay/a-79666112?maca=en-rss-en-world-4025-rdf",
+     "published": "2026-10-15T08:12:00+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "China, North Korea open long-delayed trade bridge",
+     "language": "en",
+     "link": "https://www.france24.com/en/tv-shows/business/20261015-china-north-korea-open-long-delayed-trade-bridge",
+     "published": "2026-10-15T12:20:08+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "China, North Korea open long-delayed bridge to strengthen ties",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/asia-pacific/china-north-korea-open-long-delayed-bridge-to-strengthen-ties",
+     "published": "2026-10-15T10:20:00+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "New China-North Korea bridge opens after more than a decade of delay",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/new-china-north-korea-bridge-opens-after-more-than-a-decade-of-delay/article71589742.ece",
+     "published": "2026-10-15T17:16:23+00:00"
+    },
+    {
+     "outlet": "CGTN",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "New China-DPRK Yalu River Bridge opens",
+     "language": "en",
+     "link": "https://news.cgtn.com/news/2026-10-15/New-China-DPRK-Yalu-River-Bridge-opens-1RfOs3Kkh3y/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+     "published": "2026-10-15T08:47:45+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "North Korea and China Open Their Biggest Border Bridge",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMihwFBVV95cUxQTExDZ1NhbnZ4WTZpbTNCaTlxclE1dzI3RWFkblI3cHp0Y185RGVVTXZJQXV3ZERpazBFN2h6RnFqUTdIRDBtLWFXMjctSVBheDRnUEQtMHhEOHBpYmVfUlV0TlhFTGg4ZUdiUzRvUTVQcjAtMUNLbERlUmQyTUFrNEJ4dWt1YWc?oc=5",
+     "published": "2026-10-15T04:42:58+00:00"
+    }
+   ],
+   "last_seen": "2026-10-16T09:07:49.020316+00:00",
+   "outlets": 11,
+   "regions": 10,
+   "languages": 1,
+   "score": 33.0
+  },
+  {
+   "id": "ae95b817aa65",
+   "first_seen": "2026-10-14T17:07:55.411222+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Sally Rooney says she can no longer sell books in UK due to Palestine Action support",
+     "language": "en",
+     "link": "https://www.theguardian.com/uk-news/2026/oct/14/sally-rooney-says-she-can-no-longer-sell-books-in-the-uk-because-of-palestine-action-support",
+     "published": "2026-10-14T16:06:42+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Sally Rooney books can’t be sold in UK amid Palestine Action ban, publisher says",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3370918/sally-rooney-books-cant-be-sold-uk-amid-palestine-action-ban-publisher-says?utm_source=rss_feed",
+     "published": "2026-10-14T16:41:07+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Sally Rooney says she can no longer sell books in UK due to Palestine Action support",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxNOWJqN2oyMjJHbkl6dnhoLTNDSmkyczhTSFpSSXF2a1AxWVp6dTBLRWUyckcxclJoc1BRZnRzRVJVS1VTRXlWOU5wTDJYNFJmT0VlcHhMMG0teHBrbGNaWjR6OGVXa2pPM1JHajM1NW1XZW5xM21CajlrSEEyTUlBVmZGR3loQjJGZDBnLVcwMEpjQklFNU1IcW5ZWkZTaGhVa3NaeWxkTHhlR1VpVDFFd081V3doOFhqMkxPVXRFbmdMN2JDeDVHYjZMWUsySnJkRXBWblpWbw?oc=5",
+     "published": "2026-10-14T13:06:00+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Sally Rooney books withdrawn in UK over Palestine Action support",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cmx23q4g307vo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-14T16:56:21+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Sally Rooney books pulled from UK over Palestine Action support",
+     "language": "en",
+     "link": "https://www.dailysabah.com/arts/sally-rooney-books-pulled-from-uk-over-palestine-action-support/news",
+     "published": "2026-10-15T07:45:00+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Sally Rooney Can’t Publish in the U.K. Because of Her Palestine Support",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQRUV6ZDVRMFdnR21NbnJCYWU0aWVzN0tDNWhTNVEtYWg5Y0ZIYXFMUUJuTWozRVRlVXN3bkRUWFZITnoxM0dyNnVWaUNSY0ZGLV8xelRGenNESWY3c0ltaF8ycW5fRktTQUl2MC0wOWkzOFp3WEdWLUp0aE9EWmUzVDUydDVabEh5c1E?oc=5",
+     "published": "2026-10-14T20:47:06+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Sally Rooney books withdrawn from sale in UK over Palestine Action support",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/15/sally-rooney-withdraws-books-from-uk-over-palestine-action-support?traffic_source=rss",
+     "published": "2026-10-15T12:53:49+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Sally Rooney books off U.K. shelves over Palestine Action support",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/sally-rooney-books-withdrawn-uk-palestine-action-designated-terror-support/",
+     "published": "2026-10-15T11:51:00+00:00"
+    },
+    {
+     "outlet": "The Guardian — Culture",
+     "region": "culture",
+     "bucket": "light",
+     "title": "Sally Rooney’s stand on Palestine is brave and humane",
+     "language": "en",
+     "link": "https://www.theguardian.com/books/2026/oct/15/sally-rooneys-stand-on-palestine-is-brave-and-humane",
+     "published": "2026-10-15T10:56:22+00:00"
+    },
+    {
+     "outlet": "El País",
+     "region": "es",
+     "bucket": "serious",
+     "title": "La escritora Sally Rooney ya no venderá sus libros en el Reino Unido por su activismo propalestino",
+     "language": "es",
+     "link": "https://elpais.com/cultura/2026-10-15/la-escritora-sally-rooney-ya-no-vendera-sus-libros-en-el-reino-unido-por-su-activismo-propalestino.html",
+     "published": "2026-10-15T09:19:44+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "UK bookstores scramble as Sally Rooney's novels are pulled over Palestine Action support",
+     "language": "en",
+     "link": "https://www.france24.com/en/europe/20261016-uk-bookstores-scramble-as-sally-rooney-novels-pulled-over-palestine-action-support",
+     "published": "2026-10-16T06:15:10+00:00"
+    }
+   ],
+   "last_seen": "2026-10-16T09:07:49.020316+00:00",
+   "outlets": 10,
+   "regions": 9,
+   "languages": 2,
+   "score": 32.0
   },
   {
    "id": "144bf80223b4",
@@ -7447,143 +7193,6 @@
    "score": 29.0
   },
   {
-   "id": "c2ed5607be1f",
-   "first_seen": "2026-10-05T15:07:44.573046+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Former Prince Andrew launches challenge to ‘quash’ police search warrants",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/5/former-prince-andrew-launches-challenge-to-quash-police-search-warrants?traffic_source=rss",
-     "published": "2026-10-05T10:38:17+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Ex-prince Andrew takes UK police to court to ‘quash’ Epstein affair search warrants",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/europe/article/3369800/ex-prince-andrew-takes-uk-police-court-quash-epstein-affair-search-warrants?utm_source=rss_feed",
-     "published": "2026-10-05T09:07:54+00:00"
-    },
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "Former Prince Andrew takes police to court over Epstein files arrest, Telegraph says",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-05-former-prince-andrew-takes-police-to-court-over-epstein-files-arrest-telegraph-says/",
-     "published": "2026-10-05T11:22:55+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Ex-prince Andrew seeks to 'quash' Epstein search warrants",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633098/ex-prince-andrew-seeks-to-quash-epstein-search-warrants",
-     "published": "2026-10-05T06:17:04+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Ex-prince Andrew asks to ‘quash’ Epstein affair search warrants: U.K. judiciary",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/ex-prince-andrew-asks-to-quash-epstein-affair-search-warrants-uk-judiciary/article71546410.ece",
-     "published": "2026-10-05T10:01:32+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Former Prince Andrew takes police to court over Epstein files arrest: Report",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/former-prince-andrew-takes-police-to-court-over-epstein-files-arrest-report-12139167#publisher=newsstand",
-     "published": "2026-10-05T09:37:52+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Ex-Prince Andrew challenges validity of Epstein-related search warrants",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/ex-prince-andrew-jeffrey-epstein-search-warrants-legal-challenge-uk-court/",
-     "published": "2026-10-05T12:49:27+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Ex-prince Andrew asks court to 'quash' Epstein affair search warrants",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2034912/ex-prince-andrew-asks-court-to-quash-epstein-affair-search-warrants",
-     "published": "2026-10-05T08:34:19+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Former Prince Andrew launches challenge to ‘quash’ police search warrants",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPQVYzRTZwNXhaaUpSU1J0VmtoOTlzYW40cGNqQ0dNTnJ1N05EcEZheDJpeVVzdmROdUZwbEVkZTZweVdDbWlad3lNeWZ0dUNUZ2wzX0xHWEh2Q29GN0NQVDd1ckRvU1N6Ui1POXRvSVNUN0JTS3cxM21WMExnWmM2UHdtWGxEQnRZUjhQWVlQSF9ham9CbTAtMWZJY1RMWFNsU0tfakRCR1hwWjJWZEZMVTB30gG3AUFVX3lxTE9xQUtMTFR1NTNSSXJYZFpjVUZ4WHpERDZvZEtnWXU3YndVcWxRbWtwY2t0MVl1a1Y3QU1JRU40bmtjTUxXS0hPTkI1OGxPVTBsalRONklFS09fdUdlSFVpNVQwY1NMRnBGR1N4VXJBTURHODFZNldjQVpVSFBfcnF3dC1ybFVxa3R0ejV1bnc5QVQ1Q29ZY2FZT3p3QWl6Z2pnSGViSHdnS0xSU1dBelowYWc0anAyWQ?oc=5",
-     "published": "2026-10-05T14:03:45+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Ex-Prince Andrew Seeks To Quash Search Warrants In Epstein Case",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/ex-prince-andrew-seeks-to-quash-search-warrants-in-epstein-case-12143073#publisher=newsstand",
-     "published": "2026-10-05T18:59:29+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "UK ex-prince Andrew search warrants quashed after police accept legal error",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/8/uk-ex-prince-andrew-search-warrants-quashed-after-police-accept-legal-error?traffic_source=rss",
-     "published": "2026-10-08T15:53:07+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Ex-prince Andrew search warrants quashed after UK police accept legal error",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2035706/ex-prince-andrew-search-warrants-quashed-after-uk-police-accept-legal-error",
-     "published": "2026-10-08T14:39:32+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "UK police accept ex-prince Andrew search warrants must be ‘legally quashed’",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/europe/article/3370227/uk-police-accept-ex-prince-andrew-search-warrants-must-be-legally-quashed?utm_source=rss_feed",
-     "published": "2026-10-08T15:20:53+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Ex-prince Andrew search warrants quashed after police accept legal error",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/08/ex-prince-andrew-search-warrants-quashed-after-police-accept-legal-error",
-     "published": "2026-10-08T14:21:35+00:00"
-    }
-   ],
-   "last_seen": "2026-10-08T18:07:58.260966+00:00",
-   "outlets": 10,
-   "regions": 8,
-   "languages": 1,
-   "score": 28.0
-  },
-  {
    "id": "4ff16308f748",
    "first_seen": "2026-10-10T17:07:48.257605+00:00",
    "members": [
@@ -7849,206 +7458,177 @@
    "score": 28.0
   },
   {
-   "id": "72f3d3c55397",
-   "first_seen": "2026-10-15T09:07:47.013401+00:00",
+   "id": "0f5b4743bd14",
+   "first_seen": "2026-10-05T18:07:49.818707+00:00",
    "members": [
     {
-     "outlet": "Africanews",
-     "region": "africa",
+     "outlet": "Al Jazeera English",
+     "region": "qa",
      "bucket": "serious",
-     "title": "China and North Korea open New Yalu River Bridge after 12-year delay",
+     "title": "Two dead after ship sinks off Romania following fire",
      "language": "en",
-     "link": "http://www.africanews.com/2026/10/15/china-and-north-korea-open-new-yalu-river-bridge-after-12-year-delay/",
-     "published": "2026-10-15T08:15:44+00:00"
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/5/two-dead-after-ship-sinks-off-romania-following-fire?traffic_source=rss",
+     "published": "2026-10-05T16:04:11+00:00"
     },
     {
-     "outlet": "The Japan Times",
-     "region": "jp",
+     "outlet": "Channel News Asia",
+     "region": "seasia",
      "bucket": "serious",
-     "title": "New bridge between China and North Korea opens",
+     "title": "Two dead, 11 rescued after ship catches fire and sinks in Black Sea, Romania says",
      "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/15/asia-pacific/china-north-korea-bridge-open/",
-     "published": "2026-10-15T03:52:00+00:00"
+     "link": "https://www.channelnewsasia.com/world/two-dead-11-rescued-after-ship-catches-fire-and-sinks-in-black-sea-romania-says-6433076",
+     "published": "2026-10-05T11:51:00+00:00"
     },
     {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
+     "outlet": "The Hindu — International",
+     "region": "in",
      "bucket": "serious",
-     "title": "North Korea and China open new bridge after 12-year delay",
+     "title": "Two dead after ship catches fire, sinks in Black Sea",
      "language": "en",
-     "link": "https://www.myjoyonline.com/north-korea-and-china-open-new-bridge-after-12-year-delay/",
-     "published": "2026-10-15T04:19:00+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "North Korea and China open new bridge after 12-year delay",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9HWEd5VU9mVlpobVFOQXRDWlZ6Y3B4VmsxdTlJV1BBcW9lMGgwbmJ0YXBCdGlJX1BuYzJTdmhLUFJlX3BESmZ0TlNKZ3pvaTAwdDQ5TEtvMHJOSnM?oc=5",
-     "published": "2026-10-15T02:59:30+00:00"
+     "link": "https://www.thehindu.com/news/international/two-dead-after-ship-catches-fire-sinks-in-black-sea/article71548666.ece",
+     "published": "2026-10-05T16:57:53+00:00"
     },
     {
      "outlet": "BBC World",
      "region": "uk",
      "bucket": "serious",
-     "title": "North Korea and China open new bridge after 12-year delay",
+     "title": "Ship sinks and crew missing after Black Sea drone attack",
      "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/ck1exgw3j115o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-15T06:24:45+00:00"
+     "link": "https://www.bbc.co.uk/news/articles/c8ly0v5r602eo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-06T11:53:21+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Captain killed in attack on ship in Black Sea",
+     "language": "en",
+     "link": "https://tass.com/world/2198177",
+     "published": "2026-10-06T12:57:40+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Turkish grain ship sinks in Black Sea after deadly drone attack",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQNWx2UklGcjIwOG5qQ0dtcHRBZmZlWEVlUk9mWWxwTVJtMzNTc3lsdC0tbEd6MjBtUlFCQTd0UDIyTV9HcWhGVHZzRWFIMGtPbFMwVl9BT1hVNnNQdVF2NWQwcG9oa1BKZzZTaWVEQ19TdjRLc29Kbl9WR2FnSVN2aTMtSVNWWkN1aHlfLURUT3pFY1I2ZVdyb3dqdEtJenJkbWFpcWVR?oc=5",
+     "published": "2026-10-05T12:39:34+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Ship sinks and crew missing after Black Sea drone attack",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFB5bHVXZjF1NDI1eWZ3QTR1RzJIVjRlRHp4VVRKNktxRXVtQnpaRHBPYS1RY2xfSVQtY1RDaDktV2p3VnNVVllYQXk5YkV3OXQ4MGNrc2FwcVVFNmc?oc=5",
+     "published": "2026-10-06T11:53:21+00:00"
     },
     {
      "outlet": "Al Jazeera English",
      "region": "qa",
      "bucket": "serious",
-     "title": "Photos: China and North Korea open new border bridge amid deepening ties",
+     "title": "Ship sinks off Bulgaria after drone attack in Black Sea",
      "language": "en",
-     "link": "https://www.aljazeera.com/gallery/2026/10/15/photos-china-and-north-korea-open-new-border-bridge-amid-deepening-ties?traffic_source=rss",
-     "published": "2026-10-15T12:54:00+00:00"
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/6/ship-sinks-off-bulgaria-after-drone-attack-in-black-sea?traffic_source=rss",
+     "published": "2026-10-06T16:53:04+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Drone attack sinks ship off Bulgaria’s Black Sea coast, PM says",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/13/drone-attack-sinks-ship-off-bulgarias-black-sea-coast-pm-says?traffic_source=rss",
+     "published": "2026-10-13T07:36:38+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Ship sinks in new drone attack off Bulgaria, PM summons Russian ambassador",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cmn06w5x9g25o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-13T08:52:48+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Drone sinks Ukrainian-owned ship off Bulgaria’s Black Sea coast, Bulgarian Prime Minister says",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/drone-sinks-ukrainian-owned-ship-off-bulgarias-black-sea-coast-bulgarian-prime-minister-says/article71578213.ece",
+     "published": "2026-10-13T07:05:59+00:00"
+    },
+    {
+     "outlet": "Balkan Insight",
+     "region": "balkans",
+     "bucket": "serious",
+     "title": "Bulgaria Summons Russian Envoy Over New Black Sea Drone Attacks",
+     "language": "en",
+     "link": "https://balkaninsight.com/2026/10/13/bulgaria-summons-russian-envoy-over-new-black-sea-drone-attacks/bi/",
+     "published": "2026-10-13T08:32:21+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Merchant ship comes under drone attack in Black Sea off Bulgaria",
+     "language": "en",
+     "link": "https://tass.com/emergencies/2201203",
+     "published": "2026-10-13T05:49:44+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Bulgaria Summons Russian Ambassador After Drone Attack Sinks Ship, Leaving 11 Missing",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNUU1xX1ZFaTROMnVJRzVYX0h4c3VHWExIMVQ1V09YZE9xZGY1RW5VRGFXamduQkt6Wjdfbko3M1IyMlkzeGRTRlhkdnBwUGx3Q1F0cy1vUjFmOUZjQWxQbmhsWmZud0ZvdXJmcUQyVmR3WVVjcTJOZldKVGhrbG5vTWlHNVNmQ1NBYm82TXFnV2Z3YlBkSUhxc1hVcE5ncllNM3pyTzVMTFlWQl8yMDZ2Wm1UNXdlLURaNmhtTEM3ZjBQVFdCaU81RjVVSnpHQQ?oc=5",
+     "published": "2026-10-13T13:09:48+00:00"
     },
     {
      "outlet": "Deutsche Welle",
      "region": "eu",
      "bucket": "serious",
-     "title": "North Korea, China open border bridge after 12-year delay",
+     "title": "Romania: 2 ships on fire in Black Sea, 7 crew missing",
      "language": "en",
-     "link": "https://www.dw.com/en/north-korea-china-open-border-bridge-after-12-year-delay/a-79666112?maca=en-rss-en-world-4025-rdf",
-     "published": "2026-10-15T08:12:00+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "China, North Korea open long-delayed trade bridge",
-     "language": "en",
-     "link": "https://www.france24.com/en/tv-shows/business/20261015-china-north-korea-open-long-delayed-trade-bridge",
-     "published": "2026-10-15T12:20:08+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "China, North Korea open long-delayed bridge to strengthen ties",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/asia-pacific/china-north-korea-open-long-delayed-bridge-to-strengthen-ties",
-     "published": "2026-10-15T10:20:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-15T17:07:57.070042+00:00",
-   "outlets": 9,
-   "regions": 8,
-   "languages": 1,
-   "score": 27.0
-  },
-  {
-   "id": "5387d8460227",
-   "first_seen": "2026-10-07T09:07:47.348407+00:00",
-   "members": [
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Russian strikes kill 11 across Ukraine after Zelensky warning",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/europe/article/3369997/russian-barrage-hits-kyiv-hours-after-zelensky-warns-impending-attack?utm_source=rss_feed",
-     "published": "2026-10-07T06:04:10+00:00"
+     "link": "https://www.dw.com/en/romania-2-ships-on-fire-in-black-sea-7-crew-missing/a-79667003?maca=en-rss-en-world-4025-rdf",
+     "published": "2026-10-15T14:34:00+00:00"
     },
     {
      "outlet": "Meduza English",
      "region": "ru",
      "bucket": "serious",
-     "title": "Russian missile and drone strikes across Ukraine kill six and injure more than 20",
+     "title": "Two tankers catch fire off Romania’s coast amid a wave of deadly drone attacks on Black Sea shipping. More than half a dozen sailors are missing.",
      "language": "en",
-     "link": "https://meduza.io/en/news/2026/10/07/russian-missile-and-drone-strikes-across-ukraine-kill-six-and-injure-more-than-20",
-     "published": "2026-10-07T07:21:00+00:00"
+     "link": "https://meduza.io/en/news/2026/10/15/two-tankers-catch-fire-off-romania-s-coast-amid-a-wave-of-deadly-drone-attacks-on-black-sea-shipping-more-than-half-a-dozen-sailors-are-missing",
+     "published": "2026-10-15T17:04:49+00:00"
     },
     {
-     "outlet": "Daily Sabah",
-     "region": "tr",
+     "outlet": "France24",
+     "region": "eu",
      "bucket": "serious",
-     "title": "Overnight Russian drone, missile strikes kill 8 across Ukraine",
+     "title": "Seven missing off Romania after latest Black Sea drone attacks",
      "language": "en",
-     "link": "https://www.dailysabah.com/world/europe/overnight-russian-drone-missile-strikes-kill-8-across-ukraine",
-     "published": "2026-10-07T07:34:00+00:00"
+     "link": "https://www.france24.com/en/seven-missing-off-romania-after-latest-black-sea-drone-attacks",
+     "published": "2026-10-15T19:04:12+00:00"
     },
     {
-     "outlet": "Daily Maverick",
-     "region": "za",
+     "outlet": "Google News — World",
+     "region": "global",
      "bucket": "serious",
-     "title": "At least 28 killed in Ukraine, Zelenskiy condemns one of Russia’s most ‘vile strikes’",
+     "title": "2 ships on fire off Romania's Black Sea coast, 7 crew missing",
      "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-08-at-least-28-killed-in-ukraine-zelenskiy-condemns-one-of-russias-most-vile-strikes/",
-     "published": "2026-10-08T04:47:53+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Zelenskyy condemns one of Russia’s most ‘vile strikes’ as at least 28 killed in Ukraine",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/08/world/ukraine-russia-vile-strikes/",
-     "published": "2026-10-07T23:42:00+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Zelensky condemns ‘vile’ Russian strikes as at least 28 killed in Ukraine",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/08/zelensky-condemns-vile-russian-strike-as-at-least-28-killed-in-ukraine",
-     "published": "2026-10-07T23:43:00+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Ukraine’s Zelensky accuses US of inaction as Russian strikes kill nearly 80 in 2 days",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/europe/article/3370253/ukraines-zelensky-accuses-us-inaction-russian-strikes-kill-nearly-80-2-days?utm_source=rss_feed",
-     "published": "2026-10-09T01:49:58+00:00"
-    },
-    {
-     "outlet": "Rappler",
-     "region": "ph",
-     "bucket": "serious",
-     "title": "Zelenskyy accuses US of inaction as Russian strikes kill over 70 in 2 days",
-     "language": "en",
-     "link": "https://www.rappler.com/world/europe/zelenskyy-accuses-us-inaction-russian-strikes-deaths-october-8-2026/",
-     "published": "2026-10-09T02:01:23+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Zelensky accuses US of inaction as Russian strikes kill over 70 in two days",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/09/zelensky-accuses-us-of-inaction-as-russian-strikes-kill-over-70-in-two-days",
-     "published": "2026-10-08T23:23:30+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Zelenskyy accuses U.S. of inaction as Russian strikes kill over 70 in two days",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/09/world/zelenskyy-us-inaction-russian-strikes/",
-     "published": "2026-10-09T01:13:00+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Zelenskiy accuses US of inaction as Russian strikes kill over 70 in two days",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633863/zelenskiy-accuses-us-of-inaction-as-russian-strikes-kill-over-70-in-two-days",
-     "published": "2026-10-09T02:37:35+00:00"
+     "link": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQRHQzWV9qTkNNYTd0N3NLSmRpYTVlQ3ZMOGtWQWRGaTV4VmV6WjRFOV9SWkRIcXdlNzBEQnRKVlI5V3NaS1FYTEJ6NFhDOXUzNDdnMndzRWltekRIU1dxUG1PczRQdGlUcmF2TDVRbl9hSnhHV2tYc2hJNGE0REd0M0RQSmRhUXo4RkVQdNIBjAFBVV95cUxPaS16UmVUcHNxUGJDa2piTllmZmdSeG1uS3h2Smw5WFNSM08ya3hhbkFYM3hQdWJBdlBUb1Z4amFEalYxX2xYemN4Ry1BRTFzLWNQOHpKUWFjUHR3ckVkNmlIaGdaTzFkUVN4SkJPOFpXbjdKNnJEejB0UTJrbVNxWjdwd3FkV2V2Wnp6Mg?oc=5",
+     "published": "2026-10-15T21:28:38+00:00"
     }
    ],
-   "last_seen": "2026-10-09T09:07:48.883639+00:00",
-   "outlets": 8,
+   "last_seen": "2026-10-16T09:07:49.020316+00:00",
+   "outlets": 10,
    "regions": 8,
    "languages": 1,
-   "score": 26.0
+   "score": 28.0
   },
   {
    "id": "eb275183d7fc",
@@ -8482,98 +8062,6 @@
    "score": 25.0
   },
   {
-   "id": "d031439b2a8d",
-   "first_seen": "2026-10-08T09:08:05.709468+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "UK renames East Jerusalem consulate as a mission; some diplomats to remain",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/8/signage-at-uk-consulate-in-east-jerusalem-removed-as-israels-deadline-over?traffic_source=rss",
-     "published": "2026-10-08T05:06:25+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Most UK diplomats to leave East Jerusalem consulate, Israel says, as Miliband says 'vital services' to remain",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cw33xd6vegnno?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-08T08:18:36+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Britain says consulate in Jerusalem to remain open as a UK Mission",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/world/britain-consulate-jerusalem-open-sanctions-west-bank-6441541",
-     "published": "2026-10-08T07:05:18+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Has Israel shut the UK consulate in East Jerusalem",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/8/has-israel-shut-the-uk-consulate-in-east-jerusalem-or-downgraded?traffic_source=rss",
-     "published": "2026-10-08T13:32:32+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Has Israel shut the UK consulate in East Jerusalem - or downgraded it?",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxPcXRHN3cySy11S2dPZGl2WUZvMXVnSzR0MTI1Yk5qcDlpaXhSNG1QZFVYZFZvcEljV0F0RGRnNElxQmE5Nm1vT2pfR1ptMGNKQ0FTSEtYMk92WjhmMkRuclB2bFlmcGl3LTFkTkFVY1V2djFfTG5ScFFrWDNUQzhaNThyUVo4NGlScHhaX0dneTN3Szd2a0w5eDQ3QXVINGpoNHN6eTJHdG7SAa4BQVVfeXFMTjY4VU9fb3p6bjhQaFlzYnBfRmV6OExYSlNsUHZfdHB5MVg2WmVPcXZUQXRFZF9yS1JJQ1FHeF81T0JqX0o3QnJhMUdoWVNlWnVwdUVLTEp6dmttOHpQRHJtdXpJX1JyZ1RUamcxdnBlS3RsT25ENlhKOWhZU3dWMjE1aWFLTTlPNDdqWkFqYWNPdHNJVXdaZmZ1anJkc1ZaeG1JRmdtN3J3cWhpc2hn?oc=5",
-     "published": "2026-10-08T13:39:52+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Israel drastically reduces British diplomatic presence in Jerusalem, announces closure of consulate",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2035697/israel-drastically-reduces-british-diplomatic-presence-in-jerusalem-announces-closure-of-consulate",
-     "published": "2026-10-08T15:58:44+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Israel drastically reduces British diplomatic presence in Jerusalem",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/israel-drastically-reduces-british-diplomatic-presence-in-jerusalem/article71561112.ece",
-     "published": "2026-10-08T17:09:22+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Israel shuts British E. Jerusalem consulate as diplomatic rift grows",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/mid-east/israel-shuts-british-e-jerusalem-consulate-as-diplomatic-rift-grows",
-     "published": "2026-10-08T10:09:00+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Israel drastically reduces British diplomatic presence in Jerusalem",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633742/israel-drastically-reduces-british-diplomatic-presence-in-jerusalem",
-     "published": "2026-10-08T12:25:25+00:00"
-    }
-   ],
-   "last_seen": "2026-10-09T03:07:52.407678+00:00",
-   "outlets": 8,
-   "regions": 7,
-   "languages": 1,
-   "score": 24.0
-  },
-  {
    "id": "493ae8954612",
    "first_seen": "2026-10-10T09:07:48.714447+00:00",
    "members": [
@@ -8980,143 +8468,6 @@
    "score": 23.0
   },
   {
-   "id": "0f5b4743bd14",
-   "first_seen": "2026-10-05T18:07:49.818707+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Two dead after ship sinks off Romania following fire",
-     "language": "en",
-     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/5/two-dead-after-ship-sinks-off-romania-following-fire?traffic_source=rss",
-     "published": "2026-10-05T16:04:11+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Two dead, 11 rescued after ship catches fire and sinks in Black Sea, Romania says",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/world/two-dead-11-rescued-after-ship-catches-fire-and-sinks-in-black-sea-romania-says-6433076",
-     "published": "2026-10-05T11:51:00+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Two dead after ship catches fire, sinks in Black Sea",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/two-dead-after-ship-catches-fire-sinks-in-black-sea/article71548666.ece",
-     "published": "2026-10-05T16:57:53+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Ship sinks and crew missing after Black Sea drone attack",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c8ly0v5r602eo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-06T11:53:21+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Captain killed in attack on ship in Black Sea",
-     "language": "en",
-     "link": "https://tass.com/world/2198177",
-     "published": "2026-10-06T12:57:40+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Turkish grain ship sinks in Black Sea after deadly drone attack",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQNWx2UklGcjIwOG5qQ0dtcHRBZmZlWEVlUk9mWWxwTVJtMzNTc3lsdC0tbEd6MjBtUlFCQTd0UDIyTV9HcWhGVHZzRWFIMGtPbFMwVl9BT1hVNnNQdVF2NWQwcG9oa1BKZzZTaWVEQ19TdjRLc29Kbl9WR2FnSVN2aTMtSVNWWkN1aHlfLURUT3pFY1I2ZVdyb3dqdEtJenJkbWFpcWVR?oc=5",
-     "published": "2026-10-05T12:39:34+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Ship sinks and crew missing after Black Sea drone attack",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFB5bHVXZjF1NDI1eWZ3QTR1RzJIVjRlRHp4VVRKNktxRXVtQnpaRHBPYS1RY2xfSVQtY1RDaDktV2p3VnNVVllYQXk5YkV3OXQ4MGNrc2FwcVVFNmc?oc=5",
-     "published": "2026-10-06T11:53:21+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Ship sinks off Bulgaria after drone attack in Black Sea",
-     "language": "en",
-     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/6/ship-sinks-off-bulgaria-after-drone-attack-in-black-sea?traffic_source=rss",
-     "published": "2026-10-06T16:53:04+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Drone attack sinks ship off Bulgaria’s Black Sea coast, PM says",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/13/drone-attack-sinks-ship-off-bulgarias-black-sea-coast-pm-says?traffic_source=rss",
-     "published": "2026-10-13T07:36:38+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Ship sinks in new drone attack off Bulgaria, PM summons Russian ambassador",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cmn06w5x9g25o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-13T08:52:48+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Drone sinks Ukrainian-owned ship off Bulgaria’s Black Sea coast, Bulgarian Prime Minister says",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/drone-sinks-ukrainian-owned-ship-off-bulgarias-black-sea-coast-bulgarian-prime-minister-says/article71578213.ece",
-     "published": "2026-10-13T07:05:59+00:00"
-    },
-    {
-     "outlet": "Balkan Insight",
-     "region": "balkans",
-     "bucket": "serious",
-     "title": "Bulgaria Summons Russian Envoy Over New Black Sea Drone Attacks",
-     "language": "en",
-     "link": "https://balkaninsight.com/2026/10/13/bulgaria-summons-russian-envoy-over-new-black-sea-drone-attacks/bi/",
-     "published": "2026-10-13T08:32:21+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Merchant ship comes under drone attack in Black Sea off Bulgaria",
-     "language": "en",
-     "link": "https://tass.com/emergencies/2201203",
-     "published": "2026-10-13T05:49:44+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Bulgaria Summons Russian Ambassador After Drone Attack Sinks Ship, Leaving 11 Missing",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNUU1xX1ZFaTROMnVJRzVYX0h4c3VHWExIMVQ1V09YZE9xZGY1RW5VRGFXamduQkt6Wjdfbko3M1IyMlkzeGRTRlhkdnBwUGx3Q1F0cy1vUjFmOUZjQWxQbmhsWmZud0ZvdXJmcUQyVmR3WVVjcTJOZldKVGhrbG5vTWlHNVNmQ1NBYm82TXFnV2Z3YlBkSUhxc1hVcE5ncllNM3pyTzVMTFlWQl8yMDZ2Wm1UNXdlLURaNmhtTEM3ZjBQVFdCaU81RjVVSnpHQQ?oc=5",
-     "published": "2026-10-13T13:09:48+00:00"
-    }
-   ],
-   "last_seen": "2026-10-13T17:07:48.267468+00:00",
-   "outlets": 7,
-   "regions": 7,
-   "languages": 1,
-   "score": 23.0
-  },
-  {
    "id": "cadd5a26b847",
    "first_seen": "2026-10-12T17:07:49.159577+00:00",
    "members": [
@@ -9198,172 +8549,6 @@
    "regions": 7,
    "languages": 1,
    "score": 23.0
-  },
-  {
-   "id": "2065ce1f6b8e",
-   "first_seen": "2026-10-08T03:08:02.336758+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Trump on why he thinks he deserves the Nobel Peace Prize",
-     "language": "en",
-     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/7/trump-on-why-he-thinks-he-deserves-the-nobel-peace-prize-2?traffic_source=rss",
-     "published": "2026-10-07T21:30:18+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Trump says he deserves Nobel Peace Prize but has doubts he will get it",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370107/trump-says-he-deserves-nobel-peace-prize-has-doubts-hell-get-it?utm_source=rss_feed",
-     "published": "2026-10-07T22:41:05+00:00"
-    },
-    {
-     "outlet": "Rappler",
-     "region": "ph",
-     "bucket": "serious",
-     "title": "Trump says he deserves Nobel Peace Prize but doubts he’ll get one",
-     "language": "en",
-     "link": "https://www.rappler.com/world/us-canada/trump-doubts-nobel-peace-prize/",
-     "published": "2026-10-07T23:59:42+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Trump says he deserves Nobel Peace Prize but has doubts he will get it",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2035634/trump-says-he-deserves-nobel-peace-prize-but-has-doubts-he-will-get-it",
-     "published": "2026-10-08T05:54:56+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Trump says he deserves Nobel Peace Prize but has doubts he will get it",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633663/trump-says-he-deserves-nobel-peace-prize-but-has-doubts-he-will-get-it",
-     "published": "2026-10-08T02:14:15+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Trump says he deserves Nobel Peace Prize, but doubts he will get it",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/trump-says-he-deserves-the-nobel-peace-prize-doubts-winning-this-year/article71558284.ece",
-     "published": "2026-10-08T04:19:27+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Trump Says He Should Win Nobel Peace Prize, But Has Doubts About Winning",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/donald-trump-says-he-should-win-nobel-peace-prize-but-has-doubts-about-winning-12153680#publisher=newsstand",
-     "published": "2026-10-07T21:44:01+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Trump says he deserves Nobel Peace Prize but has doubts he will get it",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOVEkzVEpocHRSSC0xV0JGVnotWHZGZDB4TzBoU0lIem5rMllUWHE5Q1g2NFZRZDd5eW9Vd2R4VTBiQlZWaHJGbjl0YTBPUFlJU1V6QnhJWll0SjZlVEY5bUlnTTJhZEM3dTNaVVpBV1oyRUxlZ3BmRHBvRk9NM3FTUy12X1Y2dU5ReTk3SUdCbk1pemlJSEJyYzhiMFExR1FXUmY4N0hBQ3VZb3RjbDFhU2dHNlV6dw?oc=5",
-     "published": "2026-10-07T20:45:43+00:00"
-    }
-   ],
-   "last_seen": "2026-10-08T18:07:58.260966+00:00",
-   "outlets": 8,
-   "regions": 6,
-   "languages": 1,
-   "score": 22.0
-  },
-  {
-   "id": "6e1544534ab3",
-   "first_seen": "2026-10-08T03:08:02.336758+00:00",
-   "members": [
-    {
-     "outlet": "Africanews",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Eritrean troops deploy in Ethiopia's Tigray region, witnesses say",
-     "language": "en",
-     "link": "http://www.africanews.com/2026/10/07/eritrean-troops-deploy-in-ethiopias-tigray-region-witnesses-say/",
-     "published": "2026-10-07T14:58:31+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Eritrean troops deploy in Ethiopia's Tigray region",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/eritrean-troops-deploy-in-ethiopia-s-tigray-region-101791399628939.html",
-     "published": "2026-10-07T19:00:28+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Eritrean troops move deep into Ethiopia's Tigray region as fighting escalates",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1sTG9Wa1o0dGJVN2k4M2wyeDQzWlE2WFhWbEFoa0lqUjhqQzFiTWo3VU5hdVNRUURVODg4TXV0SjBUY1JBSzhhLVZtMHJPMmMxcFIwemc0NGxmWXM?oc=5",
-     "published": "2026-10-07T18:40:52+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Eritrean troops move deep into Ethiopia's Tigray region, residents tell BBC",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/ckvgd63rj92lo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-07T18:40:52+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "light",
-     "title": "Ethiopia launches drone attack against Eritrean troops who crossed into Tigray",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/08/ethiopia-drone-attack-against-eritrean-troops-in-tigray",
-     "published": "2026-10-08T16:11:32+00:00"
-    },
-    {
-     "outlet": "Court House News",
-     "region": "court",
-     "bucket": "light",
-     "title": "Ethiopia drones hit Eritrean troops in Tigray",
-     "language": "en",
-     "link": "https://www.courthousenews.com/ethiopia-drones-hit-eritrean-troops-in-tigray/",
-     "published": "2026-10-08T17:42:01+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Ethiopia launches strikes at Eritrean troops venturing into N. Tigray",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/africa/ethiopia-launches-strikes-at-eritrean-troops-venturing-into-n-tigray",
-     "published": "2026-10-08T09:40:00+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Ethiopia launches drone attack against Eritrean troops who crossed into Tigray",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNQWFCNmFIZDM5V3F4R1QzQTM5N1V2TWZTLXRkWHg2T1h4clFpclMzVlNkQzNqd09kTHJERGsxNFlrV2hkV2JjbEtfdmNuM1FmckctcmhHd2RXcjlUMURyd3JvTGhtNFhaUW1LQ3VNaUpfVjdkZktEVi01Y3hNT29VMFpJZGlNdXlKeDhOWDV5c2YwVHZtSDFhdXd4U1lhRl9ZMVRJ?oc=5",
-     "published": "2026-10-09T03:18:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-09T09:07:48.883639+00:00",
-   "outlets": 7,
-   "regions": 6,
-   "languages": 1,
-   "score": 21.0
   },
   {
    "id": "5213bbd5cf19",
@@ -9597,154 +8782,6 @@
    "score": 21.0
   },
   {
-   "id": "ae95b817aa65",
-   "first_seen": "2026-10-14T17:07:55.411222+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Sally Rooney says she can no longer sell books in UK due to Palestine Action support",
-     "language": "en",
-     "link": "https://www.theguardian.com/uk-news/2026/oct/14/sally-rooney-says-she-can-no-longer-sell-books-in-the-uk-because-of-palestine-action-support",
-     "published": "2026-10-14T16:06:42+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Sally Rooney books can’t be sold in UK amid Palestine Action ban, publisher says",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/europe/article/3370918/sally-rooney-books-cant-be-sold-uk-amid-palestine-action-ban-publisher-says?utm_source=rss_feed",
-     "published": "2026-10-14T16:41:07+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Sally Rooney says she can no longer sell books in UK due to Palestine Action support",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxNOWJqN2oyMjJHbkl6dnhoLTNDSmkyczhTSFpSSXF2a1AxWVp6dTBLRWUyckcxclJoc1BRZnRzRVJVS1VTRXlWOU5wTDJYNFJmT0VlcHhMMG0teHBrbGNaWjR6OGVXa2pPM1JHajM1NW1XZW5xM21CajlrSEEyTUlBVmZGR3loQjJGZDBnLVcwMEpjQklFNU1IcW5ZWkZTaGhVa3NaeWxkTHhlR1VpVDFFd081V3doOFhqMkxPVXRFbmdMN2JDeDVHYjZMWUsySnJkRXBWblpWbw?oc=5",
-     "published": "2026-10-14T13:06:00+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Sally Rooney books withdrawn in UK over Palestine Action support",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cmx23q4g307vo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-14T16:56:21+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Sally Rooney books pulled from UK over Palestine Action support",
-     "language": "en",
-     "link": "https://www.dailysabah.com/arts/sally-rooney-books-pulled-from-uk-over-palestine-action-support/news",
-     "published": "2026-10-15T07:45:00+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Sally Rooney Can’t Publish in the U.K. Because of Her Palestine Support",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQRUV6ZDVRMFdnR21NbnJCYWU0aWVzN0tDNWhTNVEtYWg5Y0ZIYXFMUUJuTWozRVRlVXN3bkRUWFZITnoxM0dyNnVWaUNSY0ZGLV8xelRGenNESWY3c0ltaF8ycW5fRktTQUl2MC0wOWkzOFp3WEdWLUp0aE9EWmUzVDUydDVabEh5c1E?oc=5",
-     "published": "2026-10-14T20:47:06+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Sally Rooney books withdrawn from sale in UK over Palestine Action support",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/15/sally-rooney-withdraws-books-from-uk-over-palestine-action-support?traffic_source=rss",
-     "published": "2026-10-15T12:53:49+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Sally Rooney books off U.K. shelves over Palestine Action support",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/sally-rooney-books-withdrawn-uk-palestine-action-designated-terror-support/",
-     "published": "2026-10-15T11:51:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-15T17:07:57.070042+00:00",
-   "outlets": 7,
-   "regions": 6,
-   "languages": 1,
-   "score": 21.0
-  },
-  {
-   "id": "e55aa4645468",
-   "first_seen": "2026-10-08T18:07:58.260966+00:00",
-   "members": [
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "US suspends Microsoft, major IT firms from green card programme",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370230/us-suspends-microsoft-major-it-firms-green-card-programme?utm_source=rss_feed",
-     "published": "2026-10-08T15:50:26+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "US suspends Microsoft, major IT firms from key green card programme",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633723/us-suspends-microsoft-major-it-firms-from-key-green-card-programme",
-     "published": "2026-10-08T10:14:22+00:00"
-    },
-    {
-     "outlet": "TechCrunch",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "US bars Microsoft, Adobe, and major IT firms from green card program for skilled foreign workers",
-     "language": "en",
-     "link": "https://techcrunch.com/2026/10/08/us-bars-microsoft-adobe-and-major-it-firms-from-green-card-program-for-skilled-foreign-workers/",
-     "published": "2026-10-08T15:42:26+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "US administration suspends Microsoft from green card program over fraud",
-     "language": "en",
-     "link": "https://www.dailysabah.com/business/tech/us-administration-suspends-microsoft-from-green-card-program-over-fraud",
-     "published": "2026-10-08T14:42:00+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Indian IT Firms Suspended From US Programme Sponsoring Workers For Green Card",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/indian-it-firms-suspended-from-us-programme-sponsoring-workers-for-green-card-12158246#publisher=newsstand",
-     "published": "2026-10-08T17:07:02+00:00"
-    },
-    {
-     "outlet": "Investing.com — الاقتصاد",
-     "region": "money",
-     "bucket": "useful",
-     "title": "U.S. suspends Microsoft, Adobe, others from green card program, cites abuse",
-     "language": "en",
-     "link": "https://www.investing.com/news/economy-news/us-suspends-microsoft-adobe-others-from-green-card-program-cites-abuse-4939382",
-     "published": "2026-10-08T17:53:15+00:00"
-    }
-   ],
-   "last_seen": "2026-10-09T09:07:48.883639+00:00",
-   "outlets": 6,
-   "regions": 6,
-   "languages": 1,
-   "score": 20.0
-  },
-  {
    "id": "7de4fe658af2",
    "first_seen": "2026-10-10T17:07:48.257605+00:00",
    "members": [
@@ -9902,107 +8939,6 @@
    "score": 20.0
   },
   {
-   "id": "d4e675cb0d92",
-   "first_seen": "2026-10-09T09:07:48.883639+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "ICE agent shoots man in New York City with five-year-old reportedly in car",
-     "language": "en",
-     "link": "https://www.theguardian.com/us-news/2026/oct/08/nyc-shooting-federal-agent",
-     "published": "2026-10-09T01:50:05+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "ICE shooting of New York man in car with five-year-old sparks protests",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/9/ice-agent-shoots-man-in-car-with-five-year-old-child-in-new-york-mayor?traffic_source=rss",
-     "published": "2026-10-09T03:25:33+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "ICE agent shoots man in New York City",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c59vzk9yypn3o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-09T04:26:19+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Uproar in NY after ICE shoots man with child in the car",
-     "language": "en",
-     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/9/uproar-in-ny-after-ice-shoots-man-with-child-in-the-car?traffic_source=rss",
-     "published": "2026-10-09T04:26:50+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "ICE agent shoots man in New York City",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/ice-agent-shoots-man-in-new-york-city/",
-     "published": "2026-10-09T03:06:00+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "New York City man shot in car with child present by ICE agents, mayor says",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633860/new-york-city-man-shot-in-car-with-child-present-by-ice-agents-mayor-says",
-     "published": "2026-10-09T01:29:21+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Who is Oscar Belgal? 5 things on New York City man shot by ICE agents in Marble Hill; Mayor Mamdani vows action",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/who-is-oscar-belgal-5-things-on-new-york-city-man-shot-by-ice-agents-in-marble-hill-mayor-mamdani-vows-action-101791519117782.html",
-     "published": "2026-10-09T04:28:40+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "ICE agents shoot man in New York City; negotiations with Trump seeking his release unsuccessful, Mamdani says",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/immigration-agents-shoot-a-man-during-arrest-in-new-york-city/article71562432.ece",
-     "published": "2026-10-09T05:32:12+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Brenden Cuni's name pops up after ICE shoots Oscar Belgal in New York City; locals share Marble Hill Operation photos",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/brenden-cunis-name-pops-up-after-ice-shoots-oscar-belgal-in-new-york-city-locals-share-marble-hill-operation-photos-101791520556856.html",
-     "published": "2026-10-09T06:16:30+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Mayor Mamdani wants ICE abolished after man shot in New York City; what we know about victim so far",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/mayor-zohran-mamdani-wants-ice-abolished-out-of-new-york-after-man-shot-in-marble-hill-what-we-know-about-victim-so-far-101791512867968.html",
-     "published": "2026-10-09T03:08:07+00:00"
-    }
-   ],
-   "last_seen": "2026-10-09T09:07:48.883639+00:00",
-   "outlets": 7,
-   "regions": 5,
-   "languages": 1,
-   "score": 19.0
-  },
-  {
    "id": "cd987ac59539",
    "first_seen": "2026-10-10T17:07:48.257605+00:00",
    "members": [
@@ -10145,6 +9081,80 @@
     }
    ],
    "last_seen": "2026-10-13T17:07:48.267468+00:00",
+   "outlets": 7,
+   "regions": 5,
+   "languages": 1,
+   "score": 19.0
+  },
+  {
+   "id": "d8c220af6828",
+   "first_seen": "2026-10-16T09:07:49.020316+00:00",
+   "members": [
+    {
+     "outlet": "Der Spiegel",
+     "region": "de",
+     "bucket": "serious",
+     "title": "Tesla stellt neues Modell Roadster vor",
+     "language": "en",
+     "link": "https://www.spiegel.de/mobilitaet/auto/tesla-stellt-neues-modell-roadster-vor-mit-raketenduesen-a-7cccd6c2-3d0e-4d0d-8be4-7f0fd794915e#ref=rss",
+     "published": "2026-10-16T05:02:00+00:00"
+    },
+    {
+     "outlet": "Investing.com — الاقتصاد",
+     "region": "money",
+     "bucket": "useful",
+     "title": "Warsh avoids rate guidance; Tesla’s Roadster turns in air",
+     "language": "en",
+     "link": "https://www.investing.com/news/economy-news/warsh-avoids-rate-guidance-teslas-roadster-turns-in-air--whats-moving-markets-4953305",
+     "published": "2026-10-16T07:58:28+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Tesla Roadster Flew And Landed Safely: How High, How Far And What's The Cost?",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/tesla-roadster-flew-and-landed-safely-how-high-how-far-and-whats-the-cost-12193774#publisher=newsstand",
+     "published": "2026-10-16T07:34:06+00:00"
+    },
+    {
+     "outlet": "The Verge",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "The Tesla Roadster flew, drove upside down, and hit 60mph in under a second",
+     "language": "en",
+     "link": "https://www.theverge.com/transportation/1012552/tesla-roadster-next-gen-reveal-elon-musk",
+     "published": "2026-10-16T01:28:27+00:00"
+    },
+    {
+     "outlet": "TechCrunch",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "Tesla reveals SpaceX-powered Roadster that flies and falls with style",
+     "language": "en",
+     "link": "https://techcrunch.com/2026/10/15/tesla-reveals-spacex-powered-roadster-that-flies-and-falls-with-style/",
+     "published": "2026-10-16T01:17:43+00:00"
+    },
+    {
+     "outlet": "Engadget",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "Tesla Roadster reveal live: Updates from the launch of the next-gen sportscar",
+     "language": "en",
+     "link": "https://www.engadget.com/2287518/tesla-roadster-launch-live-blog/",
+     "published": "2026-10-15T14:01:51+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Tesla's new Roadster turns in air with SpaceX thrusters, won't land until 2028",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/tesla-roadster-spacex-thrusters-elon-musk-6465326",
+     "published": "2026-10-16T08:18:59+00:00"
+    }
+   ],
+   "last_seen": "2026-10-16T09:07:49.020316+00:00",
    "outlets": 7,
    "regions": 5,
    "languages": 1,
@@ -10799,62 +9809,6 @@
    "score": 16.0
   },
   {
-   "id": "db689d4db9dc",
-   "first_seen": "2026-10-08T03:08:02.336758+00:00",
-   "members": [
-    {
-     "outlet": "Boing Boing",
-     "region": "odd",
-     "bucket": "light",
-     "title": "Trump wants to turn his private golf club into a presidential retreat",
-     "language": "en",
-     "link": "https://boingboing.net/2026/10/07/trump-new-camp-david-golf-club.html",
-     "published": "2026-10-07T17:04:10+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Trump wants to turn his Florida golf course into presidential retreat",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370098/trump-wants-turn-florida-golf-course-presidential-retreat?utm_source=rss_feed",
-     "published": "2026-10-07T17:00:31+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Trump plans to turn Florida golf course into presidential retreat",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/trump-plans-to-turn-florida-golf-course-into-presidential-retreat-101791398399423.html",
-     "published": "2026-10-07T18:39:58+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Trump wants a new Camp David-like retreat at his Florida golf club",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c9gkvxjvl7v3o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-08T03:00:50+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Trump Proposes Camp David-Style Presidential Retreat At Florida Golf Club",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/trump-proposes-camp-david-style-presidential-retreat-at-florida-golf-club-12154035#publisher=newsstand",
-     "published": "2026-10-08T09:45:58+00:00"
-    }
-   ],
-   "last_seen": "2026-10-08T18:07:58.260966+00:00",
-   "outlets": 5,
-   "regions": 4,
-   "languages": 1,
-   "score": 15.0
-  },
-  {
    "id": "52d2d9b346a7",
    "first_seen": "2026-10-10T17:07:48.257605+00:00",
    "members": [
@@ -10956,241 +9910,6 @@
    "regions": 3,
    "languages": 3,
    "score": 15.0
-  },
-  {
-   "id": "669e7a6372ea",
-   "first_seen": "2026-10-08T15:07:49.816861+00:00",
-   "members": [
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Maricarmen, the 87-year-old woman whose eviction shook Spain, dies",
-     "language": "en",
-     "link": "https://www.france24.com/en/video/20261008-maricarmen-the-87-year-old-woman-whose-eviction-shook-spain-dies",
-     "published": "2026-10-08T11:54:08+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Maricarmen, the 87-year-old woman whose eviction shook Spain, has died",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/08/nx-s1-5994868/maricarmen-eviction-spain-dies",
-     "published": "2026-10-08T05:56:02+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Maricarmen, the 87-year-old woman whose eviction shook Spain, has died",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxQcTF2TEYxLTZ6MmtUbkFQZ2FZVHR5WElHcHFaR0RVUjYwdmkySERwWDhfQmlvd1RjMElULUhpdzNwbVFJSmNNWFNfNVBmOVZnSUM4WmdJSWVGdnFJMERhNUFmSnJGSDV0TVUtWjNLRW9JYmRBZXFXNGl0SXFmOXRVcg?oc=5",
-     "published": "2026-10-08T05:56:02+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Evicted Spanish octogenarian Maricarmen Abascal, heart of Spain's housing protests, has died",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/evicted-spanish-octogenarian-maricarmen-abascal-heart-of-spains-housing-protests-has-died/article71557243.ece",
-     "published": "2026-10-07T21:23:37+00:00"
-    }
-   ],
-   "last_seen": "2026-10-08T18:07:58.260966+00:00",
-   "outlets": 4,
-   "regions": 4,
-   "languages": 1,
-   "score": 14.0
-  },
-  {
-   "id": "813428a20cef",
-   "first_seen": "2026-10-08T15:07:49.816861+00:00",
-   "members": [
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "South Korea test-flies its first home-grown hypersonic weapon",
-     "language": "en",
-     "link": "https://www.scmp.com/news/asia/east-asia/article/3370218/south-korea-test-flies-its-first-home-grown-hypersonic-weapon?utm_source=rss_feed",
-     "published": "2026-10-08T13:05:04+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "South Korea test-flies its first domestically developed hypersonic weapon",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/08/g-s1-147113/south-korea-test-flies-its-first-domestically-developed-hypersonic-weapon",
-     "published": "2026-10-08T12:01:34+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "South Korea test-fires its first homegrown hypersonic weapon: presidency",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/08/asia-pacific/south-korea-hypersonic-test/",
-     "published": "2026-10-08T12:54:00+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "South Korea test-flies its first domestically developed hypersonic weapon",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/east-asia/south-korea-missile-test-hypersonic-weapon-6442551",
-     "published": "2026-10-09T01:40:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-09T03:07:52.407678+00:00",
-   "outlets": 4,
-   "regions": 4,
-   "languages": 1,
-   "score": 14.0
-  },
-  {
-   "id": "9595ab8ff9eb",
-   "first_seen": "2026-10-09T03:07:52.407678+00:00",
-   "members": [
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "India's 'Cockroach' movement says many members detained ahead of Delhi rally",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2035712/indias-cockroach-movement-says-many-members-detained-ahead-of-delhi-rally",
-     "published": "2026-10-08T18:13:38+00:00"
-    },
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "India’s ‘Cockroach’ movement says many members detained ahead of Delhi rally",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-08-indias-cockroach-movement-says-many-members-detained-ahead-of-delhi-rally/",
-     "published": "2026-10-08T21:16:39+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "India’s ‘Cockroach’ movement says many members detained ahead of Delhi rally",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/09/india-s-cockroach-movement-says-many-members-detained-ahead-of-delhi-rally",
-     "published": "2026-10-08T22:28:28+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "India’s ‘Cockroach’ movement says many members detained ahead of Delhi rally",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/09/world/politics/cockroach-members-detained/",
-     "published": "2026-10-09T01:48:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-09T03:07:52.407678+00:00",
-   "outlets": 4,
-   "regions": 4,
-   "languages": 1,
-   "score": 14.0
-  },
-  {
-   "id": "9a3e36f4f9c7",
-   "first_seen": "2026-10-09T09:07:48.883639+00:00",
-   "members": [
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "India deploys thousands of police ahead of election protest",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2035898/india-deploys-thousands-of-police-ahead-of-election-protest",
-     "published": "2026-10-09T07:46:41+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "India deploys thousands of police ahead of election protest",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/asia/india-protests-election-commission-chief-voters-6445341",
-     "published": "2026-10-09T06:29:29+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "India deploys thousands of police ahead of election protest",
-     "language": "en",
-     "link": "https://punchng.com/india-deploys-thousands-of-police-ahead-of-election-protest/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-09T07:52:39+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "India deploys thousands of police officers ahead of election protest",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/09/india-deploys-thousands-of-police-officers-ahead-of-election-protest",
-     "published": "2026-10-09T05:56:07+00:00"
-    }
-   ],
-   "last_seen": "2026-10-09T09:07:48.883639+00:00",
-   "outlets": 4,
-   "regions": 4,
-   "languages": 1,
-   "score": 14.0
-  },
-  {
-   "id": "4dd347d2d7e1",
-   "first_seen": "2026-10-09T09:07:48.883639+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Zambia signs US health deal after disputes over data-sharing",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cqd09eyk0g8no?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-08T16:24:05+00:00"
-    },
-    {
-     "outlet": "Africanews",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Zambia signs health deal with US after removal of data-sharing clauses",
-     "language": "en",
-     "link": "http://www.africanews.com/2026/10/08/zambia-signs-health-deal-with-us-after-removal-of-data-sharing-clauses/",
-     "published": "2026-10-09T08:14:09+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Zambia signs US health deal after disputes over data-sharing",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/zambia-signs-us-health-deal-after-disputes-over-data-sharing/",
-     "published": "2026-10-09T02:35:00+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Zambia signs US health deal after disputes over data-sharing",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBaeVRNVWZIMkh5NHdMdTVLMzdJWUZ2eFZWMGFoeFltSUt4Q3pzOVJEZ1lOR21iSGI3RXAyRlJaXzUyclRxQUVjR29ibmtNT0QtVVZlR1BLcWVwMnc?oc=5",
-     "published": "2026-10-08T16:24:05+00:00"
-    }
-   ],
-   "last_seen": "2026-10-09T09:07:48.883639+00:00",
-   "outlets": 4,
-   "regions": 4,
-   "languages": 1,
-   "score": 14.0
   },
   {
    "id": "5483b962f655",
@@ -11571,7 +10290,54 @@
      "published": "2026-10-15T09:38:09+00:00"
     }
    ],
-   "last_seen": "2026-10-15T17:07:57.070042+00:00",
+   "last_seen": "2026-10-16T09:07:49.020316+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
+  },
+  {
+   "id": "c9eb11a06912",
+   "first_seen": "2026-10-16T09:07:49.020316+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Bus hits train stopped on French side of Channel Tunnel, with 19 injured",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c6wyrnmgzn01o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-15T22:37:21+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Bus hits train near Channel Tunnel in France, injuring 19",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3371068/bus-hits-train-near-channel-tunnel-france-injuring-19?utm_source=rss_feed",
+     "published": "2026-10-15T22:25:11+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Minibus crashes into train at French Channel Tunnel entrance, injuring 19",
+     "language": "en",
+     "link": "https://www.france24.com/en/europe/20261016-19-injured-as-minibus-crashes-into-train-at-channel-tunnel-entrance",
+     "published": "2026-10-16T00:53:16+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "19 injured as train hits minibus at France's Channel Tunnel",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/europe/19-injured-as-train-hits-minibus-at-frances-channel-tunnel",
+     "published": "2026-10-15T20:35:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-16T09:07:49.020316+00:00",
    "outlets": 4,
    "regions": 4,
    "languages": 1,
@@ -12008,158 +10774,6 @@
    "regions": 3,
    "languages": 1,
    "score": 12.0
-  },
-  {
-   "id": "84511ea7fe22",
-   "first_seen": "2026-10-08T18:07:58.260966+00:00",
-   "members": [
-    {
-     "outlet": "BBC Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Ceferin to stand for fourth term as Uefa president",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/sport/football/articles/cmn4ex2y53l8o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-08T14:24:43+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Uefa president Ceferin to stand for re-election in 2027",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/08/uefa-president-ceferin-to-stand-for-re-election-in-2027",
-     "published": "2026-10-08T15:46:05+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Ceferin to run for another term as UEFA president",
-     "language": "en",
-     "link": "https://tass.com/sports/2199501",
-     "published": "2026-10-08T17:13:43+00:00"
-    }
-   ],
-   "last_seen": "2026-10-08T18:07:58.260966+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "a031ef2f4265",
-   "first_seen": "2026-10-09T03:07:52.407678+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Four astronauts return to earth after an eight-month space mission",
-     "language": "en",
-     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/8/four-astronauts-return-to-earth-after-an-eight-month-space-mission?traffic_source=rss",
-     "published": "2026-10-08T21:55:29+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "French, US and Russian astronauts return to Earth after eight months in space",
-     "language": "en",
-     "link": "https://www.france24.com/en/europe/20261008-french-us-and-russian-astronauts-return-to-earth-after-eight-months-in-space",
-     "published": "2026-10-08T16:02:26+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "4 astronauts return to Earth after 8-month ISS mission",
-     "language": "en",
-     "link": "https://www.dailysabah.com/life/science/4-astronauts-return-to-earth-after-8-month-iss-mission",
-     "published": "2026-10-08T17:05:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-09T03:07:52.407678+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "ed405d990512",
-   "first_seen": "2026-10-09T03:07:52.407678+00:00",
-   "members": [
-    {
-     "outlet": "BBC Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Everton's Sherif fined for breaching betting rules",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/sport/football/articles/c54g13we4rero?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-08T14:24:34+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Everton’s Sherif fined for breaching betting rules",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/evertons-sherif-fined-for-breaching-betting-rules/",
-     "published": "2026-10-08T22:40:00+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Everton forward Sherif fined for breaching FA betting rules",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/09/everton-forward-sherif-fined-for-breaching-fa-betting-rules",
-     "published": "2026-10-08T22:55:07+00:00"
-    }
-   ],
-   "last_seen": "2026-10-09T03:07:52.407678+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "72aca2ef6592",
-   "first_seen": "2026-10-09T03:07:52.407678+00:00",
-   "members": [
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Two Latvian men arrested at UK base housing US and NATO intelligence hubs",
-     "language": "en",
-     "link": "https://www.france24.com/en/europe/20261008-two-latvian-men-arrested-at-uk-base-housing-us-and-nato-intelligence-hubs",
-     "published": "2026-10-08T16:57:19+00:00"
-    },
-    {
-     "outlet": "Meduza English",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "British police arrest two Latvian nationals at RAF Molesworth, a military base housing U.S. and NATO intelligence operations",
-     "language": "en",
-     "link": "https://meduza.io/en/news/2026/10/08/british-police-arrest-two-latvian-nationals-at-raf-molesworth-a-military-base-housing-u-s-and-nato-intelligence-operations",
-     "published": "2026-10-08T19:02:05+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "U.K. arrest two Latvians inside perimeter of RAF base housing U.S., NATO intelligence operations",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/uk-arrest-two-latvians-inside-perimeter-of-raf-base-housing-us-nato-intelligence-operations/article71561623.ece",
-     "published": "2026-10-08T23:36:01+00:00"
-    }
-   ],
-   "last_seen": "2026-10-09T03:07:52.407678+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
   },
   {
    "id": "e7c26d3cf713",
@@ -13206,6 +11820,158 @@
    "score": 11.0
   },
   {
+   "id": "2a89047ab77b",
+   "first_seen": "2026-10-16T09:07:49.020316+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "China tells Israel to stop ‘forced establishment’ of West Bank settlements",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/16/china-tells-israel-to-stop-forced-establishment-of-west-bank-settlements?traffic_source=rss",
+     "published": "2026-10-16T02:56:21+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "China tells Israel to stop 'forced establishment' of West Bank settlements",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cq1j3wdxy48ro?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-16T08:45:54+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "China tells Israel to stop ‘forced establishment’ of West Bank settlements",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQOWlWWWFHSG1jSHJWU3dnVnVqMzJZYTY3cVJSQXRlMkdQZnRMekQ0WFpzcTlZa2haam1VTEhPUGh2RDk1TV83UzhiU1U5UkVhel9JdXAtaUZoOUN6LUs1dWJBN0FtOGxGRTdkdlJrVkltMjNGclpNMVVRU0M3aTZjRFk2U3pCSDhGcjhHd0h4UzdldHJPeHBOaDVfV1YtcVZILUs1Zl9FbldyR3J0d3RPQk03TEHSAboBQVVfeXFMTzhnTmhhTGlVZEZUUENrVmdCeWlUNG1rTW1Ub05mNEtBZXN3aG94UXp4NnZfNlJuOFRFQklobXhRNzZ0RUg4YktlZVdrSGptWDRKc2d5OWhJX3hXaHphNXRmYkMyWW9lV0JUbmpPbkxBR1M4Yi1XZGFidGcyaUlVT01vd0VMalQ2OHZwN0ZJNklkTnVSREMtN0oxYnJSblFsWGtZa3pLZVpwSUlIWWdndy1CdkNMNTFtWGdR?oc=5",
+     "published": "2026-10-16T03:09:56+00:00"
+    }
+   ],
+   "last_seen": "2026-10-16T09:07:49.020316+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "b31568ba8791",
+   "first_seen": "2026-10-16T09:07:49.020316+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Pornography showing strangulation and incest to be banned in UK from early November",
+     "language": "en",
+     "link": "https://www.theguardian.com/society/2026/oct/16/pornography-strangulation-incest-ban-uk-november",
+     "published": "2026-10-16T07:09:49+00:00"
+    },
+    {
+     "outlet": "BBC Technology",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "Porn showing choking or incest to be banned from early November, government says",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cmpqgepejr2ro?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-15T23:27:57+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Porn showing choking or incest to be banned from early November, UK government says",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/porn-showing-choking-or-incest-to-be-banned-from-early-november-uk-government-says/",
+     "published": "2026-10-16T03:25:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-16T09:07:49.020316+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "d2580cc122fc",
+   "first_seen": "2026-10-16T09:07:49.020316+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Infantino apologises amid calls for him to quit as FIFA president",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/16/infantino-apologises-amid-calls-for-him-to-quit-as-fifa-president?traffic_source=rss",
+     "published": "2026-10-16T04:45:24+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Infantino apologises to Fifa Council",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/football/articles/cmd7qgj3zwero?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-15T14:46:09+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Infantino apologises to FIFA Council",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/infantino-apologises-to-fifa-council-but-told-he-is-still-not-fit-to-lead/",
+     "published": "2026-10-16T02:35:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-16T09:07:49.020316+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "f571db389711",
+   "first_seen": "2026-10-16T09:07:49.020316+00:00",
+   "members": [
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Trump's new press secretary says China lacked 'proper' toilets",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/trump-press-secretary-katie-zacharia-china-toilets-6465166",
+     "published": "2026-10-16T06:30:00+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Trump’s new press secretary says China lacked ‘proper’ toilets",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/16/trump-s-new-press-secretary-says-china-lacked-proper-toilets",
+     "published": "2026-10-16T07:35:00+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "\"Don't Have Proper Toilets\": Trump's New Press Secretary On Her Time In China",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/trumps-new-press-secretary-katie-zacharia-on-her-time-in-china-dont-have-proper-toilets-12194043#publisher=newsstand",
+     "published": "2026-10-16T08:15:45+00:00"
+    }
+   ],
+   "last_seen": "2026-10-16T09:07:49.020316+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
    "id": "11cabfbc55e8",
    "first_seen": "2026-10-13T09:08:09.573950+00:00",
    "members": [
@@ -13260,44 +12026,6 @@
    "regions": 2,
    "languages": 1,
    "score": 10.0
-  },
-  {
-   "id": "2f691732dcfe",
-   "first_seen": "2026-10-09T09:07:48.883639+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Adidas sues Australian label White Fox over four stripes design",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c9e8ld448km8o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-09T03:36:41+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Adidas accuses Australian label White Fox of ‘trading off its reputation’ with use of four-stripe branding",
-     "language": "en",
-     "link": "https://www.theguardian.com/business/2026/oct/09/adidas-white-fox-fashion-australia-trading-branding-sydney-ntwnfb",
-     "published": "2026-10-09T06:05:45+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Adidas sues Australian label White Fox over four stripes design",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/adidas-sues-australian-label-white-fox-over-four-stripes-design/",
-     "published": "2026-10-08T23:47:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-09T09:07:48.883639+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 1,
-   "score": 9.0
   },
   {
    "id": "31048a092620",
