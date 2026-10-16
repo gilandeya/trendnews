@@ -1949,3 +1949,8 @@ instead.
 - **العطل للصفيحة:** في `scan_candidates` و`scan_broll` تُلفّ كل صفيحة بـtry/except؛ المتعثرة تُتخطّى وتُعدّ (`ScanState.note_sheet_error`) وما صُنّف قبلها وبعدها يبقى ويكوّن سلاسل. الفيديو يدخل `state.failed` فقط إن فشل تنزيله/استخراج لقطاته أو فشلت **كل** صفائحه. `broll_scan.videos[v]` يحمل `sheet_errors` (العدد) و`error_text` (أول رسالة بعد `scrub_text`، ≤150 حرفًا) حين وُجد تعثّر.
 - **الهوك الاحتياطي بالمعنى:** `reel_hook_search.topic_hook(chains, cands, cfg, deps, script, draft)` يستدعي `deps.assign_broll` بمدخل واحد `{n: 0, dur: hook.max_seconds, text: عنوان السيناريو, visual: event_text}` على السلاسل بطول ≥ `hook.min_seconds`؛ أُسندت سلسلة ← الهوك منها بنافذة من وسطها (`auto_topic`)، وإلا لا هوك احتياطي (يبقى بصورة الخبر وبلا سطر الموضوع). يعيد الآن ثلاثية `(hook, rest, raw)`؛ الردّ الخام يُحفظ في `broll_scan.hook_assign` (حتى لو فارغًا). عطل الإسناد لا يُفشل التركيب.
 - `render_version` = 26. الاختبارات g384–g386 في `tests/test_guards_golden.py:test_reel_broll_r5d2_guards` (وعُدِّل g381 ليختار «النموذج» بالإسناد، وصارت g368/g383 `>= 25`).
+
+## متابعة R5d6: هوك auto_topic لا يُعدّ اختيارًا ثابتًا (Issue #1465) — `src/reel_render.py`
+
+- `_render` يحذف `hook_video` بمصدر `auto_topic` (من الذاكرة ومن القرص بـ`store.update_draft(remove=["hook_video"])`) قبل `_auto_hook`، فيُعاد اختياره بالمعنى في `_topic_hook` بدل أن يُبقيه خروجه المبكر لوجود `hook_video` (كان R5d5 يختار بالطول). المصدر `auto` (الحدث نفسه) واليدوي بلا تغيير.
+- حُذف فرع `auto_topic` من `_auto_hook` (لا يصله هوك كهذا بعد الآن)؛ g381 عُدّل وg387 يثبّت السلوك. `render_version` يبقى 26.

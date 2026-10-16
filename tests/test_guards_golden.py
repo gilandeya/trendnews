@@ -12194,8 +12194,7 @@ def test_reel_broll_r5d2_guards() -> None:
         check("g381: ولا سطر الموضوع", not any("الهوك من لقطات الموضوع" in t for t in comments2), comments2)
         notes3: list = []
         reel_render._auto_hook(path, {"hook_video": dict(hv)}, {}, cfg, deps, work_root / "g381c", notes3)
-        check("g381: _auto_hook يكتب comment_hook_topic لهوك محفوظ بمصدر auto_topic",
-              len(notes3) == 1 and "الهوك من لقطات الموضوع" in notes3[0] and str(hv.get("channel", "")) in notes3[0], notes3)
+        check("g381: _auto_hook لا يكتب سطر الموضوع لهوك auto_topic (يُحذف قبله في _render، R5d6)", notes3 == [], notes3)
     guarded("g381", g381)
 
     def g382():

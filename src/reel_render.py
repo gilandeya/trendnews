@@ -2581,10 +2581,6 @@ def _auto_hook(path: Path, draft: dict, script: dict, cfg, deps: Deps, tmp: Path
     if isinstance(hv, dict) and hv.get("video_id"):
         if hv.get("source") == "auto":
             notes.append(_hook_note(cfg, hv))
-        elif hv.get("source") == "auto_topic":
-            # هوك محفوظ من لقطات الموضوع (R5d5): إعادة التركيب تكرر سطره كما يكرر الآلي سطره
-            notes.append(cfg.path("reel.render.texts.comment_hook_topic").format(
-                channel=hv.get("channel", ""), title=hv.get("title", ""), start=hv.get("start"), end=hv.get("end")))
         return
     if not cfg.path("reel.hook_search.enabled", False) or deps.scan_download is None or deps.classify_sheet is None:
         return
@@ -2675,6 +2671,12 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     _ensure_hook_candidates(path, draft, script, cfg, deps, notes)
     want_broll = _broll_wanted(draft, cfg, deps, bg)
     scan_state = reel_hook_search.ScanState()
+    hv0 = draft.get("hook_video")
+    if isinstance(hv0, dict) and hv0.get("source") == "auto_topic":
+        # هوك الموضوع ليس اختيارًا ثابتًا: كان يُختار بالطول (R5d5) والآن بالمعنى، فيُعاد اختياره في هذا التركيب بدل أن
+        # يبقيه خروج _topic_hook المبكر لوجود hook_video؛ الآلي (الحدث نفسه) واليدوي يبقيان
+        draft.pop("hook_video", None)
+        store.update_draft(path, remove=["hook_video"])
     _auto_hook(path, draft, script, cfg, deps, tmp, notes, state=scan_state, want_broll=want_broll)
     broll = _scan_broll(draft, script, cfg, deps, tmp, scan_state) if want_broll else None
     if broll is not None:
