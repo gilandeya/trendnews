@@ -11327,3 +11327,86 @@ def test_reel_narration_bg_r5d1_guards() -> None:
             check(f"g356: بلا خلفية مشهد {idx} بلا سابقة loop/setpts للخلفية", "setpts=N/" not in c, c[:200])
     guarded("g356", g356)
     shutil.rmtree(work_root, ignore_errors=True)
+
+
+def test_reel_chyron_name_kind_r5b4_guards() -> None:
+    """Issue #1450 (R5b4، g357–g361): لا يُقبل من شريط القناة إلا اسم شخص (name_kind + شبكة not_names)، والمتكلم غير الموثَّق
+    يحمل اسم القناة وحدها بلا «ضيف على». لا شبكة ولا ffmpeg."""
+    from types import SimpleNamespace
+
+    from src import imaging, reel_render
+
+    cfg = load_config()
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def fr(name, kind=None, pres=False, ar=None):
+        f = dict(has_caption=bool(name), name_original=name, name_arabic=ar if ar is not None else name,
+                 role_original="", role_arabic="", is_presenter=pres)
+        if kind is not None:
+            f["name_kind"] = kind
+        return f
+
+    def g357():
+        prog = "نقاش الساعة"
+        r = reel_render.resolve_chyron([fr(prog, "program", True)] * 3, cfg)
+        check("g357-أ: برنامج ← مرفوض وrejected=program", r["accepted"] is False and r.get("rejected") == "program", r)
+        r = reel_render.resolve_chyron([fr(prog, "person", True)] * 3, cfg)
+        check("g357-ب: برنامج بتصنيف person خطأً ← not_names", r["accepted"] is False and r.get("rejected") == "not_names", r)
+        r = reel_render.resolve_chyron([fr("Ahmet Hakan", "person", ar="أحمد هاكان"), fr("Ahmet Hakan", "person", ar="أحمد هاكان"),
+                                        fr("")], cfg)
+        check("g357-ج: شخص في لقطتين ← مقبول", r["accepted"] is True and r.get("rejected") == "", r)
+        r = reel_render.resolve_chyron([fr("Ahmet Hakan", None, ar="أحمد هاكان")] * 2, cfg)
+        check("g357-د: بلا name_kind ← مقبول", r["accepted"] is True, r)
+        r = reel_render.resolve_chyron([fr("CNN Türk", "person", ar="سي إن إن ترك")] * 3, cfg, "CNN Türk")
+        check("g357-هـ: اسم القناة ← rejected=channel", r["accepted"] is False and r.get("rejected") == "channel", r)
+        r = reel_render.resolve_chyron([fr("النقاش", "person")] * 2, cfg)
+        check("g357: «النقاش» تطابق «نقاش» بعد حذف «ال»", r.get("rejected") == "not_names", r)
+    guarded("g357", g357)
+
+    def g358():
+        item = reel_render.CHYRON_TOOL["input_schema"]["properties"]["frames"]["items"]
+        kind = item["properties"].get("name_kind") or {}
+        check("g358: name_kind مطلوب بالقيم الأربع",
+              "name_kind" in item["required"] and set(kind.get("enum") or []) == {"person", "program", "channel", "other"}, item)
+        check("g358: system يذكر «نقاش الساعة» مثالًا", "نقاش الساعة" in cfg.path("reel.render.chyron.system"))
+    guarded("g358", g358)
+
+    def g359():
+        scene = {"kind": "clip", "speaker_name": "", "speaker_verified": False, "channel_display": "الجزيرة"}
+        speakers: dict = {}
+        notes: list = []
+        deps = SimpleNamespace(read_chyron=lambda f, c: [fr("نقاش الساعة", "program", True)] * 3)
+        reel_render._apply_chyron(scene, {"file": "x.mp4"}, cfg, deps, speakers, notes, 3)
+        check("g359: المشهد غير موثَّق", not scene.get("speaker_verified") and not scene.get("speaker_name"), scene)
+        check("g359: speakers[3].accepted=false", speakers.get("3", {}).get("accepted") is False, speakers)
+        lines = [n for n in notes if n.startswith("🏷️")]
+        check("g359: سطر 🏷️ مرة واحدة", len(lines) == 1 and "نقاش الساعة" in lines[0], notes)
+    guarded("g359", g359)
+
+    def g360():
+        def drawn_for(scene):
+            d: list = []
+            o1, o2 = imaging.draw_text, imaging.draw_text_ltr
+            imaging.draw_text = lambda dr, xy, t, f, fill, **k: (d.append(t), o1(dr, xy, t, f, fill, **k))[1]
+            imaging.draw_text_ltr = lambda dr, xy, t, f, fill, **k: (d.append(t), o2(dr, xy, t, f, fill, **k))[1]
+            try:
+                reel_render.frame_clip_layers(cfg, scene, [])
+            finally:
+                imaging.draw_text, imaging.draw_text_ltr = o1, o2
+            return d
+        base = {"kind": "clip", "speaker_name": "", "speaker_verified": False, "channel_display": "سي إن إن ترك",
+                "channel_original": "CNN Türk"}
+        for tag, over in (("بلا presenter", {}), ("presenter", {"speaker_presenter": True})):
+            d = drawn_for(dict(base, **over))
+            check(f"g360: {tag} ← «CNN Türk سي إن إن ترك» وحدها بلا «ضيف»",
+                  "CNN Türk سي إن إن ترك" in d and not any("ضيف" in str(t) for t in d), d)
+        d = drawn_for(dict(base, speaker_verified=True, speaker_name="فلان الفلاني", speaker_role="محلل سياسي"))
+        check("g360: الموثَّق باسم وصفة كما هو", "فلان الفلاني" in d and any("محلل سياسي" in str(t) for t in d), d)
+    guarded("g360", g360)
+
+    check("g361: render_version == 22", int(cfg.path("reel.render.version")) == 22, cfg.path("reel.render.version"))
