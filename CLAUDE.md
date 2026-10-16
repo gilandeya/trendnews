@@ -1916,3 +1916,8 @@ instead.
 - **R5b4 المتبقي:** سطر «🏷️ … اسم برنامج لا شخص» يُكتب أيضًا حين `rejected = "not_names"`.
 - **لم يُنفَّذ (R4a):** تعديل الخطة يدويًا («الجملة 3: بلا»).
 - الاختبارات: g362–g369 في `tests/test_guards_golden.py:test_reel_broll_r5d2_guards` (g367 بـffmpeg حقيقي ويُتخطّى إن غاب).
+
+## حقول السيناريو لا تضيع عند الحفظ (Issue #1458، R5d3)
+
+- `reel_script.SCRIPT_KEYS` هو القائمة الوحيدة بما تكتبه `write_for_draft` على المسودة (ومنه `reel_bg` و`hook_candidates` و`hook_search` و`broll_plan`)، و`publish._write_reel_script` يحفظ بها وحدها؛ مفتاح جديد يُكتب في `write_for_draft` يُضاف إليها وإلا ضاع (g371 يفحص ذلك، وg370/g372 يمرّان بالطريق الحقيقي).
+- التركيب: `reel_render._ensure_broll_plan` يكتب خطة اللقطات مرة واحدة لمسودة سيناريوها جاهز بلا المفتاح `broll_plan` أصلًا ويحفظها؛ مفتاح موجود (ولو `[]`) لا يُعاد (g373). `render_version` يبقى 23.

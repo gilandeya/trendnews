@@ -1048,8 +1048,7 @@ def _write_reel_script(draft: dict, topic_date: str, cfg, client=None, issue_num
     result = reel_script.write_for_draft(draft, topic, member, article_text, unresolved, cfg, client)
     found = store.load_draft(draft["id"])
     if found is not None:
-        keys = ("script", "script_status", "script_error", "headlines", "headline_selected", "warnings",
-                "editor_review", "name_corrections", "name_unresolved", "names_audit")
+        keys = reel_script.SCRIPT_KEYS
         store.update_draft(found[0], remove=[k for k in keys if k not in draft],
                            **{k: draft[k] for k in keys if k in draft})
     _report_reel_script(draft, issue_number, cfg)

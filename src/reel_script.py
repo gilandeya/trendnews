@@ -570,6 +570,13 @@ def _audit_speakers(draft: dict, valid: list[dict], member_points: list[dict], c
     return out
 
 
+# كل مفتاح تكتبه write_for_draft على المسودة (Issue #1458، R5d3). publish._write_reel_script يحفظ بهذه القائمة وحدها، فمفتاح
+# جديد يُكتب هنا ولا يُضاف إليها يضيع بين الذاكرة والقرص بلا أي خطأ (هكذا ضاعت الخلفية والهوك وخطة اللقطات)؛ g371 يفحص ذلك.
+SCRIPT_KEYS = ("script", "script_status", "script_error", "headlines", "headline_selected", "warnings", "editor_review",
+               "name_corrections", "name_unresolved", "names_audit", "reel_bg", "hook_candidates", "hook_search",
+               "broll_plan", "broll_plan_error")
+
+
 def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article_text: str, unresolved: list,
                     cfg: Any, client=None, hook_deps=None) -> dict:
     """يكتب سيناريو مسودة الريل في الذاكرة (لا يحفظ): المقاطع الصالحة ← نداء ← تحقق ← عناوين ← تدقيق الأسماء ← المحرر

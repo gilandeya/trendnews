@@ -2530,6 +2530,16 @@ def _hook_searched(draft: dict) -> bool:
     return isinstance(hs, dict) and any(k in hs for k in ("attempts", "skipped", "error"))
 
 
+def _ensure_broll_plan(path: Path, draft: dict, cfg) -> None:
+    """مسودة سيناريوها جاهز بلا المفتاح broll_plan أصلًا (قديمة، أو ضاعت خطتها قبل #1458) تُكتب خطتها مرة واحدة وتُحفظ فلا
+    تتكرر في التركيب التالي. مفتاح موجود، ولو فارغًا بعد عطل، لا يُعاد: الفشل المسجَّل لا يُكرَّر نداؤه في كل تركيب."""
+    if "broll_plan" in draft or not cfg.path("reel.broll.enabled", False) or not (draft.get("script") or {}).get("scenes"):
+        return
+    reel_broll.write_plan(draft, cfg)
+    store.update_draft(path, broll_plan=draft.get("broll_plan", []), **(
+        {"broll_plan_error": draft["broll_plan_error"]} if "broll_plan_error" in draft else {}))
+
+
 def _auto_hook(path: Path, draft: dict, script: dict, cfg, deps: Deps, tmp: Path, notes: list,
                state: "reel_hook_search.ScanState | None" = None, want_broll: bool = False) -> None:
     """الفحص البصري لمرشّحي لقطة الهوك (Issue #1445، R5c3) قبل مشهده. hook_video الموجود (اليدوي أولًا) يغلب؛ وإلا يُفحص
@@ -2614,6 +2624,7 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     voice = cfg.path(f"reel.tts.narrator_voices.{script.get('narrator', 'female')}")
     notes = notes if notes is not None else []
     bg, bg_saved = _resolve_background(path, draft, cfg, deps, notes)
+    _ensure_broll_plan(path, draft, cfg)
     want_broll = _broll_wanted(draft, cfg, deps, bg)
     scan_state = reel_hook_search.ScanState()
     _auto_hook(path, draft, script, cfg, deps, tmp, notes, state=scan_state, want_broll=want_broll)
