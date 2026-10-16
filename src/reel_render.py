@@ -2581,10 +2581,6 @@ def _auto_hook(path: Path, draft: dict, script: dict, cfg, deps: Deps, tmp: Path
     if isinstance(hv, dict) and hv.get("video_id"):
         if hv.get("source") == "auto":
             notes.append(_hook_note(cfg, hv))
-        elif hv.get("source") == "auto_topic":
-            # هوك محفوظ من لقطات الموضوع (R5d5): إعادة التركيب تكرر سطره كما يكرر الآلي سطره
-            notes.append(cfg.path("reel.render.texts.comment_hook_topic").format(
-                channel=hv.get("channel", ""), title=hv.get("title", ""), start=hv.get("start"), end=hv.get("end")))
         return
     if not cfg.path("reel.hook_search.enabled", False) or deps.scan_download is None or deps.classify_sheet is None:
         return
@@ -2635,13 +2631,15 @@ def _scan_broll(draft: dict, script: dict, cfg, deps: Deps, tmp: Path, state: "r
     return {"chains": res["chains"], "hook": hook, "scan": res.get("scan") or {}}
 
 
-def _topic_hook(path: Path, draft: dict, script: dict, broll: dict, cfg, notes: list) -> None:
+def _topic_hook(path: Path, draft: dict, script: dict, broll: dict, cfg, notes: list, deps: Deps) -> None:
     """هوك احتياطي من لقطات الموضوع (Issue #1462، R5d5): بلا hook_video بعد مسح الهوك ولا سلسلة relevant، تُعتمد أطول سلسلة ميدانية
     من سلاسل الجمل وتُزال نافذتها منها قبل الإسناد. وجود hook_video (يدوي أو آلي) يُبقي السلوك القديم حرفيًا."""
     hv = draft.get("hook_video")
     if (isinstance(hv, dict) and hv.get("video_id")) or not any(s.get("kind") == "title_card" for s in script.get("scenes", [])):
         return
-    hook, rest = reel_hook_search.topic_hook(broll.get("chains") or [], draft.get("hook_candidates") or [], cfg)
+    hook, rest, raw = reel_hook_search.topic_hook(broll.get("chains") or [], draft.get("hook_candidates") or [], cfg,
+                                                  deps, script, draft)
+    broll["hook_assign"] = raw   # الردّ الخام يُحفظ للمراجعة حتى حين لا يُسند شيء (Issue #1465)
     if hook is None:
         return
     broll["chains"], broll["hook"] = rest, hook
@@ -2673,10 +2671,16 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     _ensure_hook_candidates(path, draft, script, cfg, deps, notes)
     want_broll = _broll_wanted(draft, cfg, deps, bg)
     scan_state = reel_hook_search.ScanState()
+    hv0 = draft.get("hook_video")
+    if isinstance(hv0, dict) and hv0.get("source") == "auto_topic":
+        # هوك الموضوع ليس اختيارًا ثابتًا: كان يُختار بالطول (R5d5) والآن بالمعنى، فيُعاد اختياره في هذا التركيب بدل أن
+        # يبقيه خروج _topic_hook المبكر لوجود hook_video؛ الآلي (الحدث نفسه) واليدوي يبقيان
+        draft.pop("hook_video", None)
+        store.update_draft(path, remove=["hook_video"])
     _auto_hook(path, draft, script, cfg, deps, tmp, notes, state=scan_state, want_broll=want_broll)
     broll = _scan_broll(draft, script, cfg, deps, tmp, scan_state) if want_broll else None
     if broll is not None:
-        _topic_hook(path, draft, script, broll, cfg, notes)
+        _topic_hook(path, draft, script, broll, cfg, notes, deps)
     speakers: dict = {}
     hook_crops: dict = {}
     scene_files, kinds, durs = _assemble(script, clips, cfg, deps, tmp, voice, bg,
@@ -2754,7 +2758,8 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
             "render_crops": {**{str(i): c["crop"] for i, c in clips.items() if "crop" in c}, **hook_crops},
             **({"render_speakers": speakers} if speakers else {}),
             **({"render_broll": broll["result"]} if broll and broll.get("result") else {}),
-            **({"broll_scan": {**broll["scan"], "chains": broll.get("chains") or [], "assign": broll.get("assign") or []}}
+            **({"broll_scan": {**broll["scan"], "chains": broll.get("chains") or [], "assign": broll.get("assign") or [],
+                           **({"hook_assign": broll["hook_assign"]} if "hook_assign" in broll else {})}}
                if broll and broll.get("result") and broll.get("scan") else {})}
 
 
