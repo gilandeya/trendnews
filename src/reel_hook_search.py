@@ -344,8 +344,23 @@ def _load_frames(c: dict, hcfg, cfg, deps, tmp: Path, state: ScanState, seconds:
     vid = c["video_id"]
     if vid not in state.frames:
         path = tmp / f"hook_scan_{vid}.mp4"
-        deps.scan_download(vid, seconds, int(hcfg.get("scan_height", 240)), path)
-        state.frames[vid] = deps.scan_frames(path, seconds, cfg)
+        # عطل التنزيل عابر عادة (الفيديو نفسه نزل في تركيبين سابقين): يُعاد التنزيل والاستخراج معًا قبل عدّ الفيديو فاشلًا (Issue #1467)
+        attempts = max(int(cfg.path("reel.broll.scan_download_attempts", 3)), 1)
+        wait = float(cfg.path("reel.render.retry_wait_seconds", 20))
+        sleep = getattr(deps, "sleep", None)
+        for n in range(1, attempts + 1):
+            try:
+                deps.scan_download(vid, seconds, int(hcfg.get("scan_height", 240)), path)
+                state.frames[vid] = deps.scan_frames(path, seconds, cfg)
+                break
+            except Exception as exc:  # noqa: BLE001 -- نحفظ سبب آخر عطل ليظهر في broll_scan
+                from . import reel_clips
+                state.error_text[vid] = reel_clips.scrub_text(str(exc))[:150]
+                if n >= attempts:
+                    raise
+                log.warning("تعثّر تنزيل فحص %s (محاولة %s من %s): %s", vid, n, attempts, str(exc)[:150])
+                if sleep is not None:
+                    sleep(wait)
         state.downloaded[vid] = len(state.frames[vid])
     return state.frames[vid]
 
@@ -525,8 +540,9 @@ def scan_report(state: ScanState, cands: list[dict], chains: list[dict], bcfg) -
                        "sheets": state.video_sheets.get(vid, 0), "kinds": dict(kinds), "footage_relevant": rel,
                        "footage_other": other, "chains": len(mine),
                        "longest": max((x["end"] - x["start"] for x in mine), default=0),
-                       **({"sheet_errors": state.sheet_errors[vid], "error_text": state.error_text.get(vid, "")}
-                          if state.sheet_errors.get(vid) else {}),
+                       **({"sheet_errors": state.sheet_errors[vid]} if state.sheet_errors.get(vid) else {}),
+                       **({"error_text": state.error_text[vid]}
+                          if state.error_text.get(vid) and (state.sheet_errors.get(vid) or vid in state.failed) else {}),
                        **({"error": True} if vid in state.failed else {})}
     return {"videos": videos, "sheets_used": state.sheets_used}
 

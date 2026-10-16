@@ -1098,7 +1098,8 @@ def test_appeal_factors() -> None:
     score_no_appeal_fields = score_cluster(
         [art("خبر بلا عوامل جذب أصلًا", "https://x/plain")], 24, trend=0.2, trend_weight=4.0)
     check("الأوزان الافتراضية صفر ⇒ حضور عوامل الجذب بلا أوزان لا يغيّر الدرجة",
-          abs(score_zero_weights - score_no_appeal_fields) < 1e-9,
+          # الدرجتان تُحسبان في لحظتين والحداثة تتأثر بالزمن المنقضي (فشل مرة بفرق 1.3e-9) و score_cluster لا تقبل زمنًا ثابتًا
+          abs(score_zero_weights - score_no_appeal_fields) < 1e-6,
           (score_zero_weights, score_no_appeal_fields))
 
     # ── 5) مجموعة مدموجة: يؤخذ الأعلى لكل عامل على حدة لا المتوسط ──
