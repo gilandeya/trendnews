@@ -434,6 +434,34 @@ def _chains_of(c: dict, known: dict, hook: dict | None, min_s: int) -> list[dict
     return out
 
 
+def topic_hook(chains: list[dict], cands: list[dict], cfg) -> tuple[dict | None, list[dict]]:
+    """هوك احتياطي من لقطات الموضوع (Issue #1462، R5d5) حين لم يجد مسح الهوك ثواني relevant للحدث نفسه: أطول سلسلة ميدانية من
+    سلاسل الجمل بطول ≥ hook.min_seconds، بنافذة من وسطها لا تتجاوز hook.max_seconds، وsource = "auto_topic". يعيد (hook_video أو None،
+    السلاسل بعد إزالة نافذته منها) كي لا تُسند لقطة الهوك نفسها لجملة."""
+    min_h = float(cfg.path("reel.render.hook.min_seconds", 3.5))
+    cap = int(cfg.path("reel.render.hook.max_seconds", 7))
+    long_ones = [c for c in chains if c["end"] - c["start"] >= min_h]
+    if not long_ones:
+        return None, list(chains)
+    best = max(long_ones, key=lambda c: c["end"] - c["start"])  # التساوي: الأسبق في القائمة
+    start, end = window((int(best["start"]), int(best["end"]) - int(best["start"])), cap)
+    meta = next((c for c in cands if c.get("video_id") == best["video_id"]), {})
+    title = re.sub(r"[\[\]]", "", clean_title(meta.get("title", ""))).strip()
+    hook = {"video_id": best["video_id"], "start": start, "end": end, "channel": best.get("channel") or meta.get("channel", ""),
+            "title": title, "source": "auto_topic", "views": int(meta.get("views") or 0),
+            "reason": "لقطات ميدانية عن الموضوع بلا لقطة للحدث نفسه"}
+    min_s = int(cfg.path("reel.broll.min_seconds", 3))
+    rest: list[dict] = []
+    for c in chains:
+        if c["video_id"] != best["video_id"] or c["end"] <= start or c["start"] >= end:
+            rest.append(c)
+            continue
+        for a, b in ((c["start"], start), (end, c["end"])):
+            if b - a >= min_s:
+                rest.append({**c, "start": a, "end": b})
+    return hook, rest
+
+
 def scan_report(state: ScanState, cands: list[dict], chains: list[dict], bcfg) -> dict:
     """ما رآه الفحص لكل مرشّح (يُحفظ draft["broll_scan"]): بلا هذا لا يُعرف لماذا خرج المسح صفرًا (Issue #1460)."""
     videos: dict = {}

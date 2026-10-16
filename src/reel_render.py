@@ -2631,6 +2631,24 @@ def _scan_broll(draft: dict, script: dict, cfg, deps: Deps, tmp: Path, state: "r
     return {"chains": res["chains"], "hook": hook, "scan": res.get("scan") or {}}
 
 
+def _topic_hook(path: Path, draft: dict, script: dict, broll: dict, cfg, notes: list) -> None:
+    """هوك احتياطي من لقطات الموضوع (Issue #1462، R5d5): بلا hook_video بعد مسح الهوك ولا سلسلة relevant، تُعتمد أطول سلسلة ميدانية
+    من سلاسل الجمل وتُزال نافذتها منها قبل الإسناد. وجود hook_video (يدوي أو آلي) يُبقي السلوك القديم حرفيًا."""
+    hv = draft.get("hook_video")
+    if (isinstance(hv, dict) and hv.get("video_id")) or not any(s.get("kind") == "title_card" for s in script.get("scenes", [])):
+        return
+    hook, rest = reel_hook_search.topic_hook(broll.get("chains") or [], draft.get("hook_candidates") or [], cfg)
+    if hook is None:
+        return
+    broll["chains"], broll["hook"] = rest, hook
+    draft["hook_video"] = hook
+    search = dict(draft.get("hook_search") or {})
+    search["picked"] = [hook["video_id"]]
+    store.update_draft(path, hook_video=hook, hook_search=search)
+    notes.append(cfg.path("reel.render.texts.comment_hook_topic").format(
+        channel=hook["channel"], title=hook["title"], start=hook["start"], end=hook["end"]))
+
+
 def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path, dropped: list,
             approx: list, notes: list | None = None) -> dict:
     rcfg, scfg = cfg.path("reel.render"), cfg.path("reel.script")
@@ -2653,6 +2671,8 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     scan_state = reel_hook_search.ScanState()
     _auto_hook(path, draft, script, cfg, deps, tmp, notes, state=scan_state, want_broll=want_broll)
     broll = _scan_broll(draft, script, cfg, deps, tmp, scan_state) if want_broll else None
+    if broll is not None:
+        _topic_hook(path, draft, script, broll, cfg, notes)
     speakers: dict = {}
     hook_crops: dict = {}
     scene_files, kinds, durs = _assemble(script, clips, cfg, deps, tmp, voice, bg,
