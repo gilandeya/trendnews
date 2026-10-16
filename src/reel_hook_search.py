@@ -7,6 +7,7 @@ reel_render (تستورده هي) فلا حلقة استيراد. لا يُرف�
 from __future__ import annotations
 
 import base64
+import html
 import io
 import logging
 import os
@@ -132,6 +133,11 @@ def search_window(topic_date: str, days_before: int, days_after: int) -> tuple[s
             f"{(d + timedelta(days=days_after)).isoformat()}T00:00:00Z")
 
 
+def clean_title(title) -> str:
+    """عنوان يوتيوب يصل من الواجهة مرمَّزًا بـHTML («&amp;» «&#39;»): يُفك قبل أن يُحفظ أو يُعرض (Issue #1447)."""
+    return html.unescape(str(title or ""))
+
+
 def channel_allowed(channel: str, hcfg) -> bool:
     low = (channel or "").casefold()
     return any(str(n).casefold() in low for n in hcfg.get("channels", []) if str(n).strip())
@@ -175,7 +181,7 @@ def _attempt(draft: dict, script: dict, topic_date: str, cfg, deps: HookDeps, br
     for vid, r in seen.items():
         info = details.get(vid) or {}
         if info.get("duration") is not None and float(info["duration"]) <= limit:
-            short.append({"video_id": vid, "title": str(r.get("title", "")), "channel": r.get("channel", ""),
+            short.append({"video_id": vid, "title": clean_title(r.get("title", "")), "channel": r.get("channel", ""),
                           "views": int(info.get("views") or 0), "duration": int(info["duration"]),
                           "published": r.get("published", "")})
     diag["duration_ok"] = len(short)
@@ -327,7 +333,7 @@ def scan_candidates(draft: dict, script: dict, cands: list[dict], cfg, deps, tmp
         run = best_run(good)
         if run and run[1] >= min_s:
             start, end = window(run, cap)
-            title = re.sub(r"[\[\]]", "", str(c.get("title", ""))).strip()
+            title = re.sub(r"[\[\]]", "", clean_title(c.get("title", ""))).strip()
             out["hook_video"] = {"video_id": c["video_id"], "start": start, "end": end, "channel": c.get("channel", ""),
                                  "title": title, "source": "auto", "views": int(c.get("views") or 0),
                                  "reason": f"{run[1]} ث متتالية من لقطات الحدث"}
@@ -353,7 +359,7 @@ def real_yt_search(query: str, after: str, before: str, max_results: int, durati
     r = requests.get("https://www.googleapis.com/youtube/v3/search", timeout=30, params=params)
     r.raise_for_status()
     return [{"video_id": (i.get("id") or {}).get("videoId"), "channel": (i.get("snippet") or {}).get("channelTitle", ""),
-             "title": (i.get("snippet") or {}).get("title", ""), "published": (i.get("snippet") or {}).get("publishedAt", "")}
+             "title": clean_title((i.get("snippet") or {}).get("title", "")), "published": (i.get("snippet") or {}).get("publishedAt", "")}
             for i in r.json().get("items", [])]
 
 
