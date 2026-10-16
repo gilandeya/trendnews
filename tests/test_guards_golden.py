@@ -12067,6 +12067,80 @@ def test_reel_broll_r5d2_guards() -> None:
                 reel_broll._create = real_bc
     guarded("g374", g374)
 
+    # ───────────────────────── g375–g378: معيار اللقطات وتوزيع الفحص وحفظ ما رآه (Issue #1460، R5d4) ─────────────────────────
+    def per_video_rig(footage):
+        """classify يعدّ الصفائح لكل فيديو؛ footage = {vid: (مجموعة ثوانٍ, relevant)} لثوانٍ event_footage بـdesc."""
+        c = {"dl": [], "per": {}}
+        st = {"cur": None}
+
+        def dl(video_id, seconds, height, out_path):
+            c["dl"].append(video_id)
+            Path(out_path).write_bytes(video_id.encode())
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        def frames(path, seconds, c_):
+            st["cur"] = Path(path).read_bytes().decode()
+            return [IMG] * 600
+
+        def classify(jpeg, event, first, n, c_, labels=None):
+            c["per"][st["cur"]] = c["per"].get(st["cur"], 0) + 1
+            ts = list(labels) if labels else list(range(first, first + n))
+            secs, rel = footage.get(st["cur"], (set(), False))
+            return [{"t": t, "kind": "event_footage" if t in secs else "studio", "relevant": bool(rel and t in secs),
+                     **({"desc": "ضربة مسيّرة ميدانية"} if t in secs else {})} for t in ts]
+        return SimpleNamespace(scan_download=dl, scan_frames=frames, classify_sheet=classify), c
+
+    def g375():
+        footage = {"c1": (set(range(300, 320)), False)}
+        cands = [cand("c1", 900), cand("c2", 500)]
+        script = {"title": "ع", "scenes": [{"kind": "title_card", "text": "ع"}]}
+        deps, _ = per_video_rig(footage)
+        state = reel_hook_search.ScanState()
+        out = reel_hook_search.scan_candidates({"topic_date": D}, script, cands, cfg, deps, work_root, state=state, want_broll=True)
+        check("g375: لقطة غير relevant لا تكوّن هوكًا", not out.get("hook_video"), out)
+        res = reel_hook_search.scan_broll({"topic_date": D}, script, cands, cfg, deps, work_root, state, hook=None)
+        chains = [x for x in res.get("chains") or [] if x["video_id"] == "c1"]
+        check("g375: تتكوّن سلسلة للجمل من ثوانٍ غير relevant ومعها desc",
+              any(x["start"] <= 300 and x["end"] >= 320 and x["desc"] for x in chains), res.get("chains"))
+        check("g375: relevant=false محفوظ على السلسلة", bool(chains) and all(x.get("relevant") is False for x in chains), chains)
+    guarded("g375", g375)
+
+    def g376():
+        deps, c = per_video_rig({})
+        cands = [cand("c1", 900), cand("c2", 500)]
+        script = {"title": "ع", "scenes": [{"kind": "title_card", "text": "ع"}]}
+        state = reel_hook_search.ScanState()
+        out = reel_hook_search.scan_candidates({"topic_date": D}, script, cands, cfg, deps, work_root, state=state, want_broll=True)
+        check("g376: الهوك لا يجد شيئًا", not out.get("hook_video"), out)
+        reel_hook_search.scan_broll({"topic_date": D}, script, cands, cfg, deps, work_root, state, hook=None)
+        cap = int(cfg.path("reel.broll.max_sheets_per_video"))
+        check("g376: الفيديو الأول لا يتجاوز 15 صفيحة", c["per"].get("c1", 0) <= cap == 15, c["per"])
+        check("g376: الفيديو الثاني يُفحص", c["per"].get("c2", 0) > 0, c["per"])
+        check("g376: المجموع ≤ 30", sum(c["per"].values()) <= int(cfg.path("reel.broll.max_sheets")) == 30, c["per"])
+    guarded("g376", g376)
+
+    def g377():
+        deps, c, comments = full_rig({})
+        path, st = full_go("r5d4000g377a1", deps, work_root / "g377", PLAN3)
+        rb = st.get("render_broll") or []
+        check("g377: render_broll محفوظ لكل جملة", len(rb) == 3, rb)
+        check("g377: no_chains لذات الوصف وno_visual للفارغة",
+              [x.get("photo") for x in rb] == [cfg.path("reel.render.texts.broll_reasons.no_chains"),
+                                               cfg.path("reel.render.texts.broll_reasons.no_visual"),
+                                               cfg.path("reel.render.texts.broll_reasons.no_chains")], rb)
+        check("g377: سطر «🎞️ لقطات الحدث: 0 من 3»", any("🎞️ لقطات الحدث: 0 من 3" in t for t in comments), comments)
+        check("g377: سطر «فحصت … ث»", any("🎞️ فحصت" in t and "ث من" in t for t in comments), comments)
+        bs = st.get("broll_scan") or {}
+        vids = bs.get("videos") or {}
+        check("g377: broll_scan محفوظ بأرقام كل فيديو", bool(vids) and "sheets_used" in bs and all(
+            {"downloaded", "classified", "sheets", "kinds", "footage_relevant", "footage_other", "chains", "longest"} <= set(v)
+            for v in vids.values()), bs)
+    guarded("g377", g377)
+
+    def g378():
+        check("g378: render_version == 24", int(cfg.path("reel.render.version")) == 24, cfg.path("reel.render.version"))
+    guarded("g378", g378)
+
     import shutil
     shutil.rmtree(work_root, ignore_errors=True)
 
