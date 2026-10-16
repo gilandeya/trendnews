@@ -339,14 +339,13 @@
       }
     ],
     "picked": [
-      "zSiYC9Gcg8Q",
-      "XvaTwkZq46c"
+      "zSiYC9Gcg8Q"
     ]
   },
   "reel_file": "reels/2026-10-16/b05ca971ffe2.mp4",
   "reel_gif": "reels/2026-10-16/b05ca971ffe2.gif",
-  "duration_seconds": 108.2,
-  "render_version": 24,
+  "duration_seconds": 111.0,
+  "render_version": 25,
   "render_attempts": 0,
   "reel_music": "nastelbom-news-news-2-473288.mp3",
   "render_crops": {
@@ -358,29 +357,41 @@
       "cover": true
     },
     "3": {
-      "x": 416,
+      "x": 404,
       "source": "speaker",
-      "speaker_score": 1.2,
+      "speaker_score": 1.32,
       "tracks": 1,
       "cover": false
     },
     "5": {
-      "x": 584,
+      "x": 875,
       "source": "speaker_vision",
-      "speaker_score": 1.13,
+      "speaker_score": 1.17,
       "tracks": 2,
       "vision": {
         "pick": 1,
-        "agree": 2,
+        "agree": 3,
         "archive": [
           2
         ]
       },
       "cover": true
+    },
+    "hook": {
+      "ticker": true
     }
   },
   "render_speakers": {
     "0": {
+      "name_original": "Lakhdar Brahimi",
+      "name_arabic": "",
+      "role_arabic": "",
+      "is_presenter": false,
+      "frames_agreeing": 1,
+      "rejected": "program",
+      "accepted": false
+    },
+    "3": {
       "name_original": "",
       "name_arabic": "",
       "role_arabic": "",
@@ -389,17 +400,8 @@
       "rejected": "",
       "accepted": false
     },
-    "3": {
-      "name_original": "نقاش الساعة",
-      "name_arabic": "نقاش الساعة",
-      "role_arabic": "",
-      "is_presenter": false,
-      "frames_agreeing": 2,
-      "rejected": "program",
-      "accepted": false
-    },
     "5": {
-      "name_original": "Ali Al-Bakhiti",
+      "name_original": "علي البخيتي",
       "name_arabic": "علي البخيتي",
       "role_arabic": "كاتب سياسي | لندن",
       "is_presenter": false,
@@ -410,7 +412,7 @@
   },
   "render_dropped": [],
   "render_approx": [],
-  "rendered_at": "2026-10-16T15:25:10.000296+00:00",
+  "rendered_at": "2026-10-16T19:13:47.895650+00:00",
   "render_broll": [
     {
       "scene": 2,
@@ -445,34 +447,133 @@
         "classified": 216,
         "sheets": 15,
         "kinds": {
-          "anchor": 72,
-          "text_heavy": 12,
+          "anchor": 60,
+          "text_heavy": 22,
           "event_footage": 104,
-          "studio": 16,
-          "other": 12
+          "studio": 25,
+          "other": 5
         },
         "footage_relevant": 0,
         "footage_other": 104,
-        "chains": 10,
-        "longest": 20
+        "chains": 8,
+        "longest": 29
       },
       "XvaTwkZq46c": {
         "downloaded": 600,
-        "classified": 360,
-        "sheets": 15,
+        "classified": 312,
+        "sheets": 14,
         "kinds": {
-          "event_footage": 298,
-          "anchor": 40,
-          "graphic": 14,
-          "other": 4,
-          "text_heavy": 4
+          "event_footage": 260,
+          "studio": 2,
+          "graphic": 24,
+          "other": 2,
+          "anchor": 24
         },
-        "footage_relevant": 8,
-        "footage_other": 290,
-        "chains": 9,
-        "longest": 68
+        "footage_relevant": 24,
+        "footage_other": 236,
+        "chains": 0,
+        "longest": 0,
+        "error": true
       }
     },
-    "sheets_used": 30
+    "sheets_used": 29,
+    "chains": [
+      {
+        "video_id": "zSiYC9Gcg8Q",
+        "start": 17,
+        "end": 36,
+        "desc": "مبنى مطار الملك خالد بالرياض وحركة سيارات · مدخل مطار الملك خالد بالرياض وسيارات · مدخل مطار الملك خالد بالرياض وسيارات أمام المبنى",
+        "channel": "AlArabiya العربية",
+        "relevant": false
+      },
+      {
+        "video_id": "zSiYC9Gcg8Q",
+        "start": 51,
+        "end": 60,
+        "desc": "لقطة لمطار الرياض، رجال بالزي الأبيض يجلسون في صالة انتظار · لقطة لصالة مطار الرياض، أشخاص وكراسي فارغة",
+        "channel": "AlArabiya العربية",
+        "relevant": false
+      },
+      {
+        "video_id": "zSiYC9Gcg8Q",
+        "start": 64,
+        "end": 72,
+        "desc": "وميض انفجار ونيران كبيرة، لا يظهر مستشارين أو أسلحة · غبار ودخان في مكان به كراسٍ وطاولات محترقة الألوان · دخان وغبار يغطي الكراسي والطاولات",
+        "channel": "AlArabiya العربية",
+        "relevant": false
+      },
+      {
+        "video_id": "zSiYC9Gcg8Q",
+        "start": 78,
+        "end": 87,
+        "desc": "حشود من المسافرين في صالة مطار الرياض · ازدحام في صالة مطار بمسافرين، شعار قناة العربية وشريط أخبار عن اعتداء حوثي على مطار الرياض · ازدحام في صالة مطار بمسافرين، شريط أخبار عن اعتداء حوثي على مطار الرياض",
+        "channel": "AlArabiya العربية",
+        "relevant": false
+      },
+      {
+        "video_id": "zSiYC9Gcg8Q",
+        "start": 89,
+        "end": 104,
+        "desc": "مشهد ضبابي بألوان رمادية وبرتقالية لسماء أو منشأة، شريط أخبار عن طائرة مسيرة في المنطقة الشرقية · مشهد ضبابي رمادي مزرق لسماء أو منشأة، شريط أخبار عن طائرة مسيرة في المنطقة الشرقية · مشهد ضبابي رمادي لسماء أو منشأة، شريط أخبار عن طائرة مسيرة في المنطقة الشرقية",
+        "channel": "AlArabiya العربية",
+        "relevant": false
+      },
+      {
+        "video_id": "zSiYC9Gcg8Q",
+        "start": 105,
+        "end": 114,
+        "desc": "مشهد ضبابي لمبنى المطار مع شريط إخباري عن اعتداء على مطار الرياض، لا يُظهر الحدث المذكور · مشهد ضبابي لمبنى المطار مع شريط إخباري عن تضامن سعودي باكستاني تركي مصري، لا يُظهر الحدث المذكور · ضباب أبيض كثيف يحجب المشهد عند ممر دخول، بدون ما يتعلق بالحدث",
+        "channel": "AlArabiya العربية",
+        "relevant": false
+      },
+      {
+        "video_id": "zSiYC9Gcg8Q",
+        "start": 115,
+        "end": 126,
+        "desc": "لقطة بلون بنفسجي لحشد داخل مكان مغلق، لا تُظهر الحدث المذكور · لقطة بلون بنفسجي لأشخاص داخل مكان مغلق، لا تُظهر الحدث المذكور · لقطة بلون بنفسجي لحشد في مكان مغلق، لا تُظهر الحدث المذكور",
+        "channel": "AlArabiya العربية",
+        "relevant": false
+      },
+      {
+        "video_id": "zSiYC9Gcg8Q",
+        "start": 133,
+        "end": 144,
+        "desc": "لقطة بلون بنفسجي لحشد داخل مكان مغلق، لا تُظهر الحدث المذكور · لقطة بلون بنفسجي لأشخاص داخل مكان مغلق، لا تُظهر الحدث المذكور · لقطة بلون بنفسجي لحشد في مكان مغلق، لا تُظهر الحدث المذكور",
+        "channel": "AlArabiya العربية",
+        "relevant": false
+      },
+      {
+        "video_id": "zSiYC9Gcg8Q",
+        "start": 166,
+        "end": 170,
+        "desc": "مدخل منزل بجدار متضرر وأطفال يقفون عنده، مشهد ميداني لا يُظهر دعمًا إيرانيًا للحوثيين · لقطة ميدانية لمبنى متضرر وأطفال أمام باب في سوريا، ليست عن الحدث",
+        "channel": "AlArabiya العربية",
+        "relevant": false
+      }
+    ],
+    "assign": [
+      {
+        "n": 1,
+        "chain": null
+      },
+      {
+        "n": 3,
+        "chain": null
+      },
+      {
+        "n": 4,
+        "chain": null
+      }
+    ]
+  },
+  "hook_video": {
+    "video_id": "zSiYC9Gcg8Q",
+    "start": 126,
+    "end": 133,
+    "channel": "AlArabiya العربية",
+    "title": "من صنعاء إلى الجوف.. أهداف الحوثيين تحت نيران الضربات الجوية",
+    "source": "auto_topic",
+    "views": 38777,
+    "reason": "لقطات ميدانية عن الموضوع بلا لقطة للحدث نفسه"
   }
 }
