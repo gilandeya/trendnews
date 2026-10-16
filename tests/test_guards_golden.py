@@ -11690,6 +11690,8 @@ def test_reel_broll_r5d2_guards() -> None:
               "hook_candidates": [cand("c1", 900), cand("c2", 500)], "hook_search": {"attempts": []},
               "reel_bg": {"kind": "news_photo", "url": "https://example.com/bg.jpg", "publisher": "Reuters"},
               **({} if plan_items is None else {"broll_plan": plan_items}), **(extra or {})}
+        for k in [k for k, v in d0.items() if v == "__drop__"]:
+            del d0[k]
         path = store.save_draft(d0)
         d = json.loads(path.read_text(encoding="utf-8"))
         old = os.environ.get("YOUTUBE_API_KEY")
@@ -12030,6 +12032,40 @@ def test_reel_broll_r5d2_guards() -> None:
             if real_bc is not None:
                 reel_broll._create = real_bc
     guarded("g373", g373)
+
+    # ───────────────────────── g374: مرشّحو الهوك يُحسَبون قبل want_broll لمسودة قديمة (Issue #1458، متابعة) ─────────────────────────
+    def g374():
+        plan_calls: list = []
+        pick_calls: list = []
+        real_bc = getattr(reel_broll, "_create", None)
+        real_pick = reel_hook_search.pick_hook_candidates
+
+        def counting(client, **kw):
+            plan_calls.append(kw)
+            return tool_resp("plan_broll", {"items": PLAN_ITEMS})
+
+        def fake_pick(draft, cfg_, hdeps=None, *a, **k):
+            pick_calls.append(1)
+            draft["hook_candidates"] = [cand("c1", 900), cand("c2", 500)]
+            draft["hook_search"] = {"attempts": [], "picked": []}
+            return draft["hook_candidates"]
+        reel_broll._create = counting
+        reel_hook_search.pick_hook_candidates = fake_pick
+        try:
+            deps, c, comments = full_rig({"c1": set(range(0, 30)), "c2": set(range(20, 32))})
+            path, st = full_go("r5d3000g374a1", deps, work_root / "g374", "__drop__",
+                               extra={"hook_candidates": "__drop__", "hook_search": "__drop__"})
+            check("g374: pick_hook_candidates مرة واحدة", len(pick_calls) == 1, len(pick_calls))
+            check("g374: plan_broll مرة واحدة", len(plan_calls) == 1, len(plan_calls))
+            check("g374: scan_broll يُستدعى (مسح لقطات الحدث)", bool(c["assigned"]) or bool(c["sheets"]), c)
+            rb = st.get("render_broll") or []
+            check("g374: render_broll فيه لقطة واحدة على الأقل", any(x.get("video_id") for x in rb), rb)
+            check("g374: سطر «🎞️ لقطات الحدث» في التعليق", any("🎞️ لقطات الحدث" in t for t in comments), comments)
+        finally:
+            reel_hook_search.pick_hook_candidates = real_pick
+            if real_bc is not None:
+                reel_broll._create = real_bc
+    guarded("g374", g374)
 
     import shutil
     shutil.rmtree(work_root, ignore_errors=True)
