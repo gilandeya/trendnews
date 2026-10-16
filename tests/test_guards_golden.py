@@ -12219,6 +12219,100 @@ def test_reel_broll_r5d2_guards() -> None:
         check("g383: render_version == 25", int(cfg.path("reel.render.version")) == 25, cfg.path("reel.render.version"))
     guarded("g383", g383)
 
+    # ───────────────────────── g384–g386: العطل للصفيحة لا للفيديو، والهوك الاحتياطي بالمعنى (Issue #1465، R5d6) ─────────────────────────
+    def sheet_fail_rig(footage, fail_calls, nframes):
+        """classify يرفع في الاستدعاءات ذات الأرقام في fail_calls (لكل فيديو)؛ footage = {vid: مجموعة ثوانٍ ميدانية}."""
+        c = {"n": {}}
+        st = {"cur": None}
+
+        def dl(video_id, seconds, height, out_path):
+            Path(out_path).write_bytes(video_id.encode())
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        def frames(path, seconds, c_):
+            st["cur"] = Path(path).read_bytes().decode()
+            return [IMG] * nframes
+
+        def classify(jpeg, event, first, n, c_, labels=None):
+            k = c["n"][st["cur"]] = c["n"].get(st["cur"], 0) + 1
+            if k in fail_calls:
+                raise ValueError("ردّ غير صالح من مصنِّف الثواني")
+            ts = list(labels) if labels else list(range(first, first + n))
+            good = footage.get(st["cur"], set())
+            return [{"t": t, "kind": "event_footage" if t in good else "studio", "relevant": t in good,
+                     **({"desc": "لقطة ميدانية"} if t in good else {})} for t in ts]
+        return SimpleNamespace(scan_download=dl, scan_frames=frames, classify_sheet=classify)
+
+    def g384():
+        script = {"title": "ع", "scenes": [{"kind": "title_card", "text": "ع"}]}
+        cands = [cand("c1", 900)]
+        per = reel_hook_search.COLS * reel_hook_search.ROWS
+        step = int(cfg.path("reel.broll.step"))
+        nframes = per * step * 5   # خمس صفائح بخطوة المسح
+        # الصفيحة الثالثة تفشل: ثواني الباقيات تُحفظ وتكوّن سلاسل ولا يُعدّ الفيديو فاشلًا
+        deps = sheet_fail_rig({"c1": set(range(0, nframes))}, {3}, nframes)
+        state = reel_hook_search.ScanState()
+        res = reel_hook_search.scan_broll({"topic_date": D}, script, cands, cfg, deps, work_root, state, hook=None)
+        v = (res.get("scan") or {}).get("videos", {}).get("c1", {})
+        check("g384: الفيديو ليس في state.failed", "c1" not in state.failed, state.failed)
+        check("g384: سلاسل من الصفائح الأربع الأخرى", bool(res.get("chains")), res)
+        covered = {t for ch in res.get("chains") or [] for t in range(ch["start"], ch["end"])}
+        check("g384: ثواني الصفيحة الأولى والرابعة محفوظة وثواني الثالثة غائبة",
+              0 in covered and per * step * 3 + 2 in covered and per * step * 2 + 2 not in covered, sorted(covered)[:5])
+        check("g384: sheet_errors == 1 وerror_text غير فارغ", v.get("sheet_errors") == 1 and bool(v.get("error_text")), v)
+        check("g384: لا علامة error على الفيديو", not v.get("error"), v)
+        # فشل كل الصفائح ← الفيديو فاشل كما اليوم
+        deps2 = sheet_fail_rig({}, {1, 2, 3, 4, 5}, nframes)
+        state2 = reel_hook_search.ScanState()
+        res2 = reel_hook_search.scan_broll({"topic_date": D}, script, cands, cfg, deps2, work_root, state2, hook=None)
+        v2 = (res2.get("scan") or {}).get("videos", {}).get("c1", {})
+        check("g384: فشل كل الصفائح ← الفيديو في state.failed", "c1" in state2.failed and v2.get("error") is True, (state2.failed, v2))
+        # مسح الهوك: الصفيحة الثالثة من خمس (خطوة 1) تفشل والباقي يبقى
+        deps3 = sheet_fail_rig({"c1": set(range(0, 60))}, {3}, per * 5)
+        state3 = reel_hook_search.ScanState()
+        out3 = reel_hook_search.scan_candidates({"topic_date": D}, script, cands, cfg, deps3, work_root, state=state3, want_broll=False)
+        check("g384: scan_candidates يتخطى الصفيحة المتعثرة ولا يُسقط الفيديو",
+              "c1" not in state3.failed and len(state3.classified.get("c1", {})) == per * 4, (state3.failed, len(state3.classified.get("c1", {})), out3))
+        check("g384: scan_candidates يُخرج هوكًا من الباقيات", bool(out3.get("hook_video")), out3)
+    guarded("g384", g384)
+
+    def g385():
+        mx = int(cfg.path("reel.render.hook.max_seconds"))
+
+        def with_assign(pick_short):
+            deps, c, comments = full_rig({"c1": set(range(0, 30)), "c2": set(range(40, 50))}, nframes=200, relevant=False)
+            base = deps.assign_broll
+
+            def assign(needy, chains, c_):
+                if len(needy) == 1 and needy[0]["n"] == 0:
+                    c.setdefault("hook_calls", []).append((needy, chains))
+                    if not pick_short:
+                        return []
+                    k = min(range(len(chains)), key=lambda i: chains[i]["end"] - chains[i]["start"])
+                    return [{"n": 0, "chain": k + 1}]
+                return base(needy, chains, c_)
+            deps.assign_broll = assign
+            return deps, c, comments
+        deps, c, comments = with_assign(True)
+        path, st = full_go("r5d6000g385a1", deps, work_root / "g385", PLAN3)
+        hv = st.get("hook_video") or {}
+        check("g385: الهوك من السلسلة الأقصر المطابقة للعنوان", hv.get("video_id") == "c2" and hv.get("source") == "auto_topic", hv)
+        call = (c.get("hook_calls") or [([{}], [])])[0][0][0]
+        check("g385: مدخل الإسناد n=0 ومدته hook.max_seconds ونصه عنوان السيناريو",
+              call.get("n") == 0 and call.get("dur") == mx and call.get("text") == title and bool(call.get("visual")), call)
+        check("g385: الردّ الخام محفوظ في broll_scan.hook_assign",
+              (st.get("broll_scan") or {}).get("hook_assign") == [{"n": 0, "chain": 2}], st.get("broll_scan"))
+        deps2, c2, comments2 = with_assign(False)
+        path2, st2 = full_go("r5d6000g385a2", deps2, work_root / "g385b", PLAN3)
+        check("g385: بلا إسناد لا hook_video", not st2.get("hook_video"), st2.get("hook_video"))
+        check("g385: ولا سطر «الهوك من لقطات الموضوع»", not any("الهوك من لقطات الموضوع" in t for t in comments2), comments2)
+        check("g385: hook_assign محفوظ (فارغ) رغم الرفض", "hook_assign" in (st2.get("broll_scan") or {}), st2.get("broll_scan"))
+    guarded("g385", g385)
+
+    def g386():
+        check("g386: render_version == 26", int(cfg.path("reel.render.version")) == 26, cfg.path("reel.render.version"))
+    guarded("g386", g386)
+
     import shutil
     shutil.rmtree(work_root, ignore_errors=True)
 
