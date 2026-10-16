@@ -18,6 +18,7 @@ import shutil
 import subprocess
 import tempfile
 import time
+from collections import Counter
 from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 from pathlib import Path
@@ -25,7 +26,7 @@ from typing import Any, Callable
 
 from PIL import Image, ImageDraw
 
-from . import imaging, reel_clips, reel_hook_search, reel_script, store, tts
+from . import imaging, reel_broll, reel_clips, reel_hook_search, reel_script, store, tts
 from .config import MUSIC_DIR, REELS_DIR, load_config
 
 log = logging.getLogger("trendnews.reel_render")
@@ -375,6 +376,8 @@ class Deps:
     scan_frames: Callable[[Any, int, Any], list] | None = None
     classify_sheet: Callable[..., list] | None = None
     make_queries: Callable[[dict, dict, Any], list] | None = None
+    # (جمل تحتاج لقطة [{n,dur,visual,text}]، السلاسل، cfg) ← [{n, chain}] (Issue #1452، R5d2)؛ None ← لا لقطات حدث (الصورة وحدها)
+    assign_broll: Callable[[list, list, Any], list] | None = None
 
     def resolved(self, cfg) -> "Deps":
         def fetch(video_id):
@@ -427,7 +430,9 @@ class Deps:
             scan_download=self.scan_download or (reel_hook_search.real_scan_download if real else None),
             scan_frames=self.scan_frames or (reel_hook_search.real_scan_frames if real else None),
             classify_sheet=self.classify_sheet or (
-                (lambda jpeg, event, first, n, c: reel_hook_search.call_classify_model(jpeg, event, first, n, c)) if real else None),
+                (lambda jpeg, event, first, n, c, labels=None: reel_hook_search.call_classify_model(
+                    jpeg, event, first, n, c, labels=labels)) if real else None),
+            assign_broll=self.assign_broll or ((lambda needy, chains, c: reel_broll.assign(needy, chains, c)) if real else None),
             make_queries=self.make_queries or (
                 (lambda script, draft, c, broad=False: reel_hook_search.call_make_queries(script, draft, c, broad=broad))
                 if real else None))
@@ -1491,12 +1496,14 @@ def _still_bg_prefix(fps) -> str:
 
 def _timed_scene(frames: list[tuple[Path, float]], audio: Path, out: Path, cfg, deps: Deps, tmp: Path, tail: float,
                  lead: float = 0.0, bg_png: Path | None = None, bg_start: float = 0.0,
-                 bg_pan: tuple[float, float] = (0.0, 0.0)) -> float:
+                 bg_pan: tuple[float, float] = (0.0, 0.0), broll: list | None = None) -> float:
     """مشهد صوتي بإطارات متتابعة (جملة لكل إطار بمدتها الفعلية)؛ يعيد مدته.
     lead: صمت في أول الصوت يمتد معه الإطار الأول، كي لا تقع أول كلمة في التلاشي المتقاطع مع المشهد السابق.
     bg_png: خلفية الراوي تيار مستقل بمدة المشهد كاملة (Issue #1447، R5d1)؛ الإطارات PNG شفافة تُركَّب فوقه في الأمر نفسه.
     bg_start: زمن بداية المشهد التراكمي بين مشاهد الراوي فتتصل حركة الصورة ولا تقفز.
-    bg_pan: (x0، السرعة) من pan_plan المشتركة بين مشاهد الراوي كلها؛ bg_png مُكبَّرة سلفًا إلى أبعاد تلك الخطة."""
+    bg_pan: (x0، السرعة) من pan_plan المشتركة بين مشاهد الراوي كلها؛ bg_png مُكبَّرة سلفًا إلى أبعاد تلك الخطة.
+    broll: [{a, b, clip, cexpr}] لقطات الحدث (Issue #1452، R5d2) تُركَّب فوق تيار الصورة المتحركة في زمن جملتها (a..b داخل المشهد)
+    ثم يأتي التظليل فالنص: اللقطة صامتة فلا يُخرَج صوتها، وsetpts يؤخرها إلى a كي تبدأ مع جملتها لا مع المشهد."""
     rcfg = cfg.path("reel.render")
     frames = list(frames)
     total = scene_seconds(sum(d for _, d in frames), tail, lead)
@@ -1510,11 +1517,22 @@ def _timed_scene(frames: list[tuple[Path, float]], audio: Path, out: Path, cfg, 
         w, h, fps = int(rcfg["width"]), int(rcfg["height"]), rcfg["fps"]
         pan = _pan_x_expr(bg_pan[0], bg_pan[1], bg_start)
         afilter = f"adelay={int(round(lead * 1000))}:all=1,apad" if lead > 0 else "apad"
-        vg = (f"{_still_bg_prefix(fps)}crop={w}:{h}:x='{pan}':y='(ih-oh)/2',"
-              f"{_shade_filter(cfg, 'narration_bg')},fps={fps}[b];"
-              f"[1:v]fps={fps},format=rgba[t];[b][t]overlay=0:0:shortest=1,format=yuv420p[v];[2:a]{afilter}[a]")
+        crop = f"{_still_bg_prefix(fps)}crop={w}:{h}:x='{pan}':y='(ih-oh)/2'"
+        shade = _shade_filter(cfg, "narration_bg")
+        extra: list[str] = []
+        if broll:
+            vg = crop + "[p0];"
+            for j, bl in enumerate(broll):
+                extra += ["-i", str(bl["clip"])]
+                a, b = _fmt(bl["a"]), _fmt(bl["b"])
+                vg += (f"[{3 + j}:v]{bl['cexpr']},scale={w}:{h},fps={fps},setpts=PTS-STARTPTS+{a}/TB[c{j}];"
+                       f"[p{j}][c{j}]overlay=0:0:enable='between(t,{a},{b})'[p{j + 1}];")
+            vg += f"[p{len(broll)}]{shade},fps={fps}[b];"
+        else:
+            vg = f"{crop},{shade},fps={fps}[b];"
+        vg += f"[1:v]fps={fps},format=rgba[t];[b][t]overlay=0:0:shortest=1,format=yuv420p[v];[2:a]{afilter}[a]"
         deps.run(_base("-i", str(bg_png), "-f", "concat", "-safe", "0", "-i", str(lst),
-                       "-i", str(audio), "-filter_complex", vg, "-map", "[v]", "-map", "[a]", "-t", _fmt(total),
+                       "-i", str(audio), *extra, "-filter_complex", vg, "-map", "[v]", "-map", "[a]", "-t", _fmt(total),
                        *_enc(rcfg), str(out)))
         return total
     deps.run(_base("-f", "concat", "-safe", "0", "-i", str(lst), "-i", str(audio), "-vf",
@@ -2214,9 +2232,110 @@ def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None,
     return seconds
 
 
+_TASHKEEL = re.compile("[ً-ٰٟـ]")
+
+
+def _plain(text: str) -> str:
+    """نص الجملة للمقارنة بالخطة: بلا تشكيل ولا تطويل وبمسافات موحَّدة."""
+    return " ".join(_TASHKEEL.sub("", str(text or "")).split())
+
+
+def _prepare_broll(script: dict, nar_idx: list[int], speech_cache: dict, plan: list, broll: dict, cfg, deps: Deps, tmp: Path,
+                   lead: float, notes: list) -> dict[int, list[dict]]:
+    """لقطات الحدث خلف الجمل (Issue #1452، R5d2): تقسم جمل الراوي بمددها الفعلية من تمريرة الصوت الأولى، وتطابق الخطة بالعدد
+    ثم بالنص (المراجع قد يعدّل السيناريو في المرحلة 2)، ويسند النموذج، ويقرر المدقّق القطعي، وتُنزَّل النوافذ المقبولة.
+    كل جملة لا تنال لقطة تبقى بالصورة المتحركة. يعيد {فهرس المشهد: [{a, b, clip, cexpr}]} ويملأ broll["result"] (render_broll)
+    وbroll["channels"] (قنوات اللقطات المركَّبة فعلًا للخاتمة)."""
+    t = cfg.path("reel.render.texts")
+    rcfg = cfg.path("reel.render")
+    reasons = t.get("broll_reasons", {})
+    result: list[dict] = broll.setdefault("result", [])
+    broll["channels"] = []
+    by_scene: dict[int, dict[int, dict]] = {}
+    for e in plan:
+        try:
+            by_scene.setdefault(int(e["scene"]), {})[int(e["sentence"])] = e
+        except (TypeError, ValueError, KeyError):
+            continue
+    recs: list[dict] = []
+    text_changed = False
+    n = 0
+    for i in nar_idx:
+        parts = speech_cache[i][1]
+        texts = tts.split_sentences(script["scenes"][i].get("text", ""))
+        entries = by_scene.get(i, {})
+        count_ok = len(entries) == len(parts) == len(texts)
+        if not count_ok:
+            notes.append(t["comment_broll_count"].format(scene=i))
+        cursor = 0.0
+        for k, (_, dur) in enumerate(parts):
+            n += 1
+            a = 0.0 if k == 0 else lead + cursor
+            cursor += dur
+            rec = {"n": n, "scene": i, "sentence": k, "a": a, "b": lead + cursor, "visual": "", "text": texts[k] if k < len(texts) else "",
+                   "reason": None}
+            e = entries.get(k)
+            if not count_ok:
+                rec["reason"] = "count"
+            elif e is None or _plain(e.get("text")) != _plain(rec["text"]):
+                rec["reason"] = "text"
+                text_changed = True
+            else:
+                rec["visual"] = str(e.get("visual") or "").strip()
+                if not rec["visual"]:
+                    rec["reason"] = "no_visual"
+            recs.append(rec)
+    if text_changed:
+        notes.append(t["comment_broll_text"])
+    needy = [{"n": r["n"], "dur": r["b"] - r["a"], "visual": r["visual"], "text": r["text"]} for r in recs if not r["reason"]]
+    chains = broll.get("chains") or []
+    acc: dict[int, dict] = {}
+    rej: dict[int, str] = {}
+    if needy and chains:
+        try:
+            raw = deps.assign_broll(needy, chains, cfg) or []
+            acc, rej = reel_broll.resolve(raw, needy, chains, broll.get("hook"))
+        except Exception as exc:  # noqa: BLE001 -- الإسناد تحسين: الجمل كلها بالصورة
+            log.warning("تعذّر إسناد لقطات الحدث: %s", reel_clips.scrub_text(str(exc))[:150])
+            rej = {x["n"]: "no_match" for x in needy}
+    out: dict[int, list[dict]] = {}
+    used_channels: list[str] = []
+    for r in recs:
+        entry = {"scene": r["scene"], "sentence": r["sentence"]}
+        w = acc.get(r["n"])
+        if w is not None:
+            clip = None
+            try:
+                clip = _download_with_retries(deps, rcfg, w["video_id"], int(math.floor(w["start"])), int(math.ceil(w["end"])),
+                                              tmp / f"broll_{r['n']}.mp4")
+            except Exception as exc:  # noqa: BLE001
+                log.warning("تعذّر تنزيل لقطة الحدث %s: %s", w["video_id"], reel_clips.scrub_text(str(exc))[:120])
+            if clip is None:
+                notes.append(t["comment_broll_failed"].format(n=r["n"], channel=w.get("channel", "")))
+                r["reason"] = "download"
+            else:
+                out.setdefault(r["scene"], []).append({"a": r["a"], "b": r["b"], "clip": clip,
+                                                       "cexpr": _hook_crop(clip, cfg, deps, None)})
+                entry.update({"video_id": w["video_id"], "start": w["start"], "end": w["end"],
+                              "channel": w.get("channel", ""), "desc": w.get("desc", "")})
+                used_channels.append(w.get("channel", ""))
+        else:
+            r["reason"] = r["reason"] or rej.get(r["n"]) or "no_match"
+        if "video_id" not in entry:
+            entry["photo"] = reasons.get(r["reason"], r["reason"])
+        result.append(entry)
+    total, used = len(recs), len(used_channels)
+    if recs:
+        counts = Counter(c for c in used_channels if c)
+        names = f" ({'، '.join(f'{c} ×{k}' for c, k in counts.items())})" if counts else ""
+        notes.append(t["comment_broll"].format(used=used, total=total, channels=names, photo=total - used))
+    broll["channels"] = list(dict.fromkeys(c for c in used_channels if c))
+    return out
+
+
 def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str, bg: dict | None = None,
               credit: str = "", speakers: dict | None = None, notes: list | None = None, draft: dict | None = None,
-              crops: dict | None = None) -> tuple[list[Path], list[str], list[float]]:
+              crops: dict | None = None, broll: dict | None = None) -> tuple[list[Path], list[str], list[float]]:
     rcfg = cfg.path("reel.render")
     lead = transition_seconds(cfg)
     names = list(dict.fromkeys(s.get("channel_display", "") for i, s in enumerate(script["scenes"])
@@ -2225,7 +2344,6 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
     hook_channel = ((draft or {}).get("hook_video") or {}).get("channel") if isinstance((draft or {}).get("hook_video"), dict) else None
     if hook_channel and hook_channel.casefold() not in (n.casefold() for n in names):
         names.append(hook_channel)
-    channels = "، ".join(names)
     scene_files: list[Path] = []
     kinds: list[str] = []
     durs: list[float] = []
@@ -2248,6 +2366,16 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
         wide, wcx = _wide_of(bg)
         nar_plan = pan_plan(cfg, "narration_bg", wide.size[0], wide.size[1], total_nar, wcx)
         nar_bg = _pan_background(wide, nar_plan, tmp, "nar_bg.png")
+    scene_broll: dict[int, list[dict]] = {}
+    plan = (draft or {}).get("broll_plan")
+    if broll is not None and plan and nar_bg is not None and deps.assign_broll is not None:
+        scene_broll = _prepare_broll(script, nar_idx, speech_cache, plan, broll, cfg, deps, tmp, lead,
+                                     notes if notes is not None else [])
+        # قنوات اللقطات المركَّبة تُنسب في الخاتمة مع قناة الهوك
+        for ch in broll.get("channels", []):
+            if ch.casefold() not in (n.casefold() for n in names):
+                names.append(ch)
+    channels = "، ".join(names)
     for i, scene in order:
         kind, out = scene.get("kind"), tmp / f"scene_{i:02d}.mp4"
         if i == hook_idx:
@@ -2274,7 +2402,7 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
                 tail = 0.0
                 if bg is not None and nar_plan is not None:
                     dur = _timed_scene(frames, audio, out, cfg, deps, tmp, tail, lead, bg_png=nar_bg, bg_start=nar_t,
-                                       bg_pan=(nar_plan["x0"], nar_plan["speed"]))
+                                       bg_pan=(nar_plan["x0"], nar_plan["speed"]), broll=scene_broll.get(i))
                     nar_t += dur - lead
                     scene_files.append(out)
                     kinds.append(kind)
@@ -2402,7 +2530,8 @@ def _hook_searched(draft: dict) -> bool:
     return isinstance(hs, dict) and any(k in hs for k in ("attempts", "skipped", "error"))
 
 
-def _auto_hook(path: Path, draft: dict, script: dict, cfg, deps: Deps, tmp: Path, notes: list) -> None:
+def _auto_hook(path: Path, draft: dict, script: dict, cfg, deps: Deps, tmp: Path, notes: list,
+               state: "reel_hook_search.ScanState | None" = None, want_broll: bool = False) -> None:
     """الفحص البصري لمرشّحي لقطة الهوك (Issue #1445، R5c3) قبل مشهده. hook_video الموجود (اليدوي أولًا) يغلب؛ وإلا يُفحص
     draft.hook_candidates بترتيبهم ويُعتمد أول مرشّح فيه سلسلة صالحة. لا بحث هنا إلا لمسودة قديمة بلا hook_search: يُستدعى لها
     pick_hook_candidates مرة وتُحفظ نتيجته فلا يتكرر. أي عطل يُبقي الهوك بصورة الخبر وسطرًا في التعليق، ولا يُفشل التركيب."""
@@ -2435,7 +2564,7 @@ def _auto_hook(path: Path, draft: dict, script: dict, cfg, deps: Deps, tmp: Path
             notes.append(t["comment_hook_none"])
         return
     try:
-        res = reel_hook_search.scan_candidates(draft, script, cands, cfg, deps, tmp)
+        res = reel_hook_search.scan_candidates(draft, script, cands, cfg, deps, tmp, state=state, want_broll=want_broll)
     except Exception as exc:  # noqa: BLE001 -- لقطة الهوك تحسين: الهوك يبقى بصورة الخبر
         log.warning("تعذّر فحص مرشّحي لقطة الهوك: %s", reel_clips.scrub_text(str(exc))[:150])
         notes.append(t["comment_hook_failed"])
@@ -2449,6 +2578,24 @@ def _auto_hook(path: Path, draft: dict, script: dict, cfg, deps: Deps, tmp: Path
     else:
         notes.append(t["comment_hook_failed"] if res.get("errors") and res["errors"] >= len(cands)
                      else t["comment_hook_no_valid"])
+
+
+def _broll_wanted(draft: dict, cfg, deps: Deps, bg: dict | None) -> bool:
+    """هل تُطلب لقطات الحدث في هذا التركيب؟ تحتاج خطة غير فارغة وخلفية متحركة ومرشّحين وأدوات المسح والإسناد."""
+    return bool(cfg.path("reel.broll.enabled", False) and draft.get("broll_plan") and draft.get("hook_candidates")
+                and bg is not None and deps.scan_download is not None and deps.classify_sheet is not None
+                and deps.scan_frames is not None and deps.assign_broll is not None)
+
+
+def _scan_broll(draft: dict, script: dict, cfg, deps: Deps, tmp: Path, state: "reel_hook_search.ScanState") -> dict | None:
+    """مسح اللقطات بعد اختيار الهوك (يستبعد نافذته). أي عطل ← None والجمل كلها بالصورة ولا يفشل التركيب."""
+    hook = draft.get("hook_video") if isinstance(draft.get("hook_video"), dict) else None
+    try:
+        res = reel_hook_search.scan_broll(draft, script, draft.get("hook_candidates") or [], cfg, deps, tmp, state, hook=hook)
+    except Exception as exc:  # noqa: BLE001 -- لقطات الحدث تحسين لا شرط
+        log.warning("تعذّر مسح لقطات الحدث: %s", reel_clips.scrub_text(str(exc))[:150])
+        return None
+    return {"chains": res["chains"], "hook": hook} if res.get("chains") else None
 
 
 def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path, dropped: list,
@@ -2467,11 +2614,15 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     voice = cfg.path(f"reel.tts.narrator_voices.{script.get('narrator', 'female')}")
     notes = notes if notes is not None else []
     bg, bg_saved = _resolve_background(path, draft, cfg, deps, notes)
-    _auto_hook(path, draft, script, cfg, deps, tmp, notes)
+    want_broll = _broll_wanted(draft, cfg, deps, bg)
+    scan_state = reel_hook_search.ScanState()
+    _auto_hook(path, draft, script, cfg, deps, tmp, notes, state=scan_state, want_broll=want_broll)
+    broll = _scan_broll(draft, script, cfg, deps, tmp, scan_state) if want_broll else None
     speakers: dict = {}
     hook_crops: dict = {}
     scene_files, kinds, durs = _assemble(script, clips, cfg, deps, tmp, voice, bg,
-                                         outro_credit(cfg, bg["used"]) if bg else "", speakers, notes, draft, hook_crops)
+                                         outro_credit(cfg, bg["used"]) if bg else "", speakers, notes, draft, hook_crops,
+                                         broll=broll)
     join_info: dict = {}
     joined = _join(scene_files, kinds, durs, cfg, deps, tmp, join_info)
 
@@ -2542,7 +2693,8 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
             # الشكل المستعمل في هذا التركيب يُحفظ مع reel_bg؛ بلا صورة منزَّلة لا شكل
             "reel_bg": {**{k: v for k, v in bg_saved.items() if k != "layout"}, **({"layout": bg["layout"]} if bg else {})},
             "render_crops": {**{str(i): c["crop"] for i, c in clips.items() if "crop" in c}, **hook_crops},
-            **({"render_speakers": speakers} if speakers else {})}
+            **({"render_speakers": speakers} if speakers else {}),
+            **({"render_broll": broll["result"]} if broll and broll.get("result") else {})}
 
 
 def _mmss(sec) -> str:
@@ -2617,7 +2769,8 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
     approx_saved = [{k: v for k, v in a.items() if k != "channel"} for a in approx]
     changes = {**result, "render_dropped": dropped, "render_approx": approx_saved,
                "rendered_at": datetime.now(timezone.utc).isoformat()}
-    remove = (["render_error"] if result["render_status"] == "rendered"
+    remove = ((["render_error"] + ([] if "render_broll" in result else ["render_broll"]))
+              if result["render_status"] == "rendered"
               else [] if keep_files else ["reel_file", "reel_gif", "duration_seconds"])
     store.update_draft(path, remove=remove, **changes)
     issue = draft.get("review_issue")

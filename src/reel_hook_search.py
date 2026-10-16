@@ -12,7 +12,7 @@ import io
 import logging
 import os
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import date, timedelta
 from pathlib import Path
 from typing import Callable
@@ -48,7 +48,8 @@ CLASSIFY_TOOL = {
     "description": "تصنيف كل ثانية مرقّمة في الصفيحة",
     "input_schema": {"type": "object", "properties": {"seconds": {"type": "array", "items": {
         "type": "object",
-        "properties": {"t": {"type": "integer"}, "kind": {"type": "string", "enum": KINDS}, "relevant": {"type": "boolean"}},
+        "properties": {"t": {"type": "integer"}, "kind": {"type": "string", "enum": KINDS}, "relevant": {"type": "boolean"},
+                       "desc": {"type": "string", "description": "وصف قصير لما يُرى (اختياري، للقطات الحدث)"}},
         "required": ["t", "kind", "relevant"]}}}, "required": ["seconds"]},
 }
 
@@ -229,15 +230,16 @@ def pick_hook_candidates(draft: dict, cfg, deps: HookDeps | None = None) -> None
 
 # ───────────────────────────── الصفيحة والتصنيف ─────────────────────────────
 
-def build_sheet(images: list, first_t: int, cfg) -> Image.Image:
-    """صفيحة COLS×ROWS: الخانة k عليها رقم ثانيتها first_t+k بخط واضح بأعلى يسارها؛ الخانة بلا لقطة تبقى سوداء بلا رقم."""
+def build_sheet(images: list, first_t: int, cfg, labels: list | None = None) -> Image.Image:
+    """صفيحة COLS×ROWS: الخانة k عليها رقم ثانيتها first_t+k بخط واضح بأعلى يسارها؛ الخانة بلا لقطة تبقى سوداء بلا رقم.
+    labels: أرقام الثواني الفعلية بدل المتتالية (مسح لقطات الحدث بخطوة 2 ث، Issue #1452)."""
     sheet = Image.new("RGB", (COLS * CELL_W, ROWS * CELL_H), (0, 0, 0))
     draw = ImageDraw.Draw(sheet)
     font = imaging.load_font(None, 44, "Bold")
     for k, img in enumerate(images[:COLS * ROWS]):
         x, y = (k % COLS) * CELL_W, (k // COLS) * CELL_H
         sheet.paste(img.convert("RGB").resize((CELL_W, CELL_H)), (x, y))
-        label = str(first_t + k)
+        label = str(labels[k] if labels else first_t + k)
         draw.rectangle([x, y, x + 12 + 26 * len(label) + 10, y + 52], fill=(0, 0, 0))
         draw.text((x + 8, y + 4), label, fill=(255, 255, 255), font=font, stroke_width=1, stroke_fill=(255, 255, 255))
     return sheet
@@ -249,12 +251,14 @@ def sheet_jpeg(sheet: Image.Image) -> bytes:
     return buf.getvalue()
 
 
-def call_classify_model(jpeg: bytes, event: str, first_t: int, count: int, cfg, client=None) -> list[dict]:
+def call_classify_model(jpeg: bytes, event: str, first_t: int, count: int, cfg, client=None,
+                        labels: list | None = None) -> list[dict]:
     hcfg = cfg.path("reel.hook_search")
+    where = (f"الثواني المرقّمة في الصفيحة: {', '.join(str(x) for x in labels)}" if labels
+             else f"الثواني المرقّمة في الصفيحة من {first_t} إلى {first_t + count - 1}")
     content = [{"type": "image", "source": {"type": "base64", "media_type": "image/jpeg",
                                             "data": base64.b64encode(jpeg).decode("ascii")}},
-               {"type": "text", "text": f"الحدث: {event}\nالثواني المرقّمة في الصفيحة من {first_t} إلى {first_t + count - 1}؛ "
-                                        f"أعد نتيجة لكل ثانية."}]
+               {"type": "text", "text": f"الحدث: {event}\n{where}؛ أعد نتيجة لكل ثانية مع desc قصير لما يُرى في اللقطة الميدانية."}]
     resp = llm.create(client or _client(), cfg=cfg, model=hcfg.get("model", "haiku"), max_tokens=int(hcfg.get("classify_max_tokens", 900)),
                       system=hcfg.get("classify_system", ""), tools=[CLASSIFY_TOOL],
                       tool_choice={"type": "tool", "name": CLASSIFY_TOOL["name"]},
@@ -301,34 +305,75 @@ def window(run: tuple[int, int], max_seconds: int) -> tuple[int, int]:
 
 # ───────────────────────────── الفحص البصري (التركيب) ─────────────────────────────
 
-def scan_candidates(draft: dict, script: dict, cands: list[dict], cfg, deps, tmp: Path) -> dict:
+@dataclass
+class ScanState:
+    """حالة المسح الموحَّد (Issue #1452، R5d2): كل مرشّح يُنزَّل ويُصنَّف مرة واحدة في التركيب ويخدم الهوك واللقطات معًا.
+    classified[video][t] = {good, desc, step}: step=1 للهوك (كل ثانية) و>1 لعيّنة اللقطات (تغطي t..t+step-1)."""
+    frames: dict = field(default_factory=dict)
+    classified: dict = field(default_factory=dict)
+    failed: set = field(default_factory=set)
+    sheets_used: int = 0
+
+
+def _is_good(r: dict) -> bool:
+    return r.get("kind") == "event_footage" and r.get("relevant") is True
+
+
+def _load_frames(c: dict, hcfg, cfg, deps, tmp: Path, state: ScanState, seconds: int) -> list:
+    """تنزيل المرشّح ولقطاته مرة واحدة لكل فيديو في التركيب كله."""
+    vid = c["video_id"]
+    if vid not in state.frames:
+        path = tmp / f"hook_scan_{vid}.mp4"
+        deps.scan_download(vid, seconds, int(hcfg.get("scan_height", 240)), path)
+        state.frames[vid] = deps.scan_frames(path, seconds, cfg)
+    return state.frames[vid]
+
+
+def scan_candidates(draft: dict, script: dict, cands: list[dict], cfg, deps, tmp: Path, state: ScanState | None = None,
+                    want_broll: bool = False) -> dict:
     """يفحص المرشّحين بترتيبهم ويعتمد أول من فيه سلسلة لقطات صالحة. يعيد {hook_video?, errors}؛ عطل مرشّح واحد
-    (تنزيل أو تصنيف) يتخطاه إلى التالي ويُعدّ في errors."""
+    (تنزيل أو تصنيف) يتخطاه إلى التالي ويُعدّ في errors.
+    state/want_broll (Issue #1452): تنزيل المرشّح بمدى مسح اللقطات وحفظ لقطاته وتصنيفه في state ليستعملها scan_broll؛
+    اختيار الهوك نفسه لا يتغير (أول scan_seconds ثانية وميزانية max_sheets الخاصة به)."""
     hcfg = cfg.path("reel.hook_search")
+    state = state if state is not None else ScanState()
     event = event_text(script, draft)
     out: dict = {"errors": 0}
     sheets_left = int(hcfg.get("max_sheets", 12))
     min_s, cap = int(hcfg.get("min_seconds", 3)), int(cfg.path("reel.render.hook.max_seconds", 7))
+    hook_secs = int(hcfg.get("scan_seconds", 180))
+    dl_secs = max(hook_secs, int(cfg.path("reel.broll.scan_seconds", 600))) if want_broll else hook_secs
     for c in cands:
         if sheets_left <= 0:
             break
+        vid = c["video_id"]
         try:
-            path = tmp / f"hook_scan_{c['video_id']}.mp4"
-            deps.scan_download(c["video_id"], int(hcfg.get("scan_seconds", 180)), int(hcfg.get("scan_height", 240)), path)
-            frames = deps.scan_frames(path, int(hcfg.get("scan_seconds", 180)), cfg)
+            frames = _load_frames(c, hcfg, cfg, deps, tmp, state, dl_secs)
+            if want_broll:
+                frames = frames[:hook_secs]
             good: set[int] = set()
+            known = state.classified.setdefault(vid, {})
             per = COLS * ROWS
             for first in range(0, len(frames), per):
                 if sheets_left <= 0:
                     break
                 chunk = frames[first:first + per]
                 sheets_left -= 1
+                state.sheets_used += 1
                 jpeg = sheet_jpeg(build_sheet(chunk, first, cfg))
-                good |= {t for t in good_seconds(deps.classify_sheet(jpeg, event, first, len(chunk), cfg))
-                         if first <= t < first + len(chunk)}
+                results = deps.classify_sheet(jpeg, event, first, len(chunk), cfg)
+                good |= {t for t in good_seconds(results) if first <= t < first + len(chunk)}
+                for r in results:
+                    try:
+                        t = int(r["t"])
+                    except (TypeError, ValueError, KeyError):
+                        continue
+                    if first <= t < first + len(chunk):
+                        known[t] = {"good": _is_good(r), "desc": str(r.get("desc") or "").strip(), "step": 1}
         except Exception as exc:  # noqa: BLE001 -- مرشّح معطوب لا يُسقط البقية
             log.warning("تعذّر فحص مرشّح الهوك %s: %s", c.get("video_id"), str(exc)[:150])
             out["errors"] += 1
+            state.failed.add(vid)
             continue
         run = best_run(good)
         if run and run[1] >= min_s:
@@ -339,6 +384,91 @@ def scan_candidates(draft: dict, script: dict, cands: list[dict], cfg, deps, tmp
                                  "reason": f"{run[1]} ث متتالية من لقطات الحدث"}
             break  # الأعلى مشاهدة أولًا: لا مقارنة بين المرشّحين
     return out
+
+
+def _chains_of(c: dict, known: dict, hook: dict | None, min_s: int) -> list[dict]:
+    """سلاسل الثواني الصالحة المتتالية للمرشّح [{video_id,start,end,desc,channel}] بعد استبعاد نافذة الهوك وما دون min_s ثوانٍ."""
+    secs: dict[int, str] = {}
+    for t, r in known.items():
+        if not r.get("good"):
+            continue
+        for u in range(t, t + max(int(r.get("step", 1)), 1)):
+            # ثانية صنِّفت بمفردها (الهوك) غير صالحة لا تُرثها عيّنة أوسع
+            if u != t and (u in known and not known[u].get("good")):
+                continue
+            secs.setdefault(u, r.get("desc", ""))
+    if hook and hook.get("video_id") == c["video_id"]:
+        for u in range(int(hook.get("start", 0)), int(hook.get("end", 0))):
+            secs.pop(u, None)
+    out: list[dict] = []
+    run: list[int] = []
+
+    def flush():
+        if len(run) >= min_s:
+            descs = [secs[u] for u in run if secs[u]]
+            out.append({"video_id": c["video_id"], "start": run[0], "end": run[-1] + 1,
+                        "desc": descs[0] if descs else clean_title(c.get("title", "")),
+                        "channel": c.get("channel", "")})
+    for u in sorted(secs):
+        if run and u != run[-1] + 1:
+            flush()
+            run = []
+        run.append(u)
+    if run:
+        flush()
+    return out
+
+
+def scan_broll(draft: dict, script: dict, cands: list[dict], cfg, deps, tmp: Path, state: ScanState,
+               hook: dict | None = None) -> dict:
+    """مسح اللقطات (Issue #1452، R5d2): كل مرشّح بمداه الكامل broll.scan_seconds وخطوة broll.step، ضمن ميزانية broll.max_sheets
+    صفيحة لكل التركيب (ما صرفه الهوك محسوب). لا يُنزَّل مرشّح نزل أو فشل سابقًا. يعيد {chains, errors}؛ السلاسل تستبعد نافذة الهوك."""
+    bcfg = cfg.path("reel.broll")
+    hcfg = cfg.path("reel.hook_search")
+    event = event_text(script, draft)
+    scan_s, step = int(bcfg.get("scan_seconds", 600)), max(int(bcfg.get("step", 2)), 1)
+    min_s = int(bcfg.get("min_seconds", 3))
+    budget = int(bcfg.get("max_sheets", 30)) - state.sheets_used
+    per = COLS * ROWS
+    chains: list[dict] = []
+    errors = 0
+    for c in cands:
+        vid = c["video_id"]
+        if vid in state.failed:
+            continue
+        known = state.classified.setdefault(vid, {})
+        if budget <= 0 and not known:
+            continue
+        try:
+            if budget > 0:
+                frames = _load_frames(c, hcfg, cfg, deps, tmp, state, scan_s)
+                labels = [t for t in range(0, min(len(frames), scan_s), step) if t not in known]
+                for i in range(0, len(labels), per):
+                    if budget <= 0:
+                        break
+                    chunk = labels[i:i + per]
+                    budget -= 1
+                    state.sheets_used += 1
+                    jpeg = sheet_jpeg(build_sheet([frames[t] for t in chunk], chunk[0], cfg, labels=chunk))
+                    results = deps.classify_sheet(jpeg, event, chunk[0], len(chunk), cfg, labels=chunk)
+                    by_t = {}
+                    for r in results or []:
+                        try:
+                            by_t[int(r["t"])] = r
+                        except (TypeError, ValueError, KeyError):
+                            continue
+                    for t in chunk:
+                        if t in by_t:
+                            known[t] = {"good": _is_good(by_t[t]), "desc": str(by_t[t].get("desc") or "").strip(), "step": step}
+        except Exception as exc:  # noqa: BLE001 -- مرشّح معطوب لا يُسقط البقية
+            log.warning("تعذّر مسح لقطات المرشّح %s: %s", vid, str(exc)[:150])
+            errors += 1
+            state.failed.add(vid)
+            state.frames.pop(vid, None)
+            continue
+        state.frames.pop(vid, None)    # الذاكرة: لقطات المرشّح لا تُحتاج بعد تصنيفه
+        chains.extend(_chains_of(c, known, hook, min_s))
+    return {"chains": chains, "errors": errors}
 
 
 # ───────────────────────────── التنفيذات الحقيقية لـDeps ─────────────────────────────

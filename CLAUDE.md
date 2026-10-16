@@ -1890,3 +1890,29 @@ instead.
 - **التعليق:** `_apply_chyron` يضيف سطر `reel.render.texts.comment_chyron_program` («🏷️ …») مرة واحدة حين يكون السبب program أو channel.
 - **الشريط:** المتكلم غير الموثَّق (مذيعًا أو ضيفًا) يحمل اسم القناة وحده بصيغة الشريط؛ حُذف استعمال `reel.texts.guest_label` من `frame_clip_layers` (المفتاح باقٍ لعرض المرحلة 2 في `reel_script`). الموثَّق بلا تغيير.
 - `render_version` = 22. الاختبارات g357–g361 في `tests/test_guards_golden.py:test_reel_chyron_name_kind_r5b4_guards`.
+
+## لقطات الحدث خلف جمل الراوي (Issue #1452، R5d2) — `src/reel_broll.py`، `src/reel_hook_search.py`، `src/reel_render.py`
+
+- **القرار:** ما يُرى خلف كل جملة قرار تحريري مكانه السيناريو؛ التركيب يجد الثواني الفعلية ويتحقق بالعين. جملة بلا لقطة تبقى بالصورة المتحركة (R5d1) كما هي.
+  لا بحث يوتيوب جديد (لا search.list ولا videos.list): المصدر الوحيد `draft.hook_candidates`. اللقطة صامتة، وتُقتطع 9:16 بـ`_hook_crop` (مع قصّ شريط القناة)
+  ويُطبَّق عليها تظليل `narration_bg.shade` نفسه. قنواتها تُضاف إلى «المقاطع من:» في الخاتمة.
+- **السيناريو (الجزء أ):** `reel_broll.write_plan` نداء Haiku واحد (`plan_broll`) يحفظ `draft.broll_plan = [{scene, sentence, text, visual}]` لكل جملة بالقسمة
+  نفسها `tts.split_sentences`؛ العطل ← `[]` و`broll_plan_error`. تُعرض تحت سطور الهوك بـ`youtube_publish._reel_broll_lines`.
+- **المسح الموحَّد (`reel_hook_search.ScanState`/`scan_candidates`/`scan_broll`):** كل مرشّح يُنزَّل ويُصنَّف مرة واحدة في التركيب ويخدم الهوك واللقطات. اختيار
+  الهوك لا يتغير (أول `hook_search.scan_seconds` وميزانية `hook_search.max_sheets`)؛ مع `want_broll` يُنزَّل المرشّح بمدى `broll.scan_seconds` (600) ويُحفظ تصنيفه
+  في الحالة. `scan_broll` يكمل الباقي بخطوة `broll.step` (2 ث، العيّنة تغطي الثانيتين) ضمن `broll.max_sheets` (30) صفيحة لكل التركيب **بما صرفه الهوك**؛
+  `labels` في `classify_sheet` ترقّم الصفيحة بالثواني الفعلية، وحقل `desc` اختياري في `CLASSIFY_TOOL`. السلاسل `[{video_id,start,end,desc,channel}]` أقصرها
+  `broll.min_seconds` وتستبعد نافذة الهوك.
+- **الإسناد والمدقّق:** `deps.assign_broll` (نداء Haiku نصي `assign_broll`) يأخذ الجمل ذات visual غير الفارغ بمددها الفعلية (من تمريرة الصوت الأولى؛ الجملة
+  الأولى في المشهد تشمل lead) والسلاسل بأوصافها. القرار للمدقّق القطعي `reel_broll.resolve`: يرفض إلى الصورة رقمًا مجهولًا (`unknown_chain`) وسلسلة أقصر من الجملة
+  (`short`) وتداخلًا مع لقطة أخرى (`overlap`) أو مع الهوك (`hook_overlap`) وجملة visual فارغ (`no_visual`)؛ السلسلة الطويلة تُقسم نوافذ غير متداخلة بفراغات
+  متساوية فتقع الواحدة في وسط سلسلتها.
+- **مطابقة الخطة بالنص لا بالعدد وحده:** اختلاف عدد جمل المشهد عن الخطة ← المشهد كله بالصورة وسطره؛ اختلاف نص جملة بعد توحيد المسافات وحذف التشكيل (المراجع عدّل
+  السيناريو في المرحلة 2) ← تلك الجملة بالصورة وسطر واحد في التعليق.
+- **التركيب (`_prepare_broll`، `_timed_scene(broll=)`):** تيار الصورة المتحركة كما هو (pan_plan وt0 بلا تغيير وإدخال الصورة الكبيرة واحد بـloop/setpts)، ثم لكل لقطة
+  `setpts=PTS-STARTPTS+a/TB` وoverlay بـ`enable='between(t,a,b)'`، ثم التظليل، ثم إطارات النص؛ أمر ffmpeg واحد للمشهد. فشل تنزيل نافذة ← الجملة بالصورة وسطر.
+- **الحفظ والتعليق:** `render_broll = [{scene, sentence, video_id, start, end, channel, desc} | {scene, sentence, photo: السبب}]` وسطر واحد
+  «🎞️ لقطات الحدث: 4 من 7 جمل (CNN ×3، الشرق ×1) — 3 بالصورة». نصوصها في `reel.render.texts` (`comment_broll*`، `broll_reasons`). `render_version` = 23.
+- **R5b4 المتبقي:** سطر «🏷️ … اسم برنامج لا شخص» يُكتب أيضًا حين `rejected = "not_names"`.
+- **لم يُنفَّذ (R4a):** تعديل الخطة يدويًا («الجملة 3: بلا»).
+- الاختبارات: g362–g369 في `tests/test_guards_golden.py:test_reel_broll_r5d2_guards` (g367 بـffmpeg حقيقي ويُتخطّى إن غاب).
