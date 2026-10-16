@@ -11298,4 +11298,32 @@ def test_reel_narration_bg_r5d1_guards() -> None:
         sh = shift_between(a, b)
         check("g355: الإزاحة بين 5.5 و6.5 ث = 40±5 (لم تتوقف)", abs(sh - 40) <= 5, sh)
     guarded("g355", g355)
+
+    # ── g356: صورة الخلفية تُدخل مرة واحدة بلا -loop 1 (فك PNG كل إطار كان يضاعف الزمن 4×) ──
+    def g356():
+        pre = "loop=loop=-1:size=1:start=0,setpts=N/"
+
+        def bg_input_ok(cmd):
+            """قبل أول -i لا -loop ولا -framerate، وسلسلة الفلتر تبدأ بالسابقة."""
+            i = cmd.index("-i")
+            head = cmd[:i]
+            fc = cmd[cmd.index("-filter_complex") + 1]
+            return "-loop" not in head and "-framerate" not in head and fc.startswith("[0:v]" + pre), (head, fc[:120])
+
+        cmds: list = []
+        deps = make_deps(cmds, seconds=6.0)
+        script = {"scenes": [{"kind": "title_card", "text": "ع"}, {"kind": "narration", "text": "جملة."}]}
+        reel_render._assemble(script, {}, cfg, deps, wdir("g356"), "v", bg_layer(), "", {}, [], {})
+        for label, idx in (("الهوك", 0), ("الراوي", 1)):
+            c = scene_cmd(cmds, idx)
+            ok, det = bg_input_ok(c) if c else (False, "no cmd")
+            check(f"g356: أمر {label} بخلفية صورة: بلا -loop قبل مدخلها وسلسلته تبدأ بـloop/setpts", ok, det)
+            check(f"g356: أمر {label}: تعبير crop الزمني باقٍ", "crop=" in " ".join(c) and "x='max(" in " ".join(c), c[:20])
+        cmds2: list = []
+        deps2 = make_deps(cmds2, seconds=6.0)
+        reel_render._assemble(script, {}, cfg, deps2, wdir("g356b"), "v", None, "", {}, [], {})
+        for idx in (0, 1):
+            c = " ".join(scene_cmd(cmds2, idx))
+            check(f"g356: بلا خلفية مشهد {idx} بلا سابقة loop/setpts للخلفية", "setpts=N/" not in c, c[:200])
+    guarded("g356", g356)
     shutil.rmtree(work_root, ignore_errors=True)
