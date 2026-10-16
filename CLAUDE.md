@@ -1933,3 +1933,12 @@ instead.
 - **التوزيع:** `reel.broll.max_sheets_per_video` (15) للهوك والجمل معًا في `ScanState.video_sheets`، ضمن `broll.max_sheets` (30)؛ فيصل المسح إلى الفيديو الثاني. نتيجة معروفة: المسح من الفيديو الأول يبلغ نحو 250 ث فقط.
 - **لا صمت:** كل تركيب طُلبت فيه لقطات يكتب «🎞️ لقطات الحدث: N من M» ويحفظ `render_broll` بسبب لكل جملة (جديد `no_chains`)، وحين لا سلاسل سطر `comment_broll_scan`. `draft["broll_scan"]` = `{videos: {id: {downloaded, classified, sheets, kinds, footage_relevant, footage_other, chains, longest, error?}}, sheets_used}`.
 - `render_version` = 24. الاختبارات g375–g378 في `tests/test_guards_golden.py:test_reel_broll_r5d2_guards`.
+
+## إسناد اللقطات بالموضوع وهوك احتياطي (Issue #1462، R5d5) — `src/reel_hook_search.py`، `src/reel_render.py`
+
+- **الحادثة (b05ca971ffe2، نسخة 24):** 19 سلسلة صالحة ولا جملة أُسندت («لا سلسلة تطابقها»): الإسناد طلب المشهد الحرفي، ووصف السلسلة كان لأول ثانية فيها، والهوك اشترط relevant مقابل الحدث المجرّد.
+- **الإسناد بالموضوع:** `reel.broll.assign_system` يسند السلسلة التي تُظهر موضوع الجملة (الجهة/السلاح/المكان/نوع الفعل) لا المشهد الحرفي، ولا يسند لجهة أو بلد آخر؛ مدخل كل جملة نصها وvisual معًا. المدقّق القطعي `reel_broll.resolve` بلا تغيير.
+- **`_chains_of`:** `desc` حتى 3 أوصاف مختلفة من ثواني السلسلة بترتيبها الزمني مفصولة بـ« · ».
+- **الحفظ للمراجعة:** `broll_scan.chains` = `[{video_id,start,end,desc,relevant}]` و`broll_scan.assign` = ردّ الإسناد الخام.
+- **هوك احتياطي (`reel_hook_search.topic_hook`):** بلا `hook_video` وبلا سلسلة relevant ≥ min_seconds تُعتمد أطول سلسلة ميدانية ≥ `hook.min_seconds` بنافذة من وسطها ≤ `hook.max_seconds`، `source="auto_topic"`، وتُزال نافذتها من سلاسل الجمل قبل الإسناد؛ سطر `comment_hook_topic` (ويُكرَّر في `_auto_hook` عند إعادة التركيب). وجود relevant يُبقي السلوك القديم حرفيًا.
+- `render_version` = 25. الاختبارات g379–g383 (`test_reel_broll_r5d2_guards`).

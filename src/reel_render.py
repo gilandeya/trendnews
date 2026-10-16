@@ -2581,6 +2581,10 @@ def _auto_hook(path: Path, draft: dict, script: dict, cfg, deps: Deps, tmp: Path
     if isinstance(hv, dict) and hv.get("video_id"):
         if hv.get("source") == "auto":
             notes.append(_hook_note(cfg, hv))
+        elif hv.get("source") == "auto_topic":
+            # هوك محفوظ من لقطات الموضوع (R5d5): إعادة التركيب تكرر سطره كما يكرر الآلي سطره
+            notes.append(cfg.path("reel.render.texts.comment_hook_topic").format(
+                channel=hv.get("channel", ""), title=hv.get("title", ""), start=hv.get("start"), end=hv.get("end")))
         return
     if not cfg.path("reel.hook_search.enabled", False) or deps.scan_download is None or deps.classify_sheet is None:
         return
