@@ -615,6 +615,8 @@ def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article
     reel_editor.run(draft, ctx, cfg, client)
     _pick_background(draft, cfg)
     _pick_hook(draft, cfg, hook_deps)
+    from . import reel_broll
+    reel_broll.write_plan(draft, cfg, client)
     return {"status": "ready", "reason": ""}
 
 

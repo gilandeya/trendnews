@@ -770,6 +770,20 @@ def _reel_hook_lines(d: dict, texts: dict) -> list[str]:
     return out
 
 
+def _reel_broll_lines(d: dict, texts: dict) -> list[str]:
+    """سطر لكل جملة راوٍ بما سيُرى خلفها (Issue #1452، R5d2): الوصف أو «صورة» للفارغ. مسودة بلا خطة لا تعرض شيئًا."""
+    plan = [p for p in d.get("broll_plan") or [] if isinstance(p, dict)]
+    if not plan:
+        return []
+    out = [f"  {texts.get('broll_header', '')}", ""]
+    for n, p in enumerate(plan, start=1):
+        cut = " ".join(str(p.get("text", "")).split()[:5]) + "…"
+        visual = str(p.get("visual") or "").strip()
+        tail = visual or texts.get("broll_photo", "صورة")
+        out.append(f"  {texts.get('broll_line', '').format(n=n, text=cut, tail=tail)}")
+    return [*out, ""]
+
+
 def _reel_item_lines(idx: int, d: dict, cfg) -> list[str]:
     """بند الريل في المرحلة 2 (Issue #1336، R1؛ السيناريو في #1338، R2). بلا سيناريو بعد (أو والمفتاح مطفأ):
     سطر «⏳» وخيار go1 وحده. سيناريو فشل: سببه وgo1 وحده. سيناريو جاهز: العنوان وجنس الراوي والمدة المقدَّرة، جدول
@@ -790,6 +804,7 @@ def _reel_item_lines(idx: int, d: dict, cfg) -> list[str]:
                 "", f"  {texts.get('timeline_header', '')}", "",
                 *reel_script.timeline_lines(script, cfg), "",
                 *_reel_hook_lines(d, texts),
+                *_reel_broll_lines(d, texts),
                 *_reel_bg_lines(d, cfg, texts),
                 f"  {texts.get('edit_header', '')}", "",
                 *reel_script.edit_block(d["id"], script), "",

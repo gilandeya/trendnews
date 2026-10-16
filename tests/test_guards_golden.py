@@ -6877,7 +6877,7 @@ def test_reel_transitions_r3b1d_guards() -> None:
         tr = cfg.path("reel.render.transition") or {}
         check("g212: الإعداد transition وversion",
               (tr.get("type"), tr.get("outro_type"), tr.get("seconds")) == ("slideleft", "fade", 0.35)
-              and cfg.path("reel.render.version") == 22, tr)
+              and cfg.path("reel.render.version") == 23, tr)
 
         # ── g212/g213: أمر ضمّ واحد بأربعة xfade وأربعة acrossfade ──
         log, cmds, saved = render("r3b1d0000a01", five, cfg, durs)
@@ -6952,14 +6952,14 @@ def test_reel_transitions_r3b1d_guards() -> None:
         p_old, _ = make_draft("r3b1d0000b01", mixed, render_status="rendered", approved_script_at="2099-01-01")
         p_pub, _ = make_draft("r3b1d0000b02", mixed, status="published", render_status="rendered")
         p_rej, _ = make_draft("r3b1d0000b03", mixed, status="rejected", render_status="rendered")
-        p_new, _ = make_draft("r3b1d0000b04", mixed, render_status="rendered", render_version=22)
+        p_new, _ = make_draft("r3b1d0000b04", mixed, render_status="rendered", render_version=23)
         picked = [p.stem for p, _ in reel_render.pending_batch(c2)]
         check("g218: يلتقط القديم النسخة وحده", picked == [p_old.stem], picked)
         for p, d in reel_render.pending_batch(c2):
             reel_render.render_draft(p, d, c2, make_deps({"cmds": [], "comments": []}), reels_dir=tmp / "reels",
                                      workdir=tmp / "work")
         s = json.loads(p_old.read_text(encoding="utf-8"))
-        check("g218: render_version = 20 بعد التركيب", s.get("render_status") == "rendered" and s.get("render_version") == 22, s)
+        check("g218: render_version = 20 بعد التركيب", s.get("render_status") == "rendered" and s.get("render_version") == 23, s)
         left = reel_render.pending_batch(c2)
         check("g218: التشغيلة الثانية لا تعيدها", left == [], [p.stem for p, _ in left])
         check("g218: المنشور والمرفوض لم يُمسّا",
@@ -7146,7 +7146,7 @@ def test_reel_typewriter_r3b2a_guards() -> None:
                                      workdir=tmp / "work")
         s = json.loads(p_old.read_text(encoding="utf-8"))
         check("g225: render_version = 8 بعد التركيب",
-              s.get("render_status") == "rendered" and s.get("render_version") == 22, s)
+              s.get("render_status") == "rendered" and s.get("render_version") == 23, s)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 
@@ -7260,7 +7260,7 @@ def test_reel_no_partial_r3b2a2_guards() -> None:
         # ── g230 ──
         log, s, _ = run_one("r3b2a2000e01", 0, render_attempts=2)
         check("g230: render_attempts = 0 وrender_version = 9",
-              s.get("render_attempts") == 0 and s.get("render_version") == 22 and s.get("render_status") == "rendered", s)
+              s.get("render_attempts") == 0 and s.get("render_version") == 23 and s.get("render_status") == "rendered", s)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 
@@ -7343,7 +7343,7 @@ def test_reel_clip_streams_r3b2a3_guards() -> None:
         return log, json.loads(path.read_text(encoding="utf-8")), [" ".join(c) for c in log["cmds"]]
 
     cfg = load_config()
-    check("g231: reel.render.version = 22", cfg.path("reel.render.version") == 22,cfg.path("reel.render.version"))
+    check("g231: reel.render.version = 22", cfg.path("reel.render.version") == 23,cfg.path("reel.render.version"))
     tmp = Path(tempfile.mkdtemp())
     try:
         # ── g231 ──
@@ -7366,7 +7366,7 @@ def test_reel_clip_streams_r3b2a3_guards() -> None:
         # ── g233 ──
         p_old, _ = make_draft("r3b2a3000c01", status="approved_script", render_status="failed", render_version=4,
                               render_attempts=3, render_error="ffmpeg فشل", approved_script_at="1998-01-01T00:00:00")
-        p_new, _ = make_draft("r3b2a3000c02", status="approved_script", render_status="failed", render_version=22,
+        p_new, _ = make_draft("r3b2a3000c02", status="approved_script", render_status="failed", render_version=23,
                               render_attempts=3, render_error="ffmpeg فشل", approved_script_at="1999-01-02T00:00:00")
         ids = [p.stem for p, _d in reel_render.queued_reels(cfg)]
         check("g233: failed بنسخة 4 تُلتقط وبنسخة 5 لا", "r3b2a3000c01" in ids and "r3b2a3000c02" not in ids, ids)
@@ -7491,7 +7491,7 @@ def test_reel_cover_auto_r3b2a4_guards() -> None:
         top = int(cfg.path("reel.render.band.top"))
         alpha = float(cfg.path("reel.render.band.alpha"))
         check("g241: الإعداد الافتراضي auto", cfg.path("reel.render.band.cover") == "auto", cfg.path("reel.render.band.cover"))
-        check("g241: reel.render.version = 22", cfg.path("reel.render.version") == 22)
+        check("g241: reel.render.version = 22", cfg.path("reel.render.version") == 23)
         s = render("r3b2a4000a01", cfg)
         crops = s.get("render_crops") or {}
         check("g241: render_crops يحمل cover لكل مقطع",
@@ -7789,7 +7789,7 @@ def test_reel_background_r3b2b_guards() -> None:
 
         # ── g251: --pending ──
         def g251():
-            check("g251: reel.render.version = 22", cfg.path("reel.render.version") == 22, cfg.path("reel.render.version"))
+            check("g251: reel.render.version = 22", cfg.path("reel.render.version") == 23, cfg.path("reel.render.version"))
             d0 = {"id": "r3b2b000g251", "origin": "analysis", "format": "reel", "status": "approved_script",
                   "render_status": "rendered", "render_version": 6, "topic_id": "t1", "topic_date": D, "title": "ريل",
                   "script_status": "ready", "approved_script_at": "2000-01-01T00:00:00+00:00",
@@ -7805,7 +7805,7 @@ def test_reel_background_r3b2b_guards() -> None:
             d = json.loads(path.read_text(encoding="utf-8"))
             bg = d.get("reel_bg") or {}
             check("g251: اختار الخلفية وحفظها", bg.get("kind") == "news_photo" and bg.get("url") == "https://n/1.jpg", bg)
-            check("g251: الشكل محفوظ والنسخة 21", bg.get("layout") == "A" and d.get("render_version") == 22,
+            check("g251: الشكل محفوظ والنسخة 21", bg.get("layout") == "A" and d.get("render_version") == 23,
                   (bg.get("layout"), d.get("render_version")))
         guarded("g251", g251)
     finally:
@@ -8014,7 +8014,7 @@ def test_reel_music_r3b2c_guards() -> None:
 
         # ── g256: --pending ──
         def g256():
-            check("g256: reel.render.version = 22", cfg.path("reel.render.version") == 22, cfg.path("reel.render.version"))
+            check("g256: reel.render.version = 22", cfg.path("reel.render.version") == 23, cfg.path("reel.render.version"))
             d0 = new_draft("r3b2c00g256", render_status="rendered", render_version=7,
                            approved_script_at="2000-01-01T00:00:00+00:00")
             path = store.save_draft(d0)
@@ -8026,7 +8026,7 @@ def test_reel_music_r3b2c_guards() -> None:
                                      reels_dir=tmp / "reels", workdir=tmp / "work")
             d = json.loads(path.read_text(encoding="utf-8"))
             check("g256: reel_music وrender_version = 8", d.get("reel_music") in ("a.mp3", "b.mp3", "c.mp3")
-                  and d.get("render_version") == 22, (d.get("reel_music"), d.get("render_version")))
+                  and d.get("render_version") == 23, (d.get("reel_music"), d.get("render_version")))
         guarded("g256", g256)
     finally:
         if real_dir is not None:
@@ -8500,7 +8500,7 @@ def test_reel_text_r5a_guards() -> None:
           not any("من قناة" in t for t, _ in d1 + d2 + d3 + d4) and "من قناة" not in cfg.path("reel.texts.guest_label"))
 
     # ── g274: النسخة وحقل القناة الأصلية ──
-    check("g274: render_version == 21", int(cfg.path("reel.render.version")) == 22, cfg.path("reel.render.version"))
+    check("g274: render_version == 21", int(cfg.path("reel.render.version")) == 23, cfg.path("reel.render.version"))
     pts = [{"timestamp": 100, "quote_original": "some words here", "video_url": "https://youtu.be/x",
             "channel": "FRANCE 24 Arabic", "quote_arabic": "ترجمة", "speaker": "ميساء", "video_id": "x"}]
     clips = reel_script.valid_clips(pts, [], cfg)
@@ -8773,7 +8773,7 @@ def test_reel_r5a2_guards() -> None:
         check("g285: داخل المنتظر الأحدث اعتمادًا أولًا والمعاد تركيبه بعده",
               order == ["r5a2000g285g", "r5a2000g285f", "r5a2000g285h"], order)
         fresh()
-        check("g285: render_version == 21", int(cfg.path("reel.render.version")) == 22, cfg.path("reel.render.version"))
+        check("g285: render_version == 21", int(cfg.path("reel.render.version")) == 23, cfg.path("reel.render.version"))
         check("g285: max_per_run == 1", int(cfg.path("reel.render.max_per_run")) == 1)
     guarded("g285", g285)
 
@@ -9098,7 +9098,7 @@ def test_reel_speaker_r5b_guards() -> None:
                   and tc.get("type") == "tool" and tc.get("name") == "read_lower_third", (tools and tools[0]["name"], tc))
             check("g294: الناتج ثلاثة إطارات", isinstance(out, list) and len(out) == 3
                   and out[0]["name_original"] == "Ahmet Kayapınar", out)
-            check("g294: render_version == 21", int(cfg.path("reel.render.version")) == 22, cfg.path("reel.render.version"))
+            check("g294: render_version == 21", int(cfg.path("reel.render.version")) == 23, cfg.path("reel.render.version"))
             check("g294: إعداد chyron", (cfg.path("reel.render.chyron") or {}).get("frames") == [0.25, 0.5, 0.75]
                   and cfg.path("reel.render.chyron.max_width") == 1280, cfg.path("reel.render.chyron"))
         guarded("g294", g294)
@@ -9353,7 +9353,7 @@ def test_reel_hook_r5c1_guards() -> None:
             top, bottom = int(cfg.path("reel.render.safe.top")), 1920 - int(cfg.path("reel.render.safe.bottom"))
             check("g304: كل الصناديق داخل المنطقة الآمنة",
                   bool(boxes) and all(b[0] >= x0 and b[2] <= 1080 - x0 and b[1] >= top and b[3] <= bottom for b in boxes), boxes)
-            check("g304: render_version == 21", int(cfg.path("reel.render.version")) == 22, cfg.path("reel.render.version"))
+            check("g304: render_version == 21", int(cfg.path("reel.render.version")) == 23, cfg.path("reel.render.version"))
         guarded("g304", g304)
 
         # ── g305: خلفية الهوك الخام (بلا تظليل الكحلي المسبق) ──
@@ -9635,7 +9635,7 @@ def test_reel_speaker_vision_r5b2_guards() -> None:
             check("g312: أكبر وجه", any("أكبر وجه" in c and "🎯" in c for c in r["comments"]), r["comments"])
             r = render("r5b2000g312d1", tmp, boxes=two[:1], pick=votes(1, 1, 1))
             check("g312: لا سطر لمقطع بوجه واحد", not any("🎯" in c for c in r["comments"]), r["comments"])
-            check("g312: render_version == 21", int(cfg.path("reel.render.version")) == 22, cfg.path("reel.render.version"))
+            check("g312: render_version == 21", int(cfg.path("reel.render.version")) == 23, cfg.path("reel.render.version"))
         guarded("g312", g312)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
@@ -9829,7 +9829,7 @@ def test_reel_speaker_gesture_r5b3_guards() -> None:
             r = render("r5b3000g317b1", tmp, mid, {270: (1.0, 3.0), 120: (0.9, 0.5)}, votes(0, 0, 0))
             check("g317: سطر 🎯 للمركّبة", any("🎯" in c and "بالفم واليدين والموقع" in c for c in r["comments"]),
                   r["comments"])
-            check("g317: render_version == 21", int(cfg.path("reel.render.version")) == 22, cfg.path("reel.render.version"))
+            check("g317: render_version == 21", int(cfg.path("reel.render.version")) == 23, cfg.path("reel.render.version"))
         guarded("g317", g317)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
@@ -10109,7 +10109,7 @@ def test_reel_truncation_r5e_guards() -> None:
             _shutil.rmtree(work, ignore_errors=True)
     guarded("g321", g321)
 
-    check("g322: render_version == 21", int(cfg.path("reel.render.version")) == 22, cfg.path("reel.render.version"))
+    check("g322: render_version == 21", int(cfg.path("reel.render.version")) == 23, cfg.path("reel.render.version"))
 
 
 def test_reel_clip_fallback_r5f_guards() -> None:
@@ -10187,7 +10187,7 @@ def test_reel_clip_fallback_r5f_guards() -> None:
         check("g327: found ← لا approx ولا حذف والنافذة من locate_quote",
               0 in clips and not approx and not dropped and len(downloads) == 1 and downloads[0][1] == 104,
               (approx, dropped, downloads))
-        check("g327: render_version == 21", int(cfg.path("reel.render.version")) == 22, cfg.path("reel.render.version"))
+        check("g327: render_version == 21", int(cfg.path("reel.render.version")) == 23, cfg.path("reel.render.version"))
     guarded("g327", g327)
 
 
@@ -10442,7 +10442,7 @@ def test_reel_hook_search_r5c2_guards() -> None:
             want = t["comment_hook_found"].format(channel="Reuters", title="قصف مطار", id="c1", start=hv.get("start"),
                                                   end=hv.get("end"), views="0")
             check("g334: سطر 🎞️ في التعليق", want in "\n".join(r["comments"]), r["comments"])
-            check("g334: render_version == 21", int(cfg.path("reel.render.version")) == 22, cfg.path("reel.render.version"))
+            check("g334: render_version == 21", int(cfg.path("reel.render.version")) == 23, cfg.path("reel.render.version"))
         guarded("g334", g334)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
@@ -10568,7 +10568,7 @@ def test_reel_fonts_r5g_guards() -> None:
         check("g338: لا نص خارج المنطقة الآمنة بالخطوط الجديدة", bool(boxes) and not bad, bad[:3])
         check("g338: لا صندوق يتجاوز 0 أو W", all(b[0] >= 0 and b[2] <= 1080 for b in boxes),
               [b for b in boxes if b[0] < 0 or b[2] > 1080])
-        check("g338: render_version == 21", int(cfg.path("reel.render.version")) == 22, cfg.path("reel.render.version"))
+        check("g338: render_version == 21", int(cfg.path("reel.render.version")) == 23, cfg.path("reel.render.version"))
     guarded("g338", g338)
 
 
@@ -10921,7 +10921,7 @@ def test_reel_hook_script_r5c3_guards() -> None:
         guarded("g344", g344)
 
         # ── g345 ──
-        check("g345: render_version == 21", int(cfg.path("reel.render.version")) == 22, cfg.path("reel.render.version"))
+        check("g345: render_version == 21", int(cfg.path("reel.render.version")) == 23, cfg.path("reel.render.version"))
     finally:
         shutil.rmtree(tmp2, ignore_errors=True)
 
@@ -11104,7 +11104,7 @@ def test_reel_narration_bg_r5d1_guards() -> None:
         cand = {"video_id": "v1", "title": raw, "channel": "Reuters", "views": 5, "duration": 100, "published": ""}
         res = reel_hook_search.scan_candidates(draft, draft["script"], [cand], cfg, sdeps, work_root)
         check("g349: hook_video يحفظ «Houthis & Riyadh»", (res.get("hook_video") or {}).get("title") == "Houthis & Riyadh", res)
-        check("g349: render_version == 21", int(cfg.path("reel.render.version")) == 22, cfg.path("reel.render.version"))
+        check("g349: render_version == 21", int(cfg.path("reel.render.version")) == 23, cfg.path("reel.render.version"))
     guarded("g349", g349)
 
     # ── g350: دخان بـffmpeg حقيقي ──
@@ -11409,4 +11409,596 @@ def test_reel_chyron_name_kind_r5b4_guards() -> None:
         check("g360: الموثَّق باسم وصفة كما هو", "فلان الفلاني" in d and any("محلل سياسي" in str(t) for t in d), d)
     guarded("g360", g360)
 
-    check("g361: render_version == 22", int(cfg.path("reel.render.version")) == 22, cfg.path("reel.render.version"))
+    check("g361: render_version == 22", int(cfg.path("reel.render.version")) == 23, cfg.path("reel.render.version"))
+
+
+def test_reel_broll_r5d2_guards() -> None:
+    """Issue #1452 (R5d2، g362–g369): لقطة فيديو من الحدث خلف كل جملة من الراوي. الخطة (visual لكل جملة) تُكتب في السيناريو،
+    والتركيب يمسح مرشّحي الهوك مسحًا واحدًا ويُسند اللقطات ويتحقق منها بالكود ويركّبها فوق تيار الصورة المتحركة. g367 بـffmpeg
+    حقيقي ويُتخطّى إن غاب. لا شبكة."""
+    import json
+    import os
+    import re
+    import subprocess
+    import tempfile
+    from pathlib import Path
+    from types import SimpleNamespace
+
+    import numpy as np
+    from PIL import Image
+
+    from src import names_audit, reel_broll, reel_editor, reel_hook_search, reel_render, reel_script, store, tts
+    from src import youtube_article as ya
+    from src import youtube_publish as yp
+
+    cfg = load_config()
+    cfg.setdefault("reel", {})["enabled"] = True
+    W, H = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
+    lead = reel_render.transition_seconds(cfg)
+    D = "2099-11-02"
+    work_root = Path(tempfile.mkdtemp())
+
+    def wdir(name):
+        d = work_root / name
+        d.mkdir(parents=True, exist_ok=True)
+        return d
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def tool_resp(name, data):
+        return SimpleNamespace(content=[SimpleNamespace(type="tool_use", name=name, input=data)], stop_reason="tool_use",
+                               usage=SimpleNamespace(input_tokens=1, output_tokens=1, server_tool_use=None))
+
+    # ───────────────────────── g362: السيناريو ─────────────────────────
+    def pt(i, speaker, ts):
+        return {"video_id": f"w{i}", "bloc": "arabic", "channel": "الجزيرة", "speaker": speaker,
+                "statement": f"قول {i}", "quote_arabic": f"اقتباس {i}", "quote_original": " ".join(["كلمة"] * 20),
+                "type": "fact", "video_title": f"فيديو {i}", "video_url": f"https://youtube.com/watch?v=w{i}",
+                "timestamp": ts, "video_published": "2099-10-30", "video_description": ""}
+
+    pa, pb = pt(1, "حقان فيدان", 100), pt(2, "ليلى حداد", 200)
+    ids = {p["speaker"]: reel_script.point_key_id(p) for p in (pa, pb)}
+    words = [f"س{i}" for i in range(45)]
+    narr = ". ".join(" ".join(words[k:k + 15]) for k in (0, 15, 30)) + "."
+    words2 = [f"ص{i}" for i in range(45)]
+    narr2 = ". ".join(" ".join(words2[k:k + 22]) for k in (0, 22)) + "."
+    topic = {"id": "aaaa1111bbbb", "title": "موضوع", "event": "حدث"}
+    PLAN_ITEMS = [{"scene": 2, "sentence": 0, "visual": "صاروخ يُعترض في سماء ليلية"},
+                  {"scene": 2, "sentence": 1, "visual": ""}, {"scene": 2, "sentence": 2, "visual": "دخان فوق مطار"},
+                  {"scene": 4, "sentence": 0, "visual": ""}, {"scene": 4, "sentence": 1, "visual": "طائرة تحلّق فوق ميناء"}]
+
+    def fake_create(client, **kw):
+        if kw["tools"][0]["name"] == "report_speakers":
+            return tool_resp("report_speakers", {"speakers": []})
+        scenes = [{"kind": "cold_open_clip", "point_id": ids["حقان فيدان"]}, {"kind": "title_card", "text": "ع"},
+                  {"kind": "narration", "text": narr}, {"kind": "clip", "point_id": ids["ليلى حداد"]},
+                  {"kind": "narration", "text": narr2}, {"kind": "question", "text": "ما رأيك؟"}, {"kind": "outro"}]
+        return tool_resp("report_reel_script", {"title": "ع", "question": "ما رأيك؟", "scenes": scenes})
+
+    def new_draft(i):
+        d = yp.build_reel_draft({"id": "aaaa1111bbbb", "title": "موضوع", "layer": "a", "blocs": ["arabic"],
+                                 "channels": ["الجزيرة"], "agreement": "agreement", "event": "حدث"}, D, cfg)
+        d["id"] = i
+        d["topic_date"] = D
+        return d
+
+    def hook_deps():
+        c = {"search": 0, "details": 0}
+
+        def yt_search(query, after, before, max_results, duration):
+            c["search"] += 1
+            return []
+
+        def yt_details(ids_):
+            c["details"] += 1
+            return {}
+        return reel_hook_search.HookDeps(yt_search=yt_search, yt_details=yt_details,
+                                         make_queries=lambda *a, **k: ["a", "b", "c"],
+                                         judge_titles=lambda items, event, c_: {}), c
+
+    real = {"create": reel_script._create, "audit": names_audit.run, "hl": ya.generate_headlines,
+            "ed": reel_editor._create, "bc": getattr(reel_broll, "_create", None)}
+    plan_calls: list = []
+
+    def plan_create(client, **kw):
+        plan_calls.append(kw)
+        return tool_resp("plan_broll", {"items": PLAN_ITEMS})
+
+    reel_script._create = fake_create
+    names_audit.run = lambda draft, sources, c: {}
+    ya.generate_headlines = lambda *a, **k: (["هل؟", "ب", "ج"], None, None)
+    reel_editor._create = lambda client, **kw: tool_resp("report_review", {"notes": []})
+    reel_broll._create = plan_create
+
+    def write(did):
+        d = new_draft(did)
+        deps, c = hook_deps()
+        old = os.environ.get("YOUTUBE_API_KEY")
+        os.environ["YOUTUBE_API_KEY"] = "k"
+        try:
+            out = reel_script.write_for_draft(d, topic, [pa, pb], "", [], cfg, hook_deps=deps)
+        finally:
+            if old is None:
+                os.environ.pop("YOUTUBE_API_KEY", None)
+            else:
+                os.environ["YOUTUBE_API_KEY"] = old
+        return d, out, c
+
+    try:
+        def g362():
+            d, out, c = write("b362a1a1a1a1")
+            plan = d.get("broll_plan")
+            sents = [(i, k, s) for i, sc in enumerate(d["script"]["scenes"]) if sc.get("kind") == "narration"
+                     for k, s in enumerate(tts.split_sentences(sc["text"]))]
+            check("g362: السيناريو جاهز", out["status"] == "ready" and d.get("script_status") == "ready", out)
+            check("g362: broll_plan مدخل لكل جملة راوٍ بعدد tts.split_sentences لكل مشهد",
+                  isinstance(plan, list) and len(plan) == len(sents) == 5, plan)
+            if isinstance(plan, list) and len(plan) == len(sents):
+                check("g362: حقول المدخل وترتيبه ونصه",
+                      all(set(p) >= {"scene", "sentence", "text", "visual"} for p in plan)
+                      and [(p["scene"], p["sentence"], p["text"]) for p in plan] == sents, plan)
+                check("g362: visual الفارغ محفوظ فارغًا والمملوء كما أعاده النموذج",
+                      [p["visual"] for p in plan] == [x["visual"] for x in PLAN_ITEMS], [p["visual"] for p in plan])
+            check("g362: نداء plan_broll واحد", len(plan_calls) == 1 and plan_calls[0]["tools"][0]["name"] == "plan_broll",
+                  len(plan_calls))
+            # عدّاد نداءات يوتيوب لا يزيد عمّا يستهلكه بحث الهوك وحده
+            cfg["reel"].setdefault("broll", {})["enabled"] = False
+            try:
+                _, _, c_off = write("b362b1b1b1b1")
+            finally:
+                cfg["reel"]["broll"]["enabled"] = True
+            check("g362: لا search.list ولا videos.list للقطات", (c["search"], c["details"]) == (c_off["search"], c_off["details"]),
+                  (c, c_off))
+
+            # عطل plan_broll
+            def boom(client, **kw):
+                raise RuntimeError("down")
+            reel_broll._create = boom
+            try:
+                d2, out2, _ = write("b362c1c1c1c1")
+            finally:
+                reel_broll._create = plan_create
+            check("g362: عطل plan_broll ← broll_plan=[] وbroll_plan_error والسيناريو صالح",
+                  d2.get("broll_plan") == [] and d2.get("broll_plan_error") and out2["status"] == "ready"
+                  and d2.get("script_status") == "ready", (d2.get("broll_plan"), d2.get("broll_plan_error")))
+            # قضية المرحلة 2
+            body = yp.build_review_body([d], "u/r", "main", cfg)
+            lines = [ln for ln in body.splitlines() if re.search(r"🎞️ \d+ «", ln)]
+            check("g362: سطر «🎞️ n «…»» لكل جملة", len(lines) == 5, lines)
+            check("g362: «← صورة» للفارغ وفقط له", sum("← صورة" in ln for ln in lines) == 2, lines)
+            check("g362: الوصف يظهر لغير الفارغ", any("← صاروخ يُعترض في سماء ليلية" in ln for ln in lines), lines)
+            check("g362: النص مقطوع إلى خمس كلمات بعدها «…»", all("…»" in ln for ln in lines), lines)
+        guarded("g362", g362)
+    finally:
+        reel_script._create = real["create"]
+        names_audit.run = real["audit"]
+        ya.generate_headlines = real["hl"]
+        reel_editor._create = real["ed"]
+        if real["bc"] is not None:
+            reel_broll._create = real["bc"]
+
+    # ───────────────────────── منصّتا المسح والتركيب الكامل ─────────────────────────
+    IMG = Image.new("RGB", (64, 36), (10, 10, 10))
+
+    def cand(vid, views):
+        return {"video_id": vid, "title": "t " + vid, "channel": "Reuters" if vid != "c2" else "Al Jazeera", "views": views,
+                "duration": 900, "published": "2099-11-02T08:00:00Z"}
+
+    def scan_rig(plan, nframes=600):
+        c = {"dl": [], "sheets": 0}
+        st = {"cur": None}
+
+        def dl(video_id, seconds, height, out_path):
+            c["dl"].append(video_id)
+            Path(out_path).write_bytes(video_id.encode())
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        def frames(path, seconds, c_):
+            st["cur"] = Path(path).read_bytes().decode()
+            return [IMG] * nframes
+
+        def classify(jpeg, event, first, n, c_, labels=None):
+            c["sheets"] += 1
+            ts = list(labels) if labels else list(range(first, first + n))
+            good = plan.get(st["cur"], set())
+            return [{"t": t, "kind": "event_footage" if t in good else "studio", "relevant": t in good,
+                     **({"desc": "اعتراض صاروخ"} if t in good else {})} for t in ts]
+        return SimpleNamespace(scan_download=dl, scan_frames=frames, classify_sheet=classify), c
+
+    title = "عنوان الهوك"
+    quote = "alpha beta gamma delta epsilon zeta eta theta"
+    points = [{"video_id": f"v{n}", "statement": "s", "quote_original": quote, "quote_arabic": "ترجمة", "speaker": "متحدث",
+               "channel": "CNN TÜRK", "video_url": f"https://youtube.com/watch?v=v{n}", "timestamp": 10} for n in (1, 2)]
+    clip = {"kind": "clip", "start": 9, "end": 20, "speaker_name": "", "speaker_role": "", "speaker_verified": False,
+            "speaker_name_latin": "", "channel_display": "سي إن إن ترك", "channel_original": "CNN TÜRK",
+            "quote_arabic": "ترجمة", "language": "tr"}
+    transcripts = {v: "[00:10] alpha beta gamma delta\n[00:14] epsilon zeta eta theta\n[00:18] tail line" for v in ("v1", "v2")}
+    NAR = "جملة أولى. جملة ثانية. جملة ثالثة."
+    scenes = [dict(clip, kind="cold_open_clip", video_url=points[0]["video_url"], point_id=reel_script.point_key_id(points[0])),
+              {"kind": "title_card", "text": title}, {"kind": "narration", "text": NAR},
+              dict(clip, video_url=points[1]["video_url"], point_id=reel_script.point_key_id(points[1])),
+              {"kind": "question", "text": "هل؟"}, {"kind": "outro"}]
+    sent3 = tts.split_sentences(NAR)
+    PLAN3 = [{"scene": 2, "sentence": 0, "text": sent3[0], "visual": "صاروخ يُعترض"},
+             {"scene": 2, "sentence": 1, "text": sent3[1], "visual": ""},
+             {"scene": 2, "sentence": 2, "text": sent3[2], "visual": "دخان فوق مطار"}]
+
+    def full_rig(plan, nframes=60, fail=()):
+        c = {"scanned": [], "sheets": 0, "dl": [], "assigned": [], "cmds": []}
+        st = {"cur": None}
+        comments: list = []
+
+        def run(cmd):
+            c["cmds"].append([str(x) for x in cmd])
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+
+        def download(video_id, start, end, height, out_path):
+            c["dl"].append((video_id, start, end))
+            if video_id in fail:
+                raise RuntimeError("network down")
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        def scan_download(video_id, seconds, height, out_path):
+            c["scanned"].append(video_id)
+            Path(out_path).write_bytes(video_id.encode())
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        def scan_frames(path, seconds, c_):
+            st["cur"] = Path(path).read_bytes().decode()
+            return [IMG] * nframes
+
+        def classify(jpeg, event, first, n, c_, labels=None):
+            c["sheets"] += 1
+            ts = list(labels) if labels else list(range(first, first + n))
+            good = plan.get(st["cur"], set())
+            return [{"t": t, "kind": "event_footage" if t in good else "studio", "relevant": t in good,
+                     **({"desc": "لقطة من الحدث"} if t in good else {})} for t in ts]
+
+        def assign(needy, chains, c_):
+            c["assigned"].append((needy, chains))
+            return [{"n": s["n"], "chain": min(k * 2 + 1, len(chains)) if len(chains) > 1 else 1}
+                    for k, s in enumerate(needy) if chains]
+
+        deps = reel_render.Deps(
+            fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
+            synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
+            diacritize=lambda t: (t, None), run=run,
+            probe=lambda p: 41.0 if Path(p).name == "final.mp4" or "reels" in Path(p).parts else 2.0,
+            sleep=lambda s: None, load_points=lambda date: points, comment=lambda i, t: comments.append(t),
+            faces=lambda f, fr: (640, 360, []), frames=lambda p, fr: [np.full((360, 640), 100, np.uint8)] * len(fr),
+            streams=lambda p: {"video", "audio"}, read_chyron=lambda f, c_: None,
+            bg_image=lambda u: Image.new("RGB", (1600, 900), (90, 90, 90)),
+            bg_providers={"news": lambda *a: [], "web": lambda *a, **k: [], "free": lambda *a: []},
+            yt_search=lambda *a, **k: [], yt_details=lambda ids_: {}, scan_download=scan_download,
+            scan_frames=scan_frames, classify_sheet=classify, make_queries=lambda *a, **k: ["a"],
+            judge_titles=lambda items, event, c_: {}, assign_broll=assign)
+        return deps, c, comments
+
+    def full_go(did, deps, work, plan_items, nar=NAR, extra=None):
+        work.mkdir(parents=True, exist_ok=True)
+        sc = [dict(s) for s in scenes]
+        sc[2] = {"kind": "narration", "text": nar}
+        d0 = {"id": did, "origin": "analysis", "format": "reel", "status": "approved_script", "render_status": "queued",
+              "topic_id": "t1", "topic_date": D, "title": "ريل", "script_status": "ready", "review_issue": 4245,
+              "script": {"narrator": "female", "title": title, "question": "هل؟", "scenes": sc},
+              "hook_candidates": [cand("c1", 900), cand("c2", 500)], "hook_search": {"attempts": []},
+              "reel_bg": {"kind": "news_photo", "url": "https://example.com/bg.jpg", "publisher": "Reuters"},
+              "broll_plan": plan_items, **(extra or {})}
+        path = store.save_draft(d0)
+        d = json.loads(path.read_text(encoding="utf-8"))
+        old = os.environ.get("YOUTUBE_API_KEY")
+        os.environ["YOUTUBE_API_KEY"] = "k"
+        try:
+            reel_render.render_draft(path, d, cfg, deps, reels_dir=work / "reels", workdir=work / "work")
+        finally:
+            if old is None:
+                os.environ.pop("YOUTUBE_API_KEY", None)
+            else:
+                os.environ["YOUTUBE_API_KEY"] = old
+        return path, json.loads(path.read_text(encoding="utf-8"))
+
+    # ───────────────────────── g363: المسح الموحَّد ─────────────────────────
+    def g363():
+        plan = {"c1": set(range(0, 10)) | set(range(300, 312)), "c2": set(range(50, 60)) | set(range(400, 410)),
+                "c3": set(range(20, 30))}
+        cands = [cand("c1", 900), cand("c2", 500), cand("c3", 100)]
+        script = {"title": "ع", "scenes": [{"kind": "title_card", "text": "ع"}]}
+        draft = {"topic_date": D}
+        d_old, c_old = scan_rig(plan)
+        old = reel_hook_search.scan_candidates(draft, script, cands, cfg, d_old, work_root)
+        d_new, c_new = scan_rig(plan)
+        state = reel_hook_search.ScanState()
+        new = reel_hook_search.scan_candidates(draft, script, cands, cfg, d_new, work_root, state=state, want_broll=True)
+        check("g363: hook_video مطابق لما يعطيه المسح بلا لقطات",
+              bool(old.get("hook_video")) and new.get("hook_video") == old.get("hook_video"),
+              (old.get("hook_video"), new.get("hook_video")))
+        res = reel_hook_search.scan_broll(draft, script, cands, cfg, d_new, work_root, state, hook=new.get("hook_video"))
+        chains = res.get("chains") or []
+        hv = new.get("hook_video") or {}
+        check("g363: scan_download مرة واحدة لكل video_id", len(c_new["dl"]) == len(set(c_new["dl"])) and "c1" in c_new["dl"],
+              c_new["dl"])
+        check("g363: ميزانية الصفائح ≤ 30 لكل التركيب", 0 < c_new["sheets"] <= int(cfg.path("reel.broll.max_sheets")),
+              c_new["sheets"])
+        check("g363: السلاسل بحقولها وdesc", bool(chains) and all(
+            set(x) >= {"video_id", "start", "end", "desc", "channel"} and x["desc"] and x["end"] > x["start"] for x in chains),
+              chains)
+        bad = [x for x in chains if x["video_id"] == hv.get("video_id") and x["start"] < hv.get("end", 0) and x["end"] > hv.get("start", 0)]
+        check("g363: السلاسل تستبعد نافذة الهوك", not bad and any(x["video_id"] == "c1" for x in chains), (bad, hv, chains))
+        check("g363: سلسلة من خارج نطاق الهوك (300..312) موجودة",
+              any(x["video_id"] == "c1" and x["start"] <= 300 and x["end"] >= 312 for x in chains), chains)
+        # تركيب كامل: هوك آلي ولقطات
+        deps, c, _ = full_rig({"c1": set(range(0, 30)), "c2": set(range(20, 32))})
+        path, st = full_go("r5d2000g363a1", deps, work_root / "g363", PLAN3)
+        once = len(c["scanned"]) == len(set(c["scanned"])) and set(c["scanned"]) >= {"c1", "c2"}
+        check("g363: تركيب كامل ← كل مرشّح يُمسح مرة واحدة", once, c["scanned"])
+        check("g363: الهوك الآلي من c1", (st.get("hook_video") or {}).get("video_id") == "c1", st.get("hook_video"))
+        check("g363: ميزانية التركيب الكامل ≤ 30", c["sheets"] <= int(cfg.path("reel.broll.max_sheets")), c["sheets"])
+        check("g363: الإسناد يرى الجمل ذات visual وحدها", bool(c["assigned"]) and [s["n"] for s in c["assigned"][0][0]] == [1, 3],
+              c["assigned"][:1])
+    guarded("g363", g363)
+
+    # ───────────────────────── g364: المدقّق القطعي ─────────────────────────
+    def g364():
+        chains = [{"video_id": "a", "start": 100, "end": 110, "desc": "x", "channel": "CNN"},       # 1
+                  {"video_id": "a", "start": 103, "end": 108, "desc": "y", "channel": "CNN"},       # 2 تتداخل مع 1
+                  {"video_id": "h", "start": 0, "end": 10, "desc": "z", "channel": "CNN"},          # 3 فيديو الهوك
+                  {"video_id": "b", "start": 0, "end": 2, "desc": "w", "channel": "CNN"},           # 4 أقصر من الجملة
+                  {"video_id": "c", "start": 0, "end": 12, "desc": "long", "channel": "CNN"}]       # 5 طويلة
+        hook = {"video_id": "h", "start": 2, "end": 8}
+
+        def S(n, dur=3.0, visual="v"):
+            return {"n": n, "dur": dur, "visual": visual}
+        sents = [S(1), S(2), S(3, visual=""), S(4), S(5), S(6), S(7, 4.0), S(8, 4.0)]
+        raw = [{"n": 1, "chain": 1}, {"n": 2, "chain": 2}, {"n": 3, "chain": 1}, {"n": 4, "chain": 99}, {"n": 5, "chain": 4},
+               {"n": 6, "chain": 3}, {"n": 7, "chain": 5}, {"n": 8, "chain": 5}]
+        acc, rej = reel_broll.resolve(raw, sents, chains, hook)
+        check("g364: الأولى مقبولة بنافذة من وسط السلسلة بطول الجملة",
+              1 in acc and abs((acc[1]["end"] - acc[1]["start"]) - 3.0) < 1e-6 and abs(acc[1]["start"] - 103.5) < 1e-6, acc.get(1))
+        check("g364: رقم سلسلة مجهول ← الصورة", rej.get(4) == "unknown_chain" and 4 not in acc, rej)
+        check("g364: سلسلة أقصر من الجملة ← الصورة", rej.get(5) == "short" and 5 not in acc, rej)
+        check("g364: نافذتان متداخلتان ← الثانية للصورة", rej.get(2) == "overlap" and 2 not in acc, (rej, acc))
+        check("g364: تداخل مع نافذة الهوك ← الصورة", rej.get(6) == "hook_overlap" and 6 not in acc, (rej, acc))
+        check("g364: إسناد لجملة visual فارغ ← الصورة", rej.get(3) == "no_visual" and 3 not in acc, (rej, acc))
+        check("g364: سلسلة طويلة تُقسم لجملتين", 7 in acc and 8 in acc and acc[7]["video_id"] == acc[8]["video_id"] == "c", acc)
+        if 7 in acc and 8 in acc:
+            a7, a8 = acc[7], acc[8]
+            ok = (a7["end"] <= a8["start"] or a8["end"] <= a7["start"]) and min(a7["start"], a8["start"]) >= 0 \
+                and max(a7["end"], a8["end"]) <= 12
+            check("g364: النافذتان غير متداخلتين وداخل السلسلة", ok and abs(a7["end"] - a7["start"] - 4.0) < 1e-6, (a7, a8))
+        acc2, rej2 = reel_broll.resolve([{"n": 1, "chain": 5}, {"n": 2, "chain": 5}, {"n": 3, "chain": 5}],
+                                        [S(1, 5.0), S(2, 5.0), S(3, 5.0)], chains, None)
+        check("g364: السلسلة 12 ث تتسع لجملتين من 5 ث لا لثلاث (الثالثة للصورة)",
+              set(acc2) == {1, 2} and rej2.get(3) in ("short", "overlap"), (acc2, rej2))
+        acc3, rej3 = reel_broll.resolve([], [S(1)], chains, None)
+        check("g364: جملة بلا إسناد ← الصورة (no_match)", acc3 == {} and rej3.get(1) == "no_match", (acc3, rej3))
+    guarded("g364", g364)
+
+    # ───────────────────────── g365: أمر مشهد الراوي ─────────────────────────
+    def bg_layer():
+        return {"layout": "A", "image": Image.new("RGB", (W, H), (120, 40, 40)), "raw": Image.new("RGB", (W, H), (200, 50, 50)),
+                "used": {"url": "u", "kind": "manual", "publisher": ""}}
+
+    def make_deps(cmds, seconds=6.0, assign=None, fail_vid=None):
+        def run(cmd):
+            cmds.append([str(x) for x in cmd])
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+
+        def download(video_id, start, end, height, out_path):
+            if video_id == fail_vid:
+                raise RuntimeError("network down")
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+        return reel_render.Deps(
+            download_clip=download, synthesize=lambda t, v: {"ok": True, "audio": b"mp3", "chars": len(t)},
+            diacritize=lambda t: (t, None), run=run, probe=lambda p: seconds, sleep=lambda s: None,
+            streams=lambda p: {"video", "audio"}, faces=lambda f, fr: (640, 360, []),
+            frames=lambda p, fr: [np.full((360, 640), 100, np.uint8)] * len(fr), read_chyron=lambda f, c: None,
+            assign_broll=assign).resolved(cfg)
+
+    def scene_cmd(cmds, idx):
+        return next((c for c in cmds if c[-1].endswith(f"scene_{idx:02d}.mp4")), [])
+
+    TWO = "جملة أولى. جملة ثانية."
+    TWO_S = tts.split_sentences(TWO)
+    two_plan = [{"scene": 0, "sentence": 0, "text": TWO_S[0], "visual": "صاروخ"},
+                {"scene": 0, "sentence": 1, "text": TWO_S[1], "visual": ""}]
+    one_chain = [{"video_id": "abcdefghijk", "start": 100, "end": 120, "desc": "صاروخ", "channel": "CNN"}]
+    first_assign = lambda needy, chains, c: [{"n": 1, "chain": 1}]  # noqa: E731
+
+    def g365():
+        script = {"scenes": [{"kind": "narration", "text": TWO}]}
+        base_cmds: list = []
+        reel_render._assemble(script, {}, cfg, make_deps(base_cmds), wdir("g365a"), "v", bg_layer(), "", {}, [],
+                              {"broll_plan": two_plan})
+        cmds: list = []
+        notes: list = []
+        broll = {"chains": one_chain, "hook": None}
+        reel_render._assemble(script, {}, cfg, make_deps(cmds, assign=first_assign),
+                              wdir("g365b"), "v", bg_layer(), "", {}, notes, {"broll_plan": two_plan}, None, broll=broll)
+        g = " ".join(scene_cmd(cmds, 0))
+        b = " ".join(scene_cmd(base_cmds, 0))
+        end = f"{lead + 6.0:.3f}"
+        check("g365: overlay بـbetween(t,a,b) بزمن الجملة الأولى (الجملة الأولى تشمل lead)",
+              f"enable='between(t,0.000,{end})'" in g, g[:900])
+        check("g365: setpts للقطة بإزاحة بدء الجملة", "setpts=PTS-STARTPTS+0.000/TB" in g, g[:900])
+        check("g365: الجملة الثانية بالصورة ← لا overlay ثانٍ", g.count("between(t,") == 1, g[:900])
+        pan = re.search(r"x='(max\([^']*\))'", g)
+        pan0 = re.search(r"x='(max\([^']*\))'", b)
+        check("g365: تعبير pan للصورة كما هو", pan is not None and pan0 is not None and pan.group(1) == pan0.group(1),
+              (pan and pan.group(1), pan0 and pan0.group(1)))
+        check("g365: إدخال الصورة الكبيرة باقٍ واحدًا (loop/setpts بلا -loop)",
+              g.count("loop=loop=-1") == 1 and "-loop" not in scene_cmd(cmds, 0), g[:400])
+        cmd = scene_cmd(cmds, 0)
+        check("g365: مدخل اللقطة الإضافي وحده (4 مدخلات)", cmd.count("-i") == 4, cmd.count("-i"))
+        check("g365: التظليل بعد اللقطة وقبل إطارات النص", g.find("between(t,") < g.find("drawbox") < g.find("[1:v]"),
+              g[:900])
+        res = broll.get("result") or []
+        check("g365: render_broll محفوظ بحقوله", len(res) == 2 and res[0].get("video_id") == "abcdefghijk"
+              and res[0].get("channel") == "CNN" and res[0].get("desc") == "صاروخ" and res[0]["scene"] == 0
+              and res[0]["sentence"] == 0 and "start" in res[0] and "end" in res[0]
+              and res[1].get("photo") and "video_id" not in res[1], res)
+        check("g365: سطر «🎞️ لقطات الحدث: 1 من 2»",
+              any(n.startswith("🎞️ لقطات الحدث: 1 من 2") and "CNN ×1" in n for n in notes), notes)
+    guarded("g365", g365)
+
+    # ───────────────────────── g366: الفشل والاختلاف ─────────────────────────
+    def g366():
+        script = {"scenes": [{"kind": "narration", "text": TWO}]}
+        cmds: list = []
+        notes: list = []
+        broll = {"chains": one_chain, "hook": None}
+        reel_render._assemble(script, {}, cfg, make_deps(cmds, assign=first_assign, fail_vid="abcdefghijk"),
+                              wdir("g366a"), "v", bg_layer(), "", {}, notes, {"broll_plan": two_plan}, None, broll=broll)
+        g = " ".join(scene_cmd(cmds, 0))
+        res = broll.get("result") or []
+        check("g366: فشل تنزيل النافذة ← الجملة بالصورة ولا overlay",
+              "between(t," not in g and bool(res) and bool(res[0].get("photo")), (g[:300], res))
+        check("g366: سطر الفشل في التعليق", any("تعذّر تنزيل لقطة" in n for n in notes), notes)
+        # اختلاف عدد الجمل: الخطة بثلاث جمل والمشهد بجملتين
+        three = two_plan + [{"scene": 0, "sentence": 2, "text": "ثالثة", "visual": "x"}]
+        cmds2: list = []
+        notes2: list = []
+        reel_render._assemble(script, {}, cfg, make_deps(cmds2, assign=first_assign), wdir("g366b"), "v", bg_layer(), "", {},
+                              notes2, {"broll_plan": three}, None, broll={"chains": one_chain, "hook": None})
+        g2 = " ".join(scene_cmd(cmds2, 0))
+        check("g366: اختلاف عدد الجمل ← المشهد كله بالصورة", "between(t," not in g2, g2[:300])
+        check("g366: وسطر الاختلاف في التعليق", any("اختلف عدد الجمل" in n for n in notes2), notes2)
+        # نص جملة تغيّر بعد الخطة (المراجع عدّل السيناريو): تلك الجملة بالصورة وسطر واحد، والتشكيل والمسافات لا تُعدّ تغييرًا
+        edited = [dict(two_plan[0], text=two_plan[0]["text"] + " إضافة"),
+                  dict(two_plan[1], text="  " + two_plan[1]["text"] + "َ  ", visual="x")]
+        cmds3: list = []
+        notes3: list = []
+        b3 = {"chains": one_chain, "hook": None}
+        reel_render._assemble(script, {}, cfg, make_deps(cmds3, assign=first_assign), wdir("g366c"), "v", bg_layer(), "", {},
+                              notes3, {"broll_plan": edited}, None, broll=b3)
+        g3 = " ".join(scene_cmd(cmds3, 0))
+        check("g366: نص جملة تغيّر ← بالصورة وسطر واحد «نص الجملة تغيّر بعد الخطة»",
+              "between(t," not in g3 and sum("نص الجملة تغيّر بعد الخطة" in n for n in notes3) == 1
+              and bool((b3.get("result") or [{}])[0].get("photo")), (g3[:200], notes3, b3.get("result")))
+        # التركيب الكامل ينجح مع فشل التنزيل
+        deps, c, comments = full_rig({"c1": set(range(0, 30)), "c2": set(range(20, 32))}, fail=("c2",))
+        path, st = full_go("r5d2000g366a1", deps, work_root / "g366", PLAN3)
+        check("g366: التركيب ينجح رغم فشل تنزيل لقطة", st.get("render_status") == "rendered", st.get("render_error"))
+        rb = st.get("render_broll") or []
+        check("g366: الجملة الفاشلة بالصورة في render_broll وسطر في التعليق",
+              any(x.get("photo") for x in rb) and any("تعذّر تنزيل لقطة" in m for m in comments), (rb, comments))
+        deps2, c2, comments2 = full_rig({"c1": set(range(0, 30)), "c2": set(range(20, 32))})
+        path2, st2 = full_go("r5d2000g366b1", deps2, work_root / "g366b", PLAN3[:2])
+        check("g366: خطة بعدد جمل مختلف ← يركَّب بالصورة ويُكتب سطره",
+              st2.get("render_status") == "rendered" and any("اختلف عدد الجمل" in m for m in comments2),
+              (st2.get("render_status"), comments2))
+    guarded("g366", g366)
+
+    # ───────────────────────── g367: ffmpeg حقيقي ─────────────────────────
+    def g367():
+        import shutil
+        exe = shutil.which("ffmpeg")
+        bindir = None
+        if not exe:
+            try:
+                import imageio_ffmpeg
+                src = imageio_ffmpeg.get_ffmpeg_exe()
+            except Exception:  # noqa: BLE001
+                src = None
+            if not src:
+                check("g367: تُخطّي — لا ffmpeg في هذه البيئة", True)
+                return
+            bindir = wdir("g367bin")
+            (bindir / "ffmpeg").symlink_to(src)
+            exe = str(bindir / "ffmpeg")
+        old_path = os.environ.get("PATH", "")
+        if bindir is not None:
+            os.environ["PATH"] = f"{bindir}{os.pathsep}{old_path}"
+        try:
+            silence = float(cfg.path("reel.tts.sentence_silence", 0.35))
+            speech = 3.0 - silence
+            mp3 = subprocess.run([exe, "-v", "error", "-f", "lavfi", "-i", f"sine=frequency=440:duration={speech}",
+                                  "-f", "mp3", "-"], capture_output=True, check=True).stdout
+            img = Image.new("RGB", (1600, 900))
+            px = img.load()
+            for x in range(1600):
+                for y in range(900):
+                    px[x, y] = (255, 255, 255) if (x // 40) % 2 else (0, 0, 0)
+            bg = reel_render.prepare_background(cfg, img)
+            bg["used"] = {"url": "u", "kind": "manual", "publisher": ""}
+
+            def download(video_id, start, end, height, out_path):
+                dur = max(end - start, 1)
+                subprocess.run([exe, "-y", "-v", "error", "-f", "lavfi", "-i", f"testsrc=size=640x360:rate=30:duration={dur}",
+                                "-f", "lavfi", "-i", "anullsrc=r=48000:cl=stereo", "-t", str(dur), "-pix_fmt", "yuv420p",
+                                "-shortest", str(out_path)], check=True, capture_output=True)
+                return {"tier": "a", "bytes": 1, "failures": []}
+
+            def deps_for(assign):
+                return reel_render.Deps(
+                    synthesize=lambda t, v: {"ok": True, "audio": mp3, "chars": len(t)}, diacritize=lambda t: (t, None),
+                    download_clip=download, streams=lambda p: {"video", "audio"}, faces=lambda f, fr: (640, 360, []),
+                    frames=lambda p, fr: [np.full((360, 640), 100, np.uint8)] * len(fr), read_chyron=lambda f, c: None,
+                    sleep=lambda s: None, assign_broll=assign).resolved(cfg)
+
+            script = {"scenes": [{"kind": "narration", "text": TWO}]}
+            chain = [{"video_id": "abcdefghijk", "start": 0, "end": 8, "desc": "x", "channel": "CNN"}]
+            outs = {}
+            for tag, assign, b in (("with", first_assign, {"chains": chain, "hook": None}), ("none", None, None)):
+                work = wdir("g367" + tag)
+                files, _, durs = reel_render._assemble(script, {}, cfg, deps_for(assign), work, "v", dict(bg), "", {}, [],
+                                                       {"broll_plan": two_plan}, None, broll=b)
+                outs[tag] = (files[0], durs[0], work)
+            dur = reel_render.probe_duration(outs["with"][0])
+            check("g367: المدة صحيحة (lead + جملتان)", dur is not None and abs(dur - (lead + 6.0)) <= 0.2, dur)
+
+            def grab(tag, at):
+                p = outs[tag][2] / f"f_{tag}_{at}.png"
+                subprocess.run([exe, "-y", "-v", "error", "-ss", str(at), "-i", str(outs[tag][0]), "-frames:v", "1", str(p)],
+                               check=True)
+                return np.asarray(Image.open(p).convert("L"), dtype=np.int16)[100:700]
+            first = float(np.abs(grab("with", 1.5) - grab("none", 1.5)).mean())
+            second = float(np.abs(grab("with", lead + 3.0 + 1.5) - grab("none", lead + 3.0 + 1.5)).mean())
+            check("g367: منتصف الجملة الأولى يختلف بوضوح عن الصورة وحدها", first > 8.0, first)
+            check("g367: منتصف الجملة الثانية يطابق الصورة وحدها", second < 2.0, second)
+        finally:
+            os.environ["PATH"] = old_path
+    guarded("g367", g367)
+
+    # ───────────────────────── g368: الخاتمة والنسخة ─────────────────────────
+    def g368():
+        seen: list = []
+        real_outro = reel_render.frame_outro
+
+        def spy(cfg_, channels, **kw):
+            seen.append(channels)
+            return real_outro(cfg_, channels, **kw)
+        reel_render.frame_outro = spy
+        try:
+            cmds: list = []
+            script = {"scenes": [{"kind": "narration", "text": TWO}, {"kind": "outro"}]}
+            reel_render._assemble(script, {}, cfg, make_deps(cmds, assign=first_assign), wdir("g368"), "v", bg_layer(), "", {},
+                                  [], {"broll_plan": two_plan}, None, broll={"chains": one_chain, "hook": None})
+        finally:
+            reel_render.frame_outro = real_outro
+        check("g368: الخاتمة تذكر قناة اللقطات", bool(seen) and "CNN" in seen[-1], seen)
+        check("g368: render_version == 23", int(cfg.path("reel.render.version")) == 23, cfg.path("reel.render.version"))
+    guarded("g368", g368)
+
+    # ───────────────────────── g369: not_names في التعليق ─────────────────────────
+    def g369():
+        def fr(name, kind):
+            return dict(has_caption=True, name_original=name, name_arabic=name, role_original="", role_arabic="",
+                        is_presenter=False, name_kind=kind)
+        scene = {"kind": "clip", "speaker_name": "", "speaker_verified": False, "channel_display": "الجزيرة"}
+        notes: list = []
+        deps = SimpleNamespace(read_chyron=lambda f, c: [fr("نقاش الساعة", "person")] * 3)
+        reel_render._apply_chyron(scene, {"file": "x.mp4"}, cfg, deps, {}, notes, 3)
+        lines = [n for n in notes if n.startswith("🏷️")]
+        check("g369: rejected=not_names ← سطر 🏷️ مرة واحدة", len(lines) == 1 and "نقاش الساعة" in lines[0], notes)
+    guarded("g369", g369)
+
+    import shutil
+    shutil.rmtree(work_root, ignore_errors=True)
