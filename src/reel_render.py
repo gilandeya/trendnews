@@ -2027,7 +2027,7 @@ def _apply_chyron(scene: dict, clip: dict, cfg, deps: Deps, speakers: dict, note
     else:
         if res["is_presenter"]:
             scene["speaker_presenter"] = True
-        if res.get("rejected") in ("program", "channel"):
+        if res.get("rejected") in ("program", "channel", "not_names"):
             # اسم البرنامج يُعرض لو قُبل اسمًا لشخص فيُنبَّه المراجع إلى أن الشريط عُوملَ كأنه بلا اسم
             line = cfg.path("reel.render.texts.comment_chyron_program").format(name=res["name_arabic"] or res["name_original"])
             if line not in notes:
