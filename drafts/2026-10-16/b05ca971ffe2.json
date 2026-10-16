@@ -345,27 +345,27 @@
   },
   "reel_file": "reels/2026-10-16/b05ca971ffe2.mp4",
   "reel_gif": "reels/2026-10-16/b05ca971ffe2.gif",
-  "duration_seconds": 103.0,
-  "render_version": 23,
+  "duration_seconds": 108.2,
+  "render_version": 24,
   "render_attempts": 0,
   "reel_music": "nastelbom-news-news-2-473288.mp3",
   "render_crops": {
     "0": {
-      "x": 275,
+      "x": 425,
       "source": "speaker",
-      "speaker_score": 0.73,
+      "speaker_score": 0.94,
       "tracks": 1,
       "cover": true
     },
     "3": {
-      "x": 403,
+      "x": 416,
       "source": "speaker",
-      "speaker_score": 1.26,
+      "speaker_score": 1.2,
       "tracks": 1,
       "cover": false
     },
     "5": {
-      "x": 875,
+      "x": 584,
       "source": "speaker_vision",
       "speaker_score": 1.13,
       "tracks": 2,
@@ -373,7 +373,6 @@
         "pick": 1,
         "agree": 2,
         "archive": [
-          1,
           2
         ]
       },
@@ -382,25 +381,25 @@
   },
   "render_speakers": {
     "0": {
-      "name_original": "لقصة بقية",
-      "name_arabic": "لقصة بقية",
-      "role_arabic": "برنامج \"لقصة بقية\" ويناقش الاتجار غير القانوني بالنفايات والأزمة البيئية الناجمة",
+      "name_original": "",
+      "name_arabic": "",
+      "role_arabic": "",
       "is_presenter": false,
-      "frames_agreeing": 3,
-      "rejected": "program",
+      "frames_agreeing": 0,
+      "rejected": "",
       "accepted": false
     },
     "3": {
-      "name_original": "Niqash Al-Sa'a",
+      "name_original": "نقاش الساعة",
       "name_arabic": "نقاش الساعة",
       "role_arabic": "",
       "is_presenter": false,
-      "frames_agreeing": 3,
+      "frames_agreeing": 2,
       "rejected": "program",
       "accepted": false
     },
     "5": {
-      "name_original": "علي البخيتي",
+      "name_original": "Ali Al-Bakhiti",
       "name_arabic": "علي البخيتي",
       "role_arabic": "كاتب سياسي | لندن",
       "is_presenter": false,
@@ -410,14 +409,70 @@
     }
   },
   "render_dropped": [],
-  "render_approx": [
+  "render_approx": [],
+  "rendered_at": "2026-10-16T15:25:10.000296+00:00",
+  "render_broll": [
     {
-      "point_id": "b5a8bd8b21bb",
-      "kind": "cold_open_clip",
-      "start": 439,
-      "end": 446,
-      "reason": "تعذّر جلب نص الفيديو"
+      "scene": 2,
+      "sentence": 0,
+      "photo": "لا سلسلة تطابقها"
+    },
+    {
+      "scene": 2,
+      "sentence": 1,
+      "photo": "جملة مجرّدة"
+    },
+    {
+      "scene": 4,
+      "sentence": 0,
+      "photo": "لا سلسلة تطابقها"
+    },
+    {
+      "scene": 6,
+      "sentence": 0,
+      "photo": "لا سلسلة تطابقها"
+    },
+    {
+      "scene": 6,
+      "sentence": 1,
+      "photo": "جملة مجرّدة"
     }
   ],
-  "rendered_at": "2026-10-16T13:54:32.108565+00:00"
+  "broll_scan": {
+    "videos": {
+      "zSiYC9Gcg8Q": {
+        "downloaded": 600,
+        "classified": 216,
+        "sheets": 15,
+        "kinds": {
+          "anchor": 72,
+          "text_heavy": 12,
+          "event_footage": 104,
+          "studio": 16,
+          "other": 12
+        },
+        "footage_relevant": 0,
+        "footage_other": 104,
+        "chains": 10,
+        "longest": 20
+      },
+      "XvaTwkZq46c": {
+        "downloaded": 600,
+        "classified": 360,
+        "sheets": 15,
+        "kinds": {
+          "event_footage": 298,
+          "anchor": 40,
+          "graphic": 14,
+          "other": 4,
+          "text_heavy": 4
+        },
+        "footage_relevant": 8,
+        "footage_other": 290,
+        "chains": 9,
+        "longest": 68
+      }
+    },
+    "sheets_used": 30
+  }
 }
