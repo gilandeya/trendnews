@@ -317,6 +317,14 @@ class ScanState:
     # صفائح كل فيديو (الهوك والجمل معًا) وثواني ما نزل منه: سقف الفيديو الواحد وتقرير الفحص (Issue #1460، R5d4)
     video_sheets: dict = field(default_factory=dict)
     downloaded: dict = field(default_factory=dict)
+    # صفائح تعثّرت لكل فيديو وأول رسالة (Issue #1465، R5d6): العطل للصفيحة لا للفيديو، وبلا حفظ سببه لا يُعرف لماذا خرج صفرًا
+    sheet_errors: dict = field(default_factory=dict)
+    error_text: dict = field(default_factory=dict)
+
+    def note_sheet_error(self, vid: str, exc: Exception) -> None:
+        from . import reel_clips
+        self.sheet_errors[vid] = self.sheet_errors.get(vid, 0) + 1
+        self.error_text.setdefault(vid, reel_clips.scrub_text(str(exc))[:150])
 
 
 def _is_good(r: dict) -> bool:
@@ -367,6 +375,7 @@ def scan_candidates(draft: dict, script: dict, cands: list[dict], cfg, deps, tmp
             good: set[int] = set()
             known = state.classified.setdefault(vid, {})
             per = COLS * ROWS
+            tried = bad = 0
             for first in range(0, len(frames), per):
                 if sheets_left <= 0:
                     break
@@ -374,16 +383,28 @@ def scan_candidates(draft: dict, script: dict, cands: list[dict], cfg, deps, tmp
                 sheets_left -= 1
                 state.sheets_used += 1
                 state.video_sheets[vid] = state.video_sheets.get(vid, 0) + 1
-                jpeg = sheet_jpeg(build_sheet(chunk, first, cfg))
-                results = deps.classify_sheet(jpeg, event, first, len(chunk), cfg)
-                good |= {t for t in good_seconds(results) if first <= t < first + len(chunk)}
-                for r in results:
-                    try:
-                        t = int(r["t"])
-                    except (TypeError, ValueError, KeyError):
-                        continue
-                    if first <= t < first + len(chunk):
-                        known[t] = _entry(r, 1)
+                tried += 1
+                try:
+                    jpeg = sheet_jpeg(build_sheet(chunk, first, cfg))
+                    results = deps.classify_sheet(jpeg, event, first, len(chunk), cfg)
+                    got = {t for t in good_seconds(results) if first <= t < first + len(chunk)}
+                    parsed: dict[int, dict] = {}
+                    for r in results:
+                        try:
+                            t = int(r["t"])
+                        except (TypeError, ValueError, KeyError):
+                            continue
+                        if first <= t < first + len(chunk):
+                            parsed[t] = _entry(r, 1)
+                except Exception as exc:  # noqa: BLE001 -- صفيحة متعثرة تُتخطّى وما صُنّف حولها يبقى (Issue #1465)
+                    log.warning("تعثّرت صفيحة %s من %s: %s", first, vid, str(exc)[:150])
+                    state.note_sheet_error(vid, exc)
+                    bad += 1
+                    continue
+                good |= got
+                known.update(parsed)
+            if tried and bad == tried:
+                raise RuntimeError(f"فشلت كل الصفائح: {state.error_text.get(vid, '')}")
         except Exception as exc:  # noqa: BLE001 -- مرشّح معطوب لا يُسقط البقية
             log.warning("تعذّر فحص مرشّح الهوك %s: %s", c.get("video_id"), str(exc)[:150])
             out["errors"] += 1
@@ -485,6 +506,8 @@ def scan_report(state: ScanState, cands: list[dict], chains: list[dict], bcfg) -
                        "sheets": state.video_sheets.get(vid, 0), "kinds": dict(kinds), "footage_relevant": rel,
                        "footage_other": other, "chains": len(mine),
                        "longest": max((x["end"] - x["start"] for x in mine), default=0),
+                       **({"sheet_errors": state.sheet_errors[vid], "error_text": state.error_text.get(vid, "")}
+                          if state.sheet_errors.get(vid) else {}),
                        **({"error": True} if vid in state.failed else {})}
     return {"videos": videos, "sheets_used": state.sheets_used}
 
@@ -515,6 +538,7 @@ def scan_broll(draft: dict, script: dict, cands: list[dict], cfg, deps, tmp: Pat
             if room > 0:
                 frames = _load_frames(c, hcfg, cfg, deps, tmp, state, scan_s)
                 labels = [t for t in range(0, min(len(frames), scan_s), step) if t not in known]
+                tried = bad = 0
                 for i in range(0, len(labels), per):
                     if room <= 0:
                         break
@@ -523,17 +547,26 @@ def scan_broll(draft: dict, script: dict, cands: list[dict], cfg, deps, tmp: Pat
                     budget -= 1
                     state.sheets_used += 1
                     state.video_sheets[vid] = state.video_sheets.get(vid, 0) + 1
-                    jpeg = sheet_jpeg(build_sheet([frames[t] for t in chunk], chunk[0], cfg, labels=chunk))
-                    results = deps.classify_sheet(jpeg, event, chunk[0], len(chunk), cfg, labels=chunk)
-                    by_t = {}
-                    for r in results or []:
-                        try:
-                            by_t[int(r["t"])] = r
-                        except (TypeError, ValueError, KeyError):
-                            continue
+                    tried += 1
+                    try:
+                        jpeg = sheet_jpeg(build_sheet([frames[t] for t in chunk], chunk[0], cfg, labels=chunk))
+                        results = deps.classify_sheet(jpeg, event, chunk[0], len(chunk), cfg, labels=chunk)
+                        by_t = {}
+                        for r in results or []:
+                            try:
+                                by_t[int(r["t"])] = r
+                            except (TypeError, ValueError, KeyError):
+                                continue
+                    except Exception as exc:  # noqa: BLE001 -- صفيحة متعثرة تُتخطّى وما صُنّف حولها يبقى (Issue #1465)
+                        log.warning("تعثّرت صفيحة %s من %s: %s", chunk[0], vid, str(exc)[:150])
+                        state.note_sheet_error(vid, exc)
+                        bad += 1
+                        continue
                     for t in chunk:
                         if t in by_t:
                             known[t] = _entry(by_t[t], step)
+                if tried and bad == tried:
+                    raise RuntimeError(f"فشلت كل الصفائح: {state.error_text.get(vid, '')}")
         except Exception as exc:  # noqa: BLE001 -- مرشّح معطوب لا يُسقط البقية
             log.warning("تعذّر مسح لقطات المرشّح %s: %s", vid, str(exc)[:150])
             errors += 1
