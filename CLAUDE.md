@@ -1942,3 +1942,10 @@ instead.
 - **الحفظ للمراجعة:** `broll_scan.chains` = `[{video_id,start,end,desc,relevant}]` و`broll_scan.assign` = ردّ الإسناد الخام.
 - **هوك احتياطي (`reel_hook_search.topic_hook`):** بلا `hook_video` وبلا سلسلة relevant ≥ min_seconds تُعتمد أطول سلسلة ميدانية ≥ `hook.min_seconds` بنافذة من وسطها ≤ `hook.max_seconds`، `source="auto_topic"`، وتُزال نافذتها من سلاسل الجمل قبل الإسناد؛ سطر `comment_hook_topic` (ويُكرَّر في `_auto_hook` عند إعادة التركيب). وجود relevant يُبقي السلوك القديم حرفيًا.
 - `render_version` = 25. الاختبارات g379–g383 (`test_reel_broll_r5d2_guards`).
+
+## صفيحة متعثرة لا تُسقط الفيديو، والهوك الاحتياطي بالمعنى (Issue #1465، R5d6) — `src/reel_hook_search.py`، `src/reel_render.py`
+
+- **الحادثة (b05ca971ffe2، نسخة 25):** فيديو صُنّفت منه 312 ث في 14 صفيحة ثم `error=true` وصفر سلاسل: try/except كان يلفّ الفيديو كله فاستثناء صفيحة واحدة (ردّ غير صالح من المصنِّف) رمى كل ما صُنّف، ولم يُحفظ سببه. والهوك الاحتياطي اختار أطول سلسلة («لقطة بلون بنفسجي لحشد داخل مكان مغلق») فصار ضبابًا تحت العنوان.
+- **العطل للصفيحة:** في `scan_candidates` و`scan_broll` تُلفّ كل صفيحة بـtry/except؛ المتعثرة تُتخطّى وتُعدّ (`ScanState.note_sheet_error`) وما صُنّف قبلها وبعدها يبقى ويكوّن سلاسل. الفيديو يدخل `state.failed` فقط إن فشل تنزيله/استخراج لقطاته أو فشلت **كل** صفائحه. `broll_scan.videos[v]` يحمل `sheet_errors` (العدد) و`error_text` (أول رسالة بعد `scrub_text`، ≤150 حرفًا) حين وُجد تعثّر.
+- **الهوك الاحتياطي بالمعنى:** `reel_hook_search.topic_hook(chains, cands, cfg, deps, script, draft)` يستدعي `deps.assign_broll` بمدخل واحد `{n: 0, dur: hook.max_seconds, text: عنوان السيناريو, visual: event_text}` على السلاسل بطول ≥ `hook.min_seconds`؛ أُسندت سلسلة ← الهوك منها بنافذة من وسطها (`auto_topic`)، وإلا لا هوك احتياطي (يبقى بصورة الخبر وبلا سطر الموضوع). يعيد الآن ثلاثية `(hook, rest, raw)`؛ الردّ الخام يُحفظ في `broll_scan.hook_assign` (حتى لو فارغًا). عطل الإسناد لا يُفشل التركيب.
+- `render_version` = 26. الاختبارات g384–g386 في `tests/test_guards_golden.py:test_reel_broll_r5d2_guards` (وعُدِّل g381 ليختار «النموذج» بالإسناد، وصارت g368/g383 `>= 25`).
