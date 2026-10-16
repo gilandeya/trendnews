@@ -11627,8 +11627,8 @@ def test_reel_broll_r5d2_guards() -> None:
              {"scene": 2, "sentence": 1, "text": sent3[1], "visual": ""},
              {"scene": 2, "sentence": 2, "text": sent3[2], "visual": "دخان فوق مطار"}]
 
-    def full_rig(plan, nframes=60, fail=()):
-        c = {"scanned": [], "sheets": 0, "dl": [], "assigned": [], "cmds": []}
+    def full_rig(plan, nframes=60, fail=(), relevant=True):
+        c = {"scanned": [], "sheets": 0, "dl": [], "assigned": [], "cmds": [], "raw": []}
         st = {"cur": None}
         comments: list = []
 
@@ -11657,13 +11657,15 @@ def test_reel_broll_r5d2_guards() -> None:
             c["sheets"] += 1
             ts = list(labels) if labels else list(range(first, first + n))
             good = plan.get(st["cur"], set())
-            return [{"t": t, "kind": "event_footage" if t in good else "studio", "relevant": t in good,
+            return [{"t": t, "kind": "event_footage" if t in good else "studio", "relevant": relevant and t in good,
                      **({"desc": "لقطة من الحدث"} if t in good else {})} for t in ts]
 
         def assign(needy, chains, c_):
             c["assigned"].append((needy, chains))
-            return [{"n": s["n"], "chain": min(k * 2 + 1, len(chains)) if len(chains) > 1 else 1}
-                    for k, s in enumerate(needy) if chains]
+            raw = [{"n": s["n"], "chain": min(k * 2 + 1, len(chains)) if len(chains) > 1 else 1}
+                   for k, s in enumerate(needy) if chains]
+            c["raw"].append(raw)
+            return raw
 
         deps = reel_render.Deps(
             fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
@@ -12139,8 +12141,79 @@ def test_reel_broll_r5d2_guards() -> None:
     guarded("g377", g377)
 
     def g378():
-        check("g378: render_version == 24", int(cfg.path("reel.render.version")) == 24, cfg.path("reel.render.version"))
+        check("g378: render_version >= 24", int(cfg.path("reel.render.version")) >= 24, cfg.path("reel.render.version"))
     guarded("g378", g378)
+
+    # ───────────────────────── g379–g383: الإسناد بالموضوع وأوصاف السلسلة والهوك الاحتياطي (Issue #1462، R5d5) ─────────────────────────
+    def g379():
+        known = {t: {"footage": True, "desc": d, "step": 1, "relevant": False, "kind": "event_footage"}
+                 for t, d in zip(range(100, 110), ["مسيّرة", "مسيّرة", "مسيّرة", "ورشة", "ورشة", "ورشة", "مسيّرة", "شاحنة", "شاحنة", "شاحنة"])}
+        out = reel_hook_search._chains_of({"video_id": "x", "channel": "CNN", "title": "t"}, known, None, 3)
+        check("g379: سلسلة واحدة من 10 ث", len(out) == 1 and out[0]["end"] - out[0]["start"] == 10, out)
+        check("g379: الأوصاف الثلاثة المختلفة بترتيبها مفصولة بـ« · » بلا تكرار",
+              bool(out) and out[0]["desc"] == "مسيّرة · ورشة · شاحنة", out)
+    guarded("g379", g379)
+
+    def g380():
+        deps, c, _ = full_rig({"c1": set(range(0, 30)), "c2": set(range(40, 60))})
+        path, st = full_go("r5d5000g380a1", deps, work_root / "g380", PLAN3)
+        bs = st.get("broll_scan") or {}
+        chains = bs.get("chains")
+        check("g380: broll_scan.chains فيه كل سلسلة بحقولها", bool(chains) and all(
+            {"video_id", "start", "end", "desc", "relevant"} <= set(x) for x in chains), bs)
+        raw = bs.get("assign")
+        check("g380: broll_scan.assign هو الردّ الخام للإسناد", bool(raw) and raw == (c["raw"][0] if c["raw"] else None), (raw, c["raw"]))
+    guarded("g380", g380)
+
+    def g381():
+        mx = int(cfg.path("reel.render.hook.max_seconds"))
+        deps, c, comments = full_rig({"c1": set(range(10, 22)), "c2": set(range(100, 130))}, nframes=200, relevant=False)
+        path, st = full_go("r5d5000g381a1", deps, work_root / "g381", PLAN3)
+        hv = st.get("hook_video") or {}
+        check("g381: الهوك من سلسلة الـ30 ث بمصدر auto_topic", hv.get("video_id") == "c2" and hv.get("source") == "auto_topic", hv)
+        mid = 115
+        check("g381: نافذة الهوك ≤ max_seconds من الوسط", bool(hv) and 0 < hv["end"] - hv["start"] <= mx
+              and hv["start"] <= mid <= hv["end"], hv)
+        bad = [x for x in (st.get("broll_scan") or {}).get("chains") or []
+               if x["video_id"] == hv.get("video_id") and x["start"] < hv.get("end", 0) and x["end"] > hv.get("start", 0)]
+        check("g381: لا سلسلة جمل تتداخل مع نافذة الهوك", not bad and bool((st.get("broll_scan") or {}).get("chains")), bad)
+        check("g381: سطر «🎞️ الهوك من لقطات الموضوع»", any("🎞️ الهوك من لقطات الموضوع" in t for t in comments), comments)
+        deps2, c2, comments2 = full_rig({"c1": set(range(10, 22)), "c2": set(range(100, 130))}, nframes=200, relevant=True)
+        path2, st2 = full_go("r5d5000g381a2", deps2, work_root / "g381b", PLAN3)
+        hv2 = st2.get("hook_video") or {}
+        check("g381: مع relevant ≥ 3 ث الهوك القديم بمصدر auto", hv2.get("source") == "auto" and hv2.get("video_id") == "c1", hv2)
+        check("g381: ولا سطر الموضوع", not any("الهوك من لقطات الموضوع" in t for t in comments2), comments2)
+    guarded("g381", g381)
+
+    def g382():
+        deps, c, _ = full_rig({"c1": set(range(0, 30)), "c2": set(range(40, 60))})
+        full_go("r5d5000g382a1", deps, work_root / "g382", PLAN3)
+        got = {}
+
+        class _R:
+            def __init__(self, data):
+                self.content = [SimpleNamespace(type="tool_use", name="assign_broll", input=data)]
+        real = reel_broll._create
+
+        def fake(client, **kw):
+            got.update(kw)
+            return _R({"assignments": []})
+        reel_broll._create = fake
+        try:
+            reel_broll.assign([{"n": 1, "dur": 3.0, "text": "نص الجملة الأولى", "visual": "صاروخ يُعترض"}],
+                              [{"video_id": "a", "start": 0, "end": 5, "desc": "x", "channel": "CNN"}], cfg)
+        finally:
+            reel_broll._create = real
+        msg = (got.get("messages") or [{}])[0].get("content", "")
+        check("g382: مدخل الإسناد يحمل text وvisual معًا", "نص الجملة الأولى" in msg and "صاروخ يُعترض" in msg, msg)
+        sysm = str(got.get("system", ""))
+        check("g382: assign_system يذكر الإسناد بالموضوع لا المشهد الحرفي", "الموضوع" in sysm and "حرفي" in sysm
+              and "الأفضل ترك الجملة" not in sysm, sysm)
+    guarded("g382", g382)
+
+    def g383():
+        check("g383: render_version == 25", int(cfg.path("reel.render.version")) == 25, cfg.path("reel.render.version"))
+    guarded("g383", g383)
 
     import shutil
     shutil.rmtree(work_root, ignore_errors=True)
