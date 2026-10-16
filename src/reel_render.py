@@ -559,8 +559,13 @@ def prepare_background(cfg, img: Image.Image) -> dict:
     raw = img.resize((sw, sh), Image.LANCZOS).crop((left, top, left + w, top + h))
     navy = imaging.hex_rgb(cfg.path("brand.primary_color"))
     out = Image.blend(raw, Image.new("RGB", raw.size, navy), float(b["shade_a"]))
+    # wide: الصورة كاملة بنسبتها مكبَّرة لتغطي (العرض×pan_zoom، الارتفاع×pan_zoom)؛ raw مقتطعة مسبقًا 1080 عرضًا فلا مدى أفقيًا
+    # فيها يكفي حركة بطيئة طوال المشهد (Issue #1447، متابعة R5d1). مركز الوجوه بإحداثياتها لتتمركز نافذة الحركة حوله
+    zoom = max(float(cfg.path("reel.render.narration_bg.pan_zoom", 1.12)), float(cfg.path("reel.render.hook.pan_zoom", 1.12)))
+    wscale = max(w * zoom / iw, h * zoom / ih)
+    wide = img.resize((max(w, round(iw * wscale)), max(h, round(ih * wscale))), Image.LANCZOS)
     # raw للهوك وحده: يُظلَّل بـhook.shade فقط، فلا يتراكب على تظليل الراوي shade_a فتكاد الصورة لا تُرى (Issue #1429)
-    return {"layout": "A", "image": out, "raw": raw}
+    return {"layout": "A", "image": out, "raw": raw, "wide": wide, "wide_cx": cx * wscale}
 
 
 def outro_credit(cfg, bg: dict | None) -> str:
@@ -1473,29 +1478,34 @@ def _speech(text: str, voice: str, cfg, deps: Deps, tmp: Path, tag: str) -> tupl
     return audio, parts
 
 
+def scene_seconds(body: float, tail: float, lead: float) -> float:
+    """مدة مشهد صوتي: مدة كلامه + tail + lead. دالة واحدة يقرؤها _timed_scene وحساب مدة الراوي الكلية قبل التركيب (خطة حركة
+    الخلفية تحتاجها قبل رسم أي مشهد) فلا تنحرف نسختان من الصيغة (Issue #1447)."""
+    return body + (tail if tail > 0 else 0.0) + (lead if lead > 0 else 0.0)
+
+
 def _timed_scene(frames: list[tuple[Path, float]], audio: Path, out: Path, cfg, deps: Deps, tmp: Path, tail: float,
-                 lead: float = 0.0, bg_png: Path | None = None, bg_start: float = 0.0) -> float:
+                 lead: float = 0.0, bg_png: Path | None = None, bg_start: float = 0.0,
+                 bg_pan: tuple[float, float] = (0.0, 0.0)) -> float:
     """مشهد صوتي بإطارات متتابعة (جملة لكل إطار بمدتها الفعلية)؛ يعيد مدته.
     lead: صمت في أول الصوت يمتد معه الإطار الأول، كي لا تقع أول كلمة في التلاشي المتقاطع مع المشهد السابق.
     bg_png: خلفية الراوي تيار مستقل بمدة المشهد كاملة (Issue #1447، R5d1)؛ الإطارات PNG شفافة تُركَّب فوقه في الأمر نفسه.
-    bg_start: زمن بداية المشهد التراكمي بين مشاهد الراوي فتتصل حركة الصورة ولا تقفز."""
+    bg_start: زمن بداية المشهد التراكمي بين مشاهد الراوي فتتصل حركة الصورة ولا تقفز.
+    bg_pan: (x0، السرعة) من pan_plan المشتركة بين مشاهد الراوي كلها؛ bg_png مُكبَّرة سلفًا إلى أبعاد تلك الخطة."""
     rcfg = cfg.path("reel.render")
     frames = list(frames)
+    total = scene_seconds(sum(d for _, d in frames), tail, lead)
     frames[-1] = (frames[-1][0], frames[-1][1] + tail)
     if lead > 0:
         frames[0] = (frames[0][0], frames[0][1] + lead)
-    total = sum(d for _, d in frames)
     lst = tmp / (out.stem + "_frames.txt")
     body = "".join(f"file '{f}'\nduration {_fmt(d)}\n" for f, d in frames) + f"file '{frames[-1][0]}'\n"
     lst.write_text(body, encoding="utf-8")
     if bg_png is not None:
-        nb = cfg.path("reel.render.narration_bg")
         w, h, fps = int(rcfg["width"]), int(rcfg["height"]), rcfg["fps"]
-        sh = round(h * float(nb["pan_zoom"]))
-        img_w = round(w * sh / h)
-        pan = _pan_x_expr(cfg, img_w, float(nb["pan_speed"]), bg_start)
+        pan = _pan_x_expr(bg_pan[0], bg_pan[1], bg_start)
         afilter = f"adelay={int(round(lead * 1000))}:all=1,apad" if lead > 0 else "apad"
-        vg = (f"[0:v]scale={img_w}:{sh}:flags=lanczos,crop={w}:{h}:x='{pan}':y='(ih-oh)/2',"
+        vg = (f"[0:v]crop={w}:{h}:x='{pan}':y='(ih-oh)/2',"
               f"{_shade_filter(cfg, 'narration_bg')},fps={fps}[b];"
               f"[1:v]fps={fps},format=rgba[t];[b][t]overlay=0:0:shortest=1,format=yuv420p[v];[2:a]{afilter}[a]")
         deps.run(_base("-loop", "1", "-framerate", str(fps), "-i", str(bg_png), "-f", "concat", "-safe", "0", "-i", str(lst),
@@ -1975,21 +1985,61 @@ def _apply_chyron(scene: dict, clip: dict, cfg, deps: Deps, speakers: dict, note
 # ───────────────────── الهوك والشعار الكبير (Issue #1429، R5c1) ─────────────────────
 
 
-def pan_x(t: float, cfg, img_w: float, speed: float | None = None) -> float:
-    """إزاحة x لنافذة 1080 فوق صورة عرضها img_w: تبدأ من أقصى اليمين وتتناقص بسرعة ثابتة ولا تنزل عن 0 (فإن بلغت الحافة
-    اليسرى ثبتت). السرعة الافتراضية hook.pan_speed، ويمرّر الراوي سرعته الأبطأ narration_bg.pan_speed."""
-    w = float(cfg.path("reel.render.width"))
-    speed = float(cfg.path("reel.render.hook.pan_speed")) if speed is None else float(speed)
-    return max(img_w - w - speed * t, 0.0)
+def pan_x(t: float, x0: float, speed: float) -> float:
+    """إزاحة x لنافذة 1080 عند الزمن t: تبدأ من x0 وتتناقص بسرعة ثابتة ولا تنزل عن 0. pan_plan تضمن ألا يبلغ x(T) الصفر قبل
+    نهاية المشهد، فالـmax هنا شبكة أمان لا سلوكًا عاديًا (Issue #1447)."""
+    return max(float(x0) - float(speed) * t, 0.0)
 
 
-def _pan_x_expr(cfg, img_w: int, speed: float | None = None, t0: float = 0.0) -> str:
-    """تعبير crop الزمني نفسه الذي تحسبه pan_x (الصيغة مطابقة: أقصى اليمين ناقص السرعة × t ولا أقل من 0). t0 زمن بداية المشهد
-    التراكمي فتتصل الحركة بين مشاهد الراوي (الإزاحة تبدأ من حيث انتهت في السابق)؛ 0 يعيد تعبير الهوك كما كان حرفيًا."""
-    w = int(cfg.path("reel.render.width"))
-    speed = float(cfg.path("reel.render.hook.pan_speed")) if speed is None else float(speed)
+def _pan_x_expr(x0: float, speed: float, t0: float = 0.0) -> str:
+    """تعبير crop الزمني نفسه الذي تحسبه pan_x حرفًا بحرف (x0 ناقص السرعة × t ولا أقل من 0). t0 زمن بداية المشهد التراكمي
+    فتتصل الحركة بين مشاهد الراوي (الإزاحة تبدأ من حيث انتهت في السابق)؛ 0 يعطي تعبير الهوك."""
     at = "t" if not t0 else f"(t+{_fmt(t0)})"
-    return f"max({img_w - w}-{_fmt(speed)}*{at},0)"
+    return f"max({_fmt(x0)}-{_fmt(speed)}*{at},0)"
+
+
+def pan_plan(cfg, key: str, wide_w: float, wide_h: float, seconds: float, cx: float) -> dict:
+    """خطة حركة الخلفية فوق الصورة الكاملة wide (Issue #1447، متابعة R5d1): الحركة لا تتوقف أبدًا من أول المشهد حتى آخره.
+    key: narration_bg أو hook. تُفضَّل السرعة البطيئة المحددة في الإعداد؛ إن لم يكفِ عرض الصورة لها طوال seconds تُكبَّر الصورة
+    حتى max_zoom، فإن بقي المدى قاصرًا خُفّضت السرعة لتغطي المدة (وسطر تحذير إن نزلت دون min_speed، فالبقاء داخل حدود
+    الصورة أولى من السرعة). النافذة (إزاحتها اليسرى) تقطع مقطعًا متمركزًا حول cx ومقصوصًا داخل الحدود، تبدأ من يمينه وتنتهي
+    عند يساره. يعيد dict(zoom, speed, x0, img_w, img_h) والقيم مقرَّبة إلى ثلاث خانات كي يطابق تعبير ffmpeg حساب بايثون."""
+    kc = cfg.path(f"reel.render.{key}")
+    w = float(cfg.path("reel.render.width"))
+    pref, floor, max_zoom = float(kc["pan_speed"]), float(kc.get("min_speed", 8)), float(kc.get("max_zoom", 1.5))
+    seconds = max(float(seconds), 0.001)
+    wide_w, wide_h = float(wide_w), float(wide_h)
+    zoom = max(1.0, w / wide_w)    # لا صورة أضيق من النافذة
+    need = pref * seconds
+    if wide_w * zoom - w < need:
+        zoom = max(zoom, min((need + w) / wide_w, max_zoom))
+    speed = pref
+    room = wide_w * zoom - w
+    if room < need:
+        speed = math.floor(room / seconds * 1000) / 1000
+        if speed < floor:
+            log.warning("مدى حركة الخلفية لا يكفي %.1f ثانية بسرعة %s فنزلت السرعة إلى %s", seconds, _fmt(floor), _fmt(speed))
+    img_w, img_h = round(wide_w * zoom), round(wide_h * zoom)
+    span = speed * seconds
+    lo = math.ceil(span * 1000) / 1000
+    hi = math.floor((img_w - w) * 1000) / 1000
+    x0 = min(max(float(cx) * zoom - w / 2 + span / 2, lo), max(hi, lo))
+    return {"zoom": zoom, "speed": speed, "x0": round(x0, 3), "img_w": img_w, "img_h": img_h}
+
+
+def _wide_of(bg: dict) -> tuple[Image.Image, float]:
+    """(الصورة الكاملة، مركز الوجوه فيها)؛ خلفية بلا wide (قديمة) تقع على raw بمنتصفها."""
+    if bg.get("wide") is not None:
+        return bg["wide"], float(bg.get("wide_cx", bg["wide"].size[0] / 2))
+    old = bg.get("raw") or bg["image"]
+    return old, old.size[0] / 2
+
+
+def _pan_background(wide: Image.Image, plan: dict, tmp: Path, name: str) -> Path:
+    """صورة الخلفية مُكبَّرة مرة واحدة في بايثون إلى أبعاد الخطة، فيقصّ ffmpeg وحده كل إطار ولا يعيد تكبير صورة كبيرة."""
+    if wide.size != (plan["img_w"], plan["img_h"]):
+        wide = wide.resize((plan["img_w"], plan["img_h"]), Image.LANCZOS)
+    return _save(wide, tmp / name)
 
 
 def _ease_out(p: float) -> float:
@@ -2097,11 +2147,11 @@ def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None,
               f"[2:a]aresample={rate},aformat=channel_layouts=stereo,apad[sp];"
               f"[sp][am]amix=inputs=2:normalize=0:duration=first[a]")
     elif bg is not None:
-        bgpng = _save(bg.get("raw") or bg["image"], tmp / f"hook_bg_{i}.png")
-        sh = round(h * float(hk["pan_zoom"]))
-        img_w = round(w * sh / h)
+        wide, wcx = _wide_of(bg)
+        plan = pan_plan(cfg, "hook", wide.size[0], wide.size[1], seconds, wcx)
+        bgpng = _pan_background(wide, plan, tmp, f"hook_bg_{i}.png")
         inputs = [*loop, "-i", str(bgpng), *loop, "-i", str(png), "-i", str(audio)]
-        vg = (f"[0:v]scale={img_w}:{sh}:flags=lanczos,crop={w}:{h}:x='{_pan_x_expr(cfg, img_w)}':y='(ih-oh)/2',"
+        vg = (f"[0:v]crop={w}:{h}:x='{_pan_x_expr(plan['x0'], plan['speed'])}':y='(ih-oh)/2',"
               f"{_shade_filter(cfg)},fps={fps}[b];[b][1:v]overlay=0:0:shortest=1,format=yuv420p[v]")
         ag = "[2:a]apad[a]"
     else:
@@ -2134,6 +2184,18 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
     order = hooks + [x for x in order if x[0] != hook_idx]
     nar_t = 0.0       # زمن مشاهد الراوي التراكمي: بداية خلفيتها المتحركة (الانتقال يأكل lead من كل مشهد)
     nar_bg: Path | None = None
+    nar_plan: dict | None = None
+    speech_cache: dict[int, tuple[Path, list[tuple[str, float]]]] = {}
+    nar_idx = [i for i, sc in order if i != hook_idx and sc.get("kind") == "narration"]
+    if bg is not None and nar_idx:
+        # تمريرة أولى لأصوات الراوي: خطة الحركة تحتاج مدة الراوي الكلية T قبل رسم أي مشهد، والحلقة تعيد استعمال الأصوات نفسها
+        # فلا يُوَلَّد صوت جملة مرتين. الانتقال يأكل lead من كل مشهد بعد الأول (Issue #1447، متابعة R5d1)
+        for i in nar_idx:
+            speech_cache[i] = _speech(script["scenes"][i].get("text", ""), voice, cfg, deps, tmp, f"s{i:02d}")
+        total_nar = sum(scene_seconds(sum(d for _, d in speech_cache[i][1]), 0.0, lead) for i in nar_idx) - lead * (len(nar_idx) - 1)
+        wide, wcx = _wide_of(bg)
+        nar_plan = pan_plan(cfg, "narration_bg", wide.size[0], wide.size[1], total_nar, wcx)
+        nar_bg = _pan_background(wide, nar_plan, tmp, "nar_bg.png")
     for i, scene in order:
         kind, out = scene.get("kind"), tmp / f"scene_{i:02d}.mp4"
         if i == hook_idx:
@@ -2154,14 +2216,13 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
                         tmp / f"outro_{i}.png")
             dur = _still_scene(png, float(rcfg["outro_seconds"]), out, cfg, deps)
         elif kind in ("narration", "question"):
-            audio, parts = _speech(scene.get("text", ""), voice, cfg, deps, tmp, f"s{i:02d}")
+            audio, parts = speech_cache.get(i) or _speech(scene.get("text", ""), voice, cfg, deps, tmp, f"s{i:02d}")
             if kind == "narration":
                 frames = _narration_frames(parts, i, cfg, tmp, lead, bg)
                 tail = 0.0
-                if bg is not None:
-                    if nar_bg is None:
-                        nar_bg = _save(bg.get("raw") or bg["image"], tmp / "nar_bg.png")
-                    dur = _timed_scene(frames, audio, out, cfg, deps, tmp, tail, lead, bg_png=nar_bg, bg_start=nar_t)
+                if bg is not None and nar_plan is not None:
+                    dur = _timed_scene(frames, audio, out, cfg, deps, tmp, tail, lead, bg_png=nar_bg, bg_start=nar_t,
+                                       bg_pan=(nar_plan["x0"], nar_plan["speed"]))
                     nar_t += dur - lead
                     scene_files.append(out)
                     kinds.append(kind)
