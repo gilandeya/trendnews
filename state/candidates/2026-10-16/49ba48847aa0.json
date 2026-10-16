@@ -1,0 +1,101 @@
+{
+  "id": "49ba48847aa0",
+  "created_at": "2026-10-16T17:07:59.197069+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 29.53,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 3,
+  "intrigue": 1,
+  "appeal_note": "مستوطنون يهاجمون مزارعين فلسطينيين وصحفيًا؛ يمسّ فلسطين مباشرة.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Israeli settlers attack olive farmers and Washington Post journalist in West Bank",
+  "link": "https://www.theguardian.com/world/2026/oct/16/israeli-settlers-attack-olive-farmers-west-bank-washington-post-journalist-heidi-levine",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC World",
+    "CBS News — World",
+    "Dawn",
+    "France24",
+    "Hindustan Times — World",
+    "NPR World",
+    "The Guardian",
+    "The Guardian — World",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Israeli settlers attack olive farmers and Washington Post journalist in West Bank",
+    "link": "https://www.theguardian.com/world/2026/oct/16/israeli-settlers-attack-olive-farmers-west-bank-washington-post-journalist-heidi-levine",
+    "summary": "Settlers hurl rocks at Palestinians and beat photographer Heidi Levine as part of yearly attacks to disrupt harvest Israeli settlers have attacked Palestinians across the occupied West Bank in a coordinated movement to disrupt the annual olive harvest, burning cars and trees and injuring Palestinians and a Washington Post photographer. Masked settlers wielding clubs and other weapons attacked people attempting to harvest their olives in West Bank towns on Friday. Palestinian authorities said they recorded attacks in eight villages, and injuries among at least 20 people. Continue reading...",
+    "source_name": "The Guardian — World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-10-16T16:34:58+00:00",
+    "image_url": "https://i.guim.co.uk/img/media/eacefac392ed027227ecec0ab9c67d13ee077d57/560_0_4583_3668/master/4583.jpg?width=700&quality=85&auto=format&fit=max&s=5ba8be6cbb7dfcc6f6048d98d9145297",
+    "publisher": "The Guardian — World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC World",
+      "CBS News — World",
+      "Dawn",
+      "France24",
+      "Hindustan Times — World",
+      "NPR World",
+      "The Guardian",
+      "The Guardian — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/videos/cqn06zx2r15jo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/10/16/israeli-settlers-continue-progrom-amid-olive-harvest-in-occupied-west-bank?traffic_source=rss"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c65ynk7212vqo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/oct/16/israeli-settlers-attack-olive-farmers-west-bank-washington-post-journalist-heidi-levine"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2037619/israeli-settlers-attack-us-photographer-covering-west-bank-violence"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20261016-us-journalist-injured-during-israeli-settler-attack-on-west-bank-olive-harvest"
+      }
+    ],
+    "image_candidates": [
+      "https://i.guim.co.uk/img/media/eacefac392ed027227ecec0ab9c67d13ee077d57/560_0_4583_3668/master/4583.jpg?width=700&quality=85&auto=format&fit=max&s=5ba8be6cbb7dfcc6f6048d98d9145297",
+      "https://i.guim.co.uk/img/media/eacefac392ed027227ecec0ab9c67d13ee077d57/560_0_4583_3668/master/4583.jpg?width=460&quality=85&auto=format&fit=max&s=8a8d0eb7a958e814f5a6d44c0484ea71",
+      "https://i.guim.co.uk/img/media/eacefac392ed027227ecec0ab9c67d13ee077d57/560_0_4583_3668/master/4583.jpg?width=140&quality=85&auto=format&fit=max&s=038d95a2d40c5fbb7dc1081bf52e77b9",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/0345/live/69e10530-c94f-11f1-bc2e-018d645d8d21.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/0345/live/69e10530-c94f-11f1-bc2e-018d645d8d21.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/0345/live/69e10530-c94f-11f1-bc2e-018d645d8d21.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 10,
+    "velocity": 1.0,
+    "age_hours": 1752.9122060616667,
+    "is_stale": false,
+    "score": 29.5293745362732,
+    "impact": 1,
+    "proximity": 3,
+    "intrigue": 1,
+    "appeal_note": "مستوطنون يهاجمون مزارعين فلسطينيين وصحفيًا؛ يمسّ فلسطين مباشرة.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

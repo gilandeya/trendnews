@@ -1,0 +1,64 @@
+{
+  "id": "807cc7402c64",
+  "created_at": "2026-10-16T17:07:59.197516+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.63,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "انهيار الهدنة الطاقية بين أوكرانيا وروسيا يؤثر على أسعار الوقود.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Ukraine hits Russian refinery as Zelensky says ‘we’re done’ with Trump’s energy truce",
+  "link": "https://www.dailymaverick.co.za/article/2026-10-16-ukraine-hits-russian-refinery-as-zelenskiy-says-were-done-with-trumps-energy-truce/",
+  "publishers": [
+    "Daily Maverick",
+    "Rappler"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Ukraine hits Russian refinery as Zelensky says ‘we’re done’ with Trump’s energy truce",
+    "link": "https://www.dailymaverick.co.za/article/2026-10-16-ukraine-hits-russian-refinery-as-zelenskiy-says-were-done-with-trumps-energy-truce/",
+    "summary": "KYIV, Oct 15 (Reuters) - Ukraine struck a Russian oil refinery on Thursday after President Volodymyr Zelensky declared that Kyiv was abandoning a ceasefire covering energy sites announced by US President Donald Trump, and criticised Trump's willingness to strike deals with Moscow.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-10-16T04:53:52+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/i/AZ9D1tSy7HiDW_GECiiIFQNebjY=/800x0/smart/filters:strip_exif()/file/attachments/2999/13950161_903283.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Daily Maverick",
+      "Rappler"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-10-16-ukraine-hits-russian-refinery-as-zelenskiy-says-were-done-with-trumps-energy-truce/"
+      },
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/world/europe/russia-ukraine-crisis-updates-october-15-2026/"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/i/AZ9D1tSy7HiDW_GECiiIFQNebjY=/800x0/smart/filters:strip_exif()/file/attachments/2999/13950161_903283.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1752.912417146111,
+    "is_stale": false,
+    "score": 21.634590241240744,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "انهيار الهدنة الطاقية بين أوكرانيا وروسيا يؤثر على أسعار الوقود.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
