@@ -12681,13 +12681,18 @@ def test_reel_review_r4a_guards() -> None:
         store.save_draft(d)
         body = reel_review.build_body(d, cfg)
         marked = tick_marker(tick_marker(body, f"go:publish:{d['id']}"), f"hl:{d['id']}:1")
-        msgs = run_main(marked, 601, "--skip-urgent")
+        saved_pub = publish_mod.publish_reel_draft
+        publish_mod.publish_reel_draft = lambda p, dd, c: (True, "https://fb/x")   # النشر نفسه في g392–g393
+        try:
+            msgs = run_main(marked, 601, "--skip-urgent")
+        finally:
+            publish_mod.publish_reel_draft = saved_pub
         got = store.load_draft(d["id"])[1]
         check("g391: «انشر» مع العنوان الثاني ← approved_reel وheadline_selected = 1",
               got["status"] == "approved_reel" and got.get("headline_selected") == 1,
               (got["status"], got.get("headline_selected")))
-        check("g391: تعليق «✅ اعتُمد الريل — يُنشر حين تُفعَّل مرحلة النشر (R4b)»",
-              any("✅ اعتُمد الريل — يُنشر حين تُفعَّل مرحلة النشر (R4b)" in m for m in msgs), msgs)
+        check("g391: تعليق «✅ اعتُمد الريل» (R4b: لم يعد مؤجَّلًا لمرحلة النشر)",
+              any("✅ اعتُمد الريل" in m and "R4b" not in m for m in msgs), msgs)
         d2 = reel_draft("a4a000003911", review_issue=602)
         store.save_draft(d2)
         run_main(reel_review.build_body(d2, cfg), 602, "--skip-urgent")
@@ -12703,3 +12708,188 @@ def test_reel_review_r4a_guards() -> None:
     except Exception as exc:  # noqa: BLE001
         check("g391: استثناء", False, repr(exc))
     shutil.rmtree(tmp, ignore_errors=True)
+
+
+def test_reel_publish_r4b_guards() -> None:
+    """Issue #1472 (R4b، g392–g395): نشر الريل المعتمد فورًا على فيسبوك ريلز بلا بوابة تباعد، وفشله القابل لإعادة المحاولة
+    (failed_stage="facebook_reel")، وجذر بيانات الريل، وفتح قضية المراجعة للمركَّب سابقًا بـ--pending دون إعادة تركيب. لا شبكة."""
+    import os
+    import shutil
+    import sys
+    import tempfile
+    from pathlib import Path
+
+    from src import facebook, publish as publish_mod
+    from src import reel_render, reel_review, review, store
+    from tests.helpers import tick_marker
+
+    cfg = load_config()
+    cfg.setdefault("reel", {})["enabled"] = True
+    tmp = Path(tempfile.mkdtemp())
+    data_root = tmp / "youtube-data"
+    saved_env = {k: os.environ.get(k) for k in ("TRENDNEWS_REELS_DIR", "TRENDNEWS_YOUTUBE_POINTS_DIR")}
+    os.environ["TRENDNEWS_REELS_DIR"] = str(data_root / "reels")
+
+    def clip(url, channel):
+        return {"kind": "clip", "point_id": "p", "video_url": url, "start": 1, "end": 9, "channel_display": channel}
+
+    def reel_draft(did, issue, **extra):
+        d = {"id": did, "origin": "analysis", "format": "reel", "status": "approved_script", "render_status": "rendered",
+             "topic_id": "t1", "topic_date": "2099-12-07", "title": "ريل", "script_status": "ready",
+             "script": {"narrator": "female", "title": "عنوان", "question": "هل؟", "scenes": [
+                 dict(clip("https://youtube.com/watch?v=v1", "الجزيرة"), kind="cold_open_clip"),
+                 {"kind": "narration", "text": "جملة."},
+                 clip("https://youtube.com/watch?v=v1", "الجزيرة"),
+                 clip("https://youtube.com/watch?v=v2", "العربية"),
+                 {"kind": "outro"}]},
+             "duration_seconds": 41.0, "reel_file": f"reels/2099-12-07/{did}.mp4", "reel_gif": f"reels/2099-12-07/{did}.gif",
+             "headlines": ["العنوان الأول؟", "العنوان الثاني", "العنوان الثالث؟"],
+             "render_sources": "الجزيرة، العربية", "review_issue": issue, "reel_review_issue": issue}
+        d.update(extra)
+        return d
+
+    def put_video(did):
+        p = data_root / "reels" / "2099-12-07" / f"{did}.mp4"
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_bytes(b"mp4")
+        return p
+
+    def run_main(body, number):
+        msgs: list[str] = []
+        s = (publish_mod.fetch_issue, review.comment, review.close_issue, review.remove_label, sys.argv,
+             publish_mod.load_config)
+        publish_mod.load_config = lambda *a, **k: cfg
+        publish_mod.fetch_issue = lambda n: {"number": n, "body": body,
+                                             "labels": [{"name": "reel-review"}, {"name": "approved"}]}
+        review.comment = lambda n, t: msgs.append(t)
+        review.close_issue = lambda n: None
+        review.remove_label = lambda n, lbl: None
+        sys.argv = ["publish", "--issue", str(number), "--skip-urgent"]
+        try:
+            publish_mod.main()
+        finally:
+            (publish_mod.fetch_issue, review.comment, review.close_issue, review.remove_label, sys.argv,
+             publish_mod.load_config) = s
+        return msgs
+
+    calls: list = []
+    state = {"fail": False}
+    saved_fb = (facebook.publish_reel, facebook.publish_photo)
+    saved_gap = publish_mod._gap_defer_until
+
+    def fake_reel(video_path, caption, api_version="v21.0", first_comment=None):
+        calls.append((Path(video_path), caption, first_comment))
+        if state["fail"]:
+            raise facebook.FacebookError("boom")
+        return {"post_id": "77", "kind": "reel", "url": "https://www.facebook.com/reel/77"}
+
+    photos: list = []
+    gate: list = []
+    facebook.publish_reel = fake_reel
+    facebook.publish_photo = lambda *a, **k: photos.append(a)
+    publish_mod._gap_defer_until = lambda cfg_: gate.append(1)
+    try:
+        def marked(d):
+            return tick_marker(tick_marker(reel_review.build_body(d, cfg), f"go:publish:{d['id']}"), f"hl:{d['id']}:1")
+
+        def g392():
+            d = reel_draft("a4b000003920", 901)
+            store.save_draft(d)
+            video = put_video(d["id"])
+            msgs = run_main(marked(d), 901)
+            got = store.load_draft(d["id"])[1]
+            sources = cfg.path("reel.render.texts.clips_from").format(channels=d["render_sources"])
+            check("g392: publish_reel بملف الريل الصحيح", len(calls) == 1 and calls[0][0] == video, calls)
+            check("g392: النص = العنوان الثاني ثم سطر فارغ ثم سطر المصادر",
+                  bool(calls) and calls[0][1] == f"العنوان الثاني\n\n{sources}", calls)
+            check("g392: التعليق الأول «المصادر:» بسطر لكل فيديو بلا تكرار",
+                  bool(calls) and calls[0][2] == "المصادر:\nالجزيرة — https://youtube.com/watch?v=v1\n"
+                  "العربية — https://youtube.com/watch?v=v2", calls and calls[0][2])
+            check("g392: المسودة published بـpublished_at وfacebook",
+                  got["status"] == "published" and bool(got.get("published_at"))
+                  and got.get("facebook", {}).get("post_id") == "77", got)
+            check("g392: تعليق برابط المنشور", any("https://www.facebook.com/reel/77" in m for m in msgs), msgs)
+            check("g392: لا بوابة تباعد ولا نشر صورة", not gate and not photos, (gate, photos))
+        try:
+            g392()
+        except Exception as exc:  # noqa: BLE001
+            check("g392: استثناء", False, repr(exc))
+
+        def g393():
+            calls.clear()
+            d = reel_draft("a4b000003930", 902)
+            store.save_draft(d)
+            put_video(d["id"])
+            state["fail"] = True
+            msgs = run_main(marked(d), 902)
+            got = store.load_draft(d["id"])[1]
+            check("g393: فشل فيسبوك ← failed بـfailed_stage=facebook_reel وerror",
+                  got["status"] == "failed" and got.get("failed_stage") == "facebook_reel"
+                  and "boom" in got.get("error", ""), got)
+            check("g393: تعليق بالسبب ولا نشر صورة", any("boom" in m for m in msgs) and not photos, (msgs, photos))
+            state["fail"] = False
+            run_main(marked(d), 902)
+            got = store.load_draft(d["id"])[1]
+            check("g393: إعادة approved ← يُعاد النشر وينجح", got["status"] == "published" and len(calls) == 2,
+                  (got["status"], len(calls)))
+            d2 = reel_draft("a4b000003931", 903)
+            store.save_draft(d2)
+            run_main(marked(d2), 903)
+            got2 = store.load_draft(d2["id"])[1]
+            check("g393: ملف غير موجود ← failed بسببه",
+                  got2["status"] == "failed" and "ملف الريل غير موجود:" in got2.get("error", "")
+                  and got2.get("failed_stage") == "facebook_reel", got2)
+        try:
+            g393()
+        except Exception as exc:  # noqa: BLE001
+            check("g393: استثناء", False, repr(exc))
+
+        def g394():
+            os.environ["TRENDNEWS_REELS_DIR"] = "/x/youtube-data/reels"
+            check("g394: من TRENDNEWS_REELS_DIR", publish_mod.reel_data_root() == Path("/x/youtube-data"),
+                  publish_mod.reel_data_root())
+            del os.environ["TRENDNEWS_REELS_DIR"]
+            os.environ["TRENDNEWS_YOUTUBE_POINTS_DIR"] = "/y/youtube-data/state/youtube_points"
+            check("g394: من TRENDNEWS_YOUTUBE_POINTS_DIR", publish_mod.reel_data_root() == Path("/y/youtube-data"),
+                  publish_mod.reel_data_root())
+        try:
+            g394()
+        except Exception as exc:  # noqa: BLE001
+            check("g394: استثناء", False, repr(exc))
+
+        def g395():
+            created: list = []
+            s = (review.ensure_labels, review.create_issue, review.update_issue_body)
+            review.ensure_labels = lambda: None
+            review.create_issue = lambda t, b, labels=None: (created.append(t), {"number": 950})[1]
+            review.update_issue_body = lambda n, b: created.append("update")
+            try:
+                a = reel_draft("a4b000003950", None)
+                a.pop("reel_review_issue")
+                a.pop("review_issue")
+                b = reel_draft("a4b000003951", 960)
+                store.save_draft(a)
+                store.save_draft(b)
+                n = reel_render.open_missing_reviews(cfg)
+                check("g395: ريل بلا قضية ← تُفتح قضية واحدة وتُحفظ",
+                      store.load_draft(a["id"])[1].get("reel_review_issue") == 950 and n == len(created) >= 1,
+                      (created, n))
+                check("g395: ريل له قضية ← لا شيء", store.load_draft(b["id"])[1].get("reel_review_issue") == 960, created)
+                created.clear()
+                reel_render.open_missing_reviews(cfg)
+                check("g395: تشغيل ثانٍ ← لا شيء", not created, created)
+            finally:
+                review.ensure_labels, review.create_issue, review.update_issue_body = s
+        try:
+            g395()
+        except Exception as exc:  # noqa: BLE001
+            check("g395: استثناء", False, repr(exc))
+    finally:
+        facebook.publish_reel, facebook.publish_photo = saved_fb
+        publish_mod._gap_defer_until = saved_gap
+        for k, v in saved_env.items():
+            if v is None:
+                os.environ.pop(k, None)
+            else:
+                os.environ[k] = v
+        shutil.rmtree(tmp, ignore_errors=True)

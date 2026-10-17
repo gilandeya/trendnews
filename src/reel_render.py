@@ -2910,6 +2910,30 @@ def pending_batch(cfg) -> list[tuple[Path, dict]]:
     return out
 
 
+def open_missing_reviews(cfg) -> int:
+    """يفتح قضية المراجعة لكل ريل مركَّب قبل R4a ولا قضية له (Issue #1472، R4b). فتح قضية لا تركيب فيه ولا ffmpeg ولا
+    يوتيوب، فلا يُحسب في reel.render.max_per_run؛ وعطل واحد لا يوقف الباقي. يعيد عدد ما فُتح."""
+    import json
+    if not cfg.path("reel.review.enabled", True):
+        return 0
+    from . import reel_review
+    opened = 0
+    for p in sorted(store.DRAFTS_DIR.glob("*/*.json")):
+        try:
+            d = json.loads(p.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            continue
+        if (d.get("format") != "reel" or d.get("status") != "approved_script" or d.get("render_status") != "rendered"
+                or d.get("reel_review_issue") or not d.get("reel_file")):
+            continue
+        try:
+            reel_review.open_or_update(p, d, cfg)
+            opened += 1
+        except Exception as exc:  # noqa: BLE001 -- قضية لا تُفتح تُعاد في التشغيلة التالية
+            log.warning("تعذّر فتح قضية مراجعة الريل %s: %s", p.stem, str(exc)[:150])
+    return opened
+
+
 def retry(draft_id: str, cfg) -> bool:
     """يعيد ريلًا failed إلى queued (failed يجب أن يُحيا بإصلاح سببه)."""
     found = store.load_draft(draft_id)
@@ -2931,6 +2955,9 @@ def main(argv: list[str] | None = None) -> int:
         ok = retry(args.retry, cfg)
         print(f"{'أُعيد إلى queued' if ok else 'لا ريل failed بهذا المعرّف'}: {args.retry}")
     if args.pending:
+        opened = open_missing_reviews(cfg)
+        if opened:
+            print(f"فُتحت {opened} قضية مراجعة لريلات مركَّبة سابقًا")
         batch = pending_batch(cfg)
         for path, draft in batch:
             res = render_draft(path, draft, cfg)
