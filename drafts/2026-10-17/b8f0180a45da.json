@@ -1,7 +1,7 @@
 {
   "id": "b8f0180a45da",
   "created_at": "2026-10-17T06:41:25.883338+00:00",
-  "status": "pending",
+  "status": "approved_script",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -312,5 +312,7 @@
   "sibling_id": "2df06f219165",
   "has_photo": false,
   "has_news_photo": true,
-  "review_issue": 1480
+  "review_issue": 1480,
+  "render_status": "queued",
+  "approved_script_at": "2026-10-17T06:48:12.602548+00:00"
 }
