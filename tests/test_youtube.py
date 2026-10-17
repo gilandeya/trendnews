@@ -3847,8 +3847,10 @@ def test_youtube_publish() -> None:
             _Resp2([_Block2("tool_use", input_={"headlines": [
                 "هل يستمر هذا التطوّر الثاني؟", "بديل ١", "بديل ٢"]})]),
         ])
-        result2 = publish_mod.cmd_youtube_selection(sel_issue_num, approve_body2, sel2_cfg,
-                                                     client=batch2_client)
+        # الجسم بعد الدفعة الأولى مفرَّغ المربعات (Issue #1532، W3) كما تتركه cmd_youtube_selection في القضية؛
+        # والباقي فوق السقف يبقى selected في ملف المواضيع فيُعالَج بلا تعليم
+        result2 = publish_mod.cmd_youtube_selection(
+            sel_issue_num, youtube_cluster.empty_selection_marks(approve_body2), sel2_cfg, client=batch2_client)
         check("cmd_youtube_selection(): إعادة الوسم تكمل الباقي فوق السقف (نداءا نموذج للثالث)",
               len(batch2_client.messages.calls) == 2, batch2_client.messages.calls)
         check("cmd_youtube_selection(): لا شيء يبقى بعد إكمال الدفعة ⇒ الـIssue أُغلق",

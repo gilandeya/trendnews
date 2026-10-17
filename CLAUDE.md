@@ -1996,3 +1996,9 @@ instead.
 - **قضية الترشيح:** `cmd_youtube_selection` (و`cmd_add_formats`) تضع في تعليق النتيجة الواحد سطرًا لكل قضية «📰 {العنوان} ← #{الرقم}» ثم تُغلق كما كانت.
 - **عند approved على إحدى هذه القضايا:** `publish.main` و`approve_reel_scripts` و`cmd_add_formats` تعمل على `review.all_draft_ids(body)` وحدها، والرفض الضمني مقصور على معرّفات الجسم، فمسودات المرشحين الآخرين تبقى `pending` وقضاياهم مفتوحة (لا كود جديد هنا؛ g401 يثبّته).
 - **لم يُغيَّر:** التراجع (`go1`) وإعادة الطلب ونشر الريل الفوري — مهام لاحقة من سلسلة التنقّل نفسها. الاختبارات: g399–g401 في `tests/test_guards_golden.py:test_w1_per_candidate_issue_guards`.
+
+## إعادة الطلب من قضية ترشيح أُعيد فتحها (Issue #1532، W3)
+
+- `finalize_selection` تعالج الآن كل موضوع عُلّمت له صيغة أيًّا كانت حالته (غير moved)؛ غير المعلَّم لا يُمسّ ولا يصير «لم يُختر». الموضوع المحسوم يأخذ `redo_formats` فيكتب `cmd_youtube_selection` صيغته من جديد دائمًا (المسودة المُعادة لا تُستعمل وتُحسب في `max_per_run`).
+- المعرّف الجديد `point_id(f"{topic_id}:{format}:r{n}")` (`publish._redo_n`: أعلى `redo_n` سابق + 1 من المسودات على القرص). `publish._supersede_old` تحوّل القديمة إلى `status="superseded"` + `superseded_by`/`superseded_at` (المنشورة تبقى published وتحمل الجديدة تحذير «نُشر من قبل»)، وتعلّق ♻️ على قضية مرحلتها وتغلقها إلا إن بقي فيها شقيق معلَّق. `superseded` خارج `_topic_drafts` وطابور التركيب (`reel_render.queued_reels`). نصوصها في `youtube.redo.texts`.
+- بعد كل تنفيذ يُفرَّغ جسم قضية الترشيح (`youtube_cluster.empty_selection_marks`) عبر `review.update_issue_body` قبل الإغلاق؛ فإعادة وسم approved لمتابعة الباقي فوق السقف تعتمد على بقاء الموضوع `selected` لا على التعليم. الاختبارات g402–g406 (`test_w3_reopened_selection_guards`).
