@@ -13631,3 +13631,322 @@ def test_w2a_return_to_selection_guards() -> None:
             os.environ.pop("GITHUB_REPOSITORY", None)
         else:
             os.environ["GITHUB_REPOSITORY"] = saved["repo"]
+
+
+def test_w2b_back_from_final_review_guards() -> None:
+    """التراجع من المراجعة النهائية (بطاقة المقال وفيديو الريل) يعيد فتح القضية السابقة نفسها (Issue #1536، W2b، g410–g414)."""
+    import json
+    import logging
+    import os
+
+    from src import decisions, imagesearch, reel_render, review
+    from src import publish as publish_mod
+    from src import youtube_article as ya
+    from src import youtube_cluster as ycl
+    from src import youtube_extract
+    from src import youtube_publish as yp
+    from tests.helpers import tick_marker
+
+    D = "2099-11-08"
+    cfg = load_config()
+    cfg.setdefault("youtube", {}).setdefault("article", {}).update(count=5, max_per_run=5)
+    cfg.setdefault("reel", {})["enabled"] = True
+
+    created: list[dict] = []
+    comments: list[tuple[int, str]] = []
+    reopened: list[int] = []
+    unlabeled: list[tuple[int, str]] = []
+    bodies: dict[int, str] = {}
+    closed: list[int] = []
+    box = {"reopen_fails": False, "state": "closed"}
+
+    def fake_create_issue(title, body, labels=None):
+        created.append({"title": title, "body": body, "labels": labels})
+        return {"number": 8700 + len(created), "html_url": "https://x/i"}
+
+    def fake_reopen(n):
+        if box["reopen_fails"]:
+            raise RuntimeError("API down")
+        reopened.append(n)
+
+    def fake_write(topic, points, cfg_, client):
+        return {"item": {"text": f"متن مقال {topic['title']}", "video_ids": ["v1"]},
+                "skip_reason": None, "reason_kind": None, "seen_keys": set()}
+
+    saved = {"create_issue": review.create_issue, "ensure_labels": review.ensure_labels,
+             "comment": review.comment, "remove_label": review.remove_label,
+             "close_issue": review.close_issue, "update_body": review.update_issue_body,
+             "reopen": getattr(review, "reopen_issue", None), "state": getattr(review, "issue_state", None),
+             "write": ya._write_one_topic, "yp_photo": yp._photo_candidates,
+             "ex_news_ok": youtube_extract.news_photo_available, "find_images": imagesearch.find_images,
+             "script": publish_mod._write_reel_script, "title_card": yp.ensure_title_card,
+             "repo": os.environ.get("GITHUB_REPOSITORY")}
+    review.create_issue = fake_create_issue
+    review.ensure_labels = lambda: None
+    review.comment = lambda n, t: comments.append((n, t))
+    review.remove_label = lambda n, lbl: unlabeled.append((n, lbl))
+    review.close_issue = lambda n: closed.append(n)
+    review.update_issue_body = lambda n, b: bodies.__setitem__(n, b)
+    review.reopen_issue = fake_reopen
+    review.issue_state = lambda n: box["state"]
+    ya._write_one_topic = fake_write
+    yp._photo_candidates = lambda *a, **k: ["https://example.com/p.jpg"]
+    youtube_extract.news_photo_available = lambda *a, **k: False
+    imagesearch.find_images = lambda *a, **k: []
+    publish_mod._write_reel_script = lambda *a, **k: None
+    yp.ensure_title_card = lambda *a, **k: None
+    os.environ["GITHUB_REPOSITORY"] = "user/trendnews"
+
+    def fresh():
+        shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+        DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+        shutil.rmtree(ycl.TOPICS_DIR, ignore_errors=True)
+        ycl.TOPICS_DIR.mkdir(parents=True, exist_ok=True)
+        ycl.POINTS_DIR.mkdir(parents=True, exist_ok=True)
+        if decisions.DECISIONS_FILE.exists():
+            decisions.DECISIONS_FILE.unlink()
+        pts = [{"video_id": "h0", "bloc": "arabic", "channel": "الجزيرة", "speaker": "متحدث",
+                "statement": "قول", "quote_arabic": "اقتباس", "type": "fact", "video_title": "ف",
+                "video_url": "https://youtube.com/watch?v=h0", "timestamp": 1},
+               {"video_id": "h1", "bloc": "turkish", "channel": "CNN Türk", "speaker": "متحدث٢",
+                "statement": "قول٢", "quote_arabic": "اقتباس٢", "type": "fact", "video_title": "ف٢",
+                "video_url": "https://youtube.com/watch?v=h1", "timestamp": 2}]
+        (ycl.POINTS_DIR / f"{D}.json").write_text(json.dumps({"points": pts}, ensure_ascii=False),
+                                                  encoding="utf-8")
+        topics = [{"title": "موضوع ب", "event": "حدث ب", "layer": "a", "blocs": ["arabic", "turkish"],
+                   "channels": ["الجزيرة", "CNN Türk"], "agreement": "cross_source", "point_ids": [0, 1]}]
+        (ycl.TOPICS_DIR / f"{D}.json").write_text(
+            json.dumps({"run_date": D, "topics": topics}, ensure_ascii=False), encoding="utf-8")
+        for lst in (created, comments, reopened, unlabeled, closed):
+            lst.clear()
+        bodies.clear()
+        box.update(reopen_fails=False, state="closed")
+        sel = ycl.open_selection(cfg, date_str=D)
+        return sel, created[-1]["body"]
+
+    def article_after_selection():
+        sel, body = fresh()
+        num = sel["issue"]["number"]
+        tid = sel["topics"][0]["id"]
+        publish_mod.cmd_youtube_selection(num, tick_marker(body, f"go:go2:{tid}"), cfg, client=None)
+        for p in sorted(DRAFTS_DIR.glob("*/*.json")):
+            d = json.loads(p.read_text(encoding="utf-8"))
+            if d.get("topic_id") == tid and (d.get("format") or "article") == "article":
+                return sel, num, tid, p, d
+        raise AssertionError("لا مسودة مقال")
+
+    def final_issue_for(path, did, stage2):
+        """يبني قضية بطاقة حقيقية (open_final_review) ويعيد (رقمها، جسمها)."""
+        store.update_draft(path, image="x.png")
+        n0 = len(created)
+        publish_mod.open_final_review(stage2, [did], cfg)
+        issue = next(c for c in created[n0:] if c["labels"] == ["final-review"])
+        return 8700 + created.index(issue) + 1, issue["body"]
+
+    def reel_of(sel):
+        reel = yp.build_reel_draft(sel["topics"][0], D, cfg)
+        reel.update(script_status="ready", headlines=["هل تغيّر الموقف؟", "ما الذي جرى؟", "كيف قرأت القنوات؟"],
+                    script={"narrator": "female", "title": "عنوان الريل", "question": "هل؟",
+                            "scenes": [{"kind": "narration", "text": "جملة."}, {"kind": "outro"}]})
+        store.save_draft(reel)
+        return reel
+
+    def clean_tail():
+        for lst in (comments, reopened, unlabeled, closed):
+            lst.clear()
+        bodies.clear()
+
+    try:
+        # ── g410) stage2_issue يُحفظ مع review_issue ويبقى بعد open_final_review ──
+        def g410():
+            sel, num, tid, path, d = article_after_selection()
+            s2 = d["review_issue"]
+            check("g410: المقال يحمل stage2_issue = review_issue", d.get("stage2_issue") == s2 and bool(s2),
+                  (d.get("stage2_issue"), s2))
+            reel = reel_of(sel)
+            r = yp.open_review(cfg)
+            rd = store.load_draft(reel["id"])[1]
+            check("g410: الريل يحمل stage2_issue = review_issue (قضيته)",
+                  bool(rd.get("review_issue")) and rd.get("stage2_issue") == rd["review_issue"]
+                  and rd["review_issue"] == r["issue"]["number"], (rd.get("stage2_issue"), rd.get("review_issue")))
+            f_num, _ = final_issue_for(path, d["id"], s2)
+            after = store.load_draft(d["id"])[1]
+            check("g410: بعد open_final_review يبقى stage2_issue ويتغير review_issue",
+                  after.get("stage2_issue") == s2 and after.get("review_issue") == f_num != s2,
+                  (after.get("stage2_issue"), after.get("review_issue"), f_num))
+        try:
+            g410()
+        except Exception as exc:  # noqa: BLE001
+            check("g410: استثناء", False, repr(exc))
+
+        # ── g411) «عد» من قضية البطاقة وقضية المرحلة 2 مغلقة ──
+        def g411():
+            sel, num, tid, path, d = article_after_selection()
+            s2 = d["review_issue"]
+            f_num, f_body = final_issue_for(path, d["id"], s2)
+            clean_tail()
+            n_created = len(created)
+            publish_mod.cmd_final_review(f_num, tick_marker(f_body, f"go:go2:{d['id']}"), cfg)
+            got = store.load_draft(d["id"])[1]
+            check("g411: البطاقة مُسحت والمسودة pending وreview_issue = stage2_issue",
+                  "image" not in got and got["status"] == "pending" and got.get("review_issue") == s2, got)
+            new_body = bodies.get(s2, "")
+            check("g411: جسم قضية المرحلة 2 أُعيد بناؤه وفيه البند بلا علامة [x]",
+                  f"<!-- draft:{d['id']} -->" in new_body and "[x]" not in new_body.lower(), new_body[:300])
+            check("g411: reopen_issue استُدعي لها وأُزيل approved", reopened == [s2] and (s2, "approved") in unlabeled,
+                  (reopened, unlabeled))
+            cm = [t for n, t in comments if n == s2 and "↩️" in t]
+            check("g411: تعليق ↩️ عليها يذكر قضية البطاقة", len(cm) == 1 and f"#{f_num}" in cm[0], comments)
+            check("g411: تقرير قضية البطاقة يذكر رقم القضية المعاد فتحها",
+                  any(n == f_num and f"#{s2}" in t for n, t in comments), comments)
+            check("g411: لا قضية youtube-review جديدة",
+                  not [c for c in created[n_created:] if c["labels"] == ["youtube-review"]],
+                  [c["labels"] for c in created[n_created:]])
+            n1 = len(created)
+            yp.publish_ids([d["id"]], {}, cfg, go3_ids={d["id"]})
+            check("g411: go3 بعدها ← قضية بطاقة جديدة لهذا المقال",
+                  any(c["labels"] == ["final-review"] and d["id"] in c["body"] for c in created[n1:]),
+                  [c["labels"] for c in created[n1:]])
+        try:
+            g411()
+        except Exception as exc:  # noqa: BLE001
+            check("g411: استثناء", False, repr(exc))
+
+        # ── g412) الاحتياط: قضية مفتوحة / بلا stage2_issue / reopen يرفع ← السلوك الحالي ──
+        def g412():
+            warned: list[str] = []
+
+            class _H(logging.Handler):
+                def emit(self, record):
+                    warned.append(record.getMessage())
+            h = _H(level=logging.WARNING)
+            logging.getLogger().addHandler(h)
+            try:
+                for label, setup in (("قضية المرحلة 2 مفتوحة", lambda p: box.update(state="open")),
+                                     ("مسودة بلا stage2_issue", lambda p: store.update_draft(p, remove=["stage2_issue"])),
+                                     ("reopen يرفع", lambda p: box.update(reopen_fails=True))):
+                    sel, num, tid, path, d = article_after_selection()
+                    s2 = d["review_issue"]
+                    f_num, f_body = final_issue_for(path, d["id"], s2)
+                    clean_tail()
+                    box.update(reopen_fails=False, state="closed")
+                    setup(path)
+                    warned.clear()
+                    publish_mod.cmd_final_review(f_num, tick_marker(f_body, f"go:go2:{d['id']}"), cfg)
+                    got = store.load_draft(d["id"])[1]
+                    check(f"g412 ({label}): pending بلا بطاقة ولا review_issue",
+                          got["status"] == "pending" and "image" not in got and "review_issue" not in got, got)
+                    check(f"g412 ({label}): لا إعادة فتح ولا تعليق على قضية المرحلة 2", not reopened
+                          and not [1 for n, _ in comments if n == s2], (reopened, comments))
+                    check(f"g412 ({label}): تحذير في السجل", any("المرحلة 2" in m for m in warned), warned)
+                    if label == "قضية المرحلة 2 مفتوحة":
+                        check("g412: جسم القضية المفتوحة لم يُمسّ", s2 not in bodies, list(bodies))
+            finally:
+                logging.getLogger().removeHandler(h)
+        try:
+            g412()
+        except Exception as exc:  # noqa: BLE001
+            check("g412: استثناء", False, repr(exc))
+
+        # ── g413) قضية reel-review: خيارا go2 وgo1، وgo2 يعيد القضية السابقة ──
+        from src import reel_review
+
+        def approved_reel(sel):
+            reel = reel_of(sel)
+            yp.open_review(cfg)
+            path = store.load_draft(reel["id"])[0]
+            store.update_draft(path, status="approved_script", render_status="rendered",
+                               reel_file="reels/x.mp4", reel_gif="reels/x.gif", reel_review_issue=9100)
+            return path, store.load_draft(reel["id"])[1]
+
+        def g413():
+            sel, num, tid, path, d = article_after_selection()
+            rpath, rd = approved_reel(sel)
+            s2 = rd["stage2_issue"]
+            body = reel_review.build_body(rd, cfg)
+            check("g413: خياران go2 وgo1 بنصيهما",
+                  "↩️ عد إلى السيناريو" in body and "↩️ عد إلى الترشيح" in body
+                  and f"<!-- go:go2:{rd['id']} -->" in body and f"<!-- go:go1:{rd['id']} -->" in body
+                  and f"<!-- go:publish:{rd['id']} -->" in body and f"go:go3:{rd['id']}" not in body, body)
+            clean_tail()
+            n_created = len(created)
+            publish_mod.cmd_reel_review(9100, tick_marker(body, f"go:go2:{rd['id']}"), cfg)
+            got = store.load_draft(rd["id"])[1]
+            check("g413: pending وscript_status ready بلا render_status",
+                  got["status"] == "pending" and got.get("script_status") == "ready"
+                  and "render_status" not in got, got)
+            check("g413: queued_reels لا يلتقطها", all(x["id"] != rd["id"] for _, x in reel_render.queued_reels(cfg)), None)
+            nb = bodies.get(s2, "")
+            check("g413: قضية المرحلة 2 أُعيد فتحها وجسمها يعرض الريل وخيار go3",
+                  reopened == [s2] and (s2, "approved") in unlabeled and f"<!-- draft:{rd['id']} -->" in nb
+                  and f"go:go3:{rd['id']}" in nb and "[x]" not in nb.lower(), (reopened, nb[:300]))
+            check("g413: تعليق ↩️ على قضية المرحلة 2 يذكر #9100",
+                  any(n == s2 and "↩️" in t and "#9100" in t for n, t in comments), comments)
+            check("g413: لا رفض ولا نشر وقضية reel-review أُغلقت", got["status"] == "pending" and 9100 in closed
+                  and not got.get("facebook") and not [c for c in created[n_created:] if c["labels"] == ["youtube-review"]],
+                  (closed, got.get("status")))
+            # ريل قديم بلا stage2_issue ← review_issue هو رقم المرحلة 2
+            clean_tail()
+            store.update_draft(rpath, status="approved_script", render_status="rendered", remove=["stage2_issue"])
+            publish_mod.cmd_reel_review(9100, tick_marker(body, f"go:go2:{rd['id']}"), cfg)
+            check("g413: ريل قديم بلا stage2_issue يستعمل review_issue", reopened == [s2], reopened)
+            # فشل إعادة الفتح ← pending بلا review_issue
+            clean_tail()
+            box["reopen_fails"] = True
+            store.update_draft(rpath, status="approved_script", render_status="rendered", review_issue=s2)
+            publish_mod.cmd_reel_review(9100, tick_marker(body, f"go:go2:{rd['id']}"), cfg)
+            got = store.load_draft(rd["id"])[1]
+            check("g413: فشل reopen ← pending بلا review_issue (تلتقطها open_review)",
+                  got["status"] == "pending" and "review_issue" not in got, got)
+            box["reopen_fails"] = False
+        try:
+            g413()
+        except Exception as exc:  # noqa: BLE001
+            check("g413: استثناء", False, repr(exc))
+
+        # ── g414) go1 من قضية reel-review ومن قضية البطاقة ← قضية الترشيح نفسها ──
+        def g414():
+            sel, num, tid, path, d = article_after_selection()
+            rpath, rd = approved_reel(sel)
+            body = reel_review.build_body(rd, cfg)
+            clean_tail()
+            publish_mod.cmd_reel_review(9100, tick_marker(body, f"go:go1:{rd['id']}"), cfg)
+            got = store.load_draft(rd["id"])[1]
+            check("g414: go1 من reel-review ← قضية الترشيح أُعيد فتحها والمسودة returned",
+                  num in reopened and got["status"] == "returned" and got.get("returned_from_stage") == 3,
+                  (reopened, got["status"]))
+            check("g414: لا إعادة فتح لقضية المرحلة 2", rd["stage2_issue"] not in reopened, reopened)
+            sel, num, tid, path, d = article_after_selection()
+            f_num, f_body = final_issue_for(path, d["id"], d["review_issue"])
+            clean_tail()
+            publish_mod.cmd_final_review(f_num, tick_marker(f_body, f"go:go1:{d['id']}"), cfg)
+            got = store.load_draft(d["id"])[1]
+            check("g414: go1 من قضية البطاقة ← قضية الترشيح أُعيد فتحها والمسودة returned",
+                  reopened == [num] and got["status"] == "returned", (reopened, got["status"]))
+        try:
+            g414()
+        except Exception as exc:  # noqa: BLE001
+            check("g414: استثناء", False, repr(exc))
+    finally:
+        review.create_issue = saved["create_issue"]
+        review.ensure_labels = saved["ensure_labels"]
+        review.comment = saved["comment"]
+        review.remove_label = saved["remove_label"]
+        review.close_issue = saved["close_issue"]
+        review.update_issue_body = saved["update_body"]
+        for name, key in (("reopen_issue", "reopen"), ("issue_state", "state")):
+            if saved[key] is None:
+                if hasattr(review, name):
+                    delattr(review, name)
+            else:
+                setattr(review, name, saved[key])
+        ya._write_one_topic = saved["write"]
+        yp._photo_candidates = saved["yp_photo"]
+        youtube_extract.news_photo_available = saved["ex_news_ok"]
+        imagesearch.find_images = saved["find_images"]
+        publish_mod._write_reel_script = saved["script"]
+        yp.ensure_title_card = saved["title_card"]
+        if saved["repo"] is None:
+            os.environ.pop("GITHUB_REPOSITORY", None)
+        else:
+            os.environ["GITHUB_REPOSITORY"] = saved["repo"]
