@@ -12526,6 +12526,7 @@ def test_reel_review_r4a_guards() -> None:
 
     from src import publish as publish_mod
     from src import reel_render, reel_script, review, stages, store
+    from tests.helpers import tick_marker
     try:
         from src import reel_review
     except ImportError:          # قبل التنفيذ: تفشل الحالات واحدة واحدة بدل أن ينهار الاختبار كله
@@ -12549,7 +12550,7 @@ def test_reel_review_r4a_guards() -> None:
 
     # ── g389: الجسم ──
     def g389():
-        d = reel_draft("a4a00000g389")
+        d = reel_draft("a4a000003890")
         body = reel_review.build_body(d, cfg)
         base = cfg.path("reel.render.data_link_base")
         check("g389: ترويسة المرحلة 3", stages.stage_header(3, cfg) in body, body[:200])
@@ -12623,7 +12624,7 @@ def test_reel_review_r4a_guards() -> None:
     review.update_issue_body = lambda n, b: updated.append((n, b))
     try:
         def g390():
-            d = unrendered("a4a00000g390", 77, "عنوان الشاشة")
+            d = unrendered("a4a000003900", 77, "عنوان الشاشة")
             path = store.save_draft(d)
             c1: list = []
             reel_render.render_draft(path, store.load_draft(d["id"])[1], cfg, make_deps(c1),
@@ -12640,7 +12641,7 @@ def test_reel_review_r4a_guards() -> None:
             check("g390: تركيب ثانٍ ← لا قضية جديدة وجسم القضية نفسها يُعاد كتابته",
                   len(created) == 1 and [n for n, _ in updated] == [501], (len(created), updated))
             check("g390: تعليق التركيب الثاني على القضية نفسها", [i for i, _ in c2] == [501], c2)
-            d2 = unrendered("a4a00000g390b", 78, "ع")
+            d2 = unrendered("a4a000003901", 78, "ع")
             path2 = store.save_draft(d2)
             state["fail"] = True
             c3: list = []
@@ -12676,7 +12677,7 @@ def test_reel_review_r4a_guards() -> None:
         return msgs
 
     def g391():
-        d = reel_draft("a4a00000g391a", review_issue=601)
+        d = reel_draft("a4a000003910", review_issue=601)
         store.save_draft(d)
         body = reel_review.build_body(d, cfg)
         marked = tick_marker(tick_marker(body, f"go:publish:{d['id']}"), f"hl:{d['id']}:1")
@@ -12687,12 +12688,12 @@ def test_reel_review_r4a_guards() -> None:
               (got["status"], got.get("headline_selected")))
         check("g391: تعليق «✅ اعتُمد الريل — يُنشر حين تُفعَّل مرحلة النشر (R4b)»",
               any("✅ اعتُمد الريل — يُنشر حين تُفعَّل مرحلة النشر (R4b)" in m for m in msgs), msgs)
-        d2 = reel_draft("a4a00000g391b", review_issue=602)
+        d2 = reel_draft("a4a000003911", review_issue=602)
         store.save_draft(d2)
         run_main(reel_review.build_body(d2, cfg), 602, "--skip-urgent")
         check("g391: بلا تعليم ← مرفوض", store.load_draft(d2["id"])[1]["status"] == "rejected",
               store.load_draft(d2["id"])[1]["status"])
-        d3 = reel_draft("a4a00000g391c", review_issue=603)
+        d3 = reel_draft("a4a000003912", review_issue=603)
         store.save_draft(d3)
         m3 = run_main(tick_marker(reel_review.build_body(d3, cfg), f"go:publish:{d3['id']}"), 603, "--urgent-only")
         got3 = store.load_draft(d3["id"])[1]

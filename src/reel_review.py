@@ -27,9 +27,10 @@ def build_body(draft: dict, cfg) -> str:
     script = draft.get("script") or {}
     narrator = cfg.path("reel.texts.narrator_" + str(script.get("narrator", "female")), "")
     # الروابط لا الصور: المستودع خاص فلا تُعرض الصورة في الـIssue
+    # العلامة العارية <!-- draft:id --> تجدها review.all_draft_ids كبقية القضايا: بها تعرف cmd_reel_review ريل القضية
     lines = [stages.stage_header(3, cfg), "", t["explainer"], "",
              t["meta"].format(title=script.get("title", ""), seconds=draft.get("duration_seconds", "?"),
-                              narrator=narrator),
+                              narrator=narrator) + f" <!-- draft:{draft['id']} -->",
              "", t["video"].format(url=base + draft.get("reel_file", "")),
              t["preview"].format(url=base + draft.get("reel_gif", "")), ""]
     notes = draft.get("render_notes") or []
