@@ -2103,7 +2103,7 @@ reel:
     # فلا يتحرك. قيمة ≥ min(lead_seconds, clip_tail_seconds) تُخفَّض إلى ذلك الحد − 0.1 كي لا يقع كلام المقطع في التلاشي
     transition: {type: slideleft, outro_type: fade, seconds: 0.35}
     # نسخة التركيب: رفعها تعيد --pending تركيب كل ريل معتمد مُركَّب بنسخة أقدم (المنشور والمرفوض لا يُمسّان)
-    version: 26
+    version: 27
     # أقصى نقص مقبول للريل النهائي عن المتوقع (مجموع المدد الموحَّدة − الانتقالات) قبل رفضه عطل تركيب (Issue #1436)
     duration_tolerance: 1.5
     # خطوط الريل كلها (Issue #1441، R5g): Playpen Sans Arabic المتغيّر للعربية — display_weight للعناوين (الهوك والسؤال و«تابعوا
@@ -2112,7 +2112,10 @@ reel:
     fonts: {arabic: "assets/fonts/PlaypenSansArabic-VF.ttf", display_weight: "ExtraBold", body_weight: "Bold",
             latin: "assets/fonts/Kalam-Bold.ttf", line_factor: 1.62}
     # أحجام النصوص الكبيرة [البداية، الأدنى]؛ تُصغَّر بخطوة 2 داخل المنطقة الآمنة. حبر «ومن» Playpen Bold 104 = 90 بكسل
-    sizes: {narration: [104, 90], hook: [110, 70], question: [90, 56], follow: 112}
+    sizes: {narration: [104, 90], hook: [110, 70], question: [90, 56], follow: 112, quote: [58, 38]}
+    # ترجمة كلام المتحدث في مشاهد المقاطع (Issue #1592، R5h): سطر واحد في كل لحظة تظهر كلماته واحدة تلو الأخرى بتزامن مع تقدّم كلامه.
+    # lead/tail ثواني البداية والنهاية حين لا نص مجلوبًا للمقطع فيُوزَّع التوقيت بالتساوي بينهما
+    quote: {lead: 0.3, tail: 0.4}
     # ظهور الراوي: lines ← سطرًا فسطرًا بتلاشٍ من الشفافية (fade ثانية) وصعود rise بكسل إلى موضعه؛ typewriter ← حرفًا حرفًا
     reveal: {mode: lines, fade: 0.25, rise: 18}
     # صورة خلفية واحدة لكل مشاهد الراوي (Issue #1411، R3b-2b). تُختار عند كتابة السيناريو وتُحفظ رابطًا وحده على المسودة

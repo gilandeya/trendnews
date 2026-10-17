@@ -1850,6 +1850,54 @@ def transition_seconds(cfg) -> float:
     return seconds
 
 
+def quote_word_times(n_words: int, clip_seconds: float, segments: list, start_offset: float, cfg) -> list[float]:
+    """زمن ظهور كل كلمة عربية من ترجمة كلام المتحدث داخل المقطع (Issue #1592، R5h). النص المجلوب يعطي منحنى تقدّم الكلام
+    لا كلماته: كلمات كل مقطع موزّعة بالتساوي على مدته (حتى بداية التالي، والأخير حتى نهاية النافذة)، والكلمة k من n تظهر
+    عند أول زمن يبلغ فيه التقدّم k/n؛ فيتبع النص سرعة المتحدث ووقفاته ولو كان كلامه بلغة أخرى. بلا مقاطع (نافذة تقريبية أو
+    تعذّر الجلب) أو بلا كلمات فيها: توزيع متساوٍ من quote.lead إلى clip_seconds − quote.tail. لا كلمة قبل نهاية الانتقال،
+    والأزمنة متزايدة وكلها ≤ clip_seconds − 0.1."""
+    if n_words <= 0:
+        return []
+    trans = transition_seconds(cfg)
+    hi = max(clip_seconds - 0.1, trans)
+    lo = trans
+    step = 0.04
+    spans: list[tuple[float, float, int]] = []
+    ordered = sorted(((float(s) - start_offset, str(t)) for s, t in segments or []), key=lambda x: x[0])
+    for k, (st, text) in enumerate(ordered):
+        en = ordered[k + 1][0] if k + 1 < len(ordered) else clip_seconds
+        a, b = max(st, 0.0), min(en, clip_seconds)
+        words = len(text.split())
+        if b <= a or en <= st or words == 0:
+            continue
+        # الكلمات موزّعة على المقطع كله، فالجزء المقتطع بالنافذة يحمل حصته بنسبة التداخل
+        spans.append((a, b, words * (b - a) / (en - st)))
+    total = sum(w for _, _, w in spans)
+    if total <= 0:
+        qlead = float(cfg.path("reel.render.quote.lead", 0.3))
+        qtail = float(cfg.path("reel.render.quote.tail", 0.4))
+        start, end = max(qlead, trans), max(clip_seconds - qtail, max(qlead, trans))
+        times = [start + (end - start) * k / n_words for k in range(n_words)]
+    else:
+        times = []
+        for k in range(1, n_words + 1):
+            need, acc, t = total * k / n_words, 0.0, spans[-1][1]
+            for a, b, w in spans:
+                if acc + w >= need - 1e-9:
+                    t = a + (b - a) * ((need - acc) / w if w else 1.0)
+                    break
+                acc += w
+            times.append(t)
+    out: list[float] = []
+    for t in times:
+        t = max(t, lo, (out[-1] + step) if out else lo)
+        out.append(t)
+    for k in range(len(out) - 1, -1, -1):      # تحديد الأعلى من الآخر مع بقاء التزايد
+        cap = hi if k == len(out) - 1 else out[k + 1] - step
+        out[k] = min(out[k], cap)
+    return out
+
+
 def _narration_frames(parts: list[tuple[str, float]], i: int, cfg, tmp: Path, lead: float,
                       bg: dict | None = None) -> list[tuple[Path, float]]:
     """إطارات مشهد الراوي. مع typewriter: خطوة لكل حرف (typewriter_steps) بمدة كلام الجملة = مدة صوتها − الصمت بعدها،
