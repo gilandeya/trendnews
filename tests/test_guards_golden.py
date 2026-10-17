@@ -12655,8 +12655,9 @@ def test_reel_review_r4a_guards() -> None:
         sources = cfg.path("reel.render.texts.clips_from").format(channels=d["render_sources"])
         check("g389: نص المنشور بالعنوان الأول ثم سطر فارغ ثم سطر المصادر",
               f"{d['headlines'][0]}\n\n{sources}" in body, body)
-        check("g389: خيار انشر وحده", f"<!-- go:publish:{d['id']} -->" in body
-              and not any(f"go:{a}:" in body for a in ("go1", "go2", "go3")), body)
+        check("g389: خيار انشر وgo2/go1 للتراجع (W2b) ولا go3", f"<!-- go:publish:{d['id']} -->" in body
+              and f"<!-- go:go2:{d['id']} -->" in body and f"<!-- go:go1:{d['id']} -->" in body
+              and f"go:go3:{d['id']}" not in body, body)
         check("g389: لا <img>", "<img" not in body.lower(), body)
     try:
         g389()
@@ -13639,7 +13640,7 @@ def test_w2b_back_from_final_review_guards() -> None:
     import logging
     import os
 
-    from src import decisions, imagesearch, reel_render, review
+    from src import decisions, imagesearch, reel_render, review, stages
     from src import publish as publish_mod
     from src import youtube_article as ya
     from src import youtube_cluster as ycl
@@ -13792,7 +13793,7 @@ def test_w2b_back_from_final_review_guards() -> None:
                   "image" not in got and got["status"] == "pending" and got.get("review_issue") == s2, got)
             new_body = bodies.get(s2, "")
             check("g411: جسم قضية المرحلة 2 أُعيد بناؤه وفيه البند بلا علامة [x]",
-                  f"<!-- draft:{d['id']} -->" in new_body and "[x]" not in new_body.lower(), new_body[:300])
+                  f"<!-- draft:{d['id']} -->" in new_body and not stages.parse_actions(new_body)[0], new_body[:300])
             check("g411: reopen_issue استُدعي لها وأُزيل approved", reopened == [s2] and (s2, "approved") in unlabeled,
                   (reopened, unlabeled))
             cm = [t for n, t in comments if n == s2 and "↩️" in t]
@@ -13803,7 +13804,7 @@ def test_w2b_back_from_final_review_guards() -> None:
                   not [c for c in created[n_created:] if c["labels"] == ["youtube-review"]],
                   [c["labels"] for c in created[n_created:]])
             n1 = len(created)
-            yp.publish_ids([d["id"]], {}, cfg, go3_ids={d["id"]})
+            yp.publish_ids([d["id"]], {}, cfg, issue_number=s2, go3_ids={d["id"]})
             check("g411: go3 بعدها ← قضية بطاقة جديدة لهذا المقال",
                   any(c["labels"] == ["final-review"] and d["id"] in c["body"] for c in created[n1:]),
                   [c["labels"] for c in created[n1:]])
@@ -13879,7 +13880,7 @@ def test_w2b_back_from_final_review_guards() -> None:
             nb = bodies.get(s2, "")
             check("g413: قضية المرحلة 2 أُعيد فتحها وجسمها يعرض الريل وخيار go3",
                   reopened == [s2] and (s2, "approved") in unlabeled and f"<!-- draft:{rd['id']} -->" in nb
-                  and f"go:go3:{rd['id']}" in nb and "[x]" not in nb.lower(), (reopened, nb[:300]))
+                  and f"go:go3:{rd['id']}" in nb and not stages.parse_actions(nb)[0], (reopened, nb[:300]))
             check("g413: تعليق ↩️ على قضية المرحلة 2 يذكر #9100",
                   any(n == s2 and "↩️" in t and "#9100" in t for n, t in comments), comments)
             check("g413: لا رفض ولا نشر وقضية reel-review أُغلقت", got["status"] == "pending" and 9100 in closed

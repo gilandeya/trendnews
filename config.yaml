@@ -1864,6 +1864,12 @@ reel:
     publish_failed: "- 🎬 {title} — ❌ فشل نشر الريل: {reason} — أعد وسم `approved` لإعادة المحاولة"
     file_missing: "ملف الريل غير موجود: {path}"
     sources_comment: "المصادر:"
+    # التراجع من قضية الريل (Issue #1536، W2b): go2 يعيد فتح قضية المرحلة 2 نفسها وgo1 قضية الترشيح (W2a)
+    go2: "↩️ عد إلى السيناريو"
+    go1: "↩️ عد إلى الترشيح"
+    back_comment: "↩️ أُعيد ريل «{title}» من مراجعة الفيديو (#{review}) — عدّل السيناريو إن شئت واختر من جديد"
+    back_line: "- 🎬 {title} — ↩️ أُعيد فتح قضية المرحلة 2 #{stage2}"
+    back_fallback_line: "- 🎬 {title} — ↩️ عاد إلى المرحلة 2 (قضية جديدة)"
   # نصوص الهيكل كلها هنا لا في الكود: كتلة الصيغة في المرحلة 1 وبند الريل وخيارات «أضف»
   # في المرحلة 2 وتعليقات القراءة.
   texts:
@@ -2494,6 +2500,9 @@ youtube:
       published_before: "⚠️ هذا الموضوع نُشر من قبل: {url}"
       # تعليق قضية الترشيح المعاد فتحها حين يعود مقال/ريل من المرحلة 2 بـgo1 (Issue #1534، W2a)
       returned_comment: "↩️ أُعيد «{title}» من المرحلة 2 (#{stage2}) — علّم صيغته من جديد وأضف approved"
+      # «عد» من قضية البطاقة يعيد فتح قضية المرحلة 2 نفسها (Issue #1536، W2b)
+      back_from_final_comment: "↩️ أُعيد «{title}» من مراجعة البطاقة (#{final}) — اختر من جديد وأضف approved"
+      back_from_final_line: "- ↩️ {title} — أُعيد فتح قضية المرحلة 2 #{stage2}"
   max_per_channel: 3
   min_duration_minutes: 8
   max_duration_minutes: 150
