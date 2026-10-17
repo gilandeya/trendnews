@@ -1954,3 +1954,21 @@ instead.
 
 - `_render` يحذف `hook_video` بمصدر `auto_topic` (من الذاكرة ومن القرص بـ`store.update_draft(remove=["hook_video"])`) قبل `_auto_hook`، فيُعاد اختياره بالمعنى في `_topic_hook` بدل أن يُبقيه خروجه المبكر لوجود `hook_video` (كان R5d5 يختار بالطول). المصدر `auto` (الحدث نفسه) واليدوي بلا تغيير.
 - حُذف فرع `auto_topic` من `_auto_hook` (لا يصله هوك كهذا بعد الآن)؛ g381 عُدّل وg387 يثبّت السلوك. `render_version` يبقى 26.
+
+## قضية المراجعة النهائية للريل (Issue #1469، R4a) — `src/reel_review.py`
+
+العرض والقراءة فقط؛ النشر في R4b. نصوصها في `config.yaml: reel.review` (و`enabled`).
+
+- **قضية واحدة لكل ريل:** وسمها `reel-review` (يُنشأ في `review.ensure_labels`)، عنوانها «🎬 مراجعة الريل — {script.title}»، ورقمها على المسودة `reel_review_issue`.
+  `reel_render.render_draft` بعد كل تركيب **ناجح** يحفظ `render_notes` (سطور نص التعليق نفسه) و`render_sources` (سطر «المقاطع من» كما في الخاتمة، يملؤه
+  `_assemble(sources_out=)`)، ثم يستدعي `reel_review.open_or_update(path, draft, cfg)`: بلا `reel_review_issue` تُفتح قضية، وإلا يُعاد كتابة جسم القضية نفسها
+  (`review.update_issue_body`) فلا قضية ثانية. تعليق التركيب يذهب إلى قضية المراجعة بدل قضية المرحلة 2؛ فشل الفتح/التحديث ← `log.warning` والتركيب ينجح
+  والتعليق يبقى على قضية المرحلة 2. التركيب الفاشل لا يفتح قضية.
+- **الجسم (`build_body`):** `stages.stage_header(3)` وشرح، العنوان والمدة وجنس الراوي (مع العلامة العارية `<!-- draft:id -->` التي بها يجد `publish` الريل)،
+  رابطا الفيديو والمعاينة (`data_link_base` + `reel_file`/`reel_gif`، روابط لا صور لأن المستودع خاص)، «📝 ملاحظات التركيب»، مربعات `hl:` (الأول افتراضي)،
+  «📣 نص المنشور» (العنوان المختار، سطر فارغ، سطر المصادر)، ثم `stages.options_block(3, id, only=("publish",))`.
+- **عند approved (`publish.cmd_reel_review`، المسار العادي وحده؛ `--urgent-only` لا يفعل شيئًا):** «انشر» ← `status="approved_reel"` و`headline_selected` من
+  المربع المعلَّم وتعليق «✅ اعتُمد الريل…»؛ غير المعلَّم ← `rejected` كبقية البنود (`feedback.record` + `decisions.record_rejected_unchecked`). الشرط
+  `status == "approved_script"` يمنع إعادة المعالجة. ثم تُغلق القضية.
+- **اختبارات:** g389–g391 في `tests/test_guards_golden.py:test_reel_review_r4a_guards`؛ و`install_fakes` يجعل `review.create_issue`/`update_issue_body` ترفعان
+  افتراضيًا (فلا شبكة حتى لو وُجد توكن) فيبقى التعليق على قضية المرحلة 2 في كل اختبار تركيب لا يحقنهما.
