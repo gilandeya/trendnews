@@ -1863,7 +1863,7 @@ def _crop_for(clip: dict, cfg, deps: Deps, scene: dict | None = None) -> dict:
 
 
 def _clip_scene(clip: dict, overlays: tuple[Path, Path], out: Path, cfg, deps: Deps, scene: dict | None = None,
-                notes: list | None = None) -> float:
+                notes: list | None = None, qframes: list | None = None) -> float:
     """المقطع يملأ الشاشة الرأسية باقتطاع ثابت (يتبع الوجه)، ثم الطبقة الثابتة، ثم طبقة الشريط تدخل من اليمين
     بتباطؤ في آخر الحركة: x = W×(1−p)^3 مع p من 0 إلى 1 خلال slide_seconds بعد انتهاء الانتقال (قبلها خارج الشاشة)."""
     rcfg = cfg.path("reel.render")
@@ -1892,18 +1892,18 @@ def _clip_scene(clip: dict, overlays: tuple[Path, Path], out: Path, cfg, deps: D
         cover = detect_cover(clip["file"], crop["x"], crop["w"], cfg, deps.frames)
         clip["crop"]["cover"] = cover
         overlays = tuple(_save(im, Path(ov).with_name(Path(ov).stem + "_auto.png"))
-                         for im, ov in zip(frame_clip_layers(cfg, scene, cover=cover, quote=quote_frames is None), overlays))
+                         for im, ov in zip(frame_clip_layers(cfg, scene, cover=cover, quote=qframes is None), overlays))
     slide = float(cfg.path("reel.render.band.slide_seconds", 0) or 0)
     if slide > 0:
         pos = f"x='W*pow(1-min(max((t-{_fmt(transition_seconds(cfg))})/{_fmt(slide)},0),1),3)':y=0"
     else:
         pos = "0:0"
     loops = [x for ov in overlays for x in ("-loop", "1", "-framerate", str(rcfg["fps"]), "-i", str(ov))]
-    if quote_frames:
+    if qframes:
         # الترجمة تيار حالات (concat بمدد الحالات) بين الطبقة الثابتة وطبقة الشريط، في موضع الصندوق القديم نفسه
         lst = out.with_name(out.stem + "_quote.txt")
-        lst.write_text("".join(f"file '{f}'\nduration {_fmt(d)}\n" for f, d in quote_frames)
-                       + f"file '{quote_frames[-1][0]}'\n", encoding="utf-8")
+        lst.write_text("".join(f"file '{f}'\nduration {_fmt(d)}\n" for f, d in qframes)
+                       + f"file '{qframes[-1][0]}'\n", encoding="utf-8")
         loops += ["-f", "concat", "-safe", "0", "-i", str(lst)]
         graph = (f"[0:v]{cexpr},scale={w}:{h}[v0];"
                  f"[v0][1:v]overlay=0:0:shortest=1[v1];"
@@ -2555,7 +2555,7 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
                 clips[i]["quote_sync"] = "transcript" if segs else "uniform"
             static, band = frame_clip_layers(cfg, scene, quote=qframes is None)
             overlays = (_save(static, tmp / f"overlay_{i}_static.png"), _save(band, tmp / f"overlay_{i}_band.png"))
-            dur = _clip_scene(clips[i], overlays, out, cfg, deps, scene, notes, quote_frames=qframes)
+            dur = _clip_scene(clips[i], overlays, out, cfg, deps, scene, notes, qframes=qframes)
         elif kind == "outro":
             png = _save(frame_outro(cfg, channels, credit=credit) if credit else frame_outro(cfg, channels),
                         tmp / f"outro_{i}.png")
