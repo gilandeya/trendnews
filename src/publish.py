@@ -1235,10 +1235,8 @@ def cmd_add_formats(issue_number: int, body: str, cfg, client=None) -> int:
             lines.append(texts.get("article_added", "").format(title=draft["arabic"]["post_title"][:50]))
         _link_siblings(topic_id)
     if added:
-        review_result = youtube_publish.open_review(cfg)
-        if review_result["issue"]:
-            lines.append(f"📰 {len(review_result['drafts'])} بند بانتظار مراجعتك — "
-                         f"Issue #{review_result['issue']['number']}")
+        for item in youtube_publish.open_review(cfg)["issues"]:
+            lines.append(f"📰 {item['title'].removeprefix('📰 مراجعة: ')} ← #{item['issue']['number']}")
     if lines:
         review.comment(issue_number, "### ➕ إضافة صيغة\n" + "\n".join(lines))
     return added
@@ -1396,10 +1394,9 @@ def cmd_youtube_selection(issue_number: int, body: str, cfg, client=None) -> int
         review_ids += yt_remaining
 
     if review_ids:
-        review_result = youtube_publish.open_review(cfg)
-        if review_result["issue"]:
-            lines.append(f"📰 {len(review_result['drafts'])} مقال بانتظار مراجعتك — "
-                         f"Issue #{review_result['issue']['number']}")
+        # سطر لكل قضية مرحلة 2 مفتوحة (Issue #1481، W1) بدل سطر واحد لقضية مجمَّعة
+        for item in youtube_publish.open_review(cfg)["issues"]:
+            lines.append(f"📰 {item['title'].removeprefix('📰 مراجعة: ')} ← #{item['issue']['number']}")
 
     if still_waiting:
         for t in still_waiting:

@@ -10915,11 +10915,19 @@ def test_analysis_stages_pipeline() -> None:
               d_t1 is not None and d_t2 is not None
               and d_t1["topic_date"] == D1 and d_t2["topic_date"] == D1,
               list(drafts_now))
-        review_issue = next((c for c in r1["new_issues"] if c["labels"] == ["youtube-review"]), None)
-        check("(#1187-ج) فُتحت قضية مرحلة 2 (youtube-review) للمسودتين",
-              review_issue is not None and f"<!-- draft:{d_t1['id']} -->" in review_issue["body"]
-              and f"<!-- draft:{d_t2['id']} -->" in review_issue["body"], len(created))
+        # W1: لكل مرشح قضية مرحلة 2 خاصة به بعنوان «📰 مراجعة: {الموضوع}»
+        reviews = [c for c in r1["new_issues"] if c["labels"] == ["youtube-review"]]
+        review_issue = next((c for c in reviews if f"<!-- draft:{d_t1['id']} -->" in c["body"]), None)
+        review_issue2 = next((c for c in reviews if f"<!-- draft:{d_t2['id']} -->" in c["body"]), None)
+        check("(#1187-ج) فُتحت قضيتا مرحلة 2 (youtube-review)، واحدة لكل مسودة وبعنوانها",
+              review_issue is not None and review_issue2 is not None and len(reviews) == 2
+              and review_issue is not review_issue2
+              and f"<!-- draft:{d_t2['id']} -->" not in review_issue["body"]
+              and f"<!-- draft:{d_t1['id']} -->" not in review_issue2["body"]
+              and all(c["title"].startswith("📰 مراجعة: ") for c in reviews)
+              and review_issue["title"] != review_issue2["title"], [c.get("title") for c in reviews])
         S2 = review_issue["body"]
+        S2b = review_issue2["body"]
         hl_t1 = list(d_t1["headlines"])
         cap_t1 = d_t1["caption"]
 
@@ -11110,8 +11118,10 @@ def test_analysis_stages_pipeline() -> None:
 
         # ═══ e: go1 من المرحلة 2 لمقال topic_date بالأمس ═══
         body_e = tick_marker(S2, f"<!-- go:go1:{d_t1['id']} -->")
-        body_e = tick_marker(body_e, f"<!-- go:go3:{d_t2['id']} -->")
         res_e = _run_publish_issue(body_e, "youtube-review", ["--skip-urgent"])
+        # W1: قضية المرشح الآخر منفصلة؛ approved عليها لا يمسّ مسودة d_t1
+        body_e2 = tick_marker(S2b, f"<!-- go:go3:{d_t2['id']} -->")
+        res_e2 = _run_publish_issue(body_e2, "youtube-review", ["--skip-urgent"])
         de = state(d_t1["id"])
         check("(#1187-e) go1 من المرحلة 2 ← المسودة returned بمرحلتها ولحظتها، نصّها وعناوينها محفوظة",
               de["status"] == "returned" and de["returned_from_stage"] == 2
@@ -11133,9 +11143,9 @@ def test_analysis_stages_pipeline() -> None:
               and d_t1["id"] not in [d["id"] for _, d in yp.pending_youtube_drafts()]
               and d_t1["id"] not in [d["id"] for _, d in publish_mod.queued_drafts()])
         check("(#1187-e) المقال الآخر (go3) بُنيت بطاقته وفُتحت له قضية المرحلة 3",
-              bool(state(d_t2["id"]).get("image")) and len(res_e["created"]) == 1
-              and res_e["created"][0]["labels"] == ["final-review"])
-        S3 = res_e["created"][0]["body"]
+              bool(state(d_t2["id"]).get("image")) and len(res_e2["created"]) == 1
+              and res_e2["created"][0]["labels"] == ["final-review"])
+        S3 = res_e2["created"][0]["body"]
 
         write_topics(D2, ["موضوع اليوم أ", "موضوع اليوم ب"])
         # سقف العرض 1: المُعاد يظهر خارجه (مُعاد + موضوع جديد واحد)
@@ -11168,7 +11178,8 @@ def test_analysis_stages_pipeline() -> None:
             "هل يقع تطوّر اليوم؟", ["هل يقع تطوّر اليوم؟", "بديل ١", "بديل ٢"]))
         rf = resume(sel_e, sel_body, [topic1["id"], first_fresh["id"]], cfg_with(1, 1), client2)
         df = state(d_t1["id"])
-        review_f = next((c for c in rf["new_issues"] if c["labels"] == ["youtube-review"]), None)
+        review_f = next((c for c in rf["new_issues"] if c["labels"] == ["youtube-review"]
+                         and f"<!-- draft:{d_t1['id']} -->" in c["body"]), None)
         check("(#1187-f) المسودة نفسها pending، نصّها وعناوينها كما كانت، وعلامات العودة أُزيلت",
               rf["code"] == 0 and df["status"] == "pending" and df["caption"] == cap_t1
               and df["headlines"] == hl_t1 and "returned_from_stage" not in df
