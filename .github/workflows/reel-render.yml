@@ -64,7 +64,7 @@ jobs:
         run: |
           git config user.name  "trendnews-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A drafts
+          git add -A drafts state
           git diff --quiet --cached && exit 0
           git commit -m "chore(reel): حالة تركيب الريل"
           for i in 1 2 3; do
