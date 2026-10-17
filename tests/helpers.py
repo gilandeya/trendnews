@@ -280,6 +280,15 @@ def install_fakes() -> None:
     reel_render._extract_gray_frames = (  # type: ignore
         lambda clip, fractions: [np.full((720, 1280), 120, dtype=np.uint8) for _ in fractions])
 
+    # قضية مراجعة الريل (Issue #1469، R4a) تُفتح من render_draft: بلا حقن يفشل فتحها فيبقى التعليق على قضية المرحلة 2 كما
+    # كان، ولا تبلغ شبكة GitHub الحقيقية ولو وُجد توكن في البيئة؛ اختبار يحتاج غيره يحقن review.create_issue بنفسه
+    from src import review as _review
+
+    def _no_network(*a, **kw):
+        raise RuntimeError("لا شبكة في الاختبارات")
+    _review.create_issue = _no_network  # type: ignore
+    _review.update_issue_body = _no_network  # type: ignore
+
     # صورة "ناشر" اصطناعية بدل التحميل الحقيقي
     fake =Image.new("RGB", (1400, 800), (34, 52, 92))
     ImageDraw.Draw(fake).ellipse([500, 100, 900, 500], fill=(226, 194, 150))
