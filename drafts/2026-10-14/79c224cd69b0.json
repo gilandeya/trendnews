@@ -190,8 +190,8 @@
   },
   "reel_file": "reels/2026-10-14/79c224cd69b0.mp4",
   "reel_gif": "reels/2026-10-14/79c224cd69b0.gif",
-  "duration_seconds": 93.9,
-  "render_version": 22,
+  "duration_seconds": 97.9,
+  "render_version": 26,
   "render_attempts": 0,
   "reel_music": "nastelbom-news-501715.mp3",
   "render_crops": {
@@ -209,16 +209,16 @@
       "cover": true
     },
     "3": {
-      "x": 426,
+      "x": 283,
       "source": "speaker",
       "speaker_score": 0.96,
       "tracks": 1,
       "cover": true
     },
     "5": {
-      "x": 584,
+      "x": 875,
       "source": "speaker_vision",
-      "speaker_score": 1.02,
+      "speaker_score": 0.99,
       "tracks": 2,
       "vision": {
         "pick": 1,
@@ -241,16 +241,9 @@
       "start": 105,
       "end": 112,
       "reason": "الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة"
-    },
-    {
-      "point_id": "0765e947d492",
-      "kind": "clip",
-      "start": 628,
-      "end": 641,
-      "reason": "تعذّر جلب نص الفيديو"
     }
   ],
-  "rendered_at": "2026-10-16T08:19:30.661476+00:00",
+  "rendered_at": "2026-10-17T05:15:22.200541+00:00",
   "render_speakers": {
     "0": {
       "name_original": "",
@@ -262,7 +255,7 @@
       "accepted": false
     },
     "3": {
-      "name_original": "نقاش الساعة",
+      "name_original": "Niqash al-Sa'a",
       "name_arabic": "نقاش الساعة",
       "role_arabic": "",
       "is_presenter": false,
@@ -341,5 +334,188 @@
     "source": "auto",
     "views": 519315,
     "reason": "14 ث متتالية من لقطات الحدث"
-  }
+  },
+  "reel_review_issue": 1475,
+  "broll_plan": [
+    {
+      "scene": 2,
+      "sentence": 0,
+      "text": "تهديد بثّته قناة سي إن إن ترك في الثاني عشر من أكتوبر 2026، ينسب إلى الحوثيين قدرتهم على ضرب أهداف أمريكية في المنطقة.",
+      "visual": "شاشة أخبار تبث تهديدًا مصوّرًا"
+    },
+    {
+      "scene": 2,
+      "sentence": 1,
+      "text": "وفي اليوم التالي، الثالث عشر من أكتوبر، نقلت قناة الجزيرة إعلان المتحدث العسكري للجماعة عن أهداف داخل السعودية.",
+      "visual": "مذيع أخبار يقرأ شريطًا عاجلًا"
+    },
+    {
+      "scene": 4,
+      "sentence": 0,
+      "text": "وفي الثالث عشر من أكتوبر 2026، قدّمت ميساء شجاع الدين، الباحثة في مركز صنعاء للدراسات الاستراتيجية، على قناة فرانس 24 عربي، قراءة لحجم الترسانة الصاروخية وصعوبة اعتراضها.",
+      "visual": ""
+    },
+    {
+      "scene": 6,
+      "sentence": 0,
+      "text": "ثلاثة مشاهد: تهديد معلن، وأهداف محددة، وقدرات محل نقاش.",
+      "visual": "صاروخ يُطلق من منصة ليلًا"
+    }
+  ],
+  "render_sources": "سي إن إن ترك، الجزيرة، فرانس 24 عربي، CNN",
+  "render_broll": [
+    {
+      "scene": 2,
+      "sentence": 0,
+      "photo": "السلسلة أقصر من الجملة"
+    },
+    {
+      "scene": 2,
+      "sentence": 1,
+      "photo": "السلسلة أقصر من الجملة"
+    },
+    {
+      "scene": 4,
+      "sentence": 0,
+      "photo": "جملة مجرّدة"
+    },
+    {
+      "scene": 6,
+      "sentence": 0,
+      "video_id": "iKEMO4iEnf0",
+      "start": 82.36,
+      "end": 89.64,
+      "channel": "CNN",
+      "desc": "مبنى ودخان متصاعد ومركبات عند الموقع · دخان كثيف فوق منشآت ومبانٍ منخفضة · دخان أسود يتصاعد خلف مبنى في منطقة صحراوية"
+    }
+  ],
+  "broll_scan": {
+    "videos": {
+      "iKEMO4iEnf0": {
+        "downloaded": 600,
+        "classified": 360,
+        "sheets": 15,
+        "kinds": {
+          "anchor": 276,
+          "event_footage": 62,
+          "other": 2,
+          "studio": 14,
+          "graphic": 6
+        },
+        "footage_relevant": 32,
+        "footage_other": 30,
+        "chains": 6,
+        "longest": 14
+      },
+      "Ih3Ub2WjqFA": {
+        "downloaded": 600,
+        "classified": 360,
+        "sheets": 15,
+        "kinds": {
+          "anchor": 150,
+          "graphic": 72,
+          "text_heavy": 90,
+          "event_footage": 20,
+          "studio": 16,
+          "other": 12
+        },
+        "footage_relevant": 4,
+        "footage_other": 16,
+        "chains": 2,
+        "longest": 12
+      }
+    },
+    "sheets_used": 30,
+    "chains": [
+      {
+        "video_id": "iKEMO4iEnf0",
+        "start": 12,
+        "end": 18,
+        "desc": "دخان أسود كثيف يتصاعد من منشأة في يبّة، اليمن (فيديو من وسائل التواصل) · عمود دخان أسود كثيف فوق مبانٍ منخفضة وأرض صحراوية · دخان أسود يتصاعد بجوار مبنى، مع لقطة مهتزة",
+        "channel": "CNN",
+        "relevant": true
+      },
+      {
+        "video_id": "iKEMO4iEnf0",
+        "start": 29,
+        "end": 34,
+        "desc": "دخان أسود يتصاعد فوق أرض مفتوحة في بيحان، اليمن · دخان رمادي يتصاعد من منشأة في بيحان، اليمن · دخان كثيف مع شعار LIVE باهت، لقطة انتقالية",
+        "channel": "CNN",
+        "relevant": false
+      },
+      {
+        "video_id": "iKEMO4iEnf0",
+        "start": 62,
+        "end": 72,
+        "desc": "انتقال: لقطة دخان أسود فوق مبنى يتداخل مع صورة المذيع · عمود دخان أسود كثيف يتصاعد من منشأة في دجلة، اليمن · عمود دخان أسود كثيف فوق منشأة، مع إطار المذيع في الزاوية",
+        "channel": "CNN",
+        "relevant": false
+      },
+      {
+        "video_id": "iKEMO4iEnf0",
+        "start": 74,
+        "end": 78,
+        "desc": "دخان أسود كثيف فوق منشأة صحراوية · عمود دخان أسود فوق منشأة ومركبات على الأرض",
+        "channel": "CNN",
+        "relevant": true
+      },
+      {
+        "video_id": "iKEMO4iEnf0",
+        "start": 80,
+        "end": 92,
+        "desc": "مبنى ودخان متصاعد ومركبات عند الموقع · دخان كثيف فوق منشآت ومبانٍ منخفضة · دخان أسود يتصاعد خلف مبنى في منطقة صحراوية",
+        "channel": "CNN",
+        "relevant": true
+      },
+      {
+        "video_id": "iKEMO4iEnf0",
+        "start": 244,
+        "end": 258,
+        "desc": "لقاء ترامب وولي العهد السعودي، لقطة من لقاء سابق لا تُظهر الحدث · ترامب وولي العهد أمام حرس الشرف، لقطة من لقاء سابق لا تُظهر الحدث · ترامب يصافح ولي العهد السعودي، لقطة من لقاء سابق لا تُظهر الحدث",
+        "channel": "CNN",
+        "relevant": false
+      },
+      {
+        "video_id": "Ih3Ub2WjqFA",
+        "start": 84,
+        "end": 96,
+        "desc": "اجتماع مجلس الوزراء في قاعة مزدانة، حضور رسمي حول الطاولة · ولي العهد يترأس جلسة مجلس الوزراء أمام الزهور البيضاء · جلسة مجلس الوزراء من زاوية عريضة للقاعة والحضور",
+        "channel": "Asharq News - الشرق للأخبار",
+        "relevant": false
+      },
+      {
+        "video_id": "Ih3Ub2WjqFA",
+        "start": 268,
+        "end": 272,
+        "desc": "مراسل ميداني في الخارج أمام نخيل ومبانٍ ليلاً",
+        "channel": "Asharq News - الشرق للأخبار",
+        "relevant": true
+      }
+    ],
+    "assign": [
+      {
+        "n": 1,
+        "chain": 1
+      },
+      {
+        "n": 2,
+        "chain": 2
+      },
+      {
+        "n": 4,
+        "chain": 5
+      }
+    ]
+  },
+  "render_notes": [
+    "### 🎬 تركيب الريل",
+    "- ⏱️ المدة: 97.9 ث",
+    "- 🎞️ [الملف](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-10-14/79c224cd69b0.mp4) · [المعاينة](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-10-14/79c224cd69b0.gif)",
+    "- ⚠️ نافذة تقديرية لمقطع سي إن إن ترك (1:45–1:52): الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة — راجع بداية المقطع ونهايته",
+    "🎞️ لقطة الهوك: CNN — [Saudi Aramco HQ hit as Houthis &amp; Riyadh trade strikes](https://www.youtube.com/watch?v=iKEMO4iEnf0&t=22) (22–29 ث) · 519,315 مشاهدة",
+    "🎞️ لقطات الحدث: 1 من 4 جمل (CNN ×1) — 3 بالصورة",
+    "🎯 مقطع سي إن إن ترك: 2 وجوه — المتكلم بالرؤية مع تغليب الحركة الجسدية",
+    "🏷️ شريط القناة يحمل اسم برنامج لا شخص: نقاش الساعة — يُعرض اسم القناة وحده",
+    "🎯 مقطع فرانس 24 عربي: 2 وجوه — المتكلم بالرؤية"
+  ]
 }
