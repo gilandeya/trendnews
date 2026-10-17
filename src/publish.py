@@ -248,6 +248,59 @@ def publish_one(path, draft: dict, cfg) -> tuple[bool, str]:
     return True, f"- ✅ [{title}]({res.get('url') or '#'}){note}"
 
 
+def reel_data_root() -> Path:
+    """جذر بيانات الريل (سحب trendnews-data) الذي يُنسب إليه reel_file. يُقرأ من البيئة وقت الاستدعاء لا وقت
+    الاستيراد: publish.yml يضبط TRENDNEWS_YOUTUBE_POINTS_DIR على youtube-data/state/youtube_points ولا يضبط
+    TRENDNEWS_REELS_DIR دائمًا، فالأب الثاني لنقاط اليوتيوب هو الجذر نفسه."""
+    from . import config
+    reels = os.environ.get("TRENDNEWS_REELS_DIR")
+    if reels:
+        return Path(reels).parent
+    points = os.environ.get("TRENDNEWS_YOUTUBE_POINTS_DIR")
+    return Path(points).parents[1] if points else config.YOUTUBE_POINTS_DIR.parents[1]
+
+
+def reel_first_comment(draft: dict, cfg) -> str | None:
+    """«المصادر:» ثم سطر «{القناة} — {الرابط}» لكل فيديو مصدر في مشاهد المقاطع، بلا تكرار لرابط."""
+    seen: dict[str, str] = {}
+    for scene in (draft.get("script") or {}).get("scenes") or []:
+        url = scene.get("video_url")
+        if scene.get("kind") in ("clip", "cold_open_clip") and url and url not in seen:
+            seen[url] = scene.get("channel_display") or ""
+    if not seen:
+        return None
+    head = cfg.path("reel.review.sources_comment", "المصادر:")
+    return "\n".join([head] + [f"{ch} — {url}" if ch else url for url, ch in seen.items()])
+
+
+def publish_reel_draft(path, draft: dict, cfg) -> tuple[bool, str]:
+    """ينشر ريلًا معتمدًا فورًا على فيسبوك ريلز (Issue #1472، R4b). يعيد (نجح، سبب أو رابط).
+    لا بوابة تباعد ولا احتياط بنشر صورة؛ الفشل failed_stage="facebook_reel" ويُعاد بإعادة وسم approved."""
+    from . import reel_review
+    texts = cfg.path("reel.review", {}) or {}
+    video = reel_data_root() / (draft.get("reel_file") or "")
+
+    def fail(reason: str) -> tuple[bool, str]:
+        store.update_draft(path, status="failed", error=reason, failed_stage="facebook_reel",
+                           failed_at=datetime.now(timezone.utc).isoformat())
+        return False, reason
+
+    if not draft.get("reel_file") or not video.is_file():
+        return fail(texts.get("file_missing", "ملف الريل غير موجود: {path}").format(path=video))
+    caption = reel_review.selected_headline(draft)
+    if draft.get("render_sources"):
+        caption += "\n\n" + cfg.path("reel.render.texts.clips_from").format(channels=draft["render_sources"])
+    try:
+        res = facebook.publish_reel(video, caption, cfg.path("facebook.api_version", "v21.0"),
+                                    first_comment=reel_first_comment(draft, cfg))
+    except facebook.FacebookError as exc:
+        return fail(str(exc))
+    store.update_draft(path, remove=["error", "failed_stage", "failed_at"], status="published",
+                       published_at=datetime.now(timezone.utc).isoformat(), facebook=res)
+    decisions.record_published(draft)
+    return True, res.get("url") or ""
+
+
 def report(lines: list[str], published: int, total: int,
            issue_number: int | None = None, close: bool = False) -> None:
     text = f"### 🚀 نُشر {published} من {total}\n" + "\n".join(lines)
