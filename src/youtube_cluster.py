@@ -1356,11 +1356,26 @@ def finalize_selection(issue_number: int, body: str, cfg, is_reusable=None) -> d
     changed = False
     unselected_now = 0
     for t in offered:
-        # الحارس status == "pending" يقصر المعالجة على ما لم يُحسَم بعد --
-        # نفس مبدأ الحارس في publish.cmd_revival/cmd_final_review: وسم
-        # approved مكرّر (urgent وnormal لنفس الحدث، أو إعادة وسم لمتابعة ما
-        # تجاوز السقف) يجب ألا يُعالج قضية حُسِم مصيرها فعلًا مرة ثانية.
-        if t.get("selection_status") != "pending":
+        status = t.get("selection_status")
+        # النسخة moved أصلٌ نُقل إلى ملف آخر والحيّ هو الأحدث (Issue #1532)
+        if status == "moved":
+            continue
+        # قضية أُعيد فتحها (Issue #1532، W3): موضوع حُسم من قبل (selected/attempted/
+        # returned/unselected) وعُلّمت له صيغة الآن يُعاد طلبه ويُكتب من جديد دائمًا.
+        # غير المعلَّم منه لا يُمسّ إطلاقًا (لا يصير «لم يُختر»). التكرار المزدوج
+        # للحدث نفسه (urgent وnormal) يمنعه تفريغ مربعات الجسم بعد التنفيذ
+        # (empty_selection_marks) فلا يبقى ما يُقرأ، لا حارس الحالة القديم.
+        redo = status != "pending"
+        if redo:
+            wants_article = t["id"] in checked and (formats is None or t["id"] in formats["article"])
+            wants_reel = formats is not None and t["id"] in formats["reel"]
+            if not (wants_article or wants_reel):
+                continue
+            changed = True
+            t["selection_status"] = "selected"
+            t["selected_formats"] = [f for f, on in (("article", wants_article), ("reel", wants_reel)) if on]
+            # يبقى على الموضوع حتى يُحاوَل كي تحفظه إعادة وسم approved لما فاته السقف
+            t["redo_formats"] = list(t["selected_formats"])
             continue
         changed = True
         if formats is None:
@@ -1393,7 +1408,9 @@ def finalize_selection(issue_number: int, body: str, cfg, is_reusable=None) -> d
     reel_topics = [t for t in selected if "reel" in (t.get("selected_formats") or [])]
     reel_only = [t for t in reel_topics if t not in selected_articles]
     max_per_run = cfg.path("youtube.article.max_per_run")
-    reused = [t for t in selected_articles if is_reusable and is_reusable(t)]
+    # إعادة الطلب (Issue #1532) تكتب من جديد دائمًا: لا تُستثنى من السقف باستعمال مسودة مُعادة
+    reused = [t for t in selected_articles
+              if is_reusable and "article" not in (t.get("redo_formats") or []) and is_reusable(t)]
     # مسودة الريل لا تكلّف كتابة في R1 فلا تخضع للسقف: السقف على المقالات وحدها
     rest = [t for t in selected_articles if t not in reused]
     if max_per_run:
@@ -1406,6 +1423,17 @@ def finalize_selection(issue_number: int, body: str, cfg, is_reusable=None) -> d
             "unselected_now": unselected_now, "actions": actions, "conflicts": conflicts,
             "reel_topics": reel_topics, "reel_only": reel_only,
             "article_conflicts": article_conflicts}
+
+
+def empty_selection_marks(body: str) -> str:
+    """يفرّغ كل مربعات fmt: وgo: المعلَّمة في جسم قضية الترشيح (Issue #1532، W3): بعد كل
+    تنفيذ تصير القضية نظيفة، فإعادة فتحها يدويًا تبدأ بلا تعليمات قديمة تُنفَّذ ثانيةً."""
+    out = []
+    for line in (body or "").split("\n"):
+        if (FORMAT_MARKER.search(line) or stages.GO_MARKER.search(line)):
+            line = re.sub(r"^(\s*[-*]\s*)\[[xX]\]", r"\1[ ]", line)
+        out.append(line)
+    return "\n".join(out)
 
 
 def mark_topics_attempted(date_str: str, topic_ids: set[str]) -> None:
@@ -1423,6 +1451,7 @@ def mark_topics_attempted(date_str: str, topic_ids: set[str]) -> None:
     for t in data.get("topics", []):
         if t.get("id") in topic_ids and t.get("selection_status") == "selected":
             t["selection_status"] = "attempted"
+            t.pop("redo_formats", None)
             changed = True
     if changed:
         _save_topics_raw(date_str, data)

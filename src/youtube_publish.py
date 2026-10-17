@@ -493,8 +493,14 @@ def build_draft(row: dict, date_str: str, articles_dir: Path, cfg) -> dict | Non
     }
 
 
+def redo_draft_id(topic_id: str, fmt: str, redo_n: int) -> str:
+    """معرّف مسودة أُعيد طلبها (Issue #1532، W3): معرّف جديد لكل إعادة فلا تكتب فوق القديمة."""
+    from .important import point_id
+    return point_id(f"{topic_id}:{fmt}:r{redo_n}")
+
+
 def build_draft_from_text(topic: dict, text: str, video_ids: list[str],
-                          date_str: str, cfg) -> dict:
+                          date_str: str, cfg, redo_n: int = 0) -> dict:
     """مثل build_draft أعلاه لكن من نصّ مقال جاهز في الذاكرة مباشرة -- بلا
     ملف .md ولا index.md وسيطين في مستودع البيانات الخاص (Issue #1104،
     بوابة الاختيار قبل الكتابة): الكتابة الفعلية صارت تقع عند اعتماد Issue
@@ -518,6 +524,8 @@ def build_draft_from_text(topic: dict, text: str, video_ids: list[str],
     draft_id = hashlib.sha1(
         f"youtube-selection:{date_str}:{topic['id']}".encode("utf-8")
     ).hexdigest()[:12]
+    if redo_n:
+        draft_id = redo_draft_id(topic["id"], "article", redo_n)
 
     draft = {
         "id": draft_id,
@@ -553,10 +561,12 @@ def build_draft_from_text(topic: dict, text: str, video_ids: list[str],
         # رابط صورة وضعه المراجع في قضية الترشيح (Issue #1190): ينتقل إلى
         # المسودة فيغلب كل مراحل الصورة عند بناء البطاقة (ensure_title_card)
         draft["manual_image"] = topic["manual_image"]
+    if redo_n:
+        draft["redo_n"] = redo_n
     return draft
 
 
-def build_reel_draft(topic: dict, date_str: str, cfg) -> dict:
+def build_reel_draft(topic: dict, date_str: str, cfg, redo_n: int = 0) -> dict:
     """مسودة ريل لموضوع (Issue #1336، R1): الهيكل وحده -- لا سيناريو ولا caption ولا
     عناوين بعد (يُكتب السيناريو في R2)، فلا تكلّف نداء نموذج ولا تخضع لسقف
     youtube.article.max_per_run. المعرّف point_id(f"{topic_id}:reel") ستّ عشري كي تقرأه
@@ -564,8 +574,8 @@ def build_reel_draft(topic: dict, date_str: str, cfg) -> dict:
     الاعتماد. ``topic`` يحمل id/title/layer/blocs/channels/agreement/event؛ ومن مسودة
     مقال قائمة يُبنى بـlayer=tier (layer_num يقبل الرقم والحرف)."""
     from .important import point_id
-    return {
-        "id": point_id(f"{topic['id']}:reel"),
+    draft = {
+        "id": redo_draft_id(topic["id"], "reel", redo_n) if redo_n else point_id(f"{topic['id']}:reel"),
         "created_at": datetime.now(timezone.utc).isoformat(),
         "status": "pending",
         "origin": "analysis",
@@ -586,6 +596,9 @@ def build_reel_draft(topic: dict, date_str: str, cfg) -> dict:
         "topic_id": topic["id"],
         "topic_date": date_str,
     }
+    if redo_n:
+        draft["redo_n"] = redo_n
+    return draft
 
 
 def _review_sort_key(d: dict) -> tuple:
