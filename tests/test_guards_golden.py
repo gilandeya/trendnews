@@ -12681,13 +12681,18 @@ def test_reel_review_r4a_guards() -> None:
         store.save_draft(d)
         body = reel_review.build_body(d, cfg)
         marked = tick_marker(tick_marker(body, f"go:publish:{d['id']}"), f"hl:{d['id']}:1")
-        msgs = run_main(marked, 601, "--skip-urgent")
+        saved_pub = publish_mod.publish_reel_draft
+        publish_mod.publish_reel_draft = lambda p, dd, c: (True, "https://fb/x")   # النشر نفسه في g392–g393
+        try:
+            msgs = run_main(marked, 601, "--skip-urgent")
+        finally:
+            publish_mod.publish_reel_draft = saved_pub
         got = store.load_draft(d["id"])[1]
         check("g391: «انشر» مع العنوان الثاني ← approved_reel وheadline_selected = 1",
               got["status"] == "approved_reel" and got.get("headline_selected") == 1,
               (got["status"], got.get("headline_selected")))
-        check("g391: تعليق «✅ اعتُمد الريل — يُنشر حين تُفعَّل مرحلة النشر (R4b)»",
-              any("✅ اعتُمد الريل — يُنشر حين تُفعَّل مرحلة النشر (R4b)" in m for m in msgs), msgs)
+        check("g391: تعليق «✅ اعتُمد الريل» (R4b: لم يعد مؤجَّلًا لمرحلة النشر)",
+              any("✅ اعتُمد الريل" in m and "R4b" not in m for m in msgs), msgs)
         d2 = reel_draft("a4a000003911", review_issue=602)
         store.save_draft(d2)
         run_main(reel_review.build_body(d2, cfg), 602, "--skip-urgent")

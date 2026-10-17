@@ -1418,21 +1418,27 @@ def cmd_queue(cfg) -> int:
 
 def cmd_reel_review(issue_number: int, body: str, cfg) -> int:
     """قضية المراجعة النهائية للريل (Issue #1469، R4a، وسم reel-review): «انشر» معلَّم ← status="approved_reel" وheadline_selected
-    من المربع المعلَّم، بلا نشر (R4b)؛ غير المعلَّم ← رفض كبقية البنود. status == "approved_script" يمنع إعادة المعالجة
-    لو تكرر الحدث."""
+    من المربع المعلَّم ثم نشر فوري عبر publish_reel_draft (R4b)؛ غير المعلَّم ← رفض كبقية البنود. status == "approved_script"
+    (أو failed بـfailed_stage="facebook_reel" لإعادة المحاولة) يمنع إعادة المعالجة لو تكرر الحدث."""
     actions, _ = stages.read_actions(body, 3)
     choice = review.parse_headline_choice(body)
     texts = cfg.path("reel.review", {}) or {}
     lines: list[str] = []
     for did in review.all_draft_ids(body):
         found = store.load_draft(did)
-        if not found or found[1].get("status") != "approved_script":
+        # failed بـfacebook_reel يُعاد نشره بإعادة وسم approved (Issue #1472، R4b)
+        retry = bool(found) and found[1].get("status") == "failed" and found[1].get("failed_stage") == "facebook_reel"
+        if not found or (found[1].get("status") != "approved_script" and not retry):
             continue
         path, d = found
         title = (d.get("script") or {}).get("title") or d.get("title", did)
         if actions.get(did) == "publish":
-            store.update_draft(path, status="approved_reel", headline_selected=choice.get(did, 0))
+            d = store.update_draft(path, status="approved_reel", headline_selected=choice.get(did, 0))
             lines.append(texts.get("approved", "").format(title=title))
+            ok, info = publish_reel_draft(path, d, cfg)
+            lines.append(texts.get("published" if ok else "publish_failed", "").format(title=title, url=info, reason=info))
+        elif retry:
+            continue
         else:
             store.update_draft(path, status="rejected")
             entries = feedback.load()
