@@ -1,0 +1,316 @@
+{
+  "id": "b8f0180a45da",
+  "created_at": "2026-10-17T06:41:25.883338+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "الدور الإيراني في دعم الحوثيين عسكريًا",
+  "tier": 2,
+  "blocs": [
+    "arabic",
+    "turkish"
+  ],
+  "channels": [
+    "SÖZCÜ",
+    "الجزيرة",
+    "العربية",
+    "فرانس 24 عربي"
+  ],
+  "agreement": "cross_source",
+  "event": "تقديم إيران السلاح والتدريب والمستشارين العسكريين للحوثيين وتوجيه عملياتهم",
+  "warnings": [],
+  "run_date": "2026-10-15",
+  "arabic": {
+    "post_title": "الدور الإيراني في دعم الحوثيين عسكريًا",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "SÖZCÜ",
+      "الجزيرة",
+      "العربية",
+      "فرانس 24 عربي"
+    ]
+  },
+  "score": 9,
+  "source_videos": [],
+  "topic_id": "56ed089a9248",
+  "topic_date": "2026-10-15",
+  "script": {
+    "narrator": "female",
+    "title": "من يوجّه بندقية الحوثيين؟",
+    "question": "هل الجبهة اليمنية ورقة تُحرَّك من طهران أم لاعب يفرض توقيته؟",
+    "scenes": [
+      {
+        "kind": "cold_open_clip",
+        "point_id": "b5a8bd8b21bb",
+        "video_url": "https://www.youtube.com/watch?v=5J-_SBS5tJg",
+        "start": 439.0,
+        "end": 446.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "لقد وفّرت إيران السلاح والتمويل والمستشارين العسكريين ميدانيًا للحوثيين، وتوقيت اشتعال الوضع كان بطلب إيراني",
+        "language": "ar",
+        "video_published": "2026-10-13"
+      },
+      {
+        "kind": "title_card",
+        "text": "من يوجّه بندقية الحوثيين؟"
+      },
+      {
+        "kind": "narration",
+        "text": "في مقطع نُشر في الثالث عشر من أكتوبر 2026، يتحدث ضيف على قناة الجزيرة عن السلاح والتمويل والمستشارين، وعن توقيت التصعيد. وعلى قناة العربية، في التاريخ نفسه، يذهب ضيف إلى ما هو أبعد: القرار الاستراتيجي والعملياتي."
+      },
+      {
+        "kind": "clip",
+        "point_id": "c7195593f2d1",
+        "video_url": "https://www.youtube.com/watch?v=Xxo2qea5sIo",
+        "start": 2052.0,
+        "end": 2058.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "العربية",
+        "channel_original": "العربية",
+        "quote_arabic": "القرار الاستراتيجي والقرار العملياتي للحوثيين بيد الحرس الثوري الإيراني",
+        "language": "ar",
+        "video_published": "2026-10-13"
+      },
+      {
+        "kind": "narration",
+        "text": "لكن الصورة ليست محسومة. في الرابع عشر من أكتوبر 2026، يقول نوزات تشيتشك، الضيف المحلل في برنامج على قناة سوزجو، إن الحرس الثوري درّب الحوثيين ودعمهم عسكريًا، ومع ذلك يتحفظ على خلاصة التبعية الكاملة."
+      },
+      {
+        "kind": "clip",
+        "point_id": "305333f2297e",
+        "video_url": "https://www.youtube.com/watch?v=1nO8ppO6D-s",
+        "start": 262.0,
+        "end": 273.7,
+        "speaker_name": "نوزات تشيتشك",
+        "speaker_role": "ضيف محلل في البرنامج",
+        "speaker_verified": true,
+        "speaker_verified_from": "title",
+        "speaker_name_latin": "Nevzat Çiçek",
+        "channel_display": "سوزجو",
+        "channel_original": "SÖZCÜ",
+        "quote_arabic": "لديهم القدرة على اتخاذ قرارات مستقلة عن إيران، لذا فإن القول إنهم يأخذون الأوامر من إيران بالكامل يكون ناقصًا.",
+        "language": "en",
+        "video_published": "2026-10-14"
+      },
+      {
+        "kind": "narration",
+        "text": "ارتباط ثابت عند طرف، وتحكّم كامل عند طرف آخر، ومساحة قرار محلي عند ثالث. الثلاثة يقرّون بعلاقة قائمة مع إيران، ويختلفون في وصف حدودها."
+      },
+      {
+        "kind": "question",
+        "text": "هل الجبهة اليمنية ورقة تُحرَّك من طهران أم لاعب يفرض توقيته؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ]
+  },
+  "headlines": [
+    "من يوجّه بندقية الحوثيين فعلًا، وأين تقف حدود النفوذ الإيراني؟",
+    "الدعم الإيراني للحوثيين ثابت، لكن حجم التحكم في القرار يبقى محل خلاف",
+    "ضيف على سوزجو: للحوثيين قدرة على قرارات مستقلة رغم التدريب والدعم الإيراني"
+  ],
+  "headline_selected": 0,
+  "editor_review": {
+    "at": "2026-10-17T06:41:42.259439+00:00",
+    "applied": [
+      {
+        "category": "headline_judgmental",
+        "severity": "high",
+        "location": "headline_3",
+        "original": "ترجيح: قد يملك الحوثيون هامشًا مستقلًا عن إيران رغم الدعم العسكري والتدريب",
+        "fix": "ضيف على سوزجو: للحوثيين قدرة على قرارات مستقلة رغم التدريب والدعم الإيراني",
+        "note": "صيغة «ترجيح» تجعل المنصة تحسم الخلاف لصالح رواية ضيف واحد (نوزات تشيتشك) بينما يقول ضيفا الجزيرة والعربية بعكسها؛ هذا حكم تحريري لا تسنده المادة التي تعرض ثلاث روايات متعارضة.",
+        "sources": [
+          "https://www.youtube.com/watch?v=1nO8ppO6D-s"
+        ]
+      },
+      {
+        "category": "unattributed_opinion",
+        "severity": "high",
+        "location": "body",
+        "original": "الخلاف يبقى على المدى لا على أصل العلاقة.",
+        "fix": "الثلاثة يقرّون بعلاقة قائمة مع إيران، ويختلفون في وصف حدودها.",
+        "note": "خلاصة من الراوي نفسه تُعمَّم على المتحدثين الثلاثة بلا نسبة؛ لا أحد منهم في المقاطع المعروضة قال إن الخلاف محصور في «المدى». يجب إما نسبها إلى قائل أو تحويلها إلى وصف محايد لما قيل.",
+        "sources": []
+      },
+      {
+        "category": "h1_overclaims",
+        "severity": "low",
+        "location": "headline_1",
+        "original": "من يوجّه بندقية الحوثيين فعلًا، وإلى أي حد تمتد التبعية لطهران؟",
+        "fix": "من يوجّه بندقية الحوثيين فعلًا، وأين تقف حدود النفوذ الإيراني؟",
+        "note": "صيغة «إلى أي حد تمتد التبعية» تفترض التبعية أمرًا مُسلَّمًا، وهو ما يتحفّظ عليه أحد المتحدثين صراحةً في المقطع [6]. الأفضل صيغة لا تحسم وجود التبعية.",
+        "sources": [
+          "https://www.youtube.com/watch?v=1nO8ppO6D-s"
+        ]
+      }
+    ],
+    "notes": [
+      {
+        "category": "name_doubtful",
+        "severity": "low",
+        "location": "body",
+        "original": "نوزات تشيتشك، الضيف المحلل في برنامج على قناة سوزجو",
+        "fix": "نوزات تشيتشك، الصحفي التركي الضيف في برنامج على قناة سوزجو",
+        "note": "رسم الاسم مطابق لما تستخدمه الصحافة العربية، ونسبته إلى سوزجو كضيف صحيحة، لكن صفته المهنية الموثَّقة هي صحفي تركي ورئيس تحرير «إندبندنت تركية»، لا «محلل». يُستحسن ذكر صفته الموثَّقة في كلام الراوي.",
+        "sources": [
+          "https://www.turkpress.co/node/112634",
+          "https://www.biyografiler.com/kimdir/nevzat-cicek",
+          "https://www.youtube.com/watch?v=QRMcEICq6ac"
+        ],
+        "video": ""
+      }
+    ],
+    "error": null,
+    "searches": 2,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "names_audit": [
+    {
+      "arabic": "نوزات تشيتشك",
+      "latin": "Nevzat Çiçek"
+    }
+  ],
+  "reel_bg": {
+    "url": "https://iqraa24.com/wp-content/uploads/2026/09/1789652715785.png",
+    "kind": "news_photo",
+    "publisher": "اقرأ 24"
+  },
+  "hook_candidates": [],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-10-13T00:00:00Z",
+          "2026-10-17T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "مقاتلون حوثيون يحملون أسلحة في صنعاء",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "Houthi fighters with rifles in Yemen",
+            "raw": 30,
+            "channel_ok": 8
+          },
+          {
+            "query": "مسيرة حوثية تُطلق من اليمن",
+            "raw": 0,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 8,
+        "judged_ok": 0,
+        "rejected_channels": [
+          "New York Post",
+          "The Daily Jagran",
+          "Firstpost",
+          "CRUX",
+          "CGTN Europe",
+          "NewsX World",
+          "Global News",
+          "POS KUPANG"
+        ]
+      },
+      {
+        "broad": true,
+        "window": [
+          "2026-10-11T00:00:00Z",
+          "2026-10-18T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "الحوثيون إيران أسلحة",
+            "raw": 30,
+            "channel_ok": 10
+          },
+          {
+            "query": "Iran Houthis weapons support",
+            "raw": 30,
+            "channel_ok": 4
+          },
+          {
+            "query": "Irán Huzíes armas Yemen",
+            "raw": 9,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 14,
+        "judged_ok": 0,
+        "rejected_channels": [
+          "أسامة جاويش - Osama Gaweesh",
+          "Almodon Plus",
+          "العربي - أخبار",
+          "Defense Zone OR",
+          "اليمن بودكاست",
+          "SINDOnews",
+          "ActionPolitik",
+          "SEN - South Era Network"
+        ]
+      }
+    ],
+    "picked": []
+  },
+  "broll_plan": [
+    {
+      "scene": 2,
+      "sentence": 0,
+      "text": "في مقطع نُشر في الثالث عشر من أكتوبر 2026، يتحدث ضيف على قناة الجزيرة عن السلاح والتمويل والمستشارين، وعن توقيت التصعيد.",
+      "visual": "استوديو حواري بعيد عن الكاميرا، شاشة تبث أخبار"
+    },
+    {
+      "scene": 2,
+      "sentence": 1,
+      "text": "وعلى قناة العربية، في التاريخ نفسه، يذهب ضيف إلى ما هو أبعد: القرار الاستراتيجي والعملياتي.",
+      "visual": "شحنة أسلحة تُفرغ في ميناء ليلاً"
+    },
+    {
+      "scene": 4,
+      "sentence": 0,
+      "text": "لكن الصورة ليست محسومة.",
+      "visual": ""
+    },
+    {
+      "scene": 4,
+      "sentence": 1,
+      "text": "في الرابع عشر من أكتوبر 2026، يقول نوزات تشيتشك، الضيف المحلل في برنامج على قناة سوزجو، إن الحرس الثوري درّب الحوثيين ودعمهم عسكريًا، ومع ذلك يتحفظ على خلاصة التبعية الكاملة.",
+      "visual": "مقاتلون حوثيون في تدريب بالأسلحة الخفيفة"
+    },
+    {
+      "scene": 6,
+      "sentence": 0,
+      "text": "ارتباط ثابت عند طرف، وتحكّم كامل عند طرف آخر، ومساحة قرار محلي عند ثالث.",
+      "visual": ""
+    },
+    {
+      "scene": 6,
+      "sentence": 1,
+      "text": "الثلاثة يقرّون بعلاقة قائمة مع إيران، ويختلفون في وصف حدودها.",
+      "visual": ""
+    }
+  ],
+  "sibling_id": "2df06f219165",
+  "has_photo": false,
+  "has_news_photo": true,
+  "review_issue": 1480
+}
