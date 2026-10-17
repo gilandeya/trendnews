@@ -1125,13 +1125,15 @@ def frame_clip_overlay(cfg, scene: dict, boxes=None) -> Image.Image:
     return Image.alpha_composite(static, band)
 
 
-def frame_clip_layers(cfg, scene: dict, boxes=None, cover: bool | None = None) -> tuple[Image.Image, Image.Image]:
+def frame_clip_layers(cfg, scene: dict, boxes=None, cover: bool | None = None,
+                      quote: bool = True) -> tuple[Image.Image, Image.Image]:
     """طبقتان شفافتان بحجم الشاشة (Issue #1400): الثابتة (صندوق الترجمة والغطاء الكحلي المعتم من أسفل الشريط)
     وطبقة الشريط (المستطيل والحافة الذهبية والنصوص) التي تدخل متحركة من اليمين. الغطاء يخفي شريط القناة الأصلية
     المقصوص؛ شفافية 0.94 أبقته ظاهرًا باهتًا فهو معتم تمامًا."""
     st = _Pen(cfg, boxes, transparent=True)
     bd = _Pen(cfg, st.boxes, transparent=True)
     p = st
+    draw_quote = quote
     band = cfg.path("reel.render.band")
     top, height, edge = int(band["top"]), int(band["height"]), int(band["edge"])
     # cover: true/false ثابتان كما كانا (شفافية الشريط من الإعداد)؛ auto: القرار للمقطع (cover) فالمعتم تمامًا مع الغطاء،
@@ -1149,7 +1151,8 @@ def frame_clip_layers(cfg, scene: dict, boxes=None, cover: bool | None = None) -
     bd.d.rectangle((0, top, bd.w, top + height), fill=navy_a)
     bd.d.rectangle((bd.w - edge, top, bd.w, top + height), fill=bd.gold + (255,))
     quote = (scene.get("quote_arabic") or "").strip()
-    if quote:
+    if quote and draw_quote:
+        # الشكل الثابت الكامل (بلا حالات): كل أسطر الاقتباس معًا كما كان قبل R5h، لمن لا يمرّر تيار الحالات
         font, lines, lh = imaging.fit_text(p.d, quote, *p.face(quote, "body")[:1], p.max_w, 3, 46, 30, p.face(quote, "body")[1])
         box_h = lh * len(lines) + 36
         by = top - 24 - box_h
@@ -1312,6 +1315,81 @@ def _save(img: Image.Image, path: Path) -> Path:
     return path
 
 
+
+# ───────────────────── ترجمة المتحدث سطرًا فسطرًا كلمةً كلمة (Issue #1592، R5h) ─────────────────────
+
+def quote_layout(cfg, text: str) -> list[dict]:
+    """أسطر الترجمة: تقسيم بالعرض الآمن بالحجم الأول من sizes.quote؛ كلمة وحدها أطول من العرض تُصغَّر بخطوة 2 حتى الأدنى
+    وتبقى في سطر منفرد. كل سطر {words، size، width}."""
+    p = _Pen(cfg, [], transparent=True)
+    big, small = (int(v) for v in cfg.path("reel.render.sizes.quote"))
+    path, weight = p.face(text, "body")
+    limit = p.max_w - 4        # هامش لفرق الحبر عن التقدّم فلا يتجاوز الحبر max_w
+
+    def width(s: str, size: int) -> int:
+        return imaging.measure(p.d, s, imaging.load_font(path, size, weight))[0]
+
+    lines: list[dict] = []
+    cur: list[str] = []
+    for word in text.split():
+        if width(word, big) > limit:
+            if cur:
+                lines.append({"words": cur, "size": big})
+                cur = []
+            size = big
+            while size > small and width(word, size) > limit:
+                size -= 2
+            lines.append({"words": [word], "size": size})
+            continue
+        if cur and width(" ".join(cur + [word]), big) > limit:
+            lines.append({"words": cur, "size": big})
+            cur = []
+        cur.append(word)
+    if cur:
+        lines.append({"words": cur, "size": big})
+    for ln in lines:
+        ln["width"] = width(" ".join(ln["words"]), ln["size"])
+    return lines
+
+
+def quote_states(layout: list[dict]) -> list[tuple[int, int]]:
+    """تتابع الحالات: (فهرس السطر، عدد كلماته الظاهرة). السطر يكتمل كلمةً كلمة ثم يحلّ محلّه التالي بكلمته الأولى."""
+    return [(i, k) for i, ln in enumerate(layout) for k in range(1, len(ln["words"]) + 1)]
+
+
+def frame_quote_state(cfg, layout: list[dict], line: int, shown: int) -> Image.Image:
+    """طبقة شفافة بحجم الشاشة: الصندوق الداكن بارتفاع سطر واحد فوق الشريط في موضعه القديم، وأول `shown` كلمة من السطر في
+    مواضعها النهائية (محاذاة يمينية على حافة السطر الكامل، فلا يتحرك السطر وتمتلئ الكلمات من اليمين)."""
+    p = _Pen(cfg, [], transparent=True)
+    ln = layout[line]
+    size = ln["size"]
+    top = int(cfg.path("reel.render.band.top"))
+    lh = int(int(cfg.path("reel.render.sizes.quote")[0]) * float(cfg.path("reel.render.fonts.line_factor", 1.62)))
+    box_h = lh + 36
+    by = top - 24 - box_h
+    p.d.rectangle((p.x0 - 24, by, p.x1 + 24, by + box_h), fill=(8, 14, 28, 175))
+    text = " ".join(ln["words"])
+    path, weight = p.face(text, "body")
+    font = imaging.load_font(path, size, weight)
+    right = p.cx + ln["width"] // 2
+    imaging.draw_text(p.d, (right, by + 18 + (lh - int(size * float(cfg.path("reel.render.fonts.line_factor", 1.62)))) // 2),
+                      " ".join(ln["words"][:shown]), font, p.white, anchor="ra")
+    return p.img
+
+
+def quote_frames(cfg, text: str, times: list[float], clip_seconds: float, tmp: Path, tag: str) -> list[tuple[Path, float]]:
+    """ملفات تيار الحالات [(png، مدة)]: أولها شفاف إلى أول كلمة، ثم حالة لكل كلمة حتى زمن التي بعدها، والأخيرة إلى نهاية المقطع
+    (وزيادة ثانية احتياطًا كي لا ينتهي التيار قبل المقطع)."""
+    layout = quote_layout(cfg, text)
+    states = quote_states(layout)
+    p = _Pen(cfg, [], transparent=True)
+    frames = [(_save(p.img, tmp / f"{tag}_empty.png"), max(times[0], 0.04))]
+    for j, (ln, shown) in enumerate(states):
+        end = times[j + 1] if j + 1 < len(times) else clip_seconds + 1.0
+        frames.append((_save(frame_quote_state(cfg, layout, ln, shown), tmp / f"{tag}_{j:03d}.png"), max(end - times[j], 0.04)))
+    return frames
+
+
 def _drop(dropped: list, scene: dict, reason: str) -> None:
     dropped.append({"point_id": scene.get("point_id", ""), "kind": scene.get("kind", ""), "reason": reason})
 
@@ -1444,6 +1522,11 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path) -> tuple
         out = got
         secs = deps.probe(out) or float(wend - wstart)
         clips[i] = {"file": out, "seconds": float(secs)}
+        if transcripts[vid] and not (approx and approx[-1]["point_id"] == scene.get("point_id", "")
+                                     and approx[-1]["start"] == wstart):
+            # نافذة محسوبة من النص نفسه: مقاطعه تعطي منحنى تقدّم الكلام لتوقيت الترجمة؛ التقريبية بلا مقاطع فتوزَّع بالتساوي
+            clips[i]["segs"] = transcripts[vid]
+            clips[i]["wstart"] = float(wstart)
     return clips, dropped, approx
 
 
@@ -1790,7 +1873,8 @@ def _clip_scene(clip: dict, overlays: tuple[Path, Path], out: Path, cfg, deps: D
                     **({"speaker_score": crop["speaker_score"], "tracks": crop["tracks"]}
                        if crop["source"] in SPEAKER_SOURCES else {}),
                     **({"tracks": crop["tracks"]} if "tracks" in crop and crop["source"] not in SPEAKER_SOURCES else {}),
-                    **({"vision": crop["vision"]} if "vision" in crop else {})}
+                    **({"vision": crop["vision"]} if "vision" in crop else {}),
+                    **({"quote_sync": clip["quote_sync"]} if clip.get("quote_sync") else {})}
     if notes is not None and int(crop.get("tracks") or 0) >= 2:
         # سطر لكل مقطع تعدّدت وجوهه يبيّن بأي طريقة حُسم المتكلم، فيراجع صاحب المشروع القرار دون فتح الملف
         t = cfg.path("reel.render.texts")
@@ -1808,16 +1892,28 @@ def _clip_scene(clip: dict, overlays: tuple[Path, Path], out: Path, cfg, deps: D
         cover = detect_cover(clip["file"], crop["x"], crop["w"], cfg, deps.frames)
         clip["crop"]["cover"] = cover
         overlays = tuple(_save(im, Path(ov).with_name(Path(ov).stem + "_auto.png"))
-                         for im, ov in zip(frame_clip_layers(cfg, scene, cover=cover), overlays))
+                         for im, ov in zip(frame_clip_layers(cfg, scene, cover=cover, quote=quote_frames is None), overlays))
     slide = float(cfg.path("reel.render.band.slide_seconds", 0) or 0)
     if slide > 0:
         pos = f"x='W*pow(1-min(max((t-{_fmt(transition_seconds(cfg))})/{_fmt(slide)},0),1),3)':y=0"
     else:
         pos = "0:0"
-    graph = (f"[0:v]{cexpr},scale={w}:{h}[v0];"
-             f"[v0][1:v]overlay=0:0:shortest=1[v1];"
-             f"[v1][2:v]overlay={pos}:shortest=1,fps={rcfg['fps']},format=yuv420p[v]")
     loops = [x for ov in overlays for x in ("-loop", "1", "-framerate", str(rcfg["fps"]), "-i", str(ov))]
+    if quote_frames:
+        # الترجمة تيار حالات (concat بمدد الحالات) بين الطبقة الثابتة وطبقة الشريط، في موضع الصندوق القديم نفسه
+        lst = out.with_name(out.stem + "_quote.txt")
+        lst.write_text("".join(f"file '{f}'\nduration {_fmt(d)}\n" for f, d in quote_frames)
+                       + f"file '{quote_frames[-1][0]}'\n", encoding="utf-8")
+        loops += ["-f", "concat", "-safe", "0", "-i", str(lst)]
+        graph = (f"[0:v]{cexpr},scale={w}:{h}[v0];"
+                 f"[v0][1:v]overlay=0:0:shortest=1[v1];"
+                 f"[3:v]fps={rcfg['fps']},format=rgba[q];"
+                 f"[v1][q]overlay=0:0:shortest=1[v2];"
+                 f"[v2][2:v]overlay={pos}:shortest=1,fps={rcfg['fps']},format=yuv420p[v]")
+    else:
+        graph = (f"[0:v]{cexpr},scale={w}:{h}[v0];"
+                 f"[v0][1:v]overlay=0:0:shortest=1[v1];"
+                 f"[v1][2:v]overlay={pos}:shortest=1,fps={rcfg['fps']},format=yuv420p[v]")
     deps.run(_base("-i", str(clip["file"]), *loops,
                    "-filter_complex", graph, "-map", "[v]", "-map", "0:a:0", "-af",
                    f"aresample={rcfg.get('audio_rate', 48000)},aformat=channel_layouts=stereo,{_loudnorm(cfg)}",
@@ -2449,9 +2545,17 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
             # قبل رسم الشريط: الاسم المقروء من الشاشة يغيّر نص الشريط نفسه
             _apply_chyron(scene, clips[i], cfg, deps, speakers if speakers is not None else {},
                           notes if notes is not None else [], i)
-            static, band = frame_clip_layers(cfg, scene)
+            qtext = (scene.get("quote_arabic") or "").strip()
+            qframes = None
+            if qtext:
+                # ترجمة المتحدث كلمةً كلمة بتزامن مع كلامه (Issue #1592، R5h): النص المجلوب إن وُجد وإلا توزيع متساوٍ
+                segs = clips[i].get("segs") or []
+                times = quote_word_times(len(qtext.split()), clips[i]["seconds"], segs, clips[i].get("wstart", 0.0), cfg)
+                qframes = quote_frames(cfg, qtext, times, clips[i]["seconds"], tmp, f"quote_{i}")
+                clips[i]["quote_sync"] = "transcript" if segs else "uniform"
+            static, band = frame_clip_layers(cfg, scene, quote=qframes is None)
             overlays = (_save(static, tmp / f"overlay_{i}_static.png"), _save(band, tmp / f"overlay_{i}_band.png"))
-            dur = _clip_scene(clips[i], overlays, out, cfg, deps, scene, notes)
+            dur = _clip_scene(clips[i], overlays, out, cfg, deps, scene, notes, quote_frames=qframes)
         elif kind == "outro":
             png = _save(frame_outro(cfg, channels, credit=credit) if credit else frame_outro(cfg, channels),
                         tmp / f"outro_{i}.png")
