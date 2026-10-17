@@ -650,6 +650,31 @@ def _return_analysis_to_selection(path: Path, draft: dict, title: str, stage: in
         return (f"- ⚠️ {title} — مسودة قديمة بلا رابطة موضوع، لا ترشيح تعود إليه، "
                 "بقيت في مكانها")
     now = datetime.now(timezone.utc).isoformat()
+    # W2a (Issue #1534): قضية الترشيح التي جاء منها الموضوع تُعاد فتحها ليعيد المراجع الطلب منها (W3)
+    # بدل نقل الموضوع إلى قضية جديدة. موضوع بلا selection_issue أو قضية لا تُفتح ← النقل القديم.
+    live = youtube_cluster.find_live_topic(topic_date, topic_id)
+    selection = (live or {}).get("selection_issue")
+    if selection:
+        cfg = load_config()
+        try:
+            review.reopen_issue(selection)
+        except Exception as exc:  # noqa: BLE001 — عطل GitHub يعيدنا إلى النقل القديم لا إلى الضياع
+            log.warning("تعذّرت إعادة فتح قضية الترشيح #%s فنُقل الموضوع إلى قضية جديدة: %s",
+                        selection, exc)
+        else:
+            try:
+                review.remove_label(selection, "approved")
+                review.comment(selection, cfg.path("youtube.redo.texts.returned_comment").format(
+                    title=(live.get("title") or title), stage2=draft.get("review_issue") or "?"))
+            except Exception as exc:  # noqa: BLE001 — القضية فُتحت فعلًا؛ التعليق ثانوي
+                log.warning("أُعيد فتح #%s لكن تعذّر وسمها/التعليق عليها: %s", selection, exc)
+            store.update_draft(path, status="returned", returned_from_stage=stage,
+                               returned_at=now)
+            decisions.record_returned(draft, stage, selection)
+            return (f"- ↩️ {title} — أُعيد فتح قضية الترشيح #{selection}؛ "
+                    "علّم صيغته فيها من جديد وأضف approved")
+    else:
+        log.warning("موضوع %s بلا selection_issue معروف — نقله إلى قضية ترشيح جديدة", topic_id)
     topic = youtube_cluster.mark_topic_returned(
         topic_date, topic_id, draft["id"], stage, now)
     if topic is None:

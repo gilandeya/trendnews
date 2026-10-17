@@ -6584,8 +6584,9 @@ def test_analysis_go1_reopen_guards() -> None:
         """n موضوعًا مختارًا في ملف أمس بمقال pending لكلٍّ؛ وفي ملف اليوم موضوع لم يُعرض."""
         shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
         DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
-        rows = [mk_topic(f"موضوع {i}", id=f"a{i}0000000000", selection_status="attempted",
-                         selection_issue=77) for i in range(n)]
+        # بلا selection_issue عمدًا: هذه الحالات تختبر مسار النقل القديم (الاحتياط في W2a، Issue #1534)
+        rows = [mk_topic(f"موضوع {i}", id=f"a{i}0000000000", selection_status="attempted")
+                for i in range(n)]
         write_file(yesterday, rows)
         write_file(today, [mk_topic("موضوع لم يُعرض")])
         return [mk_draft(t, yesterday) for t in rows]
@@ -13413,6 +13414,213 @@ def test_w3_reopened_selection_guards() -> None:
         review.remove_label = saved["remove_label"]
         review.close_issue = saved["close_issue"]
         review.update_issue_body = saved["update_body"]
+        ya._write_one_topic = saved["write"]
+        yp._photo_candidates = saved["yp_photo"]
+        youtube_extract.news_photo_available = saved["ex_news_ok"]
+        imagesearch.find_images = saved["find_images"]
+        publish_mod._write_reel_script = saved["script"]
+        yp.ensure_title_card = saved["title_card"]
+        if saved["repo"] is None:
+            os.environ.pop("GITHUB_REPOSITORY", None)
+        else:
+            os.environ["GITHUB_REPOSITORY"] = saved["repo"]
+
+
+def test_w2a_return_to_selection_guards() -> None:
+    """go1 من قضية المرحلة 2 لمسودة تحليل يعيد فتح قضية الترشيح نفسها (Issue #1534، W2a، g407–g409)."""
+    import json
+    import logging
+    import os
+    from datetime import datetime, timezone
+
+    from src import decisions, imagesearch, review
+    from src import publish as publish_mod
+    from src import youtube_article as ya
+    from src import youtube_cluster as ycl
+    from src import youtube_extract
+    from src import youtube_publish as yp
+    from src.important import point_id
+    from tests.helpers import tick_marker
+
+    D = "2099-11-06"
+    cfg = load_config()
+    cfg.setdefault("youtube", {}).setdefault("article", {}).update(count=5, max_per_run=5)
+
+    created: list[dict] = []
+    comments: list[tuple[int, str]] = []
+    reopened: list[int] = []
+    unlabeled: list[tuple[int, str]] = []
+    state_box = {"reopen_fails": False}
+
+    def fake_create_issue(title, body, labels=None):
+        created.append({"title": title, "body": body, "labels": labels})
+        return {"number": 8500 + len(created), "html_url": "https://x/i"}
+
+    def fake_reopen(n):
+        if state_box["reopen_fails"]:
+            raise RuntimeError("API down")
+        reopened.append(n)
+
+    def fake_write(topic, points, cfg_, client):
+        return {"item": {"text": f"متن مقال {topic['title']}", "video_ids": ["v1"]},
+                "skip_reason": None, "reason_kind": None, "seen_keys": set()}
+
+    saved = {"create_issue": review.create_issue, "ensure_labels": review.ensure_labels,
+             "comment": review.comment, "remove_label": review.remove_label,
+             "close_issue": review.close_issue, "update_body": review.update_issue_body,
+             "reopen": getattr(review, "reopen_issue", None),
+             "write": ya._write_one_topic, "yp_photo": yp._photo_candidates,
+             "ex_news_ok": youtube_extract.news_photo_available, "find_images": imagesearch.find_images,
+             "script": publish_mod._write_reel_script, "title_card": yp.ensure_title_card,
+             "repo": os.environ.get("GITHUB_REPOSITORY")}
+    review.create_issue = fake_create_issue
+    review.ensure_labels = lambda: None
+    review.comment = lambda n, t: comments.append((n, t))
+    review.remove_label = lambda n, lbl: unlabeled.append((n, lbl))
+    review.close_issue = lambda n: None
+    review.update_issue_body = lambda n, b: None
+    review.reopen_issue = fake_reopen
+    ya._write_one_topic = fake_write
+    yp._photo_candidates = lambda *a, **k: ["https://example.com/p.jpg"]
+    youtube_extract.news_photo_available = lambda *a, **k: False
+    imagesearch.find_images = lambda *a, **k: []
+    publish_mod._write_reel_script = lambda *a, **k: None
+    yp.ensure_title_card = lambda *a, **k: None
+    os.environ["GITHUB_REPOSITORY"] = "user/trendnews"
+
+    def fresh():
+        shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+        DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+        shutil.rmtree(ycl.TOPICS_DIR, ignore_errors=True)
+        ycl.TOPICS_DIR.mkdir(parents=True, exist_ok=True)
+        ycl.POINTS_DIR.mkdir(parents=True, exist_ok=True)
+        if decisions.DECISIONS_FILE.exists():
+            decisions.DECISIONS_FILE.unlink()
+        pts = [{"video_id": "h0", "bloc": "arabic", "channel": "الجزيرة", "speaker": "متحدث",
+                "statement": "قول", "quote_arabic": "اقتباس", "type": "fact", "video_title": "ف",
+                "video_url": "https://youtube.com/watch?v=h0", "timestamp": 1},
+               {"video_id": "h1", "bloc": "turkish", "channel": "CNN Türk", "speaker": "متحدث٢",
+                "statement": "قول٢", "quote_arabic": "اقتباس٢", "type": "fact", "video_title": "ف٢",
+                "video_url": "https://youtube.com/watch?v=h1", "timestamp": 2}]
+        (ycl.POINTS_DIR / f"{D}.json").write_text(json.dumps({"points": pts}, ensure_ascii=False),
+                                                  encoding="utf-8")
+        topics = [{"title": "موضوع أ", "event": "حدث أ", "layer": "a", "blocs": ["arabic", "turkish"],
+                   "channels": ["الجزيرة", "CNN Türk"], "agreement": "cross_source", "point_ids": [0, 1]}]
+        (ycl.TOPICS_DIR / f"{D}.json").write_text(
+            json.dumps({"run_date": D, "topics": topics}, ensure_ascii=False), encoding="utf-8")
+        for lst in (created, comments, reopened, unlabeled):
+            lst.clear()
+        state_box["reopen_fails"] = False
+        sel = ycl.open_selection(cfg, date_str=D)
+        return sel, created[-1]["body"]
+
+    def articles(tid):
+        out = []
+        for p in sorted(DRAFTS_DIR.glob("*/*.json")):
+            d = json.loads(p.read_text(encoding="utf-8"))
+            if d.get("topic_id") == tid and (d.get("format") or "article") == "article":
+                out.append(d)
+        return out
+
+    def run(num, body):
+        n0 = len(created)
+        publish_mod.cmd_youtube_selection(num, body, cfg, client=None)
+        return [c for c in created[n0:] if c["labels"] == ["youtube-review"]]
+
+    def topic_of(tid):
+        return next(t for t in ycl._load_topics_raw(D)["topics"] if t["id"] == tid)
+
+    try:
+        # ── g407) go1 لمقال تحليل ← يُعاد فتح قضية الترشيح نفسها ولا نقل إلى قضية جديدة ──
+        sel, body = fresh()
+        num = sel["issue"]["number"]
+        tid = sel["topics"][0]["id"]
+        marked = tick_marker(body, f"go:go2:{tid}")
+        run(num, marked)
+        draft = articles(tid)[0]
+        stage2 = draft["review_issue"]
+        n_created = len(created)
+        publish_mod.return_to_selection([draft["id"]], 2)
+        now_draft = store.load_draft(draft["id"])[1]
+        check("g407: المسودة returned بنصها ومرحلة العودة",
+              now_draft["status"] == "returned" and now_draft.get("returned_from_stage") == 2
+              and now_draft["arabic"] == draft["arabic"], now_draft["status"])
+        check("g407: reopen_issue استُدعي لقضية الترشيح الصحيحة", reopened == [num], reopened)
+        check("g407: أُزيل وسم approved منها", (num, "approved") in unlabeled, unlabeled)
+        cmt = [t for n, t in comments if n == num and "↩️" in t]
+        check("g407: تعليق ↩️ على قضية الترشيح بعنوان الموضوع ورقم قضية المرحلة 2",
+              len(cmt) == 1 and "موضوع أ" in cmt[0] and f"#{stage2}" in cmt[0], comments)
+        t_now = topic_of(tid)
+        check("g407: الموضوع ليس returned ولا moved", t_now.get("selection_status") != "returned"
+              and not t_now.get("returned"), t_now.get("selection_status"))
+        copies = ycl._carry_returned_topics({"topics": []}, "2099-11-07", cfg, datetime.now(timezone.utc))
+        check("g407: open_selection التالي لا يحمله", copies == [], copies)
+        check("g407: لا قضية اختيار جديدة فُتحت",
+              not [c for c in created[n_created:] if c["labels"] == ["youtube-selection"]],
+              [c["labels"] for c in created[n_created:]])
+
+        # ── g408) إعادة approved على قضية الترشيح مع تعليم المقال ← r1 جديد والمُعاد superseded ──
+        rv2 = run(num, marked)
+        new_id = point_id(f"{tid}:article:r1")
+        arts = {d["id"]: d for d in articles(tid)}
+        check("g408: مسودة r1 جديدة pending في قضية مرحلة 2 جديدة",
+              arts.get(new_id, {}).get("status") == "pending" and len(rv2) == 1
+              and arts[new_id].get("review_issue") != stage2, {k: v["status"] for k, v in arts.items()})
+        old_now = arts.get(draft["id"], {})
+        check("g408: المُعادة صارت superseded بـsuperseded_by",
+              old_now.get("status") == "superseded" and old_now.get("superseded_by") == new_id,
+              old_now.get("status"))
+
+        # ── g409) الاحتياط: موضوع بلا selection_issue، أو قضية لا تُفتح ← السلوك القديم ──
+        sel, body = fresh()
+        num = sel["issue"]["number"]
+        tid = sel["topics"][0]["id"]
+        run(num, tick_marker(body, f"go:go2:{tid}"))
+        draft = articles(tid)[0]
+        data = ycl._load_topics_raw(D)
+        for t in data["topics"]:
+            t.pop("selection_issue", None)
+        ycl._save_topics_raw(D, data)
+        reopened.clear()
+        publish_mod.return_to_selection([draft["id"]], 2)
+        check("g409: بلا selection_issue ← returned والموضوع returned للنقل ولا reopen",
+              store.load_draft(draft["id"])[1]["status"] == "returned"
+              and topic_of(tid).get("selection_status") in ("returned", "moved") and not reopened,
+              (topic_of(tid).get("selection_status"), reopened))
+
+        sel, body = fresh()
+        num = sel["issue"]["number"]
+        tid = sel["topics"][0]["id"]
+        run(num, tick_marker(body, f"go:go2:{tid}"))
+        draft = articles(tid)[0]
+        state_box["reopen_fails"] = True
+        warned: list[str] = []
+
+        class _H(logging.Handler):
+            def emit(self, record):
+                warned.append(record.getMessage())
+        h = _H(level=logging.WARNING)
+        publish_mod.log.addHandler(h)
+        try:
+            publish_mod.return_to_selection([draft["id"]], 2)
+        finally:
+            publish_mod.log.removeHandler(h)
+        check("g409: reopen_issue يرفع ← returned والنقل القديم وتحذير في السجل",
+              store.load_draft(draft["id"])[1]["status"] == "returned"
+              and topic_of(tid).get("selection_status") in ("returned", "moved")
+              and any("API down" in m for m in warned),
+              (topic_of(tid).get("selection_status"), warned))
+    finally:
+        review.create_issue = saved["create_issue"]
+        review.ensure_labels = saved["ensure_labels"]
+        review.comment = saved["comment"]
+        review.remove_label = saved["remove_label"]
+        review.close_issue = saved["close_issue"]
+        review.update_issue_body = saved["update_body"]
+        if saved["reopen"] is None:
+            del review.reopen_issue
+        else:
+            review.reopen_issue = saved["reopen"]
         ya._write_one_topic = saved["write"]
         yp._photo_candidates = saved["yp_photo"]
         youtube_extract.news_photo_available = saved["ex_news_ok"]

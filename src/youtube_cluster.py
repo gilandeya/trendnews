@@ -1476,6 +1476,13 @@ def set_topic_manual_image(date_str: str, topic_id: str, url: str,
     return topic
 
 
+def find_live_topic(topic_date: str, topic_id: str) -> dict | None:
+    """الموضوع الحيّ (غير moved) في ملف تاريخه بلا أي تعديل؛ None إن غاب (W2a، Issue #1534)."""
+    live = [t for t in _load_topics_raw(topic_date).get("topics", [])
+            if t.get("id") == topic_id and t.get("selection_status") != "moved"]
+    return live[-1] if live else None
+
+
 def mark_topic_returned(topic_date: str, topic_id: str, draft_id: str, stage: int,
                         returned_at: str) -> dict | None:
     """go1 للتحليل (Issue #1187، publish.return_to_selection): يجعل موضوع

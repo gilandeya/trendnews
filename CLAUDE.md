@@ -2002,3 +2002,12 @@ instead.
 - `finalize_selection` تعالج الآن كل موضوع عُلّمت له صيغة أيًّا كانت حالته (غير moved)؛ غير المعلَّم لا يُمسّ ولا يصير «لم يُختر». الموضوع المحسوم يأخذ `redo_formats` فيكتب `cmd_youtube_selection` صيغته من جديد دائمًا (المسودة المُعادة لا تُستعمل وتُحسب في `max_per_run`).
 - المعرّف الجديد `point_id(f"{topic_id}:{format}:r{n}")` (`publish._redo_n`: أعلى `redo_n` سابق + 1 من المسودات على القرص). `publish._supersede_old` تحوّل القديمة إلى `status="superseded"` + `superseded_by`/`superseded_at` (المنشورة تبقى published وتحمل الجديدة تحذير «نُشر من قبل»)، وتعلّق ♻️ على قضية مرحلتها وتغلقها إلا إن بقي فيها شقيق معلَّق. `superseded` خارج `_topic_drafts` وطابور التركيب (`reel_render.queued_reels`). نصوصها في `youtube.redo.texts`.
 - بعد كل تنفيذ يُفرَّغ جسم قضية الترشيح (`youtube_cluster.empty_selection_marks`) عبر `review.update_issue_body` قبل الإغلاق؛ فإعادة وسم approved لمتابعة الباقي فوق السقف تعتمد على بقاء الموضوع `selected` لا على التعليم. الاختبارات g402–g406 (`test_w3_reopened_selection_guards`).
+
+## «عُد إلى الترشيح» يعيد فتح قضية الترشيح نفسها (Issue #1534، W2a)
+
+- `publish._return_analysis_to_selection`: لمسودة تحليل موضوعها الحيّ (`youtube_cluster.find_live_topic`) له `selection_issue` تُعاد فتح تلك القضية
+  (`review.reopen_issue`، PATCH state=open) ويُزال منها `approved` ويُعلَّق عليها `youtube.redo.texts.returned_comment`؛ المسودة `returned` بنصها، والموضوع **لا**
+  يُعلَّم returned فلا ينسخه `_carry_returned_topics` ولا يُفتح ترشيح جديد. إعادة الطلب منها تسلك W3 كما هي (r1 جديد والمُعادة superseded).
+  قضية المرحلة 2 تُغلق/تبقى بحسب بنودها كما قبل. **الاحتياط:** موضوع بلا `selection_issue`، أو فشل `reopen_issue` ← النقل القديم إلى قضية جديدة مع `log.warning`.
+  الأخبار و«هام» بلا تغيير. اختبارات g200–g203 صارت مواضيعها بلا `selection_issue` عمدًا (تختبر الاحتياط)؛ الجديد g407–g409 في
+  `tests/test_guards_golden.py:test_w2a_return_to_selection_guards`.
