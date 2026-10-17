@@ -148,24 +148,38 @@
   "approved_script_at": "2026-10-13T14:49:15.888698+00:00",
   "render_crops": {
     "0": {
-      "x": 466,
-      "source": "face",
+      "x": 468,
+      "source": "speaker",
+      "speaker_score": 1.19,
+      "tracks": 1,
       "cover": false
     },
     "3": {
-      "x": 295,
-      "source": "face",
+      "x": 428,
+      "source": "speaker_vision",
+      "speaker_score": 1.04,
+      "tracks": 2,
+      "vision": {
+        "pick": 1,
+        "agree": 3,
+        "archive": [
+          2
+        ]
+      },
       "cover": false
     },
     "5": {
-      "x": 437,
+      "x": 292,
       "source": "center",
       "cover": true
+    },
+    "hook": {
+      "ticker": false
     }
   },
   "render_dropped": [],
-  "rendered_at": "2026-10-14T18:24:35.938151+00:00",
-  "render_version": 9,
+  "rendered_at": "2026-10-17T19:20:48.468972+00:00",
+  "render_version": 26,
   "render_approx": [
     {
       "point_id": "9db8124d0e4e",
@@ -173,19 +187,12 @@
       "start": 213,
       "end": 227,
       "reason": "تعذّر جلب نص الفيديو"
-    },
-    {
-      "point_id": "3ae33f6f7bcb",
-      "kind": "clip",
-      "start": 59,
-      "end": 74,
-      "reason": "تعذّر جلب نص الفيديو"
     }
   ],
   "render_attempts": 0,
   "reel_file": "reels/2026-10-13/1c251f64c82a.mp4",
   "reel_gif": "reels/2026-10-13/1c251f64c82a.gif",
-  "duration_seconds": 94.8,
+  "duration_seconds": 98.7,
   "reel_bg": {
     "url": "https://www.aljazeera.com/wp-content/uploads/2026/10/reuters_6ace3b9f-1791900575.jpg?resize=1200%2C675",
     "kind": "news_photo",
@@ -193,5 +200,422 @@
     "layout": "A"
   },
   "reel_music": "kulakovka-financial-news-614884.mp3",
-  "reel_review_issue": 1474
+  "reel_review_issue": 1474,
+  "broll_plan": [
+    {
+      "scene": 2,
+      "sentence": 0,
+      "text": "في الحادي عشر من أكتوبر 2026، عرضت قناة الجزيرة حصيلة الهجوم على مطار الملك خالد الدولي في الرياض: اثنا عشر قتيلاً وأكثر من ثلاثمئة جريح، ضمن سلسلة هجمات نُسبت إلى جماعة أنصار الله الحوثية.",
+      "visual": "سيارات إسعاف أمام مبنى مطار ليلاً"
+    },
+    {
+      "scene": 4,
+      "sentence": 0,
+      "text": "وفي الثاني عشر من أكتوبر 2026، توقفت قناة العربية عند هوية الضحايا، ومنهم معتمرون في ملابس الإحرام قبيل صعودهم إلى طائراتهم.",
+      "visual": "معتمرون بملابس الإحرام في صالة المطار"
+    },
+    {
+      "scene": 4,
+      "sentence": 1,
+      "text": "ضيف القناة يصف ما جرى.",
+      "visual": ""
+    },
+    {
+      "scene": 6,
+      "sentence": 0,
+      "text": "ويبقى السؤال مفتوحًا حول امتداد الاستهداف إلى منشآت الطاقة، وحول مصير التهديدات الموجهة للوجود الأمريكي في المنطقة.",
+      "visual": "منشأة نفطية تحترق في الصحراء"
+    }
+  ],
+  "hook_candidates": [
+    {
+      "video_id": "QNVHeR4ptl4",
+      "title": "مشاهد من مطار الرياض الدولي بعد الهجوم",
+      "channel": "BBC News عربي",
+      "views": 481268,
+      "duration": 17,
+      "published": "2026-10-11T09:50:47Z"
+    },
+    {
+      "video_id": "BjteBSVGTww",
+      "title": "مشاهد توثق لحظة استهداف مطار الملك خالد في الرياض",
+      "channel": "AlJazeera Arabic  قناة الجزيرة",
+      "views": 392590,
+      "duration": 356,
+      "published": "2026-10-11T22:13:21Z"
+    },
+    {
+      "video_id": "FE9fy5chF5U",
+      "title": "Footage Shows Moment of Riyadh Airport Attack",
+      "channel": "Al Arabiya English",
+      "views": 213283,
+      "duration": 40,
+      "published": "2026-10-11T20:37:17Z"
+    },
+    {
+      "video_id": "1tFQKZNne2g",
+      "title": "مشاهد تظهر لحظة استهداف مطار الملك خالد الدولي في الرياض يوم السبت",
+      "channel": "AlJazeera Arabic  قناة الجزيرة",
+      "views": 205455,
+      "duration": 36,
+      "published": "2026-10-11T21:49:19Z"
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-10-11T00:00:00Z",
+          "2026-10-15T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "صاروخ يستهدف مطار الملك خالد الرياض دخان",
+            "raw": 30,
+            "channel_ok": 20
+          },
+          {
+            "query": "Missile strike King Khalid International Airport Riyadh smoke",
+            "raw": 30,
+            "channel_ok": 12
+          },
+          {
+            "query": "هجوم مطار الملك خالد الرياض انفجار مشاهد",
+            "raw": 30,
+            "channel_ok": 22
+          }
+        ],
+        "duration_ok": 37,
+        "judged_ok": 12,
+        "rejected_channels": [
+          "العربي - أخبار",
+          "قناة الإخبارية",
+          "Step News Agency - وكالة ستيب نيوز",
+          "محور الأخبار",
+          "بين السطور",
+          "DW News",
+          "11Alive",
+          "9 News Australia"
+        ]
+      }
+    ],
+    "picked": [
+      "QNVHeR4ptl4"
+    ]
+  },
+  "hook_video": {
+    "video_id": "QNVHeR4ptl4",
+    "start": 1,
+    "end": 8,
+    "channel": "BBC News عربي",
+    "title": "مشاهد من مطار الرياض الدولي بعد الهجوم",
+    "source": "auto",
+    "views": 481268,
+    "reason": "10 ث متتالية من لقطات الحدث"
+  },
+  "render_sources": "هآرتس، الجزيرة، العربية، BBC News عربي، AlJazeera Arabic  قناة الجزيرة",
+  "render_speakers": {
+    "0": {
+      "name_original": "",
+      "name_arabic": "",
+      "role_arabic": "",
+      "is_presenter": false,
+      "frames_agreeing": 0,
+      "rejected": "",
+      "accepted": false
+    },
+    "3": {
+      "name_original": "نقاش الساعة",
+      "name_arabic": "نقاش الساعة",
+      "role_arabic": "",
+      "is_presenter": false,
+      "frames_agreeing": 3,
+      "rejected": "program",
+      "accepted": false
+    },
+    "5": {
+      "name_original": "Jaser Al-Jaser",
+      "name_arabic": "جاسر الجاسر",
+      "role_arabic": "كاتب صحفي - الرياض",
+      "is_presenter": false,
+      "frames_agreeing": 2,
+      "rejected": "",
+      "accepted": true
+    }
+  },
+  "render_broll": [
+    {
+      "scene": 2,
+      "sentence": 0,
+      "video_id": "BjteBSVGTww",
+      "start": 26.42,
+      "end": 45.58,
+      "channel": "AlJazeera Arabic  قناة الجزيرة",
+      "desc": "قاعة مطار مغطاة بالدخان الكثيف وتجمع أشخاص · دخان كثيف مع ظهور نار صغيرة برتقالية وسط الحشود · دخان كثيف يغطي صالة المطار والأشخاص"
+    },
+    {
+      "scene": 4,
+      "sentence": 0,
+      "photo": "السلسلة أقصر من الجملة"
+    },
+    {
+      "scene": 4,
+      "sentence": 1,
+      "photo": "جملة مجرّدة"
+    },
+    {
+      "scene": 6,
+      "sentence": 0,
+      "photo": "لا سلسلة تطابقها"
+    }
+  ],
+  "broll_scan": {
+    "videos": {
+      "QNVHeR4ptl4": {
+        "downloaded": 16,
+        "classified": 16,
+        "sheets": 2,
+        "kinds": {
+          "event_footage": 14,
+          "other": 2
+        },
+        "footage_relevant": 10,
+        "footage_other": 4,
+        "chains": 1,
+        "longest": 4
+      },
+      "BjteBSVGTww": {
+        "downloaded": 356,
+        "classified": 356,
+        "sheets": 15,
+        "kinds": {
+          "anchor": 2,
+          "event_footage": 294,
+          "other": 20,
+          "studio": 38,
+          "graphic": 2
+        },
+        "footage_relevant": 148,
+        "footage_other": 146,
+        "chains": 15,
+        "longest": 48
+      },
+      "FE9fy5chF5U": {
+        "downloaded": 39,
+        "classified": 40,
+        "sheets": 2,
+        "kinds": {
+          "event_footage": 40
+        },
+        "footage_relevant": 34,
+        "footage_other": 6,
+        "chains": 1,
+        "longest": 40
+      },
+      "1tFQKZNne2g": {
+        "downloaded": 35,
+        "classified": 36,
+        "sheets": 2,
+        "kinds": {
+          "anchor": 2,
+          "event_footage": 24,
+          "text_heavy": 4,
+          "other": 6
+        },
+        "footage_relevant": 18,
+        "footage_other": 6,
+        "chains": 3,
+        "longest": 10
+      }
+    },
+    "sheets_used": 21,
+    "chains": [
+      {
+        "video_id": "QNVHeR4ptl4",
+        "start": 12,
+        "end": 16,
+        "desc": "لقطة لمجموعة أشخاص وقماش أسود بشعار ALTANFEETHI مع شريط خبر عاجل، لا يظهر مطار أو هجوم · لقطة لقماش أسود بكتابة ALTANFEETHI وأشخاص في الخلفية، دون أي مشهد للمطار أو للهجوم · لقطة لأشخاص يرتدون الشماغ الأحمر أمام قماش أسود بشعار، دون مشهد للمطار أو للهجوم",
+        "channel": "BBC News عربي",
+        "relevant": false
+      },
+      {
+        "video_id": "BjteBSVGTww",
+        "start": 2,
+        "end": 22,
+        "desc": "لقطة كاميرا مراقبة بلون وردي لمجموعة أشخاص عند بوابة، غير واضحة الحدث · صالة انتظار داخلية بكراسٍ صفراء وأشخاص جالسون، لا أثر لهجوم · صالة انتظار داخلية هادئة مع أشخاص جالسين",
+        "channel": "AlJazeera Arabic  قناة الجزيرة",
+        "relevant": false
+      },
+      {
+        "video_id": "BjteBSVGTww",
+        "start": 24,
+        "end": 48,
+        "desc": "قاعة مطار مغطاة بالدخان الكثيف وتجمع أشخاص · دخان كثيف مع ظهور نار صغيرة برتقالية وسط الحشود · دخان كثيف يغطي صالة المطار والأشخاص",
+        "channel": "AlJazeera Arabic  قناة الجزيرة",
+        "relevant": false
+      },
+      {
+        "video_id": "BjteBSVGTww",
+        "start": 58,
+        "end": 64,
+        "desc": "لقطة ذات إضاءة حمراء لكراسي مقلوبة ودخان وغبار داخل الصالة · حشود من المسافرين والمعتمرين في صالة المطار قبل الانفجار · حشود من المسافرين والمعتمرين مع عناصر أمن بسترات صفراء في صالة المطار",
+        "channel": "AlJazeera Arabic  قناة الجزيرة",
+        "relevant": true
+      },
+      {
+        "video_id": "BjteBSVGTww",
+        "start": 66,
+        "end": 84,
+        "desc": "دخان برتقالي كثيف يغطي صالة المطار وأشخاص في الخلفية · دخان رمادي كثيف في صالة المطار مع وميض ناري صغير · دخان رمادي كثيف يملأ الصالة مع وميض ناري صغير في الأرض",
+        "channel": "AlJazeera Arabic  قناة الجزيرة",
+        "relevant": false
+      },
+      {
+        "video_id": "BjteBSVGTww",
+        "start": 86,
+        "end": 100,
+        "desc": "لقطة بتدرج وردي/بنفسجي كثيف يغطي المشهد، تشويش لوني ودخان · لقطة بتدرج وردي تغطي البوابات والمسافرين، تشويش لوني واضح · داخل قاعة انتظار بمقاعد خشبية، أشخاص جالسون بهدوء، لا أثر للحدث",
+        "channel": "AlJazeera Arabic  قناة الجزيرة",
+        "relevant": false
+      },
+      {
+        "video_id": "BjteBSVGTww",
+        "start": 102,
+        "end": 108,
+        "desc": "حشد من المعتمرين في صالة المطار، بلا مؤشر واضح على الهجوم · ازدحام كثيف للمعتمرين بين حواجز في صالة المطار",
+        "channel": "AlJazeera Arabic  قناة الجزيرة",
+        "relevant": true
+      },
+      {
+        "video_id": "BjteBSVGTww",
+        "start": 110,
+        "end": 132,
+        "desc": "دخان كثيف يملأ الصالة مع نار صغيرة في الأرض · دخان كثيف يغطي الصالة ونار صغيرة قرب الأرض · دخان رمادي كثيف يغطي الصالة بالكامل",
+        "channel": "AlJazeera Arabic  قناة الجزيرة",
+        "relevant": false
+      },
+      {
+        "video_id": "BjteBSVGTww",
+        "start": 144,
+        "end": 150,
+        "desc": "كراسي وطاولات مقلوبة في مكان داخلي، غير واضح أنه المطار · حشود معتمرين بملابس بيضاء في صالة مطار الملك خالد، رجال أمن بسترات صفراء · حشود معتمرين في صالة المطار قبل ظهور الدخان",
+        "channel": "AlJazeera Arabic  قناة الجزيرة",
+        "relevant": false
+      },
+      {
+        "video_id": "BjteBSVGTww",
+        "start": 152,
+        "end": 192,
+        "desc": "دخان كثيف يملأ صالة المطار مع أشخاص متجمعين وبقعة نار صغيرة · دخان كثيف في صالة المطار مع بقعة نار برتقالية · دخان كثيف يغطي صالة المطار وأشخاص في الخلفية",
+        "channel": "AlJazeera Arabic  قناة الجزيرة",
+        "relevant": false
+      },
+      {
+        "video_id": "BjteBSVGTww",
+        "start": 194,
+        "end": 212,
+        "desc": "وهج برتقالي كثيف يغطي المشهد وأشخاص داخل المبنى · دخان رمادي في صالة المطار مع نار صغيرة متوهجة · دخان كثيف في الصالة مع بؤرة نار",
+        "channel": "AlJazeera Arabic  قناة الجزيرة",
+        "relevant": false
+      },
+      {
+        "video_id": "BjteBSVGTww",
+        "start": 214,
+        "end": 262,
+        "desc": "لقطة بتدرج وردي/بنفسجي تغطي المشهد مع معتمرين عند البوابات · لقطة كاميرا أمنية بلون وردي تُظهر حركة أشخاص عند بوابات، وليست واضحة الصلة بالحدث · كاميرا مراقبة داخل صالة انتظار بها مقاعد وأشخاص جالسون، دون أثر واضح لهجوم",
+        "channel": "AlJazeera Arabic  قناة الجزيرة",
+        "relevant": false
+      },
+      {
+        "video_id": "BjteBSVGTww",
+        "start": 272,
+        "end": 278,
+        "desc": "لقطة مضطربة بلون أحمر لكراسي مقلوبة وفوضى في صالة الانتظار، غير واضحة المكان · حشد من المعتمرين بملابس بيضاء في صالة المطار، رجال أمن بسترات صفراء · حشد من المعتمرين وأفراد أمن في صالة المطار بالتزامن مع الحدث",
+        "channel": "AlJazeera Arabic  قناة الجزيرة",
+        "relevant": false
+      },
+      {
+        "video_id": "BjteBSVGTww",
+        "start": 280,
+        "end": 304,
+        "desc": "دخان كثيف يملأ صالة المطار مع أشخاص بملابس بيضاء في الأسفل · دخان كثيف ووهج نار برتقالي في وسط الصالة · دخان كثيف يغطي الصالة مع وهج نار خافت",
+        "channel": "AlJazeera Arabic  قناة الجزيرة",
+        "relevant": false
+      },
+      {
+        "video_id": "BjteBSVGTww",
+        "start": 312,
+        "end": 340,
+        "desc": "ركاب جالسون في صالة بمقاعد، الحدث لم يبدأ بعد · كراسي مقلوبة ومتناثرة وسط دخان وضوء برتقالي من الانفجار · حشود معتمرين منتظمة عند نقاط التفتيش قبل الانفجار",
+        "channel": "AlJazeera Arabic  قناة الجزيرة",
+        "relevant": false
+      },
+      {
+        "video_id": "BjteBSVGTww",
+        "start": 342,
+        "end": 356,
+        "desc": "غبار ودخان كثيف يملأ صالة البوابات بعد الانفجار مع تلوين وردي للقطة · دخان وغبار كثيف فوق البوابات والمسافرين، تأثير لوني وردي · صالة انتظار هادئة بمقاعد فارغة ومسافرين جالسين، لا أثر للتفجير",
+        "channel": "AlJazeera Arabic  قناة الجزيرة",
+        "relevant": false
+      },
+      {
+        "video_id": "FE9fy5chF5U",
+        "start": 0,
+        "end": 40,
+        "desc": "معتمرون بملابس بيضاء عند بوابات دخول، لقطة مراقبة عادية قبل الحادث · تجمع معتمرين عند البوابات الدوارة قبل الحادث، أمن بسترات صفراء · المعتمرون ما زالوا يعبرون البوابات بهدوء، لا أثر لهجوم",
+        "channel": "Al Arabiya English",
+        "relevant": false
+      },
+      {
+        "video_id": "1tFQKZNne2g",
+        "start": 8,
+        "end": 16,
+        "desc": "مقاعد في صالة المطار وأشخاص جالسون، بدون أثر واضح للهجوم · مقاعد في صالة المطار، بدون أثر واضح للهجوم",
+        "channel": "AlJazeera Arabic  قناة الجزيرة",
+        "relevant": true
+      },
+      {
+        "video_id": "1tFQKZNne2g",
+        "start": 18,
+        "end": 22,
+        "desc": "حشود من المعتمرين في صالة المطار الداخلية",
+        "channel": "AlJazeera Arabic  قناة الجزيرة",
+        "relevant": false
+      },
+      {
+        "video_id": "1tFQKZNne2g",
+        "start": 24,
+        "end": 34,
+        "desc": "دخان كثيف فوق منطقة مطار مع بقعة نار على الأرض · نيران مشتعلة على الأرض وسط دخان كثيف قرب مبنى المطار · دخان كثيف يغطي ساحة المطار ومبانيه، مع بقع داكنة على الأرض",
+        "channel": "AlJazeera Arabic  قناة الجزيرة",
+        "relevant": true
+      }
+    ],
+    "assign": [
+      {
+        "n": 1,
+        "chain": 3
+      },
+      {
+        "n": 2,
+        "chain": 13
+      },
+      {
+        "n": 4,
+        "chain": null
+      }
+    ]
+  },
+  "render_notes": [
+    "### 🎬 تركيب الريل",
+    "- ⏱️ المدة: 98.7 ث",
+    "- 🎞️ [الملف](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-10-13/1c251f64c82a.mp4) · [المعاينة](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-10-13/1c251f64c82a.gif)",
+    "- ⚠️ نافذة تقديرية لمقطع هآرتس (3:33–3:47): تعذّر جلب نص الفيديو — راجع بداية المقطع ونهايته",
+    "🎞️ لقطة الهوك: BBC News عربي — [مشاهد من مطار الرياض الدولي بعد الهجوم](https://www.youtube.com/watch?v=QNVHeR4ptl4&t=1) (1–8 ث) · 481,268 مشاهدة",
+    "🎞️ لقطات الحدث: 1 من 4 جمل (AlJazeera Arabic  قناة الجزيرة ×1) — 3 بالصورة",
+    "🏷️ شريط القناة يحمل اسم برنامج لا شخص: نقاش الساعة — يُعرض اسم القناة وحده",
+    "🎯 مقطع الجزيرة: 2 وجوه — المتكلم بالرؤية",
+    "👤 من شريط القناة: جاسر الجاسر (Jaser Al-Jaser) — كاتب صحفي - الرياض"
+  ]
 }
