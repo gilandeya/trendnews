@@ -788,6 +788,21 @@ def _return_important_to_selection(path, draft: dict, title: str, stage: int,
             "(قضية ترشيح جديدة، ولا كتابة جديدة عند تقدّمها)")
 
 
+def _reopen_stage2_or_none(stage2: int, draft: dict, comment_text: str) -> int | None:
+    """يعيد فتح قضية المرحلة 2 (youtube_publish.reopen_stage2) ويعيد رقمها، أو None للاحتياط القديم
+    (قضية مفتوحة، أو عطل API) مع تحذير في السجل (Issue #1536، W2b)."""
+    from . import youtube_publish
+    try:
+        if youtube_publish.reopen_stage2(int(stage2), draft.get("topic_id"), comment_text, load_config()):
+            return int(stage2)
+        log.warning("قضية المرحلة 2 #%s لم تُعد فتحها (مفتوحة الآن أو بلا مسودات) — المسودة %s إلى قضية "
+                    "مرحلة 2 جديدة", stage2, draft["id"])
+    except Exception as exc:  # noqa: BLE001 — عطل GitHub يعيدنا إلى السلوك القديم لا إلى الضياع
+        log.warning("تعذّرت إعادة فتح قضية المرحلة 2 #%s فتعود المسودة %s إلى قضية جديدة: %s",
+                    stage2, draft["id"], exc)
+    return None
+
+
 def cmd_final_review(issue_number: int, body: str, cfg, urgent_only: bool = False) -> int:
     """اعتماد Issue المراجعة النهائية (Issue #858، الجزء الثاني): المعلَّم
     يُنشر مباشرة بلا إعادة بناء بطاقة ولا اختيار عنوان ولا تعديل نص --
@@ -841,9 +856,27 @@ def cmd_final_review(issue_number: int, body: str, cfg, urgent_only: bool = Fals
         path, draft = found
         if draft.get("status") != "pending":
             continue
-        store.update_draft(path, status="pending",
-                           remove=["image", "image_info", "review_issue"])
-        lines.append(f"- ↩️ {draft['arabic']['post_title'][:50]} — أُعيد للمراجعة الأولية")
+        title = draft['arabic']['post_title'][:50]
+        reopened_issue = None
+        stage2 = draft.get("stage2_issue")
+        if store.origin_of(draft) == "analysis" and stage2:
+            # W2b (Issue #1536): مقال تحليل يعود إلى قضية المرحلة 2 نفسها لا إلى قضية جديدة
+            store.update_draft(path, status="pending", remove=["image", "image_info"], review_issue=stage2)
+            reopened_issue = _reopen_stage2_or_none(
+                stage2, draft, cfg.path("youtube.redo.texts.back_from_final_comment", "").format(
+                    title=title, final=issue_number))
+            if reopened_issue is None:
+                store.update_draft(path, remove=["review_issue"])
+        else:
+            if store.origin_of(draft) == "analysis":
+                log.warning("مسودة تحليل %s بلا stage2_issue (قديمة) — تعود إلى المرحلة 2 في قضية جديدة", draft["id"])
+            store.update_draft(path, status="pending",
+                               remove=["image", "image_info", "review_issue"])
+        if reopened_issue:
+            lines.append(cfg.path("youtube.redo.texts.back_from_final_line", "").format(
+                title=title, stage2=reopened_issue))
+        else:
+            lines.append(f"- ↩️ {title} — أُعيد للمراجعة الأولية")
 
     # عدم الاعتماد (ولا العودة) = رفض ضمني، بنفس مبدأ المسار العادي
     # (Issue #841) — مقيَّد بمعرّفات هذا الـIssue وحده.
@@ -1535,6 +1568,27 @@ def cmd_queue(cfg) -> int:
     return 0
 
 
+def _back_from_reel_review(path, draft: dict, title: str, action: str, review_number: int, texts: dict) -> list[str]:
+    """go2: الريل يعود pending بسيناريوه الجاهز بلا render_status (فلا يلتقطه التركيب ولا النشر) وتُعاد فتح قضية
+    مرحلته 2 نفسها؛ تعذّر ذلك ← pending بلا review_issue فتلتقطه open_review في قضية جديدة. go1: مسار W2a
+    (return_to_selection) بعد جعله pending لأن حارسه status == "pending" (Issue #1536، W2b)."""
+    if action == "go1":
+        store.update_draft(path, status="pending", remove=["render_status"])
+        return return_to_selection([draft["id"]], 3)
+    # ريل قديم بلا stage2_issue: review_issue هو رقم المرحلة 2 عنده (الريل لا يمرّ بقضية بطاقة)
+    stage2 = draft.get("stage2_issue") or draft.get("review_issue")
+    store.update_draft(path, status="pending", remove=["render_status"])
+    opened = None
+    if stage2:
+        opened = _reopen_stage2_or_none(stage2, draft, texts.get("back_comment", "").format(
+            title=title, review=review_number))
+    if opened:
+        store.update_draft(path, review_issue=opened, stage2_issue=opened)
+        return [texts.get("back_line", "").format(title=title, stage2=opened)]
+    store.update_draft(path, remove=["review_issue"])
+    return [texts.get("back_fallback_line", "").format(title=title)]
+
+
 def cmd_reel_review(issue_number: int, body: str, cfg) -> int:
     """قضية المراجعة النهائية للريل (Issue #1469، R4a، وسم reel-review): «انشر» معلَّم ← status="approved_reel" وheadline_selected
     من المربع المعلَّم ثم نشر فوري عبر publish_reel_draft (R4b)؛ غير المعلَّم ← رفض كبقية البنود. status == "approved_script"
@@ -1551,7 +1605,10 @@ def cmd_reel_review(issue_number: int, body: str, cfg) -> int:
             continue
         path, d = found
         title = (d.get("script") or {}).get("title") or d.get("title", did)
-        if actions.get(did) == "publish":
+        if actions.get(did) in ("go1", "go2") and not retry:
+            # التراجع (Issue #1536، W2b): لا رفض ضمني ولا نشر، وقضية المراجعة تُغلق كبقية الحالات
+            lines += _back_from_reel_review(path, d, title, actions[did], issue_number, texts)
+        elif actions.get(did) == "publish":
             d = store.update_draft(path, status="approved_reel", headline_selected=choice.get(did, 0))
             lines.append(texts.get("approved", "").format(title=title))
             ok, info = publish_reel_draft(path, d, cfg)

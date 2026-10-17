@@ -2011,3 +2011,11 @@ instead.
   قضية المرحلة 2 تُغلق/تبقى بحسب بنودها كما قبل. **الاحتياط:** موضوع بلا `selection_issue`، أو فشل `reopen_issue` ← النقل القديم إلى قضية جديدة مع `log.warning`.
   الأخبار و«هام» بلا تغيير. اختبارات g200–g203 صارت مواضيعها بلا `selection_issue` عمدًا (تختبر الاحتياط)؛ الجديد g407–g409 في
   `tests/test_guards_golden.py:test_w2a_return_to_selection_guards`.
+
+## التراجع من المراجعة النهائية يعيد فتح القضية السابقة (Issue #1536، W2b)
+
+- **`stage2_issue`:** `youtube_publish.open_review` تحفظ على كل مسودة تحليل (مقال وريل) رقم قضية المرحلة 2 في `stage2_issue` مع `review_issue`؛ لأن `publish.open_final_review` تكتب فوق `review_issue` رقم قضية البطاقة.
+- **`youtube_publish.reopen_stage2(number, topic_id, comment_text, cfg)`:** قضية مفتوحة الآن (`review.issue_state`، GET) ← لا يُمسّ جسمها وتعيد False (إعادة البناء كانت ستمحو ما كتبه المراجع)؛ وإلا يُعاد بناء الجسم بـ`build_review_body` من مسودات `pending` التي رقمها (`stage2_issue`، أو `review_issue` لريل قديم) = number، ثم `update_issue_body` ← `reopen_issue` ← إزالة `approved` ← التعليق. كل عطل API يرفع، ومستدعيها `publish._reopen_stage2_or_none` يحوّل False والعطل إلى None + تحذير «المرحلة 2» في السجل. **ترتيب معروف:** الجسم يُكتب قبل إعادة الفتح، فعطل `reopen_issue` يترك الجسم المعاد بناؤه على قضية مغلقة (بلا ضرر؛ المسودة تسلك الاحتياط).
+- **المقال («عد» في قضية البطاقة، `cmd_final_review`):** لمسودة تحليل لها `stage2_issue` تُمسح البطاقة وتُضبط `review_issue = stage2_issue` ثم `reopen_stage2` بتعليق `youtube.redo.texts.back_from_final_comment` وسطر تقرير `back_from_final_line` يذكر القضية؛ بلا `stage2_issue` أو False أو عطل ← pending بلا `review_issue` (قضية جديدة من `open_review`) كما كان.
+- **الريل (`reel-review`):** `reel_review.build_body` يعرض إلى جانب «انشر» خيارين `go2` («↩️ عد إلى السيناريو») وgo1 («↩️ عد إلى الترشيح»، لمن له `topic_id`) عبر `options_block(..., only=, labels=)`، نصوصهما في `reel.review`. `cmd_reel_review`: go2 ← `pending` وscript_status يبقى ready وتُزال `render_status` ثم `reopen_stage2` (فشله ← pending بلا review_issue فتلتقطه `open_review`)؛ go1 ← pending ثم `return_to_selection([id], 3)` (W2a). لا رفض ضمني ولا نشر، والقضية تُغلق.
+- **go1 من قضية البطاقة** يسلك W2a كما هو (اختبار فقط). الأخبار و«هام» بلا تغيير. الاختبارات: g410–g414 في `tests/test_guards_golden.py:test_w2b_back_from_final_review_guards`، وعُدِّل g389 (خياران إضافيان).

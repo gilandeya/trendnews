@@ -702,6 +702,14 @@ def reopen_issue(issue_number: int) -> None:
     ).raise_for_status()
 
 
+def issue_state(issue_number: int) -> str:
+    """حالة القضية الآن ("open"/"closed") بطلب GET (Issue #1536، W2b). ترفع عند العطل."""
+    repo = _repo()
+    resp = requests.get(f"{API}/repos/{repo}/issues/{issue_number}", headers=_headers(), timeout=45)
+    resp.raise_for_status()
+    return resp.json().get("state") or "open"
+
+
 def remove_label(issue_number: int, label: str) -> None:
     repo = _repo()
     requests.delete(

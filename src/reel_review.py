@@ -42,7 +42,10 @@ def build_body(draft: dict, cfg) -> str:
     if draft.get("render_sources"):
         post += ["", cfg.path("reel.render.texts.clips_from").format(channels=draft["render_sources"])]
     lines += [f"**{t['post_title']}**", "", *post, ""]
-    lines += stages.options_block(3, draft["id"], cfg, has_stage1=False, only=("publish",))
+    # go2/go1 (Issue #1536، W2b): رجوع خطوة إلى السيناريو أو خطوتين إلى الترشيح؛ go1 لمن له topic_id وحده
+    lines += stages.options_block(3, draft["id"], cfg, has_stage1=bool(draft.get("topic_id")),
+                                  only=("publish", "go2", "go1"),
+                                  labels={"go2": t.get("go2"), "go1": t.get("go1")})
     return "\n".join(lines)
 
 

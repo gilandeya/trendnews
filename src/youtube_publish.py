@@ -1140,7 +1140,10 @@ def open_review(cfg=None, now: datetime | None = None) -> dict:
             labels=["youtube-review"],
         )
         for d in group:
-            store.update_draft(by_id_path[d["id"]], review_issue=issue["number"])
+            # stage2_issue (Issue #1536، W2b): open_final_review تكتب فوق review_issue رقم قضية البطاقة،
+            # فيُحفظ رقم المرحلة 2 مستقلًا ليعود إليه «عد» من المراجعة النهائية
+            store.update_draft(by_id_path[d["id"]], review_issue=issue["number"],
+                               stage2_issue=issue["number"])
         issues.append({"topic_id": topic_id, "issue": issue, "title": title})
 
     # "issue" = أول قضية (توافقًا مع من يقرأ قضية واحدة)، والقائمة الكاملة في "issues"
@@ -1148,6 +1151,27 @@ def open_review(cfg=None, now: datetime | None = None) -> dict:
 
 
 # ──────────────────────────── النشر (بسقف وتباعد) ────────────────────────
+
+
+def reopen_stage2(number: int, topic_id: str | None, comment_text: str, cfg) -> bool:
+    """يعيد فتح قضية المرحلة 2 السابقة نفسها بدل قضية جديدة (Issue #1536، W2b). True إن نجحت.
+    قضية مفتوحة الآن فيها بند ينتظر قرارًا فلا يُمسّ جسمها (إعادة البناء كانت ستمحو ما كتبه المراجع) وتعيد False
+    فيسلك المستدعي الاحتياط. وإلا يُعاد بناء الجسم من مسودات الموضوع التي stage2_issue لها = number وحالتها
+    pending فيظهر البند بحاله الحالية بلا علامة قديمة. كل عطل API يرفع ليقرر المستدعي."""
+    if review.issue_state(number) == "open":
+        return False
+    rows = [d for _, d in store.pending_drafts()
+            if store.origin_of(d) == "analysis" and (d.get("stage2_issue") or d.get("review_issue")) == number
+            and (topic_id is None or d.get("topic_id") == topic_id)]
+    if not rows:
+        return False
+    rows.sort(key=lambda d: d.get("format") == "reel")      # المقال قبل الريل كما في open_review
+    body = build_review_body(rows, env("GITHUB_REPOSITORY"), os.environ.get("GITHUB_REF_NAME", "main"), cfg)
+    review.update_issue_body(number, body)
+    review.reopen_issue(number)
+    review.remove_label(number, "approved")
+    review.comment(number, comment_text)
+    return True
 
 
 def publish_ids(ids: list[str], headline_choices: dict[str, int], cfg,
