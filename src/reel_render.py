@@ -2885,9 +2885,10 @@ def queued_reels(cfg=None) -> list[tuple[Path, dict]]:
             d = json.loads(p.read_text(encoding="utf-8"))
         except json.JSONDecodeError:
             continue
-        if d.get("format") != "reel":
+        # superseded (Issue #1532) ليس منتظرًا للتركيب ولو بقي render_status="queued"
+        if d.get("format") != "reel" or d.get("status") == "superseded":
             continue
-        stale = (version is not None and d.get("status") == "approved_script" and d.get("render_status") == "rendered"
+        stale =(version is not None and d.get("status") == "approved_script" and d.get("render_status") == "rendered"
                  and int(d.get("render_version") or 0) < version)
         # failed بنسخة أقدم يُحيا تلقائيًا (Issue #1406): سببه قد يكون عطلًا أُصلح في النسخة الجديدة
         revive = (version is not None and d.get("status") == "approved_script" and d.get("render_status") == "failed"

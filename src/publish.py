@@ -1021,19 +1021,78 @@ def _returned_analysis_draft(topic_id: str) -> tuple[Path, dict] | None:
     return None
 
 
-def _topic_drafts(topic_id: str) -> list[tuple[Path, dict]]:
-    """مسودات التحليل غير المرفوضة لموضوع (Issue #1336): مقال و/أو ريل. تمسح drafts/ لأن
-    المعرّف مشتقّ من تاريخ الاختيار الأول لا من تاريخ الموضوع الحالي."""
+def _all_topic_drafts(topic_id: str, fmt: str | None = None) -> list[tuple[Path, dict]]:
+    """كل مسودات التحليل لموضوع بأي حالة (Issue #1532، W3)، وبصيغة واحدة إن حُدِّدت. تمسح drafts/
+    لأن المعرّف مشتقّ من تاريخ الاختيار الأول لا من تاريخ الموضوع الحالي."""
     out = []
     for path in sorted(store.DRAFTS_DIR.glob("*/*.json")):
         try:
             data = json.loads(path.read_text(encoding="utf-8"))
         except (ValueError, OSError):
             continue
-        if (data.get("topic_id") == topic_id and store.origin_of(data) == "analysis"
-                and data.get("status") != "rejected"):
+        if data.get("topic_id") == topic_id and store.origin_of(data) == "analysis" \
+                and (fmt is None or (data.get("format") or "article") == fmt):
             out.append((path, data))
     return out
+
+
+def _topic_drafts(topic_id: str) -> list[tuple[Path, dict]]:
+    """مسودات التحليل الحيّة لموضوع (Issue #1336): مقال و/أو ريل. المرفوضة والمُستبدَلة
+    (superseded، Issue #1532) خارجها: الأولى ماتت والثانية حلّت محلها مسودة أحدث."""
+    return [(p, d) for p, d in _all_topic_drafts(topic_id)
+            if d.get("status") not in ("rejected", "superseded")]
+
+
+def _redo_n(topic_id: str, fmt: str) -> int:
+    """رقم إعادة الطلب (Issue #1532، W3) لصيغة موضوع: 0 إن لم تُكتب هذه الصيغة من قبل (كتابة
+    أولى بمعرّفها المعتاد)، وإلا أعلى redo_n سابق + 1 فيبدأ r1. تُحسب من المسودات على القرص
+    بأي حالة، والمُستبدَلة باقية فيها فلا يتكرر رقم."""
+    rows = _all_topic_drafts(topic_id, fmt)
+    if not rows:
+        return 0
+    return max(int(d.get("redo_n") or 0) for _, d in rows) + 1
+
+
+def _supersede_old(new: dict, selection_issue: int, cfg) -> None:
+    """بعد كتابة مسودة أُعيد طلبها (Issue #1532، W3): كل مسودة قديمة للموضوع والصيغة نفسيهما
+    تصير status="superseded" مع superseded_by وsuperseded_at ولا تُحذف، وقضية مرحلتها المفتوحة
+    تُعلَّق بـ♻️ وتُغلق. المنشورة تبقى published، وتحمل الجديدة تحذير «نُشر من قبل» برابطها. المرفوضة
+    تُترك. قضية تضم مسودة أخرى ما زالت معلَّقة (الشقيق في قضية الموضوع الواحدة) تُعلَّق ولا تُغلق كي
+    لا يضيع شقيقها."""
+    texts = cfg.path("youtube.redo.texts", {}) or {}
+    published_url = None
+    issues: list[int] = []
+    for path, old in _all_topic_drafts(new["topic_id"], new.get("format") or "article"):
+        if old["id"] == new["id"] or old.get("status") in ("rejected", "superseded"):
+            continue
+        if old.get("status") == "published":
+            fb = old.get("facebook") or {}
+            published_url = fb.get("url") or (f"https://www.facebook.com/{fb['post_id']}" if fb.get("post_id")
+                                              else published_url) or "(الرابط غير محفوظ)"
+            continue
+        store.update_draft(path, status="superseded", superseded_by=new["id"],
+                           superseded_at=datetime.now(timezone.utc).isoformat())
+        for key in ("review_issue", "reel_review_issue"):
+            if old.get(key) and old[key] not in issues:
+                issues.append(old[key])
+    for number in issues:
+        try:
+            review.comment(number, texts.get("superseded_comment", "").format(selection=selection_issue))
+            alive = [d for _, d in _all_topic_drafts(new["topic_id"])
+                     if d.get("status") == "pending" and number in (d.get("review_issue"), d.get("reel_review_issue"))
+                     and d["id"] != new["id"]]
+            if not alive:
+                review.close_issue(number)
+        except Exception as exc:  # noqa: BLE001 -- تعثّر إغلاق قضية قديمة لا يُفشل الكتابة الجديدة
+            log.warning("تعذّر إغلاق القضية القديمة #%s: %s", number, exc)
+    if published_url:
+        _add_warning(new["id"], texts.get("published_before", "").format(url=published_url))
+
+
+def _add_warning(draft_id: str, text: str) -> None:
+    found = store.load_draft(draft_id)
+    if found is not None and text not in (found[1].get("warnings") or []):
+        store.update_draft(found[0], warnings=list(found[1].get("warnings") or []) + [text])
 
 
 def _link_siblings(topic_id: str) -> None:
@@ -1048,10 +1107,16 @@ def _link_siblings(topic_id: str) -> None:
             store.update_draft(reel[0], sibling_id=article[1]["id"])
 
 
-def _create_reel_draft(topic: dict, date_str: str, cfg) -> tuple[dict, bool]:
+def _create_reel_draft(topic: dict, date_str: str, cfg, redo: bool = False) -> tuple[dict, bool]:
     """مسودة ريل للموضوع (Issue #1336، R1) -- (المسودة، أُنشئت الآن؟). موجودة من قبل ← لا
     تُنشأ ثانيةً (إعادة وسم approved)، إلا المُعادة returned فتعود pending بنفسها بلا شيء جديد."""
     from . import youtube_publish
+    n = _redo_n(topic["id"], "reel") if redo else 0
+    if n:
+        # إعادة طلب (Issue #1532، W3): مسودة بمعرّف جديد دائمًا، لا تُتخطّى الموجودة
+        draft = youtube_publish.build_reel_draft(topic, date_str, cfg, redo_n=n)
+        store.save_draft(draft)
+        return draft, True
     draft = youtube_publish.build_reel_draft(topic, date_str, cfg)
     found = store.load_draft(draft["id"])
     if found is not None:
@@ -1162,7 +1227,7 @@ def approve_reel_scripts(issue_number: int, reel_ids: list[str], body: str, cfg)
     return blocked
 
 
-def _write_topic_article(topic: dict, points: list[dict], date_str: str, cfg, client):
+def _write_topic_article(topic: dict, points: list[dict], date_str: str, cfg, client, redo_n: int = 0):
     """كتابة مقال موضوع بآلة الكتابة القائمة وحفظه مسودةً pending (Issue #1336: مسارا
     الاختيار و«أضف مقالًا» يشتركان فيها). يعيد (المسودة أو None، سطر التخطي)؛ والحفظ هنا
     بعد تدقيق الأسماء والمحرر الأخير كما كان في cmd_youtube_selection."""
@@ -1174,7 +1239,7 @@ def _write_topic_article(topic: dict, points: list[dict], date_str: str, cfg, cl
     if r["item"] is None:
         return None, f"- ⏭️ {topic['title'][:50]} — {r['skip_reason']}"
     draft = youtube_publish.build_draft_from_text(
-        topic, r["item"]["text"], r["item"]["video_ids"], date_str, cfg)
+        topic, r["item"]["text"], r["item"]["video_ids"], date_str, cfg, redo_n=redo_n)
     member = [points[pid] for pid in topic["point_ids"] if 0 <= pid < len(points)]
     # تدقيق أسماء الأشخاص بدليل بحث (Issue #1252): مصدره اقتباسات النقاط بلغتها الأصلية
     names_audit.run(draft, youtube_article.point_source_texts(member), cfg)
@@ -1240,6 +1305,16 @@ def cmd_add_formats(issue_number: int, body: str, cfg, client=None) -> int:
     if lines:
         review.comment(issue_number, "### ➕ إضافة صيغة\n" + "\n".join(lines))
     return added
+
+
+def _empty_selection_body(issue_number: int, body: str) -> None:
+    """يفرّغ مربعات قضية الترشيح بعد التنفيذ قبل الإغلاق (Issue #1532، W3): قضية أُعيد فتحها تبدأ
+    نظيفة فلا يُنفَّذ تعليم قديم ثانيةً. عطل التحديث لا يُفشل ما نُفِّذ فعلًا."""
+    from . import youtube_cluster
+    try:
+        review.update_issue_body(issue_number, youtube_cluster.empty_selection_marks(body))
+    except Exception as exc:  # noqa: BLE001
+        log.warning("تعذّر تفريغ مربعات قضية الترشيح #%s: %s", issue_number, exc)
 
 
 def cmd_youtube_selection(issue_number: int, body: str, cfg, client=None) -> int:
@@ -1308,6 +1383,7 @@ def cmd_youtube_selection(issue_number: int, body: str, cfg, client=None) -> int
         text = "### 🗳️ نتيجة اعتماد اختيار مواضيع التحليل\n" + "\n".join(
             lines or ["- لا موضوع معلَّم للكتابة بعد."])
         review.comment(issue_number, text)
+        _empty_selection_body(issue_number, body)
         if still_waiting:
             review.remove_label(issue_number, "approved")
         else:
@@ -1328,7 +1404,9 @@ def cmd_youtube_selection(issue_number: int, body: str, cfg, client=None) -> int
         # موضوع أُعيد من المرحلة 2 أو 3 (Issue #1187): مسودته نفسها تُعاد بلا أي
         # نداء نموذج (لا Opus ولا عناوين) وتُفتح لها قضية مرحلة 2 جديدة؛ ولا
         # تُحتسب ضمن youtube.article.max_per_run (استثناها finalize_selection).
-        returned = _returned_analysis_draft(topic["id"])
+        # إعادة طلب من قضية أُعيد فتحها (Issue #1532، W3) تكتب من جديد دائمًا: لا تُعاد المسودة المُعادة
+        redo_n = _redo_n(topic["id"], "article") if "article" in (topic.get("redo_formats") or []) else 0
+        returned = None if redo_n else _returned_analysis_draft(topic["id"])
         if returned is not None:
             r_path, r_draft = returned
             remove = ["returned_from_stage", "returned_at", "review_issue"]
@@ -1346,10 +1424,12 @@ def cmd_youtube_selection(issue_number: int, body: str, cfg, client=None) -> int
             lines.append(f"- ♻️ {r_draft['arabic']['post_title'][:50]} — أُعيدت المسودة "
                          "نفسها بلا كتابة جديدة، بانتظار المراجعة")
             continue
-        draft, skip_line = _write_topic_article(topic, points, date_str, cfg, client)
+        draft, skip_line = _write_topic_article(topic, points, date_str, cfg, client, redo_n=redo_n)
         if draft is None:
             lines.append(skip_line)
             continue
+        if redo_n:
+            _supersede_old(draft, issue_number, cfg)
         action = actions.get(topic["id"], "go2")
         gated, why = youtube_editor.gate_action(action, draft, 1, cfg)
         if gated != action:
@@ -1368,9 +1448,11 @@ def cmd_youtube_selection(issue_number: int, body: str, cfg, client=None) -> int
     # مسودة ريل لكل موضوع عُلِّم ريله (Issue #1336، R1): لا كتابة ولا سقف، وتذهب دائمًا إلى
     # المرحلة 2؛ ثم ربط الشقيقين بعد أن صارت المسودتان موجودتين
     for topic in reel_topics:
-        reel_draft, made = _create_reel_draft(topic, date_str, cfg)
+        reel_draft, made = _create_reel_draft(topic, date_str, cfg, redo="reel" in (topic.get("redo_formats") or []))
         if made:
             _write_reel_script(reel_draft, date_str, cfg, client, issue_number)    # Issue #1338، R2
+            if reel_draft.get("redo_n"):
+                _supersede_old(reel_draft, issue_number, cfg)        # بعد السيناريو: كتابته تعيد حقل warnings
             review_ids.append(reel_draft["id"])
             lines.append(texts.get("reel_created", "").format(title=topic["title"][:50]))
     for tid in {t["id"] for t in to_write} | {t["id"] for t in reel_topics}:
@@ -1405,6 +1487,7 @@ def cmd_youtube_selection(issue_number: int, body: str, cfg, client=None) -> int
 
     text = "### 🗳️ نتيجة اعتماد اختيار مواضيع التحليل\n" + "\n".join(lines)
     review.comment(issue_number, text)
+    _empty_selection_body(issue_number, body)
 
     if still_waiting:
         review.remove_label(issue_number, "approved")
