@@ -1,0 +1,319 @@
+{
+  "id": "626bd3b7a2d4",
+  "created_at": "2026-10-17T15:46:59.940238+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "تصعيد الحوثيين ضد السعودية وعلاقتهم بإيران",
+  "tier": 3,
+  "blocs": [
+    "arabic",
+    "persian",
+    "turkish"
+  ],
+  "channels": [
+    "CNN Türk",
+    "Iran International",
+    "SÖZCÜ",
+    "الجزيرة",
+    "العربية"
+  ],
+  "agreement": "cross_source",
+  "event": "نقاش حول استمرار هجمات الحوثيين على السعودية وعلاقة الحوثيين بإيران",
+  "warnings": [
+    "اسم لم يُحسم: براء شيبان (Bar Shaown) — المرشّح ليس رسمًا آخر للاسم نفسه"
+  ],
+  "run_date": "2026-10-17",
+  "arabic": {
+    "post_title": "تصعيد الحوثيين ضد السعودية وعلاقتهم بإيران",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "CNN Türk",
+      "Iran International",
+      "SÖZCÜ",
+      "الجزيرة",
+      "العربية"
+    ]
+  },
+  "score": 12,
+  "source_videos": [],
+  "topic_id": "a9cbdcf6f258",
+  "topic_date": "2026-10-17",
+  "script": {
+    "narrator": "male",
+    "title": "الحوثيون والسعودية: تصعيد وعلاقة بطهران",
+    "question": "إلى أي حد تتحكم طهران بقرار الحوثيين العسكري؟",
+    "scenes": [
+      {
+        "kind": "cold_open_clip",
+        "point_id": "8155a5d75167",
+        "video_url": "https://www.youtube.com/watch?v=Xxo2qea5sIo",
+        "start": 790.0,
+        "end": 796.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "العربية",
+        "channel_original": "العربية",
+        "quote_arabic": "اعتراض وتدمير ثلاثة صواريخ كروز في منطقة الرياض والمنطقة الجنوبية",
+        "language": "ar",
+        "video_published": "2026-10-13"
+      },
+      {
+        "kind": "title_card",
+        "text": "الحوثيون والسعودية: تصعيد وعلاقة بطهران"
+      },
+      {
+        "kind": "narration",
+        "text": "في مقطع بُثّ على العربية بتاريخ 13 أكتوبر 2026، ينقل ضيف إعلان المتحدث باسم التحالف اعتراض ثلاثة صواريخ كروز ومسيّرتين في منطقة الرياض والمنطقة الجنوبية."
+      },
+      {
+        "kind": "clip",
+        "point_id": "c7195593f2d1",
+        "video_url": "https://www.youtube.com/watch?v=Xxo2qea5sIo",
+        "start": 2052.0,
+        "end": 2058.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "العربية",
+        "channel_original": "العربية",
+        "quote_arabic": "القرار الاستراتيجي والقرار العملياتي للحوثيين بيد الحرس الثوري الإيراني",
+        "language": "ar",
+        "video_published": "2026-10-13"
+      },
+      {
+        "kind": "narration",
+        "text": "وفي المقطع نفسه على العربية بتاريخ 13 أكتوبر 2026، يربط ضيف القرار العملياتي للحوثيين بالحرس الثوري الإيراني. لكن قراءة أخرى تضع حدودًا لهذا الربط."
+      },
+      {
+        "kind": "clip",
+        "point_id": "b54db16d4920",
+        "video_url": "https://www.youtube.com/watch?v=0WY70hmTi7w",
+        "start": 1535.0,
+        "end": 1542.4,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "الربط بين الحوثيين والإيرانيين في رأيي ثابت، لكننا نختلف دائمًا على مستوى التحكم والتأثير",
+        "language": "ar",
+        "video_published": "2026-10-14"
+      },
+      {
+        "kind": "narration",
+        "text": "ففي مقطع على الجزيرة بتاريخ 14 أكتوبر 2026، يرى ضيف أن الصلة ثابتة، غير أن الخلاف يبقى على مستوى التحكم والتأثير، وأن للحوثيين مطالب محلية خاصة بهم."
+      },
+      {
+        "kind": "question",
+        "text": "إلى أي حد تتحكم طهران بقرار الحوثيين العسكري؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ]
+  },
+  "headlines": [
+    "هل الصلة بين الحوثيين وطهران ثابتة، والخلاف على حدود التحكم والتأثير؟",
+    "الربط بين الحوثيين وإيران ثابت في رأي باحث، لكن التأثير والتحكم محل خلاف",
+    "تصعيد الحوثيين نحو السعودية يُقرأ بين توجيه إيراني ومطالب محلية خاصة"
+  ],
+  "headline_selected": 0,
+  "editor_review": {
+    "at": "2026-10-17T15:47:29.215512+00:00",
+    "applied": [
+      {
+        "category": "vague_attribution",
+        "severity": "low",
+        "location": "body",
+        "original": "يتحدث ضيف عن اعتراض صواريخ ومسيّرات فوق الرياض والمنطقة الجنوبية",
+        "fix": "ينقل ضيف إعلان المتحدث باسم التحالف اعتراض ثلاثة صواريخ كروز ومسيّرتين في منطقة الرياض والمنطقة الجنوبية",
+        "note": "واقعة الاعتراض في المقطع إعلان للمتحدث باسم التحالف ينقله الضيف، لا معاينة مستقلة؛ صياغة الراوي تجعلها خبرًا مؤكدًا بلا نسبة إلى معلنها. كذلك المصدر يقول «في منطقة الرياض» لا «فوق الرياض».",
+        "sources": []
+      }
+    ],
+    "notes": [
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "headline_2",
+        "original": "الربط بين الحوثيين وإيران ثابت في رأي باحث، لكن التأثير والتحكم محل خلاف",
+        "fix": "الربط بين الحوثيين وإيران ثابت في رأي ضيف على الجزيرة، لكن التأثير والتحكم محل خلاف",
+        "note": "المقطع b54db16d4920 شريطه «ضيف على الجزيرة (غير موثَّق)»، ولا يوجد في بيانات المقطع ما يوثّق صفة «باحث». إسناد صفة مهنية لمتحدث غير موثَّق في عنوان منشور لا يجوز قبل مراجعة بشرية.",
+        "sources": [],
+        "video": ""
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "إلى أي حد تتحكم طهران بقرار الحوثيين العسكري؟",
+        "fix": "هل تتحكم طهران بقرار الحوثيين العسكري، وما حدود هذا التأثير؟",
+        "note": "سؤال الختام يفترض مسبقًا وجود تحكم إيراني ويطلب قياس مداه فقط، بينما المتن نفسه يعرض قراءة تقصر الصلة على التأثير مع مطالب محلية للحوثيين؛ الأولى صياغة محايدة.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "في مقطع بُثّ على العربية بتاريخ 13 أكتوبر 2026",
+        "fix": "في مقطع بُثّ على العربية بتاريخ 13 أكتوبر/تشرين الأول 2026",
+        "note": "التواريخ في السطور [3] و[5] و[7] تكتب الشهر الميلادي وحده؛ القاعدة التحريرية تقتضي «أكتوبر/تشرين الأول» في المواضع الثلاثة.",
+        "sources": []
+      }
+    ],
+    "error": null,
+    "searches": 2,
+    "search_skipped": null,
+    "speaker_unresolved": [
+      "براء شيبان",
+      "براء شيبان",
+      "براء شيبان",
+      "براء شيبان"
+    ]
+  },
+  "name_unresolved": [
+    {
+      "arabic": "براء شيبان",
+      "latin": "Bar Shaown",
+      "reason": "المرشّح ليس رسمًا آخر للاسم نفسه"
+    }
+  ],
+  "names_audit": [
+    {
+      "arabic": "نوزات تشيتشيك",
+      "latin": "Nevzat Çiçek"
+    },
+    {
+      "arabic": "براء شيبان",
+      "latin": "Bar Shaown"
+    }
+  ],
+  "reel_bg": {
+    "url": "https://www.almontasaf.net/uploads/news/6ad395e47322a.webp",
+    "kind": "news_photo",
+    "publisher": "المنتصف نت"
+  },
+  "hook_candidates": [
+    {
+      "video_id": "xt9Us7cja70",
+      "title": "Debris from intercepted Houthi missiles falls on homes in Riyadh, Saudi Arabia",
+      "channel": "Associated Press",
+      "views": 31715,
+      "duration": 35,
+      "published": "2026-10-15T02:59:05Z"
+    },
+    {
+      "video_id": "uKErVsg-Kc8",
+      "title": "السعودية.. اعتراض مسيّرات وصواريخ باليستية وكروز في عدة مناطق",
+      "channel": "AlJazeera Arabic  قناة الجزيرة",
+      "views": 31582,
+      "duration": 198,
+      "published": "2026-10-16T17:15:03Z"
+    },
+    {
+      "video_id": "kJk4ALtKW10",
+      "title": "التحالف يعلن اعتراض صواريخ ومسيرات للحوثيين",
+      "channel": "AlJazeera Arabic  قناة الجزيرة",
+      "views": 20724,
+      "duration": 162,
+      "published": "2026-10-16T21:21:20Z"
+    },
+    {
+      "video_id": "G1oU0oAyzoE",
+      "title": "مشاهد لاعتراض الدفاعات الجوية للتحالف طائرة مسيّرة وصاروخ كروز في الأجواء السعودية",
+      "channel": "AlJazeera Arabic  قناة الجزيرة",
+      "views": 7014,
+      "duration": 28,
+      "published": "2026-10-16T09:35:37Z"
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-10-15T00:00:00Z",
+          "2026-10-19T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "صواريخ الحوثيين تعترضها الدفاعات السعودية",
+            "raw": 30,
+            "channel_ok": 7
+          },
+          {
+            "query": "Houthi missile intercepted over Saudi Arabia",
+            "raw": 30,
+            "channel_ok": 3
+          },
+          {
+            "query": "صاروخ باليستي يسقط في جازان اليمن",
+            "raw": 0,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 9,
+        "judged_ok": 4,
+        "rejected_channels": [
+          "CRUX",
+          "India Today Global",
+          "Alaa Aldin News",
+          "Ara Khabar",
+          "Breaking بالعربي",
+          "دروبي | DROOPY",
+          "Daljoog News",
+          "معلومة على الماشي"
+        ]
+      }
+    ],
+    "picked": [
+      "xt9Us7cja70",
+      "uKErVsg-Kc8",
+      "kJk4ALtKW10",
+      "G1oU0oAyzoE"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 2,
+      "sentence": 0,
+      "text": "في مقطع بُثّ على العربية بتاريخ 13 أكتوبر 2026، ينقل ضيف إعلان المتحدث باسم التحالف اعتراض ثلاثة صواريخ كروز ومسيّرتين في منطقة الرياض والمنطقة الجنوبية.",
+      "visual": "صواريخ كروز تُعترض في سماء ليلية"
+    },
+    {
+      "scene": 4,
+      "sentence": 0,
+      "text": "وفي المقطع نفسه على العربية بتاريخ 13 أكتوبر 2026، يربط ضيف القرار العملياتي للحوثيين بالحرس الثوري الإيراني.",
+      "visual": "مقاتلون حوثيون في عرض عسكري"
+    },
+    {
+      "scene": 4,
+      "sentence": 1,
+      "text": "لكن قراءة أخرى تضع حدودًا لهذا الربط.",
+      "visual": ""
+    },
+    {
+      "scene": 6,
+      "sentence": 0,
+      "text": "ففي مقطع على الجزيرة بتاريخ 14 أكتوبر 2026، يرى ضيف أن الصلة ثابتة، غير أن الخلاف يبقى على مستوى التحكم والتأثير، وأن للحوثيين مطالب محلية خاصة بهم.",
+      "visual": "دخان فوق مواقع عسكرية في صعدة"
+    }
+  ],
+  "has_photo": false,
+  "has_news_photo": true,
+  "review_issue": 1540,
+  "stage2_issue": 1540
+}

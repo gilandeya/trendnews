@@ -78,8 +78,12 @@
       "dropped_reason": null,
       "id": "a9cbdcf6f258",
       "created_at": "2026-10-17T04:01:58.317166+00:00",
-      "selection_status": "unselected",
-      "selection_issue": 1470
+      "selection_status": "attempted",
+      "selection_issue": 1470,
+      "selected_formats": [
+        "article",
+        "reel"
+      ]
     },
     {
       "title": "الموقف التركي من التدخل في اليمن",
