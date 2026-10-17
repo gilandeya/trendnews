@@ -5176,8 +5176,93 @@ def test_reel_script_guards() -> None:
         check("g179: تعليق البوابة بسبب المحرر", any("ادّعاء بلا سند" in m for m in run3), run3)
         check("g179: قسم المحرر في العرض", "ادّعاء بلا سند" in s2g)
 
+        # ── g396–g398 (Issue #1478، R4c): «اعتمد رغم ملاحظات المحرر» ──
+        def run_main2(body, number):
+            out = {"msgs": [], "bodies": [], "closed": [], "removed": []}
+            saved = (publish_mod.fetch_issue, review.comment, review.close_issue, review.remove_label,
+                     review.update_issue_body, sys.argv)
+            real_load = publish_mod.load_config
+            publish_mod.load_config = lambda *a, **k: cfg
+            publish_mod.fetch_issue = lambda n: {"number": n, "body": body,
+                                                 "labels": [{"name": "youtube-review"}, {"name": "approved"}]}
+            review.comment = lambda n, t: out["msgs"].append(t)
+            review.close_issue = lambda n: out["closed"].append(n)
+            review.remove_label = lambda n, lbl: out["removed"].append(lbl)
+            review.update_issue_body = lambda n, b: out["bodies"].append(b)
+            sys.argv = ["publish", "--issue", str(number), "--skip-urgent"]
+            try:
+                publish_mod.main()
+            finally:
+                (publish_mod.fetch_issue, review.comment, review.close_issue, review.remove_label,
+                 review.update_issue_body, sys.argv) = saved
+                publish_mod.load_config = real_load
+            return out
+
+        def blocked_draft(did):
+            bd = new_draft(did)
+            reel_script.write_for_draft(bd, topic, points, "", unresolved, cfg)
+            bd["editor_review"] = {"applied": [], "error": None, "speaker_unresolved": [],
+                                   "notes": [{"category": "other", "severity": "high", "location": "body",
+                                              "original": "", "fix": "", "note": "ادّعاء بلا سند", "sources": []}]}
+            store.save_draft(bd)
+            return bd["id"]
+
+        # g396) المربع يظهر لبند فيه ملاحظة high غير مطبَّقة، ولا يظهر لبند نظيف
+        b1 = blocked_draft("c5c5c5c5c5c5")
+        s2b = yp.build_review_body([store.load_draft(b1)[1]], "u/r", "main", cfg)
+        check("g396: بند بملاحظة high ← مربع editor_ok بنص config",
+              f"<!-- editor_ok:{b1} -->" in s2b and T.get("editor_ok", "؟") in s2b, s2b[-500:])
+        check("g396: بند بلا ملاحظات ← لا مربع", "editor_ok" not in s2)
+
+        # g397-أ) go3 مع editor_ok وسطر معدَّل ← يُعتمد ويُطبَّق السطر ويُحفظ editor_override
+        import re as _re
+        edited_b = _re.sub(r"^\[4\] .*$", "[4] نص معدَّل رغم الملاحظة", s2b, flags=_re.M)
+        ticked = tick_marker(tick_marker(edited_b, f"go:go3:{b1}"), f"editor_ok:{b1}")
+        ra = run_main2(ticked, 9201)
+        ga = store.load_draft(b1)[1]
+        check("g397: approved_script والسطر مطبَّق",
+              ga["status"] == "approved_script" and ga["script"]["scenes"][3]["text"] == "نص معدَّل رغم الملاحظة",
+              (ga["status"], ga["script"]["scenes"][3]["text"]))
+        eo = ga.get("editor_override") or {}
+        check("g397: editor_override = {at, reasons}", bool(eo.get("at")) and bool(eo.get("reasons")), eo)
+        check("g397: سطر ✍️ في التعليق", any("✍️ اعتُمد رغم ملاحظات المحرر" in m for m in ra["msgs"]), ra["msgs"])
+
+        # g397-ب) go3 بلا editor_ok (قضية قديمة بلا المربع) ← محجوب، والجسم يُعاد كتابته بالمربع، والتعليق بتعليمات التجاوز
+        b2 = blocked_draft("c6c6c6c6c6c6")
+        old_body = "\n".join(l for l in yp.build_review_body([store.load_draft(b2)[1]], "u/r", "main", cfg)
+                             .splitlines() if "editor_ok" not in l)
+        rb = run_main2(tick_marker(old_body, f"go:go3:{b2}"), 9202)
+        gb = store.load_draft(b2)[1]
+        check("g397: بلا editor_ok ← pending ولا editor_override",
+              gb["status"] == "pending" and "editor_override" not in gb, gb["status"])
+        check("g397: جسم القضية أُعيد كتابته وفيه المربع غير معلَّم",
+              len(rb["bodies"]) == 1 and f"<!-- editor_ok:{b2} -->" in rb["bodies"][0]
+              and "- [ ]" in [l for l in rb["bodies"][0].splitlines() if "editor_ok" in l][0], rb["bodies"])
+        check("g397: التعليق فيه تعليمات التجاوز",
+              any("علّم مربع ✍️" in m and "أزل وسم approved" in m for m in rb["msgs"]), rb["msgs"])
+
+        # g397-ج) مربع التجاوز وحده بلا go3 لا يفعل شيئًا (رفض ضمني كأي بند غير معلَّم)
+        b3 = blocked_draft("c7c7c7c7c7c7")
+        only_box = tick_marker(yp.build_review_body([store.load_draft(b3)[1]], "u/r", "main", cfg),
+                               f"editor_ok:{b3}")
+        run_main2(only_box, 9203)
+        check("g397: المربع وحده ← لا اعتماد", store.load_draft(b3)[1]["status"] != "approved_script")
+
+        # g398) قضية فيها ريل محجوب لا تُغلق، وقضية بلا محجوب تُغلق
+        b4 = blocked_draft("c8c8c8c8c8c8")
+        r_blocked = run_main2(tick_marker(yp.build_review_body([store.load_draft(b4)[1]], "u/r", "main", cfg),
+                                          f"go:go3:{b4}"), 9204)
+        check("g398: ريل محجوب ← لا إغلاق وتُزال approved",
+              not r_blocked["closed"] and "approved" in r_blocked["removed"], r_blocked)
+        clean = new_draft("c9c9c9c9c9c9")
+        reel_script.write_for_draft(clean, topic, points, "", unresolved, cfg)
+        store.save_draft(clean)
+        r_clean = run_main2(tick_marker(yp.build_review_body([store.load_draft(clean["id"])[1]], "u/r", "main", cfg),
+                                        f"go:go3:{clean['id']}"), 9205)
+        check("g398: بلا محجوب ← تُغلق", r_clean["closed"] == [9205], r_clean)
+
         # ── g180) reel.enabled=false ← لا شيء من هذا ──
-        off_body = yp.build_review_body([store.load_draft(reel_id)[1]], "u/r", "main", cfg_off)
+        off_body =yp.build_review_body([store.load_draft(reel_id)[1]], "u/r", "main", cfg_off)
         check("g180: المفتاح مطفأ ← لا جدول ولا كتلة تعديل",
               "reelscript" not in off_body and "🎥 مقطع" not in off_body, off_body[:300])
         calls.clear()
