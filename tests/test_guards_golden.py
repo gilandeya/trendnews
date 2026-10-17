@@ -5149,8 +5149,8 @@ def test_reel_script_guards() -> None:
         # ── g178) go3 للريل ← approved_script وrender_status queued وتعليق ولا نشر ──
         check("g178: status approved_script وrender_status queued",
               got["status"] == "approved_script" and got["render_status"] == "queued", got["status"])
-        check("g178: التعليق «✅ اعتُمد السيناريو — شغّل «🎬 تركيب الريل» من Actions لتركيبه»",
-              any("✅ اعتُمد السيناريو — شغّل «🎬 تركيب الريل» من Actions لتركيبه" in m for m in run1), run1)
+        check("g178: التعليق «✅ اعتُمد السيناريو» بلا «من Actions» (R4d)",
+              any("✅ اعتُمد السيناريو" in m and "من Actions" not in m for m in run1), run1)
         check("g178: لا نشر ولا بطاقة",
               not got.get("image") and not got.get("published_at") and got["status"] != "published")
 
@@ -5508,7 +5508,9 @@ def test_reel_identity_r2c_guards() -> None:
         check("g189: الموثَّق الذي اسمه في name_unresolved يُبلَّغ للمحرر تنبيهًا",
               reel_editor.ADAPTER.speakers_unresolved(
                   {"name_unresolved": [{"arabic": "نهال بنكيسو قره جا", "latin": "N", "reason": "x"},
-                                       {"arabic": "تشتينر تشتين", "latin": "C", "reason": "x"}]},
+                                       {"arabic": "تشتينر تشتين", "latin": "C", "reason": "x"}],
+                   "script": {"scenes": [{"kind": "clip", "point_id": c["point_id"]}
+                                         for c in reel_script.identify_speakers(valid, [pa, pb], cfg)]}},
                   {"valid": reel_script.identify_speakers(valid, [pa, pb], cfg)})
               == ["نهال بنكيسو قره جا"])
 
@@ -6889,8 +6891,9 @@ def test_reel_render_r3b1c_guards() -> None:
         check("g211: شارة المرحلة 2 من المفتاح نفسه",
               reel_script.speaker_band({"channel_display": "الجزيرة"}, cfg) == "ضيف على الجزيرة"
               and cfg.path("reel.texts.guest_label") == "ضيف على {channel}", cfg.path("reel.texts.guest_label"))
-        check("g211: نص اعتماد السيناريو الجديد",
-              "✅ اعتُمد السيناريو — شغّل «🎬 تركيب الريل» من Actions لتركيبه" in cfg.path("reel.texts.script_approved")
+        check("g211: نص اعتماد السيناريو (R4d: بلا «من Actions»)",
+              "✅ اعتُمد السيناريو" in cfg.path("reel.texts.script_approved")
+              and "من Actions" not in cfg.path("reel.texts.script_approved")
               and "مرحلة التركيب" not in cfg.path("reel.texts.script_approved"), cfg.path("reel.texts.script_approved"))
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
@@ -14310,10 +14313,10 @@ def test_r4d_reel_block_guards() -> None:
                     + "\n".join(f"- [ ] <!-- hl:{did}:{k} --> {h}" for k, h in enumerate(heads)))
         gate = cfg.path("editor.texts.gate_comment").split("{")[0]
         f = "a4220000000f"
-        run_main(tick_marker(article(f), f"hl:{f}:0"), 9411)
+        run_main(tick_marker(tick_marker(article(f), f"hl:{f}:0"), f"go:publish:{f}"), 9411)
         check("g422: مقال، المختار 1 ← لا تحويل إلى go3", not any(gate in m for m in msgs), msgs)
         g = "a42200000010"
-        run_main(tick_marker(article(g), f"hl:{g}:1"), 9412)
+        run_main(tick_marker(tick_marker(article(g), f"hl:{g}:1"), f"go:publish:{g}"), 9412)
         check("g422: مقال، المختار 2 ← يُحوَّل إلى go3", any(gate in m for m in msgs), msgs)
     finally:
         (review.comment, review.close_issue, review.remove_label, review.update_issue_body,

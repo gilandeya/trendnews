@@ -368,19 +368,28 @@ def run(draft: dict, adapter: Adapter, ctx: Any, cfg: Any, client=None, now: dat
 # ───────────────────────────── البوابة والعرض ─────────────────────────────
 
 
-def blocking_reasons(draft: dict, cfg: Any = None) -> list[str]:
-    """أسباب منع النشر المباشر: ملاحظة high غير مطبَّقة، أو اسم متحدث لم يُحسم."""
+def blocking_reasons(draft: dict, cfg: Any = None, chosen: int | None = None) -> list[str]:
+    """أسباب منع النشر المباشر: ملاحظة high غير مطبَّقة، أو اسم متحدث لم يُحسم. كل سبب مرة واحدة بترتيب ظهوره.
+    `chosen` (فهرس العنوان المختار من 0) يُسقط ملاحظة عنوان بديل لم يُختر: لن يُنشر فلا يمنع (Issue #1541)؛ وتبقى معروضة
+    في القضية. None = لا اختيار معروف (المرحلة 1) فلا إسقاط."""
     er = draft.get("editor_review") or {}
-    out = [n.get("note", "") for n in er.get("notes") or [] if n.get("severity") == "high"]
+    out = []
+    for n in er.get("notes") or []:
+        if n.get("severity") != "high":
+            continue
+        loc = str(n.get("location") or "")
+        if chosen is not None and loc.startswith("headline_") and loc[9:].isdigit() and int(loc[9:]) - 1 != chosen:
+            continue
+        out.append(n.get("note", ""))
     fmt = (texts(cfg).get("speaker_unresolved") if cfg is not None else None) or "اسم متحدث لم يُحسم: {name}"
     out += [fmt.format(name=n) for n in er.get("speaker_unresolved") or []]
-    return [o for o in out if o]
+    return list(dict.fromkeys(o for o in out if o))
 
 
-def gate_action(action: str, draft: dict, stage: int, cfg: Any = None) -> tuple[str, str]:
+def gate_action(action: str, draft: dict, stage: int, cfg: Any = None, chosen: int | None = None) -> tuple[str, str]:
     """يحوّل الخيار المباشر إلى المرحلة التالية للمراجعة إن كان للمحرر ما يمنعه. يعيد (الخيار، السبب أو "").
     المرحلة 1: publish/go3 ← go2. المرحلة 2: publish ← go3. المرحلة 3 قرارك."""
-    reasons = blocking_reasons(draft, cfg)
+    reasons = blocking_reasons(draft, cfg, chosen)
     if not reasons:
         return action, ""
     if stage == 1 and action in ("publish", "go3"):

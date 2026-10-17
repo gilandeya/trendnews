@@ -1258,7 +1258,8 @@ def approve_reel_scripts(issue_number: int, reel_ids: list[str], body: str, cfg,
                 title=title, reason=d.get("script_error") or "لا سيناريو جاهز"))
             blocked.append(did)
             continue
-        reasons = editor_mod.blocking_reasons(d, cfg)
+        # ملاحظة على عنوان بديل لم يُختر لا تمنع (Issue #1541)؛ غير المعلَّم = الأول
+        reasons = editor_mod.blocking_reasons(d, cfg, choice.get(did, 0))
         override = bool(reasons) and did in ok_ids      # Issue #1478 (R4c): القرار للمراجع مع go3 ومربع ✍️ معًا
         if reasons and not override:
             lines.append("- " + cfg.path("editor.texts.gate_comment").format(title=title, reason="؛ ".join(reasons))
@@ -1816,11 +1817,12 @@ def main() -> int:
     # (أيًّا كان أصلها) ← go3 (بطاقة ومراجعة أخيرة بعين بشرية). التعليق من المسار العادي وحده فالمسارين يقرآن
     # الحدث نفسه.
     from . import editor as editor_mod
+    hl_choice = review.parse_headline_choice(body)
     for did in [i for i in ids if actions[i] == "publish"]:
         found = store.load_draft(did)
         if not found or not found[1].get("editor_review"):
             continue
-        gated, why = editor_mod.gate_action("publish", found[1], 2, cfg)
+        gated, why = editor_mod.gate_action("publish", found[1], 2, cfg, hl_choice.get(did, 0))
         if gated == "go3":
             go3_ids.add(did)
             actions[did] = "go3"
