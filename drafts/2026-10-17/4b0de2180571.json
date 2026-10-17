@@ -1,7 +1,7 @@
 {
   "id": "4b0de2180571",
   "created_at": "2026-10-17T05:24:58.503610+00:00",
-  "status": "pending",
+  "status": "superseded",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -365,5 +365,7 @@
   ],
   "has_photo": false,
   "has_news_photo": true,
-  "review_issue": 1477
+  "review_issue": 1477,
+  "superseded_by": "0b502576f62a",
+  "superseded_at": "2026-10-17T18:58:49.154464+00:00"
 }
