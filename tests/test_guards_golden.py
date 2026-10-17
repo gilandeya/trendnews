@@ -12978,3 +12978,205 @@ def test_reel_publish_r4b_guards() -> None:
             else:
                 os.environ[k] = v
         shutil.rmtree(tmp, ignore_errors=True)
+
+
+def test_w1_per_candidate_issue_guards() -> None:
+    """قضية مرحلة 2 مستقلة لكل مرشح وقضية الترشيح تُغلق بروابطها (Issue #1481، W1، g399–g401).
+    الكاتب والسيناريو وبناء البطاقة مزيَّفة؛ open_selection/finalize_selection/cmd_youtube_selection/
+    open_review/publish.main حقيقية."""
+    import json
+    import os
+    import sys
+
+    from src import decisions, imagesearch, review
+    from src import publish as publish_mod
+    from src import youtube_article as ya
+    from src import youtube_cluster as ycl
+    from src import youtube_extract
+    from src import youtube_publish as yp
+    from tests.helpers import tick_marker
+
+    D = "2099-11-03"
+    cfg = load_config()
+    cfg.setdefault("reel", {})["enabled"] = True
+    cfg.setdefault("youtube", {}).setdefault("article", {}).update(count=5, max_per_run=5)
+    T = cfg.path("reel.texts")
+
+    created: list[dict] = []
+    comments: list[tuple[int, str]] = []
+    closed: list[int] = []
+    final_reviews: list[list[str]] = []
+
+    def fake_create_issue(title, body, labels=None):
+        created.append({"title": title, "body": body, "labels": labels, "number": 7000 + len(created) + 1})
+        return {"number": 7000 + len(created), "html_url": "https://x/i"}
+
+    def fake_write(topic, points, cfg_, client):
+        return {"item": {"text": f"متن مقال {topic['title']}", "video_ids": ["v1"]},
+                "skip_reason": None, "reason_kind": None, "seen_keys": set()}
+
+    saved = {"create_issue": review.create_issue, "ensure_labels": review.ensure_labels,
+             "comment": review.comment, "remove_label": review.remove_label,
+             "close_issue": review.close_issue, "write": ya._write_one_topic,
+             "yp_photo": yp._photo_candidates, "ex_news_ok": youtube_extract.news_photo_available,
+             "find_images": imagesearch.find_images, "script": publish_mod._write_reel_script,
+             "title_card": yp.ensure_title_card, "final": publish_mod.open_final_review,
+             "fetch_issue": publish_mod.fetch_issue, "load_config": publish_mod.load_config,
+             "repo": os.environ.get("GITHUB_REPOSITORY")}
+    review.create_issue = fake_create_issue
+    review.ensure_labels = lambda: None
+    review.comment = lambda n, t: comments.append((n, t))
+    review.remove_label = lambda n, lbl: None
+    review.close_issue = lambda n: closed.append(n)
+    ya._write_one_topic = fake_write
+    yp._photo_candidates = lambda *a, **k: ["https://example.com/p.jpg"]
+    youtube_extract.news_photo_available = lambda *a, **k: False
+    imagesearch.find_images = lambda *a, **k: []
+    publish_mod._write_reel_script = lambda *a, **k: None
+    yp.ensure_title_card = lambda *a, **k: None
+    publish_mod.open_final_review = lambda n, ids, c: final_reviews.append(list(ids))
+    os.environ["GITHUB_REPOSITORY"] = "user/trendnews"
+
+    def fresh(titles):
+        shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+        DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+        shutil.rmtree(ycl.TOPICS_DIR, ignore_errors=True)
+        ycl.TOPICS_DIR.mkdir(parents=True, exist_ok=True)
+        ycl.POINTS_DIR.mkdir(parents=True, exist_ok=True)
+        if decisions.DECISIONS_FILE.exists():
+            decisions.DECISIONS_FILE.unlink()
+        pts = [{"video_id": "g0", "bloc": "arabic", "channel": "الجزيرة", "speaker": "متحدث",
+                "statement": "قول", "quote_arabic": "اقتباس", "type": "fact", "video_title": "ف",
+                "video_url": "https://youtube.com/watch?v=g0", "timestamp": 1},
+               {"video_id": "g1", "bloc": "turkish", "channel": "CNN Türk", "speaker": "متحدث٢",
+                "statement": "قول٢", "quote_arabic": "اقتباس٢", "type": "fact", "video_title": "ف٢",
+                "video_url": "https://youtube.com/watch?v=g1", "timestamp": 2}]
+        (ycl.POINTS_DIR / f"{D}.json").write_text(json.dumps({"points": pts}, ensure_ascii=False),
+                                                  encoding="utf-8")
+        topics = [{"title": t, "event": f"حدث {t}", "layer": "a", "blocs": ["arabic", "turkish"],
+                   "channels": ["الجزيرة", "CNN Türk"], "agreement": "cross_source", "point_ids": [0, 1]}
+                  for t in titles]
+        (ycl.TOPICS_DIR / f"{D}.json").write_text(
+            json.dumps({"run_date": D, "topics": topics}, ensure_ascii=False), encoding="utf-8")
+        created.clear()
+        comments.clear()
+        closed.clear()
+        final_reviews.clear()
+        sel = ycl.open_selection(cfg, date_str=D)
+        return sel, created[-1]["body"]
+
+    def drafts_of(tid):
+        out = {}
+        for p in sorted(DRAFTS_DIR.glob("*/*.json")):
+            d = json.loads(p.read_text(encoding="utf-8"))
+            if d.get("topic_id") == tid:
+                out[d.get("format") or "article"] = d
+        return out
+
+    def untick_article(body, tid):
+        return body.replace(f"- [x] {T['article']}  <!-- fmt:article:{tid} -->",
+                            f"- [ ] {T['article']}  <!-- fmt:article:{tid} -->")
+
+    def select_ab(titles):
+        sel, body = fresh(titles)
+        ids = [t["id"] for t in sel["topics"]]
+        b = tick_marker(tick_marker(body, f"go:go2:{ids[0]}"), f"fmt:reel:{ids[0]}")
+        b = tick_marker(untick_article(b, ids[1]), f"fmt:reel:{ids[1]}")
+        for extra in ids[2:]:
+            b = untick_article(b, extra)
+        n_before = len(created)
+        publish_mod.cmd_youtube_selection(sel["issue"]["number"], b, cfg, client=None)
+        reviews = [c for c in created[n_before:] if c["labels"] == ["youtube-review"]]
+        return sel, ids, reviews
+
+    try:
+        # ── g399) ثلاثة مرشحين: A مقال وريل، B ريل وحده، C لا شيء ← قضيتان فقط ──
+        sel, (ta, tb, tc), reviews = select_ab(["موضوع أ", "موضوع ب", "موضوع ج"])
+        check("g399: قضيتا مراجعة فقط (لا قضية للمرشح C)", len(reviews) == 2, [c["title"] for c in reviews])
+        da, db = drafts_of(ta), drafts_of(tb)
+        ra = next((c for c in reviews if da.get("article") and da["article"]["id"] in c["body"]), {})
+        rb = next((c for c in reviews if db.get("reel") and db["reel"]["id"] in c["body"]), {})
+        check("g399: العنوان «📰 مراجعة: {عنوان الموضوع}»",
+              ra.get("title") == "📰 مراجعة: موضوع أ" and rb.get("title") == "📰 مراجعة: موضوع ب",
+              (ra.get("title"), rb.get("title")))
+        ia = ra.get("body", "").find(f"<!-- draft:{da['article']['id']} -->") if da.get("article") else -1
+        ir = ra.get("body", "").find(f"<!-- draft:{da['reel']['id']} -->") if da.get("reel") else -1
+        check("g399: قضية A فيها المقال ثم الريل", 0 <= ia < ir, (ia, ir))
+        check("g399: قضية B فيها الريل وحده",
+              bool(db.get("reel")) and "article" not in db and db["reel"]["id"] in rb.get("body", "")
+              and da["article"]["id"] not in rb.get("body", "") and da["reel"]["id"] not in rb.get("body", ""))
+        check("g399: review_issue لكل مسودة يطابق قضيتها",
+              da["article"].get("review_issue") == ra.get("number") == da["reel"].get("review_issue")
+              and db["reel"].get("review_issue") == rb.get("number") and ra.get("number") != rb.get("number"),
+              (da["article"].get("review_issue"), da["reel"].get("review_issue"), db["reel"].get("review_issue")))
+        sel_comments = [t for n, t in comments if n == sel["issue"]["number"]]
+        check("g399: تعليق الترشيح فيه سطران برقمي القضيتين",
+              any(f"📰 موضوع أ ← #{ra.get('number')}" in t and f"📰 موضوع ب ← #{rb.get('number')}" in t
+                  for t in sel_comments), sel_comments)
+        check("g399: قضية الترشيح مغلقة", sel["issue"]["number"] in closed, closed)
+
+        # ── g400) مسودتا تحليل بلا topic_id ← قضية واحدة مجمّعة كما اليوم ──
+        shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+        DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+        created.clear()
+        for i in (1, 2):
+            topic = {"id": f"old{i}", "title": f"قديم {i}", "layer": "a", "blocs": ["arabic"],
+                     "channels": ["الجزيرة"], "agreement": "agreement", "event": "حدث"}
+            d = yp.build_draft_from_text(topic, f"متن {i}", ["v1"], D, cfg)
+            d.pop("topic_id", None)
+            d.pop("topic_date", None)
+            store.save_draft(d)
+        res = yp.open_review(cfg)
+        check("g400: بلا topic_id ← قضية واحدة بالمسودتين",
+              len(created) == 1 and len(res["drafts"]) == 2
+              and all(f"<!-- draft:{d['id']} -->" in created[0]["body"] for d in res["drafts"]),
+              (len(created), len(res["drafts"])))
+
+        # ── g401) approved على قضية A لا يمسّ مسودة B ──
+        sel, (ta, tb), reviews = select_ab(["موضوع أ", "موضوع ب"])
+        da, db = drafts_of(ta), drafts_of(tb)
+        for d in (da["reel"], db["reel"]):
+            store.update_draft(store.load_draft(d["id"])[0], script_status="ready",
+                               script={"narrator": "female", "title": "ع", "question": "؟", "scenes": []})
+        ra = next(c for c in reviews if da["article"]["id"] in c["body"])
+        rb = next(c for c in reviews if db["reel"]["id"] in c["body"])
+        body_a = tick_marker(tick_marker(ra["body"], f"go:go3:{da['article']['id']}"),
+                             f"go:go3:{da['reel']['id']}")
+        closed.clear()
+        publish_mod.fetch_issue = lambda n: {"number": n, "body": body_a,
+                                             "labels": [{"name": "youtube-review"}, {"name": "approved"}]}
+        publish_mod.load_config = lambda *a, **k: cfg
+        argv = sys.argv
+        sys.argv = ["publish", "--issue", str(ra["number"]), "--skip-urgent"]
+        try:
+            publish_mod.main()
+        finally:
+            sys.argv = argv
+        ga_art = store.load_draft(da["article"]["id"])[1]
+        ga_reel = store.load_draft(da["reel"]["id"])[1]
+        gb_reel = store.load_draft(db["reel"]["id"])[1]
+        check("g401: ريل A اعتُمد سيناريوه", ga_reel["status"] == "approved_script", ga_reel["status"])
+        check("g401: مقال A ذهب إلى المراجعة النهائية (go3) لا رُفض",
+              ga_art["status"] != "rejected" and any(da["article"]["id"] in ids for ids in final_reviews),
+              (ga_art["status"], final_reviews))
+        check("g401: مسودة B تبقى pending لا مرفوضة", gb_reel["status"] == "pending", gb_reel["status"])
+        check("g401: قضية B لم تُغلق", rb["number"] not in closed, closed)
+    finally:
+        review.create_issue = saved["create_issue"]
+        review.ensure_labels = saved["ensure_labels"]
+        review.comment = saved["comment"]
+        review.remove_label = saved["remove_label"]
+        review.close_issue = saved["close_issue"]
+        ya._write_one_topic = saved["write"]
+        yp._photo_candidates = saved["yp_photo"]
+        youtube_extract.news_photo_available = saved["ex_news_ok"]
+        imagesearch.find_images = saved["find_images"]
+        publish_mod._write_reel_script = saved["script"]
+        yp.ensure_title_card = saved["title_card"]
+        publish_mod.open_final_review = saved["final"]
+        publish_mod.fetch_issue = saved["fetch_issue"]
+        publish_mod.load_config = saved["load_config"]
+        if saved["repo"] is None:
+            os.environ.pop("GITHUB_REPOSITORY", None)
+        else:
+            os.environ["GITHUB_REPOSITORY"] = saved["repo"]
