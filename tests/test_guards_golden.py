@@ -5107,9 +5107,10 @@ def test_reel_script_guards() -> None:
         check("g176: عناوين hl: الثلاثة، والعنوان وجنس الراوي والمدة المقدَّرة",
               all(f"<!-- hl:{reel_id}:{k} -->" in s2 for k in range(3)) and "موضوع الريل" in s2
               and T["narrator_" + rd["script"]["narrator"]] in s2 and "ث" in s2)
-        check("g176: خيارا go1 وgo3 فقط، ونص go3 من config",
+        # W4 (Issue #1538): أُضيف خيار «انشر فورًا» فصارت الخيارات go1 وgo3 وpublish (وgo2 غائب)
+        check("g176: خيارات go1 وgo3 وpublish فقط، ونص go3 من config",
               f"<!-- go:go1:{reel_id} -->" in s2 and f"<!-- go:go3:{reel_id} -->" in s2
-              and f"go:go2:{reel_id}" not in s2 and f"go:publish:{reel_id}" not in s2
+              and f"go:go2:{reel_id}" not in s2 and f"<!-- go:publish:{reel_id} -->" in s2
               and T["go3"] in s2, s2[-600:])
         failed = new_draft("c2c2c2c2c2c2", script_status="failed", script_error="لا مقاطع كافية: 1 من 2")
         s2f = yp.build_review_body([failed], "u/r", "main", cfg)
