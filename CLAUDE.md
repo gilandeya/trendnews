@@ -1972,3 +1972,12 @@ instead.
   `status == "approved_script"` يمنع إعادة المعالجة. ثم تُغلق القضية.
 - **اختبارات:** g389–g391 في `tests/test_guards_golden.py:test_reel_review_r4a_guards`؛ و`install_fakes` يجعل `review.create_issue`/`update_issue_body` ترفعان
   افتراضيًا (فلا شبكة حتى لو وُجد توكن) فيبقى التعليق على قضية المرحلة 2 في كل اختبار تركيب لا يحقنهما.
+
+## نشر الريل المعتمد (Issue #1472، R4b) — `src/publish.py`
+
+- **النشر فوري:** «انشر» في قضية `reel-review` مع `approved` ← `cmd_reel_review` تضع `approved_reel` ثم تستدعي `publish.publish_reel_draft(path, draft, cfg)` في الحال عبر `facebook.publish_reel`. لا بوابة تباعد (`_gap_defer_until`) ولا طابور ولا احتياط بنشر صورة، بقرار صاحب المشروع: الريلات قليلة وتُعتمد يدويًا، و`queue.yml` لا يسحب المستودع الخاص الذي فيه الفيديو.
+- **الملف:** `reel_data_root() / reel_file`. الجذر `Path(TRENDNEWS_REELS_DIR).parent` إن وُجد، وإلا `Path(TRENDNEWS_YOUTUBE_POINTS_DIR).parents[1]` (أو `config.YOUTUBE_POINTS_DIR.parents[1]`) لأن `publish.yml` يضبط الأخير على `youtube-data/state/youtube_points`. تُقرأ البيئة وقت الاستدعاء لا الاستيراد. ملف غير موجود ← فشل «ملف الريل غير موجود: {المسار}».
+- **النص:** `reel_review.selected_headline` ثم سطر فارغ ثم سطر «المقاطع من: …» (`render_sources`) حرفيًا كما عُرض في القضية. **التعليق الأول** (`reel_first_comment`): «المصادر:» ثم «{القناة} — {الرابط}» لكل `video_url` فريد في مشاهد المقاطع.
+- **النجاح:** `published` + `published_at` + `facebook`، و`decisions.record_published`، وتعليق على قضية المراجعة برابط المنشور. **الفشل:** `failed` + `error` + `failed_stage="facebook_reel"` (لا `"facebook"` كي لا يلتقطه إحياء الصور `open_review`) وتعليق بالسبب؛ إعادة وسم `approved` على القضية نفسها تعيد المحاولة (`cmd_reel_review` يقبل `approved_script` أو `failed` بـ`facebook_reel`). النصوص في `config.yaml: reel.review`.
+- **`reel_render --pending`:** `open_missing_reviews(cfg)` تفتح قضية المراجعة لكل ريل `rendered` و`approved_script` بلا `reel_review_issue` دون تركيب ولا ffmpeg ولا يوتيوب، خارج `max_per_run`، وعطل واحد لا يوقف الباقي.
+- الاختبارات: g392–g395 في `tests/test_guards_golden.py:test_reel_publish_r4b_guards`.
