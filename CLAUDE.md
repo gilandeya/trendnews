@@ -1810,6 +1810,8 @@ single `tests/test_pipeline.py` had grown past 18,000 lines and become unwieldy 
   المحفوظ) بعدّة `ImportantRig` المزيَّفة في `tests/helpers.py`؛ وحالات حارس `false` g1–g6 في
   `tests/test_guards_golden.py:test_important_false_guard`.
 
+**لا تشغّل ملف اختبار منفردًا أبدًا؛ التشغيل الوحيد `python -m tests.test_pipeline`.** (Issue #1541: تشغيل ملفات منفردة بلا `install_fakes` مع `GITHUB_TOKEN` في البيئة فتح 94 قضية حقيقية. `tests/helpers.py` صار يمسح الأسرار ويحجب شبكة `review` عند الاستيراد نفسه، g424، لكن هذا شبكة أمان لا إذن.)
+
 `tests/test_pipeline.py` no longer defines any tests itself — it imports every `test_*()` function
 from the five files above (`test_guards_golden` included) and its `main()` calls them in the exact
 same order and prints the exact same summary it always has, running `test_guards_golden()` last.
@@ -2037,3 +2039,10 @@ instead.
 - **تشغيليًا (يعدّله صاحب المشروع بيده، لا `.github/workflows`):** (1) `publish.yml` يحتاج `permissions: actions: write` ليطلق الـdispatch؛ (2) `reel-render.yml` يحتاج
   أن يُودِع `drafts state` وأسرار النشر (`FB_*`) كي ينشر `--pending` بعد التركيب. بدونهما يسقط الإطلاق إلى سطر «شغّل يدويًا» ولا ينشر التركيب.
 - الاختبارات: g415–g419 في `tests/test_guards_golden.py:test_w4_reel_autorender_guards` (وعُدِّل g176 لخيار publish الجديد).
+
+## حجب الريل: متحدث السيناريو وعنوان مختار فقط (Issue #1541، R4d)
+
+- **المتحدث:** `reel_editor.ReelAdapter.speakers_unresolved` تعدّ فقط متحدث مقطع ضمن مشاهد السيناريو (`clip`/`cold_open_clip` بـ`point_id`) ظهر اسمه في نص يُعرض (شريط المقطع الموثَّق أو الراوي أو العنوان أو العناوين) بعد تعديلات المراجع، لا كل `ctx["valid"]`.
+- **التكرار:** `editor.blocking_reasons` تعيد كل سبب مرة واحدة بترتيبه.
+- **العنوان البديل:** ملاحظة high غير مطبَّقة على `headline_n` لا تمنع ما لم يكن ذلك العنوان المختار في مربعات `hl:` (في `approve_reel_scripts` وبوابة المرحلة 2 لمقال التحليل)؛ تبقى معروضة، واختياره يعيد المنع.
+- **النص:** `reel.texts.script_approved` بلا «شغّل … من Actions» (التركيب تلقائي منذ W4). الاختبارات g420–g423، وحماية الاستيراد g424.

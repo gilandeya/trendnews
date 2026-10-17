@@ -5149,8 +5149,8 @@ def test_reel_script_guards() -> None:
         # ── g178) go3 للريل ← approved_script وrender_status queued وتعليق ولا نشر ──
         check("g178: status approved_script وrender_status queued",
               got["status"] == "approved_script" and got["render_status"] == "queued", got["status"])
-        check("g178: التعليق «✅ اعتُمد السيناريو — شغّل «🎬 تركيب الريل» من Actions لتركيبه»",
-              any("✅ اعتُمد السيناريو — شغّل «🎬 تركيب الريل» من Actions لتركيبه" in m for m in run1), run1)
+        check("g178: التعليق «✅ اعتُمد السيناريو» بلا «من Actions» (R4d)",
+              any("✅ اعتُمد السيناريو" in m and "من Actions" not in m for m in run1), run1)
         check("g178: لا نشر ولا بطاقة",
               not got.get("image") and not got.get("published_at") and got["status"] != "published")
 
@@ -5508,7 +5508,9 @@ def test_reel_identity_r2c_guards() -> None:
         check("g189: الموثَّق الذي اسمه في name_unresolved يُبلَّغ للمحرر تنبيهًا",
               reel_editor.ADAPTER.speakers_unresolved(
                   {"name_unresolved": [{"arabic": "نهال بنكيسو قره جا", "latin": "N", "reason": "x"},
-                                       {"arabic": "تشتينر تشتين", "latin": "C", "reason": "x"}]},
+                                       {"arabic": "تشتينر تشتين", "latin": "C", "reason": "x"}],
+                   "script": {"scenes": [{"kind": "clip", "point_id": c["point_id"]}
+                                         for c in reel_script.identify_speakers(valid, [pa, pb], cfg)]}},
                   {"valid": reel_script.identify_speakers(valid, [pa, pb], cfg)})
               == ["نهال بنكيسو قره جا"])
 
@@ -6889,8 +6891,9 @@ def test_reel_render_r3b1c_guards() -> None:
         check("g211: شارة المرحلة 2 من المفتاح نفسه",
               reel_script.speaker_band({"channel_display": "الجزيرة"}, cfg) == "ضيف على الجزيرة"
               and cfg.path("reel.texts.guest_label") == "ضيف على {channel}", cfg.path("reel.texts.guest_label"))
-        check("g211: نص اعتماد السيناريو الجديد",
-              "✅ اعتُمد السيناريو — شغّل «🎬 تركيب الريل» من Actions لتركيبه" in cfg.path("reel.texts.script_approved")
+        check("g211: نص اعتماد السيناريو (R4d: بلا «من Actions»)",
+              "✅ اعتُمد السيناريو" in cfg.path("reel.texts.script_approved")
+              and "من Actions" not in cfg.path("reel.texts.script_approved")
               and "مرحلة التركيب" not in cfg.path("reel.texts.script_approved"), cfg.path("reel.texts.script_approved"))
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
@@ -14204,3 +14207,145 @@ def test_w4_reel_autorender_guards() -> None:
             review.dispatch_workflow = saved[0]
         (review.comment, review.close_issue, review.remove_label, review.update_issue_body,
          publish_mod.load_config, publish_mod.fetch_issue, sys.argv) = saved[1:]
+
+
+def test_r4d_reel_block_guards() -> None:
+    """R4d (Issue #1541، g420–g423): حجب الريل لا يكون باسم متحدث غير موجود في السيناريو، ولا يتكرر سببه، ولا بسبب عنوان
+    بديل لم يُختر؛ ونص اعتماد السيناريو بلا «من Actions» بعد أن صار التركيب تلقائيًا (W4)."""
+    import sys
+
+    from src import editor as editor_mod
+    from src import publish as publish_mod
+    from src import reel_editor, review, store
+    from src import youtube_publish as yp
+    from tests.helpers import tick_marker
+
+    cfg = load_config()
+    cfg.setdefault("reel", {})["enabled"] = True
+    NAME = "براء شيبان"
+
+    def clip(pid, verified, name=""):
+        return {"point_id": pid, "speaker_verified": verified, "speaker_name": name if verified else "",
+                "channel_display": "قناة", "statement": "س", "quote_arabic": "ق", "video_url": "https://y/" + pid}
+
+    valid = [clip(f"p{i}", True, NAME) for i in range(4)] + [clip(f"g{i}", False) for i in range(3)]
+
+    def script_of(*pids):
+        scenes = [{"kind": "title_card", "text": "عنوان"}]
+        for i, p in enumerate(pids):
+            scenes += [{"kind": "clip" if i else "cold_open_clip", "point_id": p},
+                       {"kind": "narration", "text": "جملة الراوي."}]
+        return {"narrator": "female", "title": "عنوان", "question": "هل؟", "scenes": scenes + [{"kind": "outro"}]}
+
+    base = {"name_unresolved": [{"arabic": NAME, "latin": "B", "reason": "x"}]}
+    got = reel_editor.ADAPTER.speakers_unresolved({**base, "script": script_of("g0", "g1", "g2")}, {"valid": valid})
+    check("g420: مقاطع السيناريو لضيوف غير مسمَّين ← لا اسم غير محسوم", got == [], got)
+    got = reel_editor.ADAPTER.speakers_unresolved({**base, "script": script_of("p0", "g1", "g2")}, {"valid": valid})
+    check("g420: السيناريو يستعمل مقطع المتحدث ← الاسم مرة واحدة", got == [NAME], got)
+    got = reel_editor.ADAPTER.speakers_unresolved({**base, "script": script_of("p0", "p1", "g2")}, {"valid": valid})
+    check("g420: مقطعان لمتحدث واحد ← مرة واحدة", got == [NAME], got)
+
+    heads = ["العنوان الأول؟", "العنوان الثاني", "العنوان الثالث؟"]
+    high2 = {"category": "other", "severity": "high", "location": "headline_2", "original": "", "fix": "",
+             "note": "في رأي باحث", "sources": []}
+
+    def reel(did, er, script=None):
+        d = {"id": did, "origin": "analysis", "format": "reel", "status": "pending", "topic_id": "a4a4a4a4a4a4",
+             "topic_date": "2099-12-08", "title": "ريل R4d", "script_status": "ready", "review_issue": 9400,
+             "stage2_issue": 9400, "script": script or script_of("g0"), "headlines": heads,
+             "editor_review": {"applied": [], "error": None, "notes": [], "speaker_unresolved": [], **er}}
+        store.save_draft(d)
+        return did
+
+    saved = (review.comment, review.close_issue, review.remove_label, review.update_issue_body,
+             publish_mod.load_config, publish_mod.fetch_issue, publish_mod.start_reel_render, yp.publish_ids, sys.argv)
+    msgs: list[str] = []
+
+    def run_main(body, number):
+        msgs.clear()
+        publish_mod.load_config = lambda *a, **k: cfg
+        publish_mod.fetch_issue = lambda n: {"number": n, "body": body,
+                                             "labels": [{"name": "youtube-review"}, {"name": "approved"}]}
+        review.comment = lambda n, t: msgs.append(t)
+        review.close_issue = lambda n: None
+        review.remove_label = lambda n, lbl: None
+        review.update_issue_body = lambda n, b: None
+        publish_mod.start_reel_render = lambda *a, **k: True
+        yp.publish_ids = lambda ids, *a, **k: ([], 0, None, [])
+        sys.argv = ["publish", "--issue", str(number), "--skip-urgent"]
+        publish_mod.main()
+        return list(msgs)
+
+    def body_of(*dids):
+        return "\n".join(line for i in dids for line in yp._reel_item_lines(1, store.load_draft(i)[1], cfg))
+
+    try:
+        a = reel("a4200000000a", {"speaker_unresolved": []})
+        run_main(tick_marker(body_of(a), f"go:go3:{a}"), 9401)
+        check("g420: ريل بلا اسم غير محسوم يُعتمد بـgo3", store.load_draft(a)[1]["status"] == "approved_script")
+        b = reel("a4200000000b", {"speaker_unresolved": [NAME]})
+        run_main(tick_marker(body_of(b), f"go:go3:{b}"), 9402)
+        check("g420: اسم غير محسوم ← يُحجب", store.load_draft(b)[1]["status"] == "pending")
+
+        # ── g422: ملاحظة high على headline_2 ──
+        c = reel("a4220000000c", {"notes": [high2]})
+        run_main(tick_marker(tick_marker(body_of(c), f"go:go3:{c}"), f"hl:{c}:0"), 9403)
+        check("g422: المختار العنوان 1 ← go3 يُنفَّذ بلا ✍️", store.load_draft(c)[1]["status"] == "approved_script")
+        d = reel("a4220000000d", {"notes": [high2]})
+        run_main(tick_marker(tick_marker(body_of(d), f"go:go3:{d}"), f"hl:{d}:1"), 9404)
+        check("g422: المختار العنوان 2 ← يُحجب", store.load_draft(d)[1]["status"] == "pending")
+        e = reel("a4220000000e", {"notes": [high2]})
+        run_main(tick_marker(body_of(e), f"go:go3:{e}"), 9405)
+        check("g422: بلا تعليم ← الافتراضي الأول ← يُنفَّذ", store.load_draft(e)[1]["status"] == "approved_script")
+        ed = store.load_draft(e)[1]
+        check("g422: الملاحظة تبقى معروضة وتمنع إن اختير عنوانها",
+              editor_mod.blocking_reasons(ed, cfg) != [] and editor_mod.blocking_reasons(ed, cfg, chosen=0) == []
+              and editor_mod.blocking_reasons(ed, cfg, chosen=1) != [])
+
+        # مقال تحليل في المرحلة 2 مع publish
+        def article(did):
+            store.save_draft({"id": did, "origin": "analysis", "status": "pending", "topic_id": "a4a4a4a4a4a4",
+                              "title": "مقال", "caption": "نص", "headlines": heads, "review_issue": 9410,
+                              "arabic": {"post_title": "مقال R4d", "post_body": "نص", "caption": "نص"},
+                              "editor_review": {"applied": [], "error": None, "notes": [high2],
+                                                "speaker_unresolved": []}})
+            return (f"**1. مقال** <!-- draft:{did} -->\n- [ ] <!-- go:publish:{did} --> انشر\n"
+                    + "\n".join(f"- [ ] <!-- hl:{did}:{k} --> {h}" for k, h in enumerate(heads)))
+        gate = cfg.path("editor.texts.gate_comment").split("{")[0]
+        f = "a4220000000f"
+        run_main(tick_marker(tick_marker(article(f), f"hl:{f}:0"), f"go:publish:{f}"), 9411)
+        check("g422: مقال، المختار 1 ← لا تحويل إلى go3", not any(gate in m for m in msgs), msgs)
+        g = "a42200000010"
+        run_main(tick_marker(tick_marker(article(g), f"hl:{g}:1"), f"go:publish:{g}"), 9412)
+        check("g422: مقال، المختار 2 ← يُحوَّل إلى go3", any(gate in m for m in msgs), msgs)
+    finally:
+        (review.comment, review.close_issue, review.remove_label, review.update_issue_body,
+         publish_mod.load_config, publish_mod.fetch_issue, publish_mod.start_reel_render, yp.publish_ids,
+         sys.argv) = saved
+
+    # ── g421: لا تكرار ──
+    dup = {"editor_review": {"notes": [{"severity": "high", "note": "س"}, {"severity": "high", "note": "س"}],
+                             "speaker_unresolved": [NAME, NAME, "آخر"]}}
+    r = editor_mod.blocking_reasons(dup, cfg)
+    check("g421: كل سبب مرة واحدة بالترتيب", len(r) == len(set(r)) == 3 and r[0] == "س", r)
+
+    # ── g423: نص الاعتماد ──
+    t = cfg.path("reel.texts.script_approved")
+    check("g423: نص اعتماد السيناريو بلا «من Actions»",
+          "من Actions" not in t and t == "- 🎬 {title} — ✅ اعتُمد السيناريو", t)
+
+    # ── g424: حماية الاستيراد (Issue #1541) — مفسّر جديد يستورد helpers وحده، كما لو شُغّل ملف اختبار منفردًا ──
+    import os, subprocess, sys
+    from pathlib import Path
+    code = ("import os, sys\n"
+            "from tests.helpers import review\n"
+            "try:\n"
+            "    review.create_issue('t', 'b')\n"
+            "    print('REACHED')\n"
+            "except RuntimeError:\n"
+            "    print('BLOCKED')\n"
+            "print('TOKEN' if any(os.environ.get(k) for k in ('GITHUB_TOKEN','GH_TOKEN','FB_PAGE_ACCESS_TOKEN','BRAVE_API_KEY','YOUTUBE_API_KEY','ANTHROPIC_API_KEY')) else 'CLEAN')\n")
+    env = dict(os.environ, GITHUB_TOKEN="x", GH_TOKEN="x", GITHUB_REPOSITORY="o/r")
+    out = subprocess.run([sys.executable, "-c", code], cwd=str(Path(__file__).resolve().parent.parent), env=env, capture_output=True, text=True, timeout=120)
+    check("g424: استيراد helpers وحده يحجب review.create_issue ويمسح التوكن",
+          out.stdout.split() == ["BLOCKED", "CLEAN"], (out.stdout, out.stderr[-300:]))

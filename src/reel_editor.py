@@ -73,14 +73,20 @@ class ReelAdapter(editor.Adapter):
         return {editor.norm_msg(r) for r in reasons}
 
     def speakers_unresolved(self, draft: dict, ctx: dict) -> list[str]:
+        """الاسم «لم يُحسم» فقط إن كان مقطعه بين مشاهد السيناريو نفسه (بعد تعديلات المراجع، والمسودة تُقرأ بعد apply) وظهر
+        في نص يُعرض: شريط المقطع للموثَّق وحده (غير الموثَّق شريطه «ضيف على…» بلا اسم، Issue #1377). مقاطع الموضوع
+        الصالحة التي لم يختَرها السيناريو لا تُنبَّه (Issue #1541)، وكل اسم مرة واحدة."""
         bad = reel_script._unresolved_words(draft.get("name_unresolved") or [])
-        out = []
+        used = {s.get("point_id") for s in (draft.get("script") or {}).get("scenes") or []
+                if s.get("kind") in reel_script.CLIP_KINDS and s.get("point_id")}
+        out: list[str] = []
         for c in ctx.get("valid") or []:
-            if not c.get("speaker_verified"):
-                continue  # لا اسم لغير الموثَّق فلا شيء يُنبَّه عليه (Issue #1377)
+            if c.get("point_id") not in used or not c.get("speaker_verified"):
+                continue
             if any(w and w in bad for w in
                    (reel_script.youtube_article._fold_mention(t) for t in c["speaker_name"].split())):
-                out.append(c["speaker_name"])
+                if c["speaker_name"] not in out:
+                    out.append(c["speaker_name"])
         return out
 
 
