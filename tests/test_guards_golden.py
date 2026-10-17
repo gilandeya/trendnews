@@ -4675,9 +4675,16 @@ def test_reel_structure_guards() -> None:
               da["article"].get("sibling_id") == da["reel"]["id"]
               and da["reel"].get("sibling_id") == da["article"]["id"], (da["article"].get("sibling_id"),))
         check("g162: ريل ب بلا sibling_id", not db["reel"].get("sibling_id"))
-        s2 = next((c["body"] for c in new if c["labels"] == ["youtube-review"]), "")
-        check("g162: المقال والريلان في قضية المرحلة 2",
-              all(f"<!-- draft:{x['id']} -->" in s2 for x in (da["article"], da["reel"], db["reel"])))
+        # W1: لكل موضوع قضيته — أ: المقال وريله، ب: ريله وحده
+        s2 = next((c["body"] for c in new if c["labels"] == ["youtube-review"]
+                   and f"<!-- draft:{da['article']['id']} -->" in c["body"]), "")
+        s2b = next((c["body"] for c in new if c["labels"] == ["youtube-review"]
+                    and f"<!-- draft:{db['reel']['id']} -->" in c["body"]), "")
+        check("g162: المقال وريله في قضية الموضوع أ، وريل ب في قضيته وحده",
+              all(f"<!-- draft:{x['id']} -->" in s2 for x in (da["article"], da["reel"]))
+              and f"<!-- draft:{db['reel']['id']} -->" not in s2
+              and f"<!-- draft:{db['reel']['id']} -->" in s2b
+              and f"<!-- draft:{da['reel']['id']} -->" not in s2b)
         check("g162: المقال pending بانتظار المرحلة 2 (go2)", da["article"]["status"] == "pending")
         art_a, reel_a = da["article"], da["reel"]
 
