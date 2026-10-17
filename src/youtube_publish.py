@@ -818,8 +818,12 @@ def _reel_item_lines(idx: int, d: dict, cfg) -> list[str]:
             out += [*[f"  {line}" for line in fixes], ""]
     else:
         out += [f"  {texts.get('script_pending', '')}", ""]
-    out += [*stages.options_block(2, d["id"], cfg, has_stage1=review.has_stage1(d), only=only, labels=labels), ""]
-    return out
+    out += [*stages.options_block(2, d["id"], cfg, has_stage1=review.has_stage1(d), only=only, labels=labels)]
+    if on and script and d.get("script_status") == "ready":
+        from . import editor
+        if editor.blocking_reasons(d, cfg):
+            out.append(stages.editor_ok_line(d["id"], texts.get("editor_ok", "")))
+    return [*out, ""]
 
 
 def _add_format_lines(d: dict, group: list[dict], rtexts: dict) -> list[str]:

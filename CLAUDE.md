@@ -1981,3 +1981,8 @@ instead.
 - **النجاح:** `published` + `published_at` + `facebook`، و`decisions.record_published`، وتعليق على قضية المراجعة برابط المنشور. **الفشل:** `failed` + `error` + `failed_stage="facebook_reel"` (لا `"facebook"` كي لا يلتقطه إحياء الصور `open_review`) وتعليق بالسبب؛ إعادة وسم `approved` على القضية نفسها تعيد المحاولة (`cmd_reel_review` يقبل `approved_script` أو `failed` بـ`facebook_reel`). النصوص في `config.yaml: reel.review`.
 - **`reel_render --pending`:** `open_missing_reviews(cfg)` تفتح قضية المراجعة لكل ريل `rendered` و`approved_script` بلا `reel_review_issue` دون تركيب ولا ffmpeg ولا يوتيوب، خارج `max_per_run`، وعطل واحد لا يوقف الباقي.
 - الاختبارات: g392–g395 في `tests/test_guards_golden.py:test_reel_publish_r4b_guards`.
+
+## تجاوز ملاحظات المحرر لسيناريو الريل (Issue #1478، R4c)
+
+- بند الريل في المرحلة 2 يعرض، حين `editor.blocking_reasons` غير فارغة، مربع `✍️` (`<!-- editor_ok:id -->`، نصه `reel.texts.editor_ok`). `publish.approve_reel_scripts`: go3 **مع** المربع ← يُعتمد السيناريو مع تطبيق السطور المعدَّلة ويُحفظ `editor_override = {at, reasons}` وسطر `editor_override_line`. المربع وحده بلا go3 لا يفعل شيئًا.
+- go3 بلا المربع ← محجوب كما كان، ويُعاد كتابة جسم القضية بالمربع (`stages.ensure_editor_ok_box`، لقضايا فُتحت قبل R4c)، والتعليق يضيف `editor_override_howto`، والقضية لا تُغلق (تُزال approved). g396–g398.

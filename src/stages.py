@@ -81,6 +81,36 @@ def parse_add_formats(body: str) -> list[tuple[str, str]]:
     return out
 
 
+# مربع «اعتمد رغم ملاحظات المحرر» لبند الريل (Issue #1478، R4c): لا يفعل شيئًا وحده، يُقرأ مع go3
+EDITOR_OK_MARKER = re.compile(r"<!--\s*editor_ok:([0-9a-f]+)\s*-->")
+
+
+def editor_ok_line(item_id: str, text: str) -> str:
+    return f"- [ ] {text}  <!-- editor_ok:{item_id} -->"
+
+
+def parse_editor_ok(body: str) -> set[str]:
+    out: set[str] = set()
+    for line in (body or "").splitlines():
+        match = EDITOR_OK_MARKER.search(line)
+        box = _CHECKED.match(line)
+        if match and box and box.group(1).lower() == "x":
+            out.add(match.group(1))
+    return out
+
+
+def ensure_editor_ok_box(body: str, item_id: str, text: str) -> str:
+    """يدرج المربع (غير معلَّم) بعد سطر go3 للبند إن غاب -- قضايا فُتحت قبل R4c لا تحويه. يترك ما عدّله المراجع كما هو."""
+    if re.search(rf"<!--\s*editor_ok:{item_id}\s*-->", body or ""):
+        return body
+    lines = (body or "").split("\n")
+    for i, line in enumerate(lines):
+        if f"go:go3:{item_id}" in line:
+            lines.insert(i + 1, editor_ok_line(item_id, text))
+            return "\n".join(lines)
+    return body
+
+
 def parse_actions(body: str) -> tuple[dict[str, str], list[dict]]:
     """يعيد ({item_id: action}, تعارضات). التعارض: {"id", "marked"} حين عُلِّم
     أكثر من مربع لخبر واحد؛ يغلب الأبكر في ACTIONS."""

@@ -1118,6 +1118,7 @@ def approve_reel_scripts(issue_number: int, reel_ids: list[str], body: str, cfg)
     from . import reel_script
     texts = cfg.path("reel.texts", {}) or {}
     blocks = reel_script.parse_edit_blocks(body)
+    ok_ids = stages.parse_editor_ok(body)
     lines: list[str] = []
     blocked: list[str] = []
     for did in reel_ids:
@@ -1132,16 +1133,29 @@ def approve_reel_scripts(issue_number: int, reel_ids: list[str], body: str, cfg)
             blocked.append(did)
             continue
         reasons = editor_mod.blocking_reasons(d, cfg)
-        if reasons:
-            lines.append("- " + cfg.path("editor.texts.gate_comment").format(title=title, reason="؛ ".join(reasons)))
+        override = bool(reasons) and did in ok_ids      # Issue #1478 (R4c): القرار للمراجع مع go3 ومربع ✍️ معًا
+        if reasons and not override:
+            lines.append("- " + cfg.path("editor.texts.gate_comment").format(title=title, reason="؛ ".join(reasons))
+                         + "\n  " + texts.get("editor_override_howto", ""))
             blocked.append(did)
+            # قضية فُتحت قبل R4c لا تحوي المربع: يُدرج في جسمها كي يجد المراجع طريق التجاوز
+            new_body = stages.ensure_editor_ok_box(body, did, texts.get("editor_ok", ""))
+            if new_body != body:
+                body = new_body
+                try:
+                    review.update_issue_body(issue_number, body)
+                except Exception as exc:
+                    log.warning("تعذّر إدراج مربع التجاوز في القضية #%s: %s", issue_number, exc)
             continue
         script, warnings = d["script"], []
         if did in blocks:
             script, warnings = reel_script.apply_lines(d["script"], blocks[did], texts)
+        extra = {"editor_override": {"at": datetime.now(timezone.utc).isoformat(), "reasons": reasons}} if override else {}
         store.update_draft(path, status="approved_script", render_status="queued", script=script,
-                           approved_script_at=datetime.now(timezone.utc).isoformat())
+                           approved_script_at=datetime.now(timezone.utc).isoformat(), **extra)
         lines.append(texts.get("script_approved", "").format(title=title))
+        if override:
+            lines.append(texts.get("editor_override_line", "").format(title=title, reason="؛ ".join(reasons)))
         lines += [texts.get("script_edit_warn", "").format(title=title, detail=w) for w in warnings]
     if lines:
         review.comment(issue_number, "### 🎬 سيناريو الريل\n" + "\n".join(lines))
