@@ -1,0 +1,756 @@
+{
+  "run_date": "2026-10-17",
+  "stats": {
+    "points_in": 168,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 18,
+    "issues_clustered": 32,
+    "topics_merged": 2,
+    "topics_out": 2,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 2,
+    "topics_below_min_points": 10,
+    "topics_below_min_channels": 15,
+    "layers": {
+      "3": 1,
+      "1": 1
+    },
+    "agreement": 1,
+    "cross_source": 1,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "تصعيد الحوثيين ضد السعودية وعلاقتهم بإيران",
+      "تصعيد الحوثيين وهجماتهم على السعودية ومطاراتها",
+      "دور الحوثيين وإيران في الحرب الإقليمية الأخيرة"
+    ],
+    [
+      "أسباب الاحتجاجات الطلابية في فرنسا",
+      "استخدام العنف في الاحتجاجات الطلابية الفرنسية"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "تصعيد الحوثيين ضد السعودية وعلاقتهم بإيران",
+      "event": "نقاش حول استمرار هجمات الحوثيين على السعودية وعلاقة الحوثيين بإيران",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Iran International",
+        "SÖZCÜ",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        15,
+        16,
+        17,
+        19,
+        20,
+        21,
+        22,
+        24,
+        51,
+        52,
+        54,
+        71,
+        72,
+        88,
+        89,
+        124,
+        125,
+        126,
+        127,
+        128
+      ],
+      "total_points": 20,
+      "fresh_points": 12,
+      "dropped_reason": null,
+      "id": "a9cbdcf6f258",
+      "created_at": "2026-10-17T04:01:58.317166+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1470
+    },
+    {
+      "title": "الموقف التركي من التدخل في اليمن",
+      "event": "نقاش حول موقف تركيا من التدخل العسكري في حرب اليمن وتحالف مكة",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        53,
+        68,
+        69,
+        70
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null,
+      "id": "d53df8e61ed8",
+      "created_at": "2026-10-17T04:01:58.317166+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1470
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "تصعيد الحوثيين ضد السعودية وعلاقتهم بإيران",
+      "event": "نقاش حول استمرار هجمات الحوثيين على السعودية وعلاقة الحوثيين بإيران",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Iran International",
+        "SÖZCÜ",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        15,
+        16,
+        17,
+        19,
+        20,
+        21,
+        22,
+        24,
+        51,
+        52,
+        54,
+        71,
+        72,
+        88,
+        89,
+        124,
+        125,
+        126,
+        127,
+        128
+      ],
+      "total_points": 20,
+      "fresh_points": 12,
+      "dropped_reason": null
+    },
+    {
+      "title": "حصار الحوثيين لمدينة تعز",
+      "event": "تفاقم الحصار الحوثي على مدينة تعز وتوقف الخدمات",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        93,
+        109
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "احتمال توجيه نتنياهو ضربة لإيران",
+      "event": "توقعات بشأن توقيت احتمال شن إسرائيل حربًا على إيران مرتبط بالانتخابات",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        18,
+        55
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "شحنة المتفجرات المصادرة في البقاع",
+      "event": "ضبط شحنة متفجرات في البقاع وإقرار حزب الله بملكيتها والجدل حول الغرض منها",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        90,
+        91
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "فاعلية مجلس التعاون الخليجي خلال أزمة الحرب الأمريكية الإيرانية",
+      "event": "تقييم أداء مجلس التعاون الخليجي خلال وبعد الحرب الأمريكية الإيرانية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        95,
+        96,
+        97,
+        98,
+        99,
+        100
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "زيارة ملك إسبانيا لسبتة ومليلية",
+      "event": "زيارة الملك فيليب السادس لسبتة ومليلية وتصريحاته حول سيادتها الإسبانية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        101,
+        102,
+        103
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "استقالة رئيس بلدية موغلا واحتمال انضمامه للعدالة والتنمية",
+      "event": "استقالة رئيس بلدية موغلا من حزب الشعب الجمهوري والتكهنات حول وجهته السياسية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        110,
+        111,
+        116
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "فيضانات إسطنبول وأسبابها",
+      "event": "فيضانات إسطنبول الأخيرة الناجمة عن أمطار غزيرة والجدل حول أسبابها ومسؤولية الحكومة والبلدية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        119,
+        120,
+        121,
+        122,
+        123
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "طبيعة المسيرات وتأثيرها الاستراتيجي",
+      "event": "نقاش تحليلي في برنامج الجزيرة حول تطور المسيرات وتأثيرها على موازين القوى والحروب",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "أسباب الاحتجاجات الطلابية في فرنسا",
+      "event": "نقاش حول الأسباب الهيكلية للاحتجاجات الطلابية المرتبطة بميزانية التعليم",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        30,
+        33,
+        34,
+        35,
+        36,
+        37
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "مفاوضات الصحراء الغربية ومبدأ تقرير المصير",
+      "event": "نقاش حول مقترح الحكم الذاتي ومبدأ تقرير المصير في قضية الصحراء الغربية بعد إحاطة المبعوث الأممي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        38,
+        39,
+        40,
+        41,
+        42,
+        43
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تشكيل الحكومة المغربية الائتلافية",
+      "event": "إعلان رئيسة الحكومة المكلفة عن ائتلاف رباعي لتشكيل حكومة سياسية في المغرب",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        56,
+        57,
+        58,
+        59,
+        60,
+        61
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تاريخ الصراع الأمريكي الإيراني والبرنامج النووي",
+      "event": "سرد تاريخي للصراع الأمريكي الإيراني من انقلاب 1953 إلى البرنامج النووي والهجمات السيبرانية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        83,
+        84,
+        85,
+        86,
+        87
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "موقف ترامب من حرب أوكرانيا وتأثيره",
+      "event": "تقييم موقف ترامب من الحرب الروسية الأوكرانية وتأثيره على أوروبا والناتو",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        104,
+        105,
+        106
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "التنافس بين أحزاب المعارضة التركية",
+      "event": "تنافس حزب الشعب الجمهوري وحزب جديد على نفس القاعدة الانتخابية مع دعم مشترك في انتخابات اتحاد البلديات",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        114,
+        115
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "قمع الاحتجاجات وحقوق الإنسان في إيران",
+      "event": "توثيق انتهاكات حقوقية ضد المحتجين وأهالي القتلى في احتجاجات إيران",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        129,
+        130
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "بقاء نتنياهو السياسي وتقييم أدائه",
+      "event": "تحليل بقاء نتنياهو في السلطة وتقييم سياسته الأمنية في المنطقة",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "Haaretz"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        131,
+        132,
+        133,
+        134,
+        135,
+        136
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الانقسام بين الشباب اليهودي الأمريكي وإسرائيل",
+      "event": "تحليل خيبة أمل الشباب اليهودي الأمريكي من إسرائيل بعد حرب غزة وتراجع دعم المنظمات التقليدية",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "Haaretz"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        137,
+        138,
+        139,
+        140,
+        141
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تأثير الانتخابات الإسرائيلية والأمريكية على المستقبل",
+      "event": "توقعات بشأن تأثير الانتخابات الإسرائيلية والأمريكية القادمة على العلاقات والرأي العام",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "Haaretz"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        142,
+        143
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "إغلاق مضيق هرمز وتأثيره على سياسة ترامب النفطية",
+      "event": "تحليل قرار إغلاق مضيق هرمز وعلاقته بسياسة ترامب للتحكم بأسعار النفط",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "Haaretz"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        144,
+        145,
+        146,
+        147,
+        148,
+        149
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تقسيم الصومال وأرض الصومال",
+      "event": "نقاش حول تاريخ تقسيم الصومال ومسألة أرض الصومال والاعتراف الإسرائيلي بها",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تقييم مسار الحرب والتسوية في اليمن",
+      "event": "تقييم خبراء لاحتمالات التسوية وتغير موازين القوى في الحرب اليمنية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        13,
+        14
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تغطية الإعلام الفرنسي للاحتجاجات الطلابية",
+      "event": "انتقادات لتغطية الإعلام الفرنسي للاحتجاجات الطلابية في فرنسا وتركيزها على العنف دون المطالب",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        25,
+        26,
+        27,
+        28,
+        29
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "قضايا داخلية تركية في خطاب المعارضة",
+      "event": "خطاب زعيم المعارضة التركية حول عدة قضايا داخلية (لجنة تحقيق، صناديق الاستثمار، أمن المدارس، الفلاحين، حصة العمل)",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        44,
+        45,
+        46,
+        47,
+        48
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الموقف التركي من التدخل في اليمن",
+      "event": "نقاش حول موقف تركيا من التدخل العسكري في حرب اليمن وتحالف مكة",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        53,
+        68,
+        69,
+        70
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "قدرات الحوثيين العسكرية الذاتية",
+      "event": "تحليل علي البخيتي لقدرات الحوثيين العسكرية الذاتية وتصنيعهم المحلي للسلاح",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        62,
+        63,
+        64,
+        65,
+        66,
+        67
+      ],
+      "total_points": 6,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "قضية ماهيروغلو المالية وقناة هلك تي في",
+      "event": "اتهامات مالية ووصاية مفروضة على قناة هلك تي في ومالكها كافر ماهيروغلو",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        73,
+        74,
+        75,
+        76,
+        77,
+        78
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "قضية الأتيكيات ضد نتنياهو",
+      "event": "اتهامات حول أساليب التحقيق وملف الاتهام في قضية الأتيكيات ضد نتنياهو",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        79,
+        80,
+        81,
+        82
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تراجع حزب العدالة والتنمية في استطلاعات الرأي",
+      "event": "استطلاع رأي يظهر تراجع حزب العدالة والتنمية التركي بنحو 3.5 نقطة",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        112,
+        118
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    }
+  ]
+}
