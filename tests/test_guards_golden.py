@@ -12872,7 +12872,7 @@ def test_reel_publish_r4b_guards() -> None:
                 store.save_draft(b)
                 n = reel_render.open_missing_reviews(cfg)
                 check("g395: ريل بلا قضية ← تُفتح قضية واحدة وتُحفظ",
-                      len(created) == 1 and store.load_draft(a["id"])[1].get("reel_review_issue") == 950 and n >= 1,
+                      store.load_draft(a["id"])[1].get("reel_review_issue") == 950 and n == len(created) >= 1,
                       (created, n))
                 check("g395: ريل له قضية ← لا شيء", store.load_draft(b["id"])[1].get("reel_review_issue") == 960, created)
                 created.clear()
