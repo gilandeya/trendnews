@@ -1,0 +1,109 @@
+{
+  "id": "4e7ca8650904",
+  "created_at": "2026-10-17T17:07:55.048235+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 29.8,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "البابا يغادر المستشفى بعد جراحة رئة؛ حدث عالمي مؤثر",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Pope discharged from hospital days after lung cancer surgery",
+  "link": "https://www.bbc.co.uk/news/articles/c5x2vkddrkrko?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC Health",
+    "BBC World",
+    "CBS News — World",
+    "Daily Sabah",
+    "France24",
+    "NPR World",
+    "Punch Nigeria",
+    "South China Morning Post",
+    "The Express Tribune",
+    "The Guardian — World",
+    "The Hindu — International",
+    "The Washington Post",
+    "doctors"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Pope discharged from hospital days after lung cancer surgery",
+    "link": "https://www.bbc.co.uk/news/articles/c5x2vkddrkrko?at_medium=RSS&at_campaign=rss",
+    "summary": "The pontiff will give the traditional Angelus prayer and blessing in St Peter's Square on Sunday.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-10-17T13:51:36+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/8c6c/live/9aad8f70-ca31-11f1-9ab2-b325ce61f9d2.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC Health",
+      "BBC World",
+      "CBS News — World",
+      "Daily Sabah",
+      "France24",
+      "NPR World",
+      "Punch Nigeria",
+      "South China Morning Post",
+      "The Express Tribune",
+      "The Guardian — World",
+      "The Hindu — International",
+      "The Washington Post",
+      "doctors"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/oct/17/pope-leo-discharged-from-hospital-after-cancer-operation"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c5x2vkddrkrko?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/10/17/pope-leo-leaves-hospital-after-lung-cancer-surgery?traffic_source=rss"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3371256/pope-leo-leave-hospital-saturday-after-lung-cancer-surgery?utm_source=rss_feed"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2635381/pope-leo-returns-to-vatican-four-days-after-lung-cancer-surgery"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/europe/20261017-pope-leo-returns-to-vatican-four-days-after-lung-cancer-surgery"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/8c6c/live/9aad8f70-ca31-11f1-9ab2-b325ce61f9d2.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/8c6c/live/9aad8f70-ca31-11f1-9ab2-b325ce61f9d2.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/8c6c/live/9aad8f70-ca31-11f1-9ab2-b325ce61f9d2.jpg",
+      "https://i.guim.co.uk/img/media/b2300794af74c02b2bf4fa103214f40bf19a6d4a/243_0_2560_2048/master/2560.jpg?width=700&quality=85&auto=format&fit=max&s=0375399b9ffff640b017dce2cf2fb4ea",
+      "https://i.guim.co.uk/img/media/b2300794af74c02b2bf4fa103214f40bf19a6d4a/243_0_2560_2048/master/2560.jpg?width=460&quality=85&auto=format&fit=max&s=56a297de437510e38408fde7208acace",
+      "https://i.guim.co.uk/img/media/b2300794af74c02b2bf4fa103214f40bf19a6d4a/243_0_2560_2048/master/2560.jpg?width=140&quality=85&auto=format&fit=max&s=d9a4a37ae368d92fd048f87c1e1a16f7"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 14,
+    "velocity": 1.0,
+    "age_hours": 1776.9113979644444,
+    "is_stale": false,
+    "score": 29.804189088376518,
+    "impact": 1,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "البابا يغادر المستشفى بعد جراحة رئة؛ حدث عالمي مؤثر",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

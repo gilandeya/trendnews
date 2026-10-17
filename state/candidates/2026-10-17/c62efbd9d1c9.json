@@ -1,0 +1,61 @@
+{
+  "id": "c62efbd9d1c9",
+  "created_at": "2026-10-17T17:07:55.049182+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.68,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "هجوم حوثي على مطار عدن؛ قرب عربي مباشر وأثر على السفر",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Aden airport hit; Saudi-led coalition intercepts drones, missiles",
+  "link": "https://news.cgtn.com/news/2026-10-17/news-1Rj1y9HibcI/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+  "publishers": [
+    "CGTN",
+    "Reuters"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "Aden airport hit; Saudi-led coalition intercepts drones, missiles",
+    "link": "https://news.cgtn.com/news/2026-10-17/news-1Rj1y9HibcI/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+    "summary": "Ballistic missiles launched by the Houthi group struck the international airport in the southern Yemeni port city of Aden on Friday night, Aden's security administration said, while the Saudi-led coalition said earlier it had intercepted fresh drones and missiles over Saudi Arabia and the Red Sea.",
+    "source_name": "CGTN",
+    "region": "cn",
+    "weight": 0.7,
+    "published": "2026-10-16T23:34:21+00:00",
+    "image_url": "https://news.cgtn.com/news/2026-10-17/news-1Rj1y9HibcI/img/017a313ea46e4914a073403d76daf383/017a313ea46e4914a073403d76daf383-1920.png",
+    "publisher": "CGTN",
+    "cluster_sources": [
+      "CGTN",
+      "Reuters"
+    ],
+    "cluster_members": [
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-10-17/news-1Rj1y9HibcI/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      }
+    ],
+    "image_candidates": [
+      "https://news.cgtn.com/news/2026-10-17/news-1Rj1y9HibcI/img/017a313ea46e4914a073403d76daf383/017a313ea46e4914a073403d76daf383-1920.png",
+      "https://news.cgtn.com/news/2026-10-17/news-1Rj1y9HibcI/img/d5b33961d8a743038be0d956318fb3df/d5b33961d8a743038be0d956318fb3df.jpeg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1776.9115794533334,
+    "is_stale": false,
+    "score": 22.679624312592594,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "هجوم حوثي على مطار عدن؛ قرب عربي مباشر وأثر على السفر",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

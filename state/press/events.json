@@ -556,7 +556,7 @@
      "published": "2026-10-06T06:12:00+00:00"
     }
    ],
-   "last_seen": "2026-10-14T17:07:55.411222+00:00",
+   "last_seen": "2026-10-17T17:07:41.292973+00:00",
    "outlets": 21,
    "regions": 16,
    "languages": 2,
@@ -1599,7 +1599,7 @@
      "published": "2026-10-13T00:00:08+00:00"
     }
    ],
-   "last_seen": "2026-10-17T09:07:48.549654+00:00",
+   "last_seen": "2026-10-17T17:07:41.292973+00:00",
    "outlets": 20,
    "regions": 16,
    "languages": 1,
@@ -4175,7 +4175,7 @@
      "published": "2026-10-16T15:29:48+00:00"
     }
    ],
-   "last_seen": "2026-10-17T09:07:48.549654+00:00",
+   "last_seen": "2026-10-17T17:07:41.292973+00:00",
    "outlets": 18,
    "regions": 12,
    "languages": 1,
@@ -4456,7 +4456,7 @@
      "published": "2026-10-12T05:51:48+00:00"
     }
    ],
-   "last_seen": "2026-10-16T17:07:44.136357+00:00",
+   "last_seen": "2026-10-17T17:07:41.292973+00:00",
    "outlets": 15,
    "regions": 12,
    "languages": 2,
@@ -5155,7 +5155,7 @@
      "published": "2026-10-17T00:00:00+00:00"
     }
    ],
-   "last_seen": "2026-10-17T09:07:48.549654+00:00",
+   "last_seen": "2026-10-17T17:07:41.292973+00:00",
    "outlets": 16,
    "regions": 12,
    "languages": 1,
@@ -5332,6 +5332,424 @@
    "outlets": 13,
    "regions": 12,
    "languages": 2,
+   "score": 41.0
+  },
+  {
+   "id": "5dafb8cfa4a9",
+   "first_seen": "2026-10-15T09:07:47.013401+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Israeli settlers set fire to mosque in occupied West Bank",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2037224/israeli-settlers-set-fire-to-mosque-in-occupied-west-bank",
+     "published": "2026-10-15T02:52:32+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Israeli settlers set fire to mosque in occupied West Bank",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/israeli-settlers-set-fire-to-mosque-in-occupied-west-bank/article71584999.ece",
+     "published": "2026-10-14T15:55:34+00:00"
+    },
+    {
+     "outlet": "Tehran Times",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Israeli forces raid West Bank villages as settlers torch mosque",
+     "language": "en",
+     "link": "https://www.tehrantimes.com/news/531087/Israeli-forces-raid-West-Bank-villages-as-settlers-torch-mosque",
+     "published": "2026-10-14T15:36:30+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Israeli settlers attack Palestinians in West Bank during olive harvest",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/videos/cqn06zx2r15jo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-16T11:40:41+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Israeli settlers continue pogrom amid olive harvest in occupied West Bank",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/16/israeli-settlers-continue-progrom-amid-olive-harvest-in-occupied-west-bank?traffic_source=rss",
+     "published": "2026-10-16T13:04:32+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Palestinians and US journalist injured by Israeli settlers in West Bank harvest attack",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c65ynk7212vqo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-16T14:31:04+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Israeli settlers attack olive farmers and Washington Post journalist in West Bank",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/16/israeli-settlers-attack-olive-farmers-west-bank-washington-post-journalist-heidi-levine",
+     "published": "2026-10-16T16:34:58+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Israeli settlers attack US photographer covering West Bank violence",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2037619/israeli-settlers-attack-us-photographer-covering-west-bank-violence",
+     "published": "2026-10-16T15:50:30+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "US journalist injured during Israeli settler attack on West Bank olive harvest",
+     "language": "en",
+     "link": "https://www.france24.com/en/middle-east/20261016-us-journalist-injured-during-israeli-settler-attack-on-west-bank-olive-harvest",
+     "published": "2026-10-16T15:01:40+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Israeli settlers burn olive trees, injure journalist in West Bank attack",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/israeli-settlers-burn-olive-trees-injure-journalist-in-west-bank-attack/article71593869.ece",
+     "published": "2026-10-16T16:42:09+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "American journalist injured in West Bank clashes",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/us-journalist-heidi-levine-injured-west-bank-clashes-settlers/",
+     "published": "2026-10-16T15:18:25+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Israeli settlers beat Palestinians and a U.S. photojournalist in West Bank attacks",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/16/nx-s1-6004904/israeli-settlers-beat-us-photojournalist-washington-post-west-bank",
+     "published": "2026-10-16T15:57:27+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Washington Post photojournalist Heidi Levine injured in attack by Israeli settlers in West Bank: ‘They kicked me’",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/washington-post-photojournalist-heidi-levine-injured-in-attack-by-israeli-settlers-in-west-bank-they-kicked-me-101792164947552.html",
+     "published": "2026-10-16T16:06:04+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Israeli settlers attack olive farmers and Washington Post journalist in West Bank",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPdEpqbnpXdW8tUG1IY1M3M0loQ21IV1Q0WlZUeW1PVE5JY0tHUUNmYXRCNEd3S0J3LTZtT1ZoZFQ3azBBRFlPY1poQXNTd2J3S1R2OGZucXB1Sk9zOWN3U2M1YmZvOC1yNUhReEhPM1Q4d3BLM1FwR2UtRzNoMFZBX1BfZUxyX1VETURReVFXN3p6LXlyU0htLXVSOEsxMm9EdDlmeERtOG9TOUNkS18xZ1R2RFUwZ3F6aXNYWFhob3RUVkJFZHh0MUpHOU95QQ?oc=5",
+     "published": "2026-10-16T14:20:00+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Palestinians and US journalist injured by Israeli settlers in West Bank harvest attack",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/palestinians-and-us-journalist-injured-by-israeli-settlers-in-west-bank-harvest-attack/",
+     "published": "2026-10-16T18:04:09+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "US, Washington Post condemn Israeli settler attack on photographer",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/americas/us-washington-post-condemn-israeli-settler-attack-on-photographer",
+     "published": "2026-10-16T18:15:00+00:00"
+    },
+    {
+     "outlet": "CGTN",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Israeli settler attacks injure 19 Palestinians in West Bank",
+     "language": "en",
+     "link": "https://news.cgtn.com/news/2026-10-17/Israeli-settler-attacks-injure-19-Palestinians-in-West-Bank-1Rja0LxP2dW/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+     "published": "2026-10-17T02:28:18+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Israeli settlers burn olive trees, attack 8 farmers in West Bank",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/mid-east/israeli-settlers-burn-olive-trees-attack-8-farmers-in-west-bank",
+     "published": "2026-10-17T09:12:00+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Illegal Israeli settlers attack European delegation in West Bank",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/mid-east/illegal-israeli-settlers-attack-european-delegation-in-west-bank",
+     "published": "2026-10-17T15:06:00+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Israeli settlers attack European diplomatic cars in West Bank",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/17/israeli-settlers-attack-european-diplomatic-cars-in-west-bank",
+     "published": "2026-10-17T15:36:45+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Israeli settlers attack European delegation convoy in West Bank, beat French mayor",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxPak00bUxUN0NveGU2a2ItdzNzdkZPUnR2Mk10SWVzVHBvTlFHMUZZSXZoNW5veWM2M0hsSjRJa1VDX2Zkc3dOTEI3cE42YkpMV3laYkdEYWVmalRudHkydHhCZnRVQUl4WjUtVE9TcHBFQVBtN1FqZ3Y0NUNvcjQ1MzJXSV80NUFqd0VROEhhamU2dG5vYlBkMjFnSUIwdmNfTElMS3ZmQ2RGRUxzSm5ZR1ZSbVJWSWVVWnVMbjcwbXU5Z1NzTzJTTkxR?oc=5",
+     "published": "2026-10-17T14:58:07+00:00"
+    }
+   ],
+   "last_seen": "2026-10-17T17:07:41.292973+00:00",
+   "outlets": 15,
+   "regions": 12,
+   "languages": 1,
+   "score": 41.0
+  },
+  {
+   "id": "493ae8954612",
+   "first_seen": "2026-10-10T09:07:48.714447+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Commentator Katie Zacharia picked as new White House press secretary",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c5rmy73zr0rro?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-09T22:41:21+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Trump picks Truth Social’s Katie Zacharia as White House press secretary",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370413/trump-picks-truth-socials-katie-zacharia-white-house-press-secretary?utm_source=rss_feed",
+     "published": "2026-10-09T22:37:12+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Katie Zacharia picked as White House press secretary",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/katie-zacharia-picked-as-white-house-press-secretary/article71565837.ece",
+     "published": "2026-10-09T22:45:49+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Trump offers White House press secretary role to Katie Zacharia",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/americas/trump-offers-white-house-press-secretary-role-to-katie-zacharia",
+     "published": "2026-10-09T18:33:00+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump Picks Katie Zacharia As New White House Press Secretary",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/trump-picks-katie-zacharia-as-new-white-house-press-secretary-12164006#publisher=newsstand",
+     "published": "2026-10-10T01:24:42+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Trump appoints ‘devoted fan’ Katie Zacharia as White House press secretary",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/10/trump-appoints-devoted-fan-katie-zacharia-as-white-house-press-secretary/238537",
+     "published": "2026-10-10T04:14:31+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Trump appoints ‘devoted fan’ Katie Zacharia as press secretary",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/trump-appoints-devoted-fan-katie-zacharia-as-press-secretary/",
+     "published": "2026-10-10T07:09:58+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Commentator Katie Zacharia picked as new White House press secretary",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/commentator-katie-zacharia-picked-as-new-white-house-press-secretary/",
+     "published": "2026-10-10T16:45:10+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "White House spokeswoman Katie Zacharia 'let go' from role, official says",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2037596/white-house-spokeswoman-katie-zacharia-let-go-from-role-official-says",
+     "published": "2026-10-16T18:48:46+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Embattled new White House Press Secretary Zacharia 'let go' from her role",
+     "language": "en",
+     "link": "https://www.france24.com/en/americas/20261016-embattled-new-white-house-press-secretary-zacharia-let-go-from-her-role",
+     "published": "2026-10-16T15:57:24+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "White House Press Secretary Katie Zacharia ‘let go’ just days into role",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/white-house-press-secretary-katie-zacharia-let-go-just-days-into-role/article71594137.ece",
+     "published": "2026-10-17T04:09:36+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Who is Katie Zacharia, the White House Press Secretary ‘let go’ after five days in office?",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/who-is-katie-zacharia-white-house-press-secretary-who-exited-after-five-days-in-office/article71595641.ece",
+     "published": "2026-10-17T07:23:42+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Katie Zacharia out as White House press secretary after just 5 days on the job: Reports",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/katie-zacharia-out-as-white-house-press-secretary-after-just-5-days-on-the-job-reports-101792172914969.html",
+     "published": "2026-10-16T17:57:01+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "White House press secretary Katie Zacharia dismissed, official says",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/americas/white-house-press-secretary-katie-zacharia-dismissed-official-says",
+     "published": "2026-10-16T18:06:00+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Zacharia ousted after 5 days as White House Press Secretary",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248636/Zacharia-ousted-after-5-days-as-White-House-Press-Secretary",
+     "published": "2026-10-17T07:25:26+00:00"
+    },
+    {
+     "outlet": "CGTN",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Katie Zacharia out as White House press secretary: US media",
+     "language": "en",
+     "link": "https://news.cgtn.com/news/2026-10-17/Katie-Zacharia-out-as-White-House-press-secretary-US-media-1Rj270PrnY4/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+     "published": "2026-10-17T00:48:58+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Katie Zacharia leaving White House role less than five days into job",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c32l4ekpvzl8o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-17T05:20:40+00:00"
+    },
+    {
+     "outlet": "Der Spiegel",
+     "region": "de",
+     "bucket": "serious",
+     "title": "Katie Zacharia: Gefeuerte Trump-Sprecherin scheitert nach nur fünf Tagen",
+     "language": "en",
+     "link": "https://www.spiegel.de/ausland/katie-zacharia-gefeuerte-trump-sprecherin-scheitert-nach-nur-fuenf-tagen-a-6b40d659-cbaf-41d6-89c2-93b91327deab#ref=rss",
+     "published": "2026-10-17T04:55:00+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "\"Was An Honour\": Katie Zacharia On 5-Day Stint As Trump's Press Secretary",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/katie-zacharia-donald-trumps-white-house-press-secretary-after-being-fired-was-an-honour-to-work-for-him-12197600#publisher=newsstand",
+     "published": "2026-10-17T03:48:26+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "'It was an honor to work for Trump': Katie Zacharia after quitting White House job in 5 days",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/katie-zacharia-exits-as-white-house-press-secretary-after-five-days-says-it-was-honor-to-work-for-trump-101792202505606.html",
+     "published": "2026-10-17T02:11:12+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "14-Minute Presser, Backlash Over Lawyer Tag: The Unmaking Of New White House Press Chief Katie Zacharia",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/14-minute-presser-backlash-over-lawyer-tag-the-unmaking-of-new-white-house-press-chief-katie-zacharia-12197536#publisher=newsstand",
+     "published": "2026-10-17T01:30:12+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Susie Wiles helped arrange Katie Zacharia’s Fox News interview before her exit: Report",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/susie-wiles-helped-arrange-katie-zacharia-s-fox-news-interview-before-her-exit-report-101792215849593.html",
+     "published": "2026-10-17T06:00:07+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Why Trump’s latest White House press secretary lasted just five days",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/17/why-trumps-latest-white-house-press-secretary-lasted-just-five-days?traffic_source=rss",
+     "published": "2026-10-17T13:41:49+00:00"
+    }
+   ],
+   "last_seen": "2026-10-17T17:07:41.292973+00:00",
+   "outlets": 15,
+   "regions": 12,
+   "languages": 1,
    "score": 41.0
   },
   {
@@ -5962,379 +6380,6 @@
    "score": 38.0
   },
   {
-   "id": "5dafb8cfa4a9",
-   "first_seen": "2026-10-15T09:07:47.013401+00:00",
-   "members": [
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Israeli settlers set fire to mosque in occupied West Bank",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2037224/israeli-settlers-set-fire-to-mosque-in-occupied-west-bank",
-     "published": "2026-10-15T02:52:32+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Israeli settlers set fire to mosque in occupied West Bank",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/israeli-settlers-set-fire-to-mosque-in-occupied-west-bank/article71584999.ece",
-     "published": "2026-10-14T15:55:34+00:00"
-    },
-    {
-     "outlet": "Tehran Times",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Israeli forces raid West Bank villages as settlers torch mosque",
-     "language": "en",
-     "link": "https://www.tehrantimes.com/news/531087/Israeli-forces-raid-West-Bank-villages-as-settlers-torch-mosque",
-     "published": "2026-10-14T15:36:30+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Israeli settlers attack Palestinians in West Bank during olive harvest",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/videos/cqn06zx2r15jo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-16T11:40:41+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Israeli settlers continue pogrom amid olive harvest in occupied West Bank",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/16/israeli-settlers-continue-progrom-amid-olive-harvest-in-occupied-west-bank?traffic_source=rss",
-     "published": "2026-10-16T13:04:32+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Palestinians and US journalist injured by Israeli settlers in West Bank harvest attack",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c65ynk7212vqo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-16T14:31:04+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Israeli settlers attack olive farmers and Washington Post journalist in West Bank",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/16/israeli-settlers-attack-olive-farmers-west-bank-washington-post-journalist-heidi-levine",
-     "published": "2026-10-16T16:34:58+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Israeli settlers attack US photographer covering West Bank violence",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2037619/israeli-settlers-attack-us-photographer-covering-west-bank-violence",
-     "published": "2026-10-16T15:50:30+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "US journalist injured during Israeli settler attack on West Bank olive harvest",
-     "language": "en",
-     "link": "https://www.france24.com/en/middle-east/20261016-us-journalist-injured-during-israeli-settler-attack-on-west-bank-olive-harvest",
-     "published": "2026-10-16T15:01:40+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Israeli settlers burn olive trees, injure journalist in West Bank attack",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/israeli-settlers-burn-olive-trees-injure-journalist-in-west-bank-attack/article71593869.ece",
-     "published": "2026-10-16T16:42:09+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "American journalist injured in West Bank clashes",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/us-journalist-heidi-levine-injured-west-bank-clashes-settlers/",
-     "published": "2026-10-16T15:18:25+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Israeli settlers beat Palestinians and a U.S. photojournalist in West Bank attacks",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/16/nx-s1-6004904/israeli-settlers-beat-us-photojournalist-washington-post-west-bank",
-     "published": "2026-10-16T15:57:27+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Washington Post photojournalist Heidi Levine injured in attack by Israeli settlers in West Bank: ‘They kicked me’",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/washington-post-photojournalist-heidi-levine-injured-in-attack-by-israeli-settlers-in-west-bank-they-kicked-me-101792164947552.html",
-     "published": "2026-10-16T16:06:04+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Israeli settlers attack olive farmers and Washington Post journalist in West Bank",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPdEpqbnpXdW8tUG1IY1M3M0loQ21IV1Q0WlZUeW1PVE5JY0tHUUNmYXRCNEd3S0J3LTZtT1ZoZFQ3azBBRFlPY1poQXNTd2J3S1R2OGZucXB1Sk9zOWN3U2M1YmZvOC1yNUhReEhPM1Q4d3BLM1FwR2UtRzNoMFZBX1BfZUxyX1VETURReVFXN3p6LXlyU0htLXVSOEsxMm9EdDlmeERtOG9TOUNkS18xZ1R2RFUwZ3F6aXNYWFhob3RUVkJFZHh0MUpHOU95QQ?oc=5",
-     "published": "2026-10-16T14:20:00+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Palestinians and US journalist injured by Israeli settlers in West Bank harvest attack",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/palestinians-and-us-journalist-injured-by-israeli-settlers-in-west-bank-harvest-attack/",
-     "published": "2026-10-16T18:04:09+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "US, Washington Post condemn Israeli settler attack on photographer",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/americas/us-washington-post-condemn-israeli-settler-attack-on-photographer",
-     "published": "2026-10-16T18:15:00+00:00"
-    },
-    {
-     "outlet": "CGTN",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Israeli settler attacks injure 19 Palestinians in West Bank",
-     "language": "en",
-     "link": "https://news.cgtn.com/news/2026-10-17/Israeli-settler-attacks-injure-19-Palestinians-in-West-Bank-1Rja0LxP2dW/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
-     "published": "2026-10-17T02:28:18+00:00"
-    }
-   ],
-   "last_seen": "2026-10-17T09:07:48.549654+00:00",
-   "outlets": 14,
-   "regions": 11,
-   "languages": 1,
-   "score": 38.0
-  },
-  {
-   "id": "493ae8954612",
-   "first_seen": "2026-10-10T09:07:48.714447+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Commentator Katie Zacharia picked as new White House press secretary",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c5rmy73zr0rro?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-09T22:41:21+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Trump picks Truth Social’s Katie Zacharia as White House press secretary",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370413/trump-picks-truth-socials-katie-zacharia-white-house-press-secretary?utm_source=rss_feed",
-     "published": "2026-10-09T22:37:12+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Katie Zacharia picked as White House press secretary",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/katie-zacharia-picked-as-white-house-press-secretary/article71565837.ece",
-     "published": "2026-10-09T22:45:49+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Trump offers White House press secretary role to Katie Zacharia",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/americas/trump-offers-white-house-press-secretary-role-to-katie-zacharia",
-     "published": "2026-10-09T18:33:00+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Trump Picks Katie Zacharia As New White House Press Secretary",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/trump-picks-katie-zacharia-as-new-white-house-press-secretary-12164006#publisher=newsstand",
-     "published": "2026-10-10T01:24:42+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Trump appoints ‘devoted fan’ Katie Zacharia as White House press secretary",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/10/trump-appoints-devoted-fan-katie-zacharia-as-white-house-press-secretary/238537",
-     "published": "2026-10-10T04:14:31+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Trump appoints ‘devoted fan’ Katie Zacharia as press secretary",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/trump-appoints-devoted-fan-katie-zacharia-as-press-secretary/",
-     "published": "2026-10-10T07:09:58+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Commentator Katie Zacharia picked as new White House press secretary",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/commentator-katie-zacharia-picked-as-new-white-house-press-secretary/",
-     "published": "2026-10-10T16:45:10+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "White House spokeswoman Katie Zacharia 'let go' from role, official says",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2037596/white-house-spokeswoman-katie-zacharia-let-go-from-role-official-says",
-     "published": "2026-10-16T18:48:46+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Embattled new White House Press Secretary Zacharia 'let go' from her role",
-     "language": "en",
-     "link": "https://www.france24.com/en/americas/20261016-embattled-new-white-house-press-secretary-zacharia-let-go-from-her-role",
-     "published": "2026-10-16T15:57:24+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "White House Press Secretary Katie Zacharia ‘let go’ just days into role",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/white-house-press-secretary-katie-zacharia-let-go-just-days-into-role/article71594137.ece",
-     "published": "2026-10-17T04:09:36+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Who is Katie Zacharia, the White House Press Secretary ‘let go’ after five days in office?",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/who-is-katie-zacharia-white-house-press-secretary-who-exited-after-five-days-in-office/article71595641.ece",
-     "published": "2026-10-17T07:23:42+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Katie Zacharia out as White House press secretary after just 5 days on the job: Reports",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/katie-zacharia-out-as-white-house-press-secretary-after-just-5-days-on-the-job-reports-101792172914969.html",
-     "published": "2026-10-16T17:57:01+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "White House press secretary Katie Zacharia dismissed, official says",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/americas/white-house-press-secretary-katie-zacharia-dismissed-official-says",
-     "published": "2026-10-16T18:06:00+00:00"
-    },
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Zacharia ousted after 5 days as White House Press Secretary",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248636/Zacharia-ousted-after-5-days-as-White-House-Press-Secretary",
-     "published": "2026-10-17T07:25:26+00:00"
-    },
-    {
-     "outlet": "CGTN",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Katie Zacharia out as White House press secretary: US media",
-     "language": "en",
-     "link": "https://news.cgtn.com/news/2026-10-17/Katie-Zacharia-out-as-White-House-press-secretary-US-media-1Rj270PrnY4/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
-     "published": "2026-10-17T00:48:58+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Katie Zacharia leaving White House role less than five days into job",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c32l4ekpvzl8o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-17T05:20:40+00:00"
-    },
-    {
-     "outlet": "Der Spiegel",
-     "region": "de",
-     "bucket": "serious",
-     "title": "Katie Zacharia: Gefeuerte Trump-Sprecherin scheitert nach nur fünf Tagen",
-     "language": "en",
-     "link": "https://www.spiegel.de/ausland/katie-zacharia-gefeuerte-trump-sprecherin-scheitert-nach-nur-fuenf-tagen-a-6b40d659-cbaf-41d6-89c2-93b91327deab#ref=rss",
-     "published": "2026-10-17T04:55:00+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "\"Was An Honour\": Katie Zacharia On 5-Day Stint As Trump's Press Secretary",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/katie-zacharia-donald-trumps-white-house-press-secretary-after-being-fired-was-an-honour-to-work-for-him-12197600#publisher=newsstand",
-     "published": "2026-10-17T03:48:26+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "'It was an honor to work for Trump': Katie Zacharia after quitting White House job in 5 days",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/katie-zacharia-exits-as-white-house-press-secretary-after-five-days-says-it-was-honor-to-work-for-trump-101792202505606.html",
-     "published": "2026-10-17T02:11:12+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "14-Minute Presser, Backlash Over Lawyer Tag: The Unmaking Of New White House Press Chief Katie Zacharia",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/14-minute-presser-backlash-over-lawyer-tag-the-unmaking-of-new-white-house-press-chief-katie-zacharia-12197536#publisher=newsstand",
-     "published": "2026-10-17T01:30:12+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Susie Wiles helped arrange Katie Zacharia’s Fox News interview before her exit: Report",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/susie-wiles-helped-arrange-katie-zacharia-s-fox-news-interview-before-her-exit-report-101792215849593.html",
-     "published": "2026-10-17T06:00:07+00:00"
-    }
-   ],
-   "last_seen": "2026-10-17T09:07:48.549654+00:00",
-   "outlets": 14,
-   "regions": 11,
-   "languages": 1,
-   "score": 38.0
-  },
-  {
    "id": "8299e0156b03",
    "first_seen": "2026-10-07T03:07:41.547243+00:00",
    "members": [
@@ -6827,7 +6872,7 @@
      "published": "2026-10-10T16:51:47+00:00"
     }
    ],
-   "last_seen": "2026-10-14T09:07:42.321915+00:00",
+   "last_seen": "2026-10-17T17:07:41.292973+00:00",
    "outlets": 12,
    "regions": 10,
    "languages": 2,
@@ -8566,107 +8611,6 @@
    "score": 28.0
   },
   {
-   "id": "eb275183d7fc",
-   "first_seen": "2026-10-09T09:07:48.883639+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Cars torched and shops looted as anti-migrant violence erupts in South Africa",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cwm24v45p4jgo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-09T08:28:57+00:00"
-    },
-    {
-     "outlet": "AllAfrica",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "South Africa: Ten Cars Torched As Xenophobic Violence Erupts in Soweto",
-     "language": "en",
-     "link": "https://allafrica.com/stories/202610090088.html",
-     "published": "2026-10-09T05:00:52+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "South Africa withdraws asylum processing following xenophobic clashes",
-     "language": "en",
-     "link": "https://punchng.com/south-africa-withdraws-asylum-processing-following-xenophobic-clashes/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-09T10:04:24+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Clashes lead South Africa to withdraw asylum processing order",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/09/clashes-lead-south-africa-to-withdraw-asylum-processing-order",
-     "published": "2026-10-09T07:51:00+00:00"
-    },
-    {
-     "outlet": "AllAfrica",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "South Africa: Home Affairs Withdraws Asylum Directive After Violent Anti-Immigration Protests",
-     "language": "en",
-     "link": "https://allafrica.com/stories/202610090210.html",
-     "published": "2026-10-09T06:35:22+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "South Africa protests turn violent amid rage over asylum ruling",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxORXpVYWQxQ0w5dlg0Z2RwZktubTV6aTZBTk9zOGMtZmgySlZZSmVleXRiSVB4ODBmOWh1MEE3S0xIS29GQWRRQjNhdUdUX0ZSd2xWemNrQUR2RlZiWWppVGlmR09lTHlaN0E2NFZuWmlxVUNFNmNfM09ISW1IRWdsMjN5SGdlWWNqbkR0bnVrQVQydDM4Tmx4amQ5cFp5M3Q2eEJUOFNLVdIBrAFBVV95cUxQdnBRa3FaTjhIZlNlZHc1SlZVX0gtUTJsSjRKcElzTU03b0xPcHNKUkxza21MTmVhOU5HTEFQY3p4a3ZvVGJPbWZ5TkRMRWxtMGU2YkF0YkhiRzVOaVhOSUFtX0hfdXlDWWFDVWZ1dVZtMzJxcUtBZ1UwNThZaUdfTHJHcFA4aWUyb0VtRUM5V2NnV09rdG44R1E3YV83VTRHV2xnWWtJaG8tQ3di?oc=5",
-     "published": "2026-10-08T20:51:42+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "South African anti-migrant protests: Cars torched and shops looted in Durban and Soweto",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFB5ejZ2RkxhSV9NSFZzTzZ6U2I0dmpseFl3b3JkNUpqWFFWS0ZWWXZOZVh5emhTWHZaQnJtT2dwVmJTQ196TENIMUFhYkptNG5DX2t0cXEtblpLTm8?oc=5",
-     "published": "2026-10-09T08:28:57+00:00"
-    },
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "ANTI-FOREIGNER UNREST: Home Affairs scraps asylum seeker directive after violence in Durban and Soweto",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-09-home-affairs-scraps-asylum-seeker-directive-after-violence-in-durban-and-soweto/",
-     "published": "2026-10-09T11:54:13+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "South Africa scraps asylum directive after anti-immigrant violence",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/africa/south-africa-scraps-asylum-directive-after-anti-immigrant-violence",
-     "published": "2026-10-09T07:43:00+00:00"
-    },
-    {
-     "outlet": "CGTN",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "South Africa withdraws asylum directive after anti-migrant violence",
-     "language": "en",
-     "link": "https://newsaf.cgtn.com/news/2026-10-09/South-Africa-withdraws-asylum-directive-after-anti-migrant-violence-1R6DJYOHz3O/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
-     "published": "2026-10-09T15:12:03+00:00"
-    }
-   ],
-   "last_seen": "2026-10-10T09:07:48.714447+00:00",
-   "outlets": 8,
-   "regions": 8,
-   "languages": 1,
-   "score": 26.0
-  },
-  {
    "id": "d6e8444bb564",
    "first_seen": "2026-10-10T17:07:48.257605+00:00",
    "members": [
@@ -9240,6 +9184,107 @@
     }
    ],
    "last_seen": "2026-10-14T17:07:55.411222+00:00",
+   "outlets": 8,
+   "regions": 7,
+   "languages": 1,
+   "score": 24.0
+  },
+  {
+   "id": "8cbef7465b19",
+   "first_seen": "2026-10-17T09:07:48.549654+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "North Korea says it tested new torpedo with AI tech",
+     "language": "en",
+     "link": "https://www.scmp.com/news/asia/east-asia/article/3371218/north-korea-says-it-tested-new-torpedo-ai-tech?utm_source=rss_feed",
+     "published": "2026-10-16T23:37:18+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "North Korea says tested AI-assisted torpedo system",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2037810/north-korea-says-tested-ai-assisted-torpedo-system",
+     "published": "2026-10-17T08:23:38+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "North Korea says tested AI-assisted torpedo system",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/east-asia/north-korea-ai-torpedo-system-6467791",
+     "published": "2026-10-17T02:11:00+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "North Korea says it tested new torpedo system with AI capabilities",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/north-korea-claims-to-have-tested-a-new-ai-enabled-zam-20-torpedo-system/article71595423.ece",
+     "published": "2026-10-17T04:54:28+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "North Korea says tested AI-assisted torpedo system",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/17/asia-pacific/north-korea-ai-torpedo/",
+     "published": "2026-10-17T04:51:00+00:00"
+    },
+    {
+     "outlet": "Yonhap News",
+     "region": "kr",
+     "bucket": "serious",
+     "title": "N. Korea conducts underwater test of new precision-guided torpedo: KCNA",
+     "language": "en",
+     "link": "https://en.yna.co.kr/view/AEN20261017000700315",
+     "published": "2026-10-16T21:35:35+00:00"
+    },
+    {
+     "outlet": "Yonhap News",
+     "region": "kr",
+     "bucket": "serious",
+     "title": "(LEAD) N. Korea conducts underwater test of new precision-guided torpedo using AI: KCNA",
+     "language": "en",
+     "link": "https://en.yna.co.kr/view/AEN20261017000751315",
+     "published": "2026-10-16T22:10:11+00:00"
+    },
+    {
+     "outlet": "Yonhap News",
+     "region": "kr",
+     "bucket": "serious",
+     "title": "(2nd LD) N. Korea tests new precision-guided torpedo using AI: KCNA",
+     "language": "en",
+     "link": "https://en.yna.co.kr/view/AEN20261017000752315",
+     "published": "2026-10-17T02:44:36+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "North Korea tests latest torpedo using AI",
+     "language": "en",
+     "link": "https://tass.com/world/2203385",
+     "published": "2026-10-16T22:10:00+00:00"
+    },
+    {
+     "outlet": "CGTN",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "DPRK conducts underwater test-firing of superspeed torpedo: KCNA",
+     "language": "en",
+     "link": "https://news.cgtn.com/news/2026-10-17/DPRK-conducts-underwater-test-firing-of-superspeed-torpedo-KCNA-1RjetxlQvYI/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+     "published": "2026-10-17T02:37:16+00:00"
+    }
+   ],
+   "last_seen": "2026-10-17T17:07:41.292973+00:00",
    "outlets": 8,
    "regions": 7,
    "languages": 1,
@@ -10614,62 +10659,6 @@
    "score": 17.0
   },
   {
-   "id": "8cbef7465b19",
-   "first_seen": "2026-10-17T09:07:48.549654+00:00",
-   "members": [
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "North Korea says it tested new torpedo with AI tech",
-     "language": "en",
-     "link": "https://www.scmp.com/news/asia/east-asia/article/3371218/north-korea-says-it-tested-new-torpedo-ai-tech?utm_source=rss_feed",
-     "published": "2026-10-16T23:37:18+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "North Korea says tested AI-assisted torpedo system",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2037810/north-korea-says-tested-ai-assisted-torpedo-system",
-     "published": "2026-10-17T08:23:38+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "North Korea says tested AI-assisted torpedo system",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/east-asia/north-korea-ai-torpedo-system-6467791",
-     "published": "2026-10-17T02:11:00+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "North Korea says it tested new torpedo system with AI capabilities",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/north-korea-claims-to-have-tested-a-new-ai-enabled-zam-20-torpedo-system/article71595423.ece",
-     "published": "2026-10-17T04:54:28+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "North Korea says tested AI-assisted torpedo system",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/17/asia-pacific/north-korea-ai-torpedo/",
-     "published": "2026-10-17T04:51:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-17T09:07:48.549654+00:00",
-   "outlets": 5,
-   "regions": 5,
-   "languages": 1,
-   "score": 17.0
-  },
-  {
    "id": "f5c492f7f19f",
    "first_seen": "2026-10-11T09:07:45.219118+00:00",
    "members": [
@@ -10720,6 +10709,62 @@
     }
    ],
    "last_seen": "2026-10-11T09:07:45.219118+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 2,
+   "score": 16.0
+  },
+  {
+   "id": "b2b769002b67",
+   "first_seen": "2026-10-17T17:07:41.292973+00:00",
+   "members": [
+    {
+     "outlet": "El País",
+     "region": "es",
+     "bucket": "serious",
+     "title": "Real Betis-FC Barcelona, el partido de LaLiga en directo|El Betis empata el partido gracias a un gol de Valentín Gómez",
+     "language": "es",
+     "link": "https://elpais.com/deportes/futbol/2026-10-17/real-betis-fc-barcelona-el-partido-de-laliga-en-directo.html",
+     "published": "2026-10-17T17:01:58+00:00"
+    },
+    {
+     "outlet": "El País",
+     "region": "es",
+     "bucket": "serious",
+     "title": "Baena rompe a un combativo Espanyol con un gran gol en el último minuto y le da la victoria al Atlético",
+     "language": "es",
+     "link": "https://elpais.com/deportes/futbol/2026-10-17/baena-rompe-a-un-combativo-espanyol-con-un-gran-gol-en-el-ultimo-minuto-y-le-da-la-victoria-al-atletico.html",
+     "published": "2026-10-17T15:19:20+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "European football: Baena late strike for Atlético puts pressure on Barcelona",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/2026/oct/17/european-football-bayern-munich-barcelona-psg-inter",
+     "published": "2026-10-17T14:44:52+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "In-form Atletico scrape late win at Espanyol",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/17/in-form-atletico-scrape-late-win-at-espanyol",
+     "published": "2026-10-17T15:10:12+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "In-form Atletico snatch late win at Espanyol",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/in-form-atletico-snatch-late-win-at-espanyol/",
+     "published": "2026-10-17T15:16:02+00:00"
+    }
+   ],
+   "last_seen": "2026-10-17T17:07:41.292973+00:00",
    "outlets": 4,
    "regions": 4,
    "languages": 2,
@@ -10883,62 +10928,6 @@
    "regions": 4,
    "languages": 1,
    "score": 15.0
-  },
-  {
-   "id": "5483b962f655",
-   "first_seen": "2026-10-09T17:07:48.864691+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "China agrees to ‘halve’ hybrid car exports to EU in landmark deal",
-     "language": "en",
-     "link": "https://www.theguardian.com/business/2026/oct/09/china-agrees-to-curb-hybrid-car-exports-to-eu-in-landmark-deal",
-     "published": "2026-10-09T15:05:57+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "China agrees to slash EU hybrid car exports in half, putting brake on trade war",
-     "language": "en",
-     "link": "https://www.scmp.com/economy/china-economy/article/3370385/china-and-eu-reach-understanding-hybrid-vehicles-after-crunch-trade-talks?utm_source=rss_feed",
-     "published": "2026-10-09T11:59:22+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "China agrees to slash EU hybrid car exports in half, putting brake on trade war",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNa2RCM0lJTlZrVnhlMmdjbldmMXpIekU5QzFIRzNqT25lNzNld25selhNcl9oYjFCWjRaX3ZSUzdGNDBrTmU0YzJJaUZneHRkQ2JZUmF4eUlSWG52QzE3VzBhLUFma0dqSG1wN1daLUd0Y0c0Q3NCblBKOV9sby1pQU1aUU1XWU1IbG1iQ2JiQUlrSzAwbDlFYnd5ZXkyblFYVjlxS1hVMFRRWVZmcmZ3OVpTekhjMnB6MW9rZ1BBYWg3eXJ4Yk1OM0d2NWTSAcwBQVVfeXFMTWk5X2h5SXFHS0JMQjVla2RTd0lUTC0ta0hWRVdVMzJHRU1FSlp2bUcyZkhTQlZ5UUktYW1BdFhuZ0pYX2ZDaFd3SmYteUNaRUhBbVBwelFfODBvMFhmeE1Lbmx1ZWdDSWVBRWlKRzJjMmVDbmp2c1VodGlXNGI4aDhFTDhuNUlQVjRjeUNIWXpaNzNuY1dBdkhGY3dwWklPMG9VT0wtZ3FUSEQxRzhtREkyV3JRRjF3TXlaYUxZWHpPVDVTamt0QWc4RDNo?oc=5",
-     "published": "2026-10-09T15:21:58+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "China and EU strike deal to halve Chinese hybrid exports",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/business/2026/10/10/economy/china-eu-hybrid-exports/",
-     "published": "2026-10-09T23:55:00+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "EU and China clinch deal to curb hybrid car exports",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNQ0lUbmdELTJidlhxM1VOeGZuZi12QW5xSnRLZ21mczZkQThFZ09uN1VGdDJyOHpKaW9Ya2d4ZXBCVks5aHhGWDdhTW9waG5LOWVQaVZOcnBBT1dZT2N6bC1KYmhaZU1FRFdHRVRNNjJOdVl5S0tJclFxVFZ1ei1hQzBFZndtUnJWY1MtbnhlUHNremV6UVE?oc=5",
-     "published": "2026-10-09T12:50:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-10T09:07:48.714447+00:00",
-   "outlets": 4,
-   "regions": 4,
-   "languages": 1,
-   "score": 14.0
   },
   {
    "id": "81c83e9b1531",
@@ -11373,6 +11362,53 @@
    "score": 14.0
   },
   {
+   "id": "632267eb9da2",
+   "first_seen": "2026-10-17T17:07:41.292973+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Egypt's President Sisi pledges to leave office when term ends in 2030",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2037828/egypts-president-sisi-pledges-to-leave-office-when-term-ends-in-2030",
+     "published": "2026-10-17T11:55:57+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Egypt's President Sisi will step down when term expires in 2030",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/17/egypts-president-sisi-will-step-down-when-term-expires-in-2030/",
+     "published": "2026-10-17T14:18:28+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Egypt's Sisi says he will step down in 2030, rules out another term",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/africa/egypts-sisi-says-he-will-step-down-in-2030-rules-out-another-term",
+     "published": "2026-10-17T10:17:00+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Egypt’s Sisi pledges to leave office when term ends in 2030",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/highlight/2026/10/17/egypt-s-sisi-pledges-to-leave-office-when-term-ends-in-2030",
+     "published": "2026-10-17T11:22:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-17T17:07:41.292973+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
+  },
+  {
    "id": "b096d9cf93db",
    "first_seen": "2026-10-12T17:07:49.159577+00:00",
    "members": [
@@ -11521,53 +11557,6 @@
    "regions": 3,
    "languages": 2,
    "score": 13.0
-  },
-  {
-   "id": "7ff17f8e6863",
-   "first_seen": "2026-10-10T09:07:48.714447+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Taiwan president says defence spending boost aims to ‘deter war’",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/10/taiwan-president-says-defence-spending-boost-aims-to-deter-war?traffic_source=rss",
-     "published": "2026-10-10T05:08:49+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Taiwan’s leader says increasing defence spending to ‘deter war’",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/10/taiwan-s-leader-says-increasing-defence-spending-to-deter-war",
-     "published": "2026-10-10T03:23:30+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Taiwan’s leader says increasing defense spending to ‘deter war’",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/10/asia-pacific/politics/taiwan-lai-increasing-defense-spending/",
-     "published": "2026-10-10T04:29:00+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Taiwan’s leader says increasing defence spending to ‘deter war’",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/10/taiwans-leader-says-increasing-defence-spending-to-deter-war/238566",
-     "published": "2026-10-10T06:28:52+00:00"
-    }
-   ],
-   "last_seen": "2026-10-10T09:07:48.714447+00:00",
-   "outlets": 4,
-   "regions": 3,
-   "languages": 1,
-   "score": 12.0
   },
   {
    "id": "b338c86d38d7",
@@ -11756,44 +11745,6 @@
    "regions": 3,
    "languages": 1,
    "score": 12.0
-  },
-  {
-   "id": "de840e1d8ab0",
-   "first_seen": "2026-10-10T09:07:48.714447+00:00",
-   "members": [
-    {
-     "outlet": "Meduza English",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Ukraine strikes Russian tech giant Yandex’s data centers for a second straight day as new peace talks involving Kyiv, the U.S., and Europe get underway in Miami",
-     "language": "en",
-     "link": "https://meduza.io/en/feature/2026/10/09/ukraine-strikes-russian-tech-giant-yandex-s-data-centers-for-a-second-straight-day-as-new-peace-talks-involving-ukraine-the-u-s-and-europe-get-underway-in-miami",
-     "published": "2026-10-09T18:14:02+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Ukraine intensifies drone strikes on data centers of Russia's Yandex",
-     "language": "en",
-     "link": "https://www.dailysabah.com/business/economy/ukraine-intensifies-drone-strikes-on-data-centers-of-russias-yandex",
-     "published": "2026-10-09T09:10:00+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Ukraine strikes Russian tech giant’s data centres",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxObUxpOTJRZU5aeVJFcGxzaGw4WnJnTE5Za3A0S1JycHFscWZNdTZGbHc2a3JaMUMxOFNHd2M3RlFxVkpsdUNPUjVSYmtPNFJyRFBzTlg2Q1BQLUFIeEtZY3o1NDhPaWJORnkwdXF2MklNWmpuWnU3RXFnVk9ZTFdHRUdTX0I?oc=5",
-     "published": "2026-10-09T11:55:51+00:00"
-    }
-   ],
-   "last_seen": "2026-10-10T09:07:48.714447+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
   },
   {
    "id": "944d1b8954d7",
@@ -12916,6 +12867,120 @@
    "score": 11.0
   },
   {
+   "id": "2f6039a750a3",
+   "first_seen": "2026-10-17T17:07:41.292973+00:00",
+   "members": [
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Trump waives key Russia-related sanctions, tariffs before they take effect under new law",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2635364/trump-waives-key-russia-related-sanctions-tariffs-before-they-take-effect-under-new-law",
+     "published": "2026-10-17T05:33:27+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump Waives Russia Sanctions That Threatened 100% Tariffs On India",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/donald-trump-waives-many-russia-related-sanctions-tariffs-under-lindsey-graham-act-in-relief-for-india-china-amid-ukraine-war-12197563#publisher=newsstand",
+     "published": "2026-10-17T06:37:37+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Trump waives 100% tariffs on key buyers of Russian energy",
+     "language": "en",
+     "link": "https://tass.com/economy/2203423",
+     "published": "2026-10-17T02:00:01+00:00"
+    }
+   ],
+   "last_seen": "2026-10-17T17:07:41.292973+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "cbbaf9028873",
+   "first_seen": "2026-10-17T17:07:41.292973+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Neto’s brace fires Chelsea past Everton but Martinez head injury mars win",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/10/17/neto-brace-fires-chelsea-past-everton-but-martinez-head-injury-mars-win?traffic_source=rss",
+     "published": "2026-10-17T15:25:27+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Neto double gives Chelsea win; marred by Martinez injury",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/neto-double-gives-chelsea-win-marred-by-martinez-injury/",
+     "published": "2026-10-17T13:56:07+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Neto’s double gives Chelsea a win marred by Martinez’s injury",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/17/neto-s-double-gives-chelsea-a-win-marred-by-martinez-s-injury",
+     "published": "2026-10-17T14:16:42+00:00"
+    }
+   ],
+   "last_seen": "2026-10-17T17:07:41.292973+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "13e3aba8eb6a",
+   "first_seen": "2026-10-17T17:07:41.292973+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Iran backs 'political process' to resolve Saudi-Houthi conflict",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2037840/iran-backs-political-process-to-resolve-saudi-houthi-conflict",
+     "published": "2026-10-17T13:51:10+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Iran backs ‘political process’ to resolve Saudi-Houthi conflict: FM",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/iran-backs-political-process-to-resolve-saudi-houthi-conflict-fm/article71596732.ece",
+     "published": "2026-10-17T13:42:20+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Iran backs ‘political process’ to resolve Saudi-Houthi conflict",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/17/iran-backs-political-process-to-resolve-saudi-houthi-conflict",
+     "published": "2026-10-17T14:05:14+00:00"
+    }
+   ],
+   "last_seen": "2026-10-17T17:07:41.292973+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
    "id": "11cabfbc55e8",
    "first_seen": "2026-10-13T09:08:09.573950+00:00",
    "members": [
@@ -13017,53 +13082,6 @@
    "regions": 2,
    "languages": 1,
    "score": 10.0
-  },
-  {
-   "id": "2b5a6e61f1d5",
-   "first_seen": "2026-10-10T09:07:48.714447+00:00",
-   "members": [
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "As it happened - All Blacks POWER away vs Australia to retain Bledisloe Cup",
-     "language": "en",
-     "link": "https://www.skysports.com/rugby-union/live-blog/12040/13596789/new-zealand-vs-australia-live-all-blacks-host-wallabies-in-first-bledisloe-cup-test-updates-latest-scores-team-news-commentary",
-     "published": "2026-10-10T06:50:00+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "All Blacks crush Australia with second-half blitz to retain Bledisloe Cup",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/sport/all-blacks-crush-australia-second-half-blitz-retain-bledisloe-cup-6448591",
-     "published": "2026-10-10T08:22:16+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Dominant All Blacks score 50 points in big win over Australia",
-     "language": "en",
-     "link": "https://www.skysports.com/rugby-union/new-zealand-vs-australia/report/111859",
-     "published": "2026-10-10T09:29:00+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "New Zealand 50-19 Australia: Bledisloe Cup rugby union international",
-     "language": "en",
-     "link": "https://www.theguardian.com/sport/live/2026/oct/10/nz-vs-aus-australia-wallabies-v-new-zealand-all-blacks-bledisloe-cup-rugby-union-test-live-updates",
-     "published": "2026-10-10T08:18:15+00:00"
-    }
-   ],
-   "last_seen": "2026-10-10T09:07:48.714447+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 1,
-   "score": 9.0
   },
   {
    "id": "3b6e815cc695",
@@ -13703,7 +13721,7 @@
      "published": "2026-10-17T00:19:47+00:00"
     }
    ],
-   "last_seen": "2026-10-17T09:07:48.549654+00:00",
+   "last_seen": "2026-10-17T17:07:41.292973+00:00",
    "outlets": 3,
    "regions": 2,
    "languages": 1,
