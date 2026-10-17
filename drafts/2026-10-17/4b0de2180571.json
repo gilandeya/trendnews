@@ -1,0 +1,369 @@
+{
+  "id": "4b0de2180571",
+  "created_at": "2026-10-17T05:24:58.503610+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "الموقف التركي من التدخل في اليمن",
+  "tier": 1,
+  "blocs": [
+    "turkish"
+  ],
+  "channels": [
+    "CNN Türk",
+    "SÖZCÜ"
+  ],
+  "agreement": "agreement",
+  "event": "نقاش حول موقف تركيا من التدخل العسكري في حرب اليمن وتحالف مكة",
+  "warnings": [
+    "اسم لم يُحسم: نفزات تشيتشك (Nevzat Çiçek) — لا رسم مرشّح ظهر في 2 نطاقات عربية مستقلة (أقصى ما وُجد: 0)"
+  ],
+  "run_date": "2026-10-17",
+  "arabic": {
+    "post_title": "الموقف التركي من التدخل في اليمن",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "CNN Türk",
+      "SÖZCÜ"
+    ]
+  },
+  "score": 2,
+  "source_videos": [],
+  "topic_id": "d53df8e61ed8",
+  "topic_date": "2026-10-17",
+  "script": {
+    "narrator": "male",
+    "title": "تركيا واليمن: حدود المشاركة في تحالف مكة",
+    "question": "إلى أي مدى يمكن لأنقرة أن توازن بين دورها في تحالف مكة وبقائها خارج أرض المعركة في اليمن؟",
+    "scenes": [
+      {
+        "kind": "cold_open_clip",
+        "point_id": "3b733015c82a",
+        "video_url": "https://www.youtube.com/watch?v=1nO8ppO6D-s",
+        "start": 95.0,
+        "end": 103.3,
+        "speaker_name": "نفزات تشيتشك",
+        "speaker_role": "محلل سياسي",
+        "speaker_verified": true,
+        "speaker_verified_from": "title",
+        "speaker_name_latin": "Nevzat Çiçek",
+        "channel_display": "سوزجو",
+        "channel_original": "SÖZCÜ",
+        "quote_arabic": "هذا أمر مفهوم جدًا، لكن الوجود في الميدان ودخول أرض القتال أمر آخر.",
+        "language": "en",
+        "video_published": "2026-10-14"
+      },
+      {
+        "kind": "title_card",
+        "text": "تركيا واليمن: حدود المشاركة في تحالف مكة"
+      },
+      {
+        "kind": "narration",
+        "text": "هذا المحلل السياسي نفزات تشيتشك، في مقطع نشرته قناة سوزجو في 14 تشرين الأول 2026. يفرّق بين تأييد موقف عسكري تركي ودخول ميدان القتال في اليمن. النقاش يدور حول حدود مشاركة أنقرة في تحالف مكة."
+      },
+      {
+        "kind": "clip",
+        "point_id": "4e83f26172b6",
+        "video_url": "https://www.youtube.com/watch?v=1TzQH3MEM4Y",
+        "start": 4405.0,
+        "end": 4411.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "سي إن إن ترك",
+        "channel_original": "CNN Türk",
+        "quote_arabic": "لا توجد نية لإرسال جنود إلى اليمن. ليس على أجندة أنقرة",
+        "language": "tr",
+        "video_published": "2026-10-15"
+      },
+      {
+        "kind": "narration",
+        "text": "ضيف على سي إن إن ترك، في مقطع نشر في 15 تشرين الأول 2026، يتحدث عن مؤشرات على إرسال قوات، فيما ينفي مقدّم البرنامج وجود نية لإرسال جنود. وعلى القناة نفسها، وفي التاريخ ذاته، يعرض محلل آخر ما يصفها بمبادئ أنقرة الثلاثة."
+      },
+      {
+        "kind": "clip",
+        "point_id": "43491c186dcd",
+        "video_url": "https://www.youtube.com/watch?v=1TzQH3MEM4Y",
+        "start": 4334.0,
+        "end": 4340.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "سي إن إن ترك",
+        "channel_original": "CNN Türk",
+        "quote_arabic": "لأنقرة ثلاثة مبادئ أساسية: المساهمة في أمن السعودية، وعدم الانخراط المباشر في الحرب في اليمن، وإبقاء القنوات الدبلوماسية مع إيران مفتوحة",
+        "language": "tr",
+        "video_published": "2026-10-15"
+      },
+      {
+        "kind": "narration",
+        "text": "أمن السعودية، وعدم الانخراط المباشر في الحرب، وقنوات مفتوحة مع إيران. ثلاثة خطوط يتكرر ذكرها في المقاطع الثلاثة، بين من يرى الموقف مفهومًا ومن ينفي إرسال الجنود."
+      },
+      {
+        "kind": "question",
+        "text": "إلى أي مدى يمكن لأنقرة أن توازن بين دورها في تحالف مكة وبقائها خارج أرض المعركة في اليمن؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ]
+  },
+  "headlines": [
+    "تركيا واليمن: حدود المشاركة في تحالف مكة",
+    "تركيا واليمن: حدود المشاركة في تحالف مكة",
+    "تركيا واليمن: حدود المشاركة في تحالف مكة"
+  ],
+  "headline_selected": 0,
+  "editor_review": {
+    "at": "2026-10-17T05:25:16.615215+00:00",
+    "applied": [],
+    "notes": [
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "body",
+        "original": "هذا المحلل السياسي نفزات تشيتشك",
+        "fix": "",
+        "note": "رسم الاسم بالعربية غير محسوم (لم يظهر في نطاقين عربيين مستقلين)، كما أن صفته في المصادر التركية «صحفي وكاتب» لا «محلل سياسي». يُعاد الريل إلى مرحلة التوثيق لضبط الرسم والصفة.",
+        "sources": [
+          "https://www.biyografi.net.tr/nevzat-cicek-kimdir/",
+          "https://www.kibrispostasi.com/c35-KIBRIS_HABERLERI/n550364-gazeteci-nevzat-cicek-kibrista-genclerin-aidiyet-duygusu-zayifliyor-sadece-insaatla-olmaz"
+        ],
+        "video": ""
+      },
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "body",
+        "original": "في مقطع نشرته قناة سوزجو في 14 تشرين الأول 2026",
+        "fix": "",
+        "note": "نسبة المتحدث إلى سوزجو كصفة مؤسسية مشكوك فيها؛ المصادر تشير إلى ظهوره متحدثًا/ضيفًا على سوزجو تي في لا إلى كونه من كادرها. يلزم ضبط النسبة قبل النشر.",
+        "sources": [
+          "https://www.kibrispostasi.com/c35-KIBRIS_HABERLERI/n550364-gazeteci-nevzat-cicek-kibrista-genclerin-aidiyet-duygusu-zayifliyor-sadece-insaatla-olmaz"
+        ],
+        "video": ""
+      },
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "فيما ينفي مقدّم البرنامج وجود نية لإرسال جنود",
+        "fix": "ضيف على سي إن إن ترك، في مقطع نشر في 15 أكتوبر/تشرين الأول 2026، ينفي وجود نية لإرسال جنود إلى اليمن.",
+        "note": "تعارض بين كلام الراوي والشريط السفلي: الاقتباس «لا توجد نية لإرسال جنود…» منسوب في المقطع إلى «ضيف على سي إن إن ترك»، بينما ينسبه الراوي إلى مقدّم البرنامج.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "ثلاثة خطوط يتكرر ذكرها في المقاطع الثلاثة",
+        "fix": "ثلاثة خطوط يعرضها ضيف على سي إن إن ترك، فيما تدور المقاطع الأخرى بين من يرى الموقف مفهومًا ومن ينفي إرسال الجنود.",
+        "note": "المبادئ الثلاثة (أمن السعودية، عدم الانخراط، القنوات مع إيران) ترد في مقطع واحد فقط؛ المقطعان الآخران يتحدثان عن دخول أرض المعركة وعن نفي إرسال الجنود. التعميم لا تسنده المقاطع.",
+        "sources": []
+      },
+      {
+        "category": "vague_attribution",
+        "severity": "low",
+        "location": "body",
+        "original": "يتحدث عن مؤشرات على إرسال قوات",
+        "fix": "",
+        "note": "نسبة مبهمة: المصدر يذكر أن طرفًا سياسيًا هو من تحدث عن «مؤشرات»، لا الضيف نفسه، ولا اقتباس يسند هذه الجملة.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "وعلى القناة نفسها، وفي التاريخ ذاته، يعرض محلل آخر",
+        "fix": "وفي المقطع نفسه، يعرض ضيف ما يصفها بمبادئ أنقرة الثلاثة.",
+        "note": "المقطعان من الفيديو نفسه وبالشريط نفسه «ضيف على سي إن إن ترك»؛ لا ما يثبت أنه شخص آخر.",
+        "sources": []
+      },
+      {
+        "category": "stale_time",
+        "severity": "low",
+        "location": "body",
+        "original": "في 14 تشرين الأول 2026",
+        "fix": "في 14 أكتوبر/تشرين الأول 2026",
+        "note": "صيغة الشهر يجب أن تجمع الميلادي والشامي (وكذلك «15 تشرين الأول 2026» في السطر [5]).",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "h1",
+        "original": "تركيا واليمن: حدود المشاركة في تحالف مكة",
+        "fix": "",
+        "note": "مصطلح «تحالف مكة» لا يرد في أي من المقاطع الثلاثة ولا في اقتباساتها؛ يلزم إسناده في المتن أو استبداله بصياغة تستند إلى المقاطع.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "headline_2",
+        "original": "تركيا واليمن: حدود المشاركة في تحالف مكة",
+        "fix": "",
+        "note": "العناوين الثلاثة المقترحة متطابقة مع بعضها ومع h1؛ لا بديل فعلي للاختيار.",
+        "sources": []
+      }
+    ],
+    "error": null,
+    "searches": 2,
+    "search_skipped": null,
+    "speaker_unresolved": [
+      "نفزات تشيتشك"
+    ]
+  },
+  "name_unresolved": [
+    {
+      "arabic": "نفزات تشيتشك",
+      "latin": "Nevzat Çiçek",
+      "reason": "لا رسم مرشّح ظهر في 2 نطاقات عربية مستقلة (أقصى ما وُجد: 0)"
+    }
+  ],
+  "names_audit": [
+    {
+      "arabic": "نفزات تشيتشك",
+      "latin": "Nevzat Çiçek"
+    }
+  ],
+  "reel_bg": {
+    "url": "https://cdn-i.pr.trt.com.tr/trtarabi/w1440-q80/0m_1620366_1365-769-117-3.jpeg",
+    "kind": "web_search",
+    "publisher": "trtarabi.com"
+  },
+  "hook_candidates": [],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-10-15T00:00:00Z",
+          "2026-10-19T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "قوات تركية تتحرك في ميناء عسكري",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "Turkish warships docked at naval port",
+            "raw": 13,
+            "channel_ok": 0
+          },
+          {
+            "query": "Türk askeri gemisi liman tatbikat görüntüleri",
+            "raw": 0,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 0,
+        "judged_ok": 0,
+        "rejected_channels": [
+          "The Valor Vault",
+          "Timeless Tales",
+          "Counter Atlas",
+          "ChronoGeo",
+          "The World Unfolded",
+          "Forgotten Valor",
+          "Me llamo Historia",
+          "Evergreen Stars"
+        ]
+      },
+      {
+        "broad": true,
+        "window": [
+          "2026-10-13T00:00:00Z",
+          "2026-10-20T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "تركيا اليمن التدخل العسكري",
+            "raw": 30,
+            "channel_ok": 7
+          },
+          {
+            "query": "Turkey Yemen military intervention",
+            "raw": 30,
+            "channel_ok": 1
+          },
+          {
+            "query": "Türkiye Yemen askeri müdahale",
+            "raw": 8,
+            "channel_ok": 1
+          }
+        ],
+        "duration_ok": 9,
+        "judged_ok": 0,
+        "rejected_channels": [
+          "IMAGINA QUE",
+          "alyaumtv قناة اليوم",
+          "اليمن بودكاست",
+          "قناة الفلوجة-الأخبار",
+          "قناة التغيير",
+          "العربي - أخبار",
+          "rasid ksa",
+          "NBN National Broadcasting Network"
+        ]
+      }
+    ],
+    "picked": []
+  },
+  "broll_plan": [
+    {
+      "scene": 2,
+      "sentence": 0,
+      "text": "هذا المحلل السياسي نفزات تشيتشك، في مقطع نشرته قناة سوزجو في 14 تشرين الأول 2026.",
+      "visual": "محلل سياسي يتحدث أمام كاميرا تلفزيونية"
+    },
+    {
+      "scene": 2,
+      "sentence": 1,
+      "text": "يفرّق بين تأييد موقف عسكري تركي ودخول ميدان القتال في اليمن.",
+      "visual": "جنود أتراك يتدربون في موقع عسكري"
+    },
+    {
+      "scene": 2,
+      "sentence": 2,
+      "text": "النقاش يدور حول حدود مشاركة أنقرة في تحالف مكة.",
+      "visual": "خريطة مكة وتحالف عسكري على شاشة"
+    },
+    {
+      "scene": 4,
+      "sentence": 0,
+      "text": "ضيف على سي إن إن ترك، في مقطع نشر في 15 تشرين الأول 2026، يتحدث عن مؤشرات على إرسال قوات، فيما ينفي مقدّم البرنامج وجود نية لإرسال جنود.",
+      "visual": "طائرات حربية تقلع من قاعدة عسكرية تركية"
+    },
+    {
+      "scene": 4,
+      "sentence": 1,
+      "text": "وعلى القناة نفسها، وفي التاريخ ذاته، يعرض محلل آخر ما يصفها بمبادئ أنقرة الثلاثة.",
+      "visual": ""
+    },
+    {
+      "scene": 6,
+      "sentence": 0,
+      "text": "أمن السعودية، وعدم الانخراط المباشر في الحرب، وقنوات مفتوحة مع إيران.",
+      "visual": ""
+    },
+    {
+      "scene": 6,
+      "sentence": 1,
+      "text": "ثلاثة خطوط يتكرر ذكرها في المقاطع الثلاثة، بين من يرى الموقف مفهومًا ومن ينفي إرسال الجنود.",
+      "visual": ""
+    }
+  ],
+  "has_photo": false,
+  "has_news_photo": true,
+  "review_issue": 1477
+}
