@@ -191,7 +191,8 @@
   "reel_bg": {
     "url": "https://iqraa24.com/wp-content/uploads/2026/09/1789652715785.png",
     "kind": "news_photo",
-    "publisher": "اقرأ 24"
+    "publisher": "اقرأ 24",
+    "layout": "A"
   },
   "hook_candidates": [],
   "hook_search": {
@@ -313,6 +314,86 @@
   "has_photo": false,
   "has_news_photo": true,
   "review_issue": 1480,
-  "render_status": "queued",
-  "approved_script_at": "2026-10-17T06:48:12.602548+00:00"
+  "render_status": "rendered",
+  "approved_script_at": "2026-10-17T06:48:12.602548+00:00",
+  "reel_file": "reels/2026-10-17/b8f0180a45da.mp4",
+  "reel_gif": "reels/2026-10-17/b8f0180a45da.gif",
+  "duration_seconds": 103.4,
+  "render_version": 26,
+  "render_attempts": 0,
+  "reel_music": "nastelbom-news-news-2-473288.mp3",
+  "render_sources": "الجزيرة، العربية، سوزجو",
+  "render_crops": {
+    "0": {
+      "x": 425,
+      "source": "speaker",
+      "speaker_score": 0.94,
+      "tracks": 1,
+      "cover": true
+    },
+    "3": {
+      "x": 417,
+      "source": "speaker_vision",
+      "speaker_score": 0.92,
+      "tracks": 3,
+      "vision": {
+        "pick": 2,
+        "agree": 2,
+        "archive": [
+          1,
+          2,
+          3
+        ]
+      },
+      "cover": true
+    },
+    "5": {
+      "x": 570,
+      "source": "speaker_vision",
+      "speaker_score": 0.56,
+      "tracks": 3,
+      "vision": {
+        "pick": 1,
+        "agree": 2,
+        "archive": [
+          3
+        ]
+      },
+      "cover": true
+    }
+  },
+  "render_speakers": {
+    "0": {
+      "name_original": "ويناقش الاتجار غير القانوني بالنفايات والأزمة البيئية الناجمة عنه ومخاطره على الدول النامية",
+      "name_arabic": "ويناقش الاتجار غير القانوني بالنفايات والأزمة البيئية الناجمة عنه ومخاطره على الدول النامية",
+      "role_arabic": "",
+      "is_presenter": false,
+      "frames_agreeing": 2,
+      "rejected": "program",
+      "accepted": false
+    },
+    "3": {
+      "name_original": "فيصل الحمد",
+      "name_arabic": "فيصل الحمد",
+      "role_arabic": "خبير عسكري واستراتيجي",
+      "is_presenter": false,
+      "frames_agreeing": 3,
+      "rejected": "",
+      "accepted": true
+    }
+  },
+  "render_dropped": [],
+  "render_approx": [],
+  "rendered_at": "2026-10-17T07:25:57.650039+00:00",
+  "render_notes": [
+    "### 🎬 تركيب الريل",
+    "- ⏱️ المدة: 103.4 ث",
+    "- 🎞️ [الملف](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-10-17/b8f0180a45da.mp4) · [المعاينة](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-10-17/b8f0180a45da.gif)",
+    "🎞️ لم أجد لقطة صالحة من الحدث — الهوك بصورة الخبر",
+    "🏷️ شريط القناة يحمل اسم برنامج لا شخص: ويناقش الاتجار غير القانوني بالنفايات والأزمة البيئية الناجمة عنه ومخاطره على الدول النامية — يُعرض اسم القناة وحده",
+    "👤 من شريط القناة: فيصل الحمد (فيصل الحمد) — خبير عسكري واستراتيجي",
+    "🎯 مقطع العربية: 3 وجوه — المتكلم بالرؤية",
+    "🎯 مقطع سوزجو: 3 وجوه — المتكلم بالرؤية"
+  ],
+  "reel_review_issue": 1482
 }
