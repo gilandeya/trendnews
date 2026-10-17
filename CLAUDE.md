@@ -1986,3 +1986,13 @@ instead.
 
 - بند الريل في المرحلة 2 يعرض، حين `editor.blocking_reasons` غير فارغة، مربع `✍️` (`<!-- editor_ok:id -->`، نصه `reel.texts.editor_ok`). `publish.approve_reel_scripts`: go3 **مع** المربع ← يُعتمد السيناريو مع تطبيق السطور المعدَّلة ويُحفظ `editor_override = {at, reasons}` وسطر `editor_override_line`. المربع وحده بلا go3 لا يفعل شيئًا.
 - go3 بلا المربع ← محجوب كما كان، ويُعاد كتابة جسم القضية بالمربع (`stages.ensure_editor_ok_box`، لقضايا فُتحت قبل R4c)، والتعليق يضيف `editor_override_howto`، والقضية لا تُغلق (تُزال approved). g396–g398.
+
+## قضية مرحلة 2 مستقلة لكل مرشح (Issue #1481، W1) — `src/youtube_publish.py:open_review`
+
+- **القرار:** كل مرشح اختير في `youtube-selection` يظهر في المرحلة 2 في قضية خاصة به تجمع مقاله وريله إن طُلبا معًا (بدل قضية واحدة لكل المرشحين).
+  `open_review` تجمّع مسودات التحليل المعلّقة بلا `review_issue` حسب `topic_id` وتفتح قضية لكل موضوع: عنوانها «📰 مراجعة: {عنوان الموضوع}»، وسمها `youtube-review`،
+  جسمها `build_review_body` على مسودات الموضوع وحدها (المقال قبل الريل وخيارات «➕ أضف» كما كانت)، و`review_issue` يُحفظ على كل مسودة بقضيتها.
+  مسودات بلا `topic_id` (قديمة) ← قضية واحدة مجمّعة كما قبل W1. تعيد `{"issue": أول قضية، "drafts": الكل، "issues": [{topic_id, issue, title}]}` (`issue` باقية توافقًا).
+- **قضية الترشيح:** `cmd_youtube_selection` (و`cmd_add_formats`) تضع في تعليق النتيجة الواحد سطرًا لكل قضية «📰 {العنوان} ← #{الرقم}» ثم تُغلق كما كانت.
+- **عند approved على إحدى هذه القضايا:** `publish.main` و`approve_reel_scripts` و`cmd_add_formats` تعمل على `review.all_draft_ids(body)` وحدها، والرفض الضمني مقصور على معرّفات الجسم، فمسودات المرشحين الآخرين تبقى `pending` وقضاياهم مفتوحة (لا كود جديد هنا؛ g401 يثبّته).
+- **لم يُغيَّر:** التراجع (`go1`) وإعادة الطلب ونشر الريل الفوري — مهام لاحقة من سلسلة التنقّل نفسها. الاختبارات: g399–g401 في `tests/test_guards_golden.py:test_w1_per_candidate_issue_guards`.
