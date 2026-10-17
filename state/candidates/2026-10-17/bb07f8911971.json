@@ -1,0 +1,89 @@
+{
+  "id": "bb07f8911971",
+  "created_at": "2026-10-17T09:08:03.823206+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 30.11,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 3,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "ناقلة نفط تحترق بعد إصابتها بلغم في هرمز.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Oil tanker on fire after hitting mine in Hormuz",
+  "link": "https://www.vanguardngr.com/2026/10/oil-tanker-on-fire-after-hitting-mine-in-hormuz-irans-guards/",
+  "publishers": [
+    "Al Jazeera English",
+    "Hindustan Times — World",
+    "IRNA English",
+    "Iran’s Guards",
+    "Mehr News"
+  ],
+  "region": "ng",
+  "article": {
+    "title": "Oil tanker on fire after hitting mine in Hormuz",
+    "link": "https://www.vanguardngr.com/2026/10/oil-tanker-on-fire-after-hitting-mine-in-hormuz-irans-guards/",
+    "summary": "Tehran seized control over Hormuz after the start of the war in late February, choking off the strait that normally carries about one-fifth of global oil consumption. The post Oil tanker on fire after hitting mine in Hormuz – Iran’s Guards appeared first on Vanguard News .",
+    "source_name": "Vanguard Nigeria",
+    "region": "ng",
+    "weight": 0.9,
+    "published": "2026-10-17T08:59:27+00:00",
+    "image_url": "https://cdn.vanguardngr.com/wp-content/uploads/2026/07/AFP__20260713__C22T44G__v1__MidRes__UaeIranUsIsraelWar-1024x684.jpg",
+    "publisher": "Iran’s Guards",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Hindustan Times — World",
+      "IRNA English",
+      "Iran’s Guards",
+      "Mehr News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Iran’s Guards",
+        "link": "https://www.vanguardngr.com/2026/10/oil-tanker-on-fire-after-hitting-mine-in-hormuz-irans-guards/"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86294247/Iranian-Navy-spots-oil-tanker-on-fire-in-Strait-of-Hormuz"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/tanker-carrying-over-2-million-barrels-of-crude-oil-hits-mine-in-hormuz-catches-fire-irans-guards-say-101792219288746.html"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/248631/Oil-Tanker-explodes-in-Hormuz-after-hitting-naval-mine-IRGC"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/liveblog/2026/10/17/draft-2?traffic_source=rss"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86294516/Oil-supertanker-catches-fire-after-striking-mine-in-Strait-of"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/07/AFP__20260713__C22T44G__v1__MidRes__UaeIranUsIsraelWar-1024x684.jpg",
+      "https://img9.irna.ir/d/r2/2026/10/16/4/173175079.jpg",
+      "https://media.mehrnews.com/d/2026/10/17/4/6221397.jpg",
+      "https://img9.irna.ir/d/r2/2026/10/17/4/173175397.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.0,
+    "age_hours": 1768.9134239544446,
+    "is_stale": true,
+    "score": 30.106496533402826,
+    "impact": 3,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "ناقلة نفط تحترق بعد إصابتها بلغم في هرمز.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

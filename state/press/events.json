@@ -1599,7 +1599,7 @@
      "published": "2026-10-13T00:00:08+00:00"
     }
    ],
-   "last_seen": "2026-10-15T17:07:57.070042+00:00",
+   "last_seen": "2026-10-17T09:07:48.549654+00:00",
    "outlets": 20,
    "regions": 16,
    "languages": 1,
@@ -1887,6 +1887,224 @@
    "score": 54.0
   },
   {
+   "id": "08f08679bc7c",
+   "first_seen": "2026-10-10T09:07:48.714447+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Powerful magnitude 7.7 earthquake hits Panama, damaging buildings",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c620r39zdp9wo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-09T21:26:30+00:00"
+    },
+    {
+     "outlet": "MercoPress",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "A magnitude 7.7 earthquake shakes Panama",
+     "language": "en",
+     "link": "https://en.mercopress.com/2026/10/09/a-magnitude-7.7-earthquake-shakes-panama?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
+     "published": "2026-10-09T22:38:00+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Magnitude 7.6 earthquake shakes Panama, USGS reports",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/panama-earthquake-toll-injuries-damage-update-october-10-2026/article71565816.ece",
+     "published": "2026-10-09T22:40:31+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Major earthquake hits Panama, injures at least 27",
+     "language": "en",
+     "link": "https://punchng.com/major-earthquake-hits-panama-injures-at-least-27/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-10T10:04:06+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Major earthquake hits Panama, injures at least 27",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/10/world/panama-quake/",
+     "published": "2026-10-09T23:49:00+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Powerful 7.6 magnitude quake shakes Panama, triggering tsunami warnings",
+     "language": "en",
+     "link": "https://www.france24.com/en/americas/20261009-powerful-7-6-magnitude-quake-shakes-panama-triggering-tsunami-warning",
+     "published": "2026-10-09T18:39:03+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "7.7-magnitude quake rocks Panama, triggers tsunami warning",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/77magnitude-quake-rocks-panama-triggers-tsunami-warning-101791583521778.html",
+     "published": "2026-10-09T22:05:21+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Panama rocked by 2 powerful earthquakes, multiple aftershocks",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/americas/article/3370411/panama-rocked-2-powerful-earthquakes-multiple-aftershocks?utm_source=rss_feed",
+     "published": "2026-10-09T22:10:33+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Panama rocked by 2 powerful earthquakes and multiple aftershocks, prompting evacuations",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPVl9TaDlyMTA4emtwWlhyemdqTUY2ak9BUzU4TWlyT3d6dEtfWGs1RWVESTZ3YlhBcmx0S1dhajROOEJjY2NvbDlHc0h0Z2s2a1RFY3dRSDJTSlFrOTVWWk5PVjBlVGtUTEtPSEpMeS1nZFE1eTFmWWJzUGd4Ym5mOE1KZw?oc=5",
+     "published": "2026-10-10T02:53:00+00:00"
+    },
+    {
+     "outlet": "Le Monde",
+     "region": "fr",
+     "bucket": "serious",
+     "title": "Au Panama, un premier bilan de plusieurs blessés et d’importants dégâts à la suite du séisme",
+     "language": "fr",
+     "link": "https://www.lemonde.fr/planete/article/2026/10/10/au-panama-un-premier-bilan-fait-etat-de-plusieurs-blesses-et-d-importants-degats-apres-le-seisme_6790968_3244.html",
+     "published": "2026-10-10T07:02:48+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "27 Injured, Many Buildings Collapse After 7.7 Earthquake In Panama",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/panama-president-declares-major-disaster-after-earthquake-12164373#publisher=newsstand",
+     "published": "2026-10-10T07:58:44+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Powerful 7.7-magnitude earthquake strikes Panama and triggers panic in capital",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/09/panama-earthquake",
+     "published": "2026-10-10T00:13:15+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "7.7 Magnitude Earthquake Hits Panama, Tsunami Warning Lifted",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/earthquake-of-magnitude-8-strikes-panama-sets-off-panic-in-capital-12163870#publisher=newsstand",
+     "published": "2026-10-10T00:57:43+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Powerful quake hits Panama, damages homes; canal operations normal",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2035973/powerful-quake-hits-panama-damages-homes-canal-operations-normal",
+     "published": "2026-10-09T19:35:19+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "VIDEO: Huge destruction due to 7.7-magnitude quake in Panama",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248452/VIDEO-Huge-destruction-due-to-7-7-magnitude-quake-in-Panama",
+     "published": "2026-10-10T06:19:52+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Dual quakes devastate southern Panama",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/10/dual-quakes-devastate-southern-panama?traffic_source=rss",
+     "published": "2026-10-10T00:53:15+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Magnitude 7.6 earthquake rocks Panama, tremors reach Colombia",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/americas/magnitude-76-earthquake-rocks-panama-tremors-reach-colombia",
+     "published": "2026-10-09T19:19:00+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Panama earthquake: Videos show people fleeing as buildings shake; resident says 'everyone is scared'",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/panama-earthquake-update-videos-show-people-fleeing-as-buildings-shake-resident-says-everyone-is-scared-101791569731233.html",
+     "published": "2026-10-09T18:58:37+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Earthquake Of Magnitude 7 Strikes Russia, Japan Mistakenly Issues 9.9 Warning",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/russia-earthquake-earthquake-of-magnitude-7-strikes-russias-kamchatka-peninsula-12193129#publisher=newsstand",
+     "published": "2026-10-16T04:59:51+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Japan mistakenly issues 9.9-magnitude quake alert after 6.9 tremor near Russia, retracts it within minutes",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/japan-mistakenly-issues-9-9-magnitude-quake-alert-after-6-9-tremor-near-russia-later-withdraws-warning-101792125223053.html",
+     "published": "2026-10-16T05:06:23+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Japan mistakenly issues warning for magnitude 9.9 earthquake",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxPN1B0M2t6UWlwNzA1RmgwaklYZ3RYZE1TNVVKbXRER3JIS3ZIZC1EdDl1VWlCY0ExaEw4TGUxRFVqREEtamZ5c2dwYWhZeUlPNFJ6Q3ZqWTJKNWx3bm5DSy0zaS1KMTF6bkh6dFgwSC0zU2tMdmxzbmI0eFo5TzBoNFRYbkwzRWV3azVzci1nVTVMUEZnZUxsUTJYcjFmd1ZJ?oc=5",
+     "published": "2026-10-16T04:14:40+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Japan retracts mistaken magnitude 9.9 quake alert",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/east-asia/japan-retracts-mistaken-magnitude-99-quake-alert-6468016",
+     "published": "2026-10-17T06:13:00+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Japan retracts mistaken magnitude 9.9 quake alert",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/17/japan-retracts-mistaken-magnitude-9-9-quake-alert",
+     "published": "2026-10-17T03:23:36+00:00"
+    }
+   ],
+   "last_seen": "2026-10-17T09:07:48.549654+00:00",
+   "outlets": 18,
+   "regions": 15,
+   "languages": 2,
+   "score": 52.0
+  },
+  {
    "id": "363605fbbb2b",
    "first_seen": "2026-10-06T03:07:51.967007+00:00",
    "members": [
@@ -2168,6 +2386,224 @@
    "score": 50.0
   },
   {
+   "id": "bdb2651fed6c",
+   "first_seen": "2026-10-13T17:07:48.267468+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Houthi official warns US against entering war in Yemen as Saudis weather attacks",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/middle-east/article/3370729/houthi-official-warns-us-against-entering-war-yemen-saudis-weather-attacks?utm_source=rss_feed",
+     "published": "2026-10-13T09:00:25+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Oil facility near Yemen capital Sanaa hit by Saudi Arabia, Houthis say",
+     "language": "en",
+     "link": "https://www.france24.com/en/middle-east/20261013-oil-facility-near-yemen-capital-sanaa-hit-by-saudi-arabia-houthis-say",
+     "published": "2026-10-13T14:53:39+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Houthi media says Saudi Arabia hit oil facility near Sanaa",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/houthi-media-says-saudi-arabia-hit-oil-facility-near-sanaa/article71580863.ece",
+     "published": "2026-10-13T16:38:49+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Saudi Arabia strikes oil facility near Yemen’s Sanaa after evacuation warning",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/saudi-military-coalition-says-it-intercepted-three-drones-north-of-riyadh-airport-houthi-strikes-101791892747448.html",
+     "published": "2026-10-13T12:05:35+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Houthi media says Saudi Arabia hit oil facility near Sanaa",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/13/houthi-media-says-saudi-arabia-hit-oil-facility-near-sanaa",
+     "published": "2026-10-13T15:11:30+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Saudi Arabia strikes oil depots in Yemen and says missiles launched toward location of Saudi Aramco HQ",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/13/saudi-arabia-strikes-strategic-oil-depots-near-yemen-capital",
+     "published": "2026-10-13T17:26:08+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Houthi missiles intercepted over Saudi Arabia as battles intensify",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/14/houthi-missiles-intercepted-over-saudi-arabia-as-battles-intensify?traffic_source=rss",
+     "published": "2026-10-14T03:09:46+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump says Houthis are ‘behaving very badly’, hints at asking Erdogan to help Saudi Arabia amid attacks",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/trump-says-houthis-are-behaving-very-badly-hints-at-asking-erdogan-to-help-saudi-arabia-amid-attacks-101791913143136.html",
+     "published": "2026-10-13T18:16:47+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "As Houthis strike Riyadh, Saudi Arabia confronts the costs of U.S. war on Iran",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPQXU0Wi0tVm5aMk5WYWZNYTBlLW9uVktRN2VyRUxPQUpUazM3cXVLRnZNMF9ad01tVWFZUlBRWV9WVU9BOGoxXzdFWWMyQndhclVId3R5VlBIeTBOTF9JbnN4eVdnWThmd19ZWktfYlJwYTdHNkRZaGFtX3Roci12TWR3OE5EVi1ERDhWOHlGSV9XTDRScG9uakVjRlVzTnBpYk0zZWthdHg4SG9tRmVkVkZsWDM?oc=5",
+     "published": "2026-10-13T18:39:31+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Why advanced U.S. weapons aren’t stopping Houthi attacks in Saudi Arabia",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxObUlWVHRLU2g4MU80VGtLUWNCYk9oSDNXeW1kbFV3VEJLWDRwZXFtTEpJNURtZ0JKMl91bG15d0pUQlpya2JaNzRrY1ZybUs5S1JJellKOW9QeEZsYTN5NHlXaldscEVLMlpmZDNOSDNwblFvcEFZZU9XbFZhNDM3Zl9QLThDR0oxVTJmRHVjZ3hwem9ETDEyUjZ3djVEZw?oc=5",
+     "published": "2026-10-13T17:55:27+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "IMF chief says Saudi attacks could have negative spillover ‘everywhere’",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/business/2026/10/14/imf-chief-says-saudi-attacks-could-have-negative-spillover-everywhere",
+     "published": "2026-10-14T06:35:19+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "IMF chief: Saudi attacks could have negative spillover ‘everywhere’, warns global resilience ‘reaching its limits’",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/money/2026/10/14/imf-chief-saudi-attacks-could-have-negative-spillover-everywhere-warns-global-resilience-reaching-its-limits/239074",
+     "published": "2026-10-14T06:58:26+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Houthis say Saudi Arabia delivered over 100 strikes against Yemen in past day",
+     "language": "en",
+     "link": "https://tass.com/world/2201631",
+     "published": "2026-10-13T20:08:25+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Iran denies Saudi accusation of involvement in Houthi attacks",
+     "language": "en",
+     "link": "https://punchng.com/iran-denies-saudi-accusation-of-involvement-in-houthi-attacks/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-17T08:09:38+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Iran denies role in Houthi attacks on Saudi Arabia, offers mediation",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/mid-east/iran-denies-role-in-houthi-attacks-on-saudi-arabia-offers-mediation",
+     "published": "2026-10-16T19:35:00+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Iran denies Saudi accusation of involvement in Houthi attacks",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/iran-denies-saudi-accusation-of-involvement-in-houthi-attacks-2/",
+     "published": "2026-10-17T07:25:37+00:00"
+    },
+    {
+     "outlet": "Iran International",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Iran giving Houthis targeting intelligence for Saudi attacks",
+     "language": "en",
+     "link": "https://www.iranintl.com/en/202610178912",
+     "published": "2026-10-17T08:52:24+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Iran Is Giving Houthis Targeting and Intelligence for Attacks on Saudi Arabia",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxPOS1nT1V3ajJHakhMdm5jRDRqQW5PMlU5N1FidUlPemxtZFBFYV9UY0dJdGp2US1qU2NsbGRLazVUd2RsXzc3bWIxa00xcmpEbEY4aG9xcmkzX3g2ZDd2RVdlRGRGV0JUZjZLN0JTU2xybHFKQTlaV19oYUp3a2o5Wjg2Sk9kQQ?oc=5",
+     "published": "2026-10-17T02:01:41+00:00"
+    },
+    {
+     "outlet": "Investing.com — الاقتصاد",
+     "region": "money",
+     "bucket": "useful",
+     "title": "Iran war: Missiles target Saudi oil hub as Yemen conflict escalates",
+     "language": "en",
+     "link": "https://www.investing.com/news/economy-news/iran-war-missiles-target-saudi-oil-hub-as-yemen-conflict-escalates-4955004",
+     "published": "2026-10-17T05:08:21+00:00"
+    },
+    {
+     "outlet": "Le Monde",
+     "region": "fr",
+     "bucket": "serious",
+     "title": "Au Yémen, des frappes houthistes près de l’aéroport d’Aden ; l’Iran nie tout rôle dans les attaques visant l’Arabie saoudite",
+     "language": "fr",
+     "link": "https://www.lemonde.fr/international/article/2026/10/17/au-yemen-des-frappes-houthistes-s-abattent-pres-de-l-aeroport-d-aden-l-iran-nie-tout-role-dans-les-attaques-visant-l-arabie-saoudite_6795708_3210.html",
+     "published": "2026-10-16T23:40:18+00:00"
+    },
+    {
+     "outlet": "CGTN",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Aden airport hit; Saudi-led coalition intercepts drones, missiles",
+     "language": "en",
+     "link": "https://news.cgtn.com/news/2026-10-17/news-1Rj1y9HibcI/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+     "published": "2026-10-16T23:34:21+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Missiles hit Aden airport as Saudi-led coalition intercepts missile headed for Yanbu",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxPelJ6OUp1VFpwTmJ0Qm85TzRUS2ppU0swVFMydlJuTDZiS1Q1V2R6M1N4bmpfeTZ0aWNqd29XbGdDMm9IVllmLTZUazAxQWFzX3lsVlJBbHI4TVRfQVFrZlk5MkNqVzVCMU5XYkFwM3Fyb0pkbDk0bGo5N1dwQWJMMEo5aEhIeXpaS1J5TkRLVFZTem93Rl9rM2trUHZlaDQwSzVIQTB4UG1xelRQSU5wZ2I4X1N1V0VPUElsWHBIYVZvckhpYk9RZVhZaw?oc=5",
+     "published": "2026-10-16T21:51:00+00:00"
+    },
+    {
+     "outlet": "Iran International",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Iran cultivated Houthis for years before opening new war front, Yemeni insider says",
+     "language": "en",
+     "link": "https://www.iranintl.com/en/202610161362",
+     "published": "2026-10-16T20:43:26+00:00"
+    }
+   ],
+   "last_seen": "2026-10-17T09:07:48.549654+00:00",
+   "outlets": 17,
+   "regions": 13,
+   "languages": 2,
+   "score": 47.0
+  },
+  {
    "id": "d7e40dc3e136",
    "first_seen": "2026-10-05T18:07:49.818707+00:00",
    "members": [
@@ -2443,206 +2879,6 @@
     }
    ],
    "last_seen": "2026-10-15T09:07:47.013401+00:00",
-   "outlets": 16,
-   "regions": 13,
-   "languages": 2,
-   "score": 46.0
-  },
-  {
-   "id": "08f08679bc7c",
-   "first_seen": "2026-10-10T09:07:48.714447+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Powerful magnitude 7.7 earthquake hits Panama, damaging buildings",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c620r39zdp9wo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-09T21:26:30+00:00"
-    },
-    {
-     "outlet": "MercoPress",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "A magnitude 7.7 earthquake shakes Panama",
-     "language": "en",
-     "link": "https://en.mercopress.com/2026/10/09/a-magnitude-7.7-earthquake-shakes-panama?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
-     "published": "2026-10-09T22:38:00+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Magnitude 7.6 earthquake shakes Panama, USGS reports",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/panama-earthquake-toll-injuries-damage-update-october-10-2026/article71565816.ece",
-     "published": "2026-10-09T22:40:31+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Major earthquake hits Panama, injures at least 27",
-     "language": "en",
-     "link": "https://punchng.com/major-earthquake-hits-panama-injures-at-least-27/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-10T10:04:06+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Major earthquake hits Panama, injures at least 27",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/10/world/panama-quake/",
-     "published": "2026-10-09T23:49:00+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Powerful 7.6 magnitude quake shakes Panama, triggering tsunami warnings",
-     "language": "en",
-     "link": "https://www.france24.com/en/americas/20261009-powerful-7-6-magnitude-quake-shakes-panama-triggering-tsunami-warning",
-     "published": "2026-10-09T18:39:03+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "7.7-magnitude quake rocks Panama, triggers tsunami warning",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/77magnitude-quake-rocks-panama-triggers-tsunami-warning-101791583521778.html",
-     "published": "2026-10-09T22:05:21+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Panama rocked by 2 powerful earthquakes, multiple aftershocks",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/americas/article/3370411/panama-rocked-2-powerful-earthquakes-multiple-aftershocks?utm_source=rss_feed",
-     "published": "2026-10-09T22:10:33+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Panama rocked by 2 powerful earthquakes and multiple aftershocks, prompting evacuations",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPVl9TaDlyMTA4emtwWlhyemdqTUY2ak9BUzU4TWlyT3d6dEtfWGs1RWVESTZ3YlhBcmx0S1dhajROOEJjY2NvbDlHc0h0Z2s2a1RFY3dRSDJTSlFrOTVWWk5PVjBlVGtUTEtPSEpMeS1nZFE1eTFmWWJzUGd4Ym5mOE1KZw?oc=5",
-     "published": "2026-10-10T02:53:00+00:00"
-    },
-    {
-     "outlet": "Le Monde",
-     "region": "fr",
-     "bucket": "serious",
-     "title": "Au Panama, un premier bilan de plusieurs blessés et d’importants dégâts à la suite du séisme",
-     "language": "fr",
-     "link": "https://www.lemonde.fr/planete/article/2026/10/10/au-panama-un-premier-bilan-fait-etat-de-plusieurs-blesses-et-d-importants-degats-apres-le-seisme_6790968_3244.html",
-     "published": "2026-10-10T07:02:48+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "27 Injured, Many Buildings Collapse After 7.7 Earthquake In Panama",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/panama-president-declares-major-disaster-after-earthquake-12164373#publisher=newsstand",
-     "published": "2026-10-10T07:58:44+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Powerful 7.7-magnitude earthquake strikes Panama and triggers panic in capital",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/09/panama-earthquake",
-     "published": "2026-10-10T00:13:15+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "7.7 Magnitude Earthquake Hits Panama, Tsunami Warning Lifted",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/earthquake-of-magnitude-8-strikes-panama-sets-off-panic-in-capital-12163870#publisher=newsstand",
-     "published": "2026-10-10T00:57:43+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Powerful quake hits Panama, damages homes; canal operations normal",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2035973/powerful-quake-hits-panama-damages-homes-canal-operations-normal",
-     "published": "2026-10-09T19:35:19+00:00"
-    },
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "VIDEO: Huge destruction due to 7.7-magnitude quake in Panama",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248452/VIDEO-Huge-destruction-due-to-7-7-magnitude-quake-in-Panama",
-     "published": "2026-10-10T06:19:52+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Dual quakes devastate southern Panama",
-     "language": "en",
-     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/10/dual-quakes-devastate-southern-panama?traffic_source=rss",
-     "published": "2026-10-10T00:53:15+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Magnitude 7.6 earthquake rocks Panama, tremors reach Colombia",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/americas/magnitude-76-earthquake-rocks-panama-tremors-reach-colombia",
-     "published": "2026-10-09T19:19:00+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Panama earthquake: Videos show people fleeing as buildings shake; resident says 'everyone is scared'",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/panama-earthquake-update-videos-show-people-fleeing-as-buildings-shake-resident-says-everyone-is-scared-101791569731233.html",
-     "published": "2026-10-09T18:58:37+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Earthquake Of Magnitude 7 Strikes Russia, Japan Mistakenly Issues 9.9 Warning",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/russia-earthquake-earthquake-of-magnitude-7-strikes-russias-kamchatka-peninsula-12193129#publisher=newsstand",
-     "published": "2026-10-16T04:59:51+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Japan mistakenly issues 9.9-magnitude quake alert after 6.9 tremor near Russia, retracts it within minutes",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/japan-mistakenly-issues-9-9-magnitude-quake-alert-after-6-9-tremor-near-russia-later-withdraws-warning-101792125223053.html",
-     "published": "2026-10-16T05:06:23+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Japan mistakenly issues warning for magnitude 9.9 earthquake",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxPN1B0M2t6UWlwNzA1RmgwaklYZ3RYZE1TNVVKbXRER3JIS3ZIZC1EdDl1VWlCY0ExaEw4TGUxRFVqREEtamZ5c2dwYWhZeUlPNFJ6Q3ZqWTJKNWx3bm5DSy0zaS1KMTF6bkh6dFgwSC0zU2tMdmxzbmI0eFo5TzBoNFRYbkwzRWV3azVzci1nVTVMUEZnZUxsUTJYcjFmd1ZJ?oc=5",
-     "published": "2026-10-16T04:14:40+00:00"
-    }
-   ],
-   "last_seen": "2026-10-16T09:07:49.020316+00:00",
    "outlets": 16,
    "regions": 13,
    "languages": 2,
@@ -3204,10 +3440,210 @@
      "published": "2026-10-13T04:00:55+00:00"
     }
    ],
-   "last_seen": "2026-10-15T09:07:47.013401+00:00",
+   "last_seen": "2026-10-17T09:07:48.549654+00:00",
    "outlets": 18,
    "regions": 13,
    "languages": 1,
+   "score": 46.0
+  },
+  {
+   "id": "d8c220af6828",
+   "first_seen": "2026-10-16T09:07:49.020316+00:00",
+   "members": [
+    {
+     "outlet": "Der Spiegel",
+     "region": "de",
+     "bucket": "serious",
+     "title": "Tesla stellt neues Modell Roadster vor",
+     "language": "en",
+     "link": "https://www.spiegel.de/mobilitaet/auto/tesla-stellt-neues-modell-roadster-vor-mit-raketenduesen-a-7cccd6c2-3d0e-4d0d-8be4-7f0fd794915e#ref=rss",
+     "published": "2026-10-16T05:02:00+00:00"
+    },
+    {
+     "outlet": "Investing.com — الاقتصاد",
+     "region": "money",
+     "bucket": "useful",
+     "title": "Warsh avoids rate guidance; Tesla’s Roadster turns in air",
+     "language": "en",
+     "link": "https://www.investing.com/news/economy-news/warsh-avoids-rate-guidance-teslas-roadster-turns-in-air--whats-moving-markets-4953305",
+     "published": "2026-10-16T07:58:28+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Tesla Roadster Flew And Landed Safely: How High, How Far And What's The Cost?",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/tesla-roadster-flew-and-landed-safely-how-high-how-far-and-whats-the-cost-12193774#publisher=newsstand",
+     "published": "2026-10-16T07:34:06+00:00"
+    },
+    {
+     "outlet": "The Verge",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "The Tesla Roadster flew, drove upside down, and hit 60mph in under a second",
+     "language": "en",
+     "link": "https://www.theverge.com/transportation/1012552/tesla-roadster-next-gen-reveal-elon-musk",
+     "published": "2026-10-16T01:28:27+00:00"
+    },
+    {
+     "outlet": "TechCrunch",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "Tesla reveals SpaceX-powered Roadster that flies and falls with style",
+     "language": "en",
+     "link": "https://techcrunch.com/2026/10/15/tesla-reveals-spacex-powered-roadster-that-flies-and-falls-with-style/",
+     "published": "2026-10-16T01:17:43+00:00"
+    },
+    {
+     "outlet": "Engadget",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "Tesla Roadster reveal live: Updates from the launch of the next-gen sportscar",
+     "language": "en",
+     "link": "https://www.engadget.com/2287518/tesla-roadster-launch-live-blog/",
+     "published": "2026-10-15T14:01:51+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Tesla's new Roadster turns in air with SpaceX thrusters, won't land until 2028",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/tesla-roadster-spacex-thrusters-elon-musk-6465326",
+     "published": "2026-10-16T08:18:59+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Elon Musk unveils Tesla's 'flying' car",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2037579/elon-musk-unveils-teslas-flying-car",
+     "published": "2026-10-16T09:27:30+00:00"
+    },
+    {
+     "outlet": "Phys.org",
+     "region": "science",
+     "bucket": "useful",
+     "title": "Elon Musk unveils Tesla's 'flying' car",
+     "language": "en",
+     "link": "https://phys.org/news/2026-10-elon-musk-unveils-tesla-flying.html",
+     "published": "2026-10-16T16:20:11+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Elon Musk unveils Tesla’s ‘flying’ car",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/business/2026/10/16/elon-musk-unveils-tesla-s-flying-car",
+     "published": "2026-10-16T10:52:01+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Watch: Did Tesla really just unveil a flying car?",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/videos/ckly4mj1g3n9o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-16T12:32:31+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Tesla unveils 'flying' car, but don't expect to drive it anytime soon",
+     "language": "en",
+     "link": "https://www.dailysabah.com/business/economy/tesla-unveils-flying-car-but-dont-expect-to-drive-it-anytime-soon",
+     "published": "2026-10-16T13:23:00+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Tesla just made a car fly (sort of) — and Elon Musk says it’s coming in 2028 (VIDEO)",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/life/2026/10/16/tesla-just-made-a-car-fly-sort-of-and-elon-musk-says-its-coming-in-2028-video/239356",
+     "published": "2026-10-16T09:16:21+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Tesla flying car Roadster open for reservation, but doesn't land anytime soon. Check variants, launch details",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/tesla-flying-car-roadster-open-for-reservation-but-doesnt-land-anytime-soon-check-variants-launch-details-101792131858492.html",
+     "published": "2026-10-16T10:58:08+00:00"
+    },
+    {
+     "outlet": "The Verge",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "The incredible flying Tesla Roadster is just for show",
+     "language": "en",
+     "link": "https://www.theverge.com/transportation/1012783/tesla-roadster-flying-stunt-production-reality-musk",
+     "published": "2026-10-16T14:15:29+00:00"
+    },
+    {
+     "outlet": "Der Spiegel",
+     "region": "de",
+     "bucket": "serious",
+     "title": "Tesla Roadster fliegt durch die Luft: Elon Musk hat die Bodenhaftung verloren. Buchstäblich",
+     "language": "de",
+     "link": "https://www.spiegel.de/mobilitaet/auto/tesla-roadster-fliegt-durch-die-luft-elon-musk-hat-die-bodenhaftung-verloren-buchstaeblich-a-ed7a0234-7b5c-4c95-8744-5e4575995ecb#ref=rss",
+     "published": "2026-10-16T14:47:00+00:00"
+    },
+    {
+     "outlet": "Folha de S.Paulo",
+     "region": "br",
+     "bucket": "serious",
+     "title": "Musk apresenta 'carro voador' da Tesla e que atinge 96 km/h em um segundo; veja vídeo",
+     "language": "pt",
+     "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://www1.folha.uol.com.br/mercado/2026/10/musk-apresenta-carro-voador-da-tesla-e-que-atinge-96-kmh-em-um-segundo-veja-video.shtml",
+     "published": "2026-10-16T14:03:00+00:00"
+    },
+    {
+     "outlet": "Der Spiegel",
+     "region": "de",
+     "bucket": "serious",
+     "title": "Tesla »Roadster«: Ein fliegendes Auto? Die US-Verkehrsbehörde hat Fragen",
+     "language": "de",
+     "link": "https://www.spiegel.de/mobilitaet/auto/tesla-roadster-ein-fliegendes-auto-die-us-verkehrsbehoerde-hat-fragen-a-a7f9fc1d-c216-404e-bef1-efa85e2953ff#ref=rss",
+     "published": "2026-10-17T06:01:00+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "11-year old flying car company mocks Tesla Roadster",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/17/11-year-old-flying-car-company-mocks-tesla-roadster?traffic_source=rss",
+     "published": "2026-10-17T07:32:42+00:00"
+    },
+    {
+     "outlet": "Engadget",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "The Tesla Roadster should go into production in 2028, but don't get your hopes up",
+     "language": "en",
+     "link": "https://www.engadget.com/2289475/tesla-roadster-2028-production-dont-get-hopes-up/",
+     "published": "2026-10-17T01:50:50+00:00"
+    },
+    {
+     "outlet": "Engadget",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "A 'flying' Tesla Roadster sounds impossible, until you see what Lockheed Martin built decades ago",
+     "language": "en",
+     "link": "https://www.engadget.com/2289307/flying-tesla-roadster-lockheed-martin-mokv-technology-comparison/",
+     "published": "2026-10-16T20:50:28+00:00"
+    }
+   ],
+   "last_seen": "2026-10-17T09:07:48.549654+00:00",
+   "outlets": 16,
+   "regions": 12,
+   "languages": 3,
    "score": 46.0
   },
   {
@@ -3461,6 +3897,287 @@
    "last_seen": "2026-10-14T17:07:55.411222+00:00",
    "outlets": 16,
    "regions": 13,
+   "languages": 1,
+   "score": 44.0
+  },
+  {
+   "id": "902b9d7f57a8",
+   "first_seen": "2026-10-06T15:07:42.509147+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Kenya confirms first Ebola case as virus ‘surges’ in DR Congo province",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/06/kenya-first-ebola-case-death-drc",
+     "published": "2026-10-06T12:46:56+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Kenya confirms first Ebola case imported from Congo, patient has died",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2035159/kenya-confirms-first-ebola-case-imported-from-congo-patient-has-died",
+     "published": "2026-10-06T09:38:52+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Kenya reports first Ebola case imported from DR Congo after patient dies",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/africa/article/3369923/kenya-reports-first-ebola-case-imported-dr-congo-after-patient-dies?utm_source=rss_feed",
+     "published": "2026-10-06T09:39:31+00:00"
+    },
+    {
+     "outlet": "Medical Xpress",
+     "region": "health",
+     "bucket": "useful",
+     "title": "Kenya reports first-ever Ebola death",
+     "language": "en",
+     "link": "https://medicalxpress.com/news/2026-10-kenya-ebola-death.html",
+     "published": "2026-10-06T10:17:53+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "Kenya confirms first Ebola case imported from Congo",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-06-kenya-confirms-first-ebola-case-imported-from-congo/",
+     "published": "2026-10-06T12:45:17+00:00"
+    },
+    {
+     "outlet": "AllAfrica",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Kenya: Kenya Confirms First Ebola Case as Patient Returns From DRC",
+     "language": "en",
+     "link": "https://allafrica.com/stories/202610060146.html",
+     "published": "2026-10-06T09:08:38+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Kenya confirms first Ebola death as 28 contacts traced",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/06/kenya-confirms-first-ebola-death-as-28-contacts-traced/",
+     "published": "2026-10-06T09:57:32+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Kenya confirms first Ebola case imported from Congo after patient dies in Nairobi",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/kenya-confirms-first-ebola-case-imported-from-congo-after-patient-dies-in-nairobi/article71550957.ece",
+     "published": "2026-10-06T10:54:29+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Kenya Records Ebola Case for First Time",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNa0FnQmRLaFN4d0x1LUdtZnJRSHNBeFhzc2pGc09RU1ZWcDBLdDdRT2Z4S3ZHaURpMEh3STlGdnlVeUlPekJVa0VVOUluZW1QOWhqRjRQUkVYXy1aakpJQ0U1cjJnRGdzc0FQczVWNEJSNHdONWJmVWl3Q1dYV2h1UG16SWk?oc=5",
+     "published": "2026-10-06T11:18:41+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Kenya reports first-ever Ebola death after patient returns from DR Congo",
+     "language": "en",
+     "link": "https://www.france24.com/en/africa/20261006-kenya-reports-first-ever-ebola-death-after-patient-returns-from-dr-congo",
+     "published": "2026-10-06T15:41:44+00:00"
+    },
+    {
+     "outlet": "Premium Times",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Kenya confirms first imported Ebola case linked to DRC outbreak",
+     "language": "en",
+     "link": "https://www.premiumtimesng.com/health/health-news/915084-kenya-confirms-first-imported-ebola-case-linked-to-drc-outbreak.html",
+     "published": "2026-10-06T18:53:03+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "Kenya confirms first Ebola case after man who travelled from Congo dies",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-06-kenya-confirms-first-ebola-case-after-man-who-travelled-from-congo-dies/",
+     "published": "2026-10-06T22:28:17+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Kenya reports first-ever Ebola death",
+     "language": "en",
+     "link": "https://www.france24.com/en/kenya-reports-first-ever-ebola-death",
+     "published": "2026-10-06T21:28:01+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Kenya confirms first Ebola case after man who travelled from Congo dies",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/kenya-confirms-first-ebola-case-after-man-who-travelled-from-congo-dies-101791314214038.html",
+     "published": "2026-10-06T19:16:53+00:00"
+    },
+    {
+     "outlet": "CGTN",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Kenya confirms first Ebola case",
+     "language": "en",
+     "link": "https://newsaf.cgtn.com/news/2026-10-06/Kenya-confirms-first-Ebola-case-1R1rxfwah8Y/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+     "published": "2026-10-06T12:13:27+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Ebola: NCDC raises alert after Kenya confirms imported case",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/ebola-ncdc-raises-alert-after-kenya-confirms-imported-case/",
+     "published": "2026-10-07T08:01:43+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Kenya confirms first Ebola case after man who travelled from Congo dies",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxOWlJLbDdiRHg5YS1UZEJ1anM5UjA4S25hS0hNSnRWNHNvb2xnaGVxYkpBVWhSVC1Pdm9vZ3ltbzJsY2RwV0xYSjQ3TGRhT3hOSkxLTElLSUxqV3QxOHpzOVJPNlhyWFIwYzI4RnlkODBWU0hZR3BWMmhNdkpfZGxYVzN0Z05RcUhnYTFQdldFTFV4SzhYaTk3UDBYY1hkdHJLRHIta1JYc2g1NVhzbkxENU9SZ3RJaDVLWFh4cklWYXhLa1l1SmdtdUxCc2pKQlhz?oc=5",
+     "published": "2026-10-06T19:14:59+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Ten people linked to Kenya's first-ever Ebola case quarantined as screening concerns grow",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c6eq3x3v11d5o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-07T12:46:39+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Ten people linked to Kenya’s first-ever Ebola case quarantined as screening concerns grow",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/ten-people-linked-to-kenyas-first-ever-ebola-case-quarantined-as-screening-concerns-grow/",
+     "published": "2026-10-07T16:36:06+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Ten people linked to Kenya's first-ever Ebola case quarantined as screening concerns grow",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE40dGpnc2h2RU5lNVAzOXFOc0FkN0lpNUVXNUdOYWtHOVNfQmZaSHhEb21rSDVtQWk4eVlKMHNrUTVOdUUyN1NMNFdDeTQzSEZkSkw2bVYxZUpDQ0k?oc=5",
+     "published": "2026-10-07T12:46:39+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Kenya confirms second Ebola case",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cw5yn8rn04ljo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-14T17:23:01+00:00"
+    },
+    {
+     "outlet": "AllAfrica",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Kenya: Kenya Confirms Second Ebola Case",
+     "language": "en",
+     "link": "https://allafrica.com/stories/202610140451.html",
+     "published": "2026-10-14T15:30:40+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Kenya reports second Ebola case",
+     "language": "en",
+     "link": "https://www.france24.com/en/kenya-reports-second-ebola-case",
+     "published": "2026-10-14T20:32:00+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Kenya reports second Ebola case, family member of first patient",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/14/kenya-reports-second-ebola-case-family-member-of-first-patient/",
+     "published": "2026-10-15T07:08:20+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Kenya confirms second Ebola case",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/kenya-confirms-second-ebola-case-a-relative-of-the-first-victim/",
+     "published": "2026-10-15T02:42:00+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Kenya reports second Ebola case, family member of first patient",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQQnB0VUNhaE9mWmNPNmJLbl80d2g3WXdKcU5hLUxHYVFaLXllSWNZeUI5Q1FJRjNtdjN4clpNTWRJR3VNUHhDUXJtcGQyWTYybGhpSUU0eHdKWFg2alVPQ0hsQ01SYkJhS1pacGZ4VVBOVWZJQTRRMXVET2J0QldMOTRYWTR4UVJ5VXRtSDVUc0xnWEQzYVJNUGZpVGxDTWJxdlFfcXZ5VFQ4LWZ3cmN3X05sOWoyY0lyQ0lCQmUxSTBydDBNUHBBdkl4RQ?oc=5",
+     "published": "2026-10-14T16:43:15+00:00"
+    },
+    {
+     "outlet": "STAT News",
+     "region": "health",
+     "bucket": "useful",
+     "title": "Kenya reports second Ebola case",
+     "language": "en",
+     "link": "https://www.statnews.com/2026/10/15/health-news-kenya-reports-second-ebola-case/?utm_campaign=rss",
+     "published": "2026-10-15T11:55:17+00:00"
+    },
+    {
+     "outlet": "Premium Times",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Ebola: Kenya records third case, continues contact tracing",
+     "language": "en",
+     "link": "https://www.premiumtimesng.com/news/top-news/917681-ebola-kenya-records-third-case-continues-contact-tracing.html",
+     "published": "2026-10-16T20:05:36+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "KENYA CONFIRMS THIRD EBOLA CASE",
+     "language": "en",
+     "link": "https://www.france24.com/en/kenya-confirms-third-ebola-case",
+     "published": "2026-10-16T20:25:16+00:00"
+    },
+    {
+     "outlet": "The Standard Kenya",
+     "region": "ke",
+     "bucket": "serious",
+     "title": "Kenya confirms third Ebola case",
+     "language": "en",
+     "link": "https://www.standardmedia.co.ke/article/2001560284/kenya-confirms-third-ebola-case",
+     "published": "2026-10-16T15:29:48+00:00"
+    }
+   ],
+   "last_seen": "2026-10-17T09:07:48.549654+00:00",
+   "outlets": 18,
+   "regions": 12,
    "languages": 1,
    "score": 44.0
   },
@@ -4164,168 +4881,285 @@
    "score": 43.0
   },
   {
-   "id": "d8c220af6828",
-   "first_seen": "2026-10-16T09:07:49.020316+00:00",
+   "id": "b9d7cd9e1d43",
+   "first_seen": "2026-10-09T09:07:48.883639+00:00",
    "members": [
     {
-     "outlet": "Der Spiegel",
-     "region": "de",
+     "outlet": "Al Jazeera English",
+     "region": "qa",
      "bucket": "serious",
-     "title": "Tesla stellt neues Modell Roadster vor",
+     "title": "USS Lincoln returns to US after long deployment supporting war on Iran",
      "language": "en",
-     "link": "https://www.spiegel.de/mobilitaet/auto/tesla-stellt-neues-modell-roadster-vor-mit-raketenduesen-a-7cccd6c2-3d0e-4d0d-8be4-7f0fd794915e#ref=rss",
-     "published": "2026-10-16T05:02:00+00:00"
+     "link": "https://www.aljazeera.com/news/2026/10/9/uss-lincoln-returns-to-us-after-long-deployment-supporting-war-on-iran?traffic_source=rss",
+     "published": "2026-10-09T00:39:20+00:00"
     },
     {
-     "outlet": "Investing.com — الاقتصاد",
-     "region": "money",
-     "bucket": "useful",
-     "title": "Warsh avoids rate guidance; Tesla’s Roadster turns in air",
-     "language": "en",
-     "link": "https://www.investing.com/news/economy-news/warsh-avoids-rate-guidance-teslas-roadster-turns-in-air--whats-moving-markets-4953305",
-     "published": "2026-10-16T07:58:28+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
+     "outlet": "South China Morning Post",
+     "region": "cn",
      "bucket": "serious",
-     "title": "Tesla Roadster Flew And Landed Safely: How High, How Far And What's The Cost?",
+     "title": "USS Abraham Lincoln returns to US after 265 days at sea in Iran war mission",
      "language": "en",
-     "link": "https://www.ndtv.com/world-news/tesla-roadster-flew-and-landed-safely-how-high-how-far-and-whats-the-cost-12193774#publisher=newsstand",
-     "published": "2026-10-16T07:34:06+00:00"
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370240/long-deployed-uss-abraham-lincoln-returns-home-san-diego-middle-east?utm_source=rss_feed",
+     "published": "2026-10-08T19:21:32+00:00"
     },
     {
-     "outlet": "The Verge",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "The Tesla Roadster flew, drove upside down, and hit 60mph in under a second",
-     "language": "en",
-     "link": "https://www.theverge.com/transportation/1012552/tesla-roadster-next-gen-reveal-elon-musk",
-     "published": "2026-10-16T01:28:27+00:00"
-    },
-    {
-     "outlet": "TechCrunch",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "Tesla reveals SpaceX-powered Roadster that flies and falls with style",
-     "language": "en",
-     "link": "https://techcrunch.com/2026/10/15/tesla-reveals-spacex-powered-roadster-that-flies-and-falls-with-style/",
-     "published": "2026-10-16T01:17:43+00:00"
-    },
-    {
-     "outlet": "Engadget",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "Tesla Roadster reveal live: Updates from the launch of the next-gen sportscar",
-     "language": "en",
-     "link": "https://www.engadget.com/2287518/tesla-roadster-launch-live-blog/",
-     "published": "2026-10-15T14:01:51+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Tesla's new Roadster turns in air with SpaceX thrusters, won't land until 2028",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/world/tesla-roadster-spacex-thrusters-elon-musk-6465326",
-     "published": "2026-10-16T08:18:59+00:00"
-    },
-    {
-     "outlet": "Dawn",
+     "outlet": "The Express Tribune",
      "region": "pk",
      "bucket": "serious",
-     "title": "Elon Musk unveils Tesla's 'flying' car",
+     "title": "USS Abraham Lincoln returns to San Diego after supporting Iran war",
      "language": "en",
-     "link": "https://www.dawn.com/news/2037579/elon-musk-unveils-teslas-flying-car",
-     "published": "2026-10-16T09:27:30+00:00"
+     "link": "https://tribune.com.pk/story/2633848/uss-abraham-lincoln-returns-to-san-diego-after-supporting-iran-war",
+     "published": "2026-10-08T23:44:09+00:00"
     },
     {
-     "outlet": "Phys.org",
-     "region": "science",
-     "bucket": "useful",
-     "title": "Elon Musk unveils Tesla's 'flying' car",
-     "language": "en",
-     "link": "https://phys.org/news/2026-10-elon-musk-unveils-tesla-flying.html",
-     "published": "2026-10-16T16:20:11+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
+     "outlet": "NPR World",
+     "region": "us",
      "bucket": "serious",
-     "title": "Elon Musk unveils Tesla’s ‘flying’ car",
+     "title": "The long-deployed USS Lincoln returns home to San Diego Bay",
      "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/business/2026/10/16/elon-musk-unveils-tesla-s-flying-car",
-     "published": "2026-10-16T10:52:01+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Watch: Did Tesla really just unveil a flying car?",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/videos/ckly4mj1g3n9o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-16T12:32:31+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Tesla unveils 'flying' car, but don't expect to drive it anytime soon",
-     "language": "en",
-     "link": "https://www.dailysabah.com/business/economy/tesla-unveils-flying-car-but-dont-expect-to-drive-it-anytime-soon",
-     "published": "2026-10-16T13:23:00+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Tesla just made a car fly (sort of) — and Elon Musk says it’s coming in 2028 (VIDEO)",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/life/2026/10/16/tesla-just-made-a-car-fly-sort-of-and-elon-musk-says-its-coming-in-2028-video/239356",
-     "published": "2026-10-16T09:16:21+00:00"
+     "link": "https://www.npr.org/2026/10/08/nx-s1-5995911/the-long-deployed-uss-lincoln-returns-home-to-san-diego-bay",
+     "published": "2026-10-09T00:05:48+00:00"
     },
     {
      "outlet": "Hindustan Times — World",
      "region": "in",
      "bucket": "serious",
-     "title": "Tesla flying car Roadster open for reservation, but doesn't land anytime soon. Check variants, launch details",
+     "title": "Iran claims attack on LPG tanker, says vessels trying to cross Strait of Hormuz will be ‘punished’",
      "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/tesla-flying-car-roadster-open-for-reservation-but-doesnt-land-anytime-soon-check-variants-launch-details-101792131858492.html",
-     "published": "2026-10-16T10:58:08+00:00"
+     "link": "https://www.hindustantimes.com/world-news/iran-claims-attack-on-lpg-tanker-says-vessels-trying-to-cross-strait-of-hormuz-will-be-punished-us-iran-war-101791551103531.html",
+     "published": "2026-10-09T13:49:10+00:00"
     },
     {
-     "outlet": "The Verge",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "The incredible flying Tesla Roadster is just for show",
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Massive LPG tanker targeted in Hormuz: IRGC",
      "language": "en",
-     "link": "https://www.theverge.com/transportation/1012783/tesla-roadster-flying-stunt-production-reality-musk",
-     "published": "2026-10-16T14:15:29+00:00"
+     "link": "https://en.mehrnews.com/news/248442/Massive-LPG-tanker-targeted-in-Hormuz-IRGC",
+     "published": "2026-10-09T14:12:26+00:00"
     },
     {
-     "outlet": "Der Spiegel",
-     "region": "de",
+     "outlet": "Mehr News",
+     "region": "ir",
      "bucket": "serious",
-     "title": "Tesla Roadster fliegt durch die Luft: Elon Musk hat die Bodenhaftung verloren. Buchstäblich",
-     "language": "de",
-     "link": "https://www.spiegel.de/mobilitaet/auto/tesla-roadster-fliegt-durch-die-luft-elon-musk-hat-die-bodenhaftung-verloren-buchstaeblich-a-ed7a0234-7b5c-4c95-8744-5e4575995ecb#ref=rss",
-     "published": "2026-10-16T14:47:00+00:00"
+     "title": "IRGC Navy warns ships against turning off navigation systems",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248503/IRGC-Navy-warns-ships-against-turning-off-navigation-systems",
+     "published": "2026-10-12T03:31:37+00:00"
     },
     {
-     "outlet": "Folha de S.Paulo",
-     "region": "br",
+     "outlet": "TASS",
+     "region": "ru",
      "bucket": "serious",
-     "title": "Musk apresenta 'carro voador' da Tesla e que atinge 96 km/h em um segundo; veja vídeo",
-     "language": "pt",
-     "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://www1.folha.uol.com.br/mercado/2026/10/musk-apresenta-carro-voador-da-tesla-e-que-atinge-96-kmh-em-um-segundo-veja-video.shtml",
-     "published": "2026-10-16T14:03:00+00:00"
+     "title": "Iran warns ships against transiting Strait of Hormuz with their navigation systems off",
+     "language": "en",
+     "link": "https://tass.com/world/2200591",
+     "published": "2026-10-11T19:36:08+00:00"
+    },
+    {
+     "outlet": "IRNA English",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "IRGC warns vessels violating in Strait of Hormuz",
+     "language": "en",
+     "link": "https://en.irna.ir/news/86290048/IRGC-warns-vessels-violating-in-Strait-of-Hormuz",
+     "published": "2026-10-12T05:18:20+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Container ship hit by projectile sinks in Strait of Hormuz, Singapore says",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/crkg7q97z078o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-14T15:34:19+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Container ship sinks near strait of Hormuz amid surge in Iranian attacks",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/14/container-ship-sinks-strait-of-hormuz-surge-iranian-attacks-iran-us-midterm-elections",
+     "published": "2026-10-14T16:33:45+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Container Ship Sinks Near Hormuz After Being Hit By Projectile: Report",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/us-iran-war-container-ship-sinks-near-strait-of-hormuz-after-being-hit-by-projectile-report-12185423#publisher=newsstand",
+     "published": "2026-10-14T14:00:04+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Container carrier sinks in Strait of Hormuz after explosion",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248588/Container-carrier-sinks-in-Strait-of-Hormuz-after-explosion",
+     "published": "2026-10-14T09:28:04+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Container ship sinks after hitting mine in Strait of Hormuz",
+     "language": "en",
+     "link": "https://tass.com/world/2201801",
+     "published": "2026-10-14T09:48:08+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Container ship sinks in Strait of Hormuz as Iran steps up attacks",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQMWFKMzFFcmxqYVdxcTVUYmZBZTZHejZpWTJmZ3o3Z3lFbnA0NTV4MkFlb1ZEMmRGQmw3MjJkc2RnTFgtX19YRkZOUDR4WXhNeWg5Zy1qV3FpeVpTVUo5QVBOVmJxcXVhc0NqandfT2ltQ3BseThmbG5oQTJhYUJ4MV9nM240c3I3ZG5wai1fY3ZIYWdpbGfSAZsBQVVfeXFMUHl0VWNMbEpIOXhweHBSVTdYdHNjd1V5a2NfNkJSdFk5UUV0R2lDSUtZV1BpMEM3aWxZOXlWRTBRRTNtVkxRcDZtYVFDdnA5X3RPLW4zTm42M0hzVFJYNGtoMWJHcjVGVlJ1a2Jja1F5SnFDUHVTYVFkYXRYTFFnbDd1REZsc0haTlNibWhxdTU0aHZCcjVYQ0x1Vm8?oc=5",
+     "published": "2026-10-14T15:47:29+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Two Singapore-registered vessels struck in Strait of Hormuz, one sinks",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/singapore/vessels-singapore-registered-struck-strait-hormuz-6459176",
+     "published": "2026-10-14T12:57:00+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Oil prices today: Brent crude hits $106.60 after Saudi Aramco attack, ship strikes near Hormuz",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/oil-prices-today-brent-crude-hits-106-60-after-saudi-aramco-attack-ship-strikes-near-hormuz-101791982617184.html",
+     "published": "2026-10-14T13:13:11+00:00"
+    },
+    {
+     "outlet": "IRNA English",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Ship carrying 2,500 containers hits mine, sinks south of Strait of Hormuz",
+     "language": "en",
+     "link": "https://en.irna.ir/news/86292706/Ship-carrying-2-500-containers-hits-mine-sinks-south-of-Strait",
+     "published": "2026-10-14T10:35:58+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Strait of Hormuz traffic plunges once again amid new wave of Houthi attacks",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2634754/iran-shifting-tactics-to-step-up-attacks-on-shipping-before-us-vote-officials-say",
+     "published": "2026-10-13T23:46:55+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Iran increases threat to Strait of Hormuz shipping, and other Middle East developments",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/iran-increases-threat-to-strait-of-hormuz-shipping-and-other-middle-east-developments-101791918610454.html",
+     "published": "2026-10-13T19:10:10+00:00"
+    },
+    {
+     "outlet": "IRNA English",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Iranian Navy identifies oil tanker that caught fire in Strait of Hormuz",
+     "language": "en",
+     "link": "https://en.irna.ir/news/86291981/Iranian-Navy-identifies-oil-tanker-that-caught-fire-in-Strait",
+     "published": "2026-10-13T16:23:44+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Iran mulls tactical shift in Hormuz attacks before key US vote",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/mid-east/iran-mulls-tactical-shift-in-hormuz-attacks-before-key-usvote",
+     "published": "2026-10-14T12:55:00+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "UN official warns of looming food crisis as Hormuz fertiliser plan stalls",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/14/un-official-warns-of-looming-food-crisis-as-hormuz-fertiliser-plan-stalls?traffic_source=rss",
+     "published": "2026-10-14T16:08:09+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Two ships sink near Hormuz after being hit by projectiles",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2037223/two-ships-sink-near-hormuz-after-being-hit-by-projectiles",
+     "published": "2026-10-15T03:02:25+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Iranian attacks sink two ships in Strait of Hormuz",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPNVg0eWh4OTZ1NG5IR1M1ZWJJejUxUncyYVVWeHB3QTdHaHYzUnRDOHBpaFpEZldsb0RNZG5SNVZDMWJIVUV6U0JZRVhLSmdtWEZfSnpGSDlXWVU1UlRRSF9wT0JSbktPRTRWT2dkazNCSmJoWDBaUl9wZEI3bjVpLUNZS2ZDWW9IQk9oUndRNU1qYUpHclhnUzhVYVU1RE0?oc=5",
+     "published": "2026-10-15T03:36:29+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Oil tanker on fire after hitting mine in Hormuz",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/oil-tanker-on-fire-after-hitting-mine-in-hormuz-irans-guards/",
+     "published": "2026-10-17T08:59:27+00:00"
+    },
+    {
+     "outlet": "IRNA English",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Iranian Navy spots oil tanker on fire in Strait of Hormuz",
+     "language": "en",
+     "link": "https://en.irna.ir/news/86294247/Iranian-Navy-spots-oil-tanker-on-fire-in-Strait-of-Hormuz",
+     "published": "2026-10-16T13:53:14+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Supertanker carrying 2 million barrels of oil hits naval mine, explodes in Strait of Hormuz",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/tanker-carrying-over-2-million-barrels-of-crude-oil-hits-mine-in-hormuz-catches-fire-irans-guards-say-101792219288746.html",
+     "published": "2026-10-17T07:58:56+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Oil Tanker explodes in Hormuz after hitting naval mine: IRGC",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248631/Oil-Tanker-explodes-in-Hormuz-after-hitting-naval-mine-IRGC",
+     "published": "2026-10-17T04:53:30+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Iran war live: IRGC says supertanker hit naval mine in Hormuz, catches fire",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/liveblog/2026/10/17/draft-2?traffic_source=rss",
+     "published": "2026-10-17T00:00:00+00:00"
     }
    ],
-   "last_seen": "2026-10-16T17:07:44.136357+00:00",
-   "outlets": 15,
-   "regions": 11,
-   "languages": 3,
-   "score": 43.0
+   "last_seen": "2026-10-17T09:07:48.549654+00:00",
+   "outlets": 16,
+   "regions": 12,
+   "languages": 1,
+   "score": 42.0
   },
   {
    "id": "2c8b7acb76f3",
@@ -4498,260 +5332,6 @@
    "outlets": 13,
    "regions": 12,
    "languages": 2,
-   "score": 41.0
-  },
-  {
-   "id": "902b9d7f57a8",
-   "first_seen": "2026-10-06T15:07:42.509147+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Kenya confirms first Ebola case as virus ‘surges’ in DR Congo province",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/06/kenya-first-ebola-case-death-drc",
-     "published": "2026-10-06T12:46:56+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Kenya confirms first Ebola case imported from Congo, patient has died",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2035159/kenya-confirms-first-ebola-case-imported-from-congo-patient-has-died",
-     "published": "2026-10-06T09:38:52+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Kenya reports first Ebola case imported from DR Congo after patient dies",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/africa/article/3369923/kenya-reports-first-ebola-case-imported-dr-congo-after-patient-dies?utm_source=rss_feed",
-     "published": "2026-10-06T09:39:31+00:00"
-    },
-    {
-     "outlet": "Medical Xpress",
-     "region": "health",
-     "bucket": "useful",
-     "title": "Kenya reports first-ever Ebola death",
-     "language": "en",
-     "link": "https://medicalxpress.com/news/2026-10-kenya-ebola-death.html",
-     "published": "2026-10-06T10:17:53+00:00"
-    },
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "Kenya confirms first Ebola case imported from Congo",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-06-kenya-confirms-first-ebola-case-imported-from-congo/",
-     "published": "2026-10-06T12:45:17+00:00"
-    },
-    {
-     "outlet": "AllAfrica",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Kenya: Kenya Confirms First Ebola Case as Patient Returns From DRC",
-     "language": "en",
-     "link": "https://allafrica.com/stories/202610060146.html",
-     "published": "2026-10-06T09:08:38+00:00"
-    },
-    {
-     "outlet": "Africanews",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Kenya confirms first Ebola death as 28 contacts traced",
-     "language": "en",
-     "link": "http://www.africanews.com/2026/10/06/kenya-confirms-first-ebola-death-as-28-contacts-traced/",
-     "published": "2026-10-06T09:57:32+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Kenya confirms first Ebola case imported from Congo after patient dies in Nairobi",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/kenya-confirms-first-ebola-case-imported-from-congo-after-patient-dies-in-nairobi/article71550957.ece",
-     "published": "2026-10-06T10:54:29+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Kenya Records Ebola Case for First Time",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNa0FnQmRLaFN4d0x1LUdtZnJRSHNBeFhzc2pGc09RU1ZWcDBLdDdRT2Z4S3ZHaURpMEh3STlGdnlVeUlPekJVa0VVOUluZW1QOWhqRjRQUkVYXy1aakpJQ0U1cjJnRGdzc0FQczVWNEJSNHdONWJmVWl3Q1dYV2h1UG16SWk?oc=5",
-     "published": "2026-10-06T11:18:41+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Kenya reports first-ever Ebola death after patient returns from DR Congo",
-     "language": "en",
-     "link": "https://www.france24.com/en/africa/20261006-kenya-reports-first-ever-ebola-death-after-patient-returns-from-dr-congo",
-     "published": "2026-10-06T15:41:44+00:00"
-    },
-    {
-     "outlet": "Premium Times",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Kenya confirms first imported Ebola case linked to DRC outbreak",
-     "language": "en",
-     "link": "https://www.premiumtimesng.com/health/health-news/915084-kenya-confirms-first-imported-ebola-case-linked-to-drc-outbreak.html",
-     "published": "2026-10-06T18:53:03+00:00"
-    },
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "Kenya confirms first Ebola case after man who travelled from Congo dies",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-06-kenya-confirms-first-ebola-case-after-man-who-travelled-from-congo-dies/",
-     "published": "2026-10-06T22:28:17+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Kenya reports first-ever Ebola death",
-     "language": "en",
-     "link": "https://www.france24.com/en/kenya-reports-first-ever-ebola-death",
-     "published": "2026-10-06T21:28:01+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Kenya confirms first Ebola case after man who travelled from Congo dies",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/kenya-confirms-first-ebola-case-after-man-who-travelled-from-congo-dies-101791314214038.html",
-     "published": "2026-10-06T19:16:53+00:00"
-    },
-    {
-     "outlet": "CGTN",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Kenya confirms first Ebola case",
-     "language": "en",
-     "link": "https://newsaf.cgtn.com/news/2026-10-06/Kenya-confirms-first-Ebola-case-1R1rxfwah8Y/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
-     "published": "2026-10-06T12:13:27+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Ebola: NCDC raises alert after Kenya confirms imported case",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/ebola-ncdc-raises-alert-after-kenya-confirms-imported-case/",
-     "published": "2026-10-07T08:01:43+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Kenya confirms first Ebola case after man who travelled from Congo dies",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxOWlJLbDdiRHg5YS1UZEJ1anM5UjA4S25hS0hNSnRWNHNvb2xnaGVxYkpBVWhSVC1Pdm9vZ3ltbzJsY2RwV0xYSjQ3TGRhT3hOSkxLTElLSUxqV3QxOHpzOVJPNlhyWFIwYzI4RnlkODBWU0hZR3BWMmhNdkpfZGxYVzN0Z05RcUhnYTFQdldFTFV4SzhYaTk3UDBYY1hkdHJLRHIta1JYc2g1NVhzbkxENU9SZ3RJaDVLWFh4cklWYXhLa1l1SmdtdUxCc2pKQlhz?oc=5",
-     "published": "2026-10-06T19:14:59+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Ten people linked to Kenya's first-ever Ebola case quarantined as screening concerns grow",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c6eq3x3v11d5o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-07T12:46:39+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Ten people linked to Kenya’s first-ever Ebola case quarantined as screening concerns grow",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/ten-people-linked-to-kenyas-first-ever-ebola-case-quarantined-as-screening-concerns-grow/",
-     "published": "2026-10-07T16:36:06+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Ten people linked to Kenya's first-ever Ebola case quarantined as screening concerns grow",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE40dGpnc2h2RU5lNVAzOXFOc0FkN0lpNUVXNUdOYWtHOVNfQmZaSHhEb21rSDVtQWk4eVlKMHNrUTVOdUUyN1NMNFdDeTQzSEZkSkw2bVYxZUpDQ0k?oc=5",
-     "published": "2026-10-07T12:46:39+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Kenya confirms second Ebola case",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cw5yn8rn04ljo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-14T17:23:01+00:00"
-    },
-    {
-     "outlet": "AllAfrica",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Kenya: Kenya Confirms Second Ebola Case",
-     "language": "en",
-     "link": "https://allafrica.com/stories/202610140451.html",
-     "published": "2026-10-14T15:30:40+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Kenya reports second Ebola case",
-     "language": "en",
-     "link": "https://www.france24.com/en/kenya-reports-second-ebola-case",
-     "published": "2026-10-14T20:32:00+00:00"
-    },
-    {
-     "outlet": "Africanews",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Kenya reports second Ebola case, family member of first patient",
-     "language": "en",
-     "link": "http://www.africanews.com/2026/10/14/kenya-reports-second-ebola-case-family-member-of-first-patient/",
-     "published": "2026-10-15T07:08:20+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Kenya confirms second Ebola case",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/kenya-confirms-second-ebola-case-a-relative-of-the-first-victim/",
-     "published": "2026-10-15T02:42:00+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Kenya reports second Ebola case, family member of first patient",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQQnB0VUNhaE9mWmNPNmJLbl80d2g3WXdKcU5hLUxHYVFaLXllSWNZeUI5Q1FJRjNtdjN4clpNTWRJR3VNUHhDUXJtcGQyWTYybGhpSUU0eHdKWFg2alVPQ0hsQ01SYkJhS1pacGZ4VVBOVWZJQTRRMXVET2J0QldMOTRYWTR4UVJ5VXRtSDVUc0xnWEQzYVJNUGZpVGxDTWJxdlFfcXZ5VFQ4LWZ3cmN3X05sOWoyY0lyQ0lCQmUxSTBydDBNUHBBdkl4RQ?oc=5",
-     "published": "2026-10-14T16:43:15+00:00"
-    },
-    {
-     "outlet": "STAT News",
-     "region": "health",
-     "bucket": "useful",
-     "title": "Kenya reports second Ebola case",
-     "language": "en",
-     "link": "https://www.statnews.com/2026/10/15/health-news-kenya-reports-second-ebola-case/?utm_campaign=rss",
-     "published": "2026-10-15T11:55:17+00:00"
-    }
-   ],
-   "last_seen": "2026-10-15T17:07:57.070042+00:00",
-   "outlets": 17,
-   "regions": 11,
-   "languages": 1,
    "score": 41.0
   },
   {
@@ -4989,242 +5569,6 @@
    "regions": 11,
    "languages": 1,
    "score": 40.0
-  },
-  {
-   "id": "b9d7cd9e1d43",
-   "first_seen": "2026-10-09T09:07:48.883639+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "USS Lincoln returns to US after long deployment supporting war on Iran",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/9/uss-lincoln-returns-to-us-after-long-deployment-supporting-war-on-iran?traffic_source=rss",
-     "published": "2026-10-09T00:39:20+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "USS Abraham Lincoln returns to US after 265 days at sea in Iran war mission",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370240/long-deployed-uss-abraham-lincoln-returns-home-san-diego-middle-east?utm_source=rss_feed",
-     "published": "2026-10-08T19:21:32+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "USS Abraham Lincoln returns to San Diego after supporting Iran war",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633848/uss-abraham-lincoln-returns-to-san-diego-after-supporting-iran-war",
-     "published": "2026-10-08T23:44:09+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "The long-deployed USS Lincoln returns home to San Diego Bay",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/08/nx-s1-5995911/the-long-deployed-uss-lincoln-returns-home-to-san-diego-bay",
-     "published": "2026-10-09T00:05:48+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Iran claims attack on LPG tanker, says vessels trying to cross Strait of Hormuz will be ‘punished’",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/iran-claims-attack-on-lpg-tanker-says-vessels-trying-to-cross-strait-of-hormuz-will-be-punished-us-iran-war-101791551103531.html",
-     "published": "2026-10-09T13:49:10+00:00"
-    },
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Massive LPG tanker targeted in Hormuz: IRGC",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248442/Massive-LPG-tanker-targeted-in-Hormuz-IRGC",
-     "published": "2026-10-09T14:12:26+00:00"
-    },
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "IRGC Navy warns ships against turning off navigation systems",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248503/IRGC-Navy-warns-ships-against-turning-off-navigation-systems",
-     "published": "2026-10-12T03:31:37+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Iran warns ships against transiting Strait of Hormuz with their navigation systems off",
-     "language": "en",
-     "link": "https://tass.com/world/2200591",
-     "published": "2026-10-11T19:36:08+00:00"
-    },
-    {
-     "outlet": "IRNA English",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "IRGC warns vessels violating in Strait of Hormuz",
-     "language": "en",
-     "link": "https://en.irna.ir/news/86290048/IRGC-warns-vessels-violating-in-Strait-of-Hormuz",
-     "published": "2026-10-12T05:18:20+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Container ship hit by projectile sinks in Strait of Hormuz, Singapore says",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/crkg7q97z078o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-14T15:34:19+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Container ship sinks near strait of Hormuz amid surge in Iranian attacks",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/14/container-ship-sinks-strait-of-hormuz-surge-iranian-attacks-iran-us-midterm-elections",
-     "published": "2026-10-14T16:33:45+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Container Ship Sinks Near Hormuz After Being Hit By Projectile: Report",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/us-iran-war-container-ship-sinks-near-strait-of-hormuz-after-being-hit-by-projectile-report-12185423#publisher=newsstand",
-     "published": "2026-10-14T14:00:04+00:00"
-    },
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Container carrier sinks in Strait of Hormuz after explosion",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248588/Container-carrier-sinks-in-Strait-of-Hormuz-after-explosion",
-     "published": "2026-10-14T09:28:04+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Container ship sinks after hitting mine in Strait of Hormuz",
-     "language": "en",
-     "link": "https://tass.com/world/2201801",
-     "published": "2026-10-14T09:48:08+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Container ship sinks in Strait of Hormuz as Iran steps up attacks",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQMWFKMzFFcmxqYVdxcTVUYmZBZTZHejZpWTJmZ3o3Z3lFbnA0NTV4MkFlb1ZEMmRGQmw3MjJkc2RnTFgtX19YRkZOUDR4WXhNeWg5Zy1qV3FpeVpTVUo5QVBOVmJxcXVhc0NqandfT2ltQ3BseThmbG5oQTJhYUJ4MV9nM240c3I3ZG5wai1fY3ZIYWdpbGfSAZsBQVVfeXFMUHl0VWNMbEpIOXhweHBSVTdYdHNjd1V5a2NfNkJSdFk5UUV0R2lDSUtZV1BpMEM3aWxZOXlWRTBRRTNtVkxRcDZtYVFDdnA5X3RPLW4zTm42M0hzVFJYNGtoMWJHcjVGVlJ1a2Jja1F5SnFDUHVTYVFkYXRYTFFnbDd1REZsc0haTlNibWhxdTU0aHZCcjVYQ0x1Vm8?oc=5",
-     "published": "2026-10-14T15:47:29+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Two Singapore-registered vessels struck in Strait of Hormuz, one sinks",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/singapore/vessels-singapore-registered-struck-strait-hormuz-6459176",
-     "published": "2026-10-14T12:57:00+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Oil prices today: Brent crude hits $106.60 after Saudi Aramco attack, ship strikes near Hormuz",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/oil-prices-today-brent-crude-hits-106-60-after-saudi-aramco-attack-ship-strikes-near-hormuz-101791982617184.html",
-     "published": "2026-10-14T13:13:11+00:00"
-    },
-    {
-     "outlet": "IRNA English",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Ship carrying 2,500 containers hits mine, sinks south of Strait of Hormuz",
-     "language": "en",
-     "link": "https://en.irna.ir/news/86292706/Ship-carrying-2-500-containers-hits-mine-sinks-south-of-Strait",
-     "published": "2026-10-14T10:35:58+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Strait of Hormuz traffic plunges once again amid new wave of Houthi attacks",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2634754/iran-shifting-tactics-to-step-up-attacks-on-shipping-before-us-vote-officials-say",
-     "published": "2026-10-13T23:46:55+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Iran increases threat to Strait of Hormuz shipping, and other Middle East developments",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/iran-increases-threat-to-strait-of-hormuz-shipping-and-other-middle-east-developments-101791918610454.html",
-     "published": "2026-10-13T19:10:10+00:00"
-    },
-    {
-     "outlet": "IRNA English",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Iranian Navy identifies oil tanker that caught fire in Strait of Hormuz",
-     "language": "en",
-     "link": "https://en.irna.ir/news/86291981/Iranian-Navy-identifies-oil-tanker-that-caught-fire-in-Strait",
-     "published": "2026-10-13T16:23:44+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Iran mulls tactical shift in Hormuz attacks before key US vote",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/mid-east/iran-mulls-tactical-shift-in-hormuz-attacks-before-key-usvote",
-     "published": "2026-10-14T12:55:00+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "UN official warns of looming food crisis as Hormuz fertiliser plan stalls",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/14/un-official-warns-of-looming-food-crisis-as-hormuz-fertiliser-plan-stalls?traffic_source=rss",
-     "published": "2026-10-14T16:08:09+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Two ships sink near Hormuz after being hit by projectiles",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2037223/two-ships-sink-near-hormuz-after-being-hit-by-projectiles",
-     "published": "2026-10-15T03:02:25+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Iranian attacks sink two ships in Strait of Hormuz",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPNVg0eWh4OTZ1NG5IR1M1ZWJJejUxUncyYVVWeHB3QTdHaHYzUnRDOHBpaFpEZldsb0RNZG5SNVZDMWJIVUV6U0JZRVhLSmdtWEZfSnpGSDlXWVU1UlRRSF9wT0JSbktPRTRWT2dkazNCSmJoWDBaUl9wZEI3bjVpLUNZS2ZDWW9IQk9oUndRNU1qYUpHclhnUzhVYVU1RE0?oc=5",
-     "published": "2026-10-15T03:36:29+00:00"
-    }
-   ],
-   "last_seen": "2026-10-15T09:07:47.013401+00:00",
-   "outlets": 15,
-   "regions": 11,
-   "languages": 1,
-   "score": 39.0
   },
   {
    "id": "9d74b44c397d",
@@ -5612,6 +5956,379 @@
     }
    ],
    "last_seen": "2026-10-15T09:07:47.013401+00:00",
+   "outlets": 14,
+   "regions": 11,
+   "languages": 1,
+   "score": 38.0
+  },
+  {
+   "id": "5dafb8cfa4a9",
+   "first_seen": "2026-10-15T09:07:47.013401+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Israeli settlers set fire to mosque in occupied West Bank",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2037224/israeli-settlers-set-fire-to-mosque-in-occupied-west-bank",
+     "published": "2026-10-15T02:52:32+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Israeli settlers set fire to mosque in occupied West Bank",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/israeli-settlers-set-fire-to-mosque-in-occupied-west-bank/article71584999.ece",
+     "published": "2026-10-14T15:55:34+00:00"
+    },
+    {
+     "outlet": "Tehran Times",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Israeli forces raid West Bank villages as settlers torch mosque",
+     "language": "en",
+     "link": "https://www.tehrantimes.com/news/531087/Israeli-forces-raid-West-Bank-villages-as-settlers-torch-mosque",
+     "published": "2026-10-14T15:36:30+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Israeli settlers attack Palestinians in West Bank during olive harvest",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/videos/cqn06zx2r15jo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-16T11:40:41+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Israeli settlers continue pogrom amid olive harvest in occupied West Bank",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/16/israeli-settlers-continue-progrom-amid-olive-harvest-in-occupied-west-bank?traffic_source=rss",
+     "published": "2026-10-16T13:04:32+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Palestinians and US journalist injured by Israeli settlers in West Bank harvest attack",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c65ynk7212vqo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-16T14:31:04+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Israeli settlers attack olive farmers and Washington Post journalist in West Bank",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/16/israeli-settlers-attack-olive-farmers-west-bank-washington-post-journalist-heidi-levine",
+     "published": "2026-10-16T16:34:58+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Israeli settlers attack US photographer covering West Bank violence",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2037619/israeli-settlers-attack-us-photographer-covering-west-bank-violence",
+     "published": "2026-10-16T15:50:30+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "US journalist injured during Israeli settler attack on West Bank olive harvest",
+     "language": "en",
+     "link": "https://www.france24.com/en/middle-east/20261016-us-journalist-injured-during-israeli-settler-attack-on-west-bank-olive-harvest",
+     "published": "2026-10-16T15:01:40+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Israeli settlers burn olive trees, injure journalist in West Bank attack",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/israeli-settlers-burn-olive-trees-injure-journalist-in-west-bank-attack/article71593869.ece",
+     "published": "2026-10-16T16:42:09+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "American journalist injured in West Bank clashes",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/us-journalist-heidi-levine-injured-west-bank-clashes-settlers/",
+     "published": "2026-10-16T15:18:25+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Israeli settlers beat Palestinians and a U.S. photojournalist in West Bank attacks",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/16/nx-s1-6004904/israeli-settlers-beat-us-photojournalist-washington-post-west-bank",
+     "published": "2026-10-16T15:57:27+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Washington Post photojournalist Heidi Levine injured in attack by Israeli settlers in West Bank: ‘They kicked me’",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/washington-post-photojournalist-heidi-levine-injured-in-attack-by-israeli-settlers-in-west-bank-they-kicked-me-101792164947552.html",
+     "published": "2026-10-16T16:06:04+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Israeli settlers attack olive farmers and Washington Post journalist in West Bank",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPdEpqbnpXdW8tUG1IY1M3M0loQ21IV1Q0WlZUeW1PVE5JY0tHUUNmYXRCNEd3S0J3LTZtT1ZoZFQ3azBBRFlPY1poQXNTd2J3S1R2OGZucXB1Sk9zOWN3U2M1YmZvOC1yNUhReEhPM1Q4d3BLM1FwR2UtRzNoMFZBX1BfZUxyX1VETURReVFXN3p6LXlyU0htLXVSOEsxMm9EdDlmeERtOG9TOUNkS18xZ1R2RFUwZ3F6aXNYWFhob3RUVkJFZHh0MUpHOU95QQ?oc=5",
+     "published": "2026-10-16T14:20:00+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Palestinians and US journalist injured by Israeli settlers in West Bank harvest attack",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/palestinians-and-us-journalist-injured-by-israeli-settlers-in-west-bank-harvest-attack/",
+     "published": "2026-10-16T18:04:09+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "US, Washington Post condemn Israeli settler attack on photographer",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/americas/us-washington-post-condemn-israeli-settler-attack-on-photographer",
+     "published": "2026-10-16T18:15:00+00:00"
+    },
+    {
+     "outlet": "CGTN",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Israeli settler attacks injure 19 Palestinians in West Bank",
+     "language": "en",
+     "link": "https://news.cgtn.com/news/2026-10-17/Israeli-settler-attacks-injure-19-Palestinians-in-West-Bank-1Rja0LxP2dW/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+     "published": "2026-10-17T02:28:18+00:00"
+    }
+   ],
+   "last_seen": "2026-10-17T09:07:48.549654+00:00",
+   "outlets": 14,
+   "regions": 11,
+   "languages": 1,
+   "score": 38.0
+  },
+  {
+   "id": "493ae8954612",
+   "first_seen": "2026-10-10T09:07:48.714447+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Commentator Katie Zacharia picked as new White House press secretary",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c5rmy73zr0rro?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-09T22:41:21+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Trump picks Truth Social’s Katie Zacharia as White House press secretary",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370413/trump-picks-truth-socials-katie-zacharia-white-house-press-secretary?utm_source=rss_feed",
+     "published": "2026-10-09T22:37:12+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Katie Zacharia picked as White House press secretary",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/katie-zacharia-picked-as-white-house-press-secretary/article71565837.ece",
+     "published": "2026-10-09T22:45:49+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Trump offers White House press secretary role to Katie Zacharia",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/americas/trump-offers-white-house-press-secretary-role-to-katie-zacharia",
+     "published": "2026-10-09T18:33:00+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump Picks Katie Zacharia As New White House Press Secretary",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/trump-picks-katie-zacharia-as-new-white-house-press-secretary-12164006#publisher=newsstand",
+     "published": "2026-10-10T01:24:42+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Trump appoints ‘devoted fan’ Katie Zacharia as White House press secretary",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/10/trump-appoints-devoted-fan-katie-zacharia-as-white-house-press-secretary/238537",
+     "published": "2026-10-10T04:14:31+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Trump appoints ‘devoted fan’ Katie Zacharia as press secretary",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/trump-appoints-devoted-fan-katie-zacharia-as-press-secretary/",
+     "published": "2026-10-10T07:09:58+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Commentator Katie Zacharia picked as new White House press secretary",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/commentator-katie-zacharia-picked-as-new-white-house-press-secretary/",
+     "published": "2026-10-10T16:45:10+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "White House spokeswoman Katie Zacharia 'let go' from role, official says",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2037596/white-house-spokeswoman-katie-zacharia-let-go-from-role-official-says",
+     "published": "2026-10-16T18:48:46+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Embattled new White House Press Secretary Zacharia 'let go' from her role",
+     "language": "en",
+     "link": "https://www.france24.com/en/americas/20261016-embattled-new-white-house-press-secretary-zacharia-let-go-from-her-role",
+     "published": "2026-10-16T15:57:24+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "White House Press Secretary Katie Zacharia ‘let go’ just days into role",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/white-house-press-secretary-katie-zacharia-let-go-just-days-into-role/article71594137.ece",
+     "published": "2026-10-17T04:09:36+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Who is Katie Zacharia, the White House Press Secretary ‘let go’ after five days in office?",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/who-is-katie-zacharia-white-house-press-secretary-who-exited-after-five-days-in-office/article71595641.ece",
+     "published": "2026-10-17T07:23:42+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Katie Zacharia out as White House press secretary after just 5 days on the job: Reports",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/katie-zacharia-out-as-white-house-press-secretary-after-just-5-days-on-the-job-reports-101792172914969.html",
+     "published": "2026-10-16T17:57:01+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "White House press secretary Katie Zacharia dismissed, official says",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/americas/white-house-press-secretary-katie-zacharia-dismissed-official-says",
+     "published": "2026-10-16T18:06:00+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Zacharia ousted after 5 days as White House Press Secretary",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248636/Zacharia-ousted-after-5-days-as-White-House-Press-Secretary",
+     "published": "2026-10-17T07:25:26+00:00"
+    },
+    {
+     "outlet": "CGTN",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Katie Zacharia out as White House press secretary: US media",
+     "language": "en",
+     "link": "https://news.cgtn.com/news/2026-10-17/Katie-Zacharia-out-as-White-House-press-secretary-US-media-1Rj270PrnY4/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+     "published": "2026-10-17T00:48:58+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Katie Zacharia leaving White House role less than five days into job",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c32l4ekpvzl8o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-17T05:20:40+00:00"
+    },
+    {
+     "outlet": "Der Spiegel",
+     "region": "de",
+     "bucket": "serious",
+     "title": "Katie Zacharia: Gefeuerte Trump-Sprecherin scheitert nach nur fünf Tagen",
+     "language": "en",
+     "link": "https://www.spiegel.de/ausland/katie-zacharia-gefeuerte-trump-sprecherin-scheitert-nach-nur-fuenf-tagen-a-6b40d659-cbaf-41d6-89c2-93b91327deab#ref=rss",
+     "published": "2026-10-17T04:55:00+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "\"Was An Honour\": Katie Zacharia On 5-Day Stint As Trump's Press Secretary",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/katie-zacharia-donald-trumps-white-house-press-secretary-after-being-fired-was-an-honour-to-work-for-him-12197600#publisher=newsstand",
+     "published": "2026-10-17T03:48:26+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "'It was an honor to work for Trump': Katie Zacharia after quitting White House job in 5 days",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/katie-zacharia-exits-as-white-house-press-secretary-after-five-days-says-it-was-honor-to-work-for-trump-101792202505606.html",
+     "published": "2026-10-17T02:11:12+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "14-Minute Presser, Backlash Over Lawyer Tag: The Unmaking Of New White House Press Chief Katie Zacharia",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/14-minute-presser-backlash-over-lawyer-tag-the-unmaking-of-new-white-house-press-chief-katie-zacharia-12197536#publisher=newsstand",
+     "published": "2026-10-17T01:30:12+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Susie Wiles helped arrange Katie Zacharia’s Fox News interview before her exit: Report",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/susie-wiles-helped-arrange-katie-zacharia-s-fox-news-interview-before-her-exit-report-101792215849593.html",
+     "published": "2026-10-17T06:00:07+00:00"
+    }
+   ],
+   "last_seen": "2026-10-17T09:07:48.549654+00:00",
    "outlets": 14,
    "regions": 11,
    "languages": 1,
@@ -7393,143 +8110,6 @@
    "score": 29.0
   },
   {
-   "id": "5dafb8cfa4a9",
-   "first_seen": "2026-10-15T09:07:47.013401+00:00",
-   "members": [
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Israeli settlers set fire to mosque in occupied West Bank",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2037224/israeli-settlers-set-fire-to-mosque-in-occupied-west-bank",
-     "published": "2026-10-15T02:52:32+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Israeli settlers set fire to mosque in occupied West Bank",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/israeli-settlers-set-fire-to-mosque-in-occupied-west-bank/article71584999.ece",
-     "published": "2026-10-14T15:55:34+00:00"
-    },
-    {
-     "outlet": "Tehran Times",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Israeli forces raid West Bank villages as settlers torch mosque",
-     "language": "en",
-     "link": "https://www.tehrantimes.com/news/531087/Israeli-forces-raid-West-Bank-villages-as-settlers-torch-mosque",
-     "published": "2026-10-14T15:36:30+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Israeli settlers attack Palestinians in West Bank during olive harvest",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/videos/cqn06zx2r15jo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-16T11:40:41+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Israeli settlers continue pogrom amid olive harvest in occupied West Bank",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/16/israeli-settlers-continue-progrom-amid-olive-harvest-in-occupied-west-bank?traffic_source=rss",
-     "published": "2026-10-16T13:04:32+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Palestinians and US journalist injured by Israeli settlers in West Bank harvest attack",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c65ynk7212vqo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-16T14:31:04+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Israeli settlers attack olive farmers and Washington Post journalist in West Bank",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/16/israeli-settlers-attack-olive-farmers-west-bank-washington-post-journalist-heidi-levine",
-     "published": "2026-10-16T16:34:58+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Israeli settlers attack US photographer covering West Bank violence",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2037619/israeli-settlers-attack-us-photographer-covering-west-bank-violence",
-     "published": "2026-10-16T15:50:30+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "US journalist injured during Israeli settler attack on West Bank olive harvest",
-     "language": "en",
-     "link": "https://www.france24.com/en/middle-east/20261016-us-journalist-injured-during-israeli-settler-attack-on-west-bank-olive-harvest",
-     "published": "2026-10-16T15:01:40+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Israeli settlers burn olive trees, injure journalist in West Bank attack",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/israeli-settlers-burn-olive-trees-injure-journalist-in-west-bank-attack/article71593869.ece",
-     "published": "2026-10-16T16:42:09+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "American journalist injured in West Bank clashes",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/us-journalist-heidi-levine-injured-west-bank-clashes-settlers/",
-     "published": "2026-10-16T15:18:25+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Israeli settlers beat Palestinians and a U.S. photojournalist in West Bank attacks",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/16/nx-s1-6004904/israeli-settlers-beat-us-photojournalist-washington-post-west-bank",
-     "published": "2026-10-16T15:57:27+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Washington Post photojournalist Heidi Levine injured in attack by Israeli settlers in West Bank: ‘They kicked me’",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/washington-post-photojournalist-heidi-levine-injured-in-attack-by-israeli-settlers-in-west-bank-they-kicked-me-101792164947552.html",
-     "published": "2026-10-16T16:06:04+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Israeli settlers attack olive farmers and Washington Post journalist in West Bank",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPdEpqbnpXdW8tUG1IY1M3M0loQ21IV1Q0WlZUeW1PVE5JY0tHUUNmYXRCNEd3S0J3LTZtT1ZoZFQ3azBBRFlPY1poQXNTd2J3S1R2OGZucXB1Sk9zOWN3U2M1YmZvOC1yNUhReEhPM1Q4d3BLM1FwR2UtRzNoMFZBX1BfZUxyX1VETURReVFXN3p6LXlyU0htLXVSOEsxMm9EdDlmeERtOG9TOUNkS18xZ1R2RFUwZ3F6aXNYWFhob3RUVkJFZHh0MUpHOU95QQ?oc=5",
-     "published": "2026-10-16T14:20:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-16T17:07:44.136357+00:00",
-   "outlets": 11,
-   "regions": 8,
-   "languages": 1,
-   "score": 29.0
-  },
-  {
    "id": "4ff16308f748",
    "first_seen": "2026-10-10T17:07:48.257605+00:00",
    "members": [
@@ -7661,134 +8241,6 @@
     }
    ],
    "last_seen": "2026-10-12T17:07:49.159577+00:00",
-   "outlets": 10,
-   "regions": 8,
-   "languages": 1,
-   "score": 28.0
-  },
-  {
-   "id": "bdb2651fed6c",
-   "first_seen": "2026-10-13T17:07:48.267468+00:00",
-   "members": [
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Houthi official warns US against entering war in Yemen as Saudis weather attacks",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/middle-east/article/3370729/houthi-official-warns-us-against-entering-war-yemen-saudis-weather-attacks?utm_source=rss_feed",
-     "published": "2026-10-13T09:00:25+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Oil facility near Yemen capital Sanaa hit by Saudi Arabia, Houthis say",
-     "language": "en",
-     "link": "https://www.france24.com/en/middle-east/20261013-oil-facility-near-yemen-capital-sanaa-hit-by-saudi-arabia-houthis-say",
-     "published": "2026-10-13T14:53:39+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Houthi media says Saudi Arabia hit oil facility near Sanaa",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/houthi-media-says-saudi-arabia-hit-oil-facility-near-sanaa/article71580863.ece",
-     "published": "2026-10-13T16:38:49+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Saudi Arabia strikes oil facility near Yemen’s Sanaa after evacuation warning",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/saudi-military-coalition-says-it-intercepted-three-drones-north-of-riyadh-airport-houthi-strikes-101791892747448.html",
-     "published": "2026-10-13T12:05:35+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Houthi media says Saudi Arabia hit oil facility near Sanaa",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/13/houthi-media-says-saudi-arabia-hit-oil-facility-near-sanaa",
-     "published": "2026-10-13T15:11:30+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Saudi Arabia strikes oil depots in Yemen and says missiles launched toward location of Saudi Aramco HQ",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/13/saudi-arabia-strikes-strategic-oil-depots-near-yemen-capital",
-     "published": "2026-10-13T17:26:08+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Houthi missiles intercepted over Saudi Arabia as battles intensify",
-     "language": "en",
-     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/14/houthi-missiles-intercepted-over-saudi-arabia-as-battles-intensify?traffic_source=rss",
-     "published": "2026-10-14T03:09:46+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Trump says Houthis are ‘behaving very badly’, hints at asking Erdogan to help Saudi Arabia amid attacks",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/trump-says-houthis-are-behaving-very-badly-hints-at-asking-erdogan-to-help-saudi-arabia-amid-attacks-101791913143136.html",
-     "published": "2026-10-13T18:16:47+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "As Houthis strike Riyadh, Saudi Arabia confronts the costs of U.S. war on Iran",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPQXU0Wi0tVm5aMk5WYWZNYTBlLW9uVktRN2VyRUxPQUpUazM3cXVLRnZNMF9ad01tVWFZUlBRWV9WVU9BOGoxXzdFWWMyQndhclVId3R5VlBIeTBOTF9JbnN4eVdnWThmd19ZWktfYlJwYTdHNkRZaGFtX3Roci12TWR3OE5EVi1ERDhWOHlGSV9XTDRScG9uakVjRlVzTnBpYk0zZWthdHg4SG9tRmVkVkZsWDM?oc=5",
-     "published": "2026-10-13T18:39:31+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Why advanced U.S. weapons aren’t stopping Houthi attacks in Saudi Arabia",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMingFBVV95cUxObUlWVHRLU2g4MU80VGtLUWNCYk9oSDNXeW1kbFV3VEJLWDRwZXFtTEpJNURtZ0JKMl91bG15d0pUQlpya2JaNzRrY1ZybUs5S1JJellKOW9QeEZsYTN5NHlXaldscEVLMlpmZDNOSDNwblFvcEFZZU9XbFZhNDM3Zl9QLThDR0oxVTJmRHVjZ3hwem9ETDEyUjZ3djVEZw?oc=5",
-     "published": "2026-10-13T17:55:27+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "IMF chief says Saudi attacks could have negative spillover ‘everywhere’",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/business/2026/10/14/imf-chief-says-saudi-attacks-could-have-negative-spillover-everywhere",
-     "published": "2026-10-14T06:35:19+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "IMF chief: Saudi attacks could have negative spillover ‘everywhere’, warns global resilience ‘reaching its limits’",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/money/2026/10/14/imf-chief-saudi-attacks-could-have-negative-spillover-everywhere-warns-global-resilience-reaching-its-limits/239074",
-     "published": "2026-10-14T06:58:26+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Houthis say Saudi Arabia delivered over 100 strikes against Yemen in past day",
-     "language": "en",
-     "link": "https://tass.com/world/2201631",
-     "published": "2026-10-13T20:08:25+00:00"
-    }
-   ],
-   "last_seen": "2026-10-14T09:07:42.321915+00:00",
    "outlets": 10,
    "regions": 8,
    "languages": 1,
@@ -8545,89 +8997,6 @@
    "score": 25.0
   },
   {
-   "id": "493ae8954612",
-   "first_seen": "2026-10-10T09:07:48.714447+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Commentator Katie Zacharia picked as new White House press secretary",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c5rmy73zr0rro?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-09T22:41:21+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Trump picks Truth Social’s Katie Zacharia as White House press secretary",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370413/trump-picks-truth-socials-katie-zacharia-white-house-press-secretary?utm_source=rss_feed",
-     "published": "2026-10-09T22:37:12+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Katie Zacharia picked as White House press secretary",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/katie-zacharia-picked-as-white-house-press-secretary/article71565837.ece",
-     "published": "2026-10-09T22:45:49+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Trump offers White House press secretary role to Katie Zacharia",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/americas/trump-offers-white-house-press-secretary-role-to-katie-zacharia",
-     "published": "2026-10-09T18:33:00+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Trump Picks Katie Zacharia As New White House Press Secretary",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/trump-picks-katie-zacharia-as-new-white-house-press-secretary-12164006#publisher=newsstand",
-     "published": "2026-10-10T01:24:42+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Trump appoints ‘devoted fan’ Katie Zacharia as White House press secretary",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/10/trump-appoints-devoted-fan-katie-zacharia-as-white-house-press-secretary/238537",
-     "published": "2026-10-10T04:14:31+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Trump appoints ‘devoted fan’ Katie Zacharia as press secretary",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/trump-appoints-devoted-fan-katie-zacharia-as-press-secretary/",
-     "published": "2026-10-10T07:09:58+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Commentator Katie Zacharia picked as new White House press secretary",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/commentator-katie-zacharia-picked-as-new-white-house-press-secretary/",
-     "published": "2026-10-10T16:45:10+00:00"
-    }
-   ],
-   "last_seen": "2026-10-10T17:07:48.257605+00:00",
-   "outlets": 8,
-   "regions": 7,
-   "languages": 1,
-   "score": 24.0
-  },
-  {
    "id": "ca8bd8bdf7fd",
    "first_seen": "2026-10-12T09:07:45.429910+00:00",
    "members": [
@@ -8949,6 +9318,107 @@
    "regions": 7,
    "languages": 1,
    "score": 23.0
+  },
+  {
+   "id": "9b861eeaf775",
+   "first_seen": "2026-10-10T09:07:48.714447+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Three men found guilty of murdering Australian brothers and US friend in Mexico",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cj5ynwnye009o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-09T21:55:51+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Three men found guilty of murders of Australian surfer brothers and US friend in Mexico",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/10/jake-callum-robinson-australian-surfers-carter-rhoad-mexico-murder-guilty-verdict-ntwnfb",
+     "published": "2026-10-10T00:50:52+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "3 men found guilty in murders of American, Australian surfers in Mexico",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/men-guilty-mexico-australian-american-surfer-murders/",
+     "published": "2026-10-10T00:15:00+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "3 men found guilty of killing American and Australian brothers on surfing trip in Mexico",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPdnJnMWFyM09qblFLcTZVZE9DbldxZy1xNXRWUElqY0huc2h4MXpjWE9jUlRvVnE5TUNucXZzNzdDVDFNcTJfYklKQkhxOFJpQjR6NHdCRDlhM2ZySHEwckNLWlV6X3dyT0JJelRPY0lOYUYxdUpzaXNwcW9sUWlHXzk2SW1DcklZeHc?oc=5",
+     "published": "2026-10-10T00:15:00+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Mexican judge sentences three men to 158 years in prison for murders of Australian and US surfers​",
+     "language": "en",
+     "link": "https://www.theguardian.com/australia-news/2026/oct/17/mexican-judge-sentences-three-men-to-158-years-in-prison-for-murders-of-australian-and-us-surfers-ntwnfb",
+     "published": "2026-10-17T02:52:59+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "3 Mexican men jailed for over 158 years for Australian, US surfer murders",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/americas/article/3371227/3-mexican-men-jailed-over-158-years-australian-us-surfer-murders?utm_source=rss_feed",
+     "published": "2026-10-17T03:39:33+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Mexican court sentences killers of Australian, US surfers to 158 years",
+     "language": "en",
+     "link": "https://punchng.com/mexican-court-sentences-killers-of-australian-us-surfers-to-158-years/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-17T09:48:13+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Mexican killers of Australian, US surfers sentenced 158 years",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/17/mexican-killers-of-australian-us-surfers-sentenced-158-years",
+     "published": "2026-10-17T03:53:00+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Three men jailed for 158 years each over murders of Australian surfers in Mexico",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/17/three-men-jailed-for-158-years-each-over-murders-of-australian-surfers-in-mexico/239462",
+     "published": "2026-10-17T06:53:01+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Three Mexicans jailed for 158 years each for killing Australian, US surfers",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMitwFBVV95cUxNbmtyTUYtcHJ3SDFJM21aY2ZRcHhLaXhYWjNUSWlwU2JiYWtXOGltRVNfMVYwSjhadnl1LWNUZU5rZGV1eGltaEsxR3Fxd2N4M29zbUlUYUtia0FxcFp2cENDdnVadTJ5TS13VVlQSkJ6WC13c0Z3WGp5Ym5TYXlhNE5GWGM2YWhXT1BIUTF3ZENvSi1iWmoydUNKeFp0SXIwUzh6MkpjbF83dDZuYjFiRG9kN3dIdzjSAbwBQVVfeXFMUGloS1BMMGZhOTNYaTBJaXdQRXhVZi10U09ESHpLZEVUcXEtS2hpNVktaWR1SUE4THRVeGZ2UEdFRkpwS0poNlpLcXY2Zk1DdFNIU29CM2pseGJDLTZzMVN3dV9IUDhmMW0xWU9xRFVHNnFBMmpyZTMzejRuR21nNHdabjBhaU9uQWRwM0RHWFlJaTBPYWxIbHRMZVoya0sycUxoZ05reTFNRGxOdEtoeXVMRmZBblRSbkl0Q2I?oc=5",
+     "published": "2026-10-17T05:05:15+00:00"
+    }
+   ],
+   "last_seen": "2026-10-17T09:07:48.549654+00:00",
+   "outlets": 8,
+   "regions": 6,
+   "languages": 1,
+   "score": 22.0
   },
   {
    "id": "5213bbd5cf19",
@@ -9333,6 +9803,71 @@
     }
    ],
    "last_seen": "2026-10-14T17:07:55.411222+00:00",
+   "outlets": 6,
+   "regions": 6,
+   "languages": 1,
+   "score": 20.0
+  },
+  {
+   "id": "65787974641d",
+   "first_seen": "2026-10-16T17:07:44.136357+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Ethiopia announces instalment of interim government in Tigray",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/16/ethiopia-announces-instalment-of-interim-government-in-tigray?traffic_source=rss",
+     "published": "2026-10-16T13:54:06+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Ethiopia announces interim government in Tigray, aims for polls in six months",
+     "language": "en",
+     "link": "https://www.france24.com/en/africa/20261016-ethiopia-announces-interim-government-tigray-calls-for-polls-six-months",
+     "published": "2026-10-16T13:05:23+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Ethiopia appoints interim Tigray government",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/ethiopia-appoints-interim-tigray-government/article71593766.ece",
+     "published": "2026-10-16T16:11:52+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "Ethiopia’s Abiy names new Tigray government, wants polls in six months",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-16-ethiopias-abiy-names-new-tigray-government-wants-polls-in-six-months/",
+     "published": "2026-10-16T13:04:05+00:00"
+    },
+    {
+     "outlet": "CGTN",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Ethiopia PM names interim Tigray government, eyes polls in six months",
+     "language": "en",
+     "link": "https://newsaf.cgtn.com/news/2026-10-17/Ethiopia-PM-names-interim-Tigray-government-eyes-polls-in-six-months-1RitaUJrJCw/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+     "published": "2026-10-16T16:50:47+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Ethiopia's Abiy names new Tigray government, wants polls in six months",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNNW1Eb1FZTGsxZ3htdm1jYk1CNG9DSzY3aHFQVkRtX056d0hhbTFpcHZzZGdjOEN5eE0zVkVhYlVxYWdUdGVxSnIyS1dTOFVvUzRmeWRRcGJKYnB6cWZ4Z2U0RWlLWVNEVjBzajRmZjZTaUVidWxSTEhYcFNQcXB0MGdZZnBNN1prTmpXQmlVVEJqaEdSLWx0RVFfdFk3ZExsV1E3OGNZdjEwbDFRMnJOdXVpRlE?oc=5",
+     "published": "2026-10-16T10:13:43+00:00"
+    }
+   ],
+   "last_seen": "2026-10-17T09:07:48.549654+00:00",
    "outlets": 6,
    "regions": 6,
    "languages": 1,
@@ -10073,6 +10608,62 @@
     }
    ],
    "last_seen": "2026-10-13T09:08:09.573950+00:00",
+   "outlets": 5,
+   "regions": 5,
+   "languages": 1,
+   "score": 17.0
+  },
+  {
+   "id": "8cbef7465b19",
+   "first_seen": "2026-10-17T09:07:48.549654+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "North Korea says it tested new torpedo with AI tech",
+     "language": "en",
+     "link": "https://www.scmp.com/news/asia/east-asia/article/3371218/north-korea-says-it-tested-new-torpedo-ai-tech?utm_source=rss_feed",
+     "published": "2026-10-16T23:37:18+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "North Korea says tested AI-assisted torpedo system",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2037810/north-korea-says-tested-ai-assisted-torpedo-system",
+     "published": "2026-10-17T08:23:38+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "North Korea says tested AI-assisted torpedo system",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/east-asia/north-korea-ai-torpedo-system-6467791",
+     "published": "2026-10-17T02:11:00+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "North Korea says it tested new torpedo system with AI capabilities",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/north-korea-claims-to-have-tested-a-new-ai-enabled-zam-20-torpedo-system/article71595423.ece",
+     "published": "2026-10-17T04:54:28+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "North Korea says tested AI-assisted torpedo system",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/17/asia-pacific/north-korea-ai-torpedo/",
+     "published": "2026-10-17T04:51:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-17T09:07:48.549654+00:00",
    "outlets": 5,
    "regions": 5,
    "languages": 1,
@@ -10979,53 +11570,6 @@
    "score": 12.0
   },
   {
-   "id": "9b861eeaf775",
-   "first_seen": "2026-10-10T09:07:48.714447+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Three men found guilty of murdering Australian brothers and US friend in Mexico",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cj5ynwnye009o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-09T21:55:51+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Three men found guilty of murders of Australian surfer brothers and US friend in Mexico",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/10/jake-callum-robinson-australian-surfers-carter-rhoad-mexico-murder-guilty-verdict-ntwnfb",
-     "published": "2026-10-10T00:50:52+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "3 men found guilty in murders of American, Australian surfers in Mexico",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/men-guilty-mexico-australian-american-surfer-murders/",
-     "published": "2026-10-10T00:15:00+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "3 men found guilty of killing American and Australian brothers on surfing trip in Mexico",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPdnJnMWFyM09qblFLcTZVZE9DbldxZy1xNXRWUElqY0huc2h4MXpjWE9jUlRvVnE5TUNucXZzNzdDVDFNcTJfYklKQkhxOFJpQjR6NHdCRDlhM2ZySHEwckNLWlV6X3dyT0JJelRPY0lOYUYxdUpzaXNwcW9sUWlHXzk2SW1DcklZeHc?oc=5",
-     "published": "2026-10-10T00:15:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-10T17:07:48.257605+00:00",
-   "outlets": 4,
-   "regions": 3,
-   "languages": 1,
-   "score": 12.0
-  },
-  {
    "id": "b338c86d38d7",
    "first_seen": "2026-10-11T09:07:45.219118+00:00",
    "members": [
@@ -11212,44 +11756,6 @@
    "regions": 3,
    "languages": 1,
    "score": 12.0
-  },
-  {
-   "id": "e7c26d3cf713",
-   "first_seen": "2026-10-09T17:07:48.864691+00:00",
-   "members": [
-    {
-     "outlet": "The Verge",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "Meta is banning TikTok ads across its platforms",
-     "language": "en",
-     "link": "https://www.theverge.com/tech/1008658/meta-tiktok-bytedance-ads-ban",
-     "published": "2026-10-09T13:12:45+00:00"
-    },
-    {
-     "outlet": "BBC 中文",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "扎克伯格有形象問題，為何Meta的業務卻蒸蒸日上？",
-     "language": "zh",
-     "link": "https://www.bbc.com/zhongwen/articles/cvj6jz6e89n2o/trad?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-09T08:04:54+00:00"
-    },
-    {
-     "outlet": "Engadget",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "Meta bans TikTok ads from its platforms in tit-for-tat row",
-     "language": "en",
-     "link": "https://www.engadget.com/2281983/meta-bans-tiktok-ads/",
-     "published": "2026-10-09T09:54:24+00:00"
-    }
-   ],
-   "last_seen": "2026-10-09T17:07:48.864691+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 2,
-   "score": 11.0
   },
   {
    "id": "de840e1d8ab0",
@@ -12296,44 +12802,6 @@
    "score": 11.0
   },
   {
-   "id": "65787974641d",
-   "first_seen": "2026-10-16T17:07:44.136357+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Ethiopia announces instalment of interim government in Tigray",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/16/ethiopia-announces-instalment-of-interim-government-in-tigray?traffic_source=rss",
-     "published": "2026-10-16T13:54:06+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Ethiopia announces interim government in Tigray, aims for polls in six months",
-     "language": "en",
-     "link": "https://www.france24.com/en/africa/20261016-ethiopia-announces-interim-government-tigray-calls-for-polls-six-months",
-     "published": "2026-10-16T13:05:23+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Ethiopia appoints interim Tigray government",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/ethiopia-appoints-interim-tigray-government/article71593766.ece",
-     "published": "2026-10-16T16:11:52+00:00"
-    }
-   ],
-   "last_seen": "2026-10-16T17:07:44.136357+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
    "id": "2ff11af97063",
    "first_seen": "2026-10-16T17:07:44.136357+00:00",
    "members": [
@@ -12407,6 +12875,44 @@
    "outlets": 3,
    "regions": 2,
    "languages": 2,
+   "score": 11.0
+  },
+  {
+   "id": "998d185748f9",
+   "first_seen": "2026-10-17T09:07:48.549654+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Anthropic proposes law regulating AI to US lawmakers",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2037803/anthropic-proposes-law-regulating-ai-to-us-lawmakers",
+     "published": "2026-10-17T07:01:57+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Anthropic proposes law regulating AI to US lawmakers",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/anthropic-proposes-law-regulating-ai-to-us-lawmakers/article71595557.ece",
+     "published": "2026-10-17T07:42:06+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Anthropic proposes law regulating AI to US lawmakers",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/anthropic-proposes-law-regulating-ai-to-us-lawmakers/",
+     "published": "2026-10-17T07:22:22+00:00"
+    }
+   ],
+   "last_seen": "2026-10-17T09:07:48.549654+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
    "score": 11.0
   },
   {
@@ -12511,44 +13017,6 @@
    "regions": 2,
    "languages": 1,
    "score": 10.0
-  },
-  {
-   "id": "31048a092620",
-   "first_seen": "2026-10-09T17:07:48.864691+00:00",
-   "members": [
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Customs intercept ₦3.67bn drugs hidden in imported cars, spare parts",
-     "language": "en",
-     "link": "https://punchng.com/customs-intercept-%e2%82%a63-67bn-drugs-hidden-in-imported-cars-spare-parts/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-09T15:28:14+00:00"
-    },
-    {
-     "outlet": "AllAfrica",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Nigeria: Customs Uncovers ₦3.67bn Drug Haul in Imported Cars, Spare Parts",
-     "language": "en",
-     "link": "https://allafrica.com/stories/202610090602.html",
-     "published": "2026-10-09T16:21:16+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Customs uncovers ₦3.67bn drug haul in imported cars, spare parts",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/customs-uncovers-%e2%82%a63-67bn-drug-haul-in-imported-cars-spare-parts/",
-     "published": "2026-10-09T15:25:49+00:00"
-    }
-   ],
-   "last_seen": "2026-10-09T17:07:48.864691+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 1,
-   "score": 9.0
   },
   {
    "id": "2b5a6e61f1d5",
@@ -13166,6 +13634,82 @@
    "score": 9.0
   },
   {
+   "id": "45004eda9fec",
+   "first_seen": "2026-10-17T09:07:48.549654+00:00",
+   "members": [
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Iran ready to help resolve issues btw Yemen, S Arabia",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248630/Iran-ready-to-help-resolve-issues-btw-Yemen-S-Arabia",
+     "published": "2026-10-17T04:44:24+00:00"
+    },
+    {
+     "outlet": "IRNA English",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Iran ready to help resolve Saudi-Yemen issues: Baqaei",
+     "language": "en",
+     "link": "https://en.irna.ir/news/86294651/Iran-ready-to-help-resolve-Saudi-Yemen-issues-Baqaei",
+     "published": "2026-10-17T08:10:07+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Talks with Iran can only succeed without threats, President says",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/talks-with-iran-can-only-succeed-without-threats-president-says/article71565681.ece",
+     "published": "2026-10-17T05:08:05+00:00"
+    }
+   ],
+   "last_seen": "2026-10-17T09:07:48.549654+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
+   "id": "0f49b39ade5a",
+   "first_seen": "2026-10-17T09:07:48.549654+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Japan’s Takaichi sends offering to controversial Yasukuni war shrine",
+     "language": "en",
+     "link": "https://www.scmp.com/news/asia/east-asia/article/3371219/japans-takaichi-sends-offering-controversial-yasukuni-war-shrine?utm_source=rss_feed",
+     "published": "2026-10-17T00:33:20+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Takaichi makes ritual offering to Yasukuni Shrine",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/17/japan/politics/takaichi-yasukuni-shrine-offering/",
+     "published": "2026-10-17T06:06:00+00:00"
+    },
+    {
+     "outlet": "CGTN",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Japanese PM sends ritual offering to war-linked Yasukuni Shrine",
+     "language": "en",
+     "link": "https://news.cgtn.com/news/2026-10-17/Japanese-prime-minister-sends-offering-to-war-linked-Yasukuni-Shrine-1Rj3kl8NfK8/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+     "published": "2026-10-17T00:19:47+00:00"
+    }
+   ],
+   "last_seen": "2026-10-17T09:07:48.549654+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
    "id": "303226f0667e",
    "first_seen": "2026-10-14T17:07:55.411222+00:00",
    "members": [
@@ -13193,71 +13737,6 @@
    "regions": 2,
    "languages": 1,
    "score": 8.0
-  },
-  {
-   "id": "f794a75d1e9b",
-   "first_seen": "2026-10-08T09:08:05.709468+00:00",
-   "members": [
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "9 terrorists killed in North Waziristan IBO: state media",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2035640/9-terrorists-killed-in-north-waziristan-ibo-state-media",
-     "published": "2026-10-08T07:22:46+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Security forces kill nine terrorists in North Waziristan operation: state media",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633654/security-forces-kill-nine-terrorists-in-north-waziristan-operation-state-media",
-     "published": "2026-10-08T00:44:24+00:00"
-    },
-    {
-     "outlet": "Geo News",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Security forces kill nine terrorists in North Waziristan IBO: sources",
-     "language": "en",
-     "link": "https://www.geo.tv/latest/685564-security-forces-kill-9-terrorists-in-north-waziristan-ibo-sources",
-     "published": "2026-10-08T07:39:00+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Security forces kill 7 terrorists in North Waziristan IBO: state media",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2035888/security-forces-kill-7-terrorists-in-north-waziristan-ibo-state-media",
-     "published": "2026-10-09T06:46:31+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Security forces kill seven terrorists in North Waziristan IBO: state media",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633858/security-forces-kill-seven-terrorists-in-north-waziristan-ibo-state-media-1",
-     "published": "2026-10-09T00:47:01+00:00"
-    },
-    {
-     "outlet": "Geo News",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Security forces neutralise seven India-backed terrorists in North Waziristan IBO: sources",
-     "language": "en",
-     "link": "https://www.geo.tv/latest/685715-security-forces-neutralise-seven-india-backed-terrorists-in-north-waziristan-ibo-sources",
-     "published": "2026-10-09T06:15:03+00:00"
-    }
-   ],
-   "last_seen": "2026-10-09T17:07:48.864691+00:00",
-   "outlets": 3,
-   "regions": 1,
-   "languages": 1,
-   "score": 7.0
   },
   {
    "id": "ed52e48e9510",

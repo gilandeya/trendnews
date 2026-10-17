@@ -1,0 +1,61 @@
+{
+  "id": "35b851d1202d",
+  "created_at": "2026-10-17T09:08:03.823865+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.49,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "احتجاجات جيل Z واسعة في الهند ضد الحكومة.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Modi’s predicament: Gen Z pours out on India’s streets as dissent surges",
+  "link": "https://www.japantimes.co.jp/news/2026/10/16/asia-pacific/politics/modi-youth-protests/",
+  "publishers": [
+    "Reuters",
+    "The Japan Times"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "Modi’s predicament: Gen Z pours out on India’s streets as dissent surges",
+    "link": "https://www.japantimes.co.jp/news/2026/10/16/asia-pacific/politics/modi-youth-protests/",
+    "summary": "Despite tens of thousands of security personnel deployed, protesters scaled barricades, chanted anti-government slogans and scuffled with police.",
+    "source_name": "The Japan Times",
+    "region": "jp",
+    "weight": 0.9,
+    "published": "2026-10-16T08:17:00+00:00",
+    "image_url": "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/16/568918.JPG",
+    "publisher": "The Japan Times",
+    "cluster_sources": [
+      "Reuters",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/10/16/asia-pacific/politics/modi-youth-protests/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/16/568918.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/16/thumbs/400x400/568918.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1768.9136768052779,
+    "is_stale": false,
+    "score": 23.493545569685185,
+    "impact": 1,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "احتجاجات جيل Z واسعة في الهند ضد الحكومة.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

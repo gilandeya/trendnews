@@ -1,0 +1,72 @@
+{
+  "id": "e7fba48ed922",
+  "created_at": "2026-10-17T09:08:03.823670+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.96,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 1,
+  "proximity": 3,
+  "intrigue": 1,
+  "appeal_note": "إيران وتوازنات اليمن والسعودية، قرب عربي مباشر لكنه بيان روتيني.",
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Iran ready to help resolve issues btw Yemen, S Arabia",
+  "link": "https://en.mehrnews.com/news/248630/Iran-ready-to-help-resolve-issues-btw-Yemen-S-Arabia",
+  "publishers": [
+    "IRNA English",
+    "Mehr News",
+    "The Hindu — International"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Iran ready to help resolve issues btw Yemen, S Arabia",
+    "link": "https://en.mehrnews.com/news/248630/Iran-ready-to-help-resolve-issues-btw-Yemen-S-Arabia",
+    "summary": "TEHRAN, Oct. 17 (MNA) – Iranian foreign ministry spokesman says his country remains steadfast in its principled position regarding the issues of Yemen and is prepared to assist in a peaceful resolution of the issues between Saudi Arabia and Yemen.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-10-17T04:44:24+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/02/13/4/5903439.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "IRNA English",
+      "Mehr News",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/248630/Iran-ready-to-help-resolve-issues-btw-Yemen-S-Arabia"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86294651/Iran-ready-to-help-resolve-Saudi-Yemen-issues-Baqaei"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/talks-with-iran-can-only-succeed-without-threats-president-says/article71565681.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/02/13/4/5903439.jpg",
+      "https://img9.irna.ir/d/r2/2026/10/17/4/173175697.jpg",
+      "https://th-i.thgim.com/public/incoming/f14wnr/article71565704.ece/alternates/LANDSCAPE_1200/2026-09-25T183857Z_442912393_RC2IQNAJGEPY_RTRMADP_3_UN-ASSEMBLY.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 1768.9134296719446,
+    "is_stale": true,
+    "score": 23.96221086190421,
+    "impact": 1,
+    "proximity": 3,
+    "intrigue": 1,
+    "appeal_note": "إيران وتوازنات اليمن والسعودية، قرب عربي مباشر لكنه بيان روتيني.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

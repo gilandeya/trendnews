@@ -1,140 +1,5 @@
 [
   {
-    "score": 41.98,
-    "bucket": "serious",
-    "tokens": [
-      "airport",
-      "attack",
-      "houthi",
-      "hundreds",
-      "injured",
-      "killed",
-      "riyadh",
-      "twelve"
-    ],
-    "link": "https://www.theguardian.com/world/2026/oct/10/yemen-government-allied-forces-recapture-bab-al-mandab-strait-houthis-taiz",
-    "title": "Twelve killed and hundreds injured in Houthi attack at Riyadh airport",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-10-11T17:08:09.778047+00:00"
-  },
-  {
-    "score": 27.37,
-    "bucket": "serious",
-    "tokens": [
-      "'firm",
-      "arabia's",
-      "attack",
-      "commitment",
-      "pakistan's",
-      "reiterates",
-      "riyadh",
-      "saudi",
-      "security",
-      "unshakeable'"
-    ],
-    "link": "https://www.dawn.com/news/2036347/fo-reiterates-pakistans-firm-and-unshakeable-commitment-to-saudi-arabias-security-after-riyadh-attack",
-    "title": "FO reiterates Pakistan's 'firm and unshakeable' commitment to Saudi Arabia's security after Riyadh attack",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-10-11T17:08:09.778309+00:00"
-  },
-  {
-    "score": 27.14,
-    "bucket": "serious",
-    "tokens": [
-      "approves",
-      "cabinet",
-      "decision",
-      "emergency",
-      "governor's",
-      "imposed",
-      "president",
-      "rule"
-    ],
-    "link": "https://www.dawn.com/news/2036352/emergency-governors-rule-imposed-in-kp-as-president-approves-cabinet-decision",
-    "title": "Emergency, governor's rule imposed in KP as president approves cabinet decision",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-10-11T17:08:09.778529+00:00"
-  },
-  {
-    "score": 25.84,
-    "bucket": "serious",
-    "tokens": [
-      "clash",
-      "deal",
-      "diesel",
-      "kill",
-      "russian",
-      "strikes",
-      "trump",
-      "zelensky"
-    ],
-    "link": "https://www.france24.com/en/video/20261011-trump-zelensky-clash-over-diesel-deal-as-russian-strikes-kill-21",
-    "title": "Trump, Zelensky clash over diesel deal as Russian strikes kill 21",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-10-11T17:08:09.778740+00:00"
-  },
-  {
-    "score": 24.62,
-    "bucket": "useful",
-    "tokens": [
-      "eight",
-      "fires",
-      "forest",
-      "indonesia",
-      "orangutans",
-      "protected",
-      "releases",
-      "rescued"
-    ],
-    "link": "https://phys.org/news/2026-10-indonesia-orangutans-forest.html",
-    "title": "Indonesia releases eight orangutans rescued from fires to protected forest",
-    "posted_title": "",
-    "region": "science",
-    "seen_at": "2026-10-11T17:08:09.778937+00:00"
-  },
-  {
-    "score": 41.98,
-    "bucket": "serious",
-    "tokens": [
-      "airport",
-      "attack",
-      "houthi",
-      "hundreds",
-      "injured",
-      "killed",
-      "riyadh",
-      "twelve"
-    ],
-    "link": "https://www.theguardian.com/world/2026/oct/10/yemen-government-allied-forces-recapture-bab-al-mandab-strait-houthis-taiz",
-    "title": "Twelve killed and hundreds injured in Houthi attack at Riyadh airport",
-    "posted_title": "هجوم صاروخي يضرب مطار الملك خالد في الرياض ويخلف 12 قتيلا وأكثر من 300 جريح",
-    "region": "uk",
-    "seen_at": "2026-10-11T19:19:47.547625+00:00"
-  },
-  {
-    "score": 25.84,
-    "bucket": "serious",
-    "tokens": [
-      "clash",
-      "deal",
-      "diesel",
-      "kill",
-      "russian",
-      "strikes",
-      "trump",
-      "zelensky"
-    ],
-    "link": "https://www.france24.com/en/video/20261011-trump-zelensky-clash-over-diesel-deal-as-russian-strikes-kill-21",
-    "title": "Trump, Zelensky clash over diesel deal as Russian strikes kill 21",
-    "posted_title": "غارات روسية تقتل 20 شخصًا في أوكرانيا بعد يوم من إعلان ترامب صفقة ديزل مع بوتين",
-    "region": "eu",
-    "seen_at": "2026-10-11T19:20:59.922127+00:00"
-  },
-  {
     "score": 26.97,
     "bucket": "serious",
     "tokens": [
@@ -1219,5 +1084,96 @@
     "posted_title": "",
     "region": "qa",
     "seen_at": "2026-10-16T17:07:59.197903+00:00"
+  },
+  {
+    "score": 33.38,
+    "bucket": "serious",
+    "tokens": [
+      "accusation",
+      "attacks",
+      "denies",
+      "houthi",
+      "involvement",
+      "iran",
+      "saudi"
+    ],
+    "link": "https://www.vanguardngr.com/2026/10/iran-denies-saudi-accusation-of-involvement-in-houthi-attacks-2/",
+    "title": "Iran denies Saudi accusation of involvement in Houthi attacks",
+    "posted_title": "",
+    "region": "ng",
+    "seen_at": "2026-10-17T09:08:03.823195+00:00"
+  },
+  {
+    "score": 30.11,
+    "bucket": "serious",
+    "tokens": [
+      "fire",
+      "hitting",
+      "hormuz",
+      "mine",
+      "oil",
+      "tanker"
+    ],
+    "link": "https://www.vanguardngr.com/2026/10/oil-tanker-on-fire-after-hitting-mine-in-hormuz-irans-guards/",
+    "title": "Oil tanker on fire after hitting mine in Hormuz",
+    "posted_title": "",
+    "region": "ng",
+    "seen_at": "2026-10-17T09:08:03.823450+00:00"
+  },
+  {
+    "score": 27.93,
+    "bucket": "serious",
+    "tokens": [
+      "airlines",
+      "flights",
+      "jeddah",
+      "malaysia",
+      "medina",
+      "resume",
+      "tomorrow"
+    ],
+    "link": "https://www.freemalaysiatoday.com/category/nation/2026/10/17/malaysia-airlines-to-resume-flights-to-jeddah-medina-tomorrow",
+    "title": "Malaysia Airlines to resume flights to Jeddah, Medina tomorrow",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-10-17T09:08:03.823665+00:00"
+  },
+  {
+    "score": 23.96,
+    "bucket": "serious",
+    "tokens": [
+      "arabia",
+      "btw",
+      "help",
+      "iran",
+      "issues",
+      "ready",
+      "resolve",
+      "yemen"
+    ],
+    "link": "https://en.mehrnews.com/news/248630/Iran-ready-to-help-resolve-issues-btw-Yemen-S-Arabia",
+    "title": "Iran ready to help resolve issues btw Yemen, S Arabia",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-10-17T09:08:03.823859+00:00"
+  },
+  {
+    "score": 23.49,
+    "bucket": "serious",
+    "tokens": [
+      "dissent",
+      "gen",
+      "india",
+      "modi",
+      "pours",
+      "predicament",
+      "streets",
+      "surges"
+    ],
+    "link": "https://www.japantimes.co.jp/news/2026/10/16/asia-pacific/politics/modi-youth-protests/",
+    "title": "Modi’s predicament: Gen Z pours out on India’s streets as dissent surges",
+    "posted_title": "",
+    "region": "jp",
+    "seen_at": "2026-10-17T09:08:03.824047+00:00"
   }
 ]

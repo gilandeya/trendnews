@@ -1,0 +1,65 @@
+{
+  "id": "0902b2d7a707",
+  "created_at": "2026-10-17T09:08:03.823457+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 27.93,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 3,
+  "proximity": 3,
+  "intrigue": 1,
+  "appeal_note": "عودة الخطوط الماليزية لرحلات جدة والمدينة، أثر مباشر على المعتمرين.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Malaysia Airlines to resume flights to Jeddah, Medina tomorrow",
+  "link": "https://www.freemalaysiatoday.com/category/nation/2026/10/17/malaysia-airlines-to-resume-flights-to-jeddah-medina-tomorrow",
+  "publishers": [
+    "Free Malaysia Today",
+    "Malay Mail"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Malaysia Airlines to resume flights to Jeddah, Medina tomorrow",
+    "link": "https://www.freemalaysiatoday.com/category/nation/2026/10/17/malaysia-airlines-to-resume-flights-to-jeddah-medina-tomorrow",
+    "summary": "The national airline says this follows a comprehensive safety review and operational risk assessment.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-10-17T05:45:54+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/wp-content/uploads/2026/02/d15d179c-malaysia-airlines-epa-280226.webp",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "Malay Mail"
+    ],
+    "cluster_members": [
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/malaysia/2026/10/17/malaysia-airlines-to-resume-jeddah-madinah-services-tomorrow-after-safety-review/239441"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/nation/2026/10/17/malaysia-airlines-to-resume-flights-to-jeddah-medina-tomorrow"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2026/02/d15d179c-malaysia-airlines-epa-280226.webp",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/10/17/368858.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1768.9135360822222,
+    "is_stale": false,
+    "score": 27.925656681462964,
+    "impact": 3,
+    "proximity": 3,
+    "intrigue": 1,
+    "appeal_note": "عودة الخطوط الماليزية لرحلات جدة والمدينة، أثر مباشر على المعتمرين.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

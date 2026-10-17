@@ -1,0 +1,99 @@
+{
+  "id": "c40dbda763ef",
+  "created_at": "2026-10-17T09:08:03.822771+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 33.38,
+  "trend_score": 1.0,
+  "velocity": 0.17,
+  "impact": 1,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "اتهام سعودي إيراني مباشر حول هجمات الحوثيين.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran denies Saudi accusation of involvement in Houthi attacks",
+  "link": "https://www.vanguardngr.com/2026/10/iran-denies-saudi-accusation-of-involvement-in-houthi-attacks-2/",
+  "publishers": [
+    "CGTN",
+    "Daily Sabah",
+    "Investing.com — الاقتصاد",
+    "Iran International",
+    "Le Monde",
+    "Punch Nigeria",
+    "Reuters",
+    "Vanguard Nigeria",
+    "WSJ"
+  ],
+  "region": "ng",
+  "article": {
+    "title": "Iran denies Saudi accusation of involvement in Houthi attacks",
+    "link": "https://www.vanguardngr.com/2026/10/iran-denies-saudi-accusation-of-involvement-in-houthi-attacks-2/",
+    "summary": "Iran on Friday denied having anything to do with attacks by Yemen's Houthis, a day after Saudi Arabia accused it of having encouraged the group's recent escalation against the kingdom. The post Iran denies Saudi accusation of involvement in Houthi attacks appeared first on Vanguard News .",
+    "source_name": "Vanguard Nigeria",
+    "region": "ng",
+    "weight": 0.9,
+    "published": "2026-10-17T07:25:37+00:00",
+    "image_url": "https://cdn.vanguardngr.com/wp-content/uploads/2026/09/Iran-president.webp",
+    "publisher": "Vanguard Nigeria",
+    "cluster_sources": [
+      "CGTN",
+      "Daily Sabah",
+      "Investing.com — الاقتصاد",
+      "Iran International",
+      "Le Monde",
+      "Punch Nigeria",
+      "Reuters",
+      "Vanguard Nigeria",
+      "WSJ"
+    ],
+    "cluster_members": [
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/iran-denies-saudi-accusation-of-involvement-in-houthi-attacks/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/iran-denies-role-in-houthi-attacks-on-saudi-arabia-offers-mediation"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/10/iran-denies-saudi-accusation-of-involvement-in-houthi-attacks-2/"
+      },
+      {
+        "name": "WSJ",
+        "link": "https://www.iranintl.com/en/202610178912"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/iran-war-missiles-target-saudi-oil-hub-as-yemen-conflict-escalates-4955004"
+      },
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/international/article/2026/10/17/au-yemen-des-frappes-houthistes-s-abattent-pres-de-l-aeroport-d-aden-l-iran-nie-tout-role-dans-les-attaques-visant-l-arabie-saoudite_6795708_3210.html"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/09/Iran-president.webp",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/10/16/466070.jpg",
+      "https://i.iranintl.com/images/rdk9umy0/production/ff0f415898b6388022dc61c4a400a0f8551d3c41-720x480.avif?rect=0,52,720,377&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format",
+      "https://content-media.investing.com/news/moved_LYNXMPEM241AP_L.jpg",
+      "https://img.lemde.fr/2026/10/16/119/0/682/341/644/322/60/0/4f63d52_ftp-1-y2txgf3sfm42-afp-d3ez9nq-1024.jpg",
+      "https://news.cgtn.com/news/2026-10-17/news-1Rj1y9HibcI/img/017a313ea46e4914a073403d76daf383/017a313ea46e4914a073403d76daf383-1920.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 9,
+    "velocity": 0.16665940220322242,
+    "age_hours": 1768.9134178566667,
+    "is_stale": false,
+    "score": 33.37952500565786,
+    "impact": 1,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "اتهام سعودي إيراني مباشر حول هجمات الحوثيين.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
