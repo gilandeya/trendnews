@@ -2492,6 +2492,8 @@ youtube:
     texts:
       superseded_comment: "♻️ استُبدل هذا البند بإعادة طلب من #{selection}"
       published_before: "⚠️ هذا الموضوع نُشر من قبل: {url}"
+      # تعليق قضية الترشيح المعاد فتحها حين يعود مقال/ريل من المرحلة 2 بـgo1 (Issue #1534، W2a)
+      returned_comment: "↩️ أُعيد «{title}» من المرحلة 2 (#{stage2}) — علّم صيغته من جديد وأضف approved"
   max_per_channel: 3
   min_duration_minutes: 8
   max_duration_minutes: 150

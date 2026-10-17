@@ -691,6 +691,17 @@ def close_issue(issue_number: int) -> None:
     ).raise_for_status()
 
 
+def reopen_issue(issue_number: int) -> None:
+    """يعيد فتح قضية مغلقة (Issue #1534، W2a). ترفع عند العطل ليقرر المستدعي احتياطه."""
+    repo = _repo()
+    requests.patch(
+        f"{API}/repos/{repo}/issues/{issue_number}",
+        headers=_headers(),
+        json={"state": "open"},
+        timeout=45,
+    ).raise_for_status()
+
+
 def remove_label(issue_number: int, label: str) -> None:
     repo = _repo()
     requests.delete(
