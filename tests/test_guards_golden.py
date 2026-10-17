@@ -5107,9 +5107,10 @@ def test_reel_script_guards() -> None:
         check("g176: عناوين hl: الثلاثة، والعنوان وجنس الراوي والمدة المقدَّرة",
               all(f"<!-- hl:{reel_id}:{k} -->" in s2 for k in range(3)) and "موضوع الريل" in s2
               and T["narrator_" + rd["script"]["narrator"]] in s2 and "ث" in s2)
-        check("g176: خيارا go1 وgo3 فقط، ونص go3 من config",
+        # W4 (Issue #1538): أُضيف خيار «انشر فورًا» فصارت الخيارات go1 وgo3 وpublish (وgo2 غائب)
+        check("g176: خيارات go1 وgo3 وpublish فقط، ونص go3 من config",
               f"<!-- go:go1:{reel_id} -->" in s2 and f"<!-- go:go3:{reel_id} -->" in s2
-              and f"go:go2:{reel_id}" not in s2 and f"go:publish:{reel_id}" not in s2
+              and f"go:go2:{reel_id}" not in s2 and f"<!-- go:publish:{reel_id} -->" in s2
               and T["go3"] in s2, s2[-600:])
         failed = new_draft("c2c2c2c2c2c2", script_status="failed", script_error="لا مقاطع كافية: 1 من 2")
         s2f = yp.build_review_body([failed], "u/r", "main", cfg)
@@ -13951,3 +13952,255 @@ def test_w2b_back_from_final_review_guards() -> None:
             os.environ.pop("GITHUB_REPOSITORY", None)
         else:
             os.environ["GITHUB_REPOSITORY"] = saved["repo"]
+
+
+def test_w4_reel_autorender_guards() -> None:
+    """W4 (Issue #1538، g415–g419): تركيب الريل تلقائيًا عند اعتماده من المرحلة 2، وخيار «انشر فورًا» (يُركَّب ويُنشر
+    بلا قضية مراجعة الفيديو)، ونشره بعد تركيب ناجح وفشله القابل لإعادة المحاولة. لا شبكة ولا ffmpeg."""
+    import os
+    import sys
+    import tempfile
+    from pathlib import Path
+
+    from src import facebook
+    from src import publish as publish_mod
+    from src import reel_render, reel_review, review, store
+    from src import youtube_publish as yp
+    from tests.helpers import tick_marker
+
+    cfg = load_config()
+    cfg.setdefault("reel", {})["enabled"] = True
+    started_txt = "🎬 بدأ تركيب الريل — تصلك قضية مراجعة الفيديو حين ينتهي"
+    started_now_txt = "🎬 بدأ تركيب الريل — يُنشر فور انتهائه"
+    manual_txt = "⚠️ تعذّر بدء التركيب تلقائيًا — شغّل «🎬 تركيب الريل» يدويًا"
+
+    def ready_reel(did, **extra):
+        d = {"id": did, "origin": "analysis", "format": "reel", "status": "pending", "topic_id": "a4a4a4a4a4a4",
+             "topic_date": "2099-12-08", "title": "ريل W4", "script_status": "ready", "review_issue": 9300,
+             "stage2_issue": 9300,
+             "script": {"narrator": "female", "title": "عنوان الشاشة", "question": "هل؟", "scenes": [
+                 {"kind": "title_card", "text": "عنوان الشاشة"}, {"kind": "narration", "text": "جملة الراوي."},
+                 {"kind": "question", "text": "هل؟"}, {"kind": "outro"}]},
+             "headlines": ["العنوان الأول؟", "العنوان الثاني", "العنوان الثالث؟"]}
+        d.update(extra)
+        store.save_draft(d)
+        return d["id"]
+
+    def body_of(*ids):
+        return "\n".join(line for i in ids for line in yp._reel_item_lines(1, store.load_draft(i)[1], cfg))
+
+    dispatched: list = []
+    state = {"fail": False}
+    saved = (getattr(review, "dispatch_workflow", None), review.comment, review.close_issue, review.remove_label,
+             review.update_issue_body, publish_mod.load_config, publish_mod.fetch_issue, sys.argv)
+
+    def fake_dispatch(file_name, ref):
+        dispatched.append((file_name, ref))
+        if state["fail"]:
+            raise RuntimeError("403")
+
+    def run_main(body, number, *extra, label="youtube-review"):
+        msgs: list[str] = []
+        dispatched.clear()
+        publish_mod.load_config = lambda *a, **k: cfg
+        publish_mod.fetch_issue = lambda n: {"number": n, "body": body,
+                                             "labels": [{"name": label}, {"name": "approved"}]}
+        review.dispatch_workflow = fake_dispatch
+        review.comment = lambda n, t: msgs.append(t)
+        review.close_issue = lambda n: None
+        review.remove_label = lambda n, lbl: None
+        review.update_issue_body = lambda n, b: None
+        sys.argv = ["publish", "--issue", str(number), *(extra or ("--skip-urgent",))]
+        publish_mod.main()
+        return msgs
+
+    sv = (reel_render._render, publish_mod.publish_reel_draft, review.ensure_labels, review.create_issue,
+          facebook.publish_reel)
+    try:
+        # ── g415: go3 لريل ← تركيب يبدأ مرة واحدة ──
+        def g415():
+            a = ready_reel("a4150000000a")
+            msgs = run_main(tick_marker(body_of(a), f"go:go3:{a}"), 9301)
+            check("g415: dispatch_workflow مرة واحدة بـreel-render.yml", [f for f, _ in dispatched] == ["reel-render.yml"],
+                  dispatched)
+            check("g415: سطر «بدأ التركيب» في التعليق", any(started_txt in m for m in msgs), msgs)
+            got = store.load_draft(a)[1]
+            check("g415: الريل approved_script وqueued",
+                  got["status"] == "approved_script" and got.get("render_status") == "queued", got)
+            b, c = ready_reel("a4150000000b"), ready_reel("a4150000000c")
+            run_main(tick_marker(tick_marker(body_of(b, c), f"go:go3:{b}"), f"go:go3:{c}"), 9302)
+            check("g415: ريلان ← نداء واحد", len(dispatched) == 1, dispatched)
+            e = ready_reel("a4150000000e")
+            run_main(tick_marker(body_of(e), f"go:go3:{e}"), 9303, "--urgent-only")
+            check("g415: المسار العاجل لا يستدعيه", not dispatched and store.load_draft(e)[1]["status"] == "pending",
+                  dispatched)
+            f = ready_reel("a4150000000f")
+            run_main(body_of(f), 9304)
+            check("g415: بلا ريل معتمد ← لا نداء", not dispatched, dispatched)
+        try:
+            g415()
+        except Exception as exc:  # noqa: BLE001
+            check("g415: استثناء", False, repr(exc))
+
+        # ── g416: فشل التشغيل لا يعطّل المعالجة ──
+        def g416():
+            a = ready_reel("a4160000000a")
+            state["fail"] = True
+            try:
+                msgs = run_main(tick_marker(body_of(a), f"go:go3:{a}"), 9311)
+            finally:
+                state["fail"] = False
+            got = store.load_draft(a)[1]
+            check("g416: الريل queued رغم العطل",
+                  got["status"] == "approved_script" and got.get("render_status") == "queued", got)
+            check("g416: سطر «شغّل يدويًا» ولا سطر «بدأ»",
+                  any(manual_txt in m for m in msgs) and not any(started_txt in m for m in msgs), msgs)
+        try:
+            g416()
+        except Exception as exc:  # noqa: BLE001
+            check("g416: استثناء", False, repr(exc))
+
+        # ── g417: خيار «انشر فورًا» ──
+        def g417():
+            a = ready_reel("a4170000000a")
+            body = body_of(a)
+            check("g417: الخيارات الثلاثة go1 وgo3 وpublish",
+                  all(f"<!-- go:{k}:{a} -->" in body for k in ("go1", "go3", "publish")), body[-700:])
+            check("g417: نص go3 ونص publish",
+                  "🎬 اعرض الفيديو قبل النشر" in body
+                  and "🚀 انشر فورًا (يُركَّب ويُنشر بلا عرض الفيديو)" in body, body[-700:])
+            msgs = run_main(tick_marker(tick_marker(body, f"go:publish:{a}"), f"hl:{a}:1"), 9321)
+            got = store.load_draft(a)[1]
+            check("g417: publish ← approved_script وqueued وpublish_on_render وheadline_selected=1",
+                  got["status"] == "approved_script" and got.get("render_status") == "queued"
+                  and got.get("publish_on_render") is True and got.get("headline_selected") == 1, got)
+            check("g417: سطر البدء للنشر الفوري", any(started_now_txt in m for m in msgs), msgs)
+            check("g417: نداء واحد", len(dispatched) == 1, dispatched)
+            d0 = ready_reel("a4170000000d")
+            run_main(tick_marker(body_of(d0), f"go:publish:{d0}"), 9322)
+            check("g417: بلا عنوان معلَّم ← headline_selected=0", store.load_draft(d0)[1].get("headline_selected") == 0)
+            note = {"category": "other", "severity": "high", "location": "body", "original": "", "fix": "",
+                    "note": "ادّعاء بلا سند", "sources": []}
+            blk = ready_reel("a4170000000b", editor_review={"applied": [], "error": None, "speaker_unresolved": [],
+                                                           "notes": [note]})
+            run_main(tick_marker(body_of(blk), f"go:publish:{blk}"), 9323)
+            gb = store.load_draft(blk)[1]
+            check("g417: ملاحظة high بلا ✍️ ← pending ولا publish_on_render ولا نداء",
+                  gb["status"] == "pending" and not gb.get("publish_on_render") and not dispatched,
+                  (gb["status"], dispatched))
+            run_main(tick_marker(tick_marker(body_of(blk), f"go:publish:{blk}"), f"editor_ok:{blk}"), 9324)
+            gb = store.load_draft(blk)[1]
+            check("g417: مع ✍️ ← يُنفَّذ", gb["status"] == "approved_script" and gb.get("publish_on_render") is True,
+                  gb["status"])
+            both = ready_reel("a4170000000c")
+            run_main(tick_marker(tick_marker(body_of(both), f"go:go3:{both}"), f"go:publish:{both}"), 9325)
+            gc = store.load_draft(both)[1]
+            check("g417: تعارض go3 وpublish ← go3 يغلب بلا publish_on_render",
+                  gc["status"] == "approved_script" and not gc.get("publish_on_render"), gc)
+        try:
+            g417()
+        except Exception as exc:  # noqa: BLE001
+            check("g417: استثناء", False, repr(exc))
+
+        # ── g418–g419: بعد التركيب ──
+        comments: list = []
+        created: list = []
+        published: list = []
+
+        def fake_render_ok(*a, **k):
+            return {"reel_file": "reels/2099-12-08/x.mp4", "reel_gif": "reels/2099-12-08/x.gif",
+                    "duration_seconds": 41.0, "render_version": 1, "render_attempts": 0, "render_sources": "الجزيرة"}
+
+        def fake_render_bad(*a, **k):
+            raise RuntimeError("ffmpeg مات")
+
+        def do_render(did, render=fake_render_ok):
+            reel_render._render = render
+            path, d = store.load_draft(did)
+            deps = reel_render.Deps(comment=lambda i, t: comments.append((i, t)))
+            return reel_render.render_draft(path, d, cfg, deps)
+
+        def queued_reel(did, **extra):
+            return ready_reel(did, status="approved_script", render_status="queued", **extra)
+
+        review.ensure_labels = lambda: None
+        review.create_issue = lambda t, b, labels=None: (created.append((t, b, labels)),
+                                                         {"number": 9400 + len(created)})[1]
+
+        def g418():
+            a = queued_reel("a4180000000a", publish_on_render=True, headline_selected=1)
+
+            def fake_pub(path, draft, c):
+                published.append(draft["id"])
+                store.update_draft(path, status="published", published_at="2099-12-08T00:00:00+00:00")
+                return True, "https://www.facebook.com/reel/1"
+            publish_mod.publish_reel_draft = fake_pub
+            do_render(a)
+            got = store.load_draft(a)[1]
+            check("g418: publish_reel_draft استُدعي", published == [a], published)
+            check("g418: لم تُفتح قضية reel-review", not created and not got.get("reel_review_issue"), created)
+            check("g418: تعليق النشر على قضية المرحلة 2",
+                  any(i == 9300 and "https://www.facebook.com/reel/1" in t and "نُشر الريل" in t for i, t in comments),
+                  comments)
+            check("g418: المسودة published وpublish_on_render أُزيل",
+                  got["status"] == "published" and "publish_on_render" not in got, got["status"])
+        try:
+            g418()
+        except Exception as exc:  # noqa: BLE001
+            check("g418: استثناء", False, repr(exc))
+
+        def g419():
+            comments.clear()
+            created.clear()
+            published.clear()
+            a = queued_reel("a4190000000a", publish_on_render=True, headline_selected=0)
+            tmp = Path(tempfile.mkdtemp())
+            os.environ["TRENDNEWS_REELS_DIR"] = str(tmp / "reels")
+            video = tmp / "reels" / "2099-12-08" / "x.mp4"
+            video.parent.mkdir(parents=True, exist_ok=True)
+            video.write_bytes(b"mp4")
+            fail = {"on": True}
+
+            def fake_fb(video_path, caption, api_version="v21.0", first_comment=None):
+                if fail["on"]:
+                    raise facebook.FacebookError("boom")
+                return {"post_id": "9", "url": "https://fb/9"}
+            facebook.publish_reel = fake_fb
+            publish_mod.publish_reel_draft = sv[1]
+            try:
+                do_render(a)
+                got = store.load_draft(a)[1]
+                check("g419: فشل النشر ← failed بـfacebook_reel",
+                      got["status"] == "failed" and got.get("failed_stage") == "facebook_reel", got["status"])
+                check("g419: فُتحت قضية reel-review وعليها سطر الفشل",
+                      len(created) == 1 and created[0][2] == ["reel-review"] and "boom" in created[0][1]
+                      and got.get("reel_review_issue") == 9401, created)
+                check("g419: publish_on_render أُزيل", "publish_on_render" not in got)
+                fail["on"] = False
+                body = tick_marker(reel_review.build_body(got, cfg), f"go:publish:{a}")
+                run_main(body, 9401, "--skip-urgent", label="reel-review")
+                check("g419: إعادة approved على قضية المراجعة تنشره", store.load_draft(a)[1]["status"] == "published",
+                      store.load_draft(a)[1]["status"])
+                b = queued_reel("a4190000000b", publish_on_render=True)
+                published.clear()
+                publish_mod.publish_reel_draft = lambda *x, **y: published.append("x") or (True, "")
+                do_render(b, fake_render_bad)
+                gb = store.load_draft(b)[1]
+                check("g419: تركيب فاشل ← لا نشر وpublish_on_render باقٍ",
+                      not published and gb.get("publish_on_render") is True and gb.get("render_status") == "failed", gb)
+            finally:
+                os.environ.pop("TRENDNEWS_REELS_DIR", None)
+        try:
+            g419()
+        except Exception as exc:  # noqa: BLE001
+            check("g419: استثناء", False, repr(exc))
+    finally:
+        reel_render._render, publish_mod.publish_reel_draft, review.ensure_labels, review.create_issue, \
+            facebook.publish_reel = sv
+        if saved[0] is None:
+            if hasattr(review, "dispatch_workflow"):
+                delattr(review, "dispatch_workflow")
+        else:
+            review.dispatch_workflow = saved[0]
+        (review.comment, review.close_issue, review.remove_label, review.update_issue_body,
+         publish_mod.load_config, publish_mod.fetch_issue, sys.argv) = saved[1:]

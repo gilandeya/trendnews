@@ -2019,3 +2019,21 @@ instead.
 - **المقال («عد» في قضية البطاقة، `cmd_final_review`):** لمسودة تحليل لها `stage2_issue` تُمسح البطاقة وتُضبط `review_issue = stage2_issue` ثم `reopen_stage2` بتعليق `youtube.redo.texts.back_from_final_comment` وسطر تقرير `back_from_final_line` يذكر القضية؛ بلا `stage2_issue` أو False أو عطل ← pending بلا `review_issue` (قضية جديدة من `open_review`) كما كان.
 - **الريل (`reel-review`):** `reel_review.build_body` يعرض إلى جانب «انشر» خيارين `go2` («↩️ عد إلى السيناريو») وgo1 («↩️ عد إلى الترشيح»، لمن له `topic_id`) عبر `options_block(..., only=, labels=)`، نصوصهما في `reel.review`. `cmd_reel_review`: go2 ← `pending` وscript_status يبقى ready وتُزال `render_status` ثم `reopen_stage2` (فشله ← pending بلا review_issue فتلتقطه `open_review`)؛ go1 ← pending ثم `return_to_selection([id], 3)` (W2a). لا رفض ضمني ولا نشر، والقضية تُغلق.
 - **go1 من قضية البطاقة** يسلك W2a كما هو (اختبار فقط). الأخبار و«هام» بلا تغيير. الاختبارات: g410–g414 في `tests/test_guards_golden.py:test_w2b_back_from_final_review_guards`، وعُدِّل g389 (خياران إضافيان).
+
+## تركيب الريل تلقائيًا و«انشر فورًا» (Issue #1538، W4) — `src/publish.py`، `src/reel_render.py`
+
+- **إطلاق التركيب:** `review.dispatch_workflow(file_name, ref)` (POST `/actions/workflows/{file}/dispatches`، ترفع عند العطل) والملف في `reel.render.workflow_file`
+  (`reel-render.yml`). في `publish.main` (المسار العادي وحده) بعد `approve_reel_scripts`: إن صار ريل أو أكثر `render_status="queued"` في هذه التشغيلة يُطلق التركيب
+  **مرة واحدة** (`start_reel_render`؛ `--pending` يركّب كل المنتظر) والتعليق `reel.texts.render_started` (أو `render_started_now` للنشر الفوري). العطل ← `log.warning`
+  وسطر `render_start_failed` («شغّل يدويًا») والريل يبقى queued كما كان.
+- **«انشر فورًا» لبند الريل في المرحلة 2:** `youtube_publish._reel_item_lines` تعرض لريل `script_status="ready"` go1 وgo3 («🎬 اعرض الفيديو قبل النشر») وpublish
+  (`reel.texts.publish`). `approve_reel_scripts(..., actions=)` تعامل publish بالبوابات نفسها لـgo3 (سيناريو جاهز، ملاحظة محرر high إلا مع ✍️، تطبيق كتلة النص) ثم
+  `approved_script` + `queued` + `publish_on_render=True` + `headline_selected` من مربع `hl:` (الافتراضي 0). التعارض go3/publish يحسمه `stages.ACTIONS` (go3 يغلب).
+  وأُصلح معه `publish.report_conflicts` الذي كان يفترض `arabic.post_title` فيرفع `KeyError` لريل.
+- **بعد التركيب (`reel_render._publish_on_render`):** تركيب ناجح لمسودة `publish_on_render` ← لا قضية reel-review؛ `approved_reel` ثم `publish.publish_reel_draft`
+  وتعليق `reel.review.published` + ملاحظات التركيب على قضية المرحلة 2 (`stage2_issue` أو `review_issue`). `publish_on_render` يُزال بعد المحاولة. فشل النشر ←
+  `failed_stage="facebook_reel"` وتُفتح قضية المراجعة بالمسار القائم وفي جسمها سطر الفشل (`reel_review.build_body`)، وإعادة approved عليها تعيد المحاولة.
+  فشل التركيب ← بلا نشر و`publish_on_render` باقٍ فيُنشر إن نجح تركيب لاحق.
+- **تشغيليًا (يعدّله صاحب المشروع بيده، لا `.github/workflows`):** (1) `publish.yml` يحتاج `permissions: actions: write` ليطلق الـdispatch؛ (2) `reel-render.yml` يحتاج
+  أن يُودِع `drafts state` وأسرار النشر (`FB_*`) كي ينشر `--pending` بعد التركيب. بدونهما يسقط الإطلاق إلى سطر «شغّل يدويًا» ولا ينشر التركيب.
+- الاختبارات: g415–g419 في `tests/test_guards_golden.py:test_w4_reel_autorender_guards` (وعُدِّل g176 لخيار publish الجديد).

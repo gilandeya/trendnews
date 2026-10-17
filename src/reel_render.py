@@ -2850,6 +2850,14 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
         changes["render_notes"] = text.split("\n")
     updated = store.update_draft(path, remove=remove, **changes)
     issue = draft.get("review_issue")
+    # «انشر فورًا» من المرحلة 2 (Issue #1538، W4): تركيب ناجح لمسودة publish_on_render ينشر في الحال بلا قضية مراجعة
+    # الفيديو، ويُعلَّق بالنتيجة على قضية المرحلة 2. فشل النشر يفتح قضية المراجعة بسطر الفشل (إعادة approved عليها تعيد
+    # المحاولة). فشل التركيب لا يصل هنا: publish_on_render يبقى فيُنشر إن نجح تركيب لاحق.
+    if ok and updated.get("publish_on_render"):
+        published = _publish_on_render(path, updated, cfg, deps, text)
+        if published:
+            return result
+        updated = store.load_draft(path.stem)[1] if store.load_draft(path.stem) else updated
     # تركيب ناجح ← قضية مراجعة الريل (Issue #1469، R4a): تُفتح أو يُعاد كتابة جسمها ويُعلَّق عليها بدل قضية المرحلة 2؛
     # فشل فتحها لا يُفشل التركيب والتعليق يبقى على قضية المرحلة 2 احتياطًا
     if ok and cfg.path("reel.review.enabled", True):
@@ -2864,6 +2872,34 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
         except Exception as exc:  # noqa: BLE001 -- التعليق إخبار لا شرط للتركيب
             log.warning("تعذّر التعليق على القضية %s: %s", issue, str(exc)[:150])
     return result
+
+
+def _publish_on_render(path: Path, draft: dict, cfg, deps: Deps, notes_text: str) -> bool:
+    """ينشر ريلًا اعتُمد بـ«انشر فورًا» بعد تركيبه (Issue #1538، W4). يعيد True إن نُشر (وانتهى الأمر)، وFalse إن فشل
+    النشر فتُفتح قضية المراجعة بالمسار القائم. publish_on_render يُزال في الحالتين: التركيب نجح والمحاولة جرت."""
+    from . import publish
+    t = cfg.path("reel.review", {}) or {}
+    title = (draft.get("script") or {}).get("title") or draft.get("title", draft["id"])
+    d = store.update_draft(path, status="approved_reel")
+    ok, info = False, ""
+    try:
+        ok, info = publish.publish_reel_draft(path, d, cfg)
+    except Exception as exc:  # noqa: BLE001 -- عطل غير متوقع يُعامَل فشل نشر قابلًا لإعادة المحاولة
+        info = " ".join(str(exc).split())[:300] or exc.__class__.__name__
+        store.update_draft(path, status="failed", error=info, failed_stage="facebook_reel",
+                           failed_at=datetime.now(timezone.utc).isoformat())
+    store.update_draft(path, remove=["publish_on_render"])
+    if not ok:
+        log.warning("فشل نشر الريل %s بعد تركيبه: %s", path.stem, info[:150])
+        return False
+    issue = draft.get("stage2_issue") or draft.get("review_issue")
+    if issue:
+        line = t.get("published", "").format(title=title, url=info)
+        try:
+            deps.comment(int(issue), line + "\n\n" + notes_text)
+        except Exception as exc:  # noqa: BLE001 -- التعليق إخبار لا شرط للنشر
+            log.warning("تعذّر التعليق على القضية %s: %s", issue, str(exc)[:150])
+    return True
 
 
 # ───────────────────────────── الطابور ─────────────────────────────

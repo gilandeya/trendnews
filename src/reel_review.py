@@ -33,6 +33,9 @@ def build_body(draft: dict, cfg) -> str:
                               narrator=narrator) + f" <!-- draft:{draft['id']} -->",
              "", t["video"].format(url=base + draft.get("reel_file", "")),
              t["preview"].format(url=base + draft.get("reel_gif", "")), ""]
+    # فشل نشر ريل «انشر فورًا» (Issue #1538، W4): السبب يظهر في القضية وإعادة approved تعيد المحاولة
+    if draft.get("status") == "failed" and draft.get("failed_stage") == "facebook_reel":
+        lines += [t["publish_failed"].format(title=script.get("title", ""), url="", reason=draft.get("error", "")), ""]
     notes = draft.get("render_notes") or []
     if notes:
         lines += [f"**{t['notes_title']}**", ""] + [f"- {n}" if not n.lstrip().startswith(("-", "#")) else n
