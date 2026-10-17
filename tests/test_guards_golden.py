@@ -14349,3 +14349,268 @@ def test_r4d_reel_block_guards() -> None:
     out = subprocess.run([sys.executable, "-c", code], cwd=str(Path(__file__).resolve().parent.parent), env=env, capture_output=True, text=True, timeout=120)
     check("g424: استيراد helpers وحده يحجب review.create_issue ويمسح التوكن",
           out.stdout.split() == ["BLOCKED", "CLEAN"], (out.stdout, out.stderr[-300:]))
+
+
+def test_reel_quote_outro_r5h_guards() -> None:
+    """Issue #1592 (R5h، g425–g430): ترجمة كلام المتحدث سطرًا واحدًا تظهر كلمة كلمة بتزامن مع كلامه، والشعار الكبير يحلّ
+    محلّ «تابعوا الموجز» في الختام. g428 وg430 بـffmpeg حقيقي ويُتخطّيان إن غاب (ffmpeg وحده؛ لا ffprobe)."""
+    import subprocess
+    import tempfile
+    from pathlib import Path
+
+    import numpy as np
+
+    from src import imaging, reel_render
+
+    cfg = load_config()
+    W, H = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
+    fps = int(cfg.path("reel.render.fps"))
+    work_root = Path(tempfile.mkdtemp())
+    pen = reel_render._Pen(cfg, [])
+    max_w = pen.max_w
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def ink_bbox(im):
+        a = np.asarray(im.convert("RGBA"))
+        m = (a[..., 3] > 0) & (a[..., :3].min(axis=2) > 200)
+        ys, xs = np.nonzero(m)
+        return None if len(xs) == 0 else (int(xs.min()), int(ys.min()), int(xs.max()) + 1, int(ys.max()) + 1)
+
+    quote30 = " ".join(["الحكومة", "أعلنت", "اليوم", "عن", "خطة", "جديدة", "للاقتصاد", "تشمل", "دعما", "مباشرا"] * 3)
+
+    # ── g425: سطر واحد في كل حالة، الخط 58، وكلمة طويلة تُصغَّر ولا تنزل عن 38 ──
+    def g425():
+        check("g425: sizes.quote == [58, 38]", list(cfg.path("reel.render.sizes.quote")) == [58, 38],
+              cfg.path("reel.render.sizes.quote"))
+        layout = reel_render.quote_layout(cfg, quote30)
+        check("g425: 30 كلمة في عدة أسطر وكلماتها كلها", sum(len(l["words"]) for l in layout) == 30 and len(layout) > 1,
+              [len(l["words"]) for l in layout])
+        check("g425: الخط 58 = 1.25 × 46", all(l["size"] == 58 for l in layout) and 58 == round(1.25 * 46), [l["size"] for l in layout])
+        states = reel_render.quote_states(layout)
+        check("g425: حالة لكل كلمة", len(states) == 30, len(states))
+        worst = 0
+        for ln, shown in states:
+            box = ink_bbox(reel_render.frame_quote_state(cfg, layout, ln, shown))
+            worst = max(worst, 0 if box is None else box[2] - box[0])
+        check("g425: عرض حبر كل حالة ≤ max_w", 0 < worst <= max_w, (worst, max_w))
+        full = reel_render.frame_quote_state(cfg, layout, 0, len(layout[0]["words"]))
+        a = np.asarray(full)[..., 3]
+        rows = np.nonzero(a.max(axis=1) > 0)[0]
+        check("g425: الصندوق الداكن بارتفاع سطر واحد", 0 < rows.max() - rows.min() < int(58 * 1.62) + 80, (rows.min(), rows.max()))
+        long_word = "ا" + "لاستقلالية" * 4 + "ات"
+        lay2 = reel_render.quote_layout(cfg, f"قال {long_word} غدا")
+        big = [l for l in lay2 if long_word in l["words"]]
+        check("g425: الكلمة الأطول من العرض في سطر وحدها", len(big) == 1 and big[0]["words"] == [long_word], lay2)
+        sz = big[0]["size"] if big else 0
+        check("g425: تُصغَّر وتبقى ≥ 38", 38 <= sz < 58, sz)
+        idx = lay2.index(big[0])
+        box = ink_bbox(reel_render.frame_quote_state(cfg, lay2, idx, 1))
+        check("g425: حبرها ≤ max_w", box is not None and box[2] - box[0] <= max_w, box)
+    guarded("g425", g425)
+
+    # ── g426: quote_word_times ──
+    def g426():
+        trans = reel_render.transition_seconds(cfg)
+        lead, tail = float(cfg.path("reel.render.quote.lead")), float(cfg.path("reel.render.quote.tail"))
+        check("g426: quote.lead 0.3 وquote.tail 0.4", (lead, tail) == (0.3, 0.4), (lead, tail))
+        # وقفة 3 ث: مقطع نصه فارغ بين الكلام (يمتد من 4 إلى 7)، والنافذة تبدأ عند 100
+        segs = [(100.0, "one two three four"), (102.0, "five six"), (104.0, ""), (107.0, "seven eight nine ten")]
+        n, clip_s = 12, 10.0
+        ts = reel_render.quote_word_times(n, clip_s, segs, 100.0, cfg)
+        check("g426: عدد الأزمنة = n", len(ts) == n, len(ts))
+        check("g426: متزايدة", all(b > a for a, b in zip(ts, ts[1:])), ts)
+        check("g426: أولها ≥ transition_seconds", ts[0] >= trans - 1e-9, (ts[0], trans))
+        check("g426: آخرها ≤ clip_seconds − 0.1", ts[-1] <= clip_s - 0.1 + 1e-9, ts[-1])
+        check("g426: لا كلمة داخل الوقفة (4..7)", not any(4.02 < t < 6.98 for t in ts), ts)
+        check("g426: الكلمات تتبع الكلام: نصفها الأول قبل الوقفة", sum(1 for t in ts if t <= 4.02) >= 6, ts)
+        u = reel_render.quote_word_times(8, 6.0, [], 0.0, cfg)
+        lo, hi = max(lead, trans), 6.0 - tail
+        want = [lo + (hi - lo) * k / 8 for k in range(8)]
+        check("g426: بلا مقاطع ← توزيع متساوٍ بين lead و clip−tail", len(u) == 8 and all(abs(a - b) < 0.02 for a, b in zip(u, want)), (u, want))
+        check("g426: بلا مقاطع ← أولها ≥ transition", u[0] >= trans - 1e-9, u[0])
+        early = reel_render.quote_word_times(4, 5.0, [(95.0, "a b c d e f g h"), (101.0, "i j k l")], 100.0, cfg)
+        check("g426: مقطع سابق للنافذة ← أزمنة ضمن [transition، clip−0.1]",
+              early[0] >= trans - 1e-9 and early[-1] <= 4.9 + 1e-9 and all(b > a for a, b in zip(early, early[1:])), early)
+    guarded("g426", g426)
+
+    # ── g427: تتابع الحالات ──
+    def g427():
+        layout = reel_render.quote_layout(cfg, quote30)
+        states = reel_render.quote_states(layout)
+        expect = [(i, k) for i, l in enumerate(layout) for k in range(1, len(l["words"]) + 1)]
+        check("g427: كل سطر يكتمل كلمةً كلمة ثم يليه السطر التالي بكلمته الأولى", states == expect, states[:6])
+        l0 = len(layout[0]["words"])
+        first_next = reel_render.frame_quote_state(cfg, layout, 1, 1)
+        full0 = reel_render.frame_quote_state(cfg, layout, 0, l0)
+        b1, b0 = ink_bbox(first_next), ink_bbox(full0)
+        check("g427: حالة السطر التالي الأولى أضيق من السطر السابق كاملًا (كلمة واحدة)",
+              b1 is not None and b0 is not None and (b1[2] - b1[0]) < (b0[2] - b0[0]) * 0.5, (b1, b0))
+        a1 = np.asarray(first_next)[..., :3].min(axis=2) > 200
+        w_first = np.nonzero(a1.any(axis=0))[0]
+        outside = a1.copy()
+        outside[:, max(0, w_first.min() - 4): w_first.max() + 5] = False
+        check("g427: لا شيء من السطر السابق في حالة السطر التالي", not outside.any(), int(outside.sum()))
+        last = reel_render.frame_quote_state(cfg, layout, len(layout) - 1, len(layout[-1]["words"]))
+        check("g427: الحالة الأخيرة هي السطر الأخير كاملًا",
+              states[-1] == (len(layout) - 1, len(layout[-1]["words"])) and ink_bbox(last) is not None, states[-1])
+        (work_root / "g427").mkdir(exist_ok=True)
+        frames = reel_render.quote_frames(cfg, quote30, [0.5 + 0.1 * k for k in range(30)], 6.0, work_root / "g427", "q")
+        check("g427: ملفات الحالات = 1 فارغة + 30", len(frames) == 31 and all(Path(f).exists() for f, _ in frames), len(frames))
+        check("g427: المدد موجبة ومجموعها يغطي المقطع", all(d > 0 for _, d in frames) and sum(d for _, d in frames) >= 6.0 - 1e-6,
+              sum(d for _, d in frames))
+    guarded("g427", g427)
+
+    ffmpeg = shutil.which("ffmpeg")
+
+    # ── g428: ffmpeg حقيقي ──
+    def g428():
+        if not ffmpeg:
+            check("g428: تُخطّي — لا ffmpeg في هذه البيئة", True)
+            return
+        work = work_root / "g428"
+        work.mkdir()
+        n = 3
+        while True:
+            q = " ".join(["كلمة", "طويلة", "نسبيا"] * n)
+            layout = reel_render.quote_layout(cfg, q)
+            if len(layout) >= 2 or n > 12:
+                break
+            n += 1
+        check("g428: الاقتباس سطران فأكثر", len(layout) >= 2, len(layout))
+        total = sum(len(l["words"]) for l in layout)
+        times = [0.6 + 0.4 * g for g in range(total)]
+        clip_s = max(6.0, times[-1] + 1.0)
+        src = work / "src.mp4"
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "lavfi", "-i", f"color=c=0x303030:s=640x360:r=30:d={clip_s}",
+                        "-f", "lavfi", "-i", f"sine=frequency=300:duration={clip_s}", "-shortest", "-pix_fmt", "yuv420p", str(src)],
+                       check=True)
+        scene = {"kind": "clip", "quote_arabic": q, "channel_display": "قناة"}
+        static, band = reel_render.frame_clip_layers(cfg, scene, quote=False)
+        ovs = (reel_render._save(static, work / "st.png"), reel_render._save(band, work / "bd.png"))
+        frames = reel_render.quote_frames(cfg, q, times, clip_s, work, "q")
+        deps = reel_render.Deps(faces=lambda f, fr: (640, 360, []),
+                                frames=lambda c, fr: [np.full((360, 640), 100, np.uint8)] * len(fr)).resolved(cfg)
+        out = work / "out.mp4"
+        reel_render._clip_scene({"file": src, "seconds": clip_s}, ovs, out, cfg, deps, scene, [], quote_frames=frames)
+        raw = subprocess.run(["ffmpeg", "-v", "error", "-i", str(out), "-vf", f"scale={W // 4}:{H // 4}", "-f", "rawvideo",
+                              "-pix_fmt", "gray", "-"], capture_output=True, check=True).stdout
+        fs = np.frombuffer(raw, np.uint8).reshape(-1, H // 4, W // 4).astype(np.int16)
+        top = int(cfg.path("reel.render.band.top"))
+        reg = slice((top - 330) // 4, (top - 20) // 4)
+        diffs = [float(np.abs(fs[i + 1][reg] - fs[i][reg]).mean()) for i in range(len(fs) - 1)]
+        change_frames = {round(t * fps) for t in times}
+        changed = [i + 1 for i, d in enumerate(diffs) if d > 0.25]
+        check("g428: كل كلمة تغيّر البكسلات عند زمنها (±1 إطار)",
+              all(any(abs(f - c) <= 1 for c in changed) for f in change_frames), (sorted(change_frames)[:6], changed[:8]))
+        check("g428: لا تغيّر بين أزمنة الكلمات", all(any(abs(f - c) <= 1 for f in change_frames) for c in changed),
+              [c for c in changed if not any(abs(f - c) <= 1 for f in change_frames)][:6])
+        g2 = len(layout[0]["words"])
+        probe_i = min(round(times[g2] * fps) + 3, len(fs) - 1)
+        mask = fs[probe_i][reg] > 150
+        full_state = np.asarray(reel_render.frame_quote_state(cfg, layout, 1, 1))
+        ws = np.nonzero((full_state[..., :3].min(axis=2) > 200).any(axis=0))[0]
+        lo, hi = max(0, ws.min() // 4 - 4), ws.max() // 4 + 5
+        outside = mask.copy()
+        outside[:, lo:hi] = False
+        check("g428: لا حبر من السطر الأول بعد بدء الثاني", not outside.any(), int(outside.sum()))
+    guarded("g428", g428)
+
+    # ── g429: الخاتمة ──
+    def g429():
+        t = cfg.path("reel.render.texts")
+        phrase = t["follow"]
+        out = cfg.path("reel.render.outro")
+        check("g429: outro: logo_width 420 وlogo_top 500 وlogo_move 0.9",
+              (out["logo_width"], out["logo_top"], out["logo_move"]) == (420, 500, 0.9), out)
+        fo = reel_render.frame_outro(cfg, "الجزيرة")
+        fpath, fw = reel_render.face(cfg, phrase, "display")
+        font = imaging.load_font(fpath, 112, fw)
+        box = pen.ink(phrase, font, (pen.cx, 560), "ma")
+        a = np.asarray(fo.convert("RGB")).astype(int)
+        navy = np.array(imaging.hex_rgb(cfg.path("brand.primary_color")))
+        reg = a[box[1]:box[3], box[0]:box[2]]
+        check("g429: لا حبر لـ«تابعوا الموجز» في صندوقها القديم", not (np.abs(reg - navy).sum(axis=2) > 60).any(),
+              int((np.abs(reg - navy).sum(axis=2) > 60).sum()))
+        boxes: list = []
+        reel_render.frame_outro(cfg, "الجزيرة، العربية", boxes, "الصورة: رويترز")
+        logo_bottom = int(out["logo_top"]) + round(int(out["logo_width"]) * 664 / 1200)
+        check("g429: كل نصوص الختام تحت الشعار", all(b[1] >= logo_bottom for b in boxes), (logo_bottom, [b[1] for b in boxes][:5]))
+        hook_end, start, move = 3.0, 20.0, float(out["logo_move"])
+        lg = cfg.path("reel.render.logo")
+        corner = (W - int(lg["right"]) - int(lg["width"]), int(lg["top"]), int(lg["width"]))
+        s0 = reel_render.logo_state(start, cfg, hook_end, start)
+        check("g429: عند outro_start = موضع الزاوية", tuple(round(v, 3) for v in s0[:3]) == tuple(float(v) for v in corner), s0)
+        s1 = reel_render.logo_state(start + move, cfg, hook_end, start)
+        want = ((W - 420) / 2, 500.0, 420.0)
+        check("g429: عند outro_start + logo_move = (المنتصف، 500، 420)", all(abs(x - y) < 1e-6 for x, y in zip(s1[:3], want)), s1)
+        s2 = reel_render.logo_state(start + move + 5, cfg, hook_end, start)
+        check("g429: بعدها ثابت", all(abs(x - y) < 1e-6 for x, y in zip(s2[:3], want)), s2)
+        check("g429: بلا outro_start السلوك القديم",
+              reel_render.logo_state(30, cfg, hook_end)[:3] == reel_render.logo_state(30, cfg, hook_end, None)[:3]
+              and abs(reel_render.logo_state(30, cfg, hook_end)[0] - corner[0]) < 1e-6, None)
+        ex = reel_render._logo_exprs(cfg, hook_end, start)
+        ok = True
+        for tt in (0.2, 5.0, start, start + move / 2, start + move + 1):
+            env = {"t": tt, "min": min, "max": max, "pow": pow}
+            got = tuple(eval(ex[k], {"__builtins__": {}}, env) for k in ("x", "y", "w"))  # noqa: S307 -- تعبير من الكود نفسه
+            ref = reel_render.logo_state(tt, cfg, hook_end, start)[:3]
+            ok = ok and all(abs(g - r) < 1e-3 for g, r in zip(got, ref))
+        check("g429: _logo_exprs تطابق logo_state عند 5 أزمنة", ok, None)
+        orig = imaging.find_logo
+        imaging.find_logo = lambda *a, **k: None
+        try:
+            fo2 = reel_render.frame_outro(cfg, "الجزيرة")
+        finally:
+            imaging.find_logo = orig
+        a2 = np.asarray(fo2.convert("RGB")).astype(int)
+        reg2 = a2[box[1]:box[3], box[0]:box[2]]
+        check("g429: بلا شعار تعود العبارة", (np.abs(reg2 - navy).sum(axis=2) > 60).any(), None)
+    guarded("g429", g429)
+
+    # ── g430: ffmpeg حقيقي — شعار الختام ──
+    def g430():
+        if not ffmpeg:
+            check("g430: تُخطّي — لا ffmpeg في هذه البيئة", True)
+            return
+        navy = tuple(imaging.hex_rgb(cfg.path("brand.primary_color")))
+        for variant, kinds in (("nohook", ["clip", "outro"]), ("hook", ["hook", "clip", "outro"])):
+            work = work_root / ("g430_" + variant)
+            work.mkdir()
+            durs = [5.0] * (len(kinds) - 1) + [3.0]
+            total = sum(durs)
+            joined = work / "joined.mp4"
+            subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "lavfi", "-i",
+                            f"color=c=0x{navy[0]:02X}{navy[1]:02X}{navy[2]:02X}:s={W}x{H}:r={fps}:d={total}",
+                            "-f", "lavfi", "-i", f"sine=frequency=300:duration={total}", "-shortest", "-pix_fmt", "yuv420p",
+                            str(joined)], check=True)
+            logo = reel_render._trimmed_logo(cfg, work)
+            outro_start = sum(durs[:-1]) + 0.35
+            final = work / "final.mp4"
+            deps = reel_render.Deps().resolved(cfg)
+            reel_render._final_pass(joined, final, logo, cfg, deps, kinds, durs, outro_start, None)
+
+            def grab(at):
+                raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{at:.3f}", "-i", str(final), "-frames:v", "1", "-f", "rawvideo",
+                                      "-pix_fmt", "rgb24", "-"], capture_output=True, check=True).stdout
+                return np.frombuffer(raw, np.uint8).reshape(H, W, 3).astype(int)
+
+            def bbox(img, y0, y1):
+                m = np.abs(img[y0:y1] - np.array(navy)).sum(axis=2) > 120
+                ys, xs = np.nonzero(m)
+                return None if len(xs) == 0 else (int(xs.min()), int(xs.max()) + 1)
+            last = grab(total - 0.1)
+            b = bbox(last, 420, 760)
+            check(f"g430 {variant}: عرض الشعار في آخر إطار 420 ± 6", b is not None and abs((b[1] - b[0]) - 420) <= 6, b)
+            check(f"g430 {variant}: مركزه الأفقي في الوسط ± 6", b is not None and abs((b[0] + b[1]) / 2 - W / 2) <= 6, b)
+            first = grab(outro_start + 0.05)
+            fb = bbox(first, 60, 360)
+            lg = cfg.path("reel.render.logo")
+            right = W - int(lg["right"])
+            check(f"g430 {variant}: أول إطار من الختام الشعار في الزاوية",
+                  fb is not None and abs(fb[1] - right) <= 12 and (fb[1] - fb[0]) <= int(lg["width"]) + 16, (fb, right))
+    guarded("g430", g430)
