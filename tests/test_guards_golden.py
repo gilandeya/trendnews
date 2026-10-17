@@ -12514,3 +12514,192 @@ def test_reel_script_keys_r5d3_guards() -> None:
         reel_render.pick_background = real["bg"]
         youtube_cluster._load_topics_raw = real["topics"]
         youtube_cluster.prepare_window_points = real["win"]
+
+
+def test_reel_review_r4a_guards() -> None:
+    """Issue #1469 (R4a، g389–g391): قضية المراجعة النهائية للريل (وسم reel-review) — جسمها، وفتحها/تحديثها عند كل تركيب
+    ناجح بلا قضية جديدة، وقراءة approved منها (approved_reel) بلا نشر. لا شبكة ولا ffmpeg."""
+    import shutil
+    import sys
+    import tempfile
+    from pathlib import Path
+
+    from src import publish as publish_mod
+    from src import reel_render, reel_script, review, stages, store
+    from tests.helpers import tick_marker
+    try:
+        from src import reel_review
+    except ImportError:          # قبل التنفيذ: تفشل الحالات واحدة واحدة بدل أن ينهار الاختبار كله
+        reel_review = None
+
+    cfg = load_config()
+    cfg.setdefault("reel", {})["enabled"] = True
+    D = "2099-12-06"
+
+    def reel_draft(did, **extra):
+        d = {"id": did, "origin": "analysis", "format": "reel", "status": "approved_script",
+             "render_status": "rendered", "topic_id": "t1", "topic_date": D, "title": "ريل", "script_status": "ready",
+             "script": {"narrator": "female", "title": "عنوان الشاشة", "question": "هل؟", "scenes": []},
+             "duration_seconds": 41.0, "reel_file": "reels/2099-12-06/" + did + ".mp4",
+             "reel_gif": "reels/2099-12-06/" + did + ".gif",
+             "headlines": ["هل تغيّر الموقف؟", "ما الذي جرى؟", "كيف قرأت القنوات الحدث؟"],
+             "render_sources": "الجزيرة، العربية",
+             "render_notes": ["🎬 رُكّب الريل", "🏷️ ملاحظة تركيب أولى", "🎞️ لقطات الحدث: 2 من 5"]}
+        d.update(extra)
+        return d
+
+    # ── g389: الجسم ──
+    def g389():
+        d = reel_draft("a4a000003890")
+        body = reel_review.build_body(d, cfg)
+        base = cfg.path("reel.render.data_link_base")
+        check("g389: ترويسة المرحلة 3", stages.stage_header(3, cfg) in body, body[:200])
+        check("g389: العنوان والمدة وجنس الراوي", "عنوان الشاشة" in body and "41" in body, body[:400])
+        check("g389: رابطا الفيديو والمعاينة", base + d["reel_file"] in body and base + d["reel_gif"] in body, body)
+        check("g389: سطور render_notes كلها", all(n in body for n in d["render_notes"]), body)
+        check("g389: ثلاثة مربعات hl: والأول معلَّم",
+              all(f"<!-- hl:{d['id']}:{k} -->" in body for k in range(3)) and f"- [x] 1. {d['headlines'][0]}" in body, body)
+        sources = cfg.path("reel.render.texts.clips_from").format(channels=d["render_sources"])
+        check("g389: نص المنشور بالعنوان الأول ثم سطر فارغ ثم سطر المصادر",
+              f"{d['headlines'][0]}\n\n{sources}" in body, body)
+        check("g389: خيار انشر وحده", f"<!-- go:publish:{d['id']} -->" in body
+              and not any(f"go:{a}:" in body for a in ("go1", "go2", "go3")), body)
+        check("g389: لا <img>", "<img" not in body.lower(), body)
+    try:
+        g389()
+    except Exception as exc:  # noqa: BLE001
+        check("g389: استثناء", False, repr(exc))
+
+    # ── g390: فتح القضية وتحديثها وفشلها ──
+    points = [{"video_id": "v1", "statement": "s", "quote_original": "alpha beta gamma delta epsilon zeta eta theta",
+               "quote_arabic": "ترجمة", "speaker": "متحدث", "channel": "قناة",
+               "video_url": "https://youtube.com/watch?v=v1", "timestamp": 10}]
+    pid = reel_script.point_key_id(points[0])
+    clip = {"kind": "clip", "point_id": pid, "video_url": "https://youtube.com/watch?v=v1", "start": 9, "end": 20,
+            "speaker_name": "", "speaker_role": "", "speaker_verified": False, "speaker_name_latin": "",
+            "channel_display": "قناة", "quote_arabic": "ترجمة", "language": "en"}
+    scenes = [dict(clip, kind="cold_open_clip"),
+              {"kind": "narration", "text": "جملة أولى قصيرة. وجملة ثانية أطول قليلًا."},
+              dict(clip), {"kind": "question", "text": "هل؟"}, {"kind": "outro"}]
+    transcripts = {"v1": "[00:10] alpha beta gamma delta\n[00:14] epsilon zeta eta theta\n[00:18] tail line"}
+
+    def make_deps(comments):
+        def run(cmd):
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+
+        def download(video_id, start, end, height, out_path):
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        return reel_render.Deps(
+            fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
+            synthesize=lambda t, voice: {"ok": True, "audio": b"mp3", "chars": len(t)},
+            diacritize=lambda t: (t, None), run=run,
+            probe=lambda p: 41.0 if (Path(p).name == "final.mp4" or "reels" in Path(p).parts) else 2.0,
+            load_points=lambda date: points, comment=lambda i, t: comments.append((i, t)),
+            faces=lambda f, fr: (1280, 720, []), streams=lambda p: {"video", "audio"})
+
+    def unrendered(did, issue, title):
+        d = reel_draft(did, render_status="queued", review_issue=issue)
+        for k in ("reel_file", "reel_gif", "render_notes", "render_sources"):
+            d.pop(k)
+        d["script"] = {"narrator": "female", "title": title, "question": "هل؟", "scenes": scenes}
+        return d
+
+    tmp = Path(tempfile.mkdtemp())
+    created: list = []
+    updated: list = []
+    saved = (review.ensure_labels, review.create_issue, review.update_issue_body)
+    state = {"fail": False}
+
+    def fake_create(title, body, labels=None):
+        if state["fail"]:
+            raise RuntimeError("down")
+        created.append((title, body, labels))
+        return {"number": 501}
+
+    review.ensure_labels = lambda: None
+    review.create_issue = fake_create
+    review.update_issue_body = lambda n, b: updated.append((n, b))
+    try:
+        def g390():
+            d = unrendered("a4a000003900", 77, "عنوان الشاشة")
+            path = store.save_draft(d)
+            c1: list = []
+            reel_render.render_draft(path, store.load_draft(d["id"])[1], cfg, make_deps(c1),
+                                     reels_dir=tmp / "reels", workdir=tmp / "w1")
+            got = store.load_draft(d["id"])[1]
+            check("g390: تركيب أول ← قضية واحدة بوسم reel-review وعنوان «🎬 مراجعة الريل — …»",
+                  len(created) == 1 and created[0][2] == ["reel-review"]
+                  and created[0][0] == "🎬 مراجعة الريل — عنوان الشاشة", created)
+            check("g390: reel_review_issue وrender_notes محفوظان", got.get("reel_review_issue") == 501
+                  and isinstance(got.get("render_notes"), list) and bool(got["render_notes"]), got.get("render_notes"))
+            check("g390: تعليق التركيب على قضية المراجعة لا قضية المرحلة 2", [i for i, _ in c1] == [501], c1)
+            c2: list = []
+            reel_render.render_draft(path, got, cfg, make_deps(c2), reels_dir=tmp / "reels", workdir=tmp / "w2")
+            check("g390: تركيب ثانٍ ← لا قضية جديدة وجسم القضية نفسها يُعاد كتابته",
+                  len(created) == 1 and [n for n, _ in updated] == [501], (len(created), updated))
+            check("g390: تعليق التركيب الثاني على القضية نفسها", [i for i, _ in c2] == [501], c2)
+            d2 = unrendered("a4a000003901", 78, "ع")
+            path2 = store.save_draft(d2)
+            state["fail"] = True
+            c3: list = []
+            res = reel_render.render_draft(path2, store.load_draft(d2["id"])[1], cfg, make_deps(c3),
+                                           reels_dir=tmp / "reels", workdir=tmp / "w3")
+            state["fail"] = False
+            check("g390: فشل فتح القضية ← التركيب ينجح والتعليق على قضية المرحلة 2",
+                  res.get("render_status") == "rendered" and [i for i, _ in c3] == [78],
+                  (res.get("render_status"), c3))
+        g390()
+    except Exception as exc:  # noqa: BLE001
+        check("g390: استثناء", False, repr(exc))
+    finally:
+        review.ensure_labels, review.create_issue, review.update_issue_body = saved
+
+    # ── g391: approved على قضية reel-review ──
+    def run_main(body, number, *extra):
+        msgs: list[str] = []
+        s = (publish_mod.fetch_issue, review.comment, review.close_issue, review.remove_label, sys.argv,
+             publish_mod.load_config)
+        publish_mod.load_config = lambda *a, **k: cfg
+        publish_mod.fetch_issue = lambda n: {"number": n, "body": body,
+                                             "labels": [{"name": "reel-review"}, {"name": "approved"}]}
+        review.comment = lambda n, t: msgs.append(t)
+        review.close_issue = lambda n: None
+        review.remove_label = lambda n, lbl: None
+        sys.argv = ["publish", "--issue", str(number), *extra]
+        try:
+            publish_mod.main()
+        finally:
+            (publish_mod.fetch_issue, review.comment, review.close_issue, review.remove_label, sys.argv,
+             publish_mod.load_config) = s
+        return msgs
+
+    def g391():
+        d = reel_draft("a4a000003910", review_issue=601)
+        store.save_draft(d)
+        body = reel_review.build_body(d, cfg)
+        marked = tick_marker(tick_marker(body, f"go:publish:{d['id']}"), f"hl:{d['id']}:1")
+        msgs = run_main(marked, 601, "--skip-urgent")
+        got = store.load_draft(d["id"])[1]
+        check("g391: «انشر» مع العنوان الثاني ← approved_reel وheadline_selected = 1",
+              got["status"] == "approved_reel" and got.get("headline_selected") == 1,
+              (got["status"], got.get("headline_selected")))
+        check("g391: تعليق «✅ اعتُمد الريل — يُنشر حين تُفعَّل مرحلة النشر (R4b)»",
+              any("✅ اعتُمد الريل — يُنشر حين تُفعَّل مرحلة النشر (R4b)" in m for m in msgs), msgs)
+        d2 = reel_draft("a4a000003911", review_issue=602)
+        store.save_draft(d2)
+        run_main(reel_review.build_body(d2, cfg), 602, "--skip-urgent")
+        check("g391: بلا تعليم ← مرفوض", store.load_draft(d2["id"])[1]["status"] == "rejected",
+              store.load_draft(d2["id"])[1]["status"])
+        d3 = reel_draft("a4a000003912", review_issue=603)
+        store.save_draft(d3)
+        m3 = run_main(tick_marker(reel_review.build_body(d3, cfg), f"go:publish:{d3['id']}"), 603, "--urgent-only")
+        got3 = store.load_draft(d3["id"])[1]
+        check("g391: --urgent-only ← لا شيء", got3["status"] == "approved_script" and not m3, (got3["status"], m3))
+    try:
+        g391()
+    except Exception as exc:  # noqa: BLE001
+        check("g391: استثناء", False, repr(exc))
+    shutil.rmtree(tmp, ignore_errors=True)

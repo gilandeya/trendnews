@@ -2344,7 +2344,8 @@ def _prepare_broll(script: dict, nar_idx: list[int], speech_cache: dict, plan: l
 
 def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str, bg: dict | None = None,
               credit: str = "", speakers: dict | None = None, notes: list | None = None, draft: dict | None = None,
-              crops: dict | None = None, broll: dict | None = None) -> tuple[list[Path], list[str], list[float]]:
+              crops: dict | None = None, broll: dict | None = None,
+              sources_out: list | None = None) -> tuple[list[Path], list[str], list[float]]:
     rcfg = cfg.path("reel.render")
     lead = transition_seconds(cfg)
     names = list(dict.fromkeys(s.get("channel_display", "") for i, s in enumerate(script["scenes"])
@@ -2385,6 +2386,9 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
             if ch.casefold() not in (n.casefold() for n in names):
                 names.append(ch)
     channels = "، ".join(names)
+    # سطر «المقاطع من» نفسه يُحفظ لقضية المراجعة النهائية (Issue #1469، R4a) كي يطابق نصّ المنشور ما في الخاتمة
+    if sources_out is not None:
+        sources_out.append(channels)
     for i, scene in order:
         kind, out = scene.get("kind"), tmp / f"scene_{i:02d}.mp4"
         if i == hook_idx:
@@ -2683,9 +2687,10 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
         _topic_hook(path, draft, script, broll, cfg, notes, deps)
     speakers: dict = {}
     hook_crops: dict = {}
+    sources_out: list = []
     scene_files, kinds, durs = _assemble(script, clips, cfg, deps, tmp, voice, bg,
                                          outro_credit(cfg, bg["used"]) if bg else "", speakers, notes, draft, hook_crops,
-                                         broll=broll)
+                                         broll=broll, sources_out=sources_out)
     join_info: dict = {}
     joined = _join(scene_files, kinds, durs, cfg, deps, tmp, join_info)
 
@@ -2753,6 +2758,7 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     return {"reel_file": f"{sub}/{rel_dir}/{dest.name}", "reel_gif": f"{sub}/{rel_dir}/{gif.name}",
             "duration_seconds": round(total, 1), "render_version": int(rcfg.get("version", 1)),
             "render_attempts": 0, **({"reel_music": music} if music else {}),
+            "render_sources": sources_out[0] if sources_out else "",
             # الشكل المستعمل في هذا التركيب يُحفظ مع reel_bg؛ بلا صورة منزَّلة لا شكل
             "reel_bg": {**{k: v for k, v in bg_saved.items() if k != "layout"}, **({"layout": bg["layout"]} if bg else {})},
             "render_crops": {**{str(i): c["crop"] for i, c in clips.items() if "crop" in c}, **hook_crops},
@@ -2838,11 +2844,23 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
     remove = ((["render_error"] + ([] if "render_broll" in result else ["render_broll", "broll_scan"]))
               if result["render_status"] == "rendered"
               else [] if keep_files else ["reel_file", "reel_gif", "duration_seconds"])
-    store.update_draft(path, remove=remove, **changes)
+    text = _comment_text(cfg, draft, result, dropped, approx, notes)
+    ok = result["render_status"] == "rendered"
+    if ok:
+        changes["render_notes"] = text.split("\n")
+    updated = store.update_draft(path, remove=remove, **changes)
     issue = draft.get("review_issue")
+    # تركيب ناجح ← قضية مراجعة الريل (Issue #1469، R4a): تُفتح أو يُعاد كتابة جسمها ويُعلَّق عليها بدل قضية المرحلة 2؛
+    # فشل فتحها لا يُفشل التركيب والتعليق يبقى على قضية المرحلة 2 احتياطًا
+    if ok and cfg.path("reel.review.enabled", True):
+        try:
+            from . import reel_review
+            issue = reel_review.open_or_update(path, updated, cfg)
+        except Exception as exc:  # noqa: BLE001
+            log.warning("تعذّر فتح قضية مراجعة الريل %s: %s", path.stem, str(exc)[:150])
     if issue:
         try:
-            deps.comment(int(issue), _comment_text(cfg, draft, result, dropped, approx, notes))
+            deps.comment(int(issue), text)
         except Exception as exc:  # noqa: BLE001 -- التعليق إخبار لا شرط للتركيب
             log.warning("تعذّر التعليق على القضية %s: %s", issue, str(exc)[:150])
     return result

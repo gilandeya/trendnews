@@ -1363,6 +1363,35 @@ def cmd_queue(cfg) -> int:
     return 0
 
 
+def cmd_reel_review(issue_number: int, body: str, cfg) -> int:
+    """قضية المراجعة النهائية للريل (Issue #1469، R4a، وسم reel-review): «انشر» معلَّم ← status="approved_reel" وheadline_selected
+    من المربع المعلَّم، بلا نشر (R4b)؛ غير المعلَّم ← رفض كبقية البنود. status == "approved_script" يمنع إعادة المعالجة
+    لو تكرر الحدث."""
+    actions, _ = stages.read_actions(body, 3)
+    choice = review.parse_headline_choice(body)
+    texts = cfg.path("reel.review", {}) or {}
+    lines: list[str] = []
+    for did in review.all_draft_ids(body):
+        found = store.load_draft(did)
+        if not found or found[1].get("status") != "approved_script":
+            continue
+        path, d = found
+        title = (d.get("script") or {}).get("title") or d.get("title", did)
+        if actions.get(did) == "publish":
+            store.update_draft(path, status="approved_reel", headline_selected=choice.get(did, 0))
+            lines.append(texts.get("approved", "").format(title=title))
+        else:
+            store.update_draft(path, status="rejected")
+            entries = feedback.load()
+            feedback.record(entries, d, tag="لم يُعتمد", note="")
+            feedback.save(entries)
+            decisions.record_rejected_unchecked(d)
+    if lines:
+        review.comment(issue_number, "### 🎬 مراجعة الريل\n" + "\n".join(lines))
+    review.close_issue(issue_number)
+    return 0
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="جدولة ونشر المسودات المعتمدة")
     parser.add_argument("--issue", type=int, help="رقم Issue المراجعة")
@@ -1428,6 +1457,13 @@ def main() -> int:
     # فيجب ألا يصله هذا النوع من الـIssues إطلاقًا؛ cmd_final_review نفسها
     # عامة بلا أي فحص origin، فتنشر مسودة تحليل عبر publish_one كأي مسودة
     # أخرى بلا استثناء.
+    # Issue #1469 (R4a): قضية مراجعة الريل تُقرأ قبل بقية الوسوم، في المسار العادي وحده (العاجل لا ينشر ريلًا)
+    if "reel-review" in labels:
+        if args.urgent_only:
+            log.info("Issue #%s: reel-review — يُؤجَّل للمسار العادي", args.issue)
+            return 0
+        return cmd_reel_review(args.issue, body, cfg)
+
     if "final-review" in labels:
         return cmd_final_review(args.issue, body, cfg, urgent_only=args.urgent_only)
 
