@@ -702,6 +702,17 @@ def reopen_issue(issue_number: int) -> None:
     ).raise_for_status()
 
 
+def dispatch_workflow(file_name: str, ref: str) -> None:
+    """يطلق workflow بـworkflow_dispatch (Issue #1538، W4). ترفع عند العطل ليقرر المستدعي احتياطه."""
+    repo = _repo()
+    requests.post(
+        f"{API}/repos/{repo}/actions/workflows/{file_name}/dispatches",
+        headers=_headers(),
+        json={"ref": ref},
+        timeout=45,
+    ).raise_for_status()
+
+
 def issue_state(issue_number: int) -> str:
     """حالة القضية الآن ("open"/"closed") بطلب GET (Issue #1536، W2b). ترفع عند العطل."""
     repo = _repo()

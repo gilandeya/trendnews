@@ -810,7 +810,7 @@ def _reel_item_lines(idx: int, d: dict, cfg) -> list[str]:
         out += [f"  {texts.get('script_failed_line', '').format(reason=d.get('script_error', ''))}", ""]
     elif on and script and d.get("script_status") == "ready":
         from . import editor, reel_script
-        only, labels = ("go1", "go3"), {"go3": texts.get("go3", "")}
+        only, labels = ("go1", "go3", "publish"), {"go3": texts.get("go3", ""), "publish": texts.get("publish", "")}
         narrator = texts.get(f"narrator_{script.get('narrator')}", script.get("narrator", ""))
         seconds = round(reel_script.estimate_seconds(script, cfg))
         out += [f"  {texts.get('script_meta', '').format(narrator=narrator, seconds=seconds)}",

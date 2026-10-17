@@ -630,7 +630,9 @@ def report_conflicts(issue_number: int, conflicts: list[dict], stage: int, cfg) 
     lines = ["⚠️ عُلِّم أكثر من خيار انتقال على بعض الأخبار — نُفِّذ الأبكر ترتيبًا:"]
     for item in conflicts:
         found = store.load_draft(item["id"])
-        title = found[1]["arabic"]["post_title"][:50] if found else item["id"]
+        # الريل بلا arabic (Issue #1538، W4): عنوانه title أو عنوان سيناريوه
+        title = ((found[1].get("arabic") or {}).get("post_title") or found[1].get("title") or item["id"])[:50] \
+            if found else item["id"]
         marked = " + ".join(stages.action_label(a, stage, cfg) for a in item["marked"])
         lines.append(f"- {title}: {marked} ← نُفِّذ: "
                      f"{stages.action_label(item['marked'][0], stage, cfg)}")
@@ -1231,7 +1233,7 @@ def _write_reel_script(draft: dict, topic_date: str, cfg, client=None, issue_num
     return result
 
 
-def approve_reel_scripts(issue_number: int, reel_ids: list[str], body: str, cfg) -> list[str]:
+def approve_reel_scripts(issue_number: int, reel_ids: list[str], body: str, cfg, actions: dict | None = None) -> list[str]:
     """go3 للريل في قضية المرحلة 2 (Issue #1338، R2): يُطبَّق ما عدّله المراجع في كتلة النص على المشاهد بالرقم، ثم
     status="approved_script" وrender_status="queued" بلا نشر ولا بطاقة (التركيب في R3). سيناريو غير جاهز أو ملاحظة
     محرر high غير مطبَّقة ← لا يُنفَّذ ويبقى pending في المرحلة 2. يعيد معرّفات ما لم يُنفَّذ."""
@@ -1242,6 +1244,7 @@ def approve_reel_scripts(issue_number: int, reel_ids: list[str], body: str, cfg)
     texts = cfg.path("reel.texts", {}) or {}
     blocks = reel_script.parse_edit_blocks(body)
     ok_ids = stages.parse_editor_ok(body)
+    choice = review.parse_headline_choice(body)
     lines: list[str] = []
     blocked: list[str] = []
     for did in reel_ids:
@@ -1274,6 +1277,9 @@ def approve_reel_scripts(issue_number: int, reel_ids: list[str], body: str, cfg)
         if did in blocks:
             script, warnings = reel_script.apply_lines(d["script"], blocks[did], texts)
         extra = {"editor_override": {"at": datetime.now(timezone.utc).isoformat(), "reasons": reasons}} if override else {}
+        # «انشر فورًا» (Issue #1538، W4): نفس البوابات، ثم يُركَّب ويُنشر بلا قضية مراجعة الفيديو؛ العنوان من مربع المرحلة 2
+        if (actions or {}).get(did) == "publish":
+            extra.update(publish_on_render=True, headline_selected=choice.get(did, 0))
         store.update_draft(path, status="approved_script", render_status="queued", script=script,
                            approved_script_at=datetime.now(timezone.utc).isoformat(), **extra)
         lines.append(texts.get("script_approved", "").format(title=title))
@@ -1283,6 +1289,28 @@ def approve_reel_scripts(issue_number: int, reel_ids: list[str], body: str, cfg)
     if lines:
         review.comment(issue_number, "### 🎬 سيناريو الريل\n" + "\n".join(lines))
     return blocked
+
+
+def start_reel_render(issue_number: int, started: list[str], cfg) -> bool:
+    """يطلق تركيب الريل تلقائيًا مرة واحدة بعد اعتماد ريل أو أكثر (Issue #1538، W4): --pending يركّب كل المنتظر فلا
+    حاجة لنداء لكل ريل. العطل لا يوقف المعالجة: تحذير وسطر «شغّل يدويًا» والريل يبقى queued كما كان."""
+    texts = cfg.path("reel.texts", {}) or {}
+    wf = cfg.path("reel.render.workflow_file", "reel-render.yml")
+    ref = os.environ.get("GITHUB_REF_NAME", "main")
+    try:
+        review.dispatch_workflow(wf, ref)
+    except Exception as exc:
+        log.warning("تعذّر إطلاق %s تلقائيًا: %s", wf, exc)
+        review.comment(issue_number, texts.get("render_start_failed", ""))
+        return False
+    now = [i for i in started if (store.load_draft(i) or (None, {}))[1].get("publish_on_render")]
+    lines = []
+    if len(now) < len(started):
+        lines.append(texts.get("render_started", ""))
+    if now:
+        lines.append(texts.get("render_started_now", ""))
+    review.comment(issue_number, "\n".join(lines))
+    return True
 
 
 def _write_topic_article(topic: dict, points: list[dict], date_str: str, cfg, client, redo_n: int = 0):
@@ -1941,7 +1969,12 @@ def main() -> int:
 
     reel_blocked: list[str] = []
     if reel_ids and not args.urgent_only:
-        reel_blocked = approve_reel_scripts(args.issue, reel_ids, body, cfg)
+        pending_before = {i for i in reel_ids if (store.load_draft(i) or (None, {}))[1].get("status") == "pending"}
+        reel_blocked = approve_reel_scripts(args.issue, reel_ids, body, cfg, actions=actions)
+        started = [i for i in pending_before if i not in reel_blocked
+                   and (store.load_draft(i) or (None, {}))[1].get("render_status") == "queued"]
+        if started:
+            start_reel_render(args.issue, started, cfg)
 
     if not ids and (go1_ids or add_requests or reel_ids):
         # كل ما عُلِّم عودة إلى الترشيح أو إضافة صيغة أو اعتماد سيناريو: لا نشر ولا «لم يُعلَّم» (Issue #1184)
