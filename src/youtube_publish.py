@@ -1069,7 +1069,7 @@ def open_review(cfg=None, now: datetime | None = None) -> dict:
 
     fresh = pending_youtube_drafts()
     if not fresh:
-        return {"issue": None, "drafts": []}
+        return {"issue": None, "drafts": [], "issues": []}
 
     drafts = [d for _, d in fresh]
     by_id_path = {d["id"]: path for path, d in fresh}
@@ -1105,18 +1105,33 @@ def open_review(cfg=None, now: datetime | None = None) -> dict:
 
     drafts.sort(key=_review_sort_key)
 
-    repo = env("GITHUB_REPOSITORY") or ""
+    repo = env("GITHUB_REPOSITORY")
     branch = os.environ.get("GITHUB_REF_NAME", "main")
-    body = build_review_body(drafts, repo, branch, cfg)
-    issue = review.create_issue(
-        title=f"📰 مراجعة مقالات تحليلية {now:%Y-%m-%d %H:%M} UTC — {len(drafts)} مقال",
-        body=body, labels=["youtube-review"],
-    )
 
+    # قضية مرحلة 2 مستقلة لكل مرشح (Issue #1481، W1): تجمع مسودات الموضوع الواحد (مقاله
+    # وريله إن طُلبا معًا) وحدها، فاعتماد قضية لا يمسّ مرشحًا آخر. الترتيب بأول ظهور بعد
+    # الفرز أعلاه. مسودة بلا topic_id (قديمة) لا موضوع لها تنفرد به فتُجمَّع كلها في قضية
+    # واحدة كما كان قبل W1.
+    groups: dict[str | None, list[dict]] = {}
     for d in drafts:
-        store.update_draft(by_id_path[d["id"]], review_issue=issue["number"])
+        groups.setdefault(d.get("topic_id") or None, []).append(d)
 
-    return {"issue": issue, "drafts": drafts}
+    issues: list[dict] = []
+    for topic_id, group in groups.items():
+        if topic_id is None:
+            title = f"📰 مراجعة مقالات تحليلية {now:%Y-%m-%d %H:%M} UTC — {len(group)} مقال"
+        else:
+            title = f"📰 مراجعة: {group[0]['title']}"
+        issue = review.create_issue(
+            title=title, body=build_review_body(group, repo, branch, cfg),
+            labels=["youtube-review"],
+        )
+        for d in group:
+            store.update_draft(by_id_path[d["id"]], review_issue=issue["number"])
+        issues.append({"topic_id": topic_id, "issue": issue, "title": title})
+
+    # "issue" = أول قضية (توافقًا مع من يقرأ قضية واحدة)، والقائمة الكاملة في "issues"
+    return {"issue": issues[0]["issue"], "drafts": drafts, "issues": issues}
 
 
 # ──────────────────────────── النشر (بسقف وتباعد) ────────────────────────
@@ -1305,8 +1320,8 @@ def main() -> int:
     if args.open_review:
         result = open_review(cfg)
         if result["issue"]:
-            print(f"Issue المراجعة: #{result['issue']['number']} "
-                  f"({len(result['drafts'])} مقال)")
+            nums = "، ".join(f"#{i['issue']['number']}" for i in result["issues"])
+            print(f"Issue المراجعة: {nums} ({len(result['drafts'])} مقال)")
         else:
             print("لا مسودات جديدة بانتظار مراجعة")
         return 0

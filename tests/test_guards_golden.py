@@ -13140,7 +13140,10 @@ def test_w1_per_candidate_issue_guards() -> None:
                                script={"narrator": "female", "title": "ع", "question": "؟", "scenes": []})
         ra = next(c for c in reviews if da["article"]["id"] in c["body"])
         rb = next(c for c in reviews if db["reel"]["id"] in c["body"])
-        body_a = tick_marker(tick_marker(ra["body"], f"go:go3:{da['article']['id']}"),
+        # جسم القضية أُعيد بناؤه بعد أن صار السيناريو جاهزًا (قبلها لا يعرض الريل خيار go3)
+        fresh_a = yp.build_review_body([store.load_draft(da["article"]["id"])[1],
+                                        store.load_draft(da["reel"]["id"])[1]], "u/r", "main", cfg)
+        body_a = tick_marker(tick_marker(fresh_a, f"go:go3:{da['article']['id']}"),
                              f"go:go3:{da['reel']['id']}")
         closed.clear()
         publish_mod.fetch_issue = lambda n: {"number": n, "body": body_a,
