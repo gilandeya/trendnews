@@ -14333,3 +14333,19 @@ def test_r4d_reel_block_guards() -> None:
     t = cfg.path("reel.texts.script_approved")
     check("g423: نص اعتماد السيناريو بلا «من Actions»",
           "من Actions" not in t and t == "- 🎬 {title} — ✅ اعتُمد السيناريو", t)
+
+    # ── g424: حماية الاستيراد (Issue #1541) — مفسّر جديد يستورد helpers وحده، كما لو شُغّل ملف اختبار منفردًا ──
+    import os, subprocess, sys
+    from pathlib import Path
+    code = ("import os, sys\n"
+            "from tests.helpers import review\n"
+            "try:\n"
+            "    review.create_issue('t', 'b')\n"
+            "    print('REACHED')\n"
+            "except RuntimeError:\n"
+            "    print('BLOCKED')\n"
+            "print('TOKEN' if any(os.environ.get(k) for k in ('GITHUB_TOKEN','GH_TOKEN','FB_PAGE_ACCESS_TOKEN','BRAVE_API_KEY','YOUTUBE_API_KEY','ANTHROPIC_API_KEY')) else 'CLEAN')\n")
+    env = dict(os.environ, GITHUB_TOKEN="x", GH_TOKEN="x", GITHUB_REPOSITORY="o/r")
+    out = subprocess.run([sys.executable, "-c", code], cwd=str(Path(__file__).resolve().parent.parent), env=env, capture_output=True, text=True, timeout=120)
+    check("g424: استيراد helpers وحده يحجب review.create_issue ويمسح التوكن",
+          out.stdout.split() == ["BLOCKED", "CLEAN"], (out.stdout, out.stderr[-300:]))

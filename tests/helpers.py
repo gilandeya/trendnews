@@ -32,6 +32,22 @@ atexit.register(shutil.rmtree, _TMP_DATA_DIR, ignore_errors=True)
 from src import collect, evidence, extract, facebook, headlines, imagesearch, imaging, names, names_learn, open_review, proxy_config, review, sources, store, trends, writer  # noqa: E402
 from src import youtube_article, youtube_cluster, youtube_collect, youtube_extract  # noqa: E402
 from src import youtube_publish  # noqa: E402
+
+# حماية بنيوية عند الاستيراد نفسه لا داخل install_fakes (Issue #1541، R4d): ملف اختبار شُغّل منفردًا (بلا tests.test_pipeline.main
+# فبلا install_fakes) مع GITHUB_TOKEN في البيئة فتح 94 قضية حقيقية. كل ملف اختبار يستورد هذا الملف أولًا، فالحماية هنا تسبق أي
+# اختبار: تُسحب الأسرار من البيئة، وتُستبدل دوال شبكة GitHub في review بدالة ترفع؛ ويحقن الاختبار الذي يحتاج غيرها بنفسه.
+for _secret in ("GITHUB_TOKEN", "GH_TOKEN", "FB_PAGE_ACCESS_TOKEN", "BRAVE_API_KEY", "YOUTUBE_API_KEY", "ANTHROPIC_API_KEY"):
+    os.environ.pop(_secret, None)
+
+
+def _network_blocked(*a, **kw):
+    raise RuntimeError("لا شبكة في الاختبارات")
+
+
+for _fn in ("create_issue", "update_issue_body", "comment", "close_issue", "reopen_issue", "remove_label",
+            "dispatch_workflow", "add_label"):
+    if hasattr(review, _fn):
+        setattr(review, _fn, _network_blocked)
 from src.config import (  # noqa: E402
     DRAFTS_DIR, STATE_DIR, YOUTUBE_ARTICLES_DIR, YOUTUBE_POINTS_DIR, load_config as _real_load_config,
 )
