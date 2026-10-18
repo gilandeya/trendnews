@@ -201,7 +201,8 @@
   "reel_bg": {
     "url": "https://www.annahar.com/Assets/ContentPhotos/Photos/AECmwdJbFghLeB5H505HMWnKQLjjRiJ6Ugi5qS3iUEsfcCeI5IinK_vv03WhCL1PYxB0w7jPhKNhqo0h7CanIMmBpOzshSPsjdzCuIJbK7yUG9iusG5yYdOLR8S0JHLckI09wA_T7prm5m1tTkpM8CbbRoiFbk3vq0uflffYF4lv1An5OCoWbQCLZiZ_090914.webp?width=1416&height=805&mode=crop&scale=both",
     "kind": "news_photo",
-    "publisher": "annahar.com"
+    "publisher": "annahar.com",
+    "layout": "A"
   },
   "hook_candidates": [
     {
@@ -366,7 +367,7 @@
   "has_news_photo": true,
   "review_issue": 1591,
   "stage2_issue": 1591,
-  "render_status": "queued",
+  "render_status": "rendered",
   "approved_script_at": "2026-10-17T19:02:46.125673+00:00",
   "editor_override": {
     "at": "2026-10-17T19:02:46.125661+00:00",
@@ -374,5 +375,273 @@
       "صفة المتحدث ونسبته إلى القناة مشكوك فيهما: نيفزات تشيتشك معروف بصفته صحفيًا وكاتبًا ورئيس تحرير «إندبندنت تركية»، ويظهر ضيفًا في برامج سوزجو تي في لا كمحلل تابع للقناة. المتحدث هنا موثَّق من عنوان الفيديو، فأي شك في صفته أو نسبته يستوجب العودة إلى مرحلة التوثيق.",
       "نسبة القول إلى «ضيف» تخالف نقطة المصدر المرفقة بالمقطع التي تنسب النفي إلى مقدّم البرنامج لا إلى الضيف. تصحيح المتحدث لازم قبل النشر."
     ]
-  }
+  },
+  "reel_file": "reels/2026-10-17/0b502576f62a.mp4",
+  "reel_gif": "reels/2026-10-17/0b502576f62a.gif",
+  "duration_seconds": 97.5,
+  "render_version": 27,
+  "render_attempts": 0,
+  "reel_music": "nastelbom-news-501715.mp3",
+  "render_sources": "سوزجو، سي إن إن ترك، AlArabiya العربية",
+  "render_crops": {
+    "0": {
+      "x": 584,
+      "source": "speaker_vision",
+      "speaker_score": 0.6,
+      "tracks": 8,
+      "vision": {
+        "pick": 2,
+        "agree": 2,
+        "archive": [
+          4,
+          5,
+          6,
+          7
+        ]
+      },
+      "quote_sync": "transcript",
+      "cover": true
+    },
+    "3": {
+      "x": 421,
+      "source": "speaker_vision",
+      "speaker_score": 0.66,
+      "tracks": 3,
+      "vision": {
+        "pick": 1,
+        "agree": 3,
+        "archive": [
+          2,
+          3,
+          4
+        ]
+      },
+      "quote_sync": "uniform",
+      "cover": true
+    },
+    "5": {
+      "x": 528,
+      "source": "speaker_vision",
+      "speaker_score": 0.69,
+      "tracks": 3,
+      "vision": {
+        "pick": 1,
+        "agree": 3,
+        "archive": [
+          2
+        ]
+      },
+      "quote_sync": "uniform",
+      "cover": true
+    }
+  },
+  "render_speakers": {
+    "3": {
+      "name_original": "HANDE FIRAT",
+      "name_arabic": "هande فيرات",
+      "role_arabic": "تركيا لن ترسل جنودًا إلى اليمن",
+      "is_presenter": false,
+      "frames_agreeing": 3,
+      "rejected": "",
+      "accepted": true
+    },
+    "5": {
+      "name_original": "HANDE FIRAT",
+      "name_arabic": "هande فرات",
+      "role_arabic": "المبادئ الثلاثة الأساسية لأنقرة في تحالف مكة",
+      "is_presenter": false,
+      "frames_agreeing": 1,
+      "rejected": "channel",
+      "accepted": false
+    }
+  },
+  "render_broll": [
+    {
+      "scene": 2,
+      "sentence": 0,
+      "photo": "لا سلسلة تطابقها"
+    },
+    {
+      "scene": 2,
+      "sentence": 1,
+      "video_id": "JYRN0n9vfnM",
+      "start": 93.515,
+      "end": 100.485,
+      "channel": "AlArabiya العربية",
+      "desc": "لقطة ميدانية لمنطقة صحراوية بها آثار قصف · لقطة ميدانية قريبة لأرض صحراوية · طائرة حربية تحلّق، شريط خبر عن انفجارات إثر غارات للطيران الحربي في صنعاء"
+    },
+    {
+      "scene": 2,
+      "sentence": 2,
+      "photo": "لا سلسلة تطابقها"
+    },
+    {
+      "scene": 4,
+      "sentence": 0,
+      "photo": "لا سلسلة تطابقها"
+    },
+    {
+      "scene": 4,
+      "sentence": 1,
+      "photo": "لا سلسلة تطابقها"
+    },
+    {
+      "scene": 6,
+      "sentence": 0,
+      "photo": "جملة مجرّدة"
+    },
+    {
+      "scene": 6,
+      "sentence": 1,
+      "photo": "جملة مجرّدة"
+    }
+  ],
+  "broll_scan": {
+    "videos": {
+      "iKEMO4iEnf0": {
+        "downloaded": 600,
+        "classified": 216,
+        "sheets": 15,
+        "kinds": {
+          "studio": 1,
+          "anchor": 154,
+          "event_footage": 53,
+          "other": 7,
+          "graphic": 1
+        },
+        "footage_relevant": 0,
+        "footage_other": 53,
+        "chains": 4,
+        "longest": 28
+      },
+      "JYRN0n9vfnM": {
+        "downloaded": 600,
+        "classified": 360,
+        "sheets": 15,
+        "kinds": {
+          "anchor": 142,
+          "graphic": 72,
+          "text_heavy": 72,
+          "event_footage": 68,
+          "studio": 6
+        },
+        "footage_relevant": 12,
+        "footage_other": 56,
+        "chains": 2,
+        "longest": 54
+      }
+    },
+    "sheets_used": 30,
+    "chains": [
+      {
+        "video_id": "iKEMO4iEnf0",
+        "start": 11,
+        "end": 17,
+        "desc": "لقطة من وسائل التواصل لدخان أسود كثيف فوق منطقة في بيجا، اليمن، وليست من الموقف التركي أو تحالف مكة · دخان أسود كثيف يتصاعد فوق مبانٍ، شريط CNN: الحوثيون يتعهدون بمواصلة ضرب المطارات والمنشآت النفطية السعودية (بيحان، اليمن) · دخان أسود فوق مبنى ومحطة، من فيديو مواطنين في بيحان",
+        "channel": "CNN",
+        "relevant": false
+      },
+      {
+        "video_id": "iKEMO4iEnf0",
+        "start": 20,
+        "end": 33,
+        "desc": "دخان أسود كثيف فوق مبنى منخفض وأرض صحراوية، من فيديو مواطنين في بيحان · دخان أسود فوق مبنى منخفض في الصحراء، من فيديو مواطنين في بيحان · دخان أسود كثيف يتصاعد فوق الأفق الصحراوي، من فيديو مواطنين في بيحان",
+        "channel": "CNN",
+        "relevant": false
+      },
+      {
+        "video_id": "iKEMO4iEnf0",
+        "start": 63,
+        "end": 68,
+        "desc": "دخان أسود كثيف فوق منشأة في بيجا، اليمن",
+        "channel": "CNN",
+        "relevant": false
+      },
+      {
+        "video_id": "iKEMO4iEnf0",
+        "start": 73,
+        "end": 101,
+        "desc": "دخان أسود كثيف فوق منشأة في بيجا، اليمن، مع مبنى منخفض · عمود دخان أسود كثيف يتصاعد فوق مبانٍ في بيجا · دخان أسود يتصاعد فوق منشأة صناعية في بيجا",
+        "channel": "CNN",
+        "relevant": false
+      },
+      {
+        "video_id": "JYRN0n9vfnM",
+        "start": 90,
+        "end": 104,
+        "desc": "لقطة ميدانية لمنطقة صحراوية بها آثار قصف · لقطة ميدانية قريبة لأرض صحراوية · طائرة حربية تحلّق، شريط خبر عن انفجارات إثر غارات للطيران الحربي في صنعاء",
+        "channel": "AlArabiya العربية",
+        "relevant": false
+      },
+      {
+        "video_id": "JYRN0n9vfnM",
+        "start": 114,
+        "end": 168,
+        "desc": "دخان أسود يتصاعد فوق الطريق، مدنيون على دراجة نارية يفرّون · دخان أسود كثيف فوق الأفق، دراجة نارية على طريق ترابي · دخان أسود كثيف، أشخاص على دراجة نارية قرب الطريق",
+        "channel": "AlArabiya العربية",
+        "relevant": false
+      }
+    ],
+    "assign": [
+      {
+        "n": 1,
+        "chain": null
+      },
+      {
+        "n": 2,
+        "chain": 5
+      },
+      {
+        "n": 3,
+        "chain": null
+      },
+      {
+        "n": 4,
+        "chain": null
+      },
+      {
+        "n": 5,
+        "chain": null
+      }
+    ],
+    "hook_assign": [
+      {
+        "n": 0,
+        "chain": null
+      }
+    ]
+  },
+  "render_dropped": [],
+  "render_approx": [
+    {
+      "point_id": "4e83f26172b6",
+      "kind": "clip",
+      "start": 4405,
+      "end": 4411,
+      "reason": "تعذّر جلب نص الفيديو"
+    },
+    {
+      "point_id": "43491c186dcd",
+      "kind": "clip",
+      "start": 4334,
+      "end": 4340,
+      "reason": "تعذّر جلب نص الفيديو"
+    }
+  ],
+  "rendered_at": "2026-10-18T07:18:23.390672+00:00",
+  "render_notes": [
+    "### 🎬 تركيب الريل",
+    "- ⏱️ المدة: 97.5 ث",
+    "- 🎞️ [الملف](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-10-17/0b502576f62a.mp4) · [المعاينة](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-10-17/0b502576f62a.gif)",
+    "- ⚠️ نافذة تقديرية لمقطع سي إن إن ترك (73:25–73:31): تعذّر جلب نص الفيديو — راجع بداية المقطع ونهايته",
+    "- ⚠️ نافذة تقديرية لمقطع سي إن إن ترك (72:14–72:20): تعذّر جلب نص الفيديو — راجع بداية المقطع ونهايته",
+    "🎞️ المرشّحون لم يحوِ أيٌّ منهم لقطات صالحة من الحدث — الهوك بصورة الخبر",
+    "🎞️ لقطات الحدث: 1 من 7 جمل (AlArabiya العربية ×1) — 6 بالصورة",
+    "🎯 مقطع سوزجو: 8 وجوه — المتكلم بالرؤية",
+    "👤 من شريط القناة: هande فيرات (HANDE FIRAT) — تركيا لن ترسل جنودًا إلى اليمن",
+    "🎯 مقطع سي إن إن ترك: 3 وجوه — المتكلم بالرؤية",
+    "🏷️ شريط القناة يحمل اسم برنامج لا شخص: هande فرات — يُعرض اسم القناة وحده",
+    "🎯 مقطع سي إن إن ترك: 3 وجوه — المتكلم بالرؤية"
+  ],
+  "reel_review_issue": 1598
 }
