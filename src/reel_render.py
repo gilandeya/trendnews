@@ -2475,15 +2475,19 @@ def _hook_crop(clip: Path, cfg, deps: Deps, crops: dict | None) -> str:
 
 def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None, voice: str, cfg, deps: Deps, tmp: Path,
                 out: Path, notes: list, crops: dict | None = None) -> float:
-    """مشهد الهوك: الراوي يقرأ عنوان السيناريو فوق خلفية بالأولوية (أ) hook_video المدخل يدويًا (يُقتطع 9:16 من المنتصف وصوته
-    الأصلي تحت الراوي بمستوى hook.ambient ويتكرر إن قصر) (ب) صورة reel_bg المحضَّرة تتحرك من اليمين إلى اليسار (ج) الكحلي الثابت.
-    فشل تنزيل hook_video لا يفشل التركيب: سطر في التعليق وتنتقل الخلفية إلى (ب). يعيد مدته: مدة الصوت + tail بين الحدّين."""
+    """مشهد الهوك (P1a، Issue #1600). S = hook.strong_seconds: [0، loop.fog_out] الضباب يزول، [fog_out، S] لقطة نظيفة والشعار الكبير
+    وحده (صوت اللقطة الأصلي بمستوى ambient_clean)، [S، S + fog_in] الضباب يظهر، والراوي يبدأ عند S + voice_delay (وينخفض الصوت الأصلي
+    إلى ambient) والعنوان ينزل كلمة كلمة تحت الشعار الكبير بتزامن كلامه. الخلفية بالأولوية: (أ) hook_video اليدوي/الآلي يُقتطع 9:16
+    ويُثبَّت آخر إطاره (tpad) إن قصر عن المدة لأن قفزة stream_loop تظهر تحت الضباب (ب) صورة reel_bg المتحركة (ج) الكحلي الثابت.
+    فشل تنزيل hook_video لا يفشل التركيب: سطر في التعليق وتنتقل الخلفية إلى (ب). المدة = S + voice_delay + الكلام + tail بحدّ أقصى
+    hook.max_seconds وبلا حدّ أدنى."""
     rcfg, hk = cfg.path("reel.render"), cfg.path("reel.render.hook")
     w, h, fps = int(rcfg["width"]), int(rcfg["height"]), rcfg["fps"]
     title = script.get("title") or scene.get("text", "")
     audio, parts = _speech(title, voice, cfg, deps, tmp, f"s{i:02d}")
     speech = sum(d for _, d in parts)
-    seconds = min(max(speech + float(hk["tail"]), float(hk["min_seconds"])), float(hk["max_seconds"]))
+    strong, delay = float(hk["strong_seconds"]), float(hk["voice_delay"])
+    seconds = min(strong + delay + speech + float(hk["tail"]), float(hk["max_seconds"]))
     clip = None
     hv = draft.get("hook_video")
     if isinstance(hv, dict) and hv.get("video_id"):
@@ -2497,28 +2501,46 @@ def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None,
     cexpr = "crop=ih*9/16:ih:(iw-ih*9/16)/2:0"
     if clip is not None:
         cexpr = _hook_crop(clip, cfg, deps, crops)
-    animated = clip is not None or bg is not None
-    png = _save(frame_hook_text(cfg, title, transparent=animated), tmp / f"hook_{i}.png")
-    loop = ["-loop", "1", "-framerate", str(fps)]
+    # العنوان تحت الشعار الكبير مباشرة: أسفل الشعار + text_gap
+    oc, ratio = cfg.path("reel.render.outro"), _logo_ratio(cfg)
+    text_top = int(oc["logo_top"]) + (round(int(oc["logo_width"]) * ratio) if ratio is not None else 0) + int(hk["text_gap"])
+    times = narration_word_times(parts, strong + delay, cfg)
+    if len(times) != len(title.split()):
+        # التشكيل/الأسماء قد تغيّر عدد الكلمات: يوزَّع الزمن على كلمات العنوان المعروض بالحروف على مدة الكلام كله
+        times = narration_word_times([(title, speech)], strong + delay, cfg)
+    frames = word_drop_frames(cfg, title, times, seconds, text_top, tmp, f"hw{i}")
+    lst = tmp / f"hook_{i}_words.txt"
+    lst.write_text("".join(f"file '{f}'\nduration {_fmt(d)}\n" for f, d in frames) + f"file '{frames[-1][0]}'\n", encoding="utf-8")
+    fog_png = _save(fog_layer(cfg), tmp / f"hook_fog_{i}.png")
     rate = rcfg.get("audio_rate", 48000)
+    adelay = f"adelay={int(round((strong + delay) * 1000))}:all=1"
+    loop = ["-loop", "1", "-framerate", str(fps)]
+    fog_in = [*loop, "-i", str(fog_png), "-f", "concat", "-safe", "0", "-i", str(lst), "-i", str(audio)]
+    # الضباب: ألفا الطبقة تُستخرج وتُصغَّر ثم geq بالزمن T (تعبير fog_alpha نفسه) ثم تُكبَّر وتُدمج ثانيةً بالألوان — geq على نسخة
+    # مصغَّرة لأن القناع ناعم (تمويه 170) فلا يظهر فقدان الدقة، وعلى الدقة الكاملة يبطئ التركيب كثيرًا
+    expr = _fog_alpha_expr(cfg, strong, var="T")
+    fog_f = (f"[1:v]format=rgba,split[fa][fb];[fa]alphaextract,scale={w // 8}:{h // 8},format=gray,"
+             f"geq=lum='lum(X,Y)*{expr}',scale={w}:{h},format=gray[fm];[fb][fm]alphamerge[fog];"
+             f"[b][fog]overlay=0:0:shortest=1[bf];[2:v]fps={fps},format=rgba[t];[bf][t]overlay=0:0:shortest=1,format=yuv420p[v]")
+    sp = f"aresample={rate},aformat=channel_layouts=stereo,{adelay},apad"
     if clip is not None:
-        inputs = ["-stream_loop", "-1", "-i", str(clip), *loop, "-i", str(png), "-i", str(audio)]
-        vg = (f"[0:v]{cexpr},scale={w}:{h},{_shade_filter(cfg)},fps={fps}[b];"
-              f"[b][1:v]overlay=0:0:shortest=1,format=yuv420p[v]")
-        ag = (f"[0:a]aresample={rate},aformat=channel_layouts=stereo,volume={_fmt(float(hk['ambient']))}[am];"
-              f"[2:a]aresample={rate},aformat=channel_layouts=stereo,apad[sp];"
-              f"[sp][am]amix=inputs=2:normalize=0:duration=first[a]")
+        inputs = ["-i", str(clip), *fog_in]
+        vg = (f"[0:v]{cexpr},scale={w}:{h},tpad=stop_mode=clone:stop_duration={_fmt(seconds)},fps={fps}[b];" + fog_f)
+        vol = f"if(lt(t,{_fmt(strong + delay)}),{_fmt(float(hk['ambient_clean']))},{_fmt(float(hk['ambient']))})"
+        ag = (f"[0:a]aresample={rate},aformat=channel_layouts=stereo,volume='{vol}':eval=frame[am];"
+              f"[3:a]{sp}[sp];[sp][am]amix=inputs=2:normalize=0:duration=first[a]")
     elif bg is not None:
         wide, wcx = _wide_of(bg)
         plan = pan_plan(cfg, "hook", wide.size[0], wide.size[1], seconds, wcx)
         bgpng = _pan_background(wide, plan, tmp, f"hook_bg_{i}.png")
-        inputs = ["-i", str(bgpng), *loop, "-i", str(png), "-i", str(audio)]
-        vg = (f"{_still_bg_prefix(fps)}crop={w}:{h}:x='{_pan_x_expr(plan['x0'], plan['speed'])}':y='(ih-oh)/2',"
-              f"{_shade_filter(cfg)},fps={fps}[b];[b][1:v]overlay=0:0:shortest=1,format=yuv420p[v]")
-        ag = "[2:a]apad[a]"
+        inputs = ["-i", str(bgpng), *fog_in]
+        vg = (f"{_still_bg_prefix(fps)}crop={w}:{h}:x='{_pan_x_expr(plan['x0'], plan['speed'])}':y='(ih-oh)/2',fps={fps}[b];" + fog_f)
+        ag = f"[3:a]{sp}[a]"
     else:
-        inputs = [*loop, "-i", str(png), "-i", str(audio)]
-        vg, ag = "[0:v]fps=%s,format=yuv420p[v]" % fps, "[1:a]apad[a]"
+        r, g, bl = imaging.hex_rgb(cfg.path("brand.primary_color"))
+        inputs = ["-f", "lavfi", "-i", f"color=c=0x{r:02X}{g:02X}{bl:02X}:s={w}x{h}:r={fps}", *fog_in]
+        vg = f"[0:v]fps={fps}[b];" + fog_f
+        ag = f"[3:a]{sp}[a]"
     deps.run(_base(*inputs, "-filter_complex", vg + ";" + ag, "-map", "[v]", "-map", "[a]", "-t", _fmt(seconds),
                    *_enc(rcfg), str(out)))
     return seconds
