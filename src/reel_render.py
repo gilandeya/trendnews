@@ -2284,10 +2284,12 @@ def _ease_in_out(p: float) -> float:
     return p * p * (3 - 2 * p)
 
 
-def logo_state(t: float, cfg, hook_end: float) -> tuple[float, float, float, float]:
+def logo_state(t: float, cfg, hook_end: float, outro_start: float | None = None) -> tuple[float, float, float, float]:
     """(x, y, العرض, الشفافية) للشعار عند الزمن t: يدخل خلال hook.logo_in من نسبة logo_from إلى 1.0 من hook.logo_width
     بشفافية 0←1 بتسارع ease-out وسط الشاشة وأعلاه hook.logo_top، ثم يبدأ عند hook_end (بدء الانتقال إلى المشهد التالي)
-    انتقاله خلال hook.logo_move بتسارع ease-in-out إلى موضع الزاوية (reel.render.logo) ويبقى فيه."""
+    انتقاله خلال hook.logo_move بتسارع ease-in-out إلى موضع الزاوية (reel.render.logo) ويبقى فيه.
+    مرحلة الخاتمة (Issue #1592، R5h): عند outro_start (انتهاء انتقال الختام في الريل المجمَّع) يتحرك من الزاوية خلال outro.logo_move
+    بالتسارع نفسه إلى outro.logo_width متمركزًا أفقيًا وأعلاه outro.logo_top ويثبت؛ بلا outro_start لا مرحلة (السلوك القديم)."""
     hk, lg = cfg.path("reel.render.hook"), cfg.path("reel.render.logo")
     w = float(cfg.path("reel.render.width"))
     # الشفافية خطّية لأنها تُنفَّذ بمرشح fade (أرخص بكثير من geq)؛ الحجم وحده بتسارع ease-out
@@ -2298,10 +2300,16 @@ def logo_state(t: float, cfg, hook_end: float) -> tuple[float, float, float, flo
     e2 = _ease_in_out(min(max((t - hook_end) / float(hk["logo_move"]), 0.0), 1.0))
     small_w = float(lg["width"])
     small_x, small_y = w - float(lg["right"]) - small_w, float(lg["top"])
-    return (big_x + (small_x - big_x) * e2, big_y + (small_y - big_y) * e2, big_w + (small_w - big_w) * e2, alpha)
+    x, y, lw = (big_x + (small_x - big_x) * e2, big_y + (small_y - big_y) * e2, big_w + (small_w - big_w) * e2)
+    if outro_start is not None:
+        oc = cfg.path("reel.render.outro")
+        e3 = _ease_in_out(min(max((t - outro_start) / float(oc["logo_move"]), 0.0), 1.0))
+        ow = float(oc["logo_width"])
+        x, y, lw = x + ((w - ow) / 2 - x) * e3, y + (float(oc["logo_top"]) - y) * e3, lw + (ow - lw) * e3
+    return (x, y, lw, alpha)
 
 
-def _logo_exprs(cfg, hook_end: float) -> dict:
+def _logo_exprs(cfg, hook_end: float, outro_start: float | None = None) -> dict:
     """تعابير ffmpeg (بالمتغير t) لدالة logo_state نفسها: w وx وy للمرشحين scale وoverlay؛ الشفافية بمرشح fade خارجها."""
     hk, lg = cfg.path("reel.render.hook"), cfg.path("reel.render.logo")
     w = int(cfg.path("reel.render.width"))
@@ -2314,9 +2322,18 @@ def _logo_exprs(cfg, hook_end: float) -> dict:
     big_w = f"({_fmt(float(hk['logo_width']))}*({_fmt(frm)}+{_fmt(1 - frm)}*{e1('t')}))"
     big_x = f"(({w}-{big_w})/2)"
     small_w, small_x = int(lg["width"]), w - int(lg["right"]) - int(lg["width"])
-    return {"w": f"({big_w}+({small_w}-{big_w})*{e2})",
-            "x": f"({big_x}+({small_x}-{big_x})*{e2})",
-            "y": f"({int(hk['logo_top'])}+({int(lg['top'])}-{int(hk['logo_top'])})*{e2})"}
+    out = {"w": f"({big_w}+({small_w}-{big_w})*{e2})",
+           "x": f"({big_x}+({small_x}-{big_x})*{e2})",
+           "y": f"({int(hk['logo_top'])}+({int(lg['top'])}-{int(hk['logo_top'])})*{e2})"}
+    if outro_start is not None:
+        oc = cfg.path("reel.render.outro")
+        p3 = f"min(max((t-{_fmt(outro_start)})/{_fmt(float(oc['logo_move']))},0),1)"
+        e3 = f"({p3}*{p3}*(3-2*{p3}))"
+        ow = int(oc["logo_width"])
+        out = {"w": f"({out['w']}+({ow}-{out['w']})*{e3})",
+               "x": f"({out['x']}+((({w}-{ow})/2)-{out['x']})*{e3})",
+               "y": f"({out['y']}+({int(oc['logo_top'])}-{out['y']})*{e3})"}
+    return out
 
 
 def _shade_filter(cfg, key: str = "hook") -> str:
@@ -2871,47 +2888,7 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     gif = reels_dir / rel_dir / f"{path.stem}.gif"
     # التمريرة الأخيرة تكتب إلى ملف مؤقت لا إلى dest: dest هو ملف الريل السابق نفسه، وفشل حارس المدة يجب ألا يُتلفه
     final = tmp / "final.mp4"
-    lg = rcfg["logo"]
-    logo = _trimmed_logo(cfg, tmp)
-    # الشعار مرة واحدة فوق الفيديو المجمَّع كله: مكانه وحجمه ثابتان في كل لحظة بلا استثناء
-    logo_in: list[str] = []
-    logo_static: list[str] = []
-    music = pick_music(draft, cfg)
-    if kinds and kinds[0] == "hook":
-        # شعار الهوك الكبير ينتقل إلى الزاوية (Issue #1429): مدخل متحرك مكرَّر بالإطارات ومحدود بـ-t فلا تعمل تعابير t وscale/overlay
-        # بـeval=frame إلا على ثواني الهوك والانتقال، والشفافية بمرشح fade لا geq؛ بعدها overlay ثابت بالطريقة القديمة من مدخل
-        # منفصل. آخر حالة متحركة تساوي الثابت تمامًا فلا قفزة عند التبديل؛ ما زال الشعار يُركَّب في هذه التمريرة الأخيرة وحدها
-        hk = cfg.path("reel.render.hook")
-        hook_end = durs[0] - transition_seconds(cfg)
-        ex = _logo_exprs(cfg, hook_end)
-        logo_in = ["-loop", "1", "-framerate", str(rcfg["fps"]), "-t", _fmt(hook_end + float(hk["logo_move"]) + 0.1)]
-        # مدخل الموسيقى مثبَّت على الفهرس 2 في _music_mix فيأتي الشعار الثابت بعده
-        logo_static = ["-i", str(logo)]
-        static_idx = 3 if music else 2
-        video_f = (f"[1:v]scale={int(hk['logo_width'])}:-1,format=rgba,"
-                   f"fade=t=in:st=0:d={_fmt(float(hk['logo_in']))}:alpha=1[lg0];"
-                   f"[lg0]scale=w='{ex['w']}':h=-1:eval=frame[lg];"
-                   f"[0:v][lg]overlay=x='{ex['x']}':y='{ex['y']}':eval=frame:eof_action=pass[v1];"
-                   f"[{static_idx}:v]scale={lg['width']}:-1[lgs];"
-                   f"[v1][lgs]overlay=W-w-{lg['right']}:{lg['top']}:"
-                   f"enable='gte(t,{_fmt(hook_end + float(hk['logo_move']))})'[v]")
-    else:
-        video_f = f"[1:v]scale={lg['width']}:-1[lg];[0:v][lg]overlay=W-w-{lg['right']}:{lg['top']}[v]"
-    if music:
-        # المدة المقيسة للمجمَّع تحدد بداية الاختفاء التدريجي؛ فشل القياس ← مجموع المدد ناقص الانتقالات
-        seconds = deps.probe(joined) or (sum(durs) - transition_seconds(cfg) * max(len(durs) - 1, 0))
-        music_in, audio_f = _music_mix(cfg, Path(MUSIC_DIR) / music, float(seconds))
-        deps.run(_base("-i", str(joined), *logo_in, "-i", str(logo), *music_in, *logo_static,
-                       "-filter_complex", video_f + ";" + audio_f,
-                       "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-preset", "veryfast",
-                       "-crf", str(rcfg.get("crf", 22)), "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "128k",
-                       "-ar", str(rcfg.get("audio_rate", 48000)), "-ac", "2", "-movflags", "+faststart", str(final)))
-    else:
-        deps.run(_base("-i", str(joined), *logo_in, "-i", str(logo), *logo_static, "-filter_complex", video_f,
-                       "-map", "[v]", "-map", "0:a", "-c:v", "libx264", "-preset", "veryfast",
-                       "-crf", str(rcfg.get("crf", 22)), "-pix_fmt", "yuv420p", "-af", _loudnorm(cfg), "-c:a", "aac",
-                       "-b:a", "128k", "-ar", str(rcfg.get("audio_rate", 48000)), "-ac", "2", "-movflags", "+faststart",
-                       str(final)))
+    _final_pass(joined, final, kinds, durs, cfg, deps, tmp, draft)
     # مدة الملف النهائي المقيسة لا مجموع المدد: الانتقالات تقصّر الطول الكلي
     measured = deps.probe(final)
     total = measured or (sum(durs) - transition_seconds(cfg) * max(len(durs) - 1, 0))
@@ -2939,6 +2916,84 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
             **({"broll_scan": {**broll["scan"], "chains": broll.get("chains") or [], "assign": broll.get("assign") or [],
                            **({"hook_assign": broll["hook_assign"]} if "hook_assign" in broll else {})}}
                if broll and broll.get("result") and broll.get("scan") else {})}
+
+
+def _outro_start(kinds: list[str], durs: list[float], cfg) -> float | None:
+    """زمن انتهاء انتقال الختام في الريل المجمَّع (Issue #1592، R5h): الانتقال الأخير يبدأ عند مجموع مدد ما قبل الختام ناقص
+    (n−1)×seconds وينتهي بعد seconds؛ ومنه تبدأ حركة الشعار. None إن لم يكن آخر المشاهد ختامًا أو غاب الشعار الكبير."""
+    if len(kinds) < 2 or kinds[-1] != "outro" or _logo_ratio(cfg) is None:
+        return None
+    return sum(durs[:-1]) - transition_seconds(cfg) * (len(kinds) - 2)
+
+
+def _final_pass(joined: Path, final: Path, kinds: list[str], durs: list[float], cfg, deps: Deps, tmp: Path,
+                draft: dict) -> None:
+    """التمريرة الأخيرة (الشعار والموسيقى) مستخرجة من _render لتُختبر وحدها (Issue #1592، R5h). تمرّر outro_start إلى
+    logo_state/_logo_exprs: عند الختام ينتقل الشعار من الزاوية إلى موضع عبارة «تابعوا الموجز» المحذوفة بتيار مدخل ثانٍ
+    للشعار مزاح زمنيًا (setpts) ومكرَّر آخر إطاره (eof_action=repeat) فيثبت إلى النهاية."""
+    rcfg = cfg.path("reel.render")
+    lg = rcfg["logo"]
+    logo = _trimmed_logo(cfg, tmp)
+    # الشعار مرة واحدة فوق الفيديو المجمَّع كله: مكانه وحجمه ثابتان في كل لحظة بلا استثناء
+    logo_in: list[str] = []
+    logo_static: list[str] = []
+    music = pick_music(draft, cfg)
+    ostart = _outro_start(kinds, durs, cfg)
+    outro_in: list[str] = []
+    outro_f = ""
+    tail = "vs" if ostart is not None else "v"      # مع الخاتمة يتبع خرج الشعار الصغير overlay الشعار الكبير فيصير v
+    if kinds and kinds[0] == "hook":
+        # شعار الهوك الكبير ينتقل إلى الزاوية (Issue #1429): مدخل متحرك مكرَّر بالإطارات ومحدود بـ-t فلا تعمل تعابير t وscale/overlay
+        # بـeval=frame إلا على ثواني الهوك والانتقال، والشفافية بمرشح fade لا geq؛ بعدها overlay ثابت بالطريقة القديمة من مدخل
+        # منفصل. آخر حالة متحركة تساوي الثابت تمامًا فلا قفزة عند التبديل؛ ما زال الشعار يُركَّب في هذه التمريرة الأخيرة وحدها
+        hk = cfg.path("reel.render.hook")
+        hook_end = durs[0] - transition_seconds(cfg)
+        ex = _logo_exprs(cfg, hook_end)
+        logo_in = ["-loop", "1", "-framerate", str(rcfg["fps"]), "-t", _fmt(hook_end + float(hk["logo_move"]) + 0.1)]
+        # مدخل الموسيقى مثبَّت على الفهرس 2 في _music_mix فيأتي الشعار الثابت بعده
+        logo_static = ["-i", str(logo)]
+        static_idx = 3 if music else 2
+        # مع الخاتمة يختفي الصغير الثابت عند outro_start ويتولى المدخل الأخير الحركة والثبات (Issue #1592)
+        moved = _fmt(hook_end + float(hk["logo_move"]))
+        enable = f"between(t,{moved},{_fmt(ostart)})" if ostart is not None else f"gte(t,{moved})"
+        video_f = (f"[1:v]scale={int(hk['logo_width'])}:-1,format=rgba,"
+                   f"fade=t=in:st=0:d={_fmt(float(hk['logo_in']))}:alpha=1[lg0];"
+                   f"[lg0]scale=w='{ex['w']}':h=-1:eval=frame[lg];"
+                   f"[0:v][lg]overlay=x='{ex['x']}':y='{ex['y']}':eval=frame:eof_action=pass[v1];"
+                   f"[{static_idx}:v]scale={lg['width']}:-1[lgs];"
+                   f"[v1][lgs]overlay=W-w-{lg['right']}:{lg['top']}:"
+                   f"enable='{enable}'[{tail}]")
+        o_idx = static_idx + 1
+        hook_arg = hook_end
+    else:
+        enable = f":enable='lt(t,{_fmt(ostart)})'" if ostart is not None else ""
+        video_f = f"[1:v]scale={lg['width']}:-1[lg];[0:v][lg]overlay=W-w-{lg['right']}:{lg['top']}{enable}[{tail}]"
+        o_idx = 3 if music else 2
+        hook_arg = -1000.0      # بلا هوك الشعار في الزاوية من البداية: مرحلة الهوك مكتملة دائمًا
+    if ostart is not None:
+        oc = cfg.path("reel.render.outro")
+        ex = _logo_exprs(cfg, hook_arg, ostart)
+        outro_in = ["-loop", "1", "-framerate", str(rcfg["fps"]), "-t", _fmt(float(oc["logo_move"]) + 0.1), "-i", str(logo)]
+        outro_f = (f";[{o_idx}:v]format=rgba,setpts=PTS-STARTPTS+{_fmt(ostart)}/TB,scale={int(oc['logo_width'])}:-1,"
+                   f"scale=w='{ex['w']}':h=-1:eval=frame[lgo];"
+                   f"[vs][lgo]overlay=x='{ex['x']}':y='{ex['y']}':eval=frame:eof_action=repeat:"
+                   f"enable='gte(t,{_fmt(ostart)})'[v]")
+    video_f += outro_f
+    if music:
+        # المدة المقيسة للمجمَّع تحدد بداية الاختفاء التدريجي؛ فشل القياس ← مجموع المدد ناقص الانتقالات
+        seconds = deps.probe(joined) or (sum(durs) - transition_seconds(cfg) * max(len(durs) - 1, 0))
+        music_in, audio_f = _music_mix(cfg, Path(MUSIC_DIR) / music, float(seconds))
+        deps.run(_base("-i", str(joined), *logo_in, "-i", str(logo), *music_in, *logo_static, *outro_in,
+                       "-filter_complex", video_f + ";" + audio_f,
+                       "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-preset", "veryfast",
+                       "-crf", str(rcfg.get("crf", 22)), "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "128k",
+                       "-ar", str(rcfg.get("audio_rate", 48000)), "-ac", "2", "-movflags", "+faststart", str(final)))
+    else:
+        deps.run(_base("-i", str(joined), *logo_in, "-i", str(logo), *logo_static, *outro_in, "-filter_complex", video_f,
+                       "-map", "[v]", "-map", "0:a", "-c:v", "libx264", "-preset", "veryfast",
+                       "-crf", str(rcfg.get("crf", 22)), "-pix_fmt", "yuv420p", "-af", _loudnorm(cfg), "-c:a", "aac",
+                       "-b:a", "128k", "-ar", str(rcfg.get("audio_rate", 48000)), "-ac", "2", "-movflags", "+faststart",
+                       str(final)))
 
 
 def _mmss(sec) -> str:
