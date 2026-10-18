@@ -2544,13 +2544,14 @@ def _hook_crop(clip: Path, cfg, deps: Deps, crops: dict | None) -> str:
 
 
 def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None, voice: str, cfg, deps: Deps, tmp: Path,
-                out: Path, notes: list, crops: dict | None = None) -> float:
+                out: Path, notes: list, crops: dict | None = None, hook_info: dict | None = None) -> float:
     """مشهد الهوك (P1a، Issue #1600). S = hook.strong_seconds: [0، loop.fog_out] الضباب يزول، [fog_out، S] لقطة نظيفة والشعار الكبير
     وحده (صوت اللقطة الأصلي بمستوى ambient_clean)، [S، S + fog_in] الضباب يظهر، والراوي يبدأ عند S + voice_delay (وينخفض الصوت الأصلي
     إلى ambient) والعنوان ينزل كلمة كلمة تحت الشعار الكبير بتزامن كلامه. الخلفية بالأولوية: (أ) hook_video اليدوي/الآلي يُقتطع 9:16
     ويُثبَّت آخر إطاره (tpad) إن قصر عن المدة لأن قفزة stream_loop تظهر تحت الضباب (ب) صورة reel_bg المتحركة (ج) الكحلي الثابت.
     فشل تنزيل hook_video لا يفشل التركيب: سطر في التعليق وتنتقل الخلفية إلى (ب). المدة = S + voice_delay + الكلام + tail بحدّ أقصى
-    hook.max_seconds وبلا حدّ أدنى."""
+    hook.max_seconds وبلا حدّ أدنى. hook_info (اختياري) يُملأ بما استعمله المشهد فعلًا (mode: clip|image|navy مع ملف اللقطة وتعبير
+    اقتطاعها أو صورة الخلفية وx0) كي يبني مشهد الختام آخر إطاره على أول إطار هنا (Issue #1602)."""
     rcfg, hk = cfg.path("reel.render"), cfg.path("reel.render.hook")
     w, h, fps = int(rcfg["width"]), int(rcfg["height"]), rcfg["fps"]
     title = script.get("title") or scene.get("text", "")
@@ -2594,6 +2595,8 @@ def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None,
              f"[b][fog]overlay=0:0:shortest=1[bf];[2:v]fps={fps},format=rgba[t];[bf][t]overlay=0:0:shortest=1,format=yuv420p[v]")
     sp = f"aresample={rate},aformat=channel_layouts=stereo,{adelay},apad"
     if clip is not None:
+        if hook_info is not None:
+            hook_info.update(mode="clip", clip=clip, cexpr=cexpr)
         inputs = ["-i", str(clip), *fog_in]
         vg = (f"[0:v]{cexpr},scale={w}:{h},tpad=stop_mode=clone:stop_duration={_fmt(seconds)},fps={fps}[b];" + fog_f)
         vol = f"if(lt(t,{_fmt(strong + delay)}),{_fmt(float(hk['ambient_clean']))},{_fmt(float(hk['ambient']))})"
@@ -2603,10 +2606,14 @@ def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None,
         wide, wcx = _wide_of(bg)
         plan = pan_plan(cfg, "hook", wide.size[0], wide.size[1], seconds, wcx)
         bgpng = _pan_background(wide, plan, tmp, f"hook_bg_{i}.png")
+        if hook_info is not None:
+            hook_info.update(mode="image", bgpng=bgpng, x0=plan["x0"])
         inputs = ["-i", str(bgpng), *fog_in]
         vg = (f"{_still_bg_prefix(fps)}crop={w}:{h}:x='{_pan_x_expr(plan['x0'], plan['speed'])}':y='(ih-oh)/2',fps={fps}[b];" + fog_f)
         ag = f"[3:a]{sp}[a]"
     else:
+        if hook_info is not None:
+            hook_info.update(mode="navy")
         r, g, bl = imaging.hex_rgb(cfg.path("brand.primary_color"))
         inputs = ["-f", "lavfi", "-i", f"color=c=0x{r:02X}{g:02X}{bl:02X}:s={w}x{h}:r={fps}", *fog_in]
         vg = f"[0:v]fps={fps}[b];" + fog_f
@@ -2614,6 +2621,88 @@ def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None,
     deps.run(_base(*inputs, "-filter_complex", vg + ";" + ag, "-map", "[v]", "-map", "[a]", "-t", _fmt(seconds),
                    *_enc(rcfg), str(out)))
     return seconds
+
+
+def _closing_scene(i: int, scene: dict, channels: str, credit: str, hook_info: dict, draft: dict, voice: str, cfg, deps: Deps,
+                   tmp: Path, out: Path, notes: list, crops: dict | None, lead: float) -> float:
+    """مشهد الختام الموحَّد (Issue #1602، P1a-2) بدل question+outro. الراوي يقرأ السؤال (بلا واو العطف) عند plan[voice] والسؤال تحت
+    «برأيك..» ينزل كلمة كلمة ويختفي عند plan[logo]؛ الشعار ينزل من الزاوية (التمريرة الأخيرة) ثم تظهر المعلومات تحته وتختفي.
+    الخلفية بالأولوية: (أ) pre_hook: النافذة [start − total، start] من فيديو الهوك نفسه مكتومة فآخر إطار هنا هو ما يسبق أول إطار
+    من الهوك مباشرة (ب) freeze: أول إطار من الهوك (لقطته أو صورته عند بدء حركتها) يقترب من closing.freeze_zoom إلى 1.0 عند آخر
+    إطار (ج) الكحلي الثابت بلا هوك. الضباب ينتهي بقيمة loop.fog_start فيطابق آخر إطار أول إطار. يعيد مدة المشهد."""
+    rcfg, cl = cfg.path("reel.render"), cfg.path("reel.render.closing")
+    w, h, fps = int(rcfg["width"]), int(rcfg["height"]), rcfg["fps"]
+    text = closing_question_text(scene.get("text", ""), cfg)
+    audio, parts = _speech(text, voice, cfg, deps, tmp, f"s{i:02d}")
+    q = sum(d for _, d in parts)
+    plan = closing_plan(q, cfg, lead)
+    total = plan["total"]
+    times = narration_word_times(parts, plan["voice"], cfg)
+    if len(times) != len(text.split()):
+        # التشكيل قد يغيّر عدد الكلمات: يوزَّع الزمن على كلمات السؤال المعروض بالحروف على مدة الكلام كله
+        times = narration_word_times([(text, q)], plan["voice"], cfg)
+    qframes = closing_text_frames(cfg, text, times, total, tmp, f"cq{i}")
+    lst = tmp / f"closing_{i}_words.txt"
+    lst.write_text("".join(f"file '{f}'\nduration {_fmt(d)}\n" for f, d in qframes) + f"file '{qframes[-1][0]}'\n", encoding="utf-8")
+    info_png = _save(frame_outro(cfg, channels, credit=credit, transparent=True), tmp / f"closing_info_{i}.png")
+    fog_png = _save(fog_layer(cfg), tmp / f"closing_fog_{i}.png")
+    mode, hv = hook_info.get("mode"), draft.get("hook_video")
+    pre, ws, we = None, 0, 0
+    if mode == "clip" and isinstance(hv, dict) and hv.get("video_id") and hv.get("start") is not None and int(hv["start"]) >= total:
+        ws, we = int(math.floor(int(hv["start"]) - total)), int(hv["start"])
+        try:
+            pre = _download_with_retries(deps, rcfg, str(hv["video_id"]), ws, we, tmp / f"closing_pre_{i}.mp4")
+        except Exception as exc:  # noqa: BLE001 -- النافذة تحسين: يرجع الختام إلى التجميد
+            log.warning("تعذّر تنزيل نافذة ما قبل الهوك: %s", reel_clips.scrub_text(str(exc))[:120])
+    zf, tz = _fmt(float(cl["freeze_zoom"])), _fmt(total)
+    # التكبير الزمني: 1.10 عند البداية و1.0 تمامًا عند آخر إطار (scale بتقييم كل إطار ثم اقتطاع مركزي بمقاس الشاشة)
+    zexpr = f"max(1,1+({zf}-1)*(1-t/{tz}))"
+    zoom = f"scale=w='trunc({w}*{zexpr}/2)*2':h='trunc({h}*{zexpr}/2)*2':eval=frame:flags=bilinear,crop={w}:{h}"
+    if pre is not None:
+        src = "pre_hook"
+        dur = float(deps.probe(pre) or (we - ws))
+        inputs = ["-i", str(pre)]
+        base = (f"[0:v]trim=start={_fmt(max(dur - total, 0.0))},setpts=PTS-STARTPTS,{_hook_crop(pre, cfg, deps, None)},"
+                f"scale={w}:{h},tpad=stop_mode=clone:stop_duration={tz},fps={fps}[b]")
+    elif mode == "clip":
+        src = "freeze"
+        inputs = ["-i", str(hook_info["clip"])]
+        base = (f"[0:v]{hook_info['cexpr']},scale={w}:{h},trim=end_frame=1,setpts=PTS-STARTPTS,loop=loop=-1:size=1:start=0,"
+                f"setpts=N/{fps}/TB,fps={fps},{zoom}[b]")
+    elif mode == "image":
+        src = "freeze"
+        inputs = ["-i", str(hook_info["bgpng"])]
+        base = f"{_still_bg_prefix(fps)}crop={w}:{h}:x={_fmt(hook_info['x0'])}:y='(ih-oh)/2',fps={fps},{zoom}[b]"
+    else:
+        src = "navy"
+        r, g, bl = imaging.hex_rgb(cfg.path("brand.primary_color"))
+        inputs = ["-f", "lavfi", "-i", f"color=c=0x{r:02X}{g:02X}{bl:02X}:s={w}x{h}:r={fps}"]
+        base = f"[0:v]fps={fps}[b]"
+    if crops is not None:
+        crops["closing"] = {"source": src}
+    if src == "freeze":
+        notes.append(cfg.path("reel.render.texts.comment_closing_freeze"))
+    expr = _closing_fog_expr(cfg, plan, var="T")
+    vg = (base + ";"
+          f"[1:v]format=rgba,split[fa][fb];[fa]alphaextract,scale={w // 8}:{h // 8},format=gray,"
+          f"geq=lum='lum(X,Y)*{expr}',scale={w}:{h},format=gray[fm];[fb][fm]alphamerge[fog];[b][fog]overlay=0:0:shortest=1[bf];"
+          f"[2:v]fps={fps},format=rgba,fade=t=out:st={_fmt(plan['logo'])}:d={_fmt(float(cl['question_fade']))}:alpha=1[t];"
+          f"[4:v]fps={fps},format=rgba,fade=t=in:st={_fmt(plan['info_in'])}:d={_fmt(float(cl['info_in']))}:alpha=1,"
+          f"fade=t=out:st={_fmt(plan['info_out'])}:d={_fmt(float(cl['info_out']))}:alpha=1[inf];"
+          f"[bf][t]overlay=0:0:shortest=1[v1];[v1][inf]overlay=0:0:shortest=1,format=yuv420p[v]")
+    rate = rcfg.get("audio_rate", 48000)
+    ag = f"[3:a]aresample={rate},aformat=channel_layouts=stereo,adelay={int(round(plan['voice'] * 1000))}:all=1,apad[a]"
+    loop = ["-loop", "1", "-framerate", str(fps)]
+    deps.run(_base(*inputs, *loop, "-i", str(fog_png), "-f", "concat", "-safe", "0", "-i", str(lst), "-i", str(audio),
+                   *loop, "-i", str(info_png), "-filter_complex", vg + ";" + ag, "-map", "[v]", "-map", "[a]", "-t", _fmt(total),
+                   *_enc(rcfg), str(out)))
+    return total
+
+
+def _transition_kind(cfg, kind: str) -> str:
+    """نوع الانتقال إلى مشهد من هذا النوع: fade (transition.outro_type) للختام بصيغتيه outro وclosing، وغيره transition.type."""
+    tcfg = cfg.path("reel.render.transition")
+    return tcfg.get("outro_type", "fade") if kind in ("outro", "closing") else tcfg.get("type", "slideleft")
 
 
 _TASHKEEL = re.compile("[ً-ٰٟـ]")
@@ -2773,12 +2862,21 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
     # سطر «المقاطع من» نفسه يُحفظ لقضية المراجعة النهائية (Issue #1469، R4a) كي يطابق نصّ المنشور ما في الخاتمة
     if sources_out is not None:
         sources_out.append(channels)
-    for i, scene in order:
+    hook_info: dict = {}
+    absorbed: set[int] = set()     # مشهد outro يدخل مشهد closing الموحَّد مع السؤال الذي قبله (Issue #1602)
+    for pos, (i, scene) in enumerate(order):
         kind, out = scene.get("kind"), tmp / f"scene_{i:02d}.mp4"
+        if i in absorbed:
+            continue
         if i == hook_idx:
             kind = "hook"
             dur = _hook_scene(i, scene, script, draft or {}, bg, voice, cfg, deps, tmp, out,
-                              notes if notes is not None else [], crops)
+                              notes if notes is not None else [], crops, hook_info)
+        elif kind == "question" and pos + 1 < len(order) and order[pos + 1][1].get("kind") == "outro":
+            absorbed.add(order[pos + 1][0])
+            kind = "closing"
+            dur = _closing_scene(i, scene, channels, credit, hook_info, draft or {}, voice, cfg, deps, tmp, out,
+                                 notes if notes is not None else [], crops, lead)
         elif kind in reel_script.CLIP_KINDS:
             if i not in clips:
                 continue
@@ -2873,7 +2971,7 @@ def _join(scene_files: list[Path], kinds: list[str], durs: list[float], cfg, dep
     vprev, aprev, acc = "0:v", "0:a", 0.0
     for k in range(1, len(scene_files)):
         acc += real[k - 1]
-        kind = tcfg.get("outro_type", "fade") if kinds[k] == "outro" else tcfg.get("type", "slideleft")
+        kind = _transition_kind(cfg, kinds[k])
         vparts.append(f"[{vprev}][{k}:v]xfade=transition={kind}:duration={_fmt(secs)}:offset={_fmt(acc - k * secs)}[v{k}]")
         aparts.append(f"[{aprev}][{k}:a]acrossfade=d={_fmt(secs)}[a{k}]")
         vprev, aprev = f"v{k}", f"a{k}"
@@ -3124,8 +3222,12 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
 def _outro_start(kinds: list[str], durs: list[float], cfg) -> float | None:
     """زمن انتهاء انتقال الختام في الريل المجمَّع (Issue #1592، R5h): الانتقال الأخير يبدأ عند مجموع مدد ما قبل الختام ناقص
     (n−1)×seconds وينتهي بعد seconds؛ ومنه تبدأ حركة الشعار. None إن لم يكن آخر المشاهد ختامًا أو غاب الشعار الكبير."""
-    if len(kinds) < 2 or kinds[-1] != "outro" or _logo_ratio(cfg) is None:
+    if len(kinds) < 2 or kinds[-1] not in ("outro", "closing") or _logo_ratio(cfg) is None:
         return None
+    if kinds[-1] == "closing":
+        # الشعار ينزل عند plan[logo] من بداية مشهد الختام لا عند انتهاء انتقاله (Issue #1602)؛ بدايته في المجمَّع = مجموع ما قبله
+        # ناقص الانتقالات كلها
+        return sum(durs[:-1]) - transition_seconds(cfg) * (len(kinds) - 1) + closing_logo_offset(durs[-1], cfg)
     return sum(durs[:-1]) - transition_seconds(cfg) * (len(kinds) - 2)
 
 
