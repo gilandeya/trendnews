@@ -2046,3 +2046,17 @@ instead.
 - **التكرار:** `editor.blocking_reasons` تعيد كل سبب مرة واحدة بترتيبه.
 - **العنوان البديل:** ملاحظة high غير مطبَّقة على `headline_n` لا تمنع ما لم يكن ذلك العنوان المختار في مربعات `hl:` (في `approve_reel_scripts` وبوابة المرحلة 2 لمقال التحليل)؛ تبقى معروضة، واختياره يعيد المنع.
 - **النص:** `reel.texts.script_approved` بلا «شغّل … من Actions» (التركيب تلقائي منذ W4). الاختبارات g420–g423، وحماية الاستيراد g424.
+
+## ترجمة المتحدث كلمة كلمة وشعار الخاتمة (Issue #1592، R5h) — `src/reel_render.py`
+
+- **(أ) ترجمة كلام المتحدث:** في مشاهد `clip`/`cold_open_clip` يظهر `quote_arabic` سطرًا واحدًا في كل لحظة (`reel.render.sizes.quote: [58, 38]`، أكبر بـ25%)،
+  كلماته تمتلئ من اليمين في مواضعها النهائية، وأول كلمة من السطر التالي تستبدل السطر كله، والأخير يبقى حتى نهاية المقطع. التوقيت
+  `quote_word_times(n_words, clip_seconds, segments, start_offset, cfg)` دالة خالصة: منحنى تقدّم الكلام من مقاطع النص المجلوب (كلمات كل مقطع بالتساوي على مدته)،
+  والكلمة k من n عند أول زمن يبلغ تقدّمه k/n؛ بلا مقاطع توزيع متساوٍ من `quote.lead` إلى `clip_seconds − quote.tail`؛ لا كلمة قبل `transition_seconds`.
+  الحالات PNG متتابعة في تيار concat واحد (`_clip_scene(..., qframes=)`، وبلا `qframes` يبقى السلوك القديم حرفًا)، ويُحفظ `render_crops[i].quote_sync` = `transcript`|`uniform`.
+- **(ب) الخاتمة:** حُذفت «تابعوا الموجز» من `frame_outro`؛ الشعار يحلّ محلها: `logo_state(t, cfg, hook_end, outro_start=None)` تضيف مرحلة تنقل الشعار من الزاوية خلال
+  `reel.render.outro.logo_move` (0.9 ث، ease-in-out) إلى العرض `logo_width` (420) متمركزًا وأعلاه `logo_top` (500) ثم يثبت، و`_logo_exprs(cfg, hook_end, outro_start)` بالمعادلة نفسها.
+  `outro_start` = انتهاء انتقال الختام في الريل المجمَّع (`_outro_start`: مجموع مدد ما قبل الختام − (n−2)×seconds). التمريرة الأخيرة مستخرجة من `_render` باسم `_final_pass`:
+  مع الخاتمة يُحجب الشعار الصغير الثابت عند `outro_start` ويتولى مدخل ثانٍ للشعار (مزاح بـ`setpts`، `eof_action=repeat`) الحركة والثبات. بقية الإطار (الخط الذهبي والتعريف و@almujez
+  و«المقاطع من» و«الصورة:») تُرتَّب تحت موضع الشعار الكبير (`logo_top + logo_width × نسبة الارتفاع`). **بلا ملف شعار** (`_logo_ratio` = None) تعود العبارة كما كانت ولا مرحلة خاتمة.
+- `render_version` = 27. الاختبارات g425–g430 في `tests/test_guards_golden.py` (g428/g430 بـffmpeg حقيقي ويُتخطّيان إن غاب).
