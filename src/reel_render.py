@@ -2325,6 +2325,38 @@ def _logo_exprs(cfg, hook_end: float, outro_start: float | None = None) -> dict:
     return out
 
 
+def fog_alpha(t: float, cfg, strong: float) -> float:
+    """مضروب شفافية الضباب عند الزمن t (P1a، Issue #1600): يزول خطيًا من loop.fog_start إلى 0 خلال loop.fog_out (تمهيد للإعادة
+    المتصلة: الختام سينتهي بالقيمة نفسها)، يبقى 0 حتى strong (اللقطة نظيفة)، ثم يظهر 0←1 خلال hook.fog_in ويثبت على 1."""
+    lp, hk = cfg.path("reel.render.loop"), cfg.path("reel.render.hook")
+    fog_out, fog_in = float(lp["fog_out"]), float(hk["fog_in"])
+    fade_out = max(float(lp["fog_start"]) * (1 - t / fog_out), 0.0)
+    return fade_out + min(max((t - strong) / fog_in, 0.0), 1.0)
+
+
+def _fog_alpha_expr(cfg, strong: float, var: str = "t") -> str:
+    """تعبير ffmpeg لدالة fog_alpha نفسها بالمعادلة حرفًا بحرف، بلا if/lt ليُقيَّم بالمتغير t في الاختبار؛ var="T" لمرشح geq."""
+    lp, hk = cfg.path("reel.render.loop"), cfg.path("reel.render.hook")
+    return (f"(max({_fmt(float(lp['fog_start']))}*(1-{var}/{_fmt(float(lp['fog_out']))}),0)"
+            f"+min(max(({var}-{_fmt(strong)})/{_fmt(float(hk['fog_in']))},0),1))")
+
+
+def fog_layer(cfg) -> Image.Image:
+    """طبقة الضباب الكحلي بمقاس الشاشة (P1a): لون brand.primary_color، شفافيتها fog.base + fog.center × قناع إهليلجي مموّه بين
+    fog.top وfog.bottom بعرض الشاشة + fog.side من كل جانب. الشفافية الزمنية تُضرب فيها بمرشح ffmpeg لا هنا."""
+    from PIL import ImageFilter
+    w, h = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
+    fg = cfg.path("reel.render.fog")
+    mask = Image.new("L", (w, h), 0)
+    ImageDraw.Draw(mask).ellipse((-int(fg["side"]), int(fg["top"]), w + int(fg["side"]), int(fg["bottom"])), fill=255)
+    mask = mask.filter(ImageFilter.GaussianBlur(float(fg["blur"])))
+    base, center = float(fg["base"]), float(fg["center"])
+    alpha = mask.point(lambda v: round(min(max(base + center * v / 255, 0.0), 1.0) * 255))
+    layer = Image.new("RGBA", (w, h), (*imaging.hex_rgb(cfg.path("brand.primary_color")), 0))
+    layer.putalpha(alpha)
+    return layer
+
+
 def _shade_filter(cfg, key: str = "hook") -> str:
     r, g, b = imaging.hex_rgb(cfg.path("brand.primary_color"))
     return f"drawbox=x=0:y=0:w=iw:h=ih:color=0x{r:02X}{g:02X}{b:02X}@{_fmt(float(cfg.path(f'reel.render.{key}.shade')))}:t=fill"
