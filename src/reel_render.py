@@ -2447,6 +2447,53 @@ def fog_layer(cfg) -> Image.Image:
     return layer
 
 
+# ───────────────────── ختام الريل الجديد (Issue #1602، P1a-2) ─────────────────────
+
+def closing_question_text(q: str, cfg) -> str:
+    """نص سؤال الختام المعروض والمقروء معًا: تُحذف واو العطف من أوله إن تبعتها مباشرةً إحدى أدوات reel.closing.question_words،
+    لأن السؤال يأتي بعد «برأيك..» فلا معطوف عليه. كلمة تبدأ بالواو ولا تعقبها أداة كاملة («وزير») لا تُمسّ."""
+    text = str(q or "").strip()
+    words = list(cfg.path("reel.closing.question_words", []) or [])
+    if text.startswith("و") and text[1:].split(" ", 1)[0].rstrip("؟?،,.!") in words:
+        return text[1:]
+    return text
+
+
+def closing_plan(question_seconds: float, cfg, lead: float) -> dict:
+    """أزمنة مشهد الختام نسبةً إلى بدايته (دالة خالصة). voice: بدء الراوي قراءة السؤال؛ logo: بدء نزول الشعار من الزاوية وبدء اختفاء
+    السؤال؛ info_in: استقرار الشعار وبدء ظهور المعلومات تحته؛ info_out: بدء اختفائها؛ total: مدة المشهد. lead مدة الانتقال إلى المشهد."""
+    cl, oc, hk = cfg.path("reel.render.closing"), cfg.path("reel.render.outro"), cfg.path("reel.render.hook")
+    voice = float(lead) + float(hk["voice_delay"])
+    logo = voice + float(question_seconds) + float(cl["question_tail"])
+    info_in = logo + float(oc["logo_move"])
+    info_out = info_in + float(cl["info_in"]) + float(cl["info_hold"])
+    return {"lead": float(lead), "voice": voice, "logo": logo, "info_in": info_in, "info_out": info_out,
+            "total": info_out + float(cl["info_out"])}
+
+
+def closing_logo_offset(total: float, cfg) -> float:
+    """موضع بدء نزول الشعار من بداية مشهد الختام معروفًا مدته الكلية: كل ما بعده ثابت في الإعداد (logo_move + info_in + info_hold +
+    info_out)، فلا حاجة لتمرير الخطة من _assemble إلى التمريرة الأخيرة."""
+    cl, oc = cfg.path("reel.render.closing"), cfg.path("reel.render.outro")
+    return float(total) - (float(oc["logo_move"]) + float(cl["info_in"]) + float(cl["info_hold"]) + float(cl["info_out"]))
+
+
+def closing_fog_alpha(t: float, cfg, plan: dict) -> float:
+    """مضروب شفافية الضباب في الختام: يظهر 0←1 خلال closing.fog_in بعد lead ويبقى 1 حتى info_out ثم ينخفض خطيًا إلى loop.fog_start
+    عند total تمامًا، فيحمل آخر إطار ضباب أول إطار من الهوك (الإعادة المتصلة)."""
+    cl, fs = cfg.path("reel.render.closing"), float(cfg.path("reel.render.loop.fog_start"))
+    up = min(max((t - plan["lead"]) / float(cl["fog_in"]), 0.0), 1.0)
+    down = 1 - (1 - fs) * min(max((t - plan["info_out"]) / (plan["total"] - plan["info_out"]), 0.0), 1.0)
+    return up * down
+
+
+def _closing_fog_expr(cfg, plan: dict, var: str = "t") -> str:
+    """تعبير ffmpeg لدالة closing_fog_alpha نفسها بالصياغة المتبعة في fog_alpha (بلا if)؛ var="T" لمرشح geq."""
+    cl, fs = cfg.path("reel.render.closing"), float(cfg.path("reel.render.loop.fog_start"))
+    return (f"(min(max(({var}-{_fmt(plan['lead'])})/{_fmt(float(cl['fog_in']))},0),1)"
+            f"*(1-(1-{_fmt(fs)})*min(max(({var}-{_fmt(plan['info_out'])})/{_fmt(plan['total'] - plan['info_out'])},0),1)))")
+
+
 def _shade_filter(cfg, key: str = "hook") -> str:
     r, g, b = imaging.hex_rgb(cfg.path("brand.primary_color"))
     return f"drawbox=x=0:y=0:w=iw:h=ih:color=0x{r:02X}{g:02X}{b:02X}@{_fmt(float(cfg.path(f'reel.render.{key}.shade')))}:t=fill"
