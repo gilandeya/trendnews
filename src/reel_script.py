@@ -285,9 +285,6 @@ def estimate_seconds(script: dict, cfg: Any) -> float:
     if is_v2(script):
         return (spoken_words_v2(script) / float(_rcfg(cfg, "narration_wps", 1.7)) + clips
                 + float(_rcfg(cfg, "v2.fixed_seconds", 9)))
-    if is_v2(script):
-        return (spoken_words_v2(script) / float(_rcfg(cfg, "narration_wps", 1.7)) + clips
-                + float(_rcfg(cfg, "v2.fixed_seconds", 9)))
     return spoken_words(script) / float(_rcfg(cfg, "narration_wps", 1.7)) + clips + float(_rcfg(cfg, "fixed_seconds", 8))
 
 
@@ -318,8 +315,6 @@ def _unverified_name_violations(script: dict, valid: list[dict], cfg: Any) -> li
 def validate(script: dict, valid: list[dict], cfg: Any, want: int) -> list[str]:
     """أسباب رفض السيناريو (قائمة فارغة = صالح): الترتيب الإلزامي، المقاطع من الصالحة وبالعدد المطلوب بلا تكرار،
     النصوص غير فارغة، والمدة المقدَّرة ضمن [min_seconds, max_seconds]."""
-    if is_v2(script):
-        return validate_v2(script, valid, cfg)
     if is_v2(script):
         return validate_v2(script, valid, cfg)
     scenes = script.get("scenes") or []
