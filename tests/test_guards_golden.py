@@ -6268,12 +6268,11 @@ def test_reel_render_r3b1_guards() -> None:
             hook_sec = min(float(hk["strong_seconds"]) + float(hk["voice_delay"]) + 1.0
                            + float(cfg.path("reel.tts.sentence_silence", 0.35)) + float(hk["tail"]),
                            float(hk["max_seconds"]))
-            expected = (hook_sec + 3.0 + 3.0 + 1.35 + 1.35
-                        + float(cfg.path("reel.render.question_tail_seconds"))
-                        + float(cfg.path("reel.render.outro_seconds")))
-            # R3b-1d: صمت بداية الراوي والسؤال يزيد، وخمسة انتقالات تأكل مدتها
+            # P1a-2: السؤال والختام مشهد closing واحد مدته closing_plan(...)["total"] (يشمل lead)؛ صمت بداية الراوي يزيد lead،
+            # وأربعة انتقالات (لا خمسة) تأكل مدتها
             tsec = float(cfg.path("reel.render.transition.seconds"))
-            expected += 2 * tsec - 5 * tsec
+            expected = (hook_sec + 3.0 + 3.0 + 1.35 + tsec
+                        + reel_render.closing_plan(1.35, cfg, tsec)["total"] - 4 * tsec)
             real = reel_render.probe_duration(mp4)
             check("r3b1-ط: المدة = مجموع المشاهد ±0.5", real is not None and abs(real - expected) <= 0.5,
                   (real, expected))
