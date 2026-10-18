@@ -6264,8 +6264,10 @@ def test_reel_render_r3b1_guards() -> None:
             check("r3b1-ط: المقاس 1080×1920", "1080x1920" in info, info[-300:])
             # الهوك (R5c1) بدل بطاقة العنوان: صوت العنوان (نغمة ثانية + صمت الجملة) + hook.tail بين حدّي الهوك
             hk = cfg.path("reel.render.hook")
-            hook_sec = min(max(1.0 + float(cfg.path("reel.tts.sentence_silence", 0.35)) + float(hk["tail"]),
-                               float(hk["min_seconds"])), float(hk["max_seconds"]))
+            # P1a: S + voice_delay + الكلام + tail بلا حد أدنى، بحد أقصى max_seconds
+            hook_sec = min(float(hk["strong_seconds"]) + float(hk["voice_delay"]) + 1.0
+                           + float(cfg.path("reel.tts.sentence_silence", 0.35)) + float(hk["tail"]),
+                           float(hk["max_seconds"]))
             expected = (hook_sec + 3.0 + 3.0 + 1.35 + 1.35
                         + float(cfg.path("reel.render.question_tail_seconds"))
                         + float(cfg.path("reel.render.outro_seconds")))
@@ -11411,7 +11413,7 @@ def test_reel_narration_bg_r5d1_guards() -> None:
         work = wdir("g355")
         files, _, durs = reel_render._assemble({"scenes": [{"kind": "title_card", "text": "ع"}]}, {}, cfg, deps, work, "v", bg,
                                                "", {}, [], {})
-        check("g355: مدة الهوك قرابة 7 ث", 6.5 <= durs[0] <= 7.05, durs)
+        check("g355: مدة الهوك قرابة 10.4 ث (P1a)", 10.3 <= durs[0] <= 10.5, durs)
         a, b = grab_gray(files[0], 5.5, work, "h55.png"), grab_gray(files[0], 6.5, work, "h65.png")
         sh = shift_between(a, b)
         check("g355: الإزاحة بين 5.5 و6.5 ث = 40±5 (لم تتوقف)", abs(sh - 40) <= 5, sh)
@@ -14872,10 +14874,10 @@ def test_reel_open_p1a_guards() -> None:
         def white(im):
             return int((im.min(axis=2) > 200).sum())
         check("g437: t=1.5 بلا بكسلات بيضاء", white(clean) == 0, white(clean))
-        check("g437: t=1.5 لونها قريب من الأحمر", np.abs(clean.reshape(-1, 3).mean(axis=0) - redv).sum() < 60, clean.reshape(-1, 3).mean(axis=0))
+        check("g437: t=1.5 لونها قريب من الأحمر", np.abs(clean.reshape(-1, 3).mean(axis=0) - redv).sum() < 60, clean.reshape(-1, 3).mean(axis=0).tolist())
         nonw = fogged[fogged.min(axis=2) <= 200].reshape(-1, 3).mean(axis=0)
         check("g437: t=S+1.5 فيها بكسلات بيضاء", white(fogged) > 50, white(fogged))
-        check("g437: t=S+1.5 أقرب إلى الكحلي منه إلى الأحمر", np.abs(nonw - navy).sum() < np.abs(nonw - redv).sum(), nonw)
+        check("g437: t=S+1.5 أقرب إلى الكحلي منه إلى الأحمر", np.abs(nonw - navy).sum() < np.abs(nonw - redv).sum(), nonw.tolist())
         check("g437: المدة المعادة > S", dur > S, dur)
     guarded("g437", g437)
 
