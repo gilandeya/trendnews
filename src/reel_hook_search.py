@@ -50,7 +50,10 @@ CLASSIFY_TOOL = {
     "input_schema": {"type": "object", "properties": {"seconds": {"type": "array", "items": {
         "type": "object",
         "properties": {"t": {"type": "integer"}, "kind": {"type": "string", "enum": KINDS}, "relevant": {"type": "boolean"},
-                       "desc": {"type": "string", "description": "وصف قصير لما يُرى (اختياري، للقطات الحدث)"}},
+                       "desc": {"type": "string", "description": "وصف قصير لما يُرى (اختياري، للقطات الحدث)"},
+                       # غير مطلوب عمدًا كي لا تنكسر المزيَّفات القديمة؛ غيابه = 0 (P1b)
+                       "impact": {"type": "integer", "minimum": 0, "maximum": 3,
+                                  "description": "قوة اللقطة لافتتاح الريل: 3 انفجار/نار/اعتراض/اشتباك، 2 دمار/حشود/آليات، 1 ميداني هادئ، 0 غير ذلك"}},
         "required": ["t", "kind", "relevant"]}}}, "required": ["seconds"]},
 }
 
@@ -335,7 +338,11 @@ def _entry(r: dict, step: int) -> dict:
     """مدخل الثانية المصنَّفة: good معيار الهوك (ميدانية وrelevant للحدث)، وfootage معيار لقطات الجمل (ميدانية بوصف، relevant أم لا)
     لأن الجملة تطلب مشهدًا بعينه لا الحدث المجرّد، والحَكَم بين السلسلة والجملة هو الإسناد والمدقّق (Issue #1460)."""
     desc = str(r.get("desc") or "").strip()
-    return {"good": _is_good(r), "desc": desc, "step": step, "kind": str(r.get("kind") or ""),
+    try:
+        impact = max(0, min(3, int(r.get("impact") or 0)))
+    except (TypeError, ValueError):
+        impact = 0
+    return {"good": _is_good(r), "desc": desc, "step": step, "kind": str(r.get("kind") or ""), "impact": impact,
             "relevant": r.get("relevant") is True, "footage": r.get("kind") == "event_footage" and bool(desc)}
 
 
