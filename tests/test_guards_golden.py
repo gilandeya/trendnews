@@ -14631,3 +14631,284 @@ def test_reel_quote_outro_r5h_guards() -> None:
             check(f"g430 {variant}: أول إطار من الختام الشعار في الزاوية",
                   fb is not None and abs(fb[1] - right) <= 12 and (fb[1] - fb[0]) <= int(lg["width"]) + 16, (fb, right))
     guarded("g430", g430)
+
+
+def test_reel_open_p1a_guards() -> None:
+    """Issue #1600 (P1a، g431–g438): افتتاح الريل — الشعار الكبير ثابت من الإطار الأول بموضع شعار الخاتمة نفسه، ثلاث ثوانٍ نظيفة،
+    ضباب كحلي بشفافية تتبع الزمن، العنوان ينزل كلمة كلمة بتزامن صوت الراوي، لمعة على الشعار، وحذف الخط الذهبي من الخاتمة.
+    g437 وg438 بـffmpeg حقيقي ويُتخطّيان إن غاب."""
+    import subprocess
+    import tempfile
+    from pathlib import Path
+
+    import numpy as np
+
+    from src import imaging, reel_render
+
+    cfg = load_config()
+    W, H = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
+    fps = int(cfg.path("reel.render.fps"))
+    work_root = Path(tempfile.mkdtemp())
+    hk, lp, fg = cfg.path("reel.render.hook"), cfg.path("reel.render.loop") or {}, cfg.path("reel.render.fog") or {}
+    S = float(hk.get("strong_seconds", 3))
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def ev(expr, **env):
+        return eval(expr, {"__builtins__": {}}, {"min": min, "max": max, "pow": pow, **env})  # noqa: S307 -- تعبير من الكود نفسه
+
+    # ── g431: الشعار من الإطار الأول ──
+    def g431():
+        hook_end, start = 3.0, 20.0
+        move, omove = float(hk["logo_move"]), float(cfg.path("reel.render.outro.logo_move"))
+        want = ((W - 420) / 2, 500.0, 420.0, 1.0)
+        for tt in (0, 1.0, 2.9):
+            got = reel_render.logo_state(tt, cfg, hook_end, start)
+            check(f"g431: عند t={tt} الهندسة الكبيرة الثابتة", all(abs(a - b) < 1e-6 for a, b in zip(got, want)), got)
+        last = reel_render.logo_state(start + omove + 1, cfg, hook_end, start)
+        check("g431: آخر إطار = أول إطار", all(abs(a - b) < 1e-6 for a, b in zip(last, want)), last)
+        lg = cfg.path("reel.render.logo")
+        corner = (W - int(lg["right"]) - int(lg["width"]), int(lg["top"]), int(lg["width"]), 1.0)
+        got = reel_render.logo_state(hook_end + move, cfg, hook_end)
+        check("g431: عند hook_end + logo_move موضع الزاوية", all(abs(a - b) < 1e-6 for a, b in zip(got, corner)), got)
+        for key in ("logo_in", "logo_from", "logo_width", "logo_top"):
+            check(f"g431: المفتاح hook.{key} حُذف", key not in hk, key)
+        ex = reel_render._logo_exprs(cfg, hook_end, start)
+        ok = True
+        for tt in (0.0, 1.5, hook_end + 0.3, hook_end + move + 1, start + omove / 2, start + omove + 3):
+            got = tuple(ev(ex[k], t=tt) for k in ("x", "y", "w"))
+            ref = reel_render.logo_state(tt, cfg, hook_end, start)[:3]
+            ok = ok and all(abs(a - b) < 1e-3 for a, b in zip(got, ref))
+        check("g431: _logo_exprs تطابق logo_state عند 6 أزمنة", ok, None)
+    guarded("g431", g431)
+
+    # ── g432: أزمنة الكلمات ──
+    def g432():
+        sil = float(cfg.path("reel.tts.sentence_silence"))
+        parts = [("في سبيل الاستقلالية", 2.0), ("قصير جدا", 1.0)]
+        ts = reel_render.narration_word_times(parts, 3.2, cfg)
+        check("g432: عدد الأزمنة = عدد الكلمات", len(ts) == 5, ts)
+        check("g432: متزايدة تمامًا", all(b > a for a, b in zip(ts, ts[1:])), ts)
+        check("g432: أولها ≥ start", ts[0] >= 3.2 - 1e-9, ts)
+        check("g432: الكلمة الطويلة تأخذ فاصلًا أطول من القصيرة", (ts[2] - ts[1]) > (ts[1] - ts[0]), ts)
+        expect_gap = (2.0 - sil) * 4 / 17
+        check("g432: الفاصل = حروف الكلمة ÷ حروف الجملة × مدة النطق", abs((ts[2] - ts[1]) - expect_gap) < 1e-6, (ts[2] - ts[1], expect_gap))
+        check("g432: أول كلمة من الجملة الثانية ≥ نهاية الأولى بصمتها", ts[3] >= 3.2 + 2.0 - 1e-9, ts)
+    guarded("g432", g432)
+
+    # ── g433: شفافية الضباب ──
+    def g433():
+        fog_out, fog_in, fstart = float(lp["fog_out"]), float(hk["fog_in"]), float(lp["fog_start"])
+        check("g433: loop.fog_start = 0.55", abs(fstart - 0.55) < 1e-9, fstart)
+
+        def f(t):
+            return reel_render.fog_alpha(t, cfg, S)
+        check("g433: 0.55 عند 0", abs(f(0) - 0.55) < 1e-9, f(0))
+        check("g433: 0 عند fog_out وطوال [fog_out، S]", all(abs(f(t)) < 1e-9 for t in (fog_out, (fog_out + S) / 2, S)),
+              [f(t) for t in (fog_out, S)])
+        check("g433: 1 عند S + fog_in وبعدها", abs(f(S + fog_in) - 1) < 1e-9 and abs(f(S + fog_in + 4) - 1) < 1e-9, f(S + fog_in))
+        check("g433: وسط الظهور بين 0 و1", 0 < f(S + fog_in / 2) < 1, f(S + fog_in / 2))
+        expr = reel_render._fog_alpha_expr(cfg, S)
+        ok = all(abs(ev(expr, t=t) - f(t)) < 1e-6 for t in (0, fog_out / 2, fog_out + 0.1, S + fog_in / 2, S + fog_in, S + 5))
+        check("g433: تعبير ffmpeg يطابق fog_alpha عند 6 أزمنة", ok, expr)
+        layer = reel_render.fog_layer(cfg)
+        a = np.asarray(layer.convert("RGBA"))
+        check("g433: طبقة الضباب بمقاس الشاشة", layer.size == (W, H), layer.size)
+        check("g433: لون الضباب = brand.primary_color",
+              tuple(int(v) for v in a[H // 2, W // 2, :3]) == tuple(imaging.hex_rgb(cfg.path("brand.primary_color"))), a[H // 2, W // 2])
+        mid, edge = int(a[(int(fg["top"]) + int(fg["bottom"])) // 2, W // 2, 3]), int(a[10, W // 2, 3])
+        check("g433: شفافية الوسط ≈ base + center وأعلى من الحافة",
+              abs(mid / 255 - (float(fg["base"]) + float(fg["center"]))) < 0.08 and mid > edge, (mid, edge))
+    guarded("g433", g433)
+
+    # ── g434: حالات الكلمات ──
+    def g434():
+        text = "الحكومة تعلن خطة اقتصادية جديدة للعام المقبل"
+        top = 800
+        lay = reel_render.word_layout(cfg, text, top)
+        check("g434: عنوان من 7 كلمات في أكثر من سطر", len(lay["words"]) == 7 and len({w["line"] for w in lay["words"]}) >= 2,
+              [w["line"] for w in lay["words"]])
+        times = [3.2 + 0.5 * k for k in range(7)]
+        seconds = 8.0
+        tmp = work_root / "g434"
+        tmp.mkdir()
+        frames = reel_render.word_drop_frames(cfg, text, times, seconds, top, tmp, "w")
+        drop = float(cfg.path("reel.render.words.drop"))
+
+        def at(t):
+            acc = 0.0
+            for path, d in frames:
+                if acc <= t < acc + d - 1e-9:
+                    return np.asarray(reel_render.Image.open(path).convert("RGBA"))
+                acc += d
+            return np.asarray(reel_render.Image.open(frames[-1][0]).convert("RGBA"))
+
+        def ink(arr, box, pad=0):
+            x0, y0, x1, y1 = box
+            return int((arr[max(y0 - pad, 0):y1 + pad, max(x0 - pad, 0):x1 + pad, 3] > 40).sum())
+        check("g434: لا حبر قبل زمن الكلمة الأولى", int((at(times[0] - 0.05)[..., 3] > 0).sum()) == 0, None)
+        ok_absent = ok_present = True
+        for k, w in enumerate(lay["words"]):
+            ok_absent = ok_absent and ink(at(times[k] - 0.03), w["box"], 2) == 0
+            ok_present = ok_present and ink(at(times[k] + drop + 0.05), w["box"], 2) > 20
+        check("g434: الكلمة k غائبة قبل زمنها", ok_absent, None)
+        check("g434: الكلمة k حاضرة في موضعها بعد زمنها + drop", ok_present, None)
+        last = at(seconds - 0.1)
+        a = last[..., 3] > 40
+        ok_pos = True
+        covered = np.zeros_like(a)
+        for w in lay["words"]:
+            x0, y0, x1, y1 = w["box"]
+            reg = a[y0 - 8:y1 + 8, x0 - 8:x1 + 8]
+            ys, xs = np.nonzero(reg)
+            if len(xs) == 0:
+                ok_pos = False
+                continue
+            gx0, gx1 = x0 - 8 + int(xs.min()), x0 - 8 + int(xs.max()) + 1
+            ok_pos = ok_pos and abs(gx0 - x0) <= 2 and abs(gx1 - x1) <= 2
+            covered[y0 - 8:y1 + 8, x0 - 8:x1 + 8] = True
+        check("g434: حبر كل كلمة في الحالة الأخيرة يطابق موضعها ±2 بكسل", ok_pos, [w["box"] for w in lay["words"]][:3])
+        check("g434: لا حبر خارج مواضع الكلمات", not (a & ~covered).any(), int((a & ~covered).sum()))
+        first_top = int(np.nonzero(a.any(axis=1))[0].min())
+        check("g434: أعلى النص عند top المطلوب (±60)", abs(first_top - top) <= 60, (first_top, top))
+    guarded("g434", g434)
+
+    # ── g435: الخاتمة بلا خط ذهبي ──
+    def g435():
+        oc = cfg.path("reel.render.outro")
+        ratio = reel_render._logo_ratio(cfg)
+        bottom = int(oc["logo_top"]) + round(int(oc["logo_width"]) * ratio)
+        a = np.asarray(reel_render.frame_outro(cfg, "الجزيرة").convert("RGB")).astype(int)
+        gold = np.array(imaging.hex_rgb(cfg.path("brand.accent_color")))
+        band = a[bottom:bottom + 40]
+        check("g435: لا بكسل ذهبي بين أسفل الشعار و+40", not (np.abs(band - gold).sum(axis=2) < 60).any(),
+              int((np.abs(band - gold).sum(axis=2) < 60).sum()))
+    guarded("g435", g435)
+
+    # ── g436: مشهد الهوك بمزيَّفات ──
+    def make_deps(cmds, speech):
+        def run(cmd):
+            cmds.append([str(c) for c in cmd])
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+
+        def download(video_id, start, end, height, out_path):
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+        return reel_render.Deps(
+            download_clip=download, synthesize=lambda t, v: {"ok": True, "audio": b"mp3", "chars": len(t)},
+            diacritize=lambda t: (t, None), run=run, probe=lambda p: speech, sleep=lambda s: None,
+            faces=lambda f, fr: (640, 360, []), frames=lambda p, fr: [np.full((360, 640), 100, np.uint8)] * len(fr),
+            streams=lambda p: {"video", "audio"}).resolved(cfg)
+
+    def g436():
+        scene = {"kind": "title_card", "text": "عنوان الهوك"}
+        script = {"title": "عنوان الهوك", "scenes": [scene]}
+        draft = {"hook_video": {"video_id": "hv1", "start": 5, "end": 9}}
+        voice, tail = float(hk["voice_delay"]), float(hk["tail"])
+        for speech, want in ((2.0, S + voice + 2.0 + tail), (30.0, float(hk["max_seconds"]))):
+            tmp = work_root / f"g436_{int(speech)}"
+            tmp.mkdir()
+            cmds: list = []
+            dur = reel_render._hook_scene(0, scene, script, draft, None, "female", cfg, make_deps(cmds, speech), tmp, tmp / "o.mp4", [])
+            check(f"g436: كلام {speech} ← المدة {want}", abs(dur - want) < 1e-6, dur)
+            final = [c for c in cmds if c[-1].endswith("o.mp4")][-1]
+            joined = " ".join(final)
+            t = float(final[final.index("-t") + 1])
+            check(f"g436: -t = المدة ({want})", abs(t - want) < 0.01, t)
+            if speech == 2.0:
+                check("g436: adelay = (S + voice_delay) × 1000", f"adelay={int(round((S + voice) * 1000))}" in joined, joined[-500:])
+                check("g436: لا stream_loop مع hook_video", "-stream_loop" not in final, final[:12])
+                check("g436: tpad لتثبيت آخر إطار", "tpad=stop_mode=clone" in joined, joined[-500:])
+                check("g436: بلا تظليل hook.shade القديم", "drawbox" not in joined, joined[-500:])
+                check("g436: الضباب بتعبير زمني", "geq" in joined and "alphamerge" in joined, joined[-600:])
+    guarded("g436", g436)
+
+    ffmpeg = shutil.which("ffmpeg")
+
+    # ── g437: ffmpeg حقيقي — الضباب والنص ──
+    def g437():
+        if not ffmpeg:
+            check("g437: تُخطّي — لا ffmpeg في هذه البيئة", True)
+            return
+        work = work_root / "g437"
+        work.mkdir()
+        mp3 = work / "tone.mp3"
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "lavfi", "-i", "sine=frequency=300:duration=2", str(mp3)], check=True)
+        red = work / "red.mp4"
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "lavfi", "-i", "color=c=0xFF0000:s=640x360:r=30:d=4", "-f", "lavfi",
+                        "-i", "sine=frequency=300:duration=4", "-shortest", "-pix_fmt", "yuv420p", str(red)], check=True)
+
+        def download(video_id, start, end, height, out_path):
+            shutil.copy(red, out_path)
+            return {"tier": "a", "bytes": 1, "failures": []}
+        real = reel_render.Deps().resolved(cfg)
+        deps = reel_render.Deps(
+            download_clip=download, synthesize=lambda t, v: {"ok": True, "audio": mp3.read_bytes(), "chars": len(t)},
+            diacritize=lambda t: (t, None), run=real.run, probe=lambda p: 2.0, sleep=lambda s: None,
+            faces=lambda f, fr: (640, 360, []), frames=lambda p, fr: [np.full((360, 640), 100, np.uint8)] * len(fr),
+            streams=lambda p: {"video", "audio"}).resolved(cfg)
+        title = "عنوان الهوك التجريبي"
+        scene = {"kind": "title_card", "text": title}
+        out = work / "hook.mp4"
+        dur = reel_render._hook_scene(0, scene, {"title": title, "scenes": [scene]},
+                                      {"hook_video": {"video_id": "hv1", "start": 0, "end": 4}}, None, "female", cfg, deps, work, out, [])
+
+        def grab(at):
+            raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{at:.3f}", "-i", str(out), "-frames:v", "1", "-f", "rawvideo",
+                                  "-pix_fmt", "rgb24", "-"], capture_output=True, check=True).stdout
+            return np.frombuffer(raw, np.uint8).reshape(H, W, 3).astype(int)
+        navy, redv = np.array(imaging.hex_rgb(cfg.path("brand.primary_color"))), np.array([255, 0, 0])
+        region = (slice(850, 1300), slice(300, 780))
+        clean, fogged = grab(1.5)[region], grab(S + 1.5)[region]
+
+        def white(im):
+            return int((im.min(axis=2) > 200).sum())
+        check("g437: t=1.5 بلا بكسلات بيضاء", white(clean) == 0, white(clean))
+        check("g437: t=1.5 لونها قريب من الأحمر", np.abs(clean.reshape(-1, 3).mean(axis=0) - redv).sum() < 60, clean.reshape(-1, 3).mean(axis=0))
+        nonw = fogged[fogged.min(axis=2) <= 200].reshape(-1, 3).mean(axis=0)
+        check("g437: t=S+1.5 فيها بكسلات بيضاء", white(fogged) > 50, white(fogged))
+        check("g437: t=S+1.5 أقرب إلى الكحلي منه إلى الأحمر", np.abs(nonw - navy).sum() < np.abs(nonw - redv).sum(), nonw)
+        check("g437: المدة المعادة > S", dur > S, dur)
+    guarded("g437", g437)
+
+    # ── g438: ffmpeg حقيقي — لمعة الشعار وأول إطار ──
+    def g438():
+        if not ffmpeg:
+            check("g438: تُخطّي — لا ffmpeg في هذه البيئة", True)
+            return
+        navy = tuple(imaging.hex_rgb(cfg.path("brand.primary_color")))
+        work = work_root / "g438"
+        work.mkdir()
+        kinds, durs = ["hook", "clip", "outro"], [5.0, 5.0, 3.0]
+        joined = work / "joined.mp4"
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "lavfi", "-i",
+                        f"color=c=0x{navy[0]:02X}{navy[1]:02X}{navy[2]:02X}:s={W}x{H}:r={fps}:d={sum(durs)}",
+                        "-f", "lavfi", "-i", f"sine=frequency=300:duration={sum(durs)}", "-shortest", "-pix_fmt", "yuv420p",
+                        str(joined)], check=True)
+        final = work / "final.mp4"
+        reel_render._final_pass(joined, final, kinds, durs, cfg, reel_render.Deps().resolved(cfg), work, {"id": "g438"})
+
+        def grab(at):
+            raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{at:.3f}", "-i", str(final), "-frames:v", "1", "-f", "rawvideo",
+                                  "-pix_fmt", "rgb24", "-"], capture_output=True, check=True).stdout
+            return np.frombuffer(raw, np.uint8).reshape(H, W, 3).astype(int)
+        first = grab(0.0)
+        m = np.abs(first[420:760] - np.array(navy)).sum(axis=2) > 120
+        ys, xs = np.nonzero(m)
+        check("g438: أول إطار — عرض الشعار بالحبر 420 ± 6", len(xs) > 0 and abs((xs.max() + 1 - xs.min()) - 420) <= 6,
+              (int(xs.min()), int(xs.max())) if len(xs) else None)
+        check("g438: أول إطار — مركزه في الوسط ± 6", len(xs) > 0 and abs((xs.min() + xs.max() + 1) / 2 - W / 2) <= 6, None)
+
+        def lum(img):
+            reg = img[420:760]
+            mask = np.abs(reg - np.array(navy)).sum(axis=2) > 120
+            return float(reg[mask].mean())
+        shine, calm = lum(grab(0.8)), lum(grab(2.0))
+        check("g438: سطوع حبر الشعار عند 0.8 ث أعلى منه عند 2.0 ث (اللمعة)", shine > calm + 1, (shine, calm))
+    guarded("g438", g438)
+    shutil.rmtree(work_root, ignore_errors=True)
