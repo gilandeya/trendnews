@@ -14973,4 +14973,31 @@ def test_reel_closing_p1a2_guards() -> None:
         ok = all(abs(ev(expr, t=t) - f(t)) < 1e-9 for t in ts)
         check("g440: تعبير ffmpeg يطابق closing_fog_alpha عند 6 أزمنة", ok, expr)
     guarded("g440", g440)
+
+    # ── g443: إطار نص الختام ──
+    def g443():
+        import numpy as np
+
+        from src import imaging
+        q = "من يملك قرار التهدئة في المنطقة؟"
+        words = q.split()
+        times = [3.0 + 0.3 * k for k in range(len(words))]
+        tmp = work_root / "g443"
+        tmp.mkdir()
+        frames = reel_render.closing_text_frames(cfg, q, times, 8.0, tmp, "cq")
+        a = np.asarray(__import__("PIL.Image", fromlist=["Image"]).open(frames[-1][0]).convert("RGBA")).astype(int)
+        gold = np.array(imaging.hex_rgb(cfg.path("brand.accent_color")))
+        ink = a[..., 3] > 40
+        isgold = ink & (np.abs(a[..., :3] - gold).sum(axis=2) < 60)
+        top = int(cl["text_top"])
+        gy = np.nonzero(isgold.any(axis=1))[0]
+        check("g443: «برأيك..» ذهبية", len(gy) > 0, int(isgold.sum()))
+        check("g443: الذهبي يبدأ عند text_top (±12)", len(gy) > 0 and abs(int(gy.min()) - top) <= 12, int(gy.min()) if len(gy) else None)
+        white = ink & (a[..., :3].min(axis=2) > 200)
+        wy = np.nonzero(white.any(axis=1))[0]
+        check("g443: السؤال الأبيض تحت الذهبي", len(wy) > 0 and len(gy) > 0 and int(wy.min()) > int(gy.max()), (wy.min() if len(wy) else None, gy.max() if len(gy) else None))
+        check("g443: لا بكسل ذهبي في منطقة الدائرة القديمة (400–640)", not isgold[400:640].any(), int(isgold[400:640].sum()))
+        check("g443: لا ذهبي تحت الكتلة (موضع «شاركونا» القديم)", not isgold[1100:].any(), int(isgold[1100:].sum()))
+        check("g443: قبل أول كلمة لا حبر", int((np.asarray(__import__("PIL.Image", fromlist=["Image"]).open(frames[0][0]).convert("RGBA"))[..., 3] > 0).sum()) == 0, None)
+    guarded("g443", g443)
     shutil.rmtree(work_root, ignore_errors=True)

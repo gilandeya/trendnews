@@ -1057,8 +1057,8 @@ def _logo_ratio(cfg) -> float | None:
         return None
 
 
-def frame_outro(cfg, channels: str, boxes=None, credit: str = "") -> Image.Image:
-    p = _Pen(cfg, boxes)
+def frame_outro(cfg, channels: str, boxes=None, credit: str = "", transparent: bool = False) -> Image.Image:
+    p = _Pen(cfg, boxes, transparent=transparent)
     t = cfg.path("reel.render.texts")
     ratio = _logo_ratio(cfg)
     if ratio is not None:
@@ -1086,7 +1086,7 @@ def frame_outro(cfg, channels: str, boxes=None, credit: str = "") -> Image.Image
     y = p.block(clips, *p.face(clips, "body"), (200, 208, 224), 0, start=36, minimum=26, max_lines=4, y_top=1180)
     if credit:
         _credit_line(p, cfg, credit, y)
-    return p.rgb()
+    return p.img if transparent else p.rgb()
 
 
 def _credit_line(p: "_Pen", cfg, credit: str, y: int) -> None:
@@ -1431,14 +1431,14 @@ def narration_word_times(parts: list[tuple[str, float]], start: float, cfg) -> l
     return out
 
 
-def word_layout(cfg, text: str, top: int) -> dict:
+def word_layout(cfg, text: str, top: int, size_key: str = "hook") -> dict:
     """تخطيط عنوان الهوك كلمةً كلمة: الحجم الذي يسع (sizes.hook، حتى 4 أسطر) ثم موضع كل كلمة النهائي داخل سطرها المتمركز
     (الأولى عند اليمين). كل كلمة {line، text، xy، box} وbox حبرها الفعلي كما يظهر في الحالة الأخيرة (الألفا > 40، كما يقيس الفحص).
     يعيد {words، font، lh، lines، tiles} وtiles بلاطة RGBA بهامش لكل كلمة مع موضع لصقها."""
     import numpy as np
     p = _Pen(cfg, [], transparent=True)
     fpath, fw = p.face(text, "display")
-    start, minimum = size_pair(cfg, "hook")
+    start, minimum = size_pair(cfg, size_key)
     font, lines, lh = _fit(p.d, text, fpath, p.max_w, 4, start, minimum, fw, float(cfg.path("reel.render.fonts.line_factor")))
     kw = imaging._kwargs()
 
@@ -1466,14 +1466,15 @@ def word_layout(cfg, text: str, top: int) -> dict:
     return {"words": words, "font": font, "lh": lh, "lines": lines, "tiles": tiles}
 
 
-def word_drop_frames(cfg, text: str, times: list[float], seconds: float, top: int, tmp: Path, tag: str) -> list[tuple[Path, float]]:
+def word_drop_frames(cfg, text: str, times: list[float], seconds: float, top: int, tmp: Path, tag: str,
+                     size_key: str = "hook", label: Image.Image | None = None) -> list[tuple[Path, float]]:
     """تيار حالات PNG [(ملف، مدة)] لعنوان تنزل كلماته: الكلمة k تبدأ عند times[k] فتنزل من words.drop_px بكسل فوق موضعها النهائي
     مع شفافية 0←1 خلال words.drop ثانية بتسارع ease-out، وبقية الكلمات ثابتة في مواضعها؛ السطر لا يتحرك. لكل إطار زمنه
     البدئي (لا نهايته) فلا تظهر كلمة قبل زمنها. الإطارات المتطابقة تُدمج في مدة واحدة. مشتركة مع السؤال الأخير في P1a-2."""
     rcfg, wc = cfg.path("reel.render"), cfg.path("reel.render.words")
     fps = float(rcfg["fps"])
     drop, drop_px = float(wc["drop"]), float(wc["drop_px"])
-    lay = word_layout(cfg, text, top)
+    lay = word_layout(cfg, text, top, size_key)
     tiles = lay["tiles"]
     n_total = max(int(math.ceil(seconds * fps - 1e-9)), 1)
     base = Image.new("RGBA", (int(rcfg["width"]), int(rcfg["height"])), (0, 0, 0, 0))
@@ -1487,6 +1488,8 @@ def word_drop_frames(cfg, text: str, times: list[float], seconds: float, top: in
             frames[-1] = (frames[-1][0], frames[-1][1] + 1 / fps)
             continue
         img = base.copy()
+        if label is not None and any(e >= 0 for e in key):
+            img.alpha_composite(label)      # «برأيك..» تظهر مع أول كلمة (الختام، P1a-2)
         for (tile, (cx, cy)), e in zip(tiles, key):
             if e < 0:
                 continue
@@ -1498,6 +1501,26 @@ def word_drop_frames(cfg, text: str, times: list[float], seconds: float, top: in
         prev_key = key
     frames[-1] = (frames[-1][0], frames[-1][1] + max(seconds - n_total / fps, 0.0))
     return frames
+
+
+def closing_label_layer(cfg) -> tuple[Image.Image, int]:
+    """طبقة «برأيك..» الذهبية (reel.texts.closing_label) بخط display وحجم closing.label_size متمركزة، أعلى حبرها عند closing.text_top.
+    يعيد (الطبقة الشفافة، y الذي يبدأ منه السؤال = أسفل حبرها + closing.label_gap)."""
+    cl = cfg.path("reel.render.closing")
+    p = _Pen(cfg, [], transparent=True)
+    text = cfg.path("reel.texts.closing_label")
+    font = p.fnt(text, "display", int(cl["label_size"]))
+    top0 = p.ink(text, font, (p.cx, 0), "ma")[1]
+    y = int(cl["text_top"]) - top0
+    imaging.draw_text(p.d, (p.cx, y), text, font, p.gold, anchor="ma")
+    return p.img, int(p.ink(text, font, (p.cx, y), "ma")[3]) + int(cl["label_gap"])
+
+
+def closing_text_frames(cfg, question: str, times: list[float], seconds: float, tmp: Path, tag: str) -> list[tuple[Path, float]]:
+    """تيار حالات نص الختام: «برأيك..» بالذهبي فوق السؤال الذي تنزل كلماته بأزمنة times (word_drop_frames بحجم sizes.question).
+    لا دائرة ذهبية ولا «؟» منفصلة ولا «شاركونا» (Issue #1602)."""
+    label, top = closing_label_layer(cfg)
+    return word_drop_frames(cfg, question, times, seconds, top, tmp, tag, size_key="question", label=label)
 
 
 def _drop(dropped: list, scene: dict, reason: str) -> None:
