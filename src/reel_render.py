@@ -1044,20 +1044,40 @@ def frame_question(cfg, question: str, boxes=None) -> Image.Image:
     return p.rgb()
 
 
+def _logo_ratio(cfg) -> float | None:
+    """ارتفاع الشعار ÷ عرضه بعد قصّ هوامشه الشفافة (كما يُركَّب)، أو None إن غاب الملف."""
+    src = imaging.find_logo(cfg.path("brand.logo"))
+    if src is None:
+        return None
+    try:
+        img = Image.open(src).convert("RGBA")
+        bbox = img.getchannel("A").getbbox() or (0, 0, *img.size)
+        return (bbox[3] - bbox[1]) / max(bbox[2] - bbox[0], 1)
+    except Exception:  # noqa: BLE001 -- ملف تالف يعامَل كغائب فتعود العبارة
+        return None
+
+
 def frame_outro(cfg, channels: str, boxes=None, credit: str = "") -> Image.Image:
     p = _Pen(cfg, boxes)
     t = cfg.path("reel.render.texts")
-    # «تابعوا الموجز» بحجم 162 ويُصغَّر عند الحاجة حتى يسع العرض الآمن
-    size, (ffont, fweight) = int(cfg.path("reel.render.sizes.follow")), p.face(t["follow"], "display")
-    while size > 40:
-        font = pick_font(t["follow"], ffont, size, fweight)
-        if font is None:
-            break
-        box = p.ink(t["follow"], font, (p.cx, 0), "ma")
-        if box[2] - box[0] <= p.max_w:
-            break
-        size -= 2
-    y = p.text_line(t["follow"], ffont, fweight, size, p.white, 560)
+    ratio = _logo_ratio(cfg)
+    if ratio is not None:
+        # الشعار الكبير (يبلغه الشعار المتحرك في التمريرة الأخيرة) يحلّ محلّ «تابعوا الموجز»؛ الإطار يترك له موضعه ويرسم
+        # الخط الذهبي تحته وما بعده يُزاح بارتفاعه (Issue #1592، R5h)
+        oc = cfg.path("reel.render.outro")
+        y = int(oc["logo_top"]) + round(int(oc["logo_width"]) * ratio)
+    else:
+        # بلا شعار: العبارة كما كانت احتياطًا، بحجم 162 يُصغَّر عند الحاجة حتى يسع العرض الآمن
+        size, (ffont, fweight) = int(cfg.path("reel.render.sizes.follow")), p.face(t["follow"], "display")
+        while size > 40:
+            font = pick_font(t["follow"], ffont, size, fweight)
+            if font is None:
+                break
+            box = p.ink(t["follow"], font, (p.cx, 0), "ma")
+            if box[2] - box[0] <= p.max_w:
+                break
+            size -= 2
+        y = p.text_line(t["follow"], ffont, fweight, size, p.white, 560)
     p.rule(y + 10)
     y = p.block(t["tagline"], *p.face(t["tagline"], "body"), p.white, 0, start=52, minimum=36, max_lines=3, y_top=y + 60)
     handle = cfg.path("brand.handle") or "@almujez"
