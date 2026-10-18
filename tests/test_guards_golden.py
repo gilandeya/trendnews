@@ -8034,13 +8034,19 @@ def test_reel_music_r3b2c_guards() -> None:
             lg = rc["logo"]
             scale = "[1:v]scale=" + str(lg["width"]) + ":-1[lg];[0:v][lg]overlay=W-w-" + str(lg["right"]) + ":" \
                 + str(lg["top"]) + "[v]"
-            want = ["-filter_complex", scale, "-map", "[v]", "-map", "0:a", "-c:v", "libx264", "-preset", "veryfast",
+            scale_head = "[1:v]scale=" + str(lg["width"]) + ":-1[lg];[0:v][lg]overlay=W-w-" + str(lg["right"]) + ":" \
+                + str(lg["top"])
+            want = ["-map", "[v]", "-map", "0:a", "-c:v", "libx264", "-preset", "veryfast",
                     "-crf", str(rc.get("crf", 22)), "-pix_fmt", "yuv420p", "-af", "loudnorm=I=-16:TP=-1.5:LRA=11",
                     "-c:a", "aac", "-b:a", "128k", "-ar", str(rc.get("audio_rate", 48000)), "-ac", "2",
                     "-movflags", "+faststart"]
 
             def tail(cmd):
-                return cmd[cmd.index("-filter_complex"):-1] if "-filter_complex" in cmd else None
+                # الفلتر نفسه يبدأ بسلسلة الشعار القديمة ثم تتبعها مرحلة الخاتمة (R5h)؛ ما بعده حرفي كما كان
+                if "-filter_complex" not in cmd:
+                    return None
+                i = cmd.index("-filter_complex")
+                return cmd[i + 2:-1] if str(cmd[i + 1]).startswith(scale_head) and "amix" not in str(cmd[i + 1]) else None
 
             reel_render.MUSIC_DIR = tmp / "nonexistent"
             _, d = render("r3b2c00g254a")
@@ -8709,10 +8715,22 @@ def test_reel_r5a2_guards() -> None:
             for name, fn, want in (
                     ("العنوان", lambda b: reel_render.frame_title(cfg, "عنوان", "2099/01/01", b), ("fit", 96, 52)),
                     ("السؤال", lambda b: reel_render.frame_question(cfg, "هل تتجه المنطقة إلى تسوية؟", b), ("fit", 90, 56)),
-                    ("تابعوا الموجز", lambda b: reel_render.frame_outro(cfg, "الجزيرة", b), ("pick", 112, 0))):
+                    ):
                 rec.clear()
                 fn([])
                 check(f"g280: {name} بحجم R5g", want in rec, rec)
+            # «تابعوا الموجز» حلّ محله الشعار (R5h): بحجم R5g احتياطًا حين يغيب ملف الشعار فقط
+            rec.clear()
+            reel_render.frame_outro(cfg, "الجزيرة", [])
+            check("g280: بلا عبارة «تابعوا الموجز» والشعار موجود", ("pick", 112, 0) not in rec, rec)
+            o_ratio = reel_render._logo_ratio
+            reel_render._logo_ratio = lambda c: None
+            try:
+                rec.clear()
+                reel_render.frame_outro(cfg, "الجزيرة", [])
+            finally:
+                reel_render._logo_ratio = o_ratio
+            check("g280: تابعوا الموجز بحجم R5g (احتياط بلا شعار)", ("pick", 112, 0) in rec, rec)
         finally:
             reel_render._fit, reel_render.pick_font = o_fit, o_pick
         check("g280: كل صناديق layout_boxes داخل العرض الآمن أفقيًا",
@@ -9382,7 +9400,7 @@ def test_reel_hook_r5c1_guards() -> None:
             check("g301: الأمر الأخير فيه eval=frame", "eval=frame" in g, g[-300:])
             check("g301: تعابير overlay بالزمن t", re.search(r"overlay=x='[^']*\bt\b", g) is not None, g[-300:])
             check("g301: overlay الزاوية الثابت لا يعمل إلا بعد الانتقال (enable)",
-                  re.search(r"overlay=W-w-54:108:enable='gte\(t,", g) is not None, g[-300:])
+                  re.search(r"overlay=W-w-54:108:enable='between\(t,", g) is not None, g[-300:])
         guarded("g301", g301)
 
         # ── g302: المتكلم بلا شرط margin ──
@@ -9522,7 +9540,7 @@ def test_reel_hook_r5c1_guards() -> None:
             g = " ".join(final_cmd(r))
             hook_end = r["joined"]["durs"][0] - reel_render.transition_seconds(cfg)
             check("g307: overlay ثابت بالموضع القديم", "overlay=W-w-54:108" in g, g[-400:])
-            m = re.search(r"enable='gte\(t,([\d.]+)\)'", g)
+            m = re.search(r"enable='between\(t,([\d.]+),", g)
             check("g307: يبدأ عند hook_end + logo_move", bool(m) and abs(float(m.group(1)) - (hook_end + move)) <= 0.01,
                   (m.group(1) if m else None, hook_end + move))
             check("g307: scale ثابت بعرض 168", "scale=168:-1" in g, g[-400:])
@@ -10617,7 +10635,7 @@ def test_reel_fonts_r5g_guards() -> None:
         by: dict = {}
         for text, path, weight in runs:
             by.setdefault(text, set()).add((path, weight))
-        for text in ("عنوان الهوك الكبير", "هل يتغير الموقف؟", "تابعوا الموجز", "أحمد كاياباشا"):
+        for text in ("عنوان الهوك الكبير", "هل يتغير الموقف؟", "أحمد كاياباشا"):
             check(f"g336: «{text}» Playpen ExtraBold", by.get(text) == {(PLAYPEN, "ExtraBold")}, by.get(text))
         for text in ("جملة الراوي هنا", "ترجمة المقطع"):
             check(f"g336: «{text}» Playpen Bold", by.get(text) == {(PLAYPEN, "Bold")}, by.get(text))
