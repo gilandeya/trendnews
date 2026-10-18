@@ -15000,4 +15000,74 @@ def test_reel_closing_p1a2_guards() -> None:
         check("g443: لا ذهبي تحت الكتلة (موضع «شاركونا» القديم)", not isgold[1100:].any(), int(isgold[1100:].sum()))
         check("g443: قبل أول كلمة لا حبر", int((np.asarray(__import__("PIL.Image", fromlist=["Image"]).open(frames[0][0]).convert("RGBA"))[..., 3] > 0).sum()) == 0, None)
     guarded("g443", g443)
+
+    # ── g441/g442: مشهد closing في _assemble وخلفيته (مزيَّفات) ──
+    import numpy as np
+
+    speech = 2.0
+
+    def make_deps(cmds, downloads, fail_pre=False):
+        def run(cmd):
+            cmds.append([str(c) for c in cmd])
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+
+        def download(video_id, start, end, height, out_path):
+            downloads.append((video_id, int(start), int(end)))
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+        return reel_render.Deps(
+            download_clip=download, synthesize=lambda t, v: {"ok": True, "audio": b"mp3", "chars": len(t)},
+            diacritize=lambda t: (t, None), run=run, probe=lambda p: speech, sleep=lambda s: None,
+            faces=lambda f, fr: (640, 360, []), frames=lambda p, fr: [np.full((360, 640), 100, np.uint8)] * len(fr),
+            streams=lambda p: {"video", "audio"}).resolved(cfg)
+
+    def closing_script():
+        return {"title": "عنوان الهوك", "scenes": [
+            {"kind": "title_card", "text": "عنوان الهوك"},
+            {"kind": "narration", "text": "جملة الراوي."},
+            {"kind": "question", "text": "ومن يملك القرار؟"},
+            {"kind": "outro", "text": ""}]}
+
+    def run_assemble(tag, hook_start):
+        tmp = work_root / tag
+        tmp.mkdir()
+        cmds, downloads, notes, crops = [], [], [], {}
+        draft = {"hook_video": {"video_id": "hv1", "start": hook_start, "end": hook_start + 4}}
+        out = reel_render._assemble(closing_script(), {}, cfg, make_deps(cmds, downloads), tmp, "female", None, "", {}, notes,
+                                    draft, crops)
+        return out, cmds, downloads, notes, crops
+
+    def g441():
+        (files, kinds, durs), cmds, _, _, _ = run_assemble("g441", 30)
+        lead = reel_render.transition_seconds(cfg)
+        plan = reel_render.closing_plan(speech, cfg, lead)
+        check("g441: آخر الأنواع closing", kinds[-1] == "closing", kinds)
+        check("g441: لا question ولا outro", "question" not in kinds and "outro" not in kinds, kinds)
+        check("g441: مدة الختام = plan[total]", abs(durs[-1] - plan["total"]) < 1e-6, (durs[-1], plan["total"]))
+        start = sum(durs[:-1]) - lead * (len(kinds) - 1)
+        got = reel_render._outro_start(kinds, durs, cfg)
+        check("g441: _outro_start = بداية المشهد + plan[logo]", got is not None and abs(got - (start + plan["logo"])) < 1e-6, (got, start + plan["logo"]))
+        final = [c for c in cmds if c[-1].endswith("scene_02.mp4")]
+        check("g441: مشهد الختام كُتب", bool(final), None)
+        if final:
+            j = " ".join(final[-1])
+            check("g441: الضباب بتعبير زمني", "geq" in j and "alphamerge" in j, j[-400:])
+            check("g441: الراوي يتأخر voice", f"adelay={int(round(plan['voice'] * 1000))}" in j, j[-400:])
+        check("g441: الانتقال إلى closing fade", reel_render._transition_kind(cfg, "closing") == cfg.path("reel.render.transition.outro_type"), None)
+    guarded("g441", g441)
+
+    def g442():
+        lead = reel_render.transition_seconds(cfg)
+        total = reel_render.closing_plan(speech, cfg, lead)["total"]
+        _, _, downloads, notes, crops = run_assemble("g442a", 30)
+        pre = [d for d in downloads if d[2] == 30]
+        check("g442: نداء تنزيل واحد للنافذة قبل الهوك", len(pre) == 1, downloads)
+        check("g442: النافذة [30 − total، 30]", bool(pre) and pre[0][1] == int(__import__("math").floor(30 - total)), pre)
+        check("g442: source = pre_hook", crops.get("closing", {}).get("source") == "pre_hook", crops)
+        _, _, downloads2, notes2, crops2 = run_assemble("g442b", 4)
+        check("g442: start=4 ← لا تنزيل للختام", not [d for d in downloads2 if d[2] == 4], downloads2)
+        check("g442: source = freeze", crops2.get("closing", {}).get("source") == "freeze", crops2)
+        check("g442: سطر comment_closing_freeze في الملاحظات", cfg.path("reel.render.texts.comment_closing_freeze") in notes2, notes2)
+    guarded("g442", g442)
     shutil.rmtree(work_root, ignore_errors=True)
