@@ -2888,7 +2888,7 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     gif = reels_dir / rel_dir / f"{path.stem}.gif"
     # التمريرة الأخيرة تكتب إلى ملف مؤقت لا إلى dest: dest هو ملف الريل السابق نفسه، وفشل حارس المدة يجب ألا يُتلفه
     final = tmp / "final.mp4"
-    _final_pass(joined, final, kinds, durs, cfg, deps, tmp, draft)
+    music = _final_pass(joined, final, kinds, durs, cfg, deps, tmp, draft)
     # مدة الملف النهائي المقيسة لا مجموع المدد: الانتقالات تقصّر الطول الكلي
     measured = deps.probe(final)
     total = measured or (sum(durs) - transition_seconds(cfg) * max(len(durs) - 1, 0))
@@ -2927,7 +2927,7 @@ def _outro_start(kinds: list[str], durs: list[float], cfg) -> float | None:
 
 
 def _final_pass(joined: Path, final: Path, kinds: list[str], durs: list[float], cfg, deps: Deps, tmp: Path,
-                draft: dict) -> None:
+                draft: dict) -> str | None:
     """التمريرة الأخيرة (الشعار والموسيقى) مستخرجة من _render لتُختبر وحدها (Issue #1592، R5h). تمرّر outro_start إلى
     logo_state/_logo_exprs: عند الختام ينتقل الشعار من الزاوية إلى موضع عبارة «تابعوا الموجز» المحذوفة بتيار مدخل ثانٍ
     للشعار مزاح زمنيًا (setpts) ومكرَّر آخر إطاره (eof_action=repeat) فيثبت إلى النهاية."""
@@ -2994,6 +2994,7 @@ def _final_pass(joined: Path, final: Path, kinds: list[str], durs: list[float], 
                        "-crf", str(rcfg.get("crf", 22)), "-pix_fmt", "yuv420p", "-af", _loudnorm(cfg), "-c:a", "aac",
                        "-b:a", "128k", "-ar", str(rcfg.get("audio_rate", 48000)), "-ac", "2", "-movflags", "+faststart",
                        str(final)))
+    return music
 
 
 def _mmss(sec) -> str:
