@@ -2086,3 +2086,11 @@ instead.
 - **الشعار:** `_outro_start` لمشهد `closing` = بداية المشهد في المجمَّع + `plan["logo"]` (لا انتهاء الانتقال)؛ الانتقال إليه من `transition.outro_type` عبر `_transition_kind`. حركة الشعار ولمعته كما في R5h/P1a. آخر إطار: الشعار في (420، أعلاه 500) كأول إطار.
 - **الإعداد:** `reel.render.closing` و`reel.texts.closing_label` و`reel.closing.question_words` و`reel.render.texts.comment_closing_freeze`؛ وبرومبت السيناريو (القاعدة 5): لا واو عطف ولا «برأيك» في سؤال الختام. `render_version` = 29.
 - **الاختبارات:** g439–g445 في `tests/test_guards_golden.py:test_reel_closing_p1a2_guards` (g444/g445 بـffmpeg حقيقي ويُتخطّيان إن لم يوجد `ffmpeg` في PATH؛ جُرّبا على ffmpeg 7.0.2 من `imageio-ffmpeg` ونجحا). حُدِّثت لها اختبارات تتوقع question+outro منفصلين (g214 وg216 وg222 وg298) وspies `frame_outro` (g249 وg255) ومفتاح `closing` في `render_crops`، وثبات الإصدار 28→29.
+
+## الهوك يبدأ بأقوى لقطة (Issue #1606، P1b) — `src/reel_hook_search.py`، `src/reel_render.py`
+
+- **الدرجة:** `CLASSIFY_TOOL` فيه `impact` (0–3، غير مطلوب؛ غيابه 0) بسلّم في `reel.hook_search.classify_system` (3 انفجار/نار/اعتراض/اشتباك · 2 دمار/حشود/آليات · 1 ميداني هادئ · 0 غير ذلك)، و`_entry` تحفظه محصورًا بين 0 و3.
+- **`pick_hook_window(entries, cfg)` (دالة خالصة):** تحل محل `best_run`/`window` في `scan_candidates` (وهما باقيتان). النافذة طولها `hook.strong_seconds` داخل سلسلة صالحة ≥ `hook_search.min_seconds` ودرجتها مجموع impact؛ المرشّحة ما بلغ الأعلى − `hook_search.impact_slack` (1)، ويُقدَّم ما بدايته ≥ `hook_search.pre_seconds` (10، قبله لقطات تكفي لخلفية الختام) ثم الأعلى ثم الأسبق. `end = min(نهاية السلسلة + 1، start + hook.max_seconds)`؛ لا قصّ من وسط السلسلة. بلا سلسلة ← None فينتقل المسح للمرشّح التالي.
+- **`hook_video`** يحفظ أيضًا `impact` و`pre_ok` و`strong_start` و`reason` (`reel.render.texts.hook_reason`). **القديم:** `_drop_stale_auto_hook` في `_render` تحذف `auto_topic` وكذلك `auto` بلا مفتاح `impact` (ذاكرة وقرصًا) فيُعاد اختيارهما؛ اليدوي و`auto` ذو impact يبقيان.
+- **ختام P1a-2:** نافذة `pre_hook` في `_closing_scene` تُقتطع بـ`hook_info["cexpr"]` نفسه (قصّ الهوك الفعلي) بلا كشف ثانٍ لشريط القناة، فلا قفزة عند الإعادة المتصلة.
+- `render_version` = 30. الاختبارات g446–g452 في `tests/test_guards_golden.py:test_reel_hook_strong_p1b_guards` (بلا ffmpeg)؛ وحُدِّثت اختبارات ثبات الإصدار 29→30 وg387 (auto بـimpact).
