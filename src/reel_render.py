@@ -2285,54 +2285,43 @@ def _ease_in_out(p: float) -> float:
 
 
 def logo_state(t: float, cfg, hook_end: float, outro_start: float | None = None) -> tuple[float, float, float, float]:
-    """(x, y, العرض, الشفافية) للشعار عند الزمن t: يدخل خلال hook.logo_in من نسبة logo_from إلى 1.0 من hook.logo_width
-    بشفافية 0←1 بتسارع ease-out وسط الشاشة وأعلاه hook.logo_top، ثم يبدأ عند hook_end (بدء الانتقال إلى المشهد التالي)
-    انتقاله خلال hook.logo_move بتسارع ease-in-out إلى موضع الزاوية (reel.render.logo) ويبقى فيه.
-    مرحلة الخاتمة (Issue #1592، R5h): عند outro_start (انتهاء انتقال الختام في الريل المجمَّع) يتحرك من الزاوية خلال outro.logo_move
-    بالتسارع نفسه إلى outro.logo_width متمركزًا أفقيًا وأعلاه outro.logo_top ويثبت؛ بلا outro_start لا مرحلة (السلوك القديم)."""
-    hk, lg = cfg.path("reel.render.hook"), cfg.path("reel.render.logo")
+    """(x, y, العرض, الشفافية) للشعار عند الزمن t. افتتاح P1a (Issue #1600): الشعار كبير ثابت من الإطار الأول بلا ظهور ولا تكبير
+    وفي موضع شعار الخاتمة نفسه (outro.logo_width متمركزًا وأعلاه outro.logo_top) كي يطابق أول إطار آخر إطار؛ عند hook_end (بدء
+    الانتقال إلى المشهد التالي) ينتقل خلال hook.logo_move بتسارع ease-in-out إلى موضع الزاوية (reel.render.logo) ويبقى فيه.
+    مرحلة الخاتمة (Issue #1592، R5h): عند outro_start يتحرك من الزاوية خلال outro.logo_move بالتسارع نفسه إلى الهندسة الكبيرة نفسها
+    ويثبت؛ بلا outro_start لا مرحلة (السلوك القديم)."""
+    hk, lg, oc = cfg.path("reel.render.hook"), cfg.path("reel.render.logo"), cfg.path("reel.render.outro")
     w = float(cfg.path("reel.render.width"))
-    # الشفافية خطّية لأنها تُنفَّذ بمرشح fade (أرخص بكثير من geq)؛ الحجم وحده بتسارع ease-out
-    alpha = min(max(t / float(hk["logo_in"]), 0.0), 1.0)
-    e1 = _ease_out(alpha)
-    big_w = float(hk["logo_width"]) * (float(hk["logo_from"]) + (1 - float(hk["logo_from"])) * e1)
-    big_x, big_y = (w - big_w) / 2, float(hk["logo_top"])
+    big_w = float(oc["logo_width"])
+    big_x, big_y = (w - big_w) / 2, float(oc["logo_top"])
     e2 = _ease_in_out(min(max((t - hook_end) / float(hk["logo_move"]), 0.0), 1.0))
     small_w = float(lg["width"])
     small_x, small_y = w - float(lg["right"]) - small_w, float(lg["top"])
     x, y, lw = (big_x + (small_x - big_x) * e2, big_y + (small_y - big_y) * e2, big_w + (small_w - big_w) * e2)
     if outro_start is not None:
-        oc = cfg.path("reel.render.outro")
         e3 = _ease_in_out(min(max((t - outro_start) / float(oc["logo_move"]), 0.0), 1.0))
-        ow = float(oc["logo_width"])
-        x, y, lw = x + ((w - ow) / 2 - x) * e3, y + (float(oc["logo_top"]) - y) * e3, lw + (ow - lw) * e3
-    return (x, y, lw, alpha)
+        x, y, lw = x + (big_x - x) * e3, y + (big_y - y) * e3, lw + (big_w - lw) * e3
+    return (x, y, lw, 1.0)
 
 
 def _logo_exprs(cfg, hook_end: float, outro_start: float | None = None) -> dict:
-    """تعابير ffmpeg (بالمتغير t) لدالة logo_state نفسها: w وx وy للمرشحين scale وoverlay؛ الشفافية بمرشح fade خارجها."""
-    hk, lg = cfg.path("reel.render.hook"), cfg.path("reel.render.logo")
+    """تعابير ffmpeg (بالمتغير t) لدالة logo_state نفسها: w وx وy للمرشحين scale وoverlay (الشفافية ثابتة 1 فلا fade)."""
+    hk, lg, oc = cfg.path("reel.render.hook"), cfg.path("reel.render.logo"), cfg.path("reel.render.outro")
     w = int(cfg.path("reel.render.width"))
-
-    def e1(v):
-        return f"(1-pow(1-min(max({v}/{_fmt(float(hk['logo_in']))},0),1),3))"
+    big_w, big_y = int(oc["logo_width"]), int(oc["logo_top"])
+    big_x = f"(({w}-{big_w})/2)"
     p2 = f"min(max((t-{_fmt(hook_end)})/{_fmt(float(hk['logo_move']))},0),1)"
     e2 = f"({p2}*{p2}*(3-2*{p2}))"
-    frm = float(hk["logo_from"])
-    big_w = f"({_fmt(float(hk['logo_width']))}*({_fmt(frm)}+{_fmt(1 - frm)}*{e1('t')}))"
-    big_x = f"(({w}-{big_w})/2)"
     small_w, small_x = int(lg["width"]), w - int(lg["right"]) - int(lg["width"])
     out = {"w": f"({big_w}+({small_w}-{big_w})*{e2})",
            "x": f"({big_x}+({small_x}-{big_x})*{e2})",
-           "y": f"({int(hk['logo_top'])}+({int(lg['top'])}-{int(hk['logo_top'])})*{e2})"}
+           "y": f"({big_y}+({int(lg['top'])}-{big_y})*{e2})"}
     if outro_start is not None:
-        oc = cfg.path("reel.render.outro")
         p3 = f"min(max((t-{_fmt(outro_start)})/{_fmt(float(oc['logo_move']))},0),1)"
         e3 = f"({p3}*{p3}*(3-2*{p3}))"
-        ow = int(oc["logo_width"])
-        out = {"w": f"({out['w']}+({ow}-{out['w']})*{e3})",
-               "x": f"({out['x']}+((({w}-{ow})/2)-{out['x']})*{e3})",
-               "y": f"({out['y']}+({int(oc['logo_top'])}-{out['y']})*{e3})"}
+        out = {"w": f"({out['w']}+({big_w}-{out['w']})*{e3})",
+               "x": f"({out['x']}+({big_x}-{out['x']})*{e3})",
+               "y": f"({out['y']}+({big_y}-{out['y']})*{e3})"}
     return out
 
 
@@ -2956,8 +2945,7 @@ def _final_pass(joined: Path, final: Path, kinds: list[str], durs: list[float], 
         # مع الخاتمة يختفي الصغير الثابت عند outro_start ويتولى المدخل الأخير الحركة والثبات (Issue #1592)
         moved = _fmt(hook_end + float(hk["logo_move"]))
         enable = f"between(t,{moved},{_fmt(ostart)})" if ostart is not None else f"gte(t,{moved})"
-        video_f = (f"[1:v]scale={int(hk['logo_width'])}:-1,format=rgba,"
-                   f"fade=t=in:st=0:d={_fmt(float(hk['logo_in']))}:alpha=1[lg0];"
+        video_f = (f"[1:v]scale={int(cfg.path('reel.render.outro.logo_width'))}:-1,format=rgba[lg0];"
                    f"[lg0]scale=w='{ex['w']}':h=-1:eval=frame[lg];"
                    f"[0:v][lg]overlay=x='{ex['x']}':y='{ex['y']}':eval=frame:eof_action=pass[v1];"
                    f"[{static_idx}:v]scale={lg['width']}:-1[lgs];"
