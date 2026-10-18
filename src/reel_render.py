@@ -2660,9 +2660,10 @@ def _closing_scene(i: int, scene: dict, channels: str, credit: str, hook_info: d
     zoom = f"scale=w='trunc({w}*{zexpr}/2)*2':h='trunc({h}*{zexpr}/2)*2':eval=frame:flags=bilinear,crop={w}:{h}"
     if pre is not None:
         src = "pre_hook"
+        # قصّ الهوك الفعلي نفسه بلا كشف ثانٍ لشريط القناة: كشف جديد قد يختلف فتظهر قفزة عند الإعادة المتصلة (P1b)
         dur = float(deps.probe(pre) or (we - ws))
         inputs = ["-i", str(pre)]
-        base = (f"[0:v]trim=start={_fmt(max(dur - total, 0.0))},setpts=PTS-STARTPTS,{_hook_crop(pre, cfg, deps, None)},"
+        base = (f"[0:v]trim=start={_fmt(max(dur - total, 0.0))},setpts=PTS-STARTPTS,{hook_info['cexpr']},"
                 f"scale={w}:{h},tpad=stop_mode=clone:stop_duration={tz},fps={fps}[b]")
     elif mode == "clip":
         src = "freeze"
@@ -3145,6 +3146,18 @@ def _topic_hook(path: Path, draft: dict, script: dict, broll: dict, cfg, notes: 
         channel=hook["channel"], title=hook["title"], start=hook["start"], end=hook["end"]))
 
 
+def _drop_stale_auto_hook(path: Path, draft: dict) -> None:
+    """يحذف من المسودة (الذاكرة والقرص) هوكًا ليس اختيارًا ثابتًا فيُعاد اختياره في هذا التركيب:
+    auto_topic (كان بالطول ثم بالمعنى، R5d5/R5d6) وauto بلا مفتاح impact (اختير بقاعدة أطول سلسلة قبل P1b، Issue #1606)
+    بدل أن يبقيه خروج _auto_hook المبكر لوجود hook_video. اليدوي (بلا source) وauto ذو impact يبقيان."""
+    hv = draft.get("hook_video")
+    if not isinstance(hv, dict):
+        return
+    if hv.get("source") == "auto_topic" or (hv.get("source") == "auto" and "impact" not in hv):
+        draft.pop("hook_video", None)
+        store.update_draft(path, remove=["hook_video"])
+
+
 def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path, dropped: list,
             approx: list, notes: list | None = None) -> dict:
     rcfg, scfg = cfg.path("reel.render"), cfg.path("reel.script")
@@ -3165,12 +3178,7 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     _ensure_hook_candidates(path, draft, script, cfg, deps, notes)
     want_broll = _broll_wanted(draft, cfg, deps, bg)
     scan_state = reel_hook_search.ScanState()
-    hv0 = draft.get("hook_video")
-    if isinstance(hv0, dict) and hv0.get("source") == "auto_topic":
-        # هوك الموضوع ليس اختيارًا ثابتًا: كان يُختار بالطول (R5d5) والآن بالمعنى، فيُعاد اختياره في هذا التركيب بدل أن
-        # يبقيه خروج _topic_hook المبكر لوجود hook_video؛ الآلي (الحدث نفسه) واليدوي يبقيان
-        draft.pop("hook_video", None)
-        store.update_draft(path, remove=["hook_video"])
+    _drop_stale_auto_hook(path, draft)
     _auto_hook(path, draft, script, cfg, deps, tmp, notes, state=scan_state, want_broll=want_broll)
     broll = _scan_broll(draft, script, cfg, deps, tmp, scan_state) if want_broll else None
     if broll is not None:
