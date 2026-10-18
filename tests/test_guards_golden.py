@@ -14917,3 +14917,60 @@ def test_reel_open_p1a_guards() -> None:
         check("g438: سطوع حبر الشعار عند 0.8 ث أعلى منه عند 2.0 ث (اللمعة)", shine > calm + 1, (shine, calm))
     guarded("g438", g438)
     shutil.rmtree(work_root, ignore_errors=True)
+
+
+def test_reel_closing_p1a2_guards() -> None:
+    """Issue #1602 (P1a-2، g439–g445): ختام الريل — «برأيك..» والسؤال ينزل كلمة كلمة، ثم الشعار إلى الوسط، وآخر إطار = أول إطار.
+    g444 وg445 بـffmpeg حقيقي ويُتخطّيان إن غاب."""
+    import tempfile
+    from pathlib import Path
+
+    from src import reel_render
+
+    cfg = load_config()
+    work_root = Path(tempfile.mkdtemp())
+    cl = cfg.path("reel.render.closing")
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def ev(expr, **env):
+        return eval(expr, {"__builtins__": {}}, {"min": min, "max": max, "pow": pow, **env})  # noqa: S307 -- تعبير من الكود نفسه
+
+    # ── g439: حذف واو العطف قبل أداة الاستفهام ──
+    def g439():
+        cases = [("ومن يملك قرار التهدئة؟", "من يملك قرار التهدئة؟"), ("ولماذا الآن؟", "لماذا الآن؟"),
+                 ("وهل تنجح الوساطة؟", "هل تنجح الوساطة؟"), ("وزير الخارجية يغادر؟", "وزير الخارجية يغادر؟"),
+                 ("من يملك؟", "من يملك؟")]
+        for src, want in cases:
+            got = reel_render.closing_question_text(src, cfg)
+            check(f"g439: {src} ← {want}", got == want, got)
+    guarded("g439", g439)
+
+    # ── g440: خطة الختام وشفافية الضباب ──
+    def g440():
+        lead, q = reel_render.transition_seconds(cfg), 3.0
+        plan = reel_render.closing_plan(q, cfg, lead)
+        voice = lead + float(cfg.path("reel.render.hook.voice_delay"))
+        logo = voice + q + float(cl["question_tail"])
+        info_in = logo + float(cfg.path("reel.render.outro.logo_move"))
+        info_out = info_in + float(cl["info_in"]) + float(cl["info_hold"])
+        total = info_out + float(cl["info_out"])
+        for k, want in (("voice", voice), ("logo", logo), ("info_in", info_in), ("info_out", info_out), ("total", total)):
+            check(f"g440: plan[{k}] = {want}", abs(plan[k] - want) < 1e-9, plan.get(k))
+        fs, fi = float(cfg.path("reel.render.loop.fog_start")), float(cl["fog_in"])
+        f = lambda t: reel_render.closing_fog_alpha(t, cfg, plan)  # noqa: E731
+        check("g440: الضباب 0 عند 0", abs(f(0)) < 1e-9, f(0))
+        check("g440: الضباب 1 عند lead + fog_in", abs(f(lead + fi) - 1) < 1e-9, f(lead + fi))
+        check("g440: الضباب 1 حتى info_out", abs(f(info_out) - 1) < 1e-9 and abs(f((lead + fi + info_out) / 2) - 1) < 1e-9, f(info_out))
+        check("g440: الضباب = loop.fog_start عند total تمامًا", abs(f(total) - fs) < 1e-9, f(total))
+        check("g440: وسط الانخفاض بين fog_start و1", fs < f((info_out + total) / 2) < 1, f((info_out + total) / 2))
+        expr = reel_render._closing_fog_expr(cfg, plan, var="t")
+        ts = [0, lead + fi / 2, lead + fi, info_out, (info_out + total) / 2, total]
+        ok = all(abs(ev(expr, t=t) - f(t)) < 1e-9 for t in ts)
+        check("g440: تعبير ffmpeg يطابق closing_fog_alpha عند 6 أزمنة", ok, expr)
+    guarded("g440", g440)
+    shutil.rmtree(work_root, ignore_errors=True)
