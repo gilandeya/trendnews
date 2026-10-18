@@ -14496,7 +14496,7 @@ def test_reel_quote_outro_r5h_guards() -> None:
         deps = reel_render.Deps(faces=lambda f, fr: (640, 360, []),
                                 frames=lambda c, fr: [np.full((360, 640), 100, np.uint8)] * len(fr)).resolved(cfg)
         out = work / "out.mp4"
-        reel_render._clip_scene({"file": src, "seconds": clip_s}, ovs, out, cfg, deps, scene, [], quote_frames=frames)
+        reel_render._clip_scene({"file": src, "seconds": clip_s}, ovs, out, cfg, deps, scene, [], qframes=frames)
         raw = subprocess.run(["ffmpeg", "-v", "error", "-i", str(out), "-vf", f"scale={W // 4}:{H // 4}", "-f", "rawvideo",
                               "-pix_fmt", "gray", "-"], capture_output=True, check=True).stdout
         fs = np.frombuffer(raw, np.uint8).reshape(-1, H // 4, W // 4).astype(np.int16)
