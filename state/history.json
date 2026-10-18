@@ -1,105 +1,5 @@
 [
   {
-    "score": 27.22,
-    "bucket": "serious",
-    "tokens": [
-      "border",
-      "enter",
-      "eritrea",
-      "ethiopian",
-      "forces",
-      "govt",
-      "key",
-      "near",
-      "tigray",
-      "town"
-    ],
-    "link": "https://www.france24.com/en/ethiopian-govt-forces-enter-key-tigray-town-near-eritrea-border",
-    "title": "Ethiopian govt forces enter key Tigray town near Eritrea border",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-10-13T09:08:30.519352+00:00"
-  },
-  {
-    "score": 25.12,
-    "bucket": "serious",
-    "tokens": [
-      "behind",
-      "burnham",
-      "fairford",
-      "incident",
-      "iran",
-      "irgc",
-      "likely",
-      "raf"
-    ],
-    "link": "https://www.thehindu.com/news/international/uk-pm-burnham-says-irans-irgc-likely-behind-raf-fairford-incident/article71576118.ece",
-    "title": "U.K. PM Burnham says Iran’s IRGC likely behind RAF Fairford incident",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-10-13T09:08:30.519599+00:00"
-  },
-  {
-    "score": 22.71,
-    "bucket": "serious",
-    "tokens": [
-      "baba",
-      "derails",
-      "express",
-      "injured",
-      "killed",
-      "least",
-      "multan",
-      "rehman",
-      "six"
-    ],
-    "link": "https://www.geo.tv/latest/686262-three-killed-as-rehman-baba-express-derails-near-multan-several-injured",
-    "title": "At least six killed, 30 injured as Rehman Baba Express derails in Multan",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-10-13T09:08:30.519825+00:00"
-  },
-  {
-    "score": 22.47,
-    "bucket": "serious",
-    "tokens": [
-      "3rd",
-      "ballistic",
-      "fires",
-      "hypersonic",
-      "korea",
-      "korea's",
-      "missiles",
-      "multiple",
-      "test",
-      "weapon"
-    ],
-    "link": "https://en.yna.co.kr/view/AEN20261012002752315",
-    "title": "(3rd LD) N. Korea fires multiple ballistic missiles after S. Korea's hypersonic weapon test",
-    "posted_title": "",
-    "region": "kr",
-    "seen_at": "2026-10-13T09:08:30.520027+00:00"
-  },
-  {
-    "score": 22.42,
-    "bucket": "serious",
-    "tokens": [
-      "access",
-      "cut",
-      "intelligence",
-      "may",
-      "off",
-      "starlink",
-      "trump",
-      "ukraine"
-    ],
-    "link": "https://en.mehrnews.com/news/248552/Trump-may-cut-off-Ukraine-s-access-to-intelligence-Starlink",
-    "title": "Trump may cut off Ukraine’s access to intelligence, Starlink",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-10-13T09:08:30.520219+00:00"
-  },
-  {
     "score": 28.87,
     "bucket": "serious",
     "tokens": [
@@ -1166,5 +1066,108 @@
     "posted_title": "",
     "region": "jp",
     "seen_at": "2026-10-18T09:07:57.682026+00:00"
+  },
+  {
+    "score": 26.29,
+    "bucket": "serious",
+    "tokens": [
+      "cancer",
+      "days",
+      "discharged",
+      "hospital",
+      "lung",
+      "pope",
+      "surgery"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/c5x2vkddrkrko?at_medium=RSS&at_campaign=rss",
+    "title": "Pope discharged from hospital days after lung cancer surgery",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-10-18T17:08:03.481778+00:00"
+  },
+  {
+    "score": 21.15,
+    "bucket": "serious",
+    "tokens": [
+      "ablaze",
+      "attack",
+      "drone",
+      "large",
+      "petersburg",
+      "refinery",
+      "saint",
+      "scale",
+      "sets",
+      "ukraine"
+    ],
+    "link": "https://www.channelnewsasia.com/world/ukraine-russia-saint-petersburg-strike-6469746",
+    "title": "Ukraine sets Saint Petersburg refinery ablaze in large-scale drone attack",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-10-18T17:08:03.482078+00:00"
+  },
+  {
+    "score": 20.7,
+    "bucket": "serious",
+    "tokens": [
+      "chopper",
+      "crash",
+      "iconic",
+      "kills",
+      "near",
+      "saudi",
+      "shuts",
+      "skyscraper",
+      "yemen"
+    ],
+    "link": "https://www.dailysabah.com/world/mid-east/saudi-shuts-iconic-skyscraper-chopper-crash-kills-2-near-yemen",
+    "title": "Saudi shuts iconic skyscraper, chopper crash kills 2 near Yemen",
+    "posted_title": "",
+    "region": "tr",
+    "seen_at": "2026-10-18T17:08:03.482368+00:00"
+  },
+  {
+    "score": 19.84,
+    "bucket": "serious",
+    "tokens": [
+      "claim",
+      "crown",
+      "denmark",
+      "eighteen",
+      "historic",
+      "japan",
+      "open",
+      "past",
+      "pearly",
+      "power",
+      "tan",
+      "thinaah",
+      "wait",
+      "year"
+    ],
+    "link": "https://www.malaymail.com/news/sports/2026/10/18/eighteen-year-wait-is-over-pearly-tan-thinaah-power-past-japan-to-claim-historic-denmark-open-crown/239647",
+    "title": "Eighteen-year wait is over! Pearly Tan-Thinaah power past Japan to claim historic Denmark Open crown",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-10-18T17:08:03.482634+00:00"
+  },
+  {
+    "score": 19.51,
+    "bucket": "serious",
+    "tokens": [
+      "asean",
+      "comes",
+      "presence",
+      "price",
+      "region",
+      "second",
+      "summit",
+      "trump"
+    ],
+    "link": "https://www.scmp.com/week-asia/economics/article/3371132/trumps-second-asean-summit-presence-comes-price-region?utm_source=rss_feed",
+    "title": "Trump’s second Asean summit presence comes at a price for region",
+    "posted_title": "",
+    "region": "cn",
+    "seen_at": "2026-10-18T17:08:03.482926+00:00"
   }
 ]

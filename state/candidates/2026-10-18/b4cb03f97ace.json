@@ -1,0 +1,65 @@
+{
+  "id": "b4cb03f97ace",
+  "created_at": "2026-10-18T17:08:03.481793+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.15,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 0,
+  "intrigue": 2,
+  "appeal_note": "ضربة أوكرانية لمصفاة في سانت بطرسبرغ، أثر في الوقود وتصعيد لافت.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Ukraine sets Saint Petersburg refinery ablaze in large-scale drone attack",
+  "link": "https://www.channelnewsasia.com/world/ukraine-russia-saint-petersburg-strike-6469746",
+  "publishers": [
+    "Channel News Asia",
+    "France24"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Ukraine sets Saint Petersburg refinery ablaze in large-scale drone attack",
+    "link": "https://www.channelnewsasia.com/world/ukraine-russia-saint-petersburg-strike-6469746",
+    "summary": "",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-10-18T14:48:23+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--B3o3YIW9--/c_crop,h_1125,w_2000,x_0,y_32/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/10/18/saint_petersburg_attack.jpg?itok=1xWxdBls",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "France24"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/europe/20261018-ukraine-sets-saint-petersburg-refinery-ablaze-in-large-scale-drone-attack"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/ukraine-russia-saint-petersburg-strike-6469746"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--B3o3YIW9--/c_crop,h_1125,w_2000,x_0,y_32/fl_relative,g_south_east,l_mediacorp:cna:watermark:2023-11:afp_watermark_14112023,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/10/18/saint_petersburg_attack.jpg?itok=1xWxdBls",
+      "https://s.france24.com/media/display/c0e82312-cae0-11f1-8a5c-6313a763b466/w:1024/p:16x9/08624102e36095dfc5692eadfc7780474a0d2bb4.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1800.9133909758334,
+    "is_stale": false,
+    "score": 21.145101222685184,
+    "impact": 2,
+    "proximity": 0,
+    "intrigue": 2,
+    "appeal_note": "ضربة أوكرانية لمصفاة في سانت بطرسبرغ، أثر في الوقود وتصعيد لافت.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

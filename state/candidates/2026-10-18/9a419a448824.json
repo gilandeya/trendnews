@@ -1,0 +1,56 @@
+{
+  "id": "9a419a448824",
+  "created_at": "2026-10-18T17:08:03.482644+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 19.51,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "ترامب وآسيان: رسوم جمركية وحصص المعادن؛ يمس الاقتصاد",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump’s second Asean summit presence comes at a price for region",
+  "link": "https://www.scmp.com/week-asia/economics/article/3371132/trumps-second-asean-summit-presence-comes-price-region?utm_source=rss_feed",
+  "publishers": [
+    "South China Morning Post"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "Trump’s second Asean summit presence comes at a price for region",
+    "link": "https://www.scmp.com/week-asia/economics/article/3371132/trumps-second-asean-summit-presence-comes-price-region?utm_source=rss_feed",
+    "summary": "US President Donald Trump is expected to drive hard bargains on tariffs and critical minerals in his return to the Asean summit in Manila next month, with Washington seeking greater economic and strategic concessions while remaining hawkish on China. The Philippines confirmed on Wednesday that Trump would fly in for the summit from November 16 to 18, before attending the Asia-Pacific Economic Cooperation (Apec) summit in Shenzhen that same week. Trump’s second consecutive appearance at the forum...",
+    "source_name": "South China Morning Post",
+    "region": "cn",
+    "weight": 1.1,
+    "published": "2026-10-18T00:00:08+00:00",
+    "image_url": null,
+    "publisher": "South China Morning Post",
+    "cluster_sources": [
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/week-asia/economics/article/3371132/trumps-second-asean-summit-presence-comes-price-region?utm_source=rss_feed"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 1800.9132439819443,
+    "is_stale": true,
+    "score": 19.508156785981484,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "ترامب وآسيان: رسوم جمركية وحصص المعادن؛ يمس الاقتصاد",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
