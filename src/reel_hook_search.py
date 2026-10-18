@@ -383,7 +383,6 @@ def scan_candidates(draft: dict, script: dict, cands: list[dict], cfg, deps, tmp
     event = event_text(script, draft)
     out: dict = {"errors": 0}
     sheets_left = int(hcfg.get("max_sheets", 12))
-    min_s, cap = int(hcfg.get("min_seconds", 3)), int(cfg.path("reel.render.hook.max_seconds", 7))
     hook_secs = int(hcfg.get("scan_seconds", 180))
     dl_secs = max(hook_secs, int(cfg.path("reel.broll.scan_seconds", 600))) if want_broll else hook_secs
     for c in cands:
@@ -432,15 +431,46 @@ def scan_candidates(draft: dict, script: dict, cands: list[dict], cfg, deps, tmp
             out["errors"] += 1
             state.failed.add(vid)
             continue
-        run = best_run(good)
-        if run and run[1] >= min_s:
-            start, end = window(run, cap)
+        win = pick_hook_window({t: e for t, e in known.items() if e.get("step") == 1}, cfg)
+        if win:
             title = re.sub(r"[\[\]]", "", clean_title(c.get("title", ""))).strip()
-            out["hook_video"] = {"video_id": c["video_id"], "start": start, "end": end, "channel": c.get("channel", ""),
+            reason = cfg.path("reel.render.texts.hook_reason").format(seconds=int(cfg.path("reel.render.hook.strong_seconds", 3)),
+                                                                      impact=win["impact"])
+            out["hook_video"] = {"video_id": c["video_id"], "start": win["start"], "end": win["end"], "channel": c.get("channel", ""),
                                  "title": title, "source": "auto", "views": int(c.get("views") or 0),
-                                 "reason": f"{run[1]} ث متتالية من لقطات الحدث"}
+                                 "impact": win["impact"], "pre_ok": win["pre_ok"], "strong_start": win["start"], "reason": reason}
             break  # الأعلى مشاهدة أولًا: لا مقارنة بين المرشّحين
     return out
+
+
+def pick_hook_window(entries: dict, cfg) -> dict | None:
+    """نافذة الهوك (P1b): أقوى strong_seconds ثانية متتالية صالحة لا وسط أطول سلسلة، لأن هذه الثواني تُعرض نظيفة أولًا.
+    entries = {الثانية: مدخل _entry} لمرشّح واحد. الدرجة = مجموع impact (غيابه 0)؛ المرشّحة ما بلغ الأعلى − impact_slack، ويُقدَّم
+    فيها ما بدايته ≥ pre_seconds (قبله لقطات تكفي لخلفية الختام) ثم الأعلى ثم الأسبق. بلا سلسلة ≥ min_seconds ← None."""
+    hcfg = cfg.path("reel.hook_search")
+    min_s = int(hcfg.get("min_seconds", 3))
+    size = max(int(cfg.path("reel.render.hook.strong_seconds", 3)), 1)
+    cap = int(cfg.path("reel.render.hook.max_seconds", 7))
+    slack, pre = int(hcfg.get("impact_slack", 1)), int(hcfg.get("pre_seconds", 10))
+    good = sorted(t for t, e in entries.items() if e.get("good"))
+    wins: list[tuple[int, int, int]] = []  # (بداية، درجة، نهاية السلسلة + 1)
+    i = 0
+    while i < len(good):
+        j = i
+        while j + 1 < len(good) and good[j + 1] == good[j] + 1:
+            j += 1
+        a, b = good[i], good[j]
+        n = b - a + 1
+        if n >= min_s:
+            w = min(size, n)
+            for s in range(a, b - w + 2):
+                wins.append((s, sum(int(entries[t].get("impact") or 0) for t in range(s, s + w)), b + 1))
+        i = j + 1
+    if not wins:
+        return None
+    best = max(w[1] for w in wins)
+    s, score, run_end = min((w for w in wins if w[1] >= best - slack), key=lambda w: (w[0] < pre, -w[1], w[0]))
+    return {"start": s, "end": min(run_end, s + cap), "impact": score, "pre_ok": s >= pre}
 
 
 def _chains_of(c: dict, known: dict, hook: dict | None, min_s: int) -> list[dict]:
