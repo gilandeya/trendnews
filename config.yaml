@@ -2323,7 +2323,7 @@ reel:
       comment_broll: "🎞️ لقطات الحدث: {used} من {total} جمل{channels} — {photo} بالصورة"
       # سبب اختيار نافذة الهوك (P1b): تُحفظ في hook_video.reason وتُعرض للمراجع
       hook_reason: "أقوى {seconds} ث (قوة {impact})"
-      comment_hook_topic:"🎞️ الهوك من لقطات الموضوع (لا لقطة للحدث نفسه): {channel} — {title} ({start}–{end})"
+      comment_hook_topic: "🎞️ الهوك من لقطات الموضوع (لا لقطة للحدث نفسه): {channel} — {title} ({start}–{end})"
       # الختام لم يجد نافذة تسبق الهوك من فيديوه (بدايته قبل مدة الختام أو فشل التنزيل) فجُمِّد أول إطار من الهوك (Issue #1602، P1a-2)
       comment_closing_freeze: "🧊 ختام الريل: لا لقطات تسبق الهوك — جُمّد أول إطار منه مع اقتراب بطيء"
       comment_broll_scan: "🎞️ فحصت {s} ث من {n} فيديو: لقطات ميدانية {f} ث — لا سلسلة ≥ {min} ث"
