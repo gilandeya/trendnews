@@ -1,0 +1,299 @@
+{
+  "id": "4a2958660c90",
+  "created_at": "2026-10-18T06:55:42.873422+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "تقييم أداء مجلس التعاون الخليجي خلال الحرب الأمريكية الإيرانية",
+  "tier": 2,
+  "blocs": [
+    "arabic",
+    "turkish"
+  ],
+  "channels": [
+    "SÖZCÜ",
+    "العربية"
+  ],
+  "agreement": "cross_source",
+  "event": "نقاش حول موقف مجلس التعاون الخليجي من الحرب الأمريكية الإيرانية وفعاليته",
+  "warnings": [],
+  "run_date": "2026-10-18",
+  "arabic": {
+    "post_title": "تقييم أداء مجلس التعاون الخليجي خلال الحرب الأمريكية الإيرانية",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "SÖZCÜ",
+      "العربية"
+    ]
+  },
+  "score": 7,
+  "source_videos": [],
+  "topic_id": "6c88ccec1d29",
+  "topic_date": "2026-10-18",
+  "script": {
+    "narrator": "male",
+    "title": "مجلس التعاون في اختبار الحرب",
+    "question": "هل يحتاج مجلس التعاون الخليجي إلى آليات ملزمة لفضّ الخلافات وتوحيد قراره الأمني؟",
+    "scenes": [
+      {
+        "kind": "cold_open_clip",
+        "point_id": "66c22ece894f",
+        "video_url": "https://www.youtube.com/watch?v=Ghw8iApINVo",
+        "start": 450.0,
+        "end": 456.0,
+        "speaker_name": "هشام الغنام",
+        "speaker_role": "الخبير السياسي",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "هشام الغنام",
+        "channel_display": "العربية",
+        "channel_original": "العربية",
+        "quote_arabic": "الإجابة المختصرة والمباشرة: لا أعتقد أن المجلس قدّم الصورة المثلى التي كان ينبغي أن يظهر بها.",
+        "language": "ar",
+        "video_published": "2026-10-16"
+      },
+      {
+        "kind": "title_card",
+        "text": "مجلس التعاون في اختبار الحرب"
+      },
+      {
+        "kind": "narration",
+        "text": "هذا الكلام للخبير السياسي الدكتور هشام الغنام، في برنامج «محل نقاش» على قناة العربية بتاريخ 16 أكتوبر 2026، ضمن حلقة عن أداء مجلس التعاون الخليجي بعد الحرب الأمريكية الإيرانية."
+      },
+      {
+        "kind": "clip",
+        "point_id": "c402c1cb8f52",
+        "video_url": "https://www.youtube.com/watch?v=Ghw8iApINVo",
+        "start": 349.0,
+        "end": 355.0,
+        "speaker_name": "عبد الرحمن العتيبي",
+        "speaker_role": "الدبلوماسي الكويتي الأسبق",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "عبدالرحمن العتيبي",
+        "channel_display": "العربية",
+        "channel_original": "العربية",
+        "quote_arabic": "لم تُستشر دول المجلس في هذا الأمر، وكانت الوساطة العمانية الأكثر حضورًا في التقريب بين الطرفين.",
+        "language": "ar",
+        "video_published": "2026-10-16"
+      },
+      {
+        "kind": "narration",
+        "text": "الدبلوماسي الكويتي الأسبق عبد الرحمن العتيبي، على العربية في التاريخ نفسه، يقول إن دول المجلس لم تُستشر، وإنها اتبعت الصبر الاستراتيجي والمسار الدبلوماسي. ويعود الغنام إلى بنية المجلس ذاتها."
+      },
+      {
+        "kind": "clip",
+        "point_id": "7b4200714ac2",
+        "video_url": "https://www.youtube.com/watch?v=Ghw8iApINVo",
+        "start": 592.0,
+        "end": 598.0,
+        "speaker_name": "هشام الغنام",
+        "speaker_role": "الخبير السياسي",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "هشام الغنام",
+        "channel_display": "العربية",
+        "channel_original": "العربية",
+        "quote_arabic": "ثانيًا لا توجد آليات لحل الخلاف إطلاقًا.",
+        "language": "ar",
+        "video_published": "2026-10-16"
+      },
+      {
+        "kind": "narration",
+        "text": "غياب آليات حل الخلاف، وقرارات إجماع تُعطَّل بسهولة. ويتوقع الغنام أن يزداد الوضع سوءًا إن لم يتحرك المجلس ككتلة واحدة."
+      },
+      {
+        "kind": "question",
+        "text": "هل يحتاج مجلس التعاون الخليجي إلى آليات ملزمة لفضّ الخلافات وتوحيد قراره الأمني؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ]
+  },
+  "headlines": [
+    "هل قدّم مجلس التعاون الصورة المأمولة في إدارة أزمة الحرب الأمريكية الإيرانية؟",
+    "خبير: المجلس لم يقدّم الصورة المأمولة في إدارة الأزمة",
+    "الغنام: لا توجد آليات لحل الخلاف داخل المجلس"
+  ],
+  "headline_selected": 0,
+  "editor_review": {
+    "at": "2026-10-18T06:55:57.649602+00:00",
+    "applied": [
+      {
+        "category": "headline_judgmental",
+        "severity": "low",
+        "location": "headline_1",
+        "original": "هل أخفق مجلس التعاون في إدارة أزمة الحرب الإيرانية الأمريكية؟",
+        "fix": "هل قدّم مجلس التعاون الصورة المأمولة في إدارة أزمة الحرب الأمريكية الإيرانية؟",
+        "note": "«أخفق» حكم أشد مما ورد في المادة؛ أقصى ما قاله الضيف إن المجلس «لم يقدّم الصورة المثلى». يُستحسن صوغ السؤال بلغة المصدر.",
+        "sources": []
+      },
+      {
+        "category": "unattributed_opinion",
+        "severity": "low",
+        "location": "headline_3",
+        "original": "غياب آليات حل الخلاف قد يعيق عمل مجلس التعاون",
+        "fix": "الغنام: لا توجد آليات لحل الخلاف داخل المجلس",
+        "note": "رأي للخبير هشام الغنام معروض في العنوان كخلاصة مجردة بلا نسبة؛ النسبة تحمي العنوان من أن يُقرأ كحكم تحريري.",
+        "sources": []
+      }
+    ],
+    "notes": [
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "body",
+        "original": "الدبلوماسي الكويتي الأسبق عبد الرحمن العتيبي",
+        "fix": "الدبلوماسي الكويتي السابق عبد الرحمن العتيبي",
+        "note": "تعارض في صفة المتحدث الموثَّق: الشريط ونص الراوي يقولان «الأسبق» بينما وصف المصدر المرفق للمقطع يقول «الدبلوماسي الكويتي السابق». كذلك لم يظهر في البحث دبلوماسي كويتي معروف بهذا الاسم (أقرب نتيجة هي عبد الرحمن العتيقي المتوفى 2020، وهو شخص آخر). يلزم تثبيت الاسم والصفة من وصف الفيديو قبل النشر.",
+        "sources": [
+          "https://ar.wikipedia.org/wiki/عبد_الرحمن_العتيقي",
+          "https://www.aljarida.com/articles/1591960365237104500/"
+        ],
+        "video": ""
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "في برنامج «محل نقاش» على قناة العربية بتاريخ 16 أكتوبر 2026",
+        "fix": "على قناة العربية بتاريخ 16 أكتوبر/تشرين الأول 2026",
+        "note": "اسم البرنامج غير وارد في بيانات المقطع ولا في وصفه؛ المتاح هو القناة (العربية) وتاريخ النشر 2026-10-16. البرنامج موجود فعلًا على العربية لكن نسبة هذه الحلقة إليه غير موثقة في المرفقات، فالأولى الاكتفاء بالقناة والتاريخ.",
+        "sources": [
+          "https://www.alarabiya.net/programs/mahal-niqash"
+        ]
+      }
+    ],
+    "error": null,
+    "searches": 2,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "names_audit": [
+    {
+      "arabic": "عبد الرحمن العتيبي",
+      "latin": ""
+    },
+    {
+      "arabic": "هشام الغنام",
+      "latin": ""
+    }
+  ],
+  "reel_bg": {
+    "url": "https://img.maroc24.com/ar/cdn/168-fw62p.webp",
+    "kind": "news_photo",
+    "publisher": "Maroc24"
+  },
+  "hook_candidates": [],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-10-16T00:00:00Z",
+          "2026-10-20T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "صواريخ تعترضها الدفاعات الجوية فوق الخليج",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "Missile interception over Gulf city night sky",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "اعتراض صاروخ إيراني فوق قاعدة خليجية",
+            "raw": 0,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 0,
+        "judged_ok": 0,
+        "rejected_channels": []
+      },
+      {
+        "broad": true,
+        "window": [
+          "2026-10-14T00:00:00Z",
+          "2026-10-21T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "مجلس التعاون الخليجي الحرب",
+            "raw": 13,
+            "channel_ok": 4
+          },
+          {
+            "query": "Gulf Cooperation Council Iran war",
+            "raw": 24,
+            "channel_ok": 1
+          },
+          {
+            "query": "مجلس التعاون الخليجي إيران الرياض",
+            "raw": 2,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 5,
+        "judged_ok": 0,
+        "rejected_channels": [
+          "عاجل",
+          "Shams TV",
+          "د. حمزة زوبع - Hamza Zawba",
+          "RADIO ORIENT",
+          "Europe Pulse",
+          "الحرب الثالثة",
+          "الإستنارة الكاملة",
+          "الخليج 360"
+        ]
+      }
+    ],
+    "picked": []
+  },
+  "broll_plan": [
+    {
+      "scene": 2,
+      "sentence": 0,
+      "text": "هذا الكلام للخبير السياسي الدكتور هشام الغنام، في برنامج «محل نقاش» على قناة العربية بتاريخ 16 أكتوبر 2026، ضمن حلقة عن أداء مجلس التعاون الخليجي بعد الحرب الأمريكية الإيرانية.",
+      "visual": ""
+    },
+    {
+      "scene": 4,
+      "sentence": 0,
+      "text": "الدبلوماسي الكويتي الأسبق عبد الرحمن العتيبي، على العربية في التاريخ نفسه، يقول إن دول المجلس لم تُستشر، وإنها اتبعت الصبر الاستراتيجي والمسار الدبلوماسي.",
+      "visual": ""
+    },
+    {
+      "scene": 4,
+      "sentence": 1,
+      "text": "ويعود الغنام إلى بنية المجلس ذاتها.",
+      "visual": ""
+    },
+    {
+      "scene": 6,
+      "sentence": 0,
+      "text": "غياب آليات حل الخلاف، وقرارات إجماع تُعطَّل بسهولة.",
+      "visual": "قادة خليجيون يجتمعون حول طاولة مستديرة"
+    },
+    {
+      "scene": 6,
+      "sentence": 1,
+      "text": "ويتوقع الغنام أن يزداد الوضع سوءًا إن لم يتحرك المجلس ككتلة واحدة.",
+      "visual": "قمة خليجية مغلقة وسط توتر"
+    }
+  ],
+  "sibling_id": "7a09a90a2c24",
+  "has_photo": false,
+  "has_news_photo": true,
+  "review_issue": 1597,
+  "stage2_issue": 1597
+}
