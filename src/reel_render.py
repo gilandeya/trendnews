@@ -3146,7 +3146,7 @@ def _final_pass(joined: Path, final: Path, kinds: list[str], durs: list[float], 
     if starts and _logo_ratio(cfg) is not None:
         sdur = float(cfg.path("reel.render.shine.seconds"))
         sframes = shine_frames(cfg, logo, tmp)
-        slst = tmp / "shine_frames.txt"
+        slst = tmp / "shine_list.txt"
         slst.write_text("".join(f"file '{f}'\nduration {_fmt(d)}\n" for f, d in sframes) + f"file '{sframes[-1][0]}'\n", encoding="utf-8")
         shine_in = ["-f", "concat", "-safe", "0", "-i", str(slst)]
         si = 2 + (1 if music else 0) + (1 if kinds and kinds[0] == "hook" else 0) + (1 if ostart is not None else 0)

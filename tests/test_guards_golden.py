@@ -9340,7 +9340,8 @@ def test_reel_hook_r5c1_guards() -> None:
 
         # ── g299: مدة الهوك وصوت العنوان ──
         def g299():
-            for n, (audio, want) in enumerate(((1.5, 3.5), (4.0, 4.8), (9.0, 7.0))):
+            # P1a: المدة = strong_seconds + voice_delay + الكلام + tail (3 + 0.2 + صوت + 0.8) بسقف hook.max_seconds = 12 وبلا حدّ أدنى
+            for n, (audio, want) in enumerate(((1.5, 5.5), (4.0, 8.0), (9.0, 12.0))):
                 r = render(f"r5c1000g299a{n}", tmp, hook_audio=audio)
                 durs = r["joined"].get("durs") or [0]
                 check(f"g299: صوت {audio} ث ← مدة الهوك {want}", abs(durs[0] - want) < 0.05, durs)
@@ -9361,9 +9362,9 @@ def test_reel_hook_r5c1_guards() -> None:
             hv = {"video_id": "hv1", "start": 5, "end": 12}
             r = render("r5c1000g300a1", tmp, extra={"hook_video": hv}, with_bg=True)
             check("g300: hook_video ← تنزيل بنافذته", ("hv1", 5, 12) in r["downloads"], r["downloads"])
-            check("g300: hook_video ← crop من المنتصف", any(center in " ".join(c) and "-stream_loop" in c for c in r["cmds"]))
+            check("g300: hook_video ← crop من المنتصف", any(center in " ".join(c) and "tpad=stop_mode=clone" in " ".join(c) for c in r["cmds"]))
             check("g300: hook_video ← لا crop زمني في أمر الهوك",
-                  not any(timed.search(" ".join(c)) for c in r["cmds"] if "-stream_loop" in c))
+                  not any(timed.search(" ".join(c)) for c in r["cmds"] if "tpad=stop_mode=clone" in " ".join(c)))
             r = render("r5c1000g300b1", tmp, with_bg=True)
             check("g300: بلا hook_video مع reel_bg ← crop زمني", any(timed.search(" ".join(c)) for c in r["cmds"]))
             check("g300: بلا تنزيل للهوك", not any(d[0] == "hv1" for d in r["downloads"]), r["downloads"])
@@ -9382,14 +9383,16 @@ def test_reel_hook_r5c1_guards() -> None:
         # ── g301: حالة الشعار وأمر التمريرة الأخيرة ──
         def g301():
             end = 5.0
+            # P1a: الشعار كبير ثابت من الإطار الأول (420 متمركزًا وأعلاه 500) بلا ظهور تدريجي
             x, y, wd, a = reel_render.logo_state(0, cfg, end)
-            check("g301: t=0 شفاف بعرض 336", a == 0 and abs(wd - 336) < 1e-6, (x, y, wd, a))
-            x, y, wd, a = reel_render.logo_state(0.5, cfg, end)
-            check("g301: t=0.5 بعرض 560 وسط الشاشة وأعلاه 420",
-                  abs(wd - 560) < 1e-6 and abs(x - (1080 - 560) / 2) < 1e-6 and abs(y - 420) < 1e-6 and abs(a - 1) < 1e-6,
+            check("g301: t=0 بعرض 420 وسط الشاشة وأعلاه 500 وغير شفاف",
+                  abs(wd - 420) < 1e-6 and abs(x - (1080 - 420) / 2) < 1e-6 and abs(y - 500) < 1e-6 and abs(a - 1) < 1e-6,
                   (x, y, wd, a))
+            x, y, wd, a = reel_render.logo_state(0.5, cfg, end)
+            check("g301: t=0.5 الهندسة نفسها",
+                  abs(wd - 420) < 1e-6 and abs(x - 330) < 1e-6 and abs(y - 500) < 1e-6 and abs(a - 1) < 1e-6, (x, y, wd, a))
             x, y, wd, a = reel_render.logo_state(end + 0.3, cfg, end)
-            check("g301: منتصف الحركة بعرض بين 168 و560", 168 < wd < 560, wd)
+            check("g301: منتصف الحركة بعرض بين 168 و420", 168 < wd < 420, wd)
             x, y, wd, a = reel_render.logo_state(end + 0.6, cfg, end)
             check("g301: بعد الحركة في الزاوية", abs(wd - 168) < 1e-6 and abs(x - (1080 - 54 - 168)) < 1e-6
                   and abs(y - 108) < 1e-6 and abs(a - 1) < 1e-6, (x, y, wd, a))
@@ -9516,7 +9519,7 @@ def test_reel_hook_r5c1_guards() -> None:
             r = render("r5c1000g306a1", tmp)
             c = final_cmd(r)
             g = " ".join(c)
-            for needle in ("fade=t=in", "eof_action=pass", "enable='gte(t,"):
+            for needle in ("eof_action=pass", "enable='gte(t,"):
                 check(f"g306: الأمر الأخير يحتوي {needle}", needle in g, g[-400:])
             check("g306: الأمر الأخير بلا geq", "geq" not in g, g[-400:])
             check("g306: overlay المتحرك بلا shortest", "eval=frame:shortest=1" not in g, g[-400:])
@@ -9525,8 +9528,8 @@ def test_reel_hook_r5c1_guards() -> None:
             loops = [i for i, a in enumerate(c) if a == "-loop"]
             pre = bool(loops) and c[loops[0] + 4] == "-t" and abs(float(c[loops[0] + 5]) - want) <= 0.01
             check("g306: مدخل الشعار المتحرك مسبوق بـ -t = hook_end+logo_move+0.1", pre, (want, c[:12]))
-            check("g306: alpha عند 0.25 تساوي 0.5", abs(reel_render.logo_state(0.25, cfg, 5.0)[3] - 0.5) < 1e-6,
-                  reel_render.logo_state(0.25, cfg, 5.0))
+            check("g306: لا fade دخول (الشعار غير شفاف من الإطار الأول)", "fade=t=in" not in g
+                  and abs(reel_render.logo_state(0.25, cfg, 5.0)[3] - 1) < 1e-6, reel_render.logo_state(0.25, cfg, 5.0))
         guarded("g306", g306)
 
         # ── g307: لا قفزة عند التبديل إلى الشعار الثابت ──
@@ -10479,7 +10482,7 @@ def test_reel_hook_search_r5c2_guards() -> None:
             r = render("r5c2000g330a1", tmp, search=res, plan={"c1": range(3, 5), "c2": range(10, 19)})
             hv = r["state"].get("hook_video") or {}
             check("g330: يُختار المرشّح الثاني (9 ث) لا الأول (2 ث)", hv.get("video_id") == "c2", hv)
-            check("g330: النافذة 7 ث من وسط السلسلة", (hv.get("start"), hv.get("end")) == (11, 18), hv)
+            check("g330: النافذة 9 ث كاملة (تحت hook.max_seconds = 12)", (hv.get("start"), hv.get("end")) == (10, 19), hv)
             check("g330: source auto وقناة وعنوان وسبب",
                   hv.get("source") == "auto" and hv.get("channel") == "AFP" and hv.get("title") == "second"
                   and bool(hv.get("reason")), hv)
@@ -14719,7 +14722,7 @@ def test_reel_open_p1a_guards() -> None:
         a = np.asarray(layer.convert("RGBA"))
         check("g433: طبقة الضباب بمقاس الشاشة", layer.size == (W, H), layer.size)
         check("g433: لون الضباب = brand.primary_color",
-              tuple(int(v) for v in a[H // 2, W // 2, :3]) == tuple(imaging.hex_rgb(cfg.path("brand.primary_color"))), a[H // 2, W // 2])
+              tuple(int(v) for v in a[H // 2, W // 2, :3]) == tuple(imaging.hex_rgb(cfg.path("brand.primary_color"))), a[H // 2, W // 2].tolist())
         mid, edge = int(a[(int(fg["top"]) + int(fg["bottom"])) // 2, W // 2, 3]), int(a[10, W // 2, 3])
         check("g433: شفافية الوسط ≈ base + center وأعلى من الحافة",
               abs(mid / 255 - (float(fg["base"]) + float(fg["center"]))) < 0.08 and mid > edge, (mid, edge))
