@@ -15070,4 +15070,85 @@ def test_reel_closing_p1a2_guards() -> None:
         check("g442: source = freeze", crops2.get("closing", {}).get("source") == "freeze", crops2)
         check("g442: سطر comment_closing_freeze في الملاحظات", cfg.path("reel.render.texts.comment_closing_freeze") in notes2, notes2)
     guarded("g442", g442)
+
+    # ── g444/g445: ffmpeg حقيقي — الإعادة المتصلة (آخر إطار ≈ أول إطار) ──
+    import re
+    import subprocess
+
+    from src import imaging
+    ffmpeg = shutil.which("ffmpeg")
+    W, H = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
+
+    def real_loop(tag, hook_start):
+        work = work_root / tag
+        work.mkdir()
+        src = work / "src.mp4"
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "lavfi", "-i", "testsrc=s=640x360:r=30:d=40", "-f", "lavfi", "-i",
+                        "sine=frequency=300:duration=40", "-shortest", "-pix_fmt", "yuv420p", str(src)], check=True)
+        mp3 = work / "tone.mp3"
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "lavfi", "-i", "sine=frequency=300:duration=1", str(mp3)], check=True)
+
+        def dur(f):
+            err = subprocess.run(["ffmpeg", "-i", str(f)], capture_output=True, text=True).stderr
+            m = re.search(r"Duration: (\d+):(\d+):([\d.]+)", err)
+            return int(m.group(1)) * 3600 + int(m.group(2)) * 60 + float(m.group(3)) if m else None
+
+        def download(video_id, start, end, height, out_path):
+            subprocess.run(["ffmpeg", "-y", "-v", "error", "-ss", str(start), "-i", str(src), "-t", str(end - start), "-pix_fmt",
+                            "yuv420p", str(out_path)], check=True)
+            return {"tier": "a", "bytes": 1, "failures": []}
+        real = reel_render.Deps().resolved(cfg)
+        deps = reel_render.Deps(
+            download_clip=download, synthesize=lambda t, v: {"ok": True, "audio": mp3.read_bytes(), "chars": len(t)},
+            diacritize=lambda t: (t, None), run=real.run, probe=dur, sleep=lambda s: None,
+            faces=lambda f, fr: (640, 360, []), frames=lambda p, fr: [np.full((360, 640), 100, np.uint8)] * len(fr),
+            streams=lambda p: {"video", "audio"}, stream_durations=lambda f: (dur(f), dur(f))).resolved(cfg)
+        script = closing_script()
+        draft = {"id": tag, "hook_video": {"video_id": "hv1", "start": hook_start, "end": hook_start + 4}}
+        notes, crops = [], {}
+        files, kinds, durs = reel_render._assemble(script, {}, cfg, deps, work, "female", None, "", {}, notes, draft, crops)
+        joined = reel_render._join(files, kinds, durs, cfg, deps, work)
+        final = work / "final.mp4"
+        reel_render._final_pass(joined, final, kinds, durs, cfg, deps, work, draft)
+
+        def grab(at, from_end=False):
+            pre = ["-sseof", f"{-abs(at):.3f}"] if from_end else ["-ss", f"{at:.3f}"]
+            raw = subprocess.run(["ffmpeg", "-v", "error", *pre, "-i", str(final), "-frames:v", "1", "-update", "1", "-f", "rawvideo",
+                                  "-pix_fmt", "rgb24", "-"], capture_output=True, check=True).stdout
+            return np.frombuffer(raw, np.uint8).reshape(H, W, 3).astype(int)
+        return kinds, durs, crops, grab
+
+    def white(im):
+        return int((im.min(axis=2) > 235).sum())
+
+    def g444():
+        if not ffmpeg:
+            check("g444: تُخطّي — لا ffmpeg في هذه البيئة", True)
+            return
+        kinds, durs, crops, grab = real_loop("g444", 20)
+        lead = reel_render.transition_seconds(cfg)
+        plan = reel_render.closing_plan(1.0 + 0.35, cfg, lead)
+        check("g444: source = pre_hook", crops.get("closing", {}).get("source") == "pre_hook", crops)
+        first, last = grab(0.0), grab(0.06, from_end=True)
+        diff = float(np.abs(first - last).mean())
+        check("g444: متوسط الفرق المطلق بين أول إطار وآخره ≤ 6", diff <= 6, diff)
+        cstart = sum(durs[:-1]) - lead * (len(kinds) - 1)
+        mid = grab(cstart + plan["logo"] - 0.15)
+        info = grab(cstart + plan["info_in"] + float(cl["info_in"]) + 0.5)
+        qreg = (slice(760, 1300), slice(0, W))
+        check("g444: منتصف الختام فيه بكسلات بيضاء في منطقة السؤال", white(mid[qreg]) > 50, white(mid[qreg]))
+        ireg = (slice(760, 1300), slice(0, W))
+        check("g444: آخر إطار بلا نص في منطقة المعلومات (أقل بيضًا من ذروة المعلومات)", white(last[ireg]) + 50 < white(info[ireg]),
+              (white(last[ireg]), white(info[ireg])))
+    guarded("g444", g444)
+
+    def g445():
+        if not ffmpeg:
+            check("g445: تُخطّي — لا ffmpeg في هذه البيئة", True)
+            return
+        _, _, crops, grab = real_loop("g445", 2)
+        check("g445: source = freeze", crops.get("closing", {}).get("source") == "freeze", crops)
+        diff = float(np.abs(grab(0.0) - grab(0.06, from_end=True)).mean())
+        check("g445: الفرق بين أول إطار وآخره ≤ 6 (التجميد)", diff <= 6, diff)
+    guarded("g445", g445)
     shutil.rmtree(work_root, ignore_errors=True)
