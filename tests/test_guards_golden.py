@@ -15163,3 +15163,170 @@ def test_reel_closing_p1a2_guards() -> None:
         check("g445: الفرق بين أول إطار وآخره ≤ 6 (التجميد)", diff <= 6, diff)
     guarded("g445", g445)
     shutil.rmtree(work_root, ignore_errors=True)
+
+
+def test_reel_hook_strong_p1b_guards() -> None:
+    """Issue #1606 (P1b، g446–g452): الهوك يبدأ بأقوى strong_seconds ثانية من لقطات الحدث، ويُفضَّل ما يسبقه لقطات تكفي للختام.
+    قصّ pre_hook في الختام بـcexpr الهوك نفسه. لا شبكة ولا ffmpeg."""
+    import inspect
+    import json
+    import tempfile
+    from pathlib import Path
+    from types import SimpleNamespace
+
+    import numpy as np
+    from PIL import Image
+
+    from src import reel_hook_search, reel_render
+
+    cfg = load_config()
+    work_root = Path(tempfile.mkdtemp())
+    S = int(cfg.path("reel.render.hook.strong_seconds"))
+    cap = int(cfg.path("reel.render.hook.max_seconds"))
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def entries_of(first, last, impacts=None, default=1, with_impact=True):
+        """مدخلات _entry لثوانٍ صالحة first..last؛ impacts = {الثانية: القوة}."""
+        out = {}
+        for t in range(first, last + 1):
+            r = {"kind": "event_footage", "relevant": True, "desc": "لقطة"}
+            if with_impact:
+                r["impact"] = (impacts or {}).get(t, default)
+            out[t] = reel_hook_search._entry(r, 1)
+        return out
+
+    def g446():
+        base = {6: 3, 7: 3, 8: 3}
+        w = reel_hook_search.pick_hook_window(entries_of(5, 25, base), cfg)
+        check("g446أ: أقوى نافذة تبدأ عند 6 ولا بديل ضمن الهامش",
+              bool(w) and w["start"] == 6 and w["pre_ok"] is False and w["impact"] == 9, w)
+        more = {**base, 15: 3, 16: 3, 17: 2}
+        w = reel_hook_search.pick_hook_window(entries_of(5, 25, more), cfg)
+        check("g446ب: نافذة ضمن الهامش بدايتها ≥ 10 تتقدّم",
+              bool(w) and w["start"] == 15 and w["pre_ok"] is True and w["impact"] == 8, w)
+        check("g446ج: end = min(26، start + hook.max_seconds)", bool(w) and w["end"] == min(26, 15 + cap), w)
+    guarded("g446", g446)
+
+    def g447():
+        w = reel_hook_search.pick_hook_window(entries_of(5, 25, with_impact=False), cfg)
+        check("g447: بلا impact تتعادل النوافذ فتُختار أول بداية ≥ pre_seconds",
+              bool(w) and w["start"] == 10 and w["pre_ok"] is True, w)
+        w = reel_hook_search.pick_hook_window(entries_of(5, 9, with_impact=False), cfg)
+        check("g447: لا بداية ≥ pre_seconds ← الأسبق", bool(w) and w["start"] == 5 and w["pre_ok"] is False, w)
+    guarded("g447", g447)
+
+    IMG = Image.new("RGB", (64, 36), (10, 10, 10))
+
+    def cand(vid, views):
+        return {"video_id": vid, "title": "t " + vid, "channel": "Reuters", "views": views, "duration": 900,
+                "published": "2099-11-02T08:00:00Z"}
+
+    def rig(per_video):
+        """per_video = {vid: {t: impact}} لثوانٍ event_footage relevant؛ غيرها studio."""
+        st = {"cur": None}
+
+        def dl(video_id, seconds, height, out_path):
+            Path(out_path).write_bytes(video_id.encode())
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        def frames(path, seconds, c_):
+            st["cur"] = Path(path).read_bytes().decode()
+            return [IMG] * 180
+
+        def classify(jpeg, event, first, n, c_, labels=None):
+            ts = list(labels) if labels else list(range(first, first + n))
+            imp = per_video.get(st["cur"], {})
+            return [{"t": t, "kind": "event_footage" if t in imp else "studio", "relevant": t in imp,
+                     **({"desc": "لقطة", "impact": imp[t]} if t in imp else {})} for t in ts]
+        return SimpleNamespace(scan_download=dl, scan_frames=frames, classify_sheet=classify)
+
+    script = {"title": "ع", "scenes": [{"kind": "title_card", "text": "ع"}]}
+
+    def g448():
+        check("g448: سلسلة أقصر من min_seconds ← None",
+              reel_hook_search.pick_hook_window(entries_of(5, 6), cfg) is None, None)
+        deps = rig({"c1": {5: 3, 6: 3}, "c2": {t: 1 for t in range(40, 60)}})
+        out = reel_hook_search.scan_candidates({"topic_date": "2099-11-02"}, script, [cand("c1", 900), cand("c2", 500)], cfg, deps,
+                                               work_root)
+        hv = out.get("hook_video") or {}
+        check("g448: المرشّح الأول بلا سلسلة كافية فينتقل إلى الثاني", hv.get("video_id") == "c2", out)
+    guarded("g448", g448)
+
+    def g449():
+        imp = {t: 1 for t in range(20, 41)}
+        imp.update({33: 3, 34: 3, 35: 3})
+        deps = rig({"c1": imp})
+        out = reel_hook_search.scan_candidates({"topic_date": "2099-11-02"}, script, [cand("c1", 900)], cfg, deps, work_root)
+        hv = out.get("hook_video") or {}
+        want_reason = cfg.path("reel.render.texts.hook_reason").format(seconds=S, impact=9)
+        check("g449: start هو النافذة الأقوى لا وسط السلسلة", hv.get("start") == 33 and hv.get("strong_start") == 33, hv)
+        check("g449: impact وpre_ok محفوظان", hv.get("impact") == 9 and hv.get("pre_ok") is True, hv)
+        check("g449: reason بالنص الجديد", hv.get("reason") == want_reason and "أقوى" in want_reason, hv.get("reason"))
+    guarded("g449", g449)
+
+    def g450():
+        check("g450: _render يستدعي الحذف", "_drop_stale_auto_hook(" in inspect.getsource(reel_render._render), None)
+        p = work_root / "d" / "g450.json"
+        p.parent.mkdir(parents=True, exist_ok=True)
+        for tag, hv, gone in (("قديم", {"video_id": "v", "start": 3, "end": 6, "source": "auto"}, True),
+                              ("جديد", {"video_id": "v", "start": 3, "end": 6, "source": "auto", "impact": 5}, False),
+                              ("يدوي", {"video_id": "v", "start": 3, "end": 6}, False)):
+            d = {"id": "g450", "hook_video": dict(hv)}
+            p.write_text(json.dumps(d), encoding="utf-8")
+            reel_render._drop_stale_auto_hook(p, d)
+            disk = json.loads(p.read_text(encoding="utf-8"))
+            check(f"g450: {tag} — الذاكرة", ("hook_video" not in d) == gone, d)
+            check(f"g450: {tag} — القرص", ("hook_video" not in disk) == gone, disk)
+    guarded("g450", g450)
+
+    def g451():
+        cmds, probes = [], []
+
+        def run(cmd):
+            cmds.append([str(c) for c in cmd])
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+
+        def download(video_id, start, end, height, out_path):
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        def spy_frames(p, fr):
+            probes.append(str(p))
+            return [np.full((360, 640), 100, np.uint8)] * len(fr)
+        deps = reel_render.Deps(
+            download_clip=download, synthesize=lambda t, v: {"ok": True, "audio": b"mp3", "chars": len(t)},
+            diacritize=lambda t: (t, None), run=run, probe=lambda p: 2.0, sleep=lambda s: None,
+            faces=lambda f, fr: (640, 360, []), frames=spy_frames, streams=lambda p: {"video", "audio"}).resolved(cfg)
+        tmp = work_root / "g451"
+        tmp.mkdir()
+        known = "crop=111:222:33:0"
+        hook_info = {"mode": "clip", "clip": tmp / "hook.mp4", "cexpr": known}
+        draft = {"hook_video": {"video_id": "hv1", "start": 40, "end": 44}}
+        crops: dict = {}
+        reel_render._closing_scene(0, {"kind": "question", "text": "ومن يملك القرار؟"}, "قناة", "", hook_info, draft, "female", cfg,
+                                   deps, tmp, tmp / "out.mp4", [], crops, reel_render.transition_seconds(cfg))
+        j = [" ".join(c) for c in cmds if "closing_pre_0.mp4" in " ".join(c)]
+        check("g451: source = pre_hook", crops.get("closing", {}).get("source") == "pre_hook", crops)
+        check("g451: أمر ffmpeg للنافذة يحوي cexpr الهوك حرفيًا", bool(j) and known in j[-1], j[-1][-300:] if j else cmds[-1:])
+        check("g451: لا كشف شريط على ملف النافذة", not [p for p in probes if "closing_pre_0" in p], probes)
+    guarded("g451", g451)
+
+    def g452():
+        props = reel_hook_search.CLASSIFY_TOOL["input_schema"]["properties"]["seconds"]["items"]
+        im = props["properties"].get("impact") or {}
+        check("g452: impact بحدّين 0 و3", im.get("minimum") == 0 and im.get("maximum") == 3, im)
+        check("g452: impact ليس في required", "impact" not in props["required"], props["required"])
+        sysm = cfg.path("reel.hook_search.classify_system")
+        check("g452: classify_system يذكر سلّم القوة", "impact" in sysm and "انفجار" in sysm, sysm)
+        check("g452: render_version = 30", cfg.path("reel.render.version") == 30, cfg.path("reel.render.version"))
+        e = reel_hook_search._entry({"kind": "event_footage", "relevant": True, "desc": "x", "impact": 9}, 1)
+        e2 = reel_hook_search._entry({"kind": "event_footage", "relevant": True, "desc": "x"}, 1)
+        check("g452: _entry تحصر impact وغيابه 0", e["impact"] == 3 and e2["impact"] == 0, (e, e2))
+    guarded("g452", g452)
+    shutil.rmtree(work_root, ignore_errors=True)
