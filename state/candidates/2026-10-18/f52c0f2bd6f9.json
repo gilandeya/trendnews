@@ -1,0 +1,64 @@
+{
+  "id": "f52c0f2bd6f9",
+  "created_at": "2026-10-18T09:07:57.680897+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.41,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 3,
+  "proximity": 3,
+  "intrigue": 3,
+  "appeal_note": "سفينة شحن تغرق بعد إصابة لغم في هرمز، أول مرة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran reports cargo ship sinks after hitting mine in Strait of Hormuz",
+  "link": "https://www.thehindu.com/news/international/iran-reports-cargo-ship-sinks-after-hitting-mine-in-strait-of-hormuz/article71585186.ece",
+  "publishers": [
+    "Al Jazeera English",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Iran reports cargo ship sinks after hitting mine in Strait of Hormuz",
+    "link": "https://www.thehindu.com/news/international/iran-reports-cargo-ship-sinks-after-hitting-mine-in-strait-of-hormuz/article71585186.ece",
+    "summary": "It was the first time Iran has reported a ship sinking after hitting a mine during the war",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-10-17T19:43:21+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/hbmf1g/article71585204.ece/alternates/LANDSCAPE_1200/2026-10-14T123920Z_1819556582_RC2E1OATRA9K_RTRMADP_3_IRAN-CRISIS-FERTILIZER-UN.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/iran-reports-cargo-ship-sinks-after-hitting-mine-in-strait-of-hormuz/article71585186.ece"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/10/18/iran-says-two-tankers-catch-fire-after-hitting-mines-in-strait-of-hormuz?traffic_source=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/hbmf1g/article71585204.ece/alternates/LANDSCAPE_1200/2026-10-14T123920Z_1819556582_RC2E1OATRA9K_RTRMADP_3_IRAN-CRISIS-FERTILIZER-UN.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 2,
+    "velocity": 0.0,
+    "age_hours": 1792.9117484775,
+    "is_stale": true,
+    "score": 26.406272207907406,
+    "impact": 3,
+    "proximity": 3,
+    "intrigue": 3,
+    "appeal_note": "سفينة شحن تغرق بعد إصابة لغم في هرمز، أول مرة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

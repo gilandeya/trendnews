@@ -1,0 +1,83 @@
+{
+  "id": "5494b03ffc50",
+  "created_at": "2026-10-18T09:07:57.681459+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.25,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 1,
+  "appeal_note": "إيران ترفض الضغوط وتبقي باب الحوار مفتوحًا.",
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Iran rejects pressure, remains open to dialogue: Araghchi",
+  "link": "https://en.mehrnews.com/news/248652/Iran-rejects-pressure-remains-open-to-dialogue-Araghchi",
+  "publishers": [
+    "Al Jazeera English",
+    "IRNA English",
+    "Iran International",
+    "Mehr News"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Iran rejects pressure, remains open to dialogue: Araghchi",
+    "link": "https://en.mehrnews.com/news/248652/Iran-rejects-pressure-remains-open-to-dialogue-Araghchi",
+    "summary": "TEHRAN, Oct. 17 (MNA) – Iran will not surrender its sovereign rights under pressure but remains ready for dialogue based on mutual respect and credible guarantees, Foreign Minister Abbas Araghchi said on Saturday.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-10-17T14:27:05+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/10/17/4/6222031.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "IRNA English",
+      "Iran International",
+      "Mehr News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/248652/Iran-rejects-pressure-remains-open-to-dialogue-Araghchi"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86295149/Iran-rejects-pressure-remains-open-to-dialogue-Araghchi"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/opinions/2026/10/18/why-iran-us-negotiations-keep-failing?traffic_source=rss"
+      },
+      {
+        "name": "Iran International",
+        "link": "https://www.iranintl.com/en/202610176185"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/248661/Iran-FM-affirms-support-for-Lebanon-s-sovereignty"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/10/17/4/6222031.jpg",
+      "https://img9.irna.ir/d/r2/2026/10/17/4/173177649.jpg",
+      "https://i.iranintl.com/images/rdk9umy0/production/9b055844ad0b0f93c5fb6f75324c28bb7f95f98f-1280x853.jpg?rect=0,92,1280,670&w=1200&h=628&fm=jpg&q=85&fit=max&auto=format",
+      "https://media.mehrnews.com/d/2026/10/18/4/6222487.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 1792.9117204933334,
+    "is_stale": true,
+    "score": 25.254864802685184,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 1,
+    "appeal_note": "إيران ترفض الضغوط وتبقي باب الحوار مفتوحًا.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "id": "dc09ee27148c",
+  "created_at": "2026-10-18T09:07:57.680418+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.67,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "تمديد حظر الأجواء الباكستانية أمام الطائرات الهندية.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Pakistan extends airspace ban on Indian aircraft till November 24",
+  "link": "https://www.thehindu.com/news/international/pakistan-extends-airspace-ban-on-indian-aircraft-till-november-24/article71599424.ece",
+  "publishers": [
+    "Geo News",
+    "NDTV — World",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Pakistan extends airspace ban on Indian aircraft till November 24",
+    "link": "https://www.thehindu.com/news/international/pakistan-extends-airspace-ban-on-indian-aircraft-till-november-24/article71599424.ece",
+    "summary": "India and Pakistan imposed reciprocal airspace restrictions on each other’s aircraft following the April 2025 Pahalgam terror attack in Jammu and Kashmir",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-10-18T08:17:50+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/astkqp/article71599431.ece/alternates/LANDSCAPE_1200/iStock-530089923.jpg",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Geo News",
+      "NDTV — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/pakistan-extends-airspace-ban-on-indian-aircraft-till-november-24/article71599424.ece"
+      },
+      {
+        "name": "Geo News",
+        "link": "https://www.geo.tv/latest/687043-pakistan-extends-airspace-ban-on-indian-aircraft-till-nov-24"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/pakistan-extends-ban-on-indian-aircraft-in-its-airspace-till-november-24-12202114#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/astkqp/article71599431.ece/alternates/LANDSCAPE_1200/iStock-530089923.jpg",
+      "https://www.geo.tv/assets/uploads/2026-10-17/687043_095928_updates.jpg",
+      "https://i.ndtvimg.com/i/2018-04/plane-generic-unsplash_650x400_61523436038.jpg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1792.9117854466667,
+    "is_stale": false,
+    "score": 26.666141190811615,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "تمديد حظر الأجواء الباكستانية أمام الطائرات الهندية.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

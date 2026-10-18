@@ -1,0 +1,71 @@
+{
+  "id": "df9a4adbd044",
+  "created_at": "2026-10-18T09:07:57.681763+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.25,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "أعمال شغب فرنسية واسعة بسبب غلاء المعيشة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Mass protests in France spiral into worst riots in years",
+  "link": "https://www.japantimes.co.jp/news/2026/10/18/world/mass-protests-france-riots/",
+  "publishers": [
+    "South China Morning Post",
+    "The Express Tribune",
+    "The Japan Times"
+  ],
+  "region": "jp",
+  "article": {
+    "title": "Mass protests in France spiral into worst riots in years",
+    "link": "https://www.japantimes.co.jp/news/2026/10/18/world/mass-protests-france-riots/",
+    "summary": "Demonstrations against rising living costs and declining public services spiraled out of control in some of the country's worst violence in decades.",
+    "source_name": "The Japan Times",
+    "region": "jp",
+    "weight": 0.9,
+    "published": "2026-10-17T23:20:00+00:00",
+    "image_url": "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/18/569143.JPG",
+    "publisher": "The Japan Times",
+    "cluster_sources": [
+      "South China Morning Post",
+      "The Express Tribune",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/europe/article/3371255/french-protesters-take-streets-over-rising-prices-social-strain?utm_source=rss_feed"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2635515/mass-protests-in-france-spiral-into-worst-riots-in-years"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/10/18/world/mass-protests-france-riots/"
+      }
+    ],
+    "image_candidates": [
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/18/569143.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/18/thumbs/400x400/569143.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1792.9119378655557,
+    "is_stale": false,
+    "score": 23.251881926089396,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "أعمال شغب فرنسية واسعة بسبب غلاء المعيشة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

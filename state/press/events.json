@@ -1599,7 +1599,7 @@
      "published": "2026-10-13T00:00:08+00:00"
     }
    ],
-   "last_seen": "2026-10-17T17:07:41.292973+00:00",
+   "last_seen": "2026-10-18T09:07:42.310366+00:00",
    "outlets": 20,
    "regions": 16,
    "languages": 1,
@@ -2878,7 +2878,7 @@
      "published": "2026-10-07T07:04:23+00:00"
     }
    ],
-   "last_seen": "2026-10-15T09:07:47.013401+00:00",
+   "last_seen": "2026-10-18T09:07:42.310366+00:00",
    "outlets": 16,
    "regions": 13,
    "languages": 2,
@@ -3159,7 +3159,7 @@
      "published": "2026-10-11T15:10:27+00:00"
     }
    ],
-   "last_seen": "2026-10-16T09:07:49.020316+00:00",
+   "last_seen": "2026-10-18T09:07:42.310366+00:00",
    "outlets": 18,
    "regions": 13,
    "languages": 1,
@@ -3644,6 +3644,550 @@
    "outlets": 16,
    "regions": 12,
    "languages": 3,
+   "score": 46.0
+  },
+  {
+   "id": "c2196a3d81fa",
+   "first_seen": "2026-10-05T15:07:44.573046+00:00",
+   "members": [
+    {
+     "outlet": "Premium Times",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "UPDATED: Nigerian military aircraft crashes in Ondo",
+     "language": "en",
+     "link": "https://www.premiumtimesng.com/regional/ssouth-west/914599-helicopter-crashes-in-ondo.html",
+     "published": "2026-10-05T12:36:45+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "UPDATED: Military aircraft crashed near Ondo naval base, 32 on board",
+     "language": "en",
+     "link": "https://punchng.com/updated-military-aircraft-crashed-near-ondo-naval-base-32-on-board-keyamo/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-05T14:44:55+00:00"
+    },
+    {
+     "outlet": "AllAfrica",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Nigeria: Breaking - 32 People On Board Crashed Nigerian Military Aircraft",
+     "language": "en",
+     "link": "https://allafrica.com/stories/202610050482.html",
+     "published": "2026-10-05T15:03:59+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "NAF confirms crashed military aircraft in Ondo",
+     "language": "en",
+     "link": "https://punchng.com/naf-confirms-crashed-military-aircraft-in-ondo/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-05T15:12:19+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Nigeria military aircraft with 32 on board crashes",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/nigeria-military-aircraft-with-32-on-board-crashes/",
+     "published": "2026-10-05T14:08:15+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Military aircraft with 32 people on board crashes in southern Nigeria",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/05/military-aircraft-with-32-people-on-board-crashes-in-southern-nigeria/",
+     "published": "2026-10-05T14:51:17+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "All 32 onboard killed after military aircraft crashes in southern Nigeria: President Bola Tinubu",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/military-aircraft-with-32-people-on-board-crashes-in-southern-nigeria-rescue-operations-on-101791214311017.html",
+     "published": "2026-10-05T16:35:49+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Nigerian Military Aircraft With 32 Onboard Crashes, Rescue Ops Underway",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/nigerian-military-aircraft-with-32-onboard-crashes-rescue-ops-underway-12141960#publisher=newsstand",
+     "published": "2026-10-05T14:16:20+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Nigerian military aircraft crashes, killing 32",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/nigerian-military-aircraft-crashes-killing-32/",
+     "published": "2026-10-05T22:33:53+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Nigerian military aircraft crashes, killing 32",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNcTVNcjc5Rk9CNVRSWWwtNm96QmVtNGFKQVFTOGwzVmY4d29peTJ4UGFIWEpZLWF1ODFMSkszT3YyZ3N5SFNkSXBSYmd5dnhDYmwwWjU1UGpKUEJmVWZJbldGTWhQRFlnU1RFNVhKOFBEYi1YZkdvY1B2ZnJkcXBHbEg3UWNVNkVVWWRaM2RKOC1ZOVlia0xGYU9SSmxUanFscURjRjU0RlI5bFlXYXFEcE85SC1BODRKYjVMdW5n?oc=5",
+     "published": "2026-10-05T20:55:24+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Türkiye extends condolences to Nigeria over deadly military plane crash",
+     "language": "en",
+     "link": "https://www.dailysabah.com/politics/diplomacy/turkiye-extends-condolences-to-nigeria-over-deadly-military-plane-crash",
+     "published": "2026-10-05T20:52:00+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Military plane crash kills 32 in Nigeria",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/military-plane-crash-kills-32-in-nigeria",
+     "published": "2026-10-05T23:37:00+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Nigeria launches rescue after military plane crashes with 32 aboard",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/nigeria-launches-rescue-after-military-plane-crashes-with-32-aboard/",
+     "published": "2026-10-05T19:07:58+00:00"
+    },
+    {
+     "outlet": "Premium Times",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Military Aircraft Crash: Tinubu declares three-day mourning, says victims to be named",
+     "language": "en",
+     "link": "https://www.premiumtimesng.com/news/top-news/914783-military-aircraft-crash-tinubu-declares-three-day-mourning-says-victims-to-be-named.html",
+     "published": "2026-10-05T20:47:30+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Nigeria declares three days of mourning after military aircraft crash kills 32",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/nigeria-declares-three-days-of-mourning-after-military-aircraft-crash-kills-32/",
+     "published": "2026-10-06T08:58:39+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Nigeria mourns 32 killed as military plane crashes into swamp",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/ck1wvjer20qqo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-06T09:02:03+00:00"
+    },
+    {
+     "outlet": "AllAfrica",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Nigeria: Air Force Unveils Identities of Ondo Crash Victims",
+     "language": "en",
+     "link": "https://allafrica.com/stories/202610060218.html",
+     "published": "2026-10-06T10:40:14+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Nigeria air force lowers plane crash toll to 25, civilians among victims",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/06/nigeria-air-force-lowers-plane-crash-toll-to-25-civilians-among-victims/",
+     "published": "2026-10-06T11:22:19+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "2 Pakistan Army pilots martyred as training aircraft crashes in Quetta: ISPR",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2036611/2-pakistan-army-pilots-martyred-as-training-aircraft-crashes-in-quetta-ispr",
+     "published": "2026-10-12T14:09:17+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Two Pakistan Army pilots martyred after training aircraft crashes near Quetta: ISPR",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2634414/two-pakistan-army-pilots-martyred-after-training-aircraft-crashes-near-quetta-ispr",
+     "published": "2026-10-12T04:23:34+00:00"
+    },
+    {
+     "outlet": "Geo News",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Two Pakistan Army pilots martyred in trainer aircraft crash incident in Quetta",
+     "language": "en",
+     "link": "https://www.geo.tv/latest/686143-two-pakistan-army-pilots-martyred-in-trainer-aircraft-crash-incident-near-quetta",
+     "published": "2026-10-12T09:37:00+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "2 army pilots killed in aircraft crash in SW Pakistan",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248529/2-army-pilots-killed-in-aircraft-crash-in-SW-Pakistan",
+     "published": "2026-10-12T13:59:11+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Pakistani army training aircraft crashes, killing two pilots",
+     "language": "en",
+     "link": "https://tass.com/world/2200943",
+     "published": "2026-10-12T12:59:22+00:00"
+    },
+    {
+     "outlet": "CGTN",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Two Pakistani Army pilots killed in training aircraft crash",
+     "language": "en",
+     "link": "https://news.cgtn.com/news/2026-10-12/news-1RbozWSjTAA/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+     "published": "2026-10-12T09:15:46+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Saudi-led coalition says 2 pilots killed in helicopter crash near Yemen",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2038013/saudi-led-coalition-says-2-pilots-killed-in-helicopter-crash-near-yemen",
+     "published": "2026-10-18T09:03:45+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Saudi-led coalition says two officers killed in helicopter crash in Najran",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2635502/saudi-led-coalition-says-two-officers-killed-in-helicopter-crash-in-najran",
+     "published": "2026-10-18T01:08:04+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Saudi coalition says two pilots killed in chopper crash near Yemen",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/saudi-arabia-helicopter-crash-houthis-yemen-6469396",
+     "published": "2026-10-18T08:14:00+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Saudi-led coalition says 2 pilots killed in helicopter crash near Yemen border",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/18/saudi-led-coalition-says-two-pilots-killed-in-helicopter-crash-near-yemen-border-2",
+     "published": "2026-10-18T08:25:39+00:00"
+    }
+   ],
+   "last_seen": "2026-10-18T09:07:42.310366+00:00",
+   "outlets": 18,
+   "regions": 13,
+   "languages": 1,
+   "score": 46.0
+  },
+  {
+   "id": "5dafb8cfa4a9",
+   "first_seen": "2026-10-15T09:07:47.013401+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Israeli settlers set fire to mosque in occupied West Bank",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2037224/israeli-settlers-set-fire-to-mosque-in-occupied-west-bank",
+     "published": "2026-10-15T02:52:32+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Israeli settlers set fire to mosque in occupied West Bank",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/israeli-settlers-set-fire-to-mosque-in-occupied-west-bank/article71584999.ece",
+     "published": "2026-10-14T15:55:34+00:00"
+    },
+    {
+     "outlet": "Tehran Times",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Israeli forces raid West Bank villages as settlers torch mosque",
+     "language": "en",
+     "link": "https://www.tehrantimes.com/news/531087/Israeli-forces-raid-West-Bank-villages-as-settlers-torch-mosque",
+     "published": "2026-10-14T15:36:30+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Israeli settlers attack Palestinians in West Bank during olive harvest",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/videos/cqn06zx2r15jo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-16T11:40:41+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Israeli settlers continue pogrom amid olive harvest in occupied West Bank",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/16/israeli-settlers-continue-progrom-amid-olive-harvest-in-occupied-west-bank?traffic_source=rss",
+     "published": "2026-10-16T13:04:32+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Palestinians and US journalist injured by Israeli settlers in West Bank harvest attack",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c65ynk7212vqo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-16T14:31:04+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Israeli settlers attack olive farmers and Washington Post journalist in West Bank",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/16/israeli-settlers-attack-olive-farmers-west-bank-washington-post-journalist-heidi-levine",
+     "published": "2026-10-16T16:34:58+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Israeli settlers attack US photographer covering West Bank violence",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2037619/israeli-settlers-attack-us-photographer-covering-west-bank-violence",
+     "published": "2026-10-16T15:50:30+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "US journalist injured during Israeli settler attack on West Bank olive harvest",
+     "language": "en",
+     "link": "https://www.france24.com/en/middle-east/20261016-us-journalist-injured-during-israeli-settler-attack-on-west-bank-olive-harvest",
+     "published": "2026-10-16T15:01:40+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Israeli settlers burn olive trees, injure journalist in West Bank attack",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/israeli-settlers-burn-olive-trees-injure-journalist-in-west-bank-attack/article71593869.ece",
+     "published": "2026-10-16T16:42:09+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "American journalist injured in West Bank clashes",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/us-journalist-heidi-levine-injured-west-bank-clashes-settlers/",
+     "published": "2026-10-16T15:18:25+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Israeli settlers beat Palestinians and a U.S. photojournalist in West Bank attacks",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/16/nx-s1-6004904/israeli-settlers-beat-us-photojournalist-washington-post-west-bank",
+     "published": "2026-10-16T15:57:27+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Washington Post photojournalist Heidi Levine injured in attack by Israeli settlers in West Bank: ‘They kicked me’",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/washington-post-photojournalist-heidi-levine-injured-in-attack-by-israeli-settlers-in-west-bank-they-kicked-me-101792164947552.html",
+     "published": "2026-10-16T16:06:04+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Israeli settlers attack olive farmers and Washington Post journalist in West Bank",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPdEpqbnpXdW8tUG1IY1M3M0loQ21IV1Q0WlZUeW1PVE5JY0tHUUNmYXRCNEd3S0J3LTZtT1ZoZFQ3azBBRFlPY1poQXNTd2J3S1R2OGZucXB1Sk9zOWN3U2M1YmZvOC1yNUhReEhPM1Q4d3BLM1FwR2UtRzNoMFZBX1BfZUxyX1VETURReVFXN3p6LXlyU0htLXVSOEsxMm9EdDlmeERtOG9TOUNkS18xZ1R2RFUwZ3F6aXNYWFhob3RUVkJFZHh0MUpHOU95QQ?oc=5",
+     "published": "2026-10-16T14:20:00+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Palestinians and US journalist injured by Israeli settlers in West Bank harvest attack",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/palestinians-and-us-journalist-injured-by-israeli-settlers-in-west-bank-harvest-attack/",
+     "published": "2026-10-16T18:04:09+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "US, Washington Post condemn Israeli settler attack on photographer",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/americas/us-washington-post-condemn-israeli-settler-attack-on-photographer",
+     "published": "2026-10-16T18:15:00+00:00"
+    },
+    {
+     "outlet": "CGTN",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Israeli settler attacks injure 19 Palestinians in West Bank",
+     "language": "en",
+     "link": "https://news.cgtn.com/news/2026-10-17/Israeli-settler-attacks-injure-19-Palestinians-in-West-Bank-1Rja0LxP2dW/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+     "published": "2026-10-17T02:28:18+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Israeli settlers burn olive trees, attack 8 farmers in West Bank",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/mid-east/israeli-settlers-burn-olive-trees-attack-8-farmers-in-west-bank",
+     "published": "2026-10-17T09:12:00+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Illegal Israeli settlers attack European delegation in West Bank",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/mid-east/illegal-israeli-settlers-attack-european-delegation-in-west-bank",
+     "published": "2026-10-17T15:06:00+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Israeli settlers attack European diplomatic cars in West Bank",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/17/israeli-settlers-attack-european-diplomatic-cars-in-west-bank",
+     "published": "2026-10-17T15:36:45+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Israeli settlers attack European delegation convoy in West Bank, beat French mayor",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxPak00bUxUN0NveGU2a2ItdzNzdkZPUnR2Mk10SWVzVHBvTlFHMUZZSXZoNW5veWM2M0hsSjRJa1VDX2Zkc3dOTEI3cE42YkpMV3laYkdEYWVmalRudHkydHhCZnRVQUl4WjUtVE9TcHBFQVBtN1FqZ3Y0NUNvcjQ1MzJXSV80NUFqd0VROEhhamU2dG5vYlBkMjFnSUIwdmNfTElMS3ZmQ2RGRUxzSm5ZR1ZSbVJWSWVVWnVMbjcwbXU5Z1NzTzJTTkxR?oc=5",
+     "published": "2026-10-17T14:58:07+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Israeli settlers attack European diplomats in West Bank",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/17/israeli-settlers-attack-european-diplomats-in-west-bank",
+     "published": "2026-10-17T18:57:56+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "European diplomats attacked by Israeli settlers in West Bank",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c962ydpmjm3zo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-17T23:52:38+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Israeli settlers attack European diplomats in the occupied West Bank",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/18/israeli-settlers-attack-european-diplomats-in-the-occupied-west-bank?traffic_source=rss",
+     "published": "2026-10-18T01:02:37+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Israeli settlers attack European diplomats, beat up French mayor in West Bank",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/middle-east/article/3371275/israeli-settlers-attack-european-diplomats-beat-french-mayor-west-bank?utm_source=rss_feed",
+     "published": "2026-10-17T18:33:59+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Israeli settlers attack European diplomats, beat up French mayor",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2037953/israeli-settlers-attack-european-diplomats-beat-up-french-mayor",
+     "published": "2026-10-18T03:16:11+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Israeli settlers attack European delegation convoy in West Bank, beat French mayor",
+     "language": "en",
+     "link": "https://www.france24.com/en/middle-east/20261017-israeli-settlers-attack-european-delegation-convoy-in-west-bank-beat-french-mayor",
+     "published": "2026-10-17T14:58:07+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Israeli settlers attack European diplomats, beat French mayor",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/israeli-settlers-attack-european-diplomats-beat-french-mayor-6469036",
+     "published": "2026-10-17T21:37:00+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Israeli settler terrorists attack European delegation in West Bank",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/mid-east/israeli-settler-terrorists-attack-european-delegation-in-west-bank",
+     "published": "2026-10-17T15:06:00+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Israeli Settlers Attack European Diplomats In West Bank, French Mayor Beaten",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/israeli-settlers-attack-european-diplomats-in-west-bank-french-mayor-beaten-12200387#publisher=newsstand",
+     "published": "2026-10-17T17:09:50+00:00"
+    }
+   ],
+   "last_seen": "2026-10-18T09:07:42.310366+00:00",
+   "outlets": 18,
+   "regions": 13,
+   "languages": 1,
    "score": 46.0
   },
   {
@@ -4175,7 +4719,7 @@
      "published": "2026-10-16T15:29:48+00:00"
     }
    ],
-   "last_seen": "2026-10-17T17:07:41.292973+00:00",
+   "last_seen": "2026-10-18T09:07:42.310366+00:00",
    "outlets": 18,
    "regions": 12,
    "languages": 1,
@@ -4654,233 +5198,6 @@
    "score": 43.0
   },
   {
-   "id": "c2196a3d81fa",
-   "first_seen": "2026-10-05T15:07:44.573046+00:00",
-   "members": [
-    {
-     "outlet": "Premium Times",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "UPDATED: Nigerian military aircraft crashes in Ondo",
-     "language": "en",
-     "link": "https://www.premiumtimesng.com/regional/ssouth-west/914599-helicopter-crashes-in-ondo.html",
-     "published": "2026-10-05T12:36:45+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "UPDATED: Military aircraft crashed near Ondo naval base, 32 on board",
-     "language": "en",
-     "link": "https://punchng.com/updated-military-aircraft-crashed-near-ondo-naval-base-32-on-board-keyamo/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-05T14:44:55+00:00"
-    },
-    {
-     "outlet": "AllAfrica",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Nigeria: Breaking - 32 People On Board Crashed Nigerian Military Aircraft",
-     "language": "en",
-     "link": "https://allafrica.com/stories/202610050482.html",
-     "published": "2026-10-05T15:03:59+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "NAF confirms crashed military aircraft in Ondo",
-     "language": "en",
-     "link": "https://punchng.com/naf-confirms-crashed-military-aircraft-in-ondo/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-05T15:12:19+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Nigeria military aircraft with 32 on board crashes",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/nigeria-military-aircraft-with-32-on-board-crashes/",
-     "published": "2026-10-05T14:08:15+00:00"
-    },
-    {
-     "outlet": "Africanews",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Military aircraft with 32 people on board crashes in southern Nigeria",
-     "language": "en",
-     "link": "http://www.africanews.com/2026/10/05/military-aircraft-with-32-people-on-board-crashes-in-southern-nigeria/",
-     "published": "2026-10-05T14:51:17+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "All 32 onboard killed after military aircraft crashes in southern Nigeria: President Bola Tinubu",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/military-aircraft-with-32-people-on-board-crashes-in-southern-nigeria-rescue-operations-on-101791214311017.html",
-     "published": "2026-10-05T16:35:49+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Nigerian Military Aircraft With 32 Onboard Crashes, Rescue Ops Underway",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/nigerian-military-aircraft-with-32-onboard-crashes-rescue-ops-underway-12141960#publisher=newsstand",
-     "published": "2026-10-05T14:16:20+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Nigerian military aircraft crashes, killing 32",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/nigerian-military-aircraft-crashes-killing-32/",
-     "published": "2026-10-05T22:33:53+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Nigerian military aircraft crashes, killing 32",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNcTVNcjc5Rk9CNVRSWWwtNm96QmVtNGFKQVFTOGwzVmY4d29peTJ4UGFIWEpZLWF1ODFMSkszT3YyZ3N5SFNkSXBSYmd5dnhDYmwwWjU1UGpKUEJmVWZJbldGTWhQRFlnU1RFNVhKOFBEYi1YZkdvY1B2ZnJkcXBHbEg3UWNVNkVVWWRaM2RKOC1ZOVlia0xGYU9SSmxUanFscURjRjU0RlI5bFlXYXFEcE85SC1BODRKYjVMdW5n?oc=5",
-     "published": "2026-10-05T20:55:24+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Türkiye extends condolences to Nigeria over deadly military plane crash",
-     "language": "en",
-     "link": "https://www.dailysabah.com/politics/diplomacy/turkiye-extends-condolences-to-nigeria-over-deadly-military-plane-crash",
-     "published": "2026-10-05T20:52:00+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Military plane crash kills 32 in Nigeria",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/military-plane-crash-kills-32-in-nigeria",
-     "published": "2026-10-05T23:37:00+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Nigeria launches rescue after military plane crashes with 32 aboard",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/nigeria-launches-rescue-after-military-plane-crashes-with-32-aboard/",
-     "published": "2026-10-05T19:07:58+00:00"
-    },
-    {
-     "outlet": "Premium Times",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Military Aircraft Crash: Tinubu declares three-day mourning, says victims to be named",
-     "language": "en",
-     "link": "https://www.premiumtimesng.com/news/top-news/914783-military-aircraft-crash-tinubu-declares-three-day-mourning-says-victims-to-be-named.html",
-     "published": "2026-10-05T20:47:30+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Nigeria declares three days of mourning after military aircraft crash kills 32",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/nigeria-declares-three-days-of-mourning-after-military-aircraft-crash-kills-32/",
-     "published": "2026-10-06T08:58:39+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Nigeria mourns 32 killed as military plane crashes into swamp",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/ck1wvjer20qqo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-06T09:02:03+00:00"
-    },
-    {
-     "outlet": "AllAfrica",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Nigeria: Air Force Unveils Identities of Ondo Crash Victims",
-     "language": "en",
-     "link": "https://allafrica.com/stories/202610060218.html",
-     "published": "2026-10-06T10:40:14+00:00"
-    },
-    {
-     "outlet": "Africanews",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Nigeria air force lowers plane crash toll to 25, civilians among victims",
-     "language": "en",
-     "link": "http://www.africanews.com/2026/10/06/nigeria-air-force-lowers-plane-crash-toll-to-25-civilians-among-victims/",
-     "published": "2026-10-06T11:22:19+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "2 Pakistan Army pilots martyred as training aircraft crashes in Quetta: ISPR",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2036611/2-pakistan-army-pilots-martyred-as-training-aircraft-crashes-in-quetta-ispr",
-     "published": "2026-10-12T14:09:17+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Two Pakistan Army pilots martyred after training aircraft crashes near Quetta: ISPR",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2634414/two-pakistan-army-pilots-martyred-after-training-aircraft-crashes-near-quetta-ispr",
-     "published": "2026-10-12T04:23:34+00:00"
-    },
-    {
-     "outlet": "Geo News",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Two Pakistan Army pilots martyred in trainer aircraft crash incident in Quetta",
-     "language": "en",
-     "link": "https://www.geo.tv/latest/686143-two-pakistan-army-pilots-martyred-in-trainer-aircraft-crash-incident-near-quetta",
-     "published": "2026-10-12T09:37:00+00:00"
-    },
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "2 army pilots killed in aircraft crash in SW Pakistan",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248529/2-army-pilots-killed-in-aircraft-crash-in-SW-Pakistan",
-     "published": "2026-10-12T13:59:11+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Pakistani army training aircraft crashes, killing two pilots",
-     "language": "en",
-     "link": "https://tass.com/world/2200943",
-     "published": "2026-10-12T12:59:22+00:00"
-    },
-    {
-     "outlet": "CGTN",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Two Pakistani Army pilots killed in training aircraft crash",
-     "language": "en",
-     "link": "https://news.cgtn.com/news/2026-10-12/news-1RbozWSjTAA/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
-     "published": "2026-10-12T09:15:46+00:00"
-    }
-   ],
-   "last_seen": "2026-10-13T09:08:09.573950+00:00",
-   "outlets": 17,
-   "regions": 12,
-   "languages": 1,
-   "score": 43.0
-  },
-  {
    "id": "b9d7cd9e1d43",
    "first_seen": "2026-10-09T09:07:48.883639+00:00",
    "members": [
@@ -5332,206 +5649,6 @@
    "outlets": 13,
    "regions": 12,
    "languages": 2,
-   "score": 41.0
-  },
-  {
-   "id": "5dafb8cfa4a9",
-   "first_seen": "2026-10-15T09:07:47.013401+00:00",
-   "members": [
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Israeli settlers set fire to mosque in occupied West Bank",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2037224/israeli-settlers-set-fire-to-mosque-in-occupied-west-bank",
-     "published": "2026-10-15T02:52:32+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Israeli settlers set fire to mosque in occupied West Bank",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/israeli-settlers-set-fire-to-mosque-in-occupied-west-bank/article71584999.ece",
-     "published": "2026-10-14T15:55:34+00:00"
-    },
-    {
-     "outlet": "Tehran Times",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Israeli forces raid West Bank villages as settlers torch mosque",
-     "language": "en",
-     "link": "https://www.tehrantimes.com/news/531087/Israeli-forces-raid-West-Bank-villages-as-settlers-torch-mosque",
-     "published": "2026-10-14T15:36:30+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Israeli settlers attack Palestinians in West Bank during olive harvest",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/videos/cqn06zx2r15jo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-16T11:40:41+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Israeli settlers continue pogrom amid olive harvest in occupied West Bank",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/16/israeli-settlers-continue-progrom-amid-olive-harvest-in-occupied-west-bank?traffic_source=rss",
-     "published": "2026-10-16T13:04:32+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Palestinians and US journalist injured by Israeli settlers in West Bank harvest attack",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c65ynk7212vqo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-16T14:31:04+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Israeli settlers attack olive farmers and Washington Post journalist in West Bank",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/16/israeli-settlers-attack-olive-farmers-west-bank-washington-post-journalist-heidi-levine",
-     "published": "2026-10-16T16:34:58+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Israeli settlers attack US photographer covering West Bank violence",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2037619/israeli-settlers-attack-us-photographer-covering-west-bank-violence",
-     "published": "2026-10-16T15:50:30+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "US journalist injured during Israeli settler attack on West Bank olive harvest",
-     "language": "en",
-     "link": "https://www.france24.com/en/middle-east/20261016-us-journalist-injured-during-israeli-settler-attack-on-west-bank-olive-harvest",
-     "published": "2026-10-16T15:01:40+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Israeli settlers burn olive trees, injure journalist in West Bank attack",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/israeli-settlers-burn-olive-trees-injure-journalist-in-west-bank-attack/article71593869.ece",
-     "published": "2026-10-16T16:42:09+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "American journalist injured in West Bank clashes",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/us-journalist-heidi-levine-injured-west-bank-clashes-settlers/",
-     "published": "2026-10-16T15:18:25+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Israeli settlers beat Palestinians and a U.S. photojournalist in West Bank attacks",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/16/nx-s1-6004904/israeli-settlers-beat-us-photojournalist-washington-post-west-bank",
-     "published": "2026-10-16T15:57:27+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Washington Post photojournalist Heidi Levine injured in attack by Israeli settlers in West Bank: ‘They kicked me’",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/washington-post-photojournalist-heidi-levine-injured-in-attack-by-israeli-settlers-in-west-bank-they-kicked-me-101792164947552.html",
-     "published": "2026-10-16T16:06:04+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Israeli settlers attack olive farmers and Washington Post journalist in West Bank",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPdEpqbnpXdW8tUG1IY1M3M0loQ21IV1Q0WlZUeW1PVE5JY0tHUUNmYXRCNEd3S0J3LTZtT1ZoZFQ3azBBRFlPY1poQXNTd2J3S1R2OGZucXB1Sk9zOWN3U2M1YmZvOC1yNUhReEhPM1Q4d3BLM1FwR2UtRzNoMFZBX1BfZUxyX1VETURReVFXN3p6LXlyU0htLXVSOEsxMm9EdDlmeERtOG9TOUNkS18xZ1R2RFUwZ3F6aXNYWFhob3RUVkJFZHh0MUpHOU95QQ?oc=5",
-     "published": "2026-10-16T14:20:00+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Palestinians and US journalist injured by Israeli settlers in West Bank harvest attack",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/palestinians-and-us-journalist-injured-by-israeli-settlers-in-west-bank-harvest-attack/",
-     "published": "2026-10-16T18:04:09+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "US, Washington Post condemn Israeli settler attack on photographer",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/americas/us-washington-post-condemn-israeli-settler-attack-on-photographer",
-     "published": "2026-10-16T18:15:00+00:00"
-    },
-    {
-     "outlet": "CGTN",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Israeli settler attacks injure 19 Palestinians in West Bank",
-     "language": "en",
-     "link": "https://news.cgtn.com/news/2026-10-17/Israeli-settler-attacks-injure-19-Palestinians-in-West-Bank-1Rja0LxP2dW/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
-     "published": "2026-10-17T02:28:18+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Israeli settlers burn olive trees, attack 8 farmers in West Bank",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/mid-east/israeli-settlers-burn-olive-trees-attack-8-farmers-in-west-bank",
-     "published": "2026-10-17T09:12:00+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Illegal Israeli settlers attack European delegation in West Bank",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/mid-east/illegal-israeli-settlers-attack-european-delegation-in-west-bank",
-     "published": "2026-10-17T15:06:00+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Israeli settlers attack European diplomatic cars in West Bank",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/17/israeli-settlers-attack-european-diplomatic-cars-in-west-bank",
-     "published": "2026-10-17T15:36:45+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Israeli settlers attack European delegation convoy in West Bank, beat French mayor",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiygFBVV95cUxPak00bUxUN0NveGU2a2ItdzNzdkZPUnR2Mk10SWVzVHBvTlFHMUZZSXZoNW5veWM2M0hsSjRJa1VDX2Zkc3dOTEI3cE42YkpMV3laYkdEYWVmalRudHkydHhCZnRVQUl4WjUtVE9TcHBFQVBtN1FqZ3Y0NUNvcjQ1MzJXSV80NUFqd0VROEhhamU2dG5vYlBkMjFnSUIwdmNfTElMS3ZmQ2RGRUxzSm5ZR1ZSbVJWSWVVWnVMbjcwbXU5Z1NzTzJTTkxR?oc=5",
-     "published": "2026-10-17T14:58:07+00:00"
-    }
-   ],
-   "last_seen": "2026-10-17T17:07:41.292973+00:00",
-   "outlets": 15,
-   "regions": 12,
-   "languages": 1,
    "score": 41.0
   },
   {
@@ -6879,188 +6996,6 @@
    "score": 36.0
   },
   {
-   "id": "f7535344ce98",
-   "first_seen": "2026-10-05T18:07:49.818707+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Flydubai co-pilot planned to crash plane into Tel Aviv airport or building, reports say",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cm3691y79xp5o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-05T11:34:59+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Flydubai co-pilot planned to crash plane into Tel Aviv airport or building, reports say",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/flydubai-co-pilot-planned-to-crash-plane-into-tel-aviv-airport-or-building-reports-say/",
-     "published": "2026-10-05T16:44:30+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "FlyDubai co-pilot planned to crash jet into Israeli airport, official says",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/flydubai-co-pilot-planned-crash-into-israel-airport-security-lapses/",
-     "published": "2026-10-05T16:47:38+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Israel prepared for fighter jets to shoot down FlyDubai flight if necessary, Israeli sources say",
-     "language": "en",
-     "link": "https://www.cbsnews.com/video/israel-prepared-fighter-jets-shoot-down-flydubai-flight-necessary-israeli-sources-say/",
-     "published": "2026-10-05T23:44:02+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Israel was prepared to shoot down FlyDubai plane, sources say",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/israel-flydubai-plane-shoot-down-threat/",
-     "published": "2026-10-05T23:45:36+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "FlyDubai attacker intended to crash plane into Tel Aviv airport, investigation finds",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/05/nx-s1-5990802/midair-attack-flydubai",
-     "published": "2026-10-05T10:53:46+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Co-pilot accused of trying to hijack flydubai plane likely acted alone: Reports",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/co-pilot-accused-of-trying-to-hijack-flydubai-plane-likely-acted-alone-reports/article71544657.ece",
-     "published": "2026-10-05T05:01:21+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "More details emerge about FlyDubai co-pilot who tried to crash plane",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/flydubai-plane-attempted-crash-hijacking-israel-dubai-what-to-know/",
-     "published": "2026-10-05T16:01:00+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Hero passengers on the terrifying FlyDubai flight detail how they saved the plane",
-     "language": "en",
-     "link": "https://www.cbsnews.com/video/israeli-forces-were-prepared-to-shoot-down-flydubai-plane-source-says/",
-     "published": "2026-10-05T13:54:53+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Flydubai co-pilot planned suicide attack on Israeli airport, UAE prosecutors say",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/09/flydubai-co-pilot-planned-suicide-attack-on-israeli-airport-uae-prosecutors-say",
-     "published": "2026-10-09T20:38:11+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Omani Flydubai co-pilot planned to crash plane into Israeli airport, UAE says",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/middle-east/article/3370407/omani-flydubai-co-pilot-planned-crash-plane-israeli-airport-uae-says?utm_source=rss_feed",
-     "published": "2026-10-09T17:01:59+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "🔴 FlyDubai co-pilot planned suicide attack on Tel Aviv airport, inspired by 9/11, UAE prosecutor says",
-     "language": "en",
-     "link": "https://www.france24.com/en/middle-east/20261009-flydubai-co-pilot-planned-suicide-attack-on-tel-aviv-airport-inspired-by-9-11",
-     "published": "2026-10-09T17:09:59+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "flydubai co-pilot intended to crash plane into Tel Aviv airport, UAE prosecutor says",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/flydubai-co-pilot-intended-to-crash-plane-into-tel-aviv-airport-uae-prosecutor-says/article71565815.ece",
-     "published": "2026-10-09T22:50:19+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "FlyDubai co-pilot intended to crash plane into Tel Aviv airport, UAE prosecutor says",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/flydubai-co-pilot-intended-to-crash-plane-into-tel-aviv-airport-uae-prosecutor-says-101791570864154.html",
-     "published": "2026-10-09T18:34:23+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Flydubai co-pilot planned suicide attack on Tel Aviv airport",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/10/world/flydubai-suicide-attack-tel-aviv/",
-     "published": "2026-10-10T00:13:00+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "UAE prosecutor: Flydubai co-pilot planned suicide attack on Tel Aviv airport, sought ‘greatest possible loss of life’",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/10/uae-prosecutor-flydubai-co-pilot-planned-suicide-attack-on-tel-aviv-airport-sought-greatest-possible-loss-of-life/238587",
-     "published": "2026-10-10T08:58:38+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Flydubai co-pilot planned terrorist attack at Tel Aviv airport",
-     "language": "en",
-     "link": "https://tass.com/society/2200015",
-     "published": "2026-10-09T18:09:01+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Flydubai attacker began a 'drift towards extremism and terrorism' in Australia, UAE says",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cw3dj5n538jpo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-10T04:34:55+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Flydubai co-pilot planned suicide attack in Israel inspired by 9/11",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMisgFBVV95cUxPcTMwcGsySlNhN2l4QTJJMi11SF9Ja2ZvZ0E2SHBSNkpxb3NwaUk4LWtzRmdlR2dDTEdqY2o5RDNEZzk3YVBVMjd2NTFUR3VkODZSanA4bGJ1TjVnT05ENGFDMkZwT1VwZGpCQkdQa3BzTEJlMTM1bkZXN09xV0puRlFXVkNyOUVoR2ZRMFBzdFdaUmxWS0d4SUtxSW1JLW5GQ0lMbnV4QlBRR3hmUlBPSjJR?oc=5",
-     "published": "2026-10-09T18:29:39+00:00"
-    }
-   ],
-   "last_seen": "2026-10-10T17:07:48.257605+00:00",
-   "outlets": 13,
-   "regions": 10,
-   "languages": 1,
-   "score": 35.0
-  },
-  {
    "id": "86aa6aeba5fa",
    "first_seen": "2026-10-12T17:07:49.159577+00:00",
    "members": [
@@ -8155,6 +8090,98 @@
    "score": 29.0
   },
   {
+   "id": "ee2aa5025693",
+   "first_seen": "2026-10-18T09:07:42.310366+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "At least 17 dead in crush at Hindu festival event in India",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c820vwq7qg2ko?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-17T19:19:16+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "At least 19 dead in stampede at Kolkata Hindu festival",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/18/at-least-19-dead-in-stampede-at-kolkata-hindu-festival?traffic_source=rss",
+     "published": "2026-10-18T04:21:46+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "19 dead, 25 hurt in stampede at India religious festival",
+     "language": "en",
+     "link": "https://www.scmp.com/news/asia/south-asia/article/3371278/19-dead-25-hurt-stampede-india-religious-festival?utm_source=rss_feed",
+     "published": "2026-10-17T23:31:57+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "At least 17 killed after deadly stampede at India religious festival",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/asia-pacific/at-least-17-killed-after-deadly-stampede-at-india-religious-festival",
+     "published": "2026-10-17T17:17:00+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "At least 19 dead and 25 hurt in stampede at India religious gathering",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/18/asia-pacific/stampede-india-religious-gathering/",
+     "published": "2026-10-18T00:05:00+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "19 dead, 25 hurt in stampede at religious gathering in India",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/18/19-dead-25-hurt-in-stampede-at-religious-gathering-in-india",
+     "published": "2026-10-18T04:48:11+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Out-of-control truck kills 13 at religious festival in India's Madhya Pradesh",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2038010/out-of-control-truck-kills-13-at-religious-festival-in-indias-madhya-pradesh",
+     "published": "2026-10-18T07:02:23+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Out-of-control truck kills 13 at Hindu festival in India",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/asia/out-control-truck-kills-13-hindu-festival-in-india-6469411",
+     "published": "2026-10-18T08:43:00+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Out-of-control truck kills 13 at Hindu festival in India",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/out-of-control-truck-kills-13-at-hindu-festival-in-india/",
+     "published": "2026-10-18T08:28:49+00:00"
+    }
+   ],
+   "last_seen": "2026-10-18T09:07:42.310366+00:00",
+   "outlets": 9,
+   "regions": 9,
+   "languages": 1,
+   "score": 29.0
+  },
+  {
    "id": "4ff16308f748",
    "first_seen": "2026-10-10T17:07:48.257605+00:00",
    "members": [
@@ -8941,6 +8968,98 @@
    "score": 25.0
   },
   {
+   "id": "e485a6cd6de5",
+   "first_seen": "2026-10-18T09:07:42.310366+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "‘Serious incident’ at Alberta military base causes deaths and injuries, Canada officials say",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/18/serious-incident-alberta-military-base-deaths-injuries-canada-carney-cfb-wainwright",
+     "published": "2026-10-18T02:50:29+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "‘Serious incident’ at Canada military base causes deaths, injuries",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/18/deaths-injuries-after-fire-at-alberta-military-base-canada-minister?traffic_source=rss",
+     "published": "2026-10-18T04:59:29+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Canada says people killed after incident and fire at Alberta military base",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3371281/fatalities-feared-fire-erupts-canadian-military-base-alberta?utm_source=rss_feed",
+     "published": "2026-10-18T02:19:35+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Major fire breaks out in Alberta after deadly incident at military base",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/major-fire-breaks-out-in-alberta-casualties-reported/article71599017.ece",
+     "published": "2026-10-18T02:41:05+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Canada reports deaths after ‘incident’ on military base",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/18/canada-reports-deaths-after-incident-on-military-base",
+     "published": "2026-10-18T03:23:06+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Canada Reports Deaths After 'Serious Incident' Triggers Fire At Military Base",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/canada-reports-deaths-after-serious-incident-triggers-fire-at-alberta-military-base-12201259#publisher=newsstand",
+     "published": "2026-10-18T03:57:54+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Fire breaks out after deadly incident at Canadian military base, officials say",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/deadly-incident-fire-alberta-canada-military-base-cfb-wainwright/",
+     "published": "2026-10-18T06:55:12+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Major fire breaks out in Alberta after deadly incident at military base",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/18/nx-s1-6007276/fire-alberta-deadly-canada-military-base",
+     "published": "2026-10-18T07:56:08+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Major fire breaks out in Alberta after deadly incident at military base",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxPRWZIOVJaUGpyUnFDcG1BTVZmOTRtZ2pvLTBjLVBDMU9fb3huN2x3Q1ZGbTBENURyc0JIdXRJQThHajNORTVlVjVnZjJrUV94VDlGaXJrZWRqQVBlWlBBRmJzVkhUem1NRzl5a05uTzJQWEdVLTNEckFlNFFBb1dmeTQwUmU0YkhFd1laTmI2ZUdtTGlLS1VZM3dPTi14ZVNxX2oxY0dzbw?oc=5",
+     "published": "2026-10-18T07:51:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-18T09:07:42.310366+00:00",
+   "outlets": 9,
+   "regions": 7,
+   "languages": 1,
+   "score": 25.0
+  },
+  {
    "id": "ca8bd8bdf7fd",
    "first_seen": "2026-10-12T09:07:45.429910+00:00",
    "members": [
@@ -9291,80 +9410,6 @@
    "score": 24.0
   },
   {
-   "id": "b0355c8692a2",
-   "first_seen": "2026-10-09T17:07:48.864691+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "light",
-     "title": "Two Renoir paintings stolen from French museum are recovered",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cwkg50v1vn07o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-09T14:25:18+00:00"
-    },
-    {
-     "outlet": "Court House News",
-     "region": "court",
-     "bucket": "light",
-     "title": "2 Renoir paintings stolen from a French museum have been found, 6 arrested",
-     "language": "en",
-     "link": "https://www.courthousenews.com/2-renoir-paintings-stolen-from-a-french-museum-have-been-found-6-arrested/",
-     "published": "2026-10-09T16:38:20+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Renoir paintings stolen from French Riviera museum recovered, six suspects arrested",
-     "language": "en",
-     "link": "https://www.france24.com/en/france/20261009-renoir-paintings-stolen-from-french-riviera-museum-recovered-six-people-arrested",
-     "published": "2026-10-09T12:09:40+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "2 stolen Renoir paintings recovered in France, 6 arrested",
-     "language": "en",
-     "link": "https://www.dailysabah.com/arts/2-stolen-renoir-paintings-recovered-in-france-6-arrested/news",
-     "published": "2026-10-09T11:33:00+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Renoir heist solved: 2 paintings stolen from French museum recovered; 6 arrested",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/renoir-heist-solved-2-paintings-stolen-from-french-museum-recovered-6-arrested-101791545057442.html",
-     "published": "2026-10-09T11:56:09+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "2 Renoir paintings stolen from French museum recovered, mayor says",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/renoir-paintings-stolen-museum-france-recovered-mayor-says/",
-     "published": "2026-10-09T12:28:06+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Two Renoir paintings recovered after France museum heist, mayor says",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/10/two-renoir-paintings-recovered-after-france-museum-heist-mayor-says?traffic_source=rss",
-     "published": "2026-10-10T01:23:12+00:00"
-    }
-   ],
-   "last_seen": "2026-10-10T17:07:48.257605+00:00",
-   "outlets": 7,
-   "regions": 7,
-   "languages": 1,
-   "score": 23.0
-  },
-  {
    "id": "9b861eeaf775",
    "first_seen": "2026-10-10T09:07:48.714447+00:00",
    "members": [
@@ -9695,71 +9740,6 @@
    "regions": 6,
    "languages": 1,
    "score": 21.0
-  },
-  {
-   "id": "7de4fe658af2",
-   "first_seen": "2026-10-10T17:07:48.257605+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "England international Cole Palmer signs new Chelsea deal until 2034",
-     "language": "en",
-     "link": "https://www.aljazeera.com/sports/2026/10/10/england-international-cole-palmer-signs-new-chelsea-deal-until-2034?traffic_source=rss",
-     "published": "2026-10-10T12:37:14+00:00"
-    },
-    {
-     "outlet": "BBC Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Palmer signs new Chelsea contract until 2034",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/sport/football/articles/cwe9lngxzjpno?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-10T09:51:09+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Palmer signs Chelsea contract until 2034",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/sport/palmer-signs-chelsea-contract-until-2034-6448711",
-     "published": "2026-10-10T10:44:38+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Palmer signs contract to stay at Chelsea until 2034",
-     "language": "en",
-     "link": "https://punchng.com/palmer-signs-contract-to-stay-at-chelsea-until-2034/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-10T13:28:02+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Palmer signs Chelsea contract until 2034",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/10/palmer-signs-chelsea-contract-until-2034",
-     "published": "2026-10-10T10:41:24+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Palmer signs new Chelsea contract until 2034",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/palmer-signs-new-chelsea-contract-until-2034/",
-     "published": "2026-10-10T10:56:28+00:00"
-    }
-   ],
-   "last_seen": "2026-10-10T17:07:48.257605+00:00",
-   "outlets": 6,
-   "regions": 6,
-   "languages": 1,
-   "score": 20.0
   },
   {
    "id": "03a251a36305",
@@ -10336,62 +10316,6 @@
    "score": 18.0
   },
   {
-   "id": "3e894f7f6bc0",
-   "first_seen": "2026-10-10T17:07:48.257605+00:00",
-   "members": [
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Bayern concede fastest Bundesliga goal after eight seconds",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/10/bayern-concede-fastest-bundesliga-goal-after-eight-seconds",
-     "published": "2026-10-10T14:19:46+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Bayern concede fastest-ever Bundesliga goal after 8 seconds",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/bayern-concede-fastest-ever-bundesliga-goal-after-8-seconds/",
-     "published": "2026-10-10T14:46:35+00:00"
-    },
-    {
-     "outlet": "Der Spiegel",
-     "region": "de",
-     "bucket": "serious",
-     "title": "Fußball-Bundesliga: Vier Abseitstore, ein Punkt – die Rechnung des FC Bayern geht nicht auf",
-     "language": "de",
-     "link": "https://www.spiegel.de/sport/fussball/fussball-bundesliga-vier-abseitstore-ein-punkt-die-rechnung-des-fc-bayern-geht-nicht-auf-a-9b9458c9-a025-4579-907f-8a339b397296#ref=rss",
-     "published": "2026-10-10T16:46:00+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Augsburg’s midfielder scores fastest goal in Bundesliga history against Bayern Munich",
-     "language": "en",
-     "link": "https://punchng.com/augsburgs-midfielder-scores-fastest-goal-in-bundesliga-history-against-bayern-munich/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-10T16:49:55+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Augsburg score fastest Bundesliga goal but Bayern snatch comeback draw",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/sport/augsburg-score-fastest-bundesliga-goal-bayern-snatch-comeback-draw-6448946",
-     "published": "2026-10-10T14:22:49+00:00"
-    }
-   ],
-   "last_seen": "2026-10-10T17:07:48.257605+00:00",
-   "outlets": 5,
-   "regions": 4,
-   "languages": 2,
-   "score": 17.0
-  },
-  {
    "id": "bb0ca1ad118d",
    "first_seen": "2026-10-11T09:07:45.219118+00:00",
    "members": [
@@ -10771,60 +10695,78 @@
    "score": 16.0
   },
   {
-   "id": "52d2d9b346a7",
-   "first_seen": "2026-10-10T17:07:48.257605+00:00",
+   "id": "3163a08f7c17",
+   "first_seen": "2026-10-11T17:07:45.259726+00:00",
    "members": [
     {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
+     "outlet": "Dawn",
+     "region": "pk",
      "bucket": "serious",
-     "title": "Arsenal beat Leeds 2-1 in comeback win to move level with Man City at top",
+     "title": "Emergency, governor's rule imposed in KP as president approves cabinet decision",
      "language": "en",
-     "link": "https://www.aljazeera.com/sports/2026/10/10/arsenal-beat-leeds-2-1-in-comeback-win-to-move-level-with-man-city-at-top?traffic_source=rss",
-     "published": "2026-10-10T14:42:39+00:00"
+     "link": "https://www.dawn.com/news/2036352/emergency-governors-rule-imposed-in-kp-as-president-approves-cabinet-decision",
+     "published": "2026-10-11T16:09:32+00:00"
     },
     {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
+     "outlet": "The Express Tribune",
+     "region": "pk",
      "bucket": "serious",
-     "title": "Arsenal hit back to beat Leeds and draw level with Man City",
+     "title": "Emergency, governor's rule imposed in K-P after president signs summary on PM Shehbaz's advice",
      "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/arsenal-hit-back-to-beat-leeds-and-draw-level-with-man-city/",
-     "published": "2026-10-10T13:44:09+00:00"
+     "link": "https://tribune.com.pk/story/2634200/pm-shehbaz-chairs-cabinet-meeting-to-discuss-terrorism-governance-in-k-p",
+     "published": "2026-10-11T00:47:34+00:00"
     },
     {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
+     "outlet": "Geo News",
+     "region": "pk",
      "bucket": "serious",
-     "title": "Arsenal fight back to beat Leeds, draw level on points with Man City",
+     "title": "Emergency, governor's rule imposed in KP as President Zardari approves summary on cabinet's advice",
      "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/10/arsenal-fight-back-to-beat-leeds-draw-level-on-points-with-man-city",
-     "published": "2026-10-10T13:51:36+00:00"
+     "link": "https://www.geo.tv/latest/686054-emergency-governors-rule-imposed-in-kp-as-president-zardari-approves-summary-on-pms-advice",
+     "published": "2026-10-11T12:33:00+00:00"
     },
     {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
+     "outlet": "The Express Tribune",
+     "region": "pk",
      "bucket": "serious",
-     "title": "Guimaraes grabs winner as Arsenal rally to beat Leeds",
+     "title": "Governor's rule in K-P",
      "language": "en",
-     "link": "https://www.channelnewsasia.com/sport/guimaraes-grabs-winner-arsenal-rally-beat-leeds-6448891",
-     "published": "2026-10-10T13:33:39+00:00"
+     "link": "https://tribune.com.pk/story/2634287/governors-rule-in-k-p",
+     "published": "2026-10-11T14:35:55+00:00"
     },
     {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
+     "outlet": "The Guardian — World",
+     "region": "uk",
      "bucket": "serious",
-     "title": "EPL: Guimaraes’ winner helps Arsenal fight back to beat Leeds 2-1",
+     "title": "No action to be taken against wife of PM’s aide over Palestine Action post",
      "language": "en",
-     "link": "https://punchng.com/epl-guimaraes-winner-helps-arsenal-fight-back-to-beat-leeds-2-1/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-10T14:48:46+00:00"
+     "link": "https://www.theguardian.com/politics/2026/oct/17/sarah-helm-jonathan-powell-palestine-action",
+     "published": "2026-10-17T19:47:45+00:00"
+    },
+    {
+     "outlet": "BBC Technology",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "No further action against government adviser's wife over Palestine Action post, police say",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cv8ez40yz950o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-17T20:24:32+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "UK police rule out probe into Palestine Action post by PM adviser’s wife",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQQ1phN1pfRTVRRW9LRndtajV6X2RwOTBmQ2JWeGg4SHU3MUVuOEQ3a1FEU1U3aTNxejBQU2wwMFBjU3VjSkRLc1JwTlRLajRPdHZURjBKajl5WG9LemxJVzlocmZnakRoRWJuSXNVVHNjOWNKc1RlS3pLSWE4dmtZUnhmSm9CTkFzUFYyYkxlc2lvZjA3VXBHQjA3cVVCc2JQSWZzbVk5eHIwWm1EdjlXWEt5SdIBuAFBVV95cUxQeEs2R1diMjJYcVNfUlFaMGIzd2lFZkd6QjJJX1dqeHVvbDVUeG1VTXZGR2RXU25QRGFab1FaWXQxLUVSNFBYRjJvdU52b2ZQVU91cG45ZmwycnpLSGk2ZHJvZ0FmYWxJNEJ5NU9kbjRxenR3Ukk3RlJwNG1LbzcxcUdDbklZMV9mVWNCUzl1ZDVqLUYyTE1OLVZ3TVY3RTRaX05TM3J6aWxJSFNBSzktYkNsT3Y0OUlR?oc=5",
+     "published": "2026-10-18T04:58:22+00:00"
     }
    ],
-   "last_seen": "2026-10-10T17:07:48.257605+00:00",
-   "outlets": 5,
+   "last_seen": "2026-10-18T09:07:42.310366+00:00",
+   "outlets": 6,
    "regions": 4,
    "languages": 1,
-   "score": 15.0
+   "score": 16.0
   },
   {
    "id": "b896f6196410",
@@ -11409,6 +11351,53 @@
    "score": 14.0
   },
   {
+   "id": "73bbea0522b1",
+   "first_seen": "2026-10-18T09:07:42.310366+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Daniel Dubois defeats Fabio Wardley to retain WBO heavyweight boxing title",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/10/18/daniel-dubois-defeats-fabio-wardley-to-retain-wbo-heavyweight-boxing-title?traffic_source=rss",
+     "published": "2026-10-18T06:34:02+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Dubois defeats Wardley in short order to retain WBO heavyweight title",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/sport/dubois-defeats-wardley-in-short-order-retain-wbo-heavyweight-title-6469061",
+     "published": "2026-10-17T22:08:33+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Daniel Dubois knocks out Fabio Wardley to retain WBO heavyweight title",
+     "language": "en",
+     "link": "https://www.theguardian.com/sport/live/2026/oct/17/daniel-dubois-fabio-wardley-ii-boxing-wbo-heavyweight-title-fight-live",
+     "published": "2026-10-17T22:39:05+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Dubois defeats Wardley to retain WBO heavyweight title",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2635506/dubois-defeats-wardley-to-retain-wbo-heavyweight-title",
+     "published": "2026-10-18T01:36:31+00:00"
+    }
+   ],
+   "last_seen": "2026-10-18T09:07:42.310366+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
+  },
+  {
    "id": "b096d9cf93db",
    "first_seen": "2026-10-12T17:07:49.159577+00:00",
    "members": [
@@ -11745,44 +11734,6 @@
    "regions": 3,
    "languages": 1,
    "score": 12.0
-  },
-  {
-   "id": "944d1b8954d7",
-   "first_seen": "2026-10-10T17:07:48.257605+00:00",
-   "members": [
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Rayo-Bilbao match abandoned after fans' protest against club owner",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/sport/rayo-bilbao-match-abandoned-after-fans-protest-against-club-owner-6448951",
-     "published": "2026-10-10T14:18:51+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "La Liga: Rayo match against Bilbao abandoned after fan protests",
-     "language": "en",
-     "link": "https://punchng.com/la-liga-rayo-match-against-bilbao-abandoned-after-fan-protests/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-10T15:13:56+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Rayo La Liga match abandoned after fan protests",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/10/rayo-liga-match-abandoned-after-fan-protests",
-     "published": "2026-10-10T14:34:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-10T17:07:48.257605+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
   },
   {
    "id": "7f94006f8615",
@@ -12981,6 +12932,82 @@
    "score": 11.0
   },
   {
+   "id": "82202de600d4",
+   "first_seen": "2026-10-18T09:07:42.310366+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Across US, ‘No Kings’ events seek to boost early voting and thwart Trump",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3371279/across-us-no-kings-events-seek-boost-early-voting?utm_source=rss_feed",
+     "published": "2026-10-17T23:56:30+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Across U.S., ‘No Kings’ events seek to boost early voting",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/18/world/politics/us-no-kings-early-voting/",
+     "published": "2026-10-18T00:05:00+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "‘No Kings’ events seek to boost early voting across US",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/18/no-kings-events-seek-to-boost-early-voting-across-us",
+     "published": "2026-10-18T02:32:39+00:00"
+    }
+   ],
+   "last_seen": "2026-10-18T09:07:42.310366+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "749fbd20f560",
+   "first_seen": "2026-10-18T09:07:42.310366+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Mass protests in France spiral into worst riots in years",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3371255/french-protesters-take-streets-over-rising-prices-social-strain?utm_source=rss_feed",
+     "published": "2026-10-17T10:12:29+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Mass protests in France spiral into worst riots in years",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2635515/mass-protests-in-france-spiral-into-worst-riots-in-years",
+     "published": "2026-10-18T02:08:53+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Mass protests in France spiral into worst riots in years",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/18/world/mass-protests-france-riots/",
+     "published": "2026-10-17T23:20:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-18T09:07:42.310366+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
    "id": "11cabfbc55e8",
    "first_seen": "2026-10-13T09:08:09.573950+00:00",
    "members": [
@@ -13084,89 +13111,107 @@
    "score": 10.0
   },
   {
-   "id": "3b6e815cc695",
-   "first_seen": "2026-10-10T17:07:48.257605+00:00",
+   "id": "3e9a7d1a3b4b",
+   "first_seen": "2026-10-18T09:07:42.310366+00:00",
    "members": [
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Henderson stars as Chelsea thrash Bournemouth",
-     "language": "en",
-     "link": "https://www.skysports.com/football/chelsea-vs-bournemouth/report/559496",
-     "published": "2026-10-10T17:00:00+00:00"
-    },
     {
      "outlet": "Punch Nigeria",
      "region": "ng",
      "bucket": "serious",
-     "title": "EPL: Henderson, Pedro score twice as Chelsea thrash Bournemouth 5-1",
+     "title": "Messi scores twice as Inter Miami beat Atlanta 3-1",
      "language": "en",
-     "link": "https://punchng.com/epl-henderson-pedro-score-twice-as-chelsea-thrash-bournemouth-5-1/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-10T17:57:12+00:00"
+     "link": "https://punchng.com/messi-scores-twice-as-inter-miami-beat-atlanta-3-1/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-18T09:38:04+00:00"
     },
     {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Chelsea 5-1 Bournemouth, Sunderland 0-2 Brighton, and more: football",
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Messi scores twice as Inter Miami beat Atlanta United 3-1 to extend winning streak",
      "language": "en",
-     "link": "https://www.theguardian.com/football/live/2026/oct/10/chelsea-v-bournemouth-sunderland-v-brighton-and-more-football-live",
-     "published": "2026-10-10T16:22:46+00:00"
+     "link": "https://www.malaymail.com/news/sports/2026/10/18/messi-scores-twice-as-inter-miami-beat-atlanta-united-3-1-to-extend-winning-streak/239553",
+     "published": "2026-10-18T03:49:28+00:00"
     },
     {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Henderson and João Pedro lead Chelsea charge against Bournemouth",
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Messi brace lifts Inter Miami to 3-1 win in Atlanta",
      "language": "en",
-     "link": "https://www.theguardian.com/football/2026/oct/10/chelsea-bournemouth-premier-league-match-report",
-     "published": "2026-10-10T16:18:07+00:00"
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/18/messi-brace-lifts-inter-miami-to-3-1-win-in-atlanta",
+     "published": "2026-10-18T03:07:34+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Messi brace lifts Inter Miami to 3-1 win in Atlanta",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/messi-brace-lifts-inter-miami-to-3-1-win-in-atlanta/",
+     "published": "2026-10-18T07:48:13+00:00"
     }
    ],
-   "last_seen": "2026-10-10T17:07:48.257605+00:00",
-   "outlets": 3,
+   "last_seen": "2026-10-18T09:07:42.310366+00:00",
+   "outlets": 4,
    "regions": 2,
    "languages": 1,
-   "score": 9.0
+   "score": 10.0
   },
   {
-   "id": "af4840577ade",
-   "first_seen": "2026-10-10T17:07:48.257605+00:00",
+   "id": "7c183f0e72b7",
+   "first_seen": "2026-10-18T09:07:42.310366+00:00",
    "members": [
     {
-     "outlet": "BBC World",
-     "region": "uk",
+     "outlet": "Mehr News",
+     "region": "ir",
      "bucket": "serious",
-     "title": "Man named Hitler Mussolini elected mayor in Peru",
+     "title": "Iran rejects pressure, remains open to dialogue: Araghchi",
      "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cmdxwn9dr42yo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-09T16:32:22+00:00"
+     "link": "https://en.mehrnews.com/news/248652/Iran-rejects-pressure-remains-open-to-dialogue-Araghchi",
+     "published": "2026-10-17T14:27:05+00:00"
     },
     {
-     "outlet": "The Guardian — World",
-     "region": "uk",
+     "outlet": "IRNA English",
+     "region": "ir",
      "bucket": "serious",
-     "title": "Candidate named Hitler Mussolini elected mayor in Peru",
+     "title": "Iran rejects pressure, remains open to dialogue: Araghchi",
      "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/10/peru-election-hitler-mussolini-simeon-flores-mayor",
-     "published": "2026-10-10T12:00:10+00:00"
+     "link": "https://en.irna.ir/news/86295149/Iran-rejects-pressure-remains-open-to-dialogue-Araghchi",
+     "published": "2026-10-17T13:00:54+00:00"
     },
     {
-     "outlet": "Google News — World",
-     "region": "global",
+     "outlet": "Al Jazeera English",
+     "region": "qa",
      "bucket": "serious",
-     "title": "Candidate named Hitler Mussolini elected mayor in Peru",
+     "title": "Why Iran-US negotiations keep failing",
      "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQLW9tLVRndFhpNERZNmU1cGtqTlk0NmNwTUZKd0lUaVFlZ09ybDJ0Qk5KUVdtdnZXdDg1U0RKWFRTakJRU0J4ckdueDRvRVNGNGE2enZVaU9oZWkzdzRJd25BbHlNa2NqV0JvdkdzNGNuWmF6ZHJEMUlCWkhRcHVLNGZ1OUR3WlQ3ZkVXdXVIWEUxTDJjWHp5OHF0Y00?oc=5",
-     "published": "2026-10-10T10:52:00+00:00"
+     "link": "https://www.aljazeera.com/opinions/2026/10/18/why-iran-us-negotiations-keep-failing?traffic_source=rss",
+     "published": "2026-10-18T07:32:59+00:00"
+    },
+    {
+     "outlet": "Iran International",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Tehran’s diplomatic paralysis leaves Iran caught between deal and escalation",
+     "language": "en",
+     "link": "https://www.iranintl.com/en/202610176185",
+     "published": "2026-10-17T17:44:34+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Iran FM affirms support for Lebanon's sovereignty",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248661/Iran-FM-affirms-support-for-Lebanon-s-sovereignty",
+     "published": "2026-10-18T04:00:38+00:00"
     }
    ],
-   "last_seen": "2026-10-10T17:07:48.257605+00:00",
-   "outlets": 3,
+   "last_seen": "2026-10-18T09:07:42.310366+00:00",
+   "outlets": 4,
    "regions": 2,
    "languages": 1,
-   "score": 9.0
+   "score": 10.0
   },
   {
    "id": "c837ea279df4",
@@ -13728,6 +13773,120 @@
    "score": 9.0
   },
   {
+   "id": "1c0aa47b8b3b",
+   "first_seen": "2026-10-18T09:07:42.310366+00:00",
+   "members": [
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Pakistan extends airspace ban on Indian aircraft till November 24",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/pakistan-extends-airspace-ban-on-indian-aircraft-till-november-24/article71599424.ece",
+     "published": "2026-10-18T08:17:50+00:00"
+    },
+    {
+     "outlet": "Geo News",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Pakistan extends airspace ban on Indian aircraft till Nov 24",
+     "language": "en",
+     "link": "https://www.geo.tv/latest/687043-pakistan-extends-airspace-ban-on-indian-aircraft-till-nov-24",
+     "published": "2026-10-17T17:20:00+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Pakistan Extends Ban On Indian Aircraft In Its Airspace Till November 24",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/pakistan-extends-ban-on-indian-aircraft-in-its-airspace-till-november-24-12202114#publisher=newsstand",
+     "published": "2026-10-18T08:15:06+00:00"
+    }
+   ],
+   "last_seen": "2026-10-18T09:07:42.310366+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
+   "id": "7d9762d77201",
+   "first_seen": "2026-10-18T09:07:42.310366+00:00",
+   "members": [
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Vietnam signs free trade deal with four European nations",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/asia/vietnam-signs-free-trade-deal-four-european-nations-6469346",
+     "published": "2026-10-18T06:18:00+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Vietnam signs free trade deal with four European nations",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/business/2026/10/18/vietnam-signs-free-trade-deal-with-four-european-nations",
+     "published": "2026-10-18T05:32:31+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Vietnam signs free trade deal with four European nations as US tariffs disrupt global commerce",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/money/2026/10/18/vietnam-signs-free-trade-deal-with-four-european-nations-as-us-tariffs-disrupt-global-commerce/239587",
+     "published": "2026-10-18T06:05:12+00:00"
+    }
+   ],
+   "last_seen": "2026-10-18T09:07:42.310366+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
+   "id": "2e010de567ba",
+   "first_seen": "2026-10-18T09:07:42.310366+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Search continues for 11 missing after boat sank off Mexico’s Baja coast",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/18/search-continues-for-11-missing-after-boat-sank-off-mexicos-baja-coast?traffic_source=rss",
+     "published": "2026-10-18T02:33:14+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Search on after boat capsizes off Baja California coast; 16 rescued, others missing",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/search-on-after-boat-capsizes-off-baja-california-coast-16-rescued-others-missing/article71597970.ece",
+     "published": "2026-10-17T22:28:33+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Search continues after boat capsizes off Baja California coast. 16 rescued, but others missing",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/search-continues-after-boat-capsizes-off-baja-california-coast-16-rescued-but-others-missing-101792271296590.html",
+     "published": "2026-10-17T21:08:16+00:00"
+    }
+   ],
+   "last_seen": "2026-10-18T09:07:42.310366+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
    "id": "303226f0667e",
    "first_seen": "2026-10-14T17:07:55.411222+00:00",
    "members": [
@@ -13755,91 +13914,6 @@
    "regions": 2,
    "languages": 1,
    "score": 8.0
-  },
-  {
-   "id": "ed52e48e9510",
-   "first_seen": "2026-10-10T17:07:48.257605+00:00",
-   "members": [
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Islamabad ATC disposes of plea to drop terrorism charges against Imaan, Hadi in security breach case",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2036142/islamabad-atc-disposes-of-plea-to-drop-terrorism-charges-against-imaan-hadi-in-security-breach-case",
-     "published": "2026-10-10T09:14:07+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Barricade removal case: ATC rejects plea to drop terrorism charges against Imaan, Hadi",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2634071/barricade-removal-case-atc-rejects-plea-to-drop-terrorism-charges-against-imaan-hadi",
-     "published": "2026-10-10T03:29:16+00:00"
-    },
-    {
-     "outlet": "Geo News",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "ATC disposes of Imaan, Hadi's plea against terrorism provisions in security breach case",
-     "language": "en",
-     "link": "https://www.geo.tv/latest/685915-atc-disposes-of-imaan-hadis-plea-against-terrorism-provisions-in-security-breach-case",
-     "published": "2026-10-10T10:35:26+00:00"
-    }
-   ],
-   "last_seen": "2026-10-10T17:07:48.257605+00:00",
-   "outlets": 3,
-   "regions": 1,
-   "languages": 1,
-   "score": 7.0
-  },
-  {
-   "id": "3163a08f7c17",
-   "first_seen": "2026-10-11T17:07:45.259726+00:00",
-   "members": [
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Emergency, governor's rule imposed in KP as president approves cabinet decision",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2036352/emergency-governors-rule-imposed-in-kp-as-president-approves-cabinet-decision",
-     "published": "2026-10-11T16:09:32+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Emergency, governor's rule imposed in K-P after president signs summary on PM Shehbaz's advice",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2634200/pm-shehbaz-chairs-cabinet-meeting-to-discuss-terrorism-governance-in-k-p",
-     "published": "2026-10-11T00:47:34+00:00"
-    },
-    {
-     "outlet": "Geo News",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Emergency, governor's rule imposed in KP as President Zardari approves summary on cabinet's advice",
-     "language": "en",
-     "link": "https://www.geo.tv/latest/686054-emergency-governors-rule-imposed-in-kp-as-president-zardari-approves-summary-on-pms-advice",
-     "published": "2026-10-11T12:33:00+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Governor's rule in K-P",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2634287/governors-rule-in-k-p",
-     "published": "2026-10-11T14:35:55+00:00"
-    }
-   ],
-   "last_seen": "2026-10-12T09:07:45.429910+00:00",
-   "outlets": 3,
-   "regions": 1,
-   "languages": 1,
-   "score": 7.0
   },
   {
    "id": "c63bea295e2e",
@@ -14111,6 +14185,100 @@
     }
    ],
    "last_seen": "2026-10-16T17:07:44.136357+00:00",
+   "outlets": 3,
+   "regions": 1,
+   "languages": 1,
+   "score": 7.0
+  },
+  {
+   "id": "2523953d4126",
+   "first_seen": "2026-10-18T09:07:42.310366+00:00",
+   "members": [
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Leader congratulates wrestling team on win in world event",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248651/Leader-congratulates-wrestling-team-on-win-in-world-event",
+     "published": "2026-10-17T12:55:10+00:00"
+    },
+    {
+     "outlet": "IRNA English",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Leader congratulates Iran’s U23 Greco-Roman wrestling team on world title",
+     "language": "en",
+     "link": "https://en.irna.ir/news/86295168/Leader-congratulates-Iran-s-U23-Greco-Roman-wrestling-team-on",
+     "published": "2026-10-17T13:08:44+00:00"
+    },
+    {
+     "outlet": "Tehran Times",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Iranian wrestlers win five medals at 2026 U23 World Championships",
+     "language": "en",
+     "link": "https://www.tehrantimes.com/news/531183/Iranian-wrestlers-win-five-medals-at-2026-U23-World-Championships",
+     "published": "2026-10-18T07:45:48+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Iran freestyle wrestlers win gold at World U23 C’ships in US",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248666/Iran-freestyle-wrestlers-win-gold-at-World-U23-C-ships-in-US",
+     "published": "2026-10-18T05:15:39+00:00"
+    },
+    {
+     "outlet": "Tehran Times",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Iran beach soccer thrash Oman in Belarus tournament",
+     "language": "en",
+     "link": "https://www.tehrantimes.com/news/531182/Iran-beach-soccer-thrash-Oman-in-Belarus-tournament",
+     "published": "2026-10-18T06:23:26+00:00"
+    }
+   ],
+   "last_seen": "2026-10-18T09:07:42.310366+00:00",
+   "outlets": 3,
+   "regions": 1,
+   "languages": 1,
+   "score": 7.0
+  },
+  {
+   "id": "c1fe708a4b8f",
+   "first_seen": "2026-10-18T09:07:42.310366+00:00",
+   "members": [
+    {
+     "outlet": "Premium Times",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "SERAP sues INEC over failure to account for ‘₦126bn electoral funds’",
+     "language": "en",
+     "link": "https://www.premiumtimesng.com/news/top-news/917953-serap-sues-inec-over-failure-to-account-for-%e2%82%a6126bn-electoral-funds.html",
+     "published": "2026-10-18T08:50:45+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "SERAP sues INEC over failure to account for ‘missing ₦126bn electoral funds’",
+     "language": "en",
+     "link": "https://punchng.com/serap-sues-inec-over-failure-to-account-for-missing-%e2%82%a6126bn-electoral-funds/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-18T10:02:20+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "SERAP sues INEC over alleged ₦126bn missing electoral funds",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/serap-sues-inec-over-alleged-%e2%82%a6126bn-missing-electoral-funds/",
+     "published": "2026-10-18T08:33:44+00:00"
+    }
+   ],
+   "last_seen": "2026-10-18T09:07:42.310366+00:00",
    "outlets": 3,
    "regions": 1,
    "languages": 1,
