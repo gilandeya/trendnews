@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import shutil
 
-from tests.helpers import (check, load_config, evidence, store, DRAFTS_DIR, ImportantRig,
+from tests.helpers import (check, reel_v1_cfg, load_config, evidence, store, DRAFTS_DIR, ImportantRig,
                            ImportantWriteRig, NamesAuditRig, NAMES_AUDIT_SOURCE, names_audit_doubt,
                            names_audit_draft, names_audit_hit, important_doc, important_fixture_point,
                            important_good_data, important_marked_body, important_point,
@@ -4871,8 +4871,11 @@ def test_reel_script_guards() -> None:
     from src import youtube_publish as yp
     from tests.helpers import tick_marker
 
+    from tests.helpers import reel_v1_cfg
+
     def cfg_with(enabled: bool):
-        c = load_config()
+        # الاختبار يزيّف مخرج النموذج بصيغة v1 (Issue #1608): v2 مشغَّل افتراضيًا فيُطفأ هنا
+        c = reel_v1_cfg(load_config())
         c.setdefault("reel", {})["enabled"] = enabled
         return c
 
@@ -5295,7 +5298,7 @@ def test_reel_speaker_audit_guards() -> None:
     from src import youtube_article as ya
     from src import youtube_publish as yp
 
-    cfg = load_config()
+    cfg = reel_v1_cfg(load_config())  # يزيّف مخرج v1 (Issue #1608)
     cfg.setdefault("reel", {})["enabled"] = True
     D = "2099-11-02"
 
@@ -5407,7 +5410,7 @@ def test_reel_identity_r2c_guards() -> None:
     from src import youtube_extract as ye
     from src import youtube_publish as yp
 
-    cfg = load_config()
+    cfg = reel_v1_cfg(load_config())  # يزيّف مخرج v1 (Issue #1608)
     cfg.setdefault("reel", {})["enabled"] = True
     D = "2099-11-03"
     SPEAKER = "نيهال بينجه سو كاراجا كاتبة صحافية هابرتورك"
@@ -10720,7 +10723,7 @@ def test_reel_hook_script_r5c3_guards() -> None:
     from src import youtube_article as ya
     from src import youtube_publish as yp
 
-    cfg = load_config()
+    cfg = reel_v1_cfg(load_config())  # يزيّف مخرج v1 (Issue #1608)
     cfg.setdefault("reel", {})["enabled"] = True
     D = "2099-11-02"
 
@@ -11562,7 +11565,7 @@ def test_reel_broll_r5d2_guards() -> None:
     from src import youtube_article as ya
     from src import youtube_publish as yp
 
-    cfg = load_config()
+    cfg = reel_v1_cfg(load_config())  # يزيّف مخرج v1 (Issue #1608)
     cfg.setdefault("reel", {})["enabled"] = True
     W, H = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
     lead = reel_render.transition_seconds(cfg)
@@ -12535,7 +12538,7 @@ def test_reel_script_keys_r5d3_guards() -> None:
     from src import youtube_cluster
     from src import youtube_publish as yp
 
-    cfg = load_config()
+    cfg = reel_v1_cfg(load_config())  # يزيّف مخرج v1 (Issue #1608)
     cfg.setdefault("reel", {})["enabled"] = True
     cfg["reel"].setdefault("hook_search", {})["enabled"] = True
     cfg["reel"].setdefault("broll", {})["enabled"] = True
