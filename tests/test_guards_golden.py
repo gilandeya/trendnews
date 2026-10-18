@@ -6264,8 +6264,10 @@ def test_reel_render_r3b1_guards() -> None:
             check("r3b1-ط: المقاس 1080×1920", "1080x1920" in info, info[-300:])
             # الهوك (R5c1) بدل بطاقة العنوان: صوت العنوان (نغمة ثانية + صمت الجملة) + hook.tail بين حدّي الهوك
             hk = cfg.path("reel.render.hook")
-            hook_sec = min(max(1.0 + float(cfg.path("reel.tts.sentence_silence", 0.35)) + float(hk["tail"]),
-                               float(hk["min_seconds"])), float(hk["max_seconds"]))
+            # P1a: S + voice_delay + الكلام + tail بلا حد أدنى، بحد أقصى max_seconds
+            hook_sec = min(float(hk["strong_seconds"]) + float(hk["voice_delay"]) + 1.0
+                           + float(cfg.path("reel.tts.sentence_silence", 0.35)) + float(hk["tail"]),
+                           float(hk["max_seconds"]))
             expected = (hook_sec + 3.0 + 3.0 + 1.35 + 1.35
                         + float(cfg.path("reel.render.question_tail_seconds"))
                         + float(cfg.path("reel.render.outro_seconds")))
@@ -6974,7 +6976,7 @@ def test_reel_transitions_r3b1d_guards() -> None:
         tr = cfg.path("reel.render.transition") or {}
         check("g212: الإعداد transition وversion",
               (tr.get("type"), tr.get("outro_type"), tr.get("seconds")) == ("slideleft", "fade", 0.35)
-              and cfg.path("reel.render.version") == 27, tr)
+              and cfg.path("reel.render.version") == 28, tr)
 
         # ── g212/g213: أمر ضمّ واحد بأربعة xfade وأربعة acrossfade ──
         log, cmds, saved = render("r3b1d0000a01", five, cfg, durs)
@@ -7049,14 +7051,14 @@ def test_reel_transitions_r3b1d_guards() -> None:
         p_old, _ = make_draft("r3b1d0000b01", mixed, render_status="rendered", approved_script_at="2099-01-01")
         p_pub, _ = make_draft("r3b1d0000b02", mixed, status="published", render_status="rendered")
         p_rej, _ = make_draft("r3b1d0000b03", mixed, status="rejected", render_status="rendered")
-        p_new, _ = make_draft("r3b1d0000b04", mixed, render_status="rendered", render_version=27)
+        p_new, _ = make_draft("r3b1d0000b04", mixed, render_status="rendered", render_version=28)
         picked = [p.stem for p, _ in reel_render.pending_batch(c2)]
         check("g218: يلتقط القديم النسخة وحده", picked == [p_old.stem], picked)
         for p, d in reel_render.pending_batch(c2):
             reel_render.render_draft(p, d, c2, make_deps({"cmds": [], "comments": []}), reels_dir=tmp / "reels",
                                      workdir=tmp / "work")
         s = json.loads(p_old.read_text(encoding="utf-8"))
-        check("g218: render_version = 20 بعد التركيب", s.get("render_status") == "rendered" and s.get("render_version") == 27, s)
+        check("g218: render_version = 20 بعد التركيب", s.get("render_status") == "rendered" and s.get("render_version") == 28, s)
         left = reel_render.pending_batch(c2)
         check("g218: التشغيلة الثانية لا تعيدها", left == [], [p.stem for p, _ in left])
         check("g218: المنشور والمرفوض لم يُمسّا",
@@ -7243,7 +7245,7 @@ def test_reel_typewriter_r3b2a_guards() -> None:
                                      workdir=tmp / "work")
         s = json.loads(p_old.read_text(encoding="utf-8"))
         check("g225: render_version = 8 بعد التركيب",
-              s.get("render_status") == "rendered" and s.get("render_version") == 27, s)
+              s.get("render_status") == "rendered" and s.get("render_version") == 28, s)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 
@@ -7357,7 +7359,7 @@ def test_reel_no_partial_r3b2a2_guards() -> None:
         # ── g230 ──
         log, s, _ = run_one("r3b2a2000e01", 0, render_attempts=2)
         check("g230: render_attempts = 0 وrender_version = 9",
-              s.get("render_attempts") == 0 and s.get("render_version") == 27 and s.get("render_status") == "rendered", s)
+              s.get("render_attempts") == 0 and s.get("render_version") == 28 and s.get("render_status") == "rendered", s)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 
@@ -7440,7 +7442,7 @@ def test_reel_clip_streams_r3b2a3_guards() -> None:
         return log, json.loads(path.read_text(encoding="utf-8")), [" ".join(c) for c in log["cmds"]]
 
     cfg = load_config()
-    check("g231: reel.render.version = 22", cfg.path("reel.render.version") == 27,cfg.path("reel.render.version"))
+    check("g231: reel.render.version = 22", cfg.path("reel.render.version") == 28,cfg.path("reel.render.version"))
     tmp = Path(tempfile.mkdtemp())
     try:
         # ── g231 ──
@@ -7463,7 +7465,7 @@ def test_reel_clip_streams_r3b2a3_guards() -> None:
         # ── g233 ──
         p_old, _ = make_draft("r3b2a3000c01", status="approved_script", render_status="failed", render_version=4,
                               render_attempts=3, render_error="ffmpeg فشل", approved_script_at="1998-01-01T00:00:00")
-        p_new, _ = make_draft("r3b2a3000c02", status="approved_script", render_status="failed", render_version=27,
+        p_new, _ = make_draft("r3b2a3000c02", status="approved_script", render_status="failed", render_version=28,
                               render_attempts=3, render_error="ffmpeg فشل", approved_script_at="1999-01-02T00:00:00")
         ids = [p.stem for p, _d in reel_render.queued_reels(cfg)]
         check("g233: failed بنسخة 4 تُلتقط وبنسخة 5 لا", "r3b2a3000c01" in ids and "r3b2a3000c02" not in ids, ids)
@@ -7588,7 +7590,7 @@ def test_reel_cover_auto_r3b2a4_guards() -> None:
         top = int(cfg.path("reel.render.band.top"))
         alpha = float(cfg.path("reel.render.band.alpha"))
         check("g241: الإعداد الافتراضي auto", cfg.path("reel.render.band.cover") == "auto", cfg.path("reel.render.band.cover"))
-        check("g241: reel.render.version = 22", cfg.path("reel.render.version") == 27)
+        check("g241: reel.render.version = 22", cfg.path("reel.render.version") == 28)
         s = render("r3b2a4000a01", cfg)
         crops = s.get("render_crops") or {}
         check("g241: render_crops يحمل cover لكل مقطع",
@@ -7886,7 +7888,7 @@ def test_reel_background_r3b2b_guards() -> None:
 
         # ── g251: --pending ──
         def g251():
-            check("g251: reel.render.version = 22", cfg.path("reel.render.version") == 27, cfg.path("reel.render.version"))
+            check("g251: reel.render.version = 22", cfg.path("reel.render.version") == 28, cfg.path("reel.render.version"))
             d0 = {"id": "r3b2b000g251", "origin": "analysis", "format": "reel", "status": "approved_script",
                   "render_status": "rendered", "render_version": 6, "topic_id": "t1", "topic_date": D, "title": "ريل",
                   "script_status": "ready", "approved_script_at": "2000-01-01T00:00:00+00:00",
@@ -7902,7 +7904,7 @@ def test_reel_background_r3b2b_guards() -> None:
             d = json.loads(path.read_text(encoding="utf-8"))
             bg = d.get("reel_bg") or {}
             check("g251: اختار الخلفية وحفظها", bg.get("kind") == "news_photo" and bg.get("url") == "https://n/1.jpg", bg)
-            check("g251: الشكل محفوظ والنسخة 21", bg.get("layout") == "A" and d.get("render_version") == 27,
+            check("g251: الشكل محفوظ والنسخة 21", bg.get("layout") == "A" and d.get("render_version") == 28,
                   (bg.get("layout"), d.get("render_version")))
         guarded("g251", g251)
     finally:
@@ -8117,7 +8119,7 @@ def test_reel_music_r3b2c_guards() -> None:
 
         # ── g256: --pending ──
         def g256():
-            check("g256: reel.render.version = 22", cfg.path("reel.render.version") == 27, cfg.path("reel.render.version"))
+            check("g256: reel.render.version = 22", cfg.path("reel.render.version") == 28, cfg.path("reel.render.version"))
             d0 = new_draft("r3b2c00g256", render_status="rendered", render_version=7,
                            approved_script_at="2000-01-01T00:00:00+00:00")
             path = store.save_draft(d0)
@@ -8129,7 +8131,7 @@ def test_reel_music_r3b2c_guards() -> None:
                                      reels_dir=tmp / "reels", workdir=tmp / "work")
             d = json.loads(path.read_text(encoding="utf-8"))
             check("g256: reel_music وrender_version = 8", d.get("reel_music") in ("a.mp3", "b.mp3", "c.mp3")
-                  and d.get("render_version") == 27, (d.get("reel_music"), d.get("render_version")))
+                  and d.get("render_version") == 28, (d.get("reel_music"), d.get("render_version")))
         guarded("g256", g256)
     finally:
         if real_dir is not None:
@@ -8603,7 +8605,7 @@ def test_reel_text_r5a_guards() -> None:
           not any("من قناة" in t for t, _ in d1 + d2 + d3 + d4) and "من قناة" not in cfg.path("reel.texts.guest_label"))
 
     # ── g274: النسخة وحقل القناة الأصلية ──
-    check("g274: render_version == 21", int(cfg.path("reel.render.version")) == 27, cfg.path("reel.render.version"))
+    check("g274: render_version == 21", int(cfg.path("reel.render.version")) == 28, cfg.path("reel.render.version"))
     pts = [{"timestamp": 100, "quote_original": "some words here", "video_url": "https://youtu.be/x",
             "channel": "FRANCE 24 Arabic", "quote_arabic": "ترجمة", "speaker": "ميساء", "video_id": "x"}]
     clips = reel_script.valid_clips(pts, [], cfg)
@@ -8888,7 +8890,7 @@ def test_reel_r5a2_guards() -> None:
         check("g285: داخل المنتظر الأحدث اعتمادًا أولًا والمعاد تركيبه بعده",
               order == ["r5a2000g285g", "r5a2000g285f", "r5a2000g285h"], order)
         fresh()
-        check("g285: render_version == 21", int(cfg.path("reel.render.version")) == 27, cfg.path("reel.render.version"))
+        check("g285: render_version == 21", int(cfg.path("reel.render.version")) == 28, cfg.path("reel.render.version"))
         check("g285: max_per_run == 1", int(cfg.path("reel.render.max_per_run")) == 1)
     guarded("g285", g285)
 
@@ -9213,7 +9215,7 @@ def test_reel_speaker_r5b_guards() -> None:
                   and tc.get("type") == "tool" and tc.get("name") == "read_lower_third", (tools and tools[0]["name"], tc))
             check("g294: الناتج ثلاثة إطارات", isinstance(out, list) and len(out) == 3
                   and out[0]["name_original"] == "Ahmet Kayapınar", out)
-            check("g294: render_version == 21", int(cfg.path("reel.render.version")) == 27, cfg.path("reel.render.version"))
+            check("g294: render_version == 21", int(cfg.path("reel.render.version")) == 28, cfg.path("reel.render.version"))
             check("g294: إعداد chyron", (cfg.path("reel.render.chyron") or {}).get("frames") == [0.25, 0.5, 0.75]
                   and cfg.path("reel.render.chyron.max_width") == 1280, cfg.path("reel.render.chyron"))
         guarded("g294", g294)
@@ -9340,7 +9342,8 @@ def test_reel_hook_r5c1_guards() -> None:
 
         # ── g299: مدة الهوك وصوت العنوان ──
         def g299():
-            for n, (audio, want) in enumerate(((1.5, 3.5), (4.0, 4.8), (9.0, 7.0))):
+            # P1a: المدة = strong_seconds + voice_delay + الكلام + tail (3 + 0.2 + صوت + 0.8) بسقف hook.max_seconds = 12 وبلا حدّ أدنى
+            for n, (audio, want) in enumerate(((1.5, 5.5), (4.0, 8.0), (9.0, 12.0))):
                 r = render(f"r5c1000g299a{n}", tmp, hook_audio=audio)
                 durs = r["joined"].get("durs") or [0]
                 check(f"g299: صوت {audio} ث ← مدة الهوك {want}", abs(durs[0] - want) < 0.05, durs)
@@ -9361,9 +9364,9 @@ def test_reel_hook_r5c1_guards() -> None:
             hv = {"video_id": "hv1", "start": 5, "end": 12}
             r = render("r5c1000g300a1", tmp, extra={"hook_video": hv}, with_bg=True)
             check("g300: hook_video ← تنزيل بنافذته", ("hv1", 5, 12) in r["downloads"], r["downloads"])
-            check("g300: hook_video ← crop من المنتصف", any(center in " ".join(c) and "-stream_loop" in c for c in r["cmds"]))
+            check("g300: hook_video ← crop من المنتصف", any(center in " ".join(c) and "tpad=stop_mode=clone" in " ".join(c) for c in r["cmds"]))
             check("g300: hook_video ← لا crop زمني في أمر الهوك",
-                  not any(timed.search(" ".join(c)) for c in r["cmds"] if "-stream_loop" in c))
+                  not any(timed.search(" ".join(c)) for c in r["cmds"] if "tpad=stop_mode=clone" in " ".join(c)))
             r = render("r5c1000g300b1", tmp, with_bg=True)
             check("g300: بلا hook_video مع reel_bg ← crop زمني", any(timed.search(" ".join(c)) for c in r["cmds"]))
             check("g300: بلا تنزيل للهوك", not any(d[0] == "hv1" for d in r["downloads"]), r["downloads"])
@@ -9382,14 +9385,16 @@ def test_reel_hook_r5c1_guards() -> None:
         # ── g301: حالة الشعار وأمر التمريرة الأخيرة ──
         def g301():
             end = 5.0
+            # P1a: الشعار كبير ثابت من الإطار الأول (420 متمركزًا وأعلاه 500) بلا ظهور تدريجي
             x, y, wd, a = reel_render.logo_state(0, cfg, end)
-            check("g301: t=0 شفاف بعرض 336", a == 0 and abs(wd - 336) < 1e-6, (x, y, wd, a))
-            x, y, wd, a = reel_render.logo_state(0.5, cfg, end)
-            check("g301: t=0.5 بعرض 560 وسط الشاشة وأعلاه 420",
-                  abs(wd - 560) < 1e-6 and abs(x - (1080 - 560) / 2) < 1e-6 and abs(y - 420) < 1e-6 and abs(a - 1) < 1e-6,
+            check("g301: t=0 بعرض 420 وسط الشاشة وأعلاه 500 وغير شفاف",
+                  abs(wd - 420) < 1e-6 and abs(x - (1080 - 420) / 2) < 1e-6 and abs(y - 500) < 1e-6 and abs(a - 1) < 1e-6,
                   (x, y, wd, a))
+            x, y, wd, a = reel_render.logo_state(0.5, cfg, end)
+            check("g301: t=0.5 الهندسة نفسها",
+                  abs(wd - 420) < 1e-6 and abs(x - 330) < 1e-6 and abs(y - 500) < 1e-6 and abs(a - 1) < 1e-6, (x, y, wd, a))
             x, y, wd, a = reel_render.logo_state(end + 0.3, cfg, end)
-            check("g301: منتصف الحركة بعرض بين 168 و560", 168 < wd < 560, wd)
+            check("g301: منتصف الحركة بعرض بين 168 و420", 168 < wd < 420, wd)
             x, y, wd, a = reel_render.logo_state(end + 0.6, cfg, end)
             check("g301: بعد الحركة في الزاوية", abs(wd - 168) < 1e-6 and abs(x - (1080 - 54 - 168)) < 1e-6
                   and abs(y - 108) < 1e-6 and abs(a - 1) < 1e-6, (x, y, wd, a))
@@ -9468,7 +9473,7 @@ def test_reel_hook_r5c1_guards() -> None:
             top, bottom = int(cfg.path("reel.render.safe.top")), 1920 - int(cfg.path("reel.render.safe.bottom"))
             check("g304: كل الصناديق داخل المنطقة الآمنة",
                   bool(boxes) and all(b[0] >= x0 and b[2] <= 1080 - x0 and b[1] >= top and b[3] <= bottom for b in boxes), boxes)
-            check("g304: render_version == 21", int(cfg.path("reel.render.version")) == 27, cfg.path("reel.render.version"))
+            check("g304: render_version == 21", int(cfg.path("reel.render.version")) == 28, cfg.path("reel.render.version"))
         guarded("g304", g304)
 
         # ── g305: خلفية الهوك الخام (بلا تظليل الكحلي المسبق) ──
@@ -9516,7 +9521,7 @@ def test_reel_hook_r5c1_guards() -> None:
             r = render("r5c1000g306a1", tmp)
             c = final_cmd(r)
             g = " ".join(c)
-            for needle in ("fade=t=in", "eof_action=pass", "enable='gte(t,"):
+            for needle in ("eof_action=pass", "enable='gte(t,"):
                 check(f"g306: الأمر الأخير يحتوي {needle}", needle in g, g[-400:])
             check("g306: الأمر الأخير بلا geq", "geq" not in g, g[-400:])
             check("g306: overlay المتحرك بلا shortest", "eval=frame:shortest=1" not in g, g[-400:])
@@ -9525,8 +9530,8 @@ def test_reel_hook_r5c1_guards() -> None:
             loops = [i for i, a in enumerate(c) if a == "-loop"]
             pre = bool(loops) and c[loops[0] + 4] == "-t" and abs(float(c[loops[0] + 5]) - want) <= 0.01
             check("g306: مدخل الشعار المتحرك مسبوق بـ -t = hook_end+logo_move+0.1", pre, (want, c[:12]))
-            check("g306: alpha عند 0.25 تساوي 0.5", abs(reel_render.logo_state(0.25, cfg, 5.0)[3] - 0.5) < 1e-6,
-                  reel_render.logo_state(0.25, cfg, 5.0))
+            check("g306: لا fade دخول (الشعار غير شفاف من الإطار الأول)", "fade=t=in" not in g
+                  and abs(reel_render.logo_state(0.25, cfg, 5.0)[3] - 1) < 1e-6, reel_render.logo_state(0.25, cfg, 5.0))
         guarded("g306", g306)
 
         # ── g307: لا قفزة عند التبديل إلى الشعار الثابت ──
@@ -9750,7 +9755,7 @@ def test_reel_speaker_vision_r5b2_guards() -> None:
             check("g312: أكبر وجه", any("أكبر وجه" in c and "🎯" in c for c in r["comments"]), r["comments"])
             r = render("r5b2000g312d1", tmp, boxes=two[:1], pick=votes(1, 1, 1))
             check("g312: لا سطر لمقطع بوجه واحد", not any("🎯" in c for c in r["comments"]), r["comments"])
-            check("g312: render_version == 21", int(cfg.path("reel.render.version")) == 27, cfg.path("reel.render.version"))
+            check("g312: render_version == 21", int(cfg.path("reel.render.version")) == 28, cfg.path("reel.render.version"))
         guarded("g312", g312)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
@@ -9944,7 +9949,7 @@ def test_reel_speaker_gesture_r5b3_guards() -> None:
             r = render("r5b3000g317b1", tmp, mid, {270: (1.0, 3.0), 120: (0.9, 0.5)}, votes(0, 0, 0))
             check("g317: سطر 🎯 للمركّبة", any("🎯" in c and "بالفم واليدين والموقع" in c for c in r["comments"]),
                   r["comments"])
-            check("g317: render_version == 21", int(cfg.path("reel.render.version")) == 27, cfg.path("reel.render.version"))
+            check("g317: render_version == 21", int(cfg.path("reel.render.version")) == 28, cfg.path("reel.render.version"))
         guarded("g317", g317)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
@@ -10224,7 +10229,7 @@ def test_reel_truncation_r5e_guards() -> None:
             _shutil.rmtree(work, ignore_errors=True)
     guarded("g321", g321)
 
-    check("g322: render_version == 21", int(cfg.path("reel.render.version")) == 27, cfg.path("reel.render.version"))
+    check("g322: render_version == 21", int(cfg.path("reel.render.version")) == 28, cfg.path("reel.render.version"))
 
 
 def test_reel_clip_fallback_r5f_guards() -> None:
@@ -10302,7 +10307,7 @@ def test_reel_clip_fallback_r5f_guards() -> None:
         check("g327: found ← لا approx ولا حذف والنافذة من locate_quote",
               0 in clips and not approx and not dropped and len(downloads) == 1 and downloads[0][1] == 104,
               (approx, dropped, downloads))
-        check("g327: render_version == 21", int(cfg.path("reel.render.version")) == 27, cfg.path("reel.render.version"))
+        check("g327: render_version == 21", int(cfg.path("reel.render.version")) == 28, cfg.path("reel.render.version"))
     guarded("g327", g327)
 
 
@@ -10479,7 +10484,7 @@ def test_reel_hook_search_r5c2_guards() -> None:
             r = render("r5c2000g330a1", tmp, search=res, plan={"c1": range(3, 5), "c2": range(10, 19)})
             hv = r["state"].get("hook_video") or {}
             check("g330: يُختار المرشّح الثاني (9 ث) لا الأول (2 ث)", hv.get("video_id") == "c2", hv)
-            check("g330: النافذة 7 ث من وسط السلسلة", (hv.get("start"), hv.get("end")) == (11, 18), hv)
+            check("g330: النافذة 9 ث كاملة (تحت hook.max_seconds = 12)", (hv.get("start"), hv.get("end")) == (10, 19), hv)
             check("g330: source auto وقناة وعنوان وسبب",
                   hv.get("source") == "auto" and hv.get("channel") == "AFP" and hv.get("title") == "second"
                   and bool(hv.get("reason")), hv)
@@ -10557,7 +10562,7 @@ def test_reel_hook_search_r5c2_guards() -> None:
             want = t["comment_hook_found"].format(channel="Reuters", title="قصف مطار", id="c1", start=hv.get("start"),
                                                   end=hv.get("end"), views="0")
             check("g334: سطر 🎞️ في التعليق", want in "\n".join(r["comments"]), r["comments"])
-            check("g334: render_version == 21", int(cfg.path("reel.render.version")) == 27, cfg.path("reel.render.version"))
+            check("g334: render_version == 21", int(cfg.path("reel.render.version")) == 28, cfg.path("reel.render.version"))
         guarded("g334", g334)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
@@ -10683,7 +10688,7 @@ def test_reel_fonts_r5g_guards() -> None:
         check("g338: لا نص خارج المنطقة الآمنة بالخطوط الجديدة", bool(boxes) and not bad, bad[:3])
         check("g338: لا صندوق يتجاوز 0 أو W", all(b[0] >= 0 and b[2] <= 1080 for b in boxes),
               [b for b in boxes if b[0] < 0 or b[2] > 1080])
-        check("g338: render_version == 21", int(cfg.path("reel.render.version")) == 27, cfg.path("reel.render.version"))
+        check("g338: render_version == 21", int(cfg.path("reel.render.version")) == 28, cfg.path("reel.render.version"))
     guarded("g338", g338)
 
 
@@ -11036,7 +11041,7 @@ def test_reel_hook_script_r5c3_guards() -> None:
         guarded("g344", g344)
 
         # ── g345 ──
-        check("g345: render_version == 21", int(cfg.path("reel.render.version")) == 27, cfg.path("reel.render.version"))
+        check("g345: render_version == 21", int(cfg.path("reel.render.version")) == 28, cfg.path("reel.render.version"))
     finally:
         shutil.rmtree(tmp2, ignore_errors=True)
 
@@ -11219,7 +11224,7 @@ def test_reel_narration_bg_r5d1_guards() -> None:
         cand = {"video_id": "v1", "title": raw, "channel": "Reuters", "views": 5, "duration": 100, "published": ""}
         res = reel_hook_search.scan_candidates(draft, draft["script"], [cand], cfg, sdeps, work_root)
         check("g349: hook_video يحفظ «Houthis & Riyadh»", (res.get("hook_video") or {}).get("title") == "Houthis & Riyadh", res)
-        check("g349: render_version == 21", int(cfg.path("reel.render.version")) == 27, cfg.path("reel.render.version"))
+        check("g349: render_version == 21", int(cfg.path("reel.render.version")) == 28, cfg.path("reel.render.version"))
     guarded("g349", g349)
 
     # ── g350: دخان بـffmpeg حقيقي ──
@@ -11408,7 +11413,7 @@ def test_reel_narration_bg_r5d1_guards() -> None:
         work = wdir("g355")
         files, _, durs = reel_render._assemble({"scenes": [{"kind": "title_card", "text": "ع"}]}, {}, cfg, deps, work, "v", bg,
                                                "", {}, [], {})
-        check("g355: مدة الهوك قرابة 7 ث", 6.5 <= durs[0] <= 7.05, durs)
+        check("g355: مدة الهوك قرابة 10.4 ث (P1a)", 10.3 <= durs[0] <= 10.5, durs)
         a, b = grab_gray(files[0], 5.5, work, "h55.png"), grab_gray(files[0], 6.5, work, "h65.png")
         sh = shift_between(a, b)
         check("g355: الإزاحة بين 5.5 و6.5 ث = 40±5 (لم تتوقف)", abs(sh - 40) <= 5, sh)
@@ -11524,7 +11529,7 @@ def test_reel_chyron_name_kind_r5b4_guards() -> None:
         check("g360: الموثَّق باسم وصفة كما هو", "فلان الفلاني" in d and any("محلل سياسي" in str(t) for t in d), d)
     guarded("g360", g360)
 
-    check("g361: render_version == 22", int(cfg.path("reel.render.version")) == 27, cfg.path("reel.render.version"))
+    check("g361: render_version == 22", int(cfg.path("reel.render.version")) == 28, cfg.path("reel.render.version"))
 
 
 def test_reel_broll_r5d2_guards() -> None:
@@ -12433,7 +12438,7 @@ def test_reel_broll_r5d2_guards() -> None:
     guarded("g385", g385)
 
     def g386():
-        check("g386: render_version == 27", int(cfg.path("reel.render.version")) == 27, cfg.path("reel.render.version"))
+        check("g386: render_version == 28", int(cfg.path("reel.render.version")) == 28, cfg.path("reel.render.version"))
     guarded("g386", g386)
 
     # ───────────────────────── g387: هوك auto_topic المحفوظ يُعاد اختياره بالمعنى (Issue #1465، متابعة R5d6) ─────────────────────────
@@ -14631,3 +14636,284 @@ def test_reel_quote_outro_r5h_guards() -> None:
             check(f"g430 {variant}: أول إطار من الختام الشعار في الزاوية",
                   fb is not None and abs(fb[1] - right) <= 12 and (fb[1] - fb[0]) <= int(lg["width"]) + 16, (fb, right))
     guarded("g430", g430)
+
+
+def test_reel_open_p1a_guards() -> None:
+    """Issue #1600 (P1a، g431–g438): افتتاح الريل — الشعار الكبير ثابت من الإطار الأول بموضع شعار الخاتمة نفسه، ثلاث ثوانٍ نظيفة،
+    ضباب كحلي بشفافية تتبع الزمن، العنوان ينزل كلمة كلمة بتزامن صوت الراوي، لمعة على الشعار، وحذف الخط الذهبي من الخاتمة.
+    g437 وg438 بـffmpeg حقيقي ويُتخطّيان إن غاب."""
+    import subprocess
+    import tempfile
+    from pathlib import Path
+
+    import numpy as np
+
+    from src import imaging, reel_render
+
+    cfg = load_config()
+    W, H = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
+    fps = int(cfg.path("reel.render.fps"))
+    work_root = Path(tempfile.mkdtemp())
+    hk, lp, fg = cfg.path("reel.render.hook"), cfg.path("reel.render.loop") or {}, cfg.path("reel.render.fog") or {}
+    S = float(hk.get("strong_seconds", 3))
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def ev(expr, **env):
+        return eval(expr, {"__builtins__": {}}, {"min": min, "max": max, "pow": pow, **env})  # noqa: S307 -- تعبير من الكود نفسه
+
+    # ── g431: الشعار من الإطار الأول ──
+    def g431():
+        hook_end, start = 3.0, 20.0
+        move, omove = float(hk["logo_move"]), float(cfg.path("reel.render.outro.logo_move"))
+        want = ((W - 420) / 2, 500.0, 420.0, 1.0)
+        for tt in (0, 1.0, 2.9):
+            got = reel_render.logo_state(tt, cfg, hook_end, start)
+            check(f"g431: عند t={tt} الهندسة الكبيرة الثابتة", all(abs(a - b) < 1e-6 for a, b in zip(got, want)), got)
+        last = reel_render.logo_state(start + omove + 1, cfg, hook_end, start)
+        check("g431: آخر إطار = أول إطار", all(abs(a - b) < 1e-6 for a, b in zip(last, want)), last)
+        lg = cfg.path("reel.render.logo")
+        corner = (W - int(lg["right"]) - int(lg["width"]), int(lg["top"]), int(lg["width"]), 1.0)
+        got = reel_render.logo_state(hook_end + move, cfg, hook_end)
+        check("g431: عند hook_end + logo_move موضع الزاوية", all(abs(a - b) < 1e-6 for a, b in zip(got, corner)), got)
+        for key in ("logo_in", "logo_from", "logo_width", "logo_top"):
+            check(f"g431: المفتاح hook.{key} حُذف", key not in hk, key)
+        ex = reel_render._logo_exprs(cfg, hook_end, start)
+        ok = True
+        for tt in (0.0, 1.5, hook_end + 0.3, hook_end + move + 1, start + omove / 2, start + omove + 3):
+            got = tuple(ev(ex[k], t=tt) for k in ("x", "y", "w"))
+            ref = reel_render.logo_state(tt, cfg, hook_end, start)[:3]
+            ok = ok and all(abs(a - b) < 1e-3 for a, b in zip(got, ref))
+        check("g431: _logo_exprs تطابق logo_state عند 6 أزمنة", ok, None)
+    guarded("g431", g431)
+
+    # ── g432: أزمنة الكلمات ──
+    def g432():
+        sil = float(cfg.path("reel.tts.sentence_silence"))
+        parts = [("في سبيل الاستقلالية", 2.0), ("قصير جدا", 1.0)]
+        ts = reel_render.narration_word_times(parts, 3.2, cfg)
+        check("g432: عدد الأزمنة = عدد الكلمات", len(ts) == 5, ts)
+        check("g432: متزايدة تمامًا", all(b > a for a, b in zip(ts, ts[1:])), ts)
+        check("g432: أولها ≥ start", ts[0] >= 3.2 - 1e-9, ts)
+        check("g432: الكلمة الطويلة تأخذ فاصلًا أطول من القصيرة", (ts[2] - ts[1]) > (ts[1] - ts[0]), ts)
+        expect_gap = (2.0 - sil) * 4 / 17
+        check("g432: الفاصل = حروف الكلمة ÷ حروف الجملة × مدة النطق", abs((ts[2] - ts[1]) - expect_gap) < 1e-6, (ts[2] - ts[1], expect_gap))
+        check("g432: أول كلمة من الجملة الثانية ≥ نهاية الأولى بصمتها", ts[3] >= 3.2 + 2.0 - 1e-9, ts)
+    guarded("g432", g432)
+
+    # ── g433: شفافية الضباب ──
+    def g433():
+        fog_out, fog_in, fstart = float(lp["fog_out"]), float(hk["fog_in"]), float(lp["fog_start"])
+        check("g433: loop.fog_start = 0.55", abs(fstart - 0.55) < 1e-9, fstart)
+
+        def f(t):
+            return reel_render.fog_alpha(t, cfg, S)
+        check("g433: 0.55 عند 0", abs(f(0) - 0.55) < 1e-9, f(0))
+        check("g433: 0 عند fog_out وطوال [fog_out، S]", all(abs(f(t)) < 1e-9 for t in (fog_out, (fog_out + S) / 2, S)),
+              [f(t) for t in (fog_out, S)])
+        check("g433: 1 عند S + fog_in وبعدها", abs(f(S + fog_in) - 1) < 1e-9 and abs(f(S + fog_in + 4) - 1) < 1e-9, f(S + fog_in))
+        check("g433: وسط الظهور بين 0 و1", 0 < f(S + fog_in / 2) < 1, f(S + fog_in / 2))
+        expr = reel_render._fog_alpha_expr(cfg, S)
+        ok = all(abs(ev(expr, t=t) - f(t)) < 1e-6 for t in (0, fog_out / 2, fog_out + 0.1, S + fog_in / 2, S + fog_in, S + 5))
+        check("g433: تعبير ffmpeg يطابق fog_alpha عند 6 أزمنة", ok, expr)
+        layer = reel_render.fog_layer(cfg)
+        a = np.asarray(layer.convert("RGBA"))
+        check("g433: طبقة الضباب بمقاس الشاشة", layer.size == (W, H), layer.size)
+        check("g433: لون الضباب = brand.primary_color",
+              tuple(int(v) for v in a[H // 2, W // 2, :3]) == tuple(imaging.hex_rgb(cfg.path("brand.primary_color"))), a[H // 2, W // 2].tolist())
+        mid, edge = int(a[(int(fg["top"]) + int(fg["bottom"])) // 2, W // 2, 3]), int(a[10, W // 2, 3])
+        check("g433: شفافية الوسط ≈ base + center وأعلى من الحافة",
+              abs(mid / 255 - (float(fg["base"]) + float(fg["center"]))) < 0.08 and mid > edge, (mid, edge))
+    guarded("g433", g433)
+
+    # ── g434: حالات الكلمات ──
+    def g434():
+        text = "الحكومة تعلن خطة اقتصادية جديدة للعام المقبل"
+        top = 800
+        lay = reel_render.word_layout(cfg, text, top)
+        check("g434: عنوان من 7 كلمات في أكثر من سطر", len(lay["words"]) == 7 and len({w["line"] for w in lay["words"]}) >= 2,
+              [w["line"] for w in lay["words"]])
+        times = [3.2 + 0.5 * k for k in range(7)]
+        seconds = 8.0
+        tmp = work_root / "g434"
+        tmp.mkdir()
+        frames = reel_render.word_drop_frames(cfg, text, times, seconds, top, tmp, "w")
+        drop = float(cfg.path("reel.render.words.drop"))
+
+        def at(t):
+            acc = 0.0
+            for path, d in frames:
+                if acc <= t < acc + d - 1e-9:
+                    return np.asarray(reel_render.Image.open(path).convert("RGBA"))
+                acc += d
+            return np.asarray(reel_render.Image.open(frames[-1][0]).convert("RGBA"))
+
+        def ink(arr, box, pad=0):
+            x0, y0, x1, y1 = box
+            return int((arr[max(y0 - pad, 0):y1 + pad, max(x0 - pad, 0):x1 + pad, 3] > 40).sum())
+        check("g434: لا حبر قبل زمن الكلمة الأولى", int((at(times[0] - 0.05)[..., 3] > 0).sum()) == 0, None)
+        ok_absent = ok_present = True
+        for k, w in enumerate(lay["words"]):
+            ok_absent = ok_absent and ink(at(times[k] - 0.03), w["box"], 2) == 0
+            ok_present = ok_present and ink(at(times[k] + drop + 0.05), w["box"], 2) > 20
+        check("g434: الكلمة k غائبة قبل زمنها", ok_absent, None)
+        check("g434: الكلمة k حاضرة في موضعها بعد زمنها + drop", ok_present, None)
+        last = at(seconds - 0.1)
+        a = last[..., 3] > 40
+        ok_pos = True
+        covered = np.zeros_like(a)
+        for w in lay["words"]:
+            x0, y0, x1, y1 = w["box"]
+            reg = a[y0 - 8:y1 + 8, x0 - 8:x1 + 8]
+            ys, xs = np.nonzero(reg)
+            if len(xs) == 0:
+                ok_pos = False
+                continue
+            gx0, gx1 = x0 - 8 + int(xs.min()), x0 - 8 + int(xs.max()) + 1
+            ok_pos = ok_pos and abs(gx0 - x0) <= 2 and abs(gx1 - x1) <= 2
+            covered[y0 - 8:y1 + 8, x0 - 8:x1 + 8] = True
+        check("g434: حبر كل كلمة في الحالة الأخيرة يطابق موضعها ±2 بكسل", ok_pos, [w["box"] for w in lay["words"]][:3])
+        check("g434: لا حبر خارج مواضع الكلمات", not (a & ~covered).any(), int((a & ~covered).sum()))
+        first_top = int(np.nonzero(a.any(axis=1))[0].min())
+        check("g434: أعلى النص عند top المطلوب (±60)", abs(first_top - top) <= 60, (first_top, top))
+    guarded("g434", g434)
+
+    # ── g435: الخاتمة بلا خط ذهبي ──
+    def g435():
+        oc = cfg.path("reel.render.outro")
+        ratio = reel_render._logo_ratio(cfg)
+        bottom = int(oc["logo_top"]) + round(int(oc["logo_width"]) * ratio)
+        a = np.asarray(reel_render.frame_outro(cfg, "الجزيرة").convert("RGB")).astype(int)
+        gold = np.array(imaging.hex_rgb(cfg.path("brand.accent_color")))
+        band = a[bottom:bottom + 40]
+        check("g435: لا بكسل ذهبي بين أسفل الشعار و+40", not (np.abs(band - gold).sum(axis=2) < 60).any(),
+              int((np.abs(band - gold).sum(axis=2) < 60).sum()))
+    guarded("g435", g435)
+
+    # ── g436: مشهد الهوك بمزيَّفات ──
+    def make_deps(cmds, speech):
+        def run(cmd):
+            cmds.append([str(c) for c in cmd])
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+
+        def download(video_id, start, end, height, out_path):
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+        return reel_render.Deps(
+            download_clip=download, synthesize=lambda t, v: {"ok": True, "audio": b"mp3", "chars": len(t)},
+            diacritize=lambda t: (t, None), run=run, probe=lambda p: speech, sleep=lambda s: None,
+            faces=lambda f, fr: (640, 360, []), frames=lambda p, fr: [np.full((360, 640), 100, np.uint8)] * len(fr),
+            streams=lambda p: {"video", "audio"}).resolved(cfg)
+
+    def g436():
+        scene = {"kind": "title_card", "text": "عنوان الهوك"}
+        script = {"title": "عنوان الهوك", "scenes": [scene]}
+        draft = {"hook_video": {"video_id": "hv1", "start": 5, "end": 9}}
+        voice, tail = float(hk["voice_delay"]), float(hk["tail"])
+        for speech, want in ((2.0, S + voice + 2.0 + tail), (30.0, float(hk["max_seconds"]))):
+            tmp = work_root / f"g436_{int(speech)}"
+            tmp.mkdir()
+            cmds: list = []
+            dur = reel_render._hook_scene(0, scene, script, draft, None, "female", cfg, make_deps(cmds, speech), tmp, tmp / "o.mp4", [])
+            check(f"g436: كلام {speech} ← المدة {want}", abs(dur - want) < 1e-6, dur)
+            final = [c for c in cmds if c[-1].endswith("o.mp4")][-1]
+            joined = " ".join(final)
+            t = float(final[final.index("-t") + 1])
+            check(f"g436: -t = المدة ({want})", abs(t - want) < 0.01, t)
+            if speech == 2.0:
+                check("g436: adelay = (S + voice_delay) × 1000", f"adelay={int(round((S + voice) * 1000))}" in joined, joined[-500:])
+                check("g436: لا stream_loop مع hook_video", "-stream_loop" not in final, final[:12])
+                check("g436: tpad لتثبيت آخر إطار", "tpad=stop_mode=clone" in joined, joined[-500:])
+                check("g436: بلا تظليل hook.shade القديم", "drawbox" not in joined, joined[-500:])
+                check("g436: الضباب بتعبير زمني", "geq" in joined and "alphamerge" in joined, joined[-600:])
+    guarded("g436", g436)
+
+    ffmpeg = shutil.which("ffmpeg")
+
+    # ── g437: ffmpeg حقيقي — الضباب والنص ──
+    def g437():
+        if not ffmpeg:
+            check("g437: تُخطّي — لا ffmpeg في هذه البيئة", True)
+            return
+        work = work_root / "g437"
+        work.mkdir()
+        mp3 = work / "tone.mp3"
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "lavfi", "-i", "sine=frequency=300:duration=2", str(mp3)], check=True)
+        red = work / "red.mp4"
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "lavfi", "-i", "color=c=0xFF0000:s=640x360:r=30:d=4", "-f", "lavfi",
+                        "-i", "sine=frequency=300:duration=4", "-shortest", "-pix_fmt", "yuv420p", str(red)], check=True)
+
+        def download(video_id, start, end, height, out_path):
+            shutil.copy(red, out_path)
+            return {"tier": "a", "bytes": 1, "failures": []}
+        real = reel_render.Deps().resolved(cfg)
+        deps = reel_render.Deps(
+            download_clip=download, synthesize=lambda t, v: {"ok": True, "audio": mp3.read_bytes(), "chars": len(t)},
+            diacritize=lambda t: (t, None), run=real.run, probe=lambda p: 2.0, sleep=lambda s: None,
+            faces=lambda f, fr: (640, 360, []), frames=lambda p, fr: [np.full((360, 640), 100, np.uint8)] * len(fr),
+            streams=lambda p: {"video", "audio"}).resolved(cfg)
+        title = "عنوان الهوك التجريبي"
+        scene = {"kind": "title_card", "text": title}
+        out = work / "hook.mp4"
+        dur = reel_render._hook_scene(0, scene, {"title": title, "scenes": [scene]},
+                                      {"hook_video": {"video_id": "hv1", "start": 0, "end": 4}}, None, "female", cfg, deps, work, out, [])
+
+        def grab(at):
+            raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{at:.3f}", "-i", str(out), "-frames:v", "1", "-f", "rawvideo",
+                                  "-pix_fmt", "rgb24", "-"], capture_output=True, check=True).stdout
+            return np.frombuffer(raw, np.uint8).reshape(H, W, 3).astype(int)
+        navy, redv = np.array(imaging.hex_rgb(cfg.path("brand.primary_color"))), np.array([255, 0, 0])
+        region = (slice(850, 1300), slice(300, 780))
+        clean, fogged = grab(1.5)[region], grab(S + 1.5)[region]
+
+        def white(im):
+            return int((im.min(axis=2) > 200).sum())
+        check("g437: t=1.5 بلا بكسلات بيضاء", white(clean) == 0, white(clean))
+        check("g437: t=1.5 لونها قريب من الأحمر", np.abs(clean.reshape(-1, 3).mean(axis=0) - redv).sum() < 60, clean.reshape(-1, 3).mean(axis=0).tolist())
+        nonw = fogged[fogged.min(axis=2) <= 200].reshape(-1, 3).mean(axis=0)
+        check("g437: t=S+1.5 فيها بكسلات بيضاء", white(fogged) > 50, white(fogged))
+        check("g437: t=S+1.5 أقرب إلى الكحلي منه إلى الأحمر", np.abs(nonw - navy).sum() < np.abs(nonw - redv).sum(), nonw.tolist())
+        check("g437: المدة المعادة > S", dur > S, dur)
+    guarded("g437", g437)
+
+    # ── g438: ffmpeg حقيقي — لمعة الشعار وأول إطار ──
+    def g438():
+        if not ffmpeg:
+            check("g438: تُخطّي — لا ffmpeg في هذه البيئة", True)
+            return
+        navy = tuple(imaging.hex_rgb(cfg.path("brand.primary_color")))
+        work = work_root / "g438"
+        work.mkdir()
+        kinds, durs = ["hook", "clip", "outro"], [5.0, 5.0, 3.0]
+        joined = work / "joined.mp4"
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "lavfi", "-i",
+                        f"color=c=0x{navy[0]:02X}{navy[1]:02X}{navy[2]:02X}:s={W}x{H}:r={fps}:d={sum(durs)}",
+                        "-f", "lavfi", "-i", f"sine=frequency=300:duration={sum(durs)}", "-shortest", "-pix_fmt", "yuv420p",
+                        str(joined)], check=True)
+        final = work / "final.mp4"
+        reel_render._final_pass(joined, final, kinds, durs, cfg, reel_render.Deps().resolved(cfg), work, {"id": "g438"})
+
+        def grab(at):
+            raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{at:.3f}", "-i", str(final), "-frames:v", "1", "-f", "rawvideo",
+                                  "-pix_fmt", "rgb24", "-"], capture_output=True, check=True).stdout
+            return np.frombuffer(raw, np.uint8).reshape(H, W, 3).astype(int)
+        first = grab(0.0)
+        m = np.abs(first[420:760] - np.array(navy)).sum(axis=2) > 120
+        ys, xs = np.nonzero(m)
+        check("g438: أول إطار — عرض الشعار بالحبر 420 ± 6", len(xs) > 0 and abs((xs.max() + 1 - xs.min()) - 420) <= 6,
+              (int(xs.min()), int(xs.max())) if len(xs) else None)
+        check("g438: أول إطار — مركزه في الوسط ± 6", len(xs) > 0 and abs((xs.min() + xs.max() + 1) / 2 - W / 2) <= 6, None)
+
+        def lum(img):
+            reg = img[420:760]
+            mask = np.abs(reg - np.array(navy)).sum(axis=2) > 120
+            return float(reg[mask].mean())
+        shine, calm = lum(grab(0.8)), lum(grab(2.0))
+        check("g438: سطوع حبر الشعار عند 0.8 ث أعلى منه عند 2.0 ث (اللمعة)", shine > calm + 1, (shine, calm))
+    guarded("g438", g438)
+    shutil.rmtree(work_root, ignore_errors=True)
