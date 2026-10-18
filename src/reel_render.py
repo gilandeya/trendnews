@@ -1063,7 +1063,7 @@ def frame_outro(cfg, channels: str, boxes=None, credit: str = "") -> Image.Image
     ratio = _logo_ratio(cfg)
     if ratio is not None:
         # الشعار الكبير (يبلغه الشعار المتحرك في التمريرة الأخيرة) يحلّ محلّ «تابعوا الموجز»؛ الإطار يترك له موضعه ويرسم
-        # الخط الذهبي تحته وما بعده يُزاح بارتفاعه (Issue #1592، R5h)
+        # ما بعده يُزاح بارتفاعه (Issue #1592، R5h)
         oc = cfg.path("reel.render.outro")
         y = int(oc["logo_top"]) + round(int(oc["logo_width"]) * ratio)
     else:
@@ -1078,7 +1078,7 @@ def frame_outro(cfg, channels: str, boxes=None, credit: str = "") -> Image.Image
                 break
             size -= 2
         y = p.text_line(t["follow"], ffont, fweight, size, p.white, 560)
-    p.rule(y + 10)
+    # لا خط ذهبي تحت الشعار الكبير (P1a، Issue #1600): الشعار يكفي فاصلًا، وما تحته يبقى في مواضعه
     y = p.block(t["tagline"], *p.face(t["tagline"], "body"), p.white, 0, start=52, minimum=36, max_lines=3, y_top=y + 60)
     handle = cfg.path("brand.handle") or "@almujez"
     p.line(handle, p.fnt(handle, "body", 54), p.gold, y + 20, ltr=True)
@@ -3059,6 +3059,31 @@ def _outro_start(kinds: list[str], durs: list[float], cfg) -> float | None:
     return sum(durs[:-1]) - transition_seconds(cfg) * (len(kinds) - 2)
 
 
+def shine_frames(cfg, logo: Path, tmp: Path) -> list[tuple[Path, float]]:
+    """إطارات لمعة الشعار (P1a، Issue #1600): شريط قطري أبيض شفاف (shine.alpha) عرضه shine.band يعبر الشعار بعرض outro.logo_width من
+    اليمين إلى اليسار خلال shine.seconds، محصور في حبر الشعار بضرب ألفاه فلا تظهر اللمعة على الشفاف. [(png، مدة)] بمقاس الشعار الكبير."""
+    from PIL import ImageChops
+    sc, rcfg = cfg.path("reel.render.shine"), cfg.path("reel.render")
+    lw = int(cfg.path("reel.render.outro.logo_width"))
+    src = Image.open(logo).convert("RGBA")
+    lh = max(round(lw * src.size[1] / src.size[0]), 1)
+    mask = src.resize((lw, lh), Image.LANCZOS).getchannel("A")
+    fps = float(rcfg["fps"])
+    n = max(int(round(float(sc["seconds"]) * fps)), 1)
+    band, slant = int(sc["band"]), lh * 0.35
+    alpha = round(float(sc["alpha"]) * 255)
+    frames: list[tuple[Path, float]] = []
+    for f in range(n):
+        # مركز الشريط يقطع من خارج اليمين إلى خارج اليسار بحيث يغطي الشعار كله مرة واحدة
+        c = (lw + band + slant) - (f + 0.5) / n * (lw + 2 * band + slant)
+        band_mask = Image.new("L", (lw, lh), 0)
+        ImageDraw.Draw(band_mask).polygon([(c + slant, 0), (c + slant + band, 0), (c + band, lh), (c, lh)], fill=alpha)
+        layer = Image.new("RGBA", (lw, lh), (255, 255, 255, 0))
+        layer.putalpha(ImageChops.multiply(band_mask, mask))
+        frames.append((_save(layer, tmp / f"shine_{f:02d}.png"), 1 / fps))
+    return frames
+
+
 def _final_pass(joined: Path, final: Path, kinds: list[str], durs: list[float], cfg, deps: Deps, tmp: Path,
                 draft: dict) -> str | None:
     """التمريرة الأخيرة (الشعار والموسيقى) مستخرجة من _render لتُختبر وحدها (Issue #1592، R5h). تمرّر outro_start إلى
@@ -3111,17 +3136,43 @@ def _final_pass(joined: Path, final: Path, kinds: list[str], durs: list[float], 
                    f"[vs][lgo]overlay=x='{ex['x']}':y='{ex['y']}':eval=frame:eof_action=repeat:"
                    f"enable='gte(t,{_fmt(ostart)})'[v]")
     video_f += outro_f
+    # اللمعة (P1a): مرة في الافتتاح عند shine.start ومرة في الختام بعد استقرار الشعار (outro_start + outro.logo_move)؛ بلا شعار لا لمعة
+    shine_in: list[str] = []
+    starts: list[float] = []
+    if kinds and kinds[0] == "hook":
+        starts.append(float(cfg.path("reel.render.shine.start")))
+    if ostart is not None:
+        starts.append(ostart + float(cfg.path("reel.render.outro.logo_move")))
+    if starts and _logo_ratio(cfg) is not None:
+        sdur = float(cfg.path("reel.render.shine.seconds"))
+        sframes = shine_frames(cfg, logo, tmp)
+        slst = tmp / "shine_frames.txt"
+        slst.write_text("".join(f"file '{f}'\nduration {_fmt(d)}\n" for f, d in sframes) + f"file '{sframes[-1][0]}'\n", encoding="utf-8")
+        shine_in = ["-f", "concat", "-safe", "0", "-i", str(slst)]
+        si = 2 + (1 if music else 0) + (1 if kinds and kinds[0] == "hook" else 0) + (1 if ostart is not None else 0)
+        oc = cfg.path("reel.render.outro")
+        sx, sy = (int(rcfg["width"]) - int(oc["logo_width"])) // 2, int(oc["logo_top"])
+        assert video_f.endswith("[v]")
+        video_f = video_f[:-3] + "[vp]"
+        labels = "".join(f"[s{k}]" for k in range(len(starts)))
+        video_f += f";[{si}:v]format=rgba," + (f"split={len(starts)}{labels}" if len(starts) > 1 else "null[s0]")
+        prev = "vp"
+        for k, a in enumerate(starts):
+            nxt = "v" if k == len(starts) - 1 else f"vq{k}"
+            video_f += (f";[s{k}]setpts=PTS-STARTPTS+{_fmt(a)}/TB[t{k}];[{prev}][t{k}]overlay=x={sx}:y={sy}:eof_action=pass:"
+                        f"enable='between(t,{_fmt(a)},{_fmt(a + sdur)})'[{nxt}]")
+            prev = nxt
     if music:
         # المدة المقيسة للمجمَّع تحدد بداية الاختفاء التدريجي؛ فشل القياس ← مجموع المدد ناقص الانتقالات
         seconds = deps.probe(joined) or (sum(durs) - transition_seconds(cfg) * max(len(durs) - 1, 0))
         music_in, audio_f = _music_mix(cfg, Path(MUSIC_DIR) / music, float(seconds))
-        deps.run(_base("-i", str(joined), *logo_in, "-i", str(logo), *music_in, *logo_static, *outro_in,
+        deps.run(_base("-i", str(joined), *logo_in, "-i", str(logo), *music_in, *logo_static, *outro_in, *shine_in,
                        "-filter_complex", video_f + ";" + audio_f,
                        "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-preset", "veryfast",
                        "-crf", str(rcfg.get("crf", 22)), "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "128k",
                        "-ar", str(rcfg.get("audio_rate", 48000)), "-ac", "2", "-movflags", "+faststart", str(final)))
     else:
-        deps.run(_base("-i", str(joined), *logo_in, "-i", str(logo), *logo_static, *outro_in, "-filter_complex", video_f,
+        deps.run(_base("-i", str(joined), *logo_in, "-i", str(logo), *logo_static, *outro_in, *shine_in, "-filter_complex", video_f,
                        "-map", "[v]", "-map", "0:a", "-c:v", "libx264", "-preset", "veryfast",
                        "-crf", str(rcfg.get("crf", 22)), "-pix_fmt", "yuv420p", "-af", _loudnorm(cfg), "-c:a", "aac",
                        "-b:a", "128k", "-ar", str(rcfg.get("audio_rate", 48000)), "-ac", "2", "-movflags", "+faststart",
