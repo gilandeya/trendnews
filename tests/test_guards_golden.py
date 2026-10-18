@@ -14606,11 +14606,10 @@ def test_reel_quote_outro_r5h_guards() -> None:
                             f"color=c=0x{navy[0]:02X}{navy[1]:02X}{navy[2]:02X}:s={W}x{H}:r={fps}:d={total}",
                             "-f", "lavfi", "-i", f"sine=frequency=300:duration={total}", "-shortest", "-pix_fmt", "yuv420p",
                             str(joined)], check=True)
-            logo = reel_render._trimmed_logo(cfg, work)
-            outro_start = sum(durs[:-1]) + 0.35
+            outro_start = reel_render._outro_start(kinds, durs, cfg)
             final = work / "final.mp4"
             deps = reel_render.Deps().resolved(cfg)
-            reel_render._final_pass(joined, final, logo, cfg, deps, kinds, durs, outro_start, None)
+            reel_render._final_pass(joined, final, kinds, durs, cfg, deps, work, {"id": "g430_" + variant})
 
             def grab(at):
                 raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{at:.3f}", "-i", str(final), "-frames:v", "1", "-f", "rawvideo",
