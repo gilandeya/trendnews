@@ -1410,6 +1410,96 @@ def quote_frames(cfg, text: str, times: list[float], clip_seconds: float, tmp: P
     return frames
 
 
+# ───────────────────── العنوان ينزل كلمة كلمة مع صوت الراوي (Issue #1600، P1a) ─────────────────────
+
+def narration_word_times(parts: list[tuple[str, float]], start: float, cfg) -> list[float]:
+    """زمن ظهور كل كلمة من الجمل المنطوقة. parts ما تعيده _speech: [(نص الجملة، مدتها مع صمتها)]. مدة نطق الجملة = مدتها −
+    reel.tts.sentence_silence، والكلمة k تظهر عند بداية جملتها + (حروف ما قبلها بلا مسافات ÷ حروف الجملة) × مدة النطق؛ والجملة
+    التالية تبدأ بعد مدة السابقة كاملة بصمتها. التناسب بالحروف لأن زمن نطق الكلمة يتبع طولها تقريبًا، فلا حاجة لتوقيت كلمات من TTS."""
+    silence = float(cfg.path("reel.tts.sentence_silence", 0.35))
+    out: list[float] = []
+    cursor = float(start)
+    for text, dur in parts:
+        words = str(text).split()
+        speak = max(float(dur) - silence, 0.0)
+        total = sum(len(w) for w in words) or 1
+        before = 0
+        for w in words:
+            out.append(cursor + before / total * speak)
+            before += len(w)
+        cursor += float(dur)
+    return out
+
+
+def word_layout(cfg, text: str, top: int) -> dict:
+    """تخطيط عنوان الهوك كلمةً كلمة: الحجم الذي يسع (sizes.hook، حتى 4 أسطر) ثم موضع كل كلمة النهائي داخل سطرها المتمركز
+    (الأولى عند اليمين). كل كلمة {line، text، xy، box} وbox حبرها الفعلي كما يظهر في الحالة الأخيرة (الألفا > 40، كما يقيس الفحص).
+    يعيد {words، font، lh، lines، tiles} وtiles بلاطة RGBA بهامش لكل كلمة مع موضع لصقها."""
+    import numpy as np
+    p = _Pen(cfg, [], transparent=True)
+    fpath, fw = p.face(text, "display")
+    start, minimum = size_pair(cfg, "hook")
+    font, lines, lh = _fit(p.d, text, fpath, p.max_w, 4, start, minimum, fw, float(cfg.path("reel.render.fonts.line_factor")))
+    kw = imaging._kwargs()
+
+    def adv(s: str) -> float:
+        return p.d.textlength(imaging._prepare(s), font=font, **kw)
+    words: list[dict] = []
+    tiles: list[tuple[Image.Image, tuple[int, int]]] = []
+    for j, ln in enumerate(lines):
+        right = p.cx + adv(ln) / 2
+        toks = ln.split()
+        for k, tok in enumerate(toks):
+            x = right - (adv(" ".join(toks[:k]) + " ") if k else 0)
+            xy = (int(round(x)), int(top + j * lh))
+            wp = _Pen(cfg, [], transparent=True)
+            imaging.draw_text(wp.d, xy, tok, font, wp.white, anchor="ra")
+            ys, xs = np.nonzero(np.asarray(wp.img)[..., 3] > 40)
+            if len(xs):
+                box = (int(xs.min()), int(ys.min()), int(xs.max()) + 1, int(ys.max()) + 1)
+            else:
+                box = (xy[0], xy[1], xy[0] + 1, xy[1] + 1)
+            pad = 6
+            crop = (max(box[0] - pad, 0), max(box[1] - pad, 0), min(box[2] + pad, wp.w), min(box[3] + pad, wp.h))
+            words.append({"line": j, "text": tok, "xy": xy, "box": box})
+            tiles.append((wp.img.crop(crop), (crop[0], crop[1])))
+    return {"words": words, "font": font, "lh": lh, "lines": lines, "tiles": tiles}
+
+
+def word_drop_frames(cfg, text: str, times: list[float], seconds: float, top: int, tmp: Path, tag: str) -> list[tuple[Path, float]]:
+    """تيار حالات PNG [(ملف، مدة)] لعنوان تنزل كلماته: الكلمة k تبدأ عند times[k] فتنزل من words.drop_px بكسل فوق موضعها النهائي
+    مع شفافية 0←1 خلال words.drop ثانية بتسارع ease-out، وبقية الكلمات ثابتة في مواضعها؛ السطر لا يتحرك. لكل إطار زمنه
+    البدئي (لا نهايته) فلا تظهر كلمة قبل زمنها. الإطارات المتطابقة تُدمج في مدة واحدة. مشتركة مع السؤال الأخير في P1a-2."""
+    rcfg, wc = cfg.path("reel.render"), cfg.path("reel.render.words")
+    fps = float(rcfg["fps"])
+    drop, drop_px = float(wc["drop"]), float(wc["drop_px"])
+    lay = word_layout(cfg, text, top)
+    tiles = lay["tiles"]
+    n_total = max(int(math.ceil(seconds * fps - 1e-9)), 1)
+    base = Image.new("RGBA", (int(rcfg["width"]), int(rcfg["height"])), (0, 0, 0, 0))
+    frames: list[tuple[Path, float]] = []
+    prev_key = None
+    for f in range(n_total):
+        t = f / fps
+        key = tuple(round(_ease_out(min(max((t - tm) / drop, 0.0), 1.0)), 3) if t >= tm else -1.0
+                    for tm in times[:len(tiles)])
+        if key == prev_key:
+            frames[-1] = (frames[-1][0], frames[-1][1] + 1 / fps)
+            continue
+        img = base.copy()
+        for (tile, (cx, cy)), e in zip(tiles, key):
+            if e < 0:
+                continue
+            if e < 1:
+                tile = tile.copy()
+                tile.putalpha(tile.getchannel("A").point(lambda v, e=e: int(v * e)))
+            img.alpha_composite(tile, (cx, max(cy - int(round(drop_px * (1 - e))), 0)))
+        frames.append((_save(img, tmp / f"{tag}_w{len(frames):03d}.png"), 1 / fps))
+        prev_key = key
+    frames[-1] = (frames[-1][0], frames[-1][1] + max(seconds - n_total / fps, 0.0))
+    return frames
+
+
 def _drop(dropped: list, scene: dict, reason: str) -> None:
     dropped.append({"point_id": scene.get("point_id", ""), "kind": scene.get("kind", ""), "reason": reason})
 
