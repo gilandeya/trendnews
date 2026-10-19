@@ -15488,7 +15488,7 @@ def test_reel_script_v2_p2a_guards() -> None:
         tb, trb = reel_script.trim_v2(build(big), cfg)
         r = " | ".join(reel_script.validate_v2(tb, valid, cfg))
         check("g455: غير القابل للقصّ ← رفض بالمدة", trb == [] and "المدة" in r, (trb, r))
-        tot = sum(reel_script.scene_duration(x, cfg, 2) for x in s["scenes"])
+        tot = sum(reel_script.scene_durations(s, cfg))
         check("g455: مجموع scene_duration = estimate_seconds", abs(tot - reel_script.estimate_seconds(s, cfg)) < 0.01,
               (tot, reel_script.estimate_seconds(s, cfg)))
     guarded("g455", g455)

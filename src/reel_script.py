@@ -758,6 +758,27 @@ def scene_duration(scene: dict, cfg: Any, version: int = 1) -> float:
     return title if kind == "title_card" else max(0.0, fixed - title)
 
 
+def scene_durations(script: dict, cfg: Any) -> list[float]:
+    """مدة كل مشهد كما يعرضها الجدول الزمني. v2: لوحة n ≥ 2 تبدأ بـpanel.intro قبل أول إجابة (P2c-2) فيُضاف إلى أول مقطع في كل سؤال
+    له مقطعان فأكثر، ليتساوى المجموع مع estimate_seconds وتصدق أزمنة البدء المعروضة للمراجع."""
+    v2 = is_v2(script)
+    scenes = script.get("scenes") or []
+    counts: dict = {}
+    for s in scenes:
+        if v2 and s.get("kind") in CLIP_KINDS and s.get("q") is not None:
+            counts[s["q"]] = counts.get(s["q"], 0) + 1
+    intro = float(cfg.path("reel.render.panel.intro", 0) or 0)
+    seen: set = set()
+    out = []
+    for scene in scenes:
+        dur, q = scene_duration(scene, cfg, 2 if v2 else 1), scene.get("q")
+        if v2 and scene.get("kind") in CLIP_KINDS and q is not None and counts.get(q, 0) >= 2 and q not in seen:
+            seen.add(q)
+            dur += intro
+        out.append(dur)
+    return out
+
+
 def video_link(scene: dict) -> str:
     url = scene.get("video_url", "")
     return f"{url}{'&' if '?' in url else '?'}t={int(scene.get('start', 0))}" if url else ""
@@ -767,8 +788,9 @@ def timeline_lines(script: dict, cfg: Any) -> list[str]:
     t = cfg.path("reel.texts", {}) or {}
     v2 = is_v2(script)
     out, now = [], 0.0
-    for scene in script.get("scenes") or []:
-        kind, dur = scene.get("kind"), scene_duration(scene, cfg, 2 if v2 else 1)
+    durs = scene_durations(script, cfg)
+    for scene, dur in zip(script.get("scenes") or [], durs):
+        kind = scene.get("kind")
         extra = ""
         if kind in CLIP_KINDS:
             line = t.get("scene_cold" if kind == "cold_open_clip" else "scene_clip", "").format(
