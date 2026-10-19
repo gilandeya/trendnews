@@ -2172,7 +2172,7 @@ reel:
     # فلا يتحرك. قيمة ≥ min(lead_seconds, clip_tail_seconds) تُخفَّض إلى ذلك الحد − 0.1 كي لا يقع كلام المقطع في التلاشي
     transition: {type: slideleft, outro_type: fade, seconds: 0.35}
     # نسخة التركيب: رفعها تعيد --pending تركيب كل ريل معتمد مُركَّب بنسخة أقدم (المنشور والمرفوض لا يُمسّان)
-    version: 33
+    version: 34
     # أقصى نقص مقبول للريل النهائي عن المتوقع (مجموع المدد الموحَّدة − الانتقالات) قبل رفضه عطل تركيب (Issue #1436)
     duration_tolerance: 1.5
     # خطوط الريل كلها (Issue #1441، R5g): Playpen Sans Arabic المتغيّر للعربية — display_weight للعناوين (الهوك والسؤال و«تابعوا

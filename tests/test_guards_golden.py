@@ -16539,6 +16539,7 @@ def test_reel_panel_p2c2_guards() -> None:
 def test_reel_r6_guards() -> None:
     """Issue #1621 (R6، g486–g491): دروس أول ريل حقيقي بالصيغة الثانية — حارس القائل (الاقتباس لا يُنسب بصريًا لغير قائله)، المدة المنطوقة
     الحقيقية، خلفية الختام لا تكون مقدّمة مذيعة، الإجابات آراء لا وقائع، وسبب فشل جلب النص. لا شبكة ولا ffmpeg."""
+    import copy
     import tempfile
     from datetime import datetime, timezone
     from pathlib import Path
@@ -16596,7 +16597,7 @@ def test_reel_r6_guards() -> None:
                 "speaker_text": who}
 
     def g487():
-        script = {"version": 2, "scenes": [
+        script0 = {"version": 2, "scenes": [
             {"kind": "narration", "role": "context", "text": "سياق."},
             {"kind": "narration", "role": "question", "qrole": "core", "q": 0, "text": "ما أصل الخلاف؟"},
             clip(0, "a", "الدكتور أحمد الشحات، أستاذ العلوم السياسية"), clip(0, "b", "سامر النجار"), clip(0, "c", "ليلى حداد"),
@@ -16610,6 +16611,7 @@ def test_reel_r6_guards() -> None:
         cmds: list = []
         dropped: list = []
         notes: list = []
+        script = copy.deepcopy(script0)
         reel_render._assemble(script, dict(clips), cfg, make_deps(cmds, {**ok_names, "c2": "فيصل الحمد"}),
                               d, "v", None, "", {}, notes, {}, None, dropped=dropped)
         p = [" ".join(c) for c in cmds if c[-1].endswith("scene_03.mp4")]
@@ -16621,6 +16623,7 @@ def test_reel_r6_guards() -> None:
         check("g487: سطر التعليق موجود", want in notes, notes)
         # كل أعضاء السؤال 1 مخالفون ← لا لوحة ولا بطاقة سؤال له
         cmds, dropped, notes = [], [], []
+        script = copy.deepcopy(script0)      # الأولى وثّقت متحدثي المشاهد في الذاكرة
         reel_render._assemble(script, dict(clips), cfg, make_deps(cmds, {**ok_names, "c6": "فيصل الحمد", "c7": "علي سالم"}),
                               d, "v", None, "", {}, notes, {}, None, dropped=dropped)
         outs = [c[-1] for c in cmds]
@@ -16641,7 +16644,7 @@ def test_reel_r6_guards() -> None:
     def g488():
         wps = float(cfg.path("reel.script.narration_wps"))
         long_ctx = "في 13 أكتوبر/تشرين الأول 2026 أعلن الطرفان هدنة."
-        plain = "في تاريخ كذا أكتوبر الأول كذا أعلن الطرفان هدنة."
+        plain = "في تاريخ كذا أكتوبر الأول أعلن الطرفان هدنة."
         e_long = reel_script.estimate_seconds(base_script(long_ctx), cfg)
         e_plain = reel_script.estimate_seconds(base_script(plain), cfg)
         # 13 ← كلمتان (+1) و«/» ← +1 و2026 ← 3 كلمات (+2) = +4 كلمات منطوقة
@@ -16691,7 +16694,10 @@ def test_reel_r6_guards() -> None:
                 cmds.append([str(x) for x in cmd])
                 Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
                 Path(cmd[-1]).write_bytes(b"x")
-            deps = reel_render.Deps(download_clip=lambda *a, **k: {"tier": "a", "bytes": 1, "failures": []},
+            def download(video_id, start, end, height, out_path):
+                Path(out_path).write_bytes(b"clip")
+                return {"tier": "a", "bytes": 4, "failures": []}
+            deps = reel_render.Deps(download_clip=download,
                                     synthesize=lambda t, v: {"ok": True, "audio": b"mp3", "chars": len(t)},
                                     diacritize=lambda t: (t, None), run=run, probe=lambda p: 2.0, sleep=lambda s: None,
                                     streams=lambda p: {"video", "audio"}).resolved(cfg)
