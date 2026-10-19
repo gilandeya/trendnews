@@ -16837,13 +16837,18 @@ def test_timestamps_t1a_guards() -> None:
 
     # ── g495: fuzzy_quote ──
     def g495():
-        segs = [(20, "alpha beta gamma"), (24, "delta epsilon zeta eta"), (28, "XX iota kappa lambda"), (32, "mu nu xi")]
-        quote = "delta epsilon zeta eta theta iota kappa lambda mu nu"
-        # كلمة واحدة من 10 تخالف («theta» غائبة من النص) والتطابق يبدأ في منتصف مقطع
-        got = res("لا توجد هذه المرساة", segs, quote)
-        check("g495: fuzzy_quote ببداية مقطع أول كلمة متطابقة", got == (24, "fuzzy_quote"), got)
-        got = res("delta epsilon zeta eta thetaa iota", segs)
-        check("g495: fuzzy_anchor للمرساة", got[1] == "fuzzy_anchor" and got[0] == 24, got)
+        # المخالفة داخل أول 3 كلمات فلا تلتقطها طبقة quote/prefix3، والتطابق يبدأ في منتصف مقطع
+        segs = [(20, "alpha beta delta epsilon"), (24, "zeta eta iota kappa"), (28, "lambda mu nu xi")]
+        got = res("لا توجد هذه المرساة", segs, "delta epsilon zetaa eta iota kappa lambda mu nu xi")
+        check("g495: fuzzy_quote ببداية مقطع أول كلمة متطابقة", got == (20, "fuzzy_quote"), got)
+        got = res("delta epsilonn zeta eta iota kappa", segs)
+        check("g495: fuzzy_anchor للمرساة", got == (20, "fuzzy_anchor"), got)
+        # المخطوطتان القديمتان تثبتان الترتيب: تُحلّان بطبقة أسبق
+        old = [(20, "alpha beta gamma"), (24, "delta epsilon zeta eta"), (28, "XX iota kappa lambda"), (32, "mu nu xi")]
+        got = res("لا توجد هذه المرساة", old, "delta epsilon zeta eta theta iota kappa lambda mu nu")
+        check("g495: المخطوطة القديمة للاقتباس تُحلّ بطبقة quote", got == (24, "quote"), got)
+        got = res("delta epsilon zeta eta thetaa iota", old)
+        check("g495: المخطوطة القديمة للمرساة تُحلّ بطبقة prefix3", got == (24, "prefix3"), got)
     guarded("g495", g495)
 
     # ── g496: لا إيجابيات كاذبة ──

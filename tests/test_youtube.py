@@ -676,7 +676,7 @@ def test_youtube_extract() -> None:
 
     check("resolve_timestamp: تطابق تام (بلا فروق تنسيقية) يعيد ثانية المقطع",
           ye.resolve_timestamp("قال الوزير، إننا نطلق خطة اقتصادية جديدة اليوم",
-                                segments) == 12)
+                                segments) == (12, "exact"))
     check("resolve_timestamp: تطبيع المسافات المضاعفة والترقيم لا يمنع التطابق",
           ye.resolve_timestamp("قال  الوزير إننا نطلق", segments)[0] == 12)
     check("resolve_timestamp: تجاهل التشكيل لا يمنع التطابق",
