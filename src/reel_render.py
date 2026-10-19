@@ -271,6 +271,79 @@ def panel_layout(n: int, cfg) -> dict:
     return {"tiles": tiles, "frame": ((W - fw) // 2, int(fc["top"]), fw, fh)}
 
 
+# ───────────────────── حركة الانبثاق في لوحة الإجابات (Issue #1618، P2c-2) ─────────────────────
+
+def pop_progress(t: float, a: float, b: float, cfg) -> float:
+    """معامل انبثاق بلاطة الإجابة عند الزمن t بين 0 (في البلاطة) و1 (في الإطار البارز) لإجابة نافذتها [a، b] (دالة خالصة).
+    يكبر في أول pop.grow بتباطؤ في الآخر (1−(1−p)³)، يثبت على 1، ثم يعود في آخر pop.shrink بتسارع (1−q³)؛ وخارج النافذة 0.
+    الكبر قبل الكلام والعودة بعده لأن المقطع يبدأ قبل كلامه وينتهي بعده بثانية."""
+    pc = cfg.path("reel.render.panel.pop")
+    grow, shrink = float(pc["grow"]), float(pc["shrink"])
+    if t <= a or t >= b:
+        return 0.0
+    p = min(max((t - a) / grow, 0.0), 1.0)
+    q = min(max((t - (b - shrink)) / shrink, 0.0), 1.0)
+    return (1 - (1 - p) ** 3) * (1 - q ** 3)
+
+
+def _pop_expr(cfg, a: float, b: float, var: str = "t") -> str:
+    """تعبير ffmpeg لدالة pop_progress نفسها بالمعادلة حرفًا بحرف، بلا if/lt (القصّ بـmin/max) ليُقيَّم بالمتغير t في الاختبار.
+    الضرب up×down: قبل a يكون up=0 وبعد b يكون down=0، فلا حاجة لتفرّع."""
+    pc = cfg.path("reel.render.panel.pop")
+    grow, shrink = _fmt(float(pc["grow"])), _fmt(float(pc["shrink"]))
+    return (f"((1-pow(1-min(max(({var}-{_fmt(a)})/{grow},0),1),3))"
+            f"*(1-pow(min(max(({var}-({_fmt(b)}-{shrink}))/{shrink},0),1),3)))")
+
+
+def pop_start_rect(tile: tuple, tile_crop: dict | None, frame_crop: dict | None, frame: tuple | None = None) -> tuple:
+    """مستطيل (x، y، w، h) على شاشة الريل الذي يشغله الإطار البارز وهو لا يزال في بلاطته قبل الكبر (دالة خالصة). منطقة frame_crop
+    من المصدر بإحداثيات البلاطة: s = ارتفاع البلاطة ÷ ارتفاع tile_crop، فأول إطار من الانبثاق مطابق لما في البلاطة بكسلًا ببكسل
+    في البلاطات المكدّسة؛ وفي شبكة 2×2 البلاطة أضيق من نسبة الإطار فيخرج المستطيل أعرض منها وتخفيه الشفافية. بلا قصّ محسوب
+    (تعبير القصّ الاحتياطي) يتمركز المستطيل في البلاطة بارتفاعها ونسبة الإطار frame (أو البلاطة نفسها)."""
+    tx, ty, tw, th = tile
+    if tile_crop and frame_crop and tile_crop.get("h"):
+        s = th / tile_crop["h"]
+        x = tx + (frame_crop["x"] - tile_crop["x"]) * s
+        y = ty + (frame_crop["y"] - tile_crop["y"]) * s
+        w, h = _even(frame_crop["w"] * s), _even(frame_crop["h"] * s)
+        cx, cy = x + w / 2, y + h / 2
+        if x >= tx - 1 and y >= ty - 1 and x + w <= tx + tw + 1 and y + h <= ty + th + 1:
+            return int(round(x)), int(round(y)), w, h
+    else:
+        fw, fh = (frame[2], frame[3]) if frame else (tw, th)
+        w, h = _even(th * fw / fh), _even(th)
+        cx, cy = tx + tw / 2, ty + th / 2
+    # مستطيل خارج البلاطة (مصدر عمودي، أو شبكة 2×2) كان يبدأ أكبر من بلاطته فيبدو الانبثاق تصغيرًا: يُصغَّر بنسبة الإطار
+    # ويُحصر مركزه كي يقع كله داخلها، وشفافية pop.fade تخفي فرق المحتوى
+    f = min(1.0, tw / w, th / h)
+    w, h = _even(w * f), _even(h * f)
+    cx = min(max(cx, tx + w / 2), tx + tw - w / 2)
+    cy = min(max(cy, ty + h / 2), ty + th - h / 2)
+    return int(round(cx - w / 2)), int(round(cy - h / 2)), w, h
+
+
+def frame_tile_labels(cfg, tiles: list, scenes: list) -> Image.Image:
+    """طبقة RGBA بحجم الشاشة عليها اسم قناة كل بلاطة (channel_display) بالأبيض على رقعة كحلية بشفافية panel.label.alpha، في أسفل
+    البلاطة ووسطها على بعد panel.label.bottom من حافتها السفلى؛ تُظهر للمشاهد من يتكلم قبل أن يبدأ الكلام (P2c-2)."""
+    lc = cfg.path("reel.render.panel.label")
+    pen = _Pen(cfg, None, transparent=True)
+    navy = pen.navy + (round(255 * float(lc["alpha"])),)
+    size, pad = int(lc["size"]), int(lc["pad"])
+    for (tx, ty, tw, th), scene in zip(tiles, scenes):
+        text = (scene.get("channel_display") or "").strip()
+        if not text:
+            continue
+        font = pick_font(text, *pen.face(text, "display")[:1], size, pen.face(text, "display")[1])
+        if font is None:
+            continue
+        w, h = imaging.measure(pen.d, text, font)
+        cx, cy = tx + tw // 2, ty + th - int(lc["bottom"])
+        half_w = min(w / 2 + pad, tw / 2)
+        pen.d.rectangle((cx - half_w, cy - h / 2 - pad, cx + half_w, cy + h / 2 + pad), fill=navy)
+        imaging.draw_text(pen.d, (cx, cy), text, font, pen.white, anchor="mm")
+    return pen.img
+
+
 def _detect_face_tracks(clip, cfg) -> tuple[int, int, list, list]:
     """لقطات من المقطع المنزَّل بمعدل speaker.fps على مدته كلها (سقفها speaker.max_frames) ← (عرض، ارتفاع، إطارات رمادية،
     صناديق كل وجه في كل لقطة). يرفع إن تعذّر قراءة المقطع؛ والمستدعي يعود إلى السلوك القديم."""
@@ -2935,8 +3008,9 @@ def _panel_scene(members: list[tuple[int, dict]], clips: dict, out: Path, cfg, d
     كلها صامتة طوال اللوحة (-stream_loop) تحت تظليل كحلي panel.grid_dim، والإجابة النشطة وحدها في الإطار البارز الثابت بصوتها: مدخل
     ثانٍ لمقطعها بلا تكرار يبدأ عند a_k ويُركَّب بـbetween(t,a_k,b_k). n = 1 بلا بلاطات: خلفية الراوي المتحركة من حيث انتهت بطاقة
     السؤال (bg_start) تحت الضباب الكحلي، وبلاها كحلي ثابت. طبقات العضو k (الشريط الثابت، ثم الترجمة، ثم الشريط المنزلق) مزاحة بـa_k
-    ومحصورة في [a_k, b_k]؛ انزلاق الأول بعد الانتقال وما بعده من a_k مباشرة. الصوت صوت العضو k وحده في مجاله ثم concat. الإطار البارز
-    ينتقل من إجابة إلى التالية قطعًا مباشرًا (حركة الانبثاق مهمة P2c-2). المدة = مجموع مدد المقاطع."""
+    ومحصورة في [a_k, b_k]؛ انزلاق الأول بعد الانتقال وما بعده من a_k مباشرة. الصوت صوت العضو k وحده في مجاله ثم concat.
+    n ≥ 2 (Issue #1618، P2c-2): تبدأ اللوحة بـpanel.intro صامتة وعلى كل بلاطة اسم قناتها، ثم تنبثق بلاطة كل إجابة (تكبر إلى الإطار
+    البارز ثم تعود) وطبقاتها الثلاث محصورة بين انتهاء الكبر وبدء العودة؛ المدة = intro + مجموع مدد المقاطع. n = 1 بلا تغيير."""
     rcfg = cfg.path("reel.render")
     W, H, fps = int(rcfg["width"]), int(rcfg["height"]), rcfg["fps"]
     lead = transition_seconds(cfg)
@@ -2951,7 +3025,12 @@ def _panel_scene(members: list[tuple[int, dict]], clips: dict, out: Path, cfg, d
         inputs.extend(args)
         count += 1
         return count - 1
-    starts, acc = [], 0.0
+    pop = n >= 2
+    # لوحة n ≥ 2 تبدأ بـintro صامتة تُعرَّف فيها القنوات على البلاطات قبل أي كلام؛ n = 1 بلا مقدمة فتبقى حرفًا كما كانت
+    intro = float(cfg.path("reel.render.panel.intro")) if pop else 0.0
+    grow = float(cfg.path("reel.render.panel.pop.grow")) if pop else 0.0
+    shrink = float(cfg.path("reel.render.panel.pop.shrink")) if pop else 0.0
+    starts, acc = [], intro
     for i, _ in members:
         starts.append(acc)
         acc += float(clips[i]["seconds"])
@@ -2975,7 +3054,12 @@ def _panel_scene(members: list[tuple[int, dict]], clips: dict, out: Path, cfg, d
             tx, ty, tw, th = lay["tiles"][k]
             vg.append(f"[{ti}:v]{prepared[k][0]},scale={tw}:{th},fps={fps},setpts=PTS-STARTPTS[t{k}];"
                       f"[b{k}][t{k}]overlay={tx}:{ty}[b{k + 1}]")
-        vg.append(f"[b{n}]drawbox=x=0:y=0:w=iw:h=ih:color={navy}@{_fmt(float(cfg.path('reel.render.panel.grid_dim')))}:t=fill[base]")
+        vg.append(f"[b{n}]drawbox=x=0:y=0:w=iw:h=ih:color={navy}@{_fmt(float(cfg.path('reel.render.panel.grid_dim')))}:t=fill[bdim]")
+        # أسماء القنوات بعد تظليل الشبكة وقبل الإطارات، وتبقى حتى ينتهي أول كبر (intro + grow)
+        labels_png = _save(frame_tile_labels(cfg, lay["tiles"], [sc for _, sc in members]), tmp / f"panel_labels_{members[0][0]}.png")
+        li = add("-loop", "1", "-framerate", str(fps), "-i", str(labels_png))
+        lbl_en = f"enable='between(t,0,{_fmt(intro + grow)})'"
+        vg.append(f"[{li}:v]fps={fps},format=rgba[lbl];[bdim][lbl]overlay=0:0:{lbl_en}[base]")
     elif nar_bg is not None and nar_plan is not None:
         add("-i", str(nar_bg))
         pan = _pan_x_expr(nar_plan["x0"], nar_plan["speed"], bg_start)
@@ -2991,13 +3075,32 @@ def _panel_scene(members: list[tuple[int, dict]], clips: dict, out: Path, cfg, d
         a, bb = _fmt(starts[k]), _fmt(starts[k] + float(clips[i]["seconds"]))
         fi = add("-i", str(clips[i]["file"]))
         fidx.append(fi)
-        vg.append(f"[{fi}:v]{prepared[k][1]},scale={fw}:{fh},fps={fps},setpts=PTS-STARTPTS+{a}/TB[f{k}];"
-                  f"[{cur}][f{k}]overlay={fx}:{fy}:enable='between(t,{a},{bb})'[o{k}]")
+        if not pop:
+            vg.append(f"[{fi}:v]{prepared[k][1]},scale={fw}:{fh},fps={fps},setpts=PTS-STARTPTS+{a}/TB[f{k}];"
+                      f"[{cur}][f{k}]overlay={fx}:{fy}:enable='between(t,{a},{bb})'[o{k}]")
+            cur = f"o{k}"
+            continue
+        # الانبثاق: الإطار يكبر من مستطيل بلاطته (pop_start_rect) إلى الإطار البارز بالمعامل k(t) ثم يعود، بتعبير في t لكل إطار
+        crop_k = clips[i].get("crop") or {}
+        sx, sy, sw, sh = pop_start_rect(lay["tiles"][k], crop_k.get("tile_crop"), crop_k.get("frame_crop"), lay["frame"])
+        end_k = starts[k] + float(clips[i]["seconds"])
+        kx = _pop_expr(cfg, starts[k], end_k)
+        fade = float(cfg.path("reel.render.panel.pop.fade"))
+        sw_e = f"trunc(({sw}+({fw}-{sw})*{kx})/2)*2"
+        sh_e = f"trunc(({sh}+({fh}-{sh})*{kx})/2)*2"
+        vg.append(f"[{fi}:v]{prepared[k][1]},scale={fw}:{fh},fps={fps},setpts=PTS-STARTPTS+{a}/TB,format=rgba,"
+                  f"fade=t=in:st={a}:d={_fmt(fade)}:alpha=1,fade=t=out:st={_fmt(end_k - fade)}:d={_fmt(fade)}:alpha=1,"
+                  f"scale=w='{sw_e}':h='{sh_e}':eval=frame[f{k}];"
+                  f"[{cur}][f{k}]overlay=x='{sx}+({fx}-{sx})*{kx}':y='{sy}+({fy}-{sy})*{kx}':enable='between(t,{a},{bb})'[o{k}]")
         cur = f"o{k}"
     slide = float(rcfg.get("band", {}).get("slide_seconds", 0) or 0)
     for k, (i, _) in enumerate(members):
         a, bb = _fmt(starts[k]), _fmt(starts[k] + float(clips[i]["seconds"]))
-        en = f"enable='between(t,{a},{bb})'"
+        # في الانبثاق لا شريط ولا ترجمة والإطار يتحرك: الطبقات محصورة بين انتهاء الكبر وبدء العودة
+        if pop:
+            en = f"enable='between(t,{_fmt(starts[k] + grow)},{_fmt(starts[k] + float(clips[i]['seconds']) - shrink)})'"
+        else:
+            en = f"enable='between(t,{a},{bb})'"
         static_png, band_png = prepared[k][2]
         qframes = prepared[k][3]
         si = add("-loop", "1", "-framerate", str(fps), "-i", str(static_png))
@@ -3011,18 +3114,20 @@ def _panel_scene(members: list[tuple[int, dict]], clips: dict, out: Path, cfg, d
             vg.append(f"[{qi}:v]fps={fps},format=rgba,setpts=PTS-STARTPTS+{a}/TB[q{k}];[{cur}][q{k}]overlay=0:0:{en}[q{k}o]")
             cur = f"q{k}o"
         bi = add("-loop", "1", "-framerate", str(fps), "-i", str(band_png))
-        t0 = lead if k == 0 else starts[k]
+        t0 = starts[k] + grow if pop else (lead if k == 0 else starts[k])
         pos = (f"x='W*pow(1-min(max((t-{_fmt(t0)})/{_fmt(slide)},0),1),3)':y=0" if slide > 0 else "0:0")
         vg.append(f"[{bi}:v]fps={fps},format=rgba,setpts=PTS-STARTPTS+{a}/TB[bd{k}];[{cur}][bd{k}]overlay={pos}:{en}[bd{k}o]")
         cur = f"bd{k}o"
     vg.append(f"[{cur}]fps={fps},format=yuv420p[v]")
     rate = rcfg.get("audio_rate", 48000)
     ag = []
+    if pop:
+        ag.append(f"anullsrc=r={rate}:cl=stereo,atrim=duration={_fmt(intro)},asetpts=PTS-STARTPTS[am_s]")
     for k, (i, _) in enumerate(members):
         sec = _fmt(float(clips[i]["seconds"]))
         ag.append(f"[{fidx[k]}:a]aresample={rate},aformat=channel_layouts=stereo,atrim=duration={sec},asetpts=PTS-STARTPTS,"
                   f"apad=whole_dur={sec}[am{k}]")
-    ag.append("".join(f"[am{k}]" for k in range(n)) + f"concat=n={n}:v=0:a=1,{_loudnorm(cfg)}[a]")
+    ag.append(("[am_s]" if pop else "") + "".join(f"[am{k}]" for k in range(n)) + f"concat=n={n + (1 if pop else 0)}:v=0:a=1,{_loudnorm(cfg)}[a]")
     deps.run(_base(*inputs, "-filter_complex", ";".join(vg + ag), "-map", "[v]", "-map", "[a]", "-t", _fmt(total),
                    *_enc(rcfg), str(out)))
     return total
