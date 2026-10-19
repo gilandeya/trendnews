@@ -1318,7 +1318,7 @@
      "published": "2026-10-13T00:00:08+00:00"
     }
    ],
-   "last_seen": "2026-10-18T17:07:47.543314+00:00",
+   "last_seen": "2026-10-19T09:07:48.928141+00:00",
    "outlets": 20,
    "regions": 16,
    "languages": 1,
@@ -2379,7 +2379,7 @@
      "published": "2026-10-18T13:31:53+00:00"
     }
    ],
-   "last_seen": "2026-10-18T17:07:47.543314+00:00",
+   "last_seen": "2026-10-19T09:07:48.928141+00:00",
    "outlets": 20,
    "regions": 13,
    "languages": 1,
@@ -3159,7 +3159,7 @@
      "published": "2026-10-11T15:10:27+00:00"
     }
    ],
-   "last_seen": "2026-10-18T09:07:42.310366+00:00",
+   "last_seen": "2026-10-19T09:07:48.928141+00:00",
    "outlets": 18,
    "regions": 13,
    "languages": 1,
@@ -3921,7 +3921,270 @@
      "published": "2026-10-17T17:09:50+00:00"
     }
    ],
-   "last_seen": "2026-10-18T17:07:47.543314+00:00",
+   "last_seen": "2026-10-19T09:07:48.928141+00:00",
+   "outlets": 18,
+   "regions": 13,
+   "languages": 1,
+   "score": 46.0
+  },
+  {
+   "id": "f4950bb60ba8",
+   "first_seen": "2026-10-05T15:07:44.573046+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "light",
+     "title": "Brazil’s presidential race goes to second round as Flávio Bolsonaro leads incumbent Lula",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/05/brazil-presidential-race-election-result-second-round-lula-flavio-bolsonaro",
+     "published": "2026-10-05T00:16:52+00:00"
+    },
+    {
+     "outlet": "Court House News",
+     "region": "court",
+     "bucket": "light",
+     "title": "Lula and Bolsonaro head to Brazil’s presidential runoff",
+     "language": "en",
+     "link": "https://www.courthousenews.com/lula-and-bolsonaro-head-to-brazils-presidential-runoff/",
+     "published": "2026-10-05T01:45:04+00:00"
+    },
+    {
+     "outlet": "Premium Times",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Brazil’s presidential election goes to runoff",
+     "language": "en",
+     "link": "https://www.premiumtimesng.com/foreign/world-foreign/914610-brazils-presidential-election-goes-to-runoff.html",
+     "published": "2026-10-05T12:56:50+00:00"
+    },
+    {
+     "outlet": "Deutsche Welle",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Brazil election: Bolsonaro and Lula head to runoff",
+     "language": "en",
+     "link": "https://www.dw.com/en/brazil-election-bolsonaro-and-lula-head-to-runoff/a-79533857?maca=en-rss-en-world-4025-rdf",
+     "published": "2026-10-05T00:27:00+00:00"
+    },
+    {
+     "outlet": "CGTN",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Lula, Flavio Bolsonaro head to runoff in Brazil presidential election",
+     "language": "en",
+     "link": "https://news.cgtn.com/news/2026-10-05/news-1QZ8scMvcdy/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+     "published": "2026-10-04T23:58:51+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Flavio Bolsonaro, Lula da Silva advance to second tour of presidential election",
+     "language": "en",
+     "link": "https://tass.com/world/2197463",
+     "published": "2026-10-05T00:30:00+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Brazil heads to run-off as Bolsonaro pulls off shock first place finish in first round",
+     "language": "en",
+     "link": "https://www.france24.com/en/video/20261005-brazil-heads-to-run-off-as-bolsonaro-pulls-off-shock-first-place-finish-in-first-round",
+     "published": "2026-10-05T09:38:59+00:00"
+    },
+    {
+     "outlet": "Buenos Aires Times",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "Brazil heads to run-off as Flávio Bolsonaro takes first place finish over Lula",
+     "language": "en",
+     "link": "https://www.batimes.com.ar/news/latin-america/brazil-heads-to-run-off-as-flavio-bolsonaro-takes-first-place-finish-over-lula.phtml",
+     "published": "2026-10-05T05:14:00+00:00"
+    },
+    {
+     "outlet": "MercoPress",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "Flávio Bolsonaro edges Lula in the first round; both head to an October 25 runoff",
+     "language": "en",
+     "link": "https://en.mercopress.com/2026/10/05/flavio-bolsonaro-edges-lula-in-the-first-round-both-head-to-an-october-25-runoff?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
+     "published": "2026-10-05T10:30:00+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Right-wing Flávio Bolsonaro wins first round of Brazil election",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/ck1l34ed592no?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-05T03:16:16+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Bolsonaro pushes Lula to brink of defeat ahead of Brazil runoff",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/05/world/brazil-lula-bolsonaro-narrow-election/",
+     "published": "2026-10-05T05:36:00+00:00"
+    },
+    {
+     "outlet": "Buenos Aires Times",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "Bolsonaro pushes Lula to brink of defeat ahead of Brazil run-off",
+     "language": "en",
+     "link": "https://www.batimes.com.ar/news/latin-america/bolsonaro-pushes-lula-to-brink-of-defeat-ahead-of-brazil-run-off.phtml",
+     "published": "2026-10-05T11:30:18+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Bolsonaro in 'very strong position' as Brazil election heads to run-off",
+     "language": "en",
+     "link": "https://www.france24.com/en/video/20261005-bolsonaro-in-very-strong-position-as-brazil-election-heads-to-run-off",
+     "published": "2026-10-05T08:44:23+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Bolsonaro rides right-wing surge into Brazil’s election runoff",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/05/bolsonaro-rides-right-wing-surge-into-brazil-s-election-runoff",
+     "published": "2026-10-05T15:55:04+00:00"
+    },
+    {
+     "outlet": "Buenos Aires Times",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "Flávio Bolsonaro rides right-wing surge into Brazil's election run-off",
+     "language": "en",
+     "link": "https://www.batimes.com.ar/news/latin-america/flavio-bolsonaro-rides-right-wing-surge-into-brazils-election-run-off.phtml",
+     "published": "2026-10-05T16:26:40+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Brazil presidential election 2026: first-round live results",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/ng-interactive/2026/oct/04/brazil-presidential-election-2026-first-round-live-results",
+     "published": "2026-10-05T00:24:55+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Brazil lurches to the right as Lula falters in the first round of presidential election",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/brazil-presidential-election-lula-bolsonaro/article71548352.ece",
+     "published": "2026-10-05T16:19:26+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Flávio Bolsonaro poised to win Brazilian presidency after shock first-round victory",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/05/flavio-bolsonaro-brazilian-presidency-election-shock-first-round-victory",
+     "published": "2026-10-05T16:05:20+00:00"
+    },
+    {
+     "outlet": "MercoPress",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "\"The end of the PT era is decreed,\" says Flávio Bolsonaro after winning the first round",
+     "language": "en",
+     "link": "https://en.mercopress.com/2026/10/05/the-end-of-the-pt-era-is-decreed-says-flavio-bolsonaro-after-winning-the-first-round?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
+     "published": "2026-10-05T17:18:00+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Brazil-China ties in focus as Bolsonaro gets election edge over Lula",
+     "language": "en",
+     "link": "https://www.scmp.com/plus/news/china/diplomacy/article/3369805/brazil-china-ties-focus-bolsonaro-gets-election-edge-over-lula?utm_source=rss_feed",
+     "published": "2026-10-05T09:46:21+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Brazil’s Lula accuses Meta of election interference",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/brazils-lula-accuses-meta-of-election-interference/article71571012.ece",
+     "published": "2026-10-11T09:01:39+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Brazil's Lula accuses social media giant Meta of election interference amid tight run-off campaign",
+     "language": "en",
+     "link": "https://www.france24.com/en/americas/20261011-brazil-lula-accuses-social-media-giant-meta-election-interference-amid-tight-run-campaign",
+     "published": "2026-10-11T13:12:09+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Brazil’s Lula accuses Meta of election interference",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/11/brazil-s-lula-accuses-meta-of-election-interference",
+     "published": "2026-10-11T08:49:00+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Brazil's Lula accuses Meta of election interference",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2634278/brazils-lula-accuses-meta-of-election-interference",
+     "published": "2026-10-11T12:38:20+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Meta faces election interference accusations from Brazil's Lula da Silva; court gives company 48 hours to clarify",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/meta-faces-election-interference-accusations-from-brazils-lula-da-silva-court-gives-company-48-hours-to-clarify-101791711200783.html",
+     "published": "2026-10-11T10:24:16+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Lula and Bolsonaro spar in Brazil’s fiery first presidential run-off debate",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/19/lula-and-bolsonaro-spar-in-brazils-fiery-first-presidential-run-off-debate?traffic_source=rss",
+     "published": "2026-10-19T04:27:00+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Lula and Bolsonaro trade barbs in fiery Brazil run-off debate",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/americas/article/3371343/lula-and-bolsonaro-trade-barbs-fiery-brazil-run-debate?utm_source=rss_feed",
+     "published": "2026-10-19T04:09:43+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "Brazil’s Bolsonaro, Lula spar in first debate as personal attacks fly",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-19-brazils-bolsonaro-lula-spar-in-first-debate-as-personal-attacks-fly/",
+     "published": "2026-10-19T10:23:39+00:00"
+    }
+   ],
+   "last_seen": "2026-10-19T09:07:48.928141+00:00",
    "outlets": 18,
    "regions": 13,
    "languages": 1,
@@ -4456,7 +4719,7 @@
      "published": "2026-10-16T15:29:48+00:00"
     }
    ],
-   "last_seen": "2026-10-18T09:07:42.310366+00:00",
+   "last_seen": "2026-10-19T09:07:48.928141+00:00",
    "outlets": 18,
    "regions": 12,
    "languages": 1,
@@ -5209,7 +5472,7 @@
      "published": "2026-10-17T00:00:00+00:00"
     }
    ],
-   "last_seen": "2026-10-17T17:07:41.292973+00:00",
+   "last_seen": "2026-10-19T09:07:48.928141+00:00",
    "outlets": 16,
    "regions": 12,
    "languages": 1,
@@ -5605,242 +5868,6 @@
    "regions": 12,
    "languages": 1,
    "score": 41.0
-  },
-  {
-   "id": "f4950bb60ba8",
-   "first_seen": "2026-10-05T15:07:44.573046+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "light",
-     "title": "Brazil’s presidential race goes to second round as Flávio Bolsonaro leads incumbent Lula",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/05/brazil-presidential-race-election-result-second-round-lula-flavio-bolsonaro",
-     "published": "2026-10-05T00:16:52+00:00"
-    },
-    {
-     "outlet": "Court House News",
-     "region": "court",
-     "bucket": "light",
-     "title": "Lula and Bolsonaro head to Brazil’s presidential runoff",
-     "language": "en",
-     "link": "https://www.courthousenews.com/lula-and-bolsonaro-head-to-brazils-presidential-runoff/",
-     "published": "2026-10-05T01:45:04+00:00"
-    },
-    {
-     "outlet": "Premium Times",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Brazil’s presidential election goes to runoff",
-     "language": "en",
-     "link": "https://www.premiumtimesng.com/foreign/world-foreign/914610-brazils-presidential-election-goes-to-runoff.html",
-     "published": "2026-10-05T12:56:50+00:00"
-    },
-    {
-     "outlet": "Deutsche Welle",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Brazil election: Bolsonaro and Lula head to runoff",
-     "language": "en",
-     "link": "https://www.dw.com/en/brazil-election-bolsonaro-and-lula-head-to-runoff/a-79533857?maca=en-rss-en-world-4025-rdf",
-     "published": "2026-10-05T00:27:00+00:00"
-    },
-    {
-     "outlet": "CGTN",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Lula, Flavio Bolsonaro head to runoff in Brazil presidential election",
-     "language": "en",
-     "link": "https://news.cgtn.com/news/2026-10-05/news-1QZ8scMvcdy/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
-     "published": "2026-10-04T23:58:51+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Flavio Bolsonaro, Lula da Silva advance to second tour of presidential election",
-     "language": "en",
-     "link": "https://tass.com/world/2197463",
-     "published": "2026-10-05T00:30:00+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Brazil heads to run-off as Bolsonaro pulls off shock first place finish in first round",
-     "language": "en",
-     "link": "https://www.france24.com/en/video/20261005-brazil-heads-to-run-off-as-bolsonaro-pulls-off-shock-first-place-finish-in-first-round",
-     "published": "2026-10-05T09:38:59+00:00"
-    },
-    {
-     "outlet": "Buenos Aires Times",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "Brazil heads to run-off as Flávio Bolsonaro takes first place finish over Lula",
-     "language": "en",
-     "link": "https://www.batimes.com.ar/news/latin-america/brazil-heads-to-run-off-as-flavio-bolsonaro-takes-first-place-finish-over-lula.phtml",
-     "published": "2026-10-05T05:14:00+00:00"
-    },
-    {
-     "outlet": "MercoPress",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "Flávio Bolsonaro edges Lula in the first round; both head to an October 25 runoff",
-     "language": "en",
-     "link": "https://en.mercopress.com/2026/10/05/flavio-bolsonaro-edges-lula-in-the-first-round-both-head-to-an-october-25-runoff?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
-     "published": "2026-10-05T10:30:00+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Right-wing Flávio Bolsonaro wins first round of Brazil election",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/ck1l34ed592no?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-05T03:16:16+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Bolsonaro pushes Lula to brink of defeat ahead of Brazil runoff",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/05/world/brazil-lula-bolsonaro-narrow-election/",
-     "published": "2026-10-05T05:36:00+00:00"
-    },
-    {
-     "outlet": "Buenos Aires Times",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "Bolsonaro pushes Lula to brink of defeat ahead of Brazil run-off",
-     "language": "en",
-     "link": "https://www.batimes.com.ar/news/latin-america/bolsonaro-pushes-lula-to-brink-of-defeat-ahead-of-brazil-run-off.phtml",
-     "published": "2026-10-05T11:30:18+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Bolsonaro in 'very strong position' as Brazil election heads to run-off",
-     "language": "en",
-     "link": "https://www.france24.com/en/video/20261005-bolsonaro-in-very-strong-position-as-brazil-election-heads-to-run-off",
-     "published": "2026-10-05T08:44:23+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Bolsonaro rides right-wing surge into Brazil’s election runoff",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/05/bolsonaro-rides-right-wing-surge-into-brazil-s-election-runoff",
-     "published": "2026-10-05T15:55:04+00:00"
-    },
-    {
-     "outlet": "Buenos Aires Times",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "Flávio Bolsonaro rides right-wing surge into Brazil's election run-off",
-     "language": "en",
-     "link": "https://www.batimes.com.ar/news/latin-america/flavio-bolsonaro-rides-right-wing-surge-into-brazils-election-run-off.phtml",
-     "published": "2026-10-05T16:26:40+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Brazil presidential election 2026: first-round live results",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/ng-interactive/2026/oct/04/brazil-presidential-election-2026-first-round-live-results",
-     "published": "2026-10-05T00:24:55+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Brazil lurches to the right as Lula falters in the first round of presidential election",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/brazil-presidential-election-lula-bolsonaro/article71548352.ece",
-     "published": "2026-10-05T16:19:26+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Flávio Bolsonaro poised to win Brazilian presidency after shock first-round victory",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/05/flavio-bolsonaro-brazilian-presidency-election-shock-first-round-victory",
-     "published": "2026-10-05T16:05:20+00:00"
-    },
-    {
-     "outlet": "MercoPress",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "\"The end of the PT era is decreed,\" says Flávio Bolsonaro after winning the first round",
-     "language": "en",
-     "link": "https://en.mercopress.com/2026/10/05/the-end-of-the-pt-era-is-decreed-says-flavio-bolsonaro-after-winning-the-first-round?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
-     "published": "2026-10-05T17:18:00+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Brazil-China ties in focus as Bolsonaro gets election edge over Lula",
-     "language": "en",
-     "link": "https://www.scmp.com/plus/news/china/diplomacy/article/3369805/brazil-china-ties-focus-bolsonaro-gets-election-edge-over-lula?utm_source=rss_feed",
-     "published": "2026-10-05T09:46:21+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Brazil’s Lula accuses Meta of election interference",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/brazils-lula-accuses-meta-of-election-interference/article71571012.ece",
-     "published": "2026-10-11T09:01:39+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Brazil's Lula accuses social media giant Meta of election interference amid tight run-off campaign",
-     "language": "en",
-     "link": "https://www.france24.com/en/americas/20261011-brazil-lula-accuses-social-media-giant-meta-election-interference-amid-tight-run-campaign",
-     "published": "2026-10-11T13:12:09+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Brazil’s Lula accuses Meta of election interference",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/11/brazil-s-lula-accuses-meta-of-election-interference",
-     "published": "2026-10-11T08:49:00+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Brazil's Lula accuses Meta of election interference",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2634278/brazils-lula-accuses-meta-of-election-interference",
-     "published": "2026-10-11T12:38:20+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Meta faces election interference accusations from Brazil's Lula da Silva; court gives company 48 hours to clarify",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/meta-faces-election-interference-accusations-from-brazils-lula-da-silva-court-gives-company-48-hours-to-clarify-101791711200783.html",
-     "published": "2026-10-11T10:24:16+00:00"
-    }
-   ],
-   "last_seen": "2026-10-12T09:07:45.429910+00:00",
-   "outlets": 16,
-   "regions": 11,
-   "languages": 1,
-   "score": 40.0
   },
   {
    "id": "9d74b44c397d",
@@ -6726,7 +6753,7 @@
      "published": "2026-10-10T16:51:47+00:00"
     }
    ],
-   "last_seen": "2026-10-18T17:07:47.543314+00:00",
+   "last_seen": "2026-10-19T09:07:48.928141+00:00",
    "outlets": 12,
    "regions": 10,
    "languages": 2,
@@ -7627,9 +7654,27 @@
      "language": "en",
      "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPNmlUNWVNcFlkMnV4NmR2TWhvS1daNVlab2RvY0FCQU5DU2pwSGtWMEJpcFNRY0FESFlmSThHbzljaE5ZVndfOFRfZE1kZG1taGtiS3hTMnNPNzRrTm16dEtXLWEwcE1LMUF0TjRjNThwR2dCbm02cFJjdWZWSjlGU2RvQzE?oc=5",
      "published": "2026-10-18T15:07:10+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "US President Donald Trump endorses Netanyahu for Israeli election",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/19/us-president-donald-trump-endorses-netanyahu-for-israeli-election?traffic_source=rss",
+     "published": "2026-10-19T05:10:37+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Trump backs ally Netanyahu ahead of Israel’s tight election",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/trump-backs-ally-netanyahu-ahead-of-israels-tight-election/",
+     "published": "2026-10-19T07:25:38+00:00"
     }
    ],
-   "last_seen": "2026-10-18T17:07:47.543314+00:00",
+   "last_seen": "2026-10-19T09:07:48.928141+00:00",
    "outlets": 10,
    "regions": 10,
    "languages": 1,
@@ -8056,9 +8101,27 @@
      "language": "en",
      "link": "https://www.hindustantimes.com/world-news/major-fire-breaks-out-in-alberta-after-deadly-incident-at-canadian-military-base-101792324874878.html",
      "published": "2026-10-18T12:07:05+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "4 Canadian service members killed in Alberta military base incident that sparked large fire",
+     "language": "en",
+     "link": "https://www.cbsnews.com/video/4-dead-in-canadian-military-base-incident/",
+     "published": "2026-10-19T00:46:33+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "4 Killed, Dozens Injured In Massive Fire At Canadian Military Base In Alberta",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/4-killed-dozens-injured-in-massive-fire-at-canadian-military-base-alberta-12204818#publisher=newsstand",
+     "published": "2026-10-19T05:35:49+00:00"
     }
    ],
-   "last_seen": "2026-10-18T17:07:47.543314+00:00",
+   "last_seen": "2026-10-19T09:07:48.928141+00:00",
    "outlets": 12,
    "regions": 8,
    "languages": 1,
@@ -9055,6 +9118,80 @@
    "score": 24.0
   },
   {
+   "id": "f5ba3124a0bf",
+   "first_seen": "2026-10-19T09:07:48.928141+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Flight from Israel makes emergency landing in Bulgaria after bomb threat",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/18/flight-from-israel-makes-emergency-landing-in-bulgaria-after-bomb-threat?traffic_source=rss",
+     "published": "2026-10-18T23:58:05+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Bomb threat forces Israel to Austria flight into emergency landing",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c680zdmn100lo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-19T06:29:55+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Threat forces Israel to Austria flight into emergency landing",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/threat-forces-israel-to-austria-flight-into-emergency-landing/",
+     "published": "2026-10-19T02:44:00+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Tel Aviv-Vienna flight makes emergency landing in Bulgaria over bomb threat",
+     "language": "en",
+     "link": "https://tass.com/emergencies/2203859",
+     "published": "2026-10-18T20:29:24+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "No danger found after bomb threat diverts Austrian Airlines flight from Tel Aviv",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/middle-east/article/3371337/bomb-threat-forces-austrian-airlines-flight-tel-aviv-divert-bulgaria?utm_source=rss_feed",
+     "published": "2026-10-19T02:12:37+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "No threat found after bomb scare diverts Austrian Airlines flight carrying 57 from Tel Aviv to Sofia",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/no-threat-found-after-bomb-scare-diverts-austrian-airlines-flight-carrying-57-from-tel-aviv-to-sofia-101792393607835.html",
+     "published": "2026-10-19T07:13:49+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Austrian Airlines flight from Tel Aviv to Vienna lands in Sofia after reported bomb threat",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFBlUExUNm94dm54NG43aFR6aGk1RHc1M3FjOHAzZjNhdmx0VmZNS294c2ZRTmhmaVM0OEtMMWh3eG1KYTllajBMMWx0VG1hV0NGQ3dMaTlHWQ?oc=5",
+     "published": "2026-10-18T19:04:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-19T09:07:48.928141+00:00",
+   "outlets": 7,
+   "regions": 7,
+   "languages": 1,
+   "score": 23.0
+  },
+  {
    "id": "9b861eeaf775",
    "first_seen": "2026-10-10T09:07:48.714447+00:00",
    "members": [
@@ -9154,71 +9291,6 @@
    "regions": 6,
    "languages": 1,
    "score": 22.0
-  },
-  {
-   "id": "6d7051e90818",
-   "first_seen": "2026-10-12T09:07:45.429910+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Ceuta or Sebta? Why one city has two names and a disputed status",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/12/ceuta-or-sebta-why-one-city-has-two-names-and-a-disputed-status?traffic_source=rss",
-     "published": "2026-10-12T00:14:46+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Ceuta or Sebta? Why one city has two names and a disputed status",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQY0JMU0hEVl9xSDYzNHBzdzItYkdkNi1GNUQ3WVlYZndGOVk2X2VEWW4xV2JXUmU2YjNsWGVjMF9SOHd5RGJHaEtla21qWW5Ib0lsLXMtNXNRVVg1d0hyMTJMcUxLYnVXNWNyVVNtYXllZ3hVdFpHYWxHXzcxNllCaDFtYUk4ZHcyNTREZEhpWmh3MUFWNUd1VXozOGF6blhrOTVGNkRON0nSAa4BQVVfeXFMTUdoNUpCYi10d2JxcGZpckNYTzFXTGR1RE9mVzZ3NjhJS05MckZIeXFpd2RudWlaMi1CMVlCeDFnZ0hZQUJheUQtOGdnX05QNHA5X2dTSVVnS0w0c2pmYnBDSmRMNHVDSmo5b2N6UFNfUUZpUExoM3ZrSEdNNVQ5YzJ3NWc0OUE2OWFoTHljZmZEa2Nyc25VWVZCUG56aTNfeFE1eE9DRFNRS2RTQUt3?oc=5",
-     "published": "2026-10-12T00:24:45+00:00"
-    },
-    {
-     "outlet": "El País",
-     "region": "es",
-     "bucket": "serious",
-     "title": "Buques de guerra marroquíes entraron en aguas de Ceuta coincidiendo con la llegada masiva de inmigrantes",
-     "language": "tr",
-     "link": "https://elpais.com/espana/2026-10-12/buques-de-guerra-marroquies-invadieron-aguas-de-ceuta-coincidiendo-con-la-entrada-masiva-de-inmigrantes.html",
-     "published": "2026-10-12T03:30:01+00:00"
-    },
-    {
-     "outlet": "Africanews",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Spainish police clear last Ceuta migrant beach camp ahead of king's visit",
-     "language": "en",
-     "link": "http://www.africanews.com/2026/10/11/spainish-police-clear-last-ceuta-migrant-beach-camp-ahead-of-kings-visit/",
-     "published": "2026-10-11T14:20:18+00:00"
-    },
-    {
-     "outlet": "Africanews",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Spain's slow response in Ceuta leaves teen migrants still living on streets",
-     "language": "en",
-     "link": "http://www.africanews.com/2026/10/11/spains-slow-response-in-ceuta-leaves-teen-migrants-still-living-on-streets/",
-     "published": "2026-10-11T08:00:11+00:00"
-    },
-    {
-     "outlet": "Le Monde",
-     "region": "fr",
-     "bucket": "serious",
-     "title": "Pourquoi Ceuta et Melilla restent un sujet de discorde entre l’Espagne et le Maroc",
-     "language": "fr",
-     "link": "https://www.lemonde.fr/international/article/2026/10/11/pourquoi-ceuta-et-melilla-restent-un-sujet-de-discorde-entre-l-espagne-et-le-maroc_6791307_3210.html",
-     "published": "2026-10-11T04:30:04+00:00"
-    }
-   ],
-   "last_seen": "2026-10-12T09:07:45.429910+00:00",
-   "outlets": 5,
-   "regions": 5,
-   "languages": 3,
-   "score": 21.0
   },
   {
    "id": "bf85d17c7ca0",
@@ -9526,71 +9598,6 @@
    "score": 19.0
   },
   {
-   "id": "044523cf6eeb",
-   "first_seen": "2026-10-10T09:07:48.714447+00:00",
-   "members": [
-    {
-     "outlet": "Nikkei Asia",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Bessent to skip IMF, World Bank meetings in Bangkok",
-     "language": "en",
-     "link": "https://asia.nikkei.com/politics/international-relations/bessent-to-skip-imf-world-bank-meetings-in-bangkok",
-     "published": "2026-10-10T09:07:38.988148+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "U.S. Treasury chief Scott Bessent to skip IMF-World Bank meetings in Bangkok",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/business/2026/10/10/economy/scott-bessent-skip-imf-world-bank-meetings/",
-     "published": "2026-10-10T01:37:00+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "US Treasury chief Bessent to skip IMF annual meetings in Bangkok",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/money/2026/10/10/us-treasury-chief-bessent-to-skip-imf-annual-meetings-in-bangkok/238532",
-     "published": "2026-10-10T03:58:43+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Finance minister heads to Bangkok for IMF, World Bank meetings",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2036191/finance-minister-heads-to-bangkok-for-imf-world-bank-meetings",
-     "published": "2026-10-10T16:28:01+00:00"
-    },
-    {
-     "outlet": "Investing.com — الاقتصاد",
-     "region": "money",
-     "bucket": "useful",
-     "title": "Middle East war, high debt levels to dominate IMF-World Bank meetings in Bangkok",
-     "language": "en",
-     "link": "https://www.investing.com/news/economy-news/middle-east-war-high-debt-levels-to-dominate-imfworld-bank-meetings-in-bangkok-4942461",
-     "published": "2026-10-11T15:30:36+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Middle East war, high debt levels to dominate IMF-World Bank meetings in Bangkok",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQWlZqTVZkYlUxR2xKODRtSHFhLUI5ZVk4MWlwUURPZTRJSy1UYjdKak1ZbzdGMG80dmNOTVlVbUtvbW1zUU9hWE5QeU9xc19wWE50TnR4M05sQ0c0aFI0ZmYtTGN6Q0hwanJUajNzSlRfaVBQNXdPMUlfQlpfb1JHTGlQWkg5aVdOTE5SZ29NRXZLSW85enZHa2dCOVFSWmFpUEptcWMxa1JxVW15ZGhLLTRRcDEyeXBEWkw0RnJR?oc=5",
-     "published": "2026-10-11T04:03:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-12T09:07:45.429910+00:00",
-   "outlets": 6,
-   "regions": 5,
-   "languages": 1,
-   "score": 18.0
-  },
-  {
    "id": "cdb9cf26f1ff",
    "first_seen": "2026-10-14T09:07:42.321915+00:00",
    "members": [
@@ -9709,6 +9716,62 @@
    "outlets": 5,
    "regions": 5,
    "languages": 1,
+   "score": 17.0
+  },
+  {
+   "id": "57c02ebe3818",
+   "first_seen": "2026-10-19T09:07:48.928141+00:00",
+   "members": [
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Mbappe scores twice as Real Madrid beat Sevilla",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/football/videos/crp3g7z9x215o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-18T21:39:04+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Mbappe scores twice as Real Madrid beat Sevilla",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/mbappe-scores-twice-as-real-madrid-beat-sevilla/",
+     "published": "2026-10-18T23:33:00+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Mbappe scores two, Guler one, as Real Madrid find form before El Clasico",
+     "language": "es",
+     "link": "https://www.aljazeera.com/sports/2026/10/19/mbappe-scores-two-guler-one-as-real-madrid-find-form-before-el-clasico?traffic_source=rss",
+     "published": "2026-10-19T06:01:51+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Mbappe hits two as Real Madrid rout Sevilla",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2635672/mbappe-hits-two-as-real-madrid-rout-sevilla",
+     "published": "2026-10-19T01:42:16+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Mbappe stars with amazing goal and Panenka penalty as Real thump Sevilla",
+     "language": "en",
+     "link": "https://www.skysports.com/watch/video/13600836/real-madrid-4-1-sevilla-laliga-highlights",
+     "published": "2026-10-19T06:37:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-19T09:07:48.928141+00:00",
+   "outlets": 5,
+   "regions": 4,
+   "languages": 2,
    "score": 17.0
   },
   {
@@ -9842,53 +9905,6 @@
    "score": 16.0
   },
   {
-   "id": "b896f6196410",
-   "first_seen": "2026-10-12T09:07:45.429910+00:00",
-   "members": [
-    {
-     "outlet": "Le Monde",
-     "region": "fr",
-     "bucket": "serious",
-     "title": "Présidentielle 2027 : Raphaël Glucksmann, vainqueur de la primaire à gauche, doit désormais mettre la famille sociale-démocrate en ordre de bataille",
-     "language": "fr",
-     "link": "https://www.lemonde.fr/election-presidentielle-2027/article/2026/10/12/presidentielle-2027-raphael-glucksmann-vainqueur-de-la-primaire-a-gauche-au-defi-de-mettre-la-famille-sociale-democrate-en-ordre-de-bataille_6792381_6205049.html",
-     "published": "2026-10-12T03:33:09+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Raphaël Glucksmann, the man who wants to be French president",
-     "language": "en",
-     "link": "https://www.france24.com/en/tv-shows/spotlight/20261011-a-profile-of-rapha%C3%ABl-glucksmann-the-man-who-wants-to-be-french-president",
-     "published": "2026-10-11T17:50:02+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Raphaël Glucksmann wins French left-wing primary with 66% of vote",
-     "language": "en",
-     "link": "https://www.france24.com/en/france/20261011-rapha%C3%ABl-glucksmann-wins-french-primary-with-66-of-vote",
-     "published": "2026-10-11T17:41:49+00:00"
-    },
-    {
-     "outlet": "El País",
-     "region": "es",
-     "bucket": "serious",
-     "title": "El eurodiputado Raphaël Glucksmann gana las primarias socialistas en Francia",
-     "language": "es",
-     "link": "https://elpais.com/internacional/2026-10-11/el-eurodiputado-raphael-glucksmann-gana-las-primarias-socialistas-en-francia.html",
-     "published": "2026-10-11T17:36:29+00:00"
-    }
-   ],
-   "last_seen": "2026-10-12T09:07:45.429910+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 3,
-   "score": 15.0
-  },
-  {
    "id": "f571db389711",
    "first_seen": "2026-10-16T09:07:49.020316+00:00",
    "members": [
@@ -9943,53 +9959,6 @@
    "regions": 4,
    "languages": 1,
    "score": 15.0
-  },
-  {
-   "id": "dd3cbf4e08b0",
-   "first_seen": "2026-10-12T09:07:45.429910+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Buildings swept away as flash floods hit central Nepal",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/videos/cwzrdnljedx0o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-11T10:34:02+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Homes and bridges swept away as fresh floods hit Nepal",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE53TWZ3b2FfbEg2VEIyOHVhNlNCODFZbEtGVzhsaXJtWnFEdm42S1F3X1pZZ2Q4eUl0cm5WUzRWZGRoRXd4ZHl0UnJ0MC1JQnlxTUpOaEJmTUhNemc?oc=5",
-     "published": "2026-10-12T05:26:47+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Nepal flash floods: 5 missing as surge sweeps away houses in Gorkha; landslide-dam breach likely cause",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/nepal-flash-floods-5-missing-as-surge-sweeps-away-houses-landslide-dam-breach-likely-cause-101791774084550.html",
-     "published": "2026-10-12T03:15:00+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Five people missing after Nepal flash floods sweep away houses",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/12/asia-pacific/nepal-new-flash-floods/",
-     "published": "2026-10-12T04:26:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-12T09:07:45.429910+00:00",
-   "outlets": 4,
-   "regions": 4,
-   "languages": 1,
-   "score": 14.0
   },
   {
    "id": "04db9d9be45f",
@@ -10377,6 +10346,100 @@
    "score": 14.0
   },
   {
+   "id": "c311b9928977",
+   "first_seen": "2026-10-19T09:07:48.928141+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Bollywood actor Tiger Shroff survives shooting attempt in Mumbai",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c6jdmy872r7vo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-19T07:35:06+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Indian actor Tiger Shroff remains unhurt in shooting incident in Mumbai",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2038061/indian-actor-tiger-shroff-remains-unhurt-in-shooting-incident-in-mumbai",
+     "published": "2026-10-18T19:54:18+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Bollywood actor Tiger Shroff survives shooting in Mumbai",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/bollywood-actor-tiger-shroff-survives-shooting-in-mumbai/",
+     "published": "2026-10-19T02:55:00+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Gunmen open fire on Bollywood star Tiger Shroff’s car in Mumbai, actor escapes unhurt (VIDEO)",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/showbiz/2026/10/19/gunmen-open-fire-on-bollywood-star-tiger-shroffs-car-in-mumbai-actor-escapes-unhurt-video/239711",
+     "published": "2026-10-19T06:07:15+00:00"
+    }
+   ],
+   "last_seen": "2026-10-19T09:07:48.928141+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
+  },
+  {
+   "id": "8d29b8bfb686",
+   "first_seen": "2026-10-19T09:07:48.928141+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Funding shortages force World Food Programme to cut aid to Gaza",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cm79plrvpl4vo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-19T06:00:18+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "World Food Programme to end aid for half a million in Gaza due to funding shortfall",
+     "language": "en",
+     "link": "https://www.france24.com/en/middle-east/20261019-world-food-programme-to-end-aid-for-half-a-million-in-gaza-due-to-funding-shortfall",
+     "published": "2026-10-19T07:33:32+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "World Food Programme says ending aid for half million in Gaza due to funding shortfall",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/world-food-programme-says-ending-aid-for-half-million-in-gaza-due-to-funding-shortfall/article71602337.ece",
+     "published": "2026-10-19T07:57:48+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Half a million Palestinians face food aid cuts in Gaza",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/19/world-food-programme-cuts-aid-to-500-000-palestinians-in-gaza-citing-funding-shortages",
+     "published": "2026-10-19T08:47:31+00:00"
+    }
+   ],
+   "last_seen": "2026-10-19T09:07:48.928141+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
+  },
+  {
    "id": "b096d9cf93db",
    "first_seen": "2026-10-12T17:07:49.159577+00:00",
    "members": [
@@ -10525,53 +10588,6 @@
    "regions": 3,
    "languages": 2,
    "score": 13.0
-  },
-  {
-   "id": "38131fa90aeb",
-   "first_seen": "2026-10-12T09:07:45.429910+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "South Africa v Australia: first men’s cricket Test, day four",
-     "language": "en",
-     "link": "https://www.theguardian.com/sport/live/2026/oct/12/south-africa-v-australia-first-test-day-four-durban-kingsmead-cricket-ground-live-updates",
-     "published": "2026-10-12T09:00:41+00:00"
-    },
-    {
-     "outlet": "BBC Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Smith falls as Australia build lead over South Africa",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/sport/cricket/scorecard/e-236997?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-12T00:00:00+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Steve Smith breaks Test fielding record as Australia dominate South Africa",
-     "language": "en",
-     "link": "https://www.aljazeera.com/sports/2026/10/12/steve-smith-breaks-test-fielding-record-as-australia-dominate-south-africa?traffic_source=rss",
-     "published": "2026-10-12T08:17:50+00:00"
-    },
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "CRICKET: Steve Smith fielding show sees Australia pile pressure on Proteas in first Test",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-11-australia-proteas-first-test/",
-     "published": "2026-10-11T22:16:12+00:00"
-    }
-   ],
-   "last_seen": "2026-10-12T09:07:45.429910+00:00",
-   "outlets": 4,
-   "regions": 3,
-   "languages": 1,
-   "score": 12.0
   },
   {
    "id": "03e0bcc635db",
@@ -12063,6 +12079,120 @@
    "score": 11.0
   },
   {
+   "id": "2b00f16f2557",
+   "first_seen": "2026-10-19T09:07:48.928141+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "AI giant Anthropic commits 5% of shares to ‘public benefit’ fund",
+     "language": "en",
+     "link": "https://www.aljazeera.com/economy/2026/10/19/anthropic-says-it-will-commit-5-of-shares-to-public-benefit-fund?traffic_source=rss",
+     "published": "2026-10-19T03:23:54+00:00"
+    },
+    {
+     "outlet": "TechCrunch",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "Anthropic says it’s committing 5% of its shares to a ‘public benefit fund’",
+     "language": "en",
+     "link": "https://techcrunch.com/2026/10/18/anthropic-says-its-committing-5-of-its-shares-to-a-public-benefit-fund/",
+     "published": "2026-10-18T20:37:40+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Anthropic says it will commit 5% of its shares to ‘public benefit fund’",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/anthropic-says-it-will-commit-5-of-its-shares-to-public-benefit-fund/",
+     "published": "2026-10-18T23:24:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-19T09:07:48.928141+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "32c021f29282",
+   "first_seen": "2026-10-19T09:07:48.928141+00:00",
+   "members": [
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Beijing's population expected to become super-aged by 2035",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/east-asia/china-beijing-population-super-aged-2035-6470641",
+     "published": "2026-10-19T04:17:00+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Beijing’s population expected to become super-aged by 2035",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/beijings-population-expected-to-become-super-aged-by-2035/article71602008.ece",
+     "published": "2026-10-19T06:27:03+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Beijing’s population expected to become super-aged by 2035",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/beijings-population-expected-to-become-super-aged-by-2035/",
+     "published": "2026-10-18T23:54:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-19T09:07:48.928141+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "69be3ede74b3",
+   "first_seen": "2026-10-19T09:07:48.928141+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Flydubai captain describes blocking axe blows as co-pilot attacked him",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/18/flydubai-captain-smit-machchhar-blocking-axe-blows-flight-fz1073",
+     "published": "2026-10-18T17:27:17+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "'Was not sure I'll make it ​out alive': Captain of flydubai flight to Tel Aviv recalls blocking axe blows from co-pilot",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2038055/was-not-sure-ill-make-it-out-alive-captain-of-flydubai-flight-to-tel-aviv-recalls-blocking-axe-blows-from-co-pilot",
+     "published": "2026-10-18T18:38:31+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Flydubai captain describes blocking axe blows as co-pilot attacked him",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPb2RWUmkxdl9pdlh0NzNxcFU5Qm9PUXI2SURYbk82QnlUMURGNVc0WExGMUpqWFI5ZnBxSVVNQXk0SDUyM2FkZU16dlpRd0tON3FGUDhTOWlWSno1UjloWjNKUmNOTzBVbTJmMm9HTEcwUjFYeGE0QmVJamdNX3dlTndRSFczT1RobndBanp4cTJPb0gtQ2pLZ25MYUktSW9GM2t0V2F3dDIyTG41cE5N?oc=5",
+     "published": "2026-10-18T19:29:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-19T09:07:48.928141+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
    "id": "11cabfbc55e8",
    "first_seen": "2026-10-13T09:08:09.573950+00:00",
    "members": [
@@ -12267,82 +12397,6 @@
    "regions": 2,
    "languages": 1,
    "score": 10.0
-  },
-  {
-   "id": "753591ae9392",
-   "first_seen": "2026-10-12T09:07:45.429910+00:00",
-   "members": [
-    {
-     "outlet": "Premium Times",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "2027: APC chairman says party polls show Tinubu will win presidential election",
-     "language": "en",
-     "link": "https://www.premiumtimesng.com/news/top-news/916279-2027-apc-chairman-says-party-polls-show-tinubu-will-win-presidential-election.html",
-     "published": "2026-10-12T07:21:49+00:00"
-    },
-    {
-     "outlet": "AllAfrica",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Nigeria: 2027 - APC Chairman Says Party Polls Show Tinubu Will Win Presidential Election",
-     "language": "en",
-     "link": "https://allafrica.com/stories/202610120151.html",
-     "published": "2026-10-12T08:27:22+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "APC polls show Tinubu will win 2027 election",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/apc-polls-show-tinubu-will-win-2027-election-yilwatda/",
-     "published": "2026-10-12T06:15:07+00:00"
-    }
-   ],
-   "last_seen": "2026-10-12T09:07:45.429910+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 1,
-   "score": 9.0
-  },
-  {
-   "id": "e908dbe1410d",
-   "first_seen": "2026-10-12T09:07:45.429910+00:00",
-   "members": [
-    {
-     "outlet": "Nikkei Asia",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "French defense contractor Thales to open Japan maintenance base",
-     "language": "en",
-     "link": "https://asia.nikkei.com/business/aerospace-defense-industries/french-defense-contractor-thales-to-open-japan-maintenance-base",
-     "published": "2026-10-12T09:07:33.289446+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "French defense firm Thales to build Japan base, media report says",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/business/2026/10/12/companies/french-defense-firm-japan-base/",
-     "published": "2026-10-12T06:54:00+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "French defense firm Thales to build Japan base",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/business/2026/10/12/french-defense-firm-thales-to-build-japan-base",
-     "published": "2026-10-12T06:57:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-12T09:07:45.429910+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 1,
-   "score": 9.0
   },
   {
    "id": "0732ad237a4f",
@@ -12877,6 +12931,82 @@
    "score": 9.0
   },
   {
+   "id": "45b6290f7866",
+   "first_seen": "2026-10-19T09:07:48.928141+00:00",
+   "members": [
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Louvre's $100 million crown jewels still missing one year after daring heist",
+     "language": "en",
+     "link": "https://www.france24.com/en/france/20261019-louvre-100-million-crown-jewels-one-year-heist",
+     "published": "2026-10-19T02:01:56+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "A Year After Louvre Heist, $100 Million French Crown Jewels Remain Missing",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/a-year-after-louvre-heist-100-million-french-crown-jewels-remain-missing-12204395#publisher=newsstand",
+     "published": "2026-10-19T03:09:02+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "A year on since Louvre Museum heist, stolen jewels worth $100 million still missing",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/a-year-on-since-louvre-museum-heist-stolen-jewels-worth-usd-100-million-still-missing-france-paris-macron-101792386235951.html",
+     "published": "2026-10-19T06:55:14+00:00"
+    }
+   ],
+   "last_seen": "2026-10-19T09:07:48.928141+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
+   "id": "a5c2bfe5c6b8",
+   "first_seen": "2026-10-19T09:07:48.928141+00:00",
+   "members": [
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump says Zelensky ‘does not want war to end’ as feud escalates, defends Russia sanctions waiver",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/trump-says-zelensky-does-not-want-war-to-end-as-feud-escalates-defends-russia-sanctions-waiver-101792384030299.html",
+     "published": "2026-10-19T04:42:52+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "\"He Doesn't Want To End War\": Trump Targets Zelensky",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/he-doesnt-want-to-end-war-donald-trump-targets-volodymyr-zelensky-ukraine-russia-war-12205276#publisher=newsstand",
+     "published": "2026-10-19T07:27:40+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Trump says Zelenskyy doesn't want to end Russia's war on Ukraine",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/ukraine-russia-drone-st-petersburg-oil-facilites/",
+     "published": "2026-10-19T08:12:05+00:00"
+    }
+   ],
+   "last_seen": "2026-10-19T09:07:48.928141+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
    "id": "303226f0667e",
    "first_seen": "2026-10-14T17:07:55.411222+00:00",
    "members": [
@@ -12904,82 +13034,6 @@
    "regions": 2,
    "languages": 1,
    "score": 8.0
-  },
-  {
-   "id": "c497d8a8b4be",
-   "first_seen": "2026-10-12T09:07:45.429910+00:00",
-   "members": [
-    {
-     "outlet": "Tehran Times",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Super oil tanker catches fire after hitting sea mine in Strait of Hormuz",
-     "language": "en",
-     "link": "https://www.tehrantimes.com/news/530979/Super-oil-tanker-catches-fire-after-hitting-sea-mine-in-Strait",
-     "published": "2026-10-11T18:02:56+00:00"
-    },
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Third oil tanker catches fire in Hormuz after hitting mine",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248502/Third-oil-tanker-catches-fire-in-Strait-of-Hormuz",
-     "published": "2026-10-12T03:23:39+00:00"
-    },
-    {
-     "outlet": "IRNA English",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Third oil tanker catches fire after hitting sea mine in Strait of Hormuz: Statement",
-     "language": "en",
-     "link": "https://en.irna.ir/news/86290100/Third-oil-tanker-catches-fire-after-hitting-sea-mine-in-Strait",
-     "published": "2026-10-12T06:14:28+00:00"
-    }
-   ],
-   "last_seen": "2026-10-12T09:07:45.429910+00:00",
-   "outlets": 3,
-   "regions": 1,
-   "languages": 1,
-   "score": 7.0
-  },
-  {
-   "id": "72c390dc363b",
-   "first_seen": "2026-10-12T09:07:45.429910+00:00",
-   "members": [
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Iran to pursue national interests through diplomacy, battle",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248494/Iran-to-pursue-national-interests-through-diplomacy-battle",
-     "published": "2026-10-11T15:32:07+00:00"
-    },
-    {
-     "outlet": "Tehran Times",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Iran to pursue national interests through diplomacy or on the battlefield: AEOI",
-     "language": "en",
-     "link": "https://www.tehrantimes.com/news/530981/Iran-to-pursue-national-interests-through-diplomacy-or-on-the",
-     "published": "2026-10-11T18:08:20+00:00"
-    },
-    {
-     "outlet": "IRNA English",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Iran to pursue national interests through diplomacy or battlefield: AEOI spox.",
-     "language": "en",
-     "link": "https://en.irna.ir/news/86289565/Iran-to-pursue-national-interests-through-diplomacy-or-battlefield",
-     "published": "2026-10-11T12:10:12+00:00"
-    }
-   ],
-   "last_seen": "2026-10-12T09:07:45.429910+00:00",
-   "outlets": 3,
-   "regions": 1,
-   "languages": 1,
-   "score": 7.0
   },
   {
    "id": "fa20c0e4008d",
@@ -13190,9 +13244,63 @@
      "language": "en",
      "link": "https://www.tehrantimes.com/news/531182/Iran-beach-soccer-thrash-Oman-in-Belarus-tournament",
      "published": "2026-10-18T06:23:26+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Iran’s U23 Freestyle Team wins title of C’ships in Las Vegas",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248710/Iran-s-U23-Freestyle-Team-wins-title-of-C-ships-in-Las-Vegas",
+     "published": "2026-10-19T07:32:51+00:00"
+    },
+    {
+     "outlet": "Tehran Times",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Iran freestyle win team title of U23 World Championships",
+     "language": "en",
+     "link": "https://www.tehrantimes.com/news/531222/Iran-freestyle-win-team-title-of-U23-World-Championships",
+     "published": "2026-10-19T08:15:12+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Leader congrats Iran’s freestyle team for winning world title",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248711/Leader-congrats-Iran-s-freestyle-team-for-winning-world-title",
+     "published": "2026-10-19T08:36:44+00:00"
+    },
+    {
+     "outlet": "IRNA English",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Iran wins U23 world wrestling title in US",
+     "language": "en",
+     "link": "https://en.irna.ir/news/86296662/Iran-wins-U23-world-wrestling-title-in-US",
+     "published": "2026-10-19T05:59:16+00:00"
+    },
+    {
+     "outlet": "IRNA English",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Pezeshkian congratulates Iran’s U23 freestyle wrestling team on world title",
+     "language": "en",
+     "link": "https://en.irna.ir/news/86296946/Pezeshkian-congratulates-Iran-s-U23-freestyle-wrestling-team",
+     "published": "2026-10-19T08:32:47+00:00"
+    },
+    {
+     "outlet": "IRNA English",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Leader congratulates U23 freestyle wrestlers on world title",
+     "language": "en",
+     "link": "https://en.irna.ir/news/86297005/Leader-congratulates-U23-freestyle-wrestlers-on-world-title",
+     "published": "2026-10-19T08:35:43+00:00"
     }
    ],
-   "last_seen": "2026-10-18T09:07:42.310366+00:00",
+   "last_seen": "2026-10-19T09:07:48.928141+00:00",
    "outlets": 3,
    "regions": 1,
    "languages": 1,
@@ -13231,6 +13339,44 @@
     }
    ],
    "last_seen": "2026-10-18T09:07:42.310366+00:00",
+   "outlets": 3,
+   "regions": 1,
+   "languages": 1,
+   "score": 7.0
+  },
+  {
+   "id": "6cbd172e2c15",
+   "first_seen": "2026-10-19T09:07:48.928141+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Army major martyred, 4 terrorists killed in Balochistan IBOs: ISPR",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2038237/army-major-martyred-4-terrorists-killed-in-balochistan-ibos-ispr",
+     "published": "2026-10-19T06:18:15+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Army major martyred in IED attack, four terrorists killed in Balochistan IBO: ISPR",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2635666/army-major-martyred-in-ied-attack-four-terrorists-killed-in-balochistan-ibo-ispr",
+     "published": "2026-10-19T00:08:54+00:00"
+    },
+    {
+     "outlet": "Geo News",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Army major martyred, four terrorists killed in Balochistan operations: ISPR",
+     "language": "en",
+     "link": "https://www.geo.tv/latest/687214-army-major-martyred-four-terrorists-killed-in-balochistan-operations-ispr",
+     "published": "2026-10-19T03:20:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-19T09:07:48.928141+00:00",
    "outlets": 3,
    "regions": 1,
    "languages": 1,

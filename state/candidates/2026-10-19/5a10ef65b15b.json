@@ -1,0 +1,87 @@
+{
+  "id": "5a10ef65b15b",
+  "created_at": "2026-10-19T09:08:03.420486+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.65,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 1,
+  "intrigue": 1,
+  "appeal_note": "مباراة كرة قدم روتينية، لكن الريال يقترب من برشلونة.",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Mbappe scores twice as Real Madrid beat Sevilla",
+  "link": "https://www.bbc.co.uk/sport/football/videos/crp3g7z9x215o?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "BBC Sport",
+    "MyJoyOnline Ghana",
+    "Sky Sports — Football",
+    "The Express Tribune"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "Mbappe scores twice as Real Madrid beat Sevilla",
+    "link": "https://www.bbc.co.uk/sport/football/videos/crp3g7z9x215o?at_medium=RSS&at_campaign=rss",
+    "summary": "Kylian Mbappe scores twice as Real Madrid beat Sevilla 4-1 in La Liga to close the gap on Barcelona to six points ahead of next weekend's El Clasico.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-10-18T21:39:04+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/3477/live/ba6c08a0-cb3a-11f1-9a39-31b474234113.jpg",
+    "publisher": "BBC Sport",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "BBC Sport",
+      "MyJoyOnline Ghana",
+      "Sky Sports — Football",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/football/videos/crp3g7z9x215o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "MyJoyOnline Ghana",
+        "link": "https://www.myjoyonline.com/mbappe-scores-twice-as-real-madrid-beat-sevilla/"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/sports/2026/10/19/mbappe-scores-two-guler-one-as-real-madrid-find-form-before-el-clasico?traffic_source=rss"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2635672/mbappe-hits-two-as-real-madrid-rout-sevilla"
+      },
+      {
+        "name": "Sky Sports — Football",
+        "link": "https://www.skysports.com/watch/video/13600836/real-madrid-4-1-sevilla-laliga-highlights"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/3477/live/ba6c08a0-cb3a-11f1-9a39-31b474234113.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/3477/live/ba6c08a0-cb3a-11f1-9a39-31b474234113.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/3477/live/ba6c08a0-cb3a-11f1-9a39-31b474234113.jpg",
+      "https://www.myjoyonline.com/wp-content/uploads/2026/10/image-1810.png",
+      "https://e2.365dm.com/26/10/1096x616/skysports-kylian-mbappe_7380365.jpg?20261019063647",
+      "https://e2.365dm.com/26/10/1920x1080/skysports-kylian-mbappe_7380365.jpg?20261019063647"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.0,
+    "age_hours": 1816.9135449230555,
+    "is_stale": true,
+    "score": 23.65050805438431,
+    "impact": 0,
+    "proximity": 1,
+    "intrigue": 1,
+    "appeal_note": "مباراة كرة قدم روتينية، لكن الريال يقترب من برشلونة.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "id": "7c4316be0b0d",
+  "created_at": "2026-10-19T09:08:03.419981+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 30.51,
+  "trend_score": 1.0,
+  "velocity": 0.1,
+  "impact": 1,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "مقتل ضابطين سعوديين ودعم مصري، شأن عربي مباشر.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Cairo vows support for Riyadh as 2 Saudi officers killed in helicopter crash near Yemen",
+  "link": "https://www.dawn.com/news/2038013/cairo-vows-support-for-riyadh-as-2-saudi-officers-killed-in-helicopter-crash-near-yemen",
+  "publishers": [
+    "Daily Sabah",
+    "Dawn",
+    "Hindustan Times — World",
+    "Reuters",
+    "South China Morning Post",
+    "The Hindu — International"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Cairo vows support for Riyadh as 2 Saudi officers killed in helicopter crash near Yemen",
+    "link": "https://www.dawn.com/news/2038013/cairo-vows-support-for-riyadh-as-2-saudi-officers-killed-in-helicopter-crash-near-yemen",
+    "summary": "Egypt is ready to provide Saudi Arabia with the support it needs to defend its security and stability, the presidency said on Sunday. Earlier in the day, the Saudi-led coalition fighting the Houthis said two officers were killed when their helicopter crashed near the Yemen border, after the rebel group claimed it shot the aircraft down. The coalition blamed a “technical malfunction” for the helicopter crash, which inflicted its first military fatalities since the long-running conflict with the Houthis reignited in July. The incident comes a week after strikes by the Houthis killed 13 people at Riyadh’s international airport, the deadliest attack in Saudi Arabia in more than a decade. An AH-6i reconnaissance helicopter belonging to the Saudi Ministry of National Guard crashed “inside Saudi territory in Najran Region due to a technical malfunction”, coalition spokesman Turki al-Malki said, according to the official Saudi Press Agency . “The accident resulted in the martyrdom of its aircrew, consisting of two officers.” Late on Saturday, Houthi spokesman Yahya Saree claimed the group had “downed an Apache helicopter belonging to the Saudi enemy” in the same area. Egypt ready to give ‘",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-10-18T14:50:22+00:00",
+    "image_url": "https://i.dawn.com/large/2026/10/1816372527e2d60.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Dawn",
+      "Hindustan Times — World",
+      "Reuters",
+      "South China Morning Post",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2038013/cairo-vows-support-for-riyadh-as-2-saudi-officers-killed-in-helicopter-crash-near-yemen"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/saudi-helicopter-crash-near-yemeni-border-kills-2-amid-escalating-houthi-attacks-101792322819611.html"
+      },
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/middle-east/article/3371307/saudi-closes-riyadh-skyscraper-chopper-pilots-killed-near-yemen?utm_source=rss_feed"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/saudi-coalition-says-two-pilots-killed-in-chopper-crash-near-yemen/article71599858.ece"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/saudi-shuts-iconic-skyscraper-chopper-crash-kills-2-near-yemen"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/10/1816372527e2d60.webp",
+      "https://i.dawn.com/large/2026/10/181638318012266.webp",
+      "https://i.dawn.com/large/2026/10/1813211456f3ea9.webp",
+      "https://i.dawn.com/thumbnail/2026/10/1816372527e2d60.webp",
+      "https://i.dawn.com/thumbnail/2026/10/181638318012266.webp",
+      "https://i.dawn.com/thumbnail/2026/10/1813211456f3ea9.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 6,
+    "velocity": 0.10416804759860183,
+    "age_hours": 1816.9135416516667,
+    "is_stale": false,
+    "score": 30.506340395323146,
+    "impact": 1,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "مقتل ضابطين سعوديين ودعم مصري، شأن عربي مباشر.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
