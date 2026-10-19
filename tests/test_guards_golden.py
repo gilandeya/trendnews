@@ -15977,6 +15977,49 @@ def _panel_v1_cmds(cfg, work):
     return out
 
 
+PANEL_N1_FIXTURE = Path(__file__).parent / "fixtures" / "reel" / "panel_n1_cmds.json"
+
+
+def _panel_n1_cmds(cfg, work):
+    """أوامر ffmpeg لسيناريو v2 فيه لوحة n=1 (سياق + بطاقة سؤال + إجابة + ختام)، بخلفية وبلاها، كما يبنيها _assemble؛ المسار المؤقت
+    يُستبدل بـTMP كي تُحفظ مرجعًا ثابتًا لـg481 (Issue #1618، P2c-2): حركة الانبثاق لـn ≥ 2 وحدها فلا تتغير لوحة n=1 حرفًا."""
+    import numpy as np
+    from PIL import Image
+
+    from src import reel_render
+
+    W, H = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
+
+    def make(cmds):
+        def run(cmd):
+            cmds.append([str(x) for x in cmd])
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+        return reel_render.Deps(
+            download_clip=lambda *a, **k: {"tier": "a", "bytes": 1, "failures": []},
+            synthesize=lambda t, v: {"ok": True, "audio": b"mp3", "chars": len(t)}, diacritize=lambda t: (t, None), run=run,
+            probe=lambda p: 6.0, sleep=lambda s: None, streams=lambda p: {"video", "audio"}, faces=lambda f, fr: (1920, 1080, []),
+            frames=lambda p, fr: [np.full((1080, 1920), 100, np.uint8)] * len(fr), read_chyron=lambda f, c: None).resolved(cfg)
+
+    def bg():
+        return {"layout": "A", "image": Image.new("RGB", (W, H), (120, 40, 40)), "raw": Image.new("RGB", (W, H), (200, 50, 50)),
+                "used": {"url": "u", "kind": "manual", "publisher": ""}}
+    out = {}
+    for tag, layer in (("bg", bg()), ("nobg", None)):
+        cmds: list = []
+        d = Path(work) / tag
+        d.mkdir(parents=True, exist_ok=True)
+        script = {"version": 2, "scenes": [
+            {"kind": "narration", "role": "context", "text": "سياق الخبر هنا."},
+            {"kind": "narration", "role": "question", "qrole": "core", "q": 0, "text": "ما أصل الخلاف حول الهدنة؟"},
+            {"kind": "clip", "q": 0, "point_id": "a", "channel_display": "قناة أ", "quote_arabic": "كلام المتحدث الأول هنا"},
+            {"kind": "question", "text": "برأيك؟"}, {"kind": "outro", "text": ""}]}
+        clips = {2: {"file": d / "c2.mp4", "seconds": 3.0}}
+        reel_render._assemble(script, clips, cfg, make(cmds), d, "v", layer, "", {}, [], {})
+        out[tag] = [[x.replace(str(d), "TMP") for x in c] for c in cmds]
+    return out
+
+
 def test_reel_panel_p2c1_guards() -> None:
     """Issue #1615 (P2c-1، g468–g476): مقاطع السؤال الواحد في سيناريو v2 مشهد «لوحة» واحد — بلاطات صامتة متحركة وإطار بارز ثابت
     بصوت الإجابة النشطة، بقصّ الارتفاع الكامل وثلاث حمايات (أشرطة سوداء، مصدر ضيق، ثبات النافذة). v1 ومشاهد v2 غير المقاطع بلا
