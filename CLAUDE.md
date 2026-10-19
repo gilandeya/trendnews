@@ -2162,3 +2162,13 @@ instead.
 - **السيناريو:** `reel_script.estimate_seconds` (v2) تضيف `panel.intro` لكل سؤال له إجابتان فأكثر ليبقى القصّ إلى 90 ث صادقًا؛ و`timeline_lines` (جدول المرحلة 2) تضيف `intro` إلى مدة أول مقطع في كل سؤال له مقطعان فأكثر فيتساوى مجموعها مع `estimate_seconds` (g455)، و`scene_duration` لمشهد منفرد بلا تغيير.
 - **الإعداد:** `reel.render.panel.{intro, pop:{grow, shrink, fade}, label:{size, alpha, bottom, pad}}`؛ `render_version` = 33.
 - **الاختبارات:** g478–g485 في `tests/test_guards_golden.py:test_reel_panel_p2c2_guards` (g484 بـffmpeg حقيقي ويُتخطّى إن غاب)؛ وحُدِّثت g473 وg476 وثبات الإصدار 32→33.
+
+## دروس أول ريل حقيقي (Issue #1621، R6) — `src/reel_render.py`، `src/reel_script.py`
+
+مصدرها المسودة 21490770c22d (قضية المراجعة #1620). `render_version` = 34؛ الاختبارات g486–g491 في `tests/test_guards_golden.py`.
+
+- **(1) حارس القائل:** `speaker_matches(chyron_ar, chyron_orig, speaker_text, cfg)` خالصة؛ تقارن كلمات الاسم (`speaker_name_tokens`، ≥3 أحرف بعد `_normalize_for_anchor`) وتعيد None لقائل بلا اسم علم. `_apply_chyron` تحذف المقطع المخالف (`render_dropped`، `reel.render.texts.drop_speaker_mismatch`) قبل بناء اللوحة؛ لوحة بلا أعضاء تسقط، وسؤال سقطت كل إجاباته يسقط مشهد بطاقته. نسبة الكلام إلى غير قائله أسوأ من نقص إجابة. إيران إنترناشيونال (شريط فوق مذيعة) خارج النطاق.
+- **(2) المدة:** `context_max_words` 25؛ `validate_v2` ترفض «/» بين شهرين (`month_pairs`) والسنة الجارية؛ `estimate_seconds` و`scene_duration` (v2) تعدّان الكلمات المنطوقة بـ`spoken_count` (`spoken_number_words`، وكل «/» كلمة).
+- **(3) خلفية الختام:** `pre_hook` فقط إن كانت ثواني `[start − total، start)` مصنَّفة `event_footage` بنسبة ≥ `closing.pre_footage_ratio` (0.8) عبر `hook_info["pre_entries"]`؛ وإلا `freeze`. يُحفظ `render_crops["closing"].pre_footage`.
+- **(4) الإجابات آراء:** `valid_clips` تحمل `type`؛ `validate_v2` ترفض إجابة `fact` إن وُجد مقطعان صالحان `opinion`/`forecast` لمتحدثين مختلفين.
+- **(5) سبب فشل الجلب:** `render_approx.reason` = «تعذّر جلب نص الفيديو: {الاستثناء}: {أول 80 حرفًا بعد scrub_text}».
