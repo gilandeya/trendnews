@@ -2120,3 +2120,27 @@ instead.
 - **بلا خلفية (`bg is None`):** الكحلي الثابت (`color=` من `brand.primary_color`) والكلمات فوقه بلا ضباب ولا `alphamerge` (g465).
 - **الإعداد:** `reel.render.qcard: {text_top: 760, tail: 0.6, fog_in: 0.4, fog_from: 0.6}`. `render_version` = 31.
 - **الاختبارات:** g461–g467 في `tests/test_guards_golden.py:test_reel_qcard_p2b_guards` (g467 بـffmpeg حقيقي ويُتخطّى إن غاب: عند t=0.05 بلا بيض ومتوسط الأحمر < 235، وعند lead + fog_in + 1.5 أقرب إلى الكحلي وفيه بيض ومتوسط الأحمر أقل).
+
+
+## لوحة إجابات السؤال (Issue #1615، P2c-1) — `src/reel_render.py`
+
+مقاطع السؤال الواحد (`kind == "clip"` بحقل `q`) في سيناريو **v2 وحده** (`reel_script.is_v2`) صارت مشهدًا واحدًا نوعه الداخلي `panel`
+بدل مشهد لكل مقطع؛ v1 وكل مشاهد v2 غير المقاطع (الهوك والسياق وبطاقة السؤال والختام) بلا تغيير حرفًا (g474 على
+`tests/fixtures/reel/panel_v1_cmds.json`). حركة الانبثاق وأسماء القنوات على البلاطات مهمة P2c-2؛ هنا ينتقل الإطار البارز من إجابة إلى
+التي بعدها قطعًا مباشرًا.
+
+- **التجميع:** `_panel_groups`/`_iter_runs` — المقاطع المتتالية ذات `q` الواحد بترتيب السيناريو؛ مقطع لم يُنزَّل يُسقط، ولوحة بلا مقاطع لا
+  تُركَّب. ملف المشهد باسم أول عضو (`scene_<i>.mp4`). `total_nar` يضم مدة لوحة n=1 (تتحرك فوق خلفية الراوي نفسها) و`nar_t` يتقدم بمدتها − lead.
+- **دوال خالصة:** `content_box(frames, cfg)` يزيل الأشرطة السوداء (صف/عمود متوسطه ≤ `panel.bars.threshold` في كل اللقطات، متصل من الحافة،
+  ≥ `min_fraction`؛ بقاء أقل من نصف البعد أو عطل ← الإطار كاملًا) · `fit_crop(src_w, src_h, content, box_w, box_h, center_x, cfg)`: ارتفاع كامل
+  `full_height` متمركز على مركز نافذة المتكلم (`_crop_for`)، ومصدر أضيق من الصندوق `fill_width` حول `panel.vertical_anchor`؛ أعداد زوجية داخل
+  `content`، تُحسب مرة لكل مقطع ومقاس ولا تلاحق الوجه · `panel_layout(n, cfg)`: بلاطات (2 نصفان، 3 أثلاث، 4 شبكة 2×2 من الأعلى ومن اليمين، n=1 بلا
+  بلاطات) وإطار بارز `panel.frame` متمركز. شريط الأخبار الأصلي (`detect_cover` على العرض الكامل) يقصّ ارتفاع `content` إلى `panel.ticker_crop`.
+- **`_panel_scene`:** أمر ffmpeg واحد. البلاطات n ≥ 2 مقاطعها `-stream_loop -1` صامتة تحت تظليل `panel.grid_dim`؛ الإطار البارز لكل عضو مدخل ثانٍ
+  بلا تكرار `setpts=PTS-STARTPTS+a_k/TB` و`enable='between(t,a_k,b_k)'`؛ طبقات العضو (الشريط الثابت `cover=False` ← الترجمة ← الشريط المنزلق، أولهم
+  بعد الانتقال وغيره من `a_k`) محصورة في مجاله؛ الصوت صوت العضو وحده `atrim`+`apad` ثم `concat` ثم `loudnorm`. استُخرج لهذا `_prepare_crop`
+  و`_clip_layers` من `_clip_scene`/`_assemble` (السلوك القديم نفسه).
+- **الحفظ:** `render_crops[i]` لكل عضو يضيف `panel_q` و`tile_crop` و`frame_crop` (`{x,y,w,h,mode}`) و`bars` (`[أعلى، أسفل، يسار، يمين]` بالبكسل) و`ticker`؛ وسطرا
+  التعليق `reel.render.texts.comment_bars` و`comment_vertical`. تعذّر قراءة أبعاد المصدر ← قصّ ffmpeg بالارتفاع الكامل المتمركز بلا حفظ نوافذ.
+- **الإعداد:** `reel.render.panel`؛ `render_version` = 32. الاختبارات g468–g476 في `tests/test_guards_golden.py:test_reel_panel_p2c1_guards`
+  (g476 بـffmpeg حقيقي ويُتخطّى إن غاب).
