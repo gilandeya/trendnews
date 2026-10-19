@@ -181,6 +181,96 @@ def crop_window(src_w: int, src_h: int, centers: list, mode: str = "face") -> di
     return {"w": w, "h": src_h, "x": (src_w - w) // 2, "source": "center"}
 
 
+# ───────────────────── لوحة إجابات السؤال: القصّ والتخطيط (Issue #1615، P2c-1) ─────────────────────
+
+def _even(v: float, hi: float | None = None) -> int:
+    """أقرب عدد زوجي (ترميز yuv420p يرفض الأبعاد الفردية)، وبعد التقريب لا يتجاوز hi (ينقص 2 إن تجاوزه)."""
+    r = 2 * round(v / 2)
+    if hi is not None and r > hi:
+        r -= 2
+    return int(max(r, 0))
+
+
+def content_box(frames, cfg) -> tuple[int, int, int, int]:
+    """مستطيل الصورة الفعلية (x، y، w، h) بإزالة الأشرطة السوداء من أطراف المقطع (الحماية 1). صف أو عمود أسود = متوسط سطوعه ≤
+    panel.bars.threshold في كل اللقطات (الأقصى بينها، فلا يُحسب أسود صفٌّ ظهر فيه شيء في لقطة). الشريط صفوف أو أعمدة سوداء متصلة من
+    الحافة نحو الداخل، وما دون panel.bars.min_fraction من البعد لا يُعتمد (حافة داكنة طبيعية). يبقى أقل من نصف العرض أو الارتفاع
+    (صورة سوداء كلها أو شبهها) ← الكشف مهمل والإطار كاملًا؛ وأي عطل ← الإطار كاملًا ولا يرفع. الأعمدة تُقاس على الصفوف الباقية
+    وحدها كي لا يلوّثها الشريط الأفقي. الأبعاد بمقاس اللقطات نفسه."""
+    try:
+        import numpy as np
+        bc = cfg.path("reel.render.panel.bars") or {}
+        thr, min_frac = float(bc.get("threshold", 24)), float(bc.get("min_fraction", 0.03))
+        arrs = [np.asarray(f, dtype=np.float64) for f in frames]
+        if not arrs or any(a.ndim != 2 for a in arrs):
+            raise ValueError("لقطات غير صالحة")
+        h, w = arrs[0].shape
+        full = (0, 0, int(w), int(h))
+
+        def edges(means, size):
+            keep = np.flatnonzero(means > thr)
+            if keep.size == 0:
+                return size, 0
+            a, b = int(keep[0]), int(size - 1 - keep[-1])
+            return (a if a >= min_frac * size else 0), (b if b >= min_frac * size else 0)
+        top, bottom = edges(np.max([a.mean(axis=1) for a in arrs], axis=0), h)
+        if h - top - bottom < h / 2:
+            return full
+        left, right = edges(np.max([a[top:h - bottom].mean(axis=0) for a in arrs], axis=0), w)
+        if w - left - right < w / 2:
+            return full
+        return (int(left), int(top), int(w - left - right), int(h - top - bottom))
+    except Exception as exc:  # noqa: BLE001 -- كشف الأشرطة تحسين لا شرط
+        log.warning("تعذّر كشف الأشرطة السوداء فالإطار كاملًا: %s", str(exc)[:100])
+        try:
+            h, w = frames[0].shape
+            return (0, 0, int(w), int(h))
+        except Exception:  # noqa: BLE001
+            return (0, 0, 0, 0)
+
+
+def fit_crop(src_w: int, src_h: int, content: tuple, box_w: int, box_h: int, center_x: float | None, cfg) -> dict:
+    """نافذة قصّ بنسبة الصندوق box_w:box_h داخل content (x، y، w، h) (P2c-1). الأصل الارتفاع الكامل: h = ارتفاع الصورة وw = h×نسبة
+    الصندوق متمركزة على center_x (المتكلم ثم أكبر وجه، وبلاه منتصف الصورة) ومحصورة داخلها، mode=full_height. مصدر أضيق من الصندوق
+    (Shorts، الحماية 2) يملأ العرض ويُقصّ من الارتفاع حول panel.vertical_anchor من ارتفاع الصورة (الوجوه في أعلى الكادر غالبًا)،
+    mode=fill_width. القيم زوجية ولا تتجاوز content. تُحسب مرة لكل مقطع ولكل مقاس ولا تلاحق الوجه (الحماية 3). src_w/src_h للتوقيع
+    ومطابقة نداءات القصّ الأخرى؛ الحدود من content."""
+    cx, cy, cw, ch = (int(v) for v in content)
+    anchor = float(cfg.path("reel.render.panel.vertical_anchor", 0.4))
+
+    def place(lo: int, hi_end: int, size: int, center: float) -> int:
+        pos = _even(center - size / 2)
+        first = lo + lo % 2
+        last = hi_end - size
+        last -= last % 2
+        return min(max(pos, first), max(last, first))
+    if cw * box_h >= ch * box_w:
+        h = _even(ch, ch)
+        w = _even(h * box_w / box_h, cw)
+        mid = cx + cw / 2 if center_x is None else float(center_x)
+        return {"x": place(cx, cx + cw, w, mid), "y": cy + cy % 2, "w": w, "h": h, "mode": "full_height"}
+    w = _even(cw, cw)
+    h = _even(w * box_h / box_w, ch)
+    return {"x": cx + cx % 2, "y": place(cy, cy + ch, h, cy + ch * anchor), "w": w, "h": h, "mode": "fill_width"}
+
+
+def panel_layout(n: int, cfg) -> dict:
+    """تخطيط لوحة n إجابات على الشاشة (P2c-1): tiles مستطيلات (x، y، w، h) بلا تداخل تغطي الشاشة (n=1 بلا بلاطات؛ 2 نصفان فوق
+    بعض؛ 3 أثلاث؛ 4 شبكة 2×2 بترتيب من الأعلى ومن اليمين؛ ما فوق 4 صفوف متساوية)، وframe الإطار البارز من panel.frame متمركزًا أفقيًا."""
+    rc = cfg.path("reel.render")
+    W, H = int(rc["width"]), int(rc["height"])
+    fc = rc["panel"]["frame"]
+    fw, fh = int(fc["width"]), int(fc["height"])
+    if n <= 1:
+        tiles: list = []
+    elif n == 4:
+        tiles = [(W // 2, 0, W // 2, H // 2), (0, 0, W // 2, H // 2), (W // 2, H // 2, W // 2, H // 2), (0, H // 2, W // 2, H // 2)]
+    else:
+        th = H // n
+        tiles = [(0, k * th, W, th if k < n - 1 else H - k * th) for k in range(n)]
+    return {"tiles": tiles, "frame": ((W - fw) // 2, int(fc["top"]), fw, fh)}
+
+
 def _detect_face_tracks(clip, cfg) -> tuple[int, int, list, list]:
     """لقطات من المقطع المنزَّل بمعدل speaker.fps على مدته كلها (سقفها speaker.max_frames) ← (عرض، ارتفاع، إطارات رمادية،
     صناديق كل وجه في كل لقطة). يرفع إن تعذّر قراءة المقطع؛ والمستدعي يعود إلى السلوك القديم."""
