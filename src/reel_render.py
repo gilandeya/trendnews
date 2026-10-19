@@ -2881,7 +2881,7 @@ def _clip_layers(i: int, scene: dict, clip: dict, cfg, deps: Deps, tmp: Path, sp
 
 def _panel_crops(clip: dict, crop: dict, scene: dict, q, tile: tuple | None, frame: tuple, cfg, deps: Deps, notes: list) -> tuple:
     """قصّ المقطع لبلاطته وإطاره البارز (P2c-1): يكشف الأشرطة السوداء (content_box على لقطات deps.frames) وشريط الأخبار الأصلي
-    (detect_cover على العرض الكامل، فيُقصّ ارتفاع الصورة إلى panel.ticker_crop من أعلاها) ثم fit_crop لكل مقاس بمركز نافذة المتكلم
+    (has_bottom_graphics على اللقطات مقصوصةً إلى المحتوى، فيُقصّ ارتفاع الصورة إلى panel.ticker_crop من أعلاها) ثم fit_crop لكل مقاس بمركز نافذة المتكلم
     الحالية. تعذّر قراءة أبعاد المصدر ← تعبير ffmpeg بالارتفاع الكامل متمركزًا بلا حفظ نوافذ. يملأ clip["crop"] بما يُراجَع
     ويضيف سطري التعليق (أشرطة أُزيلت، مصدر ضيق). يعيد (تعبير قصّ البلاطة أو None، تعبير قصّ الإطار)."""
     pc = cfg.path("reel.render.panel")
@@ -2899,13 +2899,16 @@ def _panel_crops(clip: dict, crop: dict, scene: dict, q, tile: tuple | None, fra
         n = max(1, int(pc["bars"]["samples"]))
         frames = deps.frames(clip["file"], [(k + 0.5) / n for k in range(n)])
         bx, by, bw, bh = content_box(frames, cfg)
+        bxs, bys, bws, bhs = bx, by, bw, bh
         fh_, fw_ = frames[0].shape
         sx, sy = sw / fw_, sh / fh_
         content = (round(bx * sx), round(by * sy), round(bw * sx), round(bh * sy))
         if content[2] <= 0 or content[3] <= 0:
             content = (0, 0, sw, sh)
         bars = [content[1], sh - content[1] - content[3], content[0], sw - content[0] - content[2]]
-        ticker = bool(detect_cover(clip["file"], 0, sw, cfg, deps.frames))
+        # الكشف على اللقطات نفسها مقصوصةً إلى content لا على الإطار كاملًا: حدّ الشريط الأسود السفلي حافة أفقية ثابتة في كل اللقطات
+        # فكان يُقرأ شريط أخبار ويُقصّ 20% من صورة سليمة؛ ولا استخراج ثانٍ
+        ticker = bool(has_bottom_graphics([f[bys:bys + bhs, bxs:bxs + bws] for f in frames], 0, bws, cfg))
         if ticker:
             content = (content[0], content[1], content[2], round(content[3] * float(pc["ticker_crop"])))
         cx = crop["x"] + crop["w"] / 2 if crop.get("x") is not None and crop.get("w") else None

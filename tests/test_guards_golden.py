@@ -16065,8 +16065,8 @@ def test_reel_panel_p2c1_guards() -> None:
 
     # ── g471: شريط الأخبار ──
     def g471():
-        real = reel_render.detect_cover
-        reel_render.detect_cover = lambda *a, **k: True
+        real = reel_render.has_bottom_graphics
+        reel_render.has_bottom_graphics = lambda *a, **k: True
         try:
             clip = {"file": "c.mp4", "seconds": 3.0}
             deps = reel_render.Deps(faces=lambda f, fr: (1920, 1080, []),
@@ -16077,10 +16077,33 @@ def test_reel_panel_p2c1_guards() -> None:
             reel_render._panel_crops(clip, {"x": 656, "w": 607}, {"channel_display": "قناة"}, 0, lay["tiles"][0], lay["frame"], cfg, deps, notes)
             fc, tc = clip["crop"]["frame_crop"], clip["crop"]["tile_crop"]
         finally:
-            reel_render.detect_cover = real
+            reel_render.has_bottom_graphics = real
         check("g471: القصّ لا يتجاوز 80% من الارتفاع", fc["h"] <= 864 and tc["h"] <= 864 and fc["y"] == 0, (fc, tc))
         check("g471: ticker محفوظ True", clip["crop"]["ticker"] is True, clip["crop"])
     guarded("g471", g471)
+
+    # ── g477: أشرطة سوداء لا تُقرأ شريط أخبار ──
+    def g477():
+        def shot(k, bar=False):
+            f = np.zeros((1080, 1920), np.uint8)
+            rng = np.random.default_rng(k)
+            f[140:940] = rng.integers(60, 200, (800, 1920))  # محتوى متغيّر بين اللقطات
+            if bar:
+                f[840:940] = 30 + (np.arange(1920) % 2) * 140  # شريط ثابت داخل أسفل المحتوى
+            return f
+        lay = layout(2, cfg)
+        res = {}
+        for name, bar in (("plain", False), ("ticker", True)):
+            clip = {"file": "c.mp4", "seconds": 3.0, "crop": {}}
+            deps = reel_render.Deps(faces=lambda f, fr: (1920, 1080, []),
+                                    frames=lambda p, fr, bar=bar: [shot(k, bar) for k in range(len(fr))]).resolved(cfg)
+            reel_render._panel_crops(clip, {"x": 656, "w": 607}, {"channel_display": "قناة"}, 0, lay["tiles"][0], lay["frame"], cfg, deps, [])
+            res[name] = clip["crop"]
+        check("g477: أشرطة سوداء بلا شريط أخبار ← ticker False وbars [140,140,0,0]",
+              res["plain"]["ticker"] is False and res["plain"]["bars"] == [140, 140, 0, 0], res["plain"])
+        check("g477: قصّ الإطار يبقى بالارتفاع الكامل 800", res["plain"]["frame_crop"]["h"] == 800, res["plain"]["frame_crop"])
+        check("g477: شريط ثابت داخل أسفل المحتوى ← ticker True", res["ticker"]["ticker"] is True, res["ticker"])
+    guarded("g477", g477)
 
     # ── g472: التخطيط ──
     def g472():
