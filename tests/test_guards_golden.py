@@ -15833,7 +15833,7 @@ def test_reel_qcard_p2b_guards() -> None:
         chains = [{"video_id": "abcdefghijk", "start": 100, "end": 120, "desc": "صاروخ", "channel": "CNN"}]
         cmds: list = []
         out = reel_render._assemble(
-            V2, {}, cfg, make_deps(cmds, assign=lambda needy, ch, c: [{"n": 1, "chain": 1}]), wdir("g463"), "v", bg_layer(),
+            V2, {}, cfg, make_deps(cmds, assign=lambda needy, ch, c: [{"n": 2, "chain": 1}]), wdir("g463"), "v", bg_layer(),
             "", {}, [], {"broll_plan": plan}, None, {"chains": chains, "hook": None})
         c0, c1, c2 = (" ".join(scene_cmd(cmds, i)) for i in range(3))
         check("g463: السياق بلا alphamerge ومع drawbox", "alphamerge" not in c0 and "drawbox" in c0, c0[:300])
@@ -15842,6 +15842,7 @@ def test_reel_qcard_p2b_guards() -> None:
         check("g463: سلسلة الضباب P1a (alphaextract ثم geq ثم alphamerge)",
               0 <= c1.find("alphaextract") < c1.find("geq=") < c1.find("alphamerge"), c1[:600])
         check("g463: الحركة تبدأ من nar_t التراكمي (6 ث ثم 12.6 ث)", "(t+6.000)" in c1 and "(t+12.600)" in c2, (c1[:300], c2[:300]))
+        check("g463: أمر البطاقة الأولى يُدخل ملف broll_2.mp4", "broll_2.mp4" in c1 and "-i" in scene_cmd(cmds, 1), c1[:400])
         check("g463: لقطة الحدث تُركَّب قبل الضباب", 0 <= c1.find("between(t,") < c1.find("alphamerge"), c1[:700])
         check("g463: الضباب قبل إطارات الكلمات", 0 <= c1.find("alphamerge") < c1.find("[1:v]fps"), c1[:900])
         durs = out[2]
