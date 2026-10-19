@@ -2085,12 +2085,9 @@ def _crop_for(clip: dict, cfg, deps: Deps, scene: dict | None = None) -> dict:
         return {"w": None, "h": None, "x": None, "source": "center"}
 
 
-def _clip_scene(clip: dict, overlays: tuple[Path, Path], out: Path, cfg, deps: Deps, scene: dict | None = None,
-                notes: list | None = None, qframes: list | None = None) -> float:
-    """المقطع يملأ الشاشة الرأسية باقتطاع ثابت (يتبع الوجه)، ثم الطبقة الثابتة، ثم طبقة الشريط تدخل من اليمين
-    بتباطؤ في آخر الحركة: x = W×(1−p)^3 مع p من 0 إلى 1 خلال slide_seconds بعد انتهاء الانتقال (قبلها خارج الشاشة)."""
-    rcfg = cfg.path("reel.render")
-    w, h = rcfg["width"], rcfg["height"]
+def _prepare_crop(clip: dict, cfg, deps: Deps, scene: dict | None, notes: list | None) -> dict:
+    """نافذة الاقتطاع (_crop_for) وسجلّها clip["crop"] وسطر تحديد المتكلم لمقطع تعدّدت وجوهه؛ مشتركة بين مشهد المقطع الكامل
+    ولوحة الإجابات (P2c-1) كي يبقى ما يُحفظ للمراجعة واحدًا."""
     crop = _crop_for(clip, cfg, deps, scene)
     clip["crop"] = {"x": crop["x"], "source": crop["source"],
                     **({"speaker_score": crop["speaker_score"], "tracks": crop["tracks"]}
@@ -2105,6 +2102,16 @@ def _clip_scene(clip: dict, overlays: tuple[Path, Path], out: Path, cfg, deps: D
                "speaker_motion_override": t["speaker_how_override"],
                "speaker_combined": t["speaker_how_combined"]}.get(crop["source"], t["speaker_how_face"])
         notes.append(t["comment_speaker_pick"].format(channel=(scene or {}).get("channel_display", ""), n=crop["tracks"], how=how))
+    return crop
+
+
+def _clip_scene(clip: dict, overlays: tuple[Path, Path], out: Path, cfg, deps: Deps, scene: dict | None = None,
+                notes: list | None = None, qframes: list | None = None) -> float:
+    """المقطع يملأ الشاشة الرأسية باقتطاع ثابت (يتبع الوجه)، ثم الطبقة الثابتة، ثم طبقة الشريط تدخل من اليمين
+    بتباطؤ في آخر الحركة: x = W×(1−p)^3 مع p من 0 إلى 1 خلال slide_seconds بعد انتهاء الانتقال (قبلها خارج الشاشة)."""
+    rcfg = cfg.path("reel.render")
+    w, h = rcfg["width"], rcfg["height"]
+    crop = _prepare_crop(clip, cfg, deps, scene, notes)
     if crop["x"] is None:      # أبعاد المصدر مجهولة: المنتصف بتعبير يحسبه ffmpeg
         cexpr = "crop=ih*9/16:ih:(iw-ih*9/16)/2:0"
         clip["crop"]["x"] = "center"
@@ -2854,6 +2861,200 @@ def _qcard_scene(i: int, scene: dict, audio: Path, parts: list, out: Path, cfg, 
     return seconds
 
 
+def _clip_layers(i: int, scene: dict, clip: dict, cfg, deps: Deps, tmp: Path, speakers: dict, notes: list,
+                 cover: bool | None = None) -> tuple[tuple[Path, Path], list | None]:
+    """طبقتا المقطع (الثابتة والشريط) وتيار حالات الترجمة: اسم المتحدث المقروء من الشاشة يغيّر نص الشريط نفسه فيُطبَّق قبل رسمه،
+    والترجمة كلمةً كلمة بتزامن كلامه (Issue #1592، R5h): النص المجلوب إن وُجد وإلا توزيع متساوٍ. مستخرجة من _assemble لتشترك فيها
+    المشاهد الكاملة ولوحة الإجابات (P2c-1)؛ cover=False في اللوحة لأن الإطار لا يبلغ أسفل الشاشة فلا غطاء كحلي."""
+    _apply_chyron(scene, clip, cfg, deps, speakers, notes, i)
+    qtext = (scene.get("quote_arabic") or "").strip()
+    qframes = None
+    if qtext:
+        segs = clip.get("segs") or []
+        times = quote_word_times(len(qtext.split()), clip["seconds"], segs, clip.get("wstart", 0.0), cfg)
+        qframes = quote_frames(cfg, qtext, times, clip["seconds"], tmp, f"quote_{i}")
+        clip["quote_sync"] = "transcript" if segs else "uniform"
+    static, band = (frame_clip_layers(cfg, scene, quote=qframes is None) if cover is None
+                    else frame_clip_layers(cfg, scene, cover=cover, quote=qframes is None))
+    return (_save(static, tmp / f"overlay_{i}_static.png"), _save(band, tmp / f"overlay_{i}_band.png")), qframes
+
+
+def _panel_crops(clip: dict, crop: dict, scene: dict, q, tile: tuple | None, frame: tuple, cfg, deps: Deps, notes: list) -> tuple:
+    """قصّ المقطع لبلاطته وإطاره البارز (P2c-1): يكشف الأشرطة السوداء (content_box على لقطات deps.frames) وشريط الأخبار الأصلي
+    (detect_cover على العرض الكامل، فيُقصّ ارتفاع الصورة إلى panel.ticker_crop من أعلاها) ثم fit_crop لكل مقاس بمركز نافذة المتكلم
+    الحالية. تعذّر قراءة أبعاد المصدر ← تعبير ffmpeg بالارتفاع الكامل متمركزًا بلا حفظ نوافذ. يملأ clip["crop"] بما يُراجَع
+    ويضيف سطري التعليق (أشرطة أُزيلت، مصدر ضيق). يعيد (تعبير قصّ البلاطة أو None، تعبير قصّ الإطار)."""
+    pc = cfg.path("reel.render.panel")
+    channel = scene.get("channel_display", "")
+    t = cfg.path("reel.render.texts")
+
+    def fallback(bw, bh):
+        return f"crop=ih*{bw}/{bh}:ih:(iw-ih*{bw}/{bh})/2:0"
+    try:
+        samples = list((cfg.path("reel.render.crop") or {}).get("samples", [0.2, 0.5, 0.8]))
+        sw, sh, _ = deps.faces(clip["file"], samples)
+        sw, sh = int(sw), int(sh)
+        if sw <= 0 or sh <= 0:
+            raise ValueError("أبعاد المصدر مجهولة")
+        n = max(1, int(pc["bars"]["samples"]))
+        frames = deps.frames(clip["file"], [(k + 0.5) / n for k in range(n)])
+        bx, by, bw, bh = content_box(frames, cfg)
+        fh_, fw_ = frames[0].shape
+        sx, sy = sw / fw_, sh / fh_
+        content = (round(bx * sx), round(by * sy), round(bw * sx), round(bh * sy))
+        if content[2] <= 0 or content[3] <= 0:
+            content = (0, 0, sw, sh)
+        bars = [content[1], sh - content[1] - content[3], content[0], sw - content[0] - content[2]]
+        ticker = bool(detect_cover(clip["file"], 0, sw, cfg, deps.frames))
+        if ticker:
+            content = (content[0], content[1], content[2], round(content[3] * float(pc["ticker_crop"])))
+        cx = crop["x"] + crop["w"] / 2 if crop.get("x") is not None and crop.get("w") else None
+        tile_crop = fit_crop(sw, sh, content, tile[2], tile[3], cx, cfg) if tile else None
+        frame_crop = fit_crop(sw, sh, content, frame[2], frame[3], cx, cfg)
+    except Exception as exc:  # noqa: BLE001 -- القصّ المحسوب تحسين لا شرط
+        log.warning("تعذّر حساب قصّ اللوحة فالارتفاع الكامل المتمركز: %s", str(exc)[:100])
+        clip["crop"].update(panel_q=q, tile_crop=None, frame_crop=None, bars=[0, 0, 0, 0], ticker=False)
+        return (fallback(tile[2], tile[3]) if tile else None), fallback(frame[2], frame[3])
+    clip["crop"].update(panel_q=q, tile_crop=tile_crop, frame_crop=frame_crop, bars=bars, ticker=ticker)
+    if any(bars):
+        notes.append(t["comment_bars"].format(channel=channel))
+    if frame_crop["mode"] == "fill_width":
+        notes.append(t["comment_vertical"].format(channel=channel))
+
+    def expr(c):
+        return f"crop={c['w']}:{c['h']}:{c['x']}:{c['y']}"
+    return (expr(tile_crop) if tile_crop else None), expr(frame_crop)
+
+
+def _panel_scene(members: list[tuple[int, dict]], clips: dict, out: Path, cfg, deps: Deps, tmp: Path, speakers: dict, notes: list,
+                 nar_bg: Path | None = None, nar_plan: dict | None = None, bg_start: float = 0.0) -> float:
+    """لوحة إجابات السؤال (Issue #1615، P2c-1): مقاطع السؤال الواحد في سيناريو v2 مشهد واحد بأمر ffmpeg واحد. البلاطات (n ≥ 2) تتحرك
+    كلها صامتة طوال اللوحة (-stream_loop) تحت تظليل كحلي panel.grid_dim، والإجابة النشطة وحدها في الإطار البارز الثابت بصوتها: مدخل
+    ثانٍ لمقطعها بلا تكرار يبدأ عند a_k ويُركَّب بـbetween(t,a_k,b_k). n = 1 بلا بلاطات: خلفية الراوي المتحركة من حيث انتهت بطاقة
+    السؤال (bg_start) تحت الضباب الكحلي، وبلاها كحلي ثابت. طبقات العضو k (الشريط الثابت، ثم الترجمة، ثم الشريط المنزلق) مزاحة بـa_k
+    ومحصورة في [a_k, b_k]؛ انزلاق الأول بعد الانتقال وما بعده من a_k مباشرة. الصوت صوت العضو k وحده في مجاله ثم concat. الإطار البارز
+    ينتقل من إجابة إلى التالية قطعًا مباشرًا (حركة الانبثاق مهمة P2c-2). المدة = مجموع مدد المقاطع."""
+    rcfg = cfg.path("reel.render")
+    W, H, fps = int(rcfg["width"]), int(rcfg["height"]), rcfg["fps"]
+    lead = transition_seconds(cfg)
+    n = len(members)
+    lay = panel_layout(n, cfg)
+    fx, fy, fw, fh = lay["frame"]
+    inputs: list[str] = []
+    count = 0
+
+    def add(*args) -> int:
+        nonlocal count
+        inputs.extend(args)
+        count += 1
+        return count - 1
+    starts, acc = [], 0.0
+    for i, _ in members:
+        starts.append(acc)
+        acc += float(clips[i]["seconds"])
+    total = acc
+    r, g, b = imaging.hex_rgb(cfg.path("brand.primary_color"))
+    navy = f"0x{r:02X}{g:02X}{b:02X}"
+    prepared = []
+    for k, (i, scene) in enumerate(members):
+        clip = clips[i]
+        crop = _prepare_crop(clip, cfg, deps, scene, notes)
+        tile_expr, frame_expr = _panel_crops(clip, crop, scene, scene.get("q"), lay["tiles"][k] if n >= 2 else None, lay["frame"],
+                                             cfg, deps, notes)
+        overlays, qframes = _clip_layers(i, scene, clip, cfg, deps, tmp, speakers, notes, cover=False)
+        prepared.append((tile_expr, frame_expr, overlays, qframes))
+    vg: list[str] = []
+    if n >= 2:
+        add("-f", "lavfi", "-i", f"color=c={navy}:s={W}x{H}:r={fps}")
+        vg.append(f"[0:v]fps={fps}[b0]")
+        for k, (i, _) in enumerate(members):
+            ti = add("-stream_loop", "-1", "-i", str(clips[i]["file"]))
+            tx, ty, tw, th = lay["tiles"][k]
+            vg.append(f"[{ti}:v]{prepared[k][0]},scale={tw}:{th},fps={fps},setpts=PTS-STARTPTS[t{k}];"
+                      f"[b{k}][t{k}]overlay={tx}:{ty}[b{k + 1}]")
+        vg.append(f"[b{n}]drawbox=x=0:y=0:w=iw:h=ih:color={navy}@{_fmt(float(cfg.path('reel.render.panel.grid_dim')))}:t=fill[base]")
+    elif nar_bg is not None and nar_plan is not None:
+        add("-i", str(nar_bg))
+        pan = _pan_x_expr(nar_plan["x0"], nar_plan["speed"], bg_start)
+        fog = add("-loop", "1", "-framerate", str(fps), "-i", str(_save(fog_layer(cfg), tmp / f"panel_fog_{members[0][0]}.png")))
+        vg.append(f"{_still_bg_prefix(fps)}crop={W}:{H}:x='{pan}':y='(ih-oh)/2'[p0];"
+                  f"[p0]fps={fps}[bb];[{fog}:v]format=rgba[fg];[bb][fg]overlay=0:0[base]")
+    else:
+        add("-f", "lavfi", "-i", f"color=c={navy}:s={W}x{H}:r={fps}")
+        vg.append(f"[0:v]fps={fps}[base]")
+    cur = "base"
+    fidx = []
+    for k, (i, _) in enumerate(members):
+        a, bb = _fmt(starts[k]), _fmt(starts[k] + float(clips[i]["seconds"]))
+        fi = add("-i", str(clips[i]["file"]))
+        fidx.append(fi)
+        vg.append(f"[{fi}:v]{prepared[k][1]},scale={fw}:{fh},fps={fps},setpts=PTS-STARTPTS+{a}/TB[f{k}];"
+                  f"[{cur}][f{k}]overlay={fx}:{fy}:enable='between(t,{a},{bb})'[o{k}]")
+        cur = f"o{k}"
+    slide = float(rcfg.get("band", {}).get("slide_seconds", 0) or 0)
+    for k, (i, _) in enumerate(members):
+        a, bb = _fmt(starts[k]), _fmt(starts[k] + float(clips[i]["seconds"]))
+        en = f"enable='between(t,{a},{bb})'"
+        static_png, band_png = prepared[k][2]
+        qframes = prepared[k][3]
+        si = add("-loop", "1", "-framerate", str(fps), "-i", str(static_png))
+        vg.append(f"[{si}:v]fps={fps},format=rgba,setpts=PTS-STARTPTS+{a}/TB[s{k}];[{cur}][s{k}]overlay=0:0:{en}[s{k}o]")
+        cur = f"s{k}o"
+        if qframes:
+            lst = out.with_name(f"{out.stem}_quote{k}.txt")
+            lst.write_text("".join(f"file '{f}'\nduration {_fmt(d)}\n" for f, d in qframes) + f"file '{qframes[-1][0]}'\n",
+                           encoding="utf-8")
+            qi = add("-f", "concat", "-safe", "0", "-i", str(lst))
+            vg.append(f"[{qi}:v]fps={fps},format=rgba,setpts=PTS-STARTPTS+{a}/TB[q{k}];[{cur}][q{k}]overlay=0:0:{en}[q{k}o]")
+            cur = f"q{k}o"
+        bi = add("-loop", "1", "-framerate", str(fps), "-i", str(band_png))
+        t0 = lead if k == 0 else starts[k]
+        pos = (f"x='W*pow(1-min(max((t-{_fmt(t0)})/{_fmt(slide)},0),1),3)':y=0" if slide > 0 else "0:0")
+        vg.append(f"[{bi}:v]fps={fps},format=rgba,setpts=PTS-STARTPTS+{a}/TB[bd{k}];[{cur}][bd{k}]overlay={pos}:{en}[bd{k}o]")
+        cur = f"bd{k}o"
+    vg.append(f"[{cur}]fps={fps},format=yuv420p[v]")
+    rate = rcfg.get("audio_rate", 48000)
+    ag = []
+    for k, (i, _) in enumerate(members):
+        sec = _fmt(float(clips[i]["seconds"]))
+        ag.append(f"[{fidx[k]}:a]aresample={rate},aformat=channel_layouts=stereo,atrim=duration={sec},asetpts=PTS-STARTPTS,"
+                  f"apad=whole_dur={sec}[am{k}]")
+    ag.append("".join(f"[am{k}]" for k in range(n)) + f"concat=n={n}:v=0:a=1,{_loudnorm(cfg)}[a]")
+    deps.run(_base(*inputs, "-filter_complex", ";".join(vg + ag), "-map", "[v]", "-map", "[a]", "-t", _fmt(total),
+                   *_enc(rcfg), str(out)))
+    return total
+
+
+def _panel_groups(order: list, script: dict, clips: dict) -> dict[int, list[int]]:
+    """مجموعات اللوحات في سيناريو v2: المقاطع المتتالية (kind=clip) ذات q الواحد، مرتبة بترتيب السيناريو، {فهرس أول عضو: فهارس
+    الأعضاء}. مقطع لم يُنزَّل (ليس في clips) يُسقط من مجموعته ولوحة لم يبقَ فيها مقطع لا تُركَّب (P2c-1). v1 ← لا مجموعات."""
+    if not reel_script.is_v2(script):
+        return {}
+    groups: dict[int, list[int]] = {}
+    for members in _iter_runs(order):
+        present = [i for i in members if i in clips]
+        if present:
+            groups[present[0]] = present
+    return groups
+
+
+def _iter_runs(order: list):
+    """مقاطع متتالية ذات q واحد من order (kind=clip وq غير None)."""
+    run, last = [], None
+    for i, sc in order:
+        if sc.get("kind") == "clip" and sc.get("q") is not None:
+            if run and sc.get("q") != last:
+                yield run
+                run = []
+            run.append(i)
+            last = sc.get("q")
+        elif run:
+            yield run
+            run, last = [], None
+    if run:
+        yield run
+
+
 def _transition_kind(cfg, kind: str) -> str:
     """نوع الانتقال إلى مشهد من هذا النوع: fade (transition.outro_type) للختام بصيغتيه outro وclosing، وغيره transition.type."""
     tcfg = cfg.path("reel.render.transition")
@@ -2990,6 +3191,9 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
     hooks = [x for x in order if x[1].get("kind") == "title_card"][:1]
     hook_idx = hooks[0][0] if hooks else None
     order = hooks + [x for x in order if x[0] != hook_idx]
+    # لوحات إجابات السؤال (P2c-1، سيناريو v2 وحده): مقاطع q الواحد مشهد واحد؛ كل فهرس مقطع في run يُتخطى ما عدا أول الحاضرين
+    groups = _panel_groups(order, script, clips)
+    panel_skip = {i for run in _iter_runs(order) for i in run} if reel_script.is_v2(script) else set()
     nar_t = 0.0       # زمن مشاهد الراوي التراكمي: بداية خلفيتها المتحركة (الانتقال يأكل lead من كل مشهد)
     nar_bg: Path | None = None
     nar_plan: dict | None = None
@@ -3002,9 +3206,11 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
             speech_cache[i] = _speech(script["scenes"][i].get("text", ""), voice, cfg, deps, tmp, f"s{i:02d}")
         # بطاقة السؤال تزيد qcard.tail على مدة مشهدها فتدخل في المدة الكلية كي لا تتجمد الحركة قبل نهاية الراوي (P2b)
         qtail = float(cfg.path("reel.render.qcard.tail"))
+        # لوحة إجابة واحدة (n = 1) تتحرك فوق الخلفية نفسها فمدتها تدخل هنا أيضًا (P2c-1)
+        single = [clips[g[0]]["seconds"] for g in groups.values() if len(g) == 1]
         total_nar = sum(scene_seconds(sum(d for _, d in speech_cache[i][1]),
                                       qtail if script["scenes"][i].get("role") == "question" else 0.0, lead)
-                        for i in nar_idx) - lead * (len(nar_idx) - 1)
+                        for i in nar_idx) + sum(single) - lead * (len(nar_idx) + len(single) - 1)
         wide, wcx = _wide_of(bg)
         nar_plan = pan_plan(cfg, "narration_bg", wide.size[0], wide.size[1], total_nar, wcx)
         nar_bg = _pan_background(wide, nar_plan, tmp, "nar_bg.png")
@@ -3036,22 +3242,21 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
             kind = "closing"
             dur = _closing_scene(i, scene, channels, credit, hook_info, draft or {}, voice, cfg, deps, tmp, out,
                                  notes if notes is not None else [], crops, lead)
+        elif i in panel_skip:
+            if i not in groups:
+                continue
+            kind = "panel"
+            members = [(j, script["scenes"][j]) for j in groups[i]]
+            on_bg = len(members) == 1 and bg is not None and nar_plan is not None
+            dur = _panel_scene(members, clips, out, cfg, deps, tmp, speakers if speakers is not None else {},
+                               notes if notes is not None else [], nar_bg if on_bg else None, nar_plan if on_bg else None, nar_t)
+            if on_bg:
+                nar_t += dur - lead
         elif kind in reel_script.CLIP_KINDS:
             if i not in clips:
                 continue
-            # قبل رسم الشريط: الاسم المقروء من الشاشة يغيّر نص الشريط نفسه
-            _apply_chyron(scene, clips[i], cfg, deps, speakers if speakers is not None else {},
-                          notes if notes is not None else [], i)
-            qtext = (scene.get("quote_arabic") or "").strip()
-            qframes = None
-            if qtext:
-                # ترجمة المتحدث كلمةً كلمة بتزامن مع كلامه (Issue #1592، R5h): النص المجلوب إن وُجد وإلا توزيع متساوٍ
-                segs = clips[i].get("segs") or []
-                times = quote_word_times(len(qtext.split()), clips[i]["seconds"], segs, clips[i].get("wstart", 0.0), cfg)
-                qframes = quote_frames(cfg, qtext, times, clips[i]["seconds"], tmp, f"quote_{i}")
-                clips[i]["quote_sync"] = "transcript" if segs else "uniform"
-            static, band = frame_clip_layers(cfg, scene, quote=qframes is None)
-            overlays = (_save(static, tmp / f"overlay_{i}_static.png"), _save(band, tmp / f"overlay_{i}_band.png"))
+            overlays, qframes = _clip_layers(i, scene, clips[i], cfg, deps, tmp, speakers if speakers is not None else {},
+                                             notes if notes is not None else [])
             dur = _clip_scene(clips[i], overlays, out, cfg, deps, scene, notes, qframes=qframes)
         elif kind == "outro":
             png = _save(frame_outro(cfg, channels, credit=credit) if credit else frame_outro(cfg, channels),
