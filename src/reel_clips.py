@@ -1,7 +1,6 @@
 """مقاطع الريل: تحديد موضع الاقتباس في نص الفيديو، وتنزيل نافذته بسلّم درجات (Issue #1347، R3a).
 
-قياس فقط في R3a؛ يعيد R3b استعمال الوحدة. لا يمسّ `youtube_extract.resolve_timestamp`:
-تلك تعيد أول سطر يطابق وتبحث داخل سطر واحد، وهذه تجمع كل المواضع وتبحث عبر حد السطر.
+قياس فقط في R3a؛ يعيد R3b استعمال الوحدة. الفهرس المتصل وبحث المواضع مشتركان مع `youtube_extract.resolve_timestamp` (T1a).
 """
 from __future__ import annotations
 
@@ -46,7 +45,6 @@ def locate_quote(quote, segments, near, cfg=None) -> dict:
     المطبَّعة بـ`_normalize_for_anchor` نفسها مع خريطة موضع ← سطر، ويُبحث بالتدرّج: الاقتباس كاملًا
     ثم أول 8 كلمات (كل المواضع، الأقرب إلى near) ثم 5 ثم 3 (موضع واحد فقط وإلا ambiguous)،
     لأن الكلمات القليلة تتكرر فتُنسب إلى لحظة خاطئة بلا إنذار."""
-    from bisect import bisect_right
     from src import youtube_extract
     norm = youtube_extract._normalize_for_anchor
     empty = {"start": None, "end": None, "matches": 0, "status": "missing", "level": None}
@@ -57,27 +55,15 @@ def locate_quote(quote, segments, near, cfg=None) -> dict:
     if not words:
         return empty
     lines = [norm(text) for _, text in segments]
-    starts, parts, pos = [], [], 0
-    for ln in lines:
-        starts.append(pos)
-        parts.append(ln)
-        pos += len(ln) + 1
-    joined = " ".join(parts)
+    # الفهرس المتصل مشترك مع youtube_extract.resolve_timestamp (T1a)
+    joined, starts = youtube_extract.joined_index(segments)
     rate = _speech_rate(cfg)
 
     def positions(needle_words: list[str]) -> list[int]:
-        needle = " ".join(needle_words)
-        found, idx = [], joined.find(needle)
-        while idx != -1:
-            before_ok = idx == 0 or joined[idx - 1] == " "
-            after = idx + len(needle)
-            if before_ok and (after == len(joined) or joined[after] == " "):
-                found.append(idx)
-            idx = joined.find(needle, idx + 1)
-        return found
+        return youtube_extract.find_all(joined, needle_words)
 
     def line_of(offset: int) -> int:
-        return max(bisect_right(starts, offset) - 1, 0)
+        return youtube_extract.segment_of(starts, offset)
 
     def build(hits: list[int], level: str, status: str) -> dict:
         if near is not None:
@@ -105,7 +91,8 @@ def locate_quote(quote, segments, near, cfg=None) -> dict:
         hits = positions(words[:n])
         if not hits:
             continue
-        if multi_ok or len(hits) == 1:
+        # بلا near يُؤخذ أول موضع وهذا الخطأ الصامت نفسه، فدرجة 8 كلمات تشترط موضعًا واحدًا هي أيضًا (T1a)
+        if (multi_ok and near is not None) or len(hits) == 1:
             return build(hits, level, "found")
         return build(hits, level, "ambiguous")
     return empty

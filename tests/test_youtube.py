@@ -676,21 +676,21 @@ def test_youtube_extract() -> None:
 
     check("resolve_timestamp: تطابق تام (بلا فروق تنسيقية) يعيد ثانية المقطع",
           ye.resolve_timestamp("قال الوزير، إننا نطلق خطة اقتصادية جديدة اليوم",
-                                segments) == 12)
+                                segments) == (12, "exact"))
     check("resolve_timestamp: تطبيع المسافات المضاعفة والترقيم لا يمنع التطابق",
-          ye.resolve_timestamp("قال  الوزير إننا نطلق", segments) == 12)
+          ye.resolve_timestamp("قال  الوزير إننا نطلق", segments)[0] == 12)
     check("resolve_timestamp: تجاهل التشكيل لا يمنع التطابق",
-          ye.resolve_timestamp("قَالَ الْوَزِيرُ إِنَّنَا نُطْلِقُ", segments) == 12)
+          ye.resolve_timestamp("قَالَ الْوَزِيرُ إِنَّنَا نُطْلِقُ", segments)[0] == 12)
     check("resolve_timestamp: مرساة أول ٦ كلمات تطابق مقطعًا آخر بلا لبس",
-          ye.resolve_timestamp("مرحبًا بكم في النشرة", segments) == 0)
+          ye.resolve_timestamp("مرحبًا بكم في النشرة", segments)[0] == 0)
     check("resolve_timestamp: عند فشل التطابق التام، محاولة ثانية بأول ٣ كلمات فقط",
-          ye.resolve_timestamp("قال الوزير إننا نطلق شيئًا لم يُقَل قط", segments) == 12)
+          ye.resolve_timestamp("قال الوزير إننا نطلق شيئًا لم يُقَل قط", segments)[0] == 12)
     check("resolve_timestamp: فشل نهائي (لا تطابق حتى بأول ٣ كلمات) يعيد None",
-          ye.resolve_timestamp("كلام لا علاقة له بأي مقطع هنا إطلاقًا", segments) is None)
+          ye.resolve_timestamp("كلام لا علاقة له بأي مقطع هنا إطلاقًا", segments)[0] is None)
     check("resolve_timestamp: نص فارغ يعيد None بلا انهيار",
-          ye.resolve_timestamp("", segments) is None)
+          ye.resolve_timestamp("", segments)[0] is None)
     check("resolve_timestamp: قيمة غير نصّية تعيد None بلا انهيار",
-          ye.resolve_timestamp(None, segments) is None)
+          ye.resolve_timestamp(None, segments)[0] is None)
 
     # ── extract_points: إخراج مهيكل (tool_use) لا JSON نصّي (العطل ٢) ──
     class _Block:

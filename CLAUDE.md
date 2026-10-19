@@ -2172,3 +2172,14 @@ instead.
 - **(3) خلفية الختام:** `pre_hook` فقط إن كانت ثواني `[start − total، start)` مصنَّفة `event_footage` بنسبة ≥ `closing.pre_footage_ratio` (0.8) عبر `hook_info["pre_entries"]`؛ وإلا `freeze`. يُحفظ `render_crops["closing"].pre_footage`.
 - **(4) الإجابات آراء:** `valid_clips` تحمل `type`؛ `validate_v2` ترفض إجابة `fact` إن وُجد مقطعان صالحان `opinion`/`forecast` لمتحدثين مختلفين.
 - **(5) سبب فشل الجلب:** `render_approx.reason` = «تعذّر جلب نص الفيديو: {الاستثناء}: {أول 80 حرفًا بعد scrub_text}».
+
+## تغطية الطوابع الزمنية (T1a) — `src/youtube_extract.py` (Issue #1624)
+
+السبب: 24% من نقاط آخر 10 أيام (172 من 725) بلا `timestamp`، و`reel_script.valid_clips` تستبعدها فيخسر الريل متحدثين. والاحتياط القديم (أول 3 كلمات) كان يأخذ **أول** تطابق في الفيديو فتعطي عبارة شائعة طابعًا خاطئًا بصمت — والطابع الخاطئ أسوأ من غيابه. استعادة طوابع النقاط القديمة مهمة T1b (لم تُنفَّذ).
+
+- **التوقيع:** `resolve_timestamp(anchor_text, segments, quote_original="", cfg=None)` تعيد `(الطابع أو None، الطريقة)`. الطبقات بالترتيب وأول ناجحة تُعتمد: `exact` (المرساة في مقطع واحد) ← `joined` (في النص المتصل؛ موضع واحد أو أولها لمرساة ≥5 كلمات) ← `quote` (`reel_clips.locate_quote(..., near=None)` بحالة found؛ اقتباس <5 كلمات متكرر لا يُعتمد) ← `prefix3` (أول 3 كلمات بشرط موضع واحد في الفيديو كله) ← `fuzzy_anchor` ← `fuzzy_quote` (أول `youtube.timestamps.quote_words` كلمات) ← `none`. الغموض في طبقة ينتقل إلى التي بعدها لا إلى أول موضع.
+- **الفهرس المشترك:** `joined_index(segments)` ← `(joined, starts)` و`find_all(joined, words)` (حدود كلمات) و`segment_of(starts, offset)`؛ تستعملها `reel_clips.locate_quote` أيضًا. تغيير وحيد في `locate_quote`: بلا `near` تشترط درجة «8 كلمات» موضعًا واحدًا وإلا `ambiguous` (وقت التركيب `near` موجود دائمًا).
+- **التطبيع (`_normalize_for_anchor`، للبحث وحده):** التشكيل العربي وحركات العبرية، أ إ آ ٱ←ا، ى←ي، ة←ه، الأرقام الهندية/الفارسية←لاتينية، وللتركية İ←i وI←ı قبل casefold ثم حذف `̇`؛ ثم يُطوى ı إلى i أخيرًا كي لا يفرّق بين «IRAN» و«iran» في الإنجليزية (انحراف مقصود عن نص الـIssue). يؤثر على `locate_quote` وعلى مقارنة أسماء المتحدثين في `reel_render` (متماثل على الطرفين) ← `reel.render.version` = 35.
+- **التطابق التقريبي `_fuzzy_locate(probe, tokens, cfg)`:** نوافذ بطول `len(probe)+2`، LCS بالكلمات؛ يُقبل الأفضل بالنسبة `youtube.timestamps.fuzzy_min_ratio` (0.8) والعدد `fuzzy_min_words` (4) والتفرّد (لا نافذة تبعد أكثر من `len(probe)` كلمة بالدرجة نفسها)؛ الطابع = مقطع أول كلمة **متطابقة**. نص البحث يبقى `sent_text` (ما رآه النموذج).
+- **الحفظ:** كل نقطة في ملف النقاط (المستودع الخاص) تحمل `timestamp_method` و`anchor_text` (لا ينتقلان إلى `drafts/`). `stats.points_timestamp_methods` = عدّاد الطرق، والسطر المطبوع في `main` يعرضه؛ `points_timestamp_resolved/unresolved` كما هما.
+- **الاختبارات:** g492–g498 في `tests/test_guards_golden.py:test_timestamps_t1a_guards`؛ واختبارات `resolve_timestamp` القديمة في `tests/test_youtube.py` تقرأ `[0]` من الزوج. `tools/reel_clip_probe.py` يقرأ `[0]` أيضًا.
