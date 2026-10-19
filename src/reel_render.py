@@ -305,10 +305,21 @@ def pop_start_rect(tile: tuple, tile_crop: dict | None, frame_crop: dict | None,
         s = th / tile_crop["h"]
         x = tx + (frame_crop["x"] - tile_crop["x"]) * s
         y = ty + (frame_crop["y"] - tile_crop["y"]) * s
-        return int(round(x)), int(round(y)), _even(frame_crop["w"] * s), _even(frame_crop["h"] * s)
-    fw, fh = (frame[2], frame[3]) if frame else (tw, th)
-    w = _even(th * fw / fh)
-    return int(round(tx + (tw - w) / 2)), ty, w, _even(th)
+        w, h = _even(frame_crop["w"] * s), _even(frame_crop["h"] * s)
+        cx, cy = x + w / 2, y + h / 2
+        if x >= tx - 1 and y >= ty - 1 and x + w <= tx + tw + 1 and y + h <= ty + th + 1:
+            return int(round(x)), int(round(y)), w, h
+    else:
+        fw, fh = (frame[2], frame[3]) if frame else (tw, th)
+        w, h = _even(th * fw / fh), _even(th)
+        cx, cy = tx + tw / 2, ty + th / 2
+    # مستطيل خارج البلاطة (مصدر عمودي، أو شبكة 2×2) كان يبدأ أكبر من بلاطته فيبدو الانبثاق تصغيرًا: يُصغَّر بنسبة الإطار
+    # ويُحصر مركزه كي يقع كله داخلها، وشفافية pop.fade تخفي فرق المحتوى
+    f = min(1.0, tw / w, th / h)
+    w, h = _even(w * f), _even(h * f)
+    cx = min(max(cx, tx + w / 2), tx + tw - w / 2)
+    cy = min(max(cy, ty + h / 2), ty + th - h / 2)
+    return int(round(cx - w / 2)), int(round(cy - h / 2)), w, h
 
 
 def frame_tile_labels(cfg, tiles: list, scenes: list) -> Image.Image:
