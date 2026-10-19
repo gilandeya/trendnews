@@ -1,5 +1,5 @@
 {
-  "issue": 1368,
+  "issue": 1622,
   "recommendations": [
     {
       "id": "trends.weight",
@@ -9,10 +9,10 @@
     },
     {
       "id": "facebook.peak_hours",
-      "text": "أفضل ساعات التفاعل فعليًا: 20, 22, 7. الإعداد الحالي: [12, 18, 21]. حدّث `facebook.peak_hours`.",
+      "text": "أفضل ساعات التفاعل فعليًا: 20, 22, 19. الإعداد الحالي: [12, 18, 21]. حدّث `facebook.peak_hours`.",
       "key": "facebook.peak_hours",
       "suggested": [
-        7,
+        19,
         20,
         22
       ]
