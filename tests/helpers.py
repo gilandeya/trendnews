@@ -1029,3 +1029,10 @@ def editor_response(notes, searches: int = 0, report: bool = True):
     return _NS(content=content, stop_reason="end_turn",
                usage=_NS(input_tokens=1, output_tokens=1,
                          server_tool_use=_NS(web_search_requests=searches)))
+
+
+def reel_v1_cfg(cfg):
+    """إعداد بسيناريو الريل v1 (Issue #1608، P2a): الاختبارات التي تزيّف مخرج النموذج بصيغة v1 تشغَّل بهذا الإعداد
+    لأن reel.script.v2.enabled مشغَّل افتراضيًا؛ توقعاتها لا تتغير."""
+    cfg.setdefault("reel", {}).setdefault("script", {}).setdefault("v2", {})["enabled"] = False
+    return cfg

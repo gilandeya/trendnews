@@ -2094,3 +2094,16 @@ instead.
 - **`hook_video`** يحفظ أيضًا `impact` و`pre_ok` و`strong_start` و`reason` (`reel.render.texts.hook_reason`). **القديم:** `_drop_stale_auto_hook` في `_render` تحذف `auto_topic` وكذلك `auto` بلا مفتاح `impact` (ذاكرة وقرصًا) فيُعاد اختيارهما؛ اليدوي و`auto` ذو impact يبقيان.
 - **ختام P1a-2:** نافذة `pre_hook` في `_closing_scene` تُقتطع بـ`hook_info["cexpr"]` نفسه (قصّ الهوك الفعلي) بلا كشف ثانٍ لشريط القناة، فلا قفزة عند الإعادة المتصلة.
 - `render_version` = 30. الاختبارات g446–g452 في `tests/test_guards_golden.py:test_reel_hook_strong_p1b_guards` (بلا ffmpeg)؛ وحُدِّثت اختبارات ثبات الإصدار 29→30 وg387 (auto بـimpact).
+
+## هيكل سيناريو الريل v2 (Issue #1608، P2a) — `src/reel_script.py`
+
+الريل يُبنى على خلاف المحللين نفسه والراوي للسؤال والسياق فقط. التركيب لم يتغير (`render_version` كما هو): بطاقة السؤال مؤقتًا مشهد راوٍ عاديًا (P2b ترسمها، P2c القصّ بالارتفاع الكامل).
+
+- **التفعيل:** `reel.script.v2.enabled` (true) ← السيناريوهات الجديدة `script["version"] = 2`؛ false أو مسودة بلا `version` ← v1 حرفيًا. `validate` و`estimate_seconds` تفرّعان بـ`is_v2(script)` فـ`reel_editor` بلا تعديل.
+- **الأداة:** `REEL_TOOL_V2` (`report_reel_script_v2`): `main_question` · `context` · `questions[{role, text, answers[{point_id, stance}]}]` · `closing_question`؛ `role` من core/why_now/where_next. النموذج يختار `point_id` فقط والكود يملأ حقول المقطع.
+- **`_build_v2`:** title_card(السؤال الرئيس) ← narration(role=context) ← لكل سؤال narration(role=question, qrole, q) ثم مقاطعه (`kind: clip`, `q`, `stance`) ← question(الختام) ← outro؛ لا `cold_open_clip`. `title` = السؤال الرئيس، `question` = الختام، `trimmed: []`.
+- **`validate_v2`** (خالصة، أسباب بالعربية): حدود كلمات السؤال الرئيس والسياق والأسئلة، عدد الأسئلة 1–3، الأدوار بلا تكرار وبالترتيب وأولها core، `v2.banned_patterns`، 1–4 إجابات لكل سؤال من الصالحة بلا مقطع مكرر ولا متحدث مكرر في السؤال، core بمتحدثَين مختلفين إن وُجدا في الصالحة، `v2.total_answers`، ختام غير فارغ ولا يبدأ «برأيك»، `_unverified_name_violations`، والمدة بين `v2.min_seconds` و`v2.max_seconds` بعد القصّ.
+- **المدة والقصّ:** `estimate_seconds` = كلمات (الرئيس + الراوي + الختام) ÷ `narration_wps` + نوافذ المقاطع + `v2.fixed_seconds` (9)؛ `trim_v2` تحذف السؤال الثالث ثم إجابة وسطى (الأطول نافذة، لا الأولى ولا الأخيرة) من الأكثر إجابات حتى بلوغ السقف، وتسجّل في `script["trimmed"]`؛ بقاء الزيادة ← يرفض التحقق بسبب المدة وتُعاد الكتابة مرة.
+- **`write_script`** مع v2: `reel.script.v2.system` و`user_message_v2` (مع عدد المتحدثين المختلفين) ثم `trim_v2` ثم `validate_v2` وإعادة واحدة بالسبب. خطة اللقطات تشمل جمل بطاقات الأسئلة عمدًا.
+- **المرحلة 2:** سطور `reel.texts.scene_main_question/scene_context/scene_qcard/scene_stance/scene_closing` و`qroles` و`script_trimmed`؛ الستانس يظهر للمراجع فقط. تعديل `title_card` يغيّر `script.title` و`question` يغيّر `script.question`.
+- **الاختبارات:** g453–g460 في `tests/test_guards_golden.py:test_reel_script_v2_p2a_guards`؛ الاختبارات القديمة التي تزيّف مخرج v1 تعمل بـ`tests.helpers.reel_v1_cfg(cfg)` (يضبط `v2.enabled: false`).

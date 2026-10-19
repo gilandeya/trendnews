@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import shutil
 
-from tests.helpers import (check, load_config, evidence, store, DRAFTS_DIR, ImportantRig,
+from tests.helpers import (check, reel_v1_cfg, load_config, evidence, store, DRAFTS_DIR, ImportantRig,
                            ImportantWriteRig, NamesAuditRig, NAMES_AUDIT_SOURCE, names_audit_doubt,
                            names_audit_draft, names_audit_hit, important_doc, important_fixture_point,
                            important_good_data, important_marked_body, important_point,
@@ -4871,8 +4871,11 @@ def test_reel_script_guards() -> None:
     from src import youtube_publish as yp
     from tests.helpers import tick_marker
 
+    from tests.helpers import reel_v1_cfg
+
     def cfg_with(enabled: bool):
-        c = load_config()
+        # الاختبار يزيّف مخرج النموذج بصيغة v1 (Issue #1608): v2 مشغَّل افتراضيًا فيُطفأ هنا
+        c = reel_v1_cfg(load_config())
         c.setdefault("reel", {})["enabled"] = enabled
         return c
 
@@ -5295,7 +5298,7 @@ def test_reel_speaker_audit_guards() -> None:
     from src import youtube_article as ya
     from src import youtube_publish as yp
 
-    cfg = load_config()
+    cfg = reel_v1_cfg(load_config())  # يزيّف مخرج v1 (Issue #1608)
     cfg.setdefault("reel", {})["enabled"] = True
     D = "2099-11-02"
 
@@ -5407,7 +5410,7 @@ def test_reel_identity_r2c_guards() -> None:
     from src import youtube_extract as ye
     from src import youtube_publish as yp
 
-    cfg = load_config()
+    cfg = reel_v1_cfg(load_config())  # يزيّف مخرج v1 (Issue #1608)
     cfg.setdefault("reel", {})["enabled"] = True
     D = "2099-11-03"
     SPEAKER = "نيهال بينجه سو كاراجا كاتبة صحافية هابرتورك"
@@ -10720,7 +10723,7 @@ def test_reel_hook_script_r5c3_guards() -> None:
     from src import youtube_article as ya
     from src import youtube_publish as yp
 
-    cfg = load_config()
+    cfg = reel_v1_cfg(load_config())  # يزيّف مخرج v1 (Issue #1608)
     cfg.setdefault("reel", {})["enabled"] = True
     D = "2099-11-02"
 
@@ -11562,7 +11565,7 @@ def test_reel_broll_r5d2_guards() -> None:
     from src import youtube_article as ya
     from src import youtube_publish as yp
 
-    cfg = load_config()
+    cfg = reel_v1_cfg(load_config())  # يزيّف مخرج v1 (Issue #1608)
     cfg.setdefault("reel", {})["enabled"] = True
     W, H = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
     lead = reel_render.transition_seconds(cfg)
@@ -12535,7 +12538,7 @@ def test_reel_script_keys_r5d3_guards() -> None:
     from src import youtube_cluster
     from src import youtube_publish as yp
 
-    cfg = load_config()
+    cfg = reel_v1_cfg(load_config())  # يزيّف مخرج v1 (Issue #1608)
     cfg.setdefault("reel", {})["enabled"] = True
     cfg["reel"].setdefault("hook_search", {})["enabled"] = True
     cfg["reel"].setdefault("broll", {})["enabled"] = True
@@ -15330,3 +15333,344 @@ def test_reel_hook_strong_p1b_guards() -> None:
         check("g452: _entry تحصر impact وغيابه 0", e["impact"] == 3 and e2["impact"] == 0, (e, e2))
     guarded("g452", g452)
     shutil.rmtree(work_root, ignore_errors=True)
+
+
+def test_reel_script_v2_p2a_guards() -> None:
+    """Issue #1608 (P2a، g453–g460): بنية سيناريو الريل الجديدة v2 (سؤال رئيس ← سياق ← 1–3 أسئلة بطيف إجابات ← سؤال ختام)
+    تُحوَّل إلى مشاهد يفهمها التركيب الحالي بلا تعديل. نداء النموذج مزيَّف؛ التحقق والقصّ والعرض والتركيب حقيقية."""
+    import copy
+    import json
+    import tempfile
+    from pathlib import Path
+    from types import SimpleNamespace
+
+    from src import reel_broll, reel_editor, reel_render, reel_script
+    from src import youtube_publish as yp
+    from tests.helpers import editor_response, reel_v1_cfg
+
+    cfg = load_config()
+    T = cfg.path("reel.texts")
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    words = [5, 25, 40, 40, 40, 5, 40, 40, 40, 40, 40]
+    people = ["ليلى حداد", "سامر النجار", "رامي خوري", "هدى منصور", "كريم السعدي", "نادين عيسى", "طارق الحلبي",
+              "سلمى ياسين", "ماهر قاسم", "دانا فارس", "يوسف عمران"]
+    pts = [{"video_id": f"v{i}", "bloc": "arabic", "channel": f"قناة {i}", "speaker": people[i],
+            "statement": f"قول {i}", "quote_arabic": f"اقتباس عربي {i}",
+            "quote_original": " ".join(f"w{i}x{k}" for k in range(n)), "type": "fact", "video_title": f"فيديو {i}",
+            "video_url": f"https://youtube.com/watch?v=v{i}", "timestamp": 100 + i * 10, "video_published": "2099-10-30"}
+           for i, n in enumerate(words)]
+    valid = reel_script.valid_clips(pts, [], cfg)
+    ids = [c["point_id"] for c in valid]
+
+    def good():
+        return {"main_question": "هل تصمد الهدنة بين الطرفين؟",
+                "context": ["أعلن الطرفان هدنة في 3 أكتوبر 2026.", "ويختلف المحللون في تقدير مدتها."],
+                "questions": [
+                    {"role": "core", "text": "ما جوهر الخلاف حول الهدنة؟",
+                     "answers": [{"point_id": ids[0], "stance": "يرى الهدنة صامدة"},
+                                 {"point_id": ids[1], "stance": "يراها مؤقتة"},
+                                 {"point_id": ids[2], "stance": "يرفضها كليًا"}]},
+                    {"role": "why_now", "text": "لماذا الآن؟",
+                     "answers": [{"point_id": ids[5], "stance": "الضغط الدولي"}, {"point_id": ids[4], "stance": "الاقتصاد"}]}],
+                "closing_question": "ما الذي ينبغي أن يحدث بعد ذلك؟"}
+
+    def build(data):
+        return reel_script._build_v2(data, valid, "female", {"event": "حدث الموضوع"}, cfg)
+
+    def reasons(data, v=None):
+        return " | ".join(reel_script.validate_v2(build(data), v or valid, cfg))
+
+    # ── g453: _build_v2 ──
+    def g453():
+        data = good()
+        data["questions"][0]["answers"][0]["video_url"] = "https://evil.example/x"   # حقل دخيل من النموذج
+        s = build(data)
+        kinds = [(x["kind"], x.get("role"), x.get("q")) for x in s["scenes"]]
+        want = [("title_card", None, None), ("narration", "context", None), ("narration", "question", 0),
+                ("clip", None, 0), ("clip", None, 0), ("clip", None, 0), ("narration", "question", 1),
+                ("clip", None, 1), ("clip", None, 1), ("question", None, None), ("outro", None, None)]
+        check("g453: أنواع المشاهد بالترتيب", kinds == want, kinds)
+        check("g453: version == 2 والعنوان = السؤال الرئيس والسؤال والحدث",
+              s["version"] == 2 and s["title"] == data["main_question"] and s["question"] == data["closing_question"]
+              and s["event"] == "حدث الموضوع" and s["trimmed"] == [] and s["narrator"] == "female",
+              {k: s[k] for k in s if k != "scenes"})
+        clips = [x for x in s["scenes"] if x["kind"] == "clip"]
+        check("g453: حقول المقطع من النقطة لا من النموذج",
+              clips[0]["video_url"] == valid[0]["video_url"] and clips[0]["start"] == valid[0]["start"]
+              and clips[0]["channel_display"] == valid[0]["channel_display"], clips[0])
+        check("g453: stance وq على كل مقطع",
+              clips[0]["stance"] == "يرى الهدنة صامدة" and [c["q"] for c in clips] == [0, 0, 0, 1, 1])
+        check("g453: سياق في مشهد واحد بجمله مجموعة",
+              s["scenes"][1]["text"].startswith("أعلن الطرفان") and "ويختلف" in s["scenes"][1]["text"])
+        check("g453: لا cold_open_clip", not any(x["kind"] == "cold_open_clip" for x in s["scenes"]))
+        check("g453: السيناريو السليم يمر بلا أسباب", reasons(good()) == "", reasons(good()))
+    guarded("g453", g453)
+
+    # ── g454: validate_v2 ──
+    def g454():
+        def mut(fn):
+            d = good()
+            fn(d)
+            return d
+
+        extra = dict(pts[0], video_id="v99", video_url="https://youtube.com/watch?v=v99", timestamp=999)
+        v_dup = reel_script.valid_clips(pts + [extra], [], cfg)
+        ids_dup = [c["point_id"] for c in v_dup]
+        d_same = good()
+        d_same["questions"][0]["answers"][1]["point_id"] = ids_dup[-1]
+
+        def swap_order(d):
+            d["questions"][1]["role"] = "where_next"
+            d["questions"].append({"role": "why_now", "text": "لماذا الآن؟",
+                                   "answers": [{"point_id": ids[3], "stance": "س"}]})
+        cases = [
+            ("point_id مجهول", mut(lambda d: d["questions"][0]["answers"][0].update(point_id="ffff")), "الصالحة"),
+            ("مقطع مكرر بين سؤالين", mut(lambda d: d["questions"][1]["answers"][0].update(point_id=ids[0])), "مكرر"),
+            ("أول سؤال why_now", mut(lambda d: d["questions"][0].update(role="why_now")), "أول سؤال"),
+            ("where_next قبل why_now", mut(swap_order), "الترتيب"),
+            ("سؤال 11 كلمة", mut(lambda d: d["questions"][0].update(text=" ".join(["كلمة"] * 10) + " أخرى؟")), "أطول من 10"),
+            ("رئيس 13 كلمة", mut(lambda d: d.update(main_question=" ".join(["كلمة"] * 12) + " أخرى؟")), "أطول من 12"),
+            ("السؤال الأخير", mut(lambda d: d["questions"][1].update(text="السؤال الأخير: لماذا الآن؟")), "ممنوعة"),
+            ("سياق 41 كلمة", mut(lambda d: d.update(context=[" ".join(["كلمة"] * 20) + ".", " ".join(["كلمة"] * 21) + "."])),
+             "أطول من 40"),
+            ("ختام يبدأ برأيك", mut(lambda d: d.update(closing_question="برأيك ما الحل؟")), "برأيك"),
+            ("core بإجابة واحدة", mut(lambda d: d["questions"][0].update(answers=d["questions"][0]["answers"][:1])), "متحدثَين"),
+        ]
+        for name, data, key in cases:
+            r = reasons(data)
+            check(f"g454: {name} ← رفض بسبب فيه «{key}»", key in r, r)
+        r = " | ".join(reel_script.validate_v2(build(d_same), v_dup, cfg))
+        check("g454: متحدث مكرر في السؤال الواحد ← رفض", "متحدث" in r and "مكرر" in r, r)
+        # العكس: core بإجابة واحدة مقبولة حين الصالحة كلها لمتحدث واحد
+        one = [dict(c, speaker_text="متحدث واحد", channel_original="قناة") for c in valid[:2]]
+        d1 = {"main_question": "هل تصمد الهدنة؟", "context": ["أعلن الطرفان هدنة."],
+              "questions": [{"role": "core", "text": "ما جوهر الخلاف؟", "answers": [{"point_id": one[0]["point_id"], "stance": "س"}]}],
+              "closing_question": "ما رأيكم في ذلك؟"}
+        r1 = reel_script.validate_v2(reel_script._build_v2(d1, one, "male", {}, cfg), one, cfg)
+        check("g454: core بإجابة واحدة ومتحدث واحد في الصالحة ← لا رفض لهذا السبب",
+              not any("متحدثَين" in x for x in r1), r1)
+    guarded("g454", g454)
+
+    # ── g455: trim_v2 ──
+    def g455():
+        data = good()
+        data["questions"][0]["answers"] = [{"point_id": ids[i], "stance": f"م{i}"} for i in (0, 1, 2, 5)]
+        data["questions"][1]["answers"] = [{"point_id": ids[3], "stance": "أ"}, {"point_id": ids[4], "stance": "ب"}]
+        data["questions"].append({"role": "where_next", "text": "إلى أين تتجه الهدنة؟",
+                                  "answers": [{"point_id": ids[6], "stance": "ج"}, {"point_id": ids[7], "stance": "د"}]})
+        s = build(data)
+        hi = float(cfg.path("reel.script.v2.max_seconds"))
+        e0 = reel_script.estimate_seconds(s, cfg)
+        t, trimmed = reel_script.trim_v2(copy.deepcopy(s), cfg)
+        e1 = reel_script.estimate_seconds(t, cfg)
+        pids = [x["point_id"] for x in t["scenes"] if x["kind"] == "clip"]
+        check("g455: التقدير الأصلي فوق السقف", e0 > hi + 10, e0)
+        check("g455: السؤال الثالث يُحذف أولًا بإجاباته",
+              ids[6] not in pids and ids[7] not in pids and not any(x.get("q") == 2 for x in t["scenes"]), pids)
+        check("g455: ثم الإجابة الوسطى الأطول (ids[2]) من الأول، لا الأولى ولا الأخيرة",
+              ids[2] not in pids and ids[0] in pids and ids[5] in pids and ids[1] in pids, pids)
+        check("g455: يتوقف عند ≤ السقف", e1 <= hi, e1)
+        check("g455: trimmed فيه سطران",
+              len(trimmed) == 2 and t["trimmed"] == trimmed and "السؤال الثالث" in trimmed[0] and "إجابة" in trimmed[1], trimmed)
+        check("g455: السيناريو بعد القصّ يمر بلا أسباب", reel_script.validate_v2(t, valid, cfg) == [],
+              reel_script.validate_v2(t, valid, cfg))
+        check("g455: تحت السقف لا قصّ", reel_script.trim_v2(build(good()), cfg)[1] == [])
+        big = good()
+        big["questions"][0]["answers"] = [{"point_id": ids[i], "stance": "س"} for i in (2, 6, 7)]
+        big["questions"][1]["answers"] = [{"point_id": ids[i], "stance": "س"} for i in (8, 9, 10)]
+        tb, trb = reel_script.trim_v2(build(big), cfg)
+        r = " | ".join(reel_script.validate_v2(tb, valid, cfg))
+        check("g455: غير القابل للقصّ ← رفض بالمدة", trb == [] and "المدة" in r, (trb, r))
+        tot = sum(reel_script.scene_duration(x, cfg, 2) for x in s["scenes"])
+        check("g455: مجموع scene_duration = estimate_seconds", abs(tot - reel_script.estimate_seconds(s, cfg)) < 0.01,
+              (tot, reel_script.estimate_seconds(s, cfg)))
+    guarded("g455", g455)
+
+    # ── g456: write_script ──
+    def g456():
+        calls: list[dict] = []
+        queue: list[dict] = []
+
+        def fake(client, **kw):
+            calls.append(kw)
+            name = kw["tools"][0]["name"]
+            data = queue.pop(0) if queue else good()
+            return SimpleNamespace(content=[SimpleNamespace(type="tool_use", name=name, input=data)], stop_reason="tool_use",
+                                   usage=SimpleNamespace(input_tokens=1, output_tokens=1))
+        real = reel_script._create
+        reel_script._create = fake
+        try:
+            bad = good()
+            bad["questions"][0]["text"] = " ".join(["كلمة"] * 10) + " أخرى؟"
+            queue.extend([bad, good()])
+            s, reason = reel_script.write_script({"title": "موضوع", "event": "حدث"}, "نص المقال", valid, "female", cfg)
+            check("g456: v2 يرسل REEL_TOOL_V2 ويعيد version 2 بعد إعادة واحدة",
+                  s is not None and s["version"] == 2 and len(calls) == 2
+                  and calls[0]["tools"][0]["name"] == "report_reel_script_v2" == reel_script.REEL_TOOL_V2["name"],
+                  (reason, len(calls)))
+            check("g456: الإعادة تحمل السبب", "رُفضت المحاولة السابقة" in calls[1]["messages"][0]["content"]
+                  and "أطول من 10" in calls[1]["messages"][0]["content"])
+            check("g456: برومبت v2 وعدد المتحدثين المختلفين في الرسالة",
+                  calls[0]["system"] == cfg.path("reel.script.v2.system")
+                  and "عدد المتحدثين المختلفين" in calls[0]["messages"][0]["content"])
+            calls.clear()
+            c1 = reel_v1_cfg(load_config())
+            v1_data = {"title": "عنوان", "question": "هل؟", "scenes": [
+                {"kind": "cold_open_clip", "point_id": ids[2]}, {"kind": "title_card", "text": "عنوان"},
+                {"kind": "clip", "point_id": ids[3]}, {"kind": "narration", "text": " ".join(f"س{i}" for i in range(36))},
+                {"kind": "clip", "point_id": ids[4]}, {"kind": "narration", "text": " ".join(f"ص{i}" for i in range(36))},
+                {"kind": "question", "text": "ما رأيك؟"}, {"kind": "outro"}]}
+            queue.append(v1_data)
+            s1, r1 = reel_script.write_script({"title": "موضوع"}, "", valid, "female", c1)
+            check("g456: v2.enabled=false ← v1 بالأداة القديمة وبالترتيب القديم",
+                  s1 is not None and "version" not in s1 and calls[0]["tools"][0]["name"] == "report_reel_script"
+                  and [x["kind"] for x in s1["scenes"]][:2] == ["cold_open_clip", "title_card"], (r1, s1 and s1["scenes"][:2]))
+        finally:
+            reel_script._create = real
+    guarded("g456", g456)
+
+    # ── g457: المرحلة 2 ──
+    s2 = build(good())
+    s2["trimmed"] = ["السؤال الثالث: إلى أين؟"]
+
+    def draft_of(script):
+        return {"id": "aa11bb22cc33", "origin": "analysis", "format": "reel", "topic_id": "t1", "title": "ريل",
+                "status": "pending", "script": script, "script_status": "ready", "headlines": ["عنوان؟", "ب", "ج"]}
+
+    def g457():
+        body = "\n".join(yp._reel_item_lines(1, draft_of(copy.deepcopy(s2)), cfg))
+        check("g457: السؤال الرئيس والسياق وبطاقة السؤال بدورها والختام",
+              T["scene_main_question"].format(text=s2["title"]) in body and "📍 السياق:" in body
+              and T["scene_qcard"].format(role_label=T["qroles"]["core"], text="ما جوهر الخلاف حول الهدنة؟") in body
+              and T["scene_closing"].format(text=s2["question"]) in body, body[:2500])
+        check("g457: سطر الموقف تحت كل إجابة (5)",
+              body.count("↳ الموقف:") == 5 and "↳ الموقف: يرى الهدنة صامدة" in body)
+        check("g457: سطر القصّ",
+              T["script_trimmed"].format(max=int(cfg.path("reel.script.v2.max_seconds")), items="السؤال الثالث: إلى أين؟") in body,
+              body[-1500:])
+        blk = "\n".join(reel_script.edit_block("aa11bb22cc33", s2))
+        check("g457: كتلة التعديل تشمل العنوان والسياق والأسئلة والختام وتخلو من المقاطع",
+              "هل تصمد الهدنة" in blk and "ما جوهر الخلاف" in blk and "ما الذي ينبغي" in blk and "w0x0" not in blk
+              and "اقتباس عربي" not in blk, blk)
+        lines = reel_script.editable_lines(s2)
+        qn = next(ln for ln in lines if "ما جوهر الخلاف" in ln).split("]")[0].lstrip("[")
+        new, w = reel_script.apply_lines(s2, f"[{qn}] ما جوهر الخلاف الجديد؟\n[1] هل تنجح الهدنة؟")
+        check("g457: تعديل سطر سؤال يغيّر نص مشهده وتعديل الرئيس يغيّر script.title",
+              any(x.get("text") == "ما جوهر الخلاف الجديد؟" for x in new["scenes"]) and new["title"] == "هل تنجح الهدنة؟"
+              and new["scenes"][0]["text"] == "هل تنجح الهدنة؟" and new["version"] == 2, (new["title"], w))
+    guarded("g457", g457)
+
+    # ── g458: التركيب بمزيَّفات ──
+    def g458():
+        D = "2099-12-03"
+        transcripts = {"v1": "[00:10] alpha beta gamma delta\n[00:14] epsilon zeta eta theta\n[00:18] tail line",
+                       "v2": "[00:30] iota kappa lambda mu\n[00:34] nu xi omicron pi\n[00:38] tail two"}
+        quotes = {"v1": "alpha beta gamma delta epsilon zeta eta theta", "v2": "iota kappa lambda mu nu xi omicron pi"}
+        rpoints = [{"video_id": v, "statement": "s " + v, "quote_original": q, "quote_arabic": "ترجمة " + v,
+                    "speaker": "متحدث", "channel": "قناة", "video_url": "https://youtube.com/watch?v=" + v, "timestamp": t}
+                   for (v, q), t in zip(quotes.items(), (10, 30))]
+        rids = {p["video_id"]: reel_script.point_key_id(p) for p in rpoints}
+
+        def clip(v, q):
+            return {"kind": "clip", "q": q, "stance": "موقف", "point_id": rids[v],
+                    "video_url": "https://youtube.com/watch?v=" + v, "start": 9, "end": 20, "speaker_name": "",
+                    "speaker_role": "", "speaker_verified": False, "speaker_name_latin": "", "channel_display": "قناة",
+                    "quote_arabic": "ترجمة " + v, "language": "en"}
+        scenes = [{"kind": "title_card", "text": "هل تصمد الهدنة؟"},
+                  {"kind": "narration", "role": "context", "text": "أعلن الطرفان هدنة."},
+                  {"kind": "narration", "role": "question", "qrole": "core", "q": 0, "text": "ما جوهر الخلاف؟"},
+                  clip("v1", 0), clip("v2", 0),
+                  {"kind": "narration", "role": "question", "qrole": "why_now", "q": 1, "text": "لماذا الآن؟"},
+                  clip("v1", 1), {"kind": "question", "text": "ما رأيكم؟"}, {"kind": "outro"}]
+        d = {"id": "p2a000000a01", "origin": "analysis", "format": "reel", "status": "approved_script",
+             "render_status": "queued", "topic_id": "t1", "topic_date": D, "title": "ريل", "script_status": "ready",
+             "script": {"version": 2, "narrator": "female", "title": "هل تصمد الهدنة؟", "question": "ما رأيكم؟",
+                        "scenes": scenes, "trimmed": []}}
+        path = store.save_draft(d)
+        cmds: list = []
+
+        def run(cmd):
+            cmds.append([str(x) for x in cmd])
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+
+        def download(video_id, start, end, height, out_path):
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        deps = reel_render.Deps(
+            fetch_transcript=lambda vid: transcripts.get(vid), download_clip=download,
+            synthesize=lambda text, voice: {"ok": True, "audio": b"mp3", "chars": len(text)},
+            diacritize=lambda text: (text, None), run=run,
+            probe=lambda p: 41.0 if (Path(p).name == "final.mp4" or "reels" in Path(p).parts) else 2.0,
+            load_points=lambda date: rpoints, comment=lambda i, t: None, faces=lambda f, fr: (1280, 720, []))
+        tmp = Path(tempfile.mkdtemp())
+        reel_render.render_draft(path, d, cfg, deps, reels_dir=tmp / "reels", workdir=tmp / "work")
+        saved = json.loads(path.read_text(encoding="utf-8"))
+        outs = sorted({c[-1].rsplit("/", 1)[-1] for c in cmds if c[-1].rsplit("/", 1)[-1].startswith("scene_")})
+        check("g458: التركيب ينجح على v2 بلا عطل", saved.get("render_status") == "rendered",
+              {k: saved.get(k) for k in ("render_status", "render_error", "error")})
+        check("g458: ثمانية ملفات مشاهد (هوك، راويان، مقطعان، راوٍ، مقطع، ختام)", len(outs) == 8, outs)
+        sents = reel_broll.narration_sentences(d["script"])
+        check("g458: خطة اللقطات ترى جمل بطاقات الأسئلة",
+              any("ما جوهر الخلاف" in s["text"] for s in sents) and any("لماذا الآن" in s["text"] for s in sents), sents)
+    guarded("g458", g458)
+
+    # ── g459: المحرر ──
+    def g459():
+        s = build(good())
+        draft = draft_of(copy.deepcopy(s))
+        ctx = {"script": copy.deepcopy(s), "valid": valid, "want": 3, "points": []}
+        title, body, heads = reel_editor.ADAPTER.read(draft)
+        check("g459: مخالفات المحرر من validate_v2 (سيناريو سليم ← لا شيء)",
+              reel_editor.ADAPTER.problems(title, body, heads, ctx, cfg) == set())
+        bad_body = body.replace("ما جوهر الخلاف حول الهدنة؟", " ".join(["كلمة"] * 10) + " أخرى؟")
+        check("g459: سؤال 11 كلمة ← مخالفة من validate_v2", bool(reel_editor.ADAPTER.problems(title, bad_body, heads, ctx, cfg)))
+        real = reel_editor._create
+
+        def run_with(fix):
+            draft2 = draft_of(copy.deepcopy(s))
+            reel_editor._create = lambda client, **kw: editor_response([
+                {"category": "vague_attribution", "severity": "low", "location": "body",
+                 "original": "ما جوهر الخلاف حول الهدنة؟", "fix": fix, "note": "ملاحظة", "sources": []}])
+            try:
+                reel_editor.run(draft2, ctx, cfg)
+            finally:
+                reel_editor._create = real
+            return draft2
+        d_bad = run_with(" ".join(["كلمة"] * 10) + " أخرى؟")
+        check("g459: إصلاح يجعل السؤال 11 كلمة يُلغى",
+              any(x.get("text") == "ما جوهر الخلاف حول الهدنة؟" for x in d_bad["script"]["scenes"]),
+              [x.get("text") for x in d_bad["script"]["scenes"]])
+        d_ok = run_with("ما أصل الخلاف حول الهدنة؟")
+        check("g459: إصلاح سليم يُطبَّق ويبقى version 2",
+              any(x.get("text") == "ما أصل الخلاف حول الهدنة؟" for x in d_ok["script"]["scenes"])
+              and d_ok["script"]["version"] == 2, d_ok.get("editor_review"))
+        check("g459: توجيه المحرر للريل يذكر الخلاف والطيف",
+              "طيف" in cfg.path("editor.system_extra.reel") and "الخلاف المركزي" in cfg.path("editor.system_extra.reel"))
+    guarded("g459", g459)
+
+    # ── g460: القديم (بلا version) ──
+    def g460():
+        old = {"narrator": "female", "title": "عنوان", "question": "هل؟", "scenes": [
+            {"kind": "cold_open_clip", "point_id": ids[2], "start": 1, "end": 16},
+            {"kind": "title_card", "text": "عنوان"}, {"kind": "clip", "point_id": ids[3], "start": 1, "end": 16},
+            {"kind": "narration", "text": " ".join(f"س{i}" for i in range(80))},
+            {"kind": "question", "text": "هل؟"}, {"kind": "outro"}]}
+        r = reel_script.validate(old, valid, cfg, 2)
+        check("g460: validate v1 بقواعده (لا سبب من v2)", not any("السؤال الرئيس" in x or "المتحدثَين" in x for x in r), r)
+        tl = reel_script.timeline_lines(old, cfg)
+        check("g460: timeline_lines القديمة: بلا سطور v2",
+              not any("الموقف" in x or "السياق" in x for x in tl) and len(tl) == 6
+              and "🏷️ عنوان الشاشة:" in tl[1] and "❓ سؤال:" in tl[4], tl)
+        est = reel_script.estimate_seconds(old, cfg)
+        check("g460: estimate_seconds v1 بمعادلتها (fixed 8)", abs(est - (82 / 1.7 + 2 * 15 + 8)) < 2.5, est)
+        check("g460: scene_duration v1 للعنوان = title_seconds",
+              reel_script.scene_duration({"kind": "title_card", "text": "ع"}, cfg) == 3.0)
+    guarded("g460", g460)
