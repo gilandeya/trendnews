@@ -31,8 +31,12 @@ def build_body(draft: dict, cfg) -> str:
     lines = [stages.stage_header(3, cfg), "", t["explainer"], "",
              t["meta"].format(title=script.get("title", ""), seconds=draft.get("duration_seconds", "?"),
                               narrator=narrator) + f" <!-- draft:{draft['id']} -->",
-             "", t["video"].format(url=base + draft.get("reel_file", "")),
-             t["preview"].format(url=base + draft.get("reel_gif", "")), ""]
+             ]
+    # ريل أطول من حدّ Reels API الموثَّق (L1، Issue #1627): المراجع يعرف مسبقًا أن النشر قد يعود فيديو عاديًا
+    if float(draft.get("duration_seconds") or 0) > int(t.get("reel_api_max_seconds", 90)):
+        lines += [t["long_note"].format(max=int(t.get("reel_api_max_seconds", 90)))]
+    lines += ["", t["video"].format(url=base + draft.get("reel_file", "")),
+              t["preview"].format(url=base + draft.get("reel_gif", "")), ""]
     # فشل نشر ريل «انشر فورًا» (Issue #1538، W4): السبب يظهر في القضية وإعادة approved تعيد المحاولة
     if draft.get("status") == "failed" and draft.get("failed_stage") == "facebook_reel":
         lines += [t["publish_failed"].format(title=script.get("title", ""), url="", reason=draft.get("error", "")), ""]
