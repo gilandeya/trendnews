@@ -15374,7 +15374,7 @@ def test_reel_script_v2_p2a_guards() -> None:
 
     def good():
         return {"main_question": "هل تصمد الهدنة بين الطرفين؟",
-                "context": ["أعلن الطرفان هدنة في 3 أكتوبر 2026.", "ويختلف المحللون في تقدير مدتها."],
+                "context": ["أعلن الطرفان هدنة في 3 أكتوبر.", "ويختلف المحللون في تقدير مدتها."],
                 "questions": [
                     {"role": "core", "text": "ما جوهر الخلاف حول الهدنة؟",
                      "answers": [{"point_id": ids[0], "stance": "يرى الهدنة صامدة"},
@@ -15441,8 +15441,8 @@ def test_reel_script_v2_p2a_guards() -> None:
             ("سؤال 11 كلمة", mut(lambda d: d["questions"][0].update(text=" ".join(["كلمة"] * 10) + " أخرى؟")), "أطول من 10"),
             ("رئيس 13 كلمة", mut(lambda d: d.update(main_question=" ".join(["كلمة"] * 12) + " أخرى؟")), "أطول من 12"),
             ("السؤال الأخير", mut(lambda d: d["questions"][1].update(text="السؤال الأخير: لماذا الآن؟")), "ممنوعة"),
-            ("سياق 41 كلمة", mut(lambda d: d.update(context=[" ".join(["كلمة"] * 20) + ".", " ".join(["كلمة"] * 21) + "."])),
-             "أطول من 40"),
+            ("سياق 26 كلمة", mut(lambda d: d.update(context=[" ".join(["كلمة"] * 13) + ".", " ".join(["كلمة"] * 13) + "."])),
+             "أطول من 25"),
             ("ختام يبدأ برأيك", mut(lambda d: d.update(closing_question="برأيك ما الحل؟")), "برأيك"),
             ("core بإجابة واحدة", mut(lambda d: d["questions"][0].update(answers=d["questions"][0]["answers"][:1])), "متحدثَين"),
         ]
