@@ -15464,16 +15464,19 @@ def test_reel_script_v2_p2a_guards() -> None:
 
     # ── g455: trim_v2 ──
     def g455():
+        # منطق القصّ يُختبر عند سقف 90 ث الذي بُنيت عليه المخطوطة؛ السقف الحقيقي صار 165 (L1، Issue #1627) ويغطيه g499
+        c90 = copy.deepcopy(cfg)
+        c90["reel"]["script"]["v2"]["max_seconds"] = 90
         data = good()
         data["questions"][0]["answers"] = [{"point_id": ids[i], "stance": f"م{i}"} for i in (0, 1, 2, 5)]
         data["questions"][1]["answers"] = [{"point_id": ids[3], "stance": "أ"}, {"point_id": ids[4], "stance": "ب"}]
         data["questions"].append({"role": "where_next", "text": "إلى أين تتجه الهدنة؟",
                                   "answers": [{"point_id": ids[6], "stance": "ج"}, {"point_id": ids[7], "stance": "د"}]})
         s = build(data)
-        hi = float(cfg.path("reel.script.v2.max_seconds"))
-        e0 = reel_script.estimate_seconds(s, cfg)
-        t, trimmed = reel_script.trim_v2(copy.deepcopy(s), cfg)
-        e1 = reel_script.estimate_seconds(t, cfg)
+        hi = float(c90.path("reel.script.v2.max_seconds"))
+        e0 = reel_script.estimate_seconds(s, c90)
+        t, trimmed = reel_script.trim_v2(copy.deepcopy(s), c90)
+        e1 = reel_script.estimate_seconds(t, c90)
         pids = [x["point_id"] for x in t["scenes"] if x["kind"] == "clip"]
         check("g455: التقدير الأصلي فوق السقف", e0 > hi + 10, e0)
         check("g455: السؤال الثالث يُحذف أولًا بإجاباته",
@@ -15483,18 +15486,18 @@ def test_reel_script_v2_p2a_guards() -> None:
         check("g455: يتوقف عند ≤ السقف", e1 <= hi, e1)
         check("g455: trimmed فيه سطران",
               len(trimmed) == 2 and t["trimmed"] == trimmed and "السؤال الثالث" in trimmed[0] and "إجابة" in trimmed[1], trimmed)
-        check("g455: السيناريو بعد القصّ يمر بلا أسباب", reel_script.validate_v2(t, valid, cfg) == [],
-              reel_script.validate_v2(t, valid, cfg))
-        check("g455: تحت السقف لا قصّ", reel_script.trim_v2(build(good()), cfg)[1] == [])
+        check("g455: السيناريو بعد القصّ يمر بلا أسباب", reel_script.validate_v2(t, valid, c90) == [],
+              reel_script.validate_v2(t, valid, c90))
+        check("g455: تحت السقف لا قصّ", reel_script.trim_v2(build(good()), c90)[1] == [])
         big = good()
         big["questions"][0]["answers"] = [{"point_id": ids[i], "stance": "س"} for i in (2, 6, 7)]
         big["questions"][1]["answers"] = [{"point_id": ids[i], "stance": "س"} for i in (8, 9, 10)]
-        tb, trb = reel_script.trim_v2(build(big), cfg)
-        r = " | ".join(reel_script.validate_v2(tb, valid, cfg))
+        tb, trb = reel_script.trim_v2(build(big), c90)
+        r = " | ".join(reel_script.validate_v2(tb, valid, c90))
         check("g455: غير القابل للقصّ ← رفض بالمدة", trb == [] and "المدة" in r, (trb, r))
-        tot = sum(reel_script.scene_durations(s, cfg))
-        check("g455: مجموع scene_duration = estimate_seconds", abs(tot - reel_script.estimate_seconds(s, cfg)) < 0.01,
-              (tot, reel_script.estimate_seconds(s, cfg)))
+        tot = sum(reel_script.scene_durations(s, c90))
+        check("g455: مجموع scene_duration = estimate_seconds", abs(tot - reel_script.estimate_seconds(s, c90)) < 0.01,
+              (tot, reel_script.estimate_seconds(s, c90)))
     guarded("g455", g455)
 
     # ── g456: write_script ──
