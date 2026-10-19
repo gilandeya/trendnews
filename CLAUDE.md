@@ -2183,3 +2183,13 @@ instead.
 - **التطابق التقريبي `_fuzzy_locate(probe, tokens, cfg)`:** نوافذ بطول `len(probe)+2`، LCS بالكلمات؛ يُقبل الأفضل بالنسبة `youtube.timestamps.fuzzy_min_ratio` (0.8) والعدد `fuzzy_min_words` (4) والتفرّد (لا نافذة تبعد أكثر من `len(probe)` كلمة بالدرجة نفسها)؛ الطابع = مقطع أول كلمة **متطابقة**. نص البحث يبقى `sent_text` (ما رآه النموذج).
 - **الحفظ:** كل نقطة في ملف النقاط (المستودع الخاص) تحمل `timestamp_method` و`anchor_text` (لا ينتقلان إلى `drafts/`). `stats.points_timestamp_methods` = عدّاد الطرق، والسطر المطبوع في `main` يعرضه؛ `points_timestamp_resolved/unresolved` كما هما.
 - **الاختبارات:** g492–g498 في `tests/test_guards_golden.py:test_timestamps_t1a_guards`؛ واختبارات `resolve_timestamp` القديمة في `tests/test_youtube.py` تقرأ `[0]` من الزوج. `tools/reel_clip_probe.py` يقرأ `[0]` أيضًا.
+
+
+## الريل الطويل (Issue #1627، L1) — `src/reel_script.py`، `src/facebook.py`، `src/publish.py`
+
+قرار صاحب المشروع: يطول الريل حتى 2:45 بحسب المادة المتوفرة لا حشوًا (الشاهد: قُصّ السؤال الثالث كاملًا في المسودة 21490770c22d ليدخل في 90 ث). `render_version` بلا تغيير.
+
+- **السقف:** `reel.script.v2.max_seconds` = 165 (2:59 حدّ أقصى لا يُتجاوز) و`total_answers` = [2، 12]. `trim_v2` بمنطقه نفسه (السؤال الثالث ثم إجابة وسطى). برومبت v2 يُملأ بـ`reel_script.v2_system(cfg)` (استبدال `{max_seconds}` من الإعداد)؛ فيه قاعدة «لا سؤال ولا إجابة لتملأ الوقت» والسؤال الثالث بإجابتين من متحدثَين لم يظهرا قبله.
+- **مسار النشر الفعلي:** وثائق Reels API ما زالت 3–90 ث ولا نعرف هل يرفض `video_reels` ما فوقها. `facebook.publish_reel` عند العودة إلى `publish_video` تضيف `reel_error` (أول 150 حرفًا من السبب بعد مسح التوكن) إلى النتيجة؛ `publish_reel_draft` تحفظ `reel_seconds` على المسودة؛ و`publish.reel_path_line` تعطي سطر تعليق النجاح (📼 فيديو عاديًا بسببه، أو ✅ ريلًا قبله فيسبوك فوق `reel.review.reel_api_max_seconds`)، يضيفه `cmd_reel_review` و`reel_render._publish_on_render`.
+- **المراجعة:** `reel.review.long_note` («⏱️ أطول من 90 ث…») تحت المدة في `reel_review.build_body` وفي بند الريل في المرحلة 2 (`youtube_publish._reel_long_note`) حين تتجاوز المدة 90.
+- **الاختبارات:** g499–g503 في `tests/test_guards_golden.py:test_reel_long_l1_guards`.
