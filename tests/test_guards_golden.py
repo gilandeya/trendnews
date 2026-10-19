@@ -16265,6 +16265,7 @@ def test_reel_panel_p2c1_guards() -> None:
             clips = {1: {"file": green, "seconds": 3.0}, 2: {"file": blue, "seconds": 3.0}}
             deps = reel_render.Deps(
                 faces=lambda f, fr: (1080, 1920, []) if str(f).endswith("b.mp4") else (1920, 1080, []),
+                frames=reel_render._extract_gray_frames_real,  # install_fakes يستبدل الأصل بلقطات رمادية مزيَّفة فلا يرى الأشرطة
                 read_chyron=lambda f, c: None, streams=lambda p: {"video", "audio"}, sleep=lambda s: None,
                 download_clip=lambda *a, **k: {}).resolved(cfg)
             members = [(1, {"kind": "clip", "q": 0, "channel_display": "أ"}), (2, {"kind": "clip", "q": 0, "channel_display": "ب"})]
@@ -16272,6 +16273,8 @@ def test_reel_panel_p2c1_guards() -> None:
             reel_render._panel_scene(members, clips, out, cfg, deps, d, {}, [])
             dur = reel_render.probe_duration(out)
             fy = int(cfg.path("reel.render.panel.frame.top"))
+            check("g476: المقطع الأخضر ذو الأشرطة ticker=False (الشاهد: الأشرطة لا تُقرأ شريط أخبار)",
+                  clips[1].get("crop", {}).get("ticker") is False, clips[1].get("crop"))
 
             def px(t, x, y):
                 raw = subprocess.run([exe, "-v", "error", "-ss", f"{t:.3f}", "-i", str(out), "-frames:v", "1", "-f", "rawvideo",
@@ -16280,8 +16283,8 @@ def test_reel_panel_p2c1_guards() -> None:
                 return im[y, x]
             check("g476: مدة الناتج ≈ 6 ث", dur is not None and abs(dur - 6.0) < 0.5, dur)
             a, b = px(1.0, W // 2, fy + 10), px(4.0, W // 2, fy + 10)
-            check("g476: عند t=1 أعلى الإطار أخضر لا أسود (الشريط أُزيل)", a[1] > 100 and a[0] < 80 and a[2] < 80, a)
-            check("g476: عند t=4 الإطار أزرق", b[2] > 100 and b[0] < 80 and b[1] < 80, b)
+            check("g476: عند t=1 أعلى الإطار أخضر لا أسود (الشريط أُزيل)", a[1] > 100 and a[0] < 80 and a[2] < 80, a.tolist())
+            check("g476: عند t=4 الإطار أزرق", b[2] > 100 and b[0] < 80 and b[1] < 80, b.tolist())
         finally:
             os.environ["PATH"] = old_path
     guarded("g476", g476)

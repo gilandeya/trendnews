@@ -293,6 +293,9 @@ def install_fakes() -> None:
         "news": lambda *a: [], "web": lambda *a: [], "free": lambda *a: [], "download": lambda url: None}
     # كاشف شريط الأسفل (Issue #1408) بلا ffmpeg: الافتراضي لقطات ناعمة بلا شريط ← بلا غطاء؛ اختبار يحتاج غيره يحقن Deps.frames
     import numpy as np
+    # الأصل يُحفظ مرة واحدة (install_fakes قد تُستدعى أكثر من مرة) كي يمرّره اختبار ffmpeg حقيقي (g476) صراحةً إلى Deps(frames=)
+    if not hasattr(reel_render, "_extract_gray_frames_real"):
+        reel_render._extract_gray_frames_real = reel_render._extract_gray_frames  # type: ignore
     reel_render._extract_gray_frames = (  # type: ignore
         lambda clip, fractions: [np.full((720, 1280), 120, dtype=np.uint8) for _ in fractions])
 
