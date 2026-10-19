@@ -15617,7 +15617,12 @@ def test_reel_script_v2_p2a_guards() -> None:
         outs = sorted({c[-1].rsplit("/", 1)[-1] for c in cmds if c[-1].rsplit("/", 1)[-1].startswith("scene_")})
         check("g458: التركيب ينجح على v2 بلا عطل", saved.get("render_status") == "rendered",
               {k: saved.get(k) for k in ("render_status", "render_error", "error")})
-        check("g458: ثمانية ملفات مشاهد (هوك، راويان، مقطعان، راوٍ، مقطع، ختام)", len(outs) == 8, outs)
+        check("g458: سبعة ملفات مشاهد (هوك، سياق، بطاقة سؤال، لوحة، بطاقة سؤال، لوحة، ختام) — مقطعا السؤال الأول مشهد واحد",
+              len(outs) == 7, outs)
+        panel_cmds = [c for c in cmds if c[-1].rsplit("/", 1)[-1].startswith("scene_") and "-stream_loop" in c]
+        check("g458: مشهد مقطعَي السؤال الأول من نوع panel (مدخلان بـ-stream_loop وbetween)",
+              len(panel_cmds) == 1 and panel_cmds[0].count("-stream_loop") == 2 and "between(t," in " ".join(panel_cmds[0]),
+              [c[-1] for c in panel_cmds])
         sents = reel_broll.narration_sentences(d["script"])
         check("g458: خطة اللقطات ترى جمل بطاقات الأسئلة",
               any("ما جوهر الخلاف" in s["text"] for s in sents) and any("لماذا الآن" in s["text"] for s in sents), sents)
@@ -16172,7 +16177,8 @@ def test_reel_panel_p2c1_guards() -> None:
         check("g473: الصوت concat لاثنين", "concat=n=2:v=0:a=1" in p2, p2[-500:])
         check("g473: تظليل الشبكة", "drawbox" in p2, p2[:1500])
         i1 = kinds.index("panel", kinds.index("panel") + 1)
-        nar_t = sum(durs[:i1]) - lead * len([k for k in kinds[:i1] if k == "narration"])
+        # لوحة n≥2 لا تعرض الخلفية المتحركة فلا يتقدم بها nar_t؛ يتقدم بمشاهد الراوي وبطاقات السؤال ولوحات n=1 وحدها
+        nar_t = sum(durs[j] - lead for j in range(i1) if kinds[j] == "narration")
         check("g473: لوحة n=1 تبدأ حركة الخلفية من nar_t بعد بطاقة السؤال", f"(t+{nar_t:.3f})" in p1, (nar_t, p1[:400]))
         check("g473: لوحة n=1 فيها الضباب ولا -stream_loop", "panel_fog" in p1 and "-stream_loop" not in scene_cmd(cmds, 5), p1[:300])
         check("g473: مدة كل لوحة = مجموع مدد مقاطعها", abs(durs[kinds.index("panel")] - 6.0) < 1e-6 and abs(durs[i1] - 3.0) < 1e-6, durs)
