@@ -188,7 +188,8 @@
   "reel_bg": {
     "url": "https://img.maroc24.com/ar/cdn/168-fw62p.webp",
     "kind": "news_photo",
-    "publisher": "Maroc24"
+    "publisher": "Maroc24",
+    "layout": "A"
   },
   "hook_candidates": [],
   "hook_search": {
@@ -296,12 +297,71 @@
   "has_news_photo": true,
   "review_issue": 1597,
   "stage2_issue": 1597,
-  "render_status": "queued",
+  "render_status": "rendered",
   "approved_script_at": "2026-10-18T07:02:18.813685+00:00",
   "editor_override": {
     "at": "2026-10-18T07:02:18.813675+00:00",
     "reasons": [
       "تعارض في صفة المتحدث الموثَّق: الشريط ونص الراوي يقولان «الأسبق» بينما وصف المصدر المرفق للمقطع يقول «الدبلوماسي الكويتي السابق». كذلك لم يظهر في البحث دبلوماسي كويتي معروف بهذا الاسم (أقرب نتيجة هي عبد الرحمن العتيقي المتوفى 2020، وهو شخص آخر). يلزم تثبيت الاسم والصفة من وصف الفيديو قبل النشر."
     ]
-  }
+  },
+  "reel_file": "reels/2026-10-18/4a2958660c90.mp4",
+  "reel_gif": "reels/2026-10-18/4a2958660c90.gif",
+  "duration_seconds": 81.2,
+  "render_version": 30,
+  "render_attempts": 0,
+  "reel_music": "nastelbom-news-news-2-473288.mp3",
+  "render_sources": "العربية",
+  "render_crops": {
+    "0": {
+      "x": 440,
+      "source": "speaker_vision",
+      "speaker_score": 0.86,
+      "tracks": 5,
+      "vision": {
+        "pick": 3,
+        "agree": 2,
+        "archive": []
+      },
+      "quote_sync": "transcript",
+      "cover": true
+    },
+    "3": {
+      "x": 27,
+      "source": "speaker_vision",
+      "speaker_score": 0.53,
+      "tracks": 5,
+      "vision": {
+        "pick": 4,
+        "agree": 2,
+        "archive": []
+      },
+      "quote_sync": "transcript",
+      "cover": true
+    },
+    "5": {
+      "x": 409,
+      "source": "speaker",
+      "speaker_score": 0.77,
+      "tracks": 1,
+      "quote_sync": "transcript",
+      "cover": true
+    },
+    "closing": {
+      "source": "freeze"
+    }
+  },
+  "render_dropped": [],
+  "render_approx": [],
+  "rendered_at": "2026-10-19T05:26:48.157040+00:00",
+  "render_notes": [
+    "### 🎬 تركيب الريل",
+    "- ⏱️ المدة: 81.2 ث",
+    "- 🎞️ [الملف](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-10-18/4a2958660c90.mp4) · [المعاينة](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-10-18/4a2958660c90.gif)",
+    "🎞️ لم أجد لقطة صالحة من الحدث — الهوك بصورة الخبر",
+    "🎯 مقطع العربية: 5 وجوه — المتكلم بالرؤية",
+    "🎯 مقطع العربية: 5 وجوه — المتكلم بالرؤية",
+    "🧊 ختام الريل: لا لقطات تسبق الهوك — جُمّد أول إطار منه مع اقتراب بطيء"
+  ],
+  "reel_review_issue": 1612
 }
