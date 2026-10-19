@@ -16534,3 +16534,249 @@ def test_reel_panel_p2c2_guards() -> None:
         finally:
             os.environ["PATH"] = old_path
     guarded("g484", g484)
+
+
+def test_reel_r6_guards() -> None:
+    """Issue #1621 (R6، g486–g491): دروس أول ريل حقيقي بالصيغة الثانية — حارس القائل (الاقتباس لا يُنسب بصريًا لغير قائله)، المدة المنطوقة
+    الحقيقية، خلفية الختام لا تكون مقدّمة مذيعة، الإجابات آراء لا وقائع، وسبب فشل جلب النص. لا شبكة ولا ffmpeg."""
+    import copy
+    import tempfile
+    from datetime import datetime, timezone
+    from pathlib import Path
+
+    import numpy as np
+
+    from src import reel_render, reel_script
+
+    cfg = load_config()
+    work_root = Path(tempfile.mkdtemp())
+    year = str(datetime.now(timezone.utc).year)
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    # ── g486: speaker_matches ──
+    def g486():
+        sp = "الدكتور أحمد الشحات، أستاذ العلوم السياسية والمختص"
+        check("g486: «فيصل الحمد» ≠ الشحات ← False", reel_render.speaker_matches("فيصل الحمد", "", sp, cfg) is False, None)
+        check("g486: «أحمد الشحات» = الشحات ← True", reel_render.speaker_matches("أحمد الشحات", "", sp, cfg) is True, None)
+        check("g486: قائل بلا اسم علم ← None",
+              reel_render.speaker_matches("تونش أرسلان ألب", "", "مقدّم البرنامج (لم يُذكر اسمه)", cfg) is None, None)
+        check("g486: الاسم الأصلي العربي يُقارن أيضًا",
+              reel_render.speaker_matches("Ahmed Alshahat", "أحمد الشحات", sp, cfg) is True, None)
+        # حالة «براء شيبان» مقابل «بار شاؤون…» تُذكر في التقرير ولا تُغيَّر القاعدة لأجلها
+        print("   g486 (للتقرير): براء شيبان مقابل «بار شاؤون، زميل مشارك…» =",
+              reel_render.speaker_matches("براء شيبان", "", "بار شاؤون، زميل مشارك في معهد", cfg))
+    guarded("g486", g486)
+
+    # ── g487: حذف المقطع المخالف من اللوحة ──
+    def make_deps(cmds, names):
+        def run(cmd):
+            cmds.append([str(x) for x in cmd])
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+
+        def chyron(clip_file, c):
+            nm = names.get(Path(clip_file).stem)
+            if not nm:
+                return []
+            f = dict(has_caption=True, name_original=nm, name_arabic=nm, role_original="", role_arabic="خبير",
+                     is_presenter=False, name_kind="person")
+            return [f, f, f]
+        return reel_render.Deps(
+            download_clip=lambda *a, **k: {"tier": "a", "bytes": 1, "failures": []},
+            synthesize=lambda t, v: {"ok": True, "audio": b"mp3", "chars": len(t)}, diacritize=lambda t: (t, None), run=run,
+            probe=lambda p: 6.0, sleep=lambda s: None, streams=lambda p: {"video", "audio"}, faces=lambda f, fr: (1920, 1080, []),
+            frames=lambda p, fr: [np.full((1080, 1920), 100, np.uint8)] * len(fr), read_chyron=chyron).resolved(cfg)
+
+    def clip(q, pid, who):
+        return {"kind": "clip", "q": q, "point_id": pid, "channel_display": "قناة " + pid, "quote_arabic": "كلام المتحدث " + pid,
+                "speaker_text": who}
+
+    def g487():
+        script0 = {"version": 2, "scenes": [
+            {"kind": "narration", "role": "context", "text": "سياق."},
+            {"kind": "narration", "role": "question", "qrole": "core", "q": 0, "text": "ما أصل الخلاف؟"},
+            clip(0, "a", "الدكتور أحمد الشحات، أستاذ العلوم السياسية"), clip(0, "b", "سامر النجار"), clip(0, "c", "ليلى حداد"),
+            {"kind": "narration", "role": "question", "qrole": "why_now", "q": 1, "text": "لماذا الآن؟"},
+            clip(1, "d", "رامي خوري"), clip(1, "e", "هدى منصور"),
+            {"kind": "question", "text": "ماذا بعد؟"}, {"kind": "outro", "text": ""}]}
+        d = work_root / "g487"
+        d.mkdir(parents=True, exist_ok=True)
+        clips = {i: {"file": d / f"c{i}.mp4", "seconds": 3.0} for i in (2, 3, 4, 6, 7)}
+        ok_names = {"c2": "أحمد الشحات", "c3": "سامر النجار", "c4": "ليلى حداد", "c6": "رامي خوري", "c7": "هدى منصور"}
+        cmds: list = []
+        dropped: list = []
+        notes: list = []
+        script = copy.deepcopy(script0)
+        reel_render._assemble(script, dict(clips), cfg, make_deps(cmds, {**ok_names, "c2": "فيصل الحمد"}),
+                              d, "v", None, "", {}, notes, {}, None, dropped=dropped)
+        p = [" ".join(c) for c in cmds if c[-1].endswith("scene_03.mp4")]
+        check("g487: اللوحة بُنيت بعضوين (3+3+مقدمة)", bool(p) and "-t 6.600" in p[0], [x[-200:] for x in p])
+        check("g487: render_dropped فيه العضو بسبب الخلاف",
+              len(dropped) == 1 and dropped[0]["point_id"] == "a" and "فيصل الحمد" in dropped[0]["reason"], dropped)
+        want = cfg.path("reel.render.texts.drop_speaker_mismatch").format(
+            chyron="فيصل الحمد", speaker="الدكتور أحمد الشحات، أستاذ العلوم السياسية")
+        check("g487: سطر التعليق موجود", want in notes, notes)
+        # كل أعضاء السؤال 1 مخالفون ← لا لوحة ولا بطاقة سؤال له
+        cmds, dropped, notes = [], [], []
+        script = copy.deepcopy(script0)      # الأولى وثّقت متحدثي المشاهد في الذاكرة
+        reel_render._assemble(script, dict(clips), cfg, make_deps(cmds, {**ok_names, "c6": "فيصل الحمد", "c7": "علي سالم"}),
+                              d, "v", None, "", {}, notes, {}, None, dropped=dropped)
+        outs = [c[-1] for c in cmds]
+        check("g487: لا لوحة ولا بطاقة للسؤال المحذوف كله",
+              not any(o.endswith("scene_05.mp4") or o.endswith("scene_06.mp4") for o in outs), outs)
+        check("g487: السؤال 0 وبطاقته باقيان",
+              any(o.endswith("scene_01.mp4") for o in outs) and any(o.endswith("scene_02.mp4") for o in outs), outs)
+        check("g487: المحذوفان في render_dropped وسطر سقوط السؤال",
+              len(dropped) == 2 and any("لماذا الآن" in n for n in notes), (dropped, notes))
+    guarded("g487", g487)
+
+    # ── g488: المدة المنطوقة والتواريخ ──
+    def base_script(ctx):
+        return {"version": 2, "scenes": [{"kind": "title_card", "text": "هل تصمد الهدنة؟"},
+                                         {"kind": "narration", "role": "context", "text": ctx},
+                                         {"kind": "question", "text": "ماذا بعد؟"}]}
+
+    def g488():
+        wps = float(cfg.path("reel.script.narration_wps"))
+        long_ctx = "في 13 أكتوبر/تشرين الأول 2026 أعلن الطرفان هدنة."
+        plain = "في تاريخ كذا أكتوبر الأول أعلن الطرفان هدنة."
+        e_long = reel_script.estimate_seconds(base_script(long_ctx), cfg)
+        e_plain = reel_script.estimate_seconds(base_script(plain), cfg)
+        # 13 ← كلمتان (+1) و«/» ← +1 و2026 ← 3 كلمات (+2) = +4 كلمات منطوقة
+        check("g488: الكلمات المنطوقة تزيد التقدير بفرق محسوب", abs((e_long - e_plain) * wps - 4) < 1e-6,
+              (e_long, e_plain, (e_long - e_plain) * wps))
+        v = [{"point_id": "x", "speaker_text": "", "channel_display": "", "type": "opinion"}]
+
+        def why(ctx):
+            return " | ".join(reel_script.validate_v2(base_script(ctx), v, cfg))
+        r = why("في 13 أكتوبر/تشرين الأول أعلن الطرفان هدنة.")
+        check("g488: ترفض «أكتوبر/تشرين الأول»", "أكتوبر/تشرين" in r, r)
+        r = why(f"أعلن الطرفان هدنة في عام {year}.")
+        check("g488: ترفض السنة الجارية", year in r, r)
+        r = why("أعلن الطرفان هدنة في 13 أكتوبر.")
+        check("g488: تقبل «13 أكتوبر»", "أكتوبر" not in r and year not in r, r)
+        check("g488: سقف السياق 25 كلمة", int(cfg.path("reel.script.v2.context_max_words")) == 25, None)
+    guarded("g488", g488)
+
+    # ── g489: خلفية الختام ──
+    def entries(ws, we, ratio):
+        n = we - ws
+        k = int(round(n * ratio))
+        return [{"sec": ws + j, "kind": "event_footage" if j < k else "studio"} for j in range(n)]
+
+    def g489():
+        total, start = 20, 40
+        ws = start - total
+        ok, ratio = reel_render.closing_uses_pre(entries(ws, start, 0.5), ws, start, cfg)
+        check("g489: نسبة 0.5 ← لا pre_hook", ok is False and abs(ratio - 0.5) < 1e-6, (ok, ratio))
+        ok, ratio = reel_render.closing_uses_pre(entries(ws, start, 0.9), ws, start, cfg)
+        check("g489: نسبة 0.9 ← pre_hook", ok is True and abs(ratio - 0.9) < 1e-6, (ok, ratio))
+        ok, ratio = reel_render.closing_uses_pre(None, ws, start, cfg)
+        check("g489: بلا تصنيف ← لا pre_hook", ok is False and ratio == 0.0, (ok, ratio))
+        ok, ratio = reel_render.closing_uses_pre(entries(ws, start - 10, 1.0), ws, start, cfg)
+        check("g489: نصف النافذة غير مصنَّف ← لا pre_hook", ok is False and abs(ratio - 0.5) < 1e-6, (ok, ratio))
+        tmp = work_root / "g489"
+        tmp.mkdir(parents=True, exist_ok=True)
+        lead = reel_render.transition_seconds(cfg)
+        total_s = reel_render.closing_plan(2.0, cfg, lead)["total"]
+        st = int(total_s) + 30
+        ws2 = int(st - total_s)
+        got = {}
+        for tag, pre in (("half", entries(ws2, st, 0.5)), ("hi", entries(ws2, st, 0.95)), ("none", None)):
+            cmds: list = []
+
+            def run(cmd, cmds=cmds):
+                cmds.append([str(x) for x in cmd])
+                Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+                Path(cmd[-1]).write_bytes(b"x")
+            def download(video_id, start, end, height, out_path):
+                Path(out_path).write_bytes(b"clip")
+                return {"tier": "a", "bytes": 4, "failures": []}
+            deps = reel_render.Deps(download_clip=download,
+                                    synthesize=lambda t, v: {"ok": True, "audio": b"mp3", "chars": len(t)},
+                                    diacritize=lambda t: (t, None), run=run, probe=lambda p: 2.0, sleep=lambda s: None,
+                                    streams=lambda p: {"video", "audio"}).resolved(cfg)
+            hi = {"mode": "clip", "clip": tmp / "hook.mp4", "cexpr": "crop=111:222:33:0"}
+            if pre is not None:
+                hi["pre_entries"] = pre
+            crops: dict = {}
+            notes: list = []
+            reel_render._closing_scene(0, {"kind": "question", "text": "ماذا بعد؟"}, "قناة", "", hi,
+                                       {"hook_video": {"video_id": "hv", "start": st, "end": st + 4}}, "female", cfg, deps, tmp,
+                                       tmp / f"o_{tag}.mp4", notes, crops, lead)
+            got[tag] = (crops.get("closing", {}), notes)
+        check("g489: نسبة 0.5 ← freeze", got["half"][0].get("source") == "freeze", got["half"])
+        check("g489: نسبة 0.95 ← pre_hook وتُحفظ pre_footage",
+              got["hi"][0].get("source") == "pre_hook" and got["hi"][0].get("pre_footage", 0) >= 0.9, got["hi"])
+        check("g489: بلا تصنيف ← freeze وسطر التجميد", got["none"][0].get("source") == "freeze"
+              and cfg.path("reel.render.texts.comment_closing_freeze") in got["none"][1], got["none"])
+    guarded("g489", g489)
+
+    # ── g490: الإجابات آراء ──
+    def g490():
+        words = [5, 25, 40, 40, 40, 5]
+        people = ["ليلى حداد", "سامر النجار", "رامي خوري", "هدى منصور", "كريم السعدي", "نادين عيسى"]
+
+        def valid_for(types):
+            pts = [{"video_id": f"v{i}", "bloc": "arabic", "channel": f"قناة {i}", "speaker": people[i], "statement": f"قول {i}",
+                    "quote_arabic": f"اقتباس عربي {i}", "quote_original": " ".join(f"w{i}x{k}" for k in range(n)), "type": types[i],
+                    "video_title": f"فيديو {i}", "video_url": f"https://youtube.com/watch?v=v{i}", "timestamp": 100 + i * 10,
+                    "video_published": "2099-10-30"} for i, n in enumerate(words)]
+            return reel_script.valid_clips(pts, [], cfg)
+
+        def data(ids):
+            return {"main_question": "هل تصمد الهدنة بين الطرفين؟",
+                    "context": ["أعلن الطرفان هدنة في 3 أكتوبر.", "ويختلف المحللون في تقدير مدتها."],
+                    "questions": [
+                        {"role": "core", "text": "ما جوهر الخلاف حول الهدنة؟",
+                         "answers": [{"point_id": ids[0], "stance": "أ"}, {"point_id": ids[1], "stance": "ب"},
+                                     {"point_id": ids[2], "stance": "ج"}]},
+                        {"role": "why_now", "text": "لماذا الآن؟",
+                         "answers": [{"point_id": ids[5], "stance": "د"}, {"point_id": ids[4], "stance": "هـ"}]}],
+                    "closing_question": "ما الذي ينبغي أن يحدث بعد ذلك؟"}
+
+        def run(types):
+            v = valid_for(types)
+            ids = [c["point_id"] for c in v]
+            s = reel_script._build_v2(data(ids), v, "female", {"event": "ح"}, cfg)
+            return ids, v, " | ".join(reel_script.validate_v2(s, v, cfg))
+        check("g490: valid_clips تحمل type", all("type" in c for c in valid_for(["fact"] * 6)), None)
+        ids, v, r = run(["fact", "fact", "fact", "fact", "opinion", "forecast"])
+        check("g490: إجابة fact مع رأيَين لمتحدثَين ← مرفوض بسبب يذكر النقطة", ids[0] in r and "fact" in r, r)
+        ids, v, r = run(["fact", "fact", "fact", "fact", "fact", "opinion"])
+        check("g490: رأي واحد فقط ← مقبول", r == "", r)
+        ids, v, r = run(["opinion"] * 6)
+        check("g490: كلها آراء ← مقبول", r == "", r)
+        msg = reel_script.user_message_v2({"title": "ت", "event": "ح"}, "", valid_for(["fact"] * 6), "female", cfg)
+        check("g490: مدخل النموذج يذكر النوع", "fact" in msg, msg[-300:])
+        check("g490: الموجّه يشترط الرأي", "opinion" in cfg.path("reel.script.v2.system"), None)
+    guarded("g490", g490)
+
+    # ── g491: سبب فشل الجلب ──
+    def g491():
+        d = work_root / "g491"
+        d.mkdir(parents=True, exist_ok=True)
+
+        def boom(vid):
+            raise RuntimeError("429 Too Many Requests")
+        point = {"video_id": "v1", "timestamp": 100, "quote_original": "x", "speaker": "ليلى حداد", "channel": "ch"}
+        script = {"scenes": [{"kind": "clip", "point_id": reel_script.point_key_id(point), "start": 99.0, "end": 108.0,
+                              "channel_display": "قناة", "quote_arabic": "ك"}]}
+
+        def run(cmd):
+            Path(cmd[-1]).write_bytes(b"x")
+
+        def download(video_id, start, end, height, out_path):
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+        deps = reel_render.Deps(fetch_transcript=boom, download_clip=download, load_points=lambda date: [point], run=run,
+                                probe=lambda p: 2.0, sleep=lambda s: None, streams=lambda p: {"video", "audio"}).resolved(cfg)
+        clips, dropped, approx = reel_render._fetch_clips(script, {"topic_date": "2026-10-01"}, cfg, deps, d)
+        check("g491: reason يحوي RuntimeError: 429", len(approx) == 1 and "RuntimeError: 429" in approx[0]["reason"], approx)
+        check("g491: reason يبدأ بالنص الثابت", approx and approx[0]["reason"].startswith("تعذّر جلب نص الفيديو"), approx)
+    guarded("g491", g491)

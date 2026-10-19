@@ -1750,6 +1750,7 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path) -> tuple
     rcfg, scfg = cfg.path("reel.render"), cfg.path("reel.script")
     by_id = {reel_script.point_key_id(p): p for p in deps.load_points(draft.get("topic_date", ""))}
     transcripts: dict[str, list] = {}
+    fetch_reasons: dict[str, str] = {}     # سبب فشل جلب نص كل فيديو (Issue #1621، R6): بلا سببه لا يُعرف أهو حجب أم حدّ معدّل
     clips: dict[int, dict] = {}
     dropped: list = []
     approx: list = []
@@ -1763,6 +1764,8 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path) -> tuple
             continue
         # سيناريوهات كُتبت قبل R5a بلا channel_original: الاسم اللاتيني للقناة يؤخذ من النقطة نفسها التي نقرؤها هنا
         scene["channel_original"] = channel_original_of(scene, point)
+        if not scene.get("speaker_text"):
+            scene["speaker_text"] = point.get("speaker", "") or ""    # قائل النقطة لحارس شريط القناة (R6)
         vid = point["video_id"]
         if vid not in transcripts:
             try:
@@ -1770,15 +1773,18 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path) -> tuple
             except Exception as exc:  # noqa: BLE001
                 log.warning("نص الفيديو %s: %s", vid, str(exc)[:150])
                 text = None
+                fetch_reasons[vid] = ("تعذّر جلب نص الفيديو: " + type(exc).__name__ + ": "
+                                      + " ".join(reel_clips.scrub_text(str(exc)).split())[:80])
             transcripts[vid] = youtube_extract.parse_transcript_segments(text) if text else []
         if not transcripts[vid]:
             win = _approx_window(point, scene)
+            why = fetch_reasons.get(vid, "تعذّر جلب نص الفيديو")
             if win is None:
-                _drop(dropped, scene, "تعذّر جلب نص الفيديو")
+                _drop(dropped, scene, why)
                 continue
             wstart, wend = win
             approx.append({"point_id": scene.get("point_id", ""), "kind": scene.get("kind", ""),
-                           "start": wstart, "end": wend, "reason": "تعذّر جلب نص الفيديو",
+                           "start": wstart, "end": wend, "reason": why,
                            "channel": scene.get("channel_display", "")})
         else:
             near = point.get("timestamp", scene.get("start"))
@@ -2464,23 +2470,63 @@ def resolve_chyron(frames: list, cfg, channel: str | list = "") -> dict:
             "accepted": agreeing >= 2 and bool(name_ar) and not rejected}
 
 
-def _apply_chyron(scene: dict, clip: dict, cfg, deps: Deps, speakers: dict, notes: list, index: int) -> None:
+_AR_LETTERS = re.compile(r"[\u0600-\u06FF]")
+
+
+def _speaker_words(text: str) -> set[str]:
+    """كلمات الاسم للمقارنة: توحيد التشكيل والترقيم وحالة الأحرف (youtube_extract._normalize_for_anchor) وحذف «ال» من أول الكلمة، وما دون
+    3 أحرف يُهمل (R6)."""
+    from . import youtube_extract
+    out = set()
+    for w in youtube_extract._normalize_for_anchor(text or "").split():
+        w = w[2:] if w.startswith("ال") and len(w) > 4 else w
+        if len(w) >= 3:
+            out.add(w)
+    return out
+
+
+def speaker_matches(name_arabic: str, name_original: str, speaker_text: str, cfg) -> bool | None:
+    """هل اسم الشريط هو قائل الاقتباس؟ (Issue #1621، R6) دالة خالصة. كلمات اسم القائل من speaker_text بعد حذف الصفات وكلمات الدور
+    (youtube_article.speaker_name_tokens) وكلمات «لم يُذكر اسمه»؛ تتفق إن اشترك الطرفان في كلمة من 3 أحرف فأكثر: الاسم العربي من
+    الشريط والاسم الأصلي إن كان عربي الحروف. None = لا مقارنة (قائل بلا اسم علم، أو شريط بلا كلمات صالحة) فيبقى السلوك كما كان.
+    القاعدة لا تغيّر لحالات النقل المختلف للاسم نفسه («براء» مقابل «بار»): تلك تُحذف احتياطًا، ونسبة الكلام إلى غير قائله أسوأ."""
+    from . import youtube_article
+    skip = _speaker_words(" ".join(cfg.path("reel.render.chyron.unnamed_words", []) or []))
+    spoken = _speaker_words(" ".join(youtube_article.speaker_name_tokens(speaker_text or "", "", cfg))) - skip
+    chyron = _speaker_words(name_arabic or "")
+    if name_original and _AR_LETTERS.search(name_original):
+        chyron |= _speaker_words(name_original)
+    if not spoken or not chyron:
+        return None
+    return bool(spoken & chyron)
+
+
+def _apply_chyron(scene: dict, clip: dict, cfg, deps: Deps, speakers: dict, notes: list, index: int) -> dict | None:
     """يوثّق متحدث مقطع غير موثَّق من شريط القناة. الموثَّق من العنوان أو الوصف لا يُمسّ ولا يُرسل؛ ولا يُرفع فشل أبدًا
-    (العطل أو الرفض أو الردّ غير الصالح يُبقي «ضيف على»)."""
+    (العطل أو الرفض أو الردّ غير الصالح يُبقي «ضيف على»). اسم شخص مقبول يُقارَن بقائل النقطة (speaker_text): الخلاف (R6) لا يُطبَّق على
+    المشهد ويُعاد {chyron, speaker} فيحذف _assemble المقطع من اللوحة؛ يُستدعى مرتين لكل مقطع (قبل بناء اللوحة وفي _clip_layers) فالقراءة تُحفظ
+    في speakers ولا تُعاد."""
     if not cfg.path("reel.render.chyron.enabled", False) or scene.get("speaker_verified") and scene.get("speaker_name"):
-        return
+        return None
+    if str(index) in speakers:
+        return speakers[str(index)].get("mismatch")
     if getattr(deps, "read_chyron", None) is None:
-        return
+        return None
     try:
         frames = deps.read_chyron(clip["file"], cfg)
         if not isinstance(frames, list) or not frames:
-            return
+            return None
         res = resolve_chyron([f for f in frames if isinstance(f, dict)], cfg,
                              [scene.get("channel_original") or "", scene.get("channel_display") or ""])
     except Exception as exc:  # noqa: BLE001 -- القراءة تحسين لا شرط
         log.warning("تعذّرت قراءة شريط القناة فيبقى «ضيف على»: %s", str(exc)[:120])
-        return
+        return None
     speakers[str(index)] = res
+    if res["accepted"] and speaker_matches(res["name_arabic"], res["name_original"], scene.get("speaker_text", ""), cfg) is False:
+        mismatch = {"chyron": res["name_arabic"], "speaker": " ".join(str(scene.get("speaker_text") or "").split())}
+        res["mismatch"] = mismatch
+        log.warning("شريط القناة %s لا يطابق قائل النقطة %s", mismatch["chyron"], mismatch["speaker"])
+        return mismatch
     if res["accepted"]:
         scene.update(speaker_verified=True, speaker_verified_from="chyron", speaker_name=res["name_arabic"],
                      speaker_name_latin=res["name_original"] if _LATIN_CHARS.search(res["name_original"]) else "",
@@ -2497,6 +2543,7 @@ def _apply_chyron(scene: dict, clip: dict, cfg, deps: Deps, speakers: dict, note
             line = cfg.path("reel.render.texts.comment_chyron_program").format(name=res["name_arabic"] or res["name_original"])
             if line not in notes:
                 notes.append(line)
+    return None
 
 
 # ───────────────────── الهوك والشعار الكبير (Issue #1429، R5c1) ─────────────────────
@@ -2806,6 +2853,33 @@ def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None,
     return seconds
 
 
+def closing_uses_pre(entries: list | None, ws: int, we: int, cfg) -> tuple[bool, float]:
+    """هل تصلح ثواني [ws، we) خلفيةً للختام؟ (Issue #1621، R6) دالة خالصة. تصلح فقط إن كانت مصنَّفة في مسح الهوك و event_footage في
+    ≥ closing.pre_footage_ratio منها؛ غير المصنَّفة تُحسب غير لقطات، وبلا تصنيف (هوك يدوي) ← لا. تعيد (الصلاحية، النسبة): الثواني
+    التي تسبق الهوك قد تكون مقدّمة مذيعة فيظهر وجهها تحت ضباب «برأيك»."""
+    n = int(we) - int(ws)
+    if not entries or n <= 0:
+        return False, 0.0
+    kinds = {int(e["sec"]): e.get("kind") for e in entries}
+    ratio = sum(1 for sec in range(int(ws), int(we)) if kinds.get(sec) == "event_footage") / n
+    return ratio >= float(cfg.path("reel.render.closing.pre_footage_ratio", 0.8)), ratio
+
+
+def _pre_hook_entries(draft: dict, state) -> list | None:
+    """ثواني فيديو الهوك المصنَّفة قبل بدايته ({sec, kind}) من مسح هذا التركيب؛ هوك يدوي أو بلا تصنيف ← None (الختام يجمّد)."""
+    hv = draft.get("hook_video")
+    if not isinstance(hv, dict) or hv.get("source") in (None, "", "manual") or hv.get("start") is None:
+        return None
+    classified = (getattr(state, "classified", None) or {}).get(hv.get("video_id")) or {}
+    start = int(hv["start"])
+    out = []
+    for t, e in classified.items():
+        for k in range(max(int(e.get("step") or 1), 1)):
+            if int(t) + k < start:
+                out.append({"sec": int(t) + k, "kind": e.get("kind")})
+    return out or None
+
+
 def _closing_scene(i: int, scene: dict, channels: str, credit: str, hook_info: dict, draft: dict, voice: str, cfg, deps: Deps,
                    tmp: Path, out: Path, notes: list, crops: dict | None, lead: float) -> float:
     """مشهد الختام الموحَّد (Issue #1602، P1a-2) بدل question+outro. الراوي يقرأ السؤال (بلا واو العطف) عند plan[voice] والسؤال تحت
@@ -2830,9 +2904,14 @@ def _closing_scene(i: int, scene: dict, channels: str, credit: str, hook_info: d
     info_png = _save(frame_outro(cfg, channels, credit=credit, transparent=True), tmp / f"closing_info_{i}.png")
     fog_png = _save(fog_layer(cfg), tmp / f"closing_fog_{i}.png")
     mode, hv = hook_info.get("mode"), draft.get("hook_video")
-    pre, ws, we = None, 0, 0
+    pre, ws, we, pre_ratio = None, 0, 0, None
+    use_pre = False
     if mode == "clip" and isinstance(hv, dict) and hv.get("video_id") and hv.get("start") is not None and int(hv["start"]) >= total:
         ws, we = int(math.floor(int(hv["start"]) - total)), int(hv["start"])
+        use_pre, pre_ratio = closing_uses_pre(hook_info.get("pre_entries"), ws, we, cfg)
+        if not use_pre:
+            log.info("نافذة ما قبل الهوك ليست لقطات حدث (%.0f%%) فيُجمَّد أول إطار", pre_ratio * 100)
+    if use_pre:
         try:
             pre = _download_with_retries(deps, rcfg, str(hv["video_id"]), ws, we, tmp / f"closing_pre_{i}.mp4")
         except Exception as exc:  # noqa: BLE001 -- النافذة تحسين: يرجع الختام إلى التجميد
@@ -2863,7 +2942,7 @@ def _closing_scene(i: int, scene: dict, channels: str, credit: str, hook_info: d
         inputs = ["-f", "lavfi", "-i", f"color=c=0x{r:02X}{g:02X}{bl:02X}:s={w}x{h}:r={fps}"]
         base = f"[0:v]fps={fps}[b]"
     if crops is not None:
-        crops["closing"] = {"source": src}
+        crops["closing"] = {"source": src, **({"pre_footage": round(pre_ratio, 3)} if pre_ratio is not None else {})}
     if src == "freeze":
         notes.append(cfg.path("reel.render.texts.comment_closing_freeze"))
     expr = _closing_fog_expr(cfg, plan, var="T")
@@ -3163,6 +3242,40 @@ def _iter_runs(order: list):
         yield run
 
 
+def _prune_mismatched(script: dict, clips: dict, cfg, deps: Deps, speakers: dict, notes: list,
+                      dropped: list) -> tuple[dict, set[int]]:
+    """حارس القائل (Issue #1621، R6): في سيناريو v2 يُقرأ شريط كل مقطع في لوحة قبل بنائها؛ مقطع يُظهر شريطه اسمًا غير قائل الاقتباس يُحذف
+    (نسبة الكلام إلى غير قائله أسوأ من نقص إجابة)، فتُبنى اللوحة بمن بقي. سؤال سقطت كل إجاباته بهذا الحارس يسقط مشهد بطاقته أيضًا كي لا
+    يبقى سؤال بلا جواب. يعيد (نسخة clips بعد الحذف، فهارس مشاهد البطاقات المحذوفة). v1 بلا تغيير."""
+    if not reel_script.is_v2(script):
+        return clips, set()
+    clips = dict(clips)
+    t = cfg.path("reel.render.texts")
+    order = list(enumerate(script["scenes"]))
+    dead_q: dict = {}
+    for members in _iter_runs(order):
+        gone = []
+        for i in members:
+            if i not in clips:
+                continue
+            mm = _apply_chyron(script["scenes"][i], clips[i], cfg, deps, speakers, notes, i)
+            if mm:
+                line = t["drop_speaker_mismatch"].format(**mm)
+                _drop(dropped, script["scenes"][i], line)
+                if line not in notes:
+                    notes.append(line)
+                clips.pop(i)
+                gone.append(i)
+        if gone and not any(i in clips for i in members):
+            dead_q[script["scenes"][members[0]].get("q")] = True
+    dead = set()
+    for i, sc in order:
+        if sc.get("kind") == "narration" and sc.get("role") == "question" and sc.get("q") in dead_q:
+            dead.add(i)
+            notes.append(t["drop_question_empty"].format(text=sc.get("text", "")))
+    return clips, dead
+
+
 def _transition_kind(cfg, kind: str) -> str:
     """نوع الانتقال إلى مشهد من هذا النوع: fade (transition.outro_type) للختام بصيغتيه outro وclosing، وغيره transition.type."""
     tcfg = cfg.path("reel.render.transition")
@@ -3282,9 +3395,12 @@ def _prepare_broll(script: dict, nar_idx: list[int], speech_cache: dict, plan: l
 def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str, bg: dict | None = None,
               credit: str = "", speakers: dict | None = None, notes: list | None = None, draft: dict | None = None,
               crops: dict | None = None, broll: dict | None = None,
-              sources_out: list | None = None) -> tuple[list[Path], list[str], list[float]]:
+              sources_out: list | None = None, dropped: list | None = None,
+              pre_entries: list | None = None) -> tuple[list[Path], list[str], list[float]]:
     rcfg = cfg.path("reel.render")
     lead = transition_seconds(cfg)
+    clips, dead_scenes = _prune_mismatched(script, clips, cfg, deps, speakers if speakers is not None else {},
+                                           notes if notes is not None else [], dropped if dropped is not None else [])
     names = list(dict.fromkeys(s.get("channel_display", "") for i, s in enumerate(script["scenes"])
                                if i in clips and s.get("channel_display")))
     # قناة لقطة الهوك تُنسب في الختام إن لم تكن فيه (Issue #1440)
@@ -3295,7 +3411,7 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
     kinds: list[str] = []
     durs: list[float] = []
     # مشهد title_card هوك يتقدّم إلى أول الريل ثم cold_open_clip ثم الباقي بترتيبه (Issue #1429)؛ الفهرس الأصلي يبقى لمفاتيح clips
-    order = list(enumerate(script["scenes"]))
+    order = [x for x in enumerate(script["scenes"]) if x[0] not in dead_scenes]
     hooks = [x for x in order if x[1].get("kind") == "title_card"][:1]
     hook_idx = hooks[0][0] if hooks else None
     order = hooks + [x for x in order if x[0] != hook_idx]
@@ -3335,7 +3451,7 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
     # سطر «المقاطع من» نفسه يُحفظ لقضية المراجعة النهائية (Issue #1469، R4a) كي يطابق نصّ المنشور ما في الخاتمة
     if sources_out is not None:
         sources_out.append(channels)
-    hook_info: dict = {}
+    hook_info: dict = {"pre_entries": pre_entries}
     absorbed: set[int] = set()     # مشهد outro يدخل مشهد closing الموحَّد مع السؤال الذي قبله (Issue #1602)
     for pos, (i, scene) in enumerate(order):
         kind, out = scene.get("kind"), tmp / f"scene_{i:02d}.mp4"
@@ -3665,12 +3781,13 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     broll = _scan_broll(draft, script, cfg, deps, tmp, scan_state) if want_broll else None
     if broll is not None:
         _topic_hook(path, draft, script, broll, cfg, notes, deps)
+    pre_entries = _pre_hook_entries(draft, scan_state)
     speakers: dict = {}
     hook_crops: dict = {}
     sources_out: list = []
     scene_files, kinds, durs = _assemble(script, clips, cfg, deps, tmp, voice, bg,
                                          outro_credit(cfg, bg["used"]) if bg else "", speakers, notes, draft, hook_crops,
-                                         broll=broll, sources_out=sources_out)
+                                         broll=broll, sources_out=sources_out, dropped=dropped, pre_entries=pre_entries)
     join_info: dict = {}
     joined = _join(scene_files, kinds, durs, cfg, deps, tmp, join_info)
 
