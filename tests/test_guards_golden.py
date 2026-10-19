@@ -15927,3 +15927,46 @@ def test_reel_qcard_p2b_guards() -> None:
         finally:
             os.environ["PATH"] = old_path
     guarded("g467", g467)
+
+
+PANEL_V1_FIXTURE = Path(__file__).parent / "fixtures" / "reel" / "panel_v1_cmds.json"
+
+
+def _panel_v1_cmds(cfg, work):
+    """أوامر ffmpeg لسيناريو v1 فيه مقطعان وراوٍ وسؤال وختام، بخلفية وبلاها، كما يبنيها _assemble؛ المسار المؤقت يُستبدل بـTMP
+    كي تُحفظ مرجعًا ثابتًا لـg474 (Issue #1615، P2c-1): تجميع المقاطع في لوحة لسيناريو v2 وحده فلا يتغير v1 حرفًا."""
+    import numpy as np
+    from PIL import Image
+
+    from src import reel_render
+
+    W, H = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
+
+    def make(cmds):
+        def run(cmd):
+            cmds.append([str(x) for x in cmd])
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+        return reel_render.Deps(
+            download_clip=lambda *a, **k: {"tier": "a", "bytes": 1, "failures": []},
+            synthesize=lambda t, v: {"ok": True, "audio": b"mp3", "chars": len(t)}, diacritize=lambda t: (t, None), run=run,
+            probe=lambda p: 6.0, sleep=lambda s: None, streams=lambda p: {"video", "audio"}, faces=lambda f, fr: (1280, 720, []),
+            frames=lambda p, fr: [np.full((360, 640), 100, np.uint8)] * len(fr), read_chyron=lambda f, c: None).resolved(cfg)
+
+    def bg():
+        return {"layout": "A", "image": Image.new("RGB", (W, H), (120, 40, 40)), "raw": Image.new("RGB", (W, H), (200, 50, 50)),
+                "used": {"url": "u", "kind": "manual", "publisher": ""}}
+    out = {}
+    for tag, layer in (("bg", bg()), ("nobg", None)):
+        cmds: list = []
+        d = Path(work) / tag
+        d.mkdir(parents=True, exist_ok=True)
+        script = {"scenes": [
+            {"kind": "narration", "text": "جملة أولى. جملة ثانية."},
+            {"kind": "clip", "point_id": "p1", "channel_display": "قناة أ", "quote_arabic": "كلام المتحدث الأول هنا"},
+            {"kind": "clip", "point_id": "p2", "channel_display": "قناة ب", "quote_arabic": "كلام المتحدث الثاني"},
+            {"kind": "question", "text": "ما رأيك؟"}, {"kind": "outro", "text": ""}]}
+        clips = {1: {"file": d / "c1.mp4", "seconds": 3.0}, 2: {"file": d / "c2.mp4", "seconds": 3.0}}
+        reel_render._assemble(script, clips, cfg, make(cmds), d, "v", layer, "", {}, [], {})
+        out[tag] = [[x.replace(str(d), "TMP") for x in c] for c in cmds]
+    return out
