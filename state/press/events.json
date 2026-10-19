@@ -1,287 +1,6 @@
 {
  "events": [
   {
-   "id": "cfd5abf3f547",
-   "first_seen": "2026-10-05T15:07:44.573046+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Nobel medicine prize honours US and German scientists for optogenetics work",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/5/nobel-medicine-prize-honours-us-and-german-scientists-for-optogenetics-work?traffic_source=rss",
-     "published": "2026-10-05T14:18:18+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Nobel Medicine Prize awarded to US-German trio for work on optogenetics",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/europe/article/3369804/nobel-medicine-prize-awarded-3-scientists-optogenetics-development?utm_source=rss_feed",
-     "published": "2026-10-05T09:45:18+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "German and US scientists win Nobel medicine prize for work on optogenetics",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633097/german-and-us-scientists-win-nobel-medicine-prize-for-work-on-optogenetics",
-     "published": "2026-10-05T06:14:08+00:00"
-    },
-    {
-     "outlet": "Phys.org",
-     "region": "science",
-     "bucket": "useful",
-     "title": "US-German trio wins medicine Nobel for work on optogenetics",
-     "language": "en",
-     "link": "https://phys.org/news/2026-10-german-trio-medicine-nobel-optogenetics.html",
-     "published": "2026-10-05T10:32:02+00:00"
-    },
-    {
-     "outlet": "Rappler",
-     "region": "ph",
-     "bucket": "serious",
-     "title": "German and US scientists win Nobel medicine prize for work on optogenetics",
-     "language": "en",
-     "link": "https://www.rappler.com/people/newsmakers/nobel-prize-winners-physiology-medicine-2026/",
-     "published": "2026-10-05T11:07:27+00:00"
-    },
-    {
-     "outlet": "Africanews",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Nobel Prize in medicine awarded to three scientists for breakthrough research",
-     "language": "en",
-     "link": "http://www.africanews.com/2026/10/05/nobel-prize-in-medicine-awarded-to-three-scientists-for-breakthrough-research/",
-     "published": "2026-10-05T11:27:49+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Scientists win Nobel Prize in medicine for work on ‘light-gated ion channels and optogenetics’",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/05/world/science-health/2026-nobel-prize-medicine/",
-     "published": "2026-10-05T09:34:00+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "3 scientists win Nobel medicine prize for optogenetics research",
-     "language": "en",
-     "link": "https://www.dailysabah.com/life/3-scientists-win-nobel-medicine-prize-for-optogenetics-research/news",
-     "published": "2026-10-05T09:39:00+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Nobel medicine prize goes to 3 scientists for research into brain activity",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/05/g-s1-146400/nobel-medicine-prize",
-     "published": "2026-10-05T10:11:33+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Nobel Medicine Prize Goes To 3 Scientists For Research Into Brain Activity",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/karl-deisseroth-peter-hegemann-georg-nagel-nobel-prize-in-medicine-goes-to-3-for-discoveries-concerning-optogenetics-12140374#publisher=newsstand",
-     "published": "2026-10-05T10:12:54+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "US-German trio win medicine Nobel for work on optogenetics",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/05/us-german-trio-win-medicine-nobel-for-work-on-optogenetics",
-     "published": "2026-10-05T10:39:31+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "US, German scientists win Nobel medicine prize for optogenetics breakthrough",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/life/2026/10/05/us-german-scientists-win-nobel-medicine-prize-for-optogenetics-breakthrough/237828",
-     "published": "2026-10-05T12:02:57+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Nobel Prize for Medicine awarded to three scientists for their work in optogenetics",
-     "language": "en",
-     "link": "https://tass.com/science/2197619",
-     "published": "2026-10-05T10:05:01+00:00"
-    },
-    {
-     "outlet": "Le Monde",
-     "region": "fr",
-     "bucket": "serious",
-     "title": "Le Nobel de médecine 2026 récompense l’Américain Karl Deisseroth et les Allemands Peter Hegemann et Georg Nagel pour leurs travaux sur les canaux ioniques",
-     "language": "fr",
-     "link": "https://www.lemonde.fr/sciences/article/2026/10/05/le-nobel-de-medecine-2026-recompense-l-americain-karl-deisseroth-et-les-allemands-peter-hegemann-et-georg-nagel-pour-leurs-travaux-sur-les-canaux-ioniques_6788513_1650684.html",
-     "published": "2026-10-05T09:41:47+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Nobel Prize in Medicine jointly awarded to ​Karl Deisseroth, Peter Hegemann ​and Georg Nagel",
-     "language": "en",
-     "link": "https://www.france24.com/en/science/20261005-nobel-prize-in-medicine-jointly-awarded-to-karl-deisseroth-peter-hegemann-and-georg-nagel",
-     "published": "2026-10-05T09:44:01+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Karl Deisseroth, Peter Hegemann, Georg Nagel win 2026 Nobel Prize in Medicine for work on optogenetics",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/nobel-prize-in-physiology-or-medicine-2026-awarded-to-3-scientists-for-work-on-optogenetics-101791192988348.html",
-     "published": "2026-10-05T09:37:44+00:00"
-    },
-    {
-     "outlet": "Le Monde",
-     "region": "fr",
-     "bucket": "serious",
-     "title": "Prix Nobel de médecine 2026 : un Américain et deux Allemands récompensés pour leur technique d’activation des neurones par la lumière",
-     "language": "fr",
-     "link": "https://www.lemonde.fr/sciences/article/2026/10/05/prix-nobel-de-medecine-2026-un-americain-et-deux-allemands-recompenses-pour-leur-technique-d-activation-des-neurones-par-la-lumiere_6788564_1650684.html",
-     "published": "2026-10-05T16:57:55+00:00"
-    },
-    {
-     "outlet": "STAT News",
-     "region": "health",
-     "bucket": "useful",
-     "title": "2026 Nobel Prize in Medicine awarded for brain research tool called optogenetics",
-     "language": "en",
-     "link": "https://www.statnews.com/2026/10/05/nobel-prize-medicine-2026-winner-deisseroth-hegemann-nagel/?utm_campaign=rss",
-     "published": "2026-10-05T10:00:11+00:00"
-    },
-    {
-     "outlet": "Hürriyet (تركي)",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "2026 Nobel Tıp Ödülü sahiplerini buldu",
-     "language": "tr",
-     "link": "https://www.hurriyet.com.tr/dunya/nobel-tip-odulu-sahibini-buldu-43330124",
-     "published": "2026-10-05T09:42:00+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Nobel Prize 2026: When will the awards be announced, date and timings in IST",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/nobel-prize-2026-date-timings-ist-how-to-watch/article71546193.ece",
-     "published": "2026-10-05T09:06:03+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "The Nobel for medicine goes to lighting up the brain",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/the-nobel-for-medicine-goes-to-lighting-up-the-brain-101791264188330.html",
-     "published": "2026-10-06T05:24:24+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Francis Halzen wins Nobel Prize in Physics for work on ‘ghost particles’",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/6/francis-halzen-wins-nobel-prize-in-physics-for-work-on-ghost-particles?traffic_source=rss",
-     "published": "2026-10-06T12:31:16+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "‘Neutrino Man’ Francis Halzen wins Nobel Prize in Physics",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/europe/article/3369925/francis-halzen-wins-2026-nobel-prize-physics?utm_source=rss_feed",
-     "published": "2026-10-06T09:56:51+00:00"
-    },
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "Francis Halzen wins 2026 Nobel Prize in Physics",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-06-francis-halzen-wins-2026-nobel-prize-in-physics/",
-     "published": "2026-10-06T12:45:26+00:00"
-    },
-    {
-     "outlet": "Rappler",
-     "region": "ph",
-     "bucket": "serious",
-     "title": "Francis Halzen wins 2026 Nobel Prize in Physics",
-     "language": "en",
-     "link": "https://www.rappler.com/people/newsmakers/francis-halzen-winner-2026-nobel-prize-physics/",
-     "published": "2026-10-06T10:00:40+00:00"
-    },
-    {
-     "outlet": "Phys.org",
-     "region": "science",
-     "bucket": "useful",
-     "title": "Francis Halzen wins Nobel Prize in physics for work on mysterious ghost particles called neutrinos",
-     "language": "en",
-     "link": "https://phys.org/news/2026-10-francis-halzen-nobel-prize-physics.html",
-     "published": "2026-10-06T10:12:06+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Francis Halzen wins 2026 Nobel Prize in Physics for contributions to IceCube Neutrino Observatory",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/francis-halzen-wins-2026-nobel-prize-in-physics-south-pole-track-particles-neutrinos-icecube-neutrino-observatory-101791277433916.html",
-     "published": "2026-10-06T09:52:05+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "What's the IceCube Observatory work that Francis Halzen has received Nobel Prize in Physics for",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/nobel-prize-in-physics-2026-awarded-to-francis-halzen-for-icecube-observatory-work-101791280312171.html",
-     "published": "2026-10-06T09:53:27+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Francis Halzen wins 2026 Nobel Prize in physics",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/06/world/science-health/nobel-physics-prize-2026/",
-     "published": "2026-10-06T10:02:00+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Francis Halzen wins Nobel Prize in physics for work on high-energy neutrinos from space",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/06/g-s1-146622/nobel-prize-physics",
-     "published": "2026-10-06T10:16:28+00:00"
-    }
-   ],
-   "last_seen": "2026-10-12T17:07:49.159577+00:00",
-   "outlets": 20,
-   "regions": 16,
-   "languages": 3,
-   "score": 58.0
-  },
-  {
    "id": "07777a6ab897",
    "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
@@ -1318,7 +1037,7 @@
      "published": "2026-10-13T00:00:08+00:00"
     }
    ],
-   "last_seen": "2026-10-19T09:07:48.928141+00:00",
+   "last_seen": "2026-10-19T17:07:57.762301+00:00",
    "outlets": 20,
    "regions": 16,
    "languages": 1,
@@ -1604,6 +1323,278 @@
    "regions": 15,
    "languages": 1,
    "score": 54.0
+  },
+  {
+   "id": "af244ec47185",
+   "first_seen": "2026-10-08T18:07:58.260966+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Trump says US will not attack Iran before November’s midterm elections",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370235/trump-says-us-will-not-attack-iran-novembers-midterm-elections?utm_source=rss_feed",
+     "published": "2026-10-08T17:39:11+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Trump says US will not attack Iran before midterm elections",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2633651/trump-says-iran-deal-isnt-really-something-that-i-want-to-do",
+     "published": "2026-10-08T00:17:00+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "No attack on Iran before November 3 mid-term elections: Trump",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/no-attack-on-iran-before-november-3-mid-term-elections-trump-101791477417541.html",
+     "published": "2026-10-08T16:37:22+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Trump promises not to resume Iran strikes before midterm elections",
+     "language": "en",
+     "link": "https://www.cbsnews.com/live-updates/iran-war-nuclear-donald-trump-vance-rubio-strait-of-hormuz/",
+     "published": "2026-10-08T17:56:36+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Iran weighs US response as Trump rules out attack before midterms",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2035790/iran-weighs-us-response-as-trump-rules-out-attack-before-midterms",
+     "published": "2026-10-09T02:30:15+00:00"
+    },
+    {
+     "outlet": "Rappler",
+     "region": "ph",
+     "bucket": "serious",
+     "title": "Trump says US will not attack Iran before midterm elections in November",
+     "language": "en",
+     "link": "https://www.rappler.com/world/us-canada/trump-us-will-not-attack-iran-midterm-elections-november/",
+     "published": "2026-10-09T01:05:19+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Trump rules out new Iran attack before US midterm elections",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/trump-rules-out-iran-attack-us-midterm-election-6444841",
+     "published": "2026-10-09T01:58:00+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Trump rules out renewed Iran strikes before US midterms",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/americas/trump-rules-out-renewed-iran-strikes-before-us-midterms",
+     "published": "2026-10-08T16:32:00+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Trump rules out new Iran attack before US midterm elections",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/trump-rules-out-new-iran-attack-before-us-midterm-elections/",
+     "published": "2026-10-08T22:05:40+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump Rules Out New Iran Attack Before US Midterm Elections",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/donald-trump-rules-out-new-iran-attack-before-us-midterm-elections-12159127#publisher=newsstand",
+     "published": "2026-10-08T22:22:43+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Trump says U.S. won’t attack Iran before midterm elections",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/09/world/no-iran-attack-midterms/",
+     "published": "2026-10-09T00:24:00+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Trump rules out new Iran attack before US midterm elections, cites ‘productive discussions’",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/09/trump-rules-out-new-iran-attack-before-us-midterm-elections-cites-productive-discussions/238317",
+     "published": "2026-10-09T01:15:55+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Trump says US will not strike Iran before midterm elections",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/9/trump-says-us-will-not-strike-iran-before-midterm-elections?traffic_source=rss",
+     "published": "2026-10-09T06:22:07+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump says U.S. will not resume military strikes on Iran before Nov. 3 midterm elections",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/trump-says-us-will-not-resume-military-strikes-on-iran-before-nov-3-midterm-elections/article71561624.ece",
+     "published": "2026-10-08T23:45:20+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Trump rules out new Iran attack before US midterm elections",
+     "language": "en",
+     "link": "https://punchng.com/trump-rules-out-new-iran-attack-before-us-midterm-elections-2/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-09T07:42:18+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Trump rules out new Iran attack before US midterm elections",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/trump-rules-out-new-iran-attack-before-us-midterm-elections-2/",
+     "published": "2026-10-09T07:48:31+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "‘Response insufficient’: Iran claims US accepted ‘some of its seven conditions’ to reopen Strait of Hormuz",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/iran-us-response-peace-proposal-strait-of-hormuz-reopening-trump-tehran-saudi-houthi-middle-east-latest-news-101791770526616.html",
+     "published": "2026-10-12T02:19:14+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "US response to Iran’s conditions 'insufficient'",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248504/US-response-to-Iran-s-conditions-insufficient",
+     "published": "2026-10-12T03:38:08+00:00"
+    },
+    {
+     "outlet": "IRNA English",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Security chief: US response to Iran’s 7 conditions ‘insufficient’",
+     "language": "en",
+     "link": "https://en.irna.ir/news/86289861/Security-chief-US-response-to-Iran-s-7-conditions-insufficient",
+     "published": "2026-10-11T16:55:00+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Iran maintains indirect comms as it weighs US' Hormuz plan reply",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/mid-east/iran-maintains-indirect-comms-as-it-weighs-us-hormuz-plan-reply",
+     "published": "2026-10-12T09:43:00+00:00"
+    },
+    {
+     "outlet": "Tehran Times",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "World will face a serious energy crisis if US launches another war against Iran",
+     "language": "en",
+     "link": "https://www.tehrantimes.com/news/531239/World-will-face-a-serious-energy-crisis-if-US-launches-another",
+     "published": "2026-10-19T12:48:14+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "World to face serious energy crisis if US resumes war on Iran",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248723/World-to-face-serious-energy-crisis-if-US-resumes-war-on-Iran",
+     "published": "2026-10-19T16:03:10+00:00"
+    },
+    {
+     "outlet": "IRNA English",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "IRGC warns of retaliation against attack on Iran’s energy infrastructure",
+     "language": "en",
+     "link": "https://en.irna.ir/news/86296656/IRGC-warns-of-retaliation-against-attack-on-Iran-s-energy-infrastructure",
+     "published": "2026-10-19T05:23:59+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "IRGC Spox. warns attacks on energy will burn occupied lands",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248699/IRGC-Spox-warns-attacks-on-energy-will-burn-occupied-lands",
+     "published": "2026-10-19T04:53:19+00:00"
+    },
+    {
+     "outlet": "IRNA English",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "IRGC Navy: Violating oil tanker hits mine in Strait of Hormuz",
+     "language": "en",
+     "link": "https://en.irna.ir/news/86296679/IRGC-Navy-Violating-oil-tanker-hits-mine-in-Strait-of-Hormuz",
+     "published": "2026-10-19T05:47:14+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Tehran has no choice but to place Strait of Hormuz under Iranian forces’ control",
+     "language": "en",
+     "link": "https://tass.com/world/2204309",
+     "published": "2026-10-19T16:43:25+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "People scour strait of Hormuz for spilt cargo after Iran attacks container ships",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/19/strait-of-hormuz-spilt-cargo-iran-attacks-container-ships",
+     "published": "2026-10-19T14:48:56+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Iran says offer, conditions to reopen Strait of Hormuz still on",
+     "language": "en",
+     "link": "https://www.cbsnews.com/live-updates/iran-war-us-trump-strait-of-hormuz-yemen-houthis-saudi-arabia/",
+     "published": "2026-10-18T19:02:00+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Saudi coalition, Houthis trade strikes as disruption spreads",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNT3ROQkx6TUs1eHNnT1Zhb1REVFhhMWlTcU80RjZXSHJTVlEwaVE4SWRmbjNXWDE4ei16WWZIeDZ1TE9xV2VyblI3aWx6LXpDUDd6VHlJamctVjdJbVlYYVlpZWFJXzF4eXBzbVNEYUUwVFVvQjN6UGZVY01SaTZjRHhLenBGcV9nOFp2US1IaUpYTmZkNU9uci1n?oc=5",
+     "published": "2026-10-18T17:51:19+00:00"
+    }
+   ],
+   "last_seen": "2026-10-19T17:07:57.762301+00:00",
+   "outlets": 21,
+   "regions": 15,
+   "languages": 1,
+   "score": 53.0
   },
   {
    "id": "08f08679bc7c",
@@ -3921,7 +3912,7 @@
      "published": "2026-10-17T17:09:50+00:00"
     }
    ],
-   "last_seen": "2026-10-19T09:07:48.928141+00:00",
+   "last_seen": "2026-10-19T17:07:57.762301+00:00",
    "outlets": 18,
    "regions": 13,
    "languages": 1,
@@ -4719,7 +4710,7 @@
      "published": "2026-10-16T15:29:48+00:00"
     }
    ],
-   "last_seen": "2026-10-19T09:07:48.928141+00:00",
+   "last_seen": "2026-10-19T17:07:57.762301+00:00",
    "outlets": 18,
    "regions": 12,
    "languages": 1,
@@ -5007,197 +4998,6 @@
    "score": 43.0
   },
   {
-   "id": "af244ec47185",
-   "first_seen": "2026-10-08T18:07:58.260966+00:00",
-   "members": [
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Trump says US will not attack Iran before November’s midterm elections",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370235/trump-says-us-will-not-attack-iran-novembers-midterm-elections?utm_source=rss_feed",
-     "published": "2026-10-08T17:39:11+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Trump says US will not attack Iran before midterm elections",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633651/trump-says-iran-deal-isnt-really-something-that-i-want-to-do",
-     "published": "2026-10-08T00:17:00+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "No attack on Iran before November 3 mid-term elections: Trump",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/no-attack-on-iran-before-november-3-mid-term-elections-trump-101791477417541.html",
-     "published": "2026-10-08T16:37:22+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Trump promises not to resume Iran strikes before midterm elections",
-     "language": "en",
-     "link": "https://www.cbsnews.com/live-updates/iran-war-nuclear-donald-trump-vance-rubio-strait-of-hormuz/",
-     "published": "2026-10-08T17:56:36+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Iran weighs US response as Trump rules out attack before midterms",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2035790/iran-weighs-us-response-as-trump-rules-out-attack-before-midterms",
-     "published": "2026-10-09T02:30:15+00:00"
-    },
-    {
-     "outlet": "Rappler",
-     "region": "ph",
-     "bucket": "serious",
-     "title": "Trump says US will not attack Iran before midterm elections in November",
-     "language": "en",
-     "link": "https://www.rappler.com/world/us-canada/trump-us-will-not-attack-iran-midterm-elections-november/",
-     "published": "2026-10-09T01:05:19+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Trump rules out new Iran attack before US midterm elections",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/world/trump-rules-out-iran-attack-us-midterm-election-6444841",
-     "published": "2026-10-09T01:58:00+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Trump rules out renewed Iran strikes before US midterms",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/americas/trump-rules-out-renewed-iran-strikes-before-us-midterms",
-     "published": "2026-10-08T16:32:00+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Trump rules out new Iran attack before US midterm elections",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/trump-rules-out-new-iran-attack-before-us-midterm-elections/",
-     "published": "2026-10-08T22:05:40+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Trump Rules Out New Iran Attack Before US Midterm Elections",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/donald-trump-rules-out-new-iran-attack-before-us-midterm-elections-12159127#publisher=newsstand",
-     "published": "2026-10-08T22:22:43+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Trump says U.S. won’t attack Iran before midterm elections",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/09/world/no-iran-attack-midterms/",
-     "published": "2026-10-09T00:24:00+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Trump rules out new Iran attack before US midterm elections, cites ‘productive discussions’",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/09/trump-rules-out-new-iran-attack-before-us-midterm-elections-cites-productive-discussions/238317",
-     "published": "2026-10-09T01:15:55+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Trump says US will not strike Iran before midterm elections",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/9/trump-says-us-will-not-strike-iran-before-midterm-elections?traffic_source=rss",
-     "published": "2026-10-09T06:22:07+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Trump says U.S. will not resume military strikes on Iran before Nov. 3 midterm elections",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/trump-says-us-will-not-resume-military-strikes-on-iran-before-nov-3-midterm-elections/article71561624.ece",
-     "published": "2026-10-08T23:45:20+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Trump rules out new Iran attack before US midterm elections",
-     "language": "en",
-     "link": "https://punchng.com/trump-rules-out-new-iran-attack-before-us-midterm-elections-2/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-09T07:42:18+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Trump rules out new Iran attack before US midterm elections",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/trump-rules-out-new-iran-attack-before-us-midterm-elections-2/",
-     "published": "2026-10-09T07:48:31+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "‘Response insufficient’: Iran claims US accepted ‘some of its seven conditions’ to reopen Strait of Hormuz",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/iran-us-response-peace-proposal-strait-of-hormuz-reopening-trump-tehran-saudi-houthi-middle-east-latest-news-101791770526616.html",
-     "published": "2026-10-12T02:19:14+00:00"
-    },
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "US response to Iran’s conditions 'insufficient'",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248504/US-response-to-Iran-s-conditions-insufficient",
-     "published": "2026-10-12T03:38:08+00:00"
-    },
-    {
-     "outlet": "IRNA English",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Security chief: US response to Iran’s 7 conditions ‘insufficient’",
-     "language": "en",
-     "link": "https://en.irna.ir/news/86289861/Security-chief-US-response-to-Iran-s-7-conditions-insufficient",
-     "published": "2026-10-11T16:55:00+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Iran maintains indirect comms as it weighs US' Hormuz plan reply",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/mid-east/iran-maintains-indirect-comms-as-it-weighs-us-hormuz-plan-reply",
-     "published": "2026-10-12T09:43:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-12T17:07:49.159577+00:00",
-   "outlets": 17,
-   "regions": 12,
-   "languages": 1,
-   "score": 43.0
-  },
-  {
    "id": "b9d7cd9e1d43",
    "first_seen": "2026-10-09T09:07:48.883639+00:00",
    "members": [
@@ -5477,179 +5277,6 @@
    "regions": 12,
    "languages": 1,
    "score": 42.0
-  },
-  {
-   "id": "2c8b7acb76f3",
-   "first_seen": "2026-10-11T17:07:45.259726+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "At least 139 dead, 84 missing as migrant boat capsizes off Djibouti",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/11/at-least-109-dead-over-100-missing-as-migrant-boat-capsizes-off-djibouti?traffic_source=rss",
-     "published": "2026-10-11T11:34:40+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Children among 139 dead after boat capsizes off Djibouti, UN says",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cwy7lxx60dg5o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-11T15:32:23+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "At least 139 migrants dead, including some children, after boat from Djibouti to Yemen capsizes, UN agency says",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2036408/at-least-139-migrants-dead-including-some-children-after-boat-from-djibouti-to-yemen-capsizes-un-agency-says",
-     "published": "2026-10-11T15:36:57+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "At least 139 migrants dead, more than 84 missing after boat capsizes off Djibouti",
-     "language": "en",
-     "link": "https://www.france24.com/en/africa/20261011-at-least-hundred-migrants-dead-scores-missing-after-boat-capsizes-off-djibouti",
-     "published": "2026-10-11T09:24:40+00:00"
-    },
-    {
-     "outlet": "Africanews",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "At least 139 people dead after migrant boat capsizes off Djibouti",
-     "language": "en",
-     "link": "http://www.africanews.com/2026/10/11/at-least-139-people-dead-after-migrant-boat-capsizes-off-djibouti/",
-     "published": "2026-10-11T15:19:39+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "UN reports 109 dead when migrant boat capsizes off Djibouti",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/africa/un-reports-109-dead-when-migrant-boat-capsizes-off-djibouti",
-     "published": "2026-10-11T09:50:00+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "At least 139 migrants, including children, killed after boat capsizes off Djibouti; 84 missing",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/boat-capsizes-off-coast-of-djibouti-in-east-africa-death-toll-injured-migrants-children-rescue-operations-101791717482564.html",
-     "published": "2026-10-11T11:19:56+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "139 Migrants, Including Children, Dead After Boat Overturns Off Djibouti",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/109-migrants-including-15-children-dead-after-boat-overturns-off-djibouti-12170218#publisher=newsstand",
-     "published": "2026-10-11T14:08:03+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Children among 109 dead after boat capsizes off Djibouti, UN says",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/children-among-109-dead-after-boat-capsizes-off-djibouti-un-says/",
-     "published": "2026-10-11T14:20:56+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Djibouti boat capsize: Children among 109 dead with 116 still missing, UN says",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9jMVZWeHN5VjRNUTVZUnlwS0pLMzhsYlJOUHVzY05LTGVycnVSa3AyVGlTOW1FYVhwMmF5bWtPU3N2Q05oaUsySGN0R1ZXMV9ObmpZSXcwZ2xiWTg?oc=5",
-     "published": "2026-10-11T12:08:20+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "At least 139 dead as migrant boat from Djibouti to Yemen capsizes",
-     "language": "en",
-     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/12/at-least-139-dead-as-migrant-boat-from-djibouti-to-yemen-capsizes?traffic_source=rss",
-     "published": "2026-10-12T03:09:11+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "At least 139 migrants dead, dozens missing after boat capsizes off Djibouti",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/middle-east/article/3370522/least-139-migrants-dead-dozens-missing-after-boat-capsizes-djibouti?utm_source=rss_feed",
-     "published": "2026-10-12T01:05:42+00:00"
-    },
-    {
-     "outlet": "Rappler",
-     "region": "ph",
-     "bucket": "serious",
-     "title": "At least 139 migrants dead after boat from Djibouti to Yemen capsizes, UN agency says",
-     "language": "en",
-     "link": "https://www.rappler.com/world/africa/migrants-deaths-boat-djibouti-yemen-capsizes-october-2026/",
-     "published": "2026-10-12T03:09:59+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "At least 139 migrants dead, including some children, after boat from Djibouti to Yemen capsizes, UN agency says",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/at-least-139-migrants-dead-including-some-children-after-boat-from-djibouti-to-yemen-capsizes-un-agency-says/",
-     "published": "2026-10-12T02:06:00+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "139 Migrants Die As Overcrowded Yemen-Headed Boat Capsizes Off Djibouti",
-     "language": "de",
-     "link": "https://www.ndtv.com/world-news/139-migrants-die-as-overcrowded-yemen-headed-boat-capsizes-off-djibouti-east-africa-12172139#publisher=newsstand",
-     "published": "2026-10-12T05:14:26+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Over 100 Migrants Are Dead After Boat Capsizes Near Djibouti",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPZHNjanMzTk9UN254YWxOMktHR2xBTVhmUlNIc21rdGEwYUVwZzlhMVE2YlhyclIyTktOaUl0NmNoSTE4UFFjR2ZrenhCRXEwenFoVk9yTlc4R0RhWHZSeGlSU2o1T2RrOW5JRkdvRlhaNHU1b29jUmp6VlViUXg3SFpVbmJrVUtIX2l1Rm9kZWtyb25TRHBmVw?oc=5",
-     "published": "2026-10-11T14:38:27+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "139 people dead, including 15 children, after migrant boat capsizes",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/migrant-boat-capsizes-djibouti-over-100-dead/",
-     "published": "2026-10-12T10:45:43+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "139 migrants, including children, die after boat capsizes off Djibouti",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOTDZ6aGY5VTg1dXZJY3NBSzM3OGtrRG1sS0JFaXdXVjdQRzUzUUd2Y1EyWVcxN0VHWHppU2M4dEJJZTg2em43X2FPNzRPaHhXYU9nNU9oV1F5eER2ZEdCdGRxZ0M4TUpFZl9FOFlmSUxmekFHQlNxcFF3T1VVd0Z2dkhvSTNQNWNGendJc0xLZ1ZPUGdwc0tPckdzTGc4QVRsVWFMT3RHY3k?oc=5",
-     "published": "2026-10-12T04:44:11+00:00"
-    }
-   ],
-   "last_seen": "2026-10-12T17:07:49.159577+00:00",
-   "outlets": 13,
-   "regions": 12,
-   "languages": 2,
-   "score": 41.0
   },
   {
    "id": "493ae8954612",
@@ -6760,6 +6387,143 @@
    "score": 36.0
   },
   {
+   "id": "56fca6b4d99b",
+   "first_seen": "2026-10-18T17:07:47.543314+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Trump endorses Netanyahu in Israeli legislative elections",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/18/trump-endorses-netanyahu-in-israeli-legislative-elections?traffic_source=rss",
+     "published": "2026-10-18T16:36:26+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Trump endorses Netanyahu in Israeli election",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2038051/trump-endorses-netanyahu-in-israeli-election",
+     "published": "2026-10-18T16:44:41+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Trump endorses ally Netanyahu in Israeli election, praising ‘great warrior prime minister’",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/middle-east/article/3371326/trump-endorses-ally-netanyahu-israeli-election-praising-great-warrior-prime-minister?utm_source=rss_feed",
+     "published": "2026-10-18T17:04:13+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump endorses Netanyahu in Israeli election",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/trump-endorses-netanyahu-in-israeli-election/article71600598.ece",
+     "published": "2026-10-18T15:22:15+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Trump endorses embattled Israeli PM Netanyahu ahead of October 27 election",
+     "language": "en",
+     "link": "https://www.france24.com/en/middle-east/20261018-trump-endorses-embattled-israeli-pm-netanyahu-ahead-of-october-27-election",
+     "published": "2026-10-18T16:25:00+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Trump endorses Netanyahu in Israeli election",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/trump-endorses-netanyahu-in-israeli-election-6469761",
+     "published": "2026-10-18T16:59:22+00:00"
+    },
+    {
+     "outlet": "Investing.com — الاقتصاد",
+     "region": "money",
+     "bucket": "useful",
+     "title": "Trump endorses Israeli Prime Minister Netanyahu for reelection amid Iran war",
+     "language": "en",
+     "link": "https://www.investing.com/news/economy-news/iran-appoints-new-defence-minister-amid-escalating-tensions-with-us-4955858",
+     "published": "2026-10-18T15:50:56+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Trump endorses Netanyahu in Israel’s upcoming election",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/trump-endorses-netanyahu-in-israels-upcoming-election/",
+     "published": "2026-10-18T16:05:23+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Trump endorses Israel's Netanyahu ahead of reelection bid",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/trump-endorses-israel-prime-minister-benjamin-netanyahu-reelection/",
+     "published": "2026-10-18T16:18:50+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Trump endorses Netanyahu 9 days before Israel election",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPNmlUNWVNcFlkMnV4NmR2TWhvS1daNVlab2RvY0FCQU5DU2pwSGtWMEJpcFNRY0FESFlmSThHbzljaE5ZVndfOFRfZE1kZG1taGtiS3hTMnNPNzRrTm16dEtXLWEwcE1LMUF0TjRjNThwR2dCbm02cFJjdWZWSjlGU2RvQzE?oc=5",
+     "published": "2026-10-18T15:07:10+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "US President Donald Trump endorses Netanyahu for Israeli election",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/19/us-president-donald-trump-endorses-netanyahu-for-israeli-election?traffic_source=rss",
+     "published": "2026-10-19T05:10:37+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Trump backs ally Netanyahu ahead of Israel’s tight election",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/trump-backs-ally-netanyahu-ahead-of-israels-tight-election/",
+     "published": "2026-10-19T07:25:38+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "'Bibi will never let you down': Trump endorses Netanyahu in Israel's upcoming election",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/bibi-will-never-let-you-down-trump-endorses-netanyahu-in-israels-upcoming-election-101792340854932.html",
+     "published": "2026-10-18T17:00:47+00:00"
+    },
+    {
+     "outlet": "Tehran Times",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Trump endorses war criminal Netanyahu ahead of Israeli election",
+     "language": "en",
+     "link": "https://www.tehrantimes.com/news/531251/Trump-endorses-war-criminal-Netanyahu-ahead-of-Israeli-election",
+     "published": "2026-10-19T16:23:09+00:00"
+    }
+   ],
+   "last_seen": "2026-10-19T17:07:57.762301+00:00",
+   "outlets": 12,
+   "regions": 11,
+   "languages": 1,
+   "score": 36.0
+  },
+  {
    "id": "86aa6aeba5fa",
    "first_seen": "2026-10-12T17:07:49.159577+00:00",
    "members": [
@@ -7189,7 +6953,7 @@
      "published": "2026-10-14T21:31:34+00:00"
     }
    ],
-   "last_seen": "2026-10-15T09:07:47.013401+00:00",
+   "last_seen": "2026-10-19T17:07:57.762301+00:00",
    "outlets": 11,
    "regions": 8,
    "languages": 3,
@@ -7556,125 +7320,6 @@
     }
    ],
    "last_seen": "2026-10-18T17:07:47.543314+00:00",
-   "outlets": 10,
-   "regions": 10,
-   "languages": 1,
-   "score": 32.0
-  },
-  {
-   "id": "56fca6b4d99b",
-   "first_seen": "2026-10-18T17:07:47.543314+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Trump endorses Netanyahu in Israeli legislative elections",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/18/trump-endorses-netanyahu-in-israeli-legislative-elections?traffic_source=rss",
-     "published": "2026-10-18T16:36:26+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Trump endorses Netanyahu in Israeli election",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2038051/trump-endorses-netanyahu-in-israeli-election",
-     "published": "2026-10-18T16:44:41+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Trump endorses ally Netanyahu in Israeli election, praising ‘great warrior prime minister’",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/middle-east/article/3371326/trump-endorses-ally-netanyahu-israeli-election-praising-great-warrior-prime-minister?utm_source=rss_feed",
-     "published": "2026-10-18T17:04:13+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Trump endorses Netanyahu in Israeli election",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/trump-endorses-netanyahu-in-israeli-election/article71600598.ece",
-     "published": "2026-10-18T15:22:15+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Trump endorses embattled Israeli PM Netanyahu ahead of October 27 election",
-     "language": "en",
-     "link": "https://www.france24.com/en/middle-east/20261018-trump-endorses-embattled-israeli-pm-netanyahu-ahead-of-october-27-election",
-     "published": "2026-10-18T16:25:00+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Trump endorses Netanyahu in Israeli election",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/world/trump-endorses-netanyahu-in-israeli-election-6469761",
-     "published": "2026-10-18T16:59:22+00:00"
-    },
-    {
-     "outlet": "Investing.com — الاقتصاد",
-     "region": "money",
-     "bucket": "useful",
-     "title": "Trump endorses Israeli Prime Minister Netanyahu for reelection amid Iran war",
-     "language": "en",
-     "link": "https://www.investing.com/news/economy-news/iran-appoints-new-defence-minister-amid-escalating-tensions-with-us-4955858",
-     "published": "2026-10-18T15:50:56+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Trump endorses Netanyahu in Israel’s upcoming election",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/trump-endorses-netanyahu-in-israels-upcoming-election/",
-     "published": "2026-10-18T16:05:23+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Trump endorses Israel's Netanyahu ahead of reelection bid",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/trump-endorses-israel-prime-minister-benjamin-netanyahu-reelection/",
-     "published": "2026-10-18T16:18:50+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Trump endorses Netanyahu 9 days before Israel election",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPNmlUNWVNcFlkMnV4NmR2TWhvS1daNVlab2RvY0FCQU5DU2pwSGtWMEJpcFNRY0FESFlmSThHbzljaE5ZVndfOFRfZE1kZG1taGtiS3hTMnNPNzRrTm16dEtXLWEwcE1LMUF0TjRjNThwR2dCbm02cFJjdWZWSjlGU2RvQzE?oc=5",
-     "published": "2026-10-18T15:07:10+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "US President Donald Trump endorses Netanyahu for Israeli election",
-     "language": "en",
-     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/19/us-president-donald-trump-endorses-netanyahu-for-israeli-election?traffic_source=rss",
-     "published": "2026-10-19T05:10:37+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Trump backs ally Netanyahu ahead of Israel’s tight election",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/trump-backs-ally-netanyahu-ahead-of-israels-tight-election/",
-     "published": "2026-10-19T07:25:38+00:00"
-    }
-   ],
-   "last_seen": "2026-10-19T09:07:48.928141+00:00",
    "outlets": 10,
    "regions": 10,
    "languages": 1,
@@ -8121,7 +7766,7 @@
      "published": "2026-10-19T05:35:49+00:00"
     }
    ],
-   "last_seen": "2026-10-19T09:07:48.928141+00:00",
+   "last_seen": "2026-10-19T17:07:57.762301+00:00",
    "outlets": 12,
    "regions": 8,
    "languages": 1,
@@ -8218,143 +7863,6 @@
    "regions": 9,
    "languages": 1,
    "score": 29.0
-  },
-  {
-   "id": "4ff16308f748",
-   "first_seen": "2026-10-10T17:07:48.257605+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Drone strike by Sudan paramilitary kills 41 near Ethiopian border, rights group says",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c8vgx9ew571wo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-10T14:49:32+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Rights group says paramilitary drone strike in Sudan killed 41 near Ethiopian border",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/rights-group-says-paramilitary-drone-strike-in-sudan-killed-41-near-ethiopian-border/article71569304.ece",
-     "published": "2026-10-10T16:54:08+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Drone strike by Sudan paramilitary kills 41 near Ethiopian border, rights group says",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/drone-strike-by-sudan-paramilitary-kills-41-near-ethiopian-border-rights-group-says/",
-     "published": "2026-10-10T16:38:42+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Drone strike by Sudan paramilitary kills 41 near Ethiopian border, rights group says",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE43WG51QTk5R3R0d2d3VjNYUE8za0FEZkdUTVdKS1ZVcWVJbk5fQkptYnNWU0JZN1daTkhZVkh2UUROWHpONGZTeEI5ZFRiMXNoaFNIS05iSnZPMVk?oc=5",
-     "published": "2026-10-10T14:49:32+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Dozens of gold prospectors killed in strikes on Egypt-Sudan border, rights group says",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cqy43vrk8wv8o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-11T21:12:44+00:00"
-    },
-    {
-     "outlet": "Deutsche Welle",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Air strikes kill dozens of gold miners on Sudan-Egypt border",
-     "language": "en",
-     "link": "https://www.dw.com/en/air-strikes-kill-dozens-of-gold-miners-on-sudan-egypt-border/a-79634889?maca=en-rss-en-world-4025-rdf",
-     "published": "2026-10-11T19:41:00+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Scores of gold miners killed in air strikes on Egypt-Sudan border, rights group says",
-     "language": "en",
-     "link": "https://www.france24.com/en/africa/20261012-egypt-sudan-border-airstrikes-gold-miners-killed",
-     "published": "2026-10-12T01:28:27+00:00"
-    },
-    {
-     "outlet": "AllAfrica",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Sudan: Air Strikes Kill Dozens of Gold Miners on Sudan-Egypt Border",
-     "language": "en",
-     "link": "https://allafrica.com/stories/202610120126.html",
-     "published": "2026-10-12T05:37:59+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Dozens of gold prospectors killed in strikes on Egypt-Sudan border, rights group says",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/dozens-of-gold-prospectors-killed-in-strikes-on-egypt-sudan-border-rights-group-says/",
-     "published": "2026-10-12T03:47:00+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "72 Killed In Airstrike On Gold Mine At Sudan-Egypt Disputed Border",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/72-killed-in-airstrike-on-gold-mine-at-sudan-egypt-disputed-border-12172177#publisher=newsstand",
-     "published": "2026-10-12T05:29:05+00:00"
-    },
-    {
-     "outlet": "CGTN",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Air strikes kill dozens at Sudan-Egypt border gold mines",
-     "language": "en",
-     "link": "https://newsaf.cgtn.com/news/2026-10-11/Air-strikes-kill-dozens-at-Sudan-Egypt-border-gold-mines-1R9Cp39Nr0I/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
-     "published": "2026-10-11T09:54:41+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Dozens of gold prospectors killed in strikes on Egypt-Sudan border, rights group says",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5WcTYtVFBqWGp1RnRSbEM1NlBCcG5hZkpRcUF0OWVCYkJIQTZRNzhLTmNKX2VsUGs3MFBjV2I0c3FJZW9vd1FEZVU4aWtydHJpbmY0cUp5RjN1RVk?oc=5",
-     "published": "2026-10-11T21:12:44+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Deadly gold mine air strikes highlight Egypt-Sudan border insecurity",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/12/deadly-gold-mine-air-strikes-highlight-egypt-sudan-border-insecurity?traffic_source=rss",
-     "published": "2026-10-12T15:30:08+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "A deadly airstrike hits a Sudan-Egypt border gold mine, killing at least 13 miners",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNcE4zVU5aRzlpV0NOaGtxM1BYYmMzc0tRUG9mVHJpZ0NBRHFNd2c0dmlOQjFrX01Fb1cxSDFpa2RzTzFhamlhQVFtYUc5bzczcThPc0poQkdpbG8ydGcySGNBMjZnRkRtbWVQeUpqUXI1a0pwdWVuUUFuY1R3UHg2ZDJmcUZhT3dqeHI2c0ViR3NxcmVsay1OU0pUa01lS0E?oc=5",
-     "published": "2026-10-11T16:17:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-12T17:07:49.159577+00:00",
-   "outlets": 10,
-   "regions": 8,
-   "languages": 1,
-   "score": 28.0
   },
   {
    "id": "0f5b4743bd14",
@@ -8676,96 +8184,105 @@
    "score": 28.0
   },
   {
-   "id": "2cfef58d005e",
-   "first_seen": "2026-10-12T09:07:45.429910+00:00",
+   "id": "f5ba3124a0bf",
+   "first_seen": "2026-10-19T09:07:48.928141+00:00",
    "members": [
     {
      "outlet": "Al Jazeera English",
      "region": "qa",
      "bucket": "serious",
-     "title": "UK PM Andy Burnham says it is ‘clear’ Russia interfered in 2016 Brexit vote",
+     "title": "Flight from Israel makes emergency landing in Bulgaria after bomb threat",
      "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/12/uk-pm-andy-burnham-says-it-is-clear-russia-interfered-in-2016-brexit-vote?traffic_source=rss",
-     "published": "2026-10-12T01:12:35+00:00"
+     "link": "https://www.aljazeera.com/news/2026/10/18/flight-from-israel-makes-emergency-landing-in-bulgaria-after-bomb-threat?traffic_source=rss",
+     "published": "2026-10-18T23:58:05+00:00"
     },
     {
-     "outlet": "South China Morning Post",
-     "region": "cn",
+     "outlet": "BBC World",
+     "region": "uk",
      "bucket": "serious",
-     "title": "UK’s Burnham says Russia interfered in 2016 Brexit vote",
+     "title": "Bomb threat forces Israel to Austria flight into emergency landing",
      "language": "en",
-     "link": "https://www.scmp.com/news/world/europe/article/3370514/it-clear-russia-interfered-brexit-referendum-says-uk-pm-burnham?utm_source=rss_feed",
-     "published": "2026-10-11T18:11:43+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "UK's Andy Burnham Claims Russian Interference In 2016 Brexit Vote",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/uks-andy-burnham-claims-russian-interference-in-2016-brexit-vote-12171247#publisher=newsstand",
-     "published": "2026-10-11T18:36:34+00:00"
+     "link": "https://www.bbc.co.uk/news/articles/c680zdmn100lo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-19T06:29:55+00:00"
     },
     {
      "outlet": "MyJoyOnline Ghana",
      "region": "gh",
      "bucket": "serious",
-     "title": "PM says it is ‘clear’ Russia interfered with Brexit vote",
+     "title": "Threat forces Israel to Austria flight into emergency landing",
      "language": "en",
-     "link": "https://www.myjoyonline.com/pm-says-it-is-clear-russia-interfered-with-brexit-vote/",
-     "published": "2026-10-12T03:03:00+00:00"
+     "link": "https://www.myjoyonline.com/threat-forces-israel-to-austria-flight-into-emergency-landing/",
+     "published": "2026-10-19T02:44:00+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Tel Aviv-Vienna flight makes emergency landing in Bulgaria over bomb threat",
+     "language": "en",
+     "link": "https://tass.com/emergencies/2203859",
+     "published": "2026-10-18T20:29:24+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "No danger found after bomb threat diverts Austrian Airlines flight from Tel Aviv",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/middle-east/article/3371337/bomb-threat-forces-austrian-airlines-flight-tel-aviv-divert-bulgaria?utm_source=rss_feed",
+     "published": "2026-10-19T02:12:37+00:00"
     },
     {
      "outlet": "Hindustan Times — World",
      "region": "in",
      "bucket": "serious",
-     "title": "‘Yes, there was’: UK PM Andy Burnham says Russia ‘clearly’ interfered in 2016 Brexit vote",
+     "title": "No threat found after bomb scare diverts Austrian Airlines flight carrying 57 from Tel Aviv to Sofia",
      "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/yes-there-was-uk-pm-andy-burnham-says-russia-clearly-interfered-in-2016-brexit-vote-101791780378921.html",
-     "published": "2026-10-12T05:24:20+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "UK PM Burnham says 'clear' Russia meddled in Brexit vote",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2634448/uk-pm-burnham-says-clear-russia-meddled-in-brexit-vote",
-     "published": "2026-10-12T10:11:16+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "U.K. PM Burnham says Russia interfered in 2016 Brexit vote",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/uk-pm-burnham-says-russia-interfered-in-2016-brexit-vote/article71575137.ece",
-     "published": "2026-10-12T13:11:57+00:00"
-    },
-    {
-     "outlet": "Investing.com — الاقتصاد",
-     "region": "money",
-     "bucket": "useful",
-     "title": "UK PM Burnham says Russia interfered in 2016 Brexit vote",
-     "language": "en",
-     "link": "https://www.investing.com/news/economy-news/uk-pm-burnham-says-russia-interfered-in-2016-brexit-vote-4944337",
-     "published": "2026-10-12T12:30:51+00:00"
+     "link": "https://www.hindustantimes.com/world-news/no-threat-found-after-bomb-scare-diverts-austrian-airlines-flight-carrying-57-from-tel-aviv-to-sofia-101792393607835.html",
+     "published": "2026-10-19T07:13:49+00:00"
     },
     {
      "outlet": "Google News — World",
      "region": "global",
      "bucket": "serious",
-     "title": "UK PM Andy Burnham says it is ‘clear’ Russia interfered in 2016 Brexit vote",
+     "title": "Austrian Airlines flight from Tel Aviv to Vienna lands in Sofia after reported bomb threat",
      "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNNVFTc2taSDIwbVVBQ0JmTHkyRnZiWUt6ek82ZVNsTFJIaHo3Y01TUWVKRmI0MnVoVnUxVlRCSlE0eUk3THJiSm9LWUY2dFRKNTVmZUh2bGFOM3BqWnZqdlVpOXVxdGhNeU9NZ3RVazR5N2J6UmE2ZVp4SGgxY1NkUFVnb1o2STNmV1pLT1hONm9NMDltTHh2X2R5cm9YZmpxeF9RUDJ4MEVTZDVwUjI0SHY0eFlTZ9IBuwFBVV95cUxQZnQ3ZElNLUdGTmxUbEREVTNua2hvNTZqMVpSWnVqakUwRnlHemkwYkpES3FXVE53Q1VQZTc0MjV0M3Z1MVRFWGVSMmRoRVNiNV9ma0hvS1J0ZUowa0lNR2ZndW5wOXhVRTFBSmJoSkViT3RRemxucVFUcDZhYkdkTGhCSFQ2QkJ2YzBsUG5zMkxaS2VLdmJ3NG5SYy1VY1Q2Q0xVdzJabjZLclU0c1oyb1dfRnMwa2VCemFv?oc=5",
-     "published": "2026-10-12T01:16:27+00:00"
+     "link": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFBlUExUNm94dm54NG43aFR6aGk1RHc1M3FjOHAzZjNhdmx0VmZNS294c2ZRTmhmaVM0OEtMMWh3eG1KYTllajBMMWx0VG1hV0NGQ3dMaTlHWQ?oc=5",
+     "published": "2026-10-18T19:04:00+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "All clear given after bomb threat diverts Austrian Airlines flight from Israel to Bulgaria",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-19-all-clear-given-after-bomb-threat-diverts-austrian-airlines-flight-from-israel-to-bulgaria/",
+     "published": "2026-10-19T10:23:28+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Austrian Airlines says flight from Israel diverted after 'threat'",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOQkxxRmxHN1VUcGQ5dDhOdDBZbk8yQUloZTFEOE1TTWhlMXJWNDZ6WmVqZmd5SkVjZHN5c0p1dy1lYmgxd1NLMXljUElGRWxFWTFVamItSlFldTJNLU00aFdYbEF5WEhsUlY3Q0hLM3JzVkk4Y3F6WUJ4ZEkwZGRHUFRSNnR6V2ZfQkg5UVRUY0owMmZoV3BSRF8yVzdKRkg2QnY4WXpQMXJLWmcwVm9GTHJTYw?oc=5",
+     "published": "2026-10-19T02:35:00+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Tel Aviv-Vienna flight makes emergency landing in Bulgaria after unspecified threat",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/austrian-airlines-airbus-a320-tel-aviv-vienna-flight-makes-emergency-landing-in-bulgaria-after-unspecified-threat-flightradar-flydubai-101792383124227.html",
+     "published": "2026-10-19T04:23:10+00:00"
     }
    ],
-   "last_seen": "2026-10-12T17:07:49.159577+00:00",
-   "outlets": 9,
-   "regions": 7,
+   "last_seen": "2026-10-19T17:07:57.762301+00:00",
+   "outlets": 8,
+   "regions": 8,
    "languages": 1,
-   "score": 25.0
+   "score": 26.0
   },
   {
    "id": "ca8bd8bdf7fd",
@@ -8925,9 +8442,36 @@
      "language": "en",
      "link": "https://tass.com/society/2201669",
      "published": "2026-10-14T02:25:50+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Ex-OpenAI worker accused of planting device had Saudi support says court filing",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c6gel2dlyxvyo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-19T16:22:12+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Ex-OpenAI employee accused of planting device appears to have Saudi backing, court filing shows",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/ex-openai-employee-accused-of-planting-device-appears-to-have-saudi-backing-court-filing-shows/article71602972.ece",
+     "published": "2026-10-19T15:51:27+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Ex-OpenAI Employee Who Planted Device Had Saudi Backing, Court Filing Shows",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/ex-openai-employee-who-planted-device-had-saudi-backing-court-filing-shows-12207729#publisher=newsstand",
+     "published": "2026-10-19T15:42:05+00:00"
     }
    ],
-   "last_seen": "2026-10-14T09:07:42.321915+00:00",
+   "last_seen": "2026-10-19T17:07:57.762301+00:00",
    "outlets": 8,
    "regions": 7,
    "languages": 1,
@@ -9118,80 +8662,6 @@
    "score": 24.0
   },
   {
-   "id": "f5ba3124a0bf",
-   "first_seen": "2026-10-19T09:07:48.928141+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Flight from Israel makes emergency landing in Bulgaria after bomb threat",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/18/flight-from-israel-makes-emergency-landing-in-bulgaria-after-bomb-threat?traffic_source=rss",
-     "published": "2026-10-18T23:58:05+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Bomb threat forces Israel to Austria flight into emergency landing",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c680zdmn100lo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-19T06:29:55+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Threat forces Israel to Austria flight into emergency landing",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/threat-forces-israel-to-austria-flight-into-emergency-landing/",
-     "published": "2026-10-19T02:44:00+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Tel Aviv-Vienna flight makes emergency landing in Bulgaria over bomb threat",
-     "language": "en",
-     "link": "https://tass.com/emergencies/2203859",
-     "published": "2026-10-18T20:29:24+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "No danger found after bomb threat diverts Austrian Airlines flight from Tel Aviv",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/middle-east/article/3371337/bomb-threat-forces-austrian-airlines-flight-tel-aviv-divert-bulgaria?utm_source=rss_feed",
-     "published": "2026-10-19T02:12:37+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "No threat found after bomb scare diverts Austrian Airlines flight carrying 57 from Tel Aviv to Sofia",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/no-threat-found-after-bomb-scare-diverts-austrian-airlines-flight-carrying-57-from-tel-aviv-to-sofia-101792393607835.html",
-     "published": "2026-10-19T07:13:49+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Austrian Airlines flight from Tel Aviv to Vienna lands in Sofia after reported bomb threat",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFBlUExUNm94dm54NG43aFR6aGk1RHc1M3FjOHAzZjNhdmx0VmZNS294c2ZRTmhmaVM0OEtMMWh3eG1KYTllajBMMWx0VG1hV0NGQ3dMaTlHWQ?oc=5",
-     "published": "2026-10-18T19:04:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-19T09:07:48.928141+00:00",
-   "outlets": 7,
-   "regions": 7,
-   "languages": 1,
-   "score": 23.0
-  },
-  {
    "id": "9b861eeaf775",
    "first_seen": "2026-10-10T09:07:48.714447+00:00",
    "members": [
@@ -9367,6 +8837,80 @@
    "score": 21.0
   },
   {
+   "id": "f645e82cedf8",
+   "first_seen": "2026-10-19T17:07:57.762301+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Elon Musk says he will give SpaceX share to ‘every kid in America’",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/united-states-canada/article/3371389/elon-musk-says-he-will-give-spacex-share-every-kid-america?utm_source=rss_feed",
+     "published": "2026-10-19T10:01:08+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Musk says will give SpaceX share to 'every kid in America'",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2038280/musk-says-will-give-spacex-share-to-every-kid-in-america",
+     "published": "2026-10-19T10:42:59+00:00"
+    },
+    {
+     "outlet": "The Verge",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "Elon Musk promises to give one SpaceX share to every child in the US",
+     "language": "en",
+     "link": "https://www.theverge.com/tech/1013667/elon-musk-space-x-shares-us-children",
+     "published": "2026-10-19T14:20:11+00:00"
+    },
+    {
+     "outlet": "TechCrunch",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "Musk pledges to give ‘every kid in America’ one of his SpaceX shares",
+     "language": "en",
+     "link": "https://techcrunch.com/2026/10/19/musk-pledges-to-give-every-kid-in-america-one-of-his-spacex-shares/",
+     "published": "2026-10-19T12:42:55+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Musk says he’ll give ‘every kid in America’ one SpaceX share next year",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/money/2026/10/19/musk-says-hell-give-every-kid-in-america-one-spacex-share-next-year/239753",
+     "published": "2026-10-19T09:32:40+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "'Every kid in America' to get SpaceX share from Elon Musk",
+     "language": "en",
+     "link": "https://www.dailysabah.com/business/economy/every-kid-in-america-to-get-spacex-share-from-elon-musk",
+     "published": "2026-10-19T09:58:00+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Elon Musk Pledges 1 SpaceX Share For Every US Child, Plan Could Be Worth $10.5 Billion",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/elon-musk-pledges-1-spacex-share-for-every-us-child-plan-could-be-worth-10-5-billion-12206449#publisher=newsstand",
+     "published": "2026-10-19T11:37:02+00:00"
+    }
+   ],
+   "last_seen": "2026-10-19T17:07:57.762301+00:00",
+   "outlets": 7,
+   "regions": 6,
+   "languages": 1,
+   "score": 21.0
+  },
+  {
    "id": "03a251a36305",
    "first_seen": "2026-10-14T09:07:42.321915+00:00",
    "members": [
@@ -9518,6 +9062,71 @@
     }
    ],
    "last_seen": "2026-10-17T09:07:48.549654+00:00",
+   "outlets": 6,
+   "regions": 6,
+   "languages": 1,
+   "score": 20.0
+  },
+  {
+   "id": "c8f41c947520",
+   "first_seen": "2026-10-19T17:07:57.762301+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Kenyan court convicts starvation cult leader for murder of 191 people",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/19/kenyan-court-convicts-starvation-cult-leader-for-murder-of-191-people?traffic_source=rss",
+     "published": "2026-10-19T15:34:22+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Kenyan starvation cult leader found guilty of murder of 191 children, 1 adult",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/africa/article/3371417/kenyan-starvation-cult-leader-found-guilty-murder-191-children-1-adult?utm_source=rss_feed",
+     "published": "2026-10-19T15:51:17+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Guilty as charged: Kenyan court finds cult leader responsible of 191 starvation deaths",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/19/guilty-as-charged-kenyan-court-finds-cult-leader-responsible-of-191-starvation-deaths/",
+     "published": "2026-10-19T16:19:24+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Starvation cult leader found guilty of murder of 190 children",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/kenya-starvation-cult-leader-paul-mackenzie-guilty/",
+     "published": "2026-10-19T16:13:31+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Kenyan starvation cult leader guilty of murder of 190 children and one adult",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPbG5tMW00YVFnLTJEZEJ6UFhsMUdxbUpGdS1tN2RkbTNiaDNTSExQMWlCeFVHV0dWSzhRMlpIWnFDbFhoR2V1SXhIZlltQ181ZEpzY0NDRFFHSGVOQUxDUmJtb2JtQUl3c2lyRHlOZFVBWjc3R2dXeFVVRGp4emFPcW5ZSzBxVzZCcjUzWnNUaFdIZDBSXzNSck5UTkZGVjhoTVFj?oc=5",
+     "published": "2026-10-19T16:17:00+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Missing signatures, mismatched records underpin South Africa GH¢16.4m evacuation gap",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/missing-signatures-mismatched-records-underpin-south-africa-gh%c2%a216-4m-evacuation-gap-bosome-freho-mp/",
+     "published": "2026-10-19T13:50:19+00:00"
+    }
+   ],
+   "last_seen": "2026-10-19T17:07:57.762301+00:00",
    "outlets": 6,
    "regions": 6,
    "languages": 1,
@@ -9905,6 +9514,98 @@
    "score": 16.0
   },
   {
+   "id": "a5c2bfe5c6b8",
+   "first_seen": "2026-10-19T09:07:48.928141+00:00",
+   "members": [
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump says Zelensky ‘does not want war to end’ as feud escalates, defends Russia sanctions waiver",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/trump-says-zelensky-does-not-want-war-to-end-as-feud-escalates-defends-russia-sanctions-waiver-101792384030299.html",
+     "published": "2026-10-19T04:42:52+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "\"He Doesn't Want To End War\": Trump Targets Zelensky",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/he-doesnt-want-to-end-war-donald-trump-targets-volodymyr-zelensky-ukraine-russia-war-12205276#publisher=newsstand",
+     "published": "2026-10-19T07:27:40+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Trump says Zelenskyy doesn't want to end Russia's war on Ukraine",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/ukraine-russia-drone-st-petersburg-oil-facilites/",
+     "published": "2026-10-19T08:12:05+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "Putin proposes summit with Trump and Xi to discuss Ukraine deal, WSJ says",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-19-putin-proposes-summit-with-trump-and-xi-to-discuss-ukraine-deal-wsj-says/",
+     "published": "2026-10-19T10:23:35+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Putin proposes summit with Trump and Xi to discuss Ukraine deal: report",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/putin-proposes-summit-with-trump-and-xi-to-discuss-ukraine-deal-report/article71602034.ece",
+     "published": "2026-10-19T03:50:46+00:00"
+    },
+    {
+     "outlet": "Meduza English",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Putin proposes meeting with Trump and Xi without Zelensky to discuss ending war in Ukraine on terms favorable to Moscow, WSJ reports",
+     "language": "en",
+     "link": "https://meduza.io/en/news/2026/10/19/putin-proposes-meeting-with-trump-and-xi-without-zelensky-to-discuss-ending-war-in-ukraine-on-terms-favorable-to-moscow-wsj-reports",
+     "published": "2026-10-19T09:17:00+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Putin proposes trilateral meeting with Trump, Xi Jinping to discuss Ukraine war next month",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/vladimir-putin-proposes-trilateral-meeting-with-trump-xi-jinping-russia-us-china-discuss-ukraine-war-end-november-101792376217244.html",
+     "published": "2026-10-19T02:34:13+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Putin Proposes Summit Next Month With Trump, Xi To End Ukraine War: Report",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/putin-proposes-summit-next-month-with-trump-xi-to-end-ukraine-war-report-12205411#publisher=newsstand",
+     "published": "2026-10-19T08:02:47+00:00"
+    },
+    {
+     "outlet": "Meduza English",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Two presidents, two versions of peace: Trump says Zelensky doesn’t want the war to end. Zelensky says Trump wants Ukraine to give in.",
+     "language": "en",
+     "link": "https://meduza.io/en/feature/2026/10/19/two-presidents-two-versions-of-peace-trump-says-zelensky-doesn-t-want-the-war-to-end-zelensky-says-trump-wants-ukraine-to-give-in",
+     "published": "2026-10-19T16:19:24+00:00"
+    }
+   ],
+   "last_seen": "2026-10-19T17:07:57.762301+00:00",
+   "outlets": 6,
+   "regions": 4,
+   "languages": 1,
+   "score": 16.0
+  },
+  {
    "id": "f571db389711",
    "first_seen": "2026-10-16T09:07:49.020316+00:00",
    "members": [
@@ -9961,51 +9662,42 @@
    "score": 15.0
   },
   {
-   "id": "04db9d9be45f",
-   "first_seen": "2026-10-12T17:07:49.159577+00:00",
+   "id": "c706aa71cdc2",
+   "first_seen": "2026-10-19T17:07:57.762301+00:00",
    "members": [
     {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
+     "outlet": "Der Spiegel",
+     "region": "de",
      "bucket": "serious",
-     "title": "Bergs stuns Alcaraz in Shanghai as Zverev claims year’s top tennis ranking",
-     "language": "en",
-     "link": "https://www.aljazeera.com/sports/2026/10/12/zizou-bergs-stuns-alcaraz-in-shanghai-as-zverev-claims-year-end-top-ranking?traffic_source=rss",
-     "published": "2026-10-12T14:14:04+00:00"
+     "title": "Donald Trump: Meta entschuldigt sich für Sperrung von »No Kings«-Instagram-Account",
+     "language": "de",
+     "link": "https://www.spiegel.de/netzwelt/netzpolitik/donald-trump-meta-entschuldigt-sich-fuer-sperrung-von-no-kings-instagram-account-a-c8078aa0-5e96-460d-81b7-58e85c9e1437#ref=rss",
+     "published": "2026-10-19T15:32:00+00:00"
     },
     {
      "outlet": "Channel News Asia",
      "region": "seasia",
      "bucket": "serious",
-     "title": "Bergs stuns Alcaraz in Shanghai as Zverev claims year-end top ranking",
+     "title": "Meta apologizes after suspending \"No Kings\" Instagram account",
      "language": "en",
-     "link": "https://www.channelnewsasia.com/sport/bergs-stuns-alcaraz-in-shanghai-zverev-claims-year-end-top-ranking-6453191",
-     "published": "2026-10-12T12:57:31+00:00"
+     "link": "https://www.channelnewsasia.com/business/meta-apologizes-after-suspending-no-kings-instagram-account-6472366",
+     "published": "2026-10-19T13:49:21+00:00"
     },
     {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Alcaraz dumped out of Shanghai Masters as Zverev confirmed as year-end No 1",
-     "language": "en",
-     "link": "https://www.skysports.com/tennis/news/12040/13598151/carlos-alcaraz-dumped-out-of-shanghai-masters-in-third-round-by-zizou-bergs-as-alexander-zverev-confirmed-as-year-end-world-no-1",
-     "published": "2026-10-12T13:15:00+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
+     "outlet": "BBC 中文",
+     "region": "cn",
      "bucket": "serious",
-     "title": "Alcaraz dumped out of Shanghai Masters by Bergs in straight-sets loss",
-     "language": "en",
-     "link": "https://www.dailysabah.com/sports/tennis/alcaraz-dumped-out-of-shanghai-masters-by-bergs-in-straight-sets-loss",
-     "published": "2026-10-12T13:29:00+00:00"
+     "title": "我們的廣告提到了「懷孕」 結果給 Instagram 下架了",
+     "language": "zh",
+     "link": "https://www.bbc.com/zhongwen/articles/cr1ex0l8l9z5o/trad?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-19T00:08:09+00:00"
     }
    ],
-   "last_seen": "2026-10-12T17:07:49.159577+00:00",
-   "outlets": 4,
-   "regions": 4,
-   "languages": 1,
-   "score": 14.0
+   "last_seen": "2026-10-19T17:07:57.762301+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 3,
+   "score": 15.0
   },
   {
    "id": "f8a6780da59d",
@@ -10440,107 +10132,51 @@
    "score": 14.0
   },
   {
-   "id": "b096d9cf93db",
-   "first_seen": "2026-10-12T17:07:49.159577+00:00",
-   "members": [
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Hormuz Strait management strategic duty of Iran Armed Forces",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248525/Hormuz-Strait-management-strategic-duty-of-Iran-Armed-Forces",
-     "published": "2026-10-12T11:39:35+00:00"
-    },
-    {
-     "outlet": "IRNA English",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "‘Iran to counter US naval blockade through strategic management of Strait of Hormuz’",
-     "language": "en",
-     "link": "https://en.irna.ir/news/86290513/Iran-to-counter-US-naval-blockade-through-strategic-management",
-     "published": "2026-10-12T11:28:50+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Iran Guards say struck vessel in Strait of Hormuz",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/iran-guards-say-struck-vessel-in-strait-of-hormuz/article71576235.ece",
-     "published": "2026-10-12T15:36:48+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Iran sets crosshairs on ‘US-UAE’ oil shuttle out of Strait of Hormuz",
-     "language": "en",
-     "link": "https://www.aljazeera.com/economy/2026/10/12/iran-sets-crosshairs-on-us-uae-oil-shuttle-out-of-strait-of-hormuz?traffic_source=rss",
-     "published": "2026-10-12T14:25:55+00:00"
-    },
-    {
-     "outlet": "Tehran Times",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Iran pledges stronger deterrence, asserts sovereignty over Strait of Hormuz",
-     "language": "en",
-     "link": "https://www.tehrantimes.com/news/531006/Iran-pledges-stronger-deterrence-asserts-sovereignty-over-Strait",
-     "published": "2026-10-12T16:34:44+00:00"
-    }
-   ],
-   "last_seen": "2026-10-12T17:07:49.159577+00:00",
-   "outlets": 5,
-   "regions": 3,
-   "languages": 1,
-   "score": 13.0
-  },
-  {
-   "id": "59da4f041184",
-   "first_seen": "2026-10-12T17:07:49.159577+00:00",
+   "id": "74d0453e62cb",
+   "first_seen": "2026-10-19T17:07:57.762301+00:00",
    "members": [
     {
      "outlet": "The Guardian — World",
      "region": "uk",
      "bucket": "serious",
-     "title": "Fire destroys Marché des Enfants Rouges, ‘coolest market in Paris’",
+     "title": "Supreme court rejects effort to revive plea deal for Khalid Sheikh Mohammed in 9/11 attacks",
      "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/12/fire-destroys-marche-des-enfants-rouges-coolest-market-in-paris",
-     "published": "2026-10-12T13:41:21+00:00"
+     "link": "https://www.theguardian.com/us-news/2026/oct/19/khalid-sheikh-mohammed-september-11-plea-deal",
+     "published": "2026-10-19T15:50:08+00:00"
     },
     {
-     "outlet": "France24",
-     "region": "eu",
+     "outlet": "Channel News Asia",
+     "region": "seasia",
      "bucket": "serious",
-     "title": "Adieu aux ‘Enfants Rouges’: Tears and shock as fire destroys Paris’s oldest covered food market",
+     "title": "US Supreme Court denies bid by 9/11 mastermind to revive plea deal",
      "language": "en",
-     "link": "https://www.france24.com/en/france/20261012-adieu-aux-enfants-rouges-tears-shock-fire-destroys-paris-oldest-covered-food-market",
-     "published": "2026-10-12T15:28:36+00:00"
+     "link": "https://www.channelnewsasia.com/world/sep-11-attack-khalid-mohammed-court-reject-plea-6472846",
+     "published": "2026-10-19T16:53:45+00:00"
     },
     {
-     "outlet": "France24",
-     "region": "eu",
+     "outlet": "Hindustan Times — World",
+     "region": "in",
      "bucket": "serious",
-     "title": "France: Fire destroys historic covered food market in Paris",
+     "title": "US Supreme Court snubs bid to revive plea deal for accused 9/11 mastermind",
      "language": "en",
-     "link": "https://www.france24.com/en/france-fire-destroys-historic-covered-food-market-in-paris",
-     "published": "2026-10-12T16:23:53+00:00"
+     "link": "https://www.hindustantimes.com/world-news/us-news/us-supreme-court-snubs-bid-to-revive-plea-deal-for-accused-9-11-mastermind-101792423380088.html",
+     "published": "2026-10-19T15:26:13+00:00"
     },
     {
-     "outlet": "Google News — World",
-     "region": "global",
+     "outlet": "Free Malaysia Today",
+     "region": "my",
      "bucket": "serious",
-     "title": "Fire Devastates Paris’s Oldest Covered Food Market, Le Marché des Enfants Rouges",
-     "language": "fr",
-     "link": "https://news.google.com/rss/articles/CBMioAFBVV95cUxPRDlmRHMxOTBCY3VfZjVsNjRHYV91SzFxRDhQbEZNN0VXV1QtWHlzdHc0MDdPUDAwWC1VTkxvR01WdjlqQUJXcVBiaWJUcGdaNnd1QlY3NE1lNFk5TmpoaEtlQUVwa3kwM29oSTVaSE9PS3l2TUVOd0oySm9UVDdDUzVJYUZ0S21qLWJvMUJmZElBSmlYb0lWNE9lSlBqOUVF?oc=5",
-     "published": "2026-10-12T12:36:54+00:00"
+     "title": "US Supreme Court denies bid by 9/11 mastermind to revive plea deal",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/20/us-supreme-court-denies-bid-by-9-11-mastermind-to-revive-plea-deal",
+     "published": "2026-10-19T16:10:29+00:00"
     }
    ],
-   "last_seen": "2026-10-12T17:07:49.159577+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 2,
-   "score": 13.0
+   "last_seen": "2026-10-19T17:07:57.762301+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
   },
   {
    "id": "a0cbdda32037",
@@ -10731,118 +10367,51 @@
    "score": 12.0
   },
   {
-   "id": "067f82fc3add",
-   "first_seen": "2026-10-12T17:07:49.159577+00:00",
+   "id": "27e5457c4e18",
+   "first_seen": "2026-10-19T17:07:57.762301+00:00",
    "members": [
     {
-     "outlet": "The Guardian — World",
-     "region": "uk",
+     "outlet": "Al Jazeera English",
+     "region": "qa",
      "bucket": "serious",
-     "title": "Fugitive businessman taken into US custody in Venezuela bribery case",
+     "title": "Man City’s Semenyo out for up to eight weeks due to knee injury",
      "language": "en",
-     "link": "https://www.theguardian.com/us-news/2026/oct/12/fugitive-venezuela-bribery-case",
-     "published": "2026-10-12T13:14:14+00:00"
+     "link": "https://www.aljazeera.com/sports/2026/10/19/man-citys-semenyo-out-for-up-to-eight-weeks-due-to-knee-injury?traffic_source=rss",
+     "published": "2026-10-19T15:07:19+00:00"
     },
     {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Fugitive businessman taken into US custody in Venezuela bribery case",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/fugitive-businessman-taken-into-us-custody-in-venezuela-bribery-case-101791756677109.html",
-     "published": "2026-10-11T22:11:16+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Fugitive businessman taken into US custody in Venezuela bribery case",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQRWdaNDVEMFNqcUkzSUYwaTYtTl9oazJ1YTZkaG9SWnN3b2VVcEZrdnQ1ZVpXRWhpYXIySzFvcW1QaXZwZEJqczRmeDFQaWYtbGRvcVVZbmpjSlBBZzlneV9fQXRvN0wzaU9JbmZfbE02NUxxczFQWjFGelRhUndGMWpod2NSWlpHZjZSRVZpRjJnQ09wNlRGbE1Ec0gzNF9rVWtzc1dlMXJCaG9S?oc=5",
-     "published": "2026-10-12T00:32:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-12T17:07:49.159577+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "18f426020380",
-   "first_seen": "2026-10-12T17:07:49.159577+00:00",
-   "members": [
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "UK comedian Russell Brand in London court for rape trial start",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/europe/article/3370619/uk-comedian-russell-brand-london-court-rape-trial-start?utm_source=rss_feed",
-     "published": "2026-10-12T11:10:16+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
+     "outlet": "Free Malaysia Today",
      "region": "my",
      "bucket": "serious",
-     "title": "Comedian Russell Brand appears in UK court for start of rape trial",
+     "title": "Man City’s Semenyo out for up to eight weeks",
      "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/12/comedian-russell-brand-appears-in-uk-court-for-start-of-rape-trial/238845",
-     "published": "2026-10-12T10:19:28+00:00"
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/19/man-city-s-semenyo-out-for-up-to-eight-weeks",
+     "published": "2026-10-19T12:52:00+00:00"
     },
     {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "British comedian Russell Brand’s rape trial begins in London",
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Haaland a doubt, Semenyo out",
      "language": "en",
-     "link": "https://www.dailysabah.com/arts/british-comedian-russell-brands-rape-trial-begins-in-london/news",
-     "published": "2026-10-12T12:20:00+00:00"
+     "link": "https://www.bbc.co.uk/sport/football/articles/c5djv21rkekwo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-19T14:36:36+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Semenyo’s eight-week injury absence leaves Manchester City short on cover for Haaland",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/2026/oct/19/antoine-semenyo-eight-week-knee-injury-absence-manchester-city-short-cover-erling-haaland",
+     "published": "2026-10-19T13:03:00+00:00"
     }
    ],
-   "last_seen": "2026-10-12T17:07:49.159577+00:00",
-   "outlets": 3,
+   "last_seen": "2026-10-19T17:07:57.762301+00:00",
+   "outlets": 4,
    "regions": 3,
    "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "dfe4932f7423",
-   "first_seen": "2026-10-12T17:07:49.159577+00:00",
-   "members": [
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Microsoft president says milk faces more regulation than AI",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2634426/microsoft-president-says-milk-faces-more-regulation-than-ai",
-     "published": "2026-10-12T06:52:29+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Milk faces more regulation than AI, Microsoft president says",
-     "language": "en",
-     "link": "https://www.dailysabah.com/business/economy/milk-faces-more-regulation-than-ai-microsoft-president-says",
-     "published": "2026-10-12T09:41:00+00:00"
-    },
-    {
-     "outlet": "Investing.com — الاقتصاد",
-     "region": "money",
-     "bucket": "useful",
-     "title": "Microsoft president says milk faces more regulation than AI",
-     "language": "en",
-     "link": "https://www.investing.com/news/economy-news/microsoft-president-says-milk-faces-more-regulation-than-ai-4943603",
-     "published": "2026-10-12T14:24:51+00:00"
-    }
-   ],
-   "last_seen": "2026-10-12T17:07:49.159577+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
+   "score": 12.0
   },
   {
    "id": "381c2c3cf50e",
@@ -12193,6 +11762,53 @@
    "score": 11.0
   },
   {
+   "id": "478f5ebf4286",
+   "first_seen": "2026-10-19T17:07:57.762301+00:00",
+   "members": [
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Catholic priest dies after crucifix falls on him during livestreamed Mass in Ecuador",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/catholic-priest-dies-after-crucifix-falls-on-him-during-livestreamed-mass-in-ecuador-101792334157624.html",
+     "published": "2026-10-18T15:42:58+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Scary moment Catholic priest dies in Ecuador after crucifix falls on him while preaching: Video",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/scary-moment-catholic-priest-dies-in-ecuador-after-crucifix-falls-on-him-while-preaching-video-101792366705978.html",
+     "published": "2026-10-19T00:26:14+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Falling crucifix kills priest during livestreamed Mass in Ecuador",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/falling-crucifix-kills-priest-livestreamed-mass-ecuador/",
+     "published": "2026-10-19T12:53:00+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Priest killed by falling crucifix during live streamed Mass",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxObS1RRUc3Qmo5WHZhSTVhclVHMzdEVzYwNmphd19GNFVHcGd6UVlmU2tOTDZVdXA2Y0V4MjFPVXRLS0tXQ0ZqeVEtczAwV3dCTUVsVFo2UHVvSWpuVXNoT0k0VzNlcnNDZzg1WW50MXBIaUxnWURacHY2VFNQNFlmckJ3enh0UQ?oc=5",
+     "published": "2026-10-19T12:38:40+00:00"
+    }
+   ],
+   "last_seen": "2026-10-19T17:07:57.762301+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
    "id": "11cabfbc55e8",
    "first_seen": "2026-10-13T09:08:09.573950+00:00",
    "members": [
@@ -12969,38 +12585,76 @@
    "score": 9.0
   },
   {
-   "id": "a5c2bfe5c6b8",
-   "first_seen": "2026-10-19T09:07:48.928141+00:00",
+   "id": "93a41fa17871",
+   "first_seen": "2026-10-19T17:07:57.762301+00:00",
    "members": [
     {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Trump says Zelensky ‘does not want war to end’ as feud escalates, defends Russia sanctions waiver",
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "South Africa close on 97-5 against Australia on day two of second men’s cricket Test after rain delays",
      "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/trump-says-zelensky-does-not-want-war-to-end-as-feud-escalates-defends-russia-sanctions-waiver-101792384030299.html",
-     "published": "2026-10-19T04:42:52+00:00"
+     "link": "https://www.theguardian.com/sport/live/2026/oct/19/south-africa-v-australia-second-test-day-two-cricket-st-georges-park-gqeberha-live-updates",
+     "published": "2026-10-19T16:17:07+00:00"
     },
     {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "\"He Doesn't Want To End War\": Trump Targets Zelensky",
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Australia strike late on rain-hit second day against South Africa",
      "language": "en",
-     "link": "https://www.ndtv.com/world-news/he-doesnt-want-to-end-war-donald-trump-targets-volodymyr-zelensky-ukraine-russia-war-12205276#publisher=newsstand",
-     "published": "2026-10-19T07:27:40+00:00"
+     "link": "https://www.skysports.com/cricket/news/12040/13601039/south-africa-vs-australia-scott-boland-takes-fourth-wicket-late-on-rain-hit-second-day-of-second-test-in-gqeberha",
+     "published": "2026-10-19T17:20:00+00:00"
     },
     {
-     "outlet": "CBS News — World",
-     "region": "us",
+     "outlet": "Channel News Asia",
+     "region": "seasia",
      "bucket": "serious",
-     "title": "Trump says Zelenskyy doesn't want to end Russia's war on Ukraine",
+     "title": "South Africa close on 97-5 as Australian paceman Boland strikes in second test",
      "language": "en",
-     "link": "https://www.cbsnews.com/news/ukraine-russia-drone-st-petersburg-oil-facilites/",
-     "published": "2026-10-19T08:12:05+00:00"
+     "link": "https://www.channelnewsasia.com/sport/south-africa-close-97-5-australian-paceman-boland-strikes-in-second-test-6472891",
+     "published": "2026-10-19T17:00:50+00:00"
     }
    ],
-   "last_seen": "2026-10-19T09:07:48.928141+00:00",
+   "last_seen": "2026-10-19T17:07:57.762301+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
+   "id": "9ea9c5cee251",
+   "first_seen": "2026-10-19T17:07:57.762301+00:00",
+   "members": [
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "England manager Wiegman signs contract extension",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/football/articles/c679plpvellgo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-19T10:08:01+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Wiegman signs England contract extension",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2635707/wiegman-signs-england-contract-extension",
+     "published": "2026-10-19T06:36:30+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Sarina Wiegman signs contract extension to stay as England women head coach until 2029",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/2026/oct/19/sarina-wiegman-signs-contract-extension-england-women-euro-2029",
+     "published": "2026-10-19T10:00:04+00:00"
+    }
+   ],
+   "last_seen": "2026-10-19T17:07:57.762301+00:00",
    "outlets": 3,
    "regions": 2,
    "languages": 1,
@@ -13034,44 +12688,6 @@
    "regions": 2,
    "languages": 1,
    "score": 8.0
-  },
-  {
-   "id": "fa20c0e4008d",
-   "first_seen": "2026-10-12T17:07:49.159577+00:00",
-   "members": [
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Islamabad court grants police 5-day remand of suspect in case of suicide over visa fraud",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2036623/islamabad-court-grants-police-5-day-remand-of-suspect-in-case-of-suicide-over-visa-fraud",
-     "published": "2026-10-12T11:31:01+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Islamabad court grants five-day remand of suspect in Laiba suicide case",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2634408/islamabad-court-grants-five-day-remand-of-suspect-in-laiba-suicide-case",
-     "published": "2026-10-12T03:49:10+00:00"
-    },
-    {
-     "outlet": "Geo News",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Islamabad student suicide case: Suspect sent on five-day physical remand",
-     "language": "en",
-     "link": "https://www.geo.tv/latest/686135-islamabad-student-suicide-case-suspect-sent-on-five-day-physical-remand",
-     "published": "2026-10-12T11:09:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-12T17:07:49.159577+00:00",
-   "outlets": 3,
-   "regions": 1,
-   "languages": 1,
-   "score": 7.0
   },
   {
    "id": "3f37127b7676",
@@ -13300,7 +12916,7 @@
      "published": "2026-10-19T08:35:43+00:00"
     }
    ],
-   "last_seen": "2026-10-19T09:07:48.928141+00:00",
+   "last_seen": "2026-10-19T17:07:57.762301+00:00",
    "outlets": 3,
    "regions": 1,
    "languages": 1,
@@ -13376,7 +12992,7 @@
      "published": "2026-10-19T03:20:00+00:00"
     }
    ],
-   "last_seen": "2026-10-19T09:07:48.928141+00:00",
+   "last_seen": "2026-10-19T17:07:57.762301+00:00",
    "outlets": 3,
    "regions": 1,
    "languages": 1,

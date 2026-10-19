@@ -1,0 +1,67 @@
+{
+  "id": "5aa431dab67f",
+  "created_at": "2026-10-19T17:08:14.781326+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.37,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "إيبولا يمتد إقليميًا، وقد يثير قلق القارئ العربي من انتشاره.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Kenya confirms eighth Ebola case as regional outbreak spreads",
+  "link": "https://www.dailymaverick.co.za/article/2026-10-19-kenya-confirms-eighth-ebola-case-as-regional-outbreak-spreads/",
+  "publishers": [
+    "Africanews",
+    "Al Jazeera",
+    "Daily Maverick"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Kenya confirms eighth Ebola case as regional outbreak spreads",
+    "link": "https://www.dailymaverick.co.za/article/2026-10-19-kenya-confirms-eighth-ebola-case-as-regional-outbreak-spreads/",
+    "summary": "NAIROBI, Oct 18 (Reuters) - Kenya has confirmed one more Ebola case, bringing the total number of infections in the country to eight, Director-General for Health Patrick Amoth said on Sunday.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-10-19T04:36:22+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/i/vypRSiPu-apc8DQZL2kIndOSONI=/800x0/smart/filters:strip_exif()/file/attachments/2999/14345740_202368.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Africanews",
+      "Al Jazeera",
+      "Daily Maverick"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-10-19-kenya-confirms-eighth-ebola-case-as-regional-outbreak-spreads/"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/10/19/kenya-confirms-eighth-ebola-case-as-regional-outbreak-spreads/"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/i/vypRSiPu-apc8DQZL2kIndOSONI=/800x0/smart/filters:strip_exif()/file/attachments/2999/14345740_202368.jpg",
+      "http://images.euronews.com/articles/stories/09/95/76/52/640x360_cmsv2_bf0d69b5-3ffe-5540-b4d0-b24c75ccd0da-9957652.jpg?1792384767"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1824.9160833855556,
+    "is_stale": false,
+    "score": 23.369780965200505,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "إيبولا يمتد إقليميًا، وقد يثير قلق القارئ العربي من انتشاره.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

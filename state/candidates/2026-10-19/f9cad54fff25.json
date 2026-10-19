@@ -1,0 +1,76 @@
+{
+  "id": "f9cad54fff25",
+  "created_at": "2026-10-19T17:08:14.780519+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 27.22,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 1,
+  "intrigue": 3,
+  "appeal_note": "قضية تجسس غامضة مع ارتباط سعودي مثير للفضول",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Ex-OpenAI worker accused of planting device had Saudi support says court filing",
+  "link": "https://www.bbc.co.uk/news/articles/c6gel2dlyxvyo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Technology",
+    "BBC World",
+    "NDTV — World",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Ex-OpenAI worker accused of planting device had Saudi support says court filing",
+    "link": "https://www.bbc.co.uk/news/articles/c6gel2dlyxvyo?at_medium=RSS&at_campaign=rss",
+    "summary": "The Saudi government did not immediately respond to BBC requests for comment.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-10-19T16:22:12+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/ad18/live/95af9980-cbd2-11f1-aba9-2bb2608f11d9.png",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC Technology",
+      "BBC World",
+      "NDTV — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c6gel2dlyxvyo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/ex-openai-employee-accused-of-planting-device-appears-to-have-saudi-backing-court-filing-shows/article71602972.ece"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/ex-openai-employee-who-planted-device-had-saudi-backing-court-filing-shows-12207729#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/ad18/live/95af9980-cbd2-11f1-aba9-2bb2608f11d9.png",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/ad18/live/95af9980-cbd2-11f1-aba9-2bb2608f11d9.png",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/ad18/live/95af9980-cbd2-11f1-aba9-2bb2608f11d9.png",
+      "https://th-i.thgim.com/public/incoming/v60ojr/article71602975.ece/alternates/LANDSCAPE_1200/2026-10-19T152058Z_1186120503_RC2F2OAHBK9X_RTRMADP_3_OPENAI-SPYING-SAUDI.JPG",
+      "https://c.ndtvimg.com/2023-12/qa7390ro_openai-_625x300_23_December_23.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1824.9159939605556,
+    "is_stale": false,
+    "score": 27.215819392759258,
+    "impact": 0,
+    "proximity": 1,
+    "intrigue": 3,
+    "appeal_note": "قضية تجسس غامضة مع ارتباط سعودي مثير للفضول",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
