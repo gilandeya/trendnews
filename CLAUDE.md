@@ -2144,3 +2144,21 @@ instead.
   التعليق `reel.render.texts.comment_bars` و`comment_vertical`. تعذّر قراءة أبعاد المصدر ← قصّ ffmpeg بالارتفاع الكامل المتمركز بلا حفظ نوافذ.
 - **الإعداد:** `reel.render.panel`؛ `render_version` = 32. الاختبارات g468–g476 في `tests/test_guards_golden.py:test_reel_panel_p2c1_guards`
   (g476 بـffmpeg حقيقي ويُتخطّى إن غاب).
+
+## حركة الانبثاق في لوحة الإجابات (Issue #1618، P2c-2) — `src/reel_render.py`
+
+لوحة n ≥ 2 وحدها؛ n = 1 وv1 ومشاهد v2 غير اللوحة بلا تغيير حرفًا (g481 على `tests/fixtures/reel/panel_n1_cmds.json`).
+
+- **الأزمنة:** `panel.intro` (0.6) صامتة في أول اللوحة تُعرض فيها كل البلاطات وعليها أسماء قنواتها؛ `a_k = intro + Σ` المدد السابقة و`b_k = a_k + seconds_k`،
+  ومدة اللوحة = `intro + Σ seconds`. الصوت صمت `intro` (`anullsrc`) ثم أصوات الأعضاء. يكفي الوقت لأن كل مقطع يبدأ قبل كلامه بـ`lead_seconds` وينتهي بعده بـ`clip_tail_seconds`:
+  الكبر (`panel.pop.grow` 0.45) قبل الكلام والعودة (`shrink` 0.35) بعده.
+- **الحركة (دوال خالصة):** `pop_progress(t, a, b, cfg)` ← 0..1 (كبر `1−(1−p)³`، ثبات، عودة `1−q³`، وخارج [a, b] صفر) و`_pop_expr` المعادلة نفسها حرفًا بحرف بالضرب
+  up×down بلا if/lt. `pop_start_rect(tile, tile_crop, frame_crop, frame=None)` مستطيل الإطار وهو في بلاطته: `s = tile_h / tile_crop.h` ثم إزاحة `frame_crop` عن `tile_crop`
+  (مطابق بكسلًا ببكسل في البلاطات المكدّسة، وأعرض من البلاطة في شبكة 2×2 تخفيه الشفافية)؛ بلا قصّ محسوب يتمركز بنسبة الإطار.
+- **التركيب في `_panel_scene`:** مدخل الإطار ← `format=rgba` ← `fade` دخول وخروج بـ`alpha=1` (`pop.fade`) ← `scale=w=…:h=…:eval=frame` (زوجيان) ← `overlay=x=…:y=…` بتعبير في t،
+  والمستطيل خطي بين البداية والإطار بالمعامل k. الطبقات الثلاث للعضو (الشريط الثابت، الترجمة، الشريط المنزلق) محصورة في `[a_k+grow, b_k−shrink]` وانزلاق الشريط يبدأ عند `a_k+grow`.
+- **أسماء القنوات:** `frame_tile_labels(cfg, tiles, scenes)` طبقة RGBA بحجم الشاشة، رقعة كحلية (`panel.label.alpha`) في أسفل كل بلاطة ووسطها وعليها `channel_display` بخط display؛
+  تظهر `between(t,0,intro+grow)` بعد تظليل الشبكة وقبل الإطارات.
+- **السيناريو:** `reel_script.estimate_seconds` (v2) تضيف `panel.intro` لكل سؤال له إجابتان فأكثر ليبقى القصّ إلى 90 ث صادقًا.
+- **الإعداد:** `reel.render.panel.{intro, pop:{grow, shrink, fade}, label:{size, alpha, bottom, pad}}`؛ `render_version` = 33.
+- **الاختبارات:** g478–g484 في `tests/test_guards_golden.py:test_reel_panel_p2c2_guards` (g484 بـffmpeg حقيقي ويُتخطّى إن غاب)؛ وحُدِّثت g473 وg476 وثبات الإصدار 32→33.
