@@ -2518,14 +2518,16 @@ def _closing_fog_expr(cfg, plan: dict, var: str = "t") -> str:
 
 
 def qcard_fog_alpha(t: float, cfg, lead: float) -> float:
-    """مضروب شفافية ضباب بطاقة السؤال (P2b، Issue #1613): 0 حتى lead (صوت الراوي يتأخر به فلا ضباب قبل الكلام)، ثم 0←1 خطيًا
-    خلال qcard.fog_in، ثم 1 حتى نهاية المشهد."""
-    return min(max((t - lead) / float(cfg.path("reel.render.qcard.fog_in")), 0.0), 1.0)
+    """مضروب شفافية ضباب بطاقة السؤال (P2b، Issue #1613): qcard.fog_from من أول إطار حتى lead (لا إطار عاريًا بعد مشهد السياق
+    المظلَّل)، ثم يشتد خطيًا إلى 1 خلال qcard.fog_in، ثم 1 حتى نهاية المشهد."""
+    f0 = float(cfg.path("reel.render.qcard.fog_from"))
+    return f0 + (1.0 - f0) * min(max((t - lead) / float(cfg.path("reel.render.qcard.fog_in")), 0.0), 1.0)
 
 
 def _qcard_fog_expr(cfg, lead: float, var: str = "t") -> str:
     """تعبير ffmpeg لدالة qcard_fog_alpha نفسها بالمعادلة حرفًا بحرف، بلا if/lt؛ var="T" لمرشح geq."""
-    return f"min(max(({var}-{_fmt(lead)})/{_fmt(float(cfg.path('reel.render.qcard.fog_in')))},0),1)"
+    f0 = _fmt(float(cfg.path("reel.render.qcard.fog_from")))
+    return (f"({f0}+(1-{f0})*min(max(({var}-{_fmt(lead)})/{_fmt(float(cfg.path('reel.render.qcard.fog_in')))},0),1))")
 
 
 def _shade_filter(cfg, key: str = "hook") -> str:

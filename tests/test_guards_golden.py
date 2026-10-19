@@ -15784,14 +15784,16 @@ def test_reel_qcard_p2b_guards() -> None:
     def g461():
         fi = float(qc["fog_in"])
         f = lambda t: reel_render.qcard_fog_alpha(t, cfg, lead)  # noqa: E731
-        check("g461: 0 عند 0 وعند lead", f(0) == 0 and f(lead) == 0, (f(0), f(lead)))
-        check("g461: 0.5 عند lead + fog_in/2", abs(f(lead + fi / 2) - 0.5) < 1e-9, f(lead + fi / 2))
+        f0 = float(qc["fog_from"])
+        check("g461: fog_from عند 0 وعند lead", abs(f(0) - f0) < 1e-9 and abs(f(lead) - f0) < 1e-9, (f(0), f(lead)))
+        check("g461: منتصف الاشتداد عند lead + fog_in/2", abs(f(lead + fi / 2) - (f0 + (1 - f0) / 2)) < 1e-9, f(lead + fi / 2))
         check("g461: 1 عند lead + fog_in وبعدها", f(lead + fi) == 1 and f(lead + fi + 5) == 1, (f(lead + fi), f(lead + fi + 5)))
         expr = reel_render._qcard_fog_expr(cfg, lead, var="t")
         ts = [0, lead, lead + fi / 2, lead + fi, lead + fi + 1, lead + 9]
         check("g461: التعبير يطابق الدالة عند 6 أزمنة", all(abs(ev(expr, t=t) - f(t)) < 1e-9 for t in ts), expr)
         check("g461: بلا if/lt في التعبير", "if(" not in expr and "lt(" not in expr, expr)
-        check("g461: الإعداد text_top 760 وtail 0.6 وfog_in 0.4", qc["text_top"] == 760 and qc["tail"] == 0.6 and qc["fog_in"] == 0.4, qc)
+        check("g461: الإعداد text_top 760 وtail 0.6 وfog_in 0.4 وfog_from 0.6",
+              qc["text_top"] == 760 and qc["tail"] == 0.6 and qc["fog_in"] == 0.4 and qc["fog_from"] == 0.6, qc)
     guarded("g461", g461)
 
     # ── g462: مسار الرسم في _assemble ──
@@ -15916,8 +15918,10 @@ def test_reel_qcard_p2b_guards() -> None:
             red = np.array([255, 0, 0])
             dist = lambda im, c: float(np.abs(im.reshape(-1, 3).mean(axis=0) - c).sum())  # noqa: E731
             white = lambda im: int(((im.min(axis=2)) > 220).sum())  # noqa: E731
-            check("g467: t=0.05 المنطقة أقرب إلى الأحمر وبلا بكسلات بيضاء", dist(a, red) < dist(a, navy) and white(a) == 0,
-                  (dist(a, red), dist(a, navy), white(a)))
+            red_a, red_b = float(a[:, :, 0].mean()), float(b[:, :, 0].mean())
+            check("g467: t=0.05 بلا بيض والضباب حاضر من أول إطار (متوسط الأحمر < 235)", white(a) == 0 and red_a < 235,
+                  (red_a, white(a)))
+            check("g467: الضباب يشتد (متوسط الأحمر عند ب < عند أ)", red_b < red_a, (red_a, red_b))
             check("g467: بعد الضباب والكلمات أقرب إلى الكحلي وفيها بيض", dist(b, navy) < dist(b, red) and white(b) > 0,
                   (dist(b, red), dist(b, navy), white(b)))
         finally:
