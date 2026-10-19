@@ -114,7 +114,7 @@ def check_window(quote: str | None, segments: list[tuple[int, str]] | None,
         return {"status": "unavailable", "offset_seconds": None}
     from src import youtube_extract
     anchor = " ".join((quote or "").split()[:ANCHOR_WORDS])
-    found = youtube_extract.resolve_timestamp(anchor, segments)
+    found = youtube_extract.resolve_timestamp(anchor, segments)[0]
     if found is None:
         return {"status": "missing", "offset_seconds": None}
     if start <= found <= end:
@@ -187,7 +187,7 @@ def run_probe(points: list[dict], seconds: int, out_dir: Path, *,
                if segments is not None else
                {"start": None, "end": None, "matches": 0, "status": "unavailable"})
         anchor = " ".join((p.get("quote_original") or "").split()[:ANCHOR_WORDS])
-        old_found = youtube_extract.resolve_timestamp(anchor, segments) if segments is not None else None
+        old_found = youtube_extract.resolve_timestamp(anchor, segments)[0] if segments is not None else None
         delta = (loc["start"] - old_found) if loc["start"] is not None and old_found is not None else None
         if loc["start"] is not None and loc["status"] == "found":
             start = max(0, int(loc["start"]) - LEAD_SECONDS)

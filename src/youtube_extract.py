@@ -376,11 +376,103 @@ _ANCHOR_PUNCTUATION_RE = re.compile(r"[^\w\s]", re.UNICODE)
 _TRANSCRIPT_LINE_RE = re.compile(r"^\[(\d+:[0-5]\d)\]\s?(.*)$")
 
 
+_HEBREW_POINTS_RE = re.compile("[֑-ׇ]")
+# طيّ الرسم العربي (همزات/ألف مقصورة/تاء مربوطة) والأرقام الهندية والفارسية إلى لاتينية — للبحث وحده
+_ARABIC_FOLD = str.maketrans({"أ": "ا", "إ": "ا", "آ": "ا", "ٱ": "ا", "ى": "ي", "ة": "ه"})
+_DIGITS_FOLD = str.maketrans("٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹", "01234567890123456789")
+
+
 def _normalize_for_anchor(text: str) -> str:
+    """تطبيع للبحث وحده (لا يمسّ أي نص محفوظ). İ وI التركيتان تُعالجان قبل casefold لأن "İ".casefold() يعطي
+    «i» بنقطة مركّبة فلا يطابق «i»؛ ثم يُطوى ı إلى i كي لا يفرّق بين «IRAN» و«iran» في النص الإنجليزي."""
+    text = text.replace("İ", "i").replace("I", "ı").casefold().replace("̇", "")
     text = _ARABIC_DIACRITICS_RE.sub("", text)
+    text = _HEBREW_POINTS_RE.sub("", text)
+    text = text.translate(_ARABIC_FOLD).translate(_DIGITS_FOLD).replace("ı", "i")
     text = _ANCHOR_PUNCTUATION_RE.sub("", text)
-    text = re.sub(r"\s+", " ", text).strip()
-    return text.casefold()
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def joined_index(segments) -> tuple[str, list[int]]:
+    """نص واحد متصل من كل المقاطع المطبَّعة (بمسافة واحدة بينها) مع إزاحة بداية كل مقطع فيه (Issue #1624):
+    مقاطع الترجمة الآلية قصيرة فتعبر المرساة والاقتباس حدودها. يشترك فيه resolve_timestamp وreel_clips.locate_quote."""
+    starts, parts, pos = [], [], 0
+    for _, text in segments:
+        ln = _normalize_for_anchor(text)
+        starts.append(pos)
+        parts.append(ln)
+        pos += len(ln) + 1
+    return " ".join(parts), starts
+
+
+def find_all(joined: str, words: list[str]) -> list[int]:
+    """كل مواضع العبارة في النص المتصل بحدود الكلمات."""
+    needle = " ".join(words)
+    found, idx = [], joined.find(needle) if needle else -1
+    while idx != -1:
+        after = idx + len(needle)
+        if (idx == 0 or joined[idx - 1] == " ") and (after == len(joined) or joined[after] == " "):
+            found.append(idx)
+        idx = joined.find(needle, idx + 1)
+    return found
+
+
+def segment_of(starts: list[int], offset: int) -> int:
+    from bisect import bisect_right
+    return max(bisect_right(starts, offset) - 1, 0)
+
+
+def _lcs_first(probe: list[str], window: list[str]) -> tuple[int, int]:
+    """(طول أطول سلسلة مشتركة بالترتيب، فهرس أول كلمة متطابقة في النافذة)."""
+    n, m = len(probe), len(window)
+    dp = [[0] * (m + 1) for _ in range(n + 1)]
+    for i in range(n - 1, -1, -1):
+        for j in range(m - 1, -1, -1):
+            dp[i][j] = dp[i + 1][j + 1] + 1 if probe[i] == window[j] else max(dp[i + 1][j], dp[i][j + 1])
+    i = j = 0
+    first = -1
+    while i < n and j < m:
+        if probe[i] == window[j]:
+            if first < 0:
+                first = j
+            i += 1
+            j += 1
+        elif dp[i + 1][j] >= dp[i][j + 1]:
+            i += 1
+        else:
+            j += 1
+    return dp[0][0], max(first, 0)
+
+
+def _fuzzy_locate(probe_words: list[str], tokens: list[tuple[str, int]], cfg: Config | None = None) -> int | None:
+    """تطابق تقريبي بالكلمات (دالة خالصة): رقم مقطع أول كلمة متطابقة في أفضل نافذة، أو None.
+    tokens = [(كلمة مطبَّعة، رقم مقطعها)]. يُقبل الأفضل بثلاثة شروط: نسبة، وعدد أدنى، وتفرّد (لا نافذة بعيدة
+    أكثر من len(probe) كلمة بالدرجة نفسها) — الغموض ← None لأن الطابع الخاطئ أسوأ من غيابه."""
+    cfg = cfg or load_config()
+    min_ratio = float(cfg.path("youtube.timestamps.fuzzy_min_ratio", 0.8))
+    min_words = int(cfg.path("youtube.timestamps.fuzzy_min_words", 4))
+    n = len(probe_words)
+    if n < min_words or not tokens:
+        return None
+    probe_set = set(probe_words)
+    width = n + 2
+    words = [w for w, _ in tokens]
+    scores: dict[int, tuple[int, int]] = {}
+    for i in range(max(1, len(tokens) - width + 1)):
+        window = words[i:i + width]
+        # سقف علوي رخيص: LCS لا يتجاوز عدد كلمات النافذة الموجودة في probe
+        if sum(1 for w in window if w in probe_set) < min_words:
+            continue
+        scores[i] = _lcs_first(probe_words, window)
+    if not scores:
+        return None
+    best_score = max(s for s, _ in scores.values())
+    if best_score < min_words or best_score / n < min_ratio:
+        return None
+    best = min(i for i, (s, _) in scores.items() if s == best_score)
+    if any(s >= best_score and abs(i - best) > n for i, (s, _) in scores.items()):
+        return None
+    return tokens[best + scores[best][1]][1]
 
 
 def parse_transcript_segments(transcript_text: str) -> list[tuple[int, str]]:
@@ -401,36 +493,61 @@ def parse_transcript_segments(transcript_text: str) -> list[tuple[int, str]]:
     return segments
 
 
-def resolve_timestamp(anchor_text: Any, transcript_segments: list[tuple[int, str]]) -> int | None:
-    """يبحث عن anchor_text (أول ٤-٦ كلمات من مقطع بعينه، كما نسخها النموذج)
-    داخل نصوص transcript_segments ويعيد طابع المقطع المطابق -- الشيفرة تحسب
-    الرقم من مطابقة نصّية، لا النموذج من ذاكرته أو تقديره. عند فشل التطابق
-    التام، محاولة ثانية بأول ٣ كلمات فقط من المرساة (تحسّبًا لاختلاف طفيف
-    كإسقاط كلمة أخيرة)، وإلا None -- فراغ صادق أفضل من طابع خاطئ، تمامًا
-    كمبدأ الحقل الفارغ القديم الذي حلّت هذه الدالة محله."""
-    if not isinstance(anchor_text, str) or not anchor_text.strip():
-        return None
-    normalized_anchor = _normalize_for_anchor(anchor_text)
-    if not normalized_anchor:
-        return None
+def resolve_timestamp(anchor_text: Any, transcript_segments: list[tuple[int, str]], quote_original: str = "",
+                      cfg: Config | None = None) -> tuple[int | None, str]:
+    """(الطابع أو None، الطريقة): يحسب الشيفرة الرقم من مطابقة نصّية لا النموذج من ذاكرته. الطبقات بالترتيب وأول ما
+    ينجح يُعتمد (Issue #1624): exact (المرساة في مقطع واحد) ← joined (في النص المتصل؛ مرة واحدة أو أولها لمرساة ≥5
+    كلمات) ← quote (reel_clips.locate_quote بحالة found) ← prefix3 (أول 3 كلمات بشرط تفرّدها في الفيديو كله)
+    ← fuzzy_anchor ← fuzzy_quote ← none. فراغ صادق أفضل من طابع خاطئ: الغموض في أي طبقة ينتقل إلى التي بعدها."""
+    from src import reel_clips
+    cfg = cfg or load_config()
+    segments = transcript_segments
+    anchor = _normalize_for_anchor(anchor_text) if isinstance(anchor_text, str) else ""
+    words = anchor.split()
+    joined = starts = None
 
-    def _search(anchor: str) -> int | None:
-        for seconds, text in transcript_segments:
+    def _index():
+        nonlocal joined, starts
+        if joined is None:
+            joined, starts = joined_index(segments)
+        return joined, starts
+
+    def _at(offset: int) -> int:
+        return segments[segment_of(_index()[1], offset)][0]
+
+    if words:
+        for seconds, text in segments:
             if anchor in _normalize_for_anchor(text):
-                return seconds
-        return None
+                return seconds, "exact"
+        hits = find_all(_index()[0], words)
+        if hits and (len(hits) == 1 or len(words) >= 5):
+            return _at(hits[0]), "joined"
 
-    found = _search(normalized_anchor)
-    if found is not None:
-        return found
+    q_words = _normalize_for_anchor(quote_original).split() if isinstance(quote_original, str) else []
+    if q_words and segments:
+        found = reel_clips.locate_quote(quote_original, segments, None, cfg)
+        # اقتباس قصير يتكرر لا يُعتمد بأول موضع (الخطأ الصامت نفسه)
+        if found["status"] == "found" and found["start"] is not None and (found["matches"] == 1 or len(q_words) >= 5):
+            return found["start"], "quote"
 
-    words = normalized_anchor.split(" ")
     if len(words) > 3:
-        found = _search(" ".join(words[:3]))
-        if found is not None:
-            return found
+        hits = find_all(_index()[0], words[:3])
+        if len(hits) == 1:
+            return _at(hits[0]), "prefix3"
 
-    return None
+    def _tokens() -> list[tuple[str, int]]:
+        text, offs = _index()
+        return [(m.group(), segment_of(offs, m.start())) for m in re.finditer(r"\S+", text)]
+
+    if words and segments:
+        seg = _fuzzy_locate(words, _tokens(), cfg)
+        if seg is not None:
+            return segments[seg][0], "fuzzy_anchor"
+    if q_words and segments:
+        seg = _fuzzy_locate(q_words[:int(cfg.path("youtube.timestamps.quote_words", 10))], _tokens(), cfg)
+        if seg is not None:
+            return segments[seg][0], "fuzzy_quote"
+    return None, "none"
 
 
 # ──────────────────────────── سحب النص ────────────────────────────
@@ -735,7 +852,7 @@ def extract_points(video_title: str, transcript_text: str, language: str, durati
         # Issue #644 الإصلاح ٢ (الحل الجذري): الطابع لم يعد يُطلَب رقمًا من
         # النموذج -- يُستخرَج ببحث نصّي عن anchor_text في مقاطع الفيديو نفسها
         # (resolve_timestamp)، فالشيفرة تحسب الرقم لا النموذج.
-        resolved = resolve_timestamp(anchor_text, transcript_segments)
+        resolved, method = resolve_timestamp(anchor_text, transcript_segments, raw.get("quote_original", ""), cfg)
         # الحارس الأخير الإلزامي (العطل ١، بند ج) يبقى للأمان، لكنه الآن
         # مستحيل الحدوث بنيويًا: طابع مأخوذ من مقطع ينتمي فعلًا لهذا الفيديو
         # لا يمكن أن يتجاوز مدته (Issue #644 معايير القبول: توقّع صفر هنا).
@@ -747,6 +864,8 @@ def extract_points(video_title: str, transcript_text: str, language: str, durati
             log.warning("نقطة مرفوضة من %r (%s)", video_title[:60], reason)
             continue
         raw["timestamp"] = resolved
+        # الطريقة تُحفظ ليصير كل فشل قابلًا للتشخيص من الملف نفسه (T1a)
+        raw["timestamp_method"] = method
         # طُبِّعت وقُبِلت (Issue #639 العطل ٢أ) -- تُحسَب "أُنقذت" فقط هنا،
         # لا في validate_point نفسها، لأن نقطة طُبِّعت ثم رُفضت لسبب آخر لم
         # "تُنقَذ" فعليًا.
@@ -781,6 +900,7 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
     points_flagged_unsourced_name = 0
     points_timestamp_resolved = 0
     points_timestamp_unresolved = 0
+    points_timestamp_methods: dict[str, int] = {}
     transcript_sample_logged = False
 
     proxy_cfg = get_proxy_config()
@@ -853,6 +973,8 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
                     # Issue #644 الإصلاح ٢: نجاح/فشل resolve_timestamp في
                     # إيجاد anchor_text داخل المقاطع -- لا "تُرك فارغًا" من
                     # النموذج بعد الآن (لم يعد يُطلَب منه رقم أصلًا).
+                    method = p.get("timestamp_method", "none")
+                    points_timestamp_methods[method] = points_timestamp_methods.get(method, 0) + 1
                     if p["timestamp"] is not None:
                         points_timestamp_resolved += 1
                     else:
@@ -885,6 +1007,9 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
                         "quote_original": p["quote_original"],
                         "quote_arabic": p["quote_arabic"],
                         "timestamp": p["timestamp"],
+                        "timestamp_method": method,
+                        # المرساة تبقى في ملف النقاط الخاص وحده ولا تنتقل إلى drafts/
+                        "anchor_text": p.get("anchor_text"),
                         "type": p["type"],
                         "topic_hint": p["topic_hint"],
                     })
@@ -915,6 +1040,7 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
             "points_flagged_unsourced_name": points_flagged_unsourced_name,
             "points_timestamp_resolved": points_timestamp_resolved,
             "points_timestamp_unresolved": points_timestamp_unresolved,
+            "points_timestamp_methods": points_timestamp_methods,
             "proxy_bandwidth_mb": round(total_bytes / (1024 * 1024), 3),
         },
         "failed": failed,
@@ -1110,6 +1236,7 @@ def main() -> int:
           f"· أسماء أعلام مشكوكة (تحذير لا رفض): {stats['points_flagged_unsourced_name']} "
           f"· طابع محلول من المرساة: {stats['points_timestamp_resolved']} "
           f"· مرساة لم تُوجَد: {stats['points_timestamp_unresolved']}")
+    print(f"طرق حل الطابع: {stats['points_timestamp_methods']}")
     print(f"استهلاك البروكسي التقديري: {stats['proxy_bandwidth_mb']} ميجابايت")
     if result["failed"]:
         print(f"تعذّر: {len(result['failed'])}")
