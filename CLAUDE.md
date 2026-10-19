@@ -2175,7 +2175,7 @@ instead.
 
 ## تغطية الطوابع الزمنية (T1a) — `src/youtube_extract.py` (Issue #1624)
 
-السبب: 24% من نقاط آخر 10 أيام (172 من 725) بلا `timestamp`، و`reel_script.valid_clips` تستبعدها فيخسر الريل متحدثين. والاحتياط القديم (أول 3 كلمات) كان يأخذ **أول** تطابق في الفيديو فتعطي عبارة شائعة طابعًا خاطئًا بصمت — والطابع الخاطئ أسوأ من غيابه. استعادة طوابع النقاط القديمة مهمة T1b (لم تُنفَّذ).
+السبب: 24% من نقاط آخر 10 أيام (172 من 725) بلا `timestamp`، و`reel_script.valid_clips` تستبعدها فيخسر الريل متحدثين. والاحتياط القديم (أول 3 كلمات) كان يأخذ **أول** تطابق في الفيديو فتعطي عبارة شائعة طابعًا خاطئًا بصمت — والطابع الخاطئ أسوأ من غيابه. استعادة طوابع النقاط القديمة مهمة T1b (أدناه).
 
 - **التوقيع:** `resolve_timestamp(anchor_text, segments, quote_original="", cfg=None)` تعيد `(الطابع أو None، الطريقة)`. الطبقات بالترتيب وأول ناجحة تُعتمد: `exact` (المرساة في مقطع واحد) ← `joined` (في النص المتصل؛ موضع واحد أو أولها لمرساة ≥5 كلمات) ← `quote` (`reel_clips.locate_quote(..., near=None)` بحالة found؛ اقتباس <5 كلمات متكرر لا يُعتمد) ← `prefix3` (أول 3 كلمات بشرط موضع واحد في الفيديو كله) ← `fuzzy_anchor` ← `fuzzy_quote` (أول `youtube.timestamps.quote_words` كلمات) ← `none`. الغموض في طبقة ينتقل إلى التي بعدها لا إلى أول موضع.
 - **الفهرس المشترك:** `joined_index(segments)` ← `(joined, starts)` و`find_all(joined, words)` (حدود كلمات) و`segment_of(starts, offset)`؛ تستعملها `reel_clips.locate_quote` أيضًا. تغيير وحيد في `locate_quote`: بلا `near` تشترط درجة «8 كلمات» موضعًا واحدًا وإلا `ambiguous` (وقت التركيب `near` موجود دائمًا).
@@ -2184,6 +2184,16 @@ instead.
 - **الحفظ:** كل نقطة في ملف النقاط (المستودع الخاص) تحمل `timestamp_method` و`anchor_text` (لا ينتقلان إلى `drafts/`). `stats.points_timestamp_methods` = عدّاد الطرق، والسطر المطبوع في `main` يعرضه؛ `points_timestamp_resolved/unresolved` كما هما.
 - **الاختبارات:** g492–g498 في `tests/test_guards_golden.py:test_timestamps_t1a_guards`؛ واختبارات `resolve_timestamp` القديمة في `tests/test_youtube.py` تقرأ `[0]` من الزوج. `tools/reel_clip_probe.py` يقرأ `[0]` أيضًا.
 
+
+## استعادة الطوابع (T1b) — `youtube_extract.recover_timestamps` (Issue #1629)
+
+- **الخطوة:** `recover_timestamps(cfg, fetch, now, session=None)` تُستدعى من `run` بعد معالجة الفيديوهات الجديدة كلها (الجديد أولًا) داخل try/except: أي عطل ← `log.warning` ولا يفشل الجمع ولا يمس ملف اليوم. `fetch(video_id)` ← `fetch_transcript` بالبروكسي والتراجع نفسهما. `youtube.timestamps.recover_enabled` (false ← لا جلب ولا كتابة).
+- **ما تقرؤه:** ملفات `recover_days` (3) أيام قبل اليوم، الأحدث أولًا، **غير ملف اليوم** (يكتبه `save_output` بعد `run`). المؤهَّلة: `timestamp` فارغ و`quote_original` غير فارغ و**لا** `timestamp_recover_tried`. تُجمَّع بـ`video_id` وتُجلب أول `recover_max_videos` (15) فيديو فقط، بفواصل `transcript_sleep_range`.
+- **الحل:** نص كامل غير مقصوص يُحلَّل بـ`parse_transcript_segments` ثم `resolve_timestamp(anchor_text or "", segments, quote_original, cfg)` (المرساة الفارغة تتخطى طبقاتها فيعمل quote ثم fuzzy_quote). يُقبل الطابع إن كان `0 ≤ ts ≤ duration_seconds` فيُكتب `timestamp` و`timestamp_method = "recovered_" + الطريقة`؛ غير ذلك ← `timestamp_recover_tried: true` فلا يُعاد جلب نصه.
+- **الفاشل لا يُعلَّم:** فشل جلب فيديو ← نقاطه بلا أي تعليم (تُجرَّب غدًا) وسطر في `failed` سببه «استعادة الطابع: …»؛ `rate_limited` يوقف الخطوة فورًا.
+- **الكتابة:** كل ملف قديم يُكتب مرة واحدة في النهاية (لا كتابة نصفية عند الاستثناء)، بتنسيق `save_output`، ولا يتغير في النقاط إلا الحقول الثلاثة؛ ملف لم يتغير لا يُعاد كتابته. يصل الإيداع بلا تعديل workflow لأن `youtube-collect.yml` يودِع `state/youtube_points` كله.
+- **الإحصاء:** `stats.timestamps_recovered` · `timestamps_recover_videos` · `timestamps_recover_methods` وسطر «استعادة الطوابع: N نقطة من M فيديو — …» في `main`.
+- **الاختبارات:** g504–g509 في `tests/test_guards_golden.py:test_timestamps_t1b_guards`.
 
 ## الريل الطويل (Issue #1627، L1) — `src/reel_script.py`، `src/facebook.py`، `src/publish.py`
 

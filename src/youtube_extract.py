@@ -67,7 +67,7 @@ import re
 import sys
 import time
 import unicodedata
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
@@ -881,6 +881,85 @@ def extract_points(video_title: str, transcript_text: str, language: str, durati
 # ──────────────────────────── التشغيلة الكاملة ────────────────────────────
 
 
+def _recover_files(cfg: Config, now: datetime) -> list[tuple[Path, dict]]:
+    """ملفات النقاط لآخر recover_days أيام قبل اليوم، الأحدث أولًا. ملف اليوم مستبعد: يُكتب بعد run بـsave_output."""
+    days = int(cfg.path("youtube.timestamps.recover_days", 3))
+    today = now.strftime("%Y-%m-%d")
+    wanted = {(now - timedelta(days=i)).strftime("%Y-%m-%d") for i in range(1, days + 1)}
+    out: list[tuple[Path, dict]] = []
+    for name in sorted(wanted, reverse=True):
+        path = POINTS_DIR / f"{name}.json"
+        if name == today or not path.exists():
+            continue
+        data = json.loads(path.read_text(encoding="utf-8"))
+        if isinstance(data, dict) and isinstance(data.get("points"), list):
+            out.append((path, data))
+    return out
+
+
+def recover_timestamps(cfg: Config, fetch, now: datetime, session=None) -> dict:
+    """يستعيد طوابع نقاط الأيام الأخيرة التي بلا timestamp (Issue #1629، T1b). تلك النقاط بلا مرساة غالبًا، فالمعوَّل عليه
+    اقتباسها مقابل نص الفيديو كاملًا. fetch(video_id) ← (النص المصوغ، اللغة أو السبب، أُرهق التراجع) كـfetch_transcript.
+    الفاشل جلبه لا يُعلَّم (يُجرَّب غدًا)، وما جُلب ولم يُحلّ يُعلَّم timestamp_recover_tried فلا يُعاد جلبه. كل ملف يُكتب مرة
+    واحدة في النهاية، وبلا تغيير لا يُكتب. يعيد {"recovered","videos","methods","failed"}."""
+    result: dict = {"recovered": 0, "videos": 0, "methods": {}, "failed": []}
+    if not cfg.path("youtube.timestamps.recover_enabled", True):
+        return result
+    files = _recover_files(cfg, now)
+    max_videos = int(cfg.path("youtube.timestamps.recover_max_videos", 15))
+    sleep_range = tuple(cfg.path("youtube.extract.transcript_sleep_range", [5.0, 12.0]))
+
+    by_video: dict[str, list[dict]] = {}
+    for _, data in files:
+        for p in data["points"]:
+            if (p.get("timestamp") is None and p.get("quote_original")
+                    and not p.get("timestamp_recover_tried") and p.get("video_id")):
+                by_video.setdefault(p["video_id"], []).append(p)
+
+    changed = False
+    for n, (vid, pts) in enumerate(list(by_video.items())[:max_videos]):
+        if n:
+            time.sleep(random.uniform(*sleep_range))
+        text, reason, rate_limited = fetch(vid)
+        segments = parse_transcript_segments(text) if text else []
+        if not segments:
+            first = pts[0]
+            result["failed"].append({"channel": first.get("channel"), "video_id": vid,
+                                     "title": first.get("video_title"),
+                                     "reason": f"استعادة الطابع: {reason or 'نص فارغ'}"})
+            if rate_limited:
+                break
+            continue
+        result["videos"] += 1
+        for p in pts:
+            ts, method = resolve_timestamp(p.get("anchor_text") or "", segments, p["quote_original"], cfg)
+            duration = p.get("duration_seconds")
+            # طابع أبعد من مدة الفيديو خطأ بيّن: لا يُقبل، وتُعلَّم النقطة فلا يُعاد جلب نصها
+            if ts is not None and 0 <= ts and (duration is None or ts <= duration):
+                p["timestamp"] = ts
+                p["timestamp_method"] = "recovered_" + method
+                result["recovered"] += 1
+                result["methods"]["recovered_" + method] = result["methods"].get("recovered_" + method, 0) + 1
+            else:
+                p["timestamp_recover_tried"] = True
+            changed = True
+        segments = []  # إهمال صريح للنص
+
+    if changed:
+        for path, data in files:
+            if _file_dirty(path, data):
+                path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    return result
+
+
+def _file_dirty(path: Path, data: dict) -> bool:
+    """هل يختلف ما في الذاكرة عما على القرص؟ لا نعيد كتابة ملف لم يتغير فلا يظهر في الإيداع."""
+    try:
+        return json.loads(path.read_text(encoding="utf-8")) != data
+    except (OSError, ValueError):
+        return True
+
+
 def run(cfg: Config | None = None, youtube_api_key: str | None = None,
         anthropic_client: Anthropic | None = None, now: datetime | None = None) -> dict:
     cfg = cfg or load_config()
@@ -1023,6 +1102,15 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
             else:
                 time.sleep(random.uniform(*sleep_range))
 
+    # الجديد أولًا ثم استعادة القديم (Issue #1629، T1b): أي عطل هنا لا يُفشل التشغيلة ولا يمس ملف اليوم
+    recovered = {"recovered": 0, "videos": 0, "methods": {}, "failed": []}
+    try:
+        recovered = recover_timestamps(
+            cfg, lambda vid: fetch_transcript(vid, proxy_cfg, session, backoff_seconds), now, session)
+    except Exception as exc:  # noqa: BLE001 -- خطوة مساعدة لا تُسقط الجمع
+        log.warning("استعادة الطوابع فشلت وتُتخطّى: %s", exc)
+    failed.extend(recovered["failed"])
+
     return {
         "run_date": now.strftime("%Y-%m-%d"),
         "stats": {
@@ -1041,6 +1129,9 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
             "points_timestamp_resolved": points_timestamp_resolved,
             "points_timestamp_unresolved": points_timestamp_unresolved,
             "points_timestamp_methods": points_timestamp_methods,
+            "timestamps_recovered": recovered["recovered"],
+            "timestamps_recover_videos": recovered["videos"],
+            "timestamps_recover_methods": recovered["methods"],
             "proxy_bandwidth_mb": round(total_bytes / (1024 * 1024), 3),
         },
         "failed": failed,
@@ -1237,6 +1328,8 @@ def main() -> int:
           f"· طابع محلول من المرساة: {stats['points_timestamp_resolved']} "
           f"· مرساة لم تُوجَد: {stats['points_timestamp_unresolved']}")
     print(f"طرق حل الطابع: {stats['points_timestamp_methods']}")
+    print(f"استعادة الطوابع: {stats['timestamps_recovered']} نقطة من {stats['timestamps_recover_videos']} فيديو "
+          f"— {stats['timestamps_recover_methods']}")
     print(f"استهلاك البروكسي التقديري: {stats['proxy_bandwidth_mb']} ميجابايت")
     if result["failed"]:
         print(f"تعذّر: {len(result['failed'])}")
