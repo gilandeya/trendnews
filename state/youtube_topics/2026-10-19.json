@@ -1,0 +1,682 @@
+{
+  "run_date": "2026-10-19",
+  "stats": {
+    "points_in": 185,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 35,
+    "issues_clustered": 33,
+    "topics_merged": 8,
+    "topics_out": 2,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 7,
+    "topics_below_min_points": 7,
+    "topics_below_min_channels": 8,
+    "layers": {
+      "2": 2
+    },
+    "agreement": 2,
+    "cross_source": 0,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "جذور الصراع الأمريكي الإيراني وأبعاده",
+      "كلفة الحرب الأمريكية الإيرانية على الطرفين"
+    ],
+    [
+      "رهان إيران على الانتخابات النصفية الأمريكية",
+      "غياب رؤية لإنهاء الحرب الأمريكية الإيرانية"
+    ],
+    [
+      "تأثير الانتخابات النصفية الأمريكية على مسار الحرب مع إيران",
+      "الانتخابات النصفية الأمريكية 2026"
+    ],
+    [
+      "احتجاجات أوروبا الاجتماعية والاقتصادية (عام)",
+      "احتجاجات فرنسا 2025: الأسباب والتطورات والمواجهات الأمنية"
+    ],
+    [
+      "أمطار وفيضانات مرمرة في تركيا",
+      "الهجرة والتغير المناخي والنمو السكاني"
+    ],
+    [
+      "عدم استقرار الحكومة الفرنسية وأزمتها المالية",
+      "توقع فوز مارين لوبان في انتخابات فرنسا 2027",
+      "انهيار النظام السياسي الأوروبي بعد الحرب العالمية"
+    ],
+    [
+      "خطة أمريكية لضرب المنشآت النووية الإيرانية",
+      "الاستعداد العسكري الإسرائيلي والضربات على إيران"
+    ],
+    [
+      "تدمير القرى في جنوب لبنان",
+      "الحرب في لبنان كساحة مستقلة ومفاوضاتها مع إسرائيل"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "احتجاجات أوروبا الاجتماعية والاقتصادية (عام)",
+      "event": "اتساع موجة الاحتجاجات في أوروبا من مطالب تعليمية إلى مطالب سياسية واقتصادية",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        41,
+        42,
+        96,
+        98,
+        102,
+        103,
+        104,
+        105,
+        107,
+        110,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        121,
+        122
+      ],
+      "total_points": 19,
+      "fresh_points": 19,
+      "dropped_reason": null,
+      "id": "a3b71e8cf467",
+      "created_at": "2026-10-19T04:02:25.115209+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1609
+    },
+    {
+      "title": "تدمير القرى في جنوب لبنان",
+      "event": "تدمير إسرائيل عشرات القرى في جنوب لبنان وعدم عودة الأهالي إليها",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        78,
+        81,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null,
+      "id": "d9a3ebaf748f",
+      "created_at": "2026-10-19T04:02:25.115209+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1609
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "رهان إيران على الانتخابات النصفية الأمريكية",
+      "event": "رهان إيران على خسارة ترامب في الانتخابات النصفية ورفع سقف المناورة",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        33,
+        36,
+        70,
+        71,
+        72,
+        88
+      ],
+      "total_points": 6,
+      "fresh_points": 2,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "احتجاجات أوروبا الاجتماعية والاقتصادية (عام)",
+      "event": "اتساع موجة الاحتجاجات في أوروبا من مطالب تعليمية إلى مطالب سياسية واقتصادية",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        41,
+        42,
+        96,
+        98,
+        102,
+        103,
+        104,
+        105,
+        107,
+        110,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        121,
+        122
+      ],
+      "total_points": 19,
+      "fresh_points": 19,
+      "dropped_reason": null
+    },
+    {
+      "title": "تدمير القرى في جنوب لبنان",
+      "event": "تدمير إسرائيل عشرات القرى في جنوب لبنان وعدم عودة الأهالي إليها",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        78,
+        81,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null
+    },
+    {
+      "title": "حصار تعز الحوثي",
+      "event": "حصار الحوثيين لمدينة تعز وتفاقمه الإنساني",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        10,
+        26
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "خطة أمريكية لضرب المنشآت النووية الإيرانية",
+      "event": "تقرير عن إعداد الجيش الأمريكي خيارات لضرب المنشآت النووية الإيرانية وتصريحات ترامب حولها",
+      "layer": 2,
+      "blocs": [
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        68,
+        69,
+        76,
+        77,
+        80,
+        83
+      ],
+      "total_points": 6,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "استقالة رئيس بلدية موغلا من الشعب الجمهوري",
+      "event": "إعلان أحمد آراز استقالته من حزب الشعب الجمهوري والبقاء مستقلًا، والتكهن بوجهته الحزبية القادمة",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        27,
+        28,
+        57,
+        58,
+        59,
+        124,
+        125,
+        127
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الجدل حول فتوى نووية جديدة لمجتبى خامنئي",
+      "event": "تصريحات حول اختلاف فتوى مجتبى خامنئي النووية عن فتوى والده وإمكانية إصدار فتوى جديدة",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        133,
+        134,
+        135,
+        136,
+        137,
+        138
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "شحنة المتفجرات في البقاع",
+      "event": "ضبط شحنة متفجرات في البقاع وإقرار حزب الله بملكيتها",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        7,
+        8
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تقييم مجلس التعاون الخليجي أثناء الحرب الأمريكية الإيرانية",
+      "event": "غياب استشارة مجلس التعاون قبل الحرب الأمريكية الإيرانية وتقييم أدائه خلالها",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "total_points": 6,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "زيارة الملك الإسباني لسبتة ومليلية",
+      "event": "زيارة فيليب السادس لسبتة ومليلية وتصريحاته بشأن سيادتها",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        18,
+        19,
+        20
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "معاهدة مكة واحتمال تورط تركيا في اليمن",
+      "event": "مخاوف من استدراج تركيا إلى الحرب في اليمن عبر اتفاق (معاهدة مكة) لصالح أمريكا وإسرائيل",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        63,
+        64,
+        67
+      ],
+      "total_points": 3,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "جذور الصراع الأمريكي الإيراني وأبعاده",
+      "event": "الحرب الأمريكية-الإسرائيلية مع إيران وتاريخها وتبعاتها",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        4,
+        34,
+        87
+      ],
+      "total_points": 4,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تأثير الانتخابات النصفية الأمريكية على مسار الحرب مع إيران",
+      "event": "توقعات بشأن تأثير نتائج الانتخابات النصفية الأمريكية (خسارة الجمهوريين مجلس النواب) على مسار الحرب مع إيران",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        35,
+        38,
+        39,
+        40,
+        89
+      ],
+      "total_points": 5,
+      "fresh_points": 1,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "عدم استقرار الحكومة الفرنسية وأزمتها المالية",
+      "event": "تغيّر الحكومة الفرنسية أربع مرات خلال عامين وارتفاع دينها الداخلي",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        51,
+        52,
+        53,
+        55,
+        56,
+        108,
+        111,
+        112,
+        120
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "مساهمات فرنسا وألمانيا في دعم أوكرانيا عبر الاتحاد الأوروبي",
+      "event": "مساهمات فرنسا وألمانيا الكبرى في ميزانية الاتحاد الأوروبي ومساعداته لأوكرانيا",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        54,
+        109
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "مضيق هرمز كورقة ضغط إيرانية",
+      "event": "استخدام إيران مضيق هرمز كورقة ضغط استراتيجية وربطها بقرار الرئيس الأمريكي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        85,
+        86
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "أخلاقيات الانتقالات الحزبية بين البلديات التركية",
+      "event": "تقييم تأثير انتقالات رؤساء البلديات بين الأحزاب على الثقة بالديمقراطية في تركيا",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        60,
+        61,
+        126,
+        128
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تأثير تلوث الهواء على الصحة العامة في تركيا",
+      "event": "تأثير تلوث الهواء الناتج عن مشاريع الطاقة على الصحة العامة في تركيا وغياب تقييم الأثر الصحي",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        129,
+        130,
+        131,
+        132
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "دعوات غانتس لحكومة وحدة وطنية إسرائيلية",
+      "event": "دعوة بيني غانتس لتشكيل حكومة وحدة صهيونية عابرة للكتل واستعراض فرصه الانتخابية",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        139,
+        140,
+        141,
+        142,
+        143
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "حملة نفتالي بنيت الانتخابية وثروته الشخصية",
+      "event": "حملة نفتالي بنيت الانتخابية وتقييم ثروته الشخصية وشعبيته وتحليل شخصيته",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        144,
+        145,
+        146,
+        147,
+        148,
+        149
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "هجمات ومخزون الحوثيين الصاروخي",
+      "event": "اعتداءات حوثية على مطارات سعودية وامتلاك الحوثيين صواريخ وطائرات مسيّرة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        5,
+        6
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "موقف ترامب من أوكرانيا وروسيا",
+      "event": "تقييم موقف ترامب من الحرب الروسية الأوكرانية وصفقة الديزل مع روسيا",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        21,
+        22
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "أمطار وفيضانات مرمرة في تركيا",
+      "event": "الأمطار الغزيرة الكارثية في منطقة مرمرة وإغلاق الجامعات وتداعياتها",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        45,
+        46,
+        47,
+        48,
+        49,
+        50
+      ],
+      "total_points": 6,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "خلافات داخل المعارضة الإسرائيلية بشأن التحالف مع نتنياهو",
+      "event": "رفض إيزنكوط التحالف مع نتنياهو وخطط المعارضة لتمرير قانون المتهم بعد الانتخابات",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        73,
+        74,
+        75
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    }
+  ]
+}
