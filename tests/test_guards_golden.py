@@ -15049,8 +15049,9 @@ def test_reel_closing_p1a2_guards() -> None:
         tmp.mkdir()
         cmds, downloads, notes, crops = [], [], [], {}
         draft = {"hook_video": {"video_id": "hv1", "start": hook_start, "end": hook_start + 4}}
+        pre = [{"sec": s, "kind": "event_footage"} for s in range(hook_start)]   # R6: pre_hook يشترط تصنيف ثواني ما قبل الهوك
         out = reel_render._assemble(closing_script(), {}, cfg, make_deps(cmds, downloads), tmp, "female", None, "", {}, notes,
-                                    draft, crops)
+                                    draft, crops, pre_entries=pre)
         return out, cmds, downloads, notes, crops
 
     def g441():
@@ -15121,7 +15122,8 @@ def test_reel_closing_p1a2_guards() -> None:
         script = closing_script()
         draft = {"id": tag, "hook_video": {"video_id": "hv1", "start": hook_start, "end": hook_start + 4}}
         notes, crops = [], {}
-        files, kinds, durs = reel_render._assemble(script, {}, cfg, deps, work, "female", None, "", {}, notes, draft, crops)
+        files, kinds, durs = reel_render._assemble(script, {}, cfg, deps, work, "female", None, "", {}, notes, draft, crops,
+                                                   pre_entries=[{"sec": s, "kind": "event_footage"} for s in range(hook_start)])
         joined = reel_render._join(files, kinds, durs, cfg, deps, work)
         final = work / "final.mp4"
         reel_render._final_pass(joined, final, kinds, durs, cfg, deps, work, draft)
@@ -15310,7 +15312,8 @@ def test_reel_hook_strong_p1b_guards() -> None:
         tmp = work_root / "g451"
         tmp.mkdir()
         known = "crop=111:222:33:0"
-        hook_info = {"mode": "clip", "clip": tmp / "hook.mp4", "cexpr": known}
+        hook_info = {"mode": "clip", "clip": tmp / "hook.mp4", "cexpr": known,
+                     "pre_entries": [{"sec": s, "kind": "event_footage"} for s in range(40)]}   # R6
         draft = {"hook_video": {"video_id": "hv1", "start": 40, "end": 44}}
         crops: dict = {}
         reel_render._closing_scene(0, {"kind": "question", "text": "ومن يملك القرار؟"}, "قناة", "", hook_info, draft, "female", cfg,
