@@ -1,7 +1,7 @@
 {
   "id": "626bd3b7a2d4",
   "created_at": "2026-10-17T15:46:59.940238+00:00",
-  "status": "pending",
+  "status": "superseded",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -315,5 +315,7 @@
   "has_photo": false,
   "has_news_photo": true,
   "review_issue": 1540,
-  "stage2_issue": 1540
+  "stage2_issue": 1540,
+  "superseded_by": "21490770c22d",
+  "superseded_at": "2026-10-19T05:03:42.223661+00:00"
 }

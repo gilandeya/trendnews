@@ -1,0 +1,416 @@
+{
+  "id": "21490770c22d",
+  "created_at": "2026-10-19T05:01:23.245237+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "تصعيد الحوثيين ضد السعودية وعلاقتهم بإيران",
+  "tier": 3,
+  "blocs": [
+    "arabic",
+    "persian",
+    "turkish"
+  ],
+  "channels": [
+    "CNN Türk",
+    "Iran International",
+    "SÖZCÜ",
+    "الجزيرة",
+    "العربية"
+  ],
+  "agreement": "cross_source",
+  "event": "نقاش حول استمرار هجمات الحوثيين على السعودية وعلاقة الحوثيين بإيران",
+  "warnings": [
+    "اسم لم يُحسم: نوزات تشيتشك (Nevzat Çiçek) — لا رسم مرشّح ظهر في 2 نطاقات عربية مستقلة (أقصى ما وُجد: 0)",
+    "اسم لم يُحسم: براء شيبان (Bar Shaown) — المرشّح ليس رسمًا آخر للاسم نفسه"
+  ],
+  "run_date": "2026-10-17",
+  "arabic": {
+    "post_title": "تصعيد الحوثيين ضد السعودية وعلاقتهم بإيران",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "CNN Türk",
+      "Iran International",
+      "SÖZCÜ",
+      "الجزيرة",
+      "العربية"
+    ]
+  },
+  "score": 12,
+  "source_videos": [],
+  "topic_id": "a9cbdcf6f258",
+  "topic_date": "2026-10-17",
+  "redo_n": 1,
+  "script": {
+    "version": 2,
+    "narrator": "female",
+    "title": "هل قرار تصعيد الحوثيين ضد السعودية إيراني أم محلي؟",
+    "question": "ما الذي يحدد مسار التصعيد بين الحوثيين والسعودية؟",
+    "event": "نقاش حول استمرار هجمات الحوثيين على السعودية وعلاقة الحوثيين بإيران",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "هل قرار تصعيد الحوثيين ضد السعودية إيراني أم محلي؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "في 13 أكتوبر/تشرين الأول 2026 أعلن التحالف اعتراض صواريخ ومسيّرات أُطلقت باتجاه الرياض والمنطقة الجنوبية. وفي 15 أكتوبر/تشرين الأول 2026 أعلن الحوثيون إسقاط مقاتلة سعودية، فيما ردّت الرياض بقصف مواقعهم. النقاش يدور حول حدود الارتباط بين جماعة الحوثي وطهران."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "core",
+        "q": 0,
+        "text": "من يملك قرار الحوثيين العسكري؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "c7195593f2d1",
+        "q": 0,
+        "stance": "القرار كله بيد الحرس الثوري الإيراني",
+        "video_url": "https://www.youtube.com/watch?v=Xxo2qea5sIo",
+        "start": 2052.0,
+        "end": 2058.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "العربية",
+        "channel_original": "العربية",
+        "quote_arabic": "القرار الاستراتيجي والقرار العملياتي للحوثيين بيد الحرس الثوري الإيراني",
+        "language": "ar",
+        "video_published": "2026-10-13"
+      },
+      {
+        "kind": "clip",
+        "point_id": "79951271e471",
+        "q": 0,
+        "stance": "إيران تدرّب الحوثيين وتدعمهم عسكريًا",
+        "video_url": "https://www.youtube.com/watch?v=1nO8ppO6D-s",
+        "start": 462.0,
+        "end": 470.3,
+        "speaker_name": "نوزات تشيتشك",
+        "speaker_role": "محلل ضيف في البرنامج",
+        "speaker_verified": true,
+        "speaker_verified_from": "title",
+        "speaker_name_latin": "Nevzat Çiçek",
+        "channel_display": "سوزجو",
+        "channel_original": "SÖZCÜ",
+        "quote_arabic": "الحرس الثوري، أيها الأستاذ، قدّم بالفعل كل الاختبارات وكل الأمور العسكرية بما فيها التدريب.",
+        "language": "en",
+        "video_published": "2026-10-14"
+      },
+      {
+        "kind": "clip",
+        "point_id": "b54db16d4920",
+        "q": 0,
+        "stance": "ارتباط ثابت لكن التحكم محل خلاف",
+        "video_url": "https://www.youtube.com/watch?v=0WY70hmTi7w",
+        "start": 1535.0,
+        "end": 1542.4,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "الربط بين الحوثيين والإيرانيين في رأيي ثابت، لكننا نختلف دائمًا على مستوى التحكم والتأثير",
+        "language": "ar",
+        "video_published": "2026-10-14"
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "why_now",
+        "q": 1,
+        "text": "لماذا تصاعدت الهجمات على السعودية؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "7cf411cb3122",
+        "q": 1,
+        "stance": "إنهاء الهدنة جاء بعد زيارة طهران",
+        "video_url": "https://www.youtube.com/watch?v=aJriRMKz5QY",
+        "start": 229.0,
+        "end": 235.0,
+        "speaker_name": "براء شيبان",
+        "speaker_role": "زميل مشارك في معهد رويال يونايتد سيرفيسز في لندن ومفاوض سابق مع الحوثيين",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "Baraa Shiban",
+        "channel_display": "إيران إنترناشيونال",
+        "channel_original": "Iran International",
+        "quote_arabic": "إنهاء هدنة 2022 من جانب واحد",
+        "language": "en",
+        "video_published": "2026-10-16"
+      },
+      {
+        "kind": "clip",
+        "point_id": "21815c60d2b2",
+        "q": 1,
+        "stance": "تبادل ضربات معلن بين الطرفين",
+        "video_url": "https://www.youtube.com/watch?v=1TzQH3MEM4Y",
+        "start": 5743.0,
+        "end": 5749.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "سي إن إن ترك",
+        "channel_original": "CNN Türk",
+        "quote_arabic": "زعم الحوثيون أنهم أسقطوا طائرة يوروفايتر تابعة للسعودية بصاروخ",
+        "language": "tr",
+        "video_published": "2026-10-15"
+      },
+      {
+        "kind": "clip",
+        "point_id": "69b0ec948992",
+        "q": 1,
+        "stance": "استهداف المدنيين يوجب إنهاء التهديد جذريًا",
+        "video_url": "https://www.youtube.com/watch?v=Xxo2qea5sIo",
+        "start": 1253.0,
+        "end": 1260.8,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "العربية",
+        "channel_original": "العربية",
+        "quote_arabic": "إن استهداف المطارات والمساجد والمنازل وتعريض حياة الأبرياء للخطر دليل جديد على ضرورة إنهاء هذا التهديد بصورة جذرية",
+        "language": "ar",
+        "video_published": "2026-10-13"
+      },
+      {
+        "kind": "question",
+        "text": "ما الذي يحدد مسار التصعيد بين الحوثيين والسعودية؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": [
+      "السؤال الثالث: إلى أين تتجه المواجهة؟"
+    ]
+  },
+  "headlines": [
+    "هل يحسم الحرس الثوري قرار الحوثيين العسكري تجاه السعودية؟",
+    "ضيف على الجزيرة: الربط بين الحوثيين وطهران ثابت والخلاف على درجة التحكم",
+    "قد تتداخل المطالب المحلية للحوثيين مع حسابات إيران في تصعيدهم ضد السعودية"
+  ],
+  "headline_selected": 0,
+  "editor_review": {
+    "at": "2026-10-19T05:02:01.792019+00:00",
+    "applied": [
+      {
+        "category": "stale_time",
+        "severity": "high",
+        "location": "body",
+        "original": "في 13 أكتوبر 2025 أعلن التحالف اعتراض صواريخ ومسيّرات أُطلقت باتجاه الرياض والمنطقة الجنوبية. وفي 15 أكتوبر 2025 أعلن الحوثيون إسقاط مقاتلة سعودية",
+        "fix": "في 13 أكتوبر/تشرين الأول 2026 أعلن التحالف اعتراض صواريخ ومسيّرات أُطلقت باتجاه الرياض والمنطقة الجنوبية. وفي 15 أكتوبر/تشرين الأول 2026 أعلن الحوثيون إسقاط مقاتلة سعودية",
+        "note": "سنة الحدث خاطئة: المقطعان المصدران لهذين الخبرين نُشرا في 13 و15 أكتوبر/تشرين الأول 2026 (العربية وسي إن إن ترك)، لا 2025. تاريخ اليوم 19 أكتوبر/تشرين الأول 2026، فالخطأ يُقدّم الحدث على أنه من العام الماضي.",
+        "sources": [
+          "https://www.iranintl.com/en/202610178912"
+        ]
+      },
+      {
+        "category": "unattributed_opinion",
+        "severity": "high",
+        "location": "headline_2",
+        "original": "الربط بين الحوثيين وطهران ثابت، لكن درجة التحكم محل خلاف",
+        "fix": "ضيف على الجزيرة: الربط بين الحوثيين وطهران ثابت والخلاف على درجة التحكم",
+        "note": "العنوان يقدّم رأي متحدث واحد على أنه خلاصة مقرّرة. الاقتباس نفسه مشروط بقول صاحبه «في رأيي»، والمسألة محل خلاف داخل الريل (مقاطع تقول إن القرار بيد الحرس الثوري، وأخرى تقول إن للحوثيين قرارًا مستقلًا). يلزم إسناد الرأي في العنوان.",
+        "sources": []
+      }
+    ],
+    "notes": [
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "body",
+        "original": "نوزات تشيتشك · محلل ضيف في البرنامج · سوزجو",
+        "fix": "نيفزات تشيتشك (Nevzat Çiçek) · صحفي · سوزجو",
+        "note": "متحدث موثَّق من عنوان الفيديو، لكن في اسمه وصفته شك: (1) الرسم العربي «نوزات» غير مثبت في أي نطاق عربي مستقل، والأقرب صوتيًا إلى Nevzat هو «نيفزات»، (2) المصادر التركية تعرّفه صحفيًا وكاتبًا يستضيفه سوزجو تي في، لا «محللًا». يلزم حسم الرسم والصفة بعين بشرية قبل النشر.",
+        "sources": [
+          "https://www.youtube.com/watch?v=QRMcEICq6ac",
+          "https://www.biyografya.com/biyografi/19025",
+          "https://www.kibrispostasi.com/c35-KIBRIS_HABERLERI/n550364-gazeteci-nevzat-cicek-kibrista-genclerin-aidiyet-duygusu-zayifliyor-sadece-insaatla-olmaz"
+        ],
+        "video": ""
+      },
+      {
+        "category": "name_doubtful",
+        "severity": "low",
+        "location": "body",
+        "original": "براء شيبان · زميل مشارك في معهد رويال يونايتد سيرفيسز في لندن ومفاوض سابق مع الحوثيين · إيران إنترناشيونال",
+        "fix": "",
+        "note": "تنبيه المسودة يشكّك في الاسم بسبب ورود «بار شاؤون» في نصوص الأقوال المرفقة للمقاطع نفسها. البحث يحسم الأمر لصالح الشريط كما هو: «براء شيبان» هو الرسم الذي يستخدمه صاحب الاسم نفسه، وصفته (زميل مشارك في RUSI بلندن، شارك في انتفاضة 2011 وتفاوض مع الحوثيين، تحدّث إلى إيران إنترناشيونال) مطابقة للمصادر. لا تعديل على الشريط، لكن يجب تصحيح «بار شاؤون» في بيانات الأقوال كي لا تتسرب إلى أي سطر راوٍ.",
+        "sources": [
+          "https://www.iranintl.com/en/202610178912",
+          "https://x.com/bshtwtr?lang=en",
+          "https://www.rusi.org/explore-our-research/publications/commentary/bombing-yemens-houthis-not-long-term-strategy"
+        ],
+        "video": ""
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "فيما ردّت الرياض بقصف مواقعهم",
+        "fix": "فيما قالت الرياض إنها ترد بقصف مواقعهم",
+        "note": "المصدر (سي إن إن ترك) ينقل الأمر على لسان الرياض لا كواقعة مستقلة؛ الأفضل الإبقاء على الإسناد كما في المقطع.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "لماذا تصاعدت الهجمات على السعودية؟",
+        "fix": "",
+        "note": "المقطع 69b0ec948992 المدرج تحت هذا السؤال (قول رئيس مجلس القيادة الرئاسي عن ضرورة إنهاء التهديد جذريًا) لا يجيب عن سبب التصعيد بل يدعو إلى ردّ عليه، وهو أقرب إلى مشهد سؤال التبعات. يُراجَع ترتيب المقاطع أو يُعدّل السؤال ليستوعب الرد لا السبب فقط.",
+        "sources": []
+      }
+    ],
+    "error": null,
+    "searches": 2,
+    "search_skipped": null,
+    "speaker_unresolved": [
+      "نوزات تشيتشك",
+      "براء شيبان"
+    ]
+  },
+  "name_unresolved": [
+    {
+      "arabic": "نوزات تشيتشك",
+      "latin": "Nevzat Çiçek",
+      "reason": "لا رسم مرشّح ظهر في 2 نطاقات عربية مستقلة (أقصى ما وُجد: 0)"
+    },
+    {
+      "arabic": "براء شيبان",
+      "latin": "Bar Shaown",
+      "reason": "المرشّح ليس رسمًا آخر للاسم نفسه"
+    }
+  ],
+  "names_audit": [
+    {
+      "arabic": "نوزات تشيتشك",
+      "latin": "Nevzat Çiçek"
+    },
+    {
+      "arabic": "براء شيبان",
+      "latin": "Bar Shaown"
+    }
+  ],
+  "reel_bg": {
+    "url": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/10/18/thumbs_b_c_77cd8760944932957c7abe47dda5b5b2.jpg",
+    "kind": "news_photo",
+    "publisher": "Anadolu Ajansı"
+  },
+  "hook_candidates": [
+    {
+      "video_id": "9jDx4zifCoA",
+      "title": "التحالف ينشر لقطات لتدمير منصتي إطلاق صواريخ باليسيتية للحوثيين في \"صعدة\"",
+      "channel": "العربية السعودية",
+      "views": 2416,
+      "duration": 52,
+      "published": "2026-10-18T07:05:36Z"
+    },
+    {
+      "video_id": "p_W6owqJTeE",
+      "title": "Saudi-Led Coalition Destroys Two Houthi Ballistic Missile Launchers",
+      "channel": "Al Arabiya English",
+      "views": 707,
+      "duration": 40,
+      "published": "2026-10-17T19:39:20Z"
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-10-15T00:00:00Z",
+          "2026-10-19T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "صواريخ حوثية تنطلق من اليمن نحو السعودية",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "Houthi missile launch toward Saudi Arabia",
+            "raw": 30,
+            "channel_ok": 4
+          },
+          {
+            "query": "اعتراض صاروخ باليستي فوق الرياض دخان",
+            "raw": 1,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 4,
+        "judged_ok": 2,
+        "rejected_channels": [
+          "SAMAA News Global",
+          "Roya News English",
+          "24 News",
+          "rasid ksa",
+          "NewsX Live",
+          "India Global Review",
+          "News18 Urdu",
+          "Geopolitics Signals"
+        ]
+      }
+    ],
+    "picked": [
+      "9jDx4zifCoA",
+      "p_W6owqJTeE"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "في 13 أكتوبر/تشرين الأول 2026 أعلن التحالف اعتراض صواريخ ومسيّرات أُطلقت باتجاه الرياض والمنطقة الجنوبية.",
+      "visual": "صواريخ تُعترض في سماء ليلية فوق الرياض"
+    },
+    {
+      "scene": 1,
+      "sentence": 1,
+      "text": "وفي 15 أكتوبر/تشرين الأول 2026 أعلن الحوثيون إسقاط مقاتلة سعودية، فيما ردّت الرياض بقصف مواقعهم.",
+      "visual": "مقاتلة تحلّق فوق صحراء ثم دخان قصف"
+    },
+    {
+      "scene": 1,
+      "sentence": 2,
+      "text": "النقاش يدور حول حدود الارتباط بين جماعة الحوثي وطهران.",
+      "visual": ""
+    },
+    {
+      "scene": 2,
+      "sentence": 0,
+      "text": "من يملك قرار الحوثيين العسكري؟",
+      "visual": ""
+    },
+    {
+      "scene": 6,
+      "sentence": 0,
+      "text": "لماذا تصاعدت الهجمات على السعودية؟",
+      "visual": ""
+    }
+  ],
+  "has_photo": false,
+  "has_news_photo": true,
+  "review_issue": 1611,
+  "stage2_issue": 1611
+}
