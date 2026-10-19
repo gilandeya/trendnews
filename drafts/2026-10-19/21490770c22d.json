@@ -313,7 +313,8 @@
   "reel_bg": {
     "url": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/10/18/thumbs_b_c_77cd8760944932957c7abe47dda5b5b2.jpg",
     "kind": "news_photo",
-    "publisher": "Anadolu Ajansı"
+    "publisher": "Anadolu Ajansı",
+    "layout": "A"
   },
   "hook_candidates": [
     {
@@ -373,8 +374,7 @@
       }
     ],
     "picked": [
-      "9jDx4zifCoA",
-      "p_W6owqJTeE"
+      "9jDx4zifCoA"
     ]
   },
   "broll_plan": [
@@ -413,7 +413,7 @@
   "has_news_photo": true,
   "review_issue": 1611,
   "stage2_issue": 1611,
-  "render_status": "queued",
+  "render_status": "rendered",
   "approved_script_at": "2026-10-19T05:09:23.874493+00:00",
   "editor_override": {
     "at": "2026-10-19T05:09:23.874479+00:00",
@@ -422,5 +422,423 @@
       "اسم متحدث لم يُحسم: نوزات تشيتشك",
       "اسم متحدث لم يُحسم: براء شيبان"
     ]
-  }
+  },
+  "hook_video": {
+    "video_id": "9jDx4zifCoA",
+    "start": 17,
+    "end": 20,
+    "channel": "العربية السعودية",
+    "title": "التحالف ينشر لقطات لتدمير منصتي إطلاق صواريخ باليسيتية للحوثيين في \"صعدة\"",
+    "source": "auto",
+    "views": 2416,
+    "impact": 7,
+    "pre_ok": true,
+    "strong_start": 17,
+    "reason": "أقوى 3 ث (قوة 7)"
+  },
+  "reel_file": "reels/2026-10-19/21490770c22d.mp4",
+  "reel_gif": "reels/2026-10-19/21490770c22d.gif",
+  "duration_seconds": 97.7,
+  "render_version": 33,
+  "render_attempts": 0,
+  "reel_music": "sigmamusicart-breaking-news-551355.mp3",
+  "render_sources": "العربية، سوزجو، الجزيرة، إيران إنترناشيونال، سي إن إن ترك، العربية السعودية، Al Arabiya English",
+  "render_crops": {
+    "3": {
+      "x": 419,
+      "source": "speaker",
+      "speaker_score": 0.91,
+      "tracks": 1,
+      "panel_q": 0,
+      "tile_crop": {
+        "x": 136,
+        "y": 0,
+        "w": 972,
+        "h": 576,
+        "mode": "full_height"
+      },
+      "frame_crop": {
+        "x": 394,
+        "y": 0,
+        "w": 454,
+        "h": 576,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true
+    },
+    "4": {
+      "x": 589,
+      "source": "speaker_motion_override",
+      "speaker_score": 0.66,
+      "tracks": 4,
+      "vision": {
+        "pick": 1,
+        "agree": 3,
+        "archive": [
+          2,
+          3,
+          4
+        ],
+        "overridden_by": 3
+      },
+      "panel_q": 0,
+      "tile_crop": {
+        "x": 306,
+        "y": 0,
+        "w": 972,
+        "h": 576,
+        "mode": "full_height"
+      },
+      "frame_crop": {
+        "x": 564,
+        "y": 0,
+        "w": 454,
+        "h": 576,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true
+    },
+    "5": {
+      "x": 510,
+      "source": "face",
+      "tracks": 6,
+      "vision": {
+        "pick": 0,
+        "agree": 1,
+        "archive": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ]
+      },
+      "panel_q": 0,
+      "tile_crop": {
+        "x": 64,
+        "y": 0,
+        "w": 1216,
+        "h": 720,
+        "mode": "full_height"
+      },
+      "frame_crop": {
+        "x": 428,
+        "y": 0,
+        "w": 568,
+        "h": 720,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": false
+    },
+    "7": {
+      "x": 433,
+      "source": "speaker",
+      "speaker_score": 0.7,
+      "tracks": 1,
+      "panel_q": 1,
+      "tile_crop": {
+        "x": 28,
+        "y": 0,
+        "w": 1216,
+        "h": 720,
+        "mode": "full_height"
+      },
+      "frame_crop": {
+        "x": 352,
+        "y": 0,
+        "w": 568,
+        "h": 720,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": false
+    },
+    "8": {
+      "x": 0,
+      "source": "speaker_vision",
+      "speaker_score": 0.87,
+      "tracks": 3,
+      "vision": {
+        "pick": 3,
+        "agree": 3,
+        "archive": [
+          1,
+          2
+        ]
+      },
+      "panel_q": 1,
+      "tile_crop": {
+        "x": 0,
+        "y": 0,
+        "w": 938,
+        "h": 556,
+        "mode": "full_height"
+      },
+      "frame_crop": {
+        "x": 0,
+        "y": 0,
+        "w": 440,
+        "h": 556,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        24,
+        0,
+        0
+      ],
+      "ticker": true
+    },
+    "9": {
+      "x": 448,
+      "source": "speaker",
+      "speaker_score": 2.71,
+      "tracks": 1,
+      "panel_q": 1,
+      "tile_crop": {
+        "x": 164,
+        "y": 0,
+        "w": 972,
+        "h": 576,
+        "mode": "full_height"
+      },
+      "frame_crop": {
+        "x": 424,
+        "y": 0,
+        "w": 454,
+        "h": 576,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true
+    },
+    "hook": {
+      "ticker": true
+    },
+    "closing": {
+      "source": "pre_hook"
+    }
+  },
+  "render_speakers": {
+    "3": {
+      "name_original": "فيصل الحمد",
+      "name_arabic": "فيصل الحمد",
+      "role_arabic": "خبير عسكري واستراتيجي",
+      "is_presenter": false,
+      "frames_agreeing": 3,
+      "rejected": "",
+      "accepted": true
+    },
+    "5": {
+      "name_original": "نقاش الساعة",
+      "name_arabic": "نقاش الساعة",
+      "role_arabic": "",
+      "is_presenter": false,
+      "frames_agreeing": 3,
+      "rejected": "program",
+      "accepted": false
+    },
+    "8": {
+      "name_original": "TUNÇ ARSLANALP",
+      "name_arabic": "تونش أرسلان ألب",
+      "role_arabic": "",
+      "is_presenter": true,
+      "frames_agreeing": 3,
+      "rejected": "",
+      "accepted": true
+    },
+    "9": {
+      "name_original": "الرئيس العليمي",
+      "name_arabic": "الرئيس العليمي",
+      "role_arabic": "مواجهة الحوثي",
+      "is_presenter": false,
+      "frames_agreeing": 3,
+      "rejected": "",
+      "accepted": true
+    }
+  },
+  "render_broll": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "video_id": "p_W6owqJTeE",
+      "start": 8.14,
+      "end": 19.86,
+      "channel": "Al Arabiya English",
+      "desc": "مشهد ميداني هادئ لمنطقة مكشوفة بعد اختفاء النص · سحابة داكنة كثيفة تتصاعد من موقع القصف · انفجارات متتابعة وشظايا وأدخنة كثيفة فوق الأرض"
+    },
+    {
+      "scene": 1,
+      "sentence": 1,
+      "photo": "تداخل مع لقطة أخرى"
+    },
+    {
+      "scene": 1,
+      "sentence": 2,
+      "photo": "جملة مجرّدة"
+    },
+    {
+      "scene": 2,
+      "sentence": 0,
+      "photo": "جملة مجرّدة"
+    },
+    {
+      "scene": 6,
+      "sentence": 0,
+      "photo": "جملة مجرّدة"
+    }
+  ],
+  "broll_scan": {
+    "videos": {
+      "9jDx4zifCoA": {
+        "downloaded": 51,
+        "classified": 51,
+        "sheets": 5,
+        "kinds": {
+          "anchor": 11,
+          "graphic": 23,
+          "studio": 8,
+          "event_footage": 7,
+          "text_heavy": 2
+        },
+        "footage_relevant": 3,
+        "footage_other": 4,
+        "chains": 1,
+        "longest": 4
+      },
+      "p_W6owqJTeE": {
+        "downloaded": 39,
+        "classified": 40,
+        "sheets": 2,
+        "kinds": {
+          "text_heavy": 6,
+          "event_footage": 30,
+          "other": 2,
+          "graphic": 2
+        },
+        "footage_relevant": 16,
+        "footage_other": 14,
+        "chains": 2,
+        "longest": 16
+      }
+    },
+    "sheets_used": 7,
+    "chains": [
+      {
+        "video_id": "9jDx4zifCoA",
+        "start": 36,
+        "end": 40,
+        "desc": "شاشة رسومية/خريطة لمسار بمنتصف الإطار على خلفية رمادية · شاشة رسومية مشابهة لمسار بخطوط، لا تُظهر حدثاً ميدانياً · شاشة رسومية بتوهج داكن في المنتصف، صورة تقنية وليست لقطة ميدانية للحدث",
+        "channel": "العربية السعودية",
+        "relevant": false
+      },
+      {
+        "video_id": "p_W6owqJTeE",
+        "start": 6,
+        "end": 22,
+        "desc": "مشهد ميداني هادئ لمنطقة مكشوفة بعد اختفاء النص · سحابة داكنة كثيفة تتصاعد من موقع القصف · انفجارات متتابعة وشظايا وأدخنة كثيفة فوق الأرض",
+        "channel": "Al Arabiya English",
+        "relevant": true
+      },
+      {
+        "video_id": "p_W6owqJTeE",
+        "start": 24,
+        "end": 38,
+        "desc": "منظر ليلي/رمادي لأرض وطريق بخطوط بيضاء، دون ما يدل على الحدث المذكور · منظر رمادي لطريق وأرض بخطوط بيضاء، لا يُظهر الحدث المذكور · بقعة داكنة كبيرة مع شظايا أو أضرار على الأرض، لا تتعلق بالنقاش السياسي المذكور",
+        "channel": "Al Arabiya English",
+        "relevant": false
+      }
+    ],
+    "assign": [
+      {
+        "n": 1,
+        "chain": 2
+      },
+      {
+        "n": 2,
+        "chain": 2
+      }
+    ]
+  },
+  "render_dropped": [],
+  "render_approx": [
+    {
+      "point_id": "c7195593f2d1",
+      "kind": "clip",
+      "start": 2052,
+      "end": 2058,
+      "reason": "تعذّر جلب نص الفيديو"
+    },
+    {
+      "point_id": "b54db16d4920",
+      "kind": "clip",
+      "start": 1535,
+      "end": 1543,
+      "reason": "تعذّر جلب نص الفيديو"
+    },
+    {
+      "point_id": "21815c60d2b2",
+      "kind": "clip",
+      "start": 5743,
+      "end": 5749,
+      "reason": "الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة"
+    },
+    {
+      "point_id": "69b0ec948992",
+      "kind": "clip",
+      "start": 1253,
+      "end": 1261,
+      "reason": "تعذّر جلب نص الفيديو"
+    }
+  ],
+  "rendered_at": "2026-10-19T13:07:23.711476+00:00",
+  "render_notes": [
+    "### 🎬 تركيب الريل",
+    "- ⏱️ المدة: 97.7 ث",
+    "- 🎞️ [الملف](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-10-19/21490770c22d.mp4) · [المعاينة](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-10-19/21490770c22d.gif)",
+    "- ⚠️ نافذة تقديرية لمقطع العربية (34:12–34:18): تعذّر جلب نص الفيديو — راجع بداية المقطع ونهايته",
+    "- ⚠️ نافذة تقديرية لمقطع الجزيرة (25:35–25:43): تعذّر جلب نص الفيديو — راجع بداية المقطع ونهايته",
+    "- ⚠️ نافذة تقديرية لمقطع سي إن إن ترك (95:43–95:49): الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة — راجع بداية المقطع ونهايته",
+    "- ⚠️ نافذة تقديرية لمقطع العربية (20:53–21:01): تعذّر جلب نص الفيديو — راجع بداية المقطع ونهايته",
+    "🎞️ لقطة الهوك: العربية السعودية — [التحالف ينشر لقطات لتدمير منصتي إطلاق صواريخ باليسيتية للحوثيين في \"صعدة\"](https://www.youtube.com/watch?v=9jDx4zifCoA&t=17) (17–20 ث) · 2,416 مشاهدة",
+    "🎞️ لقطات الحدث: 1 من 5 جمل (Al Arabiya English ×1) — 4 بالصورة",
+    "👤 من شريط القناة: فيصل الحمد (فيصل الحمد) — خبير عسكري واستراتيجي",
+    "🎯 مقطع سوزجو: 4 وجوه — المتكلم بالرؤية مع تغليب الحركة الجسدية",
+    "🎯 مقطع الجزيرة: 6 وجوه — المتكلم أكبر وجه",
+    "🏷️ شريط القناة يحمل اسم برنامج لا شخص: نقاش الساعة — يُعرض اسم القناة وحده",
+    "🎯 مقطع سي إن إن ترك: 3 وجوه — المتكلم بالرؤية",
+    "▭ مقطع سي إن إن ترك: أُزيلت أشرطة سوداء",
+    "👤 من شريط القناة: تونش أرسلان ألب (TUNÇ ARSLANALP) — ",
+    "👤 من شريط القناة: الرئيس العليمي (الرئيس العليمي) — مواجهة الحوثي"
+  ],
+  "reel_review_issue": 1620
 }
