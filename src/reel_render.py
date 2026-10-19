@@ -4085,6 +4085,8 @@ def _publish_on_render(path: Path, draft: dict, cfg, deps: Deps, notes_text: str
     issue = draft.get("stage2_issue") or draft.get("review_issue")
     if issue:
         line = t.get("published", "").format(title=title, url=info)
+        if path_line := publish.reel_path_line(draft["id"], cfg):
+            line += "\n" + path_line
         try:
             deps.comment(int(issue), line + "\n\n" + notes_text)
         except Exception as exc:  # noqa: BLE001 -- التعليق إخبار لا شرط للنشر

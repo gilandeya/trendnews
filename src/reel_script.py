@@ -478,6 +478,12 @@ def _v2(cfg: Any, key: str, default: Any) -> Any:
     return _rcfg(cfg, f"v2.{key}", default)
 
 
+def v2_system(cfg: Any) -> str:
+    """برومبت v2 مملوءً: رقم السقف يُبنى من الإعداد (L1، Issue #1627) فلا يُكتب حرفيًا في النص فيتخلّف عنه.
+    استبدال نصي لا str.format: النص يحوي أقواسًا أخرى."""
+    return str(_v2(cfg, "system", "")).replace("{max_seconds}", str(int(_v2(cfg, "max_seconds", 165))))
+
+
 def _speaker_identity(clip: dict) -> str:
     """هوية المتحدث: الاسم اللاتيني إن وُجد، وإلا نص المتحدث المستخرج مع القناة الأصلية."""
     latin = " ".join(_latin_tokens(clip.get("speaker_name_latin", "")))
@@ -538,7 +544,7 @@ def _build_v2(data: dict, valid: list[dict], narrator: str, topic: dict | None =
 def trim_v2(script: dict, cfg: Any) -> tuple[dict, list[str]]:
     """قصّ ما يتجاوز max_seconds بالترتيب (Issue #1608): السؤال الثالث بإجاباته، ثم من السؤال الأكثر إجابات (4) إجابة وسطى
     هي الأطول نافذة؛ الأولى والأخيرة طرفا الطيف فلا تُحذفان. لا قصّ آخر: الباقي يرفضه التحقق بسبب المدة."""
-    hi = float(_v2(cfg, "max_seconds", 90))
+    hi = float(_v2(cfg, "max_seconds", 165))
     texts = cfg.path("reel.texts", {}) or {}
     script = {**script, "scenes": [dict(s) for s in script.get("scenes") or []]}
     trimmed: list[str] = list(script.get("trimmed") or [])
@@ -680,7 +686,7 @@ def validate_v2(script: dict, valid: list[dict], cfg: Any) -> list[str]:
         if len({_speaker_identity(c) for c in first}) < 2:
             out.append("السؤال الأول (core) يحتاج إجابتين على الأقل من متحدثَين مختلفَين")
     # 7) مجموع الإجابات
-    t_lo, t_hi = [int(x) for x in _v2(cfg, "total_answers", [2, 8])]
+    t_lo, t_hi = [int(x) for x in _v2(cfg, "total_answers", [2, 12])]
     t_lo = min(t_lo, len(valid))
     if not t_lo <= len(clips) <= t_hi:
         out.append(f"مجموع الإجابات {len(clips)} والمسموح من {t_lo} إلى {t_hi}")
@@ -695,7 +701,7 @@ def validate_v2(script: dict, valid: list[dict], cfg: Any) -> list[str]:
     out += _type_violations(clips, by_id, valid)
     # 9) المدة بعد القصّ
     secs = estimate_seconds(script, cfg)
-    lo, hi = float(_v2(cfg, "min_seconds", 40)), float(_v2(cfg, "max_seconds", 90))
+    lo, hi = float(_v2(cfg, "min_seconds", 40)), float(_v2(cfg, "max_seconds", 165))
     if not lo <= secs <= hi:
         out.append(f"المدة المقدَّرة {secs:.0f} ثانية خارج المجال [{lo:.0f}، {hi:.0f}]")
     return out
@@ -711,7 +717,7 @@ def write_script(topic: dict, article_text: str, valid: list[dict], narrator: st
     content = (user_message_v2(topic, article_text, valid, narrator, cfg) if v2
                else user_message(topic, article_text, valid, narrator, want, cfg))
     tool = REEL_TOOL_V2 if v2 else REEL_TOOL
-    system = _v2(cfg, "system", "") if v2 else _rcfg(cfg, "system", "")
+    system = v2_system(cfg) if v2 else _rcfg(cfg, "system", "")
     max_tokens = int(_v2(cfg, "max_tokens", 3500)) if v2 else int(_rcfg(cfg, "max_tokens", 3000))
     reason = ""
     for attempt in range(2):
@@ -871,7 +877,7 @@ def timeline_lines(script: dict, cfg: Any) -> list[str]:
         now += dur
     if v2 and script.get("trimmed"):
         out.append("  " + t.get("script_trimmed", "✂️ حُذف للالتزام بـ{max} ث: {items}").format(
-            max=int(_v2(cfg, "max_seconds", 90)), items="؛ ".join(script["trimmed"])))
+            max=int(_v2(cfg, "max_seconds", 165)), items="؛ ".join(script["trimmed"])))
     return out
 
 

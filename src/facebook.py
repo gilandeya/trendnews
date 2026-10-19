@@ -142,8 +142,13 @@ def publish_reel(video_path: Path, caption: str, api_version: str = "v21.0",
         result = {"post_id": video_id, "kind": "reel",
                   "url": f"https://www.facebook.com/reel/{video_id}"}
     except (FacebookError, requests.RequestException) as exc:
-        log.warning("تعذّر النشر كريل (%s) — سيُنشر كفيديو عادي", str(exc)[:120])
-        return publish_video(video_path, caption, api_version, first_comment)
+        # السبب يُحفظ في النتيجة (L1، Issue #1627): لا نعرف هل يرفض video_reels ما فوق 90 ث، وهذا قياس التجربة؛
+        # يُمسح التوكن لأن رسائل requests قد تحمل الرابط بمعاملاته
+        reason = " ".join(str(exc).replace(token, "***").split())[:150]
+        log.warning("تعذّر النشر كريل (%s) — سيُنشر كفيديو عادي", reason[:120])
+        fallback = publish_video(video_path, caption, api_version, first_comment)
+        fallback["reel_error"] = reason
+        return fallback
 
     if first_comment:
         try:

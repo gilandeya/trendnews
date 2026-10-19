@@ -797,6 +797,13 @@ def _reel_broll_lines(d: dict, texts: dict) -> list[str]:
     return [*out, ""]
 
 
+def _reel_long_note(seconds: float, cfg) -> str:
+    """سطر ⏱️ لريل تتجاوز مدته حدّ Reels API (L1، Issue #1627)، وفارغ دونه."""
+    rcfg = cfg.path("reel.review", {}) or {}
+    limit = int(rcfg.get("reel_api_max_seconds", 90))
+    return rcfg.get("long_note", "").format(max=limit) if seconds > limit else ""
+
+
 def _reel_item_lines(idx: int, d: dict, cfg) -> list[str]:
     """بند الريل في المرحلة 2 (Issue #1336، R1؛ السيناريو في #1338، R2). بلا سيناريو بعد (أو والمفتاح مطفأ):
     سطر «⏳» وخيار go1 وحده. سيناريو فشل: سببه وgo1 وحده. سيناريو جاهز: العنوان وجنس الراوي والمدة المقدَّرة، جدول
@@ -814,6 +821,7 @@ def _reel_item_lines(idx: int, d: dict, cfg) -> list[str]:
         narrator = texts.get(f"narrator_{script.get('narrator')}", script.get("narrator", ""))
         seconds = round(reel_script.estimate_seconds(script, cfg))
         out += [f"  {texts.get('script_meta', '').format(narrator=narrator, seconds=seconds)}",
+                *([f"  {long_note}"] if (long_note := _reel_long_note(seconds, cfg)) else []),
                 "", f"  {texts.get('timeline_header', '')}", "",
                 *reel_script.timeline_lines(script, cfg), "",
                 *_reel_hook_lines(d, texts),

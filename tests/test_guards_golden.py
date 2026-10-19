@@ -15464,16 +15464,19 @@ def test_reel_script_v2_p2a_guards() -> None:
 
     # ── g455: trim_v2 ──
     def g455():
+        # منطق القصّ يُختبر عند سقف 90 ث الذي بُنيت عليه المخطوطة؛ السقف الحقيقي صار 165 (L1، Issue #1627) ويغطيه g499
+        c90 = copy.deepcopy(cfg)
+        c90["reel"]["script"]["v2"]["max_seconds"] = 90
         data = good()
         data["questions"][0]["answers"] = [{"point_id": ids[i], "stance": f"م{i}"} for i in (0, 1, 2, 5)]
         data["questions"][1]["answers"] = [{"point_id": ids[3], "stance": "أ"}, {"point_id": ids[4], "stance": "ب"}]
         data["questions"].append({"role": "where_next", "text": "إلى أين تتجه الهدنة؟",
                                   "answers": [{"point_id": ids[6], "stance": "ج"}, {"point_id": ids[7], "stance": "د"}]})
         s = build(data)
-        hi = float(cfg.path("reel.script.v2.max_seconds"))
-        e0 = reel_script.estimate_seconds(s, cfg)
-        t, trimmed = reel_script.trim_v2(copy.deepcopy(s), cfg)
-        e1 = reel_script.estimate_seconds(t, cfg)
+        hi = float(c90.path("reel.script.v2.max_seconds"))
+        e0 = reel_script.estimate_seconds(s, c90)
+        t, trimmed = reel_script.trim_v2(copy.deepcopy(s), c90)
+        e1 = reel_script.estimate_seconds(t, c90)
         pids = [x["point_id"] for x in t["scenes"] if x["kind"] == "clip"]
         check("g455: التقدير الأصلي فوق السقف", e0 > hi + 10, e0)
         check("g455: السؤال الثالث يُحذف أولًا بإجاباته",
@@ -15483,18 +15486,18 @@ def test_reel_script_v2_p2a_guards() -> None:
         check("g455: يتوقف عند ≤ السقف", e1 <= hi, e1)
         check("g455: trimmed فيه سطران",
               len(trimmed) == 2 and t["trimmed"] == trimmed and "السؤال الثالث" in trimmed[0] and "إجابة" in trimmed[1], trimmed)
-        check("g455: السيناريو بعد القصّ يمر بلا أسباب", reel_script.validate_v2(t, valid, cfg) == [],
-              reel_script.validate_v2(t, valid, cfg))
-        check("g455: تحت السقف لا قصّ", reel_script.trim_v2(build(good()), cfg)[1] == [])
+        check("g455: السيناريو بعد القصّ يمر بلا أسباب", reel_script.validate_v2(t, valid, c90) == [],
+              reel_script.validate_v2(t, valid, c90))
+        check("g455: تحت السقف لا قصّ", reel_script.trim_v2(build(good()), c90)[1] == [])
         big = good()
         big["questions"][0]["answers"] = [{"point_id": ids[i], "stance": "س"} for i in (2, 6, 7)]
         big["questions"][1]["answers"] = [{"point_id": ids[i], "stance": "س"} for i in (8, 9, 10)]
-        tb, trb = reel_script.trim_v2(build(big), cfg)
-        r = " | ".join(reel_script.validate_v2(tb, valid, cfg))
+        tb, trb = reel_script.trim_v2(build(big), c90)
+        r = " | ".join(reel_script.validate_v2(tb, valid, c90))
         check("g455: غير القابل للقصّ ← رفض بالمدة", trb == [] and "المدة" in r, (trb, r))
-        tot = sum(reel_script.scene_durations(s, cfg))
-        check("g455: مجموع scene_duration = estimate_seconds", abs(tot - reel_script.estimate_seconds(s, cfg)) < 0.01,
-              (tot, reel_script.estimate_seconds(s, cfg)))
+        tot = sum(reel_script.scene_durations(s, c90))
+        check("g455: مجموع scene_duration = estimate_seconds", abs(tot - reel_script.estimate_seconds(s, c90)) < 0.01,
+              (tot, reel_script.estimate_seconds(s, c90)))
     guarded("g455", g455)
 
     # ── g456: write_script ──
@@ -15522,7 +15525,7 @@ def test_reel_script_v2_p2a_guards() -> None:
             check("g456: الإعادة تحمل السبب", "رُفضت المحاولة السابقة" in calls[1]["messages"][0]["content"]
                   and "أطول من 10" in calls[1]["messages"][0]["content"])
             check("g456: برومبت v2 وعدد المتحدثين المختلفين في الرسالة",
-                  calls[0]["system"] == cfg.path("reel.script.v2.system")
+                  calls[0]["system"] == reel_script.v2_system(cfg)
                   and "عدد المتحدثين المختلفين" in calls[0]["messages"][0]["content"])
             calls.clear()
             c1 = reel_v1_cfg(load_config())
@@ -16934,3 +16937,204 @@ def test_timestamps_t1a_guards() -> None:
               all("timestamp_method" in p and "anchor_text" in p for p in out["points"])
               and out["points"][2]["timestamp_method"] == "quote", out["points"][:1])
     guarded("g498", g498)
+
+
+def test_reel_long_l1_guards() -> None:
+    """Issue #1627 (L1، g499–g503): الريل الطويل — سقف السيناريو 165 ث، وبرومبت بلا رقم سقف حرفي، وحفظ سبب عودة النشر
+    من مسار الريلز إلى الفيديو العادي، وسطر ذلك في تعليق النجاح، وسطر ⏱️ في قضية المراجعة. لا شبكة (requests مزيَّفة)."""
+    import copy
+    import os
+    import tempfile
+    from pathlib import Path
+
+    from src import facebook, publish as publish_mod
+    from src import reel_review, reel_script, review, store
+    from src import youtube_publish as yp
+    from tests.helpers import tick_marker
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    # ── g499: السقف والقصّ ──
+    def g499():
+        cfg = load_config()
+        words = [5, 25, 40, 40, 40, 5, 40, 40, 40, 40, 40]
+        people = ["ليلى حداد", "سامر النجار", "رامي خوري", "هدى منصور", "كريم السعدي", "نادين عيسى", "طارق الحلبي",
+                  "سلمى ياسين", "ماهر قاسم", "دانا فارس", "يوسف عمران"]
+        pts = [{"video_id": f"v{i}", "bloc": "arabic", "channel": f"قناة {i}", "speaker": people[i],
+                "statement": f"قول {i}", "quote_arabic": f"اقتباس عربي {i}",
+                "quote_original": " ".join(f"w{i}x{k}" for k in range(n)), "type": "opinion", "video_title": f"فيديو {i}",
+                "video_url": f"https://youtube.com/watch?v=v{i}", "timestamp": 100 + i * 10, "video_published": "2099-10-30"}
+               for i, n in enumerate(words)]
+        valid = reel_script.valid_clips(pts, [], cfg)
+        ids = [c["point_id"] for c in valid]
+        data = {"main_question": "هل تصمد الهدنة بين الطرفين؟",
+                "context": ["أعلن الطرفان هدنة في 3 أكتوبر.", "ويختلف المحللون في تقدير مدتها."],
+                "questions": [
+                    {"role": "core", "text": "ما جوهر الخلاف حول الهدنة؟",
+                     "answers": [{"point_id": ids[i], "stance": f"م{i}"} for i in (0, 1, 2, 3)]},
+                    {"role": "why_now", "text": "لماذا الآن؟",
+                     "answers": [{"point_id": ids[i], "stance": f"م{i}"} for i in (4, 5, 6)]},
+                    {"role": "where_next", "text": "إلى أين تتجه الهدنة؟",
+                     "answers": [{"point_id": ids[i], "stance": f"م{i}"} for i in (7, 8)]}],
+                "closing_question": "ما الذي ينبغي أن يحدث بعد ذلك؟"}
+        s = reel_script._build_v2(data, valid, "female", {"event": "حدث"}, cfg)
+
+        def at(total):
+            c = copy.deepcopy(cfg)
+            base = reel_script.estimate_seconds(s, c) - float(c.path("reel.script.v2.fixed_seconds"))
+            c["reel"]["script"]["v2"]["fixed_seconds"] = total - base
+            return c
+
+        check("g499: السقف 165 وإجابات [2، 12]",
+              float(cfg.path("reel.script.v2.max_seconds")) == 165 and list(cfg.path("reel.script.v2.total_answers")) == [2, 12],
+              (cfg.path("reel.script.v2.max_seconds"), cfg.path("reel.script.v2.total_answers")))
+        c140 = at(140)
+        t, trimmed = reel_script.trim_v2(copy.deepcopy(s), c140)
+        r = " | ".join(reel_script.validate_v2(t, valid, c140))
+        check("g499: 140 ث ← لا قصّ", trimmed == [] and any(x.get("q") == 2 for x in t["scenes"]), trimmed)
+        check("g499: 140 ث ← لا سبب مدة", "المدة" not in r, r)
+        c175 = at(175)
+        t2, trimmed2 = reel_script.trim_v2(copy.deepcopy(s), c175)
+        check("g499: 175 ث ← يقصّ السؤال الثالث أولًا",
+              bool(trimmed2) and "السؤال الثالث" in trimmed2[0] and not any(x.get("q") == 2 for x in t2["scenes"]), trimmed2)
+    guarded("g499", g499)
+
+    # ── g500: البرومبت ──
+    def g500():
+        cfg = load_config()
+        system = reel_script.v2_system(cfg)
+        check("g500: لا «90 ثانية» ويحوي 165", "90 ثانية" not in system and "165" in system, system[:200])
+        check("g500: القالب في الإعداد يحمل العنصر النائب ولا يبقى في المملوء",
+              "{max_seconds}" not in system and "{max_seconds}" in cfg.path("reel.script.v2.system"))
+        check("g500: قاعدة عدم الحشو", "لتملأ الوقت" in system and "متحدثَين مختلفين" in system)
+    guarded("g500", g500)
+
+    # ── g501: العودة إلى الفيديو العادي ──
+    def g501():
+        tmp = Path(tempfile.mkdtemp())
+        video = tmp / "r.mp4"
+        video.write_bytes(b"mp4")
+        token = "TOK-SECRET-123"
+        saved_env = {k: os.environ.get(k) for k in ("FB_PAGE_ID", "FB_PAGE_ACCESS_TOKEN")}
+        os.environ["FB_PAGE_ID"], os.environ["FB_PAGE_ACCESS_TOKEN"] = "PG", token
+        saved_post = facebook.requests.post
+
+        class Resp:
+            def __init__(self, data, status=200):
+                self._d, self.status_code, self.text = data, status, str(data)
+
+            def json(self):
+                return self._d
+
+        state = {"finish_error": True}
+
+        def fake_post(url, **kw):
+            if url.endswith("/video_reels") and (kw.get("data") or {}).get("upload_phase") == "start":
+                return Resp({"video_id": "V1", "upload_url": "https://up.example/x"})
+            if url.startswith("https://up.example"):
+                return Resp({})
+            if url.endswith("/video_reels"):
+                if state["finish_error"]:
+                    return Resp({"error": {"code": 100, "error_subcode": 1,
+                                           "message": f"Video duration exceeds the maximum (access_token={token})"}}, 400)
+                return Resp({"success": True})
+            if url.endswith("/videos"):
+                return Resp({"id": "88"})
+            return Resp({"id": "c1"})
+        facebook.requests.post = fake_post
+        try:
+            res = facebook.publish_reel(video, "وصف")
+            check("g501: رفض مسار الريلز ← kind == video", res.get("kind") == "video", res)
+            err = res.get("reel_error", "")
+            check("g501: reel_error يحوي duration ولا يحوي التوكن ≤150",
+                  "duration" in err and token not in err and len(err) <= 150, err)
+            state["finish_error"] = False
+            ok = facebook.publish_reel(video, "وصف")
+            check("g501: ريل ناجح ← kind == reel بلا reel_error", ok.get("kind") == "reel" and "reel_error" not in ok, ok)
+        finally:
+            facebook.requests.post = saved_post
+            for k, v in saved_env.items():
+                if v is None:
+                    os.environ.pop(k, None)
+                else:
+                    os.environ[k] = v
+    guarded("g501", g501)
+
+    # ── g502 وg503: التعليق والمراجعة ──
+    cfg = load_config()
+    cfg.setdefault("reel", {})["enabled"] = True
+    tmp = Path(tempfile.mkdtemp())
+    data_root = tmp / "youtube-data"
+    saved_reels = os.environ.get("TRENDNEWS_REELS_DIR")
+    os.environ["TRENDNEWS_REELS_DIR"] = str(data_root / "reels")
+
+    def reel_draft(did, issue, seconds):
+        p = data_root / "reels" / "2099-12-08" / f"{did}.mp4"
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_bytes(b"mp4")
+        return {"id": did, "origin": "analysis", "format": "reel", "status": "approved_script", "render_status": "rendered",
+                "topic_id": "t1", "topic_date": "2099-12-08", "title": "ريل", "script_status": "ready",
+                "script": {"narrator": "female", "title": "عنوان", "question": "هل؟", "scenes": [
+                    {"kind": "clip", "point_id": "p", "video_url": "https://youtube.com/watch?v=v1", "start": 1, "end": 9,
+                     "channel_display": "الجزيرة"}, {"kind": "outro"}]},
+                "duration_seconds": float(seconds), "reel_file": f"reels/2099-12-08/{did}.mp4",
+                "reel_gif": f"reels/2099-12-08/{did}.gif", "headlines": ["العنوان الأول؟", "ب", "ج"],
+                "render_sources": "الجزيرة", "review_issue": issue, "reel_review_issue": issue}
+
+    def run_review(d, issue, fake_result):
+        msgs: list[str] = []
+        s = (facebook.publish_reel, review.comment, review.close_issue)
+        facebook.publish_reel = lambda *a, **k: dict(fake_result)
+        review.comment = lambda n, t: msgs.append(t)
+        review.close_issue = lambda n: None
+        try:
+            body = tick_marker(tick_marker(reel_review.build_body(d, cfg), f"go:publish:{d['id']}"), f"hl:{d['id']}:0")
+            publish_mod.cmd_reel_review(issue, body, cfg)
+        finally:
+            facebook.publish_reel, review.comment, review.close_issue = s
+        return "\n".join(msgs), store.load_draft(d["id"])[1]
+
+    def g502():
+        d = reel_draft("a1627000502a", 951, 140)
+        store.save_draft(d)
+        fallback = {"post_id": "9", "kind": "video", "url": "https://www.facebook.com/9", "reel_error": "Video duration exceeds"}
+        text, got = run_review(d, 951, fallback)
+        check("g502: facebook وreel_seconds محفوظان",
+              got.get("facebook", {}).get("reel_error") == "Video duration exceeds" and got.get("reel_seconds") == 140, got)
+        check("g502: سطر 📼 بالمدة والسبب", "📼" in text and "140" in text and "Video duration exceeds" in text, text)
+        d2 = reel_draft("a1627000502b", 952, 120)
+        store.save_draft(d2)
+        text2, _ = run_review(d2, 952, {"post_id": "7", "kind": "reel", "url": "https://www.facebook.com/reel/7"})
+        check("g502: ريل ناجح 120 ث ← سطر ✅ بلا 📼", "✅ قبل فيسبوك ريلًا من 120" in text2 and "📼" not in text2, text2)
+        d3 = reel_draft("a1627000502c", 953, 60)
+        store.save_draft(d3)
+        text3, _ = run_review(d3, 953, {"post_id": "6", "kind": "reel", "url": "https://www.facebook.com/reel/6"})
+        check("g502: ريل ناجح 60 ث ← لا سطر قياس", "قبل فيسبوك" not in text3 and "📼" not in text3, text3)
+    guarded("g502", g502)
+
+    def g503():
+        note = cfg.path("reel.review.long_note").format(max=int(cfg.path("reel.review.reel_api_max_seconds")))
+        long_body = reel_review.build_body(reel_draft("a1627000503a", 961, 120), cfg)
+        short_body = reel_review.build_body(reel_draft("a1627000503b", 962, 80), cfg)
+        check("g503: ريل 120 ث فيه سطر ⏱️ أطول من 90", "⏱️ أطول من 90" in long_body and note in long_body, long_body[:400])
+        check("g503: ريل 80 ث بلا السطر", note not in short_body, short_body[:400])
+        d = reel_draft("a1627000503c", 963, 100)
+        d["status"] = "pending"
+        d["script"] = {"narrator": "female", "title": "عنوان", "question": "هل؟", "scenes": [
+            {"kind": "narration", "text": " ".join(f"كلمة{i}" for i in range(250))}, {"kind": "outro"}]}
+        est = reel_script.estimate_seconds(d["script"], cfg)
+        lines = "\n".join(yp._reel_item_lines(1, d, cfg))
+        check("g503: المرحلة 2 تعرض السطر حين المقدَّر > 90", est > 90 and note in lines, (est, lines[:300]))
+        d["script"]["scenes"][0]["text"] = "كلمة قصيرة."
+        check("g503: المرحلة 2 بلا السطر حين المقدَّر ≤ 90",
+              note not in "\n".join(yp._reel_item_lines(1, d, cfg)))
+    guarded("g503", g503)
+
+    if saved_reels is None:
+        os.environ.pop("TRENDNEWS_REELS_DIR", None)
+    else:
+        os.environ["TRENDNEWS_REELS_DIR"] = saved_reels
