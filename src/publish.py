@@ -295,10 +295,27 @@ def publish_reel_draft(path, draft: dict, cfg) -> tuple[bool, str]:
                                     first_comment=reel_first_comment(draft, cfg))
     except facebook.FacebookError as exc:
         return fail(str(exc))
+    seconds = round(float(draft.get("duration_seconds") or 0))
     store.update_draft(path, remove=["error", "failed_stage", "failed_at"], status="published",
-                       published_at=datetime.now(timezone.utc).isoformat(), facebook=res)
+                       published_at=datetime.now(timezone.utc).isoformat(), facebook=res, reel_seconds=seconds)
     decisions.record_published(draft)
     return True, res.get("url") or ""
+
+
+def reel_path_line(draft_id: str, cfg) -> str:
+    """سطر مسار النشر الفعلي لتعليق النجاح (L1، Issue #1627): فيديو عادي بسبب رفض الريلز، أو ريل قبله فيسبوك رغم تجاوزه 90 ث.
+    فارغ لريل عادي قصير. يقرأ ما حُفظ على المسودة فلا يعتمد على نسخة قديمة منها."""
+    found = store.load_draft(draft_id)
+    if not found:
+        return ""
+    d = found[1]
+    texts = cfg.path("reel.review", {}) or {}
+    fb, seconds = d.get("facebook") or {}, d.get("reel_seconds") or 0
+    if fb.get("kind") == "video":
+        return texts.get("published_as_video", "").format(seconds=seconds, reason=fb.get("reel_error") or "—")
+    if fb.get("kind") == "reel" and seconds > int(texts.get("reel_api_max_seconds", 90)):
+        return texts.get("published_long_reel", "").format(seconds=seconds)
+    return ""
 
 
 def report(lines: list[str], published: int, total: int,
@@ -1642,6 +1659,8 @@ def cmd_reel_review(issue_number: int, body: str, cfg) -> int:
             lines.append(texts.get("approved", "").format(title=title))
             ok, info = publish_reel_draft(path, d, cfg)
             lines.append(texts.get("published" if ok else "publish_failed", "").format(title=title, url=info, reason=info))
+            if ok and (path_line := reel_path_line(did, cfg)):
+                lines.append(path_line)
         elif retry:
             continue
         else:
