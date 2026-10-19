@@ -2107,3 +2107,16 @@ instead.
 - **`write_script`** مع v2: `reel.script.v2.system` و`user_message_v2` (مع عدد المتحدثين المختلفين) ثم `trim_v2` ثم `validate_v2` وإعادة واحدة بالسبب. خطة اللقطات تشمل جمل بطاقات الأسئلة عمدًا.
 - **المرحلة 2:** سطور `reel.texts.scene_main_question/scene_context/scene_qcard/scene_stance/scene_closing` و`qroles` و`script_trimmed`؛ الستانس يظهر للمراجع فقط. تعديل `title_card` يغيّر `script.title` و`question` يغيّر `script.question`.
 - **الاختبارات:** g453–g460 في `tests/test_guards_golden.py:test_reel_script_v2_p2a_guards`؛ الاختبارات القديمة التي تزيّف مخرج v1 تعمل بـ`tests.helpers.reel_v1_cfg(cfg)` (يضبط `v2.enabled: false`).
+
+## بطاقة السؤال في الريل (Issue #1613، P2b) — `src/reel_render.py`
+
+مشهد الراوي ذو `role == "question"` في سيناريو v2 يُرسم بطاقةً بأدوات P1a/P1a-2؛ مشهد السياق (`role == "context"`) وكل مشاهد v1 بلا تغيير حرفًا (g466). الشعار يبقى في الزاوية فلا تغيير في `_final_pass`. محرك التقسيم مهمة P2c.
+
+- **المسار:** في `_assemble` مشهد `kind == "narration"` و`role == "question"` يمر بـ`_qcard_scene` بدل `_narration_frames`/`frame_narration`.
+- **النص:** السؤال وحده (لا عنوان ولا رقم) ينزل كلمة كلمة بـ`word_drop_frames(..., size_key="question")` عند `reel.render.qcard.text_top` (760). الأزمنة `narration_word_times(parts, lead, cfg)` (صوت الراوي يتأخر بـlead)، وإن خالف عدد الكلمات المنطوقة كلمات النص يُوزَّع النص على مدة الكلام كلها كما في `_hook_scene`. الإطار الأخير يبقى حتى نهاية المشهد.
+- **المدة وتقدّم `nar_t`:** `scene_seconds(الكلام، qcard.tail، lead)` و`qcard.tail` = 0.6 يستقر فيه السؤال قبل الإجابات. يتقدم `nar_t` (زمن الحركة التراكمي لمشاهد الراوي) بمدة البطاقة كما يتقدم بمدة الراوي، ويدخل `qcard.tail` في `total_nar` الذي تُحسب منه `pan_plan` كي لا تتجمد الحركة قبل نهاية الراوي.
+- **ترتيب الطبقات (أمر ffmpeg واحد):** الصورة المتحركة (`nar_bg`/`nar_plan`/`bg_start=nar_t`، متصلة بما قبلها وبعدها) ← لقطات الحدث المسندة لجملة السؤال (`scene_broll`، كما في `_timed_scene`) ← الضباب الكحلي ← إطارات الكلمات. الضباب يحل محل `_shade_filter(cfg, "narration_bg")` في البطاقة وحدها؛ مشاهد الراوي الأخرى تبقى مظلَّلة.
+- **الضباب و`fog_from`:** `fog_layer` نفسها بسلسلة P1a (`alphaextract` ← تصغير ÷8 ← `geq` ← تكبير ← `alphamerge`). مضروب الشفافية `qcard_fog_alpha(t, cfg, lead) = fog_from + (1 − fog_from) × min(max((t − lead)/fog_in, 0), 1)` و`_qcard_fog_expr` بالمعادلة نفسها حرفًا بحرف بلا if/lt. `qcard.fog_from` (0.6) يمنع إطارًا عاريًا ساطعًا بين السياق المظلَّل (0.60) والبطاقة: بدونه يظهر أول إطار صورة بلا تظليل ثم تُظلِم خلال `fog_in` فيبدو مع انتقال slideleft ومضة بيضاء.
+- **بلا خلفية (`bg is None`):** الكحلي الثابت (`color=` من `brand.primary_color`) والكلمات فوقه بلا ضباب ولا `alphamerge` (g465).
+- **الإعداد:** `reel.render.qcard: {text_top: 760, tail: 0.6, fog_in: 0.4, fog_from: 0.6}`. `render_version` = 31.
+- **الاختبارات:** g461–g467 في `tests/test_guards_golden.py:test_reel_qcard_p2b_guards` (g467 بـffmpeg حقيقي ويُتخطّى إن غاب: عند t=0.05 بلا بيض ومتوسط الأحمر < 235، وعند lead + fog_in + 1.5 أقرب إلى الكحلي وفيه بيض ومتوسط الأحمر أقل).
