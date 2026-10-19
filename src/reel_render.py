@@ -2517,6 +2517,17 @@ def _closing_fog_expr(cfg, plan: dict, var: str = "t") -> str:
             f"*(1-(1-{_fmt(fs)})*min(max(({var}-{_fmt(plan['info_out'])})/{_fmt(plan['total'] - plan['info_out'])},0),1)))")
 
 
+def qcard_fog_alpha(t: float, cfg, lead: float) -> float:
+    """مضروب شفافية ضباب بطاقة السؤال (P2b، Issue #1613): 0 حتى lead (صوت الراوي يتأخر به فلا ضباب قبل الكلام)، ثم 0←1 خطيًا
+    خلال qcard.fog_in، ثم 1 حتى نهاية المشهد."""
+    return min(max((t - lead) / float(cfg.path("reel.render.qcard.fog_in")), 0.0), 1.0)
+
+
+def _qcard_fog_expr(cfg, lead: float, var: str = "t") -> str:
+    """تعبير ffmpeg لدالة qcard_fog_alpha نفسها بالمعادلة حرفًا بحرف، بلا if/lt؛ var="T" لمرشح geq."""
+    return f"min(max(({var}-{_fmt(lead)})/{_fmt(float(cfg.path('reel.render.qcard.fog_in')))},0),1)"
+
+
 def _shade_filter(cfg, key: str = "hook") -> str:
     r, g, b = imaging.hex_rgb(cfg.path("brand.primary_color"))
     return f"drawbox=x=0:y=0:w=iw:h=ih:color=0x{r:02X}{g:02X}{b:02X}@{_fmt(float(cfg.path(f'reel.render.{key}.shade')))}:t=fill"
@@ -2700,6 +2711,57 @@ def _closing_scene(i: int, scene: dict, channels: str, credit: str, hook_info: d
     return total
 
 
+def _qcard_scene(i: int, scene: dict, audio: Path, parts: list, out: Path, cfg, deps: Deps, tmp: Path, lead: float,
+                 nar_bg: Path | None = None, nar_plan: dict | None = None, bg_start: float = 0.0,
+                 broll: list | None = None) -> float:
+    """بطاقة السؤال (Issue #1613، P2b): مشهد الراوي ذو role=question. كلمات السؤال تنزل كلمة كلمة بتزامن صوت الراوي (يتأخر بـlead)
+    عند qcard.text_top فوق خلفية الراوي نفسها: الصورة المتحركة من حيث انتهى ما قبلها (bg_start) ثم لقطات الحدث ثم الضباب الكحلي
+    بدل التظليل، في أمر ffmpeg واحد. بلا خلفية: الكحلي الثابت والنص فوقه بلا ضباب. المدة = الكلام + qcard.tail + lead؛ آخر إطار
+    يبقى حتى نهاية المشهد كي يستقر السؤال لحظة قبل الإجابات."""
+    rcfg, qc = cfg.path("reel.render"), cfg.path("reel.render.qcard")
+    w, h, fps = int(rcfg["width"]), int(rcfg["height"]), rcfg["fps"]
+    text = scene.get("text", "")
+    speech = sum(d for _, d in parts)
+    seconds = scene_seconds(speech, float(qc["tail"]), lead)
+    times = narration_word_times(parts, lead, cfg)
+    if len(times) != len(text.split()):
+        # التشكيل قد يغيّر عدد الكلمات: يوزَّع الزمن على كلمات السؤال المعروض بالحروف على مدة الكلام كله
+        times = narration_word_times([(text, speech)], lead, cfg)
+    frames = word_drop_frames(cfg, text, times, seconds, int(qc["text_top"]), tmp, f"qc{i}", size_key="question")
+    lst = tmp / f"qcard_{i}_words.txt"
+    lst.write_text("".join(f"file '{f}'\nduration {_fmt(d)}\n" for f, d in frames) + f"file '{frames[-1][0]}'\n", encoding="utf-8")
+    afilter = f"adelay={int(round(lead * 1000))}:all=1,apad" if lead > 0 else "apad"
+    if nar_bg is None or nar_plan is None:
+        r, g, bl = imaging.hex_rgb(cfg.path("brand.primary_color"))
+        vg = f"[0:v]fps={fps}[b];[1:v]fps={fps},format=rgba[t];[b][t]overlay=0:0:shortest=1,format=yuv420p[v];[2:a]{afilter}[a]"
+        deps.run(_base("-f", "lavfi", "-i", f"color=c=0x{r:02X}{g:02X}{bl:02X}:s={w}x{h}:r={fps}",
+                       "-f", "concat", "-safe", "0", "-i", str(lst), "-i", str(audio), "-filter_complex", vg,
+                       "-map", "[v]", "-map", "[a]", "-t", _fmt(seconds), *_enc(rcfg), str(out)))
+        return seconds
+    pan = _pan_x_expr(nar_plan["x0"], nar_plan["speed"], bg_start)
+    vg = f"{_still_bg_prefix(fps)}crop={w}:{h}:x='{pan}':y='(ih-oh)/2'"
+    extra: list[str] = []
+    cur = "[p0]"
+    vg += "[p0];"
+    for j, bl in enumerate(broll or []):
+        extra += ["-i", str(bl["clip"])]
+        a, b = _fmt(bl["a"]), _fmt(bl["b"])
+        vg += (f"[{3 + j}:v]{bl['cexpr']},scale={w}:{h},fps={fps},setpts=PTS-STARTPTS+{a}/TB[c{j}];"
+               f"{cur}[c{j}]overlay=0:0:enable='between(t,{a},{b})'[p{j + 1}];")
+        cur = f"[p{j + 1}]"
+    fog_i = 3 + len(broll or [])
+    # الضباب: سلسلة P1a نفسها (ألفا الطبقة تُستخرج وتُصغَّر ÷8 ثم geq بالزمن T ثم تُكبَّر وتُدمج ثانيةً بالألوان)
+    vg += (f"[{fog_i}:v]format=rgba,split[fa][fb];[fa]alphaextract,scale={w // 8}:{h // 8},format=gray,"
+           f"geq=lum='lum(X,Y)*{_qcard_fog_expr(cfg, lead, var='T')}',scale={w}:{h},format=gray[fm];[fb][fm]alphamerge[fog];"
+           f"{cur}fps={fps}[bb];[bb][fog]overlay=0:0:shortest=1[bf];"
+           f"[1:v]fps={fps},format=rgba[t];[bf][t]overlay=0:0:shortest=1,format=yuv420p[v];[2:a]{afilter}[a]")
+    fog_png = _save(fog_layer(cfg), tmp / f"qcard_fog_{i}.png")
+    deps.run(_base("-i", str(nar_bg), "-f", "concat", "-safe", "0", "-i", str(lst), "-i", str(audio), *extra,
+                   "-loop", "1", "-framerate", str(fps), "-i", str(fog_png), "-filter_complex", vg,
+                   "-map", "[v]", "-map", "[a]", "-t", _fmt(seconds), *_enc(rcfg), str(out)))
+    return seconds
+
+
 def _transition_kind(cfg, kind: str) -> str:
     """نوع الانتقال إلى مشهد من هذا النوع: fade (transition.outro_type) للختام بصيغتيه outro وclosing، وغيره transition.type."""
     tcfg = cfg.path("reel.render.transition")
@@ -2846,7 +2908,11 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
         # فلا يُوَلَّد صوت جملة مرتين. الانتقال يأكل lead من كل مشهد بعد الأول (Issue #1447، متابعة R5d1)
         for i in nar_idx:
             speech_cache[i] = _speech(script["scenes"][i].get("text", ""), voice, cfg, deps, tmp, f"s{i:02d}")
-        total_nar = sum(scene_seconds(sum(d for _, d in speech_cache[i][1]), 0.0, lead) for i in nar_idx) - lead * (len(nar_idx) - 1)
+        # بطاقة السؤال تزيد qcard.tail على مدة مشهدها فتدخل في المدة الكلية كي لا تتجمد الحركة قبل نهاية الراوي (P2b)
+        qtail = float(cfg.path("reel.render.qcard.tail"))
+        total_nar = sum(scene_seconds(sum(d for _, d in speech_cache[i][1]),
+                                      qtail if script["scenes"][i].get("role") == "question" else 0.0, lead)
+                        for i in nar_idx) - lead * (len(nar_idx) - 1)
         wide, wcx = _wide_of(bg)
         nar_plan = pan_plan(cfg, "narration_bg", wide.size[0], wide.size[1], total_nar, wcx)
         nar_bg = _pan_background(wide, nar_plan, tmp, "nar_bg.png")
@@ -2901,6 +2967,17 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
             dur = _still_scene(png, float(rcfg["outro_seconds"]), out, cfg, deps)
         elif kind in ("narration", "question"):
             audio, parts = speech_cache.get(i) or _speech(scene.get("text", ""), voice, cfg, deps, tmp, f"s{i:02d}")
+            if kind == "narration" and scene.get("role") == "question":
+                # بطاقة سؤال سيناريو v2 (Issue #1613، P2b): تحتل مكان مشهد الراوي في تيار الخلفية وتقدّم nar_t بمدتها
+                on_bg = bg is not None and nar_plan is not None
+                dur = _qcard_scene(i, scene, audio, parts, out, cfg, deps, tmp, lead, nar_bg if on_bg else None, nar_plan, nar_t,
+                                   scene_broll.get(i))
+                if on_bg:
+                    nar_t += dur - lead
+                scene_files.append(out)
+                kinds.append(kind)
+                durs.append(dur)
+                continue
             if kind == "narration":
                 frames = _narration_frames(parts, i, cfg, tmp, lead, bg)
                 tail = 0.0
