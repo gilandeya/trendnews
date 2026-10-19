@@ -16784,3 +16784,148 @@ def test_reel_r6_guards() -> None:
         check("g491: reason يحوي RuntimeError: 429", len(approx) == 1 and "RuntimeError: 429" in approx[0]["reason"], approx)
         check("g491: reason يبدأ بالنص الثابت", approx and approx[0]["reason"].startswith("تعذّر جلب نص الفيديو"), approx)
     guarded("g491", g491)
+
+
+def test_timestamps_t1a_guards() -> None:
+    """Issue #1624 (T1a، g492–g498): تغطية الطوابع الزمنية — طبقات الحل (exact · joined · quote · prefix3 · fuzzy_anchor · fuzzy_quote)،
+    تطبيع موسَّع للبحث وحده، ولا طابع خاطئ بصمت (الغموض ← None)، وحفظ الطريقة والإحصاء. مقاطع مصنوعة، بلا شبكة."""
+    from types import SimpleNamespace
+
+    from src import reel_clips, youtube_extract as ye
+
+    cfg = load_config()
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def res(anchor, segs, quote=""):
+        return ye.resolve_timestamp(anchor, segs, quote, cfg)
+
+    filler = [(100 + i * 4, f"حشو رقم {i} بلا صلة بأي شيء آخر هنا") for i in range(30)]
+
+    # ── g492: المرساة تعبر حد مقطعين ──
+    def g492():
+        segs = [(10, "we have to say that"), (14, "the ceasefire is fragile now"), (19, "and nobody knows")]
+        check("g492: مرساة تعبر مقطعين ← joined عند 10", res("say that the ceasefire is", segs) == (10, "joined"),
+              res("say that the ceasefire is", segs))
+    guarded("g492", g492)
+
+    # ── g493: أول 3 كلمات تتكرر في موضعين ← لا طابع ──
+    def g493():
+        segs = [(10, "في هذا السياق تحدث رئيس الحكومة"), (80, "في هذا السياق أعلنت الوزارة")]
+        check("g493: prefix3 غامض ← None", res("في هذا السياق قال الوزير", segs) == (None, "none"),
+              res("في هذا السياق قال الوزير", segs))
+        one = [(10, "في هذا السياق تحدث رئيس الحكومة"), (80, "كلام آخر تمامًا")]
+        check("g493: prefix3 فريد ← يُعتمد", res("في هذا السياق قال الوزير", one) == (10, "prefix3"),
+              res("في هذا السياق قال الوزير", one))
+    guarded("g493", g493)
+
+    # ── g494: التطبيع الموسَّع ──
+    def g494():
+        check("g494: تركي İSTANBUL'da",
+              res("istanbul'da büyük bir toplantı", [(5, "İSTANBUL'da büyük bir toplantı yapıldı")])[0] == 5, None)
+        check("g494: عربي همزات وتاء مربوطة",
+              res("ان الازمه الاقتصاديه تتفاقم", [(7, "إن الأزمة الاقتصادية تتفاقم")])[0] == 7, None)
+        check("g494: أرقام هندية مقابل لاتينية",
+              res("في عام 2026 سيحدث", [(9, "في عام ٢٠٢٦ سيحدث تغيير كبير")])[0] == 9, None)
+        check("g494: حركات عبرية",
+              res("שלום עולם גדול", [(3, "שָׁלוֹם עוֹלָם גָּדוֹל")])[0] == 3, None)
+    guarded("g494", g494)
+
+    # ── g495: fuzzy_quote ──
+    def g495():
+        segs = [(20, "alpha beta gamma"), (24, "delta epsilon zeta eta"), (28, "XX iota kappa lambda"), (32, "mu nu xi")]
+        quote = "delta epsilon zeta eta theta iota kappa lambda mu nu"
+        # كلمة واحدة من 10 تخالف («theta» غائبة من النص) والتطابق يبدأ في منتصف مقطع
+        got = res("لا توجد هذه المرساة", segs, quote)
+        check("g495: fuzzy_quote ببداية مقطع أول كلمة متطابقة", got == (24, "fuzzy_quote"), got)
+        got = res("delta epsilon zeta eta thetaa iota", segs)
+        check("g495: fuzzy_anchor للمرساة", got[1] == "fuzzy_anchor" and got[0] == 24, got)
+    guarded("g495", g495)
+
+    # ── g496: لا إيجابيات كاذبة ──
+    def g496():
+        tr = [(10, "bu konuda büyük bir adım attık"), (14, "ekonomi hızla büyüyor")] + filler
+        got = res("لا شيء", tr, "نحن في هذا الموضوع خطونا خطوة كبيرة")
+        check("g496: اقتباس مترجَم ← None", got == (None, "none"), got)
+        segs = [(10, "one two three four five six")] + filler
+        got = res("لا شيء", segs, "red blue four five six green yellow orange")
+        check("g496: 3 كلمات مشتركة فقط ← None", got == (None, "none"), got)
+        two = [(10, "alpha XX gamma delta epsilon zeta eta theta")] + filler + [(400, "alpha YY gamma delta epsilon zeta eta theta")]
+        got = res("لا شيء", two, "alpha beta gamma delta epsilon zeta eta theta")
+        check("g496: موضعان بالدرجة نفسها ← None", got == (None, "none"), got)
+    guarded("g496", g496)
+
+    # ── g497: exact بلا تغيير، وlocate_quote بلا near ──
+    def g497():
+        segs = [(0, "مرحبًا بكم في النشرة"), (12, "قال الوزير، إننا نطلق خطة اقتصادية جديدة اليوم")]
+        check("g497: exact", res("قال الوزير إننا نطلق", segs) == (12, "exact"), res("قال الوزير إننا نطلق", segs))
+        check("g497: قيمة غير نصية ← (None, none)", res(None, segs) == (None, "none"), None)
+        two8 = [(10, "alpha beta gamma delta epsilon zeta eta theta"), (50, "alpha beta gamma delta epsilon zeta eta theta")]
+        q = "alpha beta gamma delta epsilon zeta eta theta changed"
+        check("g497: near=None و8 كلمات في موضعين ← ambiguous",
+              reel_clips.locate_quote(q, two8, None, cfg)["status"] == "ambiguous", None)
+        check("g497: near موجود ← found كما كان", reel_clips.locate_quote(q, two8, 50, cfg)["status"] == "found", None)
+        joined, starts = ye.joined_index([(1, "a b"), (2, "c")])
+        check("g497: joined_index", joined == "a b c" and starts == [0, 4], (joined, starts))
+    guarded("g497", g497)
+
+    # ── g498: الحفظ والإحصاء ──
+    def g498():
+        text = ("[00:10] we have to say that\n[00:14] the ceasefire is fragile now\n[00:19] and nobody knows\n"
+                + "\n".join(f"[01:{i:02d}] filler {i} nothing relevant here" for i in range(10, 30)))
+        base = {"statement": "أعلن المسؤول عن خطة اقتصادية جديدة", "speaker": "وزير المالية", "quote_arabic": "نطلق خطة جديدة",
+                "quote_original": "zzz yyy xxx www", "type": "fact", "topic_hint": "اقتصاد وزراء"}
+        raws = [dict(base, anchor_text="we have to say"),
+                dict(base, anchor_text="say that the ceasefire is"),
+                dict(base, anchor_text="غير موجودة هنا", quote_original="and nobody knows"),
+                dict(base, anchor_text="ceasefire is fragile banana split"),
+                dict(base, anchor_text="كلام بلا أثر في النص")]
+
+        class _Block:
+            type = "tool_use"
+
+            def __init__(self, inp):
+                self.input = inp
+
+        class _Resp:
+            def __init__(self, inp):
+                self.content = [_Block(inp)]
+                self.stop_reason = None
+                self.usage = None
+
+        class _Client:
+            def __init__(self):
+                self.messages = SimpleNamespace(create=lambda **kw: _Resp({"points": raws}))
+
+        valid, rejected, error, _ = ye.extract_points("فيديو", text, "ar", 600, cfg, _Client())
+        got = [(p["timestamp"], p["timestamp_method"]) for p in valid]
+        check("g498: extract_points يسجّل الطريقة على كل نقطة",
+              got == [(10, "exact"), (10, "joined"), (19, "quote"), (14, "prefix3"), (None, "none")], (got, rejected, error))
+        check("g498: anchor_text باقٍ على النقطة", bool(valid) and valid[0]["anchor_text"] == "we have to say", valid[:1])
+
+        video = SimpleNamespace(video_id="v1", channel="ch", bloc="b", video_title="t", video_url="u",
+                                published_at="2026-10-01T00:00:00Z", duration_seconds=600, description="")
+        saved = (ye.youtube_collect.run, ye.fetch_transcript, ye.classify_topic, ye.get_proxy_config)
+        try:
+            ye.youtube_collect.run = lambda *a, **k: {"videos": [video], "failed": [], "stats": {
+                "channels_checked": 1, "videos_found": 1, "passed_guards": 1}}
+            ye.fetch_transcript = lambda *a, **k: (text, "ar", False)
+            ye.classify_topic = lambda *a, **k: ("political_analysis", None)
+            ye.get_proxy_config = lambda: None
+            out = ye.run(cfg, anthropic_client=_Client())
+        finally:
+            ye.youtube_collect.run, ye.fetch_transcript, ye.classify_topic, ye.get_proxy_config = saved
+        st = out["stats"]
+        check("g498: points_timestamp_methods",
+              st.get("points_timestamp_methods") == {"exact": 1, "joined": 1, "quote": 1, "prefix3": 1, "none": 1},
+              st.get("points_timestamp_methods"))
+        check("g498: resolved/unresolved كما كانا",
+              st["points_timestamp_resolved"] == 4 and st["points_timestamp_unresolved"] == 1, st)
+        check("g498: النقاط المحفوظة تحمل timestamp_method وanchor_text",
+              all("timestamp_method" in p and "anchor_text" in p for p in out["points"])
+              and out["points"][2]["timestamp_method"] == "quote", out["points"][:1])
+    guarded("g498", g498)
