@@ -801,9 +801,9 @@ def scene_duration(scene: dict, cfg: Any, version: int = 1) -> float:
         # مجموعها = estimate_seconds: العنوان = الافتتاح النظيف + قراءته، والختام = ما بقي من fixed_seconds (Issue #1608)
         strong = float(cfg.path("reel.render.hook.strong_seconds", 3))
         if kind == "title_card":
-            return strong + _words(scene.get("text", "")) / wps
+            return strong + spoken_count(scene.get("text", ""), cfg) / wps
         if kind in ("narration", "question"):
-            return _words(scene.get("text", "")) / wps
+            return spoken_count(scene.get("text", ""), cfg) / wps
         return max(0.0, float(_v2(cfg, "fixed_seconds", 9)) - strong)
     if kind in ("narration", "question"):
         return _words(scene.get("text", "")) / wps
