@@ -15522,7 +15522,7 @@ def test_reel_script_v2_p2a_guards() -> None:
             check("g456: الإعادة تحمل السبب", "رُفضت المحاولة السابقة" in calls[1]["messages"][0]["content"]
                   and "أطول من 10" in calls[1]["messages"][0]["content"])
             check("g456: برومبت v2 وعدد المتحدثين المختلفين في الرسالة",
-                  calls[0]["system"] == cfg.path("reel.script.v2.system")
+                  calls[0]["system"] == reel_script.v2_system(cfg)
                   and "عدد المتحدثين المختلفين" in calls[0]["messages"][0]["content"])
             calls.clear()
             c1 = reel_v1_cfg(load_config())
