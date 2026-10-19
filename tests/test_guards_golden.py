@@ -15049,8 +15049,9 @@ def test_reel_closing_p1a2_guards() -> None:
         tmp.mkdir()
         cmds, downloads, notes, crops = [], [], [], {}
         draft = {"hook_video": {"video_id": "hv1", "start": hook_start, "end": hook_start + 4}}
+        pre = [{"sec": k, "kind": "event_footage"} for k in range(hook_start)]   # ثواني ما قبل الهوك لقطات حدث مصنَّفة (R6)
         out = reel_render._assemble(closing_script(), {}, cfg, make_deps(cmds, downloads), tmp, "female", None, "", {}, notes,
-                                    draft, crops)
+                                    draft, crops, pre_entries=pre)
         return out, cmds, downloads, notes, crops
 
     def g441():
@@ -15121,7 +15122,9 @@ def test_reel_closing_p1a2_guards() -> None:
         script = closing_script()
         draft = {"id": tag, "hook_video": {"video_id": "hv1", "start": hook_start, "end": hook_start + 4}}
         notes, crops = [], {}
-        files, kinds, durs = reel_render._assemble(script, {}, cfg, deps, work, "female", None, "", {}, notes, draft, crops)
+        pre = [{"sec": k, "kind": "event_footage"} for k in range(hook_start)]   # R6: pre_hook يشترط ثواني مصنَّفة لقطات
+        files, kinds, durs = reel_render._assemble(script, {}, cfg, deps, work, "female", None, "", {}, notes, draft, crops,
+                                                   pre_entries=pre)
         joined = reel_render._join(files, kinds, durs, cfg, deps, work)
         final = work / "final.mp4"
         reel_render._final_pass(joined, final, kinds, durs, cfg, deps, work, draft)
@@ -15310,7 +15313,8 @@ def test_reel_hook_strong_p1b_guards() -> None:
         tmp = work_root / "g451"
         tmp.mkdir()
         known = "crop=111:222:33:0"
-        hook_info = {"mode": "clip", "clip": tmp / "hook.mp4", "cexpr": known}
+        hook_info = {"mode": "clip", "clip": tmp / "hook.mp4", "cexpr": known,
+                     "pre_entries": [{"sec": k, "kind": "event_footage"} for k in range(40)]}
         draft = {"hook_video": {"video_id": "hv1", "start": 40, "end": 44}}
         crops: dict = {}
         reel_render._closing_scene(0, {"kind": "question", "text": "ومن يملك القرار؟"}, "قناة", "", hook_info, draft, "female", cfg,
@@ -15371,7 +15375,7 @@ def test_reel_script_v2_p2a_guards() -> None:
 
     def good():
         return {"main_question": "هل تصمد الهدنة بين الطرفين؟",
-                "context": ["أعلن الطرفان هدنة في 3 أكتوبر 2026.", "ويختلف المحللون في تقدير مدتها."],
+                "context": ["أعلن الطرفان هدنة في 3 أكتوبر.", "ويختلف المحللون في تقدير مدتها."],
                 "questions": [
                     {"role": "core", "text": "ما جوهر الخلاف حول الهدنة؟",
                      "answers": [{"point_id": ids[0], "stance": "يرى الهدنة صامدة"},
@@ -15438,8 +15442,8 @@ def test_reel_script_v2_p2a_guards() -> None:
             ("سؤال 11 كلمة", mut(lambda d: d["questions"][0].update(text=" ".join(["كلمة"] * 10) + " أخرى؟")), "أطول من 10"),
             ("رئيس 13 كلمة", mut(lambda d: d.update(main_question=" ".join(["كلمة"] * 12) + " أخرى؟")), "أطول من 12"),
             ("السؤال الأخير", mut(lambda d: d["questions"][1].update(text="السؤال الأخير: لماذا الآن؟")), "ممنوعة"),
-            ("سياق 41 كلمة", mut(lambda d: d.update(context=[" ".join(["كلمة"] * 20) + ".", " ".join(["كلمة"] * 21) + "."])),
-             "أطول من 40"),
+            ("سياق 27 كلمة", mut(lambda d: d.update(context=[" ".join(["كلمة"] * 13) + ".", " ".join(["كلمة"] * 14) + "."])),
+             "أطول من 25"),
             ("ختام يبدأ برأيك", mut(lambda d: d.update(closing_question="برأيك ما الحل؟")), "برأيك"),
             ("core بإجابة واحدة", mut(lambda d: d["questions"][0].update(answers=d["questions"][0]["answers"][:1])), "متحدثَين"),
         ]
