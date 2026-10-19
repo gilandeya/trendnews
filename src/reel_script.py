@@ -283,8 +283,14 @@ def estimate_seconds(script: dict, cfg: Any) -> float:
     clips = sum(max(0.0, float(s.get("end", 0)) - float(s.get("start", 0)))
                 for s in script.get("scenes") or [] if s.get("kind") in CLIP_KINDS)
     if is_v2(script):
+        # لوحة n ≥ 2 تبدأ بـpanel.intro يُعرَّف فيها بالقنوات قبل الكلام (Issue #1618، P2c-2)؛ يُحسب لتبقى حدود الـ90 ث صادقة
+        counts: dict = {}
+        for s in script.get("scenes") or []:
+            if s.get("kind") in CLIP_KINDS and s.get("q") is not None:
+                counts[s["q"]] = counts.get(s["q"], 0) + 1
+        intro = float(cfg.path("reel.render.panel.intro", 0) or 0) * sum(1 for c in counts.values() if c >= 2)
         return (spoken_words_v2(script) / float(_rcfg(cfg, "narration_wps", 1.7)) + clips
-                + float(_rcfg(cfg, "v2.fixed_seconds", 9)))
+                + float(_rcfg(cfg, "v2.fixed_seconds", 9)) + intro)
     return spoken_words(script) / float(_rcfg(cfg, "narration_wps", 1.7)) + clips + float(_rcfg(cfg, "fixed_seconds", 8))
 
 

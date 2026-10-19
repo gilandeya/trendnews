@@ -271,6 +271,68 @@ def panel_layout(n: int, cfg) -> dict:
     return {"tiles": tiles, "frame": ((W - fw) // 2, int(fc["top"]), fw, fh)}
 
 
+# ───────────────────── حركة الانبثاق في لوحة الإجابات (Issue #1618، P2c-2) ─────────────────────
+
+def pop_progress(t: float, a: float, b: float, cfg) -> float:
+    """معامل انبثاق بلاطة الإجابة عند الزمن t بين 0 (في البلاطة) و1 (في الإطار البارز) لإجابة نافذتها [a، b] (دالة خالصة).
+    يكبر في أول pop.grow بتباطؤ في الآخر (1−(1−p)³)، يثبت على 1، ثم يعود في آخر pop.shrink بتسارع (1−q³)؛ وخارج النافذة 0.
+    الكبر قبل الكلام والعودة بعده لأن المقطع يبدأ قبل كلامه وينتهي بعده بثانية."""
+    pc = cfg.path("reel.render.panel.pop")
+    grow, shrink = float(pc["grow"]), float(pc["shrink"])
+    if t <= a or t >= b:
+        return 0.0
+    p = min(max((t - a) / grow, 0.0), 1.0)
+    q = min(max((t - (b - shrink)) / shrink, 0.0), 1.0)
+    return (1 - (1 - p) ** 3) * (1 - q ** 3)
+
+
+def _pop_expr(cfg, a: float, b: float, var: str = "t") -> str:
+    """تعبير ffmpeg لدالة pop_progress نفسها بالمعادلة حرفًا بحرف، بلا if/lt (القصّ بـmin/max) ليُقيَّم بالمتغير t في الاختبار.
+    الضرب up×down: قبل a يكون up=0 وبعد b يكون down=0، فلا حاجة لتفرّع."""
+    pc = cfg.path("reel.render.panel.pop")
+    grow, shrink = _fmt(float(pc["grow"])), _fmt(float(pc["shrink"]))
+    return (f"((1-pow(1-min(max(({var}-{_fmt(a)})/{grow},0),1),3))"
+            f"*(1-pow(min(max(({var}-({_fmt(b)}-{shrink}))/{shrink},0),1),3)))")
+
+
+def pop_start_rect(tile: tuple, tile_crop: dict | None, frame_crop: dict | None, frame: tuple | None = None) -> tuple:
+    """مستطيل (x، y، w، h) على شاشة الريل الذي يشغله الإطار البارز وهو لا يزال في بلاطته قبل الكبر (دالة خالصة). منطقة frame_crop
+    من المصدر بإحداثيات البلاطة: s = ارتفاع البلاطة ÷ ارتفاع tile_crop، فأول إطار من الانبثاق مطابق لما في البلاطة بكسلًا ببكسل
+    في البلاطات المكدّسة؛ وفي شبكة 2×2 البلاطة أضيق من نسبة الإطار فيخرج المستطيل أعرض منها وتخفيه الشفافية. بلا قصّ محسوب
+    (تعبير القصّ الاحتياطي) يتمركز المستطيل في البلاطة بارتفاعها ونسبة الإطار frame (أو البلاطة نفسها)."""
+    tx, ty, tw, th = tile
+    if tile_crop and frame_crop and tile_crop.get("h"):
+        s = th / tile_crop["h"]
+        x = tx + (frame_crop["x"] - tile_crop["x"]) * s
+        y = ty + (frame_crop["y"] - tile_crop["y"]) * s
+        return int(round(x)), int(round(y)), _even(frame_crop["w"] * s), _even(frame_crop["h"] * s)
+    fw, fh = (frame[2], frame[3]) if frame else (tw, th)
+    w = _even(th * fw / fh)
+    return int(round(tx + (tw - w) / 2)), ty, w, _even(th)
+
+
+def frame_tile_labels(cfg, tiles: list, scenes: list) -> Image.Image:
+    """طبقة RGBA بحجم الشاشة عليها اسم قناة كل بلاطة (channel_display) بالأبيض على رقعة كحلية بشفافية panel.label.alpha، في أسفل
+    البلاطة ووسطها على بعد panel.label.bottom من حافتها السفلى؛ تُظهر للمشاهد من يتكلم قبل أن يبدأ الكلام (P2c-2)."""
+    lc = cfg.path("reel.render.panel.label")
+    pen = _Pen(cfg, None, transparent=True)
+    navy = pen.navy + (round(255 * float(lc["alpha"])),)
+    size, pad = int(lc["size"]), int(lc["pad"])
+    for (tx, ty, tw, th), scene in zip(tiles, scenes):
+        text = (scene.get("channel_display") or "").strip()
+        if not text:
+            continue
+        font = pick_font(text, *pen.face(text, "display")[:1], size, pen.face(text, "display")[1])
+        if font is None:
+            continue
+        w, h = imaging.measure(pen.d, text, font)
+        cx, cy = tx + tw // 2, ty + th - int(lc["bottom"])
+        half_w = min(w / 2 + pad, tw / 2)
+        pen.d.rectangle((cx - half_w, cy - h / 2 - pad, cx + half_w, cy + h / 2 + pad), fill=navy)
+        imaging.draw_text(pen.d, (cx, cy), text, font, pen.white, anchor="mm")
+    return pen.img
+
+
 def _detect_face_tracks(clip, cfg) -> tuple[int, int, list, list]:
     """لقطات من المقطع المنزَّل بمعدل speaker.fps على مدته كلها (سقفها speaker.max_frames) ← (عرض، ارتفاع، إطارات رمادية،
     صناديق كل وجه في كل لقطة). يرفع إن تعذّر قراءة المقطع؛ والمستدعي يعود إلى السلوك القديم."""
