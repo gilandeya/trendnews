@@ -496,6 +496,10 @@ def _run(cmd: list[str], timeout: int = 600) -> None:
         raise RuntimeError(f"ffmpeg فشل ({proc.returncode}): {tail}")
 
 
+class TranscriptUnavailable(RuntimeError):
+    """تعذّر جلب نص الفيديو؛ يحمل السبب الذي أعادته `youtube_extract.fetch_transcript` (R8) فيصل إلى `render_approx` والتعليق."""
+
+
 @dataclass
 class Deps:
     """كل ما يلمس الشبكة أو العملية الخارجية؛ الحقل الفارغ يُملأ بالحقيقي في `resolved` والاختبارات تحقن مزيَّفات."""
@@ -543,9 +547,23 @@ class Deps:
     assign_broll: Callable[[list, list, Any], list] | None = None
 
     def resolved(self, cfg) -> "Deps":
+        # جلسة واحدة للتركيب كله كالجمع (R8)؛ تُنشأ عند أول جلب لا عند الاستيراد
+        session_box: list = []
+
         def fetch(video_id):
+            import requests
+
             from . import proxy_config, youtube_extract
-            text, _info, _ = youtube_extract.fetch_transcript(video_id, proxy_config.get_proxy_config())
+            if not session_box:
+                session_box.append(requests.Session())
+            backoff = list(cfg.path("reel.render.transcript_backoff_seconds", [15, 45]))
+            # _fetch_once يُقرأ وقت الاستدعاء لا عند تعريف الدالة كي يبقى قابلًا للحقن
+            text, info, _ = youtube_extract.fetch_transcript(
+                video_id, proxy_config.get_proxy_config(), session_box[0], backoff,
+                fetch_once=youtube_extract._fetch_once)
+            if text is None:
+                # fetch_transcript لا ترفع عند الفشل بل تعيد سببه؛ بلا رفعه هنا يضيع السبب الحقيقي (قضيتا #1620 و#1634)
+                raise TranscriptUnavailable(info or "")
             return text
 
         def download(video_id, start, end, height, out_path):
@@ -1771,10 +1789,13 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path) -> tuple
             try:
                 text = deps.fetch_transcript(vid)
             except Exception as exc:  # noqa: BLE001
-                log.warning("نص الفيديو %s: %s", vid, str(exc)[:150])
+                # رابط البروكسي يحمل المستخدم وكلمة المرور داخل الرابط نفسه، وscrub_text لا تعرفهما إلا من متغيرات البيئة
+                safe = re.sub(r"(?<=://)[^/@\s]*@", "", reel_clips.scrub_text(str(exc)))
+                log.warning("نص الفيديو %s: %s", vid, safe[:150])
                 text = None
-                fetch_reasons[vid] = ("تعذّر جلب نص الفيديو: " + type(exc).__name__ + ": "
-                                      + " ".join(reel_clips.scrub_text(str(exc)).split())[:80])
+                # سبب fetch_transcript الجاهز لا يُسبق باسم الصنف؛ غيره من الاستثناءات يبقى بصيغة R6
+                lead = "" if isinstance(exc, TranscriptUnavailable) else type(exc).__name__ + ": "
+                fetch_reasons[vid] = "تعذّر جلب نص الفيديو: " + lead + " ".join(safe.split())[:80]
             transcripts[vid] = youtube_extract.parse_transcript_segments(text) if text else []
         if not transcripts[vid]:
             win = _approx_window(point, scene)

@@ -2395,6 +2395,8 @@ reel:
     # صاحب المشروع يتأكد من اسم الفرع (main) قبل الاعتماد على هذين الرابطين
     data_link_base: "https://github.com/gilandeya/trendnews-data/blob/main/"
     ffmpeg_timeout: 600
+    # تراجع جلب نص الفيديو عند حجب عابر (R8): أقصر من الجمع [15، 45، 90] لأن مهلة التركيب 60 دقيقة وفيه 2–8 فيديوهات
+    transcript_backoff_seconds: [15, 45]
     badge_text: "تحليل"
     badge_bg: "#8EC5FF"
     texts:
