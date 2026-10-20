@@ -17758,3 +17758,129 @@ def test_reel_transcript_r8_guards() -> None:
         check("g523: لا كلمة مرور ولا مستخدم بروكسي في الحفظ والتعليق",
               "secret" not in blob and "user:" not in blob and s.get("render_approx"), blob[:300])
     guarded("g523", g523)
+
+
+def test_reel_speaker_q1_guards() -> None:
+    """Issue #1642 (Q1، g524–g528): ترجمة المتحدث كلامه هو لا خبرٌ عنه، ولا مقطع لمتحدث يناقضه ملخّص نقطته. الشاهد النقاط الثلاث
+    الحقيقية من الريل c205a29065ff (#1634) في fixtures/reel/1634. لا شبكة."""
+    import copy
+    import json
+    from pathlib import Path
+    from types import SimpleNamespace
+
+    from src import reel_script
+    from src import youtube_publish as yp
+
+    cfg = load_config()
+    fx = Path(__file__).parent / "fixtures" / "reel" / "1634" / "points.json"
+    pts = json.loads(fx.read_text(encoding="utf-8"))["points"]
+    ali, maki, metri = pts
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def g524():
+        rs = reel_script.reported_speech
+        check("g524: علي زاده («قال علي زاده إن…») ← True", rs(ali["quote_arabic"], ali["speaker"], cfg) is True, None)
+        check("g524: متري ← False", rs(metri["quote_arabic"], metri["speaker"], cfg) is False, None)
+        check("g524: مكي ← False", rs(maki["quote_arabic"], maki["speaker"], cfg) is False, None)
+        check("g524: اسم المتكلم ضمن أول 4 كلمات بلا فعل نقل ← True",
+              rs("وبحسب علي زاده فالأمر وهم", ali["speaker"], cfg) is True, None)
+        check("g524: فعل نقل في غير الأول ← False", rs("احتمال قال به كثيرون", metri["speaker"], cfg) is False, None)
+    guarded("g524", g524)
+
+    def tool_resp(rows):
+        blk = SimpleNamespace(type="tool_use", name="retranslate_quotes", input={"quotes": rows})
+        return SimpleNamespace(content=[blk], stop_reason="tool_use")
+
+    def run(retrans):
+        calls = {"retrans": 0, "write": 0, "valid": None}
+        real = (reel_script.identify_speakers, reel_script.write_script, getattr(reel_script, "_retranslate_create", None))
+
+        def ident(valid, *a, **k):
+            return valid
+
+        def wscript(topic, text, valid, *a, **k):
+            calls["write"] += 1
+            calls["valid"] = valid
+            return None, "stop"
+
+        def fake_retrans(client, **kw):
+            calls["retrans"] += 1
+            return retrans(kw)
+        reel_script.identify_speakers, reel_script.write_script = ident, wscript
+        reel_script._retranslate_create = fake_retrans
+        try:
+            d = yp.build_reel_draft({"id": "aaaa1111bbbb", "title": "ت", "layer": "a", "blocs": ["arabic"],
+                                     "channels": ["الجزيرة"], "agreement": "agreement", "event": "ح"}, "2099-01-01", cfg)
+            out = reel_script.write_for_draft(d, {"id": "aaaa1111bbbb", "title": "ت", "event": "ح"}, copy.deepcopy(pts), "", [], cfg)
+        finally:
+            reel_script.identify_speakers, reel_script.write_script = real[:2]
+            reel_script._retranslate_create = real[2]
+        return d, out, calls
+
+    ali_id = reel_script.point_key_id(ali)
+    maki_id = reel_script.point_key_id(maki)
+
+    def g525():
+        new = "بيع وهم تحوّل بلد إلى دولة نووية ليس سوى وهم محض."
+        d, out, calls = run(lambda kw: tool_resp([{"point_id": ali_id, "quote_arabic": new}]))
+        by = {c["point_id"]: c for c in (calls["valid"] or [])}
+        check("g525: السيناريو يحمل الترجمة الجديدة لعلي زاده", by.get(ali_id, {}).get("quote_arabic") == new, list(by))
+        check("g525: quote_retranslated فيه معرّفه", d.get("quote_retranslated") == [ali_id], d.get("quote_retranslated"))
+        check("g525: نداء إعادة ترجمة واحد مجمَّع", calls["retrans"] == 1, calls)
+        check("g525: مكي مستبعد بالحارس في clip_dropped",
+              any(x["point_id"] == maki_id and "ينسبها إلى شخص آخر" in x["reason"] for x in d.get("clip_dropped") or []),
+              d.get("clip_dropped"))
+
+        def boom(kw):
+            raise RuntimeError("fail")
+        d2, out2, calls2 = run(boom)
+        check("g525: فشل النداء ← علي زاده في clip_dropped",
+              any(x["point_id"] == ali_id and "ترجمة بصيغة الخبر" in x["reason"] for x in d2.get("clip_dropped") or []),
+              d2.get("clip_dropped"))
+        check("g525: متحدثو الرأي < 2 ← فشل بلا نداء كتابة", d2.get("script_status") == "failed" and calls2["write"] == 0,
+              (d2.get("script_status"), calls2))
+        d3, _, calls3 = run(lambda kw: tool_resp([{"point_id": ali_id, "quote_arabic": "أكد علي زاده أن الأمر وهم"}]))
+        check("g525: ترجمة جديدة ما زالت خبرًا ← مستبعد",
+              any(x["point_id"] == ali_id for x in d3.get("clip_dropped") or []) and not d3.get("quote_retranslated"),
+              (d3.get("clip_dropped"), d3.get("quote_retranslated")))
+    guarded("g525", g525)
+
+    def g526():
+        dropped: list = []
+        v = reel_script.valid_clips(copy.deepcopy(pts), [], cfg, dropped=dropped)
+        ids = {c["point_id"] for c in v}
+        check("g526: مكي مستبعد ومتري باقٍ", maki_id not in ids and reel_script.point_key_id(metri) in ids, ids)
+        check("g526: السبب «ينسبها إلى شخص آخر»",
+              any(x["point_id"] == maki_id and "ينسبها إلى شخص آخر" in x["reason"] for x in dropped), dropped)
+        check("g526: متحدث بلا اسم علم لا يُفحص",
+              len(reel_script.valid_clips([dict(maki, speaker="محلل سياسي")], [], cfg)) == 1, None)
+    guarded("g526", g526)
+
+    def g527():
+        c = copy.deepcopy(cfg)
+        c.setdefault("reel", {})["enabled"] = True
+        d = {"id": "q1000000527a", "origin": "analysis", "format": "reel", "status": "pending", "topic_id": "t1",
+             "title": "ريل", "script_status": "ready", "headlines": ["أ؟", "ب", "ج"],
+             "script": {"narrator": "female", "title": "عنوان", "question": "هل؟", "scenes": [
+                 {"kind": "clip", "point_id": ali_id, "video_url": ali["video_url"], "start": 1, "end": 9,
+                  "channel_display": "إيران إنترناشيونال"}, {"kind": "outro"}]},
+             "clip_dropped": [{"point_id": maki_id, "reason": "ملخّص النقطة ينسبها إلى شخص آخر: محمد", "channel": "الجزيرة"}],
+             "quote_retranslated": [ali_id]}
+        body = "\n".join(yp._reel_item_lines(1, d, c))
+        check("g527: سطر 🚫", "🚫 استُبعد مقطع الجزيرة: ملخّص النقطة ينسبها إلى شخص آخر: محمد" in body, body[:600])
+        check("g527: سطر 🔁", "🔁 أُعيدت ترجمة مقطع إيران إنترناشيونال بصيغة المتكلم" in body, body[:600])
+    guarded("g527", g527)
+
+    def g528():
+        from src import youtube_extract
+        prompt = youtube_extract.load_prompt()
+        check("g528: المنع والمثال في برومبت الاستخراج",
+              "بصيغة المتكلم" in prompt and "قال X إن" in prompt and "فعل نقل" in prompt, None)
+        check("g528: REQUIRED_FIELDS بلا تغيير", youtube_extract.REQUIRED_FIELDS ==
+              ["statement", "speaker", "quote_original", "quote_arabic", "anchor_text", "type", "topic_hint"], None)
+    guarded("g528", g528)
