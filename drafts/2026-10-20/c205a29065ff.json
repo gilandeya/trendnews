@@ -190,7 +190,8 @@
   "reel_bg": {
     "url": "https://media.elbalad.news/2026/10/large/18291357323880202610200238593859.jpg",
     "kind": "news_photo",
-    "publisher": "صدى البلد"
+    "publisher": "صدى البلد",
+    "layout": "A"
   },
   "hook_candidates": [
     {
@@ -294,9 +295,7 @@
       }
     ],
     "picked": [
-      "jEpHf_7JsF0",
-      "XbEhoO_llkg",
-      "uMwuh7wEd-I"
+      "jEpHf_7JsF0"
     ]
   },
   "broll_plan": [
@@ -323,12 +322,344 @@
   "has_news_photo": true,
   "review_issue": 1633,
   "stage2_issue": 1633,
-  "render_status": "queued",
+  "render_status": "rendered",
   "approved_script_at": "2026-10-20T05:53:10.221834+00:00",
   "editor_override": {
     "at": "2026-10-20T05:53:10.221820+00:00",
     "reasons": [
       "نص معروض داخل علامتي اقتباس لكنه صياغة بضمير الغائب عن المتحدث لا كلامه المباشر؛ اقتباس الشاشة يجب أن يكون عبارة المتحدث نفسه أو يُحوَّل إلى سرد بلا أقواس. يُراجع المقطع الأصلي."
     ]
-  }
+  },
+  "hook_video": {
+    "video_id": "jEpHf_7JsF0",
+    "start": 27,
+    "end": 34,
+    "channel": "Al Jazeera English",
+    "title": "Trump endorses Netanyahu ahead of Israel's October 27 election",
+    "source": "auto",
+    "views": 29288,
+    "impact": 6,
+    "pre_ok": true,
+    "strong_start": 27,
+    "reason": "أقوى 3 ث (قوة 6)"
+  },
+  "reel_file": "reels/2026-10-20/c205a29065ff.mp4",
+  "reel_gif": "reels/2026-10-20/c205a29065ff.gif",
+  "duration_seconds": 60.4,
+  "render_version": 35,
+  "render_attempts": 0,
+  "reel_music": "kulakovka-financial-news-614884.mp3",
+  "render_sources": "الجزيرة، إيران إنترناشيونال، Al Jazeera English",
+  "render_crops": {
+    "3": {
+      "x": 761,
+      "source": "speaker_vision",
+      "speaker_score": 0.98,
+      "tracks": 4,
+      "vision": {
+        "pick": 1,
+        "agree": 3,
+        "archive": []
+      },
+      "panel_q": 0,
+      "tile_crop": {
+        "x": 64,
+        "y": 0,
+        "w": 1216,
+        "h": 720,
+        "mode": "full_height"
+      },
+      "frame_crop": {
+        "x": 680,
+        "y": 0,
+        "w": 568,
+        "h": 720,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": false
+    },
+    "4": {
+      "x": 464,
+      "source": "speaker",
+      "speaker_score": 1.05,
+      "tracks": 1,
+      "panel_q": 0,
+      "tile_crop": {
+        "x": 58,
+        "y": 0,
+        "w": 1216,
+        "h": 720,
+        "mode": "full_height"
+      },
+      "frame_crop": {
+        "x": 382,
+        "y": 0,
+        "w": 568,
+        "h": 720,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": false
+    },
+    "5": {
+      "x": 579,
+      "source": "speaker_vision",
+      "speaker_score": 0.89,
+      "tracks": 3,
+      "vision": {
+        "pick": 1,
+        "agree": 2,
+        "archive": []
+      },
+      "panel_q": 0,
+      "tile_crop": {
+        "x": 44,
+        "y": 0,
+        "w": 810,
+        "h": 480,
+        "mode": "full_height"
+      },
+      "frame_crop": {
+        "x": 474,
+        "y": 0,
+        "w": 380,
+        "h": 480,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": false
+    },
+    "hook": {
+      "ticker": false
+    },
+    "closing": {
+      "source": "freeze",
+      "pre_footage": 0.455
+    }
+  },
+  "render_speakers": {
+    "3": {
+      "name_original": "نقاش الساعة",
+      "name_arabic": "نقاش الساعة",
+      "role_arabic": "",
+      "is_presenter": false,
+      "frames_agreeing": 3,
+      "rejected": "program",
+      "accepted": false
+    },
+    "4": {
+      "name_original": "طارق متري",
+      "name_arabic": "طارق متري",
+      "role_arabic": "نائب رئيس الحكومة اللبنانية",
+      "is_presenter": false,
+      "frames_agreeing": 3,
+      "rejected": "",
+      "accepted": true
+    },
+    "5": {
+      "name_original": "فتوای متفاوت مجتبی خامنه‌ای برای ساخت بمب اتمی",
+      "name_arabic": "فتوای متفاوت مجتبی خامنه‌ای برای ساخت بمب اتمی",
+      "role_arabic": "",
+      "is_presenter": false,
+      "frames_agreeing": 3,
+      "rejected": "program",
+      "accepted": false
+    }
+  },
+  "render_broll": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "photo": "لا سلسلة تطابقها"
+    },
+    {
+      "scene": 1,
+      "sentence": 1,
+      "photo": "السلسلة أقصر من الجملة"
+    },
+    {
+      "scene": 2,
+      "sentence": 0,
+      "photo": "جملة مجرّدة"
+    }
+  ],
+  "broll_scan": {
+    "videos": {
+      "jEpHf_7JsF0": {
+        "downloaded": 583,
+        "classified": 216,
+        "sheets": 15,
+        "kinds": {
+          "graphic": 14,
+          "event_footage": 15,
+          "anchor": 130,
+          "studio": 3,
+          "text_heavy": 43,
+          "other": 11
+        },
+        "footage_relevant": 7,
+        "footage_other": 8,
+        "chains": 1,
+        "longest": 5
+      },
+      "XbEhoO_llkg": {
+        "downloaded": 118,
+        "classified": 118,
+        "sheets": 5,
+        "kinds": {
+          "anchor": 12,
+          "graphic": 4,
+          "text_heavy": 12,
+          "event_footage": 90
+        },
+        "footage_relevant": 90,
+        "footage_other": 0,
+        "chains": 3,
+        "longest": 32
+      },
+      "uMwuh7wEd-I": {
+        "downloaded": 340,
+        "classified": 240,
+        "sheets": 10,
+        "kinds": {
+          "event_footage": 138,
+          "anchor": 82,
+          "graphic": 14,
+          "other": 4,
+          "text_heavy": 2
+        },
+        "footage_relevant": 126,
+        "footage_other": 12,
+        "chains": 4,
+        "longest": 86
+      }
+    },
+    "sheets_used": 30,
+    "chains": [
+      {
+        "video_id": "jEpHf_7JsF0",
+        "start": 19,
+        "end": 24,
+        "desc": "جنود مدججون بالسلاح في منطقة خضراء، خلف المذيع · جنود مسلحون في الميدان خلف المذيع · رجال مدنيون تحت حراسة مسلحين في منطقة ميدانية",
+        "channel": "Al Jazeera English",
+        "relevant": false
+      },
+      {
+        "video_id": "XbEhoO_llkg",
+        "start": 24,
+        "end": 54,
+        "desc": "عناصر بدروع واقية وخوذات في موقع ميداني · مسؤولون يسيرون بين الحشود داخل مبنى · نتنياهو يسير مع مرافقين وكاميرات",
+        "channel": "CNN-News18",
+        "relevant": true
+      },
+      {
+        "video_id": "XbEhoO_llkg",
+        "start": 56,
+        "end": 88,
+        "desc": "عناصر أمنية ومسؤولون بالخوذ والسترات في موقع · نتنياهو بسترة واقية يصل إلى سيارة بحراسة · نتنياهو يتفقد موقعاً وسط حراس وعلم أحمر",
+        "channel": "CNN-News18",
+        "relevant": true
+      },
+      {
+        "video_id": "XbEhoO_llkg",
+        "start": 90,
+        "end": 118,
+        "desc": "جنود بخوذ وسترات يتحركون في الميدان · نتنياهو يصافح شخصًا قرب سيارة في الميدان · نتنياهو وسط حشد من المرافقين داخل مبنى",
+        "channel": "CNN-News18",
+        "relevant": true
+      },
+      {
+        "video_id": "uMwuh7wEd-I",
+        "start": 0,
+        "end": 86,
+        "desc": "حشد يحيط برجال أمن وأشخاص داخل مبنى تجاري مع نباتات · نتنياهو وسط حشد وكاميرات ورجال شرطة يتحركون بين الناس · تدافع وأيدٍ مرفوعة بالهواتف وسط حشد داخل المكان",
+        "channel": "APT",
+        "relevant": true
+      },
+      {
+        "video_id": "uMwuh7wEd-I",
+        "start": 124,
+        "end": 162,
+        "desc": "حشد يحيط بشخصية بين عناصر شرطة بقبعات زرقاء ونباتات · تدافع حشد وعناصر شرطة حول شخصية في مركز تجاري · عناصر شرطة يحيطون بشخصيات وسط حشد متحرك",
+        "channel": "APT",
+        "relevant": true
+      },
+      {
+        "video_id": "uMwuh7wEd-I",
+        "start": 202,
+        "end": 206,
+        "desc": "إطلاق صاروخ من منصة فضائية مع سحب دخان، لا يتعلق بالحدث · إطلاق صاروخ مع ألسنة لهب ودخان، لا يتعلق بالحدث",
+        "channel": "APT",
+        "relevant": false
+      },
+      {
+        "video_id": "uMwuh7wEd-I",
+        "start": 226,
+        "end": 230,
+        "desc": "حشود متظاهرين مع مكبر صوت وأعلام · متظاهرون يرفعون لافتات ويلوحون بأيديهم",
+        "channel": "APT",
+        "relevant": false
+      }
+    ],
+    "assign": [
+      {
+        "n": 1,
+        "chain": null
+      },
+      {
+        "n": 2,
+        "chain": 8
+      }
+    ]
+  },
+  "render_dropped": [],
+  "render_approx": [
+    {
+      "point_id": "13c8453e3aab",
+      "kind": "clip",
+      "start": 1042,
+      "end": 1048,
+      "reason": "تعذّر جلب نص الفيديو"
+    },
+    {
+      "point_id": "e1472b4f869d",
+      "kind": "clip",
+      "start": 663,
+      "end": 671,
+      "reason": "تعذّر جلب نص الفيديو"
+    }
+  ],
+  "rendered_at": "2026-10-20T06:40:25.820069+00:00",
+  "render_notes": [
+    "### 🎬 تركيب الريل",
+    "- ⏱️ المدة: 60.4 ث",
+    "- 🎞️ [الملف](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-10-20/c205a29065ff.mp4) · [المعاينة](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-10-20/c205a29065ff.gif)",
+    "- ⚠️ نافذة تقديرية لمقطع الجزيرة (17:22–17:28): تعذّر جلب نص الفيديو — راجع بداية المقطع ونهايته",
+    "- ⚠️ نافذة تقديرية لمقطع إيران إنترناشيونال (11:03–11:11): تعذّر جلب نص الفيديو — راجع بداية المقطع ونهايته",
+    "🎞️ لقطة الهوك: Al Jazeera English — [Trump endorses Netanyahu ahead of Israel's October 27 election](https://www.youtube.com/watch?v=jEpHf_7JsF0&t=27) (27–34 ث) · 29,288 مشاهدة",
+    "🏷️ شريط القناة يحمل اسم برنامج لا شخص: نقاش الساعة — يُعرض اسم القناة وحده",
+    "👤 من شريط القناة: طارق متري (طارق متري) — نائب رئيس الحكومة اللبنانية",
+    "🏷️ شريط القناة يحمل اسم برنامج لا شخص: فتوای متفاوت مجتبی خامنه‌ای برای ساخت بمب اتمی — يُعرض اسم القناة وحده",
+    "🎞️ لقطات الحدث: 0 من 3 جمل — 3 بالصورة",
+    "🎯 مقطع الجزيرة: 4 وجوه — المتكلم بالرؤية",
+    "🎯 مقطع إيران إنترناشيونال: 3 وجوه — المتكلم بالرؤية",
+    "🧊 ختام الريل: لا لقطات تسبق الهوك — جُمّد أول إطار منه مع اقتراب بطيء"
+  ],
+  "reel_review_issue": 1634
 }
