@@ -17636,3 +17636,125 @@ def test_reel_debate_fit_r7_guards() -> None:
         check("g519: متحدث رأي واحد ← لا مخالفة",
               reel_script._type_violations(clips, {c["point_id"]: c for c in one}, one) == [], None)
     guarded("g519", g519)
+
+
+def test_reel_transcript_r8_guards() -> None:
+    """Issue #1640 (R8، g520–g523): جلب نص الفيديو في التركيب بأسلوب الجمع — تراجع وجلسة مشتركة، وسبب الفشل الحقيقي يصل
+    إلى render_approx والتعليق بعد مسح أسرار البروكسي. الشاهد قضيتا المراجعة #1620 و#1634. لا شبكة ولا نوم فعلي."""
+    import json
+    import tempfile
+    import time
+    from pathlib import Path
+
+    from src import reel_render, reel_script, store, youtube_extract
+
+    cfg = load_config()
+    D = "2099-12-03"
+    quotes = {"v1": "alpha beta gamma delta epsilon zeta eta theta", "v2": "iota kappa lambda mu nu xi omicron pi"}
+    stamps = {"v1": 10, "v2": 30}
+    points = [{"video_id": v, "statement": "statement " + v, "quote_original": q, "quote_arabic": "ترجمة " + v,
+               "speaker": "متحدث", "channel": "قناة", "video_url": "https://youtube.com/watch?v=" + v,
+               "timestamp": stamps[v]} for v, q in quotes.items()]
+    ids = {p["video_id"]: reel_script.point_key_id(p) for p in points}
+
+    def clip_scene(v, kind="clip"):
+        return {"kind": kind, "point_id": ids[v], "video_url": "https://youtube.com/watch?v=" + v, "start": 9,
+                "end": 20, "speaker_name": "", "speaker_role": "", "speaker_verified": False,
+                "speaker_name_latin": "", "channel_display": "قناة", "quote_arabic": "ترجمة " + v, "language": "en"}
+
+    def render(did, once):
+        log = {"comments": []}
+
+        def run(cmd):
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+
+        def download(video_id, start, end, height, out_path):
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        scenes = [clip_scene("v1", "cold_open_clip"), {"kind": "title_card", "text": "عنوان"},
+                  {"kind": "narration", "text": "جملة أولى. وثانية؟"}, clip_scene("v2"),
+                  {"kind": "question", "text": "هل يتغير الموقف؟"}, {"kind": "outro"}]
+        d = {"id": did, "origin": "analysis", "format": "reel", "status": "approved_script",
+             "render_status": "queued", "topic_id": "t1", "topic_date": D, "review_issue": 4244, "title": "ريل",
+             "script_status": "ready", "script": {"narrator": "female", "title": "عنوان",
+                                                   "question": "هل يتغير الموقف؟", "scenes": scenes}}
+        path = store.save_draft(d)
+        # fetch_transcript الحقيقية داخل Deps.resolved وحدها؛ المحاولة الواحدة _fetch_once هي المحقونة
+        deps = reel_render.Deps(
+            download_clip=download, synthesize=lambda t, v: {"ok": True, "audio": b"mp3", "chars": len(t)},
+            diacritize=lambda t: (t, None), run=run,
+            probe=lambda p: 41.0 if (Path(p).name == "final.mp4" or "reels" in Path(p).parts) else 2.0,
+            load_points=lambda date: points, comment=lambda i, t: log["comments"].append(t),
+            faces=lambda f, fr: (1280, 720, []))
+        real_once, real_sleep = youtube_extract._fetch_once, time.sleep
+        youtube_extract._fetch_once = once
+        time.sleep = lambda s: None
+        tmp = Path(tempfile.mkdtemp())
+        try:
+            reel_render.render_draft(path, d, cfg, deps, reels_dir=tmp / "reels", workdir=tmp / "work")
+        finally:
+            youtube_extract._fetch_once, time.sleep = real_once, real_sleep
+        return log, json.loads(path.read_text(encoding="utf-8"))
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def g520():
+        from youtube_transcript_api import IpBlocked
+        calls, sleeps = [], []
+
+        def once(vid, pc, session):
+            calls.append(vid)
+            if len(calls) == 1:
+                raise IpBlocked(vid)
+            return "[00:10] ok text", "en"
+        real_once, real_sleep = youtube_extract._fetch_once, time.sleep
+        youtube_extract._fetch_once = once
+        time.sleep = lambda s: sleeps.append(s)
+        try:
+            text = reel_render.Deps().resolved(cfg).fetch_transcript("vX")
+        finally:
+            youtube_extract._fetch_once, time.sleep = real_once, real_sleep
+        first = cfg.path("reel.render.transcript_backoff_seconds")[0]
+        check("g520: حجب عابر ثم نجاح ← النص يصل", text == "[00:10] ok text", text)
+        check("g520: نوم واحد بأول قيمة تراجع", sleeps == [first] and len(calls) == 2, (sleeps, calls))
+    guarded("g520", g520)
+
+    def g521():
+        from youtube_transcript_api import TranscriptsDisabled
+
+        def once(vid, pc, session):
+            raise TranscriptsDisabled(vid)
+        log, s = render("r8000000a001", once)
+        approx = s.get("render_approx") or []
+        check("g521: كل نقطة بسبب «لا نص متاح» الحقيقي",
+              len(approx) == 2 and all(a["reason"].startswith("تعذّر جلب نص الفيديو: لا نص متاح") for a in approx), approx)
+        check("g521: سطر ⚠️ في التعليق يحمل السبب نفسه",
+              log["comments"] and "⚠️ نافذة تقديرية" in log["comments"][0] and "لا نص متاح" in log["comments"][0], log["comments"])
+    guarded("g521", g521)
+
+    def g522():
+        from youtube_transcript_api import TranscriptsDisabled
+        seen = []
+
+        def once(vid, pc, session):
+            seen.append((vid, session))
+            raise TranscriptsDisabled(vid)
+        render("r8000000a002", once)
+        check("g522: فيديوان بجلسة واحدة مشتركة",
+              len(seen) == 2 and seen[0][1] is not None and seen[0][1] is seen[1][1], [v for v, _ in seen])
+    guarded("g522", g522)
+
+    def g523():
+        def once(vid, pc, session):
+            raise RuntimeError("proxy http://user:secret@p.webshare.io failed")
+        log, s = render("r8000000a003", once)
+        blob = json.dumps(s.get("render_approx"), ensure_ascii=False) + "\n".join(log["comments"])
+        check("g523: لا كلمة مرور ولا مستخدم بروكسي في الحفظ والتعليق",
+              "secret" not in blob and "user:" not in blob and s.get("render_approx"), blob[:300])
+    guarded("g523", g523)
