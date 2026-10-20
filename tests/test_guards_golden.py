@@ -17998,7 +17998,7 @@ def test_reel_context_broll_q2_guards() -> None:
         deps = SimpleNamespace(assign_broll=lambda needy, ch, c: [])
         real_dl, real_crop = reel_render._download_with_retries, reel_render._hook_crop
         reel_render._download_with_retries = lambda deps_, rcfg, vid, a, b, out: Path(str(out))
-        reel_render._hook_crop = lambda clip, c, d, e: "crop"
+        reel_render._hook_crop = lambda clip, c, d, e, **kw: "crop"
         try:
             out = reel_render._prepare_broll(scr, [1, 2], speech, fx["broll_plan"], broll, cfg, deps, Path("."), 0.5, notes)
         finally:
