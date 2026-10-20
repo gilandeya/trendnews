@@ -4549,7 +4549,8 @@ def test_reel_structure_guards() -> None:
         i_field, i_block = on_body.find(f"imgurl:{tid}"), on_body.find(block)
         i_opts = on_body.find(f"go:go2:{tid}")
         ok160 = ok160 and 0 < i_field < i_block < i_opts
-        stripped = stripped.replace(block, "")
+        # سطر صلاحية الريل (R7) يلي الكتلة مباشرة ويُحذف معها
+        stripped = stripped.replace(block + ycl._reel_fit_line(t, base_points, cfg_on) + "\n\n", "")
     check("g160: كتلة صيغ (مقال معلَّم/ريل لا) بعد حقل الصورة وقبل الانتقال لكل موضوع", ok160)
     check("g160: حذف الكتل يعيد الجسم القديم حرفيًا (كتلة الانتقال لم تتغير)", stripped == before)
     check("g160: قراءة الصيغ من الجسم الجديد",
@@ -17504,3 +17505,134 @@ def test_reel_long_l1_guards() -> None:
         os.environ.pop("TRENDNEWS_REELS_DIR", None)
     else:
         os.environ["TRENDNEWS_REELS_DIR"] = saved_reels
+
+
+def test_reel_debate_fit_r7_guards() -> None:
+    """Issue #1637 (R7، g515–g519): صلاحية الموضوع للريل — عدّ متحدثي الرأي الصالحين دالة خالصة واحدة، وسطرها في قضية الترشيح،
+    وفشل السيناريو المبكر بلا نداء نموذج حين لا خلاف. الشاهد نقاط مصنوعة بنية موضوع فرنسا (#1632). لا شبكة."""
+    import copy
+    import json
+    from pathlib import Path
+
+    from src import reel_script
+    from src import youtube_cluster as ycl
+    from src import youtube_publish as yp
+
+    cfg = load_config()
+    fx = Path(__file__).parent / "fixtures" / "reel"
+    france = json.loads((fx / "1632" / "points.json").read_text(encoding="utf-8"))["points"]
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def mk(i, typ, speaker, ts=True, ch="الجزيرة"):
+        d = {"video_id": f"v{i}", "video_url": f"https://www.youtube.com/watch?v=v{i}", "statement": f"قول {i}",
+             "speaker": speaker, "channel": ch, "type": typ, "quote_original": f"original quote {i}", "quote_arabic": f"اقتباس {i}"}
+        if ts:
+            d["timestamp"] = 20 + i
+        return d
+
+    # ── g515: opinion_speakers ──
+    def g515():
+        one = [mk(0, "opinion", "أحمد"), mk(1, "forecast", "أحمد"), mk(2, "opinion", "بلا طابع", ts=False),
+               mk(3, "fact", "سامر"), mk(4, "fact", "هدى")]
+        r = reel_script.opinion_speakers(one, cfg)
+        check("g515: رأيان لمتحدث واحد + رأي بلا طابع + واقعتان ← هوية واحدة", len(r) == 1, r)
+        two = [mk(0, "opinion", "أحمد"), mk(1, "forecast", "ليلى")]
+        r2 = reel_script.opinion_speakers(two, cfg)
+        check("g515: رأيان لمتحدثين ← اثنتان بترتيب الظهور", len(r2) == 2 and "أحمد" in r2[0][1] and "ليلى" in r2[1][1], r2)
+    guarded("g515", g515)
+
+    # ── g516: السطر في قضية الترشيح ──
+    def g516():
+        T = cfg.path("reel.texts")
+        topics = [
+            {"id": "aaaa1111bbbb", "title": "ثنائي", "event": "ح", "layer": "a", "blocs": ["arabic"], "channels": ["الجزيرة"],
+             "agreement": "agreement", "point_ids": [0, 1]},
+            {"id": "cccc2222dddd", "title": "فرنسا", "event": "ح", "layer": "a", "blocs": ["arabic"], "channels": ["الجزيرة"],
+             "agreement": "agreement", "point_ids": list(range(2, 8))},
+            {"id": "eeee3333ffff", "title": "وقائع", "event": "ح", "layer": "a", "blocs": ["arabic"], "channels": ["الجزيرة"],
+             "agreement": "agreement", "point_ids": [8]},
+        ]
+        pts = [mk(0, "opinion", "أحمد"), mk(1, "opinion", "ليلى")] + france + [mk(9, "fact", "سامر")]
+        c_on = load_config()
+        c_on.setdefault("reel", {})["enabled"] = True
+        body = ycl.build_selection_body("2099-01-01", topics, pts, c_on)
+        check("g516: سطر «يصلح» لموضوع بمتحدثَي رأي", T["reel_fit"].format(n=2, names="أحمد، ليلى") in body, body[-600:])
+        check("g516: سطر «لا يصلح … رأي صالح من 1» لشاهد فرنسا",
+              "لا يصلح ريل نقاش: رأي صالح من 1 متحدث (الدكتور كريم حداد" in body, None)
+        check("g516: سطر «لا رأي صالح» لموضوع بلا رأي", T["reel_unfit_none"] in body, None)
+        c_off = load_config()
+        c_off.setdefault("reel", {})["enabled"] = False
+        base_topics = [
+            {"id": "aaaa1111bbbb", "title": "موضوع أول", "event": "حدث أول", "layer": "a",
+             "blocs": ["arabic", "turkish"], "channels": ["الجزيرة", "CNN Türk"],
+             "agreement": "cross_source", "point_ids": [0, 1]},
+            {"id": "cccc2222dddd", "title": "موضوع ثانٍ", "event": "حدث ثانٍ", "layer": "b",
+             "blocs": ["arabic"], "channels": ["الجزيرة"], "agreement": "agreement",
+             "point_ids": [0], "returned_from_stage": 2}]
+        base_points = [{"statement": "قول", "speaker": "متحدث", "channel": "الجزيرة"},
+                       {"statement": "قول٢", "speaker": "متحدث٢", "channel": "CNN Türk"}]
+        off = ycl.build_selection_body("2099-01-01", base_topics, base_points, c_off)
+        check("g516: مطفأً ← الجسم مطابق لـstage1_before.md", off == (fx / "stage1_before.md").read_text(encoding="utf-8"), None)
+    guarded("g516", g516)
+
+    # ── g517/g518: الفشل المبكر ──
+    def run_wfd(points, c):
+        calls = {"ident": 0, "write": 0, "model": 0}
+        real = (reel_script.identify_speakers, reel_script.write_script, reel_script._create)
+
+        def ident(valid, *a, **k):
+            calls["ident"] += 1
+            return valid
+
+        def wscript(*a, **k):
+            calls["write"] += 1
+            return None, "stop"
+
+        def no_model(*a, **k):
+            calls["model"] += 1
+            raise AssertionError("نداء نموذج")
+        reel_script.identify_speakers, reel_script.write_script, reel_script._create = ident, wscript, no_model
+        try:
+            d = yp.build_reel_draft({"id": "aaaa1111bbbb", "title": "ت", "layer": "a", "blocs": ["arabic"],
+                                     "channels": ["الجزيرة"], "agreement": "agreement", "event": "ح"}, "2099-01-01", c)
+            out = reel_script.write_for_draft(d, {"id": "aaaa1111bbbb", "title": "ت", "event": "ح"}, points, "", [], c)
+        finally:
+            reel_script.identify_speakers, reel_script.write_script, reel_script._create = real
+        return d, out, calls
+
+    def g517():
+        d, out, calls = run_wfd(france, cfg)
+        check("g517: failed بسبب «لا خلاف كافٍ»", d.get("script_status") == "failed" and "لا خلاف كافٍ" in d.get("script_error", "")
+              and out["status"] == "failed", d.get("script_error"))
+        check("g517: السبب يذكر العدد والاسم والمطلوب", "1 متحدث" in d.get("script_error", "")
+              and "كريم حداد" in d.get("script_error", "") and "والمطلوب 2" in d.get("script_error", ""), d.get("script_error"))
+        check("g517: لا identify_speakers ولا كتابة ولا نداء نموذج", calls == {"ident": 0, "write": 0, "model": 0}, calls)
+    guarded("g517", g517)
+
+    def g518():
+        ok = [mk(0, "opinion", "أحمد"), mk(1, "opinion", "ليلى"), mk(2, "fact", "سامر")]
+        d, out, calls = run_wfd(ok, cfg)
+        check("g518: متحدثا رأي ← المسار يصل إلى identify_speakers والكتابة",
+              calls["ident"] == 1 and calls["write"] == 1 and "لا خلاف" not in (d.get("script_error") or ""), (calls, d.get("script_error")))
+        c_v1 = copy.deepcopy(cfg)
+        c_v1.setdefault("reel", {}).setdefault("script", {}).setdefault("v2", {})["enabled"] = False
+        d2, _, calls2 = run_wfd(france, c_v1)
+        check("g518: v2 مطفأ ← لا فحص جديد (يصل إلى identify_speakers)",
+              calls2["ident"] == 1 and "لا خلاف" not in (d2.get("script_error") or ""), (calls2, d2.get("script_error")))
+    guarded("g518", g518)
+
+    # ── g519: _type_violations بعد الانتقال ──
+    def g519():
+        valid = reel_script.valid_clips([mk(0, "opinion", "أحمد"), mk(1, "forecast", "ليلى"), mk(2, "fact", "سامر")], [], cfg)
+        by_id = {c["point_id"]: c for c in valid}
+        clips = [{"point_id": valid[2]["point_id"]}]
+        check("g519: متحدثا رأي + إجابة واقعة ← مخالفة", len(reel_script._type_violations(clips, by_id, valid)) == 1, None)
+        one = [c for c in valid if c["type"] != "forecast"]
+        check("g519: متحدث رأي واحد ← لا مخالفة",
+              reel_script._type_violations(clips, {c["point_id"]: c for c in one}, one) == [], None)
+    guarded("g519", g519)
