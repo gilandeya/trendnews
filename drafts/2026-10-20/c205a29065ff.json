@@ -1,0 +1,326 @@
+{
+  "id": "c205a29065ff",
+  "created_at": "2026-10-20T05:47:38.864373+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "توقيت العمل العسكري المحتمل بعد الانتخابات الإسرائيلية",
+  "tier": 2,
+  "blocs": [
+    "arabic",
+    "persian"
+  ],
+  "channels": [
+    "Iran International",
+    "الجزيرة"
+  ],
+  "agreement": "agreement",
+  "event": "توقعات بربط توقيت أي عمل عسكري أمريكي بنتائج الانتخابات الإسرائيلية",
+  "warnings": [],
+  "run_date": "2026-10-20",
+  "arabic": {
+    "post_title": "توقيت العمل العسكري المحتمل بعد الانتخابات الإسرائيلية",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "Iran International",
+      "الجزيرة"
+    ]
+  },
+  "score": 4,
+  "source_videos": [],
+  "topic_id": "1dad83174a77",
+  "topic_date": "2026-10-20",
+  "script": {
+    "version": 2,
+    "narrator": "male",
+    "title": "هل يرتبط أي عمل عسكري أمريكي بالانتخابات الإسرائيلية؟",
+    "question": "أي موعد انتخابي تراه الأكثر تأثيرًا في القرار الأمريكي؟",
+    "event": "توقعات بربط توقيت أي عمل عسكري أمريكي بنتائج الانتخابات الإسرائيلية",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "هل يرتبط أي عمل عسكري أمريكي بالانتخابات الإسرائيلية؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "في 18 أكتوبر ناقش محللون توقيت أي تحرك عسكري أمريكي محتمل. الجدل يدور حول ربط التوقيت بالانتخابات الإسرائيلية والأمريكية وملف إيران النووي."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "core",
+        "q": 0,
+        "text": "ما الذي يحدد توقيت التحرك الأمريكي؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "13c8453e3aab",
+        "q": 0,
+        "stance": "التحرك بعد الانتخابات الإسرائيلية لا الأمريكية",
+        "video_url": "https://www.youtube.com/watch?v=F58SbzG0my0",
+        "start": 1042.0,
+        "end": 1048.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "احتمال أن يكون ذلك بعد الانتخابات الإسرائيلية وليس الأمريكية",
+        "language": "ar",
+        "video_published": "2026-10-18"
+      },
+      {
+        "kind": "clip",
+        "point_id": "9cbe5342ea16",
+        "q": 0,
+        "stance": "ينتظر ما بعد الانتخابات الإسرائيلية",
+        "video_url": "https://www.youtube.com/watch?v=joR4PH28ep0",
+        "start": 489.0,
+        "end": 495.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "سنرى ما بعد الانتخابات الإسرائيلية ماذا ستفعل الولايات المتحدة.",
+        "language": "ar",
+        "video_published": "2026-10-18"
+      },
+      {
+        "kind": "clip",
+        "point_id": "e1472b4f869d",
+        "q": 0,
+        "stance": "الصفقة مرهونة بالانتخابات الأمريكية والإسرائيلية معًا",
+        "video_url": "https://www.youtube.com/watch?v=P82z3-Cm80o",
+        "start": 663.0,
+        "end": 670.8,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "إيران إنترناشيونال",
+        "channel_original": "Iran International",
+        "quote_arabic": "قال علي زاده إن ادعاء تحول إيران إلى دولة نووية وهمٌ يُروَّج له.",
+        "language": "ar",
+        "video_published": "2026-10-18"
+      },
+      {
+        "kind": "question",
+        "text": "أي موعد انتخابي تراه الأكثر تأثيرًا في القرار الأمريكي؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": []
+  },
+  "headlines": [
+    "هل يتوقف توقيت أي تحرك عسكري أمريكي محتمل على الانتخابات الإسرائيلية؟",
+    "يرى محللون أن أي تحرك أمريكي قد يأتي بعد الانتخابات الإسرائيلية لا الأمريكية",
+    "محللون: الانتخابات الإسرائيلية والأمريكية وملف إيران النووي عوامل قد تؤثر في توقيت أي تحرك أمريكي"
+  ],
+  "headline_selected": 0,
+  "editor_review": {
+    "at": "2026-10-20T05:47:59.410357+00:00",
+    "applied": [
+      {
+        "category": "headline_overclaims",
+        "severity": "high",
+        "location": "headline_3",
+        "original": "الانتخابات الإسرائيلية والأمريكية وملف إيران النووي عوامل تربط توقيت التحرك الأمريكي المحتمل",
+        "fix": "محللون: الانتخابات الإسرائيلية والأمريكية وملف إيران النووي عوامل قد تؤثر في توقيت أي تحرك أمريكي",
+        "note": "العنوان يجزم بوجود ارتباط بين هذه العوامل وتوقيت التحرك، بينما المقاطع لا تتجاوز تقديرات ضيوف («بحسب تقديره»، «سنرى ما بعد الانتخابات»). يلزم إسناد الرأي وتخفيف الجزم.",
+        "sources": []
+      }
+    ],
+    "notes": [
+      {
+        "category": "broken_quote",
+        "severity": "high",
+        "location": "body",
+        "original": "«قال علي زاده إن ادعاء تحول إيران إلى دولة نووية وهمٌ يُروَّج له.»",
+        "fix": "",
+        "note": "نص معروض داخل علامتي اقتباس لكنه صياغة بضمير الغائب عن المتحدث لا كلامه المباشر؛ اقتباس الشاشة يجب أن يكون عبارة المتحدث نفسه أو يُحوَّل إلى سرد بلا أقواس. يُراجع المقطع الأصلي.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "ما الذي يحدد توقيت التحرك الأمريكي؟",
+        "fix": "ما الذي قد يحدد توقيت أي تحرك أمريكي محتمل؟",
+        "note": "السؤال الرئيس يفترض وقوع تحرك أمريكي ويحسم أن له موعدًا محددًا، بينما المتن نفسه يتحدث عن «أي تحرك عسكري أمريكي محتمل».",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "أي موعد انتخابي تراه الأكثر تأثيرًا في القرار الأمريكي؟",
+        "fix": "هل يرتبط توقيت القرار الأمريكي بمواعيد انتخابية أم بعوامل أخرى؟",
+        "note": "سؤال الختام غير محايد: يفترض سلفًا أن موعدًا انتخابيًا هو المؤثر، ويستبعد الرأي القائل بأن التوقيت لا يرتبط بالانتخابات.",
+        "sources": []
+      },
+      {
+        "category": "stale_time",
+        "severity": "low",
+        "location": "body",
+        "original": "في 18 أكتوبر ناقش محللون توقيت أي تحرك عسكري أمريكي محتمل.",
+        "fix": "في 18 أكتوبر/تشرين الأول ناقش محللون توقيت أي تحرك عسكري أمريكي محتمل.",
+        "note": "التاريخ مطابق لتاريخ نشر المقاطع (2026-10-18)، لكن يلزم كتابة الشهر بالصيغتين الميلادية والشامية.",
+        "sources": []
+      }
+    ],
+    "error": null,
+    "searches": 2,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "reel_bg": {
+    "url": "https://media.elbalad.news/2026/10/large/18291357323880202610200238593859.jpg",
+    "kind": "news_photo",
+    "publisher": "صدى البلد"
+  },
+  "hook_candidates": [
+    {
+      "video_id": "jEpHf_7JsF0",
+      "title": "Trump endorses Netanyahu ahead of Israel's October 27 election",
+      "channel": "Al Jazeera English",
+      "views": 29288,
+      "duration": 584,
+      "published": "2026-10-18T16:16:26Z"
+    },
+    {
+      "video_id": "XbEhoO_llkg",
+      "title": "Pete Hegseth Meets Netanyahu In Surprise Israel Visit | Iran Tensions & Israel Election | News18",
+      "channel": "CNN-News18",
+      "views": 1745,
+      "duration": 119,
+      "published": "2026-10-20T02:23:52Z"
+    },
+    {
+      "video_id": "uMwuh7wEd-I",
+      "title": "Netanyahu Rallies Likud Supporters as Trump Endorses Him Nine Days Before Israel's Election | APT",
+      "channel": "APT",
+      "views": 813,
+      "duration": 341,
+      "published": "2026-10-19T19:15:39Z"
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-10-18T00:00:00Z",
+          "2026-10-22T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "قاذفات أمريكية تحلق فوق الشرق الأوسط",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "US military jets taking off from carrier deck",
+            "raw": 30,
+            "channel_ok": 1
+          },
+          {
+            "query": "Israeli election campaign rally crowd Netanyahu podium",
+            "raw": 0,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 1,
+        "judged_ok": 0,
+        "rejected_channels": [
+          "Quantum Paradox",
+          "LOLZEngineering",
+          "This is Belal",
+          "3D_Engineering",
+          "Inside Tech Factory",
+          "Iron Cutaway",
+          "How Modern Systems Actually Work",
+          "ChuckspubFiresideChat"
+        ]
+      },
+      {
+        "broad": true,
+        "window": [
+          "2026-10-16T00:00:00Z",
+          "2026-10-23T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "عمل عسكري أمريكي إسرائيل",
+            "raw": 24,
+            "channel_ok": 0
+          },
+          {
+            "query": "US military Israel elections",
+            "raw": 30,
+            "channel_ok": 5
+          },
+          {
+            "query": "Israeli elections US strike",
+            "raw": 30,
+            "channel_ok": 6
+          }
+        ],
+        "duration_ok": 8,
+        "judged_ok": 3,
+        "rejected_channels": [
+          "i24NEWS Arabic",
+          "قناة الحرة - Alhurra",
+          "العربي - أخبار",
+          "Dinesh D'Souza",
+          "The YoJoeShow Podcast",
+          "Wolf's Den",
+          "Enlace Judío",
+          "Mr. Burgandy"
+        ]
+      }
+    ],
+    "picked": [
+      "jEpHf_7JsF0",
+      "XbEhoO_llkg",
+      "uMwuh7wEd-I"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "في 18 أكتوبر ناقش محللون توقيت أي تحرك عسكري أمريكي محتمل.",
+      "visual": "مبنى الكونغرس الأمريكي من الخارج"
+    },
+    {
+      "scene": 1,
+      "sentence": 1,
+      "text": "الجدل يدور حول ربط التوقيت بالانتخابات الإسرائيلية والأمريكية وملف إيران النووي.",
+      "visual": "صناديق اقتراع ومواطنون يدلون بأصواتهم"
+    },
+    {
+      "scene": 2,
+      "sentence": 0,
+      "text": "ما الذي يحدد توقيت التحرك الأمريكي؟",
+      "visual": ""
+    }
+  ],
+  "has_photo": false,
+  "has_news_photo": true,
+  "review_issue": 1633,
+  "stage2_issue": 1633
+}
