@@ -1,0 +1,91 @@
+{
+  "id": "cdca50829046",
+  "created_at": "2026-10-20T09:08:21.120897+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 28.21,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 0,
+  "appeal_note": "تعاون أمني بين باكستان وقطر؛ قرب إقليمي، لا تشويق يُذكر",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Pakistan, Qatar agree to strengthen internal security cooperation",
+  "link": "https://www.dawn.com/news/2038488/pakistan-qatar-agree-to-strengthen-internal-security-cooperation",
+  "publishers": [
+    "Dawn",
+    "Geo News",
+    "IRNA English",
+    "Mehr News",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Pakistan, Qatar agree to strengthen internal security cooperation",
+    "link": "https://www.dawn.com/news/2038488/pakistan-qatar-agree-to-strengthen-internal-security-cooperation",
+    "summary": "Interior Minister Mohsin Naqvi and his Qatari counterpart, Sheikh Khalifa bin Hamad bin Khalifa Al Thani, have agreed to strengthen bilateral cooperation in internal security, according to a statement issued by the Interior Ministry on Tuesday. The two met in Doha and held a detailed exchange of views on enhancing cooperation in internal security, the statement said. They also discussed the current regional situation and matters relating to peace and stability. “The meeting reaffirmed the commitment to strengthening bilateral cooperation between the two interior ministries,” the statement said, adding that a decision was made to strengthen mutual cooperation and partnership in internal security. The meeting came a day after Naqvi addressed the 8th Global Security Forum in Doha, where he said Pakistan and Qatar had worked together to promote regional peace and stability. He recalled the Lake Lucerne Summit in Switzerland , organised by Pakistan and Qatar to facilitate US-Iran talks. Praising Qatar’s role in the peace efforts, Naqvi said the two countries’ aim was to “stop further conflict and to save innocent lives”. “In the diplomacy of our time, when others chose sides, Qatar chos",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-10-20T06:02:11+00:00",
+    "image_url": "https://i.dawn.com/large/2026/10/2010364747d5432.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "Geo News",
+      "IRNA English",
+      "Mehr News",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2038488/pakistan-qatar-agree-to-strengthen-internal-security-cooperation"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2635870/pakistan-qatar-agree-to-expand-security-partnership-strengthen-internal-security-cooperation"
+      },
+      {
+        "name": "Geo News",
+        "link": "https://www.geo.tv/latest/687414-pakistan-qatar-agree-to-deepen-internal-security-cooperation"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/248730/Pakistan-army-chief-to-visit-Tehran-on-Tuesday"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86298078/Pakistan-s-army-chief-departs-for-Tehran-Source"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2038493/maldives-president-arrives-in-pakistan-for-three-day-visit"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/10/2010364747d5432.webp",
+      "https://i.dawn.com/thumbnail/2026/10/2010364747d5432.webp",
+      "https://www.geo.tv/assets/uploads/2026-10-20/687414_122332_updates.jpg",
+      "https://media.mehrnews.com/d/2026/04/20/4/5994163.jpg",
+      "https://img9.irna.ir/d/r2/2026/10/20/4/173184178.jpg",
+      "https://i.dawn.com/large/2026/10/201223590c65850.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 1840.9178694894445,
+    "is_stale": false,
+    "score": 28.209238375254678,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 0,
+    "appeal_note": "تعاون أمني بين باكستان وقطر؛ قرب إقليمي، لا تشويق يُذكر",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
