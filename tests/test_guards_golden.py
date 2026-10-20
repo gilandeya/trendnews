@@ -17911,3 +17911,124 @@ def test_reel_speaker_q1_guards() -> None:
         check("g528: valid_clips كما قبل Q1 (مكي باقٍ بلا معامل dropped)",
               len(reel_script.valid_clips(copy.deepcopy(pts), [], cfg)) == 3, None)
     guarded("g528", g528)
+
+
+def test_reel_context_broll_q2_guards() -> None:
+    """Issue #1644 (Q2، g529–g533): سياق الريل وقائع لا وصف للنقاش، وخطة اللقطات بما هو موجود، واحتياط لقطة قبل الصورة.
+    الشاهد tests/fixtures/reel/1634/broll.json نسخة حرفية من المسودة الحقيقية c205a29065ff. لا شبكة."""
+    import json
+    from pathlib import Path
+    from types import SimpleNamespace
+
+    from src import reel_broll, reel_editor, reel_render, reel_script
+
+    cfg = load_config()
+    base = Path(__file__).parent / "fixtures" / "reel" / "1634"
+    fx = json.loads((base / "broll.json").read_text(encoding="utf-8"))
+    pts = json.loads((base / "points.json").read_text(encoding="utf-8"))["points"]
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def g529():
+        system = reel_script.v2_system(cfg)
+        check("g529: برومبت الكاتب فيه قاعدة «السياق وقائع لا وصف للنقاش»",
+              "وقائع الحدث" in system and "ناقش محللون" in system, system[-600:])
+        extra = cfg.path("editor.system_extra.reel", "")
+        check("g529: فقرة السياق في system_extra.reel بـother وhigh",
+              "role=context" in extra and "other" in extra and "high" in extra, extra[-500:])
+        valid = reel_script.valid_clips(pts, [], cfg)
+        check("g529: validate_v2 على سياق الريل الحقيقي لم تتغير (لا قائمة جديدة)",
+              reel_script.validate_v2(fx["script"], valid, cfg) == fx["validate_v2_before"], None)
+    guarded("g529", g529)
+
+    facts = [{"statement": "واقعة %d" % i, "type": "fact", "speaker": "س"} for i in range(8)]
+    others = [{"statement": "رأي محلل", "type": "opinion"}, {"statement": "توقع", "type": "forecast"}]
+
+    def g530():
+        msg = reel_script.user_message_v2({"title": "ت", "event": "ح"}, "نص", [], "female", cfg, member_points=others + facts)
+        check("g530: عنوان «وقائع الحدث» موجود", "وقائع الحدث" in msg, msg)
+        check("g530: وقائع fact وحدها وحتى 6", "واقعة 0" in msg and "واقعة 5" in msg and "واقعة 6" not in msg
+              and "رأي محلل" not in msg and "توقع" not in msg, msg)
+        msg2 = reel_script.user_message_v2({"title": "ت"}, "نص", [], "female", cfg, member_points=others)
+        check("g530: بلا وقائع ← لا عنوان (نص المقال وحده)", "وقائع الحدث" not in msg2 and "نص" in msg2, msg2)
+        check("g530: التوقيع القديم بلا member_points يعمل", "وقائع الحدث" not in reel_script.user_message_v2(
+            {"title": "ت"}, "نص", [], "female", cfg), None)
+        lines = reel_editor.ADAPTER.context_lines({"script": fx["script"]}, {"facts": ["واقعة أ"], "valid": []})
+        joined = "\n".join(lines)
+        check("g530: مدخل المحرر يميّز سطر السياق ويحمل وقائع الحدث", "السياق" in joined and "[2]" in joined and "واقعة أ" in joined, joined)
+    guarded("g530", g530)
+
+    def g531():
+        seen = []
+
+        def fake(client, **kw):
+            seen.append(kw)
+            return SimpleNamespace(content=[SimpleNamespace(type="tool_use", name="plan_broll", input={"items": []})],
+                                   stop_reason="tool_use", usage=SimpleNamespace(input_tokens=1, output_tokens=1, server_tool_use=None))
+        real = reel_broll._create
+        reel_broll._create = fake
+        try:
+            d = {"title": "ت", "script": fx["script"], "hook_candidates": fx["hook_candidates"]}
+            c2 = load_config()
+            c2.setdefault("reel", {}).setdefault("broll", {})["enabled"] = True
+            reel_broll.write_plan(d, c2)
+        finally:
+            reel_broll._create = real
+        content = seen[0]["messages"][0]["content"] if seen else ""
+        check("g531: النداء جرى", len(seen) == 1, seen)
+        check("g531: عناوين المرشّحين الثلاثة وقنواتهم تحت «اللقطات المتاحة»",
+              "اللقطات المتاحة" in content and all(c["title"] in content and c["channel"] in content
+                                                    for c in fx["hook_candidates"]), content)
+        check("g531: تعليمة plan_system بعدم اختراع مشهد", "لا تخترع" in cfg.path("reel.broll.plan_system", ""), None)
+    guarded("g531", g531)
+
+    scr = fx["script"]
+    chains = fx["broll_chains"]
+
+    def run_prepare(chs):
+        hv = fx["hook_video"]
+        broll = {"chains": chs, "hook": {"video_id": hv["video_id"], "start": hv["start"], "end": hv["end"]}}
+        notes: list = []
+        speech = {1: (None, [("a", 4.0), ("b", 5.0)]), 2: (None, [("c", 2.5)])}
+        deps = SimpleNamespace(assign_broll=lambda needy, ch, c: [])
+        real_dl, real_crop = reel_render._download_with_retries, reel_render._hook_crop
+        reel_render._download_with_retries = lambda deps_, rcfg, vid, a, b, out: Path(str(out))
+        reel_render._hook_crop = lambda clip, c, d, e: "crop"
+        try:
+            out = reel_render._prepare_broll(scr, [1, 2], speech, fx["broll_plan"], broll, cfg, deps, Path("."), 0.5, notes)
+        finally:
+            reel_render._download_with_retries, reel_render._hook_crop = real_dl, real_crop
+        return out, broll, notes
+
+    def g532():
+        out, broll, notes = run_prepare(chains)
+        rb = broll["result"]
+        check("g532: لا جملة بالصورة (كلها فيديو)", len(rb) == 3 and all("video_id" in x for x in rb), rb)
+        check("g532: كلها fallback", all(x.get("fallback") is True for x in rb), rb)
+        rel = [(c["video_id"], c["start"], c["end"]) for c in chains if c["relevant"]]
+        spans = [(x["video_id"], x["start"], x["end"]) for x in rb]
+        check("g532: كل نافذة داخل سلسلة relevant",
+              all(any(v == cv and s >= cs and e <= ce for cv, cs, ce in rel) for v, s, e in spans), spans)
+        check("g532: سلاسل مختلفة", len({(x["video_id"], x["desc"]) for x in rb}) == 3, rb)
+        check("g532: غير متداخلة", all(not (a["video_id"] == b["video_id"] and a["start"] < b["end"] and b["start"] < a["end"])
+                                       for i, a in enumerate(rb) for b in rb[i + 1:]), rb)
+        check("g532: الجملة الأولى على الأطول (86 ث) من وسطها", rb[0]["video_id"] == "uMwuh7wEd-I" and rb[0]["start"] > 0
+              and rb[0]["end"] < 86, rb[0])
+        check("g532: جملة بطاقة السؤال المجرّدة تأخذ احتياطًا", "video_id" in rb[2], rb[2])
+        out2, broll2, _ = run_prepare([c for c in chains if not c["relevant"]])
+        check("g532: بلا سلاسل relevant ← الصورة كما كانت",
+              all("photo" in x and "fallback" not in x for x in broll2["result"]) and not out2, broll2["result"])
+    guarded("g532", g532)
+
+    def g533():
+        _, _, notes = run_prepare(chains)
+        check("g533: سطر التعليق بعدد الاحتياطية",
+              any("🎞️ لقطات الحدث: 3 من 3 جمل (منها 3 احتياطية)" in n for n in notes), notes)
+        _, _, notes2 = run_prepare([])
+        check("g533: بلا احتياط لا ذكر له", not any("احتياطية" in n for n in notes2), notes2)
+        check("g533: render_version = 36", int(cfg.path("reel.render.version")) == 36, cfg.path("reel.render.version"))
+    guarded("g533", g533)
