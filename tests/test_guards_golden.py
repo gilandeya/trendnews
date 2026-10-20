@@ -18032,3 +18032,175 @@ def test_reel_context_broll_q2_guards() -> None:
         check("g533: بلا احتياط لا ذكر له", not any("احتياطية" in n for n in notes2), notes2)
         check("g533: render_version = 36", int(cfg.path("reel.render.version")) == 36, cfg.path("reel.render.version"))
     guarded("g533", g533)
+
+
+def test_reel_lower_graphics_q3_guards() -> None:
+    """Issue #1646 (Q3، g534–g539): الهوك لقطة ميدان لا مذيع أمام شاشة، ويُختار عبر المرشّحين، وحكم نموذج يرى اللقطات على بداية
+    رسوم القناة السفلية فيُقصّ ما تحتها (لوحة v2 والهوك ولقطات الجمل) ويُغطّى في v1. لا شبكة ولا ffmpeg."""
+    import inspect
+    import json
+    import tempfile
+    from pathlib import Path
+    from types import SimpleNamespace
+
+    import numpy as np
+    from PIL import Image
+
+    from src import reel_hook_search, reel_render
+
+    cfg = load_config()
+    work_root = Path(tempfile.mkdtemp())
+    version = int(cfg.path("reel.render.version"))
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def g534():
+        sysm = cfg.path("reel.hook_search.classify_system")
+        check("g534: قاعدة الشاشة خلف المذيع ليست event_footage",
+              "شاشة خلف" in sysm and "anchor" in sysm and "ولو كانت الشاشة تعرض الحدث" in sysm and "تملأ الإطار" in sysm, sysm)
+    guarded("g534", g534)
+
+    IMG = Image.new("RGB", (64, 36), (10, 10, 10))
+
+    def cand(vid, views):
+        return {"video_id": vid, "title": "t " + vid, "channel": "Reuters", "views": views, "duration": 900,
+                "published": "2099-11-02T08:00:00Z"}
+
+    def rig(per_video, n_frames=36):
+        st = {"cur": None}
+
+        def dl(video_id, seconds, height, out_path):
+            Path(out_path).write_bytes(video_id.encode())
+            return {"tier": "a", "bytes": 4, "failures": []}
+
+        def frames(path, seconds, c_):
+            st["cur"] = Path(path).read_bytes().decode()
+            return [IMG] * n_frames
+
+        def classify(jpeg, event, first, n, c_, labels=None):
+            ts = list(labels) if labels else list(range(first, first + n))
+            imp = per_video.get(st["cur"], {})
+            out = []
+            for t in ts:
+                r = {"t": t, "kind": "event_footage" if t in imp else "anchor", "relevant": t in imp}
+                if t in imp:
+                    r.update({"desc": "لقطة", "impact": imp[t]})
+                out.append(r)
+            return out
+        return SimpleNamespace(scan_download=dl, scan_frames=frames, classify_sheet=classify)
+
+    def g535():
+        script = {"title": "ع", "scenes": [{"kind": "title_card", "text": "ع"}]}
+        per = {"c1": {20: 2, 21: 1, 22: 1},                       # impact 4، نسبة ميدانية ≈ 8%
+               "c2": {t: 2 for t in range(5, 32)},               # impact 6، نسبة 75%
+               "c3": {t: 2 for t in range(5, 19)}}               # impact 6، نسبة ≈ 39%
+        out = reel_hook_search.scan_candidates({"topic_date": "2099-11-02"}, script,
+                                               [cand("c1", 900), cand("c2", 500), cand("c3", 300)], cfg, rig(per), work_root)
+        hv = out.get("hook_video") or {}
+        check("g535: الهوك من الثاني (الأعلى impact ثم الأعلى نسبة ميدانية)", hv.get("video_id") == "c2", out)
+        cmp_ = out.get("compared") or []
+        check("g535: compared بثلاثة عناصر بمفاتيحها",
+              len(cmp_) == 3 and all({"video_id", "impact", "footage_ratio"} <= set(c) for c in cmp_), cmp_)
+        by = {c["video_id"]: c for c in cmp_}
+        check("g535: الدرجات والنسب", by["c1"]["impact"] == 4 and by["c2"]["impact"] == 6 and by["c3"]["impact"] == 6
+              and by["c2"]["footage_ratio"] > by["c3"]["footage_ratio"] > by["c1"]["footage_ratio"], cmp_)
+        check("g535: _auto_hook تحفظ compared في hook_search", "compared" in inspect.getsource(reel_render._auto_hook), None)
+    guarded("g535", g535)
+
+    def g536():
+        p = work_root / "d" / "g536.json"
+        p.parent.mkdir(parents=True, exist_ok=True)
+        cases = (("auto بإصدار أقدم", {"video_id": "v", "start": 3, "end": 6, "source": "auto", "impact": 5,
+                                       "render_version": version - 1}, True),
+                 ("auto بالإصدار الحالي", {"video_id": "v", "start": 3, "end": 6, "source": "auto", "impact": 5,
+                                           "render_version": version}, False),
+                 ("يدوي", {"video_id": "v", "start": 3, "end": 6}, False))
+        for tag, hv, gone in cases:
+            d = {"id": "g536", "hook_video": dict(hv)}
+            p.write_text(json.dumps(d), encoding="utf-8")
+            reel_render._drop_stale_auto_hook(p, d)
+            disk = json.loads(p.read_text(encoding="utf-8"))
+            check("g536: " + tag + " — الذاكرة والقرص",
+                  ("hook_video" not in d) == gone and ("hook_video" not in disk) == gone, (d, disk))
+        out = reel_hook_search.scan_candidates({"topic_date": "2099-11-02"}, {"title": "ع", "scenes": []},
+                                               [cand("c1", 900)], cfg, rig({"c1": {t: 2 for t in range(5, 25)}}), work_root)
+        check("g536: الهوك الجديد يحمل render_version الحالي", (out.get("hook_video") or {}).get("render_version") == version, out)
+    guarded("g536", g536)
+
+    def g537():
+        gc = reel_render.graphics_crop
+        r = gc([0.82, 0.80, 1], cfg)
+        check("g537أ: [0.82،0.80،1] ← 0.78 model", abs(r["top"] - 0.78) < 1e-6 and r["source"] == "model" and r["clamped"] is False, r)
+        r = gc([1, 0.75, 1], cfg)
+        check("g537ب: لقطة واحدة لا تكفي ← 1", r["top"] == 1 and r["source"] == "model", r)
+        r = gc([0.4, 0.45, 0.5], cfg)
+        check("g537ج: تحت الحد الأدنى ← 0.60 وclamped", abs(r["top"] - 0.60) < 1e-6 and r["clamped"] is True, r)
+        r = gc(None, cfg)
+        check("g537د: فشل النداء ← 0.80 fallback", abs(r["top"] - 0.80) < 1e-6 and r["source"] == "fallback", r)
+        r = gc([1, 1, 1], cfg, detected=True, ticker_top=0.8)
+        check("g537هـ: النموذج لا شيء والكاشف يكشف ← detector", abs(r["top"] - 0.8) < 1e-6 and r["source"] == "detector", r)
+        r = gc([1, 1, 1], cfg)
+        check("g537و: لا شيء من الاثنين ← 1", r["top"] == 1, r)
+        check("g537ز: frames محفوظة", gc([0.82, 0.80, 1], cfg)["frames"] == [0.82, 0.8, 1], None)
+    guarded("g537", g537)
+
+    def mk_deps(read):
+        return reel_render.Deps(faces=lambda f, fr: (1280, 720, []), read_lower_graphics=read, run=lambda cmd: None,
+                                frames=lambda p, fr: [np.full((720, 1280), 100, np.uint8)] * len(fr)).resolved(cfg)
+
+    def g538():
+        calls = []
+
+        def fake(clip, c):
+            calls.append(str(clip))
+            return [0.80, 0.80, 0.80]
+        deps = mk_deps(fake)
+        lay = reel_render.panel_layout(2, cfg)
+        res, notes = [], []
+        for k in range(2):
+            clip = {"file": Path("c%d.mp4" % k), "seconds": 3.0, "video_id": "v1", "crop": {}}
+            tile_expr, frame_expr = reel_render._panel_crops(clip, {"x": 400, "w": 450}, {"channel_display": "قناة"}, 0,
+                                                             lay["tiles"][0], lay["frame"], cfg, deps, notes)
+            res.append((clip["crop"], tile_expr, frame_expr))
+        c0, tile_expr, frame_expr = res[0]
+        check("g538: نداء واحد لفيديو واحد", len(calls) == 1, calls)
+        check("g538: البلاطة والإطار بارتفاع ≈ 562", abs(c0["tile_crop"]["h"] - 562) <= 2 and abs(c0["frame_crop"]["h"] - 562) <= 2
+              and ":562:" in frame_expr, (c0, frame_expr))
+        lg = c0.get("lower_graphics") or {}
+        check("g538: render_crops تحفظ lower_graphics", abs(lg.get("top", 0) - 0.78) < 1e-6 and lg.get("source") == "model"
+              and lg.get("frames") == [0.8, 0.8, 0.8], lg)
+        check("g538: سطر تعليق واحد للفيديو", sum("شريط القناة" in n for n in notes) == 1 and any("22%" in n for n in notes), notes)
+    guarded("g538", g538)
+
+    def g539():
+        deps = mk_deps(lambda c, c2: [0.80, 0.80, 0.80])
+        crops: dict = {}
+        expr = reel_render._hook_crop(Path("h.mp4"), cfg, deps, crops, video_id="v1")
+        check("g539: top 0.78 ← crop بارتفاع 562 وعرض ×9/16", expr == "crop=316:562:482:0", expr)
+        check("g539: render_crops['hook'] تحفظ lower_graphics", abs(crops["hook"]["lower_graphics"]["top"] - 0.78) < 1e-6, crops)
+        e2 = reel_render._hook_crop(Path("h.mp4"), cfg, mk_deps(lambda c, c2: [1, 1, 1]), {}, video_id="v2")
+        check("g539: top 1 ← الاقتطاع القديم", e2 == "crop=ih*9/16:ih:(iw-ih*9/16)/2:0", e2)
+        check("g539: render_version = 37", version == 37, version)
+        seen = []
+        real = reel_render.frame_clip_layers
+
+        def spy(c, scene, **kw):
+            seen.append(kw.get("cover"))
+            return real(c, scene, **kw)
+        reel_render.frame_clip_layers = spy
+        try:
+            scene = {"kind": "clip", "quote_arabic": "س", "channel_display": "قناة"}
+            st, bd = real(cfg, scene)
+            ovs = (reel_render._save(st, work_root / "g539_st.png"), reel_render._save(bd, work_root / "g539_bd.png"))
+            clip = {"file": Path("c.mp4"), "seconds": 3.0, "video_id": "v3"}
+            reel_render._clip_scene(clip, ovs, work_root / "g539_out.mp4", cfg, deps, scene, [])
+        finally:
+            reel_render.frame_clip_layers = real
+        check("g539: v1 — top < 1 ← cover True", True in seen and (clip.get("crop") or {}).get("lower_graphics", {}).get("top", 1) < 1,
+              (seen, clip.get("crop")))
+    guarded("g539", g539)
+    shutil.rmtree(work_root, ignore_errors=True)
