@@ -1309,19 +1309,25 @@ def approve_reel_scripts(issue_number: int, reel_ids: list[str], body: str, cfg,
     return blocked
 
 
-def start_reel_render(issue_number: int, started: list[str], cfg) -> bool:
-    """يطلق تركيب الريل تلقائيًا مرة واحدة بعد اعتماد ريل أو أكثر (Issue #1538، W4): --pending يركّب كل المنتظر فلا
-    حاجة لنداء لكل ريل. العطل لا يوقف المعالجة: تحذير وسطر «شغّل يدويًا» والريل يبقى queued كما كان."""
+# اسم ثابت لا tunable (Issue #1635، W5): العقد بين publish.main وخطوة الـworkflow اللاحقة
+RENDER_DISPATCH_ENV = "TRENDNEWS_RENDER_DISPATCH_FILE"
+
+
+def _dispatch_render_and_comment(issue_number: int, started: list[str], now: list[str], cfg,
+                                 skip: bool = False) -> bool:
+    """الإطلاق والتعليق في موضع واحد يشترك فيه المسار القديم والأمر --dispatch-render (Issue #1635، W5) فلا يتكرر نص.
+    skip يعلّق الفشل بلا إطلاق (الإيداع لم يصل إلى main فالتركيب سيسحب مسودات قديمة)."""
     texts = cfg.path("reel.texts", {}) or {}
     wf = cfg.path("reel.render.workflow_file", "reel-render.yml")
     ref = os.environ.get("GITHUB_REF_NAME", "main")
     try:
+        if skip:
+            raise RuntimeError("الإيداع لم يصل إلى main")
         review.dispatch_workflow(wf, ref)
     except Exception as exc:
         log.warning("تعذّر إطلاق %s تلقائيًا: %s", wf, exc)
         review.comment(issue_number, texts.get("render_start_failed", ""))
         return False
-    now = [i for i in started if (store.load_draft(i) or (None, {}))[1].get("publish_on_render")]
     lines = []
     if len(now) < len(started):
         lines.append(texts.get("render_started", ""))
@@ -1329,6 +1335,51 @@ def start_reel_render(issue_number: int, started: list[str], cfg) -> bool:
         lines.append(texts.get("render_started_now", ""))
     review.comment(issue_number, "\n".join(lines))
     return True
+
+
+def start_reel_render(issue_number: int, started: list[str], cfg) -> bool:
+    """يطلق تركيب الريل تلقائيًا مرة واحدة بعد اعتماد ريل أو أكثر (Issue #1538، W4): --pending يركّب كل المنتظر فلا
+    حاجة لنداء لكل ريل. العطل لا يوقف المعالجة: تحذير وسطر «شغّل يدويًا» والريل يبقى queued كما كان.
+    W5 (Issue #1635): بوجود RENDER_DISPATCH_ENV لا إطلاق هنا — الإطلاق داخل العملية التي تكتب المسودات يسبق إيداعها
+    فيسحب التركيب main بلا الريل المعتمَد (حادثة #1633)؛ يُكتب ملف يقرؤه `--dispatch-render` بعد الإيداع."""
+    now = [i for i in started if (store.load_draft(i) or (None, {}))[1].get("publish_on_render")]
+    path = os.environ.get(RENDER_DISPATCH_ENV)
+    if not path:
+        return _dispatch_render_and_comment(issue_number, started, now, cfg)
+    data = _read_dispatch_file(path)
+    # دمج لا استبدال: تشغيلتان في الخطوة نفسها تكتبان الملف نفسه، والتعليق للقضية الأخيرة
+    merged = {"issue": issue_number,
+              "started": list(dict.fromkeys([*data.get("started", []), *started])),
+              "now": list(dict.fromkeys([*data.get("now", []), *now]))}
+    Path(path).write_text(json.dumps(merged, ensure_ascii=False), encoding="utf-8")
+    return True
+
+
+def _read_dispatch_file(path: str) -> dict:
+    try:
+        raw = Path(path).read_text(encoding="utf-8").strip()
+        data = json.loads(raw) if raw else {}
+    except (OSError, ValueError):
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def cmd_dispatch_render(cfg, skip_not_pushed: bool = False) -> int:
+    """`--dispatch-render` (Issue #1635، W5): يطلق التركيب بعد إيداع المسودات من الملف الذي كتبته start_reel_render.
+    يتحقق من القرص الآن فيبقى من started ما هو queued وحده؛ يخرج 0 دائمًا كي لا يُفشل التشغيلة."""
+    path = os.environ.get(RENDER_DISPATCH_ENV)
+    data = _read_dispatch_file(path) if path else {}
+    issue = data.get("issue")
+    if not issue or not data.get("started"):
+        return 0
+    queued = [i for i in data["started"]
+              if (store.load_draft(i) or (None, {}))[1].get("render_status") == "queued"]
+    if not queued:
+        return 0
+    now = [i for i in queued if i in set(data.get("now", []))
+           or (store.load_draft(i) or (None, {}))[1].get("publish_on_render")]
+    _dispatch_render_and_comment(int(issue), queued, now, cfg, skip=skip_not_pushed)
+    return 0
 
 
 def _write_topic_article(topic: dict, points: list[dict], date_str: str, cfg, client, redo_n: int = 0):
@@ -1689,6 +1740,10 @@ def main() -> int:
     parser.add_argument("--verify", action="store_true", help="فحص التوكن")
     parser.add_argument("--diagnose", action="store_true",
                         help="فحص شامل لأسباب ضعف الوصول")
+    parser.add_argument("--dispatch-render", action="store_true",
+                        help="إطلاق تركيب الريل بعد الإيداع من ملف TRENDNEWS_RENDER_DISPATCH_FILE")
+    parser.add_argument("--skip-not-pushed", action="store_true",
+                        help="مع --dispatch-render: علّق الفشل بلا إطلاق (الإيداع لم يصل)")
     parser.add_argument("--config", default=None)
     args = parser.parse_args()
 
@@ -1696,6 +1751,9 @@ def main() -> int:
                         format="%(asctime)s │ %(levelname)-7s │ %(message)s",
                         datefmt="%H:%M:%S")
     cfg = load_config(args.config)
+
+    if args.dispatch_render:
+        return cmd_dispatch_render(cfg, args.skip_not_pushed)
 
     if args.verify:
         info = facebook.verify_token(cfg.path("facebook.api_version", "v21.0"))
