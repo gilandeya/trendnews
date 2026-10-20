@@ -52,6 +52,7 @@ python -m tests.test_pipeline        # run the full test suite
 ### أدوات القياس (`tools/`)
 
 - `python tools/reel_clip_probe.py --clips 6 --seconds 12` (Issue #1236) — تجربة جدوى لريلات التحليل: تنزيل نافذة قصيرة من فيديو يوتيوب بـyt-dlp عبر بروكسي Webshare (جودتا 720/480 لأول نقطتين) مع حارس دقة النافذة مقابل نص الفيديو. قياس فقط (لا ريل ولا نشر)؛ المقاطع في `youtube-data/reel_probe/<التاريخ>/` (المستودع الخاص) وتقرير الأرقام وحده في `state/reel_probe/<التاريخ>.json`.
+- `python tools/clip_audit_probe.py` (Issue #1642، Q1) — يشغّل `reel_script.audit_clips` الحقيقي (مفتاح API) على 28 مقطعًا في `tests/fixtures/reel/1642/mismatch.json` ويطبع الحكم مقابل المتوقع ثم «صحيح N من 28»؛ قياس يدوي خارج الحزمة.
 
 There is no separate test runner/framework (no pytest) and no linter configured — the project's
 only quality gate is the test suite under `tests/`, run as the `tests.test_pipeline` module (see
@@ -2252,3 +2253,25 @@ instead.
 
   الشرط لأن «تسجيل الحالة» تخرج 0 حتى لو فشل الدفع خمس مرات.
 - الاختبارات: g510–g514 في `tests/test_guards_golden.py:test_w5_render_dispatch_after_push_guards`.
+
+## ترجمة المتحدث كلامه وتطابق الملخّص (Issue #1642، Q1) — `src/reel_script.py`
+
+الحادثة (الريل c205a29065ff، #1634): ترجمة «قال علي زاده إن…» تحت وجه علي زاده نفسه، ونقطة متحدثها «لقاء مكي» وملخّصها «رأى الدكتور محمد العريمي…».
+`render_version` بلا تغيير (التغيير قبل التركيب). الشواهد `tests/fixtures/reel/1634/points.json`؛ g524–g528 في `tests/test_guards_golden.py:test_reel_speaker_q1_guards`.
+
+- **القرار: الحكم لنموذج والكود ينفّذ.** جُرّب حارسان نصيان (فعل نقل في أول الترجمة/الملخّص + رموز الاسم) وقيسا على 573 مقطعًا حقيقيًا: استبعد
+  `statement_other_speaker` 28 مقطعًا 24 منها سليمة («قال وزير الدفاع…» تحت وجه يسرائيل كاتس، «المرسوم»، «أحد الضيوف»)، واستبعد `reported_speech`
+  بعد إعادة الترجمة مذيعًا ينقل عن غيره («قال ترامب…») وترجمته أمينة. «من قال هذا الكلام؟ وهل الترجمة بصيغة المتكلم؟» حكم لغوي (نهج `names_learn`)،
+  فحُذفت القواعد النصية كلها (`reported_speech`/`statement_other_speaker`/`fix_reported_quotes`/`retranslate_quotes` ومفاتيح `reported_verbs`/`*_window`/`retranslate_*`).
+  `valid_clips` كما قبل Q1 (لا معامل `dropped`) فعدّ سطر صلاحية الريل في قضية الترشيح (R7) لا يتأثر بنداء.
+- **الاستخراج:** `prompts/youtube_extract.md` يلزم `quote_arabic` بصيغة المتكلم ويمنع فعل النقل واسمه بضمير الغائب بمثال سلبي «قال X إن…»؛ `REQUIRED_FIELDS` بلا تغيير.
+- **نداء الفحص `reel_script.audit_clips(clips, cfg, client)`:** Haiku واحد مجمَّع لكل المقاطع الصالحة (`llm.create` عبر `_audit_create`، نموذجه `reel.script.clip_audit.model`، أداة
+  `audit_clips`، نظامه `reel.script.clip_audit.system` بمثالي الحادثة ومثال «وزير الدفاع»). المدخل لكل مقطع: point_id، المتحدث، الملخّص، الكلام الأصلي ولغته، الترجمة، القناة.
+  المخرج: `speaker_said_it` (yes|no|unsure) و`other_name` و`first_person` و`quote_arabic_fixed`. الوصف واختلاف رسم الاسم لا يجعلانه شخصًا آخر، ومذيع ينقل عن غيره قائلٌ لكلامه (yes).
+- **التنفيذ (`apply_audit`، في `write_for_draft`):** النداء بعد فحص R7 المبكر (موضوع دون الحد يفشل بلا نداء، g517) ثم يُعاد فحص `min_clips` وR7 بعده (قد يُسقط الفحص متحدثًا).
+  `no` ← استبعاد بسبب `reel.texts.clip_drop_mismatch` بالاسم الآخر · `first_person=false` مع ترجمة جديدة ← تحلّ محل `quote_arabic` في نسخة المقطع وحدها (ملف النقاط لا يُمسّ) و`quote_retranslated`،
+  وبلا ترجمة ← استبعاد بسبب `clip_drop_reported` · `unsure` ← يبقى مع سطر ❓. **فشل النداء أو مخرج غير صالح:** لا استبعاد ولا تغيير، `clip_audit.error`، وتنبيه واحد ⚠️ ولا تسقط الكتابة.
+  يُحفظ على المسودة `clip_audit = {error, rows}` (الصفوف الخام + `channel`) و`clip_dropped` و`quote_retranslated`، وكلها في `SCRIPT_KEYS`.
+- **العرض (`youtube_publish._reel_clip_note_lines` في بند الريل بالمرحلة 2):** «🚫 استُبعد مقطع {القناة}: {السبب}» · «🔁 أُعيدت ترجمة مقطع {القناة} بصيغة المتكلم» · «❓ لم يُحسم قائل مقطع {القناة}» ·
+  «⚠️ تعذّر فحص قائلي المقاطع وصيغة ترجمتها — راجعها» (نصوصها `reel.texts.clip_*`).
+- **القياس اليدوي:** `tools/clip_audit_probe.py` على `tests/fixtures/reel/1642/mismatch.json` (28 مقطعًا حقيقيًا استبعدها الحارس القديم؛ 4 بأسماء آخرين و24 سليمًا) خارج الحزمة، ويحتاج `ANTHROPIC_API_KEY`.

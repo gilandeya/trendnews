@@ -17758,3 +17758,156 @@ def test_reel_transcript_r8_guards() -> None:
         check("g523: لا كلمة مرور ولا مستخدم بروكسي في الحفظ والتعليق",
               "secret" not in blob and "user:" not in blob and s.get("render_approx"), blob[:300])
     guarded("g523", g523)
+
+
+def test_reel_speaker_q1_guards() -> None:
+    """Issue #1642 (Q1، g524–g528): ترجمة المتحدث كلامه هو لا خبرٌ عنه، ولا مقطع لمتحدث يناقضه ملخّص نقطته. الحكم لنداء فحص واحد
+    (reel_script.audit_clips) لا لقواعد نصية، والكود ينفّذه ويسجّله. الشاهد النقاط الثلاث الحقيقية من الريل c205a29065ff (#1634). لا شبكة."""
+    import copy
+    import json
+    from pathlib import Path
+    from types import SimpleNamespace
+
+    from src import reel_script
+    from src import youtube_publish as yp
+
+    cfg = load_config()
+    fx = Path(__file__).parent / "fixtures" / "reel" / "1634" / "points.json"
+    pts = json.loads(fx.read_text(encoding="utf-8"))["points"]
+    ali, maki, metri = pts
+    ali_id, maki_id, metri_id = (reel_script.point_key_id(p) for p in (ali, maki, metri))
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def tool_resp(rows):
+        blk = SimpleNamespace(type="tool_use", name="audit_clips", input={"clips": rows})
+        return SimpleNamespace(content=[blk], stop_reason="tool_use")
+
+    def row(pid, said="yes", other="", fp=True, fixed=""):
+        return {"point_id": pid, "speaker_said_it": said, "other_name": other, "first_person": fp, "quote_arabic_fixed": fixed}
+
+    def run(audit, points=None):
+        calls = {"audit": 0, "write": 0, "valid": None, "msgs": []}
+        real = (reel_script.identify_speakers, reel_script.write_script, getattr(reel_script, "_audit_create", None))
+
+        def ident(valid, *a, **k):
+            return valid
+
+        def wscript(topic, text, valid, *a, **k):
+            calls["write"] += 1
+            calls["valid"] = valid
+            return None, "stop"
+
+        def fake_audit(client, **kw):
+            calls["audit"] += 1
+            calls["msgs"].append(json.dumps(kw.get("messages"), ensure_ascii=False))
+            return audit(kw)
+        reel_script.identify_speakers, reel_script.write_script = ident, wscript
+        reel_script._audit_create = fake_audit
+        try:
+            d = yp.build_reel_draft({"id": "aaaa1111bbbb", "title": "ت", "layer": "a", "blocs": ["arabic"],
+                                     "channels": ["الجزيرة"], "agreement": "agreement", "event": "ح"}, "2099-01-01", cfg)
+            out = reel_script.write_for_draft(d, {"id": "aaaa1111bbbb", "title": "ت", "event": "ح"},
+                                              copy.deepcopy(points or pts), "", [], cfg)
+        finally:
+            reel_script.identify_speakers, reel_script.write_script = real[:2]
+            reel_script._audit_create = real[2]
+        return d, out, calls
+
+    def all_yes(kw):
+        return tool_resp([row(ali_id), row(maki_id), row(metri_id)])
+
+    def g524():
+        d, out, calls = run(all_yes)
+        check("g524: نداء فحص واحد مهما كان عدد المقاطع", calls["audit"] == 1, calls["audit"])
+        m = calls["msgs"][0] if calls["msgs"] else ""
+        for p in pts:
+            ok = all(json.dumps(p[k], ensure_ascii=False)[1:-1] in m for k in ("speaker", "statement", "quote_original", "quote_arabic"))
+            check(f"g524: مدخل الفحص يحمل حقول {p['id']}", ok, m[:200])
+        check("g524: لا reported_speech ولا مفاتيح القواعد النصية",
+              not hasattr(reel_script, "reported_speech") and not hasattr(reel_script, "statement_other_speaker")
+              and not hasattr(reel_script, "fix_reported_quotes") and not hasattr(reel_script, "retranslate_quotes"), None)
+    guarded("g524", g524)
+
+    def g525():
+        new = "بيع وهم تحوّل بلد إلى دولة نووية ليس سوى وهم محض."
+        d, out, calls = run(lambda kw: tool_resp([row(ali_id, fp=False, fixed=new), row(maki_id), row(metri_id)]))
+        by = {c["point_id"]: c for c in (calls["valid"] or [])}
+        check("g525: السيناريو يحمل الترجمة الجديدة لعلي زاده", by.get(ali_id, {}).get("quote_arabic") == new, list(by))
+        check("g525: quote_retranslated فيه معرّفه", d.get("quote_retranslated") == [ali_id], d.get("quote_retranslated"))
+        check("g525: متري باقٍ بترجمته", by.get(metri_id, {}).get("quote_arabic") == metri["quote_arabic"], None)
+        d2, _, _ = run(lambda kw: tool_resp([row(ali_id, fp=False), row(maki_id), row(metri_id)]))
+        check("g525: first_person=false بلا ترجمة ← clip_dropped",
+              any(x["point_id"] == ali_id and "ترجمة بصيغة الخبر" in x["reason"] for x in d2.get("clip_dropped") or []),
+              d2.get("clip_dropped"))
+        anchor = dict(metri, quote_arabic="قال ترامب إن واشنطن لن تتراجع.", speaker="تيم كونستنتاين، نائب رئيس التحرير")
+        d3, _, calls3 = run(lambda kw: tool_resp([row(ali_id), row(maki_id), row(metri_id, said="yes", fp=True)]), [ali, maki, anchor])
+        c3 = {c["point_id"]: c for c in (calls3["valid"] or [])}
+        check("g525: مذيع ينقل عن غيره (yes/first_person=true) ← يبقى كما هو",
+              c3.get(metri_id, {}).get("quote_arabic") == "قال ترامب إن واشنطن لن تتراجع." and not d3.get("quote_retranslated")
+              and not d3.get("clip_dropped"), (d3.get("quote_retranslated"), d3.get("clip_dropped")))
+    guarded("g525", g525)
+
+    def g526():
+        d, _, calls = run(lambda kw: tool_resp([row(ali_id), row(maki_id, said="no", other="محمد العريمي"), row(metri_id)]))
+        ids = {c["point_id"] for c in (calls["valid"] or [])}
+        check("g526: no ← مكي مستبعد ومتري باقٍ", maki_id not in ids and metri_id in ids, ids)
+        check("g526: السبب فيه «محمد العريمي»",
+              any(x["point_id"] == maki_id and "محمد العريمي" in x["reason"] for x in d.get("clip_dropped") or []), d.get("clip_dropped"))
+        d2, _, calls2 = run(lambda kw: tool_resp([row(ali_id), row(maki_id, said="unsure"), row(metri_id)]))
+        ids2 = {c["point_id"] for c in (calls2["valid"] or [])}
+        check("g526: unsure ← يبقى", maki_id in ids2 and not d2.get("clip_dropped"), ids2)
+        c = copy.deepcopy(cfg)
+        c.setdefault("reel", {})["enabled"] = True
+        dd = {"id": "q1000000526a", "origin": "analysis", "format": "reel", "status": "pending", "topic_id": "t1",
+              "title": "ريل", "script_status": "ready", "headlines": ["أ؟", "ب", "ج"],
+              "script": {"narrator": "female", "title": "عنوان", "question": "هل؟", "scenes": [{"kind": "outro"}]},
+              "clip_audit": d2.get("clip_audit")}
+        body = "\n".join(yp._reel_item_lines(1, dd, c))
+        check("g526: سطر ❓ لمقطع مكي", "❓ لم يُحسم قائل مقطع" in body and "الجزيرة" in body, body[:500])
+    guarded("g526", g526)
+
+    def g527():
+        def boom(kw):
+            raise RuntimeError("fail")
+        d, out, calls = run(boom)
+        check("g527: النداء يرفع ← لا استبعاد ولا تغيير",
+              not d.get("clip_dropped") and not d.get("quote_retranslated") and len(calls["valid"] or []) == 3,
+              (d.get("clip_dropped"), len(calls["valid"] or [])))
+        check("g527: السيناريو يُكتب (نداء الكتابة جرى)", calls["write"] == 1, calls["write"])
+        check("g527: الخطأ محفوظ في clip_audit", (d.get("clip_audit") or {}).get("error"), d.get("clip_audit"))
+        c = copy.deepcopy(cfg)
+        c.setdefault("reel", {})["enabled"] = True
+        dd = {"id": "q1000000527a", "origin": "analysis", "format": "reel", "status": "pending", "topic_id": "t1",
+              "title": "ريل", "script_status": "ready", "headlines": ["أ؟", "ب", "ج"],
+              "script": {"narrator": "female", "title": "عنوان", "question": "هل؟", "scenes": [{"kind": "outro"}]},
+              "clip_audit": d.get("clip_audit"),
+              "clip_dropped": [{"point_id": maki_id, "reason": "ملخّص النقطة ينسبها إلى شخص آخر: محمد", "channel": "الجزيرة"}],
+              "quote_retranslated": [ali_id]}
+        body = "\n".join(yp._reel_item_lines(1, dd, c))
+        check("g527: سطر ⚠️ تعذّر الفحص مرة واحدة", body.count("⚠️ تعذّر فحص قائلي المقاطع") == 1, body[:500])
+        dd["clip_audit"] = {"rows": [], "error": ""}
+        dd["script"]["scenes"].insert(0, {"kind": "clip", "point_id": ali_id, "channel_display": "إيران إنترناشيونال"})
+        body = "\n".join(yp._reel_item_lines(1, dd, c))
+        check("g527: سطرا 🚫 و🔁",
+              "🚫 استُبعد مقطع الجزيرة: ملخّص النقطة ينسبها إلى شخص آخر: محمد" in body
+              and "🔁 أُعيدت ترجمة مقطع إيران إنترناشيونال بصيغة المتكلم" in body, body[:600])
+        d2, _, calls2 = run(lambda kw: SimpleNamespace(content=[], stop_reason="end_turn"))
+        check("g527: مخرج غير صالح ← تنبيه بلا تغيير", (d2.get("clip_audit") or {}).get("error") and len(calls2["valid"] or []) == 3, d2.get("clip_audit"))
+    guarded("g527", g527)
+
+    def g528():
+        from src import youtube_extract
+        prompt = youtube_extract.load_prompt()
+        check("g528: المنع والمثال في برومبت الاستخراج",
+              "بصيغة المتكلم" in prompt and "قال X إن" in prompt and "فعل نقل" in prompt, None)
+        check("g528: REQUIRED_FIELDS بلا تغيير", youtube_extract.REQUIRED_FIELDS ==
+              ["statement", "speaker", "quote_original", "quote_arabic", "anchor_text", "type", "topic_hint"], None)
+        check("g528: reel.script.reported_verbs غير موجود", cfg.path("reel.script.reported_verbs", None) is None, None)
+        check("g528: valid_clips كما قبل Q1 (مكي باقٍ بلا معامل dropped)",
+              len(reel_script.valid_clips(copy.deepcopy(pts), [], cfg)) == 3, None)
+    guarded("g528", g528)
