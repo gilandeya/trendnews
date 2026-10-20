@@ -2275,3 +2275,20 @@ instead.
 - **العرض (`youtube_publish._reel_clip_note_lines` في بند الريل بالمرحلة 2):** «🚫 استُبعد مقطع {القناة}: {السبب}» · «🔁 أُعيدت ترجمة مقطع {القناة} بصيغة المتكلم» · «❓ لم يُحسم قائل مقطع {القناة}» ·
   «⚠️ تعذّر فحص قائلي المقاطع وصيغة ترجمتها — راجعها» (نصوصها `reel.texts.clip_*`).
 - **القياس اليدوي:** `tools/clip_audit_probe.py` على `tests/fixtures/reel/1642/mismatch.json` (28 مقطعًا حقيقيًا استبعدها الحارس القديم؛ 4 بأسماء آخرين و24 سليمًا) خارج الحزمة، ويحتاج `ANTHROPIC_API_KEY`.
+
+## سياق الريل وقائع ولقطة قبل الصورة (Issue #1644، Q2) — `src/reel_script.py`، `src/reel_broll.py`، `src/reel_render.py`
+
+الحادثة (الريل c205a29065ff، #1634): سياق «ناقش محللون…/يدور الجدل…» بلا واقعة واحدة، وصورة ثابتة نحو 20 ث لأن الخطة طلبت مشاهد غير موجودة
+(مبنى الكونغرس، صناديق اقتراع) فلم تُسند لقطة رغم 7 سلاسل `relevant`. الشاهد `tests/fixtures/reel/1634/broll.json` (نسخة حرفية من المسودة)؛ g529–g533
+في `tests/test_guards_golden.py:test_reel_context_broll_q2_guards`. `render_version` = 36.
+
+- **(1) السياق وقائع:** `reel.script.v2.system` فيه قاعدة «السياق وقائع لا وصف للنقاش». `reel_script.event_facts` (نقاط `type == "fact"` بلا تكرار، حتى
+  `v2.facts_max` = 6) تدخل `user_message_v2(..., member_points=)` تحت «وقائع الحدث»، وبلا وقائع يبقى نص المقال وحده. **الحكم للنموذج لا لقائمة:** لا regex ولا رفض في
+  `validate_v2` (g529 تثبّت أن نتيجتها على السياق الحقيقي لم تتغير)؛ فقرة `editor.system_extra.reel` تجعل سياقًا يصف النقاش عيبًا `other`/`high` مع `fix` من الوقائع
+  المرفقة، فتحجبه البوابة القائمة حتى يعدّل المراجع السطر أو يعلّم ✍️. `ReelAdapter.context_lines` تُميّز سطر السياق (role=context) وتحمل `ctx["facts"]`.
+- **(2) خطة اللقطات:** `reel_broll.available_block` تُلحِق «اللقطات المتاحة» (عنوان كل مرشّح في `draft.hook_candidates` وقناته) بنداء `plan`، وتعليمة `plan_system`
+  تقيّد `visual` بما قد يظهر في تلك الفيديوهات وتمنع اختراع مشهد.
+- **(3) الاحتياط:** في `_prepare_broll` بعد `reel_broll.resolve`، كل جملة بقيت بالصورة لسبب غير `no_visual` (وجملة بطاقة السؤال `role == "question"` حتى لو مجرّدة) تأخذ من
+  `reel_broll.fallback` أطول سلسلة `relevant` لم تُستعمل بنافذة من وسطها بطول الجملة، بالطول والتداخل نفسيهما (مع الهوك ومع أي لقطة). تُحفظ في `render_broll` بـ`fallback: true`
+  ويذكرها التعليق «(منها K احتياطية)» (`comment_broll_fallback_part`). لا سلسلة تصلح ← الصورة كما كانت.
+
