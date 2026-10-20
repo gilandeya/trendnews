@@ -3731,6 +3731,7 @@ def _auto_hook(path: Path, draft: dict, script: dict, cfg, deps: Deps, tmp: Path
         draft["hook_video"] = res["hook_video"]
         search = dict(draft.get("hook_search") or {})
         search["picked"] = [res["hook_video"]["video_id"]]
+        search["compared"] = res.get("compared", [])    # ما قورن بين المرشّحين: يفسّر لماذا هذا الفيديو (Q3)
         store.update_draft(path, hook_video=res["hook_video"], hook_search=search)
         notes.append(_hook_note(cfg, res["hook_video"]))
     else:
@@ -3784,7 +3785,10 @@ def _drop_stale_auto_hook(path: Path, draft: dict) -> None:
     hv = draft.get("hook_video")
     if not isinstance(hv, dict):
         return
-    if hv.get("source") == "auto_topic" or (hv.get("source") == "auto" and "impact" not in hv):
+    # Q3: auto بإصدار تركيب أقدم يُعاد اختياره أيضًا لأنه اختير قبل التصنيف الصارم للأستوديو والمقارنة بين المرشّحين
+    cur = int(load_config().path("reel.render.version", 0) or 0)
+    if hv.get("source") == "auto_topic" or (hv.get("source") == "auto" and (
+            "impact" not in hv or int(hv.get("render_version") or 0) < cur)):
         draft.pop("hook_video", None)
         store.update_draft(path, remove=["hook_video"])
 
