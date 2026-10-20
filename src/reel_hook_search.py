@@ -382,6 +382,7 @@ def scan_candidates(draft: dict, script: dict, cands: list[dict], cfg, deps, tmp
     state = state if state is not None else ScanState()
     event = event_text(script, draft)
     out: dict = {"errors": 0}
+    found: list = []
     sheets_left = int(hcfg.get("max_sheets", 12))
     hook_secs = int(hcfg.get("scan_seconds", 180))
     dl_secs = max(hook_secs, int(cfg.path("reel.broll.scan_seconds", 600))) if want_broll else hook_secs
@@ -431,15 +432,23 @@ def scan_candidates(draft: dict, script: dict, cands: list[dict], cfg, deps, tmp
             out["errors"] += 1
             state.failed.add(vid)
             continue
-        win = pick_hook_window({t: e for t, e in known.items() if e.get("step") == 1}, cfg)
+        step1 = {t: e for t, e in known.items() if e.get("step") == 1}
+        win = pick_hook_window(step1, cfg)
         if win:
-            title = re.sub(r"[\[\]]", "", clean_title(c.get("title", ""))).strip()
-            reason = cfg.path("reel.render.texts.hook_reason").format(seconds=int(cfg.path("reel.render.hook.strong_seconds", 3)),
-                                                                      impact=win["impact"])
-            out["hook_video"] = {"video_id": c["video_id"], "start": win["start"], "end": win["end"], "channel": c.get("channel", ""),
-                                 "title": title, "source": "auto", "views": int(c.get("views") or 0),
-                                 "impact": win["impact"], "pre_ok": win["pre_ok"], "strong_start": win["start"], "reason": reason}
-            break  # الأعلى مشاهدة أولًا: لا مقارنة بين المرشّحين
+            # نسبة ما صُنّف event_footage من الثواني المصنَّفة في الفيديو: مذيع أمام شاشة فيها حشد يرفع impact نافذة ويُسقط هذه النسبة (Q3)
+            ratio = sum(1 for e in step1.values() if e.get("kind") == "event_footage") / max(len(step1), 1)
+            found.append((c, win, ratio))
+    if found:
+        # لا يُعتمد أول مرشّح صالح: الأعلى درجة impact، والتعادل للأعلى نسبة ميدانية في الفيديو، وبعده الأسبق ترتيبًا (Issue #1646، Q3)
+        c, win, _ = max(enumerate(found), key=lambda p: (p[1][1]["impact"], p[1][2], -p[0]))[1]
+        title = re.sub(r"[\[\]]", "", clean_title(c.get("title", ""))).strip()
+        reason = cfg.path("reel.render.texts.hook_reason").format(seconds=int(cfg.path("reel.render.hook.strong_seconds", 3)),
+                                                                  impact=win["impact"])
+        out["hook_video"] = {"video_id": c["video_id"], "start": win["start"], "end": win["end"], "channel": c.get("channel", ""),
+                             "title": title, "source": "auto", "views": int(c.get("views") or 0),
+                             "impact": win["impact"], "pre_ok": win["pre_ok"], "strong_start": win["start"], "reason": reason,
+                             "render_version": int(cfg.path("reel.render.version", 0) or 0)}
+        out["compared"] = [{"video_id": cc["video_id"], "impact": w["impact"], "footage_ratio": round(r, 3)} for cc, w, r in found]
     return out
 
 

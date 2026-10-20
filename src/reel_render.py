@@ -545,6 +545,9 @@ class Deps:
     make_queries: Callable[[dict, dict, Any], list] | None = None
     # (جمل تحتاج لقطة [{n,dur,visual,text}]، السلاسل، cfg) ← [{n, chain}] (Issue #1452، R5d2)؛ None ← لا لقطات حدث (الصورة وحدها)
     assign_broll: Callable[[list, list, Any], list] | None = None
+    # (ملف المقطع، cfg) ← قائمة graphics_top لكل لقطة من ثلاث (أو {graphics_top, what})؛ نموذج يرى اللقطات (Issue #1646، Q3).
+    # None للمزيَّفات القديمة ← لا نداء ويبقى الكاشف وحده
+    read_lower_graphics: Callable[[Any, Any], list | None] | None = None
 
     def resolved(self, cfg) -> "Deps":
         # جلسة واحدة للتركيب كله كالجمع (R8)؛ تُنشأ عند أول جلب لا عند الاستيراد
@@ -595,6 +598,8 @@ class Deps:
             # فلا يلمس أي اختبار ffmpeg حقيقيًا ولا شبكة؛ الحقيقيان لا يُستعملان إلا حين لا حقن إطلاقًا
             face_tracks=self.face_tracks or (_detect_face_tracks if self.faces is None else (lambda clip, c: None)),
             read_chyron=self.read_chyron or (_real_read_chyron if self.download_clip is None else (lambda clip, c: None)),
+            read_lower_graphics=self.read_lower_graphics or (
+                _real_read_lower_graphics if self.download_clip is None and self.faces is None else None),
             pick_speaker=self.pick_speaker or (_real_pick_speaker if self.download_clip is None else (lambda *a: None)),
             sleep=self.sleep or time.sleep,
             streams=self.streams or probe_streams,
@@ -1844,7 +1849,7 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path) -> tuple
             continue
         out = got
         secs = deps.probe(out) or float(wend - wstart)
-        clips[i] = {"file": out, "seconds": float(secs)}
+        clips[i] = {"file": out, "seconds": float(secs), "video_id": vid}
         if transcripts[vid] and not (approx and approx[-1]["point_id"] == scene.get("point_id", "")
                                      and approx[-1]["start"] == wstart):
             # نافذة محسوبة من النص نفسه: مقاطعه تعطي منحنى تقدّم الكلام لتوقيت الترجمة؛ التقريبية بلا مقاطع فتوزَّع بالتساوي
@@ -2220,6 +2225,12 @@ def _clip_scene(clip: dict, overlays: tuple[Path, Path], out: Path, cfg, deps: D
     if scene is not None and cfg.path("reel.render.band.cover") not in (True, False):
         # الغطاء والشريط المعتم فقط حين في أسفل المقطع شريط أخبار أو لافتة (Issue #1408)؛ القرار يُحفظ للمراجعة
         cover = detect_cover(clip["file"], crop["x"], crop["w"], cfg, deps.frames)
+        # Q3: حكم النموذج على بداية الرسوم يجعل الغطاء المعتم القائم يخفي الشريط ولو فاته الكاشف (v1 بلا قصّ جديد)
+        lg = lower_graphics(clip["file"], cfg, deps, detected=cover, key=clip.get("video_id"),
+                            channel=scene.get("channel_display", ""), notes=notes)
+        if lg["source"] in ("model", "fallback"):
+            clip["crop"]["lower_graphics"] = lg
+            cover = cover or lg["top"] < 1
         clip["crop"]["cover"] = cover
         overlays = tuple(_save(im, Path(ov).with_name(Path(ov).stem + "_auto.png"))
                          for im, ov in zip(frame_clip_layers(cfg, scene, cover=cover, quote=qframes is None), overlays))
@@ -2432,6 +2443,111 @@ def call_chyron_model(jpegs: list[bytes], cfg, client=None) -> list[dict]:
 
 def _real_read_chyron(clip, cfg) -> list[dict]:
     return call_chyron_model(_chyron_jpegs(clip, cfg), cfg)
+
+
+# ───────────────────── بداية رسوم القناة السفلية: يحكم نموذج يرى اللقطات (Issue #1646، Q3) ─────────────────────
+
+LOWER_GRAPHICS_TOOL = {
+    "name": "locate_lower_graphics",
+    "description": "يعيد لكل لقطة أعلى نقطة لرسوم القناة الثابتة في أسفل الإطار (1 = لا رسوم)",
+    "input_schema": {"type": "object", "properties": {"frames": {"type": "array", "items": {
+        "type": "object",
+        "properties": {"graphics_top": {"type": "number", "minimum": 0, "maximum": 1}, "what": {"type": "string"}},
+        "required": ["graphics_top", "what"]}}},
+        "required": ["frames"]},
+}
+
+
+def call_lower_graphics_model(jpegs: list[bytes], cfg, client=None) -> list[dict]:
+    """نداء واحد بكل اللقطات وأداة إجبارية locate_lower_graphics ← قائمة بعدد اللقطات. الرفض أو ردّ غير صالح يرفع."""
+    import base64
+
+    from . import llm
+    lcfg = cfg.path("reel.render.lower_graphics") or {}
+    if client is None:
+        from anthropic import Anthropic
+
+        from .config import env
+        client = Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
+    content = [{"type": "image", "source": {"type": "base64", "media_type": "image/jpeg",
+                                            "data": base64.b64encode(b).decode("ascii")}} for b in jpegs]
+    content.append({"type": "text", "text": f"اللقطات {len(jpegs)} بالترتيب؛ أعد نتيجة واحدة لكل لقطة."})
+    resp = llm.create(client, cfg=cfg, model=lcfg.get("model", "haiku"), max_tokens=int(lcfg.get("max_tokens", 500)),
+                      system=lcfg.get("system", ""), tools=[LOWER_GRAPHICS_TOOL],
+                      tool_choice={"type": "tool", "name": LOWER_GRAPHICS_TOOL["name"]},
+                      messages=[{"role": "user", "content": content}])
+    if getattr(resp, "stop_reason", "") == "refusal":
+        raise RuntimeError("رفض النموذج قراءة اللقطات")
+    for b in getattr(resp, "content", None) or []:
+        if getattr(b, "type", "") == "tool_use" and getattr(b, "name", "") == LOWER_GRAPHICS_TOOL["name"]:
+            frames = (getattr(b, "input", None) or {}).get("frames")
+            if isinstance(frames, list) and frames and all(isinstance(f, dict) for f in frames):
+                return frames
+    raise ValueError("ردّ غير صالح من محدّد رسوم القناة")
+
+
+def _real_read_lower_graphics(clip, cfg) -> list[dict]:
+    return call_lower_graphics_model(_chyron_jpegs(clip, cfg), cfg)
+
+
+def _graphics_values(raw) -> list[float] | None:
+    """قيم graphics_top من ردّ القارئ (أرقامًا أو عناصر فيها graphics_top)؛ None لمخرج غير صالح، وقائمة فارغة = لا نموذج."""
+    if not isinstance(raw, list):
+        return None
+    vals = []
+    for f in raw:
+        v = f.get("graphics_top") if isinstance(f, dict) else f
+        if isinstance(v, bool) or not isinstance(v, (int, float)) or not 0 <= v <= 1:
+            return None
+        vals.append(float(v))
+    return vals
+
+
+def graphics_crop(frames_result, cfg, detected: bool = False, ticker_top: float | None = None) -> dict:
+    """قرار القصّ من حكم النموذج (دالة خالصة): نطاق في لقطتين فأكثر ← أصغر قيمة − margin بحد أدنى min_top (clamped)؛ أقل من لقطتين ←
+    1؛ فشل النداء أو مخرج غير صالح (None) ← fallback_top؛ والكاشف القديم شبكة أمان: كشف شريطًا والنموذج قال لا شيء ← ticker_top.
+    قائمة فارغة = لا قارئ أصلًا. {top, source: model|detector|fallback|none, clamped, frames}."""
+    lg = cfg.path("reel.render.lower_graphics") or {}
+    vals = _graphics_values(frames_result)
+    if vals is None:
+        return {"top": round(float(lg.get("fallback_top", 0.80)), 4), "source": "fallback", "clamped": False, "frames": []}
+    low = [v for v in vals if v < 1]
+    if len(low) >= 2:
+        top = min(low) - float(lg.get("margin", 0.02))
+        floor = float(lg.get("min_top", 0.60))
+        return {"top": round(max(top, floor), 4), "source": "model", "clamped": top < floor, "frames": vals}
+    if detected:
+        return {"top": round(float(ticker_top if ticker_top is not None else lg.get("fallback_top", 0.80)), 4),
+                "source": "detector", "clamped": False, "frames": vals}
+    return {"top": 1, "source": "model" if vals else "none", "clamped": False, "frames": vals}
+
+
+def lower_graphics(clip_file, cfg, deps: "Deps", detected: bool = False, ticker_top: float | None = None, key=None,
+                   channel: str = "", notes: list | None = None) -> dict:
+    """بداية رسوم القناة السفلية لمقطع (Q3): نداء نموذج واحد لكل فيديو في التركيب كله (رسوم القناة ثابتة في البرنامج) مهما تعددت
+    مقاطعه ونوافذه، ثم graphics_crop. بلا read_lower_graphics (مزيَّفات قديمة) لا نداء ويبقى الكاشف وحده. لا ترفع أبدًا."""
+    lcfg = cfg.path("reel.render.lower_graphics") or {}
+    reader = deps.read_lower_graphics if lcfg.get("enabled", True) else None
+    memo = deps.__dict__.setdefault("_lg_memo", {})
+    k = str(key or clip_file)
+    if k not in memo:
+        raw: Any = []
+        if reader is not None:
+            try:
+                raw = reader(clip_file, cfg)
+            except Exception as exc:  # noqa: BLE001 -- الحكم تحسين: العطل ← fallback_top
+                log.warning("تعذّر تحديد شريط القناة بالنموذج: %s", re.sub(r"(?<=://)[^/@\s]*@", "", reel_clips.scrub_text(str(exc)))[:100])
+                raw = None
+        memo[k] = {"raw": raw, "noted": False}
+    res = graphics_crop(memo[k]["raw"], cfg, detected, ticker_top)
+    if notes is not None and not memo[k]["noted"] and res["source"] in ("model", "fallback") and (
+            res["top"] < 1 or res["source"] == "fallback"):
+        memo[k]["noted"] = True
+        t = cfg.path("reel.render.texts")
+        pct = round((1 - res["top"]) * 100)
+        notes.append((t["comment_lower_graphics_failed"] if res["source"] == "fallback" else t["comment_lower_graphics"]
+                      ).format(channel=channel, pct=pct))
+    return res
 
 
 def _fold_name(text: str) -> str:
@@ -2773,10 +2889,12 @@ def _shade_filter(cfg, key: str = "hook") -> str:
     return f"drawbox=x=0:y=0:w=iw:h=ih:color=0x{r:02X}{g:02X}{b:02X}@{_fmt(float(cfg.path(f'reel.render.{key}.shade')))}:t=fill"
 
 
-def _hook_crop(clip: Path, cfg, deps: Deps, crops: dict | None) -> str:
+def _hook_crop(clip: Path, cfg, deps: Deps, crops: dict | None, video_id=None, channel: str = "",
+               notes: list | None = None) -> str:
     """تعبير اقتطاع 9:16 للقطة الهوك (Issue #1447، R5d1). كاشف شريط الأسفل نفسه يُطبَّق على العرض الكامل (لا على نافذة 9:16)
-    لأن الشريط يمتد على عرض الكادر؛ فإن كُشف اقتُطع أعلى hook.ticker_crop من ارتفاع المصدر بعرض ذلك الارتفاع ×9/16 في الوسط
-    فيخرج الشريط من الكادر. تعذّر قراءة أبعاد المصدر ← الاقتطاع القديم. القرار يُحفظ في crops["hook"] للمراجعة."""
+    لأن الشريط يمتد على عرض الكادر؛ Q3: حكم النموذج على بداية الرسوم (lower_graphics) يغلب والكاشف شبكة أمان، فيُقتطع أعلى top من
+    ارتفاع المصدر بعرض ذلك الارتفاع ×9/16 في الوسط فيخرج الشريط من الكادر (top = 1 ← الاقتطاع القديم). تعذّر قراءة أبعاد المصدر ←
+    الاقتطاع القديم. القرار يُحفظ في crops["hook"] للمراجعة."""
     default = "crop=ih*9/16:ih:(iw-ih*9/16)/2:0"
     try:
         sw, sh, _ = deps.faces(clip, list((cfg.path("reel.render.crop") or {}).get("samples", [0.2, 0.5, 0.8])))
@@ -2785,11 +2903,13 @@ def _hook_crop(clip: Path, cfg, deps: Deps, crops: dict | None) -> str:
     except Exception as exc:  # noqa: BLE001 -- الكشف تحسين لا شرط
         log.warning("تعذّر كشف شريط القناة في لقطة الهوك: %s", str(exc)[:100])
         return default
+    lg = lower_graphics(clip, cfg, deps, detected=bool(ticker), ticker_top=float(cfg.path("reel.render.hook.ticker_crop")),
+                        key=video_id, channel=channel, notes=notes)
     if crops is not None:
-        crops["hook"] = {"ticker": bool(ticker)}
-    if not ticker:
+        crops["hook"] = {"ticker": bool(ticker), **({"lower_graphics": lg} if lg["source"] != "none" else {})}
+    if lg["top"] >= 1:
         return default
-    ch = round(sh * float(cfg.path("reel.render.hook.ticker_crop")))
+    ch = round(sh * lg["top"])
     cw = round(ch * 9 / 16)
     return f"crop={cw}:{ch}:{(sw - cw) // 2}:0"
 
@@ -2822,7 +2942,7 @@ def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None,
             notes.append(cfg.path("reel.render.texts.comment_hook_video_failed"))
     cexpr = "crop=ih*9/16:ih:(iw-ih*9/16)/2:0"
     if clip is not None:
-        cexpr = _hook_crop(clip, cfg, deps, crops)
+        cexpr = _hook_crop(clip, cfg, deps, crops, video_id=hv.get("video_id"), channel=hv.get("channel", ""), notes=notes)
     # العنوان تحت الشعار الكبير مباشرة: أسفل الشعار + text_gap
     oc, ratio = cfg.path("reel.render.outro"), _logo_ratio(cfg)
     text_top = int(oc["logo_top"]) + (round(int(oc["logo_width"]) * ratio) if ratio is not None else 0) + int(hk["text_gap"])
@@ -3082,8 +3202,15 @@ def _panel_crops(clip: dict, crop: dict, scene: dict, q, tile: tuple | None, fra
         # الكشف على اللقطات نفسها مقصوصةً إلى content لا على الإطار كاملًا: حدّ الشريط الأسود السفلي حافة أفقية ثابتة في كل اللقطات
         # فكان يُقرأ شريط أخبار ويُقصّ 20% من صورة سليمة؛ ولا استخراج ثانٍ
         ticker = bool(has_bottom_graphics([f[bys:bys + bhs, bxs:bxs + bws] for f in frames], 0, bws, cfg))
-        if ticker:
-            content = (content[0], content[1], content[2], round(content[3] * float(pc["ticker_crop"])))
+        # Q3: بداية رسوم القناة بحكم نموذج يرى اللقطات (نسبة من الارتفاع الكامل) فتُقصّ ما تحتها من المحتوى؛ الكاشف وحده (بلا نموذج) يبقى
+        # بصيغته القديمة نسبةً من المحتوى. نداء واحد لكل فيديو مهما تعددت مقاطعه
+        lg = lower_graphics(clip["file"], cfg, deps, detected=ticker, ticker_top=float(pc["ticker_crop"]), key=clip.get("video_id"),
+                            channel=channel, notes=notes)
+        if lg["top"] < 1:
+            if lg["source"] == "detector":
+                content = (content[0], content[1], content[2], round(content[3] * lg["top"]))
+            else:
+                content = (content[0], content[1], content[2], max(min(content[3], round(lg["top"] * sh) - content[1]), 2))
         cx = crop["x"] + crop["w"] / 2 if crop.get("x") is not None and crop.get("w") else None
         tile_crop = fit_crop(sw, sh, content, tile[2], tile[3], cx, cfg) if tile else None
         frame_crop = fit_crop(sw, sh, content, frame[2], frame[3], cx, cfg)
@@ -3092,6 +3219,8 @@ def _panel_crops(clip: dict, crop: dict, scene: dict, q, tile: tuple | None, fra
         clip["crop"].update(panel_q=q, tile_crop=None, frame_crop=None, bars=[0, 0, 0, 0], ticker=False)
         return (fallback(tile[2], tile[3]) if tile else None), fallback(frame[2], frame[3])
     clip["crop"].update(panel_q=q, tile_crop=tile_crop, frame_crop=frame_crop, bars=bars, ticker=ticker)
+    if lg["source"] != "none":
+        clip["crop"]["lower_graphics"] = lg
     if any(bars):
         notes.append(t["comment_bars"].format(channel=channel))
     if frame_crop["mode"] == "fill_width":
@@ -3397,7 +3526,8 @@ def _prepare_broll(script: dict, nar_idx: list[int], speech_cache: dict, plan: l
                 r["reason"] = "download"
             else:
                 out.setdefault(r["scene"], []).append({"a": r["a"], "b": r["b"], "clip": clip,
-                                                       "cexpr": _hook_crop(clip, cfg, deps, None)})
+                                                       "cexpr": _hook_crop(clip, cfg, deps, None, video_id=w["video_id"],
+                                                                           channel=w.get("channel", ""), notes=notes)})
                 entry.update({"video_id": w["video_id"], "start": w["start"], "end": w["end"],
                               "channel": w.get("channel", ""), "desc": w.get("desc", "")})
                 if w.get("fallback"):
@@ -3731,6 +3861,7 @@ def _auto_hook(path: Path, draft: dict, script: dict, cfg, deps: Deps, tmp: Path
         draft["hook_video"] = res["hook_video"]
         search = dict(draft.get("hook_search") or {})
         search["picked"] = [res["hook_video"]["video_id"]]
+        search["compared"] = res.get("compared", [])    # ما قورن بين المرشّحين: يفسّر لماذا هذا الفيديو (Q3)
         store.update_draft(path, hook_video=res["hook_video"], hook_search=search)
         notes.append(_hook_note(cfg, res["hook_video"]))
     else:
@@ -3784,7 +3915,10 @@ def _drop_stale_auto_hook(path: Path, draft: dict) -> None:
     hv = draft.get("hook_video")
     if not isinstance(hv, dict):
         return
-    if hv.get("source") == "auto_topic" or (hv.get("source") == "auto" and "impact" not in hv):
+    # Q3: auto بإصدار تركيب أقدم يُعاد اختياره أيضًا لأنه اختير قبل التصنيف الصارم للأستوديو والمقارنة بين المرشّحين
+    cur = int(load_config().path("reel.render.version", 0) or 0)
+    if hv.get("source") == "auto_topic" or (hv.get("source") == "auto" and (
+            "impact" not in hv or int(hv.get("render_version") or 0) < cur)):
         draft.pop("hook_video", None)
         store.update_draft(path, remove=["hook_video"])
 
