@@ -1,0 +1,68 @@
+{
+  "id": "a5672f9551c6",
+  "created_at": "2026-10-20T17:08:12.550747+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.79,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "زيارة غير معلنة لوزير الدفاع الأمريكي إلى نتنياهو في إسرائيل.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Hegseth meets Netanyahu in unannounced visit to Israel, source says",
+  "link": "https://www.dailymaverick.co.za/article/2026-10-20-hegseth-meets-netanyahu-in-unannounced-visit-to-israel-source-says/",
+  "publishers": [
+    "CGTN",
+    "Daily Maverick",
+    "The New York Times"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Hegseth meets Netanyahu in unannounced visit to Israel, source says",
+    "link": "https://www.dailymaverick.co.za/article/2026-10-20-hegseth-meets-netanyahu-in-unannounced-visit-to-israel-source-says/",
+    "summary": "US Defense Secretary Pete Hegseth met with Israeli Prime Minister Benjamin Netanyahu during an unannounced visit to Israel on Monday, a person familiar with the matter said, as tensions flare between the US and Iran.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-10-20T10:57:13+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/i/hjpTcFK62jAWBfOKczjLfk5gqfA=/800x0/smart/filters:strip_exif()/file/attachments/2999/14363196_474234.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "CGTN",
+      "Daily Maverick",
+      "The New York Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-10-20-hegseth-meets-netanyahu-in-unannounced-visit-to-israel-source-says/"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-10-20/news-1Ro07RmEX4s/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/i/hjpTcFK62jAWBfOKczjLfk5gqfA=/800x0/smart/filters:strip_exif()/file/attachments/2999/14363196_474234.jpg",
+      "https://news.cgtn.com/news/2026-10-20/news-1Ro07RmEX4s/img/e58edd3da3774165b2e49c805b2aad67/e58edd3da3774165b2e49c805b2aad67-750.png",
+      "https://news.cgtn.com/news/2026-10-20/news-1Ro07RmEX4s/img/e58edd3da3774165b2e49c805b2aad67/e58edd3da3774165b2e49c805b2aad67.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1848.915484116111,
+    "is_stale": false,
+    "score": 23.79298684927458,
+    "impact": 0,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "زيارة غير معلنة لوزير الدفاع الأمريكي إلى نتنياهو في إسرائيل.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

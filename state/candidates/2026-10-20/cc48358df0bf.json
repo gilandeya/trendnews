@@ -1,0 +1,65 @@
+{
+  "id": "cc48358df0bf",
+  "created_at": "2026-10-20T17:08:12.550209+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.87,
+  "trend_score": 0.67,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 0,
+  "intrigue": 1,
+  "appeal_note": "تحذير رئاسي من خسارة اتفاق تجاري يهدد عشرات آلاف الوظائف.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "South Africa: Ramaphosa warns of devastating impact if US trade deal is lost",
+  "link": "http://www.africanews.com/2026/10/20/south-africa-ramaphosa-warns-of-devastating-impact-if-us-trade-deal-is-lost/",
+  "publishers": [
+    "Africanews",
+    "The Hindu — International"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "South Africa: Ramaphosa warns of devastating impact if US trade deal is lost",
+    "link": "http://www.africanews.com/2026/10/20/south-africa-ramaphosa-warns-of-devastating-impact-if-us-trade-deal-is-lost/",
+    "summary": "South African vehicles benefit from duty-free access to the US, and industry estimates indicate around 86-thousand jobs at car manufacturers are directly linked to the agreement, rising to 125-thousand when subcontractors are included.",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-10-20T05:36:40+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/95/90/41/640x360_cmsv2_0957e1f4-f875-595d-b0ef-bb5ed33a035f-9959041.jpg?1792429185",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/10/20/south-africa-ramaphosa-warns-of-devastating-impact-if-us-trade-deal-is-lost/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/cyril-ramaphosa-tells-south-africa-to-prepare-for-loss-of-us-africa-trade-deal/article71603027.ece"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/95/90/41/640x360_cmsv2_0957e1f4-f875-595d-b0ef-bb5ed33a035f-9959041.jpg?1792429185",
+      "https://th-i.thgim.com/public/incoming/a960wv/article71603026.ece/alternates/LANDSCAPE_1200/South_Africa_Killings_914_7.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.6666666666666666,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1848.9154203019443,
+    "is_stale": false,
+    "score": 24.865266013296296,
+    "impact": 2,
+    "proximity": 0,
+    "intrigue": 1,
+    "appeal_note": "تحذير رئاسي من خسارة اتفاق تجاري يهدد عشرات آلاف الوظائف.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "id": "f05889b0ef85",
+  "created_at": "2026-10-20T17:08:12.550487+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.9,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 0,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "مواجهة باريس سان جيرمان وبرشلونة في دوري الأبطال.",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "PSG v Barcelona",
+  "link": "https://www.bbc.co.uk/sport/football/articles/c820vw7velvro?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "Europe's most exciting match-up?",
+    "Le Monde",
+    "The Hindu — International"
+  ],
+  "region": "sport",
+  "article": {
+    "title": "PSG v Barcelona",
+    "link": "https://www.bbc.co.uk/sport/football/articles/c820vw7velvro?at_medium=RSS&at_campaign=rss",
+    "summary": "Paris St-Germain and Barcelona, the current top two in this season's Champions League, meet on Tuesday.",
+    "source_name": "BBC Sport",
+    "region": "sport",
+    "weight": 1.1,
+    "published": "2026-10-20T08:52:56+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/e053/live/2a307260-cba0-11f1-9ee2-f74dfb8e54e5.png",
+    "publisher": "Europe's most exciting match-up?",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Europe's most exciting match-up?",
+      "Le Monde",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/sports/liveblog/2026/10/20/psg-vs-barcelona-live-champions-league?traffic_source=rss"
+      },
+      {
+        "name": "Europe's most exciting match-up?",
+        "link": "https://www.bbc.co.uk/sport/football/articles/c820vw7velvro?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/sport/football/psg-barcelona-match-in-champions-league-to-go-ahead-amid-shock-over-frances-violent-unrest/article71602879.ece"
+      },
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/sport/article/2026/10/20/psg-barcelone-paris-une-machine-calibree-pour-les-grands-rendez-vous_6797935_3242.html"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/e053/live/2a307260-cba0-11f1-9ee2-f74dfb8e54e5.png",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/e053/live/2a307260-cba0-11f1-9ee2-f74dfb8e54e5.png",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/e053/live/2a307260-cba0-11f1-9ee2-f74dfb8e54e5.png",
+      "https://th-i.thgim.com/public/incoming/bluvm1/article71602896.ece/alternates/LANDSCAPE_1200/France_Protests_893_9.jpg",
+      "https://img.lemde.fr/2026/10/16/109/0/1024/512/644/322/60/0/22bf408_ftp-1-yvl4ltrtaigo-afp-d3ba3ef-1024.jpg"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.0,
+    "age_hours": 1848.9154022727778,
+    "is_stale": true,
+    "score": 23.900006758333333,
+    "impact": 0,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "مواجهة باريس سان جيرمان وبرشلونة في دوري الأبطال.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
