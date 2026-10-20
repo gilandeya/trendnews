@@ -2203,3 +2203,31 @@ instead.
 - **مسار النشر الفعلي:** وثائق Reels API ما زالت 3–90 ث ولا نعرف هل يرفض `video_reels` ما فوقها. `facebook.publish_reel` عند العودة إلى `publish_video` تضيف `reel_error` (أول 150 حرفًا من السبب بعد مسح التوكن) إلى النتيجة؛ `publish_reel_draft` تحفظ `reel_seconds` على المسودة؛ و`publish.reel_path_line` تعطي سطر تعليق النجاح (📼 فيديو عاديًا بسببه، أو ✅ ريلًا قبله فيسبوك فوق `reel.review.reel_api_max_seconds`)، يضيفه `cmd_reel_review` و`reel_render._publish_on_render`.
 - **المراجعة:** `reel.review.long_note` («⏱️ أطول من 90 ث…») تحت المدة في `reel_review.build_body` وفي بند الريل في المرحلة 2 (`youtube_publish._reel_long_note`) حين تتجاوز المدة 90.
 - **الاختبارات:** g499–g503 في `tests/test_guards_golden.py:test_reel_long_l1_guards`.
+
+## إطلاق التركيب بعد الإيداع (W5, Issue #1635) — `src/publish.py`
+
+- **الحادثة (#1633):** `start_reel_render` أطلقت `reel-render.yml` داخل خطوة «نشر العادي بفواصل» قبل أن تودِع خطوة «تسجيل الحالة» المسودات، فسحب التركيب main بلا الريل المعتمَد وركّب ريلًا أقدم. السبب بنيوي: الإطلاق في العملية التي تكتب المسودات والإيداع في خطوة لاحقة.
+- **المتغير `TRENDNEWS_RENDER_DISPATCH_FILE`** (اسمه ثابت في الكود `RENDER_DISPATCH_ENV`، لا tunable): إن وُجد فـ`start_reel_render` لا تطلق ولا تعلّق، بل تكتب/تدمج (لا تستبدل) `{"issue", "started", "now"}` في ذلك المسار. غائب ← السلوك القديم حرفًا.
+- **`python -m src.publish --dispatch-render`:** يقرأ الملف (غائب/فارغ ← 0 بلا شيء)، يُبقي من `started` ما `render_status == "queued"` على القرص الآن، فإن بقي شيء ← `review.dispatch_workflow` مرة واحدة وتعليق `render_started`/`render_started_now` على `issue`؛ العطل ← `render_start_failed` والخروج 0 دائمًا. `--skip-not-pushed` ← تعليق الفشل بلا إطلاق. المنطق المشترك في `_dispatch_render_and_comment`.
+- **سطور `publish.yml` (المهمة `normal`؛ يضيفها صاحب المشروع بيده):**
+
+```yaml
+# في env خطوة «نشر العادي بفواصل»:
+          TRENDNEWS_RENDER_DISPATCH_FILE: ${{ runner.temp }}/reel_dispatch.json
+
+# خطوة جديدة بعد «تسجيل الحالة»:
+      - name: إطلاق تركيب الريل
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TRENDNEWS_RENDER_DISPATCH_FILE: ${{ runner.temp }}/reel_dispatch.json
+        run: |
+          if git fetch -q origin main && git merge-base --is-ancestor HEAD origin/main; then
+            python -m src.publish --dispatch-render
+          else
+            python -m src.publish --dispatch-render --skip-not-pushed
+          fi
+```
+
+  الشرط لأن «تسجيل الحالة» تخرج 0 حتى لو فشل الدفع خمس مرات.
+- الاختبارات: g510–g514 في `tests/test_guards_golden.py:test_w5_render_dispatch_after_push_guards`.
