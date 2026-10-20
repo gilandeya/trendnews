@@ -169,6 +169,7 @@ jobs:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           BRAVE_API_KEY: ${{ secrets.BRAVE_API_KEY }}
           TRENDNEWS_YOUTUBE_POINTS_DIR: ${{ github.workspace }}/youtube-data/state/youtube_points
+          TRENDNEWS_RENDER_DISPATCH_FILE: ${{ runner.temp }}/reel_dispatch.json
         run: |
           ISSUE="${{ inputs.issue || github.event.issue.number }}"
           python -m src.publish --issue "$ISSUE" --skip-urgent
@@ -203,3 +204,16 @@ jobs:
             sleep $((attempt * 7))
           done
           echo "⚠️ تعذّر تسجيل الحالة — المنشورات نُشرت"
+          
+      - name: إطلاق تركيب الريل
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TRENDNEWS_RENDER_DISPATCH_FILE: ${{ runner.temp }}/reel_dispatch.json
+        run: |
+          BR="${{ github.event.repository.default_branch }}"
+          if git fetch -q origin "$BR" && git merge-base --is-ancestor HEAD "origin/$BR"; then
+            python -m src.publish --dispatch-render
+          else
+            python -m src.publish --dispatch-render --skip-not-pushed
+          fi
