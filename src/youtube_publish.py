@@ -805,13 +805,18 @@ def _reel_long_note(seconds: float, cfg) -> str:
 
 
 def _reel_clip_note_lines(d: dict, script: dict, texts: dict) -> list[str]:
-    """مقاطع استُبعدت قبل الكتابة وترجمات أُعيدت بصيغة المتكلم (Issue #1642، Q1): سطر لكل منها ليعرف المراجع ما غاب ولماذا.
+    """مقاطع استُبعدت بعد الفحص وترجمات أُعيدت بصيغة المتكلم ومقاطع لم يُحسم قائلها وتعذّر الفحص (Issue #1642، Q1): سطر لكل منها ليعرف المراجع ما غاب ولماذا.
     قناة المُعاد ترجمته تؤخذ من مشاهد السيناريو؛ ما لم يدخل السيناريو لا أثر له على الريل فلا سطر."""
     out = [f"  {texts.get('clip_dropped_line', '🚫 استُبعد مقطع {channel}: {reason}').format(channel=x.get('channel', ''), reason=x.get('reason', ''))}"
            for x in d.get("clip_dropped") or []]
     chan = {s.get("point_id"): s.get("channel_display", "") for s in script.get("scenes") or [] if s.get("point_id")}
     out += [f"  {texts.get('clip_retranslated_line', '🔁 أُعيدت ترجمة مقطع {channel} بصيغة المتكلم').format(channel=chan[pid])}"
             for pid in d.get("quote_retranslated") or [] if pid in chan]
+    audit = d.get("clip_audit") or {}
+    out += [f"  {texts.get('clip_unsure_line', '❓ لم يُحسم قائل مقطع {channel}').format(channel=r.get('channel', ''))}"
+            for r in audit.get("rows") or [] if r.get("speaker_said_it") == "unsure"]
+    if audit.get("error"):
+        out.append(f"  {texts.get('clip_audit_failed_line', '⚠️ تعذّر فحص قائلي المقاطع وصيغة ترجمتها — راجعها')}")
     return [*out, ""] if out else []
 
 
