@@ -1,0 +1,862 @@
+{
+  "run_date": "2026-10-20",
+  "stats": {
+    "points_in": 174,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 24,
+    "issues_clustered": 40,
+    "topics_merged": 8,
+    "topics_out": 5,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 4,
+    "topics_below_min_points": 14,
+    "topics_below_min_channels": 8,
+    "layers": {
+      "2": 4,
+      "1": 1
+    },
+    "agreement": 5,
+    "cross_source": 0,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "عدم الاستقرار الحكومي في فرنسا",
+      "احتجاجات أوروبا الاقتصادية المتصاعدة"
+    ],
+    [
+      "استقالة رئيس بلدية موغلا ووجهته السياسية",
+      "آثار الانتقالات الحزبية على الديمقراطية التركية",
+      "انتقالات رؤساء بلديات تركيا من المعارضة والخلاف حول الخيانة"
+    ],
+    [
+      "خطاب الحكومة الصدامي وتصاعد الاحتجاجات الفرنسية",
+      "المقاربة الأمنية الفرنسية وفشل تقدير الاستخبارات"
+    ],
+    [
+      "انطلاق احتجاجات الطلاب الفرنسيين واتساعها",
+      "استقالة وزير الداخلية الفرنسي ورفضها"
+    ],
+    [
+      "استمرار الاحتجاجات الفرنسية وتوقع امتدادها",
+      "فرض حظر تجول في باريس بعد أعمال الشغب"
+    ],
+    [
+      "فتوى مجتبى خامنئي النووية",
+      "الجدل حول توصيف الاحتجاجات الفرنسية في الإعلام الإيراني"
+    ],
+    [
+      "دعوة غانتس لحكومة وحدة صهيونية عابرة للكتل",
+      "استطلاعات حزب غانتس وموعد الانتخابات الإسرائيلية"
+    ],
+    [
+      "مصادرة صندوق التأمين على الودائع لقنوات إعلامية تركية",
+      "الأثر السياسي والاقتصادي لأزمة الصناديق التركية"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "انطلاق احتجاجات الطلاب الفرنسيين واتساعها",
+      "event": "انطلاق احتجاجات الطلاب في فرنسا من قضايا تعليمية ثم اتساعها لتشمل فئات أخرى كالسترات الصفراء والعمال",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        51,
+        54,
+        65,
+        94,
+        113,
+        116
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null,
+      "id": "56a9da9464f5",
+      "created_at": "2026-10-20T04:02:33.372616+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1631
+    },
+    {
+      "title": "استمرار الاحتجاجات الفرنسية وتوقع امتدادها",
+      "event": "توقعات باستمرار الاحتجاجات الفرنسية وامتدادها لمدن أوروبية أخرى",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        59,
+        61,
+        62,
+        66,
+        95,
+        99,
+        112,
+        122
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null,
+      "id": "d6a545f83f8a",
+      "created_at": "2026-10-20T04:02:33.372616+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1631
+    },
+    {
+      "title": "عدم الاستقرار الحكومي في فرنسا",
+      "event": "تغيّر الحكومة الفرنسية أربع مرات خلال نحو عامين",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        9,
+        10,
+        19,
+        40,
+        42,
+        52
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null,
+      "id": "541ef23f0e4e",
+      "created_at": "2026-10-20T04:02:33.372616+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1631
+    },
+    {
+      "title": "توقيت العمل العسكري المحتمل بعد الانتخابات الإسرائيلية",
+      "event": "توقعات بربط توقيت أي عمل عسكري أمريكي بنتائج الانتخابات الإسرائيلية",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        33,
+        38,
+        80
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": null,
+      "id": "1dad83174a77",
+      "created_at": "2026-10-20T04:02:33.372616+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1631
+    },
+    {
+      "title": "مصادرة صندوق التأمين على الودائع لقنوات إعلامية تركية",
+      "event": "مصادرة صندوق التأمين على الودائع التركي لقنوات إعلامية واتهامه بأنه أداة احتيال منظم مرتبطة بحزب العدالة والتنمية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        123,
+        124,
+        127,
+        128
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null,
+      "id": "62e48c540ba2",
+      "created_at": "2026-10-20T04:02:33.372616+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1631
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "انطلاق احتجاجات الطلاب الفرنسيين واتساعها",
+      "event": "انطلاق احتجاجات الطلاب في فرنسا من قضايا تعليمية ثم اتساعها لتشمل فئات أخرى كالسترات الصفراء والعمال",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        51,
+        54,
+        65,
+        94,
+        113,
+        116
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "استمرار الاحتجاجات الفرنسية وتوقع امتدادها",
+      "event": "توقعات باستمرار الاحتجاجات الفرنسية وامتدادها لمدن أوروبية أخرى",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        59,
+        61,
+        62,
+        66,
+        95,
+        99,
+        112,
+        122
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null
+    },
+    {
+      "title": "عدم الاستقرار الحكومي في فرنسا",
+      "event": "تغيّر الحكومة الفرنسية أربع مرات خلال نحو عامين",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        9,
+        10,
+        19,
+        40,
+        42,
+        52
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "توقيت العمل العسكري المحتمل بعد الانتخابات الإسرائيلية",
+      "event": "توقعات بربط توقيت أي عمل عسكري أمريكي بنتائج الانتخابات الإسرائيلية",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        33,
+        38,
+        80
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": null
+    },
+    {
+      "title": "توقعات الانتخابات النصفية الأمريكية وأثرها على الحرب",
+      "event": "نقاش حول نتائج الانتخابات النصفية الأمريكية وتأثيرها على مسار الحرب والسياسة الأمريكية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        3,
+        6,
+        7,
+        8
+      ],
+      "total_points": 4,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "استقالة رئيس بلدية موغلا ووجهته السياسية",
+      "event": "استقالة أحمد آراز رئيس بلدية موغلا الكبرى من حزب الشعب الجمهوري وتكهنات انتقاله لحزب العدالة والتنمية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        25,
+        26,
+        27,
+        68,
+        69,
+        70,
+        71,
+        72,
+        118,
+        119,
+        120
+      ],
+      "total_points": 11,
+      "fresh_points": 11,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "فتوى مجتبى خامنئي النووية",
+      "event": "تضارب الآراء حول فتوى مجتبى خامنئي النووية ومدى اختلافها عن فتوى والده وإمكانية إصدار فتوى جديدة",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        77,
+        78,
+        79,
+        80,
+        138,
+        139,
+        140,
+        141
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "مسيرة 17 أكتوبر في تونس وتقييمها",
+      "event": "تنظيم مسيرة 17 أكتوبر في تونس من الإطار التنسيقي والخلاف حول نجاحها وتعرضها لمنع أمني",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        106,
+        107,
+        108,
+        109
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "توقعات فوز مارين لوبان بالرئاسة الفرنسية 2027",
+      "event": "توقعات بفوز مارين لوبان في انتخابات الرئاسة الفرنسية 2027",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        21,
+        55,
+        115
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "خطاب الحكومة الصدامي وتصاعد الاحتجاجات الفرنسية",
+      "event": "تقييم دور الخطاب الرسمي الصدامي للحكومة الفرنسية في تأجيج الاحتجاجات والعنف",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        46,
+        47,
+        48,
+        97,
+        98
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "حرق مبنى بلدية تاريخي واعتقالات أعمال الشغب في فرنسا",
+      "event": "حرق محتجين مبنى بلدية عمره 700 عام وأعداد الموقوفين في أعمال الشغب الفرنسية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        58,
+        114
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "جذور الاحتجاجات الفرنسية الاقتصادية",
+      "event": "تقييم جذور الاحتجاجات الفرنسية المرتبطة بفقدان الثقة بالمستقبل وغلاء المعيشة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        96,
+        105
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "ميزانية التعليم الفرنسية وتقشف 2027",
+      "event": "تأثير ميزانية 2027 التقشفية على التعليم وزيادة طفيفة في ميزانية التعليم",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        101,
+        102
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "إعفاء أمريكي لنفط الديزل الروسي قبل الانتخابات",
+      "event": "قرار الإعفاء الأمريكي لاستيراد نفط الديزل الروسي كمناورة انتخابية وأثره المحدود على السوق",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        103,
+        104
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الأزمة الاقتصادية في تونس وأسعار المحروقات",
+      "event": "تقييم الأزمة الاقتصادية في تونس وقرار عدم رفع أسعار المحروقات",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        110,
+        111
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "مصادرة صندوق التأمين على الودائع لقنوات إعلامية تركية",
+      "event": "مصادرة صندوق التأمين على الودائع التركي لقنوات إعلامية واتهامه بأنه أداة احتيال منظم مرتبطة بحزب العدالة والتنمية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        123,
+        124,
+        127,
+        128
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "المطالبة بالكشف عن المستفيدين من أزمة الصناديق والمحاسبة",
+      "event": "المطالبة بالكشف عن أسماء المستفيدين من أزمة الصناديق ووعد الحكومة التركية بالمحاسبة وتطورات التحقيق",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        129,
+        130,
+        131,
+        132
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الموازنة التركية وأعباء الفائدة على حساب الضمان الاجتماعي",
+      "event": "تقييم توجه الموازنة التركية الجديدة لتمويل الفائدة عبر الضرائب على حساب الضمان الاجتماعي",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        134,
+        135
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تأييد ترامب لنتنياهو قبل الانتخابات الإسرائيلية",
+      "event": "إعلان ترامب تأييده الكامل لنتنياهو قبل أسبوع من الانتخابات الإسرائيلية وتقييم توقيته وأثره",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "Haaretz"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        144,
+        145,
+        146
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "إقبال الناخبين العرب في الانتخابات الإسرائيلية",
+      "event": "توقعات بارتفاع إقبال الناخبين العرب في الانتخابات الإسرائيلية نتيجة القلق واستبعاد بعض الأحزاب العربية",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "Haaretz"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        148,
+        149
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تعليق أمريكا هجمات هرمز وموقف إيران الانتظاري",
+      "event": "تعليق البيت الأبيض الهجمات على مسيّرات وصواريخ في مضيق هرمز تجنباً للتصعيد قبل الانتخابات النصفية، ورهان إيران على عامل الوقت",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        1
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "مضيق هرمز كورقة ضغط إيرانية",
+      "event": "تقييم دور مضيق هرمز كورقة تفاوضية إيرانية ومحدد مستقبل التصعيد فيه",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        29,
+        30
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "كلفة الحرب الإيرانية الأمريكية",
+      "event": "تقييم كلفة الحرب بين إيران والولايات المتحدة على الطرفين",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        2,
+        31
+      ],
+      "total_points": 2,
+      "fresh_points": 1,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "أمطار وفيضانات مرمرة واسطنبول",
+      "event": "الأمطار الغزيرة والفيضانات التي ضربت منطقة مرمرة وإسطنبول وتأثيراتها",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        13,
+        14,
+        15,
+        16
+      ],
+      "total_points": 4,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "الهجرة والتغير المناخي كتهديد مستقبلي",
+      "event": "تحذيرات من الهجرات الجماعية الناتجة عن الجفاف والفيضانات والنمو السكاني",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        17,
+        18
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "الدين العام الفرنسي",
+      "event": "حجم الدين العام الفرنسي مقارنة بمتوسط الاتحاد الأوروبي",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        20,
+        64
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "مساهمات فرنسا وألمانيا في ميزانية الاتحاد ومساعدات أوكرانيا",
+      "event": "حجم مساهمات فرنسا وألمانيا في ميزانية الاتحاد الأوروبي ومساعدات أوكرانيا المقدمة من الميزانية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        22,
+        53
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "توقعات انهيار النظام الأوروبي بعد الحرب العالمية",
+      "event": "تقييم اتجاه النظام السياسي الأوروبي بعد الحرب العالمية الثانية نحو الانهيار وصعود اليمين المتطرف",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        23,
+        24,
+        56
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تلوث الهواء وتأثيره الصحي في تركيا",
+      "event": "تأثير تلوث الهواء على الصحة العامة وغياب تقييم الأثر الصحي في مشاريع الطاقة",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        73,
+        74,
+        75,
+        76
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "دعوة غانتس لحكومة وحدة صهيونية عابرة للكتل",
+      "event": "دعوة بيني غانتس لتشكيل حكومة وحدة صهيونية عابرة للكتل ورفض الاعتماد على الأحزاب العربية أو الحريدية",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        83,
+        85,
+        86,
+        87
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "حملة نفتالي بنيت الانتخابية وصورته العامة",
+      "event": "حملة نفتالي بنيت الانتخابية وتقييم ثروته وصورته الشخصية وتحليل شخصيته",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        88,
+        89,
+        90,
+        91,
+        92,
+        93
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    }
+  ]
+}
