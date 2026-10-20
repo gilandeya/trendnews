@@ -12479,10 +12479,12 @@ def test_reel_broll_r5d2_guards() -> None:
         check("g387: hook_video بمصدر auto_topic أُعيد اختياره من السلسلة الثانية", hv.get("video_id") == "c2"
               and hv.get("source") == "auto_topic", hv)
         check("g387: assign_broll استُدعي للهوك", bool(c.get("hook_calls")), c.get("hook_calls"))
-        # المصدر auto (الحدث نفسه) ذو impact (P1b) لا يُحذف ولا يُسند له؛ auto بلا impact يُحذف (g450)
+        # المصدر auto (الحدث نفسه) ذو impact (P1b) وبإصدار التركيب الحالي (Q3) لا يُحذف ولا يُسند له؛ auto بلا impact يُحذف (g450)
+        # وبإصدار أقدم يُحذف (g536)
         deps2, c2 = rig()
         path2, st2 = full_go("r5d6000g387a2", deps2, work_root / "g387b", PLAN3,
-                             extra={"hook_video": dict(old_hv, source="auto", impact=3)})
+                             extra={"hook_video": dict(old_hv, source="auto", impact=3,
+                                                       render_version=int(load_config().path("reel.render.version")))})
         hv2 = st2.get("hook_video") or {}
         check("g387: مع source=auto لا يُحذف", hv2.get("video_id") == "c1" and hv2.get("source") == "auto", hv2)
         check("g387: ولا يُستدعى الإسناد للهوك", not c2.get("hook_calls"), c2.get("hook_calls"))
