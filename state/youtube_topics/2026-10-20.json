@@ -84,8 +84,11 @@
       "dropped_reason": null,
       "id": "56a9da9464f5",
       "created_at": "2026-10-20T04:02:33.372616+00:00",
-      "selection_status": "pending",
-      "selection_issue": 1631
+      "selection_status": "attempted",
+      "selection_issue": 1631,
+      "selected_formats": [
+        "reel"
+      ]
     },
     {
       "title": "استمرار الاحتجاجات الفرنسية وتوقع امتدادها",
@@ -116,7 +119,7 @@
       "dropped_reason": null,
       "id": "d6a545f83f8a",
       "created_at": "2026-10-20T04:02:33.372616+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1631
     },
     {
@@ -146,7 +149,7 @@
       "dropped_reason": null,
       "id": "541ef23f0e4e",
       "created_at": "2026-10-20T04:02:33.372616+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1631
     },
     {
@@ -172,7 +175,7 @@
       "dropped_reason": null,
       "id": "1dad83174a77",
       "created_at": "2026-10-20T04:02:33.372616+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1631
     },
     {
@@ -198,7 +201,7 @@
       "dropped_reason": null,
       "id": "62e48c540ba2",
       "created_at": "2026-10-20T04:02:33.372616+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1631
     }
   ],
