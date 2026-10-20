@@ -16939,6 +16939,199 @@ def test_timestamps_t1a_guards() -> None:
     guarded("g498", g498)
 
 
+def test_timestamps_t1b_guards() -> None:
+    """Issue #1629 (T1b، g504–g509): استعادة طوابع نقاط الأيام الأخيرة — ملفات مصنوعة في مجلد مؤقت ودالة جلب مزيَّفة تعدّ
+    استدعاءاتها، بلا شبكة. ملف اليوم لا يُمسّ، والفاشل لا يُعلَّم، وما لم يُحلّ يُعلَّم فلا يُجلب نصه ثانية."""
+    import json
+    import os
+    import tempfile
+    from datetime import datetime, timezone
+    from types import SimpleNamespace
+
+    from src import youtube_extract as ye
+
+    cfg = load_config()
+    now = datetime(2026, 10, 19, 12, 0, tzinfo=timezone.utc)
+    text = ("[00:10] alpha beta gamma\n[00:30] the ceasefire is fragile and everyone knows it now\n"
+            "[00:50] delta epsilon zeta")
+    quote = "the ceasefire is fragile and everyone knows it now"
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def point(vid, q, ts=None, dur=600, **extra):
+        return dict({"video_id": vid, "channel": "ch", "video_title": "t" + vid, "statement": "s", "speaker": "x",
+                     "quote_original": q, "timestamp": ts, "duration_seconds": dur, "type": "fact"}, **extra)
+
+    class Env:
+        def __init__(self):
+            self.dir = Path(tempfile.mkdtemp(prefix="t1b_"))
+            self.calls: list[str] = []
+            self.saved = (ye.POINTS_DIR, ye.time.sleep)
+            ye.POINTS_DIR = self.dir
+            ye.time.sleep = lambda s: None
+
+        def close(self):
+            ye.POINTS_DIR, ye.time.sleep = self.saved
+            shutil.rmtree(self.dir, ignore_errors=True)
+
+        def write(self, date, points, **extra):
+            data = dict({"run_date": date, "stats": {"a": 1}, "failed": [{"reason": "قديم"}], "points": points}, **extra)
+            path = self.dir / f"{date}.json"
+            path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+            return path
+
+        def read(self, date):
+            return json.loads((self.dir / f"{date}.json").read_text(encoding="utf-8"))
+
+        def fetch(self, results=None):
+            def f(vid):
+                self.calls.append(vid)
+                return (results or {}).get(vid, (text, "en", False))
+            return f
+
+    def g504():
+        e = Env()
+        try:
+            e.write("2026-10-18", [point("v1", quote)])
+            ye.recover_timestamps(cfg, e.fetch(), now)
+            p = e.read("2026-10-18")["points"][0]
+            check("g504: الطابع صحيح", p["timestamp"] == 30, p)
+            check("g504: الطريقة recovered_quote", p.get("timestamp_method") == "recovered_quote", p)
+        finally:
+            e.close()
+    guarded("g504", g504)
+
+    def g505():
+        e = Env()
+        try:
+            e.write("2026-10-18", [point("v1", "اقتباس مترجم إلى العربية لا وجود له في النص الأصلي أبدًا")])
+            ye.recover_timestamps(cfg, e.fetch(), now)
+            p = e.read("2026-10-18")["points"][0]
+            check("g505: بلا طابع ومعلَّمة", p["timestamp"] is None and p.get("timestamp_recover_tried") is True, p)
+            ye.recover_timestamps(cfg, e.fetch(), now)
+            check("g505: التشغيلة الثانية لا تجلب", e.calls == ["v1"], e.calls)
+        finally:
+            e.close()
+    guarded("g505", g505)
+
+    def g506():
+        e = Env()
+        try:
+            e.write("2026-10-18", [point("long", quote, dur=20), point("bad", quote), point("rl", quote),
+                                   point("after", quote)])
+            fetch = e.fetch({"bad": (None, "لا نص متاح", False), "rl": (None, "محجوب", True)})
+            res = ye.recover_timestamps(cfg, fetch, now)
+            pts = {p["video_id"]: p for p in e.read("2026-10-18")["points"]}
+            check("g506: طابع أكبر من المدة لا يُقبل",
+                  pts["long"]["timestamp"] is None and pts["long"].get("timestamp_recover_tried") is True, pts["long"])
+            check("g506: الفاشل بلا أي حقل جديد",
+                  "timestamp_recover_tried" not in pts["bad"] and "timestamp_method" not in pts["bad"], pts["bad"])
+            check("g506: سطر الفشل", any(f["video_id"] == "bad" and f["reason"].startswith("استعادة الطابع:")
+                                         for f in res["failed"]), res["failed"])
+            check("g506: rate_limited يوقف الخطوة", "after" not in e.calls and pts["after"]["timestamp"] is None, e.calls)
+        finally:
+            e.close()
+    guarded("g506", g506)
+
+    def g507():
+        e = Env()
+        try:
+            today = e.write("2026-10-19", [point("t1", quote)])
+            old = e.write("2026-10-10", [point("o1", quote)])
+            before = (today.read_text(encoding="utf-8"), old.read_text(encoding="utf-8"))
+            ye.recover_timestamps(cfg, e.fetch(), now)
+            check("g507: ملف اليوم والأقدم لا يُجلبان ولا يُكتبان",
+                  e.calls == [] and before == (today.read_text(encoding="utf-8"), old.read_text(encoding="utf-8")),
+                  e.calls)
+            cap = int(cfg.path("youtube.timestamps.recover_max_videos"))
+            e.write("2026-10-18", [point(f"m{i}", quote) for i in range(cap + 5)])
+            ye.recover_timestamps(cfg, e.fetch(), now)
+            check("g507: السقف محترم", len(e.calls) == cap, len(e.calls))
+        finally:
+            e.close()
+    guarded("g507", g507)
+
+    def g508():
+        e = Env()
+        try:
+            pts = [point("v1", quote, extra_field="keep"), point("v2", quote, ts=5, timestamp_method="exact"),
+                   point("v3", "")]
+            e.write("2026-10-18", pts, x_extra={"k": 1})
+            ye.recover_timestamps(cfg, e.fetch(), now)
+            data = e.read("2026-10-18")
+            check("g508: run_date/stats/failed/مفاتيح أخرى كما هي",
+                  data["run_date"] == "2026-10-18" and data["stats"] == {"a": 1}
+                  and data["failed"] == [{"reason": "قديم"}] and data["x_extra"] == {"k": 1}, data)
+            check("g508: ترتيب النقاط والحقول الأخرى",
+                  [p["video_id"] for p in data["points"]] == ["v1", "v2", "v3"]
+                  and data["points"][0]["extra_field"] == "keep", data["points"])
+            check("g508: نقطة لها طابع لا تُمسّ", data["points"][1] == pts[1], data["points"][1])
+            check("g508: نقطة بلا اقتباس لا تُمسّ", data["points"][2] == pts[2], data["points"][2])
+            e2 = Env()
+            try:
+                p2 = e2.write("2026-10-18", [point("v2", quote, ts=5)])
+                os.utime(p2, (1000, 1000))
+                ye.recover_timestamps(cfg, e2.fetch(), now)
+                check("g508: ملف بلا نقطة مؤهلة لا يُعاد كتابته",
+                      int(p2.stat().st_mtime) == 1000 and e2.calls == [], p2.stat().st_mtime)
+            finally:
+                e2.close()
+        finally:
+            e.close()
+    guarded("g508", g508)
+
+    def g509():
+        video = SimpleNamespace(video_id="n1", channel="ch", bloc="b", video_title="t", video_url="u",
+                                published_at="2026-10-19T00:00:00Z", duration_seconds=600, description="")
+        names = ("youtube_collect_run", "fetch_transcript", "classify_topic", "get_proxy_config", "extract_points",
+                 "recover_timestamps")
+        saved = (ye.youtube_collect.run, ye.fetch_transcript, ye.classify_topic, ye.get_proxy_config,
+                 ye.extract_points, ye.recover_timestamps)
+        e = Env()
+        try:
+            ye.youtube_collect.run = lambda *a, **k: {"videos": [video], "failed": [], "stats": {
+                "channels_checked": 1, "videos_found": 1, "passed_guards": 1}}
+            fetched: list[str] = []
+
+            def fake_fetch(vid, *a, **k):
+                fetched.append(vid)
+                return text, "en", False
+            ye.fetch_transcript = fake_fetch
+            ye.classify_topic = lambda *a, **k: ("political_analysis", None)
+            ye.get_proxy_config = lambda: None
+            ye.extract_points = lambda *a, **k: ([], [], None, None)
+            e.write("2026-10-18", [point("old1", quote)])
+            out = ye.run(cfg, anthropic_client=object(), now=now)
+            st = out["stats"]
+            check("g509: إحصاء الاستعادة في stats",
+                  st.get("timestamps_recovered") == 1 and st.get("timestamps_recover_videos") == 1
+                  and st.get("timestamps_recover_methods") == {"recovered_quote": 1}, st)
+            check("g509: الجديد يُجلب قبل القديم", fetched[:2] == ["n1", "old1"], fetched)
+
+            e.write("2026-10-18", [point("old2", quote)])
+            fetched.clear()
+            off = cfg.__class__(json.loads(json.dumps(dict(cfg))))
+            off["youtube"]["timestamps"]["recover_enabled"] = False
+            ye.run(off, anthropic_client=object(), now=now)
+            check("g509: recover_enabled false ← لا جلب للقديم ولا كتابة",
+                  fetched == ["n1"] and e.read("2026-10-18")["points"][0]["timestamp"] is None, fetched)
+
+            def boom(*a, **k):
+                raise RuntimeError("boom")
+            ye.recover_timestamps = boom
+            out = ye.run(cfg, anthropic_client=object(), now=now)
+            check("g509: استثناء الخطوة لا يُفشل run", out.get("points") == [] and "stats" in out, out.get("stats"))
+        finally:
+            (ye.youtube_collect.run, ye.fetch_transcript, ye.classify_topic, ye.get_proxy_config,
+             ye.extract_points, ye.recover_timestamps) = saved
+            e.close()
+    guarded("g509", g509)
+
+
 def test_reel_long_l1_guards() -> None:
     """Issue #1627 (L1، g499–g503): الريل الطويل — سقف السيناريو 165 ث، وبرومبت بلا رقم سقف حرفي، وحفظ سبب عودة النشر
     من مسار الريلز إلى الفيديو العادي، وسطر ذلك في تعليق النجاح، وسطر ⏱️ في قضية المراجعة. لا شبكة (requests مزيَّفة)."""
