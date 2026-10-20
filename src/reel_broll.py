@@ -182,3 +182,31 @@ def resolve(raw: list[dict], sents: list[dict], chains: list[dict], hook: dict |
         else:
             acc[n] = w
     return acc, rej
+
+
+def fallback(sents: list[dict], chains: list[dict], taken: list[dict], hook: dict | None) -> dict[int, dict]:
+    """احتياط اللقطة قبل الصورة (Issue #1644، Q2): لكل جملة بقيت بالصورة سلسلة relevant لم تُستعمل، الأطول أولًا، بنافذة بطول الجملة
+    من وسطها. المدقّق نفسه: السلسلة لا تقصر عن الجملة، والنافذة لا تتداخل مع الهوك ولا مع لقطة مقبولة أو احتياطية سبقتها. لا سلسلة
+    تصلح ← لا شيء للجملة (الصورة). سلسلة استُعملت تُؤخَّر لا تُستبعد: إن لم يبقَ غيرها صلحت إن اتسعت نافذتها خارج المستعمل."""
+    windows = [dict(t) for t in taken]
+    used = {i for i, c in enumerate(chains)
+            if any(w["video_id"] == c["video_id"] and w["start"] < c["end"] and c["start"] < w["end"] for w in windows)}
+    out: dict[int, dict] = {}
+    for s in sorted(sents, key=lambda x: x["n"]):
+        order = sorted((i for i, c in enumerate(chains) if c.get("relevant") and c["end"] - c["start"] >= s["dur"] - 1e-9),
+                       key=lambda i: (i in used, -(chains[i]["end"] - chains[i]["start"]), i))
+        for i in order:
+            c = chains[i]
+            a = c["start"] + (c["end"] - c["start"] - s["dur"]) / 2
+            b = a + s["dur"]
+            if hook and hook.get("video_id") == c["video_id"] and _overlaps(a, b, hook["start"], hook["end"]):
+                continue
+            if any(w["video_id"] == c["video_id"] and _overlaps(a, b, w["start"], w["end"]) for w in windows):
+                continue
+            w = {"video_id": c["video_id"], "start": round(a, 3), "end": round(b, 3), "desc": c.get("desc", ""),
+                 "channel": c.get("channel", ""), "chain": i + 1, "fallback": True}
+            out[s["n"]] = w
+            windows.append(w)
+            used.add(i)
+            break
+    return out

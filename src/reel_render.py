@@ -3372,8 +3372,16 @@ def _prepare_broll(script: dict, nar_idx: list[int], speech_cache: dict, plan: l
         except Exception as exc:  # noqa: BLE001 -- الإسناد تحسين: الجمل كلها بالصورة
             log.warning("تعذّر إسناد لقطات الحدث: %s", reel_clips.scrub_text(str(exc))[:150])
             rej = {x["n"]: "no_match" for x in needy}
+    # احتياط اللقطة قبل الصورة (Issue #1644، Q2): كل جملة بقيت بالصورة لسبب غير no_visual، وجملة بطاقة السؤال المجرّدة، تُسند إليها
+    # سلسلة relevant لم تُستعمل (نفس المدقّق: الطول والتداخل). لا سلسلة تصلح ← الصورة كما كانت
+    if chains:
+        left = [{"n": r["n"], "dur": r["b"] - r["a"]} for r in recs
+                if r["n"] not in acc and (r["reason"] != "no_visual" or script["scenes"][r["scene"]].get("role") == "question")]
+        if left:
+            acc.update(reel_broll.fallback(left, chains, list(acc.values()), broll.get("hook")))
     out: dict[int, list[dict]] = {}
     used_channels: list[str] = []
+    n_fallback = 0
     for r in recs:
         entry = {"scene": r["scene"], "sentence": r["sentence"]}
         w = acc.get(r["n"])
@@ -3392,6 +3400,9 @@ def _prepare_broll(script: dict, nar_idx: list[int], speech_cache: dict, plan: l
                                                        "cexpr": _hook_crop(clip, cfg, deps, None)})
                 entry.update({"video_id": w["video_id"], "start": w["start"], "end": w["end"],
                               "channel": w.get("channel", ""), "desc": w.get("desc", "")})
+                if w.get("fallback"):
+                    entry["fallback"] = True
+                    n_fallback += 1
                 used_channels.append(w.get("channel", ""))
         else:
             r["reason"] = r["reason"] or rej.get(r["n"]) or "no_match"
@@ -3408,7 +3419,8 @@ def _prepare_broll(script: dict, nar_idx: list[int], speech_cache: dict, plan: l
     if recs:
         counts = Counter(c for c in used_channels if c)
         names = f" ({'، '.join(f'{c} ×{k}' for c, k in counts.items())})" if counts else ""
-        notes.append(t["comment_broll"].format(used=used, total=total, channels=names, photo=total - used))
+        fb = t["comment_broll_fallback_part"].format(k=n_fallback) if n_fallback else ""
+        notes.append(t["comment_broll"].format(used=used, total=total, fallback=fb, channels=names, photo=total - used))
     broll["channels"] = list(dict.fromkeys(c for c in used_channels if c))
     return out
 
