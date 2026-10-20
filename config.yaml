@@ -2475,7 +2475,7 @@ reel:
       hook_reason: "أقوى {seconds} ث (قوة {impact})"
       comment_lower_graphics: "✂️ أُخفي شريط القناة في {channel}: قُصّ أسفل {pct}%"
       comment_lower_graphics_failed: "⚠️ تعذّر تحديد شريط {channel} — قُصّ {pct}% احتياطًا"
-      comment_hook_topic:"🎞️ الهوك من لقطات الموضوع (لا لقطة للحدث نفسه): {channel} — {title} ({start}–{end})"
+      comment_hook_topic: "🎞️ الهوك من لقطات الموضوع (لا لقطة للحدث نفسه): {channel} — {title} ({start}–{end})"
       # الختام لم يجد نافذة تسبق الهوك من فيديوه (بدايته قبل مدة الختام أو فشل التنزيل) فجُمِّد أول إطار من الهوك (Issue #1602، P1a-2)
       # R6 (Issue #1621): مقطع حُذف من اللوحة لأن الشريط يُظهر غير قائل الاقتباس (نسبة الكلام إلى غير قائله أسوأ من نقص إجابة)
       drop_speaker_mismatch: "الشريط يُظهر {chyron} والاقتباس لـ{speaker} — حُذف المقطع"

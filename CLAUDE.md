@@ -2292,3 +2292,32 @@ instead.
   `reel_broll.fallback` أطول سلسلة `relevant` لم تُستعمل بنافذة من وسطها بطول الجملة، بالطول والتداخل نفسيهما (مع الهوك ومع أي لقطة). تُحفظ في `render_broll` بـ`fallback: true`
   ويذكرها التعليق «(منها K احتياطية)» (`comment_broll_fallback_part`). لا سلسلة تصلح ← الصورة كما كانت.
 
+
+## الهوك لقطة ميدان وشريط القناة بحكم نموذج (Issue #1646، Q3) — `src/reel_hook_search.py`، `src/reel_render.py`
+
+الحادثة (الريل c205a29065ff، #1634):
+- **الهوك:** افتتح الريل مذيع أمام شاشة فيها حشد (نشرة Al Jazeera English: 130 ث «anchor» من 216)، لأنه أول مرشّح صالح، مع أن CNN-News18 وAPT فيهما 90 و138 ثانية ميدانية.
+- **الأشرطة:** شريطا إيران إنترناشيونال والجزيرة ظهرا تحت ترجمتنا، و`detect_cover` قال `ticker: false` للمقاطع الثلاثة.
+
+الحالات g534–g539 في `tests/test_guards_golden.py:test_reel_lower_graphics_q3_guards`. `render_version` = 37.
+
+- **(1) التصنيف:** في `reel.hook_search.classify_system` قاعدة صارمة:
+  - إطار فيه مذيع أو ضيف أو مكتب أستوديو، أو اللقطة على شاشة خلف أحد أو بجانبه (شاشة مقسومة، نافذة)، هو anchor/studio لا `event_footage`.
+  - `event_footage` لقطة ميدانية تملأ الإطار.
+- **(2) الهوك عبر المرشّحين:** `scan_candidates` لا تقف عند أول مرشّح صالح؛ تجمع نافذة `pick_hook_window` من كل مرشّح مُسح ضمن الميزانية القائمة، وتختار الأعلى impact ثم الأعلى نسبة `event_footage` في الفيديو ثم الأسبق.
+  - يُحفظ `hook_search.compared = [{video_id, impact, footage_ratio}]`.
+  - `hook_video` يحمل `render_version`.
+  - `_drop_stale_auto_hook` تحذف أيضًا `auto` المحفوظ بإصدار أقدم فيُعاد اختياره.
+- **(3) شريط القناة بحكم نموذج:**
+  - **السبب:** كاشف البكسلات فاته الشريط، والقصّ الثابت يخسر صورة سليمة.
+  - **النداء:** `lower_graphics(clip, cfg, deps, detected, ticker_top, key=video_id)` نداء Haiku واحد لكل فيديو في التركيب (ذاكرة في `deps`) بلقطات `_chyron_jpegs` وأداة `locate_lower_graphics` ← `graphics_top` لكل لقطة (1 = لا رسوم). حقل `Deps.read_lower_graphics` (None للمزيَّفات القديمة ← لا نداء).
+  - **القرار (`graphics_crop`، خالصة):**
+    - نطاق في لقطتين فأكثر ← أصغرها − `margin`، بحد أدنى `min_top` (0.60، `clamped`).
+    - أقل من لقطتين ← 1 (الارتفاع الكامل).
+    - فشل النداء ← `fallback_top` (0.80).
+    - الكاشف القديم شبكة أمان (`source: detector`) حين يكشف والنموذج لا يرى شيئًا.
+  - **التطبيق:**
+    - اللوحة (`_panel_crops`): يُقصّ ارتفاع المحتوى إلى `top × sh` قبل `fit_crop`.
+    - الهوك ولقطات الجمل (`_hook_crop`): ارتفاع القصّ `top × sh` بعرض ×9/16.
+    - v1 (`_clip_scene`): `top < 1` يجعل الغطاء المعتم `cover = True`.
+  - **الحفظ والتعليق:** يُحفظ `lower_graphics` في `render_crops`، وسطر «✂️ أُخفي شريط القناة…» أو «⚠️ تعذّر تحديد شريط…» مرة لكل فيديو. الإعداد `reel.render.lower_graphics`.
