@@ -804,6 +804,17 @@ def _reel_long_note(seconds: float, cfg) -> str:
     return rcfg.get("long_note", "").format(max=limit) if seconds > limit else ""
 
 
+def _reel_clip_note_lines(d: dict, script: dict, texts: dict) -> list[str]:
+    """مقاطع استُبعدت قبل الكتابة وترجمات أُعيدت بصيغة المتكلم (Issue #1642، Q1): سطر لكل منها ليعرف المراجع ما غاب ولماذا.
+    قناة المُعاد ترجمته تؤخذ من مشاهد السيناريو؛ ما لم يدخل السيناريو لا أثر له على الريل فلا سطر."""
+    out = [f"  {texts.get('clip_dropped_line', '🚫 استُبعد مقطع {channel}: {reason}').format(channel=x.get('channel', ''), reason=x.get('reason', ''))}"
+           for x in d.get("clip_dropped") or []]
+    chan = {s.get("point_id"): s.get("channel_display", "") for s in script.get("scenes") or [] if s.get("point_id")}
+    out += [f"  {texts.get('clip_retranslated_line', '🔁 أُعيدت ترجمة مقطع {channel} بصيغة المتكلم').format(channel=chan[pid])}"
+            for pid in d.get("quote_retranslated") or [] if pid in chan]
+    return [*out, ""] if out else []
+
+
 def _reel_item_lines(idx: int, d: dict, cfg) -> list[str]:
     """بند الريل في المرحلة 2 (Issue #1336، R1؛ السيناريو في #1338، R2). بلا سيناريو بعد (أو والمفتاح مطفأ):
     سطر «⏳» وخيار go1 وحده. سيناريو فشل: سببه وgo1 وحده. سيناريو جاهز: العنوان وجنس الراوي والمدة المقدَّرة، جدول
@@ -824,6 +835,7 @@ def _reel_item_lines(idx: int, d: dict, cfg) -> list[str]:
                 *([f"  {long_note}"] if (long_note := _reel_long_note(seconds, cfg)) else []),
                 "", f"  {texts.get('timeline_header', '')}", "",
                 *reel_script.timeline_lines(script, cfg), "",
+                *_reel_clip_note_lines(d, script, texts),
                 *_reel_hook_lines(d, texts),
                 *_reel_broll_lines(d, texts),
                 *_reel_bg_lines(d, cfg, texts),
