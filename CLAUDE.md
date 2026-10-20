@@ -2252,3 +2252,22 @@ instead.
 
   الشرط لأن «تسجيل الحالة» تخرج 0 حتى لو فشل الدفع خمس مرات.
 - الاختبارات: g510–g514 في `tests/test_guards_golden.py:test_w5_render_dispatch_after_push_guards`.
+
+## ترجمة المتحدث كلامه وتطابق الملخّص (Issue #1642، Q1) — `src/reel_script.py`
+
+الحادثة (الريل c205a29065ff، #1634): ترجمة «قال علي زاده إن…» تحت وجه علي زاده نفسه، ونقطة متحدثها «لقاء مكي» وملخّصها «رأى الدكتور محمد العريمي…».
+`render_version` بلا تغيير (التغيير قبل التركيب). الشواهد `tests/fixtures/reel/1634/points.json`؛ g524–g528 في `tests/test_guards_golden.py:test_reel_speaker_q1_guards`.
+
+- **الاستخراج:** `prompts/youtube_extract.md` (لا config: البرومبت ملف) يلزم `quote_arabic` بصيغة المتكلم، ويمنع فعل النقل واسمه بضمير الغائب، بمثال سلبي «قال X إن…».
+  `REQUIRED_FIELDS` بلا تغيير.
+- **الكشف:** `reported_speech(quote_arabic, speaker_text, cfg)` خالصة: True إن بدأ النص بفعل من `reel.script.reported_verbs` (يُقارَن بعد طيّ الهمزات)، أو ورد رمز
+  من اسم المتكلم بين أول `reported_name_window` (4) كلمات. رموز الاسم من الجزء السابق لأول فاصلة في `speaker` وحده (بعدها صفته فكلماتها عامة).
+- **المعالجة (`fix_reported_quotes` في `write_for_draft`، قبل عدّ متحدثي الرأي R7):** نداء Haiku واحد مجمَّع (`llm.create` عبر `_retranslate_create`، أداة
+  `retranslate_quotes`، نظامها `reel.script.retranslate_system`). نجاح ← تحلّ الترجمة محل `quote_arabic` في نسخة المقطع (ملف النقاط لا يُمسّ) و`quote_retranslated`
+  على المسودة؛ فشل النداء أو ترجمة ما زالت خبرًا ← يُستبعد المقطع إلى `clip_dropped: [{point_id, reason, channel}]`. المفتاحان في `SCRIPT_KEYS`.
+- **حارس التطابق (`valid_clips(..., dropped=)` ← `statement_other_speaker`):** لـ`speaker` رموز اسم، والملخّص يبدأ بفعل النقل ضمن أول `reported_verb_window` (3)،
+  ولا رمز من اسم المتحدث في أول `reported_statement_window` (8)، وبعد الفعل (وتخطي كلمات الأدوار) كلمة ≥3 أحرف ليست أداة («أن/إن») ← يُستبعد بسبب
+  `reel.texts.clip_drop_mismatch`. **تفسير مقصود:** «اسم العلم الآخر» هو الكلمة التالية للفعل لا أي كلمة في الجملة، وإلا حجب الحارس كل نقطة ذكرت «إسرائيل» أو «ترامب».
+  متحدث بلا رموز اسم (صفة وحدها) لا يُفحص. الحارس داخل `valid_clips` فيتفق معه `opinion_speakers` وسطر الصلاحية في قضية الترشيح.
+- **العرض:** `youtube_publish._reel_clip_note_lines` في بند الريل بالمرحلة 2: «🚫 استُبعد مقطع {القناة}: {السبب}» و«🔁 أُعيدت ترجمة مقطع {القناة} بصيغة المتكلم»
+  (نصوصهما `reel.texts.clip_dropped_line/clip_retranslated_line`؛ قناة المُعاد من مشاهد السيناريو).
