@@ -17132,6 +17132,179 @@ def test_timestamps_t1b_guards() -> None:
     guarded("g509", g509)
 
 
+def test_w5_render_dispatch_after_push_guards() -> None:
+    """W5 (Issue #1635، g510–g514): إطلاق تركيب الريل بعد إيداع المسودات لا قبله — بوجود TRENDNEWS_RENDER_DISPATCH_FILE
+    تكتب publish.main ملف الإطلاق ولا تطلق، ثم يطلق `--dispatch-render` من المسودات كما هي على القرص. لا شبكة."""
+    import json
+    import os
+    import sys
+    import tempfile
+    from pathlib import Path
+
+    from src import publish as publish_mod
+    from src import review, store
+    from src import youtube_publish as yp
+    from tests.helpers import tick_marker
+
+    cfg = load_config()
+    cfg.setdefault("reel", {})["enabled"] = True
+    started_txt = cfg.path("reel.texts.render_started", "")
+    started_now_txt = cfg.path("reel.texts.render_started_now", "")
+    failed_txt = cfg.path("reel.texts.render_start_failed", "")
+    var = "TRENDNEWS_RENDER_DISPATCH_FILE"
+
+    def ready_reel(did, **extra):
+        d = {"id": did, "origin": "analysis", "format": "reel", "status": "pending", "topic_id": "a5a5a5a5a5a5",
+             "topic_date": "2099-12-09", "title": "ريل W5", "script_status": "ready", "review_issue": 9500,
+             "stage2_issue": 9500,
+             "script": {"narrator": "female", "title": "عنوان الشاشة", "question": "هل؟", "scenes": [
+                 {"kind": "title_card", "text": "عنوان الشاشة"}, {"kind": "narration", "text": "جملة الراوي."},
+                 {"kind": "question", "text": "هل؟"}, {"kind": "outro"}]},
+             "headlines": ["العنوان الأول؟", "العنوان الثاني", "العنوان الثالث؟"]}
+        d.update(extra)
+        store.save_draft(d)
+        return d["id"]
+
+    def body_of(*ids):
+        return "\n".join(line for i in ids for line in yp._reel_item_lines(1, store.load_draft(i)[1], cfg))
+
+    dispatched: list = []
+    comments: list = []
+    state = {"fail": False}
+    saved = (review.dispatch_workflow, review.comment, review.close_issue, review.remove_label,
+             review.update_issue_body, publish_mod.load_config, publish_mod.fetch_issue, sys.argv,
+             os.environ.get(var))
+
+    def fake_dispatch(file_name, ref):
+        dispatched.append((file_name, ref))
+        if state["fail"]:
+            raise RuntimeError("403")
+
+    def patch():
+        publish_mod.load_config = lambda *a, **k: cfg
+        review.dispatch_workflow = fake_dispatch
+        review.comment = lambda n, t: comments.append((n, t))
+        review.close_issue = lambda n: None
+        review.remove_label = lambda n, lbl: None
+        review.update_issue_body = lambda n, b: None
+        dispatched.clear()
+        comments.clear()
+
+    def run_main(body, number):
+        publish_mod.fetch_issue = lambda n: {"number": n, "body": body,
+                                             "labels": [{"name": "youtube-review"}, {"name": "approved"}]}
+        sys.argv = ["publish", "--issue", str(number), "--skip-urgent"]
+        publish_mod.main()
+
+    def run_dispatch(*extra):
+        sys.argv = ["publish", "--dispatch-render", *extra]
+        return publish_mod.main()
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    tmp = Path(tempfile.mkdtemp())
+    try:
+        patch()
+        # ── g510: المتغير موجود ← كتابة الملف بلا إطلاق؛ غائب ← السلوك القديم ──
+        def g510():
+            f = tmp / "g510.json"
+            os.environ[var] = str(f)
+            a = ready_reel("a5100000000a")
+            run_main(tick_marker(body_of(a), f"go:go3:{a}"), 9501)
+            check("g510: لا إطلاق مع المتغير", not dispatched, dispatched)
+            check("g510: لا تعليق render_started", not any(started_txt and started_txt in t for _, t in comments), comments)
+            data = json.loads(f.read_text(encoding="utf-8")) if f.exists() else {}
+            check("g510: الملف فيه القضية والمعرّف", data.get("issue") == 9501 and data.get("started") == [a]
+                  and data.get("now") == [], data)
+            del os.environ[var]
+            patch()
+            b = ready_reel("a5100000000b")
+            run_main(tick_marker(body_of(b), f"go:go3:{b}"), 9502)
+            check("g510: بلا متغير ← إطلاق مرة واحدة كما اليوم", len(dispatched) == 1, dispatched)
+            check("g510: بلا متغير ← تعليق البدء", any(started_txt in t for _, t in comments), comments)
+        guarded("g510", g510)
+
+        # ── g511: الأمر يطلق من المسودات على القرص ──
+        def g511():
+            patch()
+            f = tmp / "g511.json"
+            os.environ[var] = str(f)
+            a = ready_reel("a5110000000a", status="approved_script", render_status="queued")
+            b = ready_reel("a5110000000b", status="approved_script", render_status="queued", publish_on_render=True)
+            f.write_text(json.dumps({"issue": 9511, "started": [a], "now": []}), encoding="utf-8")
+            rc = run_dispatch()
+            check("g511: خروج 0 وإطلاق واحد", rc == 0 and len(dispatched) == 1, (rc, dispatched))
+            check("g511: render_started على القضية الصحيحة",
+                  comments and comments[-1][0] == 9511 and started_txt in comments[-1][1], comments)
+            patch()
+            f.write_text(json.dumps({"issue": 9512, "started": [b], "now": [b]}), encoding="utf-8")
+            run_dispatch()
+            check("g511: publish_on_render ← render_started_now",
+                  len(dispatched) == 1 and comments and comments[-1][0] == 9512
+                  and started_now_txt in comments[-1][1], (dispatched, comments))
+        guarded("g511", g511)
+
+        # ── g512: لم يعد queued ← لا شيء؛ ملف غائب ← خروج 0 ──
+        def g512():
+            patch()
+            f = tmp / "g512.json"
+            os.environ[var] = str(f)
+            a = ready_reel("a5120000000a", status="approved_script", render_status="rendered")
+            b = ready_reel("a5120000000b")
+            f.write_text(json.dumps({"issue": 9521, "started": [a, b], "now": []}), encoding="utf-8")
+            rc = run_dispatch()
+            check("g512: لا إطلاق ولا تعليق", rc == 0 and not dispatched and not comments, (rc, dispatched, comments))
+            os.environ[var] = str(tmp / "absent.json")
+            check("g512: ملف غائب ← 0 بلا شيء", run_dispatch() == 0 and not dispatched and not comments, dispatched)
+        guarded("g512", g512)
+
+        # ── g513: العطل و--skip-not-pushed ──
+        def g513():
+            patch()
+            f = tmp / "g513.json"
+            os.environ[var] = str(f)
+            a = ready_reel("a5130000000a", status="approved_script", render_status="queued")
+            f.write_text(json.dumps({"issue": 9531, "started": [a], "now": []}), encoding="utf-8")
+            state["fail"] = True
+            try:
+                rc = run_dispatch()
+            finally:
+                state["fail"] = False
+            check("g513: عطل الإطلاق ← render_start_failed وخروج 0",
+                  rc == 0 and comments and comments[-1][0] == 9531 and failed_txt in comments[-1][1], (rc, comments))
+            patch()
+            rc = run_dispatch("--skip-not-pushed")
+            check("g513: --skip-not-pushed ← تعليق الفشل بلا إطلاق",
+                  rc == 0 and not dispatched and comments and failed_txt in comments[-1][1], (rc, dispatched, comments))
+        guarded("g513", g513)
+
+        # ── g514: تشغيلتان بالملف نفسه ← دمج وإطلاق واحد ──
+        def g514():
+            patch()
+            f = tmp / "g514.json"
+            os.environ[var] = str(f)
+            a, b = ready_reel("a5140000000a"), ready_reel("a5140000000b")
+            run_main(tick_marker(body_of(a), f"go:go3:{a}"), 9541)
+            run_main(tick_marker(body_of(b), f"go:publish:{b}"), 9542)
+            data = json.loads(f.read_text(encoding="utf-8"))
+            check("g514: القائمتان مدموجتان", set(data.get("started", [])) == {a, b} and data.get("now") == [b], data)
+            check("g514: لا إطلاق قبل الأمر", not dispatched, dispatched)
+            run_dispatch()
+            check("g514: إطلاق واحد", len(dispatched) == 1, dispatched)
+        guarded("g514", g514)
+    finally:
+        (review.dispatch_workflow, review.comment, review.close_issue, review.remove_label,
+         review.update_issue_body, publish_mod.load_config, publish_mod.fetch_issue, sys.argv, old_var) = saved
+        if old_var is None:
+            os.environ.pop(var, None)
+        else:
+            os.environ[var] = old_var
+
+
 def test_reel_long_l1_guards() -> None:
     """Issue #1627 (L1، g499–g503): الريل الطويل — سقف السيناريو 165 ث، وبرومبت بلا رقم سقف حرفي، وحفظ سبب عودة النشر
     من مسار الريلز إلى الفيديو العادي، وسطر ذلك في تعليق النجاح، وسطر ⏱️ في قضية المراجعة. لا شبكة (requests مزيَّفة)."""
