@@ -4549,7 +4549,8 @@ def test_reel_structure_guards() -> None:
         i_field, i_block = on_body.find(f"imgurl:{tid}"), on_body.find(block)
         i_opts = on_body.find(f"go:go2:{tid}")
         ok160 = ok160 and 0 < i_field < i_block < i_opts
-        stripped = stripped.replace(block, "")
+        # سطر صلاحية الريل (R7) يلي الكتلة مباشرة ويُحذف معها
+        stripped = stripped.replace(block + ycl._reel_fit_line(t, base_points, cfg_on) + "\n\n", "")
     check("g160: كتلة صيغ (مقال معلَّم/ريل لا) بعد حقل الصورة وقبل الانتقال لكل موضوع", ok160)
     check("g160: حذف الكتل يعيد الجسم القديم حرفيًا (كتلة الانتقال لم تتغير)", stripped == before)
     check("g160: قراءة الصيغ من الجسم الجديد",

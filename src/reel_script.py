@@ -601,11 +601,27 @@ def _date_violations(main: str, ctx: str, qs: list[dict], closing: str, cfg: Any
 _OPINION_TYPES = ("opinion", "forecast")
 
 
+def _opinion_identities(valid: list[dict]) -> list[tuple[str, str]]:
+    """(هوية، اسم عرض) لكل متحدث رأي مختلف بين المقاطع الصالحة بترتيب أول ظهور: العدّ الواحد لكل من يحتاجه (R7)."""
+    out: dict[str, str] = {}
+    for c in valid:
+        if c.get("type") in _OPINION_TYPES:
+            ident = _speaker_identity(c)
+            if ident not in out:
+                out[ident] = (c.get("speaker_text") or "").strip() or c.get("channel_display", "") or ident
+    return list(out.items())
+
+
+def opinion_speakers(member_points: list[dict], cfg: Any) -> list[tuple[str, str]]:
+    """متحدثو الرأي الصالحون للموضوع (Issue #1637، R7): الريل نقاش فيُعدّ من له رأي/توقّع وطابع واقتباس ورابط، لا واقعة.
+    دالة خالصة تستعملها قضية الترشيح والفشل المبكر و_type_violations فيتفق العدّ في كل مكان."""
+    return _opinion_identities(valid_clips(member_points, [], cfg))
+
+
 def _type_violations(clips: list[dict], by_id: dict, valid: list[dict]) -> list[str]:
     """الإجابة رأي محلل لا واقعة (Issue #1621، R6): إجابة نوع نقطتها غير opinion/forecast تُرفض إن وُجد بين المقاطع الصالحة مقطعان فأكثر
     من نوع رأي لمتحدثَين مختلفين؛ أقل من ذلك يُسمح بها كي لا يسقط السيناريو."""
-    ops = {_speaker_identity(c) for c in valid if c.get("type") in _OPINION_TYPES}
-    if len(ops) < 2:
+    if len(_opinion_identities(valid)) < 2:
         return []
     return [f"الإجابة {s['point_id']} نوعها {by_id[s['point_id']].get('type') or 'غير معروف'} (واقعة لا رأي): اختر مقطع رأي أو توقّع"
             for s in clips if s.get("point_id") in by_id and by_id[s["point_id"]].get("type") not in _OPINION_TYPES]
@@ -959,6 +975,15 @@ def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article
         draft.pop("script", None)
         draft.update(script_status="failed", script_error=reason)
         return {"status": "failed", "reason": reason}
+    if bool(_v2(cfg, "enabled", False)):
+        ops = _opinion_identities(valid)
+        need = int(_v2(cfg, "min_opinion_speakers", 2))
+        if len(ops) < need:
+            reason = (cfg.path("reel.texts.no_debate", "") or "لا خلاف كافٍ للريل: رأي صالح من {n} متحدث ({names}) والمطلوب {min}").format(
+                n=len(ops), names="، ".join(n for _, n in ops[:3]) or "—", min=need)
+            draft.pop("script", None)
+            draft.update(script_status="failed", script_error=reason)
+            return {"status": "failed", "reason": reason}
     valid = _audit_speakers(draft, identify_speakers(valid, member_points, cfg, client), member_points, cfg)
     narrator = next_narrator(cfg, draft.get("id", ""))
     script, reason = write_script(topic, article_text, valid, narrator, cfg, client)

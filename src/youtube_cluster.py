@@ -1072,18 +1072,36 @@ def _sample_points_lines(topic: dict, points: list[dict], n: int = 3) -> list[st
     return lines
 
 
-def _format_block(topic_id: str, cfg) -> list[str]:
+def _reel_fit_line(topic: dict, points: list[dict], cfg) -> str:
+    """سطر صلاحية الموضوع للريل (Issue #1637، R7): الريل نقاش فيعرف المراجع عند الترشيح كم متحدث رأي صالحًا فيه. لا يمنع التعليم."""
+    # استيراد متأخر: reel_script يستورد هذه الوحدة فاستيراده في الرأس حلقة
+    from . import reel_script
+    texts = cfg.path("reel.texts", {}) or {}
+    member = [points[pid] for pid in topic.get("point_ids") or [] if 0 <= pid < len(points)]
+    ops = reel_script.opinion_speakers(member, cfg)
+    need = int(cfg.path("reel.script.v2.min_opinion_speakers", 2))
+    names = "، ".join(n for _, n in ops[:3])
+    if not ops:
+        return texts.get("reel_unfit_none", "")
+    if len(ops) >= need:
+        return texts.get("reel_fit", "").format(n=len(ops), names=names)
+    return texts.get("reel_unfit", "").format(n=len(ops), names=names, min=need)
+
+
+def _format_block(topic_id: str, cfg, topic: dict | None = None, points: list[dict] | None = None) -> list[str]:
     """كتلة «🧩 الصيغة» (مقال معلَّم افتراضيًا، ريل لا). فارغة والمفتاح مطفأ فيبقى
     الجسم حرفيًا كما كان."""
     if not cfg.path("reel.enabled", False):
         return []
     texts = cfg.path("reel.texts", {}) or {}
+    fit = [_reel_fit_line(topic, points or [], cfg), ""] if topic is not None else []
     return [
         texts.get("format_header", ""),
         f"- [x] {texts.get('article', '')}  <!-- fmt:article:{topic_id} -->",
         f"- [ ] {texts.get('reel', '')}  <!-- fmt:reel:{topic_id} -->",
         texts.get("stage1_note", ""),
         "",
+        *fit,
     ]
 
 
@@ -1137,7 +1155,7 @@ def build_selection_body(date_str: str, topics: list[dict], points: list[dict], 
             "",
             # كتلة الصيغة بعد حقل الصورة وقبل الانتقال (Issue #1336): كتلة الانتقال
             # تخص المقال وحده، والريل بلا انتقال هنا -- تعليمه وحده اختياره
-            *_format_block(t["id"], cfg),
+            *_format_block(t["id"], cfg, t, points),
             *stages.options_block(1, t["id"], cfg, has_stage1=False),
             "",
             "---",

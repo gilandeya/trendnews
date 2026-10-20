@@ -2204,6 +2204,15 @@ instead.
 - **المراجعة:** `reel.review.long_note` («⏱️ أطول من 90 ث…») تحت المدة في `reel_review.build_body` وفي بند الريل في المرحلة 2 (`youtube_publish._reel_long_note`) حين تتجاوز المدة 90.
 - **الاختبارات:** g499–g503 في `tests/test_guards_golden.py:test_reel_long_l1_guards`.
 
+## صلاحية الموضوع للريل (Issue #1637، R7) — `src/reel_script.py`، `src/youtube_cluster.py`
+
+الحادثة (#1632): موضوع فرنسا فيه رأي صالح واحد من متحدث واحد وأربع وقائع، والريل v2 نقاش يمنع برومبته الوقائع، فسقط السيناريو بإجابة واحدة دون أن يقول سببه «لا خلاف».
+
+- **العدّ:** `reel_script.opinion_speakers(member_points, cfg)` دالة خالصة تعيد `[(هوية، اسم عرض)]` لمتحدثي الرأي/التوقّع المختلفين بين `valid_clips` (طابع واقتباس ورابط) بترتيب أول ظهور؛ اسم العرض `speaker_text` وإلا القناة. `_opinion_identities` هي النواة المشتركة، و`_type_violations` تستعملها فالعدّ واحد في كل مكان.
+- **قضية الترشيح:** مع `reel.enabled` فقط، سطر تحت كتلة «🧩 الصيغة» (`youtube_cluster._reel_fit_line`): `reel.texts.reel_fit` (العدد ≥ `reel.script.v2.min_opinion_speakers`) · `reel_unfit` (أقل) · `reel_unfit_none` (صفر)، أول 3 أسماء. لا يمنع تعليم «ريل». مطفأً الجسم حرفًا كما كان.
+- **الفشل المبكر:** `write_for_draft` بعد فحص `min_clips` وقبل `identify_speakers`، حين `v2.enabled` وعدد متحدثي الرأي أقل من `min_opinion_speakers` (2): `script_status="failed"` و`script_error` من `reel.texts.no_debate`، بلا أي نداء نموذج ولا بحث. الإحياء بـ«➕ أضف ريلًا» كما هو.
+- **الاختبارات:** g515–g519 في `tests/test_guards_golden.py:test_reel_debate_fit_r7_guards`، وشاهد `tests/fixtures/reel/1632/points.json` **مصنوع** بنية الموضوع (لم تُتَح نقاطه الحقيقية)؛ وعُدِّل g160 ليحذف سطر الصلاحية مع الكتلة.
+
 ## إطلاق التركيب بعد الإيداع (W5, Issue #1635) — `src/publish.py`
 
 - **الحادثة (#1633):** `start_reel_render` أطلقت `reel-render.yml` داخل خطوة «نشر العادي بفواصل» قبل أن تودِع خطوة «تسجيل الحالة» المسودات، فسحب التركيب main بلا الريل المعتمَد وركّب ريلًا أقدم. السبب بنيوي: الإطلاق في العملية التي تكتب المسودات والإيداع في خطوة لاحقة.
