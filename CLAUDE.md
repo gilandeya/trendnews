@@ -2404,3 +2404,21 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
   يُوضع في سلسلة صوت المقطع المنفرد (`_clip_scene`) وكل عضو في اللوحة (`_panel_scene`) قبل `loudnorm`/`apad`. `gate.enabled: false` أو مقطع بلا `gate` ← الأمر كما كان حرفًا.
   يُحفظ `render_crops[i].gate = {start, end, source: silence|transcript|approx}`.
 - **لم يُجرَّب على ffmpeg حقيقي في بيئة التطوير** (لا ffmpeg فيها): g565 يتخطّى هناك؛ تعبير `volume` وصياغة `silencedetect` تحتاج تشغيلًا فعليًا.
+
+## موضوع الريل بدل «الحدث» وحكم الخلفية بنموذج يرى الصورة (Issue #1662، Q7) — `src/reel_hook_search.py`، `src/reel_render.py`
+
+الحادثة (الريل d35c989fade1، #1657، «كيف يؤثر التصعيد مع إيران على انتخابات الكونغرس النصفية؟»): خلفية الراوي علما روسيا وإيران في قاعة رسمية
+(أول صورة نُزّلت بلا وجه ولا تاريخ قديم، ولا شيء ينظر إليها)، ولا هوك رغم فيديوهي AP Archive لناخبين في طوابير الاقتراع لأن البرومبتات تعرّف الصلة
+بـ«الحدث نفسه» فيفهمه النموذج تصعيدًا عسكريًا. الشاهد `tests/fixtures/reel/1657/hook_bg.json`؛ g566–g572 في
+`tests/test_guards_golden.py:test_reel_subject_q7_guards`. `render_version` = 41.
+
+- **سؤال الريل:** `subject_text(script, draft)` = `script.title` + نص مشهد narration بـ`role == "context"`؛ `reel_event` = `event_text` كما هو ثم سطر «سؤال الريل: …»
+  (موضوع فارغ ← الحدث وحده). يدخل نداءات `make_queries` و`judge_titles` و`classify_seconds` (عبر `scan_candidates`/`scan_broll`) وإسناد `topic_hook`.
+- **البرومبتات (config):** `queries_system` للقطات تُظهر ما يسأل عنه الريل، وعبارة على الأقل لـ«الطرف الذي يسأل الريل عن أثره» إن كان السؤال عن أثر حدث؛ `judge_system` و`classify_system`:
+  `relevant` = الحدث أو أطرافه أو مكانه أو الطرف المسؤول عن أثره عليه (مثال الناخبين)؛ قاعدتا Q3 وQ4 حرفًا باقيتان.
+- **حكم الخلفية:** `reel_render.bg_fits(img, subject, cfg)` نداء Haiku واحد بالصورة مصغّرة (`reel.render.background.judge.max_side`) وأداة `judge_background` ← `{fits, shows, reason}`،
+  يُستدعى في `pick_background` بعد `usable` (تنزيل ووجه وتاريخ) في كل درجات السلّم عدا `manual_image`. `fits=false` ← المرشّح التالي و`reel_bg.rejected` (حتى `max_rejected` = 10)؛
+  رُفض الكل ← `kind: "none"` (الكحلي). عطل النداء ← لا رفض و`reel_bg.judge_error`. تُحفظ `shows` و`judged: true` (عند عطل `judged: false`). الحقن `providers["judge"]`؛
+  غيابه (كل اختبار لا يحقنه) ← يُقبل المرشّح كما قبل Q7 بلا مفتاح `judged`.
+- **مسودات قديمة:** `_resolve_background` لا يعيد الاختيار لـ`reel_bg.url` محفوظ إلا إن خلا من `judged`، فيُحكم عليه مرة؛ لا يصلح ← يُعاد الاختيار ويُحفظ.
+- **المرحلة 2:** `youtube_publish._reel_bg_lines`: «🖼️ خلفية الراوي: … — {shows}» و«(رُفضت n: أول shows)»، وللكحلي بعد رفض الكل `reel.texts.bg_none_judged`.
