@@ -2375,3 +2375,32 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
   `closing_question_text` لم تتغير.
 - **إصلاحات صغيرة:** `editor_revision` في `SCRIPT_KEYS` (خطأ R5d3 نفسه: E1 لا يصل القرص) · `pick_hook_candidates` يسقط مرشّحًا بعنوان مطابق (بعد `clean_title`
   والمسافات وحالة الأحرف) ويبقى الأعلى مشاهدة · `render_crops[i]` لمقطع اللوحة يحمل `quote_mode`/`quote_sync` (تُكتبان بعد `_clip_layers`).
+
+
+## المقطع فكرة كاملة ولا صوت خارج الكلام (Issue #1660، Q6) — `src/reel_clips.py`، `src/reel_render.py`
+
+الحادثة (الريل d35c989fade1، #1657): فكرة «أربعة سيناريوهات» مبتورة بعد الأول، ومقاطع تبدأ بـ«المسار» وتنتهي بـ«اليوم ربما» لأن `lead_seconds`/`clip_tail_seconds`
+(لازمان لحركة اللوحة) يحملان صوت الجملة السابقة واللاحقة، وترجمة تحت صوت مدبلج عربي لا تطابق المنطوق. `render_version` = 40. الشاهد
+`tests/fixtures/reel/1657/transcript.json` (مصنوع بشكل الحادثة) وأوامر مرجعية `tests/fixtures/reel/q6_base_cmds.json`؛ g558–g565 في
+`tests/test_guards_golden.py:test_reel_thought_span_q6_guards` (g565 بـffmpeg حقيقي ويُتخطّى إن غاب).
+
+- **(1) حدود الفكرة بحكم نموذج والكود ينفّذ:** في `_fetch_clips` بعد `locate_quote` بحالة found (أضاف `first`/`last` لسطري الاقتباس) وقبل التنزيل، إن كان
+  `reel.render.span.enabled` و`Deps.pick_span` غير `None` (مزيَّفات قديمة ← النافذة القديمة حرفًا). `reel_clips.thought_span` نداء Haiku واحد لكل مقطع
+  (`llm.create`، أداة `pick_span`، `reel.render.span.system`): أسطر النافذة `context_seconds` (40) قبل الاقتباس وبعده مرقّمة «[n] (ث) نص»، والاقتباس،
+  ورقما سطريه ← `start_line`/`end_line`/`complete`/`display_text`/`reason`. **التحقق (`reel_clips.check_span`، `reel_render._decide_span`):** المدى يتقاطع مع سطور
+  الاقتباس ومدته (بداية `end_line+1` أو تقدير `speaker_wps` لآخر سطر) بين `span.min_seconds` (4) و`max_seconds` (25) وإلا **النافذة القديمة** و`source: fallback`؛
+  عطل النداء له المعاملة نفسها. `complete: false` ← المقطع محذوف بـ`texts.drop_incomplete` ثم `_prune_mismatched` (Q4) كالمعتاد. النافذة الجديدة
+  `wstart = start(start_line) − lead_seconds` و`wend = ceil(نهاية الكلام + clip_tail_seconds)` **بلا قصّ عند `clip_max_seconds`**.
+- **النص المعروض:** لغة الصوت من حروف النص المجلوب (`is_arabic_audio`، نسبة الحروف العربية ≥ 0.6) لا من `scene.language`. صوت عربي: `display_text` يُقبل إن طابقت
+  كلماته المطبَّعة (`_normalize_for_anchor`) كلمات الأسطر (يحتفظ بترقيمه) وإلا نص الأسطر نفسه بلا ترقيم (`resolve_display`). غير عربي: ترجمة النموذج (قاعدة Q5).
+  يُحفظ في `clip["display_text"]` ويحلّ محل `quote_arabic` في `_clip_layers` وحده فلا يتغير ملف النقاط ولا السيناريو؛ وتوقيت الكلمات بمقاطع أسطر الفكرة،
+  ووضع العرض (كلمة/سطر) من لغة الصوت المحسوبة.
+- **الحفظ والتعليق:** `render_spans = [{point_id, start, end, complete, lang, changed_text, reason, source: model|fallback}]`؛ «📏 امتد مقطع {القناة} إلى فكرة كاملة
+  ({n} ث)» إن طالت النافذة أكثر من ثانيتين عن القديمة، و«📝 نص مقطع {القناة} كما نُطق» لصوت عربي اختلف نصه عن `quote_arabic`.
+- **(2) لا صوت خارج الكلام:** الصورة تبقى بـlead/tail لحركة اللوحة والصوت يُكتم خارج `[g0، g1]` (`_span_and_gate`، `reel.render.gate`): g0 بداية أول سطر في الفكرة
+  (أو الاقتباس بلا span) وg1 نهاية كلامها. `gate_window` (خالصة) تنقل g0 إلى نهاية آخر صمت في ±`snap` وg1 إلى بداية أول صمت في ±`snap` (silencedetect
+  بـ`noise_db`/`min_silence` عبر `Deps.detect_silence`؛ بلا صمت أو بلا كاشف يبقى التقدير). نافذة تقديرية (بلا نص) ← `approx_gate`: يُكتم ما قبل
+  `lead_seconds` وما بعد نهاية النافذة − `clip_tail_seconds`. التنفيذ `gate_volume`: `volume` بتعبير زمني `min(max(min((t−g0)/fade,(g1−t)/fade),0),1)` مع `eval=frame`
+  يُوضع في سلسلة صوت المقطع المنفرد (`_clip_scene`) وكل عضو في اللوحة (`_panel_scene`) قبل `loudnorm`/`apad`. `gate.enabled: false` أو مقطع بلا `gate` ← الأمر كما كان حرفًا.
+  يُحفظ `render_crops[i].gate = {start, end, source: silence|transcript|approx}`.
+- **لم يُجرَّب على ffmpeg حقيقي في بيئة التطوير** (لا ffmpeg فيها): g565 يتخطّى هناك؛ تعبير `volume` وصياغة `silencedetect` تحتاج تشغيلًا فعليًا.
