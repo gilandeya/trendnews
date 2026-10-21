@@ -1,0 +1,111 @@
+{
+ "script": {
+  "title": "كيف يؤثر التصعيد مع إيران على انتخابات الكونغرس النصفية؟",
+  "scenes": [
+   {
+    "kind": "narration",
+    "role": "context",
+    "text": "تجري انتخابات الكونغرس الأمريكية النصفية في الثالث من نوفمبر. يتزامن موعدها مع تصعيد عسكري متواصل مع إيران."
+   }
+  ]
+ },
+ "event": "تحليل تأثير توقيت التصعيد مع إيران على الانتخابات الأمريكية النصفية",
+ "title": "تصعيد قبل انتخابات الكونغرس الأمريكية",
+ "reel_bg": {
+  "url": "https://cdn.alquds.com/uploads/a0cf6ea7c13f348924e9098313e1faa8.jpg",
+  "kind": "news_photo",
+  "publisher": "جريدة القدس",
+  "layout": "A"
+ },
+ "hook_candidates": [
+  {
+   "video_id": "5-Dh8_q0xsM",
+   "title": "Voters divided on Iran, the economy, Trump's performance as early midterm voting begins in Georgia",
+   "channel": "AP Archive",
+   "views": 2163,
+   "duration": 174,
+   "published": "2026-10-18T18:42:41Z"
+  },
+  {
+   "video_id": "eh6ROzN5CDY",
+   "title": "Voters divided on Iran, the economy, Trump's performance as early midterm voting begins in Georgia",
+   "channel": "AP Archive",
+   "views": 1679,
+   "duration": 88,
+   "published": "2026-10-18T19:14:45Z"
+  }
+ ],
+ "hook_search": {
+  "attempts": [
+   {
+    "broad": false,
+    "window": [
+     "2026-10-19T00:00:00Z",
+     "2026-10-23T00:00:00Z"
+    ],
+    "queries": [
+     {
+      "query": "صواريخ إيرانية تسقط قرب قاعدة أمريكية",
+      "raw": 0,
+      "channel_ok": 0
+     },
+     {
+      "query": "Iranian missile strike footage US base explosion smoke",
+      "raw": 1,
+      "channel_ok": 0
+     },
+     {
+      "query": "Irán misiles ataque base estadounidense explosión humo",
+      "raw": 0,
+      "channel_ok": 0
+     }
+    ],
+    "duration_ok": 0,
+    "judged_ok": 0,
+    "rejected_channels": [
+     "RealityMargin"
+    ]
+   },
+   {
+    "broad": true,
+    "window": [
+     "2026-10-17T00:00:00Z",
+     "2026-10-24T00:00:00Z"
+    ],
+    "queries": [
+     {
+      "query": "انتخابات الكونغرس الأمريكية إيران",
+      "raw": 30,
+      "channel_ok": 5
+     },
+     {
+      "query": "US midterm elections Iran",
+      "raw": 30,
+      "channel_ok": 5
+     },
+     {
+      "query": "Kongress Wahlen USA Iran",
+      "raw": 30,
+      "channel_ok": 3
+     }
+    ],
+    "duration_ok": 13,
+    "judged_ok": 2,
+    "rejected_channels": [
+     "العربي - أخبار",
+     "Al Mashhad المشهد",
+     "قناة التغيير",
+     "Breezy Politics",
+     "Alghad TV - قناة الغد",
+     "DayAndNightToday",
+     "Independent Joe Show",
+     "‫ (جريدة الصنارة)‬‎"
+    ]
+   }
+  ],
+  "picked": [
+   "5-Dh8_q0xsM",
+   "eh6ROzN5CDY"
+  ]
+ }
+}
