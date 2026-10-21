@@ -105,6 +105,10 @@ class Adapter:
     def problems(self, title: str, body: str, headlines: list[str], ctx: Any, cfg: Any) -> set[str]:
         return set()
 
+    def system_vars(self, cfg: Any) -> dict[str, Any]:
+        """قيم تُملأ في system_extra لهذا المسار ({اسم} ← قيمة)."""
+        return {}
+
     def speakers_unresolved(self, draft: dict, ctx: Any) -> list[str]:
         return []
 
@@ -207,9 +211,17 @@ def user_message(draft: dict, adapter: Adapter, ctx: Any, today: str) -> str:
     return "\n".join(lines)
 
 
+def extra_of(cfg: Any, adapter: Adapter) -> str:
+    """فقرة المسار system_extra مملوءةً بأرقام المسار من الإعداد (adapter.system_vars): لا أرقام حرفية في النص فتتخلف عن الإعداد (Q9)."""
+    extra = (ecfg(cfg).get("system_extra", {}) or {}).get(adapter.name, "")
+    for k, v in adapter.system_vars(cfg).items():
+        extra = extra.replace("{" + k + "}", str(v))
+    return extra
+
+
 def system_prompt(cfg: Any, adapter: Adapter) -> str:
     e = ecfg(cfg)
-    extra = (e.get("system_extra", {}) or {}).get(adapter.name, "")
+    extra = extra_of(cfg, adapter)
     return (e.get("system", "") + ("\n" + extra if extra else "")).replace(
         "{stale_days}", str(e.get("stale_days", 14)))
 
@@ -406,27 +418,41 @@ def revise_round(draft: dict, adapter: Adapter, ctx: Any, cfg: Any, client, toda
     rev: dict = {"at": review["at"], "applied": False, "error": None, "before": notes, "unresolved": []}
     snapshot = copy.deepcopy(draft)
     saved_review = {k: (list(v) if isinstance(v, list) else v) for k, v in review.items()}
-    extra = (e.get("system_extra", {}) or {}).get(adapter.name, "")
+    extra = extra_of(cfg, adapter)
     try:
-        resp = create(client, model=e.get("model", "claude-opus-5"), max_tokens=int(r.get("max_tokens", 6000)),
-                      system=(r.get("system", "") or "") + (("\n" + extra) if extra else ""),
-                      tools=[REVISION_TOOL], tool_choice={"type": "tool", "name": "report_revision"},
-                      messages=[{"role": "user", "content": revision_message(draft, adapter, ctx, today, notes)}])
-        out = _revision_of(resp)
-        if out is None:
-            raise ValueError("لم يُرجع المحرر تصحيحًا")
+        messages = [{"role": "user", "content": revision_message(draft, adapter, ctx, today, notes)}]
         title0, body0, heads0 = adapter.read(draft)
-        title, body, heads = out.get("title"), out.get("body"), out.get("headlines")
-        if not (isinstance(title, str) and isinstance(body, str) and isinstance(heads, list)
-                and all(isinstance(h, str) for h in heads)):
-            raise ValueError("مخرج التصحيح غير صالح")
-        if len(heads) != len(heads0) or not title.strip() or not body.strip() or any(not h.strip() for h in heads):
-            raise ValueError("مخرج التصحيح يخل ببنية الحقول")
-        if errs := adapter.revision_errors(body0, body):
-            raise ValueError("التصحيح يكسر البنية: " + "؛ ".join(errs))
-        new_problems = adapter.problems(title, body, heads, ctx, cfg) - adapter.problems(title0, body0, heads0, ctx, cfg)
-        if new_problems:
-            raise ValueError("التصحيح يُحدث مخالفة جديدة: " + "؛ ".join(sorted(new_problems)))
+        problems0 = adapter.problems(title0, body0, heads0, ctx, cfg)
+        for attempt in (1, 2):
+            resp = create(client, model=e.get("model", "claude-opus-5"), max_tokens=int(r.get("max_tokens", 6000)),
+                          system=(r.get("system", "") or "") + (("\n" + extra) if extra else ""),
+                          tools=[REVISION_TOOL], tool_choice={"type": "tool", "name": "report_revision"},
+                          messages=list(messages))
+            out = _revision_of(resp)
+            if out is None:
+                raise ValueError("لم يُرجع المحرر تصحيحًا")
+            title, body, heads = out.get("title"), out.get("body"), out.get("headlines")
+            if not (isinstance(title, str) and isinstance(body, str) and isinstance(heads, list)
+                    and all(isinstance(h, str) for h in heads)):
+                raise ValueError("مخرج التصحيح غير صالح")
+            if len(heads) != len(heads0) or not title.strip() or not body.strip() or any(not h.strip() for h in heads):
+                raise ValueError("مخرج التصحيح يخل ببنية الحقول")
+            if errs := adapter.revision_errors(body0, body):
+                raise ValueError("التصحيح يكسر البنية: " + "؛ ".join(errs))
+            new_problems = adapter.problems(title, body, heads, ctx, cfg) - problems0
+            if not new_problems:
+                break
+            joined = "؛ ".join(sorted(new_problems))
+            # مخالفة قاعدة لا يعرفها المحرر لا تُسقط الجولة كلها من أول مرة: إعادة واحدة في المحادثة نفسها (نمط Q8)
+            rev.setdefault("attempts", []).append({"attempt": attempt, "error": joined})
+            if attempt == 2:
+                raise ValueError("التصحيح يُحدث مخالفة جديدة: " + joined)
+            tool_id = next((getattr(b, "id", None) for b in getattr(resp, "content", None) or []
+                            if getattr(b, "type", "") == "tool_use"), None) or "toolu_revision"
+            messages += [
+                {"role": "assistant", "content": [{"type": "tool_use", "id": tool_id, "name": "report_revision", "input": out}]},
+                {"role": "user", "content": [{"type": "tool_result", "tool_use_id": tool_id, "is_error": True,
+                                              "content": texts(cfg)["revise_retry"].format(violations=joined)}]}]
         adapter.write(copy.deepcopy(draft), title, body, heads)     # يلتقط عطل الكتابة قبل المساس بالمسودة
         adapter.write(draft, title, body, heads)
         rev["unresolved"] = _unresolved_of(out.get("unresolved"), len(notes))

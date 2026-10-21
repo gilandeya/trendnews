@@ -553,10 +553,13 @@ class Deps:
     pick_span: Callable[..., dict] | None = None
     # (ملف المقطع، cfg) ← [(بداية، نهاية)] لفترات الصمت بثواني الملف (silencedetect)؛ None ← لا ضبط على الصمت فيبقى التقدير
     detect_silence: Callable[[Any, Any], list] | None = None
+    # رمز لغة النص المجلوب لفيديو (language_code)؛ None ← الحكم من حروف النص (Issue #1670، Q9)
+    transcript_lang: Callable[[str], str | None] | None = None
 
     def resolved(self, cfg) -> "Deps":
         # جلسة واحدة للتركيب كله كالجمع (R8)؛ تُنشأ عند أول جلب لا عند الاستيراد
         session_box: list = []
+        langs: dict[str, str] = {}
 
         def fetch(video_id):
             import requests
@@ -569,6 +572,8 @@ class Deps:
             text, info, _ = youtube_extract.fetch_transcript(
                 video_id, proxy_config.get_proxy_config(), session_box[0], backoff,
                 fetch_once=youtube_extract._fetch_once)
+            if text is not None and isinstance(info, str):
+                langs[video_id] = info
             if text is None:
                 # fetch_transcript لا ترفع عند الفشل بل تعيد سببه؛ بلا رفعه هنا يضيع السبب الحقيقي (قضيتا #1620 و#1634)
                 raise TranscriptUnavailable(info or "")
@@ -592,6 +597,7 @@ class Deps:
         return replace(
             self,
             fetch_transcript=self.fetch_transcript or fetch,
+            transcript_lang=self.transcript_lang or (None if self.fetch_transcript else langs.get),
             download_clip=self.download_clip or download,
             synthesize=self.synthesize or (lambda text, voice: tts.synthesize(text, voice, cfg)),
             diacritize=self.diacritize or (lambda text: tts.diacritize_full(text, cfg)),
@@ -1924,8 +1930,9 @@ def _decide_span(scene: dict, point: dict, segs: list, loc: dict, old: tuple[int
     وdisplay وsegs وg0 وg1 للأول)؛ لا يرفع أبدًا (عطل النداء ← fallback)."""
     first, last = loc["first"], loc["last"]
     lines_q = " ".join(str(segs[k][1]) for k in range(first, last + 1))
+    code = deps.transcript_lang(point.get("video_id")) if deps.transcript_lang is not None else None
     base = {"point_id": scene.get("point_id", ""), "complete": True, "changed_text": False, "reason": "", "source": "fallback",
-            "lang": "ar" if reel_clips.is_arabic_audio(lines_q) else (scene.get("language") or "other")}
+            "lang": "ar" if reel_clips.is_arabic_audio(lines_q, code, cfg) else (scene.get("language") or "other")}
     try:
         raw = deps.pick_span(segs, first, last, point.get("quote_original", ""), cfg)
     except Exception as exc:  # noqa: BLE001 -- تحسين لا شرط: النافذة القديمة
@@ -1943,8 +1950,12 @@ def _decide_span(scene: dict, point: dict, segs: list, loc: dict, old: tuple[int
         return {"action": "fallback", "rec": {**base, "reason": why}}
     a, b = info["start_line"], info["end_line"]
     lines_text = " ".join(str(segs[k][1]) for k in range(a, b + 1))
-    arabic = reel_clips.is_arabic_audio(lines_text)
+    arabic = reel_clips.is_arabic_audio(lines_text, code, cfg)
     display = reel_clips.resolve_display(raw.get("display_text"), lines_text, arabic)
+    persian_fallback = False
+    if display and reel_clips.has_persian_letters(display):
+        # حارس أخير: نص فيه حرف فارسي لا يُعرض على أنه عربي مهما كان مصدره؛ تبقى الترجمة المحفوظة (Issue #1670، Q9)
+        display, persian_fallback, arabic = None, True, False
     changed = bool(display) and _norm_words(display) != _norm_words(scene.get("quote_arabic", ""))
     lead, tail = float(cfg.path("reel.script.lead_seconds", 1)), float(cfg.path("reel.script.clip_tail_seconds", 1.0))
     wstart = int(max(0, info["start"] - lead))
@@ -1952,6 +1963,8 @@ def _decide_span(scene: dict, point: dict, segs: list, loc: dict, old: tuple[int
     lang = "ar" if arabic else (scene.get("language") if scene.get("language") not in (None, "", "ar") else "other")
     rec = {"point_id": scene.get("point_id", ""), "start": wstart, "end": wend, "complete": True, "lang": lang,
            "changed_text": changed, "reason": " ".join(str(raw.get("reason") or "").split())[:150], "source": "model"}
+    if persian_fallback:
+        rec["reason_fallback"] = "persian_text"
     return {"action": "ok", "rec": rec, "window": (wstart, wend), "display": display, "segs": list(segs[a:b + 1]),
             "g0": info["start"], "g1": info["end"], "seconds": info["seconds"], "arabic": arabic}
 
@@ -2072,6 +2085,8 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: l
                             t = cfg.path("reel.render.texts")
                             if (nend - nstart) - (wend - wstart) > 2:
                                 notes.append(t["comment_span_extended"].format(channel=channel, n=round(span_res["seconds"])))
+                            if span_res["rec"].get("reason_fallback") == "persian_text":
+                                notes.append(t["comment_persian_text"].format(channel=channel))
                             if span_res["arabic"] and span_res["rec"]["changed_text"]:
                                 notes.append(t["comment_span_text"].format(channel=channel))
                         wstart, wend = nstart, nend
@@ -4445,7 +4460,8 @@ def _comment_text(cfg, draft: dict, result: dict, dropped: list, approx: list | 
         text += "\n" + t["comment_approx"].format(
             channel=a.get("channel", ""), window=f"{_mmss(a['start'])}–{_mmss(a['end'])}", reason=a["reason"])
     for n in notes or []:
-        text += "\n" + n
+        # بعض نصوص reel.render.texts تبدأ بـ«- » وبعضها لا: يوحَّد الشكل هنا لا في الإعداد (Issue #1670، Q9)
+        text += "\n" + (n if n.startswith("- ") else "- " + n)
     return text
 
 
