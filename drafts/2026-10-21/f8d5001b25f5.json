@@ -1,0 +1,143 @@
+{
+  "id": "f8d5001b25f5",
+  "created_at": "2026-10-21T14:31:10.612586+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "failed",
+  "title": "الدفاع البريطاني الجوي عن السعودية",
+  "tier": 2,
+  "blocs": [
+    "arabic",
+    "persian"
+  ],
+  "channels": [
+    "Iran International",
+    "الجزيرة",
+    "العربية",
+    "فرانس 24 عربي"
+  ],
+  "agreement": "cross_source",
+  "event": "إرسال بريطانيا مقاتلات تايفون للدفاع عن الأجواء السعودية ضد هجمات الحوثيين",
+  "warnings": [],
+  "run_date": "2026-10-21",
+  "arabic": {
+    "post_title": "الدفاع البريطاني الجوي عن السعودية",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "Iran International",
+      "الجزيرة",
+      "العربية",
+      "فرانس 24 عربي"
+    ]
+  },
+  "score": 9,
+  "source_videos": [],
+  "topic_id": "b3b81b77464a",
+  "topic_date": "2026-10-21",
+  "script_error": "السياق أطول من 25 كلمة (30)",
+  "quote_retranslated": [
+    "757395c6d0c5",
+    "1b8abc22f6b4"
+  ],
+  "clip_dropped": [
+    {
+      "point_id": "b09aafdb0817",
+      "channel": "فرانس 24 عربي",
+      "reason": "ملخّص النقطة ينسبها إلى شخص آخر: عبد الفتاح السيسي"
+    }
+  ],
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "757395c6d0c5",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "المملكة تستخدم تقنية الطيران الموجودة، وهي طائرات تايفون، وستكون دفاعًا جويًا في السماء",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "e4e91fa71963",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "channel": "العربية"
+      },
+      {
+        "point_id": "2da91f52ac9a",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "channel": "العربية"
+      },
+      {
+        "point_id": "b09aafdb0817",
+        "speaker_said_it": "no",
+        "other_name": "عبد الفتاح السيسي",
+        "faithful": false,
+        "quote_arabic_fixed": "طلبتُ من البرلمان منحي تفويضًا لتقديم دعم دفاعي",
+        "channel": "فرانس 24 عربي"
+      },
+      {
+        "point_id": "4cb860795115",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "channel": "فرانس 24 عربي"
+      },
+      {
+        "point_id": "1b8abc22f6b4",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "حلف مكة مظلة نووية، ولهذا دخل الأتراك فيه لأنه سيمنحهم مظلة نووية",
+        "channel": "فرانس 24 عربي"
+      },
+      {
+        "point_id": "dbe3d25979e6",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "channel": "فرانس 24 عربي"
+      },
+      {
+        "point_id": "8be09bba07da",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "channel": "فرانس 24 عربي"
+      },
+      {
+        "point_id": "0938cff2a16d",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "channel": "إيران إنترناشيونال"
+      },
+      {
+        "point_id": "63fd50319f8a",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "channel": "إيران إنترناشيونال"
+      }
+    ]
+  },
+  "has_photo": false,
+  "has_news_photo": true,
+  "review_issue": 1664,
+  "stage2_issue": 1664
+}
