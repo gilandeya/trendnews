@@ -1,7 +1,7 @@
 {
   "id": "d35c989fade1",
   "created_at": "2026-10-21T08:56:38.965990+00:00",
-  "status": "pending",
+  "status": "approved_script",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -378,5 +378,7 @@
   "has_photo": false,
   "has_news_photo": true,
   "review_issue": 1656,
-  "stage2_issue": 1656
+  "stage2_issue": 1656,
+  "render_status": "queued",
+  "approved_script_at": "2026-10-21T09:00:50.284732+00:00"
 }
