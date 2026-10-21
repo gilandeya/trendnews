@@ -198,7 +198,15 @@ def _attempt(draft: dict, script: dict, topic_date: str, cfg, deps: HookDeps, br
               and (verdicts.get(c["video_id"]) or {}).get("footage") is True]
     diag["judged_ok"] = len(judged)
     judged.sort(key=lambda c: c["views"], reverse=True)
-    return judged[:int(hcfg.get("max_candidates", 4))], diag
+    # Q5: نسختان من فيديو واحد بعنوانه نفسه (رفع مزدوج) تأخذان خانتين من الأربع؛ يبقى الأعلى مشاهدة وقد رُتّب أولًا
+    uniq, titles = [], set()
+    for c in judged:
+        key = " ".join(clean_title(c["title"]).casefold().split())
+        if key and key in titles:
+            continue
+        titles.add(key)
+        uniq.append(c)
+    return uniq[:int(hcfg.get("max_candidates", 4))], diag
 
 
 def pick_hook_candidates(draft: dict, cfg, deps: HookDeps | None = None) -> None:

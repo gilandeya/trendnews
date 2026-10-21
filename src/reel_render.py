@@ -3309,6 +3309,10 @@ def _panel_scene(members: list[tuple[int, dict]], clips: dict, out: Path, cfg, d
         tile_expr, frame_expr = _panel_crops(clip, crop, scene, scene.get("q"), lay["tiles"][k] if n >= 2 else None, lay["frame"],
                                              cfg, deps, notes)
         overlays, qframes = _clip_layers(i, scene, clip, cfg, deps, tmp, speakers, notes, cover=False)
+        # Q5: _prepare_crop بنى السجل قبل أن يضبط _clip_layers وضع الترجمة وتزامنها، فتُكتبان فيه الآن
+        for key in ("quote_sync", "quote_mode"):
+            if clip.get(key) and isinstance(clip.get("crop"), dict):
+                clip["crop"][key] = clip[key]
         prepared.append((tile_expr, frame_expr, overlays, qframes))
     vg: list[str] = []
     if n >= 2:
