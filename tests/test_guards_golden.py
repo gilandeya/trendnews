@@ -6111,8 +6111,8 @@ def test_reel_render_r3b1_guards() -> None:
         v1 = next(x for x in log["downloads"] if x[0] == "v1")
         check("r3b1-هـ: نافذة v1 من 10−lead حتى ceil(16.7)=17 (قاعدة سقف النهاية)", v1[1] == 9 and v1[2] == 17, v1)
         voice = cfg.path("reel.tts.narrator_voices.female")
-        # 6 = نداء الهوك الجديد (عنوان السيناريو يقرؤه الراوي، Issue #1429) + الخمسة السابقة
-        check("r3b1-هـ: صوت الراوي من الإعداد وجملة لكل نداء", len(log["synth"]) == 6
+        # 7 = نداء الهوك الجديد (عنوان السيناريو يقرؤه الراوي، Issue #1429) + الخمسة السابقة + «برأيك» المنطوقة (Q5)
+        check("r3b1-هـ: صوت الراوي من الإعداد وجملة لكل نداء", len(log["synth"]) == 7
               and all(v == voice for _, v in log["synth"]), log["synth"])
         check("r3b1-هـ: تعليق على قضية المراجعة برابطين", len(log["comments"]) == 1
               and log["comments"][0][0] == 4242
@@ -6869,8 +6869,8 @@ def test_reel_render_r3b1c_guards() -> None:
             sent_cmds = [x for x in joined if ".mp3" in x]
             final = [x for x in joined if "overlay=W-w-" in x or ("overlay=x=" in x and "eval=frame" in x)]
             check("g210: مقطعان بمرشح " + want, len(clip_cmds) == 2 and all(want in x for x in clip_cmds), clip_cmds[:1])
-            # 4 = ثلاث جمل راوٍ + جملة الهوك (عنوان السيناريو، Issue #1429)
-            check("g210: كل جملة راوٍ (4) بمرشح " + want, len(sent_cmds) == 4 and all(want in x for x in sent_cmds),
+            # 5 = ثلاث جمل راوٍ + جملة الهوك (عنوان السيناريو، Issue #1429) + «برأيك» المنطوقة (Q5)
+            check("g210: كل جملة راوٍ (5) بمرشح " + want, len(sent_cmds) == 5 and all(want in x for x in sent_cmds),
                   sent_cmds[:1])
             check("g210: أمر الملف النهائي يحمله (" + str(target) + ")", len(final) == 1 and want in final[0], final)
 
@@ -7063,7 +7063,8 @@ def test_reel_transitions_r3b1d_guards() -> None:
         p_old, _ = make_draft("r3b1d0000b01", mixed, render_status="rendered", approved_script_at="2099-01-01")
         p_pub, _ = make_draft("r3b1d0000b02", mixed, status="published", render_status="rendered")
         p_rej, _ = make_draft("r3b1d0000b03", mixed, status="rejected", render_status="rendered")
-        p_new, _ = make_draft("r3b1d0000b04", mixed, render_status="rendered", render_version=38)
+        p_new, _ = make_draft("r3b1d0000b04", mixed, render_status="rendered",
+                              render_version=int(c2.path("reel.render.version")))
         picked = [p.stem for p, _ in reel_render.pending_batch(c2)]
         check("g218: يلتقط القديم النسخة وحده", picked == [p_old.stem], picked)
         for p, d in reel_render.pending_batch(c2):
@@ -7482,7 +7483,7 @@ def test_reel_clip_streams_r3b2a3_guards() -> None:
         # ── g233 ──
         p_old, _ = make_draft("r3b2a3000c01", status="approved_script", render_status="failed", render_version=4,
                               render_attempts=3, render_error="ffmpeg فشل", approved_script_at="1998-01-01T00:00:00")
-        p_new, _ = make_draft("r3b2a3000c02", status="approved_script", render_status="failed", render_version=38,
+        p_new, _ = make_draft("r3b2a3000c02", status="approved_script", render_status="failed", render_version=int(cfg.path("reel.render.version")),
                               render_attempts=3, render_error="ffmpeg فشل", approved_script_at="1999-01-02T00:00:00")
         ids = [p.stem for p, _d in reel_render.queued_reels(cfg)]
         check("g233: failed بنسخة 4 تُلتقط وبنسخة 5 لا", "r3b2a3000c01" in ids and "r3b2a3000c02" not in ids, ids)
@@ -10369,8 +10370,9 @@ def test_reel_hook_search_r5c2_guards() -> None:
                 dict(clip, video_url=points[1]["video_url"], point_id=reel_script.point_key_id(points[1])),
                 {"kind": "question", "text": "هل؟"}, {"kind": "outro"}]
 
-    def hit(vid, channel, name="t"):
-        return {"video_id": vid, "channel": channel, "title": name}
+    def hit(vid, channel, name=None):
+        # عنوان مختلف لكل فيديو: مرشّحان بالعنوان نفسه نسخة واحدة تُسقط (Q5)
+        return {"video_id": vid, "channel": channel, "title": name or f"t {vid}"}
 
     def render(did, tmp, *, extra=None, search=None, durations=None, plan=None, key="k", fail=None):
         """plan: معرّف الفيديو ← مدى الثواني الصالحة؛ fail: الخطوة التي ترفع (search/download/classify/queries)."""
@@ -10737,8 +10739,9 @@ def test_reel_hook_script_r5c3_guards() -> None:
         except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
             check(name + ": استثناء", False, repr(exc))
 
-    def hit(vid, channel, title="t", published="2099-11-02T08:00:00Z"):
-        return {"video_id": vid, "channel": channel, "title": title, "published": published}
+    def hit(vid, channel, title=None, published="2099-11-02T08:00:00Z"):
+        # عنوان مختلف لكل فيديو: مرشّحان بالعنوان نفسه نسخة واحدة تُسقط (Q5)
+        return {"video_id": vid, "channel": channel, "title": title or f"t {vid}", "published": published}
 
     def hook_deps(search=None, details=None, judge=None, queries=None, fail=None):
         """search: (عبارة، مدة) ← نتائج؛ queries: قائمة عبارات لكل محاولة بترتيبها."""
@@ -15152,7 +15155,8 @@ def test_reel_closing_p1a2_guards() -> None:
         lead = reel_render.transition_seconds(cfg)
         plan = reel_render.closing_plan(1.0 + 0.35, cfg, lead, label_seconds=1.0 + 0.35)
         check("g444: source = pre_hook", crops.get("closing", {}).get("source") == "pre_hook", crops)
-        first, last = grab(0.0), grab(0.06, from_end=True)
+        # 0.12 لا 0.06: صوت الختام (برأيك + وقفة + السؤال، Q5) قد يزيد على الفيديو بإطار فيقع -sseof 0.06 بعد آخر إطار
+        first, last = grab(0.0), grab(0.12, from_end=True)
         diff = float(np.abs(first - last).mean())
         check("g444: متوسط الفرق المطلق بين أول إطار وآخره ≤ 6", diff <= 6, diff)
         cstart = sum(durs[:-1]) - lead * (len(kinds) - 1)
@@ -15171,7 +15175,7 @@ def test_reel_closing_p1a2_guards() -> None:
             return
         _, _, crops, grab = real_loop("g445", 2)
         check("g445: source = freeze", crops.get("closing", {}).get("source") == "freeze", crops)
-        diff = float(np.abs(grab(0.0) - grab(0.06, from_end=True)).mean())
+        diff = float(np.abs(grab(0.0) - grab(0.12, from_end=True)).mean())
         check("g445: الفرق بين أول إطار وآخره ≤ 6 (التجميد)", diff <= 6, diff)
     guarded("g445", g445)
     shutil.rmtree(work_root, ignore_errors=True)
@@ -18618,8 +18622,9 @@ def test_reel_faithful_q5_guards() -> None:
               d.get("quote_retranslated"))
         d2, by2 = run_audit([{"point_id": mort_id, "speaker_said_it": "yes", "faithful": False},
                              {"point_id": ari_id, "speaker_said_it": "yes", "faithful": True}])
-        check("g554: faithful=false بلا ترجمة ← استبعاد", mort_id not in by2 and ari_id in by2
-              and any(x["point_id"] == mort_id for x in d2.get("clip_dropped") or []), d2.get("clip_dropped"))
+        # استبعاد مرتضوي يترك مقطعًا واحدًا دون min_clips فلا يُنادى الكاتب أصلًا، فالحكم من clip_dropped لا من مدخله
+        dropped2 = [x["point_id"] for x in d2.get("clip_dropped") or []]
+        check("g554: faithful=false بلا ترجمة ← استبعاد", mort_id in dropped2 and ari_id not in dropped2, d2.get("clip_dropped"))
         d3, by3 = run_audit([{"point_id": mort_id, "speaker_said_it": "yes", "first_person": False, "quote_arabic_fixed": fm},
                              {"point_id": ari_id, "speaker_said_it": "yes", "first_person": True}])
         check("g554: مخرج قديم بـfirst_person وحده يعمل كما قبل", by3.get(mort_id, {}).get("quote_arabic") == fm
