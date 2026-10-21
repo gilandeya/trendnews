@@ -11,6 +11,7 @@
 أبدًا. أي عطل ← تُحفظ المسودة كما هي مع تنبيه، ولا تُفشَل الكتابة."""
 from __future__ import annotations
 
+import copy
 import json
 import logging
 import os
@@ -55,6 +56,25 @@ REPORT_TOOL = {
     },
 }
 
+REVISION_TOOL = {
+    "name": "report_revision",
+    "description": "يُرجع الحقول القابلة للتصحيح بعد إصلاح الملاحظات، وأرقام ما تعذّر إصلاحه مع السبب",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "title": {"type": "string", "description": "العنوان الرئيسي بعد التصحيح"},
+            "body": {"type": "string", "description": "المتن كاملًا بعد التصحيح"},
+            "headlines": {"type": "array", "items": {"type": "string"}},
+            "unresolved": {
+                "type": "array",
+                "items": {"type": "object", "properties": {"n": {"type": "integer"}, "reason": {"type": "string"}},
+                          "required": ["n"]},
+            },
+        },
+        "required": ["title", "body", "headlines"],
+    },
+}
+
 
 class Adapter:
     """عقد المُكيِّف. ctx كائن المسار الحر (نقاط التحليل، أو سياق «هام»)؛ المحرر لا يفحصه."""
@@ -86,6 +106,10 @@ class Adapter:
         return set()
 
     def speakers_unresolved(self, draft: dict, ctx: Any) -> list[str]:
+        return []
+
+    def revision_errors(self, old_body: str, new_body: str) -> list[str]:
+        """بنية المتن التي يجب أن تسلم من جولة التصحيح (الريل: أرقام السطور). فارغة = لا شرط إضافي."""
         return []
 
     def video_link(self, note: dict, ctx: Any) -> str:
@@ -335,6 +359,101 @@ def apply_review(draft: dict, adapter: Adapter, ctx: Any, notes: list[dict], cfg
     return {"applied": applied, "notes": shown}
 
 
+# ───────────────────────────── جولة التصحيح (Issue #1652، E1) ─────────────────────────────
+
+
+def revise_enabled(cfg: Any, name: str) -> bool:
+    r = ecfg(cfg).get("revise", {}) or {}
+    return (bool(r.get("enabled", False)) and int(r.get("max_rounds", 1) or 0) >= 1
+            and bool((r.get("paths", {}) or {}).get(name, False)))
+
+
+def _revision_of(resp) -> dict | None:
+    for b in getattr(resp, "content", None) or []:
+        if getattr(b, "type", "") == "tool_use" and getattr(b, "name", "") == "report_revision":
+            inp = getattr(b, "input", None)
+            if isinstance(inp, dict):
+                return inp
+    return None
+
+
+def revision_message(draft: dict, adapter: Adapter, ctx: Any, today: str, notes: list[dict]) -> str:
+    rows = []
+    for i, n in enumerate(notes, start=1):
+        rows.append(f"{i}. [{n.get('severity')}] {n.get('category')} في {n.get('location')} — {n.get('note', '')}"
+                    f"\n   الأصل: {n.get('original', '')}\n   الاقتراح: {n.get('fix', '') or '—'}")
+    return user_message(draft, adapter, ctx, today) + "\n\nالملاحظات غير المطبَّقة (أصلحها):\n" + "\n".join(rows)
+
+
+def _unresolved_of(raw: Any, count: int) -> list[dict]:
+    out = []
+    for u in raw if isinstance(raw, list) else []:
+        n, reason = (u.get("n"), u.get("reason")) if isinstance(u, dict) else (u, "")
+        if isinstance(n, int) and 1 <= n <= count:
+            out.append({"n": n, "reason": str(reason or "").strip()})
+    return out
+
+
+def revise_round(draft: dict, adapter: Adapter, ctx: Any, cfg: Any, client, today: str, review: dict,
+                 create=None) -> dict:
+    """جولة التصحيح الواحدة: نداء بلا بحث يعيد كتابة الحقول، فمقارنة المخالفات قبل وبعد، فمراجعة ثانية تحلّ محل الأولى.
+    أي فشل (نداء، مخرج غير صالح، مخالفة جديدة، عطل المراجعة الثانية) ← تُرمى النسخة وتبقى المسودة والمراجعة كما كانتا.
+    تعيد editor_revision الذي يحفظه المستدعي؛ والمراجعة الجديدة تُكتب في review نفسه."""
+    create = create or _create
+    e = ecfg(cfg)
+    r = e.get("revise", {}) or {}
+    notes = [dict(n) for n in review["notes"]]
+    rev: dict = {"at": review["at"], "applied": False, "error": None, "before": notes, "unresolved": []}
+    snapshot = copy.deepcopy(draft)
+    saved_review = {k: (list(v) if isinstance(v, list) else v) for k, v in review.items()}
+    extra = (e.get("system_extra", {}) or {}).get(adapter.name, "")
+    try:
+        resp = create(client, model=e.get("model", "claude-opus-5"), max_tokens=int(r.get("max_tokens", 6000)),
+                      system=(r.get("system", "") or "") + (("\n" + extra) if extra else ""),
+                      tools=[REVISION_TOOL], tool_choice={"type": "tool", "name": "report_revision"},
+                      messages=[{"role": "user", "content": revision_message(draft, adapter, ctx, today, notes)}])
+        out = _revision_of(resp)
+        if out is None:
+            raise ValueError("لم يُرجع المحرر تصحيحًا")
+        title0, body0, heads0 = adapter.read(draft)
+        title, body, heads = out.get("title"), out.get("body"), out.get("headlines")
+        if not (isinstance(title, str) and isinstance(body, str) and isinstance(heads, list)
+                and all(isinstance(h, str) for h in heads)):
+            raise ValueError("مخرج التصحيح غير صالح")
+        if len(heads) != len(heads0) or not title.strip() or not body.strip() or any(not h.strip() for h in heads):
+            raise ValueError("مخرج التصحيح يخل ببنية الحقول")
+        if errs := adapter.revision_errors(body0, body):
+            raise ValueError("التصحيح يكسر البنية: " + "؛ ".join(errs))
+        new_problems = adapter.problems(title, body, heads, ctx, cfg) - adapter.problems(title0, body0, heads0, ctx, cfg)
+        if new_problems:
+            raise ValueError("التصحيح يُحدث مخالفة جديدة: " + "؛ ".join(sorted(new_problems)))
+        adapter.write(copy.deepcopy(draft), title, body, heads)     # يلتقط عطل الكتابة قبل المساس بالمسودة
+        adapter.write(draft, title, body, heads)
+        rev["unresolved"] = _unresolved_of(out.get("unresolved"), len(notes))
+        report, searches, capped = converse(draft, adapter, ctx, cfg, client, today, create)
+        try:
+            bump_usage(searches)
+        except OSError as exc:
+            log.warning("تعذّر حفظ عدّاد بحث المحرر: %s", exc)
+        second = report.get("notes") if isinstance(report, dict) else None
+        res = apply_review(draft, adapter, ctx, second if isinstance(second, list) else [], cfg)
+        review["applied"] = list(review["applied"]) + res["applied"]
+        review["notes"] = res["notes"]
+        review["searches"] = int(review.get("searches", 0)) + searches
+        if capped:
+            review["search_skipped"] = "cap"
+        rev["applied"] = True
+    except Exception as exc:  # noqa: BLE001 — جولة مساعدة لا تُفشل كتابة مسودة
+        log.warning("جولة تصحيح المحرر تعذّرت (%s): %s", type(exc).__name__, exc)
+        draft.clear()
+        draft.update(snapshot)
+        review.clear()
+        review.update(saved_review)
+        rev["error"] = f"{type(exc).__name__}: {exc}"
+        rev["applied"] = False
+    return rev
+
+
 def run(draft: dict, adapter: Adapter, ctx: Any, cfg: Any, client=None, now: datetime | None = None,
         create=None) -> dict:
     """نقطة الدخول: لا ترفع أبدًا. تحفظ على المسودة editor_review وتعدّل نصّها بالإصلاحات المطبَّقة."""
@@ -355,6 +474,9 @@ def run(draft: dict, adapter: Adapter, ctx: Any, cfg: Any, client=None, now: dat
         notes = report.get("notes") if isinstance(report, dict) else None
         result = apply_review(draft, adapter, ctx, notes if isinstance(notes, list) else [], cfg)
         review["applied"], review["notes"] = result["applied"], result["notes"]
+        if any(n.get("severity") == "high" for n in review["notes"]) and revise_enabled(cfg, adapter.name):
+            draft["editor_revision"] = revise_round(draft, adapter, ctx, cfg, client, now.strftime("%Y-%m-%d"),
+                                                    review, create)
     except Exception as exc:  # noqa: BLE001 — مراجعة مساعدة لا تُفشل كتابة مسودة
         log.warning("مراجعة المحرر تعذّرت (%s): %s", type(exc).__name__, exc)
         review["error"] = f"{type(exc).__name__}: {exc}"
@@ -403,16 +525,46 @@ def _sources_fmt(sources: list[str]) -> str:
     return " " + " ".join(f"[{i}]({u})" for i, u in enumerate(sources, start=1)) if sources else ""
 
 
+def _note_row(t: dict, n: dict) -> str:
+    key = "note_high" if n.get("severity") == "high" else "note_low"
+    return t[key].format(
+        note=n.get("note", ""),
+        original=t["original_fmt"].format(original=n["original"]) if n.get("original") else "",
+        video=t["video_fmt"].format(link=n["video"]) if n.get("video") else "",
+        sources=_sources_fmt(n.get("sources") or []))
+
+
+def _revision_rows(d: dict, revision: dict, cfg: Any, t: dict, indent: str) -> list[str]:
+    """أعلى القسم: ما صحّحه المحرر بنفسه (الملاحظات المصلَحة تحت <details>) أو سبب فشل الجولة، وما بقي حاجبًا بعدها."""
+    if not revision:
+        return []
+    rows: list[str] = []
+    skipped = {u.get("n") for u in revision.get("unresolved") or []}
+    fixed = ([n for i, n in enumerate(revision.get("before") or [], start=1) if i not in skipped]
+             if revision.get("applied") else [])
+    if fixed:
+        inner = [f"{indent}  - {_note_row(t, n)}" for n in fixed]
+        rows.append(t["revised"].format(n=len(fixed)) + "\n" + f"{indent}  <details><summary>{t['revised_summary']}</summary>\n"
+                    + f"{indent}\n" + "\n".join(inner) + f"\n{indent}  </details>")
+    if revision.get("error"):
+        rows.append(t["revise_failed"].format(error=revision["error"]))
+    left = blocking_reasons(d, cfg)
+    if left:
+        rows.append(t["revise_remaining"].format(reasons="؛ ".join(left)))
+    return rows
+
+
 def render_lines(d: dict, cfg: Any = None, indent: str = "  ") -> list[str]:
     """قسم «🧑‍⚖️ مراجعة المحرر» لقضيتي المرحلتين 2 و3؛ فارغ إن لا مراجعة أو لا شيء يُعرض."""
     er = d.get("editor_review") or {}
-    if not (er.get("applied") or er.get("notes")):
+    revision = d.get("editor_revision") or {}
+    if not (er.get("applied") or er.get("notes") or revision):
         return []
     if cfg is None:
         from .config import load_config
         cfg = load_config()
     t = texts(cfg)
-    rows: list[str] = []
+    rows: list[str] = _revision_rows(d, revision, cfg, t, indent)
     for n in er.get("applied") or []:
         key = "applied" if n.get("fix") else "deleted"
         rows.append(t[key].format(original=n.get("original", ""), fix=n.get("fix", ""), note=n.get("note", ""),
