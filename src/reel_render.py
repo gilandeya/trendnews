@@ -3392,6 +3392,13 @@ def _iter_runs(order: list):
         yield run
 
 
+def _question_text(script: dict, first_member: int) -> str:
+    """نص بطاقة السؤال الذي تتبعه الإجابات التي أولها هذا الفهرس (للتعليق وسجل المحذوف)."""
+    q = script["scenes"][first_member].get("q")
+    return next((sc.get("text", "") for sc in script["scenes"] if sc.get("kind") == "narration" and sc.get("role") == "question"
+                 and sc.get("q") == q), "")
+
+
 def _prune_mismatched(script: dict, clips: dict, cfg, deps: Deps, speakers: dict, notes: list,
                       dropped: list) -> tuple[dict, set[int]]:
     """حارس القائل (Issue #1621، R6): في سيناريو v2 يُقرأ شريط كل مقطع في لوحة قبل بنائها؛ مقطع يُظهر شريطه اسمًا غير قائل الاقتباس يُحذف
@@ -3403,6 +3410,7 @@ def _prune_mismatched(script: dict, clips: dict, cfg, deps: Deps, speakers: dict
     t = cfg.path("reel.render.texts")
     order = list(enumerate(script["scenes"]))
     dead_q: dict = {}
+    min_answers = int(cfg.path("reel.render.min_answers", 2))
     for members in _iter_runs(order):
         gone = []
         for i in members:
@@ -3416,13 +3424,23 @@ def _prune_mismatched(script: dict, clips: dict, cfg, deps: Deps, speakers: dict
                     notes.append(line)
                 clips.pop(i)
                 gone.append(i)
-        if gone and not any(i in clips for i in members):
-            dead_q[script["scenes"][members[0]].get("q")] = True
+        left = [i for i in members if i in clips]
+        if gone and not left:
+            dead_q[script["scenes"][members[0]].get("q")] = "empty"
+        elif left and len(left) < min_answers <= len(members):
+            # Q4 (Issue #1654): المطلوب منظوران؛ سؤال فقد إجابة بحارس القائل وبقيت له واحدة يُحذف كله بدل أن يُعرض بمنظور واحد
+            for i in left:
+                _drop(dropped, script["scenes"][i], t["drop_question_min"].format(text=_question_text(script, members[0])))
+                clips.pop(i)
+            dead_q[script["scenes"][members[0]].get("q")] = "min"
     dead = set()
     for i, sc in order:
         if sc.get("kind") == "narration" and sc.get("role") == "question" and sc.get("q") in dead_q:
             dead.add(i)
-            notes.append(t["drop_question_empty"].format(text=sc.get("text", "")))
+            key = "drop_question_empty" if dead_q[sc.get("q")] == "empty" else "drop_question_min"
+            notes.append(t[key].format(text=sc.get("text", "")))
+    if dead_q and not any(i in clips for i, sc in order if sc.get("kind") == "clip"):
+        raise RuntimeError(t["fail_min_answers"])
     return clips, dead
 
 
