@@ -6121,7 +6121,9 @@ def test_reel_render_r3b1_guards() -> None:
 
         # ── و) تمريرة الشعار مرة واحدة ──
         # الهوك (Issue #1429): الشعار يبدأ كبيرًا ويصل 168 في الزاوية بتعابير t، فالأمر بـeval=frame لا overlay ثابت
-        logo_cmds = [c for c in log["cmds"] if "eval=frame" in " ".join(c) and "overlay=x=" in " ".join(c)]
+        # final.mp4: أوامر المقاطع صارت تحمل eval=frame (بوابة الصوت، Q6) وoverlay=x= (الشريط المنزلق) فلا يكفيان علامةً
+        logo_cmds = [c for c in log["cmds"] if "eval=frame" in " ".join(c) and "overlay=x=" in " ".join(c)
+                     and "final.mp4" in " ".join(c)]
         lg = cfg.path("reel.render.logo")
         check("r3b1-و: الإعداد 108/54/168", (lg["top"], lg["right"], lg["width"]) == (108, 54, 168), lg)
         check("r3b1-و: تمريرة شعار واحدة تنتهي بعرض 168", len(logo_cmds) == 1 and "(168-" in " ".join(logo_cmds[0]),
@@ -6867,7 +6869,7 @@ def test_reel_render_r3b1c_guards() -> None:
             want = "loudnorm=I=" + str(target) + ":TP=" + str(c.path("reel.render.loudness.true_peak")) + ":LRA=11"
             clip_cmds = [x for x in joined if "crop=" in x]
             sent_cmds = [x for x in joined if ".mp3" in x]
-            final = [x for x in joined if "overlay=W-w-" in x or ("overlay=x=" in x and "eval=frame" in x)]
+            final = [x for x in joined if "final.mp4" in x and ("overlay=W-w-" in x or ("overlay=x=" in x and "eval=frame" in x))]
             check("g210: مقطعان بمرشح " + want, len(clip_cmds) == 2 and all(want in x for x in clip_cmds), clip_cmds[:1])
             # 5 = ثلاث جمل راوٍ + جملة الهوك (عنوان السيناريو، Issue #1429) + «برأيك» المنطوقة (Q5)
             check("g210: كل جملة راوٍ (5) بمرشح " + want, len(sent_cmds) == 5 and all(want in x for x in sent_cmds),
@@ -7011,7 +7013,7 @@ def test_reel_transitions_r3b1d_guards() -> None:
         # ── g215: الشعار بعد الضمّ وإطار الراوي بلا شعار ──
         log, cmds, _ = render("r3b1d0000a03", five, cfg, durs)
         ji = next((i for i, c in enumerate(cmds) if "xfade" in c), -1)
-        li = next((i for i, c in enumerate(cmds) if "overlay=W-w-" in c or ("overlay=x=" in c and "eval=frame" in c)), -1)
+        li = next((i for i, c in enumerate(cmds) if "final.mp4" in c and ("overlay=W-w-" in c or ("overlay=x=" in c and "eval=frame" in c))), -1)
         lg = cfg.path("reel.render.logo")
         # بوجود هوك يصل الشعار موضع الإعداد (1080−right−width ، top) بتعابير زمنية (Issue #1429)
         check("g215: الضمّ ثم الشعار وبموضع الإعداد",
@@ -18897,7 +18899,8 @@ def test_reel_thought_span_q6_guards() -> None:
                   and not dropped and not any(n.startswith("📏") for n in notes), (downloads, sp, notes))
         fallback_ok("مدى أطول من max_seconds", {**good, "start_line": 0, "end_line": 6})
         fallback_ok("مدى لا يتقاطع مع الاقتباس", {**good, "start_line": 5, "end_line": 6})
-        fallback_ok("مدى أقصر من min_seconds", {**good, "start_line": 2, "end_line": 2})
+        # السطر 1 (7 كلمات ≈ 3 ث) لا 2: السطر 2 الإنجليزي 12 كلمة يبلغ 4 ث تمامًا (بداية السطر التالي) فيساوي min_seconds
+        fallback_ok("مدى أقصر من min_seconds", {**good, "start_line": 1, "end_line": 1})
         fallback_ok("مخرج معطوب", {"oops": 1})
 
         def boom(*a, **k):
