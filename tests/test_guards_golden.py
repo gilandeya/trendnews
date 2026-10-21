@@ -6280,7 +6280,7 @@ def test_reel_render_r3b1_guards() -> None:
             # وأربعة انتقالات (لا خمسة) تأكل مدتها
             tsec = float(cfg.path("reel.render.transition.seconds"))
             expected = (hook_sec + 3.0 + 3.0 + 1.35 + tsec
-                        + reel_render.closing_plan(1.35, cfg, tsec)["total"] - 4 * tsec)
+                        + reel_render.closing_plan(1.35, cfg, tsec, label_seconds=1.35)["total"] - 4 * tsec)
             real = reel_render.probe_duration(mp4)
             check("r3b1-ط: المدة = مجموع المشاهد ±0.5", real is not None and abs(real - expected) <= 0.5,
                   (real, expected))
@@ -15062,7 +15062,7 @@ def test_reel_closing_p1a2_guards() -> None:
     def g441():
         (files, kinds, durs), cmds, _, _, _ = run_assemble("g441", 30)
         lead = reel_render.transition_seconds(cfg)
-        plan = reel_render.closing_plan(speech, cfg, lead)
+        plan = reel_render.closing_plan(speech, cfg, lead, label_seconds=speech)
         check("g441: آخر الأنواع closing", kinds[-1] == "closing", kinds)
         check("g441: لا question ولا outro", "question" not in kinds and "outro" not in kinds, kinds)
         check("g441: مدة الختام = plan[total]", abs(durs[-1] - plan["total"]) < 1e-6, (durs[-1], plan["total"]))
@@ -15080,7 +15080,7 @@ def test_reel_closing_p1a2_guards() -> None:
 
     def g442():
         lead = reel_render.transition_seconds(cfg)
-        total = reel_render.closing_plan(speech, cfg, lead)["total"]
+        total = reel_render.closing_plan(speech, cfg, lead, label_seconds=speech)["total"]
         _, _, downloads, notes, crops = run_assemble("g442a", 30)
         pre = [d for d in downloads if d[2] == 30]
         check("g442: نداء تنزيل واحد للنافذة قبل الهوك", len(pre) == 1, downloads)
@@ -15150,7 +15150,7 @@ def test_reel_closing_p1a2_guards() -> None:
             return
         kinds, durs, crops, grab = real_loop("g444", 20)
         lead = reel_render.transition_seconds(cfg)
-        plan = reel_render.closing_plan(1.0 + 0.35, cfg, lead)
+        plan = reel_render.closing_plan(1.0 + 0.35, cfg, lead, label_seconds=1.0 + 0.35)
         check("g444: source = pre_hook", crops.get("closing", {}).get("source") == "pre_hook", crops)
         first, last = grab(0.0), grab(0.06, from_end=True)
         diff = float(np.abs(first - last).mean())
@@ -16698,7 +16698,7 @@ def test_reel_r6_guards() -> None:
         tmp = work_root / "g489"
         tmp.mkdir(parents=True, exist_ok=True)
         lead = reel_render.transition_seconds(cfg)
-        total_s = reel_render.closing_plan(2.0, cfg, lead)["total"]
+        total_s = reel_render.closing_plan(2.0, cfg, lead, label_seconds=2.0)["total"]
         st = int(total_s) + 30
         ws2 = int(st - total_s)
         got = {}
