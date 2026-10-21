@@ -19222,3 +19222,160 @@ def test_reel_subject_q7_guards() -> None:
 
     # ── g572: الإصدار ──
     check("g572: render_version = 41", int(cfg.path("reel.render.version")) == 41, cfg.path("reel.render.version"))
+
+
+def test_reel_retry_condense_q8_guards() -> None:
+    """Issue #1665 (Q8، g573–g577): إعادة كتابة سيناريو الريل محادثة ترى المحاولة المرفوضة (tool_use ثم tool_result بخطأ) لا نداءً أعمى،
+    واختصار آلي بنداء Haiku واحد حين لا يبقى إلا تجاوز حدّ الكلمات، وسجل المحاولات يصل القرص ويُعرض. الشاهد: المسودة f8d5001b25f5
+    (سياق 30 كلمة والحد 25). لا شبكة ولا نموذج."""
+    import copy
+    from types import SimpleNamespace
+
+    from src import publish as publish_mod
+    from src import reel_script, store, youtube_publish
+    from src import youtube_publish as yp
+
+    cfg = load_config()
+    cfg.setdefault("reel", {})["enabled"] = True
+    words = [5, 25, 40, 40, 40, 5]
+    people = ["ليلى حداد", "سامر النجار", "رامي خوري", "هدى منصور", "كريم السعدي", "نادين عيسى"]
+    pts = [{"video_id": f"v{i}", "bloc": "arabic", "channel": f"قناة {i}", "speaker": people[i], "statement": f"قول {i}",
+            "quote_arabic": f"اقتباس عربي {i}", "quote_original": " ".join(f"w{i}x{k}" for k in range(n)), "type": "fact",
+            "video_title": f"فيديو {i}", "video_url": f"https://youtube.com/watch?v=v{i}", "timestamp": 100 + i * 10,
+            "video_published": "2099-10-30"} for i, n in enumerate(words)]
+    valid = reel_script.valid_clips(pts, [], cfg)
+    ids = [c["point_id"] for c in valid]
+
+    def good(ctx_words=8):
+        return {"main_question": "هل تصمد الهدنة بين الطرفين؟",
+                "context": [" ".join(["هدنة"] * ctx_words) + "."],
+                "questions": [
+                    {"role": "core", "text": "ما جوهر الخلاف حول الهدنة؟",
+                     "answers": [{"point_id": ids[0], "stance": "صامدة", "angle": "أمني", "repeats": False},
+                                 {"point_id": ids[1], "stance": "مؤقتة", "angle": "اقتصادي", "repeats": False}]}],
+                "closing_question": "ما الذي ينبغي أن يحدث بعد ذلك؟"}
+
+    def resp(name, data, tid="tu_1"):
+        return SimpleNamespace(content=[SimpleNamespace(type="tool_use", id=tid, name=name, input=data)],
+                               stop_reason="tool_use", usage=SimpleNamespace(input_tokens=1, output_tokens=1))
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def run(outputs, condense=None, info=None):
+        """يشغّل write_script بكاتب مزيَّف يعيد outputs بالترتيب ومختصِر مزيَّف؛ يعيد (النتيجة، رسائل كل نداء، نداءات الاختصار)."""
+        seen, cc = [], []
+        queue = list(outputs)
+
+        def fake(client, **kw):
+            seen.append(copy.deepcopy(kw["messages"]))
+            return resp(kw["tools"][0]["name"], queue.pop(0), tid=f"tu_{len(seen)}")
+
+        def fake_condense(client, **kw):
+            cc.append(kw)
+            if isinstance(condense, Exception):
+                raise condense
+            return resp("condense_fields", condense)
+        real_c = reel_script._create
+        real_k = getattr(reel_script, "_condense_create", None)
+        reel_script._create = fake
+        reel_script._condense_create = fake_condense
+        try:
+            extra = {"info": info} if info is not None else {}
+            out = reel_script.write_script({"title": "م", "event": "ح"}, "نص", valid, "female", cfg, member_points=pts, **extra)
+        finally:
+            reel_script._create = real_c
+            if real_k is not None:
+                reel_script._condense_create = real_k
+            else:
+                del reel_script._condense_create
+        return out, seen, cc
+
+    def g573():
+        first, second = good(30), good()
+        (s, reason), seen, _ = run([first, second])
+        check("g573: نداءان", len(seen) == 2, len(seen))
+        msgs = seen[1] if len(seen) == 2 else []
+        roles = [m.get("role") for m in msgs]
+        check("g573: user ثم assistant ثم user", roles == ["user", "assistant", "user"], roles)
+        if len(msgs) == 3:
+            tu = msgs[1]["content"][0]
+            check("g573: tool_use.input = مخرج المحاولة الأولى حرفيًا", tu.get("type") == "tool_use" and tu.get("input") == first, tu)
+            tr = msgs[2]["content"][0]
+            check("g573: tool_result بخطأ يشير إلى المعرّف", tr.get("type") == "tool_result" and tr.get("is_error") is True
+                  and tr.get("tool_use_id") == tu.get("id"), tr)
+            check("g573: النص فيه «السياق أطول من 25»", "السياق أطول من 25" in str(tr.get("content")), tr.get("content"))
+            check("g573: الرسالة الأولى هي الأصلية نفسها", msgs[0] == seen[0][0], msgs[0])
+        check("g573: المحاولة الثانية تنجح", s is not None and not reason, reason)
+    guarded("g573", g573)
+
+    short_text = " ".join(["هدنة"] * 22) + "."
+    still_long = " ".join(["هدنة"] * 28) + "."
+
+    def g574():
+        info = {}
+        (s, reason), seen, cc = run([good(30), good(30)], {"fields": [{"field": "context", "text": short_text}]}, info)
+        check("g574: السيناريو مقبول", s is not None and not reason, reason)
+        ctx = next((x for x in (s or {}).get("scenes", []) if x.get("role") == "context"), {})
+        check("g574: السياق الجديد في مشهد context", ctx.get("text") == short_text, ctx)
+        check("g574: نداء مختصِر واحد", len(cc) == 1, len(cc))
+        check("g574: warnings فيه «✂️ اختُصر» من 30 إلى 22",
+              any("✂️ اختُصر" in w and "30" in w and "22" in w for w in info.get("warnings", [])), info)
+    guarded("g574", g574)
+
+    def g575():
+        bad_q = good(30)
+        bad_q["questions"][0]["text"] = "ما جوهر الخلاف حول الهدنة"
+        (s, reason), _, cc = run([bad_q, copy.deepcopy(bad_q)], {"fields": [{"field": "context", "text": short_text}]}, {})
+        check("g575: سبب غير الطول ← لا مختصِر ولا سيناريو", s is None and not cc and "السياق أطول من 25" in reason, (reason, len(cc)))
+        (s, reason), _, cc = run([good(30), good(30)], {"fields": [{"field": "context", "text": still_long}]}, {})
+        check("g575: مختصِر ما زال طويلًا ← فشل بالسبب الأصلي", s is None and len(cc) == 1 and "السياق أطول من 25 كلمة (30)" in reason,
+              (reason, len(cc)))
+        (s, reason), _, cc = run([good(30), good(30)], RuntimeError("boom"), {})
+        check("g575: مختصِر يرفع ← فشل بلا استثناء", s is None and len(cc) == 1 and "السياق أطول من 25" in reason, (reason, len(cc)))
+    guarded("g575", g575)
+
+    def g576():
+        check("g576: script_attempts في SCRIPT_KEYS", "script_attempts" in reel_script.SCRIPT_KEYS)
+        info = {}
+        run([good(30), good(30)], {"fields": [{"field": "context", "text": still_long}]}, info)
+        att = info.get("attempts", [])
+        check("g576: attempts لمحاولتين بأسبابهما", [a.get("attempt") for a in att] == [1, 2]
+              and all("السياق أطول من 25" in " ".join(a.get("reasons", [])) for a in att), att)
+        D = "2099-11-04"
+        d = yp.build_reel_draft({"id": "cccc2222eeee", "title": "موضوع", "layer": "a", "blocs": ["arabic"],
+                                 "channels": ["الجزيرة"], "agreement": "agreement", "event": "حدث"}, D, cfg)
+        d["id"] = "b576a1a1a1a1"
+        d["topic_date"] = D
+        store.save_draft(d)
+
+        def fake_write(draft, *a, **k):
+            draft.update(script_status="failed", script_error="السياق أطول من 25 كلمة (30)",
+                         script_attempts=[{"attempt": 1, "reasons": ["السياق أطول من 25 كلمة (30)"]},
+                                          {"attempt": 2, "reasons": ["السياق أطول من 25 كلمة (31)"]}])
+            return {"status": "failed", "reason": draft["script_error"]}
+        real = reel_script.write_for_draft
+        reel_script.write_for_draft = fake_write
+        try:
+            publish_mod._write_reel_script(d, D, cfg, None, None)
+        finally:
+            reel_script.write_for_draft = real
+        found = store.load_draft(d["id"])
+        disk = found[1] if found else {}
+        check("g576: script_attempts على القرص عبر _write_reel_script", len(disk.get("script_attempts") or []) == 2,
+              disk.get("script_attempts"))
+        text = "\n".join(youtube_publish._reel_item_lines(1, disk, cfg))
+        check("g576: بند الفاشل يعرض «محاولات الكتابة» بالمحاولتين", "محاولات الكتابة" in text and "1)" in text and "2)" in text
+              and "(31)" in text, text)
+    guarded("g576", g576)
+
+    def g577():
+        s = cfg.path("reel.script.condense.system", "") or ""
+        for phrase in ("لا تضف واقعة", "أبقِ الوقائع والأرقام والتواريخ"):
+            check(f"g577: condense.system فيه «{phrase}»", phrase in s, s[:80])
+        check("g577: condense مفعّل بنموذج haiku", cfg.path("reel.script.condense.enabled") is True
+              and cfg.path("reel.script.condense.model") == "haiku", cfg.path("reel.script.condense"))
+    guarded("g577", g577)
