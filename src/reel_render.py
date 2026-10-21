@@ -638,7 +638,43 @@ def _default_providers() -> dict:
     """المزوّدات الحقيقية؛ دالة لا ثابت كي يستبدلها الاختبار فتبقى الخلفية الكحلية في كل اختبار لا يحقن مزوّدات."""
     from . import imagesearch, youtube_extract
     return {"news": youtube_extract.news_photo_candidates, "web": imagesearch.search_web_images,
-            "free": youtube_extract.photo_candidates, "download": lambda url: imaging.download_image(url)}
+            "free": youtube_extract.photo_candidates, "download": lambda url: imaging.download_image(url),
+            "judge": bg_fits}
+
+
+BG_JUDGE_TOOL = {
+    "name": "judge_background",
+    "description": "احكم هل الصورة تصلح خلفية لراوٍ يقرأ سؤال الريل.",
+    "input_schema": {"type": "object", "properties": {
+        "fits": {"type": "boolean"}, "shows": {"type": "string"}, "reason": {"type": "string"}},
+        "required": ["fits", "shows", "reason"]},
+}
+
+
+def bg_fits(img, subject: str, cfg, client=None) -> dict:
+    """حكم نموذج يرى الصورة (Issue #1662، Q7): هل تصلح خلفية لراوٍ يقرأ سؤال الريل؟ نداء Haiku واحد بالصورة مصغّرة (ضلعها الأطول
+    judge.max_side). يعيد {fits, shows, reason}؛ أي عطل يُرفع ويقرره المستدعي (لا رفض بسببه)."""
+    import base64
+    import io
+
+    from . import llm
+    jcfg = cfg.path("reel.render.background.judge")
+    side = int(jcfg.get("max_side", 768))
+    im = img.convert("RGB")
+    im.thumbnail((side, side))
+    buf = io.BytesIO()
+    im.save(buf, "JPEG", quality=80)
+    content = [{"type": "image", "source": {"type": "base64", "media_type": "image/jpeg",
+                                            "data": base64.b64encode(buf.getvalue()).decode("ascii")}},
+               {"type": "text", "text": f"سؤال الريل: {subject}"}]
+    resp = llm.create(client or reel_hook_search._client(), cfg=cfg, model=jcfg.get("model", "haiku"),
+                      max_tokens=int(jcfg.get("max_tokens", 300)), system=jcfg.get("system", ""), tools=[BG_JUDGE_TOOL],
+                      tool_choice={"type": "tool", "name": BG_JUDGE_TOOL["name"]}, messages=[{"role": "user", "content": content}])
+    data = reel_hook_search._tool_input(resp, BG_JUDGE_TOOL["name"])
+    if not isinstance(data.get("fits"), bool):
+        raise ValueError("ردّ غير صالح من حاكم الخلفية")
+    return {"fits": data["fits"], "shows": " ".join(str(data.get("shows") or "").split())[:120],
+            "reason": " ".join(str(data.get("reason") or "").split())[:200]}
 
 
 _URL_YM = re.compile(r"/((?:19|20)\d\d)/(0?[1-9]|1[0-2])(?:/|$)")
@@ -698,6 +734,13 @@ def pick_background(draft: dict, cfg, providers: dict | None = None, draft_date:
         except Exception as exc:  # noqa: BLE001 -- عبارة البحث تحسين لا شرط
             log.warning("تعذّرت قراءة المقال الشقيق لعبارة الصورة: %s", str(exc)[:100])
 
+    judge = pv.get("judge")
+    subject = reel_hook_search.subject_text(draft.get("script") or {}, draft)
+    judging = bool(judge and subject)
+    rejected: list[dict] = []
+    verdict: dict = {}
+    max_rejected = int(cfg.path("reel.render.background.judge.max_rejected", 10))
+
     def usable(url: str) -> bool:
         try:
             if not url:
@@ -711,10 +754,36 @@ def pick_background(draft: dict, cfg, providers: dict | None = None, draft_date:
             if reason:
                 log.info("رُفض مرشّح خلفية الراوي %s: %s", url[:80], reason)
                 return False
-            return True
         except Exception as exc:  # noqa: BLE001
             log.warning("تعذّر تنزيل مرشّح الخلفية: %s", str(exc)[:100])
             return False
+        if not judging:
+            return True
+        try:
+            v = judge(img, subject, cfg) or {}
+        except Exception as exc:  # noqa: BLE001 -- عطل الحكم لا يرفض: السلوك قبل Q7
+            verdict["error"] = str(exc)[:150]
+            log.warning("تعذّر حكم النموذج على مرشّح الخلفية: %s", str(exc)[:100])
+            return True
+        if v.get("fits") is False:
+            log.info("رفض النموذج مرشّح خلفية الراوي %s: %s", url[:80], v.get("shows"))
+            if len(rejected) < max_rejected:
+                rejected.append({"url": url, "shows": v.get("shows", ""), "reason": v.get("reason", "")})
+            return False
+        verdict["shows"] = v.get("shows", "")
+        return True
+
+    def done(res: dict) -> dict:
+        """وسوم الحكم تُلحَق بالنتيجة: judged (أُجري حكم بلا عطل) وshows وrejected وjudge_error. بلا حكم مزوَّد ← النتيجة كما كانت."""
+        if not judging:
+            return res
+        res = {**res, **({"shows": verdict["shows"]} if res.get("url") and verdict.get("shows") else {}),
+               "judged": "error" not in verdict}
+        if rejected:
+            res["rejected"] = rejected
+        if verdict.get("error"):
+            res["judge_error"] = verdict["error"]
+        return res
 
     def safe(name, call):
         try:
@@ -725,15 +794,15 @@ def pick_background(draft: dict, cfg, providers: dict | None = None, draft_date:
 
     for cand in safe("news", lambda: pv["news"](title, event, cfg, query_en))[:tries]:
         if usable(cand.get("url", "")):
-            return {"url": cand["url"], "kind": "news_photo", "publisher": cand.get("publisher", "")}
+            return done({"url": cand["url"], "kind": "news_photo", "publisher": cand.get("publisher", "")})
     state: dict = {}
     for cand in safe("web", lambda: pv["web"](query_en or title, cfg, state))[:tries]:
         if usable(cand.get("url", "")):
-            return {"url": cand["url"], "kind": "web_search", "publisher": cand.get("domain", "")}
+            return done({"url": cand["url"], "kind": "web_search", "publisher": cand.get("domain", "")})
     for url in safe("free", lambda: pv["free"](title, event, cfg, query_en))[:tries]:
         if usable(url):
-            return {"url": url, "kind": "free", "publisher": ""}
-    return {"url": "", "kind": "none", "publisher": ""}
+            return done({"url": url, "kind": "free", "publisher": ""})
+    return done({"url": "", "kind": "none", "publisher": ""})
 
 
 def prepare_background(cfg, img: Image.Image) -> dict:
@@ -3976,6 +4045,17 @@ def _resolve_background(path: Path, draft: dict, cfg, deps: Deps, notes: list) -
                 log.warning("تعذّر تنزيل صورة خلفية الراوي: %s", str(exc)[:100])
                 img0 = None
             reason = face_reason(cfg, img0) if img0 is not None else None
+            # Q7: خلفية محفوظة قبل حكم النموذج (بلا judged) تُحكم مرة واحدة؛ لا تصلح ← إعادة اختيار. اليدوية والمعطّل لا يُحكم عليهما
+            judge = (deps.bg_providers or {}).get("judge") or _default_providers().get("judge")
+            subject = reel_hook_search.subject_text(draft.get("script") or {}, draft)
+            if (not reason and img0 is not None and judge and subject and not stored.get("judged")
+                    and stored.get("kind") != "manual"):
+                try:
+                    v = judge(img0, subject, cfg) or {}
+                    if v.get("fits") is False:
+                        reason = "لا تصلح لموضوع الريل: " + str(v.get("shows") or "")
+                except Exception as exc:  # noqa: BLE001 -- عطل الحكم لا يُسقط المحفوظة
+                    log.warning("تعذّر حكم النموذج على الخلفية المحفوظة: %s", str(exc)[:100])
         if reason:
             log.info("سقطت خلفية الراوي المحفوظة %s: %s", stored["url"][:80], reason)
             stored = None

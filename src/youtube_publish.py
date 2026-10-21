@@ -741,7 +741,15 @@ def _reel_bg_lines(d: dict, cfg, texts: dict) -> list[str]:
     if url and kind and kind != "none":
         label = (texts.get("bg_kinds") or {}).get(kind, kind)
         parts = " · ".join(x for x in (label, publisher) if x)
-        head = [f"  {texts.get('bg_line', '').format(parts=parts)}", "", f"  <img src=\"{url}\" width=\"260\" />", ""]
+        # Q7: ما تُظهره الصورة بحكم النموذج، وما رُفض قبلها؛ الصورة اليدوية بلا حكم
+        shows = "" if manual else str(bg.get("shows") or "")
+        line = texts.get("bg_line", "").format(parts=parts) + (texts.get("bg_shows", "").format(shows=shows) if shows else "")
+        rej = [r for r in (bg.get("rejected") or []) if isinstance(r, dict)] if not manual else []
+        if rej:
+            line += " " + texts.get("bg_rejected", "").format(n=len(rej), first=rej[0].get("shows", ""))
+        head = [f"  {line}", "", f"  <img src=\"{url}\" width=\"260\" />", ""]
+    elif bg.get("judged") and bg.get("rejected"):
+        head = [f"  {texts.get('bg_none_judged', texts.get('bg_none', ''))}", ""]
     else:
         head = [f"  {texts.get('bg_none', '')}", ""]
     return [*head, f"  {stages.image_field(d['id'], cfg)}", ""]
