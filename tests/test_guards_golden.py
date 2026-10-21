@@ -18207,3 +18207,188 @@ def test_reel_lower_graphics_q3_guards() -> None:
               (seen, clip.get("crop")))
     guarded("g539", g539)
     shutil.rmtree(work_root, ignore_errors=True)
+
+
+def test_editor_revise_e1_guards() -> None:
+    """Issue #1652 (E1، g540–g546): بعد المراجعة، إن بقيت ملاحظة high غير مطبَّقة يطلب المحرر نفسه من Opus إعادة كتابة الحقول
+    القابلة للتصحيح (نداء واحد بلا بحث بأداة report_revision) ثم يراجع النتيجة مرة ثانية. الشاهد نسخة من
+    drafts/2026-10-21/4acf4a1a3fe4.json (الريل الذي نُشر فيه «الاستخبارات توقعت 200 ألف متظاهر» واقعةً مجردة). النموذج مزيَّف؛
+    التطبيق والمقارنة والبوابة والعرض كود حقيقي."""
+    import copy
+    import json
+    from pathlib import Path
+    from types import SimpleNamespace
+
+    from src import editor, reel_editor
+    from tests.helpers import editor_response
+
+    cfg = load_config()
+    root = Path(__file__).resolve().parent
+    real = json.loads((root / "fixtures/editor/1651/4acf4a1a3fe4.json").read_text(encoding="utf-8"))
+    ORIG_LINE = "الاستخبارات توقعت 200 ألف متظاهر فقط."
+    NEW_CTX = "في 17 أكتوبر خرجت احتجاجات واسعة في فرنسا بين 500 و800 ألف. يقول ضيف على فرانس 24 عربي إن الاستخبارات توقعت 200 ألف."
+    HIGH = dict(category="other", severity="high", location="body", original=ORIG_LINE, fix="",
+                note="رقم ضيف عُرض واقعةً مجردة بلا نسبة", sources=[])
+    LOW = dict(category="other", severity="low", location="body", original="فرنسا", fix="",
+               note="ملاحظة خفيفة", sources=[])
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def new_draft() -> dict:
+        d = copy.deepcopy(real)
+        d.pop("editor_review", None)
+        return d
+
+    def ctx_for(d: dict) -> dict:
+        valid = []
+        for i, s in enumerate(x for x in d["script"]["scenes"] if x["kind"] == "clip"):
+            valid.append(dict(s, speaker_name=f"متحدث {i}", type="opinion", statement=s.get("stance", ""),
+                              video_published="2026-10-19"))
+        return {"script": d["script"], "valid": valid, "want": len(valid), "facts": []}
+
+    def revision_resp(title, body, heads, unresolved=None):
+        block = SimpleNamespace(type="tool_use", name="report_revision", input=dict(
+            title=title, body=body, headlines=heads, unresolved=unresolved or []))
+        return SimpleNamespace(content=[block], stop_reason="end_turn",
+                               usage=SimpleNamespace(input_tokens=1, output_tokens=1))
+
+    class Fake:
+        """يعدّ نداءات المراجعة والتصحيح؛ reviews قائمة تقارير تُستهلك بالترتيب (والأخير يتكرر)."""
+        def __init__(self, reviews, revise):
+            self.reviews, self.revise = reviews, revise
+            self.review_calls, self.revise_calls, self.revise_kw = 0, 0, []
+
+        def __call__(self, client, **kw):
+            if kw["tools"][0]["name"] == "report_revision":
+                self.revise_calls += 1
+                self.revise_kw.append(kw)
+                if isinstance(self.revise, Exception):
+                    raise self.revise
+                return self.revise
+            i = min(self.review_calls, len(self.reviews) - 1)
+            self.review_calls += 1
+            return editor_response(list(self.reviews[i]))
+
+    def good_revision(d: dict):
+        title, body, heads = reel_editor.ADAPTER.read(d)
+        return revision_resp(title, body.replace(ORIG_LINE, NEW_CTX), heads)
+
+    def run_reel(d, fake, c=None):
+        return editor.run(d, reel_editor.ADAPTER, ctx_for(d), c or cfg, None, create=fake)
+
+    kept = {}
+
+    # ── g540 ──
+    def g540():
+        d = new_draft()
+        f = Fake([[HIGH], []], good_revision(d))
+        run_reel(d, f)
+        ctx_line = d["script"]["scenes"][1]["text"]
+        check("g540: السيناريو بالسطر الجديد", ctx_line == NEW_CTX, ctx_line)
+        check("g540: blocking_reasons فارغة", editor.blocking_reasons(d, cfg) == [], editor.blocking_reasons(d, cfg))
+        er = d.get("editor_revision") or {}
+        check("g540: editor_revision.applied", er.get("applied") is True and not er.get("error"), er)
+        check("g540: الملاحظة المرسلة محفوظة في before", len(er.get("before") or []) == 1, er)
+        check("g540: نداءا مراجعة ونداء تصحيح", (f.review_calls, f.revise_calls) == (2, 1), (f.review_calls, f.revise_calls))
+        kw = f.revise_kw[0] if f.revise_kw else {}
+        check("g540: نداء التصحيح بلا بحث ويب وبأداة report_revision وبنموذج المحرر",
+              [t["name"] for t in kw.get("tools", [])] == ["report_revision"] and kw.get("model") == cfg.path("editor.model"),
+              kw.get("tools"))
+        check("g540: editor_review من المراجعة الثانية (بلا ملاحظات)", d["editor_review"]["notes"] == [], d["editor_review"])
+        kept["d"] = d
+    guarded("g540", g540)
+
+    # ── g541 ──
+    def g541():
+        cases = (("سطر محذوف", lambda b: "\n".join(b.splitlines()[:-1])),
+                 ("سياق طويل", lambda b: b.replace(ORIG_LINE, " ".join(["كلمة"] * 40))))
+        for label, mutate in cases:
+            d = new_draft()
+            title, body, heads = reel_editor.ADAPTER.read(d)
+            before_script = copy.deepcopy(d["script"])
+            fake = Fake([[HIGH]], revision_resp(title, mutate(body), heads))
+            run_reel(d, fake)
+            er = d.get("editor_revision") or {}
+            check(f"g541 ({label}): النسخة تُرمى والسيناريو كما كان", d["script"] == before_script, label)
+            check(f"g541 ({label}): applied False والملاحظة باقية", er.get("applied") is False
+                  and [n["severity"] for n in d["editor_review"]["notes"]] == ["high"], (er, d["editor_review"]))
+            check(f"g541 ({label}): لا مراجعة ثانية", fake.review_calls == 1, fake.review_calls)
+    guarded("g541", g541)
+
+    # ── g542 ──
+    def g542():
+        d = new_draft()
+        before_script = copy.deepcopy(d["script"])
+        run_reel(d, Fake([[HIGH]], RuntimeError("عطل نداء التصحيح")))
+        er = d.get("editor_revision") or {}
+        check("g542: لا تغيير في السيناريو", d["script"] == before_script)
+        check("g542: error غير فارغ وapplied False", bool(er.get("error")) and er.get("applied") is False, er)
+        check("g542: البوابة تحجب كما كانت", bool(editor.blocking_reasons(d, cfg)), editor.blocking_reasons(d, cfg))
+    guarded("g542", g542)
+
+    # ── g543 ──
+    def g543():
+        d = new_draft()
+        fake = Fake([[LOW]], good_revision(d))
+        run_reel(d, fake)
+        check("g543: لا نداء تصحيح لملاحظة low وحدها", fake.revise_calls == 0 and "editor_revision" not in d,
+              (fake.revise_calls, d.get("editor_revision")))
+    guarded("g543", g543)
+
+    # ── g544 ──
+    def g544():
+        c2 = copy.deepcopy(cfg)
+        c2["editor"]["revise"]["paths"]["reel"] = False
+        d = new_draft()
+        fake = Fake([[HIGH]], good_revision(d))
+        run_reel(d, fake, c2)
+        check("g544: paths.reel=false ← لا نداء تصحيح", fake.revise_calls == 0 and fake.review_calls == 1,
+              (fake.revise_calls, fake.review_calls))
+
+        class Art(editor.Adapter):
+            name = "analysis"
+
+            def read(self, draft):
+                a = draft["arabic"]
+                return a["post_title"], a["post_body"], list(draft["headlines"])
+
+            def write(self, draft, title, body, headlines):
+                draft["arabic"].update(post_title=title, post_body=body)
+                draft["headlines"] = headlines
+
+        art = dict(arabic=dict(post_title="عنوان", post_body="متن المقال"), headlines=["عنوان يجزم أكثر من اللازم", "ب", "ج"])
+        note = dict(category="other", severity="high", location="headline_1", original="عنوان يجزم أكثر من اللازم",
+                    fix="", note="العنوان يجزم", sources=[])
+        fake2 = Fake([[note], []], revision_resp("عنوان", "متن المقال", ["عنوان بحذر أكثر", "ب", "ج"]))
+        editor.run(art, Art(), {}, cfg, None, create=fake2)
+        check("g544: مسار analysis يصلح العنوان", art["headlines"][0] == "عنوان بحذر أكثر"
+              and (art.get("editor_revision") or {}).get("applied") is True, (art["headlines"], art.get("editor_revision")))
+    guarded("g544", g544)
+
+    # ── g545 ──
+    def g545():
+        d = kept.get("d") or new_draft()
+        text = "\n".join(editor.render_lines(d, cfg))
+        check("g545: سطر «🔁 صحّح المحرر بنفسه»", "🔁 صحّح المحرر بنفسه" in text, text)
+        check("g545: الملاحظات المصلَحة داخل <details>", "<details>" in text and "</details>" in text
+              and text.index("<details>") < text.index(HIGH["note"]) < text.index("</details>"), text)
+        d2 = new_draft()
+        run_reel(d2, Fake([[HIGH]], good_revision(d2)))      # المراجعة الثانية تعيد high نفسها ← يبقى حاجب
+        t2 = "\n".join(editor.render_lines(d2, cfg))
+        check("g545: مع حاجب باقٍ سطر «⛔ بقي بعد تصحيح المحرر»", "⛔ بقي بعد تصحيح المحرر" in t2, t2)
+        d3 = new_draft()
+        run_reel(d3, Fake([[HIGH]], RuntimeError("انقطع")))
+        t3 = "\n".join(editor.render_lines(d3, cfg))
+        check("g545: فشل الجولة ← «⚠️ تعذّر تصحيح المحرر»", "⚠️ تعذّر تصحيح المحرر" in t3 and "انقطع" in t3, t3)
+    guarded("g545", g545)
+
+    # ── g546 ──
+    def g546():
+        s = cfg.path("editor.revise.system", "") or ""
+        for phrase in ("لا تضف واقعة", "انسبه إلى قائله أو احذفه", "حافظ على أرقام السطور"):
+            check(f"g546: النظام يتضمن «{phrase}»", phrase in s, s[:80])
+    guarded("g546", g546)
