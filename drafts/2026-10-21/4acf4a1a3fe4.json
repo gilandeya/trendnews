@@ -256,7 +256,8 @@
   "reel_bg": {
     "url": "https://imgs.search.brave.com/bgOuF0PkSWV6Qq3Cv-Gb_UogpgZhzb5rOhrfVc0gpWs/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pMS5o/ZXNwcmVzcy5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMjUv/MDkvZ2Vuei1tYW5p/ZmVzdGF0aW9uLWNh/c2FibGFuY2EtNC5q/cGc",
     "kind": "web_search",
-    "publisher": "www.hespress.com"
+    "publisher": "www.hespress.com",
+    "layout": "A"
   },
   "hook_candidates": [
     {
@@ -324,9 +325,14 @@
       }
     ],
     "picked": [
-      "gjTlB4WYCl8",
-      "3k4wTaq1Fsc",
-      "QzLcYlSzwME"
+      "gjTlB4WYCl8"
+    ],
+    "compared": [
+      {
+        "video_id": "gjTlB4WYCl8",
+        "impact": 9,
+        "footage_ratio": 0.368
+      }
     ]
   },
   "broll_plan": [
@@ -429,7 +435,7 @@
   "has_news_photo": false,
   "review_issue": 1650,
   "stage2_issue": 1650,
-  "render_status": "queued",
+  "render_status": "rendered",
   "approved_script_at": "2026-10-21T04:51:01.102247+00:00",
   "editor_override": {
     "at": "2026-10-21T04:51:01.102233+00:00",
@@ -437,5 +443,427 @@
       "رقم التقدير الاستخباراتي ورد في قول ضيف على فرانس 24 عربي (مقطع 651ead65857d) ولم يَرِد في التغطيات الصحفية للحدث؛ عرضه في مشهد السياق كواقعة مجردة بلا نسبة غير جائز. المصادر الرسمية تحدثت عن نحو 550 ألف مشارك بتقدير الداخلية و800 ألف بتقدير المنظمين.",
       "نقطة المصدر لهذا المقطع تنسب القول إلى «مقدّم البرنامج» لا إلى ضيف، فصفة المتحدث في الشريط متعارضة مع المصدر. كما أن الاسم الوارد في الاقتباس «مجتبى» مجرد من أي تعريف، فهوية صاحبه غير محدَّدة للقارئ. يلزم تحقق بشري قبل النشر."
     ]
-  }
+  },
+  "hook_video": {
+    "video_id": "gjTlB4WYCl8",
+    "start": 88,
+    "end": 95,
+    "channel": "CNN",
+    "title": "'A real escalation': France protests boil over into violent riots",
+    "source": "auto",
+    "views": 414717,
+    "impact": 9,
+    "pre_ok": true,
+    "strong_start": 88,
+    "reason": "أقوى 3 ث (قوة 9)",
+    "render_version": 37
+  },
+  "reel_file": "reels/2026-10-21/4acf4a1a3fe4.mp4",
+  "reel_gif": "reels/2026-10-21/4acf4a1a3fe4.gif",
+  "duration_seconds": 63.3,
+  "render_version": 37,
+  "render_attempts": 0,
+  "reel_music": "nastelbom-news-501715.mp3",
+  "render_sources": "فرانس 24 عربي، إيران إنترناشيونال، CNN، FRANCE 24 English",
+  "render_crops": {
+    "3": {
+      "x": 274,
+      "source": "speaker",
+      "speaker_score": 1.29,
+      "tracks": 1,
+      "panel_q": 0,
+      "tile_crop": null,
+      "frame_crop": {
+        "x": 272,
+        "y": 0,
+        "w": 274,
+        "h": 346,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.72,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.74,
+          0.74,
+          0.74
+        ]
+      }
+    },
+    "6": {
+      "x": 440,
+      "source": "speaker",
+      "speaker_score": 1.07,
+      "tracks": 1,
+      "panel_q": 1,
+      "tile_crop": {
+        "x": 356,
+        "y": 0,
+        "w": 574,
+        "h": 510,
+        "mode": "full_height"
+      },
+      "frame_crop": {
+        "x": 442,
+        "y": 0,
+        "w": 402,
+        "h": 510,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": false,
+      "lower_graphics": {
+        "top": 0.71,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.73,
+          0.73,
+          0.73
+        ]
+      }
+    },
+    "7": {
+      "x": 442,
+      "source": "speaker_vision",
+      "speaker_score": 0.93,
+      "tracks": 6,
+      "vision": {
+        "pick": 3,
+        "agree": 3,
+        "archive": [
+          1,
+          2,
+          4,
+          5,
+          6
+        ]
+      },
+      "panel_q": 1,
+      "tile_crop": {
+        "x": 358,
+        "y": 0,
+        "w": 574,
+        "h": 510,
+        "mode": "full_height"
+      },
+      "frame_crop": {
+        "x": 444,
+        "y": 0,
+        "w": 402,
+        "h": 510,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.71,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.73,
+          0.73,
+          0.73
+        ]
+      }
+    },
+    "hook": {
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.7,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.72,
+          0.72,
+          0.72
+        ]
+      }
+    },
+    "closing": {
+      "source": "pre_hook",
+      "pre_footage": 1.0
+    }
+  },
+  "render_speakers": {
+    "3": {
+      "name_original": "",
+      "name_arabic": "",
+      "role_arabic": "",
+      "is_presenter": false,
+      "frames_agreeing": 0,
+      "rejected": "",
+      "accepted": false
+    },
+    "4": {
+      "name_original": "HASAN ÖZTÜRK",
+      "name_arabic": "حسن أوزتürk",
+      "role_arabic": "المدير العام المسؤول لقناة أولكه التلفزيونية",
+      "is_presenter": false,
+      "frames_agreeing": 3,
+      "rejected": "",
+      "accepted": true,
+      "mismatch": {
+        "chyron": "حسن أوزتürk",
+        "speaker": "مهمت مفتي أوغلو، رئيس تحرير صحيفة تورغون"
+      }
+    },
+    "6": {
+      "name_original": "IRAN International",
+      "name_arabic": "ایران اینترنشنال",
+      "role_arabic": "فرصت‌طلبی حکومت ایران در اعتراضات خشن فرانسه",
+      "is_presenter": false,
+      "frames_agreeing": 3,
+      "rejected": "channel",
+      "accepted": false
+    },
+    "7": {
+      "name_original": "فرصت‌طلبی حکومت ایران در اعتراضات خشن فرانسه",
+      "name_arabic": "فرصت‌طلبی حکومت ایران در اعتراضات خشن فرانسه",
+      "role_arabic": "",
+      "is_presenter": false,
+      "frames_agreeing": 3,
+      "rejected": "program",
+      "accepted": false
+    }
+  },
+  "render_broll": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "video_id": "gjTlB4WYCl8",
+      "start": 74.28,
+      "end": 83.72,
+      "channel": "CNN",
+      "desc": "هيكل سيارة محترقة في الشارع بالقرب من أشجار ومبانٍ · شخص على دراجة أمام سيارات محترقة في شارع · اشتباك وحشد يرمي أشياء بالقرب من متظاهرين بسترات صفراء"
+    },
+    {
+      "scene": 1,
+      "sentence": 1,
+      "photo": "جملة مجرّدة"
+    },
+    {
+      "scene": 2,
+      "sentence": 0,
+      "video_id": "gjTlB4WYCl8",
+      "start": 149.28,
+      "end": 153.72,
+      "channel": "CNN",
+      "desc": "أشخاص يجلسون ويمشون حول نافورة فيها قمامة وأشياء مبعثرة · حطام وسيارة محترقة في ساحة باريس وأشخاص حولها · دخان يتصاعد حول تمثال في ساحة الجمهورية",
+      "fallback": true
+    },
+    {
+      "scene": 5,
+      "sentence": 0,
+      "video_id": "3k4wTaq1Fsc",
+      "start": 51.68,
+      "end": 56.32,
+      "channel": "FRANCE 24 English",
+      "desc": "حريق يلتهم مبنى في ليموج مع ألسنة نار كبيرة ليلاً · حريق مستمر في مبنى ليموج والدخان يتصاعد · دخان ونيران كثيفة تغطي المبنى في ليموج",
+      "fallback": true
+    }
+  ],
+  "broll_scan": {
+    "videos": {
+      "gjTlB4WYCl8": {
+        "downloaded": 600,
+        "classified": 216,
+        "sheets": 15,
+        "kinds": {
+          "anchor": 98,
+          "studio": 12,
+          "event_footage": 95,
+          "other": 11
+        },
+        "footage_relevant": 91,
+        "footage_other": 4,
+        "chains": 8,
+        "longest": 18
+      },
+      "3k4wTaq1Fsc": {
+        "downloaded": 90,
+        "classified": 90,
+        "sheets": 4,
+        "kinds": {
+          "event_footage": 50,
+          "anchor": 34,
+          "studio": 2,
+          "text_heavy": 4
+        },
+        "footage_relevant": 48,
+        "footage_other": 2,
+        "chains": 4,
+        "longest": 24
+      },
+      "QzLcYlSzwME": {
+        "downloaded": 0,
+        "classified": 0,
+        "sheets": 0,
+        "kinds": {},
+        "footage_relevant": 0,
+        "footage_other": 0,
+        "chains": 0,
+        "longest": 0,
+        "error_text": "فشلت كل الدرجات: ERROR: ffmpeg exited with code 8",
+        "error": true
+      }
+    },
+    "sheets_used": 19,
+    "chains": [
+      {
+        "video_id": "gjTlB4WYCl8",
+        "start": 63,
+        "end": 68,
+        "desc": "سيارة مقلوبة ومحترقة في شارع ورجل يمشي بجانب صراف آلي مخرّب · سيارة شرطة مقلوبة ومحروقة أمام جدار مكتوب عليه غرافيتي",
+        "channel": "CNN",
+        "relevant": true
+      },
+      {
+        "video_id": "gjTlB4WYCl8",
+        "start": 70,
+        "end": 88,
+        "desc": "هيكل سيارة محترقة في الشارع بالقرب من أشجار ومبانٍ · شخص على دراجة أمام سيارات محترقة في شارع · اشتباك وحشد يرمي أشياء بالقرب من متظاهرين بسترات صفراء",
+        "channel": "CNN",
+        "relevant": true
+      },
+      {
+        "video_id": "gjTlB4WYCl8",
+        "start": 96,
+        "end": 104,
+        "desc": "مبنى تتصاعد منه الأدخنة وأشخاص يتحركون أمام واجهة مضاءة بالنار · ضباب دخاني كثيف وظلال أشخاص أمام واجهة مبنى · نيران مشتعلة وأدخنة كثيفة وحشد في الشارع",
+        "channel": "CNN",
+        "relevant": true
+      },
+      {
+        "video_id": "gjTlB4WYCl8",
+        "start": 123,
+        "end": 132,
+        "desc": "عامل يغسل الرصيف بخرطوم قرب مدخل تحت الأرض وكتابات على الجدار · عامل يغسل الكتابات على الجدار بخرطوم مياه · أشخاص يرممون واجهة زجاجية مكسورة بألواح خشبية وسلم",
+        "channel": "CNN",
+        "relevant": true
+      },
+      {
+        "video_id": "gjTlB4WYCl8",
+        "start": 136,
+        "end": 141,
+        "desc": "شارع فيه أفراد أمن وأشخاص قرب جدران مغطاة بالغرافيتي، مشهد ميداني هادئ · دخان كثيف يتصاعد فوق مبانٍ وأشجار في المدينة · دخان يتصاعد حول نصب حجري في الساحة",
+        "channel": "CNN",
+        "relevant": true
+      },
+      {
+        "video_id": "gjTlB4WYCl8",
+        "start": 143,
+        "end": 160,
+        "desc": "أشخاص يجلسون ويمشون حول نافورة فيها قمامة وأشياء مبعثرة · حطام وسيارة محترقة في ساحة باريس وأشخاص حولها · دخان يتصاعد حول تمثال في ساحة الجمهورية",
+        "channel": "CNN",
+        "relevant": true
+      },
+      {
+        "video_id": "gjTlB4WYCl8",
+        "start": 180,
+        "end": 196,
+        "desc": "مبنى بلدية ليموج متضرر بالحريق يملأ الإطار · أضرار داخلية وهياكل محترقة لمبنى البلدية · مبنى بلدية سليم نسبيا بنافورة، ولا أثر للحريق",
+        "channel": "CNN",
+        "relevant": false
+      },
+      {
+        "video_id": "gjTlB4WYCl8",
+        "start": 206,
+        "end": 216,
+        "desc": "شخص يركض وسط حشد ومواجهات في شارع مفتوح · عناصر أمن وأشخاص يتحركون في شارع وسط أشجار ودخان · حشد كبير من عناصر أمن وأشخاص في ساحة مع مارة",
+        "channel": "CNN",
+        "relevant": true
+      },
+      {
+        "video_id": "3k4wTaq1Fsc",
+        "start": 0,
+        "end": 24,
+        "desc": "حشود وتدافع أمام تمثال، مع شعارات فوق الصورة · حشود متحركة أمام التمثال والشرطة · تجمع كثيف لعناصر أمنية ومتظاهرين قرب التمثال",
+        "channel": "FRANCE 24 English",
+        "relevant": false
+      },
+      {
+        "video_id": "3k4wTaq1Fsc",
+        "start": 40,
+        "end": 44,
+        "desc": "عناصر أمن بخوذ يتحركون في الشارع · متظاهرون وسط سحب دخان كثيف",
+        "channel": "FRANCE 24 English",
+        "relevant": true
+      },
+      {
+        "video_id": "3k4wTaq1Fsc",
+        "start": 48,
+        "end": 60,
+        "desc": "حريق يلتهم مبنى في ليموج مع ألسنة نار كبيرة ليلاً · حريق مستمر في مبنى ليموج والدخان يتصاعد · دخان ونيران كثيفة تغطي المبنى في ليموج",
+        "channel": "FRANCE 24 English",
+        "relevant": true
+      },
+      {
+        "video_id": "3k4wTaq1Fsc",
+        "start": 82,
+        "end": 90,
+        "desc": "عناصر أمن يتحركون في ضباب كثيف قرب ساحة · اشتباك وحطام وأشخاص يركضون وسط الدخان · اشتباك بين قوات الأمن ومحتجين وسط الدخان",
+        "channel": "FRANCE 24 English",
+        "relevant": true
+      }
+    ],
+    "assign": [
+      {
+        "n": 1,
+        "chain": 2
+      }
+    ]
+  },
+  "render_dropped": [
+    {
+      "point_id": "3ea5e0a7b3dd",
+      "kind": "clip",
+      "reason": "الشريط يُظهر حسن أوزتürk والاقتباس لـمهمت مفتي أوغلو، رئيس تحرير صحيفة تورغون — حُذف المقطع"
+    }
+  ],
+  "render_approx": [
+    {
+      "point_id": "3ea5e0a7b3dd",
+      "kind": "clip",
+      "start": 6001,
+      "end": 6007,
+      "reason": "الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة"
+    }
+  ],
+  "rendered_at": "2026-10-21T05:12:51.429877+00:00",
+  "render_notes": [
+    "### 🎬 تركيب الريل",
+    "- ⏱️ المدة: 63.3 ث",
+    "- 🎞️ [الملف](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-10-21/4acf4a1a3fe4.mp4) · [المعاينة](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-10-21/4acf4a1a3fe4.gif)",
+    "- ✂️ حُذف 1: clip (الشريط يُظهر حسن أوزتürk والاقتباس لـمهمت مفتي أوغلو، رئيس تحرير صحيفة تورغون — حُذف المقطع)",
+    "- ⚠️ نافذة تقديرية لمقطع هابر ترك (100:01–100:07): الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة — راجع بداية المقطع ونهايته",
+    "🎞️ لقطة الهوك: CNN — ['A real escalation': France protests boil over into violent riots](https://www.youtube.com/watch?v=gjTlB4WYCl8&t=88) (88–95 ث) · 414,717 مشاهدة",
+    "الشريط يُظهر حسن أوزتürk والاقتباس لـمهمت مفتي أوغلو، رئيس تحرير صحيفة تورغون — حُذف المقطع",
+    "🏷️ شريط القناة يحمل اسم برنامج لا شخص: ایران اینترنشنال — يُعرض اسم القناة وحده",
+    "🏷️ شريط القناة يحمل اسم برنامج لا شخص: فرصت‌طلبی حکومت ایران در اعتراضات خشن فرانسه — يُعرض اسم القناة وحده",
+    "✂️ أُخفي شريط القناة في CNN: قُصّ أسفل 30%",
+    "🎞️ لقطات الحدث: 3 من 4 جمل (منها 2 احتياطية) (CNN ×2، FRANCE 24 English ×1) — 1 بالصورة",
+    "✂️ أُخفي شريط القناة في فرانس 24 عربي: قُصّ أسفل 28%",
+    "✂️ أُخفي شريط القناة في إيران إنترناشيونال: قُصّ أسفل 29%",
+    "🎯 مقطع إيران إنترناشيونال: 6 وجوه — المتكلم بالرؤية"
+  ],
+  "reel_review_issue": 1651
 }
