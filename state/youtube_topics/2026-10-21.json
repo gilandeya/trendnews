@@ -119,8 +119,11 @@
       "dropped_reason": null,
       "id": "1b504f486676",
       "created_at": "2026-10-21T04:02:22.669519+00:00",
-      "selection_status": "unselected",
-      "selection_issue": 1649
+      "selection_status": "attempted",
+      "selection_issue": 1649,
+      "selected_formats": [
+        "reel"
+      ]
     },
     {
       "title": "الدفاع البريطاني الجوي عن السعودية",

@@ -1,0 +1,382 @@
+{
+  "id": "d35c989fade1",
+  "created_at": "2026-10-21T08:56:38.965990+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "تصعيد قبل انتخابات الكونغرس الأمريكية",
+  "tier": 3,
+  "blocs": [
+    "arabic",
+    "israeli",
+    "persian"
+  ],
+  "channels": [
+    "All Israel News",
+    "Iran International",
+    "الجزيرة"
+  ],
+  "agreement": "cross_source",
+  "event": "تحليل تأثير توقيت التصعيد مع إيران على الانتخابات الأمريكية النصفية",
+  "warnings": [],
+  "run_date": "2026-10-21",
+  "arabic": {
+    "post_title": "تصعيد قبل انتخابات الكونغرس الأمريكية",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "All Israel News",
+      "Iran International",
+      "الجزيرة"
+    ]
+  },
+  "score": 10,
+  "source_videos": [],
+  "topic_id": "1b504f486676",
+  "topic_date": "2026-10-21",
+  "script": {
+    "version": 2,
+    "narrator": "male",
+    "title": "كيف يؤثر التصعيد مع إيران على انتخابات الكونغرس النصفية؟",
+    "question": "هل يرجّح موعد الانتخابات كفة التصعيد أم كفة التهدئة؟",
+    "event": "تحليل تأثير توقيت التصعيد مع إيران على الانتخابات الأمريكية النصفية",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "كيف يؤثر التصعيد مع إيران على انتخابات الكونغرس النصفية؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "تجري انتخابات الكونغرس الأمريكية النصفية في الثالث من نوفمبر. يتزامن موعدها مع تصعيد عسكري متواصل مع إيران."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "core",
+        "q": 0,
+        "text": "ماذا يعني التصعيد لحظوظ الجمهوريين في الاقتراع؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "b7b5d5d4a9d9",
+        "q": 0,
+        "stance": "الحرب دمّرت حظوظ الجمهوريين انتخابيًا",
+        "angle": "كلفة انتخابية داخلية على الحزب",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=-CKJ5L4Ztio",
+        "start": 638.0,
+        "end": 644.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "الحرب دمرت حظوظ حزبي، والجمهوريون يخسرون نصف الكونغرس إن لم يكن كله",
+        "language": "ar",
+        "video_published": "2026-10-20"
+      },
+      {
+        "kind": "clip",
+        "point_id": "9452a42a177c",
+        "q": 0,
+        "stance": "خسارة الكونغرس تضرّ بمصالح إسرائيل",
+        "angle": "تبعات خارجية على حلفاء واشنطن",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=bmOaJKXXKmA",
+        "start": 423.0,
+        "end": 431.7,
+        "speaker_name": "جويل روزنبرغ",
+        "speaker_role": "مؤسس ورئيس تحرير وكالة أول إسرائيل نيوز",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "Joel Rosenberg",
+        "channel_display": "All Israel News",
+        "channel_original": "All Israel News",
+        "quote_arabic": "إن خسر السيطرة على أحد مجلسي الكونغرس الأمريكي أو كليهما، فقد تظهر قوى معادية لإسرائيل.",
+        "language": "en",
+        "video_published": "2026-10-20"
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "where_next",
+        "q": 1,
+        "text": "إلى أي مسار يتجه الصراع مع إيران؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "96ee7d109b29",
+        "q": 1,
+        "stance": "استمرار الوضع الراهن هو الأرجح",
+        "angle": "سيناريوهات متعددة والاتفاق بعيد",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=nx6MtSAGGLQ",
+        "start": 1486.0,
+        "end": 1501.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "إيران إنترناشيونال",
+        "channel_original": "Iran International",
+        "quote_arabic": "في رأيي نحن أمام أربعة سيناريوهات ممكنة، أولها استمرار الوضع الراهن بوصفه الأرجح",
+        "language": "fa",
+        "video_published": "2026-10-20"
+      },
+      {
+        "kind": "clip",
+        "point_id": "76c4c8901c8d",
+        "q": 1,
+        "stance": "الحرب المقبلة ستكون شاملة متعددة الجبهات",
+        "angle": "اتساع ميداني وكلفة إقليمية",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=-CKJ5L4Ztio",
+        "start": 2324.0,
+        "end": 2330.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "متوقَّع أن تكون حربًا شاملة، وبالتالي على أكثر من جبهة",
+        "language": "ar",
+        "video_published": "2026-10-20"
+      },
+      {
+        "kind": "question",
+        "text": "هل يرجّح موعد الانتخابات كفة التصعيد أم كفة التهدئة؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": []
+  },
+  "headlines": [
+    "كيف يُرجّح أن يؤثر التصعيد مع إيران على حظوظ الجمهوريين في انتخابات الكونغرس النصفية؟",
+    "محلل في الجزيرة يرى أن الحرب أضرت بحظوظ الحزب الجمهوري قبل اقتراع نوفمبر",
+    "ضيف على إيران إنترناشيونال: الترجيح الأكبر لاستمرار الوضع الراهن مع إيران مع احتمال تصعيد قبل الانتخابات"
+  ],
+  "headline_selected": 0,
+  "editor_review": {
+    "at": "2026-10-21T08:56:58.140585+00:00",
+    "applied": [
+      {
+        "category": "unattributed_opinion",
+        "severity": "high",
+        "location": "headline_3",
+        "original": "الترجيح الأكبر لاستمرار الوضع الراهن مع إيران، مع احتمال تصعيد عسكري قبل الانتخابات الأمريكية",
+        "fix": "ضيف على إيران إنترناشيونال: الترجيح الأكبر لاستمرار الوضع الراهن مع إيران مع احتمال تصعيد قبل الانتخابات",
+        "note": "هذا ترجيح شخصي لضيف إيران إنترناشيونال («في رأيي نحن أمام أربعة سيناريوهات…») لكنه ورد في العنوان بصيغة الخبر المؤكد بلا نسبة إلى قائله، فيبدو تقديرًا صادرًا عن المنصة.",
+        "sources": []
+      }
+    ],
+    "notes": [
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "headline_2",
+        "original": "محلل في الجزيرة يرى أن الحرب أضرت بحظوظ الحزب الجمهوري قبل اقتراع نوفمبر",
+        "fix": "ضيف على الجزيرة: الحرب أضرت بحظوظ الحزب الجمهوري قبل اقتراع نوفمبر/تشرين الثاني",
+        "note": "المتحدث في المقطع b7b5d5d4a9d9 غير موثَّق وشريطه «ضيف على الجزيرة»؛ وصفه بأنه «محلل في الجزيرة» ينسبه إلى القناة ويمنحه صفة مهنية لا يسندها عنوان الفيديو ولا وصفه. كما أن قوله «حظوظ حزبي» يوحي بانتمائه الجمهوري لا بكونه محللًا في القناة.",
+        "sources": [],
+        "video": ""
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "تجري انتخابات الكونغرس الأمريكية النصفية في الثالث من نوفمبر. يتزامن موعدها مع تصعيد عسكري متواصل مع إيران.",
+        "fix": "تجري انتخابات الكونغرس الأمريكية النصفية في الثالث من نوفمبر/تشرين الثاني 2026، وتتنافس فيها الأحزاب على مجلسي النواب والشيوخ.",
+        "note": "مشهد السياق يحتاج إلى تحديد الواقعة (من فعل ماذا ومتى) والسنة صراحة؛ عبارة «تصعيد عسكري متواصل مع إيران» وصف عام بلا فاعل ولا توقيت. موعد الاقتراع في الثالث من نوفمبر/تشرين الثاني 2026 صحيح.",
+        "sources": [
+          "https://www.britannica.com/event/2026-US-midterm-elections",
+          "https://bipartisanpolicy.org/article/the-2026-midterms-key-dates-and-events/"
+        ]
+      }
+    ],
+    "error": null,
+    "searches": 2,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "names_audit": [
+    {
+      "arabic": "جويل روزنبرغ",
+      "latin": "Joel Rosenberg"
+    }
+  ],
+  "reel_bg": {
+    "url": "https://cdn.alquds.com/uploads/a0cf6ea7c13f348924e9098313e1faa8.jpg",
+    "kind": "news_photo",
+    "publisher": "جريدة القدس"
+  },
+  "hook_candidates": [
+    {
+      "video_id": "5-Dh8_q0xsM",
+      "title": "Voters divided on Iran, the economy, Trump's performance as early midterm voting begins in Georgia",
+      "channel": "AP Archive",
+      "views": 2163,
+      "duration": 174,
+      "published": "2026-10-18T18:42:41Z"
+    },
+    {
+      "video_id": "eh6ROzN5CDY",
+      "title": "Voters divided on Iran, the economy, Trump's performance as early midterm voting begins in Georgia",
+      "channel": "AP Archive",
+      "views": 1679,
+      "duration": 88,
+      "published": "2026-10-18T19:14:45Z"
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-10-19T00:00:00Z",
+          "2026-10-23T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "صواريخ إيرانية تسقط قرب قاعدة أمريكية",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "Iranian missile strike footage US base explosion smoke",
+            "raw": 1,
+            "channel_ok": 0
+          },
+          {
+            "query": "Irán misiles ataque base estadounidense explosión humo",
+            "raw": 0,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 0,
+        "judged_ok": 0,
+        "rejected_channels": [
+          "RealityMargin"
+        ]
+      },
+      {
+        "broad": true,
+        "window": [
+          "2026-10-17T00:00:00Z",
+          "2026-10-24T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "انتخابات الكونغرس الأمريكية إيران",
+            "raw": 30,
+            "channel_ok": 5
+          },
+          {
+            "query": "US midterm elections Iran",
+            "raw": 30,
+            "channel_ok": 5
+          },
+          {
+            "query": "Kongress Wahlen USA Iran",
+            "raw": 30,
+            "channel_ok": 3
+          }
+        ],
+        "duration_ok": 13,
+        "judged_ok": 2,
+        "rejected_channels": [
+          "العربي - أخبار",
+          "Al Mashhad المشهد",
+          "قناة التغيير",
+          "Breezy Politics",
+          "Alghad TV - قناة الغد",
+          "DayAndNightToday",
+          "Independent Joe Show",
+          "‫ (جريدة الصنارة)‬‎"
+        ]
+      }
+    ],
+    "picked": [
+      "5-Dh8_q0xsM",
+      "eh6ROzN5CDY"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "تجري انتخابات الكونغرس الأمريكية النصفية في الثالث من نوفمبر.",
+      "visual": "ناخبون يدلون بأصواتهم في مركز اقتراع"
+    },
+    {
+      "scene": 1,
+      "sentence": 1,
+      "text": "يتزامن موعدها مع تصعيد عسكري متواصل مع إيران.",
+      "visual": "صواريخ تُطلق في سماء ليلية"
+    },
+    {
+      "scene": 2,
+      "sentence": 0,
+      "text": "ماذا يعني التصعيد لحظوظ الجمهوريين في الاقتراع؟",
+      "visual": ""
+    },
+    {
+      "scene": 5,
+      "sentence": 0,
+      "text": "إلى أي مسار يتجه الصراع مع إيران؟",
+      "visual": ""
+    }
+  ],
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "b7b5d5d4a9d9",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "first_person": true,
+        "quote_arabic_fixed": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "76c4c8901c8d",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "first_person": true,
+        "quote_arabic_fixed": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "96ee7d109b29",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "first_person": true,
+        "quote_arabic_fixed": "",
+        "channel": "إيران إنترناشيونال"
+      },
+      {
+        "point_id": "9452a42a177c",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "first_person": true,
+        "quote_arabic_fixed": "",
+        "channel": "All Israel News"
+      }
+    ]
+  },
+  "has_photo": false,
+  "has_news_photo": true,
+  "review_issue": 1656,
+  "stage2_issue": 1656
+}
