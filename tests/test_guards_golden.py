@@ -15671,8 +15671,10 @@ def test_reel_script_v2_p2a_guards() -> None:
         check("g459: إصلاح سليم يُطبَّق ويبقى version 2",
               any(x.get("text") == "ما أصل الخلاف حول الهدنة؟" for x in d_ok["script"]["scenes"])
               and d_ok["script"]["version"] == 2, d_ok.get("editor_review"))
-        check("g459: توجيه المحرر للريل يذكر الخلاف والطيف",
-              "طيف" in cfg.path("editor.system_extra.reel") and "الخلاف المركزي" in cfg.path("editor.system_extra.reel"))
+        # Q4 (#1654): المنظورات حلّت محل «طيف من رأي إلى نقيضه»؛ التكرار عيب والاتفاق جائز
+        check("g459: توجيه المحرر للريل يذكر المسألة المركزية والزاوية",
+              "زاوية" in cfg.path("editor.system_extra.reel") and "المسألة المركزية" in cfg.path("editor.system_extra.reel")
+              and "نقيضه" not in cfg.path("editor.system_extra.reel"))
     guarded("g459", g459)
 
     # ── g460: القديم (بلا version) ──
@@ -16242,8 +16244,8 @@ def test_reel_panel_p2c1_guards() -> None:
         d2 = wdir("g473b")
         cmds2: list = []
         _f, k2, _d = reel_render._assemble(V2, v2_clips(d2, drop=(3,)), cfg, make_deps(cmds2), d2, "v", None, "", {}, [], {})
-        p = " ".join(scene_cmd(cmds2, 2))
-        check("g473: مقطع لم يُنزَّل يُسقط من اللوحة (n=1 بلا -stream_loop)", "-stream_loop" not in p and "concat=n=1" in p, p[:300])
+        # Q4 (#1654): سؤال فقد إجابة (هنا بفشل التنزيل) وبقيت له واحدة يُحذف كله بدل لوحة بمنظور واحد؛ لوحة n=1 تبقى مختبَرة بالمشهد 5 أعلاه
+        check("g473: مقطع لم يُنزَّل ← سؤاله بإجابة واحدة يُحذف كله ولا تُركَّب لوحته", k2.count("panel") == 1 and not scene_cmd(cmds2, 2), k2)
         d3 = wdir("g473c")
         _f, k3, _d = reel_render._assemble(V2, v2_clips(d3, drop=(2, 3)), cfg, make_deps([]), d3, "v", None, "", {}, [], {})
         check("g473: لوحة بلا مقاطع لا تُركَّب", k3.count("panel") == 1, k3)
