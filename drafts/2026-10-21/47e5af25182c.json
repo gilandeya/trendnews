@@ -1,0 +1,574 @@
+{
+  "id": "47e5af25182c",
+  "created_at": "2026-10-21T17:50:36.491051+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "الدفاع البريطاني الجوي عن السعودية",
+  "tier": 2,
+  "blocs": [
+    "arabic",
+    "persian"
+  ],
+  "channels": [
+    "Iran International",
+    "الجزيرة",
+    "العربية",
+    "فرانس 24 عربي"
+  ],
+  "agreement": "cross_source",
+  "event": "إرسال بريطانيا مقاتلات تايفون للدفاع عن الأجواء السعودية ضد هجمات الحوثيين",
+  "warnings": [],
+  "run_date": "2026-10-21",
+  "arabic": {
+    "post_title": "الدفاع البريطاني الجوي عن السعودية",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "Iran International",
+      "الجزيرة",
+      "العربية",
+      "فرانس 24 عربي"
+    ]
+  },
+  "score": 9,
+  "source_videos": [],
+  "topic_id": "b3b81b77464a",
+  "topic_date": "2026-10-21",
+  "redo_n": 1,
+  "script": {
+    "version": 2,
+    "narrator": "female",
+    "title": "هل يكفي الدعم الخارجي لحماية الأجواء السعودية من الحوثيين؟",
+    "question": "هل يغيّر التدخل الخارجي موازين الحرب في اليمن؟",
+    "event": "إرسال بريطانيا مقاتلات تايفون للدفاع عن الأجواء السعودية ضد هجمات الحوثيين",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "هل يكفي الدعم الخارجي لحماية الأجواء السعودية من الحوثيين؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "في 20 أكتوبر أعلنت بريطانيا إرسال مقاتلات تايفون لاعتراض صواريخ الحوثيين فوق السعودية. وطلب الرئيس المصري تفويضًا برلمانيًا لدعم دفاعي للسعودية، وأُجّل التصويت."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "core",
+        "q": 0,
+        "text": "ما حدود فاعلية الدفاع الجوي البريطاني فوق السعودية؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "63fd50319f8a",
+        "q": 0,
+        "stance": "مساعدة كبيرة لكنها لا تعترض كل الصواريخ",
+        "angle": "القدرة التقنية واتساع المساحة",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=nx6MtSAGGLQ",
+        "start": 2446.0,
+        "end": 2452.5,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "إيران إنترناشيونال",
+        "channel_original": "Iran International",
+        "quote_arabic": "السؤال هو هل يستطيع اعتراضها كلها؟ وهذا ما يجب أن نراه في الممارسة",
+        "language": "fa",
+        "video_published": "2026-10-20"
+      },
+      {
+        "kind": "clip",
+        "point_id": "8be09bba07da",
+        "q": 0,
+        "stance": "الرياض تواجه محورًا ممتدًا وضغوط تطبيع",
+        "angle": "حجم التهديد الإقليمي والضغط الإسرائيلي",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=qB_4P0mUCyI",
+        "start": 944.0,
+        "end": 953.1,
+        "speaker_name": "منيف عماش الحربي",
+        "speaker_role": "كاتب ومحلل سياسي",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "منيف عماش الحربي",
+        "channel_display": "فرانس 24 عربي",
+        "channel_original": "فرانس 24 عربي",
+        "quote_arabic": "السعودية تواجه محورًا ممتدًا، بل إن إسرائيل بدأت وسائل إعلامها واللوبي الصهيوني يضغط على السعودية كي تطبع",
+        "language": "ar",
+        "video_published": "2026-10-20"
+      },
+      {
+        "kind": "clip",
+        "point_id": "2da91f52ac9a",
+        "q": 0,
+        "stance": "القرار بيد طهران لا الحوثيين",
+        "angle": "مصدر القرار في إيران",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=QFMGl1rCLhU",
+        "start": 1211.0,
+        "end": 1217.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "العربية",
+        "channel_original": "العربية",
+        "quote_arabic": "القرار ليس قرار الحوثيين، القرار هو في قم",
+        "language": "ar",
+        "video_published": "2026-10-20"
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "where_next",
+        "q": 1,
+        "text": "ما موقع مصر من هذا الدعم الدفاعي للسعودية؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "e4e91fa71963",
+        "q": 1,
+        "stance": "القرار المصري مستقل ويخدم الأمن القومي",
+        "angle": "استقلالية القرار المصري",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=QFMGl1rCLhU",
+        "start": 723.0,
+        "end": 729.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "العربية",
+        "channel_original": "العربية",
+        "quote_arabic": "القرار المصري هو قرار مستقل يتوخى",
+        "language": "ar",
+        "video_published": "2026-10-20"
+      },
+      {
+        "kind": "clip",
+        "point_id": "4cb860795115",
+        "q": 1,
+        "stance": "الإعلان خطأ؛ الممرات ليست سعودية",
+        "angle": "مصالح مصر البحرية المتضررة",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=qB_4P0mUCyI",
+        "start": 680.0,
+        "end": 686.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "فرانس 24 عربي",
+        "channel_original": "فرانس 24 عربي",
+        "quote_arabic": "البحر الأحمر ليس سعوديًا، وقناة السويس ليست سعودية، ومضيق باب المندب ليس سعوديًا",
+        "language": "ar",
+        "video_published": "2026-10-20"
+      },
+      {
+        "kind": "clip",
+        "point_id": "1b8abc22f6b4",
+        "q": 1,
+        "stance": "موقف مصر ضعيف؛ حلف مكة مظلة نووية",
+        "angle": "المظلة الدفاعية وجاذبيتها للحلفاء",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=qB_4P0mUCyI",
+        "start": 1000.0,
+        "end": 1006.1,
+        "speaker_name": "منيف عماش الحربي",
+        "speaker_role": "كاتب ومحلل سياسي",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "منيف عماش الحربي",
+        "channel_display": "فرانس 24 عربي",
+        "channel_original": "فرانس 24 عربي",
+        "quote_arabic": "حلف مكة مظلة نووية، ولهذا دخل الأتراك فيه لأنه سيمنحهم مظلة نووية",
+        "language": "ar",
+        "video_published": "2026-10-20"
+      },
+      {
+        "kind": "question",
+        "text": "هل يغيّر التدخل الخارجي موازين الحرب في اليمن؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": []
+  },
+  "headlines": [
+    "هل يكفي الدعم الجوي البريطاني لحماية الأجواء السعودية من الصواريخ الحوثية؟",
+    "ضيف على إيران إنترناشيونال: الدفاع البريطاني مساعدة كبيرة لكنه لا يضمن اعتراض كل الصواريخ",
+    "البرلمان المصري يؤجل التصويت على تفويض دعم السعودية إلى 26 أكتوبر/تشرين الأول"
+  ],
+  "headline_selected": 0,
+  "editor_review": {
+    "at": "2026-10-21T17:51:28.003221+00:00",
+    "applied": [
+      {
+        "category": "vague_attribution",
+        "severity": "low",
+        "location": "headline_2",
+        "original": "يرى محللون أن الدفاع الجوي البريطاني قد يساعد السعودية دون أن يضمن اعتراض كل الصواريخ",
+        "fix": "ضيف على إيران إنترناشيونال: الدفاع البريطاني مساعدة كبيرة لكنه لا يضمن اعتراض كل الصواريخ",
+        "note": "«محللون» بصيغة الجمع نسبة مجهولة؛ المادة تتضمن متحدثًا واحدًا فقط (المقطع 63fd50319f8a) قال ذلك، والشريط الخاص به غير موثَّق أصلًا («ضيف على إيران إنترناشيونال»)، فلا يصحّ تعميم الرأي على جماعة محللين.",
+        "sources": []
+      },
+      {
+        "category": "headline_judgmental",
+        "severity": "low",
+        "location": "headline_3",
+        "original": "مصر بين الاستقلال القراري والضغوط: قرار دعم الرياض العسكري لا يزال معلّقًا في البرلمان",
+        "fix": "البرلمان المصري يؤجل التصويت على تفويض دعم السعودية إلى 26 أكتوبر/تشرين الأول",
+        "note": "صدر العنوان يضع مصر في ثنائية «استقلال/ضغوط» لا تسندها المادة؛ لا يوجد في المقاطع ولا في وقائع الحدث حديث عن ضغوط مورست على القاهرة. الجزء الواقعي (تعليق القرار في البرلمان) صحيح ويكفي وحده، ويُفضَّل تحديد موعد التصويت بدل التعبير النسبي «لا يزال».",
+        "sources": [
+          "https://alquds.com/ar/posts/262989-egypt-parliament-postpones-saudi-military-support-vote"
+        ]
+      }
+    ],
+    "notes": [
+      {
+        "category": "stale_time",
+        "severity": "low",
+        "location": "body",
+        "original": "في 20 أكتوبر أعلنت بريطانيا إرسال مقاتلات تايفون لاعتراض صواريخ الحوثيين فوق السعودية. وطلب الرئيس المصري تفويضًا برلمانيًا لدعم دفاعي للسعودية، وأُجّل التصويت.",
+        "fix": "في 20 أكتوبر/تشرين الأول أعلنت بريطانيا إرسال مقاتلات تايفون لاعتراض صواريخ الحوثيين فوق السعودية. وكان الرئيس المصري قد طلب في 17 أكتوبر/تشرين الأول تفويضًا برلمانيًا لدعم دفاعي للسعودية، وأُجّل التصويت إلى 26 أكتوبر/تشرين الأول.",
+        "note": "صياغة الجملة تُوهم أن طلب التفويض المصري وتأجيل التصويت وقعا في 20 أكتوبر أيضًا، بينما طلب السيسي كان السبت 17 أكتوبر/تشرين الأول وتأجيل التصويت تقرر الإثنين 19 أكتوبر/تشرين الأول إلى 26 أكتوبر/تشرين الأول. يلزم فصل التواريخ، وتحديد موعد التصويت المؤجَّل لأنه إضافة تاريخ صريح فقط.",
+        "sources": [
+          "https://www.skynewsarabia.com/middle-east/1898794",
+          "https://alquds.com/ar/posts/262989-egypt-parliament-postpones-saudi-military-support-vote",
+          "https://www.defense-arabic.com/2026/10/20/"
+        ]
+      },
+      {
+        "category": "broken_quote",
+        "severity": "high",
+        "location": "body",
+        "original": "«القرار المصري هو قرار مستقل يتوخى»",
+        "fix": "",
+        "note": "اقتباس مبتور ينتهي بفعل معلّق («يتوخى») بلا مكمِّل، فيظهر على الشاشة ناقص المعنى. وفق نقطة المصدر فإن تمام القول هو أن القرار المصري مستقل ويتوخى المصلحة القومية العربية والأمن القومي المصري؛ يلزم اقتطاع جملة مكتملة من المقطع نفسه أو إيقاف الاقتباس عند «قرار مستقل».",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "ما موقع مصر من هذا الدعم الدفاعي للسعودية؟",
+        "fix": "",
+        "note": "الإجابة الثالثة تحت هذا السؤال (المقطع 1b8abc22f6b4: «حلف مكة مظلة نووية، ولهذا دخل الأتراك فيه») لا تضيف زاوية عن موقع مصر، بل تنتقل إلى حلف مكة وتركيا، كما أن نقطة المصدر لهذا المقطع تلخّص قولًا آخر (ضعف موقف مصر والدعم السعودي التاريخي) لا يطابق الاقتباس المعروض. يلزم استبدال المقطع بآخر يجيب عن سؤال مصر أو تعديل السؤال ليطابق مضمون الإجابات.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "ما حدود فاعلية الدفاع الجوي البريطاني فوق السعودية؟",
+        "fix": "",
+        "note": "من الإجابات الثلاث تحت هذا السؤال، لا يتناول المقطعان 8be09bba07da («محور ممتد» وضغوط التطبيع) و2da91f52ac9a («القرار هو في قم») فاعلية الدفاع الجوي البريطاني، فتبدو الإجابتان خارج موضوع السؤال لا زاويتين إضافيتين عليه.",
+        "sources": []
+      }
+    ],
+    "error": null,
+    "searches": 3,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "names_audit": [
+    {
+      "arabic": "منيف عماش الحربي",
+      "latin": ""
+    }
+  ],
+  "reel_bg": {
+    "url": "https://roayahnews.com/wp-content/uploads/2026/10/مقاتلات-تايفون-.webp",
+    "kind": "news_photo",
+    "publisher": "شبكة رؤية الإخبارية",
+    "shows": "مقاتلة تايفون (Eurofighter Typhoon) وهي تقلع بعد احتراق في المحركات، بعلامات سلاح الجو الألماني على الذيل، وخلفية أشجار ",
+    "judged": true
+  },
+  "hook_candidates": [
+    {
+      "video_id": "I0zYhZFcAV0",
+      "title": "Saudi-Led Coalition Intercepts Houthi Missiles and Drones",
+      "channel": "Al Arabiya English",
+      "views": 6844,
+      "duration": 54,
+      "published": "2026-10-17T18:26:57Z"
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-10-19T00:00:00Z",
+          "2026-10-23T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "مقاتلات تايفون البريطانية تحلق فوق السعودية",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "RAF Typhoon jets deploy Saudi Arabia air defense",
+            "raw": 30,
+            "channel_ok": 0
+          },
+          {
+            "query": "Eurofighter Typhoon takeoff airbase Saudi Arabia interceptor missiles",
+            "raw": 0,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 0,
+        "judged_ok": 0,
+        "rejected_channels": [
+          "Serambinews",
+          "nNewsTech",
+          "Cross World News",
+          "OhMyNews",
+          "Tribun Jogja Official",
+          "Tribunnews",
+          "Tribun Jateng",
+          "Bangka Pos Official"
+        ]
+      },
+      {
+        "broad": true,
+        "window": [
+          "2026-10-17T00:00:00Z",
+          "2026-10-24T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "الدفاع الجوي السعودي الحوثيين",
+            "raw": 30,
+            "channel_ok": 7
+          },
+          {
+            "query": "UK Typhoon jets Saudi Arabia",
+            "raw": 30,
+            "channel_ok": 6
+          },
+          {
+            "query": "Saudi air defense Houthis",
+            "raw": 30,
+            "channel_ok": 4
+          }
+        ],
+        "duration_ok": 15,
+        "judged_ok": 1,
+        "rejected_channels": [
+          "Alghad TV - قناة الغد",
+          "العربي - أخبار",
+          "India Global Review",
+          "Armourdesia Military Hardware",
+          "rasid ksa",
+          "Gestión Mundo",
+          "قناة التغيير",
+          "عاجل"
+        ]
+      }
+    ],
+    "picked": [
+      "I0zYhZFcAV0"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "في 20 أكتوبر أعلنت بريطانيا إرسال مقاتلات تايفون لاعتراض صواريخ الحوثيين فوق السعودية.",
+      "visual": "مقاتلات تايفون تقلع في سماء نهارية"
+    },
+    {
+      "scene": 1,
+      "sentence": 1,
+      "text": "وطلب الرئيس المصري تفويضًا برلمانيًا لدعم دفاعي للسعودية، وأُجّل التصويت.",
+      "visual": ""
+    },
+    {
+      "scene": 2,
+      "sentence": 0,
+      "text": "ما حدود فاعلية الدفاع الجوي البريطاني فوق السعودية؟",
+      "visual": ""
+    },
+    {
+      "scene": 6,
+      "sentence": 0,
+      "text": "ما موقع مصر من هذا الدعم الدفاعي للسعودية؟",
+      "visual": ""
+    }
+  ],
+  "quote_retranslated": [
+    "757395c6d0c5",
+    "e4e91fa71963",
+    "2da91f52ac9a",
+    "1b8abc22f6b4",
+    "8be09bba07da"
+  ],
+  "clip_dropped": [
+    {
+      "point_id": "b09aafdb0817",
+      "channel": "فرانس 24 عربي",
+      "reason": "ملخّص النقطة ينسبها إلى شخص آخر: عبد الفتاح السيسي"
+    }
+  ],
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "757395c6d0c5",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "المملكة تستخدم تقنية الطيران الموجودة، وهذه الطائرات اسمها تايفون، وستكون دفاعًا جويًا في السماء",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "e4e91fa71963",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "القرار المصري هو قرار مستقل يتوخى",
+        "channel": "العربية"
+      },
+      {
+        "point_id": "2da91f52ac9a",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "القرار ليس قرار الحوثيين، القرار هو في قم",
+        "channel": "العربية"
+      },
+      {
+        "point_id": "b09aafdb0817",
+        "speaker_said_it": "no",
+        "other_name": "عبد الفتاح السيسي",
+        "faithful": false,
+        "quote_arabic_fixed": "طلبتُ من البرلمان منحي تفويضًا لتقديم دعم دفاعي",
+        "channel": "فرانس 24 عربي"
+      },
+      {
+        "point_id": "4cb860795115",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "channel": "فرانس 24 عربي"
+      },
+      {
+        "point_id": "1b8abc22f6b4",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "حلف مكة مظلة نووية، ولهذا دخل الأتراك فيه لأنه سيمنحهم مظلة نووية",
+        "channel": "فرانس 24 عربي"
+      },
+      {
+        "point_id": "dbe3d25979e6",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "channel": "فرانس 24 عربي"
+      },
+      {
+        "point_id": "8be09bba07da",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "السعودية تواجه محورًا ممتدًا، بل إن إسرائيل بدأت وسائل إعلامها واللوبي الصهيوني يضغط على السعودية كي تطبع",
+        "channel": "فرانس 24 عربي"
+      },
+      {
+        "point_id": "0938cff2a16d",
+        "speaker_said_it": "unsure",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "channel": "إيران إنترناشيونال"
+      },
+      {
+        "point_id": "63fd50319f8a",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "channel": "إيران إنترناشيونال"
+      }
+    ]
+  },
+  "editor_revision": {
+    "at": "2026-10-21T17:51:28.003221+00:00",
+    "applied": false,
+    "error": "ValueError: التصحيح يُحدث مخالفة جديدة: السؤال # أطول من # كلمات (#)؛ السياق أطول من # كلمة (#)؛ السياق فيه شهران بشرطة (أكتوبر/تشرين الأول): اكتب شهرًا واحدًا",
+    "before": [
+      {
+        "category": "stale_time",
+        "severity": "low",
+        "location": "body",
+        "original": "في 20 أكتوبر أعلنت بريطانيا إرسال مقاتلات تايفون لاعتراض صواريخ الحوثيين فوق السعودية. وطلب الرئيس المصري تفويضًا برلمانيًا لدعم دفاعي للسعودية، وأُجّل التصويت.",
+        "fix": "في 20 أكتوبر/تشرين الأول أعلنت بريطانيا إرسال مقاتلات تايفون لاعتراض صواريخ الحوثيين فوق السعودية. وكان الرئيس المصري قد طلب في 17 أكتوبر/تشرين الأول تفويضًا برلمانيًا لدعم دفاعي للسعودية، وأُجّل التصويت إلى 26 أكتوبر/تشرين الأول.",
+        "note": "صياغة الجملة تُوهم أن طلب التفويض المصري وتأجيل التصويت وقعا في 20 أكتوبر أيضًا، بينما طلب السيسي كان السبت 17 أكتوبر/تشرين الأول وتأجيل التصويت تقرر الإثنين 19 أكتوبر/تشرين الأول إلى 26 أكتوبر/تشرين الأول. يلزم فصل التواريخ، وتحديد موعد التصويت المؤجَّل لأنه إضافة تاريخ صريح فقط.",
+        "sources": [
+          "https://www.skynewsarabia.com/middle-east/1898794",
+          "https://alquds.com/ar/posts/262989-egypt-parliament-postpones-saudi-military-support-vote",
+          "https://www.defense-arabic.com/2026/10/20/"
+        ]
+      },
+      {
+        "category": "broken_quote",
+        "severity": "high",
+        "location": "body",
+        "original": "«القرار المصري هو قرار مستقل يتوخى»",
+        "fix": "",
+        "note": "اقتباس مبتور ينتهي بفعل معلّق («يتوخى») بلا مكمِّل، فيظهر على الشاشة ناقص المعنى. وفق نقطة المصدر فإن تمام القول هو أن القرار المصري مستقل ويتوخى المصلحة القومية العربية والأمن القومي المصري؛ يلزم اقتطاع جملة مكتملة من المقطع نفسه أو إيقاف الاقتباس عند «قرار مستقل».",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "ما موقع مصر من هذا الدعم الدفاعي للسعودية؟",
+        "fix": "",
+        "note": "الإجابة الثالثة تحت هذا السؤال (المقطع 1b8abc22f6b4: «حلف مكة مظلة نووية، ولهذا دخل الأتراك فيه») لا تضيف زاوية عن موقع مصر، بل تنتقل إلى حلف مكة وتركيا، كما أن نقطة المصدر لهذا المقطع تلخّص قولًا آخر (ضعف موقف مصر والدعم السعودي التاريخي) لا يطابق الاقتباس المعروض. يلزم استبدال المقطع بآخر يجيب عن سؤال مصر أو تعديل السؤال ليطابق مضمون الإجابات.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "ما حدود فاعلية الدفاع الجوي البريطاني فوق السعودية؟",
+        "fix": "",
+        "note": "من الإجابات الثلاث تحت هذا السؤال، لا يتناول المقطعان 8be09bba07da («محور ممتد» وضغوط التطبيع) و2da91f52ac9a («القرار هو في قم») فاعلية الدفاع الجوي البريطاني، فتبدو الإجابتان خارج موضوع السؤال لا زاويتين إضافيتين عليه.",
+        "sources": []
+      }
+    ],
+    "unresolved": []
+  },
+  "script_attempts": [
+    {
+      "attempt": 1,
+      "reasons": [
+        "السياق أطول من 25 كلمة (31)",
+        "متحدث مكرر في إجابات السؤال 2"
+      ]
+    }
+  ],
+  "has_photo": false,
+  "has_news_photo": true,
+  "review_issue": 1668,
+  "stage2_issue": 1668
+}
