@@ -388,8 +388,8 @@
     "compared": [
       {
         "video_id": "I0zYhZFcAV0",
-        "impact": 8,
-        "footage_ratio": 0.63
+        "impact": 9,
+        "footage_ratio": 0.87
       }
     ]
   },
@@ -586,101 +586,46 @@
       "اقتباس مبتور ينتهي بفعل معلّق («يتوخى») بلا مكمِّل، فيظهر على الشاشة ناقص المعنى. وفق نقطة المصدر فإن تمام القول هو أن القرار المصري مستقل ويتوخى المصلحة القومية العربية والأمن القومي المصري؛ يلزم اقتطاع جملة مكتملة من المقطع نفسه أو إيقاف الاقتباس عند «قرار مستقل»."
     ]
   },
-  "hook_video": {
-    "video_id": "I0zYhZFcAV0",
-    "start": 43,
-    "end": 51,
-    "channel": "Al Arabiya English",
-    "title": "Saudi-Led Coalition Intercepts Houthi Missiles and Drones",
-    "source": "auto",
-    "views": 6844,
-    "impact": 8,
-    "pre_ok": true,
-    "strong_start": 43,
-    "reason": "أقوى 3 ث (قوة 8)",
-    "render_version": 41
-  },
   "reel_file": "reels/2026-10-21/47e5af25182c.mp4",
   "reel_gif": "reels/2026-10-21/47e5af25182c.gif",
-  "duration_seconds": 118.9,
-  "render_version": 41,
+  "duration_seconds": 103.0,
+  "render_version": 42,
   "render_attempts": 0,
   "reel_music": "sigmamusicart-breaking-news-551355.mp3",
-  "render_sources": "إيران إنترناشيونال، العربية، فرانس 24 عربي، Al Arabiya English",
+  "render_sources": "فرانس 24 عربي، العربية، Al Arabiya English",
   "render_crops": {
-    "3": {
-      "x": 97,
+    "4": {
+      "x": 499,
       "source": "speaker_vision",
-      "speaker_score": 0.74,
-      "tracks": 2,
+      "speaker_score": 1.1,
+      "tracks": 3,
       "vision": {
-        "pick": 2,
-        "agree": 3,
-        "archive": []
-      },
-      "gate": {
-        "start": 1.0,
-        "end": 20.47,
-        "source": "silence"
-      },
-      "panel_q": 0,
-      "tile_crop": {
-        "x": 0,
-        "y": 0,
-        "w": 736,
-        "h": 654,
-        "mode": "full_height"
-      },
-      "frame_crop": {
-        "x": 42,
-        "y": 0,
-        "w": 516,
-        "h": 654,
-        "mode": "full_height"
-      },
-      "bars": [
-        0,
-        0,
-        0,
-        0
-      ],
-      "ticker": false,
-      "lower_graphics": {
-        "top": 0.91,
-        "source": "model",
-        "clamped": false,
-        "frames": [
-          0.93,
-          0.93,
-          0.93
+        "pick": 1,
+        "agree": 2,
+        "archive": [
+          1,
+          2,
+          3
         ]
       },
-      "quote_sync": "transcript",
-      "quote_mode": "word"
-    },
-    "5": {
-      "x": 55,
-      "source": "speaker",
-      "speaker_score": 1.53,
-      "tracks": 1,
       "gate": {
         "start": 1.0,
-        "end": 11.82,
-        "source": "silence"
+        "end": 9.0,
+        "source": "approx"
       },
       "panel_q": 0,
       "tile_crop": {
-        "x": 0,
+        "x": 436,
         "y": 0,
-        "w": 390,
-        "h": 346,
+        "w": 394,
+        "h": 350,
         "mode": "full_height"
       },
       "frame_crop": {
-        "x": 52,
+        "x": 496,
         "y": 0,
-        "w": 274,
-        "h": 346,
+        "w": 276,
+        "h": 350,
         "mode": "full_height"
       },
       "bars": [
@@ -691,13 +636,58 @@
       ],
       "ticker": true,
       "lower_graphics": {
-        "top": 0.72,
+        "top": 0.73,
         "source": "model",
         "clamped": false,
         "frames": [
-          0.74,
-          0.74,
-          0.74
+          0.75,
+          0.75,
+          0.75
+        ]
+      },
+      "quote_sync": "uniform",
+      "quote_mode": "word"
+    },
+    "5": {
+      "x": 83,
+      "source": "speaker",
+      "speaker_score": 1.61,
+      "tracks": 1,
+      "gate": {
+        "start": 1.0,
+        "end": 11.79,
+        "source": "silence"
+      },
+      "panel_q": 0,
+      "tile_crop": {
+        "x": 0,
+        "y": 0,
+        "w": 632,
+        "h": 562,
+        "mode": "full_height"
+      },
+      "frame_crop": {
+        "x": 64,
+        "y": 0,
+        "w": 444,
+        "h": 562,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.78,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.85,
+          0.8,
+          0.85
         ]
       },
       "quote_sync": "transcript",
@@ -711,7 +701,9 @@
       "vision": {
         "pick": 2,
         "agree": 3,
-        "archive": []
+        "archive": [
+          1
+        ]
       },
       "gate": {
         "start": 1.14,
@@ -722,15 +714,15 @@
       "tile_crop": {
         "x": 0,
         "y": 0,
-        "w": 874,
-        "h": 518,
+        "w": 948,
+        "h": 562,
         "mode": "full_height"
       },
       "frame_crop": {
-        "x": 126,
+        "x": 110,
         "y": 0,
-        "w": 410,
-        "h": 518,
+        "w": 444,
+        "h": 562,
         "mode": "full_height"
       },
       "bars": [
@@ -741,13 +733,13 @@
       ],
       "ticker": true,
       "lower_graphics": {
-        "top": 0.72,
+        "top": 0.78,
         "source": "model",
         "clamped": false,
         "frames": [
-          0.74,
-          0.74,
-          0.74
+          0.85,
+          0.8,
+          0.85
         ]
       },
       "quote_sync": "transcript",
@@ -756,7 +748,7 @@
     "8": {
       "x": 875,
       "source": "speaker_vision",
-      "speaker_score": 0.9,
+      "speaker_score": 0.8,
       "tracks": 2,
       "vision": {
         "pick": 1,
@@ -767,22 +759,22 @@
       },
       "gate": {
         "start": 1.0,
-        "end": 9.0,
-        "source": "transcript"
+        "end": 5.0,
+        "source": "approx"
       },
       "panel_q": 1,
       "tile_crop": {
-        "x": 490,
+        "x": 392,
         "y": 0,
-        "w": 790,
-        "h": 468,
+        "w": 888,
+        "h": 526,
         "mode": "full_height"
       },
       "frame_crop": {
-        "x": 892,
+        "x": 864,
         "y": 0,
-        "w": 370,
-        "h": 468,
+        "w": 416,
+        "h": 526,
         "mode": "full_height"
       },
       "bars": [
@@ -793,22 +785,22 @@
       ],
       "ticker": true,
       "lower_graphics": {
-        "top": 0.65,
+        "top": 0.73,
         "source": "model",
         "clamped": false,
         "frames": [
-          0.67,
-          0.67,
-          0.67
+          0.75,
+          0.75,
+          0.75
         ]
       },
-      "quote_sync": "transcript",
+      "quote_sync": "uniform",
       "quote_mode": "word"
     },
     "9": {
-      "x": 263,
+      "x": 394,
       "source": "speaker",
-      "speaker_score": 0.96,
+      "speaker_score": 1.05,
       "tracks": 1,
       "gate": {
         "start": 1.0,
@@ -817,17 +809,17 @@
       },
       "panel_q": 1,
       "tile_crop": {
-        "x": 136,
+        "x": 152,
         "y": 0,
-        "w": 526,
-        "h": 312,
+        "w": 888,
+        "h": 526,
         "mode": "full_height"
       },
       "frame_crop": {
-        "x": 276,
+        "x": 388,
         "y": 0,
-        "w": 246,
-        "h": 312,
+        "w": 416,
+        "h": 526,
         "mode": "full_height"
       },
       "bars": [
@@ -838,13 +830,13 @@
       ],
       "ticker": true,
       "lower_graphics": {
-        "top": 0.65,
+        "top": 0.73,
         "source": "model",
         "clamped": false,
         "frames": [
-          0.67,
-          0.67,
-          0.67
+          0.75,
+          0.75,
+          0.75
         ]
       },
       "quote_sync": "uniform",
@@ -870,22 +862,26 @@
   },
   "render_speakers": {
     "3": {
-      "name_original": "فرداد فرحی",
-      "name_arabic": "فرداد فرحي",
-      "role_arabic": "دفاع بريطانيا من السعودية في مواجهة الحوثيين",
-      "is_presenter": false,
-      "frames_agreeing": 1,
-      "rejected": "program",
-      "accepted": false
-    },
-    "5": {
-      "name_original": "Mustafa Bakry",
-      "name_arabic": "مصطفى بكري",
-      "role_arabic": "عضو مجلس النواب المصري",
+      "name_original": "فرداد فرحزاد",
+      "name_arabic": "فرداد فرحزاد",
+      "role_arabic": "",
       "is_presenter": false,
       "frames_agreeing": 2,
       "rejected": "",
-      "accepted": true
+      "accepted": true,
+      "mismatch": {
+        "chyron": "فرداد فرحزاد",
+        "speaker": "علي سزاده، محلل شؤون الشرق الأوسط"
+      }
+    },
+    "5": {
+      "name_original": "مصطفى بكري",
+      "name_arabic": "مصطفى بكري",
+      "role_arabic": "عضو مجلس النواب المصري",
+      "is_presenter": false,
+      "frames_agreeing": 1,
+      "rejected": "",
+      "accepted": false
     },
     "7": {
       "name_original": "مواجهة الحوثي",
@@ -908,23 +904,13 @@
   },
   "render_spans": [
     {
-      "point_id": "63fd50319f8a",
-      "start": 2434,
-      "end": 2456,
-      "complete": true,
-      "lang": "ar",
-      "changed_text": true,
-      "reason": "الاقتباس المستخرج يبدأ في منتصف الفكرة (سؤال عن قدرة المقاتلة)، وأول جملتها تبدأ من سطر 770 «این سیستم جنگنده...»، وتنتهي الجملة الأخيرة «اینو در عمل ",
-      "source": "model"
-    },
-    {
       "point_id": "2da91f52ac9a",
       "start": 1207,
       "end": 1221,
       "complete": true,
       "lang": "ar",
       "changed_text": true,
-      "reason": "الفكرة تامة بانتهاء جملة «القرار هو في طهران»، وتبدأ من «هي تؤمر فتطاع» لأن الاقتباس الأصلي يبدأ من منتصف الجملة؛ الطول ضمن 25 ثانية (من 1208 إلى 1216",
+      "reason": "الفكرة تبدأ من «هي تؤمر فتطاع» وتنتهي بجملة «القرار هو في طهران» التي تكمل الحجة؛ المدة ضمن 25 ثانية تقريبًا (من 1203 إلى 1216 ثم 1220 تقريبًا)، والاق",
       "source": "model"
     },
     {
@@ -934,17 +920,7 @@
       "complete": true,
       "lang": "ar",
       "changed_text": true,
-      "reason": "الاقتباس المعطى يبدأ من منتصف الجملة الأولى ويتوقف قبل إتمام الفكرة؛ الفكرة التامة تبدأ من «هناك عدة اعتبارات» وتنتهي بجملة «يرتبط بالأمن القومي المصر",
-      "source": "model"
-    },
-    {
-      "point_id": "4cb860795115",
-      "start": 680,
-      "end": 690,
-      "complete": true,
-      "lang": "ar",
-      "changed_text": true,
-      "reason": "الجملة الثلاث تبدأ بـ«هذا الامر غير صحيح» وتنتهي بـ«ليس سعوديا» بعد «مضيق باب المندب»، وهي فكرة تامة مستقلة ضمن المدة المسموحة (نحو 642–687 ث)، ولا تش",
+      "reason": "الاقتباس بدأ في منتصف الفكرة عند «القرار المصري»، والفكرة التامة تبدأ من «هناك عدة اعتبارات» وتنتهي بجملة «أمن البحر الأحمر». وهي ضمن 25 ثانية تقريبًا",
       "source": "model"
     }
   ],
@@ -953,11 +929,10 @@
       "scene": 1,
       "sentence": 0,
       "video_id": "I0zYhZFcAV0",
-      "start": 29.14,
-      "end": 37.86,
+      "start": 19.64,
+      "end": 28.36,
       "channel": "Al Arabiya English",
-      "desc": "أفق رمادي مع ظهور هدف صغير في منتصف الإطار، مشهد جوي هادئ · أفق رمادي وهدف صغير في المنتصف، حركة هادئة · هدف مع خطوط تصويب تتقاطع فوقه، بداية اشتباك",
-      "fallback": true
+      "desc": "سماء رمادية وهدف في منظار التصويب، لقطة اعتراض جوي · سماء رمادية ومنظار تصويب يتتبع هدفًا جويًا · منظار تصويب يتتبع هدفًا في السماء أثناء الاعتراض"
     },
     {
       "scene": 1,
@@ -967,12 +942,7 @@
     {
       "scene": 2,
       "sentence": 0,
-      "video_id": "I0zYhZFcAV0",
-      "start": 5.94,
-      "end": 11.06,
-      "channel": "Al Arabiya English",
-      "desc": "لقطة جوية لمقاتلة في منظار التصويب وسط السماء · مقاتلة داخل إطار التصويب تتتبع هدفًا في الجو · هدف في منظار التصويب فوق السحب",
-      "fallback": true
+      "photo": "جملة مجرّدة"
     },
     {
       "scene": 6,
@@ -988,14 +958,13 @@
         "sheets": 5,
         "kinds": {
           "text_heavy": 5,
-          "event_footage": 34,
-          "other": 13,
+          "event_footage": 47,
           "graphic": 2
         },
-        "footage_relevant": 34,
-        "footage_other": 0,
-        "chains": 2,
-        "longest": 19
+        "footage_relevant": 23,
+        "footage_other": 24,
+        "chains": 1,
+        "longest": 38
       }
     },
     "sheets_used": 5,
@@ -1003,18 +972,10 @@
       {
         "video_id": "I0zYhZFcAV0",
         "start": 5,
-        "end": 12,
-        "desc": "لقطة جوية لمقاتلة في منظار التصويب وسط السماء · مقاتلة داخل إطار التصويب تتتبع هدفًا في الجو · هدف في منظار التصويب فوق السحب",
-        "channel": "Al Arabiya English",
-        "relevant": true
-      },
-      {
-        "video_id": "I0zYhZFcAV0",
-        "start": 24,
         "end": 43,
-        "desc": "أفق رمادي مع ظهور هدف صغير في منتصف الإطار، مشهد جوي هادئ · أفق رمادي وهدف صغير في المنتصف، حركة هادئة · هدف مع خطوط تصويب تتقاطع فوقه، بداية اشتباك",
+        "desc": "سماء رمادية وهدف في منظار التصويب، لقطة اعتراض جوي · سماء رمادية ومنظار تصويب يتتبع هدفًا جويًا · منظار تصويب يتتبع هدفًا في السماء أثناء الاعتراض",
         "channel": "Al Arabiya English",
-        "relevant": true
+        "relevant": false
       }
     ],
     "assign": [
@@ -1026,47 +987,80 @@
   },
   "render_dropped": [
     {
-      "point_id": "8be09bba07da",
+      "point_id": "63fd50319f8a",
       "kind": "clip",
-      "reason": "الفكرة لا تكتمل في 11 ث"
+      "reason": "الشريط يُظهر فرداد فرحزاد والاقتباس لـعلي سزاده، محلل شؤون الشرق الأوسط — حُذف المقطع"
     }
   ],
   "render_approx": [
+    {
+      "point_id": "63fd50319f8a",
+      "kind": "clip",
+      "start": 2446,
+      "end": 2453,
+      "reason": "تعذّر جلب نص الفيديو: خطأ غير متوقَّع أثناء سحب النص: HTTPSConnectionPool(host='www.google.com', port="
+    },
+    {
+      "point_id": "8be09bba07da",
+      "kind": "clip",
+      "start": 944,
+      "end": 954,
+      "reason": "تعذّر جلب نص الفيديو: خطأ غير متوقَّع أثناء سحب النص: HTTPSConnectionPool(host='www.google.com', port="
+    },
+    {
+      "point_id": "4cb860795115",
+      "kind": "clip",
+      "start": 680,
+      "end": 686,
+      "reason": "تعذّر جلب نص الفيديو: خطأ غير متوقَّع أثناء سحب النص: HTTPSConnectionPool(host='www.google.com', port="
+    },
     {
       "point_id": "1b8abc22f6b4",
       "kind": "clip",
       "start": 1000,
       "end": 1007,
-      "reason": "الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة"
+      "reason": "تعذّر جلب نص الفيديو: خطأ غير متوقَّع أثناء سحب النص: HTTPSConnectionPool(host='www.google.com', port="
     }
   ],
-  "rendered_at": "2026-10-21T18:19:39.158604+00:00",
+  "rendered_at": "2026-10-21T20:09:15.779210+00:00",
   "render_notes": [
     "### 🎬 تركيب الريل",
-    "- ⏱️ المدة: 118.9 ث",
+    "- ⏱️ المدة: 103.0 ث",
     "- 🎞️ [الملف](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-10-21/47e5af25182c.mp4) · [المعاينة](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-10-21/47e5af25182c.gif)",
-    "- ✂️ حُذف 1: clip (الفكرة لا تكتمل في 11 ث)",
-    "- ⚠️ نافذة تقديرية لمقطع فرانس 24 عربي (16:40–16:47): الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة — راجع بداية المقطع ونهايته",
-    "📏 امتد مقطع إيران إنترناشيونال إلى فكرة كاملة (20 ث)",
-    "📝 نص مقطع إيران إنترناشيونال كما نُطق",
-    "📏 امتد مقطع العربية إلى فكرة كاملة (11 ث)",
-    "📝 نص مقطع العربية كما نُطق",
-    "📏 امتد مقطع العربية إلى فكرة كاملة (15 ث)",
-    "📝 نص مقطع العربية كما نُطق",
-    "📝 نص مقطع فرانس 24 عربي كما نُطق",
-    "🎞️ لقطة الهوك: Al Arabiya English — [Saudi-Led Coalition Intercepts Houthi Missiles and Drones](https://www.youtube.com/watch?v=I0zYhZFcAV0&t=43) (43–51 ث) · 6,844 مشاهدة",
-    "🏷️ شريط القناة يحمل اسم برنامج لا شخص: فرداد فرحي — يُعرض اسم القناة وحده",
-    "👤 من شريط القناة: مصطفى بكري (Mustafa Bakry) — عضو مجلس النواب المصري",
-    "🏷️ شريط القناة يحمل اسم برنامج لا شخص: مواجهة الحوثي — يُعرض اسم القناة وحده",
-    "👤 من شريط القناة: علي البخيتي (علي البخيتي) — كاتب سياسي | لندن",
-    "🎞️ لقطات الحدث: 2 من 4 جمل (منها 2 احتياطية) (Al Arabiya English ×2) — 2 بالصورة",
-    "🎯 مقطع إيران إنترناشيونال: 2 وجوه — المتكلم بالرؤية",
-    "✂️ أُخفي شريط القناة في إيران إنترناشيونال: قُصّ أسفل 9%",
-    "✂️ أُخفي شريط القناة في العربية: قُصّ أسفل 28%",
-    "🎯 مقطع العربية: 2 وجوه — المتكلم بالرؤية",
-    "🎯 مقطع فرانس 24 عربي: 2 وجوه — المتكلم بالرؤية",
-    "✂️ أُخفي شريط القناة في فرانس 24 عربي: قُصّ أسفل 35%"
+    "- ✂️ حُذف 1: clip (الشريط يُظهر فرداد فرحزاد والاقتباس لـعلي سزاده، محلل شؤون الشرق الأوسط — حُذف المقطع)",
+    "- ⚠️ نافذة تقديرية لمقطع إيران إنترناشيونال (40:46–40:53): تعذّر جلب نص الفيديو: خطأ غير متوقَّع أثناء سحب النص: HTTPSConnectionPool(host='www.google.com', port= — راجع بداية المقطع ونهايته",
+    "- ⚠️ نافذة تقديرية لمقطع فرانس 24 عربي (15:44–15:54): تعذّر جلب نص الفيديو: خطأ غير متوقَّع أثناء سحب النص: HTTPSConnectionPool(host='www.google.com', port= — راجع بداية المقطع ونهايته",
+    "- ⚠️ نافذة تقديرية لمقطع فرانس 24 عربي (11:20–11:26): تعذّر جلب نص الفيديو: خطأ غير متوقَّع أثناء سحب النص: HTTPSConnectionPool(host='www.google.com', port= — راجع بداية المقطع ونهايته",
+    "- ⚠️ نافذة تقديرية لمقطع فرانس 24 عربي (16:40–16:47): تعذّر جلب نص الفيديو: خطأ غير متوقَّع أثناء سحب النص: HTTPSConnectionPool(host='www.google.com', port= — راجع بداية المقطع ونهايته",
+    "- 📏 امتد مقطع العربية إلى فكرة كاملة (11 ث)",
+    "- 📝 نص مقطع العربية كما نُطق",
+    "- 📏 امتد مقطع العربية إلى فكرة كاملة (15 ث)",
+    "- 📝 نص مقطع العربية كما نُطق",
+    "- 🎞️ لقطة الهوك: Al Arabiya English — [Saudi-Led Coalition Intercepts Houthi Missiles and Drones](https://www.youtube.com/watch?v=I0zYhZFcAV0&t=43) (43–52 ث) · 6,844 مشاهدة",
+    "- الشريط يُظهر فرداد فرحزاد والاقتباس لـعلي سزاده، محلل شؤون الشرق الأوسط — حُذف المقطع",
+    "- 🏷️ شريط القناة يحمل اسم برنامج لا شخص: مواجهة الحوثي — يُعرض اسم القناة وحده",
+    "- 👤 من شريط القناة: علي البخيتي (علي البخيتي) — كاتب سياسي | لندن",
+    "- 🎞️ لقطات الحدث: 1 من 4 جمل (Al Arabiya English ×1) — 3 بالصورة",
+    "- 🎯 مقطع فرانس 24 عربي: 3 وجوه — المتكلم بالرؤية",
+    "- ✂️ أُخفي شريط القناة في فرانس 24 عربي: قُصّ أسفل 27%",
+    "- ✂️ أُخفي شريط القناة في العربية: قُصّ أسفل 22%",
+    "- 🎯 مقطع العربية: 2 وجوه — المتكلم بالرؤية",
+    "- 🎯 مقطع فرانس 24 عربي: 2 وجوه — المتكلم بالرؤية"
   ],
   "reel_review_issue": 1669,
-  "render_status": "queued"
+  "render_status": "rendered",
+  "hook_video": {
+    "video_id": "I0zYhZFcAV0",
+    "start": 43,
+    "end": 52,
+    "channel": "Al Arabiya English",
+    "title": "Saudi-Led Coalition Intercepts Houthi Missiles and Drones",
+    "source": "auto",
+    "views": 6844,
+    "impact": 9,
+    "pre_ok": true,
+    "strong_start": 43,
+    "reason": "أقوى 3 ث (قوة 9)",
+    "render_version": 42
+  }
 }
