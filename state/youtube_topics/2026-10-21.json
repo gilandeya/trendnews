@@ -87,8 +87,11 @@
       "dropped_reason": null,
       "id": "4bcc7c9ba28b",
       "created_at": "2026-10-21T04:02:22.669519+00:00",
-      "selection_status": "pending",
-      "selection_issue": 1649
+      "selection_status": "attempted",
+      "selection_issue": 1649,
+      "selected_formats": [
+        "reel"
+      ]
     },
     {
       "title": "تصعيد قبل انتخابات الكونغرس الأمريكية",
@@ -116,7 +119,7 @@
       "dropped_reason": null,
       "id": "1b504f486676",
       "created_at": "2026-10-21T04:02:22.669519+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1649
     },
     {
@@ -151,7 +154,7 @@
       "dropped_reason": null,
       "id": "b3b81b77464a",
       "created_at": "2026-10-21T04:02:22.669519+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1649
     },
     {
@@ -178,7 +181,7 @@
       "dropped_reason": null,
       "id": "4680c232448e",
       "created_at": "2026-10-21T04:02:22.669519+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1649
     },
     {
@@ -205,7 +208,7 @@
       "dropped_reason": null,
       "id": "55033af89764",
       "created_at": "2026-10-21T04:02:22.669519+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1649
     },
     {
@@ -237,7 +240,7 @@
       "dropped_reason": null,
       "id": "27f5fd017245",
       "created_at": "2026-10-21T04:02:22.669519+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1649
     },
     {
@@ -265,7 +268,7 @@
       "dropped_reason": null,
       "id": "935d5af23005",
       "created_at": "2026-10-21T04:02:22.669519+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1649
     }
   ],

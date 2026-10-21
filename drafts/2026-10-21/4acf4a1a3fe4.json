@@ -1,0 +1,432 @@
+{
+  "id": "4acf4a1a3fe4",
+  "created_at": "2026-10-21T04:46:45.501724+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "المقاربة الأمنية الفرنسية وفشلها",
+  "tier": 3,
+  "blocs": [
+    "arabic",
+    "persian",
+    "turkish"
+  ],
+  "channels": [
+    "Habertürk",
+    "Iran International",
+    "فرانس 24 عربي"
+  ],
+  "agreement": "cross_source",
+  "event": "تقييم المقاربة الأمنية الحكومية الفرنسية تجاه الاحتجاجات وفشلها في ضبطها",
+  "warnings": [],
+  "run_date": "2026-10-21",
+  "arabic": {
+    "post_title": "المقاربة الأمنية الفرنسية وفشلها",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "Habertürk",
+      "Iran International",
+      "فرانس 24 عربي"
+    ]
+  },
+  "score": 10,
+  "source_videos": [],
+  "topic_id": "4bcc7c9ba28b",
+  "topic_date": "2026-10-21",
+  "script": {
+    "version": 2,
+    "narrator": "female",
+    "title": "هل تكفي المقاربة الأمنية لاحتواء الاحتجاجات في فرنسا؟",
+    "question": "ما الذي يحسم الاحتجاجات: الإجراءات الأمنية أم المعالجات الاقتصادية؟",
+    "event": "تقييم المقاربة الأمنية الحكومية الفرنسية تجاه الاحتجاجات وفشلها في ضبطها",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "هل تكفي المقاربة الأمنية لاحتواء الاحتجاجات في فرنسا؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "في 17 أكتوبر خرجت احتجاجات واسعة في فرنسا، وقدّرت المشاركة بين 500 و800 ألف شخص. الاستخبارات توقعت 200 ألف متظاهر فقط."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "core",
+        "q": 0,
+        "text": "أمن أم حلول اقتصادية لمواجهة الاحتجاجات؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "f3362f99ce86",
+        "q": 0,
+        "stance": "الحكومة تختار الأمن ومفعوله مؤقت",
+        "video_url": "https://www.youtube.com/watch?v=L1tAk9O8qAU",
+        "start": 866.0,
+        "end": 872.1,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "فرانس 24 عربي",
+        "channel_original": "فرانس 24 عربي",
+        "quote_arabic": "ما تقوم به الحكومة حالياً هو المقاربة الأمنية لا الحلول الاقتصادية والاجتماعية",
+        "language": "ar",
+        "video_published": "2026-10-19"
+      },
+      {
+        "kind": "clip",
+        "point_id": "3ea5e0a7b3dd",
+        "q": 0,
+        "stance": "لا حل دون معالجة الاقتصاد",
+        "video_url": "https://www.youtube.com/watch?v=uPHy_2cT9x4",
+        "start": 6001.0,
+        "end": 6007.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "هابر ترك",
+        "channel_original": "Habertürk",
+        "quote_arabic": "لا يمكن مواجهة هذه الاحتجاجات بنظرة أمنية وحدها، دون حل المشكلات الاقتصادية وفهم ما يريده الطلاب",
+        "language": "tr",
+        "video_published": "2026-10-20"
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "where_next",
+        "q": 1,
+        "text": "كيف تُوظَّف صور الاحتجاجات الفرنسية خارجيًا؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "525500d5154b",
+        "q": 1,
+        "stance": "روايات دعائية لتبرير القمع في إيران",
+        "video_url": "https://www.youtube.com/watch?v=wJrsWZiaeeE",
+        "start": 287.0,
+        "end": 293.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "إيران إنترناشيونال",
+        "channel_original": "Iran International",
+        "quote_arabic": "إن نظرتم إلى مجتبى ومن معه، فجميعهم أبواق دعائية",
+        "language": "fa",
+        "video_published": "2026-10-19"
+      },
+      {
+        "kind": "clip",
+        "point_id": "70ad4c4d9f94",
+        "q": 1,
+        "stance": "مقارنات زائفة أداة في الدعاية",
+        "video_url": "https://www.youtube.com/watch?v=wJrsWZiaeeE",
+        "start": 1243.0,
+        "end": 1249.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "إيران إنترناشيونال",
+        "channel_original": "Iran International",
+        "quote_arabic": "المساواة الكاذبة تقنية في منظومة الدعاية.",
+        "language": "fa",
+        "video_published": "2026-10-19"
+      },
+      {
+        "kind": "question",
+        "text": "ما الذي يحسم الاحتجاجات: الإجراءات الأمنية أم المعالجات الاقتصادية؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": []
+  },
+  "headlines": [
+    "هل تكفي المقاربة الأمنية وحدها لاحتواء الاحتجاجات في فرنسا؟",
+    "يرى حقوقي أن الحكومة الفرنسية اعتمدت الأمن لا الحلول الاقتصادية والاجتماعية",
+    "ضيف على فرانس 24 عربي: الإجراءات الأمنية مفيدة مؤقتاً فقط"
+  ],
+  "headline_selected": 0,
+  "editor_review": {
+    "at": "2026-10-21T04:47:13.431802+00:00",
+    "applied": [
+      {
+        "category": "unattributed_opinion",
+        "severity": "high",
+        "location": "headline_3",
+        "original": "قد تكون الإجراءات الأمنية مفيدة مؤقتاً فقط في مواجهة الاحتجاجات الفرنسية",
+        "fix": "ضيف على فرانس 24 عربي: الإجراءات الأمنية مفيدة مؤقتاً فقط",
+        "note": "حكم تقديري يخص رأي ضيف فرانس 24 عربي، لكنه يَرِد في العنوان بصوت المنصة بلا نسبة إلى صاحبه.",
+        "sources": []
+      }
+    ],
+    "notes": [
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "headline_2",
+        "original": "يرى حقوقي أن الحكومة الفرنسية اعتمدت الأمن لا الحلول الاقتصادية والاجتماعية",
+        "fix": "ضيف على فرانس 24 عربي: الحكومة الفرنسية اعتمدت المقاربة الأمنية لا الحلول الاقتصادية والاجتماعية",
+        "note": "المتحدث في المقطع f3362f99ce86 غير موثَّق، وشريطه «ضيف على فرانس 24 عربي» فقط؛ لا شيء في المصادر يسنده بصفة «حقوقي». وصف الصفة هنا اختراع لا تسنده المادة.",
+        "sources": [],
+        "video": ""
+      },
+      {
+        "category": "vague_attribution",
+        "severity": "high",
+        "location": "body",
+        "original": "الاستخبارات توقعت 200 ألف متظاهر فقط.",
+        "fix": "وقال ضيف على فرانس 24 عربي إن التقديرات الاستخباراتية كانت 200 ألف متظاهر.",
+        "note": "رقم التقدير الاستخباراتي ورد في قول ضيف على فرانس 24 عربي (مقطع 651ead65857d) ولم يَرِد في التغطيات الصحفية للحدث؛ عرضه في مشهد السياق كواقعة مجردة بلا نسبة غير جائز. المصادر الرسمية تحدثت عن نحو 550 ألف مشارك بتقدير الداخلية و800 ألف بتقدير المنظمين.",
+        "sources": [
+          "https://www.cbsnews.com/news/protests-france-rising-living-costs-students/",
+          "https://www.aljazeera.com/news/2026/10/18/paris-left-reeling-as-student-led-protests-turn-chaotic"
+        ]
+      },
+      {
+        "category": "vague_attribution",
+        "severity": "low",
+        "location": "body",
+        "original": "وقدّرت المشاركة بين 500 و800 ألف شخص",
+        "fix": "وقدّرت وزارة الداخلية المشاركة بنحو 550 ألفًا، فيما قدّرها المنظمون بـ800 ألف",
+        "note": "مبني للمجهول بلا جهة مُقدِّرة؛ الأرقام المنشورة هي 550 ألفًا بتقدير وزارة الداخلية و800 ألف بتقدير المنظمين والنقابات.",
+        "sources": [
+          "https://www.cbsnews.com/news/protests-france-rising-living-costs-students/",
+          "https://www.aljazeera.com/news/2026/10/18/paris-left-reeling-as-student-led-protests-turn-chaotic"
+        ]
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "في 17 أكتوبر خرجت احتجاجات واسعة في فرنسا",
+        "fix": "في السبت 17 أكتوبر/تشرين الأول 2026 خرجت احتجاجات واسعة في فرنسا",
+        "note": "التاريخ صحيح (السبت 17 أكتوبر/تشرين الأول 2026)، لكن يلزم رسم الشهر بالصيغة المزدوجة وذكر السنة في مشهد السياق.",
+        "sources": [
+          "https://www.ultrasawt.com/%D8%A7%D8%AD%D8%AA%D8%AC%D8%A7%D8%AC%D8%A7%D8%AA-17-%D8%A3%D9%83%D8%AA%D9%88%D8%A8%D8%B1-%D9%85%D9%88%D8%A7%D8%AC%D9%87%D8%A7%D8%AA-%D9%81%D9%8A-%D8%A8%D8%A7%D8%B1%D9%8A%D8%B3-%D9%88%D9%85%D8%B1%D8%B3%D9%8A%D9%84%D9%8A%D8%A7-%D9%88%D8%B9%D9%88%D8%AF%D8%A9-%D8%A7%D9%84%D8%B3%D8%AA%D8%B1%D8%A7%D8%AA-%D8%A7%D9%84%D8%B5%D9%81%D8%B1%D8%A7%D8%A1/%D9%85%D8%AD%D8%B3%D9%86-%D8%A7%D9%84%D9%82%D9%8A%D8%B4%D8%A7%D9%88%D9%8A/%D8%B3%D9%8A%D8%A7%D9%82-%D9%85%D8%AA%D8%B5%D9%84/%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9"
+        ]
+      },
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "body",
+        "original": "مقطع 525500d5154b — ضيف على إيران إنترناشيونال — «إن نظرتم إلى مجتبى ومن معه، فجميعهم أبواق دعائية»",
+        "fix": "",
+        "note": "نقطة المصدر لهذا المقطع تنسب القول إلى «مقدّم البرنامج» لا إلى ضيف، فصفة المتحدث في الشريط متعارضة مع المصدر. كما أن الاسم الوارد في الاقتباس «مجتبى» مجرد من أي تعريف، فهوية صاحبه غير محدَّدة للقارئ. يلزم تحقق بشري قبل النشر.",
+        "sources": [],
+        "video": ""
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "كيف تُوظَّف صور الاحتجاجات الفرنسية خارجيًا؟",
+        "fix": "ضيوف في إيران إنترناشيونال: صور الاحتجاجات تُستخدم في الدعاية",
+        "note": "صيغة السؤال تفترض حصول التوظيف كأمر مسلَّم، بينما هو ادّعاء ضيوف/مقدّم على قناة إيران إنترناشيونال ولم يُنسب في سطر الراوي.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "ما الذي يحسم الاحتجاجات: الإجراءات الأمنية أم المعالجات الاقتصادية؟",
+        "fix": "",
+        "note": "السؤال محايد في صياغته، لكن المقطعين المتاحين عن هذا المحور (فرانس 24 عربي وهابر ترك) يقولان الرأي نفسه (الأمن وحده لا يكفي)، فلا يوجد طرف مقابل في الطيف؛ يلزم مقطع يمثّل الرأي الآخر أو تضييق السؤال.",
+        "sources": []
+      }
+    ],
+    "error": null,
+    "searches": 2,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "reel_bg": {
+    "url": "https://imgs.search.brave.com/bgOuF0PkSWV6Qq3Cv-Gb_UogpgZhzb5rOhrfVc0gpWs/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9pMS5o/ZXNwcmVzcy5jb20v/d3AtY29udGVudC91/cGxvYWRzLzIwMjUv/MDkvZ2Vuei1tYW5p/ZmVzdGF0aW9uLWNh/c2FibGFuY2EtNC5q/cGc",
+    "kind": "web_search",
+    "publisher": "www.hespress.com"
+  },
+  "hook_candidates": [
+    {
+      "video_id": "gjTlB4WYCl8",
+      "title": "'A real escalation': France protests boil over into violent riots",
+      "channel": "CNN",
+      "views": 414717,
+      "duration": 1141,
+      "published": "2026-10-19T13:34:50Z"
+    },
+    {
+      "video_id": "3k4wTaq1Fsc",
+      "title": "#France: Police and protesters clash violently over the weekend • FRANCE 24 English",
+      "channel": "FRANCE 24 English",
+      "views": 16140,
+      "duration": 91,
+      "published": "2026-10-19T13:25:41Z"
+    },
+    {
+      "video_id": "QzLcYlSzwME",
+      "title": "Big News !! Massive Protest in France | Protesters Clash With Police | Capital TV",
+      "channel": "Capital TV",
+      "views": 1538,
+      "duration": 358,
+      "published": "2026-10-19T08:37:33Z"
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-10-19T00:00:00Z",
+          "2026-10-23T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "شرطة مكافحة الشغب تفرق متظاهرين بباريس",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "French riot police clash with protesters in Paris",
+            "raw": 30,
+            "channel_ok": 4
+          },
+          {
+            "query": "CRS forces antiémeutes affrontements manifestants France",
+            "raw": 0,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 4,
+        "judged_ok": 3,
+        "rejected_channels": [
+          "Times Now",
+          "CBS Pittsburgh",
+          "The Scottish Sun",
+          "Hindustan Times",
+          "ET Now",
+          "IndiaTV News English",
+          "KTVU FOX 2 San Francisco",
+          "India Global Review"
+        ]
+      }
+    ],
+    "picked": [
+      "gjTlB4WYCl8",
+      "3k4wTaq1Fsc",
+      "QzLcYlSzwME"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "في 17 أكتوبر خرجت احتجاجات واسعة في فرنسا، وقدّرت المشاركة بين 500 و800 ألف شخص.",
+      "visual": "متظاهرون بالآلاف في شوارع فرنسا"
+    },
+    {
+      "scene": 1,
+      "sentence": 1,
+      "text": "الاستخبارات توقعت 200 ألف متظاهر فقط.",
+      "visual": ""
+    },
+    {
+      "scene": 2,
+      "sentence": 0,
+      "text": "أمن أم حلول اقتصادية لمواجهة الاحتجاجات؟",
+      "visual": ""
+    },
+    {
+      "scene": 5,
+      "sentence": 0,
+      "text": "كيف تُوظَّف صور الاحتجاجات الفرنسية خارجيًا؟",
+      "visual": ""
+    }
+  ],
+  "quote_retranslated": [
+    "f3362f99ce86",
+    "651ead65857d",
+    "525500d5154b",
+    "b45656e90e5d",
+    "df3b1bfcfe87",
+    "70ad4c4d9f94",
+    "3ea5e0a7b3dd"
+  ],
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "f3362f99ce86",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "first_person": false,
+        "quote_arabic_fixed": "ما تقوم به الحكومة حالياً هو المقاربة الأمنية لا الحلول الاقتصادية والاجتماعية",
+        "channel": "فرانس 24 عربي"
+      },
+      {
+        "point_id": "651ead65857d",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "first_person": false,
+        "quote_arabic_fixed": "توقعت الاستخبارات نزول 200 ألف فنزل أكثر من نصف مليون",
+        "channel": "فرانس 24 عربي"
+      },
+      {
+        "point_id": "525500d5154b",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "first_person": false,
+        "quote_arabic_fixed": "إن نظرتم إلى مجتبى ومن معه، فجميعهم أبواق دعائية",
+        "channel": "إيران إنترناشيونال"
+      },
+      {
+        "point_id": "b45656e90e5d",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "first_person": false,
+        "quote_arabic_fixed": "تتراوح التقديرات بين 500 ألف و800 ألف شخص في فرنسا كلها",
+        "channel": "إيران إنترناشيونال"
+      },
+      {
+        "point_id": "df3b1bfcfe87",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "first_person": false,
+        "quote_arabic_fixed": "لم يقع أي قتيل.",
+        "channel": "إيران إنترناشيونال"
+      },
+      {
+        "point_id": "70ad4c4d9f94",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "first_person": false,
+        "quote_arabic_fixed": "المساواة الكاذبة تقنية في منظومة الدعاية.",
+        "channel": "إيران إنترناشيونال"
+      },
+      {
+        "point_id": "3ea5e0a7b3dd",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "first_person": false,
+        "quote_arabic_fixed": "لا يمكن مواجهة هذه الاحتجاجات بنظرة أمنية وحدها، دون حل المشكلات الاقتصادية وفهم ما يريده الطلاب",
+        "channel": "هابر ترك"
+      }
+    ]
+  },
+  "has_photo": false,
+  "has_news_photo": false,
+  "review_issue": 1650,
+  "stage2_issue": 1650
+}
