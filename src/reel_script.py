@@ -998,7 +998,7 @@ def _audit_speakers(draft: dict, valid: list[dict], member_points: list[dict], c
 
 AUDIT_TOOL = {
     "name": "audit_clips",
-    "description": "يُبلِّغ لكل مقطع: هل نُسب الكلام إلى متحدثه نفسه، وهل الترجمة بصيغة المتكلم",
+    "description": "يُبلِّغ لكل مقطع: هل نُسب الكلام إلى متحدثه نفسه، وهل الترجمة أمينة للأصل بمعناها وضمائرها",
     "input_schema": {
         "type": "object",
         "properties": {"clips": {"type": "array", "items": {
@@ -1006,9 +1006,9 @@ AUDIT_TOOL = {
             "properties": {"point_id": {"type": "string"},
                            "speaker_said_it": {"type": "string", "enum": ["yes", "no", "unsure"]},
                            "other_name": {"type": "string"},
-                           "first_person": {"type": "boolean"},
+                           "faithful": {"type": "boolean"},
                            "quote_arabic_fixed": {"type": "string"}},
-            "required": ["point_id", "speaker_said_it", "first_person"]}}},
+            "required": ["point_id", "speaker_said_it", "faithful"]}}},
         "required": ["clips"],
     },
 }
@@ -1025,8 +1025,8 @@ def _audit_create(client, **kwargs):
 
 
 def audit_clips(clips: list[dict], cfg: Any, client=None) -> list[dict]:
-    """نداء Haiku واحد مجمَّع لكل المقاطع الصالحة (Issue #1642، Q1): من قال الكلام وهل الترجمة بصيغة المتكلم. يعيد صفوفًا
-    [{point_id, speaker_said_it, other_name, first_person, quote_arabic_fixed}] لما بلّغ به النموذج؛ يرفع عند أي عطل
+    """نداء Haiku واحد مجمَّع لكل المقاطع الصالحة (Issue #1642، Q1): من قال الكلام وهل الترجمة أمينة للأصل (Q5: كان السؤال «بصيغة
+    المتكلم» فقلب الضمائر). يعيد صفوفًا [{point_id, speaker_said_it, other_name, faithful, quote_arabic_fixed}] لما بلّغ به النموذج؛ يرفع عند أي عطل
     أو مخرج غير صالح (يلتقطه المستدعي فلا يستبعد شيئًا)."""
     acfg = cfg.path("reel.script.clip_audit", {}) or {}
     blocks = [f"- point_id={c['point_id']}\n  القناة: {c.get('channel_display', '')}\n  المتحدث: {c.get('speaker_text', '')}\n"
@@ -1044,11 +1044,14 @@ def audit_clips(clips: list[dict], cfg: Any, client=None) -> list[dict]:
                 break
             out = []
             for r in rows:
+                # first_person: مخرج الإصدار القديم (Q1) يُقبل توافقًا حين يغيب faithful (Q5)
+                ok_flag = r.get("faithful") if isinstance(r, dict) and isinstance(r.get("faithful"), bool) \
+                    else (r.get("first_person") if isinstance(r, dict) else None)
                 if isinstance(r, dict) and r.get("point_id") in ids and r.get("speaker_said_it") in ("yes", "no", "unsure") \
-                        and isinstance(r.get("first_person"), bool):
+                        and isinstance(ok_flag, bool):
                     out.append({"point_id": r["point_id"], "speaker_said_it": r["speaker_said_it"],
                                 "other_name": " ".join(str(r.get("other_name") or "").split()),
-                                "first_person": r["first_person"],
+                                "faithful": ok_flag,
                                 "quote_arabic_fixed": " ".join(str(r.get("quote_arabic_fixed") or "").split())})
             if out:
                 return out
@@ -1057,7 +1060,7 @@ def audit_clips(clips: list[dict], cfg: Any, client=None) -> list[dict]:
 
 
 def apply_audit(valid: list[dict], rows: list[dict], cfg: Any) -> tuple[list[dict], list[str], list[dict]]:
-    """ينفّذ حكم الفحص: no ← استبعاد باسم الآخر؛ first_person=false ← الترجمة الجديدة محل القديمة في نسخة المقطع (ملف النقاط لا يُمسّ)
+    """ينفّذ حكم الفحص: no ← استبعاد باسم الآخر؛ faithful=false ← الترجمة الأمينة الجديدة محل القديمة في نسخة المقطع (ملف النقاط لا يُمسّ)
     وبلا ترجمة استبعاد؛ unsure يبقى (يُسجَّل في صفوف clip_audit للعرض). يعيد (الصالحة، المعاد ترجمتها، المستبعدة)."""
     texts = cfg.path("reel.texts", {}) or {}
     by = {r["point_id"]: r for r in rows}
@@ -1072,7 +1075,7 @@ def apply_audit(valid: list[dict], rows: list[dict], cfg: Any) -> tuple[list[dic
             dropped.append({"point_id": c["point_id"], "channel": c.get("channel_display", ""),
                             "reason": (texts.get("clip_drop_mismatch") or "ملخّص النقطة ينسبها إلى شخص آخر: {name}").format(
                                 name=r["other_name"] or "—")})
-        elif not r["first_person"]:
+        elif not r["faithful"]:
             if r["quote_arabic_fixed"]:
                 out.append(dict(c, quote_arabic=r["quote_arabic_fixed"]))
                 redone.append(c["point_id"])
@@ -1088,7 +1091,8 @@ def apply_audit(valid: list[dict], rows: list[dict], cfg: Any) -> tuple[list[dic
 # جديد يُكتب هنا ولا يُضاف إليها يضيع بين الذاكرة والقرص بلا أي خطأ (هكذا ضاعت الخلفية والهوك وخطة اللقطات)؛ g371 يفحص ذلك.
 SCRIPT_KEYS = ("script", "script_status", "script_error", "headlines", "headline_selected", "warnings", "editor_review",
                "name_corrections", "name_unresolved", "names_audit", "reel_bg", "hook_candidates", "hook_search",
-               "broll_plan", "broll_plan_error", "quote_retranslated", "clip_dropped", "clip_audit")
+               "broll_plan", "broll_plan_error", "quote_retranslated", "clip_dropped", "clip_audit",
+               "editor_revision")
 
 
 def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article_text: str, unresolved: list,
@@ -1098,7 +1102,8 @@ def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article
     from . import reel_editor
     valid = valid_clips(member_points, unresolved, cfg)
     draft.pop("script_error", None)
-    for key in ("name_corrections", "name_unresolved", "names_audit", "quote_retranslated", "clip_dropped", "clip_audit"):
+    for key in ("name_corrections", "name_unresolved", "names_audit", "quote_retranslated", "clip_dropped", "clip_audit",
+                "editor_revision"):
         draft.pop(key, None)  # إعادة كتابة تبدأ سجلاتها من جديد فلا تتراكم عن محاولة سابقة
 
     def _insufficient(clips: list[dict]) -> str:
