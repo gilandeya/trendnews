@@ -2358,3 +2358,20 @@ instead.
 - **ترجمة غير العربي سطرًا:** `quote_states(layout, mode)` و`quote_frames(..., mode)`؛ مقطع `language != "ar"` يظهر كل سطر كاملًا عند زمن أول كلمة فيه، والعربي كلمة كلمة؛
   يُحفظ `render_crops[i].quote_mode`.
 - **الترجمة المحروقة:** `lower_graphics.system` يعدّ أي نص مكتوب على الفيديو في نصفه الأسفل رسومًا، و`classify_system` يجعل ثانية يغطيها نص كبير `text_heavy`.
+
+## ترجمة أمينة للأصل و«برأيك..» منطوقة (Issue #1658، Q5) — `src/reel_script.py`، `src/reel_render.py`
+
+الحادثة (الريل d35c989fade1، #1657): قاعدة «بصيغة المتكلم» (Q1) فهمها الاستخراج تحويلًا لكل ضمير فصار «حزبه» ← «حزبي» و«خسرت إسرائيل» ←
+«خسرتُ إسرائيل»، والفحص كان يسأل «هل هي بصيغة المتكلم؟» لا «هل هي أمينة؟» فأجازها. الشاهد `tests/fixtures/reel/1657/points.json`؛
+g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `render_version` = 39.
+
+- **الاستخراج:** `prompts/youtube_extract.md` يلزم `quote_arabic` ترجمةً أمينة بمعنى الأصل وضمائره، بلا عبارة نقل ولا اسم المتحدث، ومثالا الحادثة سلبيان.
+- **الفحص:** حقل `faithful` يحل محل `first_person` في `AUDIT_TOOL` ونظام `reel.script.clip_audit`؛ `faithful=false` مع `quote_arabic_fixed` ← ترجمة جديدة
+  و`quote_retranslated`، وبلا ترجمة ← استبعاد (`reel.texts.clip_drop_reported`)؛ سطر العرض «🔁 صُحّحت ترجمة مقطع {القناة}». مخرج قديم بـ`first_person`
+  وحده يُقبل مكان `faithful` توافقًا.
+- **«برأيك..»:** بحجم السؤال نفسه (`closing_label_size`، حُذف `closing.label_size`) بالذهبي. الراوي يقرؤها أولًا ثم وقفة `reel.render.closing.label_pause`
+  (0.6 ث) ثم السؤال؛ صوتاهما يُوصلان بصمت الوقفة في ملف واحد يبدأ عند `plan["voice"]`. `closing_plan(..., label_seconds=)` تضيف نطقها والوقفة
+  (بلا نطق يبقى الحساب القديم) وتعيد `plan["question"]` = بدء كلمات السؤال؛ `word_drop_frames(label_at=)` تُظهر «برأيك..» مع نطقها لا مع أول كلمة.
+  `closing_question_text` لم تتغير.
+- **إصلاحات صغيرة:** `editor_revision` في `SCRIPT_KEYS` (خطأ R5d3 نفسه: E1 لا يصل القرص) · `pick_hook_candidates` يسقط مرشّحًا بعنوان مطابق (بعد `clean_title`
+  والمسافات وحالة الأحرف) ويبقى الأعلى مشاهدة · `render_crops[i]` لمقطع اللوحة يحمل `quote_mode`/`quote_sync` (تُكتبان بعد `_clip_layers`).

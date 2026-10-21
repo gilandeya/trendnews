@@ -1661,7 +1661,8 @@ def word_layout(cfg, text: str, top: int, size_key: str = "hook") -> dict:
 
 
 def word_drop_frames(cfg, text: str, times: list[float], seconds: float, top: int, tmp: Path, tag: str,
-                     size_key: str = "hook", label: Image.Image | None = None) -> list[tuple[Path, float]]:
+                     size_key: str = "hook", label: Image.Image | None = None,
+                     label_at: float | None = None) -> list[tuple[Path, float]]:
     """تيار حالات PNG [(ملف، مدة)] لعنوان تنزل كلماته: الكلمة k تبدأ عند times[k] فتنزل من words.drop_px بكسل فوق موضعها النهائي
     مع شفافية 0←1 خلال words.drop ثانية بتسارع ease-out، وبقية الكلمات ثابتة في مواضعها؛ السطر لا يتحرك. لكل إطار زمنه
     البدئي (لا نهايته) فلا تظهر كلمة قبل زمنها. الإطارات المتطابقة تُدمج في مدة واحدة. مشتركة مع السؤال الأخير في P1a-2."""
@@ -1676,15 +1677,18 @@ def word_drop_frames(cfg, text: str, times: list[float], seconds: float, top: in
     prev_key = None
     for f in range(n_total):
         t = f / fps
-        key = tuple(round(_ease_out(min(max((t - tm) / drop, 0.0), 1.0)), 3) if t >= tm else -1.0
-                    for tm in times[:len(tiles)])
+        eases = tuple(round(_ease_out(min(max((t - tm) / drop, 0.0), 1.0)), 3) if t >= tm else -1.0
+                      for tm in times[:len(tiles)])
+        # «برأيك..» تظهر مع أول كلمة (P1a-2)، أو عند label_at إن حُدِّد: منطوقة قبل السؤال بوقفة (Q5)
+        lab = label is not None and ((t >= label_at) if label_at is not None else any(e >= 0 for e in eases))
+        key = (lab, *eases)
         if key == prev_key:
             frames[-1] = (frames[-1][0], frames[-1][1] + 1 / fps)
             continue
         img = base.copy()
-        if label is not None and any(e >= 0 for e in key):
-            img.alpha_composite(label)      # «برأيك..» تظهر مع أول كلمة (الختام، P1a-2)
-        for (tile, (cx, cy)), e in zip(tiles, key):
+        if lab:
+            img.alpha_composite(label)
+        for (tile, (cx, cy)), e in zip(tiles, eases):
             if e < 0:
                 continue
             if e < 1:
@@ -1697,24 +1701,30 @@ def word_drop_frames(cfg, text: str, times: list[float], seconds: float, top: in
     return frames
 
 
-def closing_label_layer(cfg) -> tuple[Image.Image, int]:
-    """طبقة «برأيك..» الذهبية (reel.texts.closing_label) بخط display وحجم closing.label_size متمركزة، أعلى حبرها عند closing.text_top.
+def closing_label_size(cfg, question: str) -> int:
+    """حجم خط «برأيك..»: حجم خط السؤال تحتها كما يحسبه word_layout (sizes.question) لسطره الأول، فلا تصغر عنه (Q5)."""
+    return int(word_layout(cfg, question, 0, "question")["font"].size)
+
+
+def closing_label_layer(cfg, question: str) -> tuple[Image.Image, int]:
+    """طبقة «برأيك..» الذهبية (reel.texts.closing_label) بخط display وبحجم السؤال نفسه متمركزة، أعلى حبرها عند closing.text_top.
     يعيد (الطبقة الشفافة، y الذي يبدأ منه السؤال = أسفل حبرها + closing.label_gap)."""
     cl = cfg.path("reel.render.closing")
     p = _Pen(cfg, [], transparent=True)
     text = cfg.path("reel.texts.closing_label")
-    font = p.fnt(text, "display", int(cl["label_size"]))
+    font = p.fnt(text, "display", closing_label_size(cfg, question))
     top0 = p.ink(text, font, (p.cx, 0), "ma")[1]
     y = int(cl["text_top"]) - top0
     imaging.draw_text(p.d, (p.cx, y), text, font, p.gold, anchor="ma")
     return p.img, int(p.ink(text, font, (p.cx, y), "ma")[3]) + int(cl["label_gap"])
 
 
-def closing_text_frames(cfg, question: str, times: list[float], seconds: float, tmp: Path, tag: str) -> list[tuple[Path, float]]:
+def closing_text_frames(cfg, question: str, times: list[float], seconds: float, tmp: Path, tag: str,
+                        label_at: float | None = None) -> list[tuple[Path, float]]:
     """تيار حالات نص الختام: «برأيك..» بالذهبي فوق السؤال الذي تنزل كلماته بأزمنة times (word_drop_frames بحجم sizes.question).
-    لا دائرة ذهبية ولا «؟» منفصلة ولا «شاركونا» (Issue #1602)."""
-    label, top = closing_label_layer(cfg)
-    return word_drop_frames(cfg, question, times, seconds, top, tmp, tag, size_key="question", label=label)
+    لا دائرة ذهبية ولا «؟» منفصلة ولا «شاركونا» (Issue #1602). label_at زمن ظهور «برأيك..» (مع نطقها، Q5) وإلا مع أول كلمة."""
+    label, top = closing_label_layer(cfg, question)
+    return word_drop_frames(cfg, question, times, seconds, top, tmp, tag, size_key="question", label=label, label_at=label_at)
 
 
 def _drop(dropped: list, scene: dict, reason: str) -> None:
@@ -2845,15 +2855,17 @@ def closing_question_text(q: str, cfg) -> str:
     return text
 
 
-def closing_plan(question_seconds: float, cfg, lead: float) -> dict:
+def closing_plan(question_seconds: float, cfg, lead: float, label_seconds: float = 0.0) -> dict:
     """أزمنة مشهد الختام نسبةً إلى بدايته (دالة خالصة). voice: بدء الراوي قراءة السؤال؛ logo: بدء نزول الشعار من الزاوية وبدء اختفاء
     السؤال؛ info_in: استقرار الشعار وبدء ظهور المعلومات تحته؛ info_out: بدء اختفائها؛ total: مدة المشهد. lead مدة الانتقال إلى المشهد."""
     cl, oc, hk = cfg.path("reel.render.closing"), cfg.path("reel.render.outro"), cfg.path("reel.render.hook")
     voice = float(lead) + float(hk["voice_delay"])
-    logo = voice + float(question_seconds) + float(cl["question_tail"])
+    # Q5: الراوي يقرأ «برأيك» (label_seconds بصمتها) ثم وقفة label_pause ثم السؤال؛ بلا نطق لها (0) يبقى الحساب القديم حرفًا
+    question = voice + (float(label_seconds) + float(cl["label_pause"]) if label_seconds > 0 else 0.0)
+    logo = question + float(question_seconds) + float(cl["question_tail"])
     info_in = logo + float(oc["logo_move"])
     info_out = info_in + float(cl["info_in"]) + float(cl["info_hold"])
-    return {"lead": float(lead), "voice": voice, "logo": logo, "info_in": info_in, "info_out": info_out,
+    return {"lead": float(lead), "voice": voice, "question": question, "logo": logo, "info_in": info_in, "info_out": info_out,
             "total": info_out + float(cl["info_out"])}
 
 
@@ -3040,15 +3052,27 @@ def _closing_scene(i: int, scene: dict, channels: str, credit: str, hook_info: d
     rcfg, cl = cfg.path("reel.render"), cfg.path("reel.render.closing")
     w, h, fps = int(rcfg["width"]), int(rcfg["height"]), rcfg["fps"]
     text = closing_question_text(scene.get("text", ""), cfg)
+    # Q5: «برأيك» تُقرأ أولًا ثم وقفة label_pause ثم السؤال؛ صوتاهما يُوصلان بصمت الوقفة في ملف واحد يبدأ عند plan[voice]
+    label_text = str(cfg.path("reel.texts.closing_label") or "").strip(" .…")
+    label_audio, lab_s = None, 0.0
+    if label_text:
+        label_audio, lparts = _speech(label_text, voice, cfg, deps, tmp, f"s{i:02d}l")
+        lab_s = sum(d for _, d in lparts)
     audio, parts = _speech(text, voice, cfg, deps, tmp, f"s{i:02d}")
     q = sum(d for _, d in parts)
-    plan = closing_plan(q, cfg, lead)
+    plan = closing_plan(q, cfg, lead, label_seconds=lab_s)
+    if label_audio is not None:
+        joined = tmp / f"closing_{i}_voice.wav"
+        deps.run(_base("-i", str(label_audio), "-f", "lavfi", "-t", _fmt(float(cl["label_pause"])), "-i",
+                       f"anullsrc=r={rcfg.get('audio_rate', 48000)}:cl=stereo", "-i", str(audio), "-filter_complex",
+                       "[0:a][1:a][2:a]concat=n=3:v=0:a=1[a]", "-map", "[a]", str(joined)))
+        audio = joined
     total = plan["total"]
-    times = narration_word_times(parts, plan["voice"], cfg)
+    times = narration_word_times(parts, plan["question"], cfg)
     if len(times) != len(text.split()):
         # التشكيل قد يغيّر عدد الكلمات: يوزَّع الزمن على كلمات السؤال المعروض بالحروف على مدة الكلام كله
-        times = narration_word_times([(text, q)], plan["voice"], cfg)
-    qframes = closing_text_frames(cfg, text, times, total, tmp, f"cq{i}")
+        times = narration_word_times([(text, q)], plan["question"], cfg)
+    qframes = closing_text_frames(cfg, text, times, total, tmp, f"cq{i}", label_at=plan["voice"] if label_text else None)
     lst = tmp / f"closing_{i}_words.txt"
     lst.write_text("".join(f"file '{f}'\nduration {_fmt(d)}\n" for f, d in qframes) + f"file '{qframes[-1][0]}'\n", encoding="utf-8")
     info_png = _save(frame_outro(cfg, channels, credit=credit, transparent=True), tmp / f"closing_info_{i}.png")
@@ -3285,6 +3309,10 @@ def _panel_scene(members: list[tuple[int, dict]], clips: dict, out: Path, cfg, d
         tile_expr, frame_expr = _panel_crops(clip, crop, scene, scene.get("q"), lay["tiles"][k] if n >= 2 else None, lay["frame"],
                                              cfg, deps, notes)
         overlays, qframes = _clip_layers(i, scene, clip, cfg, deps, tmp, speakers, notes, cover=False)
+        # Q5: _prepare_crop بنى السجل قبل أن يضبط _clip_layers وضع الترجمة وتزامنها، فتُكتبان فيه الآن
+        for key in ("quote_sync", "quote_mode"):
+            if clip.get(key) and isinstance(clip.get("crop"), dict):
+                clip["crop"][key] = clip[key]
         prepared.append((tile_expr, frame_expr, overlays, qframes))
     vg: list[str] = []
     if n >= 2:
