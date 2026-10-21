@@ -2343,3 +2343,18 @@ instead.
     - الهوك ولقطات الجمل (`_hook_crop`): ارتفاع القصّ `top × sh` بعرض ×9/16.
     - v1 (`_clip_scene`): `top < 1` يجعل الغطاء المعتم `cover = True`.
   - **الحفظ والتعليق:** يُحفظ `lower_graphics` في `render_crops`، وسطر «✂️ أُخفي شريط القناة…» أو «⚠️ تعذّر تحديد شريط…» مرة لكل فيديو. الإعداد `reel.render.lower_graphics`.
+
+## منظورات مختلفة وترجمة سطرًا كاملًا (Issue #1654، Q4) — `src/reel_script.py`، `src/reel_render.py`
+
+الحادثة (الريل 4acf4a1a3fe4، #1651): إجابتان بالزاوية نفسها ثم حُذفت إحداهما عند التركيب فبقي سؤال بإجابة واحدة، وسؤال ثانٍ خرج عن موضوع فرنسا، وترجمة
+محروقة إنجليزية ظهرت في لقطة الحدث. قرار صاحب المشروع: الاتفاق جائز والمطلوب منظورات مختلفة. الشاهد `tests/fixtures/reel/1651/`؛ g547–g552 في
+`tests/test_guards_golden.py:test_reel_perspectives_q4_guards`. `render_version` = 38.
+
+- **الزاوية بحكم الكاتب والكود ينفّذ:** `REEL_TOOL_V2` لكل إجابة `angle` و`repeats` وللأداة `single_angle`/`single_angle_reason`. `validate_v2`: `repeats: true`
+  أو سؤال core تتساوى زوايا إجاباته ← «إجابة تكرر زاوية سابقة في سؤال «…»» (إعادة واحدة)؛ غياب `angle` لا يُرفض. `single_angle: true` ← `write_script` تعيد None
+  بنص `reel.texts.single_angle` بلا إعادة. البرومبت ومعه `editor.system_extra.reel` انتقلا من «الخلاف» إلى «منظورات مختلفة»؛ والزاوية تظهر للمراجع في سطر `scene_stance`.
+- **حذف سؤال بإجابة واحدة (`reel_render._prune_mismatched`):** سؤال بقي له أقل من `reel.render.min_answers` (2) بعد حارس القائل وكان له ≥ 2 في السيناريو يُحذف كله
+  (بطاقته ولوحته) مع سطر `drop_question_min`؛ والمكتوب أصلًا بإجابة واحدة لا يُمسّ. إن لم يبقَ مقطع ← `RuntimeError(fail_min_answers)`.
+- **ترجمة غير العربي سطرًا:** `quote_states(layout, mode)` و`quote_frames(..., mode)`؛ مقطع `language != "ar"` يظهر كل سطر كاملًا عند زمن أول كلمة فيه، والعربي كلمة كلمة؛
+  يُحفظ `render_crops[i].quote_mode`.
+- **الترجمة المحروقة:** `lower_graphics.system` يعدّ أي نص مكتوب على الفيديو في نصفه الأسفل رسومًا، و`classify_system` يجعل ثانية يغطيها نص كبير `text_heavy`.
