@@ -82,6 +82,20 @@ def event_text(script: dict, draft: dict) -> str:
     return " — ".join(str(p) for p in parts if p)
 
 
+def subject_text(script: dict, draft: dict) -> str:
+    """موضوع الريل (Issue #1662، Q7): السؤال الرئيس script.title ثم سياقه (مشهد narration بـrole == "context") إن وُجد. الحدث
+    وحده كان يُفهم عسكريًا فيُرفض ما يُظهر الطرف الذي يسأل الريل عن أثره عليه (ناخبون لريل عن أثر التصعيد على الانتخابات)."""
+    ctx = next((str(sc.get("text") or "") for sc in (script or {}).get("scenes") or []
+                if isinstance(sc, dict) and sc.get("kind") == "narration" and sc.get("role") == "context"), "")
+    return " — ".join(p for p in (str((script or {}).get("title") or ""), ctx) if p)
+
+
+def reel_event(script: dict, draft: dict) -> str:
+    """ما يُرسل للنماذج الثلاثة وtopic_hook: الحدث كما كان ثم «سؤال الريل» تحت عنوانه (موضوع فارغ ← الحدث وحده)."""
+    event, subject = event_text(script, draft), subject_text(script, draft)
+    return f"{event}\nسؤال الريل: {subject}" if subject else event
+
+
 def call_judge_titles(items: list[dict], event: str, cfg, client=None) -> dict:
     """نداء Haiku واحد على عناوين الباقين وقنواتهم ← {id: {relevant, footage}}؛ عنوان لم يُحكم عليه يُعدّ مرفوضًا."""
     hcfg = cfg.path("reel.hook_search")
@@ -103,7 +117,7 @@ def call_make_queries(script: dict, draft: dict, cfg, client=None, broad: bool =
     resp = llm.create(client or _client(), cfg=cfg, model=hcfg.get("model", "haiku"), max_tokens=int(hcfg.get("queries_max_tokens", 400)),
                       system=hcfg.get("queries_system_broad" if broad else "queries_system", ""), tools=[MAKE_QUERIES_TOOL],
                       tool_choice={"type": "tool", "name": MAKE_QUERIES_TOOL["name"]},
-                      messages=[{"role": "user", "content": "الحدث: " + event_text(script, draft)}])
+                      messages=[{"role": "user", "content": "الحدث: " + reel_event(script, draft)}])
     qs = _tool_input(resp, MAKE_QUERIES_TOOL["name"]).get("queries")
     out = [" ".join(str(q).split()) for q in qs or [] if str(q).strip()]
     if not out:
@@ -193,7 +207,7 @@ def _attempt(draft: dict, script: dict, topic_date: str, cfg, deps: HookDeps, br
     if not short:
         return [], diag
     verdicts = deps.judge_titles([{"video_id": c["video_id"], "title": c["title"], "channel": c["channel"]} for c in short],
-                                 event_text(script, draft), cfg) or {}
+                                 reel_event(script, draft), cfg) or {}
     judged = [c for c in short if (verdicts.get(c["video_id"]) or {}).get("relevant") is True
               and (verdicts.get(c["video_id"]) or {}).get("footage") is True]
     diag["judged_ok"] = len(judged)
@@ -388,7 +402,7 @@ def scan_candidates(draft: dict, script: dict, cands: list[dict], cfg, deps, tmp
     اختيار الهوك نفسه لا يتغير (أول scan_seconds ثانية وميزانية max_sheets الخاصة به)."""
     hcfg = cfg.path("reel.hook_search")
     state = state if state is not None else ScanState()
-    event = event_text(script, draft)
+    event = reel_event(script, draft)
     out: dict = {"errors": 0}
     found: list = []
     sheets_left = int(hcfg.get("max_sheets", 12))
@@ -536,7 +550,7 @@ def topic_hook(chains: list[dict], cands: list[dict], cfg, deps=None, script: di
     if not long_ones or deps is None or getattr(deps, "assign_broll", None) is None:
         return None, list(chains), []
     script, draft = script or {}, draft or {}
-    item = {"n": 0, "dur": cap, "text": str(script.get("title") or draft.get("title") or ""), "visual": event_text(script, draft)}
+    item = {"n": 0, "dur": cap, "text": str(script.get("title") or draft.get("title") or ""), "visual": reel_event(script, draft)}
     try:
         raw = deps.assign_broll([item], long_ones, cfg) or []
     except Exception as exc:  # noqa: BLE001 -- الهوك الاحتياطي تحسين: يبقى الهوك بصورة الخبر
@@ -607,7 +621,7 @@ def scan_broll(draft: dict, script: dict, cands: list[dict], cfg, deps, tmp: Pat
     صفيحة لكل التركيب (ما صرفه الهوك محسوب). لا يُنزَّل مرشّح نزل أو فشل سابقًا. يعيد {chains, errors}؛ السلاسل تستبعد نافذة الهوك."""
     bcfg = cfg.path("reel.broll")
     hcfg = cfg.path("reel.hook_search")
-    event = event_text(script, draft)
+    event = reel_event(script, draft)
     scan_s, step = int(bcfg.get("scan_seconds", 600)), max(int(bcfg.get("step", 2)), 1)
     min_s = int(bcfg.get("min_seconds", 3))
     budget = int(bcfg.get("max_sheets", 30)) - state.sheets_used
