@@ -45,6 +45,12 @@ class ReelAdapter(editor.Adapter):
             draft["headlines"] = headlines
             draft["headline_selected"] = 0
 
+    def revision_errors(self, old_body: str, new_body: str) -> list[str]:
+        """جولة التصحيح (E1) تحافظ على أرقام السطور: apply_lines تتجاهل السطر المحذوف بصمت فيبدو الحذف سليمًا وهو يكسر البنية."""
+        import re
+        nums = lambda b: [m.group(1) for m in re.finditer(r"^\[(\d+)\]", b or "", re.M)]  # noqa: E731
+        return [] if nums(old_body) == nums(new_body) else ["أرقام السطور [n] لم تُحفظ كما هي"]
+
     def article_lines(self, draft: dict) -> list[str]:
         title, body, _ = self.read(draft)
         return [f"# {title}", body, "", "سطور المقاطع (للقراءة فقط):",

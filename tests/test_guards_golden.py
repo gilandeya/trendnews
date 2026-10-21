@@ -18226,7 +18226,7 @@ def test_editor_revise_e1_guards() -> None:
     root = Path(__file__).resolve().parent
     real = json.loads((root / "fixtures/editor/1651/4acf4a1a3fe4.json").read_text(encoding="utf-8"))
     ORIG_LINE = "الاستخبارات توقعت 200 ألف متظاهر فقط."
-    NEW_CTX = "في 17 أكتوبر خرجت احتجاجات واسعة في فرنسا بين 500 و800 ألف. يقول ضيف على فرانس 24 عربي إن الاستخبارات توقعت 200 ألف."
+    NEW_CTX = "في 17 أكتوبر خرجت احتجاجات في فرنسا. يقول ضيف على فرانس 24 عربي إن الاستخبارات توقعت 200 ألف."
     HIGH = dict(category="other", severity="high", location="body", original=ORIG_LINE, fix="",
                 note="رقم ضيف عُرض واقعةً مجردة بلا نسبة", sources=[])
     LOW = dict(category="other", severity="low", location="body", original="فرنسا", fix="",
@@ -18275,7 +18275,7 @@ def test_editor_revise_e1_guards() -> None:
 
     def good_revision(d: dict):
         title, body, heads = reel_editor.ADAPTER.read(d)
-        return revision_resp(title, body.replace(ORIG_LINE, NEW_CTX), heads)
+        return revision_resp(title, body.replace(d["script"]["scenes"][1]["text"], NEW_CTX), heads)
 
     def run_reel(d, fake, c=None):
         return editor.run(d, reel_editor.ADAPTER, ctx_for(d), c or cfg, None, create=fake)
@@ -18305,7 +18305,7 @@ def test_editor_revise_e1_guards() -> None:
     # ── g541 ──
     def g541():
         cases = (("سطر محذوف", lambda b: "\n".join(b.splitlines()[:-1])),
-                 ("سياق طويل", lambda b: b.replace(ORIG_LINE, " ".join(["كلمة"] * 40))))
+                 ("سياق طويل", lambda b: b.replace(ORIG_LINE, ORIG_LINE + " " + " ".join(["كلمة"] * 40))))
         for label, mutate in cases:
             d = new_draft()
             title, body, heads = reel_editor.ADAPTER.read(d)
