@@ -1558,8 +1558,11 @@ def quote_layout(cfg, text: str) -> list[dict]:
     return lines
 
 
-def quote_states(layout: list[dict]) -> list[tuple[int, int]]:
-    """تتابع الحالات: (فهرس السطر، عدد كلماته الظاهرة). السطر يكتمل كلمةً كلمة ثم يحلّ محلّه التالي بكلمته الأولى."""
+def quote_states(layout: list[dict], mode: str = "word") -> list[tuple[int, int]]:
+    """تتابع الحالات: (فهرس السطر، عدد كلماته الظاهرة). word: السطر يكتمل كلمةً كلمة ثم يحلّ محلّه التالي بكلمته الأولى.
+    line (Q4، Issue #1654، لكلام غير عربي): حالة واحدة لكل سطر يظهر كاملًا مرة واحدة."""
+    if mode == "line":
+        return [(i, len(ln["words"])) for i, ln in enumerate(layout)]
     return [(i, k) for i, ln in enumerate(layout) for k in range(1, len(ln["words"]) + 1)]
 
 
@@ -1583,11 +1586,16 @@ def frame_quote_state(cfg, layout: list[dict], line: int, shown: int) -> Image.I
     return p.img
 
 
-def quote_frames(cfg, text: str, times: list[float], clip_seconds: float, tmp: Path, tag: str) -> list[tuple[Path, float]]:
+def quote_frames(cfg, text: str, times: list[float], clip_seconds: float, tmp: Path, tag: str,
+                 mode: str = "word") -> list[tuple[Path, float]]:
     """ملفات تيار الحالات [(png، مدة)]: أولها شفاف إلى أول كلمة، ثم حالة لكل كلمة حتى زمن التي بعدها، والأخيرة إلى نهاية المقطع
     (وزيادة ثانية احتياطًا كي لا ينتهي التيار قبل المقطع)."""
     layout = quote_layout(cfg, text)
-    states = quote_states(layout)
+    states = quote_states(layout, mode)
+    if mode == "line":
+        # السطر يظهر كاملًا عند زمن أول كلمة فيه ويبقى حتى أول كلمة من التالي (التوقيت نفسه quote_word_times)
+        firsts = [sum(len(l["words"]) for l in layout[:i]) for i in range(len(layout))]
+        times = [times[min(f, len(times) - 1)] for f in firsts]
     p = _Pen(cfg, [], transparent=True)
     frames = [(_save(p.img, tmp / f"{tag}_empty.png"), max(times[0], 0.04))]
     for j, (ln, shown) in enumerate(states):
@@ -2199,7 +2207,8 @@ def _prepare_crop(clip: dict, cfg, deps: Deps, scene: dict | None, notes: list |
                        if crop["source"] in SPEAKER_SOURCES else {}),
                     **({"tracks": crop["tracks"]} if "tracks" in crop and crop["source"] not in SPEAKER_SOURCES else {}),
                     **({"vision": crop["vision"]} if "vision" in crop else {}),
-                    **({"quote_sync": clip["quote_sync"]} if clip.get("quote_sync") else {})}
+                    **({"quote_sync": clip["quote_sync"]} if clip.get("quote_sync") else {}),
+                    **({"quote_mode": clip["quote_mode"]} if clip.get("quote_mode") else {})}
     if notes is not None and int(crop.get("tracks") or 0) >= 2:
         # سطر لكل مقطع تعدّدت وجوهه يبيّن بأي طريقة حُسم المتكلم، فيراجع صاحب المشروع القرار دون فتح الملف
         t = cfg.path("reel.render.texts")
@@ -3165,7 +3174,10 @@ def _clip_layers(i: int, scene: dict, clip: dict, cfg, deps: Deps, tmp: Path, sp
     if qtext:
         segs = clip.get("segs") or []
         times = quote_word_times(len(qtext.split()), clip["seconds"], segs, clip.get("wstart", 0.0), cfg)
-        qframes = quote_frames(cfg, qtext, times, clip["seconds"], tmp, f"quote_{i}")
+        # Q4 (Issue #1654): كلام غير عربي تنزل ترجمته سطرًا كاملًا لا كلمة كلمة (قرار صاحب المشروع)؛ العربي كما كان
+        mode = "line" if str(scene.get("language") or "ar").lower() not in ("ar", "ara", "arabic", "") else "word"
+        qframes = quote_frames(cfg, qtext, times, clip["seconds"], tmp, f"quote_{i}", mode)
+        clip["quote_mode"] = mode
         clip["quote_sync"] = "transcript" if segs else "uniform"
     static, band = (frame_clip_layers(cfg, scene, quote=qframes is None) if cover is None
                     else frame_clip_layers(cfg, scene, cover=cover, quote=qframes is None))
