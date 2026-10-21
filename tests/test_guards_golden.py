@@ -15534,8 +15534,9 @@ def test_reel_script_v2_p2a_guards() -> None:
                   s is not None and s["version"] == 2 and len(calls) == 2
                   and calls[0]["tools"][0]["name"] == "report_reel_script_v2" == reel_script.REEL_TOOL_V2["name"],
                   (reason, len(calls)))
-            check("g456: الإعادة تحمل السبب", "رُفضت المحاولة السابقة" in calls[1]["messages"][0]["content"]
-                  and "أطول من 10" in calls[1]["messages"][0]["content"])
+            # منذ Q8 الإعادة محادثة: السبب في tool_result لآخر رسالة لا في نص الرسالة الأولى
+            _res = str(calls[1]["messages"][-1]["content"][0].get("content", ""))
+            check("g456: الإعادة تحمل السبب", "رُفض السيناريو" in _res and "أطول من 10" in _res, _res[:200])
             check("g456: برومبت v2 وعدد المتحدثين المختلفين في الرسالة",
                   calls[0]["system"] == reel_script.v2_system(cfg)
                   and "عدد المتحدثين المختلفين" in calls[0]["messages"][0]["content"])
