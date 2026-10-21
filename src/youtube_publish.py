@@ -839,6 +839,9 @@ def _reel_item_lines(idx: int, d: dict, cfg) -> list[str]:
     only, labels = ("go1",), None
     if on and d.get("script_status") == "failed":
         out += [f"  {texts.get('script_failed_line', '').format(reason=d.get('script_error', ''))}", ""]
+        if d.get("script_attempts"):  # سجل المحاولات المرفوضة (Q8): يعرف المراجع ما جرّبه الكاتب وأين تعثّر
+            tried = " ".join(f"{a.get('attempt')}) {'؛ '.join(a.get('reasons') or [])}" for a in d["script_attempts"])
+            out += [f"  {texts.get('script_attempts_line', 'محاولات الكتابة: {attempts}').format(attempts=tried)}", ""]
     elif on and script and d.get("script_status") == "ready":
         from . import editor, reel_script
         only, labels = ("go1", "go3", "publish"), {"go3": texts.get("go3", ""), "publish": texts.get("publish", "")}
