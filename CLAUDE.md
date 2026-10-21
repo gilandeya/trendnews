@@ -2422,3 +2422,19 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
   غيابه (كل اختبار لا يحقنه) ← يُقبل المرشّح كما قبل Q7 بلا مفتاح `judged`.
 - **مسودات قديمة:** `_resolve_background` لا يعيد الاختيار لـ`reel_bg.url` محفوظ إلا إن خلا من `judged`، فيُحكم عليه مرة؛ لا يصلح ← يُعاد الاختيار ويُحفظ.
 - **المرحلة 2:** `youtube_publish._reel_bg_lines`: «🖼️ خلفية الراوي: … — {shows}» و«(رُفضت n: أول shows)»، وللكحلي بعد رفض الكل `reel.texts.bg_none_judged`.
+
+## إعادة كتابة السيناريو محادثة واختصار آلي للطول (Issue #1665، Q8) — `src/reel_script.py`
+
+الحادثة (المسودة f8d5001b25f5): فشل السيناريو بسبب واحد «السياق أطول من 25 كلمة (30)» والمقاطع سليمة؛ المحاولة الثانية كانت نداءً جديدًا لا يرى
+المحاولة الأولى فيكتب السيناريو كله من جديد. `render_version` بلا تغيير (التغيير قبل التركيب). g573–g577 في
+`tests/test_guards_golden.py:test_reel_retry_condense_q8_guards`.
+
+- **الإعادة محادثة (`write_script`، v1 وv2):** المحاولة الثانية تحمل ثلاث رسائل: المستخدم الأصلية ← assistant بـ`tool_use` (معرّفه ومدخله حرفيًا كما أعاده
+  النموذج) ← user بـ`tool_result` لذلك المعرّف بـ`is_error: true` ونصه `reel.script.retry_result` ({reasons}). `tool_choice` على الأداة نفسها والمحاولات 2.
+- **الاختصار (`condense_fields`):** بعد آخر محاولة وفقط إن كانت **كل** الأسباب الباقية من أسباب الطول (`_LEN_REASON_RE`: السياق، السؤال الرئيس، طول نص بطاقة سؤال)؛
+  أي سبب آخر ← الفشل كما كان بلا نداء. نداء Haiku واحد (`_condense_create` ← `llm.create`، أداة `condense_fields`، `reel.script.condense.{enabled,model,max_tokens,system}`)
+  بنص كل حقل متجاوز وحدّه و«وقائع الحدث». يُستبدل النص في المشاهد (وفي `script.title` للسؤال الرئيس) ثم `trim_v2` و`validate_v2` (v2 وحده)؛ نجح ← يُقبل السيناريو
+  و`warnings` فيه «✂️ اختُصر {الحقل} آليًا من {n} إلى {m} كلمة» (`reel.texts.condensed_warning`)؛ فشل التحقق أو نقص أي حقل في الرد أو رفع النداء ← الفشل بأسبابه الأصلية.
+- **سجل المحاولات:** `write_script(..., info=)` يملأ `info["attempts"] = [{attempt, reasons}]` لكل محاولة رُفضت (أو تعطلت تقنيًا) و`info["warnings"]`؛
+  `write_for_draft` يحفظ `script_attempts` على المسودة (ضمن `SCRIPT_KEYS` وإلا ضاع) ويضيف التنبيهات إلى `warnings`. بند الريل الفاشل في المرحلة 2
+  يعرض تحت سطر ❌ «محاولات الكتابة: 1) … 2) …» (`reel.texts.script_attempts_line`).

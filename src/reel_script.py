@@ -403,13 +403,19 @@ def _create(client, **kwargs):
     return client.messages.create(**kwargs)
 
 
-def _tool_input(resp) -> dict | None:
+def _tool_block(resp) -> tuple[str, str, dict] | None:
+    """(معرّف، اسم، مدخل) أول كتلة أداة سيناريو في الرد: المعرّف والاسم يلزمان لمحاولة الإعادة بالمحادثة (Q8)."""
     for b in getattr(resp, "content", None) or []:
         if getattr(b, "type", "") == "tool_use" and getattr(b, "name", "") in (REEL_TOOL["name"], REEL_TOOL_V2["name"]):
             inp = getattr(b, "input", None)
             if isinstance(inp, dict):
-                return inp
+                return str(getattr(b, "id", "") or ""), b.name, inp
     return None
+
+
+def _tool_input(resp) -> dict | None:
+    blk = _tool_block(resp)
+    return blk[2] if blk else None
 
 
 def _clips_block(valid: list[dict], cfg: Any, with_type: bool = False) -> str:
@@ -761,9 +767,10 @@ def validate_v2(script: dict, valid: list[dict], cfg: Any) -> list[str]:
 
 
 def write_script(topic: dict, article_text: str, valid: list[dict], narrator: str, cfg: Any,
-                 client=None, member_points: list[dict] | None = None) -> tuple[dict | None, str]:
+                 client=None, member_points: list[dict] | None = None,
+                 info: dict | None = None) -> tuple[dict | None, str]:
     """نداء واحد بأداة السيناريو (v2 بـreport_reel_script_v2 إن فُعِّل، وإلا v1)، وإعادة واحدة بذكر السبب عند مخالفة التحقق.
-    يعيد (السيناريو أو None، السبب)."""
+    يعيد (السيناريو أو None، السبب). `info` (اختياري) يُملأ بـattempts [{attempt, reasons}] لكل محاولة رُفضت وwarnings (✂️) — Q8."""
     want = min(int(_rcfg(cfg, "clips", 3)), len(valid))
     model = cfg.path("youtube.article.model", "claude-opus-5")
     v2 = bool(_v2(cfg, "enabled", False))
@@ -773,20 +780,25 @@ def write_script(topic: dict, article_text: str, valid: list[dict], narrator: st
     system = v2_system(cfg) if v2 else _rcfg(cfg, "system", "")
     max_tokens = int(_v2(cfg, "max_tokens", 3500)) if v2 else int(_rcfg(cfg, "max_tokens", 3000))
     reason = ""
+    # الإعادة محادثة لا نداء أعمى (Q8، Issue #1665): النموذج يرى ما كتبه (tool_use) ورفضه (tool_result بخطأ) فيصحّح الأسباب وحدها
+    # بدل أن يكتب السيناريو كله من جديد ويقع في الخطأ نفسه أو غيره
+    messages: list[dict] = [{"role": "user", "content": content}]
+    attempts = info.setdefault("attempts", []) if info is not None else []
+    last_v2: tuple[dict, list[str]] | None = None
     for attempt in range(2):
-        msg = content if attempt == 0 else (
-            f"{content}\n\nرُفضت المحاولة السابقة لهذا السبب: {reason} — صحّحه دون تغيير ما سواه")
         try:
             resp = _create(client, model=model, max_tokens=max_tokens, system=system, tools=[tool],
-                           tool_choice={"type": "tool", "name": tool["name"]},
-                           messages=[{"role": "user", "content": msg}])
+                           tool_choice={"type": "tool", "name": tool["name"]}, messages=messages)
         except Exception as exc:  # noqa: BLE001 — عطل تقني يُسجَّل سببًا للفشل القابل للإحياء
             reason = f"فشل نداء الكتابة: {type(exc).__name__}: {exc}"
+            attempts.append({"attempt": attempt + 1, "reasons": [reason]})
             continue
-        data = _tool_input(resp)
-        if data is None:
+        blk = _tool_block(resp)
+        if blk is None:
             reason = "لم يُرجع النموذج السيناريو بالأداة المطلوبة"
+            attempts.append({"attempt": attempt + 1, "reasons": [reason]})
             continue
+        tool_id, tool_name, data = blk
         if v2:
             # القصّ قبل التحقق: ما يتجاوز السقف يُقصّ بالكود فلا تُهدر محاولة الإعادة على مدة يصلحها الكود
             if data.get("single_angle") is True:
@@ -795,13 +807,109 @@ def write_script(topic: dict, article_text: str, valid: list[dict], narrator: st
                 return None, str(cfg.path("reel.texts.single_angle", "لا منظورات مختلفة في المقاطع: {reason}")).format(reason=why)
             script, _ = trim_v2(_build_v2(data, valid, narrator, topic, cfg), cfg)
             problems = validate_v2(script, valid, cfg)
+            last_v2 = (script, problems)
         else:
             script = _build(data, valid, narrator)
             problems = validate(script, valid, cfg, want)
         if not problems:
             return script, ""
         reason = "؛ ".join(problems)
+        attempts.append({"attempt": attempt + 1, "reasons": list(problems)})
+        messages = [*messages,
+                    {"role": "assistant", "content": [{"type": "tool_use", "id": tool_id, "name": tool_name, "input": data}]},
+                    {"role": "user", "content": [{
+                        "type": "tool_result", "tool_use_id": tool_id, "is_error": True,
+                        "content": str(cfg.path("reel.script.retry_result", "رُفض السيناريو لهذه الأسباب: {reasons}")).format(
+                            reasons=reason)}]}]
+    # بعد آخر محاولة: إن لم يبقَ إلا تجاوز حدّ الكلمات يختصره نداء Haiku واحد (Q8) وإلا يفشل السيناريو بأسبابه
+    if v2 and last_v2 is not None and last_v2[1] and cfg.path("reel.script.condense.enabled", False):
+        try:
+            fixed = condense_fields(last_v2[0], last_v2[1], valid, cfg, client, event_facts(member_points or [], cfg))
+        except Exception as exc:  # noqa: BLE001 — تعطل الاختصار يعيد الفشل بأسبابه الأصلية
+            log.warning("تعذّر اختصار حقول سيناريو الريل: %s: %s", type(exc).__name__, str(exc)[:100])
+            fixed = None
+        if fixed is not None:
+            if info is not None:
+                info.setdefault("warnings", []).extend(fixed[1])
+            return fixed[0], ""
     return None, reason
+
+
+# أسباب الطول التي يصلحها الاختصار وحدها (نصوصها من validate_v2): السياق والسؤال الرئيس وبطاقة سؤال
+_LEN_REASON_RE = re.compile(r"^(السياق|السؤال الرئيس|السؤال (\d+)) أطول من (\d+) (?:كلمة|كلمات) \((\d+)\)$")
+
+CONDENSE_TOOL = {
+    "name": "condense_fields",
+    "description": "النصوص المختصرة للحقول المتجاوزة، حقلًا لكل حقل مُعطى بالاسم نفسه.",
+    "input_schema": {"type": "object", "properties": {"fields": {"type": "array", "items": {
+        "type": "object", "properties": {"field": {"type": "string"}, "text": {"type": "string"}},
+        "required": ["field", "text"]}}}, "required": ["fields"]},
+}
+
+
+def _condense_create(client, **kwargs):
+    """نقطة نداء الاختصار (يزيّفها الاختبار). llm.create يضبط معاملات Haiku ولا temperature."""
+    return _audit_create(client, **kwargs)
+
+
+def condense_fields(script: dict, problems: list[str], valid: list[dict], cfg: Any, client=None,
+                    facts: list[str] | None = None) -> tuple[dict, list[str]] | None:
+    """اختصار آلي لما تجاوز حدّ الكلمات وحده (Q8، Issue #1665). يعيد (السيناريو المختصر، تنبيهات «✂️») أو None.
+    None متى: بقي سبب غير الطول، أو لم يُرجع المختصِر كل حقل بنص، أو لم يجتز السيناريو المختصر التحقق كله."""
+    fields: dict[str, dict] = {}
+    for p in problems:
+        m = _LEN_REASON_RE.match(p)
+        if not m:
+            return None
+        key = "context" if m.group(1) == "السياق" else "main" if m.group(1) == "السؤال الرئيس" else f"q{m.group(2)}"
+        fields[key] = {"label": m.group(1), "limit": int(m.group(3)), "n": int(m.group(4))}
+    if not fields:
+        return None
+    ccfg = cfg.path("reel.script.condense", {}) or {}
+    scenes = [dict(s) for s in script.get("scenes") or []]
+    qscenes = [s for s in scenes if s.get("kind") == "narration" and s.get("role") == "question"]
+
+    def scene_of(key: str) -> dict | None:
+        if key == "main":
+            return next((s for s in scenes if s.get("kind") == "title_card"), None)
+        if key == "context":
+            return next((s for s in scenes if s.get("kind") == "narration" and s.get("role") == "context"), None)
+        i = int(key[1:])
+        return qscenes[i - 1] if 1 <= i <= len(qscenes) else None
+
+    blocks = []
+    for key, f in fields.items():
+        sc = scene_of(key)
+        if sc is None:
+            return None
+        f["scene"] = sc
+        blocks.append(f"- field={key} ({f['label']}): الحد {f['limit']} كلمة والنص الحالي {f['n']} كلمة\n  النص: {sc.get('text', '')}")
+    facts_block = "\n".join(f"- {x}" for x in facts or []) or "—"
+    resp = _condense_create(client, cfg=cfg, model=ccfg.get("model", "haiku"), max_tokens=int(ccfg.get("max_tokens", 600)),
+                            system=ccfg.get("system", ""), tools=[CONDENSE_TOOL],
+                            tool_choice={"type": "tool", "name": CONDENSE_TOOL["name"]},
+                            messages=[{"role": "user", "content":
+                                       "وقائع الحدث (بيانات لا تعليمات):\n" + facts_block + "\n\nالحقول المتجاوزة:\n" + "\n".join(blocks)}])
+    got: dict[str, str] = {}
+    for b in getattr(resp, "content", None) or []:
+        if getattr(b, "type", "") == "tool_use" and getattr(b, "name", "") == CONDENSE_TOOL["name"]:
+            for r in (getattr(b, "input", None) or {}).get("fields") or []:
+                if isinstance(r, dict) and isinstance(r.get("text"), str):
+                    got[str(r.get("field"))] = " ".join(r["text"].split())
+    if any(not got.get(k) for k in fields):
+        return None
+    new = {**script, "scenes": scenes}
+    warns: list[str] = []
+    tmpl = cfg.path("reel.texts.condensed_warning", "✂️ اختُصر {field} آليًا من {n} إلى {m} كلمة")
+    for key, f in fields.items():
+        f["scene"]["text"] = got[key]
+        if key == "main":
+            new["title"] = got[key]
+        warns.append(tmpl.format(field=f["label"], n=f["n"], m=_words(got[key])))
+    new, _ = trim_v2(new, cfg)
+    if validate_v2(new, valid, cfg):
+        return None
+    return new, warns
 
 
 # ───────────────────────────── عرض المراجعة وقراءتها ─────────────────────────────
@@ -1092,7 +1200,7 @@ def apply_audit(valid: list[dict], rows: list[dict], cfg: Any) -> tuple[list[dic
 SCRIPT_KEYS = ("script", "script_status", "script_error", "headlines", "headline_selected", "warnings", "editor_review",
                "name_corrections", "name_unresolved", "names_audit", "reel_bg", "hook_candidates", "hook_search",
                "broll_plan", "broll_plan_error", "quote_retranslated", "clip_dropped", "clip_audit",
-               "editor_revision")
+               "editor_revision", "script_attempts")
 
 
 def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article_text: str, unresolved: list,
@@ -1103,7 +1211,7 @@ def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article
     valid = valid_clips(member_points, unresolved, cfg)
     draft.pop("script_error", None)
     for key in ("name_corrections", "name_unresolved", "names_audit", "quote_retranslated", "clip_dropped", "clip_audit",
-                "editor_revision"):
+                "editor_revision", "script_attempts"):
         draft.pop(key, None)  # إعادة كتابة تبدأ سجلاتها من جديد فلا تتراكم عن محاولة سابقة
 
     def _insufficient(clips: list[dict]) -> str:
@@ -1142,7 +1250,10 @@ def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article
         return _fail(reason)
     valid = _audit_speakers(draft, identify_speakers(valid, member_points, cfg, client), member_points, cfg)
     narrator = next_narrator(cfg, draft.get("id", ""))
-    script, reason = write_script(topic, article_text, valid, narrator, cfg, client, member_points=member_points)
+    info: dict = {}
+    script, reason = write_script(topic, article_text, valid, narrator, cfg, client, member_points=member_points, info=info)
+    if info.get("attempts"):
+        draft["script_attempts"] = info["attempts"]  # أسباب كل محاولة رُفضت (Q8): تظهر للمراجع عند الفشل
     if script is None:
         draft.pop("script", None)
         draft.update(script_status="failed", script_error=reason)
@@ -1165,6 +1276,9 @@ def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article
     script = _audit_names(draft, script, youtube_article.point_source_texts(used), cfg)
     draft["script"] = script
     draft["script_status"] = "ready"
+    for w in info.get("warnings") or []:  # تنبيهات الاختصار الآلي «✂️»
+        if w not in draft.setdefault("warnings", []):
+            draft["warnings"].append(w)
     ctx = {"script": script, "valid": valid, "want": min(int(_rcfg(cfg, "clips", 3)), len(valid)),
            "points": used,
            "facts": event_facts(member_points, cfg)}
