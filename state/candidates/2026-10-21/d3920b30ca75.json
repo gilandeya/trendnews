@@ -1,0 +1,87 @@
+{
+  "id": "d3920b30ca75",
+  "created_at": "2026-10-21T17:08:02.500318+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 30.3,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "حلف دفاعي جديد يضم دولًا إسلامية كبرى",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Pakistan, Qatar, Turkiye and Indonesia sign 'Badr' defence cooperation pact",
+  "link": "https://www.dawn.com/news/2038774/pakistan-qatar-turkiye-and-indonesia-sign-badr-defence-cooperation-pact",
+  "publishers": [
+    "Al Jazeera English",
+    "Daily Sabah",
+    "Dawn",
+    "Geo News",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Pakistan, Qatar, Turkiye and Indonesia sign 'Badr' defence cooperation pact",
+    "link": "https://www.dawn.com/news/2038774/pakistan-qatar-turkiye-and-indonesia-sign-badr-defence-cooperation-pact",
+    "summary": "Pakistan, Qatar, Turkiye and Indonesia on Wednesday signed a multilateral pact to promote cooperation in defence production and capabilities, the Turkish defence ministry said. The Foreign Office has yet to comment on the signing of the defence pact. According to the Turkish ministry , the signing took place in Qatar, with ministers of the four countries attending the ceremony. Defence Minister Khawaja Asif, who was visible in pictures shared by the ministry, signed on behalf of Pakistan. Reuters quoted the Turkish ministry as saying that the pact, titled ‘Badr Memorandum of Understanding (MoU)’, was aimed at defence cooperation and strengthening defensive capabilities. “The agreement holds substantial economic importance,” it said, adding the accord sought to foster cooperation in military production, boost military capabilities, and help collaboration in technical military training, research and development. “By leveraging the unique military production capabilities of each country, the initiative will facilitate cooperation and integration, enhance defence industrial capacities, and enable the fulfilment of the needs of allied and friendly nations,” it added. Turkish Defence Min",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-10-21T15:21:24+00:00",
+    "image_url": "https://i.dawn.com/large/2026/10/21203253e176b16.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Daily Sabah",
+      "Dawn",
+      "Geo News",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/10/21/how-qatar-turkiye-pakistan-and-indonesia-are-deepening-defence-ties?traffic_source=rss"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2038774/pakistan-qatar-turkiye-and-indonesia-sign-badr-defence-cooperation-pact"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2636071/pakistan-turkiye-qatar-and-indonesia-to-ink-defence-industry-pact"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/business/defense/turkiye-qatar-pakistan-indonesia-sign-badr-defense-co-op-accord"
+      },
+      {
+        "name": "Geo News",
+        "link": "https://www.geo.tv/latest/687624-pakistan-turkey-qatar-indonesia-sign-defence-cooperation-accord"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/10/21203253e176b16.webp",
+      "https://i.dawn.com/large/2026/10/2116372079ac288.webp",
+      "https://i.dawn.com/thumbnail/2026/10/21203253e176b16.webp",
+      "https://i.dawn.com/thumbnail/2026/10/2116372079ac288.webp",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/10/21/466770.jpg",
+      "https://www.geo.tv/assets/uploads/2026-10-21/687624_044356_updates.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 1872.9127987783331,
+    "is_stale": false,
+    "score": 30.297594097588014,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "حلف دفاعي جديد يضم دولًا إسلامية كبرى",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

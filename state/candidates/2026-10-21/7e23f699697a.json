@@ -1,0 +1,65 @@
+{
+  "id": "7e23f699697a",
+  "created_at": "2026-10-21T17:08:02.500668+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.36,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "قضية محلية باكستانية، تشويق متوسط",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Man accused of running over Multan teenager killed in alleged CCD encounter",
+  "link": "https://www.dawn.com/news/2038727/man-accused-of-running-over-multan-teenager-killed-in-alleged-ccd-encounter",
+  "publishers": [
+    "Dawn",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Man accused of running over Multan teenager killed in alleged CCD encounter",
+    "link": "https://www.dawn.com/news/2038727/man-accused-of-running-over-multan-teenager-killed-in-alleged-ccd-encounter",
+    "summary": "The suspect accused of running over and fatally injuring a 14-year-old boy in Multan was killed in an alleged encounter with the Crime Control Department (CCD) in Bahawalpur early on Wednesday, police said. The suspect, identified as Tauqeer, had allegedly escaped from police custody while on remand, a CCD spokesperson said. A Multan court on Tuesday granted police three-day physical remand of the suspect. The suspect was accused of hitting the victim, who used to work for him, with his car in a private housing society. He was arrested on Monday and presented before Judicial Magistrate Saadia Aslam on Tuesday. According to the spokesperson, the CCD personnel attempted to stop two individuals riding a motorcycle on Bahawalpur’s Northern Bypass when an exchange of fire ensued, leaving the suspect dead. In a post on X, the Human Rights Commission of Pakistan (HRCP) said that killing of the teenager and the death in an alleged encounter raised “urgent questions about the state’s approach to treating human life and legal safeguards as expendable”. Expressing alarm at a “disturbing pattern of the state’s failure to protect vulnerable people compounded by the erosion of due process”, the ",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-10-21T15:47:11+00:00",
+    "image_url": "https://i.dawn.com/large/2017/03/58d2dffce0155.jpg",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2038727/man-accused-of-running-over-multan-teenager-killed-in-alleged-ccd-encounter"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2636065/man-accused-of-running-over-multan-teenager-killed-in-ccd-encounter"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2017/03/58d2dffce0155.jpg",
+      "https://i.dawn.com/thumbnail/2017/03/58d2dffce0155.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1872.9128346461112,
+    "is_stale": false,
+    "score": 24.360457957833333,
+    "impact": 0,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "قضية محلية باكستانية، تشويق متوسط",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

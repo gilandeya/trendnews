@@ -1,321 +1,5 @@
 [
   {
-    "score": 32.18,
-    "bucket": "serious",
-    "tokens": [
-      "bridge",
-      "china",
-      "delay",
-      "korea",
-      "north",
-      "open",
-      "year"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/ck1exgw3j115o?at_medium=RSS&at_campaign=rss",
-    "title": "North Korea and China open new bridge after 12-year delay",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-10-15T17:08:12.949657+00:00"
-  },
-  {
-    "score": 25.37,
-    "bucket": "sport",
-    "tokens": [
-      "against",
-      "australia",
-      "clinch",
-      "cup",
-      "opener",
-      "thrilling",
-      "world",
-      "zealand"
-    ],
-    "link": "https://www.bbc.co.uk/sport/rugby-league/videos/cmn4eqpvw1ppo?at_medium=RSS&at_campaign=rss",
-    "title": "Australia clinch thrilling World Cup opener against New Zealand",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-10-15T17:08:12.949916+00:00"
-  },
-  {
-    "score": 25.28,
-    "bucket": "serious",
-    "tokens": [
-      "aden",
-      "attack",
-      "complex",
-      "houthis",
-      "officials",
-      "palace",
-      "presidential",
-      "say",
-      "unharmed",
-      "yemen's"
-    ],
-    "link": "https://tribune.com.pk/story/2634972/saudi-led-coalition-intercepts-and-destroys-drone-in-eastern-saudi-arabia",
-    "title": "Houthis attack presidential palace complex in Yemen's Aden, PM unharmed, officials say",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-10-15T17:08:12.950140+00:00"
-  },
-  {
-    "score": 25.11,
-    "bucket": "serious",
-    "tokens": [
-      "collapse",
-      "deaths",
-      "feared",
-      "kills",
-      "pakistan",
-      "roof",
-      "school"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-10-15-pakistan-school-roof-collapse-kills-28-more-deaths-feared/",
-    "title": "Pakistan school roof collapse kills 28; more deaths feared",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-10-15T17:08:12.950397+00:00"
-  },
-  {
-    "score": 23.22,
-    "bucket": "serious",
-    "tokens": [
-      "easing",
-      "fleet",
-      "sanctions",
-      "shadow",
-      "tankers",
-      "weighs"
-    ],
-    "link": "https://meduza.io/en/news/2026/10/15/us-weighs-easing-sanctions-on-shadow-fleet-tankers",
-    "title": "US weighs easing sanctions on ‘shadow fleet’ tankers",
-    "posted_title": "",
-    "region": "ru",
-    "seen_at": "2026-10-15T17:08:12.950609+00:00"
-  },
-  {
-    "score": 24.24,
-    "bucket": "serious",
-    "tokens": [
-      "closed",
-      "hormuz",
-      "iran",
-      "remain",
-      "respected",
-      "rights",
-      "strait"
-    ],
-    "link": "https://en.mehrnews.com/news/248610/If-rights-not-observed-restrictions-to-continue-in-Hormuz",
-    "title": "If Iran rights not respected, Hormuz Strait to remain closed",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-10-16T09:08:04.983814+00:00"
-  },
-  {
-    "score": 22.82,
-    "bucket": "light",
-    "tokens": [
-      "brave",
-      "humane",
-      "palestine",
-      "rooney",
-      "sally",
-      "stand"
-    ],
-    "link": "https://www.theguardian.com/books/2026/oct/15/sally-rooneys-stand-on-palestine-is-brave-and-humane",
-    "title": "Sally Rooney’s stand on Palestine is brave and humane",
-    "posted_title": "",
-    "region": "culture",
-    "seen_at": "2026-10-16T09:08:04.984172+00:00"
-  },
-  {
-    "score": 22.2,
-    "bucket": "serious",
-    "tokens": [
-      "beşiktaş",
-      "güncellendi",
-      "kazandı",
-      "puanı",
-      "trabzonspor",
-      "uefa",
-      "ülke"
-    ],
-    "link": "https://www.hurriyet.com.tr/sporarena/besiktas-ve-trabzonspor-kazandi-uefa-ulke-puani-guncellendi-43343650",
-    "title": "Beşiktaş ve Trabzonspor kazandı! UEFA ülke puanı güncellendi",
-    "posted_title": "",
-    "region": "tr",
-    "seen_at": "2026-10-16T09:08:04.984512+00:00"
-  },
-  {
-    "score": 21.01,
-    "bucket": "serious",
-    "tokens": [
-      "about",
-      "china",
-      "denuclearisation",
-      "russia",
-      "talking",
-      "trump"
-    ],
-    "link": "https://www.ndtv.com/world-news/trump-says-he-is-talking-to-russia-and-china-about-denuclearisation-12193734#publisher=newsstand",
-    "title": "Trump Says He Is Talking To Russia And China About Denuclearisation",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-10-16T09:08:04.984833+00:00"
-  },
-  {
-    "score": 20.37,
-    "bucket": "serious",
-    "tokens": [
-      "colombia",
-      "embassy",
-      "iran",
-      "occupied",
-      "opening",
-      "quds",
-      "slams"
-    ],
-    "link": "https://en.mehrnews.com/news/248614/Iran-slams-Colombia-s-opening-of-embassy-in-Occupied-Al-Quds",
-    "title": "Iran slams Colombia’s opening of embassy in Occupied Al-Quds",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-10-16T09:08:04.985113+00:00"
-  },
-  {
-    "score": 22.82,
-    "bucket": "light",
-    "tokens": [
-      "brave",
-      "humane",
-      "palestine",
-      "rooney",
-      "sally",
-      "stand"
-    ],
-    "link": "https://www.theguardian.com/books/2026/oct/15/sally-rooneys-stand-on-palestine-is-brave-and-humane",
-    "title": "Sally Rooney’s stand on Palestine is brave and humane",
-    "posted_title": "لماذا باتت كتب سالي روني مهدَّدة بالمنع في بريطانيا",
-    "region": "culture",
-    "seen_at": "2026-10-16T09:17:59.179837+00:00"
-  },
-  {
-    "score": 21.01,
-    "bucket": "serious",
-    "tokens": [
-      "about",
-      "china",
-      "denuclearisation",
-      "russia",
-      "talking",
-      "trump"
-    ],
-    "link": "https://www.ndtv.com/world-news/trump-says-he-is-talking-to-russia-and-china-about-denuclearisation-12193734#publisher=newsstand",
-    "title": "Trump Says He Is Talking To Russia And China About Denuclearisation",
-    "posted_title": "ترامب يقول إنه يجري محادثات مع روسيا والصين بشأن نزع السلاح النووي",
-    "region": "in",
-    "seen_at": "2026-10-16T09:19:21.864409+00:00"
-  },
-  {
-    "score": 30.55,
-    "bucket": "serious",
-    "tokens": [
-      "'cockroach'",
-      "ahead",
-      "detain",
-      "dipke",
-      "founder",
-      "indian",
-      "movement",
-      "police",
-      "protest"
-    ],
-    "link": "https://www.dawn.com/news/2037555/indian-police-detain-cockroach-movement-founder-dipke-ahead-of-protest",
-    "title": "Indian police detain 'cockroach' movement founder Dipke ahead of protest",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-10-16T17:07:59.197059+00:00"
-  },
-  {
-    "score": 29.53,
-    "bucket": "serious",
-    "tokens": [
-      "attack",
-      "bank",
-      "farmers",
-      "israeli",
-      "journalist",
-      "olive",
-      "post",
-      "settlers",
-      "washington",
-      "west"
-    ],
-    "link": "https://www.theguardian.com/world/2026/oct/16/israeli-settlers-attack-olive-farmers-west-bank-washington-post-journalist-heidi-levine",
-    "title": "Israeli settlers attack olive farmers and Washington Post journalist in West Bank",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-10-16T17:07:59.197309+00:00"
-  },
-  {
-    "score": 23.79,
-    "bucket": "serious",
-    "tokens": [
-      "attack",
-      "exports",
-      "high",
-      "hormuz",
-      "near",
-      "oil",
-      "reach",
-      "record",
-      "reports",
-      "ship",
-      "slow"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cmde8dpg8g0no?at_medium=RSS&at_campaign=rss",
-    "title": "Ship attack reports near Hormuz reach record high as oil exports slow",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-10-16T17:07:59.197509+00:00"
-  },
-  {
-    "score": 21.63,
-    "bucket": "serious",
-    "tokens": [
-      "done",
-      "energy",
-      "hits",
-      "refinery",
-      "russian",
-      "truce",
-      "trump",
-      "ukraine",
-      "zelensky"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-10-16-ukraine-hits-russian-refinery-as-zelenskiy-says-were-done-with-trumps-energy-truce/",
-    "title": "Ukraine hits Russian refinery as Zelensky says ‘we’re done’ with Trump’s energy truce",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-10-16T17:07:59.197722+00:00"
-  },
-  {
-    "score": 21.61,
-    "bucket": "serious",
-    "tokens": [
-      "announces",
-      "lebanon",
-      "massive",
-      "plant",
-      "project",
-      "qatar",
-      "solar"
-    ],
-    "link": "https://www.aljazeera.com/news/2026/10/16/qatar-announces-massive-solar-plant-project-in-lebanon?traffic_source=rss",
-    "title": "Qatar announces ‘massive’ solar plant project in Lebanon",
-    "posted_title": "",
-    "region": "qa",
-    "seen_at": "2026-10-16T17:07:59.197903+00:00"
-  },
-  {
     "score": 33.38,
     "bucket": "serious",
     "tokens": [
@@ -1121,5 +805,102 @@
     "posted_title": "",
     "region": "za",
     "seen_at": "2026-10-20T17:08:12.550985+00:00"
+  },
+  {
+    "score": 32.93,
+    "bucket": "serious",
+    "tokens": [
+      "africa",
+      "case",
+      "confirms",
+      "east",
+      "ebola",
+      "linked",
+      "nigeria"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cm2l4xw7xpjgo?at_medium=RSS&at_campaign=rss",
+    "title": "Nigeria confirms Ebola case linked to East Africa",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-10-21T17:08:02.500309+00:00"
+  },
+  {
+    "score": 30.3,
+    "bucket": "serious",
+    "tokens": [
+      "'badr'",
+      "cooperation",
+      "defence",
+      "indonesia",
+      "pact",
+      "pakistan",
+      "qatar",
+      "sign",
+      "turkiye"
+    ],
+    "link": "https://www.dawn.com/news/2038774/pakistan-qatar-turkiye-and-indonesia-sign-badr-defence-cooperation-pact",
+    "title": "Pakistan, Qatar, Turkiye and Indonesia sign 'Badr' defence cooperation pact",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-10-21T17:08:02.500516+00:00"
+  },
+  {
+    "score": 26.35,
+    "bucket": "serious",
+    "tokens": [
+      "153",
+      "border",
+      "disputed",
+      "drone",
+      "kills",
+      "least",
+      "market",
+      "region",
+      "strike",
+      "sudan"
+    ],
+    "link": "https://www.scmp.com/news/world/africa/article/3371608/drone-strike-market-disputed-sudan-border-region-kills-least-153",
+    "title": "Drone strike on market in disputed Sudan border region kills at least 153",
+    "posted_title": "",
+    "region": "cn",
+    "seen_at": "2026-10-21T17:08:02.500664+00:00"
+  },
+  {
+    "score": 24.36,
+    "bucket": "serious",
+    "tokens": [
+      "accused",
+      "alleged",
+      "ccd",
+      "encounter",
+      "killed",
+      "man",
+      "multan",
+      "running",
+      "teenager"
+    ],
+    "link": "https://www.dawn.com/news/2038727/man-accused-of-running-over-multan-teenager-killed-in-alleged-ccd-encounter",
+    "title": "Man accused of running over Multan teenager killed in alleged CCD encounter",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-10-21T17:08:02.500799+00:00"
+  },
+  {
+    "score": 23.46,
+    "bucket": "serious",
+    "tokens": [
+      "dispute",
+      "help",
+      "iran",
+      "putin",
+      "ready",
+      "resolve",
+      "russia"
+    ],
+    "link": "https://www.tehrantimes.com/news/531357/Russia-is-ready-to-help-resolve-Iran-US-dispute-Putin-says",
+    "title": "Russia is ready to help resolve Iran-US dispute, Putin says",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-10-21T17:08:02.500932+00:00"
   }
 ]

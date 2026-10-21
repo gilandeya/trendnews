@@ -1,0 +1,64 @@
+{
+  "id": "c674f056f2e3",
+  "created_at": "2026-10-21T17:08:02.500522+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.35,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 3,
+  "appeal_note": "ضربة مسيّرة تقتل 153 في سوق بالسودان",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Drone strike on market in disputed Sudan border region kills at least 153",
+  "link": "https://www.scmp.com/news/world/africa/article/3371608/drone-strike-market-disputed-sudan-border-region-kills-least-153",
+  "publishers": [
+    "Deutsche Welle",
+    "Sky News",
+    "South China Morning Post"
+  ],
+  "region": "cn",
+  "article": {
+    "title": "Drone strike on market in disputed Sudan border region kills at least 153",
+    "link": "https://www.scmp.com/news/world/africa/article/3371608/drone-strike-market-disputed-sudan-border-region-kills-least-153",
+    "summary": "A drone strike on a market in Abyei, a border region disputed by Sudan and South Sudan, hit a nearby fuel depot, killing at least 153 people, a local official said on Tuesday. Yohanna Akol Ngor, the Abyei administration’s caretaker information minister, blamed Sudan’s military for Monday’s attack on Amiet Market, north of Abyei town. Ngor told Associated Press by phone that the death toll was continuing to rise as the fire burned. A senior Sudanese military officer said the army carried out a...",
+    "source_name": "South China Morning Post",
+    "region": "cn",
+    "weight": 1.1,
+    "published": "2026-10-21T06:16:28+00:00",
+    "image_url": null,
+    "publisher": "South China Morning Post",
+    "cluster_sources": [
+      "Deutsche Welle",
+      "Sky News",
+      "South China Morning Post"
+    ],
+    "cluster_members": [
+      {
+        "name": "South China Morning Post",
+        "link": "https://www.scmp.com/news/world/africa/article/3371608/drone-strike-market-disputed-sudan-border-region-kills-least-153"
+      },
+      {
+        "name": "Deutsche Welle",
+        "link": "https://www.dw.com/en/sudan-drone-strike-kills-around-150-in-abyei-market/a-79716587?maca=en-rss-en-world-4025-rdf"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1872.9128477113888,
+    "is_stale": false,
+    "score": 26.347882497959766,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 3,
+    "appeal_note": "ضربة مسيّرة تقتل 153 في سوق بالسودان",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

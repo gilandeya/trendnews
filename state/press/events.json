@@ -275,7 +275,7 @@
      "published": "2026-10-06T06:12:00+00:00"
     }
    ],
-   "last_seen": "2026-10-20T17:07:55.647743+00:00",
+   "last_seen": "2026-10-21T17:07:46.277380+00:00",
    "outlets": 21,
    "regions": 16,
    "languages": 2,
@@ -2150,6 +2150,233 @@
    "score": 50.0
   },
   {
+   "id": "d8c220af6828",
+   "first_seen": "2026-10-16T09:07:49.020316+00:00",
+   "members": [
+    {
+     "outlet": "Der Spiegel",
+     "region": "de",
+     "bucket": "serious",
+     "title": "Tesla stellt neues Modell Roadster vor",
+     "language": "en",
+     "link": "https://www.spiegel.de/mobilitaet/auto/tesla-stellt-neues-modell-roadster-vor-mit-raketenduesen-a-7cccd6c2-3d0e-4d0d-8be4-7f0fd794915e#ref=rss",
+     "published": "2026-10-16T05:02:00+00:00"
+    },
+    {
+     "outlet": "Investing.com — الاقتصاد",
+     "region": "money",
+     "bucket": "useful",
+     "title": "Warsh avoids rate guidance; Tesla’s Roadster turns in air",
+     "language": "en",
+     "link": "https://www.investing.com/news/economy-news/warsh-avoids-rate-guidance-teslas-roadster-turns-in-air--whats-moving-markets-4953305",
+     "published": "2026-10-16T07:58:28+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Tesla Roadster Flew And Landed Safely: How High, How Far And What's The Cost?",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/tesla-roadster-flew-and-landed-safely-how-high-how-far-and-whats-the-cost-12193774#publisher=newsstand",
+     "published": "2026-10-16T07:34:06+00:00"
+    },
+    {
+     "outlet": "The Verge",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "The Tesla Roadster flew, drove upside down, and hit 60mph in under a second",
+     "language": "en",
+     "link": "https://www.theverge.com/transportation/1012552/tesla-roadster-next-gen-reveal-elon-musk",
+     "published": "2026-10-16T01:28:27+00:00"
+    },
+    {
+     "outlet": "TechCrunch",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "Tesla reveals SpaceX-powered Roadster that flies and falls with style",
+     "language": "en",
+     "link": "https://techcrunch.com/2026/10/15/tesla-reveals-spacex-powered-roadster-that-flies-and-falls-with-style/",
+     "published": "2026-10-16T01:17:43+00:00"
+    },
+    {
+     "outlet": "Engadget",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "Tesla Roadster reveal live: Updates from the launch of the next-gen sportscar",
+     "language": "en",
+     "link": "https://www.engadget.com/2287518/tesla-roadster-launch-live-blog/",
+     "published": "2026-10-15T14:01:51+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Tesla's new Roadster turns in air with SpaceX thrusters, won't land until 2028",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/tesla-roadster-spacex-thrusters-elon-musk-6465326",
+     "published": "2026-10-16T08:18:59+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Elon Musk unveils Tesla's 'flying' car",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2037579/elon-musk-unveils-teslas-flying-car",
+     "published": "2026-10-16T09:27:30+00:00"
+    },
+    {
+     "outlet": "Phys.org",
+     "region": "science",
+     "bucket": "useful",
+     "title": "Elon Musk unveils Tesla's 'flying' car",
+     "language": "en",
+     "link": "https://phys.org/news/2026-10-elon-musk-unveils-tesla-flying.html",
+     "published": "2026-10-16T16:20:11+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Elon Musk unveils Tesla’s ‘flying’ car",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/business/2026/10/16/elon-musk-unveils-tesla-s-flying-car",
+     "published": "2026-10-16T10:52:01+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Watch: Did Tesla really just unveil a flying car?",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/videos/ckly4mj1g3n9o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-16T12:32:31+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Tesla unveils 'flying' car, but don't expect to drive it anytime soon",
+     "language": "en",
+     "link": "https://www.dailysabah.com/business/economy/tesla-unveils-flying-car-but-dont-expect-to-drive-it-anytime-soon",
+     "published": "2026-10-16T13:23:00+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Tesla just made a car fly (sort of) — and Elon Musk says it’s coming in 2028 (VIDEO)",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/life/2026/10/16/tesla-just-made-a-car-fly-sort-of-and-elon-musk-says-its-coming-in-2028-video/239356",
+     "published": "2026-10-16T09:16:21+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Tesla flying car Roadster open for reservation, but doesn't land anytime soon. Check variants, launch details",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/tesla-flying-car-roadster-open-for-reservation-but-doesnt-land-anytime-soon-check-variants-launch-details-101792131858492.html",
+     "published": "2026-10-16T10:58:08+00:00"
+    },
+    {
+     "outlet": "The Verge",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "The incredible flying Tesla Roadster is just for show",
+     "language": "en",
+     "link": "https://www.theverge.com/transportation/1012783/tesla-roadster-flying-stunt-production-reality-musk",
+     "published": "2026-10-16T14:15:29+00:00"
+    },
+    {
+     "outlet": "Der Spiegel",
+     "region": "de",
+     "bucket": "serious",
+     "title": "Tesla Roadster fliegt durch die Luft: Elon Musk hat die Bodenhaftung verloren. Buchstäblich",
+     "language": "de",
+     "link": "https://www.spiegel.de/mobilitaet/auto/tesla-roadster-fliegt-durch-die-luft-elon-musk-hat-die-bodenhaftung-verloren-buchstaeblich-a-ed7a0234-7b5c-4c95-8744-5e4575995ecb#ref=rss",
+     "published": "2026-10-16T14:47:00+00:00"
+    },
+    {
+     "outlet": "Folha de S.Paulo",
+     "region": "br",
+     "bucket": "serious",
+     "title": "Musk apresenta 'carro voador' da Tesla e que atinge 96 km/h em um segundo; veja vídeo",
+     "language": "pt",
+     "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://www1.folha.uol.com.br/mercado/2026/10/musk-apresenta-carro-voador-da-tesla-e-que-atinge-96-kmh-em-um-segundo-veja-video.shtml",
+     "published": "2026-10-16T14:03:00+00:00"
+    },
+    {
+     "outlet": "Der Spiegel",
+     "region": "de",
+     "bucket": "serious",
+     "title": "Tesla »Roadster«: Ein fliegendes Auto? Die US-Verkehrsbehörde hat Fragen",
+     "language": "de",
+     "link": "https://www.spiegel.de/mobilitaet/auto/tesla-roadster-ein-fliegendes-auto-die-us-verkehrsbehoerde-hat-fragen-a-a7f9fc1d-c216-404e-bef1-efa85e2953ff#ref=rss",
+     "published": "2026-10-17T06:01:00+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "11-year old flying car company mocks Tesla Roadster",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/17/11-year-old-flying-car-company-mocks-tesla-roadster?traffic_source=rss",
+     "published": "2026-10-17T07:32:42+00:00"
+    },
+    {
+     "outlet": "Engadget",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "The Tesla Roadster should go into production in 2028, but don't get your hopes up",
+     "language": "en",
+     "link": "https://www.engadget.com/2289475/tesla-roadster-2028-production-dont-get-hopes-up/",
+     "published": "2026-10-17T01:50:50+00:00"
+    },
+    {
+     "outlet": "Engadget",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "A 'flying' Tesla Roadster sounds impossible, until you see what Lockheed Martin built decades ago",
+     "language": "en",
+     "link": "https://www.engadget.com/2289307/flying-tesla-roadster-lockheed-martin-mokv-technology-comparison/",
+     "published": "2026-10-16T20:50:28+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Why is Elon Musk plotting a mega-merger of SpaceX and Tesla?",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cr93z1e87e0do?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-21T06:36:39+00:00"
+    },
+    {
+     "outlet": "Nikkei Asia",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Elon Musk says SpaceX and Tesla discussing possible merger",
+     "language": "en",
+     "link": "https://asia.nikkei.com/business/aerospace-defense-industries/elon-musk-says-spacex-and-tesla-discussing-possible-merger",
+     "published": "2026-10-21T17:07:36.772211+00:00"
+    },
+    {
+     "outlet": "Engadget",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "SpaceX and Tesla are exploring a possible merger",
+     "language": "en",
+     "link": "https://www.engadget.com/2292594/spacex-tesla-exploring-possible-merger/",
+     "published": "2026-10-21T08:40:59+00:00"
+    }
+   ],
+   "last_seen": "2026-10-21T17:07:46.277380+00:00",
+   "outlets": 17,
+   "regions": 13,
+   "languages": 3,
+   "score": 49.0
+  },
+  {
    "id": "c2196a3d81fa",
    "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
@@ -3204,7 +3431,7 @@
      "published": "2026-10-11T15:10:27+00:00"
     }
    ],
-   "last_seen": "2026-10-19T09:07:48.928141+00:00",
+   "last_seen": "2026-10-21T17:07:46.277380+00:00",
    "outlets": 18,
    "regions": 13,
    "languages": 1,
@@ -3489,206 +3716,6 @@
    "outlets": 18,
    "regions": 13,
    "languages": 1,
-   "score": 46.0
-  },
-  {
-   "id": "d8c220af6828",
-   "first_seen": "2026-10-16T09:07:49.020316+00:00",
-   "members": [
-    {
-     "outlet": "Der Spiegel",
-     "region": "de",
-     "bucket": "serious",
-     "title": "Tesla stellt neues Modell Roadster vor",
-     "language": "en",
-     "link": "https://www.spiegel.de/mobilitaet/auto/tesla-stellt-neues-modell-roadster-vor-mit-raketenduesen-a-7cccd6c2-3d0e-4d0d-8be4-7f0fd794915e#ref=rss",
-     "published": "2026-10-16T05:02:00+00:00"
-    },
-    {
-     "outlet": "Investing.com — الاقتصاد",
-     "region": "money",
-     "bucket": "useful",
-     "title": "Warsh avoids rate guidance; Tesla’s Roadster turns in air",
-     "language": "en",
-     "link": "https://www.investing.com/news/economy-news/warsh-avoids-rate-guidance-teslas-roadster-turns-in-air--whats-moving-markets-4953305",
-     "published": "2026-10-16T07:58:28+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Tesla Roadster Flew And Landed Safely: How High, How Far And What's The Cost?",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/tesla-roadster-flew-and-landed-safely-how-high-how-far-and-whats-the-cost-12193774#publisher=newsstand",
-     "published": "2026-10-16T07:34:06+00:00"
-    },
-    {
-     "outlet": "The Verge",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "The Tesla Roadster flew, drove upside down, and hit 60mph in under a second",
-     "language": "en",
-     "link": "https://www.theverge.com/transportation/1012552/tesla-roadster-next-gen-reveal-elon-musk",
-     "published": "2026-10-16T01:28:27+00:00"
-    },
-    {
-     "outlet": "TechCrunch",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "Tesla reveals SpaceX-powered Roadster that flies and falls with style",
-     "language": "en",
-     "link": "https://techcrunch.com/2026/10/15/tesla-reveals-spacex-powered-roadster-that-flies-and-falls-with-style/",
-     "published": "2026-10-16T01:17:43+00:00"
-    },
-    {
-     "outlet": "Engadget",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "Tesla Roadster reveal live: Updates from the launch of the next-gen sportscar",
-     "language": "en",
-     "link": "https://www.engadget.com/2287518/tesla-roadster-launch-live-blog/",
-     "published": "2026-10-15T14:01:51+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Tesla's new Roadster turns in air with SpaceX thrusters, won't land until 2028",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/world/tesla-roadster-spacex-thrusters-elon-musk-6465326",
-     "published": "2026-10-16T08:18:59+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Elon Musk unveils Tesla's 'flying' car",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2037579/elon-musk-unveils-teslas-flying-car",
-     "published": "2026-10-16T09:27:30+00:00"
-    },
-    {
-     "outlet": "Phys.org",
-     "region": "science",
-     "bucket": "useful",
-     "title": "Elon Musk unveils Tesla's 'flying' car",
-     "language": "en",
-     "link": "https://phys.org/news/2026-10-elon-musk-unveils-tesla-flying.html",
-     "published": "2026-10-16T16:20:11+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Elon Musk unveils Tesla’s ‘flying’ car",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/business/2026/10/16/elon-musk-unveils-tesla-s-flying-car",
-     "published": "2026-10-16T10:52:01+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Watch: Did Tesla really just unveil a flying car?",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/videos/ckly4mj1g3n9o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-16T12:32:31+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Tesla unveils 'flying' car, but don't expect to drive it anytime soon",
-     "language": "en",
-     "link": "https://www.dailysabah.com/business/economy/tesla-unveils-flying-car-but-dont-expect-to-drive-it-anytime-soon",
-     "published": "2026-10-16T13:23:00+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Tesla just made a car fly (sort of) — and Elon Musk says it’s coming in 2028 (VIDEO)",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/life/2026/10/16/tesla-just-made-a-car-fly-sort-of-and-elon-musk-says-its-coming-in-2028-video/239356",
-     "published": "2026-10-16T09:16:21+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Tesla flying car Roadster open for reservation, but doesn't land anytime soon. Check variants, launch details",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/tesla-flying-car-roadster-open-for-reservation-but-doesnt-land-anytime-soon-check-variants-launch-details-101792131858492.html",
-     "published": "2026-10-16T10:58:08+00:00"
-    },
-    {
-     "outlet": "The Verge",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "The incredible flying Tesla Roadster is just for show",
-     "language": "en",
-     "link": "https://www.theverge.com/transportation/1012783/tesla-roadster-flying-stunt-production-reality-musk",
-     "published": "2026-10-16T14:15:29+00:00"
-    },
-    {
-     "outlet": "Der Spiegel",
-     "region": "de",
-     "bucket": "serious",
-     "title": "Tesla Roadster fliegt durch die Luft: Elon Musk hat die Bodenhaftung verloren. Buchstäblich",
-     "language": "de",
-     "link": "https://www.spiegel.de/mobilitaet/auto/tesla-roadster-fliegt-durch-die-luft-elon-musk-hat-die-bodenhaftung-verloren-buchstaeblich-a-ed7a0234-7b5c-4c95-8744-5e4575995ecb#ref=rss",
-     "published": "2026-10-16T14:47:00+00:00"
-    },
-    {
-     "outlet": "Folha de S.Paulo",
-     "region": "br",
-     "bucket": "serious",
-     "title": "Musk apresenta 'carro voador' da Tesla e que atinge 96 km/h em um segundo; veja vídeo",
-     "language": "pt",
-     "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://www1.folha.uol.com.br/mercado/2026/10/musk-apresenta-carro-voador-da-tesla-e-que-atinge-96-kmh-em-um-segundo-veja-video.shtml",
-     "published": "2026-10-16T14:03:00+00:00"
-    },
-    {
-     "outlet": "Der Spiegel",
-     "region": "de",
-     "bucket": "serious",
-     "title": "Tesla »Roadster«: Ein fliegendes Auto? Die US-Verkehrsbehörde hat Fragen",
-     "language": "de",
-     "link": "https://www.spiegel.de/mobilitaet/auto/tesla-roadster-ein-fliegendes-auto-die-us-verkehrsbehoerde-hat-fragen-a-a7f9fc1d-c216-404e-bef1-efa85e2953ff#ref=rss",
-     "published": "2026-10-17T06:01:00+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "11-year old flying car company mocks Tesla Roadster",
-     "language": "en",
-     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/17/11-year-old-flying-car-company-mocks-tesla-roadster?traffic_source=rss",
-     "published": "2026-10-17T07:32:42+00:00"
-    },
-    {
-     "outlet": "Engadget",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "The Tesla Roadster should go into production in 2028, but don't get your hopes up",
-     "language": "en",
-     "link": "https://www.engadget.com/2289475/tesla-roadster-2028-production-dont-get-hopes-up/",
-     "published": "2026-10-17T01:50:50+00:00"
-    },
-    {
-     "outlet": "Engadget",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "A 'flying' Tesla Roadster sounds impossible, until you see what Lockheed Martin built decades ago",
-     "language": "en",
-     "link": "https://www.engadget.com/2289307/flying-tesla-roadster-lockheed-martin-mokv-technology-comparison/",
-     "published": "2026-10-16T20:50:28+00:00"
-    }
-   ],
-   "last_seen": "2026-10-17T09:07:48.549654+00:00",
-   "outlets": 16,
-   "regions": 12,
-   "languages": 3,
    "score": 46.0
   },
   {
@@ -4764,7 +4791,7 @@
      "published": "2026-10-16T15:29:48+00:00"
     }
    ],
-   "last_seen": "2026-10-19T17:07:57.762301+00:00",
+   "last_seen": "2026-10-21T17:07:46.277380+00:00",
    "outlets": 18,
    "regions": 12,
    "languages": 1,
@@ -5670,13 +5697,31 @@
      "language": "en",
      "link": "https://www.france24.com/en/video/20261020-alberta-rejects-move-toward-independence-from-canada",
      "published": "2026-10-20T13:51:33+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Canadian unity or separation: why did Alberta province hold a referendum?",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/canadian-unity-or-separation-why-did-alberta-province-hold-a-referendum/article71606263.ece",
+     "published": "2026-10-21T05:01:51+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Alberta referendum: Carney signals taking immigration concerns into consideration",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/alberta-referendum-carney-signals-taking-immigration-concerns-into-consideration-101792567314121.html",
+     "published": "2026-10-21T07:21:53+00:00"
     }
    ],
-   "last_seen": "2026-10-20T17:07:55.647743+00:00",
-   "outlets": 13,
+   "last_seen": "2026-10-21T17:07:46.277380+00:00",
+   "outlets": 14,
    "regions": 12,
    "languages": 1,
-   "score": 39.0
+   "score": 40.0
   },
   {
    "id": "be319b1a0518",
@@ -7036,143 +7081,6 @@
    "score": 32.0
   },
   {
-   "id": "144bf80223b4",
-   "first_seen": "2026-10-13T17:07:48.267468+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "US ambassador to Greece resigns amid misconduct allegations",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/13/trumps-ambassador-to-greece-asked-to-resign-amid-misconduct-allegations?traffic_source=rss",
-     "published": "2026-10-13T15:37:32+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Kimberly Guilfoyle resigns as US ambassador to Greece, makes major statement amid misconduct allegations",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/kimberly-guilfoyle-resigns-as-us-ambassador-to-greece-makes-major-statement-amid-misconduct-allegations-101791908314591.html",
-     "published": "2026-10-13T16:23:17+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Kimberly Guilfoyle steps down as US ambassador to Greece after alleged misconduct",
-     "language": "en",
-     "link": "https://www.theguardian.com/us-news/2026/oct/13/kimberly-guilfoyle-ambassador-greece-step-down",
-     "published": "2026-10-13T15:50:28+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "US asks Greece ambassador Kimberly Guilfoyle to resign over alleged misconduct",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370779/us-asks-greece-ambassador-kimberly-guilfoyle-resign-over-alleged-misconduct?utm_source=rss_feed",
-     "published": "2026-10-13T15:02:49+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "White House says it has asked Kimberly Guilfoyle to resign as US ambassador to Greece",
-     "language": "en",
-     "link": "https://www.theguardian.com/us-news/live/2026/oct/13/donald-trump-ilhan-omar-katie-zacharia-alaska-midterms-latest-news-updates",
-     "published": "2026-10-13T16:39:36+00:00"
-    },
-    {
-     "outlet": "Der Spiegel",
-     "region": "de",
-     "bucket": "serious",
-     "title": "Kimberly Guilfoyle: Umstrittene US-Botschafterin muss Posten in Athen räumen",
-     "language": "en",
-     "link": "https://www.spiegel.de/ausland/kimberly-guilfoyle-umstrittene-us-botschafterin-muss-posten-in-athen-raeumen-a-0169f30c-e123-448a-8636-6bd456c18ffb#ref=rss",
-     "published": "2026-10-13T14:23:00+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Kimberly Guilfoyle marriages and relationship in focus amid misconduct allegations: All on her ex-husbands and son",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/kimberly-guilfoyle-marriages-and-relationship-in-focus-amid-misconduct-allegations-all-on-her-ex-husbands-and-children-101791893823197.html",
-     "published": "2026-10-13T12:54:26+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Trump asks Greece ambassador to resign amid ethics scandal",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2036922/trump-asks-greece-ambassador-to-resign-amid-ethics-scandal",
-     "published": "2026-10-13T16:40:47+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Trump envoy to Greece asked to resign amid ethics scandal",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/americas/trump-envoy-to-greece-asked-to-resign-amid-ethics-scandal",
-     "published": "2026-10-13T14:11:00+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Trump asks Greece ambassador to resign amid bribery scandal",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/13/trump-asks-greece-ambassador-to-resign-amid-bribery-scandal",
-     "published": "2026-10-13T14:40:48+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Katie Zacharia gives massive update on Kimberly Guilfoyle's resignation",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/donald-trump-asks-kimberly-guilfoyle-to-resign-as-ambassador-to-greece-amid-misconduct-allegations-101791901247612.html",
-     "published": "2026-10-13T14:28:06+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Trump ousts Kimberly Guilfoyle as US ambassador to Greece after corruption allegations",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cr5ynplvpg7lo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-13T19:23:28+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Trump asks US ambassador to Greece Kimberly Guilfoyle to resign over bribery allegations",
-     "language": "en",
-     "link": "https://www.france24.com/en/americas/20261014-trump-asks-us-ambassador-to-greece-kimberly-guilfoyle-to-resign-over-allegations",
-     "published": "2026-10-14T03:23:40+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Trump Fires Greece Ambassador Over Misconduct Allegations",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/donald-trump-asks-greece-ambassador-kimberly-guilfoyle-to-resign-over-corruption-allegations-12181304#publisher=newsstand",
-     "published": "2026-10-13T20:47:59+00:00"
-    }
-   ],
-   "last_seen": "2026-10-14T09:07:42.321915+00:00",
-   "outlets": 11,
-   "regions": 9,
-   "languages": 1,
-   "score": 31.0
-  },
-  {
    "id": "e485a6cd6de5",
    "first_seen": "2026-10-18T09:07:42.310366+00:00",
    "members": [
@@ -7317,98 +7225,6 @@
    "regions": 8,
    "languages": 1,
    "score": 30.0
-  },
-  {
-   "id": "ea3c2d7142ff",
-   "first_seen": "2026-10-13T09:08:09.573950+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "IMF raises UK growth forecast as economist says Healey should ‘stay the course’",
-     "language": "en",
-     "link": "https://www.theguardian.com/business/2026/oct/13/john-healey-uk-finances-imf-gdp-growth-forecast-2026",
-     "published": "2026-10-13T07:58:56+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "IMF raises inflation forecast to 9.9%",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2634539/imf-raises-inflation-forecast-to-99",
-     "published": "2026-10-12T21:33:54+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "IMF raises Japan’s growth forecast for 2026 to 0.7%",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/business/2026/10/13/economy/imf-growth-forecast/",
-     "published": "2026-10-13T08:24:00+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "IMF upgrades 2026 growth forecast but warns of 'split' outlook",
-     "language": "en",
-     "link": "https://www.france24.com/en/live-news/20261013-imf-upgrades-2026-growth-forecast-but-warns-of-split-outlook-1",
-     "published": "2026-10-13T03:57:42+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "IMF upgrades 2026 growth forecast but warns of ‘split’ outlook",
-     "language": "en",
-     "link": "https://www.thehindu.com/business/Economy/imf-slightly-raises-forecast-for-2026-global-growth-to-31-citing-resilience-to-shocks/article71577836.ece",
-     "published": "2026-10-13T06:40:05+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "IMF upgrades forecast for Nigeria’s economic growth to 4.2%",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/imf-upgrades-forecast-for-nigerias-economic-growth-to-4-2/",
-     "published": "2026-10-13T08:30:25+00:00"
-    },
-    {
-     "outlet": "Yonhap News",
-     "region": "kr",
-     "bucket": "serious",
-     "title": "IMF raises S. Korea's growth forecast to 3.3 pct amid chip supercycle",
-     "language": "en",
-     "link": "https://en.yna.co.kr/view/AEN20261012006600320",
-     "published": "2026-10-13T02:00:07+00:00"
-    },
-    {
-     "outlet": "Buenos Aires Times",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "IMF slashes Argentina’s 2026 growth forecast to 2.1%",
-     "language": "en",
-     "link": "https://www.batimes.com.ar/news/economy/imf-slashes-argentinas-2026-growth-forecast-to-21.phtml",
-     "published": "2026-10-13T14:15:38+00:00"
-    },
-    {
-     "outlet": "CGTN",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "IMF raises 2026 global growth forecast to 3.1%",
-     "language": "en",
-     "link": "https://news.cgtn.com/news/2026-10-13/IMF-raises-2026-global-growth-forecast-to-3-1--1RcEPm28WWI/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
-     "published": "2026-10-13T03:53:11+00:00"
-    }
-   ],
-   "last_seen": "2026-10-14T09:07:42.321915+00:00",
-   "outlets": 9,
-   "regions": 9,
-   "languages": 1,
-   "score": 29.0
   },
   {
    "id": "0f5b4743bd14",
@@ -7914,6 +7730,98 @@
    "score": 26.0
   },
   {
+   "id": "9023b4b71bb1",
+   "first_seen": "2026-10-20T17:07:55.647743+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Australian police charge man after attack on MP Helen Haines",
+     "language": "en",
+     "link": "https://www.scmp.com/news/asia/australasia/article/3371447/heroic-barber-recalls-tackling-car-attacker-australian-mp-helen-haines",
+     "published": "2026-10-20T03:12:46+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Australian lawmaker Helen Haines in critical condition after suspected attack; man arrested",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/australian-lawmaker-helen-haines-in-critical-condition-after-suspected-attack-man-arrested-101792408387158.html",
+     "published": "2026-10-19T11:33:56+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Man charged over ‘targeted’ car attack on Australian MP Helen Haines",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/20/man-charged-over-targeted-car-attack-on-australian-mp-helen-haines/239904",
+     "published": "2026-10-20T10:23:29+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Man charged in \"targeted\" attack on Australian lawmaker Helen Haines",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/australian-man-charged-targeted-attack-lawmaker-helen-haines-who-reportedly-lost-leg/",
+     "published": "2026-10-20T13:51:35+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Australian MP loses both legs after alleged car attack, husband says",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/ckwyqdqxw6d0o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-21T07:56:30+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "Australian lawmaker loses both legs in vehicle attack as suspect appears in court",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-21-australian-lawmaker-loses-both-legs-in-vehicle-attack-as-suspect-appears-in-court/",
+     "published": "2026-10-21T11:40:59+00:00"
+    },
+    {
+     "outlet": "Deutsche Welle",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Australian MP Helen Haines loses both legs after car attack as suspect appears in court",
+     "language": "en",
+     "link": "https://www.dw.com/en/australian-mp-helen-haines-loses-both-legs-after-car-attack-as-suspect-appears-in-court/a-79697660?maca=en-rss-en-world-4025-rdf",
+     "published": "2026-10-21T08:16:00+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Australian lawmaker Helen Haines loses both legs after 'targeted' attack; suspect was 'family friend'",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/australia-lawmaker-helen-haines-loses-both-legs-after-targeted-attack-suspect-brendan-nugent-was-family-friend-101792567219202.html",
+     "published": "2026-10-21T08:15:36+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Australian MP loses both legs after alleged car attack, husband says",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/australian-mp-loses-both-legs-after-alleged-car-attack-husband-says/",
+     "published": "2026-10-21T16:34:23+00:00"
+    }
+   ],
+   "last_seen": "2026-10-21T17:07:46.277380+00:00",
+   "outlets": 8,
+   "regions": 8,
+   "languages": 1,
+   "score": 26.0
+  },
+  {
    "id": "a280debe630e",
    "first_seen": "2026-10-14T09:07:42.321915+00:00",
    "members": [
@@ -8282,6 +8190,80 @@
    "score": 23.0
   },
   {
+   "id": "64fa1c34fcdb",
+   "first_seen": "2026-10-21T17:07:46.277380+00:00",
+   "members": [
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "PSG's Kvaratskhelia to have surgery on ruptured ACL",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/football/articles/cxnv0ed5pz23o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-21T11:45:03+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "'Why me?' - PSG's Kvaratskhelia set for surgery after ACL rupture",
+     "language": "en",
+     "link": "https://www.skysports.com/football/news/12040/13601843/khvicha-kvaratskhelia-psg-forward-set-for-surgery-after-rupturing-acl-in-champions-league-win-over-barcelona",
+     "published": "2026-10-21T10:55:00+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Kvaratskhelia asks ‘why me?’ after ACL rupture in most serious of three PSG injuries",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/2026/oct/21/khvicha-kvaratskhelia-acl-injury-psg-ousmane-dembele-marquinhos",
+     "published": "2026-10-21T09:42:09+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "PSG’s Kvaratskhelia out with torn ACL as Dembele and Marquinhos also injured",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/sports/2026/10/21/psgs-kvaratskhelia-out-with-torn-acl-as-dembele-and-marquinhos-also-injured/240067",
+     "published": "2026-10-21T10:25:18+00:00"
+    },
+    {
+     "outlet": "El País",
+     "region": "es",
+     "bucket": "serious",
+     "title": "Kvaratskhelia sufre una rotura de ligamento cruzado después de lesionarse en el partido ante el Barcelona",
+     "language": "es",
+     "link": "https://elpais.com/deportes/futbol/2026-10-21/kvaratskhelia-sufre-una-rotura-de-ligamento-cruzado-despues-de-lesionarse-en-el-partido-ante-el-barcelona.html",
+     "published": "2026-10-21T09:31:42+00:00"
+    },
+    {
+     "outlet": "Folha de S.Paulo",
+     "region": "br",
+     "bucket": "serious",
+     "title": "Kvaratskhelia vê temporada com o PSG em risco após ruptura do ligamento cruzado anterior",
+     "language": "pt",
+     "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://www1.folha.uol.com.br/esporte/2026/10/kvaratskhelia-ve-temporada-com-o-psg-em-risco-apos-ruptura-do-ligamento-cruzado-anterior.shtml",
+     "published": "2026-10-21T13:02:00+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Your best still to come, Ronaldo tells injured Kvaratskhelia",
+     "language": "en",
+     "link": "https://punchng.com/your-best-still-to-come-ronaldo-tells-injured-kvaratskhelia/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-21T15:15:18+00:00"
+    }
+   ],
+   "last_seen": "2026-10-21T17:07:46.277380+00:00",
+   "outlets": 7,
+   "regions": 5,
+   "languages": 3,
+   "score": 23.0
+  },
+  {
    "id": "9b861eeaf775",
    "first_seen": "2026-10-10T09:07:48.714447+00:00",
    "members": [
@@ -8381,80 +8363,6 @@
    "regions": 6,
    "languages": 1,
    "score": 22.0
-  },
-  {
-   "id": "bf85d17c7ca0",
-   "first_seen": "2026-10-14T09:07:42.321915+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Judge extends White House access to banned media outlets CNN, MS Now and Politico",
-     "language": "en",
-     "link": "https://www.theguardian.com/us-news/2026/oct/14/white-house-media-ban-lifted-cnn-msnow-politico",
-     "published": "2026-10-14T04:34:29+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Judge extends White House access for CNN, MS NOW, Politico amid legal fight",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2634773/judge-extends-white-house-access-for-cnn-ms-now-politico-amid-legal-fight",
-     "published": "2026-10-14T01:28:18+00:00"
-    },
-    {
-     "outlet": "Rappler",
-     "region": "ph",
-     "bucket": "serious",
-     "title": "Judge extends White House access for CNN, MS NOW, Politico amid legal fight",
-     "language": "en",
-     "link": "https://www.rappler.com/world/us-canada/judge-extends-white-house-access-cnn-ms-now-politico-october-13-2026/",
-     "published": "2026-10-14T06:28:16+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "U.S. judge backs CNN, MS Now, Politico access to White House",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/us-judge-backs-cnn-ms-now-politico-access-to-white-house/article71582606.ece",
-     "published": "2026-10-14T08:17:11+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Judge extends White House access for CNN, MS NOW, Politico amid legal fight",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/14/judge-extends-white-house-access-for-cnn-ms-now-politico-amid-legal-fight",
-     "published": "2026-10-14T04:13:00+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Judge extends White House access for CNN, MS NOW, Politico amid legal fight",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/judge-extends-white-house-access-for-cnn-ms-now-politico-amid-legal-fight/",
-     "published": "2026-10-14T04:15:00+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "US judge blocks Trump’s ban, restores White House access for CNN, MS Now, Politico",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/money/2026/10/14/us-judge-blocks-trumps-ban-restores-white-house-access-for-cnn-ms-now-politico/239062",
-     "published": "2026-10-14T06:11:37+00:00"
-    }
-   ],
-   "last_seen": "2026-10-14T09:07:42.321915+00:00",
-   "outlets": 7,
-   "regions": 6,
-   "languages": 1,
-   "score": 21.0
   },
   {
    "id": "f645e82cedf8",
@@ -8686,6 +8594,80 @@
    "regions": 6,
    "languages": 1,
    "score": 20.0
+  },
+  {
+   "id": "13e3aba8eb6a",
+   "first_seen": "2026-10-17T17:07:41.292973+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Iran backs 'political process' to resolve Saudi-Houthi conflict",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2037840/iran-backs-political-process-to-resolve-saudi-houthi-conflict",
+     "published": "2026-10-17T13:51:10+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Iran backs ‘political process’ to resolve Saudi-Houthi conflict: FM",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/iran-backs-political-process-to-resolve-saudi-houthi-conflict-fm/article71596732.ece",
+     "published": "2026-10-17T13:42:20+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Iran backs ‘political process’ to resolve Saudi-Houthi conflict",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/17/iran-backs-political-process-to-resolve-saudi-houthi-conflict",
+     "published": "2026-10-17T14:05:14+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Putin tells Witkoff is ready to help resolve US-Iran conflict",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248803/Putin-tells-Witkoff-is-ready-to-help-resolve-US-Iran-conflict",
+     "published": "2026-10-21T14:37:59+00:00"
+    },
+    {
+     "outlet": "Tehran Times",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Russia is ready to help resolve Iran-US dispute, Putin says",
+     "language": "en",
+     "link": "https://www.tehrantimes.com/news/531357/Russia-is-ready-to-help-resolve-Iran-US-dispute-Putin-says",
+     "published": "2026-10-21T16:32:53+00:00"
+    },
+    {
+     "outlet": "IRNA English",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Russia is ready to help resolve US-Iran conflict, Putin tells Trump’s special envoy",
+     "language": "en",
+     "link": "https://en.irna.ir/news/86299537/Russia-is-ready-to-help-resolve-US-Iran-conflict-Putin-tells",
+     "published": "2026-10-21T12:09:54+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Russia has chance to help resolve US-Iran conflict",
+     "language": "en",
+     "link": "https://tass.com/politics/2205773",
+     "published": "2026-10-21T16:45:48+00:00"
+    }
+   ],
+   "last_seen": "2026-10-21T17:07:46.277380+00:00",
+   "outlets": 7,
+   "regions": 5,
+   "languages": 1,
+   "score": 19.0
   },
   {
    "id": "cdb9cf26f1ff",
@@ -8971,6 +8953,71 @@
    "last_seen": "2026-10-20T17:07:55.647743+00:00",
    "outlets": 7,
    "regions": 4,
+   "languages": 1,
+   "score": 17.0
+  },
+  {
+   "id": "aac17905e9a2",
+   "first_seen": "2026-10-15T09:07:47.013401+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Elon Musk suggests US government was behind Starlink restrictions in Ukraine",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/live/2026/oct/15/ukraine-russia-war-starlink-zelenskyy-putin-elon-musk-trump-europe-latest-news",
+     "published": "2026-10-15T08:45:04+00:00"
+    },
+    {
+     "outlet": "Meduza English",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "‘Starshield systems are owned and controlled by the U.S. government.’ Musk responds to Ukraine’s complaints about restrictions on the military version of Starlink.",
+     "language": "en",
+     "link": "https://meduza.io/en/news/2026/10/14/starshield-systems-are-owned-and-controlled-by-the-u-s-government-musk-responds-to-ukraine-s-complaints-about-restrictions-on-the-military-version-of-starlink",
+     "published": "2026-10-14T20:34:10+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "What is Starshield, SpaceX’s military version of Starlink?",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/10/15/world/starshield-explainer/",
+     "published": "2026-10-15T02:30:00+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "Musk ordered slowdown of Starlink service used by Ukraine’s military, WSJ reports",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-21-musk-ordered-slowdown-of-starlink-service-used-by-ukraines-military-wsj-reports/",
+     "published": "2026-10-21T04:34:35+00:00"
+    },
+    {
+     "outlet": "Meduza English",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Did Trump know Musk was about to restrict Ukraine’s military Starlink service? WSJ reports they discussed the decision afterward. Some sources say they also spoke beforehand.",
+     "language": "en",
+     "link": "https://meduza.io/en/news/2026/10/21/did-trump-know-musk-was-about-to-restrict-ukraine-s-military-starlink-service-wsj-reports-they-discussed-the-decision-afterward-some-sources-say-they-also-spoke-beforehand",
+     "published": "2026-10-20T22:59:38+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Musk Ordered Starlink Slowdown That Blindsided Ukraine",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/musk-ordered-starlink-slowdown-that-blindsided-ukraine-101792559130092.html",
+     "published": "2026-10-21T09:07:17+00:00"
+    }
+   ],
+   "last_seen": "2026-10-21T17:07:46.277380+00:00",
+   "outlets": 5,
+   "regions": 5,
    "languages": 1,
    "score": 17.0
   },
@@ -9947,53 +9994,6 @@
    "score": 14.0
   },
   {
-   "id": "9023b4b71bb1",
-   "first_seen": "2026-10-20T17:07:55.647743+00:00",
-   "members": [
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Australian police charge man after attack on MP Helen Haines",
-     "language": "en",
-     "link": "https://www.scmp.com/news/asia/australasia/article/3371447/heroic-barber-recalls-tackling-car-attacker-australian-mp-helen-haines",
-     "published": "2026-10-20T03:12:46+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Australian lawmaker Helen Haines in critical condition after suspected attack; man arrested",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/australian-lawmaker-helen-haines-in-critical-condition-after-suspected-attack-man-arrested-101792408387158.html",
-     "published": "2026-10-19T11:33:56+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Man charged over ‘targeted’ car attack on Australian MP Helen Haines",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/20/man-charged-over-targeted-car-attack-on-australian-mp-helen-haines/239904",
-     "published": "2026-10-20T10:23:29+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Man charged in \"targeted\" attack on Australian lawmaker Helen Haines",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/australian-man-charged-targeted-attack-lawmaker-helen-haines-who-reportedly-lost-leg/",
-     "published": "2026-10-20T13:51:35+00:00"
-    }
-   ],
-   "last_seen": "2026-10-20T17:07:55.647743+00:00",
-   "outlets": 4,
-   "regions": 4,
-   "languages": 1,
-   "score": 14.0
-  },
-  {
    "id": "113af5d99cdc",
    "first_seen": "2026-10-20T09:08:04.491772+00:00",
    "members": [
@@ -10238,80 +10238,51 @@
    "score": 12.0
   },
   {
-   "id": "c81ea94fd8ca",
-   "first_seen": "2026-10-14T09:07:42.321915+00:00",
+   "id": "d3328d8eaeb7",
+   "first_seen": "2026-10-21T17:07:46.277380+00:00",
    "members": [
     {
-     "outlet": "The Express Tribune",
-     "region": "pk",
+     "outlet": "The Hindu — International",
+     "region": "in",
      "bucket": "serious",
-     "title": "Investigators hunt French supermarket fridge hackers, no claim of responsibility",
+     "title": "Two men rearrested in U.K. on suspicion of assisting Iran over suspected plot at a U.S.-run air base",
      "language": "en",
-     "link": "https://tribune.com.pk/story/2634627/investigators-hunt-french-supermarket-fridge-hackers-no-claim-of-responsibility",
-     "published": "2026-10-13T07:22:10+00:00"
+     "link": "https://www.thehindu.com/news/international/two-men-rearrested-in-uk-on-suspicion-of-assisting-iran-over-suspected-plot-at-a-us-run-air-base/article71605486.ece",
+     "published": "2026-10-20T19:48:48+00:00"
     },
     {
-     "outlet": "Rappler",
-     "region": "ph",
+     "outlet": "CBS News — World",
+     "region": "us",
      "bucket": "serious",
-     "title": "Investigators hunt French supermarket fridge hackers, no claim of responsibility",
+     "title": "2 men rearrested for alleged spying for Iran in U.K. air base incident",
      "language": "en",
-     "link": "https://www.rappler.com/technology/investigators-hunt-french-supermarket-fridge-hackers/",
-     "published": "2026-10-14T04:54:59+00:00"
+     "link": "https://www.cbsnews.com/news/raf-fairford-security-incident-arrests-suspected-spying-iran/",
+     "published": "2026-10-20T17:17:55+00:00"
     },
     {
-     "outlet": "CGTN",
-     "region": "cn",
+     "outlet": "Hindustan Times — World",
+     "region": "in",
      "bucket": "serious",
-     "title": "Investigators hunt French supermarket fridge hackers, no claim made",
+     "title": "UK police rearrest 2 men suspected of assisting Iran over alleged plot at US air base",
      "language": "en",
-     "link": "https://news.cgtn.com/news/2026-10-13/Investigators-hunt-French-supermarket-fridge-hackers-no-claim-made-1Rdl0qLhQjK/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
-     "published": "2026-10-13T14:30:05+00:00"
+     "link": "https://www.hindustantimes.com/world-news/uk-police-rearrest-2-men-suspected-of-assisting-iran-over-alleged-plot-at-us-air-base-101792516337455.html",
+     "published": "2026-10-20T18:34:44+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "2 men rearrested in UK on suspicion of assisting Iran over suspected plot at a US-run air base",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQRGVJSnlXYzBBWko0QVp2YkVtWXFxUk5zc3AtUEtGalhoMmh3OEx4SWsySTRuSnZ6NDk2X3RWZnFra0lVWnU5Z2xEM2NHVmlzSUFOOWwxaGVXeDRWMTh3U1RyeWlfMVB0dDdiWEtjR3EzdGRvZUdtblhGNUtiTU5oX05WUFU1WDY5U2o0NkgyZnB3M1ZtMDlDTi10TlpSbkk?oc=5",
+     "published": "2026-10-20T17:43:00+00:00"
     }
    ],
-   "last_seen": "2026-10-14T09:07:42.321915+00:00",
-   "outlets": 3,
+   "last_seen": "2026-10-21T17:07:46.277380+00:00",
+   "outlets": 4,
    "regions": 3,
    "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "aac17905e9a2",
-   "first_seen": "2026-10-15T09:07:47.013401+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Elon Musk suggests US government was behind Starlink restrictions in Ukraine",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/live/2026/oct/15/ukraine-russia-war-starlink-zelenskyy-putin-elon-musk-trump-europe-latest-news",
-     "published": "2026-10-15T08:45:04+00:00"
-    },
-    {
-     "outlet": "Meduza English",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "‘Starshield systems are owned and controlled by the U.S. government.’ Musk responds to Ukraine’s complaints about restrictions on the military version of Starlink.",
-     "language": "en",
-     "link": "https://meduza.io/en/news/2026/10/14/starshield-systems-are-owned-and-controlled-by-the-u-s-government-musk-responds-to-ukraine-s-complaints-about-restrictions-on-the-military-version-of-starlink",
-     "published": "2026-10-14T20:34:10+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "What is Starshield, SpaceX’s military version of Starlink?",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/15/world/starshield-explainer/",
-     "published": "2026-10-15T02:30:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-15T09:07:47.013401+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
+   "score": 12.0
   },
   {
    "id": "272585de028f",
@@ -10799,44 +10770,6 @@
      "language": "en",
      "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/17/neto-s-double-gives-chelsea-a-win-marred-by-martinez-s-injury",
      "published": "2026-10-17T14:16:42+00:00"
-    }
-   ],
-   "last_seen": "2026-10-17T17:07:41.292973+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "13e3aba8eb6a",
-   "first_seen": "2026-10-17T17:07:41.292973+00:00",
-   "members": [
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Iran backs 'political process' to resolve Saudi-Houthi conflict",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2037840/iran-backs-political-process-to-resolve-saudi-houthi-conflict",
-     "published": "2026-10-17T13:51:10+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Iran backs ‘political process’ to resolve Saudi-Houthi conflict: FM",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/iran-backs-political-process-to-resolve-saudi-houthi-conflict-fm/article71596732.ece",
-     "published": "2026-10-17T13:42:20+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Iran backs ‘political process’ to resolve Saudi-Houthi conflict",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/17/iran-backs-political-process-to-resolve-saudi-houthi-conflict",
-     "published": "2026-10-17T14:05:14+00:00"
     }
    ],
    "last_seen": "2026-10-17T17:07:41.292973+00:00",
@@ -11387,6 +11320,120 @@
    "score": 11.0
   },
   {
+   "id": "859ee32c9d9b",
+   "first_seen": "2026-10-21T17:07:46.277380+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Drone strike on market in disputed Sudan border region kills at least 153",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/africa/article/3371608/drone-strike-market-disputed-sudan-border-region-kills-least-153",
+     "published": "2026-10-21T06:16:28+00:00"
+    },
+    {
+     "outlet": "Deutsche Welle",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Sudan drone strike kills around 150 in Abyei market",
+     "language": "en",
+     "link": "https://www.dw.com/en/sudan-drone-strike-kills-around-150-in-abyei-market/a-79716587?maca=en-rss-en-world-4025-rdf",
+     "published": "2026-10-20T18:09:00+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "At least 153 people killed in drone strike on disputed Sudan-South Sudan region",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPbG1vU0U0WS1EdmRtWE1Jd3ZfRC1kT3lwSW11NGQzelFIUWI2NURkT2VKaGtsZnEyWE94N1hiR3RfQThQbDhxb3hna19HRlhGUkVpOU5GRi1RZDBwekx1X2pnRnVRa2VCSEU3Q1ZWZUdudXBlUEU5ZUlDdW5RNENmY3ZKZ0xUUlZfX1J5c1EydXpjSzktdjgzZWl1dFMwaERqQ0d3bHhvbEwtNnZRWVZiQW4xTGMxQQ?oc=5",
+     "published": "2026-10-21T10:21:21+00:00"
+    }
+   ],
+   "last_seen": "2026-10-21T17:07:46.277380+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "35c73c811aa8",
+   "first_seen": "2026-10-21T17:07:46.277380+00:00",
+   "members": [
+    {
+     "outlet": "The Verge",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "Apple says it only has ‘limited’ iPhone Duo units for in-store sales",
+     "language": "en",
+     "link": "https://www.theverge.com/tech/1015372/apple-says-it-only-has-limited-iphone-duo-units-for-in-store-sales",
+     "published": "2026-10-21T14:22:59+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Apple will have limited iPhone Duo units available in stores on Friday",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2038796/apple-will-have-limited-iphone-duo-units-available-in-stores-on-friday",
+     "published": "2026-10-21T14:57:30+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Apple will have 'limited' iPhone Duo units available in stores on Friday",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/business/apple-will-have-limited-iphone-duo-units-available-in-stores-friday-6479306",
+     "published": "2026-10-21T14:03:20+00:00"
+    }
+   ],
+   "last_seen": "2026-10-21T17:07:46.277380+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "2698c1e94f22",
+   "first_seen": "2026-10-21T17:07:46.277380+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Strongest storm of the year barrels towards Taiwan and mainland China",
+     "language": "en",
+     "link": "https://www.scmp.com/news/china/politics/article/3371627/strongest-storm-year-barrels-towards-taiwan-and-mainland-china",
+     "published": "2026-10-21T08:00:06+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "World’s strongest storm of 2026, Champi, barrels towards Taiwan; China prepares evacuations and shutdowns",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/21/worlds-strongest-storm-of-2026-champi-barrels-towards-taiwan-china-prepares-evacuations-and-shutdowns/240042",
+     "published": "2026-10-21T08:31:28+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Strongest storm of the year barrels towards Taiwan and mainland China",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxQOTJWaW9zNF9BSUp2T19LMXAzcGJrOXBYeUJpbVoxUWRZc2pZV2EzWkRjcHc1a1k2aVB3WUV4ejREU2MyVlNkNUt4bllYZC02VWFoT2Qzc1VnaXd5R2IzZHlDTWJfSnBUenllYVdYal9TdnQ1SEZ5TnhFczMtX3pXNHozcExHcld1ZGZMdXhYaExOU0NjdFQ3eEhaOWQtcjBQeF94d1Y3NnFjQzNkeldOZjRTOXVxRXdoX2pF0gG7AUFVX3lxTE9mRjNIczQ5NnU2TmNvczJQSzFkTTl3V3Y0cEVvbEZ1UmdrM0R2ZnFGanM1Tm9EUFprdWNCejhIYUVQSGhjQTFOMzdTRVN2YzRKWHp6bFVxOU93ekdtMGk1RHY1ck1iaG95S0psTzljelpuaTd1VHFIQmdIRlFVWjExS3JCNUQ0cUlza3V5bFlEQy1ialBWTi0yVDNrRzhHWnpwUTZoQVAzWGg0ZFdxcnYtMUxqOUVsOFlZaUk?oc=5",
+     "published": "2026-10-21T08:00:06+00:00"
+    }
+   ],
+   "last_seen": "2026-10-21T17:07:46.277380+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
    "id": "64b5f613f840",
    "first_seen": "2026-10-16T17:07:44.136357+00:00",
    "members": [
@@ -11591,82 +11638,6 @@
    "regions": 2,
    "languages": 1,
    "score": 10.0
-  },
-  {
-   "id": "0732ad237a4f",
-   "first_seen": "2026-10-14T09:07:42.321915+00:00",
-   "members": [
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Swiatek wins all-Polish battle to launch Wuhan campaign",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2634776/swiatek-wins-all-polish-battle-to-launch-wuhan-campaign",
-     "published": "2026-10-14T01:46:56+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Relentless Swiatek wins all-Polish battle to launch Wuhan campaign",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/14/relentless-swiatek-wins-all-polish-battle-to-launch-wuhan-campaign",
-     "published": "2026-10-14T06:12:15+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Relentless Swiatek wins all-Polish battle to launch Wuhan campaign",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/sports/2026/10/14/relentless-swiatek-wins-all-polish-battle-to-launch-wuhan-campaign/239083",
-     "published": "2026-10-14T07:37:51+00:00"
-    }
-   ],
-   "last_seen": "2026-10-14T09:07:42.321915+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 1,
-   "score": 9.0
-  },
-  {
-   "id": "40cd4623c03e",
-   "first_seen": "2026-10-14T09:07:42.321915+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "MI5 chief warns of threats to UK from Russia, Iran and AI",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c60rl5vwpk02o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-13T15:52:15+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Britain’s MI5 spy chief warns of Iranian threats, AI-fuelled cyber risks: 'UK entering new era of national security’",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/britains-mi5-spy-chief-warns-of-iranian-threats-ai-fuelled-cyber-risks-uk-entering-new-era-of-national-security-101791900800308.html",
-     "published": "2026-10-13T15:06:21+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Iran, Russia, AI, Terrorists: MI5 Chief Flags Threats To UK",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/iran-russia-ai-terrorists-mi5-chief-ken-mccallum-flags-threats-to-uk-12182023#publisher=newsstand",
-     "published": "2026-10-14T02:55:54+00:00"
-    }
-   ],
-   "last_seen": "2026-10-14T09:07:42.321915+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 1,
-   "score": 9.0
   },
   {
    "id": "9a8c83344d32",
@@ -12248,6 +12219,158 @@
    "score": 9.0
   },
   {
+   "id": "2fd579828b3f",
+   "first_seen": "2026-10-21T17:07:46.277380+00:00",
+   "members": [
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Trump administration revokes over 300,000 visas",
+     "language": "en",
+     "link": "https://punchng.com/trump-administration-revokes-over-300000-visas-official/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-21T16:15:17+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump revokes over 300,000 visas: Here's what Indian nationals travelling to the US must know",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/trump-revokes-over-300-000-visas-heres-what-indian-nationals-travelling-to-the-us-must-know-101792588175308.html",
+     "published": "2026-10-21T14:10:17+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "US revokes over 300,000 visas under Trump administration",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/us-revokes-over-300000-visas-under-trump-administration-official/",
+     "published": "2026-10-21T15:57:11+00:00"
+    }
+   ],
+   "last_seen": "2026-10-21T17:07:46.277380+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
+   "id": "78ec9671e532",
+   "first_seen": "2026-10-21T17:07:46.277380+00:00",
+   "members": [
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Allen reveals mental health clinic stay before return",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/snooker/articles/c3ewe41dd0g5o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-21T10:56:37+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Snooker-Allen reveals mental health clinic stay before return, considers retirement",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/sport/snooker-allen-reveals-mental-health-clinic-stay-return-considers-retirement-6479266",
+     "published": "2026-10-21T13:44:53+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Mark Allen reveals he made snooker return after 10-week stay in mental health clinic",
+     "language": "en",
+     "link": "https://www.theguardian.com/sport/2026/oct/21/snooker-mark-allen-northern-ireland-open-mental-health",
+     "published": "2026-10-21T13:52:04+00:00"
+    }
+   ],
+   "last_seen": "2026-10-21T17:07:46.277380+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
+   "id": "b89124d552ed",
+   "first_seen": "2026-10-21T17:07:46.277380+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "OpenAI expands ChatGPT ads to 26 more countries, including Pakistan, in bid to boost revenue",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2038788/openai-expands-chatgpt-ads-to-26-more-countries-including-pakistan-in-bid-to-boost-revenue",
+     "published": "2026-10-21T13:47:38+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "OpenAI expands ChatGPT ads to Pakistan and 25 more countries in bid to boost revenue",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2636147/openai-expands-chatgpt-ads-to-pakistan-and-25-more-countries-in-bid-to-boost-revenue",
+     "published": "2026-10-21T10:07:11+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "OpenAI expands ChatGPT ads to 26 more countries in bid to boost revenue",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/business/openai-expands-chatgpt-ads-26-more-countries-in-bid-boost-revenue-6479191",
+     "published": "2026-10-21T13:00:50+00:00"
+    }
+   ],
+   "last_seen": "2026-10-21T17:07:46.277380+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
+   "id": "4b979c530e98",
+   "first_seen": "2026-10-21T17:07:46.277380+00:00",
+   "members": [
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "France protests: Macron blasts ‘stupid’ claims by Trump, others blaming Muslims migrants for French riots",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/france-protests-macron-blasts-stupid-claims-by-trump-others-blaming-muslims-migrants-for-french-riots/article71607424.ece",
+     "published": "2026-10-21T12:36:19+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Macron rejects Trump’s claims blaming migrants for French riots",
+     "language": "en",
+     "link": "https://www.france24.com/en/video/20261021-macron-rejects-trump-s-claims-blaming-migrants-for-french-riots",
+     "published": "2026-10-21T15:29:48+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "‘Stupid’ claims: Macron slams Trump, others for blaming Muslim migrants for French riots",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/emmanuel-macron-slams-stupid-claims-by-donald-trump-others-blaming-muslim-migrants-for-france-riots-paris-us-101792585128964.html",
+     "published": "2026-10-21T15:36:03+00:00"
+    }
+   ],
+   "last_seen": "2026-10-21T17:07:46.277380+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
    "id": "303226f0667e",
    "first_seen": "2026-10-14T17:07:55.411222+00:00",
    "members": [
@@ -12618,6 +12741,44 @@
     }
    ],
    "last_seen": "2026-10-20T17:07:55.647743+00:00",
+   "outlets": 3,
+   "regions": 1,
+   "languages": 1,
+   "score": 7.0
+  },
+  {
+   "id": "ed4126690bbf",
+   "first_seen": "2026-10-21T17:07:46.277380+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "ECP orders fresh schedule for Islamabad local government polls",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2038743/ecp-orders-fresh-schedule-for-islamabad-local-government-polls",
+     "published": "2026-10-21T07:36:53+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "ECP orders Islamabad local government elections under 2015 law",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2636073/ecp-orders-islamabad-local-government-elections-under-2015-law",
+     "published": "2026-10-21T00:59:22+00:00"
+    },
+    {
+     "outlet": "Geo News",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Islamabad local govt polls to be held under 2015 law, rules ECP",
+     "language": "en",
+     "link": "https://www.geo.tv/latest/687601-islamabad-local-govt-polls-to-be-held-under-2015-law-rules-ecp",
+     "published": "2026-10-21T09:45:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-21T17:07:46.277380+00:00",
    "outlets": 3,
    "regions": 1,
    "languages": 1,

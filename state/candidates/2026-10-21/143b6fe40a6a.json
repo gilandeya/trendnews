@@ -1,0 +1,78 @@
+{
+  "id": "143b6fe40a6a",
+  "created_at": "2026-10-21T17:08:02.500803+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.46,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "بوتين يعرض الوساطة بين إيران وأمريكا",
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Russia is ready to help resolve Iran-US dispute, Putin says",
+  "link": "https://www.tehrantimes.com/news/531357/Russia-is-ready-to-help-resolve-Iran-US-dispute-Putin-says",
+  "publishers": [
+    "IRNA English",
+    "Mehr News",
+    "Tehran Times",
+    "expert"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Russia is ready to help resolve Iran-US dispute, Putin says",
+    "link": "https://www.tehrantimes.com/news/531357/Russia-is-ready-to-help-resolve-Iran-US-dispute-Putin-says",
+    "summary": "TEHRAN— Russian President Vladimir Putin has said Moscow is ready to help resolve the dispute between Iran and the United States, citing Russia’s longstanding relationship with Tehran and expressing interest in Washington’s assessment of the situation in West Asia.",
+    "source_name": "Tehran Times",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-10-21T16:32:53+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/10/21/4/6228481.jpg",
+    "publisher": "Tehran Times",
+    "cluster_sources": [
+      "IRNA English",
+      "Mehr News",
+      "Tehran Times",
+      "expert"
+    ],
+    "cluster_members": [
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/248803/Putin-tells-Witkoff-is-ready-to-help-resolve-US-Iran-conflict"
+      },
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/531357/Russia-is-ready-to-help-resolve-Iran-US-dispute-Putin-says"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86299537/Russia-is-ready-to-help-resolve-US-Iran-conflict-Putin-tells"
+      },
+      {
+        "name": "expert",
+        "link": "https://tass.com/politics/2205773"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/10/21/4/6228481.jpg",
+      "https://media.mehrnews.com/d/2026/10/21/4/6228272.jpg",
+      "https://img9.irna.ir/d/r2/2026/10/21/4/173187221.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1872.9128684455554,
+    "is_stale": false,
+    "score": 23.461235734481484,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "بوتين يعرض الوساطة بين إيران وأمريكا",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "id": "4461fa45eba6",
+  "created_at": "2026-10-21T17:08:02.499942+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 32.93,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 3,
+  "appeal_note": "إيبولا يصل نيجيريا، مرض مخيف يمس الجميع",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Nigeria confirms Ebola case linked to East Africa",
+  "link": "https://www.bbc.co.uk/news/articles/cm2l4xw7xpjgo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "Africanews",
+    "AllAfrica",
+    "BBC World",
+    "Commissioner",
+    "Deutsche Welle",
+    "France24",
+    "Medical Xpress",
+    "The Guardian",
+    "The Guardian — World",
+    "The Hindu — International"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Nigeria confirms Ebola case linked to East Africa",
+    "link": "https://www.bbc.co.uk/news/articles/cm2l4xw7xpjgo?at_medium=RSS&at_campaign=rss",
+    "summary": "The female patient, who sources have told the BBC is not Nigerian, is in isolation and in an Abuja hospital.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-10-21T12:39:34+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/20ac/live/3b3288b0-cd3e-11f1-bc2e-018d645d8d21.png",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "Africanews",
+      "AllAfrica",
+      "BBC World",
+      "Commissioner",
+      "Deutsche Welle",
+      "France24",
+      "Medical Xpress",
+      "The Guardian",
+      "The Guardian — World",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/oct/21/nigeria-first-ebola-case-africa-outbreak-latest"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cm2l4xw7xpjgo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/10/21/nigeria-confirms-first-ebola-case-as-outbreak-spreads-across-africa/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/nigeria-confirms-its-first-ebola-case-is-bundibugyo-strain/article71607018.ece"
+      },
+      {
+        "name": "Commissioner",
+        "link": "https://punchng.com/no-ebola-case-in-oyo-commissioner/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "Medical Xpress",
+        "link": "https://medicalxpress.com/news/2026-10-africa-cdc-ebola-crisis-summit.html"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/20ac/live/3b3288b0-cd3e-11f1-bc2e-018d645d8d21.png",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/20ac/live/3b3288b0-cd3e-11f1-bc2e-018d645d8d21.png",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/20ac/live/3b3288b0-cd3e-11f1-bc2e-018d645d8d21.png",
+      "https://i.guim.co.uk/img/media/cc9a6ec270dac6b02b8ff0b829657c9fed193c1b/671_0_4033_3227/master/4033.jpg?width=700&quality=85&auto=format&fit=max&s=ecc5e33aa498c931dfa43b07adab1b11",
+      "https://i.guim.co.uk/img/media/cc9a6ec270dac6b02b8ff0b829657c9fed193c1b/671_0_4033_3227/master/4033.jpg?width=460&quality=85&auto=format&fit=max&s=02ab8d5538a018b8324d609cebea9f7e",
+      "https://i.guim.co.uk/img/media/cc9a6ec270dac6b02b8ff0b829657c9fed193c1b/671_0_4033_3227/master/4033.jpg?width=140&quality=85&auto=format&fit=max&s=16352e02a522e9bb6270cae4acc5a411"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 10,
+    "velocity": 1.0,
+    "age_hours": 1872.9127911686112,
+    "is_stale": false,
+    "score": 32.93444594971764,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 3,
+    "appeal_note": "إيبولا يصل نيجيريا، مرض مخيف يمس الجميع",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
