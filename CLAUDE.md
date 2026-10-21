@@ -2438,3 +2438,19 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 - **سجل المحاولات:** `write_script(..., info=)` يملأ `info["attempts"] = [{attempt, reasons}]` لكل محاولة رُفضت (أو تعطلت تقنيًا) و`info["warnings"]`؛
   `write_for_draft` يحفظ `script_attempts` على المسودة (ضمن `SCRIPT_KEYS` وإلا ضاع) ويضيف التنبيهات إلى `warnings`. بند الريل الفاشل في المرحلة 2
   يعرض تحت سطر ❌ «محاولات الكتابة: 1) … 2) …» (`reel.texts.script_attempts_line`).
+
+## الفارسية ليست عربية وإعادة جولة المحرر (Issue #1670، Q9) — `src/reel_clips.py`، `src/editor.py`
+
+الحادثة (الريل 47e5af25182c، #1669): ترجمة فارسية بحروفها تحت مقطع إيران إنترناشيونال لأن `is_arabic_audio` تعدّ النطاق U+0600–U+06FF كله عربيًا،
+وجولة تصحيح E1 رُفضت كلها بسبب ملاحظة low اقترح فيها المحرر «أكتوبر/تشرين الأول» وسياقًا أطول من الحد. `render_version` = 42. الشاهد
+`tests/fixtures/reel/1669/draft.json`؛ g578–g583 في `tests/test_guards_golden.py:test_reel_persian_editor_retry_q9_guards`.
+
+- **لغة الصوت:** `is_arabic_audio(text, lang=None, cfg=None)`: رمز `language_code` للنص المجلوب هو الحكم إن وُجد (عربي إن بدأ بـ`ar`)؛ يصل عبر حقل
+  `Deps.transcript_lang` (يملؤه `resolved` من `fetch_transcript` الحقيقي، وNone مع المزيَّفات فيعود الحكم إلى الحروف). بلا رمز: نسبة حروف النطاق العربي ≥ 0.6
+  **و** نسبة `PERSIAN_ONLY` (پ چ ژ گ ک ی ۀ ھ ے ٹ ڈ ڑ ں) < `reel.render.span.persian_ratio` (0.02).
+- **حارس أخير (`_decide_span`):** نص معروض نهائي فيه حرف من `PERSIAN_ONLY` يُهمَل فتبقى `quote_arabic`، ويُسجَّل `render_spans[i].reason_fallback = "persian_text"` وسطر
+  `comment_persian_text`.
+- **جولة المحرر:** `editor.system_extra.reel` فيها قواعد `validate_v2` بأرقام تُملأ من الإعداد (`Adapter.system_vars` ← `editor.extra_of`، تصل إلى المراجعة والتصحيح
+  معًا) وتعليمة «فاترك fix فارغًا». مخالفة جديدة في `revise_round` لا تُرفض فورًا: إعادة واحدة في المحادثة نفسها (user الأصلية ← assistant `tool_use` ← user `tool_result` بـ`is_error`
+  نصه `editor.texts.revise_retry`)، وبقاؤها بعد الإعادة يرفض كما كان؛ يُحفظ `editor_revision.attempts = [{attempt, error}]`. الإعادة في الآلة العامة فتشمل كل المسارات.
+- **سطور التعليق:** `_comment_text` تضيف «- » لكل ملاحظة لا تبدأ بها (لا تغيير في نصوص الإعداد).

@@ -81,6 +81,12 @@ class ReelAdapter(editor.Adapter):
                          f"  الفيديو: {c['video_url']} (نُشر: {c.get('video_published') or 'غير معروف'})")
         return lines
 
+    def system_vars(self, cfg: Any) -> dict[str, Any]:
+        """حدود validate_v2 من الإعداد تُملأ في فقرة قواعد الريل (Q9): المحرر لا يقترح إصلاحًا يخالفها."""
+        g = lambda k, d: reel_script._v2(cfg, k, d)  # noqa: E731
+        return {"main_question_max_words": g("main_question_max_words", 12), "context_max_words": g("context_max_words", 25),
+                "context_max_sentences": g("context_max_sentences", 3), "question_max_words": g("question_max_words", 10)}
+
     def problems(self, title: str, body: str, headlines: list[str], ctx: dict, cfg: Any) -> set[str]:
         script, _ = reel_script.apply_lines(ctx.get("script") or {}, body)
         script["title"] = title

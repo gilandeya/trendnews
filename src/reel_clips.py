@@ -146,12 +146,27 @@ def check_span(raw, segments, first: int, last: int, cfg=None) -> tuple[dict | N
     return out, ""
 
 
-def is_arabic_audio(text: str) -> bool:
-    """لغة الصوت من حروف النص المجلوب نفسه لا من scene.language: الصوت المدبلج عربي وإن استُخرجت النقطة من غيره (نسبة ≥ 0.6)."""
+# حروف خاصة بالفارسية والأردية؛ «ی» و«ک» رمزان غير «ي» و«ك» العربيتين فتُعدّان (Issue #1670، Q9)
+PERSIAN_ONLY = set("پچژگکیۀھےٹڈڑں")
+
+
+def has_persian_letters(text: str) -> bool:
+    return any(ch in PERSIAN_ONLY for ch in str(text or ""))
+
+
+def is_arabic_audio(text: str, lang: str | None = None, cfg=None) -> bool:
+    """لغة الصوت. رمز لغة النص المجلوب (language_code) إن عُرف هو الحكم: عربي إن بدأ بـar. وبلا رمز من حروف النص نفسه لا من
+    scene.language: الصوت المدبلج عربي وإن استُخرجت النقطة من غيره (نسبة حروف النطاق العربي ≥ 0.6) بشرط ألا تبلغ نسبة الحروف
+    الخاصة بالفارسية reel.render.span.persian_ratio، فالفارسية تُكتب بحروف النطاق نفسه (Issue #1670، Q9)."""
+    if lang:
+        return str(lang).strip().lower().startswith("ar")
     letters = [ch for ch in str(text) if ch.isalpha()]
     if not letters:
         return False
-    return sum(1 for ch in letters if "؀" <= ch <= "ۿ" or "ݐ" <= ch <= "ݿ") / len(letters) >= 0.6
+    if sum(1 for ch in letters if "؀" <= ch <= "ۿ" or "ݐ" <= ch <= "ݿ") / len(letters) < 0.6:
+        return False
+    limit = float(cfg.path("reel.render.span.persian_ratio", 0.02)) if cfg is not None else 0.02
+    return sum(1 for ch in letters if ch in PERSIAN_ONLY) / len(letters) < limit
 
 
 def resolve_display(raw_text, lines_text: str, arabic: bool) -> str:
