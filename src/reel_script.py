@@ -73,11 +73,15 @@ REEL_TOOL_V2 = {
                     "answers": {"type": "array", "items": {
                         "type": "object",
                         "properties": {"point_id": {"type": "string"},
-                                       "stance": {"type": "string", "description": "موقف المتحدث في ثماني كلمات أو أقل"}},
-                        "required": ["point_id", "stance"]}},
+                                       "stance": {"type": "string", "description": "موقف المتحدث في ثماني كلمات أو أقل"},
+                                       "angle": {"type": "string", "description": "زاوية الإجابة في أقل من ثماني كلمات: ما تقوله ولم تقله إجابة قبلها في السؤال"},
+                                       "repeats": {"type": "boolean", "description": "صحيحة إن كانت تكرر زاوية إجابة سابقة في السؤال"}},
+                        "required": ["point_id", "stance", "angle", "repeats"]}},
                 },
                 "required": ["role", "text", "answers"]}},
             "closing_question": {"type": "string", "description": "سؤال الختام: مفتوح محايد"},
+            "single_angle": {"type": "boolean", "description": "صحيحة إن لم تجد في المقاطع زاويتين مختلفتين فعلًا (Q4)"},
+            "single_angle_reason": {"type": "string", "description": "سبب single_angle"},
         },
         "required": ["main_question", "context", "questions", "closing_question"],
     },
@@ -548,7 +552,8 @@ def _build_v2(data: dict, valid: list[dict], narrator: str, topic: dict | None =
             stance = " ".join(str(a.get("stance") or "").split())
             if stance_max:
                 stance = " ".join(stance.split()[:stance_max])
-            scene = {"kind": "clip", "point_id": pid, "q": i, "stance": stance}
+            scene = {"kind": "clip", "point_id": pid, "q": i, "stance": stance,
+                     "angle": " ".join(str(a.get("angle") or "").split()), "repeats": a.get("repeats") is True}
             c = by_id.get(pid)
             if c:
                 scene.update({k: c.get(k, "") for k in _CLIP_COPY})
@@ -644,6 +649,12 @@ def _type_violations(clips: list[dict], by_id: dict, valid: list[dict]) -> list[
             for s in clips if s.get("point_id") in by_id and by_id[s["point_id"]].get("type") not in _OPINION_TYPES]
 
 
+def _fold_angle(text: Any) -> str:
+    """الزاوية للمقارنة: كلمات مفصولة بمسافة واحدة بلا ألف التعريف ولا تشكيل."""
+    t = re.sub("[\u064b-\u065f\u0640]", "", str(text or ""))
+    return " ".join(w[2:] if w.startswith("ال") and len(w) > 4 else w for w in t.split())
+
+
 def validate_v2(script: dict, valid: list[dict], cfg: Any) -> list[str]:
     """أسباب رفض سيناريو v2 (قائمة فارغة = صالح). دالة خالصة، الأسباب بالعربية."""
     out: list[str] = []
@@ -713,6 +724,15 @@ def validate_v2(script: dict, valid: list[dict], cfg: Any) -> list[str]:
         who = [_speaker_identity(by_id[s["point_id"]]) for s in mine if s.get("point_id") in by_id]
         if len(set(who)) != len(who):
             out.append(f"متحدث مكرر في إجابات السؤال {n}")
+    # 5ب) المنظورات (Q4، Issue #1654): الكاتب يحكم هل تكرر الإجابة زاوية سابقة والكود ينفّذ الحكم؛ وسؤال core تتساوى زوايا إجاباته
+    # (حين بلّغ الكاتب بها) لا يعرض منظورين. اتفاق متحدثَين بزاويتين مختلفتين جائز فلا يُمنع
+    for n, q in enumerate(qs, start=1):
+        mine = [s for s in clips if s.get("q") == q.get("q")]
+        angles = [_fold_angle(s.get("angle")) for s in mine if s.get("angle")]
+        dup = any(s.get("repeats") is True for s in mine) or (
+            q.get("qrole") == "core" and len(angles) >= 2 and len(set(angles)) < 2)
+        if dup:
+            out.append(f"إجابة تكرر زاوية سابقة في سؤال «{q.get('text', '')}»")
     # 6) السؤال الأول: طيف من متحدثَين مختلفَين إن أمكن
     if qs and len({_speaker_identity(c) for c in valid}) >= 2:
         first = [by_id[s["point_id"]] for s in clips if s.get("q") == qs[0].get("q") and s.get("point_id") in by_id]
@@ -769,6 +789,10 @@ def write_script(topic: dict, article_text: str, valid: list[dict], narrator: st
             continue
         if v2:
             # القصّ قبل التحقق: ما يتجاوز السقف يُقصّ بالكود فلا تُهدر محاولة الإعادة على مدة يصلحها الكود
+            if data.get("single_angle") is True:
+                # الكاتب لم يجد زاويتين مختلفتين فلا إعادة: إعادة الكتابة تدفعه لاختراع زاوية (Q4، Issue #1654)
+                why = " ".join(str(data.get("single_angle_reason") or "").split()) or "—"
+                return None, str(cfg.path("reel.texts.single_angle", "لا منظورات مختلفة في المقاطع: {reason}")).format(reason=why)
             script, _ = trim_v2(_build_v2(data, valid, narrator, topic, cfg), cfg)
             problems = validate_v2(script, valid, cfg)
         else:
@@ -891,6 +915,8 @@ def timeline_lines(script: dict, cfg: Any) -> list[str]:
             line = re.sub(r"(·\s*){2,}", "· ", line).rstrip(" ·")   # شارة فارغة ← لا فاصل معلَّق
             if v2 and scene.get("stance"):
                 extra = t.get("scene_stance", "↳ الموقف: {stance}").format(stance=scene["stance"])
+                if scene.get("angle"):
+                    extra += " · " + t.get("scene_angle", "↳ الزاوية: {angle}").format(angle=scene["angle"])
         else:
             key = {"title_card": "scene_title", "narration": "scene_narration", "question": "scene_question",
                    "outro": "scene_outro"}.get(kind, "")
