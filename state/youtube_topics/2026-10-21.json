@@ -1,0 +1,961 @@
+{
+  "run_date": "2026-10-21",
+  "stats": {
+    "points_in": 212,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 62,
+    "issues_clustered": 39,
+    "topics_merged": 8,
+    "topics_out": 7,
+    "dropped_by_bloc_cap": 3,
+    "topics_seen_skipped": 1,
+    "topics_below_min_points": 13,
+    "topics_below_min_channels": 7,
+    "layers": {
+      "3": 2,
+      "2": 3,
+      "1": 2
+    },
+    "agreement": 2,
+    "cross_source": 5,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "المقاربة الأمنية الفرنسية وفشلها",
+      "اعتراضات فرنسا من منظور إيراني"
+    ],
+    [
+      "ملاحقة الصحفيين في تركيا بسبب قضية الصناديق",
+      "وقفة صحفية تركية ضد الرقابة"
+    ],
+    [
+      "استبعاد الأحزاب العربية من الانتخابات الإسرائيلية",
+      "انسحاب غانتس من السباق الانتخابي الإسرائيلي"
+    ],
+    [
+      "الملف النووي الإيراني في المفاوضات",
+      "مضيق هرمز كورقة إيرانية"
+    ],
+    [
+      "تصعيد قبل انتخابات الكونغرس الأمريكية",
+      "توقعات حرب شاملة في المنطقة"
+    ],
+    [
+      "الدفاع البريطاني الجوي عن السعودية",
+      "التدخل المصري دعماً للسعودية ضد الحوثيين"
+    ],
+    [
+      "حصار تعز من قبل الحوثيين",
+      "حادث منجم إيليتش ومحاكمة المتهمين"
+    ],
+    [
+      "انضمام نواب وشخصيات لحزب العدالة والتنمية التركي",
+      "انتقالات البلديات إلى حزب العدالة والتنمية"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "المقاربة الأمنية الفرنسية وفشلها",
+      "event": "تقييم المقاربة الأمنية الحكومية الفرنسية تجاه الاحتجاجات وفشلها في ضبطها",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "Iran International",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        7,
+        8,
+        48,
+        49,
+        50,
+        51,
+        107
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null,
+      "id": "4bcc7c9ba28b",
+      "created_at": "2026-10-21T04:02:22.669519+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1649
+    },
+    {
+      "title": "تصعيد قبل انتخابات الكونغرس الأمريكية",
+      "event": "تحليل تأثير توقيت التصعيد مع إيران على الانتخابات الأمريكية النصفية",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "All Israel News",
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        61,
+        64,
+        138,
+        149
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null,
+      "id": "1b504f486676",
+      "created_at": "2026-10-21T04:02:22.669519+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1649
+    },
+    {
+      "title": "الدفاع البريطاني الجوي عن السعودية",
+      "event": "إرسال بريطانيا مقاتلات تايفون للدفاع عن الأجواء السعودية ضد هجمات الحوثيين",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        63,
+        74,
+        75,
+        85,
+        86,
+        87,
+        89,
+        90,
+        136,
+        137
+      ],
+      "total_points": 10,
+      "fresh_points": 10,
+      "dropped_reason": null,
+      "id": "b3b81b77464a",
+      "created_at": "2026-10-21T04:02:22.669519+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1649
+    },
+    {
+      "title": "تفسير أسباب احتجاجات فرنسا",
+      "event": "تحليل الدوافع الاقتصادية والاجتماعية وراء احتجاجات الشباب في فرنسا",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        6,
+        26,
+        106
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": null,
+      "id": "4680c232448e",
+      "created_at": "2026-10-21T04:02:22.669519+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1649
+    },
+    {
+      "title": "استبعاد الأحزاب العربية من الانتخابات الإسرائيلية",
+      "event": "انسحاب سامي أبو شحادة وحزب التجمع من الانتخابات بعد حظر المحكمة وتوقعات إقبال الناخبين العرب",
+      "layer": 2,
+      "blocs": [
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "Haaretz",
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        58,
+        59,
+        140,
+        144
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null,
+      "id": "55033af89764",
+      "created_at": "2026-10-21T04:02:22.669519+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1649
+    },
+    {
+      "title": "قضية صناديق الاستثمار التركية",
+      "event": "فضيحة صناديق الاستثمار في تركيا واتهامات الاحتيال والتصفية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        33,
+        34,
+        36,
+        42,
+        43,
+        116,
+        117,
+        123,
+        124,
+        131
+      ],
+      "total_points": 10,
+      "fresh_points": 8,
+      "dropped_reason": null,
+      "id": "27f5fd017245",
+      "created_at": "2026-10-21T04:02:22.669519+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1649
+    },
+    {
+      "title": "تأييد ترامب لنتنياهو قبل الانتخابات الإسرائيلية",
+      "event": "إعلان ترامب تأييده الكامل لنتنياهو قبل أسبوع من الانتخابات الإسرائيلية وتحليل دلالاته وأثره",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "All Israel News",
+        "Haaretz"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        54,
+        55,
+        56,
+        145,
+        146,
+        148
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null,
+      "id": "935d5af23005",
+      "created_at": "2026-10-21T04:02:22.669519+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1649
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "المقاربة الأمنية الفرنسية وفشلها",
+      "event": "تقييم المقاربة الأمنية الحكومية الفرنسية تجاه الاحتجاجات وفشلها في ضبطها",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "Iran International",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        7,
+        8,
+        48,
+        49,
+        50,
+        51,
+        107
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "تصعيد قبل انتخابات الكونغرس الأمريكية",
+      "event": "تحليل تأثير توقيت التصعيد مع إيران على الانتخابات الأمريكية النصفية",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "All Israel News",
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        61,
+        64,
+        138,
+        149
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "الدفاع البريطاني الجوي عن السعودية",
+      "event": "إرسال بريطانيا مقاتلات تايفون للدفاع عن الأجواء السعودية ضد هجمات الحوثيين",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        63,
+        74,
+        75,
+        85,
+        86,
+        87,
+        89,
+        90,
+        136,
+        137
+      ],
+      "total_points": 10,
+      "fresh_points": 10,
+      "dropped_reason": null
+    },
+    {
+      "title": "مستقبل الأزمة السياسية الفرنسية",
+      "event": "توقعات حول مآل الأزمة السياسية الفرنسية بعد الاحتجاجات",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        9,
+        25,
+        32
+      ],
+      "total_points": 3,
+      "fresh_points": 1,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "تفسير أسباب احتجاجات فرنسا",
+      "event": "تحليل الدوافع الاقتصادية والاجتماعية وراء احتجاجات الشباب في فرنسا",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        6,
+        26,
+        106
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": null
+    },
+    {
+      "title": "استبعاد الأحزاب العربية من الانتخابات الإسرائيلية",
+      "event": "انسحاب سامي أبو شحادة وحزب التجمع من الانتخابات بعد حظر المحكمة وتوقعات إقبال الناخبين العرب",
+      "layer": 2,
+      "blocs": [
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "Haaretz",
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        58,
+        59,
+        140,
+        144
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "الملف النووي الإيراني في المفاوضات",
+      "event": "تأثير إضافة الملف النووي على مسار التفاوض الإيراني الأمريكي وتعقيداته",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        1,
+        2,
+        60,
+        79,
+        80,
+        81,
+        82,
+        135
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "حصار تعز من قبل الحوثيين",
+      "event": "حصار الحوثيين لمدينة تعز اليمنية وتداعياته الإنسانية",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        72,
+        73,
+        112,
+        113
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "احتجاجات فرنسا وحظر التجول والاستقالة",
+      "event": "أعمال شغب في فرنسا تلت احتجاجات السبت وإعلان استقالة وزير الداخلية وفرض حظر تجول",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        4,
+        5,
+        22,
+        23,
+        24,
+        27
+      ],
+      "total_points": 6,
+      "fresh_points": 4,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "قضية صناديق الاستثمار التركية",
+      "event": "فضيحة صناديق الاستثمار في تركيا واتهامات الاحتيال والتصفية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        33,
+        34,
+        36,
+        42,
+        43,
+        116,
+        117,
+        123,
+        124,
+        131
+      ],
+      "total_points": 10,
+      "fresh_points": 8,
+      "dropped_reason": null
+    },
+    {
+      "title": "تأييد ترامب لنتنياهو قبل الانتخابات الإسرائيلية",
+      "event": "إعلان ترامب تأييده الكامل لنتنياهو قبل أسبوع من الانتخابات الإسرائيلية وتحليل دلالاته وأثره",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "All Israel News",
+        "Haaretz"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        54,
+        55,
+        56,
+        145,
+        146,
+        148
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "تصريحات سموتريتش عن مصر وأثرها",
+      "event": "تصريحات وزير إسرائيلي (سموتريتش) ضد مصر وتداعياتها على معاهدة السلام",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        77,
+        84
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "محاكمة المدنيين عسكريًا في ليبيا وأحكام الإعدام",
+      "event": "الجدل حول محاكمة مدنيين أمام القضاء العسكري في ليبيا وأحكام الإعدام الصادرة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        91,
+        92,
+        93,
+        94,
+        95,
+        96
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "انضمام نواب وشخصيات لحزب العدالة والتنمية التركي",
+      "event": "إعلان انضمام شخصيات ونواب إلى حزب العدالة والتنمية التركي",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        28,
+        29,
+        103,
+        104,
+        108
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الانقسام داخل المعارضة التركية (حزب الشعب الجمهوري)",
+      "event": "انقسام حزب الشعب الجمهوري التركي وتداعياته على المشهد السياسي",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        29,
+        30,
+        31,
+        110
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "مسيرة 17 أكتوبر في تونس",
+      "event": "تنظيم مسيرة 17 أكتوبر في تونس والجدل حول نجاحها ومنعها",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        16,
+        17,
+        18,
+        19
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "ملاحقة الصحفيين في تركيا بسبب قضية الصناديق",
+      "event": "رفع دعاوى واعتقال صحفيين على خلفية كشف قضية الصناديق",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        35,
+        111,
+        114,
+        121
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "أثر فضيحة الصناديق على حزب العدالة والتنمية",
+      "event": "تقييم الأثر السياسي والاقتصادي لفضيحة الصناديق على الحزب الحاكم والاقتصاد التركي",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        37,
+        38,
+        127,
+        128
+      ],
+      "total_points": 4,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "المطالبة بالكشف عن أسماء المتورطين في قضية الصناديق",
+      "event": "مطالبات بالكشف عن أسماء المستفيدين من أزمة الصناديق ومحاسبتهم",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        39,
+        42,
+        130
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "السعي الإيراني لامتلاك سلاح نووي",
+      "event": "توقعات ودعوات إيرانية لتغيير العقيدة النووية وصنع قنبلة ذرية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        65,
+        81
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تصويت البرلمان الليبي على مذكرات التفاهم مع تركيا",
+      "event": "تصويت مجلس النواب الليبي على اعتماد مذكرتي التفاهم مع تركيا وإلغاء قطع العلاقات",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        66,
+        67,
+        68,
+        69,
+        71
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "قمة ثلاثية ترامب بوتين شي جين بينغ",
+      "event": "تصريح ترامب عن قمة ثلاثية محتملة في الصين مع بوتين وشي جين بينغ حول نزع السلاح النووي",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        97,
+        99
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "إقصاء أوروبا وأوكرانيا عن مسار التسوية الروسية الأوكرانية",
+      "event": "تهميش أوروبا وأوكرانيا في مباحثات تسوية الحرب الروسية الأوكرانية بين القوى الكبرى",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        100,
+        101,
+        102
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "غياب مرشح موحد للمعارضة التركية لمواجهة أردوغان",
+      "event": "نقاش حول عدم اتفاق المعارضة التركية على مرشح رئاسي موحد وترشح أردوغان",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        105,
+        109
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "صعوبة تشكيل حكومة إسرائيلية جديدة بعد الانتخابات",
+      "event": "تحليل صعوبة تشكيل نتنياهو أو المعارضة لحكومة مستقرة بعد الانتخابات الإسرائيلية",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        141,
+        142,
+        143
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "ميزانية فرنسا 2027 والتعليم",
+      "event": "نقاش حول ميزانية فرنسا لعام 2027 وتأثيرها على التعليم والتقشف",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        11,
+        12,
+        15
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الإعفاء الأمريكي لنفط الديزل الروسي",
+      "event": "قرار أمريكي بالسماح باستيراد كميات محدودة من الديزل الروسي وتحليل دوافعه وأثره",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        13,
+        14
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الأزمة الاقتصادية وأسعار المحروقات في تونس",
+      "event": "نقاش حول الأزمة الاقتصادية في تونس وقرار الرئيس بشأن أسعار المحروقات",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        20,
+        21
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "موازنة تركيا 2026 وعبء الفائدة",
+      "event": "تحليل موازنة تركيا 2026 وارتفاع مصروف الفائدة فيها",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        44,
+        45
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "وعد الرئاسة التركية بالمحاسبة في قضية الصناديق",
+      "event": "تصريحات رسمية تركية بالمضي في التحقيق والمحاسبة بشأن قضية الصناديق",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        40,
+        41,
+        132
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الديمقراطية الداخلية للحزب الجديد التركي",
+      "event": "إعلان الحزب الجديد عن انتخابات داخلية مباشرة لقيادته وأقاليمه",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        115,
+        122
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    }
+  ]
+}
