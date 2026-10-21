@@ -19185,10 +19185,17 @@ def test_reel_subject_q7_guards() -> None:
         path = store.save_draft(d0)
         calls = []
 
+        def bg_image(u):
+            # صورة حقيقية لا رابط: _resolve_background تحضّر المختارة بـprepare_background بعد إعادة الاختيار
+            im = Image.new("RGB", (1600, 900), (80, 90, 100))
+            im.info["url"] = u
+            return im
+
         def judge(img, subject, c):
-            calls.append(img)
-            return {"fits": img != fx["reel_bg"]["url"], "shows": "علما", "reason": "r"}
-        deps = reel_render.Deps(bg_image=lambda u: u, bg_providers=providers(judge, cands))
+            key = img if isinstance(img, str) else img.info.get("url")
+            calls.append(key)
+            return {"fits": key != fx["reel_bg"]["url"], "shows": "علما", "reason": "r"}
+        deps = reel_render.Deps(bg_image=bg_image, bg_providers=providers(judge, cands))
         _, saved = reel_render._resolve_background(path, dict(d0), cfg, deps, [])
         check("g570: بلا judged ← حُكم عليها فأُعيد الاختيار وحُفظ", saved["url"] == "https://n/2.jpg" and saved.get("judged") is True
               and calls[0] == fx["reel_bg"]["url"], (saved, calls))
