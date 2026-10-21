@@ -4017,7 +4017,9 @@ def test_editor_shared_1327_guards() -> None:
                   and any("حُوِّل" in t and "تنبيهات فحص" in t for _n, t in rig.comments)
                   and len(stage2) == 1 and f"<!-- draft:{near_id} -->" in stage2[0]["body"],
                   (code, rig.comments, [c["labels"] for c in rig.created]))
-            order = [s["messages"][0]["content"].split("نوع المنشور: ")[1].split()[0] for s in sent]
+            # نداءات المراجعة وحدها: جولة التصحيح (E1، report_revision) نداء ثانٍ للمنشور نفسه لا يغيّر ترتيب المرور
+            order = [s["messages"][0]["content"].split("نوع المنشور: ")[1].split()[0] for s in sent
+                     if not any(t.get("name") == "report_revision" for t in s.get("tools") or [])]
             check("g144: المحرر مرّ بالمنشورات الثلاثة بترتيب verified ← nearest ← refuted بعد كتابتها كلها",
                   len(writes) == 3 and order == ["verified", "nearest", "refuted"], (len(writes), order))
 
