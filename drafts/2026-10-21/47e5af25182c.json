@@ -1,7 +1,7 @@
 {
   "id": "47e5af25182c",
   "created_at": "2026-10-21T17:50:36.491051+00:00",
-  "status": "pending",
+  "status": "approved_script",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -570,5 +570,13 @@
   "has_photo": false,
   "has_news_photo": true,
   "review_issue": 1668,
-  "stage2_issue": 1668
+  "stage2_issue": 1668,
+  "render_status": "queued",
+  "approved_script_at": "2026-10-21T17:56:43.816594+00:00",
+  "editor_override": {
+    "at": "2026-10-21T17:56:43.816582+00:00",
+    "reasons": [
+      "اقتباس مبتور ينتهي بفعل معلّق («يتوخى») بلا مكمِّل، فيظهر على الشاشة ناقص المعنى. وفق نقطة المصدر فإن تمام القول هو أن القرار المصري مستقل ويتوخى المصلحة القومية العربية والأمن القومي المصري؛ يلزم اقتطاع جملة مكتملة من المقطع نفسه أو إيقاف الاقتباس عند «قرار مستقل»."
+    ]
+  }
 }
