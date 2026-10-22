@@ -177,6 +177,10 @@ def find_candidates(seen_totals: dict[str, int], learned: dict,
             # لا رسمان لاسم واحد -- لا يُرشَّح ولا يُسأل عنه النموذج (Issue #1684)
             if w1 in w2 or w2 in w1:
                 continue
+            # كلمة تصير كلمةً معدودة أخرى بإضافة سابقة هي على الأرجح أثر تجريد _strip_prefix لا كلمة حقيقية
+            # («ريطانية» من «بريطانية»، «هرباء» من «كهرباء»): قبولها مع ثالثة («إيرانية») يجعل «بريطانية» «بإيرانية»
+            if any((p + w) in seen_totals for w in (w1, w2) for p in names._NAME_PREFIXES):
+                continue
             if _levenshtein(_unify_structure(w1), _unify_structure(w2)) > _MAX_LEVENSHTEIN:
                 continue
             seen_pairs.add(key)
