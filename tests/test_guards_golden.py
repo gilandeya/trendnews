@@ -19530,7 +19530,166 @@ def test_reel_persian_editor_retry_q9_guards() -> None:
                                          ["📏 أ", "- 📝 ب", "🎞️ ج"])
         rest = text.split("\n")
         check("g583: كل سطر ملاحظة يبدأ بـ«- » ولا «- - »", rest[-3:] == ["- 📏 أ", "- 📝 ب", "- 🎞️ ج"] and "- - " not in text, text)
-        check("g583: render.version = 42", int(cfg.path("reel.render.version")) == 42, cfg.path("reel.render.version"))
+        check("g583: render.version >= 42", int(cfg.path("reel.render.version")) >= 42, cfg.path("reel.render.version"))
         check("g583: persian_ratio في الإعداد", float(cfg.path("reel.render.span.persian_ratio")) == 0.02)
         check("g583: نص التنبيه في الإعداد", "{channel}" in t["comment_persian_text"])
     guarded("g583", g583)
+
+
+def test_reel_approx_host_sorry_q10_guards() -> None:
+    """Issue #1672 (Q10، g584–g589): مقطع بنافذة تقديرية لا يُعرض باسم لم يُتحقق منه بصريًا، واسم المقدّم في الشريط ليس اسم المتكلم،
+    وحجب جوجل يُعاد ويُرى سببه كاملًا، وقضية المراجعة المغلقة تُعاد فتحها، وسبب الحذف يُكتب مرة. الشاهد
+    tests/fixtures/reel/1669/render2.json (الريل 47e5af25182c، التركيب الثاني). لا شبكة."""
+    import copy
+    import json
+    from pathlib import Path
+
+    import requests
+
+    from src import reel_render, reel_review, review, youtube_extract
+
+    cfg = load_config()
+    root = Path(__file__).resolve().parent
+    fx = json.loads((root / "fixtures/reel/1669/render2.json").read_text(encoding="utf-8"))
+    t = cfg.path("reel.render.texts")
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def fr(name, kind="person", nis=None, ar=None):
+        f = dict(has_caption=bool(name), name_original=name, name_arabic=ar if ar is not None else name,
+                 role_original="", role_arabic="", is_presenter=False, name_kind=kind)
+        if nis is not None:
+            f["name_is_speaker"] = nis
+        return f
+
+    def prune(frames_for_4, approx=True):
+        script = copy.deepcopy(fx["script"])
+        script["scenes"][4]["speaker_text"] = "منيف عماش الحربي"
+        for i in (3, 5):
+            script["scenes"][i]["speaker_text"] = ""
+        clips = {i: dict(file=f"c{i}", seconds=8.0, video_id="v") for i in (3, 4, 5)}
+        if approx:
+            clips[4]["approx"] = True
+        calls = []
+
+        def read(file, c):
+            calls.append(file)
+            return frames_for_4 if file == "c4" else []
+        deps = reel_render.Deps(read_chyron=read)
+        notes, dropped = [], []
+        out, dead = reel_render._prune_mismatched(script, clips, cfg, deps, {}, notes, dropped)
+        return out, dropped, notes, calls
+
+    def g584():
+        out, dropped, notes, calls = prune([fr("علي البخيتي"), fr("علي البخيتي")])
+        check("g584: اسم آخر ← المقطع محذوف بسبب المخالفة", 4 not in out and len(dropped) == 1
+              and "علي البخيتي" in dropped[0]["reason"] and "الحربي" in dropped[0]["reason"], dropped)
+        out, dropped, notes, calls = prune([fr(""), fr("")])
+        check("g584: بلا اسم ← محذوف بـdrop_approx_unverified", 4 not in out and len(dropped) == 1
+              and dropped[0]["reason"] == t["drop_approx_unverified"].format(speaker="منيف عماش الحربي"), dropped)
+        out, dropped, notes, calls = prune([fr("منيف عماش الحربي"), fr("منيف عماش الحربي")])
+        check("g584: اسمه yes ← يبقى", 4 in out and not dropped, dropped)
+    guarded("g584", g584)
+
+    def g585():
+        out, dropped, notes, calls = prune([fr("علي البخيتي"), fr("علي البخيتي")], approx=False)
+        check("g585: نافذة من النص ← لا قراءة شريط لمسمّى موثَّق", "c4" not in calls and 4 in out and not dropped, (calls, dropped))
+    guarded("g585", g585)
+
+    def g586():
+        host = [fr("فرداد فرحزاد", nis="no"), fr("فرداد فرحزاد", nis="no"), fr("فرداد فرحزاد", nis="no")]
+        res = reel_render.resolve_chyron(host, cfg, "Iran International")
+        check("g586: no ← غير مقبول وrejected = host", res["accepted"] is False and res["rejected"] == "host", res)
+        old = reel_render.resolve_chyron([fr("فرداد فرحزاد"), fr("فرداد فرحزاد")], cfg, "Iran International")
+        check("g586: غياب الحقل ← السلوك القديم (مقبول)", old["accepted"] is True and old["rejected"] == "", old)
+        yes = reel_render.resolve_chyron([fr("فرداد فرحزاد", nis="yes")] * 2, cfg, "")
+        check("g586: yes مقبول", yes["accepted"] is True, yes)
+        unsure = reel_render.resolve_chyron([fr("فرداد فرحزاد", nis="unsure")] * 2, cfg, "")
+        check("g586: unsure لا يُعدّ", unsure["accepted"] is False, unsure)
+        scene = copy.deepcopy(fx["script"]["scenes"][3])
+        scene["speaker_text"] = "علي سزاده، محلل شؤون الشرق الأوسط"
+        notes = []
+        mm = reel_render._apply_chyron(scene, dict(file="c3"), cfg, reel_render.Deps(read_chyron=lambda f, c: host), {}, notes, 3)
+        check("g586: لا حذف لمقطع الضيف", mm is None, mm)
+        check("g586: سطر comment_chyron_host", any("المقدّم" in n and "فرداد فرحزاد" in n and "إيران إنترناشيونال" in n for n in notes), notes)
+        scene2 = copy.deepcopy(scene)
+        mm2 = reel_render._apply_chyron(scene2, dict(file="c3"), cfg,
+                                        reel_render.Deps(read_chyron=lambda f, c: [fr("فرداد فرحزاد")] * 2), {}, [], 3)
+        check("g586: بلا الحقل ← حذف كما قبل Q10", bool(mm2), mm2)
+    guarded("g586", g586)
+
+    def g587():
+        sorry = ("HTTPSConnectionPool(host='www.google.com', port=443): Max retries exceeded with url: "
+                 "/sorry/index?continue=https://www.google.com/search%3Fq%3Dx&q=EgQ4aRqnGLzR0skGIjB-AAAAAAAAAAAAAAAAAAAAAAAAAAAA "
+                 "(Caused by ResponseError('too many 429 error responses'))")
+        calls, sleeps = [], []
+
+        def once_ok(v, pc, session):
+            calls.append(session)
+            if len(calls) == 1:
+                raise requests.exceptions.RetryError(sorry)
+            return "[00:01] نص", "ar"
+        orig_sleep = youtube_extract.time.sleep
+        youtube_extract.time.sleep = lambda s: sleeps.append(s)
+        try:
+            s0 = requests.Session()
+            text, info, limited = youtube_extract.fetch_transcript("v", None, s0, [5, 6], fetch_once=once_ok)
+            check("g587: RetryError مرة ثم نجاح", text == "[00:01] نص" and limited is False and sleeps == [5], (text, info, sleeps))
+            check("g587: المحاولة الثانية بجلسة جديدة", len(calls) == 2 and calls[1] is not s0 and calls[1] is not None, calls)
+
+            def always(v, pc, session):
+                raise requests.exceptions.RetryError(sorry)
+            text, info, limited = youtube_extract.fetch_transcript("v", None, None, [1], fetch_once=always)
+            check("g587: إرهاق التراجع ← فشل مُعلَّم", text is None and limited is True, (text, limited))
+            check("g587: السبب ≥ 150 حرفًا ويحوي /sorry", len(info or "") >= 150 and "/sorry" in info, info)
+            check("g587: transcript_reason_chars = 200", int(cfg.path("reel.render.transcript_reason_chars")) == 200)
+        finally:
+            youtube_extract.time.sleep = orig_sleep
+    guarded("g587", g587)
+
+    def g588():
+        events = []
+        saved = {k: getattr(review, k) for k in ("update_issue_body", "issue_state", "reopen_issue", "remove_label")}
+        orig_build = reel_review.build_body
+        reel_review.build_body = lambda d, c: "جسم"
+        try:
+            review.update_issue_body = lambda n, b: events.append(("body", n))
+            review.reopen_issue = lambda n: events.append(("reopen", n))
+            review.remove_label = lambda n, label: events.append(("unlabel", n, label))
+            review.issue_state = lambda n: "closed"
+            reel_review.open_or_update(Path("x.json"), dict(id="d", reel_review_issue=1669), cfg)
+            check("g588: مغلقة ← reopen ثم approved ثم الجسم",
+                  events == [("reopen", 1669), ("unlabel", 1669, "approved"), ("body", 1669)], events)
+            events.clear()
+            review.issue_state = lambda n: "open"
+            reel_review.open_or_update(Path("x.json"), dict(id="d", reel_review_issue=1669), cfg)
+            check("g588: مفتوحة ← الجسم وحده", events == [("body", 1669)], events)
+            events.clear()
+            review.issue_state = lambda n: "closed"
+
+            def boom(n):
+                raise RuntimeError("403")
+            review.reopen_issue = boom
+            reel_review.open_or_update(Path("x.json"), dict(id="d", reel_review_issue=1669), cfg)
+            check("g588: عطل إعادة الفتح ← الجسم يُكتب", events == [("body", 1669)], events)
+        finally:
+            reel_review.build_body = orig_build
+            for k, v in saved.items():
+                setattr(review, k, v)
+    guarded("g588", g588)
+
+    def g589():
+        out, dropped, notes, calls = prune([fr("علي البخيتي"), fr("علي البخيتي")])
+        line = dropped[0]["reason"] if dropped else "؟؟"
+        text = reel_render._comment_text(cfg, {}, dict(render_status="failed", render_error="x"), dropped, [], notes)
+        check("g589: سبب الحذف مرة واحدة في التعليق", text.count(line) == 1, text)
+        system = cfg.path("reel.render.chyron.system")
+        check("g589: المقدّم وname_is_speaker في chyron.system", "المقدّم" in system and "name_is_speaker" in system)
+        props = reel_render.CHYRON_TOOL["input_schema"]["properties"]["frames"]["items"]["properties"]
+        check("g589: الأداة فيها name_is_speaker", "name_is_speaker" in props)
+        check("g589: render.version >= 43", int(cfg.path("reel.render.version")) >= 43, cfg.path("reel.render.version"))
+    guarded("g589", g589)

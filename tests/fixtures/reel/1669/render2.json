@@ -1,0 +1,293 @@
+{
+ "script": {
+  "version": 2,
+  "narrator": "female",
+  "title": "هل يكفي الدعم الخارجي لحماية الأجواء السعودية من الحوثيين؟",
+  "question": "هل يغيّر التدخل الخارجي موازين الحرب في اليمن؟",
+  "event": "إرسال بريطانيا مقاتلات تايفون للدفاع عن الأجواء السعودية ضد هجمات الحوثيين",
+  "scenes": [
+   {
+    "kind": "title_card",
+    "text": "هل يكفي الدعم الخارجي لحماية الأجواء السعودية من الحوثيين؟"
+   },
+   {
+    "kind": "narration",
+    "role": "context",
+    "text": "في 20 أكتوبر أعلنت بريطانيا إرسال مقاتلات تايفون لاعتراض صواريخ الحوثيين فوق السعودية. وطلب الرئيس المصري تفويضًا برلمانيًا لدعم دفاعي للسعودية، وأُجّل التصويت."
+   },
+   {
+    "kind": "narration",
+    "role": "question",
+    "qrole": "core",
+    "q": 0,
+    "text": "ما حدود فاعلية الدفاع الجوي البريطاني فوق السعودية؟"
+   },
+   {
+    "kind": "clip",
+    "point_id": "63fd50319f8a",
+    "q": 0,
+    "stance": "مساعدة كبيرة لكنها لا تعترض كل الصواريخ",
+    "angle": "القدرة التقنية واتساع المساحة",
+    "repeats": false,
+    "video_url": "https://www.youtube.com/watch?v=nx6MtSAGGLQ",
+    "start": 2446.0,
+    "end": 2452.5,
+    "speaker_name": "",
+    "speaker_role": "",
+    "speaker_verified": false,
+    "speaker_verified_from": "",
+    "speaker_name_latin": "",
+    "channel_display": "إيران إنترناشيونال",
+    "channel_original": "Iran International",
+    "quote_arabic": "السؤال هو هل يستطيع اعتراضها كلها؟ وهذا ما يجب أن نراه في الممارسة",
+    "language": "fa",
+    "video_published": "2026-10-20"
+   },
+   {
+    "kind": "clip",
+    "point_id": "8be09bba07da",
+    "q": 0,
+    "stance": "الرياض تواجه محورًا ممتدًا وضغوط تطبيع",
+    "angle": "حجم التهديد الإقليمي والضغط الإسرائيلي",
+    "repeats": false,
+    "video_url": "https://www.youtube.com/watch?v=qB_4P0mUCyI",
+    "start": 944.0,
+    "end": 953.1,
+    "speaker_name": "منيف عماش الحربي",
+    "speaker_role": "كاتب ومحلل سياسي",
+    "speaker_verified": true,
+    "speaker_verified_from": "description",
+    "speaker_name_latin": "منيف عماش الحربي",
+    "channel_display": "فرانس 24 عربي",
+    "channel_original": "فرانس 24 عربي",
+    "quote_arabic": "السعودية تواجه محورًا ممتدًا، بل إن إسرائيل بدأت وسائل إعلامها واللوبي الصهيوني يضغط على السعودية كي تطبع",
+    "language": "ar",
+    "video_published": "2026-10-20"
+   },
+   {
+    "kind": "clip",
+    "point_id": "2da91f52ac9a",
+    "q": 0,
+    "stance": "القرار بيد طهران لا الحوثيين",
+    "angle": "مصدر القرار في إيران",
+    "repeats": false,
+    "video_url": "https://www.youtube.com/watch?v=QFMGl1rCLhU",
+    "start": 1211.0,
+    "end": 1217.0,
+    "speaker_name": "",
+    "speaker_role": "",
+    "speaker_verified": false,
+    "speaker_verified_from": "",
+    "speaker_name_latin": "",
+    "channel_display": "العربية",
+    "channel_original": "العربية",
+    "quote_arabic": "القرار ليس قرار الحوثيين، القرار هو في قم",
+    "language": "ar",
+    "video_published": "2026-10-20"
+   },
+   {
+    "kind": "narration",
+    "role": "question",
+    "qrole": "where_next",
+    "q": 1,
+    "text": "ما موقع مصر من هذا الدعم الدفاعي للسعودية؟"
+   },
+   {
+    "kind": "clip",
+    "point_id": "e4e91fa71963",
+    "q": 1,
+    "stance": "القرار المصري مستقل ويخدم الأمن القومي",
+    "angle": "استقلالية القرار المصري",
+    "repeats": false,
+    "video_url": "https://www.youtube.com/watch?v=QFMGl1rCLhU",
+    "start": 723.0,
+    "end": 729.0,
+    "speaker_name": "",
+    "speaker_role": "",
+    "speaker_verified": false,
+    "speaker_verified_from": "",
+    "speaker_name_latin": "",
+    "channel_display": "العربية",
+    "channel_original": "العربية",
+    "quote_arabic": "القرار المصري هو قرار مستقل يتوخى",
+    "language": "ar",
+    "video_published": "2026-10-20"
+   },
+   {
+    "kind": "clip",
+    "point_id": "4cb860795115",
+    "q": 1,
+    "stance": "الإعلان خطأ؛ الممرات ليست سعودية",
+    "angle": "مصالح مصر البحرية المتضررة",
+    "repeats": false,
+    "video_url": "https://www.youtube.com/watch?v=qB_4P0mUCyI",
+    "start": 680.0,
+    "end": 686.0,
+    "speaker_name": "",
+    "speaker_role": "",
+    "speaker_verified": false,
+    "speaker_verified_from": "",
+    "speaker_name_latin": "",
+    "channel_display": "فرانس 24 عربي",
+    "channel_original": "فرانس 24 عربي",
+    "quote_arabic": "البحر الأحمر ليس سعوديًا، وقناة السويس ليست سعودية، ومضيق باب المندب ليس سعوديًا",
+    "language": "ar",
+    "video_published": "2026-10-20"
+   },
+   {
+    "kind": "clip",
+    "point_id": "1b8abc22f6b4",
+    "q": 1,
+    "stance": "موقف مصر ضعيف؛ حلف مكة مظلة نووية",
+    "angle": "المظلة الدفاعية وجاذبيتها للحلفاء",
+    "repeats": false,
+    "video_url": "https://www.youtube.com/watch?v=qB_4P0mUCyI",
+    "start": 1000.0,
+    "end": 1006.1,
+    "speaker_name": "منيف عماش الحربي",
+    "speaker_role": "كاتب ومحلل سياسي",
+    "speaker_verified": true,
+    "speaker_verified_from": "description",
+    "speaker_name_latin": "منيف عماش الحربي",
+    "channel_display": "فرانس 24 عربي",
+    "channel_original": "فرانس 24 عربي",
+    "quote_arabic": "حلف مكة مظلة نووية، ولهذا دخل الأتراك فيه لأنه سيمنحهم مظلة نووية",
+    "language": "ar",
+    "video_published": "2026-10-20"
+   },
+   {
+    "kind": "question",
+    "text": "هل يغيّر التدخل الخارجي موازين الحرب في اليمن؟"
+   },
+   {
+    "kind": "outro"
+   }
+  ],
+  "trimmed": []
+ },
+ "render_speakers": {
+  "3": {
+   "name_original": "فرداد فرحزاد",
+   "name_arabic": "فرداد فرحزاد",
+   "role_arabic": "",
+   "is_presenter": false,
+   "frames_agreeing": 2,
+   "rejected": "",
+   "accepted": true,
+   "mismatch": {
+    "chyron": "فرداد فرحزاد",
+    "speaker": "علي سزاده، محلل شؤون الشرق الأوسط"
+   }
+  },
+  "5": {
+   "name_original": "مصطفى بكري",
+   "name_arabic": "مصطفى بكري",
+   "role_arabic": "عضو مجلس النواب المصري",
+   "is_presenter": false,
+   "frames_agreeing": 1,
+   "rejected": "",
+   "accepted": false
+  },
+  "7": {
+   "name_original": "مواجهة الحوثي",
+   "name_arabic": "مواجهة الحوثي",
+   "role_arabic": "طهران",
+   "is_presenter": false,
+   "frames_agreeing": 3,
+   "rejected": "program",
+   "accepted": false
+  },
+  "8": {
+   "name_original": "علي البخيتي",
+   "name_arabic": "علي البخيتي",
+   "role_arabic": "كاتب سياسي | لندن",
+   "is_presenter": false,
+   "frames_agreeing": 3,
+   "rejected": "",
+   "accepted": true
+  }
+ },
+ "render_dropped": [
+  {
+   "point_id": "63fd50319f8a",
+   "kind": "clip",
+   "reason": "الشريط يُظهر فرداد فرحزاد والاقتباس لـعلي سزاده، محلل شؤون الشرق الأوسط — حُذف المقطع"
+  }
+ ],
+ "render_spans": [
+  {
+   "point_id": "2da91f52ac9a",
+   "start": 1207,
+   "end": 1221,
+   "complete": true,
+   "lang": "ar",
+   "changed_text": true,
+   "reason": "الفكرة تبدأ من «هي تؤمر فتطاع» وتنتهي بجملة «القرار هو في طهران» التي تكمل الحجة؛ المدة ضمن 25 ثانية تقريبًا (من 1203 إلى 1216 ثم 1220 تقريبًا)، والاق",
+   "source": "model"
+  },
+  {
+   "point_id": "e4e91fa71963",
+   "start": 719,
+   "end": 737,
+   "complete": true,
+   "lang": "ar",
+   "changed_text": true,
+   "reason": "الاقتباس بدأ في منتصف الفكرة عند «القرار المصري»، والفكرة التامة تبدأ من «هناك عدة اعتبارات» وتنتهي بجملة «أمن البحر الأحمر». وهي ضمن 25 ثانية تقريبًا",
+   "source": "model"
+  }
+ ],
+ "render_approx": [
+  {
+   "point_id": "63fd50319f8a",
+   "kind": "clip",
+   "start": 2446,
+   "end": 2453,
+   "reason": "تعذّر جلب نص الفيديو: خطأ غير متوقَّع أثناء سحب النص: HTTPSConnectionPool(host='www.google.com', port="
+  },
+  {
+   "point_id": "8be09bba07da",
+   "kind": "clip",
+   "start": 944,
+   "end": 954,
+   "reason": "تعذّر جلب نص الفيديو: خطأ غير متوقَّع أثناء سحب النص: HTTPSConnectionPool(host='www.google.com', port="
+  },
+  {
+   "point_id": "4cb860795115",
+   "kind": "clip",
+   "start": 680,
+   "end": 686,
+   "reason": "تعذّر جلب نص الفيديو: خطأ غير متوقَّع أثناء سحب النص: HTTPSConnectionPool(host='www.google.com', port="
+  },
+  {
+   "point_id": "1b8abc22f6b4",
+   "kind": "clip",
+   "start": 1000,
+   "end": 1007,
+   "reason": "تعذّر جلب نص الفيديو: خطأ غير متوقَّع أثناء سحب النص: HTTPSConnectionPool(host='www.google.com', port="
+  }
+ ],
+ "render_notes": [
+  "### 🎬 تركيب الريل",
+  "- ⏱️ المدة: 103.0 ث",
+  "- 🎞️ [الملف](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-10-21/47e5af25182c.mp4) · [المعاينة](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-10-21/47e5af25182c.gif)",
+  "- ✂️ حُذف 1: clip (الشريط يُظهر فرداد فرحزاد والاقتباس لـعلي سزاده، محلل شؤون الشرق الأوسط — حُذف المقطع)",
+  "- ⚠️ نافذة تقديرية لمقطع إيران إنترناشيونال (40:46–40:53): تعذّر جلب نص الفيديو: خطأ غير متوقَّع أثناء سحب النص: HTTPSConnectionPool(host='www.google.com', port= — راجع بداية المقطع ونهايته",
+  "- ⚠️ نافذة تقديرية لمقطع فرانس 24 عربي (15:44–15:54): تعذّر جلب نص الفيديو: خطأ غير متوقَّع أثناء سحب النص: HTTPSConnectionPool(host='www.google.com', port= — راجع بداية المقطع ونهايته",
+  "- ⚠️ نافذة تقديرية لمقطع فرانس 24 عربي (11:20–11:26): تعذّر جلب نص الفيديو: خطأ غير متوقَّع أثناء سحب النص: HTTPSConnectionPool(host='www.google.com', port= — راجع بداية المقطع ونهايته",
+  "- ⚠️ نافذة تقديرية لمقطع فرانس 24 عربي (16:40–16:47): تعذّر جلب نص الفيديو: خطأ غير متوقَّع أثناء سحب النص: HTTPSConnectionPool(host='www.google.com', port= — راجع بداية المقطع ونهايته",
+  "- 📏 امتد مقطع العربية إلى فكرة كاملة (11 ث)",
+  "- 📝 نص مقطع العربية كما نُطق",
+  "- 📏 امتد مقطع العربية إلى فكرة كاملة (15 ث)",
+  "- 📝 نص مقطع العربية كما نُطق",
+  "- 🎞️ لقطة الهوك: Al Arabiya English — [Saudi-Led Coalition Intercepts Houthi Missiles and Drones](https://www.youtube.com/watch?v=I0zYhZFcAV0&t=43) (43–52 ث) · 6,844 مشاهدة",
+  "- الشريط يُظهر فرداد فرحزاد والاقتباس لـعلي سزاده، محلل شؤون الشرق الأوسط — حُذف المقطع",
+  "- 🏷️ شريط القناة يحمل اسم برنامج لا شخص: مواجهة الحوثي — يُعرض اسم القناة وحده",
+  "- 👤 من شريط القناة: علي البخيتي (علي البخيتي) — كاتب سياسي | لندن",
+  "- 🎞️ لقطات الحدث: 1 من 4 جمل (Al Arabiya English ×1) — 3 بالصورة",
+  "- 🎯 مقطع فرانس 24 عربي: 3 وجوه — المتكلم بالرؤية",
+  "- ✂️ أُخفي شريط القناة في فرانس 24 عربي: قُصّ أسفل 27%",
+  "- ✂️ أُخفي شريط القناة في العربية: قُصّ أسفل 22%",
+  "- 🎯 مقطع العربية: 2 وجوه — المتكلم بالرؤية",
+  "- 🎯 مقطع فرانس 24 عربي: 2 وجوه — المتكلم بالرؤية"
+ ]
+}
