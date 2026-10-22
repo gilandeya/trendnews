@@ -555,6 +555,11 @@ class Deps:
     detect_silence: Callable[[Any, Any], list] | None = None
     # رمز لغة النص المجلوب لفيديو (language_code)؛ None ← الحكم من حروف النص (Issue #1670، Q9)
     transcript_lang: Callable[[str], str | None] | None = None
+    # (أسطر أول الحلقة، لقطاتها JPEG، cfg) ← [{name_arabic, name_original, role_arabic, is_host}] (Issue #1679، Q12)؛ يرفع عند العطل
+    # والمستدعي يعود إلى سلوك Q11. None للمزيَّفات القديمة ← لا قائمة ولا إسناد
+    read_roster: Callable[[str, list, Any], list | None] | None = None
+    # (القائمة، [{point_id, speaker, quote, lines}] لفيديو واحد، cfg) ← [{point_id, speaker, evidence, reason}]
+    attribute_clips: Callable[[list, list, Any], list | None] | None = None
 
     def resolved(self, cfg) -> "Deps":
         # جلسة واحدة للتركيب كله كالجمع (R8)؛ تُنشأ عند أول جلب لا عند الاستيراد
@@ -631,6 +636,8 @@ class Deps:
             classify_sheet=self.classify_sheet or (
                 (lambda jpeg, event, first, n, c, labels=None: reel_hook_search.call_classify_model(
                     jpeg, event, first, n, c, labels=labels)) if real else None),
+            read_roster=self.read_roster or (_real_read_roster if real else None),
+            attribute_clips=self.attribute_clips or (_real_attribute_clips if real else None),
             assign_broll=self.assign_broll or ((lambda needy, chains, c: reel_broll.assign(needy, chains, c)) if real else None),
             make_queries=self.make_queries or (
                 (lambda script, draft, c, broad=False: reel_hook_search.call_make_queries(script, draft, c, broad=broad))
@@ -2107,6 +2114,10 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: l
         out = got
         secs = deps.probe(out) or float(wend - wstart)
         clips[i] = {"file": out, "seconds": float(secs), "video_id": vid}
+        loc_found = (span_info or {}).get("loc")
+        if transcripts[vid] and loc_found:
+            # Q12: النص الكامل وموضع الاقتباس فيه لقائمة الضيوف وإسناد القائل (يُمرَّران ولا يُجلبان ثانية)
+            clips[i].update(transcript=transcripts[vid], quote_start=float(loc_found["start"]), quote_end=float(loc_found["end"]))
         if transcripts[vid] and not (approx and approx[-1]["point_id"] == scene.get("point_id", "")
                                      and approx[-1]["start"] == wstart):
             # نافذة محسوبة من النص نفسه: مقاطعه تعطي منحنى تقدّم الكلام لتوقيت الترجمة؛ التقريبية بلا مقاطع فتوزَّع بالتساوي
@@ -3730,8 +3741,271 @@ def _question_text(script: dict, first_member: int) -> str:
                  and sc.get("q") == q), "")
 
 
+# ───────────────────── قائمة ضيوف الحلقة وتحديد القائل من النص (Issue #1679، Q12) ─────────────────────
+
+ROSTER_TOOL = {
+    "name": "read_roster",
+    "description": "يعيد ضيوف الحلقة ومقدّمها: الاسم كما كُتب وبالعربية وصفة كل واحد ومن هو المقدّم",
+    "input_schema": {"type": "object", "properties": {"people": {"type": "array", "items": {
+        "type": "object",
+        "properties": {"name_arabic": {"type": "string"}, "name_original": {"type": "string"},
+                       "role_arabic": {"type": "string"}, "is_host": {"type": "boolean"}},
+        "required": ["name_arabic", "name_original", "role_arabic", "is_host"]}}},
+        "required": ["people"]},
+}
+ATTRIBUTE_TOOL = {
+    "name": "attribute_clips",
+    "description": "يعيد لكل مقطع قائله من قائمة الضيوف والسطر الذي دلّ عليه",
+    "input_schema": {"type": "object", "properties": {"clips": {"type": "array", "items": {
+        "type": "object",
+        "properties": {"point_id": {"type": "string"}, "speaker": {"type": "string"}, "evidence": {"type": "string"},
+                       "reason": {"type": "string"}},
+        "required": ["point_id", "speaker", "evidence", "reason"]}}},
+        "required": ["clips"]},
+}
+
+
+def _call_tool(cfg, tool: dict, system: str, content: list, key: str, client=None) -> list[dict]:
+    """نداء Haiku واحد بأداة إجبارية يعيد قائمة حقل key؛ الرفض أو ردّ غير صالح يرفع."""
+    from . import llm
+    scfg = cfg.path("reel.render.speaker_check") or {}
+    if client is None:
+        from anthropic import Anthropic
+
+        from .config import env
+        client = Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
+    resp = llm.create(client, cfg=cfg, model=scfg.get("model", "haiku"), max_tokens=int(scfg.get("max_tokens", 1200)),
+                      system=system, tools=[tool], tool_choice={"type": "tool", "name": tool["name"]},
+                      messages=[{"role": "user", "content": content}])
+    if getattr(resp, "stop_reason", "") == "refusal":
+        raise RuntimeError("رفض النموذج")
+    for b in getattr(resp, "content", None) or []:
+        if getattr(b, "type", "") == "tool_use" and getattr(b, "name", "") == tool["name"]:
+            out = (getattr(b, "input", None) or {}).get(key)
+            if isinstance(out, list) and all(isinstance(x, dict) for x in out):
+                return out
+    raise ValueError("ردّ غير صالح من " + tool["name"])
+
+
+def _real_read_roster(lines: str, jpegs: list, cfg) -> list[dict]:
+    import base64
+    content = [{"type": "image", "source": {"type": "base64", "media_type": "image/jpeg",
+                                            "data": base64.b64encode(b).decode("ascii")}} for b in jpegs]
+    content.append({"type": "text", "text": "أسطر أول الحلقة:\n" + lines})
+    return _call_tool(cfg, ROSTER_TOOL, cfg.path("reel.render.speaker_check.roster_system", ""), content, "people")
+
+
+def _real_attribute_clips(roster: list, items: list, cfg) -> list[dict]:
+    import json
+    payload = json.dumps({"roster": roster, "clips": items}, ensure_ascii=False)
+    return _call_tool(cfg, ATTRIBUTE_TOOL, cfg.path("reel.render.speaker_check.attribute_system", ""),
+                      [{"type": "text", "text": payload}], "clips")
+
+
+def _roster_jpegs(clip, cfg) -> list[bytes]:
+    """roster_frames لقطات موزّعة بالتساوي على المقطع المنزَّل، JPEG بعرض chyron.max_width؛ يرفع إن تعذّرت لقطة."""
+    import io
+    scfg = cfg.path("reel.render.speaker_check") or {}
+    dur = probe_duration(clip)
+    if not dur:
+        raise RuntimeError("مدة المقطع مجهولة")
+    n = max(int(scfg.get("roster_frames", 8)), 1)
+    width = int(cfg.path("reel.render.chyron.max_width", 1280))
+    out = []
+    for k in range(n):
+        raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", f"{dur * (k + 0.5) / n:.2f}", "-i", str(clip),
+                              "-frames:v", "1", "-f", "image2pipe", "-vcodec", "png", "-"],
+                             capture_output=True, timeout=60).stdout
+        if not raw:
+            raise RuntimeError("تعذّر استخراج لقطة")
+        img = Image.open(io.BytesIO(raw)).convert("RGB")
+        if img.width > width:
+            img = img.resize((width, round(img.height * width / img.width)), Image.LANCZOS)
+        buf = io.BytesIO()
+        img.save(buf, "JPEG", quality=85)
+        out.append(buf.getvalue())
+    return out
+
+
+def _fmt_lines(segs: list, a: float, b: float) -> str:
+    """أسطر النص بين ثانيتين مرقّمة بثوانيها «[ث] نص»."""
+    return "\n".join(f"[{int(s)}] {text}" for s, text in segs if a <= s <= b)
+
+
+def _name_key(text: str) -> str:
+    from . import youtube_extract
+    return " ".join(youtube_extract._normalize_for_anchor(text or "").split())
+
+
+def _roster_entry(speaker: str, roster: list) -> dict | None:
+    key = _name_key(speaker)
+    if not key:
+        return None
+    return next((p for p in roster if key in (_name_key(p.get("name_arabic")), _name_key(p.get("name_original")))), None)
+
+
+def verify_attribution(row: dict, roster: list, lines: str, cfg) -> tuple[bool, str]:
+    """يقبل حكم النص (دالة خالصة) فقط إن كان القائل في القائمة وليس المقدّم، وevidence سطرًا من الأسطر المعطاة حرفًا بعد التطبيع،
+    ويحوي كلمة (≥ 3 أحرف) من اسم القائل بالعربية أو الأصلية. غير ذلك «لا حكم». يعيد (مقبول، السبب)."""
+    entry = _roster_entry(str(row.get("speaker") or ""), roster)
+    if entry is None:
+        return False, "القائل ليس في القائمة"
+    if entry.get("is_host"):
+        return False, "القائل هو المقدّم"
+    ev = _name_key(row.get("evidence") or "")
+    if not ev or ev not in _name_key(lines):
+        return False, "evidence ليس في الأسطر المعطاة"
+    if not _speaker_words(row.get("evidence") or "") & (_speaker_words(entry.get("name_arabic") or "")
+                                                         | _speaker_words(entry.get("name_original") or "")):
+        return False, "evidence بلا كلمة من اسم القائل"
+    return True, ""
+
+
+def _build_roster(vid: str, segs: list, cfg, deps: Deps) -> list[dict]:
+    """قائمة ضيوف فيديو واحد: أسطر أول roster_seconds ولقطاتها؛ فشل التنزيل ← القائمة من النص وحده. يرفع إن عطل النداء."""
+    scfg, rcfg = cfg.path("reel.render.speaker_check"), cfg.path("reel.render")
+    secs = int(scfg.get("roster_seconds", 180))
+    jpegs: list = []
+    try:
+        with tempfile.TemporaryDirectory() as d:
+            got = _download_with_retries(deps, {**rcfg, "clip_height": int(scfg.get("roster_height", 240))}, vid, 0, secs,
+                                         Path(d) / "roster.mp4")
+            if got:
+                jpegs = _roster_jpegs(got, cfg)
+    except Exception as exc:  # noqa: BLE001 -- اللقطات تحسين: القائمة من النص وحده
+        log.warning("تعذّر تنزيل لقطات قائمة الضيوف: %s", reel_clips.scrub_text(str(exc))[:100])
+        jpegs = []
+    raw = deps.read_roster(_fmt_lines(segs, 0, secs), jpegs, cfg)
+    people = [{"name_arabic": " ".join(str(p.get("name_arabic") or "").split()),
+               "name_original": " ".join(str(p.get("name_original") or "").split()),
+               "role_arabic": " ".join(str(p.get("role_arabic") or "").split()), "is_host": bool(p.get("is_host"))}
+              for p in (raw or []) if isinstance(p, dict) and (p.get("name_arabic") or p.get("name_original"))]
+    return people
+
+
+def _speaker_check(script: dict, order: list, clips: dict, cfg, deps: Deps, notes: list, meta: dict) -> tuple[dict, dict]:
+    """يبني قائمة ضيوف كل فيديو له مقطع في لوحة بنافذة نصية ثم يسند قائل كل مقطع من النص، فيعيد ({الفيديو: القائمة}، {point_id: مدخل القائمة})؛
+    وملؤه في meta (roster وattribution). أي عطل في فيديو ← يُتخطى وتبقى المقاطع بسلوك Q11."""
+    scfg = cfg.path("reel.render.speaker_check") or {}
+    if not scfg.get("enabled") or getattr(deps, "read_roster", None) is None or getattr(deps, "attribute_clips", None) is None:
+        return {}, {}
+    t = cfg.path("reel.render.texts")
+    by_vid: dict = {}
+    for run in _iter_runs(order):
+        for i in run:
+            c = clips.get(i)
+            if c and c.get("transcript") and not c.get("approx"):
+                by_vid.setdefault(c.get("video_id"), []).append(i)
+    rosters: dict = {}
+    verdicts: dict = {}
+    before = float(scfg.get("before_seconds", 240))
+    for vid, idxs in by_vid.items():
+        segs = clips[idxs[0]]["transcript"]
+        try:
+            roster = _build_roster(vid, segs, cfg, deps)
+            if not roster:
+                continue
+            rosters[vid] = roster
+            meta.setdefault("roster", {})[vid] = roster
+            names_line = "، ".join(p["name_arabic"] or p["name_original"] for p in roster if not p["is_host"])
+            if names_line:
+                notes.append(t["comment_roster"].format(channel=script["scenes"][idxs[0]].get("channel_display") or "", names=names_line))
+            items = []
+            for i in idxs:
+                sc, c = script["scenes"][i], clips[i]
+                items.append({"point_id": sc.get("point_id", ""), "speaker": sc.get("speaker_text") or sc.get("speaker_name") or "",
+                              "quote": sc.get("quote_arabic", ""),
+                              "lines": _fmt_lines(segs, max(c.get("quote_start", 0) - before, 0), c.get("quote_end", 0))})
+            by_pid = {x["point_id"]: x for x in items}
+            for r in deps.attribute_clips(roster, items, cfg) or []:
+                item = by_pid.get(str(r.get("point_id")))
+                if item is None:
+                    continue
+                ok, why = verify_attribution(r, roster, item["lines"], cfg)
+                meta.setdefault("attribution", []).append({"point_id": item["point_id"], "speaker": r.get("speaker") or "",
+                                                           "evidence": r.get("evidence") or "", "accepted": ok,
+                                                           "reason": why or str(r.get("reason") or "")[:150]})
+                if ok:
+                    verdicts[item["point_id"]] = {**_roster_entry(r["speaker"], roster), "evidence": " ".join(str(r["evidence"]).split())}
+        except Exception as exc:  # noqa: BLE001 -- الإسناد تحسين لا شرط: يبقى سلوك Q11
+            log.warning("تعذّر تحديد القائل من النص للفيديو %s: %s", vid, reel_clips.scrub_text(str(exc))[:120])
+    return rosters, verdicts
+
+
+def _relabel(i: int, script: dict, run: list, clips: dict, speakers: dict, new: dict, how: str, evidence: str, roster: list,
+             cfg, notes: list, meta: dict) -> dict | None:
+    """تصحيح قائل المقطع i إلى new بثلاثة حرّاس؛ فشل أيّها ← قاموس الحذف (سبب باسم reason_key)، ونجاحها ← None وتعديل المشهد."""
+    from . import names, youtube_article
+    scene = script["scenes"][i]
+    old_text = " ".join(str(scene.get("speaker_text") or "").split())
+    old_name = scene.get("speaker_name") or old_text
+    new_ar = names.normalize_names(new["name_arabic"] or new["name_original"], cfg)
+    fail = {"speaker": old_text or old_name, "new": new_ar, "chyron": new_ar}
+
+    def same(entry_ar: str, entry_orig: str, text: str) -> bool:
+        return speaker_matches(entry_ar, entry_orig, text, cfg) is True
+    # (ج) المقدّم لا يُنسب إليه كلام ضيف
+    if any(p.get("is_host") and same(new["name_arabic"], new["name_original"], p.get("name_arabic") or p.get("name_original") or "")
+           for p in roster):
+        return {**fail, "reason_key": "drop_relabel_host"}
+    # (أ) اسم القائل القديم منطوق في الريل: تصحيح القائل خلف ظهر نص يسمّيه لا يكفي، يُراجَع
+    skip = _speaker_words(" ".join(cfg.path("reel.render.chyron.unnamed_words", []) or []))
+    old_words = _speaker_words(" ".join(youtube_article.speaker_name_tokens(old_text, "", cfg))) - skip
+    spoken = " ".join(str(sc.get("text") or "") for sc in script["scenes"]
+                      if sc.get("kind") in ("title_card", "narration", "question", "outro"))
+    if old_words & _speaker_words(spoken + " " + str(script.get("title") or "")):
+        return {**fail, "reason_key": "drop_relabel_named"}
+    # (ب) القائل الجديد يجيب عن السؤال نفسه في مقطع آخر
+    for j in run:
+        if j != i and j in clips:
+            other = script["scenes"][j]
+            if same(new["name_arabic"], new["name_original"], other.get("speaker_text") or other.get("speaker_name") or ""):
+                return {**fail, "reason_key": "drop_relabel_duplicate"}
+    role = new.get("role_arabic") or next((p["role_arabic"] for p in roster if p.get("role_arabic")
+                                           and same(p.get("name_arabic") or "", p.get("name_original") or "", new["name_arabic"])), "")
+    scene.update(speaker_name=new_ar, speaker_role=role, speaker_verified=True, speaker_verified_from=how, speaker_text=new_ar,
+                 speaker_name_latin=new["name_original"] if _LATIN_CHARS.search(new["name_original"] or "") else "")
+    # المخالفة المحفوظة تُمسح: _apply_chyron يُستدعى ثانية في _clip_layers ولا يجوز أن يعيدها فيحذف المقطع
+    speakers.setdefault(str(i), {"accepted": False}).pop("mismatch", None)
+    t = cfg.path("reel.render.texts")
+    how_text = t["relabel_how_chyron"] if how == "chyron" else t["relabel_how_transcript"].format(evidence=evidence)
+    notes.append(t["comment_relabel"].format(channel=scene.get("channel_display") or "", old=old_name, new=new_ar, how=how_text))
+    meta.setdefault("relabel", []).append({"point_id": scene.get("point_id", ""), "from": old_name, "to": new_ar, "how": how,
+                                           "evidence": evidence if how == "transcript" else ""})
+    return None
+
+
+def _combine_speaker(i: int, script: dict, run: list, clips: dict, mm: dict | None, speakers: dict, roster: list,
+                     verdict: dict | None, cfg, notes: list, meta: dict) -> dict | None:
+    """الشريط C وحكم النص A وقائل السيناريو S لنافذة نصية (Q12): C يطابق S ← يبقى؛ C يخالف S ← تصحيح إلى C إن كان A فارغًا أو يطابق C وإلا حذف؛
+    بلا C: A يطابق S ← تأكيد، A يخالف S ← تصحيح إلى A؛ بلا C ولا A ← كما في Q11 (mm)."""
+    scene = script["scenes"][i]
+    res = speakers.get(str(i)) or {}
+    speaker = scene.get("speaker_text") or ""
+    t = cfg.path("reel.render.texts")
+    if res.get("accepted"):
+        if mm is None:
+            return None
+        if verdict is not None and speaker_matches(res["name_arabic"], res["name_original"], verdict["name_arabic"], cfg) is False:
+            return {"reason_key": "drop_relabel_conflict", "speaker": speaker, "new": res["name_arabic"], "chyron": res["name_arabic"]}
+        return _relabel(i, script, run, clips, speakers, res, "chyron", "", roster, cfg, notes, meta) or None
+    if verdict is None:
+        return mm
+    match = speaker_matches(verdict["name_arabic"], verdict["name_original"], speaker, cfg)
+    if match is True:
+        scene.update(speaker_verified_from="transcript")
+        line = t["comment_attr_confirmed"].format(name=scene.get("speaker_name") or verdict["name_arabic"],
+                                                  channel=scene.get("channel_display") or "")
+        if line not in notes:
+            notes.append(line)
+        return mm
+    if match is False:
+        return _relabel(i, script, run, clips, speakers, verdict, "transcript", verdict["evidence"], roster, cfg, notes, meta)
+    return mm
+
+
 def _prune_mismatched(script: dict, clips: dict, cfg, deps: Deps, speakers: dict, notes: list,
-                      dropped: list) -> tuple[dict, set[int]]:
+                      dropped: list, meta: dict | None = None) -> tuple[dict, set[int]]:
     """حارس القائل (Issue #1621، R6): في سيناريو v2 يُقرأ شريط كل مقطع في لوحة قبل بنائها؛ مقطع يُظهر شريطه اسمًا غير قائل الاقتباس يُحذف
     (نسبة الكلام إلى غير قائله أسوأ من نقص إجابة)، فتُبنى اللوحة بمن بقي. سؤال سقطت كل إجاباته بهذا الحارس يسقط مشهد بطاقته أيضًا كي لا
     يبقى سؤال بلا جواب. يعيد (نسخة clips بعد الحذف، فهارس مشاهد البطاقات المحذوفة). v1 بلا تغيير."""
@@ -3742,12 +4016,18 @@ def _prune_mismatched(script: dict, clips: dict, cfg, deps: Deps, speakers: dict
     order = list(enumerate(script["scenes"]))
     dead_q: dict = {}
     min_answers = int(cfg.path("reel.render.min_answers", 2))
+    meta = meta if meta is not None else {}
+    rosters, verdicts = _speaker_check(script, order, clips, cfg, deps, notes, meta)
     for members in _iter_runs(order):
         gone = []
         for i in members:
             if i not in clips:
                 continue
             mm = _apply_chyron(script["scenes"][i], clips[i], cfg, deps, speakers, notes, i)
+            roster = rosters.get(clips[i].get("video_id"))
+            if roster and clips[i].get("transcript") and not clips[i].get("approx"):
+                mm = _combine_speaker(i, script, members, clips, mm, speakers, roster,
+                                      verdicts.get(script["scenes"][i].get("point_id", "")), cfg, notes, meta)
             if mm:
                 # سبب الحذف يُكتب في سطر «✂️ حُذف…» وحده (Q10): إضافته إلى notes كانت تكرره سطرًا مستقلًا بلا رمز
                 line = t[mm.get("reason_key", "drop_speaker_mismatch")].format(**mm)
@@ -3907,11 +4187,11 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
               credit: str = "", speakers: dict | None = None, notes: list | None = None, draft: dict | None = None,
               crops: dict | None = None, broll: dict | None = None,
               sources_out: list | None = None, dropped: list | None = None,
-              pre_entries: list | None = None) -> tuple[list[Path], list[str], list[float]]:
+              pre_entries: list | None = None, meta: dict | None = None) -> tuple[list[Path], list[str], list[float]]:
     rcfg = cfg.path("reel.render")
     lead = transition_seconds(cfg)
     clips, dead_scenes = _prune_mismatched(script, clips, cfg, deps, speakers if speakers is not None else {},
-                                           notes if notes is not None else [], dropped if dropped is not None else [])
+                                           notes if notes is not None else [], dropped if dropped is not None else [], meta)
     names = list(dict.fromkeys(s.get("channel_display", "") for i, s in enumerate(script["scenes"])
                                if i in clips and s.get("channel_display")))
     # قناة لقطة الهوك تُنسب في الختام إن لم تكن فيه (Issue #1440)
@@ -4309,11 +4589,13 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
         _topic_hook(path, draft, script, broll, cfg, notes, deps)
     pre_entries = _pre_hook_entries(draft, scan_state)
     speakers: dict = {}
+    speaker_meta: dict = {}      # Q12: render_roster وrender_attribution وrender_relabel
     hook_crops: dict = {}
     sources_out: list = []
     scene_files, kinds, durs = _assemble(script, clips, cfg, deps, tmp, voice, bg,
                                          outro_credit(cfg, bg["used"]) if bg else "", speakers, notes, draft, hook_crops,
-                                         broll=broll, sources_out=sources_out, dropped=dropped, pre_entries=pre_entries)
+                                         broll=broll, sources_out=sources_out, dropped=dropped, pre_entries=pre_entries,
+                                         meta=speaker_meta)
     join_info: dict = {}
     joined = _join(scene_files, kinds, durs, cfg, deps, tmp, join_info)
 
@@ -4346,6 +4628,8 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
             "reel_bg": {**{k: v for k, v in bg_saved.items() if k != "layout"}, **({"layout": bg["layout"]} if bg else {})},
             "render_crops": {**{str(i): c["crop"] for i, c in clips.items() if "crop" in c}, **hook_crops},
             **({"render_speakers": speakers} if speakers else {}),
+            **{key: speaker_meta[k] for key, k in (("render_roster", "roster"), ("render_attribution", "attribution"),
+                                                   ("render_relabel", "relabel")) if speaker_meta.get(k)},
             **({"render_spans": [c["span"] for _, c in sorted(clips.items()) if c.get("span")]}
                if any(c.get("span") for c in clips.values()) else {}),
             **({"render_broll": broll["result"]} if broll and broll.get("result") else {}),
@@ -4561,7 +4845,8 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
     changes = {**result, "render_dropped": dropped, "render_approx": approx_saved,
                "rendered_at": datetime.now(timezone.utc).isoformat()}
     remove = ((["render_error"] + ([] if "render_broll" in result else ["render_broll", "broll_scan"])
-               + ([] if "render_spans" in result else ["render_spans"]))
+               + ([] if "render_spans" in result else ["render_spans"])
+               + [k for k in ("render_roster", "render_attribution", "render_relabel") if k not in result])
               if result["render_status"] == "rendered"
               else [] if keep_files else ["reel_file", "reel_gif", "duration_seconds"])
     text = _comment_text(cfg, draft, result, dropped, approx, notes)
@@ -4698,7 +4983,8 @@ def retry(draft_id: str, cfg) -> bool:
     found = store.load_draft(draft_id)
     if not found or found[1].get("render_status") != "failed":
         return False
-    store.update_draft(found[0], remove=["render_error", "render_dropped", "render_approx", "render_spans"],
+    store.update_draft(found[0], remove=["render_error", "render_dropped", "render_approx", "render_spans",
+                                         "render_roster", "render_attribution", "render_relabel"],
                        render_status="queued", render_attempts=0)
     return True
 

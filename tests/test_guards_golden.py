@@ -18201,7 +18201,7 @@ def test_reel_lower_graphics_q3_guards() -> None:
         check("g539: render_crops['hook'] تحفظ lower_graphics", abs(crops["hook"]["lower_graphics"]["top"] - 0.78) < 1e-6, crops)
         e2 = reel_render._hook_crop(Path("h.mp4"), cfg, mk_deps(lambda c, c2: [1, 1, 1]), {}, video_id="v2")
         check("g539: top 1 ← الاقتطاع القديم", e2 == "crop=ih*9/16:ih:(iw-ih*9/16)/2:0", e2)
-        check("g539: render_version = 37", version == 44, version)
+        check("g539: render_version = 37", version == 45, version)
         seen = []
         real = reel_render.frame_clip_layers
 
