@@ -3004,7 +3004,29 @@ def _chyron_reject_reason(frame: dict, cfg, channels: list) -> str:
     return ""
 
 
-def resolve_chyron(frames: list, cfg, channel: str | list = "") -> dict:
+def roster_verdict(frame: dict, roster: list, cfg) -> str:
+    """حكم قائمة ضيوف الحلقة (Q12) على اسم لقطة شريط (Issue #1691، Q15): "guest" إن طابق ضيفًا، "host" إن طابق المقدّم، وفارغ إن لم يطابق
+    أحدًا. دالة خالصة. المطابقة بـspeaker_matches نفسها (الاسم العربي من القائمة قائلًا)؛ إن طابقها أكثر من اسم يُؤخذ الأكثر كلمات
+    مشتركة، والتعادل للمقدّم (الأحوط: اسم المقدّم يظهر طوال الحلقة فلا يُنسب إليه كلام ضيف بلا دليل)."""
+    best, best_n = "", 0
+    own = _speaker_words(str(frame.get("name_arabic") or "")) | (
+        _speaker_words(str(frame.get("name_original") or "")) if _AR_LETTERS.search(str(frame.get("name_original") or "")) else set())
+    for p in roster or []:
+        ar = str(p.get("name_arabic") or "")
+        orig = str(p.get("name_original") or "")
+        ok = speaker_matches(str(frame.get("name_arabic") or ""), str(frame.get("name_original") or ""), ar, cfg)
+        if not ok and orig and _AR_LETTERS.search(orig):
+            ok = speaker_matches(str(frame.get("name_arabic") or ""), str(frame.get("name_original") or ""), orig, cfg)
+        if not ok:
+            continue
+        n = len(own & (_speaker_words(ar) | _speaker_words(orig)))
+        kind = "host" if p.get("is_host") else "guest"
+        if n > best_n or (n == best_n and kind == "host"):
+            best, best_n = kind, n
+    return best
+
+
+def resolve_chyron(frames: list, cfg, channel: str | list = "", roster: list | None = None) -> dict:
     """القبول من نتائج اللقطات (دالة نقية): اسم شخص متطابق بعد توحيد المسافات وحالة الأحرف في لقطتين فأكثر؛ الصفة من أول لقطة
     فيها ذلك الاسم. اسم البرنامج أو القناة لا يُعدّ (Issue #1450). is_presenter صحيحة إن قالتها لقطتان فأكثر.
     {name_original, name_arabic, role_arabic, is_presenter, frames_agreeing, accepted, rejected}؛ rejected سبب إسقاط الاسم
@@ -3013,6 +3035,7 @@ def resolve_chyron(frames: list, cfg, channel: str | list = "") -> dict:
     valid: dict[str, list[dict]] = {}
     invalid: dict[str, list[dict]] = {}
     host: list[dict] = []
+    overrides: set[str] = set()
     for f in frames:
         name = " ".join(str(f.get("name_original") or "").split())
         if not name:
@@ -3020,6 +3043,13 @@ def resolve_chyron(frames: list, cfg, channel: str | list = "") -> dict:
         # Q10: اسم المقدّم يظهر في الشريط طوال الحلقة فوق الضيف، فلا تُعدّ لقطة نحو القبول ولا المخالفة إلا إن قال النموذج
         # إن الاسم للشخص الذي في الصورة؛ غياب الحقل (مزيَّفات قديمة) يُعدّ yes
         said = f.get("name_is_speaker")
+        # Q15: القائمة تعرف المقدّم صراحة من تعريفه بضيوفه، فتغلب حكم نموذج يرى ثلاث لقطات (تقلّب بين تشغيلتين فسقط اسم ضيف صحيح)
+        verdict = roster_verdict(f, roster, cfg) if roster else ""
+        if verdict:
+            forced = "yes" if verdict == "guest" else "no"
+            if forced != (said or "yes"):
+                overrides.add(verdict)
+            said = forced
         if said not in (None, "", "yes"):
             if said == "no" and not _chyron_reject_reason(f, cfg, channels):
                 host.append(f)
@@ -3038,11 +3068,15 @@ def resolve_chyron(frames: list, cfg, channel: str | list = "") -> dict:
     first = best[0] if best else {}
     agreeing = len(best)
     name_ar = " ".join(str(first.get("name_arabic") or "").split())
-    return {"name_original": " ".join(str(first.get("name_original") or "").split()), "name_arabic": name_ar,
-            "role_arabic": " ".join(str(first.get("role_arabic") or "").split()),
-            "is_presenter": sum(1 for f in frames if f.get("is_presenter") is True) >= 2,
-            "frames_agreeing": agreeing, "rejected": rejected,
-            "accepted": agreeing >= 2 and bool(name_ar) and not rejected}
+    out = {"name_original": " ".join(str(first.get("name_original") or "").split()), "name_arabic": name_ar,
+           "role_arabic": " ".join(str(first.get("role_arabic") or "").split()),
+           "is_presenter": sum(1 for f in frames if f.get("is_presenter") is True) >= 2,
+           "frames_agreeing": agreeing, "rejected": rejected,
+           "accepted": agreeing >= 2 and bool(name_ar) and not rejected}
+    if overrides:
+        # تغييران متعاكسان نادران: تُسجَّل النتيجة النهائية (مقبول ← ضيف، مرفوض ← مقدّم)
+        out["roster_override"] = next(iter(overrides)) if len(overrides) == 1 else ("guest" if out["accepted"] else "host")
+    return out
 
 
 _AR_LETTERS = re.compile(r"[\u0600-\u06FF]")
@@ -3076,7 +3110,8 @@ def speaker_matches(name_arabic: str, name_original: str, speaker_text: str, cfg
     return bool(spoken & chyron)
 
 
-def _apply_chyron(scene: dict, clip: dict, cfg, deps: Deps, speakers: dict, notes: list, index: int) -> dict | None:
+def _apply_chyron(scene: dict, clip: dict, cfg, deps: Deps, speakers: dict, notes: list, index: int,
+                  roster: list | None = None) -> dict | None:
     """يوثّق متحدث مقطع غير موثَّق من شريط القناة. الموثَّق من العنوان أو الوصف يُقرأ شريطه للتحقق وحده (Q11) ولا يُعاد كتابة اسمه؛ ولا يُرفع فشل أبدًا
     (العطل أو الرفض أو الردّ غير الصالح يُبقي «ضيف على»). اسم شخص مقبول يُقارَن بقائل النقطة (speaker_text): الخلاف (R6) لا يُطبَّق على
     المشهد ويُعاد {chyron, speaker} فيحذف _assemble المقطع من اللوحة؛ يُستدعى مرتين لكل مقطع (قبل بناء اللوحة وفي _clip_layers) فالقراءة تُحفظ
@@ -3102,7 +3137,7 @@ def _apply_chyron(scene: dict, clip: dict, cfg, deps: Deps, speakers: dict, note
                 return unverified
             return None
         res = resolve_chyron([f for f in frames if isinstance(f, dict)], cfg,
-                             [scene.get("channel_original") or "", scene.get("channel_display") or ""])
+                             [scene.get("channel_original") or "", scene.get("channel_display") or ""], roster)
     except Exception as exc:  # noqa: BLE001 -- القراءة تحسين لا شرط
         log.warning("تعذّرت قراءة شريط القناة فيبقى «ضيف على»: %s", str(exc)[:120])
         if approx:
@@ -3110,6 +3145,10 @@ def _apply_chyron(scene: dict, clip: dict, cfg, deps: Deps, speakers: dict, note
             return unverified
         return None
     speakers[str(index)] = res
+    if res.get("roster_override") == "guest" and res["accepted"]:
+        line = cfg.path("reel.render.texts.comment_roster_guest").format(name=res["name_arabic"] or res["name_original"])
+        if line not in notes:
+            notes.append(line)
     if res["accepted"] and speaker_matches(res["name_arabic"], res["name_original"], scene.get("speaker_text", ""), cfg) is False:
         mismatch = {"chyron": res["name_arabic"], "speaker": speaker}
         res["mismatch"] = mismatch
@@ -4302,8 +4341,8 @@ def _prune_mismatched(script: dict, clips: dict, cfg, deps: Deps, speakers: dict
         for i in members:
             if i not in live:
                 continue
-            mm = _apply_chyron(script["scenes"][i], live[i], cfg, deps, speakers, notes, i)
             roster = rosters.get(live[i].get("video_id"))
+            mm = _apply_chyron(script["scenes"][i], live[i], cfg, deps, speakers, notes, i, roster)
             if roster and live[i].get("transcript") and not live[i].get("approx"):
                 mm = _combine_speaker(i, script, members, live, mm, speakers, roster,
                                       verdicts.get(script["scenes"][i].get("point_id", "")), cfg, notes, meta)
