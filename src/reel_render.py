@@ -1964,17 +1964,25 @@ def _audio_prefix(clip: dict) -> str:
     return f"atrim=start={_fmt(tr[0])}:end={_fmt(tr[1])},asetpts=PTS-STARTPTS," if tr else ""
 
 
-def _exact_align(file: Path, lang: str | None, point: dict, cfg, deps: Deps) -> tuple[dict | None, str]:
-    """تفريغ كلمات الملف ومطابقة الاقتباس الأصلي (Q13). يعيد (نتيجة align_quote بثواني الملف، "") أو (None، السبب)؛ لا يرفع أبدًا."""
+def _exact_align(file: Path, lang: str | None, point: dict, cfg, deps: Deps, diag: dict | None = None) -> tuple[dict | None, str]:
+    """تفريغ كلمات الملف ومطابقة الاقتباس الأصلي (Q13). يعيد (نتيجة align_quote بثواني الملف، "") أو (None، السبب)؛ لا يرفع أبدًا.
+    diag (Q15) يُملأ بتشخيص الفشل (reason وbest_ratio وheard_words وheard_head) ويذكر نص السبب الرقم نفسه."""
     try:
         words = deps.transcribe_words(file, lang, cfg)
     except Exception as exc:  # noqa: BLE001 -- مكتبة اختيارية أو عطل نموذج: يُعامل عطلًا فيبقى ضبط السطر
         return None, f"{type(exc).__name__}: " + reel_clips.scrub_text(str(exc))[:80]
     if not words:
+        if diag is not None:
+            diag.update(reason="no_words", best_ratio=0.0, heard_words=0, heard_head=[])
         return None, "تفريغ فارغ"
-    res = reel_clips.align_quote(point.get("quote_original", ""), words, cfg)
+    d: dict = diag if diag is not None else {}
+    res = reel_clips.align_quote(point.get("quote_original", ""), words, cfg, diag=d)
     if res is None:
-        return None, "الاقتباس لم يطابق الكلمات المفرَّغة بنسبة كافية أو يتكرر"
+        t = cfg.path("reel.render.texts.exact_reasons") or {}
+        reason = d.get("reason", "")
+        text = (t.get(reason) or "الاقتباس لم يطابق الكلمات المفرَّغة بنسبة كافية أو يتكرر").format(
+            ratio=d.get("best_ratio", 0), min=d.get("min_ratio", 0), heard=d.get("heard_words", 0))
+        return None, text
     return res, ""
 
 
@@ -1990,7 +1998,8 @@ def _exact_apply(clip: dict, scene: dict, point: dict, dstart: int, wstart: int,
     lang = scene.get("language") if scene.get("language") not in (None, "", "other") else None
     fsecs = float(clip["seconds"])
     # off: الفحص الذاتي فشل (Q13b) ← لا نداء تفريغ، والسبب واحد يُكتب مرة في التعليق لا مقطعًا مقطعًا
-    res, why = (None, off) if off else _exact_align(clip["file"], lang, point, cfg, deps)
+    diag: dict = {}
+    res, why = (None, off) if off else _exact_align(clip["file"], lang, point, cfg, deps, diag)
     channel = scene.get("channel_display", "")
     if res is None:
         if xcfg.get("require", False):
@@ -2001,7 +2010,7 @@ def _exact_apply(clip: dict, scene: dict, point: dict, dstart: int, wstart: int,
         clip["trim"] = (t0, t1)
         clip["seconds"] = round(max(t1 - t0, 0.1), 3)
         source = "approx" if is_approx else "line"
-        clip["exact"] = {"source": source, "error": why}
+        clip["exact"] = {"source": source, "error": why, **{k: v for k, v in diag.items() if k != "min_ratio"}}
         if fails is not None and not off:
             fails.append((channel, why))      # تُجمَّع بالسبب بعد الحلقة (Q13b)
         return source, why

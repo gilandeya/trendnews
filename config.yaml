@@ -2591,6 +2591,11 @@ reel:
       bg_credit_free: "صورة تعبيرية"
       comment_chyron: "👤 من شريط القناة: {name_arabic} ({name_original}) — {role_arabic}"
       # Q10 (Issue #1672): شريط يحمل اسم المقدّم لا المتكلم فيبقى اسم السيناريو
+      exact_reasons:
+        low_ratio: "النسبة {ratio} أقل من {min}"
+        ambiguous: "الاقتباس يطابق أكثر من موضع بالدرجة نفسها (أفضل نسبة {ratio})"
+        no_words: "المفرِّغ لم يعد كلمات"
+        short_quote: "الاقتباس أقصر من أن يُطابَق"
       comment_roster_guest: "👥 الشريط يحمل اسم {name} وهو ضيف في قائمة الحلقة — اعتُمد اسمه"
       comment_chyron_host: "🏷️ شريط {channel} يحمل اسم المقدّم {name} لا المتكلم — يبقى اسم السيناريو"
       # Q11 (Issue #1677): متحدث السيناريو طابقه الشريط فيرى المراجع ما فُحص

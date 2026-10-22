@@ -132,7 +132,15 @@ def _lcs_pairs(a: list[str], b: list[str]) -> list[tuple[int, int]]:
     return out
 
 
-def align_quote(quote_original: str, words: list, cfg=None) -> dict | None:
+def _fail(diag: dict | None, reason: str, best: float, toks: list, n_heard: int, min_ratio: float) -> None:
+    """يملأ diag (إن مُرّر) بما يشرح فشل المطابقة (Issue #1691، Q15): السبب وأفضل نسبة وعدد الكلمات المفرَّغة وأول 8 منها مطبَّعة."""
+    if diag is None:
+        return
+    diag.update(reason=reason, best_ratio=round(best, 3), heard_words=n_heard, heard_head=[t for t, _ in toks[:8]],
+                min_ratio=min_ratio)
+
+
+def align_quote(quote_original: str, words: list, cfg=None, diag: dict | None = None) -> dict | None:
     """يطابق الاقتباس الأصلي بكلمات مفرَّغة بتوقيتها [(بداية، نهاية، كلمة)] (Issue #1681، Q13). دالة خالصة. الطرفان يُطبَّعان بـ
     _normalize_for_anchor وتُبحث أفضل نافذة بأطول تتابع مشترك كما في youtube_extract._fuzzy_locate؛ تُقبل بنسبة exact.min_ratio وبتفرّد
     (لا نافذة بعيدة أكثر من طول الاقتباس بالدرجة نفسها) وإلا None. الحدّ يمتد إلى الكلمة المفرَّغة المجاورة إن لم تطابق
@@ -147,7 +155,12 @@ def align_quote(quote_original: str, words: list, cfg=None) -> dict | None:
         for t in youtube_extract._normalize_for_anchor(str(w[2])).split():
             toks.append((t, k))
     n = len(q)
-    if n < 3 or not toks:
+    n_heard = len(words or [])
+    if not toks:
+        _fail(diag, "no_words", 0.0, toks, n_heard, min_ratio)
+        return None
+    if n < 3:
+        _fail(diag, "short_quote", 0.0, toks, n_heard, min_ratio)
         return None
     probe = set(q)
     width = n + 2
@@ -159,12 +172,18 @@ def align_quote(quote_original: str, words: list, cfg=None) -> dict | None:
             continue
         scores[i] = _lcs_pairs(q, window)
     if not scores:
+        if diag is not None:
+            # لا نافذة بلغت عتبة التقاطع: أفضل نسبة تُحسب بـLCS كاملًا على كل النوافذ (مسار الفشل وحده فالكلفة مقبولة)
+            best_any = max((len(_lcs_pairs(q, flat[i:i + width])) for i in range(max(1, len(toks) - width + 1))), default=0)
+            _fail(diag, "low_ratio", best_any / n, toks, n_heard, min_ratio)
         return None
     best_score = max(len(p) for p in scores.values())
     if best_score / n < min_ratio:
+        _fail(diag, "low_ratio", best_score / n, toks, n_heard, min_ratio)
         return None
     best = min(i for i, p in scores.items() if len(p) == best_score)
     if any(len(p) >= best_score and abs(i - best) > n for i, p in scores.items()):
+        _fail(diag, "ambiguous", best_score / n, toks, n_heard, min_ratio)
         return None
     pairs = scores[best]
     first_tok, last_tok = best + pairs[0][1], best + pairs[-1][1]
