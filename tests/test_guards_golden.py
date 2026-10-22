@@ -20594,3 +20594,108 @@ def test_reel_face_check_q14_guards() -> None:
             check("g625: نص " + k, bool(t.get(k)), k)
         check("g625: render.version >= 48", int(cfg.path("reel.render.version")) >= 48, cfg.path("reel.render.version"))
     guarded("g625", g625)
+
+
+def test_reel_roster_host_q15_guards() -> None:
+    """Issue #1691 (Q15، g626–g631): قائمة ضيوف الحلقة (Q12) تحسم المقدّم من الضيف في أسماء الشريط بدل حكم لقطات النموذج، وكل حقل
+    `render_*` يكتبه التركيب يمرّ بـRENDER_KEYS فيصل القرص، وفشل ضبط الكلمات يشرح نفسه بأرقامه، والتطبيع يطوي الحروف الفارسية.
+    الشاهد tests/fixtures/reel/1676/render47.json (الريل 02b4436a2b66 بالإصدار 47: البخيتي ضيف سقط اسمه «مقدّمًا»). لا شبكة."""
+    import copy
+    import json
+    import re
+    from pathlib import Path
+
+    from src import reel_clips, reel_render
+
+    cfg = load_config()
+    root = Path(__file__).resolve().parent
+    fx = json.loads((root / "fixtures/reel/1676/render47.json").read_text(encoding="utf-8"))
+    roster = fx["render_roster"]["qB_4P0mUCyI"]
+    t = cfg.path("reel.render.texts")
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def fr(ar, orig, said):
+        return dict(has_caption=True, name_original=orig, name_arabic=ar, role_original="", role_arabic="كاتب سياسي | لندن",
+                    is_presenter=False, name_kind="person", name_is_speaker=said)
+
+    def apply(frames, with_roster=True):
+        scene = copy.deepcopy(fx["script"]["scenes"][8])
+        scene["speaker_text"] = "علي البخيتي"
+        speakers, notes = {}, []
+        kw = dict(roster=roster) if with_roster else {}
+        mm = reel_render._apply_chyron(scene, dict(file="c8"), cfg, reel_render.Deps(read_chyron=lambda f, c: frames),
+                                       speakers, notes, 8, **kw)
+        return mm, speakers.get("8", {}), notes, scene
+
+    def g626():
+        mm, sp, notes, scene = apply([fr("علي البخيتي", "Ali Al-Bukhaiti", "no")] * 2)
+        check("g626: الاسم مقبول", sp.get("accepted") is True and sp.get("rejected") == "", sp)
+        check("g626: roster_override == guest", sp.get("roster_override") == "guest", sp)
+        check("g626: لا سطر «يحمل اسم المقدّم»", not any("اسم المقدّم" in n for n in notes), notes)
+        check("g626: سطر الضيف واحد", sum("ضيف في قائمة الحلقة" in n for n in notes) == 1 and any("علي البخيتي" in n for n in notes), notes)
+        check("g626: المقطع لا يُحذف", mm is None, mm)
+    guarded("g626", g626)
+
+    def g627():
+        mm, sp, notes, scene = apply([fr("أيمن سرور", "Ayman Srour", "yes")] * 2)
+        check("g627: المقدّم يبقى مقدّمًا", sp.get("rejected") == "host" and sp.get("accepted") is False, sp)
+        check("g627: roster_override == host", sp.get("roster_override") == "host", sp)
+    guarded("g627", g627)
+
+    def g628():
+        mm, sp, notes, scene = apply([fr("علي البخيتي", "Ali Al-Bukhaiti", "no")] * 2, with_roster=False)
+        check("g628: بلا قائمة ← السلوك الحالي", sp.get("rejected") == "host" and sp.get("accepted") is False
+              and "roster_override" not in sp, sp)
+        mm2, sp2, notes2, _ = apply([fr("علي البخيتي", "Ali Al-Bukhaiti", "yes")] * 2)
+        check("g628: القائمة توافق حكم النموذج ← بلا roster_override", sp2.get("accepted") is True and "roster_override" not in sp2, sp2)
+    guarded("g628", g628)
+
+    def g629():
+        keys = getattr(reel_render, "RENDER_KEYS", None)
+        check("g629: RENDER_KEYS موجودة وفيها render_exact_selfcheck", bool(keys) and "render_exact_selfcheck" in keys, keys)
+        src = (root.parent / "src/reel_render.py").read_text(encoding="utf-8")
+        written = set(re.findall(r'draft\["(render_\w+)"\]\s*=', src)) | set(re.findall(r'\("(render_\w+)",\s*"\w+"\)', src))
+        check("g629: كل مفتاح render_ يُكتب على draft موجود في RENDER_KEYS", bool(written) and written <= set(keys or ()),
+              sorted(written - set(keys or ())))
+        draft = {"render_exact_selfcheck": {"ok": False, "reason": "TypeError"}}
+        saved = reel_render._saved_render_fields(draft, {"roster": {"v": [1]}})
+        check("g629: الفحص الذاتي يصل الحقول المحفوظة", saved.get("render_exact_selfcheck") == {"ok": False, "reason": "TypeError"}
+              and saved.get("render_roster") == {"v": [1]}, saved)
+    guarded("g629", g629)
+
+    def g630():
+        words = [(float(i), i + 0.4, w) for i, w in enumerate("هذا كلام آخر تماما لا علاقة له بما قيل هنا اطلاقا ابدا".split())]
+        quote = "السعودية تواجه محورا ممتدا من طهران الى بيروت"
+        diag = {}
+        r = reel_clips.align_quote(quote, words, cfg, diag=diag)
+        check("g630: يفشل", r is None, r)
+        check("g630: السبب low_ratio", diag.get("reason") == "low_ratio", diag)
+        check("g630: best_ratio رقم أقل من min_ratio", isinstance(diag.get("best_ratio"), float)
+              and diag["best_ratio"] < float(cfg.path("reel.render.exact.min_ratio")), diag)
+        check("g630: heard_words وheard_head", diag.get("heard_words") == len(words) and len(diag.get("heard_head", [])) == 8, diag)
+        d2 = {}
+        reel_clips.align_quote(quote, [], cfg, diag=d2)
+        check("g630: no_words", d2.get("reason") == "no_words", d2)
+        d3 = {}
+        res, why = reel_render._exact_align(Path("f"), "ar", dict(quote_original=quote), cfg,
+                                            reel_render.Deps(transcribe_words=lambda f, lang, c: words), d3)
+        check("g630: سطر السبب يحمل الرقم", res is None and re.search(r"\d\.\d+", why) and "0.7" in why, why)
+        check("g630: التشخيص يصل diag", d3.get("reason") == "low_ratio" and "best_ratio" in d3, d3)
+    guarded("g630", g630)
+
+    def g631():
+        words = [(0.0, 0.4, "سميرا"), (0.4, 0.8, "قرايي"), (0.8, 1.2, "گفت"), (1.2, 1.6, "كه")]
+        r = reel_clips.align_quote("سمیرا قرایی گفت که", words, cfg)
+        check("g631: المطابقة تنجح بنسبة 1.0", r is not None and r["ratio"] == 1.0, r)
+        from src import youtube_extract
+        norm = youtube_extract._normalize_for_anchor
+        check("g631: طيّ ی ک ە ۀ", norm("سمیرا قرایی گفت که") == norm("سميرا قرايي گفت كه")
+              and norm("ەۀ") == norm("هه"), (norm("سمیرا"), norm("ەۀ")))
+        check("g631: render.version >= 49", int(cfg.path("reel.render.version")) >= 49, cfg.path("reel.render.version"))
+        check("g631: comment_roster_guest", t.get("comment_roster_guest", "").startswith("👥 الشريط يحمل اسم {name}"), t.get("comment_roster_guest"))
+    guarded("g631", g631)

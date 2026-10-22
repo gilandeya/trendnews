@@ -1,0 +1,607 @@
+{
+ "render_speakers": {
+  "3": {
+   "name_original": "Fardad Farhzad",
+   "name_arabic": "فرداد فرحزاد",
+   "role_arabic": "",
+   "is_presenter": true,
+   "frames_agreeing": 3,
+   "rejected": "host",
+   "accepted": false
+  },
+  "4": {
+   "name_original": "",
+   "name_arabic": "",
+   "role_arabic": "",
+   "is_presenter": false,
+   "frames_agreeing": 0,
+   "rejected": "",
+   "accepted": false
+  },
+  "5": {
+   "name_original": "مصطفى بكري",
+   "name_arabic": "مصطفى بكري",
+   "role_arabic": "عضو مجلس النواب المصري",
+   "is_presenter": false,
+   "frames_agreeing": 2,
+   "rejected": "",
+   "accepted": true
+  },
+  "7": {
+   "name_original": "",
+   "name_arabic": "",
+   "role_arabic": "",
+   "is_presenter": false,
+   "frames_agreeing": 0,
+   "rejected": "",
+   "accepted": false
+  },
+  "8": {
+   "name_original": "Ali Al-Bukhaiti",
+   "name_arabic": "علي البخيتي",
+   "role_arabic": "كاتب سياسي | لندن",
+   "is_presenter": false,
+   "frames_agreeing": 2,
+   "rejected": "host",
+   "accepted": false
+  },
+  "9": {
+   "name_original": "منيف عماش الحربي",
+   "name_arabic": "منيف عماش الحربي",
+   "role_arabic": "كاتب ومحلل سياسي | الرياض",
+   "is_presenter": false,
+   "frames_agreeing": 3,
+   "rejected": "",
+   "accepted": true
+  }
+ },
+ "render_roster": {
+  "nx6MtSAGGLQ": [
+   {
+    "name_arabic": "فرداد فرحزاد",
+    "name_original": "فرداد فرحزان",
+    "role_arabic": "مقدّم البرنامج في استوديو إيران إنترناشونال",
+    "is_host": true
+   },
+   {
+    "name_arabic": "سميرا قرائي",
+    "name_original": "سمیرا قرایی",
+    "role_arabic": "مراسلة إيران إنترناشونال من البيت الأبيض",
+    "is_host": false
+   }
+  ],
+  "qB_4P0mUCyI": [
+   {
+    "name_arabic": "أيمن سرور",
+    "name_original": "ايمن سرور",
+    "role_arabic": "مقدّم البرنامج",
+    "is_host": true
+   },
+   {
+    "name_arabic": "منيف عماش الحربي",
+    "name_original": "منيف عماش الحربي",
+    "role_arabic": "كاتب ومحلل سياسي من الرياض، ومحامي وحقوقي",
+    "is_host": false
+   },
+   {
+    "name_arabic": "علي البخيتي",
+    "name_original": "علي البخيتي",
+    "role_arabic": "كاتب سياسي من لندن",
+    "is_host": false
+   }
+  ]
+ },
+ "render_crops": {
+  "3": {
+   "x": 63,
+   "source": "speaker_vision",
+   "speaker_score": 0.79,
+   "tracks": 2,
+   "vision": {
+    "pick": 2,
+    "agree": 3,
+    "archive": []
+   },
+   "gate": {
+    "start": 1.12,
+    "end": 8.47,
+    "source": "silence"
+   },
+   "exact": {
+    "source": "line",
+    "error": "الاقتباس لم يطابق الكلمات المفرَّغة بنسبة كافية أو يتكرر"
+   },
+   "panel_q": 0,
+   "tile_crop": {
+    "x": 0,
+    "y": 0,
+    "w": 688,
+    "h": 408,
+    "mode": "full_height"
+   },
+   "frame_crop": {
+    "x": 36,
+    "y": 0,
+    "w": 322,
+    "h": 408,
+    "mode": "full_height"
+   },
+   "bars": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "ticker": false,
+   "lower_graphics": {
+    "top": 0.85,
+    "source": "model",
+    "clamped": false,
+    "frames": [
+     0.87,
+     0.87,
+     0.87
+    ]
+   },
+   "quote_sync": "transcript",
+   "quote_mode": "line"
+  },
+  "4": {
+   "x": 749,
+   "source": "speaker_vision",
+   "speaker_score": 0.72,
+   "tracks": 2,
+   "vision": {
+    "pick": 1,
+    "agree": 3,
+    "archive": [
+     2
+    ]
+   },
+   "gate": {
+    "start": 1.0,
+    "end": 13.0,
+    "source": "transcript"
+   },
+   "exact": {
+    "source": "line",
+    "error": "الاقتباس لم يطابق الكلمات المفرَّغة بنسبة كافية أو يتكرر"
+   },
+   "panel_q": 0,
+   "tile_crop": {
+    "x": 392,
+    "y": 0,
+    "w": 888,
+    "h": 526,
+    "mode": "full_height"
+   },
+   "frame_crop": {
+    "x": 744,
+    "y": 0,
+    "w": 416,
+    "h": 526,
+    "mode": "full_height"
+   },
+   "bars": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "ticker": true,
+   "lower_graphics": {
+    "top": 0.73,
+    "source": "model",
+    "clamped": false,
+    "frames": [
+     0.75,
+     0.75,
+     0.75
+    ]
+   },
+   "quote_sync": "transcript",
+   "quote_mode": "word"
+  },
+  "5": {
+   "x": 57,
+   "source": "speaker",
+   "speaker_score": 1.58,
+   "tracks": 1,
+   "gate": {
+    "start": 0.88,
+    "end": 4.9,
+    "source": "transcript"
+   },
+   "exact": {
+    "t0": 1211.82,
+    "t1": 1215.6,
+    "ratio": 0.875,
+    "source": "words"
+   },
+   "panel_q": 0,
+   "tile_crop": {
+    "x": 0,
+    "y": 0,
+    "w": 614,
+    "h": 364,
+    "mode": "full_height"
+   },
+   "frame_crop": {
+    "x": 48,
+    "y": 0,
+    "w": 288,
+    "h": 364,
+    "mode": "full_height"
+   },
+   "bars": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "ticker": true,
+   "lower_graphics": {
+    "top": 0.76,
+    "source": "model",
+    "clamped": false,
+    "frames": [
+     0.78,
+     0.79,
+     0.79
+    ]
+   },
+   "quote_sync": "words",
+   "quote_mode": "word"
+  },
+  "7": {
+   "x": 85,
+   "source": "speaker_vision",
+   "speaker_score": 1.55,
+   "tracks": 2,
+   "vision": {
+    "pick": 2,
+    "agree": 3,
+    "archive": []
+   },
+   "gate": {
+    "start": 0.88,
+    "end": 4.08,
+    "source": "transcript"
+   },
+   "exact": {
+    "t0": 724.46,
+    "t1": 727.42,
+    "ratio": 1.0,
+    "source": "words"
+   },
+   "panel_q": 1,
+   "tile_crop": {
+    "x": 0,
+    "y": 0,
+    "w": 614,
+    "h": 364,
+    "mode": "full_height"
+   },
+   "frame_crop": {
+    "x": 76,
+    "y": 0,
+    "w": 288,
+    "h": 364,
+    "mode": "full_height"
+   },
+   "bars": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "ticker": true,
+   "lower_graphics": {
+    "top": 0.76,
+    "source": "model",
+    "clamped": false,
+    "frames": [
+     0.78,
+     0.79,
+     0.79
+    ]
+   },
+   "quote_sync": "words",
+   "quote_mode": "word"
+  },
+  "8": {
+   "x": 875,
+   "source": "speaker_vision",
+   "speaker_score": 0.87,
+   "tracks": 2,
+   "vision": {
+    "pick": 1,
+    "agree": 3,
+    "archive": [
+     2
+    ]
+   },
+   "gate": {
+    "start": 0.88,
+    "end": 6.14,
+    "source": "silence"
+   },
+   "exact": {
+    "t0": 682.96,
+    "t1": 688.14,
+    "ratio": 0.846,
+    "source": "words"
+   },
+   "panel_q": 1,
+   "tile_crop": {
+    "x": 392,
+    "y": 0,
+    "w": 888,
+    "h": 526,
+    "mode": "full_height"
+   },
+   "frame_crop": {
+    "x": 864,
+    "y": 0,
+    "w": 416,
+    "h": 526,
+    "mode": "full_height"
+   },
+   "bars": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "ticker": true,
+   "lower_graphics": {
+    "top": 0.73,
+    "source": "model",
+    "clamped": false,
+    "frames": [
+     0.75,
+     0.75,
+     0.75
+    ]
+   },
+   "quote_sync": "words",
+   "quote_mode": "word"
+  },
+  "9": {
+   "x": 394,
+   "source": "speaker",
+   "speaker_score": 0.68,
+   "tracks": 1,
+   "gate": {
+    "start": 0.7,
+    "end": 8.57,
+    "source": "silence"
+   },
+   "exact": {
+    "t0": 1002.72,
+    "t1": 1010.22,
+    "ratio": 0.714,
+    "source": "words"
+   },
+   "panel_q": 1,
+   "tile_crop": {
+    "x": 152,
+    "y": 0,
+    "w": 888,
+    "h": 526,
+    "mode": "full_height"
+   },
+   "frame_crop": {
+    "x": 388,
+    "y": 0,
+    "w": 416,
+    "h": 526,
+    "mode": "full_height"
+   },
+   "bars": [
+    0,
+    0,
+    0,
+    0
+   ],
+   "ticker": true,
+   "lower_graphics": {
+    "top": 0.73,
+    "source": "model",
+    "clamped": false,
+    "frames": [
+     0.75,
+     0.75,
+     0.75
+    ]
+   },
+   "quote_sync": "words",
+   "quote_mode": "word"
+  },
+  "closing": {
+   "source": "freeze"
+  }
+ },
+ "render_attribution": [
+  {
+   "point_id": "63fd50319f8a",
+   "speaker": "علي سزاده، محلل شؤون الشرق الأوسط",
+   "evidence": "علی سزاده تحلیل‌گر مسئله خاورمیانه از",
+   "accepted": false,
+   "reason": "القائل ليس في القائمة"
+  },
+  {
+   "point_id": "8be09bba07da",
+   "speaker": "منيف عماش الحربي",
+   "evidence": "",
+   "accepted": false,
+   "reason": "evidence ليس في الأسطر المعطاة"
+  }
+ ],
+ "script": {
+  "version": 2,
+  "narrator": "male",
+  "title": "هل يكفي الدعم الخارجي لحماية الأجواء السعودية من هجمات الحوثيين؟",
+  "question": "ما الذي يحسم أمن الأجواء السعودية: السلاح الغربي أم التسوية مع طهران؟",
+  "event": "إرسال بريطانيا مقاتلات تايفون للدفاع عن الأجواء السعودية ضد هجمات الحوثيين",
+  "scenes": [
+   {
+    "kind": "title_card",
+    "text": "هل يكفي الدعم الخارجي لحماية الأجواء السعودية من هجمات الحوثيين؟"
+   },
+   {
+    "kind": "narration",
+    "role": "context",
+    "text": "أعلنت بريطانيا إرسال مقاتلات تايفون لاعتراض صواريخ الحوثيين ومسيّراتهم فوق السعودية. وطلب السيسي تفويضًا برلمانيًا لدعم السعودية دفاعيًا."
+   },
+   {
+    "kind": "narration",
+    "role": "question",
+    "qrole": "core",
+    "q": 0,
+    "text": "ما حدود فاعلية الدفاع الجوي البريطاني فوق السعودية؟"
+   },
+   {
+    "kind": "clip",
+    "point_id": "63fd50319f8a",
+    "q": 0,
+    "stance": "مساعدة كبيرة لكن الاعتراض الكامل غير مضمون",
+    "angle": "القدرة التقنية على اعتراض كل الصواريخ",
+    "repeats": false,
+    "video_url": "https://www.youtube.com/watch?v=nx6MtSAGGLQ",
+    "start": 2446.0,
+    "end": 2452.5,
+    "speaker_name": "",
+    "speaker_role": "",
+    "speaker_verified": false,
+    "speaker_verified_from": "",
+    "speaker_name_latin": "",
+    "channel_display": "إيران إنترناشيونال",
+    "channel_original": "Iran International",
+    "quote_arabic": "السؤال هو هل يستطيع اعتراضها كلها؟ وهذا ما يجب أن نراه في الممارسة",
+    "language": "fa",
+    "video_published": "2026-10-20"
+   },
+   {
+    "kind": "clip",
+    "point_id": "8be09bba07da",
+    "q": 0,
+    "stance": "الرياض تواجه محورًا ممتدًا وضغوط تطبيع",
+    "angle": "اتساع التهديد والضغوط الإسرائيلية",
+    "repeats": false,
+    "video_url": "https://www.youtube.com/watch?v=qB_4P0mUCyI",
+    "start": 944.0,
+    "end": 953.1,
+    "speaker_name": "منيف عماش الحربي",
+    "speaker_role": "كاتب ومحلل سياسي",
+    "speaker_verified": true,
+    "speaker_verified_from": "description",
+    "speaker_name_latin": "منيف عماش الحربي",
+    "channel_display": "فرانس 24 عربي",
+    "channel_original": "فرانس 24 عربي",
+    "quote_arabic": "السعودية تواجه محورًا ممتدًا، بل إن إسرائيل بدأت وسائل إعلامها واللوبي الصهيوني يضغطون على السعودية كي تطبع",
+    "language": "ar",
+    "video_published": "2026-10-20"
+   },
+   {
+    "kind": "clip",
+    "point_id": "2da91f52ac9a",
+    "q": 0,
+    "stance": "القرار الحوثي بيد طهران لا صنعاء",
+    "angle": "مصدر القرار في إيران",
+    "repeats": false,
+    "video_url": "https://www.youtube.com/watch?v=QFMGl1rCLhU",
+    "start": 1211.0,
+    "end": 1217.0,
+    "speaker_name": "",
+    "speaker_role": "",
+    "speaker_verified": false,
+    "speaker_verified_from": "",
+    "speaker_name_latin": "",
+    "channel_display": "العربية",
+    "channel_original": "العربية",
+    "quote_arabic": "القرار ليس قرار الحوثيين، القرار في قم، القرار في طهران",
+    "language": "ar",
+    "video_published": "2026-10-20"
+   },
+   {
+    "kind": "narration",
+    "role": "question",
+    "qrole": "why_now",
+    "q": 1,
+    "text": "لماذا يثير الدور المصري جدلًا في هذا التوقيت؟"
+   },
+   {
+    "kind": "clip",
+    "point_id": "e4e91fa71963",
+    "q": 1,
+    "stance": "القرار المصري مستقل ويخدم الأمن القومي",
+    "angle": "استقلالية القرار والمصلحة القومية",
+    "repeats": false,
+    "video_url": "https://www.youtube.com/watch?v=QFMGl1rCLhU",
+    "start": 723.0,
+    "end": 729.0,
+    "speaker_name": "",
+    "speaker_role": "",
+    "speaker_verified": false,
+    "speaker_verified_from": "",
+    "speaker_name_latin": "",
+    "channel_display": "العربية",
+    "channel_original": "العربية",
+    "quote_arabic": "القرار المصري قرار مستقل يتوخى المصلحة القومية العربية، ويرتبط بالأمن القومي المصري",
+    "language": "ar",
+    "video_published": "2026-10-20"
+   },
+   {
+    "kind": "clip",
+    "point_id": "4cb860795115",
+    "q": 1,
+    "stance": "الإعلان خطأ؛ الممرات البحرية ليست سعودية",
+    "angle": "جغرافيا المصلحة والممرات البحرية",
+    "repeats": false,
+    "video_url": "https://www.youtube.com/watch?v=qB_4P0mUCyI",
+    "start": 680.0,
+    "end": 686.0,
+    "speaker_name": "",
+    "speaker_role": "",
+    "speaker_verified": false,
+    "speaker_verified_from": "",
+    "speaker_name_latin": "",
+    "channel_display": "فرانس 24 عربي",
+    "channel_original": "فرانس 24 عربي",
+    "quote_arabic": "البحر الأحمر ليس سعوديًا، وقناة السويس ليست سعودية، ومضيق باب المندب ليس سعوديًا",
+    "language": "ar",
+    "video_published": "2026-10-20"
+   },
+   {
+    "kind": "clip",
+    "point_id": "1b8abc22f6b4",
+    "q": 1,
+    "stance": "حلف مكة مظلة نووية تجذب الشركاء",
+    "angle": "المظلة النووية وجاذبية التحالف",
+    "repeats": false,
+    "video_url": "https://www.youtube.com/watch?v=qB_4P0mUCyI",
+    "start": 1000.0,
+    "end": 1006.1,
+    "speaker_name": "منيف عماش الحربي",
+    "speaker_role": "كاتب ومحلل سياسي",
+    "speaker_verified": true,
+    "speaker_verified_from": "description",
+    "speaker_name_latin": "منيف عماش الحربي",
+    "channel_display": "فرانس 24 عربي",
+    "channel_original": "فرانس 24 عربي",
+    "quote_arabic": "حلف مكة مظلة نووية، ولهذا دخل الأتراك فيه لأنه سيمنحهم مظلة نووية",
+    "language": "ar",
+    "video_published": "2026-10-20"
+   },
+   {
+    "kind": "question",
+    "text": "ما الذي يحسم أمن الأجواء السعودية: السلاح الغربي أم التسوية مع طهران؟"
+   },
+   {
+    "kind": "outro"
+   }
+  ],
+  "trimmed": []
+ }
+}
