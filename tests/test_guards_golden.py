@@ -20194,6 +20194,149 @@ def test_reel_exact_q13_guards() -> None:
     guarded("g608", g608)
 
 
+def test_reel_exact_q13b_guards() -> None:
+    """Issue #1686 (Q13b، g615–g619): فكّ الصوت بـffmpeg لا PyAV، فحص ذاتي واحد لمفرِّغ الكلمات في أول التركيب، تجميع أسطر الفشل المتكرر
+    بالسبب نفسه، وقيد إصدار faster-whisper. لا شبكة ولا whisper حقيقي (faster_whisper مزيَّف في sys.modules)."""
+    import json
+    import subprocess
+    import sys
+    import tempfile
+    import types
+    from pathlib import Path
+
+    import numpy as np
+
+    from src import reel, reel_clips, reel_render, reel_script
+
+    cfg = load_config()
+    fx = json.loads(Q13_WORDS.read_text(encoding="utf-8"))
+    words = [tuple(w) for w in fx["words"]]
+    work = Path(tempfile.mkdtemp(prefix="q13b_"))
+    segs = [tuple(x) for x in json.loads((Path(__file__).parent / "fixtures/reel/1676/transcript_qB.json").read_text(encoding="utf-8"))]
+    point = {"video_id": "qB", "statement": "s", "quote_original": fx["quote_original"], "quote_arabic": "ترجمة", "speaker": "علي البخيتي",
+             "channel": "France 24 Arabic", "timestamp": 945, "video_url": "https://youtube.com/watch?v=qB"}
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def g615():
+        ff = reel.ffmpeg_path()
+        if not ff:
+            return
+        wav = work / "t.wav"
+        subprocess.run([ff, "-y", "-f", "lavfi", "-i", "sine=frequency=440:duration=2", "-ar", "44100", str(wav)],
+                       check=True, capture_output=True)
+        seen = {"inputs": [], "decode": 0}
+
+        class FakeModel:
+            def __init__(self, *a, **k):
+                pass
+
+            def transcribe(self, audio, **k):
+                seen["inputs"].append(audio)
+                return iter([]), None
+
+        def bad_decode(*a, **k):
+            seen["decode"] += 1
+            raise TypeError("open() got an unexpected keyword argument 'metadata_errors'")
+        fw = types.ModuleType("faster_whisper")
+        fw.WhisperModel = FakeModel
+        fw.decode_audio = bad_decode
+        fa = types.ModuleType("faster_whisper.audio")
+        fa.decode_audio = bad_decode
+        fw.audio = fa
+        old = {k: sys.modules.get(k) for k in ("faster_whisper", "faster_whisper.audio")}
+        sys.modules["faster_whisper"], sys.modules["faster_whisper.audio"] = fw, fa
+        reel_clips._WHISPER_MODELS.clear()
+        try:
+            reel_clips.transcribe_words(wav, "ar", cfg)
+        finally:
+            reel_clips._WHISPER_MODELS.clear()
+            for k, v in old.items():
+                if v is None:
+                    sys.modules.pop(k, None)
+                else:
+                    sys.modules[k] = v
+        a = seen["inputs"][0] if seen["inputs"] else None
+        check("g615: مدخل transcribe مصفوفة numpy float32", isinstance(a, np.ndarray) and a.dtype == np.float32, type(a))
+        check("g615: الطول ≈ 16000 × المدة", a is not None and abs(len(a) - 32000) <= 1600, None if a is None else len(a))
+        check("g615: decode_audio لم يُستدعَ", seen["decode"] == 0, seen)
+    guarded("g615", g615)
+
+    def run_fetch(tw, selfcheck, scenes=3, c=None):
+        c = c or cfg
+        text = "\n".join(f"[{int(s) // 60:02d}:{int(s) % 60:02d}] {t}" for s, t in segs)
+        sc = [{"kind": "clip", "point_id": reel_script.point_key_id(point), "start": 944, "end": 955,
+               "channel_display": f"قناة{n}", "language": "ar", "quote_arabic": "السعودية تواجه محورًا ممتدًا"} for n in range(scenes)]
+
+        def download(video_id, start, end, height, out_path):
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+        extra = {"transcribe_words": tw}
+        if selfcheck is not None:
+            extra["transcriber_selfcheck"] = selfcheck
+        deps = reel_render.Deps(fetch_transcript=lambda v: text, download_clip=download, load_points=lambda d: [point],
+                                probe=lambda p: 20.0, streams=lambda p: {"video", "audio"}, sleep=lambda s: None,
+                                detect_silence=lambda f, cc: [], **extra).resolved(c)
+        notes = []
+        tmp = Path(tempfile.mkdtemp(dir=work))
+        clips, dropped, approx = reel_render._fetch_clips({"scenes": sc}, {"topic_date": "2099-01-01"}, c, deps, tmp, notes)
+        return clips, notes
+
+    def g616():
+        calls = []
+
+        def tw(f, lang, c):
+            calls.append(1)
+            return list(words)
+        sc_calls = []
+
+        def selfcheck(c):
+            sc_calls.append(1)
+            return False, "TypeError: open() got an unexpected keyword argument 'metadata_errors'"
+        clips, notes = run_fetch(tw, selfcheck)
+        check("g616: لا نداء تفريغ لأي مقطع", not calls and len(clips) == 3, calls)
+        check("g616: كل exact.source = line", all((c.get("exact") or {}).get("source") == "line" for c in clips.values()),
+              [c.get("exact") for c in clips.values()])
+        off = cfg.path("reel.render.texts.comment_exact_disabled")
+        check("g616: سطر معطّل مرة واحدة بسببه", sum(1 for n in notes if n.startswith("⚠️ ضبط الكلمات معطّل")) == 1
+              and len(sc_calls) == 1 and "metadata_errors" in "".join(notes) and off, (notes, sc_calls))
+        check("g616: لا سطر comment_exact_failed", not any("لم يُضبط" in n for n in notes), notes)
+    guarded("g616", g616)
+
+    def g617():
+        def boom(f, lang, c):
+            raise TypeError("same failure")
+        clips, notes = run_fetch(boom, lambda c: (True, ""))
+        many = [n for n in notes if "لم يُضبط 3 مقاطع" in n]
+        check("g617: سطر واحد مجمَّع بالعدد 3 وأسماء القنوات", len(many) == 1 and len(notes) == 1 and "قناة0" in many[0]
+              and "قناة2" in many[0] and "same failure" in many[0], notes)
+        n = {"i": 0}
+
+        def two(f, lang, c):
+            n["i"] += 1
+            raise TypeError("a") if n["i"] != 2 else ValueError("b")
+        clips, notes = run_fetch(two, lambda c: (True, ""), scenes=3)
+        check("g617: سببان مختلفان ← سطران (المتكرر مجمَّع)", len(notes) == 2, notes)
+    guarded("g617", g617)
+
+    def g618():
+        clips, notes = run_fetch(lambda f, lang, c: list(words), lambda c: (True, ""), scenes=1)
+        c0 = clips[0]
+        check("g618: النجاح بلا تغيير", (c0.get("exact") or {}).get("source") == "words" and not notes, (c0.get("exact"), notes))
+    guarded("g618", g618)
+
+    def g619():
+        import re
+        txt = (Path(__file__).parent.parent / "requirements-reel.txt").read_text()
+        check("g619: faster-whisper مقيَّد بإصدار", re.search(r"^faster-whisper==\d+\.\d+\.\d+", txt, re.M) is not None, txt)
+        check("g619: render_version >= 47", int(cfg.path("reel.render.version")) >= 47, cfg.path("reel.render.version"))
+    guarded("g619", g619)
+
+
 def test_names_n1_guards() -> None:
     """Issue #1684 (N1، g609–g614): توحيد الأسماء بحدود الكلمة (سابقة ملتصقة مسموحة، وسط الكلمة ممنوع)، حارس ثبات يوقف
     كل زوج لا يثبت (الطبقتان) مع تنبيه، والتعلّم لا يرشّح زوجًا أحدهما جزء من الآخر. الشواهد: «اشنطن» و«ريطانية»
