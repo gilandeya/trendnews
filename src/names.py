@@ -90,11 +90,60 @@ def _load_learned_entries() -> dict:
     return data.get("entries") or {}
 
 
-def _build_alias_map(cfg: Any) -> dict[str, set[str]]:
-    """يدمج معجمَي التوحيد إلى {المعتمد: {الرسوم البديلة}} واحد. المتعلَّم
-    يُبنى أولًا ثم يُطبَّق اليدوي فوقه فيعيد كتابة أي تعارض -- تطبيقه أخيرًا
-    هو ما يضمن غلبته دائمًا بلا حاجة لمنطق أولوية إضافي."""
-    variant_to_canonical: dict[str, str] = {}
+# حرف يُعدّ جزءًا من الكلمة: ما بعده أو قبله منه يمنع المطابقة (لا استبدال في وسط كلمة، Issue #1684)
+# \u0627\u0644\u062A\u0634\u0643\u064A\u0644 \u0648\u0627\u0644\u062D\u0631\u0648\u0641 \u0627\u0644\u0639\u0631\u0628\u064A\u0629 \u0627\u0644\u0645\u0648\u0633\u064E\u0651\u0639\u0629 (\u067E \u0686 \u06A9 \u06CC\u2026) \u0645\u0646 \u0627\u0644\u0643\u0644\u0645\u0629 \u0623\u064A\u0636\u064B\u0627: \u0628\u062F\u0648\u0646\u0647\u0627 \u062A\u0642\u0637\u0639 \u0641\u062A\u062D\u0629\u064C \u00AB\u0628\u064E\u0631\u064A\u0637\u0627\u0646\u064A\u0629\u00BB \u0641\u064A\u064F\u0637\u0627\u0628\u064E\u0642 \u00AB\u0631\u064A\u0637\u0627\u0646\u064A\u0629\u00BB \u0648\u062D\u062F\u0647
+_WORD_CHARS = "A-Za-z\u0621-\u065F\u0670-\u06D3"
+_PREFIX_ALT = "|".join(re.escape(p) for p in _NAME_PREFIXES)
+
+# مدخلات أُوقفت لأنها لا تثبت -- تُحسب مرة لكل مجموعة أزواج وتُخزَّن (normalize_names تُستدعى كثيرًا)
+_STABILITY_CACHE: dict[tuple, bool] = {}
+_WARNED: set[tuple[str, str]] = set()
+
+
+def _apply_aliases(text: str, aliases: dict[str, set[str]]) -> str:
+    """الاستبدال الفعلي بحدود الكلمة: الرسم البديل كلمة كاملة، أو كلمة كاملة بعد سابقة ملتصقة من
+    _NAME_PREFIXES (تبقى السابقة كما هي). الأطول أولًا داخل المدخل، وعبر رمز وسيط (#1315)."""
+    if not text or not aliases:
+        return text
+    for canonical, variants in aliases.items():
+        ordered = sorted({v for v in (variants or ()) if v and v != canonical}, key=len, reverse=True)
+        if not ordered:
+            continue
+        # الرمز الوسيط: الرسم المعتمد نفسه قد يحتوي رسمًا أقصر فلا يُكتب قبل انتهاء كل البدائل
+        # (محارف من منطقة الاستخدام الخاص لا ترد في نص عادي، فلا يفسد رقمًا -- #1315)
+        placeholders: list[str] = []
+        for i, variant in enumerate(ordered):
+            placeholder = "\ue000" + str(i) + "\ue001"
+            pattern = (rf"(?<![{_WORD_CHARS}])((?:{_PREFIX_ALT})?)" + re.escape(variant)
+                       + rf"(?![{_WORD_CHARS}])")
+            new_text = re.sub(pattern, lambda m, ph=placeholder: m.group(1) + ph, text)
+            if new_text != text:
+                text = new_text
+                placeholders.append(placeholder)
+        for placeholder in placeholders:
+            text = text.replace(placeholder, canonical)
+    return text
+
+
+def _is_stable(canonical: str, variant: str) -> bool:
+    """حارس الثبات: (1) الرسم المعتمد -- مجردًا أو بأي سابقة -- يبقى كما هو بعد الاستبدال (وإلا أفسد
+    نصًا سليمًا، كـ«واشنطن» ← «اشنطن» حين يكون المعتمد «اشنطن»)، (2) تطبيقه مرتين على البديل = مرة."""
+    key = (canonical, variant)
+    cached = _STABILITY_CACHE.get(key)
+    if cached is not None:
+        return cached
+    pair = {canonical: {variant}}
+    ok = all(_apply_aliases(p + canonical, pair) == p + canonical for p in ("", *_NAME_PREFIXES))
+    if ok:
+        once = _apply_aliases(variant, pair)
+        ok = _apply_aliases(once, pair) == once
+    _STABILITY_CACHE[key] = ok
+    return ok
+
+
+def _merged_pairs(cfg: Any) -> dict[str, tuple[str, str]]:
+    """{البديل: (المعتمد، الطبقة)} -- المتعلَّم أولًا ثم اليدوي فوقه فيغلب دائمًا."""
+    variant_to_canonical: dict[str, tuple[str, str]] = {}
 
     if cfg_get(cfg, "names.learned_enabled", True):
         blocklist = blocklist_of(cfg)
@@ -104,52 +153,44 @@ def _build_alias_map(cfg: Any) -> dict[str, set[str]]:
             for variant in info.get("variants") or []:
                 if variant in blocklist or variant == canonical:
                     continue
-                variant_to_canonical[variant] = canonical
+                variant_to_canonical[variant] = (canonical, "متعلَّم")
 
     for canonical, variants in (_aliases(cfg) or {}).items():
         for variant in (variants or ()):
             if variant and variant != canonical:
-                variant_to_canonical[variant] = canonical
+                variant_to_canonical[variant] = (canonical, "يدوي")
+    return variant_to_canonical
 
+
+def unstable_entries(cfg: Any) -> list[tuple[str, str, str]]:
+    """المدخلات الموقوفة لأنها لا تثبت: [(البديل، المعتمد، الطبقة)] -- مصدر سطر التقرير الأسبوعي."""
+    return [(v, c, layer) for v, (c, layer) in sorted(_merged_pairs(cfg).items())
+            if not _is_stable(c, v)]
+
+
+def _build_alias_map(cfg: Any) -> dict[str, set[str]]:
+    """يدمج معجمَي التوحيد إلى {المعتمد: {الرسوم البديلة}} واحد. المتعلَّم
+    يُبنى أولًا ثم يُطبَّق اليدوي فوقه فيعيد كتابة أي تعارض -- تطبيقه أخيرًا
+    هو ما يضمن غلبته دائمًا بلا حاجة لمنطق أولوية إضافي. كل زوج لا يثبت
+    (_is_stable) يُستبعد ويُسجَّل تحذيرًا مرة واحدة، في الطبقتين."""
     groups: dict[str, set[str]] = {}
-    for variant, canonical in variant_to_canonical.items():
+    for variant, (canonical, layer) in _merged_pairs(cfg).items():
+        if not _is_stable(canonical, variant):
+            if (variant, canonical) not in _WARNED:
+                _WARNED.add((variant, canonical))
+                log.warning("أُوقف توحيد لا يثبت (%s): %s ← %s", layer, variant, canonical)
+            continue
         groups.setdefault(canonical, set()).add(variant)
     return groups
 
 
 def normalize_names(text: str, cfg: Any) -> str:
     """يستبدل كل رسم بديل لاسم علم بالرسم المعتمد له حسب المعجم المدموج
-    (اليدوي + المتعلَّم، اليدوي يغلب). استبدال نصي مباشر (str.replace) --
-    غياب المعجمين معًا أو خلوّهما يعيد النص كما هو بلا أي تغيير."""
+    (اليدوي + المتعلَّم، اليدوي يغلب) بحدود الكلمة (_apply_aliases) -- غياب
+    المعجمين معًا أو خلوّهما يعيد النص كما هو بلا أي تغيير."""
     if not text:
         return text
-    aliases = _build_alias_map(cfg)
-    if not aliases:
-        return text
-    for canonical, variants in aliases.items():
-        ordered = sorted(
-            {v for v in (variants or ()) if v and v != canonical}, key=len, reverse=True)
-        if not ordered:
-            continue
-        # الأطول أولًا داخل المدخل نفسه: رسم أقصر قد يكون محتوًى في رسم
-        # أطول من المدخل نفسه، فاستبداله أولًا يفسد مطابقة الأطول جزئيًا.
-        # الاستبدال يمرّ بمرحلتين عبر رمز وسيط بدل الكتابة المباشرة للرسم
-        # المعتمد: الرسم المعتمد نفسه قد يحتوي رسمًا أقصر كمّدخل جزئي منه
-        # (مثال: "القاهرة" المعتمد يحتوي حرفيًا الرسم البديل الأقصر
-        # "قاهرة") -- كتابته فورًا تُعرِّضه لاستبدال ثانٍ مشوِّه حين يصل
-        # الدور لاحقًا إلى ذلك الرسم الأقصر في المدخل نفسه.
-        placeholders: list[str] = []
-        for i, variant in enumerate(ordered):
-            if variant not in text:
-                continue
-            # محارف من منطقة الاستخدام الخاص لا ترد في نص عادي: الرقم المجرّد
-            # كان يطابق كل رقم في النص فيفسده («2025» ← «2أمريكي25»، #1315)
-            placeholder = "" + str(i) + ""
-            text = text.replace(variant, placeholder)
-            placeholders.append(placeholder)
-        for placeholder in placeholders:
-            text = text.replace(placeholder, canonical)
-    return text
+    return _apply_aliases(text, _build_alias_map(cfg))
 
 
 def normalize_draft(draft: dict, cfg: Any) -> dict:

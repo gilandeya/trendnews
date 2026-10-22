@@ -20,7 +20,7 @@ from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from statistics import median
 
-from . import facebook, names_learn, review, store
+from . import facebook, names, names_learn, review, store
 from .config import STATE_DIR, load_config
 from .schedule import tz_of
 
@@ -502,13 +502,17 @@ def learned_names_section(cfg) -> list[str]:
             var_n = counts.get(variant, 0)
             lines.append(f"- 📝 وُحّد الرسم: {variant} ← {canonical} ({canon_n} مقابل {var_n})")
 
-    if not lines:
+    # مدخلات (متعلَّمة أو يدوية) أوقفها حارس الثبات فلا تعمل -- تُنبَّه صراحةً لا بصمت (Issue #1684)
+    stopped = [f"- ⚠️ أُوقف توحيد لا يثبت: {variant} ← {canonical} ({layer})"
+               for variant, canonical, layer in names.unstable_entries(cfg)]
+
+    if not lines and not stopped:
         return []
-    return [
-        "", "#### 📝 أسماء وحّدها البوت تلقائيًا", "",
-        *lines, "",
-        "<sub>لإلغاء أي منها أضف الاسم إلى `names.blocklist` في config.yaml.</sub>",
-    ]
+    out = ["", "#### 📝 أسماء وحّدها البوت تلقائيًا", ""]
+    out += lines + stopped + [""]
+    if lines:
+        out.append("<sub>لإلغاء أي منها أضف الاسم إلى `names.blocklist` في config.yaml.</sub>")
+    return out
 
 
 # ──────────────── لماذا لم تنشر هذه؟ (Issue #843) ────────────────
