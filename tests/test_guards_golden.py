@@ -18494,7 +18494,7 @@ def test_reel_perspectives_q4_guards() -> None:
         scenes = script["scenes"]
         clips = {i: {"seconds": 6.0} for i, s in enumerate(scenes) if s.get("kind") == "clip"}
         real = reel_render._apply_chyron
-        reel_render._apply_chyron = lambda sc, clip, c, d, spk, notes, i: (
+        reel_render._apply_chyron = lambda sc, clip, c, d, spk, notes, i, roster=None: (
             {"chyron": "آخر", "speaker": "س"} if sc.get("point_id") == "3ea5e0a7b3dd" else None)
         try:
             dropped, notes = [], []
