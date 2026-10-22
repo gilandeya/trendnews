@@ -9188,8 +9188,8 @@ def test_reel_speaker_r5b_guards() -> None:
             s, drawn, _ = rendered("r5b000g293a1",
                                    scenes_for(speaker_name="فلان الفلاني", speaker_verified=True,
                                               speaker_verified_from="description"), counting, tmp)
-            # Q11: الموثَّق صار يُقرأ شريطه؛ اسم السيناريو يبقى ولا يُكتب فوقه اسم الشريط
-            check("g293: موثَّق من الوصف ← يُقرأ شريطه واسمه يبقى", n["c"] == 1 and s.get("render_status") == "rendered"
+            # Q11: الموثَّق صار يُقرأ شريطه (نداء لكل مقطع من المقطعين)؛ اسم السيناريو يبقى ولا يُكتب فوقه اسم الشريط
+            check("g293: موثَّق من الوصف ← يُقرأ شريطه واسمه يبقى", n["c"] == 2 and s.get("render_status") == "rendered"
                   and "فلان الفلاني" in drawn and "أحمد كايابينار" not in drawn, (n, drawn))
 
             def boom(f, c):
