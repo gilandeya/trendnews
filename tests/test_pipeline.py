@@ -305,7 +305,8 @@ from tests.test_guards_golden import (test_guards_golden, test_important_false_g
                                       test_reel_subject_q7_guards, test_reel_retry_condense_q8_guards,
                                       test_reel_persian_editor_retry_q9_guards,
                                       test_reel_approx_host_sorry_q10_guards,
-                                      test_reel_chyron_verified_q11_guards)
+                                      test_reel_chyron_verified_q11_guards,
+                                      test_reel_roster_attribution_q12_guards)
 from tests.test_names_audit import (test_names_audit_brave_counter, test_names_audit_other_sites,
                                     test_names_audit_pipeline,
                                     test_names_audit_prevention_writer, test_names_audit_review_learning)
@@ -766,6 +767,7 @@ def main() -> int:
     test_reel_persian_editor_retry_q9_guards()
     test_reel_approx_host_sorry_q10_guards()
     test_reel_chyron_verified_q11_guards()
+    test_reel_roster_attribution_q12_guards()
     test_analysis_attribution_pipeline()
     print("\n── تدقيق أسماء الأشخاص على الأنبوب: 🚀 والمرحلتان 2 و3 والتعلّم والعدّاد (Issue #1252) ──")
     test_names_audit_pipeline()
