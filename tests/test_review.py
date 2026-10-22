@@ -6288,19 +6288,20 @@ def test_names_learn_cycle_writes_learned_and_next_draft_normalized() -> None:
 
 
 def test_names_learn_rejects_inflection_and_different_and_remembers_rejection() -> None:
-    """Issue #1074 (سيناريو 3): النموذج يرد inflection على «سعودية/سعودي»
+    """Issue #1074 (سيناريو 3): النموذج يرد inflection على «سعودية/سعوديون»
     وdifferent على «اليمن/الأمن» -- لا مدخل يُكتب لأي منهما، والزوجان
     يُسجَّلان مرفوضين فلا يُسألان ثانية في تشغيلة لاحقة (بعد تخطّي بوابة
-    24 ساعة يدويًا) -- يُثبَت بعدّ نداءات النموذج: يبقى عند 1."""
+    24 ساعة يدويًا) -- يُثبَت بعدّ نداءات النموذج: يبقى عند 1. (N1 #1684: كان الشاهد
+    «سعودية/سعودي»، وزوج أحدهما جزء من الآخر صار يُستبعد قبل النموذج، فاستُبدل بتصريف بلا احتواء.)"""
     _clear_names_learn_state()
     try:
-        _set_seen({"سعودية": 20, "سعودي": 5, "اليمن": 30, "الأمن": 6})
+        _set_seen({"سعودية": 20, "سعوديون": 5, "اليمن": 30, "الأمن": 6})
         cfg = dict(load_config())
 
         calls: list = []
         real_client = names_learn._client
         names_learn._client = lambda: _FakeVerdictClient(_fake_verdict_maker(
-            {frozenset(("سعودية", "سعودي")): "inflection",
+            {frozenset(("سعودية", "سعوديون")): "inflection",
              frozenset(("اليمن", "الأمن")): "different"}, calls))
         try:
             names_learn.run(cfg)
