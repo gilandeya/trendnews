@@ -2486,3 +2486,28 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
   المطابقة True ← `speaker_verified_from = "chyron"` وسطر `comment_chyron_confirmed` («✅ الشريط يؤكد المتكلم: {name} ({channel})»). None أو لا اسم أو `host`/`program` ← يبقى
   بلا سطر. **اسم السيناريو وصفته لا يُكتب فوقهما شيء من الشريط.** النافذة التقديرية (Q10) والمتحدث غير الموثَّق بلا تغيير.
 - **الإعداد:** `reel.render.chyron.check_verified` (true)؛ false ← السلوك القديم حرفًا (g592). اختبار g585 (Q10) صار يضبطه false لأنه يختبر ذلك السلوك.
+
+## قائمة ضيوف الحلقة وتحديد القائل من النص (Issue #1679، Q12) — `src/reel_render.py`
+
+الحادثة (الريل 02b4436a2b66): نسب الاستخراج جملة البخيتي إلى الحربي؛ Q11 يحذف المقطع لأن الشريط يُظهر البخيتي فنخسر إجابة صحيحة، والشريط لا يظهر في كل مقطع.
+الفكرة: المقدّم يعرّف بالضيوف أول الحلقة وينادي كلًّا باسمه قبل أن يتكلم، فنحدد قائل المقطع من النص ونصحّح الاسم بدل الحذف. سيناريو v2 وحده، في التركيب.
+`render_version` = 45؛ الشاهد `tests/fixtures/reel/1676/` (`points_qB.json` وtranscript_qB.json مصنوع بشكل الحادثة)؛ g594–g600 في
+`tests/test_guards_golden.py:test_reel_roster_attribution_q12_guards`.
+
+- **القائمة (`_build_roster`، `Deps.read_roster(lines, jpegs, cfg)`):** مرة لكل فيديو له نص مجلوب وفيه مقطع في لوحة بنافذة نصية (غير تقديرية)، تُبنى في
+  `_speaker_check` أول `_prune_mismatched`. `_fetch_clips` يمرّر النص الكامل وموضع الاقتباس على المقطع (`transcript`/`quote_start`/`quote_end`) فلا يُجلب ثانية. المدخل:
+  أسطر أول `speaker_check.roster_seconds` ولقطات `roster_frames` من تنزيل `[0, roster_seconds]` بارتفاع `roster_height` (فشل التنزيل ← نداء بلا صور). الناتج
+  `[{name_arabic, name_original, role_arabic, is_host}]` يُحفظ `render_roster` وسطر «👥 ضيوف …» (بلا المقدّم). عطل النداء أو قائمة فارغة ← لا قائمة لذلك الفيديو وسلوك Q11.
+- **الإسناد (`Deps.attribute_clips(roster, items, cfg)`):** نداء نصي واحد لكل فيديو؛ لكل مقطع أسطر النص من `before_seconds` قبل الاقتباس إلى نهايته. الحكم
+  لا يُقبل إلا عبر `verify_attribution` (دالة خالصة): القائل في القائمة وليس المقدّم، وevidence سطرًا حرفيًا بعد `_normalize_for_anchor`، ويحوي كلمة (≥ 3 أحرف) من اسمه.
+  يُحفظ `render_attribution` بالمقبول وغيره وسببه.
+- **الجمع (`_combine_speaker`، نوافذ نصية وحدها):** S قائل السيناريو، C اسم الشريط المقبول، A حكم النص. C يطابق S ← يبقى (✅ Q11). C يخالف S ← تصحيح إلى C إن كان A
+  فارغًا أو يطابق C، وإن خالف A الشريط ← حذف `drop_relabel_conflict`. بلا C: A يطابق S ← يبقى مع «✅ النص يؤكد المتكلم»، A يخالف S ← تصحيح إلى A. بلا C ولا A ← Q11.
+  النافذة التقديرية (Q10) لا تُصحَّح أبدًا (الترجمة المعروضة هي `quote_arabic` لا ما يُقال في تلك اللحظة).
+- **التصحيح (`_relabel`) بثلاثة حرّاس** وإلا حذف بسببه: (ج) القائل الجديد ليس المقدّم `drop_relabel_host`؛ (أ) اسم القائل القديم غير منطوق في أي نص من الريل
+  `drop_relabel_named`؛ (ب) القائل الجديد لا يجيب عن السؤال نفسه في مقطع آخر `drop_relabel_duplicate`. عند النجاح يُحدَّث `speaker_name` (بعد `names.normalize_names`) و
+  `speaker_role` (صفة الشريط وإلا القائمة) و`speaker_verified`/`speaker_verified_from` (chyron|transcript) و`speaker_text`، وتُمسح مخالفة `speakers[str(i)]` كي لا يعيدها
+  `_apply_chyron` الثاني في `_clip_layers`. يُحفظ `render_relabel` وسطر «🔁 صُحّح قائل مقطع …».
+- **الإعداد:** `reel.render.speaker_check` ونصوص `reel.render.texts` (`comment_roster`/`comment_attr_confirmed`/`comment_relabel`/`drop_relabel_*`). `enabled: false`، أو
+  `read_roster`/`attribute_clips` = None (المزيَّفات القديمة؛ الحقيقيان لا يُملآن إلا بلا حقن `download_clip`)، ← سلوك Q11 حرفًا.
+- **لم يُجرَّب على نموذج حقيقي ولا يوتيوب** (النص مصنوع)، فسلوك `roster_system`/`attribute_system` على ريل حقيقي يحتاج مراقبة أول تركيب.
