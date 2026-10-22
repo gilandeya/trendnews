@@ -20192,3 +20192,81 @@ def test_reel_exact_q13_guards() -> None:
         check("g608: requirements-reel.txt فيه faster-whisper", "faster-whisper" in (root / "requirements-reel.txt").read_text(), None)
         check("g608: faster-whisper ليس في requirements.txt", "faster-whisper" not in (root / "requirements.txt").read_text(), None)
     guarded("g608", g608)
+
+
+def test_names_contained_n1_guards() -> None:
+    """Issue #1683 (N1، g609–g612): تعلّم الأسماء أفسد «واشنطن» و«بريطانية» لأن «اشنطن» محتواة في «واشنطن» و«ريطانية» في «بريطانية» فكان
+    الاستبدال النصي يكبر مع كل حفظ. لا يُرشَّح زوج إحدى كلمتيه محتواة في الأخرى، ولا يعمل مدخل كهذا في الطبقة المتعلَّمة حتى لو بقي في الملف."""
+    import json
+    from datetime import datetime, timezone
+
+    from src import names, names_learn
+
+    cfg = {}
+    real_file = Path(__file__).parent.parent / "state" / "names_learned.json"
+    now = datetime.now(timezone.utc).isoformat()
+    bad = {
+        "entries": {
+            "اشنطن": {"variants": ["واشنطن"], "counts": {"اشنطن": 45, "واشنطن": 3}, "learned_at": now, "verdict": "same_name"},
+            "بريطانية": {"variants": ["ريطانية"], "counts": {"بريطانية": 7, "ريطانية": 2}, "learned_at": now, "verdict": "same_name"},
+        },
+        "rejected_pairs": [], "last_run": now}
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def g609():
+        names_learn.LEARNED_FILE.unlink(missing_ok=True)
+        try:
+            names_learn.save_learned(bad)
+            for text in ("بين إيران وواشنطن", "تقييم واشنطن", "الحكومة البريطانية"):
+                once = names.normalize_names(text, cfg)
+                twice = names.normalize_names(once, cfg)
+                check("g609: النص كما هو: " + text, once == text and twice == text, (once, twice))
+        finally:
+            names_learn.LEARNED_FILE.unlink(missing_ok=True)
+    guarded("g609", g609)
+
+    def g610():
+        got = names_learn.find_candidates({"اشنطن": 45, "واشنطن": 3}, {}, set())
+        check("g610: محتواة في الأخرى ← لا مرشّح", got == [], got)
+        got = names_learn.find_candidates({"نتنياهو": 10, "نتانياهو": 2}, {}, set())
+        check("g610: نتنياهو/نتانياهو ← مرشّح واحد", len(got) == 1, got)
+    guarded("g610", g610)
+
+    def g611():
+        data = json.loads(real_file.read_text(encoding="utf-8"))
+        entries = data.get("entries") or {}
+        rej = set(data.get("rejected_pairs") or [])
+        check("g611: المدخلان محذوفان", "اشنطن" not in entries and "بريطانية" not in entries, list(entries))
+        check("g611: الزوجان مرفوضان", names_learn._pair_key("اشنطن", "واشنطن") in rej
+              and names_learn._pair_key("بريطانية", "ريطانية") in rej, None)
+    guarded("g611", g611)
+
+    def g612():
+        names_learn.LEARNED_FILE.unlink(missing_ok=True)
+        real_load_config = store.load_config
+        try:
+            names_learn.save_learned(bad)
+            store.load_config = lambda path=None: {}
+            text = "تحدثت إيران وواشنطن مع الحكومة البريطانية"
+            draft = {
+                "id": "n1g612000001", "status": "pending", "score": 1.0, "bucket": "serious",
+                "state_media": False, "origin": "news",
+                "source": {"title": text, "link": "https://example.com/n1", "publisher": "س", "publishers": ["س"]},
+                "arabic": {"post_title": text, "body": text, "caption": text, "category": "", "urgent": False},
+                "caption": text, "headlines": [], "headline_selected": 0,
+            }
+            p = store.save_draft(draft)
+            for _ in range(2):
+                store.update_draft(p, caption=text)
+            got = json.loads(p.read_text(encoding="utf-8"))
+            check("g612: العنوان والتعليق كما هما", got["arabic"]["post_title"] == text and got["caption"] == text,
+                  (got["arabic"]["post_title"], got["caption"]))
+        finally:
+            store.load_config = real_load_config
+            names_learn.LEARNED_FILE.unlink(missing_ok=True)
+    guarded("g612", g612)
