@@ -1,0 +1,742 @@
+{
+  "run_date": "2026-10-22",
+  "stats": {
+    "points_in": 227,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 77,
+    "issues_clustered": 35,
+    "topics_merged": 9,
+    "topics_out": 5,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 1,
+    "topics_below_min_points": 9,
+    "topics_below_min_channels": 8,
+    "layers": {
+      "3": 1,
+      "2": 2,
+      "1": 2
+    },
+    "agreement": 4,
+    "cross_source": 1,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "رفض إيراني لتسوية اليورانيوم واستعداد للتصعيد",
+      "جدوى العقوبات والعمليات العسكرية ضد إيران"
+    ],
+    [
+      "توقعات باندلاع حرب شاملة إيران-إسرائيل",
+      "توقع امتلاك إيران سلاحًا نوويًا"
+    ],
+    [
+      "تصويت البرلمان الليبي على مذكرات التفاهم مع تركيا",
+      "الاتفاقية البحرية التركية الليبية ومصالح تركيا",
+      "الرد الدولي الرافض للاتفاقية البحرية تركيا-ليبيا"
+    ],
+    [
+      "حصار الحوثيين لمدينة تعز",
+      "إغلاق العراق لمكاتب الحوثيين ومنفذ الشيب"
+    ],
+    [
+      "الموقف المصري من التدخل في اليمن",
+      "تقييم حلف مكة والتحالفات الإقليمية لمواجهة الحوثيين"
+    ],
+    [
+      "تهميش أوروبا في مفاوضات أوكرانيا",
+      "مفاوضات إنهاء الحرب الأوكرانية واجتماع أبوظبي"
+    ],
+    [
+      "انضمام أعضاء جدد لحزب العدالة والتنمية التركي",
+      "ترشح أردوغان والمعارضة لانتخابات 2028",
+      "الانتخابات الداخلية للحزب الجديد التركي"
+    ],
+    [
+      "فضيحة صندوق الاستثمار المالي التركي",
+      "ميزانية تركيا المقترحة لعام 2027"
+    ],
+    [
+      "مقارنة الاحتجاجات الأوروبية بالربيع العربي والفجوة الاقتصادية",
+      "أسباب تعبئة الطلبة واحتمال استغلال الاحتجاجات",
+      "تصريحات الرئيس الفرنسي الشاملة حول الاحتجاجات والطاقة ولبنان"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "توقعات باندلاع حرب شاملة إيران-إسرائيل",
+      "event": "توقعات بتوسع حرب محتملة بين إيران وإسرائيل/أمريكا لتشمل عدة جبهات",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Iran International",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        4,
+        5,
+        21,
+        80,
+        81,
+        116,
+        131
+      ],
+      "total_points": 7,
+      "fresh_points": 6,
+      "dropped_reason": null,
+      "id": "e61109f431d5",
+      "created_at": "2026-10-22T04:02:39.826637+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1673
+    },
+    {
+      "title": "تصويت البرلمان الليبي على مذكرات التفاهم مع تركيا",
+      "event": "تصويت مجلس النواب الليبي على اعتماد مذكرتي التفاهم مع تركيا وإلغاء قرار قطع العلاقات",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        6,
+        8,
+        9,
+        11,
+        93,
+        117,
+        118,
+        122,
+        123
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": null,
+      "id": "42e1b54c1594",
+      "created_at": "2026-10-22T04:02:39.826637+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1673
+    },
+    {
+      "title": "رفض إيراني لتسوية اليورانيوم واستعداد للتصعيد",
+      "event": "تصعيد محتمل بين إيران والولايات المتحدة بشأن تخصيب اليورانيوم قبل الانتخابات الأمريكية",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        1,
+        78,
+        130
+      ],
+      "total_points": 4,
+      "fresh_points": 3,
+      "dropped_reason": null,
+      "id": "e8064341b0e7",
+      "created_at": "2026-10-22T04:02:39.826637+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1673
+    },
+    {
+      "title": "انضمام أعضاء جدد لحزب العدالة والتنمية التركي",
+      "event": "انضمام قاني تورون وآخرين إلى حزب العدالة والتنمية وتصريحات عمر تشيليك بشأن طلبات الانضمام",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        43,
+        44,
+        45,
+        48,
+        49,
+        55,
+        62
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null,
+      "id": "fcb26450a1d6",
+      "created_at": "2026-10-22T04:02:39.826637+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1673
+    },
+    {
+      "title": "فضيحة صندوق الاستثمار المالي التركي",
+      "event": "فضيحة احتيال صناديق الاستثمار في تركيا وتقدير حجم الخسائر وتداعياتها الاقتصادية والسياسية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        56,
+        58,
+        59,
+        60,
+        63,
+        64,
+        67,
+        68
+      ],
+      "total_points": 8,
+      "fresh_points": 5,
+      "dropped_reason": null,
+      "id": "b2319af72cdd",
+      "created_at": "2026-10-22T04:02:39.826637+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1673
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "توقعات باندلاع حرب شاملة إيران-إسرائيل",
+      "event": "توقعات بتوسع حرب محتملة بين إيران وإسرائيل/أمريكا لتشمل عدة جبهات",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Iran International",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        4,
+        5,
+        21,
+        80,
+        81,
+        116,
+        131
+      ],
+      "total_points": 7,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "تصويت البرلمان الليبي على مذكرات التفاهم مع تركيا",
+      "event": "تصويت مجلس النواب الليبي على اعتماد مذكرتي التفاهم مع تركيا وإلغاء قرار قطع العلاقات",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        6,
+        8,
+        9,
+        11,
+        93,
+        117,
+        118,
+        122,
+        123
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": null
+    },
+    {
+      "title": "رفض إيراني لتسوية اليورانيوم واستعداد للتصعيد",
+      "event": "تصعيد محتمل بين إيران والولايات المتحدة بشأن تخصيب اليورانيوم قبل الانتخابات الأمريكية",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        1,
+        78,
+        130
+      ],
+      "total_points": 4,
+      "fresh_points": 3,
+      "dropped_reason": null
+    },
+    {
+      "title": "تهديدات إيرانية بشأن مضيق هرمز والكابلات البحرية",
+      "event": "تهديد الحرس الثوري الإيراني باستهداف كابلات الإنترنت البحرية في مضيق هرمز وتقييم جدوى ذلك",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        19,
+        132
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الموقف المصري من التدخل في اليمن",
+      "event": "تقييم القرار المصري بالتدخل العسكري/الدفاعي لدعم السعودية في مواجهة الحوثيين",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        14,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30
+      ],
+      "total_points": 7,
+      "fresh_points": 1,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "قانون الإعلام اللبناني الجديد وضماناته والمآخذ عليه",
+      "event": "إقرار قانون الإعلام اللبناني الجديد والجدل حول ضماناته وثغراته (المادتان 104 و105)",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        94,
+        95,
+        96,
+        97,
+        98,
+        99
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "فنزويلا: اعتقال/اختطاف مادورو وموقف النظام الدولي",
+      "event": "اعتقال الرئيس الفنزويلي مادورو وتداعياته على النظام الدولي والمؤسسات الفنزويلية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        69,
+        70,
+        71,
+        73,
+        74,
+        75
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تصريحات سموتريتش ضد مصر وتأثيرها على معاهدة السلام",
+      "event": "تصريحات سموتريتش المثيرة للجدل بشأن مصر وتأثيرها على معاهدة السلام",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        17,
+        24
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "محاكمات عسكرية لمدنيين في ليبيا وأحكام الإعدام",
+      "event": "الجدل حول محاكمة مدنيين أمام القضاء العسكري في ليبيا وتنفيذ أحكام الإعدام بعد تقرير هيومن رايتس ووتش",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        31,
+        32,
+        33,
+        34,
+        35,
+        36
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "حصار الحوثيين لمدينة تعز",
+      "event": "حصار الحوثيين المطبق على مدينة تعز وتداعياته الإنسانية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        12,
+        13,
+        91,
+        92
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تهميش أوروبا في مفاوضات أوكرانيا",
+      "event": "تهميش الاتحاد الأوروبي وأوكرانيا عن طاولة مفاوضات إنهاء الحرب الأوكرانية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        41,
+        42,
+        112,
+        113,
+        114,
+        115
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "استهداف الحوثيين للمطارات اليمنية",
+      "event": "استهداف الحوثيين للمطارات المدنية اليمنية واعتباره جريمة حرب",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        89,
+        90
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "مقارنة الاحتجاجات الأوروبية بالربيع العربي والفجوة الاقتصادية",
+      "event": "مقارنة طبيعة الاحتجاجات الأوروبية بالربيع العربي وربطها بالفجوة الاقتصادية في فرنسا",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111
+      ],
+      "total_points": 10,
+      "fresh_points": 10,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "نقد النظام الطائفي اللبناني وإصلاحه",
+      "event": "تحليل نشأة النظام الطائفي اللبناني وصعوبة إصلاحه والدعوة لإلغائه",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        82,
+        83,
+        87
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "شرعية سلاح المقاومة في لبنان",
+      "event": "تبرير استمرار سلاح المقاومة في لبنان كضرورة لمواجهة الاحتلال الإسرائيلي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        84,
+        85
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "نقد التلقين والتركيبة الإثنية في الأكاديميا الإسرائيلية",
+      "event": "نقد درور ريدر لثقافة التلقين والتركيبة الإثنية وغياب حرية الرأي في الأكاديميا الإسرائيلية",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        141,
+        142,
+        143,
+        144,
+        145
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "محاكمة مندلبليت وضغط الدفاع على الشهادة",
+      "event": "تطورات محاكمة أفيحاي مندلبليت وضغط محامي الدفاع على شهادته",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        146,
+        147,
+        148,
+        149
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "القمة الثلاثية الروسية الصينية الأمريكية المحتملة",
+      "event": "تصريحات ترامب عن قمة ثلاثية محتملة مع بوتين وشي جين بينغ في الصين",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        37,
+        39,
+        40
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "انضمام أعضاء جدد لحزب العدالة والتنمية التركي",
+      "event": "انضمام قاني تورون وآخرين إلى حزب العدالة والتنمية وتصريحات عمر تشيليك بشأن طلبات الانضمام",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        43,
+        44,
+        45,
+        48,
+        49,
+        55,
+        62
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "الاضطرابات الاجتماعية في فرنسا وتأثيرها على تركيا",
+      "event": "تحليل أسباب الاضطرابات في فرنسا واحتمال امتدادها إلى تركيا",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        46,
+        47
+      ],
+      "total_points": 2,
+      "fresh_points": 1,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "وقفة صحفية احتجاجية في تركيا",
+      "event": "تنظيم المنظمات المهنية الصحفية وقفة احتجاجية يوم 24 أكتوبر ضد الرقابة وإغلاق الصحف",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        51,
+        61
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "حادث منجم إيليتش والإفراج عن موقوفين",
+      "event": "تطورات قضائية في حادث منجم إيليتش ومسألة الإفلات من العقاب",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        52,
+        53
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "فضيحة صندوق الاستثمار المالي التركي",
+      "event": "فضيحة احتيال صناديق الاستثمار في تركيا وتقدير حجم الخسائر وتداعياتها الاقتصادية والسياسية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Halk TV",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        56,
+        58,
+        59,
+        60,
+        63,
+        64,
+        67,
+        68
+      ],
+      "total_points": 8,
+      "fresh_points": 5,
+      "dropped_reason": null
+    }
+  ]
+}
