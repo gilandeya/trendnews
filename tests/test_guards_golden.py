@@ -16642,7 +16642,9 @@ def test_reel_r6_guards() -> None:
               len(dropped) == 1 and dropped[0]["point_id"] == "a" and "فيصل الحمد" in dropped[0]["reason"], dropped)
         want = cfg.path("reel.render.texts.drop_speaker_mismatch").format(
             chyron="فيصل الحمد", speaker="الدكتور أحمد الشحات، أستاذ العلوم السياسية")
-        check("g487: سطر التعليق موجود", want in notes, notes)
+        # منذ Q10 سبب الحذف في سطر «✂️ حُذف…» (render_dropped) وحده لا في notes كي لا يتكرر
+        check("g487: سبب الحذف في render_dropped لا مكررًا في notes",
+              dropped and dropped[0]["reason"] == want and want not in notes, (dropped, notes))
         # كل أعضاء السؤال 1 مخالفون ← لا لوحة ولا بطاقة سؤال له
         cmds, dropped, notes = [], [], []
         script = copy.deepcopy(script0)      # الأولى وثّقت متحدثي المشاهد في الذاكرة
