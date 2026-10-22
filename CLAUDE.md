@@ -2547,3 +2547,18 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 - **الفك:** `transcribe_words` تفكّ الملف بـ`reel.ffmpeg_path()` إلى float32 أحادي 16000 (`_decode_pcm`) وتمرّر `numpy` إلى `WhisperModel.transcribe`؛ لا `decode_audio` ولا PyAV. `requirements-reel.txt`: `faster-whisper==1.2.1`.
 - **الفحص الذاتي:** `reel_clips.transcriber_selfcheck(cfg)` (ثانية صمت بـffmpeg عبر `transcribe_words`) يُستدعى مرة أول `_fetch_clips` عبر `Deps.transcriber_selfcheck` (للحقيقي غير المحقون فقط)، ويُحفظ `render_exact_selfcheck = {ok, reason}`. فشله ← لا نداء تفريغ لأي مقطع، كلها `exact.source = line`، وسطر واحد `comment_exact_disabled`.
 - **التجميع:** فشل ضبط أكثر من مقطع بالسبب نفسه ← سطر `comment_exact_failed_many` واحد (العدد والقنوات)؛ الأسباب المختلفة أسطر منفصلة.
+
+## وجه المتكلم يُقارَن بمن ثبت اسمه في الحلقة (Issue #1689، Q14) — `src/reel_render.py:_face_check`
+
+الحادثة (الريل 02b4436a2b66): البخيتي ظهر تحت اسم الحربي في مقطع بلا شريط ولا مناداة مقبولة، مع أن وجهه ثبت اسمه بالشريط في مقطع آخر من الفيديو نفسه. الحرّاس
+السابقة تحكم على كل مقطع وحده. `render_version` = 48؛ الشاهد `tests/fixtures/reel/1676/face_q14.json`؛ g620–g625 في `tests/test_guards_golden.py:test_reel_face_check_q14_guards`.
+
+- **الترتيب:** `_prune_mismatched` صارت مرحلتين: (1) حكم الشريط والنص (Q11/Q12) لكل مقطع بلا تسجيل حذف، (2) `_face_check`، ثم تسجيل الحذف وحارس «سؤال بإجابة واحدة» (Q4) كما كانا.
+  المقارنة تحتاج مقاطع من أسئلة مختلفة معًا، فلا تُجرى داخل حلقة السؤال الواحد.
+- **المراجع والمرشّحون (لكل `video_id`، نافذة غير تقديرية):** مرجع = مقطع `speaker_verified_from` فيه `chyron` أو `transcript` (مرجع واحد لكل اسم)؛ مرشّح = مقطع مسمّى
+  (`speaker_name`) ثبوته غير ذلك (`description` أو فارغ). نداء Haiku واحد لكل فيديو `deps.match_faces(refs, items, cfg)` (أداة `match_speaker_faces`، `reel.render.face_check.system`)
+  بلقطات `deps.face_frames` (= `_chyron_jpegs`، لقطات كاملة غير مقصوصة على نافذة المتكلم لأن `render_crops` لا تُحسب قبل بناء اللوحة)؛ يعيد لكل مرشّح `same_as` (اسم مرجع/`none`/`unsure`).
+- **التنفيذ:** يطابق قائل السيناريو ← يبقى و`speaker_verified_from = "face"` وسطر `comment_face_confirmed`؛ مرجع آخر ← `_relabel(..., how="face")` بحرّاسه الثلاثة (المقدّم، الاسم المنطوق، التكرار في السؤال نفسه)
+  وفشل حارس ← حذف بسببه؛ `none` ولقائل السيناريو مرجع ← حذف `drop_face_mismatch`؛ `none` بلا مرجع له، `unsure`، عطل النداء، لا مراجع ← لا تغيير. مقطع ثبت بالشريط أو النص لا يدخل المقارنة.
+- **الحفظ:** `render_face_check = [{point_id, same_as, reason, applied}]` (ويُمسح عند إعادة التركيب كأخواته). `enabled: false` أو `deps.match_faces`/`face_frames` = None (المزيَّفات القديمة) ← السلوك القديم حرفًا.
+- **لم يُجرَّب على نموذج حقيقي:** جودة مطابقة الوجوه بـHaiku تحتاج مراقبة أول تركيب.
