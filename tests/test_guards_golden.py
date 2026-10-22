@@ -20461,3 +20461,136 @@ def test_names_n1_guards() -> None:
     finally:
         store.load_config = real_load_config
         _clear()
+
+
+def test_reel_face_check_q14_guards() -> None:
+    """Issue #1689 (Q14، g620–g625): وجه متكلم مقطع مسمّى يُقارَن بوجوه من ثبتت أسماؤهم (شريط أو نص) في الفيديو نفسه؛ الحكم لنموذج
+    والكود ينفّذ بحرّاس _relabel. الشاهد tests/fixtures/reel/1676/face_q14.json (البخيتي تحت اسم الحربي). لا شبكة."""
+    import copy
+    import json
+    from pathlib import Path
+
+    from src import reel_render
+
+    cfg = load_config()
+    root = Path(__file__).resolve().parent
+    fx = json.loads((root / "fixtures/reel/1676/face_q14.json").read_text(encoding="utf-8"))
+    t = cfg.path("reel.render.texts")
+    pid4 = "8be09bba07da"
+    BUKH, HARBI = "علي البخيتي", "منيف عماش الحربي"
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001
+            check(name + ": استثناء", False, repr(exc))
+
+    def fr(name, role=""):
+        return dict(has_caption=bool(name), name_original=name, name_arabic=name, role_original="", role_arabic=role,
+                    is_presenter=False, name_kind="person", name_is_speaker="yes")
+
+    def no_download(*a, **k):
+        raise RuntimeError("x")
+
+    def prune(same_as=BUKH, tweak=None, conf=cfg, wire=True, fn=None, s4=HARBI, ch8=BUKH, ch9=HARBI):
+        script = copy.deepcopy(fx["script"])
+        for i in (3, 5, 7, 8):
+            script["scenes"][i]["speaker_text"] = ""
+        script["scenes"][4]["speaker_text"] = s4
+        script["scenes"][4]["speaker_name"] = s4
+        script["scenes"][9]["speaker_text"] = HARBI
+        if tweak:
+            tweak(script)
+        clips = {}
+        for i in (3, 4, 5, 7, 8, 9):
+            ours = i in (4, 8, 9)
+            clips[i] = dict(file="c%d" % i, seconds=8.0, video_id="v" if ours else "o%d" % i, transcript=[], quote_start=700.0,
+                            quote_end=709.0)
+        calls = dict(n=0, refs=None, items=None, frames=[])
+        chy = {"c8": [fr(ch8, "كاتب سياسي من لندن")] * 3 if ch8 else [], "c9": [fr(ch9, "كاتب ومحلل سياسي")] * 3 if ch9 else []}
+
+        def read(file, c):
+            return chy.get(file, [])
+
+        def frames(file, c):
+            calls["frames"].append(file)
+            return [b"j1", b"j2", b"j3"]
+
+        def match(refs, items, c):
+            calls["n"] += 1
+            calls["refs"], calls["items"] = refs, items
+            if fn:
+                return fn(refs, items)
+            return [dict(point_id=x["point_id"], same_as=same_as, reason="الوجه نفسه") for x in items]
+        deps = reel_render.Deps(read_chyron=read, sleep=lambda s_: None, download_clip=no_download)
+        if wire:
+            deps.match_faces = match
+            deps.face_frames = frames
+        notes, dropped, meta = [], [], {}
+        out, dead = reel_render._prune_mismatched(script, clips, conf, deps, {}, notes, dropped, meta=meta)
+        return script, out, dropped, notes, meta, calls
+
+    def g620():
+        script, out, dropped, notes, meta, calls = prune()
+        sc = script["scenes"][4]
+        check("g620: المقطع يبقى باسم البخيتي بصفته من الشريط", 4 in out and not dropped and sc["speaker_name"] == BUKH
+              and sc["speaker_role"] == "كاتب سياسي من لندن" and sc["speaker_verified_from"] == "face", (dropped, sc))
+        check("g620: سطر 🔁 بنص relabel_how_face", any(n.startswith("🔁") and BUKH in n and "الحربي" in n and t["relabel_how_face"] in n
+                                                      for n in notes), notes)
+        rl = meta.get("relabel") or []
+        check("g620: render_relabel how=face", len(rl) == 1 and rl[0]["how"] == "face" and rl[0]["to"] == BUKH, rl)
+        fc = meta.get("face_check") or []
+        check("g620: render_face_check", len(fc) == 1 and fc[0]["point_id"] == pid4 and fc[0]["same_as"] == BUKH
+              and fc[0]["applied"] is True, fc)
+        check("g620: نداء واحد بمرجعين", calls["n"] == 1 and sorted(r["name"] for r in calls["refs"]) == sorted([BUKH, HARBI]), calls["refs"])
+    guarded("g620", g620)
+
+    def g621():
+        def dup(script):
+            script["scenes"][3]["speaker_text"] = BUKH
+        _, out, dropped, _, _, _ = prune(tweak=dup)
+        check("g621: البخيتي يجيب في السؤال نفسه ← حذف بـdrop_relabel_duplicate", 4 not in out and len(dropped) == 1
+              and dropped[0]["reason"] == t["drop_relabel_duplicate"].format(speaker=HARBI, new=BUKH), dropped)
+    guarded("g621", g621)
+
+    def g622():
+        _, out, dropped, _, meta, _ = prune(same_as="none")
+        check("g622: none ولاسمه مرجع ← حذف drop_face_mismatch", 4 not in out and len(dropped) == 1
+              and dropped[0]["reason"] == t["drop_face_mismatch"].format(channel="فرانس 24 عربي", name=HARBI), dropped)
+        script, out, dropped, notes, meta, _ = prune(same_as=HARBI)
+        check("g622: يطابق اسمه ← يبقى بـface وسطر ✅", 4 in out and not dropped and script["scenes"][4]["speaker_verified_from"] == "face"
+              and any(n.startswith("✅ الوجه يطابق") and HARBI in n for n in notes) and not meta.get("relabel"), (notes, meta))
+    guarded("g622", g622)
+
+    def g623():
+        script, out, dropped, notes, meta, _ = prune(same_as="none", s4="س")
+        check("g623: لا مرجع لاسمه + none ← يبقى بلا سطر", 4 in out and not dropped and not meta.get("relabel")
+              and not any(n.startswith(("🔁", "✅ الوجه")) for n in notes), (dropped, notes))
+    guarded("g623", g623)
+
+    def g624():
+        _, _, _, _, _, calls = prune()
+        check("g624: المرشّح الوحيد غير الموثَّق بالشريط", [x["point_id"] for x in calls["items"]] == [pid4], calls["items"])
+        check("g624: لقطات المراجع من مقطعيهما", sorted(set(calls["frames"])) == ["c4", "c8", "c9"], calls["frames"])
+    guarded("g624", g624)
+
+    def g625():
+        def boom(r, i):
+            raise RuntimeError("x")
+        base = prune(wire=False)
+        for label, kw in (("unsure", dict(same_as="unsure")), ("عطل", dict(fn=boom)), ("مخرج غير صالح", dict(fn=lambda r, i: None))):
+            res = prune(**kw)
+            check("g625: %s ← كما قبل Q14" % label, sorted(res[1]) == sorted(base[1]) and res[2] == base[2]
+                  and res[0]["scenes"] == base[0]["scenes"] and res[3] == base[3] and not res[4].get("relabel"), (res[2], res[3]))
+        conf = copy.deepcopy(cfg)
+        conf["reel"]["render"]["face_check"]["enabled"] = False
+        res = prune(conf=conf)
+        check("g625: enabled=false ← بلا نداء", res[5]["n"] == 0 and res[0]["scenes"] == base[0]["scenes"], res[5])
+        res = prune(ch8="")
+        check("g625: بلا مرجع للبخيتي لا يُرسل اسمه", res[5]["n"] == 0 or all(r["name"] != BUKH for r in res[5]["refs"]), res[5])
+        fcfg = cfg.path("reel.render.face_check")
+        check("g625: الإعداد", fcfg.get("enabled") is True and fcfg.get("frames") == 3 and fcfg.get("system"), fcfg)
+        for k in ("comment_face_confirmed", "relabel_how_face", "drop_face_mismatch"):
+            check("g625: نص " + k, bool(t.get(k)), k)
+        check("g625: render.version >= 48", int(cfg.path("reel.render.version")) >= 48, cfg.path("reel.render.version"))
+    guarded("g625", g625)
