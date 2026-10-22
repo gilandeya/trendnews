@@ -563,6 +563,8 @@ class Deps:
     transcribe_words: Callable[[Any, str | None, Any], list] | None = None
     # (القائمة، [{point_id, speaker, quote, lines}] لفيديو واحد، cfg) ← [{point_id, speaker, evidence, reason}]
     attribute_clips: Callable[[list, list, Any], list | None] | None = None
+    # (cfg) ← (نجح؟، السبب): فحص ذاتي لمفرِّغ الكلمات مرة لكل تركيب (Issue #1686، Q13b)؛ None للمزيَّفات ← لا فحص
+    transcriber_selfcheck: Callable[[Any], tuple[bool, str]] | None = None
 
     def resolved(self, cfg) -> "Deps":
         # جلسة واحدة للتركيب كله كالجمع (R8)؛ تُنشأ عند أول جلب لا عند الاستيراد
@@ -622,6 +624,8 @@ class Deps:
             pick_span=self.pick_span or ((lambda segs, a, b, q, c: reel_clips.thought_span(segs, a, b, q, c)) if real else None),
             detect_silence=self.detect_silence or (_real_detect_silence if real else None),
             transcribe_words=self.transcribe_words or ((lambda f, lang, c: reel_clips.transcribe_words(f, lang, c)) if real else None),
+            transcriber_selfcheck=self.transcriber_selfcheck or (
+                (lambda c: reel_clips.transcriber_selfcheck(c)) if real and self.transcribe_words is None else None),
             pick_speaker=self.pick_speaker or (_real_pick_speaker if self.download_clip is None else (lambda *a: None)),
             sleep=self.sleep or time.sleep,
             streams=self.streams or probe_streams,
@@ -1969,7 +1973,7 @@ def _exact_align(file: Path, lang: str | None, point: dict, cfg, deps: Deps) -> 
 
 
 def _exact_apply(clip: dict, scene: dict, point: dict, dstart: int, wstart: int, wend: int, is_approx: bool, cfg, deps: Deps,
-                 notes: list | None, approx: list) -> tuple[str, str]:
+                 fails: list | None, approx: list, off: str = "") -> tuple[str, str]:
     """يضبط المقطع كلمة بكلمة (Issue #1681، Q13) بعد تنزيل نافذته الأوسع [dstart..]. يعيد ("words"|"line"|"approx"|"drop"، السبب).
     words: نجحت المطابقة ← النافذة المنطقية [أول كلمة − lead، آخر كلمة + tail] تُقتطع من الملف (trim)، والبوابة [أول كلمة − pad،
     آخرها + pad] تُضبط على الصمت بـexact.snap، والصورة تُجمَّد خارجها، وتوقيت الترجمة من الكلمات نفسها؛ ونافذة تقديرية طوبقت تصير نافذة
@@ -1979,7 +1983,8 @@ def _exact_apply(clip: dict, scene: dict, point: dict, dstart: int, wstart: int,
     scfg = cfg.path("reel.script") or {}
     lang = scene.get("language") if scene.get("language") not in (None, "", "other") else None
     fsecs = float(clip["seconds"])
-    res, why = _exact_align(clip["file"], lang, point, cfg, deps)
+    # off: الفحص الذاتي فشل (Q13b) ← لا نداء تفريغ، والسبب واحد يُكتب مرة في التعليق لا مقطعًا مقطعًا
+    res, why = (None, off) if off else _exact_align(clip["file"], lang, point, cfg, deps)
     channel = scene.get("channel_display", "")
     if res is None:
         if xcfg.get("require", False):
@@ -1991,8 +1996,8 @@ def _exact_apply(clip: dict, scene: dict, point: dict, dstart: int, wstart: int,
         clip["seconds"] = round(max(t1 - t0, 0.1), 3)
         source = "approx" if is_approx else "line"
         clip["exact"] = {"source": source, "error": why}
-        if notes is not None:
-            notes.append(cfg.path("reel.render.texts.comment_exact_failed").format(channel=channel, reason=why))
+        if fails is not None and not off:
+            fails.append((channel, why))      # تُجمَّع بالسبب بعد الحلقة (Q13b)
         return source, why
     lead, tail, pad = float(scfg.get("lead_seconds", 1)), float(scfg.get("clip_tail_seconds", 1.0)), float(xcfg.get("pad", 0.12))
     a0, a1 = dstart + res["t0"], dstart + res["t1"]            # ثواني الفيديو الأصلي
@@ -2117,6 +2122,14 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: l
     from . import youtube_extract
     xcfg = cfg.path("reel.render.exact") or {}
     exact_on = bool(xcfg.get("enabled", True)) and deps.transcribe_words is not None    # Q13: بلاه يبقى السلوك القديم حرفًا
+    exact_off = ""       # سبب تعطيل الضبط للتركيب كله بعد فشل الفحص الذاتي (Q13b)
+    exact_fails: list = []
+    exact_tried = False
+    if exact_on and deps.transcriber_selfcheck is not None:
+        ok, why_sc = deps.transcriber_selfcheck(cfg)
+        draft["render_exact_selfcheck"] = {"ok": bool(ok), "reason": why_sc}
+        if not ok:
+            exact_off = why_sc or "فشل الفحص الذاتي"
     for i, scene in enumerate(script["scenes"]):
         if scene.get("kind") not in reel_script.CLIP_KINDS:
             continue
@@ -2222,7 +2235,8 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: l
         is_approx_win = bool(approx and approx[-1]["point_id"] == scene.get("point_id", "") and approx[-1]["start"] == wstart)
         aligned, why = None, ""
         if exact_on and ex_margin is not None:
-            aligned, why = _exact_apply(clips[i], scene, point, dstart, wstart, wend, is_approx_win, cfg, deps, notes, approx)
+            exact_tried = True
+            aligned, why = _exact_apply(clips[i], scene, point, dstart, wstart, wend, is_approx_win, cfg, deps, exact_fails, approx, exact_off)
             if aligned == "drop":
                 clips.pop(i)
                 _drop(dropped, scene, cfg.path("reel.render.texts.drop_exact_failed").format(reason=why))
@@ -2245,6 +2259,19 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: l
             tr0 = clips[i]["trim"][0]
             clips[i]["freeze"] = {"src0": tr0 + g["start"], "src1": tr0 + g["end"], "pre": g["start"],
                                   "post": round(clips[i]["seconds"] - g["end"], 3)}
+    if notes is not None:
+        t = cfg.path("reel.render.texts")
+        if exact_off and exact_tried:
+            notes.append(t["comment_exact_disabled"].format(reason=exact_off))
+        by_reason: dict[str, list] = {}
+        for channel, why in exact_fails:
+            by_reason.setdefault(why, []).append(channel)
+        for why, chans in by_reason.items():
+            if len(chans) == 1:
+                notes.append(t["comment_exact_failed"].format(channel=chans[0], reason=why))
+            else:
+                names = "، ".join(dict.fromkeys(c for c in chans if c))
+                notes.append(t["comment_exact_failed_many"].format(n=len(chans), channels=names, reason=why))
     return clips, dropped, approx
 
 

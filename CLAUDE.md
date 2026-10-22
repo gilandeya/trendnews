@@ -2539,3 +2539,11 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 - **الفشل:** تفريغ أو مطابقة فاشلة ← يُقتطع الملف إلى النافذة القديمة، ضبط السطر/التقدير، والتجميد على حدّي البوابة، وسطر `comment_exact_failed`؛ `exact.require: true` ← يُحذف المقطع. `render_crops[i].exact = {t0, t1, ratio, source: words|line|approx, error?}`.
 - **السلوك القديم:** `exact.enabled: false` أو `deps.transcribe_words = None` (المزيَّفات القديمة) ← أوامر التركيب والنوافذ كما قبل Q13 حرفًا (مرجع `tests/fixtures/reel/q13_base_cmds.json`).
 - **تشغيليًا:** `faster-whisper` في `requirements-reel.txt` وحده (لا `requirements.txt`). يضيف صاحب المشروع بيده إلى `reel-render.yml` خطوة `pip install -r requirements-reel.txt` (لا `.github/workflows` هنا)؛ وبدونها يفشل التفريغ ويبقى ضبط السطر مع سطر ⚠️. **لم يُجرَّب على whisper ولا ffmpeg حقيقيين** في بيئة التطوير: صياغة `trim/tpad` وسلوك faster-whisper على الصوت الحقيقي تحتاج مراقبة أول تركيب.
+
+### فكّ الصوت بـffmpeg وفحص المفرِّغ الذاتي (Issue #1686، Q13b) — `src/reel_clips.py`، `src/reel_render.py`
+
+الحادثة (الريل 02b4436a2b66): `faster-whisper` 1.2.1 مع `av` 19 يرفع `TypeError … metadata_errors` في فك الصوت، فعاد كل مقطع إلى ضبط السطر بستة أسطر متطابقة. `render_version` = 47؛ g615–g619 في `tests/test_guards_golden.py:test_reel_exact_q13b_guards`.
+
+- **الفك:** `transcribe_words` تفكّ الملف بـ`reel.ffmpeg_path()` إلى float32 أحادي 16000 (`_decode_pcm`) وتمرّر `numpy` إلى `WhisperModel.transcribe`؛ لا `decode_audio` ولا PyAV. `requirements-reel.txt`: `faster-whisper==1.2.1`.
+- **الفحص الذاتي:** `reel_clips.transcriber_selfcheck(cfg)` (ثانية صمت بـffmpeg عبر `transcribe_words`) يُستدعى مرة أول `_fetch_clips` عبر `Deps.transcriber_selfcheck` (للحقيقي غير المحقون فقط)، ويُحفظ `render_exact_selfcheck = {ok, reason}`. فشله ← لا نداء تفريغ لأي مقطع، كلها `exact.source = line`، وسطر واحد `comment_exact_disabled`.
+- **التجميع:** فشل ضبط أكثر من مقطع بالسبب نفسه ← سطر `comment_exact_failed_many` واحد (العدد والقنوات)؛ الأسباب المختلفة أسطر منفصلة.
