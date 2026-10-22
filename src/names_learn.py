@@ -173,6 +173,10 @@ def find_candidates(seen_totals: dict[str, int], learned: dict,
             key = _pair_key(w1, w2)
             if key in judged or key in seen_pairs:
                 continue
+            # إحدى الكلمتين محتواة في الأخرى: فرق حروف من أصل الكلمة (واشنطن/اشنطن، بريطانية/ريطانية)
+            # لا رسمان لاسم واحد -- لا يُرشَّح ولا يُسأل عنه النموذج (Issue #1684)
+            if w1 in w2 or w2 in w1:
+                continue
             if _levenshtein(_unify_structure(w1), _unify_structure(w2)) > _MAX_LEVENSHTEIN:
                 continue
             seen_pairs.add(key)
