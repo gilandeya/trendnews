@@ -4887,9 +4887,26 @@ def _drop_stale_auto_hook(path: Path, draft: dict) -> None:
         store.update_draft(path, remove=["hook_video"])
 
 
+# Issue #1691 (Q15): القائمة الوحيدة بحقول `render_*` التي يكتبها التركيب على المسودة؛ المحفوظ والمحذوف عند الإعادة يُبنيان منها وحدها، فمفتاح
+# جديد يُكتب ولا يُضاف هنا يفشل g629 بدل أن يضيع بصمت (خطأ SCRIPT_KEYS في R5d3 نفسه). أزواج (المفتاح على المسودة، مفتاح speaker_meta)
+# تملؤها حلقة التحقق من المتكلمين، وما بعدها يُكتب على draft مباشرة أثناء التركيب.
+RENDER_META_KEYS = (("render_roster", "roster"), ("render_attribution", "attribution"),
+                    ("render_relabel", "relabel"), ("render_face_check", "face_check"))
+RENDER_KEYS = tuple(k for k, _ in RENDER_META_KEYS) + ("render_exact_selfcheck",)
+
+
+def _saved_render_fields(draft: dict, speaker_meta: dict) -> dict:
+    """ما يُحفظ من حقول RENDER_KEYS بعد تركيب ناجح: من speaker_meta ثم مما كُتب على draft في الذاكرة؛ الفارغ لا يُحفظ."""
+    out = {key: speaker_meta[k] for key, k in RENDER_META_KEYS if speaker_meta.get(k)}
+    out.update({k: draft[k] for k in RENDER_KEYS if k not in out and draft.get(k)})
+    return out
+
+
 def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path, dropped: list,
             approx: list, notes: list | None = None) -> dict:
     rcfg, scfg = cfg.path("reel.render"), cfg.path("reel.script")
+    for k in RENDER_KEYS:
+        draft.pop(k, None)     # قيمة قديمة من القرص لا تُحفظ من جديد إن لم يكتبها هذا التركيب
     script = draft.get("script") or {}
     if not script.get("scenes"):
         raise RuntimeError("لا سيناريو معتمد")
@@ -4953,8 +4970,7 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
             "reel_bg": {**{k: v for k, v in bg_saved.items() if k != "layout"}, **({"layout": bg["layout"]} if bg else {})},
             "render_crops": {**{str(i): c["crop"] for i, c in clips.items() if "crop" in c}, **hook_crops},
             **({"render_speakers": speakers} if speakers else {}),
-            **{key: speaker_meta[k] for key, k in (("render_roster", "roster"), ("render_attribution", "attribution"),
-                                                   ("render_relabel", "relabel"), ("render_face_check", "face_check")) if speaker_meta.get(k)},
+            **_saved_render_fields(draft, speaker_meta),
             **({"render_spans": [c["span"] for _, c in sorted(clips.items()) if c.get("span")]}
                if any(c.get("span") for c in clips.values()) else {}),
             **({"render_broll": broll["result"]} if broll and broll.get("result") else {}),
@@ -5173,7 +5189,7 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
                "rendered_at": datetime.now(timezone.utc).isoformat()}
     remove = ((["render_error"] + ([] if "render_broll" in result else ["render_broll", "broll_scan"])
                + ([] if "render_spans" in result else ["render_spans"])
-               + [k for k in ("render_roster", "render_attribution", "render_relabel", "render_face_check") if k not in result])
+               + [k for k in RENDER_KEYS if k not in result])
               if result["render_status"] == "rendered"
               else [] if keep_files else ["reel_file", "reel_gif", "duration_seconds"])
     text = _comment_text(cfg, draft, result, dropped, approx, notes)
@@ -5310,8 +5326,7 @@ def retry(draft_id: str, cfg) -> bool:
     found = store.load_draft(draft_id)
     if not found or found[1].get("render_status") != "failed":
         return False
-    store.update_draft(found[0], remove=["render_error", "render_dropped", "render_approx", "render_spans",
-                                         "render_roster", "render_attribution", "render_relabel", "render_face_check"],
+    store.update_draft(found[0], remove=["render_error", "render_dropped", "render_approx", "render_spans", *RENDER_KEYS],
                        render_status="queued", render_attempts=0)
     return True
 
