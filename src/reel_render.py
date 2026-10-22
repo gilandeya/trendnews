@@ -3950,7 +3950,10 @@ def _relabel(i: int, script: dict, run: list, clips: dict, speakers: dict, new: 
         return {**fail, "reason_key": "drop_relabel_host"}
     # (أ) اسم القائل القديم منطوق في الريل: تصحيح القائل خلف ظهر نص يسمّيه لا يكفي، يُراجَع
     skip = _speaker_words(" ".join(cfg.path("reel.render.chyron.unnamed_words", []) or []))
-    old_words = _speaker_words(" ".join(youtube_article.speaker_name_tokens(old_text, "", cfg))) - skip
+    # الاسم وحده: «منيف الحربي، كاتب ومحلل سياسي من الرياض» ← ما قبل الفاصلة، وإلا لحجبت مدينةٌ أو صفةٌ في الراوي («الرياض») التصحيحَ
+    old_only = re.split(r"[،,(]", old_text, maxsplit=1)[0]
+    old_words = _speaker_words(" ".join(youtube_article.speaker_name_tokens(old_only, "", cfg)
+                                        + ([scene["speaker_name"]] if scene.get("speaker_name") else []))) - skip
     spoken = " ".join(str(sc.get("text") or "") for sc in script["scenes"]
                       if sc.get("kind") in ("title_card", "narration", "question", "outro"))
     if old_words & _speaker_words(spoken + " " + str(script.get("title") or "")):

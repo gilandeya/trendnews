@@ -19833,8 +19833,10 @@ def test_reel_roster_attribution_q12_guards() -> None:
         qs = {4: 945.0, 9: 1001.0}
         clips = {}
         for i in (3, 4, 5, 7, 8, 9):
-            clips[i] = dict(file="c%d" % i, seconds=8.0, video_id="v", transcript=s, quote_start=qs.get(i, 700.0),
-                            quote_end=qs.get(i, 700.0) + 9)
+            # مقاطع فرانس 24 (4 و8 و9) من فيديو واحد له نص؛ غيرها من قنوات أخرى بلا نص فلا تدخل قائمة الضيوف
+            ours = i in (4, 8, 9)
+            clips[i] = dict(file="c%d" % i, seconds=8.0, video_id="v" if ours else "o%d" % i, transcript=s if ours else [],
+                            quote_start=qs.get(i, 700.0), quote_end=qs.get(i, 700.0) + 9)
             if approx:
                 clips[i]["approx"] = True
         calls = calls if calls is not None else dict(roster=0, attr=0, lines=[])
@@ -19909,6 +19911,13 @@ def test_reel_roster_attribution_q12_guards() -> None:
         _, out, dropped, _, _, _ = prune(4, [], row("علي البخيتي", "أعود إليك أستاذ علي", pid4), tweak=named)
         check("g597: اسم القائل القديم منطوق ← حذف", 4 not in out and len(dropped) == 1
               and dropped[0]["reason"] == t["drop_relabel_named"].format(speaker="منيف عماش الحربي", new="علي البخيتي"), dropped)
+
+        def city(script, s):
+            script["scenes"][4]["speaker_text"] = "منيف الحربي، كاتب ومحلل سياسي من الرياض"
+            script["scenes"][1]["text"] += " وردّت الرياض بحذر"
+        _, out, dropped, _, meta, _ = prune(4, [], row("علي البخيتي", "أعود إليك أستاذ علي", pid4), tweak=city)
+        check("g597: مدينة القائل القديم أو صفته في الراوي لا تحجب التصحيح", 4 in out and not dropped
+              and len(meta.get("relabel") or []) == 1, (dropped, meta.get("relabel")))
 
         def dup(script, s):
             script["scenes"][3]["speaker_text"] = "علي البخيتي"
