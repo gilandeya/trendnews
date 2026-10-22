@@ -1,7 +1,7 @@
 {
   "id": "47e5af25182c",
   "created_at": "2026-10-21T17:50:36.491051+00:00",
-  "status": "approved_script",
+  "status": "superseded",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -1062,5 +1062,7 @@
     "strong_start": 43,
     "reason": "أقوى 3 ث (قوة 9)",
     "render_version": 42
-  }
+  },
+  "superseded_by": "02b4436a2b66",
+  "superseded_at": "2026-10-22T06:42:07.179306+00:00"
 }
