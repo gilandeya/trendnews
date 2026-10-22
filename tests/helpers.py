@@ -1034,6 +1034,15 @@ def editor_response(notes, searches: int = 0, report: bool = True):
                          server_tool_use=_NS(web_search_requests=searches)))
 
 
+def reel_span_cfg(cfg):
+    """إعداد Q6 (فكرة المقطع بالنموذج وضبط السطر) لاختبارات Q6/Q9 نفسها: Q13 (Issue #1681) أطفأ span افتراضيًا وأضاف الضبط كلمة بكلمة،
+    فتُشغَّل هذه الاختبارات بـspan.enabled ومع exact.enabled = false كي تبقى توقعاتها كما هي."""
+    rr = cfg.setdefault("reel", {}).setdefault("render", {})
+    rr.setdefault("span", {})["enabled"] = True
+    rr.setdefault("exact", {})["enabled"] = False
+    return cfg
+
+
 def reel_v1_cfg(cfg):
     """إعداد بسيناريو الريل v1 (Issue #1608، P2a): الاختبارات التي تزيّف مخرج النموذج بصيغة v1 تشغَّل بهذا الإعداد
     لأن reel.script.v2.enabled مشغَّل افتراضيًا؛ توقعاتها لا تتغير."""
