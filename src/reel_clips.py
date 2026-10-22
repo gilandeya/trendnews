@@ -180,18 +180,54 @@ def align_quote(quote_original: str, words: list, cfg=None) -> dict | None:
 _WHISPER_MODELS: dict = {}
 
 
+def _decode_pcm(path):
+    """فكّ الصوت بـffmpeg الذي نملكه إلى float32 أحادي 16 كيلوهرتز (Issue #1686، Q13b): faster-whisper يفكّ بـPyAV وتغيّر PyAV كسر
+    الضبط كله، فنمرّر المصفوفة بدل المسار فلا يُستدعى decode_audio أبدًا. غياب ffmpeg أو فشل الفك يرفع."""
+    import numpy as np      # noqa: PLC0415
+    from . import reel
+    ff = reel.ffmpeg_path()
+    if not ff:
+        raise RuntimeError("ffmpeg غير موجود")
+    proc = subprocess.run([ff, "-nostdin", "-v", "error", "-i", str(path), "-vn", "-f", "f32le", "-ac", "1", "-ar", "16000", "-"],
+                          capture_output=True, timeout=300)
+    if proc.returncode != 0:
+        raise RuntimeError("فشل فك الصوت: " + proc.stderr.decode("utf-8", "replace")[:100])
+    return np.frombuffer(proc.stdout, dtype=np.float32)
+
+
 def transcribe_words(path, lang: str | None, cfg=None) -> list[tuple[float, float, str]]:
     """تفريغ صوت المقطع كلمة بكلمة [(بداية، نهاية، كلمة)] بثواني الملف (Issue #1681، Q13): faster-whisper على CPU بنموذج exact.model.
-    المكتبة اختيارية (requirements-reel.txt) وتُستورد عند النداء؛ غيابها أو أي عطل يرفع والمستدعي يعامله عطلًا فيبقى ضبط السطر."""
+    المكتبة اختيارية (requirements-reel.txt) وتُستورد عند النداء؛ غيابها أو أي عطل يرفع والمستدعي يعامله عطلًا فيبقى ضبط السطر.
+    الصوت يُفكّ بـffmpeg (Q13b) وتُمرَّر المصفوفة لا المسار."""
     from .config import load_config
     cfg = cfg or load_config()
     from faster_whisper import WhisperModel      # noqa: PLC0415 — اختيارية عمدًا
+    audio = _decode_pcm(path)
     name = str(cfg.path("reel.render.exact.model", "small"))
     if name not in _WHISPER_MODELS:
         _WHISPER_MODELS[name] = WhisperModel(name, device="cpu", compute_type="int8")
     code = (lang or "").split("-")[0].lower() or None
-    segments, _ = _WHISPER_MODELS[name].transcribe(str(path), language=code, word_timestamps=True)
+    segments, _ = _WHISPER_MODELS[name].transcribe(audio, language=code, word_timestamps=True)
     return [(float(w.start), float(w.end), str(w.word).strip()) for seg in segments for w in (seg.words or []) if str(w.word).strip()]
+
+
+def transcriber_selfcheck(cfg=None) -> tuple[bool, str]:
+    """فحص ذاتي مرة لكل تركيب (Issue #1686، Q13b): ثانية صمت بـffmpeg تمرّ بـtranscribe_words نفسها. نجاح (ولو بلا كلمات) ← (True، "")،
+    وإلا (False، السبب) فيُعطَّل الضبط للتركيب كله بسطر واحد بدل سطر لكل مقطع."""
+    import tempfile      # noqa: PLC0415
+    from . import reel
+    try:
+        ff = reel.ffmpeg_path()
+        if not ff:
+            raise RuntimeError("ffmpeg غير موجود")
+        with tempfile.TemporaryDirectory() as d:
+            wav = Path(d) / "silence.wav"
+            subprocess.run([ff, "-nostdin", "-v", "error", "-y", "-f", "lavfi", "-i", "anullsrc=r=16000:cl=mono", "-t", "1", str(wav)],
+                           check=True, capture_output=True, timeout=60)
+            transcribe_words(wav, None, cfg)
+    except Exception as exc:  # noqa: BLE001 -- أي عطل يعني أن الضبط لن يعمل
+        return False, f"{type(exc).__name__}: " + scrub_text(str(exc))[:120]
+    return True, ""
 
 
 def line_end(segments, k: int, cfg=None) -> float:
