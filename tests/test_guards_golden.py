@@ -20192,3 +20192,123 @@ def test_reel_exact_q13_guards() -> None:
         check("g608: requirements-reel.txt فيه faster-whisper", "faster-whisper" in (root / "requirements-reel.txt").read_text(), None)
         check("g608: faster-whisper ليس في requirements.txt", "faster-whisper" not in (root / "requirements.txt").read_text(), None)
     guarded("g608", g608)
+
+
+def test_names_n1_guards() -> None:
+    """Issue #1684 (N1، g609–g614): توحيد الأسماء بحدود الكلمة (سابقة ملتصقة مسموحة، وسط الكلمة ممنوع)، حارس ثبات يوقف
+    كل زوج لا يثبت (الطبقتان) مع تنبيه، والتعلّم لا يرشّح زوجًا أحدهما جزء من الآخر. الشواهد: «اشنطن» و«ريطانية»
+    في state/names_learned.json الحقيقي."""
+    import json
+    from datetime import datetime, timezone
+    from pathlib import Path
+    from src import names, names_learn
+
+    real_load_config = store.load_config
+    now = datetime.now(timezone.utc).isoformat()
+    learned_real = {
+        "entries": {
+            "أمريكي": {"variants": ["أميركي"], "counts": {"أمريكي": 27, "أميركي": 2}, "learned_at": now, "verdict": "same_name"},
+            "اشنطن": {"variants": ["واشنطن"], "counts": {"اشنطن": 45, "واشنطن": 3}, "learned_at": now, "verdict": "same_name"},
+            "بريطانية": {"variants": ["ريطانية"], "counts": {"بريطانية": 7, "ريطانية": 2}, "learned_at": now, "verdict": "same_name"},
+            "نتنياهو": {"variants": ["نتانياهو"], "counts": {"نتنياهو": 10, "نتانياهو": 2}, "learned_at": now, "verdict": "same_name"},
+        },
+        "rejected_pairs": [], "last_run": now}
+    real_cfg = load_config()
+
+    def _clear() -> None:
+        names.SEEN_FILE.unlink(missing_ok=True)
+        names_learn.LEARNED_FILE.unlink(missing_ok=True)
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001
+            check(name + ": استثناء", False, repr(exc))
+
+    _clear()
+    try:
+        def g609():
+            apply = names._apply_aliases
+            m = {"بريطانية": {"ريطانية"}}
+            check("g609: «الحكومة البريطانية» لا تتغير", apply("الحكومة البريطانية", m) == "الحكومة البريطانية", apply("الحكومة البريطانية", m))
+            check("g609: «ريطانية» مستقلة ← بريطانية", apply("قالت ريطانية", m) == "قالت بريطانية", apply("قالت ريطانية", m))
+            m2 = {"ترامب": {"ترمب"}}
+            check("g609: «وترمب» ← «وترامب»", apply("قال وترمب", m2) == "قال وترامب", apply("قال وترمب", m2))
+            check("g609: «للترمب» ← «للترامب»", apply("للترمب", m2) == "للترامب", apply("للترمب", m2))
+            check("g609: «ترمبيون» لا تتغير", apply("ترمبيون", m2) == "ترمبيون", apply("ترمبيون", m2))
+        guarded("g609", g609)
+
+        def g610():
+            names_learn.save_learned(json.loads(json.dumps(learned_real)))
+            cfg = {"names": {"aliases": {}}}
+            for text in ("بين إيران وواشنطن", "تقييم واشنطن", "الحكومة البريطانية"):
+                once = names.normalize_names(text, cfg)
+                twice = names.normalize_names(once, cfg)
+                check(f"g610: «{text}» كما هي مرة ومرتين", once == text and twice == text, (once, twice))
+            got = names.normalize_names("قال نتانياهو", cfg)
+            check("g610: المدخل الصالح يعمل", got == "قال نتنياهو", got)
+            got = names.normalize_names("مسؤول أميركي", cfg)
+            check("g610: أميركي ← أمريكي", got == "مسؤول أمريكي", got)
+            bad = {v for v, _c, _l in names.unstable_entries(cfg)}
+            check("g610: المدخلان المعيبان مستبعدان", bad == {"واشنطن", "ريطانية"}, bad)
+            from src import insights
+            sec = "\n".join(insights.learned_names_section(cfg))
+            check("g610: التقرير الأسبوعي يذكر الإيقاف", "أُوقف توحيد لا يثبت" in sec and "واشنطن" in sec, sec)
+        guarded("g610", g610)
+
+        def g611():
+            cfg = {"names": {"learned_enabled": False,
+                             "aliases": {"ترامب": ["ترمب"], "بريطانية": ["ريطانية"]}}}
+            got = names.normalize_names("قال ترمب", cfg)
+            check("g611: الصالح اليدوي يعمل", got == "قال ترامب", got)
+            got = names.normalize_names("الحكومة البريطانية", cfg)
+            check("g611: المعيب اليدوي لا يفسد", got == "الحكومة البريطانية", got)
+            un = [v for v, _c, _l in names.unstable_entries(cfg)]
+            check("g611: المعيب اليدوي منبَّه عليه", un == ["ريطانية"], un)
+        guarded("g611", g611)
+
+        def g612():
+            c = names_learn.find_candidates({"اشنطن": 45, "واشنطن": 3}, {}, set())
+            check("g612: اشنطن/واشنطن لا مرشّح", c == [], c)
+            c = names_learn.find_candidates({"نتنياهو": 10, "نتانياهو": 2}, {}, set())
+            check("g612: نتنياهو/نتانياهو مرشّح واحد", len(c) == 1, c)
+        guarded("g612", g612)
+
+        def g613():
+            names_learn.save_learned(json.loads(json.dumps(learned_real)))
+            text = "الخلاف بين إيران وواشنطن مع الحكومة البريطانية"
+            store.load_config = lambda path=None: {"names": {"aliases": {}}}
+            draft = {"id": "g613000000001", "status": "pending", "score": 1.0, "bucket": "serious", "state_media": False,
+                     "origin": "news",
+                     "source": {"title": text, "link": "https://example.com/g613", "publisher": "س", "publishers": ["س"]},
+                     "arabic": {"post_title": text, "body": text, "post_body": text, "caption": "", "category": "", "urgent": False},
+                     "caption": text, "headlines": [text], "headline_selected": 0}
+            p = store.save_draft(draft)
+            for _ in range(3):
+                store.update_draft(p, caption=text)
+            d = json.loads(Path(p).read_text(encoding="utf-8"))
+            check("g613: النص كما هو بعد حفظ وثلاث تحديثات",
+                  d["arabic"]["post_title"] == text and d["arabic"]["post_body"] == text and d["caption"] == text, d["arabic"])
+        guarded("g613", g613)
+
+        def g614():
+            names_learn.save_learned(json.loads(json.dumps(learned_real)))
+            root = Path(__file__).parent.parent / "drafts"
+            n = bad = 0
+            for f in root.rglob("*.json"):
+                try:
+                    a = (json.loads(f.read_text(encoding="utf-8")) or {}).get("arabic") or {}
+                except Exception:  # noqa: BLE001
+                    continue
+                for k in ("post_title", "post_body"):
+                    x = a.get(k)
+                    if isinstance(x, str) and x:
+                        n += 1
+                        once = names.normalize_names(x, real_cfg)
+                        if names.normalize_names(once, real_cfg) != once:
+                            bad += 1
+            check("g614: لا نص حقيقي يتغير بالتطبيق الثاني", bad == 0, (bad, n))
+        guarded("g614", g614)
+    finally:
+        store.load_config = real_load_config
+        _clear()
