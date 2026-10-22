@@ -2474,3 +2474,15 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
   سبب فشل الجلب المحفوظ في `render_approx` يُقصّ إلى `reel.render.transcript_reason_chars` (200) لا 80.
 - **(4) قضية المراجعة:** `reel_review.open_or_update` لقضية موجودة: مغلقة (`review.issue_state`) ← `reopen_issue` ثم `remove_label(approved)` قبل كتابة الجسم؛ عطل ذلك تحذير والجسم يُكتب.
 - **(5) لا سطر مكرر:** سبب حذف المقطع يُكتب في سطر «✂️ حُذف…» وحده؛ `_prune_mismatched` لم تعد تضيفه إلى `notes`.
+
+## شريط القناة يُقرأ لكل مقطع (Issue #1677، Q11) — `src/reel_render.py:_apply_chyron`
+
+الحادثة (الريل 02b4436a2b66، #1676): ظهر علي البخيتي تحت اسم «منيف عماش الحربي»؛ الاستخراج نسب الجملة إلى الحربي (ضيف آخر في الحلقة نفسها) والنص جُلب
+فالنافذة صحيحة، والحربي «مسمّى» في السيناريو فلم يمرّ مقطعه بقراءة الشريط (Q10 فتحها للنافذة التقديرية وحدها)، وفحص Q1 لا يرى الوجه. الشريط كان يقول «علي البخيتي».
+الشاهد `tests/fixtures/reel/1676/render.json`؛ g590–g593 في `tests/test_guards_golden.py:test_reel_chyron_verified_q11_guards`. `render_version` = 44.
+
+- **القرار:** كل مقطع يمرّ بـ`deps.read_chyron` (نداء واحد لكل مقطع كما اليوم) بما فيه المتحدث الموثَّق من السيناريو غير التقديري. شريط يحمل اسم شخص مقبولًا
+  (`accepted`، `name_is_speaker` yes) و`speaker_matches` يعيد False ← حذف المقطع بـ`drop_speaker_mismatch` (المسار القائم، سطر «✂️ حُذف…» وحده).
+  المطابقة True ← `speaker_verified_from = "chyron"` وسطر `comment_chyron_confirmed` («✅ الشريط يؤكد المتكلم: {name} ({channel})»). None أو لا اسم أو `host`/`program` ← يبقى
+  بلا سطر. **اسم السيناريو وصفته لا يُكتب فوقهما شيء من الشريط.** النافذة التقديرية (Q10) والمتحدث غير الموثَّق بلا تغيير.
+- **الإعداد:** `reel.render.chyron.check_verified` (true)؛ false ← السلوك القديم حرفًا (g592). اختبار g585 (Q10) صار يضبطه false لأنه يختبر ذلك السلوك.

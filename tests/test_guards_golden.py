@@ -19598,8 +19598,14 @@ def test_reel_approx_host_sorry_q10_guards() -> None:
     guarded("g584", g584)
 
     def g585():
-        out, dropped, notes, calls = prune([fr("علي البخيتي"), fr("علي البخيتي")], approx=False)
-        check("g585: نافذة من النص ← لا قراءة شريط لمسمّى موثَّق", "c4" not in calls and 4 in out and not dropped, (calls, dropped))
+        # Q11: الموثَّق صار يُقرأ شريطه، فالسلوك القديم (لا قراءة) يُختبر بـcheck_verified: false
+        saved = cfg["reel"]["render"]["chyron"].get("check_verified")
+        cfg["reel"]["render"]["chyron"]["check_verified"] = False
+        try:
+            out, dropped, notes, calls = prune([fr("علي البخيتي"), fr("علي البخيتي")], approx=False)
+        finally:
+            cfg["reel"]["render"]["chyron"]["check_verified"] = saved
+        check("g585: نافذة من النص ← لا قراءة شريط لمسمّى موثَّق (check_verified false)", "c4" not in calls and 4 in out and not dropped, (calls, dropped))
     guarded("g585", g585)
 
     def g586():
