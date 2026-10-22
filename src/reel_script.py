@@ -458,7 +458,7 @@ def _build(data: dict, valid: list[dict], narrator: str) -> dict:
             if c:
                 scene.update({k: c.get(k, "") for k in (
                     "video_url", "start", "end", "speaker_name", "speaker_role", "speaker_verified",
-                    "speaker_verified_from", "speaker_name_latin", "channel_display", "channel_original", "quote_arabic", "language",
+                    "speaker_verified_from", "speaker_name_latin", "channel_display", "channel_original", "quote_arabic", "quote_original", "language",
                     "video_published")})
             scenes.append(scene)
         elif kind == "title_card":
@@ -481,7 +481,7 @@ def _build(data: dict, valid: list[dict], narrator: str) -> dict:
 # ───────────────────────────── سيناريو v2 (Issue #1608، P2a) ─────────────────────────────
 
 _CLIP_COPY = ("video_url", "start", "end", "speaker_name", "speaker_role", "speaker_verified", "speaker_verified_from",
-              "speaker_name_latin", "channel_display", "channel_original", "quote_arabic", "language", "video_published")
+              "speaker_name_latin", "channel_display", "channel_original", "quote_arabic", "quote_original", "language", "video_published")
 
 
 def _v2(cfg: Any, key: str, default: Any) -> Any:
@@ -1016,11 +1016,16 @@ def timeline_lines(script: dict, cfg: Any) -> list[str]:
     for scene, dur in zip(script.get("scenes") or [], durs):
         kind = scene.get("kind")
         extra = ""
+        extra_lines: list[str] = []
         if kind in CLIP_KINDS:
             line = t.get("scene_cold" if kind == "cold_open_clip" else "scene_clip", "").format(
                 band=speaker_band(scene, cfg), badge=speaker_badge(scene, cfg),
                 quote=scene.get("quote_arabic", ""), url=video_link(scene))
             line = re.sub(r"(·\s*){2,}", "· ", line).rstrip(" ·")   # شارة فارغة ← لا فاصل معلَّق
+            if scene.get("quote_original"):
+                # Q13 (Issue #1681): ما سيُسمع وما سيُقرأ تحت كل مقطع كما هما في التركيب
+                extra_lines = [t.get("scene_heard", "🎙️ يُسمع: {text}").format(text=scene["quote_original"]),
+                               t.get("scene_written", "💬 يُكتب: {text}").format(text=scene.get("quote_arabic", ""))]
             if v2 and scene.get("stance"):
                 extra = t.get("scene_stance", "↳ الموقف: {stance}").format(stance=scene["stance"])
                 if scene.get("angle"):
@@ -1039,6 +1044,7 @@ def timeline_lines(script: dict, cfg: Any) -> list[str]:
             line = t.get(key, "").format(text=scene.get("text", ""),
                                          role_label=(t.get("qroles") or {}).get(scene.get("qrole"), scene.get("qrole") or ""))
         out.append(f"  - [{_mmss(now)}–{_mmss(now + dur)}] {line}")
+        out += [f"    {x}" for x in extra_lines]
         if extra:
             out.append(f"    {extra}")
         now += dur
@@ -1106,7 +1112,7 @@ def _audit_speakers(draft: dict, valid: list[dict], member_points: list[dict], c
 
 AUDIT_TOOL = {
     "name": "audit_clips",
-    "description": "يُبلِّغ لكل مقطع: هل نُسب الكلام إلى متحدثه نفسه، وهل الترجمة أمينة للأصل بمعناها وضمائرها",
+    "description": "يُبلِّغ لكل مقطع: هل نُسب الكلام إلى متحدثه نفسه، وهل الترجمة أمينة للأصل بمعناها وضمائرها، وهل الاقتباس فكرة تامة",
     "input_schema": {
         "type": "object",
         "properties": {"clips": {"type": "array", "items": {
@@ -1115,7 +1121,9 @@ AUDIT_TOOL = {
                            "speaker_said_it": {"type": "string", "enum": ["yes", "no", "unsure"]},
                            "other_name": {"type": "string"},
                            "faithful": {"type": "boolean"},
-                           "quote_arabic_fixed": {"type": "string"}},
+                           "quote_arabic_fixed": {"type": "string"},
+                           "complete": {"type": "string", "enum": ["yes", "no"]},
+                           "incomplete_reason": {"type": "string"}},
             "required": ["point_id", "speaker_said_it", "faithful"]}}},
         "required": ["clips"],
     },
@@ -1160,7 +1168,10 @@ def audit_clips(clips: list[dict], cfg: Any, client=None) -> list[dict]:
                     out.append({"point_id": r["point_id"], "speaker_said_it": r["speaker_said_it"],
                                 "other_name": " ".join(str(r.get("other_name") or "").split()),
                                 "faithful": ok_flag,
-                                "quote_arabic_fixed": " ".join(str(r.get("quote_arabic_fixed") or "").split())})
+                                "quote_arabic_fixed": " ".join(str(r.get("quote_arabic_fixed") or "").split()),
+                                # Q13: غياب الحقل أو قيمة غير yes/no ← لا حكم (None) فلا استبعاد
+                                "complete": r.get("complete") if r.get("complete") in ("yes", "no") else None,
+                                "incomplete_reason": " ".join(str(r.get("incomplete_reason") or "").split())})
             if out:
                 return out
             break
@@ -1179,6 +1190,11 @@ def apply_audit(valid: list[dict], rows: list[dict], cfg: Any) -> tuple[list[dic
         r = by.get(c["point_id"])
         if r is None:
             out.append(c)
+        elif r.get("complete") == "no":
+            # Q13 (Issue #1681): اقتباس مبتور لا يُفهم وحده يُستبعد قبل اعتماد السيناريو بدل أن يُمدّ وقت التركيب
+            dropped.append({"point_id": c["point_id"], "channel": c.get("channel_display", ""),
+                            "reason": (texts.get("clip_drop_incomplete") or "اقتباس مبتور — {reason}").format(
+                                reason=r.get("incomplete_reason") or "—")})
         elif r["speaker_said_it"] == "no":
             dropped.append({"point_id": c["point_id"], "channel": c.get("channel_display", ""),
                             "reason": (texts.get("clip_drop_mismatch") or "ملخّص النقطة ينسبها إلى شخص آخر: {name}").format(
