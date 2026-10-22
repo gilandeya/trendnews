@@ -2911,13 +2911,16 @@ def speaker_matches(name_arabic: str, name_original: str, speaker_text: str, cfg
 
 
 def _apply_chyron(scene: dict, clip: dict, cfg, deps: Deps, speakers: dict, notes: list, index: int) -> dict | None:
-    """يوثّق متحدث مقطع غير موثَّق من شريط القناة. الموثَّق من العنوان أو الوصف لا يُمسّ ولا يُرسل؛ ولا يُرفع فشل أبدًا
+    """يوثّق متحدث مقطع غير موثَّق من شريط القناة. الموثَّق من العنوان أو الوصف يُقرأ شريطه للتحقق وحده (Q11) ولا يُعاد كتابة اسمه؛ ولا يُرفع فشل أبدًا
     (العطل أو الرفض أو الردّ غير الصالح يُبقي «ضيف على»). اسم شخص مقبول يُقارَن بقائل النقطة (speaker_text): الخلاف (R6) لا يُطبَّق على
     المشهد ويُعاد {chyron, speaker} فيحذف _assemble المقطع من اللوحة؛ يُستدعى مرتين لكل مقطع (قبل بناء اللوحة وفي _clip_layers) فالقراءة تُحفظ
     في speakers ولا تُعاد."""
     # Q10: مقطع بنافذة تقديرية (clip["approx"]) لا نعرف من يتكلم فيه حتى لو سُمّي متحدثه في السيناريو، فيمرّ بقراءة الشريط
-    approx = bool(clip.get("approx")) and bool(scene.get("speaker_verified") and scene.get("speaker_name"))
-    if not cfg.path("reel.render.chyron.enabled", False) or scene.get("speaker_verified") and scene.get("speaker_name") and not approx:
+    named = bool(scene.get("speaker_verified") and scene.get("speaker_name"))
+    approx = bool(clip.get("approx")) and named
+    # Q11: المسمّى في السيناريو (غير التقديري) يُقرأ شريطه أيضًا — الاستخراج قد ينسب كلام ضيف إلى ضيف آخر في الحلقة نفسها والوجه وحده يكشفه
+    verified = named and not approx
+    if not cfg.path("reel.render.chyron.enabled", False) or verified and not cfg.path("reel.render.chyron.check_verified", True):
         return None
     if str(index) in speakers:
         return speakers[str(index)].get("mismatch")
@@ -2946,6 +2949,15 @@ def _apply_chyron(scene: dict, clip: dict, cfg, deps: Deps, speakers: dict, note
         res["mismatch"] = mismatch
         log.warning("شريط القناة %s لا يطابق قائل النقطة %s", mismatch["chyron"], mismatch["speaker"])
         return mismatch
+    if verified:
+        # اسم السيناريو لا يُكتب فوقه شيء من الشريط؛ المطابقة الصريحة وحدها تُسجَّل وتُعرض للمراجع، وغيرها (لا اسم/مقدّم/برنامج/قائل بلا اسم علم) يبقى
+        if res["accepted"] and speaker_matches(res["name_arabic"], res["name_original"], scene.get("speaker_text", ""), cfg) is True:
+            scene.update(speaker_verified_from="chyron")
+            line = cfg.path("reel.render.texts.comment_chyron_confirmed").format(
+                name=scene.get("speaker_name") or "", channel=scene.get("channel_display") or "")
+            if line not in notes:
+                notes.append(line)
+        return None
     if approx:
         # نافذة تقديرية: لا يبقى المقطع إلا إن حمل الشريط اسم شخص هو المتكلم ويطابق القائل؛ ولا يُعاد كتابة اسم السيناريو الموثَّق
         if not res["accepted"]:
