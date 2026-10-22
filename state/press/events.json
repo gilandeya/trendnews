@@ -275,7 +275,7 @@
      "published": "2026-10-06T06:12:00+00:00"
     }
    ],
-   "last_seen": "2026-10-21T17:07:46.277380+00:00",
+   "last_seen": "2026-10-22T17:07:52.304977+00:00",
    "outlets": 21,
    "regions": 16,
    "languages": 2,
@@ -556,7 +556,7 @@
      "published": "2026-10-11T07:10:39+00:00"
     }
    ],
-   "last_seen": "2026-10-16T09:07:49.020316+00:00",
+   "last_seen": "2026-10-22T17:07:52.304977+00:00",
    "outlets": 22,
    "regions": 16,
    "languages": 1,
@@ -837,7 +837,7 @@
      "published": "2026-10-13T00:00:08+00:00"
     }
    ],
-   "last_seen": "2026-10-19T17:07:57.762301+00:00",
+   "last_seen": "2026-10-22T17:07:52.304977+00:00",
    "outlets": 20,
    "regions": 16,
    "languages": 1,
@@ -1379,6 +1379,242 @@
    "score": 54.0
   },
   {
+   "id": "d8c220af6828",
+   "first_seen": "2026-10-16T09:07:49.020316+00:00",
+   "members": [
+    {
+     "outlet": "Der Spiegel",
+     "region": "de",
+     "bucket": "serious",
+     "title": "Tesla stellt neues Modell Roadster vor",
+     "language": "en",
+     "link": "https://www.spiegel.de/mobilitaet/auto/tesla-stellt-neues-modell-roadster-vor-mit-raketenduesen-a-7cccd6c2-3d0e-4d0d-8be4-7f0fd794915e#ref=rss",
+     "published": "2026-10-16T05:02:00+00:00"
+    },
+    {
+     "outlet": "Investing.com — الاقتصاد",
+     "region": "money",
+     "bucket": "useful",
+     "title": "Warsh avoids rate guidance; Tesla’s Roadster turns in air",
+     "language": "en",
+     "link": "https://www.investing.com/news/economy-news/warsh-avoids-rate-guidance-teslas-roadster-turns-in-air--whats-moving-markets-4953305",
+     "published": "2026-10-16T07:58:28+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Tesla Roadster Flew And Landed Safely: How High, How Far And What's The Cost?",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/tesla-roadster-flew-and-landed-safely-how-high-how-far-and-whats-the-cost-12193774#publisher=newsstand",
+     "published": "2026-10-16T07:34:06+00:00"
+    },
+    {
+     "outlet": "The Verge",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "The Tesla Roadster flew, drove upside down, and hit 60mph in under a second",
+     "language": "en",
+     "link": "https://www.theverge.com/transportation/1012552/tesla-roadster-next-gen-reveal-elon-musk",
+     "published": "2026-10-16T01:28:27+00:00"
+    },
+    {
+     "outlet": "TechCrunch",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "Tesla reveals SpaceX-powered Roadster that flies and falls with style",
+     "language": "en",
+     "link": "https://techcrunch.com/2026/10/15/tesla-reveals-spacex-powered-roadster-that-flies-and-falls-with-style/",
+     "published": "2026-10-16T01:17:43+00:00"
+    },
+    {
+     "outlet": "Engadget",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "Tesla Roadster reveal live: Updates from the launch of the next-gen sportscar",
+     "language": "en",
+     "link": "https://www.engadget.com/2287518/tesla-roadster-launch-live-blog/",
+     "published": "2026-10-15T14:01:51+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Tesla's new Roadster turns in air with SpaceX thrusters, won't land until 2028",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/world/tesla-roadster-spacex-thrusters-elon-musk-6465326",
+     "published": "2026-10-16T08:18:59+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Elon Musk unveils Tesla's 'flying' car",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2037579/elon-musk-unveils-teslas-flying-car",
+     "published": "2026-10-16T09:27:30+00:00"
+    },
+    {
+     "outlet": "Phys.org",
+     "region": "science",
+     "bucket": "useful",
+     "title": "Elon Musk unveils Tesla's 'flying' car",
+     "language": "en",
+     "link": "https://phys.org/news/2026-10-elon-musk-unveils-tesla-flying.html",
+     "published": "2026-10-16T16:20:11+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Elon Musk unveils Tesla’s ‘flying’ car",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/business/2026/10/16/elon-musk-unveils-tesla-s-flying-car",
+     "published": "2026-10-16T10:52:01+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Watch: Did Tesla really just unveil a flying car?",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/videos/ckly4mj1g3n9o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-16T12:32:31+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Tesla unveils 'flying' car, but don't expect to drive it anytime soon",
+     "language": "en",
+     "link": "https://www.dailysabah.com/business/economy/tesla-unveils-flying-car-but-dont-expect-to-drive-it-anytime-soon",
+     "published": "2026-10-16T13:23:00+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Tesla just made a car fly (sort of) — and Elon Musk says it’s coming in 2028 (VIDEO)",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/life/2026/10/16/tesla-just-made-a-car-fly-sort-of-and-elon-musk-says-its-coming-in-2028-video/239356",
+     "published": "2026-10-16T09:16:21+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Tesla flying car Roadster open for reservation, but doesn't land anytime soon. Check variants, launch details",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/tesla-flying-car-roadster-open-for-reservation-but-doesnt-land-anytime-soon-check-variants-launch-details-101792131858492.html",
+     "published": "2026-10-16T10:58:08+00:00"
+    },
+    {
+     "outlet": "The Verge",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "The incredible flying Tesla Roadster is just for show",
+     "language": "en",
+     "link": "https://www.theverge.com/transportation/1012783/tesla-roadster-flying-stunt-production-reality-musk",
+     "published": "2026-10-16T14:15:29+00:00"
+    },
+    {
+     "outlet": "Der Spiegel",
+     "region": "de",
+     "bucket": "serious",
+     "title": "Tesla Roadster fliegt durch die Luft: Elon Musk hat die Bodenhaftung verloren. Buchstäblich",
+     "language": "de",
+     "link": "https://www.spiegel.de/mobilitaet/auto/tesla-roadster-fliegt-durch-die-luft-elon-musk-hat-die-bodenhaftung-verloren-buchstaeblich-a-ed7a0234-7b5c-4c95-8744-5e4575995ecb#ref=rss",
+     "published": "2026-10-16T14:47:00+00:00"
+    },
+    {
+     "outlet": "Folha de S.Paulo",
+     "region": "br",
+     "bucket": "serious",
+     "title": "Musk apresenta 'carro voador' da Tesla e que atinge 96 km/h em um segundo; veja vídeo",
+     "language": "pt",
+     "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://www1.folha.uol.com.br/mercado/2026/10/musk-apresenta-carro-voador-da-tesla-e-que-atinge-96-kmh-em-um-segundo-veja-video.shtml",
+     "published": "2026-10-16T14:03:00+00:00"
+    },
+    {
+     "outlet": "Der Spiegel",
+     "region": "de",
+     "bucket": "serious",
+     "title": "Tesla »Roadster«: Ein fliegendes Auto? Die US-Verkehrsbehörde hat Fragen",
+     "language": "de",
+     "link": "https://www.spiegel.de/mobilitaet/auto/tesla-roadster-ein-fliegendes-auto-die-us-verkehrsbehoerde-hat-fragen-a-a7f9fc1d-c216-404e-bef1-efa85e2953ff#ref=rss",
+     "published": "2026-10-17T06:01:00+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "11-year old flying car company mocks Tesla Roadster",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/17/11-year-old-flying-car-company-mocks-tesla-roadster?traffic_source=rss",
+     "published": "2026-10-17T07:32:42+00:00"
+    },
+    {
+     "outlet": "Engadget",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "The Tesla Roadster should go into production in 2028, but don't get your hopes up",
+     "language": "en",
+     "link": "https://www.engadget.com/2289475/tesla-roadster-2028-production-dont-get-hopes-up/",
+     "published": "2026-10-17T01:50:50+00:00"
+    },
+    {
+     "outlet": "Engadget",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "A 'flying' Tesla Roadster sounds impossible, until you see what Lockheed Martin built decades ago",
+     "language": "en",
+     "link": "https://www.engadget.com/2289307/flying-tesla-roadster-lockheed-martin-mokv-technology-comparison/",
+     "published": "2026-10-16T20:50:28+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Why is Elon Musk plotting a mega-merger of SpaceX and Tesla?",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cr93z1e87e0do?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-21T06:36:39+00:00"
+    },
+    {
+     "outlet": "Nikkei Asia",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Elon Musk says SpaceX and Tesla discussing possible merger",
+     "language": "en",
+     "link": "https://asia.nikkei.com/business/aerospace-defense-industries/elon-musk-says-spacex-and-tesla-discussing-possible-merger",
+     "published": "2026-10-21T17:07:36.772211+00:00"
+    },
+    {
+     "outlet": "Engadget",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "SpaceX and Tesla are exploring a possible merger",
+     "language": "en",
+     "link": "https://www.engadget.com/2292594/spacex-tesla-exploring-possible-merger/",
+     "published": "2026-10-21T08:40:59+00:00"
+    },
+    {
+     "outlet": "BBC 中文",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "為甚麼馬斯克要策劃 SpaceX 與特斯拉的超大型合併？",
+     "language": "zh",
+     "link": "https://www.bbc.com/zhongwen/articles/c6eq309002q3o/trad?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-22T00:21:24+00:00"
+    }
+   ],
+   "last_seen": "2026-10-22T17:07:52.304977+00:00",
+   "outlets": 18,
+   "regions": 14,
+   "languages": 4,
+   "score": 54.0
+  },
+  {
    "id": "af244ec47185",
    "first_seen": "2026-10-08T18:07:58.260966+00:00",
    "members": [
@@ -1860,13 +2096,58 @@
      "language": "en",
      "link": "https://www.freemalaysiatoday.com/category/world/2026/10/17/japan-retracts-mistaken-magnitude-9-9-quake-alert",
      "published": "2026-10-17T03:23:36+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Earthquake of magnitude 7 strikes China's Tibet",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2636364/earthquake-of-magnitude-7-strikes-chinas-tibet",
+     "published": "2026-10-22T11:49:41+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Earthquake of magnitude 7 strikes Tibet",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/tibet-earthquake-nagqu-updates-october-22-2026/article71612585.ece",
+     "published": "2026-10-22T15:45:19+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Earthquake of magnitude 7.0 strikes Tibet",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/earthquake-magnitude-strikes-tibet-nepal-flood-tragedy-casualties-epicenter-updates-101792680813317.html",
+     "published": "2026-10-22T14:57:48+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Earthquake Of Magnitude 7 Strikes Tibet Weeks After Deadly Flash Floods",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/earthquake-of-magnitude-7-strikes-tibet-weeks-after-deadly-flash-floods-12221696#publisher=newsstand",
+     "published": "2026-10-22T15:38:22+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Earthquake of magnitude 7 strikes China's Tibet",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOaUlEUG80aTRoVHhfOFptUTJYZHpwWE1LT0hURTlrM1JpejJqZ0pEYnJUSG1zbWk4RUVmMnpnMXVlU05LUXdoWjNrMXAxYS1HR051VDBVZ2FqQ1RHOUs4aVFGcExLTDFJVHg4QUhpUDNlNkxud2dldEFQYXA0bUs1eThHS1lVWm4zUm5kQ2NQcGxKQ0E3N3gyZnUtVk5GNENkVXc?oc=5",
+     "published": "2026-10-22T15:35:28+00:00"
     }
    ],
-   "last_seen": "2026-10-17T09:07:48.549654+00:00",
-   "outlets": 18,
+   "last_seen": "2026-10-22T17:07:52.304977+00:00",
+   "outlets": 19,
    "regions": 15,
    "languages": 2,
-   "score": 52.0
+   "score": 53.0
   },
   {
    "id": "363605fbbb2b",
@@ -2148,233 +2429,6 @@
    "regions": 14,
    "languages": 1,
    "score": 50.0
-  },
-  {
-   "id": "d8c220af6828",
-   "first_seen": "2026-10-16T09:07:49.020316+00:00",
-   "members": [
-    {
-     "outlet": "Der Spiegel",
-     "region": "de",
-     "bucket": "serious",
-     "title": "Tesla stellt neues Modell Roadster vor",
-     "language": "en",
-     "link": "https://www.spiegel.de/mobilitaet/auto/tesla-stellt-neues-modell-roadster-vor-mit-raketenduesen-a-7cccd6c2-3d0e-4d0d-8be4-7f0fd794915e#ref=rss",
-     "published": "2026-10-16T05:02:00+00:00"
-    },
-    {
-     "outlet": "Investing.com — الاقتصاد",
-     "region": "money",
-     "bucket": "useful",
-     "title": "Warsh avoids rate guidance; Tesla’s Roadster turns in air",
-     "language": "en",
-     "link": "https://www.investing.com/news/economy-news/warsh-avoids-rate-guidance-teslas-roadster-turns-in-air--whats-moving-markets-4953305",
-     "published": "2026-10-16T07:58:28+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Tesla Roadster Flew And Landed Safely: How High, How Far And What's The Cost?",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/tesla-roadster-flew-and-landed-safely-how-high-how-far-and-whats-the-cost-12193774#publisher=newsstand",
-     "published": "2026-10-16T07:34:06+00:00"
-    },
-    {
-     "outlet": "The Verge",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "The Tesla Roadster flew, drove upside down, and hit 60mph in under a second",
-     "language": "en",
-     "link": "https://www.theverge.com/transportation/1012552/tesla-roadster-next-gen-reveal-elon-musk",
-     "published": "2026-10-16T01:28:27+00:00"
-    },
-    {
-     "outlet": "TechCrunch",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "Tesla reveals SpaceX-powered Roadster that flies and falls with style",
-     "language": "en",
-     "link": "https://techcrunch.com/2026/10/15/tesla-reveals-spacex-powered-roadster-that-flies-and-falls-with-style/",
-     "published": "2026-10-16T01:17:43+00:00"
-    },
-    {
-     "outlet": "Engadget",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "Tesla Roadster reveal live: Updates from the launch of the next-gen sportscar",
-     "language": "en",
-     "link": "https://www.engadget.com/2287518/tesla-roadster-launch-live-blog/",
-     "published": "2026-10-15T14:01:51+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Tesla's new Roadster turns in air with SpaceX thrusters, won't land until 2028",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/world/tesla-roadster-spacex-thrusters-elon-musk-6465326",
-     "published": "2026-10-16T08:18:59+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Elon Musk unveils Tesla's 'flying' car",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2037579/elon-musk-unveils-teslas-flying-car",
-     "published": "2026-10-16T09:27:30+00:00"
-    },
-    {
-     "outlet": "Phys.org",
-     "region": "science",
-     "bucket": "useful",
-     "title": "Elon Musk unveils Tesla's 'flying' car",
-     "language": "en",
-     "link": "https://phys.org/news/2026-10-elon-musk-unveils-tesla-flying.html",
-     "published": "2026-10-16T16:20:11+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Elon Musk unveils Tesla’s ‘flying’ car",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/business/2026/10/16/elon-musk-unveils-tesla-s-flying-car",
-     "published": "2026-10-16T10:52:01+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Watch: Did Tesla really just unveil a flying car?",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/videos/ckly4mj1g3n9o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-16T12:32:31+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Tesla unveils 'flying' car, but don't expect to drive it anytime soon",
-     "language": "en",
-     "link": "https://www.dailysabah.com/business/economy/tesla-unveils-flying-car-but-dont-expect-to-drive-it-anytime-soon",
-     "published": "2026-10-16T13:23:00+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Tesla just made a car fly (sort of) — and Elon Musk says it’s coming in 2028 (VIDEO)",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/life/2026/10/16/tesla-just-made-a-car-fly-sort-of-and-elon-musk-says-its-coming-in-2028-video/239356",
-     "published": "2026-10-16T09:16:21+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Tesla flying car Roadster open for reservation, but doesn't land anytime soon. Check variants, launch details",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/tesla-flying-car-roadster-open-for-reservation-but-doesnt-land-anytime-soon-check-variants-launch-details-101792131858492.html",
-     "published": "2026-10-16T10:58:08+00:00"
-    },
-    {
-     "outlet": "The Verge",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "The incredible flying Tesla Roadster is just for show",
-     "language": "en",
-     "link": "https://www.theverge.com/transportation/1012783/tesla-roadster-flying-stunt-production-reality-musk",
-     "published": "2026-10-16T14:15:29+00:00"
-    },
-    {
-     "outlet": "Der Spiegel",
-     "region": "de",
-     "bucket": "serious",
-     "title": "Tesla Roadster fliegt durch die Luft: Elon Musk hat die Bodenhaftung verloren. Buchstäblich",
-     "language": "de",
-     "link": "https://www.spiegel.de/mobilitaet/auto/tesla-roadster-fliegt-durch-die-luft-elon-musk-hat-die-bodenhaftung-verloren-buchstaeblich-a-ed7a0234-7b5c-4c95-8744-5e4575995ecb#ref=rss",
-     "published": "2026-10-16T14:47:00+00:00"
-    },
-    {
-     "outlet": "Folha de S.Paulo",
-     "region": "br",
-     "bucket": "serious",
-     "title": "Musk apresenta 'carro voador' da Tesla e que atinge 96 km/h em um segundo; veja vídeo",
-     "language": "pt",
-     "link": "https://redir.folha.com.br/redir/online/emcimadahora/rss091/*https://www1.folha.uol.com.br/mercado/2026/10/musk-apresenta-carro-voador-da-tesla-e-que-atinge-96-kmh-em-um-segundo-veja-video.shtml",
-     "published": "2026-10-16T14:03:00+00:00"
-    },
-    {
-     "outlet": "Der Spiegel",
-     "region": "de",
-     "bucket": "serious",
-     "title": "Tesla »Roadster«: Ein fliegendes Auto? Die US-Verkehrsbehörde hat Fragen",
-     "language": "de",
-     "link": "https://www.spiegel.de/mobilitaet/auto/tesla-roadster-ein-fliegendes-auto-die-us-verkehrsbehoerde-hat-fragen-a-a7f9fc1d-c216-404e-bef1-efa85e2953ff#ref=rss",
-     "published": "2026-10-17T06:01:00+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "11-year old flying car company mocks Tesla Roadster",
-     "language": "en",
-     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/17/11-year-old-flying-car-company-mocks-tesla-roadster?traffic_source=rss",
-     "published": "2026-10-17T07:32:42+00:00"
-    },
-    {
-     "outlet": "Engadget",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "The Tesla Roadster should go into production in 2028, but don't get your hopes up",
-     "language": "en",
-     "link": "https://www.engadget.com/2289475/tesla-roadster-2028-production-dont-get-hopes-up/",
-     "published": "2026-10-17T01:50:50+00:00"
-    },
-    {
-     "outlet": "Engadget",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "A 'flying' Tesla Roadster sounds impossible, until you see what Lockheed Martin built decades ago",
-     "language": "en",
-     "link": "https://www.engadget.com/2289307/flying-tesla-roadster-lockheed-martin-mokv-technology-comparison/",
-     "published": "2026-10-16T20:50:28+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Why is Elon Musk plotting a mega-merger of SpaceX and Tesla?",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cr93z1e87e0do?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-21T06:36:39+00:00"
-    },
-    {
-     "outlet": "Nikkei Asia",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Elon Musk says SpaceX and Tesla discussing possible merger",
-     "language": "en",
-     "link": "https://asia.nikkei.com/business/aerospace-defense-industries/elon-musk-says-spacex-and-tesla-discussing-possible-merger",
-     "published": "2026-10-21T17:07:36.772211+00:00"
-    },
-    {
-     "outlet": "Engadget",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "SpaceX and Tesla are exploring a possible merger",
-     "language": "en",
-     "link": "https://www.engadget.com/2292594/spacex-tesla-exploring-possible-merger/",
-     "published": "2026-10-21T08:40:59+00:00"
-    }
-   ],
-   "last_seen": "2026-10-21T17:07:46.277380+00:00",
-   "outlets": 17,
-   "regions": 13,
-   "languages": 3,
-   "score": 49.0
   },
   {
    "id": "c2196a3d81fa",
@@ -3431,7 +3485,7 @@
      "published": "2026-10-11T15:10:27+00:00"
     }
    ],
-   "last_seen": "2026-10-21T17:07:46.277380+00:00",
+   "last_seen": "2026-10-22T17:07:52.304977+00:00",
    "outlets": 18,
    "regions": 13,
    "languages": 1,
@@ -3712,7 +3766,7 @@
      "published": "2026-10-13T04:00:55+00:00"
     }
    ],
-   "last_seen": "2026-10-17T09:07:48.549654+00:00",
+   "last_seen": "2026-10-22T17:07:52.304977+00:00",
    "outlets": 18,
    "regions": 13,
    "languages": 1,
@@ -4263,260 +4317,6 @@
    "score": 46.0
   },
   {
-   "id": "cf3f3c17f2ae",
-   "first_seen": "2026-10-06T15:07:42.509147+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Former German spy chief arrested for espionage and treason",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c58jzyer1kr0o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-06T10:05:42+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Former German spy chief arrested on suspicion of treason and espionage",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/6/former-german-spy-chief-arrested-on-suspicion-of-treason-and-espionage?traffic_source=rss",
-     "published": "2026-10-06T12:52:28+00:00"
-    },
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "Former German spy chief arrested over alleged buying of classified information",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-06-former-german-spy-chief-arrested-over-alleged-buying-of-classified-information/",
-     "published": "2026-10-06T12:44:58+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Former German spy chief arrested over alleged buying of classified information",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633284/former-german-spy-chief-arrested-over-alleged-buying-of-classified-information",
-     "published": "2026-10-06T05:56:42+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Ex-spy chief is arrested in Germany on suspicion of trading state secrets, treason",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/ex-spy-chief-is-arrested-in-germany-on-suspicion-of-trading-state-secrets-treason/article71551683.ece",
-     "published": "2026-10-06T13:19:38+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Ex-spy chief is arrested in Germany on suspicion of trading state secrets and treason",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/06/g-s1-146630/germany-ex-spy-chief-state-secrets",
-     "published": "2026-10-06T11:31:48+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Germany's ex-spy chief arrested for espionage, disclosing state secrets and attempted treason",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOdGVPUGtVUnkxZGhzSk1idV82dFpKZUVzcXFEQWNoaGltWU52b1N1R3g1c0M5ZU94LUxhcXB6bFV6VUw0WDgxQmx2Qnl3NnhmaWRSb29zdjR2OEhNeWN2NUdsOHZ6c2hiQWowQlhxRWhtU21pQnFjb2ZvRWhpbUNraTdIZ9IBgwFBVV95cUxNVERYVmpkaHdJTnBueXdVYk5VaEhMdDREUXdhUXA4WGljb2Z6TmJBMFp1Q2tLOUlFVDZCT0dxMFlzY3Y3UVBNdFlST3ZJM01lY3hzQzJZdDVvcWRGZGphWG4tTlhwQ0NWOEtyN3kwWFZWOG9qa2NuV05pQ3pwMVhhQlV4Zw?oc=5",
-     "published": "2026-10-06T14:47:54+00:00"
-    },
-    {
-     "outlet": "Court House News",
-     "region": "court",
-     "bucket": "light",
-     "title": "Ex-spy chief is arrested in Germany on suspicion of trading state secrets and treason",
-     "language": "en",
-     "link": "https://www.courthousenews.com/ex-spy-chief-is-arrested-in-germany-on-suspicion-of-trading-state-secrets-and-treason/",
-     "published": "2026-10-06T16:43:17+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "German ex-spy chief arrested for suspected espionage, treason",
-     "language": "en",
-     "link": "https://www.france24.com/en/german-ex-spy-chief-arrested-for-suspected-espionage-treason",
-     "published": "2026-10-06T19:42:27+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Former German spy chief detained over suspected treasonous espionage",
-     "language": "en",
-     "link": "https://www.france24.com/en/europe/20261006-former-german-spy-chief-detained-over-suspected-treasonous-espionage",
-     "published": "2026-10-06T21:34:02+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Ex-German Spy Chief Arrested For Espionage, Treason",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/ex-german-spy-chief-august-hanning-arrested-for-espionage-treason-12148375#publisher=newsstand",
-     "published": "2026-10-06T19:28:49+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "German ex-spy chief arrested for suspected espionage, treason",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/07/german-ex-spy-chief-arrested-for-suspected-espionage-treason/237978",
-     "published": "2026-10-07T00:50:12+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Former German spy chief arrested for attempted treason, obtaining state secrets",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/former-german-spy-chief-arrested-for-attempted-treason-obtaining-state-secrets-101791311487230.html",
-     "published": "2026-10-06T18:31:26+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Former German spy chief arrested for attempted treason, obtaining state secrets",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/07/world/crime-legal/germany-spy-chief-treason-arrest/",
-     "published": "2026-10-07T01:55:00+00:00"
-    },
-    {
-     "outlet": "Meduza English",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Former German spy chief arrested on espionage charges. He made at least seven trips to Russia after leaving office.",
-     "language": "en",
-     "link": "https://meduza.io/en/news/2026/10/06/former-german-spy-chief-arrested-on-espionage-charges-he-made-at-least-seven-trips-to-russia-after-leaving-office",
-     "published": "2026-10-06T13:18:27+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Former German spy chief to face charges of espionage and attempted treason",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/07/nx-s1-5992954/former-german-spy-chief-to-face-charges-of-espionage-and-attempted-treason",
-     "published": "2026-10-07T08:43:59+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Germany's former foreign intelligence chief arrested on suspicion of espionage and attempted treason",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQSE1QSWgzLVNrRy1fbFdqc0FwdkctYmcyZ2UxcmxxdWdyRENwM3VKSFpqbnpxVUdpcHJISDlpVV96eDdSV3pyZ0UzZUtRZzR1UEhIQlNhaDdjRVVNWUJrN3dyRDAyMTZjcl9rbWx2QW54ZkV4V1lRNXU5bFJURmlhTG42RkxHODJPWmpOWi1hOWVMVDY1N1phMVJrZWtUSDNOcS0zWWdvZlBBNU1YOFNwWmdYaGMzcFg4ODd2c1dB?oc=5",
-     "published": "2026-10-07T01:38:00+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "German ex-spy chief arrested for treason: What we know",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/7/german-ex-spy-chief-arrested-for-treason-what-we-know?traffic_source=rss",
-     "published": "2026-10-07T12:04:51+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "What we know about espionage, treason allegations against Germany's ex-spy chief",
-     "language": "en",
-     "link": "https://www.france24.com/en/europe/20261007-what-we-know-about-espionage-treason-allegations-against-germany-s-ex-spy-chief",
-     "published": "2026-10-07T14:06:59+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "German ex-spy chief arrested for treason: What we know",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPQUg3UDFxcm4wcTBEUHFHeXpDX1ZUbnVleVZYYjcxSHBWOUIzNVIybWE5WmRvMWg0UmtjaDVJQnhlZWF5MzJLZ2xjY2JyMDV6cDA1QUJmT19ITEV2SFBXNkdaZnBQaEVwNFpUVWt2UGYtSXI0eHJDSTdZSUc2bkxBVGdmNW5sQXpJUm9yOHFQR2VMcWFDNHBHa2pR0gGfAUFVX3lxTFBVMGZPRmE3b1o2QnBHTk1FVUtHZWJrTFUtVlR2VFBKOU5Oc2J4ZXhiUkU4akVyZ0pUaXNNNUF6TkhaN2hzX1l1aW9PSWYwWXJnRUNpVm1ucXlCNUxRUmp4ak5HYUk5Rlh2ZlpYZWxRS0U1SlFOaE55Q1UzbFNielRnY3VocWt2NkJ5Y0ZsV2o3a051Xy1wbWkzd1RibGs4bw?oc=5",
-     "published": "2026-10-07T12:09:21+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Russia arrests Japanese journalist on allegations of spying",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/14/russia-detains-japanese-journalist-suspicion-spying",
-     "published": "2026-10-14T01:05:25+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Russia arrests Japanese journalist on spying charges",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cwp9g1el7x9zo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-14T08:00:03+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Russia detains Japanese journalist suspected of spying",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/russia-central-asia/article/3370789/russia-detains-japanese-journalist-suspicion-spying?utm_source=rss_feed",
-     "published": "2026-10-13T22:08:47+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Russia says arrested Japanese journalist on spying charges",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/russia-says-arrested-japanese-journalist-on-spying-charges-101791917059705.html",
-     "published": "2026-10-13T18:44:19+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Russia detains Japanese journalist on suspicion of spying",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/14/japan/russia-arrests-japanese-journalist-espionage/",
-     "published": "2026-10-14T04:17:00+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Russia arrests Japanese journalist on espionage charges",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNV1cxWnBFeFdKVGpCdVF1NDFjR29CX2QtQldvZjV6bDE0UFJUWUNYOTdybnZ1ajB0WlAzWGljRWdjd3B6NWhkNnFrdmEyR1RUMW0xam13Mk1qWDRub1FZMmh5ZlVYZTRWME5tLWhJMjBWbGJCVDIwY3pmRnVDN3RVbGx3a3c?oc=5",
-     "published": "2026-10-13T18:30:07+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Russia arrests Japanese journalist on suspicion of ‘espionage’",
-     "language": "en",
-     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/14/russia-arrests-japanese-journalist-on-suspicion-of?traffic_source=rss",
-     "published": "2026-10-14T13:22:46+00:00"
-    }
-   ],
-   "last_seen": "2026-10-14T17:07:55.411222+00:00",
-   "outlets": 16,
-   "regions": 13,
-   "languages": 1,
-   "score": 44.0
-  },
-  {
    "id": "902b9d7f57a8",
    "first_seen": "2026-10-06T15:07:42.509147+00:00",
    "members": [
@@ -4791,7 +4591,7 @@
      "published": "2026-10-16T15:29:48+00:00"
     }
    ],
-   "last_seen": "2026-10-21T17:07:46.277380+00:00",
+   "last_seen": "2026-10-22T17:07:52.304977+00:00",
    "outlets": 18,
    "regions": 12,
    "languages": 1,
@@ -6277,161 +6077,6 @@
    "regions": 11,
    "languages": 1,
    "score": 36.0
-  },
-  {
-   "id": "86aa6aeba5fa",
-   "first_seen": "2026-10-12T17:07:49.159577+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "US agents search home of Ilhan Omar, Trump critic and Congress member",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/12/trump-critic-democratic-rep-ilhan-omars-home-searched-by-federal-agents?traffic_source=rss",
-     "published": "2026-10-12T14:59:53+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "US federal agents raid home of Democratic congresswoman and Trump critic Ilhan Omar",
-     "language": "en",
-     "link": "https://www.france24.com/en/americas/20261012-us-federal-agents-raid-home-of-democratic-congresswoman-and-trump-critic-ilhan-omar",
-     "published": "2026-10-12T15:13:20+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "US federal agents search home of Rep. Ilhan Omar as part of probe",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/americas/us-federal-agents-search-home-of-rep-ilhan-omar-as-part-of-probe",
-     "published": "2026-10-12T14:25:00+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Immigration agents search Congresswoman Ilhan Omar's home",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cvp8glg97393o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-12T16:51:44+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "US authorities raid Congresswoman Ilhan Omar's home following probe into immigration documents",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2036652/us-authorities-raid-congresswoman-ilhan-omars-home-following-probe-into-immigration-documents",
-     "published": "2026-10-12T14:56:47+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "US launches immigration raid of Democratic congresswoman Ilhan Omar's home",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2634435/us-launches-immigration-raid-of-democratic-congresswoman-ilhan-omars-home",
-     "published": "2026-10-12T08:52:03+00:00"
-    },
-    {
-     "outlet": "Court House News",
-     "region": "court",
-     "bucket": "light",
-     "title": "Feds search US Rep. Ilhan Omar’s home in criminal investigation",
-     "language": "en",
-     "link": "https://www.courthousenews.com/feds-search-us-rep-ilhan-omars-home-in-criminal-investigation/",
-     "published": "2026-10-12T17:53:20+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "US agents search home of Democratic lawmaker Ilhan Omar in criminal probe",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370643/federal-agents-search-democrat-ilhan-omars-home-part-criminal-investigation?utm_source=rss_feed",
-     "published": "2026-10-12T16:53:02+00:00"
-    },
-    {
-     "outlet": "Der Spiegel",
-     "region": "de",
-     "bucket": "serious",
-     "title": "Ilhan Omar: Warum Bundesermittler das Haus der Donald-Trump-Kritikerin durchsuchen",
-     "language": "de",
-     "link": "https://www.spiegel.de/ausland/ilhan-omar-warum-bundesermittler-das-haus-der-donald-trump-kritikerin-durchsuchen-a-6c20e7a5-92b4-4f92-943d-7d3f0394db6c#ref=rss",
-     "published": "2026-10-13T04:01:00+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "US Lawmaker And Trump Critic Ilhan Omar Raided, Vows She Won't \"Be Silenced\"",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/us-lawmaker-and-president-donald-trump-critic-ilhan-omar-raided-vows-she-wont-be-silenced-12176532#publisher=newsstand",
-     "published": "2026-10-13T01:28:26+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Democrats rebuke federal raid of Ilhan Omar’s home: ‘rogue abuse of power’",
-     "language": "en",
-     "link": "https://www.theguardian.com/us-news/2026/oct/12/democrats-reaction-ilhan-omar-federal-raid-home-trump",
-     "published": "2026-10-12T17:57:28+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Who is Ilhan Omar? Why federal agents searched her home: What we know about the investigation",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/who-is-ilhan-omar-why-federal-agents-searched-her-home-what-we-know-about-the-investigation-101791811174125.html",
-     "published": "2026-10-12T13:42:25+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Ilhan Omar’s phone seized and relatives subpoenaed in criminal inquiry, source says",
-     "language": "en",
-     "link": "https://www.theguardian.com/us-news/2026/oct/14/ilhan-omar-phone-seized-relatives-subpoenaed",
-     "published": "2026-10-14T22:22:14+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Rep Ilhan Omar's phone seized, relatives subpoenaed amid criminal probe ahead of midterms",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/rep-ilhan-omars-phone-seized-relatives-subpoenaed-amid-criminal-probe-ahead-of-midterms-101792011832422.html",
-     "published": "2026-10-14T21:47:07+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Trump administration seeks to strip Ilhan Omar of US citizenship: WSJ",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/15/trump-administration-seeks-to-strip-ilhan-omar-of-us-citizenship-wsj?traffic_source=rss",
-     "published": "2026-10-15T03:03:00+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Ilhan Omar faces potential citizenship revocation as Trump-era investigation expands after FBI search",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/ilhan-omar-faces-potential-citizenship-revocation-as-trump-era-investigation-expands-after-fbi-search-101792042172033.html",
-     "published": "2026-10-15T06:31:57+00:00"
-    }
-   ],
-   "last_seen": "2026-10-15T09:07:47.013401+00:00",
-   "outlets": 12,
-   "regions": 9,
-   "languages": 2,
-   "score": 34.0
   },
   {
    "id": "5eb79ed8389e",
@@ -7932,89 +7577,6 @@
    "score": 24.0
   },
   {
-   "id": "b289b03b731a",
-   "first_seen": "2026-10-14T09:07:42.321915+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Trump says oil, gas and mineral exploration to begin in Greenland",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/14/trump-says-oil-gas-and-mineral-exploration-to-begin-in-greenland?traffic_source=rss",
-     "published": "2026-10-14T08:08:42+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Trump says major oil, gas, mineral exploration to begin in Greenland",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2634763/trump-says-major-oil-gas-mineral-exploration-to-begin-in-greenland",
-     "published": "2026-10-14T00:54:50+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Trump says 'massive' oil, gas and mineral exploration to begin in Greenland",
-     "language": "en",
-     "link": "https://www.france24.com/en/europe/20261014-trump-says-massive-oil-gas-and-mineral-exploration-to-begin-in-greenland",
-     "published": "2026-10-14T06:41:15+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Trump says Greenland oil, gas and mineral exploration \"getting ready to begin\"",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/greenland-trump-oil-minerals-gas-exploration/",
-     "published": "2026-10-14T05:33:26+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Trump says ‘massive’ oil, gas, mineral exploration to begin in Greenland",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/14/trump-says-massive-oil-gas-mineral-exploration-to-begin-in-greenland",
-     "published": "2026-10-14T07:39:45+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Trump says ‘massive’ oil, gas and mineral exploration to begin in Greenland",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370906/trump-says-massive-oil-gas-and-mineral-exploration-begin-greenland?utm_source=rss_feed",
-     "published": "2026-10-14T13:08:29+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Trump says ‘massive’ oil, gas, mineral exploration to begin in Greenland after security deal",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/14/trump-says-massive-oil-gas-mineral-exploration-to-begin-in-greenland-after-security-deal/239118",
-     "published": "2026-10-14T10:24:47+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Trump announces 'massive' oil, gas, mineral exploration to begin in Greenland",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/trump-announces-massive-oil-gas-mineral-exploration-to-begin-in-greenland-101791985118704.html",
-     "published": "2026-10-14T13:41:50+00:00"
-    }
-   ],
-   "last_seen": "2026-10-14T17:07:55.411222+00:00",
-   "outlets": 8,
-   "regions": 7,
-   "languages": 1,
-   "score": 24.0
-  },
-  {
    "id": "8cbef7465b19",
    "first_seen": "2026-10-17T09:07:48.549654+00:00",
    "members": [
@@ -8439,98 +8001,6 @@
    "score": 21.0
   },
   {
-   "id": "03a251a36305",
-   "first_seen": "2026-10-14T09:07:42.321915+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "light",
-     "title": "Duane ‘Keffe D’ Davis sentenced to 40 years to life over Tupac Shakur’s murder",
-     "language": "en",
-     "link": "https://www.theguardian.com/music/2026/oct/13/duane-davis-sentencing-tupac-shakur-murder",
-     "published": "2026-10-13T19:43:45+00:00"
-    },
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "Ex-gang leader sentenced to 40 years to life in prison for Tupac Shakur murder",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-13-ex-gang-leader-sentenced-to-40-years-to-life-in-prison-for-tupac-shakur-murder/",
-     "published": "2026-10-13T21:33:32+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Former gang leader sentenced to 40 years to life for Tupac Shakur murder",
-     "language": "en",
-     "link": "https://www.france24.com/en/americas/20261013-former-gang-leader-sentenced-to-40-years-to-life-for-tupac-shakur-murder",
-     "published": "2026-10-13T19:57:31+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Former gang leader sentenced to minimum 40 years for Tupac killing",
-     "language": "en",
-     "link": "https://www.france24.com/en/former-gang-leader-sentenced-to-minimum-40-years-for-tupac-killing",
-     "published": "2026-10-13T20:33:25+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Ex-gang leader sentenced to 40 years to life in prison for Tupac Shakur murder",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/ex-gang-leader-sentenced-to-40-years-to-life-in-prison-for-tupac-shakur-murder/article71581327.ece",
-     "published": "2026-10-13T22:55:33+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Ex-gang leader faces life in prison for Tupac Shakur killing",
-     "language": "en",
-     "link": "https://www.dailysabah.com/arts/music/ex-gang-leader-faces-life-in-prison-for-tupac-shakur-killing",
-     "published": "2026-10-13T12:17:00+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Ex-gang leader gets 40 years to life in Tupac Shakur murder",
-     "language": "en",
-     "link": "https://www.dailysabah.com/arts/music/ex-gang-leader-gets-40-years-to-life-in-tupac-shakur-murder",
-     "published": "2026-10-14T07:50:00+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Keffe D sentenced to 40 years to life for Tupac Shakur murder",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2634801/keffe-d-sentenced-to-40-years-to-life-for-tupac-shakur-murder",
-     "published": "2026-10-14T04:27:00+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Duane Davis sentenced to minimum 40 years for Tupac killing",
-     "language": "en",
-     "link": "https://www.france24.com/en/video/20261014-duane-davis-sentenced-to-minimum-40-years-for-tupac-killing",
-     "published": "2026-10-14T13:48:46+00:00"
-    }
-   ],
-   "last_seen": "2026-10-14T17:07:55.411222+00:00",
-   "outlets": 6,
-   "regions": 6,
-   "languages": 1,
-   "score": 20.0
-  },
-  {
    "id": "65787974641d",
    "first_seen": "2026-10-16T17:07:44.136357+00:00",
    "members": [
@@ -8663,76 +8133,11 @@
      "published": "2026-10-21T16:45:48+00:00"
     }
    ],
-   "last_seen": "2026-10-21T17:07:46.277380+00:00",
+   "last_seen": "2026-10-22T17:07:52.304977+00:00",
    "outlets": 7,
    "regions": 5,
    "languages": 1,
    "score": 19.0
-  },
-  {
-   "id": "cdb9cf26f1ff",
-   "first_seen": "2026-10-14T09:07:42.321915+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Germany puts Ukrainian on trial accused of blowing up Nord Stream pipelines",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cw99zpmnxzmjo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-13T23:42:22+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Ukrainian ex-officer goes on trial in Germany over Nord Stream blasts",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/14/ukrainian-ex-officer-goes-on-trial-in-germany-over-nord-stream-blasts?traffic_source=rss",
-     "published": "2026-10-14T03:06:42+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Ukrainian soldier to go on trial over sabotage of Nord Stream gas pipelines",
-     "language": "en",
-     "link": "https://www.theguardian.com/business/2026/oct/14/ukrainian-soldier-to-go-on-trial-over-sabotage-of-nord-stream-gas-pipelines",
-     "published": "2026-10-14T06:00:47+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Germany puts Ukrainian on trial accused of blowing up Nord Stream pipelines",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9nV1c3TWdoUG1JS01sSXlFSks1dllZM1ZpZG8xTFpDck9JSk9iVzBtbkZONHhady1CWjdHX0llSm9weXJsb0U2QkJBVW9IaDJ0MnpmWGdXSmRUMU0?oc=5",
-     "published": "2026-10-13T23:42:22+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Ukrainian accused of Nord Stream pipeline sabotage goes on trial in Germany",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/russia-central-asia/article/3370911/ukrainian-accused-nord-stream-pipeline-sabotage-goes-trial-germany?utm_source=rss_feed",
-     "published": "2026-10-14T13:43:17+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Ukrainian ex-officer stands trial in Germany over Nord Stream bombing",
-     "language": "en",
-     "link": "https://www.france24.com/en/video/20261014-ukrainian-ex-officer-stands-trial-in-germany-over-nord-stream-bombing",
-     "published": "2026-10-14T09:45:57+00:00"
-    }
-   ],
-   "last_seen": "2026-10-14T17:07:55.411222+00:00",
-   "outlets": 6,
-   "regions": 5,
-   "languages": 1,
-   "score": 18.0
   },
   {
    "id": "fe13be55ee4f",
@@ -9022,6 +8427,62 @@
    "score": 17.0
   },
   {
+   "id": "e851830de4c3",
+   "first_seen": "2026-10-22T17:07:52.304977+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Targeted by Trump, International Criminal Court wins top EU rights prize",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2039013/targeted-by-trump-international-criminal-court-wins-top-eu-rights-prize",
+     "published": "2026-10-22T12:25:20+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "🔴 International Criminal Court wins EU's Sakharov human rights prize",
+     "language": "en",
+     "link": "https://www.france24.com/en/europe/20261022-international-criminal-court-wins-eu-s-sakharov-human-rights-prize",
+     "published": "2026-10-22T10:11:23+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "EU awards top rights prize to International Criminal Court",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/22/eu-awards-top-rights-prize-to-international-criminal-court/",
+     "published": "2026-10-22T15:22:42+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Targeted by Trump, ICC wins top EU rights prize",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/22/targeted-by-trump-icc-wins-top-eu-rights-prize",
+     "published": "2026-10-22T11:48:10+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Trump-sanctioned ICC wins EU Parliament’s human rights prize",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMigAFBVV95cUxON0R4ZmQzNDJlLU5malB5enZPbl9RdlpRRG14eFdJbl9jd2RSQXJoVHFkRV92aDkwR3J3NU40c3ZXRGl1cERkUTlsd0JMV0dRT1NuclI2ZlI0OTQ5QXREYkhoWmM5MHFKb1NWb1FRNGRqX1Z5Z01xdWxHSXg3dmxTUQ?oc=5",
+     "published": "2026-10-22T10:23:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-22T17:07:52.304977+00:00",
+   "outlets": 5,
+   "regions": 5,
+   "languages": 1,
+   "score": 17.0
+  },
+  {
    "id": "b2b769002b67",
    "first_seen": "2026-10-17T17:07:41.292973+00:00",
    "members": [
@@ -9244,6 +8705,107 @@
    "score": 16.0
   },
   {
+   "id": "93a41fa17871",
+   "first_seen": "2026-10-19T17:07:57.762301+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "South Africa close on 97-5 against Australia on day two of second men’s cricket Test after rain delays",
+     "language": "en",
+     "link": "https://www.theguardian.com/sport/live/2026/oct/19/south-africa-v-australia-second-test-day-two-cricket-st-georges-park-gqeberha-live-updates",
+     "published": "2026-10-19T16:17:07+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Australia strike late on rain-hit second day against South Africa",
+     "language": "en",
+     "link": "https://www.skysports.com/cricket/news/12040/13601039/south-africa-vs-australia-scott-boland-takes-fourth-wicket-late-on-rain-hit-second-day-of-second-test-in-gqeberha",
+     "published": "2026-10-19T17:20:00+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "South Africa close on 97-5 as Australian paceman Boland strikes in second test",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/sport/south-africa-close-97-5-australian-paceman-boland-strikes-in-second-test-6472891",
+     "published": "2026-10-19T17:00:50+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Bavuma's Test-best ton has South Africa in dominant position vs Australia",
+     "language": "en",
+     "link": "https://www.skysports.com/cricket/news/12040/13601427/temba-bavuma-hits-test-best-179-as-south-africa-dominate-australia-on-day-three-of-second-test-in-gqeberha",
+     "published": "2026-10-20T16:17:00+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Australia limp to 3-1 after South Africa post 425-9 on day three of men’s second Test",
+     "language": "en",
+     "link": "https://www.theguardian.com/sport/live/2026/oct/20/south-africa-v-australia-second-test-day-three-cricket-st-georges-park-gqeberha-live-updates",
+     "published": "2026-10-20T15:51:59+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Boland shines as South Africa stumble in second Test",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2635858/boland-shines-as-south-africa-stumble-in-second-test",
+     "published": "2026-10-20T00:41:10+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "South Africa crush Australia by an innings to level cricket Test series",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/10/22/south-africa-crush-australia-by-an-innings-to-level-cricket-test-series?traffic_source=rss",
+     "published": "2026-10-22T16:09:44+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "South Africa beat Australia by innings and 31 runs: second men’s cricket Test, day five",
+     "language": "en",
+     "link": "https://www.theguardian.com/sport/live/2026/oct/22/south-africa-v-australia-second-test-day-five-cricket-st-georges-park-gqeberha-live-updates",
+     "published": "2026-10-22T14:53:33+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "South Africa seal emphatic win over Australia to level series",
+     "language": "en",
+     "link": "https://www.skysports.com/cricket/news/12040/13602302/south-africa-vs-australia-proteas-complete-emphatic-innings-victory-to-level-three-test-series",
+     "published": "2026-10-22T15:09:00+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "South Africa complete famous win over Australia",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/cricket/articles/cmg473p9vz6xo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-22T14:13:08+00:00"
+    }
+   ],
+   "last_seen": "2026-10-22T17:07:52.304977+00:00",
+   "outlets": 6,
+   "regions": 4,
+   "languages": 1,
+   "score": 16.0
+  },
+  {
    "id": "f571db389711",
    "first_seen": "2026-10-16T09:07:49.020316+00:00",
    "members": [
@@ -9457,53 +9019,6 @@
    "regions": 4,
    "languages": 1,
    "score": 15.0
-  },
-  {
-   "id": "f8a6780da59d",
-   "first_seen": "2026-10-14T17:07:55.411222+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Netflix to lay off 1,000 staff in steepest cuts since 2022",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c6zxj0gzk4x4o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-14T16:47:32+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Netflix cuts 1,000 jobs in its biggest layoffs since 2022; CEOs issue letter to staff",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/netflix-cuts-1-000-jobs-in-its-biggest-layoffs-since-2022-ceos-issue-letter-to-staff-our-mission-is-101791988785124.html",
-     "published": "2026-10-14T14:48:04+00:00"
-    },
-    {
-     "outlet": "Engadget",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "Netflix to lay off roughly 1,000 employees in biggest round of job cuts since 2022",
-     "language": "en",
-     "link": "https://www.engadget.com/2286699/netflix-to-lay-off-roughly-1000-employees-in-biggest-round-of-job-cuts-since-2022/",
-     "published": "2026-10-14T16:36:47+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Netflix cuts about 6% of jobs in biggest layoff since 2022",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2634866/netflix-cuts-about-6-of-jobs-in-biggest-layoff-since-2022",
-     "published": "2026-10-14T13:18:15+00:00"
-    }
-   ],
-   "last_seen": "2026-10-15T09:07:47.013401+00:00",
-   "outlets": 4,
-   "regions": 4,
-   "languages": 1,
-   "score": 14.0
   },
   {
    "id": "4eba2115232d",
@@ -9994,6 +9509,53 @@
    "score": 14.0
   },
   {
+   "id": "e2c0de1aec90",
+   "first_seen": "2026-10-22T17:07:52.304977+00:00",
+   "members": [
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Millions of hacking attempts as companies, governments rush to patch PHP flaws",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2636357/millions-of-hacking-attempts-as-companies-governments-rush-to-patch-php-flaws",
+     "published": "2026-10-22T10:48:18+00:00"
+    },
+    {
+     "outlet": "Rappler",
+     "region": "ph",
+     "bucket": "serious",
+     "title": "Millions of hacking attempts as companies, governments rush to patch PHP flaws",
+     "language": "en",
+     "link": "https://www.rappler.com/technology/hacking-attempts-companies-governments-rush-patch-php-flaws/",
+     "published": "2026-10-22T10:50:33+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Governments, companies rush to fix PHP-related flaws",
+     "language": "en",
+     "link": "https://www.dailysabah.com/business/tech/governments-companies-rush-to-fix-php-related-flaws",
+     "published": "2026-10-22T11:25:00+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Millions of hacking attempts as companies, govts rush to patch PHP flaws",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/business/2026/10/22/millions-of-hacking-attempts-as-companies-governments-rush-to-patch-php-flaws",
+     "published": "2026-10-22T12:29:48+00:00"
+    }
+   ],
+   "last_seen": "2026-10-22T17:07:52.304977+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
+  },
+  {
    "id": "113af5d99cdc",
    "first_seen": "2026-10-20T09:08:04.491772+00:00",
    "members": [
@@ -10173,71 +9735,6 @@
    "score": 12.0
   },
   {
-   "id": "93a41fa17871",
-   "first_seen": "2026-10-19T17:07:57.762301+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "South Africa close on 97-5 against Australia on day two of second men’s cricket Test after rain delays",
-     "language": "en",
-     "link": "https://www.theguardian.com/sport/live/2026/oct/19/south-africa-v-australia-second-test-day-two-cricket-st-georges-park-gqeberha-live-updates",
-     "published": "2026-10-19T16:17:07+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Australia strike late on rain-hit second day against South Africa",
-     "language": "en",
-     "link": "https://www.skysports.com/cricket/news/12040/13601039/south-africa-vs-australia-scott-boland-takes-fourth-wicket-late-on-rain-hit-second-day-of-second-test-in-gqeberha",
-     "published": "2026-10-19T17:20:00+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "South Africa close on 97-5 as Australian paceman Boland strikes in second test",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/sport/south-africa-close-97-5-australian-paceman-boland-strikes-in-second-test-6472891",
-     "published": "2026-10-19T17:00:50+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Bavuma's Test-best ton has South Africa in dominant position vs Australia",
-     "language": "en",
-     "link": "https://www.skysports.com/cricket/news/12040/13601427/temba-bavuma-hits-test-best-179-as-south-africa-dominate-australia-on-day-three-of-second-test-in-gqeberha",
-     "published": "2026-10-20T16:17:00+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Australia limp to 3-1 after South Africa post 425-9 on day three of men’s second Test",
-     "language": "en",
-     "link": "https://www.theguardian.com/sport/live/2026/oct/20/south-africa-v-australia-second-test-day-three-cricket-st-georges-park-gqeberha-live-updates",
-     "published": "2026-10-20T15:51:59+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Boland shines as South Africa stumble in second Test",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2635858/boland-shines-as-south-africa-stumble-in-second-test",
-     "published": "2026-10-20T00:41:10+00:00"
-    }
-   ],
-   "last_seen": "2026-10-20T17:07:55.647743+00:00",
-   "outlets": 4,
-   "regions": 3,
-   "languages": 1,
-   "score": 12.0
-  },
-  {
    "id": "d3328d8eaeb7",
    "first_seen": "2026-10-21T17:07:46.277380+00:00",
    "members": [
@@ -10283,120 +9780,6 @@
    "regions": 3,
    "languages": 1,
    "score": 12.0
-  },
-  {
-   "id": "272585de028f",
-   "first_seen": "2026-10-15T09:07:47.013401+00:00",
-   "members": [
-    {
-     "outlet": "BBC Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "'Shameless' - Mourinho critical of Vinicius Jr ban timing",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/sport/football/articles/ckd7qg5q87qvo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-14T23:13:20+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Vinicius to miss Clasico after 4-game ban as Mourinho blasts timing",
-     "language": "en",
-     "link": "https://www.dailysabah.com/sports/football/vinicius-to-miss-clasico-after-4-game-ban-as-mourinho-blasts-timing",
-     "published": "2026-10-15T04:46:00+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Mourinho blasts ‘shameless’ timing of Vinicius ban decision",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/mourinho-blasts-shameless-timing-of-vinicius-ban-decision/",
-     "published": "2026-10-15T07:15:07+00:00"
-    }
-   ],
-   "last_seen": "2026-10-15T09:07:47.013401+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "2346a43bb40a",
-   "first_seen": "2026-10-15T09:07:47.013401+00:00",
-   "members": [
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Oil prices retreat as investors weigh supply outlook, Middle East tensions",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2634964/oil-prices-retreat-as-investors-weigh-supply-outlook-middle-east-tensions",
-     "published": "2026-10-15T00:30:54+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Oil prices retreat as investors weigh supply outlook, West Asia tensions",
-     "language": "en",
-     "link": "https://www.thehindu.com/business/oil-prices-dip-as-supply-risks-from-west-asia-tensions-clash/article71586615.ece",
-     "published": "2026-10-15T04:31:55+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Oil prices retreat as investors weigh supply outlook, Middle East tensions",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/oil-prices-retreat-as-investors-weigh-supply-outlook-middle-east-tensions/",
-     "published": "2026-10-15T05:54:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-15T09:07:47.013401+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "1f3aafdf3890",
-   "first_seen": "2026-10-15T09:07:47.013401+00:00",
-   "members": [
-    {
-     "outlet": "Investing.com — الاقتصاد",
-     "region": "money",
-     "bucket": "useful",
-     "title": "Prolonged war, renewed disruptions pose biggest risk to Middle East region, IMF says",
-     "language": "en",
-     "link": "https://www.investing.com/news/economy-news/prolonged-war-renewed-disruptions-pose-biggest-risk-to-middle-east-region-imf-says-4950509",
-     "published": "2026-10-15T06:36:22+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Prolonged war, renewed disruptions pose biggest risk to Middle East region, says IMF",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/business/2026/10/15/prolonged-war-renewed-disruptions-pose-biggest-risk-to-middle-east-region-says-imf",
-     "published": "2026-10-15T07:21:59+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Prolonged war, disruptions present biggest risk to Mideast economies",
-     "language": "en",
-     "link": "https://www.dailysabah.com/business/economy/prolonged-war-disruptions-present-biggest-risk-to-mideast-economies",
-     "published": "2026-10-15T07:42:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-15T09:07:47.013401+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
   },
   {
    "id": "7ce2c6b7202f",
@@ -11434,6 +10817,82 @@
    "score": 11.0
   },
   {
+   "id": "e4d13b634c21",
+   "first_seen": "2026-10-22T17:07:52.304977+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Crowd of 50 beats foreigner to death in South Africa",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/ck5yn9z3vnego?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-22T16:15:25+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Foreign national beaten to death by mob in South Africa’s Durban",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/22/foreign-national-beaten-to-death-by-mob-in-south-africas-durban/",
+     "published": "2026-10-22T13:02:27+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "50 people beat foreign man to death in South Africa as anti-migrant tensions rage",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/africa/article/3371812/50-people-beat-foreign-man-death-south-africa-anti-migrant-tensions-rage",
+     "published": "2026-10-22T11:50:50+00:00"
+    }
+   ],
+   "last_seen": "2026-10-22T17:07:52.304977+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "484067e3487f",
+   "first_seen": "2026-10-22T17:07:52.304977+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "FIFA announces USA to host first Women’s Club World Cup in 2028",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/10/22/fifa-announces-usa-to-host-womens-2028-world-cup?traffic_source=rss",
+     "published": "2026-10-22T16:34:38+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "US to host inaugural Women's Club World Cup in 2028",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/sport/us-host-inaugural-womens-club-world-cup-in-2028-6483336",
+     "published": "2026-10-22T15:59:28+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "USA to host first women’s football Club World Cup in 2028",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/usa-to-host-first-womens-football-club-world-cup-in-2028-fifa/",
+     "published": "2026-10-22T16:13:16+00:00"
+    }
+   ],
+   "last_seen": "2026-10-22T17:07:52.304977+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
    "id": "64b5f613f840",
    "first_seen": "2026-10-16T17:07:44.136357+00:00",
    "members": [
@@ -11638,44 +11097,6 @@
    "regions": 2,
    "languages": 1,
    "score": 10.0
-  },
-  {
-   "id": "9a8c83344d32",
-   "first_seen": "2026-10-14T17:07:55.411222+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Iranian woman handed death sentence for ‘blasphemy’ in social media post",
-     "language": "en",
-     "link": "https://www.theguardian.com/global-development/2026/oct/14/najmeh-amini-blasphemy-death-sentence-insulting-prophet",
-     "published": "2026-10-14T04:00:44+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Who is Najmeh Amini? 23-year-old Iranian woman sentenced to death over social media post",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/trending/who-is-najmeh-amini-23-year-old-iranian-woman-sentenced-to-death-over-social-media-post-101791980074471.html",
-     "published": "2026-10-14T12:30:16+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Who Is Najmeh Amini? 23-Year-Old Iranian Student Sentenced To Death For Blasphemy Over Online Post",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/who-is-najmeh-amini-23-year-old-iranian-student-sentenced-to-death-for-blasphemy-over-online-post-12185340#publisher=newsstand",
-     "published": "2026-10-14T14:11:42+00:00"
-    }
-   ],
-   "last_seen": "2026-10-14T17:07:55.411222+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 1,
-   "score": 9.0
   },
   {
    "id": "b1054d5af3d5",
@@ -12371,80 +11792,42 @@
    "score": 9.0
   },
   {
-   "id": "303226f0667e",
-   "first_seen": "2026-10-14T17:07:55.411222+00:00",
+   "id": "e09e41e8b22c",
+   "first_seen": "2026-10-22T17:07:52.304977+00:00",
    "members": [
     {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
+     "outlet": "The Guardian — World",
+     "region": "uk",
      "bucket": "serious",
-     "title": "What we know about OpenAI engineer arrested over office spying",
+     "title": "Meta strikes deal with Mark Zuckerberg to help him foot billionaire tax bill",
      "language": "en",
-     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/14/what-we-know-about-openai-engineer-arrested-over-office-spying?traffic_source=rss",
-     "published": "2026-10-14T13:18:02+00:00"
+     "link": "https://www.theguardian.com/technology/2026/oct/22/meta-mark-zuckerberg-california-wealth-tax",
+     "published": "2026-10-22T15:40:03+00:00"
     },
     {
      "outlet": "BBC World",
      "region": "uk",
      "bucket": "serious",
-     "title": "Toilet paper and secret recorders: What we know about the arrest of the Saudi OpenAI engineer",
+     "title": "Meta strikes deal to stop Mark Zuckerberg leaving California over billionaire tax",
      "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cm04054ykqqqo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-14T15:54:04+00:00"
+     "link": "https://www.bbc.co.uk/news/articles/cky83vwnyglno?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-22T16:16:49+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "Meta strikes deal to keep Zuckerberg in California after wealth tax concerns",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-22-meta-strikes-deal-to-keep-zuckerberg-in-california-after-wealth-tax-concerns/",
+     "published": "2026-10-22T04:50:55+00:00"
     }
    ],
-   "last_seen": "2026-10-14T17:07:55.411222+00:00",
-   "outlets": 2,
+   "last_seen": "2026-10-22T17:07:52.304977+00:00",
+   "outlets": 3,
    "regions": 2,
    "languages": 1,
-   "score": 8.0
-  },
-  {
-   "id": "9b9902dceea0",
-   "first_seen": "2026-10-15T09:07:47.013401+00:00",
-   "members": [
-    {
-     "outlet": "BBC Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Man City show fight but fall short of fightback against slick PSG",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/sport/football/videos/cqp8gn9x801po?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-14T21:19:45+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Enzo Maresca insists Manchester City are ‘close’ to PSG despite home defeat",
-     "language": "en",
-     "link": "https://www.theguardian.com/football/2026/oct/14/enzo-maresca-insists-manchester-city-are-close-to-psg-despite-home-defeat",
-     "published": "2026-10-14T22:40:38+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Man City beaten by PSG in thriller as Guardiola returns to Etihad",
-     "language": "en",
-     "link": "https://www.skysports.com/football/manchester-city-vs-paris-saint-germain/report/577628",
-     "published": "2026-10-14T21:50:00+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Manchester City are suddenly box-office in age of charge-rage and mega defiance | Barney Ronay",
-     "language": "en",
-     "link": "https://www.theguardian.com/football/2026/oct/15/manchester-city-paris-saint-germain-psg-champions-league",
-     "published": "2026-10-14T23:00:51+00:00"
-    }
-   ],
-   "last_seen": "2026-10-15T09:07:47.013401+00:00",
-   "outlets": 3,
-   "regions": 1,
-   "languages": 1,
-   "score": 7.0
+   "score": 9.0
   },
   {
    "id": "ad4b62e7f432",
@@ -12779,6 +12162,120 @@
     }
    ],
    "last_seen": "2026-10-21T17:07:46.277380+00:00",
+   "outlets": 3,
+   "regions": 1,
+   "languages": 1,
+   "score": 7.0
+  },
+  {
+   "id": "2f92f74dd65c",
+   "first_seen": "2026-10-22T17:07:52.304977+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Sri Lanka stun England by chasing down 430 to win as ODI records tumble",
+     "language": "en",
+     "link": "https://www.theguardian.com/sport/live/2026/oct/22/sri-lanka-v-england-tri-series-cricket-one-day-international-live",
+     "published": "2026-10-22T16:52:08+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Sri Lanka stun England in astonishing ODI epic!",
+     "language": "en",
+     "link": "https://www.skysports.com/watch/video/13602412/sri-lanka-stun-england-with-record-breaking-comeback-sri-lanka-vs-england-odi-highlights",
+     "published": "2026-10-22T17:46:00+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Sri Lanka make 430 to beat England after Brook's 202",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/cricket/articles/cq99z35zpgzmo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-22T16:53:47+00:00"
+    }
+   ],
+   "last_seen": "2026-10-22T17:07:52.304977+00:00",
+   "outlets": 3,
+   "regions": 1,
+   "languages": 1,
+   "score": 7.0
+  },
+  {
+   "id": "750297f7f42c",
+   "first_seen": "2026-10-22T17:07:52.304977+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "LHC summons Punjab home secretary, Kot Lakhpat jail superintendent in plea seeking release of Imran’s sisters",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2038971/lhc-summons-punjab-home-secretary-kot-lakhpat-jail-superintendent-in-plea-seeking-release-of-imrans-sisters",
+     "published": "2026-10-22T09:50:01+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "LHC summons Punjab home secretary, Kot Lakhpat Jail chief over Imran's sisters' detention",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2636298/lhc-summons-punjab-home-secretary-kot-lakhpat-jail-chief-over-imrans-sisters-detention",
+     "published": "2026-10-22T03:55:34+00:00"
+    },
+    {
+     "outlet": "Geo News",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Imran's sisters detention: LHC summons Punjab home sec, Kot Lakhpat jail superintendent on Oct 28",
+     "language": "en",
+     "link": "https://www.geo.tv/latest/687738-imrans-sisters-detention-lhc-summons-punjab-home-sec-kot-lakhpat-jail-superintendent-on-oct-28",
+     "published": "2026-10-22T06:57:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-22T17:07:52.304977+00:00",
+   "outlets": 3,
+   "regions": 1,
+   "languages": 1,
+   "score": 7.0
+  },
+  {
+   "id": "ea9362d1661e",
+   "first_seen": "2026-10-22T17:07:52.304977+00:00",
+   "members": [
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Parliament Speaker Ghalibaf meets with Leader",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248807/Leader-receives-Ghalibaf-for-a-meeting",
+     "published": "2026-10-21T16:12:14+00:00"
+    },
+    {
+     "outlet": "Tehran Times",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Parliament Speaker Qalibaf meets Leader of the Islamic Revolution",
+     "language": "en",
+     "link": "https://www.tehrantimes.com/news/531356/Parliament-Speaker-Qalibaf-meets-Leader-of-the-Islamic-Revolution",
+     "published": "2026-10-21T17:17:49+00:00"
+    },
+    {
+     "outlet": "IRNA English",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Ghalibaf meets Leader of Islamic Revolution to discuss key national issues",
+     "language": "en",
+     "link": "https://en.irna.ir/news/86299793/Ghalibaf-meets-Leader-of-Islamic-Revolution-to-discuss-key-national",
+     "published": "2026-10-21T16:34:51+00:00"
+    }
+   ],
+   "last_seen": "2026-10-22T17:07:52.304977+00:00",
    "outlets": 3,
    "regions": 1,
    "languages": 1,

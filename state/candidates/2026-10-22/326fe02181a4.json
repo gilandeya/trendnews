@@ -1,0 +1,82 @@
+{
+  "id": "326fe02181a4",
+  "created_at": "2026-10-22T17:08:07.907733+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 29.27,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "تهديد كوري شمالية بمكبرات الصوت على الحدود، توتر مثير.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "North Korea’s Kim Yo Jong warns South Korea, says border loudspeakers to be ready",
+  "link": "https://www.dailymaverick.co.za/article/2026-10-22-north-koreas-kim-yo-jong-warns-south-korea-says-border-loudspeakers-to-be-ready/",
+  "publishers": [
+    "Daily Maverick",
+    "NBC News",
+    "NPR World",
+    "The Hindu — International",
+    "The Japan Times"
+  ],
+  "region": "za",
+  "article": {
+    "title": "North Korea’s Kim Yo Jong warns South Korea, says border loudspeakers to be ready",
+    "link": "https://www.dailymaverick.co.za/article/2026-10-22-north-koreas-kim-yo-jong-warns-south-korea-says-border-loudspeakers-to-be-ready/",
+    "summary": "SEOUL, Oct 22 (Reuters) - North Korea will place anti-South Korea loudspeakers on standby along the entire border within days and has put unspecified new countermeasures on alert, Kim Yo Jong, the powerful sister of North Korea's leader, said on Thursday.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-10-22T04:55:21+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/i/ZFm3saAQS39RFDOz5H7kMdipMj0=/800x0/smart/filters:strip_exif()/file/attachments/2999/11713191_211425.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Daily Maverick",
+      "NBC News",
+      "NPR World",
+      "The Hindu — International",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-10-22-north-koreas-kim-yo-jong-warns-south-korea-says-border-loudspeakers-to-be-ready/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/north-koreas-kim-yo-jong-warns-south-korea-says-border-loudspeakers-to-be-ready-within-days/article71609150.ece"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/10/22/asia-pacific/north-korea-kim-yo-jong/"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/10/22/g-s1-149306/north-korea-propaganda-broadcasts"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/i/ZFm3saAQS39RFDOz5H7kMdipMj0=/800x0/smart/filters:strip_exif()/file/attachments/2999/11713191_211425.jpg",
+      "https://th-i.thgim.com/public/incoming/1yfq6b/article71609152.ece/alternates/LANDSCAPE_1200/North_Korea_Koreas_Tensions_6_542.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/22/569824.JPG",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/10/22/thumbs/400x400/569824.jpg",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=g-s1-149306"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 5,
+    "velocity": 1.0,
+    "age_hours": 1896.9144779952778,
+    "is_stale": false,
+    "score": 29.268538138125052,
+    "impact": 1,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "تهديد كوري شمالية بمكبرات الصوت على الحدود، توتر مثير.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

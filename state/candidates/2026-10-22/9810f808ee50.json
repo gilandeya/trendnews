@@ -1,0 +1,72 @@
+{
+  "id": "9810f808ee50",
+  "created_at": "2026-10-22T17:08:07.908509+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.46,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 3,
+  "intrigue": 1,
+  "appeal_note": "اتفاق دفاعي بين باكستان وتركيا وقطر وإندونيسيا، قرب إسلامي واضح.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Pakistan, Turkiye, Qatar and Indonesia sign pact to bolster defence cooperation",
+  "link": "https://www.thehindu.com/news/international/pakistan-turkiye-qatar-and-indonesia-sign-pact-to-bolster-defence-cooperation/article71608728.ece",
+  "publishers": [
+    "Geo News",
+    "Tehran Times",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Pakistan, Turkiye, Qatar and Indonesia sign pact to bolster defence cooperation",
+    "link": "https://www.thehindu.com/news/international/pakistan-turkiye-qatar-and-indonesia-sign-pact-to-bolster-defence-cooperation/article71608728.ece",
+    "summary": "The development comes months after Pakistan, Saudi Arabia and Turkiye signed the Makkah Joint Defence Agreement in August",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-10-21T17:15:09+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/71x8zq/article71608775.ece/alternates/LANDSCAPE_1200/2026-10-21T151501Z_1528937658_RC2Q7OAW35QX_RTRMADP_3_TURKEY-DEFENCE-AGREEMENT.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Geo News",
+      "Tehran Times",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/pakistan-turkiye-qatar-and-indonesia-sign-pact-to-bolster-defence-cooperation/article71608728.ece"
+      },
+      {
+        "name": "Geo News",
+        "link": "https://www.geo.tv/latest/687624-pakistan-turkey-qatar-indonesia-sign-defence-cooperation-accord"
+      },
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/531362/Turkey-Qatar-Pakistan-and-Indonesia-sign-defense-pact"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/71x8zq/article71608775.ece/alternates/LANDSCAPE_1200/2026-10-21T151501Z_1528937658_RC2Q7OAW35QX_RTRMADP_3_TURKEY-DEFENCE-AGREEMENT.JPG",
+      "https://www.geo.tv/assets/uploads/2026-10-21/687624_044356_updates.jpg",
+      "https://media.tehrantimes.com/d/t/2026/10/21/4/6228530.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1896.9144986616668,
+    "is_stale": false,
+    "score": 25.462974689163467,
+    "impact": 0,
+    "proximity": 3,
+    "intrigue": 1,
+    "appeal_note": "اتفاق دفاعي بين باكستان وتركيا وقطر وإندونيسيا، قرب إسلامي واضح.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

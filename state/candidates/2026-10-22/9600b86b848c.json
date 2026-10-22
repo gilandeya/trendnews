@@ -1,0 +1,62 @@
+{
+  "id": "9600b86b848c",
+  "created_at": "2026-10-22T17:08:07.908195+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.5,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 3,
+  "proximity": 3,
+  "intrigue": 3,
+  "appeal_note": "استهداف سفن في الخليج وارتفاع أسعار النفط يمسّ الجميع مباشرة",
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Iran Claims 7 Ships Hit in Persian Gulf as Oil Prices Surge",
+  "link": "https://www.investing.com/analysis/iran-claims-seven-ships-hit-in-persian-gulf-as-oil-prices-surge-200690068",
+  "publishers": [
+    "Hindustan Times — World",
+    "Investing.com — Commodities"
+  ],
+  "region": "money",
+  "article": {
+    "title": "Iran Claims 7 Ships Hit in Persian Gulf as Oil Prices Surge",
+    "link": "https://www.investing.com/analysis/iran-claims-seven-ships-hit-in-persian-gulf-as-oil-prices-surge-200690068",
+    "summary": "",
+    "source_name": "Investing.com — Commodities",
+    "region": "money",
+    "weight": 1.0,
+    "published": "2026-10-22T17:07:43.308337+00:00",
+    "image_url": null,
+    "publisher": "Investing.com — Commodities",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "Investing.com — Commodities"
+    ],
+    "cluster_members": [
+      {
+        "name": "Investing.com — Commodities",
+        "link": "https://www.investing.com/analysis/iran-claims-seven-ships-hit-in-persian-gulf-as-oil-prices-surge-200690068"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-iran-war-strait-of-hormuz-west-asia-crisis-donald-trump-moab-masoud-pezeshkian-us-midterms-israel-benjamin-netanyahu-101792655606336.html"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1896.9147872722222,
+    "is_stale": false,
+    "score": 25.499833622037038,
+    "impact": 3,
+    "proximity": 3,
+    "intrigue": 3,
+    "appeal_note": "استهداف سفن في الخليج وارتفاع أسعار النفط يمسّ الجميع مباشرة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

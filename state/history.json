@@ -1,198 +1,5 @@
 [
   {
-    "score": 33.38,
-    "bucket": "serious",
-    "tokens": [
-      "accusation",
-      "attacks",
-      "denies",
-      "houthi",
-      "involvement",
-      "iran",
-      "saudi"
-    ],
-    "link": "https://www.vanguardngr.com/2026/10/iran-denies-saudi-accusation-of-involvement-in-houthi-attacks-2/",
-    "title": "Iran denies Saudi accusation of involvement in Houthi attacks",
-    "posted_title": "",
-    "region": "ng",
-    "seen_at": "2026-10-17T09:08:03.823195+00:00"
-  },
-  {
-    "score": 30.11,
-    "bucket": "serious",
-    "tokens": [
-      "fire",
-      "hitting",
-      "hormuz",
-      "mine",
-      "oil",
-      "tanker"
-    ],
-    "link": "https://www.vanguardngr.com/2026/10/oil-tanker-on-fire-after-hitting-mine-in-hormuz-irans-guards/",
-    "title": "Oil tanker on fire after hitting mine in Hormuz",
-    "posted_title": "",
-    "region": "ng",
-    "seen_at": "2026-10-17T09:08:03.823450+00:00"
-  },
-  {
-    "score": 27.93,
-    "bucket": "serious",
-    "tokens": [
-      "airlines",
-      "flights",
-      "jeddah",
-      "malaysia",
-      "medina",
-      "resume",
-      "tomorrow"
-    ],
-    "link": "https://www.freemalaysiatoday.com/category/nation/2026/10/17/malaysia-airlines-to-resume-flights-to-jeddah-medina-tomorrow",
-    "title": "Malaysia Airlines to resume flights to Jeddah, Medina tomorrow",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-10-17T09:08:03.823665+00:00"
-  },
-  {
-    "score": 23.96,
-    "bucket": "serious",
-    "tokens": [
-      "arabia",
-      "btw",
-      "help",
-      "iran",
-      "issues",
-      "ready",
-      "resolve",
-      "yemen"
-    ],
-    "link": "https://en.mehrnews.com/news/248630/Iran-ready-to-help-resolve-issues-btw-Yemen-S-Arabia",
-    "title": "Iran ready to help resolve issues btw Yemen, S Arabia",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-10-17T09:08:03.823859+00:00"
-  },
-  {
-    "score": 23.49,
-    "bucket": "serious",
-    "tokens": [
-      "dissent",
-      "gen",
-      "india",
-      "modi",
-      "pours",
-      "predicament",
-      "streets",
-      "surges"
-    ],
-    "link": "https://www.japantimes.co.jp/news/2026/10/16/asia-pacific/politics/modi-youth-protests/",
-    "title": "Modi’s predicament: Gen Z pours out on India’s streets as dissent surges",
-    "posted_title": "",
-    "region": "jp",
-    "seen_at": "2026-10-17T09:08:03.824047+00:00"
-  },
-  {
-    "score": 29.8,
-    "bucket": "serious",
-    "tokens": [
-      "cancer",
-      "days",
-      "discharged",
-      "hospital",
-      "lung",
-      "pope",
-      "surgery"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c5x2vkddrkrko?at_medium=RSS&at_campaign=rss",
-    "title": "Pope discharged from hospital days after lung cancer surgery",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-10-17T17:07:55.048621+00:00"
-  },
-  {
-    "score": 29.47,
-    "bucket": "serious",
-    "tokens": [
-      "attack",
-      "bank",
-      "farmers",
-      "israeli",
-      "journalist",
-      "olive",
-      "post",
-      "settlers",
-      "washington",
-      "west"
-    ],
-    "link": "https://www.theguardian.com/world/2026/oct/16/israeli-settlers-attack-olive-farmers-west-bank-washington-post-journalist-heidi-levine",
-    "title": "Israeli settlers attack olive farmers and Washington Post journalist in West Bank",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-10-17T17:07:55.048843+00:00"
-  },
-  {
-    "score": 29.29,
-    "bucket": "serious",
-    "tokens": [
-      "barcelona",
-      "betis",
-      "directo",
-      "empata",
-      "gol",
-      "gracias",
-      "gómez",
-      "laliga",
-      "partido",
-      "real",
-      "valentín"
-    ],
-    "link": "https://elpais.com/deportes/futbol/2026-10-17/real-betis-fc-barcelona-el-partido-de-laliga-en-directo.html",
-    "title": "Real Betis-FC Barcelona, el partido de LaLiga en directo|El Betis empata el partido gracias a un gol de Valentín Gómez",
-    "posted_title": "",
-    "region": "es",
-    "seen_at": "2026-10-17T17:07:55.049018+00:00"
-  },
-  {
-    "score": 26.1,
-    "bucket": "serious",
-    "tokens": [
-      "2030",
-      "egypt's",
-      "ends",
-      "leave",
-      "office",
-      "pledges",
-      "president",
-      "sisi",
-      "term",
-      "when"
-    ],
-    "link": "https://www.dawn.com/news/2037828/egypts-president-sisi-pledges-to-leave-office-when-term-ends-in-2030",
-    "title": "Egypt's President Sisi pledges to leave office when term ends in 2030",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-10-17T17:07:55.049178+00:00"
-  },
-  {
-    "score": 22.68,
-    "bucket": "serious",
-    "tokens": [
-      "aden",
-      "airport",
-      "coalition",
-      "drones",
-      "hit",
-      "intercepts",
-      "led",
-      "missiles",
-      "saudi"
-    ],
-    "link": "https://news.cgtn.com/news/2026-10-17/news-1Rj1y9HibcI/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
-    "title": "Aden airport hit; Saudi-led coalition intercepts drones, missiles",
-    "posted_title": "",
-    "region": "cn",
-    "seen_at": "2026-10-17T17:07:55.049310+00:00"
-  },
-  {
     "score": 26.1,
     "bucket": "serious",
     "tokens": [
@@ -920,5 +727,104 @@
     "posted_title": "بوتين يعرض على مبعوث ترامب مساعدة روسيا في حل الخلاف بين إيران واشنطن",
     "region": "ir",
     "seen_at": "2026-10-21T17:53:38.741132+00:00"
+  },
+  {
+    "score": 29.27,
+    "bucket": "serious",
+    "tokens": [
+      "border",
+      "jong",
+      "kim",
+      "korea",
+      "loudspeakers",
+      "north",
+      "ready",
+      "south",
+      "warns"
+    ],
+    "link": "https://www.dailymaverick.co.za/article/2026-10-22-north-koreas-kim-yo-jong-warns-south-korea-says-border-loudspeakers-to-be-ready/",
+    "title": "North Korea’s Kim Yo Jong warns South Korea, says border loudspeakers to be ready",
+    "posted_title": "",
+    "region": "za",
+    "seen_at": "2026-10-22T17:08:07.908182+00:00"
+  },
+  {
+    "score": 25.5,
+    "bucket": "useful",
+    "tokens": [
+      "claims",
+      "gulf",
+      "hit",
+      "iran",
+      "oil",
+      "persian",
+      "prices",
+      "ships",
+      "surge"
+    ],
+    "link": "https://www.investing.com/analysis/iran-claims-seven-ships-hit-in-persian-gulf-as-oil-prices-surge-200690068",
+    "title": "Iran Claims 7 Ships Hit in Persian Gulf as Oil Prices Surge",
+    "posted_title": "",
+    "region": "money",
+    "seen_at": "2026-10-22T17:08:07.908499+00:00"
+  },
+  {
+    "score": 25.46,
+    "bucket": "serious",
+    "tokens": [
+      "bolster",
+      "cooperation",
+      "defence",
+      "indonesia",
+      "pact",
+      "pakistan",
+      "qatar",
+      "sign",
+      "turkiye"
+    ],
+    "link": "https://www.thehindu.com/news/international/pakistan-turkiye-qatar-and-indonesia-sign-pact-to-bolster-defence-cooperation/article71608728.ece",
+    "title": "Pakistan, Turkiye, Qatar and Indonesia sign pact to bolster defence cooperation",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-10-22T17:08:07.908780+00:00"
+  },
+  {
+    "score": 24.05,
+    "bucket": "useful",
+    "tokens": [
+      "cancer",
+      "does",
+      "further",
+      "lung",
+      "need",
+      "pope",
+      "surgery",
+      "treatment"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/cqrly2dg5xzzo?at_medium=RSS&at_campaign=rss",
+    "title": "Pope does not need further treatment after lung cancer surgery",
+    "posted_title": "",
+    "region": "health",
+    "seen_at": "2026-10-22T17:08:07.909049+00:00"
+  },
+  {
+    "score": 23.84,
+    "bucket": "serious",
+    "tokens": [
+      "attempts",
+      "companies",
+      "flaws",
+      "govts",
+      "hacking",
+      "millions",
+      "patch",
+      "php",
+      "rush"
+    ],
+    "link": "https://www.freemalaysiatoday.com/category/business/2026/10/22/millions-of-hacking-attempts-as-companies-governments-rush-to-patch-php-flaws",
+    "title": "Millions of hacking attempts as companies, govts rush to patch PHP flaws",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-10-22T17:08:07.909327+00:00"
   }
 ]
