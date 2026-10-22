@@ -500,16 +500,16 @@
   "approved_script_at": "2026-10-22T16:05:51.911175+00:00",
   "reel_file": "reels/2026-10-22/02b4436a2b66.mp4",
   "reel_gif": "reels/2026-10-22/02b4436a2b66.gif",
-  "duration_seconds": 100.2,
-  "render_version": 46,
+  "duration_seconds": 98.1,
+  "render_version": 47,
   "render_attempts": 0,
   "reel_music": "kulakovka-financial-news-614884.mp3",
   "render_sources": "إيران إنترناشيونال، فرانس 24 عربي، العربية",
   "render_crops": {
     "3": {
-      "x": 95,
+      "x": 63,
       "source": "speaker_vision",
-      "speaker_score": 0.75,
+      "speaker_score": 0.79,
       "tracks": 2,
       "vision": {
         "pick": 2,
@@ -523,21 +523,21 @@
       },
       "exact": {
         "source": "line",
-        "error": "TypeError: open() got an unexpected keyword argument 'metadata_errors'"
+        "error": "الاقتباس لم يطابق الكلمات المفرَّغة بنسبة كافية أو يتكرر"
       },
       "panel_q": 0,
       "tile_crop": {
         "x": 0,
         "y": 0,
-        "w": 826,
-        "h": 490,
+        "w": 688,
+        "h": 408,
         "mode": "full_height"
       },
       "frame_crop": {
-        "x": 104,
+        "x": 36,
         "y": 0,
-        "w": 388,
-        "h": 490,
+        "w": 322,
+        "h": 408,
         "mode": "full_height"
       },
       "bars": [
@@ -548,13 +548,13 @@
       ],
       "ticker": false,
       "lower_graphics": {
-        "top": 0.68,
+        "top": 0.85,
         "source": "model",
         "clamped": false,
         "frames": [
-          0.7,
-          0.7,
-          0.7
+          0.87,
+          0.87,
+          0.87
         ]
       },
       "quote_sync": "transcript",
@@ -579,21 +579,21 @@
       },
       "exact": {
         "source": "line",
-        "error": "TypeError: open() got an unexpected keyword argument 'metadata_errors'"
+        "error": "الاقتباس لم يطابق الكلمات المفرَّغة بنسبة كافية أو يتكرر"
       },
       "panel_q": 0,
       "tile_crop": {
-        "x": 406,
+        "x": 392,
         "y": 0,
-        "w": 874,
-        "h": 518,
+        "w": 888,
+        "h": 526,
         "mode": "full_height"
       },
       "frame_crop": {
-        "x": 746,
+        "x": 744,
         "y": 0,
-        "w": 410,
-        "h": 518,
+        "w": 416,
+        "h": 526,
         "mode": "full_height"
       },
       "bars": [
@@ -604,45 +604,47 @@
       ],
       "ticker": true,
       "lower_graphics": {
-        "top": 0.72,
+        "top": 0.73,
         "source": "model",
         "clamped": false,
         "frames": [
-          0.74,
-          0.74,
-          0.74
+          0.75,
+          0.75,
+          0.75
         ]
       },
       "quote_sync": "transcript",
       "quote_mode": "word"
     },
     "5": {
-      "x": 85,
+      "x": 57,
       "source": "speaker",
-      "speaker_score": 1.68,
+      "speaker_score": 1.58,
       "tracks": 1,
       "gate": {
-        "start": 1.0,
-        "end": 8.67,
-        "source": "silence"
+        "start": 0.88,
+        "end": 4.9,
+        "source": "transcript"
       },
       "exact": {
-        "source": "line",
-        "error": "TypeError: open() got an unexpected keyword argument 'metadata_errors'"
+        "t0": 1211.82,
+        "t1": 1215.6,
+        "ratio": 0.875,
+        "source": "words"
       },
       "panel_q": 0,
       "tile_crop": {
         "x": 0,
         "y": 0,
-        "w": 922,
-        "h": 546,
+        "w": 614,
+        "h": 364,
         "mode": "full_height"
       },
       "frame_crop": {
-        "x": 72,
+        "x": 48,
         "y": 0,
-        "w": 432,
-        "h": 546,
+        "w": 288,
+        "h": 364,
         "mode": "full_height"
       },
       "bars": [
@@ -658,17 +660,17 @@
         "clamped": false,
         "frames": [
           0.78,
-          0.98,
-          0.98
+          0.79,
+          0.79
         ]
       },
-      "quote_sync": "transcript",
+      "quote_sync": "words",
       "quote_mode": "word"
     },
     "7": {
-      "x": 129,
+      "x": 85,
       "source": "speaker_vision",
-      "speaker_score": 1.42,
+      "speaker_score": 1.55,
       "tracks": 2,
       "vision": {
         "pick": 2,
@@ -676,27 +678,29 @@
         "archive": []
       },
       "gate": {
-        "start": 1.0,
-        "end": 5.0,
+        "start": 0.88,
+        "end": 4.08,
         "source": "transcript"
       },
       "exact": {
-        "source": "line",
-        "error": "TypeError: open() got an unexpected keyword argument 'metadata_errors'"
+        "t0": 724.46,
+        "t1": 727.42,
+        "ratio": 1.0,
+        "source": "words"
       },
       "panel_q": 1,
       "tile_crop": {
         "x": 0,
         "y": 0,
-        "w": 922,
-        "h": 546,
+        "w": 614,
+        "h": 364,
         "mode": "full_height"
       },
       "frame_crop": {
-        "x": 116,
+        "x": 76,
         "y": 0,
-        "w": 432,
-        "h": 546,
+        "w": 288,
+        "h": 364,
         "mode": "full_height"
       },
       "bars": [
@@ -712,11 +716,11 @@
         "clamped": false,
         "frames": [
           0.78,
-          0.98,
-          0.98
+          0.79,
+          0.79
         ]
       },
-      "quote_sync": "transcript",
+      "quote_sync": "words",
       "quote_mode": "word"
     },
     "8": {
@@ -732,27 +736,29 @@
         ]
       },
       "gate": {
-        "start": 1.0,
-        "end": 9.0,
-        "source": "transcript"
+        "start": 0.88,
+        "end": 6.14,
+        "source": "silence"
       },
       "exact": {
-        "source": "line",
-        "error": "TypeError: open() got an unexpected keyword argument 'metadata_errors'"
+        "t0": 682.96,
+        "t1": 688.14,
+        "ratio": 0.846,
+        "source": "words"
       },
       "panel_q": 1,
       "tile_crop": {
-        "x": 406,
+        "x": 392,
         "y": 0,
-        "w": 874,
-        "h": 518,
+        "w": 888,
+        "h": 526,
         "mode": "full_height"
       },
       "frame_crop": {
-        "x": 870,
+        "x": 864,
         "y": 0,
-        "w": 410,
-        "h": 518,
+        "w": 416,
+        "h": 526,
         "mode": "full_height"
       },
       "bars": [
@@ -763,16 +769,16 @@
       ],
       "ticker": true,
       "lower_graphics": {
-        "top": 0.72,
+        "top": 0.73,
         "source": "model",
         "clamped": false,
         "frames": [
-          0.74,
-          0.74,
-          0.74
+          0.75,
+          0.75,
+          0.75
         ]
       },
-      "quote_sync": "transcript",
+      "quote_sync": "words",
       "quote_mode": "word"
     },
     "9": {
@@ -781,27 +787,29 @@
       "speaker_score": 0.68,
       "tracks": 1,
       "gate": {
-        "start": 1.0,
-        "end": 6.0,
-        "source": "approx"
+        "start": 0.7,
+        "end": 8.57,
+        "source": "silence"
       },
       "exact": {
-        "source": "approx",
-        "error": "TypeError: open() got an unexpected keyword argument 'metadata_errors'"
+        "t0": 1002.72,
+        "t1": 1010.22,
+        "ratio": 0.714,
+        "source": "words"
       },
       "panel_q": 1,
       "tile_crop": {
-        "x": 160,
+        "x": 152,
         "y": 0,
-        "w": 874,
-        "h": 518,
+        "w": 888,
+        "h": 526,
         "mode": "full_height"
       },
       "frame_crop": {
-        "x": 392,
+        "x": 388,
         "y": 0,
-        "w": 410,
-        "h": 518,
+        "w": 416,
+        "h": 526,
         "mode": "full_height"
       },
       "bars": [
@@ -812,16 +820,16 @@
       ],
       "ticker": true,
       "lower_graphics": {
-        "top": 0.72,
+        "top": 0.73,
         "source": "model",
         "clamped": false,
         "frames": [
-          0.74,
-          0.74,
-          0.74
+          0.75,
+          0.75,
+          0.75
         ]
       },
-      "quote_sync": "uniform",
+      "quote_sync": "words",
       "quote_mode": "word"
     },
     "closing": {
@@ -830,7 +838,7 @@
   },
   "render_speakers": {
     "3": {
-      "name_original": "فرداد فرحزاد",
+      "name_original": "Fardad Farhzad",
       "name_arabic": "فرداد فرحزاد",
       "role_arabic": "",
       "is_presenter": true,
@@ -871,8 +879,8 @@
       "role_arabic": "كاتب سياسي | لندن",
       "is_presenter": false,
       "frames_agreeing": 2,
-      "rejected": "",
-      "accepted": true
+      "rejected": "host",
+      "accepted": false
     },
     "9": {
       "name_original": "منيف عماش الحربي",
@@ -891,32 +899,27 @@
       "kind": "clip",
       "start": 1000,
       "end": 1007,
-      "reason": "الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة"
+      "reason": "الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة",
+      "aligned": true
     }
   ],
-  "rendered_at": "2026-10-22T16:30:17.321394+00:00",
+  "rendered_at": "2026-10-22T18:37:11.041515+00:00",
   "render_notes": [
     "### 🎬 تركيب الريل",
-    "- ⏱️ المدة: 100.2 ث",
+    "- ⏱️ المدة: 98.1 ث",
     "- 🎞️ [الملف](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-10-22/02b4436a2b66.mp4) · [المعاينة](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-10-22/02b4436a2b66.gif)",
-    "- ⚠️ نافذة تقديرية لمقطع فرانس 24 عربي (16:40–16:47): الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة — راجع بداية المقطع ونهايته",
-    "- ⚠️ لم يُضبط مقطع إيران إنترناشيونال كلمة بكلمة: TypeError: open() got an unexpected keyword argument 'metadata_errors' — قد يُسمع ما قبله أو بعده",
-    "- ⚠️ لم يُضبط مقطع فرانس 24 عربي كلمة بكلمة: TypeError: open() got an unexpected keyword argument 'metadata_errors' — قد يُسمع ما قبله أو بعده",
-    "- ⚠️ لم يُضبط مقطع العربية كلمة بكلمة: TypeError: open() got an unexpected keyword argument 'metadata_errors' — قد يُسمع ما قبله أو بعده",
-    "- ⚠️ لم يُضبط مقطع العربية كلمة بكلمة: TypeError: open() got an unexpected keyword argument 'metadata_errors' — قد يُسمع ما قبله أو بعده",
-    "- ⚠️ لم يُضبط مقطع فرانس 24 عربي كلمة بكلمة: TypeError: open() got an unexpected keyword argument 'metadata_errors' — قد يُسمع ما قبله أو بعده",
-    "- ⚠️ لم يُضبط مقطع فرانس 24 عربي كلمة بكلمة: TypeError: open() got an unexpected keyword argument 'metadata_errors' — قد يُسمع ما قبله أو بعده",
+    "- ⚠️ لم يُضبط 2 مقاطع كلمة بكلمة (إيران إنترناشيونال، فرانس 24 عربي): الاقتباس لم يطابق الكلمات المفرَّغة بنسبة كافية أو يتكرر — قد يُسمع ما قبلها أو بعدها",
     "- 🎞️ لم أجد لقطة صالحة من الحدث — الهوك بصورة الخبر",
     "- 👥 ضيوف إيران إنترناشيونال: سميرا قرائي",
     "- 👥 ضيوف فرانس 24 عربي: منيف عماش الحربي، علي البخيتي",
-    "- 👥 ضيوف العربية: عبد القوي المخلافي، تمين الخيطان",
     "- 🏷️ شريط إيران إنترناشيونال يحمل اسم المقدّم فرداد فرحزاد لا المتكلم — يبقى اسم السيناريو",
     "- 👤 من شريط القناة: مصطفى بكري (مصطفى بكري) — عضو مجلس النواب المصري",
-    "- 👤 من شريط القناة: علي البخيتي (Ali Al-Bukhaiti) — كاتب سياسي | لندن",
+    "- 🏷️ شريط فرانس 24 عربي يحمل اسم المقدّم علي البخيتي لا المتكلم — يبقى اسم السيناريو",
+    "- ✅ الشريط يؤكد المتكلم: منيف عماش الحربي (فرانس 24 عربي)",
     "- 🎯 مقطع إيران إنترناشيونال: 2 وجوه — المتكلم بالرؤية",
-    "- ✂️ أُخفي شريط القناة في إيران إنترناشيونال: قُصّ أسفل 32%",
+    "- ✂️ أُخفي شريط القناة في إيران إنترناشيونال: قُصّ أسفل 15%",
     "- 🎯 مقطع فرانس 24 عربي: 2 وجوه — المتكلم بالرؤية",
-    "- ✂️ أُخفي شريط القناة في فرانس 24 عربي: قُصّ أسفل 28%",
+    "- ✂️ أُخفي شريط القناة في فرانس 24 عربي: قُصّ أسفل 27%",
     "- ✂️ أُخفي شريط القناة في العربية: قُصّ أسفل 24%",
     "- 🎯 مقطع العربية: 2 وجوه — المتكلم بالرؤية",
     "- 🎯 مقطع فرانس 24 عربي: 2 وجوه — المتكلم بالرؤية",
@@ -927,49 +930,35 @@
   "render_roster": {
     "nx6MtSAGGLQ": [
       {
-        "name_arabic": "فرداد فرحزان",
-        "name_original": "Fardad Farhzan",
-        "role_arabic": "مقدّم البرنامج (استوديو ایران اینترنشنال، برنامه ۲۴)",
+        "name_arabic": "فرداد فرحزاد",
+        "name_original": "فرداد فرحزان",
+        "role_arabic": "مقدّم البرنامج في استوديو إيران إنترناشونال",
         "is_host": true
       },
       {
         "name_arabic": "سميرا قرائي",
-        "name_original": "Samira Gharai",
-        "role_arabic": "مراسلة ايران إنترناشنال من البيت الأبيض",
+        "name_original": "سمیرا قرایی",
+        "role_arabic": "مراسلة إيران إنترناشونال من البيت الأبيض",
         "is_host": false
       }
     ],
     "qB_4P0mUCyI": [
       {
         "name_arabic": "أيمن سرور",
-        "name_original": "Ayman Sorour",
-        "role_arabic": "مقدّم البرنامج، في الاستوديو",
+        "name_original": "ايمن سرور",
+        "role_arabic": "مقدّم البرنامج",
         "is_host": true
       },
       {
         "name_arabic": "منيف عماش الحربي",
-        "name_original": "Munif Amash Al-Harbi",
-        "role_arabic": "محامي وحقوقي، كاتب ومحلل سياسي من الرياض",
+        "name_original": "منيف عماش الحربي",
+        "role_arabic": "كاتب ومحلل سياسي من الرياض، ومحامي وحقوقي",
         "is_host": false
       },
       {
         "name_arabic": "علي البخيتي",
-        "name_original": "Ali Al-Bukhaiti",
+        "name_original": "علي البخيتي",
         "role_arabic": "كاتب سياسي من لندن",
-        "is_host": false
-      }
-    ],
-    "QFMGl1rCLhU": [
-      {
-        "name_arabic": "عبد القوي المخلافي",
-        "name_original": "الدكتور عبد القوي المخلافي",
-        "role_arabic": "وكيل أول محافظة تعز",
-        "is_host": false
-      },
-      {
-        "name_arabic": "تمين الخيطان",
-        "name_original": "تمين الخيطان",
-        "role_arabic": "الناطق باسم مفوضية الأمم المتحدة السامية لحقوق الإنسان",
         "is_host": false
       }
     ]
@@ -978,37 +967,16 @@
     {
       "point_id": "63fd50319f8a",
       "speaker": "علي سزاده، محلل شؤون الشرق الأوسط",
-      "evidence": "علی سزاده تحلیل‌گر مسئله خاورمیانه از\nفرانکفورت با ماست. آقای سزاده پیش از هر\nچیز یه توضیحی تشریحی توجیهی به ما بگید",
+      "evidence": "علی سزاده تحلیل‌گر مسئله خاورمیانه از",
       "accepted": false,
       "reason": "القائل ليس في القائمة"
     },
     {
       "point_id": "8be09bba07da",
       "speaker": "منيف عماش الحربي",
-      "evidence": "[905] >> طيب تفضل",
+      "evidence": "",
       "accepted": false,
-      "reason": "evidence بلا كلمة من اسم القائل"
-    },
-    {
-      "point_id": "4cb860795115",
-      "speaker": "علي البخيتي",
-      "evidence": "[569] >> طيب خلينا بخيتي نسمع رايك كيمني استمعت",
-      "accepted": true,
-      "reason": "المقدّم ناداه «بخيتي» وطلب رأيه، ثم يتكلم البخيتي بعدها بنص المقطع «البحر الأحمر ليس سعوديًا...»."
-    },
-    {
-      "point_id": "2da91f52ac9a",
-      "speaker": "مصطفى بكري، عضو مجلس النواب المصري",
-      "evidence": "[1192] المملكة العربية السعودية فتحت ذراعها",
-      "accepted": false,
-      "reason": "القائل ليس في القائمة"
-    },
-    {
-      "point_id": "e4e91fa71963",
-      "speaker": "مصطفى بكري، عضو مجلس النواب المصري",
-      "evidence": "[720] >> هناك عدة اعتبارات يتوجب التوقف عنها.",
-      "accepted": false,
-      "reason": "القائل ليس في القائمة"
+      "reason": "evidence ليس في الأسطر المعطاة"
     }
   ]
 }
