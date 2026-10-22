@@ -9188,8 +9188,9 @@ def test_reel_speaker_r5b_guards() -> None:
             s, drawn, _ = rendered("r5b000g293a1",
                                    scenes_for(speaker_name="فلان الفلاني", speaker_verified=True,
                                               speaker_verified_from="description"), counting, tmp)
-            check("g293: موثَّق من الوصف ← لا نداء", n["c"] == 0 and s.get("render_status") == "rendered"
-                  and "فلان الفلاني" in drawn and not s.get("render_speakers"), (n, s.get("render_speakers")))
+            # Q11: الموثَّق صار يُقرأ شريطه؛ اسم السيناريو يبقى ولا يُكتب فوقه اسم الشريط
+            check("g293: موثَّق من الوصف ← يُقرأ شريطه واسمه يبقى", n["c"] == 1 and s.get("render_status") == "rendered"
+                  and "فلان الفلاني" in drawn and "أحمد كايابينار" not in drawn, (n, drawn))
 
             def boom(f, c):
                 raise RuntimeError("api down")
