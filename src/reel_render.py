@@ -563,6 +563,10 @@ class Deps:
     transcribe_words: Callable[[Any, str | None, Any], list] | None = None
     # (القائمة، [{point_id, speaker, quote, lines}] لفيديو واحد، cfg) ← [{point_id, speaker, evidence, reason}]
     attribute_clips: Callable[[list, list, Any], list | None] | None = None
+    # (مراجع [{name, name_original, jpegs}]، مرشّحون [{n, point_id, speaker, jpegs}] لفيديو واحد، cfg) ← [{point_id, same_as, reason}]
+    # (Issue #1689، Q14)؛ يرفع عند العطل ولا أثر له حينها. (ملف المقطع، cfg) ← لقطات JPEG لوجه المتكلم. None للمزيَّفات القديمة ← لا مقارنة
+    match_faces: Callable[[list, list, Any], list | None] | None = None
+    face_frames: Callable[[Any, Any], list] | None = None
     # (cfg) ← (نجح؟، السبب): فحص ذاتي لمفرِّغ الكلمات مرة لكل تركيب (Issue #1686، Q13b)؛ None للمزيَّفات ← لا فحص
     transcriber_selfcheck: Callable[[Any], tuple[bool, str]] | None = None
 
@@ -646,6 +650,8 @@ class Deps:
                     jpeg, event, first, n, c, labels=labels)) if real else None),
             read_roster=self.read_roster or (_real_read_roster if real else None),
             attribute_clips=self.attribute_clips or (_real_attribute_clips if real else None),
+            match_faces=self.match_faces or (_real_match_faces if real else None),
+            face_frames=self.face_frames or (_chyron_jpegs if real else None),
             assign_broll=self.assign_broll or ((lambda needy, chains, c: reel_broll.assign(needy, chains, c)) if real else None),
             make_queries=self.make_queries or (
                 (lambda script, draft, c, broad=False: reel_hook_search.call_make_queries(script, draft, c, broad=broad))
@@ -3915,10 +3921,10 @@ ATTRIBUTE_TOOL = {
 }
 
 
-def _call_tool(cfg, tool: dict, system: str, content: list, key: str, client=None) -> list[dict]:
+def _call_tool(cfg, tool: dict, system: str, content: list, key: str, client=None, section: str = "speaker_check") -> list[dict]:
     """نداء Haiku واحد بأداة إجبارية يعيد قائمة حقل key؛ الرفض أو ردّ غير صالح يرفع."""
     from . import llm
-    scfg = cfg.path("reel.render.speaker_check") or {}
+    scfg = cfg.path("reel.render." + section) or {}
     if client is None:
         from anthropic import Anthropic
 
@@ -3950,6 +3956,36 @@ def _real_attribute_clips(roster: list, items: list, cfg) -> list[dict]:
     payload = json.dumps({"roster": roster, "clips": items}, ensure_ascii=False)
     return _call_tool(cfg, ATTRIBUTE_TOOL, cfg.path("reel.render.speaker_check.attribute_system", ""),
                       [{"type": "text", "text": payload}], "clips")
+
+
+MATCH_FACES_TOOL = {
+    "name": "match_speaker_faces",
+    "description": "يعيد لكل مرشّح اسم المرجع الذي يطابق وجه متكلمه، أو none، أو unsure",
+    "input_schema": {"type": "object", "properties": {"results": {"type": "array", "items": {
+        "type": "object",
+        "properties": {"n": {"type": "integer"}, "same_as": {"type": "string"}, "reason": {"type": "string"}},
+        "required": ["n", "same_as", "reason"]}}},
+        "required": ["results"]},
+}
+
+
+def _real_match_faces(refs: list, items: list, cfg) -> list[dict]:
+    """نداء Haiku واحد لفيديو واحد: صور كل مرجع باسمه ثم صور كل مرشّح برقمه؛ يعيد صفوفًا بـpoint_id (الرقم n يُترجم إليه)."""
+    import base64
+
+    def imgs(jpegs):
+        return [{"type": "image", "source": {"type": "base64", "media_type": "image/jpeg", "data": base64.b64encode(b).decode("ascii")}}
+                for b in jpegs]
+    content: list = []
+    for r in refs:
+        content.append({"type": "text", "text": "مرجع: " + r["name"]})
+        content += imgs(r["jpegs"])
+    for it in items:
+        content.append({"type": "text", "text": "مرشّح رقم %d" % it["n"]})
+        content += imgs(it["jpegs"])
+    rows = _call_tool(cfg, MATCH_FACES_TOOL, cfg.path("reel.render.face_check.system", ""), content, "results", section="face_check")
+    by_n = {it["n"]: it["point_id"] for it in items}
+    return [{**r, "point_id": by_n[r["n"]]} for r in rows if r.get("n") in by_n]
 
 
 def _roster_jpegs(clip, cfg) -> list[bytes]:
@@ -4121,7 +4157,8 @@ def _relabel(i: int, script: dict, run: list, clips: dict, speakers: dict, new: 
     # المخالفة المحفوظة تُمسح: _apply_chyron يُستدعى ثانية في _clip_layers ولا يجوز أن يعيدها فيحذف المقطع
     speakers.setdefault(str(i), {"accepted": False}).pop("mismatch", None)
     t = cfg.path("reel.render.texts")
-    how_text = t["relabel_how_chyron"] if how == "chyron" else t["relabel_how_transcript"].format(evidence=evidence)
+    how_text = (t["relabel_how_chyron"] if how == "chyron" else t["relabel_how_face"] if how == "face"
+                else t["relabel_how_transcript"].format(evidence=evidence))
     notes.append(t["comment_relabel"].format(channel=scene.get("channel_display") or "", old=old_name, new=new_ar, how=how_text))
     meta.setdefault("relabel", []).append({"point_id": scene.get("point_id", ""), "from": old_name, "to": new_ar, "how": how,
                                            "evidence": evidence if how == "transcript" else ""})
@@ -4157,6 +4194,92 @@ def _combine_speaker(i: int, script: dict, run: list, clips: dict, mm: dict | No
     return mm
 
 
+_INDEPENDENT_PROOF = ("chyron", "transcript")
+
+
+def _face_check(script: dict, live: dict, rosters: dict, cfg, deps: Deps, speakers: dict, notes: list, meta: dict,
+                pending: dict) -> None:
+    """مقارنة الوجه (Issue #1689، Q14): لكل فيديو، مقطع مسمّى لم يثبت قائله بشاهد مستقل (شريط/نص) يُقارَن وجهه بوجوه من ثبتت أسماؤهم بشاهد
+    مستقل في الفيديو نفسه. الحكم لنموذج (نداء لكل فيديو)، والكود ينفّذ: يطابق قائل السيناريو ← تأكيد؛ مرجع آخر ← تصحيح بحرّاس _relabel؛
+    none ولاسمه مرجع ← حذف؛ unsure أو عطل أو لا مراجع ← لا تغيير. النافذة التقديرية خارج المقارنة (لا نعرف من يتكلم فيها)."""
+    fcfg = cfg.path("reel.render.face_check") or {}
+    if not fcfg.get("enabled") or getattr(deps, "match_faces", None) is None or getattr(deps, "face_frames", None) is None:
+        return
+    t = cfg.path("reel.render.texts")
+    by_vid: dict = {}
+    for i in sorted(live):
+        c = live[i]
+        if c.get("video_id") and not c.get("approx"):
+            by_vid.setdefault(c["video_id"], []).append(i)
+    for vid, idxs in by_vid.items():
+        refs: dict = {}
+        cands: list = []
+        for i in idxs:
+            sc = script["scenes"][i]
+            name = " ".join(str(sc.get("speaker_name") or "").split())
+            if not name:
+                continue
+            if sc.get("speaker_verified_from") in _INDEPENDENT_PROOF:
+                refs.setdefault(_name_key(name), {"name": name, "name_original": sc.get("speaker_name_latin") or "",
+                                                  "role": sc.get("speaker_role") or "", "i": i})
+            else:
+                cands.append(i)
+        if not refs or not cands:
+            continue
+        try:
+            ref_list = [{"name": r["name"], "name_original": r["name_original"], "jpegs": list(deps.face_frames(live[r["i"]]["file"], cfg))}
+                        for r in refs.values()]
+            items = []
+            for i in cands:
+                items.append({"n": len(items) + 1, "point_id": script["scenes"][i].get("point_id", ""), "i": i,
+                              "speaker": script["scenes"][i].get("speaker_text") or script["scenes"][i].get("speaker_name") or "",
+                              "jpegs": list(deps.face_frames(live[i]["file"], cfg))})
+            rows = deps.match_faces(ref_list, [{k: v for k, v in x.items() if k != "i"} for x in items], cfg)
+        except Exception as exc:  # noqa: BLE001 -- المقارنة تحسين: يبقى سلوك Q11/Q12
+            log.warning("تعذّرت مقارنة الوجوه للفيديو %s: %s", vid, reel_clips.scrub_text(str(exc))[:120])
+            continue
+        if not isinstance(rows, list):
+            continue
+        by_pid = {x["point_id"]: x for x in items}
+        run_of = {i: m for m in _iter_runs(list(enumerate(script["scenes"]))) for i in m}
+        for r in rows:
+            item = by_pid.get(str(r.get("point_id"))) if isinstance(r, dict) else None
+            if item is None:
+                continue
+            i = item["i"]
+            if i not in live:
+                continue
+            sc = script["scenes"][i]
+            same = str(r.get("same_as") or "").strip()
+            ref = refs.get(_name_key(same))
+            entry = {"point_id": item["point_id"], "same_as": same, "reason": str(r.get("reason") or "")[:150], "applied": False}
+            meta.setdefault("face_check", []).append(entry)
+            speaker = sc.get("speaker_text") or sc.get("speaker_name") or ""
+            own = next((x for x in refs.values()
+                        if speaker_matches(x["name"], x["name_original"], speaker, cfg) is True), None)
+            channel = sc.get("channel_display") or ""
+            if ref is None:
+                if same.casefold() == "none" and own is not None:
+                    pending[i] = {"reason_key": "drop_face_mismatch", "speaker": speaker, "name": own["name"], "channel": channel,
+                                  "chyron": own["name"], "new": own["name"]}
+                    live.pop(i)
+                    entry["applied"] = True
+                continue
+            if speaker_matches(ref["name"], ref["name_original"], speaker, cfg) is True:
+                sc.update(speaker_verified_from="face")
+                line = t["comment_face_confirmed"].format(name=sc.get("speaker_name") or ref["name"], channel=channel)
+                if line not in notes:
+                    notes.append(line)
+                entry["applied"] = True
+                continue
+            new = {"name_arabic": ref["name"], "name_original": ref["name_original"], "role_arabic": ref["role"]}
+            mm = _relabel(i, script, run_of.get(i, [i]), live, speakers, new, "face", "", rosters.get(vid) or [], cfg, notes, meta)
+            if mm:
+                pending[i] = mm
+                live.pop(i)
+            entry["applied"] = True
+
+
 def _prune_mismatched(script: dict, clips: dict, cfg, deps: Deps, speakers: dict, notes: list,
                       dropped: list, meta: dict | None = None) -> tuple[dict, set[int]]:
     """حارس القائل (Issue #1621، R6): في سيناريو v2 يُقرأ شريط كل مقطع في لوحة قبل بنائها؛ مقطع يُظهر شريطه اسمًا غير قائل الاقتباس يُحذف
@@ -4171,19 +4294,29 @@ def _prune_mismatched(script: dict, clips: dict, cfg, deps: Deps, speakers: dict
     min_answers = int(cfg.path("reel.render.min_answers", 2))
     meta = meta if meta is not None else {}
     rosters, verdicts = _speaker_check(script, order, clips, cfg, deps, notes, meta)
+    # المرحلة 1: حكم الشريط والنص لكل مقطع (live ينقص تدريجيًا كما كان clips ينقص، فحارس التكرار في _relabel يرى الباقي فقط)؛
+    # الحذف نفسه يُسجَّل في المرحلة 2 بعد مقارنة الوجه (Q14) التي تحتاج مقاطع من أسئلة مختلفة معًا
+    live = dict(clips)
+    pending: dict = {}
+    for members in _iter_runs(order):
+        for i in members:
+            if i not in live:
+                continue
+            mm = _apply_chyron(script["scenes"][i], live[i], cfg, deps, speakers, notes, i)
+            roster = rosters.get(live[i].get("video_id"))
+            if roster and live[i].get("transcript") and not live[i].get("approx"):
+                mm = _combine_speaker(i, script, members, live, mm, speakers, roster,
+                                      verdicts.get(script["scenes"][i].get("point_id", "")), cfg, notes, meta)
+            if mm:
+                pending[i] = mm
+                live.pop(i)
+    _face_check(script, live, rosters, cfg, deps, speakers, notes, meta, pending)
     for members in _iter_runs(order):
         gone = []
         for i in members:
-            if i not in clips:
-                continue
-            mm = _apply_chyron(script["scenes"][i], clips[i], cfg, deps, speakers, notes, i)
-            roster = rosters.get(clips[i].get("video_id"))
-            if roster and clips[i].get("transcript") and not clips[i].get("approx"):
-                mm = _combine_speaker(i, script, members, clips, mm, speakers, roster,
-                                      verdicts.get(script["scenes"][i].get("point_id", "")), cfg, notes, meta)
-            if mm:
+            if i in pending:
                 # سبب الحذف يُكتب في سطر «✂️ حُذف…» وحده (Q10): إضافته إلى notes كانت تكرره سطرًا مستقلًا بلا رمز
-                line = t[mm.get("reason_key", "drop_speaker_mismatch")].format(**mm)
+                line = t[pending[i].get("reason_key", "drop_speaker_mismatch")].format(**pending[i])
                 _drop(dropped, script["scenes"][i], line)
                 clips.pop(i)
                 gone.append(i)
@@ -4782,7 +4915,7 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
             "render_crops": {**{str(i): c["crop"] for i, c in clips.items() if "crop" in c}, **hook_crops},
             **({"render_speakers": speakers} if speakers else {}),
             **{key: speaker_meta[k] for key, k in (("render_roster", "roster"), ("render_attribution", "attribution"),
-                                                   ("render_relabel", "relabel")) if speaker_meta.get(k)},
+                                                   ("render_relabel", "relabel"), ("render_face_check", "face_check")) if speaker_meta.get(k)},
             **({"render_spans": [c["span"] for _, c in sorted(clips.items()) if c.get("span")]}
                if any(c.get("span") for c in clips.values()) else {}),
             **({"render_broll": broll["result"]} if broll and broll.get("result") else {}),
@@ -5001,7 +5134,7 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
                "rendered_at": datetime.now(timezone.utc).isoformat()}
     remove = ((["render_error"] + ([] if "render_broll" in result else ["render_broll", "broll_scan"])
                + ([] if "render_spans" in result else ["render_spans"])
-               + [k for k in ("render_roster", "render_attribution", "render_relabel") if k not in result])
+               + [k for k in ("render_roster", "render_attribution", "render_relabel", "render_face_check") if k not in result])
               if result["render_status"] == "rendered"
               else [] if keep_files else ["reel_file", "reel_gif", "duration_seconds"])
     text = _comment_text(cfg, draft, result, dropped, approx, notes)
@@ -5139,7 +5272,7 @@ def retry(draft_id: str, cfg) -> bool:
     if not found or found[1].get("render_status") != "failed":
         return False
     store.update_draft(found[0], remove=["render_error", "render_dropped", "render_approx", "render_spans",
-                                         "render_roster", "render_attribution", "render_relabel"],
+                                         "render_roster", "render_attribution", "render_relabel", "render_face_check"],
                        render_status="queued", render_attempts=0)
     return True
 
