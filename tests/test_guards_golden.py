@@ -19786,3 +19786,189 @@ def test_reel_chyron_verified_q11_guards() -> None:
         check("g593: نص comment_chyron_confirmed", line.startswith("✅ الشريط يؤكد المتكلم") and "{name}" in line and "{channel}" in line, line)
         check("g593: render.version >= 44", int(cfg.path("reel.render.version")) >= 44, cfg.path("reel.render.version"))
     guarded("g593", g593)
+
+
+def test_reel_roster_attribution_q12_guards() -> None:
+    """Issue #1679 (Q12، g594–g600): قائمة ضيوف الحلقة وتحديد القائل من النص؛ يُصحَّح القائل بدل حذف المقطع حين يُعرف القائل الحقيقي من
+    الشريط أو من نص الحلقة، بثلاثة حرّاس. الشاهد tests/fixtures/reel/1676/ (الريل 02b4436a2b66: البخيتي تحت اسم الحربي). لا شبكة."""
+    import copy
+    import json
+    from pathlib import Path
+
+    from src import reel_render
+
+    cfg = load_config()
+    root = Path(__file__).resolve().parent
+    fx = json.loads((root / "fixtures/reel/1676/render.json").read_text(encoding="utf-8"))
+    segs = [tuple(x) for x in json.loads((root / "fixtures/reel/1676/transcript_qB.json").read_text(encoding="utf-8"))]
+    t = cfg.path("reel.render.texts")
+    bukh = dict(name_arabic="علي البخيتي", name_original="Ali al-Bukhaiti", role_arabic="كاتب سياسي من لندن", is_host=False)
+    harbi = dict(name_arabic="منيف عماش الحربي", name_original="Munif al-Harbi", role_arabic="كاتب ومحلل سياسي", is_host=False)
+    host = dict(name_arabic="فرداد فرحزاد", name_original="Farda Farhzad", role_arabic="مقدّم", is_host=True)
+    roster = [bukh, harbi, host]
+    pid4, pid9 = "8be09bba07da", "1b8abc22f6b4"
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def fr(name, role=""):
+        return dict(has_caption=bool(name), name_original=name, name_arabic=name, role_original="", role_arabic=role,
+                    is_presenter=False, name_kind="person", name_is_speaker="yes")
+
+    def no_download(*a, **k):
+        raise RuntimeError("x")
+
+    def prune(target=4, chyron=None, verdict=None, tweak=None, conf=cfg, wire=True, approx=False, roster_fn=None, calls=None):
+        script = copy.deepcopy(fx["script"])
+        for i in (3, 5, 7, 8):
+            script["scenes"][i]["speaker_text"] = ""
+        for i in (4, 9):
+            script["scenes"][i]["speaker_text"] = "منيف عماش الحربي"
+        s = list(segs)
+        if tweak:
+            tweak(script, s)
+        qs = {4: 945.0, 9: 1001.0}
+        clips = {}
+        for i in (3, 4, 5, 7, 8, 9):
+            clips[i] = dict(file="c%d" % i, seconds=8.0, video_id="v", transcript=s, quote_start=qs.get(i, 700.0),
+                            quote_end=qs.get(i, 700.0) + 9)
+            if approx:
+                clips[i]["approx"] = True
+        calls = calls if calls is not None else dict(roster=0, attr=0, lines=[])
+
+        def read_roster(lines, jpegs, c):
+            calls["roster"] += 1
+            calls["lines"].append((lines, list(jpegs)))
+            return copy.deepcopy(roster)
+
+        def attribute(ros, items, c):
+            calls["attr"] += 1
+            calls["items"] = items
+            return [verdict(items)] if verdict else []
+
+        def read(file, c):
+            return chyron if file == "c%d" % target else []
+        deps = reel_render.Deps(read_chyron=read, sleep=lambda s_: None, download_clip=no_download)
+        if wire:
+            deps.read_roster = roster_fn or read_roster
+            deps.attribute_clips = attribute
+        notes, dropped, meta = [], [], {}
+        out, dead = reel_render._prune_mismatched(script, clips, conf, deps, {}, notes, dropped, meta=meta)
+        return script, out, dropped, notes, meta, calls
+
+    def row(speaker, evidence, pid_):
+        return lambda items: dict(point_id=pid_, speaker=speaker, evidence=evidence, reason="مناداة")
+
+    def g594():
+        lines = "\n".join("[%d] %s" % (a, b) for a, b in segs)
+
+        def ok(speaker="علي البخيتي", evidence="أستاذ علي البخيتي تفضل"):
+            return reel_render.verify_attribution(dict(point_id="p", speaker=speaker, evidence=evidence, reason=""),
+                                                  roster, lines, cfg)[0]
+        check("g594: حكم سليم مقبول", ok() is True)
+        check("g594: evidence ليس في الأسطر", ok(evidence="أستاذ علي تفضل جدًا") is False)
+        check("g594: اسم ليس في القائمة", ok(speaker="خالد المطيري") is False)
+        check("g594: المقدّم مرفوض", ok(speaker="فرداد فرحزاد", evidence="معنا من لندن") is False)
+        check("g594: evidence بلا كلمة من الاسم", ok(evidence="معنا من لندن الكاتب السياسي") is False)
+    guarded("g594", g594)
+
+    def g595():
+        script, out, dropped, notes, meta, _ = prune(4, [fr("علي البخيتي", "كاتب سياسي من لندن")] * 3,
+                                                     row("علي البخيتي", "أعود إليك أستاذ علي", pid4))
+        sc = script["scenes"][4]
+        check("g595: يبقى المقطع ولا حذف", 4 in out and not dropped, dropped)
+        check("g595: الاسم والصفة من الشريط", sc["speaker_name"] == "علي البخيتي" and sc["speaker_role"] == "كاتب سياسي من لندن"
+              and sc["speaker_verified"] is True and sc["speaker_verified_from"] == "chyron", sc)
+        rl = meta.get("relabel") or []
+        check("g595: render_relabel how=chyron", len(rl) == 1 and rl[0]["how"] == "chyron" and rl[0]["point_id"] == pid4
+              and rl[0]["to"] == "علي البخيتي", rl)
+        check("g595: سطر 🔁", any(n.startswith("🔁") and "علي البخيتي" in n and "الحربي" in n for n in notes), notes)
+        again = reel_render._apply_chyron(sc, dict(file="c4"), cfg, reel_render.Deps(read_chyron=lambda f, c: [fr("علي البخيتي")] * 3),
+                                          {}, [], 4)
+        check("g595: _apply_chyron الثاني لا يعيد مخالفة", again is None, again)
+    guarded("g595", g595)
+
+    def g596():
+        script, out, dropped, notes, meta, _ = prune(4, [], row("علي البخيتي", "أعود إليك أستاذ علي", pid4))
+        sc = script["scenes"][4]
+        rl = meta.get("relabel") or []
+        check("g596: تصحيح من النص", 4 in out and not dropped and len(rl) == 1 and rl[0]["how"] == "transcript"
+              and rl[0]["evidence"] == "أعود إليك أستاذ علي", (rl, dropped))
+        check("g596: الحقول والصفة من القائمة", sc["speaker_name"] == "علي البخيتي" and sc["speaker_role"] == "كاتب سياسي من لندن"
+              and sc["speaker_verified_from"] == "transcript" and sc["speaker_text"] == "علي البخيتي", sc)
+        check("g596: evidence في سطر 🔁", any(n.startswith("🔁") and "أعود إليك أستاذ علي" in n for n in notes), notes)
+        check("g596: render_attribution", (meta.get("attribution") or [{}])[0].get("accepted") is True, meta.get("attribution"))
+    guarded("g596", g596)
+
+    def g597():
+        def named(script, s):
+            script["scenes"][1]["text"] += " ويتحدث منيف"
+        _, out, dropped, _, _, _ = prune(4, [], row("علي البخيتي", "أعود إليك أستاذ علي", pid4), tweak=named)
+        check("g597: اسم القائل القديم منطوق ← حذف", 4 not in out and len(dropped) == 1
+              and dropped[0]["reason"] == t["drop_relabel_named"].format(speaker="منيف عماش الحربي", new="علي البخيتي"), dropped)
+
+        def dup(script, s):
+            script["scenes"][3]["speaker_text"] = "علي البخيتي"
+        _, out, dropped, _, _, _ = prune(4, [], row("علي البخيتي", "أعود إليك أستاذ علي", pid4), tweak=dup)
+        check("g597: البخيتي يجيب في مقطع آخر ← حذف", 4 not in out and len(dropped) == 1
+              and dropped[0]["reason"] == t["drop_relabel_duplicate"].format(speaker="منيف عماش الحربي", new="علي البخيتي"), dropped)
+
+        def line(script, s):
+            s.append((940, "تفضل دكتور منيف الحربي"))
+            s.sort()
+        _, out, dropped, _, meta, _ = prune(4, [fr("علي البخيتي")] * 3, row("منيف عماش الحربي", "تفضل دكتور منيف الحربي", pid4), tweak=line)
+        check("g597: شريط البخيتي ونص الحربي ← حذف conflict", 4 not in out and len(dropped) == 1
+              and dropped[0]["reason"] == t["drop_relabel_conflict"].format(speaker="منيف عماش الحربي", new="علي البخيتي"), dropped)
+        check("g597: لا تصحيح مسجَّل", not meta.get("relabel"), meta.get("relabel"))
+    guarded("g597", g597)
+
+    def g598():
+        script, out, dropped, notes, meta, _ = prune(9, [], row("منيف عماش الحربي", "دكتور منيف الحربي تفضل", pid9))
+        check("g598: يبقى بلا تصحيح", 9 in out and not dropped and not meta.get("relabel"), (dropped, meta))
+        check("g598: سطر ✅ النص يؤكد", any(n.startswith("✅ النص يؤكد المتكلم") and "منيف عماش الحربي" in n and "فرانس 24 عربي" in n
+                                             for n in notes), notes)
+        check("g598: speaker_verified_from=transcript", script["scenes"][9]["speaker_verified_from"] == "transcript", script["scenes"][9])
+    guarded("g598", g598)
+
+    def g599():
+        orig = reel_render._roster_jpegs
+
+        def boom(f, c):
+            raise RuntimeError("no frames")
+        reel_render._roster_jpegs = boom
+        try:
+            _, _, _, notes, meta, calls = prune(4, [], row("علي البخيتي", "أعود إليك أستاذ علي", pid4))
+        finally:
+            reel_render._roster_jpegs = orig
+        check("g599: read_roster مرة واحدة للفيديو", calls["roster"] == 1 and calls["attr"] == 1, calls)
+        check("g599: فشل التنزيل ← نداء بلا صور وبنص أول الحلقة", calls["lines"][0][1] == [] and "معنا من لندن" in calls["lines"][0][0]
+              and "أعود إليك" not in calls["lines"][0][0], calls["lines"])
+        check("g599: render_roster محفوظ", "v" in (meta.get("roster") or {}) and len(meta["roster"]["v"]) == 3, meta.get("roster"))
+        check("g599: سطر 👥", any(n.startswith("👥") and "علي البخيتي" in n and "فرانس 24 عربي" in n for n in notes), notes)
+    guarded("g599", g599)
+
+    def g600():
+        verdict = row("علي البخيتي", "أعود إليك أستاذ علي", pid4)
+        conf = copy.deepcopy(cfg)
+        conf["reel"]["render"]["speaker_check"]["enabled"] = False
+        _, out, dropped, _, _, calls = prune(4, [fr("علي البخيتي")] * 3, verdict, conf=conf)
+        check("g600: enabled=false ← سلوك Q11 (حذف) بلا نداء", 4 not in out and len(dropped) == 1 and calls["roster"] == 0, (dropped, calls))
+        _, out, dropped, _, _, _ = prune(4, [fr("علي البخيتي")] * 3, verdict, wire=False)
+        check("g600: بلا الحقلين ← سلوك Q11", 4 not in out and len(dropped) == 1
+              and dropped[0]["reason"] == t["drop_speaker_mismatch"].format(chyron="علي البخيتي", speaker="منيف عماش الحربي"), dropped)
+        _, out, dropped, _, meta, calls = prune(4, [fr("علي البخيتي")] * 3, verdict, approx=True)
+        check("g600: نافذة تقديرية ← حذف لا تصحيح", 4 not in out and not meta.get("relabel") and calls["roster"] == 0, (dropped, meta))
+        _, out, dropped, _, meta, _ = prune(4, [fr("علي البخيتي")] * 3, verdict, roster_fn=lambda l, j, c: None)
+        check("g600: عطل القائمة ← Q11", 4 not in out and not meta.get("relabel"), dropped)
+        sc = cfg.path("reel.render.speaker_check")
+        check("g600: الإعداد", sc.get("enabled") is True and sc.get("roster_seconds") == 180 and sc.get("roster_height") == 240
+              and sc.get("roster_frames") == 8 and sc.get("before_seconds") == 240 and sc.get("roster_system")
+              and sc.get("attribute_system"), sc)
+        for k in ("comment_roster", "comment_attr_confirmed", "comment_relabel", "relabel_how_chyron", "relabel_how_transcript",
+                  "drop_relabel_conflict", "drop_relabel_named", "drop_relabel_duplicate", "drop_relabel_host"):
+            check("g600: نص " + k, bool(t.get(k)), k)
+        check("g600: render.version >= 45", int(cfg.path("reel.render.version")) >= 45, cfg.path("reel.render.version"))
+    guarded("g600", g600)
