@@ -65,6 +65,14 @@ def open_or_update(path: Path, draft: dict, cfg) -> int:
     body = build_body(draft, cfg)
     number = draft.get("reel_review_issue")
     if number:
+        # Issue #1672 (Q10): بعد «↩️ عد إلى السيناريو» تُغلق القضية؛ التركيب الجديد يكتب جسمها فتبقى مغلقة والريل الجديد فيها.
+        # فتُعاد فتحها ويُنزع approved (وإلا أعاد الوسم القديم تشغيل النشر)؛ عطل ذلك تحذير والجسم يُكتب كما كان
+        try:
+            if review.issue_state(int(number)) == "closed":
+                review.reopen_issue(int(number))
+                review.remove_label(int(number), "approved")
+        except Exception as exc:  # noqa: BLE001 -- إعادة الفتح تحسين لا شرط
+            log.warning("تعذّرت إعادة فتح قضية مراجعة الريل #%s: %s", number, str(exc)[:120])
         review.update_issue_body(int(number), body)
         return int(number)
     review.ensure_labels()

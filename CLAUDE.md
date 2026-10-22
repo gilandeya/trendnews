@@ -2454,3 +2454,23 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
   معًا) وتعليمة «فاترك fix فارغًا». مخالفة جديدة في `revise_round` لا تُرفض فورًا: إعادة واحدة في المحادثة نفسها (user الأصلية ← assistant `tool_use` ← user `tool_result` بـ`is_error`
   نصه `editor.texts.revise_retry`)، وبقاؤها بعد الإعادة يرفض كما كان؛ يُحفظ `editor_revision.attempts = [{attempt, error}]`. الإعادة في الآلة العامة فتشمل كل المسارات.
 - **سطور التعليق:** `_comment_text` تضيف «- » لكل ملاحظة لا تبدأ بها (لا تغيير في نصوص الإعداد).
+
+## لا اسم تحت وجه لا نعرف أنه صاحبه (Issue #1672، Q10) — `src/reel_render.py`، `src/youtube_extract.py`، `src/reel_review.py`
+
+الحادثة (الريل 47e5af25182c، قضية #1669): ظهر علي البخيتي تحت اسم «منيف عماش الحربي» لأن نص الفيديو تعذّر جلبه فقُصّ المقطع بنافذة تقديرية
+وقعت على كلام غيره، والمتحدث المسمّى في السيناريو لا يمرّ بقراءة الشريط؛ وحُذف ضيف صحيح (علي صدرزاده) لأن الشريط يحمل اسم المقدّم فرداد فرحزاد
+طوال الحلقة. `render_version` = 43؛ الشاهد `tests/fixtures/reel/1669/render2.json`، الحالات g584–g589 في
+`tests/test_guards_golden.py:test_reel_approx_host_sorry_q10_guards`.
+
+- **(1) النافذة التقديرية تمرّ بالشريط:** `_span_and_gate` تضع `clip["approx"] = True` لمقطع نافذته تقديرية. `_apply_chyron` لمقطع كهذا يقرأ الشريط
+  **حتى لو كان متحدثه مسمّى** (`speaker_verified`): اسم شخص مقبول يطابق القائل ← يبقى (واسم السيناريو لا يُعاد كتابته) · يخالفه ← يُحذف بـ`drop_speaker_mismatch` ·
+  لا اسم شخص مقبول (أو تعذّرت القراءة أو لم تُرجع شيئًا) ← يُحذف بـ`drop_approx_unverified`. القاعدة: نسبة الكلام إلى غير قائله أسوأ من نقص إجابة (R6).
+  المقطع بنافذة من النص المجلوب لا يتغير (موقعه مضبوط بكلام صاحبه) ولا تُقرأ شريطه إن كان مسمّى. v1 لا يحذف (لا `_prune_mismatched` فيه) كما كان.
+- **(2) اسم المقدّم ليس اسم المتكلم:** `CHYRON_TOOL` لكل لقطة `name_is_speaker` (yes|no|unsure) وتعليمة `reel.render.chyron.system` بمثال إيران إنترناشيونال.
+  `resolve_chyron` لا تعدّ لقطة نحو القبول ولا المخالفة إلا إن كان yes (أو غاب الحقل توافقًا مع المزيَّفات القديمة)؛ لقطات `no` باسم شخص تعطي
+  `rejected == "host"` حين لا اسم مقبول غيرها، و`unsure` تُهمل. `_apply_chyron` يكتب `comment_chyron_host` ويبقى المتحدث «ضيف على» (أو باسم السيناريو إن كان مسمّى بنافذة نصية).
+- **(3) حجب جوجل:** `youtube_extract.fetch_transcript` تعامل `RetryError` و`Timeout` وكل `RequestException` فيها `/sorry` أو `429` كالحجب المؤقت: تراجع
+  بـ`backoff_seconds` وإعادة بـ`requests.Session()` جديدة (إن مُرّرت جلسة) كي يتغير عنوان البروكسي الدوّار. غيرها من `RequestException` يبقى «خطأ غير متوقَّع».
+  سبب فشل الجلب المحفوظ في `render_approx` يُقصّ إلى `reel.render.transcript_reason_chars` (200) لا 80.
+- **(4) قضية المراجعة:** `reel_review.open_or_update` لقضية موجودة: مغلقة (`review.issue_state`) ← `reopen_issue` ثم `remove_label(approved)` قبل كتابة الجسم؛ عطل ذلك تحذير والجسم يُكتب.
+- **(5) لا سطر مكرر:** سبب حذف المقطع يُكتب في سطر «✂️ حُذف…» وحده؛ `_prune_mismatched` لم تعد تضيفه إلى `notes`.

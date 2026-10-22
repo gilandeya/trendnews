@@ -646,6 +646,22 @@ def fetch_transcript(video_id: str, proxy_config, session: requests.Session | No
                         video_id, attempt + 1, len(delays), delay)
             time.sleep(delay)
             attempt += 1
+        except requests.exceptions.RequestException as exc:
+            # Issue #1672 (Q10): صفحة حجب جوجل (/sorry) تصل RetryError أو Timeout لا ConnectionError؛ تقييد معدّل مؤقت لا عطل دائم
+            # فيُعامَل كالحجب (تراجع وإعادة) بجلسة جديدة كي يتغيّر عنوان البروكسي الدوّار. غيره من RequestException عطل غير متوقَّع
+            msg = str(exc)
+            if not (isinstance(exc, (requests.exceptions.RetryError, requests.exceptions.Timeout))
+                    or "google.com/sorry" in msg or "/sorry" in msg or "429" in msg):
+                return None, f"خطأ غير متوقَّع أثناء سحب النص: {exc}", False
+            retry, delay = _should_retry(attempt, delays)
+            if not retry:
+                return None, f"محجوب من جوجل/يوتيوب بعد {len(delays)} إعادة محاولة: {exc}", True
+            log.warning("حجب مؤقت (تقييد معدّل) لفيديو %s (محاولة %d/%d)، انتظار %sث بجلسة جديدة",
+                        video_id, attempt + 1, len(delays), delay)
+            time.sleep(delay)
+            if session is not None:
+                session = requests.Session()
+            attempt += 1
         except Exception as exc:  # noqa: BLE001 -- الفشل الصامت ممنوع، كل عطل يُسجَّل
             return None, f"خطأ غير متوقَّع أثناء سحب النص: {exc}", False
 

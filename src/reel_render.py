@@ -1980,10 +1980,12 @@ def _span_and_gate(clip: dict, span_info: dict | None, scene: dict, segs: list, 
             if res.get("display"):
                 clip["display_text"] = res["display"]
             clip["segs"], clip["wstart"] = res["segs"], float(wstart)
+    is_approx = bool(approx and approx[-1]["point_id"] == scene.get("point_id", "") and approx[-1]["start"] == wstart) or not segs
+    if is_approx:
+        clip["approx"] = True    # Q10: نافذة تقديرية ← لا يُعرض باسم لم يُتحقق منه بصريًا (_apply_chyron)
     if not cfg.path("reel.render.gate.enabled", True):
         return
     secs = float(clip["seconds"])
-    is_approx = bool(approx and approx[-1]["point_id"] == scene.get("point_id", "") and approx[-1]["start"] == wstart) or not segs
     if is_approx:
         clip["gate"] = approx_gate(secs, cfg)
         return
@@ -2037,7 +2039,7 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: l
                 text = None
                 # سبب fetch_transcript الجاهز لا يُسبق باسم الصنف؛ غيره من الاستثناءات يبقى بصيغة R6
                 lead = "" if isinstance(exc, TranscriptUnavailable) else type(exc).__name__ + ": "
-                fetch_reasons[vid] = "تعذّر جلب نص الفيديو: " + lead + " ".join(safe.split())[:80]
+                fetch_reasons[vid] = "تعذّر جلب نص الفيديو: " + lead + " ".join(safe.split())[:int(cfg.path("reel.render.transcript_reason_chars", 200))]
             transcripts[vid] = youtube_extract.parse_transcript_segments(text) if text else []
         if not transcripts[vid]:
             win = _approx_window(point, scene)
@@ -2639,9 +2641,10 @@ CHYRON_TOOL = {
         "properties": {"has_caption": {"type": "boolean"}, "name_original": {"type": "string"},
                        "name_arabic": {"type": "string"}, "role_original": {"type": "string"},
                        "role_arabic": {"type": "string"}, "is_presenter": {"type": "boolean"},
-                       "name_kind": {"type": "string", "enum": ["person", "program", "channel", "other"]}},
+                       "name_kind": {"type": "string", "enum": ["person", "program", "channel", "other"]},
+                       "name_is_speaker": {"type": "string", "enum": ["yes", "no", "unsure"]}},
         "required": ["has_caption", "name_original", "name_arabic", "role_original", "role_arabic", "is_presenter",
-                     "name_kind"]}}},
+                     "name_kind", "name_is_speaker"]}}},
         "required": ["frames"]},
 }
 _LATIN_CHARS = re.compile(r"[A-Za-z\u00C0-\u024F]")
@@ -2839,14 +2842,23 @@ def resolve_chyron(frames: list, cfg, channel: str | list = "") -> dict:
     """القبول من نتائج اللقطات (دالة نقية): اسم شخص متطابق بعد توحيد المسافات وحالة الأحرف في لقطتين فأكثر؛ الصفة من أول لقطة
     فيها ذلك الاسم. اسم البرنامج أو القناة لا يُعدّ (Issue #1450). is_presenter صحيحة إن قالتها لقطتان فأكثر.
     {name_original, name_arabic, role_arabic, is_presenter, frames_agreeing, accepted, rejected}؛ rejected سبب إسقاط الاسم
-    الأكثر تكرارًا: program | channel | not_names، وفارغ إن لم يُسقَط شيء."""
+    الأكثر تكرارًا: program | channel | not_names | host (Q10: اسم المقدّم لا المتكلم)، وفارغ إن لم يُسقَط شيء."""
     channels = [channel] if isinstance(channel, str) else list(channel or [])
     valid: dict[str, list[dict]] = {}
     invalid: dict[str, list[dict]] = {}
+    host: list[dict] = []
     for f in frames:
         name = " ".join(str(f.get("name_original") or "").split())
-        if name:
-            (invalid if _chyron_reject_reason(f, cfg, channels) else valid).setdefault(name.casefold(), []).append(f)
+        if not name:
+            continue
+        # Q10: اسم المقدّم يظهر في الشريط طوال الحلقة فوق الضيف، فلا تُعدّ لقطة نحو القبول ولا المخالفة إلا إن قال النموذج
+        # إن الاسم للشخص الذي في الصورة؛ غياب الحقل (مزيَّفات قديمة) يُعدّ yes
+        said = f.get("name_is_speaker")
+        if said not in (None, "", "yes"):
+            if said == "no" and not _chyron_reject_reason(f, cfg, channels):
+                host.append(f)
+            continue
+        (invalid if _chyron_reject_reason(f, cfg, channels) else valid).setdefault(name.casefold(), []).append(f)
     best = max(valid.values(), key=len) if valid else []
     rejected = ""
     if len(best) < 2 and invalid:
@@ -2855,6 +2867,8 @@ def resolve_chyron(frames: list, cfg, channel: str | list = "") -> dict:
         if not best:
             best = worst
         rejected = _chyron_reject_reason(worst[0], cfg, channels)
+    if len(best) < 2 and not rejected and host:
+        best, rejected = host, "host"
     first = best[0] if best else {}
     agreeing = len(best)
     name_ar = " ".join(str(first.get("name_arabic") or "").split())
@@ -2901,27 +2915,45 @@ def _apply_chyron(scene: dict, clip: dict, cfg, deps: Deps, speakers: dict, note
     (العطل أو الرفض أو الردّ غير الصالح يُبقي «ضيف على»). اسم شخص مقبول يُقارَن بقائل النقطة (speaker_text): الخلاف (R6) لا يُطبَّق على
     المشهد ويُعاد {chyron, speaker} فيحذف _assemble المقطع من اللوحة؛ يُستدعى مرتين لكل مقطع (قبل بناء اللوحة وفي _clip_layers) فالقراءة تُحفظ
     في speakers ولا تُعاد."""
-    if not cfg.path("reel.render.chyron.enabled", False) or scene.get("speaker_verified") and scene.get("speaker_name"):
+    # Q10: مقطع بنافذة تقديرية (clip["approx"]) لا نعرف من يتكلم فيه حتى لو سُمّي متحدثه في السيناريو، فيمرّ بقراءة الشريط
+    approx = bool(clip.get("approx")) and bool(scene.get("speaker_verified") and scene.get("speaker_name"))
+    if not cfg.path("reel.render.chyron.enabled", False) or scene.get("speaker_verified") and scene.get("speaker_name") and not approx:
         return None
     if str(index) in speakers:
         return speakers[str(index)].get("mismatch")
     if getattr(deps, "read_chyron", None) is None:
         return None
+    speaker = " ".join(str(scene.get("speaker_text") or scene.get("speaker_name") or "").split())
+    unverified = {"speaker": speaker, "reason_key": "drop_approx_unverified"}
     try:
         frames = deps.read_chyron(clip["file"], cfg)
         if not isinstance(frames, list) or not frames:
+            if approx:
+                speakers[str(index)] = {"accepted": False, "mismatch": unverified}
+                return unverified
             return None
         res = resolve_chyron([f for f in frames if isinstance(f, dict)], cfg,
                              [scene.get("channel_original") or "", scene.get("channel_display") or ""])
     except Exception as exc:  # noqa: BLE001 -- القراءة تحسين لا شرط
         log.warning("تعذّرت قراءة شريط القناة فيبقى «ضيف على»: %s", str(exc)[:120])
+        if approx:
+            speakers[str(index)] = {"accepted": False, "mismatch": unverified}
+            return unverified
         return None
     speakers[str(index)] = res
     if res["accepted"] and speaker_matches(res["name_arabic"], res["name_original"], scene.get("speaker_text", ""), cfg) is False:
-        mismatch = {"chyron": res["name_arabic"], "speaker": " ".join(str(scene.get("speaker_text") or "").split())}
+        mismatch = {"chyron": res["name_arabic"], "speaker": speaker}
         res["mismatch"] = mismatch
         log.warning("شريط القناة %s لا يطابق قائل النقطة %s", mismatch["chyron"], mismatch["speaker"])
         return mismatch
+    if approx:
+        # نافذة تقديرية: لا يبقى المقطع إلا إن حمل الشريط اسم شخص هو المتكلم ويطابق القائل؛ ولا يُعاد كتابة اسم السيناريو الموثَّق
+        if not res["accepted"]:
+            res["mismatch"] = unverified
+            log.warning("نافذة تقديرية ولم يُتحقق أن المتكلم %s", speaker)
+            return unverified
+        scene.update(speaker_verified_from="chyron")
+        return None
     if res["accepted"]:
         scene.update(speaker_verified=True, speaker_verified_from="chyron", speaker_name=res["name_arabic"],
                      speaker_name_latin=res["name_original"] if _LATIN_CHARS.search(res["name_original"]) else "",
@@ -2933,7 +2965,12 @@ def _apply_chyron(scene: dict, clip: dict, cfg, deps: Deps, speakers: dict, note
     else:
         if res["is_presenter"]:
             scene["speaker_presenter"] = True
-        if res.get("rejected") in ("program", "channel", "not_names"):
+        if res.get("rejected") == "host":
+            line = cfg.path("reel.render.texts.comment_chyron_host").format(
+                channel=scene.get("channel_display") or "", name=res["name_arabic"] or res["name_original"])
+            if line not in notes:
+                notes.append(line)
+        elif res.get("rejected") in ("program", "channel", "not_names"):
             # اسم البرنامج يُعرض لو قُبل اسمًا لشخص فيُنبَّه المراجع إلى أن الشريط عُوملَ كأنه بلا اسم
             line = cfg.path("reel.render.texts.comment_chyron_program").format(name=res["name_arabic"] or res["name_original"])
             if line not in notes:
@@ -3700,10 +3737,9 @@ def _prune_mismatched(script: dict, clips: dict, cfg, deps: Deps, speakers: dict
                 continue
             mm = _apply_chyron(script["scenes"][i], clips[i], cfg, deps, speakers, notes, i)
             if mm:
-                line = t["drop_speaker_mismatch"].format(**mm)
+                # سبب الحذف يُكتب في سطر «✂️ حُذف…» وحده (Q10): إضافته إلى notes كانت تكرره سطرًا مستقلًا بلا رمز
+                line = t[mm.get("reason_key", "drop_speaker_mismatch")].format(**mm)
                 _drop(dropped, script["scenes"][i], line)
-                if line not in notes:
-                    notes.append(line)
                 clips.pop(i)
                 gone.append(i)
         left = [i for i in members if i in clips]
