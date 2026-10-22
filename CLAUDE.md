@@ -166,9 +166,10 @@ These are enforced by convention, not tooling, so hold to them deliberately:
   text with an independent model call, so the same public figure's name can come out spelled two
   different ways between two drafts (measured on 331 real drafts: «نتنياهو»/«نتانياهو»,
   «ترامب»/«ترمب», «أردوغان»/«إردوغان» — rare, 2–4%, but visible to a reader when two consecutive
-  cards name the same person differently). `names.normalize_names(text, cfg)` does a plain
-  `str.replace` of every alternate spelling in `config.yaml: names.aliases` with its canonical
-  form — no other normalization at all (no hamza folding, no tashkeel stripping, no ة/ه, no
+  cards name the same person differently). `names.normalize_names(text, cfg)` replaces
+  every alternate spelling in `config.yaml: names.aliases` with its canonical form **at word
+  boundaries only** (Issue #1684, see the N1 rules below; originally a plain `str.replace`) — no
+  other normalization at all (no hamza folding, no tashkeel stripping, no ة/ه, no
   whitespace collapsing; this is a name dictionary, not a text normalizer). To add a name, edit
   `names.aliases` in `config.yaml` — no code change. Because `store.save_draft`/`update_draft` are
   the single application point every path already funnels through (the same reasoning as the
@@ -197,8 +198,7 @@ These are enforced by convention, not tooling, so hold to them deliberately:
   one (golden case g115 in `tests/test_guards_golden.py`, run through the real `store.save_draft`).
 - **A second, self-learning layer sits on top of `names.aliases` so the dictionary above needs no
   manual maintenance (Issue #1074).** `names.normalize_names` now merges two dictionaries into one
-  before doing the same plain-`str.replace` substitution described above (unchanged mechanics,
-  unchanged five fields) — **the manual layer always wins on conflict**, applied after the learned
+  before doing the same word-boundary substitution described above (unchanged five fields) — **the manual layer always wins on conflict**, applied after the learned
   one so it silently overwrites any clashing mapping, and `names.blocklist` (new, empty by default)
   removes a learned entry's effect immediately even if it's still sitting in storage, without
   touching the manual dictionary at all. `names.learned_enabled` (default `true`) turns the whole
@@ -248,6 +248,22 @@ These are enforced by convention, not tooling, so hold to them deliberately:
   ranking/publishing tunable) as `"📝 وُحّد الرسم: <variant> ← <canonical> (<n> مقابل <m>)"`, with a
   line pointing at `names.blocklist` as the way to undo one — and no section at all if nothing was
   learned that week.
+- **N1 — word-boundary replacement, stability guard, no contained pairs (Issue #1684; g609–g614 in
+  `tests/test_guards_golden.py:test_names_n1_guards`).** Incident: the learned entries «اشنطن»←«واشنطن» and
+  «بريطانية»←«ريطانية» turned «واشنطن» into «اشنطن» in two published posts, and «البريطانية» into «الببريطانية»,
+  «البببريطانية»… on every later save. Three general rules, both layers: (1) `names._apply_aliases` replaces a
+  spelling only as a whole word, or a whole word after one attached prefix from the same list `_strip_prefix`
+  uses (و، ب، ل، ف، ك، ال، وال، بال، لل — the prefix is kept: «وترمب»→«وترامب»), via a regex whose boundaries
+  are non-letters (Arabic/Latin) on both sides; never mid-word; still longest-first and through the private-use
+  placeholder (#1315). (2) `names._is_stable` (used by `_build_alias_map`) drops every (canonical, variant) pair
+  where the canonical — bare or with any prefix — is changed by the replacement, or where applying it twice on
+  the variant differs from once; dropped pairs are logged once with `log.warning` and shown in the weekly
+  report (`insights.learned_names_section`: «⚠️ أُوقف توحيد لا يثبت: …», fed by `names.unstable_entries`); a
+  broken manual alias is stopped and flagged, never silently fixed. (3) `names_learn.find_candidates` never
+  proposes a pair where one word contains the other (a letter difference from the word's root, not two
+  spellings of one name). The existing «اشنطن»/«ريطانية» pairs were added to `rejected_pairs` by hand; no
+  learned entry was deleted (the guard disables them automatically). Saved drafts and the counting logic
+  (`_strip_prefix`) are deliberately untouched.
 - **Publisher names on a card's «المصدر:» footer line (Issue #1145).** No bundled font has Hebrew or Chinese glyphs, so a source/channel `name` in such a script drew empty boxes; `name_ar` (optional field on any `sources`/`channels` entry in `config.yaml`, e.g. `@C14news` → «القناة 14») is what the footer shows instead, applied in `imaging.resolve_publisher_names` (exact match, else substring so «صورة: ערוץ 14» works) — `name` itself is never changed since the rest of the pipeline keys off it, and a test fails if any `name` outside Arabic/Latin lacks a `name_ar`.
 - **The footer guard (`imaging.drop_unrenderable_names`):** after substitution, any name containing a character absent from the font actually used (checked via its cmap, after any fallback) is dropped from the line and logged with `log.warning`; if every name is dropped the «المصدر:» line is not drawn at all — an empty box must never be rendered. Adding a new non-Arabic/Latin source means adding its `name_ar`, no code change.
 - **`failed` must stay revivable by fixing its cause.** Any code that records `status="failed"`
