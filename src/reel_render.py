@@ -558,6 +558,9 @@ class Deps:
     # (أسطر أول الحلقة، لقطاتها JPEG، cfg) ← [{name_arabic, name_original, role_arabic, is_host}] (Issue #1679، Q12)؛ يرفع عند العطل
     # والمستدعي يعود إلى سلوك Q11. None للمزيَّفات القديمة ← لا قائمة ولا إسناد
     read_roster: Callable[[str, list, Any], list | None] | None = None
+    # (ملف المقطع، رمز اللغة أو None، cfg) ← [(بداية، نهاية، كلمة)] بثواني الملف (Issue #1681، Q13)؛ يرفع عند العطل. None للمزيَّفات
+    # القديمة ← لا ضبط كلمة بكلمة ويبقى ضبط السطر
+    transcribe_words: Callable[[Any, str | None, Any], list] | None = None
     # (القائمة، [{point_id, speaker, quote, lines}] لفيديو واحد، cfg) ← [{point_id, speaker, evidence, reason}]
     attribute_clips: Callable[[list, list, Any], list | None] | None = None
 
@@ -618,6 +621,7 @@ class Deps:
                 _real_read_lower_graphics if self.download_clip is None and self.faces is None else None),
             pick_span=self.pick_span or ((lambda segs, a, b, q, c: reel_clips.thought_span(segs, a, b, q, c)) if real else None),
             detect_silence=self.detect_silence or (_real_detect_silence if real else None),
+            transcribe_words=self.transcribe_words or ((lambda f, lang, c: reel_clips.transcribe_words(f, lang, c)) if real else None),
             pick_speaker=self.pick_speaker or (_real_pick_speaker if self.download_clip is None else (lambda *a: None)),
             sleep=self.sleep or time.sleep,
             streams=self.streams or probe_streams,
@@ -1878,10 +1882,10 @@ def _norm_words(text: str) -> list[str]:
     return youtube_extract._normalize_for_anchor(str(text or "")).split()
 
 
-def gate_window(g0: float, g1: float, silences: list, cfg) -> dict:
+def gate_window(g0: float, g1: float, silences: list, cfg, snap: float | None = None) -> dict:
     """نافذة الصوت المسموع داخل المقطع (Issue #1660، Q6): g0 بداية الكلام وg1 نهايته من النص، يُنقل g0 إلى نهاية آخر صمت حقيقي يقع
     في [g0 − snap، g0 + snap] وg1 إلى بداية أول صمت في [g1 − snap، g1 + snap]؛ بلا صمت في المدى يبقى التقدير. دالة خالصة."""
-    snap = float(cfg.path("reel.render.gate.snap", 0.6))
+    snap = float(cfg.path("reel.render.gate.snap", 0.6)) if snap is None else float(snap)   # Q13: exact.snap أصغر فلا يقفز إلى كلمة مجاورة
     c0 = [e for _, e in silences or [] if g0 - snap <= e <= g0 + snap]
     c1 = [b for b, _ in silences or [] if g1 - snap <= b <= g1 + snap]
     start, end = (max(c0) if c0 else g0), (min(c1) if c1 else g1)
@@ -1930,6 +1934,92 @@ def _real_detect_silence(clip, cfg) -> list[tuple[float, float]]:
             out.append((begin, float(m.group(1))))
             begin = None
     return out
+
+
+def _video_prefix(clip: dict) -> str:
+    """بداية سلسلة فلتر صورة المقطع حين ضُبط كلمة بكلمة (Issue #1681، Q13): خارج [أول الكلام، آخره] تُجمَّد الصورة على أول إطار منه وآخر
+    إطار منه (trim ثم tpad بالمدد نفسها) فلا يُرى الفم يقول كلامًا آخر ولا تتغير مدة المشهد. بلا trim على المقطع ← فارغ فيبقى الأمر حرفًا."""
+    tr, fz = clip.get("trim"), clip.get("freeze")
+    if not tr:
+        return ""
+    if fz and fz["src1"] - fz["src0"] > 0.1:
+        return (f"trim=start={_fmt(fz['src0'])}:end={_fmt(fz['src1'])},setpts=PTS-STARTPTS,"
+                f"tpad=start_duration={_fmt(fz['pre'])}:start_mode=clone:stop_duration={_fmt(fz['post'])}:stop_mode=clone,")
+    return f"trim=start={_fmt(tr[0])}:end={_fmt(tr[1])},setpts=PTS-STARTPTS,"
+
+
+def _audio_prefix(clip: dict) -> str:
+    """نظير _video_prefix للصوت: يقتطع نافذة المقطع المنطقية من الملف الأوسع (قبل البوابة)."""
+    tr = clip.get("trim")
+    return f"atrim=start={_fmt(tr[0])}:end={_fmt(tr[1])},asetpts=PTS-STARTPTS," if tr else ""
+
+
+def _exact_align(file: Path, lang: str | None, point: dict, cfg, deps: Deps) -> tuple[dict | None, str]:
+    """تفريغ كلمات الملف ومطابقة الاقتباس الأصلي (Q13). يعيد (نتيجة align_quote بثواني الملف، "") أو (None، السبب)؛ لا يرفع أبدًا."""
+    try:
+        words = deps.transcribe_words(file, lang, cfg)
+    except Exception as exc:  # noqa: BLE001 -- مكتبة اختيارية أو عطل نموذج: يُعامل عطلًا فيبقى ضبط السطر
+        return None, f"{type(exc).__name__}: " + reel_clips.scrub_text(str(exc))[:80]
+    if not words:
+        return None, "تفريغ فارغ"
+    res = reel_clips.align_quote(point.get("quote_original", ""), words, cfg)
+    if res is None:
+        return None, "الاقتباس لم يطابق الكلمات المفرَّغة بنسبة كافية أو يتكرر"
+    return res, ""
+
+
+def _exact_apply(clip: dict, scene: dict, point: dict, dstart: int, wstart: int, wend: int, is_approx: bool, cfg, deps: Deps,
+                 notes: list | None, approx: list) -> tuple[str, str]:
+    """يضبط المقطع كلمة بكلمة (Issue #1681، Q13) بعد تنزيل نافذته الأوسع [dstart..]. يعيد ("words"|"line"|"approx"|"drop"، السبب).
+    words: نجحت المطابقة ← النافذة المنطقية [أول كلمة − lead، آخر كلمة + tail] تُقتطع من الملف (trim)، والبوابة [أول كلمة − pad،
+    آخرها + pad] تُضبط على الصمت بـexact.snap، والصورة تُجمَّد خارجها، وتوقيت الترجمة من الكلمات نفسها؛ ونافذة تقديرية طوبقت تصير نافذة
+    كلمات (approx=False وaligned في render_approx). فشل ← يُقتطع الملف إلى النافذة المنطقية القديمة ويبقى ضبط السطر (line|approx) مع تنبيه،
+    وexact.require يحذف المقطع. القيم كلها في ثواني الفيديو الأصلي إلا trim/gate/freeze فبثواني الملف/المقطع المقتطع."""
+    xcfg = cfg.path("reel.render.exact") or {}
+    scfg = cfg.path("reel.script") or {}
+    lang = scene.get("language") if scene.get("language") not in (None, "", "other") else None
+    fsecs = float(clip["seconds"])
+    res, why = _exact_align(clip["file"], lang, point, cfg, deps)
+    channel = scene.get("channel_display", "")
+    if res is None:
+        if xcfg.get("require", False):
+            return "drop", why
+        # فشل: النافذة المنطقية القديمة (wstart..wend) تُقتطع من الملف الأوسع ثم يمضي المسار القديم بحدّ السطر
+        t0 = float(wstart - dstart)
+        t1 = min(float(wend - dstart), fsecs)
+        clip["trim"] = (t0, t1)
+        clip["seconds"] = round(max(t1 - t0, 0.1), 3)
+        source = "approx" if is_approx else "line"
+        clip["exact"] = {"source": source, "error": why}
+        if notes is not None:
+            notes.append(cfg.path("reel.render.texts.comment_exact_failed").format(channel=channel, reason=why))
+        return source, why
+    lead, tail, pad = float(scfg.get("lead_seconds", 1)), float(scfg.get("clip_tail_seconds", 1.0)), float(xcfg.get("pad", 0.12))
+    a0, a1 = dstart + res["t0"], dstart + res["t1"]            # ثواني الفيديو الأصلي
+    s0, s1 = max(a0 - lead, float(dstart)), min(a1 + tail, dstart + fsecs)
+    clip["trim"] = (round(s0 - dstart, 3), round(s1 - dstart, 3))
+    clip["seconds"] = round(s1 - s0, 3)
+    sil: list = []
+    if deps.detect_silence is not None:
+        try:
+            sil = [(b - (s0 - dstart), e - (s0 - dstart)) for b, e in (deps.detect_silence(clip["file"], cfg) or [])]
+        except Exception as exc:  # noqa: BLE001 -- الضبط على الصمت تحسين: يبقى حدّ الكلمات
+            log.warning("تعذّر كشف الصمت: %s", reel_clips.scrub_text(str(exc))[:100])
+    g0, g1 = max(a0 - pad - s0, 0.0), min(a1 + pad - s0, clip["seconds"])
+    gate = gate_window(g0, g1, sil, cfg, snap=float(xcfg.get("snap", 0.3)))
+    if cfg.path("reel.render.gate.enabled", True):
+        clip["gate"] = gate
+    clip["freeze"] = {"src0": round(clip["trim"][0] + gate["start"], 3), "src1": round(clip["trim"][0] + gate["end"], 3),
+                      "pre": gate["start"], "post": round(clip["seconds"] - gate["end"], 3)}
+    # توقيت الترجمة من الكلمات المطابَقة نفسها: مقطع بكل كلمة وحارس فارغ عند نهاية الكلام
+    clip["segs"] = [(dstart + w[0], w[2]) for w in res["words"]] + [(a1, "")]
+    clip["wstart"] = float(s0)
+    clip["sync"] = "words"
+    clip["approx"] = False
+    clip["exact"] = {"t0": round(a0, 2), "t1": round(a1, 2), "ratio": res["ratio"], "source": "words"}
+    if is_approx and approx:
+        approx[-1]["aligned"] = True
+    return "words", ""
 
 
 def _decide_span(scene: dict, point: dict, segs: list, loc: dict, old: tuple[int, int], cfg, deps: Deps) -> dict:
@@ -2006,6 +2096,8 @@ def _span_and_gate(clip: dict, span_info: dict | None, scene: dict, segs: list, 
     if deps.detect_silence is not None:
         try:
             sil = deps.detect_silence(clip["file"], cfg) or []
+            off = (clip.get("trim") or (0.0, 0.0))[0]      # الصمت بثواني الملف الأوسع (Q13) والبوابة بثواني النافذة المقتطعة
+            sil = [(b - off, e - off) for b, e in sil] if off else sil
         except Exception as exc:  # noqa: BLE001 -- الضبط على الصمت تحسين: يبقى التقدير
             log.warning("تعذّر كشف الصمت: %s", reel_clips.scrub_text(str(exc))[:100])
     clip["gate"] = gate_window(g0, g1, sil, cfg)
@@ -2023,10 +2115,13 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: l
     dropped: list = []
     approx: list = []
     from . import youtube_extract
+    xcfg = cfg.path("reel.render.exact") or {}
+    exact_on = bool(xcfg.get("enabled", True)) and deps.transcribe_words is not None    # Q13: بلاه يبقى السلوك القديم حرفًا
     for i, scene in enumerate(script["scenes"]):
         if scene.get("kind") not in reel_script.CLIP_KINDS:
             continue
         span_info = None
+        ex_margin = None
         point = by_id.get(scene.get("point_id"))
         if not point or not point.get("video_id"):
             _drop(dropped, scene, "نقطة المقطع غير موجودة في نافذة النقاط")
@@ -2055,6 +2150,7 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: l
                 _drop(dropped, scene, why)
                 continue
             wstart, wend = win
+            ex_margin = float(xcfg.get("approx_margin", 20))
             approx.append({"point_id": scene.get("point_id", ""), "kind": scene.get("kind", ""),
                            "start": wstart, "end": wend, "reason": why,
                            "channel": scene.get("channel_display", "")})
@@ -2071,6 +2167,7 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: l
                           else "الاقتباس غير موجود في نص الفيديو")
                     continue
                 wstart, wend = win
+                ex_margin = float(xcfg.get("approx_margin", 20))
                 approx.append({"point_id": scene.get("point_id", ""), "kind": scene.get("kind", ""),
                                "start": wstart, "end": wend,
                                "reason": cfg.path("reel.render.texts.approx_ambiguous" if ambiguous
@@ -2100,9 +2197,17 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: l
                                 notes.append(t["comment_span_text"].format(channel=channel))
                         wstart, wend = nstart, nend
                 span_info = {"res": span_res, "loc": loc}
+                ex_margin = float(xcfg.get("margin", 4))
+        # Q13: نافذة التنزيل أوسع من النافذة المنطقية (wstart..wend) لتفريغ الكلمات؛ على الفشل يُقتطع الملف إلى المنطقية
+        dstart, dend = wstart, wend
+        if exact_on and ex_margin is not None:
+            base0 = float(loc["start"]) if span_info else float(wstart)
+            base1 = float(loc["end"]) if span_info else float(wend)
+            dstart = int(min(max(0, math.floor(base0 - ex_margin)), wstart))
+            dend = int(max(math.ceil(base1 + ex_margin), wend))
         out = tmp / f"clip_{i}.mp4"
         try:
-            got = _download_with_retries(deps, rcfg, vid, wstart, wend, out)
+            got = _download_with_retries(deps, rcfg, vid, dstart, dend, out)
         except Exception as exc:  # noqa: BLE001 -- عطل تنزيل لا إسقاط تحريري: الريل كله يؤجَّل
             raise ClipDownloadFailed(scene.get("channel_display", ""),
                                      "فشل تنزيل المقطع: " + reel_clips.scrub_text(str(exc))[:120]) from exc
@@ -2112,18 +2217,34 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: l
                 approx.pop()
             continue
         out = got
-        secs = deps.probe(out) or float(wend - wstart)
+        secs = deps.probe(out) or float(dend - dstart)
         clips[i] = {"file": out, "seconds": float(secs), "video_id": vid}
+        is_approx_win = bool(approx and approx[-1]["point_id"] == scene.get("point_id", "") and approx[-1]["start"] == wstart)
+        aligned, why = None, ""
+        if exact_on and ex_margin is not None:
+            aligned, why = _exact_apply(clips[i], scene, point, dstart, wstart, wend, is_approx_win, cfg, deps, notes, approx)
+            if aligned == "drop":
+                clips.pop(i)
+                _drop(dropped, scene, cfg.path("reel.render.texts.drop_exact_failed").format(reason=why))
+                if is_approx_win:
+                    approx.pop()
+                continue
+        if aligned == "words":
+            continue       # ضُبط كلمة بكلمة: النافذة والبوابة والنص والترجمة محسوبة كلها من الكلمات
         loc_found = (span_info or {}).get("loc")
         if transcripts[vid] and loc_found:
             # Q12: النص الكامل وموضع الاقتباس فيه لقائمة الضيوف وإسناد القائل (يُمرَّران ولا يُجلبان ثانية)
             clips[i].update(transcript=transcripts[vid], quote_start=float(loc_found["start"]), quote_end=float(loc_found["end"]))
-        if transcripts[vid] and not (approx and approx[-1]["point_id"] == scene.get("point_id", "")
-                                     and approx[-1]["start"] == wstart):
+        if transcripts[vid] and not is_approx_win:
             # نافذة محسوبة من النص نفسه: مقاطعه تعطي منحنى تقدّم الكلام لتوقيت الترجمة؛ التقريبية بلا مقاطع فتوزَّع بالتساوي
             clips[i]["segs"] = transcripts[vid]
             clips[i]["wstart"] = float(wstart)
         _span_and_gate(clips[i], span_info, scene, transcripts[vid], wstart, cfg, deps, approx)
+        if aligned in ("line", "approx") and clips[i].get("gate"):
+            g = clips[i]["gate"]
+            tr0 = clips[i]["trim"][0]
+            clips[i]["freeze"] = {"src0": tr0 + g["start"], "src1": tr0 + g["end"], "pre": g["start"],
+                                  "post": round(clips[i]["seconds"] - g["end"], 3)}
     return clips, dropped, approx
 
 
@@ -2470,7 +2591,8 @@ def _prepare_crop(clip: dict, cfg, deps: Deps, scene: dict | None, notes: list |
                     **({"vision": crop["vision"]} if "vision" in crop else {}),
                     **({"quote_sync": clip["quote_sync"]} if clip.get("quote_sync") else {}),
                     **({"quote_mode": clip["quote_mode"]} if clip.get("quote_mode") else {}),
-                    **({"gate": clip["gate"]} if clip.get("gate") else {})}
+                    **({"gate": clip["gate"]} if clip.get("gate") else {}),
+                    **({"exact": clip["exact"]} if clip.get("exact") else {})}
     if notes is not None and int(crop.get("tracks") or 0) >= 2:
         # سطر لكل مقطع تعدّدت وجوهه يبيّن بأي طريقة حُسم المتكلم، فيراجع صاحب المشروع القرار دون فتح الملف
         t = cfg.path("reel.render.texts")
@@ -2517,18 +2639,18 @@ def _clip_scene(clip: dict, overlays: tuple[Path, Path], out: Path, cfg, deps: D
         lst.write_text("".join(f"file '{f}'\nduration {_fmt(d)}\n" for f, d in qframes)
                        + f"file '{qframes[-1][0]}'\n", encoding="utf-8")
         loops += ["-f", "concat", "-safe", "0", "-i", str(lst)]
-        graph = (f"[0:v]{cexpr},scale={w}:{h}[v0];"
+        graph = (f"[0:v]{_video_prefix(clip)}{cexpr},scale={w}:{h}[v0];"
                  f"[v0][1:v]overlay=0:0:shortest=1[v1];"
                  f"[3:v]fps={rcfg['fps']},format=rgba[q];"
                  f"[v1][q]overlay=0:0:shortest=1[v2];"
                  f"[v2][2:v]overlay={pos}:shortest=1,fps={rcfg['fps']},format=yuv420p[v]")
     else:
-        graph = (f"[0:v]{cexpr},scale={w}:{h}[v0];"
+        graph = (f"[0:v]{_video_prefix(clip)}{cexpr},scale={w}:{h}[v0];"
                  f"[v0][1:v]overlay=0:0:shortest=1[v1];"
                  f"[v1][2:v]overlay={pos}:shortest=1,fps={rcfg['fps']},format=yuv420p[v]")
     deps.run(_base("-i", str(clip["file"]), *loops,
                    "-filter_complex", graph, "-map", "[v]", "-map", "0:a:0", "-af",
-                   f"aresample={rcfg.get('audio_rate', 48000)},aformat=channel_layouts=stereo,{_gate_filter(clip, cfg)}{_loudnorm(cfg)}",
+                   f"aresample={rcfg.get('audio_rate', 48000)},aformat=channel_layouts=stereo,{_audio_prefix(clip)}{_gate_filter(clip, cfg)}{_loudnorm(cfg)}",
                    "-t", _fmt(clip["seconds"]), *_enc(rcfg), str(out)))
     return clip["seconds"]
 
@@ -3504,7 +3626,7 @@ def _clip_layers(i: int, scene: dict, clip: dict, cfg, deps: Deps, tmp: Path, sp
         mode = "line" if str(lang or "ar").lower() not in ("ar", "ara", "arabic", "") else "word"
         qframes = quote_frames(cfg, qtext, times, clip["seconds"], tmp, f"quote_{i}", mode)
         clip["quote_mode"] = mode
-        clip["quote_sync"] = "transcript" if segs else "uniform"
+        clip["quote_sync"] = clip.get("sync") or ("transcript" if segs else "uniform")
     static, band = (frame_clip_layers(cfg, scene, quote=qframes is None) if cover is None
                     else frame_clip_layers(cfg, scene, cover=cover, quote=qframes is None))
     return (_save(static, tmp / f"overlay_{i}_static.png"), _save(band, tmp / f"overlay_{i}_band.png")), qframes
@@ -3647,7 +3769,7 @@ def _panel_scene(members: list[tuple[int, dict]], clips: dict, out: Path, cfg, d
         fi = add("-i", str(clips[i]["file"]))
         fidx.append(fi)
         if not pop:
-            vg.append(f"[{fi}:v]{prepared[k][1]},scale={fw}:{fh},fps={fps},setpts=PTS-STARTPTS+{a}/TB[f{k}];"
+            vg.append(f"[{fi}:v]{_video_prefix(clips[i])}{prepared[k][1]},scale={fw}:{fh},fps={fps},setpts=PTS-STARTPTS+{a}/TB[f{k}];"
                       f"[{cur}][f{k}]overlay={fx}:{fy}:enable='between(t,{a},{bb})'[o{k}]")
             cur = f"o{k}"
             continue
@@ -3659,7 +3781,7 @@ def _panel_scene(members: list[tuple[int, dict]], clips: dict, out: Path, cfg, d
         fade = float(cfg.path("reel.render.panel.pop.fade"))
         sw_e = f"trunc(({sw}+({fw}-{sw})*{kx})/2)*2"
         sh_e = f"trunc(({sh}+({fh}-{sh})*{kx})/2)*2"
-        vg.append(f"[{fi}:v]{prepared[k][1]},scale={fw}:{fh},fps={fps},setpts=PTS-STARTPTS+{a}/TB,format=rgba,"
+        vg.append(f"[{fi}:v]{_video_prefix(clips[i])}{prepared[k][1]},scale={fw}:{fh},fps={fps},setpts=PTS-STARTPTS+{a}/TB,format=rgba,"
                   f"fade=t=in:st={a}:d={_fmt(fade)}:alpha=1,fade=t=out:st={_fmt(end_k - fade)}:d={_fmt(fade)}:alpha=1,"
                   f"scale=w='{sw_e}':h='{sh_e}':eval=frame[f{k}];"
                   f"[{cur}][f{k}]overlay=x='{sx}+({fx}-{sx})*{kx}':y='{sy}+({fy}-{sy})*{kx}':enable='between(t,{a},{bb})'[o{k}]")
@@ -3696,7 +3818,8 @@ def _panel_scene(members: list[tuple[int, dict]], clips: dict, out: Path, cfg, d
         ag.append(f"anullsrc=r={rate}:cl=stereo,atrim=duration={_fmt(intro)},asetpts=PTS-STARTPTS[am_s]")
     for k, (i, _) in enumerate(members):
         sec = _fmt(float(clips[i]["seconds"]))
-        ag.append(f"[{fidx[k]}:a]aresample={rate},aformat=channel_layouts=stereo,atrim=duration={sec},asetpts=PTS-STARTPTS,"
+        ag.append(f"[{fidx[k]}:a]aresample={rate},aformat=channel_layouts=stereo,"
+                  f"{_audio_prefix(clips[i]) or f'atrim=duration={sec},asetpts=PTS-STARTPTS,'}"
                   f"{_gate_filter(clips[i], cfg)}apad=whole_dur={sec}[am{k}]")
     ag.append(("[am_s]" if pop else "") + "".join(f"[am{k}]" for k in range(n)) + f"concat=n={n + (1 if pop else 0)}:v=0:a=1,{_loudnorm(cfg)}[a]")
     deps.run(_base(*inputs, "-filter_complex", ";".join(vg + ag), "-map", "[v]", "-map", "[a]", "-t", _fmt(total),
@@ -4792,6 +4915,8 @@ def _comment_text(cfg, draft: dict, result: dict, dropped: list, approx: list | 
         details = "؛ ".join(f"{d['kind']} ({d['reason']})" for d in dropped)
         text += "\n" + t["comment_dropped"].format(n=len(dropped), details=details)
     for a in approx or []:
+        if a.get("aligned"):
+            continue       # Q13: نافذة طوبقت كلمة بكلمة لم تعد تقديرية
         text += "\n" + t["comment_approx"].format(
             channel=a.get("channel", ""), window=f"{_mmss(a['start'])}–{_mmss(a['end'])}", reason=a["reason"])
     for n in notes or []:

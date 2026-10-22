@@ -19981,3 +19981,214 @@ def test_reel_roster_attribution_q12_guards() -> None:
             check("g600: نص " + k, bool(t.get(k)), k)
         check("g600: render.version >= 45", int(cfg.path("reel.render.version")) >= 45, cfg.path("reel.render.version"))
     guarded("g600", g600)
+
+
+Q13_WORDS = Path(__file__).parent / "fixtures" / "reel" / "1676" / "words_945.json"
+Q13_BASE_FIXTURE = Path(__file__).parent / "fixtures" / "reel" / "q13_base_cmds.json"
+
+
+def test_reel_exact_q13_guards() -> None:
+    """Issue #1681 (Q13، g601–g608): المقطع هو الاقتباس نفسه بالضبط — توقيت كلمة بكلمة بتفريغ صوت المقطع (align_quote وdeps.transcribe_words)
+    وتجميد الصورة خارج الكلام، ولا توسيع للفكرة في التركيب (span مطفأة) بل حكم `complete` في فحص السيناريو. الشاهد
+    tests/fixtures/reel/1676/words_945.json (كلمات مفرَّغة مصنوعة بشكل الحادثة). لا شبكة ولا whisper."""
+    import copy
+    import json
+    import tempfile
+    from pathlib import Path
+    from types import SimpleNamespace
+
+    import numpy as np
+
+    from src import reel_clips, reel_render, reel_script, youtube_publish as yp
+
+    cfg = load_config()
+    fx = json.loads(Q13_WORDS.read_text(encoding="utf-8"))
+    words = [tuple(w) for w in fx["words"]]
+    work = Path(tempfile.mkdtemp(prefix="q13_"))
+    segs = [tuple(x) for x in json.loads((Path(__file__).parent / "fixtures/reel/1676/transcript_qB.json").read_text(encoding="utf-8"))]
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def g601():
+        r = reel_clips.align_quote(fx["quote_original"], words, cfg)
+        check("g601: t0 ≈ 3.9 وt1 ≈ 12.8", r is not None and abs(r["t0"] - 3.9) < 0.05 and abs(r["t1"] - 12.8) < 0.05, r)
+        check("g601: ratio ≥ 0.9", r is not None and r["ratio"] >= 0.9, r)
+        w2 = [list(w) for w in words]
+        for w in w2:
+            if w[2] == "السعودية":
+                w[2] = "سعودي"        # رسم مختلف لأول كلمة
+            if w[2] == "تطبّع":
+                w[2] = "تطبيعا"       # رسم مختلف لآخر كلمة
+        r2 = reel_clips.align_quote(fx["quote_original"], [tuple(w) for w in w2], cfg)
+        check("g601: الكلمتان الأولى والأخيرة بالرسم المختلف تُطابَقان بالتمديد", r2 is not None and abs(r2["t0"] - 3.9) < 0.05
+              and abs(r2["t1"] - 12.8) < 0.05, r2)
+        check("g601: اقتباس لا يرد ← None", reel_clips.align_quote("كلام آخر تماما لا علاقة له بما قيل هنا اطلاقا", words, cfg) is None, None)
+        twice = list(words) + [(s + 20, e + 20, w) for s, e, w in words if 3.8 < s < 12.9]
+        check("g601: اقتباس يتكرر مرتين بالدرجة نفسها ← None", reel_clips.align_quote(fx["quote_original"], twice, cfg) is None, None)
+    guarded("g601", g601)
+
+    point = {"video_id": "qB", "statement": "s", "quote_original": fx["quote_original"], "quote_arabic": "ترجمة", "speaker": "علي البخيتي",
+             "channel": "France 24 Arabic", "timestamp": 945, "video_url": "https://youtube.com/watch?v=qB"}
+
+    def fetch(c, tw, sil=None, pick=None, transcript=True):
+        scene = {"kind": "clip", "point_id": reel_script.point_key_id(point), "start": 944, "end": 955, "channel_display": "فرانس 24",
+                 "language": "ar", "quote_arabic": "السعودية تواجه محورًا ممتدًا"}
+        got, notes = [], []
+
+        def download(video_id, start, end, height, out_path):
+            got.append((start, end))
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+        extra = {}
+        if tw is not None:
+            extra["transcribe_words"] = tw
+        if sil is not None:
+            extra["detect_silence"] = sil
+        if pick is not None:
+            extra["pick_span"] = pick
+        text = "\n".join(f"[{int(s) // 60:02d}:{int(s) % 60:02d}] {t}" for s, t in segs)
+        deps = reel_render.Deps(fetch_transcript=(lambda v: text) if transcript else (lambda v: None), download_clip=download,
+                                load_points=lambda d: [point], probe=lambda p: 20.0, streams=lambda p: {"video", "audio"},
+                                sleep=lambda s: None, **extra).resolved(c)
+        tmp = Path(tempfile.mkdtemp(dir=work))
+        clips, dropped, approx = reel_render._fetch_clips({"scenes": [scene]}, {"topic_date": "2099-01-01"}, c, deps, tmp, notes)
+        return clips, dropped, approx, got, notes, scene
+
+    def clip_cmd(clip, c):
+        cmds = []
+        d2 = reel_render.Deps(download_clip=lambda *a, **k: {}, run=lambda cmd: cmds.append([str(x) for x in cmd]),
+                              probe=lambda p: 6.0, sleep=lambda s: None, streams=lambda p: {"video", "audio"},
+                              faces=lambda f, fr: (1920, 1080, []), frames=lambda p, fr: [np.full((1080, 1920), 100, np.uint8)] * len(fr),
+                              read_chyron=lambda f, cc: None).resolved(c)
+        reel_render._clip_scene(clip, (work / "a.png", work / "b.png"), work / "o.mp4", c, d2, scene=None)
+        return " ".join(cmds[-1])
+
+    def g602():
+        clips, dropped, approx, got, notes, scene = fetch(cfg, lambda f, lang, c: list(words), sil=lambda f, c: [])
+        c0 = clips[0]
+        check("g602: نافذة التنزيل أوسع بهامش exact.margin", got and got[0][0] <= 941 and got[0][1] >= 957, got)
+        check("g602: لا نص معروض بديل ولا span", "display_text" not in c0 and "span" not in c0, list(c0))
+        ex = c0.get("exact") or {}
+        check("g602: exact.source = words وt0/t1 بثواني الفيديو", ex.get("source") == "words" and abs(ex["t0"] - (got[0][0] + 3.9)) < 0.1
+              and abs(ex["t1"] - (got[0][0] + 12.8)) < 0.1 and ex["ratio"] >= 0.9, ex)
+        g = c0["gate"]
+        # الملف يُقتطع إلى [أول كلمة − lead، آخر كلمة + tail] فتنزاح البوابة بمقدار بدايته: أول كلمة عند lead
+        check("g602: gate = [أول كلمة − pad، آخرها + pad]", abs(g["start"] - (1.0 - 0.12)) < 0.02
+              and abs(g["end"] - (1.0 + 8.9 + 0.12)) < 0.05, g)
+        txt = clip_cmd(c0, cfg)
+        check("g602: أمر ffmpeg فيه tpad بـstart_mode=clone وstop_mode=clone", "tpad=" in txt and "start_mode=clone" in txt
+              and "stop_mode=clone" in txt and "trim=start=" in txt and "atrim=start=" in txt, txt[:400])
+        check("g602: تزامن الترجمة من الكلمات", c0["segs"][0][1] == "السعودية" and c0["segs"][-1][1] == "" and c0["sync"] == "words", c0["segs"][:2])
+        check("g602: النص المعروض = quote_arabic حرفًا", (c0.get("display_text") or scene["quote_arabic"]).strip() == scene["quote_arabic"], None)
+        check("g602: مدة المقطع المقتطع أقصر من الملف الأوسع", 9 < c0["seconds"] < 14, c0["seconds"])
+    guarded("g602", g602)
+
+    def g603():
+        calls = []
+
+        def pick(*a):
+            calls.append(1)
+            return {"start_line": 1, "end_line": 1, "complete": True, "display_text": "نص آخر", "reason": "x"}
+        check("g603: الإعداد الافتراضي span.enabled = false", cfg.path("reel.render.span.enabled") is False, cfg.path("reel.render.span.enabled"))
+        clips, dropped, approx, got, notes, scene = fetch(cfg, None, pick=pick)
+        c0 = clips[0]
+        check("g603: لا نداء pick_span ولا changed_text ولا display_text", not calls and "span" not in c0 and "display_text" not in c0, (calls, list(c0)))
+        check("g603: النص المعروض بعد تعديل المراجع هو المعدَّل", (c0.get("display_text") or "نص عدّله المراجع") == "نص عدّله المراجع", None)
+        on = copy.deepcopy(cfg)
+        on["reel"]["render"]["span"]["enabled"] = True
+        fetch(on, None, pick=pick)
+        check("g603: الكود باقٍ خلف الإعداد (span.enabled=true ← يُنادى)", calls, calls)
+    guarded("g603", g603)
+
+    def g604():
+        rows = [{"point_id": "a", "speaker_said_it": "yes", "faithful": True, "complete": "no", "incomplete_reason": "يبدأ من منتصف الجملة"},
+                {"point_id": "b", "speaker_said_it": "yes", "faithful": True, "complete": "yes"},
+                {"point_id": "c", "speaker_said_it": "yes", "faithful": True}]
+        resp = SimpleNamespace(content=[SimpleNamespace(type="tool_use", name="audit_clips", input={"clips": rows})], stop_reason="tool_use")
+        real = reel_script._audit_create
+        reel_script._audit_create = lambda client, **kw: resp
+        try:
+            clips = [{"point_id": p, "channel_display": f"ق{p}", "quote_arabic": "x", "quote_original": "y"} for p in "abc"]
+            got = reel_script.audit_clips(clips, cfg)
+        finally:
+            reel_script._audit_create = real
+        check("g604: الحقل complete يصل إلى الصفوف وغيابه None", [r["complete"] for r in got] == ["no", "yes", None], got)
+        out, redone, dropped = reel_script.apply_audit(clips, got, cfg)
+        check("g604: complete=no ← استبعاد بسبب clip_drop_incomplete", [c["point_id"] for c in out] == ["b", "c"] and len(dropped) == 1
+              and dropped[0]["reason"] == "اقتباس مبتور — يبدأ من منتصف الجملة", dropped)
+        line = yp._reel_clip_note_lines({"clip_dropped": dropped}, {}, cfg.path("reel.texts"))
+        check("g604: سطر 🚫 في المرحلة 2", any("🚫 استُبعد مقطع قa: اقتباس مبتور" in x for x in line), line)
+        check("g604: النظام والأداة يطلبان complete", "complete" in cfg.path("reel.script.clip_audit.system")
+              and "complete" in json.dumps(reel_script.AUDIT_TOOL), None)
+    guarded("g604", g604)
+
+    def g605():
+        script = {"version": 2, "scenes": [
+            {"kind": "clip", "q": 0, "point_id": "a", "channel_display": "ق", "quote_arabic": "عربي", "quote_original": "original words",
+             "speaker_name": "س", "speaker_role": "", "start": 1, "end": 5, "video_url": "https://y.be/x"},
+            {"kind": "clip", "q": 0, "point_id": "b", "channel_display": "ق", "quote_arabic": "ثان", "quote_original": "second words",
+             "start": 1, "end": 5, "video_url": "https://y.be/y"}]}
+        tl = reel_script.timeline_lines(script, cfg)
+        check("g605: لكل مقطع سطرا يُسمع ويُكتب", sum("🎙️ يُسمع:" in x for x in tl) == 2 and sum("💬 يُكتب:" in x for x in tl) == 2
+              and any("🎙️ يُسمع: original words" in x for x in tl) and any("💬 يُكتب: ثان" in x for x in tl), tl)
+    guarded("g605", g605)
+
+    def g606():
+        def boom(f, lang, c):
+            raise RuntimeError("no whisper")
+        clips, dropped, approx, got, notes, scene = fetch(cfg, boom, sil=lambda f, c: [])
+        c0 = clips[0]
+        check("g606: فشل التفريغ ← gate السطر وexact.source=line", (c0.get("exact") or {}).get("source") == "line"
+              and c0["gate"]["source"] in ("transcript", "silence") and "RuntimeError" in c0["exact"]["error"], c0.get("exact"))
+        check("g606: سطر ⚠️ بالسبب", any(n.startswith("⚠️ لم يُضبط مقطع فرانس 24 كلمة بكلمة") for n in notes), notes)
+        check("g606: الملف يُقتطع إلى النافذة القديمة", abs((c0["trim"][1] - c0["trim"][0]) - c0["seconds"]) < 0.01 and c0["seconds"] < 20, (c0["trim"], c0["seconds"]))
+        txt = clip_cmd(c0, cfg)
+        check("g606: التجميد على حدّي gate السطر", "tpad=" in txt and "start_mode=clone" in txt, txt[:300])
+        clips, dropped, approx, got, notes, scene = fetch(cfg, lambda f, lang, c: [(0.0, 0.5, "كلام"), (0.6, 1.0, "آخر"), (1.1, 1.5, "تماما")])
+        check("g606: نسبة تحت العتبة ← line", (clips[0].get("exact") or {}).get("source") == "line", clips[0].get("exact"))
+        req = copy.deepcopy(cfg)
+        req["reel"]["render"]["exact"]["require"] = True
+        clips, dropped, approx, got, notes, scene = fetch(req, boom)
+        check("g606: require=true ← المقطع محذوف", not clips and len(dropped) == 1 and "تعذّر ضبط المقطع كلمة بكلمة" in dropped[0]["reason"], (clips, dropped))
+    guarded("g606", g606)
+
+    def g607():
+        clips, dropped, approx, got, notes, scene = fetch(cfg, lambda f, lang, c: list(words), sil=lambda f, c: [], transcript=False)
+        c0 = clips[0]
+        check("g607: نافذة تقديرية طوبقت ← approx False وaligned في render_approx", c0.get("approx") is False and approx and approx[0].get("aligned") is True,
+              (c0.get("approx"), approx))
+        check("g607: التنزيل بهامش approx_margin", got and got[0][1] - got[0][0] >= 11 + 2 * 20 - 2, got)
+        check("g607: exact.source = words", (c0.get("exact") or {}).get("source") == "words", c0.get("exact"))
+        clips, dropped, approx, got, notes, scene = fetch(cfg, lambda f, lang, c: [], sil=lambda f, c: [], transcript=False)
+        check("g607: فشل المطابقة ← تبقى تقديرية", clips[0].get("approx") is True and (clips[0].get("exact") or {}).get("source") == "approx"
+              and not approx[0].get("aligned"), (clips[0].get("approx"), approx))
+    guarded("g607", g607)
+
+    def g608():
+        import tests.test_guards_golden as me
+        off = copy.deepcopy(cfg)
+        off["reel"]["render"]["exact"]["enabled"] = False
+        want = json.loads(Q13_BASE_FIXTURE.read_text(encoding="utf-8"))
+        got = me._q6_base_cmds(off, work / "g608a")
+        check("g608: exact.enabled=false ← أوامر v2 كما كانت حرفًا", got["v2"] == want["v2"], None)
+        check("g608: exact.enabled=false ← أوامر v1 كما كانت حرفًا", got["v1"] == want["v1"], None)
+        got = me._q6_base_cmds(cfg, work / "g608b")
+        check("g608: مقاطع بلا trim ← الأوامر كما كانت", got["v2"] == want["v2"] and got["v1"] == want["v1"], None)
+        clips, dropped, approx, g, notes, scene = fetch(cfg, None)
+        check("g608: بلا transcribe_words ← النافذة القديمة وبلا exact", "exact" not in clips[0] and "trim" not in clips[0], list(clips[0]))
+        clips, dropped, approx, g2, notes, scene = fetch(off, lambda f, lang, c: list(words))
+        check("g608: exact.enabled=false ← النافذة القديمة وبلا exact", "exact" not in clips[0] and g2 == g, (g, g2))
+        xc = cfg.path("reel.render.exact") or {}
+        check("g608: الإعداد", xc == {"enabled": True, "model": "small", "margin": 4, "approx_margin": 20, "min_ratio": 0.7, "pad": 0.12,
+                                     "snap": 0.3, "require": False}, xc)
+        check("g608: نصوص الإعداد", all(cfg.path(f"reel.texts.{k}") for k in ("clip_drop_incomplete", "scene_heard", "scene_written"))
+              and all(cfg.path(f"reel.render.texts.{k}") for k in ("comment_exact_failed", "drop_exact_failed")), None)
+        check("g608: render.version >= 46", int(cfg.path("reel.render.version")) >= 46, cfg.path("reel.render.version"))
+        root = Path(__file__).parent.parent
+        check("g608: requirements-reel.txt فيه faster-whisper", "faster-whisper" in (root / "requirements-reel.txt").read_text(), None)
+        check("g608: faster-whisper ليس في requirements.txt", "faster-whisper" not in (root / "requirements.txt").read_text(), None)
+    guarded("g608", g608)

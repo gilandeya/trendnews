@@ -111,6 +111,89 @@ SPAN_TOOL = {
 }
 
 
+def _lcs_pairs(a: list[str], b: list[str]) -> list[tuple[int, int]]:
+    """أزواج مواضع أطول تتابع مشترك بين قائمتين (a في b)، بترتيبها."""
+    n, m = len(a), len(b)
+    dp = [[0] * (m + 1) for _ in range(n + 1)]
+    for i in range(n - 1, -1, -1):
+        for j in range(m - 1, -1, -1):
+            dp[i][j] = dp[i + 1][j + 1] + 1 if a[i] == b[j] else max(dp[i + 1][j], dp[i][j + 1])
+    i = j = 0
+    out: list[tuple[int, int]] = []
+    while i < n and j < m:
+        if a[i] == b[j]:
+            out.append((i, j))
+            i += 1
+            j += 1
+        elif dp[i + 1][j] >= dp[i][j + 1]:
+            i += 1
+        else:
+            j += 1
+    return out
+
+
+def align_quote(quote_original: str, words: list, cfg=None) -> dict | None:
+    """يطابق الاقتباس الأصلي بكلمات مفرَّغة بتوقيتها [(بداية، نهاية، كلمة)] (Issue #1681، Q13). دالة خالصة. الطرفان يُطبَّعان بـ
+    _normalize_for_anchor وتُبحث أفضل نافذة بأطول تتابع مشترك كما في youtube_extract._fuzzy_locate؛ تُقبل بنسبة exact.min_ratio وبتفرّد
+    (لا نافذة بعيدة أكثر من طول الاقتباس بالدرجة نفسها) وإلا None. الحدّ يمتد إلى الكلمة المفرَّغة المجاورة إن لم تطابق
+    أول كلمة في الاقتباس أو آخرها (تُفرَّغ كثيرًا برسم مختلف). يعيد {t0, t1, ratio, matched} أو None."""
+    from . import youtube_extract
+    from .config import load_config
+    cfg = cfg or load_config()
+    min_ratio = float(cfg.path("reel.render.exact.min_ratio", 0.7))
+    q = youtube_extract._normalize_for_anchor(str(quote_original or "")).split()
+    toks: list[tuple[str, int]] = []
+    for k, w in enumerate(words or []):
+        for t in youtube_extract._normalize_for_anchor(str(w[2])).split():
+            toks.append((t, k))
+    n = len(q)
+    if n < 3 or not toks:
+        return None
+    probe = set(q)
+    width = n + 2
+    flat = [t for t, _ in toks]
+    scores: dict[int, list[tuple[int, int]]] = {}
+    for i in range(max(1, len(toks) - width + 1)):
+        window = flat[i:i + width]
+        if sum(1 for t in window if t in probe) / n < min_ratio:
+            continue
+        scores[i] = _lcs_pairs(q, window)
+    if not scores:
+        return None
+    best_score = max(len(p) for p in scores.values())
+    if best_score / n < min_ratio:
+        return None
+    best = min(i for i, p in scores.items() if len(p) == best_score)
+    if any(len(p) >= best_score and abs(i - best) > n for i, p in scores.items()):
+        return None
+    pairs = scores[best]
+    first_tok, last_tok = best + pairs[0][1], best + pairs[-1][1]
+    if pairs[0][0] > 0 and first_tok > 0:      # أول كلمة في الاقتباس لم تُطابق: الكلمة المفرَّغة المجاورة
+        first_tok -= 1
+    if pairs[-1][0] < n - 1 and last_tok < len(toks) - 1:
+        last_tok += 1
+    a, b = toks[first_tok][1], toks[last_tok][1]
+    return {"t0": float(words[a][0]), "t1": float(words[b][1]), "ratio": round(best_score / n, 3), "matched": best_score,
+            "words": [(float(w[0]), float(w[1]), str(w[2])) for w in words[a:b + 1]]}
+
+
+_WHISPER_MODELS: dict = {}
+
+
+def transcribe_words(path, lang: str | None, cfg=None) -> list[tuple[float, float, str]]:
+    """تفريغ صوت المقطع كلمة بكلمة [(بداية، نهاية، كلمة)] بثواني الملف (Issue #1681، Q13): faster-whisper على CPU بنموذج exact.model.
+    المكتبة اختيارية (requirements-reel.txt) وتُستورد عند النداء؛ غيابها أو أي عطل يرفع والمستدعي يعامله عطلًا فيبقى ضبط السطر."""
+    from .config import load_config
+    cfg = cfg or load_config()
+    from faster_whisper import WhisperModel      # noqa: PLC0415 — اختيارية عمدًا
+    name = str(cfg.path("reel.render.exact.model", "small"))
+    if name not in _WHISPER_MODELS:
+        _WHISPER_MODELS[name] = WhisperModel(name, device="cpu", compute_type="int8")
+    code = (lang or "").split("-")[0].lower() or None
+    segments, _ = _WHISPER_MODELS[name].transcribe(str(path), language=code, word_timestamps=True)
+    return [(float(w.start), float(w.end), str(w.word).strip()) for seg in segments for w in (seg.words or []) if str(w.word).strip()]
+
+
 def line_end(segments, k: int, cfg=None) -> float:
     """نهاية كلام السطر k: الأصغر من بداية السطر التالي وتقدير الكلام بالمعدل؛ وآخر سطر لا تالي له فالتقدير وحده."""
     est = float(segments[k][0]) + len(str(segments[k][1]).split()) / _speech_rate(cfg)
