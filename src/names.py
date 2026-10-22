@@ -104,6 +104,10 @@ def _build_alias_map(cfg: Any) -> dict[str, set[str]]:
             for variant in info.get("variants") or []:
                 if variant in blocklist or variant == canonical:
                     continue
+                # بديل محتوى في المعتمد (أو العكس) يكبر النص مع كل استبدال
+                # («واشنطن» ← «اشنطن» ثم تتكرر «و»)؛ مدخل كهذا لا يعمل (#1683)
+                if variant in canonical or canonical in variant:
+                    continue
                 variant_to_canonical[variant] = canonical
 
     for canonical, variants in (_aliases(cfg) or {}).items():

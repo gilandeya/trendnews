@@ -243,7 +243,11 @@ These are enforced by convention, not tooling, so hold to them deliberately:
   learning that cycle — no guessing, no default-accept, one `ERROR`-level log line — and never
   breaks the collection cycle itself, since `collect.run_names_learning` wraps `names_learn.run`
   in the same defensive `try/except`-and-log pattern as `decisions.scan`. Reporting: `insights.py`
-  lists every name unified within the last 7 days (`insights.learned_names_section`, independent
+  (see the next paragraph for the containment rule). **كلمة محتواة في الأخرى لا تُتعلَّم (Issue #1683، g609–g612):** `_strip_prefix` تجرّد «و»/«ب» من أول الكلمة فتبدو «اشنطن» رسمًا آخر لـ«واشنطن»
+  و«ريطانية» لـ«بريطانية»، واعتماد المبتور نشر منشورين بـ«اشنطن». لذا `find_candidates` يستبعد قبل أي نداء نموذج كل زوج `w1 in w2` أو `w2 in w1`،
+  و`names._build_alias_map` يتجاهل في الطبقة المتعلَّمة وحدها كل زوج (معتمد، بديل) إحداهما محتواة في الأخرى فلا يعمل مدخل كهذا لو بقي في الملف
+  (اليدوية بلا تغيير). نُظّف `state/names_learned.json` من المدخلين وسُجّل زوجاهما في `rejected_pairs`. `_strip_prefix` والعدّ والمسودات المحفوظة لم تُمسّ.
+  Back to reporting: `insights.py` lists every name unified within the last 7 days (`insights.learned_names_section`, independent
   of the report's own `--days`, same reasoning as `REJECT_SUPPRESS_DAYS` — a display window, not a
   ranking/publishing tunable) as `"📝 وُحّد الرسم: <variant> ← <canonical> (<n> مقابل <m>)"`, with a
   line pointing at `names.blocklist` as the way to undo one — and no section at all if nothing was

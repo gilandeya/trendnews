@@ -170,6 +170,10 @@ def find_candidates(seen_totals: dict[str, int], learned: dict,
                 continue
             if w1 in blocklist or w2 in blocklist:
                 continue
+            # كلمة محتواة في الأخرى («اشنطن» في «واشنطن») بتر لا رسم آخر للاسم،
+            # واعتماده يجعل الاستبدال النصي يكبر مع كل حفظ (#1683)
+            if w1 in w2 or w2 in w1:
+                continue
             key = _pair_key(w1, w2)
             if key in judged or key in seen_pairs:
                 continue
