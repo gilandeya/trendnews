@@ -4117,6 +4117,24 @@ def _build_roster(vid: str, segs: list, cfg, deps: Deps) -> list[dict]:
     return people
 
 
+def _roster_failed(meta: dict, notes: list, t: dict, vid: str, reason: str, channel: str, cfg) -> None:
+    """يحفظ سبب غياب قائمة ضيوف فيديو (Q16) ويكتب سطرًا واحدًا له؛ نص السبب المعروض من roster_reasons بمفتاحه قبل النقطتين."""
+    meta.setdefault("roster_errors", {})[vid] = reason
+    shown = (t.get("roster_reasons") or {}).get(reason.split(":")[0], reason)
+    notes.append(t["comment_roster_failed"].format(channel=channel, reason=shown + (reason[len("call_error"):] if reason.startswith("call_error") else "")))
+
+
+def _roster_prior(draft: dict) -> tuple[dict, bool]:
+    """(قائمة الضيوف المحفوظة من تركيب سابق، هل طُلبت إعادة البناء)؛ تُؤخذ قبل أن يمسح _render حقول RENDER_KEYS (Q16)."""
+    rebuild = bool(draft.get("render_roster_rebuild"))
+    return ({} if rebuild else dict(draft.get("render_roster") or {})), rebuild
+
+
+def _render_comment_issue(draft: dict):
+    """قضية تعليقات الريل: مراجعة الريل إن فُتحت وإلا المرحلة 2 (Q16). النشر الفوري له قاعدته (W4) ولا يمرّ بها."""
+    return draft.get("reel_review_issue") or draft.get("review_issue")
+
+
 def _speaker_check(script: dict, order: list, clips: dict, cfg, deps: Deps, notes: list, meta: dict) -> tuple[dict, dict]:
     """يبني قائمة ضيوف كل فيديو له مقطع في لوحة بنافذة نصية ثم يسند قائل كل مقطع من النص، فيعيد ({الفيديو: القائمة}، {point_id: مدخل القائمة})؛
     وملؤه في meta (roster وattribution). أي عطل في فيديو ← يُتخطى وتبقى المقاطع بسلوك Q11."""
@@ -4125,25 +4143,46 @@ def _speaker_check(script: dict, order: list, clips: dict, cfg, deps: Deps, note
         return {}, {}
     t = cfg.path("reel.render.texts")
     by_vid: dict = {}
+    textless: dict = {}
     for run in _iter_runs(order):
         for i in run:
             c = clips.get(i)
             if c and c.get("transcript") and not c.get("approx"):
                 by_vid.setdefault(c.get("video_id"), []).append(i)
+            elif c and c.get("video_id"):
+                textless.setdefault(c.get("video_id"), i)
+    # Q16: فيديو مقاطعه في لوحة كلها بلا نص مجلوب لا قائمة له، وسببه يُحفظ ويُرى بدل صمت
+    for vid, i in textless.items():
+        if vid not in by_vid:
+            _roster_failed(meta, notes, t, vid, "no_transcript", script["scenes"][i].get("channel_display") or "", cfg)
+    prior = meta.get("prior_roster") or {}
+    rebuild = bool(meta.get("rebuild"))
     rosters: dict = {}
     verdicts: dict = {}
     before = float(scfg.get("before_seconds", 240))
     for vid, idxs in by_vid.items():
         segs = clips[idxs[0]]["transcript"]
         try:
-            roster = _build_roster(vid, segs, cfg, deps)
-            if not roster:
-                continue
+            channel = script["scenes"][idxs[0]].get("channel_display") or ""
+            saved = None if rebuild else prior.get(vid)
+            if saved:
+                roster, source = saved, "saved"      # من الحلقة ومقدّمها لا يتغيّر بين تشغيلتين: لا تنزيل ولا نداء
+            else:
+                try:
+                    roster, source = _build_roster(vid, segs, cfg, deps), "built"
+                except Exception as exc:  # noqa: BLE001 -- يُحفظ سببه ويبقى سلوك Q11
+                    reason = reel_clips.scrub_text(str(exc))
+                    _roster_failed(meta, notes, t, vid, "call_error: " + " ".join(reason.split())[:120], channel, cfg)
+                    raise
+                if not roster:
+                    _roster_failed(meta, notes, t, vid, "empty", channel, cfg)   # القائمة الفارغة لا تُحفظ فتُعاد المحاولة
+                    continue
             rosters[vid] = roster
             meta.setdefault("roster", {})[vid] = roster
+            meta.setdefault("roster_source", {})[vid] = source
             names_line = "، ".join(p["name_arabic"] or p["name_original"] for p in roster if not p["is_host"])
             if names_line:
-                notes.append(t["comment_roster"].format(channel=script["scenes"][idxs[0]].get("channel_display") or "", names=names_line))
+                notes.append(t["comment_roster"].format(channel=channel, names=names_line))
             items = []
             for i in idxs:
                 sc, c = script["scenes"][i], clips[i]
@@ -4899,7 +4938,8 @@ def _drop_stale_auto_hook(path: Path, draft: dict) -> None:
 # Issue #1691 (Q15): القائمة الوحيدة بحقول `render_*` التي يكتبها التركيب على المسودة؛ المحفوظ والمحذوف عند الإعادة يُبنيان منها وحدها، فمفتاح
 # جديد يُكتب ولا يُضاف هنا يفشل g629 بدل أن يضيع بصمت (خطأ SCRIPT_KEYS في R5d3 نفسه). أزواج (المفتاح على المسودة، مفتاح speaker_meta)
 # تملؤها حلقة التحقق من المتكلمين، وما بعدها يُكتب على draft مباشرة أثناء التركيب.
-RENDER_META_KEYS = (("render_roster", "roster"), ("render_attribution", "attribution"),
+RENDER_META_KEYS = (("render_roster", "roster"), ("render_roster_source", "roster_source"),
+                    ("render_roster_errors", "roster_errors"), ("render_attribution", "attribution"),
                     ("render_relabel", "relabel"), ("render_face_check", "face_check"))
 RENDER_KEYS = tuple(k for k, _ in RENDER_META_KEYS) + ("render_exact_selfcheck",)
 
@@ -4914,6 +4954,7 @@ def _saved_render_fields(draft: dict, speaker_meta: dict) -> dict:
 def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path, dropped: list,
             approx: list, notes: list | None = None) -> dict:
     rcfg, scfg = cfg.path("reel.render"), cfg.path("reel.script")
+    prior_roster, rebuild_roster = _roster_prior(draft)   # قبل المسح: القائمة المحفوظة تُعاد (Q16)
     for k in RENDER_KEYS:
         draft.pop(k, None)     # قيمة قديمة من القرص لا تُحفظ من جديد إن لم يكتبها هذا التركيب
     script = draft.get("script") or {}
@@ -4940,7 +4981,7 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
         _topic_hook(path, draft, script, broll, cfg, notes, deps)
     pre_entries = _pre_hook_entries(draft, scan_state)
     speakers: dict = {}
-    speaker_meta: dict = {}      # Q12: render_roster وrender_attribution وrender_relabel
+    speaker_meta: dict = {"prior_roster": prior_roster, "rebuild": rebuild_roster}   # Q12/Q16: render_roster وrender_attribution وrender_relabel
     hook_crops: dict = {}
     sources_out: list = []
     scene_files, kinds, durs = _assemble(script, clips, cfg, deps, tmp, voice, bg,
@@ -5177,7 +5218,7 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
             text = t["comment_download_failed"].format(channel=exc.channel, max=limit, reason=exc.reason)
         log.warning("تأجيل تركيب الريل %s: %s", path.stem, exc.reason)
         store.update_draft(path, **changes)
-        issue = draft.get("review_issue")
+        issue = _render_comment_issue(draft)
         if issue:
             try:
                 deps.comment(int(issue), text)
@@ -5198,7 +5239,7 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
                "rendered_at": datetime.now(timezone.utc).isoformat()}
     remove = ((["render_error"] + ([] if "render_broll" in result else ["render_broll", "broll_scan"])
                + ([] if "render_spans" in result else ["render_spans"])
-               + [k for k in RENDER_KEYS if k not in result])
+               + [k for k in RENDER_KEYS if k not in result] + ["render_roster_rebuild"])
               if result["render_status"] == "rendered"
               else [] if keep_files else ["reel_file", "reel_gif", "duration_seconds"])
     text = _comment_text(cfg, draft, result, dropped, approx, notes)
@@ -5206,7 +5247,7 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
     if ok:
         changes["render_notes"] = text.split("\n")
     updated = store.update_draft(path, remove=remove, **changes)
-    issue = draft.get("review_issue")
+    issue = _render_comment_issue(updated or draft)
     # «انشر فورًا» من المرحلة 2 (Issue #1538، W4): تركيب ناجح لمسودة publish_on_render ينشر في الحال بلا قضية مراجعة
     # الفيديو، ويُعلَّق بالنتيجة على قضية المرحلة 2. فشل النشر يفتح قضية المراجعة بسطر الفشل (إعادة approved عليها تعيد
     # المحاولة). فشل التركيب لا يصل هنا: publish_on_render يبقى فيُنشر إن نجح تركيب لاحق.
