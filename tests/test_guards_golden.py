@@ -20699,3 +20699,124 @@ def test_reel_roster_host_q15_guards() -> None:
         check("g631: render.version >= 49", int(cfg.path("reel.render.version")) >= 49, cfg.path("reel.render.version"))
         check("g631: comment_roster_guest", t.get("comment_roster_guest", "").startswith("👥 الشريط يحمل اسم {name}"), t.get("comment_roster_guest"))
     guarded("g631", g631)
+
+
+def test_reel_roster_cache_q16_guards() -> None:
+    """Issue #1694 (Q16، g632–g636): قائمة ضيوف الحلقة المحفوظة تُعاد بلا نداء، وفشل بنائها يُحفظ ويُرى، وإعادة البناء بطلب،
+    وتعليق فشل التنزيل على قضية مراجعة الريل. الشاهد tests/fixtures/reel/1676/render49.json (الريل 02b4436a2b66: البخيتي بلا اسم بالإصدار 49). لا شبكة."""
+    import copy
+    import json
+    from pathlib import Path
+
+    from src import reel_render
+
+    cfg = load_config()
+    root = Path(__file__).resolve().parent
+    fx = json.loads((root / "fixtures/reel/1676/render49.json").read_text(encoding="utf-8"))
+    segs = [tuple(x) for x in json.loads((root / "fixtures/reel/1676/transcript_qB.json").read_text(encoding="utf-8"))]
+    vid = "qB_4P0mUCyI"
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def fr(ar, orig, said):
+        return dict(has_caption=True, name_original=orig, name_arabic=ar, role_original="", role_arabic="كاتب سياسي | لندن",
+                    is_presenter=False, name_kind="person", name_is_speaker=said)
+
+    def no_download(*a, **k):
+        raise RuntimeError("x")
+
+    def prune(meta, roster_fn):
+        script = copy.deepcopy(fx["script"])
+        script["scenes"][8]["speaker_text"] = "علي البخيتي"
+        clips = {}
+        for i in (3, 4, 5, 7, 8, 9):
+            ours = i in (4, 8, 9)
+            clips[i] = dict(file="c%d" % i, seconds=8.0, video_id=vid if ours else "o%d" % i, transcript=list(segs) if ours else [],
+                            quote_start=945.0, quote_end=954.0)
+        chy = [fr("علي البخيتي", "Ali Al-Bukhaiti", "no")] * 2
+        deps = reel_render.Deps(read_chyron=lambda f, c: chy if f == "c8" else [], sleep=lambda s: None, download_clip=no_download)
+        deps.read_roster = roster_fn
+        deps.attribute_clips = lambda ros, items, c: []
+        speakers, notes, dropped = dict(), [], []
+        reel_render._prune_mismatched(script, clips, cfg, deps, speakers, notes, dropped, meta=meta)
+        return speakers, notes, meta
+
+    def counting(ret=None, exc=None):
+        calls = dict(n=0)
+
+        def fn(lines, jpegs, c):
+            calls["n"] += 1
+            if exc:
+                raise exc
+            return ret if ret is not None else []
+        return fn, calls
+
+    def g632():
+        fn, calls = counting([])
+        sp, notes, meta = prune(dict(prior_roster=fx["roster47"]), fn)
+        check("g632: صفر نداءات لفرانس 24", calls["n"] == 0, calls)
+        check("g632: المصدر saved", (meta.get("roster_source") or {}).get(vid) == "saved", meta.get("roster_source"))
+        s8 = sp.get("8", {})
+        check("g632: البخيتي مقبول ضيفًا", s8.get("accepted") is True and s8.get("roster_override") == "guest", s8)
+        check("g632: سطر الضيوف يُكتب", any(n.startswith("👥 ضيوف") for n in notes), notes)
+    guarded("g632", g632)
+
+    def g633():
+        fn, calls = counting([])
+        sp, notes, meta = prune(dict(), fn)
+        check("g633: السبب empty", (meta.get("roster_errors") or {}).get(vid) == "empty", meta.get("roster_errors"))
+        check("g633: سطر ⚠️", any("⚠️ لم تُبنَ قائمة ضيوف فرانس 24 عربي" in n for n in notes), notes)
+        check("g633: لا مفتاح في roster", vid not in (meta.get("roster") or {}), meta.get("roster"))
+    guarded("g633", g633)
+
+    def g634():
+        fn, _ = counting(exc=RuntimeError("boom"))
+        sp, notes, meta = prune(dict(), fn)
+        check("g634: call_error", str((meta.get("roster_errors") or {}).get(vid, "")).startswith("call_error:"), meta.get("roster_errors"))
+    guarded("g634", g634)
+
+    def g635():
+        fn, calls = counting(copy.deepcopy(fx["roster47"][vid]))
+        sp, notes, meta = prune(dict(prior_roster=fx["roster47"], rebuild=True), fn)
+        check("g635: نداء واحد وsource built", calls["n"] == 1 and (meta.get("roster_source") or {}).get(vid) == "built",
+              (calls, meta.get("roster_source")))
+        prior, rebuild = reel_render._roster_prior(dict(render_roster=fx["roster47"], render_roster_rebuild=True))
+        check("g635: _roster_prior", rebuild is True and prior == {}
+              and reel_render._roster_prior(dict(render_roster=fx["roster47"])) == (fx["roster47"], False), (prior, rebuild))
+        removed = []
+        orig_render, orig_update = reel_render._render, reel_render.store.update_draft
+        reel_render._render = lambda *a, **k: dict(reel_file="x", reel_gif="y", duration_seconds=40.0)
+        reel_render.store.update_draft = lambda path, remove=None, **ch: (removed.append(remove or []), dict())[1]
+        try:
+            reel_render.render_draft(Path("x/d1.json"), dict(id="d1", render_roster_rebuild=True), cfg,
+                                     reel_render.Deps(comment=lambda i, t: None), reels_dir=Path("r"), workdir=Path("w"))
+        finally:
+            reel_render._render, reel_render.store.update_draft = orig_render, orig_update
+        check("g635: الحقل يُحذف من المحفوظ", any("render_roster_rebuild" in r for r in removed), removed)
+    guarded("g635", g635)
+
+    def g636():
+        log = []
+        orig_render, orig_update = reel_render._render, reel_render.store.update_draft
+
+        def boom(*a, **k):
+            raise reel_render.ClipDownloadFailed("فرانس 24 عربي", "x")
+        reel_render._render = boom
+        reel_render.store.update_draft = lambda path, remove=None, **ch: dict()
+        try:
+            deps = reel_render.Deps(comment=lambda i, t: log.append(i))
+            reel_render.render_draft(Path("x/d1.json"), dict(id="d1", reel_review_issue=1676, review_issue=1675), cfg, deps,
+                                     reels_dir=Path("r"), workdir=Path("w"))
+            reel_render.render_draft(Path("x/d1.json"), dict(id="d1", review_issue=1675), cfg, deps,
+                                     reels_dir=Path("r"), workdir=Path("w"))
+            check("g636: التعليق على قضية الريل ثم المرحلة 2", log == [1676, 1675], log)
+            check("g636: _render_comment_issue", reel_render._render_comment_issue(dict(reel_review_issue=1, review_issue=2)) == 1
+                  and reel_render._render_comment_issue(dict(review_issue=2)) == 2, None)
+        finally:
+            reel_render._render, reel_render.store.update_draft = orig_render, orig_update
+        check("g636: render.version >= 50", int(cfg.path("reel.render.version")) >= 50, cfg.path("reel.render.version"))
+    guarded("g636", g636)
