@@ -1,0 +1,65 @@
+{
+  "id": "2383aedb23df",
+  "created_at": "2026-10-23T17:08:15.876626+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 27.09,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "اتفاقية الدفاع المكية بين باكستان والسعودية، حدث إقليمي مهم.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Pakistan, Saudi Arabia have completed ratification of Makkah defence pact: FO",
+  "link": "https://www.dawn.com/news/2039288/pakistan-saudi-arabia-have-completed-ratification-of-makkah-defence-pact-fo",
+  "publishers": [
+    "Dawn",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Pakistan, Saudi Arabia have completed ratification of Makkah defence pact: FO",
+    "link": "https://www.dawn.com/news/2039288/pakistan-saudi-arabia-have-completed-ratification-of-makkah-defence-pact-fo",
+    "summary": "Pakistan and Saudi Arabia have completed the ratification processes for the Makkah defence pact while Turkiye was in the process of doing so, Foreign Office (FO) spokesperson Sajjad Haider Khan said on Friday. Pakistan, Saudi Arabia and Turkiye signed the Makkah Joint Defence Agreement in August, under which an armed attack on one member is considered an attack on all. The pact has gained significance amid Houthi attacks on Saudi Arabia, and Inter-Services Public Relations Director General Lt Gen Ahmed Sharif Chaudhry said earlier this week that Pakistan was providing “whatever support is needed” to defend the kingdom. Prior to that, the FO had emphasised that signing the Makkah Joint Defence Agreement and committing military capabilities under it were executive functions under Pakistan’s national laws and Rules of Business and did not necessarily require parliamentary approval. Answering questions after the weekly press briefing, the FO spokesperson said that “matters related to the agreement, its ratification and operationalisation remain under discussion by the three parties”. This included discussions during the Strategic Political and Defence Committee, which recently met on O",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-10-23T16:43:55+00:00",
+    "image_url": "https://i.dawn.com/large/2026/09/101256348f3401a.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2039288/pakistan-saudi-arabia-have-completed-ratification-of-makkah-defence-pact-fo"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2636526/fo-rejects-indian-remarks-on-oic-kashmir-resolutions-raises-alarm-over-delhi-mosque-eviction-notice"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/09/101256348f3401a.webp",
+      "https://i.dawn.com/thumbnail/2026/09/101256348f3401a.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1920.9167407627779,
+    "is_stale": false,
+    "score": 27.08990291590741,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "اتفاقية الدفاع المكية بين باكستان والسعودية، حدث إقليمي مهم.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

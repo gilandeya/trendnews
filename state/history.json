@@ -1,226 +1,5 @@
 [
   {
-    "score": 26.1,
-    "bucket": "serious",
-    "tokens": [
-      "2030",
-      "egypt's",
-      "ends",
-      "leave",
-      "office",
-      "pledges",
-      "president",
-      "sisi",
-      "term",
-      "when"
-    ],
-    "link": "https://www.dawn.com/news/2037828/egypts-president-sisi-pledges-to-leave-office-when-term-ends-in-2030",
-    "title": "Egypt's President Sisi pledges to leave office when term ends in 2030",
-    "posted_title": "السيسي يحسم الجدل حول بقائه بعد 2030: \"المسألة منتهية\"",
-    "region": "pk",
-    "seen_at": "2026-10-17T20:16:57.548787+00:00"
-  },
-  {
-    "score": 26.67,
-    "bucket": "serious",
-    "tokens": [
-      "aircraft",
-      "airspace",
-      "ban",
-      "extends",
-      "indian",
-      "november",
-      "pakistan",
-      "till"
-    ],
-    "link": "https://www.thehindu.com/news/international/pakistan-extends-airspace-ban-on-indian-aircraft-till-november-24/article71599424.ece",
-    "title": "Pakistan extends airspace ban on Indian aircraft till November 24",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-10-18T09:07:57.680884+00:00"
-  },
-  {
-    "score": 26.41,
-    "bucket": "serious",
-    "tokens": [
-      "cargo",
-      "hitting",
-      "hormuz",
-      "iran",
-      "mine",
-      "reports",
-      "ship",
-      "sinks",
-      "strait"
-    ],
-    "link": "https://www.thehindu.com/news/international/iran-reports-cargo-ship-sinks-after-hitting-mine-in-strait-of-hormuz/article71585186.ece",
-    "title": "Iran reports cargo ship sinks after hitting mine in Strait of Hormuz",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-10-18T09:07:57.681178+00:00"
-  },
-  {
-    "score": 25.91,
-    "bucket": "useful",
-    "tokens": [
-      "attacks",
-      "crash",
-      "helicopter",
-      "hormuz",
-      "iran",
-      "kills",
-      "saudi",
-      "tanker",
-      "threaten",
-      "two",
-      "war"
-    ],
-    "link": "https://www.investing.com/news/economy-news/iran-war-tankers-hit-near-hormuz-as-tehran-offers-us-reopening-plan-4955749",
-    "title": "Iran war: Saudi helicopter crash kills two as tanker attacks threaten Hormuz",
-    "posted_title": "",
-    "region": "money",
-    "seen_at": "2026-10-18T09:07:57.681449+00:00"
-  },
-  {
-    "score": 25.25,
-    "bucket": "serious",
-    "tokens": [
-      "araghchi",
-      "dialogue",
-      "iran",
-      "open",
-      "pressure",
-      "rejects",
-      "remains"
-    ],
-    "link": "https://en.mehrnews.com/news/248652/Iran-rejects-pressure-remains-open-to-dialogue-Araghchi",
-    "title": "Iran rejects pressure, remains open to dialogue: Araghchi",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-10-18T09:07:57.681753+00:00"
-  },
-  {
-    "score": 23.25,
-    "bucket": "serious",
-    "tokens": [
-      "france",
-      "mass",
-      "protests",
-      "riots",
-      "spiral",
-      "worst",
-      "years"
-    ],
-    "link": "https://www.japantimes.co.jp/news/2026/10/18/world/mass-protests-france-riots/",
-    "title": "Mass protests in France spiral into worst riots in years",
-    "posted_title": "",
-    "region": "jp",
-    "seen_at": "2026-10-18T09:07:57.682026+00:00"
-  },
-  {
-    "score": 26.29,
-    "bucket": "serious",
-    "tokens": [
-      "cancer",
-      "days",
-      "discharged",
-      "hospital",
-      "lung",
-      "pope",
-      "surgery"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c5x2vkddrkrko?at_medium=RSS&at_campaign=rss",
-    "title": "Pope discharged from hospital days after lung cancer surgery",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-10-18T17:08:03.481778+00:00"
-  },
-  {
-    "score": 21.15,
-    "bucket": "serious",
-    "tokens": [
-      "ablaze",
-      "attack",
-      "drone",
-      "large",
-      "petersburg",
-      "refinery",
-      "saint",
-      "scale",
-      "sets",
-      "ukraine"
-    ],
-    "link": "https://www.channelnewsasia.com/world/ukraine-russia-saint-petersburg-strike-6469746",
-    "title": "Ukraine sets Saint Petersburg refinery ablaze in large-scale drone attack",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-10-18T17:08:03.482078+00:00"
-  },
-  {
-    "score": 20.7,
-    "bucket": "serious",
-    "tokens": [
-      "chopper",
-      "crash",
-      "iconic",
-      "kills",
-      "near",
-      "saudi",
-      "shuts",
-      "skyscraper",
-      "yemen"
-    ],
-    "link": "https://www.dailysabah.com/world/mid-east/saudi-shuts-iconic-skyscraper-chopper-crash-kills-2-near-yemen",
-    "title": "Saudi shuts iconic skyscraper, chopper crash kills 2 near Yemen",
-    "posted_title": "",
-    "region": "tr",
-    "seen_at": "2026-10-18T17:08:03.482368+00:00"
-  },
-  {
-    "score": 19.84,
-    "bucket": "serious",
-    "tokens": [
-      "claim",
-      "crown",
-      "denmark",
-      "eighteen",
-      "historic",
-      "japan",
-      "open",
-      "past",
-      "pearly",
-      "power",
-      "tan",
-      "thinaah",
-      "wait",
-      "year"
-    ],
-    "link": "https://www.malaymail.com/news/sports/2026/10/18/eighteen-year-wait-is-over-pearly-tan-thinaah-power-past-japan-to-claim-historic-denmark-open-crown/239647",
-    "title": "Eighteen-year wait is over! Pearly Tan-Thinaah power past Japan to claim historic Denmark Open crown",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-10-18T17:08:03.482634+00:00"
-  },
-  {
-    "score": 19.51,
-    "bucket": "serious",
-    "tokens": [
-      "asean",
-      "comes",
-      "presence",
-      "price",
-      "region",
-      "second",
-      "summit",
-      "trump"
-    ],
-    "link": "https://www.scmp.com/week-asia/economics/article/3371132/trumps-second-asean-summit-presence-comes-price-region?utm_source=rss_feed",
-    "title": "Trump’s second Asean summit presence comes at a price for region",
-    "posted_title": "",
-    "region": "cn",
-    "seen_at": "2026-10-18T17:08:03.482926+00:00"
-  },
-  {
     "score": 30.51,
     "bucket": "serious",
     "tokens": [
@@ -826,5 +605,101 @@
     "posted_title": "",
     "region": "my",
     "seen_at": "2026-10-22T17:08:07.909327+00:00"
+  },
+  {
+    "score": 31.31,
+    "bucket": "serious",
+    "tokens": [
+      "broker",
+      "ceasefire",
+      "helped",
+      "house",
+      "melania",
+      "occupied",
+      "russian",
+      "town",
+      "trump",
+      "ukrainian",
+      "white"
+    ],
+    "link": "https://www.theguardian.com/world/live/2026/oct/23/starlink-ukraine-musk-trump-russia-black-sea-strikes-france-milan-europe-protests-latest-news-updates",
+    "title": "Melania Trump has helped broker ceasefire in Russian-occupied Ukrainian town, says White House",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-10-23T17:08:15.876617+00:00"
+  },
+  {
+    "score": 27.09,
+    "bucket": "serious",
+    "tokens": [
+      "arabia",
+      "completed",
+      "defence",
+      "makkah",
+      "pact",
+      "pakistan",
+      "ratification",
+      "saudi"
+    ],
+    "link": "https://www.dawn.com/news/2039288/pakistan-saudi-arabia-have-completed-ratification-of-makkah-defence-pact-fo",
+    "title": "Pakistan, Saudi Arabia have completed ratification of Makkah defence pact: FO",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-10-23T17:08:15.876861+00:00"
+  },
+  {
+    "score": 24.81,
+    "bucket": "serious",
+    "tokens": [
+      "november",
+      "peace",
+      "russia",
+      "set",
+      "talks",
+      "ukraine"
+    ],
+    "link": "http://www.africanews.com/2026/10/23/russia-ukraine-and-the-us-set-for-november-peace-talks/",
+    "title": "Russia, Ukraine and the US set for November peace talks",
+    "posted_title": "",
+    "region": "africa",
+    "seen_at": "2026-10-23T17:08:15.877084+00:00"
+  },
+  {
+    "score": 22.32,
+    "bucket": "serious",
+    "tokens": [
+      "africa",
+      "complex",
+      "ebola",
+      "faces",
+      "nigeria",
+      "outbreak",
+      "spread",
+      "warns",
+      "who"
+    ],
+    "link": "https://www.japantimes.co.jp/news/2026/10/23/world/science-health/africa-complex-ebola-outbreak/",
+    "title": "Africa faces ‘complex’ Ebola outbreak after spread to Nigeria, WHO warns",
+    "posted_title": "",
+    "region": "jp",
+    "seen_at": "2026-10-23T17:08:15.877280+00:00"
+  },
+  {
+    "score": 21.16,
+    "bucket": "serious",
+    "tokens": [
+      "2028",
+      "bofa",
+      "center",
+      "data",
+      "double",
+      "spending",
+      "trillion"
+    ],
+    "link": "https://www.channelnewsasia.com/business/data-center-spending-more-double-21-trillion-2028-bofa-says-6487191",
+    "title": "Data center spending to more than double to $2.1 trillion by 2028, BofA says",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-10-23T17:08:15.877466+00:00"
   }
 ]
