@@ -2593,3 +2593,17 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 - **الفشل يُحفظ:** `render_roster_errors[vid]` = `empty` · `call_error: <120 حرفًا>` · `no_transcript` (مقاطعه كلها بلا نص مجلوب)، وسطر `comment_roster_failed` واحد لكل فيديو
   (نصوص الأسباب `roster_reasons`). المفاتيح الجديدة في `RENDER_KEYS`.
 - **قضية واحدة:** `_render_comment_issue(draft)` = `reel_review_issue` وإلا `review_issue`، يستعملها فرع `ClipDownloadFailed` وتعليق النتيجة؛ `_publish_on_render` بقاعدته (W4).
+
+## خريطة متكلمي الحلقة في التركيب (S4) — `src/speaker_map.py`، `src/reel_render.py:_map_check`
+
+السبب: حرّاس المقطع الواحد (Q10–Q16) تحكم من نافذة صغيرة حول المقطع فيتقلّب الاسم بين تشغيلتين؛ القياس (`tools/speaker_map_probe.py`، 2026-10-23) أعطى
+خريطة الحلقة 7 من 7 على الريل 02b4436a2b66. `render_version` = 51؛ g647–g653 في `tests/test_guards_golden.py:test_reel_speaker_map_s4_guards`.
+
+- **النواة** في `src/speaker_map.py` (نُقلت من الأداة، والأداة تستوردها): الحلقة كاملة 240p ← لقطة كل 2 ث ← وجوه YuNet/SFace مجمَّعة ← قراءة الشريط
+  موجَّهة لكل مجموعة (S1) ← أغلبية الأصوات واسم واحد لمجموعة واحدة ← `assign_at` يسند لحظةً إلى مجموعة بـ`speaker_track`. `to_saved` صيغة الحفظ (الخريطة والمقدّم ومراكز كل المجموعات، بلا صور).
+- **في التركيب:** `_prune_mismatched` يستدعي `_map_check` أولًا: خريطة لكل فيديو له مقطع بنافذة معروفة (المحفوظة في `render_speaker_map` تُعاد بلا تنزيل، و`render_roster_rebuild` يعيد بناءهما)،
+  ثم إسناد وسط الاقتباس (`_map_window`: ضبط الكلمات ثم موضع السطر؛ التقديرية لا تُسند) على ملف المقطع نفسه (`clip["dstart"]`). يُعتمد الإسناد إن بلغت حصة
+  المجموعة `speaker_map.render_min_share` (0.75) وكانت مسمّاة أو المقدّم (`_apply_map`): يطابق القائل ← `speaker_verified_from="map"` وسطر ✅؛ ضيف آخر ← `_relabel(how="map")`
+  بحرّاسه؛ المقدّم والقائل غيره ← حذف `drop_map_host`. ما حسمته الخريطة لا يُقرأ شريطه؛ وما لم تحسمه يمرّ بحرّاس Q10–Q16 كما كانت. «map» شاهد مستقل لمقارنة الوجه (Q14).
+- **الحفظ:** `render_speaker_map` و`render_map_assign` و`render_map_errors` (ضمن `RENDER_KEYS`)؛ فشل البناء ← سطر `comment_map_failed` وسلوك قديم.
+- **الإعداد:** `speaker_map.render_enabled` (false ← كما قبل S4). `opencv-python-headless` في `requirements-reel.txt`. الكلفة نحو دقيقتين و10–16 نداء Haiku لكل فيديو أول مرة.
