@@ -20910,3 +20910,40 @@ def test_speaker_map_s0_guards() -> None:
         res2 = sm.vote_names(host_reads, [[(5, 900), (7, 300)]] * 3, cfg, host=7)
         check("g641: يُعطى للمقدّم المعروف", res2[7]["name"] == "أيمن سرور" and res2.get(5, {}).get("name") is None, res2)
     guarded("g641", g641)
+
+    # ── S1 (g642–g644): القراءة موجَّهة لكل مجموعة، والاسم لمجموعته لا لأكبر وجه، والاسم الواحد لوجه واحد ──
+    def g642():
+        c = dict(cfg)
+        c["speaker_map"] = dict(cfg.get("speaker_map") or {}, min_cluster_faces=3, reads_per_cluster=2, dominant_share=0.6,
+                                max_chyron_reads=40)
+        from src.config import Config
+        c = Config(c)
+        # المجموعة 0 وحدها في 0..3، والمجموعة 1 مع 0 في 4..7 تغلب في 4 و5 فقط، والمجموعة 2 تظهر مرتين (عابرة)
+        faces = ([[(0, 500)]] * 4 + [[(1, 900), (0, 100)]] * 2 + [[(1, 300), (0, 300)]] * 2 + [[(2, 500)]] * 2)
+        got = sm.pick_read_frames(faces, c)
+        check("g642: لقطات المجموعة 0 وحدها موزّعة", [f for f, k in got if k == 0] == [0, 3], got)
+        check("g642: المجموعة 1 من لقطات غلبتها", [f for f, k in got if k == 1] == [4, 5], got)
+        check("g642: المجموعة العابرة لا تُقرأ", all(k != 2 for _, k in got), got)
+        c2 = Config(dict(c, speaker_map=dict(c["speaker_map"], max_chyron_reads=2)))
+        capped = sm.pick_read_frames(faces, c2)
+        check("g642: السقف للأكثر ظهورًا أولًا", capped == [(0, 0), (3, 0)], capped)
+    guarded("g642", g642)
+
+    def g643():
+        # الشاشة المقسومة: الضيف أصغر وجهًا لكن القراءة موجَّهة له
+        faces = [[(0, 900), (1, 300)]] * 3
+        reads = [dict(read(i, "علي البخيتي"), cluster=1) for i in range(3)]
+        res = sm.vote_names(reads, faces, cfg)
+        check("g643: الاسم لمجموعة القراءة لا لأكبر وجه", res[1]["name"] == "علي البخيتي" and res.get(0, {}).get("name") is None, res)
+        no = sm.vote_names([dict(read(i, "أيمن سرور", speaker="no"), cluster=1) for i in range(3)], faces, cfg, host=0)
+        check("g643: «ليس المتكلم» يذهب للمقدّم", no[0]["name"] == "أيمن سرور" and no.get(1, {}).get("name") is None, no)
+    guarded("g643", g643)
+
+    def g644():
+        faces = [[(0, 500)]] * 9 + [[(1, 500)]] * 3
+        reads = [dict(read(i, "منيف عماش الحربي"), cluster=0 if i < 9 else 1) for i in range(12)]
+        res = sm.vote_names(reads, faces, cfg)
+        check("g644: الاسم للأكثر أصواتًا وحدها", res[0]["name"] == "منيف عماش الحربي" and res[1]["name"] is None, res)
+        tie = sm.vote_names([dict(read(i, "س"), cluster=i % 2) for i in range(4)], [[(0, 5), (1, 5)]] * 4, cfg)
+        check("g644: تعادل مجموعتين على اسم لا يسمّي أيًّا", tie[0]["name"] is None and tie[1]["name"] is None, tie)
+    guarded("g644", g644)

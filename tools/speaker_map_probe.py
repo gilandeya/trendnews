@@ -125,6 +125,9 @@ def vote_names(reads, faces_per_frame, cfg, host=None) -> dict:
         flag = r.get("name_is_speaker", "yes")
         if flag == "no":
             target = host
+        elif flag == "yes" and r.get("cluster") is not None:
+            # قراءة موجَّهة (S1): اللقطة اختيرت لأن وجه هذه المجموعة وحده فيها أو غالب عليها، فالاسم لها لا لأكبر وجه
+            target = r["cluster"]
         elif flag == "yes":
             frame = r.get("frame")
             faces = faces_per_frame[frame] if isinstance(frame, int) and 0 <= frame < len(faces_per_frame) else []
@@ -141,6 +144,20 @@ def vote_names(reads, faces_per_frame, cfg, host=None) -> dict:
         top = ranked[0]
         second = ranked[1][1] if len(ranked) > 1 else 0
         out[cid] = {"name": top[0] if top[1] >= min_votes and top[1] > second else None, "votes": dict(votes)}
+    # الاسم الواحد لوجه واحد (S1): القياس الأول سمّى المقدّم والحربي معًا «منيف عماش الحربي» (2 مقابل 7 أصوات)؛
+    # يبقى الاسم للمجموعة الأكثر أصواتًا له، وتعادلها لا يسمّي أيًّا منها
+    by_name: dict = {}
+    for cid, row in out.items():
+        if row["name"]:
+            by_name.setdefault(row["name"], []).append(cid)
+    for name, cids in by_name.items():
+        if len(cids) < 2:
+            continue
+        best = max(out[c]["votes"][name] for c in cids)
+        winners = [c for c in cids if out[c]["votes"][name] == best]
+        for c in cids:
+            if len(winners) > 1 or c != winners[0]:
+                out[c]["name"] = None
     return out
 
 
@@ -152,6 +169,43 @@ def pick_host(clusters, duration, cfg):
         return None
     wide = [c for c in clusters if (c["last"] - c["first"]) / float(duration) >= span]
     return max(wide, key=lambda c: c["count"])["id"] if wide else None
+
+
+def pick_read_frames(faces_per_frame, cfg) -> list[tuple[int, int]]:
+    """لقطات قراءة الشريط الموجَّهة (S1): لكل مجموعة ظهر وجهها ≥ speaker_map.min_cluster_faces مرة، حتى reads_per_cluster لقطة
+    موزّعة على زمن ظهورها، يكون وجهها فيها وحده، وإلا غالبًا (≥ dominant_share من مساحة الوجوه). القياس الأول قرأ الأشرطة عند تغيّرها
+    وأعطى الاسم لأكبر وجه، فلم يصل اسم البخيتي ولا بكري إلى وجهيهما لأن تغيّرات الشريط في الشاشة المقسومة والتقارير لا عند ظهور الضيف
+    وحده. الأكثر ظهورًا أولًا، والسقف max_chyron_reads للحلقة كلها. يعيد [(لقطة، مجموعة)] مرتبة بالزمن. دالة خالصة."""
+    min_faces = int(_cfg(cfg, "min_cluster_faces", 20))
+    per = int(_cfg(cfg, "reads_per_cluster", 4))
+    share = float(_cfg(cfg, "dominant_share", 0.6))
+    cap = int(_cfg(cfg, "max_chyron_reads", 40))
+    counts: dict = {}
+    solo: dict = {}
+    dominant: dict = {}
+    for i, faces in enumerate(faces_per_frame):
+        total = sum(a for _, a in faces) or 0
+        for cid, area in faces:
+            counts[cid] = counts.get(cid, 0) + 1
+        if len(faces) == 1:
+            solo.setdefault(faces[0][0], []).append(i)
+        elif faces and total:
+            cid, area = max(faces, key=lambda f: f[1])
+            if area / total >= share:
+                dominant.setdefault(cid, []).append(i)
+
+    def spread(frames: list[int], k: int) -> list[int]:
+        if len(frames) <= k:
+            return list(frames)
+        return [frames[round(j * (len(frames) - 1) / (k - 1))] for j in range(k)] if k > 1 else [frames[len(frames) // 2]]
+
+    out: list[tuple[int, int]] = []
+    for cid in sorted(counts, key=lambda c: -counts[c]):
+        if counts[cid] < min_faces:
+            continue
+        pool = solo.get(cid) or dominant.get(cid) or []
+        out.extend((f, cid) for f in spread(pool, per))
+    return sorted(out[:cap])
 
 
 # ──────────────────────────── مقارنة الأسماء ────────────────────────────
@@ -301,7 +355,7 @@ def chyron_band(img, cfg):
     return cv2.resize(gray, (64, 8), interpolation=cv2.INTER_AREA).ravel()
 
 
-def read_chyrons(frames_idx: list[int], images: list, cfg, counters: dict) -> list[dict]:
+def read_chyrons(frames_idx: list, images: list, cfg, counters: dict) -> list[dict]:
     """قراءة الشريط للقطات المختارة بنداء Haiku مجمَّع في صفائح، بأداة read_lower_third القائمة نفسها (reel_render.call_chyron_model).
     اللقطة تُكبَّر إلى read_width عرضًا قبل الإرسال (التنزيل منخفض الدقة). فشل صفيحة يُسجَّل ويُتخطّى."""
     import cv2
@@ -314,10 +368,11 @@ def read_chyrons(frames_idx: list[int], images: list, cfg, counters: dict) -> li
     from src.config import env
     client = Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
     reads: list[dict] = []
-    for s in range(0, len(frames_idx), sheet):
-        part = frames_idx[s:s + sheet]
+    pairs = [p if isinstance(p, tuple) else (p, None) for p in frames_idx]   # (لقطة، مجموعة) للقراءة الموجَّهة
+    for s in range(0, len(pairs), sheet):
+        part = pairs[s:s + sheet]
         jpegs = []
-        for i in part:
+        for i, _ in part:
             img = images[i]
             scale = width / img.shape[1]
             big = cv2.resize(img, (width, int(img.shape[0] * scale)), interpolation=cv2.INTER_CUBIC)
@@ -328,11 +383,11 @@ def read_chyrons(frames_idx: list[int], images: list, cfg, counters: dict) -> li
         except Exception as exc:  # noqa: BLE001 -- صفيحة متعثرة لا تُسقط الباقي
             counters["haiku_errors"].append(f"{type(exc).__name__}: {str(exc)[:80]}")
             continue
-        for i, res in zip(part, results):
+        for (i, cid), res in zip(part, results):
             if not res.get("has_caption"):
                 continue
             name = res.get("name_arabic") or res.get("name_original") or ""
-            reads.append({"frame": i, "name": name, "name_kind": res.get("name_kind", "person"),
+            reads.append({"frame": i, "cluster": cid, "name": name, "name_kind": res.get("name_kind", "person"),
                           "name_is_speaker": res.get("name_is_speaker", "unsure")})
     counters["chyron_reads"] = len(frames_idx)
     return reads
@@ -394,11 +449,10 @@ def build_map(video: Path, work: Path, cfg, engine: FaceEngine, timings: dict, c
     bands = [chyron_band(im, cfg) if im is not None else np.zeros(512) for im in images]
     changes = chyron_changes(bands, cfg)
     counters["chyron_changes"] = len(changes)
-    cap = int(_cfg(cfg, "max_chyron_reads", 40))
-    if len(changes) > cap:
-        diffs = chyron_diffs(bands)
-        changes = sorted(sorted(changes, key=lambda i: -diffs[i])[:cap])
-    reads = read_chyrons(changes, images, cfg, counters) if changes else []
+    targets = pick_read_frames(faces_per_frame, cfg)   # S1: التغيّر يُعدّ للتشخيص وحده، والقراءة موجَّهة لكل مجموعة
+    counters["read_targets"] = len(targets)
+    reads = read_chyrons(targets, images, cfg, counters) if targets else []
+    counters["reads_with_name"] = sum(1 for r in reads if r.get("name"))
     timings["chyron"] = round(time.monotonic() - t0, 2)
 
     votes = vote_names(reads, faces_per_frame, cfg, host=host)
@@ -414,7 +468,10 @@ def build_map(video: Path, work: Path, cfg, engine: FaceEngine, timings: dict, c
     for c in clusters:
         v = votes.get(c["id"], {"name": None, "votes": {}})
         rows.append({**c, "name": v["name"], "votes": v["votes"], "is_host": c["id"] == host})
-    return {"duration": duration, "map": rows, "host": host, "centroids": centroids, "reads": len(reads)}
+    return {"duration": duration, "map": rows, "host": host, "centroids": centroids, "reads": len(reads),
+            # تفصيل القراءات للتشخيص (S1): أي لقطة قُرئت لأي مجموعة وماذا قال النموذج — بلا صور
+            "read_log": [{"sec": r["frame"] * step, "cluster": r.get("cluster"), "name": r.get("name"),
+                          "kind": r.get("name_kind"), "speaker": r.get("name_is_speaker")} for r in reads]}
 
 
 def assign_at(video: Path, work: Path, t: float, built: dict, cfg, engine: FaceEngine) -> dict:
