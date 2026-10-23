@@ -1,25 +1,27 @@
 {
   "date": "2026-10-23",
-  "models_seconds": 1.07,
+  "models_seconds": 1.79,
   "videos": [
     {
       "video_id": "qB_4P0mUCyI",
       "timings": {
-        "download": 50.42,
-        "frames": 23.08,
-        "faces": 21.6,
-        "cluster": 0.17,
-        "chyron": 23.82,
-        "assign": 1.77
+        "download": 55.67,
+        "frames": 16.54,
+        "faces": 18.55,
+        "cluster": 0.12,
+        "chyron": 13.5,
+        "assign": 1.43
       },
       "counters": {
-        "haiku_calls": 10,
+        "haiku_calls": 6,
         "haiku_errors": [],
         "frames": 1362,
         "faces": 1785,
         "clusters": 14,
         "chyron_changes": 228,
-        "chyron_reads": 40
+        "read_targets": 24,
+        "chyron_reads": 24,
+        "reads_with_name": 16
       },
       "download": {
         "size_bytes": 28262595,
@@ -42,10 +44,8 @@
           "count": 614,
           "first": 8.0,
           "last": 2714.0,
-          "name": "منيف عماش الحربي",
-          "votes": {
-            "منيف عماش الحربي": 2
-          },
+          "name": null,
+          "votes": {},
           "is_host": true
         },
         {
@@ -54,7 +54,9 @@
           "first": 8.0,
           "last": 2712.0,
           "name": null,
-          "votes": {},
+          "votes": {
+            "علي البخيتي": 1
+          },
           "is_host": false
         },
         {
@@ -62,9 +64,9 @@
           "count": 571,
           "first": 8.0,
           "last": 2722.0,
-          "name": "منيف عماش الحربي",
+          "name": null,
           "votes": {
-            "منيف عماش الحربي": 7
+            "منيف عماش الحربي": 1
           },
           "is_host": false
         },
@@ -185,7 +187,7 @@
         {
           "t": 1000.0,
           "cluster": 3,
-          "name": "منيف عماش الحربي",
+          "name": null,
           "is_host": false,
           "source": "speaker",
           "votes": {
@@ -195,28 +197,30 @@
         {
           "t": "host",
           "cluster": 1,
-          "name": "منيف عماش الحربي"
+          "name": null
         }
       ]
     },
     {
       "video_id": "QFMGl1rCLhU",
       "timings": {
-        "download": 47.26,
-        "frames": 24.48,
-        "faces": 27.62,
-        "cluster": 0.4,
-        "chyron": 23.48,
-        "assign": 1.32
+        "download": 44.32,
+        "frames": 17.71,
+        "faces": 23.45,
+        "cluster": 0.29,
+        "chyron": 19.49,
+        "assign": 1.06
       },
       "counters": {
-        "haiku_calls": 10,
+        "haiku_calls": 8,
         "haiku_errors": [],
         "frames": 1589,
         "faces": 2376,
         "clusters": 44,
         "chyron_changes": 157,
-        "chyron_reads": 40
+        "read_targets": 32,
+        "chyron_reads": 32,
+        "reads_with_name": 18
       },
       "download": {
         "size_bytes": 28103867,
@@ -231,10 +235,7 @@
           "first": 2.0,
           "last": 3166.0,
           "name": null,
-          "votes": {
-            "سموتريتش": 1,
-            "السيسي": 1
-          },
+          "votes": {},
           "is_host": true
         },
         {
@@ -242,8 +243,10 @@
           "count": 36,
           "first": 68.0,
           "last": 2994.0,
-          "name": null,
-          "votes": {},
+          "name": "ثمين الخيطان",
+          "votes": {
+            "ثمين الخيطان": 2
+          },
           "is_host": false
         },
         {
@@ -251,9 +254,9 @@
           "count": 86,
           "first": 82.0,
           "last": 3070.0,
-          "name": "السيسي",
+          "name": null,
           "votes": {
-            "السيسي": 3
+            "السيسي": 1
           },
           "is_host": false
         },
@@ -262,8 +265,10 @@
           "count": 220,
           "first": 166.0,
           "last": 656.0,
-          "name": null,
-          "votes": {},
+          "name": "د. عبد القوي المخلافي",
+          "votes": {
+            "د. عبد القوي المخلافي": 2
+          },
           "is_host": false
         },
         {
@@ -317,7 +322,9 @@
           "first": 696.0,
           "last": 1672.0,
           "name": null,
-          "votes": {},
+          "votes": {
+            "مصطفى بكري": 1
+          },
           "is_host": false
         },
         {
@@ -352,8 +359,10 @@
           "count": 261,
           "first": 1732.0,
           "last": 2252.0,
-          "name": null,
-          "votes": {},
+          "name": "عبد السلام برواري",
+          "votes": {
+            "عبد السلام برواري": 2
+          },
           "is_host": false
         },
         {
@@ -489,7 +498,7 @@
           "last": 3090.0,
           "name": "سموتريتش",
           "votes": {
-            "سموتريتش": 2
+            "سموتريتش": 4
           },
           "is_host": false
         },
@@ -525,9 +534,9 @@
           "count": 352,
           "first": 2388.0,
           "last": 3162.0,
-          "name": "سموتريتش",
+          "name": "اوري أفيتار",
           "votes": {
-            "سموتريتش": 2
+            "اوري أفيتار": 2
           },
           "is_host": false
         },
