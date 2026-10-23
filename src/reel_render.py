@@ -569,6 +569,10 @@ class Deps:
     face_frames: Callable[[Any, Any], list] | None = None
     # (cfg) ← (نجح؟، السبب): فحص ذاتي لمفرِّغ الكلمات مرة لكل تركيب (Issue #1686، Q13b)؛ None للمزيَّفات ← لا فحص
     transcriber_selfcheck: Callable[[Any], tuple[bool, str]] | None = None
+    # S4: خريطة متكلمي الحلقة. (video_id، cfg، مجلد عمل) ← الخريطة المحفوظة الصيغة (speaker_map.to_saved)؛ يرفع عند العطل.
+    # (الخريطة، ملف المقطع، الثانية فيه، الطول، cfg) ← {cluster, name, is_host, share}. None للمزيَّفات القديمة ← لا خريطة وحرّاس Q10–Q16 وحدها
+    build_speaker_map: Callable[[str, Any, Any], dict] | None = None
+    assign_speaker: Callable[[dict, Any, float, float, Any], dict | None] | None = None
 
     def resolved(self, cfg) -> "Deps":
         # جلسة واحدة للتركيب كله كالجمع (R8)؛ تُنشأ عند أول جلب لا عند الاستيراد
@@ -652,6 +656,8 @@ class Deps:
             attribute_clips=self.attribute_clips or (_real_attribute_clips if real else None),
             match_faces=self.match_faces or (_real_match_faces if real else None),
             face_frames=self.face_frames or (_chyron_jpegs if real else None),
+            build_speaker_map=self.build_speaker_map or (_real_build_speaker_map if real else None),
+            assign_speaker=self.assign_speaker or (_real_assign_speaker if real else None),
             assign_broll=self.assign_broll or ((lambda needy, chains, c: reel_broll.assign(needy, chains, c)) if real else None),
             make_queries=self.make_queries or (
                 (lambda script, draft, c, broad=False: reel_hook_search.call_make_queries(script, draft, c, broad=broad))
@@ -2246,7 +2252,7 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: l
             continue
         out = got
         secs = deps.probe(out) or float(dend - dstart)
-        clips[i] = {"file": out, "seconds": float(secs), "video_id": vid}
+        clips[i] = {"file": out, "seconds": float(secs), "video_id": vid, "dstart": float(dstart)}   # dstart: ثانية الفيديو لأول الملف (S4)
         is_approx_win = bool(approx and approx[-1]["point_id"] == scene.get("point_id", "") and approx[-1]["start"] == wstart)
         aligned, why = None, ""
         if exact_on and ex_margin is not None:
@@ -4017,6 +4023,43 @@ MATCH_FACES_TOOL = {
 }
 
 
+_FACE_ENGINE: list = []
+
+
+def _face_engine(cfg, work: Path):
+    """محرّك الوجوه مرة واحدة للتركيب (نموذجا opencv_zoo يُنزَّلان إلى مجلد العمل)."""
+    from . import speaker_map
+    if not _FACE_ENGINE:
+        model_dir = Path(work) / "face_models"
+        model_dir.mkdir(parents=True, exist_ok=True)
+        _FACE_ENGINE.append(speaker_map.FaceEngine(*speaker_map.fetch_models(cfg, model_dir), cfg))
+    return _FACE_ENGINE[0]
+
+
+def _real_build_speaker_map(video_id: str, cfg, work) -> dict:
+    """خريطة متكلمي الحلقة (S4): الحلقة كاملة بدقة منخفضة ← وجوه مجمَّعة ← أسماء الشريط بقراءة موجَّهة؛ تُعاد بصيغة الحفظ."""
+    from . import speaker_map
+    work = Path(work) / f"map_{video_id}"
+    work.mkdir(parents=True, exist_ok=True)
+    dl = speaker_map.download_episode(video_id, int(cfg.path("speaker_map.height") or 240), work, speaker_map.proxy_url())
+    timings: dict = {}
+    counters: dict = {"haiku_calls": 0, "haiku_errors": []}
+    built = speaker_map.build_map(dl["path"], work, cfg, _face_engine(cfg, work), timings, counters)
+    try:
+        dl["path"].unlink()        # الحلقة كاملة لا تلزم بعد الخريطة: الإسناد يجري على ملف المقطع نفسه
+    except OSError:
+        pass
+    return {**speaker_map.to_saved(built), "timings": timings, "haiku_calls": counters["haiku_calls"]}
+
+
+def _real_assign_speaker(saved: dict, clip_file, t: float, length: float, cfg) -> dict | None:
+    from . import speaker_map
+    work = Path(clip_file).parent / f"assign_{Path(clip_file).stem}"
+    work.mkdir(parents=True, exist_ok=True)
+    return speaker_map.assign_at(Path(clip_file), work, max(float(t), 0.0), saved, cfg, _face_engine(cfg, work.parent),
+                                 length=length)
+
+
 def _real_match_faces(refs: list, items: list, cfg) -> list[dict]:
     """نداء Haiku واحد لفيديو واحد: صور كل مرجع باسمه ثم صور كل مرشّح برقمه؛ يعيد صفوفًا بـpoint_id (الرقم n يُترجم إليه)."""
     import base64
@@ -4257,7 +4300,7 @@ def _relabel(i: int, script: dict, run: list, clips: dict, speakers: dict, new: 
     speakers.setdefault(str(i), {"accepted": False}).pop("mismatch", None)
     t = cfg.path("reel.render.texts")
     how_text = (t["relabel_how_chyron"] if how == "chyron" else t["relabel_how_face"] if how == "face"
-                else t["relabel_how_transcript"].format(evidence=evidence))
+                else t["relabel_how_map"] if how == "map" else t["relabel_how_transcript"].format(evidence=evidence))
     notes.append(t["comment_relabel"].format(channel=scene.get("channel_display") or "", old=old_name, new=new_ar, how=how_text))
     meta.setdefault("relabel", []).append({"point_id": scene.get("point_id", ""), "from": old_name, "to": new_ar, "how": how,
                                            "evidence": evidence if how == "transcript" else ""})
@@ -4293,7 +4336,7 @@ def _combine_speaker(i: int, script: dict, run: list, clips: dict, mm: dict | No
     return mm
 
 
-_INDEPENDENT_PROOF = ("chyron", "transcript")
+_INDEPENDENT_PROOF = ("chyron", "transcript", "map")   # S4: الخريطة شاهد مستقل كالشريط والنص
 
 
 def _face_check(script: dict, live: dict, rosters: dict, cfg, deps: Deps, speakers: dict, notes: list, meta: dict,
@@ -4379,6 +4422,112 @@ def _face_check(script: dict, live: dict, rosters: dict, cfg, deps: Deps, speake
             entry["applied"] = True
 
 
+def _map_window(clip: dict, cfg) -> tuple[float, float] | None:
+    """(الثانية في ملف المقطع، الطول) للحظة الاقتباس نفسها: وسط الاقتباس بطول assign_window على الأكثر. المصدر بالترتيب: ضبط الكلمات (Q13)
+    ثم موضع الاقتباس في النص المجلوب؛ النافذة التقديرية لا تُسند (لا نعرف من يتكلم فيها)."""
+    if clip.get("approx") or clip.get("dstart") is None:
+        return None
+    ex = clip.get("exact") or {}
+    if ex.get("source") == "words" and ex.get("t0") is not None:
+        a, b = float(ex["t0"]), float(ex.get("t1") or ex["t0"])
+    elif clip.get("quote_start") is not None:
+        a, b = float(clip["quote_start"]), float(clip.get("quote_end") or clip["quote_start"])
+    else:
+        return None
+    win = float(cfg.path("speaker_map.assign_window") or 6)
+    length = min(max(b - a, 1.0), win)
+    mid = (a + b) / 2
+    return max(mid - length / 2 - float(clip["dstart"]), 0.0), length
+
+
+def _map_check(script: dict, clips: dict, cfg, deps: Deps, notes: list, meta: dict) -> dict:
+    """خريطة متكلمي الحلقة (S4): لكل فيديو له مقطع بنافذة معروفة تُبنى خريطة واحدة (أو تُعاد المحفوظة) ويُسند وجه لحظة الاقتباس إلى
+    مجموعته واسمها. يعيد {فهرس المقطع: الإسناد} لما بلغت حصته render_min_share وحده؛ أي عطل ← لا إسناد لذلك الفيديو وتبقى حرّاس Q10–Q16."""
+    if (not cfg.path("speaker_map.render_enabled") or getattr(deps, "build_speaker_map", None) is None
+            or getattr(deps, "assign_speaker", None) is None):
+        return {}
+    t = cfg.path("reel.render.texts")
+    min_share = float(cfg.path("speaker_map.render_min_share") or 0.75)
+    prior = meta.get("prior_map") or {}
+    by_vid: dict = {}
+    for i in sorted(clips):
+        win = _map_window(clips[i], cfg)
+        if win is not None and clips[i].get("video_id"):
+            by_vid.setdefault(clips[i]["video_id"], []).append((i, win))
+    out: dict = {}
+    for vid, items in by_vid.items():
+        channel = script["scenes"][items[0][0]].get("channel_display") or ""
+        saved = prior.get(vid)
+        if saved and saved.get("centroids"):
+            source = "saved"     # الحلقة ووجوهها لا تتغيّر بين تشغيلتين: لا تنزيل ولا نداء
+        else:
+            try:
+                saved, source = deps.build_speaker_map(vid, cfg, meta.get("work") or "."), "built"
+            except Exception as exc:  # noqa: BLE001 -- الخريطة تحسين: يبقى سلوك Q10–Q16
+                reason = " ".join(reel_clips.scrub_text(str(exc)).split())[:120]
+                meta.setdefault("map_errors", {})[vid] = reason
+                notes.append(t["comment_map_failed"].format(channel=channel, reason=reason))
+                continue
+        if not isinstance(saved, dict) or not saved.get("map"):
+            continue
+        meta.setdefault("speaker_map", {})[vid] = {**saved, "source": source}
+        named = "، ".join(("%s (المقدّم)" % r["name"]) if r.get("is_host") else r["name"]
+                          for r in saved["map"] if r.get("name"))
+        if named and source == "built":
+            notes.append(t["comment_map_built"].format(channel=channel, names=named))
+        for i, (off, length) in items:
+            try:
+                a = deps.assign_speaker(saved, clips[i]["file"], off, length, cfg)
+            except Exception as exc:  # noqa: BLE001
+                log.warning("تعذّر إسناد وجه المقطع %s: %s", i, reel_clips.scrub_text(str(exc))[:120])
+                continue
+            if not isinstance(a, dict) or a.get("cluster") is None:
+                continue
+            row = next((r for r in saved["map"] if int(r["id"]) == int(a["cluster"])), {})
+            entry = {"point_id": script["scenes"][i].get("point_id", ""), "cluster": a["cluster"], "name": row.get("name"),
+                     "is_host": bool(row.get("is_host")), "share": a.get("share"), "applied": False}
+            meta.setdefault("map_assign", []).append(entry)
+            if float(a.get("share") or 0) >= min_share and (entry["name"] or entry["is_host"]):
+                out[i] = {**entry, "host_name": next((r.get("name") for r in saved["map"] if r.get("is_host")), None)}
+    return out
+
+
+def _apply_map(i: int, script: dict, run: list, live: dict, speakers: dict, verdict: dict, roster: list, cfg, notes: list,
+               meta: dict) -> tuple[bool, dict | None]:
+    """حكم الخريطة لمقطع (S4): (حُسم؟، قاموس الحذف أو None). الاسم يطابق قائل السيناريو ← تأكيد؛ ضيف مسمّى آخر ← تصحيح بحرّاس _relabel؛
+    وجه المقدّم والقائل ليس المقدّم ← حذف (كلام المقدّم لا يُنسب إلى ضيف). مجموعة بلا اسم وليست المقدّم لا تحسم شيئًا."""
+    scene = script["scenes"][i]
+    t = cfg.path("reel.render.texts")
+    speaker = scene.get("speaker_text") or scene.get("speaker_name") or ""
+    channel = scene.get("channel_display") or ""
+    name = verdict.get("name")
+    entry = next((e for e in reversed(meta.get("map_assign") or []) if e["point_id"] == scene.get("point_id", "")), {})
+    # الشريط لا يُقرأ بعد حكم الخريطة: _apply_chyron يُستدعى ثانية في _clip_layers، وقراءة لقطات المقطع الثلاث كانت ستعيد خلافًا حسمته الحلقة كلها
+    speakers[str(i)] = {"accepted": False, "source": "map"}
+    if verdict.get("is_host"):
+        if name and speaker_matches(name, "", speaker, cfg) is True:
+            scene.update(speaker_verified_from="map")
+            entry["applied"] = True
+            notes.append(t["comment_map_confirmed"].format(name=scene.get("speaker_name") or name, channel=channel))
+            return True, None
+        entry["applied"] = True
+        return True, {"reason_key": "drop_map_host", "speaker": speaker, "new": name or "", "chyron": name or "", "name": name or "",
+                      "channel": channel}
+    if speaker_matches(name, "", speaker, cfg) is True:
+        scene.update(speaker_verified_from="map")
+        entry["applied"] = True
+        line = t["comment_map_confirmed"].format(name=scene.get("speaker_name") or name, channel=channel)
+        if line not in notes:
+            notes.append(line)
+        return True, None
+    host = verdict.get("host_name")
+    roster = list(roster or []) + ([{"name_arabic": host, "name_original": "", "role_arabic": "", "is_host": True}] if host else [])
+    entry["applied"] = True
+    mm = _relabel(i, script, run, live, speakers, {"name_arabic": name, "name_original": "", "role_arabic": ""}, "map", "",
+                  roster, cfg, notes, meta)
+    return True, mm
+
+
 def _prune_mismatched(script: dict, clips: dict, cfg, deps: Deps, speakers: dict, notes: list,
                       dropped: list, meta: dict | None = None) -> tuple[dict, set[int]]:
     """حارس القائل (Issue #1621، R6): في سيناريو v2 يُقرأ شريط كل مقطع في لوحة قبل بنائها؛ مقطع يُظهر شريطه اسمًا غير قائل الاقتباس يُحذف
@@ -4392,6 +4541,7 @@ def _prune_mismatched(script: dict, clips: dict, cfg, deps: Deps, speakers: dict
     dead_q: dict = {}
     min_answers = int(cfg.path("reel.render.min_answers", 2))
     meta = meta if meta is not None else {}
+    maps = _map_check(script, clips, cfg, deps, notes, meta)
     rosters, verdicts = _speaker_check(script, order, clips, cfg, deps, notes, meta)
     # المرحلة 1: حكم الشريط والنص لكل مقطع (live ينقص تدريجيًا كما كان clips ينقص، فحارس التكرار في _relabel يرى الباقي فقط)؛
     # الحذف نفسه يُسجَّل في المرحلة 2 بعد مقارنة الوجه (Q14) التي تحتاج مقاطع من أسئلة مختلفة معًا
@@ -4402,6 +4552,14 @@ def _prune_mismatched(script: dict, clips: dict, cfg, deps: Deps, speakers: dict
             if i not in live:
                 continue
             roster = rosters.get(live[i].get("video_id"))
+            if i in maps:
+                # S4: الخريطة تجمع شريط الحلقة كلها بالأغلبية فتحسم قبل حرّاس المقطع الواحد (Q10–Q16) التي أخطأت حيث أصابت
+                decided, mm = _apply_map(i, script, members, live, speakers, maps[i], roster, cfg, notes, meta)
+                if decided:
+                    if mm:
+                        pending[i] = mm
+                        live.pop(i)
+                    continue
             mm = _apply_chyron(script["scenes"][i], live[i], cfg, deps, speakers, notes, i, roster)
             if roster and live[i].get("transcript") and not live[i].get("approx"):
                 mm = _combine_speaker(i, script, members, live, mm, speakers, roster,
@@ -4952,7 +5110,9 @@ def _drop_stale_auto_hook(path: Path, draft: dict) -> None:
 # تملؤها حلقة التحقق من المتكلمين، وما بعدها يُكتب على draft مباشرة أثناء التركيب.
 RENDER_META_KEYS = (("render_roster", "roster"), ("render_roster_source", "roster_source"),
                     ("render_roster_errors", "roster_errors"), ("render_attribution", "attribution"),
-                    ("render_relabel", "relabel"), ("render_face_check", "face_check"))
+                    ("render_relabel", "relabel"), ("render_face_check", "face_check"),
+                    ("render_speaker_map", "speaker_map"), ("render_map_assign", "map_assign"),
+                    ("render_map_errors", "map_errors"))
 RENDER_KEYS = tuple(k for k, _ in RENDER_META_KEYS) + ("render_exact_selfcheck",)
 
 
@@ -4967,6 +5127,8 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
             approx: list, notes: list | None = None) -> dict:
     rcfg, scfg = cfg.path("reel.render"), cfg.path("reel.script")
     prior_roster, rebuild_roster = _roster_prior(draft)   # قبل المسح: القائمة المحفوظة تُعاد (Q16)
+    # S4: الخريطة المحفوظة تُعاد كالقائمة (بلا تنزيل الحلقة)؛ render_roster_rebuild يعيد بناءهما معًا
+    prior_map = {} if rebuild_roster else {k: v for k, v in (draft.get("render_speaker_map") or {}).items() if isinstance(v, dict)}
     for k in RENDER_KEYS:
         draft.pop(k, None)     # قيمة قديمة من القرص لا تُحفظ من جديد إن لم يكتبها هذا التركيب
     script = draft.get("script") or {}
@@ -4993,7 +5155,7 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
         _topic_hook(path, draft, script, broll, cfg, notes, deps)
     pre_entries = _pre_hook_entries(draft, scan_state)
     speakers: dict = {}
-    speaker_meta: dict = {"prior_roster": prior_roster, "rebuild": rebuild_roster}   # Q12/Q16: render_roster وrender_attribution وrender_relabel
+    speaker_meta: dict = {"prior_roster": prior_roster, "rebuild": rebuild_roster, "prior_map": prior_map, "work": str(tmp)}   # Q12/Q16: render_roster وrender_attribution وrender_relabel
     hook_crops: dict = {}
     sources_out: list = []
     scene_files, kinds, durs = _assemble(script, clips, cfg, deps, tmp, voice, bg,

@@ -20959,3 +20959,146 @@ def test_speaker_map_s0_guards() -> None:
         src = inspect.getsource(sm.extract_frames) if hasattr(sm, "extract_frames") else inspect.getsource(sm)
         check("g646: القياس يجد ffmpeg عبر reel.ffmpeg_path لا apt", "reel.ffmpeg_path()" in src, None)
     guarded("g646", g646)
+
+
+def test_reel_speaker_map_s4_guards() -> None:
+    """S4 (g647–g653): خريطة متكلمي الحلقة (src/speaker_map.py) تحسم قائل كل مقطع قبل حرّاس المقطع الواحد (Q10–Q16). الشاهد
+    tests/fixtures/reel/1676/face_q14.json (البخيتي تحت اسم الحربي، والقياس 2026-10-23 أعطى الخريطة 7 من 7). الخريطة والإسناد مزيَّفان."""
+    import copy
+    import json
+    from pathlib import Path
+
+    from src import reel_render, speaker_map
+
+    cfg = load_config()
+    root = Path(__file__).resolve().parent
+    fx = json.loads((root / "fixtures/reel/1676/face_q14.json").read_text(encoding="utf-8"))
+    t = cfg.path("reel.render.texts")
+    BUKH, HARBI, HOST = "علي البخيتي", "منيف عماش الحربي", "أيمن سرور"
+    SAVED = {"map": [{"id": 1, "count": 614, "name": HOST, "is_host": True}, {"id": 2, "count": 405, "name": BUKH, "is_host": False},
+                     {"id": 3, "count": 571, "name": HARBI, "is_host": False}, {"id": 8, "count": 73, "name": None, "is_host": False}],
+             "host": 1, "centroids": {"1": [1.0], "2": [1.0], "3": [1.0], "8": [1.0]}}
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001
+            check(name + ": استثناء", False, repr(exc))
+
+    def no_download(*a, **k):
+        raise RuntimeError("x")
+
+    def prune(assign, conf=cfg, wire=True, build=None, meta=None):
+        script = copy.deepcopy(fx["script"])
+        for i in (3, 5, 7, 8):
+            script["scenes"][i]["speaker_text"] = ""
+        script["scenes"][4]["speaker_text"] = HARBI
+        script["scenes"][9]["speaker_text"] = HARBI
+        clips = {}
+        for i in (3, 4, 5, 7, 8, 9):
+            ours = i in (4, 8, 9)
+            clips[i] = dict(file="c%d" % i, seconds=8.0, video_id="v" if ours else "o%d" % i, dstart=696.0,
+                            quote_start=700.0, quote_end=706.0)
+        calls = dict(build=[], assign=[], chyron=[])
+
+        def read(file, c):
+            calls["chyron"].append(file)
+            return []
+
+        def bld(vid, c, work):
+            calls["build"].append(vid)
+            if build:
+                return build(vid)
+            return copy.deepcopy(SAVED)
+
+        def asg(saved, file, off, length, c):
+            calls["assign"].append((file, off, length))
+            return assign.get(file)
+        deps = reel_render.Deps(read_chyron=read, sleep=lambda s_: None, download_clip=no_download)
+        if wire:
+            deps.build_speaker_map, deps.assign_speaker = bld, asg
+        notes, dropped, m = [], [], dict(meta or {})
+        out, _ = reel_render._prune_mismatched(script, clips, conf, deps, {}, notes, dropped, meta=m)
+        return script, out, dropped, notes, m, calls
+
+    def a(cluster, share=1.0):
+        return {"cluster": cluster, "share": share}
+
+    def g647():
+        script, out, dropped, notes, meta, calls = prune({"c4": a(2), "c8": a(2), "c9": a(3)})
+        sc = script["scenes"][4]
+        check("g647: الحادثة — مقطع «الحربي» وجهه البخيتي ← يُصحَّح إلى البخيتي", 4 in out and not dropped
+              and sc["speaker_name"] == BUKH and sc["speaker_verified_from"] == "map", (dropped, sc.get("speaker_name")))
+        check("g647: سطر 🔁 بنص relabel_how_map", any(n.startswith("🔁") and t["relabel_how_map"] in n for n in notes), notes)
+        check("g647: الحربي الحقيقي يُؤكَّد بالخريطة", script["scenes"][9]["speaker_verified_from"] == "map"
+              and any(n.startswith("✅ خريطة") and HARBI in n for n in notes), notes)
+        check("g647: خريطة واحدة لكل فيديو ولا قراءة شريط لما حسمته", calls["build"].count("v") == 1
+              and not {"c4", "c8", "c9"} & set(calls["chyron"]), calls)
+        check("g647: الخريطة محفوظة في meta", meta.get("speaker_map", {}).get("v", {}).get("source") == "built"
+              and len(meta.get("map_assign") or []) == 3, meta.get("map_assign"))
+    guarded("g647", g647)
+
+    def g648():
+        _, out, dropped, _, _, _ = prune({"c4": a(1), "c8": a(2), "c9": a(3)})
+        check("g648: وجه المقدّم في لحظة اقتباس ضيف ← حذف drop_map_host", 4 not in out and len(dropped) == 1
+              and dropped[0]["reason"] == t["drop_map_host"].format(speaker=HARBI, new=HOST), dropped)
+    guarded("g648", g648)
+
+    def g649():
+        base = prune({}, wire=False)
+        for label, asg in (("حصة منقسمة", {"c4": a(2, 0.6)}), ("مجموعة بلا اسم", {"c4": a(8)}), ("لا وجه", {"c4": None})):
+            res = prune(asg)
+            check("g649: %s ← لا حكم والشريط يُقرأ" % label, "c4" in res[5]["chyron"]
+                  and res[0]["scenes"][4].get("speaker_name") == base[0]["scenes"][4].get("speaker_name"), (res[5], res[2]))
+    guarded("g649", g649)
+
+    def g650():
+        res = prune({"c4": a(2)}, meta={"prior_map": {"v": copy.deepcopy(SAVED)}})
+        check("g650: الخريطة المحفوظة تُعاد بلا بناء", "v" not in res[5]["build"] and res[0]["scenes"][4]["speaker_name"] == BUKH
+              and res[4]["speaker_map"]["v"]["source"] == "saved", res[5])
+
+        def boom(vid):
+            raise RuntimeError("proxy 407 http://u:p@x")
+        res = prune({"c4": a(2)}, build=boom)
+        check("g650: فشل البناء ← سطر ⚠️ وسببه محفوظ وسلوك قديم", res[0]["scenes"][4].get("speaker_name") != BUKH
+              and any(n.startswith("⚠️ تعذّر بناء خريطة") for n in res[3]) and "v" in (res[4].get("map_errors") or {})
+              and "c4" in res[5]["chyron"], (res[3], res[4].get("map_errors")))
+    guarded("g650", g650)
+
+    def g651():
+        base = prune({}, wire=False)
+        conf = copy.deepcopy(cfg)
+        conf["speaker_map"]["render_enabled"] = False
+        res = prune({"c4": a(2)}, conf=conf)
+        check("g651: render_enabled=false ← كما قبل S4", not res[5]["build"] and res[0]["scenes"] == base[0]["scenes"]
+              and res[2] == base[2], res[5])
+        check("g651: بلا حقن ← لا خريطة", not base[4].get("speaker_map") and not base[4].get("map_assign"), base[4])
+        res = prune({"c4": a(2)})
+        offs = [x for x in res[5]["assign"] if x[0] == "c4"]
+        check("g651: نافذة الإسناد وسط الاقتباس بثواني الملف", offs and offs[0][1] == 4.0 and offs[0][2] == 6.0, offs)
+    guarded("g651", g651)
+
+    def g652():
+        c = {"approx": True, "dstart": 0.0, "quote_start": 10.0, "quote_end": 14.0}
+        check("g652: النافذة التقديرية لا تُسند", reel_render._map_window(c, cfg) is None, None)
+        c = {"dstart": 100.0, "exact": {"source": "words", "t0": 110.0, "t1": 112.0}, "quote_start": 50.0, "quote_end": 60.0}
+        check("g652: ضبط الكلمات يغلب موضع السطر", reel_render._map_window(c, cfg) == (10.0, 2.0), reel_render._map_window(c, cfg))
+        built = {"map": [{"id": 0, "count": 3, "first": 0, "last": 4, "name": "س", "votes": {"س": 2}, "is_host": True}],
+                 "host": 0, "duration": 9.0, "centroids": {0: [0.123456, 0.5]}}
+        saved = speaker_map.to_saved(built)
+        check("g652: صيغة الحفظ JSON بلا أصوات", json.loads(json.dumps(saved))["centroids"] == {"0": [0.1235, 0.5]}
+              and "votes" not in saved["map"][0], saved)
+    guarded("g652", g652)
+
+    def g653():
+        import tools.speaker_map_probe as sm
+        check("g653: الأداة تقيس بنواة src/speaker_map", sm.cluster_faces is speaker_map.cluster_faces
+              and sm.build_map is speaker_map.build_map, None)
+        for k in ("comment_map_built", "comment_map_failed", "comment_map_confirmed", "relabel_how_map", "drop_map_host"):
+            check("g653: نص " + k, bool(t.get(k)), k)
+        txt = (root.parent / "requirements-reel.txt").read_text()
+        check("g653: OpenCV في requirements-reel", "opencv-python-headless" in txt, txt)
+        for k in ("render_speaker_map", "render_map_assign", "render_map_errors"):
+            check("g653: %s ضمن RENDER_KEYS" % k, k in reel_render.RENDER_KEYS, k)
+        check("g653: render_version >= 51", int(cfg.path("reel.render.version")) >= 51, cfg.path("reel.render.version"))
+    guarded("g653", g653)
