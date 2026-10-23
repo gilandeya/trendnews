@@ -2259,7 +2259,7 @@ reel:
     # فلا يتحرك. قيمة ≥ min(lead_seconds, clip_tail_seconds) تُخفَّض إلى ذلك الحد − 0.1 كي لا يقع كلام المقطع في التلاشي
     transition: {type: slideleft, outro_type: fade, seconds: 0.35}
     # نسخة التركيب: رفعها تعيد --pending تركيب كل ريل معتمد مُركَّب بنسخة أقدم (المنشور والمرفوض لا يُمسّان)
-    version: 49
+    version: 50
     # فكرة المقطع (Issue #1660، Q6): نموذج يرى أسطر النص حول الاقتباس (context_seconds قبله وبعده) فيحدد أول سطر في الفكرة وآخره
     # وهل تمّت، والكود يتحقق: المدى يتقاطع مع الاقتباس ومدته بين min_seconds وmax_seconds وإلا النافذة القديمة. عطل النداء ← القديمة
     # Q13 (Issue #1681): مطفأة — الاكتمال يُحكم في السيناريو (clip_audit.complete) والنص المعروض هو quote_arabic حرفًا؛ الكود باقٍ خلف الإعداد
@@ -2602,6 +2602,12 @@ reel:
       comment_chyron_confirmed: "✅ الشريط يؤكد المتكلم: {name} ({channel})"
       # Q12 (Issue #1679): قائمة الضيوف، وتأكيد القائل من النص، وتصحيحه بدل الحذف
       comment_roster: "👥 ضيوف {channel}: {names}"
+      # Q16 (Issue #1694): فشل بناء قائمة الضيوف يُرى بسببه بدل صمت
+      comment_roster_failed: "⚠️ لم تُبنَ قائمة ضيوف {channel}: {reason}"
+      roster_reasons:
+        empty: "لم يتعرّف النموذج على أي ضيف في مطلع الحلقة"
+        call_error: "تعذّر نداء بناء القائمة"
+        no_transcript: "لا نص مجلوب لمقاطع هذا الفيديو"
       comment_attr_confirmed: "✅ النص يؤكد المتكلم: {name} ({channel})"
       comment_relabel: "🔁 صُحّح قائل مقطع {channel}: {old} ← {new} ({how})"
       relabel_how_chyron: "من الشريط"

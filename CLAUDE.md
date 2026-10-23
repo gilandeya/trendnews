@@ -2579,3 +2579,16 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 - **تشخيص الضبط:** `reel_clips.align_quote(..., diag=)` تملأ `reason` (`low_ratio`|`ambiguous`|`no_words`|`short_quote`) و`best_ratio` و`heard_words` و`heard_head` (أول 8 مطبَّعة)؛
   `_exact_align(..., diag)` تبني نص `error` من `reel.render.texts.exact_reasons` (يذكر النسبة)، ويُحفظ التشخيص في `render_crops[i].exact`. التجميع (Q13b) يبقى بنص `error`.
 - **الطيّ الفارسي:** `youtube_extract._ARABIC_FOLD` يطوي `ی ک ە ۀ` إلى `ي ك ه ه` (للبحث وحده؛ النص المحفوظ لا يُمسّ).
+
+## قائمة ضيوف الحلقة تُحفظ وتُعاد، وفشلها يُرى (Issue #1694، Q16) — `src/reel_render.py:_speaker_check`
+
+الحادثة (الريل 02b4436a2b66، الإصدار 49): بُنيت قائمة فرانس 24 في الإصدار 47 ولم تُبنَ في 49 بلا أثر لسبب، فلم يجد قرار Q15 ما يحسم به المقدّم من الضيف
+فبقي البخيتي باسم القناة؛ وتعليق فشل التنزيل ذهب إلى قضية المرحلة 2 لا قضية المراجعة. الشاهد `tests/fixtures/reel/1676/render49.json`؛ g632–g636 في
+`tests/test_guards_golden.py:test_reel_roster_cache_q16_guards`. `render_version` = 50.
+
+- **المحفوظ يُعاد:** `_render` يأخذ `render_roster` السابق (`_roster_prior`) قبل أن يمسح `RENDER_KEYS` ويمرّره في `speaker_meta["prior_roster"]`؛ لفيديو له قائمة غير فارغة
+  تُستعمل بلا تنزيل ولا نداء (`render_roster_source[vid] = "saved"`، وإلا `"built"`) وللإسناد وقرار Q15 كالمبنية. الفارغة لا تُحفظ فتُعاد المحاولة.
+  `render_roster_rebuild: true` على المسودة (يضعه صاحب المشروع بيده) يبني من جديد ويُحذف الحقل بعد تركيب ناجح.
+- **الفشل يُحفظ:** `render_roster_errors[vid]` = `empty` · `call_error: <120 حرفًا>` · `no_transcript` (مقاطعه كلها بلا نص مجلوب)، وسطر `comment_roster_failed` واحد لكل فيديو
+  (نصوص الأسباب `roster_reasons`). المفاتيح الجديدة في `RENDER_KEYS`.
+- **قضية واحدة:** `_render_comment_issue(draft)` = `reel_review_issue` وإلا `review_issue`، يستعملها فرع `ClipDownloadFailed` وتعليق النتيجة؛ `_publish_on_render` بقاعدته (W4).
