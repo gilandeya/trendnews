@@ -1,0 +1,951 @@
+{
+  "run_date": "2026-10-23",
+  "stats": {
+    "points_in": 251,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 101,
+    "issues_clustered": 41,
+    "topics_merged": 8,
+    "topics_out": 6,
+    "dropped_by_bloc_cap": 4,
+    "topics_seen_skipped": 0,
+    "topics_below_min_points": 15,
+    "topics_below_min_channels": 8,
+    "layers": {
+      "2": 5,
+      "1": 1
+    },
+    "agreement": 2,
+    "cross_source": 4,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "فشل الوساطات الدبلوماسية واحتمال الحرب مع إيران",
+      "توقعات توسع الحرب مع إيران"
+    ],
+    [
+      "المقاومة وسلاح حزب الله في الجنوب اللبناني",
+      "ملف شحنة المتفجرات وسلاح حزب الله في لبنان"
+    ],
+    [
+      "احتجاجات فرنسا وإجراءات الحكومة الأمنية",
+      "الموقف الفرنسي من الحرب في المنطقة ولبنان"
+    ],
+    [
+      "الانتخابات الإسرائيلية المقبلة وتحالفاتها",
+      "دعوة نتنياهو للتصويت لليكود وقانون التجنيد"
+    ],
+    [
+      "انتخابات البرازيل وفوز بولسونارو في الجولة الأولى",
+      "تداعيات الانتخابات البرازيلية على الاستقرار السياسي"
+    ],
+    [
+      "قرار منع الحجاب في المدارس الأذربيجانية",
+      "أزمة العلاقات التركية الأذربيجانية بسبب الحجاب"
+    ],
+    [
+      "الحصار الاقتصادي والنفطي على إيران وتأثيره",
+      "الوضع الاجتماعي الداخلي في إيران تحت الضغط"
+    ],
+    [
+      "مستقبل الحرب في غزة وصفقة المختطفين",
+      "رؤية رام إيمانويل لسياسات إسرائيل وأمريكا تجاه الشرق الأوسط"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "جدوى العمليات العسكرية والعقوبات ضد إيران",
+      "event": "تقييم فعالية الضربات العسكرية والعقوبات في تغيير سلوك أو إسقاط النظام الإيراني",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        9,
+        62,
+        63,
+        71,
+        75
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null,
+      "id": "4eeb9fc497ca",
+      "created_at": "2026-10-23T04:02:29.996247+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1692
+    },
+    {
+      "title": "فشل الوساطات الدبلوماسية واحتمال الحرب مع إيران",
+      "event": "تقييم وصول الوساطات الدبلوماسية بشأن إيران إلى طريق مسدود واحتمال اندلاع حرب",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        10,
+        11,
+        12,
+        47,
+        70,
+        72,
+        73,
+        116
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null,
+      "id": "7b2841d722b5",
+      "created_at": "2026-10-23T04:02:29.996247+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1692
+    },
+    {
+      "title": "مفاوضات إنهاء الحرب الأوكرانية",
+      "event": "تطورات مفاوضات وقف الحرب في أوكرانيا واحتمال اجتماع ثلاثي في أبوظبي وموقف الأطراف",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        43,
+        44,
+        45,
+        46,
+        81
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null,
+      "id": "15e1dbd41696",
+      "created_at": "2026-10-23T04:02:29.996247+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1692
+    },
+    {
+      "title": "الخلاف حول اتفاق تركيا وليبيا البحري",
+      "event": "الاتفاق البحري بين تركيا وليبيا ومدى شرعيته",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        24,
+        48,
+        49,
+        50,
+        53,
+        54
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null,
+      "id": "005e5a3d0330",
+      "created_at": "2026-10-23T04:02:29.996247+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1692
+    },
+    {
+      "title": "الانتخابات الإسرائيلية المقبلة وتحالفاتها",
+      "event": "الحملة الانتخابية الإسرائيلية المقبلة وتحالفات الأحزاب والتوقعات حولها",
+      "layer": 2,
+      "blocs": [
+        "israeli",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        66,
+        116,
+        138,
+        139
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null,
+      "id": "5df68cc1d796",
+      "created_at": "2026-10-23T04:02:29.996247+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1692
+    },
+    {
+      "title": "مستقبل الحرب في غزة وصفقة المختطفين",
+      "event": "نقاش حول إنهاء الحرب في غزة دون وجود عسكري إسرائيلي وصفقة تبادل المختطفين",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "Haaretz",
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        134,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null,
+      "id": "3cd5225551cd",
+      "created_at": "2026-10-23T04:02:29.996247+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1692
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "جدوى العمليات العسكرية والعقوبات ضد إيران",
+      "event": "تقييم فعالية الضربات العسكرية والعقوبات في تغيير سلوك أو إسقاط النظام الإيراني",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        9,
+        62,
+        63,
+        71,
+        75
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "فشل الوساطات الدبلوماسية واحتمال الحرب مع إيران",
+      "event": "تقييم وصول الوساطات الدبلوماسية بشأن إيران إلى طريق مسدود واحتمال اندلاع حرب",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        10,
+        11,
+        12,
+        47,
+        70,
+        72,
+        73,
+        116
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null
+    },
+    {
+      "title": "مفاوضات إنهاء الحرب الأوكرانية",
+      "event": "تطورات مفاوضات وقف الحرب في أوكرانيا واحتمال اجتماع ثلاثي في أبوظبي وموقف الأطراف",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        43,
+        44,
+        45,
+        46,
+        81
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "الخلاف حول اتفاق تركيا وليبيا البحري",
+      "event": "الاتفاق البحري بين تركيا وليبيا ومدى شرعيته",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        24,
+        48,
+        49,
+        50,
+        53,
+        54
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "الانتخابات الإسرائيلية المقبلة وتحالفاتها",
+      "event": "الحملة الانتخابية الإسرائيلية المقبلة وتحالفات الأحزاب والتوقعات حولها",
+      "layer": 2,
+      "blocs": [
+        "israeli",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        66,
+        116,
+        138,
+        139
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "قرار منع الحجاب في المدارس الأذربيجانية",
+      "event": "قرار الزي المدرسي في أذربيجان ومنعه الحجاب بشكل غير مباشر وردود الفعل عليه",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        99,
+        100,
+        124,
+        125
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "انتخابات البرازيل وفوز بولسونارو في الجولة الأولى",
+      "event": "نتائج الجولة الأولى من الانتخابات الرئاسية البرازيلية وفوز بولسونارو",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        82,
+        83,
+        84,
+        101,
+        102,
+        103,
+        105
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "الجدل الفقهي حول فرض الحجاب",
+      "event": "النقاش الديني والفكري حول حكم الحجاب وفرضيته ووظيفته التاريخية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        95,
+        96,
+        97,
+        98
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "نزاع الجويرة بين موريتانيا والمغرب",
+      "event": "الخلاف حول تبعية منطقة الجويرة وسيادتها بين موريتانيا والمغرب",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        107,
+        108,
+        109,
+        110,
+        111,
+        112
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "محاكمة نتنياهو وموقف الإعلام منها",
+      "event": "محاكمة نتنياهو الجنائية وموقف الإعلام الإسرائيلي منها وتوقعات نتيجتها",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        132,
+        133,
+        135,
+        142
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "اعتقال/اختطاف مادورو ومآلات فنزويلا",
+      "event": "اعتقال الرئيس مادورو والنقاش حول شرعيته ومستقبل النظام الفنزويلي والمراحل الأمريكية المعلنة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        0,
+        1,
+        2,
+        3,
+        6
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "إصلاحات قانون الإعلام اللبناني الجديد",
+      "event": "القانون الجديد لتنظيم الإعلام في لبنان وضماناته وثغراته المحتملة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        25,
+        26,
+        27,
+        28,
+        29,
+        30
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الجدل حول تحقيق أحداث 7 أكتوبر والإصلاح القضائي",
+      "event": "الجدل الإسرائيلي حول لجنة تحقيق 7 أكتوبر وقرارات المحكمة العليا والإصلاح القضائي",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        67,
+        68,
+        69
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "المقاومة وسلاح حزب الله في الجنوب اللبناني",
+      "event": "تبرير نشوء المقاومة في جنوب لبنان ودورها في مواجهة الاحتلال الإسرائيلي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        15,
+        16,
+        92,
+        93
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "توقيت الدعم الأمريكي العسكري للسعودية ضد الحوثيين",
+      "event": "توقعات توقيت قرار إدارة ترامب دعم السعودية عسكريًا ضد الحوثيين وربطه بانتخابات التجديد النصفي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        78,
+        94
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "قضية المعادن النادرة والتدخل الأمريكي في البرازيل",
+      "event": "إثارة قضية المعادن النادرة ولجنة لولا الوطنية وتدخل واشنطن سياسيًا في الانتخابات البرازيلية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        85,
+        86,
+        87,
+        104,
+        106
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "أمن البحر الأحمر ومذكرة التفاهم الأمريكية الإيرانية",
+      "event": "موقف مصر من أمن البحر الأحمر ورؤيتها لمذكرة التفاهم الأمريكية الإيرانية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        88,
+        89
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تقييم الحوثيين كمشروع عقائدي ودورهم الإقليمي",
+      "event": "وصف الحوثيين كمشروع عسكري عقائدي وربطهم بتوجيهات إيرانية لاستهداف باب المندب وتعز",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        90,
+        91
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "اتفاقية مكة وتداعياتها الطائفية",
+      "event": "اتفاقية مكة واحتمال زيادتها للتوتر الطائفي الإقليمي وإرسال عسكريين للسعودية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        50,
+        115
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "إغلاق قناة هالك تي في وتداعياته على حرية الصحافة",
+      "event": "تعيين وصي على قناة هالك تي في التركية وأثره على حرية الإعلام",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        119,
+        120
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "فضيحة الصندوق الاستثماري في تركيا",
+      "event": "تحقيق فضيحة الصندوق الاستثماري وكشفه عن أسماء وعلاقات مشبوهة وتوقعات عزل مسؤولين",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        59,
+        122,
+        123
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الحصار الاقتصادي والنفطي على إيران وتأثيره",
+      "event": "تحليل تأثير الحصار الاقتصادي والنفطي الأمريكي على إيران ومستقبل النظام والشتاء القادم",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        61,
+        64,
+        65,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "مستقبل الحرب في غزة وصفقة المختطفين",
+      "event": "نقاش حول إنهاء الحرب في غزة دون وجود عسكري إسرائيلي وصفقة تبادل المختطفين",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "Haaretz",
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        134,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null
+    },
+    {
+      "title": "انتقادات داخل الليكود وتدهور الأوضاع الانتخابية",
+      "event": "انتقادات لحزب الليكود بشأن التمييز العرقي وتدهور الأوضاع السياسية قبل الانتخابات",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        136,
+        137
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "إنجازات نتنياهو العسكرية ضد حزب الله وإيران",
+      "event": "تصريحات نتنياهو حول اغتيال نصر الله وتوقعه إسقاط النظام الإيراني مستقبلاً",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        140,
+        141
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "النظام الدولي وتراجع دوره بعد أحداث فنزويلا",
+      "event": "تحليل تأثير أحداث فنزويلا على النظام الدولي ومجلس الأمن",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        4,
+        5
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الإصلاح الطائفي في لبنان",
+      "event": "نقاش حول النظام الطائفي اللبناني وإمكانية إصلاحه أو إلغائه",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        13,
+        14,
+        18
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الهجمات الحوثية على المطارات اليمنية",
+      "event": "استهداف الحوثيين للمطارات المدنية اليمنية وتوصيفه القانوني",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        20,
+        21
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "إغلاق العراق لمنافذ ومكاتب الحوثيين",
+      "event": "تحرك الحكومة العراقية لإغلاق مكاتب الحوثيين ومنفذ الشيب تحت ضغط أمريكي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        22,
+        23
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "احتجاجات فرنسا وإجراءات الحكومة الأمنية",
+      "event": "احتجاجات شعبية في فرنسا وإجراءات ماكرون الأمنية للسيطرة عليها",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        31,
+        36,
+        38,
+        39,
+        41,
+        42
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "مقارنة الاحتجاجات الأوروبية بالربيع العربي والفجوة الاقتصادية",
+      "event": "تحليل طبيعة الاحتجاجات الأوروبية الحالية ومقارنتها بالربيع العربي وأسبابها الاقتصادية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        33,
+        34,
+        35
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "إجراءات فرنسا لأمن الطاقة وخفض أسعار الوقود",
+      "event": "اتفاقات فرنسا مع دول الخليج لضمان إمدادات الطاقة وفتح المخزون الاستراتيجي لخفض الأسعار",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        37,
+        40
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الفساد السياسي والمحسوبية في تركيا",
+      "event": "تحليل التدهور السياسي في تركيا وتفشي المحسوبية والإفلات من العقاب وإشكالية التمويل السياسي",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        55,
+        56,
+        58,
+        60
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    }
+  ]
+}
