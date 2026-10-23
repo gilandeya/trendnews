@@ -500,16 +500,16 @@
   "approved_script_at": "2026-10-22T16:05:51.911175+00:00",
   "reel_file": "reels/2026-10-22/02b4436a2b66.mp4",
   "reel_gif": "reels/2026-10-22/02b4436a2b66.gif",
-  "duration_seconds": 84.1,
-  "render_version": 49,
+  "duration_seconds": 85.0,
+  "render_version": 50,
   "render_attempts": 0,
   "reel_music": "kulakovka-financial-news-614884.mp3",
   "render_sources": "إيران إنترناشيونال، العربية، فرانس 24 عربي",
   "render_crops": {
     "3": {
-      "x": 63,
+      "x": 95,
       "source": "speaker_vision",
-      "speaker_score": 0.67,
+      "speaker_score": 0.72,
       "tracks": 2,
       "vision": {
         "pick": 2,
@@ -523,9 +523,9 @@
       },
       "exact": {
         "source": "line",
-        "error": "النسبة 0.4 أقل من 0.7",
+        "error": "النسبة 0.333 أقل من 0.7",
         "reason": "low_ratio",
-        "best_ratio": 0.4,
+        "best_ratio": 0.333,
         "heard_words": 38,
         "heard_head": [
           "در",
@@ -542,15 +542,15 @@
       "tile_crop": {
         "x": 0,
         "y": 0,
-        "w": 460,
-        "h": 408,
+        "w": 648,
+        "h": 576,
         "mode": "full_height"
       },
       "frame_crop": {
-        "x": 36,
+        "x": 70,
         "y": 0,
-        "w": 322,
-        "h": 408,
+        "w": 454,
+        "h": 576,
         "mode": "full_height"
       },
       "bars": [
@@ -561,13 +561,13 @@
       ],
       "ticker": false,
       "lower_graphics": {
-        "top": 0.85,
+        "top": 0.8,
         "source": "model",
         "clamped": false,
         "frames": [
-          0.87,
-          0.87,
-          0.87
+          0.82,
+          0.82,
+          0.82
         ]
       },
       "quote_sync": "transcript",
@@ -585,7 +585,7 @@
       },
       "exact": {
         "t0": 1211.82,
-        "t1": 1215.6,
+        "t1": 1215.58,
         "ratio": 0.875,
         "source": "words"
       },
@@ -593,15 +593,15 @@
       "tile_crop": {
         "x": 0,
         "y": 0,
-        "w": 592,
-        "h": 526,
+        "w": 582,
+        "h": 518,
         "mode": "full_height"
       },
       "frame_crop": {
-        "x": 80,
+        "x": 82,
         "y": 0,
-        "w": 416,
-        "h": 526,
+        "w": 410,
+        "h": 518,
         "mode": "full_height"
       },
       "bars": [
@@ -612,12 +612,12 @@
       ],
       "ticker": true,
       "lower_graphics": {
-        "top": 0.73,
+        "top": 0.72,
         "source": "model",
         "clamped": false,
         "frames": [
           0.78,
-          0.75,
+          0.74,
           0.78
         ]
       },
@@ -625,9 +625,9 @@
       "quote_mode": "word"
     },
     "7": {
-      "x": 129,
+      "x": 85,
       "source": "speaker_vision",
-      "speaker_score": 1.42,
+      "speaker_score": 1.55,
       "tracks": 2,
       "vision": {
         "pick": 2,
@@ -636,12 +636,12 @@
       },
       "gate": {
         "start": 0.88,
-        "end": 4.08,
+        "end": 4.1,
         "source": "transcript"
       },
       "exact": {
         "t0": 724.46,
-        "t1": 727.42,
+        "t1": 727.44,
         "ratio": 1.0,
         "source": "words"
       },
@@ -649,15 +649,15 @@
       "tile_crop": {
         "x": 0,
         "y": 0,
-        "w": 888,
-        "h": 526,
+        "w": 584,
+        "h": 346,
         "mode": "full_height"
       },
       "frame_crop": {
-        "x": 124,
+        "x": 84,
         "y": 0,
-        "w": 416,
-        "h": 526,
+        "w": 274,
+        "h": 346,
         "mode": "full_height"
       },
       "bars": [
@@ -668,12 +668,12 @@
       ],
       "ticker": true,
       "lower_graphics": {
-        "top": 0.73,
+        "top": 0.72,
         "source": "model",
         "clamped": false,
         "frames": [
           0.78,
-          0.75,
+          0.74,
           0.78
         ]
       },
@@ -699,23 +699,23 @@
       },
       "exact": {
         "t0": 682.96,
-        "t1": 688.12,
+        "t1": 688.14,
         "ratio": 0.846,
         "source": "words"
       },
       "panel_q": 1,
       "tile_crop": {
-        "x": 332,
+        "x": 176,
         "y": 0,
-        "w": 948,
-        "h": 562,
+        "w": 1104,
+        "h": 654,
         "mode": "full_height"
       },
       "frame_crop": {
-        "x": 836,
+        "x": 764,
         "y": 0,
-        "w": 444,
-        "h": 562,
+        "w": 516,
+        "h": 654,
         "mode": "full_height"
       },
       "bars": [
@@ -726,47 +726,47 @@
       ],
       "ticker": true,
       "lower_graphics": {
-        "top": 0.78,
+        "top": 0.91,
         "source": "model",
         "clamped": false,
         "frames": [
-          0.8,
-          0.8,
-          0.8
+          0.93,
+          0.93,
+          0.93
         ]
       },
       "quote_sync": "words",
       "quote_mode": "word"
     },
     "9": {
-      "x": 262,
+      "x": 394,
       "source": "speaker",
-      "speaker_score": 0.63,
+      "speaker_score": 0.68,
       "tracks": 1,
       "gate": {
         "start": 0.7,
-        "end": 8.56,
+        "end": 8.57,
         "source": "silence"
       },
       "exact": {
         "t0": 1002.72,
-        "t1": 1010.26,
+        "t1": 1010.22,
         "ratio": 0.714,
         "source": "words"
       },
       "panel_q": 1,
       "tile_crop": {
-        "x": 80,
+        "x": 44,
         "y": 0,
-        "w": 632,
-        "h": 374,
+        "w": 1104,
+        "h": 654,
         "mode": "full_height"
       },
       "frame_crop": {
-        "x": 248,
+        "x": 338,
         "y": 0,
-        "w": 296,
-        "h": 374,
+        "w": 516,
+        "h": 654,
         "mode": "full_height"
       },
       "bars": [
@@ -777,13 +777,13 @@
       ],
       "ticker": true,
       "lower_graphics": {
-        "top": 0.78,
+        "top": 0.91,
         "source": "model",
         "clamped": false,
         "frames": [
-          0.8,
-          0.8,
-          0.8
+          0.93,
+          0.93,
+          0.93
         ]
       },
       "quote_sync": "words",
@@ -795,11 +795,11 @@
   },
   "render_speakers": {
     "3": {
-      "name_original": "Fardad Farhzad",
+      "name_original": "فرداد فرحزاد",
       "name_arabic": "فرداد فرحزاد",
       "role_arabic": "",
       "is_presenter": true,
-      "frames_agreeing": 3,
+      "frames_agreeing": 2,
       "rejected": "host",
       "accepted": false
     },
@@ -813,7 +813,7 @@
       "accepted": false
     },
     "5": {
-      "name_original": "مصطفى بكري",
+      "name_original": "Mostafa Bakry",
       "name_arabic": "مصطفى بكري",
       "role_arabic": "عضو مجلس النواب المصري",
       "is_presenter": false,
@@ -831,13 +831,13 @@
       "accepted": false
     },
     "8": {
-      "name_original": "Ali Al-Bukhaiti",
+      "name_original": "علي البخيتي",
       "name_arabic": "علي البخيتي",
       "role_arabic": "كاتب سياسي | لندن",
       "is_presenter": false,
-      "frames_agreeing": 1,
-      "rejected": "host",
-      "accepted": false
+      "frames_agreeing": 3,
+      "rejected": "",
+      "accepted": true
     },
     "9": {
       "name_original": "منيف عماش الحربي",
@@ -853,7 +853,7 @@
     {
       "point_id": "8be09bba07da",
       "kind": "clip",
-      "reason": "وجه متكلم مقطع فرانس 24 عربي لا يطابق منيف عماش الحربي الثابت في مقطع آخر من الحلقة — حُذف المقطع"
+      "reason": "تعذّر تصحيح قائل المقطع إلى علي البخيتي لأنه يجيب عن السؤال نفسه في مقطع آخر — حُذف المقطع"
     }
   ],
   "render_approx": [
@@ -866,25 +866,28 @@
       "aligned": true
     }
   ],
-  "rendered_at": "2026-10-23T05:45:01.141306+00:00",
+  "rendered_at": "2026-10-23T07:44:18.710284+00:00",
   "render_notes": [
     "### 🎬 تركيب الريل",
-    "- ⏱️ المدة: 84.1 ث",
+    "- ⏱️ المدة: 85.0 ث",
     "- 🎞️ [الملف](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-10-22/02b4436a2b66.mp4) · [المعاينة](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-10-22/02b4436a2b66.gif)",
-    "- ✂️ حُذف 1: clip (وجه متكلم مقطع فرانس 24 عربي لا يطابق منيف عماش الحربي الثابت في مقطع آخر من الحلقة — حُذف المقطع)",
-    "- ⚠️ لم يُضبط مقطع إيران إنترناشيونال كلمة بكلمة: النسبة 0.4 أقل من 0.7 — قد يُسمع ما قبله أو بعده",
+    "- ✂️ حُذف 1: clip (تعذّر تصحيح قائل المقطع إلى علي البخيتي لأنه يجيب عن السؤال نفسه في مقطع آخر — حُذف المقطع)",
+    "- ⚠️ لم يُضبط مقطع إيران إنترناشيونال كلمة بكلمة: النسبة 0.333 أقل من 0.7 — قد يُسمع ما قبله أو بعده",
+    "- ⚠️ لم يُضبط مقطع فرانس 24 عربي كلمة بكلمة: النسبة 0.667 أقل من 0.7 — قد يُسمع ما قبله أو بعده",
     "- 🎞️ لم أجد لقطة صالحة من الحدث — الهوك بصورة الخبر",
+    "- ⚠️ لم تُبنَ قائمة ضيوف العربية: لا نص مجلوب لمقاطع هذا الفيديو",
     "- 👥 ضيوف إيران إنترناشيونال: سميرا قرائي",
+    "- 👥 ضيوف فرانس 24 عربي: منيف عماش الحربي، علي البخيتي",
     "- 🏷️ شريط إيران إنترناشيونال يحمل اسم المقدّم فرداد فرحزاد لا المتكلم — يبقى اسم السيناريو",
-    "- 👤 من شريط القناة: مصطفى بكري (مصطفى بكري) — عضو مجلس النواب المصري",
-    "- 🏷️ شريط فرانس 24 عربي يحمل اسم المقدّم علي البخيتي لا المتكلم — يبقى اسم السيناريو",
+    "- 👤 من شريط القناة: مصطفى بكري (Mostafa Bakry) — عضو مجلس النواب المصري",
+    "- 👤 من شريط القناة: علي البخيتي (علي البخيتي) — كاتب سياسي | لندن",
     "- ✅ الشريط يؤكد المتكلم: منيف عماش الحربي (فرانس 24 عربي)",
     "- 🎯 مقطع إيران إنترناشيونال: 2 وجوه — المتكلم بالرؤية",
-    "- ✂️ أُخفي شريط القناة في إيران إنترناشيونال: قُصّ أسفل 15%",
-    "- ✂️ أُخفي شريط القناة في العربية: قُصّ أسفل 27%",
+    "- ✂️ أُخفي شريط القناة في إيران إنترناشيونال: قُصّ أسفل 20%",
+    "- ✂️ أُخفي شريط القناة في العربية: قُصّ أسفل 28%",
     "- 🎯 مقطع العربية: 2 وجوه — المتكلم بالرؤية",
     "- 🎯 مقطع فرانس 24 عربي: 2 وجوه — المتكلم بالرؤية",
-    "- ✂️ أُخفي شريط القناة في فرانس 24 عربي: قُصّ أسفل 22%",
+    "- ✂️ أُخفي شريط القناة في فرانس 24 عربي: قُصّ أسفل 9%",
     "- 🧊 ختام الريل: لا لقطات تسبق الهوك — جُمّد أول إطار منه مع اقتراب بطيء"
   ],
   "reel_review_issue": 1676,
@@ -903,6 +906,26 @@
         "role_arabic": "مراسلة إيران إنترناشونال من البيت الأبيض",
         "is_host": false
       }
+    ],
+    "qB_4P0mUCyI": [
+      {
+        "name_arabic": "أيمن سرور",
+        "name_original": "ايمن سرور",
+        "role_arabic": "مقدّم البرنامج في الاستوديو",
+        "is_host": true
+      },
+      {
+        "name_arabic": "منيف عماش الحربي",
+        "name_original": "منيف عماش الحربي",
+        "role_arabic": "كاتب ومحلل سياسي، الرياض",
+        "is_host": false
+      },
+      {
+        "name_arabic": "علي البخيتي",
+        "name_original": "علي البخيتي",
+        "role_arabic": "كاتب سياسي، لندن",
+        "is_host": false
+      }
     ]
   },
   "render_attribution": [
@@ -912,18 +935,32 @@
       "evidence": "علی سزاده تحلیل‌گر مسئله خاورمیانه از",
       "accepted": false,
       "reason": "القائل ليس في القائمة"
+    },
+    {
+      "point_id": "8be09bba07da",
+      "speaker": "منيف عماش الحربي",
+      "evidence": "",
+      "accepted": false,
+      "reason": "evidence ليس في الأسطر المعطاة"
     }
   ],
   "render_face_check": [
     {
       "point_id": "8be09bba07da",
-      "same_as": "none",
-      "reason": "المتكلم في المرشح 1 رجل بشعر رمادي ونظارات وشارب، وملامحه تختلف عن المرجع منيف عماش الحربي، والخلفية مقر برلماني لندني لا تدل على الهوية.",
+      "same_as": "علي البخيتي",
+      "reason": "الرجل في المرشح 1 بنفس الملامح والنظارات والشارب والشعر الرمادي الذي يطابق مرجع علي البخيتي، وهو يتحدث في استوديو بالخلفية نفسها.",
       "applied": true
     }
   ],
   "render_exact_selfcheck": {
     "ok": true,
     "reason": ""
+  },
+  "render_roster_source": {
+    "nx6MtSAGGLQ": "saved",
+    "qB_4P0mUCyI": "built"
+  },
+  "render_roster_errors": {
+    "QFMGl1rCLhU": "no_transcript"
   }
 }
