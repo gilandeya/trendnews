@@ -21096,8 +21096,11 @@ def test_reel_speaker_map_s4_guards() -> None:
               and sm.build_map is speaker_map.build_map, None)
         for k in ("comment_map_built", "comment_map_failed", "comment_map_confirmed", "relabel_how_map", "drop_map_host"):
             check("g653: نص " + k, bool(t.get(k)), k)
-        txt = (root.parent / "requirements-reel.txt").read_text()
-        check("g653: OpenCV في requirements-reel", "opencv-python-headless" in txt, txt)
+        # requirements.txt يثبّت opencv-python-headless بإصدار؛ تكراره بقيد آخر في requirements-reel.txt أفشل تثبيت التركيب (2026-10-23)
+        reel_txt = (root.parent / "requirements-reel.txt").read_text()
+        base_txt = (root.parent / "requirements.txt").read_text()
+        check("g653: OpenCV مثبّت في requirements.txt ولا يُكرَّر في requirements-reel", "opencv-python-headless" in base_txt
+              and "opencv" not in reel_txt, reel_txt)
         for k in ("render_speaker_map", "render_map_assign", "render_map_errors"):
             check("g653: %s ضمن RENDER_KEYS" % k, k in reel_render.RENDER_KEYS, k)
         check("g653: render_version >= 51", int(cfg.path("reel.render.version")) >= 51, cfg.path("reel.render.version"))
