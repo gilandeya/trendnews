@@ -21105,3 +21105,23 @@ def test_reel_speaker_map_s4_guards() -> None:
             check("g653: %s ضمن RENDER_KEYS" % k, k in reel_render.RENDER_KEYS, k)
         check("g653: render_version >= 51", int(cfg.path("reel.render.version")) >= 51, cfg.path("reel.render.version"))
     guarded("g653", g653)
+
+    def g654():
+        # S6: الريل 02b4436a2b66 (الإصدار 51): الخريطة صحّحت مقطع 8be09bba07da إلى «علي البخيتي» فحذفه حارس التكرار لأن مقطع إيران
+        # إنترناشيونال في السؤال نفسه قائله «علي صدرزاده» — اسم أول مشترك وحده
+        sm = reel_render.speaker_matches
+        check("g654: «علي» وحده لا يجعل اسمين كاملين شخصًا واحدًا", sm("علي البخيتي", "", "علي صدرزاده، محلل شؤون الشرق الأوسط", cfg) is False)
+        check("g654: «عبد» وحده كذلك", sm("عبد القوي المخلافي", "", "عبد السلام بروازي", cfg) is False)
+        check("g654: اسم العائلة يكفي", sm("منيف الحربي", "", "منيف عماش الحربي، كاتب ومحلل سياسي", cfg) is True)
+        check("g654: الاسم الواحد بالقاعدة القديمة", sm("مصطفى بكري", "", "مصطفى", cfg) is True)
+        check("g654: الاسم نفسه", sm("علي البخيتي", "", "علي البخيتي", cfg) is True)
+        script = {"version": 2, "title": "", "scenes": [
+            {"kind": "clip", "q": 0, "point_id": "a", "speaker_text": "علي صدرزاده، محلل", "speaker_name": ""},
+            {"kind": "clip", "q": 0, "point_id": "b", "speaker_text": "منيف عماش الحربي", "speaker_name": "منيف عماش الحربي"}]}
+        clips = {0: {}, 1: {}}
+        mm = reel_render._relabel(1, script, [0, 1], clips, {}, {"name_arabic": "علي البخيتي", "name_original": "", "role_arabic": ""},
+                                  "map", "", [], cfg, [], {})
+        check("g654: التصحيح إلى البخيتي يمرّ رغم «علي صدرزاده» في السؤال", mm is None
+              and script["scenes"][1]["speaker_name"] == "علي البخيتي", mm)
+        check("g654: render_version >= 52", int(cfg.path("reel.render.version")) >= 52, cfg.path("reel.render.version"))
+    guarded("g654", g654)

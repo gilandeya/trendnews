@@ -2606,4 +2606,7 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
   المجموعة `speaker_map.render_min_share` (0.75) وكانت مسمّاة أو المقدّم (`_apply_map`): يطابق القائل ← `speaker_verified_from="map"` وسطر ✅؛ ضيف آخر ← `_relabel(how="map")`
   بحرّاسه؛ المقدّم والقائل غيره ← حذف `drop_map_host`. ما حسمته الخريطة لا يُقرأ شريطه؛ وما لم تحسمه يمرّ بحرّاس Q10–Q16 كما كانت. «map» شاهد مستقل لمقارنة الوجه (Q14).
 - **الحفظ:** `render_speaker_map` و`render_map_assign` و`render_map_errors` (ضمن `RENDER_KEYS`)؛ فشل البناء ← سطر `comment_map_failed` وسلوك قديم.
+- **S6 — اسم أول مشترك ليس الشخص نفسه:** `speaker_matches` تعيد False حين يكون الاسمان كلاهما من كلمتين فأكثر ولا يشتركان إلا في الكلمة الأولى
+  («علي البخيتي»/«علي صدرزاده»، «عبد …»/«عبد …»)؛ الاسم الواحد بالقاعدة القديمة. حادثة الإصدار 51: حارس التكرار في `_relabel` حذف تصحيح الخريطة الصحيح
+  إلى البخيتي بسببها. `render_version` = 52؛ g654.
 - **الإعداد:** `speaker_map.render_enabled` (false ← كما قبل S4). `opencv-python-headless` مثبّت أصلًا في `requirements.txt` (تكراره بقيد آخر في `requirements-reel.txt` أفشل التثبيت). الكلفة نحو دقيقتين و10–16 نداء Haiku لكل فيديو أول مرة.

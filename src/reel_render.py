@@ -3097,16 +3097,20 @@ def resolve_chyron(frames: list, cfg, channel: str | list = "", roster: list | N
 _AR_LETTERS = re.compile(r"[\u0600-\u06FF]")
 
 
-def _speaker_words(text: str) -> set[str]:
-    """كلمات الاسم للمقارنة: توحيد التشكيل والترقيم وحالة الأحرف (youtube_extract._normalize_for_anchor) وحذف «ال» من أول الكلمة، وما دون
-    3 أحرف يُهمل (R6)."""
+def _speaker_word_list(text: str) -> list[str]:
+    """كلمات الاسم للمقارنة بترتيبها: توحيد التشكيل والترقيم وحالة الأحرف (youtube_extract._normalize_for_anchor) وحذف «ال» من أول الكلمة،
+    وما دون 3 أحرف يُهمل (R6)."""
     from . import youtube_extract
-    out = set()
+    out = []
     for w in youtube_extract._normalize_for_anchor(text or "").split():
         w = w[2:] if w.startswith("ال") and len(w) > 4 else w
         if len(w) >= 3:
-            out.add(w)
+            out.append(w)
     return out
+
+
+def _speaker_words(text: str) -> set[str]:
+    return set(_speaker_word_list(text))
 
 
 def speaker_matches(name_arabic: str, name_original: str, speaker_text: str, cfg) -> bool | None:
@@ -3116,13 +3120,20 @@ def speaker_matches(name_arabic: str, name_original: str, speaker_text: str, cfg
     القاعدة لا تغيّر لحالات النقل المختلف للاسم نفسه («براء» مقابل «بار»): تلك تُحذف احتياطًا، ونسبة الكلام إلى غير قائله أسوأ."""
     from . import youtube_article
     skip = _speaker_words(" ".join(cfg.path("reel.render.chyron.unnamed_words", []) or []))
-    spoken = _speaker_words(" ".join(youtube_article.speaker_name_tokens(speaker_text or "", "", cfg))) - skip
-    chyron = _speaker_words(name_arabic or "")
+    spoken_list = [w for w in _speaker_word_list(" ".join(youtube_article.speaker_name_tokens(speaker_text or "", "", cfg))) if w not in skip]
+    spoken = set(spoken_list)
+    chyron_list = _speaker_word_list(name_arabic or "")
+    chyron = set(chyron_list)
     if name_original and _AR_LETTERS.search(name_original):
         chyron |= _speaker_words(name_original)
     if not spoken or not chyron:
         return None
-    return bool(spoken & chyron)
+    shared = spoken & chyron
+    # S6: اسم أول مشترك وحده بين اسمين كاملين ليس الشخص نفسه («علي البخيتي» و«علي صدرزاده»): حارس التكرار في _relabel حذف مقطعًا
+    # صحّحته خريطة الحلقة لأن ضيفًا آخر في السؤال اسمه الأول «علي». الاسم الواحد («مصطفى») يبقى بالقاعدة القديمة
+    if len(spoken_list) >= 2 and len(chyron_list) >= 2 and shared == {spoken_list[0]} == {chyron_list[0]}:
+        return False
+    return bool(shared)
 
 
 def _apply_chyron(scene: dict, clip: dict, cfg, deps: Deps, speakers: dict, notes: list, index: int,
