@@ -1,24 +1,659 @@
 {
   "date": "2026-10-23",
-  "models_seconds": 2.09,
+  "models_seconds": 1.07,
   "videos": [
     {
       "video_id": "qB_4P0mUCyI",
-      "timings": {},
-      "counters": {
-        "haiku_calls": 0,
-        "haiku_errors": []
+      "timings": {
+        "download": 50.42,
+        "frames": 23.08,
+        "faces": 21.6,
+        "cluster": 0.17,
+        "chyron": 23.82,
+        "assign": 1.77
       },
-      "error": "RuntimeError: 'NoneType' object is not callable"
+      "counters": {
+        "haiku_calls": 10,
+        "haiku_errors": [],
+        "frames": 1362,
+        "faces": 1785,
+        "clusters": 14,
+        "chyron_changes": 228,
+        "chyron_reads": 40
+      },
+      "download": {
+        "size_bytes": 28262595,
+        "proxy_bytes": 28262595,
+        "format_id": "395"
+      },
+      "duration": 2723.24,
+      "map": [
+        {
+          "id": 0,
+          "count": 58,
+          "first": 8.0,
+          "last": 2720.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 1,
+          "count": 614,
+          "first": 8.0,
+          "last": 2714.0,
+          "name": "منيف عماش الحربي",
+          "votes": {
+            "منيف عماش الحربي": 2
+          },
+          "is_host": true
+        },
+        {
+          "id": 2,
+          "count": 405,
+          "first": 8.0,
+          "last": 2712.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 3,
+          "count": 571,
+          "first": 8.0,
+          "last": 2722.0,
+          "name": "منيف عماش الحربي",
+          "votes": {
+            "منيف عماش الحربي": 7
+          },
+          "is_host": false
+        },
+        {
+          "id": 4,
+          "count": 2,
+          "first": 38.0,
+          "last": 40.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 5,
+          "count": 1,
+          "first": 40.0,
+          "last": 40.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 6,
+          "count": 1,
+          "first": 40.0,
+          "last": 40.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 7,
+          "count": 1,
+          "first": 40.0,
+          "last": 40.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 8,
+          "count": 73,
+          "first": 48.0,
+          "last": 1486.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 9,
+          "count": 48,
+          "first": 62.0,
+          "last": 1096.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 10,
+          "count": 2,
+          "first": 200.0,
+          "last": 744.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 11,
+          "count": 5,
+          "first": 454.0,
+          "last": 1064.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 12,
+          "count": 3,
+          "first": 462.0,
+          "last": 1072.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 13,
+          "count": 1,
+          "first": 1024.0,
+          "last": 1024.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        }
+      ],
+      "host_cluster": 1,
+      "assignments": [
+        {
+          "t": 680.0,
+          "cluster": 2,
+          "name": null,
+          "is_host": false,
+          "source": "face",
+          "votes": {
+            "2": 24
+          }
+        },
+        {
+          "t": 944.0,
+          "cluster": 2,
+          "name": null,
+          "is_host": false,
+          "source": "speaker",
+          "votes": {
+            "2": 19,
+            "1": 5
+          }
+        },
+        {
+          "t": 1000.0,
+          "cluster": 3,
+          "name": "منيف عماش الحربي",
+          "is_host": false,
+          "source": "speaker",
+          "votes": {
+            "3": 24
+          }
+        },
+        {
+          "t": "host",
+          "cluster": 1,
+          "name": "منيف عماش الحربي"
+        }
+      ]
     },
     {
       "video_id": "QFMGl1rCLhU",
-      "timings": {},
-      "counters": {
-        "haiku_calls": 0,
-        "haiku_errors": []
+      "timings": {
+        "download": 47.26,
+        "frames": 24.48,
+        "faces": 27.62,
+        "cluster": 0.4,
+        "chyron": 23.48,
+        "assign": 1.32
       },
-      "error": "RuntimeError: 'NoneType' object is not callable"
+      "counters": {
+        "haiku_calls": 10,
+        "haiku_errors": [],
+        "frames": 1589,
+        "faces": 2376,
+        "clusters": 44,
+        "chyron_changes": 157,
+        "chyron_reads": 40
+      },
+      "download": {
+        "size_bytes": 28103867,
+        "proxy_bytes": 28103867,
+        "format_id": "395"
+      },
+      "duration": 3178.64,
+      "map": [
+        {
+          "id": 0,
+          "count": 740,
+          "first": 2.0,
+          "last": 3166.0,
+          "name": null,
+          "votes": {
+            "سموتريتش": 1,
+            "السيسي": 1
+          },
+          "is_host": true
+        },
+        {
+          "id": 1,
+          "count": 36,
+          "first": 68.0,
+          "last": 2994.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 2,
+          "count": 86,
+          "first": 82.0,
+          "last": 3070.0,
+          "name": "السيسي",
+          "votes": {
+            "السيسي": 3
+          },
+          "is_host": false
+        },
+        {
+          "id": 3,
+          "count": 220,
+          "first": 166.0,
+          "last": 656.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 4,
+          "count": 1,
+          "first": 424.0,
+          "last": 424.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 5,
+          "count": 1,
+          "first": 424.0,
+          "last": 424.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 6,
+          "count": 1,
+          "first": 426.0,
+          "last": 426.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 7,
+          "count": 8,
+          "first": 644.0,
+          "last": 2090.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 8,
+          "count": 11,
+          "first": 670.0,
+          "last": 1250.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 9,
+          "count": 489,
+          "first": 696.0,
+          "last": 1672.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 10,
+          "count": 25,
+          "first": 750.0,
+          "last": 3056.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 11,
+          "count": 2,
+          "first": 768.0,
+          "last": 1096.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 12,
+          "count": 8,
+          "first": 1686.0,
+          "last": 1700.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 13,
+          "count": 261,
+          "first": 1732.0,
+          "last": 2252.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 14,
+          "count": 10,
+          "first": 1798.0,
+          "last": 2162.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 15,
+          "count": 6,
+          "first": 1828.0,
+          "last": 2172.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 16,
+          "count": 2,
+          "first": 1830.0,
+          "last": 2170.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 17,
+          "count": 2,
+          "first": 1832.0,
+          "last": 2172.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 18,
+          "count": 2,
+          "first": 1832.0,
+          "last": 2172.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 19,
+          "count": 6,
+          "first": 1916.0,
+          "last": 2090.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 20,
+          "count": 6,
+          "first": 1916.0,
+          "last": 2090.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 21,
+          "count": 6,
+          "first": 1916.0,
+          "last": 2090.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 22,
+          "count": 4,
+          "first": 1922.0,
+          "last": 2094.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 23,
+          "count": 4,
+          "first": 1922.0,
+          "last": 2094.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 24,
+          "count": 3,
+          "first": 1922.0,
+          "last": 2092.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 25,
+          "count": 1,
+          "first": 1934.0,
+          "last": 1934.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 26,
+          "count": 1,
+          "first": 1934.0,
+          "last": 1934.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 27,
+          "count": 9,
+          "first": 1940.0,
+          "last": 2202.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 28,
+          "count": 35,
+          "first": 2354.0,
+          "last": 3090.0,
+          "name": "سموتريتش",
+          "votes": {
+            "سموتريتش": 2
+          },
+          "is_host": false
+        },
+        {
+          "id": 29,
+          "count": 1,
+          "first": 2360.0,
+          "last": 2360.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 30,
+          "count": 3,
+          "first": 2374.0,
+          "last": 2378.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 31,
+          "count": 1,
+          "first": 2380.0,
+          "last": 2380.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 32,
+          "count": 352,
+          "first": 2388.0,
+          "last": 3162.0,
+          "name": "سموتريتش",
+          "votes": {
+            "سموتريتش": 2
+          },
+          "is_host": false
+        },
+        {
+          "id": 33,
+          "count": 1,
+          "first": 2424.0,
+          "last": 2424.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 34,
+          "count": 1,
+          "first": 2424.0,
+          "last": 2424.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 35,
+          "count": 1,
+          "first": 2426.0,
+          "last": 2426.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 36,
+          "count": 1,
+          "first": 2426.0,
+          "last": 2426.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 37,
+          "count": 1,
+          "first": 2432.0,
+          "last": 2432.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 38,
+          "count": 2,
+          "first": 2432.0,
+          "last": 3056.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 39,
+          "count": 2,
+          "first": 2432.0,
+          "last": 2432.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 40,
+          "count": 6,
+          "first": 2492.0,
+          "last": 2994.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 41,
+          "count": 4,
+          "first": 2972.0,
+          "last": 3074.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 42,
+          "count": 4,
+          "first": 2972.0,
+          "last": 3074.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        },
+        {
+          "id": 43,
+          "count": 10,
+          "first": 2972.0,
+          "last": 3080.0,
+          "name": null,
+          "votes": {},
+          "is_host": false
+        }
+      ],
+      "host_cluster": 0,
+      "assignments": [
+        {
+          "t": 723.0,
+          "cluster": 9,
+          "name": null,
+          "is_host": false,
+          "source": "speaker",
+          "votes": {
+            "9": 24
+          }
+        },
+        {
+          "t": 1211.0,
+          "cluster": 9,
+          "name": null,
+          "is_host": false,
+          "source": "speaker",
+          "votes": {
+            "9": 24
+          }
+        }
+      ]
     }
   ]
 }
