@@ -217,10 +217,27 @@
     }
   ],
   "reel_bg": {
-    "url": "https://cdn.alquds.com/uploads/a0cf6ea7c13f348924e9098313e1faa8.jpg",
-    "kind": "news_photo",
-    "publisher": "جريدة القدس",
-    "layout": "A"
+    "url": "",
+    "kind": "none",
+    "publisher": "",
+    "judged": true,
+    "rejected": [
+      {
+        "url": "https://images.euronews.com/articles/stories/09/96/40/66/1200x675_cmsv2_a7df74e9-09e0-57c7-a3b2-e2fb693a4425-9964066.jpg",
+        "shows": "رجل بدلة داكنة وربطة عنق حمراء يقف بين ستائر زرقاء أمام علم أمريكي",
+        "reason": "الصورة لشخص غير محدد في مشهد عام بلا صلة واضحة بموضوع الريل عن تأثير التصعيد مع إيران على انتخابات الكونغرس، ولا تُظهر مكانًا أو حدثًا مرتبطًا بالسؤال."
+      },
+      {
+        "url": "https://ar.mqalat.nl/wp-content/uploads/2026/10/D8ADD8B3D8A7D8A8D8A7D8AA-D985D8B9D982D8AFD8A9-D981D98A-D8AAD984-D8A3D8A8D98AD8A8-D987D984-D8AAD8A4D8ACD984-D8A5D8B3D8B1D8A7D8A6D98AD984-D8B6D8B1D8A8D8A9-D8A5D98AD8B1D8A7D986.webp",
+        "shows": "مسلحون ملثمون على منصة أمام لافتة بشعار \"نحن الطوفان\" وعلم فلسطين، مع رجال يحملون أوراقًا، وهي مشاهد لحدث فلسطيني/مسلح ل",
+        "reason": "الصورة تُظهر مشهدًا لجماعة مسلحة وشعارات فلسطينية، ولا تمثل موضوع انتخابات الكونغرس ولا التصعيد مع إيران، فهي تنطبق على معيار عدم الملاءمة."
+      },
+      {
+        "url": "https://www.sudanindependent.com/photos/imgsystem-18UJ8GIOFP.jpg",
+        "shows": "مقاتلة عسكرية (F-15) تتزود بالوقود جواً من طائرة tanker، في جو غائم مع ضوء شمس خلفي.",
+        "reason": "الصورة تُظهر عملية عسكرية جوية لا علاقة لها مباشرة بانتخابات الكونغرس النصفية، ولا تُظهر شخصيات سياسية أو مكاناً متعلقاً بالموضوع؛ وإن كان فيها طابع التصعيد العسكري مع إيران، فهي لا تمثل موضوع الانتخا"
+      }
+    ]
   },
   "hook_candidates": [
     {
@@ -309,8 +326,14 @@
       }
     ],
     "picked": [
-      "5-Dh8_q0xsM",
-      "eh6ROzN5CDY"
+      "5-Dh8_q0xsM"
+    ],
+    "compared": [
+      {
+        "video_id": "5-Dh8_q0xsM",
+        "impact": 4,
+        "footage_ratio": 0.347
+      }
     ]
   },
   "broll_plan": [
@@ -384,8 +407,8 @@
   "approved_script_at": "2026-10-21T09:00:50.284732+00:00",
   "reel_file": "reels/2026-10-21/d35c989fade1.mp4",
   "reel_gif": "reels/2026-10-21/d35c989fade1.gif",
-  "duration_seconds": 78.9,
-  "render_version": 38,
+  "duration_seconds": 79.3,
+  "render_version": 50,
   "render_attempts": 0,
   "reel_music": "nastelbom-news-news-2-473288.mp3",
   "render_sources": "الجزيرة، All Israel News، إيران إنترناشيونال، AP Archive",
@@ -393,7 +416,7 @@
     "3": {
       "x": 460,
       "source": "speaker_vision",
-      "speaker_score": 0.52,
+      "speaker_score": 0.61,
       "tracks": 4,
       "vision": {
         "pick": 2,
@@ -404,19 +427,30 @@
           4
         ]
       },
+      "gate": {
+        "start": 0.88,
+        "end": 6.38,
+        "source": "transcript"
+      },
+      "exact": {
+        "t0": 639.36,
+        "t1": 644.62,
+        "ratio": 0.833,
+        "source": "words"
+      },
       "panel_q": 0,
       "tile_crop": {
-        "x": 356,
+        "x": 258,
         "y": 0,
-        "w": 614,
-        "h": 546,
+        "w": 810,
+        "h": 720,
         "mode": "full_height"
       },
       "frame_crop": {
-        "x": 446,
+        "x": 378,
         "y": 0,
-        "w": 432,
-        "h": 546,
+        "w": 568,
+        "h": 720,
         "mode": "full_height"
       },
       "bars": [
@@ -427,21 +461,34 @@
       ],
       "ticker": false,
       "lower_graphics": {
-        "top": 0.76,
+        "top": 1,
         "source": "model",
         "clamped": false,
         "frames": [
-          0.78,
-          0.78,
-          0.78
+          1.0,
+          1.0,
+          1.0
         ]
-      }
+      },
+      "quote_sync": "words",
+      "quote_mode": "word"
     },
     "4": {
-      "x": 244,
+      "x": 245,
       "source": "speaker",
-      "speaker_score": 0.83,
+      "speaker_score": 0.71,
       "tracks": 1,
+      "gate": {
+        "start": 0.88,
+        "end": 9.66,
+        "source": "transcript"
+      },
+      "exact": {
+        "t0": 426.4,
+        "t1": 434.94,
+        "ratio": 0.9,
+        "source": "words"
+      },
       "panel_q": 0,
       "tile_crop": {
         "x": 90,
@@ -451,7 +498,7 @@
         "mode": "full_height"
       },
       "frame_crop": {
-        "x": 196,
+        "x": 198,
         "y": 0,
         "w": 500,
         "h": 634,
@@ -473,31 +520,55 @@
           0.9,
           0.9
         ]
-      }
+      },
+      "quote_sync": "words",
+      "quote_mode": "line"
     },
     "6": {
-      "x": 126,
+      "x": 83,
       "source": "speaker_vision",
-      "speaker_score": 1.09,
+      "speaker_score": 0.84,
       "tracks": 2,
       "vision": {
         "pick": 2,
         "agree": 3,
         "archive": []
       },
+      "gate": {
+        "start": 0.5,
+        "end": 15.0,
+        "source": "silence"
+      },
+      "exact": {
+        "source": "line",
+        "error": "النسبة 0.657 أقل من 0.7",
+        "reason": "low_ratio",
+        "best_ratio": 0.657,
+        "heard_words": 58,
+        "heard_head": [
+          "و",
+          "بتحر",
+          "خيرن",
+          "داختن",
+          "اين",
+          "بوبران",
+          "هستي",
+          "اگر"
+        ]
+      },
       "panel_q": 1,
       "tile_crop": {
-        "x": 42,
+        "x": 8,
         "y": 0,
-        "w": 574,
-        "h": 510,
+        "w": 420,
+        "h": 374,
         "mode": "full_height"
       },
       "frame_crop": {
-        "x": 128,
+        "x": 70,
         "y": 0,
-        "w": 402,
-        "h": 510,
+        "w": 296,
+        "h": 374,
         "mode": "full_height"
       },
       "bars": [
@@ -508,34 +579,47 @@
       ],
       "ticker": false,
       "lower_graphics": {
-        "top": 0.71,
+        "top": 0.78,
         "source": "model",
         "clamped": false,
         "frames": [
-          0.73,
-          0.73,
-          0.73
+          0.8,
+          0.8,
+          0.8
         ]
-      }
+      },
+      "quote_sync": "transcript",
+      "quote_mode": "line"
     },
     "7": {
       "x": 504,
       "source": "speaker",
-      "speaker_score": 1.97,
+      "speaker_score": 1.94,
       "tracks": 1,
+      "gate": {
+        "start": 0.66,
+        "end": 3.75,
+        "source": "silence"
+      },
+      "exact": {
+        "t0": 2325.78,
+        "t1": 2328.54,
+        "ratio": 0.9,
+        "source": "words"
+      },
       "panel_q": 1,
       "tile_crop": {
-        "x": 400,
+        "x": 302,
         "y": 0,
-        "w": 614,
-        "h": 546,
+        "w": 810,
+        "h": 720,
         "mode": "full_height"
       },
       "frame_crop": {
-        "x": 490,
+        "x": 422,
         "y": 0,
-        "w": 432,
-        "h": 546,
+        "w": 568,
+        "h": 720,
         "mode": "full_height"
       },
       "bars": [
@@ -546,246 +630,140 @@
       ],
       "ticker": false,
       "lower_graphics": {
-        "top": 0.76,
+        "top": 1,
         "source": "model",
         "clamped": false,
         "frames": [
-          0.78,
-          0.78,
-          0.78
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "word"
+    },
+    "hook": {
+      "ticker": false,
+      "lower_graphics": {
+        "top": 1,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          1.0,
+          1.0,
+          1.0
         ]
       }
     },
     "closing": {
-      "source": "freeze"
+      "source": "pre_hook",
+      "pre_footage": 1.0
     }
   },
   "render_speakers": {
     "3": {
-      "name_original": "نقاش الساعة",
-      "name_arabic": "نقاش الساعة",
+      "name_original": "",
+      "name_arabic": "",
       "role_arabic": "",
       "is_presenter": false,
-      "frames_agreeing": 3,
-      "rejected": "program",
+      "frames_agreeing": 0,
+      "rejected": "",
+      "accepted": false
+    },
+    "4": {
+      "name_original": "",
+      "name_arabic": "",
+      "role_arabic": "",
+      "is_presenter": false,
+      "frames_agreeing": 0,
+      "rejected": "",
       "accepted": false
     },
     "6": {
-      "name_original": "احتمال از سرگیری جنگ در خاورمیانه",
-      "name_arabic": "احتمال از سرگیری جنگ در خاورمیانه",
+      "name_original": "",
+      "name_arabic": "",
       "role_arabic": "",
       "is_presenter": false,
-      "frames_agreeing": 3,
-      "rejected": "program",
+      "frames_agreeing": 0,
+      "rejected": "",
       "accepted": false
     },
     "7": {
-      "name_original": "نقاش الساعة",
-      "name_arabic": "نقاش الساعة",
+      "name_original": "",
+      "name_arabic": "",
       "role_arabic": "",
       "is_presenter": false,
-      "frames_agreeing": 3,
-      "rejected": "program",
+      "frames_agreeing": 0,
+      "rejected": "",
       "accepted": false
     }
   },
-  "render_broll": [
-    {
-      "scene": 1,
-      "sentence": 0,
-      "video_id": "5-Dh8_q0xsM",
-      "start": 8.485,
-      "end": 14.515,
-      "channel": "AP Archive",
-      "desc": "قاعة اقتراع داخلية، ناخبون يمرون بين الكبائن الزرقاء، ولا علاقة بتصعيد مع إيران · قاعة اقتراع داخلية، رجل يمشي بين الكبائن · قاعة اقتراع داخلية، ناخبون يقفون في الصف"
-    },
-    {
-      "scene": 1,
-      "sentence": 1,
-      "video_id": "5-Dh8_q0xsM",
-      "start": 154.615,
-      "end": 159.385,
-      "channel": "AP Archive",
-      "desc": "طابور ناخبين أمام مبنى مركز اقتراع · طابور ناخبين ممتد بجانب المبنى · ناخبون يقفون في الطابور وأعلام التصويت",
-      "fallback": true
-    },
-    {
-      "scene": 2,
-      "sentence": 0,
-      "photo": "جملة مجرّدة"
-    },
-    {
-      "scene": 5,
-      "sentence": 0,
-      "photo": "جملة مجرّدة"
-    }
+  "render_dropped": [],
+  "render_approx": [],
+  "rendered_at": "2026-10-23T09:46:30.383442+00:00",
+  "render_notes": [
+    "### 🎬 تركيب الريل",
+    "- ⏱️ المدة: 79.3 ث",
+    "- 🎞️ [الملف](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-10-21/d35c989fade1.mp4) · [المعاينة](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-10-21/d35c989fade1.gif)",
+    "- ⚠️ لم يُضبط مقطع إيران إنترناشيونال كلمة بكلمة: النسبة 0.657 أقل من 0.7 — قد يُسمع ما قبله أو بعده",
+    "- 🎞️ لقطة الهوك: AP Archive — [Voters divided on Iran, the economy, Trump's performance as early midterm voting begins in Georgia](https://www.youtube.com/watch?v=5-Dh8_q0xsM&t=15) (15–23 ث) · 2,163 مشاهدة",
+    "- ⚠️ لم تُبنَ قائمة ضيوف الجزيرة: لا نص مجلوب لمقاطع هذا الفيديو",
+    "- ⚠️ لم تُبنَ قائمة ضيوف All Israel News: لا نص مجلوب لمقاطع هذا الفيديو",
+    "- 👥 ضيوف إيران إنترناشيونال: سميرا قرائي",
+    "- 🎯 مقطع الجزيرة: 4 وجوه — المتكلم بالرؤية",
+    "- ✂️ أُخفي شريط القناة في All Israel News: قُصّ أسفل 12%",
+    "- 🎯 مقطع إيران إنترناشيونال: 2 وجوه — المتكلم بالرؤية",
+    "- ✂️ أُخفي شريط القناة في إيران إنترناشيونال: قُصّ أسفل 22%"
   ],
-  "broll_scan": {
-    "videos": {
-      "5-Dh8_q0xsM": {
-        "downloaded": 174,
-        "classified": 174,
-        "sheets": 14,
-        "kinds": {
-          "event_footage": 67,
-          "anchor": 100,
-          "studio": 3,
-          "graphic": 4
-        },
-        "footage_relevant": 14,
-        "footage_other": 53,
-        "chains": 7,
-        "longest": 23
-      },
-      "eh6ROzN5CDY": {
-        "downloaded": 87,
-        "classified": 88,
-        "sheets": 4,
-        "kinds": {
-          "event_footage": 44,
-          "anchor": 38,
-          "studio": 4,
-          "other": 2
-        },
-        "footage_relevant": 0,
-        "footage_other": 44,
-        "chains": 5,
-        "longest": 18
-      }
-    },
-    "sheets_used": 18,
-    "chains": [
+  "reel_review_issue": 1657,
+  "hook_video": {
+    "video_id": "5-Dh8_q0xsM",
+    "start": 15,
+    "end": 23,
+    "channel": "AP Archive",
+    "title": "Voters divided on Iran, the economy, Trump's performance as early midterm voting begins in Georgia",
+    "source": "auto",
+    "views": 2163,
+    "impact": 4,
+    "pre_ok": true,
+    "strong_start": 15,
+    "reason": "أقوى 3 ث (قوة 4)",
+    "render_version": 50
+  },
+  "render_roster": {
+    "nx6MtSAGGLQ": [
       {
-        "video_id": "5-Dh8_q0xsM",
-        "start": 0,
-        "end": 23,
-        "desc": "قاعة اقتراع داخلية، ناخبون يمرون بين الكبائن الزرقاء، ولا علاقة بتصعيد مع إيران · قاعة اقتراع داخلية، رجل يمشي بين الكبائن · قاعة اقتراع داخلية، ناخبون يقفون في الصف",
-        "channel": "AP Archive",
-        "relevant": false
+        "name_arabic": "فرداد فرحزاد",
+        "name_original": "فرداد فرحزان",
+        "role_arabic": "مقدّم البرنامج في استوديو إيران إنترناشيونال",
+        "is_host": true
       },
       {
-        "video_id": "5-Dh8_q0xsM",
-        "start": 50,
-        "end": 56,
-        "desc": "ناخبون يصطفون عند مراكز الاقتراع، لا علاقة بالتصعيد مع إيران · ناخبون يمرون عبر حاجز التصويت، مشهد انتخابي هادئ · ناخبون يدخلون مركز الاقتراع، مشهد هادئ غير متعلق بالحدث",
-        "channel": "AP Archive",
-        "relevant": false
-      },
-      {
-        "video_id": "5-Dh8_q0xsM",
-        "start": 60,
-        "end": 66,
-        "desc": "امرأة تتحدث أمام واجهة مبنى وسيارة حمراء، لا علاقة بالتصعيد مع إيران · امرأة تتحدث وتشير بيدها أمام مبنى وسيارة حمراء · امرأة ترفع يدها وتتحدث أمام المبنى",
-        "channel": "AP Archive",
-        "relevant": false
-      },
-      {
-        "video_id": "5-Dh8_q0xsM",
-        "start": 69,
-        "end": 72,
-        "desc": "رجل بقبعة ونظارة يتحدث أمام مبنى وأعمدة حمراء",
-        "channel": "AP Archive",
-        "relevant": false
-      },
-      {
-        "video_id": "5-Dh8_q0xsM",
-        "start": 111,
-        "end": 120,
-        "desc": "مكان اقتراع هادئ، ناخبون عند طاولات التسجيل",
-        "channel": "AP Archive",
-        "relevant": false
-      },
-      {
-        "video_id": "5-Dh8_q0xsM",
-        "start": 150,
-        "end": 164,
-        "desc": "طابور ناخبين أمام مبنى مركز اقتراع · طابور ناخبين ممتد بجانب المبنى · ناخبون يقفون في الطابور وأعلام التصويت",
-        "channel": "AP Archive",
-        "relevant": true
-      },
-      {
-        "video_id": "5-Dh8_q0xsM",
-        "start": 168,
-        "end": 174,
-        "desc": "لافتة تصويت ثنائية اللغة وصينية وكورية عند مركز اقتراع في غوينيت، لا تُظهر التصعيد مع إيران · لافتة VOTE HERE في موقع اقتراع هادئ، لا علاقة مباشرة بالتصعيد مع إيران · لافتة VOTE HERE نفسها في موقع الاقتراع، مشهد هادئ غير مرتبط بالحدث",
-        "channel": "AP Archive",
-        "relevant": false
-      },
-      {
-        "video_id": "eh6ROzN5CDY",
-        "start": 0,
-        "end": 12,
-        "desc": "مركز اقتراع داخلي، ناخبون يمرون بين الكبائن الزرقاء، ترقيم لندن ولاية جورجيا · مركز اقتراع داخلي، ناخبون يتحركون بين الكبائن، نص LAWRENCEVILLE, GEORGIA · مركز اقتراع داخلي، ناخبة تحمل ورقة، نص LAWRENCEVILLE, GEORGIA",
-        "channel": "AP Archive",
-        "relevant": false
-      },
-      {
-        "video_id": "eh6ROzN5CDY",
-        "start": 26,
-        "end": 32,
-        "desc": "طابور ناخبين أمام مراكز الاقتراع، لا علاقة مباشرة بالتصعيد مع إيران · ناخبون عند طاولات التسجيل، مشهد هادئ لا يُظهر الحدث المذكور",
-        "channel": "AP Archive",
-        "relevant": false
-      },
-      {
-        "video_id": "eh6ROzN5CDY",
-        "start": 42,
-        "end": 46,
-        "desc": "ناخبون في كابينات الاقتراع الزرقاء، مشهد داخلي هادئ",
-        "channel": "AP Archive",
-        "relevant": false
-      },
-      {
-        "video_id": "eh6ROzN5CDY",
-        "start": 60,
-        "end": 78,
-        "desc": "صف ناخبين أمام مركز اقتراع بهدوء · حشد أمام مركز اقتراع ولافتات تصويت · مشهد ميداني لمقر اقتراع أمام متجر، ناخبون عند طاولة تسجيل",
-        "channel": "AP Archive",
-        "relevant": false
-      },
-      {
-        "video_id": "eh6ROzN5CDY",
-        "start": 82,
-        "end": 86,
-        "desc": "لافتة مكتوب عليها 'VOTE HERE' بالإنجليزية والإسبانية والصينية والكورية أمام مدخل · لافتة 'VOTE HERE' متعددة اللغات أمام مدخل مركز اقتراع",
-        "channel": "AP Archive",
-        "relevant": false
-      }
-    ],
-    "assign": [
-      {
-        "n": 1,
-        "chain": 1
-      },
-      {
-        "n": 2,
-        "chain": null
-      }
-    ],
-    "hook_assign": [
-      {
-        "n": 0,
-        "chain": null
+        "name_arabic": "سميرا قرائي",
+        "name_original": "سمیرا قرایی",
+        "role_arabic": "مراسلة إيران إنترناشيونال من البيت الأبيض",
+        "is_host": false
       }
     ]
   },
-  "render_dropped": [],
-  "render_approx": [],
-  "rendered_at": "2026-10-21T09:27:55.568142+00:00",
-  "render_notes": [
-    "### 🎬 تركيب الريل",
-    "- ⏱️ المدة: 78.9 ث",
-    "- 🎞️ [الملف](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-10-21/d35c989fade1.mp4) · [المعاينة](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-10-21/d35c989fade1.gif)",
-    "🎞️ المرشّحون لم يحوِ أيٌّ منهم لقطات صالحة من الحدث — الهوك بصورة الخبر",
-    "🏷️ شريط القناة يحمل اسم برنامج لا شخص: نقاش الساعة — يُعرض اسم القناة وحده",
-    "🏷️ شريط القناة يحمل اسم برنامج لا شخص: احتمال از سرگیری جنگ در خاورمیانه — يُعرض اسم القناة وحده",
-    "🎞️ لقطات الحدث: 2 من 4 جمل (منها 1 احتياطية) (AP Archive ×2) — 2 بالصورة",
-    "🎯 مقطع الجزيرة: 4 وجوه — المتكلم بالرؤية",
-    "✂️ أُخفي شريط القناة في الجزيرة: قُصّ أسفل 24%",
-    "✂️ أُخفي شريط القناة في All Israel News: قُصّ أسفل 12%",
-    "🎯 مقطع إيران إنترناشيونال: 2 وجوه — المتكلم بالرؤية",
-    "✂️ أُخفي شريط القناة في إيران إنترناشيونال: قُصّ أسفل 29%",
-    "🧊 ختام الريل: لا لقطات تسبق الهوك — جُمّد أول إطار منه مع اقتراب بطيء"
+  "render_roster_source": {
+    "nx6MtSAGGLQ": "built"
+  },
+  "render_roster_errors": {
+    "-CKJ5L4Ztio": "no_transcript",
+    "bmOaJKXXKmA": "no_transcript"
+  },
+  "render_attribution": [
+    {
+      "point_id": "96ee7d109b29",
+      "speaker": "جمشيد برزغر",
+      "evidence": "جمشید ورزگر روزنامه‌نگار و تحلیل‌گر سیاسی از تورنتو به ما ببسته. آقای برزگری طبیعتاً",
+      "accepted": false,
+      "reason": "القائل ليس في القائمة"
+    }
   ],
-  "reel_review_issue": 1657
+  "render_exact_selfcheck": {
+    "ok": true,
+    "reason": ""
+  }
 }
