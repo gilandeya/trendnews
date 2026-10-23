@@ -20839,3 +20839,66 @@ def test_reel_roster_cache_q16_guards() -> None:
             reel_render._render, reel_render.store.update_draft = orig_render, orig_update
         check("g636: render.version >= 50", int(cfg.path("reel.render.version")) >= 50, cfg.path("reel.render.version"))
     guarded("g636", g636)
+
+
+def test_speaker_map_s0_guards() -> None:
+    """Issue #1696 (S0، g637–g641): دوال خريطة متكلمي الحلقة الخالصة (التجميع والتغيّر والتصويت والمقدّم) على بيانات مصنوعة صغيرة
+    (بصمات أرقام لا صور). الأداة نفسها (تنزيل وOpenCV وHaiku) خارج الحزمة."""
+    from tools import speaker_map_probe as sm
+
+    cfg = load_config()
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def read(frame, name, kind="person", speaker="yes"):
+        return dict(frame=frame, name=name, name_kind=kind, name_is_speaker=speaker)
+
+    def g637():
+        emb = [[1.0, 0.0], [0.99, 0.1], [0.0, 1.0], [0.1, 0.99], [0.98, 0.05]]
+        groups = sorted(sorted(g) for g in sm.cluster_faces(emb, cfg))
+        check("g637: مجموعتان تنفصلان", groups == [[0, 1, 4], [2, 3]], groups)
+        check("g637: بلا بصمات بلا مجموعات", sm.cluster_faces([], cfg) == [], None)
+    guarded("g637", g637)
+
+    def g638():
+        flat = [0] * 6
+        bright = [200] * 6
+        got = sm.chyron_changes([flat] * 4 + [bright] * 5, cfg)
+        check("g638: تغيّر واحد لا كل لقطة", got == [4], got)
+        check("g638: شريط ثابت لا يُقرأ", sm.chyron_changes([flat] * 5, cfg) == [], None)
+        check("g638: تغيّر طفيف تحت العتبة", sm.chyron_changes([flat, [3] * 6], cfg) == [], None)
+    guarded("g638", g638)
+
+    def g639():
+        faces = [[(0, 900), (1, 400)], [(0, 100), (1, 800)], [(1, 700)], [(1, 700)]]
+        reads = [read(0, "س"), read(1, "ص"), read(2, "ص"), read(3, "ص")]
+        res = sm.vote_names(reads, faces, cfg)
+        check("g639: الأغلبية تسمّي", res[1]["name"] == "ص" and res[1]["votes"] == dict(ص=3), res)
+        check("g639: صوت وحيد لا يسمّي", res[0]["name"] is None, res)
+        tie = sm.vote_names([read(0, "س"), read(1, "ص"), read(2, "س"), read(3, "ص")], [[(1, 5)]] * 4, cfg)
+        check("g639: تعادل الأصوات لا يسمّي", tie[1]["name"] is None and tie[1]["votes"] == dict(س=2, ص=2), tie)
+        prog = sm.vote_names([read(0, "برنامج", "program")] * 3, [[(0, 5)]], cfg)
+        check("g639: غير الشخص لا يصوّت", prog.get(0, {}).get("name") is None, prog)
+    guarded("g639", g639)
+
+    def g640():
+        cl = [dict(id=0, count=90, first=10, last=3000), dict(id=1, count=60, first=900, last=1300),
+              dict(id=2, count=95, first=100, last=500)]
+        got = sm.pick_host(cl, 3200, cfg)
+        check("g640: المقدّم الممتد على الحلقة", got == 0, got)
+        check("g640: لا ممتد لا مقدّم", sm.pick_host(cl[1:], 3200, cfg) is None, None)
+        check("g640: بلا مجموعات", sm.pick_host([], 100, cfg) is None, None)
+    guarded("g640", g640)
+
+    def g641():
+        faces = [[(5, 900)]] * 3
+        host_reads = [read(i, "أيمن سرور", speaker="no") for i in range(3)]
+        res = sm.vote_names(host_reads, faces, cfg)
+        check("g641: اسم المقدّم لا يُعطى لضيف", res.get(5, {}).get("name") is None, res)
+        res2 = sm.vote_names(host_reads, [[(5, 900), (7, 300)]] * 3, cfg, host=7)
+        check("g641: يُعطى للمقدّم المعروف", res2[7]["name"] == "أيمن سرور" and res2.get(5, {}).get("name") is None, res2)
+    guarded("g641", g641)
