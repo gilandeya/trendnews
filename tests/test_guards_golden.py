@@ -20953,3 +20953,9 @@ def test_speaker_map_s0_guards() -> None:
         src = inspect.getsource(sm)
         check("g645: سجل القراءات يُكتب في التقرير", 'report["read_log"]' in src, None)
     guarded("g645", g645)
+
+    def g646():
+        import inspect
+        src = inspect.getsource(sm.extract_frames) if hasattr(sm, "extract_frames") else inspect.getsource(sm)
+        check("g646: القياس يجد ffmpeg عبر reel.ffmpeg_path لا apt", "reel.ffmpeg_path()" in src, None)
+    guarded("g646", g646)

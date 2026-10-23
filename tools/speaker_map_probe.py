@@ -286,7 +286,9 @@ def extract_frames(video: Path, out_dir: Path, step: float, height: int, start: 
     """لقطة كل step ثانية JPEG بارتفاع height (ffmpeg)؛ المسار i يقابل الثانية start + i × step."""
     import subprocess
     out_dir.mkdir(parents=True, exist_ok=True)
-    cmd = ["ffmpeg", "-y", "-v", "error"]
+    from src import reel
+    # نسخة pip المضمّنة أولًا: تثبيت ffmpeg بـapt علّق القياس 28 دقيقة (2026-10-23) والقياس لا يحتاج ffprobe
+    cmd = [reel.ffmpeg_path() or "ffmpeg", "-y", "-v", "error"]
     if start:
         cmd += ["-ss", f"{start:.2f}"]
     if length:
