@@ -4443,7 +4443,8 @@ def _map_window(clip: dict, cfg) -> tuple[float, float] | None:
 def _map_check(script: dict, clips: dict, cfg, deps: Deps, notes: list, meta: dict) -> dict:
     """خريطة متكلمي الحلقة (S4): لكل فيديو له مقطع بنافذة معروفة تُبنى خريطة واحدة (أو تُعاد المحفوظة) ويُسند وجه لحظة الاقتباس إلى
     مجموعته واسمها. يعيد {فهرس المقطع: الإسناد} لما بلغت حصته render_min_share وحده؛ أي عطل ← لا إسناد لذلك الفيديو وتبقى حرّاس Q10–Q16."""
-    if not cfg.path("speaker_map.render_enabled") or deps.build_speaker_map is None or deps.assign_speaker is None:
+    if (not cfg.path("speaker_map.render_enabled") or getattr(deps, "build_speaker_map", None) is None
+            or getattr(deps, "assign_speaker", None) is None):
         return {}
     t = cfg.path("reel.render.texts")
     min_share = float(cfg.path("speaker_map.render_min_share") or 0.75)
