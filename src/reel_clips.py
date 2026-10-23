@@ -111,17 +111,18 @@ SPAN_TOOL = {
 }
 
 
-def _lcs_pairs(a: list[str], b: list[str]) -> list[tuple[int, int]]:
-    """أزواج مواضع أطول تتابع مشترك بين قائمتين (a في b)، بترتيبها."""
+def _lcs_pairs(a: list[str], b: list[str], eq=None) -> list[tuple[int, int]]:
+    """أزواج مواضع أطول تتابع مشترك بين قائمتين (a في b)، بترتيبها. eq دالة تساوٍ اختيارية (S7: تساوٍ تقريبي للكلمات المفرَّغة)."""
+    eq = eq or (lambda x, y: x == y)
     n, m = len(a), len(b)
     dp = [[0] * (m + 1) for _ in range(n + 1)]
     for i in range(n - 1, -1, -1):
         for j in range(m - 1, -1, -1):
-            dp[i][j] = dp[i + 1][j + 1] + 1 if a[i] == b[j] else max(dp[i + 1][j], dp[i][j + 1])
+            dp[i][j] = dp[i + 1][j + 1] + 1 if eq(a[i], b[j]) else max(dp[i + 1][j], dp[i][j + 1])
     i = j = 0
     out: list[tuple[int, int]] = []
     while i < n and j < m:
-        if a[i] == b[j]:
+        if eq(a[i], b[j]):
             out.append((i, j))
             i += 1
             j += 1
@@ -129,6 +130,48 @@ def _lcs_pairs(a: list[str], b: list[str]) -> list[tuple[int, int]]:
             i += 1
         else:
             j += 1
+    return out
+
+
+def _lev(a: str, b: str) -> int:
+    """مسافة ليفنشتاين بين كلمتين (حذف/إضافة/استبدال حرف)."""
+    if len(a) < len(b):
+        a, b = b, a
+    prev = list(range(len(b) + 1))
+    for i, ca in enumerate(a, 1):
+        cur = [i]
+        for j, cb in enumerate(b, 1):
+            cur.append(min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (ca != cb)))
+        prev = cur
+    return prev[-1]
+
+
+def word_close(a: str, b: str, sim: float, min_len: int) -> bool:
+    """هل الكلمة المفرَّغة b هي كلمة الاقتباس a؟ (S7) حرفًا بحرف، أو — للكلمات من min_len أحرف فأكثر — بتشابه حروف ≥ sim.
+    السبب: المفرِّغ يسمع الكلمة الصحيحة برسم آخر أو بحرف خاطئ («سوال»/«سؤال»، «میتواند»/«میتونه») فكان الحرفي يعدّها خطأ كاملًا
+    وسقط ضبط المقطع الفارسي (02b4436a2b66، النسبة 0.4). الكلمات القصيرة («و»، «که»، «در») بالحرف وحده كي لا يطابق بعضها بعضًا صدفة."""
+    if a == b:
+        return True
+    if min(len(a), len(b)) < min_len:
+        return False
+    return 1 - _lev(a, b) / max(len(a), len(b)) >= sim
+
+
+def _merge_split(q: list[str], toks: list[tuple[str, int]], close) -> list[tuple[str, int]]:
+    """يدمج كلمتين مفرَّغتين متجاورتين إن طابق دمجهما كلمة من الاقتباس ولم تطابقها إحداهما وحدها (S7): المفرِّغ يفصل البادئة
+    أحيانًا («می تونه» مقابل «میتونه» في الاقتباس بعد حذف نصف الفاصلة). توقيت المدموجة من أولاهما."""
+    out: list[tuple[str, int]] = []
+    j = 0
+    while j < len(toks):
+        if j + 1 < len(toks):
+            joined = toks[j][0] + toks[j + 1][0]
+            if (any(close(w, joined) for w in q) and not any(close(w, toks[j][0]) for w in q)
+                    and not any(close(w, toks[j + 1][0]) for w in q)):
+                out.append((joined, toks[j][1]))
+                j += 2
+                continue
+        out.append(toks[j])
+        j += 1
     return out
 
 
@@ -154,6 +197,12 @@ def align_quote(quote_original: str, words: list, cfg=None, diag: dict | None = 
     for k, w in enumerate(words or []):
         for t in youtube_extract._normalize_for_anchor(str(w[2])).split():
             toks.append((t, k))
+    xcfg = cfg.path("reel.render.exact") or {}
+    sim, min_len = float(xcfg.get("word_similarity", 1.0)), int(xcfg.get("word_min_len", 3))
+
+    def close(a: str, b: str) -> bool:
+        return word_close(a, b, sim, min_len)
+    toks = _merge_split(q, toks, close)
     n = len(q)
     n_heard = len(words or [])
     if not toks:
@@ -162,19 +211,19 @@ def align_quote(quote_original: str, words: list, cfg=None, diag: dict | None = 
     if n < 3:
         _fail(diag, "short_quote", 0.0, toks, n_heard, min_ratio)
         return None
-    probe = set(q)
     width = n + 2
     flat = [t for t, _ in toks]
+    hits = [any(close(w, t) for w in q) for t in flat]     # S7: «في الاقتباس» تقريبيًا لا حرفيًا
     scores: dict[int, list[tuple[int, int]]] = {}
     for i in range(max(1, len(toks) - width + 1)):
         window = flat[i:i + width]
-        if sum(1 for t in window if t in probe) / n < min_ratio:
+        if sum(hits[i:i + width]) / n < min_ratio:
             continue
-        scores[i] = _lcs_pairs(q, window)
+        scores[i] = _lcs_pairs(q, window, close)
     if not scores:
         if diag is not None:
             # لا نافذة بلغت عتبة التقاطع: أفضل نسبة تُحسب بـLCS كاملًا على كل النوافذ (مسار الفشل وحده فالكلفة مقبولة)
-            best_any = max((len(_lcs_pairs(q, flat[i:i + width])) for i in range(max(1, len(toks) - width + 1))), default=0)
+            best_any = max((len(_lcs_pairs(q, flat[i:i + width], close)) for i in range(max(1, len(toks) - width + 1))), default=0)
             _fail(diag, "low_ratio", best_any / n, toks, n_heard, min_ratio)
         return None
     best_score = max(len(p) for p in scores.values())

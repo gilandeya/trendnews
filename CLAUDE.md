@@ -2594,6 +2594,14 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
   (نصوص الأسباب `roster_reasons`). المفاتيح الجديدة في `RENDER_KEYS`.
 - **قضية واحدة:** `_render_comment_issue(draft)` = `reel_review_issue` وإلا `review_issue`، يستعملها فرع `ClipDownloadFailed` وتعليق النتيجة؛ `_publish_on_render` بقاعدته (W4).
 
+### الكلمة المفرَّغة برسم آخر تُقبل (S7) — `src/reel_clips.py:align_quote`
+
+الحادثة (الريل 02b4436a2b66، الإصدار 52): سقط ضبط مقطع إيران إنترناشيونال بنسبة 0.4 لأن المطابقة حرفية والمفرِّغ (whisper small) يسمع الفارسية برسم آخر
+أو بحرف خاطئ. `word_close(a, b, sim, min_len)`: تطابق حرفي، أو تشابه حروف (ليفنشتاين) ≥ `reel.render.exact.word_similarity` (0.7) للكلمات من
+`word_min_len` (3) أحرف فأكثر؛ القصيرة بالحرف وحده. `_merge_split` يدمج كلمتين مفرَّغتين متجاورتين إن طابق دمجهما كلمة من الاقتباس ولم تطابقها إحداهما
+(«می تونه» ↔ «میتونه»). عتبة النافذة و`_lcs_pairs(..., eq=)` بالتساوي التقريبي؛ `min_ratio` والتفرّد بلا تغيير. `render_version` = 53؛ g655–g658
+(جملة مصنوعة لا اقتباس حقيقي).
+
 ## خريطة متكلمي الحلقة في التركيب (S4) — `src/speaker_map.py`، `src/reel_render.py:_map_check`
 
 السبب: حرّاس المقطع الواحد (Q10–Q16) تحكم من نافذة صغيرة حول المقطع فيتقلّب الاسم بين تشغيلتين؛ القياس (`tools/speaker_map_probe.py`، 2026-10-23) أعطى
