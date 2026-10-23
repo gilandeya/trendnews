@@ -20947,3 +20947,9 @@ def test_speaker_map_s0_guards() -> None:
         tie = sm.vote_names([dict(read(i, "س"), cluster=i % 2) for i in range(4)], [[(0, 5), (1, 5)]] * 4, cfg)
         check("g644: تعادل مجموعتين على اسم لا يسمّي أيًّا", tie[0]["name"] is None and tie[1]["name"] is None, tie)
     guarded("g644", g644)
+
+    def g645():
+        import inspect
+        src = inspect.getsource(sm)
+        check("g645: سجل القراءات يُكتب في التقرير", 'report["read_log"]' in src, None)
+    guarded("g645", g645)
