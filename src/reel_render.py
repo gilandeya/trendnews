@@ -1964,17 +1964,25 @@ def _audio_prefix(clip: dict) -> str:
     return f"atrim=start={_fmt(tr[0])}:end={_fmt(tr[1])},asetpts=PTS-STARTPTS," if tr else ""
 
 
-def _exact_align(file: Path, lang: str | None, point: dict, cfg, deps: Deps) -> tuple[dict | None, str]:
-    """تفريغ كلمات الملف ومطابقة الاقتباس الأصلي (Q13). يعيد (نتيجة align_quote بثواني الملف، "") أو (None، السبب)؛ لا يرفع أبدًا."""
+def _exact_align(file: Path, lang: str | None, point: dict, cfg, deps: Deps, diag: dict | None = None) -> tuple[dict | None, str]:
+    """تفريغ كلمات الملف ومطابقة الاقتباس الأصلي (Q13). يعيد (نتيجة align_quote بثواني الملف، "") أو (None، السبب)؛ لا يرفع أبدًا.
+    diag (Q15) يُملأ بتشخيص الفشل (reason وbest_ratio وheard_words وheard_head) ويذكر نص السبب الرقم نفسه."""
     try:
         words = deps.transcribe_words(file, lang, cfg)
     except Exception as exc:  # noqa: BLE001 -- مكتبة اختيارية أو عطل نموذج: يُعامل عطلًا فيبقى ضبط السطر
         return None, f"{type(exc).__name__}: " + reel_clips.scrub_text(str(exc))[:80]
     if not words:
+        if diag is not None:
+            diag.update(reason="no_words", best_ratio=0.0, heard_words=0, heard_head=[])
         return None, "تفريغ فارغ"
-    res = reel_clips.align_quote(point.get("quote_original", ""), words, cfg)
+    d: dict = diag if diag is not None else {}
+    res = reel_clips.align_quote(point.get("quote_original", ""), words, cfg, diag=d)
     if res is None:
-        return None, "الاقتباس لم يطابق الكلمات المفرَّغة بنسبة كافية أو يتكرر"
+        t = cfg.path("reel.render.texts.exact_reasons") or {}
+        reason = d.get("reason", "")
+        text = (t.get(reason) or "الاقتباس لم يطابق الكلمات المفرَّغة بنسبة كافية أو يتكرر").format(
+            ratio=d.get("best_ratio", 0), min=d.get("min_ratio", 0), heard=d.get("heard_words", 0))
+        return None, text
     return res, ""
 
 
@@ -1990,7 +1998,8 @@ def _exact_apply(clip: dict, scene: dict, point: dict, dstart: int, wstart: int,
     lang = scene.get("language") if scene.get("language") not in (None, "", "other") else None
     fsecs = float(clip["seconds"])
     # off: الفحص الذاتي فشل (Q13b) ← لا نداء تفريغ، والسبب واحد يُكتب مرة في التعليق لا مقطعًا مقطعًا
-    res, why = (None, off) if off else _exact_align(clip["file"], lang, point, cfg, deps)
+    diag: dict = {}
+    res, why = (None, off) if off else _exact_align(clip["file"], lang, point, cfg, deps, diag)
     channel = scene.get("channel_display", "")
     if res is None:
         if xcfg.get("require", False):
@@ -2001,7 +2010,7 @@ def _exact_apply(clip: dict, scene: dict, point: dict, dstart: int, wstart: int,
         clip["trim"] = (t0, t1)
         clip["seconds"] = round(max(t1 - t0, 0.1), 3)
         source = "approx" if is_approx else "line"
-        clip["exact"] = {"source": source, "error": why}
+        clip["exact"] = {"source": source, "error": why, **{k: v for k, v in diag.items() if k != "min_ratio"}}
         if fails is not None and not off:
             fails.append((channel, why))      # تُجمَّع بالسبب بعد الحلقة (Q13b)
         return source, why
@@ -3004,7 +3013,29 @@ def _chyron_reject_reason(frame: dict, cfg, channels: list) -> str:
     return ""
 
 
-def resolve_chyron(frames: list, cfg, channel: str | list = "") -> dict:
+def roster_verdict(frame: dict, roster: list, cfg) -> str:
+    """حكم قائمة ضيوف الحلقة (Q12) على اسم لقطة شريط (Issue #1691، Q15): "guest" إن طابق ضيفًا، "host" إن طابق المقدّم، وفارغ إن لم يطابق
+    أحدًا. دالة خالصة. المطابقة بـspeaker_matches نفسها (الاسم العربي من القائمة قائلًا)؛ إن طابقها أكثر من اسم يُؤخذ الأكثر كلمات
+    مشتركة، والتعادل للمقدّم (الأحوط: اسم المقدّم يظهر طوال الحلقة فلا يُنسب إليه كلام ضيف بلا دليل)."""
+    best, best_n = "", 0
+    own = _speaker_words(str(frame.get("name_arabic") or "")) | (
+        _speaker_words(str(frame.get("name_original") or "")) if _AR_LETTERS.search(str(frame.get("name_original") or "")) else set())
+    for p in roster or []:
+        ar = str(p.get("name_arabic") or "")
+        orig = str(p.get("name_original") or "")
+        ok = speaker_matches(str(frame.get("name_arabic") or ""), str(frame.get("name_original") or ""), ar, cfg)
+        if not ok and orig and _AR_LETTERS.search(orig):
+            ok = speaker_matches(str(frame.get("name_arabic") or ""), str(frame.get("name_original") or ""), orig, cfg)
+        if not ok:
+            continue
+        n = len(own & (_speaker_words(ar) | _speaker_words(orig)))
+        kind = "host" if p.get("is_host") else "guest"
+        if n > best_n or (n == best_n and kind == "host"):
+            best, best_n = kind, n
+    return best
+
+
+def resolve_chyron(frames: list, cfg, channel: str | list = "", roster: list | None = None) -> dict:
     """القبول من نتائج اللقطات (دالة نقية): اسم شخص متطابق بعد توحيد المسافات وحالة الأحرف في لقطتين فأكثر؛ الصفة من أول لقطة
     فيها ذلك الاسم. اسم البرنامج أو القناة لا يُعدّ (Issue #1450). is_presenter صحيحة إن قالتها لقطتان فأكثر.
     {name_original, name_arabic, role_arabic, is_presenter, frames_agreeing, accepted, rejected}؛ rejected سبب إسقاط الاسم
@@ -3013,6 +3044,7 @@ def resolve_chyron(frames: list, cfg, channel: str | list = "") -> dict:
     valid: dict[str, list[dict]] = {}
     invalid: dict[str, list[dict]] = {}
     host: list[dict] = []
+    overrides: set[str] = set()
     for f in frames:
         name = " ".join(str(f.get("name_original") or "").split())
         if not name:
@@ -3020,6 +3052,13 @@ def resolve_chyron(frames: list, cfg, channel: str | list = "") -> dict:
         # Q10: اسم المقدّم يظهر في الشريط طوال الحلقة فوق الضيف، فلا تُعدّ لقطة نحو القبول ولا المخالفة إلا إن قال النموذج
         # إن الاسم للشخص الذي في الصورة؛ غياب الحقل (مزيَّفات قديمة) يُعدّ yes
         said = f.get("name_is_speaker")
+        # Q15: القائمة تعرف المقدّم صراحة من تعريفه بضيوفه، فتغلب حكم نموذج يرى ثلاث لقطات (تقلّب بين تشغيلتين فسقط اسم ضيف صحيح)
+        verdict = roster_verdict(f, roster, cfg) if roster else ""
+        if verdict:
+            forced = "yes" if verdict == "guest" else "no"
+            if forced != (said or "yes"):
+                overrides.add(verdict)
+            said = forced
         if said not in (None, "", "yes"):
             if said == "no" and not _chyron_reject_reason(f, cfg, channels):
                 host.append(f)
@@ -3038,11 +3077,15 @@ def resolve_chyron(frames: list, cfg, channel: str | list = "") -> dict:
     first = best[0] if best else {}
     agreeing = len(best)
     name_ar = " ".join(str(first.get("name_arabic") or "").split())
-    return {"name_original": " ".join(str(first.get("name_original") or "").split()), "name_arabic": name_ar,
-            "role_arabic": " ".join(str(first.get("role_arabic") or "").split()),
-            "is_presenter": sum(1 for f in frames if f.get("is_presenter") is True) >= 2,
-            "frames_agreeing": agreeing, "rejected": rejected,
-            "accepted": agreeing >= 2 and bool(name_ar) and not rejected}
+    out = {"name_original": " ".join(str(first.get("name_original") or "").split()), "name_arabic": name_ar,
+           "role_arabic": " ".join(str(first.get("role_arabic") or "").split()),
+           "is_presenter": sum(1 for f in frames if f.get("is_presenter") is True) >= 2,
+           "frames_agreeing": agreeing, "rejected": rejected,
+           "accepted": agreeing >= 2 and bool(name_ar) and not rejected}
+    if overrides:
+        # تغييران متعاكسان نادران: تُسجَّل النتيجة النهائية (مقبول ← ضيف، مرفوض ← مقدّم)
+        out["roster_override"] = next(iter(overrides)) if len(overrides) == 1 else ("guest" if out["accepted"] else "host")
+    return out
 
 
 _AR_LETTERS = re.compile(r"[\u0600-\u06FF]")
@@ -3076,7 +3119,8 @@ def speaker_matches(name_arabic: str, name_original: str, speaker_text: str, cfg
     return bool(spoken & chyron)
 
 
-def _apply_chyron(scene: dict, clip: dict, cfg, deps: Deps, speakers: dict, notes: list, index: int) -> dict | None:
+def _apply_chyron(scene: dict, clip: dict, cfg, deps: Deps, speakers: dict, notes: list, index: int,
+                  roster: list | None = None) -> dict | None:
     """يوثّق متحدث مقطع غير موثَّق من شريط القناة. الموثَّق من العنوان أو الوصف يُقرأ شريطه للتحقق وحده (Q11) ولا يُعاد كتابة اسمه؛ ولا يُرفع فشل أبدًا
     (العطل أو الرفض أو الردّ غير الصالح يُبقي «ضيف على»). اسم شخص مقبول يُقارَن بقائل النقطة (speaker_text): الخلاف (R6) لا يُطبَّق على
     المشهد ويُعاد {chyron, speaker} فيحذف _assemble المقطع من اللوحة؛ يُستدعى مرتين لكل مقطع (قبل بناء اللوحة وفي _clip_layers) فالقراءة تُحفظ
@@ -3102,7 +3146,7 @@ def _apply_chyron(scene: dict, clip: dict, cfg, deps: Deps, speakers: dict, note
                 return unverified
             return None
         res = resolve_chyron([f for f in frames if isinstance(f, dict)], cfg,
-                             [scene.get("channel_original") or "", scene.get("channel_display") or ""])
+                             [scene.get("channel_original") or "", scene.get("channel_display") or ""], roster)
     except Exception as exc:  # noqa: BLE001 -- القراءة تحسين لا شرط
         log.warning("تعذّرت قراءة شريط القناة فيبقى «ضيف على»: %s", str(exc)[:120])
         if approx:
@@ -3110,6 +3154,10 @@ def _apply_chyron(scene: dict, clip: dict, cfg, deps: Deps, speakers: dict, note
             return unverified
         return None
     speakers[str(index)] = res
+    if res.get("roster_override") == "guest" and res["accepted"]:
+        line = cfg.path("reel.render.texts.comment_roster_guest").format(name=res["name_arabic"] or res["name_original"])
+        if line not in notes:
+            notes.append(line)
     if res["accepted"] and speaker_matches(res["name_arabic"], res["name_original"], scene.get("speaker_text", ""), cfg) is False:
         mismatch = {"chyron": res["name_arabic"], "speaker": speaker}
         res["mismatch"] = mismatch
@@ -4302,8 +4350,8 @@ def _prune_mismatched(script: dict, clips: dict, cfg, deps: Deps, speakers: dict
         for i in members:
             if i not in live:
                 continue
-            mm = _apply_chyron(script["scenes"][i], live[i], cfg, deps, speakers, notes, i)
             roster = rosters.get(live[i].get("video_id"))
+            mm = _apply_chyron(script["scenes"][i], live[i], cfg, deps, speakers, notes, i, roster)
             if roster and live[i].get("transcript") and not live[i].get("approx"):
                 mm = _combine_speaker(i, script, members, live, mm, speakers, roster,
                                       verdicts.get(script["scenes"][i].get("point_id", "")), cfg, notes, meta)
@@ -4848,9 +4896,26 @@ def _drop_stale_auto_hook(path: Path, draft: dict) -> None:
         store.update_draft(path, remove=["hook_video"])
 
 
+# Issue #1691 (Q15): القائمة الوحيدة بحقول `render_*` التي يكتبها التركيب على المسودة؛ المحفوظ والمحذوف عند الإعادة يُبنيان منها وحدها، فمفتاح
+# جديد يُكتب ولا يُضاف هنا يفشل g629 بدل أن يضيع بصمت (خطأ SCRIPT_KEYS في R5d3 نفسه). أزواج (المفتاح على المسودة، مفتاح speaker_meta)
+# تملؤها حلقة التحقق من المتكلمين، وما بعدها يُكتب على draft مباشرة أثناء التركيب.
+RENDER_META_KEYS = (("render_roster", "roster"), ("render_attribution", "attribution"),
+                    ("render_relabel", "relabel"), ("render_face_check", "face_check"))
+RENDER_KEYS = tuple(k for k, _ in RENDER_META_KEYS) + ("render_exact_selfcheck",)
+
+
+def _saved_render_fields(draft: dict, speaker_meta: dict) -> dict:
+    """ما يُحفظ من حقول RENDER_KEYS بعد تركيب ناجح: من speaker_meta ثم مما كُتب على draft في الذاكرة؛ الفارغ لا يُحفظ."""
+    out = {key: speaker_meta[k] for key, k in RENDER_META_KEYS if speaker_meta.get(k)}
+    out.update({k: draft[k] for k in RENDER_KEYS if k not in out and draft.get(k)})
+    return out
+
+
 def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path, dropped: list,
             approx: list, notes: list | None = None) -> dict:
     rcfg, scfg = cfg.path("reel.render"), cfg.path("reel.script")
+    for k in RENDER_KEYS:
+        draft.pop(k, None)     # قيمة قديمة من القرص لا تُحفظ من جديد إن لم يكتبها هذا التركيب
     script = draft.get("script") or {}
     if not script.get("scenes"):
         raise RuntimeError("لا سيناريو معتمد")
@@ -4914,8 +4979,7 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
             "reel_bg": {**{k: v for k, v in bg_saved.items() if k != "layout"}, **({"layout": bg["layout"]} if bg else {})},
             "render_crops": {**{str(i): c["crop"] for i, c in clips.items() if "crop" in c}, **hook_crops},
             **({"render_speakers": speakers} if speakers else {}),
-            **{key: speaker_meta[k] for key, k in (("render_roster", "roster"), ("render_attribution", "attribution"),
-                                                   ("render_relabel", "relabel"), ("render_face_check", "face_check")) if speaker_meta.get(k)},
+            **_saved_render_fields(draft, speaker_meta),
             **({"render_spans": [c["span"] for _, c in sorted(clips.items()) if c.get("span")]}
                if any(c.get("span") for c in clips.values()) else {}),
             **({"render_broll": broll["result"]} if broll and broll.get("result") else {}),
@@ -5134,7 +5198,7 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
                "rendered_at": datetime.now(timezone.utc).isoformat()}
     remove = ((["render_error"] + ([] if "render_broll" in result else ["render_broll", "broll_scan"])
                + ([] if "render_spans" in result else ["render_spans"])
-               + [k for k in ("render_roster", "render_attribution", "render_relabel", "render_face_check") if k not in result])
+               + [k for k in RENDER_KEYS if k not in result])
               if result["render_status"] == "rendered"
               else [] if keep_files else ["reel_file", "reel_gif", "duration_seconds"])
     text = _comment_text(cfg, draft, result, dropped, approx, notes)
@@ -5271,8 +5335,7 @@ def retry(draft_id: str, cfg) -> bool:
     found = store.load_draft(draft_id)
     if not found or found[1].get("render_status") != "failed":
         return False
-    store.update_draft(found[0], remove=["render_error", "render_dropped", "render_approx", "render_spans",
-                                         "render_roster", "render_attribution", "render_relabel", "render_face_check"],
+    store.update_draft(found[0], remove=["render_error", "render_dropped", "render_approx", "render_spans", *RENDER_KEYS],
                        render_status="queued", render_attempts=0)
     return True
 

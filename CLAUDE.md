@@ -2562,3 +2562,20 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
   وفشل حارس ← حذف بسببه؛ `none` ولقائل السيناريو مرجع ← حذف `drop_face_mismatch`؛ `none` بلا مرجع له، `unsure`، عطل النداء، لا مراجع ← لا تغيير. مقطع ثبت بالشريط أو النص لا يدخل المقارنة.
 - **الحفظ:** `render_face_check = [{point_id, same_as, reason, applied}]` (ويُمسح عند إعادة التركيب كأخواته). `enabled: false` أو `deps.match_faces`/`face_frames` = None (المزيَّفات القديمة) ← السلوك القديم حرفًا.
 - **لم يُجرَّب على نموذج حقيقي:** جودة مطابقة الوجوه بـHaiku تحتاج مراقبة أول تركيب.
+
+## القائمة تحسم المقدّم، وحقول التركيب لا تضيع، وفشل الضبط يُشرح (Issue #1691، Q15) — `src/reel_render.py`، `src/reel_clips.py`
+
+الحادثة (الريل 02b4436a2b66، تركيب الإصدار 47): ظهر علي البخيتي باسم القناة وحدها مع سطر «الشريط يحمل اسم المقدّم» رغم أن قائمة الحلقة نفسها تقول إن
+المقدّم أيمن سرور والبخيتي ضيف (حكم `name_is_speaker` تقلّب بين تشغيلتين)؛ و`render_exact_selfcheck` لم يصل القرص؛ وفشل الضبط بلا أرقام.
+الشاهد `tests/fixtures/reel/1676/render47.json`؛ g626–g631 في `tests/test_guards_golden.py:test_reel_roster_host_q15_guards`. `render_version` = 49.
+
+- **القائمة تحسم:** `resolve_chyron(frames, cfg, channel, roster=None)`؛ لكل لقطة باسم شخص `roster_verdict(frame, roster, cfg)` (`speaker_matches` على
+  أسماء القائمة؛ الأكثر كلمات مشتركة، والتعادل للمقدّم): ضيف ← `name_is_speaker = yes`، مقدّم ← `no`، لا مطابقة أو لا قائمة ← حكم النموذج (Q10) كما كان.
+  القائمة تُبنى أصلًا في `_speaker_check` قبل `_apply_chyron` فلا نقل ولا نداءات؛ `_prune_mismatched` تمرّر `rosters[video_id]`. يُحفظ `render_speakers[i].roster_override`
+  (`guest`|`host`) إن غيّرت القائمة حكم لقطة، ويُكتب سطر `comment_roster_guest` مرة لاسم ضيف مقبول.
+- **`RENDER_KEYS`:** القائمة الوحيدة بحقول `render_*` التي يكتبها التركيب (`RENDER_META_KEYS` لما يملؤه `speaker_meta` + `render_exact_selfcheck` المكتوب على `draft`)؛
+  `_saved_render_fields` تبني الحفظ منها، وحذف ما لم يكتبه التركيب (`remove`) وإعادة `retry` منها كذلك، وتُمسح قيمها القديمة من `draft` أول `_render`.
+  g629 يفحص نصيًا أن كل `draft["render_…"] =` في المصدر ضمنها.
+- **تشخيص الضبط:** `reel_clips.align_quote(..., diag=)` تملأ `reason` (`low_ratio`|`ambiguous`|`no_words`|`short_quote`) و`best_ratio` و`heard_words` و`heard_head` (أول 8 مطبَّعة)؛
+  `_exact_align(..., diag)` تبني نص `error` من `reel.render.texts.exact_reasons` (يذكر النسبة)، ويُحفظ التشخيص في `render_crops[i].exact`. التجميع (Q13b) يبقى بنص `error`.
+- **الطيّ الفارسي:** `youtube_extract._ARABIC_FOLD` يطوي `ی ک ە ۀ` إلى `ي ك ه ه` (للبحث وحده؛ النص المحفوظ لا يُمسّ).

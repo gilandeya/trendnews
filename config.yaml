@@ -2259,7 +2259,7 @@ reel:
     # فلا يتحرك. قيمة ≥ min(lead_seconds, clip_tail_seconds) تُخفَّض إلى ذلك الحد − 0.1 كي لا يقع كلام المقطع في التلاشي
     transition: {type: slideleft, outro_type: fade, seconds: 0.35}
     # نسخة التركيب: رفعها تعيد --pending تركيب كل ريل معتمد مُركَّب بنسخة أقدم (المنشور والمرفوض لا يُمسّان)
-    version: 48
+    version: 49
     # فكرة المقطع (Issue #1660، Q6): نموذج يرى أسطر النص حول الاقتباس (context_seconds قبله وبعده) فيحدد أول سطر في الفكرة وآخره
     # وهل تمّت، والكود يتحقق: المدى يتقاطع مع الاقتباس ومدته بين min_seconds وmax_seconds وإلا النافذة القديمة. عطل النداء ← القديمة
     # Q13 (Issue #1681): مطفأة — الاكتمال يُحكم في السيناريو (clip_audit.complete) والنص المعروض هو quote_arabic حرفًا؛ الكود باقٍ خلف الإعداد
@@ -2591,6 +2591,12 @@ reel:
       bg_credit_free: "صورة تعبيرية"
       comment_chyron: "👤 من شريط القناة: {name_arabic} ({name_original}) — {role_arabic}"
       # Q10 (Issue #1672): شريط يحمل اسم المقدّم لا المتكلم فيبقى اسم السيناريو
+      exact_reasons:
+        low_ratio: "النسبة {ratio} أقل من {min}"
+        ambiguous: "الاقتباس يطابق أكثر من موضع بالدرجة نفسها (أفضل نسبة {ratio})"
+        no_words: "المفرِّغ لم يعد كلمات"
+        short_quote: "الاقتباس أقصر من أن يُطابَق"
+      comment_roster_guest: "👥 الشريط يحمل اسم {name} وهو ضيف في قائمة الحلقة — اعتُمد اسمه"
       comment_chyron_host: "🏷️ شريط {channel} يحمل اسم المقدّم {name} لا المتكلم — يبقى اسم السيناريو"
       # Q11 (Issue #1677): متحدث السيناريو طابقه الشريط فيرى المراجع ما فُحص
       comment_chyron_confirmed: "✅ الشريط يؤكد المتكلم: {name} ({channel})"
