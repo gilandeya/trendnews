@@ -547,6 +547,7 @@ def run_video(video_id: str, points: list[tuple[str, int | str]], cfg, engine: F
     report["duration"] = built["duration"]
     report["map"] = built["map"]
     report["host_cluster"] = built["host"]
+    report["read_log"] = built.get("read_log", [])   # S1: كان يُبنى ولا يُكتب فلم نعرف لماذا قلّت الأصوات
     t0 = time.monotonic()
     report["assignments"] = []
     for vid, key in points:
