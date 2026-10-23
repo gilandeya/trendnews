@@ -1,27 +1,27 @@
 {
   "date": "2026-10-23",
-  "models_seconds": 1.79,
+  "models_seconds": 2.74,
   "videos": [
     {
       "video_id": "qB_4P0mUCyI",
       "timings": {
-        "download": 55.67,
-        "frames": 16.54,
-        "faces": 18.55,
-        "cluster": 0.12,
-        "chyron": 13.5,
-        "assign": 1.43
+        "download": 53.12,
+        "frames": 13.83,
+        "faces": 15.41,
+        "cluster": 0.1,
+        "chyron": 28.89,
+        "assign": 1.21
       },
       "counters": {
-        "haiku_calls": 6,
+        "haiku_calls": 11,
         "haiku_errors": [],
         "frames": 1362,
         "faces": 1785,
         "clusters": 14,
         "chyron_changes": 228,
-        "read_targets": 24,
-        "chyron_reads": 24,
-        "reads_with_name": 16
+        "read_targets": 41,
+        "chyron_reads": 41,
+        "reads_with_name": 30
       },
       "download": {
         "size_bytes": 28262595,
@@ -44,8 +44,10 @@
           "count": 614,
           "first": 8.0,
           "last": 2714.0,
-          "name": null,
-          "votes": {},
+          "name": "أيمن سرور",
+          "votes": {
+            "أيمن سرور": 3
+          },
           "is_host": true
         },
         {
@@ -53,9 +55,9 @@
           "count": 405,
           "first": 8.0,
           "last": 2712.0,
-          "name": null,
+          "name": "علي البخيتي",
           "votes": {
-            "علي البخيتي": 1
+            "علي البخيتي": 3
           },
           "is_host": false
         },
@@ -64,9 +66,11 @@
           "count": 571,
           "first": 8.0,
           "last": 2722.0,
-          "name": null,
+          "name": "منيف عماش الحربي",
           "votes": {
-            "منيف عماش الحربي": 1
+            "علي البخيتي": 1,
+            "منيف عماش الحربي": 3,
+            "مليف عفاش الحربي": 1
           },
           "is_host": false
         },
@@ -162,11 +166,258 @@
         }
       ],
       "host_cluster": 1,
+      "read_log": [
+        {
+          "sec": 34.0,
+          "cluster": 0,
+          "name": "النقاش",
+          "kind": "program",
+          "speaker": "unsure"
+        },
+        {
+          "sec": 48.0,
+          "cluster": 8,
+          "name": "السعودية - مصر",
+          "kind": "other",
+          "speaker": "unsure"
+        },
+        {
+          "sec": 50.0,
+          "cluster": 8,
+          "name": "السعودية - مصر",
+          "kind": "other",
+          "speaker": "unsure"
+        },
+        {
+          "sec": 58.0,
+          "cluster": 8,
+          "name": "السعودية - مصر",
+          "kind": "other",
+          "speaker": "unsure"
+        },
+        {
+          "sec": 60.0,
+          "cluster": 8,
+          "name": "النقاش",
+          "kind": "program",
+          "speaker": "no"
+        },
+        {
+          "sec": 66.0,
+          "cluster": 1,
+          "name": "النقاش",
+          "kind": "program",
+          "speaker": "no"
+        },
+        {
+          "sec": 90.0,
+          "cluster": 9,
+          "name": "النقاش",
+          "kind": "program",
+          "speaker": "no"
+        },
+        {
+          "sec": 98.0,
+          "cluster": 9,
+          "name": "النقاش",
+          "kind": "program",
+          "speaker": "no"
+        },
+        {
+          "sec": 104.0,
+          "cluster": 9,
+          "name": "النقاش",
+          "kind": "program",
+          "speaker": "no"
+        },
+        {
+          "sec": 106.0,
+          "cluster": 9,
+          "name": "النقاش",
+          "kind": "program",
+          "speaker": "no"
+        },
+        {
+          "sec": 108.0,
+          "cluster": 9,
+          "name": "النقاش",
+          "kind": "program",
+          "speaker": "no"
+        },
+        {
+          "sec": 116.0,
+          "cluster": 0,
+          "name": "النقاش",
+          "kind": "program",
+          "speaker": "no"
+        },
+        {
+          "sec": 118.0,
+          "cluster": 3,
+          "name": "النقاش",
+          "kind": "program",
+          "speaker": "no"
+        },
+        {
+          "sec": 380.0,
+          "cluster": 0,
+          "name": "باريس",
+          "kind": "other",
+          "speaker": "no"
+        },
+        {
+          "sec": 426.0,
+          "cluster": 1,
+          "name": "أيمن سرور",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 516.0,
+          "cluster": 1,
+          "name": "أيمن سرور",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 590.0,
+          "cluster": 2,
+          "name": "",
+          "kind": "other",
+          "speaker": "unsure"
+        },
+        {
+          "sec": 620.0,
+          "cluster": 3,
+          "name": "علي البخيتي",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 656.0,
+          "cluster": 2,
+          "name": "",
+          "kind": "other",
+          "speaker": "unsure"
+        },
+        {
+          "sec": 796.0,
+          "cluster": 2,
+          "name": "علي البخيتي",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 880.0,
+          "cluster": 2,
+          "name": "علي البخيتي",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 1050.0,
+          "cluster": 3,
+          "name": "منيف عماش الحربي",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 1168.0,
+          "cluster": 3,
+          "name": "منيف عماش الحربي",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 1278.0,
+          "cluster": 1,
+          "name": "",
+          "kind": "other",
+          "speaker": "unsure"
+        },
+        {
+          "sec": 1388.0,
+          "cluster": 1,
+          "name": "أيمن سرور",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 1746.0,
+          "cluster": 3,
+          "name": "منيف عماش الحربي",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 2086.0,
+          "cluster": 1,
+          "name": "",
+          "kind": "program",
+          "speaker": "unsure"
+        },
+        {
+          "sec": 2178.0,
+          "cluster": 2,
+          "name": "علي البخيتي",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 2432.0,
+          "cluster": 3,
+          "name": "مليف عفاش الحربي",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 2654.0,
+          "cluster": 0,
+          "name": "",
+          "kind": "program",
+          "speaker": "unsure"
+        },
+        {
+          "sec": 2682.0,
+          "cluster": 2,
+          "name": "النقاش",
+          "kind": "program",
+          "speaker": "no"
+        },
+        {
+          "sec": 2688.0,
+          "cluster": 1,
+          "name": "النقاش",
+          "kind": "program",
+          "speaker": "no"
+        },
+        {
+          "sec": 2694.0,
+          "cluster": 0,
+          "name": "النقاش",
+          "kind": "program",
+          "speaker": "no"
+        },
+        {
+          "sec": 2720.0,
+          "cluster": 0,
+          "name": "النقاش",
+          "kind": "program",
+          "speaker": "no"
+        },
+        {
+          "sec": 2722.0,
+          "cluster": 3,
+          "name": "النقاش",
+          "kind": "program",
+          "speaker": "no"
+        }
+      ],
       "assignments": [
         {
           "t": 680.0,
           "cluster": 2,
-          "name": null,
+          "name": "علي البخيتي",
           "is_host": false,
           "source": "face",
           "votes": {
@@ -176,7 +427,7 @@
         {
           "t": 944.0,
           "cluster": 2,
-          "name": null,
+          "name": "علي البخيتي",
           "is_host": false,
           "source": "speaker",
           "votes": {
@@ -187,7 +438,7 @@
         {
           "t": 1000.0,
           "cluster": 3,
-          "name": null,
+          "name": "منيف عماش الحربي",
           "is_host": false,
           "source": "speaker",
           "votes": {
@@ -197,30 +448,30 @@
         {
           "t": "host",
           "cluster": 1,
-          "name": null
+          "name": "أيمن سرور"
         }
       ]
     },
     {
       "video_id": "QFMGl1rCLhU",
       "timings": {
-        "download": 44.32,
-        "frames": 17.71,
-        "faces": 23.45,
-        "cluster": 0.29,
-        "chyron": 19.49,
-        "assign": 1.06
+        "download": 65.72,
+        "frames": 14.38,
+        "faces": 19.17,
+        "cluster": 0.23,
+        "chyron": 36.8,
+        "assign": 0.83
       },
       "counters": {
-        "haiku_calls": 8,
+        "haiku_calls": 16,
         "haiku_errors": [],
         "frames": 1589,
         "faces": 2376,
         "clusters": 44,
         "chyron_changes": 157,
-        "read_targets": 32,
-        "chyron_reads": 32,
-        "reads_with_name": 18
+        "read_targets": 64,
+        "chyron_reads": 64,
+        "reads_with_name": 42
       },
       "download": {
         "size_bytes": 28103867,
@@ -243,9 +494,9 @@
           "count": 36,
           "first": 68.0,
           "last": 2994.0,
-          "name": "ثمين الخيطان",
+          "name": null,
           "votes": {
-            "ثمين الخيطان": 2
+            "يثرب القلق": 1
           },
           "is_host": false
         },
@@ -254,9 +505,9 @@
           "count": 86,
           "first": 82.0,
           "last": 3070.0,
-          "name": null,
+          "name": "السيسي",
           "votes": {
-            "السيسي": 1
+            "السيسي": 3
           },
           "is_host": false
         },
@@ -267,7 +518,7 @@
           "last": 656.0,
           "name": "د. عبد القوي المخلافي",
           "votes": {
-            "د. عبد القوي المخلافي": 2
+            "د. عبد القوي المخلافي": 6
           },
           "is_host": false
         },
@@ -321,9 +572,9 @@
           "count": 489,
           "first": 696.0,
           "last": 1672.0,
-          "name": null,
+          "name": "مصطفى بكري",
           "votes": {
-            "مصطفى بكري": 1
+            "مصطفى بكري": 6
           },
           "is_host": false
         },
@@ -359,9 +610,9 @@
           "count": 261,
           "first": 1732.0,
           "last": 2252.0,
-          "name": "عبد السلام برواري",
+          "name": "عبد السلام بروازي",
           "votes": {
-            "عبد السلام برواري": 2
+            "عبد السلام بروازي": 6
           },
           "is_host": false
         },
@@ -498,7 +749,7 @@
           "last": 3090.0,
           "name": "سموتريتش",
           "votes": {
-            "سموتريتش": 4
+            "سموتريتش": 8
           },
           "is_host": false
         },
@@ -534,9 +785,11 @@
           "count": 352,
           "first": 2388.0,
           "last": 3162.0,
-          "name": "اوري أفيتار",
+          "name": null,
           "votes": {
-            "اوري أفيتار": 2
+            "رون أيختر": 2,
+            "أون أختار": 2,
+            "عون أختيار": 2
           },
           "is_host": false
         },
@@ -641,11 +894,321 @@
         }
       ],
       "host_cluster": 0,
+      "read_log": [
+        {
+          "sec": 14.0,
+          "cluster": 0,
+          "name": "اليمن",
+          "kind": "other",
+          "speaker": "no"
+        },
+        {
+          "sec": 68.0,
+          "cluster": 1,
+          "name": "اليمن",
+          "kind": "other",
+          "speaker": "no"
+        },
+        {
+          "sec": 74.0,
+          "cluster": 1,
+          "name": "اليمن",
+          "kind": "other",
+          "speaker": "no"
+        },
+        {
+          "sec": 144.0,
+          "cluster": 1,
+          "name": "يثرب القلق",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 194.0,
+          "cluster": 3,
+          "name": "",
+          "kind": "other",
+          "speaker": "unsure"
+        },
+        {
+          "sec": 242.0,
+          "cluster": 3,
+          "name": "د. عبد القوي المخلافي",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 288.0,
+          "cluster": 3,
+          "name": "د. عبد القوي المخلافي",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 334.0,
+          "cluster": 3,
+          "name": "د. عبد القوي المخلافي",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 444.0,
+          "cluster": 3,
+          "name": "د. عبد القوي المخلافي",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 560.0,
+          "cluster": 3,
+          "name": "د. عبد القوي المخلافي",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 608.0,
+          "cluster": 3,
+          "name": "د. عبد القوي المخلافي",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 788.0,
+          "cluster": 9,
+          "name": "مصطفى بكري",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 842.0,
+          "cluster": 9,
+          "name": "مصطفى بكري",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 908.0,
+          "cluster": 9,
+          "name": "مصطفى بكري",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 972.0,
+          "cluster": 9,
+          "name": "مصطفى بكري",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 1122.0,
+          "cluster": 9,
+          "name": "مصطفى بكري",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 1244.0,
+          "cluster": 9,
+          "name": "مصطفى بكري",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 1762.0,
+          "cluster": 13,
+          "name": "سفير إيران: تم الاتفاق مع العراق على إخراج أو تسليم المعارضة الإيرانية في كردستان",
+          "kind": "other",
+          "speaker": "no"
+        },
+        {
+          "sec": 1808.0,
+          "cluster": 13,
+          "name": "عبد السلام بروازي",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 1910.0,
+          "cluster": 13,
+          "name": "الحزب الديمقراطي الكردستاني الايراني: لم نشارك في اي عمليات ضد إيران",
+          "kind": "other",
+          "speaker": "unsure"
+        },
+        {
+          "sec": 1974.0,
+          "cluster": 13,
+          "name": "عبد السلام بروازي",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 2060.0,
+          "cluster": 13,
+          "name": "عبد السلام بروازي",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 2156.0,
+          "cluster": 13,
+          "name": "عبد السلام بروازي",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 2212.0,
+          "cluster": 13,
+          "name": "عبد السلام بروازي",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 2252.0,
+          "cluster": 13,
+          "name": "عبد السلام بروازي",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 2346.0,
+          "cluster": 0,
+          "name": "سموتريتش",
+          "kind": "other",
+          "speaker": "no"
+        },
+        {
+          "sec": 2354.0,
+          "cluster": 28,
+          "name": "سموتريتش",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 2356.0,
+          "cluster": 28,
+          "name": "سموتريتش",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 2358.0,
+          "cluster": 28,
+          "name": "سموتريتش",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 2362.0,
+          "cluster": 28,
+          "name": "سموتريتش",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 2366.0,
+          "cluster": 28,
+          "name": "سموتريتش",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 2368.0,
+          "cluster": 28,
+          "name": "سموتريتش",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 2370.0,
+          "cluster": 28,
+          "name": "سموتريتش",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 2372.0,
+          "cluster": 28,
+          "name": "سموتريتش",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 2412.0,
+          "cluster": 2,
+          "name": "السيسي",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 2422.0,
+          "cluster": 2,
+          "name": "السيسي",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 2438.0,
+          "cluster": 2,
+          "name": "السيسي",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 2472.0,
+          "cluster": 32,
+          "name": "رون أيختر",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 2486.0,
+          "cluster": 32,
+          "name": "رون أيختر",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 2512.0,
+          "cluster": 32,
+          "name": "",
+          "kind": "other",
+          "speaker": "unsure"
+        },
+        {
+          "sec": 2828.0,
+          "cluster": 32,
+          "name": "أون أختار",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 3002.0,
+          "cluster": 32,
+          "name": "أون أختار",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 3126.0,
+          "cluster": 32,
+          "name": "عون أختيار",
+          "kind": "person",
+          "speaker": "yes"
+        },
+        {
+          "sec": 3140.0,
+          "cluster": 32,
+          "name": "عون أختيار",
+          "kind": "person",
+          "speaker": "yes"
+        }
+      ],
       "assignments": [
         {
           "t": 723.0,
           "cluster": 9,
-          "name": null,
+          "name": "مصطفى بكري",
           "is_host": false,
           "source": "speaker",
           "votes": {
@@ -655,7 +1218,7 @@
         {
           "t": 1211.0,
           "cluster": 9,
-          "name": null,
+          "name": "مصطفى بكري",
           "is_host": false,
           "source": "speaker",
           "votes": {
