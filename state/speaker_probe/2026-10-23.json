@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-23",
+  "models_seconds": 2.09,
+  "videos": [
+    {
+      "video_id": "qB_4P0mUCyI",
+      "timings": {},
+      "counters": {
+        "haiku_calls": 0,
+        "haiku_errors": []
+      },
+      "error": "RuntimeError: 'NoneType' object is not callable"
+    },
+    {
+      "video_id": "QFMGl1rCLhU",
+      "timings": {},
+      "counters": {
+        "haiku_calls": 0,
+        "haiku_errors": []
+      },
+      "error": "RuntimeError: 'NoneType' object is not callable"
+    }
+  ]
+}
