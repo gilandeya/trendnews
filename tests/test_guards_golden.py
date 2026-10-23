@@ -20854,6 +20854,14 @@ def test_speaker_map_s0_guards() -> None:
         except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
             check(name + ": استثناء", False, repr(exc))
 
+    def g641b():
+        # تنزيل الحلقة كاملة: لا مفتاح download_ranges (قيمته None يرفعها yt-dlp: «'NoneType' object is not callable»)
+        from pathlib import Path
+        opts = sm.episode_opts(Path("x/v.mp4"), 240, None, None, lambda d: None)
+        check("g641b: لا download_ranges في خيارات الحلقة", "download_ranges" not in opts, sorted(opts))
+        check("g641b: صورة فقط بالارتفاع", opts["format"].startswith("bv*[height<=240]") and "merge_output_format" not in opts, opts["format"])
+    guarded("g641b", g641b)
+
     def read(frame, name, kind="person", speaker="yes"):
         return dict(frame=frame, name=name, name_kind=kind, name_is_speaker=speaker)
 

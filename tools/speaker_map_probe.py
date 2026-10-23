@@ -180,6 +180,17 @@ def proxy_url() -> str | None:
     return cfg.url if cfg is not None else None
 
 
+def episode_opts(out: Path, height: int, proxy, capture, hook) -> dict:
+    """خيارات yt-dlp لتنزيل الحلقة كاملة صورةً فقط، مبنية على reel_clips._ydl_opts نفسها. download_ranges يُحذف لا يُضبط على None:
+    yt-dlp يستدعي القيمة إن وُجد المفتاح، فـNone يرفع «'NoneType' object is not callable» (أول تشغيلة حقيقية لـS0 فشلت به)."""
+    from src import reel_clips
+    opts = reel_clips._ydl_opts(out, height, None, False, proxy, capture, hook)
+    opts.pop("download_ranges", None)
+    opts["format"] = f"bv*[height<={height}]/b[height<={height}]/worst"
+    opts.pop("merge_output_format", None)
+    return opts
+
+
 def download_episode(video_id: str, height: int, out_dir: Path, proxy: str | None, retries: int = 2,
                      wait: float = 20.0) -> dict:
     """الحلقة كاملة صورةً فقط (الصوت لا يلزم الوجوه) بآلة التنزيل القائمة (yt-dlp عبر البروكسي، reel_clips._ydl_opts)."""
@@ -197,9 +208,7 @@ def download_episode(video_id: str, height: int, out_dir: Path, proxy: str | Non
             capture.note_format(d.get("info_dict"))
 
         out = out_dir / f"{video_id}.mp4"
-        opts = reel_clips._ydl_opts(out, height, None, False, proxy, capture, hook)
-        opts["format"] = f"bv*[height<={height}]/b[height<={height}]/worst"
-        opts.pop("merge_output_format", None)
+        opts = episode_opts(out, height, proxy, capture, hook)
         try:
             with yt_dlp.YoutubeDL(opts) as ydl:
                 ydl.download([f"https://www.youtube.com/watch?v={video_id}"])
