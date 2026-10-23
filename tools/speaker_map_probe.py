@@ -468,7 +468,10 @@ def build_map(video: Path, work: Path, cfg, engine: FaceEngine, timings: dict, c
     for c in clusters:
         v = votes.get(c["id"], {"name": None, "votes": {}})
         rows.append({**c, "name": v["name"], "votes": v["votes"], "is_host": c["id"] == host})
-    return {"duration": duration, "map": rows, "host": host, "centroids": centroids, "reads": len(reads)}
+    return {"duration": duration, "map": rows, "host": host, "centroids": centroids, "reads": len(reads),
+            # تفصيل القراءات للتشخيص (S1): أي لقطة قُرئت لأي مجموعة وماذا قال النموذج — بلا صور
+            "read_log": [{"sec": r["frame"] * step, "cluster": r.get("cluster"), "name": r.get("name"),
+                          "kind": r.get("name_kind"), "speaker": r.get("name_is_speaker")} for r in reads]}
 
 
 def assign_at(video: Path, work: Path, t: float, built: dict, cfg, engine: FaceEngine) -> dict:
