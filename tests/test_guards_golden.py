@@ -20765,6 +20765,25 @@ def test_reel_roster_cache_q16_guards() -> None:
         check("g632: سطر الضيوف يُكتب", any(n.startswith("👥 ضيوف") for n in notes), notes)
     guarded("g632", g632)
 
+    def g632b():
+        # المحفوظة تحكم الشريط ولو لم يُجلب نص الفيديو في هذه التشغيلة، ولا تُمحى؛ وقائمة فيديو غائب تُنقل كما هي
+        fn, calls = counting([])
+        saved = dict(fx["roster47"], other_vid=[dict(name_arabic="س", name_original="S", role_arabic="", is_host=False)])
+        script = copy.deepcopy(fx["script"])
+        clips = {i: dict(file="c%d" % i, seconds=8.0, video_id=vid if i in (4, 8, 9) else "o%d" % i, transcript=[])
+                 for i in (3, 4, 5, 7, 8, 9)}
+        chy = [fr("علي البخيتي", "Ali Al-Bukhaiti", "no")] * 2
+        deps = reel_render.Deps(read_chyron=lambda f, c: chy if f == "c8" else [], sleep=lambda s: None, download_clip=no_download)
+        deps.read_roster, deps.attribute_clips = fn, (lambda ros, items, c: [])
+        speakers, notes, dropped, meta = dict(), [], [], dict(prior_roster=saved)
+        reel_render._prune_mismatched(script, clips, cfg, deps, speakers, notes, dropped, meta=meta)
+        check("g632b: بلا نص: المحفوظة تُستعمل بلا نداء ولا سطر فشل",
+              calls["n"] == 0 and vid in (meta.get("roster") or {}) and vid not in (meta.get("roster_errors") or {}),
+              (calls, meta.get("roster_errors")))
+        check("g632b: البخيتي مقبول ضيفًا", speakers.get("8", {}).get("roster_override") == "guest", speakers.get("8"))
+        check("g632b: قائمة فيديو غائب تُنقل", "other_vid" in (meta.get("roster") or {}), list((meta.get("roster") or {}).keys()))
+    guarded("g632b", g632b)
+
     def g633():
         fn, calls = counting([])
         sp, notes, meta = prune(dict(), fn)

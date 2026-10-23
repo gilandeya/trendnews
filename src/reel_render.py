@@ -4151,13 +4151,25 @@ def _speaker_check(script: dict, order: list, clips: dict, cfg, deps: Deps, note
                 by_vid.setdefault(c.get("video_id"), []).append(i)
             elif c and c.get("video_id"):
                 textless.setdefault(c.get("video_id"), i)
-    # Q16: فيديو مقاطعه في لوحة كلها بلا نص مجلوب لا قائمة له، وسببه يُحفظ ويُرى بدل صمت
-    for vid, i in textless.items():
-        if vid not in by_vid:
-            _roster_failed(meta, notes, t, vid, "no_transcript", script["scenes"][i].get("channel_display") or "", cfg)
     prior = meta.get("prior_roster") or {}
     rebuild = bool(meta.get("rebuild"))
     rosters: dict = {}
+    # Q16: فيديو مقاطعه في لوحة كلها بلا نص مجلوب: القائمة المحفوظة تبقى تحكم الشريط (Q15) ولو تعذّر الإسناد من النص،
+    # فتعثّر جلب النص في تشغيلة لا يمحو ما عُرف عن الحلقة؛ وبلا قائمة محفوظة يُحفظ السبب ويُرى بدل صمت
+    for vid, i in textless.items():
+        if vid in by_vid:
+            continue
+        if prior.get(vid) and not rebuild:
+            rosters[vid] = prior[vid]
+            meta.setdefault("roster", {})[vid] = prior[vid]
+            meta.setdefault("roster_source", {})[vid] = "saved"
+        else:
+            _roster_failed(meta, notes, t, vid, "no_transcript", script["scenes"][i].get("channel_display") or "", cfg)
+    # قائمة محفوظة لفيديو لم يدخل هذا التركيب أصلًا تُنقل كما هي: مسح RENDER_KEYS أول _render كان سيضيّعها
+    if not rebuild:
+        for vid, roster in prior.items():
+            if roster and vid not in by_vid and vid not in textless:
+                meta.setdefault("roster", {}).setdefault(vid, roster)
     verdicts: dict = {}
     before = float(scfg.get("before_seconds", 240))
     for vid, idxs in by_vid.items():
