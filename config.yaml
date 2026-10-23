@@ -3558,7 +3558,8 @@ speaker_map:
   assign_window: 6         # ثوانٍ بعد الطابع لاختيار الوجه المتكلم
   assign_fps: 4            # لقطات الإسناد في الثانية؛ speaker_track يقارن لقطات متتالية قريبة
   models:
-    # نموذجا opencv_zoo يُنزَّلان عند التشغيل إلى مجلد مؤقت ولا يُودَعان. ref يُثبَّت على commit بعد أول تشغيل ناجح
-    ref: main
+    # نموذجا opencv_zoo يُنزَّلان عند التشغيل إلى مجلد مؤقت ولا يُودَعان. ref مثبّت على commit (HEAD يوم 2026-10-23) كي لا يتغيّر
+    # النموذج بين تشغيلتين فتتغيّر البصمات والعتبة معها
+    ref: 48b10fa505aeb51fbd127fc60a5c660040e823b7
     yunet: models/face_detection_yunet/face_detection_yunet_2023mar.onnx
     sface: models/face_recognition_sface/face_recognition_sface_2021dec.onnx
