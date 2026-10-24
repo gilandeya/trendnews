@@ -2622,4 +2622,8 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 - **S6 — اسم أول مشترك ليس الشخص نفسه:** `speaker_matches` تعيد False حين يكون الاسمان كلاهما من كلمتين فأكثر ولا يشتركان إلا في الكلمة الأولى
   («علي البخيتي»/«علي صدرزاده»، «عبد …»/«عبد …»)؛ الاسم الواحد بالقاعدة القديمة. حادثة الإصدار 51: حارس التكرار في `_relabel` حذف تصحيح الخريطة الصحيح
   إلى البخيتي بسببها. `render_version` = 52؛ g654.
+- **S9 — خريطة متناقضة لا تحسم:** `_drop_inconsistent` في `_map_check`: مجموعة وجه أُسند إليها أكثر من `speaker_map.render_max_mismatch` (1) قائلًا
+  مختلفًا لا يطابق اسمها ← لا حكم للخريطة في ذلك الفيديو كله، `render_map_errors[vid] = "inconsistent"` وسطر `comment_map_inconsistent`، وتبقى حرّاس Q10–Q16.
+  ومجموعة المقدّم لا تحسم حذفًا إلا إن قُرئ اسمه. حادثة 9247ad6487c3: ستة ضيوف في حلقتي الجزيرة أُسندوا إلى «المقدّم» بلا اسم فحُذفوا وفشل الريل.
+  `render_version` = 54؛ g660–g662.
 - **الإعداد:** `speaker_map.render_enabled` (false ← كما قبل S4). `opencv-python-headless` مثبّت أصلًا في `requirements.txt` (تكراره بقيد آخر في `requirements-reel.txt` أفشل التثبيت). الكلفة نحو دقيقتين و10–16 نداء Haiku لكل فيديو أول مرة.

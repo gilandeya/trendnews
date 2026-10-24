@@ -21212,3 +21212,55 @@ def test_reel_place_file_s8_guards() -> None:
         g659()
     except Exception as exc:  # noqa: BLE001
         check("g659: استثناء", False, repr(exc))
+
+
+def test_reel_map_consistency_s9_guards() -> None:
+    """S9 (g660–g662): خريطة أسندت عدة قائلين مختلفين إلى وجه واحد لا تحسم شيئًا في ذلك الفيديو، والمقدّم بلا اسم لا يحسم حذفًا. الحادثة
+    (الريل 9247ad6487c3): ستة اقتباسات لستة ضيوف في حلقتي الجزيرة أُسندت إلى «المقدّم» بلا اسم فحُذفت كلها وفشل التركيب. الخريطة مزيَّفة."""
+    from src import reel_render
+
+    cfg = load_config()
+    names = ["الدكتور عمرو حمزاوي، مدير برنامج الشرق الأوسط", "الدكتور صالح المطيري، رئيس مركز المدار",
+             "الدكتور محمد العريمي، كاتب وباحث"]
+
+    def run(host_name, assign_clusters, speakers=names):
+        saved = {"map": [{"id": 0, "count": 852, "name": host_name, "is_host": True},
+                         {"id": 5, "count": 300, "name": "عمرو حمزاوي", "is_host": False}],
+                 "host": 0, "centroids": {"0": [1.0], "5": [1.0]}}
+        script = {"version": 2, "scenes": [{"kind": "clip", "q": 0, "point_id": "p%d" % k, "speaker_text": sp,
+                                            "channel_display": "الجزيرة"} for k, sp in enumerate(speakers)]}
+        clips = {k: dict(file="c%d" % k, seconds=8.0, video_id="v", dstart=100.0, quote_start=104.0, quote_end=110.0)
+                 for k in range(len(speakers))}
+        deps = reel_render.Deps(read_chyron=lambda f, c: [], sleep=lambda s_: None)
+        deps.build_speaker_map = lambda vid, c, w: saved
+        deps.assign_speaker = lambda sv, f, off, ln, c: {"cluster": assign_clusters[int(f[1:])], "share": 1.0}
+        notes, meta = [], {}
+        out = reel_render._map_check(script, clips, cfg, deps, notes, meta)
+        return out, notes, meta
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001
+            check(name + ": استثناء", False, repr(exc))
+
+    def g660():
+        out, notes, meta = run("مذيع الجزيرة", [0, 0, 0])
+        check("g660: ثلاثة قائلين مختلفين على وجه واحد ← لا حكم للخريطة", out == {}, out)
+        check("g660: السبب محفوظ وسطر ⚠️", meta.get("map_errors", {}).get("v") == "inconsistent"
+              and any("أسندت 3 قائلين" in n for n in notes), (meta.get("map_errors"), notes))
+    guarded("g660", g660)
+
+    def g661():
+        out, _, _ = run(None, [0], speakers=names[:1])
+        check("g661: المقدّم بلا اسم مقروء لا يحسم حذفًا", out == {}, out)
+        out, _, _ = run("مذيع الجزيرة", [0], speakers=names[:1])
+        check("g661: المقدّم المسمّى يبقى يحسم", 0 in out and out[0]["is_host"], out)
+    guarded("g661", g661)
+
+    def g662():
+        out, _, meta = run("مذيع الجزيرة", [5, 5], speakers=[names[0], names[1]])
+        check("g662: قائل واحد يخالف اسم المجموعة (خطأ الاستخراج) ← تبقى الخريطة تحسم", set(out) == {0, 1}
+              and "map_errors" not in meta, (out, meta))
+        check("g662: render_version >= 54", int(cfg.path("reel.render.version")) >= 54, cfg.path("reel.render.version"))
+    guarded("g662", g662)

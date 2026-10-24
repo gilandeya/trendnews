@@ -4498,9 +4498,38 @@ def _map_check(script: dict, clips: dict, cfg, deps: Deps, notes: list, meta: di
             entry = {"point_id": script["scenes"][i].get("point_id", ""), "cluster": a["cluster"], "name": row.get("name"),
                      "is_host": bool(row.get("is_host")), "share": a.get("share"), "applied": False}
             meta.setdefault("map_assign", []).append(entry)
-            if float(a.get("share") or 0) >= min_share and (entry["name"] or entry["is_host"]):
-                out[i] = {**entry, "host_name": next((r.get("name") for r in saved["map"] if r.get("is_host")), None)}
+            host_name = next((r.get("name") for r in saved["map"] if r.get("is_host")), None)
+            # S9: مقدّم بلا اسم مقروء لا يحسم حذفًا — الحذف لأن «المتكلم هو المقدّم» حكمٌ بالغياب، وبلا اسم لا نعرف حتى أننا ميّزناه
+            if float(a.get("share") or 0) >= min_share and (entry["name"] or (entry["is_host"] and host_name)):
+                out[i] = {**entry, "host_name": host_name}
+        _drop_inconsistent(out, items, vid, script, cfg, notes, meta, channel)
     return out
+
+
+def _drop_inconsistent(out: dict, items: list, vid: str, script: dict, cfg, notes: list, meta: dict, channel: str) -> None:
+    """S9: مجموعة وجه واحدة أُسند إليها أكثر من speaker_map.render_max_mismatch قائلًا مختلفًا لا يطابق اسمها خريطةٌ أخطأت في هذا الفيديو
+    (حادثة 9247ad6487c3: ستة اقتباسات لستة ضيوف في حلقتي الجزيرة أُسندت كلها إلى «المقدّم» فحُذفت كلها وفشل الريل). لا تحسم الخريطة شيئًا في
+    هذا الفيديو وتبقى حرّاس Q10–Q16. قائل واحد مخالف يبقى مقبولًا: هو بالضبط خطأ الاستخراج الذي وُجدت الخريطة لتصحيحه (البخيتي/الحربي)."""
+    limit = int(cfg.path("speaker_map.render_max_mismatch", 1))
+    by_cluster: dict = {}
+    for i, _ in items:
+        v = out.get(i)
+        if v is None:
+            continue
+        scene = script["scenes"][i]
+        spoken = scene.get("speaker_text") or scene.get("speaker_name") or ""
+        if not spoken or (v.get("name") and speaker_matches(v["name"], "", spoken, cfg) is True):
+            continue
+        group = by_cluster.setdefault(v["cluster"], [])
+        if not any(speaker_matches(other, "", spoken, cfg) is True or other == spoken for other in group):
+            group.append(spoken)
+    if not any(len(g) > limit for g in by_cluster.values()):
+        return
+    for i, _ in items:
+        out.pop(i, None)
+    meta.setdefault("map_errors", {})[vid] = "inconsistent"
+    notes.append(cfg.path("reel.render.texts.comment_map_inconsistent").format(
+        channel=channel, n=max(len(g) for g in by_cluster.values())))
 
 
 def _apply_map(i: int, script: dict, run: list, live: dict, speakers: dict, verdict: dict, roster: list, cfg, notes: list,
