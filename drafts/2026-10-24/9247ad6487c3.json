@@ -1,7 +1,7 @@
 {
   "id": "9247ad6487c3",
   "created_at": "2026-10-24T06:14:31.197846+00:00",
-  "status": "pending",
+  "status": "approved_script",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -599,5 +599,13 @@
   "has_photo": false,
   "has_news_photo": true,
   "review_issue": 1709,
-  "stage2_issue": 1709
+  "stage2_issue": 1709,
+  "render_status": "queued",
+  "approved_script_at": "2026-10-24T06:23:19.375297+00:00",
+  "editor_override": {
+    "at": "2026-10-24T06:23:19.375250+00:00",
+    "reasons": [
+      "المتحدث — بحسب نقطة المصدر — يقصد الانتخابات الأميركية، لكن وضع المقطع بين سطر السياق ومقطع «الانتخابات الإسرائيلية في ٢٧ أكتوبر» يوحي للمشاهد بأنه يتحدث عن الانتخابات الإسرائيلية؛ يلزم توضيح أي انتخابات أو إعادة ترتيب المشهد (المقطع للقراءة فقط)."
+    ]
+  }
 }
