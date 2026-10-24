@@ -88,8 +88,11 @@
       "dropped_reason": null,
       "id": "f37b257b3a36",
       "created_at": "2026-10-24T04:02:49.839016+00:00",
-      "selection_status": "pending",
-      "selection_issue": 1707
+      "selection_status": "attempted",
+      "selection_issue": 1707,
+      "selected_formats": [
+        "reel"
+      ]
     },
     {
       "title": "توقع إسقاط النظام الإيراني بعد الانتخابات الإسرائيلية",
@@ -117,7 +120,7 @@
       "dropped_reason": null,
       "id": "0a56be7c874c",
       "created_at": "2026-10-24T04:02:49.839016+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1707
     },
     {
@@ -145,7 +148,7 @@
       "dropped_reason": null,
       "id": "d63c28a0fb4a",
       "created_at": "2026-10-24T04:02:49.839016+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1707
     },
     {
@@ -172,7 +175,7 @@
       "dropped_reason": null,
       "id": "377aee23588b",
       "created_at": "2026-10-24T04:02:49.839016+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1707
     }
   ],

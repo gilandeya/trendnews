@@ -1,0 +1,557 @@
+{
+  "id": "5f1521fdefb8",
+  "created_at": "2026-10-24T09:18:06.645428+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "الدبلوماسية مقابل الحرب مع إيران",
+  "tier": 3,
+  "blocs": [
+    "arabic",
+    "israeli",
+    "turkish"
+  ],
+  "channels": [
+    "CNN Türk",
+    "ערוץ 14",
+    "الجزيرة"
+  ],
+  "agreement": "cross_source",
+  "event": "تقييم فرص الدبلوماسية مقابل احتمال ضربة عسكرية أمريكية إسرائيلية لإيران",
+  "warnings": [],
+  "run_date": "2026-10-24",
+  "arabic": {
+    "post_title": "الدبلوماسية مقابل الحرب مع إيران",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "CNN Türk",
+      "ערוץ 14",
+      "الجزيرة"
+    ]
+  },
+  "score": 10,
+  "source_videos": [],
+  "topic_id": "f37b257b3a36",
+  "topic_date": "2026-10-24",
+  "script": {
+    "version": 2,
+    "narrator": "male",
+    "title": "هل بقيت مساحة للدبلوماسية مع إيران أم الحرب قادمة؟",
+    "question": "ما الذي يحسم المسار: صناديق الاقتراع أم ساحة المعركة؟",
+    "event": "تقييم فرص الدبلوماسية مقابل احتمال ضربة عسكرية أمريكية إسرائيلية لإيران",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "هل بقيت مساحة للدبلوماسية مع إيران أم الحرب قادمة؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "قال نتنياهو إن الحكومة المقبلة ستكمل إسقاط النظام الإيراني. إسرائيل تنتخب في 27 أكتوبر، والانتخابات الأمريكية في 3 نوفمبر."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "core",
+        "q": 0,
+        "text": "أين وصلت فرص الحل الدبلوماسي مع إيران؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "9d90a43bdc61",
+        "q": 0,
+        "stance": "الوساطات وصلت نقطة صفرية ولا مساحة للدبلوماسية",
+        "angle": "انسداد مسار الوساطات",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=EAPBzjb8yKA",
+        "start": 1274.0,
+        "end": 1280.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "وصلت إلى نقطة صفرية",
+        "quote_original": "اعتقد بانها وصلت الى نقطه صفريه",
+        "language": "ar",
+        "video_published": "2026-10-21"
+      },
+      {
+        "kind": "clip",
+        "point_id": "f8a918c2b259",
+        "q": 0,
+        "stance": "المعادلة الصفرية تقود إلى عمليات عسكرية",
+        "angle": "عودة خطاب إسقاط النظام والخيار العسكري",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=EAPBzjb8yKA",
+        "start": 1984.0,
+        "end": 1990.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "معادلة صفرية ستقود على الأرجح إلى عمليات عسكرية",
+        "quote_original": "معادله سفريه ستقود على الارجح الى عمليات عسكريه",
+        "language": "ar",
+        "video_published": "2026-10-21"
+      },
+      {
+        "kind": "clip",
+        "point_id": "815c4bcccff6",
+        "q": 0,
+        "stance": "ترامب يقرر التوقيت والحرب ليست وشيكة",
+        "angle": "القرار أمريكي لا إسرائيلي",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=2gRrOV1Lz_Y",
+        "start": 163.0,
+        "end": 169.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "الرئيس ترامب هو الذي يقرر متى يقع الهجوم ومتى يكون التصعيد",
+        "quote_original": "الرئيس ترامب هو الذي يقرر متى يحدث الهجوم",
+        "language": "ar",
+        "video_published": "2026-10-22"
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "why_now",
+        "q": 1,
+        "text": "لماذا يتصاعد الحديث عن ضربة في هذا التوقيت؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "11e0863296e6",
+        "q": 1,
+        "stance": "نتنياهو أراد عملًا قبل الانتخابات والجيش يعارض التوقيت",
+        "angle": "خلاف داخلي إسرائيلي على التوقيت",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=2gRrOV1Lz_Y",
+        "start": 201.0,
+        "end": 207.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "كان نتنياهو يريد هذا العمل في بداية أكتوبر ضد إيران",
+        "quote_original": "نتنياهو كان يريد هذا العمل في بدايه اكتوبر ايه ضد ايران",
+        "language": "ar",
+        "video_published": "2026-10-22"
+      },
+      {
+        "kind": "clip",
+        "point_id": "22f3edaa9df5",
+        "q": 1,
+        "stance": "الحكومة المقبلة ستُسقط النظام الإيراني",
+        "angle": "ربط رئيس الوزراء المهمة بصندوق الاقتراع",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=CvIVGASohcU",
+        "start": 1080.0,
+        "end": 1086.0,
+        "speaker_name": "بنيامين نتنياهو",
+        "speaker_role": "رئيس وزراء إسرائيل",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "בנימין נתניהו",
+        "channel_display": "القناة 14",
+        "channel_original": "ערוץ 14",
+        "quote_arabic": "من سيكمل العشرة في المئة الأخيرة",
+        "quote_original": "מי ישלים את ה10% האחרונים",
+        "language": "he",
+        "video_published": "2026-10-22"
+      },
+      {
+        "kind": "clip",
+        "point_id": "c38460258248",
+        "q": 1,
+        "stance": "تصعيد متزايد يرافق الانتخابات وأدوات غير دولتية",
+        "angle": "أدوات غير دولتية في التصعيد",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=4WIsHeFk_ag",
+        "start": 2858.0,
+        "end": 2864.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "سي إن إن ترك",
+        "channel_original": "CNN Türk",
+        "quote_arabic": "الانتخابات الإسرائيلية في ٢٧ أكتوبر على ما يبدو",
+        "quote_original": "27 Ekim'de galiba seçim e İsrail'de",
+        "language": "tr",
+        "video_published": "2026-10-22"
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "where_next",
+        "q": 2,
+        "text": "ماذا بعد موعد الانتخابات إن وقعت الضربة؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "17f6dcd25fa6",
+        "q": 2,
+        "stance": "التصعيد مرجّح بعد الثالث من نوفمبر",
+        "angle": "تحديد نافذة زمنية للتصعيد",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=2gRrOV1Lz_Y",
+        "start": 349.0,
+        "end": 355.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "التصعيد العسكري مرجّح أن يكون بعد الثالث من نوفمبر",
+        "quote_original": "التصعيد العسكري هو من المرجح ان يكون ما بعد الثالث من نوفمبر",
+        "language": "ar",
+        "video_published": "2026-10-22"
+      },
+      {
+        "kind": "clip",
+        "point_id": "1a207306f444",
+        "q": 2,
+        "stance": "الرد الإيراني شامل والحرب تتوسع جغرافيًا",
+        "angle": "اتساع رقعة الحرب والرد الإيراني",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=EAPBzjb8yKA",
+        "start": 2899.0,
+        "end": 2905.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "الحرب متى ما وقعت، لن تسكت إيران، وستكون حربًا شاملة",
+        "quote_original": "الحرب متى ما تمت ايران لن تسكت ستكون حرب شامله",
+        "language": "ar",
+        "video_published": "2026-10-21"
+      },
+      {
+        "kind": "question",
+        "text": "ما الذي يحسم المسار: صناديق الاقتراع أم ساحة المعركة؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": []
+  },
+  "headlines": [
+    "هل وصلت الوساطات مع إيران إلى نقطة صفرية فعلًا؟",
+    "ضيف على الجزيرة: معادلة صفرية ستقود على الأرجح إلى عمليات عسكرية",
+    "ضيف على الجزيرة: التصعيد العسكري مرجّح أن يكون بعد الثالث من نوفمبر"
+  ],
+  "headline_selected": 0,
+  "editor_review": {
+    "at": "2026-10-24T09:18:35.431141+00:00",
+    "applied": [
+      {
+        "category": "headline_overclaims",
+        "severity": "high",
+        "location": "headline_3",
+        "original": "ترجيح تصعيد عسكري بعد الثالث من نوفمبر مع تزايد المؤشرات",
+        "fix": "ضيف على الجزيرة: التصعيد العسكري مرجّح بعد الثالث من نوفمبر",
+        "note": "العنوان يقدّم توقع ضيف واحد في الجزيرة (التصعيد بعد 3 نوفمبر وتزايد المؤشرات) بوصفه خلاصة مؤكدة بلا نسبة إلى قائله، بينما المصادر تتحدث عن خطط محتملة لم يوافق عليها ترامب بعد.",
+        "sources": [
+          "https://www.washingtontimes.com/news/2026/oct/22/us-israel-drawing-attack-plans-iran-midterms-report/",
+          "https://www.wbur.org/hereandnow/2026/10/22/iran-planned-strike"
+        ]
+      },
+      {
+        "category": "vague_attribution",
+        "severity": "low",
+        "location": "headline_2",
+        "original": "المعادلة الصفرية قد تقود إلى عمليات عسكرية بحسب بعض المحللين",
+        "fix": "ضيف على الجزيرة: معادلة صفرية ستقود على الأرجح إلى عمليات عسكرية",
+        "note": "«بحسب بعض المحللين» نسبة مجهولة؛ القول صادر عن ضيف واحد على الجزيرة في المقطع المرفق، فالأولى نسبته إلى متحدث المقطع كما في الشريط السفلي.",
+        "sources": []
+      },
+      {
+        "category": "broken_quote",
+        "severity": "low",
+        "location": "headline_3",
+        "original": "ضيف على الجزيرة: التصعيد العسكري مرجّح بعد الثالث من نوفمبر",
+        "fix": "ضيف على الجزيرة: التصعيد العسكري مرجّح أن يكون بعد الثالث من نوفمبر",
+        "note": "العنوان يقدَّم كاقتباس بعد النقطتين لكنه يختصر نص المقطع «التصعيد العسكري مرجّح أن يكون بعد الثالث من نوفمبر»؛ يُستحسن مطابقة لفظ المصدر.",
+        "sources": []
+      }
+    ],
+    "notes": [
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "قال نتنياهو إن الحكومة المقبلة ستكمل إسقاط النظام الإيراني.",
+        "fix": "توقّع نتنياهو في 22 أكتوبر أن تكمل الحكومة المقبلة إسقاط النظام الإيراني. إسرائيل تنتخب في 27 أكتوبر، والانتخابات الأمريكية في 3 نوفمبر.",
+        "note": "مشهد السياق لا يذكر متى صدر كلام نتنياهو (المقطع منشور في 22 أكتوبر)، كما أن صيغة «قال… ستكمل» تجزم بأكثر مما في النقطة المصدرية التي تقول «توقّع». الإصلاح المقترح داخل حدود السياق: 22 كلمة وجملتان وبلا ذكر السنة.",
+        "sources": [
+          "https://www.britannica.com/event/2026-Israeli-Elections",
+          "https://en.wikipedia.org/wiki/2026_Israeli_legislative_election"
+        ]
+      }
+    ],
+    "error": null,
+    "searches": 4,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "names_audit": [
+    {
+      "arabic": "بنيامين نتنياهو",
+      "latin": "Binyamin Netanyahu"
+    }
+  ],
+  "reel_bg": {
+    "url": "https://imgs.search.brave.com/N6S8QWrljNJZ40exf53MaxzfDcHbf2GjHF-JYRVGG_g/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9jZG4u/YWxxdWRzLmNvbS91/cGxvYWRzLzc1MDM1/YzcwZDI4OTQ3Nzkx/ZWM3YWY5YTZlYzMy/OTE5LmF2aWY",
+    "kind": "web_search",
+    "publisher": "alquds.com",
+    "shows": "علم الولايات المتحدة وعلم إيران متجاوران على الخلفية، بينهما خط فاصل مائل.",
+    "judged": true,
+    "rejected": [
+      {
+        "url": "https://cdn.alquds.com/uploads/75035c70d28947791ec7af9a6ec32919.avif",
+        "shows": "علم الولايات المتحدة وعلم إيران متجاوران على خلفية رمادية متآكلة",
+        "reason": "الصورة تظهر علمي أمريكا وإيران فقط، وهي مواجهة عامة بين البلدين لا تُظهر حدثًا أو مكانًا محددًا من سؤال الريل عن الدبلوماسية أو الحرب ولا عن الانتخابات الإسرائيلية أو الأمريكية، لذا لا تصلح كخلفية مبا"
+      }
+    ]
+  },
+  "hook_candidates": [],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-10-22T00:00:00Z",
+          "2026-10-26T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "مبنى الخارجية الإيرانية طهران دبلوماسيون",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "Iranian diplomats leaving Geneva talks negotiations",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "Teheran Atomverhandlungen Straße Menschen Markt",
+            "raw": 0,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 0,
+        "judged_ok": 0,
+        "rejected_channels": []
+      },
+      {
+        "broad": true,
+        "window": [
+          "2026-10-20T00:00:00Z",
+          "2026-10-27T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "مفاوضات إيران الدبلوماسية",
+            "raw": 30,
+            "channel_ok": 14
+          },
+          {
+            "query": "Iran diplomacy talks",
+            "raw": 30,
+            "channel_ok": 2
+          },
+          {
+            "query": "Iran Israel US strike tensions",
+            "raw": 30,
+            "channel_ok": 1
+          }
+        ],
+        "duration_ok": 16,
+        "judged_ok": 0,
+        "rejected_channels": [
+          "العربي - أخبار",
+          "Pos Belitung",
+          "Paix et Guerre par Caroline Galactéros",
+          "AlQahera News -  القاهرة الإخبارية",
+          "Roya News",
+          "Глазa Фронта",
+          "IndiaTV News English",
+          "Al Mayadeen News - أخبار الميادين"
+        ]
+      }
+    ],
+    "picked": []
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "قال نتنياهو إن الحكومة المقبلة ستكمل إسقاط النظام الإيراني.",
+      "visual": "نتنياهو يتحدث أمام الكاميرات"
+    },
+    {
+      "scene": 1,
+      "sentence": 1,
+      "text": "إسرائيل تنتخب في 27 أكتوبر، والانتخابات الأمريكية في 3 نوفمبر.",
+      "visual": ""
+    },
+    {
+      "scene": 2,
+      "sentence": 0,
+      "text": "أين وصلت فرص الحل الدبلوماسي مع إيران؟",
+      "visual": ""
+    },
+    {
+      "scene": 6,
+      "sentence": 0,
+      "text": "لماذا يتصاعد الحديث عن ضربة في هذا التوقيت؟",
+      "visual": ""
+    },
+    {
+      "scene": 10,
+      "sentence": 0,
+      "text": "ماذا بعد موعد الانتخابات إن وقعت الضربة؟",
+      "visual": ""
+    }
+  ],
+  "quote_retranslated": [
+    "1a207306f444",
+    "815c4bcccff6"
+  ],
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "9d90a43bdc61",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "1a207306f444",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "الحرب متى ما وقعت، لن تسكت إيران، وستكون حربًا شاملة",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "f8a918c2b259",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "815c4bcccff6",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "الرئيس ترامب هو الذي يقرر متى يقع الهجوم ومتى يكون التصعيد",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "11e0863296e6",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "17f6dcd25fa6",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "c38460258248",
+        "speaker_said_it": "unsure",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن ترك"
+      },
+      {
+        "point_id": "22f3edaa9df5",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "القناة 14"
+      }
+    ]
+  },
+  "editor_revision": {
+    "at": "2026-10-24T09:18:35.431141+00:00",
+    "applied": true,
+    "error": null,
+    "before": [
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "تتجه الأنظار إلى احتمال ضربة أمريكية إسرائيلية لإيران.",
+        "fix": "قال نتنياهو إن الحكومة المقبلة ستكمل إسقاط النظام الإيراني. إسرائيل تنتخب في 27 أكتوبر، والانتخابات الأمريكية في 3 نوفمبر.",
+        "note": "مشهد السياق (role=context) يصف اتجاه الأنظار والتوقع بدل أن يقول ما حدث فعلًا (من فعل ماذا ومتى). البديل يستند إلى وقائع الحدث المرفقة وحدها (تصريح نتنياهو في مقطع القناة 14، ومواعيد الانتخابات) ويلتزم بحدود 25 كلمة و3 جمل وشهر واحد بلا «/» وبلا ذكر السنة.",
+        "sources": [
+          "https://www.timesofisrael.com/liveblog-october-22-2026/",
+          "https://www.washingtontimes.com/news/2026/oct/22/us-israel-drawing-attack-plans-iran-midterms-report/"
+        ]
+      }
+    ],
+    "unresolved": []
+  },
+  "has_photo": false,
+  "has_news_photo": true,
+  "review_issue": 1712,
+  "stage2_issue": 1712
+}
