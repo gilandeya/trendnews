@@ -498,9 +498,6 @@
   "review_issue": 1675,
   "stage2_issue": 1675,
   "approved_script_at": "2026-10-22T16:05:51.911175+00:00",
-  "reel_file": "reels/2026-10-22/02b4436a2b66.mp4",
-  "reel_gif": "reels/2026-10-22/02b4436a2b66.gif",
-  "duration_seconds": 94.7,
   "render_version": 52,
   "render_attempts": 0,
   "reel_music": "kulakovka-financial-news-614884.mp3",
@@ -893,7 +890,7 @@
       "aligned": true
     }
   ],
-  "rendered_at": "2026-10-23T20:22:24.356990+00:00",
+  "rendered_at": "2026-10-24T00:53:09.147955+00:00",
   "render_notes": [
     "### 🎬 تركيب الريل",
     "- ⏱️ المدة: 94.7 ث",
@@ -917,7 +914,7 @@
     "- 🧊 ختام الريل: لا لقطات تسبق الهوك — جُمّد أول إطار منه مع اقتراب بطيء"
   ],
   "reel_review_issue": 1676,
-  "render_status": "rendered",
+  "render_status": "failed",
   "render_roster": {
     "qB_4P0mUCyI": [
       {
@@ -13502,5 +13499,6 @@
       "how": "map",
       "evidence": ""
     }
-  ]
+  ],
+  "render_error": "[Errno 18] Invalid cross-device link: '/tmp/reel_render_siwt3o50/final.mp4' -> '/home/runner/work/trendnews/trendnews/youtube-data/reels/2026-10-22/02b4436a2b66.mp4'"
 }
