@@ -2602,6 +2602,11 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 («می تونه» ↔ «میتونه»). عتبة النافذة و`_lcs_pairs(..., eq=)` بالتساوي التقريبي؛ `min_ratio` والتفرّد بلا تغيير. `render_version` = 53؛ g655–g658
 (جملة مصنوعة لا اقتباس حقيقي).
 
+### نقل الريل النهائي عبر الأقراص (S8) — `src/reel_render.py:_place_file`
+
+الحادثة (الريل 02b4436a2b66، الإصدار 53): اكتمل التركيب ثم فشل `os.replace` من المجلد المؤقت إلى `youtube-data/reels/` بـ«Invalid cross-device link».
+`_place_file` ينسخ إلى `<dest>.part` بجوار الوجهة ثم `os.replace` عليه (يبقى الاستبدال ذريًا ولا يُتلف الريل السابق). `render_version` بلا تغيير؛ g659.
+
 ## خريطة متكلمي الحلقة في التركيب (S4) — `src/speaker_map.py`، `src/reel_render.py:_map_check`
 
 السبب: حرّاس المقطع الواحد (Q10–Q16) تحكم من نافذة صغيرة حول المقطع فيتقلّب الاسم بين تشغيلتين؛ القياس (`tools/speaker_map_probe.py`، 2026-10-23) أعطى
