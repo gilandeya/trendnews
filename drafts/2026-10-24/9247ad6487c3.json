@@ -1,7 +1,7 @@
 {
   "id": "9247ad6487c3",
   "created_at": "2026-10-24T06:14:31.197846+00:00",
-  "status": "approved_script",
+  "status": "published",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -8563,5 +8563,13 @@
     "- 🎯 مقطع الجزيرة: 10 وجوه — المتكلم بالرؤية",
     "- 🧊 ختام الريل: لا لقطات تسبق الهوك — جُمّد أول إطار منه مع اقتراب بطيء"
   ],
-  "reel_review_issue": 1711
+  "reel_review_issue": 1711,
+  "published_at": "2026-10-24T10:04:02.885215+00:00",
+  "facebook": {
+    "post_id": "1597363998806596",
+    "kind": "reel",
+    "url": "https://www.facebook.com/reel/1597363998806596",
+    "comment_error": "خطأ فيسبوك [100/33]: Unsupported post request. Object with ID '1597363998806596' does not exist, cannot be loaded due to missing permissions, or does not support this operation. Please read the Graph API documentation at https://developers.facebook.com/docs/graph-api"
+  },
+  "reel_seconds": 92
 }
