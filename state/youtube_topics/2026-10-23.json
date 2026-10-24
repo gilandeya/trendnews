@@ -82,7 +82,7 @@
       "dropped_reason": null,
       "id": "4eeb9fc497ca",
       "created_at": "2026-10-23T04:02:29.996247+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1692
     },
     {
@@ -113,8 +113,11 @@
       "dropped_reason": null,
       "id": "7b2841d722b5",
       "created_at": "2026-10-23T04:02:29.996247+00:00",
-      "selection_status": "pending",
-      "selection_issue": 1692
+      "selection_status": "attempted",
+      "selection_issue": 1692,
+      "selected_formats": [
+        "reel"
+      ]
     },
     {
       "title": "مفاوضات إنهاء الحرب الأوكرانية",
@@ -141,7 +144,7 @@
       "dropped_reason": null,
       "id": "15e1dbd41696",
       "created_at": "2026-10-23T04:02:29.996247+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1692
     },
     {
@@ -171,7 +174,7 @@
       "dropped_reason": null,
       "id": "005e5a3d0330",
       "created_at": "2026-10-23T04:02:29.996247+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1692
     },
     {
@@ -198,7 +201,7 @@
       "dropped_reason": null,
       "id": "5df68cc1d796",
       "created_at": "2026-10-23T04:02:29.996247+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1692
     },
     {
@@ -228,7 +231,7 @@
       "dropped_reason": null,
       "id": "3cd5225551cd",
       "created_at": "2026-10-23T04:02:29.996247+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1692
     }
   ],

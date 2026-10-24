@@ -1,0 +1,603 @@
+{
+  "id": "9247ad6487c3",
+  "created_at": "2026-10-24T06:14:31.197846+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "فشل الوساطات الدبلوماسية واحتمال الحرب مع إيران",
+  "tier": 2,
+  "blocs": [
+    "arabic",
+    "turkish"
+  ],
+  "channels": [
+    "CNN Türk",
+    "الجزيرة"
+  ],
+  "agreement": "cross_source",
+  "event": "تقييم وصول الوساطات الدبلوماسية بشأن إيران إلى طريق مسدود واحتمال اندلاع حرب",
+  "warnings": [],
+  "run_date": "2026-10-23",
+  "arabic": {
+    "post_title": "فشل الوساطات الدبلوماسية واحتمال الحرب مع إيران",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "CNN Türk",
+      "الجزيرة"
+    ]
+  },
+  "score": 7,
+  "source_videos": [],
+  "topic_id": "7b2841d722b5",
+  "topic_date": "2026-10-23",
+  "script": {
+    "version": 2,
+    "narrator": "female",
+    "title": "هل انسدّ مسار الدبلوماسية مع إيران؟ قراءات في احتمالات التصعيد",
+    "question": "هل ما زال للتفاوض مكان في الملف الإيراني؟",
+    "event": "تقييم وصول الوساطات الدبلوماسية بشأن إيران إلى طريق مسدود واحتمال اندلاع حرب",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "هل انسدّ مسار الدبلوماسية مع إيران؟ قراءات في احتمالات التصعيد"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "تُجرى انتخابات الكنيست الإسرائيلية في 27 أكتوبر، بينما لم تُفضِ الوساطات الإقليمية والدولية بشأن الملف الإيراني إلى اتفاق."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "core",
+        "q": 0,
+        "text": "أين وصلت مسارات الوساطة بشأن إيران؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "9d90a43bdc61",
+        "q": 0,
+        "stance": "الدبلوماسية بلغت نقطة صفرية",
+        "angle": "انسداد المسار التفاوضي نفسه",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=EAPBzjb8yKA",
+        "start": 1274.0,
+        "end": 1280.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "وصلت إلى نقطة صفرية",
+        "quote_original": "اعتقد بانها وصلت الى نقطه صفريه",
+        "language": "ar",
+        "video_published": "2026-10-21"
+      },
+      {
+        "kind": "clip",
+        "point_id": "f8a918c2b259",
+        "q": 0,
+        "stance": "المعادلة الصفرية تقود إلى عمليات عسكرية",
+        "angle": "عودة خطاب إسقاط النظام والخيار العسكري",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=EAPBzjb8yKA",
+        "start": 1984.0,
+        "end": 1990.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "معادلة صفرية ستقود على الأرجح إلى عمليات عسكرية",
+        "quote_original": "معادله سفريه ستقود على الارجح الى عمليات عسكريه",
+        "language": "ar",
+        "video_published": "2026-10-21"
+      },
+      {
+        "kind": "clip",
+        "point_id": "815c4bcccff6",
+        "q": 0,
+        "stance": "ترامب يحدد التوقيت والحرب ليست وشيكة",
+        "angle": "مركز القرار الأمريكي لا الإسرائيلي",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=2gRrOV1Lz_Y",
+        "start": 163.0,
+        "end": 169.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "الرئيس ترامب هو من يقرر متى يقع الهجوم ومتى يكون التصعيد",
+        "quote_original": "الرئيس ترامب هو الذي يقرر متى يحدث الهجوم",
+        "language": "ar",
+        "video_published": "2026-10-22"
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "why_now",
+        "q": 1,
+        "text": "لماذا يتصاعد الحديث عن ضربة في هذا التوقيت؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "11e0863296e6",
+        "q": 1,
+        "stance": "نتنياهو أراد ضربة قبل الانتخابات",
+        "angle": "خلاف نتنياهو والجيش على التوقيت",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=2gRrOV1Lz_Y",
+        "start": 201.0,
+        "end": 207.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "كان نتنياهو يريد هذا العمل في بداية أكتوبر ضد إيران",
+        "quote_original": "نتنياهو كان يريد هذا العمل في بدايه اكتوبر ايه ضد ايران",
+        "language": "ar",
+        "video_published": "2026-10-22"
+      },
+      {
+        "kind": "clip",
+        "point_id": "d9c9050e019c",
+        "q": 1,
+        "stance": "هجوم كبير متوقع بعد الانتخابات الأمريكية",
+        "angle": "تصريحات متداولة مع تحفّظ على يقينها",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=gqnet2-Jtfg",
+        "start": 1340.0,
+        "end": 1346.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "سي إن إن ترك",
+        "channel_original": "CNN Türk",
+        "quote_arabic": "نسمع تصريحات بأن هجومًا كبيرًا على إيران سيأتي مباشرة بعد انتهاء الانتخابات",
+        "quote_original": "seçimler bittikten hemen sonra İran'a yönelik çok büyük bir saldırı gelecek açıklamaları duyuyoruz",
+        "language": "tr",
+        "video_published": "2026-10-21"
+      },
+      {
+        "kind": "clip",
+        "point_id": "c38460258248",
+        "q": 1,
+        "stance": "تصعيد متزامن مع الانتخابات الإسرائيلية",
+        "angle": "الاستحقاق الإسرائيلي وأدوات غير دولتية",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=4WIsHeFk_ag",
+        "start": 2858.0,
+        "end": 2864.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "سي إن إن ترك",
+        "channel_original": "CNN Türk",
+        "quote_arabic": "الانتخابات الإسرائيلية في ٢٧ أكتوبر على ما يبدو",
+        "quote_original": "27 Ekim'de galiba seçim e İsrail'de",
+        "language": "tr",
+        "video_published": "2026-10-22"
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "where_next",
+        "q": 2,
+        "text": "ماذا يحدث إذا وقعت الضربة؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "1a207306f444",
+        "q": 2,
+        "stance": "رد إيراني شامل وتوسّع جغرافي للحرب",
+        "angle": "حجم الرد الإيراني ومداه",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=EAPBzjb8yKA",
+        "start": 2899.0,
+        "end": 2905.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "متى ما وقعت الحرب فإن إيران لن تسكت، وستكون حربًا شاملة",
+        "quote_original": "الحرب متى ما تمت ايران لن تسكت ستكون حرب شامله",
+        "language": "ar",
+        "video_published": "2026-10-21"
+      },
+      {
+        "kind": "clip",
+        "point_id": "17f6dcd25fa6",
+        "q": 2,
+        "stance": "التصعيد مرجّح بعد الثالث من نوفمبر",
+        "angle": "جدول زمني محدد للتصعيد",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=2gRrOV1Lz_Y",
+        "start": 349.0,
+        "end": 355.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "التصعيد العسكري مرجّح أن يكون بعد الثالث من نوفمبر",
+        "quote_original": "التصعيد العسكري هو من المرجح ان يكون ما بعد الثالث من نوفمبر",
+        "language": "ar",
+        "video_published": "2026-10-22"
+      },
+      {
+        "kind": "question",
+        "text": "هل ما زال للتفاوض مكان في الملف الإيراني؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": []
+  },
+  "headlines": [
+    "هل بلغت الدبلوماسية مع إيران طريقًا مسدودًا؟",
+    "ضيوف الجزيرة: مسارات الوساطة مع إيران بلغت نقطة صفرية",
+    "انتخابات 27 أكتوبر/تشرين الأول في إسرائيل.. هل تحدد توقيت الضربة؟"
+  ],
+  "headline_selected": 0,
+  "editor_review": {
+    "at": "2026-10-24T06:14:57.794811+00:00",
+    "applied": [
+      {
+        "category": "h1_overclaims",
+        "severity": "low",
+        "location": "h1",
+        "original": "هل انتهت الدبلوماسية مع إيران وبدأ العدّ نحو الحرب؟",
+        "fix": "هل انسدّ مسار الدبلوماسية مع إيران؟ قراءات في احتمالات التصعيد",
+        "note": "العنوان على الشاشة يفترض «بدء العدّ نحو الحرب» كأمر واقع رغم أنه صيغة سؤال، بينما المقاطع تتضمن تحفظًا صريحًا: مقطع 815c4bcccff6 يقول إن القرار بيد ترامب وإن الحرب ليست بالضرورة على وشك البدء، وما عداه ترجيحات محللين لا وقائع.",
+        "sources": []
+      },
+      {
+        "category": "headline_overclaims",
+        "severity": "low",
+        "location": "headline_1",
+        "original": "هل انتهت الدبلوماسية مع إيران وبدأ العدّ نحو الحرب؟",
+        "fix": "هل بلغت الدبلوماسية مع إيران طريقًا مسدودًا؟",
+        "note": "العنوان يفترض أن العدّ نحو الحرب بدأ فعلًا، بينما المقاطع تتحدث عن ترجيحات وتوقعات، وأحد الضيوف يقول إن الحرب ليست بالضرورة على وشك أن تبدأ وإن القرار بيد الرئيس الأميركي. صيغة الاستفهام لا ترفع الجزم المضمر.",
+        "sources": []
+      },
+      {
+        "category": "vague_attribution",
+        "severity": "low",
+        "location": "headline_2",
+        "original": "محللون: مسارات الوساطة مع إيران بلغت نقطة صفرية",
+        "fix": "ضيوف الجزيرة: مسارات الوساطة مع إيران بلغت نقطة صفرية",
+        "note": "المتحدثون غير موثَّقين في الأشرطة («ضيف على الجزيرة»)، فوصفهم بـ«محللون» إسناد عام لا تسنده بيانات المقاطع؛ الأدق نسبتهم إلى القناة التي ظهروا فيها.",
+        "sources": []
+      }
+    ],
+    "notes": [
+      {
+        "category": "unattributed_opinion",
+        "severity": "low",
+        "location": "h1",
+        "original": "تُجرى انتخابات الكنيست الإسرائيلية في 27 أكتوبر، بينما لم تُفضِ الوساطات الإقليمية والدولية بشأن الملف الإيراني إلى اتفاق.",
+        "fix": "تُجرى انتخابات الكنيست الإسرائيلية في 27 أكتوبر، وهي أول اقتراع تشريعي بعد حلّ الكنيست نفسه في يوليو.",
+        "note": "الشطر الثاني («لم تُفضِ الوساطات… إلى اتفاق») يقدّم رأي الضيف عن «النقطة الصفرية» بوصفه واقعة مقررة في سطر السياق بلا نسبة. موعد الانتخابات نفسه صحيح ومؤكد. (الملاحظة على السطر [2] مشهد السياق.)",
+        "sources": [
+          "https://en.wikipedia.org/wiki/2026_Israeli_legislative_election",
+          "https://www.aljazeera.net/news/2026/7/17/الكنيست-يحل-نفسه-ويدفع-إسرائيل-إلى"
+        ]
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "أين وصلت مسارات الوساطة بشأن إيران؟",
+        "fix": "أين وصلت الوساطة، ومن يملك قرار التصعيد؟",
+        "note": "المقطع الثالث في المشهد («الرئيس ترامب هو من يقرر متى يقع الهجوم») لا يجيب عن مسارات الوساطة بل عن صاحب قرار التوقيت؛ السؤال بحاجة إلى صياغة تستوعب الزاوية الثالثة.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "«معادلة صفرية ستقود على الأرجح إلى عمليات عسكرية»",
+        "fix": "",
+        "note": "المقطع يكرر زاوية المقطع السابق نفسها («وصلت إلى نقطة صفرية») دون إضافة جديدة؛ التكرار داخل المشهد الواحد عيب، ويُستحسن استبدال أحدهما بمقطع يضيف زاوية مختلفة (المقاطع للقراءة فقط، فيلزم رجوع إلى مرحلة الاختيار).",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "«نسمع تصريحات بأن هجومًا كبيرًا على إيران سيأتي مباشرة بعد انتهاء الانتخابات»",
+        "fix": "",
+        "note": "المتحدث — بحسب نقطة المصدر — يقصد الانتخابات الأميركية، لكن وضع المقطع بين سطر السياق ومقطع «الانتخابات الإسرائيلية في ٢٧ أكتوبر» يوحي للمشاهد بأنه يتحدث عن الانتخابات الإسرائيلية؛ يلزم توضيح أي انتخابات أو إعادة ترتيب المشهد (المقطع للقراءة فقط).",
+        "sources": []
+      }
+    ],
+    "error": null,
+    "searches": 4,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "reel_bg": {
+    "url": "https://media.elbalad.news/2026/10/large/18291357323880202610220835253525.jpg",
+    "kind": "news_photo",
+    "publisher": "صدى البلد",
+    "shows": "علما إسرائيل وإيران يرفرفان متجاورين على سارييْن أمام سماء عند الغروب",
+    "judged": true,
+    "rejected": [
+      {
+        "url": "https://cdn.alquds.com/uploads/7b5dd67d9496e1157b4ffd991fab2d7b.jpeg",
+        "shows": "علما الولايات المتحدة وإيران متجاورين على خلفية حريرية متموجة",
+        "reason": "الصورة تُظهر علمي أمريكا وإيران فقط، وموضوع الريل يدور حول المسار الدبلوماسي مع إيران والتصعيد وانتخابات الكنيست الإسرائيلية، ولا تُظهر إسرائيل أو الكنيست أو مكان الحدث، فهي تبدو صورة عامة لا تعبّر عن"
+      }
+    ]
+  },
+  "hook_candidates": [],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-10-21T00:00:00Z",
+          "2026-10-25T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "مواطنون إسرائيليون يدلون بأصواتهم في مركز اقتراع",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "اجتماع دبلوماسيين في مفاوضات الملف النووي الإيراني",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "Israelis voting polling station Knesset election day",
+            "raw": 12,
+            "channel_ok": 1
+          }
+        ],
+        "duration_ok": 1,
+        "judged_ok": 0,
+        "rejected_channels": [
+          "State of Israel",
+          "Flashpoint Brief",
+          "Vikudi",
+          "WION",
+          "Israel Today: Ongoing War Report",
+          "i24NEWS עברית",
+          "Salih Korkmaz",
+          "The Close Read"
+        ]
+      },
+      {
+        "broad": true,
+        "window": [
+          "2026-10-19T00:00:00Z",
+          "2026-10-26T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "الدبلوماسية مع إيران",
+            "raw": 30,
+            "channel_ok": 14
+          },
+          {
+            "query": "Iran diplomacy talks stalled",
+            "raw": 30,
+            "channel_ok": 5
+          },
+          {
+            "query": "İran diplomasisi müzakere",
+            "raw": 16,
+            "channel_ok": 3
+          }
+        ],
+        "duration_ok": 21,
+        "judged_ok": 0,
+        "rejected_channels": [
+          "العربي - أخبار",
+          "Bloomberg News",
+          "Intereconomía News",
+          "AlQahera News -  القاهرة الإخبارية",
+          "عاجل",
+          "DW News",
+          "WION",
+          "Lo Esencial Breve"
+        ]
+      }
+    ],
+    "picked": []
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "تُجرى انتخابات الكنيست الإسرائيلية في 27 أكتوبر، بينما لم تُفضِ الوساطات الإقليمية والدولية بشأن الملف الإيراني إلى اتفاق.",
+      "visual": "صناديق اقتراع وناخبون في مراكز الاقتراع"
+    },
+    {
+      "scene": 2,
+      "sentence": 0,
+      "text": "أين وصلت مسارات الوساطة بشأن إيران؟",
+      "visual": ""
+    },
+    {
+      "scene": 6,
+      "sentence": 0,
+      "text": "لماذا يتصاعد الحديث عن ضربة في هذا التوقيت؟",
+      "visual": ""
+    },
+    {
+      "scene": 10,
+      "sentence": 0,
+      "text": "ماذا يحدث إذا وقعت الضربة؟",
+      "visual": "صواريخ تُطلق في سماء ليلية"
+    }
+  ],
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "9d90a43bdc61",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "1a207306f444",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "f8a918c2b259",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "d9c9050e019c",
+        "speaker_said_it": "unsure",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن ترك"
+      },
+      {
+        "point_id": "815c4bcccff6",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "11e0863296e6",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "17f6dcd25fa6",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "c38460258248",
+        "speaker_said_it": "unsure",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن ترك"
+      }
+    ]
+  },
+  "editor_revision": {
+    "at": "2026-10-24T06:14:57.794811+00:00",
+    "applied": true,
+    "error": null,
+    "before": [
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "وساطات إقليمية ودولية بشأن الملف الإيراني لم تُفضِ إلى اتفاق حتى 22 أكتوبر. تتزامن المواجهة مع استحقاقات انتخابية في واشنطن وتل أبيب.",
+        "fix": "تُجرى انتخابات الكنيست الإسرائيلية في 27 أكتوبر، بينما لم تُفضِ الوساطات الإقليمية والدولية بشأن الملف الإيراني إلى اتفاق.",
+        "note": "مشهد السياق (role=context) لا يذكر واقعة محددة: من فعل ماذا ومتى. ما ورد نفي عام («لم تُفضِ إلى اتفاق») مستمدّ من تقدير محلل في المقطع 9d90a43bdc61 («وصلت إلى نقطة صفرية») لا من حدث موثَّق، و«تتزامن المواجهة» صياغة تحليلية لا سياق خبري. البديل المقترح يستند إلى واقعة تاريخ الانتخابات الإسرائيلية الواردة في المقاطع والمؤكَّدة بالمصادر، وهو داخل حدود 25 كلمة و3 جمل وشهر واحد بلا «/» وبلا ذكر السنة.",
+        "sources": [
+          "https://blogs.loc.gov/law/2026/10/falqs-israels-upcoming-election-on-october-27-2026/",
+          "https://aijac.org.au/fact-sheets/fact-sheet-the-2026-israeli-election/"
+        ]
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "headline_2",
+        "original": "هل انتهت الدبلوماسية مع إيران وبدأ العدّ نحو الحرب؟",
+        "fix": "محللون: مسارات الوساطة مع إيران بلغت نقطة صفرية",
+        "note": "العناوين الثلاثة المقترحة متطابقة حرفيًا فيما بينها ومع h1، فلا تقدّم بدائل فعلية للاختيار. يلزم تنويع زاوية كل عنوان (الوساطة/التوقيت الانتخابي/تبعات الضربة).",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "مقطع f8a918c2b259 — ضيف على الجزيرة — «معادلة صفرية ستقود على الأرجح إلى عمليات عسكرية»",
+        "fix": "",
+        "note": "تكرار زاوية: هذا المقطع يعيد مضمون المقطع السابق له 9d90a43bdc61 («وصلت إلى نقطة صفرية») تحت السؤال نفسه [3] دون إضافة زاوية جديدة. يُستحسن استبدال أحدهما بمقطع يضيف بعدًا مختلفًا (مثل دور القرار الأمريكي). المقاطع للقراءة فقط فلا أقترح نصًا بديلًا.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "ما الذي يمكن أن يعيد الملف الإيراني إلى طاولة التفاوض؟",
+        "fix": "هل ما زال للتفاوض مكان في الملف الإيراني؟",
+        "note": "سؤال الختام غير محايد: يفترض سلفًا أن الملف خرج من طاولة التفاوض وأن الدبلوماسية انتهت، وهو استنتاج محللين لا واقعة. البديل داخل حد 10 كلمات.",
+        "sources": []
+      }
+    ],
+    "unresolved": [
+      {
+        "n": 3,
+        "reason": "الملاحظة تخص سطور المقاطع (🎥) وهي للقراءة فقط ولا يمكن استبدالها أو تعديلها من حقول التصحيح، والملاحظة نفسها لا تقترح نصًا بديلًا."
+      }
+    ]
+  },
+  "has_photo": false,
+  "has_news_photo": true,
+  "review_issue": 1709,
+  "stage2_issue": 1709
+}
