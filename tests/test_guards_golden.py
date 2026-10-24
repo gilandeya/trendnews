@@ -20184,7 +20184,7 @@ def test_reel_exact_q13_guards() -> None:
         check("g608: exact.enabled=false ← النافذة القديمة وبلا exact", "exact" not in clips[0] and g2 == g, (g, g2))
         xc = cfg.path("reel.render.exact") or {}
         check("g608: الإعداد", xc == {"enabled": True, "model": "small", "margin": 4, "approx_margin": 20, "min_ratio": 0.7, "pad": 0.12,
-                                     "snap": 0.3, "require": False}, xc)
+                                     "snap": 0.3, "require": False, "word_similarity": 0.7, "word_min_len": 3}, xc)   # S7 أضاف المفتاحين
         check("g608: نصوص الإعداد", all(cfg.path(f"reel.texts.{k}") for k in ("clip_drop_incomplete", "scene_heard", "scene_written"))
               and all(cfg.path(f"reel.render.texts.{k}") for k in ("comment_exact_failed", "drop_exact_failed")), None)
         check("g608: render.version >= 46", int(cfg.path("reel.render.version")) >= 46, cfg.path("reel.render.version"))
@@ -21125,3 +21125,54 @@ def test_reel_speaker_map_s4_guards() -> None:
               and script["scenes"][1]["speaker_name"] == "علي البخيتي", mm)
         check("g654: render_version >= 52", int(cfg.path("reel.render.version")) >= 52, cfg.path("reel.render.version"))
     guarded("g654", g654)
+
+
+def test_reel_exact_fuzzy_s7_guards() -> None:
+    """S7 (g655–g658): ضبط المقطع كلمة بكلمة يقبل الكلمة المفرَّغة برسم آخر أو بحرف خاطئ. الحادثة (الريل 02b4436a2b66، الإصدار 52): مقطع
+    إيران إنترناشيونال الفارسي سقط ضبطه بنسبة 0.4 لأن المطابقة حرفية والمفرِّغ يسمع الفارسية مشوّهة. الجملة هنا مصنوعة بشكل الحادثة لا
+    اقتباس حقيقي (الاقتباسات الأصلية لا تدخل المستودع العام)."""
+    import copy
+
+    from src import reel_clips
+
+    cfg = load_config()
+    q = "سؤال این است که آیا می‌تونه همه رو بگیره؟ اینو در عمل باید ببینیم"
+    heard = "در حال پرواز راکدها و پرتابهای که میان سوال اینست که آیا می تونه همه رو بگیرد اینو در امل باید ببینم خب حالا".split()
+    words = [(i * 0.4, i * 0.4 + 0.35, w) for i, w in enumerate(heard)]
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001
+            check(name + ": استثناء", False, repr(exc))
+
+    def g655():
+        strict = copy.deepcopy(cfg)
+        strict["reel"]["render"]["exact"]["word_similarity"] = 1.0
+        d: dict = {}
+        check("g655: المطابقة الحرفية تسقط كما في الحادثة", reel_clips.align_quote(q, words, strict, diag=d) is None
+              and d.get("best_ratio", 1) < 0.7, d)
+        r = reel_clips.align_quote(q, words, cfg)
+        check("g655: التقريبية تضبط المقطع من «سوال» إلى «ببینم»", r is not None and r["words"][0][2] == "سوال"
+              and r["words"][-1][2] == "ببینم" and r["ratio"] >= 0.7, r)
+    guarded("g655", g655)
+
+    def g656():
+        check("g656: «سوال» هي «سؤال»", reel_clips.word_close("سوال", "سؤال", 0.7, 3))
+        check("g656: الكلمة القصيرة بالحرف وحده", not reel_clips.word_close("که", "کی", 0.7, 3))
+        check("g656: كلمتان مختلفتان لا تتطابقان", not reel_clips.word_close("پرواز", "باید", 0.7, 3))
+        close = lambda a, b: reel_clips.word_close(a, b, 0.7, 3)   # noqa: E731
+        merged = reel_clips._merge_split(["ميتونه"], [("مي", 0), ("تونه", 1), ("در", 2)], close)
+        check("g656: البادئة المفصولة تُدمج بتوقيت أولاهما", merged == [("ميتونه", 0), ("در", 2)], merged)
+    guarded("g656", g656)
+
+    def g657():
+        other = "امروز هوا خیلی سرد است و ما به خانه برگشتیم چون باران شدید می باره و همه خسته اند".split()
+        d: dict = {}
+        check("g657: جملة أخرى لا تُطابَق", reel_clips.align_quote(q, [(i, i + .5, w) for i, w in enumerate(other)], cfg, diag=d) is None,
+              d)
+    guarded("g657", g657)
+
+    def g658():
+        check("g658: render_version >= 53", int(cfg.path("reel.render.version")) >= 53, cfg.path("reel.render.version"))
+    guarded("g658", g658)
