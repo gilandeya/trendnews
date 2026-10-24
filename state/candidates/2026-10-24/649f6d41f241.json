@@ -1,0 +1,95 @@
+{
+  "id": "649f6d41f241",
+  "created_at": "2026-10-24T17:08:01.039215+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 29.06,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 3,
+  "appeal_note": "ميلانيا ترامب تؤمّن هدنة إنسانية بين روسيا وأوكرانيا",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Melania Trump secures localized Russia-Ukraine ceasefire for humanitarian aid: White House",
+  "link": "https://en.yna.co.kr/view/AEN20261024000300315",
+  "publishers": [
+    "BBC World",
+    "CGTN",
+    "Daily Sabah",
+    "Meduza English",
+    "The Hindu — International",
+    "The Japan Times",
+    "Yonhap News"
+  ],
+  "region": "kr",
+  "article": {
+    "title": "Melania Trump secures localized Russia-Ukraine ceasefire for humanitarian aid: White House",
+    "link": "https://en.yna.co.kr/view/AEN20261024000300315",
+    "summary": "WASHINGTON, Oct. 23 (Yonhap) -- U.S. First Lady Melania Trump has secured an agr...",
+    "source_name": "Yonhap News",
+    "region": "kr",
+    "weight": 1.0,
+    "published": "2026-10-23T16:15:54+00:00",
+    "image_url": "https://img.yna.co.kr/etc/inner/EN/2026/10/24/AEN20261024000300315_01_i_P2.jpg",
+    "publisher": "Yonhap News",
+    "cluster_sources": [
+      "BBC World",
+      "CGTN",
+      "Daily Sabah",
+      "Meduza English",
+      "The Hindu — International",
+      "The Japan Times",
+      "Yonhap News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/10/23/russia-ukraine-agree-to-ceasefire-to-evacuate-oleshky-residents"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/russia-ukraine-agree-to-oleshky-ceasefire-brokered-by-melania-trump-white-house-says/article71616736.ece"
+      },
+      {
+        "name": "Yonhap News",
+        "link": "https://en.yna.co.kr/view/AEN20261024000300315"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/europe/russia-confirms-melania-trump-brokered-cease-fire-in-ukraine"
+      },
+      {
+        "name": "CGTN",
+        "link": "https://news.cgtn.com/news/2026-10-23/news-1RtVYMJZtFS/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c6vgxkvl4w5eo?at_medium=RSS&at_campaign=rss"
+      }
+    ],
+    "image_candidates": [
+      "https://img.yna.co.kr/etc/inner/EN/2026/10/24/AEN20261024000300315_01_i_P2.jpg",
+      "https://meduza.io/imgly/share/1792763902/en/news/2026/10/23/russia-ukraine-agree-to-ceasefire-to-evacuate-oleshky-residents",
+      "https://th-i.thgim.com/public/incoming/ei9fml/article71617084.ece/alternates/LANDSCAPE_1200/Russia_Ukraine_War_Melania_Trump_1154_.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/10/23/467271.JPG",
+      "https://news.cgtn.com/news/2026-10-23/news-1RtVYMJZtFS/img/b408045ac0204764a6807a55b7bd7be4/b408045ac0204764a6807a55b7bd7be4-750.png",
+      "https://news.cgtn.com/news/2026-10-23/news-1RtVYMJZtFS/img/b408045ac0204764a6807a55b7bd7be4/b408045ac0204764a6807a55b7bd7be4.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 7,
+    "velocity": 1.0,
+    "age_hours": 1944.9125209880556,
+    "is_stale": false,
+    "score": 29.064451243635776,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 3,
+    "appeal_note": "ميلانيا ترامب تؤمّن هدنة إنسانية بين روسيا وأوكرانيا",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

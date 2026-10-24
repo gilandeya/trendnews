@@ -1,0 +1,65 @@
+{
+  "id": "5133b47c490d",
+  "created_at": "2026-10-24T17:08:01.039868+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.12,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 0,
+  "appeal_note": "إيران تراجع قواعد التصدير مع العراق وباكستان وأفغانستان",
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Govt. reviews export rules, seeks to remove trade barriers with Iraq, Pakistan and Afghanistan",
+  "link": "https://www.tehrantimes.com/news/531427/Govt-reviews-export-rules-seeks-to-remove-trade-barriers-with",
+  "publishers": [
+    "IRNA English",
+    "Tehran Times"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Govt. reviews export rules, seeks to remove trade barriers with Iraq, Pakistan and Afghanistan",
+    "link": "https://www.tehrantimes.com/news/531427/Govt-reviews-export-rules-seeks-to-remove-trade-barriers-with",
+    "summary": "TEHRAN — Iranian government is reviewing regulations governing exporters affected by transport and logistics disruptions and has proposed measures to remove barriers to shipments to neighboring countries, including Iraq, Pakistan and Afghanistan, Deputy Foreign Minister for Economic Diplomacy Hamid Ghanbari said.",
+    "source_name": "Tehran Times",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-10-24T11:22:47+00:00",
+    "image_url": "https://media.tehrantimes.com/d/t/2026/10/24/4/6231658.jpg",
+    "publisher": "Tehran Times",
+    "cluster_sources": [
+      "IRNA English",
+      "Tehran Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "Tehran Times",
+        "link": "https://www.tehrantimes.com/news/531427/Govt-reviews-export-rules-seeks-to-remove-trade-barriers-with"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86301776/Removing-export-barriers-to-Iraq-Pakistan-Afghanistan-on-agenda"
+      }
+    ],
+    "image_candidates": [
+      "https://media.tehrantimes.com/d/t/2026/10/24/4/6231658.jpg",
+      "https://img9.irna.ir/d/r2/2026/10/24/4/173192026.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1944.9127129672222,
+    "is_stale": false,
+    "score": 20.116701278592593,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 0,
+    "appeal_note": "إيران تراجع قواعد التصدير مع العراق وباكستان وأفغانستان",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

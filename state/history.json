@@ -1,100 +1,5 @@
 [
   {
-    "score": 30.51,
-    "bucket": "serious",
-    "tokens": [
-      "cairo",
-      "crash",
-      "helicopter",
-      "killed",
-      "near",
-      "officers",
-      "riyadh",
-      "saudi",
-      "support",
-      "vows",
-      "yemen"
-    ],
-    "link": "https://www.dawn.com/news/2038013/cairo-vows-support-for-riyadh-as-2-saudi-officers-killed-in-helicopter-crash-near-yemen",
-    "title": "Cairo vows support for Riyadh as 2 Saudi officers killed in helicopter crash near Yemen",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-10-19T09:08:03.420473+00:00"
-  },
-  {
-    "score": 23.65,
-    "bucket": "sport",
-    "tokens": [
-      "beat",
-      "madrid",
-      "mbappe",
-      "real",
-      "scores",
-      "sevilla",
-      "twice"
-    ],
-    "link": "https://www.bbc.co.uk/sport/football/videos/crp3g7z9x215o?at_medium=RSS&at_campaign=rss",
-    "title": "Mbappe scores twice as Real Madrid beat Sevilla",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-10-19T09:08:03.420798+00:00"
-  },
-  {
-    "score": 22.79,
-    "bucket": "serious",
-    "tokens": [
-      "doesn't",
-      "end",
-      "targets",
-      "trump",
-      "want",
-      "war",
-      "zelensky"
-    ],
-    "link": "https://www.ndtv.com/world-news/he-doesnt-want-to-end-war-donald-trump-targets-volodymyr-zelensky-ukraine-russia-war-12205276#publisher=newsstand",
-    "title": "\"He Doesn't Want To End War\": Trump Targets Zelensky",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-10-19T09:08:03.421102+00:00"
-  },
-  {
-    "score": 22.39,
-    "bucket": "useful",
-    "tokens": [
-      "cases",
-      "community",
-      "ebola",
-      "hit",
-      "kenya's",
-      "transmission",
-      "yet"
-    ],
-    "link": "https://medicalxpress.com/news/2026-10-kenya-ebola-cases-community-transmission.html",
-    "title": "Kenya's Ebola cases hit 8, with no community transmission yet",
-    "posted_title": "",
-    "region": "health",
-    "seen_at": "2026-10-19T09:08:03.421373+00:00"
-  },
-  {
-    "score": 22.36,
-    "bucket": "serious",
-    "tokens": [
-      "congrats",
-      "freestyle",
-      "iran",
-      "leader",
-      "team",
-      "title",
-      "winning",
-      "world"
-    ],
-    "link": "https://en.mehrnews.com/news/248711/Leader-congrats-Iran-s-freestyle-team-for-winning-world-title",
-    "title": "Leader congrats Iran’s freestyle team for winning world title",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-10-19T09:08:03.421664+00:00"
-  },
-  {
     "score": 27.22,
     "bucket": "serious",
     "tokens": [
@@ -701,5 +606,112 @@
     "posted_title": "",
     "region": "seasia",
     "seen_at": "2026-10-23T17:08:15.877466+00:00"
+  },
+  {
+    "score": 29.37,
+    "bucket": "serious",
+    "tokens": [
+      "bank",
+      "netanyahu",
+      "operation",
+      "orders",
+      "west"
+    ],
+    "link": "https://www.france24.com/en/netanyahu-orders-west-bank-operation",
+    "title": "Netanyahu orders West Bank operation",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-10-24T17:08:01.039201+00:00"
+  },
+  {
+    "score": 29.06,
+    "bucket": "serious",
+    "tokens": [
+      "aid",
+      "ceasefire",
+      "house",
+      "humanitarian",
+      "localized",
+      "melania",
+      "russia",
+      "secures",
+      "trump",
+      "ukraine",
+      "white"
+    ],
+    "link": "https://en.yna.co.kr/view/AEN20261024000300315",
+    "title": "Melania Trump secures localized Russia-Ukraine ceasefire for humanitarian aid: White House",
+    "posted_title": "",
+    "region": "kr",
+    "seen_at": "2026-10-24T17:08:01.039571+00:00"
+  },
+  {
+    "score": 24.73,
+    "bucket": "serious",
+    "tokens": [
+      "cables",
+      "detailed",
+      "gulf",
+      "hit",
+      "iran",
+      "officials",
+      "plans",
+      "resumes",
+      "say",
+      "undersea",
+      "war"
+    ],
+    "link": "https://www.thehindu.com/news/international/iran-has-detailed-plans-to-hit-gulf-undersea-cables-if-war-resumes-officials-say/article71617797.ece",
+    "title": "Iran has detailed plans to hit Gulf undersea cables if war resumes, officials say",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-10-24T17:08:01.039858+00:00"
+  },
+  {
+    "score": 20.12,
+    "bucket": "serious",
+    "tokens": [
+      "afghanistan",
+      "barriers",
+      "export",
+      "govt",
+      "iraq",
+      "pakistan",
+      "remove",
+      "reviews",
+      "rules",
+      "seeks",
+      "trade"
+    ],
+    "link": "https://www.tehrantimes.com/news/531427/Govt-reviews-export-rules-seeks-to-remove-trade-barriers-with",
+    "title": "Govt. reviews export rules, seeks to remove trade barriers with Iraq, Pakistan and Afghanistan",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-10-24T17:08:01.040126+00:00"
+  },
+  {
+    "score": 20.02,
+    "bucket": "serious",
+    "tokens": [
+      "2027",
+      "ahmed",
+      "bala",
+      "campaign",
+      "election",
+      "flag",
+      "kaduna",
+      "off",
+      "presidential",
+      "rallies",
+      "relax",
+      "storms",
+      "support",
+      "tinubu"
+    ],
+    "link": "https://www.premiumtimesng.com/promoted/919873-tinubu-2027-relax-dg-ahmed-bala-storms-kaduna-for-presidential-campaign-flag-off-rallies-support-for-tinubus-re-election.html",
+    "title": "Tinubu 2027: RELAX DG Ahmed Bala storms Kaduna for presidential campaign flag-off, rallies support for Tinubu’s re-election",
+    "posted_title": "",
+    "region": "ng",
+    "seen_at": "2026-10-24T17:08:01.040400+00:00"
   }
 ]
