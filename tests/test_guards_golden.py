@@ -21176,3 +21176,39 @@ def test_reel_exact_fuzzy_s7_guards() -> None:
     def g658():
         check("g658: render_version >= 53", int(cfg.path("reel.render.version")) >= 53, cfg.path("reel.render.version"))
     guarded("g658", g658)
+
+
+def test_reel_place_file_s8_guards() -> None:
+    """S8 (g659): نقل الريل النهائي من المجلد المؤقت ينجح ولو كان على قرص آخر. الحادثة (الريل 02b4436a2b66، الإصدار 53): اكتمل التركيب ثم فشل
+    os.replace بـ«[Errno 18] Invalid cross-device link» فضاع. هنا os.replace مزيَّف يرفض كل نقل بين مجلدين مختلفين كما يرفضه القرصان."""
+    import errno
+    import os
+    import tempfile
+    from pathlib import Path
+
+    from src import reel_render
+
+    def g659():
+        real = os.replace
+
+        def cross_device(src, dst):
+            if Path(src).parent != Path(dst).parent:
+                raise OSError(errno.EXDEV, "Invalid cross-device link")
+            return real(src, dst)
+        with tempfile.TemporaryDirectory() as a, tempfile.TemporaryDirectory() as b:
+            src = Path(a) / "final.mp4"
+            src.write_bytes(b"new")
+            dest = Path(b) / "reels" / "x.mp4"
+            dest.parent.mkdir(parents=True)
+            dest.write_bytes(b"old")
+            reel_render.os.replace = cross_device
+            try:
+                reel_render._place_file(src, dest)
+            finally:
+                reel_render.os.replace = real
+            check("g659: الريل يصل مكانه رغم اختلاف القرص", dest.read_bytes() == b"new", dest.read_bytes())
+            check("g659: لا ملف .part باقٍ", not (dest.parent / "x.mp4.part").exists(), list(dest.parent.iterdir()))
+    try:
+        g659()
+    except Exception as exc:  # noqa: BLE001
+        check("g659: استثناء", False, repr(exc))

@@ -5134,6 +5134,17 @@ def _saved_render_fields(draft: dict, speaker_meta: dict) -> dict:
     return out
 
 
+def _place_file(src: Path, dest: Path) -> None:
+    """ينقل الملف النهائي إلى مكانه باستبدال ذري (S8): os.replace وحده يفشل بـ«Invalid cross-device link» حين يقع المجلد المؤقت على قرص غير
+    قرص المستودع (حادثة الريل 02b4436a2b66: تركيب كامل ضاع في آخر خطوة). يُنسخ أولًا إلى ملف بجوار dest ثم يُستبدل به dest، فلا يبقى ملف نصف
+    مكتوب في مكان الريل السابق إن انقطع النسخ."""
+    import shutil
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    part = dest.with_name(dest.name + ".part")
+    shutil.copyfile(src, part)
+    os.replace(part, dest)
+
+
 def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path, dropped: list,
             approx: list, notes: list | None = None) -> dict:
     rcfg, scfg = cfg.path("reel.render"), cfg.path("reel.script")
@@ -5190,8 +5201,7 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
     if measured and expected and expected - float(measured) > float(rcfg.get("duration_tolerance", 1.5)):
         raise ShortRender(rcfg["texts"]["error_short"].format(actual=round(float(measured), 1), expected=round(expected, 1)))
     # نجح الحارس: استبدال ذري لـdest ثم الـGIF منه
-    dest.parent.mkdir(parents=True, exist_ok=True)
-    os.replace(final, dest)
+    _place_file(final, dest)
     g = rcfg["gif"]
     deps.run(_base("-t", str(g["seconds"]), "-i", str(dest), "-vf",
                    f"fps={g['fps']},scale={g['width']}:{g['height']}:flags=lanczos,split[x][y];[x]palettegen[p];"
