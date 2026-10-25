@@ -18,7 +18,7 @@ from __future__ import annotations
 import shutil
 from pathlib import Path
 
-from tests.helpers import (check, reel_v1_cfg, reel_pre_s10_cfg, reel_span_cfg, load_config, evidence, store, DRAFTS_DIR, ImportantRig,
+from tests.helpers import (check, reel_v1_cfg, reel_pre_s10_cfg, reel_stale_cfg, reel_span_cfg, load_config, evidence, store, DRAFTS_DIR, ImportantRig,
                            ImportantWriteRig, NamesAuditRig, NAMES_AUDIT_SOURCE, names_audit_doubt,
                            names_audit_draft, names_audit_hit, important_doc, important_fixture_point,
                            important_good_data, important_marked_body, important_point,
@@ -7067,14 +7067,14 @@ def test_reel_transitions_r3b1d_guards() -> None:
         p_rej, _ = make_draft("r3b1d0000b03", mixed, status="rejected", render_status="rendered")
         p_new, _ = make_draft("r3b1d0000b04", mixed, render_status="rendered",
                               render_version=int(c2.path("reel.render.version")))
-        picked = [p.stem for p, _ in reel_render.pending_batch(c2)]
+        picked = [p.stem for p, _ in reel_render.pending_batch(reel_stale_cfg(c2))]
         check("g218: يلتقط القديم النسخة وحده", picked == [p_old.stem], picked)
-        for p, d in reel_render.pending_batch(c2):
+        for p, d in reel_render.pending_batch(reel_stale_cfg(c2)):
             reel_render.render_draft(p, d, c2, make_deps({"cmds": [], "comments": []}), reels_dir=tmp / "reels",
                                      workdir=tmp / "work")
         s = json.loads(p_old.read_text(encoding="utf-8"))
         check("g218: render_version = 20 بعد التركيب", s.get("render_status") == "rendered" and s.get("render_version") >= 49, s)
-        left = reel_render.pending_batch(c2)
+        left = reel_render.pending_batch(reel_stale_cfg(c2))
         check("g218: التشغيلة الثانية لا تعيدها", left == [], [p.stem for p, _ in left])
         check("g218: المنشور والمرفوض لم يُمسّا",
               all(json.loads(p.read_text(encoding="utf-8")).get("render_version") is None for p in (p_pub, p_rej)))
@@ -7261,9 +7261,9 @@ def test_reel_typewriter_r3b2a_guards() -> None:
         DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
         p_old, _ = make_draft("r3b2a0000b01", render_status="rendered", render_version=2,
                               approved_script_at="2099-01-01")
-        picked = [p.stem for p, _ in reel_render.pending_batch(cfg)]
+        picked = [p.stem for p, _ in reel_render.pending_batch(reel_stale_cfg(cfg))]
         check("g225: --pending يلتقط الريل بنسخة 2", picked == [p_old.stem], picked)
-        for p, d in reel_render.pending_batch(cfg):
+        for p, d in reel_render.pending_batch(reel_stale_cfg(cfg)):
             reel_render.render_draft(p, d, cfg, make_deps({"cmds": [], "lists": []}), reels_dir=tmp / "reels",
                                      workdir=tmp / "work")
         s = json.loads(p_old.read_text(encoding="utf-8"))
@@ -7919,7 +7919,7 @@ def test_reel_background_r3b2b_guards() -> None:
             path = store.save_draft(d0)
             c2 = load_config()
             c2["reel"]["render"]["max_per_run"] = 500
-            batch = {p.stem: d for p, d in reel_render.pending_batch(c2)}
+            batch = {p.stem: d for p, d in reel_render.pending_batch(reel_stale_cfg(c2))}
             check("g251: --pending يعيد ريل النسخة 6", "r3b2b000g251" in batch, list(batch)[:3])
             reel_render.render_draft(path, batch.get("r3b2b000g251", d0), c2,
                                      make_deps(bg_image=lambda u: grad, providers=news_pv),
@@ -8148,7 +8148,7 @@ def test_reel_music_r3b2c_guards() -> None:
             path = store.save_draft(d0)
             c2 = load_config()
             c2["reel"]["render"]["max_per_run"] = 500
-            batch = {p.stem: d for p, d in reel_render.pending_batch(c2)}
+            batch = {p.stem: d for p, d in reel_render.pending_batch(reel_stale_cfg(c2))}
             check("g256: --pending يعيد ريل النسخة 7", "r3b2c00g256" in batch, list(batch)[:3])
             reel_render.render_draft(path, batch.get("r3b2c00g256", d0), c2, make_deps(),
                                      reels_dir=tmp / "reels", workdir=tmp / "work")
@@ -8896,20 +8896,20 @@ def test_reel_r5a2_guards() -> None:
         fresh()
         mk("r5a2000g285a", "queued", 10, "2099-01-01T00:00:00+00:00")
         mk("r5a2000g285b", "rendered", 1, "2099-01-02T00:00:00+00:00")
-        order = [p.stem for p, _ in reel_render.queued_reels(cfg)]
+        order = [p.stem for p, _ in reel_render.queued_reels(reel_stale_cfg(cfg))]
         check("g285: queued أمس قبل stale اليوم", order == ["r5a2000g285a", "r5a2000g285b"], order)
         fresh()
         mk("r5a2000g285c", "queued", 10, "2099-01-01T00:00:00+00:00")
         mk("r5a2000g285d", "rendered", 1, "2099-01-05T00:00:00+00:00")
         mk("r5a2000g285e", "rendered", 1, "2099-01-09T00:00:00+00:00")
-        order = [p.stem for p, _ in reel_render.queued_reels(cfg)]
+        order = [p.stem for p, _ in reel_render.queued_reels(reel_stale_cfg(cfg))]
         check("g285: المنتظر أولًا ثم المعاد تركيبه الأحدث اعتمادًا أولًا",
               order == ["r5a2000g285c", "r5a2000g285e", "r5a2000g285d"], order)
         fresh()
         mk("r5a2000g285f", "queued", 10, "2099-01-01T00:00:00+00:00")
         mk("r5a2000g285g", "queued", 10, "2099-01-03T00:00:00+00:00")
         mk("r5a2000g285h", "rendered", 1, "2099-01-09T00:00:00+00:00")
-        order = [p.stem for p, _ in reel_render.queued_reels(cfg)]
+        order = [p.stem for p, _ in reel_render.queued_reels(reel_stale_cfg(cfg))]
         check("g285: داخل المنتظر الأحدث اعتمادًا أولًا والمعاد تركيبه بعده",
               order == ["r5a2000g285g", "r5a2000g285f", "r5a2000g285h"], order)
         fresh()
@@ -21303,3 +21303,30 @@ def test_reel_fb_safe_s10_guards() -> None:
     ys = np.nonzero(np.asarray(img)[..., 3][960:] > 0)[0]
     check("g666 S10: رقعة اسم قناة البلاطة السفلى فوق نص المنشور وداخل بلاطتها",
           len(ys) and 960 + ys.max() <= int(sf["caption_top"]) and ys.min() >= 0, f"{960 + ys.min() if len(ys) else None}..{960 + ys.max() if len(ys) else None}")
+
+
+def test_reel_rerender_stale_s11_guards() -> None:
+    """S11 (g667–g668): بقرار صاحب المشروع «الإصلاح للقادم فقط» رفعُ reel.render.version لا يعيد تركيب ريل مُركَّب سلفًا إلا إن
+    فُعّل reel.render.rerender_stale؛ الفاشل بنسخة أقدم يُحيا دائمًا لأن سبب فشله قد يكون ما أُصلح. السبب: بعد S10 كانت 11 ريلًا معتمدًا
+    قديمًا ستُعاد واحدًا كل تشغيلة بدقائق Actions ونداءات نموذج لريلات قد لا تُنشر."""
+    import copy
+    import json
+    from src import reel_render
+
+    cfg = load_config()
+    day = DRAFTS_DIR / "2026-10-25"
+    day.mkdir(parents=True, exist_ok=True)
+    base = {"format": "reel", "status": "approved_script", "render_version": 1, "approved_script_at": "2026-10-25T00:00:00+00:00"}
+    for i, rs in (("s11000000aa1", "rendered"), ("s11000000aa2", "failed")):
+        (day / f"{i}.json").write_text(json.dumps({**base, "id": i, "render_status": rs}), encoding="utf-8")
+    try:
+        ids = {p.stem for p, _ in reel_render.queued_reels(cfg)}
+        check("g667 S11: المُركَّب بنسخة أقدم لا يُعاد افتراضيًا والفاشل يُحيا",
+              "s11000000aa1" not in ids and "s11000000aa2" in ids and cfg.path("reel.render.rerender_stale") is False, ids)
+        on = copy.deepcopy(cfg)
+        on["reel"]["render"]["rerender_stale"] = True
+        ids = {p.stem for p, _ in reel_render.queued_reels(on)}
+        check("g668 S11: rerender_stale: true ← يُعاد المُركَّب بنسخة أقدم كما كان", {"s11000000aa1", "s11000000aa2"} <= ids, ids)
+    finally:
+        for i in ("s11000000aa1", "s11000000aa2"):
+            (day / f"{i}.json").unlink(missing_ok=True)

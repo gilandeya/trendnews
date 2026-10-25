@@ -5566,7 +5566,10 @@ def queued_reels(cfg=None) -> list[tuple[Path, dict]]:
         # superseded (Issue #1532) ليس منتظرًا للتركيب ولو بقي render_status="queued"
         if d.get("format") != "reel" or d.get("status") == "superseded":
             continue
-        stale =(version is not None and d.get("status") == "approved_script" and d.get("render_status") == "rendered"
+        # S11: رفع النسخة لا يعيد تركيب ريل مُركَّب إلا إن طُلب (rerender_stale)، بقرار صاحب المشروع «الإصلاح للقادم فقط»:
+        # كل إعادة تكلّف دقائق Actions ونداءات نموذج لريلات قد لا تُنشر أبدًا، والفاشل وحده يُحيا لأن سببه قد يكون ما أُصلح
+        stale = (version is not None and bool(cfg.path("reel.render.rerender_stale", False))
+                 and d.get("status") == "approved_script" and d.get("render_status") == "rendered"
                  and int(d.get("render_version") or 0) < version)
         # failed بنسخة أقدم يُحيا تلقائيًا (Issue #1406): سببه قد يكون عطلًا أُصلح في النسخة الجديدة
         revive = (version is not None and d.get("status") == "approved_script" and d.get("render_status") == "failed"

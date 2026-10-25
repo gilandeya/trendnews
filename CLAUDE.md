@@ -2638,3 +2638,9 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
   فلا نص تحت 1220. `word_layout` (عنوان الهوك وبطاقة السؤال) يصغّر الخط حتى ينتهي فوق الحد (لا دون minimum). `frame_tile_labels` ترفع رقعة البلاطة السفلى فوق `caption_top`.
 - `logo: {top: 250, right: 140}` و`band: {top: 980, height: 240}` (والترجمة فوقه تتبعه) و`panel.frame: {width: 860, height: 1000, top: 250}`.
 - `render_version` = 55؛ g663–g666 في `tests/test_guards_golden.py:test_reel_fb_safe_s10_guards`.
+
+## رفع نسخة التركيب لا يعيد تركيب المُركَّب (S11) — `reel_render.queued_reels`
+
+بقرار صاحب المشروع «الإصلاح للقادم فقط» (بعد S10 كانت 11 ريلًا معتمدًا قديمًا ستُعاد واحدًا كل تشغيلة): `reel.render.rerender_stale` (false) ← ريل
+`approved_script` مُركَّب بنسخة أقدم من `reel.render.version` لا يُلتقط؛ الفاشل بنسخة أقدم يُحيا دائمًا كما كان (سببه قد يكون ما أُصلح). true ← السلوك القديم.
+اختبارات آلية إعادة التركيب تعمل بـ`tests.helpers.reel_stale_cfg`. g667–g668 في `tests/test_guards_golden.py:test_reel_rerender_stale_s11_guards`.
