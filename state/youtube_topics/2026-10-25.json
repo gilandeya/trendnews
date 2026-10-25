@@ -1,0 +1,859 @@
+{
+  "run_date": "2026-10-25",
+  "stats": {
+    "points_in": 196,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 46,
+    "issues_clustered": 40,
+    "topics_merged": 10,
+    "topics_out": 5,
+    "dropped_by_bloc_cap": 1,
+    "topics_seen_skipped": 1,
+    "topics_below_min_points": 15,
+    "topics_below_min_channels": 8,
+    "layers": {
+      "2": 3,
+      "1": 2
+    },
+    "agreement": 5,
+    "cross_source": 0,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "توقيت الحرب الأمريكية/الإسرائيلية على إيران",
+      "مستقبل الحزب الجمهوري بعد الانتخابات النصفية"
+    ],
+    [
+      "إسقاط النظام الإيراني عبر ضربات جوية",
+      "الهدف الاستراتيجي الإسرائيلي من الحرب على إيران"
+    ],
+    [
+      "فوز بولسونارو بالجولة الأولى من الانتخابات البرازيلية",
+      "الاستقرار السياسي والبرلماني بعد الانتخابات البرازيلية"
+    ],
+    [
+      "نقاش الحجاب كفرض ديني أو تمييز تاريخي",
+      "قرار حظر الحجاب في المدارس الأذربيجانية"
+    ],
+    [
+      "الاحتجاجات والأزمة الاقتصادية في فرنسا",
+      "توقعات مظاهرات الغد في فرنسا"
+    ],
+    [
+      "صراع الانقسام داخل حزب الشعب الجمهوري التركي وبلدية إسطنبول",
+      "انتقال رؤساء بلديات المعارضة إلى حزب العدالة والتنمية"
+    ],
+    [
+      "التدخل الإيراني في البحرين",
+      "مضيق هرمز والتوتر الملاحي"
+    ],
+    [
+      "التحشيد العسكري الأمريكي في الشرق الأوسط",
+      "تداعيات توسيع الحرب الإيرانية"
+    ],
+    [
+      "غياب استراتيجية أمريكية واضحة في حرب إيران",
+      "تضرر الولايات المتحدة من الحرب على إيران"
+    ],
+    [
+      "غزة: وقف إطلاق النار ومفاوضات كوشنر",
+      "الدمار وخطط إعمار غزة"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "التدخل الإيراني في البحرين",
+      "event": "تجريد مواطنين بحرينيين من أصول إيرانية من جنسيتهم والهجمات الإيرانية المرتبطة على البحرين",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        34,
+        76,
+        77,
+        90
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null,
+      "id": "fd775020a916",
+      "created_at": "2026-10-25T04:02:19.422749+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1715
+    },
+    {
+      "title": "عمليات الجيش الإسرائيلي في الضفة الغربية",
+      "event": "خطة نتنياهو لتوسيع العمليات العسكرية في الضفة الغربية وإعادة احتلال مدنها",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        39,
+        40,
+        140,
+        141,
+        145
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null,
+      "id": "e1f0e9868c8c",
+      "created_at": "2026-10-25T04:02:19.422749+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1715
+    },
+    {
+      "title": "التحشيد العسكري الأمريكي في الشرق الأوسط",
+      "event": "زيادة الحشود العسكرية الأمريكية في المنطقة استعدادًا لتصعيد محتمل مع إيران",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        24,
+        91,
+        94,
+        124,
+        125,
+        126
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null,
+      "id": "a4d6b5e2e7ab",
+      "created_at": "2026-10-25T04:02:19.422749+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1715
+    },
+    {
+      "title": "حكم قضية إمام أوغلو وتوقيته",
+      "event": "الحكم القضائي بحق أكرم إمام أوغلو وتوقعات نقضه وتوقيته",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        112,
+        113,
+        114,
+        118,
+        119,
+        120,
+        132
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null,
+      "id": "61cf19a1c753",
+      "created_at": "2026-10-25T04:02:19.422749+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1715
+    },
+    {
+      "title": "توقيت الحرب الأمريكية/الإسرائيلية على إيران",
+      "event": "الجدل حول قرار وتوقيت شن هجوم أمريكي/إسرائيلي على إيران بعد انتخابات التجديد النصفي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        2,
+        3,
+        8,
+        9,
+        24
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null,
+      "id": "6c2507b256d0",
+      "created_at": "2026-10-25T04:02:19.422749+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1715
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "إسقاط النظام الإيراني عبر ضربات جوية",
+      "event": "نقاش حول إمكانية إسقاط النظام الإيراني بالضربات العسكرية",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "ערוץ 14",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        1,
+        5,
+        72,
+        73,
+        74,
+        146,
+        147
+      ],
+      "total_points": 7,
+      "fresh_points": 3,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "التدخل الإيراني في البحرين",
+      "event": "تجريد مواطنين بحرينيين من أصول إيرانية من جنسيتهم والهجمات الإيرانية المرتبطة على البحرين",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        34,
+        76,
+        77,
+        90
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "عمليات الجيش الإسرائيلي في الضفة الغربية",
+      "event": "خطة نتنياهو لتوسيع العمليات العسكرية في الضفة الغربية وإعادة احتلال مدنها",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        39,
+        40,
+        140,
+        141,
+        145
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "التحشيد العسكري الأمريكي في الشرق الأوسط",
+      "event": "زيادة الحشود العسكرية الأمريكية في المنطقة استعدادًا لتصعيد محتمل مع إيران",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        24,
+        91,
+        94,
+        124,
+        125,
+        126
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "صراع الانقسام داخل حزب الشعب الجمهوري التركي وبلدية إسطنبول",
+      "event": "تأثير الانقسام داخل المعارضة التركية على نتيجة بلدية إسطنبول الكبرى",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        65,
+        66,
+        68,
+        115,
+        116,
+        117,
+        121,
+        122,
+        123
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "نقاش الحجاب كفرض ديني أو تمييز تاريخي",
+      "event": "الجدل حول الحجاب بين كونه فريضة دينية أو أداة تمييز تاريخية ورفض شخصي له",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        25,
+        26,
+        27,
+        28,
+        29,
+        30
+      ],
+      "total_points": 6,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "اعتقال الصحفيين الأتراك",
+      "event": "توقيف صحفيين أتراك (إسماعيل آري، موراد آريل) على خلفية قضايا مثيرة للجدل",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        71,
+        130,
+        131
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "حكم قضية إمام أوغلو وتوقيته",
+      "event": "الحكم القضائي بحق أكرم إمام أوغلو وتوقعات نقضه وتوقيته",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        112,
+        113,
+        114,
+        118,
+        119,
+        120,
+        132
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "الانتخابات الإسرائيلية والتحالفات الحكومية",
+      "event": "التحالفات المحتملة لتشكيل الحكومة الإسرائيلية بعد الانتخابات المقبلة",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        83,
+        87,
+        88,
+        89,
+        142,
+        143,
+        144,
+        149
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "رسالة ووضع مجتبى خامنئي",
+      "event": "رسالة منسوبة لمجتبى خامنئي وتساؤلات حول غيابه وإصابته واختياره للقيادة",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        134,
+        135,
+        136,
+        137,
+        138
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "غياب استراتيجية أمريكية واضحة في حرب إيران",
+      "event": "انتقاد غياب الهدف السياسي والاستراتيجية الأمريكية الواضحة في الحرب على إيران",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        36,
+        92,
+        93,
+        95
+      ],
+      "total_points": 4,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الموقف الأمريكي من غزو الكويت 1990",
+      "event": "دور تاتشر وبوش الأب في تشكيل التحالف الدولي ضد غزو العراق للكويت",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        96,
+        97
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "مذكرات فاضل العزاوي عن اعتقاله وسقوط النظام العراقي",
+      "event": "رواية فاضل العزاوي عن اعتقاله من القوات الأمريكية وتوقعه سقوط النظام العراقي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        99,
+        100
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الانتخابات النصفية الأمريكية وموازين القوى",
+      "event": "تنافس الحزبين الجمهوري والديمقراطي على السيطرة على الكونغرس في الانتخابات النصفية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        102,
+        103,
+        106,
+        107
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "سباق مجلس الشيوخ في مشيغن",
+      "event": "تقارب استطلاعات الرأي بين المرشحين في سباق مشيغن الانتخابي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        104,
+        105
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "توقيت الحرب الأمريكية/الإسرائيلية على إيران",
+      "event": "الجدل حول قرار وتوقيت شن هجوم أمريكي/إسرائيلي على إيران بعد انتخابات التجديد النصفي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        2,
+        3,
+        8,
+        9,
+        24
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "أثر الحرب على أسعار النفط والاقتصاد العالمي",
+      "event": "ارتفاع أسعار النفط وتأثر الاقتصاد العالمي بسبب الحرب على إيران",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        4,
+        38,
+        49
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "هجمات الحوثيين على الملاحة ودعم السعودية",
+      "event": "نشر بريطانيا طائرات قتالية لدعم السعودية ضد هجمات الحوثيين",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        6,
+        8
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "خسائر قناة السويس وباب المندب",
+      "event": "تقدير الخسائر الاقتصادية لقناة السويس بسبب هجمات الحوثيين على الملاحة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        7,
+        18
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "رفع العقوبات عن الديزل الروسي وتخفيف الدعم لأوكرانيا",
+      "event": "قرار أمريكي برفع العقوبات مؤقتًا عن الديزل الروسي وتخفيف الدعم لأوكرانيا",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        10,
+        11
+      ],
+      "total_points": 2,
+      "fresh_points": 1,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "فوز بولسونارو بالجولة الأولى من الانتخابات البرازيلية",
+      "event": "فوز بولسونارو على لولا في الجولة الأولى من الانتخابات الرئاسية البرازيلية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        12,
+        13,
+        14,
+        31,
+        32,
+        33
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "تدخل أمريكا والصين في الانتخابات البرازيلية",
+      "event": "نقاش حول تدخل الولايات المتحدة والصين في الشأن البرازيلي عبر المعادن النادرة والسياسة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        15,
+        16
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "ملف شحنة المتفجرات وسلاح حزب الله",
+      "event": "إحالة ملف شحنة متفجرات حزب الله إلى المجلس العدلي اللبناني وموقف الحكومة من سلاح حزب الله",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        22,
+        23
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "أزمة المالية العامة الفرنسية",
+      "event": "ارتفاع عائد السندات الفرنسية وتفاقم الدين العام الفرنسي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        53,
+        54
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "أزمة الطاقة الأوروبية واعتمادها على الخليج",
+      "event": "العجز الطاقي الأوروبي واعتماد أوروبا على الخليج ومنافسة الصين في صناعة السيارات",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        55,
+        56
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الاحتجاجات والأزمة الاقتصادية في فرنسا",
+      "event": "الاحتجاجات الفرنسية ضد التقشف ورد الحكومة الأمني عليها",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        59,
+        60,
+        61,
+        62,
+        63,
+        64
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الحرب التجارية الأمريكية الصينية ولقاء نوفمبر",
+      "event": "تقييم أثر الحرب التجارية الأمريكية الصينية وتوقع لقاء ثلاثي في نوفمبر",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        57,
+        58
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "غزة: وقف إطلاق النار ومفاوضات كوشنر",
+      "event": "تصريح ترامب عن إنجاز وقف إطلاق النار في غزة وكشف عن استثمارات كوشنر",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        47,
+        48,
+        50,
+        51,
+        52
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الطاقة الصينية والاستقلال عن النفط",
+      "event": "خطط الصين لتطوير الاندماج النووي وتقليل اعتمادها على النفط والغاز",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        42,
+        45,
+        46
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الدور السياسي العالمي للصين",
+      "event": "تقييم دور الصين الدبلوماسي والسياسي في أزمة الشرق الأوسط والقيادة العالمية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        43,
+        44
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    }
+  ]
+}
