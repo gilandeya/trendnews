@@ -1,0 +1,43 @@
+{
+  "id": "41c89640cff6",
+  "created_at": "2026-10-25T07:22:11.916867+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "failed",
+  "title": "التدخل الإيراني في البحرين",
+  "tier": 2,
+  "blocs": [
+    "arabic",
+    "persian"
+  ],
+  "channels": [
+    "Iran International",
+    "الجزيرة"
+  ],
+  "agreement": "agreement",
+  "event": "تجريد مواطنين بحرينيين من أصول إيرانية من جنسيتهم والهجمات الإيرانية المرتبطة على البحرين",
+  "warnings": [],
+  "run_date": "2026-10-25",
+  "arabic": {
+    "post_title": "التدخل الإيراني في البحرين",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "Iran International",
+      "الجزيرة"
+    ]
+  },
+  "score": 4,
+  "source_videos": [],
+  "topic_id": "fd775020a916",
+  "topic_date": "2026-10-25",
+  "script_error": "لا خلاف كافٍ للريل: رأي صالح من 0 متحدث (—) والمطلوب 2",
+  "has_photo": false,
+  "has_news_photo": true,
+  "review_issue": 1716,
+  "stage2_issue": 1716
+}

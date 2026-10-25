@@ -1,0 +1,120 @@
+{
+  "id": "ae4319d945b4",
+  "created_at": "2026-10-25T07:22:13.541971+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "failed",
+  "title": "عمليات الجيش الإسرائيلي في الضفة الغربية",
+  "tier": 2,
+  "blocs": [
+    "arabic",
+    "israeli"
+  ],
+  "channels": [
+    "ערוץ 14",
+    "الجزيرة"
+  ],
+  "agreement": "agreement",
+  "event": "خطة نتنياهو لتوسيع العمليات العسكرية في الضفة الغربية وإعادة احتلال مدنها",
+  "warnings": [],
+  "run_date": "2026-10-25",
+  "arabic": {
+    "post_title": "عمليات الجيش الإسرائيلي في الضفة الغربية",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "ערוץ 14",
+      "الجزيرة"
+    ]
+  },
+  "score": 4,
+  "source_videos": [],
+  "topic_id": "e1f0e9868c8c",
+  "topic_date": "2026-10-25",
+  "script_error": "لا مقاطع كافية: 1 صالحًا من 2 مطلوبًا على الأقل",
+  "clip_dropped": [
+    {
+      "point_id": "626d274764bf",
+      "channel": "الجزيرة",
+      "reason": "اقتباس مبتور — الجملة مبتورة من آخرها، لم تكتمل نتيجة الشرط"
+    },
+    {
+      "point_id": "294ab8829fdc",
+      "channel": "القناة 14",
+      "reason": "اقتباس مبتور — المقطع كلمة واحدة مفتاحها «في يهودا والسامرة» ولا يكفي وحده لفكرة تامة"
+    },
+    {
+      "point_id": "a746c30ca5ff",
+      "channel": "القناة 14",
+      "reason": "اقتباس مبتور — الجملة مبتورة من أولها ولا يتضح المقصود بالنموذج دون سياقه"
+    },
+    {
+      "point_id": "7780c9058eff",
+      "channel": "القناة 14",
+      "reason": "اقتباس مبتور — الجملة مبتورة من أولها ولا يتضح المقصود بالخطة دون سياقه"
+    }
+  ],
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "8113b71169af",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "626d274764bf",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "في تصوّري إذا فاز نتنياهو بهذه الانتخابات",
+        "complete": "no",
+        "incomplete_reason": "الجملة مبتورة من آخرها، لم تكتمل نتيجة الشرط",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "294ab8829fdc",
+        "speaker_said_it": "unsure",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "no",
+        "incomplete_reason": "المقطع كلمة واحدة مفتاحها «في يهودا والسامرة» ولا يكفي وحده لفكرة تامة",
+        "channel": "القناة 14"
+      },
+      {
+        "point_id": "a746c30ca5ff",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "no",
+        "incomplete_reason": "الجملة مبتورة من أولها ولا يتضح المقصود بالنموذج دون سياقه",
+        "channel": "القناة 14"
+      },
+      {
+        "point_id": "7780c9058eff",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "no",
+        "incomplete_reason": "الجملة مبتورة من أولها ولا يتضح المقصود بالخطة دون سياقه",
+        "channel": "القناة 14"
+      }
+    ]
+  },
+  "has_photo": false,
+  "has_news_photo": true,
+  "review_issue": 1717,
+  "stage2_issue": 1717
+}

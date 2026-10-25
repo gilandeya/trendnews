@@ -89,8 +89,11 @@
       "dropped_reason": null,
       "id": "fd775020a916",
       "created_at": "2026-10-25T04:02:19.422749+00:00",
-      "selection_status": "pending",
-      "selection_issue": 1715
+      "selection_status": "attempted",
+      "selection_issue": 1715,
+      "selected_formats": [
+        "reel"
+      ]
     },
     {
       "title": "عمليات الجيش الإسرائيلي في الضفة الغربية",
@@ -117,8 +120,11 @@
       "dropped_reason": null,
       "id": "e1f0e9868c8c",
       "created_at": "2026-10-25T04:02:19.422749+00:00",
-      "selection_status": "pending",
-      "selection_issue": 1715
+      "selection_status": "attempted",
+      "selection_issue": 1715,
+      "selected_formats": [
+        "reel"
+      ]
     },
     {
       "title": "التحشيد العسكري الأمريكي في الشرق الأوسط",
@@ -147,7 +153,7 @@
       "dropped_reason": null,
       "id": "a4d6b5e2e7ab",
       "created_at": "2026-10-25T04:02:19.422749+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1715
     },
     {
@@ -176,7 +182,7 @@
       "dropped_reason": null,
       "id": "61cf19a1c753",
       "created_at": "2026-10-25T04:02:19.422749+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1715
     },
     {
@@ -204,7 +210,7 @@
       "dropped_reason": null,
       "id": "6c2507b256d0",
       "created_at": "2026-10-25T04:02:19.422749+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1715
     }
   ],
