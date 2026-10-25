@@ -1048,3 +1048,16 @@ def reel_v1_cfg(cfg):
     لأن reel.script.v2.enabled مشغَّل افتراضيًا؛ توقعاتها لا تتغير."""
     cfg.setdefault("reel", {}).setdefault("script", {}).setdefault("v2", {})["enabled"] = False
     return cfg
+
+
+def reel_pre_s10_cfg(cfg):
+    """نسخة من الإعداد بتخطيط الريل قبل الإطار الآمن لفيسبوك (S10): الاختبارات التي تقارن أوامر التركيب حرفًا بمرجع محفوظ
+    (g481، g562، g608) تختبر مفتاح ميزة لا الهندسة، فتُشغَّل بالهندسة التي حُفظ بها مرجعها."""
+    import copy
+    c = copy.deepcopy(cfg)
+    r = c.setdefault("reel", {}).setdefault("render", {})
+    r["logo"] = {"top": 108, "right": 54, "width": 168}
+    r["safe"] = {"top": 230, "bottom": 440, "side": 130, "right_col_width": 130, "right_col_from": 900, "right_col_to": 1500}
+    r.setdefault("panel", {})["frame"] = {"width": 940, "height": 1190, "top": 200}
+    r["band"] = {**r.get("band", {}), "top": 1260, "height": 240}
+    return c

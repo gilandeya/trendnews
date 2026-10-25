@@ -338,6 +338,10 @@ def frame_tile_labels(cfg, tiles: list, scenes: list) -> Image.Image:
             continue
         w, h = imaging.measure(pen.d, text, font)
         cx, cy = tx + tw // 2, ty + th - int(lc["bottom"])
+        # S10: رقعة البلاطة السفلى كانت تقع تحت نص المنشور على فيسبوك؛ تُرفع فوقه ما بقيت داخل بلاطتها
+        cap = cfg.path("reel.render.safe.caption_top")
+        if cap:
+            cy = max(min(cy, int(cap) - int(lc["bottom"]) - h / 2 - pad), ty + int(lc["bottom"]) + h / 2 + pad)
         half_w = min(w / 2 + pad, tw / 2)
         pen.d.rectangle((cx - half_w, cy - h / 2 - pad, cx + half_w, cy + h / 2 + pad), fill=navy)
         imaging.draw_text(pen.d, (cx, cy), text, font, pen.white, anchor="mm")
@@ -950,9 +954,13 @@ class _Pen:
         self.img = Image.new("RGBA", (self.w, self.h), (0, 0, 0, 0) if transparent else self.navy + (255,))
         self.d = ImageDraw.Draw(self.img)
         self.boxes = boxes if boxes is not None else []
-        # الهامشان متساويان بعرض عمود الأزرار فيقع مركز النص في منتصف الشاشة تمامًا (كان x0=60 يزيحه 35 بكسل يسارًا)
-        self.x1 = self.w - int(r["safe"]["right_col_width"])
-        self.x0 = int(r["safe"]["right_col_width"])
+        # الهامشان متساويان فيقع مركز النص في منتصف الشاشة تمامًا (كان x0=60 يزيحه 35 بكسل يسارًا). S10: الهامش safe.side لا عرض
+        # عمود الأزرار، فعمود الأزرار يمنعه الحد السفلي للنص؛ والهامش يحسب قصّ فيسبوك الجانبين حين يملأ الهاتف
+        sf = r["safe"]
+        side = int(sf.get("side", sf["right_col_width"]))
+        self.x1 = self.w - side
+        self.x0 = side
+        self._safe_box = (int(sf.get("top", 230)), self.h - int(sf.get("bottom", 440)))
         self.cx = (self.x0 + self.x1) // 2
         self.max_w = self.x1 - self.x0
         self.cfg = cfg
@@ -1071,7 +1079,8 @@ class _Pen:
             y += lh
 
     def _safe(self) -> tuple[int, int]:
-        return 230, 1480
+        # من الإعداد (S10) لا ثابتًا: كان 230..1480 فنزل نص طويل تحت أزرار فيسبوك ونص المنشور
+        return self._safe_box
 
     def rule(self, y: int, width: int = 320) -> None:
         self.d.rectangle((self.cx - width // 2, y, self.cx + width // 2, y + 6), fill=self.gold)
@@ -1314,7 +1323,9 @@ def frame_question(cfg, question: str, boxes=None) -> Image.Image:
     share_font = p.fnt(share_text, "body", 46)
     # السؤال يبدأ بحبره تحت الدائرة بـ50 بكسلًا (لا يتمركز حول نقطة فيلامسها حين يطول) وينتهي حبره قبل «شاركونا» بـ30
     top_ink = cy + r + 50
-    bottom_ink = p.ink(share_text, share_font, (p.cx, 1250), "ma")[1] - 30
+    # S10: «شاركونا» كانت عند 1250 تحت أزرار فيسبوك؛ صارت فوق الحد السفلي الآمن بسطرها
+    share_y = p._safe()[1] - 70
+    bottom_ink = p.ink(share_text, share_font, (p.cx, share_y), "ma")[1] - 30
     best = None
     for max_lines in range(8, 0, -1):
         for size in range(start, min(minimum, start) - 1, -2):
@@ -1335,7 +1346,7 @@ def frame_question(cfg, question: str, boxes=None) -> Image.Image:
             imaging.draw_text(p.d, (p.cx, y), ln, font, p.white, anchor="ma")
             p.boxes.append(tuple(p.ink(ln, font, (p.cx, y), "ma")))
             y += lh_
-    p.line(share_text, share_font, p.gold, 1250)
+    p.line(share_text, share_font, p.gold, share_y)
     return p.rgb()
 
 
@@ -1376,9 +1387,11 @@ def frame_outro(cfg, channels: str, boxes=None, credit: str = "", transparent: b
     # لا خط ذهبي تحت الشعار الكبير (P1a، Issue #1600): الشعار يكفي فاصلًا، وما تحته يبقى في مواضعه
     y = p.block(t["tagline"], *p.face(t["tagline"], "body"), p.white, 0, start=52, minimum=36, max_lines=3, y_top=y + 60)
     handle = cfg.path("brand.handle") or "@almujez"
-    p.line(handle, p.fnt(handle, "body", 54), p.gold, y + 20, ltr=True)
+    hy = p.line(handle, p.fnt(handle, "body", 54), p.gold, y + 20, ltr=True)
     clips = t["clips_from"].format(channels=channels)
-    y = p.block(clips, *p.face(clips, "body"), (200, 208, 224), 0, start=36, minimum=26, max_lines=4, y_top=1180)
+    # S10: كان y_top=1180 ثابتًا وسطر مصدر الصورة تحته فنزلا تحت أزرار فيسبوك ونص المنشور؛ صار تحت المعرّف مباشرة
+    y = p.block(clips, *p.face(clips, "body"), (200, 208, 224), 0, start=36, minimum=26, max_lines=4,
+                y_top=min(1180, int(hy) + 60))
     if credit:
         _credit_line(p, cfg, credit, y)
     return p.img if transparent else p.rgb()
@@ -1538,7 +1551,7 @@ def layout_boxes(cfg) -> list[tuple]:
     """صناديق كل النصوص في كل أنواع الإطارات بنصوص طويلة تمثيلية، لفحص المنطقة الآمنة في الاختبار."""
     boxes: list = []
     long_text = " ".join(["كلمة"] * 40)
-    frame_title(cfg, long_text, SAMPLE_DATE, boxes)
+    # frame_title باقية في الكود ولا يستدعيها التركيب منذ الهوك (R5c1)، فلا تُفحص منطقتها الآمنة (S10)
     frame_narration(cfg, long_text, boxes)
     frame_question(cfg, long_text, boxes)
     frame_outro(cfg, "الجزيرة، العربية، CNN Türk", boxes)
@@ -1742,7 +1755,12 @@ def word_layout(cfg, text: str, top: int, size_key: str = "hook") -> dict:
     p = _Pen(cfg, [], transparent=True)
     fpath, fw = p.face(text, "display")
     start, minimum = size_pair(cfg, size_key)
-    font, lines, lh = _fit(p.d, text, fpath, p.max_w, 4, start, minimum, fw, float(cfg.path("reel.render.fonts.line_factor")))
+    lf = float(cfg.path("reel.render.fonts.line_factor"))
+    font, lines, lh = _fit(p.d, text, fpath, p.max_w, 4, start, minimum, fw, lf)
+    # S10: العنوان الطويل (4 أسطر) كان ينزل تحت زر الإعجاب على فيسبوك؛ يُصغَّر حتى ينتهي فوق الحد السفلي الآمن، ولا يُصغَّر دون minimum
+    while start > minimum and top + lh * len(lines) > p._safe()[1]:
+        start -= 2
+        font, lines, lh = _fit(p.d, text, fpath, p.max_w, 4, start, minimum, fw, lf)
     kw = imaging._kwargs()
 
     def adv(s: str) -> float:

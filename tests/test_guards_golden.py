@@ -18,7 +18,7 @@ from __future__ import annotations
 import shutil
 from pathlib import Path
 
-from tests.helpers import (check, reel_v1_cfg, reel_span_cfg, load_config, evidence, store, DRAFTS_DIR, ImportantRig,
+from tests.helpers import (check, reel_v1_cfg, reel_pre_s10_cfg, reel_span_cfg, load_config, evidence, store, DRAFTS_DIR, ImportantRig,
                            ImportantWriteRig, NamesAuditRig, NAMES_AUDIT_SOURCE, names_audit_doubt,
                            names_audit_draft, names_audit_hit, important_doc, important_fixture_point,
                            important_good_data, important_marked_body, important_point,
@@ -6125,7 +6125,7 @@ def test_reel_render_r3b1_guards() -> None:
         logo_cmds = [c for c in log["cmds"] if "eval=frame" in " ".join(c) and "overlay=x=" in " ".join(c)
                      and "final.mp4" in " ".join(c)]
         lg = cfg.path("reel.render.logo")
-        check("r3b1-و: الإعداد 108/54/168", (lg["top"], lg["right"], lg["width"]) == (108, 54, 168), lg)
+        check("r3b1-و: الإعداد 250/140/168 (S10)", (lg["top"], lg["right"], lg["width"]) == (250, 140, 168), lg)
         check("r3b1-و: تمريرة شعار واحدة تنتهي بعرض 168", len(logo_cmds) == 1 and "(168-" in " ".join(logo_cmds[0]),
               len(logo_cmds))
         check("r3b1-و: الشعار في أمر واحد فقط (لا في المشاهد)",
@@ -6154,7 +6154,7 @@ def test_reel_render_r3b1_guards() -> None:
         s2 = json.loads(path2.read_text(encoding="utf-8"))
         check("r3b1-هـ: أقل من min_clips ← failed بالسبب", s2.get("render_status") == "failed"
               and s2.get("render_error") and len(s2.get("render_dropped") or []) == 2, s2.get("render_error"))
-        check("r3b1-هـ: لا شعار عند الفشل", not any("overlay=W-w-54:108" in " ".join(c) for c in log2["cmds"]))
+        check("r3b1-هـ: لا شعار عند الفشل", not any("overlay=W-w-140:250" in " ".join(c) for c in log2["cmds"]))
         transcripts.update(saved_tr)
 
         # ── --retry ──
@@ -7238,11 +7238,14 @@ def test_reel_typewriter_r3b2a_guards() -> None:
         static, band = reel_render.frame_clip_layers(cfg, dict(clip))
         check("g223: الطبقة الثابتة عند (540،1700) كحلي معتم", static.getpixel((540, 1700)) == navy + (255,),
               static.getpixel((540, 1700)))
+        # S10: مواضع نسبية إلى أعلى الشريط (كانت 1215 و1380 حين كان الشريط عند 1260)
+        btop = int(cfg.path("reel.render.band.top"))
+        qy, by_ = btop - 45, btop + 120
         check("g223: صندوق الترجمة في الثابتة وحدها",
-              static.getpixel((540, 1215))[3] > 0 and band.getpixel((540, 1215))[3] == 0,
-              (static.getpixel((540, 1215)), band.getpixel((540, 1215))))
+              static.getpixel((540, qy))[3] > 0 and band.getpixel((540, qy))[3] == 0,
+              (static.getpixel((540, qy)), band.getpixel((540, qy))))
         check("g223: الشريط في طبقته ولا غطاء فيها",
-              band.getpixel((300, 1380))[3] > 0 and band.getpixel((540, 1700))[3] == 0)
+              band.getpixel((300, by_))[3] > 0 and band.getpixel((540, 1700))[3] == 0)
 
         # ── g224 ──
         c_off = load_config()
@@ -8447,7 +8450,7 @@ def test_reel_text_r5a_guards() -> None:
     pen = reel_render._Pen(cfg, [])
     check("g266: cx == 540", pen.cx == 540, pen.cx)
     check("g266: الهامشان متساويان x0 == W − x1", pen.x0 == W - pen.x1, (pen.x0, pen.x1))
-    check("g266: max_w == 820", pen.max_w == 820, pen.max_w)
+    check("g266: max_w == 780 (S10: هامش 150)", pen.max_w == 780, pen.max_w)
     for name, fn in (("frame_title", lambda b: reel_render.frame_title(cfg, long_text, "2099/01/01", b)),
                      ("frame_question", lambda b: reel_render.frame_question(cfg, long_text, b)),
                      ("frame_narration", lambda b: reel_render.frame_narration(cfg, long_text, b))):
@@ -8873,7 +8876,7 @@ def test_reel_r5a2_guards() -> None:
               and not any(" · " in t for t in drawn), drawn)
         band = cfg.path("reel.render.band")
         top, limit = int(band["top"]), int(band["top"]) + int(band["height"])
-        x0 = int(cfg.path("reel.render.safe.right_col_width"))
+        x0 = int(cfg.path("reel.render.safe.side"))
         x1 = W - x0
         inside = [b for b in bx if b[1] >= top]
         check("g284: كل الصناديق بين x0 وx1 وفوق الحد السفلي",
@@ -9418,16 +9421,16 @@ def test_reel_hook_r5c1_guards() -> None:
             x, y, wd, a = reel_render.logo_state(end + 0.3, cfg, end)
             check("g301: منتصف الحركة بعرض بين 168 و420", 168 < wd < 420, wd)
             x, y, wd, a = reel_render.logo_state(end + 0.6, cfg, end)
-            check("g301: بعد الحركة في الزاوية", abs(wd - 168) < 1e-6 and abs(x - (1080 - 54 - 168)) < 1e-6
-                  and abs(y - 108) < 1e-6 and abs(a - 1) < 1e-6, (x, y, wd, a))
+            check("g301: بعد الحركة في الزاوية", abs(wd - 168) < 1e-6 and abs(x - (1080 - 140 - 168)) < 1e-6
+                  and abs(y - 250) < 1e-6 and abs(a - 1) < 1e-6, (x, y, wd, a))
             x, y, wd, a = reel_render.logo_state(30, cfg, end)
-            check("g301: يبقى في الزاوية حتى النهاية", abs(wd - 168) < 1e-6 and abs(x - 858) < 1e-6 and abs(y - 108) < 1e-6)
+            check("g301: يبقى في الزاوية حتى النهاية", abs(wd - 168) < 1e-6 and abs(x - 772) < 1e-6 and abs(y - 250) < 1e-6)
             r = render("r5c1000g301a1", tmp)
             g = " ".join(final_cmd(r))
             check("g301: الأمر الأخير فيه eval=frame", "eval=frame" in g, g[-300:])
             check("g301: تعابير overlay بالزمن t", re.search(r"overlay=x='[^']*\bt\b", g) is not None, g[-300:])
             check("g301: overlay الزاوية الثابت لا يعمل إلا بعد الانتقال (enable)",
-                  re.search(r"overlay=W-w-54:108:enable='between\(t,", g) is not None, g[-300:])
+                  re.search(r"overlay=W-w-140:250:enable='between\(t,", g) is not None, g[-300:])
         guarded("g301", g301)
 
         # ── g302: المتكلم بلا شرط margin ──
@@ -9491,7 +9494,7 @@ def test_reel_hook_r5c1_guards() -> None:
                 reel_render._fit = o_fit
             disp = cfg.path("reel.render.fonts.arabic")
             check("g304: بـPlaypen وmax_lines 4 وحجم 110/70 (R5g)", any(s == (disp, 4, 110, 70) for s in seen), seen)
-            x0 = int(cfg.path("reel.render.safe.right_col_width"))
+            x0 = int(cfg.path("reel.render.safe.side"))
             top, bottom = int(cfg.path("reel.render.safe.top")), 1920 - int(cfg.path("reel.render.safe.bottom"))
             check("g304: كل الصناديق داخل المنطقة الآمنة",
                   bool(boxes) and all(b[0] >= x0 and b[2] <= 1080 - x0 and b[1] >= top and b[3] <= bottom for b in boxes), boxes)
@@ -9562,11 +9565,11 @@ def test_reel_hook_r5c1_guards() -> None:
             move = float(cfg.path("reel.render.hook.logo_move"))
             x, y, wd, a = reel_render.logo_state(end + move, cfg, end)
             check("g307: آخر حالة متحركة = الثابت تمامًا",
-                  (x, y, wd, a) == (1080 - 54 - 168, 108, 168, 1.0), (x, y, wd, a))
+                  (x, y, wd, a) == (1080 - 140 - 168, 250, 168, 1.0), (x, y, wd, a))
             r = render("r5c1000g307a1", tmp)
             g = " ".join(final_cmd(r))
             hook_end = r["joined"]["durs"][0] - reel_render.transition_seconds(cfg)
-            check("g307: overlay ثابت بالموضع القديم", "overlay=W-w-54:108" in g, g[-400:])
+            check("g307: overlay ثابت بموضع الزاوية (S10)", "overlay=W-w-140:250" in g, g[-400:])
             m = re.search(r"enable='between\(t,([\d.]+),", g)
             check("g307: يبدأ عند hook_end + logo_move", bool(m) and abs(float(m.group(1)) - (hook_end + move)) <= 0.01,
                   (m.group(1) if m else None, hook_end + move))
@@ -10654,7 +10657,7 @@ def test_reel_fonts_r5g_guards() -> None:
                  "quote_arabic": "ترجمة المقطع"}
         guest = {"kind": "clip", "quote_arabic": "ترجمة", "channel_original": "CNN TÜRK", "channel_display": "سي إن إن ترك"}
         runs = traced(lambda: (
-            reel_render.frame_hook_text(cfg, "عنوان الهوك الكبير"),
+            reel_render.frame_hook_text(cfg, "عنوان الهوك"),   # S10: عرض النص 780 فكان «… الكبير» يُقسم سطرين
             reel_render.frame_question(cfg, "هل يتغير الموقف؟"),
             reel_render.frame_outro(cfg, "الجزيرة", credit="الصورة: Reuters"),
             reel_render.frame_narration(cfg, "جملة الراوي هنا"),
@@ -10663,7 +10666,7 @@ def test_reel_fonts_r5g_guards() -> None:
         by: dict = {}
         for text, path, weight in runs:
             by.setdefault(text, set()).add((path, weight))
-        for text in ("عنوان الهوك الكبير", "هل يتغير الموقف؟", "أحمد كاياباشا"):
+        for text in ("عنوان الهوك", "هل يتغير الموقف؟", "أحمد كاياباشا"):
             check(f"g336: «{text}» Playpen ExtraBold", by.get(text) == {(PLAYPEN, "ExtraBold")}, by.get(text))
         for text in ("جملة الراوي هنا", "ترجمة المقطع"):
             check(f"g336: «{text}» Playpen Bold", by.get(text) == {(PLAYPEN, "Bold")}, by.get(text))
@@ -16478,7 +16481,7 @@ def test_reel_panel_p2c2_guards() -> None:
     # ── g481: n=1 حرفًا ──
     def g481():
         want = json.loads((Path(__file__).parent / "fixtures" / "reel" / "panel_n1_cmds.json").read_text(encoding="utf-8"))
-        got = _panel_n1_cmds(cfg, wdir("g481"))
+        got = _panel_n1_cmds(reel_pre_s10_cfg(cfg), wdir("g481"))
         check("g481: لوحة n=1 بخلفية مطابقة حرفًا لما قبل المهمة", got["bg"] == want["bg"], None)
         check("g481: لوحة n=1 بلا خلفية مطابقة حرفًا", got["nobg"] == want["nobg"], None)
     guarded("g481", g481)
@@ -16490,7 +16493,12 @@ def test_reel_panel_p2c2_guards() -> None:
             tiles = reel_render.panel_layout(n, cfg)["tiles"]
             img = reel_render.frame_tile_labels(cfg, tiles, [{"channel_display": f"قناة {k}"} for k in range(n)])
             arr = np.asarray(img)
-            ok_low = all(arr[ty + th - int(lc["bottom"]), tx + tw // 2, 3] > 0 for tx, ty, tw, th in tiles)
+            # S10: رقعة البلاطة التي يقع أسفلها تحت نص منشور فيسبوك ترتفع فوقه داخل بلاطتها
+            cap = int(cfg.path("reel.render.safe.caption_top"))
+            def low_ok(tx, ty, tw, th):
+                rows = np.nonzero(arr[ty:ty + th, tx + tw // 2, 3] > 0)[0]
+                return len(rows) > 0 and ty + rows.max() <= min(ty + th, cap)
+            ok_low = all(low_ok(*t) for t in tiles)
             ok_top = all(arr[ty + 10, tx + tw // 2, 3] == 0 for tx, ty, tw, th in tiles)
             check(f"g482: n={n} غير شفاف أسفل كل بلاطة وشفاف أعلاها", ok_low and ok_top and img.size == (W, H), (ok_low, ok_top, img.size))
     guarded("g482", g482)
@@ -18953,14 +18961,14 @@ def test_reel_thought_span_q6_guards() -> None:
 
     def g562():
         want = json.loads(Q6_BASE_FIXTURE.read_text(encoding="utf-8"))
-        got = _q6_base_cmds(_q6_cfg_off(cfg), work_root / "g562a")
+        got = _q6_base_cmds(reel_pre_s10_cfg(_q6_cfg_off(cfg)), work_root / "g562a")
         check("g562: gate.enabled=false ← أوامر v2 (اللوحة) كما كانت حرفًا", got["v2"] == want["v2"], None)
         check("g562: gate.enabled=false ← أوامر v1 كما كانت حرفًا", got["v1"] == want["v1"], None)
         lead_fade = float(cfg.path("reel.render.gate.fade"))
         expr = reel_render.gate_volume(1.5, 4.0, cfg)
         check("g562: تعبير volume بحدّي البوابة والتلاشي", expr.startswith("volume=") and "1.5" in expr and "4" in expr
               and str(lead_fade) in expr and "eval=frame" in expr, expr)
-        on = _q6_base_cmds(cfg, work_root / "g562b")
+        on = _q6_base_cmds(reel_pre_s10_cfg(cfg), work_root / "g562b")
         panel = [" ".join(c) for c in on["v2"] if any("concat=n=" in x for x in c)]
         check("g562: بوابة مفعّلة بلا gate على المقطع ← الأوامر كما كانت", on["v2"] == want["v2"] and on["v1"] == want["v1"], None)
         import numpy as np2
@@ -20173,10 +20181,10 @@ def test_reel_exact_q13_guards() -> None:
         off = copy.deepcopy(cfg)
         off["reel"]["render"]["exact"]["enabled"] = False
         want = json.loads(Q13_BASE_FIXTURE.read_text(encoding="utf-8"))
-        got = me._q6_base_cmds(off, work / "g608a")
+        got = me._q6_base_cmds(reel_pre_s10_cfg(off), work / "g608a")
         check("g608: exact.enabled=false ← أوامر v2 كما كانت حرفًا", got["v2"] == want["v2"], None)
         check("g608: exact.enabled=false ← أوامر v1 كما كانت حرفًا", got["v1"] == want["v1"], None)
-        got = me._q6_base_cmds(cfg, work / "g608b")
+        got = me._q6_base_cmds(reel_pre_s10_cfg(cfg), work / "g608b")
         check("g608: مقاطع بلا trim ← الأوامر كما كانت", got["v2"] == want["v2"] and got["v1"] == want["v1"], None)
         clips, dropped, approx, g, notes, scene = fetch(cfg, None)
         check("g608: بلا transcribe_words ← النافذة القديمة وبلا exact", "exact" not in clips[0] and "trim" not in clips[0], list(clips[0]))
@@ -21264,3 +21272,34 @@ def test_reel_map_consistency_s9_guards() -> None:
               and "map_errors" not in meta, (out, meta))
         check("g662: render_version >= 54", int(cfg.path("reel.render.version")) >= 54, cfg.path("reel.render.version"))
     guarded("g662", g662)
+
+
+def test_reel_fb_safe_s10_guards() -> None:
+    """S10 (g663–g666): الإطار الآمن لعرض فيسبوك. فيسبوك يكبّر الريل ليملأ الهاتف فيقصّ نحو 97 بكسل من كل جانب، ويرسم فوقه
+    أيقونات الأعلى (حتى ~235) وأزرار اليمين (من ~1225) ونص المنشور (من ~1425). الحادثة (الريل 9247ad6487c3 منشورًا): الشعار مقصوص
+    تحت ⋯، وآخر سطر من عنوان الهوك تحت زر الإعجاب، واسم المتحدث تحت الأزرار ونص المنشور. الأرقام مقيسة من لقطات الهاتف."""
+    from src import reel_render
+
+    cfg = load_config()
+    sf = cfg.path("reel.render.safe")
+    bottom = 1920 - int(sf["bottom"])
+    pen = reel_render._Pen(cfg, [], transparent=True)
+    check("g663 S10: حدود النص من الإعداد وهامشه يتجاوز قصّ فيسبوك الجانبين",
+          pen._safe() == (int(sf["top"]), bottom) and pen.x0 >= 97 + 40 and pen.x1 <= 983 - 40 and bottom <= 1225,
+          f"{pen._safe()} {pen.x0} {pen.x1}")
+    title = "هل انسدّ مسار الدبلوماسية مع إيران؟ قراءات في احتمالات"
+    lay = reel_render.word_layout(cfg, title, 730)
+    low = max(w["box"][3] for w in lay["words"])
+    check("g664 S10: عنوان الهوك الطويل يصغر حتى ينتهي فوق الحد السفلي الآمن", low <= bottom, f"{low} > {bottom}")
+    band = cfg.path("reel.render.band")
+    lg = cfg.path("reel.render.logo")
+    lx = 1080 - int(lg["right"]) - int(lg["width"])
+    check("g665 S10: شريط المتحدث ينتهي قبل أزرار اليمين، والشعار الصغير داخل العرض الظاهر وتحت الأيقونات",
+          int(band["top"]) + int(band["height"]) <= 1225 and lx >= 97 and lx + int(lg["width"]) <= 983 and int(lg["top"]) >= 240,
+          f"band {band['top']}+{band['height']} logo {lx},{lg['top']}")
+    tiles = [(0, 0, 1080, 960), (0, 960, 1080, 960)]
+    img = reel_render.frame_tile_labels(cfg, tiles, [{"channel_display": "الجزيرة"}, {"channel_display": "سي إن إن ترك"}])
+    import numpy as np
+    ys = np.nonzero(np.asarray(img)[..., 3][960:] > 0)[0]
+    check("g666 S10: رقعة اسم قناة البلاطة السفلى فوق نص المنشور وداخل بلاطتها",
+          len(ys) and 960 + ys.max() <= int(sf["caption_top"]) and ys.min() >= 0, f"{960 + ys.min() if len(ys) else None}..{960 + ys.max() if len(ys) else None}")
