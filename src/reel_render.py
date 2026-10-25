@@ -1388,6 +1388,9 @@ def frame_outro(cfg, channels: str, boxes=None, credit: str = "", transparent: b
     y = p.block(t["tagline"], *p.face(t["tagline"], "body"), p.white, 0, start=52, minimum=36, max_lines=3, y_top=y + 60)
     handle = cfg.path("brand.handle") or "@almujez"
     hy = p.line(handle, p.fnt(handle, "body", 54), p.gold, y + 20, ltr=True)
+    # S12: الخاتمة بلا سطري المصادر ومصدر الصورة إلا إن فُعّل outro_credits؛ المصادر بروابطها في التعليق الأول للمنشور
+    if not cfg.path("reel.render.outro_credits", False):
+        return p.img if transparent else p.rgb()
     clips = t["clips_from"].format(channels=channels)
     # S10: كان y_top=1180 ثابتًا وسطر مصدر الصورة تحته فنزلا تحت أزرار فيسبوك ونص المنشور؛ صار تحت المعرّف مباشرة
     y = p.block(clips, *p.face(clips, "body"), (200, 208, 224), 0, start=36, minimum=26, max_lines=4,

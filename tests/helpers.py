@@ -1070,3 +1070,11 @@ def reel_stale_cfg(cfg):
     c = copy.deepcopy(cfg)
     c.setdefault("reel", {}).setdefault("render", {})["rerender_stale"] = True
     return c
+
+
+def reel_credits_cfg(cfg):
+    """S12: نسخة من الإعداد ترسم سطري المصادر ومصدر الصورة في الخاتمة كما قبل S12، لاختبارات خطوطهما."""
+    import copy
+    c = copy.deepcopy(cfg)
+    c["reel"]["render"]["outro_credits"] = True
+    return c
