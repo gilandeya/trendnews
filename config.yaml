@@ -2574,7 +2574,7 @@ reel:
     # شريط القناة الأصلية (شفافية 0.94 أبقته ظاهرًا باهتًا)، false ← بلا غطاء؛ auto (الافتراضي) ← الغطاء وشريطنا معتم تمامًا (alpha 1)
     # فقط حين يكشف cover_detect شريط أخبار أو لافتة في أسفل المقطع (صف حافة مستقيمة في frame_fraction من اللقطات)
     # S10: كان top 1260 وheight 240 فوقع اسم المتحدث تحت زر الإعجاب ونص المنشور على فيسبوك؛ ينتهي الآن قبل 1220
-    band: {top: 1020, height: 200, edge: 24, alpha: 0.94, line_gap: 12, min_sizes: {name: 40, latin: 26, role: 26, guest: 30}, slide_seconds: 0.4, cover: auto,
+    band: {top: 980, height: 240, edge: 24, alpha: 0.94, line_gap: 12, min_sizes: {name: 40, latin: 26, role: 26, guest: 30}, slide_seconds: 0.4, cover: auto,
             cover_detect: {samples: 6, grad: 25, row_fraction: 0.7, frame_fraction: 0.8}}   # شريط المتحدث السفلي
     gif: {seconds: 6, width: 270, height: 480, fps: 8}
     repo_subdir: reels         # مجلد الريلز داخل المستودع الخاص (reel_file/reel_gif نسبيان إلى جذره)

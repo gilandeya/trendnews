@@ -2636,5 +2636,5 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 
 - `safe: {top: 240, bottom: 700, side: 150, caption_top: 1420, …}`: `_Pen` يأخذ هامشه من `side` (كان `right_col_width`) و`_safe()` من الإعداد (كان ثابتًا 230..1480)،
   فلا نص تحت 1220. `word_layout` (عنوان الهوك وبطاقة السؤال) يصغّر الخط حتى ينتهي فوق الحد (لا دون minimum). `frame_tile_labels` ترفع رقعة البلاطة السفلى فوق `caption_top`.
-- `logo: {top: 250, right: 140}` و`band: {top: 1020, height: 200}` (والترجمة فوقه تتبعه) و`panel.frame: {width: 860, height: 1000, top: 250}`.
+- `logo: {top: 250, right: 140}` و`band: {top: 980, height: 240}` (والترجمة فوقه تتبعه) و`panel.frame: {width: 860, height: 1000, top: 250}`.
 - `render_version` = 55؛ g663–g666 في `tests/test_guards_golden.py:test_reel_fb_safe_s10_guards`.

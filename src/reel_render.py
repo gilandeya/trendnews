@@ -1323,7 +1323,9 @@ def frame_question(cfg, question: str, boxes=None) -> Image.Image:
     share_font = p.fnt(share_text, "body", 46)
     # السؤال يبدأ بحبره تحت الدائرة بـ50 بكسلًا (لا يتمركز حول نقطة فيلامسها حين يطول) وينتهي حبره قبل «شاركونا» بـ30
     top_ink = cy + r + 50
-    bottom_ink = p.ink(share_text, share_font, (p.cx, 1250), "ma")[1] - 30
+    # S10: «شاركونا» كانت عند 1250 تحت أزرار فيسبوك؛ صارت فوق الحد السفلي الآمن بسطرها
+    share_y = p._safe()[1] - 70
+    bottom_ink = p.ink(share_text, share_font, (p.cx, share_y), "ma")[1] - 30
     best = None
     for max_lines in range(8, 0, -1):
         for size in range(start, min(minimum, start) - 1, -2):
@@ -1344,7 +1346,7 @@ def frame_question(cfg, question: str, boxes=None) -> Image.Image:
             imaging.draw_text(p.d, (p.cx, y), ln, font, p.white, anchor="ma")
             p.boxes.append(tuple(p.ink(ln, font, (p.cx, y), "ma")))
             y += lh_
-    p.line(share_text, share_font, p.gold, 1250)
+    p.line(share_text, share_font, p.gold, share_y)
     return p.rgb()
 
 
@@ -1385,9 +1387,11 @@ def frame_outro(cfg, channels: str, boxes=None, credit: str = "", transparent: b
     # لا خط ذهبي تحت الشعار الكبير (P1a، Issue #1600): الشعار يكفي فاصلًا، وما تحته يبقى في مواضعه
     y = p.block(t["tagline"], *p.face(t["tagline"], "body"), p.white, 0, start=52, minimum=36, max_lines=3, y_top=y + 60)
     handle = cfg.path("brand.handle") or "@almujez"
-    p.line(handle, p.fnt(handle, "body", 54), p.gold, y + 20, ltr=True)
+    hy = p.line(handle, p.fnt(handle, "body", 54), p.gold, y + 20, ltr=True)
     clips = t["clips_from"].format(channels=channels)
-    y = p.block(clips, *p.face(clips, "body"), (200, 208, 224), 0, start=36, minimum=26, max_lines=4, y_top=1180)
+    # S10: كان y_top=1180 ثابتًا وسطر مصدر الصورة تحته فنزلا تحت أزرار فيسبوك ونص المنشور؛ صار تحت المعرّف مباشرة
+    y = p.block(clips, *p.face(clips, "body"), (200, 208, 224), 0, start=36, minimum=26, max_lines=4,
+                y_top=min(1180, int(hy) + 60))
     if credit:
         _credit_line(p, cfg, credit, y)
     return p.img if transparent else p.rgb()
@@ -1547,7 +1551,7 @@ def layout_boxes(cfg) -> list[tuple]:
     """صناديق كل النصوص في كل أنواع الإطارات بنصوص طويلة تمثيلية، لفحص المنطقة الآمنة في الاختبار."""
     boxes: list = []
     long_text = " ".join(["كلمة"] * 40)
-    frame_title(cfg, long_text, SAMPLE_DATE, boxes)
+    # frame_title باقية في الكود ولا يستدعيها التركيب منذ الهوك (R5c1)، فلا تُفحص منطقتها الآمنة (S10)
     frame_narration(cfg, long_text, boxes)
     frame_question(cfg, long_text, boxes)
     frame_outro(cfg, "الجزيرة، العربية، CNN Türk", boxes)
