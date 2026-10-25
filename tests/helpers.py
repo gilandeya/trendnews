@@ -1061,3 +1061,12 @@ def reel_pre_s10_cfg(cfg):
     r.setdefault("panel", {})["frame"] = {"width": 940, "height": 1190, "top": 200}
     r["band"] = {**r.get("band", {}), "top": 1260, "height": 240}
     return c
+
+
+def reel_stale_cfg(cfg):
+    """نسخة من الإعداد بـreel.render.rerender_stale: true (S11): الاختبارات التي تثبّت إعادة تركيب المعتمد بنسخة أقدم
+    تختبر تلك الآلية نفسها، وصار الافتراضي ألا تُعاد."""
+    import copy
+    c = copy.deepcopy(cfg)
+    c.setdefault("reel", {}).setdefault("render", {})["rerender_stale"] = True
+    return c
