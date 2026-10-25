@@ -1,0 +1,73 @@
+{
+  "id": "b4c30b6342df",
+  "created_at": "2026-10-25T17:07:59.889277+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.3,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "عودة ماتشادو إلى فنزويلا بعد شهور من المنفى.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Venezuelan opposition leader María Machado returns after months in exile",
+  "link": "https://www.bbc.co.uk/news/articles/cq8ez592pp0eo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "CBS News — World",
+    "NPR World"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Venezuelan opposition leader María Machado returns after months in exile",
+    "link": "https://www.bbc.co.uk/news/articles/cq8ez592pp0eo?at_medium=RSS&at_campaign=rss",
+    "summary": "Machado had left the country just a month before the US government seized Venezuelan President Nicolás Maduro.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-10-25T16:21:40+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/1a2d/live/537ff930-6139-11ee-b101-6f93d6dfbcc2.png",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "CBS News — World",
+      "NPR World"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cq8ez592pp0eo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "NPR World",
+        "link": "https://www.npr.org/2026/10/25/nx-s1-6016222/venezuela-maria-corina-machado-leader-returns-exile"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/venezuela-opposition-maria-corina-machado-return/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/1a2d/live/537ff930-6139-11ee-b101-6f93d6dfbcc2.png",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/1a2d/live/537ff930-6139-11ee-b101-6f93d6dfbcc2.png",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/1a2d/live/537ff930-6139-11ee-b101-6f93d6dfbcc2.png",
+      "https://media.npr.org/include/images/tracking/npr-rss-pixel.png?story=nx-s1-6016222"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1968.912543281111,
+    "is_stale": false,
+    "score": 23.303682853607913,
+    "impact": 1,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "عودة ماتشادو إلى فنزويلا بعد شهور من المنفى.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

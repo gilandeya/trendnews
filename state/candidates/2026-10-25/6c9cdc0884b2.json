@@ -1,0 +1,65 @@
+{
+  "id": "6c9cdc0884b2",
+  "created_at": "2026-10-25T17:07:59.889081+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.13,
+  "trend_score": 0.25,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "استئناف جزئي للرحلات في مطار الرياض بعد الهجمات.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Saudi Arabia's Riyadh airport partially resumes flights after Houthi attacks",
+  "link": "http://www.africanews.com/2026/10/25/saudi-arabias-riyadh-airport-partially-resumes-flights-after-houthi-attacks/",
+  "publishers": [
+    "Africanews",
+    "The Hindu — International"
+  ],
+  "region": "africa",
+  "article": {
+    "title": "Saudi Arabia's Riyadh airport partially resumes flights after Houthi attacks",
+    "link": "http://www.africanews.com/2026/10/25/saudi-arabias-riyadh-airport-partially-resumes-flights-after-houthi-attacks/",
+    "summary": "The announcement comes after a two-week suspension of operations following strikes from Yemen's Houthis on the Saudi capital.",
+    "source_name": "Africanews",
+    "region": "africa",
+    "weight": 1.0,
+    "published": "2026-10-25T14:35:41+00:00",
+    "image_url": "http://images.euronews.com/articles/stories/09/96/64/15/640x360_cmsv2_d6c6c5c4-3c22-5c30-b30f-e5e0f48fded9-9966415.jpg?1792930854",
+    "publisher": "Africanews",
+    "cluster_sources": [
+      "Africanews",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/riyadh-airport-resumes-flights-following-houthi-attacks/article71622578.ece"
+      },
+      {
+        "name": "Africanews",
+        "link": "http://www.africanews.com/2026/10/25/saudi-arabias-riyadh-airport-partially-resumes-flights-after-houthi-attacks/"
+      }
+    ],
+    "image_candidates": [
+      "http://images.euronews.com/articles/stories/09/96/64/15/640x360_cmsv2_d6c6c5c4-3c22-5c30-b30f-e5e0f48fded9-9966415.jpg?1792930854",
+      "https://th-i.thgim.com/public/incoming/9oek7f/article71622589.ece/alternates/LANDSCAPE_1200/Saudi-led-coaliGNKGL8B73.4.jpg.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.25,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1968.912553967778,
+    "is_stale": false,
+    "score": 26.131036092462963,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "استئناف جزئي للرحلات في مطار الرياض بعد الهجمات.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

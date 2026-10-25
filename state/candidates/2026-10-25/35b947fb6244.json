@@ -1,0 +1,92 @@
+{
+  "id": "35b947fb6244",
+  "created_at": "2026-10-25T17:07:59.779107+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 31.88,
+  "trend_score": 0.25,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 3,
+  "appeal_note": "الحوثيون يضربون جنوب السعودية وإعادة فتح مطار الرياض.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Houthis target Saudi Arabia's south as Riyadh airport due to reopen",
+  "link": "https://www.dawn.com/news/2039726/houthis-target-saudi-arabias-south-as-riyadh-airport-due-to-reopen",
+  "publishers": [
+    "Channel News Asia",
+    "Daily Sabah",
+    "Dawn",
+    "Malay Mail",
+    "news agency",
+    "spokesman"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Houthis target Saudi Arabia's south as Riyadh airport due to reopen",
+    "link": "https://www.dawn.com/news/2039726/houthis-target-saudi-arabias-south-as-riyadh-airport-due-to-reopen",
+    "summary": "Yemen’s Houthi rebels launched wide-ranging strikes across swathes of southern Saudi Arabia on Sunday, as the kingdom announced the partial reopening of Riyadh’s international airport despite repeated attacks by the group. Alerts warning of possible attacks were activated across the kingdom’s south throughout the day, with the Saudi-led military coalition fighting the Houthis saying at least 10 ballistic missiles were intercepted. Saudi Arabia, which leads a military coalition fighting the Houthis, has faced a barrage of strikes from the group in recent weeks. The fighting erupted after a years-long truce between the Houthis and Yemen’s government fell apart. “The bombardment has been very heavy since this morning — may God keep us safe. Everything is shaking because of the explosions,” one resident in Khamis Mushait told AFP on Sunday on condition of anonymity. Further north, Riyadh’s international airport said flights would resume on Sunday after a two-week closure following the Houthi strikes. However, it remained unclear to what extent the airport was operational. The Houthi fighters have carried out waves of strikes on the airport, including an attack this month that killed 13",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-10-25T12:19:03+00:00",
+    "image_url": "https://i.dawn.com/large/2026/10/25171635da455ae.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Daily Sabah",
+      "Dawn",
+      "Malay Mail",
+      "news agency",
+      "spokesman"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2039726/houthis-target-saudi-arabias-south-as-riyadh-airport-due-to-reopen"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/saudi-riyadh-airport-houthis-attacks-6490191"
+      },
+      {
+        "name": "spokesman",
+        "link": "https://tass.com/world/2207361"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/10/25/explosions-rock-riyadh-as-saudi-airport-reopens-despite-houthi-threats/240544"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/houthi-attacks-rock-riyadh-when-saudi-arabia-reopens-airport"
+      },
+      {
+        "name": "news agency",
+        "link": "https://tass.com/world/2207395"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/10/25171635da455ae.webp",
+      "https://i.dawn.com/thumbnail/2026/10/25171635da455ae.webp",
+      "https://dam.mediacorp.sg/image/upload/s--2-DHRG_---/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/mediacorp/cna/image/2026/10/25/2026-10-12t132057z_566271076_rc2m1oaav1no_rtrmadp_3_iran-crisis-saudi-yemen.jpg?itok=dzC3e9PW",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/10/25/467334.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/10/25/370401.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.25,
+    "group_sources": 6,
+    "velocity": 1.0,
+    "age_hours": 1968.9124686361113,
+    "is_stale": false,
+    "score": 31.884108781311618,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 3,
+    "appeal_note": "الحوثيون يضربون جنوب السعودية وإعادة فتح مطار الرياض.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

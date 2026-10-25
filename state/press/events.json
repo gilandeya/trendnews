@@ -275,7 +275,7 @@
      "published": "2026-10-06T06:12:00+00:00"
     }
    ],
-   "last_seen": "2026-10-22T17:07:52.304977+00:00",
+   "last_seen": "2026-10-25T17:07:45.058543+00:00",
    "outlets": 21,
    "regions": 16,
    "languages": 2,
@@ -1597,13 +1597,22 @@
      "language": "en",
      "link": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNT3ROQkx6TUs1eHNnT1Zhb1REVFhhMWlTcU80RjZXSHJTVlEwaVE4SWRmbjNXWDE4ei16WWZIeDZ1TE9xV2VyblI3aWx6LXpDUDd6VHlJamctVjdJbVlYYVlpZWFJXzF4eXBzbVNEYUUwVFVvQjN6UGZVY01SaTZjRHhLenBGcV9nOFp2US1IaUpYTmZkNU9uci1n?oc=5",
      "published": "2026-10-18T17:51:19+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Obama attacks Trump as he campaigns for Democrats ahead of midterm elections",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cmj6jwe1j1gjo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-25T02:27:15+00:00"
     }
    ],
-   "last_seen": "2026-10-19T17:07:57.762301+00:00",
-   "outlets": 21,
+   "last_seen": "2026-10-25T17:07:45.058543+00:00",
+   "outlets": 22,
    "regions": 15,
    "languages": 1,
-   "score": 53.0
+   "score": 54.0
   },
   {
    "id": "08f08679bc7c",
@@ -2150,285 +2159,285 @@
    "score": 48.0
   },
   {
-   "id": "d7e40dc3e136",
-   "first_seen": "2026-10-05T18:07:49.818707+00:00",
+   "id": "f4950bb60ba8",
+   "first_seen": "2026-10-05T15:07:44.573046+00:00",
    "members": [
     {
-     "outlet": "South China Morning Post",
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "light",
+     "title": "Brazil’s presidential race goes to second round as Flávio Bolsonaro leads incumbent Lula",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/05/brazil-presidential-race-election-result-second-round-lula-flavio-bolsonaro",
+     "published": "2026-10-05T00:16:52+00:00"
+    },
+    {
+     "outlet": "Court House News",
+     "region": "court",
+     "bucket": "light",
+     "title": "Lula and Bolsonaro head to Brazil’s presidential runoff",
+     "language": "en",
+     "link": "https://www.courthousenews.com/lula-and-bolsonaro-head-to-brazils-presidential-runoff/",
+     "published": "2026-10-05T01:45:04+00:00"
+    },
+    {
+     "outlet": "Premium Times",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Brazil’s presidential election goes to runoff",
+     "language": "en",
+     "link": "https://www.premiumtimesng.com/foreign/world-foreign/914610-brazils-presidential-election-goes-to-runoff.html",
+     "published": "2026-10-05T12:56:50+00:00"
+    },
+    {
+     "outlet": "Deutsche Welle",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Brazil election: Bolsonaro and Lula head to runoff",
+     "language": "en",
+     "link": "https://www.dw.com/en/brazil-election-bolsonaro-and-lula-head-to-runoff/a-79533857?maca=en-rss-en-world-4025-rdf",
+     "published": "2026-10-05T00:27:00+00:00"
+    },
+    {
+     "outlet": "CGTN",
      "region": "cn",
      "bucket": "serious",
-     "title": "After plague death reports at Siberia lab, Russia says situation under control",
+     "title": "Lula, Flavio Bolsonaro head to runoff in Brazil presidential election",
      "language": "en",
-     "link": "https://www.scmp.com/news/world/russia-central-asia/article/3369836/after-plague-death-reports-siberia-lab-russia-says-situation-under-control?utm_source=rss_feed",
-     "published": "2026-10-05T17:14:30+00:00"
+     "link": "https://news.cgtn.com/news/2026-10-05/news-1QZ8scMvcdy/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
+     "published": "2026-10-04T23:58:51+00:00"
     },
     {
-     "outlet": "The Express Tribune",
-     "region": "pk",
+     "outlet": "TASS",
+     "region": "ru",
      "bucket": "serious",
-     "title": "Russia officials say ‘situation under control’ after plague reports",
+     "title": "Flavio Bolsonaro, Lula da Silva advance to second tour of presidential election",
      "language": "en",
-     "link": "https://tribune.com.pk/story/2633118/dozens-placed-in-quarantine-after-plague-lab-worker-dies-in-siberia",
-     "published": "2026-10-05T08:43:55+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Russia Says 'Situation Under Control' After Plague Death Reports",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/russia-says-situation-under-control-after-plague-death-reports-12141506#publisher=newsstand",
-     "published": "2026-10-05T12:58:22+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Russian officials say ‘situation under control’ after plague reports",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/05/russian-officials-say-situation-under-control-after-plague-reports",
-     "published": "2026-10-05T14:25:37+00:00"
+     "link": "https://tass.com/world/2197463",
+     "published": "2026-10-05T00:30:00+00:00"
     },
     {
      "outlet": "France24",
      "region": "eu",
      "bucket": "serious",
-     "title": "Russian officials say 'situation under control' after plague reports",
+     "title": "Brazil heads to run-off as Bolsonaro pulls off shock first place finish in first round",
      "language": "en",
-     "link": "https://www.france24.com/en/russian-officials-say-situation-under-control-after-plague-reports",
-     "published": "2026-10-05T19:19:10+00:00"
+     "link": "https://www.france24.com/en/video/20261005-brazil-heads-to-run-off-as-bolsonaro-pulls-off-shock-first-place-finish-in-first-round",
+     "published": "2026-10-05T09:38:59+00:00"
     },
     {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
+     "outlet": "Buenos Aires Times",
+     "region": "latam",
      "bucket": "serious",
-     "title": "Dozens quarantined in Siberia after plague institute lab worker dies",
+     "title": "Brazil heads to run-off as Flávio Bolsonaro takes first place finish over Lula",
      "language": "en",
-     "link": "https://www.channelnewsasia.com/world/russia-siberia-plague-lab-worker-dies-quarantined-6433201",
-     "published": "2026-10-05T23:03:00+00:00"
+     "link": "https://www.batimes.com.ar/news/latin-america/brazil-heads-to-run-off-as-flavio-bolsonaro-takes-first-place-finish-over-lula.phtml",
+     "published": "2026-10-05T05:14:00+00:00"
     },
     {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
+     "outlet": "MercoPress",
+     "region": "latam",
      "bucket": "serious",
-     "title": "Lab worker dies, 200 quarantined, disease likely ‘fatal’: 5 things we know about ‘unknown plague’ in Russia",
+     "title": "Flávio Bolsonaro edges Lula in the first round; both head to an October 25 runoff",
      "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/russia-plague-lab-worker-dies-siberia-irkutsk-hundreds-quarantined-pneumonia-unknown-aetiology-what-we-know-latest-updates-101791182197316.html",
-     "published": "2026-10-05T07:32:35+00:00"
+     "link": "https://en.mercopress.com/2026/10/05/flavio-bolsonaro-edges-lula-in-the-first-round-both-head-to-an-october-25-runoff?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
+     "published": "2026-10-05T10:30:00+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Right-wing Flávio Bolsonaro wins first round of Brazil election",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/ck1l34ed592no?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-05T03:16:16+00:00"
     },
     {
      "outlet": "The Japan Times",
      "region": "jp",
      "bucket": "serious",
-     "title": "Dozens quarantined in Siberia after plague institute lab worker dies",
+     "title": "Bolsonaro pushes Lula to brink of defeat ahead of Brazil runoff",
      "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/06/world/science-health/siberia-plague-quarantine-russia/",
-     "published": "2026-10-06T00:57:00+00:00"
+     "link": "https://www.japantimes.co.jp/news/2026/10/05/world/brazil-lula-bolsonaro-narrow-election/",
+     "published": "2026-10-05T05:36:00+00:00"
     },
     {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
+     "outlet": "Buenos Aires Times",
+     "region": "latam",
      "bucket": "serious",
-     "title": "US tracks suspected Russian plague scare, 200 under observation",
+     "title": "Bolsonaro pushes Lula to brink of defeat ahead of Brazil run-off",
      "language": "en",
-     "link": "https://punchng.com/us-tracks-suspected-russian-plague-scare-200-under-observation/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-06T02:34:24+00:00"
+     "link": "https://www.batimes.com.ar/news/latin-america/bolsonaro-pushes-lula-to-brink-of-defeat-ahead-of-brazil-run-off.phtml",
+     "published": "2026-10-05T11:30:18+00:00"
     },
     {
-     "outlet": "NDTV — World",
-     "region": "in",
+     "outlet": "France24",
+     "region": "eu",
      "bucket": "serious",
-     "title": "Trump Offers Help To Russia After Suspected Plague Death, Quarantines",
+     "title": "Bolsonaro in 'very strong position' as Brazil election heads to run-off",
      "language": "en",
-     "link": "https://www.ndtv.com/world-news/donald-trump-offers-help-to-russia-after-suspected-plague-death-quarantines-12143278#publisher=newsstand",
-     "published": "2026-10-05T21:12:21+00:00"
+     "link": "https://www.france24.com/en/video/20261005-bolsonaro-in-very-strong-position-as-brazil-election-heads-to-run-off",
+     "published": "2026-10-05T08:44:23+00:00"
     },
     {
      "outlet": "Free Malaysia Today",
      "region": "my",
      "bucket": "serious",
-     "title": "Russia downplays plague reports as Trump offers US help",
+     "title": "Bolsonaro rides right-wing surge into Brazil’s election runoff",
      "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/06/russia-downplays-plague-reports-as-trump-offers-us-help",
-     "published": "2026-10-06T00:33:38+00:00"
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/05/bolsonaro-rides-right-wing-surge-into-brazil-s-election-runoff",
+     "published": "2026-10-05T15:55:04+00:00"
     },
     {
-     "outlet": "BBC World",
+     "outlet": "Buenos Aires Times",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "Flávio Bolsonaro rides right-wing surge into Brazil's election run-off",
+     "language": "en",
+     "link": "https://www.batimes.com.ar/news/latin-america/flavio-bolsonaro-rides-right-wing-surge-into-brazils-election-run-off.phtml",
+     "published": "2026-10-05T16:26:40+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
      "region": "uk",
      "bucket": "serious",
-     "title": "US 'watching closely' after plague researcher dies in Russia",
+     "title": "Brazil presidential election 2026: first-round live results",
      "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cv5yn3nwp5n5o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-05T21:33:49+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Trump says he will speak to Putin over reported plague death in Russia",
-     "language": "en",
-     "link": "https://www.france24.com/en/europe/20261006-trump-says-he-will-speak-to-putin-over-reported-plague-death-in-russia",
-     "published": "2026-10-06T22:51:48+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Trump to speak to Putin on plague as US, UN urge transparency",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/world/trump-putin-russian-plague-lab-6438031",
-     "published": "2026-10-07T01:58:00+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Trump to speak to Putin on plague as US steps up pressure",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/trump-to-speak-to-putin-on-plague-as-us-steps-up-pressure-101791325100946.html",
-     "published": "2026-10-06T22:18:20+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Trump To Speak To Putin On Plague As US Steps Up Pressure",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/donald-trump-to-speak-to-putin-on-plague-as-us-steps-up-pressure-12148616#publisher=newsstand",
-     "published": "2026-10-06T22:28:19+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "US, WHO press Moscow over plague after death of Russian lab tech",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3369967/trump-says-will-speak-putin-plague-after-death-russian-lab-tech?utm_source=rss_feed",
-     "published": "2026-10-06T23:42:07+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Russian lab death sparks plague fears: WHO seeks answers as Trump says he'll speak to Putin",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/russian-lab-death-sparks-plague-fears-who-seeks-answers-as-trump-says-hell-speak-to-putin-101791327482294.html",
-     "published": "2026-10-06T23:29:56+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Trump to speak with Putin over reported plague death in Russia",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/07/trump-to-speak-to-putin-on-plague-as-us-steps-up-pressure",
-     "published": "2026-10-07T00:15:25+00:00"
-    },
-    {
-     "outlet": "Africanews",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Russian woman’s death sparks pneumonic plague fears",
-     "language": "en",
-     "link": "http://www.africanews.com/2026/10/06/russian-womans-death-sparks-pneumonic-plague-fears/",
-     "published": "2026-10-06T09:29:34+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Russian lab worker’s death sparks plague fears as unverified claims spread online",
-     "language": "en",
-     "link": "https://www.france24.com/en/russian-lab-worker-s-death-sparks-plague-fears-as-unverified-claims-spread-online-1",
-     "published": "2026-10-06T20:58:31+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "What we know about the death of a worker at Russian plague lab",
-     "language": "en",
-     "link": "https://www.cbsnews.com/video/what-we-know-about-the-death-of-a-worker-at-russian-plague-lab/",
-     "published": "2026-10-06T13:30:58+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "What to know about plague amid reports of Russian lab worker's death",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/plague-russia-lab-worker-death-what-to-know/",
-     "published": "2026-10-06T22:22:10+00:00"
+     "link": "https://www.theguardian.com/world/ng-interactive/2026/oct/04/brazil-presidential-election-2026-first-round-live-results",
+     "published": "2026-10-05T00:24:55+00:00"
     },
     {
      "outlet": "The Hindu — International",
      "region": "in",
      "bucket": "serious",
-     "title": "Trump says he has call scheduled with Putin to discuss possible case of pneumonic plague in Russia",
+     "title": "Brazil lurches to the right as Lula falters in the first round of presidential election",
      "language": "en",
-     "link": "https://www.thehindu.com/news/international/trump-says-he-has-call-scheduled-with-putin-to-discuss-possible-case-of-pneumonic-plague-in-russia/article71553314.ece",
-     "published": "2026-10-07T04:50:54+00:00"
+     "link": "https://www.thehindu.com/news/international/brazil-presidential-election-lula-bolsonaro/article71548352.ece",
+     "published": "2026-10-05T16:19:26+00:00"
     },
     {
-     "outlet": "Meduza English",
-     "region": "ru",
+     "outlet": "The Guardian — World",
+     "region": "uk",
      "bucket": "serious",
-     "title": "Trump says he’ll call Putin about suspected plague outbreak in Russia",
+     "title": "Flávio Bolsonaro poised to win Brazilian presidency after shock first-round victory",
      "language": "en",
-     "link": "https://meduza.io/en/news/2026/10/07/trump-says-he-ll-call-putin-about-suspected-plague-outbreak-in-russia",
-     "published": "2026-10-07T07:32:13+00:00"
+     "link": "https://www.theguardian.com/world/2026/oct/05/flavio-bolsonaro-brazilian-presidency-election-shock-first-round-victory",
+     "published": "2026-10-05T16:05:20+00:00"
+    },
+    {
+     "outlet": "MercoPress",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "\"The end of the PT era is decreed,\" says Flávio Bolsonaro after winning the first round",
+     "language": "en",
+     "link": "https://en.mercopress.com/2026/10/05/the-end-of-the-pt-era-is-decreed-says-flavio-bolsonaro-after-winning-the-first-round?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
+     "published": "2026-10-05T17:18:00+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Brazil-China ties in focus as Bolsonaro gets election edge over Lula",
+     "language": "en",
+     "link": "https://www.scmp.com/plus/news/china/diplomacy/article/3369805/brazil-china-ties-focus-bolsonaro-gets-election-edge-over-lula?utm_source=rss_feed",
+     "published": "2026-10-05T09:46:21+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Brazil’s Lula accuses Meta of election interference",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/brazils-lula-accuses-meta-of-election-interference/article71571012.ece",
+     "published": "2026-10-11T09:01:39+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Brazil's Lula accuses social media giant Meta of election interference amid tight run-off campaign",
+     "language": "en",
+     "link": "https://www.france24.com/en/americas/20261011-brazil-lula-accuses-social-media-giant-meta-election-interference-amid-tight-run-campaign",
+     "published": "2026-10-11T13:12:09+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Brazil’s Lula accuses Meta of election interference",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/11/brazil-s-lula-accuses-meta-of-election-interference",
+     "published": "2026-10-11T08:49:00+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Brazil's Lula accuses Meta of election interference",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2634278/brazils-lula-accuses-meta-of-election-interference",
+     "published": "2026-10-11T12:38:20+00:00"
     },
     {
      "outlet": "Hindustan Times — World",
      "region": "in",
      "bucket": "serious",
-     "title": "‘Very deep discussion’: Trump scheduled to speak to Putin over suspected plague case in Russia",
+     "title": "Meta faces election interference accusations from Brazil's Lula da Silva; court gives company 48 hours to clarify",
      "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/very-deep-discussion-trump-scheduled-to-speak-to-putin-over-suspected-plague-case-in-russia-101791336073274.html",
-     "published": "2026-10-07T01:52:32+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Trump to speak to Putin about plague lab worker's death in Russia",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cqgm0vrl3xp7o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-07T14:50:28+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Russia open to a Trump-Putin call as questions mount over plague lab death",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/plague-lab-death-russia-open-trump-putin-call/",
-     "published": "2026-10-07T17:22:59+00:00"
+     "link": "https://www.hindustantimes.com/world-news/meta-faces-election-interference-accusations-from-brazils-lula-da-silva-court-gives-company-48-hours-to-clarify-101791711200783.html",
+     "published": "2026-10-11T10:24:16+00:00"
     },
     {
      "outlet": "Al Jazeera English",
      "region": "qa",
      "bucket": "serious",
-     "title": "More than 200,000 displaced as fighting escalates in Yemen, UN says",
+     "title": "Lula and Bolsonaro spar in Brazil’s fiery first presidential run-off debate",
      "language": "en",
-     "link": "https://www.aljazeera.com/gallery/2026/10/7/more-than-200000-displaced-as-fighting-escalates-in-yemen-un-says-2?traffic_source=rss",
-     "published": "2026-10-07T16:02:17+00:00"
+     "link": "https://www.aljazeera.com/news/2026/10/19/lula-and-bolsonaro-spar-in-brazils-fiery-first-presidential-run-off-debate?traffic_source=rss",
+     "published": "2026-10-19T04:27:00+00:00"
     },
     {
-     "outlet": "BBC 中文",
+     "outlet": "South China Morning Post",
      "region": "cn",
      "bucket": "serious",
-     "title": "俄羅斯鼠疫：死者名叫希皮洛娃，已有200接觸者被觀察",
-     "language": "zh",
-     "link": "https://www.bbc.com/zhongwen/articles/c6vg90zwkezlo/trad?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-07T07:04:23+00:00"
+     "title": "Lula and Bolsonaro trade barbs in fiery Brazil run-off debate",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/americas/article/3371343/lula-and-bolsonaro-trade-barbs-fiery-brazil-run-debate?utm_source=rss_feed",
+     "published": "2026-10-19T04:09:43+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "Brazil’s Bolsonaro, Lula spar in first debate as personal attacks fly",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-19-brazils-bolsonaro-lula-spar-in-first-debate-as-personal-attacks-fly/",
+     "published": "2026-10-19T10:23:39+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Brazil chooses between Lula and Bolsonaro in nail-biter vote",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2039743/brazil-chooses-between-lula-and-bolsonaro-in-nail-biter-vote",
+     "published": "2026-10-25T15:38:07+00:00"
+    },
+    {
+     "outlet": "MercoPress",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "Brazil chooses between Lula and Bolsonaro in its tightest runoff in recent history",
+     "language": "en",
+     "link": "https://en.mercopress.com/2026/10/25/brazil-chooses-between-lula-and-bolsonaro-in-its-tightest-runoff-in-recent-history?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
+     "published": "2026-10-25T07:02:00+00:00"
     }
    ],
-   "last_seen": "2026-10-18T09:07:42.310366+00:00",
-   "outlets": 16,
+   "last_seen": "2026-10-25T17:07:45.058543+00:00",
+   "outlets": 19,
    "regions": 13,
-   "languages": 2,
-   "score": 46.0
+   "languages": 1,
+   "score": 47.0
   },
   {
    "id": "8a9cacec0541",
@@ -3274,267 +3283,267 @@
    "score": 46.0
   },
   {
-   "id": "f4950bb60ba8",
-   "first_seen": "2026-10-05T15:07:44.573046+00:00",
+   "id": "f00e84e5b9d3",
+   "first_seen": "2026-10-23T17:08:00.252001+00:00",
    "members": [
     {
      "outlet": "The Guardian — World",
      "region": "uk",
-     "bucket": "light",
-     "title": "Brazil’s presidential race goes to second round as Flávio Bolsonaro leads incumbent Lula",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/05/brazil-presidential-race-election-result-second-round-lula-flavio-bolsonaro",
-     "published": "2026-10-05T00:16:52+00:00"
-    },
-    {
-     "outlet": "Court House News",
-     "region": "court",
-     "bucket": "light",
-     "title": "Lula and Bolsonaro head to Brazil’s presidential runoff",
-     "language": "en",
-     "link": "https://www.courthousenews.com/lula-and-bolsonaro-head-to-brazils-presidential-runoff/",
-     "published": "2026-10-05T01:45:04+00:00"
-    },
-    {
-     "outlet": "Premium Times",
-     "region": "ng",
      "bucket": "serious",
-     "title": "Brazil’s presidential election goes to runoff",
+     "title": "France to deploy 70,000 police on Saturday to prevent civil unrest",
      "language": "en",
-     "link": "https://www.premiumtimesng.com/foreign/world-foreign/914610-brazils-presidential-election-goes-to-runoff.html",
-     "published": "2026-10-05T12:56:50+00:00"
-    },
-    {
-     "outlet": "Deutsche Welle",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Brazil election: Bolsonaro and Lula head to runoff",
-     "language": "en",
-     "link": "https://www.dw.com/en/brazil-election-bolsonaro-and-lula-head-to-runoff/a-79533857?maca=en-rss-en-world-4025-rdf",
-     "published": "2026-10-05T00:27:00+00:00"
-    },
-    {
-     "outlet": "CGTN",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Lula, Flavio Bolsonaro head to runoff in Brazil presidential election",
-     "language": "en",
-     "link": "https://news.cgtn.com/news/2026-10-05/news-1QZ8scMvcdy/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
-     "published": "2026-10-04T23:58:51+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Flavio Bolsonaro, Lula da Silva advance to second tour of presidential election",
-     "language": "en",
-     "link": "https://tass.com/world/2197463",
-     "published": "2026-10-05T00:30:00+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Brazil heads to run-off as Bolsonaro pulls off shock first place finish in first round",
-     "language": "en",
-     "link": "https://www.france24.com/en/video/20261005-brazil-heads-to-run-off-as-bolsonaro-pulls-off-shock-first-place-finish-in-first-round",
-     "published": "2026-10-05T09:38:59+00:00"
-    },
-    {
-     "outlet": "Buenos Aires Times",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "Brazil heads to run-off as Flávio Bolsonaro takes first place finish over Lula",
-     "language": "en",
-     "link": "https://www.batimes.com.ar/news/latin-america/brazil-heads-to-run-off-as-flavio-bolsonaro-takes-first-place-finish-over-lula.phtml",
-     "published": "2026-10-05T05:14:00+00:00"
-    },
-    {
-     "outlet": "MercoPress",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "Flávio Bolsonaro edges Lula in the first round; both head to an October 25 runoff",
-     "language": "en",
-     "link": "https://en.mercopress.com/2026/10/05/flavio-bolsonaro-edges-lula-in-the-first-round-both-head-to-an-october-25-runoff?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
-     "published": "2026-10-05T10:30:00+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Right-wing Flávio Bolsonaro wins first round of Brazil election",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/ck1l34ed592no?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-05T03:16:16+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Bolsonaro pushes Lula to brink of defeat ahead of Brazil runoff",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/05/world/brazil-lula-bolsonaro-narrow-election/",
-     "published": "2026-10-05T05:36:00+00:00"
-    },
-    {
-     "outlet": "Buenos Aires Times",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "Bolsonaro pushes Lula to brink of defeat ahead of Brazil run-off",
-     "language": "en",
-     "link": "https://www.batimes.com.ar/news/latin-america/bolsonaro-pushes-lula-to-brink-of-defeat-ahead-of-brazil-run-off.phtml",
-     "published": "2026-10-05T11:30:18+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Bolsonaro in 'very strong position' as Brazil election heads to run-off",
-     "language": "en",
-     "link": "https://www.france24.com/en/video/20261005-bolsonaro-in-very-strong-position-as-brazil-election-heads-to-run-off",
-     "published": "2026-10-05T08:44:23+00:00"
+     "link": "https://www.theguardian.com/world/2026/oct/23/france-police-demonstrations-civil-unrest",
+     "published": "2026-10-23T15:34:21+00:00"
     },
     {
      "outlet": "Free Malaysia Today",
      "region": "my",
      "bucket": "serious",
-     "title": "Bolsonaro rides right-wing surge into Brazil’s election runoff",
+     "title": "France to deploy 70,000 police ahead of new protests",
      "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/05/bolsonaro-rides-right-wing-surge-into-brazil-s-election-runoff",
-     "published": "2026-10-05T15:55:04+00:00"
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/23/france-to-deploy-70-000-police-ahead-of-new-protests",
+     "published": "2026-10-23T12:20:12+00:00"
     },
     {
-     "outlet": "Buenos Aires Times",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "Flávio Bolsonaro rides right-wing surge into Brazil's election run-off",
-     "language": "en",
-     "link": "https://www.batimes.com.ar/news/latin-america/flavio-bolsonaro-rides-right-wing-surge-into-brazils-election-run-off.phtml",
-     "published": "2026-10-05T16:26:40+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Brazil presidential election 2026: first-round live results",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/ng-interactive/2026/oct/04/brazil-presidential-election-2026-first-round-live-results",
-     "published": "2026-10-05T00:24:55+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
+     "outlet": "NDTV — World",
      "region": "in",
      "bucket": "serious",
-     "title": "Brazil lurches to the right as Lula falters in the first round of presidential election",
+     "title": "France To Deploy 70,000 Cops Nationwide Ahead Of Weekend Protests",
      "language": "en",
-     "link": "https://www.thehindu.com/news/international/brazil-presidential-election-lula-bolsonaro/article71548352.ece",
-     "published": "2026-10-05T16:19:26+00:00"
+     "link": "https://www.ndtv.com/world-news/france-to-deploy-70-000-cops-nationwide-ahead-of-weekend-protests-12226434#publisher=newsstand",
+     "published": "2026-10-23T14:02:37+00:00"
     },
     {
-     "outlet": "The Guardian — World",
-     "region": "uk",
+     "outlet": "Africanews",
+     "region": "africa",
      "bucket": "serious",
-     "title": "Flávio Bolsonaro poised to win Brazilian presidency after shock first-round victory",
+     "title": "France deploys 70,000 police, shuts Paris museums ahead of protests",
      "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/05/flavio-bolsonaro-brazilian-presidency-election-shock-first-round-victory",
-     "published": "2026-10-05T16:05:20+00:00"
-    },
-    {
-     "outlet": "MercoPress",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "\"The end of the PT era is decreed,\" says Flávio Bolsonaro after winning the first round",
-     "language": "en",
-     "link": "https://en.mercopress.com/2026/10/05/the-end-of-the-pt-era-is-decreed-says-flavio-bolsonaro-after-winning-the-first-round?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
-     "published": "2026-10-05T17:18:00+00:00"
+     "link": "http://www.africanews.com/2026/10/23/france-deploys-70000-police-shuts-paris-museums-ahead-of-protests/",
+     "published": "2026-10-23T13:25:51+00:00"
     },
     {
      "outlet": "South China Morning Post",
      "region": "cn",
      "bucket": "serious",
-     "title": "Brazil-China ties in focus as Bolsonaro gets election edge over Lula",
+     "title": "France deploys 70,000 police for new protests as Macron delays Africa trip",
      "language": "en",
-     "link": "https://www.scmp.com/plus/news/china/diplomacy/article/3369805/brazil-china-ties-focus-bolsonaro-gets-election-edge-over-lula?utm_source=rss_feed",
-     "published": "2026-10-05T09:46:21+00:00"
+     "link": "https://www.scmp.com/news/world/europe/article/3371973/france-deploys-70000-police-new-protests-macron-delays-africa-trip",
+     "published": "2026-10-23T14:01:39+00:00"
     },
     {
      "outlet": "The Hindu — International",
      "region": "in",
      "bucket": "serious",
-     "title": "Brazil’s Lula accuses Meta of election interference",
+     "title": "France protests: Police say 1,10,000 marched in Paris",
      "language": "en",
-     "link": "https://www.thehindu.com/news/international/brazils-lula-accuses-meta-of-election-interference/article71571012.ece",
-     "published": "2026-10-11T09:01:39+00:00"
+     "link": "https://www.thehindu.com/news/international/police-fire-tear-gas-as-new-french-protests-kick-off/article71619959.ece",
+     "published": "2026-10-24T15:41:15+00:00"
     },
     {
-     "outlet": "France24",
-     "region": "eu",
+     "outlet": "Daily Sabah",
+     "region": "tr",
      "bucket": "serious",
-     "title": "Brazil's Lula accuses social media giant Meta of election interference amid tight run-off campaign",
+     "title": "Paris closes museums as France deploys police for fresh protests",
      "language": "en",
-     "link": "https://www.france24.com/en/americas/20261011-brazil-lula-accuses-social-media-giant-meta-election-interference-amid-tight-run-campaign",
-     "published": "2026-10-11T13:12:09+00:00"
+     "link": "https://www.dailysabah.com/world/europe/paris-closes-museums-as-france-deploys-police-for-fresh-protests",
+     "published": "2026-10-24T10:11:39+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Police fire tear gas as new French demonstrations kick off",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2039459/police-fire-tear-gas-as-new-french-demonstrations-kick-off",
+     "published": "2026-10-24T11:42:33+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "French police fire tear gas, security personnel deploy for protests",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/europe/french-police-fire-tear-gas-security-personnel-deploy-for-protests",
+     "published": "2026-10-24T10:41:00+00:00"
     },
     {
      "outlet": "Free Malaysia Today",
      "region": "my",
      "bucket": "serious",
-     "title": "Brazil’s Lula accuses Meta of election interference",
+     "title": "Police fire tear gas as new French demonstrations kick off",
      "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/11/brazil-s-lula-accuses-meta-of-election-interference",
-     "published": "2026-10-11T08:49:00+00:00"
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/24/police-fire-tear-gas-as-new-french-demonstrations-kick-off",
+     "published": "2026-10-24T10:59:45+00:00"
     },
     {
-     "outlet": "The Express Tribune",
-     "region": "pk",
+     "outlet": "France24",
+     "region": "eu",
      "bucket": "serious",
-     "title": "Brazil's Lula accuses Meta of election interference",
+     "title": "More than 400.000 protest across France",
      "language": "en",
-     "link": "https://tribune.com.pk/story/2634278/brazils-lula-accuses-meta-of-election-interference",
-     "published": "2026-10-11T12:38:20+00:00"
+     "link": "https://www.france24.com/en/more-than-400-000-protest-across-france",
+     "published": "2026-10-25T09:32:21+00:00"
     },
     {
      "outlet": "Hindustan Times — World",
      "region": "in",
      "bucket": "serious",
-     "title": "Meta faces election interference accusations from Brazil's Lula da Silva; court gives company 48 hours to clarify",
+     "title": "Over 4 lakh protest across France, nearly 1,000 arrested as protesters clash with cops; pressure mounts on Macron government",
      "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/meta-faces-election-interference-accusations-from-brazils-lula-da-silva-court-gives-company-48-hours-to-clarify-101791711200783.html",
-     "published": "2026-10-11T10:24:16+00:00"
+     "link": "https://www.hindustantimes.com/world-news/france-protests-over-4-lakh-on-streets-paris-1000-arrested-riots-clash-with-french-police-pressure-emmanuel-macron-101792895123535.html",
+     "published": "2026-10-25T03:01:00+00:00"
     },
     {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
+     "outlet": "CBS News — World",
+     "region": "us",
      "bucket": "serious",
-     "title": "Lula and Bolsonaro spar in Brazil’s fiery first presidential run-off debate",
+     "title": "More than 1,000 arrested in France as protesters and police clash",
      "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/19/lula-and-bolsonaro-spar-in-brazils-fiery-first-presidential-run-off-debate?traffic_source=rss",
-     "published": "2026-10-19T04:27:00+00:00"
+     "link": "https://www.cbsnews.com/news/paris-france-new-protests-riots-museums-shops/",
+     "published": "2026-10-25T10:31:54+00:00"
     },
     {
-     "outlet": "South China Morning Post",
-     "region": "cn",
+     "outlet": "Daily Sabah",
+     "region": "tr",
      "bucket": "serious",
-     "title": "Lula and Bolsonaro trade barbs in fiery Brazil run-off debate",
+     "title": "Over 400,000 march across France in serious challenge to Macron",
      "language": "en",
-     "link": "https://www.scmp.com/news/world/americas/article/3371343/lula-and-bolsonaro-trade-barbs-fiery-brazil-run-debate?utm_source=rss_feed",
-     "published": "2026-10-19T04:09:43+00:00"
+     "link": "https://www.dailysabah.com/world/europe/over-400000-march-across-france-in-serious-challenge-to-macron",
+     "published": "2026-10-25T10:55:00+00:00"
     },
     {
-     "outlet": "Daily Maverick",
-     "region": "za",
+     "outlet": "Channel News Asia",
+     "region": "seasia",
      "bucket": "serious",
-     "title": "Brazil’s Bolsonaro, Lula spar in first debate as personal attacks fly",
+     "title": "Police made 1,314 arrests in France's protests",
      "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-19-brazils-bolsonaro-lula-spar-in-first-debate-as-personal-attacks-fly/",
-     "published": "2026-10-19T10:23:39+00:00"
+     "link": "https://www.channelnewsasia.com/world/france-protest-police-arrests-government-6490381",
+     "published": "2026-10-25T11:02:00+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Fireworks and tear gas as protesters and riot police clash in Paris",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/videos/cm89zqw9lx1do?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-24T19:37:35+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Protests roil France once again as police seek to quell violence",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/24/nx-s1-6014520/protests-roil-france-once-again-as-police-seek-to-quell-violence",
+     "published": "2026-10-24T21:21:00+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "More than 1,300 arrested as clashes follow another day of mass protests across France",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c95ynd587ynzo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-25T10:38:15+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "At least 1,300 people arrested in mass weekend protests across France",
+     "language": "en",
+     "link": "https://www.france24.com/en/france/20261025-at-least-1-300-people-arrested-in-mass-weekend-protests-across-france",
+     "published": "2026-10-25T11:02:41+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "France braces for another weekend of protests",
+     "language": "en",
+     "link": "https://www.cbsnews.com/video/france-braces-for-another-weekend-of-protests/",
+     "published": "2026-10-24T15:14:00+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Almost 1,000 arrested as clashes follow another day of mass protests across France",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/almost-1000-arrested-as-clashes-follow-another-day-of-mass-protests-across-france/",
+     "published": "2026-10-25T03:41:41+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "France see new round of protests; Riot police clash with demonstrators in Italy",
+     "language": "en",
+     "link": "https://www.cbsnews.com/video/france-see-new-round-of-protests-riot-police-clash-with-demonstrators-in-italy/",
+     "published": "2026-10-25T00:59:22+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Over 1 lakh hit Paris streets as France protests intensify; police use tear gas, water cannon",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/70000-cops-deployed-museums-shut-shops-boarded-as-france-braces-for-fresh-protests-riots-violence-101792846842467.html",
+     "published": "2026-10-24T15:01:14+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Widespread protests, clashes with police in Europe (+PHOTOS)",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248886/Widespread-protests-clashes-with-police-in-Europe-PHOTOS",
+     "published": "2026-10-25T06:13:35+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Soldiers guard centre of Milan as thousands of protesters march in cities across Europe",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/thousands-of-european-protests-erupt-from-milan-to-madrid/article71622515.ece",
+     "published": "2026-10-25T03:58:07+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Over 5,000 Soldiers Guard Milan As Thousands March Across Italian Cities",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/over-5-000-soldiers-guard-milan-thousands-march-across-italian-cities-milan-rome-europe-12231895#publisher=newsstand",
+     "published": "2026-10-25T02:34:43+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Soldiers guard center of Milan as thousands of protesters march in cities across Europe",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/25/nx-s1-6016126/thousands-of-protesters-across-europe",
+     "published": "2026-10-25T07:15:00+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Soldiers guard center of Milan as thousands of protesters march in cities across Europe",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiigFBVV95cUxNQXpjc1dIWmk3TUlEaVotOHQ5bjNTZnBlVnh0Z2l0VmNXS1h4NHh5YXRrNnBXYVhDNGllZHFZdzcyb05ZYXVqWkNOV2NUZWFQRGE2dHFVdUxvcDVxVklEZFJYQTVrRlc3RWhoTzU2RUphLXJmYTNtbWRLMjFoM1pudkpQS3Yta2hYbGc?oc=5",
+     "published": "2026-10-25T07:15:00+00:00"
     }
    ],
-   "last_seen": "2026-10-19T09:07:48.928141+00:00",
-   "outlets": 18,
+   "last_seen": "2026-10-25T17:07:45.058543+00:00",
+   "outlets": 17,
    "regions": 13,
    "languages": 1,
-   "score": 46.0
+   "score": 45.0
   },
   {
    "id": "902b9d7f57a8",
@@ -4656,7 +4665,7 @@
      "published": "2026-10-10T16:51:47+00:00"
     }
    ],
-   "last_seen": "2026-10-24T17:07:45.140740+00:00",
+   "last_seen": "2026-10-25T17:07:45.058543+00:00",
    "outlets": 12,
    "regions": 10,
    "languages": 2,
@@ -5741,6 +5750,98 @@
    "score": 26.0
   },
   {
+   "id": "57c02ebe3818",
+   "first_seen": "2026-10-19T09:07:48.928141+00:00",
+   "members": [
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Mbappe scores twice as Real Madrid beat Sevilla",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/football/videos/crp3g7z9x215o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-18T21:39:04+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Mbappe scores twice as Real Madrid beat Sevilla",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/mbappe-scores-twice-as-real-madrid-beat-sevilla/",
+     "published": "2026-10-18T23:33:00+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Mbappe scores two, Guler one, as Real Madrid find form before El Clasico",
+     "language": "es",
+     "link": "https://www.aljazeera.com/sports/2026/10/19/mbappe-scores-two-guler-one-as-real-madrid-find-form-before-el-clasico?traffic_source=rss",
+     "published": "2026-10-19T06:01:51+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Mbappe hits two as Real Madrid rout Sevilla",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2635672/mbappe-hits-two-as-real-madrid-rout-sevilla",
+     "published": "2026-10-19T01:42:16+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Mbappe stars with amazing goal and Panenka penalty as Real thump Sevilla",
+     "language": "en",
+     "link": "https://www.skysports.com/watch/video/13600836/real-madrid-4-1-sevilla-laliga-highlights",
+     "published": "2026-10-19T06:37:00+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Barcelona vs Real Madrid LIVE: La Liga El Clasico",
+     "language": "fr",
+     "link": "https://www.aljazeera.com/sports/liveblog/2026/10/25/barcelona-vs-real-madrid-live-la-liga-el-clasico?traffic_source=rss",
+     "published": "2026-10-25T16:30:00+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "El Clásico today: How to watch Barcelona v Real Madrid, TV channels & live stream",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/2026/oct/25/how-to-watch-la-liga-el-clasico-barcelona-real-madrid",
+     "published": "2026-10-25T14:00:05+00:00"
+    },
+    {
+     "outlet": "Der Spiegel",
+     "region": "de",
+     "bucket": "serious",
+     "title": "FC Barcelona gegen Real Madrid: José Mourinho spielt seine bekannten Hits",
+     "language": "en",
+     "link": "https://www.spiegel.de/sport/fussball/fc-barcelona-gegen-real-madrid-jose-mourinho-spielt-seine-bekannten-hits-a-cad31d91-b8e5-4bbe-8bc2-507cb18574b4#ref=rss",
+     "published": "2026-10-25T10:51:00+00:00"
+    },
+    {
+     "outlet": "El País",
+     "region": "es",
+     "bucket": "serious",
+     "title": "Barcelona-Real Madrid: rivales en el campo, misma estrategia para atraer a espectadores VIP",
+     "language": "es",
+     "link": "https://cincodias.elpais.com/mercados-financieros/2026-10-25/barcelona-real-madrid-rivales-en-el-campo-misma-estrategia-para-atraer-a-espectadores-vip.html",
+     "published": "2026-10-25T04:30:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-25T17:07:45.058543+00:00",
+   "outlets": 8,
+   "regions": 6,
+   "languages": 3,
+   "score": 26.0
+  },
+  {
    "id": "9e1f080f8a21",
    "first_seen": "2026-10-24T17:07:45.140740+00:00",
    "members": [
@@ -5833,9 +5934,18 @@
      "language": "en",
      "link": "https://www.ndtv.com/world-news/fire-engulfs-hitlers-mountain-retreat-eagles-nest-in-germanys-bavaria-suspect-detained-12228373#publisher=newsstand",
      "published": "2026-10-24T05:46:18+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Man arrested after fire engulfs Hitler’s Eagle’s Nest mountain retreat in the Bavarian Alps",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxORHFrRDBSMlc3QU1KbUNNa0t2dS1wUXpRZjRKeWpLUjExMzFLMWlmeDVDc2hQdDVYQTFDbDRsOU9Rb21Vdl9iZXhxQ3Rpbk96dmh1dUlDYkE5QVk4OGxXdVlXS294ZGZ5UzJpeXdvQ2lBUFYwNXNJZE9BeTdDNkRPQnNrMHNyV2J5WkxWaHM3NWJUbzJCVnFkQ3JPeXZEdFo5S2s4Ti1Xb0RkbzjSAbABQVVfeXFMTm9yYThTQXYxY2NwSTctQno0dXFvRHlVc0gzeVplaWpoRFhNV2tOTTg4MndtVkRNOUtYZ2hwOEVxbzFPWlVrejdfelotNUxmUUtUa2ZYb2ppaVV5MnZoSGF6UzFGbmpfOXgtZUU1Q2N3MU5XSHd2ZWR5dGI1RVgya2FKSEptVThkRm80bmdWTUlCcDg0YnhBaDVTdThXeEZYNnRBVmUyams2QUh0Z01OYXE?oc=5",
+     "published": "2026-10-25T00:54:50+00:00"
     }
    ],
-   "last_seen": "2026-10-24T17:07:45.140740+00:00",
+   "last_seen": "2026-10-25T17:07:45.058543+00:00",
    "outlets": 9,
    "regions": 7,
    "languages": 1,
@@ -5946,107 +6056,6 @@
     }
    ],
    "last_seen": "2026-10-19T17:07:57.762301+00:00",
-   "outlets": 8,
-   "regions": 7,
-   "languages": 1,
-   "score": 24.0
-  },
-  {
-   "id": "f00e84e5b9d3",
-   "first_seen": "2026-10-23T17:08:00.252001+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "France to deploy 70,000 police on Saturday to prevent civil unrest",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/23/france-police-demonstrations-civil-unrest",
-     "published": "2026-10-23T15:34:21+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "France to deploy 70,000 police ahead of new protests",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/23/france-to-deploy-70-000-police-ahead-of-new-protests",
-     "published": "2026-10-23T12:20:12+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "France To Deploy 70,000 Cops Nationwide Ahead Of Weekend Protests",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/france-to-deploy-70-000-cops-nationwide-ahead-of-weekend-protests-12226434#publisher=newsstand",
-     "published": "2026-10-23T14:02:37+00:00"
-    },
-    {
-     "outlet": "Africanews",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "France deploys 70,000 police, shuts Paris museums ahead of protests",
-     "language": "en",
-     "link": "http://www.africanews.com/2026/10/23/france-deploys-70000-police-shuts-paris-museums-ahead-of-protests/",
-     "published": "2026-10-23T13:25:51+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "France deploys 70,000 police for new protests as Macron delays Africa trip",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/europe/article/3371973/france-deploys-70000-police-new-protests-macron-delays-africa-trip",
-     "published": "2026-10-23T14:01:39+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "France protests: Police say 1,10,000 marched in Paris",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/police-fire-tear-gas-as-new-french-protests-kick-off/article71619959.ece",
-     "published": "2026-10-24T15:41:15+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Paris closes museums as France deploys police for fresh protests",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/europe/paris-closes-museums-as-france-deploys-police-for-fresh-protests",
-     "published": "2026-10-24T10:11:39+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Police fire tear gas as new French demonstrations kick off",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2039459/police-fire-tear-gas-as-new-french-demonstrations-kick-off",
-     "published": "2026-10-24T11:42:33+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "French police fire tear gas, security personnel deploy for protests",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/europe/french-police-fire-tear-gas-security-personnel-deploy-for-protests",
-     "published": "2026-10-24T10:41:00+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Police fire tear gas as new French demonstrations kick off",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/24/police-fire-tear-gas-as-new-french-demonstrations-kick-off",
-     "published": "2026-10-24T10:59:45+00:00"
-    }
-   ],
-   "last_seen": "2026-10-24T17:07:45.140740+00:00",
    "outlets": 8,
    "regions": 7,
    "languages": 1,
@@ -6672,62 +6681,6 @@
    "score": 18.0
   },
   {
-   "id": "57c02ebe3818",
-   "first_seen": "2026-10-19T09:07:48.928141+00:00",
-   "members": [
-    {
-     "outlet": "BBC Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Mbappe scores twice as Real Madrid beat Sevilla",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/sport/football/videos/crp3g7z9x215o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-18T21:39:04+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Mbappe scores twice as Real Madrid beat Sevilla",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/mbappe-scores-twice-as-real-madrid-beat-sevilla/",
-     "published": "2026-10-18T23:33:00+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Mbappe scores two, Guler one, as Real Madrid find form before El Clasico",
-     "language": "es",
-     "link": "https://www.aljazeera.com/sports/2026/10/19/mbappe-scores-two-guler-one-as-real-madrid-find-form-before-el-clasico?traffic_source=rss",
-     "published": "2026-10-19T06:01:51+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Mbappe hits two as Real Madrid rout Sevilla",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2635672/mbappe-hits-two-as-real-madrid-rout-sevilla",
-     "published": "2026-10-19T01:42:16+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Mbappe stars with amazing goal and Panenka penalty as Real thump Sevilla",
-     "language": "en",
-     "link": "https://www.skysports.com/watch/video/13600836/real-madrid-4-1-sevilla-laliga-highlights",
-     "published": "2026-10-19T06:37:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-19T09:07:48.928141+00:00",
-   "outlets": 5,
-   "regions": 4,
-   "languages": 2,
-   "score": 17.0
-  },
-  {
    "id": "dc18f09d8782",
    "first_seen": "2026-10-20T09:08:04.491772+00:00",
    "members": [
@@ -6939,80 +6892,6 @@
    "regions": 5,
    "languages": 1,
    "score": 17.0
-  },
-  {
-   "id": "3163a08f7c17",
-   "first_seen": "2026-10-11T17:07:45.259726+00:00",
-   "members": [
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Emergency, governor's rule imposed in KP as president approves cabinet decision",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2036352/emergency-governors-rule-imposed-in-kp-as-president-approves-cabinet-decision",
-     "published": "2026-10-11T16:09:32+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Emergency, governor's rule imposed in K-P after president signs summary on PM Shehbaz's advice",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2634200/pm-shehbaz-chairs-cabinet-meeting-to-discuss-terrorism-governance-in-k-p",
-     "published": "2026-10-11T00:47:34+00:00"
-    },
-    {
-     "outlet": "Geo News",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Emergency, governor's rule imposed in KP as President Zardari approves summary on cabinet's advice",
-     "language": "en",
-     "link": "https://www.geo.tv/latest/686054-emergency-governors-rule-imposed-in-kp-as-president-zardari-approves-summary-on-pms-advice",
-     "published": "2026-10-11T12:33:00+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Governor's rule in K-P",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2634287/governors-rule-in-k-p",
-     "published": "2026-10-11T14:35:55+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "No action to be taken against wife of PM’s aide over Palestine Action post",
-     "language": "en",
-     "link": "https://www.theguardian.com/politics/2026/oct/17/sarah-helm-jonathan-powell-palestine-action",
-     "published": "2026-10-17T19:47:45+00:00"
-    },
-    {
-     "outlet": "BBC Technology",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "No further action against government adviser's wife over Palestine Action post, police say",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cv8ez40yz950o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-17T20:24:32+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "UK police rule out probe into Palestine Action post by PM adviser’s wife",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQQ1phN1pfRTVRRW9LRndtajV6X2RwOTBmQ2JWeGg4SHU3MUVuOEQ3a1FEU1U3aTNxejBQU2wwMFBjU3VjSkRLc1JwTlRLajRPdHZURjBKajl5WG9LemxJVzlocmZnakRoRWJuSXNVVHNjOWNKc1RlS3pLSWE4dmtZUnhmSm9CTkFzUFYyYkxlc2lvZjA3VXBHQjA3cVVCc2JQSWZzbVk5eHIwWm1EdjlXWEt5SdIBuAFBVV95cUxQeEs2R1diMjJYcVNfUlFaMGIzd2lFZkd6QjJJX1dqeHVvbDVUeG1VTXZGR2RXU25QRGFab1FaWXQxLUVSNFBYRjJvdU52b2ZQVU91cG45ZmwycnpLSGk2ZHJvZ0FmYWxJNEJ5NU9kbjRxenR3Ukk3RlJwNG1LbzcxcUdDbklZMV9mVWNCUzl1ZDVqLUYyTE1OLVZ3TVY3RTRaX05TM3J6aWxJSFNBSzktYkNsT3Y0OUlR?oc=5",
-     "published": "2026-10-18T04:58:22+00:00"
-    }
-   ],
-   "last_seen": "2026-10-18T09:07:42.310366+00:00",
-   "outlets": 6,
-   "regions": 4,
-   "languages": 1,
-   "score": 16.0
   },
   {
    "id": "a5c2bfe5c6b8",
@@ -7423,51 +7302,69 @@
    "score": 15.0
   },
   {
-   "id": "73bbea0522b1",
-   "first_seen": "2026-10-18T09:07:42.310366+00:00",
+   "id": "49d563430cbd",
+   "first_seen": "2026-10-25T17:07:45.058543+00:00",
    "members": [
     {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Daniel Dubois defeats Fabio Wardley to retain WBO heavyweight boxing title",
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Isak on target again as Liverpool beat Brighton",
      "language": "en",
-     "link": "https://www.aljazeera.com/sports/2026/10/18/daniel-dubois-defeats-fabio-wardley-to-retain-wbo-heavyweight-boxing-title?traffic_source=rss",
-     "published": "2026-10-18T06:34:02+00:00"
+     "link": "https://www.skysports.com/football/liverpool-vs-brighton-and-hove-albion/report/559521",
+     "published": "2026-10-25T16:00:00+00:00"
     },
     {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
      "bucket": "serious",
-     "title": "Dubois defeats Wardley in short order to retain WBO heavyweight title",
+     "title": "Isak scores again as Liverpool beat Brighton",
      "language": "en",
-     "link": "https://www.channelnewsasia.com/sport/dubois-defeats-wardley-in-short-order-retain-wbo-heavyweight-title-6469061",
-     "published": "2026-10-17T22:08:33+00:00"
+     "link": "https://www.myjoyonline.com/isak-scores-again-as-liverpool-beat-brighton/",
+     "published": "2026-10-25T16:20:24+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Isak extends hot streak as Liverpool sink Brighton",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/26/isak-extends-hot-streak-as-liverpool-sink-brighton",
+     "published": "2026-10-25T16:20:44+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Isak extends hot streak as Liverpool sink Brighton",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/isak-extends-hot-streak-as-liverpool-sink-brighton/",
+     "published": "2026-10-25T16:53:19+00:00"
     },
     {
      "outlet": "The Guardian — Sport",
      "region": "sport",
      "bucket": "sport",
-     "title": "Daniel Dubois knocks out Fabio Wardley to retain WBO heavyweight title",
+     "title": "Isak applies finishing touch as Liverpool bring Brighton’s winning run to an end",
      "language": "en",
-     "link": "https://www.theguardian.com/sport/live/2026/oct/17/daniel-dubois-fabio-wardley-ii-boxing-wbo-heavyweight-title-fight-live",
-     "published": "2026-10-17T22:39:05+00:00"
+     "link": "https://www.theguardian.com/football/2026/oct/25/liverpool-brighton-premier-league-match-report",
+     "published": "2026-10-25T16:12:57+00:00"
     },
     {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Dubois defeats Wardley to retain WBO heavyweight title",
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Liverpool down in-form Brighton to jump to fourth in the table",
      "language": "en",
-     "link": "https://tribune.com.pk/story/2635506/dubois-defeats-wardley-to-retain-wbo-heavyweight-title",
-     "published": "2026-10-18T01:36:31+00:00"
+     "link": "https://www.skysports.com/watch/video/13603644/liverpool-2-0-brighton-premier-league-highlights",
+     "published": "2026-10-25T16:10:00+00:00"
     }
    ],
-   "last_seen": "2026-10-18T09:07:42.310366+00:00",
-   "outlets": 4,
+   "last_seen": "2026-10-25T17:07:45.058543+00:00",
+   "outlets": 5,
    "regions": 4,
    "languages": 1,
-   "score": 14.0
+   "score": 15.0
   },
   {
    "id": "c311b9928977",
@@ -8160,82 +8057,6 @@
    "regions": 3,
    "languages": 1,
    "score": 12.0
-  },
-  {
-   "id": "82202de600d4",
-   "first_seen": "2026-10-18T09:07:42.310366+00:00",
-   "members": [
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Across US, ‘No Kings’ events seek to boost early voting and thwart Trump",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3371279/across-us-no-kings-events-seek-boost-early-voting?utm_source=rss_feed",
-     "published": "2026-10-17T23:56:30+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Across U.S., ‘No Kings’ events seek to boost early voting",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/18/world/politics/us-no-kings-early-voting/",
-     "published": "2026-10-18T00:05:00+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "‘No Kings’ events seek to boost early voting across US",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/18/no-kings-events-seek-to-boost-early-voting-across-us",
-     "published": "2026-10-18T02:32:39+00:00"
-    }
-   ],
-   "last_seen": "2026-10-18T09:07:42.310366+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "749fbd20f560",
-   "first_seen": "2026-10-18T09:07:42.310366+00:00",
-   "members": [
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Mass protests in France spiral into worst riots in years",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/europe/article/3371255/french-protesters-take-streets-over-rising-prices-social-strain?utm_source=rss_feed",
-     "published": "2026-10-17T10:12:29+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Mass protests in France spiral into worst riots in years",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2635515/mass-protests-in-france-spiral-into-worst-riots-in-years",
-     "published": "2026-10-18T02:08:53+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Mass protests in France spiral into worst riots in years",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/18/world/mass-protests-france-riots/",
-     "published": "2026-10-17T23:20:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-18T09:07:42.310366+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
   },
   {
    "id": "3e0d341bbeaa",
@@ -9045,107 +8866,42 @@
    "score": 11.0
   },
   {
-   "id": "3e9a7d1a3b4b",
-   "first_seen": "2026-10-18T09:07:42.310366+00:00",
+   "id": "bde0884f8650",
+   "first_seen": "2026-10-25T17:07:45.058543+00:00",
    "members": [
     {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
+     "outlet": "The Guardian — World",
+     "region": "uk",
      "bucket": "serious",
-     "title": "Messi scores twice as Inter Miami beat Atlanta 3-1",
+     "title": "Andy Burnham says he wants ‘honest discussion’ about freedom of movement with EU",
      "language": "en",
-     "link": "https://punchng.com/messi-scores-twice-as-inter-miami-beat-atlanta-3-1/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-18T09:38:04+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Messi scores twice as Inter Miami beat Atlanta United 3-1 to extend winning streak",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/sports/2026/10/18/messi-scores-twice-as-inter-miami-beat-atlanta-united-3-1-to-extend-winning-streak/239553",
-     "published": "2026-10-18T03:49:28+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Messi brace lifts Inter Miami to 3-1 win in Atlanta",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/18/messi-brace-lifts-inter-miami-to-3-1-win-in-atlanta",
-     "published": "2026-10-18T03:07:34+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Messi brace lifts Inter Miami to 3-1 win in Atlanta",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/messi-brace-lifts-inter-miami-to-3-1-win-in-atlanta/",
-     "published": "2026-10-18T07:48:13+00:00"
-    }
-   ],
-   "last_seen": "2026-10-18T09:07:42.310366+00:00",
-   "outlets": 4,
-   "regions": 2,
-   "languages": 1,
-   "score": 10.0
-  },
-  {
-   "id": "7c183f0e72b7",
-   "first_seen": "2026-10-18T09:07:42.310366+00:00",
-   "members": [
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Iran rejects pressure, remains open to dialogue: Araghchi",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248652/Iran-rejects-pressure-remains-open-to-dialogue-Araghchi",
-     "published": "2026-10-17T14:27:05+00:00"
-    },
-    {
-     "outlet": "IRNA English",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Iran rejects pressure, remains open to dialogue: Araghchi",
-     "language": "en",
-     "link": "https://en.irna.ir/news/86295149/Iran-rejects-pressure-remains-open-to-dialogue-Araghchi",
-     "published": "2026-10-17T13:00:54+00:00"
+     "link": "https://www.theguardian.com/politics/2026/oct/25/andy-burnham-says-he-wants-honest-discussion-about-freedom-of-movement-with-eu",
+     "published": "2026-10-24T23:07:12+00:00"
     },
     {
      "outlet": "Al Jazeera English",
      "region": "qa",
      "bucket": "serious",
-     "title": "Why Iran-US negotiations keep failing",
+     "title": "UK PM Burnham says he wants to discuss a return to EU freedom of movement",
      "language": "en",
-     "link": "https://www.aljazeera.com/opinions/2026/10/18/why-iran-us-negotiations-keep-failing?traffic_source=rss",
-     "published": "2026-10-18T07:32:59+00:00"
+     "link": "https://www.aljazeera.com/news/2026/10/25/uk-pm-burnham-says-he-wants-to-discuss-a-return-to-eu-freedom-of-movement?traffic_source=rss",
+     "published": "2026-10-25T12:38:54+00:00"
     },
     {
-     "outlet": "Iran International",
-     "region": "ir",
+     "outlet": "Free Malaysia Today",
+     "region": "my",
      "bucket": "serious",
-     "title": "Tehran’s diplomatic paralysis leaves Iran caught between deal and escalation",
+     "title": "UK’s PM calls for ‘honest discussion’ about EU’s free movement",
      "language": "en",
-     "link": "https://www.iranintl.com/en/202610176185",
-     "published": "2026-10-17T17:44:34+00:00"
-    },
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Iran FM affirms support for Lebanon's sovereignty",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248661/Iran-FM-affirms-support-for-Lebanon-s-sovereignty",
-     "published": "2026-10-18T04:00:38+00:00"
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/25/uk-pm-calls-for-honest-discussion-about-eu-free-movement",
+     "published": "2026-10-25T12:52:41+00:00"
     }
    ],
-   "last_seen": "2026-10-18T09:07:42.310366+00:00",
-   "outlets": 4,
-   "regions": 2,
+   "last_seen": "2026-10-25T17:07:45.058543+00:00",
+   "outlets": 3,
+   "regions": 3,
    "languages": 1,
-   "score": 10.0
+   "score": 11.0
   },
   {
    "id": "17a17ec8cf04",
@@ -9204,6 +8960,80 @@
    "score": 10.0
   },
   {
+   "id": "8195f144d0f3",
+   "first_seen": "2026-10-20T09:08:04.491772+00:00",
+   "members": [
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "England opt to bowl against Pakistan in ODI tri-series",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2635880/England-opt-to-bowl-against-Pakistan-in-ODI-tri-series",
+     "published": "2026-10-20T02:29:42+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "England take two early in tri-series ODI vs Pakistan LIVE!",
+     "language": "en",
+     "link": "https://www.skysports.com/cricket/live-blog/12040/13601207/pakistan-vs-england-odi-tri-series-live-latest-cricket-score-updates-and-video-as-harry-brooks-side-begin-50-over-tour",
+     "published": "2026-10-20T08:25:00+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Scorecard: Pakistan vs England, ODI tri-series",
+     "language": "en",
+     "link": "https://www.skysports.com/cricket/pakistan-v-england/scorecard/d97e0d28-3d0d-5c75-aad7-50ce21f5c49b",
+     "published": "2026-10-20T08:55:00+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Pakistan v England: men’s tri-series cricket ODI",
+     "language": "en",
+     "link": "https://www.theguardian.com/sport/live/2026/oct/20/pakistan-v-england-mens-tri-series-cricket-odi-live",
+     "published": "2026-10-20T09:05:17+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "England lose to Pakistan after improbable last-wicket stand",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/cricket/articles/cq0mek4de4xno?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-25T16:34:17+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Pakistan put on 88-run last-wicket stand to beat England LIVE!",
+     "language": "en",
+     "link": "https://www.skysports.com/cricket/live-blog/12040/13603448/pakistan-vs-england-odi-tri-series-live-latest-cricket-score-updates-video-and-analysis-as-harry-brooks-side-target-first-win",
+     "published": "2026-10-25T07:25:00+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Pakistan beat England in thriller after 89-run last-wicket stand: tri-series one day international cricket",
+     "language": "en",
+     "link": "https://www.theguardian.com/sport/live/2026/oct/25/pakistan-v-england-tri-series-one-day-international-cricket-live",
+     "published": "2026-10-25T16:52:01+00:00"
+    }
+   ],
+   "last_seen": "2026-10-25T17:07:45.058543+00:00",
+   "outlets": 4,
+   "regions": 2,
+   "languages": 1,
+   "score": 10.0
+  },
+  {
    "id": "1c0aa47b8b3b",
    "first_seen": "2026-10-18T09:07:42.310366+00:00",
    "members": [
@@ -9236,82 +9066,6 @@
     }
    ],
    "last_seen": "2026-10-18T17:07:47.543314+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 1,
-   "score": 9.0
-  },
-  {
-   "id": "7d9762d77201",
-   "first_seen": "2026-10-18T09:07:42.310366+00:00",
-   "members": [
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Vietnam signs free trade deal with four European nations",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/asia/vietnam-signs-free-trade-deal-four-european-nations-6469346",
-     "published": "2026-10-18T06:18:00+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Vietnam signs free trade deal with four European nations",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/business/2026/10/18/vietnam-signs-free-trade-deal-with-four-european-nations",
-     "published": "2026-10-18T05:32:31+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Vietnam signs free trade deal with four European nations as US tariffs disrupt global commerce",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/money/2026/10/18/vietnam-signs-free-trade-deal-with-four-european-nations-as-us-tariffs-disrupt-global-commerce/239587",
-     "published": "2026-10-18T06:05:12+00:00"
-    }
-   ],
-   "last_seen": "2026-10-18T09:07:42.310366+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 1,
-   "score": 9.0
-  },
-  {
-   "id": "2e010de567ba",
-   "first_seen": "2026-10-18T09:07:42.310366+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Search continues for 11 missing after boat sank off Mexico’s Baja coast",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/18/search-continues-for-11-missing-after-boat-sank-off-mexicos-baja-coast?traffic_source=rss",
-     "published": "2026-10-18T02:33:14+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Search on after boat capsizes off Baja California coast; 16 rescued, others missing",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/search-on-after-boat-capsizes-off-baja-california-coast-16-rescued-others-missing/article71597970.ece",
-     "published": "2026-10-17T22:28:33+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Search continues after boat capsizes off Baja California coast. 16 rescued, but others missing",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/search-continues-after-boat-capsizes-off-baja-california-coast-16-rescued-but-others-missing-101792271296590.html",
-     "published": "2026-10-17T21:08:16+00:00"
-    }
-   ],
-   "last_seen": "2026-10-18T09:07:42.310366+00:00",
    "outlets": 3,
    "regions": 2,
    "languages": 1,
@@ -9426,53 +9180,6 @@
     }
    ],
    "last_seen": "2026-10-19T17:07:57.762301+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 1,
-   "score": 9.0
-  },
-  {
-   "id": "8195f144d0f3",
-   "first_seen": "2026-10-20T09:08:04.491772+00:00",
-   "members": [
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "England opt to bowl against Pakistan in ODI tri-series",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2635880/England-opt-to-bowl-against-Pakistan-in-ODI-tri-series",
-     "published": "2026-10-20T02:29:42+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "England take two early in tri-series ODI vs Pakistan LIVE!",
-     "language": "en",
-     "link": "https://www.skysports.com/cricket/live-blog/12040/13601207/pakistan-vs-england-odi-tri-series-live-latest-cricket-score-updates-and-video-as-harry-brooks-side-begin-50-over-tour",
-     "published": "2026-10-20T08:25:00+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Scorecard: Pakistan vs England, ODI tri-series",
-     "language": "en",
-     "link": "https://www.skysports.com/cricket/pakistan-v-england/scorecard/d97e0d28-3d0d-5c75-aad7-50ce21f5c49b",
-     "published": "2026-10-20T08:55:00+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Pakistan v England: men’s tri-series cricket ODI",
-     "language": "en",
-     "link": "https://www.theguardian.com/sport/live/2026/oct/20/pakistan-v-england-mens-tri-series-cricket-odi-live",
-     "published": "2026-10-20T09:05:17+00:00"
-    }
-   ],
-   "last_seen": "2026-10-20T09:08:04.491772+00:00",
    "outlets": 3,
    "regions": 2,
    "languages": 1,
@@ -9783,6 +9490,196 @@
    "score": 9.0
   },
   {
+   "id": "5442ed052516",
+   "first_seen": "2026-10-25T17:07:45.058543+00:00",
+   "members": [
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Pakistan reopens Iran border crossing after week-long suspension of trade",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/pakistan-reopens-iran-border-crossing-after-week-long-suspension-of-trade/article71622812.ece",
+     "published": "2026-10-25T09:16:33+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Pakistan reopens Gabd-Rimdan border with Iran after week-long trade halt",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/pakistan-reopens-gabd-rimdan-border-with-iran-after-week-long-trade-halt-101792909229433.html",
+     "published": "2026-10-25T06:31:12+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Pakistan reopens key border crossing with Iran",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248889/Pakistan-reopens-key-border-crossing-with-Iran",
+     "published": "2026-10-25T07:12:47+00:00"
+    }
+   ],
+   "last_seen": "2026-10-25T17:07:45.058543+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
+   "id": "7eea8cc52fb1",
+   "first_seen": "2026-10-25T17:07:45.058543+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Venezuelan opposition leader María Machado returns after months in exile",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cq8ez592pp0eo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-25T16:21:40+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Venezuela's opposition leader María Corina Machado returns after months in exile",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/25/nx-s1-6016222/venezuela-maria-corina-machado-leader-returns-exile",
+     "published": "2026-10-25T16:18:41+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Venezuela opposition leader María Corina Machado returns to country",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/venezuela-opposition-maria-corina-machado-return/",
+     "published": "2026-10-25T16:57:43+00:00"
+    }
+   ],
+   "last_seen": "2026-10-25T17:07:45.058543+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
+   "id": "c70cc28ebaba",
+   "first_seen": "2026-10-25T17:07:45.058543+00:00",
+   "members": [
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Serie A: Inter rally late to beat Fiorentina 2-1 after comeback",
+     "language": "en",
+     "link": "https://punchng.com/serie-a-inter-rally-late-to-beat-fiorentina-2-1-after-comeback/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-25T15:01:51+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Inter rally late to down Fiorentina and regain Serie A lead",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/25/inter-rally-late-to-down-fiorentina-and-regain-serie-a-lead",
+     "published": "2026-10-25T14:12:13+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Inter rally late to down Fiorentina and regain Serie A lead",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/inter-rally-late-to-down-fiorentina-and-regain-serie-a-lead/",
+     "published": "2026-10-25T15:00:36+00:00"
+    }
+   ],
+   "last_seen": "2026-10-25T17:07:45.058543+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
+   "id": "8dd2ce3552f8",
+   "first_seen": "2026-10-25T17:07:45.058543+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Israel to close West Bank crossings on election day as crackdown escalates",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c6y93ylpl5p2o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-25T05:15:52+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Israel to close all land crossings with West Bank on election day",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/israel-to-close-all-land-crossings-with-west-bank-on-election-day/article71622494.ece",
+     "published": "2026-10-25T06:04:15+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Israel to close West Bank crossings on election day after 2 soldiers killed",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/israel-to-close-west-bank-crossings-on-election-day-after-2-soldiers-killed-101792909867367.html",
+     "published": "2026-10-25T06:43:23+00:00"
+    }
+   ],
+   "last_seen": "2026-10-25T17:07:45.058543+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
+   "id": "276ff0ca4717",
+   "first_seen": "2026-10-25T17:07:45.058543+00:00",
+   "members": [
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "At least 12 injured in shooting near football stadium in Florida",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/florida-campus-university-shooting-many-injured/article71622656.ece",
+     "published": "2026-10-25T06:30:48+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Tallahassee shooting update: At least 11 shot near Bragg Stadium at Florida A&M University; 3 sustain serious injuries",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/tallahassee-shooting-update-at-least-11-shot-near-bragg-stadium-at-florida-a-m-university-3-sustain-serious-injuries-101792903342671.html",
+     "published": "2026-10-25T04:47:39+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "11 shot near Florida A&M university in Tallahassee",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/25/eleven-shot-near-florida-a-m-university-in-tallahassee",
+     "published": "2026-10-25T09:20:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-25T17:07:45.058543+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
    "id": "e3757905d484",
    "first_seen": "2026-10-24T17:07:45.140740+00:00",
    "members": [
@@ -9916,44 +9813,6 @@
     }
    ],
    "last_seen": "2026-10-19T17:07:57.762301+00:00",
-   "outlets": 3,
-   "regions": 1,
-   "languages": 1,
-   "score": 7.0
-  },
-  {
-   "id": "c1fe708a4b8f",
-   "first_seen": "2026-10-18T09:07:42.310366+00:00",
-   "members": [
-    {
-     "outlet": "Premium Times",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "SERAP sues INEC over failure to account for ‘₦126bn electoral funds’",
-     "language": "en",
-     "link": "https://www.premiumtimesng.com/news/top-news/917953-serap-sues-inec-over-failure-to-account-for-%e2%82%a6126bn-electoral-funds.html",
-     "published": "2026-10-18T08:50:45+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "SERAP sues INEC over failure to account for ‘missing ₦126bn electoral funds’",
-     "language": "en",
-     "link": "https://punchng.com/serap-sues-inec-over-failure-to-account-for-missing-%e2%82%a6126bn-electoral-funds/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-18T10:02:20+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "SERAP sues INEC over alleged ₦126bn missing electoral funds",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/serap-sues-inec-over-alleged-%e2%82%a6126bn-missing-electoral-funds/",
-     "published": "2026-10-18T08:33:44+00:00"
-    }
-   ],
-   "last_seen": "2026-10-18T09:07:42.310366+00:00",
    "outlets": 3,
    "regions": 1,
    "languages": 1,
@@ -10296,6 +10155,44 @@
     }
    ],
    "last_seen": "2026-10-24T17:07:45.140740+00:00",
+   "outlets": 3,
+   "regions": 1,
+   "languages": 1,
+   "score": 7.0
+  },
+  {
+   "id": "723204de6631",
+   "first_seen": "2026-10-25T17:07:45.058543+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Hina Javed murder case: In open letter to Punjab CM, victim's family again expresses mistrust in police probe",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2039712/hina-javed-murder-case-in-open-letter-to-punjab-cm-victims-family-again-expresses-mistrust-in-police-probe",
+     "published": "2026-10-25T13:01:04+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Hina Javed’s family seeks judicial commission in open letter to Punjab CM",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2636828/hina-javeds-family-seeks-judicial-commission-in-open-letter-to-punajb-cm",
+     "published": "2026-10-25T03:33:34+00:00"
+    },
+    {
+     "outlet": "Geo News",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "In letter to Punjab CM, Hina Javed's family seeks judicial probe into murder case",
+     "language": "en",
+     "link": "https://www.geo.tv/latest/688178-in-letter-to-punjab-cm-hina-javeds-family-seeks-judicial-probe-into-murder-case",
+     "published": "2026-10-25T05:21:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-25T17:07:45.058543+00:00",
    "outlets": 3,
    "regions": 1,
    "languages": 1,
