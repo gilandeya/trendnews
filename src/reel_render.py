@@ -338,6 +338,10 @@ def frame_tile_labels(cfg, tiles: list, scenes: list) -> Image.Image:
             continue
         w, h = imaging.measure(pen.d, text, font)
         cx, cy = tx + tw // 2, ty + th - int(lc["bottom"])
+        # S10: رقعة البلاطة السفلى كانت تقع تحت نص المنشور على فيسبوك؛ تُرفع فوقه ما بقيت داخل بلاطتها
+        cap = cfg.path("reel.render.safe.caption_top")
+        if cap:
+            cy = max(min(cy, int(cap) - int(lc["bottom"]) - h / 2 - pad), ty + int(lc["bottom"]) + h / 2 + pad)
         half_w = min(w / 2 + pad, tw / 2)
         pen.d.rectangle((cx - half_w, cy - h / 2 - pad, cx + half_w, cy + h / 2 + pad), fill=navy)
         imaging.draw_text(pen.d, (cx, cy), text, font, pen.white, anchor="mm")
@@ -950,9 +954,13 @@ class _Pen:
         self.img = Image.new("RGBA", (self.w, self.h), (0, 0, 0, 0) if transparent else self.navy + (255,))
         self.d = ImageDraw.Draw(self.img)
         self.boxes = boxes if boxes is not None else []
-        # الهامشان متساويان بعرض عمود الأزرار فيقع مركز النص في منتصف الشاشة تمامًا (كان x0=60 يزيحه 35 بكسل يسارًا)
-        self.x1 = self.w - int(r["safe"]["right_col_width"])
-        self.x0 = int(r["safe"]["right_col_width"])
+        # الهامشان متساويان فيقع مركز النص في منتصف الشاشة تمامًا (كان x0=60 يزيحه 35 بكسل يسارًا). S10: الهامش safe.side لا عرض
+        # عمود الأزرار، فعمود الأزرار يمنعه الحد السفلي للنص؛ والهامش يحسب قصّ فيسبوك الجانبين حين يملأ الهاتف
+        sf = r["safe"]
+        side = int(sf.get("side", sf["right_col_width"]))
+        self.x1 = self.w - side
+        self.x0 = side
+        self._safe_box = (int(sf.get("top", 230)), self.h - int(sf.get("bottom", 440)))
         self.cx = (self.x0 + self.x1) // 2
         self.max_w = self.x1 - self.x0
         self.cfg = cfg
@@ -1071,7 +1079,8 @@ class _Pen:
             y += lh
 
     def _safe(self) -> tuple[int, int]:
-        return 230, 1480
+        # من الإعداد (S10) لا ثابتًا: كان 230..1480 فنزل نص طويل تحت أزرار فيسبوك ونص المنشور
+        return self._safe_box
 
     def rule(self, y: int, width: int = 320) -> None:
         self.d.rectangle((self.cx - width // 2, y, self.cx + width // 2, y + 6), fill=self.gold)
@@ -1742,7 +1751,12 @@ def word_layout(cfg, text: str, top: int, size_key: str = "hook") -> dict:
     p = _Pen(cfg, [], transparent=True)
     fpath, fw = p.face(text, "display")
     start, minimum = size_pair(cfg, size_key)
-    font, lines, lh = _fit(p.d, text, fpath, p.max_w, 4, start, minimum, fw, float(cfg.path("reel.render.fonts.line_factor")))
+    lf = float(cfg.path("reel.render.fonts.line_factor"))
+    font, lines, lh = _fit(p.d, text, fpath, p.max_w, 4, start, minimum, fw, lf)
+    # S10: العنوان الطويل (4 أسطر) كان ينزل تحت زر الإعجاب على فيسبوك؛ يُصغَّر حتى ينتهي فوق الحد السفلي الآمن، ولا يُصغَّر دون minimum
+    while start > minimum and top + lh * len(lines) > p._safe()[1]:
+        start -= 2
+        font, lines, lh = _fit(p.d, text, fpath, p.max_w, 4, start, minimum, fw, lf)
     kw = imaging._kwargs()
 
     def adv(s: str) -> float:

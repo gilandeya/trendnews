@@ -21264,3 +21264,34 @@ def test_reel_map_consistency_s9_guards() -> None:
               and "map_errors" not in meta, (out, meta))
         check("g662: render_version >= 54", int(cfg.path("reel.render.version")) >= 54, cfg.path("reel.render.version"))
     guarded("g662", g662)
+
+
+def test_reel_fb_safe_s10_guards() -> None:
+    """S10 (g663–g666): الإطار الآمن لعرض فيسبوك. فيسبوك يكبّر الريل ليملأ الهاتف فيقصّ نحو 97 بكسل من كل جانب، ويرسم فوقه
+    أيقونات الأعلى (حتى ~235) وأزرار اليمين (من ~1225) ونص المنشور (من ~1425). الحادثة (الريل 9247ad6487c3 منشورًا): الشعار مقصوص
+    تحت ⋯، وآخر سطر من عنوان الهوك تحت زر الإعجاب، واسم المتحدث تحت الأزرار ونص المنشور. الأرقام مقيسة من لقطات الهاتف."""
+    from src import reel_render
+
+    cfg = load_config()
+    sf = cfg.path("reel.render.safe")
+    bottom = 1920 - int(sf["bottom"])
+    pen = reel_render._Pen(cfg, [], transparent=True)
+    check("g663 S10: حدود النص من الإعداد وهامشه يتجاوز قصّ فيسبوك الجانبين",
+          pen._safe() == (int(sf["top"]), bottom) and pen.x0 >= 97 + 40 and pen.x1 <= 983 - 40 and bottom <= 1225,
+          f"{pen._safe()} {pen.x0} {pen.x1}")
+    title = "هل انسدّ مسار الدبلوماسية مع إيران؟ قراءات في احتمالات"
+    lay = reel_render.word_layout(cfg, title, 730)
+    low = max(w["box"][3] for w in lay["words"])
+    check("g664 S10: عنوان الهوك الطويل يصغر حتى ينتهي فوق الحد السفلي الآمن", low <= bottom, f"{low} > {bottom}")
+    band = cfg.path("reel.render.band")
+    lg = cfg.path("reel.render.logo")
+    lx = 1080 - int(lg["right"]) - int(lg["width"])
+    check("g665 S10: شريط المتحدث ينتهي قبل أزرار اليمين، والشعار الصغير داخل العرض الظاهر وتحت الأيقونات",
+          int(band["top"]) + int(band["height"]) <= 1225 and lx >= 97 and lx + int(lg["width"]) <= 983 and int(lg["top"]) >= 240,
+          f"band {band['top']}+{band['height']} logo {lx},{lg['top']}")
+    tiles = [(0, 0, 1080, 960), (0, 960, 1080, 960)]
+    img = reel_render.frame_tile_labels(cfg, tiles, [{"channel_display": "الجزيرة"}, {"channel_display": "سي إن إن ترك"}])
+    import numpy as np
+    ys = np.nonzero(np.asarray(img)[..., 3][960:] > 0)[0]
+    check("g666 S10: رقعة اسم قناة البلاطة السفلى فوق نص المنشور وداخل بلاطتها",
+          len(ys) and 960 + ys.max() <= int(sf["caption_top"]) and ys.min() >= 0, f"{960 + ys.min() if len(ys) else None}..{960 + ys.max() if len(ys) else None}")
