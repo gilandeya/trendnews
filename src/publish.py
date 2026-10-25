@@ -288,7 +288,8 @@ def publish_reel_draft(path, draft: dict, cfg) -> tuple[bool, str]:
     if not draft.get("reel_file") or not video.is_file():
         return fail(texts.get("file_missing", "ملف الريل غير موجود: {path}").format(path=video))
     caption = reel_review.selected_headline(draft)
-    if draft.get("render_sources"):
+    # S12: سطر المصادر في النص فقط إن فُعّل post_sources؛ التعليق الأول يحملها بروابطها
+    if draft.get("render_sources") and texts.get("post_sources", False):
         caption += "\n\n" + cfg.path("reel.render.texts.clips_from").format(channels=draft["render_sources"])
     try:
         res = facebook.publish_reel(video, caption, cfg.path("facebook.api_version", "v21.0"),

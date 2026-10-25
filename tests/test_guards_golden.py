@@ -18,7 +18,7 @@ from __future__ import annotations
 import shutil
 from pathlib import Path
 
-from tests.helpers import (check, reel_v1_cfg, reel_pre_s10_cfg, reel_stale_cfg, reel_span_cfg, load_config, evidence, store, DRAFTS_DIR, ImportantRig,
+from tests.helpers import (check, reel_v1_cfg, reel_pre_s10_cfg, reel_stale_cfg, reel_credits_cfg, reel_span_cfg, load_config, evidence, store, DRAFTS_DIR, ImportantRig,
                            ImportantWriteRig, NamesAuditRig, NAMES_AUDIT_SOURCE, names_audit_doubt,
                            names_audit_draft, names_audit_hit, important_doc, important_fixture_point,
                            important_good_data, important_marked_body, important_point,
@@ -8097,10 +8097,11 @@ def test_reel_music_r3b2c_guards() -> None:
             check("g255: Al Jazeera ← «الصورة: الجزيرة»", got == "الصورة: الجزيرة", got)
             check("g255: free ← «صورة تعبيرية»", oc(cfg, {"kind": "free"}) == "صورة تعبيرية")
             check("g255: none وmanual ← لا سطر", oc(cfg, {"kind": "none"}) == "" and oc(cfg, {"kind": "manual"}) == "")
+            ccfg = reel_credits_cfg(cfg)   # S12: سطر مصدر الصورة مطفأ افتراضيًا؛ هنا اختبار رسمه
             base: list = []
-            reel_render.frame_outro(cfg, "قناة", base)
+            reel_render.frame_outro(ccfg, "قناة", base)
             ar: list = []
-            reel_render.frame_outro(cfg, "قناة", ar, "الصورة: الجزيرة")
+            reel_render.frame_outro(ccfg, "قناة", ar, "الصورة: الجزيرة")
             check("g255: العربي سطر مستقل واحد تحت «المقاطع من»",
                   len(ar) == len(base) + 1 and ar[-1][1] >= base[-1][3] - 2, (len(ar), len(base), ar[-1:], base[-1:]))
             seen: list = []
@@ -8112,9 +8113,9 @@ def test_reel_music_r3b2c_guards() -> None:
             imaging.draw_text_ltr = spy_ltr
             try:
                 la: list = []
-                reel_render.frame_outro(cfg, "قناة", la, "الصورة: www.example-news.com")
+                reel_render.frame_outro(ccfg, "قناة", la, "الصورة: www.example-news.com")
                 long: list = []
-                reel_render.frame_outro(cfg, "قناة", long, "الصورة: " + "www.very-long-example-news-domain-name" * 2 + ".com")
+                reel_render.frame_outro(ccfg, "قناة", long, "الصورة: " + "www.very-long-example-news-domain-name" * 2 + ".com")
             finally:
                 imaging.draw_text_ltr = real
             check("g255: الاسم اللاتيني مرسوم LTR وسطر واحد بصندوقين متجاورين",
@@ -8498,7 +8499,7 @@ def test_reel_text_r5a_guards() -> None:
     check("g267: السؤال وعلامة الاستفهام وشاركونا بـPlaypen", fits and set(fits) == {aref} and set(loads) == {aref}, (fits, loads))
     fits, loads = record(lambda: reel_render.frame_narration(cfg, "جملة قصيرة"))
     check("g267: الراوي بالرقعة", fits == [aref], fits)
-    fits, loads = record(lambda: reel_render.frame_outro(cfg, "الجزيرة", credit="الصورة: وكالة"))
+    fits, loads = record(lambda: reel_render.frame_outro(reel_credits_cfg(cfg), "الجزيرة", credit="الصورة: وكالة"))
     check("g267: «تابعوا الموجز» والباقي بـPlaypen والمعرّف بـKalam", aref in loads and kalam in loads and fits == [aref, aref],
           (fits, loads))
     fits, loads = record(lambda: reel_render.frame_clip_overlay(
@@ -10659,7 +10660,7 @@ def test_reel_fonts_r5g_guards() -> None:
         runs = traced(lambda: (
             reel_render.frame_hook_text(cfg, "عنوان الهوك"),   # S10: عرض النص 780 فكان «… الكبير» يُقسم سطرين
             reel_render.frame_question(cfg, "هل يتغير الموقف؟"),
-            reel_render.frame_outro(cfg, "الجزيرة", credit="الصورة: Reuters"),
+            reel_render.frame_outro(reel_credits_cfg(cfg), "الجزيرة", credit="الصورة: Reuters"),
             reel_render.frame_narration(cfg, "جملة الراوي هنا"),
             reel_render.frame_clip_overlay(cfg, scene),
             reel_render.frame_clip_overlay(cfg, guest)))
@@ -12709,8 +12710,9 @@ def test_reel_review_r4a_guards() -> None:
         check("g389: ثلاثة مربعات hl: والأول معلَّم",
               all(f"<!-- hl:{d['id']}:{k} -->" in body for k in range(3)) and f"- [x] 1. {d['headlines'][0]}" in body, body)
         sources = cfg.path("reel.render.texts.clips_from").format(channels=d["render_sources"])
-        check("g389: نص المنشور بالعنوان الأول ثم سطر فارغ ثم سطر المصادر",
-              f"{d['headlines'][0]}\n\n{sources}" in body, body)
+        t_post = "**" + cfg.path("reel.review.post_title") + "**"
+        check("g389: نص المنشور بالعنوان الأول وحده بلا سطر المصادر (S12)",
+              f"{t_post}\n\n{d['headlines'][0]}\n" in body and sources not in body, body)
         check("g389: خيار انشر وgo2/go1 للتراجع (W2b) ولا go3", f"<!-- go:publish:{d['id']} -->" in body
               and f"<!-- go:go2:{d['id']} -->" in body and f"<!-- go:go1:{d['id']} -->" in body
               and f"go:go3:{d['id']}" not in body, body)
@@ -12948,10 +12950,9 @@ def test_reel_publish_r4b_guards() -> None:
             video = put_video(d["id"])
             msgs = run_main(marked(d), 901)
             got = store.load_draft(d["id"])[1]
-            sources = cfg.path("reel.render.texts.clips_from").format(channels=d["render_sources"])
             check("g392: publish_reel بملف الريل الصحيح", len(calls) == 1 and calls[0][0] == video, calls)
-            check("g392: النص = العنوان الثاني ثم سطر فارغ ثم سطر المصادر",
-                  bool(calls) and calls[0][1] == f"العنوان الثاني\n\n{sources}", calls)
+            check("g392: النص = العنوان الثاني وحده بلا سطر المصادر (S12)",
+                  bool(calls) and calls[0][1] == "العنوان الثاني", calls)
             check("g392: التعليق الأول «المصادر:» بسطر لكل فيديو بلا تكرار",
                   bool(calls) and calls[0][2] == "المصادر:\nالجزيرة — https://youtube.com/watch?v=v1\n"
                   "العربية — https://youtube.com/watch?v=v2", calls and calls[0][2])
@@ -21330,3 +21331,39 @@ def test_reel_rerender_stale_s11_guards() -> None:
     finally:
         for i in ("s11000000aa1", "s11000000aa2"):
             (day / f"{i}.json").unlink(missing_ok=True)
+
+
+def test_reel_no_credits_s12_guards() -> None:
+    """S12 (g669–g671): بقرار صاحب المشروع لا يُذكر «المقاطع من … · الصوت آلي» ولا «الصورة: …» داخل خاتمة الريل ولا في نص
+    منشوره؛ المصادر بروابطها تبقى في التعليق الأول. والإعدادان outro_credits/post_sources يعيدان السلوك القديم."""
+    from src import reel_render, reel_review
+
+    cfg = load_config()
+    drawn: list = []
+    real_block, real_line = reel_render._Pen.block, reel_render._Pen.line
+
+    def block(self, text, *a, **k):
+        drawn.append(text)
+        return real_block(self, text, *a, **k)
+
+    def line(self, text, *a, **k):
+        drawn.append(text)
+        return real_line(self, text, *a, **k)
+
+    reel_render._Pen.block, reel_render._Pen.line = block, line
+    try:
+        reel_render.frame_outro(cfg, "الجزيرة، سي إن إن ترك", credit="الصورة: صدى البلد")
+        off = list(drawn)
+        drawn.clear()
+        reel_render.frame_outro(reel_credits_cfg(cfg), "الجزيرة، سي إن إن ترك", credit="الصورة: صدى البلد")
+        on = list(drawn)
+    finally:
+        reel_render._Pen.block, reel_render._Pen.line = real_block, real_line
+    check("g669 S12: الخاتمة بلا «المقاطع من» ولا «الصورة:» افتراضيًا",
+          not any("الجزيرة" in t or "صدى البلد" in t for t in off) and any("almujez" in t for t in off), off)
+    check("g670 S12: outro_credits: true ← السطران كما كانا",
+          any("الجزيرة" in t for t in on) and any("صدى البلد" in t for t in on), on)
+    d = {"id": "s12000000aa1", "format": "reel", "status": "approved_script", "script": {"title": "عنوان"},
+         "headlines": ["العنوان الأول", "الثاني", "الثالث"], "render_sources": "الجزيرة، العربية", "duration_seconds": 40}
+    body = reel_review.build_body(d, cfg)
+    check("g671 S12: «📣 نص المنشور» بلا سطر المصادر", "الجزيرة، العربية" not in body and "العنوان الأول" in body, body)

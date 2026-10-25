@@ -46,7 +46,7 @@ def build_body(draft: dict, cfg) -> str:
                                                      for n in notes] + [""]
     lines += review.headline_boxes(draft, t["headlines_intro"])
     post = [selected_headline(draft)]
-    if draft.get("render_sources"):
+    if draft.get("render_sources") and t.get("post_sources", False):   # S12: كما يُنشر
         post += ["", cfg.path("reel.render.texts.clips_from").format(channels=draft["render_sources"])]
     lines += [f"**{t['post_title']}**", "", *post, ""]
     # go2/go1 (Issue #1536، W2b): رجوع خطوة إلى السيناريو أو خطوتين إلى الترشيح؛ go1 لمن له topic_id وحده

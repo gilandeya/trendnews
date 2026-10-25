@@ -2644,3 +2644,10 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 بقرار صاحب المشروع «الإصلاح للقادم فقط» (بعد S10 كانت 11 ريلًا معتمدًا قديمًا ستُعاد واحدًا كل تشغيلة): `reel.render.rerender_stale` (false) ← ريل
 `approved_script` مُركَّب بنسخة أقدم من `reel.render.version` لا يُلتقط؛ الفاشل بنسخة أقدم يُحيا دائمًا كما كان (سببه قد يكون ما أُصلح). true ← السلوك القديم.
 اختبارات آلية إعادة التركيب تعمل بـ`tests.helpers.reel_stale_cfg`. g667–g668 في `tests/test_guards_golden.py:test_reel_rerender_stale_s11_guards`.
+
+## لا مصادر في خاتمة الريل ولا في نص منشوره (S12)
+
+بقرار صاحب المشروع: سطرا «المقاطع من: … · الصوت آلي» و«الصورة: …» لا يُرسمان في `frame_outro` (`reel.render.outro_credits: false`)، ونص منشور الريل
+(`publish.publish_reel_draft`) ومعاينته «📣 نص المنشور» (`reel_review.build_body`) العنوان المختار وحده (`reel.review.post_sources: false`). المصادر بروابطها
+تبقى في التعليق الأول (`reel_first_comment`) و`render_sources` يُحفظ كما كان. `render_version` = 56 (للقادم فقط، S11). g669–g671؛ واختبارات خطوط السطرين
+تعمل بـ`tests.helpers.reel_credits_cfg`.
