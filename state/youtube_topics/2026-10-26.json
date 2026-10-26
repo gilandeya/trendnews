@@ -1,0 +1,703 @@
+{
+  "run_date": "2026-10-26",
+  "stats": {
+    "points_in": 173,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 23,
+    "issues_clustered": 38,
+    "topics_merged": 12,
+    "topics_out": 2,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 2,
+    "topics_below_min_points": 8,
+    "topics_below_min_channels": 14,
+    "layers": {
+      "2": 2
+    },
+    "agreement": 2,
+    "cross_source": 0,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "استهداف السفن في مضيق هرمز",
+      "مذكرة التفاهم ومضيق هرمز"
+    ],
+    [
+      "استمرار الحرب الأمريكية الإيرانية وأهدافها",
+      "شرعية الحرب على إيران وتأثيرها على أمريكا"
+    ],
+    [
+      "التوسع الاستيطاني في الضفة الغربية",
+      "عملية إسرائيلية موسّعة في الضفة الغربية"
+    ],
+    [
+      "سياسة الطاقة الصينية",
+      "دور الصين العالمي والدبلوماسي"
+    ],
+    [
+      "الأزمة الاقتصادية والاحتجاجات في فرنسا",
+      "توقعات عنف مظاهرات الغد في فرنسا"
+    ],
+    [
+      "الانقسام داخل المعارضة التركية وبلدية إسطنبول",
+      "انتقال رؤساء بلديات المعارضة لحزب العدالة والتنمية"
+    ],
+    [
+      "رسالة مجتبى خامنئي وغيابه",
+      "اختيار مجتبى خامنئي للقيادة ومستقبل النظام"
+    ],
+    [
+      "مسار الحرب والتسوية الإيرانية",
+      "مستقبل النظام الإيراني بعد الحرب"
+    ],
+    [
+      "استطلاعات الانتخابات الإسرائيلية ونسبة الحسم",
+      "التحالفات الحزبية لتشكيل الحكومة الإسرائيلية"
+    ],
+    [
+      "تهديد إيران النووي والانتخابات الإسرائيلية",
+      "اتهام نتنياهو للقضاء بالتلفيق"
+    ],
+    [
+      "الحكومة الإسرائيلية والجرائم بحق الفلسطينيين",
+      "توقعات نتائج الانتخابات الإسرائيلية للقائمة المشتركة"
+    ],
+    [
+      "فوز لولا في انتخابات البرازيل",
+      "تأثير البرازيل الإقليمي بعد فوز لولا"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "استهداف السفن في مضيق هرمز",
+      "event": "إيران تستهدف سفنًا في مضيق هرمز وتصعيد التوتر هناك",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        33,
+        97,
+        137
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null,
+      "id": "07c1a88b6451",
+      "created_at": "2026-10-26T04:02:31.559938+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1722
+    },
+    {
+      "title": "التوسع الاستيطاني في الضفة الغربية",
+      "event": "تقييم التوسع الاستيطاني الإسرائيلي في الضفة الغربية منذ 1967",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        5,
+        6,
+        83,
+        84,
+        88,
+        103
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null,
+      "id": "66e465b431a6",
+      "created_at": "2026-10-26T04:02:31.559938+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1722
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "استهداف السفن في مضيق هرمز",
+      "event": "إيران تستهدف سفنًا في مضيق هرمز وتصعيد التوتر هناك",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        33,
+        97,
+        137
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": null
+    },
+    {
+      "title": "التوسع الاستيطاني في الضفة الغربية",
+      "event": "تقييم التوسع الاستيطاني الإسرائيلي في الضفة الغربية منذ 1967",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        5,
+        6,
+        83,
+        84,
+        88,
+        103
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "الانقسام داخل المعارضة التركية وبلدية إسطنبول",
+      "event": "تأثير انقسام حزب الشعب الجمهوري على نتائج انتخابات بلدية إسطنبول",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        31,
+        32,
+        58,
+        59,
+        60,
+        64,
+        65,
+        66
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "استمرار الحرب الأمريكية الإيرانية وأهدافها",
+      "event": "تقييم مسار الحرب الأمريكية الإسرائيلية على إيران وأهدافها واستراتيجيتها",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        1,
+        2,
+        35,
+        36,
+        38,
+        93,
+        94,
+        95
+      ],
+      "total_points": 8,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "مسار الحرب والتسوية الإيرانية",
+      "event": "توقعات اتجاه الجمهورية الإسلامية نحو التصعيد العسكري أو التسوية",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        82,
+        133,
+        134,
+        135,
+        136,
+        138
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "استطلاعات الانتخابات الإسرائيلية ونسبة الحسم",
+      "event": "استطلاعات الانتخابات الإسرائيلية وفرص الأحزاب الصغيرة بتجاوز نسبة الحسم",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        85,
+        86,
+        87,
+        92,
+        140,
+        142,
+        143,
+        146,
+        148
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تهديد إيران النووي والانتخابات الإسرائيلية",
+      "event": "تحذير نتنياهو من التهديد النووي الإيراني في سياق الحملة الانتخابية",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        89,
+        90,
+        139,
+        141,
+        144,
+        145,
+        147,
+        149
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "ترشح أردوغان والتحالفات البرلمانية",
+      "event": "نقاش حول احتمال عدم ترشح أردوغان وحسابات تحالف الجمهور البرلمانية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        117,
+        118,
+        119,
+        120
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "انتخابات نقابة محامي إسطنبول",
+      "event": "نتائج انتخابات نقابة محامي إسطنبول وفوز أوميت كوجاصاقال",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        121,
+        125
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "التوتر التركي الأذربيجاني",
+      "event": "تحليل أسباب التوتر بين تركيا وأذربيجان",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        123,
+        124
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "أزمة صندوق الاستثمار (تيرا) في تركيا",
+      "event": "فضيحة الاحتيال في صندوق الاستثمار تيرا وتداعياتها",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        126,
+        127,
+        129,
+        130,
+        131,
+        132
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الحكومة الإسرائيلية والجرائم بحق الفلسطينيين",
+      "event": "اتهام الطيبي للحكومة الإسرائيلية بالإجرام والتهرب من مسؤولية السابع من أكتوبر",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        99,
+        100,
+        101,
+        102
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "فوز لولا في انتخابات البرازيل",
+      "event": "فوز لولا دا سيلفا برئاسة البرازيل للمرة الرابعة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        105,
+        106,
+        107,
+        110
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "التعايش بين الرئاسة والبرلمان اليميني في البرازيل",
+      "event": "ضرورة التوافق بين رئاسة لولا والبرلمان المسيطر عليه اليمين",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        108,
+        109
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "برنامج لوبان الانتخابي الاقتصادي والاجتماعي",
+      "event": "تعهدات مارين لوبان الانتخابية بشأن الطاقة والميزانية والتقاعد والهجرة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        111,
+        112,
+        113,
+        114,
+        115,
+        116
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "دعوات فتح مضيق هرمز",
+      "event": "دعوة تركيا لإيران بفتح مضيق هرمز ورفض التصعيد العسكري",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        67,
+        68,
+        69
+      ],
+      "total_points": 3,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "سياسة الطاقة الصينية",
+      "event": "خطط الصين لتطوير الطاقة النووية والاعتماد الذاتي على الطاقة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "أزمة الدين والعائد على السندات الفرنسية",
+      "event": "ارتفاع عائد السندات الفرنسية وارتفاع الدين العام الفرنسي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        19,
+        20
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الحرب التجارية الأمريكية الصينية",
+      "event": "تقييم آثار الحرب التجارية الأمريكية الصينية واجتماع مرتقب",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        23,
+        24
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الأزمة الاقتصادية والاحتجاجات في فرنسا",
+      "event": "الاحتجاجات الفرنسية على خلفية الأزمة الاقتصادية وتقشف الحكومة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        25,
+        26,
+        28,
+        29,
+        30
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "اتفاقات ليبيا والدبلوماسية التركية",
+      "event": "تقييم الدبلوماسية التركية تجاه تجميع الأتراك واتفاقات ليبيا",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        51,
+        52
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "حكم قضية إمام أوغلو",
+      "event": "تحليل حكم قضية إمام أوغلو وتوقعات نقضه وتأثيره السياسي",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        55,
+        56,
+        57,
+        61,
+        62,
+        63,
+        75
+      ],
+      "total_points": 7,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "توقيف صحفيين قناة هالك تي في والمحتوى الإعلامي",
+      "event": "توقيف صحفيين (بهادير أوزغور وموراد آريل) وتقييد العمل الإعلامي التركي",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        72,
+        73,
+        74
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "رسالة مجتبى خامنئي وغيابه",
+      "event": "رسالة منسوبة لمجتبى خامنئي وغيابه الإعلامي منذ توليه القيادة",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        77,
+        78,
+        79,
+        80,
+        81
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "مفاوضات غزو الكويت وتاريخه",
+      "event": "رواية فاضل العزاوي عن تحشيد التحالف الدولي ضد غزو الكويت",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        39,
+        40
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الانتخابات النصفية الأمريكية وتوازنات الكونغرس",
+      "event": "التغطية الانتخابية النصفية الأمريكية وسباقات الكونغرس",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        45,
+        46,
+        47,
+        48,
+        49,
+        50
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    }
+  ]
+}
