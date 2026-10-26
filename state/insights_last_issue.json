@@ -1,5 +1,5 @@
 {
-  "issue": 1622,
+  "issue": 1724,
   "recommendations": [
     {
       "id": "trends.weight",
@@ -9,17 +9,17 @@
     },
     {
       "id": "facebook.peak_hours",
-      "text": "أفضل ساعات التفاعل فعليًا: 20, 22, 19. الإعداد الحالي: [12, 18, 21]. حدّث `facebook.peak_hours`.",
+      "text": "أفضل ساعات التفاعل فعليًا: 20, 19, 8. الإعداد الحالي: [12, 18, 21]. حدّث `facebook.peak_hours`.",
       "key": "facebook.peak_hours",
       "suggested": [
+        8,
         19,
-        20,
-        22
+        20
       ]
     },
     {
       "id": "fp_55bf9bd08c8f",
-      "text": "أفضل مصدر أداءً: BBC (3 تفاعل، 3 منشور). ارفع وزنه في `sources`.",
+      "text": "أفضل مصدر أداءً: BBC (2 تفاعل، 2 منشور). ارفع وزنه في `sources`.",
       "key": null,
       "suggested": null
     }
