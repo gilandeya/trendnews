@@ -2433,7 +2433,7 @@
      "published": "2026-10-25T07:02:00+00:00"
     }
    ],
-   "last_seen": "2026-10-25T17:07:45.058543+00:00",
+   "last_seen": "2026-10-26T17:07:50.109315+00:00",
    "outlets": 19,
    "regions": 13,
    "languages": 1,
@@ -3827,287 +3827,6 @@
    "score": 44.0
   },
   {
-   "id": "b9d7cd9e1d43",
-   "first_seen": "2026-10-09T09:07:48.883639+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "USS Lincoln returns to US after long deployment supporting war on Iran",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/9/uss-lincoln-returns-to-us-after-long-deployment-supporting-war-on-iran?traffic_source=rss",
-     "published": "2026-10-09T00:39:20+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "USS Abraham Lincoln returns to US after 265 days at sea in Iran war mission",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3370240/long-deployed-uss-abraham-lincoln-returns-home-san-diego-middle-east?utm_source=rss_feed",
-     "published": "2026-10-08T19:21:32+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "USS Abraham Lincoln returns to San Diego after supporting Iran war",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2633848/uss-abraham-lincoln-returns-to-san-diego-after-supporting-iran-war",
-     "published": "2026-10-08T23:44:09+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "The long-deployed USS Lincoln returns home to San Diego Bay",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/08/nx-s1-5995911/the-long-deployed-uss-lincoln-returns-home-to-san-diego-bay",
-     "published": "2026-10-09T00:05:48+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Iran claims attack on LPG tanker, says vessels trying to cross Strait of Hormuz will be ‘punished’",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/iran-claims-attack-on-lpg-tanker-says-vessels-trying-to-cross-strait-of-hormuz-will-be-punished-us-iran-war-101791551103531.html",
-     "published": "2026-10-09T13:49:10+00:00"
-    },
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Massive LPG tanker targeted in Hormuz: IRGC",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248442/Massive-LPG-tanker-targeted-in-Hormuz-IRGC",
-     "published": "2026-10-09T14:12:26+00:00"
-    },
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "IRGC Navy warns ships against turning off navigation systems",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248503/IRGC-Navy-warns-ships-against-turning-off-navigation-systems",
-     "published": "2026-10-12T03:31:37+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Iran warns ships against transiting Strait of Hormuz with their navigation systems off",
-     "language": "en",
-     "link": "https://tass.com/world/2200591",
-     "published": "2026-10-11T19:36:08+00:00"
-    },
-    {
-     "outlet": "IRNA English",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "IRGC warns vessels violating in Strait of Hormuz",
-     "language": "en",
-     "link": "https://en.irna.ir/news/86290048/IRGC-warns-vessels-violating-in-Strait-of-Hormuz",
-     "published": "2026-10-12T05:18:20+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Container ship hit by projectile sinks in Strait of Hormuz, Singapore says",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/crkg7q97z078o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-14T15:34:19+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Container ship sinks near strait of Hormuz amid surge in Iranian attacks",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/14/container-ship-sinks-strait-of-hormuz-surge-iranian-attacks-iran-us-midterm-elections",
-     "published": "2026-10-14T16:33:45+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Container Ship Sinks Near Hormuz After Being Hit By Projectile: Report",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/us-iran-war-container-ship-sinks-near-strait-of-hormuz-after-being-hit-by-projectile-report-12185423#publisher=newsstand",
-     "published": "2026-10-14T14:00:04+00:00"
-    },
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Container carrier sinks in Strait of Hormuz after explosion",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248588/Container-carrier-sinks-in-Strait-of-Hormuz-after-explosion",
-     "published": "2026-10-14T09:28:04+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Container ship sinks after hitting mine in Strait of Hormuz",
-     "language": "en",
-     "link": "https://tass.com/world/2201801",
-     "published": "2026-10-14T09:48:08+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Container ship sinks in Strait of Hormuz as Iran steps up attacks",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMilgFBVV95cUxQMWFKMzFFcmxqYVdxcTVUYmZBZTZHejZpWTJmZ3o3Z3lFbnA0NTV4MkFlb1ZEMmRGQmw3MjJkc2RnTFgtX19YRkZOUDR4WXhNeWg5Zy1qV3FpeVpTVUo5QVBOVmJxcXVhc0NqandfT2ltQ3BseThmbG5oQTJhYUJ4MV9nM240c3I3ZG5wai1fY3ZIYWdpbGfSAZsBQVVfeXFMUHl0VWNMbEpIOXhweHBSVTdYdHNjd1V5a2NfNkJSdFk5UUV0R2lDSUtZV1BpMEM3aWxZOXlWRTBRRTNtVkxRcDZtYVFDdnA5X3RPLW4zTm42M0hzVFJYNGtoMWJHcjVGVlJ1a2Jja1F5SnFDUHVTYVFkYXRYTFFnbDd1REZsc0haTlNibWhxdTU0aHZCcjVYQ0x1Vm8?oc=5",
-     "published": "2026-10-14T15:47:29+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Two Singapore-registered vessels struck in Strait of Hormuz, one sinks",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/singapore/vessels-singapore-registered-struck-strait-hormuz-6459176",
-     "published": "2026-10-14T12:57:00+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Oil prices today: Brent crude hits $106.60 after Saudi Aramco attack, ship strikes near Hormuz",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/oil-prices-today-brent-crude-hits-106-60-after-saudi-aramco-attack-ship-strikes-near-hormuz-101791982617184.html",
-     "published": "2026-10-14T13:13:11+00:00"
-    },
-    {
-     "outlet": "IRNA English",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Ship carrying 2,500 containers hits mine, sinks south of Strait of Hormuz",
-     "language": "en",
-     "link": "https://en.irna.ir/news/86292706/Ship-carrying-2-500-containers-hits-mine-sinks-south-of-Strait",
-     "published": "2026-10-14T10:35:58+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Strait of Hormuz traffic plunges once again amid new wave of Houthi attacks",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2634754/iran-shifting-tactics-to-step-up-attacks-on-shipping-before-us-vote-officials-say",
-     "published": "2026-10-13T23:46:55+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Iran increases threat to Strait of Hormuz shipping, and other Middle East developments",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/iran-increases-threat-to-strait-of-hormuz-shipping-and-other-middle-east-developments-101791918610454.html",
-     "published": "2026-10-13T19:10:10+00:00"
-    },
-    {
-     "outlet": "IRNA English",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Iranian Navy identifies oil tanker that caught fire in Strait of Hormuz",
-     "language": "en",
-     "link": "https://en.irna.ir/news/86291981/Iranian-Navy-identifies-oil-tanker-that-caught-fire-in-Strait",
-     "published": "2026-10-13T16:23:44+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Iran mulls tactical shift in Hormuz attacks before key US vote",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/mid-east/iran-mulls-tactical-shift-in-hormuz-attacks-before-key-usvote",
-     "published": "2026-10-14T12:55:00+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "UN official warns of looming food crisis as Hormuz fertiliser plan stalls",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/14/un-official-warns-of-looming-food-crisis-as-hormuz-fertiliser-plan-stalls?traffic_source=rss",
-     "published": "2026-10-14T16:08:09+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Two ships sink near Hormuz after being hit by projectiles",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2037223/two-ships-sink-near-hormuz-after-being-hit-by-projectiles",
-     "published": "2026-10-15T03:02:25+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Iranian attacks sink two ships in Strait of Hormuz",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPNVg0eWh4OTZ1NG5IR1M1ZWJJejUxUncyYVVWeHB3QTdHaHYzUnRDOHBpaFpEZldsb0RNZG5SNVZDMWJIVUV6U0JZRVhLSmdtWEZfSnpGSDlXWVU1UlRRSF9wT0JSbktPRTRWT2dkazNCSmJoWDBaUl9wZEI3bjVpLUNZS2ZDWW9IQk9oUndRNU1qYUpHclhnUzhVYVU1RE0?oc=5",
-     "published": "2026-10-15T03:36:29+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Oil tanker on fire after hitting mine in Hormuz",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/oil-tanker-on-fire-after-hitting-mine-in-hormuz-irans-guards/",
-     "published": "2026-10-17T08:59:27+00:00"
-    },
-    {
-     "outlet": "IRNA English",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Iranian Navy spots oil tanker on fire in Strait of Hormuz",
-     "language": "en",
-     "link": "https://en.irna.ir/news/86294247/Iranian-Navy-spots-oil-tanker-on-fire-in-Strait-of-Hormuz",
-     "published": "2026-10-16T13:53:14+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Supertanker carrying 2 million barrels of oil hits naval mine, explodes in Strait of Hormuz",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/tanker-carrying-over-2-million-barrels-of-crude-oil-hits-mine-in-hormuz-catches-fire-irans-guards-say-101792219288746.html",
-     "published": "2026-10-17T07:58:56+00:00"
-    },
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Oil Tanker explodes in Hormuz after hitting naval mine: IRGC",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248631/Oil-Tanker-explodes-in-Hormuz-after-hitting-naval-mine-IRGC",
-     "published": "2026-10-17T04:53:30+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Iran war live: IRGC says supertanker hit naval mine in Hormuz, catches fire",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/liveblog/2026/10/17/draft-2?traffic_source=rss",
-     "published": "2026-10-17T00:00:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-19T09:07:48.928141+00:00",
-   "outlets": 16,
-   "regions": 12,
-   "languages": 1,
-   "score": 42.0
-  },
-  {
    "id": "1a3e70c8f36b",
    "first_seen": "2026-10-20T09:08:04.491772+00:00",
    "members": [
@@ -4250,6 +3969,188 @@
    "last_seen": "2026-10-21T17:07:46.277380+00:00",
    "outlets": 14,
    "regions": 12,
+   "languages": 1,
+   "score": 40.0
+  },
+  {
+   "id": "5f70df98c0e7",
+   "first_seen": "2026-10-23T17:08:00.252001+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "At least seven killed after gunmen open fire at church in Jordan",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/23/at-least-seven-killed-after-gunmen-open-fire-at-church-in-jordan?traffic_source=rss",
+     "published": "2026-10-23T13:32:40+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "At least seven killed in attack at church in Jordan, state-owned outlet says",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2636536/at-least-seven-killed-in-attack-at-church-in-jordan-state-owned-outlet-says",
+     "published": "2026-10-23T08:56:41+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Seven killed, 28 injured after gunmen open fire inside a church in Jordan",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/gunmen-open-fire-inside-a-church-in-jordan-causing-deaths-and-injuries/article71616413.ece",
+     "published": "2026-10-23T13:58:17+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Gunmen kill at least 7 in attack on Jordan church, authorities say",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/jordan-shooting-greek-orthodox-church-karak/",
+     "published": "2026-10-23T15:36:20+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "7 Killed, 34 Injured As Gunmen Open Fire In Jordan Church During Funeral",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/7-killed-34-injured-as-gunmen-open-fire-in-jordan-church-during-funeral-12226991#publisher=newsstand",
+     "published": "2026-10-23T15:40:21+00:00"
+    },
+    {
+     "outlet": "Tehran Times",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Six killed in attack at church in Jordan",
+     "language": "en",
+     "link": "https://www.tehrantimes.com/news/531409/Six-killed-in-attack-at-church-in-Jordan",
+     "published": "2026-10-23T15:33:34+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Seven killed as gunmen open fire near Christian church in Jordan",
+     "language": "en",
+     "link": "https://tass.com/emergencies/2206933",
+     "published": "2026-10-23T12:48:54+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Six shot dead by gunmen at church funeral in Jordan, officials say",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9PaUdRVmRXdUhxR3haU3dtY0ZUbm96Y2RrYVFQdGd6RVJGR3o3eFMxSldjR3FvQURrdzJONDhmRUNhVDd3TDh2UzVndUtGcG0tNTFoLTlnOXhSaFk?oc=5",
+     "published": "2026-10-23T15:15:18+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Seven shot dead by gunmen at church funeral in Jordan, officials say",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/ck87zlpzny15o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-23T16:33:11+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Several killed, dozens wounded in Jordan church shooting",
+     "language": "en",
+     "link": "https://www.france24.com/en/middle-east/20261023-several-killed-dozens-wounded-in-jordan-church-shooting",
+     "published": "2026-10-23T14:16:29+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Three terrorists involved in attack on Christian church in Jordan",
+     "language": "en",
+     "link": "https://tass.com/emergencies/2207067",
+     "published": "2026-10-23T15:46:12+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Nine killed and 40 injured after gunmen open fire at church funeral in Jordan",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/24/seven-killed-and-40-injured-after-gunmen-open-fire-at-church-funeral-in-jordan",
+     "published": "2026-10-24T14:24:15+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "7 killed, 34 injured as gunmen open fire at church during funeral in Jordan",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/uae-news/7-killed-34-injured-as-gunmen-open-fire-at-church-during-funeral-in-jordan-101792776956564.html",
+     "published": "2026-10-23T17:48:49+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Gunmen open fire at a church during a funeral in Jordan, killing 7 and wounding 40",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/24/nx-s1-6015414/shooting-church-jordan",
+     "published": "2026-10-24T11:59:08+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Jordan arrests three suspects over church attack in dawn raid: What to know",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/26/jordan-arrests-three-suspects-over-church-attack-in-dawn-raid-what-to-know?traffic_source=rss",
+     "published": "2026-10-26T11:08:48+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "Jordan arrests three suspects in deadly church attack, state media says",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-26-jordan-arrests-three-suspects-in-deadly-church-attack-state-media-says/",
+     "published": "2026-10-26T11:05:37+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Jordan arrests 3 in dawn raid over church attack",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2039967/jordan-arrests-3-in-dawn-raid-over-church-attack",
+     "published": "2026-10-26T11:55:56+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Jordan arrests 3 relatives over deadly church attack after shoot-out",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/middle-east/article/3372198/jordan-arrests-3-relatives-over-deadly-church-attack-after-shoot-out",
+     "published": "2026-10-26T13:02:50+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Jordan arrests three suspects in deadly church attack, state media says",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2637002/jordan-arrests-three-suspects-in-deadly-church-attack-state-media-says",
+     "published": "2026-10-26T04:06:26+00:00"
+    }
+   ],
+   "last_seen": "2026-10-26T17:07:50.109315+00:00",
+   "outlets": 16,
+   "regions": 11,
    "languages": 1,
    "score": 40.0
   },
@@ -5083,249 +4984,11 @@
      "published": "2026-10-14T21:31:34+00:00"
     }
    ],
-   "last_seen": "2026-10-24T17:07:45.140740+00:00",
+   "last_seen": "2026-10-26T17:07:50.109315+00:00",
    "outlets": 11,
    "regions": 8,
    "languages": 3,
    "score": 33.0
-  },
-  {
-   "id": "5f70df98c0e7",
-   "first_seen": "2026-10-23T17:08:00.252001+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "At least seven killed after gunmen open fire at church in Jordan",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/23/at-least-seven-killed-after-gunmen-open-fire-at-church-in-jordan?traffic_source=rss",
-     "published": "2026-10-23T13:32:40+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "At least seven killed in attack at church in Jordan, state-owned outlet says",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2636536/at-least-seven-killed-in-attack-at-church-in-jordan-state-owned-outlet-says",
-     "published": "2026-10-23T08:56:41+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Seven killed, 28 injured after gunmen open fire inside a church in Jordan",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/gunmen-open-fire-inside-a-church-in-jordan-causing-deaths-and-injuries/article71616413.ece",
-     "published": "2026-10-23T13:58:17+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Gunmen kill at least 7 in attack on Jordan church, authorities say",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/jordan-shooting-greek-orthodox-church-karak/",
-     "published": "2026-10-23T15:36:20+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "7 Killed, 34 Injured As Gunmen Open Fire In Jordan Church During Funeral",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/7-killed-34-injured-as-gunmen-open-fire-in-jordan-church-during-funeral-12226991#publisher=newsstand",
-     "published": "2026-10-23T15:40:21+00:00"
-    },
-    {
-     "outlet": "Tehran Times",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Six killed in attack at church in Jordan",
-     "language": "en",
-     "link": "https://www.tehrantimes.com/news/531409/Six-killed-in-attack-at-church-in-Jordan",
-     "published": "2026-10-23T15:33:34+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Seven killed as gunmen open fire near Christian church in Jordan",
-     "language": "en",
-     "link": "https://tass.com/emergencies/2206933",
-     "published": "2026-10-23T12:48:54+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Six shot dead by gunmen at church funeral in Jordan, officials say",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9PaUdRVmRXdUhxR3haU3dtY0ZUbm96Y2RrYVFQdGd6RVJGR3o3eFMxSldjR3FvQURrdzJONDhmRUNhVDd3TDh2UzVndUtGcG0tNTFoLTlnOXhSaFk?oc=5",
-     "published": "2026-10-23T15:15:18+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Seven shot dead by gunmen at church funeral in Jordan, officials say",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/ck87zlpzny15o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-23T16:33:11+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Several killed, dozens wounded in Jordan church shooting",
-     "language": "en",
-     "link": "https://www.france24.com/en/middle-east/20261023-several-killed-dozens-wounded-in-jordan-church-shooting",
-     "published": "2026-10-23T14:16:29+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Three terrorists involved in attack on Christian church in Jordan",
-     "language": "en",
-     "link": "https://tass.com/emergencies/2207067",
-     "published": "2026-10-23T15:46:12+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Nine killed and 40 injured after gunmen open fire at church funeral in Jordan",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/24/seven-killed-and-40-injured-after-gunmen-open-fire-at-church-funeral-in-jordan",
-     "published": "2026-10-24T14:24:15+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "7 killed, 34 injured as gunmen open fire at church during funeral in Jordan",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/uae-news/7-killed-34-injured-as-gunmen-open-fire-at-church-during-funeral-in-jordan-101792776956564.html",
-     "published": "2026-10-23T17:48:49+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Gunmen open fire at a church during a funeral in Jordan, killing 7 and wounding 40",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/24/nx-s1-6015414/shooting-church-jordan",
-     "published": "2026-10-24T11:59:08+00:00"
-    }
-   ],
-   "last_seen": "2026-10-24T17:07:45.140740+00:00",
-   "outlets": 13,
-   "regions": 9,
-   "languages": 1,
-   "score": 33.0
-  },
-  {
-   "id": "ee2aa5025693",
-   "first_seen": "2026-10-18T09:07:42.310366+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "At least 17 dead in crush at Hindu festival event in India",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c820vwq7qg2ko?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-17T19:19:16+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "At least 19 dead in stampede at Kolkata Hindu festival",
-     "language": "en",
-     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/18/at-least-19-dead-in-stampede-at-kolkata-hindu-festival?traffic_source=rss",
-     "published": "2026-10-18T04:21:46+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "19 dead, 25 hurt in stampede at India religious festival",
-     "language": "en",
-     "link": "https://www.scmp.com/news/asia/south-asia/article/3371278/19-dead-25-hurt-stampede-india-religious-festival?utm_source=rss_feed",
-     "published": "2026-10-17T23:31:57+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "At least 17 killed after deadly stampede at India religious festival",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/asia-pacific/at-least-17-killed-after-deadly-stampede-at-india-religious-festival",
-     "published": "2026-10-17T17:17:00+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "At least 19 dead and 25 hurt in stampede at India religious gathering",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/18/asia-pacific/stampede-india-religious-gathering/",
-     "published": "2026-10-18T00:05:00+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "19 dead, 25 hurt in stampede at religious gathering in India",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/18/19-dead-25-hurt-in-stampede-at-religious-gathering-in-india",
-     "published": "2026-10-18T04:48:11+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Out-of-control truck kills 13 at religious festival in India's Madhya Pradesh",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2038010/out-of-control-truck-kills-13-at-religious-festival-in-indias-madhya-pradesh",
-     "published": "2026-10-18T07:02:23+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Out-of-control truck kills 13 at Hindu festival in India",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/asia/out-control-truck-kills-13-hindu-festival-in-india-6469411",
-     "published": "2026-10-18T08:43:00+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Out-of-control truck kills 13 at Hindu festival in India",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/out-of-control-truck-kills-13-at-hindu-festival-in-india/",
-     "published": "2026-10-18T08:28:49+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Out-of-control truck kills 13 at Hindu festival in India",
-     "language": "en",
-     "link": "https://www.france24.com/en/video/20261018-out-of-control-truck-kills-13-at-hindu-festival-in-india",
-     "published": "2026-10-18T11:14:44+00:00"
-    }
-   ],
-   "last_seen": "2026-10-18T17:07:47.543314+00:00",
-   "outlets": 10,
-   "regions": 10,
-   "languages": 1,
-   "score": 32.0
   },
   {
    "id": "e485a6cd6de5",
@@ -5472,6 +5135,98 @@
    "regions": 8,
    "languages": 1,
    "score": 30.0
+  },
+  {
+   "id": "025bd0daeb6d",
+   "first_seen": "2026-10-26T17:07:50.109315+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "light",
+     "title": "Chris Brown given suspended eight-month prison sentence over nightclub attack",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cq3dje4g4d5jo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-26T14:16:09+00:00"
+    },
+    {
+     "outlet": "The Guardian — Culture",
+     "region": "culture",
+     "bucket": "light",
+     "title": "Chris Brown given suspended sentence over bottle attack at London club",
+     "language": "en",
+     "link": "https://www.theguardian.com/music/2026/oct/26/chris-brown-suspended-sentence-bottle-attack-london-club",
+     "published": "2026-10-26T12:28:24+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Chris Brown avoids jail over London nightclub bottle attack",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/26/chris-brown-avoids-jail-over-london-nightclub-bottle-attack/",
+     "published": "2026-10-26T14:27:51+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Chris Brown gets suspended jail term over London nightclub attack",
+     "language": "en",
+     "link": "https://punchng.com/chris-brown-gets-suspended-jail-term-over-london-nightclub-attack/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-26T15:15:23+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Chris Brown avoids jail after pleading guilty to affray in London nightclub attack",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/chris-brown-avoids-jail-after-pleading-guilty-to-affray-in-london-nightclub-attack-101793016998815.html",
+     "published": "2026-10-26T12:21:30+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Chris Brown avoids prison for London nightclub assault",
+     "language": "en",
+     "link": "https://www.dailysabah.com/arts/music/chris-brown-avoids-prison-for-london-nightclub-assault",
+     "published": "2026-10-26T13:56:00+00:00"
+    },
+    {
+     "outlet": "Court House News",
+     "region": "court",
+     "bucket": "light",
+     "title": "Chris Brown avoids jail after London nightclub attack",
+     "language": "en",
+     "link": "https://www.courthousenews.com/chris-brown-avoids-jail-after-london-nightclub-attack/",
+     "published": "2026-10-26T16:46:32+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "US singer Chris Brown avoids jail after guilty plea in UK nightclub incident",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3372197/us-singer-chris-brown-avoids-jail-after-guilty-plea-uk-nightclub-incident",
+     "published": "2026-10-26T12:48:25+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "US singer Chris Brown spared jail for UK nightclub attack",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2637040/us-singer-chris-brown-spared-jail-for-uk-nightclub-attack",
+     "published": "2026-10-26T09:32:52+00:00"
+    }
+   ],
+   "last_seen": "2026-10-26T17:07:50.109315+00:00",
+   "outlets": 9,
+   "regions": 9,
+   "languages": 1,
+   "score": 29.0
   },
   {
    "id": "f5ba3124a0bf",
@@ -6542,6 +6297,80 @@
    "score": 19.0
   },
   {
+   "id": "7eea8cc52fb1",
+   "first_seen": "2026-10-25T17:07:45.058543+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Venezuelan opposition leader María Machado returns after months in exile",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cq8ez592pp0eo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-25T16:21:40+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Venezuela's opposition leader María Corina Machado returns after months in exile",
+     "language": "en",
+     "link": "https://www.npr.org/2026/10/25/nx-s1-6016222/venezuela-maria-corina-machado-leader-returns-exile",
+     "published": "2026-10-25T16:18:41+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Venezuela opposition leader María Corina Machado returns to country",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/venezuela-opposition-maria-corina-machado-return/",
+     "published": "2026-10-25T16:57:43+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Exiled opposition leader María Corina Machado returns to rapturous reception in Venezuela",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/25/exiled-venezuelan-opposition-leader-maria-corina-machado-announces-her-return",
+     "published": "2026-10-26T05:27:12+00:00"
+    },
+    {
+     "outlet": "Deutsche Welle",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Venezuelan opposition leader Machado returns from exile",
+     "language": "en",
+     "link": "https://www.dw.com/en/venezuelan-opposition-leader-machado-returns-from-exile/a-79759187?maca=en-rss-en-world-4025-rdf",
+     "published": "2026-10-26T09:08:00+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Venezuela Opposition leader Maria Corina Machado returns after months in exile: ‘I’m here. With you'",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/venezuela-opposition-leader-maria-corina-machado-returns-after-months-in-exile-i-m-here-with-you-101792943452772.html",
+     "published": "2026-10-25T17:10:40+00:00"
+    },
+    {
+     "outlet": "Buenos Aires Times",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "Opposition leader María Corina Machado returns to Venezuela from exile",
+     "language": "en",
+     "link": "https://www.batimes.com.ar/news/latin-america/maria-corina-machado-returns-to-venezuela-from-exile.phtml",
+     "published": "2026-10-26T03:24:19+00:00"
+    }
+   ],
+   "last_seen": "2026-10-26T17:07:50.109315+00:00",
+   "outlets": 7,
+   "regions": 5,
+   "languages": 1,
+   "score": 19.0
+  },
+  {
    "id": "fe13be55ee4f",
    "first_seen": "2026-10-20T09:08:04.491772+00:00",
    "members": [
@@ -7367,98 +7196,116 @@
    "score": 15.0
   },
   {
-   "id": "c311b9928977",
-   "first_seen": "2026-10-19T09:07:48.928141+00:00",
+   "id": "ab5fca3a01f0",
+   "first_seen": "2026-10-26T17:07:50.109315+00:00",
    "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Bollywood actor Tiger Shroff survives shooting attempt in Mumbai",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c6jdmy872r7vo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-19T07:35:06+00:00"
-    },
     {
      "outlet": "Dawn",
      "region": "pk",
      "bucket": "serious",
-     "title": "Indian actor Tiger Shroff remains unhurt in shooting incident in Mumbai",
+     "title": "Egypt approves military support for Saudi Arabia after Houthi attacks escalate",
      "language": "en",
-     "link": "https://www.dawn.com/news/2038061/indian-actor-tiger-shroff-remains-unhurt-in-shooting-incident-in-mumbai",
-     "published": "2026-10-18T19:54:18+00:00"
+     "link": "https://www.dawn.com/news/2039982/egypt-approves-military-support-for-saudi-arabia-after-houthi-attacks-escalate",
+     "published": "2026-10-26T14:03:13+00:00"
     },
     {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
+     "outlet": "The Express Tribune",
+     "region": "pk",
      "bucket": "serious",
-     "title": "Bollywood actor Tiger Shroff survives shooting in Mumbai",
+     "title": "Egypt approves military support for Saudi Arabia after Houthi attacks escalate",
      "language": "en",
-     "link": "https://www.myjoyonline.com/bollywood-actor-tiger-shroff-survives-shooting-in-mumbai/",
-     "published": "2026-10-19T02:55:00+00:00"
+     "link": "https://tribune.com.pk/story/2637034/egypt-approves-military-support-for-saudi-arabia-after-houthi-attacks-escalate",
+     "published": "2026-10-26T08:38:13+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Egypt approves military support for Saudi Arabia amid escalating Houthi attacks",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/26/egypt-approves-military-support-for-saudi-arabia-amid-escalating-houthi-attacks/",
+     "published": "2026-10-26T16:09:25+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Egypt approves military support for Saudi Arabia against Houthis",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/mid-east/egypt-approves-military-support-for-saudi-arabia-against-houthis",
+     "published": "2026-10-26T13:47:00+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Egypt approves military support for Saudi Arabia after Houthi attacks escalate",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMixwFBVV95cUxOaFIxVXVVYl90WFZodTB6bHpqOWN3aktZSHNDYTlaM3I5S1FoeU14U1NRVE1mVTJtSDV3ZHk1cHRiWDh6elBNamVIeE5tN2VvRDEyWXBPT1dyNW5KSXFyaE5PVEFOS1NyQW1CNkVVblN6SW1PeVg3aHQxY3B6WmhHU3cxM0gtdTNRLTY1NWo0R284RzQtSmVtTnRxVnR6MTVkNWVsU3djY1d2SURPNmo0N05CUFJZekpIUklNTmRxazZHVTNrbEFN?oc=5",
+     "published": "2026-10-26T15:52:06+00:00"
+    }
+   ],
+   "last_seen": "2026-10-26T17:07:50.109315+00:00",
+   "outlets": 5,
+   "regions": 4,
+   "languages": 1,
+   "score": 15.0
+  },
+  {
+   "id": "f76d55f48883",
+   "first_seen": "2026-10-26T17:07:50.109315+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Former Japanese prime minister Yasuo Fukuda, known for seeking China ties, dies at 90",
+     "language": "en",
+     "link": "https://www.scmp.com/news/asia/east-asia/article/3372141/former-japanese-prime-minister-yasuo-fukuda-known-seeking-china-ties-dies-90",
+     "published": "2026-10-26T06:37:40+00:00"
+    },
+    {
+     "outlet": "Nikkei Asia",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Former Japan Prime Minister Yasuo Fukuda dies at 90",
+     "language": "en",
+     "link": "https://asia.nikkei.com/life-arts/obituaries/former-japan-prime-minister-yasuo-fukuda-dies-at-90",
+     "published": "2026-10-26T17:07:40.747101+00:00"
     },
     {
      "outlet": "Malay Mail",
      "region": "my",
      "bucket": "serious",
-     "title": "Gunmen open fire on Bollywood star Tiger Shroff’s car in Mumbai, actor escapes unhurt (VIDEO)",
+     "title": "Ex-Japan PM Fukuda, who sought stable China ties, dies at 90",
      "language": "en",
-     "link": "https://www.malaymail.com/news/showbiz/2026/10/19/gunmen-open-fire-on-bollywood-star-tiger-shroffs-car-in-mumbai-actor-escapes-unhurt-video/239711",
-     "published": "2026-10-19T06:07:15+00:00"
-    }
-   ],
-   "last_seen": "2026-10-19T09:07:48.928141+00:00",
-   "outlets": 4,
-   "regions": 4,
-   "languages": 1,
-   "score": 14.0
-  },
-  {
-   "id": "8d29b8bfb686",
-   "first_seen": "2026-10-19T09:07:48.928141+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Funding shortages force World Food Programme to cut aid to Gaza",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cm79plrvpl4vo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-19T06:00:18+00:00"
+     "link": "https://www.malaymail.com/news/world/2026/10/26/ex-japan-pm-fukuda-who-sought-stable-china-ties-dies-at-90/240671",
+     "published": "2026-10-26T08:43:55+00:00"
     },
     {
-     "outlet": "France24",
-     "region": "eu",
+     "outlet": "The Japan Times",
+     "region": "jp",
      "bucket": "serious",
-     "title": "World Food Programme to end aid for half a million in Gaza due to funding shortfall",
+     "title": "Former Prime Minister Yasuo Fukuda dies at 90",
      "language": "en",
-     "link": "https://www.france24.com/en/middle-east/20261019-world-food-programme-to-end-aid-for-half-a-million-in-gaza-due-to-funding-shortfall",
-     "published": "2026-10-19T07:33:32+00:00"
+     "link": "https://www.japantimes.co.jp/news/2026/10/26/japan/politics/yasuo-fukuda-obituary/",
+     "published": "2026-10-26T09:03:00+00:00"
     },
     {
-     "outlet": "The Hindu — International",
+     "outlet": "NDTV — World",
      "region": "in",
      "bucket": "serious",
-     "title": "World Food Programme says ending aid for half million in Gaza due to funding shortfall",
+     "title": "Former Japan PM Yasuo Fukuda, Who Sought Better China Ties, Dies At 90",
      "language": "en",
-     "link": "https://www.thehindu.com/news/international/world-food-programme-says-ending-aid-for-half-million-in-gaza-due-to-funding-shortfall/article71602337.ece",
-     "published": "2026-10-19T07:57:48+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Half a million Palestinians face food aid cuts in Gaza",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/19/world-food-programme-cuts-aid-to-500-000-palestinians-in-gaza-citing-funding-shortages",
-     "published": "2026-10-19T08:47:31+00:00"
+     "link": "https://www.ndtv.com/world-news/former-japan-pm-yasuo-fukuda-who-sought-better-china-ties-dies-at-90-12236947#publisher=newsstand",
+     "published": "2026-10-26T09:23:20+00:00"
     }
    ],
-   "last_seen": "2026-10-19T09:07:48.928141+00:00",
-   "outlets": 4,
+   "last_seen": "2026-10-26T17:07:50.109315+00:00",
+   "outlets": 5,
    "regions": 4,
    "languages": 1,
-   "score": 14.0
+   "score": 15.0
   },
   {
    "id": "74d0453e62cb",
@@ -7918,53 +7765,6 @@
    "score": 13.0
   },
   {
-   "id": "ab3d8593eddc",
-   "first_seen": "2026-10-18T17:07:47.543314+00:00",
-   "members": [
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Iran's Parliament approves Mehrdad Akhlaqi as Minister of Defence",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/irans-parliament-approves-mehrdad-akhlaqi-as-minister-of-defence/article71600323.ece",
-     "published": "2026-10-18T14:34:13+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Iran’s parliament approves new defence minister",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/18/iran-s-parliament-approves-new-defence-minister",
-     "published": "2026-10-18T10:20:19+00:00"
-    },
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Iran parliament approves Akhlaghi as new defense minister",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248676/Iran-parliament-approves-Akhlaghi-as-new-defense-minister",
-     "published": "2026-10-18T08:16:37+00:00"
-    },
-    {
-     "outlet": "IRNA English",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Akhlaghi becomes Iran’s new defense minister",
-     "language": "en",
-     "link": "https://en.irna.ir/news/86295908/Akhlaghi-becomes-Iran-s-new-defense-minister",
-     "published": "2026-10-18T08:44:37+00:00"
-    }
-   ],
-   "last_seen": "2026-10-18T17:07:47.543314+00:00",
-   "outlets": 4,
-   "regions": 3,
-   "languages": 1,
-   "score": 12.0
-  },
-  {
    "id": "27e5457c4e18",
    "first_seen": "2026-10-19T17:07:57.762301+00:00",
    "members": [
@@ -8059,194 +7859,51 @@
    "score": 12.0
   },
   {
-   "id": "3e0d341bbeaa",
-   "first_seen": "2026-10-18T17:07:47.543314+00:00",
+   "id": "7d7110b92238",
+   "first_seen": "2026-10-26T17:07:50.109315+00:00",
    "members": [
     {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Microsoft pulls out of UK data center deal with Nscale, Telegraph reports",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/business/microsoft-pulls-out-uk-data-center-deal-nscale-telegraph-reports-6469486",
-     "published": "2026-10-18T10:01:16+00:00"
-    },
-    {
-     "outlet": "Investing.com — الاقتصاد",
-     "region": "money",
+     "outlet": "The Verge",
+     "region": "tech",
      "bucket": "useful",
-     "title": "Microsoft pulls out of UK data centre deal with Nscale, Telegraph reports",
+     "title": "Microsoft offers buyouts to 60,000 employees",
      "language": "en",
-     "link": "https://www.investing.com/news/economy-news/microsoft-pulls-out-of-uk-data-centre-deal-with-nscale-telegraph-reports-4955855",
-     "published": "2026-10-18T09:22:53+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Microsoft pulls out of Nscale data center deal in UK amid power supply delays, report says",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/microsoft-pulls-out-of-nscale-data-center-deal-in-uk-amid-power-supply-delays-report-says-101792333261651.html",
-     "published": "2026-10-18T14:43:41+00:00"
-    }
-   ],
-   "last_seen": "2026-10-18T17:07:47.543314+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "a285726d0aff",
-   "first_seen": "2026-10-18T17:07:47.543314+00:00",
-   "members": [
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Musk back in the spotlight, but politics dims the awe",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2038026/musk-back-in-the-spotlight-but-politics-dims-the-awe",
-     "published": "2026-10-18T09:52:01+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Musk back in the spotlight, but politics dims the awe",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/18/world/politics/elon-musk-spotlight-politics/",
-     "published": "2026-10-18T01:27:00+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Musk back in spotlight with 'flying car' but politics dim intrigue",
-     "language": "en",
-     "link": "https://www.dailysabah.com/business/economy/musk-back-in-spotlight-with-flying-car-but-politics-dim-intrigue",
-     "published": "2026-10-18T08:29:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-18T17:07:47.543314+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "2b00f16f2557",
-   "first_seen": "2026-10-19T09:07:48.928141+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "AI giant Anthropic commits 5% of shares to ‘public benefit’ fund",
-     "language": "en",
-     "link": "https://www.aljazeera.com/economy/2026/10/19/anthropic-says-it-will-commit-5-of-shares-to-public-benefit-fund?traffic_source=rss",
-     "published": "2026-10-19T03:23:54+00:00"
+     "link": "https://www.theverge.com/tech/1018666/microsoft-expands-buyouts-60000-employees-eligible",
+     "published": "2026-10-26T15:58:27+00:00"
     },
     {
      "outlet": "TechCrunch",
      "region": "tech",
      "bucket": "useful",
-     "title": "Anthropic says it’s committing 5% of its shares to a ‘public benefit fund’",
+     "title": "Microsoft offers buyouts to around 60,000 employees, reports say",
      "language": "en",
-     "link": "https://techcrunch.com/2026/10/18/anthropic-says-its-committing-5-of-its-shares-to-a-public-benefit-fund/",
-     "published": "2026-10-18T20:37:40+00:00"
+     "link": "https://techcrunch.com/2026/10/26/microsoft-offers-buyouts-to-around-60000-employees-reports-say/",
+     "published": "2026-10-26T15:58:25+00:00"
     },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Anthropic says it will commit 5% of its shares to ‘public benefit fund’",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/anthropic-says-it-will-commit-5-of-its-shares-to-public-benefit-fund/",
-     "published": "2026-10-18T23:24:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-19T09:07:48.928141+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "32c021f29282",
-   "first_seen": "2026-10-19T09:07:48.928141+00:00",
-   "members": [
     {
      "outlet": "Channel News Asia",
      "region": "seasia",
      "bucket": "serious",
-     "title": "Beijing's population expected to become super-aged by 2035",
+     "title": "Microsoft is offering buyouts to around 60,000 employees, Business Insider reports",
      "language": "en",
-     "link": "https://www.channelnewsasia.com/east-asia/china-beijing-population-super-aged-2035-6470641",
-     "published": "2026-10-19T04:17:00+00:00"
+     "link": "https://www.channelnewsasia.com/business/microsoft-offering-buyouts-around-60000-employees-business-insider-reports-6493806",
+     "published": "2026-10-26T16:13:12+00:00"
     },
     {
-     "outlet": "The Hindu — International",
+     "outlet": "Hindustan Times — World",
      "region": "in",
      "bucket": "serious",
-     "title": "Beijing’s population expected to become super-aged by 2035",
+     "title": "Microsoft offers voluntary buyouts to around 60,000 employees: Report",
      "language": "en",
-     "link": "https://www.thehindu.com/news/international/beijings-population-expected-to-become-super-aged-by-2035/article71602008.ece",
-     "published": "2026-10-19T06:27:03+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Beijing’s population expected to become super-aged by 2035",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/beijings-population-expected-to-become-super-aged-by-2035/",
-     "published": "2026-10-18T23:54:00+00:00"
+     "link": "https://www.hindustantimes.com/world-news/us-news/microsoft-offers-voluntary-buyouts-to-around-60-000-employees-in-india-us-canada-uk-101793031714414.html",
+     "published": "2026-10-26T16:27:48+00:00"
     }
    ],
-   "last_seen": "2026-10-19T09:07:48.928141+00:00",
-   "outlets": 3,
+   "last_seen": "2026-10-26T17:07:50.109315+00:00",
+   "outlets": 4,
    "regions": 3,
    "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "69be3ede74b3",
-   "first_seen": "2026-10-19T09:07:48.928141+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Flydubai captain describes blocking axe blows as co-pilot attacked him",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/18/flydubai-captain-smit-machchhar-blocking-axe-blows-flight-fz1073",
-     "published": "2026-10-18T17:27:17+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "'Was not sure I'll make it ​out alive': Captain of flydubai flight to Tel Aviv recalls blocking axe blows from co-pilot",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2038055/was-not-sure-ill-make-it-out-alive-captain-of-flydubai-flight-to-tel-aviv-recalls-blocking-axe-blows-from-co-pilot",
-     "published": "2026-10-18T18:38:31+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Flydubai captain describes blocking axe blows as co-pilot attacked him",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPb2RWUmkxdl9pdlh0NzNxcFU5Qm9PUXI2SURYbk82QnlUMURGNVc0WExGMUpqWFI5ZnBxSVVNQXk0SDUyM2FkZU16dlpRd0tON3FGUDhTOWlWSno1UjloWjNKUmNOTzBVbTJmMm9HTEcwUjFYeGE0QmVJamdNX3dlTndRSFczT1RobndBanp4cTJPb0gtQ2pLZ25MYUktSW9GM2t0V2F3dDIyTG41cE5N?oc=5",
-     "published": "2026-10-18T19:29:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-19T09:07:48.928141+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
+   "score": 12.0
   },
   {
    "id": "478f5ebf4286",
@@ -8904,6 +8561,120 @@
    "score": 11.0
   },
   {
+   "id": "fce3b11630d5",
+   "first_seen": "2026-10-26T17:07:50.109315+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "US Marine indicted for murder and robbery of woman in Japan",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c3vgxjex1z9wo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-26T14:13:18+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Japan indicts US Marine on murder, robbery charges in Okinawa",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/japan-indicts-us-marine-on-murder-robbery-charges-in-okinawa-101792978975029.html",
+     "published": "2026-10-26T01:51:49+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "US Marine indicted for murder and robbery of woman in Japan",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1GMXVSc0JLenIyZVFHZmhWWERuVkZ4a1pzUE9yUWZ1UE5pYXhIUlVvZGRpejNxQmVQTXRqVm01emgxNGo0SldxZEFjelhvU3JGd29qbERrZWVGSGc?oc=5",
+     "published": "2026-10-26T14:13:18+00:00"
+    }
+   ],
+   "last_seen": "2026-10-26T17:07:50.109315+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "009c6e7ca190",
+   "first_seen": "2026-10-26T17:07:50.109315+00:00",
+   "members": [
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Buses out, shoppers in, London’s Oxford Street goes traffic-free",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/26/buses-out-shoppers-in-london-s-oxford-street-goes-traffic-free",
+     "published": "2026-10-26T11:23:00+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Oxford Street Goes Traffic-Free: London And Delhi's Different Street Experiments",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/oxford-street-goes-traffic-free-london-and-delhis-different-street-experiments-12238041#publisher=newsstand",
+     "published": "2026-10-26T12:22:10+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Shoppers fill Oxford Street on first traffic-free day",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5fa2hkNlAydFdnV29IcHhtT0xmNzFhZm5pWEZUVGhDS0FmbV8xUlRuMTlhcDBrWTA4UF9YMlFzaE1VWGowU293dnMxRFdSaVhfMjNqU1ctU1JsMDA?oc=5",
+     "published": "2026-10-26T15:30:26+00:00"
+    }
+   ],
+   "last_seen": "2026-10-26T17:07:50.109315+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "7d6edcbb051a",
+   "first_seen": "2026-10-26T17:07:50.109315+00:00",
+   "members": [
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Stranded Iranian sailors receive urgent medical assistance in Sri Lanka",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/stranded-iranian-sailors-receive-urgent-medical-assistance-in-sri-lanka/article71623159.ece",
+     "published": "2026-10-25T12:24:51+00:00"
+    },
+    {
+     "outlet": "Iran International",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Sri Lanka rescues 40 Iranian sailors from stranded ships",
+     "language": "en",
+     "link": "https://www.iranintl.com/en/202610257256",
+     "published": "2026-10-25T17:35:39+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Sri Lanka rescues dozens of Iranian commercial sailors",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE1mX3hSQlBHdDRlanFEZnY1SUtUdm90NnNBOFZySVdIb0M1by1OQk02dExIbVZjQW9aMTRYdU1Gb0RnXzlNNkdOaDFNUDN0cEtyY1R2SUpxT3JaTjBzOTVN?oc=5",
+     "published": "2026-10-25T18:16:19+00:00"
+    }
+   ],
+   "last_seen": "2026-10-26T17:07:50.109315+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
    "id": "17a17ec8cf04",
    "first_seen": "2026-10-20T09:08:04.491772+00:00",
    "members": [
@@ -9032,120 +8803,6 @@
    "regions": 2,
    "languages": 1,
    "score": 10.0
-  },
-  {
-   "id": "1c0aa47b8b3b",
-   "first_seen": "2026-10-18T09:07:42.310366+00:00",
-   "members": [
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Pakistan extends airspace ban on Indian aircraft till November 24",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/pakistan-extends-airspace-ban-on-indian-aircraft-till-november-24/article71599424.ece",
-     "published": "2026-10-18T08:17:50+00:00"
-    },
-    {
-     "outlet": "Geo News",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Pakistan extends airspace ban on Indian aircraft till Nov 24",
-     "language": "en",
-     "link": "https://www.geo.tv/latest/687043-pakistan-extends-airspace-ban-on-indian-aircraft-till-nov-24",
-     "published": "2026-10-17T17:20:00+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Pakistan Extends Ban On Indian Aircraft In Its Airspace Till November 24",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/pakistan-extends-ban-on-indian-aircraft-in-its-airspace-till-november-24-12202114#publisher=newsstand",
-     "published": "2026-10-18T08:15:06+00:00"
-    }
-   ],
-   "last_seen": "2026-10-18T17:07:47.543314+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 1,
-   "score": 9.0
-  },
-  {
-   "id": "13be88e12a6c",
-   "first_seen": "2026-10-18T17:07:47.543314+00:00",
-   "members": [
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Chelsea latest: Martinez has surgery on fractured jaw",
-     "language": "en",
-     "link": "https://www.skysports.com/football/live-blog/12040/13025497/chelsea-transfer-news-rumours-and-gossip-live-updates-and-latest-on-deals-signings-loans-and-contracts",
-     "published": "2026-10-18T08:00:00+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Chelsea keeper Martinez posts hospital update after fractured jaw, says comeback is weeks away",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/sports/2026/10/18/chelsea-keeper-martinez-posts-hospital-update-after-fractured-jaw-says-comeback-is-weeks-away/239632",
-     "published": "2026-10-18T10:08:03+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Chelsea keeper Martinez ‘back in a few weeks’ after jaw fracture",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/18/chelsea-keeper-martinez-back-in-a-few-weeks-after-jaw-fracture",
-     "published": "2026-10-18T10:34:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-18T17:07:47.543314+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 1,
-   "score": 9.0
-  },
-  {
-   "id": "45b6290f7866",
-   "first_seen": "2026-10-19T09:07:48.928141+00:00",
-   "members": [
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Louvre's $100 million crown jewels still missing one year after daring heist",
-     "language": "en",
-     "link": "https://www.france24.com/en/france/20261019-louvre-100-million-crown-jewels-one-year-heist",
-     "published": "2026-10-19T02:01:56+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "A Year After Louvre Heist, $100 Million French Crown Jewels Remain Missing",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/a-year-after-louvre-heist-100-million-french-crown-jewels-remain-missing-12204395#publisher=newsstand",
-     "published": "2026-10-19T03:09:02+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "A year on since Louvre Museum heist, stolen jewels worth $100 million still missing",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/a-year-on-since-louvre-museum-heist-stolen-jewels-worth-usd-100-million-still-missing-france-paris-macron-101792386235951.html",
-     "published": "2026-10-19T06:55:14+00:00"
-    }
-   ],
-   "last_seen": "2026-10-19T09:07:48.928141+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 1,
-   "score": 9.0
   },
   {
    "id": "9ea9c5cee251",
@@ -9528,44 +9185,6 @@
    "score": 9.0
   },
   {
-   "id": "7eea8cc52fb1",
-   "first_seen": "2026-10-25T17:07:45.058543+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Venezuelan opposition leader María Machado returns after months in exile",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cq8ez592pp0eo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-25T16:21:40+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Venezuela's opposition leader María Corina Machado returns after months in exile",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/25/nx-s1-6016222/venezuela-maria-corina-machado-leader-returns-exile",
-     "published": "2026-10-25T16:18:41+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Venezuela opposition leader María Corina Machado returns to country",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/venezuela-opposition-maria-corina-machado-return/",
-     "published": "2026-10-25T16:57:43+00:00"
-    }
-   ],
-   "last_seen": "2026-10-25T17:07:45.058543+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 1,
-   "score": 9.0
-  },
-  {
    "id": "c70cc28ebaba",
    "first_seen": "2026-10-25T17:07:45.058543+00:00",
    "members": [
@@ -9674,6 +9293,120 @@
     }
    ],
    "last_seen": "2026-10-25T17:07:45.058543+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
+   "id": "f2dd7a4dc59a",
+   "first_seen": "2026-10-26T17:07:50.109315+00:00",
+   "members": [
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "F1 2026 team-mate head-to-heads after United States GP",
+     "language": "en",
+     "link": "https://www.skysports.com/f1/news/12040/13516662/f1-team-mate-2026-head-to-head-qualifying-race-sprint-latest-scores-results-from-formula-1-season",
+     "published": "2026-10-26T12:20:00+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Mercedes’ Kimi Antonelli wins in Texas to move to brink of Formula One title",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/sports/2026/10/26/more-sports/antonelli-brink-formula-one-title/",
+     "published": "2026-10-26T04:59:00+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Kimi Antonelli looks forward to drivers’ title after victory in US Grand Prix",
+     "language": "en",
+     "link": "https://www.theguardian.com/sport/2026/oct/25/f1-world-champion-elect-kimi-antonelli-hopefully-we-can-clinch-it-soon",
+     "published": "2026-10-25T22:33:34+00:00"
+    }
+   ],
+   "last_seen": "2026-10-26T17:07:50.109315+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
+   "id": "3284a95f3caa",
+   "first_seen": "2026-10-26T17:07:50.109315+00:00",
+   "members": [
+    {
+     "outlet": "Deutsche Welle",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Uganda says it has no active Ebola cases, but infections in Kenya and Nigeria are prompting fresh scrutiny",
+     "language": "en",
+     "link": "https://www.dw.com/en/uganda-says-it-has-no-active-ebola-cases-but-infections-in-kenya-and-nigeria-are-prompting-fresh-scrutiny/a-79741580?maca=en-rss-en-world-4025-rdf",
+     "published": "2026-10-25T13:41:00+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Nigeria has no active Ebola cases after patient’s evacuation",
+     "language": "en",
+     "link": "https://punchng.com/nigeria-has-no-active-ebola-cases-after-patients-evacuation-who/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-26T14:05:30+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "After patient’s evacuation, is Nigeria Ebola-free?",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/after-patients-evacuation-is-nigeria-ebola-free-who-clarifies/",
+     "published": "2026-10-26T15:29:36+00:00"
+    }
+   ],
+   "last_seen": "2026-10-26T17:07:50.109315+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
+   "id": "4ae964b79a95",
+   "first_seen": "2026-10-26T17:07:50.109315+00:00",
+   "members": [
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Dozens killed in attack on Ethiopia Orthodox Christians",
+     "language": "en",
+     "link": "https://punchng.com/dozens-killed-in-attack-on-ethiopia-orthodox-christians/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-26T14:59:22+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Dozens killed in attack on Ethiopian Orthodox Christians",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/26/dozens-killed-in-attack-on-ethiopia-orthodox-christians",
+     "published": "2026-10-26T14:15:15+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Over 40 killed in attack on Orthodox Christians in Ethiopia",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/over-40-killed-in-attack-on-orthodox-christians-in-ethiopia/",
+     "published": "2026-10-26T14:31:10+00:00"
+    }
+   ],
+   "last_seen": "2026-10-26T17:07:50.109315+00:00",
    "outlets": 3,
    "regions": 2,
    "languages": 1,
@@ -10193,6 +9926,53 @@
     }
    ],
    "last_seen": "2026-10-25T17:07:45.058543+00:00",
+   "outlets": 3,
+   "regions": 1,
+   "languages": 1,
+   "score": 7.0
+  },
+  {
+   "id": "ce253cb7b88a",
+   "first_seen": "2026-10-26T17:07:50.109315+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Remembering former army chief Gen Abdul Waheed Kakar",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2039973/remembering-former-army-chief-gen-abdul-waheed-kakar",
+     "published": "2026-10-26T14:34:20+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Former army chief Abdul Waheed Kakar passes away in Rawalpindi",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2039942/former-army-chief-abdul-waheed-kakar-passes-away-in-rawalpindi",
+     "published": "2026-10-26T14:54:35+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Former army chief Abdul Waheed Kakar passes away in Rawalpindi: ISPR",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2636982/former-coas-abdul-waheed-kakar-passes-away-in-rawalpindi-ispr",
+     "published": "2026-10-26T02:04:18+00:00"
+    },
+    {
+     "outlet": "Geo News",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Ex-army chief Gen (retd) Abdul Waheed Kakar passes away in Rawalpindi: ISPR",
+     "language": "en",
+     "link": "https://www.geo.tv/latest/688314-ex-army-chief-gen-retd-abdul-waheed-kakar-passes-away-in-rawalpindi-ispr",
+     "published": "2026-10-26T07:16:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-26T17:07:50.109315+00:00",
    "outlets": 3,
    "regions": 1,
    "languages": 1,

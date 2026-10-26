@@ -1,0 +1,65 @@
+{
+  "id": "966c3abf6736",
+  "created_at": "2026-10-26T17:08:04.451269+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.72,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "زيارة وفود سعودية وتركية وباكستانية لطهران لمحادثات أمنية.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran says officials from Saudi, Turkiye, Pakistan to visit Tehran for security talks",
+  "link": "https://www.thehindu.com/news/international/iran-says-officials-from-saudi-turkiye-pakistan-to-visit-tehran-for-security-talks/article71625846.ece",
+  "publishers": [
+    "Mehr News",
+    "The Hindu — International"
+  ],
+  "region": "in",
+  "article": {
+    "title": "Iran says officials from Saudi, Turkiye, Pakistan to visit Tehran for security talks",
+    "link": "https://www.thehindu.com/news/international/iran-says-officials-from-saudi-turkiye-pakistan-to-visit-tehran-for-security-talks/article71625846.ece",
+    "summary": "The meeting was proposed during a visit by Pakistani Army chief Asim Munir to Tehran last week, says Ali Bagheri Kani, Deputy Secretary of Iran’s SNSC",
+    "source_name": "The Hindu — International",
+    "region": "in",
+    "weight": 1.0,
+    "published": "2026-10-26T08:23:02+00:00",
+    "image_url": "https://th-i.thgim.com/public/incoming/6edmy6/article71626105.ece/alternates/LANDSCAPE_1200/2024-06-13T093957Z_733171574_RC29A8AXGXJG_RTRMADP_3_IRAQ-IRAN-FOREIGN.JPG",
+    "publisher": "The Hindu — International",
+    "cluster_sources": [
+      "Mehr News",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/iran-says-officials-from-saudi-turkiye-pakistan-to-visit-tehran-for-security-talks/article71625846.ece"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/248934/Security-officials-of-Turky-Pakistan-arrive-in-Tehran"
+      }
+    ],
+    "image_candidates": [
+      "https://th-i.thgim.com/public/incoming/6edmy6/article71626105.ece/alternates/LANDSCAPE_1200/2024-06-13T093957Z_733171574_RC29A8AXGXJG_RTRMADP_3_IRAQ-IRAN-FOREIGN.JPG",
+      "https://media.mehrnews.com/d/2026/04/20/4/5994163.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 1992.9139638758334,
+    "is_stale": false,
+    "score": 25.71688702801852,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "زيارة وفود سعودية وتركية وباكستانية لطهران لمحادثات أمنية.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

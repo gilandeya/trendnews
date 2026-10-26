@@ -1,0 +1,78 @@
+{
+  "id": "b8f740314eab",
+  "created_at": "2026-10-26T17:08:04.451656+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.37,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 0,
+  "intrigue": 3,
+  "appeal_note": "مايكروسوفت تعرض حوافز مغادرة لنحو 60 ألف موظف.",
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Microsoft offers buyouts to 60,000 employees",
+  "link": "https://www.theverge.com/tech/1018666/microsoft-expands-buyouts-60000-employees-eligible",
+  "publishers": [
+    "Channel News Asia",
+    "Hindustan Times — World",
+    "TechCrunch",
+    "The Verge"
+  ],
+  "region": "tech",
+  "article": {
+    "title": "Microsoft offers buyouts to 60,000 employees",
+    "link": "https://www.theverge.com/tech/1018666/microsoft-expands-buyouts-60000-employees-eligible",
+    "summary": "Microsoft is offering voluntary buyouts to up to 60,000 employees across the US, UK, Canada, and India. In a message to employees, Microsoft chief people officer Amy Coleman writes that this gives staff members \"the opportunity to leave Microsoft with financial support and career planning resources\" as the company looks to trim staff without another […]",
+    "source_name": "The Verge",
+    "region": "tech",
+    "weight": 1.1,
+    "published": "2026-10-26T15:58:27+00:00",
+    "image_url": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25832915/STK095_MICROSOFT_2_CVirginia_D.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+    "publisher": "The Verge",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Hindustan Times — World",
+      "TechCrunch",
+      "The Verge"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Verge",
+        "link": "https://www.theverge.com/tech/1018666/microsoft-expands-buyouts-60000-employees-eligible"
+      },
+      {
+        "name": "TechCrunch",
+        "link": "https://techcrunch.com/2026/10/26/microsoft-offers-buyouts-to-around-60000-employees-reports-say/"
+      },
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/business/microsoft-offering-buyouts-around-60000-employees-business-insider-reports-6493806"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/microsoft-offers-voluntary-buyouts-to-around-60-000-employees-in-india-us-canada-uk-101793031714414.html"
+      }
+    ],
+    "image_candidates": [
+      "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25832915/STK095_MICROSOFT_2_CVirginia_D.jpg?quality=90&#038;strip=all&#038;crop=0,0,100,100",
+      "https://dam.mediacorp.sg/image/upload/s--K55adqMk--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-10-26T161816Z_3_LYNXNPEM9P1JK_RTROPTP_3_BRITAIN-MICROSOFT.JPG?itok=_4N04SWG",
+      "https://www.hindustantimes.com/ht-img/img/2026/10/26/1600x900/photo-1737922342275-71bab46ace83_1791480164805_xZx_1793031959809_9CWl_1793031959909_NNmz_cb54e0b7-ea42-400a-9341-f950f63af366_WDwx.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 1992.913978371111,
+    "is_stale": false,
+    "score": 25.37290554575926,
+    "impact": 2,
+    "proximity": 0,
+    "intrigue": 3,
+    "appeal_note": "مايكروسوفت تعرض حوافز مغادرة لنحو 60 ألف موظف.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "id": "8934432fc29a",
+  "created_at": "2026-10-26T17:08:04.452295+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.45,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "انتخابات بلغاريا بنسبة مشاركة قياسية منخفضة؛ أثر محدود على القارئ العربي.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Bulgaria’s Presidential Election Heads to Runoff After Record Low Turnout",
+  "link": "https://balkaninsight.com/2026/10/26/bulgarias-presidential-election-heads-to-runoff-after-record-low-turnout/bi/",
+  "publishers": [
+    "Balkan Insight",
+    "CNN",
+    "Daily Sabah"
+  ],
+  "region": "balkans",
+  "article": {
+    "title": "Bulgaria’s Presidential Election Heads to Runoff After Record Low Turnout",
+    "link": "https://balkaninsight.com/2026/10/26/bulgarias-presidential-election-heads-to-runoff-after-record-low-turnout/bi/",
+    "summary": "After securing an unexpectedly small lead, government-aligned acting President Iliana Iotova will face opposition candidate Andrey Gyurov in a November 1 runoff following record low voter turnout in Sunday's polls.",
+    "source_name": "Balkan Insight",
+    "region": "balkans",
+    "weight": 0.9,
+    "published": "2026-10-26T10:14:08+00:00",
+    "image_url": "https://balkaninsight.com/wp-content/uploads/2026/10/14391282-scaled-e1793002078261-640x361.jpg",
+    "publisher": "Balkan Insight",
+    "cluster_sources": [
+      "Balkan Insight",
+      "CNN",
+      "Daily Sabah"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/europe/bulgaria-presidential-election-goes-into-runoff-amid-low-turnout"
+      },
+      {
+        "name": "Balkan Insight",
+        "link": "https://balkaninsight.com/2026/10/26/bulgarias-presidential-election-heads-to-runoff-after-record-low-turnout/bi/"
+      }
+    ],
+    "image_candidates": [
+      "https://balkaninsight.com/wp-content/uploads/2026/10/14391282-scaled-e1793002078261-640x361.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/10/26/467498.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 1992.9140264872221,
+    "is_stale": false,
+    "score": 23.445218972496804,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "انتخابات بلغاريا بنسبة مشاركة قياسية منخفضة؛ أثر محدود على القارئ العربي.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

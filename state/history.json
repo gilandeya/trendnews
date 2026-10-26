@@ -1,189 +1,5 @@
 [
   {
-    "score": 29.77,
-    "bucket": "useful",
-    "tokens": [
-      "banks",
-      "cloud",
-      "google",
-      "hits",
-      "outage",
-      "recovering",
-      "services",
-      "websites"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cxdd8mm6qy4mo?at_medium=RSS&at_campaign=rss",
-    "title": "Google says services recovering after cloud outage hits UK banks and websites",
-    "posted_title": "",
-    "region": "tech",
-    "seen_at": "2026-10-20T17:08:12.549915+00:00"
-  },
-  {
-    "score": 25.99,
-    "bucket": "serious",
-    "tokens": [
-      "army",
-      "arrives",
-      "chief",
-      "pakistan",
-      "talks",
-      "tehran"
-    ],
-    "link": "https://www.freemalaysiatoday.com/category/world/2026/10/20/pakistan-s-army-chief-arrives-in-tehran-for-talks",
-    "title": "Pakistan’s army chief arrives in Tehran for talks",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-10-20T17:08:12.550199+00:00"
-  },
-  {
-    "score": 24.87,
-    "bucket": "serious",
-    "tokens": [
-      "africa",
-      "deal",
-      "devastating",
-      "impact",
-      "lost",
-      "ramaphosa",
-      "south",
-      "trade",
-      "warns"
-    ],
-    "link": "http://www.africanews.com/2026/10/20/south-africa-ramaphosa-warns-of-devastating-impact-if-us-trade-deal-is-lost/",
-    "title": "South Africa: Ramaphosa warns of devastating impact if US trade deal is lost",
-    "posted_title": "",
-    "region": "africa",
-    "seen_at": "2026-10-20T17:08:12.550478+00:00"
-  },
-  {
-    "score": 23.9,
-    "bucket": "sport",
-    "tokens": [
-      "barcelona",
-      "psg"
-    ],
-    "link": "https://www.bbc.co.uk/sport/football/articles/c820vw7velvro?at_medium=RSS&at_campaign=rss",
-    "title": "PSG v Barcelona",
-    "posted_title": "",
-    "region": "sport",
-    "seen_at": "2026-10-20T17:08:12.550738+00:00"
-  },
-  {
-    "score": 23.79,
-    "bucket": "serious",
-    "tokens": [
-      "hegseth",
-      "israel",
-      "meets",
-      "netanyahu",
-      "source",
-      "unannounced",
-      "visit"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-10-20-hegseth-meets-netanyahu-in-unannounced-visit-to-israel-source-says/",
-    "title": "Hegseth meets Netanyahu in unannounced visit to Israel, source says",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-10-20T17:08:12.550985+00:00"
-  },
-  {
-    "score": 32.93,
-    "bucket": "serious",
-    "tokens": [
-      "africa",
-      "case",
-      "confirms",
-      "east",
-      "ebola",
-      "linked",
-      "nigeria"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cm2l4xw7xpjgo?at_medium=RSS&at_campaign=rss",
-    "title": "Nigeria confirms Ebola case linked to East Africa",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-10-21T17:08:02.500309+00:00"
-  },
-  {
-    "score": 30.3,
-    "bucket": "serious",
-    "tokens": [
-      "'badr'",
-      "cooperation",
-      "defence",
-      "indonesia",
-      "pact",
-      "pakistan",
-      "qatar",
-      "sign",
-      "turkiye"
-    ],
-    "link": "https://www.dawn.com/news/2038774/pakistan-qatar-turkiye-and-indonesia-sign-badr-defence-cooperation-pact",
-    "title": "Pakistan, Qatar, Turkiye and Indonesia sign 'Badr' defence cooperation pact",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-10-21T17:08:02.500516+00:00"
-  },
-  {
-    "score": 26.35,
-    "bucket": "serious",
-    "tokens": [
-      "153",
-      "border",
-      "disputed",
-      "drone",
-      "kills",
-      "least",
-      "market",
-      "region",
-      "strike",
-      "sudan"
-    ],
-    "link": "https://www.scmp.com/news/world/africa/article/3371608/drone-strike-market-disputed-sudan-border-region-kills-least-153",
-    "title": "Drone strike on market in disputed Sudan border region kills at least 153",
-    "posted_title": "",
-    "region": "cn",
-    "seen_at": "2026-10-21T17:08:02.500664+00:00"
-  },
-  {
-    "score": 24.36,
-    "bucket": "serious",
-    "tokens": [
-      "accused",
-      "alleged",
-      "ccd",
-      "encounter",
-      "killed",
-      "man",
-      "multan",
-      "running",
-      "teenager"
-    ],
-    "link": "https://www.dawn.com/news/2038727/man-accused-of-running-over-multan-teenager-killed-in-alleged-ccd-encounter",
-    "title": "Man accused of running over Multan teenager killed in alleged CCD encounter",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-10-21T17:08:02.500799+00:00"
-  },
-  {
-    "score": 23.46,
-    "bucket": "serious",
-    "tokens": [
-      "dispute",
-      "help",
-      "iran",
-      "putin",
-      "ready",
-      "resolve",
-      "russia"
-    ],
-    "link": "https://www.tehrantimes.com/news/531357/Russia-is-ready-to-help-resolve-Iran-US-dispute-Putin-says",
-    "title": "Russia is ready to help resolve Iran-US dispute, Putin says",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-10-21T17:08:02.500932+00:00"
-  },
-  {
     "score": 23.46,
     "bucket": "serious",
     "tokens": [
@@ -600,5 +416,95 @@
     "posted_title": "",
     "region": "uk",
     "seen_at": "2026-10-25T17:07:59.889488+00:00"
+  },
+  {
+    "score": 25.72,
+    "bucket": "serious",
+    "tokens": [
+      "iran",
+      "officials",
+      "pakistan",
+      "saudi",
+      "security",
+      "talks",
+      "tehran",
+      "turkiye",
+      "visit"
+    ],
+    "link": "https://www.thehindu.com/news/international/iran-says-officials-from-saudi-turkiye-pakistan-to-visit-tehran-for-security-talks/article71625846.ece",
+    "title": "Iran says officials from Saudi, Turkiye, Pakistan to visit Tehran for security talks",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-10-26T17:08:04.451646+00:00"
+  },
+  {
+    "score": 25.37,
+    "bucket": "useful",
+    "tokens": [
+      "000",
+      "buyouts",
+      "employees",
+      "microsoft",
+      "offers"
+    ],
+    "link": "https://www.theverge.com/tech/1018666/microsoft-expands-buyouts-60000-employees-eligible",
+    "title": "Microsoft offers buyouts to 60,000 employees",
+    "posted_title": "",
+    "region": "tech",
+    "seen_at": "2026-10-26T17:08:04.451897+00:00"
+  },
+  {
+    "score": 24.68,
+    "bucket": "serious",
+    "tokens": [
+      "host",
+      "officials",
+      "pakistani",
+      "saudi",
+      "tehran",
+      "turkish"
+    ],
+    "link": "https://en.mehrnews.com/news/248920/Tehran-to-host-Saudi-Turkish-Pakistani-officials",
+    "title": "Tehran to host Saudi, Turkish, Pakistani officials",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-10-26T17:08:04.452093+00:00"
+  },
+  {
+    "score": 24.08,
+    "bucket": "serious",
+    "tokens": [
+      "brazil",
+      "celebrates",
+      "election",
+      "lula",
+      "markets",
+      "tumble",
+      "win"
+    ],
+    "link": "https://www.freemalaysiatoday.com/category/world/2026/10/27/lula-celebrates-election-win-as-brazil-s-markets-tumble",
+    "title": "Lula celebrates election win as Brazil’s markets tumble",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-10-26T17:08:04.452288+00:00"
+  },
+  {
+    "score": 23.45,
+    "bucket": "serious",
+    "tokens": [
+      "bulgaria",
+      "election",
+      "heads",
+      "low",
+      "presidential",
+      "record",
+      "runoff",
+      "turnout"
+    ],
+    "link": "https://balkaninsight.com/2026/10/26/bulgarias-presidential-election-heads-to-runoff-after-record-low-turnout/bi/",
+    "title": "Bulgaria’s Presidential Election Heads to Runoff After Record Low Turnout",
+    "posted_title": "",
+    "region": "balkans",
+    "seen_at": "2026-10-26T17:08:04.452474+00:00"
   }
 ]
