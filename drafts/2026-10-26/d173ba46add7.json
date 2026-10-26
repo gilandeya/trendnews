@@ -1,0 +1,140 @@
+{
+  "id": "d173ba46add7",
+  "created_at": "2026-10-26T05:54:13.726492+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "failed",
+  "title": "التوسع الاستيطاني في الضفة الغربية",
+  "tier": 2,
+  "blocs": [
+    "arabic",
+    "israeli"
+  ],
+  "channels": [
+    "ערוץ 14",
+    "الجزيرة"
+  ],
+  "agreement": "agreement",
+  "event": "تقييم التوسع الاستيطاني الإسرائيلي في الضفة الغربية منذ 1967",
+  "warnings": [],
+  "run_date": "2026-10-26",
+  "arabic": {
+    "post_title": "التوسع الاستيطاني في الضفة الغربية",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "ערוץ 14",
+      "الجزيرة"
+    ]
+  },
+  "score": 4,
+  "source_videos": [],
+  "topic_id": "66e465b431a6",
+  "topic_date": "2026-10-26",
+  "script_error": "لا مقاطع كافية: 0 صالحًا من 2 مطلوبًا على الأقل",
+  "clip_dropped": [
+    {
+      "point_id": "8113b71169af",
+      "channel": "الجزيرة",
+      "reason": "اقتباس مبتور — الجملة مبتورة من أولها ولا تكتمل فكرتها (يعني باخر ثلاث سنوات... انهى)، والترجمة تستكمل المعنى"
+    },
+    {
+      "point_id": "626d274764bf",
+      "channel": "الجزيرة",
+      "reason": "اقتباس مبتور — الاقتباس جملة شرطية مبتورة لا تكتمل جوابها (في تصوري اذا نتنياهو فاز بهذه الانتخابات)"
+    },
+    {
+      "point_id": "294ab8829fdc",
+      "channel": "القناة 14",
+      "reason": "اقتباس مبتور — عبارة قصيرة مبتورة لا تكفي وحدها لفكرة تامة"
+    },
+    {
+      "point_id": "a746c30ca5ff",
+      "channel": "القناة 14",
+      "reason": "اقتباس مبتور — الجملة مبتورة ولا تكتمل فكرتها إذ لا يُعرف النموذج المقصود (المقصود نموذج مخيمات اللاجئين)"
+    },
+    {
+      "point_id": "7780c9058eff",
+      "channel": "القناة 14",
+      "reason": "اقتباس مبتور — الجملة مبتورة، فـ«ما طلبتُه» لا يكتمل معناه قبل ذكر المضمون"
+    },
+    {
+      "point_id": "17ea219589fb",
+      "channel": "الجزيرة",
+      "reason": "اقتباس مبتور — الجملة مبتورة من أولها ولا تكتمل فكرتها، إذ لا يتضح ما الذي يسمح به ترامب"
+    }
+  ],
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "8113b71169af",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "no",
+        "incomplete_reason": "الجملة مبتورة من أولها ولا تكتمل فكرتها (يعني باخر ثلاث سنوات... انهى)، والترجمة تستكمل المعنى",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "626d274764bf",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "no",
+        "incomplete_reason": "الاقتباس جملة شرطية مبتورة لا تكتمل جوابها (في تصوري اذا نتنياهو فاز بهذه الانتخابات)",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "294ab8829fdc",
+        "speaker_said_it": "unsure",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "no",
+        "incomplete_reason": "عبارة قصيرة مبتورة لا تكفي وحدها لفكرة تامة",
+        "channel": "القناة 14"
+      },
+      {
+        "point_id": "a746c30ca5ff",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "no",
+        "incomplete_reason": "الجملة مبتورة ولا تكتمل فكرتها إذ لا يُعرف النموذج المقصود (المقصود نموذج مخيمات اللاجئين)",
+        "channel": "القناة 14"
+      },
+      {
+        "point_id": "7780c9058eff",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "no",
+        "incomplete_reason": "الجملة مبتورة، فـ«ما طلبتُه» لا يكتمل معناه قبل ذكر المضمون",
+        "channel": "القناة 14"
+      },
+      {
+        "point_id": "17ea219589fb",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "no",
+        "incomplete_reason": "الجملة مبتورة من أولها ولا تكتمل فكرتها، إذ لا يتضح ما الذي يسمح به ترامب",
+        "channel": "الجزيرة"
+      }
+    ]
+  },
+  "has_photo": false,
+  "has_news_photo": true,
+  "review_issue": 1723,
+  "stage2_issue": 1723
+}
