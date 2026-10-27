@@ -1,0 +1,587 @@
+{
+  "id": "2733e9c9194b",
+  "created_at": "2026-10-27T06:00:13.433245+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "وساطة تحالف مكة بين إيران والمنطقة",
+  "tier": 3,
+  "blocs": [
+    "arabic",
+    "persian",
+    "turkish"
+  ],
+  "channels": [
+    "CNN Türk",
+    "Iran International",
+    "الجزيرة"
+  ],
+  "agreement": "agreement",
+  "event": "زيارة وفد تحالف مكة (تركيا والسعودية وباكستان) إلى طهران وبيان استمرار الحوار",
+  "warnings": [],
+  "run_date": "2026-10-27",
+  "arabic": {
+    "post_title": "وساطة تحالف مكة بين إيران والمنطقة",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "CNN Türk",
+      "Iran International",
+      "الجزيرة"
+    ]
+  },
+  "score": 7,
+  "source_videos": [],
+  "topic_id": "7955b3ac597e",
+  "topic_date": "2026-10-27",
+  "script": {
+    "version": 2,
+    "narrator": "female",
+    "title": "هل يستطيع تحرك تحالف مكة منع حرب على إيران؟",
+    "question": "ما الذي يمكن أن يغيّر مسار الأزمة بين إيران والمنطقة؟",
+    "event": "زيارة وفد تحالف مكة (تركيا والسعودية وباكستان) إلى طهران وبيان استمرار الحوار",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "هل يستطيع تحرك تحالف مكة منع حرب على إيران؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "زار وفد تحالف مكة الذي يضم تركيا والسعودية وباكستان طهران. وأعلنت الدول الأربع في 26 أكتوبر مواصلة المحادثات وتعزيز التعاون."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "core",
+        "q": 0,
+        "text": "ما وزن هذا التحرك في منع التصعيد؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "356a4ec5b2dd",
+        "q": 0,
+        "stance": "خطوة مهمة أبقت باب الحوار مفتوحًا",
+        "angle": "لا نتيجة ملموسة لكن استمرار التفاوض",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=Kzak-IMvefQ",
+        "start": 275.0,
+        "end": 282.8,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "سي إن إن ترك",
+        "channel_original": "CNN Türk",
+        "quote_arabic": "ربما لم تكن هناك نتيجة ملموسة، لكن على الأقل قيل إن المحادثات ستستمر.",
+        "quote_original": "Well, maybe there wasn't a concrete result, but at least it was said that the talks will continue.",
+        "language": "en",
+        "video_published": "2026-10-26"
+      },
+      {
+        "kind": "clip",
+        "point_id": "4472f024a5fb",
+        "q": 0,
+        "stance": "الدول الثلاث عاجزة عن منع الحرب",
+        "angle": "حدود القدرة والمصالح الذاتية",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=wa16Hn2qi-E",
+        "start": 1096.0,
+        "end": 1102.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "إيران إنترناشيونال",
+        "channel_original": "Iran International",
+        "quote_arabic": "هذه الدول الثلاث لا تملك القدرة على ذلك",
+        "quote_original": "این سه تا کشور قدرت این سه تا رو ندارن",
+        "language": "ar",
+        "video_published": "2026-10-26"
+      },
+      {
+        "kind": "clip",
+        "point_id": "95ef3e7be069",
+        "q": 0,
+        "stance": "قرار الحرب بيد ترامب وحده",
+        "angle": "مفتاح القرار في واشنطن",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=Y1KaZIE4qM4",
+        "start": 2362.0,
+        "end": 2369.4,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "نتنياهو ليس ممن يقومون بعملية من هذا النوع دون ضوء أخضر أمريكي، بل دون أوامر أمريكية",
+        "quote_original": "نتنياهو ليس برجل الذي يمكن ان يقوم بعمليه من هذا النوع بدون ليس فقط ضوء اخضر امريكي",
+        "language": "ar",
+        "video_published": "2026-10-26"
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "why_now",
+        "q": 1,
+        "text": "لماذا جاء الاجتماع في هذا التوقيت؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "fb235645212d",
+        "q": 1,
+        "stance": "لقاء فرضته الضرورات المتبادلة",
+        "angle": "إيران تبحث عن سند أمام الضغط",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=U1lpLe6PqcA",
+        "start": 1576.0,
+        "end": 1582.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "سي إن إن ترك",
+        "channel_original": "CNN Türk",
+        "quote_arabic": "هذا اللقاء قد يكون نوعًا من لقاء فرضته الضرورات",
+        "quote_original": "Bu buluşma bir nevi zorunlulukların getirdiği bir buluşma olabilir",
+        "language": "tr",
+        "video_published": "2026-10-26"
+      },
+      {
+        "kind": "clip",
+        "point_id": "18cfb694f858",
+        "q": 1,
+        "stance": "التحرك متأخر لكنه أفضل من لاشيء",
+        "angle": "التوقيت المتأخر أضعف الفرص",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=Y1KaZIE4qM4",
+        "start": 338.0,
+        "end": 346.7,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "كان من الأجدى، والفرص كانت ستكون أفضل بكثير لو أن مثل هذا التحرك حدث في وقت مبكر",
+        "quote_original": "وباعتقادي كان من الاجدى وكانت الفرص ستكون افضل بكثير لو ان مثل هذا التحرك تحديدا قد حدث في وقت مبكر",
+        "language": "ar",
+        "video_published": "2026-10-26"
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "where_next",
+        "q": 2,
+        "text": "إلى أين تمضي المحادثات بعد طهران؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "51229654b00b",
+        "q": 2,
+        "stance": "أي اتفاق سيكون قصير الأمد",
+        "angle": "مآل الاتفاق والحل الداخلي الإيراني",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=wa16Hn2qi-E",
+        "start": 2461.0,
+        "end": 2467.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "إيران إنترناشيونال",
+        "channel_original": "Iran International",
+        "quote_arabic": "لن يُبرم اتفاق، وإن أُبرم فسيكون عمره قصيراً جداً",
+        "quote_original": "من فکر می‌کنم توافقی صورت نخواهد گرفت",
+        "language": "fa",
+        "video_published": "2026-10-26"
+      },
+      {
+        "kind": "question",
+        "text": "ما الذي يمكن أن يغيّر مسار الأزمة بين إيران والمنطقة؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": []
+  },
+  "headlines": [
+    "هل تستطيع وساطة تحالف مكة منع التصعيد مع إيران؟",
+    "محلل: وساطة تحالف مكة جاءت متأخرة لكنها أفضل من غياب الحوار",
+    "محلل: لقاء طهران قد يكون لقاءً فرضته الضرورات"
+  ],
+  "headline_selected": 0,
+  "editor_review": {
+    "at": "2026-10-27T06:00:40.588856+00:00",
+    "applied": [
+      {
+        "category": "vague_attribution",
+        "severity": "low",
+        "location": "headline_2",
+        "original": "وساطة تحالف مكة جاءت متأخرة وفق محللين، لكنها أفضل من غياب الحوار",
+        "fix": "محلل: وساطة تحالف مكة جاءت متأخرة لكنها أفضل من غياب الحوار",
+        "note": "النسبة إلى «محللين» بالجمع، بينما القول مصدره ضيف واحد على الجزيرة (مقطع 18cfb694f858). الأدق الإفراد.",
+        "sources": []
+      },
+      {
+        "category": "headline_overclaims",
+        "severity": "low",
+        "location": "headline_3",
+        "original": "يرى محللون أن زيارة طهران فرضتها الضرورات أكثر من كونها اختراقًا حقيقيًا",
+        "fix": "محلل: لقاء طهران قد يكون لقاءً فرضته الضرورات",
+        "note": "المصدر ضيف واحد على سي إن إن ترك قال «قد يكون نوعًا من لقاء فرضته الضرورات» بصيغة الاحتمال؛ العنوان يجزم بالجمع ويضيف نفي «الاختراق الحقيقي» وهو غير وارد في المقطع.",
+        "sources": []
+      },
+      {
+        "category": "h1_overclaims",
+        "severity": "low",
+        "location": "h1",
+        "original": "هل تستطيع وساطة تحالف مكة منع حرب على إيران؟",
+        "fix": "هل يستطيع تحرك تحالف مكة منع حرب على إيران؟",
+        "note": "المصادر تصف الاجتماع بأنه محادثات مباشرة لخفض التصعيد بين دول اتفاق مكة وإيران، لا «وساطة» (جهود الوساطة المذكورة في التغطية قطرية ومن أطراف أخرى)؛ وصف التحرك بالوساطة يوسّع ما تسنده المادة.",
+        "sources": [
+          "https://www.france24.com/en/middle-east/20261026-iran-talks-mecca-pact-nations-war",
+          "https://www.aljazeera.net/news/liveblog/2026/10/26/%D8%A5%D9%8A%D8%B1%D8%A7%D9%86-%D9%85%D8%A8%D8%A7%D8%B4%D8%B1-%D8%AA%D8%B1%D9%85%D8%A8-%D9%8A%D8%B3%D8%AA%D8%A8%D8%B9%D8%AF-%D9%85%D9%87%D8%A7%D8%AC%D9%85%D8%A9-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86"
+        ]
+      }
+    ],
+    "notes": [
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "ما الذي يمكن أن يغيّر مسار الأزمة بين إيران والمنطقة؟",
+        "fix": "ما الذي يمكن أن يغيّر مسار الأزمة الإيرانية الأمريكية؟",
+        "note": "صياغة «الأزمة بين إيران والمنطقة» لا تطابق المادة؛ الأزمة في المقاطع والوقائع بين إيران وواشنطن (واحتمال ضربة أمريكية إسرائيلية)، ودول الاجتماع طرف ساعٍ لخفض التصعيد لا طرف نزاع.",
+        "sources": [
+          "https://www.iranintl.com/en/202610260367"
+        ]
+      }
+    ],
+    "error": null,
+    "searches": 2,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "names_audit": [
+    {
+      "arabic": "أحمد حقان",
+      "latin": "Ahmet Hakan"
+    }
+  ],
+  "reel_bg": {
+    "url": "https://vstatic.vietnam.vn/vietnam/resource/IMAGE/2026/10/27/1793060626597_iran-hop-tac-voi-lien-minh-mecca-loi-thoat-cho-cac-khung-hoang-ma-khu-vuc-dang-phai-doi-mat-20261027065744-jpg-v-2.jpeg",
+    "kind": "news_photo",
+    "publisher": "Vietnam.vn",
+    "shows": "وفد دبلوماسي رفيع في قاعة اجتماعات رسمية مزينة بالستائر والثريات، يجلس حوله مسؤولون بعضهم يرتدي سماعات ترجمة، وعلى الطاو",
+    "judged": true
+  },
+  "hook_candidates": [
+    {
+      "video_id": "JkZ7bXRSxqA",
+      "title": "وفد حلف مكة يصل إلى طهران لبحث الأمن الإقليمي",
+      "channel": "عربي TRT",
+      "views": 29892,
+      "duration": 29,
+      "published": "2026-10-26T15:00:14Z"
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-10-25T00:00:00Z",
+          "2026-10-29T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "وفد تحالف مكة يصل طهران",
+            "raw": 2,
+            "channel_ok": 1
+          },
+          {
+            "query": "مسؤولون إيرانيون يستقبلون الوفد الدبلوماسي",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "Mecca alliance delegation arrives in Tehran",
+            "raw": 7,
+            "channel_ok": 1
+          }
+        ],
+        "duration_ok": 2,
+        "judged_ok": 1,
+        "rejected_channels": [
+          "أسامة جاويش - Osama Gaweesh",
+          "Savvark Media",
+          "Global İnformative Tv",
+          "The World Today",
+          "STH Punjabi",
+          "Ahmad Zaheer 188",
+          "Fida Adeel"
+        ]
+      }
+    ],
+    "picked": [
+      "JkZ7bXRSxqA"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "زار وفد تحالف مكة الذي يضم تركيا والسعودية وباكستان طهران.",
+      "visual": "وفد دبلوماسي يصل إلى طهران"
+    },
+    {
+      "scene": 1,
+      "sentence": 1,
+      "text": "وأعلنت الدول الأربع في 26 أكتوبر مواصلة المحادثات وتعزيز التعاون.",
+      "visual": ""
+    },
+    {
+      "scene": 2,
+      "sentence": 0,
+      "text": "ما وزن هذا التحرك في منع التصعيد؟",
+      "visual": ""
+    },
+    {
+      "scene": 6,
+      "sentence": 0,
+      "text": "لماذا جاء الاجتماع في هذا التوقيت؟",
+      "visual": ""
+    },
+    {
+      "scene": 9,
+      "sentence": 0,
+      "text": "إلى أين تمضي المحادثات بعد طهران؟",
+      "visual": ""
+    }
+  ],
+  "quote_retranslated": [
+    "95ef3e7be069",
+    "b884e2b23455",
+    "8d9e8db10057",
+    "4472f024a5fb"
+  ],
+  "clip_dropped": [
+    {
+      "point_id": "7a950d4c592d",
+      "channel": "الجزيرة",
+      "reason": "اقتباس مبتور — الكلام مبتور من آخره ومعلّق بعبارة (غدًا اظن...) دون تمام الفكرة"
+    },
+    {
+      "point_id": "8f9b2d1d5d91",
+      "channel": "الجزيرة",
+      "reason": "اقتباس مبتور — الجملة مبتورة من أولها (تبدأ بـ«الحرب لن تكون طويلة» دون سياق «بمعنى مش 40 يوم») ولا تكتمل فكرتها كاملةً"
+    },
+    {
+      "point_id": "37c6930fbbac",
+      "channel": "سي إن إن ترك",
+      "reason": "اقتباس مبتور — الكلام يشير إلى «هذا الاجتماع» دون بيان ما المقصود بالبيان، فالفكرة غير تامة"
+    },
+    {
+      "point_id": "a0bb01896a9a",
+      "channel": "سي إن إن ترك",
+      "reason": "اقتباس مبتور — جملة قصيرة لا تتضمن ما يلخّصه الملخص من إعلان استمرار المحادثات وتعزيز التعاون"
+    },
+    {
+      "point_id": "431523848969",
+      "channel": "إيران إنترناشيونال",
+      "reason": "اقتباس مبتور — جملة مبتورة من سياقها، فلا تُفهم وحدها (ما الوفد؟ ولماذا ليس دبلوماسيًا؟)"
+    },
+    {
+      "point_id": "905bc3185388",
+      "channel": "إيران إنترناشيونال",
+      "reason": "اقتباس مبتور — عبارة قصيرة تفتقر إلى سياقها (زيارة القادة الأمنيين وتصاعد احتمال الحرب)"
+    },
+    {
+      "point_id": "ccb024c95bb4",
+      "channel": "إيران إنترناشيونال",
+      "reason": "اقتباس مبتور — العبارة مبتورة (تبدأ بـ«ولي جنگ ۴۰ روزه») ولا تكفي لفهم الفكرة، والترجمة لا تطابق الأصل"
+    }
+  ],
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "7a950d4c592d",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "no",
+        "incomplete_reason": "الكلام مبتور من آخره ومعلّق بعبارة (غدًا اظن...) دون تمام الفكرة",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "18cfb694f858",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "8f9b2d1d5d91",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "no",
+        "incomplete_reason": "الجملة مبتورة من أولها (تبدأ بـ«الحرب لن تكون طويلة» دون سياق «بمعنى مش 40 يوم») ولا تكتمل فكرتها كاملةً",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "95ef3e7be069",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "نتنياهو ليس ممن يقومون بعملية من هذا النوع دون ضوء أخضر أمريكي، بل دون أوامر أمريكية",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "87c27650502d",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن ترك"
+      },
+      {
+        "point_id": "b884e2b23455",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "تركيا والسعودية وباكستان وإيران ستواصل المحادثات",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن ترك"
+      },
+      {
+        "point_id": "fb235645212d",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن ترك"
+      },
+      {
+        "point_id": "37c6930fbbac",
+        "speaker_said_it": "unsure",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "no",
+        "incomplete_reason": "الكلام يشير إلى «هذا الاجتماع» دون بيان ما المقصود بالبيان، فالفكرة غير تامة",
+        "channel": "سي إن إن ترك"
+      },
+      {
+        "point_id": "a0bb01896a9a",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "no",
+        "incomplete_reason": "جملة قصيرة لا تتضمن ما يلخّصه الملخص من إعلان استمرار المحادثات وتعزيز التعاون",
+        "channel": "سي إن إن ترك"
+      },
+      {
+        "point_id": "8d9e8db10057",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "قررت هذه الدول الأربع مواصلة المحادثات",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن ترك"
+      },
+      {
+        "point_id": "356a4ec5b2dd",
+        "speaker_said_it": "unsure",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن ترك"
+      },
+      {
+        "point_id": "431523848969",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "no",
+        "incomplete_reason": "جملة مبتورة من سياقها، فلا تُفهم وحدها (ما الوفد؟ ولماذا ليس دبلوماسيًا؟)",
+        "channel": "إيران إنترناشيونال"
+      },
+      {
+        "point_id": "905bc3185388",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "no",
+        "incomplete_reason": "عبارة قصيرة تفتقر إلى سياقها (زيارة القادة الأمنيين وتصاعد احتمال الحرب)",
+        "channel": "إيران إنترناشيونال"
+      },
+      {
+        "point_id": "4472f024a5fb",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "هذه الدول الثلاث لا تملك القدرة على ذلك",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "إيران إنترناشيونال"
+      },
+      {
+        "point_id": "ccb024c95bb4",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "الهدف الأرجح هو ضربة عسكرية محدودة",
+        "complete": "no",
+        "incomplete_reason": "العبارة مبتورة (تبدأ بـ«ولي جنگ ۴۰ روزه») ولا تكفي لفهم الفكرة، والترجمة لا تطابق الأصل",
+        "channel": "إيران إنترناشيونال"
+      },
+      {
+        "point_id": "51229654b00b",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "إيران إنترناشيونال"
+      }
+    ]
+  },
+  "has_photo": false,
+  "has_news_photo": true,
+  "review_issue": 1729,
+  "stage2_issue": 1729
+}

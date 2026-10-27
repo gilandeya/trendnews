@@ -1,0 +1,46 @@
+{
+  "id": "fee36f2360ac",
+  "created_at": "2026-10-27T06:00:11.857563+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "failed",
+  "title": "دعم ترامب الانتخابي لنتنياهو",
+  "tier": 3,
+  "blocs": [
+    "arabic",
+    "israeli",
+    "persian"
+  ],
+  "channels": [
+    "Iran International",
+    "ערוץ 14",
+    "الجزيرة"
+  ],
+  "agreement": "cross_source",
+  "event": "دعوة ترامب الإسرائيليين للتصويت لنتنياهو وتأثير ذلك على الاستطلاعات",
+  "warnings": [],
+  "run_date": "2026-10-27",
+  "arabic": {
+    "post_title": "دعم ترامب الانتخابي لنتنياهو",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "Iran International",
+      "ערוץ 14",
+      "الجزيرة"
+    ]
+  },
+  "score": 10,
+  "source_videos": [],
+  "topic_id": "e7daaf1f057d",
+  "topic_date": "2026-10-27",
+  "script_error": "لا خلاف كافٍ للريل: رأي صالح من 1 متحدث (الدكتور مهند، محلل سياسي ضيف في البرنامج) والمطلوب 2",
+  "has_photo": false,
+  "has_news_photo": true,
+  "review_issue": 1728,
+  "stage2_issue": 1728
+}

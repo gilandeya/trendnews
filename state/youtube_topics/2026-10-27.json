@@ -78,8 +78,11 @@
       "dropped_reason": null,
       "id": "e7daaf1f057d",
       "created_at": "2026-10-27T04:02:18.650503+00:00",
-      "selection_status": "unselected",
-      "selection_issue": 1726
+      "selection_status": "attempted",
+      "selection_issue": 1726,
+      "selected_formats": [
+        "reel"
+      ]
     },
     {
       "title": "خطاب نتنياهو الانتخابي حول إيران والقضاء",
@@ -181,8 +184,11 @@
       "dropped_reason": null,
       "id": "7955b3ac597e",
       "created_at": "2026-10-27T04:02:18.650503+00:00",
-      "selection_status": "unselected",
-      "selection_issue": 1726
+      "selection_status": "attempted",
+      "selection_issue": 1726,
+      "selected_formats": [
+        "reel"
+      ]
     },
     {
       "title": "مآلات الحرب الأمريكية الإيرانية والوساطة",
