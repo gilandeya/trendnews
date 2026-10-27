@@ -78,7 +78,7 @@
       "dropped_reason": null,
       "id": "e7daaf1f057d",
       "created_at": "2026-10-27T04:02:18.650503+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1726
     },
     {
@@ -137,8 +137,11 @@
       "dropped_reason": null,
       "id": "dcf3f6d28a8d",
       "created_at": "2026-10-27T04:02:18.650503+00:00",
-      "selection_status": "pending",
-      "selection_issue": 1726
+      "selection_status": "attempted",
+      "selection_issue": 1726,
+      "selected_formats": [
+        "reel"
+      ]
     },
     {
       "title": "وساطة تحالف مكة بين إيران والمنطقة",
@@ -178,7 +181,7 @@
       "dropped_reason": null,
       "id": "7955b3ac597e",
       "created_at": "2026-10-27T04:02:18.650503+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1726
     },
     {
@@ -209,7 +212,7 @@
       "dropped_reason": null,
       "id": "fba6aabfd919",
       "created_at": "2026-10-27T04:02:18.650503+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1726
     }
   ],
