@@ -1,0 +1,768 @@
+{
+  "run_date": "2026-10-27",
+  "stats": {
+    "points_in": 191,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 41,
+    "issues_clustered": 33,
+    "topics_merged": 6,
+    "topics_out": 4,
+    "dropped_by_bloc_cap": 1,
+    "topics_seen_skipped": 1,
+    "topics_below_min_points": 9,
+    "topics_below_min_channels": 8,
+    "layers": {
+      "3": 3,
+      "2": 1
+    },
+    "agreement": 2,
+    "cross_source": 2,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "أهداف وجدوى الحملة العسكرية الأمريكية ضد إيران",
+      "كلفة توسع الحرب الإيرانية الأمريكية"
+    ],
+    [
+      "مآلات الحرب الأمريكية الإيرانية والوساطة",
+      "مستقبل الجمهورية الإسلامية الإيرانية ومفاوضاتها",
+      "الأزمة الاقتصادية الإيرانية ومضيق هرمز"
+    ],
+    [
+      "فوز لولا بالرئاسة البرازيلية",
+      "تحليل نتائج الانتخابات البرازيلية وتأثيرها الإقليمي",
+      "الطعن في نتائج الانتخابات البرازيلية"
+    ],
+    [
+      "الجدل حول ترشح أردوغان لولاية جديدة",
+      "حسابات الانتخابات المبكرة في البرلمان التركي"
+    ],
+    [
+      "خطاب نتنياهو الانتخابي حول إيران والقضاء",
+      "الاستطلاعات والقاعدة الانتخابية لنتنياهو",
+      "توظيف نتنياهو للأحداث الأمنية انتخابيًا"
+    ],
+    [
+      "وساطة تحالف مكة بين إيران والمنطقة",
+      "سيناريوهات الضربة العسكرية ضد إيران",
+      "الضربة الأمريكية المحتملة لإيران واجتماع مجموعة مكة"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "دعم ترامب الانتخابي لنتنياهو",
+      "event": "دعوة ترامب الإسرائيليين للتصويت لنتنياهو وتأثير ذلك على الاستطلاعات",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "ערוץ 14",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        90,
+        132,
+        143
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": null,
+      "id": "e7daaf1f057d",
+      "created_at": "2026-10-27T04:02:18.650503+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1726
+    },
+    {
+      "title": "خطاب نتنياهو الانتخابي حول إيران والقضاء",
+      "event": "تصريحات نتنياهو الانتخابية بشأن التهديد الإيراني والقضاء والتحالفات",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "Haaretz",
+        "Iran International",
+        "ערוץ 14",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        131,
+        133,
+        140,
+        141,
+        142,
+        144,
+        146,
+        147,
+        148,
+        149
+      ],
+      "total_points": 33,
+      "fresh_points": 33,
+      "dropped_reason": null,
+      "id": "dcf3f6d28a8d",
+      "created_at": "2026-10-27T04:02:18.650503+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1726
+    },
+    {
+      "title": "وساطة تحالف مكة بين إيران والمنطقة",
+      "event": "زيارة وفد تحالف مكة (تركيا والسعودية وباكستان) إلى طهران وبيان استمرار الحوار",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        76,
+        77,
+        78,
+        79,
+        111,
+        112,
+        113,
+        114,
+        116,
+        117,
+        119,
+        134,
+        135,
+        136,
+        137,
+        138
+      ],
+      "total_points": 16,
+      "fresh_points": 16,
+      "dropped_reason": null,
+      "id": "7955b3ac597e",
+      "created_at": "2026-10-27T04:02:18.650503+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1726
+    },
+    {
+      "title": "مآلات الحرب الأمريكية الإيرانية والوساطة",
+      "event": "نقاش حول آفاق الحرب الأمريكية الإيرانية ودور الوساطة الدولية فيها",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        20,
+        24,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64
+      ],
+      "total_points": 8,
+      "fresh_points": 7,
+      "dropped_reason": null,
+      "id": "fba6aabfd919",
+      "created_at": "2026-10-27T04:02:18.650503+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1726
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "دعم ترامب الانتخابي لنتنياهو",
+      "event": "دعوة ترامب الإسرائيليين للتصويت لنتنياهو وتأثير ذلك على الاستطلاعات",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "ערוץ 14",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        90,
+        132,
+        143
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": null
+    },
+    {
+      "title": "خطاب نتنياهو الانتخابي حول إيران والقضاء",
+      "event": "تصريحات نتنياهو الانتخابية بشأن التهديد الإيراني والقضاء والتحالفات",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "Haaretz",
+        "Iran International",
+        "ערוץ 14",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        131,
+        133,
+        140,
+        141,
+        142,
+        144,
+        146,
+        147,
+        148,
+        149
+      ],
+      "total_points": 33,
+      "fresh_points": 33,
+      "dropped_reason": null
+    },
+    {
+      "title": "وساطة تحالف مكة بين إيران والمنطقة",
+      "event": "زيارة وفد تحالف مكة (تركيا والسعودية وباكستان) إلى طهران وبيان استمرار الحوار",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        76,
+        77,
+        78,
+        79,
+        111,
+        112,
+        113,
+        114,
+        116,
+        117,
+        119,
+        134,
+        135,
+        136,
+        137,
+        138
+      ],
+      "total_points": 16,
+      "fresh_points": 16,
+      "dropped_reason": null
+    },
+    {
+      "title": "تماسك النظام الإيراني رغم الأزمات",
+      "event": "تقييم مدى تماسك النظام الإيراني في ظل العقوبات والأزمة السياسية",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        62,
+        80
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "مآلات الحرب الأمريكية الإيرانية والوساطة",
+      "event": "نقاش حول آفاق الحرب الأمريكية الإيرانية ودور الوساطة الدولية فيها",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        20,
+        24,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64
+      ],
+      "total_points": 8,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "الجدل حول ترشح أردوغان لولاية جديدة",
+      "event": "الجدل التركي حول احتمال عدم ترشح أردوغان مجددًا وتصريحات كليجدار أوغلو بشأن ذلك",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        43,
+        44,
+        45,
+        46,
+        122,
+        123,
+        124,
+        125,
+        126
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "قضية الصحراء الغربية ومسودة القرار الأمريكي",
+      "event": "جدل حول مسودة القرار الأمريكي بشأن الصحراء الغربية وموقف البوليساريو منها",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        105,
+        106,
+        107,
+        108,
+        109,
+        110
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "المفاوضات الأمريكية الإيرانية ومذكرة التفاهم",
+      "event": "التفاوض بين إيران والولايات المتحدة حول مذكرة تفاهم تخص النفط ومضيق هرمز",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        19,
+        23
+      ],
+      "total_points": 2,
+      "fresh_points": 1,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "فوز لولا بالرئاسة البرازيلية",
+      "event": "فوز لولا دا سيلفا بولاية رئاسية رابعة في الانتخابات البرازيلية 2022",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        93,
+        94,
+        95
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "انتخابات نقابة محامي إسطنبول",
+      "event": "فوز أوميت كوجاصاقال برئاسة نقابة محامي إسطنبول للمرة الرابعة",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        47,
+        51,
+        127
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "موقف لولا من غزة وتأثيره الإقليمي",
+      "event": "وصف لولا لما يجري في غزة بالإبادة الجماعية وتأثيره السياسي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        97,
+        98
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "احتجاجات الطلاب في فرنسا والرد الحكومي",
+      "event": "احتجاجات طلابية في فرنسا على سياسات الحكومة ورد الحكومة الأمني دون حلول",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        99,
+        100,
+        101,
+        102,
+        103,
+        104
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تحول العقيدة العسكرية الإسرائيلية تجاه إيران",
+      "event": "تحليل تحول العقيدة العسكرية الإسرائيلية نحو الضربات الاستباقية ضد إيران بعد 7 أكتوبر",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        129,
+        130
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "التحشيد الأمريكي وهرمز",
+      "event": "زيادة إيران هجماتها في مضيق هرمز مع تصاعد التحشيد العسكري الأمريكي في المنطقة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        1
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "أهداف وجدوى الحملة العسكرية الأمريكية ضد إيران",
+      "event": "نقاش حول غياب استراتيجية أمريكية واضحة في مواجهة إيران وتبعاتها",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        2,
+        3,
+        4,
+        5,
+        21
+      ],
+      "total_points": 5,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "غزو الكويت وتحشيد التحالف الدولي",
+      "event": "دور تاتشر وبوش الأب في تحشيد التحالف الدولي ضد غزو الكويت وتعامل صدام مع المبادرات الدبلوماسية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        6,
+        7
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "شهادات فاضل العزاوي عن اعتقاله وسقوط النظام",
+      "event": "رواية العزاوي الشخصية عن اعتقاله بعد سقوط بغداد وتوقعه سقوط النظام",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        9,
+        10
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الانتخابات النصفية الأمريكية 2018",
+      "event": "التغطية الشاملة للانتخابات النصفية الأمريكية وتوازناتها المحتملة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "انتخابات الكنيست وموقف الطيبي",
+      "event": "تصريحات الطيبي حول الانتخابات الإسرائيلية وتوقعاته لنتائج القائمة المشتركة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        25,
+        26,
+        27,
+        28,
+        29,
+        30
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "برنامج مارين لوبان الانتخابي",
+      "event": "تعهدات مارين لوبان الانتخابية بشأن الطاقة والاقتصاد والتقاعد والهجرة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        37,
+        38,
+        39,
+        40,
+        41,
+        42
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "أزمة صندوق الاستثمار التركي (تيرا)",
+      "event": "فضيحة صندوق الاستثمار (تيرا) في تركيا والمطالبة باسترداد الأموال ومحاسبة المسؤولين",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        52,
+        53,
+        55,
+        56,
+        57,
+        58
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "التوتر التركي الأذربيجاني",
+      "event": "تحليل أسباب التوتر بين تركيا وأذربيجان وربطه بإسرائيل وقضية الحجاب",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        49,
+        50
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "انتقاد نظام الحكم ونقد الصحافة في تركيا",
+      "event": "انتقاد مركزية القرار في القصر الرئاسي التركي وتضييق حرية الصحافة",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        48,
+        54
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    }
+  ]
+}
