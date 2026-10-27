@@ -1,23 +1,5 @@
 [
   {
-    "score": 23.46,
-    "bucket": "serious",
-    "tokens": [
-      "dispute",
-      "help",
-      "iran",
-      "putin",
-      "ready",
-      "resolve",
-      "russia"
-    ],
-    "link": "https://www.tehrantimes.com/news/531357/Russia-is-ready-to-help-resolve-Iran-US-dispute-Putin-says",
-    "title": "Russia is ready to help resolve Iran-US dispute, Putin says",
-    "posted_title": "بوتين يعرض على مبعوث ترامب مساعدة روسيا في حل الخلاف بين إيران واشنطن",
-    "region": "ir",
-    "seen_at": "2026-10-21T17:53:38.741132+00:00"
-  },
-  {
     "score": 29.27,
     "bucket": "serious",
     "tokens": [
@@ -506,5 +488,21 @@
     "posted_title": "",
     "region": "balkans",
     "seen_at": "2026-10-26T17:08:04.452474+00:00"
+  },
+  {
+    "score": 25.37,
+    "bucket": "useful",
+    "tokens": [
+      "000",
+      "buyouts",
+      "employees",
+      "microsoft",
+      "offers"
+    ],
+    "link": "https://www.theverge.com/tech/1018666/microsoft-expands-buyouts-60000-employees-eligible",
+    "title": "Microsoft offers buyouts to 60,000 employees",
+    "posted_title": "مايكروسوفت تطرح عروض خروج طوعي تشمل نحو 60 ألف موظف مؤهل في أربع دول",
+    "region": "tech",
+    "seen_at": "2026-10-27T15:44:22.748559+00:00"
   }
 ]
