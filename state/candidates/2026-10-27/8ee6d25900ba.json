@@ -1,0 +1,68 @@
+{
+  "id": "8ee6d25900ba",
+  "created_at": "2026-10-27T17:08:07.748337+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.0,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 3,
+  "proximity": 0,
+  "intrigue": 2,
+  "appeal_note": "إخلاء نحو 100 ألف شخص في الهند بسبب إعصار قوي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "India orders evacuations in Andhra Pradesh, Odisha as Cyclone Arnab looms",
+  "link": "https://www.dawn.com/news/2040202/india-orders-evacuations-in-andhra-pradesh-odisha-as-cyclone-arnab-looms",
+  "publishers": [
+    "Dawn",
+    "Malay Mail"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "India orders evacuations in Andhra Pradesh, Odisha as Cyclone Arnab looms",
+    "link": "https://www.dawn.com/news/2040202/india-orders-evacuations-in-andhra-pradesh-odisha-as-cyclone-arnab-looms",
+    "summary": "Indian authorities ordered nearly 100,000 people to evacuate homes in Andhra Pradesh and Odisha, ahead of a severe cyclone the national weather office expects to make landfall by Wednesday. Neighbouring Nepal and Sri Lanka have also issued weather warnings. Cyclone Arnab is forecast to hit India’s southwestern Andhra Pradesh coast as a “very severe cyclonic storm”, with gusts of up to 150 kilometres (93 miles) per hour on Wednesday morning, the India Meteorological Department said in a bulletin. Torrential rain lashed the coast in the port city of Kakinda as heavy waves crashed on shore. “I’ve never seen anything like this before,” Kotesh Kumar, 35, told AFP , adding the government warned people to stock up on groceries. “There was a cyclone here three years ago, but the water didn’t rise this much.” Cyclones, called hurricanes in the North Atlantic and typhoons in the Pacific, are a regular menace in the Bay of Bengal and northern Indian Ocean. The storm season, however, has been turbocharged by the El Nino weather phenomenon that has caused unprecedented warming . Neighbouring Sri Lanka , meanwhile, closed schools with warnings of torrential rain, with the island’s Department of ",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-10-27T10:24:41+00:00",
+    "image_url": "https://i.dawn.com/large/2026/10/27150015598b02c.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "Malay Mail"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2040202/india-orders-evacuations-in-andhra-pradesh-odisha-as-cyclone-arnab-looms"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/10/27/india-orders-evacuations-as-cyclone-arnab-threatens-andhra-pradesh/240802"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/10/27150015598b02c.webp",
+      "https://i.dawn.com/thumbnail/2026/10/27150015598b02c.webp",
+      "https://i.dawn.com/large/2026/10/271450443364825.webp",
+      "https://i.dawn.com/large/2026/10/271459169d613af.webp",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/10/27/370745.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 2016.9144967377779,
+    "is_stale": false,
+    "score": 26.002023765685188,
+    "impact": 3,
+    "proximity": 0,
+    "intrigue": 2,
+    "appeal_note": "إخلاء نحو 100 ألف شخص في الهند بسبب إعصار قوي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

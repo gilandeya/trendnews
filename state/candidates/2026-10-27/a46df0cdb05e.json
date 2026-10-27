@@ -1,0 +1,95 @@
+{
+  "id": "a46df0cdb05e",
+  "created_at": "2026-10-27T17:08:07.747215+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 29.26,
+  "trend_score": 1.0,
+  "velocity": 0.08,
+  "impact": 0,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "صحفي فرنسي مسجون في الجزائر، قصة تشويقية بعيدة عن الرياضة",
+  "bucket": "sport",
+  "state_media": false,
+  "title": "Ballon d'Or ceremony raises case of French sports journalist jailed in Algeria",
+  "link": "https://www.bbc.co.uk/news/articles/c6x2qgyqr79wo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC Sport",
+    "BBC World",
+    "Daily Sabah",
+    "Free Malaysia Today",
+    "The Hindu — International",
+    "The Japan Times",
+    "the most chaotic ever?"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Ballon d'Or ceremony raises case of French sports journalist jailed in Algeria",
+    "link": "https://www.bbc.co.uk/news/articles/c6x2qgyqr79wo?at_medium=RSS&at_campaign=rss",
+    "summary": "He is in jail accused of supporting terrorism after travelling to the politically sensitive region Kabylie.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-10-27T14:29:39+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/f138/live/2d67b730-d204-11f1-b441-2b33b063138f.png",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC Sport",
+      "BBC World",
+      "Daily Sabah",
+      "Free Malaysia Today",
+      "The Hindu — International",
+      "The Japan Times",
+      "the most chaotic ever?"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c6x2qgyqr79wo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "the most chaotic ever?",
+        "link": "https://www.bbc.co.uk/sport/football/articles/c6y8lgg21l89o?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/highlight/2026/10/27/chinese-state-tv-suspends-la-liga-broadcasts-after-mbappe-remark"
+      },
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/cv62yg0erp8zo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/mbappe-dropped-by-chinese-brands-for-offending-national-sentiments/article71630086.ece"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/sports/2026/10/27/soccer/mbappe-china-brands/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/f138/live/2d67b730-d204-11f1-b441-2b33b063138f.png",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/f138/live/2d67b730-d204-11f1-b441-2b33b063138f.png",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/f138/live/2d67b730-d204-11f1-b441-2b33b063138f.png",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/047c/live/b205ec60-d208-11f1-b3b6-c1e79e957e40.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/047c/live/b205ec60-d208-11f1-b3b6-c1e79e957e40.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/047c/live/b205ec60-d208-11f1-b3b6-c1e79e957e40.jpg"
+    ],
+    "bucket": "sport",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 7,
+    "velocity": 0.08333342262933952,
+    "age_hours": 2016.9143161825,
+    "is_stale": false,
+    "score": 29.262940840152844,
+    "impact": 0,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "صحفي فرنسي مسجون في الجزائر، قصة تشويقية بعيدة عن الرياضة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

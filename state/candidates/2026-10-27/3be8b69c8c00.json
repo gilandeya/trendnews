@@ -1,0 +1,65 @@
+{
+  "id": "3be8b69c8c00",
+  "created_at": "2026-10-27T17:08:07.747692+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 27.62,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 3,
+  "appeal_note": "بقاء نتنياهو السياسي على المحك في انتخابات إسرائيل",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Netanyahu’s political survival on the line as Israel votes",
+  "link": "https://www.dailymaverick.co.za/article/2026-10-27-netanyahus-political-survival-on-the-line-as-israel-votes/",
+  "publishers": [
+    "Daily Maverick",
+    "The Hindu — International"
+  ],
+  "region": "za",
+  "article": {
+    "title": "Netanyahu’s political survival on the line as Israel votes",
+    "link": "https://www.dailymaverick.co.za/article/2026-10-27-netanyahus-political-survival-on-the-line-as-israel-votes/",
+    "summary": "JERUSALEM, Oct 27 (Reuters) - Prime Minister Benjamin Netanyahu faces a fight for political survival in Israel's election on Tuesday, with voters weighing his leadership after the 2023 Hamas-led attacks, wars in Gaza and with Iran, and Israel's deepening international isolation.",
+    "source_name": "Daily Maverick",
+    "region": "za",
+    "weight": 1.1,
+    "published": "2026-10-27T04:39:26+00:00",
+    "image_url": "https://cdn.dailymaverick.co.za/i/sDralgSYzj97n5D9gwjpHYp606Q=/800x0/smart/filters:strip_exif()/file/attachments/2999/14392203_361818.jpg",
+    "publisher": "Daily Maverick",
+    "cluster_sources": [
+      "Daily Maverick",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Daily Maverick",
+        "link": "https://www.dailymaverick.co.za/article/2026-10-27-netanyahus-political-survival-on-the-line-as-israel-votes/"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/netanyahu-wanted-by-icc-battles-for-political-survival-as-israel-goes-to-the-polls/article71627508.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.dailymaverick.co.za/i/sDralgSYzj97n5D9gwjpHYp606Q=/800x0/smart/filters:strip_exif()/file/attachments/2999/14392203_361818.jpg",
+      "https://th-i.thgim.com/public/incoming/m3z87o/article71628531.ece/alternates/LANDSCAPE_1200/AFP_D4BH8JH.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 2016.9145233052777,
+    "is_stale": false,
+    "score": 27.61841265398148,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 3,
+    "appeal_note": "بقاء نتنياهو السياسي على المحك في انتخابات إسرائيل",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

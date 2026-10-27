@@ -1608,7 +1608,7 @@
      "published": "2026-10-25T02:27:15+00:00"
     }
    ],
-   "last_seen": "2026-10-25T17:07:45.058543+00:00",
+   "last_seen": "2026-10-27T17:07:51.728625+00:00",
    "outlets": 22,
    "regions": 15,
    "languages": 1,
@@ -4146,9 +4146,45 @@
      "language": "en",
      "link": "https://tribune.com.pk/story/2637002/jordan-arrests-three-suspects-in-deadly-church-attack-state-media-says",
      "published": "2026-10-26T04:06:26+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Jordan attacks militants in Syria in retaliation for church attack",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/oct/26/jordan-attacks-militants-syria-retaliation-for-last-week-church-attack",
+     "published": "2026-10-26T22:08:38+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Jordan carries out deadly strike in Syria in retaliation for church attack",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cq8ezg6dy6xlo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-27T02:40:17+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Jordan strikes targets in Syria after deadly church attack",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/middle-east/article/3372253/jordan-strikes-targets-syria-after-deadly-church-attack",
+     "published": "2026-10-27T05:22:48+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Jordan strikes militant groups in Syria after church attack",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2040176/jordan-strikes-militant-groups-in-syria-after-church-attack",
+     "published": "2026-10-27T06:23:33+00:00"
     }
    ],
-   "last_seen": "2026-10-26T17:07:50.109315+00:00",
+   "last_seen": "2026-10-27T17:07:51.728625+00:00",
    "outlets": 16,
    "regions": 11,
    "languages": 1,
@@ -4573,143 +4609,6 @@
    "score": 36.0
   },
   {
-   "id": "56fca6b4d99b",
-   "first_seen": "2026-10-18T17:07:47.543314+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Trump endorses Netanyahu in Israeli legislative elections",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/18/trump-endorses-netanyahu-in-israeli-legislative-elections?traffic_source=rss",
-     "published": "2026-10-18T16:36:26+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Trump endorses Netanyahu in Israeli election",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2038051/trump-endorses-netanyahu-in-israeli-election",
-     "published": "2026-10-18T16:44:41+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Trump endorses ally Netanyahu in Israeli election, praising ‘great warrior prime minister’",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/middle-east/article/3371326/trump-endorses-ally-netanyahu-israeli-election-praising-great-warrior-prime-minister?utm_source=rss_feed",
-     "published": "2026-10-18T17:04:13+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Trump endorses Netanyahu in Israeli election",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/trump-endorses-netanyahu-in-israeli-election/article71600598.ece",
-     "published": "2026-10-18T15:22:15+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Trump endorses embattled Israeli PM Netanyahu ahead of October 27 election",
-     "language": "en",
-     "link": "https://www.france24.com/en/middle-east/20261018-trump-endorses-embattled-israeli-pm-netanyahu-ahead-of-october-27-election",
-     "published": "2026-10-18T16:25:00+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Trump endorses Netanyahu in Israeli election",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/world/trump-endorses-netanyahu-in-israeli-election-6469761",
-     "published": "2026-10-18T16:59:22+00:00"
-    },
-    {
-     "outlet": "Investing.com — الاقتصاد",
-     "region": "money",
-     "bucket": "useful",
-     "title": "Trump endorses Israeli Prime Minister Netanyahu for reelection amid Iran war",
-     "language": "en",
-     "link": "https://www.investing.com/news/economy-news/iran-appoints-new-defence-minister-amid-escalating-tensions-with-us-4955858",
-     "published": "2026-10-18T15:50:56+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Trump endorses Netanyahu in Israel’s upcoming election",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/trump-endorses-netanyahu-in-israels-upcoming-election/",
-     "published": "2026-10-18T16:05:23+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Trump endorses Israel's Netanyahu ahead of reelection bid",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/trump-endorses-israel-prime-minister-benjamin-netanyahu-reelection/",
-     "published": "2026-10-18T16:18:50+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Trump endorses Netanyahu 9 days before Israel election",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPNmlUNWVNcFlkMnV4NmR2TWhvS1daNVlab2RvY0FCQU5DU2pwSGtWMEJpcFNRY0FESFlmSThHbzljaE5ZVndfOFRfZE1kZG1taGtiS3hTMnNPNzRrTm16dEtXLWEwcE1LMUF0TjRjNThwR2dCbm02cFJjdWZWSjlGU2RvQzE?oc=5",
-     "published": "2026-10-18T15:07:10+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "US President Donald Trump endorses Netanyahu for Israeli election",
-     "language": "en",
-     "link": "https://www.aljazeera.com/video/newsfeed/2026/10/19/us-president-donald-trump-endorses-netanyahu-for-israeli-election?traffic_source=rss",
-     "published": "2026-10-19T05:10:37+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Trump backs ally Netanyahu ahead of Israel’s tight election",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/trump-backs-ally-netanyahu-ahead-of-israels-tight-election/",
-     "published": "2026-10-19T07:25:38+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "'Bibi will never let you down': Trump endorses Netanyahu in Israel's upcoming election",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/bibi-will-never-let-you-down-trump-endorses-netanyahu-in-israels-upcoming-election-101792340854932.html",
-     "published": "2026-10-18T17:00:47+00:00"
-    },
-    {
-     "outlet": "Tehran Times",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Trump endorses war criminal Netanyahu ahead of Israeli election",
-     "language": "en",
-     "link": "https://www.tehrantimes.com/news/531251/Trump-endorses-war-criminal-Netanyahu-ahead-of-Israeli-election",
-     "published": "2026-10-19T16:23:09+00:00"
-    }
-   ],
-   "last_seen": "2026-10-19T17:07:57.762301+00:00",
-   "outlets": 12,
-   "regions": 11,
-   "languages": 1,
-   "score": 36.0
-  },
-  {
    "id": "5eb79ed8389e",
    "first_seen": "2026-10-14T09:07:42.321915+00:00",
    "members": [
@@ -4991,152 +4890,6 @@
    "score": 33.0
   },
   {
-   "id": "e485a6cd6de5",
-   "first_seen": "2026-10-18T09:07:42.310366+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "‘Serious incident’ at Alberta military base causes deaths and injuries, Canada officials say",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/18/serious-incident-alberta-military-base-deaths-injuries-canada-carney-cfb-wainwright",
-     "published": "2026-10-18T02:50:29+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "‘Serious incident’ at Canada military base causes deaths, injuries",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/18/deaths-injuries-after-fire-at-alberta-military-base-canada-minister?traffic_source=rss",
-     "published": "2026-10-18T04:59:29+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Canada says people killed after incident and fire at Alberta military base",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3371281/fatalities-feared-fire-erupts-canadian-military-base-alberta?utm_source=rss_feed",
-     "published": "2026-10-18T02:19:35+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Major fire breaks out in Alberta after deadly incident at military base",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/major-fire-breaks-out-in-alberta-casualties-reported/article71599017.ece",
-     "published": "2026-10-18T02:41:05+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Canada reports deaths after ‘incident’ on military base",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/18/canada-reports-deaths-after-incident-on-military-base",
-     "published": "2026-10-18T03:23:06+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Canada Reports Deaths After 'Serious Incident' Triggers Fire At Military Base",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/canada-reports-deaths-after-serious-incident-triggers-fire-at-alberta-military-base-12201259#publisher=newsstand",
-     "published": "2026-10-18T03:57:54+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Fire breaks out after deadly incident at Canadian military base, officials say",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/deadly-incident-fire-alberta-canada-military-base-cfb-wainwright/",
-     "published": "2026-10-18T06:55:12+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Major fire breaks out in Alberta after deadly incident at military base",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/18/nx-s1-6007276/fire-alberta-deadly-canada-military-base",
-     "published": "2026-10-18T07:56:08+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Major fire breaks out in Alberta after deadly incident at military base",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMipwFBVV95cUxPRWZIOVJaUGpyUnFDcG1BTVZmOTRtZ2pvLTBjLVBDMU9fb3huN2x3Q1ZGbTBENURyc0JIdXRJQThHajNORTVlVjVnZjJrUV94VDlGaXJrZWRqQVBlWlBBRmJzVkhUem1NRzl5a05uTzJQWEdVLTNEckFlNFFBb1dmeTQwUmU0YkhFd1laTmI2ZUdtTGlLS1VZM3dPTi14ZVNxX2oxY0dzbw?oc=5",
-     "published": "2026-10-18T07:51:00+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Multiple dead and injured after huge fire at Canadian military base overwhelms hospitals",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/world/2026/10/18/multiple-dead-and-injured-after-huge-fire-at-canadian-military-base-overwhelms-hospitals/239613",
-     "published": "2026-10-18T08:11:04+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Several dead or injured in major fire at Canada military base",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/several-dead-or-injured-in-major-fire-at-canada-military-base/",
-     "published": "2026-10-18T13:11:13+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Several dead or injured in major fire at Canada military base",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE4tWHRGVC1QUWJZNHBZTl9jR3FMWUZ4bXFxcjBrZzdvNlZqX2V0WWRpVTNHRUIzbmdwbVd2VkUzQnhCNFJ6RlBfdnhTb255UkpIbkVwcl9aaWNQa0k?oc=5",
-     "published": "2026-10-18T15:01:16+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Major fire breaks out in Alberta after deadly incident at Canadian military base",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/major-fire-breaks-out-in-alberta-after-deadly-incident-at-canadian-military-base-101792324874878.html",
-     "published": "2026-10-18T12:07:05+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "4 Canadian service members killed in Alberta military base incident that sparked large fire",
-     "language": "en",
-     "link": "https://www.cbsnews.com/video/4-dead-in-canadian-military-base-incident/",
-     "published": "2026-10-19T00:46:33+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "4 Killed, Dozens Injured In Massive Fire At Canadian Military Base In Alberta",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/4-killed-dozens-injured-in-massive-fire-at-canadian-military-base-alberta-12204818#publisher=newsstand",
-     "published": "2026-10-19T05:35:49+00:00"
-    }
-   ],
-   "last_seen": "2026-10-19T17:07:57.762301+00:00",
-   "outlets": 12,
-   "regions": 8,
-   "languages": 1,
-   "score": 30.0
-  },
-  {
    "id": "025bd0daeb6d",
    "first_seen": "2026-10-26T17:07:50.109315+00:00",
    "members": [
@@ -5229,188 +4982,233 @@
    "score": 29.0
   },
   {
-   "id": "f5ba3124a0bf",
-   "first_seen": "2026-10-19T09:07:48.928141+00:00",
+   "id": "9a15c797d3cc",
+   "first_seen": "2026-10-27T17:07:51.728625+00:00",
    "members": [
     {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Flight from Israel makes emergency landing in Bulgaria after bomb threat",
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "sport",
+     "title": "Ballon d'Or ceremony raises case of French sports journalist jailed in Algeria",
      "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/18/flight-from-israel-makes-emergency-landing-in-bulgaria-after-bomb-threat?traffic_source=rss",
-     "published": "2026-10-18T23:58:05+00:00"
+     "link": "https://www.bbc.co.uk/news/articles/c6x2qgyqr79wo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-27T14:29:39+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Ballon d'Or in London",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/football/articles/c6y8lgg21l89o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-27T14:10:26+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Chinese state TV suspends La Liga broadcasts after Mbappe remark",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/highlight/2026/10/27/chinese-state-tv-suspends-la-liga-broadcasts-after-mbappe-remark",
+     "published": "2026-10-27T15:01:00+00:00"
     },
     {
      "outlet": "BBC World",
      "region": "uk",
-     "bucket": "serious",
-     "title": "Bomb threat forces Israel to Austria flight into emergency landing",
+     "bucket": "sport",
+     "title": "Mbappé sorry for 'ill-judged' Mao remark after backlash in China",
      "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c680zdmn100lo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-19T06:29:55+00:00"
+     "link": "https://www.bbc.co.uk/news/articles/cv62yg0erp8zo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-27T13:25:54+00:00"
     },
     {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Threat forces Israel to Austria flight into emergency landing",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/threat-forces-israel-to-austria-flight-into-emergency-landing/",
-     "published": "2026-10-19T02:44:00+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Tel Aviv-Vienna flight makes emergency landing in Bulgaria over bomb threat",
-     "language": "en",
-     "link": "https://tass.com/emergencies/2203859",
-     "published": "2026-10-18T20:29:24+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "No danger found after bomb threat diverts Austrian Airlines flight from Tel Aviv",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/middle-east/article/3371337/bomb-threat-forces-austrian-airlines-flight-tel-aviv-divert-bulgaria?utm_source=rss_feed",
-     "published": "2026-10-19T02:12:37+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
+     "outlet": "The Hindu — International",
      "region": "in",
      "bucket": "serious",
-     "title": "No threat found after bomb scare diverts Austrian Airlines flight carrying 57 from Tel Aviv to Sofia",
+     "title": "Mbappe dropped by Chinese brands for ‘offending national sentiments’",
      "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/no-threat-found-after-bomb-scare-diverts-austrian-airlines-flight-carrying-57-from-tel-aviv-to-sofia-101792393607835.html",
-     "published": "2026-10-19T07:13:49+00:00"
+     "link": "https://www.thehindu.com/news/international/mbappe-dropped-by-chinese-brands-for-offending-national-sentiments/article71630086.ece",
+     "published": "2026-10-27T08:40:19+00:00"
     },
     {
-     "outlet": "Google News — World",
-     "region": "global",
+     "outlet": "The Japan Times",
+     "region": "jp",
      "bucket": "serious",
-     "title": "Austrian Airlines flight from Tel Aviv to Vienna lands in Sofia after reported bomb threat",
+     "title": "Mbappe dropped by Chinese brands for ‘offending national sentiments’",
      "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFBlUExUNm94dm54NG43aFR6aGk1RHc1M3FjOHAzZjNhdmx0VmZNS294c2ZRTmhmaVM0OEtMMWh3eG1KYTllajBMMWx0VG1hV0NGQ3dMaTlHWQ?oc=5",
-     "published": "2026-10-18T19:04:00+00:00"
-    },
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "All clear given after bomb threat diverts Austrian Airlines flight from Israel to Bulgaria",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-19-all-clear-given-after-bomb-threat-diverts-austrian-airlines-flight-from-israel-to-bulgaria/",
-     "published": "2026-10-19T10:23:28+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Austrian Airlines says flight from Israel diverted after 'threat'",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOQkxxRmxHN1VUcGQ5dDhOdDBZbk8yQUloZTFEOE1TTWhlMXJWNDZ6WmVqZmd5SkVjZHN5c0p1dy1lYmgxd1NLMXljUElGRWxFWTFVamItSlFldTJNLU00aFdYbEF5WEhsUlY3Q0hLM3JzVkk4Y3F6WUJ4ZEkwZGRHUFRSNnR6V2ZfQkg5UVRUY0owMmZoV3BSRF8yVzdKRkg2QnY4WXpQMXJLWmcwVm9GTHJTYw?oc=5",
-     "published": "2026-10-19T02:35:00+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Tel Aviv-Vienna flight makes emergency landing in Bulgaria after unspecified threat",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/austrian-airlines-airbus-a320-tel-aviv-vienna-flight-makes-emergency-landing-in-bulgaria-after-unspecified-threat-flightradar-flydubai-101792383124227.html",
-     "published": "2026-10-19T04:23:10+00:00"
-    }
-   ],
-   "last_seen": "2026-10-19T17:07:57.762301+00:00",
-   "outlets": 8,
-   "regions": 8,
-   "languages": 1,
-   "score": 26.0
-  },
-  {
-   "id": "c8f41c947520",
-   "first_seen": "2026-10-19T17:07:57.762301+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Kenyan court convicts starvation cult leader for murder of 191 people",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/19/kenyan-court-convicts-starvation-cult-leader-for-murder-of-191-people?traffic_source=rss",
-     "published": "2026-10-19T15:34:22+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Kenyan starvation cult leader found guilty of murder of 191 children, 1 adult",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/africa/article/3371417/kenyan-starvation-cult-leader-found-guilty-murder-191-children-1-adult?utm_source=rss_feed",
-     "published": "2026-10-19T15:51:17+00:00"
-    },
-    {
-     "outlet": "Africanews",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Guilty as charged: Kenyan court finds cult leader responsible of 191 starvation deaths",
-     "language": "en",
-     "link": "http://www.africanews.com/2026/10/19/guilty-as-charged-kenyan-court-finds-cult-leader-responsible-of-191-starvation-deaths/",
-     "published": "2026-10-19T16:19:24+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Starvation cult leader found guilty of murder of 190 children",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/kenya-starvation-cult-leader-paul-mackenzie-guilty/",
-     "published": "2026-10-19T16:13:31+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Kenyan starvation cult leader guilty of murder of 190 children and one adult",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPbG5tMW00YVFnLTJEZEJ6UFhsMUdxbUpGdS1tN2RkbTNiaDNTSExQMWlCeFVHV0dWSzhRMlpIWnFDbFhoR2V1SXhIZlltQ181ZEpzY0NDRFFHSGVOQUxDUmJtb2JtQUl3c2lyRHlOZFVBWjc3R2dXeFVVRGp4emFPcW5ZSzBxVzZCcjUzWnNUaFdIZDBSXzNSck5UTkZGVjhoTVFj?oc=5",
-     "published": "2026-10-19T16:17:00+00:00"
-    },
-    {
-     "outlet": "MyJoyOnline Ghana",
-     "region": "gh",
-     "bucket": "serious",
-     "title": "Missing signatures, mismatched records underpin South Africa GH¢16.4m evacuation gap",
-     "language": "en",
-     "link": "https://www.myjoyonline.com/missing-signatures-mismatched-records-underpin-south-africa-gh%c2%a216-4m-evacuation-gap-bosome-freho-mp/",
-     "published": "2026-10-19T13:50:19+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Kenyan starvation cult leader guilty of murder of 190 children and one adult",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/19/kenya-starvation-cult-leader-guilty-murder-190-children",
-     "published": "2026-10-19T16:08:14+00:00"
+     "link": "https://www.japantimes.co.jp/sports/2026/10/27/soccer/mbappe-china-brands/",
+     "published": "2026-10-27T08:26:00+00:00"
     },
     {
      "outlet": "Daily Sabah",
      "region": "tr",
      "bucket": "serious",
-     "title": "Kenyan starvation cult leader found guilty of killing 191 people",
+     "title": "LaLiga apologizes to China after Mbappe’s Mao remarks spark backlash",
      "language": "en",
-     "link": "https://www.dailysabah.com/world/africa/kenyan-starvation-cult-leader-found-guilty-of-killing-191-people",
-     "published": "2026-10-19T21:10:00+00:00"
+     "link": "https://www.dailysabah.com/sports/football/laliga-apologizes-to-china-after-mbappes-mao-remarks-spark-backlash",
+     "published": "2026-10-27T12:43:00+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Mbappe apologizes as Mao meme sparks China backlash, sponsors cut ties",
+     "language": "en",
+     "link": "https://www.dailysabah.com/sports/football/mbappe-apologizes-as-mao-meme-sparks-china-backlash-sponsors-cut-ties",
+     "published": "2026-10-27T13:26:00+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Football Daily | Harry Kane completes his arc from Orient loanee to Ballon d’Or winner",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/2026/oct/27/harry-kane-ballon-dor-football-daily-newsletter",
+     "published": "2026-10-27T16:02:35+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Ballon d’Or winner Harry Kane delivers emotional acceptance speech",
+     "language": "en",
+     "link": "https://www.france24.com/en/ballon-d-or-winner-harry-kane-delivers-emotional-acceptance-speech",
+     "published": "2026-10-27T12:20:50+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Harry Kane become first English footballer to win Ballon d'Or in 25 years",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/27/harry-kane-become-first-english-footballer-to-win-ballon-dor-in-25-years/",
+     "published": "2026-10-27T08:30:41+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Winning MOMENT! Harry Kane claims 2026 Ballon d'Or award!",
+     "language": "en",
+     "link": "https://www.skysports.com/watch/video/13604240/moment-harry-kane-claims-2026-ballon-dor-award",
+     "published": "2026-10-27T06:45:00+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Arise, Sir Harry? Downing Street hints at Kane knighthood after Ballon d’Or win",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/2026/oct/27/harry-kane-andy-burnham-knighthood-ballon-dor-win",
+     "published": "2026-10-27T14:25:29+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Alexia Putellas a worthy Ballon d’Or winner but the limited shortlist illustrates flaws",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/2026/oct/27/alexia-putellas-ballon-dor-winner-awards-long-way-before-being-equal-moving-the-goalposts",
+     "published": "2026-10-27T12:32:38+00:00"
     }
    ],
-   "last_seen": "2026-10-20T09:08:04.491772+00:00",
-   "outlets": 8,
+   "last_seen": "2026-10-27T17:07:51.728625+00:00",
+   "outlets": 10,
    "regions": 8,
    "languages": 1,
-   "score": 26.0
+   "score": 28.0
+  },
+  {
+   "id": "ab5fca3a01f0",
+   "first_seen": "2026-10-26T17:07:50.109315+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Egypt approves military support for Saudi Arabia after Houthi attacks escalate",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2039982/egypt-approves-military-support-for-saudi-arabia-after-houthi-attacks-escalate",
+     "published": "2026-10-26T14:03:13+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Egypt approves military support for Saudi Arabia after Houthi attacks escalate",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2637034/egypt-approves-military-support-for-saudi-arabia-after-houthi-attacks-escalate",
+     "published": "2026-10-26T08:38:13+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Egypt approves military support for Saudi Arabia amid escalating Houthi attacks",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/26/egypt-approves-military-support-for-saudi-arabia-amid-escalating-houthi-attacks/",
+     "published": "2026-10-26T16:09:25+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Egypt approves military support for Saudi Arabia against Houthis",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/mid-east/egypt-approves-military-support-for-saudi-arabia-against-houthis",
+     "published": "2026-10-26T13:47:00+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Egypt approves military support for Saudi Arabia after Houthi attacks escalate",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMixwFBVV95cUxOaFIxVXVVYl90WFZodTB6bHpqOWN3aktZSHNDYTlaM3I5S1FoeU14U1NRVE1mVTJtSDV3ZHk1cHRiWDh6elBNamVIeE5tN2VvRDEyWXBPT1dyNW5KSXFyaE5PVEFOS1NyQW1CNkVVblN6SW1PeVg3aHQxY3B6WmhHU3cxM0gtdTNRLTY1NWo0R284RzQtSmVtTnRxVnR6MTVkNWVsU3djY1d2SURPNmo0N05CUFJZekpIUklNTmRxazZHVTNrbEFN?oc=5",
+     "published": "2026-10-26T15:52:06+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Houthis say targeted Saudi oil refinery with ballistic missile",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/10/27/houthis-say-targeted-saudi-oil-refinery-with-ballistic-missile/240831",
+     "published": "2026-10-27T11:36:09+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Houthis Claim Missile Strike On Saudi Oil Refinery As Blasts Shake Riyadh",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/houthis-claim-missile-strike-on-saudi-oil-refinery-as-blasts-shake-riyadh-12244075#publisher=newsstand",
+     "published": "2026-10-27T13:53:25+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Houthis claim ballistic missile attack on oil refinery in eastern Saudi Arabia",
+     "language": "en",
+     "link": "https://tass.com/world/2208717",
+     "published": "2026-10-27T12:59:45+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "Egypt approves military support for Saudi Arabia after Houthi attacks escalate",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-26-egypt-approves-military-support-for-saudi-arabia-after-houthi-attacks-escalate/",
+     "published": "2026-10-26T21:22:56+00:00"
+    }
+   ],
+   "last_seen": "2026-10-27T17:07:51.728625+00:00",
+   "outlets": 9,
+   "regions": 8,
+   "languages": 1,
+   "score": 27.0
   },
   {
    "id": "9023b4b71bb1",
@@ -5707,116 +5505,6 @@
    "score": 25.0
   },
   {
-   "id": "a280debe630e",
-   "first_seen": "2026-10-14T09:07:42.321915+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Saudi employee charged with planting recording device in OpenAI office",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cwg5jq4vlddzo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-13T21:42:49+00:00"
-    },
-    {
-     "outlet": "TechCrunch",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "FBI arrests OpenAI employee accused of planting hidden recording device in conference room",
-     "language": "en",
-     "link": "https://techcrunch.com/2026/10/13/fbi-arrests-openai-employee-accused-of-planting-hidden-recording-device-in-conference-room/",
-     "published": "2026-10-13T20:59:11+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "FBI arrests Saudi OpenAI engineer over covert recording device, DOJ says",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2634767/fbi-arrests-saudi-openai-engineer-over-covert-recording-device-doj-says",
-     "published": "2026-10-14T01:07:37+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "OpenAI fires employee after finding recording device in conference room",
-     "language": "en",
-     "link": "https://www.thehindu.com/sci-tech/technology/openai-fires-employee-after-finding-recording-device-in-conference-room/article71582204.ece",
-     "published": "2026-10-14T06:09:53+00:00"
-    },
-    {
-     "outlet": "Rappler",
-     "region": "ph",
-     "bucket": "serious",
-     "title": "FBI arrests Saudi OpenAI engineer over covert recording device, DOJ says",
-     "language": "en",
-     "link": "https://www.rappler.com/technology/fbi-arrests-saudi-openai-engineer-covert-recording-device/",
-     "published": "2026-10-14T08:27:05+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Saudi National Arrested For Planting Recording Device At OpenAI Office",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/saudi-openai-engineer-abdulrahman-alfozan-arrested-for-allegedly-planting-recording-device-in-office-12181631#publisher=newsstand",
-     "published": "2026-10-13T23:26:26+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "OpenAI employee arrested over alleged planting of listening device",
-     "language": "en",
-     "link": "https://www.dailysabah.com/business/tech/openai-employee-arrested-over-alleged-planting-of-listening-device",
-     "published": "2026-10-14T07:52:00+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Saudi national arrested for installing audio recording device at OpenAI office",
-     "language": "en",
-     "link": "https://tass.com/society/2201669",
-     "published": "2026-10-14T02:25:50+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Ex-OpenAI worker accused of planting device had Saudi support says court filing",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c6gel2dlyxvyo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-19T16:22:12+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Ex-OpenAI employee accused of planting device appears to have Saudi backing, court filing shows",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/ex-openai-employee-accused-of-planting-device-appears-to-have-saudi-backing-court-filing-shows/article71602972.ece",
-     "published": "2026-10-19T15:51:27+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Ex-OpenAI Employee Who Planted Device Had Saudi Backing, Court Filing Shows",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/ex-openai-employee-who-planted-device-had-saudi-backing-court-filing-shows-12207729#publisher=newsstand",
-     "published": "2026-10-19T15:42:05+00:00"
-    }
-   ],
-   "last_seen": "2026-10-19T17:07:57.762301+00:00",
-   "outlets": 8,
-   "regions": 7,
-   "languages": 1,
-   "score": 24.0
-  },
-  {
    "id": "57bff4c44e84",
    "first_seen": "2026-10-20T17:07:55.647743+00:00",
    "members": [
@@ -5963,80 +5651,6 @@
    "regions": 5,
    "languages": 3,
    "score": 23.0
-  },
-  {
-   "id": "f645e82cedf8",
-   "first_seen": "2026-10-19T17:07:57.762301+00:00",
-   "members": [
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Elon Musk says he will give SpaceX share to ‘every kid in America’",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/united-states-canada/article/3371389/elon-musk-says-he-will-give-spacex-share-every-kid-america?utm_source=rss_feed",
-     "published": "2026-10-19T10:01:08+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Musk says will give SpaceX share to 'every kid in America'",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2038280/musk-says-will-give-spacex-share-to-every-kid-in-america",
-     "published": "2026-10-19T10:42:59+00:00"
-    },
-    {
-     "outlet": "The Verge",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "Elon Musk promises to give one SpaceX share to every child in the US",
-     "language": "en",
-     "link": "https://www.theverge.com/tech/1013667/elon-musk-space-x-shares-us-children",
-     "published": "2026-10-19T14:20:11+00:00"
-    },
-    {
-     "outlet": "TechCrunch",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "Musk pledges to give ‘every kid in America’ one of his SpaceX shares",
-     "language": "en",
-     "link": "https://techcrunch.com/2026/10/19/musk-pledges-to-give-every-kid-in-america-one-of-his-spacex-shares/",
-     "published": "2026-10-19T12:42:55+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Musk says he’ll give ‘every kid in America’ one SpaceX share next year",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/money/2026/10/19/musk-says-hell-give-every-kid-in-america-one-spacex-share-next-year/239753",
-     "published": "2026-10-19T09:32:40+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "'Every kid in America' to get SpaceX share from Elon Musk",
-     "language": "en",
-     "link": "https://www.dailysabah.com/business/economy/every-kid-in-america-to-get-spacex-share-from-elon-musk",
-     "published": "2026-10-19T09:58:00+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Elon Musk Pledges 1 SpaceX Share For Every US Child, Plan Could Be Worth $10.5 Billion",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/elon-musk-pledges-1-spacex-share-for-every-us-child-plan-could-be-worth-10-5-billion-12206449#publisher=newsstand",
-     "published": "2026-10-19T11:37:02+00:00"
-    }
-   ],
-   "last_seen": "2026-10-19T17:07:57.762301+00:00",
-   "outlets": 7,
-   "regions": 6,
-   "languages": 1,
-   "score": 21.0
   },
   {
    "id": "35c73c811aa8",
@@ -6510,6 +6124,71 @@
    "score": 18.0
   },
   {
+   "id": "57408542a25c",
+   "first_seen": "2026-10-27T17:07:51.728625+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Netherlands pulls out of Eurovision again over Israel participation",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cmr4y5dvlzneo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-27T11:23:19+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "The Netherlands pulls out of Eurovision 2027 due to Israel ‘sensitivities’",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/27/the-netherlands-pulls-out-of-eurovision-2027-due-to-israel-sensitivities?traffic_source=rss",
+     "published": "2026-10-27T13:29:47+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Dutch broadcaster pulls out of Eurovision over Israel ‘sensitivities’",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/netherlands-withdraws-from-eurovision-2027-amid-sensitivities-over-israels-participation-given-its-military-campaign-in-gaza/article71631050.ece",
+     "published": "2026-10-27T12:22:24+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Dutch broadcaster pulls out of Eurovision over Israel ‘sensitivities’",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/showbiz/2026/10/27/dutch-broadcaster-pulls-out-of-eurovision-over-israel-sensitivities/240820",
+     "published": "2026-10-27T10:05:17+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Dutch broadcaster pulls out of Eurovision over Israel ‘sensitivities’",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/leisure/2026/10/27/dutch-broadcaster-pulls-out-of-eurovision-over-israel-sensitivities",
+     "published": "2026-10-27T10:12:00+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Netherlands withdraws from 2027 Eurovision amid Israel dispute",
+     "language": "en",
+     "link": "https://www.dailysabah.com/arts/music/netherlands-withdraws-from-2027-eurovision-amid-israel-dispute",
+     "published": "2026-10-27T11:41:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-27T17:07:51.728625+00:00",
+   "outlets": 6,
+   "regions": 5,
+   "languages": 1,
+   "score": 18.0
+  },
+  {
    "id": "dc18f09d8782",
    "first_seen": "2026-10-20T09:08:04.491772+00:00",
    "members": [
@@ -6723,96 +6402,60 @@
    "score": 17.0
   },
   {
-   "id": "a5c2bfe5c6b8",
-   "first_seen": "2026-10-19T09:07:48.928141+00:00",
+   "id": "efbd8f5f71fd",
+   "first_seen": "2026-10-27T17:07:51.728625+00:00",
    "members": [
     {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
+     "outlet": "Al Jazeera English",
+     "region": "qa",
      "bucket": "serious",
-     "title": "Trump says Zelensky ‘does not want war to end’ as feud escalates, defends Russia sanctions waiver",
+     "title": "Russia targets Kyiv as Finnish, Norwegian leaders hold rare call with Putin",
      "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/trump-says-zelensky-does-not-want-war-to-end-as-feud-escalates-defends-russia-sanctions-waiver-101792384030299.html",
-     "published": "2026-10-19T04:42:52+00:00"
+     "link": "https://www.aljazeera.com/news/2026/10/27/russia-targets-kyiv-as-finnish-norwegian-leaders-hold-rare-call-with-putin?traffic_source=rss",
+     "published": "2026-10-27T13:59:37+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Norway and Finland leaders hold rare call with Putin",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c6vgj813mlelo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-27T14:23:05+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Leaders of Norway, Finland hold calls with Putin then Zelensky",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/27/leaders-of-norway-finland-hold-calls-with-putin-then-zelensky",
+     "published": "2026-10-27T11:32:00+00:00"
     },
     {
      "outlet": "NDTV — World",
      "region": "in",
      "bucket": "serious",
-     "title": "\"He Doesn't Want To End War\": Trump Targets Zelensky",
+     "title": "Finland, Norway Leaders Hold \"Frank\" Call With Putin On Ukraine War",
      "language": "en",
-     "link": "https://www.ndtv.com/world-news/he-doesnt-want-to-end-war-donald-trump-targets-volodymyr-zelensky-ukraine-russia-war-12205276#publisher=newsstand",
-     "published": "2026-10-19T07:27:40+00:00"
+     "link": "https://www.ndtv.com/world-news/finland-norway-leaders-hold-frank-call-with-putin-on-ukraine-war-12244115#publisher=newsstand",
+     "published": "2026-10-27T14:00:17+00:00"
     },
     {
-     "outlet": "CBS News — World",
-     "region": "us",
+     "outlet": "Google News — World",
+     "region": "global",
      "bucket": "serious",
-     "title": "Trump says Zelenskyy doesn't want to end Russia's war on Ukraine",
+     "title": "Finland and Norway Hold ‘Frank’ Call With Putin on Ukraine",
      "language": "en",
-     "link": "https://www.cbsnews.com/news/ukraine-russia-drone-st-petersburg-oil-facilites/",
-     "published": "2026-10-19T08:12:05+00:00"
-    },
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "Putin proposes summit with Trump and Xi to discuss Ukraine deal, WSJ says",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-19-putin-proposes-summit-with-trump-and-xi-to-discuss-ukraine-deal-wsj-says/",
-     "published": "2026-10-19T10:23:35+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Putin proposes summit with Trump and Xi to discuss Ukraine deal: report",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/putin-proposes-summit-with-trump-and-xi-to-discuss-ukraine-deal-report/article71602034.ece",
-     "published": "2026-10-19T03:50:46+00:00"
-    },
-    {
-     "outlet": "Meduza English",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Putin proposes meeting with Trump and Xi without Zelensky to discuss ending war in Ukraine on terms favorable to Moscow, WSJ reports",
-     "language": "en",
-     "link": "https://meduza.io/en/news/2026/10/19/putin-proposes-meeting-with-trump-and-xi-without-zelensky-to-discuss-ending-war-in-ukraine-on-terms-favorable-to-moscow-wsj-reports",
-     "published": "2026-10-19T09:17:00+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Putin proposes trilateral meeting with Trump, Xi Jinping to discuss Ukraine war next month",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/vladimir-putin-proposes-trilateral-meeting-with-trump-xi-jinping-russia-us-china-discuss-ukraine-war-end-november-101792376217244.html",
-     "published": "2026-10-19T02:34:13+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Putin Proposes Summit Next Month With Trump, Xi To End Ukraine War: Report",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/putin-proposes-summit-next-month-with-trump-xi-to-end-ukraine-war-report-12205411#publisher=newsstand",
-     "published": "2026-10-19T08:02:47+00:00"
-    },
-    {
-     "outlet": "Meduza English",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Two presidents, two versions of peace: Trump says Zelensky doesn’t want the war to end. Zelensky says Trump wants Ukraine to give in.",
-     "language": "en",
-     "link": "https://meduza.io/en/feature/2026/10/19/two-presidents-two-versions-of-peace-trump-says-zelensky-doesn-t-want-the-war-to-end-zelensky-says-trump-wants-ukraine-to-give-in",
-     "published": "2026-10-19T16:19:24+00:00"
+     "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPQlNDamdfUVV3b0U2WE9GWUFkSTZIYUJrU1FrUmJUTFE5WjNIZ3BWVFZNbG16TllSa3VOaHNXeGEyclZraUhFQ3hvcDUxNnZpUWhmbDRVNEZETmVNR1UxT2Y4eVJQbXRnWjh1dUZ3LUdiZHJZZGJHSlI3SGs1TG90WjNaR0d1YUJJWXBKeEp4YWNQSzY4QUV2QU4zMG00ZEpXMG5QWXo3eG5hbTA?oc=5",
+     "published": "2026-10-27T16:21:54+00:00"
     }
    ],
-   "last_seen": "2026-10-19T17:07:57.762301+00:00",
-   "outlets": 6,
-   "regions": 4,
+   "last_seen": "2026-10-27T17:07:51.728625+00:00",
+   "outlets": 5,
+   "regions": 5,
    "languages": 1,
-   "score": 16.0
+   "score": 17.0
   },
   {
    "id": "93a41fa17871",
@@ -6916,42 +6559,51 @@
    "score": 16.0
   },
   {
-   "id": "c706aa71cdc2",
-   "first_seen": "2026-10-19T17:07:57.762301+00:00",
+   "id": "f80e57dae6d6",
+   "first_seen": "2026-10-27T17:07:51.728625+00:00",
    "members": [
     {
-     "outlet": "Der Spiegel",
-     "region": "de",
-     "bucket": "serious",
-     "title": "Donald Trump: Meta entschuldigt sich für Sperrung von »No Kings«-Instagram-Account",
-     "language": "de",
-     "link": "https://www.spiegel.de/netzwelt/netzpolitik/donald-trump-meta-entschuldigt-sich-fuer-sperrung-von-no-kings-instagram-account-a-c8078aa0-5e96-460d-81b7-58e85c9e1437#ref=rss",
-     "published": "2026-10-19T15:32:00+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Meta apologizes after suspending \"No Kings\" Instagram account",
+     "outlet": "Boing Boing",
+     "region": "odd",
+     "bucket": "light",
+     "title": "Star Trek star Walter Koenig dead at 90",
      "language": "en",
-     "link": "https://www.channelnewsasia.com/business/meta-apologizes-after-suspending-no-kings-instagram-account-6472366",
-     "published": "2026-10-19T13:49:21+00:00"
+     "link": "https://boingboing.net/2026/10/26/star-trek-star-walter-koenig-dead-at-90.html",
+     "published": "2026-10-26T16:51:28+00:00"
     },
     {
-     "outlet": "BBC 中文",
-     "region": "cn",
+     "outlet": "Daily Maverick",
+     "region": "za",
      "bucket": "serious",
-     "title": "我們的廣告提到了「懷孕」 結果給 Instagram 下架了",
-     "language": "zh",
-     "link": "https://www.bbc.com/zhongwen/articles/cr1ex0l8l9z5o/trad?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-19T00:08:09+00:00"
+     "title": "Actor Walter Koenig, Star Trek’s plucky Chekov, dies at 90",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-26-actor-walter-koenig-star-treks-plucky-chekov-dies-at-90/",
+     "published": "2026-10-26T21:08:56+00:00"
+    },
+    {
+     "outlet": "El País",
+     "region": "es",
+     "bucket": "serious",
+     "title": "Muere Walter Koenig, el Chekov original de ‘Star Trek’",
+     "language": "es",
+     "link": "https://elpais.com/television/2026-10-26/muere-walter-koenig-el-chekov-original-de-star-trek.html",
+     "published": "2026-10-26T17:38:48+00:00"
+    },
+    {
+     "outlet": "The Guardian — Culture",
+     "region": "culture",
+     "bucket": "light",
+     "title": "Walter Koenig, actor best known as Chekov on Star Trek, dies aged 90",
+     "language": "en",
+     "link": "https://www.theguardian.com/culture/2026/oct/26/walter-koenig-actor-star-trek-dies",
+     "published": "2026-10-26T18:42:11+00:00"
     }
    ],
-   "last_seen": "2026-10-19T17:07:57.762301+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 3,
-   "score": 15.0
+   "last_seen": "2026-10-27T17:07:51.728625+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 2,
+   "score": 16.0
   },
   {
    "id": "32b8ab4c6354",
@@ -7196,62 +6848,6 @@
    "score": 15.0
   },
   {
-   "id": "ab5fca3a01f0",
-   "first_seen": "2026-10-26T17:07:50.109315+00:00",
-   "members": [
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Egypt approves military support for Saudi Arabia after Houthi attacks escalate",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2039982/egypt-approves-military-support-for-saudi-arabia-after-houthi-attacks-escalate",
-     "published": "2026-10-26T14:03:13+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Egypt approves military support for Saudi Arabia after Houthi attacks escalate",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2637034/egypt-approves-military-support-for-saudi-arabia-after-houthi-attacks-escalate",
-     "published": "2026-10-26T08:38:13+00:00"
-    },
-    {
-     "outlet": "Africanews",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Egypt approves military support for Saudi Arabia amid escalating Houthi attacks",
-     "language": "en",
-     "link": "http://www.africanews.com/2026/10/26/egypt-approves-military-support-for-saudi-arabia-amid-escalating-houthi-attacks/",
-     "published": "2026-10-26T16:09:25+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Egypt approves military support for Saudi Arabia against Houthis",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/mid-east/egypt-approves-military-support-for-saudi-arabia-against-houthis",
-     "published": "2026-10-26T13:47:00+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Egypt approves military support for Saudi Arabia after Houthi attacks escalate",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMixwFBVV95cUxOaFIxVXVVYl90WFZodTB6bHpqOWN3aktZSHNDYTlaM3I5S1FoeU14U1NRVE1mVTJtSDV3ZHk1cHRiWDh6elBNamVIeE5tN2VvRDEyWXBPT1dyNW5KSXFyaE5PVEFOS1NyQW1CNkVVblN6SW1PeVg3aHQxY3B6WmhHU3cxM0gtdTNRLTY1NWo0R284RzQtSmVtTnRxVnR6MTVkNWVsU3djY1d2SURPNmo0N05CUFJZekpIUklNTmRxazZHVTNrbEFN?oc=5",
-     "published": "2026-10-26T15:52:06+00:00"
-    }
-   ],
-   "last_seen": "2026-10-26T17:07:50.109315+00:00",
-   "outlets": 5,
-   "regions": 4,
-   "languages": 1,
-   "score": 15.0
-  },
-  {
    "id": "f76d55f48883",
    "first_seen": "2026-10-26T17:07:50.109315+00:00",
    "members": [
@@ -7306,53 +6902,6 @@
    "regions": 4,
    "languages": 1,
    "score": 15.0
-  },
-  {
-   "id": "74d0453e62cb",
-   "first_seen": "2026-10-19T17:07:57.762301+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Supreme court rejects effort to revive plea deal for Khalid Sheikh Mohammed in 9/11 attacks",
-     "language": "en",
-     "link": "https://www.theguardian.com/us-news/2026/oct/19/khalid-sheikh-mohammed-september-11-plea-deal",
-     "published": "2026-10-19T15:50:08+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "US Supreme Court denies bid by 9/11 mastermind to revive plea deal",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/world/sep-11-attack-khalid-mohammed-court-reject-plea-6472846",
-     "published": "2026-10-19T16:53:45+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "US Supreme Court snubs bid to revive plea deal for accused 9/11 mastermind",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/us-supreme-court-snubs-bid-to-revive-plea-deal-for-accused-9-11-mastermind-101792423380088.html",
-     "published": "2026-10-19T15:26:13+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "US Supreme Court denies bid by 9/11 mastermind to revive plea deal",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/20/us-supreme-court-denies-bid-by-9-11-mastermind-to-revive-plea-deal",
-     "published": "2026-10-19T16:10:29+00:00"
-    }
-   ],
-   "last_seen": "2026-10-19T17:07:57.762301+00:00",
-   "outlets": 4,
-   "regions": 4,
-   "languages": 1,
-   "score": 14.0
   },
   {
    "id": "c2ec8f4e2f4b",
@@ -7671,42 +7220,170 @@
    "score": 14.0
   },
   {
-   "id": "113af5d99cdc",
+   "id": "8195f144d0f3",
    "first_seen": "2026-10-20T09:08:04.491772+00:00",
    "members": [
     {
-     "outlet": "BBC Technology",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "US bans China's DeepSeek from government in race for AI dominance",
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "England opt to bowl against Pakistan in ODI tri-series",
      "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cjkgeq0k1wevo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-19T18:21:54+00:00"
+     "link": "https://tribune.com.pk/story/2635880/England-opt-to-bowl-against-Pakistan-in-ODI-tri-series",
+     "published": "2026-10-20T02:29:42+00:00"
     },
     {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "US bans China's DeepSeek AI from government systems",
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "England take two early in tri-series ODI vs Pakistan LIVE!",
      "language": "en",
-     "link": "https://www.dailysabah.com/business/tech/us-bans-chinas-deepseek-ai-from-government-systems",
-     "published": "2026-10-19T16:39:00+00:00"
+     "link": "https://www.skysports.com/cricket/live-blog/12040/13601207/pakistan-vs-england-odi-tri-series-live-latest-cricket-score-updates-and-video-as-harry-brooks-side-begin-50-over-tour",
+     "published": "2026-10-20T08:25:00+00:00"
     },
     {
-     "outlet": "BBC 中文",
-     "region": "cn",
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Scorecard: Pakistan vs England, ODI tri-series",
+     "language": "en",
+     "link": "https://www.skysports.com/cricket/pakistan-v-england/scorecard/d97e0d28-3d0d-5c75-aad7-50ce21f5c49b",
+     "published": "2026-10-20T08:55:00+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Pakistan v England: men’s tri-series cricket ODI",
+     "language": "en",
+     "link": "https://www.theguardian.com/sport/live/2026/oct/20/pakistan-v-england-mens-tri-series-cricket-odi-live",
+     "published": "2026-10-20T09:05:17+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "England lose to Pakistan after improbable last-wicket stand",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/cricket/articles/cq0mek4de4xno?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-25T16:34:17+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Pakistan put on 88-run last-wicket stand to beat England LIVE!",
+     "language": "en",
+     "link": "https://www.skysports.com/cricket/live-blog/12040/13603448/pakistan-vs-england-odi-tri-series-live-latest-cricket-score-updates-video-and-analysis-as-harry-brooks-side-target-first-win",
+     "published": "2026-10-25T07:25:00+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Pakistan beat England in thriller after 89-run last-wicket stand: tri-series one day international cricket",
+     "language": "en",
+     "link": "https://www.theguardian.com/sport/live/2026/oct/25/pakistan-v-england-tri-series-one-day-international-cricket-live",
+     "published": "2026-10-25T16:52:01+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
      "bucket": "serious",
-     "title": "美國下令政府系統禁用DeepSeek：中美AI競爭繼續升溫",
-     "language": "zh",
-     "link": "https://www.bbc.com/zhongwen/articles/cmy0r4kd2462o/trad?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-20T07:42:45+00:00"
+     "title": "Madushanka’s five-for powers Sri Lanka into tri-series final after Pakistan drubbing",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2040181/madushankas-five-for-powers-sri-lanka-into-tri-series-final-after-pakistan-drubbing",
+     "published": "2026-10-27T12:29:22+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "England out of tri-series after Sri Lanka beat Pakistan",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/cricket/articles/c6pwg00nv9dvo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-27T13:01:11+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Madushanka leads Sri Lanka into tri-series final",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2637174/sri-lanka-opt-to-bowl-first-against-pakistan",
+     "published": "2026-10-27T02:46:40+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "England eliminated from ODI tri-series as Sri Lanka beat Pakistan",
+     "language": "en",
+     "link": "https://www.skysports.com/cricket/news/12040/13604351/england-eliminated-from-odi-tri-series-as-sri-lankas-bowlers-dominate-in-victory-against-pakistan-to-book-final-spot",
+     "published": "2026-10-27T12:50:00+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Sri Lanka beat Pakistan to reach final, England eliminated",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/sport/sri-lanka-beat-pakistan-reach-final-england-eliminated-6497061",
+     "published": "2026-10-27T14:36:47+00:00"
     }
    ],
-   "last_seen": "2026-10-20T09:08:04.491772+00:00",
-   "outlets": 3,
+   "last_seen": "2026-10-27T17:07:51.728625+00:00",
+   "outlets": 6,
    "regions": 3,
-   "languages": 2,
-   "score": 13.0
+   "languages": 1,
+   "score": 14.0
+  },
+  {
+   "id": "9f310dd828ec",
+   "first_seen": "2026-10-27T17:07:51.728625+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Ebola cases in DR Congo surpass 10,000 in fastest-growing outbreak",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/27/ebola-cases-in-dr-congo-surpass-10000-in-fastest-growing-outbreak?traffic_source=rss",
+     "published": "2026-10-27T12:31:19+00:00"
+    },
+    {
+     "outlet": "Court House News",
+     "region": "court",
+     "bucket": "light",
+     "title": "Africa Ebola outbreak passes 10,000 cases, mostly in DR Congo",
+     "language": "en",
+     "link": "https://www.courthousenews.com/africa-ebola-outbreak-passes-10000-cases-mostly-in-dr-congo/",
+     "published": "2026-10-27T16:47:51+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "light",
+     "title": "Africa's Ebola outbreak tops 10,000 cases, mainly in DR Congo",
+     "language": "en",
+     "link": "https://www.france24.com/en/africa/20261027-africa-ebola-outbreak-tops-10-000-cases-mainly-dr-congo",
+     "published": "2026-10-27T15:45:18+00:00"
+    },
+    {
+     "outlet": "Vanguard Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Africa Ebola outbreak passes 10,000 cases, mostly in DR Congo",
+     "language": "en",
+     "link": "https://www.vanguardngr.com/2026/10/africa-ebola-outbreak-passes-10000-cases-mostly-in-dr-congo/",
+     "published": "2026-10-27T15:56:44+00:00"
+    }
+   ],
+   "last_seen": "2026-10-27T17:07:51.728625+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
   },
   {
    "id": "1efa0fc7441b",
@@ -7763,53 +7440,6 @@
    "regions": 3,
    "languages": 1,
    "score": 13.0
-  },
-  {
-   "id": "27e5457c4e18",
-   "first_seen": "2026-10-19T17:07:57.762301+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Man City’s Semenyo out for up to eight weeks due to knee injury",
-     "language": "en",
-     "link": "https://www.aljazeera.com/sports/2026/10/19/man-citys-semenyo-out-for-up-to-eight-weeks-due-to-knee-injury?traffic_source=rss",
-     "published": "2026-10-19T15:07:19+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Man City’s Semenyo out for up to eight weeks",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/19/man-city-s-semenyo-out-for-up-to-eight-weeks",
-     "published": "2026-10-19T12:52:00+00:00"
-    },
-    {
-     "outlet": "BBC Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Haaland a doubt, Semenyo out",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/sport/football/articles/c5djv21rkekwo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-19T14:36:36+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Semenyo’s eight-week injury absence leaves Manchester City short on cover for Haaland",
-     "language": "en",
-     "link": "https://www.theguardian.com/football/2026/oct/19/antoine-semenyo-eight-week-knee-injury-absence-manchester-city-short-cover-erling-haaland",
-     "published": "2026-10-19T13:03:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-19T17:07:57.762301+00:00",
-   "outlets": 4,
-   "regions": 3,
-   "languages": 1,
-   "score": 12.0
   },
   {
    "id": "d3328d8eaeb7",
@@ -7906,203 +7536,145 @@
    "score": 12.0
   },
   {
-   "id": "478f5ebf4286",
-   "first_seen": "2026-10-19T17:07:57.762301+00:00",
-   "members": [
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Catholic priest dies after crucifix falls on him during livestreamed Mass in Ecuador",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/catholic-priest-dies-after-crucifix-falls-on-him-during-livestreamed-mass-in-ecuador-101792334157624.html",
-     "published": "2026-10-18T15:42:58+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Scary moment Catholic priest dies in Ecuador after crucifix falls on him while preaching: Video",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/scary-moment-catholic-priest-dies-in-ecuador-after-crucifix-falls-on-him-while-preaching-video-101792366705978.html",
-     "published": "2026-10-19T00:26:14+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Falling crucifix kills priest during livestreamed Mass in Ecuador",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/falling-crucifix-kills-priest-livestreamed-mass-ecuador/",
-     "published": "2026-10-19T12:53:00+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Priest killed by falling crucifix during live streamed Mass",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMihgFBVV95cUxObS1RRUc3Qmo5WHZhSTVhclVHMzdEVzYwNmphd19GNFVHcGd6UVlmU2tOTDZVdXA2Y0V4MjFPVXRLS0tXQ0ZqeVEtczAwV3dCTUVsVFo2UHVvSWpuVXNoT0k0VzNlcnNDZzg1WW50MXBIaUxnWURacHY2VFNQNFlmckJ3enh0UQ?oc=5",
-     "published": "2026-10-19T12:38:40+00:00"
-    }
-   ],
-   "last_seen": "2026-10-19T17:07:57.762301+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "93c5db23c4a4",
-   "first_seen": "2026-10-20T09:08:04.491772+00:00",
-   "members": [
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "Trump warns Kansans that US will ‘burn’ like France if Democrats win",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-20-trump-warns-kansans-that-us-will-burn-like-france-if-democrats-win/",
-     "published": "2026-10-20T10:56:58+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Trump warns Kansans that US will 'burn' like France if Democrats win",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2635869/trump-warns-kansans-that-us-will-burn-like-france-if-democrats-win",
-     "published": "2026-10-20T01:21:46+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Trump warns Kansans that U.S. will ‘burn’ like France if Democrats win",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/trump-warns-kansans-that-us-will-burn-like-france-if-democrats-win/article71603315.ece",
-     "published": "2026-10-20T05:37:55+00:00"
-    }
-   ],
-   "last_seen": "2026-10-20T09:08:04.491772+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "eefde508892a",
-   "first_seen": "2026-10-20T09:08:04.491772+00:00",
-   "members": [
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "France to impose new curfews where necessary: PM",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2038499/france-to-impose-new-curfews-where-necessary-pm",
-     "published": "2026-10-20T07:09:39+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "France to impose new curfews where necessary: PM",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/world/france-impose-new-protest-curfews-curb-rioting-6474841",
-     "published": "2026-10-20T07:38:00+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "France to impose new curfews where necessary: PM Sebastien Lecornu",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/france-to-impose-new-curfews-where-necessary-pm-sebastien-lecornu/article71603703.ece",
-     "published": "2026-10-20T07:49:58+00:00"
-    }
-   ],
-   "last_seen": "2026-10-20T09:08:04.491772+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "953898ab4910",
-   "first_seen": "2026-10-20T09:08:04.491772+00:00",
+   "id": "a5d8be2464e6",
+   "first_seen": "2026-10-27T17:07:51.728625+00:00",
    "members": [
     {
      "outlet": "Channel News Asia",
      "region": "seasia",
      "bucket": "serious",
-     "title": "Japan slams lack of access to journalist detained in Russia",
+     "title": "Apple launches M6 MacBook Pro and iMac, pitches faster on-device AI",
      "language": "en",
-     "link": "https://www.channelnewsasia.com/world/japan-slams-russia-journalist-detained-6474546",
-     "published": "2026-10-20T05:11:22+00:00"
+     "link": "https://www.channelnewsasia.com/business/apple-launches-m6-macbook-pro-and-imac-pitches-faster-device-ai-6496821",
+     "published": "2026-10-27T13:39:05+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Apple launches M6 MacBook Pro at $1,999, iMac at $1,499 with faster AI and graphics performance",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/apple-launches-m6-macbook-pro-at-1-999-imac-at-1-499-with-faster-ai-and-graphics-performance-101793113018523.html",
+     "published": "2026-10-27T15:29:28+00:00"
+    },
+    {
+     "outlet": "TechCrunch",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "Apple unveils new 14-inch MacBook Pro with M6 chip",
+     "language": "en",
+     "link": "https://techcrunch.com/2026/10/27/apple-unveils-new-14-inch-macbook-pro-with-m6-chip/",
+     "published": "2026-10-27T14:25:11+00:00"
+    },
+    {
+     "outlet": "Engadget",
+     "region": "tech",
+     "bucket": "useful",
+     "title": "Apple has updated the 14-inch MacBook Pro with an M6 chip",
+     "language": "en",
+     "link": "https://www.engadget.com/2298120/apple-has-updated-the-14-inch-macbook-pro-with-an-m6-chip/",
+     "published": "2026-10-27T13:23:27+00:00"
+    }
+   ],
+   "last_seen": "2026-10-27T17:07:51.728625+00:00",
+   "outlets": 4,
+   "regions": 3,
+   "languages": 1,
+   "score": 12.0
+  },
+  {
+   "id": "c0516bbdf1b2",
+   "first_seen": "2026-10-27T17:07:51.728625+00:00",
+   "members": [
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Carrick to stay in charge of Man Utd for Chelsea game",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/football/articles/crlykgeqzypyo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-27T12:10:21+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Carrick to remain in charge of Man Utd for Chelsea trip",
+     "language": "en",
+     "link": "https://www.skysports.com/football/news/12040/13604347/man-utd-boss-michael-carrick-to-remain-in-charge-vs-chelsea-and-given-chance-to-turn-situation-around",
+     "published": "2026-10-27T12:03:00+00:00"
+    },
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "EPL: Carrick to remain Man Utd boss for Chelsea clash",
+     "language": "en",
+     "link": "https://punchng.com/epl-carrick-to-remain-man-utd-boss-for-chelsea-clash-reports/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-10-27T14:57:18+00:00"
     },
     {
      "outlet": "Free Malaysia Today",
      "region": "my",
      "bucket": "serious",
-     "title": "Japan slams lack of access to journalist detained in Russia",
+     "title": "Carrick to remain Man Utd boss for Chelsea clash, say reports",
      "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/20/japan-slams-lack-of-access-to-journalist-detained-in-russia",
-     "published": "2026-10-20T05:20:23+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Japan slams lack of access to journalist detained in Russia",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/20/japan/politics/russia-japanese-journalist-arrest-lack-of-access/",
-     "published": "2026-10-20T06:39:00+00:00"
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/27/carrick-to-remain-man-utd-boss-for-chelsea-clash-say-reports",
+     "published": "2026-10-27T14:29:07+00:00"
     }
    ],
-   "last_seen": "2026-10-20T09:08:04.491772+00:00",
-   "outlets": 3,
+   "last_seen": "2026-10-27T17:07:51.728625+00:00",
+   "outlets": 4,
    "regions": 3,
    "languages": 1,
-   "score": 11.0
+   "score": 12.0
   },
   {
-   "id": "17109a32a50c",
-   "first_seen": "2026-10-20T09:08:04.491772+00:00",
+   "id": "fafa71e5ef6b",
+   "first_seen": "2026-10-27T17:07:51.728625+00:00",
    "members": [
     {
-     "outlet": "The Express Tribune",
+     "outlet": "Dawn",
      "region": "pk",
      "bucket": "serious",
-     "title": "CNN’s Christiane Amanpour to leave network after 43 years",
+     "title": "Sudan drone strikes kill 21, cause mass outages in east",
      "language": "en",
-     "link": "https://tribune.com.pk/story/2635769/cnns-christiane-amanpour-to-leave-network-after-43-years",
-     "published": "2026-10-19T14:54:24+00:00"
+     "link": "https://www.dawn.com/news/2040194/sudan-drone-strikes-kill-21-cause-mass-outages-in-east",
+     "published": "2026-10-27T09:05:27+00:00"
     },
     {
-     "outlet": "Rappler",
-     "region": "ph",
+     "outlet": "The Hindu — International",
+     "region": "in",
      "bucket": "serious",
-     "title": "Christiane Amanpour to exit CNN after 43 years",
+     "title": "Sudan drone strikes kill 21, cause mass outages in east amid ongoing violence",
      "language": "en",
-     "link": "https://www.rappler.com/people/newsmakers/christiane-amanpour-exit-cnn/",
-     "published": "2026-10-20T03:18:37+00:00"
+     "link": "https://www.thehindu.com/news/international/drone-strike-kills-21-in-sudan-cripples-power-in-east-amid-ongoing-violence/article71630439.ece",
+     "published": "2026-10-27T09:27:43+00:00"
     },
     {
      "outlet": "Hindustan Times — World",
      "region": "in",
      "bucket": "serious",
-     "title": "Christiane Amanpour to leave CNN in June 2027 after 43 years",
+     "title": "Sudan drone strikes kill 21, cause mass outages in east",
      "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/christiane-amanpour-to-leave-cnn-in-june-2027-after-43-years-101792429608554.html",
-     "published": "2026-10-19T18:23:28+00:00"
+     "link": "https://www.hindustantimes.com/world-news/sudan-drone-strikes-kill-21-cause-mass-outages-in-east-101793086164992.html",
+     "published": "2026-10-27T07:29:24+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Tit-for-tat Sudan drone strikes kill 21, cause mass power outages",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/africa/tit-for-tat-sudan-drone-strikes-kill-21-cause-mass-power-outages",
+     "published": "2026-10-27T10:59:00+00:00"
     }
    ],
-   "last_seen": "2026-10-20T09:08:04.491772+00:00",
-   "outlets": 3,
+   "last_seen": "2026-10-27T17:07:51.728625+00:00",
+   "outlets": 4,
    "regions": 3,
    "languages": 1,
-   "score": 11.0
+   "score": 12.0
   },
   {
    "id": "5580502474d3",
@@ -8675,6 +8247,120 @@
    "score": 11.0
   },
   {
+   "id": "45fc85eb29c8",
+   "first_seen": "2026-10-27T17:07:51.728625+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "King Charles’s Caribbean tour: Will he discuss slavery reparations?",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/27/king-charless-caribbean-tour-will-he-discuss-slavery-reparations?traffic_source=rss",
+     "published": "2026-10-27T14:05:03+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "King Charles heads to Caribbean as calls for slavery reparations grow",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-10-27-king-charles-heads-to-caribbean-as-calls-for-slavery-reparations-grow/",
+     "published": "2026-10-27T11:30:53+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "King Charles heads to Caribbean as calls for slavery reparations grow",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/king-charles-heads-to-caribbean-as-calls-for-slavery-reparations-grow-101793084530869.html",
+     "published": "2026-10-27T07:02:10+00:00"
+    }
+   ],
+   "last_seen": "2026-10-27T17:07:51.728625+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "2b14b1581198",
+   "first_seen": "2026-10-27T17:07:51.728625+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Qatar’s Emir meets Iran’s Pezeshkian in Moscow",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/10/27/qatars-emir-meets-irans-pezeshkian-in-moscow?traffic_source=rss",
+     "published": "2026-10-27T13:26:32+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Iran president, Qatar emir meet on sidelines of Moscow summit",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/mid-east/iran-president-qatar-emir-meet-on-sidelines-of-moscow-summit",
+     "published": "2026-10-27T11:13:00+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Qatar emir meets Iran president, energy ties in focus",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248960/Qatar-emir-meets-Iran-president-energy-ties-in-focus",
+     "published": "2026-10-27T09:43:46+00:00"
+    }
+   ],
+   "last_seen": "2026-10-27T17:07:51.728625+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "062d5c2ee318",
+   "first_seen": "2026-10-27T17:07:51.728625+00:00",
+   "members": [
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Egypt detains prominent journalist Lina Attalah after trial",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/egypt-detains-prominent-journalist-lina-attalah-after-trial/article71632130.ece",
+     "published": "2026-10-27T14:21:02+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Egypt detains journalist Lina Attalah after court ruling",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/10/27/egypt-detains-journalist-lina-attalah-after-court-ruling/",
+     "published": "2026-10-27T14:48:52+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Egypt detains prominent journalist Lina Attalah after trial",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/27/egypt-detains-prominent-journalist-lina-attalah-after-trial",
+     "published": "2026-10-27T14:43:19+00:00"
+    }
+   ],
+   "last_seen": "2026-10-27T17:07:51.728625+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
    "id": "17a17ec8cf04",
    "first_seen": "2026-10-20T09:08:04.491772+00:00",
    "members": [
@@ -8729,118 +8415,6 @@
    "regions": 2,
    "languages": 1,
    "score": 10.0
-  },
-  {
-   "id": "8195f144d0f3",
-   "first_seen": "2026-10-20T09:08:04.491772+00:00",
-   "members": [
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "England opt to bowl against Pakistan in ODI tri-series",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2635880/England-opt-to-bowl-against-Pakistan-in-ODI-tri-series",
-     "published": "2026-10-20T02:29:42+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "England take two early in tri-series ODI vs Pakistan LIVE!",
-     "language": "en",
-     "link": "https://www.skysports.com/cricket/live-blog/12040/13601207/pakistan-vs-england-odi-tri-series-live-latest-cricket-score-updates-and-video-as-harry-brooks-side-begin-50-over-tour",
-     "published": "2026-10-20T08:25:00+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Scorecard: Pakistan vs England, ODI tri-series",
-     "language": "en",
-     "link": "https://www.skysports.com/cricket/pakistan-v-england/scorecard/d97e0d28-3d0d-5c75-aad7-50ce21f5c49b",
-     "published": "2026-10-20T08:55:00+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Pakistan v England: men’s tri-series cricket ODI",
-     "language": "en",
-     "link": "https://www.theguardian.com/sport/live/2026/oct/20/pakistan-v-england-mens-tri-series-cricket-odi-live",
-     "published": "2026-10-20T09:05:17+00:00"
-    },
-    {
-     "outlet": "BBC Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "England lose to Pakistan after improbable last-wicket stand",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/sport/cricket/articles/cq0mek4de4xno?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-25T16:34:17+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Pakistan put on 88-run last-wicket stand to beat England LIVE!",
-     "language": "en",
-     "link": "https://www.skysports.com/cricket/live-blog/12040/13603448/pakistan-vs-england-odi-tri-series-live-latest-cricket-score-updates-video-and-analysis-as-harry-brooks-side-target-first-win",
-     "published": "2026-10-25T07:25:00+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Pakistan beat England in thriller after 89-run last-wicket stand: tri-series one day international cricket",
-     "language": "en",
-     "link": "https://www.theguardian.com/sport/live/2026/oct/25/pakistan-v-england-tri-series-one-day-international-cricket-live",
-     "published": "2026-10-25T16:52:01+00:00"
-    }
-   ],
-   "last_seen": "2026-10-25T17:07:45.058543+00:00",
-   "outlets": 4,
-   "regions": 2,
-   "languages": 1,
-   "score": 10.0
-  },
-  {
-   "id": "9ea9c5cee251",
-   "first_seen": "2026-10-19T17:07:57.762301+00:00",
-   "members": [
-    {
-     "outlet": "BBC Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "England manager Wiegman signs contract extension",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/sport/football/articles/c679plpvellgo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-19T10:08:01+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Wiegman signs England contract extension",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2635707/wiegman-signs-england-contract-extension",
-     "published": "2026-10-19T06:36:30+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Sarina Wiegman signs contract extension to stay as England women head coach until 2029",
-     "language": "en",
-     "link": "https://www.theguardian.com/football/2026/oct/19/sarina-wiegman-signs-contract-extension-england-women-euro-2029",
-     "published": "2026-10-19T10:00:04+00:00"
-    }
-   ],
-   "last_seen": "2026-10-19T17:07:57.762301+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 1,
-   "score": 9.0
   },
   {
    "id": "2fd579828b3f",
@@ -9413,6 +8987,82 @@
    "score": 9.0
   },
   {
+   "id": "e253fee1887c",
+   "first_seen": "2026-10-27T17:07:51.728625+00:00",
+   "members": [
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Mercedes-Benz cuts 2026 profit outlook on tough China market",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/money/2026/10/27/mercedes-benz-cuts-2026-profit-outlook-on-tough-china-market/240819",
+     "published": "2026-10-27T10:02:55+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Mercedes-Benz cuts 2026 profit outlook on tough China market",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/business/2026/10/27/mercedes-benz-cuts-2026-profit-outlook-on-tough-china-market",
+     "published": "2026-10-27T10:20:33+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Mercedes-Benz lowers profit outlook on difficult China conditions",
+     "language": "en",
+     "link": "https://www.dailysabah.com/business/automotive/mercedes-benz-lowers-profit-outlook-on-difficult-china-conditions",
+     "published": "2026-10-27T11:31:00+00:00"
+    }
+   ],
+   "last_seen": "2026-10-27T17:07:51.728625+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
+   "id": "bd3077fdd4dc",
+   "first_seen": "2026-10-27T17:07:51.728625+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Indian court orders documentary on Modi, tycoon Adani removed",
+     "language": "en",
+     "link": "https://www.scmp.com/news/asia/south-asia/article/3372312/indian-court-orders-documentary-modi-tycoon-adani-removed",
+     "published": "2026-10-27T10:55:27+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Indian court orders takedown of documentary on billionaire Gautam Adani, PM Modi",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2040205/indian-court-orders-takedown-of-documentary-on-billionaire-gautam-adani-pm-modi",
+     "published": "2026-10-27T10:59:43+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Indian court orders takedown of documentary on Adani, Modi",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2637225/indian-court-orders-takedown-of-documentary-on-adani-modi",
+     "published": "2026-10-27T10:06:46+00:00"
+    }
+   ],
+   "last_seen": "2026-10-27T17:07:51.728625+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
    "id": "e3757905d484",
    "first_seen": "2026-10-24T17:07:45.140740+00:00",
    "members": [
@@ -9442,190 +9092,33 @@
    "score": 8.0
   },
   {
-   "id": "2523953d4126",
-   "first_seen": "2026-10-18T09:07:42.310366+00:00",
+   "id": "82e7433c64b2",
+   "first_seen": "2026-10-27T17:07:51.728625+00:00",
    "members": [
     {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Leader congratulates wrestling team on win in world event",
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "light",
+     "title": "Jay-Z to perform at Super Bowl half-time show",
      "language": "en",
-     "link": "https://en.mehrnews.com/news/248651/Leader-congratulates-wrestling-team-on-win-in-world-event",
-     "published": "2026-10-17T12:55:10+00:00"
+     "link": "https://www.bbc.co.uk/news/articles/cq8ezg4364epo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-10-27T05:05:15+00:00"
     },
     {
-     "outlet": "IRNA English",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Leader congratulates Iran’s U23 Greco-Roman wrestling team on world title",
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Jay-Z picks headliner for 2027 Super Bowl half-time show … Jay-Z",
      "language": "en",
-     "link": "https://en.irna.ir/news/86295168/Leader-congratulates-Iran-s-U23-Greco-Roman-wrestling-team-on",
-     "published": "2026-10-17T13:08:44+00:00"
-    },
-    {
-     "outlet": "Tehran Times",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Iranian wrestlers win five medals at 2026 U23 World Championships",
-     "language": "en",
-     "link": "https://www.tehrantimes.com/news/531183/Iranian-wrestlers-win-five-medals-at-2026-U23-World-Championships",
-     "published": "2026-10-18T07:45:48+00:00"
-    },
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Iran freestyle wrestlers win gold at World U23 C’ships in US",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248666/Iran-freestyle-wrestlers-win-gold-at-World-U23-C-ships-in-US",
-     "published": "2026-10-18T05:15:39+00:00"
-    },
-    {
-     "outlet": "Tehran Times",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Iran beach soccer thrash Oman in Belarus tournament",
-     "language": "en",
-     "link": "https://www.tehrantimes.com/news/531182/Iran-beach-soccer-thrash-Oman-in-Belarus-tournament",
-     "published": "2026-10-18T06:23:26+00:00"
-    },
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Iran’s U23 Freestyle Team wins title of C’ships in Las Vegas",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248710/Iran-s-U23-Freestyle-Team-wins-title-of-C-ships-in-Las-Vegas",
-     "published": "2026-10-19T07:32:51+00:00"
-    },
-    {
-     "outlet": "Tehran Times",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Iran freestyle win team title of U23 World Championships",
-     "language": "en",
-     "link": "https://www.tehrantimes.com/news/531222/Iran-freestyle-win-team-title-of-U23-World-Championships",
-     "published": "2026-10-19T08:15:12+00:00"
-    },
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Leader congrats Iran’s freestyle team for winning world title",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248711/Leader-congrats-Iran-s-freestyle-team-for-winning-world-title",
-     "published": "2026-10-19T08:36:44+00:00"
-    },
-    {
-     "outlet": "IRNA English",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Iran wins U23 world wrestling title in US",
-     "language": "en",
-     "link": "https://en.irna.ir/news/86296662/Iran-wins-U23-world-wrestling-title-in-US",
-     "published": "2026-10-19T05:59:16+00:00"
-    },
-    {
-     "outlet": "IRNA English",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Pezeshkian congratulates Iran’s U23 freestyle wrestling team on world title",
-     "language": "en",
-     "link": "https://en.irna.ir/news/86296946/Pezeshkian-congratulates-Iran-s-U23-freestyle-wrestling-team",
-     "published": "2026-10-19T08:32:47+00:00"
-    },
-    {
-     "outlet": "IRNA English",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Leader congratulates U23 freestyle wrestlers on world title",
-     "language": "en",
-     "link": "https://en.irna.ir/news/86297005/Leader-congratulates-U23-freestyle-wrestlers-on-world-title",
-     "published": "2026-10-19T08:35:43+00:00"
+     "link": "https://www.theguardian.com/music/2026/oct/27/jay-z-to-headline-2027-super-bowl-half-time-show",
+     "published": "2026-10-27T02:10:08+00:00"
     }
    ],
-   "last_seen": "2026-10-19T17:07:57.762301+00:00",
-   "outlets": 3,
-   "regions": 1,
+   "last_seen": "2026-10-27T17:07:51.728625+00:00",
+   "outlets": 2,
+   "regions": 2,
    "languages": 1,
-   "score": 7.0
-  },
-  {
-   "id": "6cbd172e2c15",
-   "first_seen": "2026-10-19T09:07:48.928141+00:00",
-   "members": [
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Army major martyred, 4 terrorists killed in Balochistan IBOs: ISPR",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2038237/army-major-martyred-4-terrorists-killed-in-balochistan-ibos-ispr",
-     "published": "2026-10-19T06:18:15+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Army major martyred in IED attack, four terrorists killed in Balochistan IBO: ISPR",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2635666/army-major-martyred-in-ied-attack-four-terrorists-killed-in-balochistan-ibo-ispr",
-     "published": "2026-10-19T00:08:54+00:00"
-    },
-    {
-     "outlet": "Geo News",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Army major martyred, four terrorists killed in Balochistan operations: ISPR",
-     "language": "en",
-     "link": "https://www.geo.tv/latest/687214-army-major-martyred-four-terrorists-killed-in-balochistan-operations-ispr",
-     "published": "2026-10-19T03:20:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-19T17:07:57.762301+00:00",
-   "outlets": 3,
-   "regions": 1,
-   "languages": 1,
-   "score": 7.0
-  },
-  {
-   "id": "1927e63e0091",
-   "first_seen": "2026-10-20T09:08:04.491772+00:00",
-   "members": [
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "CDF Munir to visit Tehran today",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2038436/cdf-munir-to-visit-tehran-today",
-     "published": "2026-10-20T01:57:23+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "CDF Munir to visit Tehran for talks on US-Iran mediation: Iranian media",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2635854/irans-revolutionary-guard-cites-7-internet-cables-under-strait-of-hormuz-warns-of-new-targets",
-     "published": "2026-10-20T00:20:05+00:00"
-    },
-    {
-     "outlet": "Geo News",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "CDF Munir set to visit Tehran today amid stalled US-Iran talks: report",
-     "language": "en",
-     "link": "https://www.geo.tv/latest/687404-cdf-munir-set-to-visit-tehran-today-amid-stalled-us-iran-talks-report",
-     "published": "2026-10-20T05:31:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-20T09:08:04.491772+00:00",
-   "outlets": 3,
-   "regions": 1,
-   "languages": 1,
-   "score": 7.0
+   "score": 8.0
   },
   {
    "id": "d0d6d7d65799",
@@ -9973,6 +9466,44 @@
     }
    ],
    "last_seen": "2026-10-26T17:07:50.109315+00:00",
+   "outlets": 3,
+   "regions": 1,
+   "languages": 1,
+   "score": 7.0
+  },
+  {
+   "id": "4d6ed990f918",
+   "first_seen": "2026-10-27T17:07:51.728625+00:00",
+   "members": [
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Without Iran’s participation Persian Gulf security impossible",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/248948/Without-Iran-s-participation-Persian-Gulf-security-impossible",
+     "published": "2026-10-27T05:07:11+00:00"
+    },
+    {
+     "outlet": "Tehran Times",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Oman: No lasting Persian Gulf security without Iran’s participation",
+     "language": "en",
+     "link": "https://www.tehrantimes.com/news/531577/Oman-No-lasting-Persian-Gulf-security-without-Iran-s-participation",
+     "published": "2026-10-27T16:32:06+00:00"
+    },
+    {
+     "outlet": "IRNA English",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Oman says Persian Gulf security framework cannot exclude Iran",
+     "language": "en",
+     "link": "https://en.irna.ir/news/86304438/Oman-says-Persian-Gulf-security-framework-cannot-exclude-Iran",
+     "published": "2026-10-27T05:23:44+00:00"
+    }
+   ],
+   "last_seen": "2026-10-27T17:07:51.728625+00:00",
    "outlets": 3,
    "regions": 1,
    "languages": 1,

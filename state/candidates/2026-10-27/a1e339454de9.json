@@ -1,0 +1,77 @@
+{
+  "id": "a1e339454de9",
+  "created_at": "2026-10-27T17:08:07.748606+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.21,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "تجاوز إصابات إيبولا في أفريقيا عشرة آلاف، معظمها في الكونغو",
+  "bucket": "light",
+  "state_media": false,
+  "title": "Africa's Ebola outbreak tops 10,000 cases, mainly in DR Congo",
+  "link": "https://www.france24.com/en/africa/20261027-africa-ebola-outbreak-tops-10-000-cases-mainly-dr-congo",
+  "publishers": [
+    "Al Jazeera English",
+    "Court House News",
+    "France24",
+    "Vanguard Nigeria"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Africa's Ebola outbreak tops 10,000 cases, mainly in DR Congo",
+    "link": "https://www.france24.com/en/africa/20261027-africa-ebola-outbreak-tops-10-000-cases-mainly-dr-congo",
+    "summary": "Africa's outbreak of the Ebola virus has passed more than 10,000 cases, health authorities said Tuesday, with the vast majority located in Democratic Republic of Congo. There are currently no approved vaccines for the rare Bundibugyo species of Ebola driving the current infections.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-10-27T15:45:18+00:00",
+    "image_url": "https://s.france24.com/media/display/8f829b28-d219-11f1-aa6f-bba4eee3dc72/w:1024/p:16x9/AP26269826068205.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Court House News",
+      "France24",
+      "Vanguard Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/10/27/ebola-cases-in-dr-congo-surpass-10000-in-fastest-growing-outbreak?traffic_source=rss"
+      },
+      {
+        "name": "Court House News",
+        "link": "https://www.courthousenews.com/africa-ebola-outbreak-passes-10000-cases-mostly-in-dr-congo/"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/africa/20261027-africa-ebola-outbreak-tops-10-000-cases-mainly-dr-congo"
+      },
+      {
+        "name": "Vanguard Nigeria",
+        "link": "https://www.vanguardngr.com/2026/10/africa-ebola-outbreak-passes-10000-cases-mostly-in-dr-congo/"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/8f829b28-d219-11f1-aa6f-bba4eee3dc72/w:1024/p:16x9/AP26269826068205.jpg",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/07/Ebola-2-1024x683.jpg"
+    ],
+    "bucket": "light",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 2016.9145319891666,
+    "is_stale": false,
+    "score": 25.208264507981482,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "تجاوز إصابات إيبولا في أفريقيا عشرة آلاف، معظمها في الكونغو",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

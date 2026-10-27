@@ -1,0 +1,91 @@
+{
+  "id": "1a3e389cdcbe",
+  "created_at": "2026-10-27T17:08:07.748018+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.25,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 1,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "إقبال تاريخي على انتخابات إسرائيل ونتيجة متوقعة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Israel elections: voter turnout reaches 55% by 4pm local time",
+  "link": "https://www.france24.com/en/israel-elections-voter-turnout-reaches-55-by-4pm-local-time",
+  "publishers": [
+    "El País",
+    "France24",
+    "Hindustan Times — World",
+    "The Guardian",
+    "The Guardian — World"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Israel elections: voter turnout reaches 55% by 4pm local time",
+    "link": "https://www.france24.com/en/israel-elections-voter-turnout-reaches-55-by-4pm-local-time",
+    "summary": "Israelis flocked to the polls Tuesday (October 27) in turnout unseen in decades, with a deeply divided electorate delivering a verdict on veteran right-wing Prime Minister Benjamin Netanyahu in the first election since the October 7, 2023 attack. FRANCE24's Kethevane Gorjestani tells us more.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-10-27T16:52:33+00:00",
+    "image_url": "https://s.france24.com/media/display/f6478d3e-d226-11f1-8753-efcc5769f1db/w:1024/p:16x9/capture-7dc5f0be.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "El País",
+      "France24",
+      "Hindustan Times — World",
+      "The Guardian",
+      "The Guardian — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/israel-elections-voter-turnout-reaches-55-by-4pm-local-time"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/israel-elections-2026-live-updates-benjamin-netanyahu-likud-knesset-eisenkot-bennett-hamas-attack-israel-exit-polls-101793079869619.html"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/internacional/2026-10-27/elecciones-en-israel-votaciones-escrutinio-y-resultados-en-directo.html"
+      },
+      {
+        "name": "The Guardian — World",
+        "link": "https://www.theguardian.com/world/2026/oct/26/netanyahu-reportedly-pressured-israel-military-attack-iran-runup-to-election"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/benjamin-netanyahu-pushed-for-action-against-iran-before-israel-election-but-faced-military-resistance-report-101793058957717.html"
+      },
+      {
+        "name": "El País",
+        "link": "https://elpais.com/cultura/2026-10-27/enrique-vila-matas-premio-nacional-de-las-letras-espanolas-2026.html"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/f6478d3e-d226-11f1-8753-efcc5769f1db/w:1024/p:16x9/capture-7dc5f0be.jpg",
+      "https://imagenes.elpais.com/resizer/v2/BDBHSOQXJFHBPLZG364R6N3MKI.jpg?auth=be037d1866981395d229fc67d4b0484076391ac8ebb8c858c8aea20a7f03f2ba",
+      "https://i.guim.co.uk/img/media/f096c8d4947f607c4643153917ab8903ff877046/0_0_5417_4334/master/5417.jpg?width=700&quality=85&auto=format&fit=max&s=b2dbc51e663a0d02eaeefd9e1297facd",
+      "https://i.guim.co.uk/img/media/f096c8d4947f607c4643153917ab8903ff877046/0_0_5417_4334/master/5417.jpg?width=460&quality=85&auto=format&fit=max&s=e0773bad871ffc13abd5ee8506717971",
+      "https://i.guim.co.uk/img/media/f096c8d4947f607c4643153917ab8903ff877046/0_0_5417_4334/master/5417.jpg?width=140&quality=85&auto=format&fit=max&s=4a8d73f244abf0edd2c99dd2943f3cc7",
+      "https://www.hindustantimes.com/ht-img/img/2026/10/27/1600x900/Israel-Elections-8_1793061130118_Y5bu_1793061146838_HaOY_2e7f7654-ecab-48d1-a1c9-d45d4d55dc8f_DGJu.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 5,
+    "velocity": 0.0,
+    "age_hours": 2016.914325435,
+    "is_stale": true,
+    "score": 26.248771023050978,
+    "impact": 1,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "إقبال تاريخي على انتخابات إسرائيل ونتيجة متوقعة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
