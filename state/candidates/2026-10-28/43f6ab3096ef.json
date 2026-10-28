@@ -1,0 +1,72 @@
+{
+  "id": "43f6ab3096ef",
+  "created_at": "2026-10-28T17:08:03.347488+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.54,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 3,
+  "appeal_note": "ترامب يعلن قمة ثلاثية وشيكة مع بوتين وزيلينسكي.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Trump says he hopes to meet with Putin and Zelensky ‘very soon’",
+  "link": "https://meduza.io/en/news/2026/10/28/trump-says-he-hopes-to-meet-with-putin-and-zelensky-very-soon",
+  "publishers": [
+    "Malay Mail",
+    "Meduza English",
+    "NDTV — World"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "Trump says he hopes to meet with Putin and Zelensky ‘very soon’",
+    "link": "https://meduza.io/en/news/2026/10/28/trump-says-he-hopes-to-meet-with-putin-and-zelensky-very-soon",
+    "summary": "U.S. President Donald Trump said he expects to hold a trilateral meeting soon with Russian President Vladimir Putin and Ukrainian President Volodymyr Zelensky.",
+    "source_name": "Meduza English",
+    "region": "ru",
+    "weight": 1.0,
+    "published": "2026-10-28T09:21:54+00:00",
+    "image_url": "https://meduza.io/imgly/share/1793179314/en/news/2026/10/28/trump-says-he-hopes-to-meet-with-putin-and-zelensky-very-soon",
+    "publisher": "Meduza English",
+    "cluster_sources": [
+      "Malay Mail",
+      "Meduza English",
+      "NDTV — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/10/28/trump-says-he-hopes-to-meet-with-putin-and-zelensky-very-soon"
+      },
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/world/2026/10/28/very-soon-trump-signals-fresh-push-for-putin-zelensky-talks-as-ukraine-war-drags-on/240992"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/trump-says-putin-zelensky-meet-very-soon-ukraine-russia-war-lot-of-progress-likely-12247558#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://meduza.io/imgly/share/1793179314/en/news/2026/10/28/trump-says-he-hopes-to-meet-with-putin-and-zelensky-very-soon",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/10/28/370992.jpg",
+      "https://c.ndtvimg.com/2026-01/amr9g348_zelensky-afp_625x300_22_January_26.jpeg?im=FeatureCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 2040.9128174866667,
+    "is_stale": false,
+    "score": 24.537264416848654,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 3,
+    "appeal_note": "ترامب يعلن قمة ثلاثية وشيكة مع بوتين وزيلينسكي.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

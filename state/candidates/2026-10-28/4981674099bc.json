@@ -1,0 +1,65 @@
+{
+  "id": "4981674099bc",
+  "created_at": "2026-10-28T17:08:03.349280+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.13,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 0,
+  "intrigue": 2,
+  "appeal_note": "بروتينات الحيوان والنبات ترتبط بهرمون التستوستيرون بطريقتين مختلفتين.",
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Animal and plant proteins show different associations with testosterone levels in men",
+  "link": "https://medicalxpress.com/news/2026-10-animal-proteins-associations-testosterone-men.html",
+  "publishers": [
+    "Medical Xpress",
+    "News Medical"
+  ],
+  "region": "health",
+  "article": {
+    "title": "Animal and plant proteins show different associations with testosterone levels in men",
+    "link": "https://medicalxpress.com/news/2026-10-animal-proteins-associations-testosterone-men.html",
+    "summary": "Higher animal protein intake was associated with lower blood testosterone levels, while higher plant protein intake was associated with higher levels, according to a new study from the University of Eastern Finland. The findings were published in the International Journal of Food Sciences and Nutrition.",
+    "source_name": "Medical Xpress",
+    "region": "health",
+    "weight": 1.1,
+    "published": "2026-10-28T12:20:08+00:00",
+    "image_url": "https://scx1.b-cdn.net/csz/news/tmb/2024/man-eating-meat.jpg",
+    "publisher": "Medical Xpress",
+    "cluster_sources": [
+      "Medical Xpress",
+      "News Medical"
+    ],
+    "cluster_members": [
+      {
+        "name": "Medical Xpress",
+        "link": "https://medicalxpress.com/news/2026-10-animal-proteins-associations-testosterone-men.html"
+      },
+      {
+        "name": "News Medical",
+        "link": "https://www.news-medical.net/news/20261028/Plant-and-animal-proteins-show-opposite-effects-on-testosterone-levels.aspx"
+      }
+    ],
+    "image_candidates": [
+      "https://scx1.b-cdn.net/csz/news/tmb/2024/man-eating-meat.jpg",
+      "https://www.news-medical.net/image-handler/picture/2014/7/Testosterone-620x480.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 2040.9129490630555,
+    "is_stale": false,
+    "score": 21.130413932962966,
+    "impact": 2,
+    "proximity": 0,
+    "intrigue": 2,
+    "appeal_note": "بروتينات الحيوان والنبات ترتبط بهرمون التستوستيرون بطريقتين مختلفتين.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

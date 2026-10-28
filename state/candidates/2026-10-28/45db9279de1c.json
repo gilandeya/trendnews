@@ -1,0 +1,65 @@
+{
+  "id": "45db9279de1c",
+  "created_at": "2026-10-28T17:08:03.349033+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.09,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "مؤامرة اغتيال مزعومة تستدعي نفي إيران، بعد تعقيدات دبلوماسية مع الكويت.",
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Iran embassy in Kuwait rejects allegations",
+  "link": "https://en.mehrnews.com/news/249007/Iran-embassy-in-Kuwait-rejects-allegations",
+  "publishers": [
+    "IRNA English",
+    "Mehr News"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Iran embassy in Kuwait rejects allegations",
+    "link": "https://en.mehrnews.com/news/249007/Iran-embassy-in-Kuwait-rejects-allegations",
+    "summary": "TEHRAN, Oct. 28 (MNA) – Iran’s embassy in Kuwait has firmly denied allegations that an Iranian national was involved in a plot to assassinate public figures or threaten Kuwait’s national security, saying the individual had not been in the country.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-10-28T15:56:48+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/10/28/4/6237708.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "IRNA English",
+      "Mehr News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/249007/Iran-embassy-in-Kuwait-rejects-allegations"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86306018/Iran-embassy-in-Kuwait-rejects-allegation-linking-Iranian-national"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/10/28/4/6237708.jpg",
+      "https://img9.irna.ir/d/r2/2026/10/28/4/173203379.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 2040.9127847955554,
+    "is_stale": false,
+    "score": 23.087821356962962,
+    "impact": 0,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "مؤامرة اغتيال مزعومة تستدعي نفي إيران، بعد تعقيدات دبلوماسية مع الكويت.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

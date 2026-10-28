@@ -1,104 +1,5 @@
 [
   {
-    "score": 29.27,
-    "bucket": "serious",
-    "tokens": [
-      "border",
-      "jong",
-      "kim",
-      "korea",
-      "loudspeakers",
-      "north",
-      "ready",
-      "south",
-      "warns"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-10-22-north-koreas-kim-yo-jong-warns-south-korea-says-border-loudspeakers-to-be-ready/",
-    "title": "North Korea’s Kim Yo Jong warns South Korea, says border loudspeakers to be ready",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-10-22T17:08:07.908182+00:00"
-  },
-  {
-    "score": 25.5,
-    "bucket": "useful",
-    "tokens": [
-      "claims",
-      "gulf",
-      "hit",
-      "iran",
-      "oil",
-      "persian",
-      "prices",
-      "ships",
-      "surge"
-    ],
-    "link": "https://www.investing.com/analysis/iran-claims-seven-ships-hit-in-persian-gulf-as-oil-prices-surge-200690068",
-    "title": "Iran Claims 7 Ships Hit in Persian Gulf as Oil Prices Surge",
-    "posted_title": "",
-    "region": "money",
-    "seen_at": "2026-10-22T17:08:07.908499+00:00"
-  },
-  {
-    "score": 25.46,
-    "bucket": "serious",
-    "tokens": [
-      "bolster",
-      "cooperation",
-      "defence",
-      "indonesia",
-      "pact",
-      "pakistan",
-      "qatar",
-      "sign",
-      "turkiye"
-    ],
-    "link": "https://www.thehindu.com/news/international/pakistan-turkiye-qatar-and-indonesia-sign-pact-to-bolster-defence-cooperation/article71608728.ece",
-    "title": "Pakistan, Turkiye, Qatar and Indonesia sign pact to bolster defence cooperation",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-10-22T17:08:07.908780+00:00"
-  },
-  {
-    "score": 24.05,
-    "bucket": "useful",
-    "tokens": [
-      "cancer",
-      "does",
-      "further",
-      "lung",
-      "need",
-      "pope",
-      "surgery",
-      "treatment"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/cqrly2dg5xzzo?at_medium=RSS&at_campaign=rss",
-    "title": "Pope does not need further treatment after lung cancer surgery",
-    "posted_title": "",
-    "region": "health",
-    "seen_at": "2026-10-22T17:08:07.909049+00:00"
-  },
-  {
-    "score": 23.84,
-    "bucket": "serious",
-    "tokens": [
-      "attempts",
-      "companies",
-      "flaws",
-      "govts",
-      "hacking",
-      "millions",
-      "patch",
-      "php",
-      "rush"
-    ],
-    "link": "https://www.freemalaysiatoday.com/category/business/2026/10/22/millions-of-hacking-attempts-as-companies-governments-rush-to-patch-php-flaws",
-    "title": "Millions of hacking attempts as companies, govts rush to patch PHP flaws",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-10-22T17:08:07.909327+00:00"
-  },
-  {
     "score": 31.31,
     "bucket": "serious",
     "tokens": [
@@ -600,5 +501,96 @@
     "posted_title": "",
     "region": "eu",
     "seen_at": "2026-10-27T17:08:07.748893+00:00"
+  },
+  {
+    "score": 24.54,
+    "bucket": "serious",
+    "tokens": [
+      "hopes",
+      "meet",
+      "putin",
+      "soon",
+      "trump",
+      "very",
+      "zelensky"
+    ],
+    "link": "https://meduza.io/en/news/2026/10/28/trump-says-he-hopes-to-meet-with-putin-and-zelensky-very-soon",
+    "title": "Trump says he hopes to meet with Putin and Zelensky ‘very soon’",
+    "posted_title": "",
+    "region": "ru",
+    "seen_at": "2026-10-28T17:08:03.348425+00:00"
+  },
+  {
+    "score": 24.09,
+    "bucket": "serious",
+    "tokens": [
+      "2026",
+      "bank",
+      "commodity",
+      "global",
+      "prices",
+      "projects",
+      "rise",
+      "world"
+    ],
+    "link": "https://www.premiumtimesng.com/business/business-news/921055-world-bank-projects-23-rise-in-global-commodity-prices-in-2026.html",
+    "title": "World Bank projects 23% rise in global commodity prices in 2026",
+    "posted_title": "",
+    "region": "ng",
+    "seen_at": "2026-10-28T17:08:03.348742+00:00"
+  },
+  {
+    "score": 23.45,
+    "bucket": "serious",
+    "tokens": [
+      "abide",
+      "iran",
+      "mediation",
+      "qatar",
+      "role",
+      "talks",
+      "urges"
+    ],
+    "link": "https://en.mehrnews.com/news/248989/Iran-urges-Qatar-to-abide-by-its-mediation-role-in-talks",
+    "title": "Iran urges Qatar to abide by its mediation role in talks",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-10-28T17:08:03.349024+00:00"
+  },
+  {
+    "score": 23.09,
+    "bucket": "serious",
+    "tokens": [
+      "allegations",
+      "embassy",
+      "iran",
+      "kuwait",
+      "rejects"
+    ],
+    "link": "https://en.mehrnews.com/news/249007/Iran-embassy-in-Kuwait-rejects-allegations",
+    "title": "Iran embassy in Kuwait rejects allegations",
+    "posted_title": "",
+    "region": "ir",
+    "seen_at": "2026-10-28T17:08:03.349271+00:00"
+  },
+  {
+    "score": 21.13,
+    "bucket": "useful",
+    "tokens": [
+      "animal",
+      "associations",
+      "different",
+      "levels",
+      "men",
+      "plant",
+      "proteins",
+      "show",
+      "testosterone"
+    ],
+    "link": "https://medicalxpress.com/news/2026-10-animal-proteins-associations-testosterone-men.html",
+    "title": "Animal and plant proteins show different associations with testosterone levels in men",
+    "posted_title": "",
+    "region": "health",
+    "seen_at": "2026-10-28T17:08:03.349511+00:00"
   }
 ]

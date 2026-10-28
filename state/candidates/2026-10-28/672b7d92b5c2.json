@@ -1,0 +1,65 @@
+{
+  "id": "672b7d92b5c2",
+  "created_at": "2026-10-28T17:08:03.348752+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 23.45,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 3,
+  "intrigue": 1,
+  "appeal_note": "إيران تطالب قطر بالحفاظ على دور الوساطة في المفاوضات.",
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Iran urges Qatar to abide by its mediation role in talks",
+  "link": "https://en.mehrnews.com/news/248989/Iran-urges-Qatar-to-abide-by-its-mediation-role-in-talks",
+  "publishers": [
+    "IRNA English",
+    "Mehr News"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Iran urges Qatar to abide by its mediation role in talks",
+    "link": "https://en.mehrnews.com/news/248989/Iran-urges-Qatar-to-abide-by-its-mediation-role-in-talks",
+    "summary": "TEHRAN, Oct. 28 (MNA) – The head of the Public Relations Department of the Iranian Ministry of Foreign Affairs has called on Qatar to adhere to its mediation role in the Iran-US talks.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-10-28T06:19:35+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/10/21/4/6228516.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "IRNA English",
+      "Mehr News"
+    ],
+    "cluster_members": [
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/248989/Iran-urges-Qatar-to-abide-by-its-mediation-role-in-talks"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86305592/Iran-urges-Qatar-to-uphold-principles-of-mediation"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/10/21/4/6228516.jpg",
+      "https://img9.irna.ir/d/r2/2026/10/21/4/173186296.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 2040.9128238844444,
+    "is_stale": false,
+    "score": 23.446469502333333,
+    "impact": 1,
+    "proximity": 3,
+    "intrigue": 1,
+    "appeal_note": "إيران تطالب قطر بالحفاظ على دور الوساطة في المفاوضات.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
