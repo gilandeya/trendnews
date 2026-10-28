@@ -1,0 +1,706 @@
+{
+  "run_date": "2026-10-28",
+  "stats": {
+    "points_in": 190,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 40,
+    "issues_clustered": 29,
+    "topics_merged": 7,
+    "topics_out": 4,
+    "dropped_by_bloc_cap": 4,
+    "topics_seen_skipped": 1,
+    "topics_below_min_points": 6,
+    "topics_below_min_channels": 6,
+    "layers": {
+      "3": 2,
+      "2": 2
+    },
+    "agreement": 1,
+    "cross_source": 3,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "خطر تصعيد الحرب إلى إقليمية",
+      "رغبة نتنياهو بحرب مع إيران لتأجيل الانتخابات ومنع ترامب له",
+      "دور ترامب الحاسم في قرار الحرب مع إيران"
+    ],
+    [
+      "فوز لولا دا سيلفا في انتخابات البرازيل",
+      "طبيعة المعركة السياسية البرازيلية وتأثير لولا الإقليمي"
+    ],
+    [
+      "العلاقة بين الرئاسة والبرلمان البرازيلي بعد الانتخابات",
+      "شروط الانتخابات المبكرة في تركيا"
+    ],
+    [
+      "توقعات نتائج القائمة المشتركة ونسبة التصويت العربي",
+      "دور القائمة العربية الموحدة في الائتلاف المحتمل"
+    ],
+    [
+      "فرص تشكيل حكومة نتنياهو بعد الانتخابات",
+      "عدم حصول أي كتلة على أغلبية الكنيست"
+    ],
+    [
+      "توظيف نتنياهو للأحداث الأمنية انتخابيًا",
+      "اعتقال مسؤولي القائمة العربية الموحدة بتهمة تزوير الانتخابات"
+    ],
+    [
+      "الانتخابات الإسرائيلية كاستفتاء على نتنياهو",
+      "تأثير دعم ترامب العلني لنتنياهو على الانتخابات"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "الانتخابات الإسرائيلية كاستفتاء على نتنياهو",
+      "event": "وصف الانتخابات الإسرائيلية الأولى بعد 7 أكتوبر كاستفتاء على نتنياهو",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "ערוץ 14",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        28,
+        30,
+        31,
+        32,
+        73,
+        84,
+        91,
+        105
+      ],
+      "total_points": 8,
+      "fresh_points": 5,
+      "dropped_reason": null,
+      "id": "abd26502992b",
+      "created_at": "2026-10-28T04:02:35.187568+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1732
+    },
+    {
+      "title": "فرص تشكيل حكومة نتنياهو بعد الانتخابات",
+      "event": "تقدير فرص نتنياهو في تشكيل حكومة يمينية بعد انتخابات الكنيست",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "All Israel News",
+        "Haaretz",
+        "Iran International",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        8,
+        23,
+        33,
+        72,
+        74,
+        88,
+        106,
+        112,
+        123,
+        140,
+        149
+      ],
+      "total_points": 11,
+      "fresh_points": 11,
+      "dropped_reason": null,
+      "id": "8dac4e8e9c04",
+      "created_at": "2026-10-28T04:02:35.187568+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1732
+    },
+    {
+      "title": "خطر تصعيد الحرب إلى إقليمية",
+      "event": "احتمال اندلاع حرب أوسع بين أمريكا/إسرائيل وإيران",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        1,
+        2,
+        11,
+        19,
+        20,
+        21,
+        71,
+        78,
+        79,
+        93,
+        96
+      ],
+      "total_points": 11,
+      "fresh_points": 6,
+      "dropped_reason": null,
+      "id": "af2d77bbe829",
+      "created_at": "2026-10-28T04:02:35.187568+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1732
+    },
+    {
+      "title": "توظيف نتنياهو للأحداث الأمنية انتخابيًا",
+      "event": "استغلال نتنياهو لأحداث أمنية (عملية الخليل) لأغراض انتخابية وصرف الانتباه عن الفضائح",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "israeli"
+      ],
+      "channels": [
+        "All Israel News",
+        "Haaretz",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        24,
+        25,
+        85,
+        102,
+        103,
+        143
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null,
+      "id": "7e7b6e2c1e7a",
+      "created_at": "2026-10-28T04:02:35.187568+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1732
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "الانتخابات الإسرائيلية كاستفتاء على نتنياهو",
+      "event": "وصف الانتخابات الإسرائيلية الأولى بعد 7 أكتوبر كاستفتاء على نتنياهو",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "ערוץ 14",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        28,
+        30,
+        31,
+        32,
+        73,
+        84,
+        91,
+        105
+      ],
+      "total_points": 8,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "فرص تشكيل حكومة نتنياهو بعد الانتخابات",
+      "event": "تقدير فرص نتنياهو في تشكيل حكومة يمينية بعد انتخابات الكنيست",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "All Israel News",
+        "Haaretz",
+        "Iran International",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        8,
+        23,
+        33,
+        72,
+        74,
+        88,
+        106,
+        112,
+        123,
+        140,
+        149
+      ],
+      "total_points": 11,
+      "fresh_points": 11,
+      "dropped_reason": null
+    },
+    {
+      "title": "زيارة وفد تحالف مكة إلى طهران",
+      "event": "زيارة وفد تحالف مكة (تركيا والسعودية وباكستان) إلى طهران واجتماعهم مع إيران",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        17,
+        53,
+        54,
+        55,
+        57,
+        58,
+        59,
+        60,
+        61,
+        75,
+        76,
+        77
+      ],
+      "total_points": 12,
+      "fresh_points": 2,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "خطر تصعيد الحرب إلى إقليمية",
+      "event": "احتمال اندلاع حرب أوسع بين أمريكا/إسرائيل وإيران",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        1,
+        2,
+        11,
+        19,
+        20,
+        21,
+        71,
+        78,
+        79,
+        93,
+        96
+      ],
+      "total_points": 11,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "توظيف نتنياهو للأحداث الأمنية انتخابيًا",
+      "event": "استغلال نتنياهو لأحداث أمنية (عملية الخليل) لأغراض انتخابية وصرف الانتباه عن الفضائح",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "israeli"
+      ],
+      "channels": [
+        "All Israel News",
+        "Haaretz",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        24,
+        25,
+        85,
+        102,
+        103,
+        143
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "احتمال حكومة وحدة بين الليكود وحزب آيزنكوت",
+      "event": "استبعاد تحالف الليكود مع حزب آيزنكوت في حكومة وحدة بدون نتنياهو",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        33,
+        124
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "العلاقة بين الرئاسة والبرلمان البرازيلي بعد الانتخابات",
+      "event": "تحديات تعايش الرئيس لولا مع برلمان يسيطر عليه اليمين",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        15,
+        16,
+        66,
+        67,
+        121
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "مسؤولية نتنياهو عن 7 أكتوبر والمجتمع الإسرائيلي",
+      "event": "تحميل نتنياهو مسؤولية إخفاق السابع من أكتوبر وتطرف المجتمع الإسرائيلي",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "israeli"
+      ],
+      "channels": [
+        "All Israel News",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        6,
+        7,
+        146
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "توقعات نتائج القائمة المشتركة ونسبة التصويت العربي",
+      "event": "توقعات مقاعد القائمة المشتركة ونسبة المشاركة العربية في انتخابات الكنيست",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "israeli"
+      ],
+      "channels": [
+        "Haaretz",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        8,
+        9,
+        90,
+        95,
+        104,
+        111
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "التصعيد العسكري الإسرائيلي في الخليل بعد مقتل جنديين",
+      "event": "أمر نتنياهو بتطويق الخليل بعد مقتل جنديين إسرائيليين ورد فعل أهالي الخليل",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        115,
+        116,
+        117,
+        118,
+        119,
+        120
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "شهادات ناخبين إسرائيليين متنوعة حول دوافع التصويت",
+      "event": "شهادات ناخبين إسرائيليين مختلفين حول أسباب تصويتهم لأحزاب متعددة",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "All Israel News"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        144,
+        145,
+        147,
+        148
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "قيود التظاهر في فرنسا وأزمة احتجاجات الطلبة",
+      "event": "احتجاجات طلابية في فرنسا والرد الحكومي الأمني عليها وقيود التظاهر",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        40,
+        41,
+        42,
+        43,
+        44,
+        45
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "مسودة القرار الأمريكي بشأن الصحراء الغربية وموقف البوليساريو",
+      "event": "تهديد البوليساريو بالانسحاب من مسار السلام الأممي بشأن مسودة القرار الأمريكية على الصحراء الغربية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        46,
+        47,
+        48,
+        49,
+        50,
+        51
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "ترشح أردوغان للانتخابات القادمة",
+      "event": "نقاش حول ترشح أردوغان لانتخابات 2028 وموقف الأحزاب منه",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        63,
+        64,
+        65
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الموقف الإيراني من تسليم اليورانيوم وملف أنصار الله",
+      "event": "تصريحات السفير الإيراني حول عدم تسليم المواد المخصبة لروسيا واستقلالية أنصار الله",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        107,
+        108
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تداعيات خروج نتنياهو من السياسة على المنطقة والقضية الفلسطينية",
+      "event": "تقييم أثر احتمال خروج نتنياهو على سياسات إسرائيل تجاه الفلسطينيين والمنطقة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        112,
+        113,
+        114
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الأثر النفسي للحرب على أطفال غزة",
+      "event": "تحليل الآثار النفسية طويلة المدى للحرب على أطفال غزة والحاجة لتدخل دولي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        97,
+        98,
+        99,
+        100,
+        101
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "نزاهة إجراءات الانتخابات الإسرائيلية وآلية فرزها",
+      "event": "شرح آلية ضمان نزاهة الانتخابات الإسرائيلية وجدول إعلان النتائج والمظاريف المزدوجة",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        129,
+        130,
+        131,
+        132,
+        133,
+        134
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تقدير ثروة نتنياهو وعقاراته وراتبه",
+      "event": "تقدير برنامج إسرائيلي لثروة نتنياهو وعقاراته وراتبه كرئيس وزراء",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        135,
+        136,
+        137
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "مفاوضات أمريكية-إيرانية ومرونة إيران",
+      "event": "مفاوضات/مذكرة تفاهم أمريكية إيرانية مقابل عدم فتح مضيق هرمز",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        4
+      ],
+      "total_points": 2,
+      "fresh_points": 1,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "فوز لولا دا سيلفا في انتخابات البرازيل",
+      "event": "فوز لولا دا سيلفا برئاسة البرازيل للمرة الرابعة في الجولة الثانية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        12,
+        13,
+        14,
+        34,
+        36,
+        37,
+        39
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "bloc_cap"
+    }
+  ]
+}
