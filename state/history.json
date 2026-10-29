@@ -1,208 +1,5 @@
 [
   {
-    "score": 31.31,
-    "bucket": "serious",
-    "tokens": [
-      "broker",
-      "ceasefire",
-      "helped",
-      "house",
-      "melania",
-      "occupied",
-      "russian",
-      "town",
-      "trump",
-      "ukrainian",
-      "white"
-    ],
-    "link": "https://www.theguardian.com/world/live/2026/oct/23/starlink-ukraine-musk-trump-russia-black-sea-strikes-france-milan-europe-protests-latest-news-updates",
-    "title": "Melania Trump has helped broker ceasefire in Russian-occupied Ukrainian town, says White House",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-10-23T17:08:15.876617+00:00"
-  },
-  {
-    "score": 27.09,
-    "bucket": "serious",
-    "tokens": [
-      "arabia",
-      "completed",
-      "defence",
-      "makkah",
-      "pact",
-      "pakistan",
-      "ratification",
-      "saudi"
-    ],
-    "link": "https://www.dawn.com/news/2039288/pakistan-saudi-arabia-have-completed-ratification-of-makkah-defence-pact-fo",
-    "title": "Pakistan, Saudi Arabia have completed ratification of Makkah defence pact: FO",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-10-23T17:08:15.876861+00:00"
-  },
-  {
-    "score": 24.81,
-    "bucket": "serious",
-    "tokens": [
-      "november",
-      "peace",
-      "russia",
-      "set",
-      "talks",
-      "ukraine"
-    ],
-    "link": "http://www.africanews.com/2026/10/23/russia-ukraine-and-the-us-set-for-november-peace-talks/",
-    "title": "Russia, Ukraine and the US set for November peace talks",
-    "posted_title": "",
-    "region": "africa",
-    "seen_at": "2026-10-23T17:08:15.877084+00:00"
-  },
-  {
-    "score": 22.32,
-    "bucket": "serious",
-    "tokens": [
-      "africa",
-      "complex",
-      "ebola",
-      "faces",
-      "nigeria",
-      "outbreak",
-      "spread",
-      "warns",
-      "who"
-    ],
-    "link": "https://www.japantimes.co.jp/news/2026/10/23/world/science-health/africa-complex-ebola-outbreak/",
-    "title": "Africa faces ‘complex’ Ebola outbreak after spread to Nigeria, WHO warns",
-    "posted_title": "",
-    "region": "jp",
-    "seen_at": "2026-10-23T17:08:15.877280+00:00"
-  },
-  {
-    "score": 21.16,
-    "bucket": "serious",
-    "tokens": [
-      "2028",
-      "bofa",
-      "center",
-      "data",
-      "double",
-      "spending",
-      "trillion"
-    ],
-    "link": "https://www.channelnewsasia.com/business/data-center-spending-more-double-21-trillion-2028-bofa-says-6487191",
-    "title": "Data center spending to more than double to $2.1 trillion by 2028, BofA says",
-    "posted_title": "",
-    "region": "seasia",
-    "seen_at": "2026-10-23T17:08:15.877466+00:00"
-  },
-  {
-    "score": 29.37,
-    "bucket": "serious",
-    "tokens": [
-      "bank",
-      "netanyahu",
-      "operation",
-      "orders",
-      "west"
-    ],
-    "link": "https://www.france24.com/en/netanyahu-orders-west-bank-operation",
-    "title": "Netanyahu orders West Bank operation",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-10-24T17:08:01.039201+00:00"
-  },
-  {
-    "score": 29.06,
-    "bucket": "serious",
-    "tokens": [
-      "aid",
-      "ceasefire",
-      "house",
-      "humanitarian",
-      "localized",
-      "melania",
-      "russia",
-      "secures",
-      "trump",
-      "ukraine",
-      "white"
-    ],
-    "link": "https://en.yna.co.kr/view/AEN20261024000300315",
-    "title": "Melania Trump secures localized Russia-Ukraine ceasefire for humanitarian aid: White House",
-    "posted_title": "",
-    "region": "kr",
-    "seen_at": "2026-10-24T17:08:01.039571+00:00"
-  },
-  {
-    "score": 24.73,
-    "bucket": "serious",
-    "tokens": [
-      "cables",
-      "detailed",
-      "gulf",
-      "hit",
-      "iran",
-      "officials",
-      "plans",
-      "resumes",
-      "say",
-      "undersea",
-      "war"
-    ],
-    "link": "https://www.thehindu.com/news/international/iran-has-detailed-plans-to-hit-gulf-undersea-cables-if-war-resumes-officials-say/article71617797.ece",
-    "title": "Iran has detailed plans to hit Gulf undersea cables if war resumes, officials say",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-10-24T17:08:01.039858+00:00"
-  },
-  {
-    "score": 20.12,
-    "bucket": "serious",
-    "tokens": [
-      "afghanistan",
-      "barriers",
-      "export",
-      "govt",
-      "iraq",
-      "pakistan",
-      "remove",
-      "reviews",
-      "rules",
-      "seeks",
-      "trade"
-    ],
-    "link": "https://www.tehrantimes.com/news/531427/Govt-reviews-export-rules-seeks-to-remove-trade-barriers-with",
-    "title": "Govt. reviews export rules, seeks to remove trade barriers with Iraq, Pakistan and Afghanistan",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-10-24T17:08:01.040126+00:00"
-  },
-  {
-    "score": 20.02,
-    "bucket": "serious",
-    "tokens": [
-      "2027",
-      "ahmed",
-      "bala",
-      "campaign",
-      "election",
-      "flag",
-      "kaduna",
-      "off",
-      "presidential",
-      "rallies",
-      "relax",
-      "storms",
-      "support",
-      "tinubu"
-    ],
-    "link": "https://www.premiumtimesng.com/promoted/919873-tinubu-2027-relax-dg-ahmed-bala-storms-kaduna-for-presidential-campaign-flag-off-rallies-support-for-tinubus-re-election.html",
-    "title": "Tinubu 2027: RELAX DG Ahmed Bala storms Kaduna for presidential campaign flag-off, rallies support for Tinubu’s re-election",
-    "posted_title": "",
-    "region": "ng",
-    "seen_at": "2026-10-24T17:08:01.040400+00:00"
-  },
-  {
     "score": 31.88,
     "bucket": "serious",
     "tokens": [
@@ -592,5 +389,101 @@
     "posted_title": "",
     "region": "health",
     "seen_at": "2026-10-28T17:08:03.349511+00:00"
+  },
+  {
+    "score": 29.05,
+    "bucket": "useful",
+    "tokens": [
+      "fall",
+      "iran",
+      "moves",
+      "oil",
+      "peace",
+      "prices",
+      "restart",
+      "talks",
+      "vance"
+    ],
+    "link": "https://www.investing.com/analysis/oil-prices-fall-as-vance-moves-to-restart-iran-peace-talks-200690507",
+    "title": "Oil Prices Fall as Vance Moves to Restart Iran Peace Talks",
+    "posted_title": "",
+    "region": "money",
+    "seen_at": "2026-10-29T17:08:19.486117+00:00"
+  },
+  {
+    "score": 28.14,
+    "bucket": "serious",
+    "tokens": [
+      "claims",
+      "hit",
+      "hormuz",
+      "iran",
+      "mines",
+      "strait",
+      "tankers"
+    ],
+    "link": "https://www.cbsnews.com/live-updates/iran-war-donald-trump-qatar-mediators-new-proposal-end-war/",
+    "title": "Iran claims 4 tankers hit mines in Strait of Hormuz",
+    "posted_title": "",
+    "region": "us",
+    "seen_at": "2026-10-29T17:08:19.486346+00:00"
+  },
+  {
+    "score": 25.82,
+    "bucket": "serious",
+    "tokens": [
+      "allies",
+      "brace",
+      "iran",
+      "midterms",
+      "return",
+      "tells",
+      "trump",
+      "war"
+    ],
+    "link": "https://www.dailysabah.com/world/mid-east/trump-tells-allies-to-brace-for-return-to-iran-war-after-midterms",
+    "title": "Trump tells allies to brace for return to Iran war after midterms",
+    "posted_title": "",
+    "region": "tr",
+    "seen_at": "2026-10-29T17:08:19.486547+00:00"
+  },
+  {
+    "score": 25.64,
+    "bucket": "serious",
+    "tokens": [
+      "arab",
+      "government",
+      "israel",
+      "netanyahu",
+      "parties",
+      "piles",
+      "pressure",
+      "seeks"
+    ],
+    "link": "https://www.dawn.com/news/2040722/israel-piles-pressure-on-arab-parties-as-netanyahu-seeks-government",
+    "title": "Israel piles pressure on Arab parties as Netanyahu seeks government",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-10-29T17:08:19.486780+00:00"
+  },
+  {
+    "score": 24.81,
+    "bucket": "serious",
+    "tokens": [
+      "afghanistan",
+      "ban",
+      "cultivation",
+      "despite",
+      "govt",
+      "opium",
+      "poppy",
+      "surges",
+      "taliban"
+    ],
+    "link": "https://www.dawn.com/news/2040685/afghanistan-opium-poppy-cultivation-surges-despite-taliban-govt-ban-un",
+    "title": "Afghanistan opium poppy cultivation surges despite Taliban govt ban: UN",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-10-29T17:08:19.486981+00:00"
   }
 ]

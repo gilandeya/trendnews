@@ -1,0 +1,68 @@
+{
+  "id": "161c6c2cc5fc",
+  "created_at": "2026-10-29T17:08:19.486788+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.81,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "تضاعف زراعة الخشخاش في أفغانستان رغم حظر طالبان.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Afghanistan opium poppy cultivation surges despite Taliban govt ban: UN",
+  "link": "https://www.dawn.com/news/2040685/afghanistan-opium-poppy-cultivation-surges-despite-taliban-govt-ban-un",
+  "publishers": [
+    "Dawn",
+    "The Hindu — International"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Afghanistan opium poppy cultivation surges despite Taliban govt ban: UN",
+    "link": "https://www.dawn.com/news/2040685/afghanistan-opium-poppy-cultivation-surges-despite-taliban-govt-ban-un",
+    "summary": "Opium poppy cultivation in Afghanistan more than quadrupled in 2026 despite a Taliban government ban, the United Nations said on Thursday, urging that impoverished farmers needed alternatives to the lucrative crop. Cultivated areas reached 43,000 hectares (around 106,200 acres), up from 10,000 hectares in 2025, while estimated opium production jumped fivefold from 300 tonnes to 1,500 tonnes, the United Nations Office on Drugs and Crime (UNODC) said in a report. Long the world’s leading producer of poppies, Afghanistan was overtaken by Myanmar after a 2022 Taliban government ban crushed the trade in the country. But rampant poverty has driven some farmers to return to the trade. “Without opium, we cannot even afford basic food,” Mohammad, a 22-year-old farmer in Afghanistan’s northeast, told AFP. This photograph taken on June 22, 2026 shows Afghan farmers harvesting sap from poppies in a field in Badakhshan province. — AFP Afghanistan’s 2022 crackdown drove cultivated areas down from more than 200,000 hectares to 10,000 hectares in 2025. Myanmar cultivated 53,000 hectares in 2025, with no 2026 figures available. The Taliban authorities claim to have destroyed more than 22,000 hectar",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-10-29T07:35:47+00:00",
+    "image_url": "https://i.dawn.com/large/2026/10/2912302469d4519.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2040685/afghanistan-opium-poppy-cultivation-surges-despite-taliban-govt-ban-un"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/afghanistan-opium-poppy-cultivation-surges-despite-taliban-government-ban-un/article71639446.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/10/2912302469d4519.webp",
+      "https://i.dawn.com/thumbnail/2026/10/2912302469d4519.webp",
+      "https://i.dawn.com/large/2026/10/29123121dbf837c.webp",
+      "https://i.dawn.com/large/2026/10/29123222a129452.webp",
+      "https://th-i.thgim.com/public/news/national/2ksqx6/article71639481.ece/alternates/LANDSCAPE_1200/AFP__20261029__D3XL8TB__v2__HighRes__TopshotAfghanistanDrugsAgriculture.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 2064.9177845377776,
+    "is_stale": false,
+    "score": 24.81413393638889,
+    "impact": 1,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "تضاعف زراعة الخشخاش في أفغانستان رغم حظر طالبان.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

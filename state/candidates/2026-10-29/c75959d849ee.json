@@ -1,0 +1,79 @@
+{
+  "id": "c75959d849ee",
+  "created_at": "2026-10-29T17:08:19.486554+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.64,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "ضغوط على الأحزاب العربية في إسرائيل بشأن التمويل الخارجي.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Israel piles pressure on Arab parties as Netanyahu seeks government",
+  "link": "https://www.dawn.com/news/2040722/israel-piles-pressure-on-arab-parties-as-netanyahu-seeks-government",
+  "publishers": [
+    "Dawn",
+    "The Express Tribune",
+    "The Hindu — International"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Israel piles pressure on Arab parties as Netanyahu seeks government",
+    "link": "https://www.dawn.com/news/2040722/israel-piles-pressure-on-arab-parties-as-netanyahu-seeks-government",
+    "summary": "Prime Minister Benjamin Netanyahu’s bloc on Thursday piled pressure on Israeli Arab leaders over unproven accusations of foreign funding, in a push to neuter parties that could hold the key to forming a government after an inconclusive election. Israeli President Isaac Herzog called for an investigation into allegations of fraud but cautioned against stigmatising the entire Arab Israeli community, who voted at unprecedented rates. Israel was nearing the completion of ballot-counting from Tuesday’s election , in which neither Netanyahu nor the opposition bloc led by former military chief Gadi Eisenkot looked able to secure a majority in the parliament known as the Knesset. The Netanyahu camp’s accusations, which a key Arab party has rejected, could bring uncertainty to the electoral process at a time when the threat of a return to war with Iran looms over the region. Israel’s election saw soaring participation by Israeli Arabs , descendants of Palestinians who stayed after the country’s creation in 1948, as outrage boiled at calls by officials such as National Security Minister Itamar Ben Gvir to treat their community much as Israel has dealt with Palestinians in Gaza and the occupi",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-10-29T13:39:37+00:00",
+    "image_url": "https://i.dawn.com/large/2026/02/200748243462154.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "The Express Tribune",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2040722/israel-piles-pressure-on-arab-parties-as-netanyahu-seeks-government"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/israel-polls-golan-urges-eisenkots-bloc-to-form-government-with-arab-parties-to-oust-netanyahu/article71635413.ece"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2637546/netanyahu-set-to-remain-caretaker-after-inconclusive-israeli-election"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/israel-piles-pressure-on-arab-parties-as-netanyahu-seeks-government/article71641215.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/02/200748243462154.webp",
+      "https://i.dawn.com/large/2026/10/29174017dbd6149.webp",
+      "https://i.dawn.com/thumbnail/2026/02/200748243462154.webp",
+      "https://i.dawn.com/thumbnail/2026/10/29174017dbd6149.webp",
+      "https://th-i.thgim.com/public/incoming/ejx400/article71635462.ece/alternates/LANDSCAPE_1200/2026-10-28T000841Z_1992612297_RC2ZBOAKSMS7_RTRMADP_3_ISRAEL-ELECTION.JPG",
+      "https://th-i.thgim.com/public/incoming/x75s8l/article71641337.ece/alternates/LANDSCAPE_1200/Israel_Elections_476_7.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 2064.9177299191665,
+    "is_stale": false,
+    "score": 25.63994736588569,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "ضغوط على الأحزاب العربية في إسرائيل بشأن التمويل الخارجي.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

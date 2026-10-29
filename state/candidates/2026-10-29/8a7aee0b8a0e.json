@@ -1,0 +1,91 @@
+{
+  "id": "8a7aee0b8a0e",
+  "created_at": "2026-10-29T17:08:19.485706+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 29.05,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 3,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "انخفاض أسعار النفط مرتبط بعودة محادثات السلام مع إيران.",
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Oil Prices Fall as Vance Moves to Restart Iran Peace Talks",
+  "link": "https://www.investing.com/analysis/oil-prices-fall-as-vance-moves-to-restart-iran-peace-talks-200690507",
+  "publishers": [
+    "Daily Sabah",
+    "Hindustan Times — World",
+    "IRNA English",
+    "Investing.com — Commodities",
+    "Mehr News",
+    "NDTV — World"
+  ],
+  "region": "money",
+  "article": {
+    "title": "Oil Prices Fall as Vance Moves to Restart Iran Peace Talks",
+    "link": "https://www.investing.com/analysis/oil-prices-fall-as-vance-moves-to-restart-iran-peace-talks-200690507",
+    "summary": "",
+    "source_name": "Investing.com — Commodities",
+    "region": "money",
+    "weight": 1.0,
+    "published": "2026-10-29T17:07:38.496335+00:00",
+    "image_url": "https://c.ndtvimg.com/2026-09/ti357r1g_iran-us-flags-reuters_625x300_24_September_26.jpeg",
+    "publisher": "Investing.com — Commodities",
+    "cluster_sources": [
+      "Daily Sabah",
+      "Hindustan Times — World",
+      "IRNA English",
+      "Investing.com — Commodities",
+      "Mehr News",
+      "NDTV — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Investing.com — Commodities",
+        "link": "https://www.investing.com/analysis/oil-prices-fall-as-vance-moves-to-restart-iran-peace-talks-200690507"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/oil-prices-fall-as-renewed-us-iran-peace-talks-ease-supply-concerns-amid-middle-east-tensions-101793271729424.html"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/iran-gets-jd-vances-letter-to-revive-peace-talks-yet-to-respond-report-12255371#publisher=newsstand"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/iran-leaves-jd-vances-message-unanswered-security-source-says"
+      },
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/249011/Iran-to-maintain-close-contact-with-mediators-for-diplomacy"
+      },
+      {
+        "name": "IRNA English",
+        "link": "https://en.irna.ir/news/86306427/Araghchi-Iran-continues-to-maintain-close-and-ongoing-contact"
+      }
+    ],
+    "image_candidates": [
+      "https://c.ndtvimg.com/2026-09/ti357r1g_iran-us-flags-reuters_625x300_24_September_26.jpeg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/10/29/468153.JPG",
+      "https://media.mehrnews.com/d/2026/10/25/4/6233325.jpg",
+      "https://img9.irna.ir/d/r2/2026/10/28/4/173204465.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 6,
+    "velocity": 0.0,
+    "age_hours": 2064.9176497325,
+    "is_stale": true,
+    "score": 29.05441952468199,
+    "impact": 3,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "انخفاض أسعار النفط مرتبط بعودة محادثات السلام مع إيران.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
