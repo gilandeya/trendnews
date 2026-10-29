@@ -1,0 +1,676 @@
+{
+  "run_date": "2026-10-29",
+  "stats": {
+    "points_in": 251,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 101,
+    "issues_clustered": 22,
+    "topics_merged": 4,
+    "topics_out": 4,
+    "dropped_by_bloc_cap": 2,
+    "topics_seen_skipped": 0,
+    "topics_below_min_points": 5,
+    "topics_below_min_channels": 7,
+    "layers": {
+      "4": 2,
+      "3": 1,
+      "2": 1
+    },
+    "agreement": 0,
+    "cross_source": 4,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "فرص تشكيل الحكومة بعد الانتخابات",
+      "توقعات بشأن خسارة أو فوز نتنياهو بسبب التصويت العربي"
+    ],
+    [
+      "خطر الحرب على إيران بعد الانتخابات الأمريكية النصفية",
+      "دور ترامب الحاسم في مصير نتنياهو سياسيًا وعسكريًا"
+    ],
+    [
+      "تحالفات المعارضة التركية ومرشح الرئاسة",
+      "قيادة الحزب الجديد (إمام أوغلو وأوزيل)"
+    ],
+    [
+      "فضيحة الصندوق الاستثماري التركي",
+      "تراجع مؤشر ثقة المستهلك ومعاشات المتقاعدين في تركيا"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "نتائج الانتخابات الإسرائيلية الأولية",
+      "event": "إعلان النتائج الأولية للانتخابات الإسرائيلية بعد فرز نسبة من الأصوات (معسكر نتنياهو مقابل المعارضة والأحزاب العربية)",
+      "layer": 4,
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Haaretz",
+        "Habertürk",
+        "Iran International",
+        "ערוץ 14",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        50,
+        56,
+        57,
+        58,
+        68,
+        92,
+        114,
+        122,
+        132,
+        135,
+        136,
+        145
+      ],
+      "total_points": 12,
+      "fresh_points": 12,
+      "dropped_reason": null,
+      "id": "78a1ee39210f",
+      "created_at": "2026-10-29T04:02:23.993727+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1734
+    },
+    {
+      "title": "خطر الحرب على إيران بعد الانتخابات الأمريكية النصفية",
+      "event": "توقعات بشن الولايات المتحدة وإسرائيل هجومًا على إيران بعد الانتخابات النصفية الأمريكية",
+      "layer": 4,
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "ILTV",
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        2,
+        5,
+        47,
+        94,
+        95,
+        115,
+        116,
+        118,
+        120,
+        124,
+        143,
+        144
+      ],
+      "total_points": 12,
+      "fresh_points": 12,
+      "dropped_reason": null,
+      "id": "f2f103b7bee3",
+      "created_at": "2026-10-29T04:02:23.993727+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1734
+    },
+    {
+      "title": "فرص تشكيل الحكومة بعد الانتخابات",
+      "event": "تقديرات حول قدرة نتنياهو أو إيزنكوت على تشكيل الحكومة المقبلة بعد الانتخابات",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "israeli",
+        "turkish"
+      ],
+      "channels": [
+        "Haaretz",
+        "Habertürk",
+        "ILTV",
+        "SÖZCÜ",
+        "ערוץ 14",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        3,
+        15,
+        21,
+        44,
+        45,
+        54,
+        55,
+        60,
+        64,
+        65,
+        66,
+        70,
+        94,
+        100,
+        101,
+        113,
+        127,
+        128,
+        133,
+        142,
+        147,
+        148
+      ],
+      "total_points": 22,
+      "fresh_points": 22,
+      "dropped_reason": null,
+      "id": "5b076c2b6e8e",
+      "created_at": "2026-10-29T04:02:23.993727+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1734
+    },
+    {
+      "title": "دور الصوت العربي في الانتخابات والحكومة المقبلة",
+      "event": "تحليل تأثير ارتفاع نسبة التصويت العربي وعدد مقاعد الأحزاب العربية على تشكيل الحكومة",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "israeli"
+      ],
+      "channels": [
+        "Haaretz",
+        "ILTV",
+        "ערוץ 14",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        4,
+        13,
+        20,
+        46,
+        51,
+        59,
+        63,
+        130,
+        139,
+        146
+      ],
+      "total_points": 10,
+      "fresh_points": 10,
+      "dropped_reason": null,
+      "id": "c3a119bfe6fa",
+      "created_at": "2026-10-29T04:02:23.993727+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1734
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "نتائج الانتخابات الإسرائيلية الأولية",
+      "event": "إعلان النتائج الأولية للانتخابات الإسرائيلية بعد فرز نسبة من الأصوات (معسكر نتنياهو مقابل المعارضة والأحزاب العربية)",
+      "layer": 4,
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Haaretz",
+        "Habertürk",
+        "Iran International",
+        "ערוץ 14",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        50,
+        56,
+        57,
+        58,
+        68,
+        92,
+        114,
+        122,
+        132,
+        135,
+        136,
+        145
+      ],
+      "total_points": 12,
+      "fresh_points": 12,
+      "dropped_reason": null
+    },
+    {
+      "title": "خطر الحرب على إيران بعد الانتخابات الأمريكية النصفية",
+      "event": "توقعات بشن الولايات المتحدة وإسرائيل هجومًا على إيران بعد الانتخابات النصفية الأمريكية",
+      "layer": 4,
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "ILTV",
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        2,
+        5,
+        47,
+        94,
+        95,
+        115,
+        116,
+        118,
+        120,
+        124,
+        143,
+        144
+      ],
+      "total_points": 12,
+      "fresh_points": 12,
+      "dropped_reason": null
+    },
+    {
+      "title": "فرص تشكيل الحكومة بعد الانتخابات",
+      "event": "تقديرات حول قدرة نتنياهو أو إيزنكوت على تشكيل الحكومة المقبلة بعد الانتخابات",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "israeli",
+        "turkish"
+      ],
+      "channels": [
+        "Haaretz",
+        "Habertürk",
+        "ILTV",
+        "SÖZCÜ",
+        "ערוץ 14",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        3,
+        15,
+        21,
+        44,
+        45,
+        54,
+        55,
+        60,
+        64,
+        65,
+        66,
+        70,
+        94,
+        100,
+        101,
+        113,
+        127,
+        128,
+        133,
+        142,
+        147,
+        148
+      ],
+      "total_points": 22,
+      "fresh_points": 22,
+      "dropped_reason": null
+    },
+    {
+      "title": "دور الصوت العربي في الانتخابات والحكومة المقبلة",
+      "event": "تحليل تأثير ارتفاع نسبة التصويت العربي وعدد مقاعد الأحزاب العربية على تشكيل الحكومة",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "israeli"
+      ],
+      "channels": [
+        "Haaretz",
+        "ILTV",
+        "ערוץ 14",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        4,
+        13,
+        20,
+        46,
+        51,
+        59,
+        63,
+        130,
+        139,
+        146
+      ],
+      "total_points": 10,
+      "fresh_points": 10,
+      "dropped_reason": null
+    },
+    {
+      "title": "موقف إيران التفاوضي ووساطة قطر",
+      "event": "تقييم مواقف إيران التفاوضية وجهود الوساطة القطرية لتقديم مسودة اتفاق جديد",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        1,
+        48,
+        49,
+        117
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "اتهام نتنياهو للقائمة العربية الموحدة بالتزوير",
+      "event": "إعلان نتنياهو اعتقال مسؤولين بالقائمة العربية الموحدة بتهمة محاولة سرقة الانتخابات",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        11,
+        131
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "دعم ترامب لنتنياهو في الانتخابات",
+      "event": "تصريح ترامب بأن دعمه ساعد نتنياهو في الانتخابات الإسرائيلية",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        53,
+        72,
+        94
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "احتمال الانتخابات المبكرة في تركيا",
+      "event": "نقاش حول نصاب البرلمان التركي اللازم لإجراء انتخابات مبكرة وموعدها المحتمل",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        30,
+        81,
+        86
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تحالفات المعارضة التركية ومرشح الرئاسة",
+      "event": "نقاش حول تحالفات المعارضة التركية ومرشحي الرئاسة المحتملين بما فيهم ياواش وكليجدار أوغلو",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        31,
+        80,
+        82,
+        83,
+        84,
+        85,
+        87,
+        88,
+        89,
+        90
+      ],
+      "total_points": 10,
+      "fresh_points": 10,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "أزمة الاحتجاجات التعليمية في فرنسا",
+      "event": "احتجاجات طلابية ونقابية في فرنسا بسبب نقص المدرسين وأزمة الميزانية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "أهمية سيناء الأمنية والاقتصادية لمصر",
+      "event": "تحليل الدور الأمني والتنموي لسيناء ورفض مشاريع التهجير وقناة بن غوريون",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        39,
+        40,
+        41,
+        42,
+        43
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الكلاسيكو الإسباني بين ريال مدريد وبرشلونة",
+      "event": "مباراة الكلاسيكو بين ريال مدريد وبرشلونة وتحليل نتيجتها",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        74,
+        75,
+        76,
+        77,
+        78
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "فضيحة الصندوق الاستثماري التركي",
+      "event": "اتهامات أوزغور أوزيل للحكومة التركية بشأن خسائر الصندوق الاستثماري وتغطية الفضيحة",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        103,
+        104,
+        105,
+        106,
+        107
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الجريمة المنظمة وعصابات الجيل الجديد في تركيا",
+      "event": "نقاش حول انتشار الجريمة المنظمة في تركيا وتواجد قياداتها بالخارج",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        97,
+        98,
+        108,
+        109
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "رفض حزب المعارضة التركي اتفاقية مكة الدفاعية",
+      "event": "رفض حزب أوزيل اتفاقية مكة الدفاعية وإرسال جنود أتراك لليمن",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        110,
+        111
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تصريحات السفير الإيراني حول الملف النووي وأنصار الله",
+      "event": "تصريحات السفير الإيراني مجتبى فردوسي حول عدم تسليم المواد المخصبة واستقلالية أنصار الله",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        16,
+        17
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الأثر النفسي للحرب على أطفال غزة",
+      "event": "تحليل الأثر النفسي طويل المدى للحرب على أطفال غزة والحاجة للتدخل الدولي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "خطاب نتنياهو الانتخابي ضد العرب واليسار",
+      "event": "خطاب نتنياهو خلال الحملة الانتخابية الإسرائيلية بشأن بقاء الدولة وحماية الدولة اليهودية واستبعاد الأحزاب العربية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        0,
+        18,
+        62
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    }
+  ]
+}
