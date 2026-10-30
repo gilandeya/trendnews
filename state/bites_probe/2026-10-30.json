@@ -1,0 +1,397 @@
+{
+ "at": "2026-10-30T20:15:11.722248+00:00",
+ "summary": {
+  "videos": 10,
+  "fetched": 10,
+  "points_total": 58,
+  "bites_total": 0,
+  "rejected_total": 0,
+  "videos_with_2_opinion_speakers": 0,
+  "point_seconds_median": 4.8,
+  "bite_seconds_median": null,
+  "input_tokens": 346754,
+  "output_tokens": 41147
+ },
+ "videos": [
+  {
+   "video_id": "BvarUBm24Vo",
+   "channel": "Habertürk",
+   "language": "tr",
+   "duration": 5788,
+   "current": {
+    "points": 6,
+    "with_timestamp": 5,
+    "opinion_or_forecast": 5,
+    "quote_words_median": 6.0,
+    "quote_seconds_median": 2.6
+   },
+   "track_language": "tr",
+   "bites": {
+    "bites": 0,
+    "rejected": 0,
+    "rejected_reasons": [],
+    "seconds_median": null,
+    "types": {
+     "opinion": 0,
+     "forecast": 0,
+     "fact": 0,
+     "report": 0
+    },
+    "named": 0,
+    "host": 0,
+    "distinct_named_speakers": 0,
+    "opinion_speakers": 0,
+    "error": "لم يُرجع النموذج قائمة المقاطع بالأداة",
+    "stop_reason": "tool_use",
+    "usage": {
+     "input": 37868,
+     "output": 4771
+    },
+    "lines": 2528,
+    "truncated": true
+   }
+  },
+  {
+   "video_id": "46OrXl_lKZQ",
+   "channel": "الجزيرة",
+   "language": "ar",
+   "duration": 3588,
+   "current": {
+    "points": 6,
+    "with_timestamp": 6,
+    "opinion_or_forecast": 6,
+    "quote_words_median": 14.5,
+    "quote_seconds_median": 6.3
+   },
+   "track_language": "ar",
+   "bites": {
+    "bites": 0,
+    "rejected": 0,
+    "rejected_reasons": [],
+    "seconds_median": null,
+    "types": {
+     "opinion": 0,
+     "forecast": 0,
+     "fact": 0,
+     "report": 0
+    },
+    "named": 0,
+    "host": 0,
+    "distinct_named_speakers": 0,
+    "opinion_speakers": 0,
+    "error": "لم يُرجع النموذج قائمة المقاطع بالأداة",
+    "stop_reason": "tool_use",
+    "usage": {
+     "input": 40316,
+     "output": 5163
+    },
+    "lines": 1168,
+    "truncated": false
+   }
+  },
+  {
+   "video_id": "pNbIKBcSibM",
+   "channel": "فرانس 24 عربي",
+   "language": "ar",
+   "duration": 2623,
+   "current": {
+    "points": 7,
+    "with_timestamp": 7,
+    "opinion_or_forecast": 4,
+    "quote_words_median": 8,
+    "quote_seconds_median": 3.5
+   },
+   "track_language": "ar",
+   "bites": {
+    "bites": 0,
+    "rejected": 0,
+    "rejected_reasons": [],
+    "seconds_median": null,
+    "types": {
+     "opinion": 0,
+     "forecast": 0,
+     "fact": 0,
+     "report": 0
+    },
+    "named": 0,
+    "host": 0,
+    "distinct_named_speakers": 0,
+    "opinion_speakers": 0,
+    "error": "لم يُرجع النموذج قائمة المقاطع بالأداة",
+    "stop_reason": "tool_use",
+    "usage": {
+     "input": 30768,
+     "output": 4231
+    },
+    "lines": 868,
+    "truncated": false
+   }
+  },
+  {
+   "video_id": "XLkbs9q8jXc",
+   "channel": "SÖZCÜ",
+   "language": "tr",
+   "duration": 8728,
+   "current": {
+    "points": 5,
+    "with_timestamp": 5,
+    "opinion_or_forecast": 3,
+    "quote_words_median": 16,
+    "quote_seconds_median": 7.0
+   },
+   "track_language": "tr",
+   "bites": {
+    "bites": 0,
+    "rejected": 0,
+    "rejected_reasons": [],
+    "seconds_median": null,
+    "types": {
+     "opinion": 0,
+     "forecast": 0,
+     "fact": 0,
+     "report": 0
+    },
+    "named": 0,
+    "host": 0,
+    "distinct_named_speakers": 0,
+    "opinion_speakers": 0,
+    "error": "لم يُرجع النموذج قائمة المقاطع بالأداة",
+    "stop_reason": "tool_use",
+    "usage": {
+     "input": 37942,
+     "output": 3977
+    },
+    "lines": 3770,
+    "truncated": true
+   }
+  },
+  {
+   "video_id": "5PV_N4ijsQo",
+   "channel": "Iran International",
+   "language": "fa",
+   "duration": 2635,
+   "current": {
+    "points": 6,
+    "with_timestamp": 6,
+    "opinion_or_forecast": 4,
+    "quote_words_median": 7.0,
+    "quote_seconds_median": 3.0
+   },
+   "track_language": "fa",
+   "bites": {
+    "bites": 0,
+    "rejected": 0,
+    "rejected_reasons": [],
+    "seconds_median": null,
+    "types": {
+     "opinion": 0,
+     "forecast": 0,
+     "fact": 0,
+     "report": 0
+    },
+    "named": 0,
+    "host": 0,
+    "distinct_named_speakers": 0,
+    "opinion_speakers": 0,
+    "error": "لم يُرجع النموذج قائمة المقاطع بالأداة",
+    "stop_reason": "tool_use",
+    "usage": {
+     "input": 30303,
+     "output": 4003
+    },
+    "lines": 838,
+    "truncated": false
+   }
+  },
+  {
+   "video_id": "60odUQ9mjhA",
+   "channel": "ערוץ 14",
+   "language": "iw",
+   "duration": 4768,
+   "current": {
+    "points": 5,
+    "with_timestamp": 5,
+    "opinion_or_forecast": 3,
+    "quote_words_median": 11,
+    "quote_seconds_median": 4.8
+   },
+   "track_language": "iw",
+   "bites": {
+    "bites": 0,
+    "rejected": 0,
+    "rejected_reasons": [],
+    "seconds_median": null,
+    "types": {
+     "opinion": 0,
+     "forecast": 0,
+     "fact": 0,
+     "report": 0
+    },
+    "named": 0,
+    "host": 0,
+    "distinct_named_speakers": 0,
+    "opinion_speakers": 0,
+    "error": "لم يُرجع النموذج قائمة المقاطع بالأداة",
+    "stop_reason": "tool_use",
+    "usage": {
+     "input": 43637,
+     "output": 4191
+    },
+    "lines": 1682,
+    "truncated": true
+   }
+  },
+  {
+   "video_id": "eJ9ulDSnbKw",
+   "channel": "ILTV",
+   "language": "ar",
+   "duration": 1712,
+   "current": {
+    "points": 6,
+    "with_timestamp": 6,
+    "opinion_or_forecast": 3,
+    "quote_words_median": 6.5,
+    "quote_seconds_median": 2.8
+   },
+   "track_language": "ar",
+   "bites": {
+    "bites": 0,
+    "rejected": 0,
+    "rejected_reasons": [],
+    "seconds_median": null,
+    "types": {
+     "opinion": 0,
+     "forecast": 0,
+     "fact": 0,
+     "report": 0
+    },
+    "named": 0,
+    "host": 0,
+    "distinct_named_speakers": 0,
+    "opinion_speakers": 0,
+    "error": "لم يُرجع النموذج قائمة المقاطع بالأداة",
+    "stop_reason": "tool_use",
+    "usage": {
+     "input": 29901,
+     "output": 4045
+    },
+    "lines": 1232,
+    "truncated": false
+   }
+  },
+  {
+   "video_id": "Ngn75Bo2_Bk",
+   "channel": "العربية",
+   "language": "ar",
+   "duration": 3530,
+   "current": {
+    "points": 6,
+    "with_timestamp": 6,
+    "opinion_or_forecast": 4,
+    "quote_words_median": 11.0,
+    "quote_seconds_median": 4.8
+   },
+   "track_language": "ar",
+   "bites": {
+    "bites": 0,
+    "rejected": 0,
+    "rejected_reasons": [],
+    "seconds_median": null,
+    "types": {
+     "opinion": 0,
+     "forecast": 0,
+     "fact": 0,
+     "report": 0
+    },
+    "named": 0,
+    "host": 0,
+    "distinct_named_speakers": 0,
+    "opinion_speakers": 0,
+    "error": "لم يُرجع النموذج قائمة المقاطع بالأداة",
+    "stop_reason": "tool_use",
+    "usage": {
+     "input": 36831,
+     "output": 3571
+    },
+    "lines": 1035,
+    "truncated": false
+   }
+  },
+  {
+   "video_id": "Ia4vnFDiRKw",
+   "channel": "CNN Türk",
+   "language": "en",
+   "duration": 5360,
+   "current": {
+    "points": 6,
+    "with_timestamp": 6,
+    "opinion_or_forecast": 5,
+    "quote_words_median": 23.0,
+    "quote_seconds_median": 10.0
+   },
+   "track_language": "en",
+   "bites": {
+    "bites": 0,
+    "rejected": 0,
+    "rejected_reasons": [],
+    "seconds_median": null,
+    "types": {
+     "opinion": 0,
+     "forecast": 0,
+     "fact": 0,
+     "report": 0
+    },
+    "named": 0,
+    "host": 0,
+    "distinct_named_speakers": 0,
+    "opinion_speakers": 0,
+    "error": "لم يُرجع النموذج قائمة المقاطع بالأداة",
+    "stop_reason": "tool_use",
+    "usage": {
+     "input": 29001,
+     "output": 3830
+    },
+    "lines": 2484,
+    "truncated": true
+   }
+  },
+  {
+   "video_id": "Jj-bldT1T6I",
+   "channel": "Haaretz",
+   "language": "ar",
+   "duration": 2000,
+   "current": {
+    "points": 5,
+    "with_timestamp": 5,
+    "opinion_or_forecast": 3,
+    "quote_words_median": 12,
+    "quote_seconds_median": 5.2
+   },
+   "track_language": "ar",
+   "bites": {
+    "bites": 0,
+    "rejected": 0,
+    "rejected_reasons": [],
+    "seconds_median": null,
+    "types": {
+     "opinion": 0,
+     "forecast": 0,
+     "fact": 0,
+     "report": 0
+    },
+    "named": 0,
+    "host": 0,
+    "distinct_named_speakers": 0,
+    "opinion_speakers": 0,
+    "error": "لم يُرجع النموذج قائمة المقاطع بالأداة",
+    "stop_reason": "tool_use",
+    "usage": {
+     "input": 30187,
+     "output": 3365
+    },
+    "lines": 1238,
+    "truncated": false
+   }
+  }
+ ]
+}
