@@ -355,8 +355,8 @@ def read_chyrons(frames_idx: list, images: list, cfg, counters: dict) -> list[di
             counters["haiku_errors"].append(f"{type(exc).__name__}: {str(exc)[:80]}")
             continue
         for (i, cid), res in zip(part, results):
-            if not res.get("has_caption"):
-                continue
+            if not res.get("has_caption") or res.get("strap_kind") == "headline":
+                continue      # R14: عنوان خبر يذكر شخصًا لا يسمّي وجهًا
             name = res.get("name_arabic") or res.get("name_original") or ""
             reads.append({"frame": i, "cluster": cid, "name": name, "name_kind": res.get("name_kind", "person"),
                           "name_is_speaker": res.get("name_is_speaker", "unsure")})

@@ -747,6 +747,8 @@ def _reel_bg_lines(d: dict, cfg, texts: dict) -> list[str]:
         rej = [r for r in (bg.get("rejected") or []) if isinstance(r, dict)] if not manual else []
         if rej:
             line += " " + texts.get("bg_rejected", "").format(n=len(rej), first=rej[0].get("shows", ""))
+        if not manual and bg.get("crop"):
+            line += " " + texts.get("bg_cropped", "")      # R14: قُصّت لإخفاء نص مركَّب عليها
         head = [f"  {line}", "", f"  <img src=\"{url}\" width=\"260\" />", ""]
     elif bg.get("judged") and bg.get("rejected"):
         head = [f"  {texts.get('bg_none_judged', texts.get('bg_none', ''))}", ""]

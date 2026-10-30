@@ -299,6 +299,11 @@ def install_fakes() -> None:
     reel_render._extract_gray_frames = (  # type: ignore
         lambda clip, fractions: [np.full((720, 1280), 120, dtype=np.uint8) for _ in fractions])
 
+    # حكم Opus على مناسبة إجابات الريل (R14) بلا شبكة: ردّ بلا أداة ← لا إجابة غير مناسبة فيبقى كل سيناريو كما كان؛ ولا يستهلك
+    # ردًّا من عملاء الاختبار المزيَّفين المتسلسلين. اختبار يحتاج غيره يستبدل reel_script._fit_create بنفسه
+    from src import reel_script as _reel_script
+    _reel_script._fit_create = lambda client, **kw: None  # type: ignore
+
     # قضية مراجعة الريل (Issue #1469، R4a) تُفتح من render_draft: بلا حقن يفشل فتحها فيبقى التعليق على قضية المرحلة 2 كما
     # كان، ولا تبلغ شبكة GitHub الحقيقية ولو وُجد توكن في البيئة؛ اختبار يحتاج غيره يحقن review.create_issue بنفسه
     from src import review as _review
@@ -1060,6 +1065,16 @@ def reel_pre_s10_cfg(cfg):
     r["safe"] = {"top": 230, "bottom": 440, "side": 130, "right_col_width": 130, "right_col_from": 900, "right_col_to": 1500}
     r.setdefault("panel", {})["frame"] = {"width": 940, "height": 1190, "top": 200}
     r["band"] = {**r.get("band", {}), "top": 1260, "height": 240}
+    # R14: الإطار الذهبي حول نافذة الكلام جاء بعد هذه المراجع، فيُطفأ هنا كي تبقى أوامرها كما حُفظت
+    r["panel"]["border"] = {**r["panel"].get("border", {}), "enabled": False}
+    return c
+
+
+def reel_no_border_cfg(cfg):
+    """R14: نسخة من الإعداد بلا الإطار الذهبي حول نافذة الكلام، لاختبارات تعدّ مرشّحات الانبثاق (g480) لا الإطار."""
+    import copy
+    c = copy.deepcopy(cfg)
+    c["reel"]["render"]["panel"]["border"] = {**c["reel"]["render"]["panel"].get("border", {}), "enabled": False}
     return c
 
 

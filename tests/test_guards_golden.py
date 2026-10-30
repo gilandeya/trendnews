@@ -18,7 +18,7 @@ from __future__ import annotations
 import shutil
 from pathlib import Path
 
-from tests.helpers import (check, reel_v1_cfg, reel_pre_s10_cfg, reel_stale_cfg, reel_credits_cfg, reel_span_cfg, load_config, evidence, store, DRAFTS_DIR, ImportantRig,
+from tests.helpers import (check, reel_v1_cfg, reel_pre_s10_cfg, reel_stale_cfg, reel_credits_cfg, reel_no_border_cfg, reel_span_cfg, load_config, evidence, store, DRAFTS_DIR, ImportantRig,
                            ImportantWriteRig, NamesAuditRig, NAMES_AUDIT_SOURCE, names_audit_doubt,
                            names_audit_draft, names_audit_hit, important_doc, important_fixture_point,
                            important_good_data, important_marked_body, important_point,
@@ -16464,7 +16464,7 @@ def test_reel_panel_p2c2_guards() -> None:
         cmds: list = []
         d = wdir("g480")
         clips = {2: {"file": d / "c2.mp4", "seconds": 3.0}, 3: {"file": d / "c3.mp4", "seconds": 3.0}}
-        reel_render._assemble(V2, clips, cfg, make_deps(cmds), d, "v", None, "", {}, [], {})
+        reel_render._assemble(V2, clips, reel_no_border_cfg(cfg), make_deps(cmds), d, "v", None, "", {}, [], {})
         cmd = next((c for c in cmds if c[-1].endswith("scene_02.mp4")), [])
         p = " ".join(cmd)
         check("g480: -t = intro + 6", f"-t {intro + 6:.3f}" in p, p[-200:])
@@ -19212,7 +19212,8 @@ def test_reel_subject_q7_guards() -> None:
         _, saved = reel_render._resolve_background(path, dict(d0), cfg, deps, [])
         check("g570: بلا judged ← حُكم عليها فأُعيد الاختيار وحُفظ", saved["url"] == "https://n/2.jpg" and saved.get("judged") is True
               and calls[0] == fx["reel_bg"]["url"], (saved, calls))
-        d1 = dict(d0, id="q7old0000002", reel_bg={**fx["reel_bg"], "judged": True})
+        # R14: محفوظة حُكم عليها وفُحص نصها المركَّب (text_checked) لا تُحكم ثانية؛ بلا text_checked تُحكم مرة لفحص النص
+        d1 = dict(d0, id="q7old0000002", reel_bg={**fx["reel_bg"], "judged": True, "text_checked": True})
         path1 = store.save_draft(d1)
         calls.clear()
         _, saved = reel_render._resolve_background(path1, dict(d1), cfg, deps, [])
@@ -21367,3 +21368,272 @@ def test_reel_no_credits_s12_guards() -> None:
          "headlines": ["العنوان الأول", "الثاني", "الثالث"], "render_sources": "الجزيرة، العربية", "duration_seconds": 40}
     body = reel_review.build_body(d, cfg)
     check("g671 S12: «📣 نص المنشور» بلا سطر المصادر", "الجزيرة، العربية" not in body and "العنوان الأول" in body, body)
+
+
+def test_reel_r14_guards() -> None:
+    """R14 (g690–g699): ملاحظات صاحب المشروع على ريل 2733e9c9194b (27/10): خلفية عليها كتابة تُقصّ أو تُستبدل، عنوان خبر على الشاشة
+    («عاصم منير في طهران» تحت المقدّم أحمد هاكان) ليس اسم المتكلم ومن يدور عنه الخبر ليس ضيفًا، مسار النص بلغة الكلام لا ترجمة القناة
+    الإنجليزية، الترجمة تكتمل قبل أن تختفي، إطار ذهبي بلمعة حول نافذة الكلام، وحكم Opus على مناسبة كل إجابة لسؤالها. g698 بـffmpeg
+    حقيقي ويُتخطّى إن غاب."""
+    import copy
+    import os
+    import shutil
+    import subprocess
+    import tempfile
+    from pathlib import Path
+    from types import SimpleNamespace
+
+    import numpy as np
+    from PIL import Image
+
+    from src import reel_render, reel_script, youtube_extract
+
+    cfg = load_config()
+    work = Path(tempfile.mkdtemp())
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    # ── g690: قرار القصّ لصورة عليها نص مركَّب ──
+    def g690():
+        img = Image.new("RGB", (1600, 1000))
+        check("g690: بلا نص ← كاملة", reel_render.bg_text_crop(img, {"fits": True, "overlaid_text": False}, cfg) == (None, None))
+        check("g690: حكم قديم بلا الحقل ← كاملة", reel_render.bg_text_crop(img, {"fits": True}, cfg) == (None, None))
+        crop, why = reel_render.bg_text_crop(img, {"overlaid_text": True, "clean_box": {"x0": 0, "y0": 0.2, "x1": 1, "y1": 0.8}}, cfg)
+        check("g690: مستطيل كبير ← قصّ بنسبه", crop == [0.0, 0.2, 1.0, 0.8] and why is None, (crop, why))
+        crop, why = reel_render.bg_text_crop(img, {"overlaid_text": True, "clean_box": {"x0": 0, "y0": 0.6, "x1": 1, "y1": 0.9}}, cfg)
+        check("g690: الجزء الخالي 300 بكسل ← رفض بسببه", crop is None and "صغير" in (why or ""), (crop, why))
+        crop, why = reel_render.bg_text_crop(img, {"overlaid_text": True}, cfg)
+        check("g690: نص بلا مستطيل ← رفض", crop is None and bool(why), (crop, why))
+    guarded("g690", g690)
+
+    # ── g691: السلّم يتخطى صورة نصها لا يُقصّ ويقصّ ما يصلح، وapply_bg_crop ──
+    def g691():
+        imgs = {"u1": Image.new("RGB", (1600, 1000), "red"), "u2": Image.new("RGB", (1600, 1000), "blue")}
+        verdicts = {"red": {"fits": True, "shows": "أ", "overlaid_text": True, "clean_box": {"x0": 0, "y0": 0, "x1": 0.2, "y1": 1}},
+                    "blue": {"fits": True, "shows": "ب", "overlaid_text": True, "clean_box": {"x0": 0, "y0": 0.1, "x1": 1, "y1": 0.75}}}
+        prov = {"news": lambda *a: [{"url": "u1", "publisher": "أ"}, {"url": "u2", "publisher": "ب"}],
+                "web": lambda *a: [], "free": lambda *a: [], "download": lambda url: imgs[url],
+                "judge": lambda img, subject, c: verdicts["red" if img.getpixel((0, 0))[0] > 200 else "blue"]}
+        d = {"title": "ت", "event": "ح", "script": {"title": "سؤال؟", "scenes": []}}
+        res = reel_render.pick_background(d, cfg, prov, "2099-01-01")
+        check("g691: اختير الثاني بقصّه", res.get("url") == "u2" and res.get("crop") == [0.0, 0.1, 1.0, 0.75], res)
+        check("g691: text_checked وسبب رفض الأول", res.get("text_checked") is True
+              and any("صغير" in r.get("reason", "") for r in res.get("rejected") or []), res)
+        out = reel_render.apply_bg_crop(imgs["u2"], res.get("crop"))
+        check("g691: apply_bg_crop ← 1600×650", out.size == (1600, 650), out.size)
+        check("g691: crop فاسد ← الصورة كما هي", reel_render.apply_bg_crop(imgs["u2"], None).size == (1600, 1000))
+    guarded("g691", g691)
+
+    # ── g692: عنوان خبر على الشاشة لا يُعتمد اسمًا للمتكلم ──
+    def g692():
+        base = {"has_caption": True, "name_original": "Asım Münir", "name_arabic": "عاصم منير", "role_original": "",
+                "role_arabic": "رئيس الأركان", "is_presenter": False, "name_kind": "person", "name_is_speaker": "yes"}
+        res = reel_render.resolve_chyron([{**base, "strap_kind": "headline"}] * 3, cfg, ["CNN Türk", "سي إن إن ترك"])
+        check("g692: ثلاث لقطات عنوان خبر ← لا قبول", res["accepted"] is False and res.get("headline_frames") == 3, res)
+        old = reel_render.resolve_chyron([dict(base)] * 3, cfg, ["CNN Türk", "سي إن إن ترك"])
+        check("g692: لقطات بلا strap_kind (مزيَّفات قديمة) ← القبول كما كان", old["accepted"] is True, old)
+        ok = reel_render.resolve_chyron([{**base, "strap_kind": "name_strap"}] * 2, cfg, ["CNN Türk"])
+        check("g692: شريط اسم في لقطتين ← قبول", ok["accepted"] is True and "headline_frames" not in ok, ok)
+        check("g692: strap_kind مطلوب في أداة القراءة", "strap_kind" in reel_render.CHYRON_TOOL["input_schema"]["properties"]["frames"]
+              ["items"]["required"])
+        scene = {"kind": "clip", "channel_display": "سي إن إن ترك", "channel_original": "CNN Türk", "speaker_text": "ضيف محلل لم يُذكر اسمه"}
+        deps = reel_render.Deps(read_chyron=lambda f, c: [{**base, "strap_kind": "headline"}] * 3)
+        notes: list = []
+        reel_render._apply_chyron(scene, {"file": "x.mp4"}, cfg, deps, {}, notes, 3)
+        check("g692: المشهد لم يأخذ الاسم وسطر 📰 للمراجع", scene.get("speaker_name") in (None, "")
+              and any(n.startswith("📰") for n in notes), (scene, notes))
+    guarded("g692", g692)
+
+    # ── g693: من يدور عنه الخبر لا يدخل قائمة الضيوف ──
+    def g693():
+        got = {}
+
+        def roster(lines, jpegs, c):
+            got["lines"] = lines
+            return [{"name_arabic": "عاصم منير", "name_original": "Asım Münir", "role_arabic": "رئيس الأركان", "is_host": False,
+                     "appears": "discussed"},
+                    {"name_arabic": "أحمد هاكان", "name_original": "Ahmet Hakan", "role_arabic": "مقدّم", "is_host": True, "appears": "host"},
+                    {"name_arabic": "ضيف قديم", "name_original": "", "role_arabic": "", "is_host": False}]
+
+        def no_dl(*a, **k):
+            raise RuntimeError("لا تنزيل")
+        deps = reel_render.Deps(read_roster=roster, download_clip=no_dl, streams=lambda p: set(), sleep=lambda s: None)
+        people = reel_render._build_roster("Kzak", [(10.0, "Hoş geldiniz")], cfg, deps)
+        names = [p["name_arabic"] for p in people]
+        check("g693: discussed خارج القائمة والمقدّم والضيف بلا الحقل باقيان", names == ["أحمد هاكان", "ضيف قديم"], names)
+        check("g693: appears مطلوب في أداة القائمة", "appears" in reel_render.ROSTER_TOOL["input_schema"]["properties"]["people"]
+              ["items"]["required"])
+    guarded("g693", g693)
+
+    # ── g694: مسار النص بلغة الكلام ──
+    def g694():
+        T = lambda code, gen: SimpleNamespace(language_code=code, is_generated=gen)  # noqa: E731
+        en_manual, tr_gen, tr_manual = T("en", False), T("tr", True), T("tr", False)
+        check("g694: ترجمة يدوية إنجليزية وآلي تركي ← التركي", youtube_extract.pick_track([en_manual, tr_gen]) is tr_gen)
+        check("g694: يدوي بلغة الكلام يغلب الآلي", youtube_extract.pick_track([en_manual, tr_manual, tr_gen]) is tr_manual)
+        check("g694: tr-TR يدوي يطابق tr آلي", youtube_extract.pick_track([T("tr-TR", False), tr_gen]).language_code == "tr-TR")
+        check("g694: بلا آلي ← الأول كما كان", youtube_extract.pick_track([en_manual, tr_manual]) is en_manual)
+        try:
+            youtube_extract.pick_track([])
+            ok = False
+        except StopIteration:
+            ok = True
+        check("g694: قائمة فارغة ← StopIteration (لا مسارات)", ok)
+    guarded("g694", g694)
+
+    # ── g695: المفرِّغ بلغة النص المجلوب لا لغة النقطة ──
+    def g695():
+        seen = []
+        deps = reel_render.Deps(transcribe_words=lambda f, lang, c: seen.append(lang) or [],
+                                transcript_lang=lambda vid: "tr")
+        reel_render._exact_apply({"file": "x.mp4", "seconds": 10.0}, {"language": "en", "channel_display": "ق"},
+                                 {"video_id": "Kzak", "quote_original": "a b c d e"}, 0, 0, 10, False, cfg, deps, None, [])
+        check("g695: whisper بالتركية لا الإنجليزية", seen == ["tr"], seen)
+        seen.clear()
+        deps2 = reel_render.Deps(transcribe_words=lambda f, lang, c: seen.append(lang) or [])
+        reel_render._exact_apply({"file": "x.mp4", "seconds": 10.0}, {"language": "ar", "channel_display": "ق"},
+                                 {"video_id": "v", "quote_original": "a b c d e"}, 0, 0, 10, False, cfg, deps2, None, [])
+        check("g695: بلا لغة نص مجلوب ← لغة النقطة كما كان", seen == ["ar"], seen)
+    guarded("g695", g695)
+
+    # ── g696: الترجمة تكتمل قبل أن تختفي ──
+    def g696():
+        mv = float(cfg.path("reel.render.quote.min_visible"))
+        late = [(9.0, "a b c d e f g h")]          # كلام متأخر: كل الكلمات قرب نهاية المقطع
+        t = reel_render.quote_word_times(8, 10.0, late, 0.0, cfg, visible_end=9.65)
+        check("g696: آخر كلمة قبل اختفاء الطبقة بـmin_visible", t[-1] <= 9.65 - mv + 1e-6, t)
+        check("g696: الأزمنة متزايدة", all(b > a for a, b in zip(t, t[1:])), t)
+        t2 = reel_render.quote_word_times(8, 10.0, late, 0.0, cfg)
+        check("g696: بلا visible_end ← قبل نهاية المقطع بـmin_visible", t2[-1] <= 10.0 - mv + 1e-6, t2)
+        c0 = copy.deepcopy(cfg)
+        c0["reel"]["render"]["quote"]["min_visible"] = 0
+        t3 = reel_render.quote_word_times(8, 10.0, late, 0.0, c0)
+        check("g696: min_visible=0 ← السقف القديم clip − 0.1", abs(t3[-1] - 9.9) < 1e-6, t3)
+    guarded("g696", g696)
+
+    # ── g697: تسلسل الإطار الذهبي ──
+    def g697():
+        d = work / "g697"
+        d.mkdir()
+        info = reel_render.border_frames(cfg, 200, 300, d)
+        bc = cfg.path("reel.render.panel.border")
+        b = int(bc["width"])
+        n = round(float(bc["shine"]["period"]) * int(bc["shine"]["fps"]))
+        check("g697: عدد الإطارات = period × fps", info and info["count"] == n and len(list(d.glob("border_*.png"))) == n, info)
+        im0 = np.array(Image.open(d / f"border_200x300_{b}_000.png"))
+        last = np.array(Image.open(d / f"border_200x300_{b}_{n - 1:03d}.png"))
+        check("g697: المقاس (fw+2b)×(fh+2b)", im0.shape[:2] == (300 + 2 * b, 200 + 2 * b), im0.shape)
+        check("g697: الداخل شفاف والحلقة معتمة", im0[150 + b, 100 + b, 3] == 0 and last[b // 2, 100, 3] == 255, None)
+        gold = np.array(reel_render.imaging.hex_rgb(cfg.path("brand.accent_color")))
+        check("g697: لون الحلقة ذهبي في السكون", np.abs(last[(300 + 2 * b) // 2, b // 2, :3].astype(int) - gold).max() < 50,
+              last[(300 + 2 * b) // 2, b // 2].tolist())
+        bright = lambda a: a[..., :3][a[..., 3] > 0].astype(int).sum(axis=1).max()  # noqa: E731
+        mid = np.array(Image.open(d / f"border_200x300_{b}_{int(int(bc['shine']['fps']) * float(bc['shine']['seconds']) / 2):03d}.png"))
+        check("g697: اللمعة أسطع من السكون", bright(mid) > bright(last) + 60, (bright(mid), bright(last)))
+        c0 = copy.deepcopy(cfg)
+        c0["reel"]["render"]["panel"]["border"]["enabled"] = False
+        check("g697: معطَّل ← None", reel_render.border_frames(c0, 200, 300, d) is None)
+    guarded("g697", g697)
+
+    # ── g698: ffmpeg حقيقي — الإطار الذهبي حول نافذة الكلام ──
+    def g698():
+        exe = shutil.which("ffmpeg")
+        if not exe:
+            check("g698: تُخطّي — لا ffmpeg في هذه البيئة", True)
+            return
+        d = work / "g698"
+        d.mkdir()
+
+        def gen(name, color):
+            out = d / name
+            subprocess.run([exe, "-v", "error", "-y", "-f", "lavfi", "-i", f"color=c={color}:s=1920x1080:r=30:d=3", "-f", "lavfi", "-i",
+                            "sine=frequency=440:duration=3", "-t", "3", "-c:v", "libx264", "-pix_fmt", "yuv420p", "-c:a", "aac",
+                            str(out)], check=True, capture_output=True)
+            return out
+        green, blue = gen("g.mp4", "green"), gen("b.mp4", "blue")
+        deps = reel_render.Deps(
+            faces=lambda f, fr: (1920, 1080, []), frames=reel_render._extract_gray_frames_real,
+            read_chyron=lambda f, c: None, streams=lambda p: {"video", "audio"}, sleep=lambda s: None,
+            download_clip=lambda *a, **k: {}).resolved(cfg)
+        W, H = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
+        b = int(cfg.path("reel.render.panel.border.width"))
+        gold = np.array(reel_render.imaging.hex_rgb(cfg.path("brand.accent_color")))
+        for n in (2, 1):
+            clips = {1: {"file": green, "seconds": 3.0}, 2: {"file": blue, "seconds": 3.0}}
+            members = [(1, {"kind": "clip", "q": 0, "channel_display": "أ"}), (2, {"kind": "clip", "q": 0, "channel_display": "ب"})][:n]
+            out = d / f"scene_{n}.mp4"
+            reel_render._panel_scene(members, clips, out, cfg, deps, d, {}, [])
+            fx, fy, fw, fh = reel_render.panel_layout(n, cfg)["frame"]
+            t = 2.0 if n == 2 else 2.0
+            raw = subprocess.run([exe, "-v", "error", "-ss", f"{t:.3f}", "-i", str(out), "-frames:v", "1", "-f", "rawvideo",
+                                  "-pix_fmt", "rgb24", "-"], capture_output=True, check=True).stdout
+            a = np.frombuffer(raw, np.uint8).reshape(H, W, 3).astype(int)
+            edge, inside = a[fy + fh // 3, fx - b // 2], a[fy + fh // 3, fx + 20]
+            check(f"g698: n={n} حافة النافذة ذهبية", np.abs(edge - gold).max() < 70, edge.tolist())
+            check(f"g698: n={n} داخل النافذة المقطع نفسه (أخضر)", inside[1] > 100 and inside[0] < 60, inside.tolist())
+    guarded("g698", g698)
+
+    # ── g699: حكم Opus على مناسبة الإجابات ──
+    def g699():
+        c2 = copy.deepcopy(cfg)
+        c2.setdefault("reel", {})["enabled"] = True
+        people = ["ليلى حداد", "سامر النجار", "رامي خوري", "هدى منصور"]
+        pts = [{"video_id": f"v{i}", "bloc": "arabic", "channel": f"قناة {i}", "speaker": people[i], "statement": f"قول {i}",
+                "quote_arabic": f"اقتباس عربي {i}", "quote_original": " ".join(f"w{i}x{k}" for k in range(34)), "type": "fact",
+                "video_title": f"فيديو {i}", "video_url": f"https://youtube.com/watch?v=v{i}", "timestamp": 100 + i * 30,
+                "video_published": "2099-10-30"} for i in range(4)]
+        valid = reel_script.valid_clips(pts, [], c2)
+        ids = [c["point_id"] for c in valid]
+        data = {"main_question": "هل تصمد الهدنة بين الطرفين؟", "context": ["هدنة بين الطرفين منذ أسبوع."],
+                "questions": [{"role": "core", "text": "ما جوهر الخلاف حول الهدنة؟",
+                               "answers": [{"point_id": ids[k], "stance": "م", "angle": f"زاوية {k}", "repeats": False}
+                                           for k in range(3)]}],
+                "closing_question": "ما الذي ينبغي أن يحدث بعد ذلك؟"}
+
+        def resp(name, inp, tid="tu"):
+            return SimpleNamespace(content=[SimpleNamespace(type="tool_use", id=tid, name=name, input=inp)],
+                                   stop_reason="tool_use", usage=SimpleNamespace(input_tokens=1, output_tokens=1))
+
+        def run(verdicts):
+            calls, fits = [], []
+
+            def writer(client, **kw):
+                calls.append(copy.deepcopy(kw["messages"]))
+                return resp(kw["tools"][0]["name"], copy.deepcopy(data), f"tu_{len(calls)}")
+
+            def judge(client, **kw):
+                fits.append(kw)
+                v = verdicts.pop(0) if verdicts else {}
+                if isinstance(v, Exception):
+                    raise v
+                return resp("judge_answers", {"answers": [{"point_id": p, "verdict": x, "reason": "لا تذكر الهدنة"} for p, x in v.items()]})
+            rc, rf = reel_script._create, reel_script._fit_create
+            reel_script._create, reel_script._fit_create = writer, judge
+            info: dict = {}
+            try:
+                out = reel_script.write_script({"title": "م", "event": "ح"}, "نص", valid, "female", c2, member_points=pts, info=info)
+            finally:
+                reel_script._create, reel_script._fit_create = rc, rf
+            return out, calls, fits, info
+
+        (s, why), calls, fits, info = run([{ids[0]: "direct", ids[1]: "direct", ids[2]: "direct"}])
+        check("g699: كلها direct ← نداء كاتب واحد والسيناريو كما هو", s is not None and len(calls) == 1 and len(fits) == 1
+              and fits[0].get("model") == c2.path("reel.script.fit.model"), (why, len(calls)))
+        (s, why), calls, fits, info = run([{ids[2]: "weak"}, {ids[2]: "weak"}])
+        used = [x.get("point_id") for x in (s or {}).get("scenes", []) if x.get("kind") == "clip"]
+        tr = calls[1][2]["content"][0]["content"] if len(calls) == 2 else ""
+        check("g699: weak ← إعادة بالسبب في المحادثة", len(calls) == 2 and "لا تجيب عن سؤالها" in tr, tr)
+        check("g699: الأخيرة ← تُحذف الإجابة ويبقى السيناريو", s is not None and used == ids[:2], (why, used))
+        check("g699: تنبيه 🧹 وسجل الحذف", any(w.startswith("🧹") for w in info.get("warnings") or [])
+              and info.get("fit", {}).get("dropped") == [ids[2]], info)
+        (s, why), calls, fits, info = run([RuntimeError("انقطاع")])
+        check("g699: عطل الحكم ← السيناريو كما هو والعطل محفوظ", s is not None and len(calls) == 1
+              and "انقطاع" in info.get("fit", {}).get("error", ""), info)
+        orphan = reel_script.drop_answers({"scenes": [{"kind": "narration", "role": "question", "q": 0, "text": "س"},
+                                                      {"kind": "clip", "q": 0, "point_id": "a"}]}, {"a"})
+        check("g699: سؤال بلا إجابة تُحذف بطاقته", orphan["scenes"] == [], orphan)
+    guarded("g699", g699)

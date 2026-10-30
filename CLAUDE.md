@@ -2651,3 +2651,23 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 (`publish.publish_reel_draft`) ومعاينته «📣 نص المنشور» (`reel_review.build_body`) العنوان المختار وحده (`reel.review.post_sources: false`). المصادر بروابطها
 تبقى في التعليق الأول (`reel_first_comment`) و`render_sources` يُحفظ كما كان. `render_version` = 56 (للقادم فقط، S11). g669–g671؛ واختبارات خطوط السطرين
 تعمل بـ`tests.helpers.reel_credits_cfg`.
+
+## ملاحظات ريل 27/10 (R14) — خلفية بلا كتابة، اسم المتكلم، لغة الكلام، ترجمة كاملة، إطار ذهبي، ومناسبة الإجابة
+
+الشاهد: ريل تحالف مكة `drafts/2026-10-27/2733e9c9194b.json` (ملاحظات صاحب المشروع). `render_version` = 57 (للقادم فقط، S11). g690–g699 في
+`tests/test_guards_golden.py:test_reel_r14_guards` (g698 بـffmpeg حقيقي ويُتخطّى إن غاب).
+
+- **الخلفية بلا كتابة:** `BG_JUDGE_TOOL` يعيد `overlaid_text` و`clean_box` (أكبر مستطيل خالٍ من النص المركَّب بنسب). `bg_text_crop` (خالصة): نص ومستطيل
+  ≥ `reel.render.background.text_crop.min_width/min_height` بكسل ← `reel_bg.crop`، وإلا رفض بسببه (`bg_text_no_box`/`bg_text_small`) والمرشّح التالي.
+  `_resolve_background` يقصّ بـ`apply_bg_crop` قبل `prepare_background`، ويعيد حكم خلفية محفوظة بلا `text_checked` مرة. سطر «✂️ قُصّت» في المرحلة 2.
+- **اسم المتكلم:** `CHYRON_TOOL` فيه `strap_kind` (name_strap|headline|none)؛ `resolve_chyron` يتجاهل لقطات العنوان (`headline_frames`، وسطر 📰 في التعليق)،
+  و`speaker_map` لا يصوّت بها. `ROSTER_TOOL` فيه `appears` و`_build_roster` يسقط `discussed` (من يدور عنه الخبر ليس ضيفًا). غياب الحقلين ← السلوك القديم.
+- **لغة الكلام:** `youtube_extract.pick_track`: المسار الآلي لغته لغة الكلام، فيُختار اليدوي بلغته وإلا الآلي، وبلا آلي الأول كما كان (كانت ترجمة إنجليزية
+  يدوية لحلقة تركية تُؤخذ). `reel_render._exact_apply` يفرِّغ بلغة النص المجلوب (`deps.transcript_lang`) قبل لغة النقطة.
+- **الترجمة تكتمل:** `quote_word_times(..., visible_end=)` تضع آخر كلمة قبل اختفاء الطبقة بـ`reel.render.quote.min_visible` (0.8)؛ اللوحة تمرّر
+  `seconds − pop.shrink` (الطبقات تختفي عند بدء عودة الإطار، فسقطت «ستستمر.»).
+- **الإطار الذهبي:** `border_frames` تسلسل PNG لحلقة بلون `panel.border.color` (وإلا `brand.accent_color`) تعبرها لمعة قطرية كل `shine.period`؛
+  `_panel_scene` يضعها حول الإطار البارز (ثابتًا في n=1، ويتبع الانبثاق بالمعامل نفسه في n ≥ 2). `panel.border.enabled: false` ← بلا إطار.
+- **مناسبة الإجابة (Opus):** بعد سيناريو v2 سليم، `reel_script.fit_answers` نداء واحد بـ`reel.script.fit.model` (Opus) وأداة `judge_answers`
+  (direct|weak|unrelated). ما في `fit.reject`: المحاولة الأولى تُعاد بالسبب في المحادثة (Q8)، والأخيرة تُحذف منها الإجابة (`drop_answers`، وبطاقة سؤال
+  بلا إجابة) بتنبيه 🧹 ثم يُعاد التحقق. العطل لا يُسقط السيناريو. يُحفظ `script_fit` (ضمن `SCRIPT_KEYS`)؛ `install_fakes` يزيّف `_fit_create` بلا حكم.
