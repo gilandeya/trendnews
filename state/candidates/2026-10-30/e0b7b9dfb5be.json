@@ -1,0 +1,76 @@
+{
+  "id": "e0b7b9dfb5be",
+  "created_at": "2026-10-30T17:08:12.767381+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.83,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "ترامب يتحدث عن انتهاء الحرب مع إيران وعن السلاح النووي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "\"It's Going To Get Wrapped Up Soon\": Trump On US' War With Iran",
+  "link": "https://www.ndtv.com/world-news/its-going-to-get-wrapped-up-soon-trump-on-us-war-with-iran-12259266#publisher=newsstand",
+  "publishers": [
+    "Hindustan Times — World",
+    "NDTV — World",
+    "TASS",
+    "The Express Tribune"
+  ],
+  "region": "in",
+  "article": {
+    "title": "\"It's Going To Get Wrapped Up Soon\": Trump On US' War With Iran",
+    "link": "https://www.ndtv.com/world-news/its-going-to-get-wrapped-up-soon-trump-on-us-war-with-iran-12259266#publisher=newsstand",
+    "summary": "Trump also spoke about nuclear weapons.",
+    "source_name": "NDTV — World",
+    "region": "in",
+    "weight": 0.9,
+    "published": "2026-10-30T12:16:28+00:00",
+    "image_url": "https://c.ndtvimg.com/2026-03/7uiru26s_trump-iran-plan_625x300_07_March_26.png?im=FaceCrop,algorithm=dnn,width=1280,height=720",
+    "publisher": "NDTV — World",
+    "cluster_sources": [
+      "Hindustan Times — World",
+      "NDTV — World",
+      "TASS",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2637730/us-vice-president-rules-out-forever-war-in-iran-says-trump-will-accomplish-objectives"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/its-going-to-get-wrapped-up-soon-trump-on-us-war-with-iran-12259266#publisher=newsstand"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/trump-says-iran-war-to-get-wrapped-up-soon-amid-midterm-preps-reiterates-nuclear-weapon-condition-101793366339764.html"
+      },
+      {
+        "name": "TASS",
+        "link": "https://tass.com/world/2210923"
+      }
+    ],
+    "image_candidates": [
+      "https://c.ndtvimg.com/2026-03/7uiru26s_trump-iran-plan_625x300_07_March_26.png?im=FaceCrop,algorithm=dnn,width=1280,height=720"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 2088.9150401394445,
+    "is_stale": false,
+    "score": 24.826183725851852,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "ترامب يتحدث عن انتهاء الحرب مع إيران وعن السلاح النووي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
