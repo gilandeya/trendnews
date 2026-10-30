@@ -1,16 +1,16 @@
 {
- "at": "2026-10-30T20:15:11.722248+00:00",
+ "at": "2026-10-30T20:28:29.532046+00:00",
  "summary": {
   "videos": 10,
   "fetched": 10,
   "points_total": 58,
-  "bites_total": 0,
-  "rejected_total": 0,
-  "videos_with_2_opinion_speakers": 0,
+  "bites_total": 21,
+  "rejected_total": 58,
+  "videos_with_2_opinion_speakers": 5,
   "point_seconds_median": 4.8,
-  "bite_seconds_median": null,
-  "input_tokens": 346754,
-  "output_tokens": 41147
+  "bite_seconds_median": 21.4,
+  "input_tokens": 352294,
+  "output_tokens": 40109
  },
  "videos": [
   {
@@ -27,25 +27,32 @@
    },
    "track_language": "tr",
    "bites": {
-    "bites": 0,
-    "rejected": 0,
-    "rejected_reasons": [],
-    "seconds_median": null,
+    "bites": 1,
+    "rejected": 6,
+    "rejected_reasons": [
+     "المدة 44.7 ث خارج [8، 25]",
+     "المدة 46.1 ث خارج [8، 25]",
+     "المدة 134.1 ث خارج [8، 25]",
+     "المدة 50.9 ث خارج [8، 25]",
+     "المدة 43.8 ث خارج [8، 25]",
+     "المدة 59.0 ث خارج [8، 25]"
+    ],
+    "seconds_median": 15.7,
     "types": {
-     "opinion": 0,
+     "opinion": 1,
      "forecast": 0,
      "fact": 0,
      "report": 0
     },
-    "named": 0,
+    "named": 1,
     "host": 0,
-    "distinct_named_speakers": 0,
-    "opinion_speakers": 0,
-    "error": "لم يُرجع النموذج قائمة المقاطع بالأداة",
+    "distinct_named_speakers": 1,
+    "opinion_speakers": 1,
+    "error": "",
     "stop_reason": "tool_use",
     "usage": {
-     "input": 37868,
-     "output": 4771
+     "input": 38422,
+     "output": 3519
     },
     "lines": 2528,
     "truncated": true
@@ -66,8 +73,17 @@
    "track_language": "ar",
    "bites": {
     "bites": 0,
-    "rejected": 0,
-    "rejected_reasons": [],
+    "rejected": 8,
+    "rejected_reasons": [
+     "المدة 36.3 ث خارج [8، 25]",
+     "المدة 41.2 ث خارج [8، 25]",
+     "المدة 54.7 ث خارج [8، 25]",
+     "المدة 59.8 ث خارج [8، 25]",
+     "المدة 39.1 ث خارج [8، 25]",
+     "المدة 61.6 ث خارج [8، 25]",
+     "المدة 58.2 ث خارج [8، 25]",
+     "المدة 33.0 ث خارج [8، 25]"
+    ],
     "seconds_median": null,
     "types": {
      "opinion": 0,
@@ -79,11 +95,11 @@
     "host": 0,
     "distinct_named_speakers": 0,
     "opinion_speakers": 0,
-    "error": "لم يُرجع النموذج قائمة المقاطع بالأداة",
+    "error": "",
     "stop_reason": "tool_use",
     "usage": {
-     "input": 40316,
-     "output": 5163
+     "input": 40870,
+     "output": 4838
     },
     "lines": 1168,
     "truncated": false
@@ -103,25 +119,32 @@
    },
    "track_language": "ar",
    "bites": {
-    "bites": 0,
-    "rejected": 0,
-    "rejected_reasons": [],
-    "seconds_median": null,
+    "bites": 2,
+    "rejected": 6,
+    "rejected_reasons": [
+     "المدة 25.1 ث خارج [8، 25]",
+     "المدة 30.8 ث خارج [8، 25]",
+     "المدة 34.8 ث خارج [8، 25]",
+     "المدة 60.8 ث خارج [8، 25]",
+     "المدة 30.4 ث خارج [8، 25]",
+     "المدة 31.1 ث خارج [8، 25]"
+    ],
+    "seconds_median": 17.8,
     "types": {
-     "opinion": 0,
-     "forecast": 0,
+     "opinion": 1,
+     "forecast": 1,
      "fact": 0,
      "report": 0
     },
-    "named": 0,
+    "named": 2,
     "host": 0,
-    "distinct_named_speakers": 0,
-    "opinion_speakers": 0,
-    "error": "لم يُرجع النموذج قائمة المقاطع بالأداة",
+    "distinct_named_speakers": 1,
+    "opinion_speakers": 1,
+    "error": "",
     "stop_reason": "tool_use",
     "usage": {
-     "input": 30768,
-     "output": 4231
+     "input": 31322,
+     "output": 3443
     },
     "lines": 868,
     "truncated": false
@@ -141,12 +164,21 @@
    },
    "track_language": "tr",
    "bites": {
-    "bites": 0,
-    "rejected": 0,
-    "rejected_reasons": [],
-    "seconds_median": null,
+    "bites": 1,
+    "rejected": 8,
+    "rejected_reasons": [
+     "تبدّل المتكلم داخل المقطع",
+     "المدة 28.8 ث خارج [8، 25]",
+     "المدة 36.4 ث خارج [8، 25]",
+     "المدة 28.0 ث خارج [8، 25]",
+     "أسطر لم تُعرض على النموذج (المحذوف من الوسط)",
+     "المدة 28.0 ث خارج [8، 25]",
+     "المدة 45.5 ث خارج [8، 25]",
+     "المدة 29.8 ث خارج [8، 25]"
+    ],
+    "seconds_median": 21.4,
     "types": {
-     "opinion": 0,
+     "opinion": 1,
      "forecast": 0,
      "fact": 0,
      "report": 0
@@ -154,12 +186,12 @@
     "named": 0,
     "host": 0,
     "distinct_named_speakers": 0,
-    "opinion_speakers": 0,
-    "error": "لم يُرجع النموذج قائمة المقاطع بالأداة",
+    "opinion_speakers": 1,
+    "error": "",
     "stop_reason": "tool_use",
     "usage": {
-     "input": 37942,
-     "output": 3977
+     "input": 38496,
+     "output": 3792
     },
     "lines": 3770,
     "truncated": true
@@ -179,25 +211,31 @@
    },
    "track_language": "fa",
    "bites": {
-    "bites": 0,
-    "rejected": 0,
-    "rejected_reasons": [],
-    "seconds_median": null,
+    "bites": 3,
+    "rejected": 5,
+    "rejected_reasons": [
+     "المدة 31.5 ث خارج [8، 25]",
+     "المدة 37.8 ث خارج [8، 25]",
+     "المدة 30.6 ث خارج [8، 25]",
+     "المدة 30.8 ث خارج [8، 25]",
+     "المدة 31.6 ث خارج [8، 25]"
+    ],
+    "seconds_median": 22.6,
     "types": {
-     "opinion": 0,
-     "forecast": 0,
+     "opinion": 2,
+     "forecast": 1,
      "fact": 0,
      "report": 0
     },
-    "named": 0,
+    "named": 3,
     "host": 0,
-    "distinct_named_speakers": 0,
-    "opinion_speakers": 0,
-    "error": "لم يُرجع النموذج قائمة المقاطع بالأداة",
+    "distinct_named_speakers": 3,
+    "opinion_speakers": 3,
+    "error": "",
     "stop_reason": "tool_use",
     "usage": {
-     "input": 30303,
-     "output": 4003
+     "input": 30857,
+     "output": 4352
     },
     "lines": 838,
     "truncated": false
@@ -217,25 +255,32 @@
    },
    "track_language": "iw",
    "bites": {
-    "bites": 0,
-    "rejected": 0,
-    "rejected_reasons": [],
-    "seconds_median": null,
+    "bites": 3,
+    "rejected": 6,
+    "rejected_reasons": [
+     "المدة 48.7 ث خارج [8، 25]",
+     "المدة 35.6 ث خارج [8، 25]",
+     "المدة 42.5 ث خارج [8، 25]",
+     "المدة 27.6 ث خارج [8، 25]",
+     "المدة 32.2 ث خارج [8، 25]",
+     "المدة 48.0 ث خارج [8، 25]"
+    ],
+    "seconds_median": 24.2,
     "types": {
-     "opinion": 0,
+     "opinion": 2,
      "forecast": 0,
-     "fact": 0,
+     "fact": 1,
      "report": 0
     },
-    "named": 0,
+    "named": 1,
     "host": 0,
-    "distinct_named_speakers": 0,
-    "opinion_speakers": 0,
-    "error": "لم يُرجع النموذج قائمة المقاطع بالأداة",
+    "distinct_named_speakers": 1,
+    "opinion_speakers": 2,
+    "error": "",
     "stop_reason": "tool_use",
     "usage": {
-     "input": 43637,
-     "output": 4191
+     "input": 44191,
+     "output": 5110
     },
     "lines": 1682,
     "truncated": true
@@ -255,25 +300,29 @@
    },
    "track_language": "ar",
    "bites": {
-    "bites": 0,
-    "rejected": 0,
-    "rejected_reasons": [],
-    "seconds_median": null,
+    "bites": 5,
+    "rejected": 3,
+    "rejected_reasons": [
+     "المدة 27.6 ث خارج [8، 25]",
+     "المدة 25.1 ث خارج [8، 25]",
+     "المدة 37.3 ث خارج [8، 25]"
+    ],
+    "seconds_median": 20.9,
     "types": {
-     "opinion": 0,
+     "opinion": 5,
      "forecast": 0,
      "fact": 0,
      "report": 0
     },
-    "named": 0,
+    "named": 5,
     "host": 0,
-    "distinct_named_speakers": 0,
-    "opinion_speakers": 0,
-    "error": "لم يُرجع النموذج قائمة المقاطع بالأداة",
+    "distinct_named_speakers": 2,
+    "opinion_speakers": 2,
+    "error": "",
     "stop_reason": "tool_use",
     "usage": {
-     "input": 29901,
-     "output": 4045
+     "input": 30455,
+     "output": 4195
     },
     "lines": 1232,
     "truncated": false
@@ -293,25 +342,31 @@
    },
    "track_language": "ar",
    "bites": {
-    "bites": 0,
-    "rejected": 0,
-    "rejected_reasons": [],
-    "seconds_median": null,
+    "bites": 3,
+    "rejected": 5,
+    "rejected_reasons": [
+     "المدة 27.3 ث خارج [8، 25]",
+     "المدة 61.5 ث خارج [8، 25]",
+     "تبدّل المتكلم داخل المقطع",
+     "المدة 32.8 ث خارج [8، 25]",
+     "المدة 41.8 ث خارج [8، 25]"
+    ],
+    "seconds_median": 22.1,
     "types": {
-     "opinion": 0,
+     "opinion": 2,
      "forecast": 0,
-     "fact": 0,
+     "fact": 1,
      "report": 0
     },
-    "named": 0,
+    "named": 2,
     "host": 0,
-    "distinct_named_speakers": 0,
-    "opinion_speakers": 0,
-    "error": "لم يُرجع النموذج قائمة المقاطع بالأداة",
+    "distinct_named_speakers": 2,
+    "opinion_speakers": 2,
+    "error": "",
     "stop_reason": "tool_use",
     "usage": {
-     "input": 36831,
-     "output": 3571
+     "input": 37385,
+     "output": 4160
     },
     "lines": 1035,
     "truncated": false
@@ -331,25 +386,33 @@
    },
    "track_language": "en",
    "bites": {
-    "bites": 0,
-    "rejected": 0,
-    "rejected_reasons": [],
-    "seconds_median": null,
+    "bites": 1,
+    "rejected": 7,
+    "rejected_reasons": [
+     "المدة 29.0 ث خارج [8، 25]",
+     "المدة 44.5 ث خارج [8، 25]",
+     "المدة 46.0 ث خارج [8، 25]",
+     "المدة 82.1 ث خارج [8، 25]",
+     "المدة 35.0 ث خارج [8، 25]",
+     "تبدّل المتكلم داخل المقطع",
+     "المدة 57.4 ث خارج [8، 25]"
+    ],
+    "seconds_median": 23.0,
     "types": {
      "opinion": 0,
-     "forecast": 0,
+     "forecast": 1,
      "fact": 0,
      "report": 0
     },
     "named": 0,
     "host": 0,
     "distinct_named_speakers": 0,
-    "opinion_speakers": 0,
-    "error": "لم يُرجع النموذج قائمة المقاطع بالأداة",
+    "opinion_speakers": 1,
+    "error": "",
     "stop_reason": "tool_use",
     "usage": {
-     "input": 29001,
-     "output": 3830
+     "input": 29555,
+     "output": 3730
     },
     "lines": 2484,
     "truncated": true
@@ -369,25 +432,30 @@
    },
    "track_language": "ar",
    "bites": {
-    "bites": 0,
-    "rejected": 0,
-    "rejected_reasons": [],
-    "seconds_median": null,
+    "bites": 2,
+    "rejected": 4,
+    "rejected_reasons": [
+     "المدة 38.6 ث خارج [8، 25]",
+     "المدة 29.1 ث خارج [8، 25]",
+     "تبدّل المتكلم داخل المقطع",
+     "المدة 30.0 ث خارج [8، 25]"
+    ],
+    "seconds_median": 17.9,
     "types": {
-     "opinion": 0,
+     "opinion": 2,
      "forecast": 0,
      "fact": 0,
      "report": 0
     },
-    "named": 0,
+    "named": 2,
     "host": 0,
-    "distinct_named_speakers": 0,
-    "opinion_speakers": 0,
-    "error": "لم يُرجع النموذج قائمة المقاطع بالأداة",
+    "distinct_named_speakers": 2,
+    "opinion_speakers": 2,
+    "error": "",
     "stop_reason": "tool_use",
     "usage": {
-     "input": 30187,
-     "output": 3365
+     "input": 30741,
+     "output": 2970
     },
     "lines": 1238,
     "truncated": false
