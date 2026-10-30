@@ -2677,3 +2677,13 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 بقرار صاحب المشروع (مع علمه أنه يدخل منطقة أزرار فيسبوك ونص المنشور، S10): `reel_render.band_top(cfg)` = أسفل `panel.frame` + سُمك الإطار الذهبي
 (1258) حين `reel.render.band.attach_to_frame: true`، وإلا `band.top`. يقرؤه `frame_clip_layers` و`frame_quote_state` وكاشف الغطاء، فالترجمة (فوق الشريط
 بـ24 بكسل) تنزل معه بالقدر نفسه. `render_version` = 58 (للقادم فقط، S11). g700–g701؛ مراجع الأوامر المحفوظة تعمل بـ`reel_pre_s10_cfg` (attach مطفأ).
+
+## مقاطع الريل من النص الكامل (خطة V، المرحلة V0 — قياس) — `src/youtube_bites.py`، `tools/bites_probe.py`
+
+خطة إعادة بناء مسار التحليل للريل وحده (قرار صاحب المشروع، 2026-10-30؛ الخطة في وثيقة المشروع `claude/plan-reel-first.md`): وحدة المادة «مقطع» لا «نقطة» —
+فكرة تامة لمتحدث واحد 8–25 ث يحددها النموذج بأرقام أسطر النص (`start_line`/`end_line`) والكود يحسب الأزمنة (`line_window`: النهاية محصورة ببداية السطر
+التالي) ويتحقق (`validate_bites`: أسطر معروضة، المدة في `youtube.bites.min_seconds/max_seconds`، نوع، ترجمة، لا تداخل). النص الطويل يُحذف وسطه بسطر صريح
+وتبقى الأرقام الأصلية (`number_lines`). الرد المقطوع عند `max_tokens` يُعاد مرة بـ`max_tokens_retry`، والقائمة المرسلة نصًا تُحلّ (درس #1741). الجلب
+`fetch_segments` يحفظ بداية السطر ومدته بكسورها ويمرّ بتراجع `fetch_transcript` نفسه. **V0 قياس فقط:** لا شيء في المسار الحي يستدعيها؛ الأداة تقارن المقاطع
+بالنقاط على فيديوهات حقيقية (النصوص في `youtube-data/bites_probe/` الخاص، والأرقام وحدها في `state/bites_probe/`). g702–g707 في
+`tests/test_guards_golden.py:test_youtube_bites_v0_guards`.
