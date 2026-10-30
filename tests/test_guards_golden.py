@@ -21583,8 +21583,8 @@ def test_reel_r14_guards() -> None:
         c2.setdefault("reel", {})["enabled"] = True
         people = ["ليلى حداد", "سامر النجار", "رامي خوري", "هدى منصور"]
         pts = [{"video_id": f"v{i}", "bloc": "arabic", "channel": f"قناة {i}", "speaker": people[i], "statement": f"قول {i}",
-                "quote_arabic": f"اقتباس عربي {i}", "quote_original": " ".join(f"w{i}x{k}" for k in range(20)), "type": "fact",
-                "video_title": f"فيديو {i}", "video_url": f"https://youtube.com/watch?v=v{i}", "timestamp": 100 + i * 10,
+                "quote_arabic": f"اقتباس عربي {i}", "quote_original": " ".join(f"w{i}x{k}" for k in range(34)), "type": "fact",
+                "video_title": f"فيديو {i}", "video_url": f"https://youtube.com/watch?v=v{i}", "timestamp": 100 + i * 30,
                 "video_published": "2099-10-30"} for i in range(4)]
         valid = reel_script.valid_clips(pts, [], c2)
         ids = [c["point_id"] for c in valid]
