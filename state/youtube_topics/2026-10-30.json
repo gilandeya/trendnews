@@ -1,0 +1,753 @@
+{
+  "run_date": "2026-10-30",
+  "stats": {
+    "points_in": 261,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 111,
+    "issues_clustered": 26,
+    "topics_merged": 6,
+    "topics_out": 6,
+    "dropped_by_bloc_cap": 4,
+    "topics_seen_skipped": 0,
+    "topics_below_min_points": 3,
+    "topics_below_min_channels": 7,
+    "layers": {
+      "3": 1,
+      "2": 3,
+      "1": 2
+    },
+    "agreement": 2,
+    "cross_source": 4,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "نتائج الانتخابات الإسرائيلية 2025 - الأرقام",
+      "نجاح الأحزاب العربية بالانتخابات"
+    ],
+    [
+      "احتمال حرب أمريكية-إسرائيلية على إيران",
+      "الانتخابات النصفية الأمريكية 2026"
+    ],
+    [
+      "الرسالة الأمريكية والشروط الإيرانية السبعة",
+      "تضييع إيران فرص التفاوض"
+    ],
+    [
+      "تحالفات المعارضة التركية والحزب الجديد",
+      "بلدية إسطنبول وتوازنات الأعضاء"
+    ],
+    [
+      "قيادة الحزب الجديد ومرشح الرئاسة",
+      "أزمة صندوق تيرا المالية"
+    ],
+    [
+      "الوساطة التركية في ليبيا",
+      "أزمة تركيا-أذربيجان بشأن قره باغ"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "تشكيل الحكومة الإسرائيلية بعد الانتخابات",
+      "event": "جدل حول إمكانية تشكيل حكومة إسرائيلية جديدة بعد انتخابات الكنيست وموقف إيزنكوت ونتنياهو والأحزاب العربية",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "ILTV",
+        "Iran International",
+        "ערוץ 14",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        12,
+        13,
+        19,
+        22,
+        23,
+        25,
+        28,
+        29,
+        32,
+        33,
+        34,
+        38,
+        39,
+        124,
+        125,
+        130,
+        140,
+        142,
+        147
+      ],
+      "total_points": 19,
+      "fresh_points": 19,
+      "dropped_reason": null,
+      "id": "e96ba461357e",
+      "created_at": "2026-10-30T04:02:15.082721+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1736
+    },
+    {
+      "title": "تحليل حملة نتنياهو الانتخابية",
+      "event": "استراتيجية نتنياهو في الحملة الانتخابية (تخويف من العرب واستعادة الثقة)",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        20,
+        30,
+        37,
+        61,
+        68,
+        105,
+        109
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null,
+      "id": "9db42e08e881",
+      "created_at": "2026-10-30T04:02:15.082721+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1736
+    },
+    {
+      "title": "الوساطة التركية في ليبيا",
+      "event": "محادثات أنقرة بين الأطراف الليبية ونتائجها العسكرية والسياسية",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        110,
+        111
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": null,
+      "id": "7b6b4610ecca",
+      "created_at": "2026-10-30T04:02:15.082721+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1736
+    },
+    {
+      "title": "نتائج الانتخابات الإسرائيلية 2025 - الأرقام",
+      "event": "إعلان النتائج الأولية لانتخابات الكنيست (توزيع المقاعد بين نتنياهو والمعارضة والعرب)",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        14,
+        18,
+        24,
+        27,
+        31,
+        36,
+        60,
+        69,
+        104,
+        106
+      ],
+      "total_points": 10,
+      "fresh_points": 10,
+      "dropped_reason": null,
+      "id": "7a077f2cad2e",
+      "created_at": "2026-10-30T04:02:15.082721+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1736
+    },
+    {
+      "title": "الانتخابات التركية المبكرة",
+      "event": "جدل حول إمكانية إجراء انتخابات تركية مبكرة وتوقيتها",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "SÖZCÜ"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        48,
+        49,
+        54,
+        55,
+        113
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null,
+      "id": "a1df70a02297",
+      "created_at": "2026-10-30T04:02:15.082721+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1736
+    },
+    {
+      "title": "تحقيق تمويل وتزوير الانتخابات الإسرائيلية",
+      "event": "فتح تحقيق في شبهات تمويل وتزوير ورشاوى انتخابية في الانتخابات الإسرائيلية",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ILTV",
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        127,
+        128,
+        138,
+        139,
+        144,
+        146
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null,
+      "id": "326255e82a65",
+      "created_at": "2026-10-30T04:02:15.082721+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1736
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "تشكيل الحكومة الإسرائيلية بعد الانتخابات",
+      "event": "جدل حول إمكانية تشكيل حكومة إسرائيلية جديدة بعد انتخابات الكنيست وموقف إيزنكوت ونتنياهو والأحزاب العربية",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "ILTV",
+        "Iran International",
+        "ערוץ 14",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        12,
+        13,
+        19,
+        22,
+        23,
+        25,
+        28,
+        29,
+        32,
+        33,
+        34,
+        38,
+        39,
+        124,
+        125,
+        130,
+        140,
+        142,
+        147
+      ],
+      "total_points": 19,
+      "fresh_points": 19,
+      "dropped_reason": null
+    },
+    {
+      "title": "تحليل حملة نتنياهو الانتخابية",
+      "event": "استراتيجية نتنياهو في الحملة الانتخابية (تخويف من العرب واستعادة الثقة)",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        20,
+        30,
+        37,
+        61,
+        68,
+        105,
+        109
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": null
+    },
+    {
+      "title": "الوساطة التركية في ليبيا",
+      "event": "محادثات أنقرة بين الأطراف الليبية ونتائجها العسكرية والسياسية",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        110,
+        111
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": null
+    },
+    {
+      "title": "نتائج الانتخابات الإسرائيلية 2025 - الأرقام",
+      "event": "إعلان النتائج الأولية لانتخابات الكنيست (توزيع المقاعد بين نتنياهو والمعارضة والعرب)",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "الجزيرة",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        14,
+        18,
+        24,
+        27,
+        31,
+        36,
+        60,
+        69,
+        104,
+        106
+      ],
+      "total_points": 10,
+      "fresh_points": 10,
+      "dropped_reason": null
+    },
+    {
+      "title": "احتمال حرب أمريكية-إسرائيلية على إيران",
+      "event": "توقعات بشن هجوم أمريكي إسرائيلي على إيران بعد الانتخابات النصفية الأمريكية",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        63,
+        66,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        107,
+        108
+      ],
+      "total_points": 10,
+      "fresh_points": 10,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "دعم ترامب لنتنياهو",
+      "event": "تصريح ترامب بأن دعمه ساعد نتنياهو في الانتخابات",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "العربية",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        21,
+        40,
+        62
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "الانتخابات التركية المبكرة",
+      "event": "جدل حول إمكانية إجراء انتخابات تركية مبكرة وتوقيتها",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "SÖZCÜ"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        48,
+        49,
+        54,
+        55,
+        113
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": null
+    },
+    {
+      "title": "تحالفات المعارضة التركية والحزب الجديد",
+      "event": "علاقة حزب الشعب الجمهوري بالحزب الجديد واحتمال اندماجهما أو تحالفهما",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        50,
+        52,
+        56,
+        57,
+        99,
+        100,
+        101,
+        102
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "قيادة الحزب الجديد ومرشح الرئاسة",
+      "event": "تصدر أوزغور أوزيل لقيادة الحزب الجديد واحتمال ترشحه للرئاسة",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk",
+        "SÖZCÜ"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        51,
+        53,
+        57,
+        58,
+        98,
+        114,
+        115,
+        116,
+        117
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "الرسالة الأمريكية والشروط الإيرانية السبعة",
+      "event": "الرسالة الأمريكية لإيران والشروط الإيرانية السبعة للتفاوض",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        15,
+        16,
+        17,
+        67,
+        70,
+        71
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الاقتصاد العالمي بعد حرب إيران",
+      "event": "تأثير الحرب على إيران على أسعار الطاقة والاقتصاد العالمي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        72,
+        73,
+        74,
+        76
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "صمود دول الخليج اقتصاديا",
+      "event": "قدرة دول الخليج المالية على الصمود أمام الأزمة الاقتصادية الإقليمية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        75,
+        77
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "قضية قمع الصحافة في مصر",
+      "event": "إدانة رئيسة تحرير مدى مصر وتقييد حرية الصحافة في مصر",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        84,
+        85,
+        86,
+        87,
+        88
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الوضع الاقتصادي المصري وتأثيره على الإعلام",
+      "event": "الدين الخارجي المصري والضغط الاقتصادي وتأثيره على القمع الإعلامي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        89,
+        90
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تهريب تسليح إيراني بالتحايل على العقوبات",
+      "event": "شبكة سرية إيرانية لتوريد معدات عسكرية بالتحايل على العقوبات (تقرير رويترز)",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        121,
+        122,
+        123
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تحقيق تمويل وتزوير الانتخابات الإسرائيلية",
+      "event": "فتح تحقيق في شبهات تمويل وتزوير ورشاوى انتخابية في الانتخابات الإسرائيلية",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ILTV",
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        127,
+        128,
+        138,
+        139,
+        144,
+        146
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "اتفاق مكة الثلاثي وتحالفات إقليمية",
+      "event": "تحالف عسكري ثلاثي بين تركيا والسعودية وباكستان (اتفاق مكة) ورد فعله على هجوم حوثي",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        132,
+        133,
+        134,
+        135
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "إضراب التعليم الفرنسي",
+      "event": "احتجاجات واضراب في قطاع التعليم الفرنسي بدأت بضاحية كريتاي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "سيناء الجيوأمنية",
+      "event": "الأهمية الجيوأمنية لسيناء ومشاريع التنمية والهواجس الإسرائيلية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الكلاسيكو ريال-برشلونة",
+      "event": "فوز ريال مدريد على برشلونة في الكلاسيكو وتحليل أسبابه",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    }
+  ]
+}
