@@ -21637,3 +21637,36 @@ def test_reel_r14_guards() -> None:
                                                       {"kind": "clip", "q": 0, "point_id": "a"}]}, {"a"})
         check("g699: سؤال بلا إجابة تُحذف بطاقته", orphan["scenes"] == [], orphan)
     guarded("g699", g699)
+
+
+def test_reel_band_attach_s13_guards() -> None:
+    """S13 (g700–g701): بقرار صاحب المشروع يلاصق أعلى شريط المتحدث الضلعَ السفلي للإطار الذهبي حول نافذة الكلام، والترجمة فوقه تنزل معه
+    بالقدر نفسه (كان الشريط عند 980 يغطي أسفل النافذة التي تنتهي عند 1250). band.attach_to_frame: false ← band.top كما كان."""
+    import copy
+
+    import numpy as np
+
+    from src import reel_render
+
+    cfg = load_config()
+    fc = cfg.path("reel.render.panel.frame")
+    b = int(cfg.path("reel.render.panel.border.width"))
+    want = int(fc["top"]) + int(fc["height"]) + b
+    check("g700: أعلى الشريط = أسفل الإطار الذهبي", reel_render.band_top(cfg) == want, (reel_render.band_top(cfg), want))
+    nb = copy.deepcopy(cfg)
+    nb["reel"]["render"]["panel"]["border"]["enabled"] = False
+    check("g700: بلا إطار ذهبي ← أسفل النافذة نفسها", reel_render.band_top(nb) == want - b, reel_render.band_top(nb))
+    off = copy.deepcopy(cfg)
+    off["reel"]["render"]["band"]["attach_to_frame"] = False
+    check("g700: attach_to_frame: false ← band.top", reel_render.band_top(off) == int(cfg.path("reel.render.band.top")))
+    scene = {"kind": "clip", "speaker_verified": True, "speaker_name": "أحمد هاكان", "speaker_role": "مقدّم",
+             "channel_display": "سي إن إن ترك", "quote_arabic": "ربما لم تكن هناك نتيجة ملموسة"}
+    static, band = reel_render.frame_clip_layers(cfg, scene, cover=False)
+    a = np.array(band)[..., 3]
+    W = a.shape[1]
+    check("g701: الشريط يبدأ عند أسفل الإطار تمامًا لا قبله", a[want, W - 5] > 0 and a[want - 1, W - 5] == 0,
+          (int(a[want - 1, W - 5]), int(a[want, W - 5])))
+    q = np.array(static)[..., 3]
+    rows = np.where(q[:, W // 2] > 0)[0]
+    check("g701: صندوق الترجمة ينتهي فوق الشريط بنحو 24 بكسل (نزل معه)",
+          len(rows) > 0 and want - 30 <= int(rows.max()) <= want - 20, int(rows.max()) if len(rows) else None)
