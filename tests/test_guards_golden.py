@@ -21736,3 +21736,31 @@ def test_youtube_bites_v0_guards() -> None:
     got, lang, limited = yb.fetch_segments("v", None, None, [], fetch_once=fake_once)
     check("g707: الجلب يحفظ الكسور والمدة ويمرّ بمنطق التراجع نفسه",
           got == [{"start": 1.25, "dur": 2.0, "text": "أ"}] and lang == "ar" and limited is False, (got, lang))
+
+
+def test_youtube_bites_v0b_guards() -> None:
+    """V0b (g708–g710): دروس قياس V0 الأول على 10 فيديوهات حقيقية — القائمة جاءت نصًا JSON مغلَّفًا بمفتاحها وبعده بقايا وسم
+    في كل الفيديوهات، ومقاطع تحوي سؤال المقدّم ثم الجواب («>>» داخلها)، وترجمة نُسخت بلغة الكلام التركي/الفارسي/العبري."""
+    from src import youtube_bites as yb
+    from src.config import load_config
+
+    cfg = load_config()
+    got = yb._as_list('{"bites": [{"start_line": 1}]}\n</invoke>\n')
+    check("g708: نص JSON مغلَّف بمفتاحه وبعده بقايا وسم يُحلّ", got == [{"start_line": 1}], got)
+    segs = yb.clean_segments([{"start": 3.0 * i, "dur": 3.0, "text": (">> " if i in (1, 4) else "") + f"سطر {i}"}
+                              for i in range(1, 12)])
+    shown = set(range(1, 12))
+
+    def bite(s, e, text="نص عربي", **kw):
+        return {"start_line": s, "end_line": e, "speaker": "", "speaker_original": "", "speaker_role": "ضيف", "is_host": False,
+                "type": "opinion", "event_hint": "", "summary_ar": "", "text_ar": text, "answers": "", **kw}
+    ok, bad = yb.validate_bites([bite(1, 4)], segs, shown, cfg)
+    check("g709: «>>» بعد السطر الأول ← تبدّل متكلم يُرفض", not ok and "تبدّل المتكلم" in bad[0]["reason"], bad)
+    ok, _ = yb.validate_bites([bite(4, 7)], segs, shown, cfg)
+    check("g709: «>>» في السطر الأول وحده مقبول", len(ok) == 1, ok)
+    for label, text in (("تركي", "Bu konuda çok net konuştu ve bitti"), ("فارسي", "این یک گفتگوی مهم است"),
+                        ("عبري", "זה מה שאני אומר")):
+        ok, bad = yb.validate_bites([bite(4, 7, text=text)], segs, shown, cfg)
+        check(f"g710: نص معروض {label} يُرفض", not ok and "ليس عربيًا" in bad[0]["reason"], bad)
+    ok, _ = yb.validate_bites([bite(4, 7, text="قال إن حزب CHP لن يتراجع عن موقفه في البرلمان")], segs, shown, cfg)
+    check("g710: عربي فيه اسم لاتيني قصير مقبول", len(ok) == 1, ok)

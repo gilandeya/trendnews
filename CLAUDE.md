@@ -2687,3 +2687,8 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 `fetch_segments` يحفظ بداية السطر ومدته بكسورها ويمرّ بتراجع `fetch_transcript` نفسه. **V0 قياس فقط:** لا شيء في المسار الحي يستدعيها؛ الأداة تقارن المقاطع
 بالنقاط على فيديوهات حقيقية (النصوص في `youtube-data/bites_probe/` الخاص، والأرقام وحدها في `state/bites_probe/`). g702–g707 في
 `tests/test_guards_golden.py:test_youtube_bites_v0_guards`.
+
+**V0b (دروس القياس الأول، g708–g710 في `test_youtube_bites_v0b_guards`):** Sonnet أعاد القائمة نصًا JSON مغلَّفًا بمفتاحها وبعده بقايا وسم في كل الفيديوهات
+العشرة (`_as_list` بـ`raw_decode` ويقبل `{"bites": [...]}`)؛ مقطع فيه «>>» (علامة تبدّل المتكلم في نص يوتيوب، `youtube.bites.turn_marker`) بعد سطره الأول يُرفض
+(سؤال المقدّم ثم الجواب)؛ النص المعروض يجب أن يكون عربيًا (`is_arabic_text`: نسبة `arabic_ratio` وبلا حرف فارسي خاص ولا عبري) لأن الترجمة نُسخت بلغة الكلام؛ و`speaker`
+بالحروف العربية مع `speaker_original`. والنموذج تجاهل حدّ 25 ث (وسيط 38 ث) فصار البرومبت يطلب اقتطاع أقوى فكرة من داخل الجواب الطويل.
