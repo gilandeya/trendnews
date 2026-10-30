@@ -1,0 +1,79 @@
+name: 🧪 قياس مقاطع الريل (V0)
+
+on:
+  workflow_dispatch:
+    inputs:
+      videos:
+        description: "عدد الفيديوهات"
+        required: false
+        default: "10"
+      days:
+        description: "آخر كم يومًا"
+        required: false
+        default: "3"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: trendnews-bites-probe
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: سحب مستودع بيانات يوتيوب الخاص
+        uses: actions/checkout@v4
+        with:
+          repository: gilandeya/trendnews-data
+          token: ${{ secrets.YOUTUBE_DATA_TOKEN }}
+          path: youtube-data
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: القياس
+        env:
+          WEBSHARE_PROXY_USERNAME: ${{ secrets.WEBSHARE_PROXY_USERNAME }}
+          WEBSHARE_PROXY_PASSWORD: ${{ secrets.WEBSHARE_PROXY_PASSWORD }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TRENDNEWS_YOUTUBE_POINTS_DIR: ${{ github.workspace }}/youtube-data/state/youtube_points
+        run: python tools/bites_probe.py --videos ${{ inputs.videos }} --days ${{ inputs.days }}
+
+      - name: رفع النصوص والمقاطع إلى المستودع الخاص
+        if: always()
+        working-directory: youtube-data
+        run: |
+          git config user.name  "trendnews-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          BRANCH="$(git symbolic-ref --short HEAD)"
+          mkdir -p bites_probe && git add bites_probe
+          git diff --quiet --cached && exit 0
+          git commit -m "chore(bites): قياس V0 $(date -u '+%Y-%m-%d %H:%M') UTC"
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin "$BRANCH" && git push origin "HEAD:$BRANCH" && exit 0
+            sleep $((i * 7))
+          done
+          exit 1
+
+      - name: رفع الأرقام وحدها إلى المستودع العام
+        if: always()
+        run: |
+          git config user.name  "trendnews-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p state/bites_probe && git add state/bites_probe
+          git diff --quiet --cached && exit 0
+          git commit -m "chore(bites): تقرير قياس V0"
+          for i in 1 2 3; do
+            git pull --rebase --autostash -X theirs origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            sleep $((i * 7))
+          done
+          exit 1
