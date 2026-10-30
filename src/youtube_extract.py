@@ -585,9 +585,29 @@ def _fetch_once(video_id: str, proxy_config, session: requests.Session | None) -
     ytt_api = (YouTubeTranscriptApi(proxy_config=proxy_config, http_client=session)
                if session is not None else YouTubeTranscriptApi(proxy_config=proxy_config))
     transcript_list = ytt_api.list(video_id)
-    transcript = next(iter(transcript_list))  # قد يرفع StopIteration
+    transcript = pick_track(list(transcript_list))  # قد يرفع StopIteration
     fetched = transcript.fetch()
     return format_transcript(fetched), transcript.language_code
+
+
+def _base_lang(code: str | None) -> str:
+    return str(code or "").split("-")[0].lower()
+
+
+def pick_track(tracks: list):
+    """مسار الترجمة بلغة الكلام المنطوق (R14، دالة خالصة). المكتبة تعطي المسارات اليدوية أولًا ثم الآلية، واليدوي قد يكون ترجمة
+    رفعتها القناة بلغة أخرى (سي إن إن ترك: إنجليزي يدوي لحلقة تركية، فخرج الاقتباس إنجليزيًا وحُكم على المقطع بلغته وسمع المفرِّغ
+    التركي إنجليزيًا). المسار الآلي (is_generated) تفريغ صوت الحلقة نفسه فلغته لغة الكلام: يُختار اليدوي بلغته إن وُجد (أدق)
+    وإلا الآلي؛ وبلا مسار آلي أول المسارات كما كان. قائمة فارغة ترفع StopIteration (لا مسارات)."""
+    if not tracks:
+        raise StopIteration
+    generated = [t for t in tracks if getattr(t, "is_generated", False)]
+    if not generated:
+        return tracks[0]
+    spoken = _base_lang(getattr(generated[0], "language_code", ""))
+    same = [t for t in tracks if not getattr(t, "is_generated", False)
+            and _base_lang(getattr(t, "language_code", "")) == spoken]
+    return same[0] if same else generated[0]
 
 
 def _should_retry(attempt: int, delays: list[float]) -> tuple[bool, float | None]:

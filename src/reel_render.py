@@ -683,8 +683,13 @@ BG_JUDGE_TOOL = {
     "name": "judge_background",
     "description": "احكم هل الصورة تصلح خلفية لراوٍ يقرأ سؤال الريل.",
     "input_schema": {"type": "object", "properties": {
-        "fits": {"type": "boolean"}, "shows": {"type": "string"}, "reason": {"type": "string"}},
-        "required": ["fits", "shows", "reason"]},
+        "fits": {"type": "boolean"}, "shows": {"type": "string"}, "reason": {"type": "string"},
+        # R14: نص مركَّب على الصورة (عنوان أو تعليق أو شعار أو علامة مائية) لا يُعرض خلف الراوي؛ clean_box أكبر مستطيل خالٍ منه
+        # بنسب من العرض والارتفاع، فيقصّه الكود أو يرفض الصورة إن صغر
+        "overlaid_text": {"type": "boolean"},
+        "clean_box": {"type": "object", "properties": {"x0": {"type": "number"}, "y0": {"type": "number"},
+                                                      "x1": {"type": "number"}, "y1": {"type": "number"}}}},
+        "required": ["fits", "shows", "reason", "overlaid_text"]},
 }
 
 
@@ -710,8 +715,44 @@ def bg_fits(img, subject: str, cfg, client=None) -> dict:
     data = reel_hook_search._tool_input(resp, BG_JUDGE_TOOL["name"])
     if not isinstance(data.get("fits"), bool):
         raise ValueError("ردّ غير صالح من حاكم الخلفية")
-    return {"fits": data["fits"], "shows": " ".join(str(data.get("shows") or "").split())[:120],
-            "reason": " ".join(str(data.get("reason") or "").split())[:200]}
+    out = {"fits": data["fits"], "shows": " ".join(str(data.get("shows") or "").split())[:120],
+           "reason": " ".join(str(data.get("reason") or "").split())[:200]}
+    if isinstance(data.get("overlaid_text"), bool):
+        out["overlaid_text"] = data["overlaid_text"]
+        if isinstance(data.get("clean_box"), dict):
+            out["clean_box"] = data["clean_box"]
+    return out
+
+
+def bg_text_crop(img, verdict: dict, cfg) -> tuple[list | None, str | None]:
+    """قرار الكود في صورة عليها نص مركَّب (R14، دالة خالصة): (نسب القصّ [x0, y0, x1, y1]، None) إن كان المستطيل الخالي من النص
+    صالحًا وأبعاده بالبكسل ≥ background.text_crop.min_width/min_height، و(None، سبب الرفض) إن غاب أو صغر فيُجرَّب المرشّح التالي.
+    صورة بلا نص (أو حكم قديم بلا overlaid_text) ← (None، None) فتبقى كاملة."""
+    if verdict.get("overlaid_text") is not True:
+        return None, None
+    tc = cfg.path("reel.render.background.text_crop") or {}
+    t = cfg.path("reel.render.texts")
+    box = verdict.get("clean_box") or {}
+    try:
+        x0, y0, x1, y1 = (min(max(float(box[k]), 0.0), 1.0) for k in ("x0", "y0", "x1", "y1"))
+    except (KeyError, TypeError, ValueError):
+        return None, t["bg_text_no_box"]
+    iw, ih = img.size
+    pw, ph = (x1 - x0) * iw, (y1 - y0) * ih
+    if pw < float(tc.get("min_width", 540)) or ph < float(tc.get("min_height", 540)):
+        return None, t["bg_text_small"].format(w=max(int(pw), 0), h=max(int(ph), 0))
+    return [round(x0, 4), round(y0, 4), round(x1, 4), round(y1, 4)], None
+
+
+def apply_bg_crop(img, crop):
+    """يقصّ صورة الخلفية بنسب crop المحفوظة (R14)؛ بلا crop أو بنسب غير صالحة ← الصورة كما هي."""
+    try:
+        x0, y0, x1, y1 = (float(v) for v in crop)
+    except (TypeError, ValueError):
+        return img
+    iw, ih = img.size
+    box = (round(x0 * iw), round(y0 * ih), round(x1 * iw), round(y1 * ih))
+    return img.crop(box) if box[2] > box[0] and box[3] > box[1] else img
 
 
 _URL_YM = re.compile(r"/((?:19|20)\d\d)/(0?[1-9]|1[0-2])(?:/|$)")
@@ -807,7 +848,16 @@ def pick_background(draft: dict, cfg, providers: dict | None = None, draft_date:
             if len(rejected) < max_rejected:
                 rejected.append({"url": url, "shows": v.get("shows", ""), "reason": v.get("reason", "")})
             return False
+        # R14: نص مركَّب على الصورة ← يُقصّ المستطيل الخالي منه، أو تُرفض الصورة إن صغر فيُجرَّب المرشّح التالي
+        crop, why = bg_text_crop(img, v, cfg)
+        if why:
+            log.info("رُفض مرشّح خلفية الراوي %s: %s", url[:80], why)
+            if len(rejected) < max_rejected:
+                rejected.append({"url": url, "shows": v.get("shows", ""), "reason": why})
+            return False
         verdict["shows"] = v.get("shows", "")
+        verdict["crop"] = crop
+        verdict["text_checked"] = "overlaid_text" in v
         return True
 
     def done(res: dict) -> dict:
@@ -815,6 +865,8 @@ def pick_background(draft: dict, cfg, providers: dict | None = None, draft_date:
         if not judging:
             return res
         res = {**res, **({"shows": verdict["shows"]} if res.get("url") and verdict.get("shows") else {}),
+               **({"crop": verdict["crop"]} if res.get("url") and verdict.get("crop") else {}),
+               **({"text_checked": True} if res.get("url") and verdict.get("text_checked") else {}),
                "judged": "error" not in verdict}
         if rejected:
             res["rejected"] = rejected
@@ -1991,6 +2043,12 @@ def _audio_prefix(clip: dict) -> str:
     return f"atrim=start={_fmt(tr[0])}:end={_fmt(tr[1])},asetpts=PTS-STARTPTS," if tr else ""
 
 
+def youtube_extract_base_lang(code: str | None) -> str:
+    """رمز اللغة الأساسي (tr-TR ← tr) بقاعدة youtube_extract._base_lang؛ استيراد متأخر كبقية مساعدات الاستخراج هنا."""
+    from . import youtube_extract
+    return youtube_extract._base_lang(code)
+
+
 def _exact_align(file: Path, lang: str | None, point: dict, cfg, deps: Deps, diag: dict | None = None) -> tuple[dict | None, str]:
     """تفريغ كلمات الملف ومطابقة الاقتباس الأصلي (Q13). يعيد (نتيجة align_quote بثواني الملف، "") أو (None، السبب)؛ لا يرفع أبدًا.
     diag (Q15) يُملأ بتشخيص الفشل (reason وbest_ratio وheard_words وheard_head) ويذكر نص السبب الرقم نفسه."""
@@ -2023,6 +2081,11 @@ def _exact_apply(clip: dict, scene: dict, point: dict, dstart: int, wstart: int,
     xcfg = cfg.path("reel.render.exact") or {}
     scfg = cfg.path("reel.script") or {}
     lang = scene.get("language") if scene.get("language") not in (None, "", "other") else None
+    # R14: لغة الكلام من مسار النص المجلوب الآن (pick_track) تغلب لغة النقطة المحفوظة: نقطة استُخرجت من ترجمة بلغة أخرى كانت
+    # تُفرِّغ صوتًا تركيًا بالإنجليزية فيُترجمه المفرِّغ بدل أن يسمعه
+    code = deps.transcript_lang(point.get("video_id")) if deps.transcript_lang is not None and point.get("video_id") else None
+    if code:
+        lang = youtube_extract_base_lang(code)
     fsecs = float(clip["seconds"])
     # off: الفحص الذاتي فشل (Q13b) ← لا نداء تفريغ، والسبب واحد يُكتب مرة في التعليق لا مقطعًا مقطعًا
     diag: dict = {}
@@ -2749,7 +2812,8 @@ def transition_seconds(cfg) -> float:
     return seconds
 
 
-def quote_word_times(n_words: int, clip_seconds: float, segments: list, start_offset: float, cfg) -> list[float]:
+def quote_word_times(n_words: int, clip_seconds: float, segments: list, start_offset: float, cfg,
+                     visible_end: float | None = None) -> list[float]:
     """زمن ظهور كل كلمة عربية من ترجمة كلام المتحدث داخل المقطع (Issue #1592، R5h). النص المجلوب يعطي منحنى تقدّم الكلام
     لا كلماته: كلمات كل مقطع موزّعة بالتساوي على مدته (حتى بداية التالي، والأخير حتى نهاية النافذة)، والكلمة k من n تظهر
     عند أول زمن يبلغ فيه التقدّم k/n؛ فيتبع النص سرعة المتحدث ووقفاته ولو كان كلامه بلغة أخرى. بلا مقاطع (نافذة تقريبية أو
@@ -2759,6 +2823,12 @@ def quote_word_times(n_words: int, clip_seconds: float, segments: list, start_of
         return []
     trans = transition_seconds(cfg)
     hi = max(clip_seconds - 0.1, trans)
+    # R14: آخر كلمة تظهر قبل أن تختفي الترجمة بـquote.min_visible على الأقل. في اللوحة تختفي الطبقات عند بدء عودة الإطار (pop.shrink)
+    # لا عند نهاية المقطع، فكان سطر أخير بتوقيت متأخر («…المحادثات ستستمر.») يقع بعد اختفائها فلا يُرى
+    min_vis = float(cfg.path("reel.render.quote.min_visible", 0.0) or 0.0)
+    end = clip_seconds if visible_end is None else min(float(visible_end), clip_seconds)
+    if min_vis > 0:
+        hi = max(min(hi, end - min_vis), trans)
     lo = trans
     step = 0.04
     spans: list[tuple[float, float, int]] = []
@@ -2844,9 +2914,12 @@ CHYRON_TOOL = {
                        "name_arabic": {"type": "string"}, "role_original": {"type": "string"},
                        "role_arabic": {"type": "string"}, "is_presenter": {"type": "boolean"},
                        "name_kind": {"type": "string", "enum": ["person", "program", "channel", "other"]},
-                       "name_is_speaker": {"type": "string", "enum": ["yes", "no", "unsure"]}},
+                       "name_is_speaker": {"type": "string", "enum": ["yes", "no", "unsure"]},
+                       # R14: شريط تعريف بالشخص الظاهر أم عنوان خبر يذكر شخصًا يدور عنه الخبر (سي إن إن ترك: «عاصم منير في طهران»
+                       # تحت المقدّم أحمد هاكان فظهر باسم عاصم منير)
+                       "strap_kind": {"type": "string", "enum": ["name_strap", "headline", "none"]}},
         "required": ["has_caption", "name_original", "name_arabic", "role_original", "role_arabic", "is_presenter",
-                     "name_kind", "name_is_speaker"]}}},
+                     "name_kind", "name_is_speaker", "strap_kind"]}}},
         "required": ["frames"]},
 }
 _LATIN_CHARS = re.compile(r"[A-Za-z\u00C0-\u024F]")
@@ -3072,9 +3145,14 @@ def resolve_chyron(frames: list, cfg, channel: str | list = "", roster: list | N
     invalid: dict[str, list[dict]] = {}
     host: list[dict] = []
     overrides: set[str] = set()
+    headlines = 0
     for f in frames:
         name = " ".join(str(f.get("name_original") or "").split())
         if not name:
+            continue
+        # R14: عنوان خبر يذكر شخصًا ليس تعريفًا بالمتكلم: لا يُعدّ نحو القبول ولا المخالفة ولا اسمًا للمقدّم. غياب الحقل (مزيَّفات قديمة) شريط اسم
+        if f.get("strap_kind") == "headline":
+            headlines += 1
             continue
         # Q10: اسم المقدّم يظهر في الشريط طوال الحلقة فوق الضيف، فلا تُعدّ لقطة نحو القبول ولا المخالفة إلا إن قال النموذج
         # إن الاسم للشخص الذي في الصورة؛ غياب الحقل (مزيَّفات قديمة) يُعدّ yes
@@ -3109,6 +3187,8 @@ def resolve_chyron(frames: list, cfg, channel: str | list = "", roster: list | N
            "is_presenter": sum(1 for f in frames if f.get("is_presenter") is True) >= 2,
            "frames_agreeing": agreeing, "rejected": rejected,
            "accepted": agreeing >= 2 and bool(name_ar) and not rejected}
+    if headlines:
+        out["headline_frames"] = headlines
     if overrides:
         # تغييران متعاكسان نادران: تُسجَّل النتيجة النهائية (مقبول ← ضيف، مرفوض ← مقدّم)
         out["roster_override"] = next(iter(overrides)) if len(overrides) == 1 else ("guest" if out["accepted"] else "host")
@@ -3192,6 +3272,11 @@ def _apply_chyron(scene: dict, clip: dict, cfg, deps: Deps, speakers: dict, note
             return unverified
         return None
     speakers[str(index)] = res
+    if res.get("headline_frames") and not res["accepted"]:
+        # R14: يرى المراجع أن اسمًا على الشاشة أُهمل لأنه عنوان خبر لا تعريف بالمتكلم
+        line = cfg.path("reel.render.texts.comment_chyron_headline").format(channel=scene.get("channel_display") or "")
+        if line not in notes:
+            notes.append(line)
     if res.get("roster_override") == "guest" and res["accepted"]:
         line = cfg.path("reel.render.texts.comment_roster_guest").format(name=res["name_arabic"] or res["name_original"])
         if line not in notes:
@@ -3728,7 +3813,7 @@ def _qcard_scene(i: int, scene: dict, audio: Path, parts: list, out: Path, cfg, 
 
 
 def _clip_layers(i: int, scene: dict, clip: dict, cfg, deps: Deps, tmp: Path, speakers: dict, notes: list,
-                 cover: bool | None = None) -> tuple[tuple[Path, Path], list | None]:
+                 cover: bool | None = None, visible_end: float | None = None) -> tuple[tuple[Path, Path], list | None]:
     """طبقتا المقطع (الثابتة والشريط) وتيار حالات الترجمة: اسم المتحدث المقروء من الشاشة يغيّر نص الشريط نفسه فيُطبَّق قبل رسمه،
     والترجمة كلمةً كلمة بتزامن كلامه (Issue #1592، R5h): النص المجلوب إن وُجد وإلا توزيع متساوٍ. مستخرجة من _assemble لتشترك فيها
     المشاهد الكاملة ولوحة الإجابات (P2c-1)؛ cover=False في اللوحة لأن الإطار لا يبلغ أسفل الشاشة فلا غطاء كحلي."""
@@ -3738,7 +3823,7 @@ def _clip_layers(i: int, scene: dict, clip: dict, cfg, deps: Deps, tmp: Path, sp
     qframes = None
     if qtext:
         segs = clip.get("segs") or []
-        times = quote_word_times(len(qtext.split()), clip["seconds"], segs, clip.get("wstart", 0.0), cfg)
+        times = quote_word_times(len(qtext.split()), clip["seconds"], segs, clip.get("wstart", 0.0), cfg, visible_end)
         # Q4 (Issue #1654): كلام غير عربي تنزل ترجمته سطرًا كاملًا لا كلمة كلمة (قرار صاحب المشروع)؛ العربي كما كان.
         # Q6: لغة الصوت من النص المجلوب إن عُرفت (الصوت المدبلج عربي وإن كانت النقطة من غيره)
         lang = (clip.get("span") or {}).get("lang") or scene.get("language")
@@ -3810,6 +3895,46 @@ def _panel_crops(clip: dict, crop: dict, scene: dict, q, tile: tuple | None, fra
     return (expr(tile_crop) if tile_crop else None), expr(frame_crop)
 
 
+def border_frames(cfg, fw: int, fh: int, tmp: Path) -> dict | None:
+    """إطار ذهبي بلمعة متحركة حول نافذة الكلام (R14، قرار صاحب المشروع). يعيد {pattern, width, fps, count} لتسلسل PNG بمقاس
+    (fw + 2·width)×(fh + 2·width): حلقة بلون panel.border.color (وإلا brand.accent_color) متدرّجة من الأفتح أعلى إلى الأغمق أسفل،
+    وكل shine.period ثانية يعبرها شريط قطري أبيض (shine.alpha، عرضه shine.band من القطر) خلال shine.seconds ثم تسكن؛ يُقرأ
+    التسلسل مكرَّرًا (-loop 1). يُبنى مرة لكل مقاس في التركيب. معطَّل ← None."""
+    import numpy as np
+    bc = cfg.path("reel.render.panel.border") or {}
+    if not bc.get("enabled"):
+        return None
+    b = max(int(bc.get("width", 8)), 1)
+    sc = bc.get("shine") or {}
+    sfps = max(int(sc.get("fps", 15)), 1)
+    count = max(int(round(float(sc.get("period", 3.0)) * sfps)), 1)
+    stem = f"border_{fw}x{fh}_{b}"
+    pattern = tmp / f"{stem}_%03d.png"
+    info = {"pattern": str(pattern), "width": b, "fps": sfps, "count": count}
+    if (tmp / f"{stem}_{count - 1:03d}.png").exists():
+        return info
+    w, h = fw + 2 * b, fh + 2 * b
+    gold = np.array(imaging.hex_rgb(bc.get("color") or cfg.path("brand.accent_color")), float)
+    ys, xs = np.mgrid[0:h, 0:w]
+    ring = ~((xs >= b) & (xs < w - b) & (ys >= b) & (ys < h - b))
+    shade = (1.15 - 0.3 * ys / max(h - 1, 1))[..., None]      # بريق معدني: أفتح أعلى وأغمق أسفل
+    base = np.clip(gold * shade, 0, 255)
+    diag = (xs / max(w - 1, 1) + ys / max(h - 1, 1)) / 2
+    band, sweep, alpha = float(sc.get("band", 0.16)), float(sc.get("seconds", 1.2)), float(sc.get("alpha", 0.85))
+    for j in range(count):
+        t = j / sfps
+        rgb = base.copy()
+        if t < sweep:
+            c = -band + (t / sweep) * (1 + 2 * band)
+            a = (alpha * np.clip(1 - np.abs(diag - c) / band, 0, 1))[..., None]
+            rgb = rgb * (1 - a) + 255 * a
+        out = np.zeros((h, w, 4), np.uint8)
+        out[..., :3] = rgb.astype(np.uint8)
+        out[..., 3] = np.where(ring, 255, 0).astype(np.uint8)
+        Image.fromarray(out, "RGBA").save(tmp / f"{stem}_{j:03d}.png")
+    return info
+
+
 def _panel_scene(members: list[tuple[int, dict]], clips: dict, out: Path, cfg, deps: Deps, tmp: Path, speakers: dict, notes: list,
                  nar_bg: Path | None = None, nar_plan: dict | None = None, bg_start: float = 0.0) -> float:
     """لوحة إجابات السؤال (Issue #1615، P2c-1): مقاطع السؤال الواحد في سيناريو v2 مشهد واحد بأمر ffmpeg واحد. البلاطات (n ≥ 2) تتحرك
@@ -3851,7 +3976,8 @@ def _panel_scene(members: list[tuple[int, dict]], clips: dict, out: Path, cfg, d
         crop = _prepare_crop(clip, cfg, deps, scene, notes)
         tile_expr, frame_expr = _panel_crops(clip, crop, scene, scene.get("q"), lay["tiles"][k] if n >= 2 else None, lay["frame"],
                                              cfg, deps, notes)
-        overlays, qframes = _clip_layers(i, scene, clip, cfg, deps, tmp, speakers, notes, cover=False)
+        overlays, qframes = _clip_layers(i, scene, clip, cfg, deps, tmp, speakers, notes, cover=False,
+                                         visible_end=float(clip["seconds"]) - shrink if pop else None)
         # Q5: _prepare_crop بنى السجل قبل أن يضبط _clip_layers وضع الترجمة وتزامنها، فتُكتبان فيه الآن
         for key in ("quote_sync", "quote_mode"):
             if clip.get(key) and isinstance(clip.get("crop"), dict):
@@ -3883,6 +4009,7 @@ def _panel_scene(members: list[tuple[int, dict]], clips: dict, out: Path, cfg, d
         vg.append(f"[0:v]fps={fps}[base]")
     cur = "base"
     fidx = []
+    border = border_frames(cfg, fw, fh, tmp)
     for k, (i, _) in enumerate(members):
         a, bb = _fmt(starts[k]), _fmt(starts[k] + float(clips[i]["seconds"]))
         fi = add("-i", str(clips[i]["file"]))
@@ -3891,6 +4018,12 @@ def _panel_scene(members: list[tuple[int, dict]], clips: dict, out: Path, cfg, d
             vg.append(f"[{fi}:v]{_video_prefix(clips[i])}{prepared[k][1]},scale={fw}:{fh},fps={fps},setpts=PTS-STARTPTS+{a}/TB[f{k}];"
                       f"[{cur}][f{k}]overlay={fx}:{fy}:enable='between(t,{a},{bb})'[o{k}]")
             cur = f"o{k}"
+            if border:
+                ri = add("-loop", "1", "-framerate", str(border["fps"]), "-i", border["pattern"])
+                bw = border["width"]
+                vg.append(f"[{ri}:v]fps={fps},format=rgba,setpts=PTS-STARTPTS+{a}/TB[r{k}];"
+                          f"[{cur}][r{k}]overlay={fx - bw}:{fy - bw}:enable='between(t,{a},{bb})'[ob{k}]")
+                cur = f"ob{k}"
             continue
         # الانبثاق: الإطار يكبر من مستطيل بلاطته (pop_start_rect) إلى الإطار البارز بالمعامل k(t) ثم يعود، بتعبير في t لكل إطار
         crop_k = clips[i].get("crop") or {}
@@ -3905,6 +4038,17 @@ def _panel_scene(members: list[tuple[int, dict]], clips: dict, out: Path, cfg, d
                   f"scale=w='{sw_e}':h='{sh_e}':eval=frame[f{k}];"
                   f"[{cur}][f{k}]overlay=x='{sx}+({fx}-{sx})*{kx}':y='{sy}+({fy}-{sy})*{kx}':enable='between(t,{a},{bb})'[o{k}]")
         cur = f"o{k}"
+        if border:
+            # الإطار الذهبي يتبع النافذة في كبرها وعودتها: يُكبَّر بالمعامل نفسه وسُمكه يتناسب معه فيبقى ملاصقًا لحافتها
+            ri = add("-loop", "1", "-framerate", str(border["fps"]), "-i", border["pattern"])
+            bw = border["width"]
+            sx_e, sy_e = f"(({sw}+({fw}-{sw})*{kx})/{fw})", f"(({sh}+({fh}-{sh})*{kx})/{fh})"
+            vg.append(f"[{ri}:v]fps={fps},format=rgba,setpts=PTS-STARTPTS+{a}/TB,"
+                      f"fade=t=in:st={a}:d={_fmt(fade)}:alpha=1,fade=t=out:st={_fmt(end_k - fade)}:d={_fmt(fade)}:alpha=1,"
+                      f"scale=w='trunc({fw + 2 * bw}*{sx_e}/2)*2':h='trunc({fh + 2 * bw}*{sy_e}/2)*2':eval=frame[r{k}];"
+                      f"[{cur}][r{k}]overlay=x='{sx}+({fx}-{sx})*{kx}-{bw}*{sx_e}':y='{sy}+({fy}-{sy})*{kx}-{bw}*{sy_e}':"
+                      f"enable='between(t,{a},{bb})'[ob{k}]")
+            cur = f"ob{k}"
     slide = float(rcfg.get("band", {}).get("slide_seconds", 0) or 0)
     for k, (i, _) in enumerate(members):
         a, bb = _fmt(starts[k]), _fmt(starts[k] + float(clips[i]["seconds"]))
@@ -3991,8 +4135,10 @@ ROSTER_TOOL = {
     "input_schema": {"type": "object", "properties": {"people": {"type": "array", "items": {
         "type": "object",
         "properties": {"name_arabic": {"type": "string"}, "name_original": {"type": "string"},
-                       "role_arabic": {"type": "string"}, "is_host": {"type": "boolean"}},
-        "required": ["name_arabic", "name_original", "role_arabic", "is_host"]}}},
+                       "role_arabic": {"type": "string"}, "is_host": {"type": "boolean"},
+                       # R14: من يظهر ويتكلم في الحلقة (مقدّم أو ضيف أو مراسل) أم من يدور عنه الخبر فقط (discussed) ولا يُعدّ ضيفًا
+                       "appears": {"type": "string", "enum": ["host", "guest", "correspondent", "discussed"]}},
+        "required": ["name_arabic", "name_original", "role_arabic", "is_host", "appears"]}}},
         "required": ["people"]},
 }
 ATTRIBUTE_TOOL = {
@@ -4188,7 +4334,9 @@ def _build_roster(vid: str, segs: list, cfg, deps: Deps) -> list[dict]:
     people = [{"name_arabic": " ".join(str(p.get("name_arabic") or "").split()),
                "name_original": " ".join(str(p.get("name_original") or "").split()),
                "role_arabic": " ".join(str(p.get("role_arabic") or "").split()), "is_host": bool(p.get("is_host"))}
-              for p in (raw or []) if isinstance(p, dict) and (p.get("name_arabic") or p.get("name_original"))]
+              for p in (raw or []) if isinstance(p, dict) and (p.get("name_arabic") or p.get("name_original"))
+              # R14: من يدور عنه الخبر ليس ضيفًا: كان يدخل القائمة فيُعتمد اسمه حين يظهر في عنوان خبر على الشاشة
+              and p.get("appears") != "discussed"]
     return people
 
 
@@ -4995,12 +5143,22 @@ def _resolve_background(path: Path, draft: dict, cfg, deps: Deps, notes: list) -
             # Q7: خلفية محفوظة قبل حكم النموذج (بلا judged) تُحكم مرة واحدة؛ لا تصلح ← إعادة اختيار. اليدوية والمعطّل لا يُحكم عليهما
             judge = (deps.bg_providers or {}).get("judge") or _default_providers().get("judge")
             subject = reel_hook_search.subject_text(draft.get("script") or {}, draft)
-            if (not reason and img0 is not None and judge and subject and not stored.get("judged")
-                    and stored.get("kind") != "manual"):
+            # R14: المحفوظة قبل فحص النص المركَّب (بلا text_checked) تُحكم مرة أخرى كذلك: نص عليها ← قصّ أو إعادة اختيار
+            if (not reason and img0 is not None and judge and subject and stored.get("kind") != "manual"
+                    and (not stored.get("judged") or not stored.get("text_checked"))):
                 try:
                     v = judge(img0, subject, cfg) or {}
                     if v.get("fits") is False:
                         reason = "لا تصلح لموضوع الريل: " + str(v.get("shows") or "")
+                    else:
+                        crop, why = bg_text_crop(img0, v, cfg)
+                        reason = why
+                        if not why:
+                            stored = {**stored, "judged": True, **({"text_checked": True} if "overlaid_text" in v else {})}
+                            stored.pop("crop", None)
+                            if crop:
+                                stored["crop"] = crop
+                            store.update_draft(path, reel_bg=stored)
                 except Exception as exc:  # noqa: BLE001 -- عطل الحكم لا يُسقط المحفوظة
                     log.warning("تعذّر حكم النموذج على الخلفية المحفوظة: %s", str(exc)[:100])
         if reason:
@@ -5021,6 +5179,8 @@ def _resolve_background(path: Path, draft: dict, cfg, deps: Deps, notes: list) -
     if img is None:
         notes.append(cfg.path("reel.render.texts.comment_bg_failed"))
         return None, stored
+    if not manual and used.get("crop"):
+        img = apply_bg_crop(img, used["crop"])
     prepared = prepare_background(cfg, img)
     prepared["used"] = used
     return prepared, stored
