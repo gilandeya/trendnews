@@ -21673,3 +21673,66 @@ def test_reel_band_attach_s13_guards() -> None:
     rows = np.where(q[:, W // 2] > 0)[0]
     check("g701: صندوق الترجمة ينتهي فوق الشريط بنحو 24 بكسل (نزل معه)",
           len(rows) > 0 and want - 30 <= int(rows.max()) <= want - 20, int(rows.max()) if len(rows) else None)
+
+
+def test_youtube_bites_v0_guards() -> None:
+    """V0 (g702–g707، خطة إعادة البناء للريل): المقطع فكرة تامة يحددها النموذج بأرقام أسطر النص، والكود يحسب الأزمنة ويتحقق.
+    سبب الخطة: النقاط الحالية اقتباسات قصيرة للمقال (#1740 سقط فيها 6 من 8 مقاطع مبتورة) ورد مقطوع قُبل ناقصًا (#1741)."""
+    import json as _json
+    import types
+
+    from src import youtube_bites as yb
+    from src.config import load_config
+
+    cfg = load_config()
+    segs = yb.clean_segments([{"start": 10.0 + 3 * i, "dur": 3.4, "text": f"سطر {i}"} for i in range(1, 21)]
+                             + [{"start": 80.0, "dur": 2.0, "text": "  "}])
+    check("g702: الأسطر الفارغة تُسقط والأرقام متصلة", len(segs) == 20, len(segs))
+    text, shown = yb.number_lines(segs, 100000)
+    check("g702: الترقيم من 1 بزمن البداية", text.splitlines()[0] == "[1] (0:13) سطر 1" and shown == set(range(1, 21)),
+          text.splitlines()[0])
+    text2, shown2 = yb.number_lines(segs, 120)
+    check("g703: الطويل يُحذف وسطه بسطر صريح ويبقى أوله وآخره بأرقامه الأصلية",
+          yb.TRUNCATION_LINE in text2 and 1 in shown2 and 20 in shown2 and len(shown2) < 20
+          and text2.splitlines()[-1].startswith("[20]"), sorted(shown2))
+
+    t0, t1 = yb.line_window(segs, 2, 5)
+    check("g704: النهاية بداية السطر التالي لا بداية الأخير + مدته المتراكبة", (t0, t1) == (16.0, 28.0), (t0, t1))
+
+    def bite(s, e, **kw):
+        return {"start_line": s, "end_line": e, "speaker": "سعيد زياد", "speaker_role": "محلل", "is_host": False,
+                "type": "opinion", "event_hint": "", "summary_ar": "", "text_ar": "نص", "answers": "", **kw}
+    ok, bad = yb.validate_bites([bite(2, 5), bite(1, 1), bite(4, 8), bite(10, 19), bite(20, 25), bite(12, 15, type="x"),
+                                 bite(14, 17, text_ar=" ")], segs, shown, cfg)
+    why = [b["reason"] for b in bad]
+    check("g705: المقبول الأول فقط، والقصير والمتداخل والطويل وخارج النص يُرفض كل بسببه",
+          [(b["start_line"], b["end_line"], b["seconds"]) for b in ok] == [(2, 5, 12.0)]
+          and any("خارج [" in r for r in why) and any("يتداخل" in r for r in why) and any("خارج النص" in r for r in why)
+          and any("نوع غير معروف" in r for r in why) and any("ترجمة فارغة" in r for r in why), (ok, why))
+    ok2, bad2 = yb.validate_bites([bite(2, 5)], segs, shown2, cfg)
+    check("g705: أسطر لم تُعرض على النموذج لا تُقبل", not ok2 and "لم تُعرض" in bad2[0]["reason"], bad2)
+
+    calls = []
+
+    def fake(client, **kw):
+        calls.append(kw["max_tokens"])
+        stop = "max_tokens" if len(calls) == 1 else "tool_use"
+        inp = {"bites": _json.dumps([bite(2, 5)], ensure_ascii=False)} if len(calls) > 1 else {"bites": []}
+        return types.SimpleNamespace(stop_reason=stop, usage=types.SimpleNamespace(input_tokens=5, output_tokens=7),
+                                     content=[types.SimpleNamespace(type="tool_use", name="extract_bites", input=inp)])
+    orig = yb._create
+    yb._create = fake
+    try:
+        res = yb.extract({"video_id": "v"}, segs, "ar", cfg, client=object())
+    finally:
+        yb._create = orig
+    check("g706: رد مقطوع عند max_tokens يُعاد مرة بسقف أعلى لا يُقبل ناقصًا (#1741)",
+          calls == [cfg.path("youtube.bites.max_tokens"), cfg.path("youtube.bites.max_tokens_retry")]
+          and res["stop_reason"] == "tool_use", calls)
+    check("g706: قائمة أُرسلت نصًا JSON تُحلّ", len(res["bites"]) == 1 and res["error"] == "", res)
+
+    def fake_once(video_id, proxy, session):
+        return _json.dumps([{"start": 1.25, "dur": 2.0, "text": "أ"}, {"start": 3.5, "dur": 1.0, "text": ""}]), "ar"
+    got, lang, limited = yb.fetch_segments("v", None, None, [], fetch_once=fake_once)
+    check("g707: الجلب يحفظ الكسور والمدة ويمرّ بمنطق التراجع نفسه",
+          got == [{"start": 1.25, "dur": 2.0, "text": "أ"}] and lang == "ar" and limited is False, (got, lang))
