@@ -2671,3 +2671,9 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 - **مناسبة الإجابة (Opus):** بعد سيناريو v2 سليم، `reel_script.fit_answers` نداء واحد بـ`reel.script.fit.model` (Opus) وأداة `judge_answers`
   (direct|weak|unrelated). ما في `fit.reject`: المحاولة الأولى تُعاد بالسبب في المحادثة (Q8)، والأخيرة تُحذف منها الإجابة (`drop_answers`، وبطاقة سؤال
   بلا إجابة) بتنبيه 🧹 ثم يُعاد التحقق. العطل لا يُسقط السيناريو. يُحفظ `script_fit` (ضمن `SCRIPT_KEYS`)؛ `install_fakes` يزيّف `_fit_create` بلا حكم.
+
+## شريط المتحدث تحت الإطار الذهبي مباشرة (S13)
+
+بقرار صاحب المشروع (مع علمه أنه يدخل منطقة أزرار فيسبوك ونص المنشور، S10): `reel_render.band_top(cfg)` = أسفل `panel.frame` + سُمك الإطار الذهبي
+(1258) حين `reel.render.band.attach_to_frame: true`، وإلا `band.top`. يقرؤه `frame_clip_layers` و`frame_quote_state` وكاشف الغطاء، فالترجمة (فوق الشريط
+بـ24 بكسل) تنزل معه بالقدر نفسه. `render_version` = 58 (للقادم فقط، S11). g700–g701؛ مراجع الأوامر المحفوظة تعمل بـ`reel_pre_s10_cfg` (attach مطفأ).

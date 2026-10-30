@@ -1064,7 +1064,7 @@ def reel_pre_s10_cfg(cfg):
     r["logo"] = {"top": 108, "right": 54, "width": 168}
     r["safe"] = {"top": 230, "bottom": 440, "side": 130, "right_col_width": 130, "right_col_from": 900, "right_col_to": 1500}
     r.setdefault("panel", {})["frame"] = {"width": 940, "height": 1190, "top": 200}
-    r["band"] = {**r.get("band", {}), "top": 1260, "height": 240}
+    r["band"] = {**r.get("band", {}), "top": 1260, "height": 240, "attach_to_frame": False}   # S13 جاء بعد هذه المراجع
     # R14: الإطار الذهبي حول نافذة الكلام جاء بعد هذه المراجع، فيُطفأ هنا كي تبقى أوامرها كما حُفظت
     r["panel"]["border"] = {**r["panel"].get("border", {}), "enabled": False}
     return c

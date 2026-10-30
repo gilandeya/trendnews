@@ -6168,8 +6168,9 @@ def test_reel_render_r3b1_guards() -> None:
         # ── المنطقة الآمنة ──
         boxes = reel_render.layout_boxes(cfg)
         sz = cfg.path("reel.render.safe")
-        bad = [b for b in boxes if b[1] < sz["top"] or b[3] > 1920 - sz["bottom"]
-               or (b[2] > 1080 - sz["right_col_width"] and b[3] > sz["right_col_from"] and b[1] < sz["right_col_to"])]
+        # S13: شريط المتحدث تحت الإطار الذهبي بقرار صاحب المشروع مستثنى من المنطقة الآمنة (يدخل منطقة أزرار فيسبوك عمدًا)
+        bad = [b for b in boxes if b[1] < reel_render.band_top(cfg) and (b[1] < sz["top"] or b[3] > 1920 - sz["bottom"]
+               or (b[2] > 1080 - sz["right_col_width"] and b[3] > sz["right_col_from"] and b[1] < sz["right_col_to"]))]
         check("r3b1-و: لا نص خارج المنطقة الآمنة", boxes and not bad, bad[:3])
 
         # ── م) نافذة الاقتطاع تتبع الوجه ──
@@ -6375,7 +6376,7 @@ def test_reel_lowerthird_f1b_guards() -> None:
 
     cfg = load_config()
     band = cfg.path("reel.render.band")
-    top, height, edge = int(band["top"]), int(band["height"]), int(band["edge"])
+    top, height, edge = reel_render.band_top(cfg), int(band["height"]), int(band["edge"])   # S13
     scene = {"kind": "clip", "speaker_verified": True, "speaker_name": "عائشة دمير",
              "speaker_name_latin": "Ayşe Demir", "speaker_role": "كاتبة صحفية",
              "channel_display": "هابرتورك", "quote_arabic": "ترجمة قصيرة"}
@@ -7239,7 +7240,7 @@ def test_reel_typewriter_r3b2a_guards() -> None:
         check("g223: الطبقة الثابتة عند (540،1700) كحلي معتم", static.getpixel((540, 1700)) == navy + (255,),
               static.getpixel((540, 1700)))
         # S10: مواضع نسبية إلى أعلى الشريط (كانت 1215 و1380 حين كان الشريط عند 1260)
-        btop = int(cfg.path("reel.render.band.top"))
+        btop = reel_render.band_top(cfg)
         qy, by_ = btop - 45, btop + 120
         check("g223: صندوق الترجمة في الثابتة وحدها",
               static.getpixel((540, qy))[3] > 0 and band.getpixel((540, qy))[3] == 0,
@@ -7610,7 +7611,7 @@ def test_reel_cover_auto_r3b2a4_guards() -> None:
             reel_render.render_draft(path, d0, c, make_deps(), reels_dir=tmp / "reels", workdir=tmp / "work")
             return json.loads(path.read_text(encoding="utf-8"))
 
-        top = int(cfg.path("reel.render.band.top"))
+        top = reel_render.band_top(cfg)
         alpha = float(cfg.path("reel.render.band.alpha"))
         check("g241: الإعداد الافتراضي auto", cfg.path("reel.render.band.cover") == "auto", cfg.path("reel.render.band.cover"))
         check("g241: reel.render.version = 22", cfg.path("reel.render.version") >= 49)
@@ -8639,7 +8640,7 @@ def test_reel_text_r5a_guards() -> None:
     def band_boxes(scene) -> tuple[list, list]:
         bx: list = []
         reel_render.frame_clip_overlay(cfg, scene, bx)
-        band_top = int(cfg.path("reel.render.band.top"))
+        band_top = reel_render.band_top(cfg)
         return [b for b in bx if b[1] >= band_top], drawn(scene)
 
     maysaa = {**base, "speaker_name_latin": "Maysaa Shuja al-Deen"}
@@ -8876,7 +8877,8 @@ def test_reel_r5a2_guards() -> None:
               role in drawn and chan in drawn and drawn.index(chan) > drawn.index(role)
               and not any(" · " in t for t in drawn), drawn)
         band = cfg.path("reel.render.band")
-        top, limit = int(band["top"]), int(band["top"]) + int(band["height"])
+        top = reel_render.band_top(cfg)       # S13
+        limit = top + int(band["height"])
         x0 = int(cfg.path("reel.render.safe.side"))
         x1 = W - x0
         inside = [b for b in bx if b[1] >= top]
@@ -10710,8 +10712,9 @@ def test_reel_fonts_r5g_guards() -> None:
     def g338():
         boxes = reel_render.layout_boxes(cfg)
         sz = cfg.path("reel.render.safe")
-        bad = [b for b in boxes if b[1] < sz["top"] or b[3] > 1920 - sz["bottom"]
-               or (b[2] > 1080 - sz["right_col_width"] and b[3] > sz["right_col_from"] and b[1] < sz["right_col_to"])]
+        # S13: شريط المتحدث تحت الإطار الذهبي بقرار صاحب المشروع مستثنى من المنطقة الآمنة (يدخل منطقة أزرار فيسبوك عمدًا)
+        bad = [b for b in boxes if b[1] < reel_render.band_top(cfg) and (b[1] < sz["top"] or b[3] > 1920 - sz["bottom"]
+               or (b[2] > 1080 - sz["right_col_width"] and b[3] > sz["right_col_from"] and b[1] < sz["right_col_to"]))]
         check("g338: لا نص خارج المنطقة الآمنة بالخطوط الجديدة", bool(boxes) and not bad, bad[:3])
         check("g338: لا صندوق يتجاوز 0 أو W", all(b[0] >= 0 and b[2] <= 1080 for b in boxes),
               [b for b in boxes if b[0] < 0 or b[2] > 1080])
@@ -14553,7 +14556,7 @@ def test_reel_quote_outro_r5h_guards() -> None:
         raw = subprocess.run(["ffmpeg", "-v", "error", "-i", str(out), "-vf", f"scale={W // 4}:{H // 4}", "-f", "rawvideo",
                               "-pix_fmt", "gray", "-"], capture_output=True, check=True).stdout
         fs = np.frombuffer(raw, np.uint8).reshape(-1, H // 4, W // 4).astype(np.int16)
-        top = int(cfg.path("reel.render.band.top"))
+        top = reel_render.band_top(cfg)
         reg = slice((top - 330) // 4, (top - 20) // 4)
         diffs = [float(np.abs(fs[i + 1][reg] - fs[i][reg]).mean()) for i in range(len(fs) - 1)]
         change_frames = {round(t * fps) for t in times}
@@ -21637,3 +21640,36 @@ def test_reel_r14_guards() -> None:
                                                       {"kind": "clip", "q": 0, "point_id": "a"}]}, {"a"})
         check("g699: سؤال بلا إجابة تُحذف بطاقته", orphan["scenes"] == [], orphan)
     guarded("g699", g699)
+
+
+def test_reel_band_attach_s13_guards() -> None:
+    """S13 (g700–g701): بقرار صاحب المشروع يلاصق أعلى شريط المتحدث الضلعَ السفلي للإطار الذهبي حول نافذة الكلام، والترجمة فوقه تنزل معه
+    بالقدر نفسه (كان الشريط عند 980 يغطي أسفل النافذة التي تنتهي عند 1250). band.attach_to_frame: false ← band.top كما كان."""
+    import copy
+
+    import numpy as np
+
+    from src import reel_render
+
+    cfg = load_config()
+    fc = cfg.path("reel.render.panel.frame")
+    b = int(cfg.path("reel.render.panel.border.width"))
+    want = int(fc["top"]) + int(fc["height"]) + b
+    check("g700: أعلى الشريط = أسفل الإطار الذهبي", reel_render.band_top(cfg) == want, (reel_render.band_top(cfg), want))
+    nb = copy.deepcopy(cfg)
+    nb["reel"]["render"]["panel"]["border"]["enabled"] = False
+    check("g700: بلا إطار ذهبي ← أسفل النافذة نفسها", reel_render.band_top(nb) == want - b, reel_render.band_top(nb))
+    off = copy.deepcopy(cfg)
+    off["reel"]["render"]["band"]["attach_to_frame"] = False
+    check("g700: attach_to_frame: false ← band.top", reel_render.band_top(off) == int(cfg["reel"]["render"]["band"]["top"]))
+    scene = {"kind": "clip", "speaker_verified": True, "speaker_name": "أحمد هاكان", "speaker_role": "مقدّم",
+             "channel_display": "سي إن إن ترك", "quote_arabic": "ربما لم تكن هناك نتيجة ملموسة"}
+    static, band = reel_render.frame_clip_layers(cfg, scene, cover=False)
+    a = np.array(band)[..., 3]
+    W = a.shape[1]
+    check("g701: الشريط يبدأ عند أسفل الإطار تمامًا لا قبله", a[want, W - 5] > 0 and a[want - 1, W - 5] == 0,
+          (int(a[want - 1, W - 5]), int(a[want, W - 5])))
+    q = np.array(static)[..., 3]
+    rows = np.where(q[:, W // 2] > 0)[0]
+    check("g701: صندوق الترجمة ينتهي فوق الشريط بنحو 24 بكسل (نزل معه)",
+          len(rows) > 0 and want - 30 <= int(rows.max()) <= want - 20, int(rows.max()) if len(rows) else None)

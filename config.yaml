@@ -2279,7 +2279,7 @@ reel:
     # فلا يتحرك. قيمة ≥ min(lead_seconds, clip_tail_seconds) تُخفَّض إلى ذلك الحد − 0.1 كي لا يقع كلام المقطع في التلاشي
     transition: {type: slideleft, outro_type: fade, seconds: 0.35}
     # نسخة التركيب: رفعها تعيد --pending تركيب كل ريل معتمد مُركَّب بنسخة أقدم (المنشور والمرفوض لا يُمسّان)
-    version: 57
+    version: 58
     # S11: false ← رفع version لا يعيد تركيب المُركَّب سلفًا (الإصلاح للريلات القادمة وحدها)؛ الفاشل بنسخة أقدم يُحيا دائمًا
     rerender_stale: false
     # فكرة المقطع (Issue #1660، Q6): نموذج يرى أسطر النص حول الاقتباس (context_seconds قبله وبعده) فيحدد أول سطر في الفكرة وآخره
@@ -2617,7 +2617,9 @@ reel:
     # شريط القناة الأصلية (شفافية 0.94 أبقته ظاهرًا باهتًا)، false ← بلا غطاء؛ auto (الافتراضي) ← الغطاء وشريطنا معتم تمامًا (alpha 1)
     # فقط حين يكشف cover_detect شريط أخبار أو لافتة في أسفل المقطع (صف حافة مستقيمة في frame_fraction من اللقطات)
     # S10: كان top 1260 وheight 240 فوقع اسم المتحدث تحت زر الإعجاب ونص المنشور على فيسبوك؛ ينتهي الآن قبل 1220
-    band: {top: 980, height: 240, edge: 24, alpha: 0.94, line_gap: 12, min_sizes: {name: 40, latin: 26, role: 26, guest: 30}, slide_seconds: 0.4, cover: auto,
+    # S13 (قرار صاحب المشروع): attach_to_frame ← أعلى الشريط = أسفل الإطار الذهبي لنافذة الكلام (250 + 1000 + 8 = 1258) والترجمة فوقه تنزل معه؛
+    # اختار ذلك مع علمه أن الشريط يدخل منطقة أزرار فيسبوك ونص المنشور (S10). top يبقى لـattach_to_frame: false
+    band: {top: 980, attach_to_frame: true, height: 240, edge: 24, alpha: 0.94, line_gap: 12, min_sizes: {name: 40, latin: 26, role: 26, guest: 30}, slide_seconds: 0.4, cover: auto,
             cover_detect: {samples: 6, grad: 25, row_fraction: 0.7, frame_fraction: 0.8}}   # شريط المتحدث السفلي
     gif: {seconds: 6, width: 270, height: 480, fps: 8}
     repo_subdir: reels         # مجلد الريلز داخل المستودع الخاص (reel_file/reel_gif نسبيان إلى جذره)

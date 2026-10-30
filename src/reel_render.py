@@ -139,7 +139,7 @@ def has_bottom_graphics(frames, crop_x, crop_w, cfg) -> bool:
         dcfg = cfg.path("reel.render.band.cover_detect") or {}
         grad, row_frac = float(dcfg.get("grad", 25)), float(dcfg.get("row_fraction", 0.7))
         frame_frac = float(dcfg.get("frame_fraction", 0.8))
-        top_frac = int(cfg.path("reel.render.band.top")) / int(cfg.path("reel.render.height"))
+        top_frac = band_top(cfg) / int(cfg.path("reel.render.height"))
         if not frames:
             return True
         counts = None
@@ -1508,6 +1508,18 @@ def frame_clip_overlay(cfg, scene: dict, boxes=None) -> Image.Image:
     return Image.alpha_composite(static, band)
 
 
+def band_top(cfg) -> int:
+    """أعلى شريط المتحدث (S13، قرار صاحب المشروع): مع band.attach_to_frame يلاصق ضلعُه الأعلى الضلعَ السفلي للإطار الذهبي حول نافذة الكلام
+    (أسفل panel.frame + سُمك الإطار إن فُعّل)، فلا يغطي الشريطُ أسفل النافذة؛ والترجمة فوقه تنزل معه بالقدر نفسه لأنها تُحسب منه. وإلا band.top."""
+    rc = cfg.path("reel.render")
+    band = rc["band"]
+    if not band.get("attach_to_frame"):
+        return int(band["top"])
+    fc = rc["panel"]["frame"]
+    bc = rc["panel"].get("border") or {}
+    return int(fc["top"]) + int(fc["height"]) + (int(bc.get("width", 0)) if bc.get("enabled") else 0)
+
+
 def frame_clip_layers(cfg, scene: dict, boxes=None, cover: bool | None = None,
                       quote: bool = True) -> tuple[Image.Image, Image.Image]:
     """طبقتان شفافتان بحجم الشاشة (Issue #1400): الثابتة (صندوق الترجمة والغطاء الكحلي المعتم من أسفل الشريط)
@@ -1518,7 +1530,7 @@ def frame_clip_layers(cfg, scene: dict, boxes=None, cover: bool | None = None,
     p = st
     draw_quote = quote
     band = cfg.path("reel.render.band")
-    top, height, edge = int(band["top"]), int(band["height"]), int(band["edge"])
+    top, height, edge = band_top(cfg), int(band["height"]), int(band["edge"])
     # cover: true/false ثابتان كما كانا (شفافية الشريط من الإعداد)؛ auto: القرار للمقطع (cover) فالمعتم تمامًا مع الغطاء،
     # وبلا قرار مُمرَّر يُفترض الغطاء (الأحوط)
     mode = band.get("cover")
@@ -1749,7 +1761,7 @@ def frame_quote_state(cfg, layout: list[dict], line: int, shown: int) -> Image.I
     p = _Pen(cfg, [], transparent=True)
     ln = layout[line]
     size = ln["size"]
-    top = int(cfg.path("reel.render.band.top"))
+    top = band_top(cfg)
     lh = int(int(cfg.path("reel.render.sizes.quote")[0]) * float(cfg.path("reel.render.fonts.line_factor", 1.62)))
     box_h = lh + 36
     by = top - 24 - box_h
