@@ -1,0 +1,170 @@
+{
+  "id": "fdecdce2924e",
+  "created_at": "2026-10-30T18:06:23.692336+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "failed",
+  "title": "الانتخابات الإسرائيلية كاستفتاء على نتنياهو",
+  "tier": 3,
+  "blocs": [
+    "arabic",
+    "israeli",
+    "persian"
+  ],
+  "channels": [
+    "Iran International",
+    "ערוץ 14",
+    "الجزيرة",
+    "العربية"
+  ],
+  "agreement": "cross_source",
+  "event": "وصف الانتخابات الإسرائيلية الأولى بعد 7 أكتوبر كاستفتاء على نتنياهو",
+  "warnings": [],
+  "run_date": "2026-10-28",
+  "arabic": {
+    "post_title": "الانتخابات الإسرائيلية كاستفتاء على نتنياهو",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "Iran International",
+      "ערוץ 14",
+      "الجزيرة",
+      "العربية"
+    ]
+  },
+  "score": 11,
+  "source_videos": [],
+  "topic_id": "abd26502992b",
+  "topic_date": "2026-10-28",
+  "script_error": "لا مقاطع كافية: 1 صالحًا من 2 مطلوبًا على الأقل",
+  "clip_dropped": [
+    {
+      "point_id": "9d0af075ae47",
+      "channel": "الجزيرة",
+      "reason": "اقتباس مبتور — الاقتباس مبتور من أوله (يبدأ بمنتصف الجملة) وينتهي بحرف جر معلّق، وهو لا يكفي فكرة تامة"
+    },
+    {
+      "point_id": "9fd2e7ec6dc6",
+      "channel": "الجزيرة",
+      "reason": "اقتباس مبتور — الاقتباس قصير جدًا ولا يُفهم وحده؛ لا يحدد الفاعل ولا ما الذي لم يفد نتنياهو"
+    },
+    {
+      "point_id": "d1f03a42bc4b",
+      "channel": "الجزيرة",
+      "reason": "اقتباس مبتور — الاقتباس مبتور من أوله ولا يكتمل معناه (العرب يهرولون ... إلى ماذا؟)، والترجمة تضيف عبارة لا توجد في الأصل"
+    },
+    {
+      "point_id": "2bb5d6ab5181",
+      "channel": "إيران إنترناشيونال",
+      "reason": "ملخّص النقطة ينسبها إلى شخص آخر: دونالد ترامب"
+    },
+    {
+      "point_id": "6c11f69fb8e3",
+      "channel": "القناة 14",
+      "reason": "اقتباس مبتور — الاقتباس قصير جدًا ولا يُفهم وحده، ولم يُذكر اسم المتحدث"
+    },
+    {
+      "point_id": "c220d3bf96fa",
+      "channel": "الجزيرة",
+      "reason": "اقتباس مبتور — الاقتباس مبتور من أوله ومن آخره ولا يكتمل معناه"
+    },
+    {
+      "point_id": "57b5577b2e7c",
+      "channel": "العربية",
+      "reason": "اقتباس مبتور — الاقتباس جملة مختزلة مبتورة الأطراف ولا تُفهم وحدها"
+    }
+  ],
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "9d0af075ae47",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "no",
+        "incomplete_reason": "الاقتباس مبتور من أوله (يبدأ بمنتصف الجملة) وينتهي بحرف جر معلّق، وهو لا يكفي فكرة تامة",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "492a0d6de5c7",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "9fd2e7ec6dc6",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "no",
+        "incomplete_reason": "الاقتباس قصير جدًا ولا يُفهم وحده؛ لا يحدد الفاعل ولا ما الذي لم يفد نتنياهو",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "d1f03a42bc4b",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "no",
+        "incomplete_reason": "الاقتباس مبتور من أوله ولا يكتمل معناه (العرب يهرولون ... إلى ماذا؟)، والترجمة تضيف عبارة لا توجد في الأصل",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "2bb5d6ab5181",
+        "speaker_said_it": "no",
+        "other_name": "دونالد ترامب",
+        "faithful": false,
+        "quote_arabic_fixed": "عاد دونالد ترامپ إلى دعم نتانياهو، وطلب من الإسرائيليين التصويت له لإنهاء عمل غير مكتمل ضد الجمهورية الإسلامية",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "إيران إنترناشيونال"
+      },
+      {
+        "point_id": "6c11f69fb8e3",
+        "speaker_said_it": "unsure",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "نتنياهو طلب ذلك منه",
+        "complete": "no",
+        "incomplete_reason": "الاقتباس قصير جدًا ولا يُفهم وحده، ولم يُذكر اسم المتحدث",
+        "channel": "القناة 14"
+      },
+      {
+        "point_id": "c220d3bf96fa",
+        "speaker_said_it": "no",
+        "other_name": "نتنياهو",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "no",
+        "incomplete_reason": "الاقتباس مبتور من أوله ومن آخره ولا يكتمل معناه",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "57b5577b2e7c",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "الحكومة اليمينية التي لم تحظَ إلا بـ40% من المقاعد حتى اللحظة، وعدد المصوّتين هو الأكبر حتى اللحظة في تاريخ إسرائيل، وجُلّه كان ضد الحكومة ونتنياهو",
+        "complete": "no",
+        "incomplete_reason": "الاقتباس جملة مختزلة مبتورة الأطراف ولا تُفهم وحدها",
+        "channel": "العربية"
+      }
+    ]
+  },
+  "has_photo": false,
+  "has_news_photo": true,
+  "review_issue": 1740,
+  "stage2_issue": 1740
+}

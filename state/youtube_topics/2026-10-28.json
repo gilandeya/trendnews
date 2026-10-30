@@ -85,8 +85,11 @@
       "dropped_reason": null,
       "id": "abd26502992b",
       "created_at": "2026-10-28T04:02:35.187568+00:00",
-      "selection_status": "pending",
-      "selection_issue": 1732
+      "selection_status": "attempted",
+      "selection_issue": 1732,
+      "selected_formats": [
+        "reel"
+      ]
     },
     {
       "title": "فرص تشكيل حكومة نتنياهو بعد الانتخابات",
@@ -124,7 +127,7 @@
       "dropped_reason": null,
       "id": "8dac4e8e9c04",
       "created_at": "2026-10-28T04:02:35.187568+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1732
     },
     {
@@ -158,7 +161,7 @@
       "dropped_reason": null,
       "id": "af2d77bbe829",
       "created_at": "2026-10-28T04:02:35.187568+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1732
     },
     {
@@ -189,7 +192,7 @@
       "dropped_reason": null,
       "id": "7e7b6e2c1e7a",
       "created_at": "2026-10-28T04:02:35.187568+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1732
     }
   ],
