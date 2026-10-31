@@ -2692,3 +2692,8 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 العشرة (`_as_list` بـ`raw_decode` ويقبل `{"bites": [...]}`)؛ مقطع فيه «>>» (علامة تبدّل المتكلم في نص يوتيوب، `youtube.bites.turn_marker`) بعد سطره الأول يُرفض
 (سؤال المقدّم ثم الجواب)؛ النص المعروض يجب أن يكون عربيًا (`is_arabic_text`: نسبة `arabic_ratio` وبلا حرف فارسي خاص ولا عبري) لأن الترجمة نُسخت بلغة الكلام؛ و`speaker`
 بالحروف العربية مع `speaker_original`. والنموذج تجاهل حدّ 25 ث (وسيط 38 ث) فصار البرومبت يطلب اقتطاع أقوى فكرة من داخل الجواب الطويل.
+
+**V0c (g711–g714 في `test_youtube_bites_v0c_guards`):** الحد الأقصى 30 ث بقرار صاحب المشروع. الحدّان بالكلمة: `first_words`/`last_words` حرفيًا بلغة الكلام، و`word_window`
+تبحث عنهما (ظهورًا وحيدًا بعد `_normalize_for_anchor`) في سطرهما وما يجاوره بـ`anchor_search_lines` وتقدّر زمن الكلمة بموضعها في سطرها؛ غيابها ← حدّ السطر
+(`start_anchored`/`end_anchored` على المقطع). الجواب الأطول من الحد (`long` في المرفوض) لا يُرمى: `trim_long` نداء Haiku واحد لكل فيديو (`youtube.bites.trim`) بأسطر كل
+جواب وزمن كل سطر من بداية الجواب، يرث القائل والنوع من الجواب، ثم `validate_bites(..., taken=)` يتحقق منه كالأصل؛ `res["trim"] = {asked, accepted, rejected, error}`.

@@ -21702,7 +21702,7 @@ def test_youtube_bites_v0_guards() -> None:
     def bite(s, e, **kw):
         return {"start_line": s, "end_line": e, "speaker": "سعيد زياد", "speaker_role": "محلل", "is_host": False,
                 "type": "opinion", "event_hint": "", "summary_ar": "", "text_ar": "نص", "answers": "", **kw}
-    ok, bad = yb.validate_bites([bite(2, 5), bite(1, 1), bite(4, 8), bite(10, 19), bite(20, 25), bite(12, 15, type="x"),
+    ok, bad = yb.validate_bites([bite(2, 5), bite(1, 1), bite(4, 8), bite(8, 19), bite(20, 25), bite(12, 15, type="x"),
                                  bite(14, 17, text_ar=" ")], segs, shown, cfg)
     why = [b["reason"] for b in bad]
     check("g705: المقبول الأول فقط، والقصير والمتداخل والطويل وخارج النص يُرفض كل بسببه",
@@ -21764,3 +21764,66 @@ def test_youtube_bites_v0b_guards() -> None:
         check(f"g710: نص معروض {label} يُرفض", not ok and "ليس عربيًا" in bad[0]["reason"], bad)
     ok, _ = yb.validate_bites([bite(4, 7, text="قال إن حزب CHP لن يتراجع عن موقفه في البرلمان")], segs, shown, cfg)
     check("g710: عربي فيه اسم لاتيني قصير مقبول", len(ok) == 1, ok)
+
+
+def test_youtube_bites_v0c_guards() -> None:
+    """V0c (g711–g714): قرار صاحب المشروع «لا مانع من 30 ث» للحد الأقصى، والحدّان بالكلمة لا بالسطر (سطر نص يوتيوب يُقطع في منتصف
+    الجملة، فشمل المقطع في V0b كلمات من السطر الذي قبله)، والجواب الأطول من الحد يُقتطع بنداء رخيص بدل أن يُرمى (58 مقطعًا رُفضت طولًا في V0b)."""
+    import types
+
+    from src import youtube_bites as yb
+    from src.config import load_config
+
+    cfg = load_config()
+    check("g711: الحد الأقصى 30 ث بقرار صاحب المشروع", float(cfg.path("youtube.bites.max_seconds")) == 30, cfg.path("youtube.bites.max_seconds"))
+    segs = yb.clean_segments([
+        {"start": 0.0, "dur": 4.0, "text": "كلام قبله ثم أعتقد أن"},
+        {"start": 4.0, "dur": 4.0, "text": "النتيجة الأهم هي بقاء"},
+        {"start": 8.0, "dur": 4.0, "text": "الحكومة حتى نهاية العام"},
+        {"start": 12.0, "dur": 4.0, "text": "ولكن هذا موضوع آخر"},
+    ])
+    w = yb.word_window(segs, 2, 3, "أعتقد أن النتيجة", "حتى نهاية العام", cfg)
+    check("g712: البداية من منتصف السطر السابق بالكلمة والنهاية بآخر كلمة",
+          w["start_anchored"] and w["end_anchored"] and abs(w["start"] - 2.4) < 0.01 and abs(w["end"] - 12.0) < 0.01, w)
+    w2 = yb.word_window(segs, 2, 3, "كلمات غير موجودة هنا", "", cfg)
+    check("g712: كلمات غائبة ← حدّا السطر كما كانا", not w2["start_anchored"] and (w2["start"], w2["end"]) == (4.0, 12.0), w2)
+
+    long_segs = yb.clean_segments([{"start": 3.0 * i, "dur": 3.0, "text": f"جملة رقم {i} من الجواب"} for i in range(1, 21)])
+    src = {"start_line": 2, "end_line": 18, "speaker": "سعيد زياد", "speaker_original": "Said Ziad", "speaker_role": "محلل",
+           "is_host": False, "type": "opinion", "event_hint": "الحدث", "summary_ar": "", "text_ar": "نص", "answers": "",
+           "first_words": "", "last_words": ""}
+
+    def trim_resp(items):
+        return types.SimpleNamespace(stop_reason="tool_use", usage=types.SimpleNamespace(input_tokens=1, output_tokens=1),
+                                     content=[types.SimpleNamespace(type="tool_use", name="trim_bites", input={"bites": items})])
+    orig = yb._create
+    yb._create = lambda client, **kw: trim_resp([
+        {"answer": 1, "start_line": 4, "end_line": 9, "first_words": "", "last_words": "", "text_ar": "فكرة مقتطعة",
+         "summary_ar": "ملخص", "answers": "سؤال"},
+        {"answer": 1, "start_line": 1, "end_line": 5, "first_words": "", "last_words": "", "text_ar": "خارج الجواب",
+         "summary_ar": "", "answers": ""}])
+    try:
+        got, err = yb.trim_long([{"raw": src}], long_segs, cfg, object())
+    finally:
+        yb._create = orig
+    check("g713: الاقتطاع يرث القائل والنوع من الجواب ويُسقط ما خرج عن أسطره",
+          err == "" and len(got) == 1 and got[0]["speaker"] == "سعيد زياد" and got[0]["type"] == "opinion"
+          and (got[0]["start_line"], got[0]["end_line"]) == (4, 9), (got, err))
+
+    calls = []
+
+    def fake(client, **kw):
+        calls.append(kw["tools"][0]["name"])
+        if kw["tools"][0]["name"] == "extract_bites":
+            return types.SimpleNamespace(stop_reason="tool_use", usage=types.SimpleNamespace(input_tokens=1, output_tokens=1),
+                                         content=[types.SimpleNamespace(type="tool_use", name="extract_bites", input={"bites": [src]})])
+        return trim_resp([{"answer": 1, "start_line": 4, "end_line": 9, "first_words": "", "last_words": "",
+                           "text_ar": "فكرة مقتطعة", "summary_ar": "ملخص", "answers": "سؤال"}])
+    yb._create = fake
+    try:
+        res = yb.extract({"video_id": "v"}, long_segs, "ar", cfg, client=object())
+    finally:
+        yb._create = orig
+    check("g714: جواب أطول من الحد يُقتطع في الاستخراج نفسه ولا يُرمى",
+          calls == ["extract_bites", "trim_bites"] and len(res["bites"]) == 1 and res["bites"][0].get("trimmed")
+          and res["trim"]["asked"] == 1 and res["trim"]["accepted"] == 1 and all("raw" not in r for r in res["rejected"]), res)

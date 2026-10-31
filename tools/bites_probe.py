@@ -85,6 +85,10 @@ def bite_numbers(res: dict) -> dict:
             "named": len(named), "host": sum(1 for b in bites if b["is_host"]),
             "distinct_named_speakers": len({b["speaker"] for b in named}),
             "opinion_speakers": len(debate),
+            "trimmed": sum(1 for b in bites if b.get("trimmed")),
+            "trim": {k: v for k, v in (res.get("trim") or {}).items() if k != "rejected"},
+            "trim_rejected": (res.get("trim") or {}).get("rejected", []),
+            "anchored_both": sum(1 for b in bites if b.get("start_anchored") and b.get("end_anchored")),
             "error": res.get("error") or "", "stop_reason": res.get("stop_reason") or "",
             "usage": res.get("usage") or {}, "lines": res.get("total_lines"), "truncated": res.get("truncated")}
 
@@ -150,6 +154,8 @@ def main(argv=None) -> int:
                "points_total": sum(r["current"]["points"] for r in done),
                "bites_total": sum(r["bites"]["bites"] for r in done),
                "rejected_total": sum(r["bites"]["rejected"] for r in done),
+               "trimmed_total": sum(r["bites"]["trimmed"] for r in done),
+               "anchored_both_total": sum(r["bites"]["anchored_both"] for r in done),
                "videos_with_2_opinion_speakers": sum(1 for r in done if r["bites"]["opinion_speakers"] >= 2),
                "point_seconds_median": _median([s for r in done if (s := r["current"]["quote_seconds_median"])]),
                "bite_seconds_median": _median([s for r in done if (s := r["bites"]["seconds_median"])]),
