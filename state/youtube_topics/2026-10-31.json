@@ -1,0 +1,754 @@
+{
+  "run_date": "2026-10-31",
+  "stats": {
+    "points_in": 276,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 126,
+    "issues_clustered": 30,
+    "topics_merged": 6,
+    "topics_out": 4,
+    "dropped_by_bloc_cap": 2,
+    "topics_seen_skipped": 3,
+    "topics_below_min_points": 9,
+    "topics_below_min_channels": 6,
+    "layers": {
+      "4": 1,
+      "3": 3
+    },
+    "agreement": 1,
+    "cross_source": 2,
+    "internal": 0,
+    "echo": 1
+  },
+  "error": null,
+  "merged_events": [
+    [
+      "دور نتنياهو والكتلة العربية بعد الانتخابات",
+      "الأزمة السياسية الإسرائيلية بعد الانتخابات (تشكيل الحكومة)"
+    ],
+    [
+      "صمود إيران واقتصادها تحت الحرب والعقوبات",
+      "قراءات إسرائيلية-إيرانية لتأثير الانتخابات الإسرائيلية على إيران"
+    ],
+    [
+      "صدمة الطاقة والتضخم العالمي جراء الحرب على إيران",
+      "صمود الخليج المالي والتكامل الاقتصادي العربي"
+    ],
+    [
+      "الانتخابات النصفية الأمريكية 2026: السياق العام والتوقعات",
+      "هجوم أمريكي محتمل على إيران بعد الانتخابات النصفية"
+    ],
+    [
+      "أزمة حزب الشعب الجمهوري التركي وترشح أوزيل",
+      "استقالة مصطفى سارغول وملف رفع حصانة أوزيل"
+    ],
+    [
+      "مسوّدة مقترح الوسطاء بشأن هرمز والملف النووي الإيراني",
+      "فرص التوصل لاتفاق إيراني أمريكي عبر الوساطة"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "دور نتنياهو والكتلة العربية بعد الانتخابات",
+      "event": "استراتيجية نتنياهو تجاه الكتلة العربية وتشكيل الحكومة بعد انتخابات الكنيست",
+      "layer": 4,
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "ILTV",
+        "Iran International",
+        "ערוץ 14",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        2,
+        3,
+        40,
+        43,
+        58,
+        59,
+        64,
+        74,
+        145,
+        149
+      ],
+      "total_points": 10,
+      "fresh_points": 6,
+      "dropped_reason": null,
+      "id": "2a68e81636eb",
+      "created_at": "2026-10-31T04:02:25.719990+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1744
+    },
+    {
+      "title": "صمود إيران واقتصادها تحت الحرب والعقوبات",
+      "event": "تقييم قدرة إيران على الصمود اقتصاديًا وعسكريًا في ظل الحرب والعقوبات",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "ILTV",
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        4,
+        57,
+        141,
+        144,
+        146,
+        147
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null,
+      "id": "55df4b81f5c4",
+      "created_at": "2026-10-31T04:02:25.719990+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1744
+    },
+    {
+      "title": "الانتخابات النصفية الأمريكية 2026: السياق العام والتوقعات",
+      "event": "الانتخابات النصفية الأمريكية 2026 وتأثرها بالحرب مع إيران وتكاليف المعيشة وتوقعات نتائجها لمجلسي النواب والشيوخ",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk",
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        41,
+        42,
+        76,
+        77,
+        78,
+        79,
+        117,
+        119,
+        143
+      ],
+      "total_points": 15,
+      "fresh_points": 15,
+      "dropped_reason": null,
+      "id": "e8bec7a0fd23",
+      "created_at": "2026-10-31T04:02:25.719990+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1744
+    },
+    {
+      "title": "نتائج الانتخابات الإسرائيلية ونتائجها",
+      "event": "إعلان النتائج الأولية/النهائية للانتخابات التشريعية الإسرائيلية (53 مقابل 48 و19 للقائمة العربية)",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "israeli",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "ILTV",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        38,
+        103,
+        148
+      ],
+      "total_points": 3,
+      "fresh_points": 2,
+      "dropped_reason": null,
+      "id": "ba64e5ffd580",
+      "created_at": "2026-10-31T04:02:25.719990+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1744
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "دور نتنياهو والكتلة العربية بعد الانتخابات",
+      "event": "استراتيجية نتنياهو تجاه الكتلة العربية وتشكيل الحكومة بعد انتخابات الكنيست",
+      "layer": 4,
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "ILTV",
+        "Iran International",
+        "ערוץ 14",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        2,
+        3,
+        40,
+        43,
+        58,
+        59,
+        64,
+        74,
+        145,
+        149
+      ],
+      "total_points": 10,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "صمود إيران واقتصادها تحت الحرب والعقوبات",
+      "event": "تقييم قدرة إيران على الصمود اقتصاديًا وعسكريًا في ظل الحرب والعقوبات",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "israeli",
+        "persian"
+      ],
+      "channels": [
+        "ILTV",
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        4,
+        57,
+        141,
+        144,
+        146,
+        147
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null
+    },
+    {
+      "title": "الانتخابات النصفية الأمريكية 2026: السياق العام والتوقعات",
+      "event": "الانتخابات النصفية الأمريكية 2026 وتأثرها بالحرب مع إيران وتكاليف المعيشة وتوقعات نتائجها لمجلسي النواب والشيوخ",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "persian",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk",
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        41,
+        42,
+        76,
+        77,
+        78,
+        79,
+        117,
+        119,
+        143
+      ],
+      "total_points": 15,
+      "fresh_points": 15,
+      "dropped_reason": null
+    },
+    {
+      "title": "نتائج الانتخابات الإسرائيلية ونتائجها",
+      "event": "إعلان النتائج الأولية/النهائية للانتخابات التشريعية الإسرائيلية (53 مقابل 48 و19 للقائمة العربية)",
+      "layer": 3,
+      "blocs": [
+        "arabic",
+        "israeli",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "ILTV",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        38,
+        103,
+        148
+      ],
+      "total_points": 3,
+      "fresh_points": 2,
+      "dropped_reason": null
+    },
+    {
+      "title": "مسوّدة مقترح الوسطاء بشأن هرمز والملف النووي الإيراني",
+      "event": "مسوّدة مقترح الوسطاء بين إيران وأمريكا التي تتضمن فتح مضيق هرمز والتزامات نووية متبادلة",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        82,
+        83,
+        84,
+        85,
+        86,
+        88,
+        142
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "اتهامات تزوير الانتخابات الإسرائيلية",
+      "event": "اتهامات تزوير وشراء أصوات في الانتخابات الإسرائيلية ونفي لجنة الانتخابات والتحقيق فيها",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        61,
+        62,
+        72,
+        73,
+        91
+      ],
+      "total_points": 5,
+      "fresh_points": 1,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "رسالة فانس إلى رضائي والمفاوضات الأمريكية الإيرانية",
+      "event": "إرسال نائب الرئيس الأمريكي فانس رسالة إلى محسن رضائي وتحليل دلالاتها على مسار المفاوضات",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        0,
+        1,
+        5,
+        89
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "bloc_cap"
+    },
+    {
+      "title": "قضية مدى مصر وحرية الصحافة في مصر",
+      "event": "إدانة لينا عطالله رئيسة تحرير مدى مصر والجدل حول قانون تنظيم الصحافة في مصر",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        106,
+        107
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "أزمة حزب الشعب الجمهوري التركي وترشح أوزيل",
+      "event": "انقسام حزب الشعب الجمهوري التركي بعد مؤتمره وجدل ترشح أوزجور أوزيل للرئاسة وتوازنات بلدية إسطنبول",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134
+      ],
+      "total_points": 17,
+      "fresh_points": 17,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "فضيحة صندوق تيرا/الاستثمار الحكومي التركي",
+      "event": "الكشف عن فضيحة صندوق الاستثمار الحكومي التركي (تيرا) واسترداد الأموال وتداول قوائم الأسماء",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        48,
+        49,
+        50,
+        51,
+        53,
+        137,
+        138,
+        139,
+        140
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الجدل حول تعديل المناهج التعليمية السورية",
+      "event": "الجدل حول تعديل المناهج الدراسية السورية المتعلق برموز نظام الأسد",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        94,
+        95
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الوساطة التركية في الملف الليبي ومحادثات أنقرة",
+      "event": "محادثات أنقرة بين الأطراف الليبية ودور تركيا في الوساطة العسكرية والسياسية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        25,
+        26,
+        27,
+        29,
+        30,
+        31
+      ],
+      "total_points": 6,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "عرض تركيا ترسيم الحدود البحرية مع مصر",
+      "event": "عرض تركيا على مصر اتفاقية لترسيم الحدود البحرية في شرق المتوسط والتزام مصر بقانون البحار",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        92,
+        93
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "موقف فلسطين من حل الدولتين ووقف إطلاق النار في غزة",
+      "event": "موقف المراقب الفلسطيني بالأمم المتحدة من حل الدولتين ووقف إطلاق النار والقوة الدولية في غزة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        96,
+        97,
+        98
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تمويل الأزمة الإنسانية في السودان",
+      "event": "نقص التمويل الإنساني للسودان وتراجع المساعدات الغذائية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        99,
+        100
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تجنيد الأطفال في اليمن والإفلات من العقاب",
+      "event": "تجنيد الأطفال في اليمن ومسؤولية الحوثيين وأثر الإفلات من العقاب",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        101,
+        102
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "فوز لولا وانحسار الشعبوية اليمينية في أمريكا اللاتينية",
+      "event": "فوز لولا دا سيلفا في البرازيل كمؤشر على انحسار التيار الشعبوي اليميني في أمريكا اللاتينية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        105,
+        108
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "اتهامات تزوير الانتخابات في جورجيا وقمع المعارضة",
+      "event": "اتهامات تزوير الانتخابات التشريعية الجورجية وتشديد القيود على المجتمع المدني والمعارضة",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "عزل رئيس بلدية إسنيورت وازدواجية القضاء التركي",
+      "event": "عزل أحمد أوزر رئيس بلدية إسنيورت المنتخب واتهامه القضاء بالازدواجية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        135,
+        136
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "صدمة الطاقة والتضخم العالمي جراء الحرب على إيران",
+      "event": "تأثير الحرب على إيران على إمدادات الطاقة العالمية والتضخم وتوقعات الأزمة الاقتصادية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        6,
+        7,
+        8,
+        9,
+        11
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "أزمة تركيا وأذربيجان بشأن تصريحات قره باغ",
+      "event": "أزمة دبلوماسية بين تركيا وأذربيجان إثر تصريحات مسؤولين أتراك بشأن قره باغ",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        44,
+        45
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "تحالف مكة الثلاثي (تركيا-السعودية-باكستان)",
+      "event": "تشكيل تحالف عسكري ثلاثي بين تركيا والسعودية وباكستان المعروف باتفاق مكة ورد الفعل على الهجوم الحوثي",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        66,
+        67,
+        68,
+        69
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "التعاون الإسرائيلي الإماراتي والتفوق العسكري الإقليمي",
+      "event": "طبيعة التعاون العسكري والاستخباراتي بين إسرائيل والإمارات ومستقبل التفوق الجوي الإسرائيلي أمام تركيا",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        70,
+        71
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تقرير رويترز عن شبكة تهريب تسليح إيرانية",
+      "event": "تقرير رويترز عن شبكة سرية مرتبطة بالحرس الثوري للتحايل على العقوبات وتوريد معدات عسكرية",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        55,
+        56
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    }
+  ]
+}
