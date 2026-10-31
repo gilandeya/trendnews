@@ -2721,3 +2721,7 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 ما أُصلح يُحفظ `script_repairs` ويظهر تنبيهًا `reel.texts.script_repaired` («🔧»). **التشخيص:** `_listish` يحلّ حقول قائمة وصلت نصًا JSON (درس #1741)؛ رد `stop_reason ==
 "max_tokens"` يُعاد مرة بـ`reel.script.v2.max_tokens_retry` داخل المحاولة نفسها؛ آخر رد خام وسبب توقّفه في `script_raw`، و`stop_reason` في كل محاولة مرفوضة.
 الخطوتان (`plan_reel` + `write_narration`) لم تُنفَّذا بعد.
+
+**V5 — التركيب من النص المحفوظ (g736–g737 في `test_reel_saved_transcript_v5_guards`):** `reel_render.Deps.resolved.fetch` يقرأ أولًا `youtube_transcripts.load(video_id)`
+(مع `reel.render.use_saved_transcripts`) ويعيد `format_segments` ولغة المسار، فلا جلب عبر البروكسي وقت التركيب؛ الغائب يُجلب كما كان (R8). نافذة المقطع من حدّي المقطع
+(`clip_window`، V3)، والضبط بالتفريغ (Q13) والخريطة (S4) وحرّاس الشريط والوجه باقية كما هي.

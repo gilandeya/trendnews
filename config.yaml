@@ -2636,6 +2636,8 @@ reel:
     data_link_base: "https://github.com/gilandeya/trendnews-data/blob/main/"
     ffmpeg_timeout: 600
     # تراجع جلب نص الفيديو عند حجب عابر (R8): أقصر من الجمع [15، 45، 90] لأن مهلة التركيب 60 دقيقة وفيه 2–8 فيديوهات
+    # V5: نص الفيديو المحفوظ في الجمع (youtube_transcripts) يُقرأ قبل الجلب عبر البروكسي؛ false ← الجلب وحده كما كان
+    use_saved_transcripts: true
     transcript_backoff_seconds: [15, 45]
     # أقصى طول لسبب فشل جلب النص المحفوظ في render_approx والتعليق (Q10): 80 قصّت اسم المضيف وما بعده فلم يُعرف أنه حجب /sorry
     transcript_reason_chars: 200

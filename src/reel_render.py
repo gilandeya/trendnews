@@ -586,7 +586,15 @@ class Deps:
         def fetch(video_id):
             import requests
 
-            from . import proxy_config, youtube_extract
+            from . import proxy_config, youtube_extract, youtube_transcripts
+            if cfg.path("reel.render.use_saved_transcripts", False):
+                # V5: نص الفيديو محفوظ منذ الجمع (V1) في المستودع الخاص، فلا جلب عبر البروكسي وقت التركيب، وهو ما كان يفشل بالحجب
+                # (#1620، #1634، R8، Q10). المصوغ مبني من الأسطر نفسها فيرى التركيب ما كان يراه حرفًا؛ الغائب يُجلب كما كان
+                saved = youtube_transcripts.load(video_id)
+                if saved and saved.get("segments"):
+                    langs[video_id] = str(saved.get("language") or "")
+                    log.info("نص %s من المحفوظ (لا جلب)", video_id)
+                    return youtube_transcripts.format_segments(saved["segments"])
             if not session_box:
                 session_box.append(requests.Session())
             backoff = list(cfg.path("reel.render.transcript_backoff_seconds", [15, 45]))
