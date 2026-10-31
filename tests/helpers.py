@@ -60,7 +60,26 @@ def load_config(path=None):
     rcfg = cfg.get("reel", {}).get("render") if isinstance(cfg.get("reel"), dict) else None
     if isinstance(rcfg, dict):
         rcfg["preset"] = "ultrafast"
+    # مسار التحليل القديم (نقاط ومقال) افتراضيًا في الاختبارات: مئات الحالات تثبّت ذلك المسار نفسه، والإنتاج صار الريل وحده بالمقاطع
+    # (خطة V، V3). اختبارات V3 تطلب المسار الجديد صراحةً بـreel_only_cfg، وg729 يثبّت أن config.yaml نفسه عليه. يزول في V6 مع المقال.
+    ycfg = cfg.get("youtube") if isinstance(cfg.get("youtube"), dict) else None
+    if isinstance(ycfg, dict):
+        ycfg["reel_only"] = False
+        ycfg["retire_articles"] = False
+        if isinstance(ycfg.get("cluster"), dict):
+            ycfg["cluster"]["source"] = "points"
     return cfg
+
+
+def reel_only_cfg(cfg):
+    """نسخة بإعداد الإنتاج لمسار التحليل (V3): الريل وحده، والمقاطع مصدر النافذة، وإيقاف مقالات التحليل المعلّقة."""
+    import copy
+    c = copy.deepcopy(cfg)
+    real = _real_load_config()
+    c["youtube"]["reel_only"] = real.path("youtube.reel_only")
+    c["youtube"]["retire_articles"] = real.path("youtube.retire_articles")
+    c["youtube"]["cluster"]["source"] = real.path("youtube.cluster.source")
+    return c
 from src.rank import cluster, rank, similarity, tokens  # noqa: E402
 from src.sources import Article  # noqa: E402
 from tools import measure_channels, test_actions_block  # noqa: E402
@@ -1092,4 +1111,15 @@ def reel_credits_cfg(cfg):
     import copy
     c = copy.deepcopy(cfg)
     c["reel"]["render"]["outro_credits"] = True
+    return c
+
+
+def article_analysis_cfg(cfg):
+    """نسخة من الإعداد بمسار التحليل القديم (قبل V3): نقاط بدل المقاطع ومقال ممكن من الترشيح. الاختبارات التي تثبّت سلوك
+    المقال والنقاط تختبر ذلك المسار نفسه، وصار الافتراضي الريل وحده بالمقاطع (youtube.reel_only، youtube.cluster.source)."""
+    import copy
+    c = copy.deepcopy(cfg)
+    c.setdefault("youtube", {})["reel_only"] = False
+    c["youtube"]["retire_articles"] = False
+    c["youtube"].setdefault("cluster", {})["source"] = "points"
     return c

@@ -18,7 +18,7 @@ from __future__ import annotations
 import shutil
 from pathlib import Path
 
-from tests.helpers import (check, reel_v1_cfg, reel_pre_s10_cfg, reel_stale_cfg, reel_credits_cfg, reel_no_border_cfg, reel_span_cfg, load_config, evidence, store, DRAFTS_DIR, ImportantRig,
+from tests.helpers import (check, article_analysis_cfg, reel_only_cfg, tick_marker, reel_v1_cfg, reel_pre_s10_cfg, reel_stale_cfg, reel_credits_cfg, reel_no_border_cfg, reel_span_cfg, load_config, evidence, store, DRAFTS_DIR, ImportantRig,
                            ImportantWriteRig, NamesAuditRig, NAMES_AUDIT_SOURCE, names_audit_doubt,
                            names_audit_draft, names_audit_hit, important_doc, important_fixture_point,
                            important_good_data, important_marked_body, important_point,
@@ -22006,3 +22006,205 @@ def test_youtube_transcripts_v1_guards() -> None:
         check("g720: النصوص والمقاطع مُهملة في المستودع العام",
               "/state/youtube_transcripts/" in ignore and "/state/youtube_bites/" in ignore, None)
     guarded("g720", g720)
+
+
+def test_reel_only_selection_v3_guards() -> None:
+    """خطة V، V3 (g721–g729): العنقدة والترشيح على المقاطع، والريل وحده. مقاطع مصنوعة بشكل ملف youtube_bites في مجلد مؤقت، بلا شبكة."""
+    import json
+    import os
+    import shutil
+    import tempfile
+    from pathlib import Path
+
+    from src import review, store
+    from src import youtube_bites as yb
+    from src import youtube_cluster as ycl
+    from src import youtube_extract as ye
+    from src import youtube_publish as yp
+    from src import youtube_transcripts as yt
+    from src import reel_script
+
+    old_cfg = article_analysis_cfg(load_config())
+    cfg = reel_only_cfg(old_cfg)
+
+    def g729():
+        from src.config import load_config as real_load
+        real = real_load()
+        check("g729: config.yaml في الإنتاج على الريل وحده بالمقاطع",
+              real.path("youtube.reel_only") is True and real.path("youtube.cluster.source") == "bites"
+              and real.path("youtube.retire_articles") is True and real.path("reel.enabled") is True, None)
+    g729()
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001
+            import traceback
+            check(f"{name}: لا استثناء", False, traceback.format_exc()[-600:])
+
+    root = Path(tempfile.mkdtemp(prefix="v3_"))
+    saved = {"points": ye.POINTS_DIR, "topics": ycl.TOPICS_DIR, "env": os.environ.get("TRENDNEWS_YOUTUBE_BITES_DIR"),
+             "tenv": os.environ.get("TRENDNEWS_YOUTUBE_TRANSCRIPTS_DIR")}
+    ye.POINTS_DIR = root / "state" / "youtube_points"
+    ycl.TOPICS_DIR = root / "state" / "youtube_topics"
+    os.environ.pop("TRENDNEWS_YOUTUBE_BITES_DIR", None)
+    os.environ.pop("TRENDNEWS_YOUTUBE_TRANSCRIPTS_DIR", None)
+
+    def bite(vid, line, speaker, typ="opinion", answers="هل تصمد الهدنة؟", ch="الجزيرة", bloc="arabic", original="كلام أصلي"):
+        return {"bite_id": f"{vid}:{line}", "video_id": vid, "channel": ch, "bloc": bloc, "language": "ar",
+                "video_title": "t", "video_url": f"https://www.youtube.com/watch?v={vid}", "video_published": "2026-11-01",
+                "duration_seconds": 600, "start_line": line, "end_line": line + 1, "start": 10.0 * line, "end": 10.0 * line + 20,
+                "speaker": speaker, "speaker_original": "", "speaker_role": "محلل", "is_host": False, "type": typ,
+                "event_hint": "هدنة غزة", "summary_ar": f"{speaker} يرى أمرًا {line}", "text_ar": "نص عربي",
+                "answers": answers, "text_original": original}
+
+    try:
+        def g721():
+            segs = [{"start": 1.0, "dur": 2.0, "text": ">> أول سطر"}, {"start": 3.0, "dur": 2.0, "text": "ثاني سطر"}]
+            b = bite("vid00001", 1, "", original="")
+            b["is_host"] = True
+            pts = yb.bites_as_points([b], load_transcript=lambda vid: {"segments": segs})
+            p = pts[0]
+            check("g721: المقطع نقطة: الملخص statement والترجمة quote_arabic والبداية timestamp والنهاية end",
+                  p["statement"] == b["summary_ar"] and p["quote_arabic"] == "نص عربي" and p["timestamp"] == 10
+                  and p["end"] == 30.0 and p["topic_hint"] == "هدنة غزة" and p["timestamp_method"] == "bite", p)
+            check("g721: الكلام الأصلي من الأسطر المحفوظة بلا علامة «>>»، والمقدّم بلا اسم يُسمّى بصفته",
+                  p["quote_original"] == "أول سطر ثاني سطر" and p["speaker"] == "مقدّم البرنامج", p)
+            check("g721: المقطع الجديد يحمل text_original من أسطره في الاستخراج",
+                  yb.original_text(segs, 1, 2) == "أول سطر ثاني سطر", None)
+        guarded("g721", g721)
+
+        def g722():
+            d_old, d_new, d_none = "2026-10-20", "2026-10-21", "2026-10-22"
+            ycl.TOPICS_DIR.mkdir(parents=True, exist_ok=True)
+            (ycl.TOPICS_DIR / f"{d_old}.json").write_text(json.dumps({"topics": []}), encoding="utf-8")
+            (ycl.TOPICS_DIR / f"{d_new}.json").write_text(json.dumps({"topics": [], "source": "bites"}), encoding="utf-8")
+            check("g722: ملف مواضيع بلا مصدر = نقاط (كُتب قبل V3) ولو كان الإعداد مقاطع",
+                  ycl.window_source(d_old, cfg) == "points", None)
+            check("g722: المصدر المسجّل في الملف يحسم، ويوم بلا ملف يأخذ الإعداد",
+                  ycl.window_source(d_new, old_cfg) == "bites" and ycl.window_source(d_none, cfg) == "bites"
+                  and ycl.window_source(d_none, old_cfg) == "points", None)
+        guarded("g722", g722)
+
+        day = "2026-11-01"
+        bites = [bite("vidA0001", 1, "مراد غزيجي", ch="Habertürk", bloc="turkish"),
+                 bite("vidA0001", 5, "مراد غزيجي", ch="Habertürk", bloc="turkish"),
+                 bite("vidB0001", 3, "علي البخيتي", answers="من يربح؟"),
+                 bite("vidB0001", 9, "", typ="fact")]
+        yt.save_bites(day, bites)
+
+        def g723():
+            pts, stats = ycl.prepare_window_points(day, cfg)
+            check("g723: نافذة يوم جديد تُبنى من ملف المقاطع بمصدر bites",
+                  len(pts) == 4 and all(p.get("bite_id") for p in pts) and pts[0]["run_date"] == day, (len(pts), stats))
+            old_pts, _ = ycl.prepare_window_points(day, old_cfg)
+            check("g723: بالإعداد القديم تُقرأ النقاط (لا ملف نقاط هنا ← لا شيء)", old_pts == [], len(old_pts))
+            clips = reel_script.valid_clips(pts, [], cfg)
+            check("g723: المقطع يصلح مقطع ريل بحدّيه المحسوبين لا بتقدير الكلمات",
+                  len(clips) == 4 and clips[0]["start"] == 9.0 and clips[0]["end"] == 30.0, clips[:1])
+        guarded("g723", g723)
+
+        def g724():
+            pts, _ = ycl.prepare_window_points(day, cfg)
+            debate = {"title": "نقاش", "point_ids": [0, 1, 2, 3], "blocs": [], "channels": []}
+            solo = {"title": "صوت واحد", "point_ids": [0, 1], "blocs": [], "channels": []}
+            ranked = ycl.rank_for_reel([solo, debate], pts, cfg, day)
+            check("g724: موضوع بمتحدث رأي واحد لا يُعرض، وموضوع النقاش يبقى بدرجته",
+                  [t["title"] for t in ranked] == ["نقاش"] and ranked[0]["reel_fit"]["opinion_speakers"] == 2
+                  and ranked[0]["reel_fit"]["angles"] == 2 and ranked[0]["reel_fit"]["fresh"] == 1, ranked)
+        guarded("g724", g724)
+
+        topic = {"id": ycl._topic_id(day, 0), "title": "نقاش الهدنة", "event": "هدنة", "layer": 2,
+                 "blocs": ["arabic", "turkish"], "channels": ["الجزيرة", "Habertürk"], "agreement": "cross_source",
+                 "point_ids": [0, 1, 2, 3], "selection_status": "pending", "selection_issue": 77}
+
+        def g725():
+            pts, _ = ycl.prepare_window_points(day, cfg)
+            body = ycl.build_selection_body(day, [topic], pts, cfg)
+            check("g725: الريل وحده: لا كتلة صيغة، وخيار واحد «اكتب سيناريو الريل»",
+                  "fmt:" not in body and f"go:go2:{topic['id']}" in body and f"go:go3:{topic['id']}" not in body
+                  and f"go:publish:{topic['id']}" not in body
+                  and cfg.path("reel.texts.selection_reel_go2") in body, body[-900:])
+            check("g725: يعرض متحدثي الرأي كما سيظهرون، كل متحدث مرة",
+                  body.count("  - مراد غزيجي (") == 1 and "  - علي البخيتي (" in body and "يكتب البوت حتى" not in body, body[-900:])
+            old = ycl.build_selection_body(day, [topic], pts, old_cfg)
+            check("g725: بالإعداد القديم كتلة الصيغة كما كانت", "fmt:article:" in old and "fmt:reel:" in old, None)
+        guarded("g725", g725)
+
+        def g726():
+            ycl._save_topics_raw(day, {"run_date": day, "source": "bites", "topics": [dict(topic)]})
+            body = tick_marker(ycl.build_selection_body(day, [topic], ycl.prepare_window_points(day, cfg)[0], cfg),
+                               f"<!-- go:go2:{topic['id']} -->")
+            res = ycl.finalize_selection(77, body, cfg)
+            check("g726: موضوع معلَّم = ريل وحده، ولا مقال يُكتب",
+                  [t["id"] for t in res["reel_topics"]] == [topic["id"]] and res["to_write"] == []
+                  and [t["id"] for t in res["reel_only"]] == [topic["id"]], res)
+            ycl._save_topics_raw(day, {"run_date": day, "source": "bites", "topics": [dict(topic)]})
+            legacy = ycl.build_selection_body(day, [topic], ycl.prepare_window_points(day, cfg)[0], old_cfg)
+            legacy = tick_marker(legacy, f"<!-- go:go2:{topic['id']} -->")
+            res2 = ycl.finalize_selection(77, legacy, cfg)
+            check("g726: قضية قديمة بكتلة صيغة طُلب فيها مقال ← يصير ريلًا",
+                  res2["to_write"] == [] and [t["id"] for t in res2["reel_topics"]] == [topic["id"]], res2)
+        guarded("g726", g726)
+
+        def g727():
+            ycl._save_topics_raw("2026-11-02", {"run_date": "2026-11-02", "topics": []})
+            out = {}
+            real_run = ycl.prepare_window_points
+            try:
+                ycl.prepare_window_points = lambda d, c: (real_run(day, c)[0], {"points_in": 4, "points_dropped_stale_date": 0,
+                                                                                "points_dropped_bad_timestamp": 0,
+                                                                                "points_dropped_over_cap": 0})
+                real_cluster, real_merge = ycl.cluster_points, ycl.merge_duplicate_events
+                ycl.cluster_points = lambda points, c, client=None: (
+                    [{"title": "نقاش", "event": "هدنة", "agreement": "dispute", "point_ids": [0, 1, 2, 3]}], None)
+                ycl.merge_duplicate_events = lambda issues, c, client=None: (issues, [], None)
+                cfg_run = json.loads(json.dumps(dict(cfg)))
+                cfg_run = cfg.__class__(cfg_run)
+                cfg_run["youtube"]["cluster"]["min_points_per_topic"] = 1
+                out = ycl.run(cfg_run, date_str="2026-11-03")
+            finally:
+                ycl.prepare_window_points = real_run
+                ycl.cluster_points, ycl.merge_duplicate_events = real_cluster, real_merge
+            check("g727: العنقدة تسجّل مصدر النافذة وتحسب صلاحية الريل",
+                  out.get("source") == "bites" and out["topics"] and out["topics"][0].get("reel_fit", {}).get("opinion_speakers") == 2
+                  and "topics_below_reel_fit" in out["stats"], out.get("stats"))
+        guarded("g727", g727)
+
+        def g728():
+            calls = {"comment": [], "close": []}
+            real = (review.comment, review.close_issue)
+            review.comment = lambda n, t: calls["comment"].append(n)
+            review.close_issue = lambda n: calls["close"].append(n)
+            try:
+                def mk(did, fmt, issue):
+                    d = {"id": did, "origin": "analysis", "status": "pending", "review_issue": issue,
+                         "created_at": "2026-10-30T00:00:00+00:00", "arabic": {"post_title": "ع"}, "headlines": ["ع"]}
+                    if fmt:
+                        d["format"] = fmt
+                    store.save_draft(d)
+                mk("a00000000001", "article", 501)
+                mk("a00000000002", None, 501)
+                mk("a00000000003", "article", 502)
+                mk("r00000000003", "reel", 502)
+                yp.retire_article_reviews(old_cfg)
+                check("g728: بالإعداد القديم لا شيء يُمسّ", calls == {"comment": [], "close": []}
+                      and store.load_draft("a00000000001")[1]["status"] == "pending", calls)
+                out = yp.retire_article_reviews(cfg)
+                st = {i: store.load_draft(i)[1]["status"] for i in ("a00000000001", "a00000000002", "a00000000003", "r00000000003")}
+                check("g728: المقالات المعلّقة تُرفض والريل يبقى",
+                      st == {"a00000000001": "rejected", "a00000000002": "rejected", "a00000000003": "rejected",
+                             "r00000000003": "pending"} and out["rejected"] == 3, st)
+                check("g728: قضية المقال وحده تُغلق، وقضية فيها ريل يُعلَّق عليها فقط",
+                      calls["close"] == [501] and sorted(calls["comment"]) == [501, 502], calls)
+                again = yp.retire_article_reviews(cfg)
+                check("g728: التكرار لا يفعل شيئًا", again["rejected"] == 0 and calls["close"] == [501], again)
+            finally:
+                review.comment, review.close_issue = real
+        guarded("g728", g728)
+    finally:
+        ye.POINTS_DIR, ycl.TOPICS_DIR = saved["points"], saved["topics"]
+        for k, envk in (("env", "TRENDNEWS_YOUTUBE_BITES_DIR"), ("tenv", "TRENDNEWS_YOUTUBE_TRANSCRIPTS_DIR")):
+            if saved[k] is not None:
+                os.environ[envk] = saved[k]
+        shutil.rmtree(root, ignore_errors=True)

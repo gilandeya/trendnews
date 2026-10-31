@@ -1240,6 +1240,8 @@ def _extract_video_bites(video, raw_segments: list[dict], language: str, cfg: Co
         out.append({"bite_id": f"{video.video_id}:{b['start_line']}", "video_id": video.video_id,
                     "channel": video.channel, "bloc": video.bloc, "language": language,
                     "video_title": video.video_title, "video_url": video.video_url,
+                    # الوصف يعرّف الضيوف غالبًا: identify_speakers في السيناريو يوثّق الاسم منه كما مع النقاط
+                    "video_description": meta["description"],
                     "video_published": (video.published_at or "")[:10],
                     "duration_seconds": video.duration_seconds, **b})
     return {"bites": out, "error": res.get("error") or ""}

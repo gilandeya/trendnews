@@ -103,6 +103,10 @@ def _words(text: str) -> int:
 def clip_window(point: dict, cfg: Any) -> tuple[float, float]:
     """نافذة المقطع: تبدأ قبل طابع النقطة بـlead_seconds، ومدتها مقدَّرة من كلمات الاقتباس الأصلي ÷ معدل الكلام،
     محصورة بين الحدّين."""
+    if point.get("end") is not None and point.get("start") is not None:
+        # مقطع (V3): حدّاه محسوبان من أسطر النص وكلماته فكرةً تامة، فلا تقدير من عدد الكلمات ولا قصّ عند clip_max_seconds
+        start = max(0.0, float(point["start"]) - float(_rcfg(cfg, "lead_seconds", 1)))
+        return round(start, 1), round(float(point["end"]), 1)
     start = max(0.0, float(point["timestamp"]) - float(_rcfg(cfg, "lead_seconds", 1)))
     est = _words(point.get("quote_original", "")) / float(_rcfg(cfg, "speaker_wps", 2.3))
     dur = min(max(est, float(_rcfg(cfg, "clip_min_seconds", 6))), float(_rcfg(cfg, "clip_max_seconds", 15)))
