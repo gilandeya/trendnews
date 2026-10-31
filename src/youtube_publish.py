@@ -1410,3 +1410,39 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
+
+# ───────────────── إيقاف مقالات التحليل المعلّقة (خطة V، V3) ─────────────────
+
+def retire_article_reviews(cfg) -> dict:
+    """بقرار صاحب المشروع (2026-10-31): مع الريل وحده تُغلق قضايا مقالات التحليل المعلّقة (المرحلتان 2 و3) بتعليق يشرح السبب،
+    ومسوداتها تُرفض. قضية فيها ريل معلّق للموضوع نفسه (W1) لا تُغلق: يُرفض مقالها ويُعلَّق عليها فحسب. مأمونة التكرار: المسودة المرفوضة
+    لا تُرى ثانيةً. عطل قضية واحدة سطر تحذير ولا يوقف الباقي."""
+    from . import youtube_cluster
+    out = {"rejected": 0, "closed": [], "commented": []}
+    if not (youtube_cluster.reel_only(cfg) and cfg.path("youtube.retire_articles", False)):
+        return out
+    texts = cfg.path("youtube.redo.texts", {}) or {}
+    reason = texts.get("article_retired_reason", "")
+    pending = [(p, d) for p, d in store.pending_drafts() if store.origin_of(d) == "analysis"]
+    articles = [(p, d) for p, d in pending if d.get("format") != "reel" and d.get("review_issue")]
+    by_issue: dict[int, list] = {}
+    for p, d in articles:
+        by_issue.setdefault(int(d["review_issue"]), []).append((p, d))
+    for number, items in sorted(by_issue.items()):
+        for p, d in items:
+            store.update_draft(p, status="rejected", rejected_reason=reason)
+            out["rejected"] += 1
+        # ريل معلّق ما زال في القضية نفسها ← لا تُغلق كي لا يضيع
+        keeps_reel = any(d.get("format") == "reel" and number in (d.get("review_issue"), d.get("stage2_issue"))
+                         for _, d in pending)
+        try:
+            review.comment(number, texts.get("article_retired_comment", "").format(n=len(items)))
+            if keeps_reel:
+                out["commented"].append(number)
+            else:
+                review.close_issue(number)
+                out["closed"].append(number)
+        except Exception as exc:  # noqa: BLE001 -- عطل GitHub لقضية لا يوقف الباقي، والمسودات رُفضت أصلًا
+            log.warning("تعذّر إغلاق قضية المقال #%s: %s", number, exc)
+    return out

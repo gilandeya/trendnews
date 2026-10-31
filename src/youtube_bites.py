@@ -219,6 +219,54 @@ def is_arabic_text(text: str, cfg: Any) -> bool:
     return arabic / len(letters) >= float(_bcfg(cfg, "arabic_ratio", 0.9))
 
 
+def original_text(segments: list[dict], s: int, e: int) -> str:
+    """نص الأسطر s..e كما جاء في نص يوتيوب، بلا علامة تبدّل المتكلم في أوله (ليست كلامًا)."""
+    text = " ".join(" ".join(segments[k - 1]["text"].split()) for k in range(s, e + 1) if 1 <= k <= len(segments))
+    return text.lstrip(">").strip()
+
+
+def bites_as_points(bites: list[dict], load_transcript=None) -> list[dict]:
+    """المقاطع بشكل «النقطة» الذي تقرؤه العنقدة والترشيح والسيناريو (V3): فلا تُعاد كتابة تلك المراحل دفعة واحدة، وتبقى فهارس
+    point_ids على قائمة واحدة متسقة. الملخص يصير statement، والترجمة quote_arabic، والكلام بلغته quote_original (من الأسطر المحفوظة
+    للمقاطع الأقدم من حقل text_original)، وبداية المقطع timestamp ونهايته end، والحدث topic_hint. المقطع بلا كلام أصلي يبقى نقطة
+    للعنقدة لكنه لا يصلح مقطعًا (valid_clips تشترط quote_original)."""
+    if load_transcript is None:
+        from .youtube_transcripts import load as load_transcript
+    cache: dict[str, list | None] = {}
+    out: list[dict] = []
+    for b in bites or []:
+        original = str(b.get("text_original") or "").strip()
+        if not original and b.get("video_id"):
+            vid = b["video_id"]
+            if vid not in cache:
+                saved = load_transcript(vid)
+                cache[vid] = clean_segments(saved["segments"]) if saved else None
+            segs = cache[vid]
+            try:
+                if segs:
+                    original = original_text(segs, int(b["start_line"]), int(b["end_line"]))
+            except (KeyError, TypeError, ValueError):
+                original = ""
+        speaker = b.get("speaker") or ""
+        if not speaker and b.get("is_host"):
+            speaker = "مقدّم البرنامج"
+        out.append({
+            "video_id": b.get("video_id", ""), "channel": b.get("channel", ""), "bloc": b.get("bloc", ""),
+            "language": b.get("language", ""), "video_title": b.get("video_title", ""),
+            "video_description": b.get("video_description", ""), "video_url": b.get("video_url", ""),
+            "video_published": b.get("video_published", ""), "duration_seconds": b.get("duration_seconds"),
+            "statement": b.get("summary_ar", ""), "speaker": speaker,
+            "quote_original": original, "quote_arabic": b.get("text_ar", ""),
+            "timestamp": int(float(b["start"])) if b.get("start") is not None else None,
+            "start": b.get("start"), "end": b.get("end"), "timestamp_method": "bite",
+            "type": b.get("type", ""), "topic_hint": b.get("event_hint", ""),
+            "answers": b.get("answers", ""), "bite_id": b.get("bite_id", ""),
+            "speaker_original": b.get("speaker_original", ""), "speaker_role": b.get("speaker_role", ""),
+            "is_host": bool(b.get("is_host")),
+        })
+    return out
+
+
 def _arabic_speaker(b: dict) -> tuple[str, str]:
     """(الاسم بالعربية، الاسم الأصلي). الاسم يُكتب على الشاشة بالعربية، والنموذج نسخ في قياس V0 أسماء بالعبرية واللاتينية في speaker
     رغم التعليمة: اسم فيه حرف غير عربي يُنقل إلى speaker_original (إن خلا) ويُترك speaker فارغًا، فيُحسم الاسم بالشريط والخريطة كأي
@@ -295,7 +343,9 @@ def validate_bites(raw: list, segments: list[dict], shown: set[int], cfg: Any,
                    "is_host": bool(b.get("is_host")), "type": kind,
                    "event_hint": str(b.get("event_hint") or "").strip(),
                    "summary_ar": str(b.get("summary_ar") or "").strip(), "text_ar": text_ar,
-                   "answers": str(b.get("answers") or "").strip()})
+                   "answers": str(b.get("answers") or "").strip(),
+                   # الكلام بلغته من أسطر النص نفسها (لا من النموذج): مادة التركيب لضبط الحدّين بالتفريغ، وهو في المستودع الخاص وحده
+                   "text_original": original_text(segments, s, e)})
     return ok, bad
 
 

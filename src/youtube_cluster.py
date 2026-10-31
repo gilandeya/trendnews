@@ -242,6 +242,33 @@ def load_prompt() -> str:
     return PROMPT_PATH.read_text(encoding="utf-8")
 
 
+def load_bites(date_str: str) -> list[dict]:
+    """مقاطع يوم بعينه (V2) بشكل النقطة (youtube_bites.bites_as_points). ملف غائب أو تالف ← [] كما في load_points."""
+    from . import youtube_bites, youtube_transcripts
+    path = youtube_transcripts.bites_dir() / f"{date_str}.json"
+    if not path.exists():
+        return []
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        log.warning("ملف مقاطع يوتيوب تالف: %s", path)
+        return []
+    return youtube_bites.bites_as_points(data.get("bites") or [])
+
+
+def window_source(date_str: str, cfg: Config) -> str:
+    """مصدر نافذة اليوم: «points» أو «bites» (V3). ملف مواضيع اليوم الموجود يحسمه بما سجّلته العنقدة فيه، وبلا تسجيل فهو نقاط
+    (كُتب قبل V3)؛ فقط يوم بلا ملف يأخذ youtube.cluster.source. السبب: point_ids في ملف المواضيع فهارس في نافذة بعينها، وكل من يقرأ
+    الملف بعد ذلك (الترشيح، والسيناريو، والتركيب لريل قديم) يجب أن يبني النافذة نفسها، فلا يقلبها تغيير الإعداد ولا موعد الدمج."""
+    path = TOPICS_DIR / f"{date_str}.json"
+    if path.exists():
+        try:
+            return str(json.loads(path.read_text(encoding="utf-8")).get("source") or "points")
+        except (OSError, json.JSONDecodeError):
+            return "points"
+    return str(cfg.path("youtube.cluster.source", "points") or "points")
+
+
 def load_points(date_str: str) -> list[dict]:
     """يقرأ نقاط تشغيلة يوم بعينه من مخرج youtube_extract.py. ملف غير
     موجود (لم تُشغَّل المرحلة الثانية بعد لهذا التاريخ) يعيد قائمة فارغة لا
@@ -267,7 +294,7 @@ def _date_range(date_str: str, lookback_days: int) -> list[str]:
             for offset in range(days - 1, -1, -1)]
 
 
-def load_points_window(date_str: str, lookback_days: int) -> list[dict]:
+def load_points_window(date_str: str, lookback_days: int, source: str = "points") -> list[dict]:
     """يقرأ نقاط كل الأيام ضمن نافذة lookback_days المنتهية بـdate_str (Issue
     #658 العطل ١ بند أ) -- لا ملف اليوم وحده. التقاطع عبر الكتل نادر أن يقع
     في نفس اليوم بالضبط (الجزيرة تحلّل موضوعًا اليوم، وهابرتورك تتناوله
@@ -279,8 +306,9 @@ def load_points_window(date_str: str, lookback_days: int) -> list[dict]:
     أيام غائبة (لم تُشغَّل المرحلة الثانية بعدها، أو تشغيلة أولى بلا تاريخ
     سابق) تُهمَل بصمت -- نفس مبدأ load_points، لا استثناء لمجرّد نقص تاريخي."""
     combined: list[dict] = []
+    loader = load_bites if source == "bites" else load_points
     for day in _date_range(date_str, lookback_days):
-        for point in load_points(day):
+        for point in loader(day):
             point = dict(point)
             point["run_date"] = day
             combined.append(point)
@@ -366,7 +394,7 @@ def prepare_window_points(date_str: str, cfg: Config) -> tuple[list[dict], dict]
     min_points_date = cfg.path("youtube.cluster.min_points_date")
     max_points_per_call = cfg.path("youtube.cluster.max_points_per_call", 150)
 
-    window_points = load_points_window(date_str, lookback_days)
+    window_points = load_points_window(date_str, lookback_days, window_source(date_str, cfg))
     points, dropped_stale_date = apply_min_points_date(window_points, min_points_date)
     points, dropped_bad_timestamp = apply_timestamp_guard(points)
     points, dropped_over_cap = apply_points_cap(points, max_points_per_call)
@@ -865,6 +893,37 @@ def apply_bloc_cap(topics: list[dict], max_per_bloc: int) -> tuple[list[dict], i
     return kept, dropped
 
 
+def reel_only(cfg: Config) -> bool:
+    """الريل وحده (خطة V، V3): لا مقال يُكتب من الترشيح، ولا كتلة صيغة، والترتيب لصلاحية الريل."""
+    return bool(cfg.path("youtube.reel_only", False)) and bool(cfg.path("reel.enabled", False))
+
+
+def reel_fitness(topic: dict, points: list[dict], cfg: Config, today: str | None = None) -> dict:
+    """درجة صلاحية الموضوع للريل من أعداد يحسبها الكود: متحدثو الرأي المختلفون (الأهم: الريل منظورات)، والكتل، والزوايا (أسئلة
+    المقاطع المختلفة)، والحداثة. الأوزان في youtube.cluster.reel_rank."""
+    from . import reel_script
+    member = [points[pid] for pid in topic.get("point_ids") or [] if 0 <= pid < len(points)]
+    speakers = len(reel_script.opinion_speakers(member, cfg))
+    blocs = len({p.get("bloc") for p in member if p.get("bloc")})
+    angles = len({" ".join(str(p.get("answers") or "").split()) for p in member
+                  if p.get("type") in ("opinion", "forecast") and p.get("answers")})
+    fresh = 1 if today and any(p.get("run_date") == today for p in member) else 0
+    w = cfg.path("youtube.cluster.reel_rank", {}) or {}
+    score = (float(w.get("speakers", 3)) * speakers + float(w.get("blocs", 2)) * blocs
+             + float(w.get("angles", 1)) * angles + float(w.get("fresh", 1)) * fresh)
+    return {"opinion_speakers": speakers, "blocs": blocs, "angles": angles, "fresh": fresh, "score": round(score, 2)}
+
+
+def rank_for_reel(topics: list[dict], points: list[dict], cfg: Config, today: str | None = None) -> list[dict]:
+    """يُبقي ما بلغ reel.script.v2.min_opinion_speakers ويرتّبه بالدرجة تنازليًا (فرز مستقر يحفظ ترتيب العنقدة عند التساوي)؛
+    الدرجة تُحفظ على الموضوع (reel_fit) للعرض والتحليل."""
+    need = int(cfg.path("reel.script.v2.min_opinion_speakers", 2))
+    for t in topics:
+        t["reel_fit"] = reel_fitness(t, points, cfg, today)
+    kept = [t for t in topics if t["reel_fit"]["opinion_speakers"] >= need]
+    return sorted(kept, key=lambda t: -t["reel_fit"]["score"])
+
+
 def run(cfg: Config | None = None, date_str: str | None = None,
         client: Anthropic | None = None, now: datetime | None = None) -> dict:
     cfg = cfg or load_config()
@@ -875,6 +934,7 @@ def run(cfg: Config | None = None, date_str: str | None = None,
     min_channels_per_topic = cfg.path("youtube.cluster.min_channels_per_topic", 2)
     max_per_bloc = cfg.path("youtube.cluster.max_per_bloc", 4)
 
+    source = window_source(date_str, cfg)
     points, window_stats = prepare_window_points(date_str, cfg)
 
     raw_issues, error = cluster_points(points, cfg, client)
@@ -911,6 +971,14 @@ def run(cfg: Config | None = None, date_str: str | None = None,
     topics, dropped_by_min_channels = apply_min_channels(topics, min_channels_per_topic)
     _mark_dropped(before_min_channels, topics, "below_min_channels")
 
+    dropped_by_reel_fit = 0
+    if reel_only(cfg):
+        # V3: الترتيب لصلاحية الريل لا للمقال، وما دون الحد الأدنى من متحدثي الرأي لا يُعرض أصلًا (قاعدة R7 مبكرًا)
+        before_fit = list(topics)
+        topics = rank_for_reel(topics, points, cfg, date_str)
+        dropped_by_reel_fit = len(before_fit) - len(topics)
+        _mark_dropped(before_fit, topics, "below_reel_fit")
+
     before_cap = list(topics)
     topics, dropped_by_cap = apply_bloc_cap(topics, max_per_bloc)
     _mark_dropped(before_cap, topics, "bloc_cap")
@@ -936,6 +1004,7 @@ def run(cfg: Config | None = None, date_str: str | None = None,
             "topics_seen_skipped": dropped_by_seen,
             "topics_below_min_points": dropped_by_min_points,
             "topics_below_min_channels": dropped_by_min_channels,
+            "topics_below_reel_fit": dropped_by_reel_fit,
             "layers": {str(n): c for n, c in sorted(layer_counts.items(), reverse=True)},
             "agreement": agreement_counts["agreement"],
             "cross_source": agreement_counts["cross_source"],
@@ -943,6 +1012,8 @@ def run(cfg: Config | None = None, date_str: str | None = None,
             "echo": agreement_counts["echo"],
         },
         "error": error,
+        # يحسم window_source لكل من يقرأ ملف اليوم لاحقًا (فهارس point_ids في هذه النافذة بعينها)
+        "source": source,
         "merged_events": merge_log,
         "topics": topics,
         "all_topics": all_topics,
@@ -1072,6 +1143,27 @@ def _sample_points_lines(topic: dict, points: list[dict], n: int = 3) -> list[st
     return lines
 
 
+def _reel_voice_lines(topic: dict, points: list[dict], cfg) -> list[str]:
+    """ما سيظهر في الريل فعلًا (V3): متحدث رأي واحد لكل سطر باسمه وقناته وملخص ما يقوله، حتى reel.texts.selection_voices_max."""
+    from . import reel_script
+    member = [points[pid] for pid in topic.get("point_ids") or [] if 0 <= pid < len(points)]
+    texts = cfg.path("reel.texts", {}) or {}
+    out, seen = [], set()
+    for clip in reel_script.valid_clips(member, [], cfg):
+        if clip.get("type") not in ("opinion", "forecast"):
+            continue
+        ident = reel_script._speaker_identity(clip)
+        if ident in seen:
+            continue
+        seen.add(ident)
+        name = clip.get("speaker_text") or texts.get("selection_unnamed", "")
+        line = f"  - {name} ({clip.get('channel_display') or '؟'}): {(clip.get('statement') or '')[:160]}"
+        out.append(line)
+        if len(out) >= int(texts.get("selection_voices_max", 5)):
+            break
+    return out
+
+
 def _reel_fit_line(topic: dict, points: list[dict], cfg) -> str:
     """سطر صلاحية الموضوع للريل (Issue #1637، R7): الريل نقاش فيعرف المراجع عند الترشيح كم متحدث رأي صالحًا فيه. لا يمنع التعليم."""
     # استيراد متأخر: reel_script يستورد هذه الوحدة فاستيراده في الرأس حلقة
@@ -1112,13 +1204,17 @@ def build_selection_body(date_str: str, topics: list[dict], points: list[dict], 
     الصريح)."""
     cfg = cfg if cfg is not None else load_config()
     max_per_run = cfg.path("youtube.article.max_per_run")
+    only_reel = reel_only(cfg)
+    texts = cfg.path("reel.texts", {}) or {}
     parts = [
         f"<!-- selection-date:{date_str} -->",
         stages.stage_header(1, cfg),
         "",
         cfg.path("stages.explainer_stage1", ""),
         "",
-        (f"سيكتب البوت حتى {max_per_run:g} موضوعًا مؤشَّرًا لكل تشغيلة "
+        # الريل وحده (V3): السقف لكلفة كتابة المقال ولا مقال، فسطره لا يصدق هنا
+        (texts.get("selection_reel_note", "") if only_reel else
+         f"سيكتب البوت حتى {max_per_run:g} موضوعًا مؤشَّرًا لكل تشغيلة "
          "اعتماد؛ الباقي ينتظر تشغيلة يدوية لاحقة بنفس الوسم."
          if max_per_run else "سيكتب البوت كل موضوع مؤشَّر دفعة واحدة، بلا سقف."),
         "",
@@ -1146,7 +1242,7 @@ def build_selection_body(date_str: str, topics: list[dict], points: list[dict], 
             f"{len(t['point_ids'])} نقطة",
             "",
         ]
-        samples = _sample_points_lines(t, points)
+        samples = _reel_voice_lines(t, points, cfg) if only_reel else _sample_points_lines(t, points)
         if samples:
             parts += samples
             parts.append("")
@@ -1155,8 +1251,10 @@ def build_selection_body(date_str: str, topics: list[dict], points: list[dict], 
             "",
             # كتلة الصيغة بعد حقل الصورة وقبل الانتقال (Issue #1336): كتلة الانتقال
             # تخص المقال وحده، والريل بلا انتقال هنا -- تعليمه وحده اختياره
-            *_format_block(t["id"], cfg, t, points),
-            *stages.options_block(1, t["id"], cfg, has_stage1=False),
+            *([_reel_fit_line(t, points, cfg), ""] if only_reel else _format_block(t["id"], cfg, t, points)),
+            *(stages.options_block(1, t["id"], cfg, has_stage1=False, only=("go2",),
+                                   labels={"go2": texts.get("selection_reel_go2", "")})
+              if only_reel else stages.options_block(1, t["id"], cfg, has_stage1=False)),
             "",
             "---",
             "",
@@ -1368,8 +1466,9 @@ def finalize_selection(issue_number: int, body: str, cfg, is_reusable=None) -> d
     def _keys(t: dict) -> set[str]:
         return {point_key(points[pid]) for pid in t["point_ids"] if 0 <= pid < len(points)}
 
-    # الصيغ (Issue #1336): None = قضية قديمة أو والمفتاح مطفأ ← مقال فقط كما كانت
+    # الصيغ (Issue #1336): None = قضية قديمة أو والمفتاح مطفأ ← مقال فقط كما كانت؛ ومع الريل وحده (V3) ← ريل
     formats = parse_formats(body)
+    only_reel = reel_only(cfg)
     article_conflicts: list[dict] = []
     changed = False
     unselected_now = 0
@@ -1385,8 +1484,14 @@ def finalize_selection(issue_number: int, body: str, cfg, is_reusable=None) -> d
         # (empty_selection_marks) فلا يبقى ما يُقرأ، لا حارس الحالة القديم.
         redo = status != "pending"
         if redo:
-            wants_article = t["id"] in checked and (formats is None or t["id"] in formats["article"])
-            wants_reel = formats is not None and t["id"] in formats["reel"]
+            if only_reel and formats is None:
+                wants_article, wants_reel = False, t["id"] in checked
+            else:
+                wants_article = t["id"] in checked and (formats is None or t["id"] in formats["article"])
+                wants_reel = formats is not None and t["id"] in formats["reel"]
+            if only_reel:
+                # قضية فُتحت قبل V3 بكتلة صيغة: طلب المقال يصير طلب ريل، فلا يُكتب مقال بعد الآن
+                wants_article, wants_reel = False, wants_reel or wants_article
             if not (wants_article or wants_reel):
                 continue
             changed = True
@@ -1396,7 +1501,10 @@ def finalize_selection(issue_number: int, body: str, cfg, is_reusable=None) -> d
             t["redo_formats"] = list(t["selected_formats"])
             continue
         changed = True
-        if formats is None:
+        if formats is None and only_reel:
+            # الريل وحده (V3): قضية بلا كتلة صيغة، فكل خيار معلَّم طلب ريل
+            wants_article, wants_reel = False, t["id"] in checked
+        elif formats is None:
             wants_article, wants_reel = t["id"] in checked, False
         else:
             # المقال يلزمه تعليم الصيغة وخيار انتقال معًا؛ الريل يكفيه تعليمه وحده
@@ -1405,6 +1513,8 @@ def finalize_selection(issue_number: int, body: str, cfg, is_reusable=None) -> d
             if t["id"] in checked and t["id"] not in formats["article"]:
                 article_conflicts.append({"id": t["id"], "title": t["title"],
                                           "action": actions.get(t["id"])})
+        if only_reel:
+            wants_article, wants_reel = False, wants_reel or wants_article
         if wants_article or wants_reel:
             t["selection_status"] = "selected"
             # تُحفظ الصيغ على الموضوع كي تُقرأ ثانيةً عند إعادة وسم approved لما فاته السقف
@@ -1424,7 +1534,7 @@ def finalize_selection(issue_number: int, body: str, cfg, is_reusable=None) -> d
     # موضوع بلا selected_formats (اختير قبل هذا الإصدار) = مقال، كما كان
     selected_articles = [t for t in selected if "article" in (t.get("selected_formats") or ["article"])]
     reel_topics = [t for t in selected if "reel" in (t.get("selected_formats") or [])]
-    reel_only = [t for t in reel_topics if t not in selected_articles]
+    reel_only_topics = [t for t in reel_topics if t not in selected_articles]
     max_per_run = cfg.path("youtube.article.max_per_run")
     # إعادة الطلب (Issue #1532) تكتب من جديد دائمًا: لا تُستثنى من السقف باستعمال مسودة مُعادة
     reused = [t for t in selected_articles
@@ -1439,7 +1549,7 @@ def finalize_selection(issue_number: int, body: str, cfg, is_reusable=None) -> d
 
     return {"date_str": date_str, "to_write": to_write, "still_waiting": still_waiting,
             "unselected_now": unselected_now, "actions": actions, "conflicts": conflicts,
-            "reel_topics": reel_topics, "reel_only": reel_only,
+            "reel_topics": reel_topics, "reel_only": reel_only_topics,
             "article_conflicts": article_conflicts}
 
 
@@ -1535,7 +1645,8 @@ def main() -> int:
           f"(مستبعدة بسقف الكتلة: {stats['dropped_by_bloc_cap']} "
           f"· مستهلكة سابقًا: {stats['topics_seen_skipped']} "
           f"· دون حدّ النقاط: {stats['topics_below_min_points']} "
-          f"· دون حدّ القنوات: {stats['topics_below_min_channels']})")
+          f"· دون حدّ القنوات: {stats['topics_below_min_channels']} "
+          f"· دون صلاحية الريل: {stats.get('topics_below_reel_fit', 0)}) · المصدر: {result.get('source')}")
     layers = stats.get("layers", {})
     print("الكتل المتقاطعة: " + " ".join(
         f"{n} كتل={layers[n]}" if n != "1" else f"1={layers[n]}" for n in layers))
@@ -1560,6 +1671,12 @@ def main() -> int:
               f"({len(selection['topics'])} موضوع)")
     else:
         print("لا موضوع جديد بانتظار اختيار")
+    # الريل وحده (V3): قضايا مقالات التحليل المعلّقة تُغلق (قرار صاحب المشروع)؛ استيراد متأخر لأن youtube_publish يستورد هذه الوحدة
+    from . import youtube_publish
+    retired = youtube_publish.retire_article_reviews(cfg)
+    if retired["rejected"]:
+        print(f"مقالات تحليل أُوقفت: {retired['rejected']} · قضايا أُغلقت: {retired['closed']} "
+              f"· عُلِّق عليها فقط (فيها ريل): {retired['commented']}")
     return 0
 
 
