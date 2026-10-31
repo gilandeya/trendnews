@@ -312,34 +312,64 @@ def _tool_input(resp) -> dict | None:
 
 TRIM_TOOL = {
     "name": "trim_bites",
-    "description": "يقتطع من كل جواب طويل أقوى فكرة تامة داخل الحد",
+    "description": "يختار لكل جواب طويل خيارًا واحدًا من الخيارات المرقّمة هو أقوى فكرة تامة",
     "input_schema": {"type": "object", "properties": {
         "bites": {"type": "array", "items": {"type": "object", "properties": {
-            "answer": {"type": "integer"}, "start_line": {"type": "integer"}, "end_line": {"type": "integer"},
+            "answer": {"type": "integer"}, "option": {"type": "integer"},
             "first_words": {"type": "string"}, "last_words": {"type": "string"},
             "text_ar": {"type": "string"}, "summary_ar": {"type": "string"}, "answers": {"type": "string"},
-        }, "required": ["answer", "start_line", "end_line", "first_words", "last_words", "text_ar", "summary_ar", "answers"]}},
+        }, "required": ["answer", "option", "first_words", "last_words", "text_ar", "summary_ar", "answers"]}},
     }, "required": ["bites"]},
 }
 
 
+def trim_options(raw: dict, segments: list[dict], cfg: Any) -> list[tuple[int, int, float]]:
+    """نوافذ الأسطر المتصلة داخل جواب طويل التي تقع مدتها في الحد، يحسبها الكود (خالصة). قياس V0c: Haiku أُعطي الأسطر وزمن كل سطر من
+    بداية الجواب فأعاد الجواب كله في 54 من 55 مرة، فالحساب لا يُترك لنموذج: يختار رقم خيار فقط. لكل سطر بداية أطول نافذة في الحد، بلا
+    «>>» بعد سطرها الأول، وتُقلَّص إلى trim.max_options خيارًا موزّعة على الجواب."""
+    lo, hi = float(_bcfg(cfg, "min_seconds", 8)), float(_bcfg(cfg, "max_seconds", 30))
+    marker = str(_bcfg(cfg, "turn_marker", ">>") or "")
+    s0, e0 = int(raw["start_line"]), int(raw["end_line"])
+    opts: list[tuple[int, int, float]] = []
+    for s in range(s0, e0 + 1):
+        best = None
+        for e in range(s, e0 + 1):
+            if e > s and marker and segments[e - 1]["text"].startswith(marker):
+                break
+            t0, t1 = line_window(segments, s, e)
+            if t1 - t0 > hi:
+                break
+            if t1 - t0 >= lo:
+                best = (s, e, round(t1 - t0, 1))
+        if best:
+            opts.append(best)
+    cap = int(cfg.path("youtube.bites.trim.max_options", 10))
+    if len(opts) > cap:
+        step = len(opts) / cap
+        opts = [opts[int(i * step)] for i in range(cap)]
+    return opts
+
+
 def trim_message(longs: list[dict], segments: list[dict]) -> str:
-    """كل جواب طويل بأسطره وأرقامها الأصلية، وبجانب كل سطر زمنه من بداية الجواب: الحساب على النموذج سهل حين يُعطى الفرق جاهزًا
-    (فشل النموذج الكبير في V0b في حساب المدة من أزمنة الأسطر المطلقة)."""
+    """لكل جواب طويل خياراته المرقّمة بمدتها ونصها كاملًا؛ النموذج يقرأ ويختار لا يحسب."""
     out = []
     for n, item in enumerate(longs, 1):
         b = item["raw"]
-        s, e = int(b["start_line"]), int(b["end_line"])
-        base = segments[s - 1]["start"]
         out.append(f"## الجواب {n} — المتكلم: {b.get('speaker') or 'غير مسمّى'} ({b.get('speaker_role') or ''})\nملخصه: {b.get('summary_ar') or ''}")
-        out.extend(f"[{k}] (+{segments[k - 1]['start'] - base:.1f} ث) {segments[k - 1]['text']}" for k in range(s, e + 1))
+        for m, (s, e, dur) in enumerate(item["options"], 1):
+            text = " ".join(segments[k - 1]["text"] for k in range(s, e + 1))
+            out.append(f"- الخيار {m} ({dur:g} ث): {text}")
         out.append("")
     return "\n".join(out)
 
 
 def trim_long(longs: list[dict], segments: list[dict], cfg: Any, client) -> tuple[list[dict], str]:
     """نداء واحد لكل الأجوبة الطويلة في الفيديو؛ يعيد (مقاطع بصيغة مخرج النداء الأول تُمرَّر إلى validate_bites، سبب العطل).
-    حقول القائل والنوع تُنقل من الجواب الأصلي في الكود: الاقتطاع لا يغيّر من يتكلم. مقطع خارج أسطر جوابه يُسقط."""
+    الأسطر من الخيار المختار في الكود، والقائل والنوع من الجواب الأصلي: الاقتطاع لا يغيّر من يتكلم. جواب بلا خيار لا يُعرض."""
+    longs = [{**it, "options": trim_options(it["raw"], segments, cfg)} for it in longs]
+    longs = [it for it in longs if it["options"]]
+    if not longs:
+        return [], ""
     tcfg = cfg.path("youtube.bites.trim", {}) or {}
     system = str(tcfg.get("system", "")).format(min_seconds=_bcfg(cfg, "min_seconds", 8), max_seconds=_bcfg(cfg, "max_seconds", 30))
     try:
@@ -358,12 +388,11 @@ def trim_long(longs: list[dict], segments: list[dict], cfg: Any, client) -> tupl
     out = []
     for it in items:
         try:
-            src = longs[int(it.get("answer")) - 1]["raw"]
-            s, e = int(it.get("start_line")), int(it.get("end_line"))
+            item = longs[int(it.get("answer")) - 1]
+            s, e, _ = item["options"][int(it.get("option")) - 1]
         except (TypeError, ValueError, IndexError):
             continue
-        if not (int(src["start_line"]) <= s <= e <= int(src["end_line"])):
-            continue
+        src = item["raw"]
         out.append({**{k: src.get(k) for k in ("speaker", "speaker_original", "speaker_role", "is_host", "type", "event_hint")},
                     "start_line": s, "end_line": e, "first_words": it.get("first_words", ""), "last_words": it.get("last_words", ""),
                     "text_ar": it.get("text_ar", ""), "summary_ar": it.get("summary_ar", ""), "answers": it.get("answers", "")})

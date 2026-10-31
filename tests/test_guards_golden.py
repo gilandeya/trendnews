@@ -21788,27 +21788,30 @@ def test_youtube_bites_v0c_guards() -> None:
     w2 = yb.word_window(segs, 2, 3, "كلمات غير موجودة هنا", "", cfg)
     check("g712: كلمات غائبة ← حدّا السطر كما كانا", not w2["start_anchored"] and (w2["start"], w2["end"]) == (4.0, 12.0), w2)
 
-    long_segs = yb.clean_segments([{"start": 3.0 * i, "dur": 3.0, "text": f"جملة رقم {i} من الجواب"} for i in range(1, 21)])
-    src = {"start_line": 2, "end_line": 18, "speaker": "سعيد زياد", "speaker_original": "Said Ziad", "speaker_role": "محلل",
+    long_segs = yb.clean_segments([{"start": 3.0 * i, "dur": 3.0, "text": f"جملة رقم {i} من الجواب"} for i in range(1, 21)]
+                                  + [{"start": 63.0, "dur": 3.0, "text": ">> سؤال المقدّم"}])
+    src = {"start_line": 2, "end_line": 21, "speaker": "سعيد زياد", "speaker_original": "Said Ziad", "speaker_role": "محلل",
            "is_host": False, "type": "opinion", "event_hint": "الحدث", "summary_ar": "", "text_ar": "نص", "answers": "",
            "first_words": "", "last_words": ""}
+    opts = yb.trim_options(src, long_segs, cfg)
+    check("g713: خيارات الاقتطاع يحسبها الكود: كلها داخل [8، 30] ث، ولا تعبر «>>»، وبسقف max_options",
+          opts and all(8 <= d <= 30 for _, _, d in opts) and all(e < 21 for _, e, _ in opts)
+          and len(opts) <= int(cfg.path("youtube.bites.trim.max_options")), opts)
 
     def trim_resp(items):
         return types.SimpleNamespace(stop_reason="tool_use", usage=types.SimpleNamespace(input_tokens=1, output_tokens=1),
                                      content=[types.SimpleNamespace(type="tool_use", name="trim_bites", input={"bites": items})])
     orig = yb._create
     yb._create = lambda client, **kw: trim_resp([
-        {"answer": 1, "start_line": 4, "end_line": 9, "first_words": "", "last_words": "", "text_ar": "فكرة مقتطعة",
-         "summary_ar": "ملخص", "answers": "سؤال"},
-        {"answer": 1, "start_line": 1, "end_line": 5, "first_words": "", "last_words": "", "text_ar": "خارج الجواب",
-         "summary_ar": "", "answers": ""}])
+        {"answer": 1, "option": 2, "first_words": "", "last_words": "", "text_ar": "فكرة مقتطعة", "summary_ar": "ملخص", "answers": "سؤال"},
+        {"answer": 1, "option": 99, "first_words": "", "last_words": "", "text_ar": "خيار غير موجود", "summary_ar": "", "answers": ""}])
     try:
         got, err = yb.trim_long([{"raw": src}], long_segs, cfg, object())
     finally:
         yb._create = orig
-    check("g713: الاقتطاع يرث القائل والنوع من الجواب ويُسقط ما خرج عن أسطره",
+    check("g713: الأسطر من الخيار المختار، والقائل والنوع من الجواب، والخيار المجهول يُسقط",
           err == "" and len(got) == 1 and got[0]["speaker"] == "سعيد زياد" and got[0]["type"] == "opinion"
-          and (got[0]["start_line"], got[0]["end_line"]) == (4, 9), (got, err))
+          and (got[0]["start_line"], got[0]["end_line"]) == opts[1][:2], (got, err))
 
     calls = []
 
@@ -21817,7 +21820,7 @@ def test_youtube_bites_v0c_guards() -> None:
         if kw["tools"][0]["name"] == "extract_bites":
             return types.SimpleNamespace(stop_reason="tool_use", usage=types.SimpleNamespace(input_tokens=1, output_tokens=1),
                                          content=[types.SimpleNamespace(type="tool_use", name="extract_bites", input={"bites": [src]})])
-        return trim_resp([{"answer": 1, "start_line": 4, "end_line": 9, "first_words": "", "last_words": "",
+        return trim_resp([{"answer": 1, "option": 1, "first_words": "", "last_words": "",
                            "text_ar": "فكرة مقتطعة", "summary_ar": "ملخص", "answers": "سؤال"}])
     yb._create = fake
     try:

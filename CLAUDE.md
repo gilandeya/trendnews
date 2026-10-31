@@ -2695,5 +2695,6 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 
 **V0c (g711–g714 في `test_youtube_bites_v0c_guards`):** الحد الأقصى 30 ث بقرار صاحب المشروع. الحدّان بالكلمة: `first_words`/`last_words` حرفيًا بلغة الكلام، و`word_window`
 تبحث عنهما (ظهورًا وحيدًا بعد `_normalize_for_anchor`) في سطرهما وما يجاوره بـ`anchor_search_lines` وتقدّر زمن الكلمة بموضعها في سطرها؛ غيابها ← حدّ السطر
-(`start_anchored`/`end_anchored` على المقطع). الجواب الأطول من الحد (`long` في المرفوض) لا يُرمى: `trim_long` نداء Haiku واحد لكل فيديو (`youtube.bites.trim`) بأسطر كل
-جواب وزمن كل سطر من بداية الجواب، يرث القائل والنوع من الجواب، ثم `validate_bites(..., taken=)` يتحقق منه كالأصل؛ `res["trim"] = {asked, accepted, rejected, error}`.
+(`start_anchored`/`end_anchored` على المقطع). الجواب الأطول من الحد (`long` في المرفوض) لا يُرمى: `trim_options` (خالصة) تحسب في الكود نوافذ الأسطر داخل الحد (أطول نافذة لكل سطر
+بداية، بلا «>>» بعد أولها، بسقف `trim.max_options`)، و`trim_long` نداء Haiku واحد لكل فيديو يختار **رقم خيار** لكل جواب ويكتب حدّيه بالكلمة وترجمته — لأن Haiku حين
+أُعطي الأسطر بأزمنتها النسبية أعاد الجواب كله في 54 من 55 مرة. القائل والنوع من الجواب، ثم `validate_bites(..., taken=)`؛ `res["trim"] = {asked, accepted, rejected, error}`.
