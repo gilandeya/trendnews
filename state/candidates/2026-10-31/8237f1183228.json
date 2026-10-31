@@ -1,0 +1,80 @@
+{
+  "id": "8237f1183228",
+  "created_at": "2026-10-31T17:08:01.460734+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 22.85,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 0,
+  "proximity": 1,
+  "intrigue": 3,
+  "appeal_note": "البابا يصوّت لأول مرة في انتخابات أمريكية، لافت جدًا.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Pope Leo XIV becomes first pontiff to vote in a US election",
+  "link": "https://www.bbc.co.uk/news/articles/ckwyq2509p7xo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "CBS News — World",
+    "Hindustan Times — World",
+    "MercoPress"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "Pope Leo XIV becomes first pontiff to vote in a US election",
+    "link": "https://www.bbc.co.uk/news/articles/ckwyq2509p7xo?at_medium=RSS&at_campaign=rss",
+    "summary": "The Chicago-born pontiff, who has a tense relationship with Trump, mailed in a ballot for the midterm elections that will decide control of the US Congress.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-10-30T14:48:22+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/c8a0/live/e3a84f00-d470-11f1-9dda-1ba6fcc7d159.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "CBS News — World",
+      "Hindustan Times — World",
+      "MercoPress"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/ckwyq2509p7xo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "MercoPress",
+        "link": "https://en.mercopress.com/2026/10/30/leo-xiv-becomes-the-first-pope-to-vote-in-a-us-election?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/pope-leo-xiv-makes-history-as-first-sitting-pontiff-to-vote-in-us-elections-101793374064055.html"
+      },
+      {
+        "name": "CBS News — World",
+        "link": "https://www.cbsnews.com/news/pope-leo-xiv-votes-us-election/"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/c8a0/live/e3a84f00-d470-11f1-9dda-1ba6fcc7d159.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/c8a0/live/e3a84f00-d470-11f1-9dda-1ba6fcc7d159.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/c8a0/live/e3a84f00-d470-11f1-9dda-1ba6fcc7d159.jpg",
+      "https://en.mercopress.com/data/cache/noticias/111953/100x80/asc.jpg",
+      "https://www.hindustantimes.com/ht-img/img/2026/10/30/1600x900/POPE-SPAIN--147_1781427651784_1793374293165_zwjP_414cebea-55fa-4131-92b8-e84af3ced88a_sbC5.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 2112.9132433419445,
+    "is_stale": false,
+    "score": 22.845081584203704,
+    "impact": 0,
+    "proximity": 1,
+    "intrigue": 3,
+    "appeal_note": "البابا يصوّت لأول مرة في انتخابات أمريكية، لافت جدًا.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

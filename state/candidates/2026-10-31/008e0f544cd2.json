@@ -1,0 +1,101 @@
+{
+  "id": "008e0f544cd2",
+  "created_at": "2026-10-31T17:08:01.460003+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 30.25,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "صواريخ باتريوت لأوكرانيا، حرب تمسّ المنطقة وأسعار الطاقة.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US approves sale of 500 Patriot missiles to Ukraine",
+  "link": "https://www.bbc.co.uk/news/articles/c3vgxznlx7jzo?at_medium=RSS&at_campaign=rss",
+  "publishers": [
+    "BBC World",
+    "CBS News — World",
+    "Dawn",
+    "France24",
+    "Hindustan Times — World",
+    "Meduza English",
+    "State Department",
+    "The Express Tribune",
+    "The Hindu — International",
+    "The Japan Times"
+  ],
+  "region": "uk",
+  "article": {
+    "title": "US approves sale of 500 Patriot missiles to Ukraine",
+    "link": "https://www.bbc.co.uk/news/articles/c3vgxznlx7jzo?at_medium=RSS&at_campaign=rss",
+    "summary": "The American-made interceptors are the only effective weapon for downing Russia's ballistic missiles.",
+    "source_name": "BBC World",
+    "region": "uk",
+    "weight": 1.2,
+    "published": "2026-10-31T12:21:25+00:00",
+    "image_url": "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/ea75/live/f93e2820-d4b7-11f1-a701-fddedf244c16.jpg",
+    "publisher": "BBC World",
+    "cluster_sources": [
+      "BBC World",
+      "CBS News — World",
+      "Dawn",
+      "France24",
+      "Hindustan Times — World",
+      "Meduza English",
+      "State Department",
+      "The Express Tribune",
+      "The Hindu — International",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "BBC World",
+        "link": "https://www.bbc.co.uk/news/articles/c3vgxznlx7jzo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2041152/trump-admin-approves-potential-patriot-missiles-sale-to-ukraine"
+      },
+      {
+        "name": "Meduza English",
+        "link": "https://meduza.io/en/news/2026/10/31/u-s-state-department-approves-potential-2-1-billion-sale-of-500-patriot-air-defense-missiles-to-ukraine"
+      },
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/americas/20261030-trump-admin-approves-potential-patriot-missiles-sale-to-ukraine"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2637907/us-approves-21-billion-patriot-missile-sale-to-ukraine"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/international/trump-admin-approves-potential-patriot-missiles-sale-to-ukraine/article71650369.ece"
+      }
+    ],
+    "image_candidates": [
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/ea75/live/f93e2820-d4b7-11f1-a701-fddedf244c16.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/ea75/live/f93e2820-d4b7-11f1-a701-fddedf244c16.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/ea75/live/f93e2820-d4b7-11f1-a701-fddedf244c16.jpg",
+      "https://i.dawn.com/large/2026/10/310944416a24e27.webp",
+      "https://i.dawn.com/thumbnail/2026/10/310944416a24e27.webp",
+      "https://meduza.io/imgly/share/1793401698/en/news/2026/10/31/u-s-state-department-approves-potential-2-1-billion-sale-of-500-patriot-air-defense-missiles-to-ukraine"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 10,
+    "velocity": 1.0,
+    "age_hours": 2112.9131790355555,
+    "is_stale": false,
+    "score": 30.247588095254677,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "صواريخ باتريوت لأوكرانيا، حرب تمسّ المنطقة وأسعار الطاقة.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

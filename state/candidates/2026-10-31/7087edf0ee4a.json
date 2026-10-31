@@ -1,0 +1,72 @@
+{
+  "id": "7087edf0ee4a",
+  "created_at": "2026-10-31T17:08:01.460442+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.05,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 3,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "إيبولا تنتشر، ومشتبه بها في نيجيريا، خطر صحي عام.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "UDPATED: Ebola: Nigeria reports two new suspected cases in North-east",
+  "link": "https://www.premiumtimesng.com/health/health-news/921722-just-in-ebola-nigeria-reports-two-new-suspected-cases-in-north-east.html",
+  "publishers": [
+    "NCDC",
+    "Premium Times",
+    "Punch Nigeria"
+  ],
+  "region": "ng",
+  "article": {
+    "title": "UDPATED: Ebola: Nigeria reports two new suspected cases in North-east",
+    "link": "https://www.premiumtimesng.com/health/health-news/921722-just-in-ebola-nigeria-reports-two-new-suspected-cases-in-north-east.html",
+    "summary": "The development comes 11 days after Nigeria confirmed its first case of Ebola disease caused by the Bundibugyo virus in the current regional outbreak. The post UDPATED: Ebola: Nigeria reports two new suspected cases in North-east appeared first on Premium Times Nigeria .",
+    "source_name": "Premium Times",
+    "region": "ng",
+    "weight": 1.1,
+    "published": "2026-10-31T14:50:27+00:00",
+    "image_url": "https://i0.wp.com/media.premiumtimesng.com/wp-content/files/2026/07/Ebola.jpg?fit=992%2C558&amp;ssl=1",
+    "publisher": "Premium Times",
+    "cluster_sources": [
+      "NCDC",
+      "Premium Times",
+      "Punch Nigeria"
+    ],
+    "cluster_members": [
+      {
+        "name": "Premium Times",
+        "link": "https://www.premiumtimesng.com/health/health-news/921722-just-in-ebola-nigeria-reports-two-new-suspected-cases-in-north-east.html"
+      },
+      {
+        "name": "Punch Nigeria",
+        "link": "https://punchng.com/ncdc-identifies-two-suspected-ebola-cases-in-north-east/?utm_source=rss.punchng.com&utm_medium=web"
+      },
+      {
+        "name": "NCDC",
+        "link": "https://www.vanguardngr.com/2026/10/breaking-two-suspected-ebola-cases-identified-in-north-east-nigeria-ncdc/"
+      }
+    ],
+    "image_candidates": [
+      "https://i0.wp.com/media.premiumtimesng.com/wp-content/files/2026/07/Ebola.jpg?fit=992%2C558&amp;ssl=1",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2019/09/Ebola.jpg",
+      "https://cdn.vanguardngr.com/wp-content/uploads/2026/10/image-64-701x1024.png"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 2112.9132346838887,
+    "is_stale": false,
+    "score": 25.052283897607914,
+    "impact": 3,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "إيبولا تنتشر، ومشتبه بها في نيجيريا، خطر صحي عام.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

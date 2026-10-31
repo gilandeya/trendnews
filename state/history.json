@@ -485,5 +485,100 @@
     "posted_title": "",
     "region": "ir",
     "seen_at": "2026-10-30T17:08:12.768203+00:00"
+  },
+  {
+    "score": 30.25,
+    "bucket": "serious",
+    "tokens": [
+      "500",
+      "approves",
+      "missiles",
+      "patriot",
+      "sale",
+      "ukraine"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/c3vgxznlx7jzo?at_medium=RSS&at_campaign=rss",
+    "title": "US approves sale of 500 Patriot missiles to Ukraine",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-10-31T17:08:01.460430+00:00"
+  },
+  {
+    "score": 25.05,
+    "bucket": "serious",
+    "tokens": [
+      "cases",
+      "east",
+      "ebola",
+      "nigeria",
+      "north",
+      "reports",
+      "suspected",
+      "two",
+      "udpated"
+    ],
+    "link": "https://www.premiumtimesng.com/health/health-news/921722-just-in-ebola-nigeria-reports-two-new-suspected-cases-in-north-east.html",
+    "title": "UDPATED: Ebola: Nigeria reports two new suspected cases in North-east",
+    "posted_title": "",
+    "region": "ng",
+    "seen_at": "2026-10-31T17:08:01.460724+00:00"
+  },
+  {
+    "score": 22.85,
+    "bucket": "serious",
+    "tokens": [
+      "becomes",
+      "election",
+      "first",
+      "leo",
+      "pontiff",
+      "pope",
+      "vote",
+      "xiv"
+    ],
+    "link": "https://www.bbc.co.uk/news/articles/ckwyq2509p7xo?at_medium=RSS&at_campaign=rss",
+    "title": "Pope Leo XIV becomes first pontiff to vote in a US election",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-10-31T17:08:01.461027+00:00"
+  },
+  {
+    "score": 20.48,
+    "bucket": "serious",
+    "tokens": [
+      "chief",
+      "elected",
+      "former",
+      "leader",
+      "minister",
+      "muslim",
+      "philippine",
+      "rebel",
+      "region"
+    ],
+    "link": "https://www.aljazeera.com/video/newsfeed/2026/10/31/former-rebel-leader-elected-chief-minister-of-philippine-muslim-region?traffic_source=rss",
+    "title": "Former rebel leader elected chief minister of Philippine Muslim region",
+    "posted_title": "",
+    "region": "qa",
+    "seen_at": "2026-10-31T17:08:01.461282+00:00"
+  },
+  {
+    "score": 20.03,
+    "bucket": "serious",
+    "tokens": [
+      "braces",
+      "france",
+      "fresh",
+      "government",
+      "response",
+      "tough",
+      "unrest",
+      "vows"
+    ],
+    "link": "https://www.rappler.com/world/europe/france-braces-fresh-unrest-government-response/",
+    "title": "France braces for fresh unrest, government vows tough response",
+    "posted_title": "",
+    "region": "ph",
+    "seen_at": "2026-10-31T17:08:01.461588+00:00"
   }
 ]

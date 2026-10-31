@@ -1,0 +1,62 @@
+{
+  "id": "0cfc5bb98893",
+  "created_at": "2026-10-31T17:08:01.461292+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.03,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 0,
+  "intrigue": 2,
+  "appeal_note": "Disturbios en Francia con choque de gobierno; relevancia árabe limitada.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "France braces for fresh unrest, government vows tough response",
+  "link": "https://www.rappler.com/world/europe/france-braces-fresh-unrest-government-response/",
+  "publishers": [
+    "Rappler",
+    "The Express Tribune"
+  ],
+  "region": "ph",
+  "article": {
+    "title": "France braces for fresh unrest, government vows tough response",
+    "link": "https://www.rappler.com/world/europe/france-braces-fresh-unrest-government-response/",
+    "summary": "Some 150 gatherings are planned across France, the interior ministry says",
+    "source_name": "Rappler",
+    "region": "ph",
+    "weight": 1.0,
+    "published": "2026-10-31T10:08:43+00:00",
+    "image_url": null,
+    "publisher": "Rappler",
+    "cluster_sources": [
+      "Rappler",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2637908/france-braces-for-fresh-unrest-government-vows-tough-response"
+      },
+      {
+        "name": "Rappler",
+        "link": "https://www.rappler.com/world/europe/france-braces-fresh-unrest-government-response/"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 2112.9134357941666,
+    "is_stale": false,
+    "score": 20.03435935411111,
+    "impact": 2,
+    "proximity": 0,
+    "intrigue": 2,
+    "appeal_note": "Disturbios en Francia con choque de gobierno; relevancia árabe limitada.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
