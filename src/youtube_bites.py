@@ -219,6 +219,18 @@ def is_arabic_text(text: str, cfg: Any) -> bool:
     return arabic / len(letters) >= float(_bcfg(cfg, "arabic_ratio", 0.9))
 
 
+def _arabic_speaker(b: dict) -> tuple[str, str]:
+    """(الاسم بالعربية، الاسم الأصلي). الاسم يُكتب على الشاشة بالعربية، والنموذج نسخ في قياس V0 أسماء بالعبرية واللاتينية في speaker
+    رغم التعليمة: اسم فيه حرف غير عربي يُنقل إلى speaker_original (إن خلا) ويُترك speaker فارغًا، فيُحسم الاسم بالشريط والخريطة كأي
+    متكلم مجهول بدل أن يظهر بحروف لا يملكها خط الريل."""
+    speaker = " ".join(str(b.get("speaker") or "").split())
+    original = " ".join(str(b.get("speaker_original") or "").split())
+    letters = [c for c in speaker if c.isalpha()]
+    if letters and any(not ("\u0600" <= c <= "\u06FF") for c in letters):
+        return "", original or speaker
+    return speaker, original
+
+
 def validate_bites(raw: list, segments: list[dict], shown: set[int], cfg: Any,
                    taken: list[tuple[float, float]] | None = None) -> tuple[list[dict], list[dict]]:
     """دالة خالصة: (المقاطع المقبولة بأزمنتها، المرفوضة بأسبابها). المقبول: أسطر صحيحة معروضة متصلة، مدة بين min وmax، نوع معروف،
@@ -274,11 +286,11 @@ def validate_bites(raw: list, segments: list[dict], shown: set[int], cfg: Any,
             bad.append({"index": i, "reason": "يتداخل مع مقطع قبله"})
             continue
         taken.append((t0, t1))
+        speaker, speaker_orig = _arabic_speaker(b)
         ok.append({"start_line": s, "end_line": e, "start": t0, "end": t1, "seconds": round(dur, 1),
                    "start_anchored": win["start_anchored"], "end_anchored": win["end_anchored"],
                    "first_words": str(b.get("first_words") or ""), "last_words": str(b.get("last_words") or ""),
-                   "speaker": " ".join(str(b.get("speaker") or "").split()),
-                   "speaker_original": " ".join(str(b.get("speaker_original") or "").split()),
+                   "speaker": speaker, "speaker_original": speaker_orig,
                    "speaker_role": " ".join(str(b.get("speaker_role") or "").split()),
                    "is_host": bool(b.get("is_host")), "type": kind,
                    "event_hint": str(b.get("event_hint") or "").strip(),
