@@ -536,6 +536,100 @@ def user_message_v2(topic: dict, article_text: str, valid: list[dict], narrator:
     return "\n".join(parts)
 
 
+def _listish(value: Any, key: str = "") -> list:
+    """حقل قائمة كما أرسله النموذج: قائمة كما هي، أو نص JSON يُحلّ (وقد يكون مغلَّفًا بمفتاحه أو متبوعًا ببقايا وسم)، وإلا [].
+    درس القضية #1741 وقياس V0: الأدوات المتداخلة تصل أحيانًا نصًا لا قائمة، فرُفض سيناريو صالح لأن «الأسئلة» بدت فارغة."""
+    if isinstance(value, list):
+        return value
+    if isinstance(value, str) and value.strip()[:1] in ("[", "{"):
+        try:
+            got, _ = json.JSONDecoder().raw_decode(value.strip())
+        except ValueError:
+            return []
+        if isinstance(got, dict) and key:
+            got = got.get(key)
+        return got if isinstance(got, list) else []
+    return []
+
+
+def repair_v2(script: dict, valid: list[dict], cfg: Any) -> tuple[dict, list[str]]:
+    """الكود يصلح ما يُصلح ولا يرفض (خطة V، V4): كل خلل بنيوي يعرف الكود حلّه الوحيد يُحلّ هنا قبل التحقق، فلا يُعاد السيناريو كله
+    لأن متحدثًا تكرر أو إجابة زادت (ثلاثة من عشرة فشلت لذلك في 30 يومًا). دالة خالصة تعيد (السيناريو، ما أُصلح بالعربية).
+    ما لا حلّ وحيدًا له (دور مكرر، core بمتحدث واحد، نص طويل، مدة) يبقى للتحقق."""
+    notes: list[str] = []
+    by_id = {c["point_id"]: c for c in valid}
+    scenes = [dict(x) for x in script.get("scenes") or []]
+    _, hi_a = [int(x) for x in _v2(cfg, "answers_per_question", [1, 4])]
+    opinion_rule = len(_opinion_identities(valid)) >= 2
+    qtext = {x.get("q"): x.get("text", "") for x in scenes if x.get("kind") == "narration" and x.get("role") == "question"}
+    seen_ids: set = set()
+    keep: list[dict] = []
+    per_q: dict = {}
+    for x in scenes:
+        if x.get("kind") != "clip":
+            keep.append(x)
+            continue
+        pid, q = x.get("point_id"), x.get("q")
+        label = f"سؤال «{qtext.get(q, '')}»"
+        if pid not in by_id:
+            notes.append(f"حُذفت إجابة بمقطع غير معروف ({pid}) من {label}")
+            continue
+        if pid in seen_ids:
+            notes.append(f"حُذف تكرار المقطع نفسه في {label}")
+            continue
+        ident = _speaker_identity(by_id[pid])
+        mine = per_q.setdefault(q, [])
+        if ident in {_speaker_identity(by_id[m["point_id"]]) for m in mine}:
+            notes.append(f"حُذفت إجابة ثانية للمتحدث نفسه في {label}")
+            continue
+        seen_ids.add(pid)
+        mine.append(x)
+        keep.append(x)
+    # إجابة واقعة حين يوجد متحدثا رأي (R6): تُحذف إن بقي لسؤالها غيرها، وإلا تبقى كي لا يسقط السؤال
+    if opinion_rule:
+        for q, mine in per_q.items():
+            facts = [m for m in mine if by_id[m["point_id"]].get("type") not in _OPINION_TYPES]
+            for m in facts:
+                if len(mine) > 1:
+                    mine.remove(m)
+                    keep = [y for y in keep if y is not m]
+                    notes.append(f"حُذفت إجابة واقعة لا رأي من سؤال «{qtext.get(q, '')}»")
+    # إجابات فوق السقف: تُحذف الوسطى الأطول نافذة وتبقى الأولى والأخيرة (طرفا الطيف)، كما يقصّ trim_v2
+    for q, mine in per_q.items():
+        while len(mine) > hi_a:
+            victim = max(mine[1:-1], key=lambda c: float(c.get("end", 0)) - float(c.get("start", 0)))
+            mine.remove(victim)
+            keep = [y for y in keep if y is not victim]
+            notes.append(f"حُذفت إجابة زائدة من سؤال «{qtext.get(q, '')}»")
+    # سؤال بلا إجابة يُحذف مع بطاقته
+    empty = {x.get("q") for x in keep if x.get("kind") == "narration" and x.get("role") == "question"} - {
+        q for q, mine in per_q.items() if mine}
+    for q in sorted(empty, key=lambda v: (v is None, v)):
+        notes.append(f"حُذف سؤال بلا إجابة: «{qtext.get(q, '')}»")
+    keep = [x for x in keep if x.get("q") not in empty or x.get("kind") not in ("narration", "clip")
+            or (x.get("kind") == "narration" and x.get("role") != "question")]
+    # ترتيب الأدوار: أدوار معروفة بلا تكرار وجاءت بغير الترتيب الإلزامي ← تُرتَّب الكتل (البطاقة وإجاباتها معًا)
+    order = list(_v2(cfg, "question_roles", ["core", "why_now", "where_next"]))
+    cards = [x for x in keep if x.get("kind") == "narration" and x.get("role") == "question"]
+    roles = [c.get("qrole") for c in cards]
+    if roles and all(r in order for r in roles) and len(set(roles)) == len(roles)             and roles != sorted(roles, key=order.index):
+        head = [x for x in keep if x.get("kind") in ("title_card",) or (x.get("kind") == "narration" and x.get("role") == "context")]
+        tail = [x for x in keep if x.get("kind") in ("question", "outro")]
+        blocks = {c.get("q"): [c] + [x for x in keep if x.get("kind") == "clip" and x.get("q") == c.get("q")] for c in cards}
+        ordered = sorted(cards, key=lambda c: order.index(c.get("qrole")))
+        keep = head + [x for c in ordered for x in blocks[c.get("q")]] + tail
+        notes.append("رُتّبت الأسئلة بالترتيب الإلزامي لأدوارها")
+    # إعادة ترقيم q بترتيب الظهور: اللوحة تجمع بـq، وtrim_v2 يعدّ q=2 السؤال الثالث
+    remap: dict = {}
+    for x in keep:
+        if x.get("kind") == "narration" and x.get("role") == "question":
+            remap[x.get("q")] = len(remap)
+    for x in keep:
+        if x.get("q") is not None and x.get("q") in remap:
+            x["q"] = remap[x["q"]]
+    return {**script, "scenes": keep}, notes
+
+
 def _build_v2(data: dict, valid: list[dict], narrator: str, topic: dict | None = None, cfg: Any = None) -> dict:
     """يحوّل مخرج النموذج (سؤال رئيس وسياق وأسئلة وإجابات) إلى مشاهد يفهمها التركيب الحالي بلا تعديل: title_card ← راوي
     السياق ← (راوي السؤال ثم إجاباته مقاطع) لكل سؤال ← question ← outro. حقول المقطع من النقطة لا من النموذج."""
@@ -543,7 +637,8 @@ def _build_v2(data: dict, valid: list[dict], narrator: str, topic: dict | None =
     main = " ".join(str(data.get("main_question") or "").split())
     closing = " ".join(str(data.get("closing_question") or "").split())
     ctx = data.get("context")
-    ctx = [ctx] if isinstance(ctx, str) else [str(x) for x in ctx or []]
+    parsed_ctx = _listish(ctx)
+    ctx = [str(x) for x in parsed_ctx] if parsed_ctx else ([ctx] if isinstance(ctx, str) else [str(x) for x in ctx or []])
     sentences = []
     for x in ctx:
         x = " ".join(x.split())
@@ -552,10 +647,10 @@ def _build_v2(data: dict, valid: list[dict], narrator: str, topic: dict | None =
     stance_max = int(_v2(cfg, "stance_max_words", 8)) if cfg is not None else 0
     scenes: list[dict] = [{"kind": "title_card", "text": main},
                           {"kind": "narration", "role": "context", "text": " ".join(sentences)}]
-    for i, q in enumerate(x for x in data.get("questions") or [] if isinstance(x, dict)):
+    for i, q in enumerate(x for x in _listish(data.get("questions"), "questions") if isinstance(x, dict)):
         scenes.append({"kind": "narration", "role": "question", "qrole": str(q.get("role") or ""), "q": i,
                        "text": " ".join(str(q.get("text") or "").split())})
-        for a in q.get("answers") or []:
+        for a in _listish(q.get("answers"), "answers"):
             if not isinstance(a, dict):
                 continue
             pid = a.get("point_id")
@@ -789,18 +884,35 @@ def write_script(topic: dict, article_text: str, valid: list[dict], narrator: st
     messages: list[dict] = [{"role": "user", "content": content}]
     attempts = info.setdefault("attempts", []) if info is not None else []
     last_v2: tuple[dict, list[str]] | None = None
+    retry_tokens = int(_v2(cfg, "max_tokens_retry", max_tokens * 2)) if v2 else max_tokens
     for attempt in range(2):
-        try:
-            resp = _create(client, model=model, max_tokens=max_tokens, system=system, tools=[tool],
-                           tool_choice={"type": "tool", "name": tool["name"]}, messages=messages)
-        except Exception as exc:  # noqa: BLE001 — عطل تقني يُسجَّل سببًا للفشل القابل للإحياء
-            reason = f"فشل نداء الكتابة: {type(exc).__name__}: {exc}"
+        budget = max_tokens
+        resp = None
+        for _ in range(2):
+            try:
+                resp = _create(client, model=model, max_tokens=budget, system=system, tools=[tool],
+                               tool_choice={"type": "tool", "name": tool["name"]}, messages=messages)
+            except Exception as exc:  # noqa: BLE001 — عطل تقني يُسجَّل سببًا للفشل القابل للإحياء
+                reason = f"فشل نداء الكتابة: {type(exc).__name__}: {exc}"
+                resp = None
+                break
+            # رد قُطع عند السقف (V4، درس #1741): يُعاد بسقف أعلى مرة داخل المحاولة نفسها بدل قبول أداة ناقصة أو رفض بلا سبب مفهوم
+            if getattr(resp, "stop_reason", "") == "max_tokens" and budget < retry_tokens:
+                budget = retry_tokens
+                continue
+            break
+        if resp is None:
             attempts.append({"attempt": attempt + 1, "reasons": [reason]})
             continue
+        stop = str(getattr(resp, "stop_reason", "") or "")
         blk = _tool_block(resp)
+        if info is not None:
+            # التشخيص (V4): الرد الخام وسبب توقفه يُحفظان على المسودة فلا يتكرر فشل بلا سبب يُعرف (#1741)
+            info["raw"] = {"attempt": attempt + 1, "stop_reason": stop, "max_tokens": budget,
+                           "input": blk[2] if blk else None}
         if blk is None:
-            reason = "لم يُرجع النموذج السيناريو بالأداة المطلوبة"
-            attempts.append({"attempt": attempt + 1, "reasons": [reason]})
+            reason = "لم يُرجع النموذج السيناريو بالأداة المطلوبة" + (f" (توقّف: {stop})" if stop else "")
+            attempts.append({"attempt": attempt + 1, "reasons": [reason], "stop_reason": stop})
             continue
         tool_id, tool_name, data = blk
         if v2:
@@ -809,7 +921,10 @@ def write_script(topic: dict, article_text: str, valid: list[dict], narrator: st
                 # الكاتب لم يجد زاويتين مختلفتين فلا إعادة: إعادة الكتابة تدفعه لاختراع زاوية (Q4، Issue #1654)
                 why = " ".join(str(data.get("single_angle_reason") or "").split()) or "—"
                 return None, str(cfg.path("reel.texts.single_angle", "لا منظورات مختلفة في المقاطع: {reason}")).format(reason=why)
-            script, _ = trim_v2(_build_v2(data, valid, narrator, topic, cfg), cfg)
+            script, repairs = repair_v2(_build_v2(data, valid, narrator, topic, cfg), valid, cfg)
+            if info is not None:
+                info["repairs"] = repairs
+            script, _ = trim_v2(script, cfg)
             problems = validate_v2(script, valid, cfg)
             last_v2 = (script, problems)
         else:
@@ -833,7 +948,7 @@ def write_script(topic: dict, article_text: str, valid: list[dict], narrator: st
         if not problems:
             return script, ""
         reason = "؛ ".join(problems)
-        attempts.append({"attempt": attempt + 1, "reasons": list(problems)})
+        attempts.append({"attempt": attempt + 1, "reasons": list(problems), "stop_reason": stop})
         messages = [*messages,
                     {"role": "assistant", "content": [{"type": "tool_use", "id": tool_id, "name": tool_name, "input": data}]},
                     {"role": "user", "content": [{
@@ -1319,7 +1434,7 @@ def apply_audit(valid: list[dict], rows: list[dict], cfg: Any) -> tuple[list[dic
 SCRIPT_KEYS = ("script", "script_status", "script_error", "headlines", "headline_selected", "warnings", "editor_review",
                "name_corrections", "name_unresolved", "names_audit", "reel_bg", "hook_candidates", "hook_search",
                "broll_plan", "broll_plan_error", "quote_retranslated", "clip_dropped", "clip_audit",
-               "editor_revision", "script_attempts", "script_fit")
+               "editor_revision", "script_attempts", "script_fit", "script_raw", "script_repairs")
 
 
 def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article_text: str, unresolved: list,
@@ -1330,7 +1445,7 @@ def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article
     valid = valid_clips(member_points, unresolved, cfg)
     draft.pop("script_error", None)
     for key in ("name_corrections", "name_unresolved", "names_audit", "quote_retranslated", "clip_dropped", "clip_audit",
-                "editor_revision", "script_attempts", "script_fit"):
+                "editor_revision", "script_attempts", "script_fit", "script_raw", "script_repairs"):
         draft.pop(key, None)  # إعادة كتابة تبدأ سجلاتها من جديد فلا تتراكم عن محاولة سابقة
 
     def _insufficient(clips: list[dict]) -> str:
@@ -1373,6 +1488,10 @@ def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article
     script, reason = write_script(topic, article_text, valid, narrator, cfg, client, member_points=member_points, info=info)
     if info.get("attempts"):
         draft["script_attempts"] = info["attempts"]  # أسباب كل محاولة رُفضت (Q8): تظهر للمراجع عند الفشل
+    if info.get("raw"):
+        draft["script_raw"] = info["raw"]            # V4: آخر رد خام وسبب توقّفه، للتشخيص حين يفشل السيناريو
+    if info.get("repairs"):
+        draft["script_repairs"] = info["repairs"]    # V4: ما أصلحه الكود بدل رفض السيناريو
     if info.get("fit"):
         draft["script_fit"] = info["fit"]            # R14: حكم Opus على مناسبة الإجابات (صفوفه وما حُذف أو عطله) للمراجعة
     if script is None:
@@ -1397,7 +1516,9 @@ def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article
     script = _audit_names(draft, script, youtube_article.point_source_texts(used), cfg)
     draft["script"] = script
     draft["script_status"] = "ready"
-    for w in info.get("warnings") or []:  # تنبيهات الاختصار الآلي «✂️»
+    tpl = str(cfg.path("reel.texts.script_repaired", "🔧 أصلح الكود: {note}"))
+    repaired = [tpl.format(note=n) for n in info.get("repairs") or []]
+    for w in [*(info.get("warnings") or []), *repaired]:  # تنبيهات الاختصار الآلي «✂️» وإصلاحات الكود «🔧» (V4)
         if w not in draft.setdefault("warnings", []):
             draft["warnings"].append(w)
     ctx = {"script": script, "valid": valid, "want": min(int(_rcfg(cfg, "clips", 3)), len(valid)),
