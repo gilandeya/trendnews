@@ -1,0 +1,612 @@
+{
+ "at": "2026-10-31T02:20:39.687982+00:00",
+ "summary": {
+  "videos": 10,
+  "fetched": 10,
+  "points_total": 55,
+  "bites_total": 21,
+  "rejected_total": 60,
+  "trimmed_total": 1,
+  "anchored_both_total": 20,
+  "videos_with_2_opinion_speakers": 3,
+  "point_seconds_median": 4.8,
+  "bite_seconds_median": 23.3,
+  "input_tokens": 325089,
+  "output_tokens": 47135
+ },
+ "videos": [
+  {
+   "video_id": "51Nr02RRQcU",
+   "channel": "Habertürk",
+   "language": "tr",
+   "duration": 6051,
+   "current": {
+    "points": 6,
+    "with_timestamp": 6,
+    "opinion_or_forecast": 4,
+    "quote_words_median": 7.5,
+    "quote_seconds_median": 3.3
+   },
+   "track_language": "tr",
+   "bites": {
+    "bites": 1,
+    "rejected": 7,
+    "rejected_reasons": [
+     "المدة 50.4 ث خارج [8، 30]",
+     "المدة 66.2 ث خارج [8، 30]",
+     "المدة 42.5 ث خارج [8، 30]",
+     "المدة 45.7 ث خارج [8، 30]",
+     "المدة 36.9 ث خارج [8، 30]",
+     "المدة 72.9 ث خارج [8، 30]",
+     "المدة 35.0 ث خارج [8، 30]"
+    ],
+    "seconds_median": 14.2,
+    "types": {
+     "opinion": 1,
+     "forecast": 0,
+     "fact": 0,
+     "report": 0
+    },
+    "named": 1,
+    "host": 0,
+    "distinct_named_speakers": 1,
+    "opinion_speakers": 1,
+    "trimmed": 0,
+    "trim": {
+     "asked": 7,
+     "accepted": 0,
+     "error": ""
+    },
+    "trim_rejected": [
+     "المدة 51.4 ث خارج [8، 30]",
+     "المدة 66.7 ث خارج [8، 30]",
+     "المدة 40.3 ث خارج [8، 30]",
+     "المدة 45.7 ث خارج [8، 30]",
+     "المدة 37.4 ث خارج [8، 30]",
+     "المدة 69.7 ث خارج [8، 30]",
+     "المدة 35.0 ث خارج [8، 30]"
+    ],
+    "anchored_both": 1,
+    "error": "",
+    "stop_reason": "tool_use",
+    "usage": {
+     "input": 38499,
+     "output": 4785
+    },
+    "lines": 2689,
+    "truncated": true
+   }
+  },
+  {
+   "video_id": "6tIMeQ8Zb1g",
+   "channel": "الجزيرة",
+   "language": "ar",
+   "duration": 2289,
+   "current": {
+    "points": 6,
+    "with_timestamp": 6,
+    "opinion_or_forecast": 3,
+    "quote_words_median": 14.0,
+    "quote_seconds_median": 6.1
+   },
+   "track_language": "ar",
+   "bites": {
+    "bites": 0,
+    "rejected": 8,
+    "rejected_reasons": [
+     "المدة 64.3 ث خارج [8، 30]",
+     "المدة 51.9 ث خارج [8، 30]",
+     "المدة 52.2 ث خارج [8، 30]",
+     "المدة 34.8 ث خارج [8، 30]",
+     "المدة 38.3 ث خارج [8، 30]",
+     "المدة 41.6 ث خارج [8، 30]",
+     "المدة 59.7 ث خارج [8، 30]",
+     "المدة 62.5 ث خارج [8، 30]"
+    ],
+    "seconds_median": null,
+    "types": {
+     "opinion": 0,
+     "forecast": 0,
+     "fact": 0,
+     "report": 0
+    },
+    "named": 0,
+    "host": 0,
+    "distinct_named_speakers": 0,
+    "opinion_speakers": 0,
+    "trimmed": 0,
+    "trim": {
+     "asked": 8,
+     "accepted": 0,
+     "error": ""
+    },
+    "trim_rejected": [
+     "المدة 41.3 ث خارج [8، 30]",
+     "المدة 51.9 ث خارج [8، 30]",
+     "المدة 52.2 ث خارج [8، 30]",
+     "المدة 31.6 ث خارج [8، 30]",
+     "المدة 38.3 ث خارج [8، 30]",
+     "المدة 41.6 ث خارج [8، 30]",
+     "المدة 59.2 ث خارج [8، 30]",
+     "المدة 59.5 ث خارج [8، 30]"
+    ],
+    "anchored_both": 0,
+    "error": "",
+    "stop_reason": "tool_use",
+    "usage": {
+     "input": 19213,
+     "output": 4993
+    },
+    "lines": 526,
+    "truncated": false
+   }
+  },
+  {
+   "video_id": "Q4plkfJJo8U",
+   "channel": "العربية",
+   "language": "ar",
+   "duration": 3499,
+   "current": {
+    "points": 7,
+    "with_timestamp": 7,
+    "opinion_or_forecast": 4,
+    "quote_words_median": 9,
+    "quote_seconds_median": 3.9
+   },
+   "track_language": "ar",
+   "bites": {
+    "bites": 2,
+    "rejected": 7,
+    "rejected_reasons": [
+     "المدة 68.2 ث خارج [8، 30]",
+     "المدة 57.3 ث خارج [8، 30]",
+     "المدة 54.7 ث خارج [8، 30]",
+     "المدة 43.2 ث خارج [8، 30]",
+     "المدة 59.1 ث خارج [8، 30]",
+     "المدة 54.6 ث خارج [8، 30]",
+     "المدة 88.2 ث خارج [8، 30]"
+    ],
+    "seconds_median": 25.9,
+    "types": {
+     "opinion": 1,
+     "forecast": 0,
+     "fact": 0,
+     "report": 1
+    },
+    "named": 2,
+    "host": 0,
+    "distinct_named_speakers": 2,
+    "opinion_speakers": 1,
+    "trimmed": 1,
+    "trim": {
+     "asked": 7,
+     "accepted": 1,
+     "error": ""
+    },
+    "trim_rejected": [
+     "المدة 64.5 ث خارج [8، 30]",
+     "المدة 53.4 ث خارج [8، 30]",
+     "المدة 51.8 ث خارج [8، 30]",
+     "المدة 41.3 ث خارج [8، 30]",
+     "المدة 42.8 ث خارج [8، 30]",
+     "المدة 88.2 ث خارج [8، 30]"
+    ],
+    "anchored_both": 2,
+    "error": "",
+    "stop_reason": "tool_use",
+    "usage": {
+     "input": 35093,
+     "output": 5634
+    },
+    "lines": 977,
+    "truncated": false
+   }
+  },
+  {
+   "video_id": "XVW-x4-Q-8M",
+   "channel": "فرانس 24 عربي",
+   "language": "ar",
+   "duration": 2643,
+   "current": {
+    "points": 6,
+    "with_timestamp": 6,
+    "opinion_or_forecast": 4,
+    "quote_words_median": 11.0,
+    "quote_seconds_median": 4.8
+   },
+   "track_language": "ar",
+   "bites": {
+    "bites": 0,
+    "rejected": 8,
+    "rejected_reasons": [
+     "المدة 42.5 ث خارج [8، 30]",
+     "المدة 36.6 ث خارج [8، 30]",
+     "المدة 36.0 ث خارج [8، 30]",
+     "المدة 42.3 ث خارج [8، 30]",
+     "المدة 37.3 ث خارج [8، 30]",
+     "المدة 46.0 ث خارج [8، 30]",
+     "المدة 53.7 ث خارج [8، 30]",
+     "المدة 65.2 ث خارج [8، 30]"
+    ],
+    "seconds_median": null,
+    "types": {
+     "opinion": 0,
+     "forecast": 0,
+     "fact": 0,
+     "report": 0
+    },
+    "named": 0,
+    "host": 0,
+    "distinct_named_speakers": 0,
+    "opinion_speakers": 0,
+    "trimmed": 0,
+    "trim": {
+     "asked": 8,
+     "accepted": 0,
+     "error": ""
+    },
+    "trim_rejected": [
+     "المدة 40.8 ث خارج [8، 30]",
+     "المدة 36.6 ث خارج [8، 30]",
+     "المدة 36.0 ث خارج [8، 30]",
+     "المدة 41.2 ث خارج [8، 30]",
+     "المدة 37.3 ث خارج [8، 30]",
+     "المدة 47.3 ث خارج [8، 30]",
+     "المدة 54.1 ث خارج [8، 30]",
+     "المدة 60.7 ث خارج [8، 30]"
+    ],
+    "anchored_both": 0,
+    "error": "",
+    "stop_reason": "tool_use",
+    "usage": {
+     "input": 28217,
+     "output": 5121
+    },
+    "lines": 771,
+    "truncated": false
+   }
+  },
+  {
+   "video_id": "f0WUVJdpFX0",
+   "channel": "CNN Türk",
+   "language": "tr",
+   "duration": 7755,
+   "current": {
+    "points": 5,
+    "with_timestamp": 5,
+    "opinion_or_forecast": 4,
+    "quote_words_median": 6,
+    "quote_seconds_median": 2.6
+   },
+   "track_language": "tr",
+   "bites": {
+    "bites": 1,
+    "rejected": 7,
+    "rejected_reasons": [
+     "المدة 37.0 ث خارج [8، 30]",
+     "تبدّل المتكلم داخل المقطع",
+     "المدة 34.2 ث خارج [8، 30]",
+     "المدة 38.2 ث خارج [8، 30]",
+     "تبدّل المتكلم داخل المقطع",
+     "المدة 32.7 ث خارج [8، 30]",
+     "تبدّل المتكلم داخل المقطع"
+    ],
+    "seconds_median": 20.3,
+    "types": {
+     "opinion": 1,
+     "forecast": 0,
+     "fact": 0,
+     "report": 0
+    },
+    "named": 0,
+    "host": 1,
+    "distinct_named_speakers": 0,
+    "opinion_speakers": 0,
+    "trimmed": 0,
+    "trim": {
+     "asked": 4,
+     "accepted": 0,
+     "error": ""
+    },
+    "trim_rejected": [
+     "المدة 34.1 ث خارج [8، 30]",
+     "المدة 30.4 ث خارج [8، 30]",
+     "المدة 34.2 ث خارج [8، 30]",
+     "المدة 32.7 ث خارج [8، 30]"
+    ],
+    "anchored_both": 1,
+    "error": "",
+    "stop_reason": "tool_use",
+    "usage": {
+     "input": 38436,
+     "output": 3378
+    },
+    "lines": 3292,
+    "truncated": true
+   }
+  },
+  {
+   "video_id": "RalkPg7W1dA",
+   "channel": "SÖZCÜ",
+   "language": "tr",
+   "duration": 8502,
+   "current": {
+    "points": 6,
+    "with_timestamp": 6,
+    "opinion_or_forecast": 4,
+    "quote_words_median": 8.0,
+    "quote_seconds_median": 3.5
+   },
+   "track_language": "tr",
+   "bites": {
+    "bites": 3,
+    "rejected": 4,
+    "rejected_reasons": [
+     "المدة 38.9 ث خارج [8، 30]",
+     "المدة 35.0 ث خارج [8، 30]",
+     "المدة 40.7 ث خارج [8، 30]",
+     "أسطر لم تُعرض على النموذج (المحذوف من الوسط)"
+    ],
+    "seconds_median": 24.0,
+    "types": {
+     "opinion": 2,
+     "forecast": 0,
+     "fact": 1,
+     "report": 0
+    },
+    "named": 3,
+    "host": 0,
+    "distinct_named_speakers": 1,
+    "opinion_speakers": 1,
+    "trimmed": 0,
+    "trim": {
+     "asked": 3,
+     "accepted": 0,
+     "error": ""
+    },
+    "trim_rejected": [
+     "المدة 32.9 ث خارج [8، 30]",
+     "المدة 35.0 ث خارج [8، 30]",
+     "المدة 41.4 ث خارج [8، 30]"
+    ],
+    "anchored_both": 3,
+    "error": "",
+    "stop_reason": "tool_use",
+    "usage": {
+     "input": 38810,
+     "output": 3487
+    },
+    "lines": 3381,
+    "truncated": true
+   }
+  },
+  {
+   "video_id": "BnIUY_sox_I",
+   "channel": "Iran International",
+   "language": "en",
+   "duration": 4533,
+   "current": {
+    "points": 4,
+    "with_timestamp": 4,
+    "opinion_or_forecast": 3,
+    "quote_words_median": 16.5,
+    "quote_seconds_median": 7.2
+   },
+   "track_language": "en",
+   "bites": {
+    "bites": 3,
+    "rejected": 5,
+    "rejected_reasons": [
+     "المدة 41.8 ث خارج [8، 30]",
+     "المدة 53.4 ث خارج [8، 30]",
+     "المدة 37.1 ث خارج [8، 30]",
+     "المدة 47.3 ث خارج [8، 30]",
+     "المدة 57.9 ث خارج [8، 30]"
+    ],
+    "seconds_median": 10.4,
+    "types": {
+     "opinion": 2,
+     "forecast": 1,
+     "fact": 0,
+     "report": 0
+    },
+    "named": 3,
+    "host": 0,
+    "distinct_named_speakers": 3,
+    "opinion_speakers": 3,
+    "trimmed": 0,
+    "trim": {
+     "asked": 5,
+     "accepted": 0,
+     "error": ""
+    },
+    "trim_rejected": [
+     "المدة 37.2 ث خارج [8، 30]",
+     "المدة 50.6 ث خارج [8، 30]",
+     "المدة 34.9 ث خارج [8، 30]",
+     "المدة 47.3 ث خارج [8، 30]",
+     "المدة 57.2 ث خارج [8، 30]"
+    ],
+    "anchored_both": 2,
+    "error": "",
+    "stop_reason": "tool_use",
+    "usage": {
+     "input": 28672,
+     "output": 4580
+    },
+    "lines": 1788,
+    "truncated": true
+   }
+  },
+  {
+   "video_id": "DnjlnNZDK7k",
+   "channel": "ILTV",
+   "language": "ar",
+   "duration": 1363,
+   "current": {
+    "points": 5,
+    "with_timestamp": 5,
+    "opinion_or_forecast": 4,
+    "quote_words_median": 21,
+    "quote_seconds_median": 9.1
+   },
+   "track_language": "ar",
+   "bites": {
+    "bites": 4,
+    "rejected": 5,
+    "rejected_reasons": [
+     "المدة 36.7 ث خارج [8، 30]",
+     "المدة 39.0 ث خارج [8، 30]",
+     "المدة 30.1 ث خارج [8، 30]",
+     "المدة 62.1 ث خارج [8، 30]",
+     "المدة 43.1 ث خارج [8، 30]"
+    ],
+    "seconds_median": 23.9,
+    "types": {
+     "opinion": 1,
+     "forecast": 0,
+     "fact": 0,
+     "report": 3
+    },
+    "named": 3,
+    "host": 1,
+    "distinct_named_speakers": 2,
+    "opinion_speakers": 1,
+    "trimmed": 0,
+    "trim": {
+     "asked": 5,
+     "accepted": 0,
+     "error": ""
+    },
+    "trim_rejected": [
+     "المدة 36.7 ث خارج [8، 30]",
+     "المدة 39.0 ث خارج [8، 30]",
+     "المدة 62.1 ث خارج [8، 30]",
+     "المدة 40.8 ث خارج [8، 30]"
+    ],
+    "anchored_both": 4,
+    "error": "",
+    "stop_reason": "tool_use",
+    "usage": {
+     "input": 22645,
+     "output": 5492
+    },
+    "lines": 868,
+    "truncated": false
+   }
+  },
+  {
+   "video_id": "60odUQ9mjhA",
+   "channel": "ערוץ 14",
+   "language": "iw",
+   "duration": 4768,
+   "current": {
+    "points": 5,
+    "with_timestamp": 5,
+    "opinion_or_forecast": 3,
+    "quote_words_median": 11,
+    "quote_seconds_median": 4.8
+   },
+   "track_language": "iw",
+   "bites": {
+    "bites": 3,
+    "rejected": 5,
+    "rejected_reasons": [
+     "المدة 39.0 ث خارج [8، 30]",
+     "المدة 41.9 ث خارج [8، 30]",
+     "المدة 30.0 ث خارج [8، 30]",
+     "المدة 46.9 ث خارج [8، 30]",
+     "المدة 35.4 ث خارج [8، 30]"
+    ],
+    "seconds_median": 22.7,
+    "types": {
+     "opinion": 2,
+     "forecast": 0,
+     "fact": 1,
+     "report": 0
+    },
+    "named": 1,
+    "host": 0,
+    "distinct_named_speakers": 1,
+    "opinion_speakers": 2,
+    "trimmed": 0,
+    "trim": {
+     "asked": 5,
+     "accepted": 0,
+     "error": ""
+    },
+    "trim_rejected": [
+     "المدة 40.4 ث خارج [8، 30]",
+     "المدة 40.9 ث خارج [8، 30]",
+     "المدة 30.0 ث خارج [8، 30]",
+     "المدة 44.8 ث خارج [8، 30]",
+     "المدة 35.4 ث خارج [8، 30]"
+    ],
+    "anchored_both": 3,
+    "error": "",
+    "stop_reason": "tool_use",
+    "usage": {
+     "input": 44477,
+     "output": 5248
+    },
+    "lines": 1682,
+    "truncated": true
+   }
+  },
+  {
+   "video_id": "Jj-bldT1T6I",
+   "channel": "Haaretz",
+   "language": "ar",
+   "duration": 2000,
+   "current": {
+    "points": 5,
+    "with_timestamp": 5,
+    "opinion_or_forecast": 3,
+    "quote_words_median": 12,
+    "quote_seconds_median": 5.2
+   },
+   "track_language": "ar",
+   "bites": {
+    "bites": 4,
+    "rejected": 4,
+    "rejected_reasons": [
+     "تبدّل المتكلم داخل المقطع",
+     "المدة 36.1 ث خارج [8، 30]",
+     "المدة 42.0 ث خارج [8، 30]",
+     "المدة 33.7 ث خارج [8، 30]"
+    ],
+    "seconds_median": 24.6,
+    "types": {
+     "opinion": 2,
+     "forecast": 0,
+     "fact": 2,
+     "report": 0
+    },
+    "named": 4,
+    "host": 0,
+    "distinct_named_speakers": 2,
+    "opinion_speakers": 2,
+    "trimmed": 0,
+    "trim": {
+     "asked": 3,
+     "accepted": 0,
+     "error": ""
+    },
+    "trim_rejected": [
+     "المدة 37.2 ث خارج [8، 30]",
+     "المدة 35.4 ث خارج [8، 30]",
+     "المدة 33.7 ث خارج [8، 30]"
+    ],
+    "anchored_both": 4,
+    "error": "",
+    "stop_reason": "tool_use",
+    "usage": {
+     "input": 31027,
+     "output": 4417
+    },
+    "lines": 1238,
+    "truncated": false
+   }
+  }
+ ]
+}
