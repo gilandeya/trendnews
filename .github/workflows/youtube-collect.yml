@@ -63,7 +63,7 @@ jobs:
           # الذي يخصّ فرع *هذا* المستودع لا مستودع البيانات.
           BRANCH="$(git symbolic-ref --short HEAD)"
           mkdir -p state
-          git add state/youtube_points
+          git add state/youtube_points state/youtube_transcripts state/youtube_bites
           if git diff --quiet --cached; then
             echo "لا تغييرات"
             exit 0
