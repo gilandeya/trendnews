@@ -6,6 +6,9 @@
 # إنشاؤهما محليًا (تشغيلة بلا هذين المتغيرين) لا يُلتقَطان في أي commit.
 /state/youtube_points/
 /state/youtube_articles/
+# النصوص الكاملة والمقاطع (خطة V، V1/V2): نص قنوات خارجية محمي، مكانه المستودع الخاص وحده
+/state/youtube_transcripts/
+/state/youtube_bites/
 
 # مسار السحب الثاني لمستودع trendnews-data الخاص داخل youtube-collect.yml/
 # youtube-articles.yml (actions/checkout بـpath: youtube-data) -- مستودع git

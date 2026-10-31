@@ -1034,10 +1034,28 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
     channel_sleep_range = tuple(cfg.path("youtube.extract.channel_sleep_range", [10.0, 20.0]))
     backoff_seconds = list(cfg.path("youtube.extract.rate_limit_backoff_seconds", [15, 45, 90]))
 
+    # V1: النص يُجلب بأزمنة أسطره بكسورها ومددها ويُحفظ في المستودع الخاص، فلا يعود التركيب ولا المقاطع إلى يوتيوب
+    from . import youtube_bites, youtube_transcripts
+    save_transcripts = bool(cfg.path("youtube.transcripts.enabled", False))
+    bites_enabled = bool(cfg.path("youtube.bites.enabled", False))
+    transcripts_saved = 0
+    bites: list[dict] = []
+    bites_videos = 0
+    bites_errors = 0
+
     for i, video in enumerate(videos):
         print(f"استخلاص: {video.video_title[:60]} ({video.channel})", file=sys.stderr)
-        text, lang_or_reason, rate_limited = fetch_transcript(
-            video.video_id, proxy_cfg, session, backoff_seconds)
+        if save_transcripts or bites_enabled:
+            text, lang_or_reason, rate_limited = fetch_transcript(
+                video.video_id, proxy_cfg, session, backoff_seconds,
+                fetch_once=youtube_bites._fetch_segments_once)
+        else:
+            text, lang_or_reason, rate_limited = fetch_transcript(
+                video.video_id, proxy_cfg, session, backoff_seconds)
+        raw_segments = youtube_transcripts.parse_fetched(text)
+        if raw_segments is not None:
+            # الاستخلاص يرى النص المصوغ نفسه الذي كان يراه، مبنيًا من الأسطر ذاتها: جلب واحد يخدم النقاط والحفظ والمقاطع
+            text = youtube_transcripts.format_segments(raw_segments)
         if text is None:
             transcripts_failed += 1
             if rate_limited:
@@ -1131,7 +1149,24 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
                         "topic_hint": p["topic_hint"],
                     })
                 print(f"  → {len(valid_points)} نقطة", file=sys.stderr)
-        text = None  # إهمال صريح -- لا يُحتفَظ بالنص بعد هذه النقطة
+                if raw_segments is not None and save_transcripts:
+                    # الموضوع السياسي وحده يُحفظ نصه: فيديو أهمله حارس الموضوع لا يصل ريلًا، فلا داعي لحفظ مادة محمية له
+                    try:
+                        if youtube_transcripts.save(video, raw_segments, lang_or_reason, now):
+                            transcripts_saved += 1
+                    except OSError as exc:
+                        log.warning("تعذّر حفظ نص %s: %s", video.video_id, exc)
+                if raw_segments is not None and bites_enabled:
+                    got = _extract_video_bites(video, raw_segments, lang_or_reason, cfg, anthropic_client)
+                    bites_videos += 1
+                    if got["error"]:
+                        bites_errors += 1
+                        failed.append({"channel": video.channel, "video_id": video.video_id,
+                                       "title": video.video_title, "reason": f"المقاطع: {got['error']}"})
+                    bites.extend(got["bites"])
+                    print(f"  → {len(got['bites'])} مقطع", file=sys.stderr)
+        text = None  # إهمال صريح -- لا يُحتفَظ بالنص في الذاكرة بعد هذه النقطة (المحفوظ في المستودع الخاص وحده)
+        raw_segments = None
         if i < len(videos) - 1:
             # فاصل أطول عند الانتقال إلى قناة مختلفة (Issue #637 العطل ٣) --
             # يوزّع الحمل على عنوان البروكسي بدل معدّل ثابت طوال التشغيلة.
@@ -1148,6 +1183,13 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
     except Exception as exc:  # noqa: BLE001 -- خطوة مساعدة لا تُسقط الجمع
         log.warning("استعادة الطوابع فشلت وتُتخطّى: %s", exc)
     failed.extend(recovered["failed"])
+
+    transcripts_pruned = 0
+    if save_transcripts:
+        try:
+            transcripts_pruned = youtube_transcripts.prune(now, int(cfg.path("youtube.transcripts.keep_days", 30)))
+        except OSError as exc:  # خطوة تنظيف لا تُسقط الجمع
+            log.warning("تنظيف النصوص القديمة فشل: %s", exc)
 
     return {
         "run_date": now.strftime("%Y-%m-%d"),
@@ -1171,10 +1213,36 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
             "timestamps_recover_videos": recovered["videos"],
             "timestamps_recover_methods": recovered["methods"],
             "proxy_bandwidth_mb": round(total_bytes / (1024 * 1024), 3),
+            "transcripts_saved": transcripts_saved,
+            "transcripts_pruned": transcripts_pruned,
+            "bites_extracted": len(bites),
+            "bites_videos": bites_videos,
+            "bites_errors": bites_errors,
         },
         "failed": failed,
         "points": points,
+        # لا تدخل ملف النقاط: save_output يكتبها في ملف المقاطع وحده
+        "bites": bites,
     }
+
+
+def _extract_video_bites(video, raw_segments: list[dict], language: str, cfg: Config, client) -> dict:
+    """مقاطع الفيديو (V2) بجانب نقاطه، بلا أن يُسقط عطلها الجمع ولا النقاط. كل مقطع يحمل بيانات فيديوه كما تحملها النقطة."""
+    from . import youtube_bites
+    meta = {"video_id": video.video_id, "channel": video.channel, "title": video.video_title,
+            "description": video_description(video, cfg)}
+    try:
+        res = youtube_bites.extract(meta, youtube_bites.clean_segments(raw_segments), language, cfg, client)
+    except Exception as exc:  # noqa: BLE001 -- مرحلة جديدة تعمل بجانب القديمة ولا تُسقطها
+        return {"bites": [], "error": f"{type(exc).__name__}: {str(exc)[:150]}"}
+    out = []
+    for b in res.get("bites") or []:
+        out.append({"bite_id": f"{video.video_id}:{b['start_line']}", "video_id": video.video_id,
+                    "channel": video.channel, "bloc": video.bloc, "language": language,
+                    "video_title": video.video_title, "video_url": video.video_url,
+                    "video_published": (video.published_at or "")[:10],
+                    "duration_seconds": video.duration_seconds, **b})
+    return {"bites": out, "error": res.get("error") or ""}
 
 
 # ──────────────── الصورة التعبيرية الحرة الترخيص (Issue #680/#941) ─────────
@@ -1343,7 +1411,11 @@ def news_photo_available(headline: str, event: str, cfg,
 def save_output(result: dict) -> Path:
     POINTS_DIR.mkdir(parents=True, exist_ok=True)
     path = POINTS_DIR / f"{result['run_date']}.json"
-    path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
+    # ملف النقاط بشكله القديم حرفًا: المقاطع في ملفها (المستودع الخاص) لا فيه
+    points_only = {k: v for k, v in result.items() if k != "bites"}
+    path.write_text(json.dumps(points_only, ensure_ascii=False, indent=2), encoding="utf-8")
+    from . import youtube_transcripts
+    youtube_transcripts.save_bites(result["run_date"], result.get("bites") or [])
     return path
 
 
@@ -1369,6 +1441,9 @@ def main() -> int:
     print(f"استعادة الطوابع: {stats['timestamps_recovered']} نقطة من {stats['timestamps_recover_videos']} فيديو "
           f"— {stats['timestamps_recover_methods']}")
     print(f"استهلاك البروكسي التقديري: {stats['proxy_bandwidth_mb']} ميجابايت")
+    print(f"نصوص محفوظة: {stats.get('transcripts_saved', 0)} · محذوفة لقدمها: {stats.get('transcripts_pruned', 0)} "
+          f"· مقاطع: {stats.get('bites_extracted', 0)} من {stats.get('bites_videos', 0)} فيديو "
+          f"(تعذّر {stats.get('bites_errors', 0)})")
     if result["failed"]:
         print(f"تعذّر: {len(result['failed'])}")
         for entry in result["failed"]:

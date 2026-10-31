@@ -779,8 +779,8 @@ consuming the previous stage's output file:
    dedicated state file of its own; it's called directly from `youtube_extract.run()`, not run as
    a separate step.
 2. **`youtube_extract`** — input: stage 1's videos. Fetches each video's transcript
-   (`youtube_transcript_api`, original language; the full transcript text never touches disk or a
-   log line, only the extracted points do), runs a cheap topic-guard call that drops
+   (`youtube_transcript_api`, original language; never in a log line or this public repo — since V1 the full transcript
+   of a political video is saved only in the private data repo, see "V1" below), runs a cheap topic-guard call that drops
    non-political-analysis videos (news bulletins, sports, biographical interviews) before spending
    the expensive call, then a structured-output call extracts 5-7 short Arabic "points"
    (statement/speaker/original+Arabic quote/type/topic hint), with the point's timestamp resolved
@@ -2698,3 +2698,12 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 (`start_anchored`/`end_anchored` على المقطع). الجواب الأطول من الحد (`long` في المرفوض) لا يُرمى: `trim_options` (خالصة) تحسب في الكود نوافذ الأسطر داخل الحد (أطول نافذة لكل سطر
 بداية، بلا «>>» بعد أولها، بسقف `trim.max_options`)، و`trim_long` نداء Haiku واحد لكل فيديو يختار **رقم خيار** لكل جواب ويكتب حدّيه بالكلمة وترجمته — لأن Haiku حين
 أُعطي الأسطر بأزمنتها النسبية أعاد الجواب كله في 54 من 55 مرة. القائل والنوع من الجواب، ثم `validate_bites(..., taken=)`؛ `res["trim"] = {asked, accepted, rejected, error}`.
+
+**V1/V2 (g715–g720 في `test_youtube_transcripts_v1_guards`):** `src/youtube_transcripts.py`. الجمع يجلب النص مرة واحدة بأسطره (`youtube_bites._fetch_segments_once`)
+ويبني منه النص المصوغ نفسه للنقاط (`format_segments` = `format_transcript` حرفًا)؛ جلب مزيَّف يعيد نصًا مصوغًا قديمًا ← لا حفظ ولا مقاطع. نص فيديو اجتاز حارس
+الموضوع يُحفظ في `youtube_transcripts/<video_id>.json` **شقيق مجلد النقاط** (`transcripts_dir()`، يُحسب وقت الاستدعاء من `youtube_extract.POINTS_DIR`، فيقع في
+سحب المستودع الخاص في CI بلا متغير بيئة؛ وفي المستودع العام مُهمل في `.gitignore`) بالأسطر الخام واللغة و`fetched_at`، ويحذف `prune` ما جاوز
+`youtube.transcripts.keep_days` (لا أقل من 30). `youtube.bites.enabled` ← مقاطع كل فيديو سياسي بجانب نقاطه (`_extract_video_bites`، عطله سطر في `failed`
+لا يُسقط الجمع)، بـ`bite_id` = `<video_id>:<start_line>` وبيانات الفيديو، في `youtube_bites/<التاريخ>.json` (`save_bites` تدمج تشغيلات اليوم بلا تكرار فيديو)،
+وملف النقاط بشكله القديم بلا مفتاح `bites`. `_arabic_speaker`: اسم متكلم فيه حرف غير عربي ← `speaker_original` ويُترك `speaker` فارغًا. **تشغيليًا:** خطوة رفع
+النقاط في `youtube-collect.yml` تضيف `state/youtube_transcripts state/youtube_bites` (يعدّلها صاحب المشروع بيده).

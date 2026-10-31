@@ -21830,3 +21830,179 @@ def test_youtube_bites_v0c_guards() -> None:
     check("g714: جواب أطول من الحد يُقتطع في الاستخراج نفسه ولا يُرمى",
           calls == ["extract_bites", "trim_bites"] and len(res["bites"]) == 1 and res["bites"][0].get("trimmed")
           and res["trim"]["asked"] == 1 and res["trim"]["accepted"] == 1 and all("raw" not in r for r in res["rejected"]), res)
+
+
+def test_youtube_transcripts_v1_guards() -> None:
+    """خطة V، V1/V2 (g715–g720): النص الكامل يُحفظ بأزمنته في المستودع الخاص (شقيق مجلد النقاط) بجلب واحد يخدم النقاط والمقاطع،
+    ويُحذف بعد 30 يومًا، والمقاطع تُستخرج بجانب النقاط في ملفها ولا تدخل ملف النقاط. مجلد مؤقت وجلب مزيَّف، بلا شبكة."""
+    import json
+    import shutil
+    import tempfile
+    from datetime import datetime, timedelta, timezone
+    from pathlib import Path
+    from types import SimpleNamespace
+
+    from src import youtube_bites as yb
+    from src import youtube_extract as ye
+    from src import youtube_transcripts as yt
+
+    cfg = load_config()
+    now = datetime(2026, 10, 31, 12, 0, tzinfo=timezone.utc)
+    raw = [{"start": 10.4, "dur": 3.1, "text": "alpha beta"}, {"start": 70.0, "dur": 2.0, "text": ""},
+           {"start": 3725.9, "dur": 4.0, "text": "the ceasefire is fragile"}]
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001
+            check(f"{name}: لا استثناء", False, repr(exc))
+
+    def g715():
+        lib = [SimpleNamespace(start=s["start"], text=s["text"]) for s in raw]
+        check("g715: النص المصوغ من الأسطر المحفوظة = format_transcript للمكتبة حرفًا",
+              yt.format_segments(raw) == ye.format_transcript(lib), yt.format_segments(raw))
+        check("g715: JSON الأسطر يُحلّ، والنص المصوغ القديم لا",
+              yt.parse_fetched(json.dumps(raw)) == raw and yt.parse_fetched("[00:10] alpha") is None
+              and yt.parse_fetched(None) is None, None)
+    guarded("g715", g715)
+
+    class Env:
+        def __init__(self):
+            self.dir = Path(tempfile.mkdtemp(prefix="v1_")) / "state" / "youtube_points"
+            self.dir.mkdir(parents=True)
+            self.saved = (ye.POINTS_DIR, ye.time.sleep, ye.youtube_collect.run, ye.fetch_transcript, ye.classify_topic,
+                          ye.get_proxy_config, ye.extract_points, ye.recover_timestamps, yb.extract)
+            ye.POINTS_DIR = self.dir
+            ye.time.sleep = lambda s: None
+            ye.get_proxy_config = lambda: None
+            ye.recover_timestamps = lambda *a, **k: {"recovered": 0, "videos": 0, "methods": {}, "failed": []}
+            self.seen_text: list[str] = []
+            self.fetch_kw: list[dict] = []
+
+            def fake_points(title, text, *a, **k):
+                self.seen_text.append(text)
+                return [], [], None, None
+            ye.extract_points = fake_points
+
+        def videos(self, *ids):
+            vids = [SimpleNamespace(video_id=v, channel="ch", bloc="b", video_title=f"t {v}", video_url=f"u/{v}",
+                                    published_at="2026-10-31T00:00:00Z", duration_seconds=4000, description="")
+                    for v in ids]
+            ye.youtube_collect.run = lambda *a, **k: {"videos": vids, "failed": [], "stats": {
+                "channels_checked": 1, "videos_found": len(vids), "passed_guards": len(vids)}}
+
+        def fetch(self, *a, **k):
+            self.fetch_kw.append(k)
+            return json.dumps(raw), "en", False
+
+        def close(self):
+            (ye.POINTS_DIR, ye.time.sleep, ye.youtube_collect.run, ye.fetch_transcript, ye.classify_topic,
+             ye.get_proxy_config, ye.extract_points, ye.recover_timestamps, yb.extract) = self.saved
+            shutil.rmtree(self.dir.parents[1], ignore_errors=True)
+
+    def no_bites(c):
+        c = c.__class__(json.loads(json.dumps(dict(c))))
+        c["youtube"]["bites"]["enabled"] = False
+        return c
+
+    def g716():
+        e = Env()
+        try:
+            e.videos("pol00001", "spo00002")
+            ye.fetch_transcript = e.fetch
+            ye.classify_topic = lambda title, *a, **k: ("political_analysis" if "pol" in title else "sports", None)
+            out = ye.run(no_bites(cfg), anthropic_client=object(), now=now)
+            tdir = e.dir.parent / "youtube_transcripts"
+            check("g716: المجلد شقيق مجلد النقاط", yt.transcripts_dir() == tdir, yt.transcripts_dir())
+            saved = yt.load("pol00001")
+            check("g716: نص الفيديو السياسي محفوظ بأسطره الخام ولغته وتاريخ جلبه",
+                  saved and saved["segments"] == raw and saved["language"] == "en"
+                  and saved["fetched_at"] == now.isoformat() and saved["channel"] == "ch", saved)
+            check("g716: فيديو أهمله حارس الموضوع لا يُحفظ نصه", yt.load("spo00002") is None, None)
+            check("g716: الاستخلاص رأى النص المصوغ القديم نفسه",
+                  e.seen_text == [yt.format_segments(raw)], e.seen_text)
+            check("g716: جلب واحد بالأسطر ذات الأزمنة",
+                  all(k.get("fetch_once") is yb._fetch_segments_once for k in e.fetch_kw) and len(e.fetch_kw) == 2, e.fetch_kw)
+            check("g716: transcripts_saved في الإحصاء", out["stats"]["transcripts_saved"] == 1, out["stats"])
+            off = no_bites(cfg)
+            off["youtube"]["transcripts"]["enabled"] = False
+            e.fetch_kw.clear()
+            e.videos("pol00003")
+            ye.run(off, anthropic_client=object(), now=now)
+            check("g716: مطفأً ← جلب بلا fetch_once ولا ملف",
+                  e.fetch_kw == [{}] and yt.load("pol00003") is None, e.fetch_kw)
+        finally:
+            e.close()
+    guarded("g716", g716)
+
+    def g717():
+        e = Env()
+        try:
+            v = SimpleNamespace(video_id="old00001", channel="c", video_title="t", video_url="u",
+                                published_at="", duration_seconds=1)
+            yt.save(v, raw, "en", now - timedelta(days=31))
+            v.video_id = "mid00001"
+            yt.save(v, raw, "en", now - timedelta(days=20))
+            check("g717: الحفظ لا يكتب معرّفًا ليس بشكل يوتيوب", yt.save(
+                SimpleNamespace(video_id="../x", channel="", video_title="", video_url=""), raw, "en", now) is None, None)
+            gone = yt.prune(now, 5)
+            check("g717: يُحذف ما جاوز 30 يومًا ولو طُلب أقل، ويبقى الأحدث",
+                  gone == 1 and yt.load("old00001") is None and yt.load("mid00001") is not None, gone)
+        finally:
+            e.close()
+    guarded("g717", g717)
+
+    def g718():
+        e = Env()
+        try:
+            e.videos("pol00001", "pol00002")
+            ye.fetch_transcript = e.fetch
+            ye.classify_topic = lambda *a, **k: ("political_analysis", None)
+            seen_segments = []
+
+            def fake_extract(meta, segments, language, c, client=None):
+                seen_segments.append(segments)
+                if meta["video_id"] == "pol00002":
+                    raise RuntimeError("boom")
+                return {"bites": [{"start_line": 2, "end_line": 2, "start": 1.0, "end": 12.0, "speaker": "س",
+                                   "text_ar": "نص"}], "error": ""}
+            yb.extract = fake_extract
+            out = ye.run(cfg, anthropic_client=object(), now=now)
+            b = out["bites"]
+            check("g718: مقاطع الفيديو بجانب نقاطه ببيانات فيديوه",
+                  len(b) == 1 and b[0]["bite_id"] == "pol00001:2" and b[0]["video_url"] == "u/pol00001"
+                  and b[0]["video_published"] == "2026-10-31" and b[0]["speaker"] == "س", b)
+            check("g718: المقاطع ترى الأسطر بعد التنظيف (بلا السطر الفارغ)",
+                  seen_segments and len(seen_segments[0]) == 2, seen_segments[:1])
+            check("g718: عطل مقاطع فيديو لا يُسقط الجمع ويُسجَّل",
+                  out["stats"]["bites_errors"] == 1 and out["stats"]["bites_videos"] == 2
+                  and any("المقاطع:" in f["reason"] for f in out["failed"]), out["stats"])
+            path = ye.save_output(out)
+            on_disk = json.loads(path.read_text(encoding="utf-8"))
+            bfile = e.dir.parent / "youtube_bites" / f"{out['run_date']}.json"
+            check("g718: ملف النقاط بلا مفتاح bites، والمقاطع في ملفها",
+                  "bites" not in on_disk and json.loads(bfile.read_text(encoding="utf-8"))["bites"] == b, on_disk.keys())
+            yt.save_bites(out["run_date"], [dict(b[0], speaker="ص"), {"video_id": "pol00009", "bite_id": "pol00009:1"}])
+            merged = json.loads(bfile.read_text(encoding="utf-8"))["bites"]
+            check("g718: تشغيلة ثانية في اليوم تدمج بلا تكرار فيديو",
+                  [m["bite_id"] for m in merged] == ["pol00001:2", "pol00009:1"] and merged[0]["speaker"] == "ص", merged)
+        finally:
+            e.close()
+    guarded("g718", g718)
+
+    def g719():
+        heb = {"speaker": "אבישי בן חיים", "speaker_original": ""}
+        lat = {"speaker": "Murat Gezici", "speaker_original": "Murat Gezici"}
+        ar = {"speaker": " مراد  غزيجي ", "speaker_original": "Murat Gezici"}
+        check("g719: اسم بالعبرية ينتقل إلى الأصل ويُترك العربي فارغًا",
+              yb._arabic_speaker(heb) == ("", "אבישי בן חיים"), yb._arabic_speaker(heb))
+        check("g719: اسم لاتيني كذلك، والعربي يبقى",
+              yb._arabic_speaker(lat) == ("", "Murat Gezici") and yb._arabic_speaker(ar) == ("مراد غزيجي", "Murat Gezici"), None)
+    guarded("g719", g719)
+
+    def g720():
+        root = Path(__file__).resolve().parent.parent
+        ignore = (root / ".gitignore").read_text(encoding="utf-8")
+        check("g720: النصوص والمقاطع مُهملة في المستودع العام",
+              "/state/youtube_transcripts/" in ignore and "/state/youtube_bites/" in ignore, None)
+    guarded("g720", g720)
