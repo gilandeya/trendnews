@@ -22345,3 +22345,34 @@ def test_reel_script_repair_v4_guards() -> None:
         check("g735: الرد الخام والإصلاحات ضمن ما يُحفظ على المسودة",
               {"script_raw", "script_repairs"} <= set(reel_script.SCRIPT_KEYS), reel_script.SCRIPT_KEYS)
     guarded("g735", g735)
+
+
+def test_reel_saved_transcript_v5_guards() -> None:
+    """خطة V، V5 (g736–g737): التركيب يقرأ نص الفيديو المحفوظ في الجمع قبل الجلب عبر البروكسي، والغائب يُجلب كما كان. بلا شبكة."""
+    from src import reel_render, youtube_extract, youtube_transcripts
+
+    cfg = load_config()
+    segs = [{"start": 3.0, "dur": 2.0, "text": "alpha beta"}, {"start": 65.5, "dur": 2.0, "text": "gamma"}]
+    calls: list = []
+    real_load, real_fetch = youtube_transcripts.load, youtube_extract.fetch_transcript
+    youtube_transcripts.load = lambda vid: {"segments": segs, "language": "tr"} if vid == "saved001" else None
+
+    def fake_fetch(vid, *a, **k):
+        calls.append(vid)
+        return "[00:01] net", "en", False
+    youtube_extract.fetch_transcript = fake_fetch
+    try:
+        deps = reel_render.Deps().resolved(cfg)
+        text = deps.fetch_transcript("saved001")
+        check("g736: المحفوظ يُقرأ بلا جلب، بصيغة النص المصوغ نفسها، ولغته معروفة",
+              text == youtube_transcripts.format_segments(segs) and calls == [] and deps.transcript_lang("saved001") == "tr",
+              (text, calls))
+        net = deps.fetch_transcript("missing01")
+        check("g736: الغائب يُجلب كما كان", net == "[00:01] net" and calls == ["missing01"], calls)
+        off = cfg.__class__(__import__("json").loads(__import__("json").dumps(dict(cfg))))
+        off["reel"]["render"]["use_saved_transcripts"] = False
+        calls.clear()
+        reel_render.Deps().resolved(off).fetch_transcript("saved001")
+        check("g737: مطفأً ← الجلب وحده", calls == ["saved001"], calls)
+    finally:
+        youtube_transcripts.load, youtube_extract.fetch_transcript = real_load, real_fetch
