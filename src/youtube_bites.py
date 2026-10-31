@@ -29,6 +29,8 @@ BITES_TOOL = {
         "bites": {"type": "array", "items": {"type": "object", "properties": {
             "start_line": {"type": "integer"},
             "end_line": {"type": "integer"},
+            "first_words": {"type": "string", "description": "أول 3–6 كلمات من المقطع حرفيًا بلغة الكلام"},
+            "last_words": {"type": "string", "description": "آخر 3–6 كلمات من المقطع حرفيًا بلغة الكلام"},
             "speaker": {"type": "string", "description": "اسم المتكلم بالحروف العربية دائمًا، أو فارغ إن لم يُعرَّف"},
             "speaker_original": {"type": "string", "description": "الاسم كما كُتب في العنوان أو الوصف أو النص بلغته"},
             "speaker_role": {"type": "string"},
@@ -38,7 +40,7 @@ BITES_TOOL = {
             "summary_ar": {"type": "string"},
             "text_ar": {"type": "string", "description": "بالعربية وحدها دائمًا: ترجمة الكلام إن لم يكن عربيًا، لا نسخ له"},
             "answers": {"type": "string"},
-        }, "required": ["start_line", "end_line", "speaker", "speaker_original", "speaker_role", "is_host", "type", "event_hint",
+        }, "required": ["start_line", "end_line", "first_words", "last_words", "speaker", "speaker_original", "speaker_role", "is_host", "type", "event_hint",
                         "summary_ar", "text_ar", "answers"]}},
     }, "required": ["bites"]},
 }
@@ -151,6 +153,57 @@ def _as_list(value: Any) -> list | None:
     return None
 
 
+def _word_times(segments: list[dict], lo: int, hi: int) -> list[tuple[str, float, float]]:
+    """كلمات الأسطر lo..hi مطبَّعة، لكلٍّ بداية ونهاية تقديريتان بموضعها في سطرها (مدة السطر موزَّعة على كلماته بالتساوي)،
+    والنهاية محصورة ببداية السطر التالي. تقدير لا قياس: التركيب يضبط الحدّ بالتفريغ لاحقًا (Q13)."""
+    from .youtube_extract import _normalize_for_anchor
+    out: list[tuple[str, float, float]] = []
+    n = len(segments)
+    for k in range(max(1, lo), min(n, hi) + 1):
+        seg = segments[k - 1]
+        words = [w for raw in seg["text"].split() for w in _normalize_for_anchor(raw).split()]
+        if not words:
+            continue
+        nxt = segments[k]["start"] if k < n else seg["start"] + seg["dur"]
+        dur = max(min(seg["dur"], nxt - seg["start"]), 0.1)
+        step = dur / len(words)
+        out.extend((w, seg["start"] + j * step, seg["start"] + (j + 1) * step) for j, w in enumerate(words))
+    return out
+
+
+def _find_unique(tokens: list[tuple[str, float, float]], phrase: str) -> int | None:
+    """موضع أول كلمة لظهور phrase الوحيد في tokens؛ غيابها أو تكررها ← None (الحدّ الملتبس أسوأ من حدّ السطر)."""
+    from .youtube_extract import _normalize_for_anchor
+    probe = _normalize_for_anchor(phrase).split()
+    if len(probe) < 2:
+        return None
+    words = [t[0] for t in tokens]
+    hits = [i for i in range(len(words) - len(probe) + 1) if words[i:i + len(probe)] == probe]
+    return hits[0] if len(hits) == 1 else None
+
+
+def word_window(segments: list[dict], s: int, e: int, first: str, last: str, cfg: Any) -> dict:
+    """حدّا المقطع بالكلمة (V0c): أول الكلمات تُطلب في سطر البداية وما يجاوره بـanchor_search_lines، وآخرها كذلك في سطر النهاية.
+    يعيد {start, end, start_anchored, end_anchored}؛ ما لم يوجد حرفيًا وحيدًا يبقى على حدّ السطر."""
+    pad = int(_bcfg(cfg, "anchor_search_lines", 1))
+    t0, t1 = line_window(segments, s, e)
+    out = {"start": t0, "end": t1, "start_anchored": False, "end_anchored": False}
+    head = _word_times(segments, s - pad, s + pad)
+    i = _find_unique(head, first or "")
+    if i is not None:
+        out["start"], out["start_anchored"] = round(head[i][1], 2), True
+    tail = _word_times(segments, e - pad, e + pad)
+    from .youtube_extract import _normalize_for_anchor
+    j = _find_unique(tail, last or "")
+    if j is not None:
+        k = j + len(_normalize_for_anchor(last).split()) - 1
+        out["end"], out["end_anchored"] = round(tail[k][2], 2), True
+    if out["end"] <= out["start"]:
+        # حدّان متعاكسان (كلمات وُجدت في غير موضعها) ← حدّا السطر كما كانا
+        out = {"start": t0, "end": t1, "start_anchored": False, "end_anchored": False}
+    return out
+
+
 def is_arabic_text(text: str, cfg: Any) -> bool:
     """نص عربي يُكتب على الشاشة: نسبة الحروف العربية من الحروف ≥ arabic_ratio، وبلا حرف فارسي خاص ولا عبري (يقعان في النطاق
     العربي أو بجواره فلا تكفي النسبة وحدها، درس Q9)."""
@@ -166,14 +219,15 @@ def is_arabic_text(text: str, cfg: Any) -> bool:
     return arabic / len(letters) >= float(_bcfg(cfg, "arabic_ratio", 0.9))
 
 
-def validate_bites(raw: list, segments: list[dict], shown: set[int], cfg: Any) -> tuple[list[dict], list[dict]]:
+def validate_bites(raw: list, segments: list[dict], shown: set[int], cfg: Any,
+                   taken: list[tuple[float, float]] | None = None) -> tuple[list[dict], list[dict]]:
     """دالة خالصة: (المقاطع المقبولة بأزمنتها، المرفوضة بأسبابها). المقبول: أسطر صحيحة معروضة متصلة، مدة بين min وmax، نوع معروف،
     ترجمة غير فارغة، وبلا تداخل مع مقطع قُبل قبله (الأول بترتيب النموذج يبقى). لا يُرفض مقطع لأن قائله مجهول: الاسم يُحسم لاحقًا
     بالشريط والخريطة، والمقطع مادة صالحة للعدّ في القياس."""
     lo, hi = float(_bcfg(cfg, "min_seconds", 8)), float(_bcfg(cfg, "max_seconds", 25))
     ok: list[dict] = []
     bad: list[dict] = []
-    taken: list[tuple[float, float]] = []
+    taken = list(taken or [])
     n = len(segments)
     for i, b in enumerate(raw or []):
         if not isinstance(b, dict):
@@ -190,10 +244,13 @@ def validate_bites(raw: list, segments: list[dict], shown: set[int], cfg: Any) -
         if any(k not in shown for k in range(s, e + 1)):
             bad.append({"index": i, "reason": "أسطر لم تُعرض على النموذج (المحذوف من الوسط)"})
             continue
-        t0, t1 = line_window(segments, s, e)
+        win = word_window(segments, s, e, str(b.get("first_words") or ""), str(b.get("last_words") or ""), cfg)
+        t0, t1 = win["start"], win["end"]
         dur = t1 - t0
         if not (lo <= dur <= hi):
-            bad.append({"index": i, "reason": f"المدة {dur:.1f} ث خارج [{lo:g}، {hi:g}]", "seconds": round(dur, 1)})
+            # الطويل يُعلَّم «long» فيُعرض على الاقتطاع (V0c) بدل أن يضيع جواب كامل؛ القصير لا علاج له
+            bad.append({"index": i, "reason": f"المدة {dur:.1f} ث خارج [{lo:g}، {hi:g}]", "seconds": round(dur, 1),
+                        "long": dur > hi, "raw": b})
             continue
         kind = str(b.get("type") or "")
         if kind not in VALID_TYPES:
@@ -218,6 +275,8 @@ def validate_bites(raw: list, segments: list[dict], shown: set[int], cfg: Any) -
             continue
         taken.append((t0, t1))
         ok.append({"start_line": s, "end_line": e, "start": t0, "end": t1, "seconds": round(dur, 1),
+                   "start_anchored": win["start_anchored"], "end_anchored": win["end_anchored"],
+                   "first_words": str(b.get("first_words") or ""), "last_words": str(b.get("last_words") or ""),
                    "speaker": " ".join(str(b.get("speaker") or "").split()),
                    "speaker_original": " ".join(str(b.get("speaker_original") or "").split()),
                    "speaker_role": " ".join(str(b.get("speaker_role") or "").split()),
@@ -249,6 +308,95 @@ def _tool_input(resp) -> dict | None:
             inp = getattr(blk, "input", None)
             return inp if isinstance(inp, dict) else None
     return None
+
+
+TRIM_TOOL = {
+    "name": "trim_bites",
+    "description": "يختار لكل جواب طويل خيارًا واحدًا من الخيارات المرقّمة هو أقوى فكرة تامة",
+    "input_schema": {"type": "object", "properties": {
+        "bites": {"type": "array", "items": {"type": "object", "properties": {
+            "answer": {"type": "integer"}, "option": {"type": "integer"},
+            "first_words": {"type": "string"}, "last_words": {"type": "string"},
+            "text_ar": {"type": "string"}, "summary_ar": {"type": "string"}, "answers": {"type": "string"},
+        }, "required": ["answer", "option", "first_words", "last_words", "text_ar", "summary_ar", "answers"]}},
+    }, "required": ["bites"]},
+}
+
+
+def trim_options(raw: dict, segments: list[dict], cfg: Any) -> list[tuple[int, int, float]]:
+    """نوافذ الأسطر المتصلة داخل جواب طويل التي تقع مدتها في الحد، يحسبها الكود (خالصة). قياس V0c: Haiku أُعطي الأسطر وزمن كل سطر من
+    بداية الجواب فأعاد الجواب كله في 54 من 55 مرة، فالحساب لا يُترك لنموذج: يختار رقم خيار فقط. لكل سطر بداية أطول نافذة في الحد، بلا
+    «>>» بعد سطرها الأول، وتُقلَّص إلى trim.max_options خيارًا موزّعة على الجواب."""
+    lo, hi = float(_bcfg(cfg, "min_seconds", 8)), float(_bcfg(cfg, "max_seconds", 30))
+    marker = str(_bcfg(cfg, "turn_marker", ">>") or "")
+    s0, e0 = int(raw["start_line"]), int(raw["end_line"])
+    opts: list[tuple[int, int, float]] = []
+    for s in range(s0, e0 + 1):
+        best = None
+        for e in range(s, e0 + 1):
+            if e > s and marker and segments[e - 1]["text"].startswith(marker):
+                break
+            t0, t1 = line_window(segments, s, e)
+            if t1 - t0 > hi:
+                break
+            if t1 - t0 >= lo:
+                best = (s, e, round(t1 - t0, 1))
+        if best:
+            opts.append(best)
+    cap = int(cfg.path("youtube.bites.trim.max_options", 10))
+    if len(opts) > cap:
+        step = len(opts) / cap
+        opts = [opts[int(i * step)] for i in range(cap)]
+    return opts
+
+
+def trim_message(longs: list[dict], segments: list[dict]) -> str:
+    """لكل جواب طويل خياراته المرقّمة بمدتها ونصها كاملًا؛ النموذج يقرأ ويختار لا يحسب."""
+    out = []
+    for n, item in enumerate(longs, 1):
+        b = item["raw"]
+        out.append(f"## الجواب {n} — المتكلم: {b.get('speaker') or 'غير مسمّى'} ({b.get('speaker_role') or ''})\nملخصه: {b.get('summary_ar') or ''}")
+        for m, (s, e, dur) in enumerate(item["options"], 1):
+            text = " ".join(segments[k - 1]["text"] for k in range(s, e + 1))
+            out.append(f"- الخيار {m} ({dur:g} ث): {text}")
+        out.append("")
+    return "\n".join(out)
+
+
+def trim_long(longs: list[dict], segments: list[dict], cfg: Any, client) -> tuple[list[dict], str]:
+    """نداء واحد لكل الأجوبة الطويلة في الفيديو؛ يعيد (مقاطع بصيغة مخرج النداء الأول تُمرَّر إلى validate_bites، سبب العطل).
+    الأسطر من الخيار المختار في الكود، والقائل والنوع من الجواب الأصلي: الاقتطاع لا يغيّر من يتكلم. جواب بلا خيار لا يُعرض."""
+    longs = [{**it, "options": trim_options(it["raw"], segments, cfg)} for it in longs]
+    longs = [it for it in longs if it["options"]]
+    if not longs:
+        return [], ""
+    tcfg = cfg.path("youtube.bites.trim", {}) or {}
+    system = str(tcfg.get("system", "")).format(min_seconds=_bcfg(cfg, "min_seconds", 8), max_seconds=_bcfg(cfg, "max_seconds", 30))
+    try:
+        resp = _create(client, cfg=cfg, model=tcfg.get("model", "haiku"), max_tokens=int(tcfg.get("max_tokens", 6000)),
+                       system=system, tools=[TRIM_TOOL], tool_choice={"type": "tool", "name": TRIM_TOOL["name"]},
+                       messages=[{"role": "user", "content": trim_message(longs, segments)}])
+    except Exception as exc:  # noqa: BLE001
+        return [], f"فشل نداء الاقتطاع: {type(exc).__name__}: {str(exc)[:150]}"
+    data = None
+    for blk in getattr(resp, "content", None) or []:
+        if getattr(blk, "type", "") == "tool_use" and getattr(blk, "name", "") == TRIM_TOOL["name"]:
+            data = getattr(blk, "input", None)
+    items = _as_list((data or {}).get("bites")) if isinstance(data, dict) else None
+    if items is None:
+        return [], "لم يُرجع نداء الاقتطاع قائمة"
+    out = []
+    for it in items:
+        try:
+            item = longs[int(it.get("answer")) - 1]
+            s, e, _ = item["options"][int(it.get("option")) - 1]
+        except (TypeError, ValueError, IndexError):
+            continue
+        src = item["raw"]
+        out.append({**{k: src.get(k) for k in ("speaker", "speaker_original", "speaker_role", "is_host", "type", "event_hint")},
+                    "start_line": s, "end_line": e, "first_words": it.get("first_words", ""), "last_words": it.get("last_words", ""),
+                    "text_ar": it.get("text_ar", ""), "summary_ar": it.get("summary_ar", ""), "answers": it.get("answers", "")})
+    return out, ""
 
 
 def extract(meta: dict, segments: list[dict], language: str, cfg: Any, client=None) -> dict:
@@ -291,5 +439,19 @@ def extract(meta: dict, segments: list[dict], language: str, cfg: Any, client=No
         out["error"] = ("الرد مقطوع عند max_tokens" if out["stop_reason"] == "max_tokens"
                         else "لم يُرجع النموذج قائمة المقاطع بالأداة")
         return out
-    out["bites"], out["rejected"] = validate_bites(raw, segments, shown, cfg)
+    ok, bad = validate_bites(raw, segments, shown, cfg)
+    longs = [r for r in bad if r.get("long")]
+    trim = {"asked": len(longs), "accepted": 0, "rejected": [], "error": ""}
+    if longs and cfg.path("youtube.bites.trim.enabled", False):
+        trimmed, trim["error"] = trim_long(longs, segments, cfg, client)
+        ok2, bad2 = validate_bites(trimmed, segments, shown, cfg, taken=[(b["start"], b["end"]) for b in ok])
+        for b in ok2:
+            b["trimmed"] = True
+        ok += ok2
+        trim["accepted"] = len(ok2)
+        trim["rejected"] = [r["reason"] for r in bad2]
+    out["trim"] = trim
+    out["bites"] = sorted(ok, key=lambda b: b["start"])
+    # «raw» داخلي للاقتطاع وحده؛ لا يُحفظ مكررًا في المرفوض (المخرج الخام محفوظ كاملًا في out["raw"])
+    out["rejected"] = [{k: v for k, v in r.items() if k != "raw"} for r in bad]
     return out
