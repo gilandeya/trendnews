@@ -1,18 +1,18 @@
 {
- "at": "2026-10-31T02:20:39.687982+00:00",
+ "at": "2026-10-31T02:51:24.236686+00:00",
  "summary": {
   "videos": 10,
   "fetched": 10,
   "points_total": 55,
-  "bites_total": 21,
-  "rejected_total": 60,
-  "trimmed_total": 1,
-  "anchored_both_total": 20,
-  "videos_with_2_opinion_speakers": 3,
+  "bites_total": 43,
+  "rejected_total": 57,
+  "trimmed_total": 26,
+  "anchored_both_total": 28,
+  "videos_with_2_opinion_speakers": 7,
   "point_seconds_median": 4.8,
-  "bite_seconds_median": 23.3,
+  "bite_seconds_median": 28.1,
   "input_tokens": 325089,
-  "output_tokens": 47135
+  "output_tokens": 41517
  },
  "videos": [
   {
@@ -29,49 +29,37 @@
    },
    "track_language": "tr",
    "bites": {
-    "bites": 1,
-    "rejected": 7,
+    "bites": 4,
+    "rejected": 3,
     "rejected_reasons": [
-     "المدة 50.4 ث خارج [8، 30]",
-     "المدة 66.2 ث خارج [8، 30]",
-     "المدة 42.5 ث خارج [8، 30]",
-     "المدة 45.7 ث خارج [8، 30]",
-     "المدة 36.9 ث خارج [8، 30]",
-     "المدة 72.9 ث خارج [8، 30]",
-     "المدة 35.0 ث خارج [8، 30]"
+     "تبدّل المتكلم داخل المقطع",
+     "تبدّل المتكلم داخل المقطع",
+     "المدة 59.4 ث خارج [8، 30]"
     ],
-    "seconds_median": 14.2,
+    "seconds_median": 20.1,
     "types": {
-     "opinion": 1,
+     "opinion": 3,
      "forecast": 0,
-     "fact": 0,
+     "fact": 1,
      "report": 0
     },
-    "named": 1,
+    "named": 4,
     "host": 0,
-    "distinct_named_speakers": 1,
-    "opinion_speakers": 1,
-    "trimmed": 0,
+    "distinct_named_speakers": 2,
+    "opinion_speakers": 2,
+    "trimmed": 1,
     "trim": {
-     "asked": 7,
-     "accepted": 0,
+     "asked": 1,
+     "accepted": 1,
      "error": ""
     },
-    "trim_rejected": [
-     "المدة 51.4 ث خارج [8، 30]",
-     "المدة 66.7 ث خارج [8، 30]",
-     "المدة 40.3 ث خارج [8، 30]",
-     "المدة 45.7 ث خارج [8، 30]",
-     "المدة 37.4 ث خارج [8، 30]",
-     "المدة 69.7 ث خارج [8، 30]",
-     "المدة 35.0 ث خارج [8، 30]"
-    ],
-    "anchored_both": 1,
+    "trim_rejected": [],
+    "anchored_both": 3,
     "error": "",
     "stop_reason": "tool_use",
     "usage": {
      "input": 38499,
-     "output": 4785
+     "output": 2661
     },
     "lines": 2689,
     "truncated": true
@@ -91,21 +79,20 @@
    },
    "track_language": "ar",
    "bites": {
-    "bites": 0,
-    "rejected": 8,
+    "bites": 1,
+    "rejected": 7,
     "rejected_reasons": [
+     "المدة 38.6 ث خارج [8، 30]",
      "المدة 64.3 ث خارج [8، 30]",
      "المدة 51.9 ث خارج [8، 30]",
      "المدة 52.2 ث خارج [8، 30]",
      "المدة 34.8 ث خارج [8، 30]",
-     "المدة 38.3 ث خارج [8، 30]",
      "المدة 41.6 ث خارج [8، 30]",
-     "المدة 59.7 ث خارج [8، 30]",
-     "المدة 62.5 ث خارج [8، 30]"
+     "المدة 59.7 ث خارج [8، 30]"
     ],
-    "seconds_median": null,
+    "seconds_median": 28.3,
     "types": {
-     "opinion": 0,
+     "opinion": 1,
      "forecast": 0,
      "fact": 0,
      "report": 0
@@ -113,29 +100,22 @@
     "named": 0,
     "host": 0,
     "distinct_named_speakers": 0,
-    "opinion_speakers": 0,
-    "trimmed": 0,
+    "opinion_speakers": 1,
+    "trimmed": 1,
     "trim": {
-     "asked": 8,
-     "accepted": 0,
+     "asked": 7,
+     "accepted": 1,
      "error": ""
     },
     "trim_rejected": [
-     "المدة 41.3 ث خارج [8، 30]",
-     "المدة 51.9 ث خارج [8، 30]",
-     "المدة 52.2 ث خارج [8، 30]",
-     "المدة 31.6 ث خارج [8، 30]",
-     "المدة 38.3 ث خارج [8، 30]",
-     "المدة 41.6 ث خارج [8، 30]",
-     "المدة 59.2 ث خارج [8، 30]",
-     "المدة 59.5 ث خارج [8، 30]"
+     "ترجمة فارغة"
     ],
-    "anchored_both": 0,
+    "anchored_both": 1,
     "error": "",
     "stop_reason": "tool_use",
     "usage": {
      "input": 19213,
-     "output": 4993
+     "output": 4467
     },
     "lines": 526,
     "truncated": false
@@ -155,48 +135,45 @@
    },
    "track_language": "ar",
    "bites": {
-    "bites": 2,
-    "rejected": 7,
+    "bites": 5,
+    "rejected": 8,
     "rejected_reasons": [
      "المدة 68.2 ث خارج [8، 30]",
-     "المدة 57.3 ث خارج [8، 30]",
-     "المدة 54.7 ث خارج [8، 30]",
-     "المدة 43.2 ث خارج [8، 30]",
-     "المدة 59.1 ث خارج [8، 30]",
-     "المدة 54.6 ث خارج [8، 30]",
-     "المدة 88.2 ث خارج [8، 30]"
+     "تبدّل المتكلم داخل المقطع",
+     "المدة 36.0 ث خارج [8، 30]",
+     "تبدّل المتكلم داخل المقطع",
+     "المدة 40.4 ث خارج [8، 30]",
+     "المدة 69.7 ث خارج [8، 30]",
+     "المدة 55.0 ث خارج [8، 30]",
+     "المدة 56.7 ث خارج [8، 30]"
     ],
-    "seconds_median": 25.9,
+    "seconds_median": 29.3,
     "types": {
-     "opinion": 1,
+     "opinion": 3,
      "forecast": 0,
-     "fact": 0,
-     "report": 1
+     "fact": 2,
+     "report": 0
     },
-    "named": 2,
+    "named": 5,
     "host": 0,
-    "distinct_named_speakers": 2,
-    "opinion_speakers": 1,
-    "trimmed": 1,
+    "distinct_named_speakers": 3,
+    "opinion_speakers": 2,
+    "trimmed": 5,
     "trim": {
-     "asked": 7,
-     "accepted": 1,
+     "asked": 6,
+     "accepted": 5,
      "error": ""
     },
     "trim_rejected": [
-     "المدة 64.5 ث خارج [8، 30]",
-     "المدة 53.4 ث خارج [8، 30]",
-     "المدة 51.8 ث خارج [8، 30]",
-     "المدة 41.3 ث خارج [8، 30]",
-     "المدة 42.8 ث خارج [8، 30]",
-     "المدة 88.2 ث خارج [8، 30]"
+     "المدة 32.9 ث خارج [8، 30]",
+     "المدة 32.7 ث خارج [8، 30]"
     ],
     "anchored_both": 2,
     "error": "",
     "stop_reason": "tool_use",
     "usage": {
      "input": 35093,
-     "output": 5634
+     "output": 4709
     },
     "lines": 977,
     "truncated": false
@@ -216,51 +193,43 @@
    },
    "track_language": "ar",
    "bites": {
-    "bites": 0,
-    "rejected": 8,
+    "bites": 6,
+    "rejected": 7,
     "rejected_reasons": [
-     "المدة 42.5 ث خارج [8، 30]",
-     "المدة 36.6 ث خارج [8، 30]",
-     "المدة 36.0 ث خارج [8، 30]",
-     "المدة 42.3 ث خارج [8، 30]",
+     "المدة 31.4 ث خارج [8، 30]",
+     "المدة 31.7 ث خارج [8، 30]",
+     "المدة 49.5 ث خارج [8، 30]",
      "المدة 37.3 ث خارج [8، 30]",
      "المدة 46.0 ث خارج [8، 30]",
-     "المدة 53.7 ث خارج [8، 30]",
-     "المدة 65.2 ث خارج [8، 30]"
+     "المدة 54.1 ث خارج [8، 30]",
+     "تبدّل المتكلم داخل المقطع"
     ],
-    "seconds_median": null,
+    "seconds_median": 27.9,
     "types": {
-     "opinion": 0,
+     "opinion": 5,
      "forecast": 0,
      "fact": 0,
-     "report": 0
+     "report": 1
     },
-    "named": 0,
+    "named": 6,
     "host": 0,
-    "distinct_named_speakers": 0,
-    "opinion_speakers": 0,
-    "trimmed": 0,
+    "distinct_named_speakers": 2,
+    "opinion_speakers": 2,
+    "trimmed": 5,
     "trim": {
-     "asked": 8,
-     "accepted": 0,
+     "asked": 6,
+     "accepted": 5,
      "error": ""
     },
     "trim_rejected": [
-     "المدة 40.8 ث خارج [8، 30]",
-     "المدة 36.6 ث خارج [8، 30]",
-     "المدة 36.0 ث خارج [8، 30]",
-     "المدة 41.2 ث خارج [8، 30]",
-     "المدة 37.3 ث خارج [8، 30]",
-     "المدة 47.3 ث خارج [8، 30]",
-     "المدة 54.1 ث خارج [8، 30]",
-     "المدة 60.7 ث خارج [8، 30]"
+     "المدة 31.7 ث خارج [8، 30]"
     ],
-    "anchored_both": 0,
+    "anchored_both": 4,
     "error": "",
     "stop_reason": "tool_use",
     "usage": {
      "input": 28217,
-     "output": 5121
+     "output": 4608
     },
     "lines": 771,
     "truncated": false
@@ -280,46 +249,40 @@
    },
    "track_language": "tr",
    "bites": {
-    "bites": 1,
-    "rejected": 7,
+    "bites": 3,
+    "rejected": 6,
     "rejected_reasons": [
-     "المدة 37.0 ث خارج [8، 30]",
-     "تبدّل المتكلم داخل المقطع",
-     "المدة 34.2 ث خارج [8، 30]",
-     "المدة 38.2 ث خارج [8، 30]",
-     "تبدّل المتكلم داخل المقطع",
-     "المدة 32.7 ث خارج [8، 30]",
-     "تبدّل المتكلم داخل المقطع"
+     "المدة 36.2 ث خارج [8، 30]",
+     "المدة 31.6 ث خارج [8، 30]",
+     "ترجمة فارغة",
+     "ترجمة فارغة",
+     "المدة 47.6 ث خارج [8، 30]",
+     "ترجمة فارغة"
     ],
-    "seconds_median": 20.3,
+    "seconds_median": 28.0,
     "types": {
-     "opinion": 1,
+     "opinion": 2,
      "forecast": 0,
-     "fact": 0,
+     "fact": 1,
      "report": 0
     },
     "named": 0,
-    "host": 1,
+    "host": 0,
     "distinct_named_speakers": 0,
-    "opinion_speakers": 0,
-    "trimmed": 0,
+    "opinion_speakers": 2,
+    "trimmed": 3,
     "trim": {
-     "asked": 4,
-     "accepted": 0,
+     "asked": 3,
+     "accepted": 3,
      "error": ""
     },
-    "trim_rejected": [
-     "المدة 34.1 ث خارج [8، 30]",
-     "المدة 30.4 ث خارج [8، 30]",
-     "المدة 34.2 ث خارج [8، 30]",
-     "المدة 32.7 ث خارج [8، 30]"
-    ],
+    "trim_rejected": [],
     "anchored_both": 1,
     "error": "",
     "stop_reason": "tool_use",
     "usage": {
      "input": 38436,
-     "output": 3378
+     "output": 1936
     },
     "lines": 3292,
     "truncated": true
@@ -339,42 +302,44 @@
    },
    "track_language": "tr",
    "bites": {
-    "bites": 3,
-    "rejected": 4,
+    "bites": 2,
+    "rejected": 7,
     "rejected_reasons": [
-     "المدة 38.9 ث خارج [8، 30]",
+     "المدة 30.6 ث خارج [8، 30]",
      "المدة 35.0 ث خارج [8، 30]",
-     "المدة 40.7 ث خارج [8، 30]",
-     "أسطر لم تُعرض على النموذج (المحذوف من الوسط)"
+     "المدة 84.6 ث خارج [8، 30]",
+     "المدة 61.1 ث خارج [8، 30]",
+     "تبدّل المتكلم داخل المقطع",
+     "المدة 40.5 ث خارج [8، 30]",
+     "المدة 77.2 ث خارج [8، 30]"
     ],
-    "seconds_median": 24.0,
+    "seconds_median": 28.7,
     "types": {
-     "opinion": 2,
+     "opinion": 1,
      "forecast": 0,
      "fact": 1,
      "report": 0
     },
-    "named": 3,
+    "named": 2,
     "host": 0,
     "distinct_named_speakers": 1,
     "opinion_speakers": 1,
-    "trimmed": 0,
+    "trimmed": 2,
     "trim": {
-     "asked": 3,
-     "accepted": 0,
+     "asked": 6,
+     "accepted": 2,
      "error": ""
     },
     "trim_rejected": [
-     "المدة 32.9 ث خارج [8، 30]",
-     "المدة 35.0 ث خارج [8، 30]",
-     "المدة 41.4 ث خارج [8، 30]"
+     "ترجمة فارغة",
+     "ترجمة فارغة"
     ],
-    "anchored_both": 3,
+    "anchored_both": 1,
     "error": "",
     "stop_reason": "tool_use",
     "usage": {
      "input": 38810,
-     "output": 3487
+     "output": 4264
     },
     "lines": 3381,
     "truncated": true
@@ -394,45 +359,41 @@
    },
    "track_language": "en",
    "bites": {
-    "bites": 3,
-    "rejected": 5,
+    "bites": 6,
+    "rejected": 4,
     "rejected_reasons": [
-     "المدة 41.8 ث خارج [8، 30]",
-     "المدة 53.4 ث خارج [8، 30]",
-     "المدة 37.1 ث خارج [8، 30]",
-     "المدة 47.3 ث خارج [8، 30]",
-     "المدة 57.9 ث خارج [8، 30]"
+     "المدة 32.8 ث خارج [8، 30]",
+     "المدة 58.3 ث خارج [8، 30]",
+     "المدة 73.4 ث خارج [8، 30]",
+     "المدة 51.8 ث خارج [8، 30]"
     ],
-    "seconds_median": 10.4,
+    "seconds_median": 11.6,
     "types": {
-     "opinion": 2,
+     "opinion": 3,
      "forecast": 1,
-     "fact": 0,
+     "fact": 2,
      "report": 0
     },
-    "named": 3,
+    "named": 6,
     "host": 0,
-    "distinct_named_speakers": 3,
-    "opinion_speakers": 3,
-    "trimmed": 0,
+    "distinct_named_speakers": 4,
+    "opinion_speakers": 4,
+    "trimmed": 2,
     "trim": {
-     "asked": 5,
-     "accepted": 0,
+     "asked": 4,
+     "accepted": 2,
      "error": ""
     },
     "trim_rejected": [
-     "المدة 37.2 ث خارج [8، 30]",
-     "المدة 50.6 ث خارج [8، 30]",
-     "المدة 34.9 ث خارج [8، 30]",
-     "المدة 47.3 ث خارج [8، 30]",
-     "المدة 57.2 ث خارج [8، 30]"
+     "ترجمة فارغة",
+     "ترجمة فارغة"
     ],
-    "anchored_both": 2,
+    "anchored_both": 5,
     "error": "",
     "stop_reason": "tool_use",
     "usage": {
      "input": 28672,
-     "output": 4580
+     "output": 4081
     },
     "lines": 1788,
     "truncated": true
@@ -452,44 +413,41 @@
    },
    "track_language": "ar",
    "bites": {
-    "bites": 4,
+    "bites": 7,
     "rejected": 5,
     "rejected_reasons": [
      "المدة 36.7 ث خارج [8، 30]",
      "المدة 39.0 ث خارج [8، 30]",
-     "المدة 30.1 ث خارج [8، 30]",
+     "المدة 33.1 ث خارج [8، 30]",
      "المدة 62.1 ث خارج [8، 30]",
      "المدة 43.1 ث خارج [8، 30]"
     ],
-    "seconds_median": 23.9,
+    "seconds_median": 29.2,
     "types": {
-     "opinion": 1,
-     "forecast": 0,
+     "opinion": 3,
+     "forecast": 1,
      "fact": 0,
      "report": 3
     },
-    "named": 3,
+    "named": 7,
     "host": 1,
-    "distinct_named_speakers": 2,
+    "distinct_named_speakers": 3,
     "opinion_speakers": 1,
-    "trimmed": 0,
+    "trimmed": 4,
     "trim": {
      "asked": 5,
-     "accepted": 0,
+     "accepted": 4,
      "error": ""
     },
     "trim_rejected": [
-     "المدة 36.7 ث خارج [8، 30]",
-     "المدة 39.0 ث خارج [8، 30]",
-     "المدة 62.1 ث خارج [8، 30]",
-     "المدة 40.8 ث خارج [8، 30]"
+     "المدة 30.8 ث خارج [8، 30]"
     ],
-    "anchored_both": 4,
+    "anchored_both": 5,
     "error": "",
     "stop_reason": "tool_use",
     "usage": {
      "input": 22645,
-     "output": 5492
+     "output": 4932
     },
     "lines": 868,
     "truncated": false
@@ -509,45 +467,41 @@
    },
    "track_language": "iw",
    "bites": {
-    "bites": 3,
+    "bites": 4,
     "rejected": 5,
     "rejected_reasons": [
-     "المدة 39.0 ث خارج [8، 30]",
-     "المدة 41.9 ث خارج [8، 30]",
-     "المدة 30.0 ث خارج [8، 30]",
+     "المدة 48.7 ث خارج [8، 30]",
+     "المدة 46.3 ث خارج [8، 30]",
+     "المدة 34.4 ث خارج [8، 30]",
      "المدة 46.9 ث خارج [8، 30]",
-     "المدة 35.4 ث خارج [8، 30]"
+     "المدة 33.1 ث خارج [8، 30]"
     ],
-    "seconds_median": 22.7,
+    "seconds_median": 25.7,
     "types": {
      "opinion": 2,
      "forecast": 0,
      "fact": 1,
-     "report": 0
+     "report": 1
     },
-    "named": 1,
+    "named": 3,
     "host": 0,
-    "distinct_named_speakers": 1,
+    "distinct_named_speakers": 3,
     "opinion_speakers": 2,
-    "trimmed": 0,
+    "trimmed": 1,
     "trim": {
      "asked": 5,
-     "accepted": 0,
+     "accepted": 1,
      "error": ""
     },
     "trim_rejected": [
-     "المدة 40.4 ث خارج [8، 30]",
-     "المدة 40.9 ث خارج [8، 30]",
-     "المدة 30.0 ث خارج [8، 30]",
-     "المدة 44.8 ث خارج [8، 30]",
-     "المدة 35.4 ث خارج [8، 30]"
+     "ترجمة فارغة"
     ],
-    "anchored_both": 3,
+    "anchored_both": 4,
     "error": "",
     "stop_reason": "tool_use",
     "usage": {
      "input": 44477,
-     "output": 5248
+     "output": 5368
     },
     "lines": 1682,
     "truncated": true
@@ -567,42 +521,42 @@
    },
    "track_language": "ar",
    "bites": {
-    "bites": 4,
-    "rejected": 4,
+    "bites": 5,
+    "rejected": 5,
     "rejected_reasons": [
+     "المدة 36.3 ث خارج [8، 30]",
      "تبدّل المتكلم داخل المقطع",
-     "المدة 36.1 ث خارج [8، 30]",
-     "المدة 42.0 ث خارج [8، 30]",
-     "المدة 33.7 ث خارج [8، 30]"
+     "المدة 30.7 ث خارج [8، 30]",
+     "المدة 36.4 ث خارج [8، 30]",
+     "المدة 36.0 ث خارج [8، 30]"
     ],
-    "seconds_median": 24.6,
+    "seconds_median": 28.1,
     "types": {
-     "opinion": 2,
+     "opinion": 3,
      "forecast": 0,
      "fact": 2,
      "report": 0
     },
-    "named": 4,
+    "named": 5,
     "host": 0,
     "distinct_named_speakers": 2,
     "opinion_speakers": 2,
-    "trimmed": 0,
+    "trimmed": 2,
     "trim": {
-     "asked": 3,
-     "accepted": 0,
+     "asked": 4,
+     "accepted": 2,
      "error": ""
     },
     "trim_rejected": [
-     "المدة 37.2 ث خارج [8، 30]",
-     "المدة 35.4 ث خارج [8، 30]",
-     "المدة 33.7 ث خارج [8، 30]"
+     "ترجمة فارغة",
+     "ترجمة فارغة"
     ],
-    "anchored_both": 4,
+    "anchored_both": 2,
     "error": "",
     "stop_reason": "tool_use",
     "usage": {
      "input": 31027,
-     "output": 4417
+     "output": 4491
     },
     "lines": 1238,
     "truncated": false
