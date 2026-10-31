@@ -29,15 +29,16 @@ BITES_TOOL = {
         "bites": {"type": "array", "items": {"type": "object", "properties": {
             "start_line": {"type": "integer"},
             "end_line": {"type": "integer"},
-            "speaker": {"type": "string"},
+            "speaker": {"type": "string", "description": "اسم المتكلم بالحروف العربية دائمًا، أو فارغ إن لم يُعرَّف"},
+            "speaker_original": {"type": "string", "description": "الاسم كما كُتب في العنوان أو الوصف أو النص بلغته"},
             "speaker_role": {"type": "string"},
             "is_host": {"type": "boolean"},
             "type": {"type": "string", "enum": list(VALID_TYPES)},
             "event_hint": {"type": "string"},
             "summary_ar": {"type": "string"},
-            "text_ar": {"type": "string"},
+            "text_ar": {"type": "string", "description": "بالعربية وحدها دائمًا: ترجمة الكلام إن لم يكن عربيًا، لا نسخ له"},
             "answers": {"type": "string"},
-        }, "required": ["start_line", "end_line", "speaker", "speaker_role", "is_host", "type", "event_hint",
+        }, "required": ["start_line", "end_line", "speaker", "speaker_original", "speaker_role", "is_host", "type", "event_hint",
                         "summary_ar", "text_ar", "answers"]}},
     }, "required": ["bites"]},
 }
@@ -138,12 +139,31 @@ def _as_list(value: Any) -> list | None:
     if isinstance(value, list):
         return value
     if isinstance(value, str):
+        # raw_decode لا loads: النموذج ألحق بالنص بقايا وسم («</invoke>») في فيديوهين من عشرة في قياس V0 الأول
         try:
-            got = json.loads(value)
+            got, _ = json.JSONDecoder().raw_decode(value.strip())
         except ValueError:
             return None
+        # النموذج قد يغلّف القائمة كلها نصًا بمفتاحها نفسه ({"bites": [...]})، كما حدث في كل فيديوهات قياس V0 الأول
+        if isinstance(got, dict):
+            got = got.get("bites")
         return got if isinstance(got, list) else None
     return None
+
+
+def is_arabic_text(text: str, cfg: Any) -> bool:
+    """نص عربي يُكتب على الشاشة: نسبة الحروف العربية من الحروف ≥ arabic_ratio، وبلا حرف فارسي خاص ولا عبري (يقعان في النطاق
+    العربي أو بجواره فلا تكفي النسبة وحدها، درس Q9)."""
+    import re
+
+    from .reel_clips import PERSIAN_ONLY
+    letters = [c for c in text if c.isalpha()]
+    if not letters:
+        return False
+    arabic = sum(1 for c in letters if "\u0600" <= c <= "\u06FF")
+    if any(c in PERSIAN_ONLY for c in text) or re.search("[\u0590-\u05FF]", text):
+        return False
+    return arabic / len(letters) >= float(_bcfg(cfg, "arabic_ratio", 0.9))
 
 
 def validate_bites(raw: list, segments: list[dict], shown: set[int], cfg: Any) -> tuple[list[dict], list[dict]]:
@@ -183,12 +203,23 @@ def validate_bites(raw: list, segments: list[dict], shown: set[int], cfg: Any) -
         if not text_ar:
             bad.append({"index": i, "reason": "ترجمة فارغة"})
             continue
+        marker = str(_bcfg(cfg, "turn_marker", ">>") or "")
+        if marker and any(segments[k - 1]["text"].startswith(marker) for k in range(s + 1, e + 1)):
+            # نص يوتيوب يعلّم تبدّل المتكلم بـ«>>» في أول السطر: علامة داخل المقطع تعني كلام شخصين (سؤال المقدّم ثم الجواب
+            # غالبًا، كما في قياس V0 الأول)، والمقطع لمتكلم واحد
+            bad.append({"index": i, "reason": "تبدّل المتكلم داخل المقطع"})
+            continue
+        if not is_arabic_text(text_ar, cfg):
+            # في قياس V0 الأول نُسخ الكلام التركي والفارسي والعبري بلغته في text_ar، وهو ما يُكتب على الشاشة
+            bad.append({"index": i, "reason": "النص المعروض ليس عربيًا"})
+            continue
         if any(t0 < y and x < t1 for x, y in taken):
             bad.append({"index": i, "reason": "يتداخل مع مقطع قبله"})
             continue
         taken.append((t0, t1))
         ok.append({"start_line": s, "end_line": e, "start": t0, "end": t1, "seconds": round(dur, 1),
                    "speaker": " ".join(str(b.get("speaker") or "").split()),
+                   "speaker_original": " ".join(str(b.get("speaker_original") or "").split()),
                    "speaker_role": " ".join(str(b.get("speaker_role") or "").split()),
                    "is_host": bool(b.get("is_host")), "type": kind,
                    "event_hint": str(b.get("event_hint") or "").strip(),
