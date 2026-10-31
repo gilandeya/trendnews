@@ -2713,3 +2713,11 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 - **الريل وحده:** `youtube_cluster.reel_only(cfg)` = `youtube.reel_only` و`reel.enabled`. العنقدة ترتّب بـ`rank_for_reel` (`reel_fitness`: متحدثو الرأي والكتل والزوايا من `answers` والحداثة، أوزانها `youtube.cluster.reel_rank`) وتُسقط ما دون `reel.script.v2.min_opinion_speakers` (`below_reel_fit`). قضية الترشيح بلا كتلة صيغة: سطور المتحدثين (`_reel_voice_lines`) وسطر الصلاحية وخيار واحد `go2` («🎬 اكتب سيناريو الريل»). `finalize_selection`: كل معلَّم ريل، وقضية قديمة بكتلة صيغة يتحوّل طلب مقالها ريلًا، فلا مقال يُكتب من أي قضية.
 - **إيقاف المقالات المعلّقة (قرار صاحب المشروع):** `youtube_publish.retire_article_reviews(cfg)` من `youtube_cluster.main` مع `youtube.retire_articles`: مسودات التحليل المعلّقة غير الريل ذات `review_issue` تُرفض، وقضيتها تُغلق بتعليق إلا إن بقي فيها ريل معلّق فيُعلَّق عليها فقط. مأمونة التكرار.
 - **الاختبارات:** `tests.helpers.load_config` يضبط `reel_only`/`retire_articles` false و`cluster.source: points` كي تبقى اختبارات المقال والنقاط على مسارها (يزول في V6)؛ `reel_only_cfg` يعيد إعداد الإنتاج، وg729 يثبّت أن config.yaml عليه.
+
+**V4a — الكود يصلح السيناريو ولا يرفضه، والتشخيص (g730–g735 في `test_reel_script_repair_v4_guards`):** `reel_script.repair_v2(script, valid, cfg)` دالة خالصة
+تُطبَّق في `write_script` بعد `_build_v2` وقبل `trim_v2`/`validate_v2`: مقطع غير معروف أو مكرر ← يُحذف · إجابة ثانية للمتحدث نفسه في السؤال ← تُحذف · إجابة واقعة
+حين يوجد متحدثا رأي ← تُحذف إن بقي لسؤالها غيرها (بدل رفض R6) · إجابات فوق `answers_per_question` ← تُحذف الوسطى الأطول وتبقى الأولى والأخيرة · سؤال بلا إجابة ←
+يُحذف ببطاقته · أدوار معروفة بلا تكرار بغير الترتيب ← تُرتَّب الكتل · ثم يُعاد ترقيم `q`. ما لا حلّ وحيدًا له (دور مكرر، core بمتحدث واحد، طول النص، المدة) يبقى للتحقق.
+ما أُصلح يُحفظ `script_repairs` ويظهر تنبيهًا `reel.texts.script_repaired` («🔧»). **التشخيص:** `_listish` يحلّ حقول قائمة وصلت نصًا JSON (درس #1741)؛ رد `stop_reason ==
+"max_tokens"` يُعاد مرة بـ`reel.script.v2.max_tokens_retry` داخل المحاولة نفسها؛ آخر رد خام وسبب توقّفه في `script_raw`، و`stop_reason` في كل محاولة مرفوضة.
+الخطوتان (`plan_reel` + `write_narration`) لم تُنفَّذا بعد.

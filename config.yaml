@@ -1899,6 +1899,8 @@ reel:
     selection_reel_note: "🎬 كل موضوع تعلّمه يُكتب له سيناريو ريل ويصل إلى المرحلة 2 لتراجعه."
     selection_reel_go2: "🎬 اكتب سيناريو الريل"
     selection_unnamed: "متحدث بلا اسم"
+    # ما أصلحه الكود في السيناريو بدل رفضه (V4، reel_script.repair_v2): تنبيه للمراجع في المرحلة 2
+    script_repaired: "🔧 أصلح الكود: {note}"
     selection_voices_max: 5
     no_debate: "لا خلاف كافٍ للريل: رأي صالح من {n} متحدث ({names}) والمطلوب {min}"
     # Q4 (Issue #1654): الكاتب لم يجد في المقاطع زاويتين مختلفتين فلا يُخترع سيناريو
@@ -2131,6 +2133,8 @@ reel:
       question_roles: [core, why_now, where_next]   # ترتيب إلزامي؛ أول سؤال core دائمًا
       question_max_words: 10
       answers_per_question: [1, 4]
+      # رد قُطع عند max_tokens يُعاد مرة بهذا السقف داخل المحاولة نفسها (V4، درس #1741)
+      max_tokens_retry: 7000
       # الريل نقاش، ومتحدث واحد لا يصنع خلافًا: أقل من هذا من متحدثي الرأي الصالحين ← فشل مبكر بلا نداء نموذج (R7، Issue #1637)
       min_opinion_speakers: 2
       total_answers: [2, 12]   # تتسع ثلاثة أسئلة بأربع إجابات (L1، Issue #1627)

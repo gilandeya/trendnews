@@ -22209,3 +22209,139 @@ def test_reel_only_selection_v3_guards() -> None:
             if saved[k] is not None:
                 os.environ[envk] = saved[k]
         shutil.rmtree(root, ignore_errors=True)
+
+
+def test_reel_script_repair_v4_guards() -> None:
+    """خطة V، V4 (g730–g735): الكود يصلح ما يُصلح في سيناريو v2 بدل رفضه، والرد الخام وسبب توقّفه يُحفظان، والرد المقطوع عند السقف يُعاد
+    بسقف أعلى. نداء النموذج مزيَّف؛ الإصلاح والتحقق والقصّ حقيقية."""
+    from types import SimpleNamespace
+
+    from src import reel_script
+
+    cfg = load_config()
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001
+            import traceback
+            check(f"{name}: لا استثناء", False, traceback.format_exc()[-600:])
+
+    people = ["ليلى حداد", "سامر النجار", "رامي خوري", "هدى منصور", "كريم السعدي", "نادين عيسى"]
+    pts = [{"video_id": f"v{i}", "bloc": "arabic", "channel": f"قناة {i}", "speaker": people[i % 6],
+            "statement": f"قول {i}", "quote_arabic": f"اقتباس عربي {i}", "quote_original": " ".join(f"w{i}x{k}" for k in range(30)),
+            "type": "fact" if i == 6 else "opinion", "video_title": f"فيديو {i}", "video_url": f"https://youtube.com/watch?v=v{i}",
+            "timestamp": 100 + i * 10, "start": 100.0 + i * 10, "end": 115.0 + i * 10, "video_published": "2099-10-30"}
+           for i in range(8)]
+    valid = reel_script.valid_clips(pts, [], cfg)
+    ids = [c["point_id"] for c in valid]
+
+    def data(**over):
+        d = {"main_question": "هل تصمد الهدنة بين الطرفين؟", "context": ["أعلن الطرفان هدنة في 3 أكتوبر."],
+             "questions": [{"role": "core", "text": "ما جوهر الخلاف حول الهدنة؟",
+                            "answers": [{"point_id": ids[0], "stance": "أ"}, {"point_id": ids[1], "stance": "ب"}]},
+                           {"role": "why_now", "text": "لماذا الآن؟",
+                            "answers": [{"point_id": ids[2], "stance": "ج"}, {"point_id": ids[3], "stance": "د"}]}],
+             "closing_question": "ما الذي ينبغي أن يحدث بعد ذلك؟"}
+        d.update(over)
+        return d
+
+    def build(d):
+        return reel_script._build_v2(d, valid, "female", {"event": "ح"}, cfg)
+
+    def g730():
+        q = [{"role": "core"}]
+        check("g730: قائمة أُرسلت نصًا JSON (مغلّفة بمفتاحها وبعدها بقايا وسم) تُحلّ",
+              reel_script._listish(q) == q and reel_script._listish('[{"role": "core"}]') == q
+              and reel_script._listish('{"questions": [{"role": "core"}]}</invoke>', "questions") == q
+              and reel_script._listish("نص عادي") == [] and reel_script._listish(None) == [], None)
+        import json as _j
+        s = build(data(questions=_j.dumps(data()["questions"])))
+        check("g730: أسئلة جاءت نصًا تُبنى مشاهد كأنها قائمة",
+              sum(1 for x in s["scenes"] if x.get("kind") == "clip") == 4, [x["kind"] for x in s["scenes"]])
+    guarded("g730", g730)
+
+    def g731():
+        d = data()
+        core = d["questions"][0]["answers"]
+        core += [{"point_id": ids[6], "stance": "واقعة"}, {"point_id": ids[0], "stance": "مكرر"},
+                 {"point_id": "zzzz", "stance": "مجهول"}, {"point_id": ids[4], "stance": "هـ"}]
+        # ids[0] وids[6] متحدثهما واحد؟ لا: people[0] وpeople[0] (6 % 6 = 0) فإجابة ids[6] تكرار متحدث
+        d["questions"].append({"role": "where_next", "text": "إلى أين؟", "answers": [{"point_id": "yyyy"}]})
+        before = reel_script.validate_v2(build(d), valid, cfg)
+        fixed, notes = reel_script.repair_v2(build(d), valid, cfg)
+        after = reel_script.validate_v2(fixed, valid, cfg)
+        clips = [x for x in fixed["scenes"] if x["kind"] == "clip"]
+        check("g731: كان مرفوضًا (تكرار مقطع ومتحدث ومقطع مجهول وسؤال بلا إجابة صالحة)", bool(before), before)
+        check("g731: بعد الإصلاح يمرّ التحقق", after == [], after)
+        check("g731: بقيت إجابات المتحدثين المختلفين وحُذف السؤال الفارغ وأُعيد ترقيم q",
+              [c["point_id"] for c in clips] == [ids[0], ids[1], ids[4], ids[2], ids[3]]
+              and sorted({c["q"] for c in clips}) == [0, 1]
+              and not any(x.get("text") == "إلى أين؟" for x in fixed["scenes"]), [(c["point_id"], c["q"]) for c in clips])
+        check("g731: كل إصلاح مسجَّل بالعربية", len(notes) >= 4 and all(isinstance(n, str) and n for n in notes), notes)
+    guarded("g731", g731)
+
+    def g732():
+        d = data()
+        d["questions"].reverse()
+        fixed, notes = reel_script.repair_v2(build(d), valid, cfg)
+        roles = [x.get("qrole") for x in fixed["scenes"] if x.get("role") == "question"]
+        first_clip_q = [x["q"] for x in fixed["scenes"] if x["kind"] == "clip"]
+        check("g732: أدوار بغير الترتيب تُرتَّب بإجاباتها معًا",
+              roles == ["core", "why_now"] and first_clip_q == [0, 0, 1, 1]
+              and reel_script.validate_v2(fixed, valid, cfg) == [] and any("رُتّبت" in n for n in notes), (roles, notes))
+        many = data()
+        many["questions"][0]["answers"] = [{"point_id": i} for i in (ids[0], ids[1], ids[2], ids[3], ids[4])]
+        many["questions"][1]["answers"] = [{"point_id": ids[5]}, {"point_id": ids[7]}]
+        fx, _ = reel_script.repair_v2(build(many), valid, cfg)
+        core = [x["point_id"] for x in fx["scenes"] if x["kind"] == "clip" and x["q"] == 0]
+        check("g732: إجابات فوق السقف: تبقى الأولى والأخيرة وتُحذف الوسطى",
+              len(core) == 4 and core[0] == ids[0] and core[-1] == ids[4], core)
+    guarded("g732", g732)
+
+    class Resp:
+        def __init__(self, inp, stop="tool_use"):
+            self.stop_reason = stop
+            self.content = ([SimpleNamespace(type="tool_use", name=reel_script.REEL_TOOL_V2["name"], id="t1", input=inp)]
+                            if inp is not None else [])
+
+    def run(responses):
+        calls = []
+        real = reel_script._create
+
+        def fake(client, **kw):
+            calls.append(kw)
+            return responses.pop(0)
+        reel_script._create = fake
+        try:
+            info: dict = {}
+            got = reel_script.write_script({"title": "ع", "event": "ح"}, "", valid, "female", cfg, client=object(), info=info)
+        finally:
+            reel_script._create = real
+        return got, calls, info
+
+    def g733():
+        d = data()
+        d["questions"][0]["answers"].append({"point_id": ids[6], "stance": "تكرار متحدث"})
+        (script, reason), calls, info = run([Resp(d)])
+        check("g733: خلل يصلحه الكود لا يكلّف إعادة كتابة",
+              script is not None and reason == "" and len(calls) == 1 and info.get("repairs"), (reason, len(calls), info.get("repairs")))
+        check("g733: الرد الخام وسبب توقّفه محفوظان", info.get("raw", {}).get("stop_reason") == "tool_use"
+              and info["raw"]["input"] == d, info.get("raw"))
+    guarded("g733", g733)
+
+    def g734():
+        (script, reason), calls, info = run([Resp(None, "max_tokens"), Resp(data())])
+        check("g734: رد قُطع عند السقف يُعاد بسقف أعلى في المحاولة نفسها",
+              script is not None and len(calls) == 2
+              and calls[1]["max_tokens"] == int(cfg.path("reel.script.v2.max_tokens_retry")) > calls[0]["max_tokens"]
+              and not info.get("attempts"), ([c["max_tokens"] for c in calls], info.get("attempts")))
+        (script2, reason2), calls2, info2 = run([Resp(None, "end_turn"), Resp(None, "end_turn")])
+        check("g734: بلا أداة يُذكر سبب التوقّف في سبب الفشل",
+              script2 is None and "end_turn" in reason2 and info2["attempts"][0]["stop_reason"] == "end_turn", reason2)
+    guarded("g734", g734)
+
+    def g735():
+        check("g735: الرد الخام والإصلاحات ضمن ما يُحفظ على المسودة",
+              {"script_raw", "script_repairs"} <= set(reel_script.SCRIPT_KEYS), reel_script.SCRIPT_KEYS)
+    guarded("g735", g735)
