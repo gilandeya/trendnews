@@ -1453,7 +1453,12 @@ def apply_audit(valid: list[dict], rows: list[dict], cfg: Any, points_by_id: dic
         r = by.get(c["point_id"])
         if r is None:
             out.append(c)
-        elif r.get("complete") == "no" and r.get("speaker_said_it") != "no" and recheck and (
+        elif r.get("speaker_said_it") == "no":
+            # القائل أولًا (القضية 1758، ج): مقطع يقرأ فيه المقدّم تصريح غيره مبتور أيضًا عادة، وسببه الحقيقي اسمٌ تحت وجه لا يملكه
+            dropped.append({"point_id": c["point_id"], "channel": c.get("channel_display", ""),
+                            "reason": (texts.get("clip_drop_mismatch") or "ملخّص النقطة ينسبها إلى شخص آخر: {name}").format(
+                                name=r["other_name"] or "—")})
+        elif r.get("complete") == "no" and recheck and (
                 fixed := recheck_incomplete(c, points_by_id.get(c["point_id"], {}), r.get("incomplete_reason") or "",
                                             valid, points_by_id, cfg, client)):
             out.append(fixed)
@@ -1465,10 +1470,6 @@ def apply_audit(valid: list[dict], rows: list[dict], cfg: Any, points_by_id: dic
             dropped.append({"point_id": c["point_id"], "channel": c.get("channel_display", ""),
                             "reason": (texts.get("clip_drop_incomplete") or "اقتباس مبتور — {reason}").format(
                                 reason=r.get("incomplete_reason") or "—")})
-        elif r["speaker_said_it"] == "no":
-            dropped.append({"point_id": c["point_id"], "channel": c.get("channel_display", ""),
-                            "reason": (texts.get("clip_drop_mismatch") or "ملخّص النقطة ينسبها إلى شخص آخر: {name}").format(
-                                name=r["other_name"] or "—")})
         elif not r["faithful"]:
             if r["quote_arabic_fixed"]:
                 out.append(dict(c, quote_arabic=r["quote_arabic_fixed"]))
