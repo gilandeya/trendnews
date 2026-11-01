@@ -1,207 +1,5 @@
 [
   {
-    "score": 25.72,
-    "bucket": "serious",
-    "tokens": [
-      "iran",
-      "officials",
-      "pakistan",
-      "saudi",
-      "security",
-      "talks",
-      "tehran",
-      "turkiye",
-      "visit"
-    ],
-    "link": "https://www.thehindu.com/news/international/iran-says-officials-from-saudi-turkiye-pakistan-to-visit-tehran-for-security-talks/article71625846.ece",
-    "title": "Iran says officials from Saudi, Turkiye, Pakistan to visit Tehran for security talks",
-    "posted_title": "",
-    "region": "in",
-    "seen_at": "2026-10-26T17:08:04.451646+00:00"
-  },
-  {
-    "score": 25.37,
-    "bucket": "useful",
-    "tokens": [
-      "000",
-      "buyouts",
-      "employees",
-      "microsoft",
-      "offers"
-    ],
-    "link": "https://www.theverge.com/tech/1018666/microsoft-expands-buyouts-60000-employees-eligible",
-    "title": "Microsoft offers buyouts to 60,000 employees",
-    "posted_title": "",
-    "region": "tech",
-    "seen_at": "2026-10-26T17:08:04.451897+00:00"
-  },
-  {
-    "score": 24.68,
-    "bucket": "serious",
-    "tokens": [
-      "host",
-      "officials",
-      "pakistani",
-      "saudi",
-      "tehran",
-      "turkish"
-    ],
-    "link": "https://en.mehrnews.com/news/248920/Tehran-to-host-Saudi-Turkish-Pakistani-officials",
-    "title": "Tehran to host Saudi, Turkish, Pakistani officials",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-10-26T17:08:04.452093+00:00"
-  },
-  {
-    "score": 24.08,
-    "bucket": "serious",
-    "tokens": [
-      "brazil",
-      "celebrates",
-      "election",
-      "lula",
-      "markets",
-      "tumble",
-      "win"
-    ],
-    "link": "https://www.freemalaysiatoday.com/category/world/2026/10/27/lula-celebrates-election-win-as-brazil-s-markets-tumble",
-    "title": "Lula celebrates election win as Brazil’s markets tumble",
-    "posted_title": "",
-    "region": "my",
-    "seen_at": "2026-10-26T17:08:04.452288+00:00"
-  },
-  {
-    "score": 23.45,
-    "bucket": "serious",
-    "tokens": [
-      "bulgaria",
-      "election",
-      "heads",
-      "low",
-      "presidential",
-      "record",
-      "runoff",
-      "turnout"
-    ],
-    "link": "https://balkaninsight.com/2026/10/26/bulgarias-presidential-election-heads-to-runoff-after-record-low-turnout/bi/",
-    "title": "Bulgaria’s Presidential Election Heads to Runoff After Record Low Turnout",
-    "posted_title": "",
-    "region": "balkans",
-    "seen_at": "2026-10-26T17:08:04.452474+00:00"
-  },
-  {
-    "score": 25.37,
-    "bucket": "useful",
-    "tokens": [
-      "000",
-      "buyouts",
-      "employees",
-      "microsoft",
-      "offers"
-    ],
-    "link": "https://www.theverge.com/tech/1018666/microsoft-expands-buyouts-60000-employees-eligible",
-    "title": "Microsoft offers buyouts to 60,000 employees",
-    "posted_title": "مايكروسوفت تطرح عروض خروج طوعي تشمل نحو 60 ألف موظف مؤهل في أربع دول",
-    "region": "tech",
-    "seen_at": "2026-10-27T15:44:22.748559+00:00"
-  },
-  {
-    "score": 29.26,
-    "bucket": "sport",
-    "tokens": [
-      "algeria",
-      "ballon",
-      "case",
-      "ceremony",
-      "d'or",
-      "french",
-      "jailed",
-      "journalist",
-      "raises",
-      "sports"
-    ],
-    "link": "https://www.bbc.co.uk/news/articles/c6x2qgyqr79wo?at_medium=RSS&at_campaign=rss",
-    "title": "Ballon d'Or ceremony raises case of French sports journalist jailed in Algeria",
-    "posted_title": "",
-    "region": "uk",
-    "seen_at": "2026-10-27T17:08:07.747680+00:00"
-  },
-  {
-    "score": 27.62,
-    "bucket": "serious",
-    "tokens": [
-      "israel",
-      "line",
-      "netanyahu",
-      "political",
-      "survival",
-      "votes"
-    ],
-    "link": "https://www.dailymaverick.co.za/article/2026-10-27-netanyahus-political-survival-on-the-line-as-israel-votes/",
-    "title": "Netanyahu’s political survival on the line as Israel votes",
-    "posted_title": "",
-    "region": "za",
-    "seen_at": "2026-10-27T17:08:07.748007+00:00"
-  },
-  {
-    "score": 26.25,
-    "bucket": "serious",
-    "tokens": [
-      "4pm",
-      "elections",
-      "israel",
-      "local",
-      "reaches",
-      "time",
-      "turnout",
-      "voter"
-    ],
-    "link": "https://www.france24.com/en/israel-elections-voter-turnout-reaches-55-by-4pm-local-time",
-    "title": "Israel elections: voter turnout reaches 55% by 4pm local time",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-10-27T17:08:07.748327+00:00"
-  },
-  {
-    "score": 26.0,
-    "bucket": "serious",
-    "tokens": [
-      "andhra",
-      "arnab",
-      "cyclone",
-      "evacuations",
-      "india",
-      "looms",
-      "odisha",
-      "orders",
-      "pradesh"
-    ],
-    "link": "https://www.dawn.com/news/2040202/india-orders-evacuations-in-andhra-pradesh-odisha-as-cyclone-arnab-looms",
-    "title": "India orders evacuations in Andhra Pradesh, Odisha as Cyclone Arnab looms",
-    "posted_title": "",
-    "region": "pk",
-    "seen_at": "2026-10-27T17:08:07.748596+00:00"
-  },
-  {
-    "score": 25.21,
-    "bucket": "light",
-    "tokens": [
-      "000",
-      "africa's",
-      "cases",
-      "congo",
-      "ebola",
-      "mainly",
-      "outbreak",
-      "tops"
-    ],
-    "link": "https://www.france24.com/en/africa/20261027-africa-ebola-outbreak-tops-10-000-cases-mainly-dr-congo",
-    "title": "Africa's Ebola outbreak tops 10,000 cases, mainly in DR Congo",
-    "posted_title": "",
-    "region": "eu",
-    "seen_at": "2026-10-27T17:08:07.748893+00:00"
-  },
-  {
     "score": 24.54,
     "bucket": "serious",
     "tokens": [
@@ -580,5 +378,101 @@
     "posted_title": "",
     "region": "ph",
     "seen_at": "2026-10-31T17:08:01.461588+00:00"
+  },
+  {
+    "score": 32.23,
+    "bucket": "serious",
+    "tokens": [
+      "150",
+      "afghan",
+      "back",
+      "deport",
+      "immigrants",
+      "kabul"
+    ],
+    "link": "https://www.dawn.com/news/2041293/us-to-deport-150-afghan-immigrants-back-to-kabul",
+    "title": "US to deport 150 Afghan immigrants back to Kabul",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-11-01T17:08:33.381584+00:00"
+  },
+  {
+    "score": 24.78,
+    "bucket": "sport",
+    "tokens": [
+      "aged",
+      "champion",
+      "dies",
+      "european",
+      "former",
+      "mageean",
+      "olympian",
+      "time",
+      "two"
+    ],
+    "link": "https://www.bbc.co.uk/sport/athletics/articles/cn81px29032o?at_medium=RSS&at_campaign=rss",
+    "title": "Former European champion and two-time Olympian Mageean dies aged 34",
+    "posted_title": "",
+    "region": "sport",
+    "seen_at": "2026-11-01T17:08:33.381909+00:00"
+  },
+  {
+    "score": 23.11,
+    "bucket": "serious",
+    "tokens": [
+      "787",
+      "arrives",
+      "boeing",
+      "dreamliner",
+      "first",
+      "islamabad",
+      "pia's"
+    ],
+    "link": "https://www.dawn.com/news/2041374/pias-first-boeing-787-9-dreamliner-arrives-in-islamabad",
+    "title": "PIA's first Boeing 787-9 Dreamliner arrives in Islamabad",
+    "posted_title": "",
+    "region": "pk",
+    "seen_at": "2026-11-01T17:08:33.382184+00:00"
+  },
+  {
+    "score": 21.88,
+    "bucket": "serious",
+    "tokens": [
+      "east",
+      "middle",
+      "motogp",
+      "pulls",
+      "qatar",
+      "situation",
+      "yamaha"
+    ],
+    "link": "https://www.freemalaysiatoday.com/category/sports/2026/11/01/yamaha-pulls-out-of-qatar-motogp-over-middle-east-situation",
+    "title": "Yamaha pulls out of Qatar MotoGP over ‘Middle East situation’",
+    "posted_title": "",
+    "region": "my",
+    "seen_at": "2026-11-01T17:08:33.382448+00:00"
+  },
+  {
+    "score": 21.69,
+    "bucket": "serious",
+    "tokens": [
+      "139",
+      "arrest",
+      "banned",
+      "embassy",
+      "group",
+      "london",
+      "outside",
+      "palestinian",
+      "people",
+      "police",
+      "pro",
+      "supporting"
+    ],
+    "link": "https://www.thehindu.com/news/international/london-police-arrest-many-outside-us-embassy-for-supporting-banned-pro-palestinian-group/article71650821.ece",
+    "title": "London police arrest 139 people outside U.S. Embassy for supporting banned pro-Palestinian group",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-11-01T17:08:33.382755+00:00"
   }
 ]

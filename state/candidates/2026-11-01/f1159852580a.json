@@ -1,0 +1,65 @@
+{
+  "id": "f1159852580a",
+  "created_at": "2026-11-01T17:08:33.382194+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 21.88,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 2,
+  "intrigue": 1,
+  "appeal_note": "انسحاب شركة يامتشا من سباق قطر بسبب الوضع في الشرق الأوسط",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Yamaha pulls out of Qatar MotoGP over ‘Middle East situation’",
+  "link": "https://www.freemalaysiatoday.com/category/sports/2026/11/01/yamaha-pulls-out-of-qatar-motogp-over-middle-east-situation",
+  "publishers": [
+    "Free Malaysia Today",
+    "Malay Mail"
+  ],
+  "region": "my",
+  "article": {
+    "title": "Yamaha pulls out of Qatar MotoGP over ‘Middle East situation’",
+    "link": "https://www.freemalaysiatoday.com/category/sports/2026/11/01/yamaha-pulls-out-of-qatar-motogp-over-middle-east-situation",
+    "summary": "The Japanese manufacturer says it will not participate in next weekend's race, citing company-wide travel restrictions.",
+    "source_name": "Free Malaysia Today",
+    "region": "my",
+    "weight": 0.9,
+    "published": "2026-11-01T13:04:37+00:00",
+    "image_url": "https://media.freemalaysiatoday.com/wp-content/uploads/2021/04/Fabio-Quartararo-MotoGP-FB.jpg",
+    "publisher": "Free Malaysia Today",
+    "cluster_sources": [
+      "Free Malaysia Today",
+      "Malay Mail"
+    ],
+    "cluster_members": [
+      {
+        "name": "Malay Mail",
+        "link": "https://www.malaymail.com/news/sports/2026/11/01/yamaha-pulls-out-of-qatar-motogp-over-middle-east-situation/241621"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/sports/2026/11/01/yamaha-pulls-out-of-qatar-motogp-over-middle-east-situation"
+      }
+    ],
+    "image_candidates": [
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2021/04/Fabio-Quartararo-MotoGP-FB.jpg",
+      "https://www.malaymail.com/malaymail/uploads/images/2026/11/01/371847.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 2136.9222975591665,
+    "is_stale": false,
+    "score": 21.879202827185185,
+    "impact": 2,
+    "proximity": 2,
+    "intrigue": 1,
+    "appeal_note": "انسحاب شركة يامتشا من سباق قطر بسبب الوضع في الشرق الأوسط",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

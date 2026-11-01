@@ -1,0 +1,92 @@
+{
+  "id": "93455dd7828a",
+  "created_at": "2026-11-01T17:08:33.381080+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 32.23,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "ترحيل أفغان عبر باكستان؛ يمس الجاليات والهجرة",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "US to deport 150 Afghan immigrants back to Kabul",
+  "link": "https://www.dawn.com/news/2041293/us-to-deport-150-afghan-immigrants-back-to-kabul",
+  "publishers": [
+    "Al Jazeera English",
+    "Dawn",
+    "Free Malaysia Today",
+    "Hindustan Times — World",
+    "The Japan Times",
+    "medics say"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "US to deport 150 Afghan immigrants back to Kabul",
+    "link": "https://www.dawn.com/news/2041293/us-to-deport-150-afghan-immigrants-back-to-kabul",
+    "summary": "WASHINGTON: President Don­­ald Trump’s administration plans to deport more than 150 Afghan immigrants back to Afghanistan via Pakistan, US media reported, a move advocacy groups say could endanger their lives. Trump last year issued travel bans for a number of countries, including Afghanistan, as part of a broad immigration crackdown, and sought to end deportation protections for Afghans, some of whom were granted special immigrant visas following the August 2021 takeover by the Taliban. More than 150 Afghan immigrants are expected to be deported in the latest push, The New York Times reported on Friday, citing three unnamed US officials, and the first flight could leave as soon as Monday. Among those expected to be deported are relatives of Afghans who assisted the US military in the country prior to the fall of Kabul, according to AfghanEvac, a group seeking to help former Afghan allies. While the US cannot arrange deportations directly to Afgha­n­istan, the officials told the Times that Pakistan will oversee their expulsion to Afghanistan. Published in Dawn, November 1st, 2026",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-11-01T02:34:09+00:00",
+    "image_url": "https://i.dawn.com/large/2026/08/08081332346eccc.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Dawn",
+      "Free Malaysia Today",
+      "Hindustan Times — World",
+      "The Japan Times",
+      "medics say"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2041293/us-to-deport-150-afghan-immigrants-back-to-kabul"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/us-news/us-to-deport-over-150-afghan-immigrants-back-to-afghanistan-via-pakistan-advocates-warn-of-danger-101793452504200.html"
+      },
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/news/2026/11/01/world/us-deport-afghan-immigrants/"
+      },
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/video/newsfeed/2026/11/1/israeli-attacks-on-gaza-kill-at-least-nine-people?traffic_source=rss"
+      },
+      {
+        "name": "medics say",
+        "link": "https://tribune.com.pk/story/2638097/israeli-strikes-kill-eight-people-in-gaza-medics-say"
+      },
+      {
+        "name": "Free Malaysia Today",
+        "link": "https://www.freemalaysiatoday.com/category/world/2026/11/01/israeli-strikes-in-gaza-kill-8-including-a-child"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/08/08081332346eccc.webp",
+      "https://i.dawn.com/thumbnail/2026/08/08081332346eccc.webp",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/11/01/571622.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/11/01/thumbs/400x400/571622.jpg",
+      "https://media.freemalaysiatoday.com/wp-content/uploads/2025/10/c2b1ef46-gaza-destruction-epa-06_10_25.webp"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 6,
+    "velocity": 1.0,
+    "age_hours": 2136.922188013889,
+    "is_stale": false,
+    "score": 32.23357182327458,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "ترحيل أفغان عبر باكستان؛ يمس الجاليات والهجرة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
