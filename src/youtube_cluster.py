@@ -1234,7 +1234,11 @@ def build_selection_body(date_str: str, topics: list[dict], points: list[dict], 
         # _checked_topic_ids/finalize_selection المعرّفات، والتعليم بعلامات go:
         if only_reel:
             # الريل وحده: «اتفاق» و«N نقطة» من حسابات المقال لا معنى لهما هنا؛ ما يهمّ المراجع كم مقطعًا ومن كم قناة
-            meta = cfg.path("reel.texts.selection_meta", "  {bites} مقاطع من {channels} قنوات: {names}").format(
+            # الكتل تبقى: تنوّعها مما يصنع ريلًا جيدًا
+            n = layer_num(t["layer"])
+            meta = cfg.path("reel.texts.selection_meta", "  تقاطع {layer} {bloc_word}: {blocs} · {bites} مقاطع من {channels} قنوات: {names}").format(
+                layer=n, bloc_word="كتلة" if n == 1 else "كتل",
+                blocs="، ".join(_bloc_label(b, cfg) for b in t["blocs"]) or "—",
                 bites=len(t["point_ids"]), channels=len(t["channels"]), names="، ".join(t["channels"]) or "—")
         else:
             meta = (f"  تقاطع {layer_num(t['layer'])} "

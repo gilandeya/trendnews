@@ -1897,7 +1897,7 @@ reel:
     reel_unfit_none: "⚠️ لا يصلح ريل نقاش: لا رأي صالح (له طابع واقتباس)"
     # قضية الترشيح مع الريل وحده (V3)
     # سطر بيانات المرشح في قضية الترشيح للريل وحده (بدل «تقاطع … · اتفاق · N نقطة» من أيام المقال)
-    selection_meta: "  {bites} مقاطع من {channels} قنوات: {names}"
+    selection_meta: "  تقاطع {layer} {bloc_word}: {blocs} · {bites} مقاطع من {channels} قنوات: {names}"
     selection_host_mark: " (المقدّم)"
     selection_reel_note: "🎬 كل موضوع تعلّمه يُكتب له سيناريو ريل ويصل إلى المرحلة 2 لتراجعه."
     selection_reel_go2: "🎬 اكتب سيناريو الريل"
