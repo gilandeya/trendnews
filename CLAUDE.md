@@ -2768,3 +2768,6 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 مرة ومعه السبب (`hints` ← «حكم مراجع سابق» في `end_message`) عبر `reel_script.recheck_incomplete` من النص المحفوظ؛ بقي مبتورًا أو لم تتغير
 نهايته ← الاستبعاد كما كان. `bites_as_points` تحمل `start_line`/`end_line`/`first_words`/`last_words` لذلك. يُحفظ `clip_rechecked` (ضمن `SCRIPT_KEYS`)
 وسطر «📏» في المرحلة 2. ملف المقاطع لا يُكتب من السيناريو.
+**(ج) تصريح يقرؤه المقدّم ليس كلام صاحبه (g761–g762 في `test_host_reads_quote_1758c_guards`):** مقطع «محسن رضائي» كان مقدّمة الجزيرة تقرأ تصريحه.
+`prompts/youtube_bites.md` ينسب التصريح المقروء إلى قارئه (`is_host: true`، `type: report`، وصاحب التصريح في `summary_ar` وحده)، ونظام `reel.script.clip_audit`
+يحكم `speaker_said_it: no` لمتحدث يقرأ غيرُه تصريحه (other_name «مقدّم البرنامج»). `apply_audit` يفحص القائل قبل الاكتمال، فيُستبعد هذا المقطع بسبب القائل ولا يُعاد إلى فحص النهاية.

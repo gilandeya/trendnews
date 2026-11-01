@@ -23009,3 +23009,39 @@ def test_sentence_speaker_1758_guards() -> None:
                                          cfg.path("reel.texts", {}) or {})
         check("g760: المرحلة 2 تذكر المقطع المعاد ضبطه", any("📏" in x and "الجزيرة" in x and "22" in x for x in lines), lines)
     guarded("g760", g760)
+
+
+def test_host_reads_quote_1758c_guards() -> None:
+    """القضية 1758 (ج، g761–g762): مقطع نُسب إلى «محسن رضائي» وهو بصوت مقدّمة الجزيرة تقرأ تصريحه ثم تلتفت إلى «دكتور إبراهيم»، فلو بقي
+    لظهر اسم رضائي تحت وجه المقدّمة. الاستخراج ينسب التصريح المقروء إلى قارئه، وفحص القائل يحكم no فيُستبعد المقطع، ولا يُعاد مثل هذا إلى فحص النهاية."""
+    from pathlib import Path
+
+    from src import reel_script, youtube_bites as yb
+    from src.config import load_config
+
+    cfg = load_config()
+
+    def g761():
+        prompt = Path(yb.PROMPT_PATH).read_text(encoding="utf-8")
+        check("g761: برومبت المقاطع ينسب التصريح الذي يقرؤه المقدّم إلى المقدّم", "تصريح يقرؤه المقدّم" in prompt
+              and "`is_host: true`" in prompt and "report" in prompt, None)
+        sysp = cfg.path("reel.script.clip_audit.system")
+        check("g761: فحص القائل يحكم no لمتحدث يقرأ غيرُه تصريحَه", "يقرؤه عنه غيره" in sysp and "مقدّم البرنامج" in sysp, None)
+    g761()
+
+    def g762():
+        import types
+        orig = yb._create
+        calls = []
+        yb._create = lambda client, **kw: calls.append(1) or types.SimpleNamespace(content=[])
+        try:
+            clip = {"point_id": "p1", "start": 0.0, "end": 10.0, "quote_arabic": "ننتظر الرد", "channel_display": "الجزيرة"}
+            rows = [{"point_id": "p1", "speaker_said_it": "no", "other_name": "مقدّم البرنامج", "faithful": True,
+                     "quote_arabic_fixed": "", "complete": "no", "incomplete_reason": "يبدأ بعبارة نقل"}]
+            point = {"video_id": "vvvvvvvvvvv", "start_line": 1, "end_line": 3, "start": 0.0, "end": 10.0}
+            out, _, dropped = reel_script.apply_audit([clip], rows, cfg, {"p1": point}, object(), [])
+            check("g762: مقطع منسوب إلى غير قارئه يُستبعد باسم القارئ ولا يُعاد إلى فحص النهاية", not out and dropped
+                  and "مقدّم البرنامج" in dropped[0]["reason"] and not calls, (out, dropped, len(calls)))
+        finally:
+            yb._create = orig
+    g762()
