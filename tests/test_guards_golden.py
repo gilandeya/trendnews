@@ -22376,3 +22376,191 @@ def test_reel_saved_transcript_v5_guards() -> None:
         check("g737: مطفأً ← الجلب وحده", calls == ["saved001"], calls)
     finally:
         youtube_transcripts.load, youtube_extract.fetch_transcript = real_load, real_fetch
+
+
+def test_reel_hormuz_fixes_guards() -> None:
+    """ريل هرمز 1/11 (g738–g744): ثلاث ملاحظات لصاحب المشروع على أول ريل من المقاطع. (1) مقطع المطيري انتهى سماعًا عند «بينما القانون ال…»
+    لأن حدّ المقطع سطر نص يوتيوب لا آخر الجملة ← فحص النهاية بالجمل (youtube_bites.check_ends/apply_sentences). (2) صوت ضيف (رضا طالبي)
+    فوق صورة المقدّم مهدوي آزاد لأن الخريطة ميّزت وجه المقدّم ولم تقرأ اسمه ← اسمه من قائمة الحلقة يحسم الحذف. (3) «رضا طالبی» بحروف فارسية
+    ← fold_name. الشواهد مصنوعة بشكل الحادثة (النص الحقيقي في المستودع الخاص وحده)."""
+    import copy
+    import inspect
+    import json
+    import os
+    import tempfile
+    import types
+    from datetime import datetime, timezone
+    from pathlib import Path
+
+    from src import reel_render, reel_script, youtube_bites as yb
+    from src.config import load_config
+
+    cfg = load_config()
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001
+            check(name + ": استثناء", False, repr(exc))
+
+    # سطور بشكل الحادثة: الجملة الثانية تكتمل بعد نهاية المقطع، والفكرة كلها أطول من 30 ث، ثم «>>» متكلم آخر
+    segs = yb.clean_segments([
+        {"start": 0.0, "dur": 3.0, "text": "هناك شيء قاتل اعتقد ان الجانب"},     # 1
+        {"start": 3.0, "dur": 3.0, "text": "الايراني تحدث عنه اليوم وهو"},       # 2
+        {"start": 6.0, "dur": 3.0, "text": "العوده الى مضيق هرمز مضيق هرمز"},     # 3
+        {"start": 9.0, "dur": 3.0, "text": "الجانب الايراني لا يزال يقدمه"},       # 4
+        {"start": 12.0, "dur": 3.0, "text": "على انه ورقه في التفاوض بين"},        # 5
+        {"start": 15.0, "dur": 3.0, "text": "الجانب الامريكي والايراني ورقه"},      # 6
+        {"start": 18.0, "dur": 3.0, "text": "صراعيه بينما القانون"},              # 7
+        {"start": 21.0, "dur": 3.0, "text": "الدولي يضمن حريه الملاحه للجميع"},   # 8
+        {"start": 24.0, "dur": 3.0, "text": "وكانت هناك تصريحات لدوله قطر"},      # 9
+        {"start": 27.0, "dur": 3.0, "text": "بهذا الشان قبل فتره قصيره جدا"},       # 10
+        {"start": 30.0, "dur": 3.0, "text": "ومن دول الخليج كلها تقريبا"},         # 11
+        {"start": 33.0, "dur": 3.0, "text": "تقول الشيء نفسه بلا تردد"},          # 12
+        {"start": 36.0, "dur": 3.0, "text": ">> شكرا لك ننتقل الى"},              # 13
+    ])
+    bite = {"bite_id": "v:1", "video_id": "v", "start_line": 1, "end_line": 7, "start": 0.0, "end": 21.0, "seconds": 21.0,
+            "first_words": "هناك شيء قاتل", "last_words": "صراعيه بينما القانون", "speaker": "صالح المطيري",
+            "type": "opinion", "text_ar": "هناك شيء قاتل… بينما القانون", "summary_ar": "", "answers": ""}
+    S1 = {"line": 1, "first_words": "هناك شيء قاتل", "end_line": 3, "last_words": "الى مضيق هرمز مضيق هرمز", "text_ar": "هناك شيء قاتل."}
+    S2 = {"line": 4, "first_words": "الجانب الايراني لا يزال", "end_line": 8, "last_words": "حريه الملاحه للجميع",
+          "text_ar": "الجانب الإيراني لا يزال يقدمه ورقة صراعية بينما القانون الدولي يضمن حرية الملاحة للجميع."}
+    S3 = {"line": 9, "first_words": "وكانت هناك تصريحات", "end_line": 12, "last_words": "الشيء نفسه بلا تردد",
+          "text_ar": "وكانت هناك تصريحات لقطر ودول الخليج تقول الشيء نفسه."}
+
+    def g738():
+        lo, hi = yb.end_lines(bite, segs, cfg)
+        check("g738: الأسطر المعروضة تمتد بعد المقطع وتقف قبل «>>»", (lo, hi) == (1, 12), (lo, hi))
+        got = yb.apply_sentences(bite, [S1, S2], segs, cfg, [])
+        check("g738: النهاية تمتد إلى آخر الجملة («للجميع») لا «بينما القانون»", not got["incomplete"] and got["end_line"] == 8
+              and got["end"] > 23.5 and got["end_anchored"] and got["start_line"] == 1, got)
+        check("g738: النص المعروض جمل المدى المختار وحدها", got["text_ar"] == S1["text_ar"] + " " + S2["text_ar"], got["text_ar"])
+        check("g738: bite_id ثابت و«changed» محفوظ", got["bite_id"] == "v:1" and got["end_check"]["changed"] is True, got.get("end_check"))
+        full = yb.apply_sentences(bite, [S1, S2, S3], segs, cfg, [])
+        check("g738: مدى من 1 إلى 12 يتجاوز 30 ث ← يبقى أطول مدى يبدأ بأول جملة (1–8)",
+              full["end_line"] == 8 and full["start_line"] == 1 and full["seconds"] <= 30, (full["start_line"], full["end_line"], full["seconds"]))
+    guarded("g738", g738)
+
+    def g739():
+        short = {**bite, "end_line": 3, "end": 9.0}
+        got = yb.apply_sentences(short, [], segs, cfg, [])
+        check("g739: لا جملة تامة ← incomplete بلا حذف وبسبب", got["incomplete"] and got["end_checked"]
+              and got["end_check"]["reason"] and got["start_line"] == 1, got)
+        bad_end = dict(S2, last_words="كلمات ليست في النص")
+        got2 = yb.apply_sentences(bite, [S1, bad_end], segs, cfg, [])
+        check("g739: آخر كلمات غير موجودة حرفيًا ← لا يُقبل حدّها (قد يقع وسط الجملة) ويبقى الجملة السابقة التامة",
+              not got2["incomplete"] and got2["end_line"] == 3 and got2["text_ar"] == S1["text_ar"], got2)
+        clash = yb.apply_sentences(bite, [S1, S2], segs, cfg, [(20.0, 30.0)])
+        check("g739: مدى يتداخل مع مقطع آخر لا يُختار", clash["incomplete"] or clash["end"] <= 20.0, clash)
+        pts = yb.bites_as_points([{**got, "start": 0.0, "end": 9.0, "video_url": "u", "text_original": "x"}],
+                                 load_transcript=lambda v: None)
+        check("g739: incomplete يصل النقطة", pts[0]["incomplete"] is True, pts[0])
+        check("g739: valid_clips تستبعد غير المكتمل", reel_script.valid_clips(pts, [], cfg) == [], reel_script.valid_clips(pts, [], cfg))
+    guarded("g739", g739)
+
+    def resp(items, name="split_bite_sentences"):
+        return types.SimpleNamespace(stop_reason="tool_use", usage=None,
+                                     content=[types.SimpleNamespace(type="tool_use", name=name, input={"bites": items})])
+
+    def g740():
+        orig = yb._create
+        other = {**bite, "bite_id": "v:9", "start_line": 9, "end_line": 12, "start": 24.0, "end": 39.0,
+                 "first_words": "وكانت هناك تصريحات", "last_words": "الشيء نفسه بلا تردد"}
+        try:
+            yb._create = lambda client, **kw: resp([{"bite": 1, "sentences": [S1, S2]}])
+            got, err = yb.check_ends([bite, other], segs, cfg, object())
+            check("g740: العدد والترتيب نفسهما، والذي بلا حكم يُعلَّم incomplete", not err and [b["bite_id"] for b in got] == ["v:1", "v:9"]
+                  and got[0]["end_line"] == 8 and got[1]["incomplete"], [(b["bite_id"], b.get("incomplete")) for b in got])
+            yb._create = lambda client, **kw: (_ for _ in ()).throw(RuntimeError("boom"))
+            got, err = yb.check_ends([bite], segs, cfg, object())
+            check("g740: عطل النداء ← المقاطع كما هي بلا end_checked (تُعاد لاحقًا)", err and got == [bite], (err, got))
+        finally:
+            yb._create = orig
+    guarded("g740", g740)
+
+    def g741():
+        orig, env_old = yb._create, os.environ.get("TRENDNEWS_YOUTUBE_BITES_DIR")
+        env_tr = os.environ.get("TRENDNEWS_YOUTUBE_TRANSCRIPTS_DIR")
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            (root / "b").mkdir()
+            (root / "t").mkdir()
+            os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = str(root / "b")
+            os.environ["TRENDNEWS_YOUTUBE_TRANSCRIPTS_DIR"] = str(root / "t")
+            raw = [{"start": s["start"], "duration": s["dur"], "text": s["text"]} for s in segs]
+            (root / "t" / "vvvvvvvvvvv.json").write_text(json.dumps({"segments": raw}), encoding="utf-8")
+            done = {**bite, "video_id": "vvvvvvvvvvv", "bite_id": "x:0", "end_checked": True, "start_line": 12, "end_line": 12,
+                    "start": 33.0, "end": 36.0}
+            first = {**bite, "video_id": "vvvvvvvvvvv"}
+            (root / "b" / "2026-11-01.json").write_text(json.dumps({"run_date": "2026-11-01", "bites": [first, done]}), encoding="utf-8")
+            calls = []
+
+            def fake(client, **kw):
+                calls.append(kw["messages"][0]["content"])
+                return resp([{"bite": 1, "sentences": [S1, S2]}])
+            yb._create = fake
+            try:
+                st = yb.recheck_files(cfg, datetime(2026, 11, 1, 6, tzinfo=timezone.utc), object())
+                data = json.loads((root / "b" / "2026-11-01.json").read_text(encoding="utf-8"))["bites"]
+                check("g741: الملف يُعاد كتابته بالعدد والترتيب نفسيهما والمفحوص سلفًا لا يُرسل",
+                      len(data) == 2 and data[0]["bite_id"] == "v:1" and data[0]["end_line"] == 8 and data[1] == done
+                      and len(calls) == 1 and st["checked"] == 1 and st["changed"] == 1, (st, len(calls)))
+                st2 = yb.recheck_files(cfg, datetime(2026, 11, 1, 6, tzinfo=timezone.utc), object())
+                check("g741: تشغيلة ثانية لا نداء", st2["checked"] == 0 and len(calls) == 1, st2)
+            finally:
+                yb._create = orig
+                for k, v in (("TRENDNEWS_YOUTUBE_BITES_DIR", env_old), ("TRENDNEWS_YOUTUBE_TRANSCRIPTS_DIR", env_tr)):
+                    if v is None:
+                        os.environ.pop(k, None)
+                    else:
+                        os.environ[k] = v
+    guarded("g741", g741)
+
+    def g742():
+        check("g742: «رضا طالبی» و«مهدوی‌آزاد» تُطوى إلى حروف عربية",
+              yb.fold_name("رضا طالبی", cfg) == "رضا طالبي" and yb.fold_name("مهدی مهدوی‌آزاد", cfg) == "مهدي مهدوي آزاد",
+              (yb.fold_name("رضا طالبی", cfg), yb.fold_name("مهدی مهدوی‌آزاد", cfg)))
+        sp, orig_name = yb._arabic_speaker({"speaker": "رضا طالبی", "speaker_original": "رضا طالبی"}, cfg)
+        check("g742: _arabic_speaker يعيد الاسم مطويًا والأصل كما هو", sp == "رضا طالبي" and orig_name == "رضا طالبی", (sp, orig_name))
+        pts = yb.bites_as_points([{"speaker": "رضا طالبی", "start": 1.0, "end": 9.0}], load_transcript=lambda v: None)
+        check("g742: مقاطع محفوظة قبل الطيّ تُطوى عند القراءة", pts[0]["speaker"] == "رضا طالبي", pts[0]["speaker"])
+    guarded("g742", g742)
+
+    def g743():
+        HOST, GUEST = "مهدي مهدوي آزاد", "رضا طالبي"
+        saved = {"map": [{"id": 0, "count": 500, "name": None, "is_host": True}, {"id": 1, "count": 90, "name": None, "is_host": False}],
+                 "host": 0, "centroids": {"0": [1.0], "1": [1.0]}}
+        script = {"version": 2, "scenes": [
+            {"kind": "narration", "role": "question", "q": 0, "text": "س؟"},
+            {"kind": "clip", "q": 0, "point_id": "g1", "speaker_text": GUEST, "speaker_name": "", "channel_display": "إيران إنترناشيونال"},
+            {"kind": "clip", "q": 0, "point_id": "h1", "speaker_text": HOST, "speaker_name": HOST, "channel_display": "إيران إنترناشيونال"}]}
+        clips = {i: {"file": "c%d" % i, "seconds": 10.0, "video_id": "v", "dstart": 100.0, "quote_start": 102.0, "quote_end": 108.0}
+                 for i in (1, 2)}
+        deps = reel_render.Deps(sleep=lambda s_: None)
+        deps.build_speaker_map = lambda *a: copy.deepcopy(saved)
+        deps.assign_speaker = lambda sv, f, off, ln, c: {"cluster": 0, "share": 0.9}
+        roster = {"v": [{"name_arabic": HOST, "name_original": "", "role_arabic": "مقدّم", "is_host": True}]}
+        meta = {}
+        out = reel_render._map_check(copy.deepcopy(script), clips, cfg, deps, [], meta, roster)
+        check("g743: مقدّم بلا اسم مقروء يُسمّى من القائمة فيحسم المقطعين", set(out) == {1, 2} and out[1]["name"] == HOST
+              and out[1].get("host_from") == "roster", out)
+        sc = copy.deepcopy(script)
+        decided, mm = reel_render._apply_map(1, sc, [1, 2], dict(clips), {}, out[1], roster["v"], cfg, [], meta)
+        check("g743: صورة المقدّم فوق كلام الضيف ← حذف drop_map_host", decided and mm and mm["reason_key"] == "drop_map_host", mm)
+        decided, mm = reel_render._apply_map(2, sc, [1, 2], dict(clips), {}, out[2], roster["v"], cfg, [], meta)
+        check("g743: كلام المقدّم نفسه ← تأكيد", decided and mm is None and sc["scenes"][2].get("speaker_verified_from") == "map", mm)
+        none = reel_render._map_check(copy.deepcopy(script), clips, cfg, deps, [], {}, None)
+        check("g743: بلا قائمة يبقى S9 (لا حكم)", none == {}, none)
+        off = copy.deepcopy(cfg)
+        off["speaker_map"]["host_from_roster"] = False
+        check("g743: host_from_roster: false ← لا حكم", reel_render._map_check(copy.deepcopy(script), clips, off, deps, [], {}, roster) == {})
+    guarded("g743", g743)
+
+    def g744():
+        src = inspect.getsource(reel_render._fetch_clips)
+        a, b = src.find("clips[i].update(transcript=transcripts[vid]"), src.find('if aligned == "words":')
+        check("g744: النص يُرفق بالمقطع قبل خروج المضبوط بالكلمات (قائمة الضيوف)", 0 < a < b, (a, b))
+        src2 = inspect.getsource(reel_render._prune_mismatched)
+        check("g744: القائمة تُبنى قبل الخريطة", 0 < src2.find("_speaker_check(") < src2.find("_map_check("), None)
+        check("g744: render_version = 59", int(cfg.path("reel.render.version")) >= 59, cfg.path("reel.render.version"))
+    guarded("g744", g744)

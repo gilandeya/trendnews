@@ -142,6 +142,9 @@ def valid_clips(member_points: list[dict], unresolved: list, cfg: Any) -> list[d
     for p in member_points or []:
         if p.get("timestamp") is None or not (p.get("quote_original") or "").strip() or not p.get("video_url"):
             continue
+        if p.get("incomplete"):
+            # مقطع لم تكتمل فكرته داخل الحد (فحص النهاية في الجمع): يُسمع مبتورًا، فلا يُعرض للكاتب أصلًا
+            continue
         pid = point_key_id(p)
         if pid in seen:
             continue
