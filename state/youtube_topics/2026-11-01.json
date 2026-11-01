@@ -1,0 +1,544 @@
+{
+  "run_date": "2026-11-01",
+  "stats": {
+    "points_in": 105,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 0,
+    "issues_clustered": 24,
+    "topics_merged": 5,
+    "topics_out": 2,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 0,
+    "topics_below_min_points": 9,
+    "topics_below_min_channels": 7,
+    "topics_below_reel_fit": 0,
+    "layers": {
+      "2": 2
+    },
+    "agreement": 2,
+    "cross_source": 0,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "source": "bites",
+  "merged_events": [
+    [
+      "ملف مضيق هرمز",
+      "اختباء وتهديدات مجتبى خامنئي وأثرها على المفاوضات"
+    ],
+    [
+      "اتهامات ترامب بتزوير انتخابات كاليفورنيا 2020",
+      "إعادة رسم الدوائر الانتخابية الأمريكية"
+    ],
+    [
+      "رفض نتنياهو التحالف مع الأحزاب العربية",
+      "رهان نتنياهو على حرب جديدة بدعم أمريكي"
+    ],
+    [
+      "فضيحة الصناديق الاستثمارية التركية",
+      "عمليات قضائية ضد بلديات المعارضة التركية",
+      "فضيحة رشوة بلدية أسينيورت"
+    ],
+    [
+      "احتجاجات فرنسا الطلابية والشعبية 2025",
+      "موجة احتجاجات أوروبية أوسع"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "احتجاجات فرنسا الطلابية والشعبية 2025",
+      "event": "موجة الاحتجاجات الطلابية والنقابية في فرنسا وأسبابها وتطوراتها",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        74,
+        75,
+        76,
+        77,
+        78
+      ],
+      "total_points": 11,
+      "fresh_points": 11,
+      "dropped_reason": null,
+      "reel_fit": {
+        "opinion_speakers": 2,
+        "blocs": 2,
+        "angles": 9,
+        "fresh": 1,
+        "score": 20.0
+      },
+      "id": "7d77c3e5b79a",
+      "created_at": "2026-11-01T04:02:06.068890+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1751
+    },
+    {
+      "title": "ملف مضيق هرمز",
+      "event": "استخدام إيران ملف مضيق هرمز كورقة ضغط تفاوضية مع أمريكا",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        42,
+        43,
+        44,
+        101,
+        102,
+        104
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null,
+      "reel_fit": {
+        "opinion_speakers": 3,
+        "blocs": 2,
+        "angles": 4,
+        "fresh": 1,
+        "score": 18.0
+      },
+      "id": "028c820c2f68",
+      "created_at": "2026-11-01T04:02:06.068890+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1751
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "ملف مضيق هرمز",
+      "event": "استخدام إيران ملف مضيق هرمز كورقة ضغط تفاوضية مع أمريكا",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "persian"
+      ],
+      "channels": [
+        "Iran International",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        42,
+        43,
+        44,
+        101,
+        102,
+        104
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null,
+      "reel_fit": {
+        "opinion_speakers": 3,
+        "blocs": 2,
+        "angles": 4,
+        "fresh": 1,
+        "score": 18.0
+      }
+    },
+    {
+      "title": "احتجاجات فرنسا الطلابية والشعبية 2025",
+      "event": "موجة الاحتجاجات الطلابية والنقابية في فرنسا وأسبابها وتطوراتها",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        74,
+        75,
+        76,
+        77,
+        78
+      ],
+      "total_points": 11,
+      "fresh_points": 11,
+      "dropped_reason": null,
+      "reel_fit": {
+        "opinion_speakers": 2,
+        "blocs": 2,
+        "angles": 9,
+        "fresh": 1,
+        "score": 20.0
+      }
+    },
+    {
+      "title": "رسالة فانس للتفاوض مع إيران",
+      "event": "رسالة نائب الرئيس الأمريكي فانس للإيرانيين ودلالاتها على مسار التفاوض",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        37,
+        38,
+        39,
+        40,
+        41
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "رفض نتنياهو التحالف مع الأحزاب العربية",
+      "event": "رفض نتنياهو تشكيل حكومة بدعم الأحزاب العربية ودعوات المعارضة للتحالف معها بعد الانتخابات",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        79
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الحرب الروسية الأوكرانية ونهايتها المحتملة",
+      "event": "تقييم مدى اقتراب نهاية الحرب الروسية الأوكرانية بعد زيارة لافروف",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        81,
+        82
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "صورة ديرفيش أوغلو مع بهتشلي",
+      "event": "الجدل حول صورة ديرفيش أوغلو مع بهتشلي واعتراض إرهان أوستا عليها",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        24,
+        25
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "ضغط عسكري أمريكي على إيران",
+      "event": "تقييم أثر التحضيرات العسكرية الأمريكية والتصريحات الإيرانية على مسار المفاوضات النووية",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        59,
+        60
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "اتهامات ترامب بتزوير انتخابات كاليفورنيا 2020",
+      "event": "تعهد ترامب بمواصلة الطعن في نتائج انتخابات كاليفورنيا وتأثير اتهامات 2020 على التجديد النصفي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        45,
+        46,
+        47,
+        49,
+        50,
+        53,
+        54,
+        55
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "فوز الليكود رغم اتهامات الإبادة",
+      "event": "تصدر حزب نتنياهو نتائج الانتخابات الإسرائيلية رغم الاتهامات بالإبادة في غزة",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        17,
+        68
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "قدرة إسرائيل على حرب مع إيران دون دعم أمريكي",
+      "event": "تقييم قدرة إسرائيل على خوض حرب ضد إيران بمفردها دون دعم أمريكي",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        69,
+        84
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "إمكانية تكرار الانتخابات الإسرائيلية",
+      "event": "احتمال إعادة الانتخابات الإسرائيلية بعد نتائجها الأخيرة",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        14,
+        80
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "فضيحة الصناديق الاستثمارية التركية",
+      "event": "فضيحة الصناديق الاستثمارية التركية بقيمة 800 مليار ليرة والمتورطون فيها",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        27,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        87,
+        88,
+        91,
+        92
+      ],
+      "total_points": 12,
+      "fresh_points": 12,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تصريحات توم باراك عن الدور الأمريكي في الشرق الأوسط",
+      "event": "تشبيه توم باراك الوجود الأمريكي بالإمبراطوريات السابقة وتأكيده بقاء أمريكا في المنطقة",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        29,
+        71
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "الأزمة بين تركيا وأذربيجان وغياب علييف",
+      "event": "التوتر الصامت بين تركيا وأذربيجان وغياب علييف عن قمة منظمة الدول التركية في أنقرة",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        28,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "قمع الصحافة في تركيا (أغيرال وهالك تي في)",
+      "event": "ملاحقة الصحفي مراد أغيرال قضائيًا وتعيين وصي على قناة هالك تي في",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        89,
+        90
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تعيين المنصوري رئيسة لحكومة المغرب",
+      "event": "تعيين فاطمة الزهراء المنصوري أول امرأة رئيسة لحكومة المغرب وردود الفعل حوله",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "فرانس 24 عربي"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "قضية فساد مصطفى سارغول",
+      "event": "التحقيق مع مصطفى سارغول في اتهامات فساد واعتداء جنسي واستقالته من حزبه",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        18,
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تصويت مبكر في أوهايو",
+      "event": "إقبال كبير على التصويت المبكر في كليفلاند بولاية أوهايو",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        1,
+        51
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    }
+  ]
+}
