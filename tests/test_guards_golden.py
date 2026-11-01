@@ -22432,8 +22432,12 @@ def test_reel_hormuz_fixes_guards() -> None:
           "text_ar": "وكانت هناك تصريحات لقطر ودول الخليج تقول الشيء نفسه."}
 
     def g738():
+        old_cfg = copy.deepcopy(cfg)
+        old_cfg["youtube"]["bites"]["end_check"]["speaker_by_model"] = False
+        lo, hi = yb.end_lines(bite, segs, old_cfg)
+        check("g738: الأسطر المعروضة تمتد بعد المقطع وتقف قبل «>>» (بلا حكم النموذج على المتكلم)", (lo, hi) == (1, 12), (lo, hi))
         lo, hi = yb.end_lines(bite, segs, cfg)
-        check("g738: الأسطر المعروضة تمتد بعد المقطع وتقف قبل «>>»", (lo, hi) == (1, 12), (lo, hi))
+        check("g738: بحكم النموذج (القضية 1758) تُعرض أسطر ما بعد «>>» أيضًا", (lo, hi) == (1, 13), (lo, hi))
         got = yb.apply_sentences(bite, [S1, S2], segs, cfg, [])
         check("g738: النهاية تمتد إلى آخر الجملة («للجميع») لا «بينما القانون»", not got["incomplete"] and got["end_line"] == 8
               and got["end"] > 23.5 and got["end_anchored"] and got["start_line"] == 1, got)
@@ -22492,7 +22496,7 @@ def test_reel_hormuz_fixes_guards() -> None:
             os.environ["TRENDNEWS_YOUTUBE_TRANSCRIPTS_DIR"] = str(root / "t")
             raw = [{"start": s["start"], "duration": s["dur"], "text": s["text"]} for s in segs]
             (root / "t" / "vvvvvvvvvvv.json").write_text(json.dumps({"segments": raw}), encoding="utf-8")
-            done = {**bite, "video_id": "vvvvvvvvvvv", "bite_id": "x:0", "end_checked": True, "start_line": 12, "end_line": 12,
+            done = {**bite, "video_id": "vvvvvvvvvvv", "bite_id": "x:0", "end_checked": True, "end_check_version": 2, "start_line": 12, "end_line": 12,
                     "start": 33.0, "end": 36.0}
             first = {**bite, "video_id": "vvvvvvvvvvv"}
             (root / "b" / "2026-11-01.json").write_text(json.dumps({"run_date": "2026-11-01", "bites": [first, done]}), encoding="utf-8")
@@ -22828,3 +22832,180 @@ def test_frozen_window_1756_guards() -> None:
                 os.environ.pop(k, None)
             else:
                 os.environ[k] = v
+
+
+def test_sentence_speaker_1758_guards() -> None:
+    """القضية 1758 (g755–g760): ريل هرمز فشل بلا مقطع صالح. (أ) «>>» وقعت وسط كلام المطيري نفسه فلم يبلغ مقطعه نهاية فكرته، وفحص النهاية
+    قبل جملة تنتهي بـ«يعني…» ← تبدّل المتكلم واكتمال الفكرة حكم النموذج لكل جملة (same_speaker/ends_thought). (ب) فحص القائل أسقط المقطع
+    مبتورًا بعد أن قبله فحص النهاية ← يُعاد إلى فحص النهاية مرة ومعه السبب قبل الاستبعاد. الشواهد مصنوعة (النص الحقيقي في المستودع الخاص)."""
+    import copy
+    import json
+    import os
+    import tempfile
+    import types
+
+    from src import reel_script, youtube_bites as yb, youtube_publish as yp
+    from src.config import load_config
+
+    cfg = load_config()
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001
+            import traceback
+            check(name + ": استثناء", False, traceback.format_exc()[-800:])
+
+    def off(c):
+        c = copy.deepcopy(c)
+        c["youtube"]["bites"]["end_check"]["speaker_by_model"] = False
+        return c
+
+    # فكرة المتكلم تمتد عبر «>>» خاطئة في السطر 6، ثم المقدّم يقاطع في السطر 9
+    segs = yb.clean_segments([
+        {"start": 0.0, "dur": 3.0, "text": "هناك شيء قاتل اعتقد ان الجانب"},      # 1
+        {"start": 3.0, "dur": 3.0, "text": "الايراني لا يزال يقدم مضيق هرمز"},     # 2
+        {"start": 6.0, "dur": 3.0, "text": "ورقه صراعيه بينما القانون الدولي"},     # 3
+        {"start": 9.0, "dur": 3.0, "text": "وكل الدول يعني كان هناك توتر"},       # 4
+        {"start": 12.0, "dur": 3.0, "text": "مع دول الخليج وكان حديث لقطر"},       # 5
+        {"start": 15.0, "dur": 3.0, "text": ">> بان حريه الملاحه يجب ان تكون"},    # 6
+        {"start": 18.0, "dur": 3.0, "text": "مضمونه خضوعا للقانون الدولي"},        # 7
+        {"start": 21.0, "dur": 3.0, "text": "وهذا رفع النبره في طهران"},          # 8
+        {"start": 24.0, "dur": 3.0, "text": ">> دكتور ابراهيم ما رايك"},          # 9
+        {"start": 27.0, "dur": 3.0, "text": "في هذا الكلام يا دكتور"},            # 10
+    ])
+    bite = {"bite_id": "v:1", "video_id": "v", "start_line": 1, "end_line": 4, "start": 0.0, "end": 10.5, "seconds": 10.5,
+            "first_words": "هناك شيء قاتل", "last_words": "وكل الدول يعني", "speaker": "صالح المطيري", "type": "opinion",
+            "text_ar": "…يعني", "summary_ar": "", "answers": ""}
+    S1 = {"line": 1, "first_words": "هناك شيء قاتل", "end_line": 3, "last_words": "ورقه صراعيه", "text_ar": "هناك شيء قاتل… ورقة صراعية.",
+          "same_speaker": True, "ends_thought": False}
+    S2 = {"line": 3, "first_words": "بينما القانون الدولي", "end_line": 7, "last_words": "خضوعا للقانون الدولي",
+          "text_ar": "بينما القانون الدولي… خضوعًا للقانون الدولي.", "same_speaker": True, "ends_thought": True}
+    S3 = {"line": 9, "first_words": "دكتور ابراهيم ما", "end_line": 10, "last_words": "الكلام يا دكتور", "text_ar": "دكتور إبراهيم؟",
+          "same_speaker": False, "ends_thought": True}
+
+    def g755():
+        check("g755: حكم النموذج على المتكلم مفعَّل في config.yaml", bool(cfg.path("youtube.bites.end_check.speaker_by_model")), None)
+        got = yb.apply_sentences(bite, [S1, S2], segs, cfg, [])
+        check("g755: «>>» الخاطئة لا تقطع المقطع حين يحكم النموذج أنه المتكلم نفسه", not got["incomplete"] and got["end_line"] == 7
+              and got["end"] > 19.0, (got.get("end_line"), got.get("end"), got.get("end_check")))
+        legacy = [{k: v for k, v in x.items() if k not in ("same_speaker", "ends_thought")} for x in (S1, S2)]
+        old = yb.apply_sentences(bite, legacy, segs, off(cfg), [])
+        check("g755: بلا حكم النموذج تقف «>>» المدى كما كان", old["incomplete"] or old["end_line"] < 6, (old.get("end_line"), old.get("end_check")))
+        lo, hi = yb.end_lines(bite, segs, cfg)
+        check("g755: الأسطر المعروضة تتجاوز «>>»", hi >= 7, (lo, hi))
+    guarded("g755", g755)
+
+    def g756():
+        got = yb.apply_sentences(bite, [S1, S2, S3], segs, cfg, [])
+        check("g756: جملة لغير المتكلم (المقدّم ينتقل إلى ضيف) لا تدخل المدى", not got["incomplete"] and got["end_line"] == 7,
+              (got.get("end_line"), got.get("end_check")))
+    guarded("g756", g756)
+
+    def g757():
+        only_open = yb.apply_sentences(bite, [S1], segs, cfg, [])
+        check("g757: جملة لا تُتمّ الفكرة («…يعني») لا تكون آخر المقطع ← incomplete بسببها", only_open["incomplete"]
+              and only_open["end_check"]["why"].get("open_end", 0) >= 1, only_open.get("end_check"))
+        check("g757: إصدار القواعد يُحفظ على المقطع", only_open.get("end_check_version") == int(cfg.path("youtube.bites.end_check.version")),
+              only_open.get("end_check_version"))
+        msg = yb.end_message([bite], segs, cfg, hints=["ينتهي بـ«يعني…»"])
+        check("g757: سبب حكم فحص القائل يصل نداء فحص النهاية", "حكم مراجع سابق" in msg and "يعني" in msg, msg[-200:])
+        sysp = cfg.path("youtube.bites.end_check.system")
+        check("g757: البرومبت يطلب same_speaker وends_thought ويقول إن «>>» تخمين", "same_speaker" in sysp and "ends_thought" in sysp
+              and "تخمين" in sysp, None)
+    guarded("g757", g757)
+
+    def resp(items):
+        return types.SimpleNamespace(stop_reason="tool_use", usage=None,
+                                     content=[types.SimpleNamespace(type="tool_use", name="split_bite_sentences", input={"bites": items})])
+
+    def g758():
+        root = tempfile.mkdtemp()
+        prev = os.environ.get("TRENDNEWS_YOUTUBE_TRANSCRIPTS_DIR")
+        os.environ["TRENDNEWS_YOUTUBE_TRANSCRIPTS_DIR"] = root
+        orig = yb._create
+        seen = []
+        try:
+            with open(os.path.join(root, "vvvvvvvvvvv.json"), "w", encoding="utf-8") as f:
+                json.dump({"segments": [{"start": s["start"], "dur": s["dur"], "text": s["text"]} for s in segs]}, f, ensure_ascii=False)
+            pts = yb.bites_as_points([{**bite, "video_id": "vvvvvvvvvvv", "video_url": "u", "text_original": "هناك شيء قاتل"}],
+                                     load_transcript=lambda v: None)
+            p = pts[0]
+            check("g758: حدود الأسطر تصل النقطة", p["start_line"] == 1 and p["end_line"] == 4 and p["last_words"] == "وكل الدول يعني", p)
+            pid = reel_script.point_key_id(p)
+            clip = {"point_id": pid, "start": 0.0, "end": 10.5, "quote_arabic": "…يعني", "quote_original": "x", "channel_display": "الجزيرة"}
+            rows = [{"point_id": pid, "speaker_said_it": "yes", "faithful": True, "quote_arabic_fixed": "", "complete": "no",
+                     "incomplete_reason": "ينتهي بـ«يعني…»", "other_name": ""}]
+
+            def fake(client, **kw):
+                seen.append(kw["messages"][0]["content"])
+                return resp([{"bite": 1, "sentences": [S1, S2]}])
+            yb._create = fake
+            rechecked = []
+            out, _, dropped = reel_script.apply_audit([clip], rows, cfg, {pid: p}, object(), rechecked)
+            check("g758: المبتور يُعاد إلى فحص النهاية فيبقى بحدود ونص جديدين", len(out) == 1 and not dropped and out[0]["end"] > 19.0
+                  and out[0]["quote_arabic"].endswith("للقانون الدولي.") and out[0].get("rechecked"), (out, dropped))
+            check("g758: السبب وصل النداء والتغيير مسجَّل", seen and "يعني" in seen[0] and rechecked and rechecked[0]["to"][1] > 19.0,
+                  rechecked)
+            yb._create = lambda client, **kw: resp([{"bite": 1, "sentences": [S1]}])
+            out2, _, dropped2 = reel_script.apply_audit([clip], rows, cfg, {pid: p}, object(), [])
+            check("g758: بقي مبتورًا بعد الإعادة ← يُستبعد كما كان", not out2 and len(dropped2) == 1, (out2, dropped2))
+            c_off = copy.deepcopy(cfg)
+            c_off["reel"]["script"]["clip_audit"]["recheck_incomplete"] = False
+            seen.clear()
+            yb._create = fake
+            out3, _, dropped3 = reel_script.apply_audit([clip], rows, c_off, {pid: p}, object(), [])
+            check("g758: مطفأً ← الاستبعاد مباشرة بلا نداء", not out3 and dropped3 and not seen, (out3, len(seen)))
+            out4, _, dropped4 = reel_script.apply_audit([clip], rows, cfg)
+            check("g758: بلا نقاط (مستدعٍ قديم) ← الاستبعاد كما كان", not out4 and dropped4, out4)
+        finally:
+            yb._create = orig
+            if prev is None:
+                os.environ.pop("TRENDNEWS_YOUTUBE_TRANSCRIPTS_DIR", None)
+            else:
+                os.environ["TRENDNEWS_YOUTUBE_TRANSCRIPTS_DIR"] = prev
+    guarded("g758", g758)
+
+    def g759():
+        root = tempfile.mkdtemp()
+        prev = {k: os.environ.get(k) for k in ("TRENDNEWS_YOUTUBE_TRANSCRIPTS_DIR", "TRENDNEWS_YOUTUBE_BITES_DIR")}
+        os.environ["TRENDNEWS_YOUTUBE_TRANSCRIPTS_DIR"] = os.path.join(root, "t")
+        os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = os.path.join(root, "b")
+        os.makedirs(os.path.join(root, "t"))
+        os.makedirs(os.path.join(root, "b"))
+        orig = yb._create
+        calls = []
+        try:
+            from datetime import datetime, timezone
+            with open(os.path.join(root, "t", "vvvvvvvvvvv.json"), "w", encoding="utf-8") as f:
+                json.dump({"segments": [{"start": s["start"], "dur": s["dur"], "text": s["text"]} for s in segs]}, f, ensure_ascii=False)
+            v1 = {**bite, "video_id": "vvvvvvvvvvv", "end_checked": True, "incomplete": False, "end_check": {"changed": True}}
+            with open(os.path.join(root, "b", "2026-11-03.json"), "w", encoding="utf-8") as f:
+                json.dump({"bites": [v1]}, f, ensure_ascii=False)
+
+            def fake(client, **kw):
+                calls.append(1)
+                return resp([{"bite": 1, "sentences": [S1, S2]}])
+            yb._create = fake
+            now = datetime(2026, 11, 3, 6, tzinfo=timezone.utc)
+            yb.recheck_files(cfg, now, object())
+            yb.recheck_files(cfg, now, object())
+            with open(os.path.join(root, "b", "2026-11-03.json"), encoding="utf-8") as f:
+                saved = json.load(f)["bites"][0]
+            check("g759: مقطع فُحص بقواعد أقدم يُعاد فحصه مرة واحدة بالقواعد الجديدة", len(calls) == 1 and saved["end_line"] == 7
+                  and saved.get("end_check_version") == 2, (len(calls), saved.get("end_line"), saved.get("end_check_version")))
+        finally:
+            yb._create = orig
+            for k, v in prev.items():
+                if v is None:
+                    os.environ.pop(k, None)
+                else:
+                    os.environ[k] = v
+    guarded("g759", g759)
+
+    def g760():
+        check("g760: clip_rechecked ضمن ما يُحفظ على المسودة", "clip_rechecked" in reel_script.SCRIPT_KEYS, None)
+        lines = yp._reel_clip_note_lines({"clip_rechecked": [{"channel": "الجزيرة", "from": [0, 10.5], "to": [0, 22.0]}]}, {},
+                                         cfg.path("reel.texts", {}) or {})
+        check("g760: المرحلة 2 تذكر المقطع المعاد ضبطه", any("📏" in x and "الجزيرة" in x and "22" in x for x in lines), lines)
+    guarded("g760", g760)

@@ -2758,3 +2758,13 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 الأخرى تدخل حساب التداخل (`check_ends(..., others=)`).
 **امتداد لإكمال الفكرة (قرار صاحب المشروع 1/11، g754):** `apply_sentences` تبحث أولًا عن مدى في [min، `max_seconds`] (30)، وإن لم تجد تقبل حتى
 `youtube.bites.end_check.complete_max_seconds` (40) بعلامة `end_check.extended`؛ فكرة لا تكتمل حتى 40 ث تبقى «لا يكتمل».
+
+**القضية 1758 — المتكلم واكتمال الفكرة بحكم النموذج لكل جملة (g755–g760 في `test_sentence_speaker_1758_guards`):** ريل هرمز فشل بلا مقطع صالح.
+(أ) نص يوتيوب الآلي وضع «>>» وسط كلام المطيري نفسه فلم يبلغ مقطعه نهاية فكرته، وفحص النهاية قبل جملة تنتهي بـ«يعني…». مع
+`youtube.bites.end_check.speaker_by_model` تُعرض أسطر ما بعد «>>» (`end_lines`)، ولكل جملة في `END_TOOL` حقلا `same_speaker` و`ends_thought`:
+`_best_range` يقف عند أول جملة لغير المتكلم (بدل «>>»؛ ردّ بلا الحقل يبقى على العلامة) ولا يُنهي المدى بجملة `ends_thought: false` (`why.open_end`).
+`end_check.version` (2) يُحفظ `end_check_version` على المقطع، و`recheck_files` يعيد فحص ما فُحص بإصدار أقدم مرة واحدة. (ب) فحص القائل (`clip_audit`) أسقط
+المقطع مبتورًا بعد أن قبله فحص النهاية: مع `reel.script.clip_audit.recheck_incomplete` يُعاد المقطع المبتور (ما لم يُنسب إلى غيره) إلى `check_ends`
+مرة ومعه السبب (`hints` ← «حكم مراجع سابق» في `end_message`) عبر `reel_script.recheck_incomplete` من النص المحفوظ؛ بقي مبتورًا أو لم تتغير
+نهايته ← الاستبعاد كما كان. `bites_as_points` تحمل `start_line`/`end_line`/`first_words`/`last_words` لذلك. يُحفظ `clip_rechecked` (ضمن `SCRIPT_KEYS`)
+وسطر «📏» في المرحلة 2. ملف المقاطع لا يُكتب من السيناريو.
