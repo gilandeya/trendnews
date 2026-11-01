@@ -1157,6 +1157,8 @@ def _reel_voice_lines(topic: dict, points: list[dict], cfg) -> list[str]:
             continue
         seen.add(ident)
         name = clip.get("speaker_text") or texts.get("selection_unnamed", "")
+        if clip.get("host_excluded"):
+            name += texts.get("selection_host_mark", " (المقدّم)")    # لا يُعدّ في سطر الصلاحية فيُعلَّم كي لا يبدو العدّ خطأً
         line = f"  - {name} ({clip.get('channel_display') or '؟'}): {(clip.get('statement') or '')[:160]}"
         out.append(line)
         if len(out) >= int(texts.get("selection_voices_max", 5)):
@@ -1230,16 +1232,22 @@ def build_selection_body(date_str: str, topics: list[dict], points: list[dict], 
                 stage=t["returned_from_stage"]) + " "
         # العنوان بلا مربع (Issue #1190)؛ علامة topic: وحدها كي يجد
         # _checked_topic_ids/finalize_selection المعرّفات، والتعليم بعلامات go:
+        if only_reel:
+            # الريل وحده: «اتفاق» و«N نقطة» من حسابات المقال لا معنى لهما هنا؛ ما يهمّ المراجع كم مقطعًا ومن كم قناة
+            meta = cfg.path("reel.texts.selection_meta", "  {bites} مقاطع من {channels} قنوات: {names}").format(
+                bites=len(t["point_ids"]), channels=len(t["channels"]), names="، ".join(t["channels"]) or "—")
+        else:
+            meta = (f"  تقاطع {layer_num(t['layer'])} "
+                    f"{'كتلة' if layer_num(t['layer']) == 1 else 'كتل'}: "
+                    f"{'، '.join(_bloc_label(b, cfg) for b in t['blocs']) or '—'} · {'، '.join(t['channels']) or '—'} · "
+                    f"{_SEL_AGREEMENT_LABELS.get(t['agreement'], t['agreement'])} · "
+                    f"{len(t['point_ids'])} نقطة")
         parts += [
             f"**{idx}. {badge}{t['title']}**  <!-- topic:{t['id']} -->",
             "",
             f"  {t.get('event', '')}",
             "",
-            f"  تقاطع {layer_num(t['layer'])} "
-            f"{'كتلة' if layer_num(t['layer']) == 1 else 'كتل'}: "
-            f"{'، '.join(_bloc_label(b, cfg) for b in t['blocs']) or '—'} · {'، '.join(t['channels']) or '—'} · "
-            f"{_SEL_AGREEMENT_LABELS.get(t['agreement'], t['agreement'])} · "
-            f"{len(t['point_ids'])} نقطة",
+            meta,
             "",
         ]
         samples = _reel_voice_lines(t, points, cfg) if only_reel else _sample_points_lines(t, points)

@@ -225,6 +225,46 @@ def original_text(segments: list[dict], s: int, e: int) -> str:
     return text.lstrip(">").strip()
 
 
+def original_between(segments: list[dict], s: int, e: int, first: str, last: str, cfg: Any,
+                     start_anchored: bool = True, end_anchored: bool = True) -> str:
+    """الكلام بلغته بين حدّي المقطع بالكلمة لا بالسطر (دالة خالصة). كان يُؤخذ من الأسطر كاملة فيحوي كلمات قبل البداية وبعد النهاية لا
+    تُسمع في المقطع، فتنزل نسبة مطابقة التفريغ في التركيب (ريل هرمز 1/11: 0.58 و0.62 لمقطعي إيران إنترناشيونال والحد 0.7). البحث كما في
+    word_window (سطر الحدّ وما يجاوره، ظهور وحيد بعد التطبيع)؛ حدّ لم يوجد ← حدّ السطر في ذلك الطرف وحده."""
+    from .youtube_extract import _normalize_for_anchor
+    pad = int(_bcfg(cfg, "anchor_search_lines", 1))
+    n = len(segments)
+    lo = max(1, s - pad) if start_anchored else s
+    hi = min(n, e + pad) if end_anchored else e
+    raw: list[tuple[int, str]] = []
+    for k in range(lo, hi + 1):
+        for w in segments[k - 1]["text"].split():
+            if w.strip(">"):
+                raw.append((k, w))
+    flat: list[tuple[str, int]] = []
+    for idx, (_, w) in enumerate(raw):
+        flat.extend((tok, idx) for tok in _normalize_for_anchor(w).split())
+    toks = [t for t, _ in flat]
+
+    def unique(phrase: str, lines: set[int]) -> int | None:
+        probe = _normalize_for_anchor(phrase or "").split()
+        if len(probe) < 2:
+            return None
+        hits = [i for i in range(len(toks) - len(probe) + 1)
+                if toks[i:i + len(probe)] == probe and raw[flat[i][1]][0] in lines]
+        return hits[0] if len(hits) == 1 else None
+
+    a = unique(first, set(range(s - pad, s + pad + 1))) if start_anchored else None
+    b = unique(last, set(range(e - pad, e + pad + 1))) if end_anchored else None
+    i0 = flat[a][1] if a is not None else next((i for i, (k, _) in enumerate(raw) if k >= s), 0)
+    if b is not None:
+        i1 = flat[b + len(_normalize_for_anchor(last).split()) - 1][1]
+    else:
+        i1 = max((i for i, (k, _) in enumerate(raw) if k <= e), default=len(raw) - 1)
+    if not raw or i1 < i0:
+        return original_text(segments, s, e)
+    return " ".join(w for _, w in raw[i0:i1 + 1]).lstrip(">").strip()
+
+
 def bites_as_points(bites: list[dict], load_transcript=None) -> list[dict]:
     """المقاطع بشكل «النقطة» الذي تقرؤه العنقدة والترشيح والسيناريو (V3): فلا تُعاد كتابة تلك المراحل دفعة واحدة، وتبقى فهارس
     point_ids على قائمة واحدة متسقة. الملخص يصير statement، والترجمة quote_arabic، والكلام بلغته quote_original (من الأسطر المحفوظة
@@ -361,7 +401,9 @@ def validate_bites(raw: list, segments: list[dict], shown: set[int], cfg: Any,
                    "summary_ar": str(b.get("summary_ar") or "").strip(), "text_ar": text_ar,
                    "answers": str(b.get("answers") or "").strip(),
                    # الكلام بلغته من أسطر النص نفسها (لا من النموذج): مادة التركيب لضبط الحدّين بالتفريغ، وهو في المستودع الخاص وحده
-                   "text_original": original_text(segments, s, e)})
+                   "text_original": original_between(segments, s, e, str(b.get("first_words") or ""),
+                                                     str(b.get("last_words") or ""), cfg,
+                                                     win["start_anchored"], win["end_anchored"])})
     return ok, bad
 
 
@@ -483,6 +525,7 @@ END_TOOL = {
     "input_schema": {"type": "object", "properties": {
         "bites": {"type": "array", "items": {"type": "object", "properties": {
             "bite": {"type": "integer"},
+            "speaker_ar": {"type": "string"},
             "sentences": {"type": "array", "items": {"type": "object", "properties": {
                 "line": {"type": "integer"}, "first_words": {"type": "string"},
                 "end_line": {"type": "integer"}, "last_words": {"type": "string"},
@@ -509,7 +552,9 @@ def end_message(bites: list[dict], segments: list[dict], cfg: Any) -> str:
     out = []
     for n, b in enumerate(bites, 1):
         lo, hi = end_lines(b, segments, cfg)
-        out.append(f"## المقطع {n} — المتكلم: {b.get('speaker') or b.get('speaker_original') or 'غير مسمّى'}\n"
+        who = b.get("speaker") or ("غير مسمّى بالعربية، اسمه بحروفه: " + b["speaker_original"] if b.get("speaker_original")
+                                   else "غير مسمّى")
+        out.append(f"## المقطع {n} — المتكلم: {who}\n"
                    f"نهايته الحالية: السطر {b['end_line']} عند «{b.get('last_words') or ''}»")
         out.extend(f"[{k}] {segments[k - 1]['text']}" for k in range(lo, hi + 1))
         out.append("")
@@ -564,7 +609,9 @@ def apply_sentences(bite: dict, sentences: list, segments: list[dict], cfg: Any,
     out.update(incomplete=False, start_line=s, end_line=e, start=win["start"], end=win["end"],
                seconds=round(win["end"] - win["start"], 1), start_anchored=win["start_anchored"], end_anchored=True,
                first_words=str(sents[i].get("first_words") or ""), last_words=str(sents[j].get("last_words") or ""),
-               text_ar=text_ar, text_original=original_text(segments, s, e),
+               text_ar=text_ar,
+               text_original=original_between(segments, s, e, str(sents[i].get("first_words") or ""),
+                                              str(sents[j].get("last_words") or ""), cfg, win["start_anchored"], True),
                end_check={"changed": changed, "from": [bite.get("start"), bite.get("end")], "sentences": j - i + 1})
     return out
 
@@ -595,15 +642,22 @@ def check_ends(bites: list[dict], segments: list[dict], cfg: Any, client=None) -
     if items is None:
         return list(bites), "لم يُرجع فحص النهاية قائمة"
     verdicts: dict[int, list] = {}
+    names_ar: dict[int, str] = {}
     for it in items:
         try:
             verdicts[int(it.get("bite"))] = _as_list(it.get("sentences")) or []
+            names_ar[int(it.get("bite"))] = fold_name(it.get("speaker_ar") or "", cfg)
         except (TypeError, ValueError, AttributeError):
             continue
     out = list(bites)
     for n, b in enumerate(bites, 1):
         taken = [(float(o["start"]), float(o["end"])) for m, o in enumerate(out) if m != n - 1 and not o.get("incomplete")]
         out[n - 1] = apply_sentences(b, verdicts.get(n, []), segments, cfg, taken)
+        name = names_ar.get(n, "")
+        if not b.get("speaker") and b.get("speaker_original") and name and is_arabic_text(name, cfg):
+            # الاسم التركي واللاتيني نُقل إلى speaker_original فظهر الضيف «بلا اسم» وملخصه يسمّيه (ريل هرمز 1/11، سي إن إن ترك):
+            # النداء نفسه يكتبه بالعربية، والكود يقبله عربيًا خالصًا فقط
+            out[n - 1] = {**out[n - 1], "speaker": name, "speaker_from": "end_check"}
     return out, ""
 
 
