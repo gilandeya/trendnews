@@ -2756,3 +2756,5 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 النافذة الجديدة. ملف 2026-11-01 أُصلح بيده بمفاتيح نافذته الأصلية (105 مقاطع). **تشخيص فحص النهاية:** المقطع «لا يكتمل» يحفظ `end_check.raw` (أسطر ما أعاده
 النموذج) و`shown` و`why` (`turn`/`no_anchor`/`too_long`/`too_short`/`overlap`)، و`recheck_files` يعيد فحص كل «لا يكتمل» بلا `raw` مرة واحدة، ومقاطع الفيديو
 الأخرى تدخل حساب التداخل (`check_ends(..., others=)`).
+**امتداد لإكمال الفكرة (قرار صاحب المشروع 1/11، g754):** `apply_sentences` تبحث أولًا عن مدى في [min، `max_seconds`] (30)، وإن لم تجد تقبل حتى
+`youtube.bites.end_check.complete_max_seconds` (40) بعلامة `end_check.extended`؛ فكرة لا تكتمل حتى 40 ث تبقى «لا يكتمل».

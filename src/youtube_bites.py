@@ -586,6 +586,41 @@ def apply_sentences(bite: dict, sentences: list, segments: list[dict], cfg: Any,
         if first_line <= a <= b <= last_line and str(it.get("text_ar") or "").strip():
             sents.append({**it, "line": a, "end_line": b})
     sents.sort(key=lambda x: (x["line"], x["end_line"]))
+    # الحد المعتاد أولًا؛ وإن لم تكتمل فكرة داخله يُقبل امتدادها حتى complete_max_seconds بقرار صاحب المشروع (1/11): مقطع أطول قليلًا
+    # خير من مبتور أو محذوف (36 من 132 مقطعًا حُكم عليها «لا يكتمل» وأولها مقطعا المطيري في هرمز)
+    ext = float(cfg.path("youtube.bites.end_check.complete_max_seconds", hi) or hi)
+    best = _best_range(sents, segments, cfg, taken, lo, hi, marker, why)
+    extended = False
+    if best is None and ext > hi:
+        best = _best_range(sents, segments, cfg, taken, lo, ext, marker, why)
+        extended = best is not None
+    out = {**bite, "end_checked": True}
+    if best is None:
+        out.update(incomplete=True, end_check={"reason": "لا تكتمل فكرة المتكلم داخل الحد", "sentences": len(sents),
+                                               "shown": [first_line, last_line], "raw": raw_spans,
+                                               "why": {k: v for k, v in why.items() if v}})
+        return out
+    _, i, j, win = best
+    text_ar = " ".join(" ".join(str(x["text_ar"]).split()) for x in sents[i:j + 1])
+    if not is_arabic_text(text_ar, cfg):
+        out.update(incomplete=True, end_check={"reason": "النص المعروض ليس عربيًا", "sentences": len(sents)})
+        return out
+    s, e = sents[i]["line"], sents[j]["end_line"]
+    changed = (s, e) != (int(bite["start_line"]), int(bite["end_line"])) or abs(win["end"] - float(bite["end"])) > 0.5
+    out.update(incomplete=False, start_line=s, end_line=e, start=win["start"], end=win["end"],
+               seconds=round(win["end"] - win["start"], 1), start_anchored=win["start_anchored"], end_anchored=True,
+               first_words=str(sents[i].get("first_words") or ""), last_words=str(sents[j].get("last_words") or ""),
+               text_ar=text_ar,
+               text_original=original_between(segments, s, e, str(sents[i].get("first_words") or ""),
+                                              str(sents[j].get("last_words") or ""), cfg, win["start_anchored"], True),
+               end_check={"changed": changed, "from": [bite.get("start"), bite.get("end")], "sentences": j - i + 1,
+                          "extended": extended})
+    return out
+
+
+def _best_range(sents: list[dict], segments: list[dict], cfg: Any, taken: list, lo: float, hi: float, marker: str,
+                why: dict) -> tuple | None:
+    """أطول مدى متصل من الجمل التامة مدته في [lo، hi]، والمدى الذي يبدأ بأول جملة مقدَّم."""
     best = None
     for i in range(len(sents)):
         for j in range(i, len(sents)):
@@ -610,27 +645,7 @@ def apply_sentences(bite: dict, sentences: list, segments: list[dict], cfg: Any,
             key = (i == 0, dur)
             if best is None or key > best[0]:
                 best = (key, i, j, win)
-    out = {**bite, "end_checked": True}
-    if best is None:
-        out.update(incomplete=True, end_check={"reason": "لا تكتمل فكرة المتكلم داخل الحد", "sentences": len(sents),
-                                               "shown": [first_line, last_line], "raw": raw_spans,
-                                               "why": {k: v for k, v in why.items() if v}})
-        return out
-    _, i, j, win = best
-    text_ar = " ".join(" ".join(str(x["text_ar"]).split()) for x in sents[i:j + 1])
-    if not is_arabic_text(text_ar, cfg):
-        out.update(incomplete=True, end_check={"reason": "النص المعروض ليس عربيًا", "sentences": len(sents)})
-        return out
-    s, e = sents[i]["line"], sents[j]["end_line"]
-    changed = (s, e) != (int(bite["start_line"]), int(bite["end_line"])) or abs(win["end"] - float(bite["end"])) > 0.5
-    out.update(incomplete=False, start_line=s, end_line=e, start=win["start"], end=win["end"],
-               seconds=round(win["end"] - win["start"], 1), start_anchored=win["start_anchored"], end_anchored=True,
-               first_words=str(sents[i].get("first_words") or ""), last_words=str(sents[j].get("last_words") or ""),
-               text_ar=text_ar,
-               text_original=original_between(segments, s, e, str(sents[i].get("first_words") or ""),
-                                              str(sents[j].get("last_words") or ""), cfg, win["start_anchored"], True),
-               end_check={"changed": changed, "from": [bite.get("start"), bite.get("end")], "sentences": j - i + 1})
-    return out
+    return best
 
 
 def check_ends(bites: list[dict], segments: list[dict], cfg: Any, client=None,

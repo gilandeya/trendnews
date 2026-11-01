@@ -22769,14 +22769,14 @@ def test_frozen_window_1756_guards() -> None:
         guarded("g752", g752)
 
         def g753():
-            segs = yb.clean_segments([{"start": float(i * 3), "dur": 3.0, "text": f"كلمة{i} ثانية{i} ثالثة{i}"} for i in range(1, 12)])
-            b = {"bite_id": "v:1", "video_id": "v", "start_line": 1, "end_line": 3, "start": 3.0, "end": 12.0,
+            segs = yb.clean_segments([{"start": float(i * 5), "dur": 5.0, "text": f"كلمة{i} ثانية{i} ثالثة{i}"} for i in range(1, 20)])
+            b = {"bite_id": "v:1", "video_id": "v", "start_line": 1, "end_line": 3, "start": 5.0, "end": 20.0,
                  "first_words": "كلمة1 ثانية1", "last_words": "ثانية3 ثالثة3", "speaker": "س", "type": "opinion", "text_ar": "ن"}
             got = yb.apply_sentences(b, [{"line": 1, "first_words": "كلمة1 ثانية1", "end_line": 11, "last_words": "ثانية11 ثالثة11",
                                           "text_ar": "جملة طويلة"}], segs, cfg, [])
             ec = got["end_check"]
             check("g753: «لا يكتمل» يحمل ما أعاده النموذج وسببه", got["incomplete"] and ec["raw"] == [[1, 11]]
-                  and ec["why"].get("too_long") == 1 and ec["shown"][0] == 1, ec)
+                  and ec["why"].get("too_long", 0) >= 1 and ec["shown"][0] == 1, ec)
             tdir = root / "t"
             tdir.mkdir()
             os.environ["TRENDNEWS_YOUTUBE_TRANSCRIPTS_DIR"] = str(tdir)
@@ -22805,6 +22805,22 @@ def test_frozen_window_1756_guards() -> None:
             check("g753: مقطع حُكم قبل التشخيص يُفحص مرة واحدة أخرى ثم لا يُعاد", len(calls) == 1 and "raw" in saved_b["end_check"],
                   (len(calls), saved_b.get("end_check")))
         guarded("g753", g753)
+
+        def g754():
+            segs = yb.clean_segments([{"start": float(i * 3), "dur": 3.0, "text": f"كلمة{i} ثانية{i} ثالثة{i}"} for i in range(1, 20)])
+            b = {"bite_id": "v:1", "video_id": "v", "start_line": 1, "end_line": 3, "start": 3.0, "end": 12.0,
+                 "first_words": "كلمة1 ثانية1", "last_words": "ثانية3 ثالثة3", "speaker": "س", "type": "opinion", "text_ar": "ن"}
+            long_one = {"line": 1, "first_words": "كلمة1 ثانية1", "end_line": 11, "last_words": "ثانية11 ثالثة11", "text_ar": "فكرة واحدة"}
+            got = yb.apply_sentences(b, [long_one], segs, cfg, [])
+            check("g754: فكرة لا تكتمل إلا في 33 ث تُقبل حتى complete_max_seconds (40) بعلامة extended",
+                  not got["incomplete"] and got["end_check"]["extended"] and 30 < got["seconds"] <= 40, got)
+            short = {"line": 1, "first_words": "كلمة1 ثانية1", "end_line": 5, "last_words": "ثانية5 ثالثة5", "text_ar": "أولى"}
+            rest = {"line": 6, "first_words": "كلمة6 ثانية6", "end_line": 11, "last_words": "ثانية11 ثالثة11", "text_ar": "ثانية"}
+            got2 = yb.apply_sentences(b, [short, rest], segs, cfg, [])
+            check("g754: مدى داخل 30 ث مقدَّم على الامتداد", not got2["incomplete"] and not got2["end_check"]["extended"]
+                  and got2["seconds"] <= 30, got2)
+            check("g754: الحد في config.yaml = 40", float(cfg.path("youtube.bites.end_check.complete_max_seconds")) == 40, None)
+        guarded("g754", g754)
     finally:
         ye.POINTS_DIR, ycl.POINTS_DIR, ycl.TOPICS_DIR = saved["points"], saved["cpoints"], saved["topics"]
         for k, v in (("TRENDNEWS_YOUTUBE_BITES_DIR", saved["env"]), ("TRENDNEWS_YOUTUBE_TRANSCRIPTS_DIR", saved["tenv"])):
