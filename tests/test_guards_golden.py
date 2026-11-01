@@ -22567,3 +22567,116 @@ def test_reel_hormuz_fixes_guards() -> None:
         check("g744: القائمة تُبنى قبل الخريطة", 0 < src2.find("_speaker_check(") < src2.find("_map_check("), None)
         check("g744: render_version = 59", int(cfg.path("reel.render.version")) >= 59, cfg.path("reel.render.version"))
     guarded("g744", g744)
+
+
+def test_reel_bites_followups_guards() -> None:
+    """متابعة ريل هرمز 1/11 (g745–g749): الكلام بلغته بين حدّي المقطع بالكلمة، واسم الضيف اللاتيني بالعربية من فحص النهاية، وسطر بيانات
+    المرشح بلا حسابات المقال، والمقدّم لا يُعدّ محللًا في صلاحية الموضوع. شواهد مصنوعة بشكل الحادثة."""
+    import types
+
+    from src import reel_script, youtube_bites as yb, youtube_cluster as ycl
+    from src.config import load_config
+
+    import copy
+
+    cfg = load_config()
+
+    def tweak(path, value):
+        c = copy.deepcopy(cfg)
+        node = c
+        for k in path[:-1]:
+            node = node[k]
+        node[path[-1]] = value
+        return c
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001
+            check(name + ": استثناء", False, repr(exc))
+
+    segs = yb.clean_segments([
+        {"start": 0.0, "dur": 4.0, "text": "کلام قبلی ببینید برداشت شما"},
+        {"start": 4.0, "dur": 4.0, "text": "اینه که مجتبی خامنه ای"},
+        {"start": 8.0, "dur": 4.0, "text": "مذاکرات را مختل می کند"},
+        {"start": 12.0, "dur": 4.0, "text": "و این کلام بعدی است"},
+    ])
+
+    def g745():
+        got = yb.original_between(segs, 1, 3, "برداشت شما اینه", "مذاکرات را مختل می کند", cfg)
+        check("g745: الكلام بلغته يبدأ عند أول كلمات المقطع وينتهي عند آخرها لا عند حدود الأسطر",
+              got == "برداشت شما اینه که مجتبی خامنه ای مذاکرات را مختل می کند", got)
+        old = yb.original_text(segs, 1, 3)
+        check("g745: الطريقة القديمة كانت تحوي «کلام قبلی ببینید» الذي لا يُسمع", old.startswith("کلام قبلی"), old)
+        miss = yb.original_between(segs, 1, 3, "كلمات غائبة هنا", "مذاکرات را مختل می کند", cfg)
+        check("g745: بداية لم توجد ← حدّ السطر في ذلك الطرف وحده", miss.startswith("کلام قبلی") and miss.endswith("می کند"), miss)
+        ok, _ = yb.validate_bites([{"start_line": 1, "end_line": 3, "first_words": "برداشت شما اینه", "last_words": "مذاکرات را مختل می کند",
+                                    "type": "opinion", "text_ar": "انطباعكم أن مجتبى خامنئي يعرقل المفاوضات", "speaker": "رضا طالبي"}],
+                                  segs, set(range(1, 5)), tweak(["youtube", "bites", "min_seconds"], 4))
+        check("g745: validate_bites تحفظ الكلام بين الحدّين", ok and ok[0]["text_original"].startswith("برداشت"), ok)
+    guarded("g745", g745)
+
+    def g746():
+        bite = {"bite_id": "v:1", "video_id": "v", "start_line": 1, "end_line": 3, "start": 2.4, "end": 12.0,
+                "first_words": "برداشت شما اینه", "last_words": "مذاکرات را مختل می کند", "speaker": "",
+                "speaker_original": "Zekeriya Kurşun", "type": "opinion", "text_ar": "x"}
+        sent = {"line": 1, "first_words": "برداشت شما اینه", "end_line": 3, "last_words": "مذاکرات را مختل می کند",
+                "text_ar": "انطباعكم أن مجتبى خامنئي يعرقل المفاوضات."}
+        orig = yb._create
+
+        def resp(name_ar):
+            return types.SimpleNamespace(stop_reason="tool_use", usage=None, content=[types.SimpleNamespace(
+                type="tool_use", name="split_bite_sentences",
+                input={"bites": [{"bite": 1, "speaker_ar": name_ar, "sentences": [sent]}]})])
+        c2 = tweak(["youtube", "bites", "min_seconds"], 4)
+        try:
+            msg = yb.end_message([bite], segs, c2)
+            check("g746: الاسم بحروفه يُعرض على النموذج", "Zekeriya Kurşun" in msg, msg[:200])
+            yb._create = lambda client, **kw: resp("زكريا كورشون")
+            got, _ = yb.check_ends([bite], segs, c2, object())
+            check("g746: اسم لاتيني ← يُكتب بالعربية من فحص النهاية", got[0]["speaker"] == "زكريا كورشون"
+                  and got[0]["speaker_from"] == "end_check" and got[0]["speaker_original"] == "Zekeriya Kurşun", got[0])
+            yb._create = lambda client, **kw: resp("Zekeriya")
+            got, _ = yb.check_ends([bite], segs, c2, object())
+            check("g746: اسم غير عربي في الرد ← لا يُقبل", got[0]["speaker"] == "", got[0].get("speaker"))
+            yb._create = lambda client, **kw: resp("اسم آخر")
+            got, _ = yb.check_ends([{**bite, "speaker": "رضا طالبي"}], segs, c2, object())
+            check("g746: متكلم مسمّى لا يُكتب فوقه", got[0]["speaker"] == "رضا طالبي", got[0].get("speaker"))
+        finally:
+            yb._create = orig
+    guarded("g746", g746)
+
+    def pts():
+        base = {"timestamp": 10, "start": 10.0, "end": 30.0, "quote_original": "x y z", "type": "opinion",
+                "video_url": "https://www.youtube.com/watch?v=", "statement": "رأي"}
+        return [dict(base, speaker="مهدي مهدوي آزاد", is_host=True, channel="Iran International", video_id="a",
+                     video_url=base["video_url"] + "a", quote_original="کلام اول"),
+                dict(base, speaker="صالح المطيري", channel="الجزيرة", video_id="b", video_url=base["video_url"] + "b",
+                     quote_original="كلام ثان"),
+                dict(base, speaker="رضا طالبي", channel="Iran International", video_id="c", video_url=base["video_url"] + "c",
+                     quote_original="کلام سوم")]
+
+    def g747():
+        names = [n for _, n in reel_script.opinion_speakers(pts(), cfg)]
+        check("g747: المقدّم لا يُعدّ بين متحدثي الرأي", names == ["صالح المطيري", "رضا طالبي"], names)
+        on = tweak(["reel", "script", "v2", "count_hosts"], True)
+        check("g747: count_hosts: true ← يُعدّ كما كان", len(reel_script.opinion_speakers(pts(), on)) == 3, None)
+        check("g747: مقطعه يبقى صالحًا للريل", len(reel_script.valid_clips(pts(), [], cfg)) == 3, None)
+        check("g747: config.yaml لا يعدّ المقدّم", cfg.path("reel.script.v2.count_hosts") is False, None)
+    guarded("g747", g747)
+
+    def g748():
+        topic = {"id": "t1", "title": "ملف مضيق هرمز", "event": "حدث", "layer": "a", "blocs": ["arabic", "persian"],
+                 "channels": ["الجزيرة", "Iran International"], "agreement": "agreement", "point_ids": [0, 1, 2]}
+        from tests.helpers import reel_only_cfg
+        body = ycl.build_selection_body("2026-11-01", [topic], pts(), reel_only_cfg(cfg))
+        check("g748: لا «اتفاق» ولا «نقطة» في قضية الريل", "اتفاق" not in body and "نقطة" not in body, body[:600])
+        check("g748: سطر «3 مقاطع من 2 قنوات»", "3 مقاطع من 2 قنوات" in body, body[:600])
+        check("g748: المقدّم معلَّم في سطور المتحدثين", "مهدي مهدوي آزاد (المقدّم)" in body, body[:900])
+    guarded("g748", g748)
+
+    def g749():
+        check("g749: فحص النهاية يطلب الاسم العربي للمتكلم اللاتيني",
+              "speaker_ar" in yb.END_TOOL["input_schema"]["properties"]["bites"]["items"]["properties"]
+              and "speaker_ar" in cfg.path("youtube.bites.end_check.system"), None)
+    guarded("g749", g749)

@@ -160,7 +160,10 @@ def valid_clips(member_points: list[dict], unresolved: list, cfg: Any) -> list[d
                     "quote_arabic": p.get("quote_arabic", ""), "quote_original": p.get("quote_original", ""),
                     "language": detect_language(p["quote_original"]),
                     "video_published": p.get("video_published") or "", "statement": p.get("statement", ""),
-                    "type": p.get("type", "") or ""})      # نوع النقطة: الإجابة رأي لا واقعة (Issue #1621، R6)
+                    "type": p.get("type", "") or "",       # نوع النقطة: الإجابة رأي لا واقعة (Issue #1621، R6)
+                    # المقدّم لا يُعدّ محللًا في الحكم على صلاحية الموضوع (ريل هرمز 1/11: عُدّ مهدوي آزاد ثالث ثلاثة فبدا الموضوع أغنى)؛
+                    # يبقى مقطعه صالحًا للريل
+                    "host_excluded": bool(p.get("is_host")) and not cfg.path("reel.script.v2.count_hosts", False)})
     return out
 
 
@@ -735,7 +738,7 @@ def _opinion_identities(valid: list[dict]) -> list[tuple[str, str]]:
     """(هوية، اسم عرض) لكل متحدث رأي مختلف بين المقاطع الصالحة بترتيب أول ظهور: العدّ الواحد لكل من يحتاجه (R7)."""
     out: dict[str, str] = {}
     for c in valid:
-        if c.get("type") in _OPINION_TYPES:
+        if c.get("type") in _OPINION_TYPES and not c.get("host_excluded"):
             ident = _speaker_identity(c)
             if ident not in out:
                 out[ident] = (c.get("speaker_text") or "").strip() or c.get("channel_display", "") or ident
