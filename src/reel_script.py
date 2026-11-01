@@ -1402,18 +1402,64 @@ def audit_clips(clips: list[dict], cfg: Any, client=None) -> list[dict]:
     raise ValueError("لا مخرج مهيكل صالح من فحص المقاطع")
 
 
-def apply_audit(valid: list[dict], rows: list[dict], cfg: Any) -> tuple[list[dict], list[str], list[dict]]:
+def recheck_incomplete(clip: dict, point: dict, reason: str, valid: list[dict], points_by_id: dict, cfg: Any,
+                       client=None) -> dict | None:
+    """القضية 1758: فحص النهاية قبل مقطع المطيري تامًّا وهو ينتهي بـ«يعني…»، ثم أسقطه فحص القائل لأنه مبتور، فحكم نموذجان على المقطع
+    نفسه بحكمين. المقطع الذي يقول فحص القائل إنه مبتور يُعاد إلى فحص النهاية مرة واحدة ومعه سبب الحكم، فيُمدّ أو يُقصّ إلى جملة تامة.
+    يعيد نسخة المقطع بحدوده ونصه الجديدين، أو None (يُستبعد كما كان) إن تعذّر أو بقي مبتورًا أو لم تتغير نهايته. لا يرفع."""
+    from . import youtube_bites, youtube_transcripts
+    try:
+        if not point or point.get("start_line") is None or not point.get("video_id"):
+            return None
+        saved = youtube_transcripts.load(point["video_id"])
+        if not saved:
+            return None
+        segments = youtube_bites.clean_segments(saved["segments"])
+
+        def as_bite(p: dict) -> dict:
+            return {"start_line": int(p["start_line"]), "end_line": int(p["end_line"]), "start": float(p["start"]),
+                    "end": float(p["end"]), "first_words": p.get("first_words", ""), "last_words": p.get("last_words", ""),
+                    "speaker": p.get("speaker", ""), "speaker_original": p.get("speaker_original", "")}
+
+        bite = as_bite(point)
+        # مقاطع الفيديو نفسه الأخرى في الريل لا يتداخل معها المقطع الممدود (مقطعا المطيري 329 و377 متجاوران)
+        others = [as_bite(points_by_id[c["point_id"]]) for c in valid
+                  if c["point_id"] != clip["point_id"] and points_by_id.get(c["point_id"], {}).get("video_id") == point["video_id"]
+                  and points_by_id[c["point_id"]].get("start_line") is not None]
+        got, err = youtube_bites.check_ends([bite], segments, cfg, client, others=others, hints=[reason])
+        res = got[0] if got else {}
+        if err or res.get("incomplete") or abs(float(res.get("end", bite["end"])) - bite["end"]) <= 0.5:
+            return None   # نهاية لم تتغير ← الحكم نفسه يتكرر، فيبقى الاستبعاد
+        start, end = clip_window({"start": res["start"], "end": res["end"]}, cfg)
+        return dict(clip, start=start, end=end, quote_arabic=res.get("text_ar") or clip.get("quote_arabic", ""),
+                    quote_original=res.get("text_original") or clip.get("quote_original", ""), rechecked=True)
+    except Exception as exc:  # noqa: BLE001
+        log.warning("تعذّرت إعادة فحص نهاية مقطع %s: %s: %s", clip.get("point_id"), type(exc).__name__, str(exc)[:100])
+        return None
+
+
+def apply_audit(valid: list[dict], rows: list[dict], cfg: Any, points_by_id: dict | None = None, client=None,
+                rechecked: list | None = None) -> tuple[list[dict], list[str], list[dict]]:
     """ينفّذ حكم الفحص: no ← استبعاد باسم الآخر؛ faithful=false ← الترجمة الأمينة الجديدة محل القديمة في نسخة المقطع (ملف النقاط لا يُمسّ)
-    وبلا ترجمة استبعاد؛ unsure يبقى (يُسجَّل في صفوف clip_audit للعرض). يعيد (الصالحة، المعاد ترجمتها، المستبعدة)."""
+    وبلا ترجمة استبعاد؛ unsure يبقى (يُسجَّل في صفوف clip_audit للعرض). مبتور ← إعادة فحص النهاية مرة (recheck_incomplete) قبل
+    الاستبعاد، حين تُمرَّر points_by_id. يعيد (الصالحة، المعاد ترجمتها، المستبعدة)."""
     texts = cfg.path("reel.texts", {}) or {}
     by = {r["point_id"]: r for r in rows}
     out: list[dict] = []
     redone: list[str] = []
     dropped: list[dict] = []
+    recheck = points_by_id is not None and bool(cfg.path("reel.script.clip_audit.recheck_incomplete", False))
     for c in valid:
         r = by.get(c["point_id"])
         if r is None:
             out.append(c)
+        elif r.get("complete") == "no" and r.get("speaker_said_it") != "no" and recheck and (
+                fixed := recheck_incomplete(c, points_by_id.get(c["point_id"], {}), r.get("incomplete_reason") or "",
+                                            valid, points_by_id, cfg, client)):
+            out.append(fixed)
+            if rechecked is not None:
+                rechecked.append({"point_id": c["point_id"], "channel": c.get("channel_display", ""),
+                                  "from": [c.get("start"), c.get("end")], "to": [fixed["start"], fixed["end"]]})
         elif r.get("complete") == "no":
             # Q13 (Issue #1681): اقتباس مبتور لا يُفهم وحده يُستبعد قبل اعتماد السيناريو بدل أن يُمدّ وقت التركيب
             dropped.append({"point_id": c["point_id"], "channel": c.get("channel_display", ""),
@@ -1440,7 +1486,7 @@ def apply_audit(valid: list[dict], rows: list[dict], cfg: Any) -> tuple[list[dic
 SCRIPT_KEYS = ("script", "script_status", "script_error", "headlines", "headline_selected", "warnings", "editor_review",
                "name_corrections", "name_unresolved", "names_audit", "reel_bg", "hook_candidates", "hook_search",
                "broll_plan", "broll_plan_error", "quote_retranslated", "clip_dropped", "clip_audit",
-               "editor_revision", "script_attempts", "script_fit", "script_raw", "script_repairs")
+               "editor_revision", "script_attempts", "script_fit", "script_raw", "script_repairs", "clip_rechecked")
 
 
 def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article_text: str, unresolved: list,
@@ -1451,7 +1497,7 @@ def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article
     valid = valid_clips(member_points, unresolved, cfg)
     draft.pop("script_error", None)
     for key in ("name_corrections", "name_unresolved", "names_audit", "quote_retranslated", "clip_dropped", "clip_audit",
-                "editor_revision", "script_attempts", "script_fit", "script_raw", "script_repairs"):
+                "editor_revision", "script_attempts", "script_fit", "script_raw", "script_repairs", "clip_rechecked"):
         draft.pop(key, None)  # إعادة كتابة تبدأ سجلاتها من جديد فلا تتراكم عن محاولة سابقة
 
     def _insufficient(clips: list[dict]) -> str:
@@ -1477,8 +1523,11 @@ def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article
     try:
         by_ch = {c["point_id"]: c.get("channel_display", "") for c in valid}
         rows = audit_clips(valid, cfg, client)
-        valid, redone, dropped = apply_audit(valid, rows, cfg)
+        rechecked: list = []
+        valid, redone, dropped = apply_audit(valid, rows, cfg, {point_key_id(p): p for p in member_points}, client, rechecked)
         draft["clip_audit"] = {"error": "", "rows": [dict(r, channel=by_ch.get(r["point_id"], "")) for r in rows]}
+        if rechecked:
+            draft["clip_rechecked"] = rechecked
         if redone:
             draft["quote_retranslated"] = redone
         if dropped:

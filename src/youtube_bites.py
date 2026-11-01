@@ -306,6 +306,9 @@ def bites_as_points(bites: list[dict], load_transcript=None) -> list[dict]:
             "is_host": bool(b.get("is_host")),
             # فحص النهاية (end_check): فكرة لا تكتمل في الحد تبقى نقطة للعنقدة (الفهارس ثابتة) ولا تصلح مقطعًا
             "incomplete": bool(b.get("incomplete")),
+            # حدود المقطع بأسطر نصه: يعيد بها السيناريو فحص النهاية لمقطع حكم فحص القائل بأنه مبتور (القضية 1758)
+            "start_line": b.get("start_line"), "end_line": b.get("end_line"),
+            "first_words": b.get("first_words", ""), "last_words": b.get("last_words", ""),
         })
     return out
 
@@ -530,15 +533,22 @@ END_TOOL = {
                 "line": {"type": "integer"}, "first_words": {"type": "string"},
                 "end_line": {"type": "integer"}, "last_words": {"type": "string"},
                 "text_ar": {"type": "string"},
+                "same_speaker": {"type": "boolean"}, "ends_thought": {"type": "boolean"},
             }, "required": ["line", "first_words", "end_line", "last_words", "text_ar"]}},
         }, "required": ["bite", "sentences"]}},
     }, "required": ["bites"]},
 }
 
 
+def _speaker_by_model(cfg: Any) -> bool:
+    return bool(cfg.path("youtube.bites.end_check.speaker_by_model", False))
+
+
 def end_lines(bite: dict, segments: list[dict], cfg: Any) -> tuple[int, int]:
-    """الأسطر المعروضة لفحص النهاية: من أول المقطع إلى end_check.lookahead_lines بعد آخره، وتقف قبل أول «>>» (متكلم آخر بدأ)."""
-    marker = str(_bcfg(cfg, "turn_marker", ">>") or "")
+    """الأسطر المعروضة لفحص النهاية: من أول المقطع إلى end_check.lookahead_lines بعد آخره. تقف قبل أول «>>» إلا مع speaker_by_model:
+    القضية 1758 — نص يوتيوب الآلي وضع «>>» وسط كلام المطيري نفسه («>> بأن حرية الملاحة…») فلم يصل المقطع إلى نهاية فكرته أبدًا،
+    فصار تبدّل المتكلم حكمًا للنموذج على كل جملة (same_speaker) والعلامة قرينة يراها."""
+    marker = "" if _speaker_by_model(cfg) else str(_bcfg(cfg, "turn_marker", ">>") or "")
     ahead = int(cfg.path("youtube.bites.end_check.lookahead_lines", 8))
     s, e = int(bite["start_line"]), int(bite["end_line"])
     hi = min(len(segments), e + ahead)
@@ -548,14 +558,17 @@ def end_lines(bite: dict, segments: list[dict], cfg: Any) -> tuple[int, int]:
     return s, hi
 
 
-def end_message(bites: list[dict], segments: list[dict], cfg: Any) -> str:
+def end_message(bites: list[dict], segments: list[dict], cfg: Any, hints: list[str] | None = None) -> str:
     out = []
     for n, b in enumerate(bites, 1):
+        hint = hints[n - 1] if hints and n - 1 < len(hints) else ""
         lo, hi = end_lines(b, segments, cfg)
         who = b.get("speaker") or ("غير مسمّى بالعربية، اسمه بحروفه: " + b["speaker_original"] if b.get("speaker_original")
                                    else "غير مسمّى")
         out.append(f"## المقطع {n} — المتكلم: {who}\n"
                    f"نهايته الحالية: السطر {b['end_line']} عند «{b.get('last_words') or ''}»")
+        if hint:
+            out.append(f"حكم مراجع سابق: المقطع بحدوده الحالية مبتور — {hint}")
         out.extend(f"[{k}] {segments[k - 1]['text']}" for k in range(lo, hi + 1))
         out.append("")
     return "\n".join(out)
@@ -576,7 +589,7 @@ def apply_sentences(bite: dict, sentences: list, segments: list[dict], cfg: Any,
             raw_spans.append([int(it.get("line")), int(it.get("end_line"))])
         except (TypeError, ValueError, AttributeError):
             raw_spans.append(None)
-    why = {"no_anchor": 0, "too_long": 0, "too_short": 0, "overlap": 0, "turn": 0}
+    why = {"no_anchor": 0, "too_long": 0, "too_short": 0, "overlap": 0, "turn": 0, "open_end": 0}
     sents = []
     for it in sentences or []:
         try:
@@ -594,7 +607,8 @@ def apply_sentences(bite: dict, sentences: list, segments: list[dict], cfg: Any,
     if best is None and ext > hi:
         best = _best_range(sents, segments, cfg, taken, lo, ext, marker, why)
         extended = best is not None
-    out = {**bite, "end_checked": True}
+    # إصدار قواعد الفحص: رفعه يعيد recheck_files فحص مقاطع الأيام الأخيرة بالقواعد الجديدة من نصوصها المحفوظة (القضية 1758)
+    out = {**bite, "end_checked": True, "end_check_version": int(cfg.path("youtube.bites.end_check.version", 1) or 1)}
     if best is None:
         out.update(incomplete=True, end_check={"reason": "لا تكتمل فكرة المتكلم داخل الحد", "sentences": len(sents),
                                                "shown": [first_line, last_line], "raw": raw_spans,
@@ -622,12 +636,22 @@ def _best_range(sents: list[dict], segments: list[dict], cfg: Any, taken: list, 
                 why: dict) -> tuple | None:
     """أطول مدى متصل من الجمل التامة مدته في [lo، hi]، والمدى الذي يبدأ بأول جملة مقدَّم."""
     best = None
+    by_model = _speaker_by_model(cfg) and bool(sents) and all("same_speaker" in x for x in sents)
     for i in range(len(sents)):
         for j in range(i, len(sents)):
             s, e = sents[i]["line"], sents[j]["end_line"]
-            if marker and any(segments[k - 1]["text"].startswith(marker) for k in range(s + 1, e + 1)):
+            if by_model:
+                # حكم النموذج على كل جملة بدل «>>» (القضية 1758)؛ ردّ بلا الحقل (مزيَّفات قديمة) يبقى على العلامة
+                if sents[j].get("same_speaker") is False:
+                    why["turn"] += 1
+                    break
+            elif marker and any(segments[k - 1]["text"].startswith(marker) for k in range(s + 1, e + 1)):
                 why["turn"] += 1
                 break
+            if sents[j].get("ends_thought") is False:
+                # جملة تامة نحويًا لا تُتمّ الفكرة («…وكل الدول، يعني») لا تكون آخر المقطع (القضية 1758: هكذا قُبل مقطع المطيري مبتورًا)
+                why["open_end"] = why.get("open_end", 0) + 1
+                continue
             win = word_window(segments, s, e, str(sents[i].get("first_words") or ""), str(sents[j].get("last_words") or ""), cfg)
             if not win["end_anchored"]:
                 why["no_anchor"] += 1
@@ -649,7 +673,7 @@ def _best_range(sents: list[dict], segments: list[dict], cfg: Any, taken: list, 
 
 
 def check_ends(bites: list[dict], segments: list[dict], cfg: Any, client=None,
-               others: list[dict] | None = None) -> tuple[list[dict], str]:
+               others: list[dict] | None = None, hints: list[str] | None = None) -> tuple[list[dict], str]:
     """نداء Haiku واحد لكل فيديو يقسم كل مقطع إلى جمله التامة حتى نهاية الفكرة، ثم apply_sentences في الكود. يعيد (المقاطع بالترتيب
     نفسه والعدد نفسه، سبب العطل). العطل يترك المقاطع كما هي بلا end_checked فتُعاد المحاولة في تشغيلة لاحقة. لا يرفع."""
     if not bites:
@@ -664,7 +688,7 @@ def check_ends(bites: list[dict], segments: list[dict], cfg: Any, client=None,
     try:
         resp = _create(client, cfg=cfg, model=ecfg.get("model", "haiku"), max_tokens=int(ecfg.get("max_tokens", 8000)),
                        system=system, tools=[END_TOOL], tool_choice={"type": "tool", "name": END_TOOL["name"]},
-                       messages=[{"role": "user", "content": end_message(bites, segments, cfg)}])
+                       messages=[{"role": "user", "content": end_message(bites, segments, cfg, hints)}])
     except Exception as exc:  # noqa: BLE001
         return list(bites), f"فشل نداء فحص النهاية: {type(exc).__name__}: {str(exc)[:150]}"
     data = None
@@ -708,6 +732,7 @@ def recheck_files(cfg: Any, now, client=None) -> dict:
     if not cfg.path("youtube.bites.end_check.enabled", False):
         return stats
     days = int(cfg.path("youtube.bites.end_check.recheck_days", 2))
+    ver = int(cfg.path("youtube.bites.end_check.version", 1) or 1)
     root = youtube_transcripts.bites_dir()
     for d in range(days):
         path = root / f"{(now - timedelta(days=d)).strftime('%Y-%m-%d')}.json"
@@ -721,7 +746,8 @@ def recheck_files(cfg: Any, now, client=None) -> dict:
         by_vid: dict[str, list[int]] = {}
         for k, b in enumerate(bites):
             # مقطع حُكم بأنه لا يكتمل قبل حفظ التشخيص (raw) يُفحص مرة أخرى كي يُعرف سببه
-            retry = b.get("incomplete") and "raw" not in (b.get("end_check") or {})
+            retry = (b.get("incomplete") and "raw" not in (b.get("end_check") or {})) or (
+                b.get("end_checked") and int(b.get("end_check_version") or 1) < ver)
             if (not b.get("end_checked") or retry) and b.get("video_id"):
                 by_vid.setdefault(b["video_id"], []).append(k)
         dirty = False
