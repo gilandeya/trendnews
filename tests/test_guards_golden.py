@@ -12611,7 +12611,7 @@ def test_reel_script_keys_r5d3_guards() -> None:
     reel_render.pick_background = lambda draft, c: {"kind": "news_photo", "url": "https://example.com/bg.jpg",
                                                     "publisher": "Reuters"}
     youtube_cluster._load_topics_raw = lambda date: {"topics": [{"id": TID, "point_ids": [0, 1]}]}
-    youtube_cluster.prepare_window_points = lambda date, c: ([pa, pb], None)
+    youtube_cluster.prepare_window_points = lambda date, c, frozen=True: ([pa, pb], None)
 
     def new_draft(i):
         d = yp.build_reel_draft({"id": TID, "title": "موضوع", "layer": "a", "blocs": ["arabic"],
@@ -22155,7 +22155,7 @@ def test_reel_only_selection_v3_guards() -> None:
             out = {}
             real_run = ycl.prepare_window_points
             try:
-                ycl.prepare_window_points = lambda d, c: (real_run(day, c)[0], {"points_in": 4, "points_dropped_stale_date": 0,
+                ycl.prepare_window_points = lambda d, c, frozen=True: (real_run(day, c)[0], {"points_in": 4, "points_dropped_stale_date": 0,
                                                                                 "points_dropped_bad_timestamp": 0,
                                                                                 "points_dropped_over_cap": 0})
                 real_cluster, real_merge = ycl.cluster_points, ycl.merge_duplicate_events
