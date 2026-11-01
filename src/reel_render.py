@@ -2368,12 +2368,13 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: l
                 if is_approx_win:
                     approx.pop()
                 continue
-        if aligned == "words":
-            continue       # ضُبط كلمة بكلمة: النافذة والبوابة والنص والترجمة محسوبة كلها من الكلمات
         loc_found = (span_info or {}).get("loc")
         if transcripts[vid] and loc_found:
-            # Q12: النص الكامل وموضع الاقتباس فيه لقائمة الضيوف وإسناد القائل (يُمرَّران ولا يُجلبان ثانية)
+            # Q12: النص الكامل وموضع الاقتباس فيه لقائمة الضيوف وإسناد القائل (يُمرَّران ولا يُجلبان ثانية). قبل خروج المضبوط بالكلمات:
+            # كان يُتخطّى فبدا فيديو مقطعه مضبوط «بلا نص» فلا قائمة ضيوف له (ريل هرمز 1/11، الجزيرة) والنص محفوظ
             clips[i].update(transcript=transcripts[vid], quote_start=float(loc_found["start"]), quote_end=float(loc_found["end"]))
+        if aligned == "words":
+            continue       # ضُبط كلمة بكلمة: النافذة والبوابة والنص والترجمة محسوبة كلها من الكلمات
         if transcripts[vid] and not is_approx_win:
             # نافذة محسوبة من النص نفسه: مقاطعه تعطي منحنى تقدّم الكلام لتوقيت الترجمة؛ التقريبية بلا مقاطع فتوزَّع بالتساوي
             clips[i]["segs"] = transcripts[vid]
@@ -4640,7 +4641,14 @@ def _map_window(clip: dict, cfg) -> tuple[float, float] | None:
     return max(mid - length / 2 - float(clip["dstart"]), 0.0), length
 
 
-def _map_check(script: dict, clips: dict, cfg, deps: Deps, notes: list, meta: dict) -> dict:
+def _roster_host(roster: list | None) -> str | None:
+    """اسم المقدّم من قائمة ضيوف الحلقة (Q12)، أو None إن لم تُعرِّفه القائمة أو عرّفت أكثر من مقدّم (لا نخمّن بينهما)."""
+    hosts = [r.get("name_arabic") or r.get("name_original") for r in roster or [] if r.get("is_host")]
+    hosts = [h for h in hosts if h]
+    return hosts[0] if len(hosts) == 1 else None
+
+
+def _map_check(script: dict, clips: dict, cfg, deps: Deps, notes: list, meta: dict, rosters: dict | None = None) -> dict:
     """خريطة متكلمي الحلقة (S4): لكل فيديو له مقطع بنافذة معروفة تُبنى خريطة واحدة (أو تُعاد المحفوظة) ويُسند وجه لحظة الاقتباس إلى
     مجموعته واسمها. يعيد {فهرس المقطع: الإسناد} لما بلغت حصته render_min_share وحده؛ أي عطل ← لا إسناد لذلك الفيديو وتبقى حرّاس Q10–Q16."""
     if (not cfg.path("speaker_map.render_enabled") or getattr(deps, "build_speaker_map", None) is None
@@ -4688,6 +4696,13 @@ def _map_check(script: dict, clips: dict, cfg, deps: Deps, notes: list, meta: di
                      "is_host": bool(row.get("is_host")), "share": a.get("share"), "applied": False}
             meta.setdefault("map_assign", []).append(entry)
             host_name = next((r.get("name") for r in saved["map"] if r.get("is_host")), None)
+            if not host_name and entry["is_host"] and cfg.path("speaker_map.host_from_roster", True):
+                # الخريطة ميّزت وجه المقدّم ولم تقرأ اسمه، والقائمة من أول الحلقة تسمّيه: الاسم معروف فيحسم كما لو قُرئ. حادثة
+                # ريل هرمز 1/11: صوت ضيف (رضا طالبي) فوق صورة المقدّم مهدوي آزاد لأن S9 أوقف الحذف لغياب اسم مقروء
+                host_name = _roster_host((rosters or {}).get(vid))
+                if host_name:
+                    entry["name"] = host_name
+                    entry["host_from"] = "roster"
             # S9: مقدّم بلا اسم مقروء لا يحسم حذفًا — الحذف لأن «المتكلم هو المقدّم» حكمٌ بالغياب، وبلا اسم لا نعرف حتى أننا ميّزناه
             if float(a.get("share") or 0) >= min_share and (entry["name"] or (entry["is_host"] and host_name)):
                 out[i] = {**entry, "host_name": host_name}
@@ -4770,8 +4785,9 @@ def _prune_mismatched(script: dict, clips: dict, cfg, deps: Deps, speakers: dict
     dead_q: dict = {}
     min_answers = int(cfg.path("reel.render.min_answers", 2))
     meta = meta if meta is not None else {}
-    maps = _map_check(script, clips, cfg, deps, notes, meta)
+    # القائمة قبل الخريطة: مقدّم الحلقة كما يعرّفه أولها يسمّي مجموعة المقدّم في الخريطة (ريل هرمز 1/11)
     rosters, verdicts = _speaker_check(script, order, clips, cfg, deps, notes, meta)
+    maps = _map_check(script, clips, cfg, deps, notes, meta, rosters)
     # المرحلة 1: حكم الشريط والنص لكل مقطع (live ينقص تدريجيًا كما كان clips ينقص، فحارس التكرار في _relabel يرى الباقي فقط)؛
     # الحذف نفسه يُسجَّل في المرحلة 2 بعد مقارنة الوجه (Q14) التي تحتاج مقاطع من أسئلة مختلفة معًا
     live = dict(clips)

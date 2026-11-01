@@ -1184,6 +1184,16 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
         log.warning("استعادة الطوابع فشلت وتُتخطّى: %s", exc)
     failed.extend(recovered["failed"])
 
+    # مقاطع الأيام الأخيرة التي حُفظت قبل فحص النهاية تُفحص من نصوصها المحفوظة (لا جلب)؛ عطلها لا يُسقط الجمع
+    ends = {"videos": 0, "checked": 0, "changed": 0, "incomplete": 0, "errors": []}
+    if bites_enabled:
+        try:
+            ends = youtube_bites.recheck_files(cfg, now, anthropic_client)
+        except Exception as exc:  # noqa: BLE001
+            log.warning("فحص نهايات المقاطع المحفوظة فشل ويُتخطّى: %s", exc)
+    for err in ends["errors"]:
+        failed.append({"channel": "", "video_id": err.split(":")[0], "title": "", "reason": f"فحص نهايات المقاطع: {err}"})
+
     transcripts_pruned = 0
     if save_transcripts:
         try:
@@ -1218,6 +1228,8 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
             "bites_extracted": len(bites),
             "bites_videos": bites_videos,
             "bites_errors": bites_errors,
+            "bites_rechecked": ends["checked"], "bites_recheck_changed": ends["changed"],
+            "bites_recheck_incomplete": ends["incomplete"],
         },
         "failed": failed,
         "points": points,
@@ -1446,6 +1458,8 @@ def main() -> int:
     print(f"نصوص محفوظة: {stats.get('transcripts_saved', 0)} · محذوفة لقدمها: {stats.get('transcripts_pruned', 0)} "
           f"· مقاطع: {stats.get('bites_extracted', 0)} من {stats.get('bites_videos', 0)} فيديو "
           f"(تعذّر {stats.get('bites_errors', 0)})")
+    print(f"فحص نهايات المقاطع المحفوظة: {stats.get('bites_rechecked', 0)} · عُدّل {stats.get('bites_recheck_changed', 0)} "
+          f"· لا يكتمل {stats.get('bites_recheck_incomplete', 0)}")
     if result["failed"]:
         print(f"تعذّر: {len(result['failed'])}")
         for entry in result["failed"]:

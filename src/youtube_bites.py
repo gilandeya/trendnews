@@ -247,7 +247,8 @@ def bites_as_points(bites: list[dict], load_transcript=None) -> list[dict]:
                     original = original_text(segs, int(b["start_line"]), int(b["end_line"]))
             except (KeyError, TypeError, ValueError):
                 original = ""
-        speaker = b.get("speaker") or ""
+        # مقاطع حُفظت قبل الطيّ (أول جمع 31/10–1/11) تُطوى أسماؤها هنا عند القراءة، فلا تُعاد كتابة ملفاتها
+        speaker = fold_name(b.get("speaker") or "")
         if not speaker and b.get("is_host"):
             speaker = "مقدّم البرنامج"
         out.append({
@@ -263,15 +264,30 @@ def bites_as_points(bites: list[dict], load_transcript=None) -> list[dict]:
             "answers": b.get("answers", ""), "bite_id": b.get("bite_id", ""),
             "speaker_original": b.get("speaker_original", ""), "speaker_role": b.get("speaker_role", ""),
             "is_host": bool(b.get("is_host")),
+            # فحص النهاية (end_check): فكرة لا تكتمل في الحد تبقى نقطة للعنقدة (الفهارس ثابتة) ولا تصلح مقطعًا
+            "incomplete": bool(b.get("incomplete")),
         })
     return out
 
 
-def _arabic_speaker(b: dict) -> tuple[str, str]:
+_NAME_FOLD_DEFAULT = {"ی": "ي", "ک": "ك", "ۀ": "ه", "ە": "ه", "ھ": "ه", "ے": "ي", "\u200c": " "}
+
+
+def fold_name(name: str, cfg: Any = None) -> str:
+    """اسم المتحدث بحروف عربية: النموذج يكتب الأسماء الإيرانية بحروفها الفارسية («رضا طالبی»، «مهدوی‌آزاد») وهي داخل النطاق العربي
+    فتجتاز فحص «الاسم عربي» ثم تظهر على الشاشة بحرف لا يكتبه قارئ عربي، ولا تطابق رسم الاسم نفسه في الوصف أو الشريط أو القائمة.
+    الطيّ حرف بحرف من youtube.bites.name_fold (ی←ي، ک←ك، ونصف المسافة ← مسافة)؛ لا تغيير غير ذلك."""
+    fold = _bcfg(cfg, "name_fold", None) if cfg is not None else None
+    fold = fold if isinstance(fold, dict) and fold else _NAME_FOLD_DEFAULT
+    out = "".join(fold.get(c, c) for c in str(name or ""))
+    return " ".join(out.split())
+
+
+def _arabic_speaker(b: dict, cfg: Any = None) -> tuple[str, str]:
     """(الاسم بالعربية، الاسم الأصلي). الاسم يُكتب على الشاشة بالعربية، والنموذج نسخ في قياس V0 أسماء بالعبرية واللاتينية في speaker
     رغم التعليمة: اسم فيه حرف غير عربي يُنقل إلى speaker_original (إن خلا) ويُترك speaker فارغًا، فيُحسم الاسم بالشريط والخريطة كأي
     متكلم مجهول بدل أن يظهر بحروف لا يملكها خط الريل."""
-    speaker = " ".join(str(b.get("speaker") or "").split())
+    speaker = fold_name(b.get("speaker") or "", cfg)
     original = " ".join(str(b.get("speaker_original") or "").split())
     letters = [c for c in speaker if c.isalpha()]
     if letters and any(not ("\u0600" <= c <= "\u06FF") for c in letters):
@@ -334,7 +350,7 @@ def validate_bites(raw: list, segments: list[dict], shown: set[int], cfg: Any,
             bad.append({"index": i, "reason": "يتداخل مع مقطع قبله"})
             continue
         taken.append((t0, t1))
-        speaker, speaker_orig = _arabic_speaker(b)
+        speaker, speaker_orig = _arabic_speaker(b, cfg)
         ok.append({"start_line": s, "end_line": e, "start": t0, "end": t1, "seconds": round(dur, 1),
                    "start_anchored": win["start_anchored"], "end_anchored": win["end_anchored"],
                    "first_words": str(b.get("first_words") or ""), "last_words": str(b.get("last_words") or ""),
@@ -461,6 +477,187 @@ def trim_long(longs: list[dict], segments: list[dict], cfg: Any, client) -> tupl
     return out, ""
 
 
+END_TOOL = {
+    "name": "split_bite_sentences",
+    "description": "يقسم كل مقطع إلى جمله التامة من أوله إلى نهاية فكرة المتكلم الطبيعية",
+    "input_schema": {"type": "object", "properties": {
+        "bites": {"type": "array", "items": {"type": "object", "properties": {
+            "bite": {"type": "integer"},
+            "sentences": {"type": "array", "items": {"type": "object", "properties": {
+                "line": {"type": "integer"}, "first_words": {"type": "string"},
+                "end_line": {"type": "integer"}, "last_words": {"type": "string"},
+                "text_ar": {"type": "string"},
+            }, "required": ["line", "first_words", "end_line", "last_words", "text_ar"]}},
+        }, "required": ["bite", "sentences"]}},
+    }, "required": ["bites"]},
+}
+
+
+def end_lines(bite: dict, segments: list[dict], cfg: Any) -> tuple[int, int]:
+    """الأسطر المعروضة لفحص النهاية: من أول المقطع إلى end_check.lookahead_lines بعد آخره، وتقف قبل أول «>>» (متكلم آخر بدأ)."""
+    marker = str(_bcfg(cfg, "turn_marker", ">>") or "")
+    ahead = int(cfg.path("youtube.bites.end_check.lookahead_lines", 8))
+    s, e = int(bite["start_line"]), int(bite["end_line"])
+    hi = min(len(segments), e + ahead)
+    for k in range(s + 1, hi + 1):
+        if marker and segments[k - 1]["text"].startswith(marker):
+            return s, k - 1
+    return s, hi
+
+
+def end_message(bites: list[dict], segments: list[dict], cfg: Any) -> str:
+    out = []
+    for n, b in enumerate(bites, 1):
+        lo, hi = end_lines(b, segments, cfg)
+        out.append(f"## المقطع {n} — المتكلم: {b.get('speaker') or b.get('speaker_original') or 'غير مسمّى'}\n"
+                   f"نهايته الحالية: السطر {b['end_line']} عند «{b.get('last_words') or ''}»")
+        out.extend(f"[{k}] {segments[k - 1]['text']}" for k in range(lo, hi + 1))
+        out.append("")
+    return "\n".join(out)
+
+
+def apply_sentences(bite: dict, sentences: list, segments: list[dict], cfg: Any,
+                    taken: list[tuple[float, float]]) -> dict:
+    """دالة خالصة: من جمل المقطع التامة (حكم النموذج) يختار الكود أطول مدى متصل منها يقع في الحد، يبدأ بأول جملة إن أمكن، بحدود الكلمات
+    نفسها، وبلا «>>» داخله ولا تداخل مع مقطع آخر. النموذج لا يحسب المدة (درس V0c). يعيد المقطع محدَّثًا، أو بـincomplete حين لا مدى يصلح.
+    حادثة 1/11 (هرمز): مقطع المطيري انتهى عند «بينما القانون» لأن حدّه سطر نص يوتيوب لا آخر الجملة."""
+    lo, hi = float(_bcfg(cfg, "min_seconds", 8)), float(_bcfg(cfg, "max_seconds", 30))
+    marker = str(_bcfg(cfg, "turn_marker", ">>") or "")
+    first_line, last_line = end_lines(bite, segments, cfg)
+    sents = []
+    for it in sentences or []:
+        try:
+            a, b = int(it.get("line")), int(it.get("end_line"))
+        except (TypeError, ValueError, AttributeError):
+            continue
+        if first_line <= a <= b <= last_line and str(it.get("text_ar") or "").strip():
+            sents.append({**it, "line": a, "end_line": b})
+    sents.sort(key=lambda x: (x["line"], x["end_line"]))
+    best = None
+    for i in range(len(sents)):
+        for j in range(i, len(sents)):
+            s, e = sents[i]["line"], sents[j]["end_line"]
+            if marker and any(segments[k - 1]["text"].startswith(marker) for k in range(s + 1, e + 1)):
+                break
+            win = word_window(segments, s, e, str(sents[i].get("first_words") or ""), str(sents[j].get("last_words") or ""), cfg)
+            if not win["end_anchored"]:
+                continue        # آخر الكلمات لم توجد حرفيًا: حدّ السطر قد يقع وسط الجملة، وهو ما نصلحه
+            dur = win["end"] - win["start"]
+            if dur > hi:
+                break
+            if dur < lo or any(win["start"] < y and x < win["end"] for x, y in taken):
+                continue
+            key = (i == 0, dur)
+            if best is None or key > best[0]:
+                best = (key, i, j, win)
+    out = {**bite, "end_checked": True}
+    if best is None:
+        out.update(incomplete=True, end_check={"reason": "لا تكتمل فكرة المتكلم داخل الحد", "sentences": len(sents)})
+        return out
+    _, i, j, win = best
+    text_ar = " ".join(" ".join(str(x["text_ar"]).split()) for x in sents[i:j + 1])
+    if not is_arabic_text(text_ar, cfg):
+        out.update(incomplete=True, end_check={"reason": "النص المعروض ليس عربيًا", "sentences": len(sents)})
+        return out
+    s, e = sents[i]["line"], sents[j]["end_line"]
+    changed = (s, e) != (int(bite["start_line"]), int(bite["end_line"])) or abs(win["end"] - float(bite["end"])) > 0.5
+    out.update(incomplete=False, start_line=s, end_line=e, start=win["start"], end=win["end"],
+               seconds=round(win["end"] - win["start"], 1), start_anchored=win["start_anchored"], end_anchored=True,
+               first_words=str(sents[i].get("first_words") or ""), last_words=str(sents[j].get("last_words") or ""),
+               text_ar=text_ar, text_original=original_text(segments, s, e),
+               end_check={"changed": changed, "from": [bite.get("start"), bite.get("end")], "sentences": j - i + 1})
+    return out
+
+
+def check_ends(bites: list[dict], segments: list[dict], cfg: Any, client=None) -> tuple[list[dict], str]:
+    """نداء Haiku واحد لكل فيديو يقسم كل مقطع إلى جمله التامة حتى نهاية الفكرة، ثم apply_sentences في الكود. يعيد (المقاطع بالترتيب
+    نفسه والعدد نفسه، سبب العطل). العطل يترك المقاطع كما هي بلا end_checked فتُعاد المحاولة في تشغيلة لاحقة. لا يرفع."""
+    if not bites:
+        return [], ""
+    ecfg = cfg.path("youtube.bites.end_check", {}) or {}
+    if client is None:
+        from anthropic import Anthropic
+
+        from .config import env
+        client = Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
+    system = str(ecfg.get("system", "")).format(min_seconds=_bcfg(cfg, "min_seconds", 8), max_seconds=_bcfg(cfg, "max_seconds", 30))
+    try:
+        resp = _create(client, cfg=cfg, model=ecfg.get("model", "haiku"), max_tokens=int(ecfg.get("max_tokens", 8000)),
+                       system=system, tools=[END_TOOL], tool_choice={"type": "tool", "name": END_TOOL["name"]},
+                       messages=[{"role": "user", "content": end_message(bites, segments, cfg)}])
+    except Exception as exc:  # noqa: BLE001
+        return list(bites), f"فشل نداء فحص النهاية: {type(exc).__name__}: {str(exc)[:150]}"
+    data = None
+    for blk in getattr(resp, "content", None) or []:
+        if getattr(blk, "type", "") == "tool_use" and getattr(blk, "name", "") == END_TOOL["name"]:
+            data = getattr(blk, "input", None)
+    items = _as_list((data or {}).get("bites")) if isinstance(data, dict) else None
+    if items is None:
+        return list(bites), "لم يُرجع فحص النهاية قائمة"
+    verdicts: dict[int, list] = {}
+    for it in items:
+        try:
+            verdicts[int(it.get("bite"))] = _as_list(it.get("sentences")) or []
+        except (TypeError, ValueError, AttributeError):
+            continue
+    out = list(bites)
+    for n, b in enumerate(bites, 1):
+        taken = [(float(o["start"]), float(o["end"])) for m, o in enumerate(out) if m != n - 1 and not o.get("incomplete")]
+        out[n - 1] = apply_sentences(b, verdicts.get(n, []), segments, cfg, taken)
+    return out, ""
+
+
+def recheck_files(cfg: Any, now, client=None) -> dict:
+    """مقاطع حُفظت قبل فحص النهاية (ملفات آخر end_check.recheck_days أيام) تُفحص من نصوصها المحفوظة بلا جلب، وتُكتب في ملفها بالترتيب
+    والعدد نفسيهما: فهارس point_ids في ملفات المواضيع تشير إلى هذه القائمة، فالمقطع الذي لا يكتمل يُعلَّم incomplete ولا يُحذف.
+    فيديو بلا نص محفوظ أو تعطّل نداؤه يبقى بلا end_checked فيُعاد في تشغيلة لاحقة. لا يرفع."""
+    import json
+    from datetime import timedelta
+
+    from . import youtube_transcripts
+    stats = {"videos": 0, "checked": 0, "changed": 0, "incomplete": 0, "errors": []}
+    if not cfg.path("youtube.bites.end_check.enabled", False):
+        return stats
+    days = int(cfg.path("youtube.bites.end_check.recheck_days", 2))
+    root = youtube_transcripts.bites_dir()
+    for d in range(days):
+        path = root / f"{(now - timedelta(days=d)).strftime('%Y-%m-%d')}.json"
+        if not path.exists():
+            continue
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        bites = list(data.get("bites") or [])
+        by_vid: dict[str, list[int]] = {}
+        for k, b in enumerate(bites):
+            if not b.get("end_checked") and b.get("video_id"):
+                by_vid.setdefault(b["video_id"], []).append(k)
+        dirty = False
+        for vid, idxs in by_vid.items():
+            saved = youtube_transcripts.load(vid)
+            if not saved:
+                continue
+            segments = clean_segments(saved["segments"])
+            # كل مقاطع الفيديو تدخل حساب التداخل، والمفحوصة منها وحدها تتغير
+            group = [bites[k] for k in idxs]
+            got, err = check_ends(group, segments, cfg, client)
+            stats["videos"] += 1
+            if err:
+                stats["errors"].append(f"{vid}: {err}")
+                continue
+            for k, b in zip(idxs, got):
+                bites[k] = b
+                stats["checked"] += 1
+                stats["changed"] += int(bool((b.get("end_check") or {}).get("changed")))
+                stats["incomplete"] += int(bool(b.get("incomplete")))
+            dirty = True
+        if dirty:
+            data["bites"] = bites
+            path.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
+    return stats
+
+
 def extract(meta: dict, segments: list[dict], language: str, cfg: Any, client=None) -> dict:
     """نداء واحد (وإعادة واحدة بسقف أعلى إن قُطع الرد عند max_tokens). لا يرفع: العطل في error.
     يعيد {bites, rejected, error, stop_reason, usage, raw, shown_lines, total_lines, truncated}."""
@@ -513,7 +710,10 @@ def extract(meta: dict, segments: list[dict], language: str, cfg: Any, client=No
         trim["accepted"] = len(ok2)
         trim["rejected"] = [r["reason"] for r in bad2]
     out["trim"] = trim
-    out["bites"] = sorted(ok, key=lambda b: b["start"])
+    ok = sorted(ok, key=lambda b: b["start"])
+    if ok and cfg.path("youtube.bites.end_check.enabled", False):
+        ok, out["end_check_error"] = check_ends(ok, segments, cfg, client)
+    out["bites"] = ok
     # «raw» داخلي للاقتطاع وحده؛ لا يُحفظ مكررًا في المرفوض (المخرج الخام محفوظ كاملًا في out["raw"])
     out["rejected"] = [{k: v for k, v in r.items() if k != "raw"} for r in bad]
     return out
