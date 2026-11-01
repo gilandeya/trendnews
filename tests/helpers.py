@@ -68,6 +68,9 @@ def load_config(path=None):
         ycfg["retire_articles"] = False
         if isinstance(ycfg.get("cluster"), dict):
             ycfg["cluster"]["source"] = "points"
+        # فحص نهاية المقاطع نداء ثانٍ في الاستخراج: اختبارات V0–V2 تعدّ نداءاته وتثبّت مخرجه، فيُطفأ افتراضيًا ويطلبه اختبار ريل هرمز صراحةً
+        if isinstance(ycfg.get("bites"), dict) and isinstance(ycfg["bites"].get("end_check"), dict):
+            ycfg["bites"]["end_check"]["enabled"] = False
     return cfg
 
 

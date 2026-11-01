@@ -21685,6 +21685,7 @@ def test_youtube_bites_v0_guards() -> None:
     from src.config import load_config
 
     cfg = load_config()
+    cfg["youtube"]["bites"]["end_check"]["enabled"] = False   # فحص النهاية نداء ثانٍ يغيّر ما يعدّه هذا الاختبار (يختبره g738–g741)
     segs = yb.clean_segments([{"start": 10.0 + 3 * i, "dur": 3.4, "text": f"سطر {i}"} for i in range(1, 21)]
                              + [{"start": 80.0, "dur": 2.0, "text": "  "}])
     check("g702: الأسطر الفارغة تُسقط والأرقام متصلة", len(segs) == 20, len(segs))
@@ -21775,6 +21776,7 @@ def test_youtube_bites_v0c_guards() -> None:
     from src.config import load_config
 
     cfg = load_config()
+    cfg["youtube"]["bites"]["end_check"]["enabled"] = False   # فحص النهاية نداء ثانٍ يغيّر ما يعدّه هذا الاختبار (يختبره g738–g741)
     check("g711: الحد الأقصى 30 ث بقرار صاحب المشروع", float(cfg.path("youtube.bites.max_seconds")) == 30, cfg.path("youtube.bites.max_seconds"))
     segs = yb.clean_segments([
         {"start": 0.0, "dur": 4.0, "text": "كلام قبله ثم أعتقد أن"},
@@ -22395,7 +22397,8 @@ def test_reel_hormuz_fixes_guards() -> None:
     from src import reel_render, reel_script, youtube_bites as yb
     from src.config import load_config
 
-    cfg = load_config()
+    cfg = load_config()      # src.config الحقيقي لا غلاف الاختبارات (الذي يطفئ فحص النهاية لاختبارات الاستخراج القديمة)
+    check("g738: فحص النهاية مفعَّل في config.yaml نفسه", bool(cfg.path("youtube.bites.end_check.enabled")), None)
 
     def guarded(name, fn):
         try:
