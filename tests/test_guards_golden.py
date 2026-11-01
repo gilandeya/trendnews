@@ -22680,3 +22680,135 @@ def test_reel_bites_followups_guards() -> None:
               "speaker_ar" in yb.END_TOOL["input_schema"]["properties"]["bites"]["items"]["properties"]
               and "speaker_ar" in cfg.path("youtube.bites.end_check.system"), None)
     guarded("g749", g749)
+
+
+def test_frozen_window_1756_guards() -> None:
+    """قضية #1756 (g750–g753): جمعٌ ثانٍ في اليوم نفسه أضاف 64 مقطعًا فتجاوزت النافذة سقف 150 وأُسقط أقدمها فانزاحت فهارس point_ids كلها،
+    فقرأ موضوع هرمز مقاطع عن المغرب ومعاشات تركيا. النافذة تُجمَّد بمفاتيحها (window_keys) في ملف المواضيع. ومقطع «لا يكتمل» يحمل سبب الحكم."""
+    import json
+    import os
+    import tempfile
+    import types
+    from datetime import datetime, timezone
+    from pathlib import Path
+
+    from src import youtube_bites as yb
+    from src import youtube_cluster as ycl
+    from src import youtube_extract as ye
+
+    cfg = reel_only_cfg(article_analysis_cfg(load_config()))
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001
+            import traceback
+            check(f"{name}: لا استثناء", False, traceback.format_exc()[-600:])
+
+    root = Path(tempfile.mkdtemp(prefix="w1756_"))
+    saved = {"points": ye.POINTS_DIR, "cpoints": ycl.POINTS_DIR, "topics": ycl.TOPICS_DIR,
+             "env": os.environ.get("TRENDNEWS_YOUTUBE_BITES_DIR"), "tenv": os.environ.get("TRENDNEWS_YOUTUBE_TRANSCRIPTS_DIR")}
+    ye.POINTS_DIR = root / "state" / "youtube_points"
+    ycl.POINTS_DIR = ye.POINTS_DIR
+    ycl.TOPICS_DIR = root / "state" / "youtube_topics"
+    os.environ.pop("TRENDNEWS_YOUTUBE_BITES_DIR", None)
+    os.environ.pop("TRENDNEWS_YOUTUBE_TRANSCRIPTS_DIR", None)
+    bdir = root / "state" / "youtube_bites"
+    bdir.mkdir(parents=True)
+    ycl.TOPICS_DIR.mkdir(parents=True)
+
+    def bite(vid, line, summary):
+        return {"bite_id": f"{vid}:{line}", "video_id": vid, "channel": "c", "bloc": "arabic", "language": "ar",
+                "video_url": f"https://www.youtube.com/watch?v={vid}", "start_line": line, "end_line": line, "start": float(line),
+                "end": line + 10.0, "speaker": "س", "type": "opinion", "summary_ar": summary, "text_ar": "ن", "text_original": "x"}
+
+    def write(day, bites):
+        (bdir / f"{day}.json").write_text(json.dumps({"run_date": day, "bites": bites}, ensure_ascii=False), encoding="utf-8")
+
+    try:
+        c = json.loads(json.dumps(cfg))
+        from src.config import Config
+        c = Config(c) if not hasattr(c, "path") else c
+        c["youtube"]["cluster"]["max_points_per_call"] = 4
+        c["youtube"]["cluster"]["lookback_days"] = 2
+
+        def g750():
+            write("2026-10-31", [bite("old", 1, "قديم 1"), bite("old", 2, "قديم 2")])
+            write("2026-11-01", [bite("hrm", 1, "هرمز 1"), bite("hrm", 2, "هرمز 2")])
+            first, _ = ycl.prepare_window_points("2026-11-01", c, frozen=False)
+            keys = [ycl.window_key(p) for p in first]
+            (ycl.TOPICS_DIR / "2026-11-01.json").write_text(json.dumps({"source": "bites", "window_keys": keys, "topics": [
+                {"id": "t", "title": "هرمز", "point_ids": [2, 3], "selection_status": "attempted"}]}), encoding="utf-8")
+            # جمع ثانٍ في اليوم نفسه: مقاطع جديدة تتجاوز السقف فيُسقط الأقدم في النافذة غير المجمَّدة
+            write("2026-11-01", [bite("hrm", 1, "هرمز 1"), bite("hrm", 2, "هرمز 2"), bite("mor", 1, "المغرب"), bite("tur", 1, "تركيا")])
+            fresh, _ = ycl.prepare_window_points("2026-11-01", c, frozen=False)
+            check("g750: بلا تجميد تنزاح الفهارس (الحادثة)", [fresh[i]["statement"] for i in (2, 3)] != ["هرمز 1", "هرمز 2"],
+                  [p["statement"] for p in fresh])
+            frozen, st = ycl.prepare_window_points("2026-11-01", c)
+            check("g750: النافذة المجمَّدة تعيد مقاطع الموضوع نفسها", [frozen[i]["statement"] for i in (2, 3)] == ["هرمز 1", "هرمز 2"]
+                  and st.get("frozen") and len(frozen) == 4, [p.get("statement") for p in frozen])
+            write("2026-10-31", [bite("old", 2, "قديم 2")])
+            gone, st2 = ycl.prepare_window_points("2026-11-01", c)
+            check("g750: مقطع غاب يبقى مكانه فارغًا فلا ينزاح ما بعده", gone[0].get("missing") and gone[2]["statement"] == "هرمز 1"
+                  and st2["missing"] == 1, st2)
+        guarded("g750", g750)
+
+        def g751():
+            src = Path(ycl.__file__).read_text(encoding="utf-8")
+            check("g751: العنقدة تبني النافذة من جديد وتجمّدها في ملفها",
+                  "prepare_window_points(date_str, cfg, frozen=False)" in src and '"window_keys": [window_key(p) for p in points]' in src, None)
+        guarded("g751", g751)
+
+        def g752():
+            path = ycl.TOPICS_DIR / "2026-11-02.json"
+            path.write_text(json.dumps({"window_keys": ["a:1", "b:1", "c:1"], "topics": [
+                {"id": "t", "title": "قديم", "point_ids": [1, 2], "selection_status": "attempted"}]}), encoding="utf-8")
+            ycl.save_output({"run_date": "2026-11-02", "window_keys": ["z:1", "c:1", "b:1"], "topics": [], "all_topics": []})
+            kept = json.loads(path.read_text(encoding="utf-8"))["topics"][0]
+            check("g752: تشغيلة عنقدة ثانية في اليوم تنقل فهارس المواضيع المعروضة بمفاتيحها", kept["point_ids"] == [2, 1], kept)
+        guarded("g752", g752)
+
+        def g753():
+            segs = yb.clean_segments([{"start": float(i * 3), "dur": 3.0, "text": f"كلمة{i} ثانية{i} ثالثة{i}"} for i in range(1, 12)])
+            b = {"bite_id": "v:1", "video_id": "v", "start_line": 1, "end_line": 3, "start": 3.0, "end": 12.0,
+                 "first_words": "كلمة1 ثانية1", "last_words": "ثانية3 ثالثة3", "speaker": "س", "type": "opinion", "text_ar": "ن"}
+            got = yb.apply_sentences(b, [{"line": 1, "first_words": "كلمة1 ثانية1", "end_line": 11, "last_words": "ثانية11 ثالثة11",
+                                          "text_ar": "جملة طويلة"}], segs, cfg, [])
+            ec = got["end_check"]
+            check("g753: «لا يكتمل» يحمل ما أعاده النموذج وسببه", got["incomplete"] and ec["raw"] == [[1, 11]]
+                  and ec["why"].get("too_long") == 1 and ec["shown"][0] == 1, ec)
+            tdir = root / "t"
+            tdir.mkdir()
+            os.environ["TRENDNEWS_YOUTUBE_TRANSCRIPTS_DIR"] = str(tdir)
+            os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = str(bdir)
+            (tdir / "vvvvvvvvvvv.json").write_text(json.dumps({"segments": [{"start": s["start"], "dur": s["dur"], "text": s["text"]}
+                                                                             for s in segs]}), encoding="utf-8")
+            old_inc = {**b, "video_id": "vvvvvvvvvvv", "end_checked": True, "incomplete": True,
+                       "end_check": {"reason": "x", "sentences": 0}}
+            write("2026-11-03", [old_inc])
+            calls = []
+            orig = yb._create
+
+            def fake(client, **kw):
+                calls.append(1)
+                return types.SimpleNamespace(content=[types.SimpleNamespace(type="tool_use", name="split_bite_sentences",
+                                                                            input={"bites": [{"bite": 1, "sentences": []}]})])
+            yb._create = fake
+            try:
+                from src.config import load_config as real
+                rcfg = real()
+                yb.recheck_files(rcfg, datetime(2026, 11, 3, 6, tzinfo=timezone.utc), object())
+                yb.recheck_files(rcfg, datetime(2026, 11, 3, 6, tzinfo=timezone.utc), object())
+            finally:
+                yb._create = orig
+            saved_b = json.loads((bdir / "2026-11-03.json").read_text(encoding="utf-8"))["bites"][0]
+            check("g753: مقطع حُكم قبل التشخيص يُفحص مرة واحدة أخرى ثم لا يُعاد", len(calls) == 1 and "raw" in saved_b["end_check"],
+                  (len(calls), saved_b.get("end_check")))
+        guarded("g753", g753)
+    finally:
+        ye.POINTS_DIR, ycl.POINTS_DIR, ycl.TOPICS_DIR = saved["points"], saved["cpoints"], saved["topics"]
+        for k, v in (("TRENDNEWS_YOUTUBE_BITES_DIR", saved["env"]), ("TRENDNEWS_YOUTUBE_TRANSCRIPTS_DIR", saved["tenv"])):
+            if v is None:
+                os.environ.pop(k, None)
+            else:
+                os.environ[k] = v

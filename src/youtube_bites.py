@@ -569,6 +569,14 @@ def apply_sentences(bite: dict, sentences: list, segments: list[dict], cfg: Any,
     lo, hi = float(_bcfg(cfg, "min_seconds", 8)), float(_bcfg(cfg, "max_seconds", 30))
     marker = str(_bcfg(cfg, "turn_marker", ">>") or "")
     first_line, last_line = end_lines(bite, segments, cfg)
+    # تشخيص (قضية #1756: 36 من 132 مقطعًا «لا تكتمل» بلا أثر لسبب): ما أعاده النموذج بأسطره، ولماذا لم يصلح مدى منه
+    raw_spans = []
+    for it in sentences or []:
+        try:
+            raw_spans.append([int(it.get("line")), int(it.get("end_line"))])
+        except (TypeError, ValueError, AttributeError):
+            raw_spans.append(None)
+    why = {"no_anchor": 0, "too_long": 0, "too_short": 0, "overlap": 0, "turn": 0}
     sents = []
     for it in sentences or []:
         try:
@@ -583,21 +591,30 @@ def apply_sentences(bite: dict, sentences: list, segments: list[dict], cfg: Any,
         for j in range(i, len(sents)):
             s, e = sents[i]["line"], sents[j]["end_line"]
             if marker and any(segments[k - 1]["text"].startswith(marker) for k in range(s + 1, e + 1)):
+                why["turn"] += 1
                 break
             win = word_window(segments, s, e, str(sents[i].get("first_words") or ""), str(sents[j].get("last_words") or ""), cfg)
             if not win["end_anchored"]:
+                why["no_anchor"] += 1
                 continue        # آخر الكلمات لم توجد حرفيًا: حدّ السطر قد يقع وسط الجملة، وهو ما نصلحه
             dur = win["end"] - win["start"]
             if dur > hi:
+                why["too_long"] += 1
                 break
-            if dur < lo or any(win["start"] < y and x < win["end"] for x, y in taken):
+            if dur < lo:
+                why["too_short"] += 1
+                continue
+            if any(win["start"] < y and x < win["end"] for x, y in taken):
+                why["overlap"] += 1
                 continue
             key = (i == 0, dur)
             if best is None or key > best[0]:
                 best = (key, i, j, win)
     out = {**bite, "end_checked": True}
     if best is None:
-        out.update(incomplete=True, end_check={"reason": "لا تكتمل فكرة المتكلم داخل الحد", "sentences": len(sents)})
+        out.update(incomplete=True, end_check={"reason": "لا تكتمل فكرة المتكلم داخل الحد", "sentences": len(sents),
+                                               "shown": [first_line, last_line], "raw": raw_spans,
+                                               "why": {k: v for k, v in why.items() if v}})
         return out
     _, i, j, win = best
     text_ar = " ".join(" ".join(str(x["text_ar"]).split()) for x in sents[i:j + 1])
@@ -616,7 +633,8 @@ def apply_sentences(bite: dict, sentences: list, segments: list[dict], cfg: Any,
     return out
 
 
-def check_ends(bites: list[dict], segments: list[dict], cfg: Any, client=None) -> tuple[list[dict], str]:
+def check_ends(bites: list[dict], segments: list[dict], cfg: Any, client=None,
+               others: list[dict] | None = None) -> tuple[list[dict], str]:
     """نداء Haiku واحد لكل فيديو يقسم كل مقطع إلى جمله التامة حتى نهاية الفكرة، ثم apply_sentences في الكود. يعيد (المقاطع بالترتيب
     نفسه والعدد نفسه، سبب العطل). العطل يترك المقاطع كما هي بلا end_checked فتُعاد المحاولة في تشغيلة لاحقة. لا يرفع."""
     if not bites:
@@ -651,7 +669,9 @@ def check_ends(bites: list[dict], segments: list[dict], cfg: Any, client=None) -
             continue
     out = list(bites)
     for n, b in enumerate(bites, 1):
+        # مقاطع الفيديو الأخرى التي لا تُفحص الآن (others) تدخل حساب التداخل أيضًا
         taken = [(float(o["start"]), float(o["end"])) for m, o in enumerate(out) if m != n - 1 and not o.get("incomplete")]
+        taken += [(float(o["start"]), float(o["end"])) for o in others or [] if not o.get("incomplete")]
         out[n - 1] = apply_sentences(b, verdicts.get(n, []), segments, cfg, taken)
         name = names_ar.get(n, "")
         if not b.get("speaker") and b.get("speaker_original") and name and is_arabic_text(name, cfg):
@@ -685,7 +705,9 @@ def recheck_files(cfg: Any, now, client=None) -> dict:
         bites = list(data.get("bites") or [])
         by_vid: dict[str, list[int]] = {}
         for k, b in enumerate(bites):
-            if not b.get("end_checked") and b.get("video_id"):
+            # مقطع حُكم بأنه لا يكتمل قبل حفظ التشخيص (raw) يُفحص مرة أخرى كي يُعرف سببه
+            retry = b.get("incomplete") and "raw" not in (b.get("end_check") or {})
+            if (not b.get("end_checked") or retry) and b.get("video_id"):
                 by_vid.setdefault(b["video_id"], []).append(k)
         dirty = False
         for vid, idxs in by_vid.items():
@@ -695,7 +717,8 @@ def recheck_files(cfg: Any, now, client=None) -> dict:
             segments = clean_segments(saved["segments"])
             # كل مقاطع الفيديو تدخل حساب التداخل، والمفحوصة منها وحدها تتغير
             group = [bites[k] for k in idxs]
-            got, err = check_ends(group, segments, cfg, client)
+            rest = [b for k, b in enumerate(bites) if b.get("video_id") == vid and k not in set(idxs)]
+            got, err = check_ends(group, segments, cfg, client, others=rest)
             stats["videos"] += 1
             if err:
                 stats["errors"].append(f"{vid}: {err}")

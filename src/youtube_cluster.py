@@ -378,7 +378,23 @@ def apply_timestamp_guard(points: list[dict]) -> tuple[list[dict], int]:
     return kept, dropped
 
 
-def prepare_window_points(date_str: str, cfg: Config) -> tuple[list[dict], dict]:
+def window_key(point: dict) -> str:
+    """مفتاح النقطة في النافذة المجمَّدة: معرّف المقطع إن وُجد (ثابت ولو مُدّت نهايته أو أُعيدت ترجمته)، وإلا point_key."""
+    return str(point.get("bite_id") or point_key(point))
+
+
+def _frozen_keys(date_str: str) -> list[str] | None:
+    path = TOPICS_DIR / f"{date_str}.json"
+    if not path.exists():
+        return None
+    try:
+        keys = json.loads(path.read_text(encoding="utf-8")).get("window_keys")
+    except (OSError, json.JSONDecodeError):
+        return None
+    return list(keys) if isinstance(keys, list) else None
+
+
+def prepare_window_points(date_str: str, cfg: Config, frozen: bool = True) -> tuple[list[dict], dict]:
     """يبني نافذة النقاط النهائية بترتيب ثابت واحد (Issue #662): تحميل
     النافذة (load_points_window) ← إسقاط ملفات أقدم من min_points_date ←
     إسقاط طابع يتجاوز مدة الفيديو ← قصّ سقف النداء (apply_points_cap).
@@ -395,6 +411,15 @@ def prepare_window_points(date_str: str, cfg: Config) -> tuple[list[dict], dict]
     max_points_per_call = cfg.path("youtube.cluster.max_points_per_call", 150)
 
     window_points = load_points_window(date_str, lookback_days, window_source(date_str, cfg))
+    keys = _frozen_keys(date_str) if frozen else None
+    if keys is not None:
+        # النافذة كما كانت لحظة العنقدة: point_ids فهارس فيها، وجمع لاحق في اليوم نفسه يضيف مقاطع فيتجاوز السقف فيُسقط الأقدم فتنزاح
+        # الفهارس كلها (قضية #1756: موضوع هرمز قرأ مقاطع عن المغرب وتركيا). نقطة غابت (ملف حُذف) تبقى مكانها فارغة فلا ينزاح ما بعدها
+        by_key = {window_key(p): p for p in window_points}
+        points = [by_key.get(k) or {"window_key": k, "missing": True} for k in keys]
+        return points, {"points_in": len(window_points), "points_dropped_stale_date": 0,
+                        "points_dropped_bad_timestamp": 0, "points_dropped_over_cap": 0, "frozen": True,
+                        "missing": sum(1 for p in points if p.get("missing"))}
     points, dropped_stale_date = apply_min_points_date(window_points, min_points_date)
     points, dropped_bad_timestamp = apply_timestamp_guard(points)
     points, dropped_over_cap = apply_points_cap(points, max_points_per_call)
@@ -935,7 +960,8 @@ def run(cfg: Config | None = None, date_str: str | None = None,
     max_per_bloc = cfg.path("youtube.cluster.max_per_bloc", 4)
 
     source = window_source(date_str, cfg)
-    points, window_stats = prepare_window_points(date_str, cfg)
+    # العنقدة تبني النافذة من جديد دائمًا وتجمّدها في ملفها (window_keys) لكل قارئ بعدها
+    points, window_stats = prepare_window_points(date_str, cfg, frozen=False)
 
     raw_issues, error = cluster_points(points, cfg, client)
     merged_issues, merge_log, merge_error = merge_duplicate_events(raw_issues, cfg, client)
@@ -1014,6 +1040,7 @@ def run(cfg: Config | None = None, date_str: str | None = None,
         "error": error,
         # يحسم window_source لكل من يقرأ ملف اليوم لاحقًا (فهارس point_ids في هذه النافذة بعينها)
         "source": source,
+        "window_keys": [window_key(p) for p in points],
         "merged_events": merge_log,
         "topics": topics,
         "all_topics": all_topics,
@@ -1031,8 +1058,14 @@ def save_output(result: dict) -> Path:
     # finalize_selection شيئًا. فتبقى كلها قبل الجديد؛ وما لم يُعرض بعد
     # (selection_status فارغ) يُستبدل بالجديد كما كان دائمًا.
     if path.exists():
-        kept = [t for t in _load_topics_raw(result["run_date"]).get("topics", [])
-                if t.get("selection_status")]
+        old_raw = _load_topics_raw(result["run_date"])
+        kept = [t for t in old_raw.get("topics", []) if t.get("selection_status")]
+        old_keys, new_keys = old_raw.get("window_keys"), result.get("window_keys")
+        if kept and isinstance(old_keys, list) and isinstance(new_keys, list) and old_keys != new_keys:
+            # الإبقاء على المواضيع المعروضة يعني إبقاء نقاطها: فهارسها في النافذة القديمة تُنقل بمفاتيحها إلى الجديدة
+            at = {k: i for i, k in enumerate(new_keys)}
+            kept = [{**t, "point_ids": [at[old_keys[pid]] for pid in t.get("point_ids") or []
+                                        if 0 <= pid < len(old_keys) and old_keys[pid] in at]} for t in kept]
         if kept:
             result = {**result, "topics": kept + list(result.get("topics", []))}
     path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
