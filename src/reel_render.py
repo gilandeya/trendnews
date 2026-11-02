@@ -5038,6 +5038,8 @@ def _prepare_maps(script: dict, nar_idx: list[int], speech_cache: dict, plan: li
                 results.append(rec)
                 continue
             rec["map"] = reel_map.summary(resolved, cfg)
+            if resolved.get("skipped"):
+                rec["skipped"] = resolved["skipped"]
             results.append(rec)
             out.setdefault(i, []).append({"a": a, "b": b, "clip": clip, "cexpr": "null", "over_shade": True, "sentence": k})
     drawn = [r for r in results if r.get("map")]

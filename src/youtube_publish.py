@@ -814,7 +814,10 @@ def _reel_broll_lines(d: dict, texts: dict, cfg=None) -> list[str]:
                 resolved, why = reel_map.resolve(p["map"], str(p.get("text", "")), cfg)
             except Exception as exc:  # noqa: BLE001 -- عرض فقط: عطل المعجم لا يُسقط جسم القضية
                 resolved, why = None, f"error:{str(exc)[:60]}"
-            tail = (texts.get("broll_map", "🗺️ خريطة: {places}").format(places=reel_map.summary(resolved, cfg)) if resolved
+            dropped = "، ".join(reel_map.reason_text(x, cfg) for x in (resolved or {}).get("skipped") or [])
+            tail = (texts.get("broll_map", "🗺️ خريطة: {places}").format(places=reel_map.summary(resolved, cfg))
+                    + (texts.get("broll_map_dropped", " (أُسقط: {reasons})").format(reasons=dropped) if dropped else "")
+                    if resolved
                     else f"{tail} · " + texts.get("broll_map_skipped", "🗺️ لا خريطة ({reason})").format(
                         reason=reel_map.reason_text(why, cfg)))
         out.append(f"  {texts.get('broll_line', '').format(n=n, text=cut, tail=tail)}")

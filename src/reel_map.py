@@ -23,8 +23,9 @@ log = logging.getLogger("trendnews")
 
 MAPS_DIR = Path(__file__).resolve().parents[1] / "assets" / "maps"
 
-_TASHKEEL = re.compile("[ؐ-ًؚ-ٰٟۖ-ۭـ]")
-_LETTER = r"[\w؀-ۿ]"
+_TASHKEEL = re.compile("[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u0640]")
+# حرف كلمة: \w يشمل الحروف العربية ويستثني «،» و«؛» (النطاق العربي كله كان يعدّ الفاصلة العربية حرفًا فلا تُرى «فرنسا،»)
+_LETTER = r"\w"
 # السوابق الملتصقة بالاسم في الجملة («وصنعاء»، «بالحديدة»، «للحديدة»)، الأطول أولًا
 _PREFIXES = ("وبال", "وال", "بال", "فال", "كال", "لل", "ال", "و", "ب", "ل", "ف", "ك")
 
@@ -154,7 +155,9 @@ def gazetteer(cfg) -> Gazetteer:
 
 def resolve(spec: Any, sentence: str, cfg) -> tuple[dict | None, str]:
     """يتحقق من خريطة جملة اقترحها النموذج ({places, countries, arrows}) ويحلّها إلى إحداثيات. يعيد (الخريطة، "") أو (None، السبب).
-    الشروط: كل اسم يرد في الجملة نفسها وموجود في المعجم؛ طرفا كل سهم من أماكنها؛ لا أكثر من السقوف؛ وشيء واحد يُرسم على الأقل."""
+    كل اسم لا يرد في الجملة نفسها أو لا يعرفه المعجم يُسقط وحده ويُسجَّل في skipped، وكل سهم سقط أحد طرفيه يسقط معه؛ الخريطة
+    تُرفض كلها فقط إن لم يبق شيء يُرسم أو تجاوزت السقوف. (اسم واحد خاطئ كان يُسقط الخريطة كلها: «مصر» لجملة تقول «الرئيس المصري»
+    كانت تمحو بريطانيا والسعودية المذكورتين فعلًا.)"""
     if not isinstance(spec, dict):
         return None, "none"
     mcfg = cfg.path("reel.maps", {}) or {}
@@ -172,28 +175,31 @@ def resolve(spec: Any, sentence: str, cfg) -> tuple[dict | None, str]:
     if len(names) > int(mcfg.get("max_places", 4)) or len(cnames) > int(mcfg.get("max_countries", 3)) \
             or len(arrows) > int(mcfg.get("max_arrows", 2)):
         return None, "too_many"
-    out_c = []
+    skipped: list[str] = []
+    out_c: list[str] = []
     for n in cnames:
         if not mentioned(n, sentence):
-            return None, f"not_in_sentence:{n}"
+            skipped.append(f"not_in_sentence:{n}")
+            continue
         code = g.country(n)
         if code is None:
-            return None, f"unknown:{n}"
-        if code not in out_c:
+            skipped.append(f"unknown:{n}")
+        elif code not in out_c:
             out_c.append(code)
     # دول الجملة كلها (لا ما سمّاه النموذج وحده) تحسم المدينة المتعددة: «طرابلس اللبنانية» أو «طرابلس» مع «لبنان»
     near = set(out_c) | {code for w, code in g.country_names.items() if mentioned(w, sentence)}
     out_p: list[dict] = []
     for n in names:
         if not mentioned(n, sentence):
-            return None, f"not_in_sentence:{n}"
+            skipped.append(f"not_in_sentence:{n}")
+            continue
         p, why = g.place(n, near)
         if p is None:
             # اسم دولة في قائمة الأماكن (النموذج خلط): يُعامل دولةً
             code = g.country(n)
             if code is None:
-                return None, f"{why}:{n}"
-            if code not in out_c:
+                skipped.append(f"{why}:{n}")
+            elif code not in out_c:
                 out_c.append(code)
             continue
         if all(q["key"] != norm(n) for q in out_p):
@@ -203,11 +209,14 @@ def resolve(spec: Any, sentence: str, cfg) -> tuple[dict | None, str]:
     for a in arrows:
         f, t = keys.get(norm(str(a.get("from") or ""))), keys.get(norm(str(a.get("to") or "")))
         if f is None or t is None or f is t:
-            return None, "bad_arrow"
+            skipped.append("bad_arrow")
+            continue
         out_a.append({"from": f["key"], "to": t["key"]})
     if len(out_c) > int(mcfg.get("max_countries", 3)):
         return None, "too_many"
-    return {"places": out_p, "countries": out_c, "arrows": out_a}, ""
+    if not out_p and not out_c:
+        return None, skipped[0] if skipped else "none"
+    return {"places": out_p, "countries": out_c, "arrows": out_a, "skipped": skipped}, ""
 
 
 def reason_text(code: str, cfg) -> str:
@@ -251,16 +260,14 @@ def camera(resolved: dict, cfg) -> dict:
                 pts.append((lx, ly))
     else:
         for code in resolved.get("countries") or []:
-            c = g.countries[code]
-            b = c["bbox"]
-            # دولة عرضها أكبر من max_span_deg (روسيا، الولايات المتحدة بألاسكا): نقطة تسميتها وحدها
-            if b[2] - b[0] > float(mcfg["max_span_deg"]):
-                pts.append(merc(*c["label"]))
-            else:
-                pts += [merc(b[0], b[1]), merc(b[2], b[3])]
+            b = main_box(g.countries[code], float(mcfg["max_span_deg"]))
+            pts += [merc(b[0], b[1]), merc(b[2], b[3])]
     xs, ys = [p[0] for p in pts], [p[1] for p in pts]
     cx, cy = (min(xs) + max(xs)) / 2, (min(ys) + max(ys)) / 2
-    lo, hi = math.radians(float(mcfg["min_span_deg"])), math.radians(float(mcfg["max_span_deg"]))
+    # مكان واحد بلا دولة ملوَّنة: مدى أوسع يُظهر ما حوله (الرياض وحدها بمدى 2.5° صحراء بلا معلم)
+    lone = len(resolved.get("places") or []) == 1 and not resolved.get("countries")
+    lo = math.radians(float(mcfg["single_span_deg"] if lone else mcfg["min_span_deg"]))
+    hi = math.radians(float(mcfg["max_span_deg"]))
     pad = 1 + float(mcfg["pad"])
     w = min(max((max(xs) - min(xs)) * pad, lo), hi)
     h = min(max((max(ys) - min(ys)) * pad, lo), hi)
@@ -268,6 +275,21 @@ def camera(resolved: dict, cfg) -> dict:
     fw, fh = float(f["x1"]) - float(f["x0"]), float(f["y1"]) - float(f["y0"])
     return {"cx": cx, "cy": cy, "s": min(fw / w, fh / h),
             "fx": (float(f["x0"]) + float(f["x1"])) / 2, "fy": (float(f["y0"]) + float(f["y1"])) / 2}
+
+
+def main_box(c: dict, max_span: float) -> list[float]:
+    """إطار الدولة الذي يُعرض: حلقاتها القريبة من نقطة تسميتها وحدها. حدود فرنسا تشمل غويانا وجزرًا في المحيطات، وحدود
+    الولايات المتحدة ألاسكا، فإطارها الكامل يعرض نصف العالم أو يُستبدل بنقطة فتُكبَّر الدولة حتى تملأ الشاشة."""
+    lx, ly = c["label"]
+    near = [r for r in c["rings"] if any(abs(x - lx) <= max_span / 2 and abs(y - ly) <= max_span / 2 for x, y in r)]
+    rings = near or c["rings"]
+    xs = [x for r in rings for x, _ in r]
+    ys = [y for r in rings for _, y in r]
+    b = [min(xs), min(ys), max(xs), max(ys)]
+    if b[2] - b[0] > max_span:
+        # ما زالت أعرض من السقف (روسيا): مربع حول نقطة التسمية بعرض السقف
+        b = [lx - max_span / 2, max(ly - max_span / 4, -80), lx + max_span / 2, min(ly + max_span / 4, 80)]
+    return b
 
 
 def ease(t: float) -> float:

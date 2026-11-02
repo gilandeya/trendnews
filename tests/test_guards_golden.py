@@ -23898,26 +23898,30 @@ def test_reel_context_maps_guards() -> None:
     def g798():
         check("g798: الاسم بسابقة ملتصقة يُعدّ مذكورًا، والكلمة الأطول لا", reel_map.mentioned("صنعاء", "ووصلوا وصنعاء")
               and reel_map.mentioned("الحديدة", "اتجهوا للحديدة") and not reel_map.mentioned("صور", "نشروا صورًا")
-              and not reel_map.mentioned("عدن", "معدنية"), None)
+              and not reel_map.mentioned("عدن", "معدنية") and reel_map.mentioned("فرنسا", "احتجاجات في فرنسا، وقدّرت"), None)
         ok, why = reel_map.resolve(yspec, yemen, cfg)
         check("g798: أماكن الجملة كلها تُحلّ إلى إحداثيات بأسهمها", ok is not None and len(ok["places"]) == 3
               and len(ok["arrows"]) == 2 and abs(ok["places"][1]["lat"] - 15.36) < 0.2, (ok, why))
-        r1 = reel_map.resolve({"places": ["صنعاء", "مأرب"]}, "سيطروا على صنعاء.", cfg)
+        r1 = reel_map.resolve({"places": ["صنعاء", "مأرب"], "countries": ["مصر"]}, "قال الرئيس المصري إنهم سيطروا على صنعاء.", cfg)
         r2 = reel_map.resolve({"places": ["مدينة لا توجد"]}, "وصلوا إلى مدينة لا توجد.", cfg)
-        check("g798: مكان لا يرد في الجملة أو لا يعرفه المعجم ← لا خريطة",
-              r1[0] is None and r1[1].startswith("not_in_sentence") and r2[0] is None and r2[1].startswith("unknown"), (r1, r2))
+        check("g798: اسم لا يرد في الجملة (ولو صفةً منه كالمصري) يسقط وحده ويبقى المذكور، وإن لم يبق شيء فلا خريطة بسببه",
+              r1[0] is not None and [p["ar"] for p in r1[0]["places"]] == ["صنعاء"] and not r1[0]["countries"]
+              and sorted(r1[0]["skipped"]) == ["not_in_sentence:مأرب", "not_in_sentence:مصر"]
+              and r2[0] is None and r2[1].startswith("unknown"), (r1, r2))
     guarded("g798", g798)
 
     def g799():
         amb = reel_map.resolve({"places": ["طرابلس", "القاهرة"]}, "وصل الوفد من طرابلس إلى القاهرة.", cfg)
         leb = reel_map.resolve({"places": ["طرابلس"]}, "قصف في طرابلس شمال لبنان.", cfg)
         check("g799: مدينة باسم مدن في دول مختلفة لا تُرسم إلا بدولة مذكورة في الجملة",
-              amb[0] is None and amb[1].startswith("ambiguous") and leb[0] is not None and leb[0]["places"][0]["country"] == "LBN",
+              amb[0] is not None and [p["ar"] for p in amb[0]["places"]] == ["القاهرة"]
+              and amb[0]["skipped"] == ["ambiguous:طرابلس"] and leb[0] is not None and leb[0]["places"][0]["country"] == "LBN",
               (amb, leb))
         bad = reel_map.resolve({"places": ["صنعاء"], "arrows": [{"from": "صنعاء", "to": "صنعاء"}]}, "في صنعاء.", cfg)
+        bad = (None, "") if bad[0] and not bad[0]["arrows"] and bad[0]["skipped"] == ["bad_arrow"] else bad
         added = reel_map.resolve({"places": ["صنعاء"], "arrows": [{"from": "صعدة", "to": "صنعاء"}]}, yemen, cfg)
         many = reel_map.resolve({"places": ["صعدة", "صنعاء", "عدن", "تعز", "إب"]}, "صعدة وصنعاء وعدن وتعز وإب.", cfg)
-        check("g799: سهم بطرف واحد يُرفض، وطرف سهم غير مدرج يُضاف ويُتحقق منه، وفوق السقف يُرفض",
+        check("g799: سهم طرفاه مكان واحد يسقط وحده، وطرف سهم غير مدرج يُضاف ويُتحقق منه، وفوق السقف يُرفض",
               bad[0] is None and added[0] is not None and len(added[0]["places"]) == 2 and many[1] == "too_many",
               (bad, added and added[0], many[1]))
         cty = reel_map.resolve({"countries": ["أميركا"]}, "قالت أميركا إنها سترد.", cfg)
@@ -23933,8 +23937,12 @@ def test_reel_context_maps_guards() -> None:
               all(f["x0"] <= x <= f["x1"] and f["y0"] <= y <= f["y1"] for x, y in pts), pts)
         one = reel_map.camera(reel_map.resolve({"places": ["صنعاء"]}, "في صنعاء.", cfg)[0], cfg)
         span = (f["x1"] - f["x0"]) / one["s"]
-        check("g800: مكان واحد لا يُكبَّر إلى أصغر من min_span_deg",
-              span >= reel_map.math.radians(cfg.path("reel.maps.min_span_deg")) - 1e-9, span)
+        check("g800: مكان واحد لا يُكبَّر إلى أصغر من single_span_deg",
+              span >= reel_map.math.radians(cfg.path("reel.maps.single_span_deg")) - 1e-9, span)
+        fr = reel_map.camera(reel_map.resolve({"countries": ["فرنسا"]}, "في فرنسا.", cfg)[0], cfg)
+        deg = reel_map.math.degrees((f["x1"] - f["x0"]) / fr["s"])
+        check("g800: دولة لها أقاليم بعيدة (فرنسا) تُعرض بأرضها الرئيسية لا بإطار نصف العالم ولا بنقطة",
+              8 < deg < 55, deg)
     guarded("g800", g800)
 
     def g801():
