@@ -805,7 +805,10 @@ def _reel_broll_lines(d: dict, texts: dict, cfg=None) -> list[str]:
         cut = " ".join(str(p.get("text", "")).split()[:5]) + "…"
         visual = str(p.get("visual") or "").strip()
         tail = visual or texts.get("broll_photo", "صورة")
-        if maps_on and p.get("map"):
+        scenes = (d.get("script") or {}).get("scenes") or []
+        sc = scenes[p["scene"]] if isinstance(p.get("scene"), int) and 0 <= p["scene"] < len(scenes) else {}
+        # بطاقة السؤال لا خريطة لها في التركيب (_prepare_maps) فلا تُعرض لها
+        if maps_on and p.get("map") and sc.get("role") != "question":
             from . import reel_map
             try:
                 resolved, why = reel_map.resolve(p["map"], str(p.get("text", "")), cfg)

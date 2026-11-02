@@ -24070,6 +24070,8 @@ def test_reel_context_maps_guards() -> None:
               and "لا خريطة (اسم لا يرد في الجملة: مأرب)" in lines, lines)
         old = "\n".join(youtube_publish._reel_broll_lines(d, texts))
         check("g807: بلا cfg يبقى العرض القديم", "🗺️" not in old and "مقاتلون" in old, old)
+        q = "\n".join(youtube_publish._reel_broll_lines({"broll_plan": plan, "script": script}, texts, cfg))
+        check("g807: جملة بطاقة السؤال لا تُعرض لها خريطة", q.count("🗺️") == 2, q)
     guarded("g807", g807)
 
     def g809():
