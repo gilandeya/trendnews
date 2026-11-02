@@ -2793,3 +2793,10 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 - **البداية:** `end_lines` تعرض `youtube.bites.end_check.lookback_lines` (3) قبل البداية، و`end_message` تذكر «بدايته الحالية»، والبرومبت يُبدئ المقطع من
   أول جملته إن بدأت قبله؛ `apply_sentences` تُسقط جملة تنتهي قبل سطر البداية. `reel_script.recheck_incomplete` يقبل تغيّر البداية وحدها.
   `end_check.version` = 4.
+
+**ملاحظات صاحب المشروع 2/11 — حواف مدوّرة وفراغ الشعار والسكوت بعد «برأيك..» (g775–g778 في `test_reel_round_logo_pause_guards`):**
+- **الحواف:** `reel.render.panel.frame.radius` (24): المقطع في الإطار البارز يُدمج بقناع رمادي بحواف مدوّرة (`round_mask`، `rounded_alpha` بتنعيم بكسل
+  واحد) عبر `alphamerge` قبل الانبثاق فيكبر الركن مع النافذة (`_round_inputs` في `_panel_scene`)، والحلقة الذهبية (`border_frames`) مدوّرة بنصف قطر
+  radius + سُمكها. 0 ← الأمر كما كان (`reel_pre_s10_cfg` و`reel_no_border_cfg` يطفئانه لمراجعها).
+- **الشعار:** `reel.render.logo` = {266، 126}: فراغ 16 بكسل متساوٍ عن حافتي النافذة العليا واليمنى (كان ملاصقًا للأعلى وبعيدًا 30 عن اليمين).
+- **السكوت:** `closing.label_pause` 0.6 ← 0.1، فصار سكوت ما بعد «برأيك..» (ذيل الجملة 0.35 + الوقفة) نحو نصفه. `render_version` = 60 (للقادم فقط، S11).

@@ -18,7 +18,7 @@ from __future__ import annotations
 import shutil
 from pathlib import Path
 
-from tests.helpers import (check, article_analysis_cfg, reel_only_cfg, tick_marker, reel_v1_cfg, reel_pre_s10_cfg, reel_stale_cfg, reel_credits_cfg, reel_no_border_cfg, reel_span_cfg, load_config, evidence, store, DRAFTS_DIR, ImportantRig,
+from tests.helpers import (check, article_analysis_cfg, reel_only_cfg, tick_marker, reel_v1_cfg, reel_pre_s10_cfg, reel_old_pause_cfg, reel_stale_cfg, reel_credits_cfg, reel_no_border_cfg, reel_span_cfg, load_config, evidence, store, DRAFTS_DIR, ImportantRig,
                            ImportantWriteRig, NamesAuditRig, NAMES_AUDIT_SOURCE, names_audit_doubt,
                            names_audit_draft, names_audit_hit, important_doc, important_fixture_point,
                            important_good_data, important_marked_body, important_point,
@@ -6125,7 +6125,7 @@ def test_reel_render_r3b1_guards() -> None:
         logo_cmds = [c for c in log["cmds"] if "eval=frame" in " ".join(c) and "overlay=x=" in " ".join(c)
                      and "final.mp4" in " ".join(c)]
         lg = cfg.path("reel.render.logo")
-        check("r3b1-و: الإعداد 250/140/168 (S10)", (lg["top"], lg["right"], lg["width"]) == (250, 140, 168), lg)
+        check("r3b1-و: الإعداد 266/126/168 (S10 ثم فراغ 16 متساوٍ عن ركن النافذة 2/11)", (lg["top"], lg["right"], lg["width"]) == (266, 126, 168), lg)
         check("r3b1-و: تمريرة شعار واحدة تنتهي بعرض 168", len(logo_cmds) == 1 and "(168-" in " ".join(logo_cmds[0]),
               len(logo_cmds))
         check("r3b1-و: الشعار في أمر واحد فقط (لا في المشاهد)",
@@ -6154,7 +6154,7 @@ def test_reel_render_r3b1_guards() -> None:
         s2 = json.loads(path2.read_text(encoding="utf-8"))
         check("r3b1-هـ: أقل من min_clips ← failed بالسبب", s2.get("render_status") == "failed"
               and s2.get("render_error") and len(s2.get("render_dropped") or []) == 2, s2.get("render_error"))
-        check("r3b1-هـ: لا شعار عند الفشل", not any("overlay=W-w-140:250" in " ".join(c) for c in log2["cmds"]))
+        check("r3b1-هـ: لا شعار عند الفشل", not any("overlay=W-w-" in " ".join(c) for c in log2["cmds"]))
         transcripts.update(saved_tr)
 
         # ── --retry ──
@@ -9424,16 +9424,19 @@ def test_reel_hook_r5c1_guards() -> None:
             x, y, wd, a = reel_render.logo_state(end + 0.3, cfg, end)
             check("g301: منتصف الحركة بعرض بين 168 و420", 168 < wd < 420, wd)
             x, y, wd, a = reel_render.logo_state(end + 0.6, cfg, end)
-            check("g301: بعد الحركة في الزاوية", abs(wd - 168) < 1e-6 and abs(x - (1080 - 140 - 168)) < 1e-6
-                  and abs(y - 250) < 1e-6 and abs(a - 1) < 1e-6, (x, y, wd, a))
+            # موضع الزاوية من الإعداد: تغيّر 2/11 إلى فراغ متساوٍ عن ركن نافذة الكلام
+            lgc = cfg.path("reel.render.logo")
+            cx, cy = 1080 - int(lgc["right"]) - 168, int(lgc["top"])
+            check("g301: بعد الحركة في الزاوية", abs(wd - 168) < 1e-6 and abs(x - cx) < 1e-6
+                  and abs(y - cy) < 1e-6 and abs(a - 1) < 1e-6, (x, y, wd, a))
             x, y, wd, a = reel_render.logo_state(30, cfg, end)
-            check("g301: يبقى في الزاوية حتى النهاية", abs(wd - 168) < 1e-6 and abs(x - 772) < 1e-6 and abs(y - 250) < 1e-6)
+            check("g301: يبقى في الزاوية حتى النهاية", abs(wd - 168) < 1e-6 and abs(x - cx) < 1e-6 and abs(y - cy) < 1e-6)
             r = render("r5c1000g301a1", tmp)
             g = " ".join(final_cmd(r))
             check("g301: الأمر الأخير فيه eval=frame", "eval=frame" in g, g[-300:])
             check("g301: تعابير overlay بالزمن t", re.search(r"overlay=x='[^']*\bt\b", g) is not None, g[-300:])
             check("g301: overlay الزاوية الثابت لا يعمل إلا بعد الانتقال (enable)",
-                  re.search(r"overlay=W-w-140:250:enable='between\(t,", g) is not None, g[-300:])
+                  re.search(rf"overlay=W-w-{lgc['right']}:{lgc['top']}:enable='between\(t,", g) is not None, g[-300:])
         guarded("g301", g301)
 
         # ── g302: المتكلم بلا شرط margin ──
@@ -9567,12 +9570,13 @@ def test_reel_hook_r5c1_guards() -> None:
             end = 5.0
             move = float(cfg.path("reel.render.hook.logo_move"))
             x, y, wd, a = reel_render.logo_state(end + move, cfg, end)
+            lgc = cfg.path("reel.render.logo")
             check("g307: آخر حالة متحركة = الثابت تمامًا",
-                  (x, y, wd, a) == (1080 - 140 - 168, 250, 168, 1.0), (x, y, wd, a))
+                  (x, y, wd, a) == (1080 - int(lgc["right"]) - 168, int(lgc["top"]), 168, 1.0), (x, y, wd, a))
             r = render("r5c1000g307a1", tmp)
             g = " ".join(final_cmd(r))
             hook_end = r["joined"]["durs"][0] - reel_render.transition_seconds(cfg)
-            check("g307: overlay ثابت بموضع الزاوية (S10)", "overlay=W-w-140:250" in g, g[-400:])
+            check("g307: overlay ثابت بموضع الزاوية (S10)", f"overlay=W-w-{lgc['right']}:{lgc['top']}" in g, g[-400:])
             m = re.search(r"enable='between\(t,([\d.]+),", g)
             check("g307: يبدأ عند hook_end + logo_move", bool(m) and abs(float(m.group(1)) - (hook_end + move)) <= 0.01,
                   (m.group(1) if m else None, hook_end + move))
@@ -15903,7 +15907,7 @@ def test_reel_qcard_p2b_guards() -> None:
     # ── g466: v1 حرفًا ──
     def g466():
         want = json.loads(QCARD_V1_FIXTURE.read_text(encoding="utf-8"))
-        got = _qcard_v1_cmds(cfg, wdir("g466"))
+        got = _qcard_v1_cmds(reel_old_pause_cfg(cfg), wdir("g466"))
         check("g466: أوامر v1 بخلفية مطابقة حرفًا لما قبل المهمة", got["bg"] == want["bg"], None)
         check("g466: أوامر v1 بلا خلفية مطابقة حرفًا", got["nobg"] == want["nobg"], None)
     guarded("g466", g466)
@@ -16269,7 +16273,7 @@ def test_reel_panel_p2c1_guards() -> None:
     # ── g474: v1 حرفًا ──
     def g474():
         want = json.loads(PANEL_V1_FIXTURE.read_text(encoding="utf-8"))
-        got = _panel_v1_cmds(cfg, wdir("g474"))
+        got = _panel_v1_cmds(reel_old_pause_cfg(cfg), wdir("g474"))
         check("g474: أوامر v1 بخلفية مطابقة حرفًا لما قبل المهمة", got["bg"] == want["bg"], None)
         check("g474: أوامر v1 بلا خلفية مطابقة حرفًا", got["nobg"] == want["nobg"], None)
     guarded("g474", g474)
@@ -21527,15 +21531,16 @@ def test_reel_r14_guards() -> None:
         b = int(bc["width"])
         n = round(float(bc["shine"]["period"]) * int(bc["shine"]["fps"]))
         check("g697: عدد الإطارات = period × fps", info and info["count"] == n and len(list(d.glob("border_*.png"))) == n, info)
-        im0 = np.array(Image.open(d / f"border_200x300_{b}_000.png"))
-        last = np.array(Image.open(d / f"border_200x300_{b}_{n - 1:03d}.png"))
+        # اسم الملف يحمل نصف قطر الحواف المدوّرة (2/11)، فيُقرأ من النمط الذي تعيده الدالة
+        im0 = np.array(Image.open(info["pattern"] % 0))
+        last = np.array(Image.open(info["pattern"] % (n - 1)))
         check("g697: المقاس (fw+2b)×(fh+2b)", im0.shape[:2] == (300 + 2 * b, 200 + 2 * b), im0.shape)
         check("g697: الداخل شفاف والحلقة معتمة", im0[150 + b, 100 + b, 3] == 0 and last[b // 2, 100, 3] == 255, None)
         gold = np.array(reel_render.imaging.hex_rgb(cfg.path("brand.accent_color")))
         check("g697: لون الحلقة ذهبي في السكون", np.abs(last[(300 + 2 * b) // 2, b // 2, :3].astype(int) - gold).max() < 50,
               last[(300 + 2 * b) // 2, b // 2].tolist())
         bright = lambda a: a[..., :3][a[..., 3] > 0].astype(int).sum(axis=1).max()  # noqa: E731
-        mid = np.array(Image.open(d / f"border_200x300_{b}_{int(int(bc['shine']['fps']) * float(bc['shine']['seconds']) / 2):03d}.png"))
+        mid = np.array(Image.open(info["pattern"] % int(int(bc['shine']['fps']) * float(bc['shine']['seconds']) / 2)))
         check("g697: اللمعة أسطع من السكون", bright(mid) > bright(last) + 60, (bright(mid), bright(last)))
         c0 = copy.deepcopy(cfg)
         c0["reel"]["render"]["panel"]["border"]["enabled"] = False
@@ -23369,3 +23374,70 @@ def test_coherence_start_1770_guards() -> None:
         check("g774: إعادة الفحص تقبل مقطعًا تغيّرت بدايته وحدها، وترفض ما لم يتغير", moved is not None and moved["start"] < 49.0
               and moved["quote_arabic"] == "كاملة" and same is None, (moved, same))
     guarded("g774", g774)
+
+
+def test_reel_round_logo_pause_guards() -> None:
+    """ملاحظات صاحب المشروع 2/11 (g775–g778): نافذة الكلام بحواف مدوّرة صغيرة والإطار الذهبي يدور معها، والشعار بفراغ متساوٍ عن حافتي
+    النافذة العليا واليمنى، والسكوت بعد «برأيك..» نحو نصف ما كان."""
+    import tempfile
+    from pathlib import Path
+
+    from src import reel_render
+    from src.config import load_config
+
+    cfg = load_config()
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def g775():
+        lg, fr, w = cfg.path("reel.render.logo"), cfg.path("reel.render.panel.frame"), int(cfg.path("reel.render.width"))
+        top_gap = int(lg["top"]) - int(fr["top"])
+        right_gap = int(lg["right"]) - (w - int(fr["width"])) // 2
+        check("g775: فراغ الشعار عن أعلى النافذة = فراغه عن يمينها", top_gap == right_gap > 0, (top_gap, right_gap))
+    guarded("g775", g775)
+
+    def g776():
+        a = reel_render.rounded_alpha(100, 80, 20)
+        check("g776: القناع شفاف في الركن ومعتم في الوسط والحواف المستقيمة", a[0, 0] == 0 and a[0, 99] == 0 and a[79, 0] == 0
+              and a[40, 50] == 1 and a[0, 50] == 1 and a[40, 0] == 1, (a[0, 0], a[40, 50]))
+        tmp = Path(tempfile.mkdtemp())
+        b = reel_render.border_frames(cfg, 200, 120, tmp)
+        import numpy as np
+        from PIL import Image
+        img = np.array(Image.open(str(b["pattern"]) % (b["count"] - 1)))
+        bw = b["width"]
+        check("g776: الحلقة الذهبية مدوّرة: ركنها الخارجي شفاف وحافتها المستقيمة معتمة وداخلها شفاف",
+              img[0, 0, 3] == 0 and img[0, (200 + 2 * bw) // 2, 3] == 255 and img[60 + bw, 100 + bw, 3] == 0, img[0, 0].tolist())
+        r0 = dict(cfg)
+        r0["reel"] = {**cfg["reel"], "render": {**cfg["reel"]["render"], "panel": {
+            **cfg["reel"]["render"]["panel"], "frame": {**cfg["reel"]["render"]["panel"]["frame"], "radius": 0}}}}
+        check("g776: نصف قطر 0 ← لا قناع", reel_render.round_mask(type(cfg)(r0), 200, 120, tmp) is None
+              and reel_render.round_mask(cfg, 200, 120, tmp) is not None)
+    guarded("g776", g776)
+
+    def g777():
+        tmp = Path(tempfile.mkdtemp())
+        args: list = []
+
+        def add(*a):
+            args.append(a)
+            return 7
+        chain = reel_render._round_inputs(cfg, 860, 1000, tmp, add, "1.2", 9.0, 0)
+        check("g777: المقطع يُدمج بقناع الحواف (alphamerge) ومدخل القناع محدود بمدته", "alphamerge" in chain and "[7:v]" in chain
+              and "+1.2/TB" in chain and args and args[0][:2] == ("-loop", "1") and "-t" in args[0], (chain, args))
+        check("g777: render_version = 60", int(cfg.path("reel.render.version")) >= 60)
+    guarded("g777", g777)
+
+    def g778():
+        cl = cfg.path("reel.render.closing")
+        silence = float(cfg.path("reel.tts.sentence_silence", 0.35))
+        new_gap = silence + float(cl["label_pause"])
+        old_gap = silence + 0.6
+        p = reel_render.closing_plan(4.0, cfg, 0.35, label_seconds=1.2)
+        check("g778: السكوت بعد «برأيك..» نحو نصف ما كان", abs(new_gap - old_gap / 2) <= 0.05
+              and abs(p["question"] - (p["voice"] + 1.2 + float(cl["label_pause"]))) < 1e-6, (new_gap, old_gap, p))
+    guarded("g778", g778)

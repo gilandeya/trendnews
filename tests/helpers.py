@@ -1092,6 +1092,15 @@ def reel_pre_s10_cfg(cfg):
     r["band"] = {**r.get("band", {}), "top": 1260, "height": 240, "attach_to_frame": False}   # S13 جاء بعد هذه المراجع
     # R14: الإطار الذهبي حول نافذة الكلام جاء بعد هذه المراجع، فيُطفأ هنا كي تبقى أوامرها كما حُفظت
     r["panel"]["border"] = {**r["panel"].get("border", {}), "enabled": False}
+    return reel_old_pause_cfg(c)
+
+
+def reel_old_pause_cfg(cfg):
+    """نسخة بوقفة «برأيك..» القديمة (0.6): مراجع أوامر التركيب المحفوظة (g466، g474، g481، g562، g608) حُفظت قبل تقصيرها (2/11)
+    وتختبر ميزات أخرى لا طول الوقفة."""
+    import copy
+    c = copy.deepcopy(cfg)
+    c["reel"]["render"]["closing"] = {**c["reel"]["render"]["closing"], "label_pause": 0.6}
     return c
 
 
@@ -1100,6 +1109,8 @@ def reel_no_border_cfg(cfg):
     import copy
     c = copy.deepcopy(cfg)
     c["reel"]["render"]["panel"]["border"] = {**c["reel"]["render"]["panel"].get("border", {}), "enabled": False}
+    # الحواف المدوّرة (2/11) تضيف مدخل قناع ومرشّح alphamerge لكل إطار، وهذه الاختبارات تعدّ مرشّحات الانبثاق نفسها
+    c["reel"]["render"]["panel"]["frame"] = {**c["reel"]["render"]["panel"]["frame"], "radius": 0}
     return c
 
 
