@@ -124,6 +124,32 @@ class Deps:
     selfcheck: Callable | None = None    # (cfg) ← (ok، السبب)
 
 
+_FFMPEG_DIR: list = []
+
+
+def _ffmpeg_on_path() -> str | None:
+    """يضع ffmpeg المثبّت بـpip (imageio-ffmpeg) في PATH باسم «ffmpeg»، مرة واحدة للعملية. لماذا لا ffmpeg_location: قصّ النافذة
+    (download_ranges) يمرّ بمنزِّل FFmpegFD، وyt-dlp يفحص توفّره بلا خياراتنا (FFmpegFD.available() بلا downloader) فيبحث في PATH وحده،
+    فرفض أول تشغيل حقيقي كل المقاطع بـ«ffmpeg is not installed» رغم ffmpeg_location (workflow الجمع لا يثبّته من apt كالتركيب).
+    ffmpeg موجود في PATH أصلًا ← لا شيء. يعيد المجلد المضاف أو None."""
+    import os
+    import shutil
+
+    from . import reel
+    if _FFMPEG_DIR:
+        return _FFMPEG_DIR[0]
+    if shutil.which("ffmpeg"):
+        return None
+    exe = reel.ffmpeg_path()
+    if not exe:
+        return None
+    d = tempfile.mkdtemp(prefix="bite_ffmpeg_")
+    os.symlink(exe, os.path.join(d, "ffmpeg"))
+    os.environ["PATH"] = d + os.pathsep + os.environ.get("PATH", "")
+    _FFMPEG_DIR.append(d)
+    return d
+
+
 def _real_download(video_id: str, start: float, end: float, out_dir: Path) -> Path:
     """صوت النافذة وحده بـyt-dlp عبر البروكسي (بلا صورة: أخف بكثير، والتفريغ لا يحتاج إلا الصوت)."""
     import yt_dlp
@@ -136,11 +162,7 @@ def _real_download(video_id: str, start: float, end: float, out_dir: Path) -> Pa
     proxy = speaker_map.proxy_url()
     if proxy:
         opts["proxy"] = proxy
-    # قصّ النافذة (download_ranges) يمرّ بـffmpeg، وworkflow الجمع لا يثبّته من apt كالتركيب: نسخة imageio-ffmpeg المثبّتة بـpip
-    from . import reel
-    ff = reel.ffmpeg_path()
-    if ff:
-        opts["ffmpeg_location"] = ff
+    _ffmpeg_on_path()
     with yt_dlp.YoutubeDL(opts) as ydl:
         ydl.download([f"https://www.youtube.com/watch?v={video_id}"])
     got = sorted(out_dir.glob(out.name + ".*"))
@@ -199,7 +221,9 @@ def _wanted(b: dict, cfg: Any, version: int) -> bool:
         return True
     if a and int(a.get("version") or 0) >= version and a.get("status") != "failed":
         return False
-    if a.get("status") == "failed" and int(a.get("attempts") or 0) >= int(_acfg(cfg, "max_attempts", 2)):
+    # المحاولات تُعدّ داخل إصدار القواعد وحده: فشل سببه عطل فينا أُصلح برفع الإصدار لا يُحسب على المقطع (أول تشغيل: ffmpeg)
+    if a.get("status") == "failed" and int(a.get("version") or 0) >= version \
+            and int(a.get("attempts") or 0) >= int(_acfg(cfg, "max_attempts", 2)):
         return False
     if b.get("start") is None or b.get("end") is None or not b.get("video_id"):
         return False
@@ -219,7 +243,8 @@ def handle_bite(b: dict, others: list[tuple[float, float]], deps: Deps, cfg: Any
     version = int(_acfg(cfg, "version", 1))
     prev = b.get("audio") or {}
     rec: dict = {"version": version, "model": str(_acfg(cfg, "model", "small")), "lang": lang or "",
-                 "orig": [b["start"], b["end"]], "attempts": int(prev.get("attempts") or 0) + 1}
+                 "orig": [b["start"], b["end"]],
+           "attempts": (int(prev.get("attempts") or 0) if int(prev.get("version") or 0) == version else 0) + 1}
     start, end = float(b["start"]), float(b["end"])
     margin = float(_acfg(cfg, "margin", 2))
     w0 = max(0.0, start - float(_acfg(cfg, "lookback_seconds", 6)) - margin)
