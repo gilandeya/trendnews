@@ -321,8 +321,11 @@
       },
       "id": "5e4eb25b9928",
       "created_at": "2026-11-02T04:02:24.189844+00:00",
-      "selection_status": "unselected",
-      "selection_issue": 1762
+      "selection_status": "attempted",
+      "selection_issue": 1762,
+      "selected_formats": [
+        "reel"
+      ]
     },
     {
       "title": "الأزمة التركية الأذربيجانية الصامتة",

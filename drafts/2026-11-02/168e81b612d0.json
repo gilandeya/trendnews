@@ -1,0 +1,590 @@
+{
+  "id": "168e81b612d0",
+  "created_at": "2026-11-02T06:51:57.834593+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "رسالة فانس وتصريحات محسن رضائي حول المفاوضات",
+  "tier": 1,
+  "blocs": [
+    "arabic"
+  ],
+  "channels": [
+    "الجزيرة",
+    "العربية"
+  ],
+  "agreement": "cross_source",
+  "event": "تسريب رسالة نائب الرئيس الأمريكي فانس للإيرانيين وتصريحات محسن رضائي المتبادلة بشأن التفاوض النووي",
+  "warnings": [],
+  "run_date": "2026-11-02",
+  "arabic": {
+    "post_title": "رسالة فانس وتصريحات محسن رضائي حول المفاوضات",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "الجزيرة",
+      "العربية"
+    ]
+  },
+  "score": 5,
+  "source_videos": [],
+  "topic_id": "5e4eb25b9928",
+  "topic_date": "2026-11-02",
+  "script": {
+    "version": 2,
+    "narrator": "female",
+    "title": "ماذا يعني تواصل فانس مع إيران بشأن الملف النووي؟",
+    "question": "هل تقود رسالة فانس إلى مفاوضات نووية فعلية مع إيران؟",
+    "event": "تسريب رسالة نائب الرئيس الأمريكي فانس للإيرانيين وتصريحات محسن رضائي المتبادلة بشأن التفاوض النووي",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "ماذا يعني تواصل فانس مع إيران بشأن الملف النووي؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "تسرّبت رسالة من نائب الرئيس الأمريكي فانس إلى أمين مجلس الأمن القومي الإيراني محسن رضائي بشأن التفاوض النووي، وعلّق رضائي عليها في 31 أكتوبر."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "core",
+        "q": 0,
+        "text": "ما دلالة تواصل فانس مع الإيرانيين؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "211e2ab3fe3d",
+        "q": 0,
+        "stance": "الخطوة فعّالة وفانس يملك مصداقية لدى طهران",
+        "angle": "مصداقية فانس وبناء الثقة",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=CAXsE4ZmyNE",
+        "start": 371.4,
+        "end": 395.8,
+        "speaker_name": "إبراهيم فريحات",
+        "speaker_role": "أستاذ الصراعات الدولية بمعهد الدوحة للدراسات العليا",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "إبراهيم فريحات",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "أصبح واضحًا أن الخطوة التي اتخذها نائب الرئيس فانس بالتواصل مع الإيرانيين خطوة ذات فاعلية أحدثت تحولًا مهمًا في الجانب الإيراني، وهذا يدل على أن فانس نائب الرئيس لديه مصداقية لدى الجانب الإيراني.",
+        "quote_original": "اصبح واضحا ان اي الخطوه التي اتخذها نائب الرئيس فانس بالتواصل مع الايرانيين انها خطوه ذات فاعليه واحدثت تحول مهم في الجانب الايراني هذا ينم عن ان فانس نائب الرئيس لديه مصداقيه لدى الجانب الايراني",
+        "language": "ar",
+        "video_published": "2026-10-31"
+      },
+      {
+        "kind": "clip",
+        "point_id": "e2419be2b2ba",
+        "q": 0,
+        "stance": "التسريب أمريكي يخدم طموح فانس الانتخابي",
+        "angle": "الحسابات الانتخابية لعام 2028",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=CAXsE4ZmyNE",
+        "start": 997.6,
+        "end": 1013.6,
+        "speaker_name": "جووي هود",
+        "speaker_role": "نائب مساعد وزير الخارجية الأمريكي السابق",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "جووي هود",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "إذا نجحت هذه المحاولة يُحضّر فانس نفسه للترشح للانتخابات في 2028، وإن فشلت يحاول التنصل من مسؤوليته، لأنني أنا الرئيس القوي.",
+        "quote_original": "واذا نجحت هذه المحاوله هو يحضر فانس لكي يترشح الانتخابات في 2028 وان فاشلت يحاول التنصل من مسؤوليته لانني انا الرئيس القوي",
+        "language": "ar",
+        "video_published": "2026-10-31"
+      },
+      {
+        "kind": "clip",
+        "point_id": "042a5c9ac4ec",
+        "q": 0,
+        "stance": "طهران تلين مع فانس لا مع ترامب",
+        "angle": "موقف إيران التفاضلي من الشخصين",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=fvXz38iRw4E",
+        "start": 550.3,
+        "end": 564.1,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "العربية",
+        "channel_original": "العربية",
+        "quote_arabic": "إيران تبدي مرونة، ربما تعطي مرونة أكثر، أي تبدي مرونة أكثر تجاه جي دي فانس، وهذا الشيء واضح، أما مع ترامب فلا.",
+        "quote_original": "انا اعتقد طبعا ايران هي تبدي مرونه ربما تعطي مرونه اكثر يعني تبدي مرونه اكثر تجاه جيدي فانس هذا الشيء واضح اما مع ترامب لا",
+        "language": "ar",
+        "video_published": "2026-11-01"
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "why_now",
+        "q": 1,
+        "text": "لماذا تحرّكت واشنطن في هذا التوقيت؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "7a795f5abe4f",
+        "q": 1,
+        "stance": "انعدام البدائل العسكرية دفع نحو التفاوض",
+        "angle": "ضيق الخيارات وعقم الخيار العسكري",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=CAXsE4ZmyNE",
+        "start": 487.6,
+        "end": 511.8,
+        "speaker_name": "إبراهيم فريحات",
+        "speaker_role": "أستاذ الصراعات الدولية بمعهد الدوحة للدراسات العليا",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "إبراهيم فريحات",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "الإدارة الأمريكية ليست لديها الخيارات الكثيرة، كما ذكرنا أيضًا بأنه الخيار العسكري من الممكن أن يحدث دمارًا عسكريًا هائلًا ولكنه لا ينتج نتيجة سياسية، ولهذا السبب جاء تحرك نائب الرئيس ليسير بهذا الاتجاه، إجراءات بناءة مع انعدام خيارات أخرى بديلة هي التي قادت إلى هذا التحول الإيجابي.",
+        "quote_original": "الاداره الامريكيه ليست لديها الخيارات الكثيره كما ذكرنا ايضا بانه الخيار العسكري من الممكن ان يحدث دمارا عسكريا هائلا ولكنه لا ينتج نتيجه سياسيه ولهذا السبب جاء تحرك نائب الرئيس ليسير بهذا الاتجاه اجراءات بناثقه مع انعدام خيارات اخرى بديله هي التي قادت الى هذا التحول الايجابي",
+        "language": "ar",
+        "video_published": "2026-10-31"
+      },
+      {
+        "kind": "question",
+        "text": "هل تقود رسالة فانس إلى مفاوضات نووية فعلية مع إيران؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": []
+  },
+  "headlines": [
+    "هل يفتح تواصل فانس مع إيران باب التفاوض النووي؟",
+    "فريحات: تواصل فانس مع الإيرانيين خطوة فاعلة أحدثت تحولًا مهمًا",
+    "فريحات: انعدام الخيارات البديلة دفع واشنطن إلى التحرك الدبلوماسي"
+  ],
+  "headline_selected": 0,
+  "editor_review": {
+    "at": "2026-11-02T06:52:46.364355+00:00",
+    "applied": [
+      {
+        "category": "headline_overclaims",
+        "severity": "low",
+        "location": "headline_1",
+        "original": "هل يفتح تواصل فانس مع إيران الباب أمام تسوية دائمة؟",
+        "fix": "هل يفتح تواصل فانس مع إيران باب التفاوض النووي؟",
+        "note": "لا أحد من المتحدثين في المقاطع تحدث عن «تسوية دائمة»؛ أقصى ما ورد هو تحول إيجابي وبناء ثقة واحتمال مفاوضات. العنوان يجزم بأفق أبعد مما تسنده المادة.",
+        "sources": []
+      },
+      {
+        "category": "vague_attribution",
+        "severity": "low",
+        "location": "headline_2",
+        "original": "يرى محللون أن تواصل فانس مع الإيرانيين أثمر بناء بعض الثقة",
+        "fix": "فريحات: تواصل فانس مع الإيرانيين خطوة فاعلة أحدثت تحولًا مهمًا",
+        "note": "القول مصدره متحدث واحد موثَّق هو إبراهيم فريحات، ونسبته إلى «محللين» بصيغة الجمع نسبة مجهولة توسّع مصدر الرأي.",
+        "sources": []
+      },
+      {
+        "category": "vague_attribution",
+        "severity": "low",
+        "location": "headline_3",
+        "original": "يرجّح محللون أن واشنطن لم تملك خيارات بديلة سوى التواصل الدبلوماسي",
+        "fix": "فريحات: انعدام الخيارات البديلة دفع واشنطن إلى التحرك الدبلوماسي",
+        "note": "هذا رأي إبراهيم فريحات وحده في المقطع 7a795f5abe4f، وصيغة الجمع «محللون» نسبة مجهولة.",
+        "sources": []
+      }
+    ],
+    "notes": [
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "body",
+        "original": "جووي هود · نائب مساعد وزير الخارجية الأمريكي السابق · الجزيرة",
+        "fix": "جوي هود · النائب الرئيسي السابق لمساعد وزير الخارجية الأمريكي لشؤون الشرق الأدنى · الجزيرة",
+        "note": "رسم الاسم في شريط المتحدث الموثَّق مشكوك فيه؛ الرسم المعتمد عربيًا هو «جوي هود» (Joey Hood) لا «جووي». كما أن صفته الموثقة أدق بصيغة «النائب الرئيسي لمساعد وزير الخارجية الأمريكي لشؤون الشرق الأدنى (سابقًا)» وقد تولى منصب مساعد الوزير بالوكالة لشؤون الشرق الأدنى. يُعاد الريل إلى المرحلة 2 للتثبت من الاسم والصفة قبل النشر.",
+        "sources": [
+          "https://2021-2025.state.gov/people/joey-hood/",
+          "https://en.wikipedia.org/wiki/Joey_R._Hood",
+          "https://www.congress.gov/116/meeting/house/110324/witnesses/HHRG-116-FA13-Bio-HoodJ-20191210.pdf"
+        ],
+        "video": ""
+      }
+    ],
+    "error": null,
+    "searches": 4,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "names_audit": [
+    {
+      "arabic": "إبراهيم فريحات",
+      "latin": ""
+    },
+    {
+      "arabic": "جووي هود",
+      "latin": ""
+    },
+    {
+      "arabic": "فانس",
+      "latin": "Vance"
+    },
+    {
+      "arabic": "جي دي فانس",
+      "latin": "JD Vance"
+    },
+    {
+      "arabic": "محسن رضائي",
+      "latin": "Mohsen Rezaei"
+    }
+  ],
+  "reel_bg": {
+    "url": "",
+    "kind": "none",
+    "publisher": "",
+    "judged": true,
+    "rejected": [
+      {
+        "url": "https://api.kataeb.org/storage/new-website/Countries/Iran/ATTACK-13JUIN-2.jpg",
+        "shows": "انفجار ضخم بكرات نار ودخان يرتفع ليلاً فوق مدينة بأضواء كثيفة",
+        "reason": "الصورة لقصف/انفجار ليلي لا يرتبط بموضوع التواصل الأمريكي الإيراني بشأن الملف النووي، ولا تُظهر فانس أو رضائي أو مكاناً تفاوضياً."
+      },
+      {
+        "url": "https://www.gulfchannels.com/wp-content/uploads/2026/10/1-1901226-1024x538.jpg",
+        "shows": "رجل بدلة داكنة وربطة عنق يلوّح بيده أمام درج طائرة مكتوب عليها \"President of the United States\" — يُرجَّح أنه نائب الرئي",
+        "reason": "عليها نص مركَّب والجزء الخالي منه صغير (1024×0 بكسل)"
+      }
+    ]
+  },
+  "hook_candidates": [
+    {
+      "video_id": "tUZdlW2-zAM",
+      "title": "Trump's Iran Warning: ‘Tehran Will Never Have A Nuclear Weapon’ | U.S-Iran Tensions | War News",
+      "channel": "CNN-News18",
+      "views": 12206,
+      "duration": 205,
+      "published": "2026-11-01T04:33:17Z"
+    },
+    {
+      "video_id": "RL-id2KvIF0",
+      "title": "US.- Iran: JD Vance Sends Letter To Iran | Trump Threatens Strikes As Peace Talks Loom | News18",
+      "channel": "CNN-News18",
+      "views": 9856,
+      "duration": 282,
+      "published": "2026-10-29T02:16:46Z"
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-10-31T00:00:00Z",
+          "2026-11-04T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "مبنى وزارة الخارجية الأمريكية واشنطن",
+            "raw": 7,
+            "channel_ok": 0
+          },
+          {
+            "query": "Vance speaking to reporters at White House",
+            "raw": 22,
+            "channel_ok": 1
+          },
+          {
+            "query": "مفاوضات نووية إيرانية طهران شوارع المارة",
+            "raw": 0,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 1,
+        "judged_ok": 0,
+        "rejected_channels": [
+          "DayAndNightToday",
+          "The AI Guide",
+          "What Changes",
+          "AlWatanTV1 الوطن تيفي",
+          "الشأن السياسي",
+          "Время Прядко",
+          "RealElite Talk",
+          "America Now"
+        ]
+      },
+      {
+        "broad": true,
+        "window": [
+          "2026-10-29T00:00:00Z",
+          "2026-11-05T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "مفاوضات أمريكا إيران النووية",
+            "raw": 30,
+            "channel_ok": 21
+          },
+          {
+            "query": "US Iran nuclear talks",
+            "raw": 30,
+            "channel_ok": 3
+          },
+          {
+            "query": "Irán Estados Unidos negociaciones nucleares",
+            "raw": 30,
+            "channel_ok": 2
+          }
+        ],
+        "duration_ok": 25,
+        "judged_ok": 2,
+        "rejected_channels": [
+          "قناة التغيير",
+          "التغيير بلس - TgrPlus",
+          "AlQahera News -  القاهرة الإخبارية",
+          "محور الأخبار",
+          "The Daily Jagran",
+          "eXtra news",
+          "Mohamed Assem",
+          "الدكتور عمر عبد الستار محمود"
+        ]
+      }
+    ],
+    "picked": [
+      "tUZdlW2-zAM",
+      "RL-id2KvIF0"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "تسرّبت رسالة من نائب الرئيس الأمريكي فانس إلى أمين مجلس الأمن القومي الإيراني محسن رضائي بشأن التفاوض النووي، وعلّق رضائي عليها في 31 أكتوبر.",
+      "visual": ""
+    },
+    {
+      "scene": 2,
+      "sentence": 0,
+      "text": "ما دلالة تواصل فانس مع الإيرانيين؟",
+      "visual": ""
+    },
+    {
+      "scene": 6,
+      "sentence": 0,
+      "text": "لماذا تحرّكت واشنطن في هذا التوقيت؟",
+      "visual": ""
+    }
+  ],
+  "quote_retranslated": [
+    "211e2ab3fe3d",
+    "e2419be2b2ba",
+    "042a5c9ac4ec"
+  ],
+  "clip_dropped": [
+    {
+      "point_id": "1ae383295988",
+      "channel": "الجزيرة",
+      "reason": "ملخّص النقطة ينسبها إلى شخص آخر: مقدّم البرنامج أو المتحدث الذي ينقل الكلام (غير محدد الاسم في المدخل)"
+    }
+  ],
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "1ae383295988",
+        "speaker_said_it": "no",
+        "other_name": "مقدّم البرنامج أو المتحدث الذي ينقل الكلام (غير محدد الاسم في المدخل)",
+        "faithful": false,
+        "quote_arabic_fixed": "الأبرز فيهم تصريحات رضائي، رضائي هو الوجه المتطرف المتشدد في النظام.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "211e2ab3fe3d",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "أصبح واضحًا أن الخطوة التي اتخذها نائب الرئيس فانس بالتواصل مع الإيرانيين خطوة ذات فاعلية أحدثت تحولًا مهمًا في الجانب الإيراني، وهذا يدل على أن فانس نائب الرئيس لديه مصداقية لدى الجانب الإيراني.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "7a795f5abe4f",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "e2419be2b2ba",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "إذا نجحت هذه المحاولة يُحضّر فانس نفسه للترشح للانتخابات في 2028، وإن فشلت يحاول التنصل من مسؤوليته، لأنني أنا الرئيس القوي.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "042a5c9ac4ec",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "إيران تبدي مرونة، ربما تعطي مرونة أكثر، أي تبدي مرونة أكثر تجاه جي دي فانس، وهذا الشيء واضح، أما مع ترامب فلا.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "العربية"
+      }
+    ]
+  },
+  "editor_revision": {
+    "at": "2026-11-02T06:52:46.364355+00:00",
+    "applied": true,
+    "error": null,
+    "before": [
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "body",
+        "original": "جووي هود · نائب مساعد وزير الخارجية الأمريكي السابق · الجزيرة",
+        "fix": "جوي هود · مساعد وزير الخارجية الأمريكي الأسبق لشؤون الشرق الأوسط · الجزيرة",
+        "note": "رسم الاسم مشكوك فيه: الدبلوماسي الأمريكي يُكتب في العربية «جوي هود» (Joey Hood) لا «جووي». كما أن صفته الأشهر في المصادر هي «مساعد وزير الخارجية الأمريكي الأسبق لشؤون الشرق الأوسط/القائم بأعمال مساعد وزير الخارجية لشؤون الشرق الأدنى»، لا «نائب مساعد وزير الخارجية». يلزم ضبط الاسم والصفة في الشريط قبل النشر.",
+        "sources": [
+          "https://tn.usembassy.gov/ar/ambassador/",
+          "https://www.dostor.org/5754876",
+          "https://www.elwatannews.com/news/details/8385615"
+        ],
+        "video": ""
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "وأدلى محسن رضائي بتصريحات عن التفاوض في 31 أكتوبر.",
+        "fix": "تسرّبت رسالة من نائب الرئيس الأمريكي فانس إلى أمين مجلس الأمن القومي الإيراني محسن رضائي بشأن التفاوض النووي، وعلّق رضائي عليها في 31 أكتوبر.",
+        "note": "مشهد السياق يذكر الاسم بلا صفة، ولا يربطه بالحدث: محسن رضائي هو أمين المجلس الأعلى للأمن القومي الإيراني وهو المرسَل إليه رسالة فانس، وقد تحدث عنها يوم 31 أكتوبر. الصياغة المقترحة تبقى داخل حدّي 25 كلمة و3 جمل.",
+        "sources": [
+          "https://alarabiya.net/iran/2026/10/31/%D8%A7%D9%85%D9%8A%D9%86-%D9%85%D8%AC%D9%84%D8%B3-%D8%A7%D9%84%D8%A7%D9%85%D9%86-%D8%A7%D9%84%D9%82%D9%88%D9%85%D9%8A-%D8%A7%D9%84%D8%A7%D9%8A%D8%B1%D8%A7%D9%86%D9%8A-%D9%84%D9%85-%D9%86%D8%AA%D8%AE%D8%B0-%D9%82%D8%B1%D8%A7%D8%B1%D8%A7-%D8%AC%D8%AF%D9%8A%D8%AF%D8%A7-%D8%A8%D8%B4%D8%A7%D9%86-%D8%AA%D8%BA%D9%8A%D9%8A%D8%B1-%D8%A7%D9%84%D8%B9%D9%82%D9%8A%D8%AF%D8%A9-%D8%A7%D9%84%D9%86%D9%88%D9%88%D9%8A%D8%A9",
+          "https://parsi.euronews.com/2026/11/01/trump-netanyahu-call-mohsen-rezaei-vance-letter-tone-change-oct-2026"
+        ]
+      },
+      {
+        "category": "broken_quote",
+        "severity": "low",
+        "location": "body",
+        "original": "وإن فشلت يحاول التنصل من مسؤوليته، لأنني أنا الرئيس القوي.",
+        "fix": "",
+        "note": "ذيل الاقتباس مبتور ومنفصل عن سياقه؛ يظهر كلامًا بضمير المتكلم بلا بيان أنه محاكاة لموقف ترامب، ما يربك القارئ. يُقترح قطع الاقتباس عند «التنصل من مسؤوليته».",
+        "sources": []
+      }
+    ],
+    "unresolved": [
+      {
+        "n": 1,
+        "reason": "الشريط السفلي للمقطع e2419be2b2ba سطر مقاطع (🎥) للقراءة فقط وليس من الحقول القابلة للتصحيح؛ والشك في اسم متحدث موثَّق وصفته يستوجب إعادة الريل إلى المرحلة 2 (name_doubtful/high)، كما أن المصادر المرفقة تثبت الرسم والصفة الواردين فقط ولا تتضمن ما يؤكد التصويب المقترح."
+      },
+      {
+        "n": 3,
+        "reason": "ذيل الاقتباس وارد في سطر مقطع (🎥) للقراءة فقط مصدره المقطع المرفق، ولا يمكن تعديله ضمن الحقول القابلة للتصحيح."
+      }
+    ]
+  },
+  "script_attempts": [
+    {
+      "attempt": 1,
+      "reasons": [
+        "السياق أطول من 25 كلمة (29)"
+      ],
+      "stop_reason": "tool_use"
+    }
+  ],
+  "script_fit": {
+    "rows": [
+      {
+        "point_id": "211e2ab3fe3d",
+        "verdict": "direct",
+        "reason": "تذكر تواصل فانس مع الإيرانيين صراحة وتفسر دلالته بمصداقيته وأثره في الجانب الإيراني."
+      },
+      {
+        "point_id": "e2419be2b2ba",
+        "verdict": "direct",
+        "reason": "تقرأ تحرك فانس كحساب انتخابي شخصي لـ2028، وهي دلالة مباشرة للتواصل."
+      },
+      {
+        "point_id": "042a5c9ac4ec",
+        "verdict": "direct",
+        "reason": "تذكر فانس وتقابل مرونة إيران معه بعدمها مع ترامب، فتفسر معنى التواصل."
+      },
+      {
+        "point_id": "7a795f5abe4f",
+        "verdict": "direct",
+        "reason": "تعلل التحرك بانعدام البدائل وعقم الخيار العسكري، أي سبب التحرك في هذا التوقيت."
+      }
+    ]
+  },
+  "script_raw": {
+    "attempt": 2,
+    "stop_reason": "tool_use",
+    "max_tokens": 3500,
+    "input": {
+      "main_question": "ماذا يعني تواصل فانس مع إيران بشأن الملف النووي؟",
+      "context": [
+        "تسرّبت رسالة من نائب الرئيس الأمريكي جي دي فانس إلى الجانب الإيراني بشأن التفاوض النووي.",
+        "وأدلى محسن رضائي بتصريحات عن التفاوض في 31 أكتوبر."
+      ],
+      "questions": [
+        {
+          "role": "core",
+          "text": "ما دلالة تواصل فانس مع الإيرانيين؟",
+          "answers": [
+            {
+              "point_id": "211e2ab3fe3d",
+              "stance": "الخطوة فعّالة وفانس يملك مصداقية لدى طهران",
+              "angle": "مصداقية فانس وبناء الثقة",
+              "repeats": false
+            },
+            {
+              "point_id": "e2419be2b2ba",
+              "stance": "التسريب أمريكي يخدم طموح فانس الانتخابي",
+              "angle": "الحسابات الانتخابية لعام 2028",
+              "repeats": false
+            },
+            {
+              "point_id": "042a5c9ac4ec",
+              "stance": "طهران تلين مع فانس لا مع ترامب",
+              "angle": "موقف إيران التفاضلي من الشخصين",
+              "repeats": false
+            }
+          ]
+        },
+        {
+          "role": "why_now",
+          "text": "لماذا تحرّكت واشنطن في هذا التوقيت؟",
+          "answers": [
+            {
+              "point_id": "7a795f5abe4f",
+              "stance": "انعدام البدائل العسكرية دفع نحو التفاوض",
+              "angle": "ضيق الخيارات وعقم الخيار العسكري",
+              "repeats": false
+            }
+          ]
+        }
+      ],
+      "closing_question": "هل تقود رسالة فانس إلى مفاوضات نووية فعلية مع إيران؟",
+      "single_angle": false,
+      "single_angle_reason": "المقاطع تقدّم زوايا متمايزة: المصداقية، والحسابات الانتخابية، وموقف إيران، وضيق الخيارات."
+    }
+  },
+  "has_photo": false,
+  "has_news_photo": true,
+  "review_issue": 1769,
+  "stage2_issue": 1769
+}
