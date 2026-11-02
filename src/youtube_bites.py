@@ -311,6 +311,7 @@ def bites_as_points(bites: list[dict], load_transcript=None) -> list[dict]:
             "first_words": b.get("first_words", ""), "last_words": b.get("last_words", ""),
             # كلمات الصوت المفرَّغة وقت الجمع (bite_audio، المرحلة «أ»): التركيب يضبط بها المقطع بلا تفريغ ثانٍ
             "audio_words": (b.get("audio") or {}).get("words") if (b.get("audio") or {}).get("status") in ("ok", "open") else None,
+            "audio_status": (b.get("audio") or {}).get("status", ""),
         })
     return out
 

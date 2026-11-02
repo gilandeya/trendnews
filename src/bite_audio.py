@@ -118,7 +118,8 @@ def _index_of(words: list, t: float, first: bool) -> int:
 @dataclass
 class Deps:
     """ما يُحقن في الاختبار: التنزيل والتفريغ والترجمة. None ← الحقيقي."""
-    download: Callable | None = None     # (video_id, start, end, out_dir) ← مسار ملف الصوت
+    download: Callable | None = None     # (video_id, out_dir) ← مسار صوت الفيديو كاملًا
+    cut: Callable | None = None          # (ملف الصوت، start، end، out_dir) ← ملف النافذة
     transcribe: Callable | None = None   # (path, lang, cfg) ← [(بداية، نهاية، كلمة)] بثواني الملف
     translate: Callable | None = None    # (items, cfg, client) ← {n: text_ar}
     selfcheck: Callable | None = None    # (cfg) ← (ok، السبب)
@@ -150,25 +151,44 @@ def _ffmpeg_on_path() -> str | None:
     return d
 
 
-def _real_download(video_id: str, start: float, end: float, out_dir: Path) -> Path:
-    """صوت النافذة وحده بـyt-dlp عبر البروكسي (بلا صورة: أخف بكثير، والتفريغ لا يحتاج إلا الصوت)."""
+def _real_download(video_id: str, out_dir: Path, cfg: Any = None) -> Path:
+    """صوت الفيديو كاملًا مرة واحدة بـyt-dlp عبر البروكسي، وتُقتطع منه نافذة كل مقطع محليًا (_real_cut). لماذا لا تنزيل نافذة لكل مقطع: أول
+    تشغيل حقيقي أخذ نحو 70 ث للمقطع أغلبها في التنزيل، وكل طلب جديد ليوتيوب يزيد رسائل «لست روبوتًا»، والتنزيل الجزئي أفشل فكّ صوت
+    مقطع («Duplicate element»)؛ وللفيديو الواحد 5–8 مقاطع غالبًا. الصيغة الأدنى جودة تكفي التفريغ وتصغّر الملف."""
     import yt_dlp
-    from yt_dlp.utils import download_range_func
 
     from . import speaker_map
-    out = out_dir / f"{video_id}_{int(start)}"
-    opts = {"format": "ba/b", "download_ranges": download_range_func(None, [(start, end)]),
-            "outtmpl": str(out) + ".%(ext)s", "quiet": True, "no_warnings": True, "noprogress": True, "overwrites": True}
+    from .config import load_config
+    cfg = cfg or load_config()
+    out = out_dir / f"full_{video_id}"
+    opts = {"format": str(_acfg(cfg, "download_format", "worstaudio/bestaudio")), "outtmpl": str(out) + ".%(ext)s",
+            "quiet": True, "no_warnings": True, "noprogress": True, "overwrites": True}
     proxy = speaker_map.proxy_url()
     if proxy:
         opts["proxy"] = proxy
     _ffmpeg_on_path()
     with yt_dlp.YoutubeDL(opts) as ydl:
         ydl.download([f"https://www.youtube.com/watch?v={video_id}"])
-    got = sorted(out_dir.glob(out.name + ".*"))
+    got = sorted(p for p in out_dir.glob(out.name + ".*") if not p.name.endswith(".part"))
     if not got:
         raise RuntimeError("لم يُنتج التنزيل ملفًا")
     return got[0]
+
+
+def _real_cut(src: Path, start: float, end: float, out_dir: Path) -> Path:
+    """نافذة [start، end] من صوت الفيديو إلى wav أحادي 16 كيلوهرتز (ما يأخذه المفرِّغ) بـffmpeg المثبّت بـpip."""
+    import subprocess
+
+    from . import reel
+    ff = reel.ffmpeg_path()
+    if not ff:
+        raise RuntimeError("ffmpeg غير موجود")
+    out = out_dir / f"{src.stem}_{int(start)}.wav"
+    proc = subprocess.run([ff, "-nostdin", "-v", "error", "-y", "-ss", str(start), "-t", str(max(end - start, 0.5)), "-i", str(src),
+                           "-vn", "-ac", "1", "-ar", "16000", str(out)], capture_output=True, timeout=300)
+    if proc.returncode != 0 or not out.exists():
+        raise RuntimeError("فشل اقتطاع النافذة: " + proc.stderr.decode("utf-8", "replace")[:100])
+    return out
 
 
 def _real_transcribe(path: Path, lang: str | None, cfg: Any) -> list:
@@ -237,8 +257,9 @@ def _overlaps(a0: float, a1: float, others: list[tuple[float, float]]) -> bool:
     return any(a0 < o1 and o0 < a1 for o0, o1 in others)
 
 
-def handle_bite(b: dict, others: list[tuple[float, float]], deps: Deps, cfg: Any, tmp: Path, lang: str | None) -> dict:
-    """يفرّغ نافذة المقطع ويحسب حدّيه. يعيد سجل audio (لا يغيّر المقطع)؛ الحدّان الجديدان في proposed إن تغيّرا. لا يرفع."""
+def handle_bite(b: dict, others: list[tuple[float, float]], deps: Deps, cfg: Any, tmp: Path, lang: str | None,
+                source: Path | str) -> dict:
+    """يفرّغ نافذة المقطع من صوت فيديوه (source: الملف، أو نص عطل تنزيله) ويحسب حدّيه. يعيد سجل audio (لا يغيّر المقطع). لا يرفع."""
     from . import reel_clips
     version = int(_acfg(cfg, "version", 1))
     prev = b.get("audio") or {}
@@ -251,8 +272,10 @@ def handle_bite(b: dict, others: list[tuple[float, float]], deps: Deps, cfg: Any
     w1 = end + float(_acfg(cfg, "lookahead_seconds", 8)) + margin
     if b.get("duration_seconds"):
         w1 = min(w1, float(b["duration_seconds"]))
+    if isinstance(source, str):
+        return {**rec, "status": "failed", "error": source}
     try:
-        path = deps.download(b["video_id"], int(w0), int(w1 + 0.999), tmp)
+        path = deps.cut(source, int(w0), int(w1 + 0.999), tmp)
         words = deps.transcribe(path, lang, cfg) or []
     except Exception as exc:  # noqa: BLE001 -- عطل تنزيل أو تفريغ: يُعاد في تشغيلة لاحقة حتى max_attempts
         return {**rec, "status": "failed", "error": f"{type(exc).__name__}: " + reel_clips.scrub_text(str(exc))[:120]}
@@ -318,13 +341,14 @@ def apply(b: dict, rec: dict, text_ar: str | None, cfg: Any) -> dict:
 def process(cfg: Any, now: datetime, client=None, deps: Deps | None = None) -> dict:
     """يعالج مقاطع آخر audio.days أيام الأحدث أولًا حتى max_per_run أو budget_seconds، ويكتب كل ملف تغيّر بالعدد والترتيب نفسيهما."""
     from . import youtube_transcripts
-    stats: dict = {"processed": 0, "ok": 0, "open": 0, "no_match": 0, "failed": 0, "moved": 0, "rescued": 0,
+    stats: dict = {"processed": 0, "downloads": 0, "ok": 0, "open": 0, "no_match": 0, "failed": 0, "moved": 0, "rescued": 0,
                    "pending_translate": 0, "skipped": ""}
     if not _acfg(cfg, "enabled", False):
         stats["skipped"] = "disabled"
         return stats
     deps = deps or Deps()
-    deps = Deps(download=deps.download or _real_download, transcribe=deps.transcribe or _real_transcribe,
+    deps = Deps(download=deps.download or (lambda vid, out: _real_download(vid, out, cfg)), cut=deps.cut or _real_cut,
+                transcribe=deps.transcribe or _real_transcribe,
                 translate=deps.translate or _real_translate, selfcheck=deps.selfcheck or _real_selfcheck)
     ok, why = deps.selfcheck(cfg)
     if not ok:
@@ -337,8 +361,23 @@ def process(cfg: Any, now: datetime, client=None, deps: Deps | None = None) -> d
     began = time.monotonic()
     root = youtube_transcripts.bites_dir()
     langs: dict[str, str | None] = {}
+    current: dict = {}      # صوت الفيديو الجاري وحده على القرص: {video_id: ملف أو نص العطل}
     with tempfile.TemporaryDirectory() as td:
         tmp = Path(td)
+
+        def source_of(vid: str) -> Path | str:
+            if vid not in current:
+                for old_src in current.values():
+                    if isinstance(old_src, Path):
+                        old_src.unlink(missing_ok=True)
+                current.clear()
+                try:
+                    current[vid] = deps.download(vid, tmp)
+                except Exception as exc:  # noqa: BLE001 -- عطل تنزيل الفيديو يُسجَّل على كل مقطع منه ويُعاد لاحقًا
+                    from . import reel_clips
+                    current[vid] = f"{type(exc).__name__}: " + reel_clips.scrub_text(str(exc))[:120]
+                stats["downloads"] += 1
+            return current[vid]
         for d in range(int(_acfg(cfg, "days", 2))):
             path = root / f"{(now - timedelta(days=d)).strftime('%Y-%m-%d')}.json"
             if not path.exists():
@@ -348,8 +387,9 @@ def process(cfg: Any, now: datetime, client=None, deps: Deps | None = None) -> d
             except (OSError, ValueError):
                 continue
             bites = list(data.get("bites") or [])
-            # الكامل أولًا (أقرب إلى الريل)، ثم المبتور الذي قد ينقذه الصوت
-            order = sorted((k for k, b in enumerate(bites) if _wanted(b, cfg, version)), key=lambda k: bool(bites[k].get("incomplete")))
+            # الكامل أولًا (أقرب إلى الريل)، ثم المبتور الذي قد ينقذه الصوت؛ ومقاطع الفيديو الواحد متتالية فيُنزَّل صوته مرة
+            order = sorted((k for k, b in enumerate(bites) if _wanted(b, cfg, version)),
+                           key=lambda k: (bool(bites[k].get("incomplete")), str(bites[k].get("video_id"))))
             recs: dict[int, dict] = {}
             for k in order:
                 if stats["processed"] >= limit or time.monotonic() - began > budget:
@@ -366,7 +406,7 @@ def process(cfg: Any, now: datetime, client=None, deps: Deps | None = None) -> d
                     langs[vid] = _base_lang((saved or {}).get("language") or b.get("language") or "") or None
                 others = [(float(o["start"]), float(o["end"])) for m, o in enumerate(bites)
                           if m != k and o.get("video_id") == vid and not o.get("incomplete") and o.get("start") is not None]
-                recs[k] = handle_bite(b, others, deps, cfg, tmp, langs[vid])
+                recs[k] = handle_bite(b, others, deps, cfg, tmp, langs[vid], source_of(vid))
                 stats["processed"] += 1
             if not recs:
                 continue
@@ -398,7 +438,7 @@ def main() -> int:
     if stats["skipped"]:
         print(f"تفريغ المقاطع متوقف: {stats['skipped']}", file=sys.stderr)
         return 0
-    print("تفريغ المقاطع: {processed} مقطعًا — حدّا جملة {ok} · مفتوح {open} · لا يطابق الصوت {no_match} · فشل {failed} · "
+    print("تفريغ المقاطع: {processed} مقطعًا من {downloads} فيديو — حدّا جملة {ok} · مفتوح {open} · لا يطابق الصوت {no_match} · فشل {failed} · "
           "حُرّك {moved} · أُنقذ {rescued} · ينتظر الترجمة {pending_translate}".format(**stats), file=sys.stderr)
     return 0
 
