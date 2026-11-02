@@ -672,10 +672,50 @@ def _best_range(sents: list[dict], segments: list[dict], cfg: Any, taken: list, 
     return best
 
 
+def _end_verdicts(bites: list[dict], segments: list[dict], cfg: Any, client, hints: list[str] | None,
+                  depth: int = 0) -> tuple[dict[int, tuple[list, str]], str]:
+    """أحكام فحص النهاية لدفعة من المقاطع: {رقمها في الدفعة (من 1): (الجمل، الاسم العربي)}، وسبب العطل. القضية 1763–1765: النداء الواحد
+    لثمانية مقاطع قُطع عند max_tokens فأعاد أحكام أول مقطع أو اثنين وحدها، فعُدّ الباقي «لا يكتمل» وسقط ثلثا مقاطع اليوم. الرد المقطوع
+    لا يُقبل منه شيء: تُقسم الدفعة نصفين ويُعاد كلٌّ منهما (حتى مقطع واحد)، ومقطع لم يرد حكمه يبقى بلا حكم لا «لا يكتمل»."""
+    ecfg = cfg.path("youtube.bites.end_check", {}) or {}
+    system = str(ecfg.get("system", "")).format(min_seconds=_bcfg(cfg, "min_seconds", 8), max_seconds=_bcfg(cfg, "max_seconds", 30))
+    try:
+        resp = _create(client, cfg=cfg, model=ecfg.get("model", "haiku"), max_tokens=int(ecfg.get("max_tokens", 8000)),
+                       system=system, tools=[END_TOOL], tool_choice={"type": "tool", "name": END_TOOL["name"]},
+                       messages=[{"role": "user", "content": end_message(bites, segments, cfg, hints)}])
+    except Exception as exc:  # noqa: BLE001
+        return {}, f"فشل نداء فحص النهاية: {type(exc).__name__}: {str(exc)[:150]}"
+    if str(getattr(resp, "stop_reason", "") or "") == "max_tokens":
+        if len(bites) > 1 and depth < int(ecfg.get("max_splits", 3)):
+            half = (len(bites) + 1) // 2
+            first, err1 = _end_verdicts(bites[:half], segments, cfg, client, (hints or [])[:half] or None, depth + 1)
+            second, err2 = _end_verdicts(bites[half:], segments, cfg, client, (hints or [])[half:] or None, depth + 1)
+            merged = dict(first)
+            merged.update({k + half: v for k, v in second.items()})
+            return merged, err1 or err2
+        return {}, "رد فحص النهاية قُطع عند max_tokens"
+    data = None
+    for blk in getattr(resp, "content", None) or []:
+        if getattr(blk, "type", "") == "tool_use" and getattr(blk, "name", "") == END_TOOL["name"]:
+            data = getattr(blk, "input", None)
+    items = _as_list((data or {}).get("bites")) if isinstance(data, dict) else None
+    if items is None:
+        return {}, "لم يُرجع فحص النهاية قائمة"
+    out: dict[int, tuple[list, str]] = {}
+    for it in items:
+        try:
+            n = int(it.get("bite"))
+        except (TypeError, ValueError, AttributeError):
+            continue
+        if 1 <= n <= len(bites):
+            out[n] = (_as_list(it.get("sentences")) or [], fold_name(it.get("speaker_ar") or "", cfg))
+    return out, ""
+
+
 def check_ends(bites: list[dict], segments: list[dict], cfg: Any, client=None,
                others: list[dict] | None = None, hints: list[str] | None = None) -> tuple[list[dict], str]:
-    """نداء Haiku واحد لكل فيديو يقسم كل مقطع إلى جمله التامة حتى نهاية الفكرة، ثم apply_sentences في الكود. يعيد (المقاطع بالترتيب
-    نفسه والعدد نفسه، سبب العطل). العطل يترك المقاطع كما هي بلا end_checked فتُعاد المحاولة في تشغيلة لاحقة. لا يرفع."""
+    """فحص النهاية بدفعات من end_check.batch_size مقاطع لكل نداء Haiku، ثم apply_sentences في الكود. يعيد (المقاطع بالترتيب نفسه والعدد
+    نفسه، سبب العطل). مقطع بلا حكم (عطل أو رد مقطوع) يبقى كما هو بلا end_checked فيُعاد في تشغيلة لاحقة. لا يرفع."""
     if not bites:
         return [], ""
     ecfg = cfg.path("youtube.bites.end_check", {}) or {}
@@ -684,40 +724,28 @@ def check_ends(bites: list[dict], segments: list[dict], cfg: Any, client=None,
 
         from .config import env
         client = Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
-    system = str(ecfg.get("system", "")).format(min_seconds=_bcfg(cfg, "min_seconds", 8), max_seconds=_bcfg(cfg, "max_seconds", 30))
-    try:
-        resp = _create(client, cfg=cfg, model=ecfg.get("model", "haiku"), max_tokens=int(ecfg.get("max_tokens", 8000)),
-                       system=system, tools=[END_TOOL], tool_choice={"type": "tool", "name": END_TOOL["name"]},
-                       messages=[{"role": "user", "content": end_message(bites, segments, cfg, hints)}])
-    except Exception as exc:  # noqa: BLE001
-        return list(bites), f"فشل نداء فحص النهاية: {type(exc).__name__}: {str(exc)[:150]}"
-    data = None
-    for blk in getattr(resp, "content", None) or []:
-        if getattr(blk, "type", "") == "tool_use" and getattr(blk, "name", "") == END_TOOL["name"]:
-            data = getattr(blk, "input", None)
-    items = _as_list((data or {}).get("bites")) if isinstance(data, dict) else None
-    if items is None:
-        return list(bites), "لم يُرجع فحص النهاية قائمة"
-    verdicts: dict[int, list] = {}
-    names_ar: dict[int, str] = {}
-    for it in items:
-        try:
-            verdicts[int(it.get("bite"))] = _as_list(it.get("sentences")) or []
-            names_ar[int(it.get("bite"))] = fold_name(it.get("speaker_ar") or "", cfg)
-        except (TypeError, ValueError, AttributeError):
-            continue
+    size = max(1, int(ecfg.get("batch_size", 3) or 3))
+    verdicts: dict[int, tuple[list, str]] = {}
+    errors: list[str] = []
+    for lo in range(0, len(bites), size):
+        got, err = _end_verdicts(bites[lo:lo + size], segments, cfg, client, (hints or [])[lo:lo + size] or None)
+        verdicts.update({k + lo: v for k, v in got.items()})
+        if err:
+            errors.append(err)
     out = list(bites)
     for n, b in enumerate(bites, 1):
+        if n not in verdicts:
+            continue
+        sentences, name = verdicts[n]
         # مقاطع الفيديو الأخرى التي لا تُفحص الآن (others) تدخل حساب التداخل أيضًا
         taken = [(float(o["start"]), float(o["end"])) for m, o in enumerate(out) if m != n - 1 and not o.get("incomplete")]
         taken += [(float(o["start"]), float(o["end"])) for o in others or [] if not o.get("incomplete")]
-        out[n - 1] = apply_sentences(b, verdicts.get(n, []), segments, cfg, taken)
-        name = names_ar.get(n, "")
+        out[n - 1] = apply_sentences(b, sentences, segments, cfg, taken)
         if not b.get("speaker") and b.get("speaker_original") and name and is_arabic_text(name, cfg):
             # الاسم التركي واللاتيني نُقل إلى speaker_original فظهر الضيف «بلا اسم» وملخصه يسمّيه (ريل هرمز 1/11، سي إن إن ترك):
             # النداء نفسه يكتبه بالعربية، والكود يقبله عربيًا خالصًا فقط
             out[n - 1] = {**out[n - 1], "speaker": name, "speaker_from": "end_check"}
-    return out, ""
+    return out, "؛ ".join(dict.fromkeys(errors))
 
 
 def recheck_files(cfg: Any, now, client=None) -> dict:
@@ -762,9 +790,11 @@ def recheck_files(cfg: Any, now, client=None) -> dict:
             got, err = check_ends(group, segments, cfg, client, others=rest)
             stats["videos"] += 1
             if err:
+                # عطل دفعة لا يُسقط أحكام الدفعات الأخرى؛ المقطع بلا حكم يرجع كما كان فيُعاد في الجمع التالي
                 stats["errors"].append(f"{vid}: {err}")
-                continue
             for k, b in zip(idxs, got):
+                if b is bites[k]:
+                    continue
                 bites[k] = b
                 stats["checked"] += 1
                 stats["changed"] += int(bool((b.get("end_check") or {}).get("changed")))

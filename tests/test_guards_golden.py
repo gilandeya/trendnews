@@ -22476,8 +22476,10 @@ def test_reel_hormuz_fixes_guards() -> None:
         try:
             yb._create = lambda client, **kw: resp([{"bite": 1, "sentences": [S1, S2]}])
             got, err = yb.check_ends([bite, other], segs, cfg, object())
-            check("g740: العدد والترتيب نفسهما، والذي بلا حكم يُعلَّم incomplete", not err and [b["bite_id"] for b in got] == ["v:1", "v:9"]
-                  and got[0]["end_line"] == 8 and got[1]["incomplete"], [(b["bite_id"], b.get("incomplete")) for b in got])
+            # القضايا 1763–1765: كان المقطع بلا حكم يُعلَّم incomplete فأسقط القطعُ عند max_tokens ثلثي مقاطع اليوم؛ صار يبقى بلا حكم
+            check("g740: العدد والترتيب نفسهما، والذي بلا حكم يبقى كما هو بلا end_checked", not err and [b["bite_id"] for b in got] == ["v:1", "v:9"]
+                  and got[0]["end_line"] == 8 and got[1] is other and not got[1].get("end_checked"),
+                  [(b["bite_id"], b.get("incomplete")) for b in got])
             yb._create = lambda client, **kw: (_ for _ in ()).throw(RuntimeError("boom"))
             got, err = yb.check_ends([bite], segs, cfg, object())
             check("g740: عطل النداء ← المقاطع كما هي بلا end_checked (تُعاد لاحقًا)", err and got == [bite], (err, got))
@@ -22496,7 +22498,7 @@ def test_reel_hormuz_fixes_guards() -> None:
             os.environ["TRENDNEWS_YOUTUBE_TRANSCRIPTS_DIR"] = str(root / "t")
             raw = [{"start": s["start"], "duration": s["dur"], "text": s["text"]} for s in segs]
             (root / "t" / "vvvvvvvvvvv.json").write_text(json.dumps({"segments": raw}), encoding="utf-8")
-            done = {**bite, "video_id": "vvvvvvvvvvv", "bite_id": "x:0", "end_checked": True, "end_check_version": 2, "start_line": 12, "end_line": 12,
+            done = {**bite, "video_id": "vvvvvvvvvvv", "bite_id": "x:0", "end_checked": True, "end_check_version": int(cfg.path("youtube.bites.end_check.version")), "start_line": 12, "end_line": 12,
                     "start": 33.0, "end": 36.0}
             first = {**bite, "video_id": "vvvvvvvvvvv"}
             (root / "b" / "2026-11-01.json").write_text(json.dumps({"run_date": "2026-11-01", "bites": [first, done]}), encoding="utf-8")
@@ -22993,7 +22995,7 @@ def test_sentence_speaker_1758_guards() -> None:
             with open(os.path.join(root, "b", "2026-11-03.json"), encoding="utf-8") as f:
                 saved = json.load(f)["bites"][0]
             check("g759: مقطع فُحص بقواعد أقدم يُعاد فحصه مرة واحدة بالقواعد الجديدة", len(calls) == 1 and saved["end_line"] == 7
-                  and saved.get("end_check_version") == 2, (len(calls), saved.get("end_line"), saved.get("end_check_version")))
+                  and saved.get("end_check_version") == int(cfg.path("youtube.bites.end_check.version")), (len(calls), saved.get("end_line"), saved.get("end_check_version")))
         finally:
             yb._create = orig
             for k, v in prev.items():
@@ -23045,3 +23047,129 @@ def test_host_reads_quote_1758c_guards() -> None:
         finally:
             yb._create = orig
     g762()
+
+
+def test_end_check_batches_1763_guards() -> None:
+    """القضايا 1763–1765 (g763–g766): نداء فحص النهاية الواحد لثمانية مقاطع قُطع عند max_tokens فأعاد حكم أول مقطع أو اثنين، فعُدّ الباقي
+    «لا يكتمل» (73 من 90 مقطعًا في 2/11) وفشلت سيناريوهات الريل الثلاثة بلا مقاطع. دفعات صغيرة، والرد المقطوع يُقسم ولا يُقبل منه شيء،
+    والمقطع بلا حكم يبقى بلا حكم."""
+    import json
+    import os
+    import tempfile
+    import types
+    from datetime import datetime, timezone
+
+    from src import youtube_bites as yb
+    from src.config import load_config
+
+    cfg = load_config()
+    segs = yb.clean_segments([{"start": float(i * 5), "dur": 5.0, "text": f"كلمة{i} ثانية{i} ثالثة{i}"} for i in range(1, 40)])
+
+    def mk(i):
+        a, b = 4 * i + 1, 4 * i + 2
+        return {"bite_id": f"v:{a}", "video_id": "vvvvvvvvvvv", "start_line": a, "end_line": b, "start": (a - 1) * 5.0 + 5.0,
+                "end": b * 5.0 + 5.0, "first_words": f"كلمة{a} ثانية{a}", "last_words": f"ثانية{b} ثالثة{b}", "speaker": "س",
+                "type": "opinion", "text_ar": "ن"}
+
+    def sent(bite):
+        a, b = bite["start_line"], bite["end_line"]
+        return {"line": a, "first_words": f"كلمة{a} ثانية{a}", "end_line": b, "last_words": f"ثانية{b} ثالثة{b}", "text_ar": "جملة تامة.",
+                "same_speaker": True, "ends_thought": True}
+
+    def resp(items, stop="tool_use"):
+        return types.SimpleNamespace(stop_reason=stop, usage=None,
+                                     content=[types.SimpleNamespace(type="tool_use", name="split_bite_sentences", input={"bites": items})])
+
+    def shown(msg):
+        return [b for b in bites if f"[{b['start_line']}] " in msg and f"نهايته الحالية: السطر {b['end_line']} " in msg]
+
+    bites = [mk(i) for i in range(8)]
+    orig = yb._create
+
+    def g763():
+        calls = []
+
+        def fake(client, **kw):
+            got = shown(kw["messages"][0]["content"])
+            calls.append(len(got))
+            if len(got) > 1:      # يحاكي القطع: حكم المقطع الأول وحده والرد مقطوع
+                return resp([{"bite": 1, "sentences": [sent(got[0])]}], stop="max_tokens")
+            return resp([{"bite": 1, "sentences": [sent(got[0])]}])
+        yb._create = fake
+        try:
+            out, err = yb.check_ends(bites, segs, cfg, object())
+        finally:
+            yb._create = orig
+        check("g763: الرد المقطوع يُقسم حتى يُحكم على كل مقطع، ولا مقطع «لا يكتمل» بسبب القطع",
+              all(o.get("end_checked") and not o.get("incomplete") for o in out) and not err and max(calls) <= int(cfg.path("youtube.bites.end_check.batch_size")),
+              (calls, err, [o.get("incomplete") for o in out]))
+    g763()
+
+    def g764():
+        def fake(client, **kw):
+            got = shown(kw["messages"][0]["content"])
+            return resp([{"bite": n, "sentences": [sent(b)]} for n, b in enumerate(got, 1) if b["bite_id"] != bites[1]["bite_id"]])
+        yb._create = fake
+        try:
+            out, _ = yb.check_ends(bites, segs, cfg, object())
+        finally:
+            yb._create = orig
+        check("g764: مقطع لم يرد حكمه يبقى كما هو بلا end_checked (يُعاد لاحقًا) لا «لا يكتمل»",
+              out[1] is bites[1] and not out[1].get("incomplete") and out[0].get("end_checked") and out[2].get("end_checked"), out[1])
+    g764()
+
+    def g765():
+        calls = []
+
+        def fake(client, **kw):
+            got = shown(kw["messages"][0]["content"])
+            calls.append(len(got))
+            return resp([{"bite": n, "sentences": [sent(b)]} for n, b in enumerate(got, 1)])
+        yb._create = fake
+        try:
+            out, _ = yb.check_ends(bites[:7], segs, cfg, object())
+        finally:
+            yb._create = orig
+        size = int(cfg.path("youtube.bites.end_check.batch_size"))
+        check("g765: المقاطع تُرسل دفعات بحجم batch_size", calls == [size, size, 7 - 2 * size][:len(calls)] and sum(calls) == 7
+              and all(o.get("end_checked") for o in out), calls)
+    g765()
+
+    def g766():
+        root = tempfile.mkdtemp()
+        prev = {k: os.environ.get(k) for k in ("TRENDNEWS_YOUTUBE_TRANSCRIPTS_DIR", "TRENDNEWS_YOUTUBE_BITES_DIR")}
+        os.environ["TRENDNEWS_YOUTUBE_TRANSCRIPTS_DIR"] = os.path.join(root, "t")
+        os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = os.path.join(root, "b")
+        os.makedirs(os.path.join(root, "t"))
+        os.makedirs(os.path.join(root, "b"))
+        n_calls = [0]
+
+        def fake(client, **kw):
+            n_calls[0] += 1
+            if n_calls[0] == 1:
+                raise RuntimeError("انقطاع")
+            got = shown(kw["messages"][0]["content"])
+            return resp([{"bite": n, "sentences": [sent(b)]} for n, b in enumerate(got, 1)])
+        try:
+            with open(os.path.join(root, "t", "vvvvvvvvvvv.json"), "w", encoding="utf-8") as f:
+                json.dump({"segments": [{"start": s["start"], "dur": s["dur"], "text": s["text"]} for s in segs]}, f, ensure_ascii=False)
+            old = [{**b, "end_checked": True, "incomplete": True, "end_check_version": 2, "end_check": {"raw": [], "reason": "x"}}
+                   for b in bites[:6]]
+            with open(os.path.join(root, "b", "2026-11-02.json"), "w", encoding="utf-8") as f:
+                json.dump({"bites": old}, f, ensure_ascii=False)
+            yb._create = fake
+            st = yb.recheck_files(cfg, datetime(2026, 11, 2, 6, tzinfo=timezone.utc), object())
+            with open(os.path.join(root, "b", "2026-11-02.json"), encoding="utf-8") as f:
+                saved = json.load(f)["bites"]
+            size = int(cfg.path("youtube.bites.end_check.batch_size"))
+            check("g766: مقاطع «لا يكتمل» من الإصدار 2 تُعاد، وعطل دفعة لا يُسقط أحكام الدفعة الأخرى",
+                  st["errors"] and all(not b.get("incomplete") for b in saved[size:]) and all(b.get("end_check_version") == 2 for b in saved[:size]),
+                  (st, [(b.get("incomplete"), b.get("end_check_version")) for b in saved]))
+        finally:
+            yb._create = orig
+            for k, v in prev.items():
+                if v is None:
+                    os.environ.pop(k, None)
+                else:
+                    os.environ[k] = v
+    g766()
