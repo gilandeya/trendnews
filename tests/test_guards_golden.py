@@ -21626,7 +21626,7 @@ def test_reel_r14_guards() -> None:
         (s, why), calls, fits, info = run([{ids[0]: "direct", ids[1]: "direct", ids[2]: "direct"}])
         check("g699: كلها direct ← نداء كاتب واحد والسيناريو كما هو", s is not None and len(calls) == 1 and len(fits) == 1
               and fits[0].get("model") == c2.path("reel.script.fit.model"), (why, len(calls)))
-        (s, why), calls, fits, info = run([{ids[2]: "weak"}, {ids[2]: "weak"}])
+        (s, why), calls, fits, info = run([{ids[2]: "unrelated"}, {ids[2]: "unrelated"}])
         used = [x.get("point_id") for x in (s or {}).get("scenes", []) if x.get("kind") == "clip"]
         tr = calls[1][2]["content"][0]["content"] if len(calls) == 2 else ""
         check("g699: weak ← إعادة بالسبب في المحادثة", len(calls) == 2 and "لا تجيب عن سؤالها" in tr, tr)
@@ -21640,6 +21640,80 @@ def test_reel_r14_guards() -> None:
                                                       {"kind": "clip", "q": 0, "point_id": "a"}]}, {"a"})
         check("g699: سؤال بلا إجابة تُحذف بطاقته", orphan["scenes"] == [], orphan)
     guarded("g699", g699)
+
+
+def test_reel_fit_weak_headlines_guards() -> None:
+    """قضايا 1767/1768/1770 (g767–g769): حكم «weak» تقدير لا قطع — يبقى في السيناريو بتنبيه ⚠️ بلا إعادة ولا حذف (كان حذفه يكسر شرط
+    متحدثَي السؤال الأول فيفشل الريل)، و«unrelated» وحده يُعاد ويُحذف. وعناوين التحليل لا تبدأ بـ«فلان: …» (ملاحظة صاحب المشروع)."""
+    import copy
+    from types import SimpleNamespace
+
+    from src import reel_script, youtube_article
+
+    cfg = load_config()
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def g767():
+        check("g767: config — reject unrelated وحده وweak تنبيه", cfg.path("reel.script.fit.reject") == ["unrelated"]
+              and cfg.path("reel.script.fit.warn") == ["weak"] and "{quote}" in cfg.path("reel.texts.fit_weak", ""))
+    guarded("g767", g767)
+
+    def g768():
+        c2 = copy.deepcopy(cfg)
+        c2.setdefault("reel", {})["enabled"] = True
+        people = ["ليلى حداد", "سامر النجار", "رامي خوري"]
+        pts = [{"video_id": f"v{i}", "bloc": "arabic", "channel": f"قناة {i}", "speaker": people[i], "statement": f"قول {i}",
+                "quote_arabic": f"اقتباس عربي {i}", "quote_original": " ".join(f"w{i}x{k}" for k in range(34)), "type": "opinion",
+                "video_title": f"فيديو {i}", "video_url": f"https://youtube.com/watch?v=v{i}", "timestamp": 100 + i * 30,
+                "video_published": "2099-10-30"} for i in range(3)]
+        valid = reel_script.valid_clips(pts, [], c2)
+        ids = [c["point_id"] for c in valid]
+        data = {"main_question": "هل تصمد الهدنة بين الطرفين؟", "context": ["هدنة بين الطرفين منذ أسبوع."],
+                "questions": [{"role": "core", "text": "ما جوهر الخلاف حول الهدنة؟",
+                               "answers": [{"point_id": ids[k], "stance": "م", "angle": f"زاوية {k}", "repeats": False}
+                                           for k in range(2)]}],
+                "closing_question": "ما الذي ينبغي أن يحدث بعد ذلك؟"}
+        calls = []
+
+        def resp(name, inp, tid="tu"):
+            return SimpleNamespace(content=[SimpleNamespace(type="tool_use", id=tid, name=name, input=inp)],
+                                   stop_reason="tool_use", usage=SimpleNamespace(input_tokens=1, output_tokens=1))
+
+        def writer(client, **kw):
+            calls.append(1)
+            return resp(kw["tools"][0]["name"], copy.deepcopy(data), f"tu_{len(calls)}")
+
+        def judge(client, **kw):
+            return resp("judge_answers", {"answers": [{"point_id": ids[0], "verdict": "direct", "reason": "ت"},
+                                                      {"point_id": ids[1], "verdict": "weak", "reason": "لا تذكر الهدنة"}]})
+        rc, rf = reel_script._create, reel_script._fit_create
+        reel_script._create, reel_script._fit_create = writer, judge
+        info: dict = {}
+        try:
+            s, why = reel_script.write_script({"title": "م", "event": "ح"}, "نص", valid, "female", c2, member_points=pts, info=info)
+        finally:
+            reel_script._create, reel_script._fit_create = rc, rf
+        used = [x.get("point_id") for x in (s or {}).get("scenes", []) if x.get("kind") == "clip"]
+        warns = [w for w in info.get("warnings") or [] if w.startswith("⚠️")]
+        check("g768: weak ← لا إعادة ولا حذف والسيناريو بإجابتيه", s is not None and len(calls) == 1 and used == ids[:2], (why, used))
+        check("g768: تنبيه ⚠️ للإجابة الضعيفة وحدها", len(warns) == 1 and "لا تذكر الهدنة" in warns[0], warns)
+    guarded("g768", g768)
+
+    def g769():
+        ok_bad, why = youtube_article._validate_headlines(
+            ["هل يفتح تواصل فانس مع إيران باب التفاوض النووي؟", "فريحات: تواصل فانس مع الإيرانيين خطوة فاعلة",
+             "غياب البدائل يدفع واشنطن نحو التفاوض"], "", [], 15)
+        ok_good, _ = youtube_article._validate_headlines(
+            ["هل يفتح تواصل فانس مع إيران باب التفاوض النووي؟", "غياب البدائل يدفع واشنطن نحو التفاوض مع طهران",
+             "يرى محللون أن التواصل الأميركي مع طهران يفتح نافذة: لكنها ضيقة"], "", [], 15)
+        check("g769: «فلان: …» يُرفض بسببه، والنقطتان وسط الجملة مقبولتان", not ok_bad and "العنوان 2" in why and ok_good, why)
+        check("g769: عناوين التحليل بنموذج Sonnet", cfg.path("youtube.review.headlines.model") == "claude-sonnet-5")
+    guarded("g769", g769)
 
 
 def test_reel_band_attach_s13_guards() -> None:
