@@ -23774,3 +23774,100 @@ def test_clean_screen_text_1779_guards() -> None:
               got["accepted"] and got["name_arabic"] == "غفار ياكينجا" and got.get("name_from_roster")
               and not bare["accepted"] and clean["name_arabic"] == "غفار ياكينجا" and clean["accepted"], (got, bare["name_arabic"], clean["name_arabic"]))
     guarded("g794", g794)
+
+
+def test_bite_audio_sections_guards() -> None:
+    """تنزيل نوافذ المقاطع وحدها (g795–g797): تنزيل الحلقات كاملة لتفريغ المقاطع استنفد رصيد البروكسي في يوم (2/11). الكلام في الحالات
+    مصنوع، لا اقتباس من قناة."""
+    import json
+    import os
+    import tempfile
+    from datetime import datetime, timezone
+    from pathlib import Path
+
+    from src import bite_audio
+    from src.config import load_config
+
+    cfg = load_config()
+    cfg["youtube"]["bites"]["audio"]["enabled"] = True
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def g795():
+        merged = bite_audio.merge_windows([(200, 230), (10, 40), (55, 80)], 20)
+        apart = bite_audio.merge_windows([(10, 40), (70, 90)], 20)
+        check("g795: نافذتان متقاربتان قسم واحد والبعيدة قسم وحدها، بترتيب الزمن",
+              merged == [(10, 80), (200, 230)] and apart == [(10, 40), (70, 90)], (merged, apart))
+    guarded("g795", g795)
+
+    def g796():
+        files = [Path("sec_v_10.0.wav"), Path("sec_v_199.98.wav"), Path("sec_v_x.wav")]
+        got = bite_audio.match_sections([(10, 80), (200, 230), (400, 420)], files, "sec_v")
+        check("g796: كل قسم يُربط بملفه من بدايته في الاسم، والقسم بلا ملف لا يُعاد",
+              got == [(10, 80, files[0]), (200, 230, files[1])], got)
+    guarded("g796", g796)
+
+    def g797():
+        tokens = ("The meeting ended early. However the second round of talks will start next week in the capital "
+                  "and both sides agree. Then the minister left").split()
+        base = 300.0
+        video_words = [(round(base + 0.6 * k, 2), round(base + 0.5 + 0.6 * k, 2), w) for k, w in enumerate(tokens)]
+        i0, i1 = tokens.index("second"), tokens.index("and")
+        b1 = {"bite_id": "vidS:5", "video_id": "vidS", "language": "en", "start": video_words[i0][0], "end": video_words[i1][1],
+              "text_original": " ".join(tokens[i0:i1 + 1]), "text_ar": "نص قديم", "duration_seconds": 3600}
+        # مقطع ثانٍ بعيد من الفيديو نفسه، وقسمه لا يُنزَّل (يحاكي قسمًا فشل): يفشل وحده ولا يُسقط الأول
+        b2 = dict(b1, bite_id="vidS:90", start=2000.0, end=2015.0, text_original="far away words here")
+        asked, cuts = [], []
+
+        def sections(vid, out, ranges):
+            asked.append((vid, list(ranges)))
+            p = Path(out) / "sec_vidS_first.wav"
+            p.write_bytes(b"x")
+            a, b = ranges[0]
+            return [(a, b, p)]
+
+        def cut(src, s, e, out):
+            cuts.append((Path(src).name, s, e))
+            p = Path(out) / f"cut_{s}.wav"
+            p.write_bytes(b"x")
+            return p
+
+        def transcribe(path, lang, c):
+            # الملف المقتطع يبدأ عند بداية النافذة؛ والكلمات تُعاد بثوانيه
+            w0 = bite_audio.bite_window(b1, cfg)[0]
+            return [(s - w0, e - w0, w) for s, e, w in video_words]
+
+        deps = bite_audio.Deps(download_sections=sections, cut=cut, transcribe=transcribe,
+                               translate=lambda items, c, cl: {it["n"]: "ترجمة جديدة" for it in items},
+                               selfcheck=lambda c: (True, ""))
+        tmp = Path(tempfile.mkdtemp())
+        old = {k: os.environ.get(k) for k in ("TRENDNEWS_YOUTUBE_BITES_DIR", "TRENDNEWS_YOUTUBE_TRANSCRIPTS_DIR")}
+        os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = str(tmp / "b")
+        os.environ["TRENDNEWS_YOUTUBE_TRANSCRIPTS_DIR"] = str(tmp / "t")
+        try:
+            (tmp / "b").mkdir()
+            path = tmp / "b" / "2026-11-02.json"
+            path.write_text(json.dumps({"run_date": "2026-11-02", "bites": [b1, b2]}), encoding="utf-8")
+            stats = bite_audio.process(cfg, datetime(2026, 11, 2, 12, tzinfo=timezone.utc), deps=deps)
+            out = json.loads(path.read_text(encoding="utf-8"))["bites"]
+        finally:
+            for k, v in old.items():
+                if v is None:
+                    os.environ.pop(k, None)
+                else:
+                    os.environ[k] = v
+        w = [bite_audio.bite_window(b1, cfg), bite_audio.bite_window(b2, cfg)]
+        a1 = out[0].get("audio") or {}
+        words_ok = bool(a1.get("words")) and abs(a1["words"][0][0] - video_words[0][0]) < 0.01
+        check("g797: طلب واحد للفيديو بنافذتي مقطعيه لا الحلقة، والاقتطاع بثواني القسم والكلمات بثواني الفيديو، "
+              "والمقطع بلا قسم يفشل وحده، وثواني الصوت تُعدّ",
+              asked == [("vidS", sorted(w))] and cuts == [("sec_vidS_first.wav", 0, w[0][1] - w[0][0])]
+              and a1.get("status") in ("ok", "open") and words_ok
+              and (out[1].get("audio") or {}).get("status") == "failed"
+              and stats["downloads"] == 1 and stats["audio_seconds"] == sum(b - a for a, b in w),
+              (asked, cuts, a1.get("status"), a1.get("words", [])[:1], out[1].get("audio"), stats))
+    guarded("g797", g797)
