@@ -15,7 +15,7 @@ concurrency:
 jobs:
   collect-extract:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 75
 
     steps:
       - name: سحب المستودع
@@ -40,7 +40,7 @@ jobs:
           cache: pip
 
       - name: تثبيت المكتبات
-        run: pip install -r requirements.txt
+        run: pip install -r requirements.txt -r requirements-reel.txt
 
       - name: الجمع والاستخلاص
         env:
@@ -52,7 +52,21 @@ jobs:
           # أعلاه بدل state/youtube_points المحلي (config.YOUTUBE_POINTS_DIR).
           TRENDNEWS_YOUTUBE_POINTS_DIR: ${{ github.workspace }}/youtube-data/state/youtube_points
         run: python -m src.youtube_extract
+        
+      - name: ذاكرة نموذج whisper
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: whisper-small-v1
 
+      - name: تفريغ صوت المقاطع
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          WEBSHARE_PROXY_USERNAME: ${{ secrets.WEBSHARE_PROXY_USERNAME }}
+          WEBSHARE_PROXY_PASSWORD: ${{ secrets.WEBSHARE_PROXY_PASSWORD }}
+          TRENDNEWS_YOUTUBE_POINTS_DIR: ${{ github.workspace }}/youtube-data/state/youtube_points
+        run: python -m src.bite_audio
+        
       - name: رفع نقاط اليوم إلى مستودع البيانات الخاص
         working-directory: youtube-data
         run: |
