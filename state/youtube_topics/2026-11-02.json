@@ -1,0 +1,894 @@
+{
+  "run_date": "2026-11-02",
+  "stats": {
+    "points_in": 336,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 186,
+    "issues_clustered": 28,
+    "topics_merged": 6,
+    "topics_out": 4,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 1,
+    "topics_below_min_points": 4,
+    "topics_below_min_channels": 9,
+    "topics_below_reel_fit": 2,
+    "layers": {
+      "2": 2,
+      "1": 2
+    },
+    "agreement": 1,
+    "cross_source": 3,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "source": "bites",
+  "window_keys": [
+    "CAXsE4ZmyNE:62",
+    "CAXsE4ZmyNE:119",
+    "CAXsE4ZmyNE:151",
+    "CAXsE4ZmyNE:270",
+    "CAXsE4ZmyNE:295",
+    "CAXsE4ZmyNE:329",
+    "CAXsE4ZmyNE:377",
+    "CAXsE4ZmyNE:591",
+    "dFtAuLn0JYc:199",
+    "dFtAuLn0JYc:241",
+    "dFtAuLn0JYc:260",
+    "dFtAuLn0JYc:276",
+    "dFtAuLn0JYc:417",
+    "dFtAuLn0JYc:430",
+    "HFR6XCH8dsY:51",
+    "HFR6XCH8dsY:84",
+    "HFR6XCH8dsY:178",
+    "HFR6XCH8dsY:231",
+    "HFR6XCH8dsY:266",
+    "HFR6XCH8dsY:356",
+    "HFR6XCH8dsY:408",
+    "HFR6XCH8dsY:427",
+    "0ThuBjxhTJI:56",
+    "0ThuBjxhTJI:330",
+    "ecDn3oUd0jc:29",
+    "ecDn3oUd0jc:61",
+    "ecDn3oUd0jc:77",
+    "ecDn3oUd0jc:92",
+    "ecDn3oUd0jc:101",
+    "ecDn3oUd0jc:196",
+    "d5Afl0pAltc:88",
+    "d5Afl0pAltc:293",
+    "d5Afl0pAltc:534",
+    "d5Afl0pAltc:925",
+    "d5Afl0pAltc:1019",
+    "d5Afl0pAltc:1111",
+    "d5Afl0pAltc:1329",
+    "g-rCGv5pbdg:29",
+    "g-rCGv5pbdg:92",
+    "g-rCGv5pbdg:218",
+    "g-rCGv5pbdg:356",
+    "g-rCGv5pbdg:460",
+    "g-rCGv5pbdg:598",
+    "g-rCGv5pbdg:1201",
+    "TkROn7PgEcM:194",
+    "TkROn7PgEcM:322",
+    "TkROn7PgEcM:2217",
+    "TkROn7PgEcM:2251",
+    "TkROn7PgEcM:2301",
+    "TkROn7PgEcM:2602",
+    "INYoeitLse4:117",
+    "INYoeitLse4:438",
+    "INYoeitLse4:2722",
+    "INYoeitLse4:2794",
+    "INYoeitLse4:3179",
+    "INYoeitLse4:3187",
+    "kWvv7wUwGHY:52",
+    "kWvv7wUwGHY:102",
+    "kWvv7wUwGHY:162",
+    "kWvv7wUwGHY:209",
+    "kRWeOsx-U7I:51",
+    "kRWeOsx-U7I:74",
+    "kRWeOsx-U7I:96",
+    "kRWeOsx-U7I:254",
+    "kRWeOsx-U7I:529",
+    "-m_OEw3x3K4:39",
+    "-m_OEw3x3K4:81",
+    "-m_OEw3x3K4:277",
+    "-m_OEw3x3K4:292",
+    "-m_OEw3x3K4:336",
+    "-m_OEw3x3K4:491",
+    "fvXz38iRw4E:163",
+    "fvXz38iRw4E:182",
+    "fvXz38iRw4E:343",
+    "fvXz38iRw4E:361",
+    "fvXz38iRw4E:549",
+    "fvXz38iRw4E:706",
+    "fvXz38iRw4E:725",
+    "fvXz38iRw4E:888",
+    "tBfbBMS6_8w:158",
+    "tBfbBMS6_8w:210",
+    "tBfbBMS6_8w:248",
+    "tBfbBMS6_8w:358",
+    "tBfbBMS6_8w:431",
+    "tBfbBMS6_8w:484",
+    "Ec34laYK8rs:37",
+    "Ec34laYK8rs:117",
+    "Ec34laYK8rs:166",
+    "Ec34laYK8rs:286",
+    "Ec34laYK8rs:448",
+    "Ec34laYK8rs:1971",
+    "6Z67YGg6KPA:3",
+    "6Z67YGg6KPA:442",
+    "6Z67YGg6KPA:463",
+    "6Z67YGg6KPA:480",
+    "6Z67YGg6KPA:545",
+    "6Z67YGg6KPA:951",
+    "Vt9RroY0N5M:93",
+    "Vt9RroY0N5M:108",
+    "Vt9RroY0N5M:206",
+    "Vt9RroY0N5M:275",
+    "Vt9RroY0N5M:496",
+    "Vt9RroY0N5M:537",
+    "Vt9RroY0N5M:2021",
+    "Vt9RroY0N5M:2241",
+    "1f9nE3o_emU:98",
+    "1f9nE3o_emU:220",
+    "1f9nE3o_emU:497",
+    "1f9nE3o_emU:1990",
+    "lWi6JjBFoOs:56",
+    "lWi6JjBFoOs:69",
+    "lWi6JjBFoOs:105",
+    "lWi6JjBFoOs:159",
+    "lWi6JjBFoOs:253",
+    "lWi6JjBFoOs:300",
+    "lWi6JjBFoOs:512",
+    "fzi7OHmDCO8:98",
+    "fzi7OHmDCO8:172",
+    "fzi7OHmDCO8:204",
+    "fzi7OHmDCO8:269",
+    "fzi7OHmDCO8:392",
+    "fzi7OHmDCO8:465",
+    "fzi7OHmDCO8:497",
+    "sPOg9pB5MQ0:45",
+    "sPOg9pB5MQ0:166",
+    "sPOg9pB5MQ0:194",
+    "sPOg9pB5MQ0:218",
+    "sPOg9pB5MQ0:300",
+    "sPOg9pB5MQ0:495",
+    "sPOg9pB5MQ0:547",
+    "R2Y9idTB0dA:128",
+    "R2Y9idTB0dA:214",
+    "R2Y9idTB0dA:261",
+    "R2Y9idTB0dA:298",
+    "R2Y9idTB0dA:466",
+    "R2Y9idTB0dA:589",
+    "R2Y9idTB0dA:860",
+    "i2zZrFVeal4:6",
+    "i2zZrFVeal4:19",
+    "i2zZrFVeal4:139",
+    "i2zZrFVeal4:183",
+    "i2zZrFVeal4:456",
+    "i2zZrFVeal4:514",
+    "1w226d9saCE:17",
+    "1w226d9saCE:29",
+    "1w226d9saCE:78",
+    "1w226d9saCE:97",
+    "1w226d9saCE:145",
+    "1w226d9saCE:211",
+    "1w226d9saCE:220"
+  ],
+  "merged_events": [
+    [
+      "موقف إيران من فتح مضيق هرمز",
+      "الضغط العسكري الأمريكي وتأثيره على إيران",
+      "مقارنة تأثير حرب إيران بحرب العراق على انتخابات 2006"
+    ],
+    [
+      "إعادة رسم الدوائر الانتخابية الأمريكية",
+      "الاقتراع المبكر وحشد القواعد الانتخابية"
+    ],
+    [
+      "احتجاجات فرنسا الطلابية والشعبية",
+      "امتداد الاحتجاجات إلى أوروبا"
+    ],
+    [
+      "الأزمة التركية الأذربيجانية الصامتة",
+      "فضيحة صندوق الثروة التركي وتفاصيلها",
+      "استقرار الناخبين الأتراك رغم أزمة الصناديق"
+    ],
+    [
+      "عمليات الموساد والصراع الإسرائيلي الإيراني",
+      "أسباب إصرار ترامب على الحرب وهدف عزل إيران"
+    ],
+    [
+      "مفاوضات الدوحة ودوافع ترامب تجاه إيران",
+      "احتمال ضربة أمريكية أو إسرائيلية جديدة على إيران"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "نتائج انتخابات الكنيست وتشكيل الحكومة",
+      "event": "نتائج الانتخابات الإسرائيلية الأخيرة وتداعياتها على فرص تشكيل حكومة نتنياهو",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        31,
+        42,
+        43,
+        73,
+        74,
+        75,
+        76,
+        77
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null,
+      "reel_fit": {
+        "opinion_speakers": 3,
+        "blocs": 2,
+        "angles": 7,
+        "fresh": 1,
+        "score": 21.0
+      },
+      "id": "072f6f175621",
+      "created_at": "2026-11-02T04:02:24.189844+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1762
+    },
+    {
+      "title": "مفاوضات الدوحة ودوافع ترامب تجاه إيران",
+      "event": "تحليل دوافع ترامب في مفاوضات إيران بالدوحة واحتمال توجيه ضربة عسكرية رغم التنازلات",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        60,
+        61,
+        62,
+        64,
+        72,
+        79,
+        80,
+        88,
+        91
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": null,
+      "reel_fit": {
+        "opinion_speakers": 2,
+        "blocs": 2,
+        "angles": 8,
+        "fresh": 1,
+        "score": 19.0
+      },
+      "id": "3d4c6495f220",
+      "created_at": "2026-11-02T04:02:24.189844+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1762
+    },
+    {
+      "title": "رسالة فانس وتصريحات محسن رضائي حول المفاوضات",
+      "event": "تسريب رسالة نائب الرئيس الأمريكي فانس للإيرانيين وتصريحات محسن رضائي المتبادلة بشأن التفاوض النووي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        71
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null,
+      "reel_fit": {
+        "opinion_speakers": 3,
+        "blocs": 1,
+        "angles": 6,
+        "fresh": 1,
+        "score": 18.0
+      },
+      "id": "5e4eb25b9928",
+      "created_at": "2026-11-02T04:02:24.189844+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1762
+    },
+    {
+      "title": "الأزمة التركية الأذربيجانية الصامتة",
+      "event": "توتر العلاقات بين تركيا وأذربيجان وغياب علييف عن قمة أنقرة وخلفياته",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        54,
+        55,
+        56,
+        57,
+        58,
+        104,
+        108,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129
+      ],
+      "total_points": 14,
+      "fresh_points": 14,
+      "dropped_reason": null,
+      "reel_fit": {
+        "opinion_speakers": 2,
+        "blocs": 1,
+        "angles": 7,
+        "fresh": 1,
+        "score": 16.0
+      },
+      "id": "a18c5dafd517",
+      "created_at": "2026-11-02T04:02:24.189844+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1762
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "نتائج انتخابات الكنيست وتشكيل الحكومة",
+      "event": "نتائج الانتخابات الإسرائيلية الأخيرة وتداعياتها على فرص تشكيل حكومة نتنياهو",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        31,
+        42,
+        43,
+        73,
+        74,
+        75,
+        76,
+        77
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null,
+      "reel_fit": {
+        "opinion_speakers": 3,
+        "blocs": 2,
+        "angles": 7,
+        "fresh": 1,
+        "score": 21.0
+      }
+    },
+    {
+      "title": "مفاوضات الدوحة ودوافع ترامب تجاه إيران",
+      "event": "تحليل دوافع ترامب في مفاوضات إيران بالدوحة واحتمال توجيه ضربة عسكرية رغم التنازلات",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        60,
+        61,
+        62,
+        64,
+        72,
+        79,
+        80,
+        88,
+        91
+      ],
+      "total_points": 9,
+      "fresh_points": 9,
+      "dropped_reason": null,
+      "reel_fit": {
+        "opinion_speakers": 2,
+        "blocs": 2,
+        "angles": 8,
+        "fresh": 1,
+        "score": 19.0
+      }
+    },
+    {
+      "title": "احتجاجات فرنسا الطلابية والشعبية",
+      "event": "موجة الاحتجاجات الطلابية والنقابية في فرنسا خلال شهر واحد وأسبابها وتطورها",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk",
+        "فرانس 24 عربي"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        37,
+        38,
+        39,
+        40,
+        41,
+        49
+      ],
+      "total_points": 12,
+      "fresh_points": 1,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "رسالة فانس وتصريحات محسن رضائي حول المفاوضات",
+      "event": "تسريب رسالة نائب الرئيس الأمريكي فانس للإيرانيين وتصريحات محسن رضائي المتبادلة بشأن التفاوض النووي",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        71
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": null,
+      "reel_fit": {
+        "opinion_speakers": 3,
+        "blocs": 1,
+        "angles": 6,
+        "fresh": 1,
+        "score": 18.0
+      }
+    },
+    {
+      "title": "عمليات الموساد والصراع الإسرائيلي الإيراني",
+      "event": "تقييم عمليات الموساد داخل إيران ونتائج الحرب الإسرائيلية الإيرانية الأخيرة",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "Habertürk"
+      ],
+      "agreement": "cross_source",
+      "point_ids": [
+        46,
+        47,
+        83,
+        84,
+        86,
+        87,
+        95
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_reel_fit",
+      "reel_fit": {
+        "opinion_speakers": 1,
+        "blocs": 1,
+        "angles": 7,
+        "fresh": 1,
+        "score": 13.0
+      }
+    },
+    {
+      "title": "انقسام ديمقراطي في ميشيغان بسبب دعم هيلي ستيفنز",
+      "event": "دعم المرشحة الديمقراطية هيلي ستيفنز للمرشح الجمهوري مايك روجرز وخلافها مع عبدول السيد",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        65,
+        67,
+        68,
+        69
+      ],
+      "total_points": 4,
+      "fresh_points": 4,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "قضية ساريغول وفضائح الفساد المحلي في تركيا",
+      "event": "تفاعل الرأي العام مع قضية ساريغول والاتهامات المستمرة ضده منذ 2005 وتأثيرها على الثقة بالسياسة",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        105,
+        106,
+        107
+      ],
+      "total_points": 10,
+      "fresh_points": 10,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "إعادة رسم الدوائر الانتخابية الأمريكية",
+      "event": "موجة إعادة رسم الدوائر الانتخابية في عدة ولايات أمريكية قبل التجديد النصفي وتأثيرها على موازين الأحزاب",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "انتهاء الحرب الروسية الأوكرانية فعليًا",
+      "event": "تقييم ما إذا كانت الحرب الروسية الأوكرانية قد انتهت فعليًا مع زيارة لافروف والانتخابات الأمريكية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        44,
+        45
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "موقف إيران من فتح مضيق هرمز",
+      "event": "تمسك إيران بإبقاء مضيق هرمز ورقة تفاوضية ورفض فتحه قبل تنفيذ شروطها",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        5,
+        6,
+        7,
+        22,
+        23,
+        70,
+        78
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_reel_fit",
+      "reel_fit": {
+        "opinion_speakers": 1,
+        "blocs": 1,
+        "angles": 6,
+        "fresh": 1,
+        "score": 12.0
+      }
+    },
+    {
+      "title": "الأزمة التركية الأذربيجانية الصامتة",
+      "event": "توتر العلاقات بين تركيا وأذربيجان وغياب علييف عن قمة أنقرة وخلفياته",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        54,
+        55,
+        56,
+        57,
+        58,
+        104,
+        108,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129
+      ],
+      "total_points": 14,
+      "fresh_points": 14,
+      "dropped_reason": null,
+      "reel_fit": {
+        "opinion_speakers": 2,
+        "blocs": 1,
+        "angles": 7,
+        "fresh": 1,
+        "score": 16.0
+      }
+    },
+    {
+      "title": "توقعات الانتخابات النصفية الأمريكية 2026",
+      "event": "توقعات حول نتائج الانتخابات النصفية الأمريكية 2026 وتأثيرها على إدارة ترامب",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "زيادات الرواتب والمعاشات في تركيا",
+      "event": "سيناريوهات زيادة الحد الأدنى للأجور والمعاشات التقاعدية في تركيا تبعًا للتضخم",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "الأزمة الاقتصادية الإيرانية وانهيار الريال",
+      "event": "تدهور الاقتصاد الإيراني وانهيار قيمة الريال وسياسات الحكومة الاقتصادية",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "زيارة غاي مروز لبيت بن غفير",
+      "event": "زيارة الصحفي غاي مروز لبيت الوزير إيتمار بن غفير وما كشفه من ردود فعل سابقة وتصريحات بن غفير",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        137,
+        138,
+        139,
+        140,
+        141
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "رد فعل سكان أوفاكيم على وصفهم بالأغبياء",
+      "event": "رواية ليام بلطي عن استشهاد والدها في أوفاكيم يوم 7 أكتوبر وردها على وصف سكان أوفاكيم بالأغبياء لتصويتهم لنتنياهو",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "اتهامات ترامب بتزوير انتخابات كاليفورنيا",
+      "event": "إعلان ترامب عن كشف وزارة العدل أصواتاً غير قانونية في كاليفورنيا وتعهده بمواصلة الطعن",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        8,
+        9,
+        10
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تنوع تصويت اللاتينيين في الانتخابات الأمريكية",
+      "event": "تباين ميول الناخبين اللاتينيين حسب الولاية وأثره على الحزبين",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        19,
+        20
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "ملاحقة الصحفي مراد أغيرال وقمع هالك تي في",
+      "event": "الملاحقة القضائية للصحفي مراد أغيرال وتعيين وصي على قناة هالك تي في وردود الفعل الداعمة لحرية الصحافة",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        52,
+        53
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تهديد محسن رضائي النووي لأمريكا",
+      "event": "تصريح محسن رضائي بتهديد استخدام السلاح النووي وتغيير العقيدة النووية ووعده بكسر قرون أمريكا",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        81,
+        82,
+        85,
+        89,
+        92,
+        93,
+        96
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    }
+  ]
+}
