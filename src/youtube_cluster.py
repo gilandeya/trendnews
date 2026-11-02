@@ -849,6 +849,130 @@ def _agreement_type_for(raw_agreement: str, channels: set[str]) -> str:
     return "cross_source" if len(channels) >= 2 else "internal"
 
 
+COHERENCE_TOOL = {
+    "name": "check_topic_coherence",
+    "description": "لكل قضية: المقاطع التي ليست عن حدثها، وحدثها الصحيح إن كان أكثر مقاطعها عن حدث آخر",
+    "input_schema": {"type": "object", "properties": {"topics": {"type": "array", "items": {
+        "type": "object", "properties": {
+            "topic": {"type": "integer"},
+            "title": {"type": "string"}, "event": {"type": "string"},
+            "off_topic": {"type": "array", "items": {"type": "integer"}}},
+        "required": ["topic", "off_topic"]}}}, "required": ["topics"]},
+}
+
+
+def _coherence_create(client, **kwargs):
+    """نقطة نداء فحص تماسك القضايا (يزيّفها install_fakes بلا حكم، ويستبدلها اختبارها). العميل يُنشأ هنا لا قبله كي لا يطلب مفتاحًا
+    حيث لا نداء."""
+    client = client or Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
+    return llm.create(client, **kwargs)
+
+
+def _coherence_message(issues: list[dict], points: list[dict]) -> str:
+    out = []
+    for n, issue in enumerate(issues, 1):
+        out.append(f"## القضية {n}: {issue.get('title', '')}\nالحدث: {issue.get('event', '')}")
+        for pid in issue["point_ids"]:
+            p = points[pid]
+            who = p.get("speaker") or p.get("speaker_original") or "متحدث بلا اسم"
+            out.append(f"[{pid}] {who} ({p.get('channel', '')}): {' '.join(str(p.get('statement') or '').split())}")
+        out.append("")
+    return "\n".join(out)
+
+
+def _coherence_verdicts(issues: list[dict], points: list[dict], cfg: Config, client, depth: int = 0
+                        ) -> tuple[dict[int, dict], str]:
+    """أحكام دفعة من القضايا {رقمها في الدفعة (من 1): الحكم}. الرد المقطوع لا يُقبل منه شيء وتُقسم دفعته نصفين (درس القضايا 1763–1765)."""
+    ccfg = cfg.path("youtube.cluster.coherence", {}) or {}
+    try:
+        resp = _coherence_create(client, model=ccfg.get("model", "haiku"), max_tokens=int(ccfg.get("max_tokens", 3000)),
+                                 system=str(ccfg.get("system", "")), tools=[COHERENCE_TOOL],
+                                 tool_choice={"type": "tool", "name": COHERENCE_TOOL["name"]},
+                                 messages=[{"role": "user", "content": _coherence_message(issues, points)}])
+    except Exception as exc:  # noqa: BLE001 -- فحص تحسين لا شرط: عطله يُبقي القضايا كما عنقدها النموذج
+        return {}, f"فشل نداء فحص التماسك: {type(exc).__name__}: {str(exc)[:150]}"
+    if resp is None:
+        return {}, ""
+    if str(getattr(resp, "stop_reason", "") or "") == "max_tokens":
+        if len(issues) > 1 and depth < int(ccfg.get("max_splits", 2)):
+            half = (len(issues) + 1) // 2
+            first, e1 = _coherence_verdicts(issues[:half], points, cfg, client, depth + 1)
+            second, e2 = _coherence_verdicts(issues[half:], points, cfg, client, depth + 1)
+            merged = dict(first)
+            merged.update({k + half: v for k, v in second.items()})
+            return merged, e1 or e2
+        return {}, "رد فحص التماسك قُطع عند max_tokens"
+    data = None
+    for blk in getattr(resp, "content", None) or []:
+        if getattr(blk, "type", "") == "tool_use" and getattr(blk, "name", "") == COHERENCE_TOOL["name"]:
+            data = getattr(blk, "input", None)
+    rows = (data or {}).get("topics") if isinstance(data, dict) else None
+    if isinstance(rows, str):
+        try:
+            rows = json.loads(rows)
+        except ValueError:
+            rows = None
+    if not isinstance(rows, list):
+        return {}, "لم يُرجع فحص التماسك قائمة"
+    out: dict[int, dict] = {}
+    for r in rows:
+        try:
+            n = int(r.get("topic"))
+        except (TypeError, ValueError, AttributeError):
+            continue
+        if 1 <= n <= len(issues):
+            out[n] = r
+    return out, ""
+
+
+def check_coherence(issues: list[dict], points: list[dict], cfg: Config, client=None) -> tuple[list[dict], dict]:
+    """القضية 1770: «الأزمة التركية الأذربيجانية» جمعت ثلاثة مقاطع عن أذربيجان وأحد عشر عن فضيحة الصندوق والسياسة التركية الداخلية، فسأل
+    الريل «ما جوهر فضيحة الصندوق؟» في ريل عن أذربيجان. العنقدة نداء واحد على مئة وخمسين مقطعًا تخلط أحيانًا، فيقرأ Haiku كل قضية بعنوانها
+    ومقاطعها ويحكم: أي مقطع ليس عن حدثها؟ وإن كان أكثرها عن حدث آخر فذاك حدثها ويُكتب عنوانه. الكود ينفّذ: يحذف المقطع من القضية (فتُحسب الطبقة
+    والقنوات وصلاحية الريل مما بقي) ولا يقبل حكمًا يُفرغها. عطل أو رد غير صالح ← القضايا كما هي. يعيد (القضايا، إحصاء)."""
+    ccfg = cfg.path("youtube.cluster.coherence", {}) or {}
+    stats = {"checked": 0, "removed": 0, "retitled": 0, "errors": []}
+    if not ccfg.get("enabled") or not issues:
+        return issues, stats
+    size = max(1, int(ccfg.get("batch_size", 6) or 6))
+    verdicts: dict[int, dict] = {}
+    for lo in range(0, len(issues), size):
+        got, err = _coherence_verdicts(issues[lo:lo + size], points, cfg, client)
+        verdicts.update({k + lo: v for k, v in got.items()})
+        if err:
+            stats["errors"].append(err)
+    out = []
+    for n, issue in enumerate(issues, 1):
+        v = verdicts.get(n)
+        if v is None:
+            out.append(issue)
+            continue
+        stats["checked"] += 1
+        off = set()
+        for x in v.get("off_topic") or []:
+            try:
+                off.add(int(x))
+            except (TypeError, ValueError):
+                continue
+        kept = [pid for pid in issue["point_ids"] if pid not in off]
+        removed = [pid for pid in issue["point_ids"] if pid in off]
+        if not kept:
+            # حكم يُفرغ القضية خطأ في الحكم لا في القضية: تبقى كما هي (القضية الفارغة لا تُعرض أصلًا)
+            out.append(issue)
+            continue
+        new = dict(issue, point_ids=kept)
+        title, event = " ".join(str(v.get("title") or "").split()), " ".join(str(v.get("event") or "").split())
+        if title and event:
+            new.update(title=title, event=event, retitled_from=issue.get("title", ""))
+            stats["retitled"] += 1
+        if removed:
+            new["coherence_removed"] = removed
+            stats["removed"] += len(removed)
+        out.append(new)
+    stats["errors"] = list(dict.fromkeys(stats["errors"]))
+    return out, stats
+
+
 def build_topics(issues: list[dict], points: list[dict],
                   today_date_str: str | None = None) -> list[dict]:
     """يحوّل قضايا العنقدة الخامة إلى بنية المخرج النهائية: يحسب الطبقة
@@ -876,6 +1000,10 @@ def build_topics(issues: list[dict], points: list[dict],
             "point_ids": issue["point_ids"],
             "_has_today": has_today,
         })
+        # أثر فحص التماسك للمراجعة والتحليل (القضية 1770)
+        for k in ("coherence_removed", "retitled_from"):
+            if issue.get(k):
+                topics[-1][k] = issue[k]
 
     topics.sort(key=lambda t: (-layer_num(t["layer"]), _AGREEMENT_RANK[t["agreement"]],
                                 0 if t["_has_today"] else 1))
@@ -967,6 +1095,9 @@ def run(cfg: Config | None = None, date_str: str | None = None,
     merged_issues, merge_log, merge_error = merge_duplicate_events(raw_issues, cfg, client)
     if merge_error:
         log.warning("تعذّر دمج الأحداث المتكرّرة، بلا دمج هذه التشغيلة: %s", merge_error)
+    merged_issues, coherence = check_coherence(merged_issues, points, cfg, client)
+    if coherence["errors"]:
+        log.warning("فحص تماسك القضايا: %s", "؛ ".join(coherence["errors"]))
     topics = build_topics(merged_issues, points, date_str)
 
     seen_keys = set(load_seen_points().keys())
@@ -1031,6 +1162,7 @@ def run(cfg: Config | None = None, date_str: str | None = None,
             "topics_below_min_points": dropped_by_min_points,
             "topics_below_min_channels": dropped_by_min_channels,
             "topics_below_reel_fit": dropped_by_reel_fit,
+            "coherence": coherence,
             "layers": {str(n): c for n, c in sorted(layer_counts.items(), reverse=True)},
             "agreement": agreement_counts["agreement"],
             "cross_source": agreement_counts["cross_source"],
@@ -1692,6 +1824,9 @@ def main() -> int:
           f"· دون حدّ النقاط: {stats['topics_below_min_points']} "
           f"· دون حدّ القنوات: {stats['topics_below_min_channels']} "
           f"· دون صلاحية الريل: {stats.get('topics_below_reel_fit', 0)}) · المصدر: {result.get('source')}")
+    coh = stats.get("coherence") or {}
+    if coh.get("checked"):
+        print(f"فحص التماسك: {coh['checked']} قضية · أُخرج {coh['removed']} مقطعًا ليس عن حدث قضيته · أُعيدت تسمية {coh['retitled']}")
     layers = stats.get("layers", {})
     print("الكتل المتقاطعة: " + " ".join(
         f"{n} كتل={layers[n]}" if n != "1" else f"1={layers[n]}" for n in layers))

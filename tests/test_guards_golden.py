@@ -23247,3 +23247,125 @@ def test_end_check_batches_1763_guards() -> None:
                 else:
                     os.environ[k] = v
     g766()
+
+
+def test_coherence_start_1770_guards() -> None:
+    """القضايا 1767/1770 (g770–g774): (أ) العنقدة جمعت في «الأزمة التركية الأذربيجانية» ثلاثة مقاطع عن أذربيجان وأحد عشر عن فضيحة الصندوق،
+    ففحص تماسك القضايا بعد العنقدة يُخرج ما ليس عن حدث القضية ويعيد تسميتها إن كان أكثرها عن حدث آخر. (ب) مقاطع مبتورة من أولها كانت
+    تُستبعد لأن فحص النهاية لا يرى ما قبلها؛ صار يرى أسطرًا قبلها ويُبدئ المقطع من أول جملته."""
+    import types
+
+    from src import reel_script, youtube_bites as yb, youtube_cluster as yc, youtube_transcripts
+    from src.config import load_config
+
+    cfg = load_config()
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    # ملخصات مصنوعة بشكل الحادثة (لا نص حقيقي من القنوات)
+    points = ([{"channel": "SÖZCÜ", "bloc": "turkish", "speaker": f"محلل {i}", "statement": f"فضيحة الصندوق ومن نهب أموال الناس {i}"}
+               for i in range(5)]
+              + [{"channel": "SÖZCÜ", "bloc": "turkish", "speaker": "إسماعيل سايماز", "statement": f"أذربيجان أقرب حليف لتركيا {i}"}
+                 for i in range(2)])
+    issue = {"title": "الأزمة التركية الأذربيجانية الصامتة", "event": "توتر العلاقات بين تركيا وأذربيجان",
+             "agreement": "cross_source", "point_ids": list(range(7))}
+    other = {"title": "قضية ثانية", "event": "حدث ثانٍ", "agreement": "cross_source", "point_ids": [0, 1]}
+
+    def resp(rows, stop="tool_use"):
+        return types.SimpleNamespace(stop_reason=stop, content=[types.SimpleNamespace(
+            type="tool_use", name="check_topic_coherence", input={"topics": rows})])
+
+    orig = yc._coherence_create
+
+    def g770():
+        def fake(client, **kw):
+            return resp([{"topic": 1, "title": "فضيحة الصندوق في تركيا", "event": "فضيحة صندوق نُهبت أمواله", "off_topic": [5, 6]},
+                         {"topic": 2, "title": "", "event": "", "off_topic": [0, 1]}])
+        yc._coherence_create = fake
+        try:
+            out, st = yc.check_coherence([issue, other], points, cfg)
+            topics = yc.build_topics(out, points)
+        finally:
+            yc._coherence_create = orig
+        t = next(x for x in topics if x.get("retitled_from"))
+        check("g770: مقاطع ليست عن حدث القضية تخرج منها، وتُعاد تسميتها إن كان أكثرها عن حدث آخر",
+              out[0]["point_ids"] == [0, 1, 2, 3, 4] and out[0]["title"] == "فضيحة الصندوق في تركيا"
+              and t["coherence_removed"] == [5, 6] and t["retitled_from"] == issue["title"], (out[0], st))
+        check("g770: حكم يُفرغ القضية لا يُقبل", out[1]["point_ids"] == [0, 1] and st["removed"] == 2 and st["retitled"] == 1, (out[1], st))
+    guarded("g770", g770)
+
+    def g771():
+        def boom(client, **kw):
+            raise RuntimeError("انقطاع")
+        yc._coherence_create = boom
+        try:
+            out, st = yc.check_coherence([issue], points, cfg)
+        finally:
+            yc._coherence_create = orig
+        off = dict(cfg)
+        off["youtube"] = dict(cfg["youtube"])
+        off["youtube"]["cluster"] = dict(cfg["youtube"]["cluster"], coherence={"enabled": False})
+        out2, st2 = yc.check_coherence([issue], points, type(cfg)(off))
+        check("g771: عطل الفحص أو تعطيله ← القضايا كما هي", out[0] is issue and st["errors"] and out2[0] is issue
+              and st2["checked"] == 0, (st, st2))
+    guarded("g771", g771)
+
+    def g772():
+        calls = []
+
+        def fake(client, **kw):
+            n = kw["messages"][0]["content"].count("## القضية")
+            calls.append(n)
+            if n > 1:
+                return resp([], stop="max_tokens")
+            return resp([{"topic": 1, "off_topic": [6]}])
+        yc._coherence_create = fake
+        try:
+            out, st = yc.check_coherence([dict(issue), dict(issue)], points, cfg)
+        finally:
+            yc._coherence_create = orig
+        check("g772: الرد المقطوع يُقسم ولا يُقبل منه شيء", calls[0] == 2 and all(o["point_ids"] == [0, 1, 2, 3, 4, 5] for o in out)
+              and st["checked"] == 2, (calls, st))
+        check("g772: config — فحص التماسك مفعّل ودفعاته صغيرة", cfg.path("youtube.cluster.coherence.enabled") is True
+              and int(cfg.path("youtube.cluster.coherence.batch_size")) <= 6)
+    guarded("g772", g772)
+
+    segs = yb.clean_segments([{"start": float(i * 5), "dur": 5.0, "text": f"كلمة{i} ثانية{i} ثالثة{i}"} for i in range(1, 30)])
+    bite = {"start_line": 10, "end_line": 11, "start": 50.0, "end": 60.0, "first_words": "كلمة10 ثانية10",
+            "last_words": "ثانية11 ثالثة11", "speaker": "س", "text_ar": "ن"}
+
+    def g773():
+        back = int(cfg.path("youtube.bites.end_check.lookback_lines"))
+        lo, hi = yb.end_lines(bite, segs, cfg)
+        msg = yb.end_message([bite], segs, cfg)
+        sents = [{"line": 7, "first_words": "كلمة7 ثانية7", "end_line": 7, "last_words": "ثانية7 ثالثة7", "text_ar": "جملة قبله.",
+                  "same_speaker": True, "ends_thought": True},
+                 {"line": 9, "first_words": "كلمة9 ثانية9", "end_line": 11, "last_words": "ثانية11 ثالثة11", "text_ar": "جملته الأولى كاملة.",
+                  "same_speaker": True, "ends_thought": True}]
+        out = yb.apply_sentences(bite, sents, segs, cfg, [])
+        check("g773: الفحص يرى أسطرًا قبل البداية ويذكرها", back >= 2 and lo == 10 - back and "[8] " in msg
+              and "بدايته الحالية: السطر 10" in msg, (lo, back))
+        check("g773: المقطع يبدأ من أول جملته، وجملة تامة قبله لا تدخله", not out.get("incomplete") and out["start_line"] == 9
+              and out["start"] < bite["start"] and out["text_ar"] == "جملته الأولى كاملة.", out)
+        check("g773: إصدار الفحص 4 فيُعاد فحص مقاطع اليومين", int(cfg.path("youtube.bites.end_check.version")) >= 4)
+    guarded("g773", g773)
+
+    def g774():
+        point = {**bite, "video_id": "vvvvvvvvvvv", "point_id": "p1"}
+        clip = {"point_id": "p1", "start": 49.0, "end": 60.0, "quote_arabic": "ق"}
+        prev_load, prev_check = youtube_transcripts.load, yb.check_ends
+        youtube_transcripts.load = lambda vid: {"segments": [{"start": s["start"], "dur": s["dur"], "text": s["text"]} for s in segs]}
+        try:
+            yb.check_ends = lambda b, s, c, cl=None, others=None, hints=None: ([{**b[0], "start": 40.0, "end": 60.0, "text_ar": "كاملة"}], "")
+            moved = reel_script.recheck_incomplete(clip, point, "مبتور من أوله", [clip], {"p1": point}, cfg)
+            yb.check_ends = lambda b, s, c, cl=None, others=None, hints=None: ([{**b[0], "text_ar": "كاملة"}], "")
+            same = reel_script.recheck_incomplete(clip, point, "مبتور من أوله", [clip], {"p1": point}, cfg)
+        finally:
+            youtube_transcripts.load, yb.check_ends = prev_load, prev_check
+        check("g774: إعادة الفحص تقبل مقطعًا تغيّرت بدايته وحدها، وترفض ما لم يتغير", moved is not None and moved["start"] < 49.0
+              and moved["quote_arabic"] == "كاملة" and same is None, (moved, same))
+    guarded("g774", g774)

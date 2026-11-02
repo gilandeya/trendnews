@@ -325,6 +325,9 @@ def install_fakes() -> None:
     # ردًّا من عملاء الاختبار المزيَّفين المتسلسلين. اختبار يحتاج غيره يستبدل reel_script._fit_create بنفسه
     from src import reel_script as _reel_script
     _reel_script._fit_create = lambda client, **kw: None  # type: ignore
+    # فحص تماسك القضايا بعد العنقدة (القضية 1770) بلا شبكة ولا استهلاك ردود العملاء المزيَّفة: ردّ بلا أداة ← القضايا كما هي
+    from src import youtube_cluster as _youtube_cluster
+    _youtube_cluster._coherence_create = lambda client, **kw: None  # type: ignore
 
     # قضية مراجعة الريل (Issue #1469، R4a) تُفتح من render_draft: بلا حقن يفشل فتحها فيبقى التعليق على قضية المرحلة 2 كما
     # كان، ولا تبلغ شبكة GitHub الحقيقية ولو وُجد توكن في البيئة؛ اختبار يحتاج غيره يحقن review.create_issue بنفسه

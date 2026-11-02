@@ -552,10 +552,14 @@ def end_lines(bite: dict, segments: list[dict], cfg: Any) -> tuple[int, int]:
     ahead = int(cfg.path("youtube.bites.end_check.lookahead_lines", 8))
     s, e = int(bite["start_line"]), int(bite["end_line"])
     hi = min(len(segments), e + ahead)
+    # القضايا 1767/1770: مقاطع تبدأ من منتصف الجملة («her ne kadar»، «first») فيحكم فحص القائل بأنها مبتورة من أولها، ولم يكن
+    # الفحص يرى ما قبلها فلا يصلح إلا آخرها. يرى الآن lookback_lines قبلها ليبدأ المقطع من أول جملته
+    back = int(cfg.path("youtube.bites.end_check.lookback_lines", 0) or 0)
+    lo = max(1, s - back)
     for k in range(s + 1, hi + 1):
         if marker and segments[k - 1]["text"].startswith(marker):
-            return s, k - 1
-    return s, hi
+            return lo, k - 1
+    return lo, hi
 
 
 def end_message(bites: list[dict], segments: list[dict], cfg: Any, hints: list[str] | None = None) -> str:
@@ -566,6 +570,7 @@ def end_message(bites: list[dict], segments: list[dict], cfg: Any, hints: list[s
         who = b.get("speaker") or ("غير مسمّى بالعربية، اسمه بحروفه: " + b["speaker_original"] if b.get("speaker_original")
                                    else "غير مسمّى")
         out.append(f"## المقطع {n} — المتكلم: {who}\n"
+                   f"بدايته الحالية: السطر {b['start_line']} عند «{b.get('first_words') or ''}»\n"
                    f"نهايته الحالية: السطر {b['end_line']} عند «{b.get('last_words') or ''}»")
         if hint:
             out.append(f"حكم مراجع سابق: المقطع بحدوده الحالية مبتور — {hint}")
@@ -596,7 +601,8 @@ def apply_sentences(bite: dict, sentences: list, segments: list[dict], cfg: Any,
             a, b = int(it.get("line")), int(it.get("end_line"))
         except (TypeError, ValueError, AttributeError):
             continue
-        if first_line <= a <= b <= last_line and str(it.get("text_ar") or "").strip():
+        # جملة تنتهي قبل سطر بداية المقطع سياقٌ سبقه لا منه (الأسطر قبل البداية معروضة لإكمال جملته الأولى وحدها)
+        if first_line <= a <= b <= last_line and b >= int(bite["start_line"]) and str(it.get("text_ar") or "").strip():
             sents.append({**it, "line": a, "end_line": b})
     sents.sort(key=lambda x: (x["line"], x["end_line"]))
     # الحد المعتاد أولًا؛ وإن لم تكتمل فكرة داخله يُقبل امتدادها حتى complete_max_seconds بقرار صاحب المشروع (1/11): مقطع أطول قليلًا

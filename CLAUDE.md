@@ -2783,3 +2783,13 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 `reel.script.fit.reject` = `["unrelated"]` وحده (يُعاد ويُحذف كما كان)، و`fit.warn` = `["weak"]`: تبقى الإجابة ويُضاف تنبيه
 `reel.texts.fit_weak` من آخر حكم لإجابات السيناريو المقبول (`_fit_weak_warnings`). عناوين التحليل (ومنها الريل): قاعدة رابعة في
 `HEADLINE_SYSTEM` و`_validate_headlines` ترفض عنوانًا يبدأ بحتى أربع كلمات ثم نقطتين (`_NAME_COLON_RE`)، والنموذج `youtube.review.headlines.model` = Sonnet.
+
+**القضيتان 1767/1770 — فحص تماسك القضايا، والمقطع المبتور من أوله (g770–g774 في `test_coherence_start_1770_guards`):**
+- **التماسك:** «الأزمة التركية الأذربيجانية» جمعت 3 مقاطع عن أذربيجان و11 عن فضيحة الصندوق. `youtube_cluster.check_coherence` بعد
+  `merge_duplicate_events` وقبل `build_topics`: Haiku بدفعات `youtube.cluster.coherence.batch_size` (الرد المقطوع يُقسم نصفين) يعيد لكل قضية
+  `off_topic` (أرقام المقاطع التي ليست عن حدثها) و`title`/`event` إن كان أكثرها عن حدث آخر. الكود يُخرج تلك المقاطع (فتُحسب الطبقة والقنوات
+  وصلاحية الريل مما بقي)، ولا يقبل حكمًا يُفرغ القضية؛ ويحفظ `coherence_removed`/`retitled_from` على الموضوع و`stats.coherence`. العطل ← القضايا كما هي.
+  النداء عبر `_coherence_create` (يزيّفه `install_fakes` بلا حكم).
+- **البداية:** `end_lines` تعرض `youtube.bites.end_check.lookback_lines` (3) قبل البداية، و`end_message` تذكر «بدايته الحالية»، والبرومبت يُبدئ المقطع من
+  أول جملته إن بدأت قبله؛ `apply_sentences` تُسقط جملة تنتهي قبل سطر البداية. `reel_script.recheck_incomplete` يقبل تغيّر البداية وحدها.
+  `end_check.version` = 4.
