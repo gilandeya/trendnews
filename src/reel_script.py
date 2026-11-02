@@ -949,9 +949,12 @@ def write_script(topic: dict, article_text: str, valid: list[dict], narrator: st
                     if info is not None:
                         info.setdefault("warnings", []).extend(fit_dropped_warning(u, cfg) for u in unfit)
                         info.setdefault("fit", {})["dropped"] = [u["point_id"] for u in unfit]
+                    _fit_weak_warnings(pruned, cfg, info)
                     return pruned, ""
                 problems = [fit_reason(u, cfg) for u in unfit] + rest
         if not problems:
+            if v2:
+                _fit_weak_warnings(script, cfg, info)
             return script, ""
         reason = "؛ ".join(problems)
         attempts.append({"attempt": attempt + 1, "reasons": list(problems), "stop_reason": stop})
@@ -1030,17 +1033,33 @@ def fit_answers(script: dict, topic: dict, cfg: Any, client=None, info: dict | N
             rows = [r for r in (getattr(b, "input", None) or {}).get("answers") or [] if isinstance(r, dict)]
     rec["rows"] = rows
     reject = set(fcfg.get("reject") or ["weak", "unrelated"])
+    # الحكم «weak» تقدير لا قطع (قضايا 1767/1768: أسقط رأيًا صالحًا فانكسر شرط متحدثَي السؤال الأول وفشل الريل كله)، فما في fit.warn
+    # يبقى في السيناريو ويُعرض للمراجع تنبيهًا يقرّر فيه هو
+    warn = set(fcfg.get("warn") or []) - reject
     scenes = script.get("scenes") or []
     qtext = {s.get("q"): s.get("text", "") for s in scenes if s.get("kind") == "narration" and s.get("role") == "question"}
     clips = {s.get("point_id"): s for s in scenes if s.get("kind") in CLIP_KINDS}
-    out = []
+    out, weak = [], []
     for r in rows:
         pid = str(r.get("point_id") or "")
-        if pid in clips and r.get("verdict") in reject:
+        if pid in clips and r.get("verdict") in reject | warn:
             c = clips[pid]
-            out.append({"point_id": pid, "q": qtext.get(c.get("q"), ""), "quote": c.get("quote_arabic", ""),
-                        "verdict": r.get("verdict"), "reason": " ".join(str(r.get("reason") or "").split())[:200]})
+            row = {"point_id": pid, "q": qtext.get(c.get("q"), ""), "quote": c.get("quote_arabic", ""),
+                   "verdict": r.get("verdict"), "reason": " ".join(str(r.get("reason") or "").split())[:200]}
+            (out if r.get("verdict") in reject else weak).append(row)
+    rec["weak"] = weak
     return out
+
+
+def _fit_weak_warnings(script: dict, cfg: Any, info: dict | None) -> None:
+    """تنبيه ⚠️ لكل إجابة حكمها ضمن fit.warn وبقيت في السيناريو المقبول (من آخر حكم فقط، فلا تنبيه لإجابة حُذفت أو لحكم محاولة سابقة)."""
+    if info is None:
+        return
+    kept = {s.get("point_id") for s in script.get("scenes") or [] if s.get("kind") in CLIP_KINDS}
+    tmpl = str(cfg.path("reel.texts.fit_weak", "⚠️ إجابة قد لا تجيب صراحة عن سؤالها «{q}»: «{quote}» — {reason}"))
+    for u in (info.get("fit") or {}).get("weak") or []:
+        if u.get("point_id") in kept:
+            info.setdefault("warnings", []).append(tmpl.format(**u))
 
 
 def fit_reason(u: dict, cfg: Any) -> str:

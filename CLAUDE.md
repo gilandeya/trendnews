@@ -2777,3 +2777,9 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 أو اثنين، وكان المقطع بلا حكم يُعلَّم `incomplete`. الآن `check_ends` يرسل دفعات من `youtube.bites.end_check.batch_size` (3) عبر `_end_verdicts`؛ رد
 `stop_reason == "max_tokens"` لا يُقبل منه شيء وتُقسم دفعته نصفين حتى `max_splits` (3)؛ والمقطع الذي لم يرد حكمه يبقى كما هو بلا `end_checked` فيُعاد لاحقًا.
 `recheck_files` يطبّق أحكام الدفعات الناجحة ولو تعطّلت دفعة. `end_check.version` = 3 فتُعاد مقاطع اليومين الأخيرين كلها في الجمع التالي.
+
+**القضايا 1767/1768/1770 — «weak» تنبيه لا حذف، وعناوين بلا «فلان: …» (g767–g769 في `test_reel_fit_weak_headlines_guards`):** فشلت السيناريوهات
+الثلاثة لأن حكم Opus «weak» (رأي عن الموضوع لا يجيب حرفيًا عن سؤاله) حُذف في المحاولة الأخيرة فانكسر شرط متحدثَي السؤال الأول. الآن
+`reel.script.fit.reject` = `["unrelated"]` وحده (يُعاد ويُحذف كما كان)، و`fit.warn` = `["weak"]`: تبقى الإجابة ويُضاف تنبيه
+`reel.texts.fit_weak` من آخر حكم لإجابات السيناريو المقبول (`_fit_weak_warnings`). عناوين التحليل (ومنها الريل): قاعدة رابعة في
+`HEADLINE_SYSTEM` و`_validate_headlines` ترفض عنوانًا يبدأ بحتى أربع كلمات ثم نقطتين (`_NAME_COLON_RE`)، والنموذج `youtube.review.headlines.model` = Sonnet.
