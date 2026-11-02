@@ -23444,7 +23444,7 @@ def test_reel_round_logo_pause_guards() -> None:
 
 
 def test_bite_audio_a_guards() -> None:
-    """مكتبة المقاطع الموثَّقة، المرحلة «أ» (g779–g786): صوت نافذة المقطع يُفرَّغ وقت الجمع وحدّاه يصيران حدّي جملة تامة من الكلمات
+    """مكتبة المقاطع الموثَّقة، المرحلة «أ» (g779–g787): صوت نافذة المقطع يُفرَّغ وقت الجمع وحدّاه يصيران حدّي جملة تامة من الكلمات
     المفرَّغة، والكلمات تُحفظ فيضبط بها التركيب بلا تفريغ ثانٍ. الكلام في الحالات مصنوع، لا اقتباس من قناة."""
     import json
     import os
@@ -23609,3 +23609,31 @@ def test_bite_audio_a_guards() -> None:
               youtube_bites.bites_as_points([{**bite(), "audio": {"status": "no_match", "words": [[0, 1, "a"]]}}],
                                             load_transcript=lambda v: None)[0]["audio_words"] is None)
     guarded("g786", g786)
+
+    def g787():
+        import yt_dlp
+
+        from src import reel
+        seen: dict = {}
+
+        class FakeYDL:
+            def __init__(self, opts):
+                seen.update(opts)
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *a):
+                return False
+
+            def download(self, urls):
+                Path(seen["outtmpl"].replace("%(ext)s", "m4a")).write_bytes(b"x")
+        orig = yt_dlp.YoutubeDL
+        yt_dlp.YoutubeDL = FakeYDL
+        try:
+            got = bite_audio._real_download("vidZ", 10, 30, Path(tempfile.mkdtemp()))
+        finally:
+            yt_dlp.YoutubeDL = orig
+        check("g787: تنزيل الصوت يمرّر ffmpeg المثبّت بـpip لقصّ النافذة (workflow الجمع بلا ffmpeg من apt)",
+              got.exists() and seen.get("ffmpeg_location") == reel.ffmpeg_path() and seen.get("format") == "ba/b", seen.get("ffmpeg_location"))
+    guarded("g787", g787)

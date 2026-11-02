@@ -136,6 +136,11 @@ def _real_download(video_id: str, start: float, end: float, out_dir: Path) -> Pa
     proxy = speaker_map.proxy_url()
     if proxy:
         opts["proxy"] = proxy
+    # قصّ النافذة (download_ranges) يمرّ بـffmpeg، وworkflow الجمع لا يثبّته من apt كالتركيب: نسخة imageio-ffmpeg المثبّتة بـpip
+    from . import reel
+    ff = reel.ffmpeg_path()
+    if ff:
+        opts["ffmpeg_location"] = ff
     with yt_dlp.YoutubeDL(opts) as ydl:
         ydl.download([f"https://www.youtube.com/watch?v={video_id}"])
     got = sorted(out_dir.glob(out.name + ".*"))
