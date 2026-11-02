@@ -23444,7 +23444,7 @@ def test_reel_round_logo_pause_guards() -> None:
 
 
 def test_bite_audio_a_guards() -> None:
-    """مكتبة المقاطع الموثَّقة، المرحلة «أ» (g779–g788): صوت نافذة المقطع يُفرَّغ وقت الجمع وحدّاه يصيران حدّي جملة تامة من الكلمات
+    """مكتبة المقاطع الموثَّقة، المرحلة «أ» (g779–g790): صوت نافذة المقطع يُفرَّغ وقت الجمع وحدّاه يصيران حدّي جملة تامة من الكلمات
     المفرَّغة، والكلمات تُحفظ فيضبط بها التركيب بلا تفريغ ثانٍ. الكلام في الحالات مصنوع، لا اقتباس من قناة."""
     import json
     import os
@@ -23476,14 +23476,19 @@ def test_bite_audio_a_guards() -> None:
         return b
 
     def fake_transcribe(path, lang, c):
-        off = int(Path(path).stem.split("_")[1])     # التنزيل المزيَّف يكتب بداية النافذة في اسم الملف
+        off = int(Path(path).stem.split("_")[1])     # الاقتطاع المزيَّف يكتب بداية النافذة في اسم الملف
         return [(s - off, e - off, w) for s, e, w in video_words]
 
     calls = {"download": 0, "translate": 0}
 
-    def fake_download(vid, s, e, out):
+    def fake_download(vid, out):
         calls["download"] += 1
-        p = Path(out) / f"{vid}_{s}.m4a"
+        p = Path(out) / f"full_{vid}.m4a"
+        p.write_bytes(b"x")
+        return p
+
+    def fake_cut(src, s, e, out):
+        p = Path(out) / f"cut_{s}.wav"
         p.write_bytes(b"x")
         return p
 
@@ -23492,7 +23497,7 @@ def test_bite_audio_a_guards() -> None:
         return {it["n"]: "ترجمة جديدة" for it in items}
 
     def deps(**kw):
-        base = {"download": fake_download, "transcribe": fake_transcribe, "translate": fake_translate,
+        base = {"download": fake_download, "cut": fake_cut, "transcribe": fake_transcribe, "translate": fake_translate,
                 "selfcheck": lambda c: (True, "")}
         base.update(kw)
         return bite_audio.Deps(**base)
@@ -23571,7 +23576,7 @@ def test_bite_audio_a_guards() -> None:
     def g784():
         calls.update(download=0)
 
-        def bad(vid, s, e, o):
+        def bad(vid, o):
             calls["download"] += 1
             raise RuntimeError("حجب")
         out, st = run_with([bite()], deps(download=bad), runs=3)
@@ -23640,3 +23645,28 @@ def test_bite_audio_a_guards() -> None:
               ver >= 2 and bite_audio._wanted(old_fail, cfg, ver) and not bite_audio._wanted(now_fail, cfg, ver)
               and out[0]["audio"]["status"] == "ok" and out[0]["audio"]["attempts"] == 1, (out[0].get("audio", {}).get("attempts"), st))
     guarded("g788", g788)
+
+    def g789():
+        calls.update(download=0)
+        second = bite(bite_id="vidA:40", start=200.0, end=215.0, text_original="nothing like this is spoken here at all")
+        out, st = run_with([bite(), second, bite(bite_id="vidC:1", video_id="vidC")], deps())
+        check("g789: صوت الفيديو يُنزَّل مرة لكل فيديو لا لكل مقطع، وتُقتطع منه نافذة كل مقطع",
+              calls["download"] == 2 and st[0]["downloads"] == 2 and st[0]["processed"] == 3
+              and out[0]["audio"]["status"] == "ok" and out[1]["audio"]["status"] == "no_match", (calls, st))
+    guarded("g789", g789)
+
+    def g790():
+        from src import reel_script
+        base = {"video_id": "vidA", "video_url": "https://youtu.be/vidA", "timestamp": 10, "start": 10.0, "end": 22.0,
+                "quote_original": "some words spoken here clearly", "quote_arabic": "كلام", "type": "opinion", "channel": "قناة"}
+        pts = [dict(base, statement="أ", audio_status="ok"), dict(base, statement="ب", start=40.0, end=52.0, timestamp=40,
+                                                                  audio_status="no_match"),
+               dict(base, statement="ج", start=70.0, end=82.0, timestamp=70, audio_status="")]
+        kept = [c["point_id"] for c in reel_script.valid_clips(pts, [], cfg)]
+        import copy
+        cfg2 = copy.deepcopy(cfg)
+        cfg2["reel"]["script"]["exclude_audio_no_match"] = False
+        kept2 = reel_script.valid_clips(pts, [], cfg2)
+        check("g790: مقطع لا يطابق كلامه صوته لا يدخل الريل، وما لم يُفرَّغ بعد يبقى؛ والإعداد يعيد القديم",
+              len(kept) == 2 and len(kept2) == 3, (kept, len(kept2)))
+    guarded("g790", g790)

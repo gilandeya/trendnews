@@ -145,6 +145,10 @@ def valid_clips(member_points: list[dict], unresolved: list, cfg: Any) -> list[d
         if p.get("incomplete"):
             # مقطع لم تكتمل فكرته داخل الحد (فحص النهاية في الجمع): يُسمع مبتورًا، فلا يُعرض للكاتب أصلًا
             continue
+        if p.get("audio_status") == "no_match" and cfg.path("reel.script.exclude_audio_no_match", True):
+            # كلامه المحفوظ لا يطابق ما في صوته (تفريغ الجمع، bite_audio): غالبًا ترجمة يوتيوب الآلية لا كلام المتكلم، فلا تُعرض
+            # ترجمة لا يقولها ويفشل ضبطه في التركيب
+            continue
         pid = point_key_id(p)
         if pid in seen:
             continue
