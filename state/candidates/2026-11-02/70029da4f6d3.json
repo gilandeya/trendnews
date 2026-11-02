@@ -1,0 +1,78 @@
+{
+  "id": "70029da4f6d3",
+  "created_at": "2026-11-02T17:08:00.275844+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 33.79,
+  "trend_score": 1.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "انفجارات وهجمات صواريخ في جنوب السعودية، قرب هوياتي ومخاطر تمس المنطقة",
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Blasts, missile attacks shake southern Saudi Arabia",
+  "link": "https://en.mehrnews.com/news/249095/Blasts-missile-attacks-shake-southern-Saudi-Arabia",
+  "publishers": [
+    "Mehr News",
+    "NDTV — World",
+    "The Express Tribune",
+    "The Hindu — International"
+  ],
+  "region": "ir",
+  "article": {
+    "title": "Blasts, missile attacks shake southern Saudi Arabia",
+    "link": "https://en.mehrnews.com/news/249095/Blasts-missile-attacks-shake-southern-Saudi-Arabia",
+    "summary": "TEHRAN, Nov. 02 (MNA) – Media reports say explosions were heard in Khamis Mushait and Abha, while Najran in southern Saudi Arabia was targeted by missile attacks.",
+    "source_name": "Mehr News",
+    "region": "ir",
+    "weight": 0.8,
+    "published": "2026-11-02T06:29:39+00:00",
+    "image_url": "https://media.mehrnews.com/d/2026/10/28/4/6236767.jpg",
+    "publisher": "Mehr News",
+    "cluster_sources": [
+      "Mehr News",
+      "NDTV — World",
+      "The Express Tribune",
+      "The Hindu — International"
+    ],
+    "cluster_members": [
+      {
+        "name": "Mehr News",
+        "link": "https://en.mehrnews.com/news/249095/Blasts-missile-attacks-shake-southern-Saudi-Arabia"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2638234/saudi-led-coalition-says-it-intercepted-houthi-ballistic-missile-targeting-southern-region"
+      },
+      {
+        "name": "The Hindu — International",
+        "link": "https://www.thehindu.com/news/national/indias-flight-disruptions-to-saudi-arabia-continue-amid-security-concerns/article71653038.ece"
+      },
+      {
+        "name": "NDTV — World",
+        "link": "https://www.ndtv.com/world-news/saudi-hit-biggest-hodeidah-ras-issa-port-houthi-control-group-calls-it-war-crime-12270298#publisher=newsstand"
+      }
+    ],
+    "image_candidates": [
+      "https://media.mehrnews.com/d/2026/10/28/4/6236767.jpg",
+      "https://th-i.thgim.com/public/news/national/k211sx/article71653085.ece/alternates/LANDSCAPE_1200/iStock-2279224551.jpg",
+      "https://c.ndtvimg.com/2026-11/psbuf3hs_yemen-houthi-afp_625x300_02_November_26.jpeg"
+    ],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 1.0,
+    "age_hours": 2160.912880778889,
+    "is_stale": false,
+    "score": 33.790970988907404,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "انفجارات وهجمات صواريخ في جنوب السعودية، قرب هوياتي ومخاطر تمس المنطقة",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

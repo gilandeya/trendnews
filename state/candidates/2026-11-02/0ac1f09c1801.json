@@ -1,0 +1,75 @@
+{
+  "id": "0ac1f09c1801",
+  "created_at": "2026-11-02T17:08:00.276302+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.83,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 3,
+  "proximity": 2,
+  "intrigue": 2,
+  "appeal_note": "عودة كينيين من السعودية بسبب إيبولا، يمس العمالة والسفر والجاليات",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Kenyans stranded after Saudi Arabia blocks entry over Ebola concerns",
+  "link": "https://www.standardmedia.co.ke/article/2001561385/kenyans-stranded-after-saudi-arabia-blocks-entry-over-ebola-concerns",
+  "publishers": [
+    "BBC Sport",
+    "The Guardian — Sport",
+    "The Standard Kenya"
+  ],
+  "region": "ke",
+  "article": {
+    "title": "Kenyans stranded after Saudi Arabia blocks entry over Ebola concerns",
+    "link": "https://www.standardmedia.co.ke/article/2001561385/kenyans-stranded-after-saudi-arabia-blocks-entry-over-ebola-concerns",
+    "summary": "More than 300 Kenyan jobseekers have been repatriated from Saudi Arabia over Ebola-related entry restrictions, suffering financial losses and uncertainty over their employment.",
+    "source_name": "The Standard Kenya",
+    "region": "ke",
+    "weight": 0.9,
+    "published": "2026-11-02T15:57:57+00:00",
+    "image_url": "https://cdn.standardmedia.co.ke/images/articles/thumbnails/yIYfWNqTYKPXRvtW70xII590QJTtpBj5ApVP4BDj.jpg",
+    "publisher": "The Standard Kenya",
+    "cluster_sources": [
+      "BBC Sport",
+      "The Guardian — Sport",
+      "The Standard Kenya"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Standard Kenya",
+        "link": "https://www.standardmedia.co.ke/article/2001561385/kenyans-stranded-after-saudi-arabia-blocks-entry-over-ebola-concerns"
+      },
+      {
+        "name": "BBC Sport",
+        "link": "https://www.bbc.co.uk/sport/cricket/articles/c6ly088gjw0eo?at_medium=RSS&at_campaign=rss"
+      },
+      {
+        "name": "The Guardian — Sport",
+        "link": "https://www.theguardian.com/sport/2026/nov/02/asa-tribe-england-lions-cricket-tour-st-kitts-ebola-rules-kenya-trip"
+      }
+    ],
+    "image_candidates": [
+      "https://cdn.standardmedia.co.ke/images/articles/thumbnails/yIYfWNqTYKPXRvtW70xII590QJTtpBj5ApVP4BDj.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/1024/cpsprodpb/776b/live/3f19d940-d637-11f1-8399-41f2bbe0e990.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/776b/live/3f19d940-d637-11f1-8399-41f2bbe0e990.jpg",
+      "https://ichef.bbci.co.uk/ace/standard/240/cpsprodpb/776b/live/3f19d940-d637-11f1-8399-41f2bbe0e990.jpg",
+      "https://i.guim.co.uk/img/media/de307ab1efce05da2c5f118c6d35486da43c71db/326_49_2118_1695/master/2118.jpg?width=700&quality=85&auto=format&fit=max&s=d6f98ddb76a21038920ec4497a66ba38",
+      "https://i.guim.co.uk/img/media/de307ab1efce05da2c5f118c6d35486da43c71db/326_49_2118_1695/master/2118.jpg?width=460&quality=85&auto=format&fit=max&s=fdb90841a4351de5c617954ecf83fc83"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 3,
+    "velocity": 0.0,
+    "age_hours": 2160.9128778824997,
+    "is_stale": true,
+    "score": 26.82730293625606,
+    "impact": 3,
+    "proximity": 2,
+    "intrigue": 2,
+    "appeal_note": "عودة كينيين من السعودية بسبب إيبولا، يمس العمالة والسفر والجاليات",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

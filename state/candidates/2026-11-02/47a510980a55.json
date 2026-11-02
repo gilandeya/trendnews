@@ -1,0 +1,56 @@
+{
+  "id": "47a510980a55",
+  "created_at": "2026-11-02T17:08:00.277190+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 20.54,
+  "trend_score": 1.0,
+  "velocity": 0.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "الحوثيون يعلنون ضرب مطارات في السعودية",
+  "bucket": "serious",
+  "state_media": true,
+  "title": "Houthi rebels claim strikes on airports in eastern, southern Saudi Arabia",
+  "link": "https://tass.com/world/2212055",
+  "publishers": [
+    "TASS"
+  ],
+  "region": "ru",
+  "article": {
+    "title": "Houthi rebels claim strikes on airports in eastern, southern Saudi Arabia",
+    "link": "https://tass.com/world/2212055",
+    "summary": "According to Houithi military spokesperson Yahia Saria, the rebels struck an early warning radar in Jazan and a military transport aircraft at the city’s airport",
+    "source_name": "TASS",
+    "region": "ru",
+    "weight": 0.7,
+    "published": "2026-11-02T16:58:26+00:00",
+    "image_url": null,
+    "publisher": "TASS",
+    "cluster_sources": [
+      "TASS"
+    ],
+    "cluster_members": [
+      {
+        "name": "TASS",
+        "link": "https://tass.com/world/2212055"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": true,
+    "trend_score": 1.0,
+    "group_sources": 1,
+    "velocity": 0.0,
+    "age_hours": 2160.9129213919446,
+    "is_stale": true,
+    "score": 20.539619136814814,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "الحوثيون يعلنون ضرب مطارات في السعودية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
