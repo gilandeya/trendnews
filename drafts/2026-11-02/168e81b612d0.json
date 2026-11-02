@@ -1,7 +1,7 @@
 {
   "id": "168e81b612d0",
   "created_at": "2026-11-02T06:51:57.834593+00:00",
-  "status": "approved_script",
+  "status": "published",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -13218,5 +13218,13 @@
     "- 🎯 مقطع العربية: 2 وجوه — المتكلم بالرؤية",
     "- ✂️ أُخفي شريط القناة في العربية: قُصّ أسفل 28%"
   ],
-  "reel_review_issue": 1771
+  "reel_review_issue": 1771,
+  "published_at": "2026-11-02T07:39:38.961071+00:00",
+  "facebook": {
+    "post_id": "26887931667570907",
+    "kind": "reel",
+    "url": "https://www.facebook.com/reel/26887931667570907",
+    "comment_error": "خطأ فيسبوك [200/None]: (#200) Permissions error"
+  },
+  "reel_seconds": 72
 }
