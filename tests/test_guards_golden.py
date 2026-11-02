@@ -23444,7 +23444,7 @@ def test_reel_round_logo_pause_guards() -> None:
 
 
 def test_bite_audio_a_guards() -> None:
-    """مكتبة المقاطع الموثَّقة، المرحلة «أ» (g779–g787): صوت نافذة المقطع يُفرَّغ وقت الجمع وحدّاه يصيران حدّي جملة تامة من الكلمات
+    """مكتبة المقاطع الموثَّقة، المرحلة «أ» (g779–g788): صوت نافذة المقطع يُفرَّغ وقت الجمع وحدّاه يصيران حدّي جملة تامة من الكلمات
     المفرَّغة، والكلمات تُحفظ فيضبط بها التركيب بلا تفريغ ثانٍ. الكلام في الحالات مصنوع، لا اقتباس من قناة."""
     import json
     import os
@@ -23611,29 +23611,32 @@ def test_bite_audio_a_guards() -> None:
     guarded("g786", g786)
 
     def g787():
-        import yt_dlp
+        import os
+        import shutil as sh
 
         from src import reel
-        seen: dict = {}
-
-        class FakeYDL:
-            def __init__(self, opts):
-                seen.update(opts)
-
-            def __enter__(self):
-                return self
-
-            def __exit__(self, *a):
-                return False
-
-            def download(self, urls):
-                Path(seen["outtmpl"].replace("%(ext)s", "m4a")).write_bytes(b"x")
-        orig = yt_dlp.YoutubeDL
-        yt_dlp.YoutubeDL = FakeYDL
+        orig_which, orig_path, orig_dir = sh.which, os.environ.get("PATH", ""), list(bite_audio._FFMPEG_DIR)
+        bite_audio._FFMPEG_DIR.clear()
+        sh.which = lambda name, *a, **k: None if name == "ffmpeg" else orig_which(name, *a, **k)
         try:
-            got = bite_audio._real_download("vidZ", 10, 30, Path(tempfile.mkdtemp()))
+            d = bite_audio._ffmpeg_on_path()
+            again = bite_audio._ffmpeg_on_path()
+            link = os.path.join(d, "ffmpeg") if d else ""
+            ok = bool(d) and os.environ["PATH"].split(os.pathsep)[0] == d and os.path.realpath(link) == os.path.realpath(reel.ffmpeg_path()) \
+                and again == d
         finally:
-            yt_dlp.YoutubeDL = orig
-        check("g787: تنزيل الصوت يمرّر ffmpeg المثبّت بـpip لقصّ النافذة (workflow الجمع بلا ffmpeg من apt)",
-              got.exists() and seen.get("ffmpeg_location") == reel.ffmpeg_path() and seen.get("format") == "ba/b", seen.get("ffmpeg_location"))
+            sh.which = orig_which
+            os.environ["PATH"] = orig_path
+            bite_audio._FFMPEG_DIR[:] = orig_dir
+        check("g787: ffmpeg المثبّت بـpip يوضع في PATH باسم ffmpeg مرة واحدة (yt-dlp يفحص توفّره في PATH وحده لقصّ النافذة)", ok, d)
     guarded("g787", g787)
+
+    def g788():
+        old_fail = bite(audio={"version": 1, "status": "failed", "attempts": 2, "error": "ffmpeg is not installed"})
+        now_fail = bite(audio={"version": int(cfg.path("youtube.bites.audio.version")), "status": "failed", "attempts": 2})
+        ver = int(cfg.path("youtube.bites.audio.version"))
+        out, st = run_with([old_fail], deps())
+        check("g788: فشل بإصدار أقدم لا يُحسب على المقطع (يُعاد وتبدأ محاولاته من 1)، وفشل الإصدار نفسه المستنفد لا يُعاد",
+              ver >= 2 and bite_audio._wanted(old_fail, cfg, ver) and not bite_audio._wanted(now_fail, cfg, ver)
+              and out[0]["audio"]["status"] == "ok" and out[0]["audio"]["attempts"] == 1, (out[0].get("audio", {}).get("attempts"), st))
+    guarded("g788", g788)

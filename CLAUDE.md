@@ -2804,12 +2804,12 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 ## مكتبة المقاطع الموثَّقة — المرحلة «أ»: تفريغ صوت المقاطع وقت الجمع (`src/bite_audio.py`)
 
 السبب: حدود المقطع كانت تُحسب من أسطر نص يوتيوب الآلي (بلا ترقيم، والسطر يُقطع وسط الجملة)، فبقي نصف مقاطع اليوم «لا يكتمل» (97 من 183 في 2/11)
-وما يُكتشف وقت التركيب يُحذف بعد اعتماد السيناريو. الخطة كلها (أ–هـ) في وثيقة المشروع `claude/plan-verified-bites.md`. g779–g787 في
+وما يُكتشف وقت التركيب يُحذف بعد اعتماد السيناريو. الخطة كلها (أ–هـ) في وثيقة المشروع `claude/plan-verified-bites.md`. g779–g788 في
 `tests/test_guards_golden.py:test_bite_audio_a_guards`.
 
 - **خطوة مستقلة** `python -m src.bite_audio` بعد الجمع: مقاطع ملفات آخر `youtube.bites.audio.days` أيام الأحدث أولًا (الكامل قبل المبتور) حتى `max_per_run`
   أو `budget_seconds`؛ الباقي في التشغيلة التالية. فحص ذاتي للمفرِّغ أولًا (`reel_clips.transcriber_selfcheck(model=)`)؛ فشله ← سطر بالسبب ولا مساس بأي مقطع.
-- **لكل مقطع:** صوت النافذة وحده (`ba` بـyt-dlp عبر البروكسي، وffmpeg من imageio-ffmpeg عبر `ffmpeg_location` لأن الجمع لا يثبّته من apt) من `start − lookback − margin` إلى `end + lookahead + margin` ← whisper (`audio.model`) ← مطابقة
+- **لكل مقطع:** صوت النافذة وحده (`ba` بـyt-dlp عبر البروكسي؛ ffmpeg من imageio-ffmpeg يوضع في PATH باسم `ffmpeg` بـ`_ffmpeg_on_path` لأن yt-dlp يفحص توفّره لقصّ النافذة في PATH وحده، وworkflow الجمع لا يثبّته من apt — أول تشغيل حقيقي فشل كله بذلك) من `start − lookback − margin` إلى `end + lookahead + margin` ← whisper (`audio.model`) ← مطابقة
   `text_original` بالكلمات (`reel_clips.align_quote`) ← `sentence_bounds` (خالصة): نهاية الجملة علامة ترقيم في آخر الكلمة (`terminal`) أو سكتة ≥ `pause_seconds`؛
   البداية ترجع إلى أول جملتها حتى `lookback_seconds` وإلا تتقدّم إلى أول جملة تامة، والنهاية كذلك إلى الأمام حتى `lookahead_seconds`، والمدة بين
   `min_seconds` و`end_check.complete_max_seconds`. حدّ جديد يدخل مقطعًا آخر للفيديو ← يبقى على الكلمات المطابقة (`moved_rejected`).
@@ -2817,7 +2817,7 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
   (`translate_model`)، وبلا ترجمة لا يُطبَّق (`pending_translate` تعيد الترجمة وحدها لاحقًا بلا تنزيل). المبتور غير تبدّل المتكلم (`rescue_incomplete`) يُنقَذ
   (`incomplete=False`، `rescued`) إن وُجد له حدّا جملة؛ و`clip_audit` في السيناريو حارس ثانٍ عليه. لا حذف ولا تغيير ترتيب (فهارس المواضيع).
 - **السجل** `bite["audio"]`: `status` (ok · open · no_match · no_text · failed) و`ratio` و`words` (كل كلمات النافذة بثواني الفيديو) و`moved`/`rescued`/`attempts`
-  (عطل يُعاد حتى `max_attempts`). الكلمات كلام قناة: ملف المقاطع في المستودع الخاص وحده.
+  (عطل يُعاد حتى `max_attempts` داخل إصدار القواعد نفسه؛ رفع `audio.version` يعيد ما فشل بعطل فينا). الكلمات كلام قناة: ملف المقاطع في المستودع الخاص وحده.
 - **التركيب:** `bites_as_points` تحمل `audio_words` (ok/open وحدهما)، و`reel_render._exact_apply` يضبط بها (`saved_words` بثواني ملف التنزيل) بلا تفريغ ولو تعطّل
   المفرِّغ في التركيب، و`exact.saved: true` في `render_crops`. `render_version` بلا تغيير (لا أثر على مسودة بلا كلمات محفوظة).
 - **تشغيليًا (يعدّله صاحب المشروع بيده):** `youtube-collect.yml` يحتاج `pip install -r requirements.txt -r requirements-reel.txt`، وخطوة
