@@ -23456,6 +23456,8 @@ def test_bite_audio_a_guards() -> None:
     from src.config import load_config
 
     cfg = load_config()
+    # الخطوة موقوفة في الإنتاج (رصيد البروكسي)، والاختبار يثبّت سلوكها حين تعمل
+    cfg["youtube"]["bites"]["audio"]["enabled"] = True
 
     def guarded(name, fn):
         try:
@@ -23685,6 +23687,8 @@ def test_clean_screen_text_1779_guards() -> None:
     from src.config import load_config
 
     cfg = load_config()
+    # الخطوة موقوفة في الإنتاج (رصيد البروكسي)، والاختبار يثبّت سلوكها حين تعمل
+    cfg["youtube"]["bites"]["audio"]["enabled"] = True
 
     def guarded(name, fn):
         try:
