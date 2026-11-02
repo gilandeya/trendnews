@@ -18,7 +18,7 @@ from __future__ import annotations
 import shutil
 from pathlib import Path
 
-from tests.helpers import (check, article_analysis_cfg, reel_only_cfg, tick_marker, reel_v1_cfg, reel_pre_s10_cfg, reel_stale_cfg, reel_credits_cfg, reel_no_border_cfg, reel_span_cfg, load_config, evidence, store, DRAFTS_DIR, ImportantRig,
+from tests.helpers import (check, article_analysis_cfg, reel_only_cfg, tick_marker, reel_v1_cfg, reel_pre_s10_cfg, reel_old_pause_cfg, reel_stale_cfg, reel_credits_cfg, reel_no_border_cfg, reel_span_cfg, load_config, evidence, store, DRAFTS_DIR, ImportantRig,
                            ImportantWriteRig, NamesAuditRig, NAMES_AUDIT_SOURCE, names_audit_doubt,
                            names_audit_draft, names_audit_hit, important_doc, important_fixture_point,
                            important_good_data, important_marked_body, important_point,
@@ -6154,7 +6154,7 @@ def test_reel_render_r3b1_guards() -> None:
         s2 = json.loads(path2.read_text(encoding="utf-8"))
         check("r3b1-هـ: أقل من min_clips ← failed بالسبب", s2.get("render_status") == "failed"
               and s2.get("render_error") and len(s2.get("render_dropped") or []) == 2, s2.get("render_error"))
-        check("r3b1-هـ: لا شعار عند الفشل", not any("overlay=W-w-140:250" in " ".join(c) for c in log2["cmds"]))
+        check("r3b1-هـ: لا شعار عند الفشل", not any("overlay=W-w-" in " ".join(c) for c in log2["cmds"]))
         transcripts.update(saved_tr)
 
         # ── --retry ──
@@ -9424,16 +9424,19 @@ def test_reel_hook_r5c1_guards() -> None:
             x, y, wd, a = reel_render.logo_state(end + 0.3, cfg, end)
             check("g301: منتصف الحركة بعرض بين 168 و420", 168 < wd < 420, wd)
             x, y, wd, a = reel_render.logo_state(end + 0.6, cfg, end)
-            check("g301: بعد الحركة في الزاوية", abs(wd - 168) < 1e-6 and abs(x - (1080 - 140 - 168)) < 1e-6
-                  and abs(y - 250) < 1e-6 and abs(a - 1) < 1e-6, (x, y, wd, a))
+            # موضع الزاوية من الإعداد: تغيّر 2/11 إلى فراغ متساوٍ عن ركن نافذة الكلام
+            lgc = cfg.path("reel.render.logo")
+            cx, cy = 1080 - int(lgc["right"]) - 168, int(lgc["top"])
+            check("g301: بعد الحركة في الزاوية", abs(wd - 168) < 1e-6 and abs(x - cx) < 1e-6
+                  and abs(y - cy) < 1e-6 and abs(a - 1) < 1e-6, (x, y, wd, a))
             x, y, wd, a = reel_render.logo_state(30, cfg, end)
-            check("g301: يبقى في الزاوية حتى النهاية", abs(wd - 168) < 1e-6 and abs(x - 772) < 1e-6 and abs(y - 250) < 1e-6)
+            check("g301: يبقى في الزاوية حتى النهاية", abs(wd - 168) < 1e-6 and abs(x - cx) < 1e-6 and abs(y - cy) < 1e-6)
             r = render("r5c1000g301a1", tmp)
             g = " ".join(final_cmd(r))
             check("g301: الأمر الأخير فيه eval=frame", "eval=frame" in g, g[-300:])
             check("g301: تعابير overlay بالزمن t", re.search(r"overlay=x='[^']*\bt\b", g) is not None, g[-300:])
             check("g301: overlay الزاوية الثابت لا يعمل إلا بعد الانتقال (enable)",
-                  re.search(r"overlay=W-w-140:250:enable='between\(t,", g) is not None, g[-300:])
+                  re.search(rf"overlay=W-w-{lgc['right']}:{lgc['top']}:enable='between\(t,", g) is not None, g[-300:])
         guarded("g301", g301)
 
         # ── g302: المتكلم بلا شرط margin ──
@@ -9567,12 +9570,13 @@ def test_reel_hook_r5c1_guards() -> None:
             end = 5.0
             move = float(cfg.path("reel.render.hook.logo_move"))
             x, y, wd, a = reel_render.logo_state(end + move, cfg, end)
+            lgc = cfg.path("reel.render.logo")
             check("g307: آخر حالة متحركة = الثابت تمامًا",
-                  (x, y, wd, a) == (1080 - 140 - 168, 250, 168, 1.0), (x, y, wd, a))
+                  (x, y, wd, a) == (1080 - int(lgc["right"]) - 168, int(lgc["top"]), 168, 1.0), (x, y, wd, a))
             r = render("r5c1000g307a1", tmp)
             g = " ".join(final_cmd(r))
             hook_end = r["joined"]["durs"][0] - reel_render.transition_seconds(cfg)
-            check("g307: overlay ثابت بموضع الزاوية (S10)", "overlay=W-w-140:250" in g, g[-400:])
+            check("g307: overlay ثابت بموضع الزاوية (S10)", f"overlay=W-w-{lgc['right']}:{lgc['top']}" in g, g[-400:])
             m = re.search(r"enable='between\(t,([\d.]+),", g)
             check("g307: يبدأ عند hook_end + logo_move", bool(m) and abs(float(m.group(1)) - (hook_end + move)) <= 0.01,
                   (m.group(1) if m else None, hook_end + move))
@@ -15903,7 +15907,7 @@ def test_reel_qcard_p2b_guards() -> None:
     # ── g466: v1 حرفًا ──
     def g466():
         want = json.loads(QCARD_V1_FIXTURE.read_text(encoding="utf-8"))
-        got = _qcard_v1_cmds(cfg, wdir("g466"))
+        got = _qcard_v1_cmds(reel_old_pause_cfg(cfg), wdir("g466"))
         check("g466: أوامر v1 بخلفية مطابقة حرفًا لما قبل المهمة", got["bg"] == want["bg"], None)
         check("g466: أوامر v1 بلا خلفية مطابقة حرفًا", got["nobg"] == want["nobg"], None)
     guarded("g466", g466)
@@ -16269,7 +16273,7 @@ def test_reel_panel_p2c1_guards() -> None:
     # ── g474: v1 حرفًا ──
     def g474():
         want = json.loads(PANEL_V1_FIXTURE.read_text(encoding="utf-8"))
-        got = _panel_v1_cmds(cfg, wdir("g474"))
+        got = _panel_v1_cmds(reel_old_pause_cfg(cfg), wdir("g474"))
         check("g474: أوامر v1 بخلفية مطابقة حرفًا لما قبل المهمة", got["bg"] == want["bg"], None)
         check("g474: أوامر v1 بلا خلفية مطابقة حرفًا", got["nobg"] == want["nobg"], None)
     guarded("g474", g474)
