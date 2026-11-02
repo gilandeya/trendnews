@@ -204,6 +204,21 @@ def word_window(segments: list[dict], s: int, e: int, first: str, last: str, cfg
     return out
 
 
+def screen_text_ok(text: str, cfg: Any) -> bool:
+    """نص يُكتب على الشاشة ترجمةً لكلام متكلم: عربي (is_arabic_text) وبلا أقواس ملاحظات ولا كلمة لاتينية. حادثة ريل #1779: إعادة ترجمة
+    فحص المقاطع وضعت «[لفظ الترجمة غير واضح في الأصل: Aydın Hortlu / Netanyah Uyan…]» داخل النص فظهرت للمشاهد؛ ونسبة الحروف العربية
+    وحدها أجازتها لأن النص طويل. الحدود في youtube.bites.screen_text."""
+    import re
+
+    if not text or not is_arabic_text(text, cfg):
+        return False
+    scfg = cfg.path("youtube.bites.screen_text", {}) or {}
+    if any(c in text for c in str(scfg.get("forbidden_chars", "[]{}"))):
+        return False
+    run = int(scfg.get("max_latin_run", 2))
+    return not re.search("[A-Za-z\u00C0-\u024F]{%d,}" % (run + 1), text)
+
+
 def is_arabic_text(text: str, cfg: Any) -> bool:
     """نص عربي يُكتب على الشاشة: نسبة الحروف العربية من الحروف ≥ arabic_ratio، وبلا حرف فارسي خاص ولا عبري (يقعان في النطاق
     العربي أو بجواره فلا تكفي النسبة وحدها، درس Q9)."""

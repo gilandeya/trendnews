@@ -418,8 +418,11 @@ def process(cfg: Any, now: datetime, client=None, deps: Deps | None = None) -> d
                     texts = deps.translate(need, cfg, client) or {}
                 except Exception as exc:  # noqa: BLE001 -- بلا ترجمة لا يُطبَّق حدّ جديد ويُعاد في التشغيلة التالية
                     log.warning("ترجمة المقاطع المعدّلة فشلت: %s", str(exc)[:150])
+            from .youtube_bites import screen_text_ok
             for k, rec in recs.items():
-                bites[k] = apply(bites[k], rec, texts.get(k), cfg)
+                # ترجمة فيها ملاحظة أو أقواس أو حروف لاتينية لا تُعرض (حادثة #1779): تُعامل كأنها لم تأتِ فيبقى الحدّ القديم وتُعاد لاحقًا
+                text = texts.get(k)
+                bites[k] = apply(bites[k], rec, text if text and screen_text_ok(text, cfg) else None, cfg)
                 a = bites[k]["audio"]
                 stats[a["status"]] = stats.get(a["status"], 0) + 1
                 stats["moved"] += int(bool(a.get("moved")) and not a.get("pending_translate"))

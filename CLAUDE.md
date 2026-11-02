@@ -2823,3 +2823,11 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
   المفرِّغ في التركيب، و`exact.saved: true` في `render_crops`. `render_version` بلا تغيير (لا أثر على مسودة بلا كلمات محفوظة).
 - **تشغيليًا (يعدّله صاحب المشروع بيده):** `youtube-collect.yml` يحتاج `pip install -r requirements.txt -r requirements-reel.txt`، وخطوة
   `python -m src.bite_audio` بعد الجمع وقبل الرفع بالمتغيرات نفسها، ومهلة أطول للوظيفة. بلا faster-whisper تتوقف الخطوة بسطر ولا تُفشل الجمع.
+
+## ترجمة على الشاشة بلا ملاحظات ولا حروف لاتينية (ريل #1779) — `youtube_bites.screen_text_ok`
+
+الحادثة: إعادة ترجمة فحص المقاطع (`clip_audit`، `faithful=false`) وضعت «[لفظ الترجمة غير واضح في الأصل: … / …، والأرجح …]» داخل `quote_arabic`
+فظهرت ملاحظة المترجم للمشاهد، ونسبة الحروف العربية (`is_arabic_text`) أجازتها لطول النص. `screen_text_ok(text, cfg)` = عربي + بلا
+`youtube.bites.screen_text.forbidden_chars` + بلا كلمة لاتينية أطول من `max_latin_run` (2، فيمرّ «AI»). `reel_script.apply_audit`: ترجمة تصحيح لا تجتازه
+← المقطع يُستبعد (`reel.texts.clip_drop_bad_fix`)؛ `bite_audio.process`: ترجمة لا تجتازه تُعامل كأنها لم تأتِ (`pending_translate`). وتعليمتا النظامين
+(`clip_audit.system` و`audio.translate_system`) تمنعان الملاحظات والأقواس والحروف اللاتينية. g791–g793 في `test_clean_screen_text_1779_guards`.

@@ -23670,3 +23670,89 @@ def test_bite_audio_a_guards() -> None:
         check("g790: مقطع لا يطابق كلامه صوته لا يدخل الريل، وما لم يُفرَّغ بعد يبقى؛ والإعداد يعيد القديم",
               len(kept) == 2 and len(kept2) == 3, (kept, len(kept2)))
     guarded("g790", g790)
+
+
+def test_clean_screen_text_1779_guards() -> None:
+    """ريل #1779 (g791–g793): إعادة ترجمة فحص المقاطع وضعت ملاحظة المترجم بين قوسين واسمين لاتينيين داخل النص المعروض. النص في
+    الحالات مصنوع على شكل الحادثة لا منقول منها."""
+    import json
+    import os
+    import tempfile
+    from datetime import datetime, timezone
+    from pathlib import Path
+
+    from src import bite_audio, reel_script, youtube_bites
+    from src.config import load_config
+
+    cfg = load_config()
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001
+            check(name + ": استثناء", False, repr(exc))
+
+    bad = ("لذلك إما أن يأتي [لفظ غير واضح في الأصل: Ali Veli / Deniz Kaya، والأرجح أنه اسم شخص] وإلا فسيتغير كل شيء في "
+           "الأيام القادمة كما يرى كثير من المراقبين في المنطقة وخارجها")
+
+    def g791():
+        check("g791: ترجمة فيها ملاحظة بين قوسين وحروف لاتينية ترفض، والعربية الخالصة واختصار AI يمرّان",
+              not youtube_bites.screen_text_ok(bad, cfg) and youtube_bites.screen_text_ok("إما أن يأتي هروب كبير وإلا فسيصحو الجميع", cfg)
+              and youtube_bites.screen_text_ok("أدوات AI ستغير كل شيء في الإعلام العربي", cfg)
+              and not youtube_bites.screen_text_ok("كلام عن Netanyahu وحده", cfg))
+    guarded("g791", g791)
+
+    def g792():
+        clip = {"point_id": "p1", "channel_display": "قناة", "quote_arabic": "ترجمة قديمة"}
+        rows = [{"point_id": "p1", "speaker_said_it": "yes", "other_name": "", "faithful": False, "quote_arabic_fixed": bad,
+                 "complete": "yes", "incomplete_reason": ""}]
+        out, redone, dropped = reel_script.apply_audit([clip], rows, cfg)
+        good = [dict(rows[0], quote_arabic_fixed="إما أن يأتي هروب كبير وإلا فسيصحو الجميع")]
+        out2, redone2, _ = reel_script.apply_audit([clip], good, cfg)
+        check("g792: ترجمة تصحيح معيبة لا تُعرض والمقطع يُستبعد بسببها، والسليمة تحلّ محل القديمة",
+              not out and not redone and dropped and "ملاحظة" in dropped[0]["reason"]
+              and redone2 == ["p1"] and out2[0]["quote_arabic"].startswith("إما أن"), (dropped, out2))
+    guarded("g792", g792)
+
+    def g793():
+        words = [(13.0 + 0.6 * k, 13.5 + 0.6 * k, w) for k, w in enumerate(
+            "The talks ended. However the second round will start next week in the capital and both sides agree. Then".split())]
+        i0, i1 = 5, 14
+        quote = " ".join(w for _, _, w in words[i0:i1 + 1])
+        b = {"bite_id": "v:1", "video_id": "vidA", "language": "en", "start": words[i0][0], "end": words[i1][1],
+             "text_original": quote, "text_ar": "نص قديم", "duration_seconds": 600}
+
+        def dl(vid, out):
+            p = Path(out) / f"full_{vid}.m4a"
+            p.write_bytes(b"x")
+            return p
+
+        def cut(src, s, e, out):
+            p = Path(out) / f"cut_{s}.wav"
+            p.write_bytes(b"x")
+            return p
+
+        def tr(path, lang, c):
+            off = int(Path(path).stem.split("_")[1])
+            return [(s - off, e - off, w) for s, e, w in words]
+        deps = bite_audio.Deps(download=dl, cut=cut, transcribe=tr, translate=lambda items, c, cl: {it["n"]: bad for it in items},
+                               selfcheck=lambda c: (True, ""))
+        tmp = Path(tempfile.mkdtemp())
+        old = {k: os.environ.get(k) for k in ("TRENDNEWS_YOUTUBE_BITES_DIR", "TRENDNEWS_YOUTUBE_TRANSCRIPTS_DIR")}
+        os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = str(tmp / "b")
+        os.environ["TRENDNEWS_YOUTUBE_TRANSCRIPTS_DIR"] = str(tmp / "t")
+        try:
+            (tmp / "b").mkdir()
+            p = tmp / "b" / "2026-11-02.json"
+            p.write_text(json.dumps({"bites": [b]}), encoding="utf-8")
+            bite_audio.process(cfg, datetime(2026, 11, 2, 12, tzinfo=timezone.utc), deps=deps)
+            got = json.loads(p.read_text(encoding="utf-8"))["bites"][0]
+        finally:
+            for k, v in old.items():
+                if v is None:
+                    os.environ.pop(k, None)
+                else:
+                    os.environ[k] = v
+        check("g793: ترجمة التفريغ المعيبة لا تُطبَّق: يبقى النص والحدّ القديمان وتنتظر الترجمة",
+              got["text_ar"] == "نص قديم" and got["start"] == words[i0][0] and got["audio"].get("pending_translate"), got.get("audio", {}).get("status"))
+    guarded("g793", g793)
