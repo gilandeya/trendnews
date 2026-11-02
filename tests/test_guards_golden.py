@@ -8184,8 +8184,8 @@ def test_llm_haiku55_guards() -> None:
     NEW = "claude-haiku-5-5"
     KEYS = ["preselect.translate.model", "headlines.model", "important.extract_model", "important.gap.model",
             "merge.model", "screening.model", "names.audit.model", "youtube.extract.model",
-            "youtube.extract.topic_guard_model", "youtube.cluster.merge_model", "youtube.article.guard_model",
-            "youtube.review.headlines.model"]
+            "youtube.extract.topic_guard_model", "youtube.cluster.merge_model", "youtube.article.guard_model"]
+    # youtube.review.headlines.model خرج من القائمة عمدًا (2026-11-02): صار Sonnet بعد عناوين Haiku الركيكة للريل (g769)
 
     class Fake:
         """عميل مزيَّف يسجّل kwargs كل نداء؛ ``script`` قائمة ردود/استثناءات تُستهلك بالترتيب."""
@@ -8290,7 +8290,7 @@ def test_llm_haiku55_guards() -> None:
                  if OLD in ln and OLD not in ln.partition("#")[2]]
     check("g257: اسم 4.5 في config.yaml تعليقًا فقط", not code_hits, code_hits)
     bad = {k: cfg.path(k) for k in KEYS if cfg.path(k) != "haiku"}
-    check("g257: مفاتيح النماذج الاثنا عشر قيمتها haiku", not bad, bad)
+    check("g257: مفاتيح النماذج الأحد عشر قيمتها haiku", not bad, bad)
     check("g257: resolve('haiku') = claude-haiku-5-5", llm.resolve("haiku", cfg) == NEW, llm.resolve("haiku", cfg))
     check("g257: resolve لا يمسّ غير haiku", llm.resolve("claude-sonnet-5", cfg) == "claude-sonnet-5")
     check("g257: كتلة llm في config",
