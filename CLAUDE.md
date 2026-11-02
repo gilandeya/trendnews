@@ -2821,6 +2821,11 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 - **الريل:** `bites_as_points` تحمل `audio_status`، و`reel_script.valid_clips` تستبعد `no_match` (`reel.script.exclude_audio_no_match`؛ أول تشغيل: 4 من 5 كانت ترجمة يوتيوب الإنجليزية لكلام تركي في CNN Türk)؛ ما لم يُفرَّغ بعد يبقى صالحًا.
 - **التركيب:** `bites_as_points` تحمل `audio_words` (ok/open وحدهما)، و`reel_render._exact_apply` يضبط بها (`saved_words` بثواني ملف التنزيل) بلا تفريغ ولو تعطّل
   المفرِّغ في التركيب، و`exact.saved: true` في `render_crops`. `render_version` بلا تغيير (لا أثر على مسودة بلا كلمات محفوظة).
+- **نوافذ المقاطع وحدها (2/11):** تنزيل الحلقات كاملة استنفد رصيد بروكسي Webshare في يوم فتوقف الجمع والتركيب، فأُوقفت الخطوة
+  (`audio.enabled: false`). مع `audio.sections` يطلب `_real_download` لكل فيديو نداءً واحدًا بأقسام النوافذ (`bite_window`، مدمجةً بـ`merge_windows`
+  حين يقلّ الفاصل عن `section_merge_gap`) عبر `download_ranges`، و`match_sections` تربط كل قسم بملفه، و`handle_bite` تقتطع بثواني القسم وتحفظ
+  الكلمات بثواني الفيديو؛ مقطع بلا قسم يفشل وحده. الصيغة `worstaudio` بلا احتياط، و`stats.audio_seconds` في سطر الخطوة مقياس الاستهلاك.
+  الحقن `Deps.download_sections`. g795–g797 في `test_bite_audio_sections_guards`. **لم يُجرَّب على يوتيوب** (لا وصول من بيئة التطوير ولا رصيد).
 - **تشغيليًا (يعدّله صاحب المشروع بيده):** `youtube-collect.yml` يحتاج `pip install -r requirements.txt -r requirements-reel.txt`، وخطوة
   `python -m src.bite_audio` بعد الجمع وقبل الرفع بالمتغيرات نفسها، ومهلة أطول للوظيفة. بلا faster-whisper تتوقف الخطوة بسطر ولا تُفشل الجمع.
 
