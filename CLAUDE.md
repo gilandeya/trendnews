@@ -2804,12 +2804,12 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 ## مكتبة المقاطع الموثَّقة — المرحلة «أ»: تفريغ صوت المقاطع وقت الجمع (`src/bite_audio.py`)
 
 السبب: حدود المقطع كانت تُحسب من أسطر نص يوتيوب الآلي (بلا ترقيم، والسطر يُقطع وسط الجملة)، فبقي نصف مقاطع اليوم «لا يكتمل» (97 من 183 في 2/11)
-وما يُكتشف وقت التركيب يُحذف بعد اعتماد السيناريو. الخطة كلها (أ–هـ) في وثيقة المشروع `claude/plan-verified-bites.md`. g779–g786 في
+وما يُكتشف وقت التركيب يُحذف بعد اعتماد السيناريو. الخطة كلها (أ–هـ) في وثيقة المشروع `claude/plan-verified-bites.md`. g779–g787 في
 `tests/test_guards_golden.py:test_bite_audio_a_guards`.
 
 - **خطوة مستقلة** `python -m src.bite_audio` بعد الجمع: مقاطع ملفات آخر `youtube.bites.audio.days` أيام الأحدث أولًا (الكامل قبل المبتور) حتى `max_per_run`
   أو `budget_seconds`؛ الباقي في التشغيلة التالية. فحص ذاتي للمفرِّغ أولًا (`reel_clips.transcriber_selfcheck(model=)`)؛ فشله ← سطر بالسبب ولا مساس بأي مقطع.
-- **لكل مقطع:** صوت النافذة وحده (`ba` بـyt-dlp عبر البروكسي) من `start − lookback − margin` إلى `end + lookahead + margin` ← whisper (`audio.model`) ← مطابقة
+- **لكل مقطع:** صوت النافذة وحده (`ba` بـyt-dlp عبر البروكسي، وffmpeg من imageio-ffmpeg عبر `ffmpeg_location` لأن الجمع لا يثبّته من apt) من `start − lookback − margin` إلى `end + lookahead + margin` ← whisper (`audio.model`) ← مطابقة
   `text_original` بالكلمات (`reel_clips.align_quote`) ← `sentence_bounds` (خالصة): نهاية الجملة علامة ترقيم في آخر الكلمة (`terminal`) أو سكتة ≥ `pause_seconds`؛
   البداية ترجع إلى أول جملتها حتى `lookback_seconds` وإلا تتقدّم إلى أول جملة تامة، والنهاية كذلك إلى الأمام حتى `lookahead_seconds`، والمدة بين
   `min_seconds` و`end_check.complete_max_seconds`. حدّ جديد يدخل مقطعًا آخر للفيديو ← يبقى على الكلمات المطابقة (`moved_rejected`).
