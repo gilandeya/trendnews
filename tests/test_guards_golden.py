@@ -23441,3 +23441,171 @@ def test_reel_round_logo_pause_guards() -> None:
         check("g778: السكوت بعد «برأيك..» نحو نصف ما كان", abs(new_gap - old_gap / 2) <= 0.05
               and abs(p["question"] - (p["voice"] + 1.2 + float(cl["label_pause"]))) < 1e-6, (new_gap, old_gap, p))
     guarded("g778", g778)
+
+
+def test_bite_audio_a_guards() -> None:
+    """مكتبة المقاطع الموثَّقة، المرحلة «أ» (g779–g786): صوت نافذة المقطع يُفرَّغ وقت الجمع وحدّاه يصيران حدّي جملة تامة من الكلمات
+    المفرَّغة، والكلمات تُحفظ فيضبط بها التركيب بلا تفريغ ثانٍ. الكلام في الحالات مصنوع، لا اقتباس من قناة."""
+    import json
+    import os
+    import tempfile
+    from datetime import datetime, timezone
+    from pathlib import Path
+
+    from src import bite_audio, reel_render, youtube_bites
+    from src.config import load_config
+
+    cfg = load_config()
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    tokens = ("The meeting ended early. However the second round of talks will start next week in the capital "
+              "and both sides agree. Then the minister left").split()
+    video_words = [(round(13.0 + 0.6 * k, 2), round(13.5 + 0.6 * k, 2), w) for k, w in enumerate(tokens)]
+    i_second, i_and = tokens.index("second"), tokens.index("and")
+    quote = " ".join(tokens[i_second:i_and + 1])
+
+    def bite(**kw):
+        b = {"bite_id": "vidA:5", "video_id": "vidA", "language": "en", "start": video_words[i_second][0],
+             "end": video_words[i_and][1], "text_original": quote, "text_ar": "نص قديم", "duration_seconds": 600}
+        b.update(kw)
+        return b
+
+    def fake_transcribe(path, lang, c):
+        off = int(Path(path).stem.split("_")[1])     # التنزيل المزيَّف يكتب بداية النافذة في اسم الملف
+        return [(s - off, e - off, w) for s, e, w in video_words]
+
+    calls = {"download": 0, "translate": 0}
+
+    def fake_download(vid, s, e, out):
+        calls["download"] += 1
+        p = Path(out) / f"{vid}_{s}.m4a"
+        p.write_bytes(b"x")
+        return p
+
+    def fake_translate(items, c, client):
+        calls["translate"] += 1
+        return {it["n"]: "ترجمة جديدة" for it in items}
+
+    def deps(**kw):
+        base = {"download": fake_download, "transcribe": fake_transcribe, "translate": fake_translate,
+                "selfcheck": lambda c: (True, "")}
+        base.update(kw)
+        return bite_audio.Deps(**base)
+
+    now = datetime(2026, 11, 2, 12, tzinfo=timezone.utc)
+
+    def run_with(bites, d, runs=1):
+        tmp = Path(tempfile.mkdtemp())
+        old = {k: os.environ.get(k) for k in ("TRENDNEWS_YOUTUBE_BITES_DIR", "TRENDNEWS_YOUTUBE_TRANSCRIPTS_DIR")}
+        os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = str(tmp / "b")
+        os.environ["TRENDNEWS_YOUTUBE_TRANSCRIPTS_DIR"] = str(tmp / "t")
+        try:
+            (tmp / "b").mkdir()
+            path = tmp / "b" / "2026-11-02.json"
+            path.write_text(json.dumps({"run_date": "2026-11-02", "bites": bites}), encoding="utf-8")
+            stats = []
+            for k in range(runs):
+                stats.append(bite_audio.process(cfg, now, deps=d[k] if isinstance(d, list) else d))
+            return json.loads(path.read_text(encoding="utf-8"))["bites"], stats
+        finally:
+            for k, v in old.items():
+                if v is None:
+                    os.environ.pop(k, None)
+                else:
+                    os.environ[k] = v
+
+    def g779():
+        sb = bite_audio.sentence_bounds(video_words, i_second, i_and, cfg)
+        check("g779: البداية ترجع إلى أول جملتها والنهاية تتقدّم إلى آخرها",
+              tokens[sb["i0"]] == "However" and tokens[sb["i1"]] == "agree." and sb["starts"] and sb["ends"], sb)
+        plain = [(0.0, 0.5, "a"), (0.6, 1.1, "b"), (2.2, 2.7, "c")] + [(3.0 + 0.6 * k, 3.5 + 0.6 * k, "w") for k in range(20)] + \
+                [(16.0, 16.5, "z"), (17.6, 18.0, "y")]
+        sb2 = bite_audio.sentence_bounds(plain, 2, 21, cfg)
+        check("g779: السكتة الطويلة بلا ترقيم حدّ جملة", sb2["starts"] and sb2["i0"] == 2 and sb2["ends"] and sb2["i1"] == 22, sb2)
+    guarded("g779", g779)
+
+    def g780():
+        calls.update(download=0, translate=0)
+        out, st = run_with([{"bite_id": "x:1", "video_id": "vidB", "incomplete": True, "end_check": {"why": {"turn": 3}},
+                             "start": 1, "end": 9}, bite()], deps())
+        b = out[1]
+        a = b.get("audio") or {}
+        check("g780: العدد والترتيب كما هما، والمقطع على حدّي جملته بنص الصوت وترجمته الجديدة",
+              len(out) == 2 and out[0].get("audio") is None and b["start"] == video_words[tokens.index("However")][0]
+              and b["end"] == video_words[tokens.index("agree.")][1] and b["text_original"].startswith("However")
+              and b["text_original"].endswith("agree.") and b["text_ar"] == "ترجمة جديدة" and a.get("status") == "ok"
+              and a.get("moved") and len(a.get("words") or []) == len(tokens) and st[0]["moved"] == 1, (b, st))
+    guarded("g780", g780)
+
+    def g781():
+        calls.update(download=0, translate=0)
+
+        def broken(items, c, client):
+            raise RuntimeError("انقطع")
+        out, st = run_with([bite()], [deps(translate=broken), deps()], runs=2)
+        b = out[0]
+        check("g781: بلا ترجمة لا يُطبَّق الحدّ الجديد، والتشغيلة التالية تترجم وحدها بلا تنزيل ثانٍ",
+              calls["download"] == 1 and st[0]["pending_translate"] == 1 and b["text_ar"] == "ترجمة جديدة"
+              and b["start"] == video_words[tokens.index("However")][0] and not b["audio"].get("pending_translate"), (b.get("audio", {}).keys(), st, calls))
+    guarded("g781", g781)
+
+    def g782():
+        out, st = run_with([bite(incomplete=True, end_check={"why": {"open_end": 2}})], deps())
+        out2, st2 = run_with([bite(incomplete=True, end_check={"why": {"turn": 1}})], deps())
+        check("g782: المبتور يُنقَذ بحدّي جملة تامّين، وتبدّل المتكلم لا يُفرَّغ",
+              out[0]["incomplete"] is False and out[0]["audio"].get("rescued") and st2[0]["processed"] == 0
+              and out2[0].get("audio") is None, (out[0].get("audio", {}).get("status"), st2))
+    guarded("g782", g782)
+
+    def g783():
+        out, st = run_with([bite()], deps(selfcheck=lambda c: (False, "ImportError: faster_whisper")))
+        check("g783: فشل الفحص الذاتي يوقف الخطوة بسبب واحد بلا مساس بالملف", st[0]["skipped"].startswith("ImportError")
+              and out[0].get("audio") is None and out[0]["text_ar"] == "نص قديم", st)
+    guarded("g783", g783)
+
+    def g784():
+        calls.update(download=0)
+
+        def bad(vid, s, e, o):
+            calls["download"] += 1
+            raise RuntimeError("حجب")
+        out, st = run_with([bite()], deps(download=bad), runs=3)
+        a = out[0]["audio"]
+        check("g784: عطل التنزيل يُعاد حتى max_attempts ثم يُترك والمقطع كما هو",
+              calls["download"] == 2 and a["status"] == "failed" and a["attempts"] == 2 and st[2]["processed"] == 0
+              and out[0]["start"] == video_words[i_second][0], (a, calls))
+    guarded("g784", g784)
+
+    def g785():
+        other = {"bite_id": "vidA:9", "video_id": "vidA", "start": video_words[tokens.index("both")][0], "end": 60,
+                 "text_original": "z"}
+        out, st = run_with([bite(), other], deps())
+        a = out[0]["audio"]
+        check("g785: حدّ جديد يدخل مقطعًا آخر للفيديو لا يُطبَّق ويبقى على الكلمات المطابقة",
+              a.get("moved_rejected") and out[0]["start"] == video_words[i_second][0] and out[0]["end"] == video_words[i_and][1]
+              and out[0]["text_ar"] == "نص قديم", a.get("status"))
+    guarded("g785", g785)
+
+    def g786():
+        pts = youtube_bites.bites_as_points([{**bite(), "audio": {"status": "ok", "words": [list(w) for w in video_words]}}],
+                                            load_transcript=lambda v: None)
+        kept = reel_render.saved_words(pts[0], 15.0, 10.0)
+        seen = {"n": 0}
+
+        class D:
+            def transcribe_words(self, *a):
+                seen["n"] += 1
+                return []
+        res, why = reel_render._exact_align(Path("x.mp4"), "en", pts[0], cfg, D(), {}, words=kept)
+        check("g786: النقطة تحمل كلمات الصوت، والتركيب يضبط بها بثواني ملفه بلا تفريغ",
+              pts[0]["audio_words"] and kept[0][0] >= 0 and all(e <= 10.0 for _, e, _ in kept) and seen["n"] == 0
+              and res is not None and abs(res["t0"] - (video_words[i_second][0] - 15.0)) < 0.01, (why, res and res["t0"]))
+        check("g786: مقطع لم يُفرَّغ أو لا يطابق صوته لا يحمل كلمات",
+              youtube_bites.bites_as_points([{**bite(), "audio": {"status": "no_match", "words": [[0, 1, "a"]]}}],
+                                            load_transcript=lambda v: None)[0]["audio_words"] is None)
+    guarded("g786", g786)

@@ -2800,3 +2800,25 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
   radius + سُمكها. 0 ← الأمر كما كان (`reel_pre_s10_cfg` و`reel_no_border_cfg` يطفئانه لمراجعها).
 - **الشعار:** `reel.render.logo` = {266، 126}: فراغ 16 بكسل متساوٍ عن حافتي النافذة العليا واليمنى (كان ملاصقًا للأعلى وبعيدًا 30 عن اليمين).
 - **السكوت:** `closing.label_pause` 0.6 ← 0.1، فصار سكوت ما بعد «برأيك..» (ذيل الجملة 0.35 + الوقفة) نحو نصفه. `render_version` = 60 (للقادم فقط، S11).
+
+## مكتبة المقاطع الموثَّقة — المرحلة «أ»: تفريغ صوت المقاطع وقت الجمع (`src/bite_audio.py`)
+
+السبب: حدود المقطع كانت تُحسب من أسطر نص يوتيوب الآلي (بلا ترقيم، والسطر يُقطع وسط الجملة)، فبقي نصف مقاطع اليوم «لا يكتمل» (97 من 183 في 2/11)
+وما يُكتشف وقت التركيب يُحذف بعد اعتماد السيناريو. الخطة كلها (أ–هـ) في وثيقة المشروع `claude/plan-verified-bites.md`. g779–g786 في
+`tests/test_guards_golden.py:test_bite_audio_a_guards`.
+
+- **خطوة مستقلة** `python -m src.bite_audio` بعد الجمع: مقاطع ملفات آخر `youtube.bites.audio.days` أيام الأحدث أولًا (الكامل قبل المبتور) حتى `max_per_run`
+  أو `budget_seconds`؛ الباقي في التشغيلة التالية. فحص ذاتي للمفرِّغ أولًا (`reel_clips.transcriber_selfcheck(model=)`)؛ فشله ← سطر بالسبب ولا مساس بأي مقطع.
+- **لكل مقطع:** صوت النافذة وحده (`ba` بـyt-dlp عبر البروكسي) من `start − lookback − margin` إلى `end + lookahead + margin` ← whisper (`audio.model`) ← مطابقة
+  `text_original` بالكلمات (`reel_clips.align_quote`) ← `sentence_bounds` (خالصة): نهاية الجملة علامة ترقيم في آخر الكلمة (`terminal`) أو سكتة ≥ `pause_seconds`؛
+  البداية ترجع إلى أول جملتها حتى `lookback_seconds` وإلا تتقدّم إلى أول جملة تامة، والنهاية كذلك إلى الأمام حتى `lookahead_seconds`، والمدة بين
+  `min_seconds` و`end_check.complete_max_seconds`. حدّ جديد يدخل مقطعًا آخر للفيديو ← يبقى على الكلمات المطابقة (`moved_rejected`).
+- **التطبيق (`apply`):** `start`/`end` يصيران زمني الكلمتين؛ حدّ جديد يعني `text_original` من الصوت نفسه و`text_ar` من نداء ترجمة واحد للتشغيلة
+  (`translate_model`)، وبلا ترجمة لا يُطبَّق (`pending_translate` تعيد الترجمة وحدها لاحقًا بلا تنزيل). المبتور غير تبدّل المتكلم (`rescue_incomplete`) يُنقَذ
+  (`incomplete=False`، `rescued`) إن وُجد له حدّا جملة؛ و`clip_audit` في السيناريو حارس ثانٍ عليه. لا حذف ولا تغيير ترتيب (فهارس المواضيع).
+- **السجل** `bite["audio"]`: `status` (ok · open · no_match · no_text · failed) و`ratio` و`words` (كل كلمات النافذة بثواني الفيديو) و`moved`/`rescued`/`attempts`
+  (عطل يُعاد حتى `max_attempts`). الكلمات كلام قناة: ملف المقاطع في المستودع الخاص وحده.
+- **التركيب:** `bites_as_points` تحمل `audio_words` (ok/open وحدهما)، و`reel_render._exact_apply` يضبط بها (`saved_words` بثواني ملف التنزيل) بلا تفريغ ولو تعطّل
+  المفرِّغ في التركيب، و`exact.saved: true` في `render_crops`. `render_version` بلا تغيير (لا أثر على مسودة بلا كلمات محفوظة).
+- **تشغيليًا (يعدّله صاحب المشروع بيده):** `youtube-collect.yml` يحتاج `pip install -r requirements.txt -r requirements-reel.txt`، وخطوة
+  `python -m src.bite_audio` بعد الجمع وقبل الرفع بالمتغيرات نفسها، ومهلة أطول للوظيفة. بلا faster-whisper تتوقف الخطوة بسطر ولا تُفشل الجمع.
