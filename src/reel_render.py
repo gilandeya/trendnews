@@ -2069,13 +2069,27 @@ def youtube_extract_base_lang(code: str | None) -> str:
     return youtube_extract._base_lang(code)
 
 
-def _exact_align(file: Path, lang: str | None, point: dict, cfg, deps: Deps, diag: dict | None = None) -> tuple[dict | None, str]:
+def saved_words(point: dict, dstart: float, seconds: float) -> list | None:
+    """كلمات الصوت المفرَّغة وقت الجمع (bite_audio) بثواني ملف التنزيل [dstart، dstart+seconds]، أو None إن لم تُحفظ أو لم يقع منها
+    شيء في الملف. دالة خالصة."""
+    words = point.get("audio_words") if point else None
+    if not words:
+        return None
+    out = [(round(float(s) - dstart, 3), round(float(e) - dstart, 3), str(w)) for s, e, w in words
+           if float(s) >= dstart and float(e) <= dstart + seconds]
+    return out or None
+
+
+def _exact_align(file: Path, lang: str | None, point: dict, cfg, deps: Deps, diag: dict | None = None,
+                 words: list | None = None) -> tuple[dict | None, str]:
     """تفريغ كلمات الملف ومطابقة الاقتباس الأصلي (Q13). يعيد (نتيجة align_quote بثواني الملف، "") أو (None، السبب)؛ لا يرفع أبدًا.
-    diag (Q15) يُملأ بتشخيص الفشل (reason وbest_ratio وheard_words وheard_head) ويذكر نص السبب الرقم نفسه."""
-    try:
-        words = deps.transcribe_words(file, lang, cfg)
-    except Exception as exc:  # noqa: BLE001 -- مكتبة اختيارية أو عطل نموذج: يُعامل عطلًا فيبقى ضبط السطر
-        return None, f"{type(exc).__name__}: " + reel_clips.scrub_text(str(exc))[:80]
+    diag (Q15) يُملأ بتشخيص الفشل (reason وbest_ratio وheard_words وheard_head) ويذكر نص السبب الرقم نفسه.
+    words: كلمات محفوظة من الجمع (المرحلة «أ») تُغني عن التفريغ."""
+    if words is None:
+        try:
+            words = deps.transcribe_words(file, lang, cfg)
+        except Exception as exc:  # noqa: BLE001 -- مكتبة اختيارية أو عطل نموذج: يُعامل عطلًا فيبقى ضبط السطر
+            return None, f"{type(exc).__name__}: " + reel_clips.scrub_text(str(exc))[:80]
     if not words:
         if diag is not None:
             diag.update(reason="no_words", best_ratio=0.0, heard_words=0, heard_head=[])
@@ -2109,7 +2123,12 @@ def _exact_apply(clip: dict, scene: dict, point: dict, dstart: int, wstart: int,
     fsecs = float(clip["seconds"])
     # off: الفحص الذاتي فشل (Q13b) ← لا نداء تفريغ، والسبب واحد يُكتب مرة في التعليق لا مقطعًا مقطعًا
     diag: dict = {}
-    res, why = (None, off) if off else _exact_align(clip["file"], lang, point, cfg, deps, diag)
+    # المرحلة «أ»: كلمات الصوت المحفوظة من الجمع تُستعمل أولًا (ولو تعطّل المفرِّغ في التركيب)، فلا تفريغ ثانٍ ولا اختلاف بين التشغيلتين
+    kept = saved_words(point, float(dstart), fsecs)
+    if kept is not None:
+        res, why = _exact_align(clip["file"], lang, point, cfg, deps, diag, words=kept)
+    else:
+        res, why = (None, off) if off else _exact_align(clip["file"], lang, point, cfg, deps, diag)
     channel = scene.get("channel_display", "")
     if res is None:
         if xcfg.get("require", False):
@@ -2146,7 +2165,8 @@ def _exact_apply(clip: dict, scene: dict, point: dict, dstart: int, wstart: int,
     clip["wstart"] = float(s0)
     clip["sync"] = "words"
     clip["approx"] = False
-    clip["exact"] = {"t0": round(a0, 2), "t1": round(a1, 2), "ratio": res["ratio"], "source": "words"}
+    clip["exact"] = {"t0": round(a0, 2), "t1": round(a1, 2), "ratio": res["ratio"], "source": "words",
+                     **({"saved": True} if kept is not None else {})}
     if is_approx and approx:
         approx[-1]["aligned"] = True
     return "words", ""
@@ -2338,7 +2358,9 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: l
                 ex_margin = float(xcfg.get("margin", 4))
         # Q13: نافذة التنزيل أوسع من النافذة المنطقية (wstart..wend) لتفريغ الكلمات؛ على الفشل يُقتطع الملف إلى المنطقية
         dstart, dend = wstart, wend
-        if exact_on and ex_margin is not None:
+        # المرحلة «أ»: مقطع له كلمات صوت محفوظة من الجمع يُضبط بها ولو لم يتوفر مفرِّغ في التركيب
+        scene_exact = exact_on or (bool(xcfg.get("enabled", True)) and bool(point.get("audio_words")))
+        if scene_exact and ex_margin is not None:
             base0 = float(loc["start"]) if span_info else float(wstart)
             base1 = float(loc["end"]) if span_info else float(wend)
             dstart = int(min(max(0, math.floor(base0 - ex_margin)), wstart))
@@ -2359,7 +2381,7 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: l
         clips[i] = {"file": out, "seconds": float(secs), "video_id": vid, "dstart": float(dstart)}   # dstart: ثانية الفيديو لأول الملف (S4)
         is_approx_win = bool(approx and approx[-1]["point_id"] == scene.get("point_id", "") and approx[-1]["start"] == wstart)
         aligned, why = None, ""
-        if exact_on and ex_margin is not None:
+        if scene_exact and ex_margin is not None:
             exact_tried = True
             aligned, why = _exact_apply(clips[i], scene, point, dstart, wstart, wend, is_approx_win, cfg, deps, exact_fails, approx, exact_off)
             if aligned == "drop":

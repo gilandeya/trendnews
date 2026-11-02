@@ -309,6 +309,8 @@ def bites_as_points(bites: list[dict], load_transcript=None) -> list[dict]:
             # حدود المقطع بأسطر نصه: يعيد بها السيناريو فحص النهاية لمقطع حكم فحص القائل بأنه مبتور (القضية 1758)
             "start_line": b.get("start_line"), "end_line": b.get("end_line"),
             "first_words": b.get("first_words", ""), "last_words": b.get("last_words", ""),
+            # كلمات الصوت المفرَّغة وقت الجمع (bite_audio، المرحلة «أ»): التركيب يضبط بها المقطع بلا تفريغ ثانٍ
+            "audio_words": (b.get("audio") or {}).get("words") if (b.get("audio") or {}).get("status") in ("ok", "open") else None,
         })
     return out
 
