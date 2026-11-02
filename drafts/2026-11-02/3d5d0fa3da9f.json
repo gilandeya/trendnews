@@ -1,0 +1,151 @@
+{
+  "id": "3d5d0fa3da9f",
+  "created_at": "2026-11-02T05:08:35.174265+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "failed",
+  "title": "الأزمة التركية الأذربيجانية الصامتة",
+  "tier": 1,
+  "blocs": [
+    "turkish"
+  ],
+  "channels": [
+    "Habertürk",
+    "SÖZCÜ"
+  ],
+  "agreement": "agreement",
+  "event": "توتر العلاقات بين تركيا وأذربيجان وغياب علييف عن قمة أنقرة وخلفياته",
+  "warnings": [],
+  "run_date": "2026-11-02",
+  "arabic": {
+    "post_title": "الأزمة التركية الأذربيجانية الصامتة",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "Habertürk",
+      "SÖZCÜ"
+    ]
+  },
+  "score": 2,
+  "source_videos": [],
+  "topic_id": "a18c5dafd517",
+  "topic_date": "2026-11-02",
+  "script_error": "لا منظورات مختلفة في المقاطع: المقاطع الصالحة لا تتناول التوتر التركي الأذربيجاني ولا غياب علييف عن قمة أنقرة إطلاقًا؛ هي عن فضيحة مالية داخلية تركية. كما أن مقطعي سوزجو المجهولين يحملان الزاوية نفسها تقريبًا، ومقطع أكتاش نوعه fact فلا يصلح إجابة.",
+  "names_audit": [
+    {
+      "arabic": "إحسان أكتاش",
+      "latin": "İhsan Aktaş"
+    },
+    {
+      "arabic": "رمضان باشاك",
+      "latin": "Ramazan Başak"
+    }
+  ],
+  "quote_retranslated": [
+    "b585cefff4a6"
+  ],
+  "clip_dropped": [
+    {
+      "point_id": "790a9cb20e92",
+      "channel": "سوزجو",
+      "reason": "اقتباس مبتور — الاقتباس يتضمن تصحيحًا لسنة (2025 ثم 2024) ويحتاج سياقًا، والرقم الأخير يخص 2025 والجملة معلّقة نوعًا ما"
+    }
+  ],
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "d5f3c54611b2",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سوزجو"
+      },
+      {
+        "point_id": "c580ed7f40eb",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سوزجو"
+      },
+      {
+        "point_id": "b585cefff4a6",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "يبدو أن ذلك لأن الأصوات تذهب إلى المترددين. فالإرهابي مع تركيا، كان الجميع يتوقع أن تنهار الحركة القومية، لكنها لم تتحرك قيد أنملة. بل إن كثيرًا من الاستطلاعات تُظهر أن حزب الشعب الجمهوري ارتفع مقارنة بما قبل تلك الفترة. أي لا يوجد انتقال بين الكتل داخل قاعدة الناخبين. وسبب ازدياد المترددين هو الأزمة الاقتصادية المتفاقمة.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "هابر ترك"
+      },
+      {
+        "point_id": "174478fc0835",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سوزجو"
+      },
+      {
+        "point_id": "790a9cb20e92",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "no",
+        "incomplete_reason": "الاقتباس يتضمن تصحيحًا لسنة (2025 ثم 2024) ويحتاج سياقًا، والرقم الأخير يخص 2025 والجملة معلّقة نوعًا ما",
+        "channel": "سوزجو"
+      }
+    ]
+  },
+  "script_raw": {
+    "attempt": 1,
+    "stop_reason": "tool_use",
+    "max_tokens": 3500,
+    "input": {
+      "main_question": "هل تعكس أزمة الصندوق خللًا اقتصاديًا أعمق في تركيا؟",
+      "context": [
+        "سُرقت مليارات الليرات عبر عمليات احتيال مالي في تركيا، وارتفعت بلاغات الاحتيال من 4.3% عام 2021 إلى 65.3% عام 2025."
+      ],
+      "questions": [
+        {
+          "role": "core",
+          "text": "ما أبرز ما تطرحه فضيحة الصندوق اليوم؟",
+          "answers": [
+            {
+              "point_id": "d5f3c54611b2",
+              "stance": "يرى الأسئلة الأهم عن السداد والمتورطين",
+              "angle": "جدول السداد ومن تورط",
+              "repeats": false
+            },
+            {
+              "point_id": "174478fc0835",
+              "stance": "يربط معاناة الفلاحين بنهب الموارد",
+              "angle": "أثر معيشي على الزراعة والفلاح",
+              "repeats": false
+            }
+          ]
+        }
+      ],
+      "closing_question": "ما الذي يجب كشفه أولًا في هذه القضية؟",
+      "single_angle": true,
+      "single_angle_reason": "المقاطع الصالحة لا تتناول التوتر التركي الأذربيجاني ولا غياب علييف عن قمة أنقرة إطلاقًا؛ هي عن فضيحة مالية داخلية تركية. كما أن مقطعي سوزجو المجهولين يحملان الزاوية نفسها تقريبًا، ومقطع أكتاش نوعه fact فلا يصلح إجابة."
+    }
+  },
+  "has_photo": false,
+  "has_news_photo": true,
+  "review_issue": 1765,
+  "stage2_issue": 1765
+}

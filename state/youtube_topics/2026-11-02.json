@@ -240,8 +240,11 @@
       },
       "id": "072f6f175621",
       "created_at": "2026-11-02T04:02:24.189844+00:00",
-      "selection_status": "unselected",
-      "selection_issue": 1762
+      "selection_status": "attempted",
+      "selection_issue": 1762,
+      "selected_formats": [
+        "reel"
+      ]
     },
     {
       "title": "مفاوضات الدوحة ودوافع ترامب تجاه إيران",
@@ -361,8 +364,11 @@
       },
       "id": "a18c5dafd517",
       "created_at": "2026-11-02T04:02:24.189844+00:00",
-      "selection_status": "unselected",
-      "selection_issue": 1762
+      "selection_status": "attempted",
+      "selection_issue": 1762,
+      "selected_formats": [
+        "reel"
+      ]
     }
   ],
   "all_topics": [
