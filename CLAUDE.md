@@ -1713,12 +1713,6 @@ step (`article.wide_days`).
 ← `log.error` مرة لكل عملية وإعادة واحدة بدونها؛ `stop_reason == "refusal"` ← `log.warning` ويُعاد الرد كما هو. نداء جديد بنموذج Haiku يستعمل `llm.create` لا
 `client.messages.create`. الاختبار: g257–g263 في `tests/test_guards_golden.py:test_llm_haiku55_guards`.
 
-- **أرقام صحة المكتبة (المرحلة «هـ»، `src/bites_health.py`):** بعد خطوة التفريغ (ولو موقوفة) يحسب `bites_health.main` لآخر
-  `youtube.bites.health.days` أيام: كم مقطعًا يصلح للريل (`usable`: شروط `reel_script.valid_clips` نفسها على المقطع المحفوظ) ولماذا سقط
-  الباقي (`incomplete`/`audio_no_match`/`no_text`)، وأسباب «لا يكتمل» وحالات الصوت ونسبة المسمّى؛ يُحفظ في `health.json` بجانب ملفات المقاطع
-  (المستودع الخاص، يُرفع مع `state/youtube_bites` بلا تعديل workflow) `keep_days` يومًا، وسطر كل يوم في ملخص تشغيلة Actions. g810–g812.
-  **ما زال ناقصًا من «هـ»:** المجموعة المرجعية (50 مقطعًا موسومًا بيد إنسان) — لا تُصنع آليًا.
-
 ## خرائط السياق خلف جمل الراوي (المرحلة 4 من تصميم الريل) — `src/reel_map.py`
 
 جملة سياق تذكر أماكن ← خريطة تقترب منها وتلوّن الدول المذكورة وترسم سهمًا لكل حركة تذكرها الجملة. **القاعدة الحاكمة:** كل ما يُرسم
@@ -2870,3 +2864,11 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 - **اسم المتكلم من الشريط (الريل نفسه):** قُبل «غaffar ياكينجا – صحفي» فظهر على الشاشة. `reel_render.resolve_chyron`: الصفة المكرّرة بعد الاسم
   («… – صحفي» والصفة «صحفي») تُحذف، واسم فيه كلمة لاتينية (`_clean_screen_name`) يُستبدل برسم قائمة ضيوف الحلقة (`_roster_arabic_name`: كلمتان مشتركتان
   من الاسم الأصلي) وإلا لا يُقبل (`name_from_roster`). `render_version` = 61. g791–g794 في `test_clean_screen_text_1779_guards`.
+
+## أرقام صحة مكتبة المقاطع (المرحلة «هـ») — `src/bites_health.py`
+
+بعد خطوة التفريغ (ولو موقوفة) يحسب `bites_health.main` لآخر
+  `youtube.bites.health.days` أيام: كم مقطعًا يصلح للريل (`usable`: شروط `reel_script.valid_clips` نفسها على المقطع المحفوظ) ولماذا سقط
+  الباقي (`incomplete`/`audio_no_match`/`no_text`)، وأسباب «لا يكتمل» وحالات الصوت ونسبة المسمّى؛ يُحفظ في `health.json` بجانب ملفات المقاطع
+  (المستودع الخاص، يُرفع مع `state/youtube_bites` بلا تعديل workflow) `keep_days` يومًا، وسطر كل يوم في ملخص تشغيلة Actions. g810–g812.
+  **ما زال ناقصًا من «هـ»:** المجموعة المرجعية (50 مقطعًا موسومًا بيد إنسان) — لا تُصنع آليًا.
