@@ -1447,8 +1447,10 @@ def recheck_incomplete(clip: dict, point: dict, reason: str, valid: list[dict], 
                   and points_by_id[c["point_id"]].get("start_line") is not None]
         got, err = youtube_bites.check_ends([bite], segments, cfg, client, others=others, hints=[reason])
         res = got[0] if got else {}
-        if err or res.get("incomplete") or abs(float(res.get("end", bite["end"])) - bite["end"]) <= 0.5:
-            return None   # نهاية لم تتغير ← الحكم نفسه يتكرر، فيبقى الاستبعاد
+        moved = (abs(float(res.get("end", bite["end"])) - bite["end"]) > 0.5
+                 or abs(float(res.get("start", bite["start"])) - bite["start"]) > 0.5)
+        if err or res.get("incomplete") or not moved:
+            return None   # حدود لم تتغير ← الحكم نفسه يتكرر، فيبقى الاستبعاد؛ والبداية تُصلح أيضًا منذ القضيتين 1767/1770
         start, end = clip_window({"start": res["start"], "end": res["end"]}, cfg)
         return dict(clip, start=start, end=end, quote_arabic=res.get("text_ar") or clip.get("quote_arabic", ""),
                     quote_original=res.get("text_original") or clip.get("quote_original", ""), rechecked=True)
