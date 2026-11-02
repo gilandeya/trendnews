@@ -416,7 +416,7 @@
       },
       "id": "487aa274ed13",
       "created_at": "2026-11-02T16:27:24.809280+00:00",
-      "selection_status": "pending",
+      "selection_status": "unselected",
       "selection_issue": 1778
     },
     {
@@ -460,8 +460,11 @@
       },
       "id": "2ea7ae217130",
       "created_at": "2026-11-02T16:27:24.809280+00:00",
-      "selection_status": "pending",
-      "selection_issue": 1778
+      "selection_status": "attempted",
+      "selection_issue": 1778,
+      "selected_formats": [
+        "reel"
+      ]
     }
   ],
   "all_topics": [
