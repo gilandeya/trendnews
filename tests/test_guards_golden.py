@@ -24100,3 +24100,74 @@ def test_reel_context_maps_guards() -> None:
               and all(c in g.countries for c in cfg.path("reel.maps.country_aliases")) and not bad_extra and not unresolved,
               (bad_extra, unresolved))
     guarded("g808", g808)
+
+
+def test_bites_health_guards() -> None:
+    """أرقام صحة مكتبة المقاطع (g810–g812، المرحلة «هـ»): الصالح للريل بشروط valid_clips نفسها، وأسباب السقوط، وحفظ يومي يُستبدل
+    فيه رقم اليوم ويُحذف الأقدم من keep_days. المقاطع مصنوعة بلا كلام."""
+    import json
+    import os
+    import tempfile
+    from datetime import datetime, timezone
+    from pathlib import Path
+
+    from src import bites_health, reel_script
+    from src.config import load_config
+
+    cfg = load_config()
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def bite(n, **kw):
+        b = {"bite_id": f"v{n}:1", "video_id": f"v{n % 2}", "start": 10.0, "end": 20.0, "text_original": "x y z",
+             "speaker": "س", "type": "opinion", "video_url": f"https://youtu.be/v{n % 2}"}
+        b.update(kw)
+        return b
+
+    bites = [bite(1), bite(2, incomplete=True, end_check={"why": {"open_end": True}}),
+             bite(3, incomplete=True, end_check={"why": {"turn": True}}), bite(4, audio={"status": "no_match"}),
+             bite(5, audio={"status": "ok", "rescued": True}), bite(6, text_original="", speaker="")]
+
+    def g810():
+        m = bites_health.measure(bites, cfg)
+        # الحكم نفسه الذي يحكم به valid_clips على المقطع وقد صار نقطة (bites_as_points يحمل audio_status)
+        pts = [{**b, "timestamp": b["start"], "quote_original": b["text_original"], "statement": b["bite_id"],
+                "audio_status": (b.get("audio") or {}).get("status")} for b in bites]
+        valid = reel_script.valid_clips(pts, [], cfg)
+        check("g810: الصالح للريل بشروط valid_clips نفسها، وأسباب السقوط وأسباب «لا يكتمل» وحالات الصوت معدودة",
+              m["usable"] == 2 == len(valid) and m["dropped"] == {"incomplete": 2, "audio_no_match": 1, "no_text": 1}
+              and m["incomplete_why"] == {"open_end": 1, "turn": 1} and m["audio"]["none"] == 4 and m["rescued"] == 1
+              and m["named"] == 5 and m["videos"] == 2, (m, len(valid)))
+    guarded("g810", g810)
+
+    def g811():
+        tmp = Path(tempfile.mkdtemp())
+        (tmp / "2026-11-02.json").write_text(json.dumps({"bites": bites}), encoding="utf-8")
+        (tmp / "health.json").write_text(json.dumps({"2026-08-01": {"bites": 1}, "2026-11-02": {"bites": 99}}), encoding="utf-8")
+        now = datetime(2026, 11, 2, 12, tzinfo=timezone.utc)
+        saved = bites_health.snapshot(cfg, now, root=tmp)
+        disk = json.loads((tmp / "health.json").read_text(encoding="utf-8"))
+        check("g811: رقم اليوم يُستبدل بالأحدث والأقدم من keep_days يُحذف، والملف على القرص كما أُعيد",
+              saved["2026-11-02"]["bites"] == 6 and "2026-08-01" not in saved and disk == saved, saved)
+    guarded("g811", g811)
+
+    def g812():
+        ln = bites_health.line("2026-11-02", bites_health.measure(bites, cfg), cfg)
+        check("g812: السطر يذكر الصالح ونسبته وأسباب السقوط بالعربية",
+              ln.startswith("2026-11-02: 2 من 6") and "33%" in ln and "لا يكتمل 2" in ln and "نهاية مفتوحة 1" in ln, ln)
+        tmp = Path(tempfile.mkdtemp())
+        old = os.environ.get("TRENDNEWS_YOUTUBE_BITES_DIR")
+        os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = str(tmp / "missing" / "deeper")
+        try:
+            lines = bites_health.report(cfg, datetime(2026, 11, 2, tzinfo=timezone.utc))
+        finally:
+            if old is None:
+                os.environ.pop("TRENDNEWS_YOUTUBE_BITES_DIR", None)
+            else:
+                os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = old
+        check("g812: بلا ملفات مقاطع لا سطر ولا استثناء", lines == [], lines)
+    guarded("g812", g812)
