@@ -827,6 +827,7 @@ def main() -> int:
     test_reel_round_logo_pause_guards()
     test_bite_audio_a_guards()
     test_clean_screen_text_1779_guards()
+    test_reel_context_maps_guards()
     test_bite_audio_sections_guards()
     test_names_n1_guards()
     test_analysis_attribution_pipeline()

@@ -26,7 +26,7 @@ from typing import Any, Callable
 
 from PIL import Image, ImageDraw
 
-from . import imaging, reel_broll, reel_clips, reel_hook_search, reel_script, store, tts
+from . import imaging, reel_broll, reel_clips, reel_hook_search, reel_map, reel_script, store, tts
 from .config import MUSIC_DIR, REELS_DIR, load_config
 
 log = logging.getLogger("trendnews.reel_render")
@@ -1196,6 +1196,11 @@ def _narration_pen(cfg, sentence: str, boxes, bg: dict | None):
     # بخلفية: إطار شفاف بلا صورة (الخلفية تيار فيديو مستقل يتحرك تحته، Issue #1447)؛ بلا خلفية: الكحلي كما كان
     p = _Pen(cfg, boxes, transparent=bg is not None)
     start, minimum = size_pair(cfg, "narration")
+    if bg is not None and bg.get("map_layout"):
+        # جملة خلفها خريطة: النص ينزل تحت منطقة الأماكن وبأسطر أقل، وما لا يسع يُقسم مقاطع كالمعتاد (narration_segments)؛
+        # بوسطه المعتاد (860) غطّى أربعة أسطر عدن واسمها في أول تجربة حقيقية
+        m = cfg.path("reel.maps.text")
+        return p, dict(y_mid=int(m["y_mid"]), start=start, minimum=minimum, max_lines=int(m["max_lines"]))
     return p, dict(y_mid=860, start=start, minimum=minimum, max_lines=4)
 
 
@@ -2496,14 +2501,21 @@ def _timed_scene(frames: list[tuple[Path, float]], audio: Path, out: Path, cfg, 
         crop = f"{_still_bg_prefix(fps)}crop={w}:{h}:x='{pan}':y='(ih-oh)/2'"
         shade = _shade_filter(cfg, "narration_bg")
         extra: list[str] = []
-        if broll:
+        # الخرائط (over_shade) تُركَّب بعد التظليل: كحليّها وتدرّجها تحت النص مرسومان فيها، وتظليلها ثانية يطفئ ألوانها
+        under = [bl for bl in broll or [] if not bl.get("over_shade")]
+        over = [bl for bl in broll or [] if bl.get("over_shade")]
+        if under or over:
             vg = crop + "[p0];"
-            for j, bl in enumerate(broll):
+            for j, bl in enumerate(under + over):
                 extra += ["-i", str(bl["clip"])]
                 a, b = _fmt(bl["a"]), _fmt(bl["b"])
-                vg += (f"[{3 + j}:v]{bl['cexpr']},scale={w}:{h},fps={fps},setpts=PTS-STARTPTS+{a}/TB[c{j}];"
-                       f"[p{j}][c{j}]overlay=0:0:enable='between(t,{a},{b})'[p{j + 1}];")
-            vg += f"[p{len(broll)}]{shade},fps={fps}[b];"
+                vg += f"[{3 + j}:v]{bl['cexpr']},scale={w}:{h},fps={fps},setpts=PTS-STARTPTS+{a}/TB[c{j}];"
+                if j == len(under):
+                    vg += f"[p{j}]{shade}[p{j}s];"
+                src = f"p{j}s" if j == len(under) else f"p{j}"
+                vg += f"[{src}][c{j}]overlay=0:0:enable='between(t,{a},{b})'[p{j + 1}];"
+            n = len(under) + len(over)
+            vg += (f"[p{n}]{shade},fps={fps}[b];" if not over else f"[p{n}]fps={fps}[b];")
         else:
             vg = f"{crop},{shade},fps={fps}[b];"
         vg += f"[1:v]fps={fps},format=rgba[t];[b][t]overlay=0:0:shortest=1,format=yuv420p[v];[2:a]{afilter}[a]"
@@ -2911,11 +2923,13 @@ def quote_word_times(n_words: int, clip_seconds: float, segments: list, start_of
 
 
 def _narration_frames(parts: list[tuple[str, float]], i: int, cfg, tmp: Path, lead: float,
-                      bg: dict | None = None) -> list[tuple[Path, float]]:
+                      bg: dict | None = None, map_sentences: set | None = None) -> list[tuple[Path, float]]:
     """إطارات مشهد الراوي. مع typewriter: خطوة لكل حرف (typewriter_steps) بمدة كلام الجملة = مدة صوتها − الصمت بعدها،
     ويبقى النص كاملًا خلال الصمت. بدونه: إطار كامل لكل جملة كما كان. أول إطار فارغ كي يقع صمت الانتقال بلا نص."""
+    def bg_of(k):
+        return {**bg, "map_layout": True} if bg is not None and k in (map_sentences or set()) else bg
     if not cfg.path("reel.render.typewriter.enabled", False):
-        return [(_save(frame_narration(cfg, text, bg=bg) if bg is not None else frame_narration(cfg, text),
+        return [(_save(frame_narration(cfg, text, bg=bg_of(k)) if bg is not None else frame_narration(cfg, text),
                        tmp / f"nar_{i}_{k}.png"), dur) for k, (text, dur) in enumerate(parts)]
     silence = float(cfg.path("reel.tts.sentence_silence", 0.35))
     fps = float(cfg.path("reel.render.fps"))
@@ -2924,15 +2938,16 @@ def _narration_frames(parts: list[tuple[str, float]], i: int, cfg, tmp: Path, le
         fade = float(cfg.path("reel.render.reveal.fade", 0.25))
         for k, (text, dur) in enumerate(parts):
             hold = min(silence, dur)
-            segs = narration_segments(cfg, text, bg)
+            bgk = bg_of(k)
+            segs = narration_segments(cfg, text, bgk)
             counts = [_nonspace(s) for s in segs]
             for j, seg in enumerate(segs):
-                lines = narration_lines(cfg, seg, bg)
+                lines = narration_lines(cfg, seg, bgk)
                 span = (dur - hold) * counts[j] / (sum(counts) or 1)
                 # آخر مقطع وحده يحمل صمت ما بعد الجملة؛ ما قبله يُمسح عند بدء التالي
                 steps = reveal_steps([_nonspace(ln) for ln in lines], span, hold if j == len(segs) - 1 else 0.0, fps, fade)
                 for m, (alphas, d) in enumerate(steps):
-                    im = frame_narration_reveal(cfg, seg, alphas, bg=bg)
+                    im = frame_narration_reveal(cfg, seg, alphas, bg=bgk)
                     frames.append((_save(im, tmp / f"nar_{i}_{k}_{j}_{m}.png"), d))
         return frames
     for k, (text, dur) in enumerate(parts):
@@ -2941,7 +2956,7 @@ def _narration_frames(parts: list[tuple[str, float]], i: int, cfg, tmp: Path, le
         if k == 0 and lead > 0 and steps[0][0]:
             steps = [("", 0.0)] + steps    # lead يُضاف إلى هذه الخطوة الفارغة في _timed_scene
         for j, (prefix, d) in enumerate(steps):
-            im = frame_narration_typed(cfg, text, prefix, bg=bg) if bg is not None else frame_narration_typed(cfg, text, prefix)
+            im = frame_narration_typed(cfg, text, prefix, bg=bg_of(k)) if bg is not None else frame_narration_typed(cfg, text, prefix)
             frames.append((_save(im, tmp / f"nar_{i}_{k}_{j}.png"), d))
     return frames
 
@@ -4969,8 +4984,75 @@ def _plain(text: str) -> str:
     return " ".join(_TASHKEEL.sub("", str(text or "")).split())
 
 
+def _prepare_maps(script: dict, nar_idx: list[int], speech_cache: dict, plan: list, cfg, deps: Deps, tmp: Path, lead: float,
+                  notes: list, results: list) -> dict[int, list[dict]]:
+    """خرائط السياق (المرحلة 4): لكل جملة راوٍ اقترحت لها الخطة خريطة، يتحقق reel_map.resolve أن كل اسم فيها مذكور في الجملة
+    كما ستُقرأ (بعد تعديل المراجع) وموجود في المعجم، ثم تُرسم بمدة الجملة الفعلية وتُرمَّز مقطعًا صامتًا يُركَّب فوق الخلفية.
+    بطاقة السؤال لا خريطة لها (لها تصميمها). عطل جملة لا يُسقط غيرها ولا التركيب: تبقى بلقطتها أو صورتها.
+    يعيد {فهرس المشهد: [{a, b, clip, cexpr, over_shade}]} ويملأ results (render_maps) بجملة لكل خريطة رُسمت أو رُفضت."""
+    if not cfg.path("reel.maps.enabled", False) or not plan:
+        return {}
+    t = cfg.path("reel.render.texts")
+    rcfg = cfg.path("reel.render")
+    by_scene: dict[int, dict[int, dict]] = {}
+    for e in plan:
+        try:
+            by_scene.setdefault(int(e["scene"]), {})[int(e["sentence"])] = e
+        except (TypeError, ValueError, KeyError):
+            continue
+    out: dict[int, list[dict]] = {}
+    for i in nar_idx:
+        scene = script["scenes"][i]
+        if scene.get("role") == "question" or not any(e.get("map") for e in by_scene.get(i, {}).values()):
+            continue
+        parts = speech_cache[i][1]
+        texts = tts.split_sentences(scene.get("text", ""))
+        if len(parts) != len(texts):
+            continue
+        cursor = 0.0
+        for k, (_, dur) in enumerate(parts):
+            a = 0.0 if k == 0 else lead + cursor
+            cursor += dur
+            b = lead + cursor
+            e = by_scene.get(i, {}).get(k)
+            if not e or not e.get("map") or _plain(e.get("text")) != _plain(texts[k]):
+                continue
+            rec: dict = {"scene": i, "sentence": k}
+            resolved, why = reel_map.resolve(e["map"], texts[k], cfg)
+            if resolved is None:
+                rec["rejected"] = why
+                results.append(rec)
+                continue
+            try:
+                frames = reel_map.render(resolved, b - a, cfg, tmp, f"{i}_{k}")
+                lst = tmp / f"map_{i}_{k}_frames.txt"
+                lst.write_text("".join(f"file '{f}'\nduration {_fmt(d)}\n" for f, d in frames) + f"file '{frames[-1][0]}'\n",
+                               encoding="utf-8")
+                clip = tmp / f"map_{i}_{k}.mp4"
+                deps.run(_base("-f", "concat", "-safe", "0", "-i", str(lst), "-vf", f"fps={rcfg['fps']},format=yuv420p",
+                               "-t", _fmt(b - a), "-an", "-c:v", "libx264", "-preset", str(rcfg.get("preset", "veryfast")),
+                               "-crf", str(rcfg.get("crf", 22)), "-pix_fmt", "yuv420p", str(clip)))
+            except Exception as exc:  # noqa: BLE001 -- خريطة تحسين: الجملة تبقى بلقطتها أو صورتها
+                log.warning("تعذّر رسم خريطة الجملة %s.%s: %s", i, k, str(exc)[:150])
+                rec["error"] = str(exc)[:150]
+                results.append(rec)
+                continue
+            rec["map"] = reel_map.summary(resolved, cfg)
+            results.append(rec)
+            out.setdefault(i, []).append({"a": a, "b": b, "clip": clip, "cexpr": "null", "over_shade": True, "sentence": k})
+    drawn = [r for r in results if r.get("map")]
+    if drawn:
+        notes.append(t["comment_maps"].format(n=len(drawn), places="، ".join(r["map"] for r in drawn)))
+    for r in results:
+        if r.get("rejected") or r.get("error"):
+            notes.append(t["comment_map_skipped"].format(
+                scene=r["scene"], sentence=r["sentence"] + 1,
+                reason=reel_map.reason_text(r.get("rejected") or "error", cfg)))
+    return out
+
+
 def _prepare_broll(script: dict, nar_idx: list[int], speech_cache: dict, plan: list, broll: dict, cfg, deps: Deps, tmp: Path,
-                   lead: float, notes: list) -> dict[int, list[dict]]:
+                   lead: float, notes: list, skip: set | None = None) -> dict[int, list[dict]]:
     """لقطات الحدث خلف الجمل (Issue #1452، R5d2): تقسم جمل الراوي بمددها الفعلية من تمريرة الصوت الأولى، وتطابق الخطة بالعدد
     ثم بالنص (المراجع قد يعدّل السيناريو في المرحلة 2)، ويسند النموذج، ويقرر المدقّق القطعي، وتُنزَّل النوافذ المقبولة.
     كل جملة لا تنال لقطة تبقى بالصورة المتحركة. يعيد {فهرس المشهد: [{a, b, clip, cexpr}]} ويملأ broll["result"] (render_broll)
@@ -5004,7 +5086,10 @@ def _prepare_broll(script: dict, nar_idx: list[int], speech_cache: dict, plan: l
             rec = {"n": n, "scene": i, "sentence": k, "a": a, "b": lead + cursor, "visual": "", "text": texts[k] if k < len(texts) else "",
                    "reason": None}
             e = entries.get(k)
-            if not count_ok:
+            if (i, k) in (skip or set()):
+                # خريطة رُسمت لهذه الجملة: لا لقطة ولا احتياط لها، وتُسجَّل خريطةً لا صورة
+                rec["reason"] = "map"
+            elif not count_ok:
                 rec["reason"] = "count"
             elif e is None or _plain(e.get("text")) != _plain(rec["text"]):
                 rec["reason"] = "text"
@@ -5034,7 +5119,8 @@ def _prepare_broll(script: dict, nar_idx: list[int], speech_cache: dict, plan: l
     # سلسلة relevant لم تُستعمل (نفس المدقّق: الطول والتداخل). لا سلسلة تصلح ← الصورة كما كانت
     if chains:
         left = [{"n": r["n"], "dur": r["b"] - r["a"]} for r in recs
-                if r["n"] not in acc and (r["reason"] != "no_visual" or script["scenes"][r["scene"]].get("role") == "question")]
+                if r["n"] not in acc and r["reason"] != "map"
+                and (r["reason"] != "no_visual" or script["scenes"][r["scene"]].get("role") == "question")]
         if left:
             acc.update(reel_broll.fallback(left, chains, list(acc.values()), broll.get("hook")))
     out: dict[int, list[dict]] = {}
@@ -5065,10 +5151,13 @@ def _prepare_broll(script: dict, nar_idx: list[int], speech_cache: dict, plan: l
                 used_channels.append(w.get("channel", ""))
         else:
             r["reason"] = r["reason"] or rej.get(r["n"]) or "no_match"
-        if "video_id" not in entry:
+        if r["reason"] == "map":
+            entry["map"] = True
+        elif "video_id" not in entry:
             entry["photo"] = reasons.get(r["reason"], r["reason"])
         result.append(entry)
     total, used = len(recs), len(used_channels)
+    mapped = sum(1 for r in recs if r["reason"] == "map")
     if recs and not chains:
         videos = (broll.get("scan") or {}).get("videos") or {}
         notes.append(t["comment_broll_scan"].format(
@@ -5079,7 +5168,7 @@ def _prepare_broll(script: dict, nar_idx: list[int], speech_cache: dict, plan: l
         counts = Counter(c for c in used_channels if c)
         names = f" ({'، '.join(f'{c} ×{k}' for c, k in counts.items())})" if counts else ""
         fb = t["comment_broll_fallback_part"].format(k=n_fallback) if n_fallback else ""
-        notes.append(t["comment_broll"].format(used=used, total=total, fallback=fb, channels=names, photo=total - used))
+        notes.append(t["comment_broll"].format(used=used, total=total, fallback=fb, channels=names, photo=total - used - mapped))
     broll["channels"] = list(dict.fromkeys(c for c in used_channels if c))
     return out
 
@@ -5132,13 +5221,25 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
         nar_bg = _pan_background(wide, nar_plan, tmp, "nar_bg.png")
     scene_broll: dict[int, list[dict]] = {}
     plan = (draft or {}).get("broll_plan")
+    # الخرائط قبل لقطات الحدث: الجملة التي نالت خريطة لا تُسند إليها لقطة (محتوى أصلي يغلب لقطات القنوات)، وتعمل ولو لم توجد
+    # لقطات أصلًا (لا مرشّحي هوك ولا بروكسي)
+    scene_maps: dict[int, list[dict]] = {}
+    map_results: list = []
+    if plan and nar_bg is not None:
+        scene_maps = _prepare_maps(script, nar_idx, speech_cache, plan, cfg, deps, tmp, lead,
+                                   notes if notes is not None else [], map_results)
+        if meta is not None and map_results:
+            meta["maps"] = map_results
+    mapped = {(e["scene"], e["sentence"]) for e in map_results if e.get("map")}
     if broll is not None and plan and nar_bg is not None and deps.assign_broll is not None:
         scene_broll = _prepare_broll(script, nar_idx, speech_cache, plan, broll, cfg, deps, tmp, lead,
-                                     notes if notes is not None else [])
+                                     notes if notes is not None else [], skip=mapped)
         # قنوات اللقطات المركَّبة تُنسب في الخاتمة مع قناة الهوك
         for ch in broll.get("channels", []):
             if ch.casefold() not in (n.casefold() for n in names):
                 names.append(ch)
+    for i, lst_maps in scene_maps.items():
+        scene_broll.setdefault(i, []).extend(lst_maps)
     channels = "، ".join(names)
     # سطر «المقاطع من» نفسه يُحفظ لقضية المراجعة النهائية (Issue #1469، R4a) كي يطابق نصّ المنشور ما في الخاتمة
     if sources_out is not None:
@@ -5192,7 +5293,8 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
                 durs.append(dur)
                 continue
             if kind == "narration":
-                frames = _narration_frames(parts, i, cfg, tmp, lead, bg)
+                frames = _narration_frames(parts, i, cfg, tmp, lead, bg,
+                                           {e["sentence"] for e in scene_maps.get(i, [])})
                 tail = 0.0
                 if bg is not None and nar_plan is not None:
                     dur = _timed_scene(frames, audio, out, cfg, deps, tmp, tail, lead, bg_png=nar_bg, bg_start=nar_t,
@@ -5482,7 +5584,7 @@ RENDER_META_KEYS = (("render_roster", "roster"), ("render_roster_source", "roste
                     ("render_roster_errors", "roster_errors"), ("render_attribution", "attribution"),
                     ("render_relabel", "relabel"), ("render_face_check", "face_check"),
                     ("render_speaker_map", "speaker_map"), ("render_map_assign", "map_assign"),
-                    ("render_map_errors", "map_errors"))
+                    ("render_map_errors", "map_errors"), ("render_maps", "maps"))
 RENDER_KEYS = tuple(k for k, _ in RENDER_META_KEYS) + ("render_exact_selfcheck",)
 
 

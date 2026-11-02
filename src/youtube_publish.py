@@ -793,16 +793,27 @@ def _reel_hook_lines(d: dict, texts: dict) -> list[str]:
     return out
 
 
-def _reel_broll_lines(d: dict, texts: dict) -> list[str]:
-    """سطر لكل جملة راوٍ بما سيُرى خلفها (Issue #1452، R5d2): الوصف أو «صورة» للفارغ. مسودة بلا خطة لا تعرض شيئًا."""
+def _reel_broll_lines(d: dict, texts: dict, cfg=None) -> list[str]:
+    """سطر لكل جملة راوٍ بما سيُرى خلفها (Issue #1452، R5d2): الوصف أو «صورة» للفارغ. مسودة بلا خطة لا تعرض شيئًا.
+    جملة لها خريطة (المرحلة 4) تُعرض بما سيُرسم بعد التحقق نفسه الذي يجريه التركيب، أو بسبب تركها، فيعرف المراجع قبل الاعتماد."""
     plan = [p for p in d.get("broll_plan") or [] if isinstance(p, dict)]
     if not plan:
         return []
     out = [f"  {texts.get('broll_header', '')}", ""]
+    maps_on = cfg is not None and bool(cfg.path("reel.maps.enabled", False))
     for n, p in enumerate(plan, start=1):
         cut = " ".join(str(p.get("text", "")).split()[:5]) + "…"
         visual = str(p.get("visual") or "").strip()
         tail = visual or texts.get("broll_photo", "صورة")
+        if maps_on and p.get("map"):
+            from . import reel_map
+            try:
+                resolved, why = reel_map.resolve(p["map"], str(p.get("text", "")), cfg)
+            except Exception as exc:  # noqa: BLE001 -- عرض فقط: عطل المعجم لا يُسقط جسم القضية
+                resolved, why = None, f"error:{str(exc)[:60]}"
+            tail = (texts.get("broll_map", "🗺️ خريطة: {places}").format(places=reel_map.summary(resolved, cfg)) if resolved
+                    else f"{tail} · " + texts.get("broll_map_skipped", "🗺️ لا خريطة ({reason})").format(
+                        reason=reel_map.reason_text(why, cfg)))
         out.append(f"  {texts.get('broll_line', '').format(n=n, text=cut, tail=tail)}")
     return [*out, ""]
 
@@ -857,7 +868,7 @@ def _reel_item_lines(idx: int, d: dict, cfg) -> list[str]:
                 *reel_script.timeline_lines(script, cfg), "",
                 *_reel_clip_note_lines(d, script, texts),
                 *_reel_hook_lines(d, texts),
-                *_reel_broll_lines(d, texts),
+                *_reel_broll_lines(d, texts, cfg),
                 *_reel_bg_lines(d, cfg, texts),
                 f"  {texts.get('edit_header', '')}", "",
                 *reel_script.edit_block(d["id"], script), "",
