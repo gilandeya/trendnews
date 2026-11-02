@@ -23673,7 +23673,7 @@ def test_bite_audio_a_guards() -> None:
 
 
 def test_clean_screen_text_1779_guards() -> None:
-    """ريل #1779 (g791–g793): إعادة ترجمة فحص المقاطع وضعت ملاحظة المترجم بين قوسين واسمين لاتينيين داخل النص المعروض. النص في
+    """ريل #1779 (g791–g794): إعادة ترجمة فحص المقاطع وضعت ملاحظة المترجم بين قوسين واسمين لاتينيين داخل النص المعروض. النص في
     الحالات مصنوع على شكل الحادثة لا منقول منها."""
     import json
     import os
@@ -23756,3 +23756,17 @@ def test_clean_screen_text_1779_guards() -> None:
         check("g793: ترجمة التفريغ المعيبة لا تُطبَّق: يبقى النص والحدّ القديمان وتنتظر الترجمة",
               got["text_ar"] == "نص قديم" and got["start"] == words[i0][0] and got["audio"].get("pending_translate"), got.get("audio", {}).get("status"))
     guarded("g793", g793)
+
+    def g794():
+        from src import reel_render
+        fr = {"name_original": "Gaffar Yakinca – Gazeteci", "name_arabic": "غaffar ياكينجا – صحفي", "role_arabic": "صحفي",
+              "name_kind": "person", "name_is_speaker": "yes", "is_presenter": False}
+        roster = [{"name_arabic": "مقدّمة", "name_original": "<UNKNOWN>", "is_host": True},
+                  {"name_arabic": "غفار ياكينجا", "name_original": "Gaffar Yakınca", "role_arabic": "صحفي", "is_host": False}]
+        got = reel_render.resolve_chyron([dict(fr), dict(fr), dict(fr)], cfg, "سي إن إن ترك", roster)
+        bare = reel_render.resolve_chyron([dict(fr), dict(fr)], cfg, "سي إن إن ترك")
+        clean = reel_render.resolve_chyron([dict(fr, name_arabic="غفار ياكينجا – صحفي")] * 2, cfg, "سي إن إن ترك")
+        check("g794: اسم الشريط بحروف لاتينية يُكتب برسم قائمة الحلقة، وبلا قائمة لا يُقبل، والصفة لا تتكرر بعد الاسم",
+              got["accepted"] and got["name_arabic"] == "غفار ياكينجا" and got.get("name_from_roster")
+              and not bare["accepted"] and clean["name_arabic"] == "غفار ياكينجا" and clean["accepted"], (got, bare["name_arabic"], clean["name_arabic"]))
+    guarded("g794", g794)

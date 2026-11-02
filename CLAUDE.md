@@ -2830,4 +2830,7 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 فظهرت ملاحظة المترجم للمشاهد، ونسبة الحروف العربية (`is_arabic_text`) أجازتها لطول النص. `screen_text_ok(text, cfg)` = عربي + بلا
 `youtube.bites.screen_text.forbidden_chars` + بلا كلمة لاتينية أطول من `max_latin_run` (2، فيمرّ «AI»). `reel_script.apply_audit`: ترجمة تصحيح لا تجتازه
 ← المقطع يُستبعد (`reel.texts.clip_drop_bad_fix`)؛ `bite_audio.process`: ترجمة لا تجتازه تُعامل كأنها لم تأتِ (`pending_translate`). وتعليمتا النظامين
-(`clip_audit.system` و`audio.translate_system`) تمنعان الملاحظات والأقواس والحروف اللاتينية. g791–g793 في `test_clean_screen_text_1779_guards`.
+(`clip_audit.system` و`audio.translate_system`) تمنعان الملاحظات والأقواس والحروف اللاتينية.
+- **اسم المتكلم من الشريط (الريل نفسه):** قُبل «غaffar ياكينجا – صحفي» فظهر على الشاشة. `reel_render.resolve_chyron`: الصفة المكرّرة بعد الاسم
+  («… – صحفي» والصفة «صحفي») تُحذف، واسم فيه كلمة لاتينية (`_clean_screen_name`) يُستبدل برسم قائمة ضيوف الحلقة (`_roster_arabic_name`: كلمتان مشتركتان
+  من الاسم الأصلي) وإلا لا يُقبل (`name_from_roster`). `render_version` = 61. g791–g794 في `test_clean_screen_text_1779_guards`.
