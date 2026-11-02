@@ -3178,6 +3178,34 @@ def roster_verdict(frame: dict, roster: list, cfg) -> str:
     return best
 
 
+def _clean_screen_name(name: str, cfg) -> bool:
+    """اسم يُكتب على الشاشة بالعربية: لا كلمة لاتينية أطول من youtube.bites.screen_text.max_latin_run حرفين (ريل #1779)."""
+    run = int(cfg.path("youtube.bites.screen_text.max_latin_run", 2))
+    return not re.search("[A-Za-z\u00C0-\u024F]{%d,}" % (run + 1), name)
+
+
+def _roster_arabic_name(frame: dict, roster: list | None, cfg) -> str:
+    """رسم الاسم العربي من قائمة ضيوف الحلقة لاسم لقطة الشريط، أو فارغ: المطابقة باسمه الأصلي (اللاتيني) مع الأصلي في القائمة بـspeaker_matches."""
+    from . import youtube_extract
+
+    def words(text: str) -> set[str]:
+        # الصفة بعد الشرطة («Gaffar Yakınca – Gazeteci») ليست من الاسم
+        head = re.split(r"\s[–—-]\s", str(text or ""))[0]
+        return {w for w in youtube_extract._normalize_for_anchor(head).split() if len(w) >= 3}
+    own = words(frame.get("name_original"))
+    if not own:
+        return ""
+    for p in roster or []:
+        ar = " ".join(str(p.get("name_arabic") or "").split())
+        if not ar or not _clean_screen_name(ar, cfg):
+            continue
+        theirs = words(p.get("name_original"))
+        # كلمتان مشتركتان (أو الاسم كله إن كان كلمة واحدة): الاسم الأول وحده يشترك فيه ضيفان كثيرًا (S6)
+        if theirs and len(own & theirs) >= min(2, len(own), len(theirs)):
+            return ar
+    return ""
+
+
 def resolve_chyron(frames: list, cfg, channel: str | list = "", roster: list | None = None) -> dict:
     """القبول من نتائج اللقطات (دالة نقية): اسم شخص متطابق بعد توحيد المسافات وحالة الأحرف في لقطتين فأكثر؛ الصفة من أول لقطة
     فيها ذلك الاسم. اسم البرنامج أو القناة لا يُعدّ (Issue #1450). is_presenter صحيحة إن قالتها لقطتان فأكثر.
@@ -3225,13 +3253,27 @@ def resolve_chyron(frames: list, cfg, channel: str | list = "", roster: list | N
     first = best[0] if best else {}
     agreeing = len(best)
     name_ar = " ".join(str(first.get("name_arabic") or "").split())
+    role_ar = " ".join(str(first.get("role_arabic") or "").split())
+    name_fixed = ""
+    if name_ar and role_ar:
+        # «غفار ياكينجا – صحفي» والصفة «صحفي»: الشريط يكتب الاسم ثم الصفة، فتتكرر الصفة في «الاسم · الصفة» على الشاشة (ريل #1779)
+        for sep in (" – ", " - ", " — ", "، "):
+            if name_ar.endswith(sep + role_ar):
+                name_ar = name_ar[: -len(sep + role_ar)].strip()
+                break
+    if name_ar and not _clean_screen_name(name_ar, cfg):
+        # اسم عربي فيه حروف لاتينية («غaffar ياكينجا»، ريل #1779) لا يُكتب على الشاشة: رسمه من قائلة ضيوف الحلقة إن طابقها، وإلا لا اسم
+        name_fixed = _roster_arabic_name(first, roster, cfg)
+        name_ar = name_fixed
     out = {"name_original": " ".join(str(first.get("name_original") or "").split()), "name_arabic": name_ar,
-           "role_arabic": " ".join(str(first.get("role_arabic") or "").split()),
+           "role_arabic": role_ar,
            "is_presenter": sum(1 for f in frames if f.get("is_presenter") is True) >= 2,
            "frames_agreeing": agreeing, "rejected": rejected,
            "accepted": agreeing >= 2 and bool(name_ar) and not rejected}
     if headlines:
         out["headline_frames"] = headlines
+    if name_fixed or (first.get("name_arabic") and not name_ar):
+        out["name_from_roster"] = bool(name_fixed)
     if overrides:
         # تغييران متعاكسان نادران: تُسجَّل النتيجة النهائية (مقبول ← ضيف، مرفوض ← مقدّم)
         out["roster_override"] = next(iter(overrides)) if len(overrides) == 1 else ("guest" if out["accepted"] else "host")

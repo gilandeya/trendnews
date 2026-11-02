@@ -2804,12 +2804,12 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 ## مكتبة المقاطع الموثَّقة — المرحلة «أ»: تفريغ صوت المقاطع وقت الجمع (`src/bite_audio.py`)
 
 السبب: حدود المقطع كانت تُحسب من أسطر نص يوتيوب الآلي (بلا ترقيم، والسطر يُقطع وسط الجملة)، فبقي نصف مقاطع اليوم «لا يكتمل» (97 من 183 في 2/11)
-وما يُكتشف وقت التركيب يُحذف بعد اعتماد السيناريو. الخطة كلها (أ–هـ) في وثيقة المشروع `claude/plan-verified-bites.md`. g779–g788 في
+وما يُكتشف وقت التركيب يُحذف بعد اعتماد السيناريو. الخطة كلها (أ–هـ) في وثيقة المشروع `claude/plan-verified-bites.md`. g779–g790 في
 `tests/test_guards_golden.py:test_bite_audio_a_guards`.
 
 - **خطوة مستقلة** `python -m src.bite_audio` بعد الجمع: مقاطع ملفات آخر `youtube.bites.audio.days` أيام الأحدث أولًا (الكامل قبل المبتور) حتى `max_per_run`
   أو `budget_seconds`؛ الباقي في التشغيلة التالية. فحص ذاتي للمفرِّغ أولًا (`reel_clips.transcriber_selfcheck(model=)`)؛ فشله ← سطر بالسبب ولا مساس بأي مقطع.
-- **لكل مقطع:** صوت النافذة وحده (`ba` بـyt-dlp عبر البروكسي؛ ffmpeg من imageio-ffmpeg يوضع في PATH باسم `ffmpeg` بـ`_ffmpeg_on_path` لأن yt-dlp يفحص توفّره لقصّ النافذة في PATH وحده، وworkflow الجمع لا يثبّته من apt — أول تشغيل حقيقي فشل كله بذلك) من `start − lookback − margin` إلى `end + lookahead + margin` ← whisper (`audio.model`) ← مطابقة
+- **لكل فيديو ثم مقطع:** صوت الفيديو كاملًا مرة واحدة (`_real_download`، `audio.download_format` أدنى جودة، والمقاطع مرتّبة بفيديوها فيبقى صوت فيديو واحد على القرص) ثم نافذة كل مقطع تُقتطع منه بـffmpeg (`_real_cut`، wav 16 كيلوهرتز). السبب: أول تشغيل حقيقي عالج 17 مقطعًا في 20 دقيقة (~70 ث للمقطع أغلبها تنزيل نافذة)، وكل طلب ليوتيوب يزيد «لست روبوتًا»، والتنزيل الجزئي أفشل فكّ صوت مقطع؛ عطل تنزيل الفيديو يُسجَّل على كل مقاطعه. (قبلها: ffmpeg من imageio-ffmpeg يوضع في PATH باسم `ffmpeg` بـ`_ffmpeg_on_path` لأن yt-dlp يفحص توفّره لقصّ النافذة في PATH وحده، وworkflow الجمع لا يثبّته من apt — أول تشغيل حقيقي فشل كله بذلك)) من `start − lookback − margin` إلى `end + lookahead + margin` ← whisper (`audio.model`) ← مطابقة
   `text_original` بالكلمات (`reel_clips.align_quote`) ← `sentence_bounds` (خالصة): نهاية الجملة علامة ترقيم في آخر الكلمة (`terminal`) أو سكتة ≥ `pause_seconds`؛
   البداية ترجع إلى أول جملتها حتى `lookback_seconds` وإلا تتقدّم إلى أول جملة تامة، والنهاية كذلك إلى الأمام حتى `lookahead_seconds`، والمدة بين
   `min_seconds` و`end_check.complete_max_seconds`. حدّ جديد يدخل مقطعًا آخر للفيديو ← يبقى على الكلمات المطابقة (`moved_rejected`).
@@ -2818,7 +2818,19 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
   (`incomplete=False`، `rescued`) إن وُجد له حدّا جملة؛ و`clip_audit` في السيناريو حارس ثانٍ عليه. لا حذف ولا تغيير ترتيب (فهارس المواضيع).
 - **السجل** `bite["audio"]`: `status` (ok · open · no_match · no_text · failed) و`ratio` و`words` (كل كلمات النافذة بثواني الفيديو) و`moved`/`rescued`/`attempts`
   (عطل يُعاد حتى `max_attempts` داخل إصدار القواعد نفسه؛ رفع `audio.version` يعيد ما فشل بعطل فينا). الكلمات كلام قناة: ملف المقاطع في المستودع الخاص وحده.
+- **الريل:** `bites_as_points` تحمل `audio_status`، و`reel_script.valid_clips` تستبعد `no_match` (`reel.script.exclude_audio_no_match`؛ أول تشغيل: 4 من 5 كانت ترجمة يوتيوب الإنجليزية لكلام تركي في CNN Türk)؛ ما لم يُفرَّغ بعد يبقى صالحًا.
 - **التركيب:** `bites_as_points` تحمل `audio_words` (ok/open وحدهما)، و`reel_render._exact_apply` يضبط بها (`saved_words` بثواني ملف التنزيل) بلا تفريغ ولو تعطّل
   المفرِّغ في التركيب، و`exact.saved: true` في `render_crops`. `render_version` بلا تغيير (لا أثر على مسودة بلا كلمات محفوظة).
 - **تشغيليًا (يعدّله صاحب المشروع بيده):** `youtube-collect.yml` يحتاج `pip install -r requirements.txt -r requirements-reel.txt`، وخطوة
   `python -m src.bite_audio` بعد الجمع وقبل الرفع بالمتغيرات نفسها، ومهلة أطول للوظيفة. بلا faster-whisper تتوقف الخطوة بسطر ولا تُفشل الجمع.
+
+## ترجمة على الشاشة بلا ملاحظات ولا حروف لاتينية (ريل #1779) — `youtube_bites.screen_text_ok`
+
+الحادثة: إعادة ترجمة فحص المقاطع (`clip_audit`، `faithful=false`) وضعت «[لفظ الترجمة غير واضح في الأصل: … / …، والأرجح …]» داخل `quote_arabic`
+فظهرت ملاحظة المترجم للمشاهد، ونسبة الحروف العربية (`is_arabic_text`) أجازتها لطول النص. `screen_text_ok(text, cfg)` = عربي + بلا
+`youtube.bites.screen_text.forbidden_chars` + بلا كلمة لاتينية أطول من `max_latin_run` (2، فيمرّ «AI»). `reel_script.apply_audit`: ترجمة تصحيح لا تجتازه
+← المقطع يُستبعد (`reel.texts.clip_drop_bad_fix`)؛ `bite_audio.process`: ترجمة لا تجتازه تُعامل كأنها لم تأتِ (`pending_translate`). وتعليمتا النظامين
+(`clip_audit.system` و`audio.translate_system`) تمنعان الملاحظات والأقواس والحروف اللاتينية.
+- **اسم المتكلم من الشريط (الريل نفسه):** قُبل «غaffar ياكينجا – صحفي» فظهر على الشاشة. `reel_render.resolve_chyron`: الصفة المكرّرة بعد الاسم
+  («… – صحفي» والصفة «صحفي») تُحذف، واسم فيه كلمة لاتينية (`_clean_screen_name`) يُستبدل برسم قائمة ضيوف الحلقة (`_roster_arabic_name`: كلمتان مشتركتان
+  من الاسم الأصلي) وإلا لا يُقبل (`name_from_roster`). `render_version` = 61. g791–g794 في `test_clean_screen_text_1779_guards`.

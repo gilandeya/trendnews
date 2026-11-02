@@ -145,6 +145,10 @@ def valid_clips(member_points: list[dict], unresolved: list, cfg: Any) -> list[d
         if p.get("incomplete"):
             # مقطع لم تكتمل فكرته داخل الحد (فحص النهاية في الجمع): يُسمع مبتورًا، فلا يُعرض للكاتب أصلًا
             continue
+        if p.get("audio_status") == "no_match" and cfg.path("reel.script.exclude_audio_no_match", True):
+            # كلامه المحفوظ لا يطابق ما في صوته (تفريغ الجمع، bite_audio): غالبًا ترجمة يوتيوب الآلية لا كلام المتكلم، فلا تُعرض
+            # ترجمة لا يقولها ويفشل ضبطه في التركيب
+            continue
         pid = point_key_id(p)
         if pid in seen:
             continue
@@ -1464,6 +1468,7 @@ def apply_audit(valid: list[dict], rows: list[dict], cfg: Any, points_by_id: dic
     """ينفّذ حكم الفحص: no ← استبعاد باسم الآخر؛ faithful=false ← الترجمة الأمينة الجديدة محل القديمة في نسخة المقطع (ملف النقاط لا يُمسّ)
     وبلا ترجمة استبعاد؛ unsure يبقى (يُسجَّل في صفوف clip_audit للعرض). مبتور ← إعادة فحص النهاية مرة (recheck_incomplete) قبل
     الاستبعاد، حين تُمرَّر points_by_id. يعيد (الصالحة، المعاد ترجمتها، المستبعدة)."""
+    from . import youtube_bites
     texts = cfg.path("reel.texts", {}) or {}
     by = {r["point_id"]: r for r in rows}
     out: list[dict] = []
@@ -1492,9 +1497,13 @@ def apply_audit(valid: list[dict], rows: list[dict], cfg: Any, points_by_id: dic
                             "reason": (texts.get("clip_drop_incomplete") or "اقتباس مبتور — {reason}").format(
                                 reason=r.get("incomplete_reason") or "—")})
         elif not r["faithful"]:
-            if r["quote_arabic_fixed"]:
+            if r["quote_arabic_fixed"] and youtube_bites.screen_text_ok(r["quote_arabic_fixed"], cfg):
                 out.append(dict(c, quote_arabic=r["quote_arabic_fixed"]))
                 redone.append(c["point_id"])
+            elif r["quote_arabic_fixed"]:
+                # ترجمة بديلة فيها ملاحظة أو أقواس أو حروف لاتينية (حادثة #1779) لا تُعرض، والأصل حُكم بأنه غير أمين: يُستبعد
+                dropped.append({"point_id": c["point_id"], "channel": c.get("channel_display", ""),
+                                "reason": texts.get("clip_drop_bad_fix") or "ترجمة التصحيح فيها ملاحظة أو حروف لاتينية"})
             else:
                 dropped.append({"point_id": c["point_id"], "channel": c.get("channel_display", ""),
                                 "reason": texts.get("clip_drop_reported") or "ترجمة بصيغة الخبر عن المتكلم"})
