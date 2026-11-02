@@ -3916,6 +3916,49 @@ def _panel_crops(clip: dict, crop: dict, scene: dict, q, tile: tuple | None, fra
     return (expr(tile_crop) if tile_crop else None), expr(frame_crop)
 
 
+def frame_radius(cfg) -> int:
+    """نصف قطر حواف نافذة الكلام المدوّرة (panel.frame.radius؛ قرار صاحب المشروع 2/11). 0 أو غائب ← حواف قائمة كما كانت."""
+    return max(int((cfg.path("reel.render.panel.frame") or {}).get("radius", 0) or 0), 0)
+
+
+def rounded_alpha(w: int, h: int, radius: float, inset: float = 0.0):
+    """قناع خالص (numpy، 0..1) لمستطيل w×h بحواف مدوّرة نصف قطرها radius، مزاح إلى الداخل بـinset، بتنعيم الحافة على بكسل واحد
+    (المسافة الموقَّعة من الحافة) فلا تظهر درجات على القوس."""
+    import numpy as np
+    ys, xs = np.mgrid[0:h, 0:w].astype(float) + 0.5
+    r = max(float(radius), 0.0)
+    x0, y0, x1, y1 = inset + r, inset + r, w - inset - r, h - inset - r
+    dx = np.maximum(np.maximum(x0 - xs, xs - x1), 0.0)
+    dy = np.maximum(np.maximum(y0 - ys, ys - y1), 0.0)
+    inside_rect = np.minimum(np.minimum(xs - inset, w - inset - xs), np.minimum(ys - inset, h - inset - ys))
+    dist = np.where((dx > 0) & (dy > 0), r - np.hypot(dx, dy), inside_rect)
+    return np.clip(dist + 0.5, 0.0, 1.0)
+
+
+def round_mask(cfg, fw: int, fh: int, tmp: Path) -> Path | None:
+    """صورة رمادية بمقاس نافذة الكلام: أبيض داخلها وأسود في أركانها المدوّرة، تُدمج قناةَ شفافية للمقطع (alphamerge) قبل التركيب
+    والانبثاق فيُكبَّر الركن مع النافذة. بلا نصف قطر ← None (الأمر كما كان)."""
+    import numpy as np
+    r = frame_radius(cfg)
+    if r <= 0:
+        return None
+    path = tmp / f"round_mask_{fw}x{fh}_{r}.png"
+    if not path.exists():
+        Image.fromarray((rounded_alpha(fw, fh, r) * 255).astype(np.uint8), "L").save(path)
+    return path
+
+
+def _round_inputs(cfg, fw: int, fh: int, tmp: Path, add, a: str, seconds: float, k: int) -> str:
+    """ما يُلحق بسلسلة المقطع قبل تسميته لدمج قناع الحواف المدوّرة. بلا قناع ← "" فلا يتغير الأمر حرفًا.
+    القناع صورة ثابتة مكرَّرة محدودة بمدة المقطع، مزاحة بـa مثله فيتزامنان في alphamerge."""
+    mask = round_mask(cfg, fw, fh, tmp)
+    if mask is None:
+        return ""
+    mi = add("-loop", "1", "-t", _fmt(float(seconds) + 1.0), "-i", str(mask))
+    return (f",format=rgba[fr{k}];[{mi}:v]fps={cfg.path('reel.render.fps')},format=gray,setpts=PTS-STARTPTS+{a}/TB[m{k}];"
+            f"[fr{k}][m{k}]alphamerge")
+
+
 def border_frames(cfg, fw: int, fh: int, tmp: Path) -> dict | None:
     """إطار ذهبي بلمعة متحركة حول نافذة الكلام (R14، قرار صاحب المشروع). يعيد {pattern, width, fps, count} لتسلسل PNG بمقاس
     (fw + 2·width)×(fh + 2·width): حلقة بلون panel.border.color (وإلا brand.accent_color) متدرّجة من الأفتح أعلى إلى الأغمق أسفل،
@@ -3929,7 +3972,8 @@ def border_frames(cfg, fw: int, fh: int, tmp: Path) -> dict | None:
     sc = bc.get("shine") or {}
     sfps = max(int(sc.get("fps", 15)), 1)
     count = max(int(round(float(sc.get("period", 3.0)) * sfps)), 1)
-    stem = f"border_{fw}x{fh}_{b}"
+    rad = frame_radius(cfg)
+    stem = f"border_{fw}x{fh}_{b}" + (f"_r{rad}" if rad else "")
     pattern = tmp / f"{stem}_%03d.png"
     info = {"pattern": str(pattern), "width": b, "fps": sfps, "count": count}
     if (tmp / f"{stem}_{count - 1:03d}.png").exists():
@@ -3937,7 +3981,11 @@ def border_frames(cfg, fw: int, fh: int, tmp: Path) -> dict | None:
     w, h = fw + 2 * b, fh + 2 * b
     gold = np.array(imaging.hex_rgb(bc.get("color") or cfg.path("brand.accent_color")), float)
     ys, xs = np.mgrid[0:h, 0:w]
-    ring = ~((xs >= b) & (xs < w - b) & (ys >= b) & (ys < h - b))
+    if rad:
+        # حلقة مدوّرة تلاصق النافذة المدوّرة: خارجها بنصف قطر rad + b وداخلها (حافة النافذة) بنصف قطر rad
+        ring_a = rounded_alpha(w, h, rad + b) * (1 - rounded_alpha(w, h, rad, inset=b))
+    else:
+        ring_a = (~((xs >= b) & (xs < w - b) & (ys >= b) & (ys < h - b))).astype(float)
     shade = (1.15 - 0.3 * ys / max(h - 1, 1))[..., None]      # بريق معدني: أفتح أعلى وأغمق أسفل
     base = np.clip(gold * shade, 0, 255)
     diag = (xs / max(w - 1, 1) + ys / max(h - 1, 1)) / 2
@@ -3951,7 +3999,7 @@ def border_frames(cfg, fw: int, fh: int, tmp: Path) -> dict | None:
             rgb = rgb * (1 - a) + 255 * a
         out = np.zeros((h, w, 4), np.uint8)
         out[..., :3] = rgb.astype(np.uint8)
-        out[..., 3] = np.where(ring, 255, 0).astype(np.uint8)
+        out[..., 3] = np.round(ring_a * 255).astype(np.uint8)
         Image.fromarray(out, "RGBA").save(tmp / f"{stem}_{j:03d}.png")
     return info
 
@@ -4035,8 +4083,9 @@ def _panel_scene(members: list[tuple[int, dict]], clips: dict, out: Path, cfg, d
         a, bb = _fmt(starts[k]), _fmt(starts[k] + float(clips[i]["seconds"]))
         fi = add("-i", str(clips[i]["file"]))
         fidx.append(fi)
+        rnd = _round_inputs(cfg, fw, fh, tmp, add, a, float(clips[i]["seconds"]), k)
         if not pop:
-            vg.append(f"[{fi}:v]{_video_prefix(clips[i])}{prepared[k][1]},scale={fw}:{fh},fps={fps},setpts=PTS-STARTPTS+{a}/TB[f{k}];"
+            vg.append(f"[{fi}:v]{_video_prefix(clips[i])}{prepared[k][1]},scale={fw}:{fh},fps={fps},setpts=PTS-STARTPTS+{a}/TB{rnd}[f{k}];"
                       f"[{cur}][f{k}]overlay={fx}:{fy}:enable='between(t,{a},{bb})'[o{k}]")
             cur = f"o{k}"
             if border:
@@ -4054,7 +4103,7 @@ def _panel_scene(members: list[tuple[int, dict]], clips: dict, out: Path, cfg, d
         fade = float(cfg.path("reel.render.panel.pop.fade"))
         sw_e = f"trunc(({sw}+({fw}-{sw})*{kx})/2)*2"
         sh_e = f"trunc(({sh}+({fh}-{sh})*{kx})/2)*2"
-        vg.append(f"[{fi}:v]{_video_prefix(clips[i])}{prepared[k][1]},scale={fw}:{fh},fps={fps},setpts=PTS-STARTPTS+{a}/TB,format=rgba,"
+        vg.append(f"[{fi}:v]{_video_prefix(clips[i])}{prepared[k][1]},scale={fw}:{fh},fps={fps},setpts=PTS-STARTPTS+{a}/TB{rnd},format=rgba,"
                   f"fade=t=in:st={a}:d={_fmt(fade)}:alpha=1,fade=t=out:st={_fmt(end_k - fade)}:d={_fmt(fade)}:alpha=1,"
                   f"scale=w='{sw_e}':h='{sh_e}':eval=frame[f{k}];"
                   f"[{cur}][f{k}]overlay=x='{sx}+({fx}-{sx})*{kx}':y='{sy}+({fy}-{sy})*{kx}':enable='between(t,{a},{bb})'[o{k}]")

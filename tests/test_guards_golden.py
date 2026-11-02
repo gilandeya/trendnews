@@ -6125,7 +6125,7 @@ def test_reel_render_r3b1_guards() -> None:
         logo_cmds = [c for c in log["cmds"] if "eval=frame" in " ".join(c) and "overlay=x=" in " ".join(c)
                      and "final.mp4" in " ".join(c)]
         lg = cfg.path("reel.render.logo")
-        check("r3b1-و: الإعداد 250/140/168 (S10)", (lg["top"], lg["right"], lg["width"]) == (250, 140, 168), lg)
+        check("r3b1-و: الإعداد 266/126/168 (S10 ثم فراغ 16 متساوٍ عن ركن النافذة 2/11)", (lg["top"], lg["right"], lg["width"]) == (266, 126, 168), lg)
         check("r3b1-و: تمريرة شعار واحدة تنتهي بعرض 168", len(logo_cmds) == 1 and "(168-" in " ".join(logo_cmds[0]),
               len(logo_cmds))
         check("r3b1-و: الشعار في أمر واحد فقط (لا في المشاهد)",
@@ -23369,3 +23369,70 @@ def test_coherence_start_1770_guards() -> None:
         check("g774: إعادة الفحص تقبل مقطعًا تغيّرت بدايته وحدها، وترفض ما لم يتغير", moved is not None and moved["start"] < 49.0
               and moved["quote_arabic"] == "كاملة" and same is None, (moved, same))
     guarded("g774", g774)
+
+
+def test_reel_round_logo_pause_guards() -> None:
+    """ملاحظات صاحب المشروع 2/11 (g775–g778): نافذة الكلام بحواف مدوّرة صغيرة والإطار الذهبي يدور معها، والشعار بفراغ متساوٍ عن حافتي
+    النافذة العليا واليمنى، والسكوت بعد «برأيك..» نحو نصف ما كان."""
+    import tempfile
+    from pathlib import Path
+
+    from src import reel_render
+    from src.config import load_config
+
+    cfg = load_config()
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def g775():
+        lg, fr, w = cfg.path("reel.render.logo"), cfg.path("reel.render.panel.frame"), int(cfg.path("reel.render.width"))
+        top_gap = int(lg["top"]) - int(fr["top"])
+        right_gap = int(lg["right"]) - (w - int(fr["width"])) // 2
+        check("g775: فراغ الشعار عن أعلى النافذة = فراغه عن يمينها", top_gap == right_gap > 0, (top_gap, right_gap))
+    guarded("g775", g775)
+
+    def g776():
+        a = reel_render.rounded_alpha(100, 80, 20)
+        check("g776: القناع شفاف في الركن ومعتم في الوسط والحواف المستقيمة", a[0, 0] == 0 and a[0, 99] == 0 and a[79, 0] == 0
+              and a[40, 50] == 1 and a[0, 50] == 1 and a[40, 0] == 1, (a[0, 0], a[40, 50]))
+        tmp = Path(tempfile.mkdtemp())
+        b = reel_render.border_frames(cfg, 200, 120, tmp)
+        import numpy as np
+        from PIL import Image
+        img = np.array(Image.open(str(b["pattern"]) % (b["count"] - 1)))
+        bw = b["width"]
+        check("g776: الحلقة الذهبية مدوّرة: ركنها الخارجي شفاف وحافتها المستقيمة معتمة وداخلها شفاف",
+              img[0, 0, 3] == 0 and img[0, (200 + 2 * bw) // 2, 3] == 255 and img[60 + bw, 100 + bw, 3] == 0, img[0, 0])
+        r0 = dict(cfg)
+        r0["reel"] = {**cfg["reel"], "render": {**cfg["reel"]["render"], "panel": {
+            **cfg["reel"]["render"]["panel"], "frame": {**cfg["reel"]["render"]["panel"]["frame"], "radius": 0}}}}
+        check("g776: نصف قطر 0 ← لا قناع", reel_render.round_mask(type(cfg)(r0), 200, 120, tmp) is None
+              and reel_render.round_mask(cfg, 200, 120, tmp) is not None)
+    guarded("g776", g776)
+
+    def g777():
+        tmp = Path(tempfile.mkdtemp())
+        args: list = []
+
+        def add(*a):
+            args.append(a)
+            return 7
+        chain = reel_render._round_inputs(cfg, 860, 1000, tmp, add, "1.2", 9.0, 0)
+        check("g777: المقطع يُدمج بقناع الحواف (alphamerge) ومدخل القناع محدود بمدته", "alphamerge" in chain and "[7:v]" in chain
+              and "+1.2/TB" in chain and args and args[0][:2] == ("-loop", "1") and "-t" in args[0], (chain, args))
+        check("g777: render_version = 60", int(cfg.path("reel.render.version")) >= 60)
+    guarded("g777", g777)
+
+    def g778():
+        cl = cfg.path("reel.render.closing")
+        silence = float(cfg.path("reel.tts.sentence_silence", 0.35))
+        new_gap = silence + float(cl["label_pause"])
+        old_gap = silence + 0.6
+        p = reel_render.closing_plan(4.0, cfg, 0.35, label_seconds=1.2)
+        check("g778: السكوت بعد «برأيك..» نحو نصف ما كان", abs(new_gap - old_gap / 2) <= 0.05
+              and abs(p["question"] - (p["voice"] + 1.2 + float(cl["label_pause"]))) < 1e-6, (new_gap, old_gap, p))
+    guarded("g778", g778)

@@ -1100,6 +1100,8 @@ def reel_no_border_cfg(cfg):
     import copy
     c = copy.deepcopy(cfg)
     c["reel"]["render"]["panel"]["border"] = {**c["reel"]["render"]["panel"].get("border", {}), "enabled": False}
+    # الحواف المدوّرة (2/11) تضيف مدخل قناع ومرشّح alphamerge لكل إطار، وهذه الاختبارات تعدّ مرشّحات الانبثاق نفسها
+    c["reel"]["render"]["panel"]["frame"] = {**c["reel"]["render"]["panel"]["frame"], "radius": 0}
     return c
 
 
