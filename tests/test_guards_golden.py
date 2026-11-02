@@ -21527,15 +21527,16 @@ def test_reel_r14_guards() -> None:
         b = int(bc["width"])
         n = round(float(bc["shine"]["period"]) * int(bc["shine"]["fps"]))
         check("g697: عدد الإطارات = period × fps", info and info["count"] == n and len(list(d.glob("border_*.png"))) == n, info)
-        im0 = np.array(Image.open(d / f"border_200x300_{b}_000.png"))
-        last = np.array(Image.open(d / f"border_200x300_{b}_{n - 1:03d}.png"))
+        # اسم الملف يحمل نصف قطر الحواف المدوّرة (2/11)، فيُقرأ من النمط الذي تعيده الدالة
+        im0 = np.array(Image.open(info["pattern"] % 0))
+        last = np.array(Image.open(info["pattern"] % (n - 1)))
         check("g697: المقاس (fw+2b)×(fh+2b)", im0.shape[:2] == (300 + 2 * b, 200 + 2 * b), im0.shape)
         check("g697: الداخل شفاف والحلقة معتمة", im0[150 + b, 100 + b, 3] == 0 and last[b // 2, 100, 3] == 255, None)
         gold = np.array(reel_render.imaging.hex_rgb(cfg.path("brand.accent_color")))
         check("g697: لون الحلقة ذهبي في السكون", np.abs(last[(300 + 2 * b) // 2, b // 2, :3].astype(int) - gold).max() < 50,
               last[(300 + 2 * b) // 2, b // 2].tolist())
         bright = lambda a: a[..., :3][a[..., 3] > 0].astype(int).sum(axis=1).max()  # noqa: E731
-        mid = np.array(Image.open(d / f"border_200x300_{b}_{int(int(bc['shine']['fps']) * float(bc['shine']['seconds']) / 2):03d}.png"))
+        mid = np.array(Image.open(info["pattern"] % int(int(bc['shine']['fps']) * float(bc['shine']['seconds']) / 2)))
         check("g697: اللمعة أسطع من السكون", bright(mid) > bright(last) + 60, (bright(mid), bright(last)))
         c0 = copy.deepcopy(cfg)
         c0["reel"]["render"]["panel"]["border"]["enabled"] = False
@@ -23406,7 +23407,7 @@ def test_reel_round_logo_pause_guards() -> None:
         img = np.array(Image.open(str(b["pattern"]) % (b["count"] - 1)))
         bw = b["width"]
         check("g776: الحلقة الذهبية مدوّرة: ركنها الخارجي شفاف وحافتها المستقيمة معتمة وداخلها شفاف",
-              img[0, 0, 3] == 0 and img[0, (200 + 2 * bw) // 2, 3] == 255 and img[60 + bw, 100 + bw, 3] == 0, img[0, 0])
+              img[0, 0, 3] == 0 and img[0, (200 + 2 * bw) // 2, 3] == 255 and img[60 + bw, 100 + bw, 3] == 0, img[0, 0].tolist())
         r0 = dict(cfg)
         r0["reel"] = {**cfg["reel"], "render": {**cfg["reel"]["render"], "panel": {
             **cfg["reel"]["render"]["panel"], "frame": {**cfg["reel"]["render"]["panel"]["frame"], "radius": 0}}}}
