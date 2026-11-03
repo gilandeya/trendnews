@@ -757,18 +757,39 @@ def check_ends(bites: list[dict], segments: list[dict], cfg: Any, client=None,
         if err:
             errors.append(err)
     out = list(bites)
-    for n, b in enumerate(bites, 1):
-        if n not in verdicts:
-            continue
-        sentences, name = verdicts[n]
+
+    def _apply(n: int, b: dict, got: tuple[list, str]) -> dict:
+        sentences, name = got
         # مقاطع الفيديو الأخرى التي لا تُفحص الآن (others) تدخل حساب التداخل أيضًا
         taken = [(float(o["start"]), float(o["end"])) for m, o in enumerate(out) if m != n - 1 and not o.get("incomplete")]
         taken += [(float(o["start"]), float(o["end"])) for o in others or [] if not o.get("incomplete")]
-        out[n - 1] = apply_sentences(b, sentences, segments, cfg, taken)
+        res = apply_sentences(b, sentences, segments, cfg, taken)
         if not b.get("speaker") and b.get("speaker_original") and name and is_arabic_text(name, cfg):
             # الاسم التركي واللاتيني نُقل إلى speaker_original فظهر الضيف «بلا اسم» وملخصه يسمّيه (ريل هرمز 1/11، سي إن إن ترك):
             # النداء نفسه يكتبه بالعربية، والكود يقبله عربيًا خالصًا فقط
-            out[n - 1] = {**out[n - 1], "speaker": name, "speaker_from": "end_check"}
+            res = {**res, "speaker": name, "speaker_from": "end_check"}
+        return res
+
+    for n, b in enumerate(bites, 1):
+        if n in verdicts:
+            out[n - 1] = _apply(n, b, verdicts[n])
+    # إعادة واحدة للفكرة المعلّقة: في 2/11 كانت 94 من 184 مقطعًا «لا يكتمل» بسبب open_end، و83 منها أعاد فيها النموذج المقطع كله
+    # جملة واحدة على حدّيه الحاليين وحكم أنها معلّقة، ولم يُكمل في الأسطر المعروضة بعدها؛ الإعادة تقول له ذلك صراحة
+    retry_hint = str(ecfg.get("open_end_retry_hint") or "").strip()
+    again = [n for n, b in enumerate(bites, 1) if retry_hint and n in verdicts and out[n - 1].get("incomplete")
+             and ((out[n - 1].get("end_check") or {}).get("why") or {}).get("open_end")
+             and not ((out[n - 1].get("end_check") or {}).get("why") or {}).get("turn")]
+    for lo in range(0, len(again), size):
+        part = again[lo:lo + size]
+        base = hints or []
+        got, err = _end_verdicts([bites[n - 1] for n in part], segments, cfg, client,
+                                 [" ".join(x for x in (base[n - 1] if n - 1 < len(base) else "", retry_hint) if x) for n in part])
+        if err:
+            errors.append(err)
+        for k, n in enumerate(part, 1):
+            if k in got:
+                res = _apply(n, bites[n - 1], got[k])
+                out[n - 1] = {**res, "end_check": {**(res.get("end_check") or {}), "retried": True}}
     return out, "؛ ".join(dict.fromkeys(errors))
 
 
