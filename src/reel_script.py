@@ -89,6 +89,28 @@ REEL_TOOL_V2 = {
 _SENT_END_RE = re.compile(r"[.!؟?…]+")
 
 
+def v2_tool(cfg: Any) -> dict:
+    """أداة v2 بحسب الوضع (المرحلة «ج»): مع v2.code_picks.enabled يُبلِّغ النموذج لكل سؤال «مرشّحين» يجيبونه فعلًا (candidates)
+    والكود يختار منهم (pick_answers)؛ فشروط البنية (متحدثا السؤال الأول، لا تكرار متحدث ولا زاوية، المدة) تتحقق بالبناء لا بإعادة
+    الكتابة. بلا الوضع ← الأداة القديمة بـanswers كما هي."""
+    if not _v2(cfg, "code_picks.enabled", False):
+        return REEL_TOOL_V2
+    import copy
+    tool = copy.deepcopy(REEL_TOOL_V2)
+    q = tool["input_schema"]["properties"]["questions"]["items"]
+    q["properties"]["candidates"] = {"type": "array", "items": {
+        "type": "object",
+        "properties": {"point_id": {"type": "string"},
+                       "fit": {"type": "string", "enum": ["direct", "weak"],
+                               "description": "direct إن أجاب المقطع عن السؤال من كلامه وحده، وweak إن قاربه"},
+                       "stance": {"type": "string", "description": "موقف المتحدث في ثماني كلمات أو أقل"},
+                       "angle": {"type": "string", "description": "زاوية المقطع في أقل من ثماني كلمات"}},
+        "required": ["point_id", "fit", "stance", "angle"]}}
+    del q["properties"]["answers"]
+    q["required"] = ["role", "text", "candidates"]
+    return tool
+
+
 def _rcfg(cfg: Any, key: str, default: Any) -> Any:
     return cfg.path(f"reel.script.{key}", default)
 
@@ -505,7 +527,9 @@ def _v2(cfg: Any, key: str, default: Any) -> Any:
 def v2_system(cfg: Any) -> str:
     """برومبت v2 مملوءً: رقم السقف يُبنى من الإعداد (L1، Issue #1627) فلا يُكتب حرفيًا في النص فيتخلّف عنه.
     استبدال نصي لا str.format: النص يحوي أقواسًا أخرى."""
-    return str(_v2(cfg, "system", "")).replace("{max_seconds}", str(int(_v2(cfg, "max_seconds", 165))))
+    rules = _v2(cfg, "code_picks.rules", "") if _v2(cfg, "code_picks.enabled", False) else _v2(cfg, "answers_rules", "")
+    return (str(_v2(cfg, "system", "")).replace("{max_seconds}", str(int(_v2(cfg, "max_seconds", 165))))
+            .replace("{answers_rules}", str(rules or "").strip()))
 
 
 def _speaker_identity(clip: dict) -> str:
@@ -638,6 +662,95 @@ def repair_v2(script: dict, valid: list[dict], cfg: Any) -> tuple[dict, list[str
         if x.get("q") is not None and x.get("q") in remap:
             x["q"] = remap[x["q"]]
     return {**script, "scenes": keep}, notes
+
+
+def pick_answers(data: dict, valid: list[dict], cfg: Any, exclude: set | None = None) -> tuple[dict, list[str]]:
+    """الكود يختار الإجابات من مرشّحي كل سؤال (المرحلة «ج» من خطة المقاطع الموثَّقة). دالة خالصة تعيد (data بحقل answers، ملاحظات).
+    لماذا: ثمانية سيناريوهات فشلت منذ 1/11 لأن النموذج اختار متحدثًا واحدًا لسؤال الجوهر وفي المادة اثنان، أو إجابة لا تجيب سؤالها؛
+    الاختيار نفسه قواعد يعرفها الكود (متحدثان مختلفان، زاوية جديدة، لا مقطع مرتين، رأي قبل واقعة، المدة)، والنموذج يحكم الصلة وحدها.
+    سؤال بلا candidates (مخرج الأداة القديمة) يبقى بـanswers كما هو."""
+    exclude = set(exclude or ())
+    by_id = {c["point_id"]: c for c in valid}
+    qs = [dict(q) for q in _listish(data.get("questions"), "questions") if isinstance(q, dict)]
+    if not any("candidates" in q for q in qs):
+        return data, []
+    _, hi_a = [int(x) for x in _v2(cfg, "answers_per_question", [1, 4])]
+    first = int(_v2(cfg, "code_picks.first_pass", 2))
+    opinion_rule = len(_opinion_identities(valid)) >= 2
+    notes: list[str] = []
+    pools: list[list[dict]] = []
+    for q in qs:
+        seen: set = set()
+        pool = []
+        for i, c in enumerate(_listish(q.get("candidates"), "candidates")):
+            pid = c.get("point_id") if isinstance(c, dict) else None
+            if pid not in by_id or pid in seen or pid in exclude:
+                continue
+            seen.add(pid)
+            is_fact = by_id[pid].get("type") not in _OPINION_TYPES
+            # الترتيب: الرأي قبل الواقعة حين يوجد متحدثا رأي (repair_v2 يحذف الواقعة بعدها، R6)، ثم المباشر قبل المقارب، ثم ترتيب النموذج
+            pool.append((opinion_rule and is_fact, c.get("fit") != "direct", i, c))
+        pools.append([x[3] for x in sorted(pool, key=lambda t: t[:3])])
+    picked: list[list[dict]] = [[] for _ in qs]
+    used: set = set()
+
+    def _ok(k: int, c: dict) -> bool:
+        if c["point_id"] in used:
+            return False
+        mine = picked[k]
+        # الواقعة لا تكون إلا إجابة وحيدة حين يوجد متحدثا رأي: repair_v2 يحذفها مع غيرها فلا تُهدر مكانًا
+        if mine and opinion_rule and by_id[c["point_id"]].get("type") not in _OPINION_TYPES:
+            return False
+        if _speaker_identity(by_id[c["point_id"]]) in {_speaker_identity(by_id[m["point_id"]]) for m in mine}:
+            return False
+        ang = _fold_angle(c.get("angle"))
+        return not (ang and ang in {_fold_angle(m.get("angle")) for m in mine})
+
+    def _add(k: int, c: dict) -> None:
+        picked[k].append({"point_id": c["point_id"], "stance": c.get("stance", ""), "angle": c.get("angle", ""),
+                          "repeats": False})
+        used.add(c["point_id"])
+
+    def _secs() -> float:
+        trial = {**data, "questions": [{**q, "answers": picked[k]} for k, q in enumerate(qs) if picked[k]]}
+        return estimate_seconds(_build_v2(trial, valid, "", None, cfg), cfg)
+
+    hi_s = float(_v2(cfg, "max_seconds", 165))
+    # الجولة الأولى: لكل سؤال بترتيبه حتى first_pass إجابة؛ ثم جولات تضيف إجابة لكل سؤال ما دامت المدة تتسع
+    for k, pool in enumerate(pools):
+        for c in pool:
+            if len(picked[k]) >= min(first, hi_a):
+                break
+            if _ok(k, c):
+                _add(k, c)
+    grew = True
+    while grew:
+        grew = False
+        for k, pool in enumerate(pools):
+            if len(picked[k]) >= hi_a:
+                continue
+            for c in pool:
+                if _ok(k, c):
+                    _add(k, c)
+                    if _secs() > hi_s:
+                        picked[k].pop()
+                        used.discard(c["point_id"])
+                    else:
+                        grew = True
+                    break
+    total = sum(len(p) for p in pools)
+    chosen = sum(len(p) for p in picked)
+    texts = cfg.path("reel.texts", {}) or {}
+    notes.append(str(texts.get("picks_summary", "اختار الكود {chosen} من {total} مرشّحًا")).format(chosen=chosen, total=total))
+    for k, q in enumerate(qs):
+        if pools[k] and not picked[k]:
+            notes.append(str(texts.get("picks_empty", "لم يبقَ لسؤال «{q}» مرشّح غير مستعمل")).format(q=q.get("text", "")))
+    out_qs = []
+    for k, q in enumerate(qs):
+        q = {kk: v for kk, v in q.items() if kk != "candidates"}
+        q["answers"] = picked[k] if "candidates" in qs[k] else q.get("answers", [])
+        out_qs.append(q)
+    return {**data, "questions": out_qs}, notes
 
 
 def _build_v2(data: dict, valid: list[dict], narrator: str, topic: dict | None = None, cfg: Any = None) -> dict:
@@ -885,7 +998,7 @@ def write_script(topic: dict, article_text: str, valid: list[dict], narrator: st
     v2 = bool(_v2(cfg, "enabled", False))
     content = (user_message_v2(topic, article_text, valid, narrator, cfg, member_points) if v2
                else user_message(topic, article_text, valid, narrator, want, cfg))
-    tool = REEL_TOOL_V2 if v2 else REEL_TOOL
+    tool = v2_tool(cfg) if v2 else REEL_TOOL
     system = v2_system(cfg) if v2 else _rcfg(cfg, "system", "")
     max_tokens = int(_v2(cfg, "max_tokens", 3500)) if v2 else int(_rcfg(cfg, "max_tokens", 3000))
     reason = ""
@@ -931,19 +1044,36 @@ def write_script(topic: dict, article_text: str, valid: list[dict], narrator: st
                 # الكاتب لم يجد زاويتين مختلفتين فلا إعادة: إعادة الكتابة تدفعه لاختراع زاوية (Q4، Issue #1654)
                 why = " ".join(str(data.get("single_angle_reason") or "").split()) or "—"
                 return None, str(cfg.path("reel.texts.single_angle", "لا منظورات مختلفة في المقاطع: {reason}")).format(reason=why)
-            script, repairs = repair_v2(_build_v2(data, valid, narrator, topic, cfg), valid, cfg)
+            picked_data, picks = pick_answers(data, valid, cfg)
+            script, repairs = repair_v2(_build_v2(picked_data, valid, narrator, topic, cfg), valid, cfg)
             if info is not None:
                 info["repairs"] = repairs
+                if picks:
+                    info["picks"] = picks
             script, _ = trim_v2(script, cfg)
             problems = validate_v2(script, valid, cfg)
             last_v2 = (script, problems)
         else:
+            picks = []
             script = _build(data, valid, narrator)
             problems = validate(script, valid, cfg, want)
         if not problems and v2:
             # R14: سيناريو سليم بنيويًا يمرّ بحكم Opus: هل تجيب كل إجابة عن سؤالها من كلامها وحده؟ الأولى تُعاد بالسبب، والأخيرة تُحذف
             # منها الإجابات غير المناسبة ثم يُعاد التحقق
             unfit = fit_answers(script, topic, cfg, client, info)
+            if unfit and picks:
+                # المرشّحون باقون: ما حكم Opus أنه لا يجيب يُستبعد ويختار الكود بدله من المرشّحين أنفسهم بلا نداء كتابة جديد
+                bad = {u["point_id"] for u in unfit}
+                alt_data, alt_picks = pick_answers(data, valid, cfg, exclude=bad)
+                alt, alt_repairs = repair_v2(_build_v2(alt_data, valid, narrator, topic, cfg), valid, cfg)
+                alt, _ = trim_v2(alt, cfg)
+                if not validate_v2(alt, valid, cfg):
+                    if info is not None:
+                        info.setdefault("warnings", []).extend(fit_dropped_warning(u, cfg) for u in unfit)
+                        info.setdefault("fit", {})["dropped"] = sorted(bad)
+                        info["picks"], info["repairs"] = alt_picks, alt_repairs
+                    _fit_weak_warnings(alt, cfg, info)
+                    return alt, ""
             if unfit and attempt == 0:
                 problems = [fit_reason(u, cfg) for u in unfit]
             elif unfit:
@@ -1517,7 +1647,7 @@ def apply_audit(valid: list[dict], rows: list[dict], cfg: Any, points_by_id: dic
 SCRIPT_KEYS = ("script", "script_status", "script_error", "headlines", "headline_selected", "warnings", "editor_review",
                "name_corrections", "name_unresolved", "names_audit", "reel_bg", "hook_candidates", "hook_search",
                "broll_plan", "broll_plan_error", "quote_retranslated", "clip_dropped", "clip_audit",
-               "editor_revision", "script_attempts", "script_fit", "script_raw", "script_repairs", "clip_rechecked")
+               "editor_revision", "script_attempts", "script_fit", "script_raw", "script_repairs", "clip_rechecked", "script_picks")
 
 
 def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article_text: str, unresolved: list,
@@ -1528,7 +1658,7 @@ def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article
     valid = valid_clips(member_points, unresolved, cfg)
     draft.pop("script_error", None)
     for key in ("name_corrections", "name_unresolved", "names_audit", "quote_retranslated", "clip_dropped", "clip_audit",
-                "editor_revision", "script_attempts", "script_fit", "script_raw", "script_repairs", "clip_rechecked"):
+                "editor_revision", "script_attempts", "script_fit", "script_raw", "script_repairs", "clip_rechecked", "script_picks"):
         draft.pop(key, None)  # إعادة كتابة تبدأ سجلاتها من جديد فلا تتراكم عن محاولة سابقة
 
     def _insufficient(clips: list[dict]) -> str:
@@ -1576,6 +1706,8 @@ def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article
         draft["script_attempts"] = info["attempts"]  # أسباب كل محاولة رُفضت (Q8): تظهر للمراجع عند الفشل
     if info.get("raw"):
         draft["script_raw"] = info["raw"]            # V4: آخر رد خام وسبب توقّفه، للتشخيص حين يفشل السيناريو
+    if info.get("picks"):
+        draft["script_picks"] = info["picks"]        # «ج»: ما اختاره الكود من مرشّحي كل سؤال، للمراجعة والتشخيص
     if info.get("repairs"):
         draft["script_repairs"] = info["repairs"]    # V4: ما أصلحه الكود بدل رفض السيناريو
     if info.get("fit"):
@@ -1603,7 +1735,8 @@ def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article
     draft["script"] = script
     draft["script_status"] = "ready"
     tpl = str(cfg.path("reel.texts.script_repaired", "🔧 أصلح الكود: {note}"))
-    repaired = [tpl.format(note=n) for n in info.get("repairs") or []]
+    # من ملاحظات الاختيار يُعرض ما يحتاج انتباه المراجع وحده (سؤال لم يبقَ له مرشّح)؛ الملخص يُحفظ في script_picks
+    repaired = [tpl.format(note=n) for n in [*(info.get("repairs") or []), *(info.get("picks") or [])[1:]]]
     for w in [*(info.get("warnings") or []), *repaired]:  # تنبيهات الاختصار الآلي «✂️» وإصلاحات الكود «🔧» (V4)
         if w not in draft.setdefault("warnings", []):
             draft["warnings"].append(w)

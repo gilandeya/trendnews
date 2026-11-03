@@ -24239,3 +24239,124 @@ def test_speaker_map_sections_guards() -> None:
         check("g815: البناء يتلقى لحظة الاقتباس بثواني الحلقة (بداية الملف + موضعها فيه)",
               got.get("times") == [696.0 + off] and 700.0 <= got["times"][0] <= 706.0, got)
     guarded("g815", g815)
+
+
+def test_reel_code_picks_guards() -> None:
+    """المرحلة «ج» (g816–g821): النموذج يقترح لكل سؤال مرشّحين يجيبونه والكود يختار منهم. ثمانية سيناريوهات فشلت منذ 1/11 لأن
+    النموذج اختار متحدثًا واحدًا لسؤال الجوهر وفي المادة اثنان، أو إجابة لا تجيب سؤالها؛ الاختيار قواعد يعرفها الكود."""
+    import copy
+    from types import SimpleNamespace
+
+    from src import reel_script
+
+    cfg = load_config()
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def clip(pid, who, typ="opinion", secs=15):
+        return {"point_id": pid, "speaker_text": who, "channel_original": "ق", "type": typ, "start": 100, "end": 100 + secs,
+                "quote_arabic": "كلام", "video_url": "u"}
+
+    def cand(pid, fit="direct", angle=None):
+        return {"point_id": pid, "fit": fit, "angle": angle or f"زاوية {pid}", "stance": "م"}
+
+    def data(*questions):
+        return {"main_question": "هل تصمد الهدنة؟", "context": ["هدنة منذ أسبوع."], "closing_question": "ما الذي يحدث بعدها؟",
+                "questions": [{"role": r, "text": t, "candidates": c} for r, t, c in questions]}
+
+    def ids_of(out):
+        return [[a["point_id"] for a in q["answers"]] for q in out["questions"]]
+
+    valid = [clip("a", "ليلى"), clip("b", "ليلى"), clip("c", "سامر"), clip("d", "رامي"), clip("f", "هدى", "fact")]
+
+    def g816():
+        # شكل حادثة 4d31627ee23f: أول مرشّحَين للمتحدث نفسه، فالكود يتخطى الثاني إلى متحدث آخر
+        out, notes = reel_script.pick_answers(data(("core", "ما جوهر الخلاف؟", [cand("a"), cand("b"), cand("c", "weak")])), valid, cfg)
+        s, _ = reel_script.repair_v2(reel_script._build_v2(out, valid, "female", {}, cfg), valid, cfg)
+        check("g816: سؤال الجوهر بمتحدثَين مختلفَين من المرشّحين", ids_of(out) == [["a", "c"]], ids_of(out))
+        check("g816: السيناريو يجتاز التحقق", reel_script.validate_v2(s, valid, cfg) == [], reel_script.validate_v2(s, valid, cfg))
+        check("g816: ملخص الاختيار", notes and "2" in notes[0] and "3" in notes[0], notes)
+    guarded("g816", g816)
+
+    def g817():
+        out, _ = reel_script.pick_answers(data(
+            ("core", "ما جوهر الخلاف؟", [cand("f"), cand("zz"), cand("a"), cand("a"), cand("c")]),
+            ("where_next", "إلى أين؟", [cand("c"), cand("d")])), valid, cfg)
+        check("g817: الواقعة بعد الرأي ولا تجاوره، والمجهول والمكرر يُتجاهلان، والمقطع مرة واحدة عبر الأسئلة",
+              ids_of(out) == [["a", "c"], ["d"]], ids_of(out))
+        same = reel_script.pick_answers(data(("core", "س؟", [cand("a", angle="أمني"), cand("c", angle="الأمني")])), valid, cfg)[0]
+        check("g817: زاوية مكررة (بعد الطيّ) لا تُختار", ids_of(same) == [["a"]], ids_of(same))
+    guarded("g817", g817)
+
+    def g818():
+        many = [clip(f"p{i}", f"متحدث {i}", secs=12) for i in range(12)]
+        c2 = copy.deepcopy(cfg)
+        c2["reel"]["script"]["v2"]["max_seconds"] = 90
+        out, _ = reel_script.pick_answers(data(("core", "س؟", [cand(c["point_id"]) for c in many[:6]]),
+                                               ("why_now", "لماذا الآن؟", [cand(c["point_id"]) for c in many[6:]])), many, c2)
+        s = reel_script._build_v2(out, many, "female", {}, c2)
+        check("g818: الجولات تتوقف عند سقف المدة والجولة الأولى إجابتان لكل سؤال",
+              reel_script.estimate_seconds(s, c2) <= 90 and all(len(q) >= 2 for q in ids_of(out))
+              and sum(map(len, ids_of(out))) > 4 and sum(map(len, ids_of(out))) < 12,
+              (ids_of(out), reel_script.estimate_seconds(s, c2)))
+    guarded("g818", g818)
+
+    def g819():
+        # Opus يحكم أن إجابة لا تجيب ← الكود يختار بدلها من المرشّحين بلا نداء كتابة ثانٍ
+        c2 = copy.deepcopy(cfg)
+        c2.setdefault("reel", {})["enabled"] = True
+        people = ["ليلى حداد", "سامر النجار", "رامي خوري", "هدى منصور"]
+        pts = [{"video_id": f"v{i}", "bloc": "arabic", "channel": f"قناة {i}", "speaker": people[i], "statement": f"قول {i}",
+                "quote_arabic": f"اقتباس عربي {i}", "quote_original": " ".join(f"w{i}x{k}" for k in range(34)), "type": "opinion",
+                "video_title": f"فيديو {i}", "video_url": f"https://youtube.com/watch?v=v{i}", "timestamp": 100 + i * 30,
+                "video_published": "2099-10-30"} for i in range(4)]
+        good = reel_script.valid_clips(pts, [], c2)
+        ids = [c["point_id"] for c in good]
+        payload = data(("core", "ما جوهر الخلاف حول الهدنة؟", [cand(i) for i in ids]))
+        calls = []
+
+        def resp(name, inp):
+            return SimpleNamespace(content=[SimpleNamespace(type="tool_use", id="tu", name=name, input=inp)],
+                                   stop_reason="tool_use", usage=SimpleNamespace(input_tokens=1, output_tokens=1))
+
+        def writer(client, **kw):
+            calls.append(kw)
+            return resp(kw["tools"][0]["name"], copy.deepcopy(payload))
+        rc, rf = reel_script._create, reel_script._fit_create
+        reel_script._create = writer
+        reel_script._fit_create = lambda client, **kw: resp("judge_answers", {"answers": [
+            {"point_id": ids[1], "verdict": "unrelated", "reason": "لا تذكر الهدنة"}]})
+        info: dict = {}
+        try:
+            s, why = reel_script.write_script({"title": "م", "event": "ح"}, "نص", good, "female", c2, member_points=pts, info=info)
+        finally:
+            reel_script._create, reel_script._fit_create = rc, rf
+        used = [x.get("point_id") for x in (s or {}).get("scenes", []) if x.get("kind") == "clip"]
+        check("g819: نداء كاتب واحد والأداة تطلب candidates",
+              len(calls) == 1 and "candidates" in calls[0]["tools"][0]["input_schema"]["properties"]["questions"]["items"]["required"],
+              len(calls))
+        check("g819: الإجابة المرفوضة استُبدلت من المرشّحين", s is not None and ids[1] not in used and len(used) >= 2, (why, used))
+        check("g819: تنبيه 🧹 وملخص الاختيار محفوظ", any(w.startswith("🧹") for w in info.get("warnings") or [])
+              and info.get("picks"), info.get("picks"))
+    guarded("g819", g819)
+
+    def g820():
+        on = reel_script.v2_system(cfg)
+        c2 = copy.deepcopy(cfg)
+        c2["reel"]["script"]["v2"]["code_picks"]["enabled"] = False
+        off = reel_script.v2_system(c2)
+        check("g820: البرومبت بلا عنصر نائب في الوضعين", "{answers_rules}" not in on and "{answers_rules}" not in off)
+        check("g820: الوضع الجديد يطلب المرشّحين والقديم يطلب الإجابات",
+              "candidates" in on and "الإجابات: تحت كل سؤال" in off and "candidates" not in off, off[-900:])
+        check("g820: الأداة القديمة بلا تغيير حين يُطفأ الوضع", reel_script.v2_tool(c2) is reel_script.REEL_TOOL_V2)
+    guarded("g820", g820)
+
+    def g821():
+        old = {"questions": [{"role": "core", "text": "س؟", "answers": [{"point_id": "a"}]}]}
+        out, notes = reel_script.pick_answers(old, valid, cfg)
+        check("g821: مخرج الأداة القديمة (answers) يمرّ بلا تغيير", out is old and notes == [], (out, notes))
+    guarded("g821", g821)
