@@ -24547,3 +24547,77 @@ def test_proxy_quota_stop_guards() -> None:
         check("g827: التركيب يحوّل نفاد الرصيد إلى سبب واضح لا استثناء مجهول",
               "except youtube_extract.ProxyQuotaExhausted" in src_text and "raise TranscriptUnavailable(str(exc))" in src_text)
     guarded("g827", g827)
+
+
+def test_reel_question_first_guards() -> None:
+    """السؤال من أول لحظة (g828–g830، قرار صاحب المشروع 3/11): كان الراوي يبدأ بعد 3.2 ث من لقطة صامتة. الآن عند hook.question_at،
+    والضباب يكتمل قبله فيُقرأ العنوان، ومجموع مدد السيناريو يتبع الافتتاح الأقصر."""
+    import tempfile
+    from pathlib import Path
+
+    import numpy as np
+
+    from src import reel_render, reel_script
+    from tests.helpers import question_first_cfg
+
+    old = load_config()
+    cfg = question_first_cfg(old)
+    hk = cfg.path("reel.render.hook")
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001
+            import traceback
+            check(f"{name}: لا استثناء", False, traceback.format_exc()[-800:])
+
+    def g828():
+        q = float(hk["question_at"])
+        check("g828: السؤال يبدأ خلال أقل من ثانية في config.yaml", q < 1.0, q)
+        check("g828: hook_voice_at = question_at، وبلا المفتاح الافتتاح القديم",
+              reel_render.hook_voice_at(cfg) == q
+              and abs(reel_render.hook_voice_at(old) - (float(hk["strong_seconds"]) + float(hk["voice_delay"]))) < 1e-9)
+    guarded("g828", g828)
+
+    def g829():
+        work = Path(tempfile.mkdtemp())
+        cmds: list = []
+
+        def run(cmd):
+            cmds.append([str(c) for c in cmd])
+            Path(cmd[-1]).parent.mkdir(parents=True, exist_ok=True)
+            Path(cmd[-1]).write_bytes(b"x")
+
+        def download(video_id, start, end, height, out_path):
+            Path(out_path).write_bytes(b"clip")
+            return {"tier": "a", "bytes": 4, "failures": []}
+        deps = reel_render.Deps(
+            download_clip=download, synthesize=lambda t, v: {"ok": True, "audio": b"mp3", "chars": len(t)},
+            diacritize=lambda t: (t, None), run=run, probe=lambda p: 2.0, sleep=lambda s: None,
+            faces=lambda f, fr: (640, 360, []), frames=lambda p, fr: [np.full((360, 640), 100, np.uint8)] * len(fr),
+            streams=lambda p: {"video", "audio"}).resolved(cfg)
+        scene = {"kind": "title_card", "text": "عنوان الهوك"}
+        script = {"title": "عنوان الهوك", "scenes": [scene]}
+        draft = {"hook_video": {"video_id": "hv1", "start": 5, "end": 9}}
+        dur = reel_render._hook_scene(0, scene, script, draft, None, "female", cfg, deps, work, work / "o.mp4", [])
+        q = float(hk["question_at"])
+        check("g829: المدة = question_at + الكلام + tail", abs(dur - (q + 2.0 + float(hk["tail"]))) < 1e-6, dur)
+        final = " ".join([c for c in cmds if c[-1].endswith("o.mp4")][-1])
+        check("g829: صوت الراوي يبدأ عند question_at", f"adelay={int(round(q * 1000))}:" in final, final[-400:])
+        strong = max(q - float(hk["voice_delay"]), 0.0)
+        f = lambda t: reel_render.fog_alpha(t, cfg, strong)  # noqa: E731
+        check("g829: الضباب ظاهر عند أول كلمة ومكتمل بعد fog_in",
+              f(q) > 0.3 and abs(f(strong + float(hk["fog_in"])) - 1) < 1e-9, (f(q), f(strong + float(hk["fog_in"]))))
+        check("g829: تعبير الضباب في الأمر بالافتتاح الجديد", reel_render._fog_alpha_expr(cfg, strong, var="T") in final)
+    guarded("g829", g829)
+
+    def g830():
+        s = {"version": 2, "scenes": [{"kind": "title_card", "text": "سؤال"}, {"kind": "outro"}]}
+        d_new = reel_script.scene_durations(s, cfg)
+        d_old = reel_script.scene_durations(s, old)
+        check("g830: بطاقة السؤال أقصر بقدر الافتتاح الموفَّر",
+              abs((d_old[0] - d_new[0]) - (float(hk["strong_seconds"]) - float(hk["question_at"]))) < 1e-6, (d_old, d_new))
+        check("g830: مجموع المدد = estimate_seconds",
+              abs(sum(d_new) - reel_script.estimate_seconds(s, cfg)) < 1e-6, (sum(d_new), reel_script.estimate_seconds(s, cfg)))
+        check("g830: نسخة التركيب 63", int(cfg.path("reel.render.version")) >= 63)
+    guarded("g830", g830)

@@ -60,6 +60,13 @@ def load_config(path=None):
     rcfg = cfg.get("reel", {}).get("render") if isinstance(cfg.get("reel"), dict) else None
     if isinstance(rcfg, dict):
         rcfg["preset"] = "ultrafast"
+        # افتتاح الريل القديم (اللقطة النظيفة ثم السؤال) افتراضيًا: اختبارات P1a وR5c1 تثبّت أزمنته ومدده؛ السؤال من أول لحظة (3/11)
+        # يطلبه اختبار question_first_cfg صراحة. v2.fixed_seconds معه لأن مجموع المدد المقدَّر يتبع الافتتاح
+        if isinstance(rcfg.get("hook"), dict) and rcfg["hook"].get("question_at") is not None:
+            rcfg["hook"].pop("question_at")
+            v2 = ((cfg.get("reel") or {}).get("script") or {}).get("v2")
+            if isinstance(v2, dict):
+                v2["fixed_seconds"] = 9
     # مسار التحليل القديم (نقاط ومقال) افتراضيًا في الاختبارات: مئات الحالات تثبّت ذلك المسار نفسه، والإنتاج صار الريل وحده بالمقاطع
     # (خطة V، V3). اختبارات V3 تطلب المسار الجديد صراحةً بـreel_only_cfg، وg729 يثبّت أن config.yaml نفسه عليه. يزول في V6 مع المقال.
     ycfg = cfg.get("youtube") if isinstance(cfg.get("youtube"), dict) else None
@@ -72,6 +79,16 @@ def load_config(path=None):
         if isinstance(ycfg.get("bites"), dict) and isinstance(ycfg["bites"].get("end_check"), dict):
             ycfg["bites"]["end_check"]["enabled"] = False
     return cfg
+
+
+def question_first_cfg(cfg):
+    """نسخة بافتتاح الإنتاج: السؤال من أول لحظة (hook.question_at وv2.fixed_seconds كما في config.yaml، 3/11)."""
+    import copy
+    c = copy.deepcopy(cfg)
+    real = _real_load_config()
+    c["reel"]["render"]["hook"]["question_at"] = real.path("reel.render.hook.question_at")
+    c["reel"]["script"]["v2"]["fixed_seconds"] = real.path("reel.script.v2.fixed_seconds")
+    return c
 
 
 def reel_only_cfg(cfg):

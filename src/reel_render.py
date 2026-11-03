@@ -3665,6 +3665,14 @@ def _hook_crop(clip: Path, cfg, deps: Deps, crops: dict | None, video_id=None, c
     return f"crop={cw}:{ch}:{(sw - cw) // 2}:0"
 
 
+def hook_voice_at(cfg) -> float:
+    """متى يبدأ الراوي ويظهر السؤال في الهوك: hook.question_at إن وُجد (السؤال من أول لحظة، 3/11)، وإلا strong_seconds + voice_delay."""
+    hk = cfg.path("reel.render.hook")
+    if hk.get("question_at") is not None:
+        return float(hk["question_at"])
+    return float(hk["strong_seconds"]) + float(hk["voice_delay"])
+
+
 def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None, voice: str, cfg, deps: Deps, tmp: Path,
                 out: Path, notes: list, crops: dict | None = None, hook_info: dict | None = None) -> float:
     """مشهد الهوك (P1a، Issue #1600). S = hook.strong_seconds: [0، loop.fog_out] الضباب يزول، [fog_out، S] لقطة نظيفة والشعار الكبير
@@ -3680,7 +3688,10 @@ def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None,
     audio, parts = _speech(title, voice, cfg, deps, tmp, f"s{i:02d}")
     speech = sum(d for _, d in parts)
     strong, delay = float(hk["strong_seconds"]), float(hk["voice_delay"])
-    seconds = min(strong + delay + speech + float(hk["tail"]), float(hk["max_seconds"]))
+    voice_at = hook_voice_at(cfg)
+    # الضباب يكتمل قبل أول كلمة بقدر voice_delay كما كان، فيُقرأ العنوان فوق اللقطة من أول لحظة حين يُقدَّم السؤال
+    strong = max(voice_at - delay, 0.0)
+    seconds = min(voice_at + speech + float(hk["tail"]), float(hk["max_seconds"]))
     clip = None
     hv = draft.get("hook_video")
     if isinstance(hv, dict) and hv.get("video_id"):
@@ -3697,16 +3708,16 @@ def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None,
     # العنوان تحت الشعار الكبير مباشرة: أسفل الشعار + text_gap
     oc, ratio = cfg.path("reel.render.outro"), _logo_ratio(cfg)
     text_top = int(oc["logo_top"]) + (round(int(oc["logo_width"]) * ratio) if ratio is not None else 0) + int(hk["text_gap"])
-    times = narration_word_times(parts, strong + delay, cfg)
+    times = narration_word_times(parts, voice_at, cfg)
     if len(times) != len(title.split()):
         # التشكيل/الأسماء قد تغيّر عدد الكلمات: يوزَّع الزمن على كلمات العنوان المعروض بالحروف على مدة الكلام كله
-        times = narration_word_times([(title, speech)], strong + delay, cfg)
+        times = narration_word_times([(title, speech)], voice_at, cfg)
     frames = word_drop_frames(cfg, title, times, seconds, text_top, tmp, f"hw{i}")
     lst = tmp / f"hook_{i}_words.txt"
     lst.write_text("".join(f"file '{f}'\nduration {_fmt(d)}\n" for f, d in frames) + f"file '{frames[-1][0]}'\n", encoding="utf-8")
     fog_png = _save(fog_layer(cfg), tmp / f"hook_fog_{i}.png")
     rate = rcfg.get("audio_rate", 48000)
-    adelay = f"adelay={int(round((strong + delay) * 1000))}:all=1"
+    adelay = f"adelay={int(round(voice_at * 1000))}:all=1"
     loop = ["-loop", "1", "-framerate", str(fps)]
     fog_in = [*loop, "-i", str(fog_png), "-f", "concat", "-safe", "0", "-i", str(lst), "-i", str(audio)]
     # الضباب: ألفا الطبقة تُستخرج وتُصغَّر ثم geq بالزمن T (تعبير fog_alpha نفسه) ثم تُكبَّر وتُدمج ثانيةً بالألوان — geq على نسخة
@@ -3721,7 +3732,7 @@ def _hook_scene(i: int, scene: dict, script: dict, draft: dict, bg: dict | None,
             hook_info.update(mode="clip", clip=clip, cexpr=cexpr)
         inputs = ["-i", str(clip), *fog_in]
         vg = (f"[0:v]{cexpr},scale={w}:{h},tpad=stop_mode=clone:stop_duration={_fmt(seconds)},fps={fps}[b];" + fog_f)
-        vol = f"if(lt(t,{_fmt(strong + delay)}),{_fmt(float(hk['ambient_clean']))},{_fmt(float(hk['ambient']))})"
+        vol = f"if(lt(t,{_fmt(voice_at)}),{_fmt(float(hk['ambient_clean']))},{_fmt(float(hk['ambient']))})"
         ag = (f"[0:a]aresample={rate},aformat=channel_layouts=stereo,volume='{vol}':eval=frame[am];"
               f"[3:a]{sp}[sp];[sp][am]amix=inputs=2:normalize=0:duration=first[a]")
     elif bg is not None:
