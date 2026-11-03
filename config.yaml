@@ -3165,6 +3165,13 @@ youtube:
     # لا أقل من 30 (youtube_transcripts.prune): موضوع قد يعود إلى الترشيح (W2a) قبل تركيب ريله
     keep_days: 30
 
+  # قياس «المواضيع من العنوان والوصف» (خطة صاحب المشروع 3/11، الخطوة 1): يحفظ مع كل جمع عنوان كل فيديو رفعته القنوات في
+  # آخر days أيام ووصفه ومدته وفهرسه الزمني، في المستودع الخاص (youtube_bites/meta_probe/). قياس فقط: لا يقرر شيئًا، ولا
+  # يمرّ بالبروكسي ولا بنموذج. يُطفأ بعد أن نقرر من أرقامه.
+  meta_probe:
+    enabled: true
+    days: 3
+
   bites:
     # V2: يعمل بجانب النقاط (لا بديلًا عنها بعد) لفيديوهات حارس الموضوع السياسي وحدها، والناتج youtube_bites/<التاريخ>.json الخاص.
     # الكلفة نحو 33 ألف رمز Sonnet لكل فيديو (قياس V0)؛ false يوقفه بلا أثر على النقاط
@@ -3804,6 +3811,9 @@ channels:
     language: "ar"
     bloc: "arabic"
     bias_note: "قطرية التمويل"
+    # التوجّه (قرار صاحب المشروع 3/11): ترتيب مواضيع الريل يعدّ الكتل ثم التوجّهات المختلفة التي تناولت الموضوع،
+    # فكل قناة تُنسب إلى توجّه داخل كتلتها؛ قناتان بالتوجّه نفسه في كتلة واحدة صوت واحد في العدّ.
+    orientation: "قطري"
     active: true
     exclude_patterns: ["نشرة", "موجز", "عاجل", "بث مباشر", "مباشر الآن"]
   - handle: "@alarabiya"
@@ -3814,6 +3824,7 @@ channels:
     language: "ar"
     bloc: "arabic"
     bias_note: "سعودية التمويل، مقرّها دبي"
+    orientation: "سعودي"
     active: true
     exclude_patterns: ["نشرة", "موجز", "عاجل", "بث مباشر", "مباشر الآن"]
   - handle: "@france24_ar"
@@ -3823,6 +3834,7 @@ channels:
     language: "ar"
     bloc: "arabic"
     bias_note: "فرنسية عامة"
+    orientation: "غربي فرنسي رسمي"
     active: true
     exclude_patterns: ["نشرة", "موجز", "عاجل", "بث مباشر", "مباشر الآن"]
   - handle: "@cnnturk"
@@ -3833,6 +3845,7 @@ channels:
     language: "tr"
     bloc: "turkish"
     bias_note: "تيار سائد"
+    orientation: "قريب من الحكومة"
     active: true
     # القائمة الأصلية موسّعة (Issue #635، العطل ٥) بأنماط نشرات ورياضة/فن
     # إضافية كشفتها المراجعة اليدوية للتشغيلة الأولى (مباراة غالاتاسراي
@@ -3848,6 +3861,7 @@ channels:
     language: "tr"
     bloc: "turkish"
     bias_note: "تيار سائد"
+    orientation: "قريب من الحكومة"
     active: true
     # القائمة الأصلية موسّعة (Issue #635، العطل ٥) بأنماط نشرات ورياضة/فن
     # إضافية كشفتها المراجعة اليدوية للتشغيلة الأولى (مباراة غالاتاسراي
@@ -3863,6 +3877,7 @@ channels:
     language: "tr"
     bloc: "turkish"
     bias_note: "معارض"
+    orientation: "معارض"
     active: true
     # القائمة الأصلية موسّعة (Issue #635، العطل ٥) بأنماط نشرات ورياضة/فن
     # إضافية كشفتها المراجعة اليدوية للتشغيلة الأولى (مباراة غالاتاسراي
@@ -3878,6 +3893,7 @@ channels:
     language: "tr"
     bloc: "turkish"
     bias_note: "معارض علماني"
+    orientation: "معارض"
     active: true
     # القائمة الأصلية موسّعة (Issue #635، العطل ٥) بأنماط نشرات ورياضة/فن
     # إضافية كشفتها المراجعة اليدوية للتشغيلة الأولى (مباراة غالاتاسراي
@@ -3893,6 +3909,7 @@ channels:
     language: "fa"
     bloc: "persian"
     bias_note: "معارضة إيرانية"
+    orientation: "معارض للنظام"
     active: true
     # موسّعة (Issue #635، العطل ٥) بأنماط نشرات إضافية من طلب المراجعة.
     exclude_patterns: ["خبر فوری", "خبر ساعت", "پخش زنده", "خبر نیمروزی",
@@ -3906,6 +3923,7 @@ channels:
     language: "fa"
     bloc: "persian"
     bias_note: "من داخل إيران"
+    orientation: "مؤيد للنظام"
     active: true
     # موسّعة (Issue #635، العطل ٥) بأنماط نشرات إضافية من طلب المراجعة.
     exclude_patterns: ["خبر فوری", "خبر ساعت", "پخش زنده", "خبر نیمروزی",
@@ -3919,6 +3937,7 @@ channels:
     language: "he"
     bloc: "israeli"
     bias_note: "يمين"
+    orientation: "يمين"
     active: true
     exclude_patterns: ["מבזק", "שידור חי"]
   - handle: "@IsraelEnglishNews"
@@ -3927,6 +3946,7 @@ channels:
     language: "en"
     bloc: "israeli"
     bias_note: "مناصرة موجّهة للخارج"
+    orientation: "يمين"
     active: true
     exclude_patterns: []
   - handle: "@allisraelnewscom"
@@ -3935,6 +3955,7 @@ channels:
     language: "en"
     bloc: "israeli"
     bias_note: "يمين ديني"
+    orientation: "يمين ديني"
     active: true
     exclude_patterns: []
   - handle: "@haaretzcom"
@@ -3945,6 +3966,7 @@ channels:
     language: "en"
     bloc: "israeli"
     bias_note: "يسار ليبرالي"
+    orientation: "يسار"
     active: true
     exclude_patterns: []
 
