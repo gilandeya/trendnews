@@ -238,6 +238,40 @@ def fetch_metrics(post_id: str, api_version: str = "v21.0") -> dict:
     return out
 
 
+def fetch_reel_metrics(video_id: str, metrics: list[str], api_version: str = "v21.0") -> dict:
+    """مقاييس ريل من video_insights: يُطلب كل ما في القائمة بنداء واحد، فإن رُفض النداء (مقياس واحد غير
+    مدعوم لنوع الفيديو يُسقط الطلب كله) يُطلب كل مقياس وحده ويُحفظ ما نجح — كي لا يضيع رقم المشاهدات
+    بسبب مقياس جانبي. القيمة كما يعيدها فيسبوك (رقم، أو قاموس لمنحنى البقاء)."""
+    _, token = _credentials()
+    url = f"https://graph.facebook.com/{api_version}/{video_id}/video_insights"
+
+    def ask(names: list[str]) -> dict:
+        resp = requests.get(url, params={"metric": ",".join(names), "access_token": token}, timeout=45)
+        data = _raise_for_graph(resp)
+        out: dict = {}
+        for row in data.get("data", []):
+            values = row.get("values") or [{}]
+            out[row.get("name")] = values[0].get("value")
+        return out
+
+    try:
+        return ask(metrics)
+    except FacebookError as exc:
+        log.info("مقاييس الريل %s مجتمعة رُفضت (%s) — تُطلب واحدًا واحدًا", video_id, str(exc)[:80])
+    out: dict = {}
+    errors: list[str] = []
+    for name in metrics:
+        try:
+            out.update(ask([name]))
+        except FacebookError as exc:
+            errors.append(f"{name}: {str(exc)[:80]}")
+    if not out:
+        return {"error": "؛ ".join(errors) or "لا مقاييس"}
+    if errors:
+        out["_errors"] = errors
+    return out
+
+
 def publish_link(link: str, caption: str, api_version: str = "v21.0") -> dict:
     """بديل: منشور نصي برابط (يستخدم صورة المعاينة من الموقع)."""
     page_id, token = _credentials()

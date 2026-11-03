@@ -153,6 +153,7 @@ from tests.test_review import (
     test_store_load_candidate_prefers_selection_issue,
     test_insights_analysis,
     test_insights_collect_includes_analysis_origin,
+    test_insights_reels_section,
     test_insights_weakest_performing_section,
     test_insights_rejections_section,
     test_insights_recommendation_ids_and_choice_parsing,
@@ -601,6 +602,7 @@ def main() -> int:
     print("\n── تحليل الأداء ──")
     test_insights_analysis()
     test_insights_collect_includes_analysis_origin()
+    test_insights_reels_section()
     print("\n── تقرير الأداء: أضعف أداءً وقائمة المرفوضات (Issue #769) ──")
     test_insights_weakest_performing_section()
     test_insights_rejections_section()

@@ -2916,3 +2916,12 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 (وبغيابه الحساب القديم)، والضباب يرتفع قبله بـ`voice_delay` فيُقرأ العنوان، والصوت الأصلي ينخفض عنده. `reel_script.scene_duration` تحسب بطاقة العنوان به،
 و`reel.script.v2.fixed_seconds` = 6 (كان 9) ليبقى تقدير المدة صادقًا. `render_version` = 63 (للقادم فقط، S11). g828–g830 في
 `test_reel_question_first_guards`؛ `tests.helpers.load_config` يُبقي الافتتاح القديم و`question_first_cfg` يعيد قيم الإنتاج.
+
+## أرقام الريلات في التقرير الأسبوعي (قرار صاحب المشروع 3/11) — `src/insights.py`، `src/facebook.py`
+
+`insights.collect_reels` تمرّ على كل مسودة `format == "reel"` منشورة خلال `--days` وتطلب `facebook.fetch_reel_metrics(video_id, …)` من
+`/{video_id}/video_insights` بقائمة `facebook.reel_metrics.metrics`؛ رفض الطلب المجمَّع (مقياس لا يدعمه نوع الفيديو) يعيد الطلب لكل مقياس وحده
+ويُحفظ ما نجح. الصف (`reel_row`): المشاهدات = أول مفتاح موجود من `plays_keys`، الوصول `post_impressions_unique`، متوسط المشاهدة
+`post_video_avg_time_watched` ÷ 1000 ونسبته من `reel_seconds`، و«أكملوه» = آخر نقطة في منحنى البقاء (`retention_keys`، `_retention_end`)؛
+والعنوان المختار. ريل فشل جلبه يبقى صفًا بسببه. `reels_section` يبني «🎬 الريلات» ويظهر في `build_report(..., reels_lines=)` ولو بلا منشورات صور.
+`facebook.reel_metrics.enabled: false` ← لا قسم. الاختبار `tests/test_review.py:test_insights_reels_section`. لم تُجرَّب أسماء المقاييس على فيسبوك حقيقي.

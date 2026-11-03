@@ -103,6 +103,114 @@ def collect(days: int, api_version: str) -> list[dict]:
     return rows
 
 
+def _retention_end(graph) -> float | None:
+    """آخر نقطة في منحنى البقاء = نسبة من ما زالوا يشاهدون عند نهاية الريل، وهي أقرب رقم يتيحه فيسبوك لـ«أكملوه».
+    المنحنى قاموس مفاتيحه أرقام نصية (0..40) أو قائمة؛ القيمة كسر (0–1) أو نسبة مئوية، فيُوحَّد إلى نسبة."""
+    if isinstance(graph, dict) and graph:
+        try:
+            last = graph[max(graph, key=lambda k: int(k))]
+        except (TypeError, ValueError):
+            return None
+    elif isinstance(graph, list) and graph:
+        last = graph[-1]
+    else:
+        return None
+    try:
+        v = float(last)
+    except (TypeError, ValueError):
+        return None
+    return v * 100 if v <= 1.0 else v
+
+
+def reel_row(draft: dict, m: dict, cfg) -> dict:
+    """صف ريل واحد من مقاييسه الخام. المدة من reel_seconds (ما حُفظ عند النشر) وإلا duration_seconds."""
+    rc = cfg.path("facebook.reel_metrics") or {}
+    plays = next((m.get(k) for k in rc.get("plays_keys", []) if isinstance(m.get(k), (int, float))), None)
+    graph = next((m.get(k) for k in rc.get("retention_keys", []) if m.get(k)), None)
+    avg_ms = m.get("post_video_avg_time_watched")
+    length = draft.get("reel_seconds") or draft.get("duration_seconds")
+    heads = draft.get("headlines") or []
+    sel = draft.get("headline_selected")
+    title = (heads[sel] if isinstance(sel, int) and 0 <= sel < len(heads) else "") \
+        or (draft.get("arabic") or {}).get("post_title") or (draft.get("script") or {}).get("title", "")
+    return {
+        "id": draft.get("id"),
+        "title": title,
+        "published_at": draft.get("published_at"),
+        "kind": (draft.get("facebook") or {}).get("kind", "reel"),
+        "length": float(length) if length else None,
+        "plays": plays,
+        "reach": m.get("post_impressions_unique"),
+        "avg_seconds": float(avg_ms) / 1000 if isinstance(avg_ms, (int, float)) else None,
+        "completion": _retention_end(graph),
+        "replays": m.get("fb_reels_replay_count"),
+        "errors": m.get("_errors") or [],
+    }
+
+
+def collect_reels(days: int, api_version: str, cfg) -> list[dict]:
+    """كل ريل منشور خلال المدة بأرقامه. منفصل عن collect لأن مقاييس الفيديو من video_insights لا من insights
+    المنشور، وريل فشل جلب أرقامه يبقى صفًا بسببه بدل أن يختفي من التقرير."""
+    rc = cfg.path("facebook.reel_metrics") or {}
+    if not rc.get("enabled"):
+        return []
+    cutoff = datetime.now(timezone.utc) - timedelta(days=days)
+    rows: list[dict] = []
+    for path in sorted(store.DRAFTS_DIR.glob("*/*.json")):
+        try:
+            draft = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            continue
+        if draft.get("status") != "published" or draft.get("format") != "reel":
+            continue
+        try:
+            when = datetime.fromisoformat(draft.get("published_at") or "")
+        except ValueError:
+            continue
+        if when.tzinfo is None:
+            when = when.replace(tzinfo=timezone.utc)
+        video_id = (draft.get("facebook") or {}).get("post_id")
+        if when < cutoff or not video_id:
+            continue
+        try:
+            m = facebook.fetch_reel_metrics(video_id, list(rc.get("metrics") or []), api_version)
+        except Exception as exc:  # noqa: BLE001 — غياب التوكن أو عطل الشبكة لا يُسقط التقرير كله
+            m = {"error": str(exc)[:150]}
+        if m.get("error"):
+            rows.append({**reel_row(draft, {}, cfg), "error": str(m["error"])[:150]})
+            continue
+        rows.append(reel_row(draft, m, cfg))
+    rows.sort(key=lambda r: r.get("published_at") or "", reverse=True)
+    return rows
+
+
+def _fmt_num(v, digits: int = 0, suffix: str = "") -> str:
+    if v is None:
+        return "—"
+    return f"{v:,.{digits}f}{suffix}"
+
+
+def reels_section(rows: list[dict]) -> list[str]:
+    """قسم «🎬 الريلات»: سطر لكل ريل منشور. «متوسط المشاهدة» يُقرأ مع طول الريل، فتظهر نسبته منه بجانبه."""
+    if not rows:
+        return []
+    lines = ["", "#### 🎬 الريلات",
+             "| المشاهدات | الوصول | متوسط المشاهدة | أكملوه | المدة | العنوان |",
+             "|---|---|---|---|---|---|"]
+    for r in rows:
+        if r.get("error"):
+            lines.append(f"| ⚠️ | — | — | — | {_fmt_num(r.get('length'), 0, ' ث')} | {r['title'][:50]} — تعذّر الجلب: {r['error'][:80]} |")
+            continue
+        avg = _fmt_num(r.get("avg_seconds"), 1, " ث")
+        if r.get("avg_seconds") is not None and r.get("length"):
+            avg += f" ({r['avg_seconds'] / r['length'] * 100:.0f}%)"
+        lines.append(f"| {_fmt_num(r.get('plays'))} | {_fmt_num(r.get('reach'))} | {avg} | "
+                     f"{_fmt_num(r.get('completion'), 0, '%')} | {_fmt_num(r.get('length'), 0, ' ث')} | {r['title'][:50]} |")
+    lines.append("")
+    lines.append("<sub>«أكملوه» = نسبة من بقوا يشاهدون عند آخر ثانية في منحنى البقاء من فيسبوك.</sub>")
+    return lines
+
+
 def _avg(values: list[float]) -> float:
     return sum(values) / len(values) if values else 0.0
 
@@ -665,7 +773,8 @@ def why_not_published_section(entries: list[dict], days: int,
 
 def build_report(a: dict, recs: list[dict], days: int,
                   decisions_lines: list[str] | None = None,
-                  learned_names_lines: list[str] | None = None) -> str:
+                  learned_names_lines: list[str] | None = None,
+                  reels_lines: list[str] | None = None) -> str:
     """حين لا توجد منشورات (`a` فارغ)، الخروج المبكر السابق كان يُعيد سطر
     «لا منشورات» ويتوقف قبل أي قسم — فيحجب «❓ لماذا لم تنشر هذه؟» في
     الأسبوع الذي لا يُنشر فيه شيء، وهو أحوج الأسابيع إلى السؤال (Issue
@@ -724,6 +833,9 @@ def build_report(a: dict, recs: list[dict], days: int,
     else:
         lines = [f"### 📊 لا منشورات خلال آخر {days} يومًا"]
 
+    if reels_lines:
+        lines += reels_lines
+
     if decisions_lines:
         lines += decisions_lines
 
@@ -779,8 +891,10 @@ def main() -> int:
         a = {}
         visible_recs = []
 
+    # الريلات قسم مستقل عن أقسام الأداء: تُجمع من video_insights وتظهر حتى في أسبوع لا منشورات صور فيه
+    reel_rows = collect_reels(args.days, api_version, cfg)
     report = build_report(a, visible_recs, args.days, decisions_report(cfg),
-                          learned_names_section(cfg))
+                          learned_names_section(cfg), reels_section(reel_rows))
     print(report)
 
     summary = os.environ.get("GITHUB_STEP_SUMMARY")

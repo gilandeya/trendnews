@@ -7295,6 +7295,75 @@ def test_insights_collect_includes_analysis_origin() -> None:
     check("insights.collect لا ينهار على مسودة تحليل بلا حقل image، وتظهر في المخرجات",
           any(r["id"] == "ins_analysis1" for r in rows), rows)
 
+def test_insights_reels_section() -> None:
+    """أرقام كل ريل في التقرير الأسبوعي (قرار صاحب المشروع 3/11): المشاهدات ومتوسط المدة ونسبة من أكملوه
+    من video_insights؛ مقياس مرفوض لا يُسقط غيره، وريل فشل جلبه يبقى صفًا بسببه."""
+    from src import insights
+    from src.config import load_config as real_load
+
+    cfg = real_load()
+    shutil.rmtree(DRAFTS_DIR, ignore_errors=True)
+    DRAFTS_DIR.mkdir(parents=True, exist_ok=True)
+    reset_last_publish()
+    now = datetime.now(timezone.utc).isoformat()
+    base = {"status": "published", "origin": "analysis", "format": "reel", "published_at": now,
+            "arabic": {"post_title": "عنوان قديم", "category": "تحليل"}, "headlines": ["عنوان الريل المختار", "ب"],
+            "headline_selected": 0, "reel_seconds": 72}
+    store.save_draft({**base, "id": "reel_ok", "facebook": {"post_id": "v1", "kind": "reel"}})
+    store.save_draft({**base, "id": "reel_bad", "facebook": {"post_id": "v2", "kind": "reel"}})
+    store.save_draft({**base, "id": "photo1", "format": "article", "facebook": {"post_id": "p1"}})
+
+    calls: list = []
+    real_get = facebook.requests.get
+    real_cred = facebook._credentials
+
+    class R:
+        def __init__(self, data, code=200):
+            self._d, self.status_code, self.text = data, code, ""
+
+        def json(self):
+            return self._d
+
+    def fake_get(url, params=None, timeout=None):
+        names = params["metric"].split(",")
+        calls.append((url, names))
+        if "/v2/" in url:
+            return R({"error": {"code": 10, "message": "no permission"}}, 400)
+        if len(names) > 1:  # مقياس غير مدعوم يُسقط الطلب المجمَّع
+            return R({"error": {"code": 100, "message": "invalid metric"}}, 400)
+        vals = {"blue_reels_play_count": 1200, "post_impressions_unique": 900,
+                "post_video_avg_time_watched": 18000,
+                "post_video_retention_graph": {"0": 1.0, "20": 0.4, "40": 0.15}}
+        if names[0] not in vals:
+            return R({"error": {"code": 100, "message": "invalid metric"}}, 400)
+        return R({"data": [{"name": names[0], "values": [{"value": vals[names[0]]}]}]})
+
+    facebook.requests.get = fake_get
+    facebook._credentials = lambda: ("page", "tok")
+    try:
+        rows = insights.collect_reels(30, "v21.0", cfg)
+    finally:
+        facebook.requests.get = real_get
+        facebook._credentials = real_cred
+
+    by = {r["id"]: r for r in rows}
+    ok = by.get("reel_ok") or {}
+    check("الريلات وحدها تُجمع (منشور الصورة لا)", set(by) == {"reel_ok", "reel_bad"}, list(by))
+    check("المشاهدات والوصول ومتوسط المدة من video_insights رغم رفض الطلب المجمَّع",
+          ok.get("plays") == 1200 and ok.get("reach") == 900 and abs((ok.get("avg_seconds") or 0) - 18.0) < 1e-9, ok)
+    check("أكملوه = آخر نقطة في منحنى البقاء بالنسبة المئوية", abs((ok.get("completion") or 0) - 15.0) < 1e-9, ok)
+    check("العنوان هو العنوان المختار والمدة reel_seconds", ok.get("title") == "عنوان الريل المختار" and ok.get("length") == 72, ok)
+    check("ريل فشل جلبه يبقى صفًا بسببه", "permission" in (by.get("reel_bad") or {}).get("error", ""), by.get("reel_bad"))
+    sec = "\n".join(insights.reels_section(rows))
+    check("قسم 🎬 الريلات بالأرقام ونسبة المتوسط من الطول",
+          "🎬 الريلات" in sec and "1,200" in sec and "18.0 ث (25%)" in sec and "15%" in sec and "تعذّر الجلب" in sec, sec)
+    report = insights.build_report({}, [], 30, None, None, insights.reels_section(rows))
+    check("القسم يظهر في التقرير حتى بلا منشورات صور", "🎬 الريلات" in report, report[:300])
+    check("بلا ريلات لا قسم", insights.reels_section([]) == [])
+    check("منحنى بصيغ مختلفة", insights._retention_end([0.9, 0.3]) == 30.0 and insights._retention_end({"0": 100, "40": 22}) == 22.0
+          and insights._retention_end(None) is None)
+
+
 def test_insights_weakest_performing_section() -> None:
     """Issue #769: قسم «📉 أضعف أداءً» نظير «🏆 الأفضل أداءً» القائم -- يعرض
     أدنى خمسة تفاعلًا لا أعلاها، بنفس شكل الجدول."""
