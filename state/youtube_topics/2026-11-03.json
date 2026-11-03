@@ -1,0 +1,894 @@
+{
+  "run_date": "2026-11-03",
+  "stats": {
+    "points_in": 532,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 382,
+    "issues_clustered": 34,
+    "topics_merged": 9,
+    "topics_out": 2,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 3,
+    "topics_below_min_points": 10,
+    "topics_below_min_channels": 9,
+    "topics_below_reel_fit": 1,
+    "coherence": {
+      "checked": 25,
+      "removed": 8,
+      "retitled": 0,
+      "errors": []
+    },
+    "layers": {
+      "2": 1,
+      "1": 1
+    },
+    "agreement": 2,
+    "cross_source": 0,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "source": "bites",
+  "window_keys": [
+    "kRWeOsx-U7I:51",
+    "kRWeOsx-U7I:74",
+    "kRWeOsx-U7I:96",
+    "kRWeOsx-U7I:254",
+    "kRWeOsx-U7I:529",
+    "-m_OEw3x3K4:39",
+    "-m_OEw3x3K4:81",
+    "-m_OEw3x3K4:277",
+    "-m_OEw3x3K4:292",
+    "-m_OEw3x3K4:336",
+    "-m_OEw3x3K4:491",
+    "fvXz38iRw4E:163",
+    "fvXz38iRw4E:182",
+    "fvXz38iRw4E:343",
+    "fvXz38iRw4E:361",
+    "fvXz38iRw4E:549",
+    "fvXz38iRw4E:706",
+    "fvXz38iRw4E:725",
+    "fvXz38iRw4E:888",
+    "tBfbBMS6_8w:158",
+    "tBfbBMS6_8w:210",
+    "tBfbBMS6_8w:248",
+    "tBfbBMS6_8w:358",
+    "tBfbBMS6_8w:431",
+    "tBfbBMS6_8w:484",
+    "Ec34laYK8rs:37",
+    "Ec34laYK8rs:117",
+    "Ec34laYK8rs:166",
+    "Ec34laYK8rs:286",
+    "Ec34laYK8rs:448",
+    "Ec34laYK8rs:1971",
+    "6Z67YGg6KPA:3",
+    "6Z67YGg6KPA:442",
+    "6Z67YGg6KPA:463",
+    "6Z67YGg6KPA:480",
+    "6Z67YGg6KPA:545",
+    "6Z67YGg6KPA:951",
+    "Vt9RroY0N5M:93",
+    "Vt9RroY0N5M:108",
+    "Vt9RroY0N5M:206",
+    "Vt9RroY0N5M:275",
+    "Vt9RroY0N5M:496",
+    "Vt9RroY0N5M:537",
+    "Vt9RroY0N5M:2021",
+    "Vt9RroY0N5M:2241",
+    "1f9nE3o_emU:98",
+    "1f9nE3o_emU:220",
+    "1f9nE3o_emU:497",
+    "1f9nE3o_emU:1990",
+    "lWi6JjBFoOs:56",
+    "lWi6JjBFoOs:69",
+    "lWi6JjBFoOs:105",
+    "lWi6JjBFoOs:159",
+    "lWi6JjBFoOs:253",
+    "lWi6JjBFoOs:300",
+    "lWi6JjBFoOs:512",
+    "fzi7OHmDCO8:98",
+    "fzi7OHmDCO8:172",
+    "fzi7OHmDCO8:204",
+    "fzi7OHmDCO8:269",
+    "fzi7OHmDCO8:392",
+    "fzi7OHmDCO8:465",
+    "fzi7OHmDCO8:497",
+    "sPOg9pB5MQ0:45",
+    "sPOg9pB5MQ0:166",
+    "sPOg9pB5MQ0:194",
+    "sPOg9pB5MQ0:218",
+    "sPOg9pB5MQ0:300",
+    "sPOg9pB5MQ0:495",
+    "sPOg9pB5MQ0:547",
+    "R2Y9idTB0dA:128",
+    "R2Y9idTB0dA:214",
+    "R2Y9idTB0dA:261",
+    "R2Y9idTB0dA:298",
+    "R2Y9idTB0dA:466",
+    "R2Y9idTB0dA:589",
+    "R2Y9idTB0dA:860",
+    "i2zZrFVeal4:6",
+    "i2zZrFVeal4:19",
+    "i2zZrFVeal4:139",
+    "i2zZrFVeal4:183",
+    "i2zZrFVeal4:456",
+    "i2zZrFVeal4:514",
+    "1w226d9saCE:17",
+    "1w226d9saCE:29",
+    "1w226d9saCE:78",
+    "1w226d9saCE:97",
+    "1w226d9saCE:145",
+    "1w226d9saCE:211",
+    "1w226d9saCE:220",
+    "MTFQRT1J3-g:46",
+    "MTFQRT1J3-g:183",
+    "MTFQRT1J3-g:264",
+    "MTFQRT1J3-g:276",
+    "MTFQRT1J3-g:311",
+    "MTFQRT1J3-g:394",
+    "MTFQRT1J3-g:426",
+    "mCdOAtE8y3g:30",
+    "mCdOAtE8y3g:165",
+    "mCdOAtE8y3g:193",
+    "mCdOAtE8y3g:209",
+    "mCdOAtE8y3g:368",
+    "V-K2wtc_WY4:65",
+    "V-K2wtc_WY4:77",
+    "V-K2wtc_WY4:90",
+    "V-K2wtc_WY4:199",
+    "V-K2wtc_WY4:233",
+    "V-K2wtc_WY4:344",
+    "V-K2wtc_WY4:635",
+    "V-K2wtc_WY4:654",
+    "iNW9Deks0yM:39",
+    "iNW9Deks0yM:183",
+    "iNW9Deks0yM:193",
+    "iNW9Deks0yM:325",
+    "iNW9Deks0yM:393",
+    "vX05C3ac9HU:20",
+    "vX05C3ac9HU:33",
+    "vX05C3ac9HU:53",
+    "vX05C3ac9HU:75",
+    "vX05C3ac9HU:117",
+    "vX05C3ac9HU:185",
+    "4WhWhWM8WEU:46",
+    "4WhWhWM8WEU:109",
+    "4WhWhWM8WEU:177",
+    "4WhWhWM8WEU:241",
+    "4WhWhWM8WEU:441",
+    "4WhWhWM8WEU:794",
+    "4WhWhWM8WEU:922",
+    "hSxkueS81XU:687",
+    "hSxkueS81XU:726",
+    "hSxkueS81XU:780",
+    "hSxkueS81XU:869",
+    "2fRMeKdYQNQ:16",
+    "2fRMeKdYQNQ:30",
+    "2fRMeKdYQNQ:41",
+    "2fRMeKdYQNQ:63",
+    "2fRMeKdYQNQ:176",
+    "2fRMeKdYQNQ:460",
+    "_xkjpLVe-cA:153",
+    "_xkjpLVe-cA:169",
+    "_xkjpLVe-cA:230",
+    "_xkjpLVe-cA:266",
+    "_xkjpLVe-cA:302",
+    "_xkjpLVe-cA:326",
+    "_xkjpLVe-cA:544",
+    "sPonVNw_M1I:23",
+    "sPonVNw_M1I:70",
+    "sPonVNw_M1I:103",
+    "sPonVNw_M1I:124",
+    "sPonVNw_M1I:133"
+  ],
+  "merged_events": [
+    [
+      "مفاوضات/تلويح أمريكي عسكري بعد الحرب مع إيران",
+      "توقعات ضربة أمريكية لإيران بعد الانتخابات النصفية"
+    ],
+    [
+      "مقارنة تأثير حرب إيران بانتخابات 2006 والانتخابات النصفية 2026",
+      "القضايا المعيشية المؤثرة في الانتخابات النصفية الأمريكية"
+    ],
+    [
+      "هدف أمريكا من عزل إيران لا تغيير النظام",
+      "أهداف ترامب الحقيقية من المفاوضات مع إيران"
+    ],
+    [
+      "قضية ساريغول وتفاعل الرأي العام مع فضائحه",
+      "اتهامات الاعتداء الجنسي بحق مصطفى ساريغول ورفع الحصانة"
+    ],
+    [
+      "أزمة الصناديق الاستثمارية وثقة الناخبين الأتراك",
+      "فضيحة صندوق الثروة التركي وتحويل الأموال للخارج"
+    ],
+    [
+      "الانتخابات النصفية الأمريكية 2026 وتوقعات الموجة الديمقراطية",
+      "احتمال عزل ترامب ومصداقية استطلاعات الرأي"
+    ],
+    [
+      "سيناريوهات زيادة رواتب ومعاشات المتقاعدين الأتراك",
+      "توقعات زيادة الحد الأدنى للأجور في تركيا"
+    ],
+    [
+      "التصويت المبكر في الانتخابات النصفية الأمريكية",
+      "خطط ترامب لمواصلة أجندته حال خسارة الكونغرس"
+    ],
+    [
+      "موقف زيلينسكي من الأراضي المحتلة والتفاوض مع روسيا",
+      "محاولة أمريكية روسية سابقة للاتفاق في الرياض دون أوكرانيا"
+    ]
+  ],
+  "topics": [
+    {
+      "title": "مفاوضات/تلويح أمريكي عسكري بعد الحرب مع إيران",
+      "event": "تلويح أمريكي بضربة عسكرية لإيران مع استمرار مفاوضات الدوحة والرد الإيراني بالتهديد",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        1,
+        2,
+        4,
+        19,
+        20,
+        28,
+        31
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null,
+      "reel_fit": {
+        "opinion_speakers": 2,
+        "blocs": 2,
+        "angles": 7,
+        "fresh": 0,
+        "score": 17.0
+      },
+      "id": "4f2c49b0f1da",
+      "created_at": "2026-11-03T04:02:36.696458+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1785
+    },
+    {
+      "title": "مقارنة تأثير حرب إيران بانتخابات 2006 والانتخابات النصفية 2026",
+      "event": "توقع تأثير حرب إيران وأسعار الوقود على نتائج الانتخابات النصفية الأمريكية بالمقارنة مع 2006",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        10,
+        18,
+        92,
+        93,
+        94,
+        95,
+        96,
+        114
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null,
+      "reel_fit": {
+        "opinion_speakers": 3,
+        "blocs": 1,
+        "angles": 6,
+        "fresh": 0,
+        "score": 17.0
+      },
+      "id": "9a5a1a01eb25",
+      "created_at": "2026-11-03T04:02:36.696458+00:00",
+      "selection_status": "pending",
+      "selection_issue": 1785
+    }
+  ],
+  "all_topics": [
+    {
+      "title": "مفاوضات/تلويح أمريكي عسكري بعد الحرب مع إيران",
+      "event": "تلويح أمريكي بضربة عسكرية لإيران مع استمرار مفاوضات الدوحة والرد الإيراني بالتهديد",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk",
+        "الجزيرة"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        0,
+        1,
+        2,
+        4,
+        19,
+        20,
+        28,
+        31
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null,
+      "reel_fit": {
+        "opinion_speakers": 2,
+        "blocs": 2,
+        "angles": 7,
+        "fresh": 0,
+        "score": 17.0
+      }
+    },
+    {
+      "title": "الانتخابات النصفية الأمريكية 2026 وتوقعات الموجة الديمقراطية",
+      "event": "تحليل مؤشرات تراجع شعبية ترامب وتوقع موجة ديمقراطية في انتخابات الكونغرس النصفية",
+      "layer": 2,
+      "blocs": [
+        "arabic",
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        110,
+        111,
+        112,
+        118,
+        119
+      ],
+      "total_points": 12,
+      "fresh_points": 12,
+      "dropped_reason": "below_reel_fit",
+      "reel_fit": {
+        "opinion_speakers": 1,
+        "blocs": 2,
+        "angles": 10,
+        "fresh": 0,
+        "score": 17.0
+      }
+    },
+    {
+      "title": "انقسام ديمقراطي في ميشيغن بسبب دعم ستيفنز للجمهوري",
+      "event": "إعلان هيلي ستيفنز دعمها للمرشح الجمهوري مايك روجرز على حساب منافسها الديمقراطي عبدول السيد",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        5,
+        7,
+        8,
+        9,
+        90,
+        97,
+        99,
+        100
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "نقاش امتلاك تركيا للسلاح النووي",
+      "event": "نقاش حول جدوى امتلاك تركيا سلاحا نوويا للردع ومبادرة عالمية لحماية الدول غير النووية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        128,
+        129,
+        130
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "اتهامات أمير ساريغول لأوزغور أوزيل بتلقي أموال",
+      "event": "ادعاء أمير ساريغول بتسليم والده مبالغ مالية لأوزغور أوزيل ورد حزبه الجديد عليها",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "internal",
+      "point_ids": [
+        132,
+        133,
+        134
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "مقارنة تأثير حرب إيران بانتخابات 2006 والانتخابات النصفية 2026",
+      "event": "توقع تأثير حرب إيران وأسعار الوقود على نتائج الانتخابات النصفية الأمريكية بالمقارنة مع 2006",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        10,
+        18,
+        92,
+        93,
+        94,
+        95,
+        96,
+        114
+      ],
+      "total_points": 8,
+      "fresh_points": 8,
+      "dropped_reason": null,
+      "reel_fit": {
+        "opinion_speakers": 3,
+        "blocs": 1,
+        "angles": 6,
+        "fresh": 0,
+        "score": 17.0
+      }
+    },
+    {
+      "title": "تشكيل الحكومة الإسرائيلية بعد الانتخابات",
+      "event": "تقييم أولمرت لفشل نتنياهو في تشكيل حكومة بسبب معارضة 67 عضو كنيست ورفضه مساعدته على البقاء",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        13,
+        15
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "شروط إيزنكوت والأحزاب العربية لإسقاط نتنياهو",
+      "event": "موقف الأحزاب العربية وإيزنكوت من التعاون لإسقاط حكومة نتنياهو",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        16,
+        17
+      ],
+      "total_points": 2,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "هدف أمريكا من عزل إيران لا تغيير النظام",
+      "event": "تحليل هدف أمريكا الحقيقي من الضغط على إيران بأنه العزل وليس تغيير النظام",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        24,
+        27
+      ],
+      "coherence_removed": [
+        105,
+        106,
+        108,
+        109
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "قضية ساريغول وتفاعل الرأي العام مع فضائحه",
+      "event": "نقاش تفاصيل فضيحة مصطفى ساريغول (رشى وحياة خاصة) وتأثيرها على ثقة الجمهور بالسياسة",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        37,
+        38,
+        39,
+        40,
+        45,
+        46,
+        138,
+        139,
+        140,
+        141
+      ],
+      "coherence_removed": [
+        135,
+        136
+      ],
+      "total_points": 10,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "رد فعل أوزيل الحذر على اتهامات ساريغول",
+      "event": "انتقاد تعامل أوزغور أوزيل الحذر مع اتهامات ساريغول",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        42,
+        43
+      ],
+      "total_points": 2,
+      "fresh_points": 1,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "أزمة الصناديق الاستثمارية وثقة الناخبين الأتراك",
+      "event": "تحليل أزمة الصناديق الاستثمارية وتأثيرها على استقرار قاعدة ناخبي حزب العدالة والتنمية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk",
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        44,
+        48,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69
+      ],
+      "total_points": 9,
+      "fresh_points": 0,
+      "dropped_reason": "seen"
+    },
+    {
+      "title": "سيناريوهات زيادة رواتب ومعاشات المتقاعدين الأتراك",
+      "event": "تقديرات زيادة الرواتب والمعاشات التقاعدية في تركيا بعد تعديل التضخم",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "SÖZCÜ"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "أسوأ أزمة اقتصادية إيرانية منذ المجاعة الكبرى وانهيار الريال",
+      "event": "تقييم الأزمة الاقتصادية الإيرانية الراهنة وانهيار الريال بأنها الأسوأ منذ عقود",
+      "layer": 1,
+      "blocs": [
+        "persian"
+      ],
+      "channels": [
+        "Iran International"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        71,
+        72,
+        73,
+        74,
+        75,
+        76
+      ],
+      "total_points": 6,
+      "fresh_points": 6,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "زيارة غاي مروز لبيت بن غفير وتحولات موقفه",
+      "event": "زيارة الإعلامي غاي مروز بيت إيتمار بن غفير ورده على ردود الفعل بعد تغريدته السابقة ضده",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        77,
+        78
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "سياسة بن غفير تجاه الأمن والجريمة بالمجتمع العربي",
+      "event": "تقييم أداء بن غفير كوزير أمن داخلي في ملف الجريمة بالمجتمع العربي وإعدام المخربين",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        80,
+        81
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "رد فعل ليام بلطي على تصريحات كوشمارو ضد أوفاكيم",
+      "event": "رد ليام بلطي على وصف داني كوشمارو سكان أوفاكيم بالأغبياء بسبب تصويتهم لنتنياهو",
+      "layer": 1,
+      "blocs": [
+        "israeli"
+      ],
+      "channels": [
+        "ערוץ 14"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "التصويت المبكر في الانتخابات النصفية الأمريكية",
+      "event": "تقرير عن حجم المشاركة القياسية في التصويت المبكر وقلق تيد كروز من خسارة تكساس",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "الجزيرة",
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        91,
+        115
+      ],
+      "coherence_removed": [
+        98,
+        116
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "تراجع طاقة ترامب وقضاياه القضائية",
+      "event": "تقييم تراجع طاقة ترامب الشخصية وتأثير قضاياه القضائية المتعلقة بالهجرة على صورته",
+      "layer": 1,
+      "blocs": [
+        "arabic"
+      ],
+      "channels": [
+        "العربية"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        117,
+        120
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "موقف زيلينسكي من الأراضي المحتلة والتفاوض مع روسيا",
+      "event": "تصريحات زيلينسكي رفض التنازل عن الأراضي المحتلة واستعداده للقاء بوتين في تركيا دون اتفاق يستثني أوكرانيا",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "فضيحة الأموال المرتبطة ببلدية إسطنبول الكبرى",
+      "event": "وصف فضيحة الأموال المرتبطة ببلدية إسطنبول الكبرى بأنها تولد شبكات مافيا كمسلسل Dallas وضرورة استمرار مكافحة الفساد",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        142,
+        143
+      ],
+      "total_points": 2,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "ترشح أوزغور أوزال للرئاسة وفرص توحيد المعارضة",
+      "event": "تحليل مسار أوزغور أوزال نحو الترشح للرئاسة التركية وصعوبة توحيد صفوف المعارضة بعد اعتقال إمام أوغلو",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "agreement",
+      "point_ids": [
+        145,
+        146,
+        147,
+        148,
+        149
+      ],
+      "total_points": 5,
+      "fresh_points": 5,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "تصريحات محسن رضائي التهديدية لأمريكا",
+      "event": "تصريح محسن رضائي بتهديد أمريكا بكسر قرونها وتغيير العقيدة النووية الإيرانية",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        21,
+        22,
+        25,
+        29,
+        32,
+        33,
+        36
+      ],
+      "total_points": 7,
+      "fresh_points": 7,
+      "dropped_reason": "below_min_channels"
+    },
+    {
+      "title": "دوافع ترامب الجيوسياسية (صعود الصين وتعدد الأقطاب)",
+      "event": "تفسير إصرار ترامب على المواجهة بالخوف الأمريكي من فقدان الهيمنة أمام الصين وتعدد الأقطاب",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "CNN Türk"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        23,
+        26,
+        35
+      ],
+      "total_points": 3,
+      "fresh_points": 3,
+      "dropped_reason": "below_min_points"
+    },
+    {
+      "title": "استمرار بقاء ساريغول سياسيا رغم الاتهامات",
+      "event": "تساؤل عن استمرار إعادة إنتاج مصطفى ساريغول سياسيا رغم اتهامات الفساد منذ 2005",
+      "layer": 1,
+      "blocs": [
+        "turkish"
+      ],
+      "channels": [
+        "Habertürk"
+      ],
+      "agreement": "echo",
+      "point_ids": [
+        41,
+        47,
+        137,
+        144
+      ],
+      "total_points": 4,
+      "fresh_points": 2,
+      "dropped_reason": "below_min_channels"
+    }
+  ]
+}
