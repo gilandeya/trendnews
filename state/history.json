@@ -1,96 +1,5 @@
 [
   {
-    "score": 24.54,
-    "bucket": "serious",
-    "tokens": [
-      "hopes",
-      "meet",
-      "putin",
-      "soon",
-      "trump",
-      "very",
-      "zelensky"
-    ],
-    "link": "https://meduza.io/en/news/2026/10/28/trump-says-he-hopes-to-meet-with-putin-and-zelensky-very-soon",
-    "title": "Trump says he hopes to meet with Putin and Zelensky ‘very soon’",
-    "posted_title": "",
-    "region": "ru",
-    "seen_at": "2026-10-28T17:08:03.348425+00:00"
-  },
-  {
-    "score": 24.09,
-    "bucket": "serious",
-    "tokens": [
-      "2026",
-      "bank",
-      "commodity",
-      "global",
-      "prices",
-      "projects",
-      "rise",
-      "world"
-    ],
-    "link": "https://www.premiumtimesng.com/business/business-news/921055-world-bank-projects-23-rise-in-global-commodity-prices-in-2026.html",
-    "title": "World Bank projects 23% rise in global commodity prices in 2026",
-    "posted_title": "",
-    "region": "ng",
-    "seen_at": "2026-10-28T17:08:03.348742+00:00"
-  },
-  {
-    "score": 23.45,
-    "bucket": "serious",
-    "tokens": [
-      "abide",
-      "iran",
-      "mediation",
-      "qatar",
-      "role",
-      "talks",
-      "urges"
-    ],
-    "link": "https://en.mehrnews.com/news/248989/Iran-urges-Qatar-to-abide-by-its-mediation-role-in-talks",
-    "title": "Iran urges Qatar to abide by its mediation role in talks",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-10-28T17:08:03.349024+00:00"
-  },
-  {
-    "score": 23.09,
-    "bucket": "serious",
-    "tokens": [
-      "allegations",
-      "embassy",
-      "iran",
-      "kuwait",
-      "rejects"
-    ],
-    "link": "https://en.mehrnews.com/news/249007/Iran-embassy-in-Kuwait-rejects-allegations",
-    "title": "Iran embassy in Kuwait rejects allegations",
-    "posted_title": "",
-    "region": "ir",
-    "seen_at": "2026-10-28T17:08:03.349271+00:00"
-  },
-  {
-    "score": 21.13,
-    "bucket": "useful",
-    "tokens": [
-      "animal",
-      "associations",
-      "different",
-      "levels",
-      "men",
-      "plant",
-      "proteins",
-      "show",
-      "testosterone"
-    ],
-    "link": "https://medicalxpress.com/news/2026-10-animal-proteins-associations-testosterone-men.html",
-    "title": "Animal and plant proteins show different associations with testosterone levels in men",
-    "posted_title": "",
-    "region": "health",
-    "seen_at": "2026-10-28T17:08:03.349511+00:00"
-  },
-  {
     "score": 29.05,
     "bucket": "useful",
     "tokens": [
@@ -585,5 +494,100 @@
     "posted_title": "",
     "region": "ru",
     "seen_at": "2026-11-02T17:08:00.277432+00:00"
+  },
+  {
+    "score": 29.96,
+    "bucket": "serious",
+    "tokens": [
+      "2026",
+      "agenda",
+      "americans",
+      "elections",
+      "live",
+      "midterm",
+      "polls",
+      "referendum",
+      "trump"
+    ],
+    "link": "https://www.theguardian.com/us-news/live/2026/nov/03/midterm-elections-live-updates-voting",
+    "title": "US midterm elections 2026 live: Americans go to the polls in referendum on Trump’s agenda",
+    "posted_title": "",
+    "region": "uk",
+    "seen_at": "2026-11-03T17:08:09.910717+00:00"
+  },
+  {
+    "score": 28.89,
+    "bucket": "serious",
+    "tokens": [
+      "aid",
+      "billion",
+      "end",
+      "halt",
+      "israel",
+      "trump",
+      "year"
+    ],
+    "link": "https://www.france24.com/en/middle-east/20261103-trump-says-us-will-halt-4-billion-in-aid-to-israel-after-end-of-this-year",
+    "title": "Trump says US will halt $4 billion in aid to Israel after end of the year",
+    "posted_title": "",
+    "region": "eu",
+    "seen_at": "2026-11-03T17:08:09.910979+00:00"
+  },
+  {
+    "score": 26.03,
+    "bucket": "serious",
+    "tokens": [
+      "iran's",
+      "island",
+      "qeshm",
+      "report",
+      "strikes"
+    ],
+    "link": "https://www.thehindu.com/news/international/us-strikes-irans-qeshm-island-report/article71659212.ece",
+    "title": "U.S. strikes Iran's Qeshm Island: report",
+    "posted_title": "",
+    "region": "in",
+    "seen_at": "2026-11-03T17:08:09.911174+00:00"
+  },
+  {
+    "score": 26.01,
+    "bucket": "useful",
+    "tokens": [
+      "already",
+      "bets",
+      "big",
+      "break",
+      "could",
+      "fragile",
+      "global",
+      "markets",
+      "them"
+    ],
+    "link": "https://www.investing.com/news/economy-news/analysisglobal-markets-were-already-fragile-big-ai-bets-could-break-them-4993498",
+    "title": "Global markets were already fragile. Big AI bets could break them",
+    "posted_title": "",
+    "region": "money",
+    "seen_at": "2026-11-03T17:08:09.911352+00:00"
+  },
+  {
+    "score": 25.27,
+    "bucket": "serious",
+    "tokens": [
+      "apart",
+      "deal",
+      "end",
+      "far",
+      "iran",
+      "mediation",
+      "pushes",
+      "qatar",
+      "still",
+      "war"
+    ],
+    "link": "https://www.channelnewsasia.com/world/iran-us-still-far-apart-deal-end-war-qatar-pushes-mediation-6517581",
+    "title": "Iran, US still far apart on deal to end war as Qatar pushes mediation",
+    "posted_title": "",
+    "region": "seasia",
+    "seen_at": "2026-11-03T17:08:09.911512+00:00"
   }
 ]

@@ -1,0 +1,66 @@
+{
+  "id": "25bdb573304c",
+  "created_at": "2026-11-03T17:08:09.911179+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 26.01,
+  "trend_score": 0.5,
+  "velocity": 1.0,
+  "impact": 3,
+  "proximity": 0,
+  "intrigue": 2,
+  "appeal_note": "رهانات الذكاء الاصطناعي قد تهز الأسواق العالمية",
+  "bucket": "useful",
+  "state_media": false,
+  "title": "Global markets were already fragile. Big AI bets could break them",
+  "link": "https://www.investing.com/news/economy-news/analysisglobal-markets-were-already-fragile-big-ai-bets-could-break-them-4993498",
+  "publishers": [
+    "Investing.com — الاقتصاد",
+    "The Japan Times"
+  ],
+  "region": "money",
+  "article": {
+    "title": "Global markets were already fragile. Big AI bets could break them",
+    "link": "https://www.investing.com/news/economy-news/analysisglobal-markets-were-already-fragile-big-ai-bets-could-break-them-4993498",
+    "summary": "",
+    "source_name": "Investing.com — الاقتصاد",
+    "region": "money",
+    "weight": 0.9,
+    "published": "2026-11-03T15:00:32+00:00",
+    "image_url": "https://content-media.investing.com/trkd-images/LYNXNPEMA2092_L.jpg",
+    "publisher": "Investing.com — الاقتصاد",
+    "cluster_sources": [
+      "Investing.com — الاقتصاد",
+      "The Japan Times"
+    ],
+    "cluster_members": [
+      {
+        "name": "The Japan Times",
+        "link": "https://www.japantimes.co.jp/business/2026/11/03/markets/global-markets-ai-bets/"
+      },
+      {
+        "name": "Investing.com — الاقتصاد",
+        "link": "https://www.investing.com/news/economy-news/analysisglobal-markets-were-already-fragile-big-ai-bets-could-break-them-4993498"
+      }
+    ],
+    "image_candidates": [
+      "https://content-media.investing.com/trkd-images/LYNXNPEMA2092_L.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/11/03/572041.jpg",
+      "https://www.japantimes.co.jp/japantimes/uploads/images/2026/11/03/thumbs/400x400/572041.jpg"
+    ],
+    "bucket": "useful",
+    "state_media": false,
+    "trend_score": 0.5,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 2184.914016987222,
+    "is_stale": false,
+    "score": 26.008547099703705,
+    "impact": 3,
+    "proximity": 0,
+    "intrigue": 2,
+    "appeal_note": "رهانات الذكاء الاصطناعي قد تهز الأسواق العالمية",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

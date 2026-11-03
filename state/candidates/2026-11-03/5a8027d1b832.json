@@ -1,0 +1,60 @@
+{
+  "id": "5a8027d1b832",
+  "created_at": "2026-11-03T17:08:09.911357+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.27,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 3,
+  "proximity": 3,
+  "intrigue": 2,
+  "appeal_note": "مفاوضات إيران وأمريكا لإنهاء الحرب بوساطة قطر",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Iran, US still far apart on deal to end war as Qatar pushes mediation",
+  "link": "https://www.channelnewsasia.com/world/iran-us-still-far-apart-deal-end-war-qatar-pushes-mediation-6517581",
+  "publishers": [
+    "Channel News Asia",
+    "Reuters"
+  ],
+  "region": "seasia",
+  "article": {
+    "title": "Iran, US still far apart on deal to end war as Qatar pushes mediation",
+    "link": "https://www.channelnewsasia.com/world/iran-us-still-far-apart-deal-end-war-qatar-pushes-mediation-6517581",
+    "summary": "",
+    "source_name": "Channel News Asia",
+    "region": "seasia",
+    "weight": 1.0,
+    "published": "2026-11-03T16:40:21+00:00",
+    "image_url": "https://dam.mediacorp.sg/image/upload/s--MeCVIlr9--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-11-03T094629Z_2_LYNXNPEMA20H9_RTROPTP_3_IRAN-CRISIS.JPG?itok=Q7JI5-JR",
+    "publisher": "Channel News Asia",
+    "cluster_sources": [
+      "Channel News Asia",
+      "Reuters"
+    ],
+    "cluster_members": [
+      {
+        "name": "Channel News Asia",
+        "link": "https://www.channelnewsasia.com/world/iran-us-still-far-apart-deal-end-war-qatar-pushes-mediation-6517581"
+      }
+    ],
+    "image_candidates": [
+      "https://dam.mediacorp.sg/image/upload/s--MeCVIlr9--/fl_relative,g_south_east,l_mediacorp:cna:watermark:2024-04:reuters_1,w_0.1/f_auto,q_auto/c_fill,g_auto,h_468,w_830/v1/one-cms/core/2026-11-03T094629Z_2_LYNXNPEMA20H9_RTROPTP_3_IRAN-CRISIS.JPG?itok=Q7JI5-JR"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 2184.9141495041667,
+    "is_stale": false,
+    "score": 25.2694545022963,
+    "impact": 3,
+    "proximity": 3,
+    "intrigue": 2,
+    "appeal_note": "مفاوضات إيران وأمريكا لإنهاء الحرب بوساطة قطر",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
