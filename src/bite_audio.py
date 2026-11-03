@@ -515,9 +515,13 @@ def main() -> int:
     stats = process(cfg, datetime.now(timezone.utc))
     if stats["skipped"]:
         print(f"تفريغ المقاطع متوقف: {stats['skipped']}", file=sys.stderr)
-        return 0
-    print("تفريغ المقاطع: {processed} مقطعًا من {downloads} فيديو ({audio_seconds} ث صوت) — حدّا جملة {ok} · مفتوح {open} · لا يطابق الصوت {no_match} · فشل {failed} · "
-          "حُرّك {moved} · أُنقذ {rescued} · ينتظر الترجمة {pending_translate}".format(**stats), file=sys.stderr)
+    else:
+        print("تفريغ المقاطع: {processed} مقطعًا من {downloads} فيديو ({audio_seconds} ث صوت) — حدّا جملة {ok} · مفتوح {open} · لا يطابق الصوت {no_match} · فشل {failed} · "
+              "حُرّك {moved} · أُنقذ {rescued} · ينتظر الترجمة {pending_translate}".format(**stats), file=sys.stderr)
+    # أرقام صحة المكتبة بعد التفريغ (المرحلة «هـ») ولو كان التفريغ موقوفًا: فحص النهاية وأسماء المتكلمين تتغير بالجمع وحده.
+    # الخطوة تعمل في workflow الجمع بالمستودع الخاص مسحوبًا، فـhealth.json يُرفع مع ملفات المقاطع بلا تعديل workflow
+    from . import bites_health
+    bites_health.main()
     return 0
 
 

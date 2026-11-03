@@ -23871,3 +23871,313 @@ def test_bite_audio_sections_guards() -> None:
               and stats["downloads"] == 1 and stats["audio_seconds"] == sum(b - a for a, b in w),
               (asked, cuts, a1.get("status"), a1.get("words", [])[:1], out[1].get("audio"), stats))
     guarded("g797", g797)
+
+
+def test_reel_context_maps_guards() -> None:
+    """خرائط السياق خلف جمل الراوي (g798–g808): كل ما يُرسم مذكور في الجملة نفسها وموجود في المعجم (Natural Earth)، والخريطة
+    تغلب لقطة الحدث للجملة نفسها. الجمل مصنوعة."""
+    import json
+    import tempfile
+    from pathlib import Path
+    from types import SimpleNamespace
+
+    from src import reel_broll, reel_map, reel_render, youtube_publish
+    from src.config import load_config
+
+    cfg = load_config()
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    yemen = "زحف الحوثيون من صعدة وسيطروا على صنعاء ثم وصلوا إلى عدن."
+    yspec = {"places": ["صعدة", "صنعاء", "عدن"], "arrows": [{"from": "صعدة", "to": "صنعاء"}, {"from": "صنعاء", "to": "عدن"}]}
+
+    def g798():
+        check("g798: الاسم بسابقة ملتصقة يُعدّ مذكورًا، والكلمة الأطول لا", reel_map.mentioned("صنعاء", "ووصلوا وصنعاء")
+              and reel_map.mentioned("الحديدة", "اتجهوا للحديدة") and not reel_map.mentioned("صور", "نشروا صورًا")
+              and not reel_map.mentioned("عدن", "معدنية") and reel_map.mentioned("فرنسا", "احتجاجات في فرنسا، وقدّرت"), None)
+        ok, why = reel_map.resolve(yspec, yemen, cfg)
+        check("g798: أماكن الجملة كلها تُحلّ إلى إحداثيات بأسهمها", ok is not None and len(ok["places"]) == 3
+              and len(ok["arrows"]) == 2 and abs(ok["places"][1]["lat"] - 15.36) < 0.2, (ok, why))
+        r1 = reel_map.resolve({"places": ["صنعاء", "مأرب"], "countries": ["مصر"]}, "قال الرئيس المصري إنهم سيطروا على صنعاء.", cfg)
+        r2 = reel_map.resolve({"places": ["مدينة لا توجد"]}, "وصلوا إلى مدينة لا توجد.", cfg)
+        check("g798: اسم لا يرد في الجملة (ولو صفةً منه كالمصري) يسقط وحده ويبقى المذكور، وإن لم يبق شيء فلا خريطة بسببه",
+              r1[0] is not None and [p["ar"] for p in r1[0]["places"]] == ["صنعاء"] and not r1[0]["countries"]
+              and sorted(r1[0]["skipped"]) == ["not_in_sentence:مأرب", "not_in_sentence:مصر"]
+              and r2[0] is None and r2[1].startswith("unknown"), (r1, r2))
+    guarded("g798", g798)
+
+    def g799():
+        amb = reel_map.resolve({"places": ["طرابلس", "القاهرة"]}, "وصل الوفد من طرابلس إلى القاهرة.", cfg)
+        leb = reel_map.resolve({"places": ["طرابلس"]}, "قصف في طرابلس شمال لبنان.", cfg)
+        check("g799: مدينة باسم مدن في دول مختلفة لا تُرسم إلا بدولة مذكورة في الجملة",
+              amb[0] is not None and [p["ar"] for p in amb[0]["places"]] == ["القاهرة"]
+              and amb[0]["skipped"] == ["ambiguous:طرابلس"] and leb[0] is not None and leb[0]["places"][0]["country"] == "LBN",
+              (amb, leb))
+        bad = reel_map.resolve({"places": ["صنعاء"], "arrows": [{"from": "صنعاء", "to": "صنعاء"}]}, "في صنعاء.", cfg)
+        bad = (None, "") if bad[0] and not bad[0]["arrows"] and bad[0]["skipped"] == ["bad_arrow"] else bad
+        added = reel_map.resolve({"places": ["صنعاء"], "arrows": [{"from": "صعدة", "to": "صنعاء"}]}, yemen, cfg)
+        many = reel_map.resolve({"places": ["صعدة", "صنعاء", "عدن", "تعز", "إب"]}, "صعدة وصنعاء وعدن وتعز وإب.", cfg)
+        check("g799: سهم طرفاه مكان واحد يسقط وحده، وطرف سهم غير مدرج يُضاف ويُتحقق منه، وفوق السقف يُرفض",
+              bad[0] is None and added[0] is not None and len(added[0]["places"]) == 2 and many[1] == "too_many",
+              (bad, added and added[0], many[1]))
+        cty = reel_map.resolve({"countries": ["أميركا"]}, "قالت أميركا إنها سترد.", cfg)
+        check("g799: اسم دولة بديل من الإعداد", cty[0] is not None and cty[0]["countries"] == ["USA"], cty)
+    guarded("g799", g799)
+
+    def g800():
+        ok, _ = reel_map.resolve(yspec, yemen, cfg)
+        cam = reel_map.camera(ok, cfg)
+        f = cfg.path("reel.maps.focus")
+        pts = [reel_map._project(*reel_map.merc(p["lon"], p["lat"]), cam, 1.0) for p in ok["places"]]
+        check("g800: الأماكن كلها داخل منطقة التركيز عند نهاية الاقتراب",
+              all(f["x0"] <= x <= f["x1"] and f["y0"] <= y <= f["y1"] for x, y in pts), pts)
+        one = reel_map.camera(reel_map.resolve({"places": ["صنعاء"]}, "في صنعاء.", cfg)[0], cfg)
+        span = (f["x1"] - f["x0"]) / one["s"]
+        check("g800: مكان واحد لا يُكبَّر إلى أصغر من single_span_deg",
+              span >= reel_map.math.radians(cfg.path("reel.maps.single_span_deg")) - 1e-9, span)
+        fr = reel_map.camera(reel_map.resolve({"countries": ["فرنسا"]}, "في فرنسا.", cfg)[0], cfg)
+        deg = reel_map.math.degrees((f["x1"] - f["x0"]) / fr["s"])
+        check("g800: دولة لها أقاليم بعيدة (فرنسا) تُعرض بأرضها الرئيسية لا بإطار نصف العالم ولا بنقطة",
+              8 < deg < 55, deg)
+    guarded("g800", g800)
+
+    def g801():
+        for secs in (6.0, 1.5):
+            tl = reel_map.timeline(3, 2, secs, cfg)
+            check(f"g801: السهم يكتمل قبل نهاية الجملة ({secs} ث) والحركة تستقر داخلها",
+                  tl["arrows"][-1][1] <= secs - cfg.path("reel.maps.tail_seconds") + 0.31 and tl["settle"] <= secs
+                  and tl["arrows"][0][0] < tl["arrows"][1][0], tl)
+    guarded("g801", g801)
+
+    def g802():
+        ok, _ = reel_map.resolve(yspec, yemen, cfg)
+        tmp = Path(tempfile.mkdtemp())
+        frames = reel_map.render(ok, 3.0, cfg, tmp, "t")
+        total = sum(d for _, d in frames)
+        from PIL import Image
+        last = Image.open(frames[-1][0]).convert("RGB")
+        first = Image.open(frames[0][0]).convert("RGB")
+        cam = reel_map.camera(ok, cfg)
+        x, y = reel_map._project(*reel_map.merc(ok["places"][1]["lon"], ok["places"][1]["lat"]), cam, 1.0)
+        gold = reel_map._hex(cfg, "highlight")
+        px = last.getpixel((int(x), int(y)))
+        check("g802: مدة الإطارات = مدة الجملة، ومقاس الشاشة، وعلامة صنعاء ذهبية في الإطار الأخير وغائبة في الأول",
+              abs(total - 3.0) < 0.05 and last.size == (cfg.path("reel.render.width"), cfg.path("reel.render.height"))
+              and sum(abs(a - b) for a, b in zip(px, gold)) < 60
+              and sum(abs(a - b) for a, b in zip(first.getpixel((int(x), int(y))), gold)) > 60, (total, px))
+    guarded("g802", g802)
+
+    def g803():
+        reply = {"items": [{"scene": 1, "sentence": 0, "visual": "", "map": yspec},
+                           {"scene": 1, "sentence": 1, "visual": "دخان", "map": {"places": []}}]}
+
+        def fake(client, **kw):
+            return SimpleNamespace(content=[SimpleNamespace(type="tool_use", name="plan_broll", input=reply)],
+                                   stop_reason="tool_use", usage=None)
+        real = reel_broll._create
+        reel_broll._create = fake
+        try:
+            script = {"scenes": [{"kind": "title_card", "text": "ع"}, {"kind": "narration", "text": yemen + " وتصاعد الدخان."}]}
+            plan = reel_broll.plan(script, "ت", cfg)
+        finally:
+            reel_broll._create = real
+        check("g803: الخطة تحفظ خريطة الجملة كما اقترحها النموذج، والخريطة الفارغة لا تُحفظ",
+              plan[0].get("map") == yspec and "map" not in plan[1] and plan[1]["visual"] == "دخان", plan)
+    guarded("g803", g803)
+
+    script = {"scenes": [{"kind": "title_card", "text": "ع"},
+                         {"kind": "narration", "role": "context", "text": yemen + " وقال المحللون إن ذلك غيّر الحرب."},
+                         {"kind": "narration", "role": "question", "text": "هل تصل الحرب إلى صنعاء؟"}]}
+    plan = [{"scene": 1, "sentence": 0, "text": yemen, "visual": "مقاتلون", "map": yspec},
+            {"scene": 1, "sentence": 1, "text": "وقال المحللون إن ذلك غيّر الحرب.", "visual": "مقاتلون",
+             "map": {"places": ["مأرب"]}},
+            {"scene": 2, "sentence": 0, "text": "هل تصل الحرب إلى صنعاء؟", "visual": "", "map": {"places": ["صنعاء"]}}]
+    speech = {1: (None, [("a", 3.0), ("b", 2.0)]), 2: (None, [("c", 2.0)])}
+
+    def run_maps():
+        ran: list = []
+
+        def fake_run(cmd):
+            ran.append(cmd)
+            Path(cmd[-1]).write_bytes(b"x")
+        deps = SimpleNamespace(run=fake_run)
+        notes, results = [], []
+        tmp = Path(tempfile.mkdtemp())
+        out = reel_render._prepare_maps(script, [1, 2], speech, plan, cfg, deps, tmp, 0.5, notes, results)
+        return out, results, notes, ran
+
+    def g804():
+        out, results, notes, ran = run_maps()
+        ent = out.get(1) or []
+        check("g804: خريطة للجملة الأولى وحدها بزمنها، فوق التظليل، ومرمَّزة مقطعًا صامتًا بمدتها",
+              len(ent) == 1 and ent[0]["a"] == 0.0 and abs(ent[0]["b"] - 3.5) < 1e-9 and ent[0]["over_shade"]
+              and len(ran) == 1 and "-an" in ran[0] and ran[0][ran[0].index("-t") + 1] == "3.500", (ent, ran))
+        check("g804: اسم لا يرد في الجملة يُسجَّل مرفوضًا بسببه، وبطاقة السؤال لا خريطة لها، والتعليق يذكرهما",
+              [r.get("rejected", "")[:15] for r in results if r.get("rejected")] == ["not_in_sentence"]
+              and all(r["scene"] != 2 for r in results) and any("🗺️ خرائط السياق: 1" in n for n in notes)
+              and any("لم تُرسم خريطة الجملة 2" in n for n in notes), (results, notes))
+        changed = [dict(p, text="جملة عدّلها المراجع.") if p["sentence"] == 0 and p["scene"] == 1 else p for p in plan]
+        out2 = reel_render._prepare_maps(script, [1], speech, changed, cfg, SimpleNamespace(run=lambda c: None),
+                                         Path(tempfile.mkdtemp()), 0.5, [], [])
+        check("g804: نص الجملة تغيّر عن الخطة ← لا خريطة لها", not out2, out2)
+        off = load_config()
+        off["reel"]["maps"]["enabled"] = False
+        check("g804: maps.enabled false ← لا شيء", reel_render._prepare_maps(script, [1], speech, plan, off, None, Path("."),
+                                                                         0.5, [], []) == {}, None)
+    guarded("g804", g804)
+
+    def g805():
+        ran: list = []
+        deps = SimpleNamespace(run=lambda cmd: ran.append(cmd))
+        tmp = Path(tempfile.mkdtemp())
+        png = tmp / "f.png"
+        from PIL import Image
+        Image.new("RGBA", (10, 10)).save(png)
+        common = dict(bg_png=tmp / "bg.png", bg_start=0.0, bg_pan=(0.0, 10.0))
+        reel_render._timed_scene([(png, 2.0)], tmp / "a.wav", tmp / "o1.mp4", cfg, deps, tmp, 0.0, 0.5,
+                                 broll=[{"a": 0.0, "b": 1.0, "clip": tmp / "c.mp4", "cexpr": "crop=1:1:0:0"}], **common)
+        reel_render._timed_scene([(png, 2.0)], tmp / "a.wav", tmp / "o2.mp4", cfg, deps, tmp, 0.0, 0.5,
+                                 broll=[{"a": 0.0, "b": 1.0, "clip": tmp / "c.mp4", "cexpr": "crop=1:1:0:0"},
+                                        {"a": 1.0, "b": 2.0, "clip": tmp / "m.mp4", "cexpr": "null", "over_shade": True}], **common)
+        g1 = ran[0][ran[0].index("-filter_complex") + 1]
+        g2 = ran[1][ran[1].index("-filter_complex") + 1]
+        shade = reel_render._shade_filter(cfg, "narration_bg")
+        check("g805: بلا خريطة يبقى المرشح كما كان (التظليل بعد اللقطات)", g1.count(shade) == 1
+              and g1.index("overlay") < g1.index(shade), g1)
+        check("g805: الخريطة تُركَّب بعد التظليل مرة واحدة واللقطة قبله",
+              g2.count(shade) == 1 and g2.index("[c0]overlay") < g2.index(shade) < g2.index("[c1]overlay"), g2)
+    guarded("g805", g805)
+
+    def g806():
+        broll = {"chains": [{"video_id": "v", "start": 0.0, "end": 60.0, "desc": "مقاتلون", "channel": "ق", "relevant": True}]}
+        asked: list = []
+        deps = SimpleNamespace(assign_broll=lambda needy, ch, c: asked.append([x["n"] for x in needy]) or [])
+        real_dl, real_crop = reel_render._download_with_retries, reel_render._hook_crop
+        reel_render._download_with_retries = lambda deps_, rcfg, vid, a, b, out: Path(str(out))
+        reel_render._hook_crop = lambda clip, c, d, e, **kw: "crop"
+        notes: list = []
+        try:
+            reel_render._prepare_broll(script, [1], {1: speech[1]}, plan[:2], broll, cfg, deps, Path("."), 0.5, notes,
+                                       skip={(1, 0)})
+        finally:
+            reel_render._download_with_retries, reel_render._hook_crop = real_dl, real_crop
+        res = broll["result"]
+        check("g806: الجملة ذات الخريطة لا تُعرض للإسناد ولا تأخذ احتياطًا وتُسجَّل خريطةً",
+              asked == [[2]] and res[0].get("map") is True and "video_id" not in res[0] and "photo" not in res[0], (asked, res))
+    guarded("g806", g806)
+
+    def g807():
+        texts = cfg.path("reel.texts")
+        d = {"broll_plan": plan[:2]}
+        lines = "\n".join(youtube_publish._reel_broll_lines(d, texts, cfg))
+        check("g807: المرحلة 2 تعرض ما سيُرسم أو سبب تركه", "🗺️ خريطة: صعدة ← صنعاء · صنعاء ← عدن" in lines
+              and "لا خريطة (اسم لا يرد في الجملة: مأرب)" in lines, lines)
+        old = "\n".join(youtube_publish._reel_broll_lines(d, texts))
+        check("g807: بلا cfg يبقى العرض القديم", "🗺️" not in old and "مقاتلون" in old, old)
+        q = "\n".join(youtube_publish._reel_broll_lines({"broll_plan": plan, "script": script}, texts, cfg))
+        check("g807: جملة بطاقة السؤال لا تُعرض لها خريطة", q.count("🗺️") == 2, q)
+    guarded("g807", g807)
+
+    def g809():
+        sent = "زحف الحوثيون من صعدة وسيطروا على صنعاء في سبتمبر ألفين وأربعة عشر، ثم وصلوا إلى عدن بعد أشهر من القتال."
+        boxes: list = []
+        reel_render.frame_narration(cfg, sent, boxes, bg={"x": 1, "map_layout": True})
+        plain: list = []
+        reel_render.frame_narration(cfg, sent, plain, bg={"x": 1})
+        f = cfg.path("reel.maps.focus")
+        safe_bottom = cfg.path("reel.render.height") - cfg.path("reel.render.safe.bottom")
+        check("g809: نص جملة الخريطة تحت منطقة الأماكن وفوق الحد الآمن، وجملة بلا خريطة كما كانت",
+              boxes and min(b[1] for b in boxes) > f["y1"] and max(b[3] for b in boxes) <= safe_bottom
+              and min(b[1] for b in plain) < f["y1"], (boxes, plain))
+        segs = reel_render.narration_segments(cfg, sent, {"x": 1, "map_layout": True})
+        check("g809: الجملة التي لا تسع ثلاثة أسطر تُقسم مقاطع بلا ضياع كلمة",
+              " ".join(segs) == " ".join(sent.split())
+              and all(len(reel_render.narration_lines(cfg, x, {"x": 1, "map_layout": True})) <= 3 for x in segs), segs)
+    guarded("g809", g809)
+
+    def g808():
+        g = reel_map.gazetteer(cfg)
+        raw = json.loads((reel_map.MAPS_DIR / "countries.json").read_text(encoding="utf-8"))
+        merge = cfg.path("reel.maps.merge")
+        bad_extra = [p["ar"] for p in cfg.path("reel.maps.extra_places") if p.get("country") and p["country"] not in g.countries]
+        unresolved = [p["ar"] for p in cfg.path("reel.maps.extra_places") if g.place(p["ar"])[0] is None]
+        check("g808: رموز الدمج والأسماء البديلة والأماكن المضافة كلها في المعجم",
+              all(a in raw and b in raw for a, b in merge.items()) and all(a not in g.countries for a in merge)
+              and all(c in g.countries for c in cfg.path("reel.maps.country_aliases")) and not bad_extra and not unresolved,
+              (bad_extra, unresolved))
+    guarded("g808", g808)
+
+
+def test_bites_health_guards() -> None:
+    """أرقام صحة مكتبة المقاطع (g810–g812، المرحلة «هـ»): الصالح للريل بشروط valid_clips نفسها، وأسباب السقوط، وحفظ يومي يُستبدل
+    فيه رقم اليوم ويُحذف الأقدم من keep_days. المقاطع مصنوعة بلا كلام."""
+    import json
+    import os
+    import tempfile
+    from datetime import datetime, timezone
+    from pathlib import Path
+
+    from src import bites_health, reel_script
+    from src.config import load_config
+
+    cfg = load_config()
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def bite(n, **kw):
+        b = {"bite_id": f"v{n}:1", "video_id": f"v{n % 2}", "start": 10.0, "end": 20.0, "text_original": "x y z",
+             "speaker": "س", "type": "opinion", "video_url": f"https://youtu.be/v{n % 2}"}
+        b.update(kw)
+        return b
+
+    bites = [bite(1), bite(2, incomplete=True, end_check={"why": {"open_end": True}}),
+             bite(3, incomplete=True, end_check={"why": {"turn": True}}), bite(4, audio={"status": "no_match"}),
+             bite(5, audio={"status": "ok", "rescued": True}), bite(6, text_original="", speaker="")]
+
+    def g810():
+        m = bites_health.measure(bites, cfg)
+        # الحكم نفسه الذي يحكم به valid_clips على المقطع وقد صار نقطة (bites_as_points يحمل audio_status)
+        pts = [{**b, "timestamp": b["start"], "quote_original": b["text_original"], "statement": b["bite_id"],
+                "audio_status": (b.get("audio") or {}).get("status")} for b in bites]
+        valid = reel_script.valid_clips(pts, [], cfg)
+        check("g810: الصالح للريل بشروط valid_clips نفسها، وأسباب السقوط وأسباب «لا يكتمل» وحالات الصوت معدودة",
+              m["usable"] == 2 == len(valid) and m["dropped"] == {"incomplete": 2, "audio_no_match": 1, "no_text": 1}
+              and m["incomplete_why"] == {"open_end": 1, "turn": 1} and m["audio"]["none"] == 4 and m["rescued"] == 1
+              and m["named"] == 5 and m["videos"] == 2, (m, len(valid)))
+    guarded("g810", g810)
+
+    def g811():
+        tmp = Path(tempfile.mkdtemp())
+        (tmp / "2026-11-02.json").write_text(json.dumps({"bites": bites}), encoding="utf-8")
+        (tmp / "health.json").write_text(json.dumps({"2026-08-01": {"bites": 1}, "2026-11-02": {"bites": 99}}), encoding="utf-8")
+        now = datetime(2026, 11, 2, 12, tzinfo=timezone.utc)
+        saved = bites_health.snapshot(cfg, now, root=tmp)
+        disk = json.loads((tmp / "health.json").read_text(encoding="utf-8"))
+        check("g811: رقم اليوم يُستبدل بالأحدث والأقدم من keep_days يُحذف، والملف على القرص كما أُعيد",
+              saved["2026-11-02"]["bites"] == 6 and "2026-08-01" not in saved and disk == saved, saved)
+    guarded("g811", g811)
+
+    def g812():
+        ln = bites_health.line("2026-11-02", bites_health.measure(bites, cfg), cfg)
+        check("g812: السطر يذكر الصالح ونسبته وأسباب السقوط بالعربية",
+              ln.startswith("2026-11-02: 2 من 6") and "33%" in ln and "لا يكتمل 2" in ln and "نهاية مفتوحة 1" in ln, ln)
+        tmp = Path(tempfile.mkdtemp())
+        old = os.environ.get("TRENDNEWS_YOUTUBE_BITES_DIR")
+        os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = str(tmp / "missing" / "deeper")
+        try:
+            lines = bites_health.report(cfg, datetime(2026, 11, 2, tzinfo=timezone.utc))
+        finally:
+            if old is None:
+                os.environ.pop("TRENDNEWS_YOUTUBE_BITES_DIR", None)
+            else:
+                os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = old
+        check("g812: بلا ملفات مقاطع لا سطر ولا استثناء", lines == [], lines)
+    guarded("g812", g812)

@@ -1713,6 +1713,33 @@ step (`article.wide_days`).
 ← `log.error` مرة لكل عملية وإعادة واحدة بدونها؛ `stop_reason == "refusal"` ← `log.warning` ويُعاد الرد كما هو. نداء جديد بنموذج Haiku يستعمل `llm.create` لا
 `client.messages.create`. الاختبار: g257–g263 في `tests/test_guards_golden.py:test_llm_haiku55_guards`.
 
+## خرائط السياق خلف جمل الراوي (المرحلة 4 من تصميم الريل) — `src/reel_map.py`
+
+جملة سياق تذكر أماكن ← خريطة تقترب منها وتلوّن الدول المذكورة وترسم سهمًا لكل حركة تذكرها الجملة. **القاعدة الحاكمة:** كل ما يُرسم
+مذكور في نص الجملة نفسها وموجود في المعجم؛ النموذج يسمّي الأماكن فقط والإحداثيات من الكود. g798–g809 في
+`tests/test_guards_golden.py:test_reel_context_maps_guards`. `render_version` = 62 (للقادم فقط، S11).
+
+- **المعجم:** `assets/maps/countries.json` (حدود 1:50m مبسَّطة، 241 دولة) و`places.json` (5484 مدينة لها اسم عربي) من Natural Earth (ملك
+  عام)، يبنيهما `tools/build_map_data.py` يدويًا؛ لا شبكة وقت التركيب. الإعداد يضيف `reel.maps.extra_places` (رفح، صعدة، مضيق هرمز…)
+  و`country_aliases`، و`merge` يضمّ حدودًا مختلفًا عليها إلى دولتها عند الرسم (قرار تحريري لصاحب المشروع).
+- **الخطة:** `reel_broll.PLAN_TOOL` لكل جملة حقل `map` اختياري `{places, countries, arrows:[{from,to}]}` يُحفظ خامًا في `broll_plan`
+  (تعليمة في `reel.broll.plan_system`). **التحقق** `reel_map.resolve(spec, sentence, cfg)` وقت العرض والتركيب: كل اسم يرد في الجملة
+  (`mentioned`: كلمة كاملة بسابقة ملتصقة واحدة بعد `norm`) ويُحلّ في المعجم؛ مدينة باسم مدن في دول مختلفة («طرابلس») لا تُرسم إلا بدولة
+  مذكورة في الجملة أو بفارق سكان `ambiguity_ratio`؛ طرف سهم من أماكن الجملة؛ سقوف `max_places/countries/arrows`. الاسم الذي لا يجتاز
+  يسقط وحده ويُسجَّل في `skipped` (والسهم الساقط أحد طرفيه يسقط معه)؛ لا خريطة إلا إن لم يبق شيء أو تجاوزت السقوف (`reason_text`).
+  «،» حدّ كلمة (`_LETTER = \w`؛ النطاق العربي كله كان يعدّها حرفًا).
+- **الرسم:** `camera` يضع الأماكن (ونقاط تسمية الدول الملوَّنة) في `reel.maps.focus` فوق النص بمدى بين `min_span_deg` (أو
+  `single_span_deg` لمكان واحد بلا دولة) و`max_span_deg`، والدولة وحدها بإطار أرضها الرئيسية (`main_box`: فرنسا بلا غويانا)؛
+  `timeline` (خالصة) للاقتراب من `zoom_from` والتلوين وانبثاق العلامات وامتداد الأسهم الذي يكتمل قبل نهاية الجملة بـ`tail_seconds`؛
+  `base_layers` ترسم حدود العالم مرة للجملة بضعف الدقة، و`frame` قصّ وتصغير ثم الأسهم (منحنية، تقف قبل العلامتين) والعلامات والأسماء
+  (`_place_label`: ثمانية مواضع وحجم أصغر قبل التخلّي عن الاسم). `render` يرسم حتى تستقر الحركة ثم يثبت آخر إطار.
+- **التركيب:** `reel_render._prepare_maps` قبل `_prepare_broll` (فتعمل ولو بلا لقطات حدث ولا بروكسي): لكل جملة راوٍ (لا بطاقة السؤال) نصها
+  مطابق للخطة، مقطع صامت بمدتها يُركَّب في `_timed_scene` **بعد** التظليل (`over_shade`). الجملة ذات الخريطة لا تُسند إليها لقطة ولا
+  احتياط (`_prepare_broll(skip=)`، و`render_broll` يسجلها `map: true`). نص تلك الجملة ينزل تحت الخريطة بثلاثة أسطر أقصى
+  (`reel.maps.text`، عبر `bg["map_layout"]` في `_narration_pen`). يُحفظ `render_maps` (ضمن `RENDER_KEYS`) وسطرا «🗺️» في التعليق.
+- **المرحلة 2:** `youtube_publish._reel_broll_lines(d, texts, cfg)` يعرض «🗺️ خريطة: صعدة ← صنعاء» أو سبب تركها بالتحقق نفسه.
+- **لم يُبنَ بعد:** وقائع ويكيبيديا للسياق (لا وصول من بيئة التطوير)، وشارة «أرشيف · تاريخ» للقطات القديمة.
+
 ## Retired paths
 
 - **«مقال» (`src/article.py`, label `مقال`, `.github/workflows/article.yml`) and «طلب» (`src/request.py`, label `طلب`
@@ -2839,3 +2866,11 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 - **اسم المتكلم من الشريط (الريل نفسه):** قُبل «غaffar ياكينجا – صحفي» فظهر على الشاشة. `reel_render.resolve_chyron`: الصفة المكرّرة بعد الاسم
   («… – صحفي» والصفة «صحفي») تُحذف، واسم فيه كلمة لاتينية (`_clean_screen_name`) يُستبدل برسم قائمة ضيوف الحلقة (`_roster_arabic_name`: كلمتان مشتركتان
   من الاسم الأصلي) وإلا لا يُقبل (`name_from_roster`). `render_version` = 61. g791–g794 في `test_clean_screen_text_1779_guards`.
+
+## أرقام صحة مكتبة المقاطع (المرحلة «هـ») — `src/bites_health.py`
+
+بعد خطوة التفريغ (ولو موقوفة) يحسب `bites_health.main` لآخر
+  `youtube.bites.health.days` أيام: كم مقطعًا يصلح للريل (`usable`: شروط `reel_script.valid_clips` نفسها على المقطع المحفوظ) ولماذا سقط
+  الباقي (`incomplete`/`audio_no_match`/`no_text`)، وأسباب «لا يكتمل» وحالات الصوت ونسبة المسمّى؛ يُحفظ في `health.json` بجانب ملفات المقاطع
+  (المستودع الخاص، يُرفع مع `state/youtube_bites` بلا تعديل workflow) `keep_days` يومًا، وسطر كل يوم في ملخص تشغيلة Actions. g810–g812.
+  **ما زال ناقصًا من «هـ»:** المجموعة المرجعية (50 مقطعًا موسومًا بيد إنسان) — لا تُصنع آليًا.
