@@ -24360,3 +24360,87 @@ def test_reel_code_picks_guards() -> None:
         out, notes = reel_script.pick_answers(old, valid, cfg)
         check("g821: مخرج الأداة القديمة (answers) يمرّ بلا تغيير", out is old and notes == [], (out, notes))
     guarded("g821", g821)
+
+
+def test_bites_open_end_retry_guards() -> None:
+    """إعادة الفكرة المعلّقة (g822–g824): في 2/11 كانت 94 من 184 مقطعًا «لا يكتمل» لأن آخر جمله معلّقة، و83 منها أعاد فيها النموذج
+    المقطع كله جملة واحدة على حدّيه الحاليين ولم يُكمل في الأسطر بعدها. إعادة واحدة تقول له ذلك صراحة. الشواهد مصنوعة."""
+    import copy
+    import types
+
+    from src import youtube_bites as yb
+    from src.config import load_config
+
+    cfg = load_config()
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001
+            import traceback
+            check(name + ": استثناء", False, traceback.format_exc()[-800:])
+
+    segs = yb.clean_segments([{"start": 3.0 * k, "dur": 3.0, "text": t} for k, t in enumerate([
+        "اعتقد ان ما يريده الرئيس هو",          # 1
+        "استعداد لوقف اطلاق النار على",          # 2
+        "السفن التجاريه في المضيق وان",          # 3
+        "تقدم تنازلات بشان البرنامج",            # 4
+        "النووي كي يبرر التكاليف التي",          # 5
+        "تحملها الجميع منذ البدايه",              # 6
+        "ولكن الوزير قال قبل ايام",               # 7
+        "ان المواقف لم تتغير ابدا",               # 8
+    ])])
+    bite = {"bite_id": "v:1", "video_id": "v", "start_line": 1, "end_line": 5, "start": 0.0, "end": 15.0, "seconds": 15.0,
+            "first_words": "اعتقد ان ما", "last_words": "التكاليف التي", "speaker": "محلل", "type": "opinion",
+            "text_ar": "…", "summary_ar": "", "answers": ""}
+    open_one = {"line": 1, "first_words": "اعتقد ان ما", "end_line": 5, "last_words": "يبرر التكاليف التي", "text_ar": "أعتقد…",
+                "same_speaker": True, "ends_thought": False}
+    whole = {"line": 1, "first_words": "اعتقد ان ما", "end_line": 6, "last_words": "الجميع منذ البدايه", "text_ar": "أعتقد… منذ البداية.",
+             "same_speaker": True, "ends_thought": True}
+
+    def run(replies, c=cfg):
+        calls = []
+
+        def fake(client, **kw):
+            calls.append(kw["messages"][0]["content"])
+            sents = replies[min(len(calls) - 1, len(replies) - 1)]
+            return types.SimpleNamespace(stop_reason="tool_use", content=[types.SimpleNamespace(
+                type="tool_use", name="split_bite_sentences", input={"bites": [{"bite": 1, "sentences": sents}]})])
+        orig = yb._create
+        yb._create = fake
+        try:
+            out, err = yb.check_ends([dict(bite)], segs, c, client=object())
+        finally:
+            yb._create = orig
+        return out[0], calls, err
+
+    def g822():
+        got, calls, err = run([[open_one], [whole]])
+        hint = str(cfg.path("youtube.bites.end_check.open_end_retry_hint"))
+        check("g822: الفكرة المعلّقة تُعاد مرة بالتلميح فتكتمل في الأسطر بعد النهاية الحالية",
+              len(calls) == 2 and hint[:30] in calls[1] and not got["incomplete"] and got["end_line"] == 6
+              and got["end_check"].get("retried") is True, (len(calls), got.get("end_line"), got.get("end_check"), err))
+        got, calls, _ = run([[open_one], [open_one]])
+        check("g822: إعادة واحدة لا أكثر، ويبقى «لا يكتمل» إن لم تكتمل", len(calls) == 2 and got["incomplete"]
+              and got["end_check"].get("retried") is True, (len(calls), got.get("end_check")))
+    guarded("g822", g822)
+
+    def g823():
+        _, calls, _ = run([[whole]])
+        check("g823: المقطع المكتمل من أول مرة بلا إعادة", len(calls) == 1, len(calls))
+        turn = [open_one, {**whole, "line": 6, "first_words": "تحملها الجميع منذ", "same_speaker": False}]
+        got, calls, _ = run([turn])
+        check("g823: فكرة معلّقة يتبعها تبدّل متكلم لا تُعاد", len(calls) == 1 and got["incomplete"]
+              and got["end_check"]["why"].get("turn") and got["end_check"]["why"].get("open_end"), (len(calls), got.get("end_check")))
+        c2 = copy.deepcopy(cfg)
+        c2["youtube"]["bites"]["end_check"]["open_end_retry_hint"] = ""
+        _, calls, _ = run([[open_one], [whole]], c2)
+        check("g823: تلميح فارغ ← لا إعادة", len(calls) == 1, len(calls))
+    guarded("g823", g823)
+
+    def g824():
+        system = str(cfg.path("youtube.bites.end_check.system"))
+        check("g824: إصدار الفحص 5 فتُعاد مقاطع اليومين من نصوصها المحفوظة",
+              int(cfg.path("youtube.bites.end_check.version")) >= 5, cfg.path("youtube.bites.end_check.version"))
+        check("g824: البرومبت يقول إن النهاية الحالية حدّ سطر لا نهاية جملة", "حدّ سطر آلي" in system, system[-500:])
+    guarded("g824", g824)
