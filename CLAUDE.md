@@ -2909,3 +2909,10 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 غير المجلوبة من `state/youtube_seen.json` (`youtube_collect.unmark_seen`، لأن الجمع يعلّمها قبل الجلب) فتُجرَّب حين يعود الرصيد، ويتخطى استعادة
 الطوابع، ويمضي إلى ما لا يحتاج البروكسي (فحص نهايات المقاطع المحفوظة والحفظ). `stats.proxy_exhausted` وسطر «⛔» في `main`. التركيب يحوّله
 `TranscriptUnavailable` بسببه. g825–g827 في `test_proxy_quota_stop_guards`.
+
+## السؤال من أول لحظة في الافتتاح (قرار صاحب المشروع 3/11) — `src/reel_render.py:_hook_scene`
+
+كان الراوي يبدأ بعد 3.2 ث من لقطة صامتة (`strong_seconds` + `voice_delay`). الآن `reel.render.hook.question_at` (0.3): `hook_voice_at(cfg)` = هذا المفتاح
+(وبغيابه الحساب القديم)، والضباب يرتفع قبله بـ`voice_delay` فيُقرأ العنوان، والصوت الأصلي ينخفض عنده. `reel_script.scene_duration` تحسب بطاقة العنوان به،
+و`reel.script.v2.fixed_seconds` = 6 (كان 9) ليبقى تقدير المدة صادقًا. `render_version` = 63 (للقادم فقط، S11). g828–g830 في
+`test_reel_question_first_guards`؛ `tests.helpers.load_config` يُبقي الافتتاح القديم و`question_first_cfg` يعيد قيم الإنتاج.
