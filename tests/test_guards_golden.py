@@ -24444,3 +24444,106 @@ def test_bites_open_end_retry_guards() -> None:
               int(cfg.path("youtube.bites.end_check.version")) >= 5, cfg.path("youtube.bites.end_check.version"))
         check("g824: البرومبت يقول إن النهاية الحالية حدّ سطر لا نهاية جملة", "حدّ سطر آلي" in system, system[-500:])
     guarded("g824", g824)
+
+
+def test_proxy_quota_stop_guards() -> None:
+    """رصيد البروكسي منتهٍ (g825–g827): حادثة 3/11 — Webshare أعاد 402 لكل فيديو، والتراجع لكل فيديو استهلك مهلة الجمع (75 دقيقة)
+    فأُلغيت التشغيلة بلا حفظ شيء ولا فحص المقاطع المحفوظة. الآن يتوقف الجلب عند أول 402 ويمضي الجمع، والفيديوهات الباقية لا تضيع."""
+    import json
+    import shutil
+    import tempfile
+    from datetime import datetime, timezone
+    from pathlib import Path
+    from types import SimpleNamespace
+
+    import requests
+
+    from src import youtube_collect as yc
+    from src import youtube_extract as ye
+
+    cfg = load_config()
+    now = datetime(2026, 11, 3, 2, 0, tzinfo=timezone.utc)
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001
+            import traceback
+            check(f"{name}: لا استثناء", False, traceback.format_exc()[-800:])
+
+    def quota(*a, **k):
+        raise requests.exceptions.ProxyError(
+            "Unable to connect to proxy', OSError('Tunnel connection failed: 402 Payment Required')")
+
+    def g825():
+        sleeps = []
+        orig = ye.time.sleep
+        ye.time.sleep = sleeps.append
+        try:
+            try:
+                ye.fetch_transcript("abc", None, None, [15, 45, 90], fetch_once=quota)
+                raised = False
+            except ye.ProxyQuotaExhausted as exc:
+                raised = "402" in str(exc)
+        finally:
+            ye.time.sleep = orig
+        check("g825: 402 من البروكسي يرفع ProxyQuotaExhausted فورًا بلا تراجع", raised and sleeps == [], sleeps)
+        conn = []
+
+        def flaky(*a, **k):
+            conn.append(1)
+            if len(conn) == 1:
+                raise requests.exceptions.ConnectionError("Connection reset by peer")
+            return "[00:01] نص", "ar"
+        ye.time.sleep = lambda s: None
+        try:
+            text, lang, limited = ye.fetch_transcript("abc", None, None, [1], fetch_once=flaky)
+        finally:
+            ye.time.sleep = orig
+        check("g825: انقطاع عابر بلا 402 يبقى بالتراجع كما كان", text and lang == "ar" and len(conn) == 2, (text, conn))
+    guarded("g825", g825)
+
+    def g826():
+        tmp = Path(tempfile.mkdtemp(prefix="q402_"))
+        pdir = tmp / "state" / "youtube_points"
+        pdir.mkdir(parents=True)
+        saved = (ye.POINTS_DIR, ye.time.sleep, ye.youtube_collect.run, ye.fetch_transcript, ye.get_proxy_config,
+                 ye.recover_timestamps, yc.SEEN_FILE)
+        calls = []
+        recover = []
+        try:
+            ye.POINTS_DIR = pdir
+            yc.SEEN_FILE = tmp / "seen.json"
+            ye.time.sleep = lambda s: None
+            ye.get_proxy_config = lambda: None
+            ye.recover_timestamps = lambda *a, **k: recover.append(1) or {"recovered": 0, "videos": 0, "methods": {}, "failed": []}
+            vids = [SimpleNamespace(video_id=v, channel="ch", bloc="b", video_title=f"t {v}", video_url=f"u/{v}",
+                                    published_at="2026-11-03T00:00:00Z", duration_seconds=4000, description="")
+                    for v in ("aaaaaaaaaa1", "bbbbbbbbbb2", "cccccccccc3")]
+            yc.SEEN_FILE.write_text(json.dumps({v.video_id: "2026-11-03" for v in vids} | {"old": "2026-11-02"}))
+            ye.youtube_collect.run = lambda *a, **k: {"videos": vids, "failed": [], "stats": {
+                "channels_checked": 1, "videos_found": 3, "passed_guards": 3}}
+
+            def fetch(vid, *a, **k):
+                calls.append(vid)
+                raise ye.ProxyQuotaExhausted("رصيد البروكسي منتهٍ: 402 Payment Required")
+            ye.fetch_transcript = fetch
+            out = ye.run(cfg, anthropic_client=object(), now=now)
+            seen = json.loads(yc.SEEN_FILE.read_text())
+            check("g826: جلب واحد ثم توقّف، والجمع يكتمل بإحصاء السبب",
+                  calls == ["aaaaaaaaaa1"] and "402" in out["stats"]["proxy_exhausted"] and recover == [], (calls, out["stats"]))
+            check("g826: الفيديوهات غير المجلوبة تُحذف من سجل الجمع فتُجرَّب لاحقًا، وما سواها يبقى",
+                  seen == {"old": "2026-11-02"}, seen)
+            check("g826: السبب في قائمة الفشل", any("402" in f["reason"] for f in out["failed"]), out["failed"])
+        finally:
+            (ye.POINTS_DIR, ye.time.sleep, ye.youtube_collect.run, ye.fetch_transcript, ye.get_proxy_config,
+             ye.recover_timestamps, yc.SEEN_FILE) = saved
+            shutil.rmtree(tmp, ignore_errors=True)
+    guarded("g826", g826)
+
+    def g827():
+        from src import reel_render
+        src_text = Path(reel_render.__file__).read_text(encoding="utf-8")
+        check("g827: التركيب يحوّل نفاد الرصيد إلى سبب واضح لا استثناء مجهول",
+              "except youtube_extract.ProxyQuotaExhausted" in src_text and "raise TranscriptUnavailable(str(exc))" in src_text)
+    guarded("g827", g827)

@@ -618,6 +618,17 @@ def _should_retry(attempt: int, delays: list[float]) -> tuple[bool, float | None
     return False, None
 
 
+class ProxyQuotaExhausted(RuntimeError):
+    """رصيد البروكسي منتهٍ (402 Payment Required): لا يُصلحه تراجع ولا إعادة، فيرفع لمن استدعى ليتوقف عن الجلب كله. حادثة 3/11: نفد رصيد
+    Webshare فأعاد كل فيديو 402، والتراجع لكل فيديو ثم المحاولة التالية استهلكا مهلة الجمع (75 دقيقة) فأُلغيت التشغيلة بلا حفظ شيء،
+    ولا حتى فحص نهايات المقاطع المحفوظة الذي لا يحتاج البروكسي."""
+
+
+def _proxy_quota_exhausted(exc: BaseException) -> bool:
+    # رمز HTTP في رسالة النفق لا إعداد قابل للضبط: Webshare يعيده حين ينفد الرصيد ولا يعيده لغير ذلك
+    return "402 Payment Required" in str(exc)
+
+
 def fetch_transcript(video_id: str, proxy_config, session: requests.Session | None = None,
                       backoff_seconds: list[float] | None = None,
                       fetch_once=_fetch_once,
@@ -646,8 +657,15 @@ def fetch_transcript(video_id: str, proxy_config, session: requests.Session | No
     attempt = 0
     while True:
         try:
-            text, language_code = fetch_once(video_id, proxy_config, session)
+            try:
+                text, language_code = fetch_once(video_id, proxy_config, session)
+            except Exception as exc:  # noqa: BLE001 -- يُفحص ثم يُعاد رفعه كما هو لما بعده
+                if _proxy_quota_exhausted(exc):
+                    raise ProxyQuotaExhausted(f"رصيد البروكسي منتهٍ: {str(exc)[:150]}") from exc
+                raise
             return text, language_code, False
+        except ProxyQuotaExhausted:
+            raise
         except StopIteration:
             return None, "لا نص متاح: لا مسارات ترجمة للفيديو", False
         except (TranscriptsDisabled, NoTranscriptFound, VideoUnavailable) as exc:
@@ -1043,15 +1061,29 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
     bites_videos = 0
     bites_errors = 0
 
+    proxy_exhausted = ""
     for i, video in enumerate(videos):
         print(f"استخلاص: {video.video_title[:60]} ({video.channel})", file=sys.stderr)
-        if save_transcripts or bites_enabled:
-            text, lang_or_reason, rate_limited = fetch_transcript(
-                video.video_id, proxy_cfg, session, backoff_seconds,
-                fetch_once=youtube_bites._fetch_segments_once)
-        else:
-            text, lang_or_reason, rate_limited = fetch_transcript(
-                video.video_id, proxy_cfg, session, backoff_seconds)
+        try:
+            if save_transcripts or bites_enabled:
+                text, lang_or_reason, rate_limited = fetch_transcript(
+                    video.video_id, proxy_cfg, session, backoff_seconds,
+                    fetch_once=youtube_bites._fetch_segments_once)
+            else:
+                text, lang_or_reason, rate_limited = fetch_transcript(
+                    video.video_id, proxy_cfg, session, backoff_seconds)
+        except ProxyQuotaExhausted as exc:
+            # لا فيديو بعده سينجح: يتوقف الجلب ويمضي الجمع إلى ما لا يحتاج البروكسي (فحص المقاطع المحفوظة والحفظ)، والفيديوهات
+            # الباقية لا تُعلَّم مرئية فتُجرَّب حين يعود الرصيد
+            proxy_exhausted = str(exc)
+            log.error("%s — توقّف جلب النصوص لبقية الفيديوهات (%d)", proxy_exhausted, len(videos) - i)
+            failed.append({"channel": video.channel, "video_id": video.video_id, "title": video.video_title,
+                           "reason": proxy_exhausted})
+            try:
+                youtube_collect.unmark_seen([v.video_id for v in videos[i:]])
+            except OSError as err:
+                log.warning("تعذّر إعادة الفيديوهات غير المجلوبة إلى سجل الجمع: %s", err)
+            break
         raw_segments = youtube_transcripts.parse_fetched(text)
         if raw_segments is not None:
             # الاستخلاص يرى النص المصوغ نفسه الذي كان يراه، مبنيًا من الأسطر ذاتها: جلب واحد يخدم النقاط والحفظ والمقاطع
@@ -1178,6 +1210,8 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
     # الجديد أولًا ثم استعادة القديم (Issue #1629، T1b): أي عطل هنا لا يُفشل التشغيلة ولا يمس ملف اليوم
     recovered = {"recovered": 0, "videos": 0, "methods": {}, "failed": []}
     try:
+        if proxy_exhausted:
+            raise ProxyQuotaExhausted(proxy_exhausted)
         recovered = recover_timestamps(
             cfg, lambda vid: fetch_transcript(vid, proxy_cfg, session, backoff_seconds), now, session)
     except Exception as exc:  # noqa: BLE001 -- خطوة مساعدة لا تُسقط الجمع
@@ -1211,6 +1245,7 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
             "transcripts_failed": transcripts_failed,
             "videos_rejected_topic": videos_rejected_topic,
             "videos_rate_limited": videos_rate_limited,
+            "proxy_exhausted": proxy_exhausted,
             "points_extracted": len(points),
             "points_rejected_timestamp": points_rejected_timestamp,
             "points_rejected_language": points_rejected_language,
@@ -1443,6 +1478,8 @@ def main() -> int:
           f"· ناجية بعد الحرّاس: {stats['passed_guards']}")
     print(f"نصوص ناجحة: {stats['transcripts_ok']} · فاشلة: {stats['transcripts_failed']} "
           f"· محجوبة مؤقتًا (تجاوزت التراجع): {stats['videos_rate_limited']}")
+    if stats.get("proxy_exhausted"):
+        print(f"⛔ {stats['proxy_exhausted']} — توقّف جلب النصوص في هذه التشغيلة؛ يعود الجمع حين يتجدد رصيد البروكسي")
     print(f"أُهمل قبل الاستخلاص (حارس الموضوع): {stats['videos_rejected_topic']}")
     print(f"نقاط مستخلَصة: {stats['points_extracted']} "
           f"· مرفوضة (تجاوز مدة الفيديو): {stats['points_rejected_timestamp']} "

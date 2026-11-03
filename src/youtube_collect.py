@@ -68,6 +68,17 @@ def mark_seen(seen: dict[str, str], video_id: str, date_str: str) -> None:
     seen[video_id] = date_str
 
 
+def unmark_seen(video_ids: list[str]) -> int:
+    """يحذف من السجل فيديوهات عُلّمت مرئية ولم يُجلب نصها (رصيد البروكسي منتهٍ، 3/11): بلا ذلك تضيع إلى الأبد لأن الجمع يعلّمها قبل الجلب."""
+    seen = load_seen()
+    gone = [v for v in video_ids if v in seen]
+    for v in gone:
+        del seen[v]
+    if gone:
+        SEEN_FILE.write_text(json.dumps(seen, ensure_ascii=False, indent=2), encoding="utf-8")
+    return len(gone)
+
+
 def save_seen(seen: dict[str, str], retention_days: int, now: datetime) -> None:
     cutoff = now - timedelta(days=retention_days)
     fresh = {}

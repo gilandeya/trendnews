@@ -2901,3 +2901,11 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 بـ`open_end` بلا `turn`، بدفعات `batch_size` نفسها ومعه `youtube.bites.end_check.open_end_retry_hint` (عبر «حكم مراجع سابق»)، ويُحفظ `end_check.retried`.
 وفي البرومبت أن النهاية الحالية حدّ سطر آلي لا نهاية جملة. `end_check.version` = 5 فيعيد `recheck_files` فحص مقاطع آخر يومين من نصوصها المحفوظة
 (بلا بروكسي، نداءات Haiku فقط). تلميح فارغ ← لا إعادة.
+
+## رصيد البروكسي منتهٍ (3/11) — `youtube_extract.ProxyQuotaExhausted`
+
+الحادثة: نفد رصيد Webshare فأعاد كل طلب `402 Payment Required`، وتراجُع كل فيديو ثم التالي استهلك مهلة جمع 3/11 (75 دقيقة) فأُلغيت التشغيلة
+بلا حفظ ولا فحص للمقاطع المحفوظة. `fetch_transcript` يرفع `ProxyQuotaExhausted` عند أول 402 بلا تراجع؛ `run` يتوقف عن الجلب، ويحذف الفيديوهات
+غير المجلوبة من `state/youtube_seen.json` (`youtube_collect.unmark_seen`، لأن الجمع يعلّمها قبل الجلب) فتُجرَّب حين يعود الرصيد، ويتخطى استعادة
+الطوابع، ويمضي إلى ما لا يحتاج البروكسي (فحص نهايات المقاطع المحفوظة والحفظ). `stats.proxy_exhausted` وسطر «⛔» في `main`. التركيب يحوّله
+`TranscriptUnavailable` بسببه. g825–g827 في `test_proxy_quota_stop_guards`.
