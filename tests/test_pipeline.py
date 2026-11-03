@@ -333,7 +333,8 @@ from tests.test_guards_golden import (test_guards_golden, test_important_false_g
                                       test_coherence_start_1770_guards,
                                       test_reel_round_logo_pause_guards, test_bite_audio_a_guards,
                                       test_clean_screen_text_1779_guards, test_bite_audio_sections_guards,
-                                      test_reel_context_maps_guards, test_bites_health_guards)
+                                      test_reel_context_maps_guards, test_bites_health_guards,
+                                      test_speaker_map_sections_guards)
 from tests.test_names_audit import (test_names_audit_brave_counter, test_names_audit_other_sites,
                                     test_names_audit_pipeline,
                                     test_names_audit_prevention_writer, test_names_audit_review_learning)
@@ -830,6 +831,7 @@ def main() -> int:
     test_clean_screen_text_1779_guards()
     test_reel_context_maps_guards()
     test_bites_health_guards()
+    test_speaker_map_sections_guards()
     test_bite_audio_sections_guards()
     test_names_n1_guards()
     test_analysis_attribution_pipeline()

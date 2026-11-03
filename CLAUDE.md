@@ -2653,6 +2653,12 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
   مختلفًا لا يطابق اسمها ← لا حكم للخريطة في ذلك الفيديو كله، `render_map_errors[vid] = "inconsistent"` وسطر `comment_map_inconsistent`، وتبقى حرّاس Q10–Q16.
   ومجموعة المقدّم لا تحسم حذفًا إلا إن قُرئ اسمه. حادثة 9247ad6487c3: ستة ضيوف في حلقتي الجزيرة أُسندوا إلى «المقدّم» بلا اسم فحُذفوا وفشل الريل.
   `render_version` = 54؛ g660–g662.
+- **أقسام لا الحلقة كاملة (3/11):** الحلقة كاملة بدقة 240p لكل فيديو في كل ريل استهلكت نحو نصف رصيد بروكسي Webshare الشهري (3 GB).
+  `_map_check` يمرّر `times` (لحظات الاقتباس بثواني الحلقة: `dstart` + موضعها) إلى `build_speaker_map`، و`speaker_map.download_episode(times=, cfg=)`
+  يضع في `download_ranges` دالة تحسب `plan_sections(times, مدة الحلقة)` من بيانات يوتيوب نفسها (طلب واحد): نافذة `sections.around` حول كل
+  اقتباس، و`samples` عيّنة بطول `sample_seconds` موزّعة على الحلقة (لامتداد المقدّم في `pick_host`)، مدمجة بـ`merge_gap`. `episode_frames`
+  يعطي كل لقطة ثانيتها في الحلقة فيبقى `first/last` وسجل القراءة كما كانا، و`build_map(duration=)` يأخذ مدة الحلقة لا مدة ملف. يُحفظ
+  `downloaded` (البايتات والأقسام) في الخريطة. `sections.enabled: false` ← الحلقة كاملة. g813–g815. **لم يُجرَّب على يوتيوب.**
 - **الإعداد:** `speaker_map.render_enabled` (false ← كما قبل S4). `opencv-python-headless` مثبّت أصلًا في `requirements.txt` (تكراره بقيد آخر في `requirements-reel.txt` أفشل التثبيت). الكلفة نحو دقيقتين و10–16 نداء Haiku لكل فيديو أول مرة.
 
 ## الإطار الآمن لعرض فيسبوك (S10) — `config.yaml: reel.render.safe/logo/band/panel.frame`

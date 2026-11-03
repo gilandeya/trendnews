@@ -21022,8 +21022,9 @@ def test_reel_speaker_map_s4_guards() -> None:
             calls["chyron"].append(file)
             return []
 
-        def bld(vid, c, work):
+        def bld(vid, c, work, times=None):
             calls["build"].append(vid)
+            calls.setdefault("times", []).append(times)
             if build:
                 return build(vid)
             return copy.deepcopy(SAVED)
@@ -21249,7 +21250,7 @@ def test_reel_map_consistency_s9_guards() -> None:
         clips = {k: dict(file="c%d" % k, seconds=8.0, video_id="v", dstart=100.0, quote_start=104.0, quote_end=110.0)
                  for k in range(len(speakers))}
         deps = reel_render.Deps(read_chyron=lambda f, c: [], sleep=lambda s_: None)
-        deps.build_speaker_map = lambda vid, c, w: saved
+        deps.build_speaker_map = lambda vid, c, w, times=None: saved
         deps.assign_speaker = lambda sv, f, off, ln, c: {"cluster": assign_clusters[int(f[1:])], "share": 1.0}
         notes, meta = [], {}
         out = reel_render._map_check(script, clips, cfg, deps, notes, meta)
@@ -22625,7 +22626,7 @@ def test_reel_hormuz_fixes_guards() -> None:
         clips = {i: {"file": "c%d" % i, "seconds": 10.0, "video_id": "v", "dstart": 100.0, "quote_start": 102.0, "quote_end": 108.0}
                  for i in (1, 2)}
         deps = reel_render.Deps(sleep=lambda s_: None)
-        deps.build_speaker_map = lambda *a: copy.deepcopy(saved)
+        deps.build_speaker_map = lambda *a, **k: copy.deepcopy(saved)
         deps.assign_speaker = lambda sv, f, off, ln, c: {"cluster": 0, "share": 0.9}
         roster = {"v": [{"name_arabic": HOST, "name_original": "", "role_arabic": "مقدّم", "is_host": True}]}
         meta = {}
@@ -24181,3 +24182,60 @@ def test_bites_health_guards() -> None:
                 os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = old
         check("g812: بلا ملفات مقاطع لا سطر ولا استثناء", lines == [], lines)
     guarded("g812", g812)
+
+
+def test_speaker_map_sections_guards() -> None:
+    """خريطة المتكلمين بأقسام الحلقة لا الحلقة كاملة (g813–g815): الحلقة كاملة بدقة 240p لكل فيديو في كل ريل استهلكت نحو نصف رصيد
+    البروكسي الشهري. الأقسام حول لحظات الاقتباس وعيّنات موزّعة على الحلقة، وثواني اللقطات بثواني الحلقة نفسها."""
+    from pathlib import Path
+
+    from src import reel_render, speaker_map
+    from src.config import load_config
+
+    cfg = load_config()
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001 -- الحالة الفاشلة تُسجَّل ولا توقف بقية الحالات
+            check(name + ": استثناء", False, repr(exc))
+
+    def g813():
+        secs = speaker_map.plan_sections([700.0, 720.0, 2000.0], 3600, cfg)
+        total = sum(b - a for a, b in secs)
+        sc = cfg.path("speaker_map.sections")
+        near = all(any(a <= t - sc["around"] and t + sc["around"] <= b for a, b in secs) for t in (700, 720, 2000))
+        check("g813: نافذة حول كل اقتباس (المتقاربة قسم واحد) وعيّنات تمتد على الحلقة، وكلها أقل من ربعها",
+              near and secs == sorted(secs) and all(b2 > a2 for a2, b2 in secs) and secs[0][0] < 300 and secs[-1][1] > 3300
+              and total < 0.25 * 3600 and all(secs[k][1] < secs[k + 1][0] for k in range(len(secs) - 1)), (secs, total))
+        check("g813: بلا مدة معروفة: نوافذ الاقتباس وحدها", speaker_map.plan_sections([100.0], None, cfg) == [(40, 160)],
+              speaker_map.plan_sections([100.0], None, cfg))
+    guarded("g813", g813)
+
+    def g814():
+        real = speaker_map.extract_frames
+        speaker_map.extract_frames = lambda f, out, step, h, **k: [Path(f"{f}_{i}.jpg") for i in range(3)]
+        try:
+            paths, secs = speaker_map.episode_frames([(100, 106, "a"), (900, 906, "b")], Path("."), 2.0, 240)
+            whole, wsecs = speaker_map.episode_frames(Path("x"), Path("."), 2.0, 240)
+        finally:
+            speaker_map.extract_frames = real
+        check("g814: لقطات كل قسم بثواني الحلقة (بداية القسم + الخطوة)، والحلقة الكاملة كما كانت",
+              secs == [100.0, 102.0, 104.0, 900.0, 902.0, 904.0] and len(paths) == 6 and wsecs == [0.0, 2.0, 4.0], (secs, wsecs))
+    guarded("g814", g814)
+
+    def g815():
+        got = {}
+
+        def bld(vid, c, work, times=None):
+            got["times"] = times
+            raise RuntimeError("مزيَّف")
+        deps = reel_render.Deps(build_speaker_map=bld, assign_speaker=lambda *a: None)
+        script = {"scenes": [{"kind": "clip", "channel_display": "ق", "point_id": "p"}]}
+        clips = {0: {"file": "c0", "video_id": "v", "dstart": 696.0, "quote_start": 700.0, "quote_end": 706.0}}
+        notes: list = []
+        reel_render._map_check(script, clips, cfg, deps, notes, {"work": "."})
+        off, length = reel_render._map_window(clips[0], cfg)
+        check("g815: البناء يتلقى لحظة الاقتباس بثواني الحلقة (بداية الملف + موضعها فيه)",
+              got.get("times") == [696.0 + off] and 700.0 <= got["times"][0] <= 706.0, got)
+    guarded("g815", g815)

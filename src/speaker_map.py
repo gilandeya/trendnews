@@ -214,9 +214,36 @@ def episode_opts(out: Path, height: int, proxy, capture, hook) -> dict:
     return opts
 
 
+def plan_sections(times: list[float], duration: float | None, cfg) -> list[tuple[int, int]]:
+    """أقسام الحلقة التي تُنزَّل للخريطة (دالة خالصة): نافذة around ثانية حول كل لحظة اقتباس (فيها يظهر الضيف وشريط اسمه)، و samples
+    نافذة بطول sample_seconds موزّعة على الحلقة كلها (بها يُعرف المقدّم الممتد ظهوره، pick_host)، مدمجة إن تقاربت بأقل من merge_gap.
+    الحلقة كاملة بدقة 240p (نحو 100 MB للساعة) لكل فيديو في كل ريل استهلكت نصف رصيد البروكسي الشهري (أكتوبر–نوفمبر)."""
+    sec = _cfg(cfg, "sections", {}) or {}
+    around = float(sec.get("around", 60))
+    n = int(sec.get("samples", 8))
+    length = float(sec.get("sample_seconds", 30))
+    gap = float(sec.get("merge_gap", 20))
+    end = float(duration) if duration else None
+    wins = [(max(0.0, t - around), t + around) for t in times]
+    if end:
+        wins = [(a, min(b, end)) for a, b in wins]
+        for k in range(n):
+            c = end * (k + 0.5) / n
+            wins.append((max(0.0, c - length / 2), min(end, c + length / 2)))
+    out: list[list[float]] = []
+    for a, b in sorted(w for w in wins if w[1] > w[0]):
+        if out and a - out[-1][1] <= gap:
+            out[-1][1] = max(out[-1][1], b)
+        else:
+            out.append([a, b])
+    return [(int(a), int(b + 0.999)) for a, b in out]
+
+
 def download_episode(video_id: str, height: int, out_dir: Path, proxy: str | None, retries: int = 2,
-                     wait: float = 20.0) -> dict:
-    """الحلقة كاملة صورةً فقط (الصوت لا يلزم الوجوه) بآلة التنزيل القائمة (yt-dlp عبر البروكسي، reel_clips._ydl_opts)."""
+                     wait: float = 20.0, times: list[float] | None = None, cfg=None) -> dict:
+    """الحلقة صورةً فقط (الصوت لا يلزم الوجوه) بآلة التنزيل القائمة (yt-dlp عبر البروكسي، reel_clips._ydl_opts). مع times (لحظات
+    الاقتباس بثواني الحلقة) وتفعيل speaker_map.sections تُنزَّل أقسام plan_sections وحدها ويعود sections=[(بداية، نهاية، ملف)] و
+    duration من بيانات يوتيوب؛ الأقسام تُحسب داخل download_ranges من مدة الحلقة نفسها فلا طلب ثانٍ ليوتيوب لمعرفتها."""
     import yt_dlp
 
     from src import reel_clips
@@ -232,9 +259,31 @@ def download_episode(video_id: str, height: int, out_dir: Path, proxy: str | Non
 
         out = out_dir / f"{video_id}.mp4"
         opts = episode_opts(out, height, proxy, capture, hook)
+        sectioned = times is not None and cfg is not None and bool((_cfg(cfg, "sections", {}) or {}).get("enabled"))
+        planned: dict = {}
+        if sectioned:
+            def ranges(info, ydl, planned=planned):
+                planned["duration"] = info.get("duration")
+                planned["sections"] = plan_sections(times, info.get("duration"), cfg)
+                for a, b in planned["sections"]:
+                    yield {"start_time": float(a), "end_time": float(b)}
+            opts["download_ranges"] = ranges
+            opts["outtmpl"] = str(out_dir / f"{video_id}_%(section_start)s.%(ext)s")
+            # أقسام yt-dlp تُنزَّل بـffmpeg ويبحث عنه في PATH وحده (درس bite_audio)
+            from src import bite_audio
+            bite_audio._ffmpeg_on_path()
         try:
             with yt_dlp.YoutubeDL(opts) as ydl:
                 ydl.download([f"https://www.youtube.com/watch?v={video_id}"])
+            if sectioned:
+                from src import bite_audio
+                files = [f for f in sorted(out_dir.glob(f"{video_id}_*")) if not f.name.endswith(".part")]
+                secs = bite_audio.match_sections(planned.get("sections") or [], files, f"{video_id}")
+                if not secs:
+                    raise RuntimeError("لا قسم ناتج")
+                return {"sections": secs, "duration": planned.get("duration"),
+                        "size_bytes": sum(f.stat().st_size for _, _, f in secs), "proxy_bytes": sum(seen.values()),
+                        "format_id": capture.format_id}
             files = sorted(out_dir.glob(f"{video_id}.*"))
             if not files:
                 raise RuntimeError("لا ملف ناتج")
@@ -367,16 +416,32 @@ def read_chyrons(frames_idx: list, images: list, cfg, counters: dict) -> list[di
 # ──────────────────────────── بناء الخريطة والإسناد ────────────────────────────
 
 
-def build_map(video: Path, work: Path, cfg, engine: FaceEngine, timings: dict, counters: dict,
-              preview_dir: Path | None = None) -> dict:
+def episode_frames(video, work: Path, step: float, height: int) -> tuple[list[Path], list[float]]:
+    """(لقطات، ثانية كل لقطة في الحلقة). video ملف الحلقة كاملة، أو [(بداية، نهاية، ملف)] أقسام منها (plan_sections): لقطات كل قسم
+    بثواني ملفه تُزاح ببدايته، فيبقى ظهور المجموعات (first/last) والمقدّم وسجل القراءة بثواني الحلقة نفسها."""
+    if not isinstance(video, list):
+        paths = extract_frames(video, work / "frames", step, height)
+        return paths, [i * step for i in range(len(paths))]
+    paths: list[Path] = []
+    secs: list[float] = []
+    for k, (a, _b, f) in enumerate(video):
+        got = extract_frames(f, work / f"frames_{k}", step, height)
+        paths += got
+        secs += [float(a) + i * step for i in range(len(got))]
+    return paths, secs
+
+
+def build_map(video, work: Path, cfg, engine: FaceEngine, timings: dict, counters: dict,
+              preview_dir: Path | None = None, duration: float | None = None) -> dict:
     import cv2
     import numpy as np
     step = float(_cfg(cfg, "step", 2))
     height = int(_cfg(cfg, "height", 240))
-    duration = video_duration(video) or 0.0
+    # أقسام لا ملف: مدة الحلقة من بيانات يوتيوب (مدة ملف قسم ليست مدة الحلقة، وعليها يُحكم امتداد المقدّم)
+    duration = float(duration or (0.0 if isinstance(video, list) else (video_duration(video) or 0.0)))
 
     t0 = time.monotonic()
-    paths = extract_frames(video, work / "frames", step, height)
+    paths, secs = episode_frames(video, work, step, height)
     timings["frames"] = round(time.monotonic() - t0, 2)
     counters["frames"] = len(paths)
 
@@ -406,7 +471,7 @@ def build_map(video: Path, work: Path, cfg, engine: FaceEngine, timings: dict, c
         faces_per_frame[i].append((cid, f["area"]))
         row = summary[cid]
         row["count"] += 1
-        sec = i * step
+        sec = secs[i]
         row["first"] = sec if row["first"] is None else min(row["first"], sec)
         row["last"] = sec if row["last"] is None else max(row["last"], sec)
     centroids = {}
@@ -441,7 +506,7 @@ def build_map(video: Path, work: Path, cfg, engine: FaceEngine, timings: dict, c
         rows.append({**c, "name": v["name"], "votes": v["votes"], "is_host": c["id"] == host})
     return {"duration": duration, "map": rows, "host": host, "centroids": centroids, "reads": len(reads),
             # تفصيل القراءات للتشخيص (S1): أي لقطة قُرئت لأي مجموعة وماذا قال النموذج — بلا صور
-            "read_log": [{"sec": r["frame"] * step, "cluster": r.get("cluster"), "name": r.get("name"),
+            "read_log": [{"sec": secs[r["frame"]] if r["frame"] < len(secs) else r["frame"] * step, "cluster": r.get("cluster"), "name": r.get("name"),
                           "kind": r.get("name_kind"), "speaker": r.get("name_is_speaker")} for r in reads]}
 
 
