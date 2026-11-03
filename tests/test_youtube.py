@@ -4512,3 +4512,100 @@ def test_youtube_meta_probe() -> None:
         else:
             os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = old
         shutil.rmtree(d, ignore_errors=True)
+
+
+def test_meta_topics() -> None:
+    """المواضيع من العنوان والوصف (الخطوة 3): الأهلية (طول، مباشر، قناة مستبعدة، نافذة)، تنظيف الوصف من قوالب القناة،
+    الدقائق = المدة ÷ عدد المواضيع، التوجّه زوج كتلة/توجّه، والترتيب بالكتل ثم التوجّهات ثم الدقائق، وما في كتلة واحدة يسقط.
+    الرد المقطوع لا يُقبل، والعطل لا يرفع."""
+    from types import SimpleNamespace as NS
+    from src import meta_topics as mt
+    from src.config import Config, load_config as real_load
+
+    base = real_load()
+    cfg = Config({**base, "channels": [
+        {"name": "A", "channel_id": "UCa", "bloc": "arabic", "orientation": "قطري", "language": "ar"},
+        {"name": "A2", "channel_id": "UCa2", "bloc": "arabic", "orientation": "قطري", "language": "ar"},
+        {"name": "T", "channel_id": "UCt", "bloc": "turkish", "orientation": "معارض", "language": "tr", "exclude_patterns": ["CANLI"]},
+        {"name": "P", "channel_id": "UCp", "bloc": "persian", "orientation": "مؤيد", "language": "fa"},
+        {"name": "رصدکده", "channel_id": "UCr", "bloc": "persian", "orientation": "مؤيد", "language": "fa"}]})
+    now = datetime(2026, 11, 4, 12, tzinfo=timezone.utc)
+    pub = "2026-11-04T06:00:00Z"
+    tmpl = "اشتركوا في القناة"
+
+    def v(ch, bloc, dur=1800, title="t", desc="", live=False, published=pub):
+        return {"channel": ch, "bloc": bloc, "duration_seconds": dur, "title": title, "description": desc,
+                "live": live, "published": published, "language": "ar"}
+    videos = {
+        "a1": v("A", "arabic", 3600, desc=f"حلقة عن غزة\n{tmpl}\nhttps://x.y"),
+        "a2": v("A", "arabic", desc=tmpl), "a3": v("A", "arabic", desc=tmpl),
+        "a4": v("A2", "arabic", 1200),
+        "t1": v("T", "turkish", 2400), "t2": v("T", "turkish", title="CANLI yayın"),
+        "p1": v("P", "persian", 600), "r1": v("رصدکده", "persian"),
+        "short": v("A", "arabic", 300), "live": v("A", "arabic", live=True),
+        "old": v("A", "arabic", published="2026-11-01T00:00:00Z"),
+    }
+    el = mt.eligible_videos(videos, cfg, now)
+    ids = sorted(x["video_id"] for x in el)
+    check("الأهلية: القصير والمباشر والقديم والمستبعد ونمط القناة خارجًا", ids == ["a1", "a2", "a3", "a4", "p1", "t1"], ids)
+    a1 = next(x for x in el if x["video_id"] == "a1")
+    check("الوصف بلا قالب القناة ولا الروابط", a1["desc_clean"] == "حلقة عن غزة", a1["desc_clean"])
+    check("التوجّه من القناة", a1["orientation"] == "قطري", a1)
+
+    def tool(name, data, stop="tool_use"):
+        return NS(stop_reason=stop, content=[NS(type="tool_use", name=name, input=data)])
+
+    class Client:
+        def __init__(self):
+            self.messages = self
+            self.calls = []
+
+        def create(self, **kw):
+            self.calls.append(kw)
+            msg = kw["messages"][0]["content"]
+            if kw["tools"][0]["name"] == "report_video_topics":
+                rows = []
+                for line in msg.split("\n\n"):
+                    n = int(line[1:line.index("]")])
+                    rows.append({"n": n, "political": True, "topics": ["غزة", "تركيا"] if n == 0 else ["غزة"]})
+                return tool("report_video_topics", {"videos": rows})
+            labels = [ln for ln in msg.split("\n") if ln]
+            gaza = [i for i, ln in enumerate(labels) if "غزة" in ln]
+            turk = [i for i, ln in enumerate(labels) if "تركيا" in ln]
+            return tool("group_topics", {"events": [{"title": "حرب غزة", "members": gaza + [999]},
+                                                     {"title": "تركيا", "members": turk + gaza[:1]}]})
+
+    cfg["youtube"] = {**base["youtube"], "meta_topics": {**base["youtube"]["meta_topics"], "batch_size": 50}}
+    c = Client()
+    res = mt.run(cfg, now=now, client=c, videos=videos)
+    check("نداءان فقط: دفعة مواضيع وتجميع", len(c.calls) == 2, len(c.calls))
+    check("لا temperature", all("temperature" not in k for k in c.calls))
+    top = res["ranked"]
+    check("حدث كتلة واحدة يسقط وحدث ثلاث كتل يبقى", [e["title"] for e in top] == ["حرب غزة"], top)
+    g = top[0]
+    check("الكتل والتوجّهات (قناتان قطريتان صوت واحد)", len(g["blocs"]) == 3 and g["orientations"] == 3, g)
+    # المدد: a1 ساعة على موضوعين = 30، وكل غيره بموضوع واحد: a2 30 + a3 30 + a4 20 + t1 40 + p1 10
+    check("الدقائق التقديرية = المدة ÷ عدد المواضيع", g["minutes"] == 160, g["minutes"])
+    lines = mt.preview_lines(res, cfg)
+    check("سطر المعاينة بصيغة صاحب المشروع", "1- حرب غزة: 3 كتل، 3 توجهات، 160 دقيقة (تقديرية)" in lines, lines)
+    check("الترتيب بالكتل ثم التوجّهات ثم الدقائق",
+          [e["title"] for e in mt.score_events(
+              [{"title": "x", "members": [0, 1]}, {"title": "y", "members": [0, 2]}, {"title": "z", "members": [3, 1]},
+               {"title": "w", "members": [0, 3, 1]}],
+              [{"video_id": "1", "channel": "A", "bloc": "arabic", "orientation": "o1", "title": "", "minutes": 50},
+               {"video_id": "2", "channel": "T", "bloc": "turkish", "orientation": "o", "title": "", "minutes": 10},
+               {"video_id": "3", "channel": "T", "bloc": "turkish", "orientation": "o", "title": "", "minutes": 30},
+               {"video_id": "4", "channel": "A2", "bloc": "arabic", "orientation": "o2", "title": "", "minutes": 1}],
+              cfg)] == ["w", "y", "x", "z"])
+
+    class Cut(Client):
+        def create(self, **kw):
+            return tool("report_video_topics", {"videos": [{"n": 0, "political": True, "topics": ["x"]}]}, stop="max_tokens")
+    r = mt.run(cfg, now=now, client=Cut(), videos=videos)
+    check("الرد المقطوع لا يُقبل ويُسجَّل", r["political"] == 0 and r["errors"] and r["ranked"] == [], r)
+
+    class Boom(Client):
+        def create(self, **kw):
+            raise RuntimeError("down")
+    r = mt.run(cfg, now=now, client=Boom(), videos=videos)
+    check("العطل لا يرفع", r["ranked"] == [] and any("down" in e for e in r["errors"]), r["errors"])
