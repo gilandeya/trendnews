@@ -575,7 +575,8 @@ class Deps:
     transcriber_selfcheck: Callable[[Any], tuple[bool, str]] | None = None
     # S4: خريطة متكلمي الحلقة. (video_id، cfg، مجلد عمل) ← الخريطة المحفوظة الصيغة (speaker_map.to_saved)؛ يرفع عند العطل.
     # (الخريطة، ملف المقطع، الثانية فيه، الطول، cfg) ← {cluster, name, is_host, share}. None للمزيَّفات القديمة ← لا خريطة وحرّاس Q10–Q16 وحدها
-    build_speaker_map: Callable[[str, Any, Any], dict] | None = None
+    # (فيديو، cfg، مجلد العمل، times=لحظات الاقتباس بثواني الحلقة) ← الخريطة بصيغة الحفظ
+    build_speaker_map: Callable[..., dict] | None = None
     assign_speaker: Callable[[dict, Any, float, float, Any], dict | None] | None = None
 
     def resolved(self, cfg) -> "Deps":
@@ -4363,20 +4364,26 @@ def _face_engine(cfg, work: Path):
     return _FACE_ENGINE[0]
 
 
-def _real_build_speaker_map(video_id: str, cfg, work) -> dict:
-    """خريطة متكلمي الحلقة (S4): الحلقة كاملة بدقة منخفضة ← وجوه مجمَّعة ← أسماء الشريط بقراءة موجَّهة؛ تُعاد بصيغة الحفظ."""
+def _real_build_speaker_map(video_id: str, cfg, work, times: list | None = None) -> dict:
+    """خريطة متكلمي الحلقة (S4): الحلقة بدقة منخفضة ← وجوه مجمَّعة ← أسماء الشريط بقراءة موجَّهة؛ تُعاد بصيغة الحفظ. مع times (لحظات
+    الاقتباس بثواني الحلقة) تُنزَّل أقسام حولها وعيّنات موزّعة على الحلقة لا الحلقة كلها (speaker_map.sections)."""
     from . import speaker_map
     work = Path(work) / f"map_{video_id}"
     work.mkdir(parents=True, exist_ok=True)
-    dl = speaker_map.download_episode(video_id, int(cfg.path("speaker_map.height") or 240), work, speaker_map.proxy_url())
+    dl = speaker_map.download_episode(video_id, int(cfg.path("speaker_map.height") or 240), work, speaker_map.proxy_url(),
+                                      times=times, cfg=cfg)
     timings: dict = {}
     counters: dict = {"haiku_calls": 0, "haiku_errors": []}
-    built = speaker_map.build_map(dl["path"], work, cfg, _face_engine(cfg, work), timings, counters)
-    try:
-        dl["path"].unlink()        # الحلقة كاملة لا تلزم بعد الخريطة: الإسناد يجري على ملف المقطع نفسه
-    except OSError:
-        pass
-    return {**speaker_map.to_saved(built), "timings": timings, "haiku_calls": counters["haiku_calls"]}
+    source = dl.get("sections") or dl["path"]
+    built = speaker_map.build_map(source, work, cfg, _face_engine(cfg, work), timings, counters, duration=dl.get("duration"))
+    # الحلقة (أو أقسامها) لا تلزم بعد الخريطة: الإسناد يجري على ملف المقطع نفسه
+    for f in ([x[2] for x in dl["sections"]] if dl.get("sections") else [dl["path"]]):
+        try:
+            Path(f).unlink()
+        except OSError:
+            pass
+    return {**speaker_map.to_saved(built), "timings": timings, "haiku_calls": counters["haiku_calls"],
+            "downloaded": {"bytes": dl.get("size_bytes"), "sections": [[a, b] for a, b, _ in dl.get("sections") or []]}}
 
 
 def _real_assign_speaker(saved: dict, clip_file, t: float, length: float, cfg) -> dict | None:
@@ -4798,7 +4805,9 @@ def _map_check(script: dict, clips: dict, cfg, deps: Deps, notes: list, meta: di
             source = "saved"     # الحلقة ووجوهها لا تتغيّر بين تشغيلتين: لا تنزيل ولا نداء
         else:
             try:
-                saved, source = deps.build_speaker_map(vid, cfg, meta.get("work") or "."), "built"
+                # لحظات الاقتباس بثواني الحلقة: حولها تُنزَّل الأقسام (لا الحلقة كاملة)
+                times = [float(clips[i]["dstart"]) + off for i, (off, _l) in items]
+                saved, source = deps.build_speaker_map(vid, cfg, meta.get("work") or ".", times=times), "built"
             except Exception as exc:  # noqa: BLE001 -- الخريطة تحسين: يبقى سلوك Q10–Q16
                 reason = " ".join(reel_clips.scrub_text(str(exc)).split())[:120]
                 meta.setdefault("map_errors", {})[vid] = reason
