@@ -4450,3 +4450,61 @@ def test_image_ladder_order() -> None:
         imaging.download_image = real_dl  # type: ignore
     check("سلّم الصورة: بطاقة الفحص البصري بُنيت فعليًا", visual.exists(), str(visual))
     out.unlink(missing_ok=True)
+
+
+def test_youtube_meta_probe() -> None:
+    """قياس «المواضيع من العنوان والوصف» (خطة 3/11، الخطوة 1): الفهرس الزمني يُقرأ من الوصف، وتشغيلات اليوم تُدمج بلا
+    تكرار ولا إعادة جلب، وقناة متعطلة لا توقف القياس، وبلا مفتاح أو مطفأً لا شيء."""
+    from src import youtube_meta_probe as mp
+    from src.config import Config, load_config as real_load
+
+    d = tempfile.mkdtemp()
+    old = os.environ.get("TRENDNEWS_YOUTUBE_BITES_DIR")
+    os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = d
+    try:
+        base = real_load()
+        cfg = Config({**base, "channels": [
+            {"name": "A", "channel_id": "UCaaa", "bloc": "arabic", "language": "ar"},
+            {"name": "B", "channel_id": "UCbbb", "bloc": "turkish", "language": "tr"},
+            {"name": "C", "channel_id": "UCccc", "bloc": "persian", "language": "fa", "active": False}]})
+        cfg["youtube"] = {**base["youtube"], "meta_probe": {"enabled": True, "days": 3}}
+        desc = "حلقة اليوم\n0:00 مقدمة\n12:30 الانتخابات الأمريكية\n1:02:15 - غزة\nتابعونا"
+        uploads = {"UUaaa": ["v1", "v2"], "UUbbb": None}
+        asked: list = []
+
+        def fetch_ids(pl, key, hours, now):
+            check("الساعات = days × 24", hours == 72, hours)
+            if uploads[pl] is None:
+                raise RuntimeError("quota")
+            return uploads[pl]
+
+        def fetch_details(ids, key):
+            asked.append(list(ids))
+            return [{"id": i, "snippet": {"title": f"t{i}", "description": desc if i == "v1" else "شاهد من 12:30",
+                                          "publishedAt": "2026-11-03T08:00:00Z"},
+                     "contentDetails": {"duration": "PT1H10M"}} for i in ids]
+
+        now = datetime(2026, 11, 3, 12, tzinfo=timezone.utc)
+        r1 = mp.run(cfg, now=now, api_key="k", fetch_ids=fetch_ids, fetch_details=fetch_details)
+        data = json.loads((Path(d) / "meta_probe" / "2026-11-03.json").read_text(encoding="utf-8"))
+        v1 = data["videos"]["v1"]
+        check("الفهرس الزمني من الوصف بالثواني", [c["start"] for c in v1["chapters"]] == [0, 750, 3735]
+              and v1["chapters"][2]["title"] == "غزة", v1["chapters"])
+        check("طابع وحيد ليس فهرسًا", data["videos"]["v2"]["chapters"] == [])
+        check("المدة والكتلة محفوظتان", v1["duration_seconds"] == 4200 and v1["bloc"] == "arabic", v1)
+        check("قناة متعطلة تُسجَّل ولا توقف القياس، والمعطّلة لا تُطلب",
+              r1["videos"] == 2 and r1["with_chapters"] == 1 and len(data["errors"]) == 1 and "B" in data["errors"][0], (r1, data["errors"]))
+        uploads["UUaaa"] = ["v1", "v2", "v3"]
+        r2 = mp.run(cfg, now=now, api_key="k", fetch_ids=fetch_ids, fetch_details=fetch_details)
+        check("تشغيلة ثانية في اليوم تدمج ولا تعيد جلب ما حُفظ", r2["videos"] == 3 and asked[-1] == ["v3"], (r2, asked))
+        check("بلا مفتاح لا شيء", mp.run(cfg, now=now, api_key="", fetch_ids=fetch_ids, fetch_details=fetch_details) is None
+              or not os.environ.get("YOUTUBE_API_KEY"))
+        cfg["youtube"] = {**base["youtube"], "meta_probe": {"enabled": False}}
+        check("مطفأً لا شيء", mp.run(cfg, now=now, api_key="k", fetch_ids=fetch_ids, fetch_details=fetch_details) is None)
+        check("فهارس شاذة", mp.chapters("1:00 أ\n2:00 ب") == [] and mp.chapters("0:00 أ\n5:00 ب\n3:00 ج") == [])
+    finally:
+        if old is None:
+            os.environ.pop("TRENDNEWS_YOUTUBE_BITES_DIR", None)
+        else:
+            os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = old
+        shutil.rmtree(d, ignore_errors=True)

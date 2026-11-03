@@ -1472,6 +1472,9 @@ def main() -> int:
     logging.basicConfig(level=logging.INFO, format="%(message)s", stream=sys.stderr)
     result = run()
     path = save_output(result)
+    # قياس الوصف: مستقل عن البروكسي فيعمل حتى حين ينفد رصيده، ولا يرفع أبدًا
+    from . import youtube_meta_probe
+    youtube_meta_probe.run_safe(load_config())
     stats = result["stats"]
     print(f"ملف النقاط: {path}")
     print(f"القنوات: {stats['channels_checked']} · ضمن النافذة: {stats['videos_found']} "

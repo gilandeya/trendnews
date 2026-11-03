@@ -2925,3 +2925,12 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 `post_video_avg_time_watched` ÷ 1000 ونسبته من `reel_seconds`، و«أكملوه» = آخر نقطة في منحنى البقاء (`retention_keys`، `_retention_end`)؛
 والعنوان المختار. ريل فشل جلبه يبقى صفًا بسببه. `reels_section` يبني «🎬 الريلات» ويظهر في `build_report(..., reels_lines=)` ولو بلا منشورات صور.
 `facebook.reel_metrics.enabled: false` ← لا قسم. الاختبار `tests/test_review.py:test_insights_reels_section`. لم تُجرَّب أسماء المقاييس على فيسبوك حقيقي.
+
+## قياس «المواضيع من العنوان والوصف» (خطة صاحب المشروع 3/11، الخطوة 1) — `src/youtube_meta_probe.py`
+
+الخطة: تُستنتج المواضيع من عنوان الفيديو ووصفه وحدهما، ولا يُجلب النص الكامل إلا لفيديوهات الموضوع المختار (أقل بروكسي ونماذج)،
+ثم يختار صاحب المشروع الأسئلة والإجابات بمربعات. قبل البناء نقيس: `youtube_extract.main` يستدعي بعد الجمع `youtube_meta_probe.run_safe`،
+فيُحفظ لكل فيديو رفعته القنوات النشطة في آخر `youtube.meta_probe.days` أيام: العنوان والوصف والوسوم والمدة والكتلة والفهرس الزمني
+(`chapters`: سطران فأكثر بطوابع تصاعدية أولها 0:00) في `youtube_bites/meta_probe/<التاريخ>.json` (المستودع الخاص؛ يُدمج ملف اليوم ولا يُعاد
+جلب ما حُفظ). واجهة يوتيوب وحدها، لا بروكسي ولا نموذج، ولا يرفع أبدًا. قياس فقط: لا شيء يقرأ الملف. الاختبار
+`tests/test_youtube.py:test_youtube_meta_probe`.
