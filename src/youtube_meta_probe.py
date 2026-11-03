@@ -93,7 +93,7 @@ def run(cfg: Any, now: datetime | None = None, api_key: str | None = None,
             except ValueError:
                 dur = None
             videos[it.get("id")] = {
-                "channel": ch.get("name"), "bloc": ch.get("bloc"), "language": ch.get("language"),
+                "channel": ch.get("name"), "bloc": ch.get("bloc"), "orientation": ch.get("orientation"), "language": ch.get("language"),
                 "published": sn.get("publishedAt"), "duration_seconds": dur,
                 "live": sn.get("liveBroadcastContent") not in (None, "none"),
                 "title": sn.get("title") or "", "description": desc, "tags": sn.get("tags") or [],

@@ -4501,6 +4501,10 @@ def test_youtube_meta_probe() -> None:
               or not os.environ.get("YOUTUBE_API_KEY"))
         cfg["youtube"] = {**base["youtube"], "meta_probe": {"enabled": False}}
         check("مطفأً لا شيء", mp.run(cfg, now=now, api_key="k", fetch_ids=fetch_ids, fetch_details=fetch_details) is None)
+        chans = [c for c in base.get("channels", []) if c.get("active", True)]
+        check("كل قناة نشطة لها توجّه، والتوجّهات تُفرّق داخل الكتلة",
+              all(c.get("orientation") for c in chans) and len({(c["bloc"], c["orientation"]) for c in chans}) >= 2 * len({c["bloc"] for c in chans}),
+              [(c["name"], c.get("orientation")) for c in chans])
         check("فهارس شاذة", mp.chapters("1:00 أ\n2:00 ب") == [] and mp.chapters("0:00 أ\n5:00 ب\n3:00 ج") == [])
     finally:
         if old is None:
