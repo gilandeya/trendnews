@@ -600,9 +600,13 @@ class Deps:
                 session_box.append(requests.Session())
             backoff = list(cfg.path("reel.render.transcript_backoff_seconds", [15, 45]))
             # _fetch_once يُقرأ وقت الاستدعاء لا عند تعريف الدالة كي يبقى قابلًا للحقن
-            text, info, _ = youtube_extract.fetch_transcript(
-                video_id, proxy_config.get_proxy_config(), session_box[0], backoff,
-                fetch_once=youtube_extract._fetch_once)
+            try:
+                text, info, _ = youtube_extract.fetch_transcript(
+                    video_id, proxy_config.get_proxy_config(), session_box[0], backoff,
+                    fetch_once=youtube_extract._fetch_once)
+            except youtube_extract.ProxyQuotaExhausted as exc:
+                # رصيد البروكسي منتهٍ: سبب واضح للمراجع بدل استثناء لا يعرفه مسار التركيب
+                raise TranscriptUnavailable(str(exc)) from exc
             if text is not None and isinstance(info, str):
                 langs[video_id] = info
             if text is None:
