@@ -2941,6 +2941,17 @@ image_search:
 facebook:
   api_version: "v21.0"
 
+  # أرقام الريلات في التقرير الأسبوعي (insights.reels_section). يُطلب كل ما هنا من video_insights، وما لا يدعمه
+  # فيسبوك لنوع الفيديو يُطلب وحده ويسقط وحده (facebook.fetch_reel_metrics). المشاهدات: أول مفتاح موجود من plays_keys
+  # (blue_reels_play_count للريل، total_video_views لو نُشر فيديو عاديًا)، والإكمال آخر نقطة في منحنى البقاء.
+  reel_metrics:
+    enabled: true
+    metrics: [blue_reels_play_count, fb_reels_total_plays, fb_reels_replay_count, post_impressions_unique,
+              post_video_avg_time_watched, post_video_view_time, post_video_retention_graph,
+              total_video_views, total_video_complete_views, total_video_retention_graph]
+    plays_keys: [blue_reels_play_count, fb_reels_total_plays, total_video_views]
+    retention_keys: [post_video_retention_graph, total_video_retention_graph]
+
   # الرابط في التعليق الأول بدل المتن: فيسبوك يخفض وصول المنشورات
   # التي تُخرج المستخدم من المنصة عبر رابط خارجي.
   link_in_first_comment: true
