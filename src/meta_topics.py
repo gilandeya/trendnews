@@ -126,38 +126,78 @@ def _tool_input(resp, name):
                  if getattr(b, "type", "") == "tool_use" and getattr(b, "name", name) == name), None)
 
 
-def video_topics(videos: list[dict], cfg, client) -> tuple[dict[str, list[str]], list[str]]:
-    """{video_id: [مواضيع]} لكل فيديو سياسي بنداء Haiku لكل دفعة. دفعة متعطلة تُسجَّل ولا تُسقط غيرها؛ والرد المقطوع
-    لا يُقبل منه شيء (درس فحص النهاية #1763) فيبقى فيديوه بلا مواضيع."""
+def _topics_batch(batch: list[dict], cfg, client, m: dict) -> tuple[dict[int, dict] | None, str | None]:
+    """نداء واحد لدفعة ← {رقم: صف}؛ None مع السبب عند العطل أو الرد المقطوع (لا يُقبل منه شيء، درس #1763)."""
+    lines = [f"[{k}] {v['channel']} ({v.get('language')}) · {round((v.get('duration_seconds') or 0) / 60)} د\n"
+             f"العنوان: {v.get('title', '')}\nالوصف: {v.get('desc_clean', '')}" for k, v in enumerate(batch)]
+    try:
+        resp = llm.create(client, cfg=cfg, model=m.get("topics_model", "haiku"),
+                          max_tokens=int(m.get("topics_max_tokens", 4000)),
+                          system=m.get("topics_system", ""), tools=[TOPICS_TOOL],
+                          tool_choice={"type": "tool", "name": TOPICS_TOOL["name"]},
+                          messages=[{"role": "user", "content": "\n\n".join(lines)}])
+    except Exception as exc:  # noqa: BLE001 — دفعة متعطلة لا توقف الباقي
+        return None, str(exc)[:120]
+    if getattr(resp, "stop_reason", None) == "max_tokens":
+        return None, "رد مقطوع"
+    data = _tool_input(resp, TOPICS_TOOL["name"]) or {}
+    rows = {}
+    for row in data.get("videos") or []:
+        n = row.get("n")
+        if isinstance(n, int) and 0 <= n < len(batch) and n not in rows:
+            rows[n] = row
+    return rows, None
+
+
+def video_topics(videos: list[dict], cfg, client, info: dict | None = None) -> tuple[dict[str, list[str]], list[str]]:
+    """{video_id: [مواضيع]} لكل فيديو سياسي بنداء Haiku لكل دفعة، و`info["verdicts"]` حكم كل فيديو (political/not/missing).
+
+    فيديو لم يرد له صف في رد دفعته يُسأل عنه مرة ثانية في دفعة أصغر (`retry_batch_size`): تشغيل 4/11 أسقط الفيديوهات
+    الفارسية الخمسة عشر كلها من دفعة أعادت صفوف جيرانها، فغابت الكتلة الفارسية عن كل حدث. ولا إعادة ثالثة."""
     m = _mcfg(cfg)
-    size = int(m.get("batch_size", 20))
+    info = info if info is not None else {}
     out: dict[str, list[str]] = {}
+    verdicts: dict[str, str] = {}
     errors: list[str] = []
-    for i in range(0, len(videos), size):
-        batch = videos[i:i + size]
-        lines = [f"[{k}] {v['channel']} ({v.get('language')}) · {round((v.get('duration_seconds') or 0) / 60)} د\n"
-                 f"العنوان: {v.get('title', '')}\nالوصف: {v.get('desc_clean', '')}" for k, v in enumerate(batch)]
-        try:
-            resp = llm.create(client, cfg=cfg, model=m.get("topics_model", "haiku"),
-                              max_tokens=int(m.get("topics_max_tokens", 4000)),
-                              system=m.get("topics_system", ""), tools=[TOPICS_TOOL],
-                              tool_choice={"type": "tool", "name": TOPICS_TOOL["name"]},
-                              messages=[{"role": "user", "content": "\n\n".join(lines)}])
-        except Exception as exc:  # noqa: BLE001 — دفعة متعطلة لا توقف الباقي
-            errors.append(f"دفعة {i // size + 1}: {str(exc)[:120]}")
-            continue
-        if getattr(resp, "stop_reason", None) == "max_tokens":
-            errors.append(f"دفعة {i // size + 1}: رد مقطوع")
-            continue
-        data = _tool_input(resp, TOPICS_TOOL["name"]) or {}
-        max_topics = int(m.get("max_topics_per_video", 4))
-        for row in data.get("videos") or []:
-            n = row.get("n")
-            if not isinstance(n, int) or not 0 <= n < len(batch) or not row.get("political"):
+    max_topics = int(m.get("max_topics_per_video", 4))
+
+    def apply(batch, rows):
+        missing = []
+        for k, v in enumerate(batch):
+            row = rows.get(k)
+            if row is None:
+                missing.append(v)
                 continue
             topics = [str(t).strip() for t in row.get("topics") or [] if str(t).strip()][:max_topics]
-            if topics:
-                out[batch[n]["video_id"]] = topics
+            if row.get("political") and topics:
+                out[v["video_id"]] = topics
+                verdicts[v["video_id"]] = "political"
+            else:
+                verdicts[v["video_id"]] = "not"
+        return missing
+
+    pending: list[dict] = []
+    size = int(m.get("batch_size", 20))
+    for i in range(0, len(videos), size):
+        batch = videos[i:i + size]
+        rows, err = _topics_batch(batch, cfg, client, m)
+        if rows is None:
+            errors.append(f"دفعة {i // size + 1}: {err}")
+            pending += batch
+            continue
+        pending += apply(batch, rows)
+    info["retried"] = len(pending)
+    rsize = int(m.get("retry_batch_size", 8))
+    for i in range(0, len(pending), rsize):
+        batch = pending[i:i + rsize]
+        rows, err = _topics_batch(batch, cfg, client, m)
+        if rows is None:
+            errors.append(f"إعادة {i // rsize + 1}: {err}")
+            continue
+        apply(batch, rows)
+    for v in videos:
+        verdicts.setdefault(v["video_id"], "missing")
+    info["verdicts"] = verdicts
     return out, errors
 
 
@@ -239,7 +279,8 @@ def run(cfg, now: datetime | None = None, client=None, videos: dict | None = Non
         from .config import env
         client = Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
     vids = eligible_videos(videos, cfg, now)
-    topics, errors = video_topics(vids, cfg, client)
+    tinfo: dict = {}
+    topics, errors = video_topics(vids, cfg, client, tinfo)
     items = []
     for v in vids:
         labels = topics.get(v["video_id"]) or []
@@ -256,6 +297,8 @@ def run(cfg, now: datetime | None = None, client=None, videos: dict | None = Non
              for e in score_events(events, items, cfg, keep_all=True)]
     return {"generated_at": now.isoformat(), "eligible": len(vids), "political": len(topics),
             "topics": len(items), "events": len(events), "grouped": ginfo.get("grouped", 0), "group": ginfo,
+            "retried": tinfo.get("retried", 0), "missing": sum(1 for x in tinfo.get("verdicts", {}).values() if x == "missing"),
+            "verdicts": tinfo.get("verdicts", {}),
             "ranked": ranked, "all_events": every,
             "labels": [{k: it[k] for k in ("label", "video_id", "channel")} for it in items], "errors": errors}
 
@@ -263,7 +306,7 @@ def run(cfg, now: datetime | None = None, client=None, videos: dict | None = Non
 def preview_lines(res: dict, cfg) -> list[str]:
     """سطور السجل: رقم الحدث وعنوانه، ثم «N كتل، M توجهات، X دقيقة (تقديرية)» بصيغة صاحب المشروع."""
     t = _mcfg(cfg).get("texts") or {}
-    lines = [t.get("summary", "مواضيع من الوصف: {eligible} فيديو، {political} سياسي، {grouped} من {topics} موضوعًا في {events} حدثًا").format(**res)]
+    lines = [t.get("summary", "مواضيع من الوصف: {eligible} فيديو، {political} سياسي، {grouped} من {topics} موضوعًا في {events} حدثًا · أُعيد {retried} وبقي بلا حكم {missing}").format(**res)]
     for k, e in enumerate(res["ranked"], 1):
         lines.append(t.get("line", "{k}- {title}: {blocs} كتل، {orientations} توجهات، {minutes} دقيقة (تقديرية)").format(
             k=k, title=e["title"], blocs=len(e["blocs"]), orientations=e["orientations"], minutes=e["minutes"]))
