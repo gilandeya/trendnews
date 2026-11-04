@@ -1475,6 +1475,9 @@ def main() -> int:
     # قياس الوصف: مستقل عن البروكسي فيعمل حتى حين ينفد رصيده، ولا يرفع أبدًا
     from . import youtube_meta_probe
     youtube_meta_probe.run_safe(load_config())
+    # المواضيع من الوصف تقرأ ملف القياس الذي كُتب لتوّه، فبعده؛ معاينة فقط ولا ترفع
+    from . import meta_topics
+    meta_topics.preview_safe(load_config())
     stats = result["stats"]
     print(f"ملف النقاط: {path}")
     print(f"القنوات: {stats['channels_checked']} · ضمن النافذة: {stats['videos_found']} "
