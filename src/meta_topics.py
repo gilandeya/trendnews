@@ -13,11 +13,13 @@
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
 import re
 from collections import Counter
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
 from . import llm
 
@@ -328,3 +330,135 @@ def preview_safe(cfg) -> None:
     except Exception as exc:  # noqa: BLE001
         print(f"مواضيع من الوصف: تعذّر — {str(exc)[:150]}")
 
+
+
+# ───────────── قضية الترشيح (الخطوة 3ب) ─────────────
+# تُفتح من youtube-articles (يقرأ المستودع الخاص وله صلاحية فتح القضايا) لا من الجمع (لا صلاحية له)، وتُحفظ نسخة مختصرة
+# من المواضيع في المستودع العام (state/meta_topics) لأن الاعتماد يجري في publish.yml الذي لا يدفع المستودع الخاص؛ النسخة
+# العامة بلا عناوين الفيديوهات ولا أوصافها (كلام قنوات) — عنوان الحدث بالعربية ومعرّفات الفيديو والقنوات والدقائق وحدها.
+
+
+MTOPIC_RE = re.compile(r"^\s*-\s*\[([ xX])\][^\n]*?<!--\s*mtopic:([0-9a-f]+)\s*-->", re.MULTILINE)
+DATE_RE = re.compile(r"<!--\s*meta-date:(\d{4}-\d{2}-\d{2})\s*-->")
+
+
+def public_dir() -> Path:
+    from .config import STATE_DIR
+    return Path(STATE_DIR) / "meta_topics"
+
+
+def topic_id(date: str, title: str) -> str:
+    return hashlib.sha1(f"{date}:{title}".encode("utf-8")).hexdigest()[:12]
+
+
+def slim(res: dict, date: str) -> dict:
+    """النسخة العامة: لكل حدث معرّف ثابت وما يُعرض في القضية، بلا نص من القنوات."""
+    topics = []
+    for e in res.get("ranked") or []:
+        topics.append({"id": topic_id(date, e["title"]), "title": e["title"], "blocs": e["blocs"],
+                       "orientations": e["orientations"], "minutes": e["minutes"], "channels": e["channels"],
+                       "videos": [{k: v.get(k) for k in ("video_id", "channel", "bloc", "orientation", "minutes")}
+                                  for v in e.get("videos") or []]})
+    return {"date": date, "generated_at": res.get("generated_at"), "topics": topics}
+
+
+def _fmt_minutes(m) -> str:
+    return str(round(m or 0))
+
+
+def selection_body(data: dict, cfg) -> str:
+    t = _mcfg(cfg).get("texts") or {}
+    lines = [t.get("selection_header", "## 🧭 مواضيع اليوم من عناوين الفيديوهات وأوصافها"),
+             "", t.get("selection_explainer", ""), "", f"<!-- meta-date:{data['date']} -->", ""]
+    for k, e in enumerate(data["topics"], 1):
+        lines.append(f"- [ ] **{k}. {e['title']}** <!-- mtopic:{e['id']} -->")
+        lines.append("  " + t.get("selection_meta", "{blocs} كتل ({bloc_names})، {orientations} توجهات، {minutes} دقيقة (تقديرية)").format(
+            blocs=len(e["blocs"]), bloc_names="، ".join(e["blocs"]), orientations=e["orientations"],
+            minutes=_fmt_minutes(e["minutes"])))
+        vids = " · ".join(f"[{v['channel']} {_fmt_minutes(v['minutes'])} د](https://youtu.be/{v['video_id']})"
+                          for v in e["videos"])
+        lines.append(f"  <details><summary>{len(e['videos'])} فيديو</summary>\n\n  {vids}\n  </details>")
+        lines.append("")
+    lines.append(t.get("selection_footer", "وسم `approved` = فتح قضية مستقلة لكل موضوع معلَّم."))
+    return "\n".join(lines)
+
+
+def _load_public(date: str) -> dict | None:
+    try:
+        return json.loads((public_dir() / f"{date}.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+
+
+def _save_public(data: dict) -> None:
+    path = public_dir() / f"{data['date']}.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
+
+
+def open_selection(cfg, date: str) -> dict | None:
+    """من ملف اليوم الخاص إلى قضية ترشيح `meta-selection`. لا ترفع: مطفأ أو بلا مواضيع أو قضية مفتوحة لليوم ← None."""
+    m = _mcfg(cfg)
+    if not m.get("enabled"):
+        return None
+    try:
+        from . import review, youtube_transcripts
+        existing = _load_public(date)
+        if existing and existing.get("selection_issue"):
+            return None
+        path = youtube_transcripts.bites_dir() / "meta_topics" / f"{date}.json"
+        res = json.loads(path.read_text(encoding="utf-8"))
+        data = slim(res, date)
+        if not data["topics"]:
+            return None
+        t = m.get("texts") or {}
+        issue = review.create_issue(t.get("selection_title", "🧭 مواضيع اليوم — {date}").format(date=date),
+                                    selection_body(data, cfg), labels=[m.get("selection_label", "meta-selection")])
+        data["selection_issue"] = issue["number"]
+        _save_public(data)
+        return issue
+    except Exception as exc:  # noqa: BLE001 — الترشيح القديم يبقى، فعطل هذا لا يوقف العنقدة
+        log.warning("مواضيع من الوصف: تعذّر فتح قضية الترشيح — %s", str(exc)[:150])
+        return None
+
+
+def topic_body(topic: dict, data: dict, cfg) -> str:
+    t = _mcfg(cfg).get("texts") or {}
+    lines = [f"## 🎬 {topic['title']}", "", f"<!-- mtopic-issue:{topic['id']} -->", f"<!-- meta-date:{data['date']} -->", "",
+             t.get("selection_meta", "").format(blocs=len(topic["blocs"]), bloc_names="، ".join(topic["blocs"]),
+                                                 orientations=topic["orientations"], minutes=_fmt_minutes(topic["minutes"])),
+             ""]
+    for v in topic["videos"]:
+        lines.append(f"- [{v['channel']}](https://youtu.be/{v['video_id']}) · {v.get('orientation') or ''} · "
+                     f"{_fmt_minutes(v['minutes'])} د")
+    lines += ["", t.get("topic_pending", "⏳ تُجلب نصوص هذه الفيديوهات وتُستخرج الأسئلة والإجابات في الخطوة التالية.")]
+    return "\n".join(lines)
+
+
+def finalize(issue_number: int, body: str, cfg) -> int:
+    """اعتماد قضية الترشيح: قضية مستقلة لكل موضوع معلَّم (مرة واحدة لكل موضوع)، وتعليق بروابطها، ثم إغلاق القضية."""
+    from . import review
+    m = _mcfg(cfg)
+    t = m.get("texts") or {}
+    date_m = DATE_RE.search(body or "")
+    data = _load_public(date_m.group(1)) if date_m else None
+    if not data:
+        review.comment(issue_number, t.get("finalize_missing", "⚠️ لم أجد ملف مواضيع هذه القضية."))
+        return 1
+    marked = [tid for mark, tid in MTOPIC_RE.findall(body) if mark.lower() == "x"]
+    by_id = {e["id"]: e for e in data["topics"]}
+    lines = []
+    for tid in marked:
+        topic = by_id.get(tid)
+        if not topic:
+            continue
+        if not topic.get("topic_issue"):
+            issue = review.create_issue(t.get("topic_title", "🎬 {title}").format(title=topic["title"]),
+                                        topic_body(topic, data, cfg), labels=[m.get("topic_label", "meta-topic")])
+            topic["topic_issue"] = issue["number"]
+        lines.append(f"- {topic['title']} ← #{topic['topic_issue']}")
+    _save_public(data)
+    review.comment(issue_number, "\n".join([t.get("finalize_header", "فُتحت قضية لكل موضوع:")] + lines) if lines
+                   else t.get("finalize_none", "لم يُعلَّم موضوع — لا شيء يُفتح."))
+    review.close_issue(issue_number)
+    return 0

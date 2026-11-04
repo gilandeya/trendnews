@@ -1846,6 +1846,11 @@ def main() -> int:
     # يُكتَب تلقائيًا بعد الآن، فقط ما يُعتمَد لاحقًا من هذا الـIssue.
     cfg = load_config()
     selection = open_selection(cfg, result["run_date"])
+    # قضية الترشيح الجديدة من العناوين والأوصاف (الخطوة 3ب) بجانب القديمة ما دامت تُجرَّب؛ مطفأة افتراضيًا ولا ترفع
+    from . import meta_topics
+    meta_issue = meta_topics.open_selection(cfg, result["run_date"])
+    if meta_issue:
+        print(f"قضية مواضيع اليوم من العناوين: #{meta_issue['number']}")
     if selection["issue"]:
         print(f"Issue اختيار المواضيع: #{selection['issue']['number']} "
               f"({len(selection['topics'])} موضوع)")

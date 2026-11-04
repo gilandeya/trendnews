@@ -3172,8 +3172,8 @@ youtube:
     enabled: true
     days: 3
 
-  # المواضيع من العنوان والوصف (الخطوة 3): معاينة في سجل الجمع فقط حتى يحكم صاحب المشروع على جودتها؛ لا قضية ولا أثر على
-  # الترشيح القائم. preview يشغّلها، وenabled محجوز لربط قضية الترشيح الجديدة لاحقًا.
+  # المواضيع من العنوان والوصف (الخطوة 3): preview يشغّل الاستنتاج والمعاينة في سجل الجمع، وenabled يفتح قضية الترشيح
+  # الجديدة (meta-selection) من youtube-articles بجانب القديمة؛ مطفأ حتى يحكم صاحب المشروع على الجودة.
   meta_topics:
     enabled: false
     preview: true
@@ -3214,6 +3214,18 @@ youtube:
     texts:
       summary: "مواضيع من الوصف: {eligible} فيديو، {political} سياسي، {grouped} من {topics} موضوعًا في {events} حدثًا · أُعيد {retried} وبقي بلا حكم {missing}"
       line: "{k}- {title}: {blocs} كتل، {orientations} توجهات، {minutes} دقيقة (تقديرية)"
+      selection_title: "🧭 مواضيع اليوم من العناوين — {date}"
+      selection_header: "## 🧭 مواضيع اليوم من عناوين الفيديوهات وأوصافها"
+      selection_explainer: "علّم ما تريد ريلًا عنه. لكل موضوع معلَّم تُفتح قضية مستقلة، تُجلب فيها نصوص فيديوهاته وحدها وتُستخرج أسئلته وإجابات المحللين. الدقائق تقديرية (مدة الفيديو ÷ عدد مواضيعه)."
+      selection_meta: "{blocs} كتل ({bloc_names})، {orientations} توجهات، {minutes} دقيقة (تقديرية)"
+      selection_footer: "وسم `approved` = فتح قضية مستقلة لكل موضوع معلَّم. ما لا تعلّمه لا يُفتح."
+      topic_title: "🎬 {title}"
+      topic_pending: "⏳ تُجلب نصوص هذه الفيديوهات وتُستخرج الأسئلة والإجابات في الخطوة التالية."
+      finalize_header: "فُتحت قضية لكل موضوع معلَّم:"
+      finalize_none: "لم يُعلَّم موضوع — لا شيء يُفتح."
+      finalize_missing: "⚠️ لم أجد ملف مواضيع هذه القضية في state/meta_topics."
+    selection_label: "meta-selection"
+    topic_label: "meta-topic"
 
   bites:
     # V2: يعمل بجانب النقاط (لا بديلًا عنها بعد) لفيديوهات حارس الموضوع السياسي وحدها، والناتج youtube_bites/<التاريخ>.json الخاص.
