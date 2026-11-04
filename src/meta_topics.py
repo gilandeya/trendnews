@@ -609,6 +609,7 @@ def finalize(issue_number: int, body: str, cfg) -> int:
     marked = [tid for mark, tid in MTOPIC_RE.findall(body) if mark.lower() == "x"]
     by_id = {e["id"]: e for e in data["topics"]}
     lines = []
+    opened = False
     for tid in marked:
         topic = by_id.get(tid)
         if not topic:
@@ -617,9 +618,27 @@ def finalize(issue_number: int, body: str, cfg) -> int:
             issue = review.create_issue(t.get("topic_title", "🎬 {title}").format(title=topic["title"]),
                                         topic_body(topic, data, cfg), labels=[m.get("topic_label", "meta-topic")])
             topic["topic_issue"] = issue["number"]
+            opened = True
         lines.append(f"- {topic['title']} ← #{topic['topic_issue']}")
     _save_public(data)
     review.comment(issue_number, "\n".join([t.get("finalize_header", "فُتحت قضية لكل موضوع:")] + lines) if lines
                    else t.get("finalize_none", "لم يُعلَّم موضوع — لا شيء يُفتح."))
     review.close_issue(issue_number)
+    if opened and (m.get("qa") or {}).get("enabled"):
+        request_qa_run(issue_number, cfg)
     return 0
+
+
+def request_qa_run(issue_number: int, cfg) -> None:
+    """الأسئلة تُستخرج في تشغيلة تركيب الريل (فيها البروكسي والمستودع الخاص). بوجود ملف الإطلاق (W5) يُطلق بعد إيداع
+    النسخة العامة التي فيها رقم قضية الموضوع، وإلا يُطلق الآن؛ العطل تعليق لا استثناء."""
+    import os
+
+    from . import publish, review
+    path = os.environ.get(publish.RENDER_DISPATCH_ENV)
+    if path:
+        data = publish._read_dispatch_file(path)
+        data.update(meta_issue=issue_number)
+        Path(path).write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+        return
+    publish.dispatch_qa(issue_number, cfg)

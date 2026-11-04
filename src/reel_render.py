@@ -6077,6 +6077,10 @@ def main(argv: list[str] | None = None) -> int:
         ok = retry(args.retry, cfg)
         print(f"{'أُعيد إلى queued' if ok else 'لا ريل failed بهذا المعرّف'}: {args.retry}")
     if args.pending:
+        # أسئلة مواضيع العناوين أولًا (meta_qa): التشغيلة الوحيدة التي فيها البروكسي والمستودع الخاص وصلاحية القضايا معًا؛
+        # لا تُسقط التركيب أبدًا
+        from . import meta_qa
+        meta_qa.process_safe(cfg)
         opened = open_missing_reviews(cfg)
         if opened:
             print(f"فُتحت {opened} قضية مراجعة لريلات مركَّبة سابقًا")
