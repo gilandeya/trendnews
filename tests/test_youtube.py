@@ -4572,6 +4572,8 @@ def test_meta_topics() -> None:
             if kw["tools"][0]["name"] == "list_events":
                 return tool("list_events", {"events": [{"title": "حرب غزة", "description": "الحرب على غزة"},
                                                         {"title": "تركيا", "description": "شأن تركي"}]})
+            if kw["tools"][0]["name"] == "merge_events":
+                return tool("merge_events", {"groups": []})
             topics_part = msg.split("المواضيع:\n", 1)[1]
             rows = []
             for ln in topics_part.split("\n"):
@@ -4583,8 +4585,10 @@ def test_meta_topics() -> None:
     cfg["youtube"] = {**base["youtube"], "meta_topics": {**base["youtube"]["meta_topics"], "batch_size": 50}}
     c = Client()
     res = mt.run(cfg, now=now, client=c, videos=videos)
-    check("ثلاثة نداءات: دفعة مواضيع، تسمية الأحداث، دفعة إسناد", len(c.calls) == 3
-          and [k["tools"][0]["name"] for k in c.calls] == ["report_video_topics", "list_events", "assign_topics"], len(c.calls))
+    check("أربعة نداءات: دفعة مواضيع، تسمية الأحداث، دمج الزوايا، دفعة إسناد", len(c.calls) == 4
+          and [k["tools"][0]["name"] for k in c.calls] == ["report_video_topics", "list_events", "merge_events", "assign_topics"],
+          [k["tools"][0]["name"] for k in c.calls])
+    c.calls.pop(2)
     check("لا temperature", all("temperature" not in k for k in c.calls))
     check("التجميع يطلب الأحداث المشتركة وحدها بسقف من الإعداد",
           "قناتان مختلفتان" in c.calls[1]["system"] and "{max_events}" not in c.calls[1]["system"], c.calls[1]["system"][:120])
@@ -4654,6 +4658,36 @@ def test_meta_topics() -> None:
             raise RuntimeError("down")
     r = mt.run(cfg, now=now, client=Boom(), videos=videos)
     check("العطل لا يرفع", r["ranked"] == [] and any("down" in e for e in r["errors"]), r["errors"])
+
+    class Merge(Client):
+        """تسمية بثلاثة أحداث اثنان منها زاويتا قصة واحدة؛ الدمج يضمّ الثاني إلى الأول، ومجموعات غير صالحة تُهمل."""
+        def create(self, **kw):
+            name = kw["tools"][0]["name"]
+            if name == "list_events":
+                self.calls.append(kw)
+                return tool("list_events", {"events": [{"title": "حرب غزة", "description": "الحرب على غزة"},
+                                                        {"title": "هدنة غزة", "description": "مفاوضات الهدنة"},
+                                                        {"title": "تركيا", "description": "شأن تركي"}]})
+            if name == "merge_events":
+                self.calls.append(kw)
+                return tool("merge_events", {"groups": [{"events": [1, 2]}, {"events": [3]}, {"events": [2, 9]}]})
+            return super().create(**kw)
+    mg = Merge()
+    r = mt.run(cfg, now=now, client=mg, videos=videos)
+    assign_msg = next(k for k in mg.calls if k["tools"][0]["name"] == "assign_topics")["messages"][0]["content"]
+    check("الدمج يضمّ الزاوية إلى أول قصتها ويذكرها في الوصف، ويهمل المجموعة الفردية والرقم المكرر وخارج المدى",
+          r["group"]["merged"] == [["حرب غزة", "هدنة غزة"]] and "1. حرب غزة — الحرب على غزة · زواياه: هدنة غزة" in assign_msg
+          and "2. تركيا" in assign_msg and "هدنة غزة —" not in assign_msg, (r["group"].get("merged"), assign_msg[:200]))
+    check("سطر المعاينة يذكر ما دُمج", "🔗 دُمج في «حرب غزة»: هدنة غزة" in mt.preview_lines(r, cfg))
+
+    class MergeBoom(Client):
+        def create(self, **kw):
+            if kw["tools"][0]["name"] == "merge_events":
+                raise RuntimeError("merge down")
+            return super().create(**kw)
+    r = mt.run(cfg, now=now, client=MergeBoom(), videos=videos)
+    check("عطل الدمج يترك الأحداث كما هي ولا يُسقط التجميع", [e["title"] for e in r["ranked"]] == ["حرب غزة"]
+          and "merge down" in r["group"].get("merge_error", ""), r["group"])
 
     class Stringy(Client):
         """تشغيل 4/11: قائمة الأداة وصلت نصًا JSON (وأرقام الصفوف نصوصًا) فرفع التجميع «'str' object has no attribute 'get'»."""
