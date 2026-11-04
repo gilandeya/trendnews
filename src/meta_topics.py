@@ -87,6 +87,23 @@ ASSIGN_TOOL = {
 }
 
 
+MERGE_TOOL = {
+    "name": "merge_events",
+    "description": "مجموعات أرقام الأحداث التي هي زوايا من القصة نفسها؛ كل مجموعة رقمان فأكثر، والحدث الذي لا شريك له لا يُذكر.",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "groups": {
+                "type": "array",
+                "items": {"type": "object", "properties": {"events": {"type": "array", "items": {"type": "integer"}}},
+                          "required": ["events"]},
+            },
+        },
+        "required": ["groups"],
+    },
+}
+
+
 def _mcfg(cfg) -> dict:
     return cfg.path("youtube.meta_topics") or {}
 
@@ -274,6 +291,57 @@ def _assign_batch(batch: list[tuple[int, dict]], catalog: list[dict], cfg, clien
     return out, []
 
 
+def merge_catalog(catalog: list[dict], cfg, client, info: dict) -> list[dict]:
+    """يضمّ الأحداث التي هي زوايا من القصة نفسها إلى أولها بنداء رخيص واحد، قبل الإسناد.
+
+    السبب (4/11): بعد تعليمة «زوايا القصة حدث واحد» ما زال التسمية يُخرج «فوز الديمقراطيين» و«خسارة ترامب» و«التصويت المبكر» بجانب
+    «الانتخابات النصفية»، فتمتلئ العشرة الأولى بقصة واحدة. الحكم لغوي فهو للنموذج، والكود يتحقق: أرقام في المدى، لا رقم في مجموعتين،
+    والمجموعة رقمان فأكثر. المدموج يبقى بعنوان أولها (الأوسع، لأن التسمية مرتّبة بالانتشار) وتُذكر زواياه في وصفه كي يراها الإسناد.
+    العطل أو الرد المقطوع ← القائمة كما هي."""
+    m = _mcfg(cfg)
+    if not m.get("merge_enabled", True) or len(catalog) < 2:
+        return catalog
+    lines = [f"{j + 1}. {e['title']} — {e['description']}" for j, e in enumerate(catalog)]
+    try:
+        resp = llm.create(client, cfg=cfg, model=m.get("merge_model", "haiku"),
+                          max_tokens=int(m.get("merge_max_tokens", 2000)), system=m.get("merge_system", ""),
+                          tools=[MERGE_TOOL], tool_choice={"type": "tool", "name": MERGE_TOOL["name"]},
+                          messages=[{"role": "user", "content": "\n".join(lines)}])
+    except Exception as exc:  # noqa: BLE001 — الدمج تحسين لا شرط
+        info["merge_error"] = str(exc)[:150]
+        return catalog
+    if getattr(resp, "stop_reason", None) == "max_tokens":
+        info["merge_error"] = "رد مقطوع"
+        return catalog
+    data = _tool_input(resp, MERGE_TOOL["name"]) or {}
+    used: set[int] = set()
+    groups: list[list[int]] = []
+    for row in _rows(data, "groups"):
+        idx = []
+        for x in row.get("events") or []:
+            n = _int(x)
+            if n is not None and 1 <= n <= len(catalog) and (n - 1) not in used and (n - 1) not in idx:
+                idx.append(n - 1)
+        if len(idx) >= 2:
+            idx.sort()
+            used.update(idx)
+            groups.append(idx)
+    if not groups:
+        info["merged"] = []
+        return catalog
+    head = {g[0]: g for g in groups}
+    out = []
+    for j, e in enumerate(catalog):
+        if j in used and j not in head:
+            continue
+        if j in head:
+            angles = "، ".join(catalog[k]["title"] for k in head[j][1:])
+            e = {"title": e["title"], "description": f"{e['description']} · زواياه: {angles}".strip(" ·")}
+        out.append(e)
+    info["merged"] = [[catalog[k]["title"] for k in g] for g in groups]
+    return out
+
+
 def group_topics(items: list[dict], cfg, client) -> tuple[list[dict], str | None, dict]:
     """خطوتان: نداء قوي واحد يسمّي الأحداث المشتركة (مخرج قصير)، ثم نداءات رخيصة بدفعات تسند كل موضوع إلى حدث منها.
 
@@ -302,6 +370,7 @@ def group_topics(items: list[dict], cfg, client) -> tuple[list[dict], str | None
     info["returned"] = len(catalog)
     if not catalog:
         return [], None, info
+    catalog = merge_catalog(catalog, cfg, client, info)
     size = int(m.get("assign_batch_size", 50))
     indexed = list(enumerate(items))
     assigned: dict[int, int] = {}
@@ -394,6 +463,9 @@ def preview_lines(res: dict, cfg) -> list[str]:
     for k, e in enumerate(res["ranked"], 1):
         lines.append(t.get("line", "{k}- {title}: {blocs} كتل، {orientations} توجهات، {minutes} دقيقة (تقديرية)").format(
             k=k, title=e["title"], blocs=len(e["blocs"]), orientations=e["orientations"], minutes=e["minutes"]))
+    # الدمج يُرى في السجل كي يُراجَع: دمج خاطئ لقصتين مختلفتين يُكتشف من هنا لا من غياب حدث
+    for g in (res.get("group") or {}).get("merged") or []:
+        lines.append(t.get("merged_line", "🔗 دُمج في «{head}»: {rest}").format(head=g[0], rest="، ".join(g[1:])))
     lines += [f"⚠️ {x}" for x in res.get("errors") or []]
     return lines
 
