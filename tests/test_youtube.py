@@ -4588,6 +4588,8 @@ def test_meta_topics() -> None:
     check("لا temperature", all("temperature" not in k for k in c.calls))
     check("التجميع يطلب الأحداث المشتركة وحدها بسقف من الإعداد",
           "قناتان مختلفتان" in c.calls[1]["system"] and "{max_events}" not in c.calls[1]["system"], c.calls[1]["system"][:120])
+    check("تسمية الأحداث تجعل زوايا القصة الواحدة حدثًا واحدًا، والإسناد يضمّ الزاوية إلى قصتها",
+          "زوايا القصة الواحدة حدث واحد" in c.calls[1]["system"] and "زاوية من قصة" in c.calls[2]["system"])
     check("الإسناد يرى الأحداث المسمّاة بأوصافها", "1. حرب غزة — الحرب على غزة" in c.calls[2]["messages"][0]["content"])
     check("تشخيص التجميع محفوظ: كل الأحداث والمواضيع والعدد المجمّع",
           len(res["all_events"]) == 2 and res["grouped"] == res["topics"] and len(res["labels"]) == res["topics"]
