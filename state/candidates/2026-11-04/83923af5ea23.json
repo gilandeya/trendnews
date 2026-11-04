@@ -1,0 +1,74 @@
+{
+  "id": "83923af5ea23",
+  "created_at": "2026-11-04T17:08:05.614194+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.58,
+  "trend_score": 0.33,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 2,
+  "intrigue": 0,
+  "appeal_note": "باكستان والكويت توقعان اتفاقية دفاع",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Federal cabinet ratifies defence agreement with Kuwait",
+  "link": "https://www.dawn.com/news/2042071/federal-cabinet-ratifies-defence-agreement-with-kuwait",
+  "publishers": [
+    "Dawn",
+    "Geo News",
+    "The Express Tribune"
+  ],
+  "region": "pk",
+  "article": {
+    "title": "Federal cabinet ratifies defence agreement with Kuwait",
+    "link": "https://www.dawn.com/news/2042071/federal-cabinet-ratifies-defence-agreement-with-kuwait",
+    "summary": "The federal cabinet on Wednesday ratified the defence cooperation agreement between Pakistan and Kuwait, according to a handout by the Prime Minister’s Office (PMO). “The federal cabinet ratified a defence cooperation agreement between Pakistan and Kuwait. This agreement, which aims to foster cooperation in the defence sector between the two brotherly nations, was concluded on June 11, 2023. The Kuwaiti government had ratified the agreement on July 19,” the handout said. In 2023, Pakistan and Kuwait signed a defence pact to further strengthen defe­nce cooperation and institutional linkages between the armed forces of the two countries. The statement also said that the cabinet approved the transfer of powers delegated to the Khyber Pakhtunkhwa chief minister to the province’s governor. The Centre declared an emergency and governor’s rule in the province on Oct 11. It said the powers included “the conduct of day-to-day affairs during the period of emergency in the province, to facilitate the smooth handling of administrative matters in KP and further improve governance”. “The KP governor will submit a review report to the federal government every month regarding the exercise of all s",
+    "source_name": "Dawn",
+    "region": "pk",
+    "weight": 1.1,
+    "published": "2026-11-04T12:47:43+00:00",
+    "image_url": "https://i.dawn.com/large/2026/11/0417441467bbac5.webp",
+    "publisher": "Dawn",
+    "cluster_sources": [
+      "Dawn",
+      "Geo News",
+      "The Express Tribune"
+    ],
+    "cluster_members": [
+      {
+        "name": "Dawn",
+        "link": "https://www.dawn.com/news/2042071/federal-cabinet-ratifies-defence-agreement-with-kuwait"
+      },
+      {
+        "name": "The Express Tribune",
+        "link": "https://tribune.com.pk/story/2638615/pakistan-continues-diplomatic-efforts-to-ease-mideast-tensions-pm-shehbaz"
+      },
+      {
+        "name": "Geo News",
+        "link": "https://www.geo.tv/latest/689724-federal-cabinet-ratifies-pakistan-kuwait-defence-cooperation-agreement"
+      }
+    ],
+    "image_candidates": [
+      "https://i.dawn.com/large/2026/11/0417441467bbac5.webp",
+      "https://i.dawn.com/large/2026/11/04164430eadd6ff.webp",
+      "https://i.dawn.com/thumbnail/2026/11/0417441467bbac5.webp",
+      "https://i.dawn.com/thumbnail/2026/11/04164430eadd6ff.webp",
+      "https://www.geo.tv/assets/uploads/2026-11-04/689724_064542_updates.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.3333333333333333,
+    "group_sources": 3,
+    "velocity": 1.0,
+    "age_hours": 2208.914516742222,
+    "is_stale": false,
+    "score": 24.582497173978282,
+    "impact": 1,
+    "proximity": 2,
+    "intrigue": 0,
+    "appeal_note": "باكستان والكويت توقعان اتفاقية دفاع",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

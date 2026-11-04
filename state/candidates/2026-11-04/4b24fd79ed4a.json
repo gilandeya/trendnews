@@ -1,0 +1,79 @@
+{
+  "id": "4b24fd79ed4a",
+  "created_at": "2026-11-04T17:08:05.613387+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 31.27,
+  "trend_score": 1.0,
+  "velocity": 0.6,
+  "impact": 2,
+  "proximity": 1,
+  "intrigue": 2,
+  "appeal_note": "هزيمة جمهورية مدوية وتحميل فانس الحرب على إيران",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Las ‘midterms’ 2026, en vivo | El vicepresidente J. D. Vance culpa a la guerra en Irán por la estrepitosa derrota republicana",
+  "link": "https://elpais.com/us/2026-11-04/las-midterms-2026-en-vivo.html",
+  "publishers": [
+    "Clarín",
+    "Der Spiegel",
+    "El País",
+    "Le Monde"
+  ],
+  "region": "es",
+  "article": {
+    "title": "Las ‘midterms’ 2026, en vivo | El vicepresidente J. D. Vance culpa a la guerra en Irán por la estrepitosa derrota republicana",
+    "link": "https://elpais.com/us/2026-11-04/las-midterms-2026-en-vivo.html",
+    "summary": "La Cámara de Representantes y el Senado han pasado a manos demócratas con el respaldo de lugares profundamente republicanos",
+    "source_name": "El País",
+    "region": "es",
+    "weight": 1.0,
+    "published": "2026-11-04T16:36:43+00:00",
+    "image_url": "https://imagenes.elpais.com/resizer/v2/JQC7BYPJ3BLDNNRCVDD74PYMLU.jpg?auth=00a9728f8690f8c3fd796932d7142f6c07a164fb396853cefea7f6cb6fd4b67d",
+    "publisher": "El País",
+    "cluster_sources": [
+      "Clarín",
+      "Der Spiegel",
+      "El País",
+      "Le Monde"
+    ],
+    "cluster_members": [
+      {
+        "name": "El País",
+        "link": "https://elpais.com/us/2026-11-04/las-midterms-2026-en-vivo.html"
+      },
+      {
+        "name": "Clarín",
+        "link": "https://www.clarin.com/estados-unidos/vance-culpa-a-la-guerra-en-iran-de-la-estrepitosa-derrota-republicana-en-las-legislativas_0_5J1OMtNgeL.html"
+      },
+      {
+        "name": "Der Spiegel",
+        "link": "https://www.spiegel.de/ausland/midterms-2026-in-den-usa-donald-trump-abgestraft-demokraten-erobern-laut-prognosen-mehrheit-im-repraesentantenhaus-und-im-senat-abdul-el-sayed-gewinnt-michigan-a-c6a7c5b3-24a1-4e70-a78e-067745ed4103#ref=rss"
+      },
+      {
+        "name": "Le Monde",
+        "link": "https://www.lemonde.fr/politique/article/2026/11/04/presidentielle-2027-les-resultats-des-midterms-americains-genent-le-rn-et-rejouissent-la-gauche_6806278_823448.html"
+      }
+    ],
+    "image_candidates": [
+      "https://imagenes.elpais.com/resizer/v2/JQC7BYPJ3BLDNNRCVDD74PYMLU.jpg?auth=00a9728f8690f8c3fd796932d7142f6c07a164fb396853cefea7f6cb6fd4b67d",
+      "https://www.clarin.com/img/2026/08/27/-I2w8bjWX_1200x630__1.jpg",
+      "https://cdn.prod.www.spiegel.de/images/4ca2341d-0881-434f-99bd-1fc9b2a0bcf9_w520_r2.08_fpx43_fpy21.jpg",
+      "https://img.lemde.fr/2026/10/21/886/0/5838/2919/644/322/60/0/ca1d938_upload-1-foe2m0ood5lk-cbi1348008.JPG"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 1.0,
+    "group_sources": 4,
+    "velocity": 0.6,
+    "age_hours": 0.0,
+    "is_stale": false,
+    "score": 31.2653874625,
+    "impact": 2,
+    "proximity": 1,
+    "intrigue": 2,
+    "appeal_note": "هزيمة جمهورية مدوية وتحميل فانس الحرب على إيران",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

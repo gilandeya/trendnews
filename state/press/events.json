@@ -556,7 +556,7 @@
      "published": "2026-10-25T02:27:15+00:00"
     }
    ],
-   "last_seen": "2026-11-03T17:07:50.467225+00:00",
+   "last_seen": "2026-11-04T17:07:52.089259+00:00",
    "outlets": 22,
    "regions": 15,
    "languages": 1,
@@ -844,285 +844,240 @@
    "score": 48.0
   },
   {
-   "id": "f4950bb60ba8",
-   "first_seen": "2026-10-05T15:07:44.573046+00:00",
+   "id": "c778f6a993a4",
+   "first_seen": "2026-10-28T17:07:45.658313+00:00",
    "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "light",
-     "title": "Brazil’s presidential race goes to second round as Flávio Bolsonaro leads incumbent Lula",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/05/brazil-presidential-race-election-result-second-round-lula-flavio-bolsonaro",
-     "published": "2026-10-05T00:16:52+00:00"
-    },
     {
      "outlet": "Court House News",
      "region": "court",
      "bucket": "light",
-     "title": "Lula and Bolsonaro head to Brazil’s presidential runoff",
+     "title": "Israelis await final election results as Netanyahu rivals weigh joining forces with Arab parties",
      "language": "en",
-     "link": "https://www.courthousenews.com/lula-and-bolsonaro-head-to-brazils-presidential-runoff/",
-     "published": "2026-10-05T01:45:04+00:00"
+     "link": "https://www.courthousenews.com/israelis-await-final-election-results-as-netanyahu-rivals-weigh-joining-forces-with-arab-parties/",
+     "published": "2026-10-28T17:02:46+00:00"
     },
     {
-     "outlet": "Premium Times",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Brazil’s presidential election goes to runoff",
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "light",
+     "title": "Israelis Await Final Election Results As Netanyahu Remains Far From Defeated",
      "language": "en",
-     "link": "https://www.premiumtimesng.com/foreign/world-foreign/914610-brazils-presidential-election-goes-to-runoff.html",
-     "published": "2026-10-05T12:56:50+00:00"
+     "link": "https://www.ndtv.com/world-news/israelis-await-final-election-results-as-netanyahu-remains-far-from-defeated-12248039#publisher=newsstand",
+     "published": "2026-10-28T10:42:24+00:00"
     },
     {
-     "outlet": "Deutsche Welle",
-     "region": "eu",
+     "outlet": "Google News — World",
+     "region": "global",
      "bucket": "serious",
-     "title": "Brazil election: Bolsonaro and Lula head to runoff",
+     "title": "Israelis await final election results as Netanyahu rivals weigh joining forces with Arab parties",
      "language": "en",
-     "link": "https://www.dw.com/en/brazil-election-bolsonaro-and-lula-head-to-runoff/a-79533857?maca=en-rss-en-world-4025-rdf",
-     "published": "2026-10-05T00:27:00+00:00"
-    },
-    {
-     "outlet": "CGTN",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Lula, Flavio Bolsonaro head to runoff in Brazil presidential election",
-     "language": "en",
-     "link": "https://news.cgtn.com/news/2026-10-05/news-1QZ8scMvcdy/p.html?UTM_Source=cgtn&UTM_Medium=rss&UTM_Campaign=World",
-     "published": "2026-10-04T23:58:51+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Flavio Bolsonaro, Lula da Silva advance to second tour of presidential election",
-     "language": "en",
-     "link": "https://tass.com/world/2197463",
-     "published": "2026-10-05T00:30:00+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Brazil heads to run-off as Bolsonaro pulls off shock first place finish in first round",
-     "language": "en",
-     "link": "https://www.france24.com/en/video/20261005-brazil-heads-to-run-off-as-bolsonaro-pulls-off-shock-first-place-finish-in-first-round",
-     "published": "2026-10-05T09:38:59+00:00"
-    },
-    {
-     "outlet": "Buenos Aires Times",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "Brazil heads to run-off as Flávio Bolsonaro takes first place finish over Lula",
-     "language": "en",
-     "link": "https://www.batimes.com.ar/news/latin-america/brazil-heads-to-run-off-as-flavio-bolsonaro-takes-first-place-finish-over-lula.phtml",
-     "published": "2026-10-05T05:14:00+00:00"
-    },
-    {
-     "outlet": "MercoPress",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "Flávio Bolsonaro edges Lula in the first round; both head to an October 25 runoff",
-     "language": "en",
-     "link": "https://en.mercopress.com/2026/10/05/flavio-bolsonaro-edges-lula-in-the-first-round-both-head-to-an-october-25-runoff?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
-     "published": "2026-10-05T10:30:00+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Right-wing Flávio Bolsonaro wins first round of Brazil election",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/ck1l34ed592no?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-05T03:16:16+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Bolsonaro pushes Lula to brink of defeat ahead of Brazil runoff",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/news/2026/10/05/world/brazil-lula-bolsonaro-narrow-election/",
-     "published": "2026-10-05T05:36:00+00:00"
-    },
-    {
-     "outlet": "Buenos Aires Times",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "Bolsonaro pushes Lula to brink of defeat ahead of Brazil run-off",
-     "language": "en",
-     "link": "https://www.batimes.com.ar/news/latin-america/bolsonaro-pushes-lula-to-brink-of-defeat-ahead-of-brazil-run-off.phtml",
-     "published": "2026-10-05T11:30:18+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Bolsonaro in 'very strong position' as Brazil election heads to run-off",
-     "language": "en",
-     "link": "https://www.france24.com/en/video/20261005-bolsonaro-in-very-strong-position-as-brazil-election-heads-to-run-off",
-     "published": "2026-10-05T08:44:23+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Bolsonaro rides right-wing surge into Brazil’s election runoff",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/05/bolsonaro-rides-right-wing-surge-into-brazil-s-election-runoff",
-     "published": "2026-10-05T15:55:04+00:00"
-    },
-    {
-     "outlet": "Buenos Aires Times",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "Flávio Bolsonaro rides right-wing surge into Brazil's election run-off",
-     "language": "en",
-     "link": "https://www.batimes.com.ar/news/latin-america/flavio-bolsonaro-rides-right-wing-surge-into-brazils-election-run-off.phtml",
-     "published": "2026-10-05T16:26:40+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Brazil presidential election 2026: first-round live results",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/ng-interactive/2026/oct/04/brazil-presidential-election-2026-first-round-live-results",
-     "published": "2026-10-05T00:24:55+00:00"
+     "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOVkhkVlMyeHNjUXZ4YXlWMVNFVXZMWkwzRW9qQUlxWkhVZHJiTlhRLTFIbjJzOUVDOE1QQ09acFBOM0xPOUstY1NMVXV5RlYzaVl5cVhvVE9MZ3lpQk44RFhfSjR2eEVFYm1RekhzVzBFMVI0TWxjM2Znbi1rSkhxVndVenhQdWpJdGgtNG1LQTh2dUdWbmQ4SEwwWmtvMEVEcGh2SUljSkpBYWloNnVmcWhiOTVzTFl5dEE?oc=5",
+     "published": "2026-10-28T16:44:00+00:00"
     },
     {
      "outlet": "The Hindu — International",
      "region": "in",
      "bucket": "serious",
-     "title": "Brazil lurches to the right as Lula falters in the first round of presidential election",
+     "title": "Israeli Arab parties hold key as Netanyahu falls short of majority",
      "language": "en",
-     "link": "https://www.thehindu.com/news/international/brazil-presidential-election-lula-bolsonaro/article71548352.ece",
-     "published": "2026-10-05T16:19:26+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Flávio Bolsonaro poised to win Brazilian presidency after shock first-round victory",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/05/flavio-bolsonaro-brazilian-presidency-election-shock-first-round-victory",
-     "published": "2026-10-05T16:05:20+00:00"
-    },
-    {
-     "outlet": "MercoPress",
-     "region": "latam",
-     "bucket": "serious",
-     "title": "\"The end of the PT era is decreed,\" says Flávio Bolsonaro after winning the first round",
-     "language": "en",
-     "link": "https://en.mercopress.com/2026/10/05/the-end-of-the-pt-era-is-decreed-says-flavio-bolsonaro-after-winning-the-first-round?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
-     "published": "2026-10-05T17:18:00+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Brazil-China ties in focus as Bolsonaro gets election edge over Lula",
-     "language": "en",
-     "link": "https://www.scmp.com/plus/news/china/diplomacy/article/3369805/brazil-china-ties-focus-bolsonaro-gets-election-edge-over-lula?utm_source=rss_feed",
-     "published": "2026-10-05T09:46:21+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Brazil’s Lula accuses Meta of election interference",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/brazils-lula-accuses-meta-of-election-interference/article71571012.ece",
-     "published": "2026-10-11T09:01:39+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Brazil's Lula accuses social media giant Meta of election interference amid tight run-off campaign",
-     "language": "en",
-     "link": "https://www.france24.com/en/americas/20261011-brazil-lula-accuses-social-media-giant-meta-election-interference-amid-tight-run-campaign",
-     "published": "2026-10-11T13:12:09+00:00"
+     "link": "https://www.thehindu.com/news/international/israeli-arab-parties-hold-key-as-netanyahu-falls-short-of-majority/article71635927.ece",
+     "published": "2026-10-28T12:53:57+00:00"
     },
     {
      "outlet": "Free Malaysia Today",
      "region": "my",
      "bucket": "serious",
-     "title": "Brazil’s Lula accuses Meta of election interference",
+     "title": "Israeli Arab parties hold key as Netanyahu falls short of majority",
      "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/11/brazil-s-lula-accuses-meta-of-election-interference",
-     "published": "2026-10-11T08:49:00+00:00"
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/28/israeli-arab-parties-hold-key-as-netanyahu-falls-short-of-majority",
+     "published": "2026-10-28T13:18:34+00:00"
     },
     {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Brazil's Lula accuses Meta of election interference",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2634278/brazils-lula-accuses-meta-of-election-interference",
-     "published": "2026-10-11T12:38:20+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
+     "outlet": "NDTV — World",
      "region": "in",
      "bucket": "serious",
-     "title": "Meta faces election interference accusations from Brazil's Lula da Silva; court gives company 48 hours to clarify",
+     "title": "Israel Election Results Live: Israel Elections 'Stolen' By Arab Parties, Claims Netanyahu, As His Party Falls Short Of Majority",
      "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/meta-faces-election-interference-accusations-from-brazils-lula-da-silva-court-gives-company-48-hours-to-clarify-101791711200783.html",
-     "published": "2026-10-11T10:24:16+00:00"
+     "link": "https://www.ndtv.com/world-news/israel-election-results-live-updates-exit-polls-netanyahu-opposition-knesset-gadi-eisenkot-trump-12245676#publisher=newsstand",
+     "published": "2026-10-28T16:58:05+00:00"
     },
     {
      "outlet": "Al Jazeera English",
      "region": "qa",
      "bucket": "serious",
-     "title": "Lula and Bolsonaro spar in Brazil’s fiery first presidential run-off debate",
+     "title": "Why Arab parties may not be the ‘kingmakers’ in this Israeli election",
      "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/19/lula-and-bolsonaro-spar-in-brazils-fiery-first-presidential-run-off-debate?traffic_source=rss",
-     "published": "2026-10-19T04:27:00+00:00"
+     "link": "https://www.aljazeera.com/news/2026/10/28/can-israeli-leader-eisenkot-ally-with-arab-parties-to-unseat-netanyahu?traffic_source=rss",
+     "published": "2026-10-28T14:30:17+00:00"
     },
     {
-     "outlet": "South China Morning Post",
-     "region": "cn",
+     "outlet": "France24",
+     "region": "eu",
      "bucket": "serious",
-     "title": "Lula and Bolsonaro trade barbs in fiery Brazil run-off debate",
+     "title": "Arab parties ‘have woken up’: Israel's uncertain election may deliver surprise kingmakers",
      "language": "en",
-     "link": "https://www.scmp.com/news/world/americas/article/3371343/lula-and-bolsonaro-trade-barbs-fiery-brazil-run-debate?utm_source=rss_feed",
-     "published": "2026-10-19T04:09:43+00:00"
+     "link": "https://www.france24.com/en/middle-east/20261028-arab-parties-have-woken-up-israel-uncertain-election-may-deliver-surprise-kingmakers",
+     "published": "2026-10-28T16:04:21+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Israeli election: As votes are counted, no clear winner emerges",
+     "language": "en",
+     "link": "https://www.france24.com/en/video/20261028-israeli-election-as-votes-are-counted-no-clear-winner-emerges",
+     "published": "2026-10-28T11:32:07+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "No official winner yet in Israeli election as votes continue to be counted",
+     "language": "en",
+     "link": "https://www.cbsnews.com/video/no-official-winner-yet-in-israeli-election-as-votes-continue-to-be-counted/",
+     "published": "2026-10-28T13:09:27+00:00"
+    },
+    {
+     "outlet": "El País",
+     "region": "es",
+     "bucket": "serious",
+     "title": "Resultados de las elecciones en Israel 2026, en directo |El partido de Netanyahu acusa a las formaciones árabes de “robar las elecciones”",
+     "language": "es",
+     "link": "https://elpais.com/internacional/2026-10-28/resultados-y-reacciones-de-las-elecciones-en-israel-en-directo.html",
+     "published": "2026-10-28T16:27:08+00:00"
     },
     {
      "outlet": "Daily Maverick",
      "region": "za",
      "bucket": "serious",
-     "title": "Brazil’s Bolsonaro, Lula spar in first debate as personal attacks fly",
+     "title": "Israeli exit polls show deadlock, point to setback for Netanyahu",
      "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-19-brazils-bolsonaro-lula-spar-in-first-debate-as-personal-attacks-fly/",
-     "published": "2026-10-19T10:23:39+00:00"
+     "link": "https://www.dailymaverick.co.za/article/2026-10-28-israeli-exit-polls-show-deadlock-point-to-setback-for-netanyahu/",
+     "published": "2026-10-28T04:40:13+00:00"
+    },
+    {
+     "outlet": "Iran International",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Israeli exit polls point to deadlock after Iran-dominated election",
+     "language": "en",
+     "link": "https://www.iranintl.com/en/202610272428",
+     "published": "2026-10-27T13:55:10+00:00"
     },
     {
      "outlet": "Dawn",
      "region": "pk",
      "bucket": "serious",
-     "title": "Brazil chooses between Lula and Bolsonaro in nail-biter vote",
+     "title": "Israel piles pressure on Arab parties as Netanyahu seeks government",
      "language": "en",
-     "link": "https://www.dawn.com/news/2039743/brazil-chooses-between-lula-and-bolsonaro-in-nail-biter-vote",
-     "published": "2026-10-25T15:38:07+00:00"
+     "link": "https://www.dawn.com/news/2040722/israel-piles-pressure-on-arab-parties-as-netanyahu-seeks-government",
+     "published": "2026-10-29T13:39:37+00:00"
     },
     {
-     "outlet": "MercoPress",
-     "region": "latam",
+     "outlet": "The Hindu — International",
+     "region": "in",
      "bucket": "serious",
-     "title": "Brazil chooses between Lula and Bolsonaro in its tightest runoff in recent history",
+     "title": "Israel polls: Golan urges Eisenkot's bloc to form government with Arab parties to oust Netanyahu",
      "language": "en",
-     "link": "https://en.mercopress.com/2026/10/25/brazil-chooses-between-lula-and-bolsonaro-in-its-tightest-runoff-in-recent-history?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
-     "published": "2026-10-25T07:02:00+00:00"
+     "link": "https://www.thehindu.com/news/international/israel-polls-golan-urges-eisenkots-bloc-to-form-government-with-arab-parties-to-oust-netanyahu/article71635413.ece",
+     "published": "2026-10-28T12:00:59+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Israel piles pressure on Arab parties as Netanyahu seeks government",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2637546/netanyahu-set-to-remain-caretaker-after-inconclusive-israeli-election",
+     "published": "2026-10-29T01:30:00+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Israel piles pressure on Arab parties as Netanyahu seeks government",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/israel-piles-pressure-on-arab-parties-as-netanyahu-seeks-government/article71641215.ece",
+     "published": "2026-10-29T14:36:04+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Israel’s election commission rejects Netanyahu claims of voting fraud",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/nov/04/israel-election-commission-rejects-netanyahu-claims-voting-fraud",
+     "published": "2026-11-04T12:19:18+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Israel election commission rejects Netanyahu charges of fraud",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2042064/israel-election-commission-rejects-netanyahu-charges-of-fraud",
+     "published": "2026-11-04T08:27:43+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Israel election commission rejects Benjamin Netanyahu charges of fraud",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/israel-election-commission-rejects-benjamin-netanyahu-charges-of-fraud/article71665384.ece",
+     "published": "2026-11-04T12:44:43+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Blow for Netanyahu as Israeli election body rejects claims of Arab party fraud",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/middle-east/article/3373260/blow-netanyahu-israeli-election-body-rejects-claims-arab-party-fraud",
+     "published": "2026-11-04T09:24:54+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Israel election body finds no vote fraud in blow to Netanyahu claims",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/mid-east/israel-election-body-finds-no-vote-fraud-in-blow-to-netanyahu-claims",
+     "published": "2026-11-04T09:37:00+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Israel’s President accepts certified election results in a blow to Netanyahu’s claim of vote fraud",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/israels-president-accepts-certified-election-results-in-a-blow-to-netanyahus-claim-of-vote-fraud/article71666124.ece",
+     "published": "2026-11-04T16:05:14+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Golan accuses Netanyahu of coup bid after election defeat",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/mid-east/golan-accuses-netanyahu-of-coup-bid-after-election-defeat",
+     "published": "2026-11-04T14:38:00+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Netanyahu rivals seize on US election results to push for his ouster",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/11/04/netanyahu-rivals-seize-on-us-election-results-to-push-for-his-ouster",
+     "published": "2026-11-04T11:53:35+00:00"
     }
    ],
-   "last_seen": "2026-10-28T17:07:45.658313+00:00",
-   "outlets": 19,
-   "regions": 13,
-   "languages": 1,
-   "score": 47.0
+   "last_seen": "2026-11-04T17:07:52.089259+00:00",
+   "outlets": 16,
+   "regions": 14,
+   "languages": 2,
+   "score": 48.0
   },
   {
    "id": "8a9cacec0541",
@@ -2197,224 +2152,6 @@
    "score": 41.0
   },
   {
-   "id": "5f70df98c0e7",
-   "first_seen": "2026-10-23T17:08:00.252001+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "At least seven killed after gunmen open fire at church in Jordan",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/23/at-least-seven-killed-after-gunmen-open-fire-at-church-in-jordan?traffic_source=rss",
-     "published": "2026-10-23T13:32:40+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "At least seven killed in attack at church in Jordan, state-owned outlet says",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2636536/at-least-seven-killed-in-attack-at-church-in-jordan-state-owned-outlet-says",
-     "published": "2026-10-23T08:56:41+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Seven killed, 28 injured after gunmen open fire inside a church in Jordan",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/gunmen-open-fire-inside-a-church-in-jordan-causing-deaths-and-injuries/article71616413.ece",
-     "published": "2026-10-23T13:58:17+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Gunmen kill at least 7 in attack on Jordan church, authorities say",
-     "language": "en",
-     "link": "https://www.cbsnews.com/news/jordan-shooting-greek-orthodox-church-karak/",
-     "published": "2026-10-23T15:36:20+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "7 Killed, 34 Injured As Gunmen Open Fire In Jordan Church During Funeral",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/7-killed-34-injured-as-gunmen-open-fire-in-jordan-church-during-funeral-12226991#publisher=newsstand",
-     "published": "2026-10-23T15:40:21+00:00"
-    },
-    {
-     "outlet": "Tehran Times",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Six killed in attack at church in Jordan",
-     "language": "en",
-     "link": "https://www.tehrantimes.com/news/531409/Six-killed-in-attack-at-church-in-Jordan",
-     "published": "2026-10-23T15:33:34+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Seven killed as gunmen open fire near Christian church in Jordan",
-     "language": "en",
-     "link": "https://tass.com/emergencies/2206933",
-     "published": "2026-10-23T12:48:54+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Six shot dead by gunmen at church funeral in Jordan, officials say",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9PaUdRVmRXdUhxR3haU3dtY0ZUbm96Y2RrYVFQdGd6RVJGR3o3eFMxSldjR3FvQURrdzJONDhmRUNhVDd3TDh2UzVndUtGcG0tNTFoLTlnOXhSaFk?oc=5",
-     "published": "2026-10-23T15:15:18+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Seven shot dead by gunmen at church funeral in Jordan, officials say",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/ck87zlpzny15o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-23T16:33:11+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Several killed, dozens wounded in Jordan church shooting",
-     "language": "en",
-     "link": "https://www.france24.com/en/middle-east/20261023-several-killed-dozens-wounded-in-jordan-church-shooting",
-     "published": "2026-10-23T14:16:29+00:00"
-    },
-    {
-     "outlet": "TASS",
-     "region": "ru",
-     "bucket": "serious",
-     "title": "Three terrorists involved in attack on Christian church in Jordan",
-     "language": "en",
-     "link": "https://tass.com/emergencies/2207067",
-     "published": "2026-10-23T15:46:12+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Nine killed and 40 injured after gunmen open fire at church funeral in Jordan",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/24/seven-killed-and-40-injured-after-gunmen-open-fire-at-church-funeral-in-jordan",
-     "published": "2026-10-24T14:24:15+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "7 killed, 34 injured as gunmen open fire at church during funeral in Jordan",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/uae-news/7-killed-34-injured-as-gunmen-open-fire-at-church-during-funeral-in-jordan-101792776956564.html",
-     "published": "2026-10-23T17:48:49+00:00"
-    },
-    {
-     "outlet": "NPR World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "Gunmen open fire at a church during a funeral in Jordan, killing 7 and wounding 40",
-     "language": "en",
-     "link": "https://www.npr.org/2026/10/24/nx-s1-6015414/shooting-church-jordan",
-     "published": "2026-10-24T11:59:08+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Jordan arrests three suspects over church attack in dawn raid: What to know",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/26/jordan-arrests-three-suspects-over-church-attack-in-dawn-raid-what-to-know?traffic_source=rss",
-     "published": "2026-10-26T11:08:48+00:00"
-    },
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "Jordan arrests three suspects in deadly church attack, state media says",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-26-jordan-arrests-three-suspects-in-deadly-church-attack-state-media-says/",
-     "published": "2026-10-26T11:05:37+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Jordan arrests 3 in dawn raid over church attack",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2039967/jordan-arrests-3-in-dawn-raid-over-church-attack",
-     "published": "2026-10-26T11:55:56+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Jordan arrests 3 relatives over deadly church attack after shoot-out",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/middle-east/article/3372198/jordan-arrests-3-relatives-over-deadly-church-attack-after-shoot-out",
-     "published": "2026-10-26T13:02:50+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Jordan arrests three suspects in deadly church attack, state media says",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2637002/jordan-arrests-three-suspects-in-deadly-church-attack-state-media-says",
-     "published": "2026-10-26T04:06:26+00:00"
-    },
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Jordan attacks militants in Syria in retaliation for church attack",
-     "language": "en",
-     "link": "https://www.theguardian.com/world/2026/oct/26/jordan-attacks-militants-syria-retaliation-for-last-week-church-attack",
-     "published": "2026-10-26T22:08:38+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Jordan carries out deadly strike in Syria in retaliation for church attack",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cq8ezg6dy6xlo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-27T02:40:17+00:00"
-    },
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Jordan strikes targets in Syria after deadly church attack",
-     "language": "en",
-     "link": "https://www.scmp.com/news/world/middle-east/article/3372253/jordan-strikes-targets-syria-after-deadly-church-attack",
-     "published": "2026-10-27T05:22:48+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Jordan strikes militant groups in Syria after church attack",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2040176/jordan-strikes-militant-groups-in-syria-after-church-attack",
-     "published": "2026-10-27T06:23:33+00:00"
-    }
-   ],
-   "last_seen": "2026-10-27T17:07:51.728625+00:00",
-   "outlets": 16,
-   "regions": 11,
-   "languages": 1,
-   "score": 40.0
-  },
-  {
    "id": "45fc85eb29c8",
    "first_seen": "2026-10-27T17:07:51.728625+00:00",
    "members": [
@@ -2577,170 +2314,6 @@
    "regions": 12,
    "languages": 1,
    "score": 40.0
-  },
-  {
-   "id": "c778f6a993a4",
-   "first_seen": "2026-10-28T17:07:45.658313+00:00",
-   "members": [
-    {
-     "outlet": "Court House News",
-     "region": "court",
-     "bucket": "light",
-     "title": "Israelis await final election results as Netanyahu rivals weigh joining forces with Arab parties",
-     "language": "en",
-     "link": "https://www.courthousenews.com/israelis-await-final-election-results-as-netanyahu-rivals-weigh-joining-forces-with-arab-parties/",
-     "published": "2026-10-28T17:02:46+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "light",
-     "title": "Israelis Await Final Election Results As Netanyahu Remains Far From Defeated",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/israelis-await-final-election-results-as-netanyahu-remains-far-from-defeated-12248039#publisher=newsstand",
-     "published": "2026-10-28T10:42:24+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Israelis await final election results as Netanyahu rivals weigh joining forces with Arab parties",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOVkhkVlMyeHNjUXZ4YXlWMVNFVXZMWkwzRW9qQUlxWkhVZHJiTlhRLTFIbjJzOUVDOE1QQ09acFBOM0xPOUstY1NMVXV5RlYzaVl5cVhvVE9MZ3lpQk44RFhfSjR2eEVFYm1RekhzVzBFMVI0TWxjM2Znbi1rSkhxVndVenhQdWpJdGgtNG1LQTh2dUdWbmQ4SEwwWmtvMEVEcGh2SUljSkpBYWloNnVmcWhiOTVzTFl5dEE?oc=5",
-     "published": "2026-10-28T16:44:00+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Israeli Arab parties hold key as Netanyahu falls short of majority",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/israeli-arab-parties-hold-key-as-netanyahu-falls-short-of-majority/article71635927.ece",
-     "published": "2026-10-28T12:53:57+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Israeli Arab parties hold key as Netanyahu falls short of majority",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/28/israeli-arab-parties-hold-key-as-netanyahu-falls-short-of-majority",
-     "published": "2026-10-28T13:18:34+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Israel Election Results Live: Israel Elections 'Stolen' By Arab Parties, Claims Netanyahu, As His Party Falls Short Of Majority",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/israel-election-results-live-updates-exit-polls-netanyahu-opposition-knesset-gadi-eisenkot-trump-12245676#publisher=newsstand",
-     "published": "2026-10-28T16:58:05+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Why Arab parties may not be the ‘kingmakers’ in this Israeli election",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/28/can-israeli-leader-eisenkot-ally-with-arab-parties-to-unseat-netanyahu?traffic_source=rss",
-     "published": "2026-10-28T14:30:17+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Arab parties ‘have woken up’: Israel's uncertain election may deliver surprise kingmakers",
-     "language": "en",
-     "link": "https://www.france24.com/en/middle-east/20261028-arab-parties-have-woken-up-israel-uncertain-election-may-deliver-surprise-kingmakers",
-     "published": "2026-10-28T16:04:21+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Israeli election: As votes are counted, no clear winner emerges",
-     "language": "en",
-     "link": "https://www.france24.com/en/video/20261028-israeli-election-as-votes-are-counted-no-clear-winner-emerges",
-     "published": "2026-10-28T11:32:07+00:00"
-    },
-    {
-     "outlet": "CBS News — World",
-     "region": "us",
-     "bucket": "serious",
-     "title": "No official winner yet in Israeli election as votes continue to be counted",
-     "language": "en",
-     "link": "https://www.cbsnews.com/video/no-official-winner-yet-in-israeli-election-as-votes-continue-to-be-counted/",
-     "published": "2026-10-28T13:09:27+00:00"
-    },
-    {
-     "outlet": "El País",
-     "region": "es",
-     "bucket": "serious",
-     "title": "Resultados de las elecciones en Israel 2026, en directo |El partido de Netanyahu acusa a las formaciones árabes de “robar las elecciones”",
-     "language": "es",
-     "link": "https://elpais.com/internacional/2026-10-28/resultados-y-reacciones-de-las-elecciones-en-israel-en-directo.html",
-     "published": "2026-10-28T16:27:08+00:00"
-    },
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "Israeli exit polls show deadlock, point to setback for Netanyahu",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-28-israeli-exit-polls-show-deadlock-point-to-setback-for-netanyahu/",
-     "published": "2026-10-28T04:40:13+00:00"
-    },
-    {
-     "outlet": "Iran International",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Israeli exit polls point to deadlock after Iran-dominated election",
-     "language": "en",
-     "link": "https://www.iranintl.com/en/202610272428",
-     "published": "2026-10-27T13:55:10+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Israel piles pressure on Arab parties as Netanyahu seeks government",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2040722/israel-piles-pressure-on-arab-parties-as-netanyahu-seeks-government",
-     "published": "2026-10-29T13:39:37+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Israel polls: Golan urges Eisenkot's bloc to form government with Arab parties to oust Netanyahu",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/israel-polls-golan-urges-eisenkots-bloc-to-form-government-with-arab-parties-to-oust-netanyahu/article71635413.ece",
-     "published": "2026-10-28T12:00:59+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Israel piles pressure on Arab parties as Netanyahu seeks government",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2637546/netanyahu-set-to-remain-caretaker-after-inconclusive-israeli-election",
-     "published": "2026-10-29T01:30:00+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Israel piles pressure on Arab parties as Netanyahu seeks government",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/israel-piles-pressure-on-arab-parties-as-netanyahu-seeks-government/article71641215.ece",
-     "published": "2026-10-29T14:36:04+00:00"
-    }
-   ],
-   "last_seen": "2026-10-29T17:08:03.776319+00:00",
-   "outlets": 13,
-   "regions": 11,
-   "languages": 2,
-   "score": 39.0
   },
   {
    "id": "a056d2844c9a",
@@ -3024,6 +2597,224 @@
    "score": 36.0
   },
   {
+   "id": "16fc1f1e0db6",
+   "first_seen": "2026-11-02T17:07:46.578023+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Abdul El-Sayed’s campaign reports record fundraising day as Haley Stevens faces backlash for endorsing his opponent",
+     "language": "en",
+     "link": "https://www.theguardian.com/us-news/live/2026/nov/02/democrats-haley-stevens-mike-rogers-abdul-el-sayed-michigan-midterms-trump-rallies-latest-news-updates",
+     "published": "2026-11-02T16:47:48+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Woman believed to be Abdul El-Sayed supporter arrested after physical confrontation with content creator Benichou at Michigan event",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/woman-believed-to-be-abdul-el-sayed-supporter-arrested-after-physical-confrontation-with-content-creator-benichou-at-michigan-event-101793610197372.html",
+     "published": "2026-11-02T10:05:56+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "'This is BIG': Trump praises Haley Stevens after she backs Republican Mike Rogers over Abdul El-Sayed in Michigan Senate race",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/this-is-big-trump-praises-haley-stevens-after-she-backs-republican-mike-rogers-over-abdul-el-sayed-in-michigan-senate-race-101793564348721.html",
+     "published": "2026-11-01T22:14:29+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Haley Stevens backs Republican Mike Rogers in Michigan Senate race, abandoning earlier support for Abdul El-Sayed",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/haley-stevens-backs-republican-mike-rogers-in-michigan-senate-race-abandoning-earlier-support-for-abdul-elsayed-101793605387968.html",
+     "published": "2026-11-02T08:25:06+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "US midterms: Michigan Democrat's endorsement of Republican ruffles critical Senate race",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2041589/us-midterms-michigan-democrats-endorsement-of-republican-ruffles-critical-senate-race",
+     "published": "2026-11-02T08:16:58+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Michigan Democrat's endorsement of Republican ruffles critical Senate race",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2638288/michigan-democrats-endorsement-of-republican-ruffles-critical-senate-race",
+     "published": "2026-11-02T10:20:02+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Michigan Democrat's endorsement of Republican ruffles critical Senate race",
+     "language": "en",
+     "link": "https://www.france24.com/en/video/20261102-michigan-democrat-s-endorsement-of-republican-ruffles-critical-senate-race-1",
+     "published": "2026-11-02T12:41:56+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Left-wing Democrat Abdul El-Sayed wins in Michigan to become first Muslim senator",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c893z55pxrewo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-11-04T10:03:19+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Who is Abdul El-Sayed, first Muslim U.S. Senator-elect?",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/who-is-abdul-el-sayed-first-muslim-us-senator-elect-united-states-us-midterm-elections-2026/article71664610.ece",
+     "published": "2026-11-04T12:18:28+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Democrat Abdul El-Sayed claims Michigan Senate win, set to become first Muslim US senator",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/world/2026/11/04/democrat-abdul-el-sayed-claims-michigan-senate-win-set-to-become-first-muslim-us-senator/241966",
+     "published": "2026-11-04T07:28:09+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "US Gets 1st Muslim Senator As Abdul El-Sayed Wins Michigan Senate Race",
+     "language": "es",
+     "link": "https://www.ndtv.com/world-news/us-midterms-america-gets-1st-muslim-senator-as-democrat-abdul-el-sayed-wins-michigan-senate-race-12281218#publisher=newsstand",
+     "published": "2026-11-04T10:47:09+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Who Is Abdul El-Sayed? First Muslim Elected To US Senate",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/us-midterms-results-2026-who-is-abdul-el-sayed-first-muslim-elected-to-us-senate-12282374#publisher=newsstand",
+     "published": "2026-11-04T11:43:15+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Who's who: Abdul El-Sayed",
+     "language": "es",
+     "link": "https://www.dailysabah.com/world/americas/whos-who-abdul-el-sayed-1st-muslim-elected-to-us-senate",
+     "published": "2026-11-04T13:06:00+00:00"
+    },
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "Abdul El-Sayed becomes first Muslim elected to US Senate",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-11-04-abdul-el-sayed-becomes-first-muslim-elected-to-us-senat/",
+     "published": "2026-11-04T11:07:29+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "'We did it!': Democrat El-Sayed hails US Senate win, becomes first Muslim elected to upper chamber of Congress",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2042063/we-did-it-democrat-el-sayed-hails-us-senate-win-becomes-first-muslim-elected-to-upper-chamber-of-congress",
+     "published": "2026-11-04T14:02:09+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Abdul El-Sayed becomes 1st Muslim elected to US Senate in Michigan win",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2638597/abdul-el-sayed-becomes-1st-muslim-elected-to-us-senate-in-michigan-win",
+     "published": "2026-11-04T02:40:53+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Democrat Abdul El-Sayed claims victory in Michigan Senate battle",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/democrat-abdul-el-sayed-michigan-us-midterm-elections-senate/article71664484.ece",
+     "published": "2026-11-04T10:55:54+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Abdul El-Sayed makes history as 1st Muslim elected to US Senate",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/americas/abdul-el-sayed-makes-history-as-1st-muslim-elected-to-us-senate",
+     "published": "2026-11-04T08:25:00+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Abdul El-Sayed: The progressive’s progress",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/abdul-el-sayed-the-progressives-progress/article71666954.ece",
+     "published": "2026-11-04T15:58:15+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Midterms: How Abdul El-Sayed used 'humour and hope' to rebuff racism",
+     "language": "en",
+     "link": "https://www.france24.com/en/video/20261104-midterms-how-abdul-el-sayed-used-humour-and-hope-to-rebuff-racism",
+     "published": "2026-11-04T14:25:15+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Abdul El-Sayed welcomes Trump's plan to cut Israel aid, calls for end to arms sales",
+     "language": "en",
+     "link": "https://www.npr.org/2026/11/04/nx-s1-6028702/abdul-el-sayed-michigan-senate-israel-aid",
+     "published": "2026-11-04T13:38:09+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "\"Delicious Irony\": Abdul Al-Sayed's 'Habibi' Jab At JD Vance After Senate Win",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/jd-habibi-abdul-al-sayed-takes-jibe-at-us-vice-president-after-midterms-victory-12282305#publisher=newsstand",
+     "published": "2026-11-04T12:28:52+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Abdul El-Sayed’s sibling recalls how he helped family member with cover letter amid midterms campaign",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/abdul-el-sayed-s-sibling-eman-abdelhadi-recalls-how-he-helped-family-member-with-cover-letter-amid-midterms-campaign-101793792353079.html",
+     "published": "2026-11-04T11:59:51+00:00"
+    }
+   ],
+   "last_seen": "2026-11-04T17:07:52.089259+00:00",
+   "outlets": 12,
+   "regions": 8,
+   "languages": 2,
+   "score": 32.0
+  },
+  {
    "id": "ab5fca3a01f0",
    "first_seen": "2026-10-26T17:07:50.109315+00:00",
    "members": [
@@ -3298,143 +3089,6 @@
    "score": 30.0
   },
   {
-   "id": "9a15c797d3cc",
-   "first_seen": "2026-10-27T17:07:51.728625+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "sport",
-     "title": "Ballon d'Or ceremony raises case of French sports journalist jailed in Algeria",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c6x2qgyqr79wo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-27T14:29:39+00:00"
-    },
-    {
-     "outlet": "BBC Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Ballon d'Or in London",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/sport/football/articles/c6y8lgg21l89o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-27T14:10:26+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Chinese state TV suspends La Liga broadcasts after Mbappe remark",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/highlight/2026/10/27/chinese-state-tv-suspends-la-liga-broadcasts-after-mbappe-remark",
-     "published": "2026-10-27T15:01:00+00:00"
-    },
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "sport",
-     "title": "Mbappé sorry for 'ill-judged' Mao remark after backlash in China",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cv62yg0erp8zo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-27T13:25:54+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Mbappe dropped by Chinese brands for ‘offending national sentiments’",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/mbappe-dropped-by-chinese-brands-for-offending-national-sentiments/article71630086.ece",
-     "published": "2026-10-27T08:40:19+00:00"
-    },
-    {
-     "outlet": "The Japan Times",
-     "region": "jp",
-     "bucket": "serious",
-     "title": "Mbappe dropped by Chinese brands for ‘offending national sentiments’",
-     "language": "en",
-     "link": "https://www.japantimes.co.jp/sports/2026/10/27/soccer/mbappe-china-brands/",
-     "published": "2026-10-27T08:26:00+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "LaLiga apologizes to China after Mbappe’s Mao remarks spark backlash",
-     "language": "en",
-     "link": "https://www.dailysabah.com/sports/football/laliga-apologizes-to-china-after-mbappes-mao-remarks-spark-backlash",
-     "published": "2026-10-27T12:43:00+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Mbappe apologizes as Mao meme sparks China backlash, sponsors cut ties",
-     "language": "en",
-     "link": "https://www.dailysabah.com/sports/football/mbappe-apologizes-as-mao-meme-sparks-china-backlash-sponsors-cut-ties",
-     "published": "2026-10-27T13:26:00+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Football Daily | Harry Kane completes his arc from Orient loanee to Ballon d’Or winner",
-     "language": "en",
-     "link": "https://www.theguardian.com/football/2026/oct/27/harry-kane-ballon-dor-football-daily-newsletter",
-     "published": "2026-10-27T16:02:35+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Ballon d’Or winner Harry Kane delivers emotional acceptance speech",
-     "language": "en",
-     "link": "https://www.france24.com/en/ballon-d-or-winner-harry-kane-delivers-emotional-acceptance-speech",
-     "published": "2026-10-27T12:20:50+00:00"
-    },
-    {
-     "outlet": "Africanews",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Harry Kane become first English footballer to win Ballon d'Or in 25 years",
-     "language": "en",
-     "link": "http://www.africanews.com/2026/10/27/harry-kane-become-first-english-footballer-to-win-ballon-dor-in-25-years/",
-     "published": "2026-10-27T08:30:41+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Winning MOMENT! Harry Kane claims 2026 Ballon d'Or award!",
-     "language": "en",
-     "link": "https://www.skysports.com/watch/video/13604240/moment-harry-kane-claims-2026-ballon-dor-award",
-     "published": "2026-10-27T06:45:00+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Arise, Sir Harry? Downing Street hints at Kane knighthood after Ballon d’Or win",
-     "language": "en",
-     "link": "https://www.theguardian.com/football/2026/oct/27/harry-kane-andy-burnham-knighthood-ballon-dor-win",
-     "published": "2026-10-27T14:25:29+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Alexia Putellas a worthy Ballon d’Or winner but the limited shortlist illustrates flaws",
-     "language": "en",
-     "link": "https://www.theguardian.com/football/2026/oct/27/alexia-putellas-ballon-dor-winner-awards-long-way-before-being-equal-moving-the-goalposts",
-     "published": "2026-10-27T12:32:38+00:00"
-    }
-   ],
-   "last_seen": "2026-10-27T17:07:51.728625+00:00",
-   "outlets": 10,
-   "regions": 8,
-   "languages": 1,
-   "score": 28.0
-  },
-  {
    "id": "a7550d8c5895",
    "first_seen": "2026-10-31T17:07:47.604688+00:00",
    "members": [
@@ -3534,6 +3188,107 @@
    "regions": 7,
    "languages": 1,
    "score": 26.0
+  },
+  {
+   "id": "8983e78e3206",
+   "first_seen": "2026-11-04T17:07:52.089259+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Tennis great Rafael Nadal set to join Real Madrid board",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/11/4/tennis-great-rafael-nadal-set-to-join-real-madrid-board?traffic_source=rss",
+     "published": "2026-11-04T13:00:07+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "sport",
+     "title": "Nadal set to join Real Madrid board of directors",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/articles/cmy56zekeneqo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-11-04T13:21:01+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Nadal appointed to Real Madrid board",
+     "language": "en",
+     "link": "https://www.skysports.com/tennis/news/12040/13607900/real-madrid-rafael-nadal-appointed-to-laliga-clubs-board-of-directors",
+     "published": "2026-11-04T12:06:00+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Real Madrid move to appoint tennis legend Rafael Nadal to board",
+     "language": "en",
+     "link": "https://www.dailysabah.com/sports/football/real-madrid-move-to-appoint-tennis-legend-rafael-nadal-to-board",
+     "published": "2026-11-04T13:00:00+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Tennis great Rafael Nadal set to join Real Madrid board",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/tennis-great-rafael-nadal-set-to-join-real-madrid-board/",
+     "published": "2026-11-04T13:32:37+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Real Madrid set to appoint tennis great Nadal to board",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/11/04/real-madrid-set-to-appoint-tennis-great-nadal-to-board",
+     "published": "2026-11-04T13:58:04+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Real Madrid reach verbal agreement to sign Gabriel",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/football/articles/cq146dnrn541o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-11-04T11:49:23+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Real Madrid reach verbal agreement with Man Utd teen star JJ Gabriel",
+     "language": "en",
+     "link": "https://www.skysports.com/football/news/12040/13607845/jj-gabriel-real-madrid-reach-verbal-agreement-with-man-utd-teenager-who-requested-to-leave-old-trafford",
+     "published": "2026-11-04T09:28:00+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Should Man Utd teenager JJ Gabriel leave for Real Madrid?",
+     "language": "en",
+     "link": "https://www.skysports.com/watch/video/13607990/jj-gabriel-should-the-manchester-united-teenager-leave-for-real-madrid",
+     "published": "2026-11-04T15:22:00+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Real Madrid close on agreement to sign Manchester United 16-year-old JJ Gabriel",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/2026/nov/04/real-madrid-jj-gabriel-manchester-united-close-agreement-sign",
+     "published": "2026-11-04T14:48:17+00:00"
+    }
+   ],
+   "last_seen": "2026-11-04T17:07:52.089259+00:00",
+   "outlets": 8,
+   "regions": 6,
+   "languages": 1,
+   "score": 22.0
   },
   {
    "id": "55e3749f77ff",
@@ -3749,134 +3504,6 @@
    "score": 20.0
   },
   {
-   "id": "93a41fa17871",
-   "first_seen": "2026-10-19T17:07:57.762301+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "South Africa close on 97-5 against Australia on day two of second men’s cricket Test after rain delays",
-     "language": "en",
-     "link": "https://www.theguardian.com/sport/live/2026/oct/19/south-africa-v-australia-second-test-day-two-cricket-st-georges-park-gqeberha-live-updates",
-     "published": "2026-10-19T16:17:07+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Australia strike late on rain-hit second day against South Africa",
-     "language": "en",
-     "link": "https://www.skysports.com/cricket/news/12040/13601039/south-africa-vs-australia-scott-boland-takes-fourth-wicket-late-on-rain-hit-second-day-of-second-test-in-gqeberha",
-     "published": "2026-10-19T17:20:00+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "South Africa close on 97-5 as Australian paceman Boland strikes in second test",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/sport/south-africa-close-97-5-australian-paceman-boland-strikes-in-second-test-6472891",
-     "published": "2026-10-19T17:00:50+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Bavuma's Test-best ton has South Africa in dominant position vs Australia",
-     "language": "en",
-     "link": "https://www.skysports.com/cricket/news/12040/13601427/temba-bavuma-hits-test-best-179-as-south-africa-dominate-australia-on-day-three-of-second-test-in-gqeberha",
-     "published": "2026-10-20T16:17:00+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Australia limp to 3-1 after South Africa post 425-9 on day three of men’s second Test",
-     "language": "en",
-     "link": "https://www.theguardian.com/sport/live/2026/oct/20/south-africa-v-australia-second-test-day-three-cricket-st-georges-park-gqeberha-live-updates",
-     "published": "2026-10-20T15:51:59+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Boland shines as South Africa stumble in second Test",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2635858/boland-shines-as-south-africa-stumble-in-second-test",
-     "published": "2026-10-20T00:41:10+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "South Africa crush Australia by an innings to level cricket Test series",
-     "language": "en",
-     "link": "https://www.aljazeera.com/sports/2026/10/22/south-africa-crush-australia-by-an-innings-to-level-cricket-test-series?traffic_source=rss",
-     "published": "2026-10-22T16:09:44+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "South Africa beat Australia by innings and 31 runs: second men’s cricket Test, day five",
-     "language": "en",
-     "link": "https://www.theguardian.com/sport/live/2026/oct/22/south-africa-v-australia-second-test-day-five-cricket-st-georges-park-gqeberha-live-updates",
-     "published": "2026-10-22T14:53:33+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "South Africa seal emphatic win over Australia to level series",
-     "language": "en",
-     "link": "https://www.skysports.com/cricket/news/12040/13602302/south-africa-vs-australia-proteas-complete-emphatic-innings-victory-to-level-three-test-series",
-     "published": "2026-10-22T15:09:00+00:00"
-    },
-    {
-     "outlet": "BBC Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "South Africa complete famous win over Australia",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/sport/cricket/articles/cmg473p9vz6xo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-22T14:13:08+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Australia reach 330-4, one run ahead of South Africa on the second day of the third men’s Test",
-     "language": "en",
-     "link": "https://www.theguardian.com/sport/live/2026/oct/28/south-africa-v-australia-third-test-day-two-cricket-newlands-cape-town-live-updates",
-     "published": "2026-10-28T16:05:57+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Inglis, Carey dig in to put Australia on top against South Africa in third Test",
-     "language": "en",
-     "link": "https://www.skysports.com/cricket/news/12040/13604840/south-africa-vs-australia-third-test-josh-inglis-alex-carey-dig-in-to-put-australia-on-top-after-second-day",
-     "published": "2026-10-28T13:36:00+00:00"
-    },
-    {
-     "outlet": "Africanews",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "South Africa claims 7.6 kilometre-long freight train is the longest ever",
-     "language": "en",
-     "link": "http://www.africanews.com/2026/10/27/south-africa-claims-76-kilometre-long-freight-train-is-the-longest-ever/",
-     "published": "2026-10-28T13:29:42+00:00"
-    }
-   ],
-   "last_seen": "2026-10-28T17:07:45.658313+00:00",
-   "outlets": 7,
-   "regions": 5,
-   "languages": 1,
-   "score": 19.0
-  },
-  {
    "id": "4d67160fc09d",
    "first_seen": "2026-10-29T17:08:03.776319+00:00",
    "members": [
@@ -3949,71 +3576,6 @@
    "regions": 5,
    "languages": 1,
    "score": 19.0
-  },
-  {
-   "id": "57408542a25c",
-   "first_seen": "2026-10-27T17:07:51.728625+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Netherlands pulls out of Eurovision again over Israel participation",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cmr4y5dvlzneo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-27T11:23:19+00:00"
-    },
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "The Netherlands pulls out of Eurovision 2027 due to Israel ‘sensitivities’",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/27/the-netherlands-pulls-out-of-eurovision-2027-due-to-israel-sensitivities?traffic_source=rss",
-     "published": "2026-10-27T13:29:47+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Dutch broadcaster pulls out of Eurovision over Israel ‘sensitivities’",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/netherlands-withdraws-from-eurovision-2027-amid-sensitivities-over-israels-participation-given-its-military-campaign-in-gaza/article71631050.ece",
-     "published": "2026-10-27T12:22:24+00:00"
-    },
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Dutch broadcaster pulls out of Eurovision over Israel ‘sensitivities’",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/showbiz/2026/10/27/dutch-broadcaster-pulls-out-of-eurovision-over-israel-sensitivities/240820",
-     "published": "2026-10-27T10:05:17+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Dutch broadcaster pulls out of Eurovision over Israel ‘sensitivities’",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/leisure/2026/10/27/dutch-broadcaster-pulls-out-of-eurovision-over-israel-sensitivities",
-     "published": "2026-10-27T10:12:00+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Netherlands withdraws from 2027 Eurovision amid Israel dispute",
-     "language": "en",
-     "link": "https://www.dailysabah.com/arts/music/netherlands-withdraws-from-2027-eurovision-amid-israel-dispute",
-     "published": "2026-10-27T11:41:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-27T17:07:51.728625+00:00",
-   "outlets": 6,
-   "regions": 5,
-   "languages": 1,
-   "score": 18.0
   },
   {
    "id": "ad5448039493",
@@ -4108,60 +3670,51 @@
    "score": 18.0
   },
   {
-   "id": "efbd8f5f71fd",
-   "first_seen": "2026-10-27T17:07:51.728625+00:00",
+   "id": "d8210b55c848",
+   "first_seen": "2026-11-04T17:07:52.089259+00:00",
    "members": [
     {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
+     "outlet": "El País",
+     "region": "es",
      "bucket": "serious",
-     "title": "Russia targets Kyiv as Finnish, Norwegian leaders hold rare call with Putin",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/27/russia-targets-kyiv-as-finnish-norwegian-leaders-hold-rare-call-with-putin?traffic_source=rss",
-     "published": "2026-10-27T13:59:37+00:00"
+     "title": "Las ‘midterms’ 2026, en vivo | El vicepresidente J. D. Vance culpa a la guerra en Irán por la estrepitosa derrota republicana",
+     "language": "es",
+     "link": "https://elpais.com/us/2026-11-04/las-midterms-2026-en-vivo.html",
+     "published": "2026-11-04T16:36:43+00:00"
     },
     {
-     "outlet": "BBC World",
-     "region": "uk",
+     "outlet": "Clarín",
+     "region": "ar_country",
      "bucket": "serious",
-     "title": "Norway and Finland leaders hold rare call with Putin",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/c6vgj813mlelo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-27T14:23:05+00:00"
+     "title": "Vance culpa a la guerra en Irán de la estrepitosa derrota republicana en las legislativas",
+     "language": "es",
+     "link": "https://www.clarin.com/estados-unidos/vance-culpa-a-la-guerra-en-iran-de-la-estrepitosa-derrota-republicana-en-las-legislativas_0_5J1OMtNgeL.html",
+     "published": "2026-11-04T16:30:13+00:00"
     },
     {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
+     "outlet": "Der Spiegel",
+     "region": "de",
      "bucket": "serious",
-     "title": "Leaders of Norway, Finland hold calls with Putin then Zelensky",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/27/leaders-of-norway-finland-hold-calls-with-putin-then-zelensky",
-     "published": "2026-10-27T11:32:00+00:00"
+     "title": "Midterms 2026 in den USA - JD Vance: Für alle ist offensichtlich, warum wir verloren haben",
+     "language": "de",
+     "link": "https://www.spiegel.de/ausland/midterms-2026-in-den-usa-donald-trump-abgestraft-demokraten-erobern-laut-prognosen-mehrheit-im-repraesentantenhaus-und-im-senat-abdul-el-sayed-gewinnt-michigan-a-c6a7c5b3-24a1-4e70-a78e-067745ed4103#ref=rss",
+     "published": "2026-11-04T16:46:00+00:00"
     },
     {
-     "outlet": "NDTV — World",
-     "region": "in",
+     "outlet": "Le Monde",
+     "region": "fr",
      "bucket": "serious",
-     "title": "Finland, Norway Leaders Hold \"Frank\" Call With Putin On Ukraine War",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/finland-norway-leaders-hold-frank-call-with-putin-on-ukraine-war-12244115#publisher=newsstand",
-     "published": "2026-10-27T14:00:17+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Finland and Norway Hold ‘Frank’ Call With Putin on Ukraine",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPQlNDamdfUVV3b0U2WE9GWUFkSTZIYUJrU1FrUmJUTFE5WjNIZ3BWVFZNbG16TllSa3VOaHNXeGEyclZraUhFQ3hvcDUxNnZpUWhmbDRVNEZETmVNR1UxT2Y4eVJQbXRnWjh1dUZ3LUdiZHJZZGJHSlI3SGs1TG90WjNaR0d1YUJJWXBKeEp4YWNQSzY4QUV2QU4zMG00ZEpXMG5QWXo3eG5hbTA?oc=5",
-     "published": "2026-10-27T16:21:54+00:00"
+     "title": "Présidentielle 2027 : les résultats des midterms aux Etats-Unis gênent le RN et réjouissent la gauche",
+     "language": "fr",
+     "link": "https://www.lemonde.fr/politique/article/2026/11/04/presidentielle-2027-les-resultats-des-midterms-americains-genent-le-rn-et-rejouissent-la-gauche_6806278_823448.html",
+     "published": "2026-11-04T15:12:41+00:00"
     }
    ],
-   "last_seen": "2026-10-27T17:07:51.728625+00:00",
-   "outlets": 5,
-   "regions": 5,
-   "languages": 1,
-   "score": 17.0
+   "last_seen": "2026-11-04T17:07:52.089259+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 3,
+   "score": 18.0
   },
   {
    "id": "921c09410e3a",
@@ -4684,80 +4237,6 @@
    "score": 15.0
   },
   {
-   "id": "16fc1f1e0db6",
-   "first_seen": "2026-11-02T17:07:46.578023+00:00",
-   "members": [
-    {
-     "outlet": "The Guardian — World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Abdul El-Sayed’s campaign reports record fundraising day as Haley Stevens faces backlash for endorsing his opponent",
-     "language": "en",
-     "link": "https://www.theguardian.com/us-news/live/2026/nov/02/democrats-haley-stevens-mike-rogers-abdul-el-sayed-michigan-midterms-trump-rallies-latest-news-updates",
-     "published": "2026-11-02T16:47:48+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Woman believed to be Abdul El-Sayed supporter arrested after physical confrontation with content creator Benichou at Michigan event",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/woman-believed-to-be-abdul-el-sayed-supporter-arrested-after-physical-confrontation-with-content-creator-benichou-at-michigan-event-101793610197372.html",
-     "published": "2026-11-02T10:05:56+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "'This is BIG': Trump praises Haley Stevens after she backs Republican Mike Rogers over Abdul El-Sayed in Michigan Senate race",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/this-is-big-trump-praises-haley-stevens-after-she-backs-republican-mike-rogers-over-abdul-el-sayed-in-michigan-senate-race-101793564348721.html",
-     "published": "2026-11-01T22:14:29+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Haley Stevens backs Republican Mike Rogers in Michigan Senate race, abandoning earlier support for Abdul El-Sayed",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/haley-stevens-backs-republican-mike-rogers-in-michigan-senate-race-abandoning-earlier-support-for-abdul-elsayed-101793605387968.html",
-     "published": "2026-11-02T08:25:06+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "US midterms: Michigan Democrat's endorsement of Republican ruffles critical Senate race",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2041589/us-midterms-michigan-democrats-endorsement-of-republican-ruffles-critical-senate-race",
-     "published": "2026-11-02T08:16:58+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Michigan Democrat's endorsement of Republican ruffles critical Senate race",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2638288/michigan-democrats-endorsement-of-republican-ruffles-critical-senate-race",
-     "published": "2026-11-02T10:20:02+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "serious",
-     "title": "Michigan Democrat's endorsement of Republican ruffles critical Senate race",
-     "language": "en",
-     "link": "https://www.france24.com/en/video/20261102-michigan-democrat-s-endorsement-of-republican-ruffles-critical-senate-race-1",
-     "published": "2026-11-02T12:41:56+00:00"
-    }
-   ],
-   "last_seen": "2026-11-02T17:07:46.578023+00:00",
-   "outlets": 5,
-   "regions": 4,
-   "languages": 1,
-   "score": 15.0
-  },
-  {
    "id": "07792c1a84df",
    "first_seen": "2026-11-03T17:07:50.467225+00:00",
    "members": [
@@ -4808,6 +4287,62 @@
     }
    ],
    "last_seen": "2026-11-03T17:07:50.467225+00:00",
+   "outlets": 5,
+   "regions": 4,
+   "languages": 1,
+   "score": 15.0
+  },
+  {
+   "id": "77a11d7e6e14",
+   "first_seen": "2026-11-04T17:07:52.089259+00:00",
+   "members": [
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "DEMOCRAT GAINS: Trump hand-picked Senate candidates, Republicans paid the price",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-11-04-trump-hand-picked-senate-candidates-republicans-paid-the-price/",
+     "published": "2026-11-04T11:35:23+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Trump hand-picked Senate candidates. Republicans paid the price",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2042089/trump-hand-picked-senate-candidates-republicans-paid-the-price",
+     "published": "2026-11-04T12:33:10+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Trump hand-picked Senate candidates. Republicans paid the price",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2638660/trump-hand-picked-senate-candidates-republicans-paid-the-price",
+     "published": "2026-11-04T10:19:46+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Trump hand-picked Senate candidates. Republicans paid the price",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/trump-hand-picked-senate-candidates-republicans-paid-the-price-101793774139213.html",
+     "published": "2026-11-04T06:40:52+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Trump hand-picked Senate candidates. Republicans paid the price.",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/11/04/world/politics/trump-senate-candidates-republicans/",
+     "published": "2026-11-04T07:37:00+00:00"
+    }
+   ],
+   "last_seen": "2026-11-04T17:07:52.089259+00:00",
    "outlets": 5,
    "regions": 4,
    "languages": 1,
@@ -4956,53 +4491,6 @@
    "last_seen": "2026-10-29T17:08:03.776319+00:00",
    "outlets": 6,
    "regions": 3,
-   "languages": 1,
-   "score": 14.0
-  },
-  {
-   "id": "9f310dd828ec",
-   "first_seen": "2026-10-27T17:07:51.728625+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Ebola cases in DR Congo surpass 10,000 in fastest-growing outbreak",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/27/ebola-cases-in-dr-congo-surpass-10000-in-fastest-growing-outbreak?traffic_source=rss",
-     "published": "2026-10-27T12:31:19+00:00"
-    },
-    {
-     "outlet": "Court House News",
-     "region": "court",
-     "bucket": "light",
-     "title": "Africa Ebola outbreak passes 10,000 cases, mostly in DR Congo",
-     "language": "en",
-     "link": "https://www.courthousenews.com/africa-ebola-outbreak-passes-10000-cases-mostly-in-dr-congo/",
-     "published": "2026-10-27T16:47:51+00:00"
-    },
-    {
-     "outlet": "France24",
-     "region": "eu",
-     "bucket": "light",
-     "title": "Africa's Ebola outbreak tops 10,000 cases, mainly in DR Congo",
-     "language": "en",
-     "link": "https://www.france24.com/en/africa/20261027-africa-ebola-outbreak-tops-10-000-cases-mainly-dr-congo",
-     "published": "2026-10-27T15:45:18+00:00"
-    },
-    {
-     "outlet": "Vanguard Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "Africa Ebola outbreak passes 10,000 cases, mostly in DR Congo",
-     "language": "en",
-     "link": "https://www.vanguardngr.com/2026/10/africa-ebola-outbreak-passes-10000-cases-mostly-in-dr-congo/",
-     "published": "2026-10-27T15:56:44+00:00"
-    }
-   ],
-   "last_seen": "2026-10-27T17:07:51.728625+00:00",
-   "outlets": 4,
-   "regions": 4,
    "languages": 1,
    "score": 14.0
   },
@@ -5280,194 +4768,6 @@
    "score": 13.0
   },
   {
-   "id": "a5d8be2464e6",
-   "first_seen": "2026-10-27T17:07:51.728625+00:00",
-   "members": [
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "Apple launches M6 MacBook Pro and iMac, pitches faster on-device AI",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/business/apple-launches-m6-macbook-pro-and-imac-pitches-faster-device-ai-6496821",
-     "published": "2026-10-27T13:39:05+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Apple launches M6 MacBook Pro at $1,999, iMac at $1,499 with faster AI and graphics performance",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/apple-launches-m6-macbook-pro-at-1-999-imac-at-1-499-with-faster-ai-and-graphics-performance-101793113018523.html",
-     "published": "2026-10-27T15:29:28+00:00"
-    },
-    {
-     "outlet": "TechCrunch",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "Apple unveils new 14-inch MacBook Pro with M6 chip",
-     "language": "en",
-     "link": "https://techcrunch.com/2026/10/27/apple-unveils-new-14-inch-macbook-pro-with-m6-chip/",
-     "published": "2026-10-27T14:25:11+00:00"
-    },
-    {
-     "outlet": "Engadget",
-     "region": "tech",
-     "bucket": "useful",
-     "title": "Apple has updated the 14-inch MacBook Pro with an M6 chip",
-     "language": "en",
-     "link": "https://www.engadget.com/2298120/apple-has-updated-the-14-inch-macbook-pro-with-an-m6-chip/",
-     "published": "2026-10-27T13:23:27+00:00"
-    }
-   ],
-   "last_seen": "2026-10-27T17:07:51.728625+00:00",
-   "outlets": 4,
-   "regions": 3,
-   "languages": 1,
-   "score": 12.0
-  },
-  {
-   "id": "c0516bbdf1b2",
-   "first_seen": "2026-10-27T17:07:51.728625+00:00",
-   "members": [
-    {
-     "outlet": "BBC Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Carrick to stay in charge of Man Utd for Chelsea game",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/sport/football/articles/crlykgeqzypyo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-27T12:10:21+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Carrick to remain in charge of Man Utd for Chelsea trip",
-     "language": "en",
-     "link": "https://www.skysports.com/football/news/12040/13604347/man-utd-boss-michael-carrick-to-remain-in-charge-vs-chelsea-and-given-chance-to-turn-situation-around",
-     "published": "2026-10-27T12:03:00+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "EPL: Carrick to remain Man Utd boss for Chelsea clash",
-     "language": "en",
-     "link": "https://punchng.com/epl-carrick-to-remain-man-utd-boss-for-chelsea-clash-reports/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-27T14:57:18+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Carrick to remain Man Utd boss for Chelsea clash, say reports",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/sports/2026/10/27/carrick-to-remain-man-utd-boss-for-chelsea-clash-say-reports",
-     "published": "2026-10-27T14:29:07+00:00"
-    }
-   ],
-   "last_seen": "2026-10-27T17:07:51.728625+00:00",
-   "outlets": 4,
-   "regions": 3,
-   "languages": 1,
-   "score": 12.0
-  },
-  {
-   "id": "fafa71e5ef6b",
-   "first_seen": "2026-10-27T17:07:51.728625+00:00",
-   "members": [
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Sudan drone strikes kill 21, cause mass outages in east",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2040194/sudan-drone-strikes-kill-21-cause-mass-outages-in-east",
-     "published": "2026-10-27T09:05:27+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Sudan drone strikes kill 21, cause mass outages in east amid ongoing violence",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/drone-strike-kills-21-in-sudan-cripples-power-in-east-amid-ongoing-violence/article71630439.ece",
-     "published": "2026-10-27T09:27:43+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Sudan drone strikes kill 21, cause mass outages in east",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/sudan-drone-strikes-kill-21-cause-mass-outages-in-east-101793086164992.html",
-     "published": "2026-10-27T07:29:24+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Tit-for-tat Sudan drone strikes kill 21, cause mass power outages",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/africa/tit-for-tat-sudan-drone-strikes-kill-21-cause-mass-power-outages",
-     "published": "2026-10-27T10:59:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-27T17:07:51.728625+00:00",
-   "outlets": 4,
-   "regions": 3,
-   "languages": 1,
-   "score": 12.0
-  },
-  {
-   "id": "c059855f5a39",
-   "first_seen": "2026-10-28T17:07:45.658313+00:00",
-   "members": [
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Oil prices rise as attack on Saudi refinery reignites supply concerns",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2637351/oil-prices-rise-as-attack-on-saudi-refinery-reignites-supply-concerns",
-     "published": "2026-10-28T00:08:10+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Oil rises over 1% after Saudi Arabian refinery attack reignites supply risk",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/oil-rises-after-saudi-arabian-refinery-attack-reignites-supply-risk/article71634583.ece",
-     "published": "2026-10-28T07:58:38+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Brent prices hit $115 amid concerns over Saudi refinery attack",
-     "language": "en",
-     "link": "https://www.dailysabah.com/business/energy/brent-prices-hit-115-amid-concerns-over-saudi-refinery-attack",
-     "published": "2026-10-28T07:51:00+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Oil prices rise over 1% after reported attack on Saudi refinery raises supply concerns",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/world-news/us-news/oil-prices-rise-over-1-after-reported-attack-on-saudi-refinery-raises-supply-concerns-101793187459521.html",
-     "published": "2026-10-28T12:01:43+00:00"
-    }
-   ],
-   "last_seen": "2026-10-28T17:07:45.658313+00:00",
-   "outlets": 4,
-   "regions": 3,
-   "languages": 1,
-   "score": 12.0
-  },
-  {
    "id": "9e76bed2d7db",
    "first_seen": "2026-10-29T17:08:03.776319+00:00",
    "members": [
@@ -5730,194 +5030,51 @@
    "score": 12.0
   },
   {
-   "id": "2b14b1581198",
-   "first_seen": "2026-10-27T17:07:51.728625+00:00",
+   "id": "63ec94408652",
+   "first_seen": "2026-11-04T17:07:52.089259+00:00",
    "members": [
     {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Qatar’s Emir meets Iran’s Pezeshkian in Moscow",
-     "language": "en",
-     "link": "https://www.aljazeera.com/news/2026/10/27/qatars-emir-meets-irans-pezeshkian-in-moscow?traffic_source=rss",
-     "published": "2026-10-27T13:26:32+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Iran president, Qatar emir meet on sidelines of Moscow summit",
-     "language": "en",
-     "link": "https://www.dailysabah.com/world/mid-east/iran-president-qatar-emir-meet-on-sidelines-of-moscow-summit",
-     "published": "2026-10-27T11:13:00+00:00"
-    },
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Qatar emir meets Iran president, energy ties in focus",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248960/Qatar-emir-meets-Iran-president-energy-ties-in-focus",
-     "published": "2026-10-27T09:43:46+00:00"
-    }
-   ],
-   "last_seen": "2026-10-27T17:07:51.728625+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "062d5c2ee318",
-   "first_seen": "2026-10-27T17:07:51.728625+00:00",
-   "members": [
-    {
-     "outlet": "The Hindu — International",
+     "outlet": "Hindustan Times — World",
      "region": "in",
      "bucket": "serious",
-     "title": "Egypt detains prominent journalist Lina Attalah after trial",
+     "title": "‘Americans said no to war’: Iran reacts to US midterm election results as Democrats head to flip Congress",
      "language": "en",
-     "link": "https://www.thehindu.com/news/international/egypt-detains-prominent-journalist-lina-attalah-after-trial/article71632130.ece",
-     "published": "2026-10-27T14:21:02+00:00"
-    },
-    {
-     "outlet": "Africanews",
-     "region": "africa",
-     "bucket": "serious",
-     "title": "Egypt detains journalist Lina Attalah after court ruling",
-     "language": "en",
-     "link": "http://www.africanews.com/2026/10/27/egypt-detains-journalist-lina-attalah-after-court-ruling/",
-     "published": "2026-10-27T14:48:52+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Egypt detains prominent journalist Lina Attalah after trial",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/world/2026/10/27/egypt-detains-prominent-journalist-lina-attalah-after-trial",
-     "published": "2026-10-27T14:43:19+00:00"
-    }
-   ],
-   "last_seen": "2026-10-27T17:07:51.728625+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "82c155f17563",
-   "first_seen": "2026-10-28T17:07:45.658313+00:00",
-   "members": [
-    {
-     "outlet": "Court House News",
-     "region": "court",
-     "bucket": "light",
-     "title": "South Korea fines Google and Apple over unfair app market practices",
-     "language": "en",
-     "link": "https://www.courthousenews.com/south-korea-fines-google-and-apple-over-unfair-app-market-practices/",
-     "published": "2026-10-28T17:06:38+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "light",
-     "title": "South Korea fines Google and Apple over ‘unfair’ app market practices",
-     "language": "en",
-     "link": "https://www.thehindu.com/sci-tech/technology/south-korea-fines-google-and-apple-for-forcing-own-payment-systems-and-delaying-reviews/article71635392.ece",
-     "published": "2026-10-28T11:41:40+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "South Korea media commission fines Google and Apple over app payment systems",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/business/2026/10/28/south-korea-media-commission-fines-google-and-apple-over-app-payment-systems",
-     "published": "2026-10-28T11:17:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-28T17:07:45.658313+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "5961f6971663",
-   "first_seen": "2026-10-28T17:07:45.658313+00:00",
-   "members": [
-    {
-     "outlet": "Daily Maverick",
-     "region": "za",
-     "bucket": "serious",
-     "title": "Policeman kills knife attacker outside Israeli embassy in Serbia",
-     "language": "en",
-     "link": "https://www.dailymaverick.co.za/article/2026-10-28-policeman-kills-knife-attacker-outside-israeli-embassy-in-serbia/",
-     "published": "2026-10-28T11:25:29+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Policeman kills knife attacker outside Israeli embassy in Serbia",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/policeman-kills-knife-attacker-outside-israeli-embassy-in-serbia/article71635091.ece",
-     "published": "2026-10-28T09:28:41+00:00"
-    },
-    {
-     "outlet": "Google News — World",
-     "region": "global",
-     "bucket": "serious",
-     "title": "Policeman kills knife attacker outside Israeli embassy in Serbia",
-     "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPZ09lVDktVzU0MWp0RUxkY2V2SWhzNjVpMDMzdG1hZjVHTUJFUTFfWWlRRXFtZGJtTW0td25oeHhsTVRTbXZyNG0wTURZeEhQSndxeDFxdnlPd3k0ZGdqSTVOcjNJT1ZEdmdoREFLUFVQSWVMR2tyWGFxSk9NVEhCVWVub1k3UWQ3UWlQYm9WNnhqRFJGbXBkVUJLcnllN1g1YUF5YWxB?oc=5",
-     "published": "2026-10-28T13:31:43+00:00"
-    }
-   ],
-   "last_seen": "2026-10-28T17:07:45.658313+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
-   "id": "8f1a0280369f",
-   "first_seen": "2026-10-28T17:07:45.658313+00:00",
-   "members": [
-    {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "serious",
-     "title": "Dutch zookeeper dies after being mauled by leopard",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/crwyq90gwg8jo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-27T19:30:37+00:00"
+     "link": "https://www.hindustantimes.com/world-news/americans-said-no-to-war-iran-reacts-to-us-midterm-election-results-as-democrats-head-to-flip-congress-101793769791281.html",
+     "published": "2026-11-04T05:29:28+00:00"
     },
     {
      "outlet": "CBS News — World",
      "region": "us",
      "bucket": "serious",
-     "title": "Zookeeper dies after being attacked by leopard, safari park says",
+     "title": "Iran says U.S. election results show Americans reject the war",
      "language": "en",
-     "link": "https://www.cbsnews.com/news/zookeeper-dies-leopard-attack-dutch-safari-park/",
-     "published": "2026-10-27T17:33:57+00:00"
+     "link": "https://www.cbsnews.com/live-updates/iran-war-us-trump-midterms-strait-of-hormuz/",
+     "published": "2026-11-04T16:45:28+00:00"
     },
     {
-     "outlet": "Google News — World",
-     "region": "global",
+     "outlet": "Dawn",
+     "region": "pk",
      "bucket": "serious",
-     "title": "Dutch zookeeper dies after being attacked by leopard",
+     "title": "Iran supreme leader says those expecting US policy shift 'seriously mistaken'",
      "language": "en",
-     "link": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxOTUxaWk1fZnVJMUotbU9hN2RCcDZ2bENNYXpqWWVBVFB5amF0c25PSXNYV3QyNTJTQ19tTkFWbjB3Yk5rOVpSU092cXpQVWhTekJxbjhZUTBONVFzZTBZNzRKOU1lYkRTa0piTkVNLUZOa1ZaWDNlS0k2UUNlMFhnMDE4Rld4bXp5Umxv?oc=5",
-     "published": "2026-10-28T13:51:43+00:00"
+     "link": "https://www.dawn.com/news/2042092/iran-supreme-leader-says-those-expecting-us-policy-shift-seriously-mistaken",
+     "published": "2026-11-04T13:27:13+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Anyone expecting shift in US policy after midterm election 'seriously mistaken': Iranian supreme leader",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2638580/us-has-no-immediate-plans-to-strike-iran-trump",
+     "published": "2026-11-04T00:11:01+00:00"
     }
    ],
-   "last_seen": "2026-10-28T17:07:45.658313+00:00",
-   "outlets": 3,
+   "last_seen": "2026-11-04T17:07:52.089259+00:00",
+   "outlets": 4,
    "regions": 3,
    "languages": 1,
-   "score": 11.0
+   "score": 12.0
   },
   {
    "id": "7cd38dc7879b",
@@ -6756,6 +5913,44 @@
    "score": 11.0
   },
   {
+   "id": "ca0a173e16ba",
+   "first_seen": "2026-11-04T17:07:52.089259+00:00",
+   "members": [
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "WORLD: Keisha Lance Bottoms wins Georgia race, becomes first black woman elected governor of US",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-11-04-keisha-lance-bottoms-wins-georgia-race-becomes-first-black-woman-elected-governor-of-us/",
+     "published": "2026-11-04T06:08:20+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Democrat Keisha Lance Bottoms becomes first Black woman Governor in U.S.",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/democrat-keisha-lance-bottoms-becomes-first-black-woman-governor-in-us/article71663892.ece",
+     "published": "2026-11-04T04:43:38+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Democrat Keisha Lance Bottoms becomes first Black woman governor in US history",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/11/04/democrat-keisha-lance-bottoms-becomes-first-black-woman-governor-in-us-history/",
+     "published": "2026-11-04T09:26:20+00:00"
+    }
+   ],
+   "last_seen": "2026-11-04T17:07:52.089259+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
    "id": "3284a95f3caa",
    "first_seen": "2026-10-26T17:07:50.109315+00:00",
    "members": [
@@ -6819,120 +6014,6 @@
    "regions": 2,
    "languages": 1,
    "score": 10.0
-  },
-  {
-   "id": "e253fee1887c",
-   "first_seen": "2026-10-27T17:07:51.728625+00:00",
-   "members": [
-    {
-     "outlet": "Malay Mail",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Mercedes-Benz cuts 2026 profit outlook on tough China market",
-     "language": "en",
-     "link": "https://www.malaymail.com/news/money/2026/10/27/mercedes-benz-cuts-2026-profit-outlook-on-tough-china-market/240819",
-     "published": "2026-10-27T10:02:55+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Mercedes-Benz cuts 2026 profit outlook on tough China market",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/business/2026/10/27/mercedes-benz-cuts-2026-profit-outlook-on-tough-china-market",
-     "published": "2026-10-27T10:20:33+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Mercedes-Benz lowers profit outlook on difficult China conditions",
-     "language": "en",
-     "link": "https://www.dailysabah.com/business/automotive/mercedes-benz-lowers-profit-outlook-on-difficult-china-conditions",
-     "published": "2026-10-27T11:31:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-27T17:07:51.728625+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 1,
-   "score": 9.0
-  },
-  {
-   "id": "bd3077fdd4dc",
-   "first_seen": "2026-10-27T17:07:51.728625+00:00",
-   "members": [
-    {
-     "outlet": "South China Morning Post",
-     "region": "cn",
-     "bucket": "serious",
-     "title": "Indian court orders documentary on Modi, tycoon Adani removed",
-     "language": "en",
-     "link": "https://www.scmp.com/news/asia/south-asia/article/3372312/indian-court-orders-documentary-modi-tycoon-adani-removed",
-     "published": "2026-10-27T10:55:27+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Indian court orders takedown of documentary on billionaire Gautam Adani, PM Modi",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2040205/indian-court-orders-takedown-of-documentary-on-billionaire-gautam-adani-pm-modi",
-     "published": "2026-10-27T10:59:43+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Indian court orders takedown of documentary on Adani, Modi",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2637225/indian-court-orders-takedown-of-documentary-on-adani-modi",
-     "published": "2026-10-27T10:06:46+00:00"
-    }
-   ],
-   "last_seen": "2026-10-27T17:07:51.728625+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 1,
-   "score": 9.0
-  },
-  {
-   "id": "934284f12a21",
-   "first_seen": "2026-10-28T17:07:45.658313+00:00",
-   "members": [
-    {
-     "outlet": "Premium Times",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "World Bank projects 23% rise in global commodity prices in 2026",
-     "language": "en",
-     "link": "https://www.premiumtimesng.com/business/business-news/921055-world-bank-projects-23-rise-in-global-commodity-prices-in-2026.html",
-     "published": "2026-10-28T15:21:11+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "World Bank sees commodity prices up 23% in 2026 due to Middle East war, other shocks",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/business/world-bank-sees-commodity-prices-up-23-in-2026-due-middle-east-war-other-shocks-6500161",
-     "published": "2026-10-28T13:37:07+00:00"
-    },
-    {
-     "outlet": "Punch Nigeria",
-     "region": "ng",
-     "bucket": "serious",
-     "title": "World Bank forecasts 23% rise in commodity prices",
-     "language": "en",
-     "link": "https://punchng.com/world-bank-forecasts-23-rise-in-commodity-prices/?utm_source=rss.punchng.com&utm_medium=web",
-     "published": "2026-10-28T17:14:34+00:00"
-    }
-   ],
-   "last_seen": "2026-10-28T17:07:45.658313+00:00",
-   "outlets": 3,
-   "regions": 2,
-   "languages": 1,
-   "score": 9.0
   },
   {
    "id": "32b0453a15a2",
@@ -7391,33 +6472,42 @@
    "score": 9.0
   },
   {
-   "id": "82e7433c64b2",
-   "first_seen": "2026-10-27T17:07:51.728625+00:00",
+   "id": "0e85c2d6cf87",
+   "first_seen": "2026-11-04T17:07:52.089259+00:00",
    "members": [
     {
-     "outlet": "BBC World",
-     "region": "uk",
-     "bucket": "light",
-     "title": "Jay-Z to perform at Super Bowl half-time show",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/news/articles/cq8ezg4364epo?at_medium=RSS&at_campaign=rss",
-     "published": "2026-10-27T05:05:15+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
+     "outlet": "BBC Sport",
      "region": "sport",
      "bucket": "sport",
-     "title": "Jay-Z picks headliner for 2027 Super Bowl half-time show … Jay-Z",
+     "title": "Wilder to fight Opetaia on Fury v Joshua undercard",
      "language": "en",
-     "link": "https://www.theguardian.com/music/2026/oct/27/jay-z-to-headline-2027-super-bowl-half-time-show",
-     "published": "2026-10-27T02:10:08+00:00"
+     "link": "https://www.bbc.co.uk/sport/boxing/articles/cj62ye5e37p1o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-11-04T16:54:28+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Wilder to fight Opetaia on Fury vs Joshua undercard",
+     "language": "en",
+     "link": "https://www.skysports.com/boxing/news/12040/13607985/fury-vs-joshua-undercard-deontay-wilder-to-fight-jai-opetaia-in-heavyweight-bout-on-december-11-principality-stadium-bill",
+     "published": "2026-11-04T15:10:00+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "Wilder to face cruiserweight champion Opetaia on Fury-Joshua undercard",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/sport/wilder-face-cruiserweight-champion-opetaia-fury-joshua-undercard-6524936",
+     "published": "2026-11-04T16:15:08+00:00"
     }
    ],
-   "last_seen": "2026-10-27T17:07:51.728625+00:00",
-   "outlets": 2,
+   "last_seen": "2026-11-04T17:07:52.089259+00:00",
+   "outlets": 3,
    "regions": 2,
    "languages": 1,
-   "score": 8.0
+   "score": 9.0
   },
   {
    "id": "0154dc9de35b",
@@ -7456,129 +6546,6 @@
    "regions": 2,
    "languages": 1,
    "score": 8.0
-  },
-  {
-   "id": "4d6ed990f918",
-   "first_seen": "2026-10-27T17:07:51.728625+00:00",
-   "members": [
-    {
-     "outlet": "Mehr News",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Without Iran’s participation Persian Gulf security impossible",
-     "language": "en",
-     "link": "https://en.mehrnews.com/news/248948/Without-Iran-s-participation-Persian-Gulf-security-impossible",
-     "published": "2026-10-27T05:07:11+00:00"
-    },
-    {
-     "outlet": "Tehran Times",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Oman: No lasting Persian Gulf security without Iran’s participation",
-     "language": "en",
-     "link": "https://www.tehrantimes.com/news/531577/Oman-No-lasting-Persian-Gulf-security-without-Iran-s-participation",
-     "published": "2026-10-27T16:32:06+00:00"
-    },
-    {
-     "outlet": "IRNA English",
-     "region": "ir",
-     "bucket": "serious",
-     "title": "Oman says Persian Gulf security framework cannot exclude Iran",
-     "language": "en",
-     "link": "https://en.irna.ir/news/86304438/Oman-says-Persian-Gulf-security-framework-cannot-exclude-Iran",
-     "published": "2026-10-27T05:23:44+00:00"
-    }
-   ],
-   "last_seen": "2026-10-27T17:07:51.728625+00:00",
-   "outlets": 3,
-   "regions": 1,
-   "languages": 1,
-   "score": 7.0
-  },
-  {
-   "id": "ac3148bf00bf",
-   "first_seen": "2026-10-28T17:07:45.658313+00:00",
-   "members": [
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Indian Captain Smit Machchhar, flydubai crew honoured by UAE President for bravery during mid-air attack",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/national/indian-captain-smit-machchhar-flydubai-crew-honoured-by-uae-president-for-bravery-during-mid-air-attack/article71634465.ece",
-     "published": "2026-10-28T07:21:46+00:00"
-    },
-    {
-     "outlet": "Hindustan Times — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Captain Smit Machchhar, flydubai crew honoured by UAE President for mid-air heroism",
-     "language": "en",
-     "link": "https://www.hindustantimes.com/trending/captain-smit-machchhar-flydubai-crew-honoured-by-uae-president-for-mid-air-heroism-101793151947981.html",
-     "published": "2026-10-28T02:09:55+00:00"
-    },
-    {
-     "outlet": "NDTV — World",
-     "region": "in",
-     "bucket": "serious",
-     "title": "UAE President Honours flydubai Hero Captain, Crew For Courageous Actions",
-     "language": "en",
-     "link": "https://www.ndtv.com/world-news/uae-president-honours-flydubai-hero-captain-smit-machchhar-crew-for-courageous-actions-12246128#publisher=newsstand",
-     "published": "2026-10-28T12:43:57+00:00"
-    },
-    {
-     "outlet": "The Hindu — International",
-     "region": "in",
-     "bucket": "serious",
-     "title": "Flydubai incident | Complete coverage",
-     "language": "en",
-     "link": "https://www.thehindu.com/news/international/flydubai-attack-october-2026/article71536055.ece",
-     "published": "2026-10-28T09:21:15+00:00"
-    }
-   ],
-   "last_seen": "2026-10-28T17:07:45.658313+00:00",
-   "outlets": 3,
-   "regions": 1,
-   "languages": 1,
-   "score": 7.0
-  },
-  {
-   "id": "f69fe7531f5d",
-   "first_seen": "2026-10-28T17:07:45.658313+00:00",
-   "members": [
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "'Conscience does not permit': LHC's Justice Kayani resigns, cites 'executive's growing control' over judiciary",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2040428/conscience-does-not-permit-lhcs-justice-kayani-resigns-cites-executives-growing-control-over-judiciary",
-     "published": "2026-10-28T14:13:16+00:00"
-    },
-    {
-     "outlet": "The Express Tribune",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Justice Mohsin Akhtar Kayani resigns as LHC judge, cites 'executive's growing control' over judiciary",
-     "language": "en",
-     "link": "https://tribune.com.pk/story/2637371/lahore-high-court-justice-mohsin-akhtar-kayani-resigns",
-     "published": "2026-10-28T02:32:01+00:00"
-    },
-    {
-     "outlet": "Geo News",
-     "region": "pk",
-     "bucket": "serious",
-     "title": "Justice Kayani resigns as LHC judge, cites 'executive's growing control' over judiciary",
-     "language": "en",
-     "link": "https://www.geo.tv/latest/688647-justice-mohsin-akhtar-kayani-resigns-as-lhc-judge",
-     "published": "2026-10-28T07:35:00+00:00"
-    }
-   ],
-   "last_seen": "2026-10-28T17:07:45.658313+00:00",
-   "outlets": 3,
-   "regions": 1,
-   "languages": 1,
-   "score": 7.0
   },
   {
    "id": "fa6c553ede68",
@@ -7868,6 +6835,120 @@
     }
    ],
    "last_seen": "2026-11-03T17:07:50.467225+00:00",
+   "outlets": 3,
+   "regions": 1,
+   "languages": 1,
+   "score": 7.0
+  },
+  {
+   "id": "345f00fef028",
+   "first_seen": "2026-11-04T17:07:52.089259+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Federal cabinet ratifies defence agreement with Kuwait",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2042071/federal-cabinet-ratifies-defence-agreement-with-kuwait",
+     "published": "2026-11-04T12:47:43+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Federal govt signs off on Pak-Kuwait defence agreement",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2638615/pakistan-continues-diplomatic-efforts-to-ease-mideast-tensions-pm-shehbaz",
+     "published": "2026-11-04T05:03:13+00:00"
+    },
+    {
+     "outlet": "Geo News",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Federal cabinet ratifies Pakistan-Kuwait defence cooperation agreement",
+     "language": "en",
+     "link": "https://www.geo.tv/latest/689724-federal-cabinet-ratifies-pakistan-kuwait-defence-cooperation-agreement",
+     "published": "2026-11-04T14:14:00+00:00"
+    }
+   ],
+   "last_seen": "2026-11-04T17:07:52.089259+00:00",
+   "outlets": 3,
+   "regions": 1,
+   "languages": 1,
+   "score": 7.0
+  },
+  {
+   "id": "f1c9944bd878",
+   "first_seen": "2026-11-04T17:07:52.089259+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Govt says Islamabad's One Constitution Avenue to be turned into a five-star hotel",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2042095/govt-says-islamabads-one-constitution-avenue-to-be-turned-into-a-five-star-hotel",
+     "published": "2026-11-04T14:47:19+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Naqvi says One Constitution Avenue to be converted into five-star hotel in 'coming months'",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2638652/naqvi-says-one-constitution-avenue-to-be-converted-into-five-star-hotel-in-coming-months",
+     "published": "2026-11-04T08:33:00+00:00"
+    },
+    {
+     "outlet": "Geo News",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Islamabad's One Constitution Avenue to be converted into five-star hotel: Naqvi",
+     "language": "en",
+     "link": "https://www.geo.tv/latest/689736-islamabads-one-constitution-avenue-to-be-converted-into-five-star-hotel-naqvi",
+     "published": "2026-11-04T14:22:00+00:00"
+    }
+   ],
+   "last_seen": "2026-11-04T17:07:52.089259+00:00",
+   "outlets": 3,
+   "regions": 1,
+   "languages": 1,
+   "score": 7.0
+  },
+  {
+   "id": "05c3fb90f7e5",
+   "first_seen": "2026-11-04T17:07:52.089259+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "SSGC announces winter gas supply schedule for Sindh, Balochistan",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2042052/ssgc-announces-winter-gas-supply-schedule-for-sindh-balochistan",
+     "published": "2026-11-04T08:54:22+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "SSGC announces winter gas supply timings for consumers",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2638606/ssgc-announces-winter-gas-supply-timings-for-consumers",
+     "published": "2026-11-04T03:40:58+00:00"
+    },
+    {
+     "outlet": "Geo News",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "SSGC announces new gas supply schedule for winter",
+     "language": "en",
+     "link": "https://www.geo.tv/latest/689665-ssgc-announces-new-gas-supply-schedule-for-winter",
+     "published": "2026-11-04T07:28:00+00:00"
+    }
+   ],
+   "last_seen": "2026-11-04T17:07:52.089259+00:00",
    "outlets": 3,
    "regions": 1,
    "languages": 1,
