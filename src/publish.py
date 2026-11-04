@@ -1832,6 +1832,14 @@ def main() -> int:
             return 0
         return cmd_youtube_selection(args.issue, body, cfg)
 
+    # ترشيح مواضيع اليوم من العناوين (الخطوة 3ب): فتح قضية لكل موضوع معلَّم، في المسار العادي وحده كي لا تُفتح مرتين
+    # (publish.yml يشغّل المسارين لحدث وسم واحد)
+    if "meta-selection" in labels:
+        if args.urgent_only:
+            return 0
+        from . import meta_topics
+        return meta_topics.finalize(args.issue, body, cfg)
+
     # Issue #1221 (مسار «هام»، المهمة 3): قضية ترشيح النقاط (وسم important-selection) تُقرأ
     # اختياراتها بالقارئ الموحَّد وتُكتب النقاط بحسب حكمها ثم تسلك مسار الأخبار نفسه من
     # المرحلة 1. لا يجوز أن تصل المسار العادي أدناه (فتُرفض كل نقطة ضمنًا). تنفيذها من المسار

@@ -13,11 +13,13 @@
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
 import re
 from collections import Counter
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
 from . import llm
 
@@ -46,9 +48,9 @@ TOPICS_TOOL = {
     },
 }
 
-GROUP_TOOL = {
-    "name": "group_topics",
-    "description": "تجميع المواضيع التي تتناول الحدث نفسه.",
+CATALOG_TOOL = {
+    "name": "list_events",
+    "description": "الأحداث المحددة التي تتناولها قناتان مختلفتان فأكثر.",
     "input_schema": {
         "type": "object",
         "properties": {
@@ -56,15 +58,31 @@ GROUP_TOOL = {
                 "type": "array",
                 "items": {
                     "type": "object",
-                    "properties": {
-                        "title": {"type": "string"},
-                        "members": {"type": "array", "items": {"type": "integer"}},
-                    },
-                    "required": ["title", "members"],
+                    "properties": {"title": {"type": "string"}, "description": {"type": "string"}},
+                    "required": ["title", "description"],
                 },
             },
         },
         "required": ["events"],
+    },
+}
+
+ASSIGN_TOOL = {
+    "name": "assign_topics",
+    "description": "رقم الحدث الذي يتناوله كل موضوع، أو 0 إن لم يتناول أيًّا منها.",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "rows": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {"n": {"type": "integer"}, "event": {"type": "integer"}},
+                    "required": ["n", "event"],
+                },
+            },
+        },
+        "required": ["rows"],
     },
 }
 
@@ -201,12 +219,39 @@ def video_topics(videos: list[dict], cfg, client, info: dict | None = None) -> t
     return out, errors
 
 
-def group_topics(items: list[dict], cfg, client) -> tuple[list[dict], str | None, dict]:
-    """نداء واحد يجمع المواضيع (عبر الفيديوهات واللغات) في أحداث. يقبل الكود العضو المعروف مرة واحدة فقط.
+def _assign_batch(batch: list[tuple[int, dict]], catalog: list[dict], cfg, client, m: dict,
+                  depth: int = 0) -> tuple[dict[int, int], list[str]]:
+    """{رقم الموضوع العام: رقم الحدث} لدفعة؛ الرد المقطوع يُقسم نصفين (حتى `assign_max_splits`) ولا يُقبل منه شيء (درس #1763)."""
+    events = "\n".join(f"{j}. {e['title']} — {e['description']}" for j, e in enumerate(catalog, 1))
+    lines = "\n".join(f"[{k}] {it['label']} — {it['channel']}" for k, (_, it) in enumerate(batch))
+    try:
+        resp = llm.create(client, cfg=cfg, model=m.get("assign_model", "haiku"),
+                          max_tokens=int(m.get("assign_max_tokens", 4000)), system=m.get("assign_system", ""),
+                          tools=[ASSIGN_TOOL], tool_choice={"type": "tool", "name": ASSIGN_TOOL["name"]},
+                          messages=[{"role": "user", "content": f"الأحداث:\n{events}\n\nالمواضيع:\n{lines}"}])
+    except Exception as exc:  # noqa: BLE001
+        return {}, [str(exc)[:120]]
+    if getattr(resp, "stop_reason", None) == "max_tokens":
+        if len(batch) > 1 and depth < int(m.get("assign_max_splits", 2)):
+            half = len(batch) // 2
+            a, ea = _assign_batch(batch[:half], catalog, cfg, client, m, depth + 1)
+            b, eb = _assign_batch(batch[half:], catalog, cfg, client, m, depth + 1)
+            return {**a, **b}, ea + eb
+        return {}, ["رد مقطوع"]
+    data = _tool_input(resp, ASSIGN_TOOL["name"]) or {}
+    out: dict[int, int] = {}
+    for row in data.get("rows") or []:
+        n, ev = row.get("n"), row.get("event")
+        if isinstance(n, int) and 0 <= n < len(batch) and isinstance(ev, int) and 1 <= ev <= len(catalog):
+            out[batch[n][0]] = ev - 1
+    return out, []
 
-    لا يُطلب تقسيم كل المواضيع: أول تشغيل حقيقي (4/11) أعطى 436 موضوعًا فأعاد النموذج 3 أحداث فقط حين طُلب منه أن يجعل
-    كل موضوع منفرد حدثًا وحده (مخرج بمئات الأحداث يتركه). الترشيح لا يحتاج إلا الأحداث المشتركة بين قناتين فأكثر، فهي وحدها
-    المطلوبة بسقف `group_max_events`، والكود يعدّ ما بقي بلا حدث للتشخيص."""
+
+def group_topics(items: list[dict], cfg, client) -> tuple[list[dict], str | None, dict]:
+    """خطوتان: نداء قوي واحد يسمّي الأحداث المشتركة (مخرج قصير)، ثم نداءات رخيصة بدفعات تسند كل موضوع إلى حدث منها.
+
+    السبب: نداء واحد يقسم كل المواضيع أعطى في ثلاث تشغيلات للبيانات نفسها تقريبًا (4/11) 3 أحداث ثم 16 ثم حدثًا واحدًا — أكثر من
+    400 موضوع بأربع لغات أكبر من أن يُقسَم في رد واحد بثبات. تسمية الأحداث وحدها قصيرة، والإسناد تصنيف لكل موضوع يحتمل الدفعات."""
     m = _mcfg(cfg)
     info: dict = {}
     if not items:
@@ -216,24 +261,36 @@ def group_topics(items: list[dict], cfg, client) -> tuple[list[dict], str | None
     try:
         resp = llm.create(client, cfg=cfg, model=m.get("group_model", "claude-sonnet-5"),
                           max_tokens=int(m.get("group_max_tokens", 8000)), system=system,
-                          tools=[GROUP_TOOL], tool_choice={"type": "tool", "name": GROUP_TOOL["name"]},
+                          tools=[CATALOG_TOOL], tool_choice={"type": "tool", "name": CATALOG_TOOL["name"]},
                           messages=[{"role": "user", "content": "\n".join(lines)}])
     except Exception as exc:  # noqa: BLE001
         return [], str(exc)[:150], info
     info["stop_reason"] = getattr(resp, "stop_reason", None)
     if info["stop_reason"] == "max_tokens":
         return [], "رد مقطوع", info
-    data = _tool_input(resp, GROUP_TOOL["name"]) or {}
-    used: set[int] = set()
+    data = _tool_input(resp, CATALOG_TOOL["name"]) or {}
+    catalog = [{"title": str(e.get("title", "")).strip(), "description": str(e.get("description", "")).strip()}
+               for e in data.get("events") or [] if str(e.get("title", "")).strip()]
+    catalog = catalog[: int(m.get("group_max_events", 30))]
+    info["returned"] = len(catalog)
+    if not catalog:
+        return [], None, info
+    size = int(m.get("assign_batch_size", 50))
+    indexed = list(enumerate(items))
+    assigned: dict[int, int] = {}
+    errors: list[str] = []
+    for i in range(0, len(indexed), size):
+        got, errs = _assign_batch(indexed[i:i + size], catalog, cfg, client, m)
+        assigned.update(got)
+        errors += [f"إسناد {i // size + 1}: {e}" for e in errs]
+    info["grouped"] = len(assigned)
+    info["assign_errors"] = errors
     events = []
-    for ev in data.get("events") or []:
-        members = [i for i in ev.get("members") or [] if isinstance(i, int) and 0 <= i < len(items) and i not in used]
-        used.update(members)
-        if members and str(ev.get("title", "")).strip():
-            events.append({"title": str(ev["title"]).strip(), "members": members})
-    info["returned"] = len(data.get("events") or [])
-    info["grouped"] = len(used)
-    return events, None, info
+    for j, ev in enumerate(catalog):
+        members = sorted(k for k, e in assigned.items() if e == j)
+        if members:
+            events.append({"title": ev["title"], "members": members})
+    return events, ("؛ ".join(errors) if errors else None), info
 
 
 def score_events(events: list[dict], items: list[dict], cfg, keep_all: bool = False) -> list[dict]:
@@ -328,3 +385,135 @@ def preview_safe(cfg) -> None:
     except Exception as exc:  # noqa: BLE001
         print(f"مواضيع من الوصف: تعذّر — {str(exc)[:150]}")
 
+
+
+# ───────────── قضية الترشيح (الخطوة 3ب) ─────────────
+# تُفتح من youtube-articles (يقرأ المستودع الخاص وله صلاحية فتح القضايا) لا من الجمع (لا صلاحية له)، وتُحفظ نسخة مختصرة
+# من المواضيع في المستودع العام (state/meta_topics) لأن الاعتماد يجري في publish.yml الذي لا يدفع المستودع الخاص؛ النسخة
+# العامة بلا عناوين الفيديوهات ولا أوصافها (كلام قنوات) — عنوان الحدث بالعربية ومعرّفات الفيديو والقنوات والدقائق وحدها.
+
+
+MTOPIC_RE = re.compile(r"^\s*-\s*\[([ xX])\][^\n]*?<!--\s*mtopic:([0-9a-f]+)\s*-->", re.MULTILINE)
+DATE_RE = re.compile(r"<!--\s*meta-date:(\d{4}-\d{2}-\d{2})\s*-->")
+
+
+def public_dir() -> Path:
+    from .config import STATE_DIR
+    return Path(STATE_DIR) / "meta_topics"
+
+
+def topic_id(date: str, title: str) -> str:
+    return hashlib.sha1(f"{date}:{title}".encode("utf-8")).hexdigest()[:12]
+
+
+def slim(res: dict, date: str) -> dict:
+    """النسخة العامة: لكل حدث معرّف ثابت وما يُعرض في القضية، بلا نص من القنوات."""
+    topics = []
+    for e in res.get("ranked") or []:
+        topics.append({"id": topic_id(date, e["title"]), "title": e["title"], "blocs": e["blocs"],
+                       "orientations": e["orientations"], "minutes": e["minutes"], "channels": e["channels"],
+                       "videos": [{k: v.get(k) for k in ("video_id", "channel", "bloc", "orientation", "minutes")}
+                                  for v in e.get("videos") or []]})
+    return {"date": date, "generated_at": res.get("generated_at"), "topics": topics}
+
+
+def _fmt_minutes(m) -> str:
+    return str(round(m or 0))
+
+
+def selection_body(data: dict, cfg) -> str:
+    t = _mcfg(cfg).get("texts") or {}
+    lines = [t.get("selection_header", "## 🧭 مواضيع اليوم من عناوين الفيديوهات وأوصافها"),
+             "", t.get("selection_explainer", ""), "", f"<!-- meta-date:{data['date']} -->", ""]
+    for k, e in enumerate(data["topics"], 1):
+        lines.append(f"- [ ] **{k}. {e['title']}** <!-- mtopic:{e['id']} -->")
+        lines.append("  " + t.get("selection_meta", "{blocs} كتل ({bloc_names})، {orientations} توجهات، {minutes} دقيقة (تقديرية)").format(
+            blocs=len(e["blocs"]), bloc_names="، ".join(e["blocs"]), orientations=e["orientations"],
+            minutes=_fmt_minutes(e["minutes"])))
+        vids = " · ".join(f"[{v['channel']} {_fmt_minutes(v['minutes'])} د](https://youtu.be/{v['video_id']})"
+                          for v in e["videos"])
+        lines.append(f"  <details><summary>{len(e['videos'])} فيديو</summary>\n\n  {vids}\n  </details>")
+        lines.append("")
+    lines.append(t.get("selection_footer", "وسم `approved` = فتح قضية مستقلة لكل موضوع معلَّم."))
+    return "\n".join(lines)
+
+
+def _load_public(date: str) -> dict | None:
+    try:
+        return json.loads((public_dir() / f"{date}.json").read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+
+
+def _save_public(data: dict) -> None:
+    path = public_dir() / f"{data['date']}.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
+
+
+def open_selection(cfg, date: str) -> dict | None:
+    """من ملف اليوم الخاص إلى قضية ترشيح `meta-selection`. لا ترفع: مطفأ أو بلا مواضيع أو قضية مفتوحة لليوم ← None."""
+    m = _mcfg(cfg)
+    if not m.get("enabled"):
+        return None
+    try:
+        from . import review, youtube_transcripts
+        existing = _load_public(date)
+        if existing and existing.get("selection_issue"):
+            return None
+        path = youtube_transcripts.bites_dir() / "meta_topics" / f"{date}.json"
+        res = json.loads(path.read_text(encoding="utf-8"))
+        data = slim(res, date)
+        if not data["topics"]:
+            return None
+        t = m.get("texts") or {}
+        issue = review.create_issue(t.get("selection_title", "🧭 مواضيع اليوم — {date}").format(date=date),
+                                    selection_body(data, cfg), labels=[m.get("selection_label", "meta-selection")])
+        data["selection_issue"] = issue["number"]
+        _save_public(data)
+        return issue
+    except Exception as exc:  # noqa: BLE001 — الترشيح القديم يبقى، فعطل هذا لا يوقف العنقدة
+        log.warning("مواضيع من الوصف: تعذّر فتح قضية الترشيح — %s", str(exc)[:150])
+        return None
+
+
+def topic_body(topic: dict, data: dict, cfg) -> str:
+    t = _mcfg(cfg).get("texts") or {}
+    lines = [f"## 🎬 {topic['title']}", "", f"<!-- mtopic-issue:{topic['id']} -->", f"<!-- meta-date:{data['date']} -->", "",
+             t.get("selection_meta", "").format(blocs=len(topic["blocs"]), bloc_names="، ".join(topic["blocs"]),
+                                                 orientations=topic["orientations"], minutes=_fmt_minutes(topic["minutes"])),
+             ""]
+    for v in topic["videos"]:
+        lines.append(f"- [{v['channel']}](https://youtu.be/{v['video_id']}) · {v.get('orientation') or ''} · "
+                     f"{_fmt_minutes(v['minutes'])} د")
+    lines += ["", t.get("topic_pending", "⏳ تُجلب نصوص هذه الفيديوهات وتُستخرج الأسئلة والإجابات في الخطوة التالية.")]
+    return "\n".join(lines)
+
+
+def finalize(issue_number: int, body: str, cfg) -> int:
+    """اعتماد قضية الترشيح: قضية مستقلة لكل موضوع معلَّم (مرة واحدة لكل موضوع)، وتعليق بروابطها، ثم إغلاق القضية."""
+    from . import review
+    m = _mcfg(cfg)
+    t = m.get("texts") or {}
+    date_m = DATE_RE.search(body or "")
+    data = _load_public(date_m.group(1)) if date_m else None
+    if not data:
+        review.comment(issue_number, t.get("finalize_missing", "⚠️ لم أجد ملف مواضيع هذه القضية."))
+        return 1
+    marked = [tid for mark, tid in MTOPIC_RE.findall(body) if mark.lower() == "x"]
+    by_id = {e["id"]: e for e in data["topics"]}
+    lines = []
+    for tid in marked:
+        topic = by_id.get(tid)
+        if not topic:
+            continue
+        if not topic.get("topic_issue"):
+            issue = review.create_issue(t.get("topic_title", "🎬 {title}").format(title=topic["title"]),
+                                        topic_body(topic, data, cfg), labels=[m.get("topic_label", "meta-topic")])
+            topic["topic_issue"] = issue["number"]
+        lines.append(f"- {topic['title']} ← #{topic['topic_issue']}")
+    _save_public(data)
+    review.comment(issue_number, "\n".join([t.get("finalize_header", "فُتحت قضية لكل موضوع:")] + lines) if lines
+                   else t.get("finalize_none", "لم يُعلَّم موضوع — لا شيء يُفتح."))
+    review.close_issue(issue_number)
+    return 0

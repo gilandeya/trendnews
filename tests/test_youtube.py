@@ -4569,19 +4569,26 @@ def test_meta_topics() -> None:
                     n = int(line[1:line.index("]")])
                     rows.append({"n": n, "political": True, "topics": ["غزة", "تركيا"] if n == 0 else ["غزة"]})
                 return tool("report_video_topics", {"videos": rows})
-            labels = [ln for ln in msg.split("\n") if ln]
-            gaza = [i for i, ln in enumerate(labels) if "غزة" in ln]
-            turk = [i for i, ln in enumerate(labels) if "تركيا" in ln]
-            return tool("group_topics", {"events": [{"title": "حرب غزة", "members": gaza + [999]},
-                                                     {"title": "تركيا", "members": turk + gaza[:1]}]})
+            if kw["tools"][0]["name"] == "list_events":
+                return tool("list_events", {"events": [{"title": "حرب غزة", "description": "الحرب على غزة"},
+                                                        {"title": "تركيا", "description": "شأن تركي"}]})
+            topics_part = msg.split("المواضيع:\n", 1)[1]
+            rows = []
+            for ln in topics_part.split("\n"):
+                n = int(ln[1:ln.index("]")])
+                rows.append({"n": n, "event": 1 if "غزة" in ln else (2 if "تركيا" in ln else 0)})
+            rows.append({"n": 999, "event": 1})
+            return tool("assign_topics", {"rows": rows})
 
     cfg["youtube"] = {**base["youtube"], "meta_topics": {**base["youtube"]["meta_topics"], "batch_size": 50}}
     c = Client()
     res = mt.run(cfg, now=now, client=c, videos=videos)
-    check("نداءان فقط: دفعة مواضيع وتجميع", len(c.calls) == 2, len(c.calls))
+    check("ثلاثة نداءات: دفعة مواضيع، تسمية الأحداث، دفعة إسناد", len(c.calls) == 3
+          and [k["tools"][0]["name"] for k in c.calls] == ["report_video_topics", "list_events", "assign_topics"], len(c.calls))
     check("لا temperature", all("temperature" not in k for k in c.calls))
     check("التجميع يطلب الأحداث المشتركة وحدها بسقف من الإعداد",
           "قناتان مختلفتان" in c.calls[1]["system"] and "{max_events}" not in c.calls[1]["system"], c.calls[1]["system"][:120])
+    check("الإسناد يرى الأحداث المسمّاة بأوصافها", "1. حرب غزة — الحرب على غزة" in c.calls[2]["messages"][0]["content"])
     check("تشخيص التجميع محفوظ: كل الأحداث والمواضيع والعدد المجمّع",
           len(res["all_events"]) == 2 and res["grouped"] == res["topics"] and len(res["labels"]) == res["topics"]
           and res["group"]["returned"] == 2, {k: res[k] for k in ("grouped", "topics", "group")})
@@ -4620,6 +4627,19 @@ def test_meta_topics() -> None:
           len(tcalls) == 2 and r["retried"] == 1 and r["missing"] == 0 and r["political"] == len(r["verdicts"]), (len(tcalls), r["retried"], r["missing"]))
     check("سطر الملخص يذكر المُعاد وما بقي بلا حكم", "أُعيد 1 وبقي بلا حكم 0" in mt.preview_lines(r, cfg)[0], mt.preview_lines(r, cfg)[0])
 
+    class SplitAssign(Client):
+        """رد إسناد بأكثر من موضوع يُقطع: تُقسم الدفعة نصفين ولا يُقبل من المقطوع شيء."""
+        def create(self, **kw):
+            if kw["tools"][0]["name"] == "assign_topics":
+                lines = kw["messages"][0]["content"].split("المواضيع:\n", 1)[1].split("\n")
+                if len(lines) > 2:
+                    self.calls.append(kw)
+                    return tool("assign_topics", {"rows": []}, stop="max_tokens")
+            return super().create(**kw)
+    sp = SplitAssign()
+    r = mt.run(cfg, now=now, client=sp, videos=videos)
+    check("إسناد مقطوع يُقسم نصفين ثم يُقبل", r["grouped"] == r["topics"] and not r["errors"], (r["grouped"], r["topics"], r["errors"]))
+
     class Cut(Client):
         def create(self, **kw):
             return tool("report_video_topics", {"videos": [{"n": 0, "political": True, "topics": ["x"]}]}, stop="max_tokens")
@@ -4632,3 +4652,62 @@ def test_meta_topics() -> None:
             raise RuntimeError("down")
     r = mt.run(cfg, now=now, client=Boom(), videos=videos)
     check("العطل لا يرفع", r["ranked"] == [] and any("down" in e for e in r["errors"]), r["errors"])
+
+
+def test_meta_topics_selection() -> None:
+    """قضية ترشيح المواضيع من العناوين (الخطوة 3ب): مطفأة لا شيء؛ تُفتح من الملف الخاص بنسخة عامة بلا عناوين الفيديوهات؛
+    لا تُفتح مرتين لليوم؛ الاعتماد يفتح قضية لكل معلَّم مرة واحدة ويعلّق ويغلق؛ غير المعلَّم لا يُفتح."""
+    from src import meta_topics as mt, review
+    from src.config import Config, load_config as real_load
+
+    d = tempfile.mkdtemp()
+    old = os.environ.get("TRENDNEWS_YOUTUBE_BITES_DIR")
+    os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = d
+    saved = {k: getattr(review, k) for k in ("create_issue", "comment", "close_issue")}
+    made, comments, closed = [], [], []
+    try:
+        review.create_issue = lambda title, body, labels=None: (made.append((title, body, labels)) or {"number": 900 + len(made)})
+        review.comment = lambda n, text: comments.append((n, text))
+        review.close_issue = lambda n: closed.append(n)
+        base = real_load()
+        cfg = Config(dict(base))
+        date = "2026-11-04"
+        res = {"generated_at": "2026-11-04T07:00:00+00:00", "ranked": [
+            {"title": "ضربة على إيران", "blocs": ["arabic", "turkish"], "orientations": 3, "minutes": 120.4,
+             "channels": ["الجزيرة", "SÖZCÜ"], "videos": [
+                 {"video_id": "v1", "channel": "الجزيرة", "bloc": "arabic", "orientation": "قطري", "title": "عنوان قناة سري", "minutes": 60.2}]},
+            {"title": "الانتخابات النصفية", "blocs": ["arabic", "turkish"], "orientations": 2, "minutes": 50,
+             "channels": ["العربية"], "videos": [
+                 {"video_id": "v2", "channel": "العربية", "bloc": "arabic", "orientation": "سعودي", "title": "عنوان آخر", "minutes": 50}]}]}
+        (Path(d) / "meta_topics").mkdir(parents=True, exist_ok=True)
+        (Path(d) / "meta_topics" / f"{date}.json").write_text(json.dumps(res, ensure_ascii=False), encoding="utf-8")
+        cfg["youtube"] = {**base["youtube"], "meta_topics": {**base["youtube"]["meta_topics"], "enabled": False}}
+        check("مطفأة: لا قضية", mt.open_selection(cfg, date) is None and not made)
+        cfg["youtube"] = {**base["youtube"], "meta_topics": {**base["youtube"]["meta_topics"], "enabled": True}}
+        issue = mt.open_selection(cfg, date)
+        title, body, labels = made[0]
+        check("قضية الترشيح بوسمها ومربع لكل موضوع", issue["number"] == 901 and labels == ["meta-selection"]
+              and body.count("<!-- mtopic:") == 2 and f"<!-- meta-date:{date} -->" in body, body[:300])
+        check("لا عنوان فيديو من القناة في القضية العامة", "عنوان قناة سري" not in body and "youtu.be/v1" in body)
+        pub = json.loads((mt.public_dir() / f"{date}.json").read_text(encoding="utf-8"))
+        check("النسخة العامة بلا عناوين الفيديوهات وبرقم القضية",
+              pub["selection_issue"] == 901 and "عنوان قناة سري" not in json.dumps(pub, ensure_ascii=False), pub)
+        check("لا تُفتح مرتين لليوم", mt.open_selection(cfg, date) is None and len(made) == 1)
+        tid = pub["topics"][0]["id"]
+        marked = body.replace(f"- [ ] **1. ضربة على إيران** <!-- mtopic:{tid} -->", f"- [x] **1. ضربة على إيران** <!-- mtopic:{tid} -->")
+        check("الاعتماد ينجح", mt.finalize(901, marked, cfg) == 0)
+        check("قضية واحدة للمعلَّم بوسم meta-topic", len(made) == 2 and made[1][2] == ["meta-topic"]
+              and "ضربة على إيران" in made[1][0] and "الانتخابات" not in made[1][0], made[1][:1])
+        check("تعليق بالرابط وإغلاق", comments and "#902" in comments[-1][1] and closed == [901], comments)
+        mt.finalize(901, marked, cfg)
+        check("إعادة الاعتماد لا تفتح قضية ثانية للموضوع نفسه", len(made) == 2)
+        check("قضية بلا ملف تعلّق وتفشل", mt.finalize(903, "<!-- meta-date:2020-01-01 -->", cfg) == 1)
+    finally:
+        for k, f in saved.items():
+            setattr(review, k, f)
+        if old is None:
+            os.environ.pop("TRENDNEWS_YOUTUBE_BITES_DIR", None)
+        else:
+            os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = old
+        shutil.rmtree(d, ignore_errors=True)
+        shutil.rmtree(mt.public_dir(), ignore_errors=True)
