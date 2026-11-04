@@ -301,6 +301,8 @@ def merge_catalog(catalog: list[dict], cfg, client, info: dict) -> list[dict]:
     m = _mcfg(cfg)
     if not m.get("merge_enabled", True) or len(catalog) < 2:
         return catalog
+    # القائمة قبل الدمج تُحفظ للتشخيص: بعده لا يُعرف ما الذي ضُمّ إلا من سطر الدمج
+    info["catalog"] = [dict(e) for e in catalog]
     lines = [f"{j + 1}. {e['title']} — {e['description']}" for j, e in enumerate(catalog)]
     try:
         resp = llm.create(client, cfg=cfg, model=m.get("merge_model", "haiku"),
