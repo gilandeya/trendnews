@@ -4569,19 +4569,26 @@ def test_meta_topics() -> None:
                     n = int(line[1:line.index("]")])
                     rows.append({"n": n, "political": True, "topics": ["غزة", "تركيا"] if n == 0 else ["غزة"]})
                 return tool("report_video_topics", {"videos": rows})
-            labels = [ln for ln in msg.split("\n") if ln]
-            gaza = [i for i, ln in enumerate(labels) if "غزة" in ln]
-            turk = [i for i, ln in enumerate(labels) if "تركيا" in ln]
-            return tool("group_topics", {"events": [{"title": "حرب غزة", "members": gaza + [999]},
-                                                     {"title": "تركيا", "members": turk + gaza[:1]}]})
+            if kw["tools"][0]["name"] == "list_events":
+                return tool("list_events", {"events": [{"title": "حرب غزة", "description": "الحرب على غزة"},
+                                                        {"title": "تركيا", "description": "شأن تركي"}]})
+            topics_part = msg.split("المواضيع:\n", 1)[1]
+            rows = []
+            for ln in topics_part.split("\n"):
+                n = int(ln[1:ln.index("]")])
+                rows.append({"n": n, "event": 1 if "غزة" in ln else (2 if "تركيا" in ln else 0)})
+            rows.append({"n": 999, "event": 1})
+            return tool("assign_topics", {"rows": rows})
 
     cfg["youtube"] = {**base["youtube"], "meta_topics": {**base["youtube"]["meta_topics"], "batch_size": 50}}
     c = Client()
     res = mt.run(cfg, now=now, client=c, videos=videos)
-    check("نداءان فقط: دفعة مواضيع وتجميع", len(c.calls) == 2, len(c.calls))
+    check("ثلاثة نداءات: دفعة مواضيع، تسمية الأحداث، دفعة إسناد", len(c.calls) == 3
+          and [k["tools"][0]["name"] for k in c.calls] == ["report_video_topics", "list_events", "assign_topics"], len(c.calls))
     check("لا temperature", all("temperature" not in k for k in c.calls))
     check("التجميع يطلب الأحداث المشتركة وحدها بسقف من الإعداد",
           "قناتان مختلفتان" in c.calls[1]["system"] and "{max_events}" not in c.calls[1]["system"], c.calls[1]["system"][:120])
+    check("الإسناد يرى الأحداث المسمّاة بأوصافها", "1. حرب غزة — الحرب على غزة" in c.calls[2]["messages"][0]["content"])
     check("تشخيص التجميع محفوظ: كل الأحداث والمواضيع والعدد المجمّع",
           len(res["all_events"]) == 2 and res["grouped"] == res["topics"] and len(res["labels"]) == res["topics"]
           and res["group"]["returned"] == 2, {k: res[k] for k in ("grouped", "topics", "group")})
@@ -4619,6 +4626,19 @@ def test_meta_topics() -> None:
     check("فيديو أسقطه رد دفعته يُسأل عنه ثانية فيُحكم عليه",
           len(tcalls) == 2 and r["retried"] == 1 and r["missing"] == 0 and r["political"] == len(r["verdicts"]), (len(tcalls), r["retried"], r["missing"]))
     check("سطر الملخص يذكر المُعاد وما بقي بلا حكم", "أُعيد 1 وبقي بلا حكم 0" in mt.preview_lines(r, cfg)[0], mt.preview_lines(r, cfg)[0])
+
+    class SplitAssign(Client):
+        """رد إسناد بأكثر من موضوع يُقطع: تُقسم الدفعة نصفين ولا يُقبل من المقطوع شيء."""
+        def create(self, **kw):
+            if kw["tools"][0]["name"] == "assign_topics":
+                lines = kw["messages"][0]["content"].split("المواضيع:\n", 1)[1].split("\n")
+                if len(lines) > 2:
+                    self.calls.append(kw)
+                    return tool("assign_topics", {"rows": []}, stop="max_tokens")
+            return super().create(**kw)
+    sp = SplitAssign()
+    r = mt.run(cfg, now=now, client=sp, videos=videos)
+    check("إسناد مقطوع يُقسم نصفين ثم يُقبل", r["grouped"] == r["topics"] and not r["errors"], (r["grouped"], r["topics"], r["errors"]))
 
     class Cut(Client):
         def create(self, **kw):

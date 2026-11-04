@@ -48,9 +48,9 @@ TOPICS_TOOL = {
     },
 }
 
-GROUP_TOOL = {
-    "name": "group_topics",
-    "description": "تجميع المواضيع التي تتناول الحدث نفسه.",
+CATALOG_TOOL = {
+    "name": "list_events",
+    "description": "الأحداث المحددة التي تتناولها قناتان مختلفتان فأكثر.",
     "input_schema": {
         "type": "object",
         "properties": {
@@ -58,15 +58,31 @@ GROUP_TOOL = {
                 "type": "array",
                 "items": {
                     "type": "object",
-                    "properties": {
-                        "title": {"type": "string"},
-                        "members": {"type": "array", "items": {"type": "integer"}},
-                    },
-                    "required": ["title", "members"],
+                    "properties": {"title": {"type": "string"}, "description": {"type": "string"}},
+                    "required": ["title", "description"],
                 },
             },
         },
         "required": ["events"],
+    },
+}
+
+ASSIGN_TOOL = {
+    "name": "assign_topics",
+    "description": "رقم الحدث الذي يتناوله كل موضوع، أو 0 إن لم يتناول أيًّا منها.",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "rows": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {"n": {"type": "integer"}, "event": {"type": "integer"}},
+                    "required": ["n", "event"],
+                },
+            },
+        },
+        "required": ["rows"],
     },
 }
 
@@ -203,12 +219,39 @@ def video_topics(videos: list[dict], cfg, client, info: dict | None = None) -> t
     return out, errors
 
 
-def group_topics(items: list[dict], cfg, client) -> tuple[list[dict], str | None, dict]:
-    """نداء واحد يجمع المواضيع (عبر الفيديوهات واللغات) في أحداث. يقبل الكود العضو المعروف مرة واحدة فقط.
+def _assign_batch(batch: list[tuple[int, dict]], catalog: list[dict], cfg, client, m: dict,
+                  depth: int = 0) -> tuple[dict[int, int], list[str]]:
+    """{رقم الموضوع العام: رقم الحدث} لدفعة؛ الرد المقطوع يُقسم نصفين (حتى `assign_max_splits`) ولا يُقبل منه شيء (درس #1763)."""
+    events = "\n".join(f"{j}. {e['title']} — {e['description']}" for j, e in enumerate(catalog, 1))
+    lines = "\n".join(f"[{k}] {it['label']} — {it['channel']}" for k, (_, it) in enumerate(batch))
+    try:
+        resp = llm.create(client, cfg=cfg, model=m.get("assign_model", "haiku"),
+                          max_tokens=int(m.get("assign_max_tokens", 4000)), system=m.get("assign_system", ""),
+                          tools=[ASSIGN_TOOL], tool_choice={"type": "tool", "name": ASSIGN_TOOL["name"]},
+                          messages=[{"role": "user", "content": f"الأحداث:\n{events}\n\nالمواضيع:\n{lines}"}])
+    except Exception as exc:  # noqa: BLE001
+        return {}, [str(exc)[:120]]
+    if getattr(resp, "stop_reason", None) == "max_tokens":
+        if len(batch) > 1 and depth < int(m.get("assign_max_splits", 2)):
+            half = len(batch) // 2
+            a, ea = _assign_batch(batch[:half], catalog, cfg, client, m, depth + 1)
+            b, eb = _assign_batch(batch[half:], catalog, cfg, client, m, depth + 1)
+            return {**a, **b}, ea + eb
+        return {}, ["رد مقطوع"]
+    data = _tool_input(resp, ASSIGN_TOOL["name"]) or {}
+    out: dict[int, int] = {}
+    for row in data.get("rows") or []:
+        n, ev = row.get("n"), row.get("event")
+        if isinstance(n, int) and 0 <= n < len(batch) and isinstance(ev, int) and 1 <= ev <= len(catalog):
+            out[batch[n][0]] = ev - 1
+    return out, []
 
-    لا يُطلب تقسيم كل المواضيع: أول تشغيل حقيقي (4/11) أعطى 436 موضوعًا فأعاد النموذج 3 أحداث فقط حين طُلب منه أن يجعل
-    كل موضوع منفرد حدثًا وحده (مخرج بمئات الأحداث يتركه). الترشيح لا يحتاج إلا الأحداث المشتركة بين قناتين فأكثر، فهي وحدها
-    المطلوبة بسقف `group_max_events`، والكود يعدّ ما بقي بلا حدث للتشخيص."""
+
+def group_topics(items: list[dict], cfg, client) -> tuple[list[dict], str | None, dict]:
+    """خطوتان: نداء قوي واحد يسمّي الأحداث المشتركة (مخرج قصير)، ثم نداءات رخيصة بدفعات تسند كل موضوع إلى حدث منها.
+
+    السبب: نداء واحد يقسم كل المواضيع أعطى في ثلاث تشغيلات للبيانات نفسها تقريبًا (4/11) 3 أحداث ثم 16 ثم حدثًا واحدًا — أكثر من
+    400 موضوع بأربع لغات أكبر من أن يُقسَم في رد واحد بثبات. تسمية الأحداث وحدها قصيرة، والإسناد تصنيف لكل موضوع يحتمل الدفعات."""
     m = _mcfg(cfg)
     info: dict = {}
     if not items:
@@ -218,24 +261,36 @@ def group_topics(items: list[dict], cfg, client) -> tuple[list[dict], str | None
     try:
         resp = llm.create(client, cfg=cfg, model=m.get("group_model", "claude-sonnet-5"),
                           max_tokens=int(m.get("group_max_tokens", 8000)), system=system,
-                          tools=[GROUP_TOOL], tool_choice={"type": "tool", "name": GROUP_TOOL["name"]},
+                          tools=[CATALOG_TOOL], tool_choice={"type": "tool", "name": CATALOG_TOOL["name"]},
                           messages=[{"role": "user", "content": "\n".join(lines)}])
     except Exception as exc:  # noqa: BLE001
         return [], str(exc)[:150], info
     info["stop_reason"] = getattr(resp, "stop_reason", None)
     if info["stop_reason"] == "max_tokens":
         return [], "رد مقطوع", info
-    data = _tool_input(resp, GROUP_TOOL["name"]) or {}
-    used: set[int] = set()
+    data = _tool_input(resp, CATALOG_TOOL["name"]) or {}
+    catalog = [{"title": str(e.get("title", "")).strip(), "description": str(e.get("description", "")).strip()}
+               for e in data.get("events") or [] if str(e.get("title", "")).strip()]
+    catalog = catalog[: int(m.get("group_max_events", 30))]
+    info["returned"] = len(catalog)
+    if not catalog:
+        return [], None, info
+    size = int(m.get("assign_batch_size", 50))
+    indexed = list(enumerate(items))
+    assigned: dict[int, int] = {}
+    errors: list[str] = []
+    for i in range(0, len(indexed), size):
+        got, errs = _assign_batch(indexed[i:i + size], catalog, cfg, client, m)
+        assigned.update(got)
+        errors += [f"إسناد {i // size + 1}: {e}" for e in errs]
+    info["grouped"] = len(assigned)
+    info["assign_errors"] = errors
     events = []
-    for ev in data.get("events") or []:
-        members = [i for i in ev.get("members") or [] if isinstance(i, int) and 0 <= i < len(items) and i not in used]
-        used.update(members)
-        if members and str(ev.get("title", "")).strip():
-            events.append({"title": str(ev["title"]).strip(), "members": members})
-    info["returned"] = len(data.get("events") or [])
-    info["grouped"] = len(used)
-    return events, None, info
+    for j, ev in enumerate(catalog):
+        members = sorted(k for k, e in assigned.items() if e == j)
+        if members:
+            events.append({"title": ev["title"], "members": members})
+    return events, ("؛ ".join(errors) if errors else None), info
 
 
 def score_events(events: list[dict], items: list[dict], cfg, keep_all: bool = False) -> list[dict]:
