@@ -4580,6 +4580,11 @@ def test_meta_topics() -> None:
     res = mt.run(cfg, now=now, client=c, videos=videos)
     check("نداءان فقط: دفعة مواضيع وتجميع", len(c.calls) == 2, len(c.calls))
     check("لا temperature", all("temperature" not in k for k in c.calls))
+    check("التجميع يطلب الأحداث المشتركة وحدها بسقف من الإعداد",
+          "قناتان مختلفتان" in c.calls[1]["system"] and "{max_events}" not in c.calls[1]["system"], c.calls[1]["system"][:120])
+    check("تشخيص التجميع محفوظ: كل الأحداث والمواضيع والعدد المجمّع",
+          len(res["all_events"]) == 2 and res["grouped"] == res["topics"] and len(res["labels"]) == res["topics"]
+          and res["group"]["returned"] == 2, {k: res[k] for k in ("grouped", "topics", "group")})
     top = res["ranked"]
     check("حدث كتلة واحدة يسقط وحدث ثلاث كتل يبقى", [e["title"] for e in top] == ["حرب غزة"], top)
     g = top[0]

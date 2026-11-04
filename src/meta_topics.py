@@ -161,21 +161,28 @@ def video_topics(videos: list[dict], cfg, client) -> tuple[dict[str, list[str]],
     return out, errors
 
 
-def group_topics(items: list[dict], cfg, client) -> tuple[list[dict], str | None]:
-    """نداء واحد يجمع المواضيع (عبر الفيديوهات واللغات) في أحداث. يقبل الكود العضو المعروف مرة واحدة فقط."""
+def group_topics(items: list[dict], cfg, client) -> tuple[list[dict], str | None, dict]:
+    """نداء واحد يجمع المواضيع (عبر الفيديوهات واللغات) في أحداث. يقبل الكود العضو المعروف مرة واحدة فقط.
+
+    لا يُطلب تقسيم كل المواضيع: أول تشغيل حقيقي (4/11) أعطى 436 موضوعًا فأعاد النموذج 3 أحداث فقط حين طُلب منه أن يجعل
+    كل موضوع منفرد حدثًا وحده (مخرج بمئات الأحداث يتركه). الترشيح لا يحتاج إلا الأحداث المشتركة بين قناتين فأكثر، فهي وحدها
+    المطلوبة بسقف `group_max_events`، والكود يعدّ ما بقي بلا حدث للتشخيص."""
     m = _mcfg(cfg)
+    info: dict = {}
     if not items:
-        return [], None
-    lines = [f"[{k}] {it['label']} — {it['channel']}" for k, it in enumerate(items)]
+        return [], None, info
+    lines = [f"[{k}] {it['label']} — {it['channel']} ({it.get('bloc')})" for k, it in enumerate(items)]
+    system = str(m.get("group_system", "")).replace("{max_events}", str(m.get("group_max_events", 30)))
     try:
         resp = llm.create(client, cfg=cfg, model=m.get("group_model", "claude-sonnet-5"),
-                          max_tokens=int(m.get("group_max_tokens", 8000)), system=m.get("group_system", ""),
+                          max_tokens=int(m.get("group_max_tokens", 8000)), system=system,
                           tools=[GROUP_TOOL], tool_choice={"type": "tool", "name": GROUP_TOOL["name"]},
                           messages=[{"role": "user", "content": "\n".join(lines)}])
     except Exception as exc:  # noqa: BLE001
-        return [], str(exc)[:150]
-    if getattr(resp, "stop_reason", None) == "max_tokens":
-        return [], "رد مقطوع"
+        return [], str(exc)[:150], info
+    info["stop_reason"] = getattr(resp, "stop_reason", None)
+    if info["stop_reason"] == "max_tokens":
+        return [], "رد مقطوع", info
     data = _tool_input(resp, GROUP_TOOL["name"]) or {}
     used: set[int] = set()
     events = []
@@ -184,10 +191,12 @@ def group_topics(items: list[dict], cfg, client) -> tuple[list[dict], str | None
         used.update(members)
         if members and str(ev.get("title", "")).strip():
             events.append({"title": str(ev["title"]).strip(), "members": members})
-    return events, None
+    info["returned"] = len(data.get("events") or [])
+    info["grouped"] = len(used)
+    return events, None, info
 
 
-def score_events(events: list[dict], items: list[dict], cfg) -> list[dict]:
+def score_events(events: list[dict], items: list[dict], cfg, keep_all: bool = False) -> list[dict]:
     """لكل حدث: الكتل المختلفة، والتوجّهات المختلفة (زوج كتلة/توجّه، فقناتان بالتوجّه نفسه صوت واحد)، والدقائق
     التقديرية (مدة الفيديو ÷ عدد مواضيعه)، والفيديوهات. يُبقي ما بلغ `min_blocs` ويرتّب بالكتل ثم التوجّهات ثم الدقائق
     (ترتيب صاحب المشروع)، والفيديو الواحد لا يُعدّ مرتين في الحدث."""
@@ -208,6 +217,8 @@ def score_events(events: list[dict], items: list[dict], cfg) -> list[dict]:
             videos.append({k: it[k] for k in ("video_id", "channel", "bloc", "orientation", "title", "minutes")})
         out.append({"title": ev["title"], "blocs": sorted(blocs), "orientations": len(orients),
                     "channels": sorted(channels), "minutes": round(minutes), "videos": videos})
+    if keep_all:
+        return out
     out = [e for e in out if len(e["blocs"]) >= int(m.get("min_blocs", 2))]
     out.sort(key=lambda e: (-len(e["blocs"]), -e["orientations"], -e["minutes"]))
     return out[: int(m.get("max_topics", 10))]
@@ -236,18 +247,23 @@ def run(cfg, now: datetime | None = None, client=None, videos: dict | None = Non
             items.append({"label": label, "video_id": v["video_id"], "channel": v["channel"], "bloc": v.get("bloc"),
                           "orientation": v.get("orientation"), "title": v.get("title", ""),
                           "minutes": (v.get("duration_seconds") or 0) / 60 / len(labels)})
-    events, gerr = group_topics(items, cfg, client)
+    events, gerr, ginfo = group_topics(items, cfg, client)
     if gerr:
         errors.append(f"التجميع: {gerr}")
     ranked = score_events(events, items, cfg)
+    # للتشخيص في الملف الخاص: كل الأحداث بأعدادها (لا الفائزة وحدها) وكل موضوع بفيديوه، كي يُفهم ما فعله التجميع
+    every = [{k: e[k] for k in ("title", "blocs", "orientations", "channels", "minutes")} | {"videos": len(e["videos"])}
+             for e in score_events(events, items, cfg, keep_all=True)]
     return {"generated_at": now.isoformat(), "eligible": len(vids), "political": len(topics),
-            "topics": len(items), "events": len(events), "ranked": ranked, "errors": errors}
+            "topics": len(items), "events": len(events), "grouped": ginfo.get("grouped", 0), "group": ginfo,
+            "ranked": ranked, "all_events": every,
+            "labels": [{k: it[k] for k in ("label", "video_id", "channel")} for it in items], "errors": errors}
 
 
 def preview_lines(res: dict, cfg) -> list[str]:
     """سطور السجل: رقم الحدث وعنوانه، ثم «N كتل، M توجهات، X دقيقة (تقديرية)» بصيغة صاحب المشروع."""
     t = _mcfg(cfg).get("texts") or {}
-    lines = [t.get("summary", "مواضيع من الوصف: {eligible} فيديو، {political} سياسي، {events} حدثًا").format(**res)]
+    lines = [t.get("summary", "مواضيع من الوصف: {eligible} فيديو، {political} سياسي، {grouped} من {topics} موضوعًا في {events} حدثًا").format(**res)]
     for k, e in enumerate(res["ranked"], 1):
         lines.append(t.get("line", "{k}- {title}: {blocs} كتل، {orientations} توجهات، {minutes} دقيقة (تقديرية)").format(
             k=k, title=e["title"], blocs=len(e["blocs"]), orientations=e["orientations"], minutes=e["minutes"]))
