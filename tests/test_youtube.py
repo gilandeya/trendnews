@@ -4678,6 +4678,9 @@ def test_meta_topics() -> None:
     check("الدمج يضمّ الزاوية إلى أول قصتها ويذكرها في الوصف، ويهمل المجموعة الفردية والرقم المكرر وخارج المدى",
           r["group"]["merged"] == [["حرب غزة", "هدنة غزة"]] and "1. حرب غزة — الحرب على غزة · زواياه: هدنة غزة" in assign_msg
           and "2. تركيا" in assign_msg and "هدنة غزة —" not in assign_msg, (r["group"].get("merged"), assign_msg[:200]))
+    msys = next(k for k in mg.calls if k["tools"][0]["name"] == "merge_events")["system"]
+    check("الدمج ضيّق: الحدث نفسه لا سببه ولا أثره، وعند الشك لا دمج، والقائمة قبل الدمج محفوظة",
+          "عند الشك لا تدمج" in msys and "سبب الحدث أو أثره" in msys and len(r["group"]["catalog"]) == 3)
     check("سطر المعاينة يذكر ما دُمج", "🔗 دُمج في «حرب غزة»: هدنة غزة" in mt.preview_lines(r, cfg))
 
     class MergeBoom(Client):
