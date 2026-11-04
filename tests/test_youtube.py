@@ -4603,11 +4603,29 @@ def test_meta_topics() -> None:
                {"video_id": "4", "channel": "A2", "bloc": "arabic", "orientation": "o2", "title": "", "minutes": 1}],
               cfg)] == ["w", "y", "x", "z"])
 
+    class Skip(Client):
+        """أول رد يُسقط صف الفيديو الثاني (كما أسقط رد 4/11 الفيديوهات الفارسية)، والإعادة تعيده."""
+        def create(self, **kw):
+            if kw["tools"][0]["name"] == "report_video_topics":
+                self.calls.append(kw)
+                msg = kw["messages"][0]["content"]
+                ns = [int(b[1:b.index("]")]) for b in msg.split("\n\n")]
+                keep = ns[1:] if len(ns) > 1 and len(self.calls) == 1 else ns
+                return tool("report_video_topics", {"videos": [{"n": n, "political": True, "topics": ["غزة"]} for n in keep]})
+            return super().create(**kw)
+    sk = Skip()
+    r = mt.run(cfg, now=now, client=sk, videos=videos)
+    tcalls = [k for k in sk.calls if k["tools"][0]["name"] == "report_video_topics"]
+    check("فيديو أسقطه رد دفعته يُسأل عنه ثانية فيُحكم عليه",
+          len(tcalls) == 2 and r["retried"] == 1 and r["missing"] == 0 and r["political"] == len(r["verdicts"]), (len(tcalls), r["retried"], r["missing"]))
+    check("سطر الملخص يذكر المُعاد وما بقي بلا حكم", "أُعيد 1 وبقي بلا حكم 0" in mt.preview_lines(r, cfg)[0], mt.preview_lines(r, cfg)[0])
+
     class Cut(Client):
         def create(self, **kw):
             return tool("report_video_topics", {"videos": [{"n": 0, "political": True, "topics": ["x"]}]}, stop="max_tokens")
     r = mt.run(cfg, now=now, client=Cut(), videos=videos)
-    check("الرد المقطوع لا يُقبل ويُسجَّل", r["political"] == 0 and r["errors"] and r["ranked"] == [], r)
+    check("الرد المقطوع لا يُقبل ويُسجَّل وفيديوهاته بلا حكم", r["political"] == 0 and r["errors"] and r["ranked"] == []
+          and r["missing"] == len(r["verdicts"]), r)
 
     class Boom(Client):
         def create(self, **kw):
