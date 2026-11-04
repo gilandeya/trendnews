@@ -144,6 +144,33 @@ def _tool_input(resp, name):
                  if getattr(b, "type", "") == "tool_use" and getattr(b, "name", name) == name), None)
 
 
+
+def _rows(data: dict, key: str) -> list[dict]:
+    """قائمة صفوف أداة النموذج بأمان: قد تصل القائمة نصًا JSON (درس #1741) أو مغلَّفة بمفتاحها، وقد يحوي النص بقايا بعده.
+
+    السبب: تشغيل 4/11 بعد دمج الخطوتين انتهى بـ«'str' object has no attribute 'get'» فلم يخرج شيء؛ عنصر غير قاموس يُهمل لا يُسقط النداء."""
+    val = (data or {}).get(key)
+    if isinstance(val, str):
+        txt = val.strip()
+        try:
+            val = json.JSONDecoder().raw_decode(txt[txt.find("[") if "[" in txt else 0:])[0] if txt else []
+        except ValueError:
+            val = []
+    if isinstance(val, dict):
+        val = val.get(key) or []
+    return [r for r in val if isinstance(r, dict)] if isinstance(val, list) else []
+
+
+def _int(x):
+    """رقم صف قد يصل نصًا («3»)؛ غيره None."""
+    if isinstance(x, bool):
+        return None
+    if isinstance(x, int):
+        return x
+    if isinstance(x, str) and x.strip().isdigit():
+        return int(x.strip())
+    return None
+
 def _topics_batch(batch: list[dict], cfg, client, m: dict) -> tuple[dict[int, dict] | None, str | None]:
     """نداء واحد لدفعة ← {رقم: صف}؛ None مع السبب عند العطل أو الرد المقطوع (لا يُقبل منه شيء، درس #1763)."""
     lines = [f"[{k}] {v['channel']} ({v.get('language')}) · {round((v.get('duration_seconds') or 0) / 60)} د\n"
@@ -160,8 +187,8 @@ def _topics_batch(batch: list[dict], cfg, client, m: dict) -> tuple[dict[int, di
         return None, "رد مقطوع"
     data = _tool_input(resp, TOPICS_TOOL["name"]) or {}
     rows = {}
-    for row in data.get("videos") or []:
-        n = row.get("n")
+    for row in _rows(data, "videos"):
+        n = _int(row.get("n"))
         if isinstance(n, int) and 0 <= n < len(batch) and n not in rows:
             rows[n] = row
     return rows, None
@@ -240,8 +267,8 @@ def _assign_batch(batch: list[tuple[int, dict]], catalog: list[dict], cfg, clien
         return {}, ["رد مقطوع"]
     data = _tool_input(resp, ASSIGN_TOOL["name"]) or {}
     out: dict[int, int] = {}
-    for row in data.get("rows") or []:
-        n, ev = row.get("n"), row.get("event")
+    for row in _rows(data, "rows"):
+        n, ev = _int(row.get("n")), _int(row.get("event"))
         if isinstance(n, int) and 0 <= n < len(batch) and isinstance(ev, int) and 1 <= ev <= len(catalog):
             out[batch[n][0]] = ev - 1
     return out, []
@@ -270,7 +297,7 @@ def group_topics(items: list[dict], cfg, client) -> tuple[list[dict], str | None
         return [], "رد مقطوع", info
     data = _tool_input(resp, CATALOG_TOOL["name"]) or {}
     catalog = [{"title": str(e.get("title", "")).strip(), "description": str(e.get("description", "")).strip()}
-               for e in data.get("events") or [] if str(e.get("title", "")).strip()]
+               for e in _rows(data, "events") if str(e.get("title", "")).strip()]
     catalog = catalog[: int(m.get("group_max_events", 30))]
     info["returned"] = len(catalog)
     if not catalog:
@@ -383,7 +410,12 @@ def preview_safe(cfg) -> None:
         path.write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")
         print("\n".join(preview_lines(res, cfg)))
     except Exception as exc:  # noqa: BLE001
-        print(f"مواضيع من الوصف: تعذّر — {str(exc)[:150]}")
+        # موضع العطل في السطر نفسه: عطل 4/11 لم يذكر أين وقع فلم يُعرف إلا بالتخمين
+        tb = exc.__traceback__
+        while tb and tb.tb_next:
+            tb = tb.tb_next
+        where = f" ({tb.tb_frame.f_code.co_name}:{tb.tb_lineno})" if tb else ""
+        print(f"مواضيع من الوصف: تعذّر — {str(exc)[:150]}{where}")
 
 
 

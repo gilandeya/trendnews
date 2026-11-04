@@ -4653,6 +4653,21 @@ def test_meta_topics() -> None:
     r = mt.run(cfg, now=now, client=Boom(), videos=videos)
     check("العطل لا يرفع", r["ranked"] == [] and any("down" in e for e in r["errors"]), r["errors"])
 
+    class Stringy(Client):
+        """تشغيل 4/11: قائمة الأداة وصلت نصًا JSON (وأرقام الصفوف نصوصًا) فرفع التجميع «'str' object has no attribute 'get'»."""
+        def create(self, **kw):
+            resp = super().create(**kw)
+            inp = resp.content[0].input
+            key = next(iter(inp))
+            rows = [{**r, "n": str(r["n"])} if "n" in r else r for r in inp[key]]
+            val = json.dumps(rows, ensure_ascii=False) + "\n</parameter>" if key != "events" else {key: rows}
+            return tool(resp.content[0].name, {key: val})
+    r = mt.run(cfg, now=now, client=Stringy(), videos=videos)
+    check("قائمة الأداة نصًا JSON أو مغلَّفة بمفتاحها تُقرأ كالقائمة", [e["title"] for e in r["ranked"]] == ["حرب غزة"]
+          and not r["errors"], (r["errors"], [e["title"] for e in r["ranked"]]))
+    check("صفوف غير قواميس تُهمل ولا تُسقط النداء", mt._rows({"rows": ["x", {"n": 1}]}, "rows") == [{"n": 1}]
+          and mt._rows({"rows": "ليس JSON"}, "rows") == [])
+
 
 def test_meta_topics_selection() -> None:
     """قضية ترشيح المواضيع من العناوين (الخطوة 3ب): مطفأة لا شيء؛ تُفتح من الملف الخاص بنسخة عامة بلا عناوين الفيديوهات؛
