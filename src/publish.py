@@ -1338,6 +1338,22 @@ def _dispatch_render_and_comment(issue_number: int, started: list[str], now: lis
     return True
 
 
+def dispatch_qa(issue_number: int, cfg, skip: bool = False) -> bool:
+    """إطلاق تشغيلة التركيب لاستخراج أسئلة مواضيع العناوين (meta_qa)، وتعليق النتيجة على قضية الترشيح."""
+    texts = cfg.path("youtube.meta_topics.qa.texts", {}) or {}
+    wf = cfg.path("reel.render.workflow_file", "reel-render.yml")
+    try:
+        if skip:
+            raise RuntimeError("الإيداع لم يصل إلى main")
+        review.dispatch_workflow(wf, os.environ.get("GITHUB_REF_NAME", "main"))
+    except Exception as exc:  # noqa: BLE001
+        log.warning("تعذّر إطلاق %s للأسئلة: %s", wf, exc)
+        review.comment(issue_number, texts.get("start_failed", ""))
+        return False
+    review.comment(issue_number, texts.get("started", ""))
+    return True
+
+
 def start_reel_render(issue_number: int, started: list[str], cfg) -> bool:
     """يطلق تركيب الريل تلقائيًا مرة واحدة بعد اعتماد ريل أو أكثر (Issue #1538، W4): --pending يركّب كل المنتظر فلا
     حاجة لنداء لكل ريل. العطل لا يوقف المعالجة: تحذير وسطر «شغّل يدويًا» والريل يبقى queued كما كان.
@@ -1371,6 +1387,13 @@ def cmd_dispatch_render(cfg, skip_not_pushed: bool = False) -> int:
     path = os.environ.get(RENDER_DISPATCH_ENV)
     data = _read_dispatch_file(path) if path else {}
     issue = data.get("issue")
+    meta_issue = data.get("meta_issue")
+    if meta_issue:
+        # أسئلة مواضيع العناوين تُستخرج في تشغيلة التركيب نفسها، فإطلاق واحد يكفي الريلات والمواضيع معًا
+        dispatch_qa(int(meta_issue), cfg, skip=skip_not_pushed)
+        if issue and data.get("started"):
+            review.comment(int(issue), (cfg.path("reel.texts", {}) or {}).get("render_started", ""))
+        return 0
     if not issue or not data.get("started"):
         return 0
     queued = [i for i in data["started"]

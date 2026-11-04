@@ -4737,7 +4737,9 @@ def test_meta_topics_selection() -> None:
         (Path(d) / "meta_topics" / f"{date}.json").write_text(json.dumps(res, ensure_ascii=False), encoding="utf-8")
         cfg["youtube"] = {**base["youtube"], "meta_topics": {**base["youtube"]["meta_topics"], "enabled": False}}
         check("مطفأة: لا قضية", mt.open_selection(cfg, date) is None and not made)
-        cfg["youtube"] = {**base["youtube"], "meta_topics": {**base["youtube"]["meta_topics"], "enabled": True}}
+        # الأسئلة (الخطوة 4) مطفأة هنا: هذا الاختبار للترشيح وحده، وإطلاقها في test_meta_qa
+        cfg["youtube"] = {**base["youtube"], "meta_topics": {**base["youtube"]["meta_topics"], "enabled": True,
+                                                              "qa": {**base["youtube"]["meta_topics"]["qa"], "enabled": False}}}
         issue = mt.open_selection(cfg, date)
         title, body, labels = made[0]
         check("قضية الترشيح بوسمها ومربع لكل موضوع", issue["number"] == 901 and labels == ["meta-selection"]
@@ -4759,6 +4761,165 @@ def test_meta_topics_selection() -> None:
     finally:
         for k, f in saved.items():
             setattr(review, k, f)
+        if old is None:
+            os.environ.pop("TRENDNEWS_YOUTUBE_BITES_DIR", None)
+        else:
+            os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = old
+        shutil.rmtree(d, ignore_errors=True)
+        shutil.rmtree(mt.public_dir(), ignore_errors=True)
+
+
+def test_meta_qa() -> None:
+    """الخطوة 4 (meta_qa): نصوص فيديوهات الموضوع وحده ← مقاطع عن الحدث ← أسئلة Opus ← اختيار الكود ضمن 120 ث ← قضية الموضوع
+    بمربعات بلا كلام القنوات؛ البروكسي المنتهي ينتظر؛ الرد المقطوع يفشل؛ الاعتماد يطلب الإطلاق بعد الإيداع."""
+    from types import SimpleNamespace as NS
+
+    from src import meta_qa, meta_topics as mt, publish, review, youtube_bites, youtube_transcripts
+    from src.config import Config, load_config as real_load
+    from src.youtube_extract import ProxyQuotaExhausted
+
+    d = tempfile.mkdtemp()
+    old = os.environ.get("TRENDNEWS_YOUTUBE_BITES_DIR")
+    old_disp = os.environ.pop(publish.RENDER_DISPATCH_ENV, None)
+    os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = d
+    saved = {k: getattr(review, k) for k in ("create_issue", "comment", "close_issue", "update_issue_body", "dispatch_workflow")}
+    saved_extract, saved_create, saved_load = youtube_bites.extract, meta_qa._create, youtube_transcripts.load
+    comments, bodies, dispatched, extract_calls = [], {}, [], []
+    try:
+        review.comment = lambda n, text: comments.append((n, text))
+        review.update_issue_body = lambda n, body: bodies.__setitem__(n, body)
+        review.close_issue = lambda n: None
+        review.create_issue = lambda title, body, labels=None: {"number": 950}
+        review.dispatch_workflow = lambda wf, ref: dispatched.append(wf)
+        base = real_load()
+        cfg = Config(dict(base))
+        cfg["youtube"] = {**base["youtube"], "meta_topics": {**base["youtube"]["meta_topics"], "enabled": True}}
+        cfg["youtube"]["extract"] = {**base["youtube"].get("extract", {}), "transcript_sleep_range": [0, 0]}
+
+        # الموضوع في الرسالة وحدها حين يُعطى
+        m1 = youtube_bites.user_message({"channel": "c", "title": "t", "topic": "ضربة على إيران"}, "[1] x", "ar")
+        m0 = youtube_bites.user_message({"channel": "c", "title": "t"}, "[1] x", "ar")
+        check("الحدث المطلوب في رسالة المقاطع حين يُعطى وحده", "الحدث المطلوب: ضربة على إيران" in m1 and "الحدث المطلوب" not in m0)
+
+        vids = [{"video_id": f"v{i}", "channel": f"ch{i}", "bloc": b, "orientation": o, "minutes": mi}
+                for i, (b, o, mi) in enumerate([("arabic", "قطري", 90), ("arabic", "قطري", 80), ("turkish", "معارض", 30),
+                                                ("persian", "معارض للنظام", 20)])]
+        order = [v["video_id"] for v in meta_qa.topic_videos({"videos": vids}, cfg)]
+        check("الفيديوهات بالتناوب على التوجّهات", order == ["v0", "v2", "v3", "v1"], order)
+        small = Config(dict(cfg))
+        small["youtube"] = {**cfg["youtube"], "meta_topics": {**cfg["youtube"]["meta_topics"],
+                                                               "qa": {**cfg["youtube"]["meta_topics"]["qa"], "max_videos": 2}}}
+        check("سقف الفيديوهات", len(meta_qa.topic_videos({"videos": vids}, small)) == 2)
+
+        speakers = ["أ", "ب", "ج", "د", "هـ", "و"]
+
+        def fake_extract(meta, segs, lang, cfg_, client=None, max_chars=None):
+            extract_calls.append((meta.get("topic"), max_chars))
+            k = int(meta["video_id"][1:])
+            return {"bites": [{"start_line": n, "start": 10.0 * n, "end": 10.0 * n + 25, "speaker": speakers[k] + str(n),
+                               "type": "opinion", "summary_ar": f"يرى {speakers[k]} رأيًا {n}", "text_ar": f"كلام سري {k}{n}",
+                               "text_original": f"secret words {k}{n}"} for n in (1, 2)], "error": ""}
+        youtube_bites.extract = fake_extract
+        fetched = []
+
+        def fetch(vid):
+            fetched.append(vid)
+            return [{"start": 0, "dur": 5, "text": "x"}], "ar", False
+        youtube_transcripts.load = lambda vid: None
+
+        def plan(client, **kw):
+            plan.msgs.append(kw["messages"][0]["content"])
+            return NS(stop_reason=plan.stop, content=[NS(type="tool_use", name="plan_questions", input={
+                "titles": ["هل تضرب أمريكا إيران؟", "عنوان 2", "عنوان 3"],
+                "questions": [{"text": "هل الضربة قريبة؟", "answers": [{"n": 1, "fit": "direct"}, {"n": 3, "fit": "direct"},
+                                                                       {"n": 5, "fit": "weak"}, {"n": 99, "fit": "direct"}]},
+                              {"text": "ما رد إيران؟", "answers": [{"n": 2, "fit": "direct"}, {"n": 4, "fit": "direct"},
+                                                                  {"n": 6, "fit": "direct"}, {"n": 7, "fit": "direct"}]},
+                              {"text": "سؤال يتيم", "answers": [{"n": 1, "fit": "direct"}]}]})])
+        plan.msgs, plan.stop = [], "tool_use"
+        meta_qa._create = plan
+
+        topic = {"id": "t1", "title": "ضربة على إيران", "blocs": ["arabic", "turkish"], "orientations": 3, "minutes": 220,
+                 "channels": [], "videos": vids, "topic_issue": 950}
+        data = {"date": "2026-11-04", "topics": [topic]}
+        status = meta_qa.process_topic(topic, data, cfg, client=object(), fetch=fetch)
+        qa = topic["qa"]
+        check("الحالة جاهزة ونداء مقاطع لكل فيديو بالموضوع وسقف النص الأكبر", status == "ready"
+              and extract_calls and all(c == ("ضربة على إيران", 150000) for c in extract_calls) and len(fetched) == 4,
+              (status, qa.get("error"), extract_calls))
+        check("رقم مقطع خارج المدى يُسقط، والمقاطع المحفوظة ما دخل سؤالًا فقط",
+              len(qa["bites"]) == 7 and all(a["n"] <= 7 for q in qa["questions"] for a in q["answers"]), len(qa["bites"]))
+        sel = [(qi, a["bite_id"]) for qi, q in enumerate(qa["questions"], 1) for a in q["answers"] if a["selected"]]
+        check("الاختيار ضمن 120 ث (كل مقطع 25 ث) والسؤال اليتيم لا يُختار",
+              qa["selected_seconds"] <= 120 and len(sel) == 4 and not any(qi == 3 for qi, _ in sel), (qa["selected_seconds"], sel))
+        check("لا مقطع في سؤالين", len({b for _, b in sel}) == len(sel))
+        pub = json.dumps(data, ensure_ascii=False)
+        check("العام بلا ترجمة ولا كلام بلغته", "كلام سري" not in pub and "secret words" not in pub)
+        priv = json.loads(meta_qa.private_path("t1").read_text(encoding="utf-8"))
+        check("الخاص يحفظ الترجمة والكلام", "كلام سري" in json.dumps(priv, ensure_ascii=False) and len(priv["bites"]) == 7)
+        body = bodies.get(950, "")
+        check("القضية: العناوين بمربعات والأول معلَّم، وأسئلة وإجابات بعلاماتها وروابط بثانيتها",
+              "- [x] هل تضرب أمريكا إيران؟ <!-- mhl:0 -->" in body and "- [ ] عنوان 2 <!-- mhl:1 -->" in body
+              and "<!-- mq:1 -->" in body and "<!-- ma:1:v0:1 -->" in body and "?t=10" in body
+              and "كلام سري" not in body and "secret words" not in body, body[:600])
+        check("سقف الثواني في القضية وتعليق الجاهزية", "من 120" in body and any("✅" in c[1] for c in comments))
+        marks = meta_qa.read_marks(body)
+        check("قراءة المعلَّم", marks["title"] == 0 and 1 in marks["questions"] and 3 not in marks["questions"]
+              and len(sum(marks["answers"].values(), [])) == 4, marks)
+        check("لا يُعاد ما جهز", meta_qa.pending_topics(cfg, datetime(2026, 11, 4, 12, tzinfo=timezone.utc)) == [])
+
+        # البروكسي المنتهي: ينتظر ويعلّق مرة واحدة، والمحفوظ يُستعمل
+        def dead(vid):
+            raise ProxyQuotaExhausted("402 Payment Required")
+        t2 = {**topic, "id": "t2", "qa": None}
+        comments.clear()
+        s2 = meta_qa.process_topic(t2, data, cfg, client=object(), fetch=dead)
+        meta_qa.process_topic(t2, data, cfg, client=object(), fetch=dead)
+        check("رصيد منتهٍ ← انتظار وتعليق واحد", s2 == "waiting_proxy" and sum("بروكسي" in c[1] for c in comments) == 1, comments)
+        youtube_transcripts.load = lambda vid: {"segments": [{"start": 0, "dur": 5, "text": "x"}], "language": "tr"}
+        fetched.clear()
+        t3 = {**topic, "id": "t3", "qa": None}
+        check("النص المحفوظ بلا بروكسي", meta_qa.process_topic(t3, data, cfg, client=object(), fetch=dead) == "ready" and not fetched)
+
+        # الرد المقطوع لا يُقبل
+        plan.stop = "max_tokens"
+        t4 = {**topic, "id": "t4", "qa": None}
+        check("رد Opus المقطوع يفشل", meta_qa.process_topic(t4, data, cfg, client=object(), fetch=fetch) == "failed"
+              and "max_tokens" in t4["qa"]["error"])
+
+        # الاعتماد يطلب الإطلاق: بلا ملف ← الآن؛ بملف ← يُكتب ثم يُطلق بعد الإيداع
+        (Path(d) / "meta_topics").mkdir(parents=True, exist_ok=True)
+        res = {"generated_at": "2026-11-05T07:00:00+00:00", "ranked": [
+            {"title": "موضوع س", "blocs": ["arabic", "turkish"], "orientations": 2, "minutes": 50, "channels": ["c"],
+             "videos": [{"video_id": "v9", "channel": "c", "bloc": "arabic", "orientation": "قطري", "title": "x", "minutes": 50}]}]}
+        (Path(d) / "meta_topics" / "2026-11-05.json").write_text(json.dumps(res, ensure_ascii=False), encoding="utf-8")
+        review.create_issue = lambda title, body, labels=None: {"number": 960 if "meta-selection" in (labels or []) else 961}
+        mt.open_selection(cfg, "2026-11-05")
+        tid = mt._load_public("2026-11-05")["topics"][0]["id"]
+        sbody = f"<!-- meta-date:2026-11-05 -->\n- [x] **1. موضوع س** <!-- mtopic:{tid} -->"
+        dispatched.clear()
+        mt.finalize(960, sbody, cfg)
+        check("بلا ملف إطلاق: يُطلق التركيب الآن", dispatched == ["reel-render.yml"], dispatched)
+        pub5 = mt._load_public("2026-11-05")
+        pub5["topics"][0]["topic_issue"] = None
+        mt._save_public(pub5)
+        disp = Path(d) / "disp.json"
+        os.environ[publish.RENDER_DISPATCH_ENV] = str(disp)
+        dispatched.clear()
+        mt.finalize(960, sbody, cfg)
+        check("بملف الإطلاق: لا إطلاق قبل الإيداع ويُكتب رقم القضية", not dispatched
+              and json.loads(disp.read_text())["meta_issue"] == 960)
+        publish.cmd_dispatch_render(cfg)
+        check("--dispatch-render يطلق للأسئلة", dispatched == ["reel-render.yml"], dispatched)
+        src = Path("src/reel_render.py").read_text(encoding="utf-8")
+        check("التركيب يعالج الأسئلة أولًا", "meta_qa.process_safe(cfg)" in src)
+    finally:
+        for k, f in saved.items():
+            setattr(review, k, f)
+        youtube_bites.extract, meta_qa._create, youtube_transcripts.load = saved_extract, saved_create, saved_load
+        os.environ.pop(publish.RENDER_DISPATCH_ENV, None)
+        if old_disp is not None:
+            os.environ[publish.RENDER_DISPATCH_ENV] = old_disp
         if old is None:
             os.environ.pop("TRENDNEWS_YOUTUBE_BITES_DIR", None)
         else:
