@@ -1016,7 +1016,65 @@
      "minutes": 10.1
     }
    ],
-   "topic_issue": 1808
+   "topic_issue": 1808,
+   "qa": {
+    "attempts": 1,
+    "at": "2026-11-04T20:08:13.862809+00:00",
+    "failures": [
+     {
+      "video_id": "tGCoMTxn4ek",
+      "channel": "الجزيرة",
+      "reason": "proxy"
+     },
+     {
+      "video_id": "thyIGxW6aIk",
+      "channel": "SÖZCÜ",
+      "reason": "proxy"
+     },
+     {
+      "video_id": "yGth_UO8VwY",
+      "channel": "ערוץ 14",
+      "reason": "proxy"
+     },
+     {
+      "video_id": "Au5QJ1-FRYw",
+      "channel": "العربية",
+      "reason": "proxy"
+     },
+     {
+      "video_id": "V-sHiogNhKg",
+      "channel": "Iran International",
+      "reason": "proxy"
+     },
+     {
+      "video_id": "mW_jI4a8qwY",
+      "channel": "CNN Türk",
+      "reason": "proxy"
+     },
+     {
+      "video_id": "xRYDmXfko9Q",
+      "channel": "فرانس 24 عربي",
+      "reason": "proxy"
+     },
+     {
+      "video_id": "kZDzQCNPfaM",
+      "channel": "SÖZCÜ",
+      "reason": "proxy"
+     },
+     {
+      "video_id": "y2ebkDcf-90",
+      "channel": "ILTV",
+      "reason": "proxy"
+     },
+     {
+      "video_id": "M_loIcwSfQ8",
+      "channel": "العربية",
+      "reason": "proxy"
+     }
+    ],
+    "status": "waiting_proxy",
+    "notified_proxy": true
+   }
   },
   {
    "id": "92384121631e",
