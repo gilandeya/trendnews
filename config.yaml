@@ -3977,6 +3977,7 @@ channels:
   # 5/11 (قرار صاحب المشروع): صوتان غائبان عن الكتلة العربية — الإماراتي ومحور المقاومة. channel_id غائب عمدًا حين لم يُعرف
   # موثوقًا: youtube_collect.resolve_channel_id يحسمه من المعرّف بيوتيوب نفسه في أول جمع ويطبعه ليُثبَّت هنا.
   - handle: "@skynewsarabia"
+    channel_id: "UCIJXOvggjKtCagMfxvcCzAA"  # ثُبّت من سجل الجمع 5/11 (resolve_channel_id)
     name: "سكاي نيوز عربية"
     mention_forms: ["سكاي نيوز عربية"]
     language: "ar"
@@ -4178,6 +4179,7 @@ channels:
     active: true
     exclude_patterns: ["LIVE", "Live:", "live stream", "Livestream"]
   - handle: "@CNN"
+    channel_id: "UCupvZG-5ko_eiXAupbDfxWw"  # ثُبّت من سجل الجمع 5/11 (resolve_channel_id)
     name: "CNN"
     name_ar: "سي إن إن"
     mention_forms: ["سي إن إن", "CNN"]
