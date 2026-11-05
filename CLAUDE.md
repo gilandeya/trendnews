@@ -2981,8 +2981,9 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 (`meta["topic"]`) وسقف `qa.max_transcript_chars` ← نداء Opus (`plan_questions`) بثلاثة عناوين وحتى خمسة أسئلة ولكل سؤال أرقام
 المقاطع (direct/weak)؛ الرد المقطوع يفشل ورقم خارج المدى يسقط ← `auto_select` (خالصة): جولات على الأسئلة، متحدث لا يتكرر في السؤال
 ومقطع لا يتكرر بين الأسئلة، والتوجّه الجديد ثم المباشر ثم الرأي أولًا، ضمن `qa.max_seconds` (120)، وسؤال دون `min_answers` يُترك.
-قضية الموضوع تُكتب مربعات (`mhl:`/`mq:`/`ma:<سؤال>:<bite_id>`، و`read_marks` يقرؤها للخطوة 5) بملخص عربي ورابط بثانيته؛ **الترجمة والكلام
-بلغته في الملف الخاص وحده** (`youtube_bites/meta_topics/qa/<id>.json`)، والعام `state/meta_topics/<التاريخ>.json` يحمل `qa` بلا كلام قنوات.
+قضية الموضوع تُكتب مربعات (`mhl:`/`mq:`/`ma:<سؤال>:<bite_id>`، و`read_marks` يقرؤها للخطوة 5) بملخص عربي ورابط بثانيته وسطر «💬» بترجمة المقطع تحته
+(قرار صاحب المشروع 5/11: يختار مما سيُكتب على الشاشة، ولا مانع من نشره في القضية؛ `issue_body(full_bites=)` من الملف الخاص)؛ **الكلام بلغته
+في الملف الخاص وحده** (`youtube_bites/meta_topics/qa/<id>.json`)، وملف الحالة العام `state/meta_topics/<التاريخ>.json` يحمل `qa` بلا ترجمة ولا كلام.
 نفاد البروكسي ← `waiting_proxy` وتعليق واحد ويُعاد في التشغيلة التالية؛ العطل `failed` حتى `qa.max_attempts`. **تشغيليًا:** خطوة «رفع الريلز»
 في `reel-render.yml` تودِع `reels` وحدها، فتضيف إليها `state/youtube_transcripts state/youtube_bites` كي تبقى النصوص والملف الخاص لخطوة السيناريو.
 الاختبار `tests/test_youtube.py:test_meta_qa`.

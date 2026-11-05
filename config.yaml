@@ -3294,6 +3294,7 @@ youtube:
         unnamed: "متحدث غير مسمّى"
         host_label: "مقدّم"
         weak_label: "صلة ضعيفة"
+        translation_line: "💬 «{text}»"
         types: {opinion: "رأي", forecast: "توقع", fact: "واقعة", report: "خبر"}
         total_line: "⏱️ مجموع الإجابات المعلَّمة: {seconds} ث من {budget}"
         failures_header: "⚠️ فيديوهات لم تدخل:"
