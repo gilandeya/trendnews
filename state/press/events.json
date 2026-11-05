@@ -556,7 +556,7 @@
      "published": "2026-10-25T02:27:15+00:00"
     }
    ],
-   "last_seen": "2026-11-04T17:07:52.089259+00:00",
+   "last_seen": "2026-11-05T17:07:44.261464+00:00",
    "outlets": 22,
    "regions": 15,
    "languages": 1,
@@ -1770,6 +1770,152 @@
    "score": 45.0
   },
   {
+   "id": "78be79f7b4c4",
+   "first_seen": "2026-11-05T17:07:44.261464+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Russell Brand found guilty of rape and sexual assault by UK court",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/11/5/russell-brand-found-guilty-of-rape-and-sexual-assault-by-uk-court?traffic_source=rss",
+     "published": "2026-11-05T14:43:09+00:00"
+    },
+    {
+     "outlet": "Court House News",
+     "region": "court",
+     "bucket": "light",
+     "title": "Russell Brand convicted of rape, sexual assault in UK",
+     "language": "en",
+     "link": "https://www.courthousenews.com/russell-brand-convicted-of-rape-sexual-assault-in-uk/",
+     "published": "2026-11-05T15:49:21+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Russell Brand found guilty by UK court of rape and sexual assaults",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2638835/russell-brand-found-guilty-by-uk-court-of-rape-and-sexual-assaults",
+     "published": "2026-11-05T09:50:44+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "British comedian Russell Brand found guilty of rape, sexual assault",
+     "language": "en",
+     "link": "https://www.france24.com/en/europe/20261105-british-comedian-russell-brand-found-guilty-of-rape-sexual-assault",
+     "published": "2026-11-05T14:26:40+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "light",
+     "title": "Comedian Russell Brand found guilty by U.K. court of rape and sexual assaults",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/comedian-russell-brand-found-guilty-by-uk-court-of-rape-and-sexual-assaults/article71670633.ece",
+     "published": "2026-11-05T15:40:08+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Russell Brand guilty of rape, three sexual assaults, says UK court",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/highlight/2026/11/05/russell-brand-guilty-of-rape-three-sexual-assaults-says-uk-court",
+     "published": "2026-11-05T15:19:00+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Russell Brand convicted of rape and three sexual assaults, faces lengthy jail sentence in UK",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/russell-brand-convicted-of-rape-and-three-sexual-assaults-faces-lengthy-jail-sentence-in-uk-101793892090022.html",
+     "published": "2026-11-05T15:28:23+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Russell Brand found guilty of rape and sexual assault",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/russell-brand-found-guilty-rape-sexual-assault-verdict/",
+     "published": "2026-11-05T16:18:00+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Russell Brand found guilty of rape and three sexual assaults",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE1LT2I0YTJOa0NSQk5XNkQ1NW94aTI3anN2SmNjcVNTbUFqV2FsbDNkb0xmbWV3MGVYTi1kZHBVdjBnRlRLZnJVOVNTWUNoc1F3d0tlRWln?oc=5",
+     "published": "2026-11-05T16:57:53+00:00"
+    },
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Russell Brand is being investigated over two new rape complaints, police say",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c6vgx8q09gg4o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-11-05T15:44:49+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Misogyny and sexism of Russell Brand case have not gone away, TV insiders say",
+     "language": "en",
+     "link": "https://www.theguardian.com/media/2026/nov/05/misogyny-and-sexism-of-russell-brand-case-have-not-gone-away-say-tv-insiders",
+     "published": "2026-11-05T15:27:17+00:00"
+    },
+    {
+     "outlet": "Der Spiegel",
+     "region": "de",
+     "bucket": "serious",
+     "title": "Russell Brand wegen Vergewaltigung schuldig gesprochen",
+     "language": "en",
+     "link": "https://www.spiegel.de/panorama/justiz/russell-brand-wegen-vergewaltigung-schuldig-gesprochen-a-329bc936-3cc8-4baa-a3fe-477cf35a5553#ref=rss",
+     "published": "2026-11-05T15:07:00+00:00"
+    },
+    {
+     "outlet": "El País",
+     "region": "es",
+     "bucket": "serious",
+     "title": "Un jurado declara al actor Russell Brand culpable de una violación y tres agresiones sexuales",
+     "language": "es",
+     "link": "https://elpais.com/sociedad/2026-11-05/un-jurado-declara-al-actor-russell-brand-culpable-de-una-violacion-y-tres-agresiones-sexuales.html",
+     "published": "2026-11-05T15:47:15+00:00"
+    },
+    {
+     "outlet": "The Guardian — Culture",
+     "region": "culture",
+     "bucket": "light",
+     "title": "The downfall of Russell Brand: from Big Brother and Hollywood to convicted rapist",
+     "language": "en",
+     "link": "https://www.theguardian.com/culture/2026/nov/05/the-downfall-of-russell-brand-from-big-brother-and-hollywood-to-convicted-rapist",
+     "published": "2026-11-05T14:44:37+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "British actor Russell Brand faces prison after rape, sexual assault conviction",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3373453/british-actor-russell-brand-faces-prison-after-rape-sexual-assault-conviction",
+     "published": "2026-11-05T14:54:59+00:00"
+    }
+   ],
+   "last_seen": "2026-11-05T17:07:44.261464+00:00",
+   "outlets": 15,
+   "regions": 13,
+   "languages": 2,
+   "score": 45.0
+  },
+  {
    "id": "0a33e059e8b8",
    "first_seen": "2026-11-03T17:07:50.467225+00:00",
    "members": [
@@ -2316,6 +2462,161 @@
    "score": 40.0
   },
   {
+   "id": "cd1d8983a222",
+   "first_seen": "2026-11-05T17:07:44.261464+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Cristiano Ronaldo announces international retirement",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/11/5/cristiano-ronaldo-announces-international-retirement?traffic_source=rss",
+     "published": "2026-11-05T12:32:36+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Cristiano Ronaldo announces international retirement",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2042335/cristiano-ronaldo-announces-international-retirement",
+     "published": "2026-11-05T12:24:49+00:00"
+    },
+    {
+     "outlet": "Premium Times",
+     "region": "ng",
+     "bucket": "sport",
+     "title": "Cristiano Ronaldo announces Portugal retirement after 23 years",
+     "language": "en",
+     "link": "https://www.premiumtimesng.com/sports/football/922996-cristiano-ronaldo-announces-portugal-retirement-after-23-years.html",
+     "published": "2026-11-05T15:42:30+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Football legend Cristiano Ronaldo announces international retirement",
+     "language": "en",
+     "link": "https://www.france24.com/en/sport/20261105-football-legend-cristiano-ronaldo-announces-international-retirement",
+     "published": "2026-11-05T10:48:42+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Ronaldo announces international retirement on Instagram!",
+     "language": "en",
+     "link": "https://www.skysports.com/watch/video/13608338/cristiano-ronaldo-announces-international-retirement-on-instagram",
+     "published": "2026-11-05T11:33:00+00:00"
+    },
+    {
+     "outlet": "Rappler",
+     "region": "ph",
+     "bucket": "serious",
+     "title": "Cristiano Ronaldo announces international retirement",
+     "language": "en",
+     "link": "https://www.rappler.com/people/athletes/cristiano-ronaldo-announces-international-retirement/",
+     "published": "2026-11-05T12:52:44+00:00"
+    },
+    {
+     "outlet": "Africanews",
+     "region": "africa",
+     "bucket": "serious",
+     "title": "Cristiano Ronaldo announces international retirement from Portugal",
+     "language": "en",
+     "link": "http://www.africanews.com/2026/11/05/cristiano-ronaldo-announces-international-retirement-from-portugal/",
+     "published": "2026-11-05T16:11:05+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Ronaldo announces international retirement",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/highlight/2026/11/05/cristiano-ronaldo-announces-international-retirement",
+     "published": "2026-11-05T11:21:00+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Cristiano Ronaldo retires from international football at 41",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/sports/2026/11/05/cristiano-ronaldo-retires-from-international-football-at-41/242116",
+     "published": "2026-11-05T12:04:10+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Ronaldo calls time on Portugal career",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2638805/ronaldo-calls-time-on-portugal-career",
+     "published": "2026-11-05T05:20:24+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Cristiano Ronaldo calls time on Portugal career after 234 caps and 146 goals",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/2026/nov/05/cristiano-ronaldo-calls-time-on-portugal-career",
+     "published": "2026-11-05T10:42:15+00:00"
+    },
+    {
+     "outlet": "Der Spiegel",
+     "region": "de",
+     "bucket": "serious",
+     "title": "Cristiano Ronaldo: Nach Abreise-Posse erklärt er versöhnlich seinen Rücktritt",
+     "language": "en",
+     "link": "https://www.spiegel.de/sport/fussball/cristiano-ronaldo-nach-abreise-posse-erklaert-er-versoehnlich-seinen-ruecktritt-a-a89a0bbd-8d20-4ea6-9930-2b563eac3ea9#ref=rss",
+     "published": "2026-11-05T16:32:00+00:00"
+    },
+    {
+     "outlet": "Le Monde",
+     "region": "fr",
+     "bucket": "serious",
+     "title": "Cristiano Ronaldo prend sa retraite internationale, triste fin d’une histoire qui a un peu trop duré",
+     "language": "fr",
+     "link": "https://www.lemonde.fr/sport/article/2026/11/05/cristiano-ronaldo-prend-sa-retraite-internationale-triste-fin-d-une-histoire-qui-a-un-peu-trop-dure_6807075_3242.html",
+     "published": "2026-11-05T15:50:55+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Cristiano Ronaldo merely the latest example of a great player who couldn’t let go | Jonathan Wilson",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/2026/nov/05/cristiano-ronaldo-retires-international-football-career-portugal",
+     "published": "2026-11-05T13:32:02+00:00"
+    },
+    {
+     "outlet": "El País",
+     "region": "es",
+     "bucket": "serious",
+     "title": "Cristiano Ronaldo anuncia su adiós a la selección de Portugal",
+     "language": "fr",
+     "link": "https://elpais.com/deportes/futbol/2026-11-05/cristiano-ronaldo-anuncia-su-adios-a-la-seleccion-de-portugal.html",
+     "published": "2026-11-05T10:39:14+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Why has Cristiano Ronaldo retired from international football?",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/11/5/why-has-cristiano-ronaldo-retired-from-international-football?traffic_source=rss",
+     "published": "2026-11-05T15:14:05+00:00"
+    }
+   ],
+   "last_seen": "2026-11-05T17:07:44.261464+00:00",
+   "outlets": 14,
+   "regions": 11,
+   "languages": 2,
+   "score": 40.0
+  },
+  {
    "id": "a056d2844c9a",
    "first_seen": "2026-10-05T18:07:49.818707+00:00",
    "members": [
@@ -2595,6 +2896,197 @@
    "regions": 10,
    "languages": 2,
    "score": 36.0
+  },
+  {
+   "id": "c8bfb7591aa4",
+   "first_seen": "2026-11-02T17:07:46.578023+00:00",
+   "members": [
+    {
+     "outlet": "Court House News",
+     "region": "court",
+     "bucket": "light",
+     "title": "Fridge cyberattack hits supermarkets across Europe",
+     "language": "en",
+     "link": "https://www.courthousenews.com/fridge-cyberattack-hits-supermarkets-across-europe/",
+     "published": "2026-11-02T16:14:28+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "light",
+     "title": "Fridge cyberattack hits supermarkets across Europe",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2041646/fridge-cyberattack-hits-supermarkets-across-europe",
+     "published": "2026-11-02T15:43:17+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Supermarkets across Europe suffer another fridge cyberattack",
+     "language": "en",
+     "link": "https://www.dailysabah.com/business/tech/supermarkets-across-europe-suffer-another-fridge-cyberattack",
+     "published": "2026-11-02T13:11:00+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Bomb threats disrupt at least 15 flights across Europe, raising hybrid war fears",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/nov/05/bomb-threats-disrupt-flights-across-europe-and-renew-hybrid-warfare-fears",
+     "published": "2026-11-05T12:44:30+00:00"
+    },
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "New wave of bomb threats hits passenger flights across Europe",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2042341/new-wave-of-bomb-threats-hits-passenger-flights-across-europe",
+     "published": "2026-11-05T11:21:26+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "New wave of bomb threats hits at least 25 passenger flights across Europe",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2638809/bomb-alerts-force-flights-to-land-in-france-bulgaria-belgium",
+     "published": "2026-11-05T05:59:43+00:00"
+    },
+    {
+     "outlet": "Deutsche Welle",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Bomb threats disrupt several flights across Europe",
+     "language": "en",
+     "link": "https://www.dw.com/en/bomb-threats-disrupt-several-flights-across-europe/a-79861216?maca=en-rss-en-world-4025-rdf",
+     "published": "2026-11-05T10:10:00+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Hoax bomb threats force several flights to land across Europe",
+     "language": "en",
+     "link": "https://www.dailysabah.com/world/europe/hoax-bomb-threats-force-several-flights-to-land-across-europe",
+     "published": "2026-11-05T10:04:00+00:00"
+    },
+    {
+     "outlet": "NDTV — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "'Malicious Hoaxes': Several Flights In Europe Diverted After Bomb Threats",
+     "language": "en",
+     "link": "https://www.ndtv.com/world-news/multiple-flights-in-europe-again-diverted-after-bomb-threats-deemed-malicious-hoaxes-12288339#publisher=newsstand",
+     "published": "2026-11-05T15:03:30+00:00"
+    },
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Multiple planes diverted as bomb threats to commercial flights reported across Europe",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/live/2026/nov/05/aer-lingus-plane-bomb-threat-europe-latest-news-updates",
+     "published": "2026-11-05T16:54:47+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Multiple flights in Europe diverted because of bomb threats after earlier hoaxes",
+     "language": "en",
+     "link": "https://www.france24.com/en/video/20261105-multiple-flights-in-europe-diverted-because-of-bomb-threats-after-earlier-hoaxes",
+     "published": "2026-11-05T12:52:44+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Europe: Dozens of flights diverted following bomb threats",
+     "language": "en",
+     "link": "https://www.france24.com/en/video/20261105-europe-dozens-of-flights-diverted-following-bomb-threats",
+     "published": "2026-11-05T15:40:50+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Multiple flights in Europe diverted because of bomb threats",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/multiple-flights-in-europe-diverted-because-of-bomb-threats/article71670503.ece",
+     "published": "2026-11-05T16:36:40+00:00"
+    },
+    {
+     "outlet": "Court House News",
+     "region": "court",
+     "bucket": "light",
+     "title": "New hoax bomb threats hit European flights",
+     "language": "en",
+     "link": "https://www.courthousenews.com/new-hoax-bomb-threats-hit-european-flights/",
+     "published": "2026-11-05T16:27:21+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "European flights diverted again after fresh wave of hoax bomb threats",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/europe/article/3373414/bomb-threat-forces-ireland-italy-flight-divert-french-airbase",
+     "published": "2026-11-05T10:07:38+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "At least 15 European flights receive bomb threats in a single day",
+     "language": "en",
+     "link": "https://www.cbsnews.com/video/at-least-15-european-flights-receive-bomb-threats-in-a-single-day/",
+     "published": "2026-11-05T14:13:48+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Hoax bomb threats affect at least 20 European flights within hours",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/europe-flights-airlines-hoax-bomb-threats/",
+     "published": "2026-11-05T17:04:31+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Bomb threats received for at least twelve European flights",
+     "language": "en",
+     "link": "https://tass.com/society/2213325",
+     "published": "2026-11-05T13:39:35+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Bomb threats cause major flight disruptions across Europe",
+     "language": "en",
+     "link": "https://www.france24.com/en/video/20261105-bomb-threats-cause-major-flight-disruptions-across-europe",
+     "published": "2026-11-05T11:32:13+00:00"
+    },
+    {
+     "outlet": "Hürriyet (تركي)",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Başbakan ve Federasyon Başkanı kararından döndüremedi: Cristiano Ronaldo milli takım kariyerini noktaladı!",
+     "language": "tr",
+     "link": "https://www.hurriyet.com.tr/sporarena/cristiano-ronaldo-milli-takim-kariyerini-noktaladi-43367037",
+     "published": "2026-11-05T11:04:00+00:00"
+    }
+   ],
+   "last_seen": "2026-11-05T17:07:44.261464+00:00",
+   "outlets": 13,
+   "regions": 9,
+   "languages": 2,
+   "score": 35.0
   },
   {
    "id": "16fc1f1e0db6",
@@ -3190,6 +3682,71 @@
    "score": 26.0
   },
   {
+   "id": "8cd23af35d70",
+   "first_seen": "2026-11-05T17:07:44.261464+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Paraguay President Santiago Peña resigns",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/c6p9g39vln3yo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-11-05T16:58:16+00:00"
+    },
+    {
+     "outlet": "Investing.com — الاقتصاد",
+     "region": "money",
+     "bucket": "useful",
+     "title": "Paraguay President Peña resigns under mounting pressure from bank collapse",
+     "language": "en",
+     "link": "https://www.investing.com/news/economy-news/paraguay-president-pena-resigns-under-mounting-pressure-from-bank-collapse-5005187",
+     "published": "2026-11-05T16:24:36+00:00"
+    },
+    {
+     "outlet": "El País",
+     "region": "es",
+     "bucket": "serious",
+     "title": "Santiago Peña renuncia a la presidencia de Paraguay acorralado por un escándalo financiero",
+     "language": "fr",
+     "link": "https://elpais.com/america/2026-11-05/santiago-pena-renuncia-a-la-presidencia-de-paraguay-jaqueado-por-un-escandalo-financiero.html",
+     "published": "2026-11-05T16:35:51+00:00"
+    },
+    {
+     "outlet": "Clarín",
+     "region": "ar_country",
+     "bucket": "serious",
+     "title": "Crisis en Paraguay, EN VIVO: renunció el presidente Peña y últimas noticias, minuto a minuto",
+     "language": "es",
+     "link": "https://www.clarin.com/mundo/renuncio-presidente-paraguay-santiago-pena_0_PMeXJEWAVa.html",
+     "published": "2026-11-05T16:23:14+00:00"
+    },
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Paraguay’s President Pena resigns under mounting pressure from bank collapse",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/americas/article/3373458/paraguays-president-pena-resigns-under-mounting-pressure-bank-collapse",
+     "published": "2026-11-05T17:03:04+00:00"
+    },
+    {
+     "outlet": "MercoPress",
+     "region": "latam",
+     "bucket": "serious",
+     "title": "Paraguay seeks to return part of the savings frozen at Ueno Bank within 24 hours",
+     "language": "en",
+     "link": "https://en.mercopress.com/2026/11/05/paraguay-seeks-to-return-part-of-the-savings-frozen-at-ueno-bank-within-24-hours?utm_source=feed&utm_medium=rss&utm_content=main&utm_campaign=rss",
+     "published": "2026-11-05T07:08:00+00:00"
+    }
+   ],
+   "last_seen": "2026-11-05T17:07:44.261464+00:00",
+   "outlets": 6,
+   "regions": 6,
+   "languages": 3,
+   "score": 24.0
+  },
+  {
    "id": "8983e78e3206",
    "first_seen": "2026-11-04T17:07:52.089259+00:00",
    "members": [
@@ -3285,6 +3842,89 @@
     }
    ],
    "last_seen": "2026-11-04T17:07:52.089259+00:00",
+   "outlets": 8,
+   "regions": 6,
+   "languages": 1,
+   "score": 22.0
+  },
+  {
+   "id": "bc913ffc66d9",
+   "first_seen": "2026-11-05T17:07:44.261464+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "light",
+     "title": "Hong Kong pro-democracy activist Joshua Wong sentenced to 10 years in prison in national security case",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/nov/05/hong-kong-joshua-wong-sentenced-national-security-case",
+     "published": "2026-11-05T07:56:21+00:00"
+    },
+    {
+     "outlet": "Court House News",
+     "region": "court",
+     "bucket": "light",
+     "title": "Hong Kong activist Joshua Wong given 10 more years for collusion",
+     "language": "en",
+     "link": "https://www.courthousenews.com/hong-kong-activist-joshua-wong-given-10-more-years-for-collusion/",
+     "published": "2026-11-05T16:41:10+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Hong Kong activist Joshua Wong sentenced to 10 years in prison in 2nd national security case",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/hong-kong-activist-joshua-wong-sentenced-to-10-years-in-prison-in-2nd-national-security-case/article71668669.ece",
+     "published": "2026-11-05T05:11:55+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "Hong Kong activist jailed for 10 more years for collusion with foreign forces",
+     "language": "en",
+     "link": "https://www.france24.com/en/video/20261105-hong-kong-activist-jailed-for-10-more-years-for-collusion-with-foreign-forces",
+     "published": "2026-11-05T11:29:09+00:00"
+    },
+    {
+     "outlet": "Nikkei Asia",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Hong Kong activist Joshua Wong sentenced to 10 years for foreign collusion",
+     "language": "en",
+     "link": "https://asia.nikkei.com/spotlight/hong-kong-security-law/hong-kong-activist-joshua-wong-sentenced-to-10-years-for-foreign-collusion",
+     "published": "2026-11-05T17:07:36.181759+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Hong Kong activist Joshua Wong to be sentenced for collusion",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/us-news/hong-kong-activist-joshua-wong-to-be-sentenced-for-collusion-101793830641686.html",
+     "published": "2026-11-04T22:17:21+00:00"
+    },
+    {
+     "outlet": "The Japan Times",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "Hong Kong jails Joshua Wong for a decade in collusion case",
+     "language": "en",
+     "link": "https://www.japantimes.co.jp/news/2026/11/05/asia-pacific/politics/joshua-wong-hong-kong-democracy-prison/",
+     "published": "2026-11-05T05:08:00+00:00"
+    },
+    {
+     "outlet": "NPR World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Hong Kong activist Joshua Wong sentenced to 10 years in prison",
+     "language": "en",
+     "link": "https://www.npr.org/2026/11/05/g-s1-152032/hong-kong-activist-wong-sentenced",
+     "published": "2026-11-05T05:29:56+00:00"
+    }
+   ],
+   "last_seen": "2026-11-05T17:07:44.261464+00:00",
    "outlets": 8,
    "regions": 6,
    "languages": 1,
@@ -3500,6 +4140,98 @@
    "last_seen": "2026-11-03T17:07:50.467225+00:00",
    "outlets": 6,
    "regions": 6,
+   "languages": 1,
+   "score": 20.0
+  },
+  {
+   "id": "7d7af5652b05",
+   "first_seen": "2026-11-01T17:08:20.055996+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Ireland’s European athletics champion Ciara Mageean dies aged 34",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/11/1/irelands-european-athletics-champion-ciara-mageean-dies-aged-34?traffic_source=rss",
+     "published": "2026-11-01T13:43:57+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Former European champion and two-time Olympian Mageean dies aged 34",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/athletics/articles/cn81px29032o?at_medium=RSS&at_campaign=rss",
+     "published": "2026-11-01T10:45:42+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "serious",
+     "title": "European champion Mageean dies aged 34 after cancer battle",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/sport/european-champion-mageean-dies-aged-34-after-cancer-battle-6510791",
+     "published": "2026-11-01T11:17:55+00:00"
+    },
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "European champion Mageean dies aged 34",
+     "language": "en",
+     "link": "https://www.skysports.com/athletics/news/12040/13606619/ciara-mageean-irelands-european-1500-metres-gold-medallist-dies-at-the-age-of-34-after-battling-cancer",
+     "published": "2026-11-01T12:15:00+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Ciara Mageean, European 1500m gold medallist with Ireland, dies aged 34",
+     "language": "en",
+     "link": "https://www.theguardian.com/sport/2026/nov/01/ciara-mageean-european-1500m-gold-medallist-ireland-dies-age-34",
+     "published": "2026-11-01T12:31:01+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Irish European athletics champion Ciara Mageean dies aged 34",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/sports/2026/11/01/irish-european-athletics-champion-ciara-mageean-dies-aged-34",
+     "published": "2026-11-01T13:42:31+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Former F1 champion Jones dies aged 80",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/formula1/articles/cmd9345vdy8do?at_medium=RSS&at_campaign=rss",
+     "published": "2026-11-05T09:46:51+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Former F1 world champion Alan Jones, one of two Australians to win title, dies aged 80",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/sports/2026/11/05/former-f1-world-champion-alan-jones-one-of-two-australians-to-win-title-dies-aged-80/242077",
+     "published": "2026-11-05T08:31:51+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Alan Jones, Australia's 1980 Formula 1 world champion, dies at 80",
+     "language": "en",
+     "link": "https://www.dailysabah.com/sports/motorsports/alan-jones-australias-1980-formula-1-world-champion-dies-at-80",
+     "published": "2026-11-05T08:32:34+00:00"
+    }
+   ],
+   "last_seen": "2026-11-05T17:07:44.261464+00:00",
+   "outlets": 8,
+   "regions": 5,
    "languages": 1,
    "score": 20.0
   },
@@ -3989,71 +4721,6 @@
     }
    ],
    "last_seen": "2026-11-03T17:07:50.467225+00:00",
-   "outlets": 6,
-   "regions": 4,
-   "languages": 1,
-   "score": 16.0
-  },
-  {
-   "id": "7d7af5652b05",
-   "first_seen": "2026-11-01T17:08:20.055996+00:00",
-   "members": [
-    {
-     "outlet": "Al Jazeera English",
-     "region": "qa",
-     "bucket": "serious",
-     "title": "Ireland’s European athletics champion Ciara Mageean dies aged 34",
-     "language": "en",
-     "link": "https://www.aljazeera.com/sports/2026/11/1/irelands-european-athletics-champion-ciara-mageean-dies-aged-34?traffic_source=rss",
-     "published": "2026-11-01T13:43:57+00:00"
-    },
-    {
-     "outlet": "BBC Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Former European champion and two-time Olympian Mageean dies aged 34",
-     "language": "en",
-     "link": "https://www.bbc.co.uk/sport/athletics/articles/cn81px29032o?at_medium=RSS&at_campaign=rss",
-     "published": "2026-11-01T10:45:42+00:00"
-    },
-    {
-     "outlet": "Channel News Asia",
-     "region": "seasia",
-     "bucket": "serious",
-     "title": "European champion Mageean dies aged 34 after cancer battle",
-     "language": "en",
-     "link": "https://www.channelnewsasia.com/sport/european-champion-mageean-dies-aged-34-after-cancer-battle-6510791",
-     "published": "2026-11-01T11:17:55+00:00"
-    },
-    {
-     "outlet": "Sky Sports — Football",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "European champion Mageean dies aged 34",
-     "language": "en",
-     "link": "https://www.skysports.com/athletics/news/12040/13606619/ciara-mageean-irelands-european-1500-metres-gold-medallist-dies-at-the-age-of-34-after-battling-cancer",
-     "published": "2026-11-01T12:15:00+00:00"
-    },
-    {
-     "outlet": "The Guardian — Sport",
-     "region": "sport",
-     "bucket": "sport",
-     "title": "Ciara Mageean, European 1500m gold medallist with Ireland, dies aged 34",
-     "language": "en",
-     "link": "https://www.theguardian.com/sport/2026/nov/01/ciara-mageean-european-1500m-gold-medallist-ireland-dies-age-34",
-     "published": "2026-11-01T12:31:01+00:00"
-    },
-    {
-     "outlet": "Free Malaysia Today",
-     "region": "my",
-     "bucket": "serious",
-     "title": "Irish European athletics champion Ciara Mageean dies aged 34",
-     "language": "en",
-     "link": "https://www.freemalaysiatoday.com/category/sports/2026/11/01/irish-european-athletics-champion-ciara-mageean-dies-aged-34",
-     "published": "2026-11-01T13:42:31+00:00"
-    }
-   ],
-   "last_seen": "2026-11-01T17:08:20.055996+00:00",
    "outlets": 6,
    "regions": 4,
    "languages": 1,
@@ -4692,6 +5359,100 @@
    "score": 14.0
   },
   {
+   "id": "d20b7c0dab15",
+   "first_seen": "2026-11-05T17:07:44.261464+00:00",
+   "members": [
+    {
+     "outlet": "The Guardian — World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Mother and daughter killed in grizzly bear attack, Canadian authorities confirm",
+     "language": "en",
+     "link": "https://www.theguardian.com/world/2026/nov/04/canada-bear-attack-mother-daughter-killed",
+     "published": "2026-11-04T19:42:47+00:00"
+    },
+    {
+     "outlet": "CBS News — World",
+     "region": "us",
+     "bucket": "serious",
+     "title": "Mother, daughter dead in suspected grizzly bear attack in Canada",
+     "language": "en",
+     "link": "https://www.cbsnews.com/news/grizzly-bear-attack-british-columbia-mother-daughter/",
+     "published": "2026-11-04T15:33:36+00:00"
+    },
+    {
+     "outlet": "MyJoyOnline Ghana",
+     "region": "gh",
+     "bucket": "serious",
+     "title": "Mother and daughter die after suspected grizzly bear attack in Canada",
+     "language": "en",
+     "link": "https://www.myjoyonline.com/mother-and-daughter-die-after-suspected-grizzly-bear-attack-in-canada/",
+     "published": "2026-11-05T15:43:50+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Mother, daughter found dead after suspected grizzly attack",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNLVYwd2syWTdsNndCWDlPTjZKWkdhemVaZ0RNUWFkVjVRTnBjR1N5SWRsRVMwbV9GTlM0QnpwOUY3UkZySTJ2RHFIbGExajlyeHhyU2VqYlQ3OWZYWW9HRWN5NUZma1F1YXNvNTA5QTlPS2NXOTN3QkdyOFhhSGdmdElvaFJHTHhETE5QY05tUldwMWoweFhJZk5laGN5ODRTcW1j?oc=5",
+     "published": "2026-11-05T15:38:00+00:00"
+    }
+   ],
+   "last_seen": "2026-11-05T17:07:44.261464+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
+  },
+  {
+   "id": "da389b83db65",
+   "first_seen": "2026-11-05T17:07:44.261464+00:00",
+   "members": [
+    {
+     "outlet": "South China Morning Post",
+     "region": "cn",
+     "bucket": "serious",
+     "title": "Iran says 5 tankers catch fire after striking naval mines in Strait of Hormuz",
+     "language": "en",
+     "link": "https://www.scmp.com/news/world/middle-east/article/3373454/iran-says-5-tankers-catch-fire-after-striking-naval-mines-strait-hormuz",
+     "published": "2026-11-05T15:35:51+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Iran says tankers destroyed after hitting mines in Hormuz",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/iran-says-tankers-destroyed-after-hitting-mines-in-hormuz/article71667142.ece",
+     "published": "2026-11-04T17:36:37+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Iran says 5 tankers, tugboat caught fire in Hormuz",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/world/2026/11/05/iran-says-5-tankers-tugboat-caught-fire-in-hormuz",
+     "published": "2026-11-05T15:53:51+00:00"
+    },
+    {
+     "outlet": "IRNA English",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Two more offending tankers catch fire east of Strait of Hormuz",
+     "language": "en",
+     "link": "https://en.irna.ir/news/86313539/Two-more-offending-tankers-catch-fire-east-of-Strait-of-Hormuz",
+     "published": "2026-11-05T16:23:08+00:00"
+    }
+   ],
+   "last_seen": "2026-11-05T17:07:44.261464+00:00",
+   "outlets": 4,
+   "regions": 4,
+   "languages": 1,
+   "score": 14.0
+  },
+  {
    "id": "8c3eb2f11392",
    "first_seen": "2026-10-31T17:07:47.604688+00:00",
    "members": [
@@ -4762,6 +5523,44 @@
     }
    ],
    "last_seen": "2026-11-01T17:08:20.055996+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 2,
+   "score": 13.0
+  },
+  {
+   "id": "228080371388",
+   "first_seen": "2026-11-05T17:07:44.261464+00:00",
+   "members": [
+    {
+     "outlet": "El País",
+     "region": "es",
+     "bucket": "serious",
+     "title": "Jueves negro para la IA: el Nasdaq se hunde ante el miedo a que se agudice el frenazo de la IA",
+     "language": "es",
+     "link": "https://cincodias.elpais.com/mercados-financieros/2026-11-05/la-bolsa-y-el-ibex-35.html",
+     "published": "2026-11-05T16:18:07+00:00"
+    },
+    {
+     "outlet": "Free Malaysia Today",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Wall Street slumps as sharp tech losses put Nasdaq on course for correction",
+     "language": "en",
+     "link": "https://www.freemalaysiatoday.com/category/business/2026/11/05/wall-street-slumps-as-sharp-tech-losses-put-nasdaq-on-course-for-correction",
+     "published": "2026-11-05T15:37:25+00:00"
+    },
+    {
+     "outlet": "Nikkei Asia",
+     "region": "jp",
+     "bucket": "serious",
+     "title": "US midterms live: Nasdaq tumbles 4% on AI regulation fears",
+     "language": "en",
+     "link": "https://asia.nikkei.com/politics/u.s.-midterm-elections/us-midterms-live-nasdaq-tumbles-4-on-ai-regulation-fears",
+     "published": "2026-11-05T17:07:36.181640+00:00"
+    }
+   ],
+   "last_seen": "2026-11-05T17:07:44.261464+00:00",
    "outlets": 3,
    "regions": 3,
    "languages": 2,
@@ -5071,6 +5870,53 @@
     }
    ],
    "last_seen": "2026-11-04T17:07:52.089259+00:00",
+   "outlets": 4,
+   "regions": 3,
+   "languages": 1,
+   "score": 12.0
+  },
+  {
+   "id": "d67013187948",
+   "first_seen": "2026-11-05T17:07:44.261464+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Indonesia rushes thousands of troops to Jakarta amid wiretap scandal",
+     "language": "en",
+     "link": "https://www.aljazeera.com/video/newsfeed/2026/11/5/indonesia-rushes-thousands-of-troops-to-jakarta-amid-wiretap-scandal?traffic_source=rss",
+     "published": "2026-11-05T13:41:24+00:00"
+    },
+    {
+     "outlet": "The Hindu — International",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Thousands of troops secure Indonesia trial as tensions run high over wiretap scandal",
+     "language": "en",
+     "link": "https://www.thehindu.com/news/international/thousands-of-troops-secure-indonesia-trial-as-tensions-run-high-over-wiretap-scandal/article71669545.ece",
+     "published": "2026-11-05T11:52:44+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "Indonesia deploys thousands of troops in Jakarta for former president's trial amid escalating wiretap scandal",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/indonesia-deploys-thousands-of-troops-in-jakarta-for-former-presidents-trial-amid-escalating-wiretap-scandal-101793861664648.html",
+     "published": "2026-11-05T08:15:39+00:00"
+    },
+    {
+     "outlet": "Google News — World",
+     "region": "global",
+     "bucket": "serious",
+     "title": "Thousands of troops secure Indonesia trial as tensions run high over wiretap scandal",
+     "language": "en",
+     "link": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOX2Z6S2RHWk5UUnUwWXQtV0VPZ2RpTm9hNjR3d2RKM0ZtdzMwdGNOcEhsSk1sUEI3TGlTdkJMcEJFQ0FkZ0pDYnVjLXdhd0dweWVUcDdxVkV4cUNsUE9nTGk4QUZtZ2l2WXktZmZPemFKU0J1WHJYTGoyRDlKRnQyc2hNaEoyWTFMeTBUTUlpcnRCWW9VTnA2MllDdjZ3QUVBRGxRVlRUYmpRWFFh?oc=5",
+     "published": "2026-11-05T16:16:00+00:00"
+    }
+   ],
+   "last_seen": "2026-11-05T17:07:44.261464+00:00",
    "outlets": 4,
    "regions": 3,
    "languages": 1,
@@ -5571,44 +6417,6 @@
    "score": 11.0
   },
   {
-   "id": "c8bfb7591aa4",
-   "first_seen": "2026-11-02T17:07:46.578023+00:00",
-   "members": [
-    {
-     "outlet": "Court House News",
-     "region": "court",
-     "bucket": "light",
-     "title": "Fridge cyberattack hits supermarkets across Europe",
-     "language": "en",
-     "link": "https://www.courthousenews.com/fridge-cyberattack-hits-supermarkets-across-europe/",
-     "published": "2026-11-02T16:14:28+00:00"
-    },
-    {
-     "outlet": "Dawn",
-     "region": "pk",
-     "bucket": "light",
-     "title": "Fridge cyberattack hits supermarkets across Europe",
-     "language": "en",
-     "link": "https://www.dawn.com/news/2041646/fridge-cyberattack-hits-supermarkets-across-europe",
-     "published": "2026-11-02T15:43:17+00:00"
-    },
-    {
-     "outlet": "Daily Sabah",
-     "region": "tr",
-     "bucket": "serious",
-     "title": "Supermarkets across Europe suffer another fridge cyberattack",
-     "language": "en",
-     "link": "https://www.dailysabah.com/business/tech/supermarkets-across-europe-suffer-another-fridge-cyberattack",
-     "published": "2026-11-02T13:11:00+00:00"
-    }
-   ],
-   "last_seen": "2026-11-02T17:07:46.578023+00:00",
-   "outlets": 3,
-   "regions": 3,
-   "languages": 1,
-   "score": 11.0
-  },
-  {
    "id": "06ee7f8259a7",
    "first_seen": "2026-11-02T17:07:46.578023+00:00",
    "members": [
@@ -5945,6 +6753,120 @@
     }
    ],
    "last_seen": "2026-11-04T17:07:52.089259+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "c8305f55d785",
+   "first_seen": "2026-11-05T17:07:44.261464+00:00",
+   "members": [
+    {
+     "outlet": "Daily Maverick",
+     "region": "za",
+     "bucket": "serious",
+     "title": "France faces new protests as Macron seeks to prevent repeat of October unrest",
+     "language": "en",
+     "link": "https://www.dailymaverick.co.za/article/2026-11-05-france-faces-new-protests-as-macron-seeks-to-prevent-repeat-of-october-unrest/",
+     "published": "2026-11-05T11:35:08+00:00"
+    },
+    {
+     "outlet": "France24",
+     "region": "eu",
+     "bucket": "serious",
+     "title": "France faces new protests as government seeks to prevent violence",
+     "language": "en",
+     "link": "https://www.france24.com/en/france-faces-new-protests-as-government-seeks-to-prevent-violence",
+     "published": "2026-11-05T14:19:53+00:00"
+    },
+    {
+     "outlet": "Hindustan Times — World",
+     "region": "in",
+     "bucket": "serious",
+     "title": "France faces new protests as Macron seeks to prevent repeat of October unrest",
+     "language": "en",
+     "link": "https://www.hindustantimes.com/world-news/france-faces-new-protests-as-emanuel-macron-seeks-to-prevent-repeat-of-october-unrest-101793871387213.html",
+     "published": "2026-11-05T09:40:49+00:00"
+    }
+   ],
+   "last_seen": "2026-11-05T17:07:44.261464+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "f2990c4e8493",
+   "first_seen": "2026-11-05T17:07:44.261464+00:00",
+   "members": [
+    {
+     "outlet": "Punch Nigeria",
+     "region": "ng",
+     "bucket": "serious",
+     "title": "Developing countries’ external debt hits record $9.4tn",
+     "language": "en",
+     "link": "https://punchng.com/developing-countries-external-debt-hits-record-9-4tn-world-bank/?utm_source=rss.punchng.com&utm_medium=web",
+     "published": "2026-11-05T15:58:03+00:00"
+    },
+    {
+     "outlet": "Investing.com — الاقتصاد",
+     "region": "money",
+     "bucket": "useful",
+     "title": "Developing countries’ external debt hit record $9.4 trillion in 2025, World Bank says",
+     "language": "en",
+     "link": "https://www.investing.com/news/economy-news/developing-countries-external-debt-hit-record-94-trillion-in-2025-world-bank-says-5004891",
+     "published": "2026-11-05T14:43:09+00:00"
+    },
+    {
+     "outlet": "TASS",
+     "region": "ru",
+     "bucket": "serious",
+     "title": "Total debt of developing countries hits record $9.4 trillion",
+     "language": "en",
+     "link": "https://tass.com/economy/2213403",
+     "published": "2026-11-05T15:11:34+00:00"
+    }
+   ],
+   "last_seen": "2026-11-05T17:07:44.261464+00:00",
+   "outlets": 3,
+   "regions": 3,
+   "languages": 1,
+   "score": 11.0
+  },
+  {
+   "id": "69e7bc7eb1ac",
+   "first_seen": "2026-11-05T17:07:44.261464+00:00",
+   "members": [
+    {
+     "outlet": "Sky Sports — Football",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Alcaraz into Paris Masters quarter-finals after Berrettini withdraws",
+     "language": "en",
+     "link": "https://www.skysports.com/tennis/news/12040/13608304/carlos-alcaraz-through-to-rolex-paris-masters-quarter-finals-after-matteo-berrettini-withdraws-injured",
+     "published": "2026-11-05T12:12:00+00:00"
+    },
+    {
+     "outlet": "Channel News Asia",
+     "region": "seasia",
+     "bucket": "sport",
+     "title": "Alcaraz into Paris quarter-finals after Berrettini withdraws",
+     "language": "en",
+     "link": "https://www.channelnewsasia.com/sport/alcaraz-paris-quarter-finals-after-berrettini-withdraws-6527756",
+     "published": "2026-11-05T13:08:12+00:00"
+    },
+    {
+     "outlet": "Malay Mail",
+     "region": "my",
+     "bucket": "serious",
+     "title": "Alcaraz into Paris Masters quarters after Berrettini withdraws",
+     "language": "en",
+     "link": "https://www.malaymail.com/news/sports/2026/11/05/alcaraz-into-paris-masters-quarters-after-berrettini-withdraws/242123",
+     "published": "2026-11-05T12:28:35+00:00"
+    }
+   ],
+   "last_seen": "2026-11-05T17:07:44.261464+00:00",
    "outlets": 3,
    "regions": 3,
    "languages": 1,
@@ -6510,6 +7432,120 @@
    "score": 9.0
   },
   {
+   "id": "79c017512850",
+   "first_seen": "2026-11-05T17:07:44.261464+00:00",
+   "members": [
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Como score nine to make Champions League history",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/football/videos/c6wyr8gzzr1zo?at_medium=RSS&at_campaign=rss",
+     "published": "2026-11-04T22:45:45+00:00"
+    },
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "Como make Champions League history with record-equalling 9-1 rout",
+     "language": "en",
+     "link": "https://www.dailysabah.com/sports/football/como-make-champions-league-history-with-record-equalling-9-1-rout",
+     "published": "2026-11-05T09:27:05+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Football Daily | Como turn on the style and hammer nine past out-of-focus Lens",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/2026/nov/05/football-daily-email-como-lens",
+     "published": "2026-11-05T15:55:25+00:00"
+    }
+   ],
+   "last_seen": "2026-11-05T17:07:44.261464+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
+   "id": "12f2e31ac714",
+   "first_seen": "2026-11-05T17:07:44.261464+00:00",
+   "members": [
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Top Japan FA official to stand against Infantino for FIFA presidency",
+     "language": "en",
+     "link": "https://www.aljazeera.com/sports/2026/11/5/top-japan-fa-official-to-stand-against-infantino-for-fifa-presidency?traffic_source=rss",
+     "published": "2026-11-05T15:52:15+00:00"
+    },
+    {
+     "outlet": "BBC Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Japan's Tashima to stand against Infantino for Fifa presidency",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/sport/football/articles/cwvgdyd80g9do?at_medium=RSS&at_campaign=rss",
+     "published": "2026-11-05T12:55:13+00:00"
+    },
+    {
+     "outlet": "The Guardian — Sport",
+     "region": "sport",
+     "bucket": "sport",
+     "title": "Japan FA’s Kozo Tashima to stand against Infantino for Fifa presidency",
+     "language": "en",
+     "link": "https://www.theguardian.com/football/2026/nov/05/japan-fa-head-kozo-tashima-stand-against-gianni-infantino-for-fifa-president",
+     "published": "2026-11-05T10:48:42+00:00"
+    }
+   ],
+   "last_seen": "2026-11-05T17:07:44.261464+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
+   "id": "856524d4bfec",
+   "first_seen": "2026-11-05T17:07:44.261464+00:00",
+   "members": [
+    {
+     "outlet": "Daily Sabah",
+     "region": "tr",
+     "bucket": "serious",
+     "title": "FM Fidan, Araghchi discuss ongoing Iran-US talks, regional developments",
+     "language": "en",
+     "link": "https://www.dailysabah.com/politics/diplomacy/fm-fidan-araghchi-discuss-ongoing-iran-us-talks-regional-developments",
+     "published": "2026-11-05T14:29:00+00:00"
+    },
+    {
+     "outlet": "Mehr News",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Iran, Oman FMs discuss regional developments",
+     "language": "en",
+     "link": "https://en.mehrnews.com/news/249185/Iran-Oman-FMs-discuss-regional-developments",
+     "published": "2026-11-05T07:19:31+00:00"
+    },
+    {
+     "outlet": "IRNA English",
+     "region": "ir",
+     "bucket": "serious",
+     "title": "Iran, Oman FM discuss latest regional developments",
+     "language": "en",
+     "link": "https://en.irna.ir/news/86313200/Iran-Oman-FM-discuss-latest-regional-developments",
+     "published": "2026-11-05T08:57:47+00:00"
+    }
+   ],
+   "last_seen": "2026-11-05T17:07:44.261464+00:00",
+   "outlets": 3,
+   "regions": 2,
+   "languages": 1,
+   "score": 9.0
+  },
+  {
    "id": "0154dc9de35b",
    "first_seen": "2026-11-01T17:08:20.055996+00:00",
    "members": [
@@ -6542,6 +7578,35 @@
     }
    ],
    "last_seen": "2026-11-01T17:08:20.055996+00:00",
+   "outlets": 2,
+   "regions": 2,
+   "languages": 1,
+   "score": 8.0
+  },
+  {
+   "id": "2c9d4ed40e79",
+   "first_seen": "2026-11-05T17:07:44.261464+00:00",
+   "members": [
+    {
+     "outlet": "BBC World",
+     "region": "uk",
+     "bucket": "serious",
+     "title": "Why a US-funded vaccine trial on babies was cancelled in Guinea-Bissau",
+     "language": "en",
+     "link": "https://www.bbc.co.uk/news/articles/cm0rlxq08ejko?at_medium=RSS&at_campaign=rss",
+     "published": "2026-11-05T00:30:37+00:00"
+    },
+    {
+     "outlet": "Al Jazeera English",
+     "region": "qa",
+     "bucket": "serious",
+     "title": "Why Guinea-Bissau halted a controversial hepatitis vaccine trial for babies",
+     "language": "en",
+     "link": "https://www.aljazeera.com/news/2026/11/5/why-guinea-bissau-halted-a-controversial-hepatitis-vaccine-trial-for-babies?traffic_source=rss",
+     "published": "2026-11-05T15:01:35+00:00"
+    }
+   ],
+   "last_seen": "2026-11-05T17:07:44.261464+00:00",
    "outlets": 2,
    "regions": 2,
    "languages": 1,
@@ -6949,6 +8014,44 @@
     }
    ],
    "last_seen": "2026-11-04T17:07:52.089259+00:00",
+   "outlets": 3,
+   "regions": 1,
+   "languages": 1,
+   "score": 7.0
+  },
+  {
+   "id": "676ddffcd509",
+   "first_seen": "2026-11-05T17:07:44.261464+00:00",
+   "members": [
+    {
+     "outlet": "Dawn",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Govt announces public holiday on Nov 9 for Iqbal Day",
+     "language": "en",
+     "link": "https://www.dawn.com/news/2042357/govt-announces-public-holiday-on-nov-9-for-iqbal-day",
+     "published": "2026-11-05T14:53:49+00:00"
+    },
+    {
+     "outlet": "The Express Tribune",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Federal government announces Nov 9 public holiday for Iqbal Day",
+     "language": "en",
+     "link": "https://tribune.com.pk/story/2638840/federal-government-announces-nov-9-public-holiday-for-iqbal-day",
+     "published": "2026-11-05T10:22:29+00:00"
+    },
+    {
+     "outlet": "Geo News",
+     "region": "pk",
+     "bucket": "serious",
+     "title": "Federal govt announces public holiday for Iqbal Day",
+     "language": "en",
+     "link": "https://www.geo.tv/latest/689896-federal-govt-announces-public-holiday-for-iqbal-day",
+     "published": "2026-11-05T13:23:00+00:00"
+    }
+   ],
+   "last_seen": "2026-11-05T17:07:44.261464+00:00",
    "outlets": 3,
    "regions": 1,
    "languages": 1,

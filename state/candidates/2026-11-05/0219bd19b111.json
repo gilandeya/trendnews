@@ -1,0 +1,65 @@
+{
+  "id": "0219bd19b111",
+  "created_at": "2026-11-05T17:07:57.868243+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 25.5,
+  "trend_score": 0.2,
+  "velocity": 1.0,
+  "impact": 1,
+  "proximity": 3,
+  "intrigue": 3,
+  "appeal_note": "صاروخ حوثي نحو المدينة المنورة، مسّ مباشر بالوجدان الإسلامي",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Houthi missiles fired at Medina intercepted, Saudi coalition says",
+  "link": "https://www.france24.com/en/middle-east/20261105-houthi-missiles-fired-at-medina-intercepted-saudi-coalition-says",
+  "publishers": [
+    "Daily Sabah",
+    "France24"
+  ],
+  "region": "eu",
+  "article": {
+    "title": "Houthi missiles fired at Medina intercepted, Saudi coalition says",
+    "link": "https://www.france24.com/en/middle-east/20261105-houthi-missiles-fired-at-medina-intercepted-saudi-coalition-says",
+    "summary": "A ballistic missile fired at the Saudi city of Medina, one of Islam's holiest cities, was intercepted Thursday, a spokesman for the Saudi-led coalition fighting Yemen's Houthi rebels said. The announcement came shortly after the kingdom's civil defence agency warned of potential danger around the strategic port of Yanbu.",
+    "source_name": "France24",
+    "region": "eu",
+    "weight": 1.0,
+    "published": "2026-11-05T11:07:22+00:00",
+    "image_url": "https://s.france24.com/media/display/588b5fc2-d905-11f1-ae23-1beafce15fea/w:1024/p:16x9/000-C4AU2T3.jpg",
+    "publisher": "France24",
+    "cluster_sources": [
+      "Daily Sabah",
+      "France24"
+    ],
+    "cluster_members": [
+      {
+        "name": "France24",
+        "link": "https://www.france24.com/en/middle-east/20261105-houthi-missiles-fired-at-medina-intercepted-saudi-coalition-says"
+      },
+      {
+        "name": "Daily Sabah",
+        "link": "https://www.dailysabah.com/world/mid-east/saudi-coalition-against-houthis-downs-missiles-fired-at-medina"
+      }
+    ],
+    "image_candidates": [
+      "https://s.france24.com/media/display/588b5fc2-d905-11f1-ae23-1beafce15fea/w:1024/p:16x9/000-C4AU2T3.jpg",
+      "https://idsb.tmgrup.com.tr/ly/uploads/images/2026/11/05/469320.jpg"
+    ],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.2,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 2232.9124417133335,
+    "is_stale": false,
+    "score": 25.499587961685187,
+    "impact": 1,
+    "proximity": 3,
+    "intrigue": 3,
+    "appeal_note": "صاروخ حوثي نحو المدينة المنورة، مسّ مباشر بالوجدان الإسلامي",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}

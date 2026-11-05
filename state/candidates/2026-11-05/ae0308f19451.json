@@ -1,0 +1,62 @@
+{
+  "id": "ae0308f19451",
+  "created_at": "2026-11-05T17:07:57.868476+00:00",
+  "status": "pending",
+  "selection_issue": null,
+  "score": 24.61,
+  "trend_score": 0.0,
+  "velocity": 1.0,
+  "impact": 2,
+  "proximity": 3,
+  "intrigue": 3,
+  "appeal_note": "أحزاب عربية تحصد 19 مقعدًا وتعد بدعم أيزنكوت.",
+  "bucket": "serious",
+  "state_media": false,
+  "title": "Joint List says it will back Eisenkot to form Israel’s next government",
+  "link": "https://www.aljazeera.com/news/2026/11/5/joint-list-says-it-will-back-eisenkot-to-form-israels-next-government?traffic_source=rss",
+  "publishers": [
+    "Al Jazeera English",
+    "Hindustan Times — World"
+  ],
+  "region": "qa",
+  "article": {
+    "title": "Joint List says it will back Eisenkot to form Israel’s next government",
+    "link": "https://www.aljazeera.com/news/2026/11/5/joint-list-says-it-will-back-eisenkot-to-form-israels-next-government?traffic_source=rss",
+    "summary": "Arab-led parties won a record 19 seats in Israel's 120-seat parliament in last week's general election.",
+    "source_name": "Al Jazeera English",
+    "region": "qa",
+    "weight": 1.2,
+    "published": "2026-11-05T14:15:52+00:00",
+    "image_url": null,
+    "publisher": "Al Jazeera English",
+    "cluster_sources": [
+      "Al Jazeera English",
+      "Hindustan Times — World"
+    ],
+    "cluster_members": [
+      {
+        "name": "Al Jazeera English",
+        "link": "https://www.aljazeera.com/news/2026/11/5/joint-list-says-it-will-back-eisenkot-to-form-israels-next-government?traffic_source=rss"
+      },
+      {
+        "name": "Hindustan Times — World",
+        "link": "https://www.hindustantimes.com/world-news/ultraorthodox-party-snubs-netanyahu-declines-to-back-him-as-israel-pm-rival-eisenkot-tipped-to-form-government-101793874675832.html"
+      }
+    ],
+    "image_candidates": [],
+    "bucket": "serious",
+    "state_media": false,
+    "trend_score": 0.0,
+    "group_sources": 2,
+    "velocity": 1.0,
+    "age_hours": 2232.9127429022224,
+    "is_stale": false,
+    "score": 24.609032394277776,
+    "impact": 2,
+    "proximity": 3,
+    "intrigue": 3,
+    "appeal_note": "أحزاب عربية تحصد 19 مقعدًا وتعد بدعم أيزنكوت.",
+    "appeal_judged": true,
+    "rescored": true
+  }
+}
