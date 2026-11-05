@@ -69,6 +69,10 @@ def load_config(path=None):
                 v2["fixed_seconds"] = 9
     # مسار التحليل القديم (نقاط ومقال) افتراضيًا في الاختبارات: مئات الحالات تثبّت ذلك المسار نفسه، والإنتاج صار الريل وحده بالمقاطع
     # (خطة V، V3). اختبارات V3 تطلب المسار الجديد صراحةً بـreel_only_cfg، وg729 يثبّت أن config.yaml نفسه عليه. يزول في V6 مع المقال.
+    # تعليق المصدر الأول أُطفئ في الإنتاج 5/11 (خطأ صلاحية #200)؛ اختبارات النشر تثبّت نصه وحده فيبقى مفعّلًا هنا،
+    # وtest_first_comment_off يثبّت أن config.yaml نفسه مطفأ
+    if isinstance(cfg.get("facebook"), dict):
+        cfg["facebook"]["link_in_first_comment"] = True
     ycfg = cfg.get("youtube") if isinstance(cfg.get("youtube"), dict) else None
     if isinstance(ycfg, dict):
         ycfg["reel_only"] = False

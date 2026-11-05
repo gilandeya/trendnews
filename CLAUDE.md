@@ -2047,6 +2047,7 @@ instead.
 - **النشر فوري:** «انشر» في قضية `reel-review` مع `approved` ← `cmd_reel_review` تضع `approved_reel` ثم تستدعي `publish.publish_reel_draft(path, draft, cfg)` في الحال عبر `facebook.publish_reel`. لا بوابة تباعد (`_gap_defer_until`) ولا طابور ولا احتياط بنشر صورة، بقرار صاحب المشروع: الريلات قليلة وتُعتمد يدويًا، و`queue.yml` لا يسحب المستودع الخاص الذي فيه الفيديو.
 - **الملف:** `reel_data_root() / reel_file`. الجذر `Path(TRENDNEWS_REELS_DIR).parent` إن وُجد، وإلا `Path(TRENDNEWS_YOUTUBE_POINTS_DIR).parents[1]` (أو `config.YOUTUBE_POINTS_DIR.parents[1]`) لأن `publish.yml` يضبط الأخير على `youtube-data/state/youtube_points`. تُقرأ البيئة وقت الاستدعاء لا الاستيراد. ملف غير موجود ← فشل «ملف الريل غير موجود: {المسار}».
 - **النص:** `reel_review.selected_headline` ثم سطر فارغ ثم سطر «المقاطع من: …» (`render_sources`) حرفيًا كما عُرض في القضية. **التعليق الأول** (`reel_first_comment`): «المصادر:» ثم «{القناة} — {الرابط}» لكل `video_url` فريد في مشاهد المقاطع.
+**مطفأ منذ 5/11** (`facebook.link_in_first_comment: false` يطفئه للصور والريلات معًا: فيسبوك يرفضه بخطأ صلاحية #200؛ g833–g834، و`tests.helpers.load_config` يعيده true للاختبارات).
 - **النجاح:** `published` + `published_at` + `facebook`، و`decisions.record_published`، وتعليق على قضية المراجعة برابط المنشور. **الفشل:** `failed` + `error` + `failed_stage="facebook_reel"` (لا `"facebook"` كي لا يلتقطه إحياء الصور `open_review`) وتعليق بالسبب؛ إعادة وسم `approved` على القضية نفسها تعيد المحاولة (`cmd_reel_review` يقبل `approved_script` أو `failed` بـ`facebook_reel`). النصوص في `config.yaml: reel.review`.
 - **`reel_render --pending`:** `open_missing_reviews(cfg)` تفتح قضية المراجعة لكل ريل `rendered` و`approved_script` بلا `reel_review_issue` دون تركيب ولا ffmpeg ولا يوتيوب، خارج `max_per_run`، وعطل واحد لا يوقف الباقي.
 - الاختبارات: g392–g395 في `tests/test_guards_golden.py:test_reel_publish_r4b_guards`.
@@ -2999,6 +3000,12 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 القائم: كتلة النص (السياق سطر فيها) وعناوين `hl:` و`youtube_publish._reel_hook_lines` مربعات `<!-- hookpick:id:k -->` أولها معلَّم؛ عند اعتمادها
 `approve_reel_scripts` يُبقي المرشّح المعلَّم وحده في `hook_candidates` (`hook_picked`) فيفحصه التركيب، وبلا مربع معلَّم يبقى الثلاثة. الاختبار
 `tests/test_youtube.py:test_meta_script`.
+
+**إعادة الطلب بعد انتظار البروكسي (5/11):** تشغيلة التركيب لا تجري إلا بإطلاق، فموضوع `waiting_proxy` لا يُعاد وحده. تعليق الانتظار يطلب
+إعادة وسم `approved` على قضية الموضوع بعد تجدد الرصيد، و`meta_script.requeue_qa` (من `finalize` حين لا ملف أسئلة خاصًا والحالة
+waiting_proxy/failed/بلا qa) يصفّر المحاولات وعلامة التعليق ويحفظ `requeued_at` ويعلّق `qa_requeued` ويزيل approved ويطلب الاستخراج
+(`meta_topics.request_qa_run`)؛ موضوع أقدم من `qa.days` ← تعليق `qa_expired` بلا طلب. **رأس قضية الريل وحده:** `build_review_body` لمسودات
+كلها `format == "reel"` يعرض الرأس و`reel.texts.review_header_note` بلا سطر الصحة وسقف نشر المقالات وملاحظة البطاقة.
 
 **لا جلب لكل النصوص في الجمع (5/11، قرار صاحب المشروع):** `youtube.extract.fetch_transcripts: false` ← `youtube_extract.run` يجمع الفيديوهات
 (واجهة يوتيوب) ولا يجلب لها نصًا، ولا استعادة طوابع (`recover_timestamps`) ولا فحص نهايات المقاطع المحفوظة (`recheck_files`)، وسطر «⏸️» بعددها

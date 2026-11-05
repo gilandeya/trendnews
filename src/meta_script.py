@@ -202,6 +202,33 @@ def build_draft(topic: dict, data: dict, title: str, hook_options: int = 3) -> d
     }
 
 
+def requeue_qa(issue_number: int, topic: dict, data: dict, cfg, now: datetime | None = None) -> bool:
+    """إعادة وسم approved على قضية موضوع لم تجهز أسئلته (رصيد البروكسي منتهٍ أو فشل الاستخراج) تطلب الاستخراج من جديد.
+    السبب: تشغيلة التركيب لا تجري إلا بإطلاق، فموضوع ينتظر البروكسي لا يُعاد «تلقائيًا» ما لم يطلبه أحد. الطلب الإنساني يصفّر
+    المحاولات وعلامة تعليق الانتظار. موضوع أقدم من `qa.days` لا يُعاد (أخباره قديمة ولا يعالجه pending_topics). يعيد True إن طُلب."""
+    from . import meta_topics, review
+    qa = topic.get("qa") or {}
+    if qa.get("status") not in ("waiting_proxy", "failed", None):
+        return False
+    t = _texts(cfg)
+    now = now or datetime.now(timezone.utc)
+    days = int(cfg.path("youtube.meta_topics.qa.days", 3))
+    try:
+        age = (now.date() - datetime.strptime(data["date"], "%Y-%m-%d").date()).days
+    except (KeyError, ValueError):
+        age = 0
+    if age >= days:
+        review.comment(issue_number, t.get("qa_expired", "").format(days=days))
+        review.remove_label(issue_number, "approved")
+        return True
+    topic["qa"] = {**qa, "attempts": 0, "notified_proxy": False, "requeued_at": now.isoformat()}
+    meta_topics._save_public(data)
+    review.comment(issue_number, t.get("qa_requeued", ""))
+    review.remove_label(issue_number, "approved")
+    meta_topics.request_qa_run(issue_number, cfg)
+    return True
+
+
 def finalize(issue_number: int, body: str, cfg, client=None) -> int:
     """اعتماد قضية الموضوع: سيناريو من المعلَّم ← مسودة ← قضية سيناريو، ثم تعليق برابطها وإغلاق قضية الموضوع. لا علامة ← تعليق
     وتبقى القضية مفتوحة (تُزال approved) ليعلّم صاحب المشروع ويعيد الوسم."""
@@ -219,6 +246,8 @@ def finalize(issue_number: int, body: str, cfg, client=None) -> int:
     try:
         priv = json.loads(meta_qa.private_path(topic["id"]).read_text(encoding="utf-8"))
     except (OSError, ValueError):
+        if requeue_qa(issue_number, topic, data, cfg):
+            return 0
         review.comment(issue_number, t.get("no_qa", "⚠️ لا أسئلة جاهزة لهذا الموضوع بعد — انتظر تعليق ✅ ثم أعد الوسم."))
         review.remove_label(issue_number, "approved")
         return 1
