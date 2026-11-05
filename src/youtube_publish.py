@@ -955,7 +955,20 @@ def build_review_body(drafts: list[dict], repo: str, branch: str, cfg=None) -> s
     max_per_run = cfg.path("youtube.publish.max_per_run", 3)
     spacing = cfg.path("youtube.publish.spacing_minutes", 40)
 
-    parts = [
+    if drafts and all(d.get("format") == "reel" for d in drafts):
+        # قضية ريل وحده (ومنها قضية السيناريو من مسار العناوين): سطر الصحة وسقف النشر وملاحظة البطاقة خاصّة بالمقالات
+        # (الريل يُنشر بعد التركيب لا بـpublish_ids، ولا بطاقة له) فلا تُعرض؛ يبقى الرأس وشرح خاص بالريل (شرح الأخبار يذكر الصورة ولا صورة للريل)
+        parts = [
+            stages.stage_header(2, cfg),
+            "",
+            cfg.path("reel.texts.review_header_note", ""),
+            "",
+            "---",
+            "",
+        ]
+    else:
+        parts = None
+    parts = parts or [
         stages.stage_header(2, cfg),
         "",
         cfg.path("stages.explainer", ""),

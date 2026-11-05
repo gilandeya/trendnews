@@ -3000,6 +3000,12 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 `approve_reel_scripts` يُبقي المرشّح المعلَّم وحده في `hook_candidates` (`hook_picked`) فيفحصه التركيب، وبلا مربع معلَّم يبقى الثلاثة. الاختبار
 `tests/test_youtube.py:test_meta_script`.
 
+**إعادة الطلب بعد انتظار البروكسي (5/11):** تشغيلة التركيب لا تجري إلا بإطلاق، فموضوع `waiting_proxy` لا يُعاد وحده. تعليق الانتظار يطلب
+إعادة وسم `approved` على قضية الموضوع بعد تجدد الرصيد، و`meta_script.requeue_qa` (من `finalize` حين لا ملف أسئلة خاصًا والحالة
+waiting_proxy/failed/بلا qa) يصفّر المحاولات وعلامة التعليق ويحفظ `requeued_at` ويعلّق `qa_requeued` ويزيل approved ويطلب الاستخراج
+(`meta_topics.request_qa_run`)؛ موضوع أقدم من `qa.days` ← تعليق `qa_expired` بلا طلب. **رأس قضية الريل وحده:** `build_review_body` لمسودات
+كلها `format == "reel"` يعرض الرأس و`reel.texts.review_header_note` بلا سطر الصحة وسقف نشر المقالات وملاحظة البطاقة.
+
 **لا جلب لكل النصوص في الجمع (5/11، قرار صاحب المشروع):** `youtube.extract.fetch_transcripts: false` ← `youtube_extract.run` يجمع الفيديوهات
 (واجهة يوتيوب) ولا يجلب لها نصًا، ولا استعادة طوابع (`recover_timestamps`) ولا فحص نهايات المقاطع المحفوظة (`recheck_files`)، وسطر «⏸️» بعددها
 (`stats.fetch_skipped`). القياس (`youtube_meta_probe`) والمواضيع من الوصف (`meta_topics`) يعملان كما كانا، ونصوص الموضوع المختار تُجلب في `meta_qa`.

@@ -5104,6 +5104,44 @@ def test_meta_script() -> None:
               and any(s.get("text") == "سياق عدّله صاحب المشروع." for s in after["script"]["scenes"]), after.get("hook_candidates"))
         src = Path("src/publish.py").read_text(encoding="utf-8")
         check("publish.main يوجّه meta-topic إلى meta_script في المسار العادي", "meta_script.finalize(args.issue" in src)
+        check("رأس قضية السيناريو بلا سطور المقالات (سقف النشر وسطر الصحة وملاحظة البطاقة) وبشرح الريل",
+              "سيُنشر البوت" not in sbody and "الكتل المتقاطعة" not in sbody and "البطاقة تحمل" not in sbody
+              and cfg.path("reel.texts.review_header_note") in sbody, sbody[:600])
+
+        # موضوع ينتظر البروكسي بلا ملف أسئلة: إعادة الوسم تطلب الاستخراج من جديد بدل «لا أسئلة»
+        from datetime import datetime as _dt, timezone as _tz
+        today = _dt.now(_tz.utc).strftime("%Y-%m-%d")
+        wdata = {"date": today, "topics": [{"id": "beef00beef00", "title": "موضوع ينتظر", "topic_issue": 975,
+                                            "qa": {"status": "waiting_proxy", "attempts": 3, "notified_proxy": True}}]}
+        mt._save_public(wdata)
+        dispatched = []
+        saved_dw = review.dispatch_workflow
+        review.dispatch_workflow = lambda wf, ref: dispatched.append(wf)
+        comments.clear(); removed.clear()
+        try:
+            rc = meta_script.finalize(975, f"<!-- mtopic-issue:beef00beef00 -->\n<!-- meta-date:{today} -->\n", cfg)
+        finally:
+            review.dispatch_workflow = saved_dw
+        wq = mt._load_public(today)["topics"][0]["qa"]
+        t5 = cfg.path("youtube.meta_topics.script.texts")
+        check("إعادة الوسم على موضوع ينتظر البروكسي تطلب الاستخراج وتصفّر المحاولات وتزيل approved",
+              rc == 0 and dispatched and wq["attempts"] == 0 and wq["notified_proxy"] is False and wq.get("requeued_at")
+              and (975, "approved") in removed and any(c == (975, t5["qa_requeued"]) for c in comments)
+              and not any(c[1] == t5["no_qa"] for c in comments), (rc, dispatched, wq, comments))
+        check("الموضوع المطلوب ثانية يعود إلى قائمة الاستخراج", any(tp["id"] == "beef00beef00"
+              for tp, _ in meta_qa.pending_topics(cfg, _dt.now(_tz.utc))))
+        check("نص انتظار البروكسي يطلب إعادة الوسم لا «يُعاد تلقائيًا»",
+              "يُعاد تلقائيًا" not in cfg.path("youtube.meta_topics.qa.texts.waiting_proxy")
+              and "approved" in cfg.path("youtube.meta_topics.qa.texts.waiting_proxy"))
+        old_data = {"date": "2026-10-01", "topics": [{"id": "dead00dead00", "title": "قديم", "topic_issue": 976,
+                                                      "qa": {"status": "waiting_proxy"}}]}
+        comments.clear(); dispatched.clear()
+        ok = meta_script.requeue_qa(976, old_data["topics"][0], old_data, cfg, now=_dt(2026, 11, 5, tzinfo=_tz.utc))
+        check("موضوع أقدم من qa.days لا يُطلب ثانية ويُقال لماذا", ok and not dispatched
+              and old_data["topics"][0]["qa"] == {"status": "waiting_proxy"}
+              and comments and "أقدم" in comments[-1][1], comments)
+        ready = {"date": today, "topics": [{"id": "r", "qa": {"status": "ready"}}]}
+        check("موضوع جاهز الأسئلة لا يُعاد طلبه", meta_script.requeue_qa(977, ready["topics"][0], ready, cfg) is False)
     finally:
         for k, f in saved.items():
             setattr(review, k, f)
