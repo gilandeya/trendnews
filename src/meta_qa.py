@@ -290,7 +290,9 @@ def _fmt_sec(s: float) -> str:
     return str(int(round(s)))
 
 
-def issue_body(topic: dict, data: dict, qa: dict, cfg) -> str:
+def issue_body(topic: dict, data: dict, qa: dict, cfg, full_bites: list | None = None) -> str:
+    """full_bites: المقاطع من الملف الخاص بترجمتها، بترتيب qa["bites"]؛ يُعرض منها سطر الترجمة تحت كل إجابة
+    (قرار صاحب المشروع 5/11: يختار الإجابة مما سيُكتب على الشاشة، ولا مانع من نشره في القضية). الكلام بلغته لا يُعرض."""
     from .meta_topics import topic_body
     t = _texts(cfg)
     head = topic_body(topic, data, cfg).split("\n")
@@ -318,6 +320,9 @@ def issue_body(topic: dict, data: dict, qa: dict, cfg) -> str:
                          f"{b.get('channel')} · {b.get('orientation') or ''} · {_fmt_sec(_sec(b))} ث · {kind}{weak}"
                          f" — {b.get('summary_ar', '')} [▶](https://youtu.be/{b['video_id']}?t={int(float(b.get('start') or 0))})"
                          f" <!-- ma:{qi}:{b['bite_id']} -->")
+            tr = ((full_bites or [])[a["n"] - 1].get("text_ar") or "").strip() if full_bites and a["n"] <= len(full_bites) else ""
+            if tr:
+                lines.append("    " + t.get("translation_line", "💬 «{text}»").format(text=tr))
         lines.append("")
     lines.append(t.get("total_line", "⏱️ مجموع الإجابات المعلَّمة: {seconds} ث من {budget}").format(
         seconds=_fmt_sec(qa.get("selected_seconds") or 0), budget=_fmt_sec(float(_qcfg(cfg).get("max_seconds", 120)))))
@@ -344,7 +349,7 @@ def read_marks(body: str) -> dict:
 # ───────────── التنسيق ─────────────
 
 def public_bite(b: dict) -> dict:
-    """ما يُحفظ في المستودع العام: بلا ترجمة ولا كلام بلغته (كلام القناة يبقى في الملف الخاص)."""
+    """ما يُحفظ في ملف الحالة العام: بلا ترجمة ولا كلام بلغته؛ الترجمة تُعرض في جسم القضية وحده (issue_body)."""
     return {k: b.get(k) for k in ("bite_id", "video_id", "channel", "bloc", "orientation", "speaker", "speaker_original",
                                   "speaker_role", "is_host", "type", "start", "end", "summary_ar")}
 
@@ -397,7 +402,7 @@ def process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: da
                         encoding="utf-8")
         qa.update(status="ready", titles=titles, questions=questions, bites=[public_bite(b) for b in kept],
                   error="", extracted=len(bites))
-        review.update_issue_body(topic["topic_issue"], issue_body(topic, data, qa, cfg))
+        review.update_issue_body(topic["topic_issue"], issue_body(topic, data, qa, cfg, full_bites=kept))
         review.comment(topic["topic_issue"], t.get("ready", "").format(
             q=len(questions), seconds=_fmt_sec(qa["selected_seconds"])))
     except Exception as exc:  # noqa: BLE001 — موضوع واحد لا يوقف الباقي ولا التركيب

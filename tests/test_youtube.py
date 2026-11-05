@@ -4861,7 +4861,9 @@ def test_meta_qa() -> None:
         check("القضية: العناوين بمربعات والأول معلَّم، وأسئلة وإجابات بعلاماتها وروابط بثانيتها",
               "- [x] هل تضرب أمريكا إيران؟ <!-- mhl:0 -->" in body and "- [ ] عنوان 2 <!-- mhl:1 -->" in body
               and "<!-- mq:1 -->" in body and "<!-- ma:1:v0:1 -->" in body and "?t=10" in body
-              and "كلام سري" not in body and "secret words" not in body, body[:600])
+              and "secret words" not in body, body[:600])
+        check("القضية تعرض ترجمة كل إجابة سطرًا تحتها ولا تعرض الكلام بلغته",
+              "💬 «كلام سري" in body and "secret words" not in body, body[:600])
         check("سقف الثواني في القضية وتعليق الجاهزية", "من 120" in body and any("✅" in c[1] for c in comments))
         marks = meta_qa.read_marks(body)
         check("قراءة المعلَّم", marks["title"] == 0 and 1 in marks["questions"] and 3 not in marks["questions"]
