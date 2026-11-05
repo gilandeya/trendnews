@@ -1906,7 +1906,8 @@ def test_analysis_attribution_pipeline() -> None:
     from src import youtube_article as ya
 
     cfg = load_config()
-    real = Path(__file__).resolve().parent.parent / "drafts" / "2026-10-07" / "fe2a7c6fc1a0.json"
+    # نسخة ثابتة في fixtures: مسودات drafts/ يحذفها الحفظ الدوري بعد 30 يومًا (حذف 4e1ba01e960a في 4/11 كسر الحزمة)
+    real = Path(__file__).resolve().parent / "fixtures" / "analysis" / "1272" / "fe2a7c6fc1a0.json"
     published = json.loads(real.read_text(encoding="utf-8"))["caption"]
 
     # (a) النص المنشور الحقيقي مع قناتين ILTV والجزيرة ← المخالفات الثلاث

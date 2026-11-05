@@ -3766,6 +3766,8 @@ youtube:
       turkish: "تركية"
       persian: "فارسية"
       israeli: "إسرائيلية"
+      western: "غربية"
+      kurdish: "كردية"
     # صورة تعبيرية حرة الترخيص خلف بطاقة العنوان (طلب المراجعة على Issue
     # #680): imagesearch.py (Wikimedia/Openverse حصرًا) بكلمات مفتاحية من
     # العنوان وevent القضية، لا أي بيانات فيديو/قناة/شخص -- تلك ممنوعة
@@ -3971,6 +3973,29 @@ channels:
     orientation: "غربي فرنسي رسمي"
     active: true
     exclude_patterns: ["نشرة", "موجز", "عاجل", "بث مباشر", "مباشر الآن"]
+  # 5/11 (قرار صاحب المشروع): صوتان غائبان عن الكتلة العربية — الإماراتي ومحور المقاومة. channel_id غائب عمدًا حين لم يُعرف
+  # موثوقًا: youtube_collect.resolve_channel_id يحسمه من المعرّف بيوتيوب نفسه في أول جمع ويطبعه ليُثبَّت هنا.
+  - handle: "@skynewsarabia"
+    name: "سكاي نيوز عربية"
+    mention_forms: ["سكاي نيوز عربية"]
+    language: "ar"
+    bloc: "arabic"
+    bias_note: "إماراتية التمويل"
+    orientation: "إماراتي"
+    active: true
+    exclude_patterns: ["نشرة", "موجز", "عاجل", "بث مباشر", "مباشر الآن"]
+  # برامج الميادين لا قناة الأخبار: حوارات التحليل هناك، وقناة الأخبار نشرات يُسقطها حارس الموضوع
+  - handle: "@almayadeenprograms"
+    channel_id: "UCSaS4e1GEs25E1yaaNRyn8w"
+    name: "الميادين"
+    mention_forms: ["الميادين"]
+    language: "ar"
+    bloc: "arabic"
+    bias_note: "لبنانية قريبة من محور إيران وحزب الله"
+    # الصوت المؤيد لطهران الوحيد المتاح على يوتيوب: حذفت غوغل قنوات الإعلام الإيراني الرسمي (برس تي في، فارس)
+    orientation: "محور المقاومة"
+    active: true
+    exclude_patterns: ["نشرة", "موجز", "عاجل", "بث مباشر", "مباشر الآن"]
   - handle: "@cnnturk"
     channel_id: "UCV6zcRug6Hqp1UX_FdyUeBg"
     name: "CNN Türk"
@@ -4063,6 +4088,18 @@ channels:
     exclude_patterns: ["خبر فوری", "خبر ساعت", "پخش زنده", "خبر نیمروزی",
                        "اخبار شامگاهی", "بخش نیمروزی", "به وقت تهران",
                        "خبر ۲۱", "خبر 21"]
+  - handle: "@BBCPersian"
+    channel_id: "UCHZk9MrT3DGWmVqdsj5y0EA"
+    name: "BBC Persian"
+    name_ar: "بي بي سي فارسي"
+    mention_forms: ["بي بي سي فارسي", "BBC Persian"]
+    language: "fa"
+    bloc: "persian"
+    bias_note: "بريطانية رسمية"
+    # معارضة بطريقة غير إيران إنترناشيونال، فهي توجّه مستقل في العدّ
+    orientation: "غربي بريطاني رسمي"
+    active: true
+    exclude_patterns: ["پخش زنده", "خبر فوری"]
   - handle: "@C14news"
     channel_id: "UCKEImtWikw9usC1pl_9m1nQ"
     name: "ערוץ 14"
@@ -4103,6 +4140,75 @@ channels:
     orientation: "يسار"
     active: true
     exclude_patterns: []
+  - handle: "@kan11news"
+    channel_id: "UC_HwfTAcjBESKZRJq6BTCpg"
+    name: "כאן חדשות"
+    name_ar: "كان أخبار"
+    mention_forms: ["كان أخبار", "هيئة البث الإسرائيلية"]
+    language: "he"
+    bloc: "israeli"
+    bias_note: "هيئة البث العامة"
+    # الوسط والإعلام العام بالعبرية: الكتلة كانت ثلاث قنوات يمين ويسارًا واحدًا
+    orientation: "عام (وسط)"
+    active: true
+    exclude_patterns: ["שידור חי", "מבזק"]
+  # الكتلة الغربية بالإنجليزية (قرار صاحب المشروع 5/11): كيف يقرأ الغرب الحدث نفسه، بأربعة توجّهات. لا تعني «كل إنجليزي»:
+  # ILTV وهآرتس إنجليزيتان وتبقيان في الكتلة الإسرائيلية لأن الكتلة هوية القناة لا لغتها
+  - handle: "@BBCNews"
+    channel_id: "UC16niRr50-MSBwiO3YDb3RA"
+    name: "BBC News"
+    name_ar: "بي بي سي نيوز"
+    mention_forms: ["بي بي سي نيوز", "بي بي سي", "BBC"]
+    language: "en"
+    bloc: "western"
+    bias_note: "بريطانية رسمية"
+    orientation: "بريطاني رسمي"
+    active: true
+    exclude_patterns: ["LIVE", "Live:", "live stream", "Livestream"]
+  - handle: "@dwnews"
+    channel_id: "UCknLrEdhRCp1aegoMqRaCZg"
+    name: "DW News"
+    name_ar: "دويتشه فيله"
+    mention_forms: ["دويتشه فيله", "DW"]
+    language: "en"
+    bloc: "western"
+    bias_note: "ألمانية رسمية"
+    orientation: "ألماني رسمي"
+    active: true
+    exclude_patterns: ["LIVE", "Live:", "live stream", "Livestream"]
+  - handle: "@CNN"
+    name: "CNN"
+    name_ar: "سي إن إن"
+    mention_forms: ["سي إن إن", "CNN"]
+    language: "en"
+    bloc: "western"
+    bias_note: "أمريكية تجارية"
+    orientation: "أمريكي ليبرالي"
+    active: true
+    exclude_patterns: ["LIVE", "Live:", "live stream", "Livestream"]
+  - handle: "@FoxNews"
+    channel_id: "UCXIJgqnII2ZOINSWNOGFThA"
+    name: "Fox News"
+    name_ar: "فوكس نيوز"
+    mention_forms: ["فوكس نيوز", "Fox News"]
+    language: "en"
+    bloc: "western"
+    bias_note: "أمريكية تجارية"
+    orientation: "أمريكي محافظ"
+    active: true
+    exclude_patterns: ["LIVE", "Live:", "live stream", "Livestream"]
+  # الكردية: الإنجليزية لا الكردية لأن نصوص يوتيوب الآلية للكردية غير متاحة غالبًا فلا مقاطع منها
+  - handle: "@RudawEnglish"
+    channel_id: "UCgpfoWnAUbz-z0A7XRhYtNw"
+    name: "Rudaw English"
+    name_ar: "روداو"
+    mention_forms: ["روداو", "Rudaw"]
+    language: "en"
+    bloc: "kurdish"
+    bias_note: "مقرّها أربيل، قريبة من الحزب الديمقراطي الكردستاني"
+    orientation: "إقليم كردستان"
+    active: true
+    exclude_patterns: ["LIVE", "Live:", "live stream", "Livestream"]
 
 # ── نصوص مراحل الاعتماد وخياراتها (src/stages.py، Issue #1180) ─────────────
 # مصدر وحيد لأسماء المراحل الأربع وسطور خيارات الانتقال وحقل الصورة، بدل

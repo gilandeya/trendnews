@@ -54,6 +54,30 @@ def uploads_playlist_id(channel_id: str) -> str:
 # بمعرّف مباشر لا بتشابه عناوين، فقاموس أسرع وأبسط ولا حاجة لأي منطق تشابه.
 
 
+_RESOLVED_IDS: dict[str, str] = {}
+
+
+def resolve_channel_id(channel: dict, api_key: str) -> str:
+    """معرّف القناة من الإعداد، وإلا من معرّفها (@handle) بطلب channels?forHandle (وحدة حصة واحدة). قناة جديدة تُضاف
+    بمعرّفها وحده حين لا يُعرف UC… موثوقًا، فيحسمه أول جمع من يوتيوب نفسه لا من تخمين، ويُطبع ليُثبَّت في الإعداد.
+    يرفع ValueError إن لم يُعرف، فتُسجَّل القناة متعطلة كبقية أعطال الجلب."""
+    if channel.get("channel_id"):
+        return channel["channel_id"]
+    handle = str(channel.get("handle") or "").strip()
+    if not handle:
+        raise ValueError("لا channel_id ولا handle للقناة")
+    if handle in _RESOLVED_IDS:
+        return _RESOLVED_IDS[handle]
+    resp = requests.get(f"{API_BASE}/channels", params={"part": "id", "forHandle": handle, "key": api_key}, timeout=30)
+    resp.raise_for_status()
+    items = resp.json().get("items") or []
+    if not items or not items[0].get("id"):
+        raise ValueError(f"لا قناة بالمعرّف {handle}")
+    _RESOLVED_IDS[handle] = items[0]["id"]
+    print(f"  ← معرّف القناة {handle}: {items[0]['id']} (ثبّته في config.yaml)", file=sys.stderr)
+    return items[0]["id"]
+
+
 def load_seen() -> dict[str, str]:
     if not SEEN_FILE.exists():
         return {}
@@ -236,7 +260,7 @@ def collect_channel(channel: dict, cfg: Config, api_key: str, seen: dict,
 
     lookback_hours = cfg.path("youtube.lookback_hours", 30)
     try:
-        playlist_id = uploads_playlist_id(channel["channel_id"])
+        playlist_id = uploads_playlist_id(resolve_channel_id(channel, api_key))
         video_ids = fetch_playlist_video_ids(playlist_id, api_key, lookback_hours, now)
         items = fetch_videos_details(video_ids, api_key) if video_ids else []
     except (requests.RequestException, ValueError) as exc:
