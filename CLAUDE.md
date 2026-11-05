@@ -3000,6 +3000,11 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 `approve_reel_scripts` يُبقي المرشّح المعلَّم وحده في `hook_candidates` (`hook_picked`) فيفحصه التركيب، وبلا مربع معلَّم يبقى الثلاثة. الاختبار
 `tests/test_youtube.py:test_meta_script`.
 
+**لا جلب لكل النصوص في الجمع (5/11، قرار صاحب المشروع):** `youtube.extract.fetch_transcripts: false` ← `youtube_extract.run` يجمع الفيديوهات
+(واجهة يوتيوب) ولا يجلب لها نصًا، ولا استعادة طوابع (`recover_timestamps`) ولا فحص نهايات المقاطع المحفوظة (`recheck_files`)، وسطر «⏸️» بعددها
+(`stats.fetch_skipped`). القياس (`youtube_meta_probe`) والمواضيع من الوصف (`meta_topics`) يعملان كما كانا، ونصوص الموضوع المختار تُجلب في `meta_qa`.
+أثره: مسار الترشيح القديم من النقاط (`youtube-selection`) بلا مادة جديدة. true يعيده. `tests.helpers.load_config` يضبطه true للاختبارات القديمة؛ g831–g832.
+
 **قنوات 5/11 (قرار صاحب المشروع):** 22 قناة في ست كتل. أُضيفت سكاي نيوز عربية (إماراتي) وبرامج الميادين (محور المقاومة؛ الصوت المؤيد لطهران
 الوحيد المتاح على يوتيوب بعد حذف غوغل لقنوات الإعلام الإيراني الرسمي) وBBC Persian (غربي بريطاني رسمي) وكان أخبار (عام، وسط)، وكتلتان جديدتان:
 `western` (BBC News، DW News، CNN، Fox News — بريطاني وألماني رسميان وأمريكي ليبرالي ومحافظ) و`kurdish` (روداو بالإنجليزية لأن نصوص يوتيوب الآلية

@@ -1062,6 +1062,15 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
     bites_errors = 0
 
     proxy_exhausted = ""
+    # المواضيع صارت من العنوان والوصف (meta_topics) والنصوص تُجلب لفيديوهات الموضوع المختار وحده (meta_qa)؛ فجلب نص كل فيديو هنا
+    # يستهلك البروكسي ونماذج الاستخراج لمسار الترشيح القديم وحده (قرار صاحب المشروع 5/11). مطفأً: الفيديوهات تُجمع (واجهة يوتيوب) ولا
+    # يُجلب لها نص، ولا استعادة طوابع ولا فحص نهايات (كلاهما للمسار القديم)
+    fetch_enabled = bool(cfg.path("youtube.extract.fetch_transcripts", True))
+    skipped_fetch = 0
+    if not fetch_enabled:
+        skipped_fetch = len(videos)
+        log.info("جلب النصوص في الجمع مطفأ (youtube.extract.fetch_transcripts): %d فيديو بلا نص", skipped_fetch)
+        videos = []
     for i, video in enumerate(videos):
         print(f"استخلاص: {video.video_title[:60]} ({video.channel})", file=sys.stderr)
         try:
@@ -1212,15 +1221,16 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
     try:
         if proxy_exhausted:
             raise ProxyQuotaExhausted(proxy_exhausted)
-        recovered = recover_timestamps(
-            cfg, lambda vid: fetch_transcript(vid, proxy_cfg, session, backoff_seconds), now, session)
+        if fetch_enabled:
+            recovered = recover_timestamps(
+                cfg, lambda vid: fetch_transcript(vid, proxy_cfg, session, backoff_seconds), now, session)
     except Exception as exc:  # noqa: BLE001 -- خطوة مساعدة لا تُسقط الجمع
         log.warning("استعادة الطوابع فشلت وتُتخطّى: %s", exc)
     failed.extend(recovered["failed"])
 
     # مقاطع الأيام الأخيرة التي حُفظت قبل فحص النهاية تُفحص من نصوصها المحفوظة (لا جلب)؛ عطلها لا يُسقط الجمع
     ends = {"videos": 0, "checked": 0, "changed": 0, "incomplete": 0, "errors": []}
-    if bites_enabled:
+    if bites_enabled and fetch_enabled:
         try:
             ends = youtube_bites.recheck_files(cfg, now, anthropic_client)
         except Exception as exc:  # noqa: BLE001
@@ -1246,6 +1256,7 @@ def run(cfg: Config | None = None, youtube_api_key: str | None = None,
             "videos_rejected_topic": videos_rejected_topic,
             "videos_rate_limited": videos_rate_limited,
             "proxy_exhausted": proxy_exhausted,
+            "fetch_skipped": skipped_fetch,
             "points_extracted": len(points),
             "points_rejected_timestamp": points_rejected_timestamp,
             "points_rejected_language": points_rejected_language,
@@ -1484,6 +1495,8 @@ def main() -> int:
           f"· ناجية بعد الحرّاس: {stats['passed_guards']}")
     print(f"نصوص ناجحة: {stats['transcripts_ok']} · فاشلة: {stats['transcripts_failed']} "
           f"· محجوبة مؤقتًا (تجاوزت التراجع): {stats['videos_rate_limited']}")
+    if stats.get("fetch_skipped"):
+        print(f"⏸️ جلب النصوص مطفأ: {stats['fetch_skipped']} فيديو بلا نص (تُجلب نصوص الموضوع المختار وحده في التركيب)")
     if stats.get("proxy_exhausted"):
         print(f"⛔ {stats['proxy_exhausted']} — توقّف جلب النصوص في هذه التشغيلة؛ يعود الجمع حين يتجدد رصيد البروكسي")
     print(f"أُهمل قبل الاستخلاص (حارس الموضوع): {stats['videos_rejected_topic']}")
