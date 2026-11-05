@@ -179,13 +179,13 @@ def test_actions_block_script() -> None:
           [c["handle"] for c in picked] == ["@a1", "@t1", "@f1", "@i1"],
           [c["handle"] for c in picked])
 
-    # config.yaml الفعلي (Issue #626): أربع كتل، وأول قناة في كل واحدة هي
-    # بالضبط القنوات الأربع التي سمّاها طلب المراجعة صراحة.
+    # config.yaml الفعلي (Issue #626، وقنوات 5/11): ست كتل، وأول قناة في كل واحدة هي قناة القياس — الأربع الأولى كما
+    # سمّاها طلب المراجعة، والقنوات الجديدة أُضيفت بعد أول قناة في كتلتها فلم تغيّرها، ثم أول الكتلتين الجديدتين.
     real_channels = load_config().get("channels", [])
-    check("13 قناة مثبَّتة في config.yaml", len(real_channels) == 13, len(real_channels))
+    check("22 قناة مثبَّتة في config.yaml", len(real_channels) == 22, len(real_channels))
     real_picked = tab.pick_probe_channels(real_channels)
-    check("قنوات القياس الأربع من config.yaml الفعلي تطابق طلب المراجعة",
-          [c["handle"] for c in real_picked] == ["@aljazeera", "@cnnturk", "@IRANINTL", "@C14news"],
+    check("قنوات القياس الست من config.yaml الفعلي",
+          [c["handle"] for c in real_picked] == ["@aljazeera", "@cnnturk", "@IRANINTL", "@C14news", "@BBCNews", "@RudawEnglish"],
           [c["handle"] for c in real_picked])
 
     check("نسبة النجاح من عدّاد فارغ صفر بلا انهيار",
@@ -3649,9 +3649,9 @@ def test_youtube_publish() -> None:
           cfg.path("youtube.publish.max_per_run") == 3)
     check("config: youtube.publish.spacing_minutes = 40",
           cfg.path("youtube.publish.spacing_minutes") == 40)
-    check("config: youtube.image.bloc_labels يغطي الكتل الأربع",
+    check("config: youtube.image.bloc_labels يغطي الكتل الست (قنوات 5/11)",
           set(cfg.path("youtube.image.bloc_labels", {}).keys()) ==
-          {"arabic", "turkish", "persian", "israeli"})
+          {"arabic", "turkish", "persian", "israeli", "western", "kurdish"})
     check("config: youtube.image.use_photo مفعَّل افتراضيًا (طلب المراجعة على Issue #680)",
           cfg.path("youtube.image.use_photo") is True)
     check("config: youtube.image.source_line_template موجود ويحوي {channels} (Issue #732)",
