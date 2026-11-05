@@ -24550,6 +24550,51 @@ def test_proxy_quota_stop_guards() -> None:
     guarded("g827", g827)
 
 
+def test_collect_fetch_off_guards() -> None:
+    """جلب النصوص في الجمع مطفأ (g831–g832، قرار صاحب المشروع 5/11): المواضيع من العنوان والوصف، ونصوص الموضوع المختار وحده
+    تُجلب في التركيب؛ فالجمع اليومي لا يصرف البروكسي ولا نماذج الاستخراج على كل فيديو."""
+    import shutil
+    import tempfile
+    from datetime import datetime, timezone
+    from pathlib import Path
+    from types import SimpleNamespace
+
+    from src import youtube_bites as yb
+    from src import youtube_extract as ye
+    from src.config import load_config as real_load
+
+    check("g831: config.yaml نفسه أطفأ جلب النصوص في الجمع", real_load().path("youtube.extract.fetch_transcripts") is False)
+    cfg = load_config()
+    cfg["youtube"]["extract"]["fetch_transcripts"] = False
+    cfg["youtube"]["bites"]["enabled"] = True
+    tmp = Path(tempfile.mkdtemp(prefix="nofetch_"))
+    saved = (ye.POINTS_DIR, ye.youtube_collect.run, ye.fetch_transcript, ye.get_proxy_config, ye.recover_timestamps,
+             yb.recheck_files)
+    calls = []
+    try:
+        ye.POINTS_DIR = tmp / "state" / "youtube_points"
+        ye.get_proxy_config = lambda: None
+        ye.recover_timestamps = lambda *a, **k: calls.append("recover") or {"recovered": 0, "videos": 0, "methods": {}, "failed": []}
+        yb.recheck_files = lambda *a, **k: calls.append("recheck") or {
+            "videos": 0, "checked": 0, "changed": 0, "incomplete": 0, "errors": []}
+        vids = [SimpleNamespace(video_id=v, channel="ch", bloc="b", video_title=f"t {v}", video_url=f"u/{v}",
+                                published_at="2026-11-05T00:00:00Z", duration_seconds=4000, description="")
+                for v in ("aaaaaaaaaa1", "bbbbbbbbbb2")]
+        ye.youtube_collect.run = lambda *a, **k: {"videos": vids, "failed": [], "stats": {
+            "channels_checked": 1, "videos_found": 2, "passed_guards": 2}}
+        ye.fetch_transcript = lambda *a, **k: calls.append("fetch") or (None, "x", False)
+        out = ye.run(cfg, anthropic_client=object(), now=datetime(2026, 11, 5, 2, tzinfo=timezone.utc))
+        check("g832: لا جلب نص ولا استعادة طوابع ولا فحص نهايات، والإحصاء يذكر عدد الفيديوهات",
+              calls == [] and out["stats"]["fetch_skipped"] == 2 and out["stats"]["transcripts_ok"] == 0, (calls, out["stats"]))
+    except Exception:  # noqa: BLE001
+        import traceback
+        check("g832: لا استثناء", False, traceback.format_exc()[-800:])
+    finally:
+        (ye.POINTS_DIR, ye.youtube_collect.run, ye.fetch_transcript, ye.get_proxy_config, ye.recover_timestamps,
+         yb.recheck_files) = saved
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
 def test_reel_question_first_guards() -> None:
     """السؤال من أول لحظة (g828–g830، قرار صاحب المشروع 3/11): كان الراوي يبدأ بعد 3.2 ث من لقطة صامتة. الآن عند hook.question_at،
     والضباب يكتمل قبله فيُقرأ العنوان، ومجموع مدد السيناريو يتبع الافتتاح الأقصر."""

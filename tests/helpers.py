@@ -76,6 +76,9 @@ def load_config(path=None):
         if isinstance(ycfg.get("cluster"), dict):
             ycfg["cluster"]["source"] = "points"
         # فحص نهاية المقاطع نداء ثانٍ في الاستخراج: اختبارات V0–V2 تعدّ نداءاته وتثبّت مخرجه، فيُطفأ افتراضيًا ويطلبه اختبار ريل هرمز صراحةً
+        # الجمع يجلب النصوص في الاختبارات (مسار النقاط القديم الذي تثبّته)؛ الإنتاج أطفأه 5/11 ويثبّت ذلك test_collect_fetch_off
+        if isinstance(ycfg.get("extract"), dict):
+            ycfg["extract"]["fetch_transcripts"] = True
         if isinstance(ycfg.get("bites"), dict) and isinstance(ycfg["bites"].get("end_check"), dict):
             ycfg["bites"]["end_check"]["enabled"] = False
     return cfg
