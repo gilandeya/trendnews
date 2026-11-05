@@ -4979,3 +4979,139 @@ def test_youtube_channel_handles() -> None:
           and {"western", "kurdish"} <= {c["bloc"] for c in chans}, [c.get("handle") for c in chans])
     names = mt._bloc_names(["arabic", "western", "kurdish"], cfg)
     check("أسماء الكتل عربية في قضية المواضيع", names == "عربية، غربية، كردية", names)
+
+
+def test_meta_script() -> None:
+    """الخطوة 5 (meta_script): اعتماد قضية الموضوع يبني السيناريو من المعلَّم وحده (العنوان المختار أولًا، الأسئلة بترتيبها، الإجابات
+    بترجمتها)، ونداء واحد يكتب السياق والختام ويُعاد مرة بالسبب، وقضية سيناريو بمربعات الهوك الثلاثة وكتلة نص فيها السياق؛
+    اعتمادها يُبقي مرشّح الهوك المعلَّم وحده ويطبّق تعديل السياق؛ لا علامة ← لا مسودة وتُزال approved؛ ولا سيناريو ثانٍ."""
+    from types import SimpleNamespace as NS
+
+    from src import (meta_qa, meta_script, meta_topics as mt, publish, reel_broll, reel_hook_search, reel_render,
+                     reel_script, review, store)
+    from src.config import Config, load_config as real_load
+
+    d = tempfile.mkdtemp()
+    old = os.environ.get("TRENDNEWS_YOUTUBE_BITES_DIR")
+    os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = d
+    saved = {k: getattr(review, k) for k in ("create_issue", "comment", "close_issue", "remove_label", "update_issue_body")}
+    saved_rs = {k: getattr(reel_script, k) for k in ("audit_clips", "identify_speakers")}
+    saved_other = (meta_script._create, reel_render.pick_background, reel_hook_search.pick_hook_candidates, reel_broll.write_plan)
+    comments, created, removed, closed, calls = [], [], [], [], []
+    try:
+        review.comment = lambda n, text: comments.append((n, text))
+        review.close_issue = lambda n: closed.append(n)
+        review.remove_label = lambda n, label: removed.append((n, label))
+        review.update_issue_body = lambda n, body: None
+
+        def create(title, body, labels=None):
+            created.append((title, body, labels))
+            return {"number": 980 + len(created)}
+        review.create_issue = create
+        reel_script.audit_clips = lambda clips, cfg_, client=None: []
+        reel_script.identify_speakers = lambda valid, points, cfg_, client=None: valid
+        reel_render.pick_background = lambda draft, cfg_, *a, **k: {"kind": "none"}
+
+        def hooks(draft, cfg_, deps=None):
+            draft["hook_candidates"] = [{"video_id": f"h{i}", "title": f"لقطة {i}", "channel": "AP", "views": 10 - i,
+                                         "duration": 90} for i in range(4)]
+            draft["hook_search"] = {"attempts": [], "picked": ["h0"]}
+        reel_hook_search.pick_hook_candidates = hooks
+        reel_broll.write_plan = lambda draft, cfg_, client=None: None
+
+        def frame(client, **kw):
+            calls.append(kw["messages"])
+            long = len(calls) == 1 and frame.long
+            ctx = ["كلمة " * 40] if long else ["قصفت واشنطن منشأة فوردو في يونيو.", "واستأنفت إيران التخصيب هذا الأسبوع."]
+            return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="write_reel_frame", id=f"tu{len(calls)}",
+                                                          input={"context": ctx, "closing_question": "هل تكسر الضربة البرنامج؟"})])
+        frame.long = True
+        meta_script._create = frame
+
+        base = real_load()
+        cfg = Config(dict(base))
+        cfg["reel"] = {**base["reel"], "enabled": True, "hook_search": {**base["reel"].get("hook_search", {}), "enabled": True}}
+        data = {"date": "2026-11-05", "topics": [{"id": "abc123abc123", "title": "ضربة محتملة على إيران",
+                                                  "blocs": ["arabic", "israeli"], "orientations": 2, "minutes": 60,
+                                                  "channels": ["الجزيرة", "ערוץ 14"], "videos": [], "topic_issue": 970}]}
+        mt._save_public(data)
+        bites = [{"bite_id": f"v{k}:{k}", "video_id": f"v{k}", "channel": ch, "bloc": "arabic", "orientation": o,
+                  "speaker": sp, "type": ty, "start": 10.0 * k, "end": 10.0 * k + 20, "summary_ar": f"ملخص {k}",
+                  "text_ar": f"ترجمة {k}", "text_original": f"original words {k}", "start_line": k, "end_line": k + 2}
+                 for k, (ch, o, sp, ty) in enumerate([("الجزيرة", "قطري", "أحمد سالم", "opinion"),
+                                                       ("ערוץ 14", "يمين", "دافيد كوهين", "forecast"),
+                                                       ("الجزيرة", "قطري", "منى علي", "opinion"),
+                                                       ("الجزيرة", "قطري", "", "fact")])]
+        priv = {"topic_id": "abc123abc123", "titles": ["العنوان أ؟", "العنوان ب؟", "العنوان ج؟"],
+                "questions": [{"text": "هل الضربة قريبة؟", "answers": []}, {"text": "كيف ترد إيران؟", "answers": []},
+                              {"text": "سؤال لم يُعلَّم؟", "answers": []}], "bites": bites}
+        path = meta_qa.private_path("abc123abc123")
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(priv, ensure_ascii=False), encoding="utf-8")
+        head = "<!-- mtopic-issue:abc123abc123 -->\n<!-- meta-date:2026-11-05 -->\n"
+        body = head + "\n".join([
+            "- [ ] أ <!-- mhl:0 -->", "- [x] ب <!-- mhl:1 -->", "- [ ] ج <!-- mhl:2 -->",
+            "- [x] **1.** <!-- mq:1 -->", "  - [x] x <!-- ma:1:v0:0 -->", "  - [x] x <!-- ma:1:v1:1 -->",
+            "- [x] **2.** <!-- mq:2 -->", "  - [x] x <!-- ma:2:v2:2 -->", "  - [x] x <!-- ma:2:v0:0 -->",
+            "- [ ] **3.** <!-- mq:3 -->", "  - [x] x <!-- ma:3:v3:3 -->"])
+
+        # لا علامة ← لا مسودة وتُزال approved والقضية تبقى
+        none_body = head + "- [x] أ <!-- mhl:0 -->\n- [ ] **1.** <!-- mq:1 -->\n  - [x] x <!-- ma:1:v0:0 -->"
+        meta_script.finalize(970, none_body, cfg)
+        check("لا سؤال معلَّم: لا قضية وتُزال approved ولا إغلاق", not created and removed == [(970, "approved")] and not closed)
+
+        meta_script.finalize(970, body, cfg)
+        check("قضية سيناريو واحدة بوسم المرحلة 2 وتعليق برابطها وإغلاق قضية الموضوع",
+              len(created) == 1 and created[0][2] == ["youtube-review"] and 970 in closed
+              and any("#981" in c[1] for c in comments), comments)
+        pub = mt._load_public("2026-11-05")["topics"][0]
+        found = store.load_draft(pub["script_draft"])
+        check("المسودة محفوظة ومربوطة بقضية السيناريو", found is not None and found[1]["review_issue"] == 981
+              and pub["script_issue"] == 981)
+        dr = found[1]
+        sc = dr["script"]["scenes"]
+        kinds = [s["kind"] for s in sc]
+        clips = [s for s in sc if s["kind"] == "clip"]
+        check("العنوان المختار هو السؤال الرئيس وأول العناوين، والعناوين الثلاثة بلا نداء",
+              sc[0]["text"] == "العنوان ب؟" and dr["headlines"] == ["العنوان ب؟", "العنوان أ؟", "العنوان ج؟"])
+        check("الأسئلة المعلَّمة بترتيبها وإجاباتها المعلَّمة بلا تكرار مقطع، والمقطع بترجمته",
+              [s["text"] for s in sc if s.get("role") == "question"] == ["هل الضربة قريبة؟", "كيف ترد إيران؟"]
+              and [c["quote_arabic"] for c in clips] == ["ترجمة 0", "ترجمة 1", "ترجمة 2"]
+              and kinds[-2:] == ["question", "outro"], kinds)
+        check("السياق المخالف يُعاد مرة بالسبب في المحادثة نفسها",
+              len(calls) == 2 and calls[1][-1]["content"][0]["is_error"] is True
+              and "قصفت واشنطن" in next(s["text"] for s in sc if s.get("role") == "context"), len(calls))
+        sbody = created[0][1]
+        check("قضية السيناريو: ثلاثة مرشّحين للهوك مربعات أولها معلَّم، وكتلة نص فيها السياق",
+              sbody.count("hookpick:") == 3 and f"- [x] [لقطة 0]" in sbody and f"<!-- hookpick:{dr['id']}:2 -->" in sbody
+              and "<!-- reelscript:" in sbody and "قصفت واشنطن" in sbody, sbody[:1500])
+
+        # لا سيناريو ثانٍ
+        meta_script.finalize(970, body, cfg)
+        check("إعادة الوسم لا تكتب سيناريو ثانيًا", len(created) == 1)
+
+        # اعتماد قضية السيناريو: مرشّح الهوك المعلَّم وحده، وتعديل السياق يُطبَّق
+        ctx_line = next(ln for ln in sbody.splitlines() if "قصفت واشنطن" in ln and ln.startswith("["))
+        n = ctx_line.split("]")[0] + "]"
+        abody = (sbody.replace("- [x] [لقطة 0]", "- [ ] [لقطة 0]").replace("- [ ] [لقطة 2]", "- [x] [لقطة 2]")
+                 .replace(ctx_line, f"{n} سياق عدّله صاحب المشروع."))
+        blocked = publish.approve_reel_scripts(981, [dr["id"]], abody, cfg, actions={dr["id"]: "go3"})
+        after = store.load_draft(dr["id"])[1]
+        check("الاعتماد: الهوك المعلَّم وحده والسياق المعدَّل", not blocked and after["status"] == "approved_script"
+              and [c["video_id"] for c in after["hook_candidates"]] == ["h2"] and after["hook_picked"] == 2
+              and any(s.get("text") == "سياق عدّله صاحب المشروع." for s in after["script"]["scenes"]), after.get("hook_candidates"))
+        src = Path("src/publish.py").read_text(encoding="utf-8")
+        check("publish.main يوجّه meta-topic إلى meta_script في المسار العادي", "meta_script.finalize(args.issue" in src)
+    finally:
+        for k, f in saved.items():
+            setattr(review, k, f)
+        for k, f in saved_rs.items():
+            setattr(reel_script, k, f)
+        (meta_script._create, reel_render.pick_background, reel_hook_search.pick_hook_candidates,
+         reel_broll.write_plan) = saved_other
+        if old is None:
+            os.environ.pop("TRENDNEWS_YOUTUBE_BITES_DIR", None)
+        else:
+            os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = old
+        shutil.rmtree(d, ignore_errors=True)
+        shutil.rmtree(mt.public_dir(), ignore_errors=True)
