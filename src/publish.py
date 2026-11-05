@@ -1263,6 +1263,7 @@ def approve_reel_scripts(issue_number: int, reel_ids: list[str], body: str, cfg,
     blocks = reel_script.parse_edit_blocks(body)
     ok_ids = stages.parse_editor_ok(body)
     choice = review.parse_headline_choice(body)
+    hook_picks = reel_script.parse_hook_picks(body)
     lines: list[str] = []
     blocked: list[str] = []
     for did in reel_ids:
@@ -1296,6 +1297,12 @@ def approve_reel_scripts(issue_number: int, reel_ids: list[str], body: str, cfg,
         if did in blocks:
             script, warnings = reel_script.apply_lines(d["script"], blocks[did], texts)
         extra = {"editor_override": {"at": datetime.now(timezone.utc).isoformat(), "reasons": reasons}} if override else {}
+        # لقطة هوك اختارها صاحب المشروع (قضية السيناريو لمواضيع العناوين): المرشّح وحده يبقى فيفحصه التركيب ولا يقارن غيره؛
+        # بلا مربع معلَّم تبقى المرشّحات كلها والاختيار للفحص البصري كما كان
+        cands = d.get("hook_candidates") or []
+        k = hook_picks.get(did)
+        if d.get("hook_pick") and k is not None and 0 <= k < len(cands):
+            extra.update(hook_candidates=[cands[k]], hook_picked=k)
         # «انشر فورًا» (Issue #1538، W4): نفس البوابات، ثم يُركَّب ويُنشر بلا قضية مراجعة الفيديو؛ العنوان من مربع المرحلة 2
         if (actions or {}).get(did) == "publish":
             extra.update(publish_on_render=True, headline_selected=choice.get(did, 0))
@@ -1862,6 +1869,13 @@ def main() -> int:
             return 0
         from . import meta_topics
         return meta_topics.finalize(args.issue, body, cfg)
+
+    # قضية الموضوع (الخطوة 5): اعتمادها يكتب السيناريو من المعلَّم ويفتح قضية السيناريو؛ المسار العادي وحده (نداء Opus، ومرة واحدة)
+    if "meta-topic" in labels:
+        if args.urgent_only:
+            return 0
+        from . import meta_script
+        return meta_script.finalize(args.issue, body, cfg)
 
     # Issue #1221 (مسار «هام»، المهمة 3): قضية ترشيح النقاط (وسم important-selection) تُقرأ
     # اختياراتها بالقارئ الموحَّد وتُكتب النقاط بحسب حكمها ثم تسلك مسار الأخبار نفسه من

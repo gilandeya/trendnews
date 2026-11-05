@@ -1292,6 +1292,18 @@ def condense_fields(script: dict, problems: list[str], valid: list[dict], cfg: A
 # ───────────────────────────── عرض المراجعة وقراءتها ─────────────────────────────
 
 
+HOOK_PICK_RE = re.compile(r"^\s*-\s*\[([ xX])\][^\n]*?<!--\s*hookpick:([0-9a-f]+):(\d+)\s*-->", re.MULTILINE)
+
+
+def parse_hook_picks(body: str) -> dict[str, int]:
+    """مرشّح الهوك المختار لكل مسودة في قضية السيناريو: أول مربع معلَّم. مسودة لا مربع معلَّم لها لا تظهر (الاختيار للتركيب)."""
+    out: dict[str, int] = {}
+    for mark, did, k in HOOK_PICK_RE.findall(body or ""):
+        if mark.lower() == "x" and did not in out:
+            out[did] = int(k)
+    return out
+
+
 def editable_lines(script: dict, kinds: tuple[str, ...] = EDITABLE_KINDS) -> list[str]:
     return [f"[{i}] {' '.join((s.get('text') or '').split())}"
             for i, s in enumerate(script.get("scenes") or [], start=1) if s.get("kind") in kinds]
@@ -1653,9 +1665,13 @@ SCRIPT_KEYS = ("script", "script_status", "script_error", "headlines", "headline
 
 
 def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article_text: str, unresolved: list,
-                    cfg: Any, client=None, hook_deps=None) -> dict:
+                    cfg: Any, client=None, hook_deps=None, builder=None) -> dict:
     """يكتب سيناريو مسودة الريل في الذاكرة (لا يحفظ): المقاطع الصالحة ← نداء ← تحقق ← عناوين ← تدقيق الأسماء ← المحرر
-    الأخير. فشل ← script_status="failed" وscript_error بالسبب. يعيد {"status": "ready"|"failed", "reason"}."""
+    الأخير. فشل ← script_status="failed" وscript_error بالسبب. يعيد {"status": "ready"|"failed", "reason"}.
+
+    builder(valid, narrator, info) ← (script, reason): مادة اختارها إنسان (قضية السيناريو لمواضيع العناوين، meta_script) تُبنى
+    مشاهدها منه بدل نداء الكتابة؛ فلا يُشترط عدد متحدثي الرأي (الاختيار لصاحب المشروع) وتُؤخذ العناوين من info["headlines"]
+    إن أعادها. بقية الأنبوب (فحص القائلين وتدقيق الأسماء والمحرر والخلفية والهوك واللقطات) كما هي."""
     from . import reel_editor
     valid = valid_clips(member_points, unresolved, cfg)
     draft.pop("script_error", None)
@@ -1664,6 +1680,8 @@ def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article
         draft.pop(key, None)  # إعادة كتابة تبدأ سجلاتها من جديد فلا تتراكم عن محاولة سابقة
 
     def _insufficient(clips: list[dict]) -> str:
+        if builder is not None:
+            return "" if clips else "لا مقطع صالح من المعلَّم"
         if len(clips) < int(_rcfg(cfg, "min_clips", 2)):
             return f"لا مقاطع كافية: {len(clips)} صالحًا من {int(_rcfg(cfg, 'min_clips', 2))} مطلوبًا على الأقل"
         if bool(_v2(cfg, "enabled", False)):
@@ -1703,7 +1721,10 @@ def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article
     valid = _audit_speakers(draft, identify_speakers(valid, member_points, cfg, client), member_points, cfg)
     narrator = next_narrator(cfg, draft.get("id", ""))
     info: dict = {}
-    script, reason = write_script(topic, article_text, valid, narrator, cfg, client, member_points=member_points, info=info)
+    if builder is not None:
+        script, reason = builder(valid, narrator, info)
+    else:
+        script, reason = write_script(topic, article_text, valid, narrator, cfg, client, member_points=member_points, info=info)
     if info.get("attempts"):
         draft["script_attempts"] = info["attempts"]  # أسباب كل محاولة رُفضت (Q8): تظهر للمراجع عند الفشل
     if info.get("raw"):
@@ -1722,11 +1743,14 @@ def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article
     used_ids = {s["point_id"] for s in script["scenes"] if s.get("kind") in CLIP_KINDS}
     used = [p for p in member_points if point_key_id(p) in used_ids]
     narration = " ".join(s["text"] for s in script["scenes"] if s.get("kind") == "narration")
-    try:
-        headlines, err, _ = youtube_article.generate_headlines(
-            {"title": script["title"]}, used, cfg, client, article_text=f"{script['title']}\n{narration}")
-    except Exception as exc:  # noqa: BLE001 — فشل العناوين لا يُسقط سيناريو صالحًا
-        headlines, err = None, str(exc)
+    if info.get("headlines"):
+        headlines, err = list(info["headlines"]), None     # اختارها إنسان (builder): لا نداء عناوين
+    else:
+        try:
+            headlines, err, _ = youtube_article.generate_headlines(
+                {"title": script["title"]}, used, cfg, client, article_text=f"{script['title']}\n{narration}")
+        except Exception as exc:  # noqa: BLE001 — فشل العناوين لا يُسقط سيناريو صالحًا
+            headlines, err = None, str(exc)
     if err or not headlines:
         log.warning("فشلت عناوين الريل -- عنوان الشاشة مكرَّرًا: %s", err)
         headlines = [script["title"]] * 3

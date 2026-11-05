@@ -259,6 +259,7 @@ from tests.test_youtube import (
     test_meta_topics,
     test_meta_topics_selection,
     test_meta_qa,
+    test_meta_script,
     test_youtube_channel_handles,
 )
 from tests.test_guards_golden import (test_guards_golden, test_important_false_guard,
@@ -688,6 +689,7 @@ def main() -> int:
     test_meta_topics()
     test_meta_topics_selection()
     test_meta_qa()
+    test_meta_script()
     test_youtube_channel_handles()
     print("\n── وحدة المراحل المشتركة stages.py (Issue #1180) ──")
     test_stages_module()
