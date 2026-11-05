@@ -80,7 +80,7 @@ def run(cfg: Any, now: datetime | None = None, api_key: str | None = None,
         if not ch.get("active", True):
             continue
         try:
-            ids = fetch_ids(youtube_collect.uploads_playlist_id(ch["channel_id"]), api_key, hours, now)
+            ids = fetch_ids(youtube_collect.uploads_playlist_id(youtube_collect.resolve_channel_id(ch, api_key)), api_key, hours, now)
             items = fetch_details([i for i in ids if i not in videos], api_key) if ids else []
         except Exception as exc:  # noqa: BLE001 — قناة متعطلة لا توقف القياس
             errors.append(f"{ch.get('name')}: {str(exc)[:120]}")

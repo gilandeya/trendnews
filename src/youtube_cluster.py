@@ -1249,6 +1249,7 @@ _SEL_AGREEMENT_LABELS = {
 
 _DEFAULT_BLOC_LABELS = {
     "arabic": "عربية", "turkish": "تركية", "persian": "فارسية", "israeli": "إسرائيلية",
+    "western": "غربية", "kurdish": "كردية",
 }
 
 

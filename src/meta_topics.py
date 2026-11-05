@@ -523,6 +523,12 @@ def slim(res: dict, date: str) -> dict:
     return {"date": date, "generated_at": res.get("generated_at"), "topics": topics}
 
 
+def _bloc_names(blocs, cfg) -> str:
+    # أسماء الكتل بالعربية في القضية (لا «arabic، israeli»)، من الجدول نفسه الذي تقرؤه قضايا التحليل
+    from .youtube_cluster import _bloc_label
+    return "، ".join(_bloc_label(b, cfg) for b in blocs)
+
+
 def _fmt_minutes(m) -> str:
     return str(round(m or 0))
 
@@ -534,7 +540,7 @@ def selection_body(data: dict, cfg) -> str:
     for k, e in enumerate(data["topics"], 1):
         lines.append(f"- [ ] **{k}. {e['title']}** <!-- mtopic:{e['id']} -->")
         lines.append("  " + t.get("selection_meta", "{blocs} كتل ({bloc_names})، {orientations} توجهات، {minutes} دقيقة (تقديرية)").format(
-            blocs=len(e["blocs"]), bloc_names="، ".join(e["blocs"]), orientations=e["orientations"],
+            blocs=len(e["blocs"]), bloc_names=_bloc_names(e["blocs"], cfg), orientations=e["orientations"],
             minutes=_fmt_minutes(e["minutes"])))
         vids = " · ".join(f"[{v['channel']} {_fmt_minutes(v['minutes'])} د](https://youtu.be/{v['video_id']})"
                           for v in e["videos"])
@@ -586,7 +592,7 @@ def open_selection(cfg, date: str) -> dict | None:
 def topic_body(topic: dict, data: dict, cfg) -> str:
     t = _mcfg(cfg).get("texts") or {}
     lines = [f"## 🎬 {topic['title']}", "", f"<!-- mtopic-issue:{topic['id']} -->", f"<!-- meta-date:{data['date']} -->", "",
-             t.get("selection_meta", "").format(blocs=len(topic["blocs"]), bloc_names="، ".join(topic["blocs"]),
+             t.get("selection_meta", "").format(blocs=len(topic["blocs"]), bloc_names=_bloc_names(topic["blocs"], cfg),
                                                  orientations=topic["orientations"], minutes=_fmt_minutes(topic["minutes"])),
              ""]
     for v in topic["videos"]:

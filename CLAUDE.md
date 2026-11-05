@@ -2986,3 +2986,12 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 نفاد البروكسي ← `waiting_proxy` وتعليق واحد ويُعاد في التشغيلة التالية؛ العطل `failed` حتى `qa.max_attempts`. **تشغيليًا:** خطوة «رفع الريلز»
 في `reel-render.yml` تودِع `reels` وحدها، فتضيف إليها `state/youtube_transcripts state/youtube_bites` كي تبقى النصوص والملف الخاص لخطوة السيناريو.
 الاختبار `tests/test_youtube.py:test_meta_qa`.
+
+**قنوات 5/11 (قرار صاحب المشروع):** 22 قناة في ست كتل. أُضيفت سكاي نيوز عربية (إماراتي) وبرامج الميادين (محور المقاومة؛ الصوت المؤيد لطهران
+الوحيد المتاح على يوتيوب بعد حذف غوغل لقنوات الإعلام الإيراني الرسمي) وBBC Persian (غربي بريطاني رسمي) وكان أخبار (عام، وسط)، وكتلتان جديدتان:
+`western` (BBC News، DW News، CNN، Fox News — بريطاني وألماني رسميان وأمريكي ليبرالي ومحافظ) و`kurdish` (روداو بالإنجليزية لأن نصوص يوتيوب الآلية
+للكردية غير متاحة غالبًا). الكتلة هوية القناة لا لغتها: ILTV وهآرتس إنجليزيتان وتبقيان إسرائيليتين. **قناة بلا `channel_id`** (سكاي نيوز عربية وCNN،
+لم يُعرف معرّفهما موثوقًا) يحسمه `youtube_collect.resolve_channel_id` من `handle` بطلب `channels?forHandle` واحد يُحفظ للتشغيلة (يستعمله الجمع والقياس
+`youtube_meta_probe`) ويطبعه «← معرّف القناة … (ثبّته في config.yaml)»؛ لا نتيجة ← عطل جلب لتلك القناة وحدها. أسماء الكتلتين في
+`youtube.image.bloc_labels` و`_DEFAULT_BLOC_LABELS`، وقضية المواضيع من العناوين تعرض أسماء الكتل بالعربية (`meta_topics._bloc_names`). الاختبار
+`tests/test_youtube.py:test_youtube_channel_handles`.
