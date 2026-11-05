@@ -342,7 +342,7 @@ from tests.test_guards_golden import (test_guards_golden, test_important_false_g
                                       test_clean_screen_text_1779_guards, test_bite_audio_sections_guards,
                                       test_reel_context_maps_guards, test_bites_health_guards,
                                       test_speaker_map_sections_guards, test_reel_code_picks_guards,
-                                      test_bites_open_end_retry_guards, test_proxy_quota_stop_guards, test_collect_fetch_off_guards,
+                                      test_bites_open_end_retry_guards, test_proxy_quota_stop_guards, test_collect_fetch_off_guards, test_first_comment_off_guards,
                                       test_reel_question_first_guards)
 from tests.test_names_audit import (test_names_audit_brave_counter, test_names_audit_other_sites,
                                     test_names_audit_pipeline,
@@ -852,6 +852,7 @@ def main() -> int:
     test_bites_open_end_retry_guards()
     test_proxy_quota_stop_guards()
     test_collect_fetch_off_guards()
+    test_first_comment_off_guards()
     test_reel_question_first_guards()
     test_bite_audio_sections_guards()
     test_names_n1_guards()

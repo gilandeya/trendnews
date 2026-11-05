@@ -2960,7 +2960,9 @@ facebook:
 
   # الرابط في التعليق الأول بدل المتن: فيسبوك يخفض وصول المنشورات
   # التي تُخرج المستخدم من المنصة عبر رابط خارجي.
-  link_in_first_comment: true
+  # false بقرار صاحب المشروع (5/11): فيسبوك يرفض التعليق في كل منشور بخطأ صلاحية (#200، توكن الصفحة بلا
+  # pages_manage_engagement) فلا تعليق للصور ولا للريلات (publish.first_comment_for وreel_first_comment). true يعيده.
+  link_in_first_comment: false
   comment_prefix: "المصدر"
 
   # الجدولة

@@ -261,7 +261,10 @@ def reel_data_root() -> Path:
 
 
 def reel_first_comment(draft: dict, cfg) -> str | None:
-    """«المصادر:» ثم سطر «{القناة} — {الرابط}» لكل فيديو مصدر في مشاهد المقاطع، بلا تكرار لرابط."""
+    """«المصادر:» ثم سطر «{القناة} — {الرابط}» لكل فيديو مصدر في مشاهد المقاطع، بلا تكرار لرابط. المفتاح نفسه الذي يطفئ
+    تعليق الصور يطفئه (رفض فيسبوك صلاحية لا نوع منشور)."""
+    if not cfg.path("facebook.link_in_first_comment", True):
+        return None
     seen: dict[str, str] = {}
     for scene in (draft.get("script") or {}).get("scenes") or []:
         url = scene.get("video_url")

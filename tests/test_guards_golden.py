@@ -24667,3 +24667,20 @@ def test_reel_question_first_guards() -> None:
               abs(sum(d_new) - reel_script.estimate_seconds(s, cfg)) < 1e-6, (sum(d_new), reel_script.estimate_seconds(s, cfg)))
         check("g830: نسخة التركيب 63", int(cfg.path("reel.render.version")) >= 63)
     guarded("g830", g830)
+
+
+def test_first_comment_off_guards() -> None:
+    """(g833–g834) تعليق المصدر الأول مطفأ في الإنتاج بقرار صاحب المشروع 5/11 (فيسبوك يرفضه بخطأ صلاحية #200 في كل
+    منشور): config.yaml نفسه على false، ومعه لا تعليق للصور ولا للريلات؛ ومفعّلًا يعود النصّان كما كانا."""
+    from src import publish
+    from src.config import Config, load_config as real_load
+    cfg = real_load()
+    draft = {"source": {"link": "https://example.com/a", "publishers": ["رويترز"]}}
+    reel = {"script": {"scenes": [{"kind": "clip", "video_url": "https://youtu.be/x", "channel_display": "الجزيرة"}]}}
+    check("g833 config.yaml: link_in_first_comment مطفأ، فلا تعليق للصورة ولا للريل",
+          cfg.path("facebook.link_in_first_comment") is False and publish.first_comment_for(draft, cfg) is None
+          and publish.reel_first_comment(reel, cfg) is None)
+    on = Config(dict(cfg))
+    on["facebook"] = {**cfg["facebook"], "link_in_first_comment": True}
+    check("g834 مفعّلًا يعود التعليقان", "https://example.com/a" in (publish.first_comment_for(draft, on) or "")
+          and "الجزيرة — https://youtu.be/x" in (publish.reel_first_comment(reel, on) or ""))
