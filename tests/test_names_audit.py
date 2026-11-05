@@ -25,8 +25,9 @@ FMT_URL = "https://www.freemalaysiatoday.com/category/world/2026/10/04/houthis-c
 
 def _written_from_real_draft() -> dict:
     """حقول الكتابة بما في مسودة 4e1ba01e960a الحقيقية (نصها كما نُشر، بالاسم الخاطئ)."""
-    real = json.loads((Path(__file__).resolve().parent.parent
-                       / "drafts/2026-10-04/4e1ba01e960a.json").read_text(encoding="utf-8"))
+    # نسخة ثابتة في fixtures لا المسودة في drafts/: الحفظ الدوري (retention.days = 30) حذفها في 4/11 فانكسرت الحزمة
+    real = json.loads((Path(__file__).resolve().parent
+                       / "fixtures/names_audit/4e1ba01e960a.json").read_text(encoding="utf-8"))
     return dict(real["arabic"])
 
 
