@@ -3807,7 +3807,10 @@ youtube:
       turkish: "تركية"
       persian: "فارسية"
       israeli: "إسرائيلية"
-      western: "غربية"
+      english: "إنجليزية"
+      french: "فرنسية"
+      russian: "روسية"
+      chinese: "صينية"
       kurdish: "كردية"
     # صورة تعبيرية حرة الترخيص خلف بطاقة العنوان (طلب المراجعة على Issue
     # #680): imagesearch.py (Wikimedia/Openverse حصرًا) بكلمات مفتاحية من
@@ -4011,7 +4014,7 @@ channels:
     language: "ar"
     bloc: "arabic"
     bias_note: "فرنسية عامة"
-    orientation: "غربي فرنسي رسمي"
+    orientation: "فرنسي حكومي"
     active: true
     exclude_patterns: ["نشرة", "موجز", "عاجل", "بث مباشر", "مباشر الآن"]
   # 5/11 (قرار صاحب المشروع): صوتان غائبان عن الكتلة العربية — الإماراتي ومحور المقاومة. channel_id غائب عمدًا حين لم يُعرف
@@ -4137,9 +4140,9 @@ channels:
     mention_forms: ["بي بي سي فارسي", "BBC Persian"]
     language: "fa"
     bloc: "persian"
-    bias_note: "بريطانية رسمية"
+    bias_note: "هيئة بث عامة بريطانية (رسوم ترخيص)"
     # معارضة بطريقة غير إيران إنترناشيونال، فهي توجّه مستقل في العدّ
-    orientation: "غربي بريطاني رسمي"
+    orientation: "بريطاني عام"
     active: true
     exclude_patterns: ["پخش زنده", "خبر فوری"]
   - handle: "@C14news"
@@ -4194,17 +4197,17 @@ channels:
     orientation: "عام (وسط)"
     active: true
     exclude_patterns: ["שידור חי", "מבזק"]
-  # الكتلة الغربية بالإنجليزية (قرار صاحب المشروع 5/11): كيف يقرأ الغرب الحدث نفسه، بأربعة توجّهات. لا تعني «كل إنجليزي»:
-  # ILTV وهآرتس إنجليزيتان وتبقيان في الكتلة الإسرائيلية لأن الكتلة هوية القناة لا لغتها
+  # الكتلة الإنجليزية (قرار صاحب المشروع 6/11، كانت «غربية»): «غربي» وصف واسع لا يقول من يتكلم، فالكتلة للغة والبلد في التوجّه
+  # (DW ألمانية تبث بالإنجليزية ← توجّه «ألماني حكومي»). ILTV وهآرتس وروداو بالإنجليزية تبقى في كتلها لأنها أصوات تلك الجهات نفسها
   - handle: "@BBCNews"
     channel_id: "UC16niRr50-MSBwiO3YDb3RA"
     name: "BBC News"
     name_ar: "بي بي سي نيوز"
     mention_forms: ["بي بي سي نيوز", "بي بي سي", "BBC"]
     language: "en"
-    bloc: "western"
+    bloc: "english"
     bias_note: "بريطانية رسمية"
-    orientation: "بريطاني رسمي"
+    orientation: "بريطاني عام"
     active: true
     exclude_patterns: ["LIVE", "Live:", "live stream", "Livestream"]
   - handle: "@dwnews"
@@ -4213,9 +4216,9 @@ channels:
     name_ar: "دويتشه فيله"
     mention_forms: ["دويتشه فيله", "DW"]
     language: "en"
-    bloc: "western"
-    bias_note: "ألمانية رسمية"
-    orientation: "ألماني رسمي"
+    bloc: "english"
+    bias_note: "ممولة من الحكومة الألمانية"
+    orientation: "ألماني حكومي"
     active: true
     exclude_patterns: ["LIVE", "Live:", "live stream", "Livestream"]
   - handle: "@CNN"
@@ -4224,7 +4227,7 @@ channels:
     name_ar: "سي إن إن"
     mention_forms: ["سي إن إن", "CNN"]
     language: "en"
-    bloc: "western"
+    bloc: "english"
     bias_note: "أمريكية تجارية"
     orientation: "أمريكي ليبرالي"
     active: true
@@ -4235,11 +4238,140 @@ channels:
     name_ar: "فوكس نيوز"
     mention_forms: ["فوكس نيوز", "Fox News"]
     language: "en"
-    bloc: "western"
+    bloc: "english"
     bias_note: "أمريكية تجارية"
     orientation: "أمريكي محافظ"
     active: true
     exclude_patterns: ["LIVE", "Live:", "live stream", "Livestream"]
+  # الصين بالإنجليزية في الكتلة الإنجليزية (قرار صاحب المشروع 6/11): يوتيوب لا يفرّغ الماندرين آليًا تقريبًا، فهذه القناة
+  # تضمن صوت بكين في مقاطع الريل، والكتلة الصينية أدناه للمواضيع والمقاطع التي رفعت قنواتها ترجمتها
+  - handle: "@CGTN"
+    name: "CGTN"
+    name_ar: "سي جي تي إن"
+    mention_forms: ["سي جي تي إن", "CGTN"]
+    language: "en"
+    bloc: "english"
+    bias_note: "الشبكة الدولية للتلفزيون الصيني الحكومي"
+    orientation: "صيني حكومي"
+    active: true
+    exclude_patterns: ["LIVE", "Live:", "live stream", "Livestream"]
+  # الفرنسية والروسية والصينية (قرار صاحب المشروع 6/11). channel_id غائب حين لم يُعرف موثوقًا: يحسمه resolve_channel_id في
+  # أول جمع ويطبعه ليُثبَّت هنا، ومعرّف لا يُحلّ عطل جلب لتلك القناة وحدها
+  - handle: "@FRANCE24"
+    name: "FRANCE 24"
+    name_ar: "فرانس 24 الفرنسية"
+    mention_forms: ["فرانس 24 الفرنسية", "فرانس 24"]
+    language: "fr"
+    bloc: "french"
+    bias_note: "فرنسية عامة ممولة من الدولة"
+    orientation: "فرنسي حكومي"
+    active: true
+    exclude_patterns: ["DIRECT", "EN DIRECT", "LIVE"]
+  - handle: "@BFMTV"
+    channel_id: "UCXwDLMDV86ldKoFVc_g8P0g"
+    name: "BFMTV"
+    name_ar: "بي إف إم تي في"
+    mention_forms: ["بي إف إم تي في", "BFMTV"]
+    language: "fr"
+    bloc: "french"
+    bias_note: "خاصة، أكبر قناة أخبار فرنسية سابقًا"
+    orientation: "خاص (وسط)"
+    active: true
+    exclude_patterns: ["DIRECT", "EN DIRECT", "LIVE"]
+  - handle: "@CNEWS"
+    name: "CNEWS"
+    name_ar: "سي نيوز"
+    mention_forms: ["سي نيوز", "CNEWS"]
+    language: "fr"
+    bloc: "french"
+    bias_note: "خاصة، مجموعة بولوريه"
+    orientation: "يميني"
+    active: true
+    exclude_patterns: ["DIRECT", "EN DIRECT", "LIVE"]
+  # الروسية: يوتيوب حجب الإعلام الحكومي الروسي (RT والقناة الأولى وروسيا 24) منذ 2022، فصوت السلطة من قنوات خاصة قريبة منها
+  - handle: "@rbc"
+    name: "РБК"
+    name_ar: "آر بي كي"
+    mention_forms: ["آر بي كي", "RBC"]
+    language: "ru"
+    bloc: "russian"
+    bias_note: "خاصة، قريبة من السلطة"
+    orientation: "قريب من السلطة"
+    active: true
+    exclude_patterns: ["Прямой эфир", "LIVE", "Трансляция"]
+  - handle: "@RTVI"
+    channel_id: "UCPU28A9z_ka_R5dQfecHJlA"
+    name: "RTVI"
+    name_ar: "آر تي في آي"
+    mention_forms: ["آر تي في آي", "RTVI"]
+    language: "ru"
+    bloc: "russian"
+    bias_note: "دولية بالروسية، صارت قريبة من الكرملين بعد 2022"
+    orientation: "قريب من السلطة"
+    active: true
+    exclude_patterns: ["Прямой эфир", "LIVE", "Трансляция"]
+  - handle: "@tvrain"
+    name: "Дождь"
+    name_ar: "تلفزيون دوشد"
+    mention_forms: ["تلفزيون دوشد", "دوشد", "TV Rain"]
+    language: "ru"
+    bloc: "russian"
+    bias_note: "مستقلة، تبث من المنفى"
+    orientation: "معارض في المنفى"
+    active: true
+    exclude_patterns: ["Прямой эфир", "LIVE", "Трансляция"]
+  - handle: "@currenttime"
+    name: "Настоящее Время"
+    name_ar: "ناستوياشيه فريميا"
+    mention_forms: ["ناستوياشيه فريميا", "Current Time"]
+    language: "ru"
+    bloc: "russian"
+    bias_note: "تابعة لإذاعة أوروبا الحرة الممولة أمريكيًا"
+    orientation: "أمريكي حكومي"
+    active: true
+    exclude_patterns: ["Прямой эфир", "LIVE", "Трансляция"]
+  # الصينية: النصوص الآلية بالماندرين شبه معدومة على يوتيوب (7 مسارات في فحص 201 ألف فيديو)، فمقاطعها لا تصل الريل إلا بترجمة
+  # رفعتها القناة؛ المواضيع من العناوين تعمل لها كاملة
+  - handle: "@cctvch"
+    name: "CCTV中文"
+    name_ar: "سي سي تي في الصينية"
+    mention_forms: ["سي سي تي في الصينية", "سي سي تي في", "CCTV"]
+    language: "zh"
+    bloc: "chinese"
+    bias_note: "التلفزيون الصيني الحكومي"
+    orientation: "صيني حكومي"
+    active: true
+    exclude_patterns: ["直播", "LIVE"]
+  - handle: "@phoenixtvhk"
+    name: "凤凰卫视"
+    name_ar: "فينكس"
+    mention_forms: ["فينكس", "Phoenix"]
+    language: "zh"
+    bloc: "chinese"
+    bias_note: "مقرّها هونغ كونغ"
+    orientation: "هونغ كونغ قريب من بكين"
+    active: true
+    exclude_patterns: ["直播", "LIVE"]
+  - handle: "@TVBSNEWS01"
+    name: "TVBS新聞"
+    name_ar: "تي في بي إس"
+    mention_forms: ["تي في بي إس", "TVBS"]
+    language: "zh"
+    bloc: "chinese"
+    bias_note: "تايوانية خاصة"
+    orientation: "تايواني"
+    active: true
+    exclude_patterns: ["直播", "LIVE"]
+  - handle: "@BBCNewsChinese"
+    name: "BBC News 中文"
+    name_ar: "بي بي سي الصينية"
+    mention_forms: ["بي بي سي الصينية"]
+    language: "zh"
+    bloc: "chinese"
+    bias_note: "هيئة بث عامة بريطانية"
+    orientation: "بريطاني عام"
+    active: true
+    exclude_patterns: ["直播", "LIVE"]
   # الكردية: الإنجليزية لا الكردية لأن نصوص يوتيوب الآلية للكردية غير متاحة غالبًا فلا مقاطع منها
   - handle: "@RudawEnglish"
     channel_id: "UCgpfoWnAUbz-z0A7XRhYtNw"

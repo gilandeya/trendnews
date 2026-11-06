@@ -182,10 +182,11 @@ def test_actions_block_script() -> None:
     # config.yaml الفعلي (Issue #626، وقنوات 5/11): ست كتل، وأول قناة في كل واحدة هي قناة القياس — الأربع الأولى كما
     # سمّاها طلب المراجعة، والقنوات الجديدة أُضيفت بعد أول قناة في كتلتها فلم تغيّرها، ثم أول الكتلتين الجديدتين.
     real_channels = load_config().get("channels", [])
-    check("22 قناة مثبَّتة في config.yaml", len(real_channels) == 22, len(real_channels))
+    check("34 قناة مثبَّتة في config.yaml (قنوات 6/11)", len(real_channels) == 34, len(real_channels))
     real_picked = tab.pick_probe_channels(real_channels)
-    check("قنوات القياس الست من config.yaml الفعلي",
-          [c["handle"] for c in real_picked] == ["@aljazeera", "@cnnturk", "@IRANINTL", "@C14news", "@BBCNews", "@RudawEnglish"],
+    check("قنوات القياس التسع من config.yaml الفعلي (أول قناة في كل كتلة)",
+          [c["handle"] for c in real_picked] == ["@aljazeera", "@cnnturk", "@IRANINTL", "@C14news", "@BBCNews", "@FRANCE24",
+                                                 "@rbc", "@cctvch", "@RudawEnglish"],
           [c["handle"] for c in real_picked])
 
     check("نسبة النجاح من عدّاد فارغ صفر بلا انهيار",
@@ -3649,9 +3650,9 @@ def test_youtube_publish() -> None:
           cfg.path("youtube.publish.max_per_run") == 3)
     check("config: youtube.publish.spacing_minutes = 40",
           cfg.path("youtube.publish.spacing_minutes") == 40)
-    check("config: youtube.image.bloc_labels يغطي الكتل الست (قنوات 5/11)",
+    check("config: youtube.image.bloc_labels يغطي الكتل التسع (قنوات 6/11: الكتلة للغة لا «غربية»)",
           set(cfg.path("youtube.image.bloc_labels", {}).keys()) ==
-          {"arabic", "turkish", "persian", "israeli", "western", "kurdish"})
+          {"arabic", "turkish", "persian", "israeli", "english", "french", "russian", "chinese", "kurdish"})
     check("config: youtube.image.use_photo مفعَّل افتراضيًا (طلب المراجعة على Issue #680)",
           cfg.path("youtube.image.use_photo") is True)
     check("config: youtube.image.source_line_template موجود ويحوي {channels} (Issue #732)",
@@ -4976,11 +4977,21 @@ def test_youtube_channel_handles() -> None:
 
     cfg = real_load()
     chans = [c for c in cfg.get("channels", []) if c.get("active", True)]
-    check("كل قناة لها handle، والكتلتان الجديدتان موجودتان",
+    check("كل قناة لها handle، والكتل الجديدة موجودة",
           all(c.get("handle", "").startswith("@") for c in chans)
-          and {"western", "kurdish"} <= {c["bloc"] for c in chans}, [c.get("handle") for c in chans])
-    names = mt._bloc_names(["arabic", "western", "kurdish"], cfg)
-    check("أسماء الكتل عربية في قضية المواضيع", names == "عربية، غربية، كردية", names)
+          and {"english", "french", "russian", "chinese", "kurdish"} <= {c["bloc"] for c in chans},
+          [c.get("handle") for c in chans])
+    names = mt._bloc_names(["arabic", "english", "russian", "chinese", "kurdish"], cfg)
+    check("أسماء الكتل عربية في قضية المواضيع", names == "عربية، إنجليزية، روسية، صينية، كردية", names)
+    # قرار صاحب المشروع 6/11: لا كتلة ولا توجّه «غربي» — اللغة في الكتلة والبلد في التوجّه
+    check("لا كتلة western ولا توجّه فيه «غربي»",
+          all(c["bloc"] != "western" and "غربي" not in (c.get("orientation") or "") for c in chans),
+          [(c["name"], c.get("orientation")) for c in chans if "غربي" in (c.get("orientation") or "")])
+    dw = next(c for c in chans if c["handle"] == "@dwnews")
+    check("DW بالإنجليزية في الكتلة الإنجليزية بتوجّه ألماني حكومي",
+          dw["bloc"] == "english" and dw["orientation"] == "ألماني حكومي", dw)
+    langs = {c["bloc"]: c["language"] for c in chans if c["bloc"] in ("french", "russian", "chinese")}
+    check("الكتل الثلاث الجديدة بلغاتها", langs == {"french": "fr", "russian": "ru", "chinese": "zh"}, langs)
 
 
 def test_meta_script() -> None:
