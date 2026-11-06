@@ -5242,3 +5242,139 @@ def test_gemini_probe() -> None:
     check("gemini: نداء ناجح", res["error"] == "" and res["data"] == out)
     bad = gp.call_gemini("qB_4P0mUCyI", cfg, "nope", "K", 600, post=lambda *a, **k: R(404, {"error": "not found"}))
     check("gemini: خطأ HTTP يُسجَّل لا يرفع", bad["error"].startswith("HTTP 404") and "data" not in bad)
+
+
+def test_meta_qa_gemini() -> None:
+    """مقاطع الموضوع من Gemini (gemini_bites، موافقة صاحب المشروع 6/11): الرابط لا البروكسي، الكود يقرّر الزمن والمدة والترجمة
+    والتداخل والاسم المجهول، والاستخراج بلا مفتاح يرجع إلى النص والبروكسي، وعطل فيديو سطرُ فشل لا يوقف الموضوع."""
+    from types import SimpleNamespace as NS
+
+    from src import gemini_bites, meta_qa, review, youtube_transcripts
+    from src.config import Config, load_config as real_load
+
+    base = real_load()
+    cfg = Config(dict(base))
+    cfg["youtube"] = {**base["youtube"], "meta_topics": {**base["youtube"]["meta_topics"], "enabled": True}}
+    cfg["youtube"]["extract"] = {**base["youtube"].get("extract", {}), "transcript_sleep_range": [0, 0]}
+    check("مصدر مقاطع الموضوع في الإعداد gemini", cfg.path("youtube.meta_topics.qa.source") == "gemini")
+
+    body = gemini_bites.build_request("abcdefgh123", "ضربة على إيران", {"title": "حلقة", "description": "مع الضيف فلان"}, cfg, 600)
+    raw = json.dumps(body, ensure_ascii=False)
+    check("طلب Gemini: الرابط والحدث والوصف وبلا temperature",
+          body["contents"][0]["parts"][0]["file_data"]["file_uri"].endswith("v=abcdefgh123")
+          and "الحدث المطلوب: ضربة على إيران" in raw and "مع الضيف فلان" in raw and "temperature" not in raw)
+
+    data = {"speakers": [{"name_ar": "علي البخيتي", "name_original": "علي البخيتي", "role": "محلل", "is_host": False,
+                          "name_source": "chyron"},
+                         {"name_ar": "رجل في الأستوديو", "is_host": False, "name_source": "unknown"},
+                         {"name_ar": "أيمن سرور", "is_host": True, "name_source": "chyron"}],
+            "bites": [{"start": "1:10:25", "end": "1:10:45", "speaker": "علي البخيتي", "type": "opinion", "summary_ar": "يرى",
+                       "text_original": "كلام", "text_ar": "الحرب لن تتوقف قريبا"},
+                      {"start": "01:00", "end": "01:20", "speaker": "رجل في الأستوديو", "type": "forecast", "summary_ar": "يتوقع",
+                       "text_original": "words", "text_ar": "ستتصاعد الأمور"},
+                      {"start": "01:10", "end": "01:30", "speaker": "علي البخيتي", "type": "opinion", "summary_ar": "مكرر",
+                       "text_original": "x", "text_ar": "مقطع متداخل"},
+                      {"start": "02:00", "end": "02:04", "speaker": "أيمن سرور", "type": "report", "summary_ar": "قصير",
+                       "text_original": "x", "text_ar": "قصير جدا"},
+                      {"start": "03:00", "end": "03:20", "speaker": "أيمن سرور", "type": "report", "summary_ar": "لاتيني",
+                       "text_original": "x", "text_ar": "قال Trump كلامًا"},
+                      {"start": "04:00", "end": "04:20", "speaker": "أيمن سرور", "type": "rant", "summary_ar": "نوع",
+                       "text_original": "x", "text_ar": "نوع غير معروف"},
+                      {"start": "05:00", "end": "05:25", "speaker": "أيمن سرور", "type": "report", "summary_ar": "ينقل",
+                       "text_original": "says", "text_ar": "قال الرئيس إن المفاوضات ستستأنف"}]}
+    ok, bad = gemini_bites.to_bites(data, "vid", "ضربة", cfg, duration=1033)
+    by = {b["bite_id"]: b for b in ok}
+    check("«1:10:25» في حلقة 17 دقيقة = 10:25، ومقطعه باسمه من الشريط",
+          by.get("vid:g625", {}).get("speaker") == "علي البخيتي" and by["vid:g625"]["start"] == 625.0, list(by))
+    check("الاسم الذي لا يعرف النموذج مصدره لا يُكتب", by.get("vid:g60", {}).get("speaker") == "", by.get("vid:g60"))
+    check("المقدّم يحمل is_host وصفته", by.get("vid:g300", {}).get("is_host") is True)
+    reasons = [r["reason"] for r in bad]
+    check("الكود يرفض: التداخل والقِصر والحرف اللاتيني والنوع المجهول",
+          len(ok) == 3 and any("يتداخل" in r for r in reasons) and any("المدة" in r for r in reasons)
+          and any("للشاشة" in r for r in reasons) and any("نوع" in r for r in reasons), (len(ok), reasons))
+    check("مقاطع Gemini بشكل youtube_bites وعلامة مصدرها",
+          all(b["source"] == "gemini" and b["text_original"] and b["event_hint"] == "ضربة" for b in ok))
+
+    class R:
+        def __init__(self, code, payload):
+            self.status_code, self._p = code, payload
+            self.text = json.dumps(payload, ensure_ascii=False)
+
+        def json(self):
+            return self._p
+
+    posted = []
+
+    def post(url, json=None, timeout=None, headers=None):
+        vid = json["contents"][0]["parts"][0]["file_data"]["file_uri"].split("v=")[1]
+        posted.append((vid, headers.get("x-goog-api-key")))
+        if vid == "v3":
+            return R(500, {"error": "boom"})
+        k = int(vid[1:])
+        bites = [{"start": f"0{n}:00", "end": f"0{n}:25", "speaker": f"ضيف{k}", "type": "opinion", "summary_ar": f"يرى {k}{n}",
+                  "text_original": f"secret {k}{n}", "text_ar": f"كلام سري {k}{n}"} for n in (1, 2)]
+        out = {"speakers": [{"name_ar": f"ضيف{k}", "is_host": False, "name_source": "chyron"}], "bites": bites}
+        return R(200, {"candidates": [{"finishReason": "STOP", "content": {"parts": [{"text": __import__("json").dumps(out)}]}}],
+                       "usageMetadata": {"promptTokenCount": 100000, "candidatesTokenCount": 2000}})
+
+    saved = {k: getattr(review, k) for k in ("comment", "update_issue_body")}
+    saved_create, saved_load = meta_qa._create, youtube_transcripts.load
+    old_key = os.environ.get("GEMINI_API_KEY")
+    d = tempfile.mkdtemp()
+    old_dir = os.environ.get("TRENDNEWS_YOUTUBE_BITES_DIR")
+    os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = d
+    try:
+        review.comment = lambda n, text: None
+        review.update_issue_body = lambda n, b: None
+        youtube_transcripts.load = lambda vid: None
+
+        def plan(client, **kw):
+            return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="plan_questions", input={
+                "titles": ["هل تضرب أمريكا إيران؟", "ع2", "ع3"],
+                "questions": [{"text": "هل الضربة قريبة؟", "answers": [{"n": 1, "fit": "direct"}, {"n": 3, "fit": "direct"}]},
+                              {"text": "ما رد إيران؟", "answers": [{"n": 2, "fit": "direct"}, {"n": 4, "fit": "direct"}]}]})])
+        meta_qa._create = plan
+        vids = [{"video_id": f"v{i}", "channel": f"ch{i}", "bloc": b, "orientation": o, "minutes": 30}
+                for i, (b, o) in enumerate([("arabic", "قطري"), ("turkish", "معارض"), ("persian", "معارض للنظام"),
+                                            ("english", "بريطاني عام")])]
+        topic = {"id": "g1", "title": "ضربة على إيران", "blocs": ["arabic", "turkish"], "orientations": 4, "minutes": 120,
+                 "channels": [], "videos": vids, "topic_issue": 970}
+        data = {"date": "2026-11-06", "topics": [topic]}
+
+        def no_proxy(vid):
+            raise AssertionError("لا بروكسي مع Gemini")
+        os.environ["GEMINI_API_KEY"] = "KEY"
+        status = meta_qa.process_topic(topic, data, cfg, client=object(), fetch=no_proxy, gemini_post=post)
+        qa = topic["qa"]
+        check("Gemini: الموضوع جاهز بلا بروكسي ونداء لكل فيديو بالمفتاح في الرأس",
+              status == "ready" and qa["source"] == "gemini" and len(posted) == 4 and all(k == "KEY" for _, k in posted),
+              (status, qa.get("error"), posted))
+        check("Gemini: عطل فيديو سطرُ فشل لا يوقف الموضوع، والكلفة محفوظة",
+              any(f["video_id"] == "v3" and "500" in f["reason"] for f in qa["failures"]) and qa["gemini_cost"] > 0,
+              (qa["failures"], qa.get("gemini_cost")))
+        pub = json.dumps(data, ensure_ascii=False)
+        check("Gemini: العام بلا ترجمة ولا كلام بلغته", "كلام سري" not in pub and "secret" not in pub)
+        check("Gemini: الإجابات بمعرّفات مقاطعه", all(a["bite_id"].startswith("v") and ":g" in a["bite_id"]
+                                                     for q in qa["questions"] for a in q["answers"]))
+
+        os.environ.pop("GEMINI_API_KEY", None)
+        fetched = []
+
+        def fetch(vid):
+            fetched.append(vid)
+            return None, "لا نص", False
+        t2 = {**topic, "id": "g2", "qa": None}
+        meta_qa.process_topic(t2, data, cfg, client=object(), fetch=fetch, gemini_post=post)
+        check("بلا GEMINI_API_KEY يرجع إلى النص والبروكسي", t2["qa"]["source"] == "transcript" and len(fetched) == 4, fetched)
+    finally:
+        for k, v in saved.items():
+            setattr(review, k, v)
+        meta_qa._create, youtube_transcripts.load = saved_create, saved_load
+        if old_key is None:
+            os.environ.pop("GEMINI_API_KEY", None)
+        else:
+            os.environ["GEMINI_API_KEY"] = old_key
+        if old_dir is None:
+            os.environ.pop("TRENDNEWS_YOUTUBE_BITES_DIR", None)
+        else:
+            os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = old_dir

@@ -133,6 +133,36 @@ def get_segments(video: dict, meta: dict, cfg, fetch, now: datetime) -> tuple[li
 
 # ───────────── المقاطع ─────────────
 
+def gemini_key(cfg) -> str:
+    """مفتاح Gemini حين يكون مصدر المقاطع `gemini`؛ فارغ ← المسار القديم بالنص والبروكسي (لا يتوقف الاستخراج لغياب سرّ)."""
+    import os
+    if _qcfg(cfg).get("source", "transcript") != "gemini":
+        return ""
+    key = os.environ.get("GEMINI_API_KEY", "")
+    if not key:
+        log.warning("مصدر المقاطع gemini بلا GEMINI_API_KEY: يُستعمل نص الفيديو والبروكسي")
+    return key
+
+
+def gemini_topic_bites(topic: dict, data: dict, cfg, key: str, post=None,
+                       stats: dict | None = None) -> tuple[list[dict], list[dict], bool]:
+    """مقاطع الموضوع من Gemini على رابط كل فيديو (لا بروكسي). الشكل نفسه الذي يعيده topic_bites، فلا انتظار بروكسي أبدًا."""
+    from . import gemini_bites
+    bites, failures = [], []
+    stats = stats if stats is not None else {}
+    for v in topic_videos(topic, cfg):
+        meta = video_meta(v["video_id"], data["date"])
+        res = gemini_bites.extract(v["video_id"], topic["title"], meta, cfg, key, post=post)
+        stats["gemini_cost"] = round(stats.get("gemini_cost", 0.0) + res.get("cost", 0.0), 4)
+        stats["gemini_rejected"] = stats.get("gemini_rejected", 0) + len(res.get("rejected") or [])
+        if res.get("error") and not res.get("bites"):
+            failures.append({"video_id": v["video_id"], "channel": v.get("channel"), "reason": res["error"][:120]})
+        for b in res.get("bites") or []:
+            bites.append({"video_id": v["video_id"], "channel": v.get("channel", ""), "bloc": v.get("bloc"),
+                          "orientation": v.get("orientation"), "language": meta.get("language", ""), **b})
+    return bites, failures, False
+
+
 def topic_bites(topic: dict, data: dict, cfg, client, fetch, now: datetime) -> tuple[list[dict], list[dict], bool]:
     """(المقاطع، أعطال الفيديوهات، نفد البروكسي). عطل فيديو لا يوقف الباقي؛ نفاد الرصيد يوقف الجلب ويُبقي المحفوظ."""
     from . import youtube_bites
@@ -354,7 +384,8 @@ def public_bite(b: dict) -> dict:
                                   "speaker_role", "is_host", "type", "start", "end", "summary_ar")}
 
 
-def process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: datetime | None = None) -> str:
+def process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: datetime | None = None,
+                  gemini_post=None) -> str:
     """يملأ topic["qa"] ويحدّث قضية الموضوع. يعيد الحالة: ready · waiting_proxy · failed. لا يرفع."""
     from . import review
     now = now or datetime.now(timezone.utc)
@@ -369,8 +400,16 @@ def process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: da
 
             from .config import env
             client = Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
-        fetch = fetch or _real_fetch(cfg)
-        bites, failures, exhausted = topic_bites(topic, data, cfg, client, fetch, now)
+        key = gemini_key(cfg)
+        if key:
+            stats: dict = {}
+            bites, failures, exhausted = gemini_topic_bites(topic, data, cfg, key, post=gemini_post, stats=stats)
+            qa["source"] = "gemini"
+            qa.update(stats)
+        else:
+            fetch = fetch or _real_fetch(cfg)
+            bites, failures, exhausted = topic_bites(topic, data, cfg, client, fetch, now)
+            qa["source"] = "transcript"
         qa["failures"] = failures
         if exhausted and len(bites) < int(q.get("min_bites", 4)):
             qa["status"] = "waiting_proxy"
