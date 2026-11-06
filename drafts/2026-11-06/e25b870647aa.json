@@ -1,0 +1,796 @@
+{
+  "id": "e25b870647aa",
+  "created_at": "2026-11-06T14:54:20.501984+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "تأثير الانتخابات النصفية على سياسة ترامب تجاه إيران",
+  "event": "تأثير الانتخابات النصفية على سياسة ترامب تجاه إيران",
+  "tier": 4,
+  "blocs": [
+    "arabic",
+    "israeli",
+    "persian",
+    "turkish"
+  ],
+  "channels": [
+    "CNN Türk",
+    "Habertürk",
+    "ILTV",
+    "Iran International",
+    "SÖZCÜ",
+    "ערוץ 14",
+    "الجزيرة",
+    "العربية",
+    "فرانس 24 عربي"
+  ],
+  "agreement": "",
+  "score": 0,
+  "warnings": [
+    "اسم لم يُحسم: هاكان غونيش (Hakan Güneş) — لا رسم مرشّح ظهر في 2 نطاقات عربية مستقلة (أقصى ما وُجد: 0)"
+  ],
+  "run_date": "2026-11-04",
+  "topic_date": "2026-11-04",
+  "arabic": {
+    "post_title": "هل توقف صناديق الاقتراع حرب ترامب على إيران؟",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "CNN Türk",
+      "Habertürk",
+      "ILTV",
+      "Iran International",
+      "SÖZCÜ",
+      "ערוץ 14",
+      "الجزيرة",
+      "العربية",
+      "فرانس 24 عربي"
+    ]
+  },
+  "source_videos": [],
+  "meta_topic_id": "3052f72ea508",
+  "meta_issue": 1808,
+  "hook_pick": 3,
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "faa4ffa9d03d",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "ذلك لا يمنع ترامب من خوض حرب، فحتى لو حافظ الجمهوريون على قوتهم فسيملك بلا شك القوة لفعل أي شيء يريده، وحتى لو سيطر الديمقراطيون يظل هو القائد الأعلى للقوات المسلحة ويملك الحق في خوض حرب لستين يوما دون إذن أحد.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "القناة 14"
+      },
+      {
+        "point_id": "4eb4126b8cb8",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "العربية"
+      },
+      {
+        "point_id": "48f859d85638",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "قلت إن الانتخابات لن توقف، لا يوجد ضمان أنها توقف الحرب، لكنها ستجعلها أصعب، وستجعل الاتفاق أيضاً أصعب. الديمقراطيون سينتقدون الرئيس ذهب للاتفاق أو ذهب للحرب، وسيضغطون عليه لأن القضية ليست إيران وليست قتل الناس وليست إجراماً، القضية هي مصلحة سياسية للحزب.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "5a8fda54be6e",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "فرانس 24 عربي"
+      },
+      {
+        "point_id": "5182a1a99980",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سوزجو"
+      },
+      {
+        "point_id": "9a29df9bdcc2",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "إيران إنترناشيونال"
+      },
+      {
+        "point_id": "cdf7116191d8",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سي إن إن ترك"
+      },
+      {
+        "point_id": "5624a527c720",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الجزيرة"
+      },
+      {
+        "point_id": "d9ad3b56675a",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "العربية"
+      },
+      {
+        "point_id": "ef9218d2e60e",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "العربية"
+      },
+      {
+        "point_id": "2eb3d77147ec",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "سوزجو"
+      }
+    ]
+  },
+  "quote_retranslated": [
+    "faa4ffa9d03d",
+    "48f859d85638"
+  ],
+  "name_unresolved": [
+    {
+      "arabic": "هاكان غونيش",
+      "latin": "Hakan Güneş",
+      "reason": "لا رسم مرشّح ظهر في 2 نطاقات عربية مستقلة (أقصى ما وُجد: 0)"
+    }
+  ],
+  "names_audit": [
+    {
+      "arabic": "ميخا أفني",
+      "latin": "Micha Avni"
+    },
+    {
+      "arabic": "حسن أحمديان",
+      "latin": "Hassan Ahmadian"
+    },
+    {
+      "arabic": "رسلان إبراهيم",
+      "latin": "Ruslan İbrahim"
+    },
+    {
+      "arabic": "هاكان غونيش",
+      "latin": "Hakan Güneş"
+    },
+    {
+      "arabic": "يونس باكسوي",
+      "latin": "Yunus Paksoy"
+    },
+    {
+      "arabic": "إرول موترجيملر",
+      "latin": "Erol Mütercimler"
+    },
+    {
+      "arabic": "ترامب",
+      "latin": "Trump"
+    }
+  ],
+  "script_attempts": [
+    {
+      "attempt": 1,
+      "reasons": [
+        "السياق أطول من 25 كلمة (31)"
+      ]
+    }
+  ],
+  "headlines": [
+    "هل توقف صناديق الاقتراع حرب ترامب على إيران؟",
+    "تقدّم الديمقراطيين: تصعيد ضد طهران أم تهدئة؟",
+    "ستون يوما دون إذن.. هل يصعّد ترامب الحرب قبل الكونغرس الجديد؟"
+  ],
+  "headline_selected": 0,
+  "script": {
+    "version": 2,
+    "narrator": "female",
+    "title": "هل توقف صناديق الاقتراع حرب ترامب على إيران؟",
+    "question": "ما الذي يمكن أن يوقف الحرب على إيران؟",
+    "event": "",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "هل توقف صناديق الاقتراع حرب ترامب على إيران؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "جرت الانتخابات النصفية وسط حرب ترامب على إيران، وأظهرت النتائج تقدم الديمقراطيين. يلتئم الكونغرس الجديد بعد شهرين، وللرئيس دستوريا خوض حرب ستين يوما دون إذن."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 0,
+        "text": "هل تمنع نتائج الانتخابات النصفية ترامب من شن حرب على إيران؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "faa4ffa9d03d",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=yGth_UO8VwY",
+        "start": 319.0,
+        "end": 350.0,
+        "speaker_name": "ميخا أفني",
+        "speaker_role": "رجل أعمال وزميل في معهد أبحاث",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "מיכה אבני",
+        "channel_display": "القناة 14",
+        "channel_original": "ערוץ 14",
+        "quote_arabic": "ذلك لا يمنع ترامب من خوض حرب، فحتى لو حافظ الجمهوريون على قوتهم فسيملك بلا شك القوة لفعل أي شيء يريده، وحتى لو سيطر الديمقراطيون يظل هو القائد الأعلى للقوات المسلحة ويملك الحق في خوض حرب لستين يوما دون إذن أحد.",
+        "quote_original": "זה לא מונע מטראמפ לצאת למלחמה. גם אם הרפובליקנים ישמרו על הכוח שלהם, אז בוודאי יש לו את הכוח לעשות כל דבר שהוא רוצה. גם אם הדמוקרטים משתלטים על זה, עדיין הוא מפקד העליון של הכוחות הצבאיים, יש לו זכות לצאת למלחמה ל-60 יום בלי אישור של אף אחד.",
+        "language": "he",
+        "video_published": "2026-11-03T04:00:14Z"
+      },
+      {
+        "kind": "clip",
+        "point_id": "4eb4126b8cb8",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=Au5QJ1-FRYw",
+        "start": 1658.0,
+        "end": 1687.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "العربية",
+        "channel_original": "العربية",
+        "quote_arabic": "الرئيس الأميركي بعد الانتخابات النصفية يظل متمتعًا بصلاحيات في السياسة الخارجية حتى إن خسر حزبه الكونغرس، فهو غير مقيد بالكونغرس في سياسته الخارجية، وإن أراد مواصلة الحرب فبإمكانه فعل ذلك حتى بعد انقضاء الشهرين.",
+        "quote_original": "أنا بصراحة، الرئيس الأميركي بعد الانتخابات النصفية عند كل رئيس إن خسر الكونغرس يبقى عنده صلاحيات في السياسة الخارجية فهو غير مقيد من الكونغرس في سياسته الخارجية، فإن أراد أن يتابع الحرب فبإمكانه أن يفعل ذلك من دون حتى من بعد الشهرين.",
+        "language": "ar",
+        "video_published": "2026-11-03T14:45:57Z"
+      },
+      {
+        "kind": "clip",
+        "point_id": "48f859d85638",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=tGCoMTxn4ek",
+        "start": 2133.0,
+        "end": 2156.0,
+        "speaker_name": "حسن أحمديان",
+        "speaker_role": "أستاذ دراسات الشرق الأوسط بجامعة طهران",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "حسن أحمديان",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "قلت إن الانتخابات لن توقف، لا يوجد ضمان أنها توقف الحرب، لكنها ستجعلها أصعب، وستجعل الاتفاق أيضاً أصعب. الديمقراطيون سينتقدون الرئيس ذهب للاتفاق أو ذهب للحرب، وسيضغطون عليه لأن القضية ليست إيران وليست قتل الناس وليست إجراماً، القضية هي مصلحة سياسية للحزب.",
+        "quote_original": "قلت إنه الانتخابات لن توقف، لا يوجد ضمان أنها توقف الحرب، لكنها ستجعلها أصعب، وستجعل الاتفاق أيضاً أصعب. الديمقراطيون سينتقدون الرئيس ذهب للاتفاق أو ذهب للحرب، وسيضغطون عليه لأنه القضية ليست إيران وليست قتل الناس وليست إجرام، القضية هي مصلحة سياسية للحزب.",
+        "language": "ar",
+        "video_published": "2026-11-03T21:15:14Z"
+      },
+      {
+        "kind": "clip",
+        "point_id": "5a8fda54be6e",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=xRYDmXfko9Q",
+        "start": 158.0,
+        "end": 188.0,
+        "speaker_name": "رسلان إبراهيم",
+        "speaker_role": "الأستاذ المشارك في العلوم السياسية بجامعة ولاية نيويورك",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "رسلان إبراهيم",
+        "channel_display": "فرانس 24 عربي",
+        "channel_original": "فرانس 24 عربي",
+        "quote_arabic": "لا شك أنه سيكون هناك تأثير كبير أولا على الحرب مع إيران، وأيضا على الدعم الأمريكي لإسرائيل. ففي حال فوز الديمقراطيين وسيطرتهم على مجلس الشيوخ والكونغرس عموما، سنرى انتقادا من قبلهم لسياسة أمريكا تجاه إسرائيل وتجاه الحرب، مما يعني أنهم سيكونون أقل دعما للحرب في الشرق الأوسط.",
+        "quote_original": "ما من شك سيكون تأثير كبير أيضا أولا على الحرب بإيران وأيضا على الدعم الأمريكي لإسرائيل، ففي حال فوز الديمقراطيين وسيطرة الديمقراطيين على مجلس الشيوخ والكونغرس بشكل عام، فإن نرى هناك نقد، انتقاد من قبل الديمقراطيين لسياسة أمريكا خاصة اتجاه إسرائيل وأيضا اتجاه الحرب، فهذا يعني أن الديمقراطيين سيكونوا أقل دعما للحرب في الشرق الأوسط.",
+        "language": "ar",
+        "video_published": "2026-11-04T09:20:48Z"
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 1,
+        "text": "هل يدفع تقدم الديمقراطيين ترامب للتصعيد أم للتهدئة؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "5182a1a99980",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=kZDzQCNPfaM",
+        "start": 702.0,
+        "end": 728.0,
+        "speaker_name": "هاكان غونيش",
+        "speaker_role": "خبير في السياسة الخارجية",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "Hakan Güneş",
+        "channel_display": "سوزجو",
+        "channel_original": "SÖZCÜ",
+        "quote_arabic": "والأمر الثالث هو قدوم هذه الموجة الزرقاء، وبجمع هذه المعطيات الثلاثة يتبين أنه لا مجال كبيرا لاتخاذ خطوة أكثر راديكالية ضد إيران، أما بشأن الاتجاه نحو السلام أو نوع من التهدئة فإن احتمالية التهدئة اكتسبت مزيدا من القوة لأن المسألة تسير أصلا في شكل حرب استنزاف.",
+        "quote_original": "Ve üç, şimdi bir de bu mavi dalga ya da tsunami geldi. Şimdi bu üç şeyi bir araya yazdığımızda, İran konusunda daha radikal bir adım atmanın çok fazla olanağı yok. Ama peki bir barışa ya da başka bir ne diyelim, bir durulmaya gider mi? Şöyle bir tür durulma olasılığı elbette biraz daha güç kazandı çünkü zaten mesele bir yıpratma savaşı biçiminde gidiyor.",
+        "language": "tr",
+        "video_published": "2026-11-04T15:00:06Z"
+      },
+      {
+        "kind": "clip",
+        "point_id": "9a29df9bdcc2",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=V-sHiogNhKg",
+        "start": 270.0,
+        "end": 295.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "إيران إنترناشيونال",
+        "channel_original": "Iran International",
+        "quote_arabic": "أعتقد أن نتائج انتخابات الكونغرس التي تظهر تقدم الديمقراطيين قد تزيد من غضب ترمب، ويمكنه أن يورث الديمقراطيين تركة غير مرغوب فيها ببدء حرب خلال هذه الأيام الستين، ليتسلموا الكونغرس وهم في مواجهة حرب قائمة.",
+        "quote_original": "من فکر می‌کنم انتخابات کنگره، نتایجش که الان نشون می‌ده دموکرات‌ها جلوئن، می‌تونه ترامپ رو عصبانی‌تر بکنه. و یک نکته دیگه‌ام می‌تونم بگم: ترامپ می‌تونه یک میراث ناخواسته برای دموکرات‌های کنگره برجا بذاره: در این ۶۰ روز یک جنگ شروع کنه، بعد دموکرات‌ها موقعی میان کنگره رو تحویل می‌گیرن، با یک جنگ روبه‌رو بشن.",
+        "language": "fa",
+        "video_published": "2026-11-04T03:40:32Z"
+      },
+      {
+        "kind": "clip",
+        "point_id": "cdf7116191d8",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=mW_jI4a8qwY",
+        "start": 94.0,
+        "end": 117.0,
+        "speaker_name": "يونس باكسوي",
+        "speaker_role": "",
+        "speaker_verified": true,
+        "speaker_verified_from": "title",
+        "speaker_name_latin": "Yunus Paksoy",
+        "channel_display": "سي إن إن ترك",
+        "channel_original": "CNN Türk",
+        "quote_arabic": "لكن إلى أن تبدأ هذه الحرب الأهلية السياسية، أي حتى الثالث من يناير 2027، هل سيتخذ دونالد ترامب خطوة لإنهاء حرب إيران التي ستحدد مسيرته بالكامل وسيستمر الحديث عنها لعقود بانتصار؟ للأسف يبدو أنه قد يقدم على هذه الخطوة.",
+        "quote_original": "Ancak bu siyasi iç savaş başlayana kadar, yani 3 Ocak 2027'ye kadar, Donald Trump kariyerini, bütün mazisini belirleyecek, bundan 10, 20, 30 yıl sonra konuşulacak İran savaşını galibiyetle kapatmak için adım atar mı? Maalesef atabilecek gibi duruyor.",
+        "language": "tr",
+        "video_published": "2026-11-03T20:30:19Z"
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 2,
+        "text": "هل راهنت إيران على الانتخابات الأمريكية وهل ربحت رهانها؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "5624a527c720",
+        "q": 2,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=tGCoMTxn4ek",
+        "start": 482.0,
+        "end": 501.0,
+        "speaker_name": "حسن أحمديان",
+        "speaker_role": "أستاذ دراسات الشرق الأوسط بجامعة طهران",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "حسن أحمديان",
+        "channel_display": "الجزيرة",
+        "channel_original": "الجزيرة",
+        "quote_arabic": "بالنسبة للانتخابات الإيرانيون معنيون بتحميل الإدارة التي هاجمت إيران كلفة سياسية كبرى وتقديري أنهم وفقوا وهذا ليس فقط بالنسبة لترامب بل لأي إدارة تخلف هذه الإدارة ستفكر مليا هكذا يرى الإيرانيون.",
+        "quote_original": "بالنسبة للانتخابات لاحظي أنه الإيرانيون معنيون بتحميل الإدارة التي هاجمت إيران كلفة سياسية كبرى، وتقديري أنهم وفقوا. هذا ليس فقط بالنسبة لترامب، بالنسبة لأي إدارة تخلف هذه الإدارة، ستفكر مليا هكذا يرى الإيرانيون.",
+        "language": "ar",
+        "video_published": "2026-11-03T21:15:14Z"
+      },
+      {
+        "kind": "clip",
+        "point_id": "d9ad3b56675a",
+        "q": 2,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=Au5QJ1-FRYw",
+        "start": 1840.0,
+        "end": 1871.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "العربية",
+        "channel_original": "العربية",
+        "quote_arabic": "الانتخابات تفصلها شهران عن التئام الكونغرس الجديد واتخاذ قراراته، وبالتالي يستطيع الرئيس الأميركي بعد نهاية الانتخابات شن حرب أو إبرام اتفاقية سلام إذا توفر المبرر. لقد راهن الإيرانيون على الانتخابات، فإذا انتهت فعلى ماذا سيراهنون؟",
+        "quote_original": "أولا الحقيقة الانتخابات هناك شهرين على ما يجتمع الكونغرس وتكون هناك قرارات له أو اتخاذ خطوات معينة، وبالتالي بعد نهاية الانتخابات الرئيس الأميركي ممكن أن يشن حرب وممكن أن يعقد اتفاقية سلام إذا وجد مبرر. الإيرانيون راهنوا على الانتخابات، والآن إذا هذه الانتخابات انتهت على ماذا يراهنون؟",
+        "language": "ar",
+        "video_published": "2026-11-03T14:45:57Z"
+      },
+      {
+        "kind": "clip",
+        "point_id": "ef9218d2e60e",
+        "q": 2,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=Au5QJ1-FRYw",
+        "start": 1376.0,
+        "end": 1407.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "العربية",
+        "channel_original": "العربية",
+        "quote_arabic": "لا أظن أن هناك تأثيرًا كبيرًا لهذه الانتخابات على الوضع في الشرق الأوسط أو مجريات الحرب، فللرئيس ترامب أجندة مع الحليف الإسرائيلي لتسجيل نقاط في حربه ضد إيران. أما العكس فصحيح، إذ تؤثر هذه الحرب ضد إيران في الانتخابات النصفية الأميركية.",
+        "quote_original": "لا أظن أن هناك تأثير كبير من خلال هذه الانتخابات على الوضع في الشرق الأوسط وعلى الوضع في الحرب. لدى الرئيس ترامب أجندة مع الحليف الإسرائيلي من ناحية على الأقل تسجيل نقاط في حربه على إيران. أما العكس فصحيح، هناك تأثير من خلال هذه الحرب على إيران على الانتخابات الوسطية في أميركا.",
+        "language": "ar",
+        "video_published": "2026-11-03T14:45:57Z"
+      },
+      {
+        "kind": "clip",
+        "point_id": "2eb3d77147ec",
+        "q": 2,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=thyIGxW6aIk",
+        "start": 2607.0,
+        "end": 2632.0,
+        "speaker_name": "إرول موترجيملر",
+        "speaker_role": "",
+        "speaker_verified": true,
+        "speaker_verified_from": "title",
+        "speaker_name_latin": "Erol Mütercimler",
+        "channel_display": "سوزجو",
+        "channel_original": "SÖZCÜ",
+        "quote_arabic": "صحيح أن ترامب يستخدم ذلك أحيانًا لكنه يتراجع عنه بعد ذلك؛ إذ يغيرون المصطلحات ويجعلونه يصفها بأنها عمليات متنوعة، فالقضية الأساسية هنا هي رفع التكلفة، وهذا تحديدًا ما يفعلونه باستمرار مع إيران وهو زيادة التكلفة الاقتصادية.",
+        "quote_original": "Tamam, Trump zaman zaman bunu kullanıyor ama sonra vazgeçiyor. Ona bunun savaş olmadığını, terminolojiyi değiştirterek çeşitli operasyon gibi falan filan şeyler kullandırtıyorlar. Burada ana mesele maliyeti yükseltmek. Şimdi bak, İran'a hep onu yapıyorlar; ekonomik maliyeti yükseltmek.",
+        "language": "tr",
+        "video_published": "2026-11-04T10:00:09Z"
+      },
+      {
+        "kind": "question",
+        "text": "ما الذي يمكن أن يوقف الحرب على إيران؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": []
+  },
+  "editor_revision": {
+    "at": "2026-11-06T14:54:51.416943+00:00",
+    "applied": true,
+    "error": null,
+    "before": [
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "body",
+        "original": "هاكان غونيش · خبير في السياسة الخارجية · سوزجو",
+        "fix": "",
+        "note": "الرسم العربي للاسم لم يُحسم (لم يظهر في نطاقين عربيين مستقلين)، كما أن الصفة ناقصة: المصادر التركية تعرّفه أستاذًا مشاركًا (دوتشنت) في العلوم السياسية والعلاقات الدولية بجامعة إسطنبول، معروفًا بتحليلاته في السياسة الخارجية، وليس «خبيرًا في السياسة الخارجية» فحسب. متحدث موثَّق والشك في اسمه وصفته يوجب المراجعة البشرية.",
+        "sources": [
+          "https://avesis.istanbul.edu.tr/hgunes/yayinlar?themeId=1",
+          "https://www.diken.com.tr/tip-adayi-akademisyen-hakan-gunes-mersin-balkon-konusmasi/"
+        ],
+        "video": ""
+      },
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "body",
+        "original": "ميخا أفني · رجل أعمال وزميل في معهد أبحاث · القناة 14",
+        "fix": "",
+        "note": "الصفة غامضة ولا يُسمّى المعهد؛ والشخص الأقرب في المصادر هو «ميخا لايكين أفني» (Micah Lakin Avni) الذي تصفه المصادر برجل أعمال ومحامٍ وناشط، لا بزميل في معهد أبحاث. يلزم التحقق من هوية المتحدث ورسم اسمه وصفته قبل النشر.",
+        "sources": [
+          "https://en.wikipedia.org/wiki/Micah_Lakin_Avni",
+          "https://www.jns.org/author/micah-lakin-avni"
+        ],
+        "video": ""
+      },
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "هل تدفع الهزيمة الانتخابية ترامب إلى تصعيد عسكري أم إلى تهدئة؟",
+        "fix": "هل يدفع تقدم الديمقراطيين ترامب للتصعيد أم للتهدئة؟",
+        "note": "السؤال يفترض «هزيمة انتخابية» لم تثبتها المادة (النتائج تظهر تقدم الديمقراطيين فقط)، كما يتجاوز حد السؤال (11 كلمة والحد 10).",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "إذا كانت صناديق الاقتراع لا تقيّد يد ترامب، فما الذي يمكن أن يوقف الحرب على إيران؟",
+        "fix": "ما الذي يمكن أن يوقف الحرب على إيران؟",
+        "note": "سؤال الختام غير محايد: يفترض جوابًا (أن الانتخابات لا تقيّد ترامب) بينما يرى متحدثون في الريل أن النتائج تصعّب خيار الحرب وتعزز التهدئة. كما يتجاوز حد الكلمات.",
+        "sources": []
+      }
+    ],
+    "unresolved": [
+      {
+        "n": 1,
+        "reason": "الشريط السفلي لمقطع 5182a1a99980 ليس من الحقول القابلة للتصحيح (سطور المقاطع للقراءة فقط)، ورسم الاسم وصفته لم يُحسما في المصادر المرفقة؛ متحدث موثَّق والشك في اسمه وصفته يوجب إعادة الريل إلى المراجعة البشرية."
+      },
+      {
+        "n": 2,
+        "reason": "الشريط السفلي لمقطع faa4ffa9d03d للقراءة فقط وغير قابل للتصحيح هنا، والمصادر المرفقة لا تحسم هوية المتحدث (ميخا أفني/ميخا لايكين أفني) ولا صفته ولا اسم المعهد؛ يلزم تحقق بشري."
+      }
+    ]
+  },
+  "editor_review": {
+    "at": "2026-11-06T14:54:51.416943+00:00",
+    "applied": [
+      {
+        "category": "headline_overclaims",
+        "severity": "high",
+        "location": "headline_2",
+        "original": "بعد الهزيمة الانتخابية: تصعيد ضد طهران أم تهدئة؟",
+        "fix": "تقدّم الديمقراطيين: تصعيد ضد طهران أم تهدئة؟",
+        "note": "وقائع الحدث والمقاطع تتحدث عن «تقدم الديمقراطيين» في النتائج، لا عن هزيمة محسومة لترامب؛ العنوان يجزم بنتيجة لا تسندها المادة ويحمل حكمًا تقييميًا.",
+        "sources": []
+      },
+      {
+        "category": "headline_overclaims",
+        "severity": "low",
+        "location": "headline_3",
+        "original": "شهران بلا قيود.. هل يشن ترامب حربه قبل يناير؟",
+        "fix": "ستون يوما دون إذن.. هل يشن ترامب حربه قبل يناير؟",
+        "note": "«بلا قيود» إطلاق يتجاوز المصادر؛ المذكور هو حق دستوري في خوض حرب ستين يومًا دون إذن، فضلًا عن أن متحدثين يرون قيودًا سياسية تجعل الحرب أصعب.",
+        "sources": []
+      },
+      {
+        "category": "headline_contradicts",
+        "severity": "low",
+        "location": "headline_3",
+        "original": "ستون يوما دون إذن.. هل يشن ترامب حربه قبل يناير؟",
+        "fix": "ستون يوما دون إذن.. هل يصعّد ترامب الحرب قبل الكونغرس الجديد؟",
+        "note": "المتن والعنوان الرئيسي يتعاملان مع الحرب على إيران بوصفها قائمة («حرب ترامب على إيران»، «مواصلة الحرب»، «مجريات الحرب»)، بينما يسأل العنوان عن «شنّ» حرب لم تبدأ. كما أن الموعد المذكور في المقاطع هو التئام الكونغرس في 3 يناير وليس مطلع يناير عمومًا.",
+        "sources": []
+      }
+    ],
+    "notes": [
+      {
+        "category": "name_doubtful",
+        "severity": "high",
+        "location": "body",
+        "original": "هاكان غونيش · خبير في السياسة الخارجية · سوزجو",
+        "fix": "",
+        "note": "اسم المتحدث الموثَّق لم يُحسم رسمه العربي: لم يظهر رسم مرشّح في نطاقين عربيين مستقلين لـ(Hakan Güneş). الرسم «غونيش» وارد لكنف الصفة «خبير في السياسة الخارجية» عامة وغير مؤكدة (الاسم التركي المعروف أكاديمي في العلوم السياسية). يلزم تثبيت الاسم والصفة بعين بشرية قبل النشر.",
+        "sources": [
+          "https://rtarabic.com/world/1818981-%D8%AE%D8%A8%D9%8A%D8%B1-%D9%8A%D8%B1%D8%B5%D8%AF-%D9%85%D8%A7-%D8%AD%D8%B5%D9%84-%D9%84%D9%84%D8%B3%D9%8A%D8%A7%D8%AD%D8%A9-%D8%A7%D9%84%D8%AA%D8%B1%D9%83%D9%8A%D8%A9-%D8%A8%D8%B3%D8%A8%D8%A8-%D8%A7%D9%84%D8%AD%D8%B1%D8%A8-%D8%A7%D9%84%D8%A3%D9%85%D8%B1%D9%8A%D9%83%D9%8A%D8%A9-%D8%B9%D9%84%D9%89-%D8%A5%D9%8A%D8%B1%D8%A7%D9%86/"
+        ],
+        "video": ""
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "headline_3",
+        "original": "هل يشن ترامب حربه قبل يناير؟",
+        "fix": "",
+        "note": "تجنّب نسبة الحرب إلى ترامب بصيغة التملّك «حربه» في العنوان؛ الأفضل صياغة محايدة مثل «الحرب على إيران».",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "headline_1",
+        "original": "هل توقف صناديق الاقتراع حرب ترامب على إيران؟",
+        "fix": "",
+        "note": "الغالبية العظمى من المقاطع ([4] و[5] و[6] و[15]) تقول إن الانتخابات لن توقف الحرب؛ العنوان سؤال مشروع لكنه يوحي باحتمال متكافئ لا تسنده مادة الريل. يُستحسن ترجيح الصياغة نحو «هل تقيّد صناديق الاقتراع قرار الحرب؟».",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "ما الذي يمكن أن يوقف الحرب على إيران؟",
+        "fix": "برأيك.. هل يغيّر الكونغرس الجديد مسار الحرب؟",
+        "note": "سؤال الختام غير محايد: يفترض أن إيقاف الحرب هو المآل المطلوب ويخرج عن محور الريل (أثر الانتخابات النصفية)، كما يقترب من تكرار السؤال الرئيس [3].",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "الرئيس الأميركي بعد الانتخابات النصفية يظل متمتعًا بصلاحيات في السياسة الخارجية حتى إن خسر حزبه الكونغرس",
+        "fix": "",
+        "note": "إجابة [5] تكرر زاوية [4] نفسها (الانتخابات لا تقيّد ترامب في قرار الحرب) ولا تضيف سوى إشارة عابرة إلى ما بعد الشهرين؛ يُفضّل استبدال أحد المقطعين بزاوية مختلفة.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "فالقضية الأساسية هنا هي رفع التكلفة، وهذا تحديدًا ما يفعلونه باستمرار مع إيران وهو زيادة التكلفة الاقتصادية",
+        "fix": "",
+        "note": "المقطع [16] لا يجيب عن سؤال المحور [12] حول رهان إيران على الانتخابات الأميركية؛ موضوعه استراتيجية رفع الكلفة الاقتصادية، فتبدو الإجابة خارج سياق السؤال.",
+        "sources": []
+      }
+    ],
+    "error": null,
+    "searches": 4,
+    "search_skipped": null,
+    "speaker_unresolved": [
+      "هاكان غونيش"
+    ]
+  },
+  "reel_bg": {
+    "url": "https://imgs.search.brave.com/jnAQuYZVEIceMPEphYhWxMyfinSJtvf44FHw_6giDgM/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly93d3cu/YW5uYWhhci5jb20v/QXNzZXRzL0NvbnRl/bnRQaG90b3MvUGhv/dG9zL0FGUF9fMjAy/NjEwMjhfX0Q0TUU4/VkhfX3YxX19NaWRS/ZXNfX1VzUHJlc2lk/ZW50RG9uYWxkVHJ1/bXBIb2xkc1JhbGxp/ZXNJblRleGFzXzEz/NDcwMV9sYXJnZS53/ZWJw",
+    "kind": "web_search",
+    "publisher": "annahar.com",
+    "shows": "ترامب يصعد درجًا أمام حشد كبير في تجمع انتخابي، وخلفه لافتة \"Make America Great Again\" وعلم أمريكي",
+    "text_checked": true,
+    "judged": true,
+    "rejected": [
+      {
+        "url": "https://www.annahar.com/Assets/ContentPhotos/Photos/AFP__20261105__2303713649__v1__MidRes__LaCountyContinuesCountingBallotsAfterMidtermE_135518.webp?width=1416&height=805&mode=crop&scale=both",
+        "shows": "صناديق بريد لخدمة البريد الأمريكية مكدسة على رفوف، مع لافتة صفراء كُتب عليها \"READY FOR EXTRACTION\"",
+        "reason": "الصورة لأوراق اقتراع بريدية في سياق فرز الأصوات، وليست لحرب إيران أو ترامب أو الكونغرس؛ موضوعها انتخابي عام، ولا تُظهر أطراف السؤال الحربية، ولا تلائم راويًا يقرأ سؤال الريل عن إيران."
+      },
+      {
+        "url": "https://www.annahar.com/Assets/ContentPhotos/Photos/AFP__20261028__D4ME8VH__v1__MidRes__UsPresidentDonaldTrumpHoldsRalliesInTexas_134701_large.webp",
+        "shows": "ترامب على المسرح في تجمع انتخابي أمام حشد من أنصاره، خلفه شعار \"Make America Great Again\" وعلم أمريكي",
+        "reason": "عليها نص مركَّب والجزء الخالي منه صغير (563×204 بكسل)"
+      }
+    ]
+  },
+  "hook_candidates": [
+    {
+      "video_id": "FcrGvtvLy9U",
+      "title": "Lines at Texas polling stations as Americans vote in crucial midterms | AFP",
+      "channel": "AFP News Agency",
+      "views": 20042,
+      "duration": 65,
+      "published": "2026-11-03T19:52:11Z"
+    },
+    {
+      "video_id": "okP53S0eaWI",
+      "title": "انتخابات التجديد النصفي الأمريكية.. ناخبون يتوافدون إلى مراكز الاقتراع في نيويورك",
+      "channel": "AlJazeera Arabic  قناة الجزيرة",
+      "views": 3438,
+      "duration": 30,
+      "published": "2026-11-03T13:19:15Z"
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-11-02T00:00:00Z",
+          "2026-11-06T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "ناخبون يدلون بأصواتهم في مركز اقتراع",
+            "raw": 6,
+            "channel_ok": 1
+          },
+          {
+            "query": "Voters lining up at polling station midterms",
+            "raw": 30,
+            "channel_ok": 4
+          },
+          {
+            "query": "Capitol Hill Congress building Washington exterior shots",
+            "raw": 14,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 5,
+        "judged_ok": 2,
+        "rejected_channels": [
+          "ONSCENE TV",
+          "13WHAM ABC News",
+          "The Daily Guardian",
+          "KTVU FOX 2 San Francisco",
+          "Bill O'Reilly",
+          "Attorney Gerald Griggs - #Justicefighter",
+          "Mark Lyda | Attorney",
+          "Futuro Media"
+        ]
+      }
+    ],
+    "picked": [
+      "FcrGvtvLy9U",
+      "okP53S0eaWI"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "جرت الانتخابات النصفية وسط حرب ترامب على إيران، وأظهرت النتائج تقدم الديمقراطيين.",
+      "visual": "ناخبون يتوافدون إلى مراكز الاقتراع",
+      "map": {
+        "countries": [
+          "الولايات المتحدة"
+        ]
+      }
+    },
+    {
+      "scene": 1,
+      "sentence": 1,
+      "text": "يلتئم الكونغرس الجديد بعد شهرين، وللرئيس دستوريا خوض حرب ستين يوما دون إذن.",
+      "visual": ""
+    },
+    {
+      "scene": 2,
+      "sentence": 0,
+      "text": "هل تمنع نتائج الانتخابات النصفية ترامب من شن حرب على إيران؟",
+      "visual": ""
+    },
+    {
+      "scene": 7,
+      "sentence": 0,
+      "text": "هل يدفع تقدم الديمقراطيين ترامب للتصعيد أم للتهدئة؟",
+      "visual": ""
+    },
+    {
+      "scene": 11,
+      "sentence": 0,
+      "text": "هل راهنت إيران على الانتخابات الأمريكية وهل ربحت رهانها؟",
+      "visual": ""
+    }
+  ],
+  "review_issue": 1824,
+  "stage2_issue": 1824
+}
