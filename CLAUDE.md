@@ -2664,6 +2664,22 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
   `downloaded` (البايتات والأقسام) في الخريطة. `sections.enabled: false` ← الحلقة كاملة. g813–g815. **لم يُجرَّب على يوتيوب.**
 - **الإعداد:** `speaker_map.render_enabled` (false ← كما قبل S4). `opencv-python-headless` مثبّت أصلًا في `requirements.txt` (تكراره بقيد آخر في `requirements-reel.txt` أفشل التثبيت). الكلفة نحو دقيقتين و10–16 نداء Haiku لكل فيديو أول مرة.
 
+## قائل المقطع من Gemini في التركيب (6/11، موافقة صاحب المشروع) — `src/gemini_speakers.py`، `src/reel_render.py:_gemini_check`
+
+السبب: قياس `tools/gemini_reel_probe.py` على 18 مقطعًا من ثلاثة ريلات: حيث سمّى الطرفان المتكلم اتفقا 3 من 3، لكن سلسلتنا حذفت مقطعَي فريحات في
+ريل منشور (168e81b612d0) بحجة «المتكلم مقدّم»، وعرضت 12 مقطعًا باسم القناة وحده وGemini قرأ الاسم من الشريط في 11. قاعدة صاحب المشروع: سلسلتنا
+والبروكسي أولًا ما لم يُخطئا ولو قليلًا. `render_version` = 64 (للقادم فقط، S11)؛ g835–g841 في `tests/test_guards_golden.py:test_reel_gemini_speaker_guards`.
+
+- **أولًا في `_prune_mismatched`:** نداء Gemini واحد لكل فيديو (`gemini_speakers.judge`، من أول الحلقة إلى آخر نافذة + `tail_seconds`، النوافذ MM:SS) بنوافذ
+  مقاطعه (`_gemini_window`: ضبط الكلمات ثم موضع الاقتباس ثم حدّا المشهد). `verdicts` (خالصة) لا تقبل إلا اسمًا مصدره من `accept_sources` (chyron،
+  introduced) لنافذة `one_speaker`؛ نافذة بعد `max_minutes` لا تُرسل. ما حكم فيه Gemini لا تُبنى له قائمة ضيوف ولا خريطة (تنزيلهما بالبروكسي) ولا يُقرأ شريطه.
+- **التنفيذ (`_apply_gemini`):** قائل مسمّى يطابقه ← `speaker_verified_from="gemini"` وسطر ✅ · يخالفه ← حذف `drop_gemini_mismatch` (لا تصحيح: نسبة الكلام
+  إلى غير صاحبه أسوأ من نقص إجابة) · مقطع بلا اسم وضيف مسمّى ← يُكتب الاسم والصفة وسطر 🏷️ (إلا إن أجاب الضيف نفسه عن السؤال في مقطع آخر ←
+  `drop_relabel_duplicate`) · المقدّم في مقطع بلا اسم ← يبقى باسم القناة. «gemini» شاهد مستقل في مقارنة الوجه (Q14).
+- **العطل** (بلا `GEMINI_API_KEY`، HTTP، رد مقطوع) لفيديو ← سطر `comment_gemini_failed` وحرّاس Q10–Q16 والخريطة كما كانت. يُحفظ `render_gemini_speakers`
+  و`render_gemini_errors` و`render_gemini_cost` (ضمن `RENDER_KEYS`). الإعداد `reel.render.gemini_speaker` (`enabled: false` ← كما قبله)؛ المزيَّفات القديمة
+  (`download_clip` محقون) ← لا نداء. **تنزيل المقاطع ما زال بالبروكسي.**
+
 ## الإطار الآمن لعرض فيسبوك (S10) — `config.yaml: reel.render.safe/logo/band/panel.frame`
 
 الحادثة (الريل 9247ad6487c3 منشورًا): فيسبوك يكبّر الريل 9:16 ليملأ الهاتف فيقصّ نحو 97 بكسل من كل جانب، ويرسم فوقه أيقونات الأعلى (حتى ~235)

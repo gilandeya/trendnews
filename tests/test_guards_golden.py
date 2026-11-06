@@ -24684,3 +24684,151 @@ def test_first_comment_off_guards() -> None:
     on["facebook"] = {**cfg["facebook"], "link_in_first_comment": True}
     check("g834 مفعّلًا يعود التعليقان", "https://example.com/a" in (publish.first_comment_for(draft, on) or "")
           and "الجزيرة — https://youtu.be/x" in (publish.reel_first_comment(reel, on) or ""))
+
+
+def test_reel_gemini_speaker_guards() -> None:
+    """قائل المقطع من Gemini (6/11، g835–g841): قياس gemini_reel_probe على 18 مقطعًا وجد سلسلتنا تحذف مقطعين صحيحين (فريحات) وتعرض 12
+    باسم القناة وحده وGemini يقرأ الاسم من الشريط؛ بقرار صاحب المشروع يحسم Gemini القائل قبل القائمة والخريطة والشريط. الشاهد
+    tests/fixtures/reel/1676/face_q14.json، وGemini والخريطة مزيَّفان."""
+    import copy
+    import json
+    from pathlib import Path
+
+    from src import gemini_speakers, reel_render
+
+    cfg = load_config()
+    root = Path(__file__).resolve().parent
+    fx = json.loads((root / "fixtures/reel/1676/face_q14.json").read_text(encoding="utf-8"))
+    t = cfg.path("reel.render.texts")
+    BUKH, HARBI = "علي البخيتي", "منيف عماش الحربي"
+    P4, P8, P9 = "8be09bba07da", "4cb860795115", "1b8abc22f6b4"
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001
+            check(name + ": استثناء", False, repr(exc))
+
+    def no_download(*a, **k):
+        raise RuntimeError("x")
+
+    def v(name, host=False, src="chyron", role="محلل"):
+        return {"name": name, "name_original": "", "role": role, "is_host": host, "source": src, "evidence": "الشريط"}
+
+    def prune(verdicts=None, conf=cfg, raise_exc=None, wire=True):
+        script = copy.deepcopy(fx["script"])
+        for i in (3, 5, 7, 8):
+            script["scenes"][i]["speaker_text"] = ""
+        script["scenes"][4]["speaker_text"] = HARBI
+        script["scenes"][9]["speaker_text"] = HARBI
+        clips = {i: dict(file="c%d" % i, seconds=8.0, video_id="v" if i in (4, 8, 9) else "o%d" % i, dstart=696.0,
+                         quote_start=700.0 + i, quote_end=706.0 + i) for i in (3, 4, 5, 7, 8, 9)}
+        calls = dict(gem=[], build=[], chyron=[])
+
+        def gem(vid, wins, c):
+            calls["gem"].append((vid, wins))
+            if raise_exc:
+                raise raise_exc
+            return {"verdicts": {k: x for k, x in (verdicts or {}).items() if any(w["id"] == k for w in wins)}, "cost": 0.05}
+
+        def bld(vid, c, work, times=None):
+            calls["build"].append(vid)
+            raise RuntimeError("لا خريطة في الاختبار")
+
+        def read(file, c):
+            calls["chyron"].append(file)
+            return []
+        deps = reel_render.Deps(read_chyron=read, sleep=lambda s_: None, download_clip=no_download)
+        deps.build_speaker_map, deps.assign_speaker = bld, (lambda *a: None)
+        if wire:
+            deps.gemini_speakers = gem
+        notes, dropped, meta = [], [], {}
+        out, _ = reel_render._prune_mismatched(script, clips, conf, deps, {}, notes, dropped, meta=meta)
+        return script, out, dropped, notes, meta, calls
+
+    VERD = {P4: v(BUKH), P8: v(BUKH), P9: v(HARBI)}
+
+    def g835():
+        script, out, dropped, notes, meta, calls = prune(VERD)
+        check("g835: Gemini يؤكد قائل السيناريو ← يبقى وثبوته gemini", 9 in out
+              and script["scenes"][9]["speaker_verified_from"] == "gemini"
+              and any(n == t["comment_gemini_confirmed"].format(name=HARBI, channel="فرانس 24 عربي") for n in notes), notes)
+        check("g835: ما حسمه Gemini لا تُبنى له خريطة ولا يُقرأ شريطه", "v" not in calls["build"]
+              and not {"c4", "c8", "c9"} & set(calls["chyron"]), calls)
+        check("g835: نداء واحد لكل فيديو بنوافذه بثواني الحلقة", [c[0] for c in calls["gem"]].count("v") == 1
+              and sorted(w["id"] for c in calls["gem"] if c[0] == "v" for w in c[1]) == sorted([P4, P8, P9]), calls["gem"])
+        check("g835: الأحكام والكلفة في meta", len([r for r in meta["gemini_speakers"] if r["applied"]]) == 3
+              and meta.get("gemini_cost", 0) > 0, meta.get("gemini_speakers"))
+    guarded("g835", g835)
+
+    def g836():
+        _, out, dropped, _, _, _ = prune(VERD)
+        check("g836: Gemini يسمّي غير القائل المسمّى ← حذف drop_gemini_mismatch", 4 not in out
+              and any(d["reason"] == t["drop_gemini_mismatch"].format(speaker=HARBI, new=BUKH) for d in dropped), dropped)
+    guarded("g836", g836)
+
+    def g837():
+        script, out, _, notes, _, _ = prune(VERD)
+        sc = script["scenes"][8]
+        check("g837: مقطع بلا اسم وGemini يقرأ الاسم من الشريط ← يُكتب الاسم والصفة", 8 in out and sc["speaker_name"] == BUKH
+              and sc["speaker_verified"] and sc["speaker_role"] == "محلل" and sc["speaker_verified_from"] == "gemini", sc)
+        check("g837: سطر 🏷️", t["comment_gemini_named"].format(channel="فرانس 24 عربي", name=BUKH) in notes, notes)
+        script, out, dropped, _, _, _ = prune({P8: v(HARBI)})
+        check("g837: الاسم لضيف يجيب عن السؤال نفسه في مقطع آخر ← حذف drop_relabel_duplicate", 8 not in out
+              and script["scenes"][8].get("speaker_name") != HARBI and dropped, dropped)
+        script, out, _, _, _, _ = prune({P8: v("المقدّم", host=True)})
+        check("g837: المقدّم في مقطع بلا اسم ← يبقى باسم القناة", 8 in out and not script["scenes"][8].get("speaker_name"), None)
+    guarded("g837", g837)
+
+    def g838():
+        data = {"speakers": [{"name_ar": "أ", "is_host": False, "name_source": "addressed"},
+                             {"name_ar": "ب", "is_host": False, "name_source": "chyron"},
+                             {"name_ar": "ج", "is_host": False, "name_source": "unknown"}],
+                "windows": [{"id": "1", "speaker": "أ", "one_speaker": True}, {"id": "2", "speaker": "ب", "one_speaker": False},
+                            {"id": "3", "speaker": "ج", "one_speaker": True}, {"id": "4", "speaker": "ب", "one_speaker": True},
+                            {"id": "5", "speaker": "", "one_speaker": True}]}
+        out = gemini_speakers.verdicts(data, cfg)
+        check("g838: لا حكم إلا لاسم من الشريط أو التعريف في نافذة بمتكلم واحد", list(out) == ["4"] and out["4"]["name"] == "ب", out)
+        script, out, _, _, _, calls = prune({})
+        check("g838: بلا حكم ← حرّاس سلسلتنا (الخريطة والشريط)", "v" in calls["build"] and "c4" in calls["chyron"], calls)
+    guarded("g838", g838)
+
+    def g839():
+        base = prune(wire=False)
+        script, out, dropped, notes, meta, calls = prune(VERD, raise_exc=RuntimeError("HTTP 500 key=http://u:p@x"))
+        check("g839: عطل Gemini ← سطر ⚠️ وسببه محفوظ وسلوك قديم", any(n.startswith("⚠️ تعذّر سؤال Gemini") for n in notes)
+              and "v" in (meta.get("gemini_errors") or {}) and script["scenes"] == base[0]["scenes"] and dropped == base[2], notes)
+        check("g839: لا كلمة مرور في السبب", "u:p@" not in json.dumps(meta.get("gemini_errors"), ensure_ascii=False),
+              meta.get("gemini_errors"))
+    guarded("g839", g839)
+
+    def g840():
+        base = prune(wire=False)
+        conf = copy.deepcopy(cfg)
+        conf["reel"]["render"]["gemini_speaker"]["enabled"] = False
+        res = prune(VERD, conf=conf)
+        check("g840: enabled=false ← لا نداء والنتيجة كما قبل Gemini", not res[5]["gem"] and res[0]["scenes"] == base[0]["scenes"]
+              and res[2] == base[2], res[5]["gem"])
+        d = reel_render.Deps(download_clip=no_download).resolved(cfg)
+        check("g840: مزيَّفات قديمة (download_clip محقون) ← لا Gemini", d.gemini_speakers is None)
+    guarded("g840", g840)
+
+    def g841():
+        wins = [{"id": "a", "start": 75.4, "end": 90.0}, {"id": "b", "start": 5500.0, "end": 5520.0}]
+        inside, later = gemini_speakers.usable_windows(wins, cfg)
+        check("g841: نافذة بعد max_minutes لا تُرسل", [w["id"] for w in inside] == ["a"] and [w["id"] for w in later] == ["b"])
+        body = gemini_speakers.build_request("VIDaaaaaaaa", inside, cfg)
+        raw = json.dumps(body, ensure_ascii=False)
+        check("g841: الطلب من أول الحلقة إلى آخر نافذة + tail، MM:SS، بلا temperature",
+              body["contents"][0]["parts"][0]["video_metadata"]["end_offset"] == "150s" and "a: 1:15 – 1:30" in raw
+              and "temperature" not in raw, body["contents"][0]["parts"][0])
+        check("g841: حقول Gemini ضمن RENDER_KEYS", {"render_gemini_speakers", "render_gemini_errors", "render_gemini_cost"}
+              <= set(reel_render.RENDER_KEYS))
+        check("g841: gemini شاهد مستقل لمقارنة الوجه (Q14)", "gemini" in reel_render._INDEPENDENT_PROOF)
+        try:
+            gemini_speakers.judge("VIDaaaaaaaa", inside, cfg, key="")
+            ok = False
+        except RuntimeError:
+            ok = True
+        check("g841: بلا مفتاح ← يرفع فتعمل حرّاس سلسلتنا", ok)
+    guarded("g841", g841)

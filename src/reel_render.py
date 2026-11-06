@@ -27,6 +27,7 @@ from typing import Any, Callable
 from PIL import Image, ImageDraw
 
 from . import imaging, reel_broll, reel_clips, reel_hook_search, reel_map, reel_script, store, tts
+from . import gemini_speakers as gemini_speakers_mod
 from .config import MUSIC_DIR, REELS_DIR, load_config
 
 log = logging.getLogger("trendnews.reel_render")
@@ -578,6 +579,9 @@ class Deps:
     # (فيديو، cfg، مجلد العمل، times=لحظات الاقتباس بثواني الحلقة) ← الخريطة بصيغة الحفظ
     build_speaker_map: Callable[..., dict] | None = None
     assign_speaker: Callable[[dict, Any, float, float, Any], dict | None] | None = None
+    # (video_id، [{id, start, end}] بثواني الحلقة، cfg) ← {verdicts: {id: حكم}, cost}؛ يرفع عند العطل (6/11، gemini_speakers).
+    # None للمزيَّفات القديمة ← لا نداء وحرّاس سلسلتنا وحدها كما كانت
+    gemini_speakers: Callable[[str, list, Any], dict] | None = None
 
     def resolved(self, cfg) -> "Deps":
         # جلسة واحدة للتركيب كله كالجمع (R8)؛ تُنشأ عند أول جلب لا عند الاستيراد
@@ -675,6 +679,8 @@ class Deps:
             face_frames=self.face_frames or (_chyron_jpegs if real else None),
             build_speaker_map=self.build_speaker_map or (_real_build_speaker_map if real else None),
             assign_speaker=self.assign_speaker or (_real_assign_speaker if real else None),
+            gemini_speakers=self.gemini_speakers or (
+                (lambda vid, wins, c: gemini_speakers_mod.judge(vid, wins, c)) if real else None),
             assign_broll=self.assign_broll or ((lambda needy, chains, c: reel_broll.assign(needy, chains, c)) if real else None),
             make_queries=self.make_queries or (
                 (lambda script, draft, c, broad=False: reel_hook_search.call_make_queries(script, draft, c, broad=broad))
@@ -4687,7 +4693,7 @@ def _combine_speaker(i: int, script: dict, run: list, clips: dict, mm: dict | No
     return mm
 
 
-_INDEPENDENT_PROOF = ("chyron", "transcript", "map")   # S4: الخريطة شاهد مستقل كالشريط والنص
+_INDEPENDENT_PROOF = ("chyron", "transcript", "map", "gemini")   # S4: الخريطة شاهد مستقل كالشريط والنص، وGemini (6/11) كذلك
 
 
 def _face_check(script: dict, live: dict, rosters: dict, cfg, deps: Deps, speakers: dict, notes: list, meta: dict,
@@ -4924,6 +4930,107 @@ def _apply_map(i: int, script: dict, run: list, live: dict, speakers: dict, verd
     return True, mm
 
 
+def _gemini_window(scene: dict, clip: dict) -> tuple[float, float] | None:
+    """نافذة المقطع بثواني الحلقة كما تُعرض: ضبط الكلمات (Q13) ثم موضع الاقتباس في النص ثم حدّا المشهد (التقديرية أيضًا: نسأل عمّن
+    يتكلم فيما نعرضه فعلًا، فيُكشف ما وقع على كلام غير صاحبه)."""
+    ex = clip.get("exact") or {}
+    if ex.get("source") == "words" and ex.get("t0") is not None:
+        a, b = float(ex["t0"]), float(ex.get("t1") or ex["t0"])
+    elif clip.get("quote_start") is not None:
+        a, b = float(clip["quote_start"]), float(clip.get("quote_end") or clip["quote_start"])
+    elif scene.get("start") is not None:
+        a, b = float(scene["start"]), float(scene.get("end") or scene["start"])
+    else:
+        return None
+    return (a, b) if b > a else (a, a + 1.0)
+
+
+def _gemini_check(script: dict, order: list, clips: dict, cfg, deps: Deps, notes: list, meta: dict) -> dict:
+    """قائل كل مقطع من Gemini (6/11): نداء واحد لكل فيديو بنوافذ مقاطعه. يعيد {فهرس المقطع: الحكم} لما حكم فيه وحده؛ عطل فيديو ← لا حكم
+    لمقاطعه وسطر في التعليق، وتبقى حرّاس سلسلتنا لها."""
+    gcfg = cfg.path("reel.render.gemini_speaker") or {}
+    if not gcfg.get("enabled") or getattr(deps, "gemini_speakers", None) is None:
+        return {}
+    t = cfg.path("reel.render.texts")
+    by_video: dict[str, list] = {}
+    for i, sc in order:
+        if sc.get("kind") != "clip" or i not in clips or not clips[i].get("video_id"):
+            continue
+        win = _gemini_window(sc, clips[i])
+        if win:
+            by_video.setdefault(clips[i]["video_id"], []).append({"id": sc.get("point_id") or str(i), "i": i,
+                                                                  "start": win[0], "end": win[1]})
+    out: dict = {}
+    rows = meta.setdefault("gemini_speakers", [])
+    for vid, wins in by_video.items():
+        inside, _later = gemini_speakers_mod.usable_windows(wins, cfg)
+        channel = script["scenes"][wins[0]["i"]].get("channel_display") or ""
+        if not inside:
+            continue
+        try:
+            res = deps.gemini_speakers(vid, [{k: w[k] for k in ("id", "start", "end")} for w in inside], cfg) or {}
+        except Exception as exc:  # noqa: BLE001 — فيديو واحد لا يُسقط التركيب
+            reason = re.sub(r"(?<=://)[^/@\s]*@", "", reel_clips.scrub_text(f"{type(exc).__name__}: {exc}"))[:150]
+            meta.setdefault("gemini_errors", {})[vid] = reason
+            notes.append(t["comment_gemini_failed"].format(channel=channel, reason=reason))
+            continue
+        meta["gemini_cost"] = round(float(meta.get("gemini_cost") or 0) + float(res.get("cost") or 0), 4)
+        got = res.get("verdicts") or {}
+        for w in inside:
+            v = got.get(w["id"])
+            rows.append({"point_id": w["id"], "video_id": vid, "start": round(w["start"], 1), "end": round(w["end"], 1),
+                         **({k: v[k] for k in ("name", "source", "is_host")} if v else {"name": ""}), "applied": False})
+            if v:
+                out[w["i"]] = v
+    return out
+
+
+def _apply_gemini(i: int, script: dict, run: list, live: dict, speakers: dict, verdict: dict, cfg, notes: list,
+                  meta: dict) -> tuple[bool, dict | None]:
+    """حكم Gemini لمقطع: (حُسم؟، قاموس الحذف أو None). يطابق قائل السيناريو ← تأكيد؛ يخالف قائلًا مسمّى ← حذف (نسبة الكلام إلى غير صاحبه
+    أسوأ من نقص إجابة، كما في R6)؛ مقطع بلا اسم وGemini يسمّي ضيفًا ← يُكتب الاسم (ما لم يجب الضيف نفسه عن السؤال في مقطع آخر)؛ المقدّم
+    في مقطع بلا اسم ← يبقى باسم القناة. ما حُسم لا يُقرأ شريطه ولا تحكم فيه الخريطة."""
+    scene = script["scenes"][i]
+    t = cfg.path("reel.render.texts")
+    channel = scene.get("channel_display") or ""
+    name = verdict["name"]
+    row = next((r for r in reversed(meta.get("gemini_speakers") or []) if r["point_id"] == (scene.get("point_id") or str(i))), {})
+    named = bool(scene.get("speaker_verified") and scene.get("speaker_name"))
+    speaker = scene.get("speaker_text") or scene.get("speaker_name") or ""
+    # _apply_chyron يُستدعى ثانية في _clip_layers: لا قراءة للشريط بعد حكم Gemini (كما بعد الخريطة)
+    speakers[str(i)] = {"accepted": False, "source": "gemini"}
+    if named:
+        if speaker_matches(name, verdict.get("name_original", ""), speaker, cfg) is True:
+            scene.update(speaker_verified_from="gemini")
+            row["applied"] = True
+            line = t["comment_gemini_confirmed"].format(name=scene.get("speaker_name") or name, channel=channel)
+            if line not in notes:
+                notes.append(line)
+            return True, None
+        row["applied"] = True
+        return True, {"reason_key": "drop_gemini_mismatch", "speaker": speaker, "new": name, "chyron": name, "name": name,
+                      "channel": channel}
+    if verdict.get("is_host"):
+        row["applied"] = True
+        return True, None
+    from . import names
+    new_ar = names.normalize_names(name, cfg)
+    for j in run:
+        if j != i and j in live:
+            other = script["scenes"][j]
+            if speaker_matches(new_ar, verdict.get("name_original", ""), other.get("speaker_text") or other.get("speaker_name") or "",
+                               cfg) is True:
+                row["applied"] = True
+                return True, {"reason_key": "drop_relabel_duplicate", "speaker": speaker, "new": new_ar, "chyron": new_ar,
+                              "channel": channel}
+    latin = verdict.get("name_original", "")
+    scene.update(speaker_name=new_ar, speaker_role=verdict.get("role") or scene.get("speaker_role") or "", speaker_verified=True,
+                 speaker_verified_from="gemini", speaker_text=new_ar, speaker_name_latin=latin if _LATIN_CHARS.search(latin) else "")
+    row["applied"] = True
+    notes.append(t["comment_gemini_named"].format(channel=channel, name=new_ar))
+    return True, None
+
+
 def _prune_mismatched(script: dict, clips: dict, cfg, deps: Deps, speakers: dict, notes: list,
                       dropped: list, meta: dict | None = None) -> tuple[dict, set[int]]:
     """حارس القائل (Issue #1621، R6): في سيناريو v2 يُقرأ شريط كل مقطع في لوحة قبل بنائها؛ مقطع يُظهر شريطه اسمًا غير قائل الاقتباس يُحذف
@@ -4937,9 +5044,12 @@ def _prune_mismatched(script: dict, clips: dict, cfg, deps: Deps, speakers: dict
     dead_q: dict = {}
     min_answers = int(cfg.path("reel.render.min_answers", 2))
     meta = meta if meta is not None else {}
+    # Gemini أولًا (6/11): ما حكم فيه لا تُبنى له قائمة ولا خريطة (تنزيلهما عبر البروكسي) ولا يُقرأ شريطه
+    gem = _gemini_check(script, order, clips, cfg, deps, notes, meta)
+    rest = {i: c for i, c in clips.items() if i not in gem}
     # القائمة قبل الخريطة: مقدّم الحلقة كما يعرّفه أولها يسمّي مجموعة المقدّم في الخريطة (ريل هرمز 1/11)
-    rosters, verdicts = _speaker_check(script, order, clips, cfg, deps, notes, meta)
-    maps = _map_check(script, clips, cfg, deps, notes, meta, rosters)
+    rosters, verdicts = _speaker_check(script, order, rest, cfg, deps, notes, meta)
+    maps = _map_check(script, rest, cfg, deps, notes, meta, rosters)
     # المرحلة 1: حكم الشريط والنص لكل مقطع (live ينقص تدريجيًا كما كان clips ينقص، فحارس التكرار في _relabel يرى الباقي فقط)؛
     # الحذف نفسه يُسجَّل في المرحلة 2 بعد مقارنة الوجه (Q14) التي تحتاج مقاطع من أسئلة مختلفة معًا
     live = dict(clips)
@@ -4949,6 +5059,13 @@ def _prune_mismatched(script: dict, clips: dict, cfg, deps: Deps, speakers: dict
             if i not in live:
                 continue
             roster = rosters.get(live[i].get("video_id"))
+            if i in gem:
+                decided, mm = _apply_gemini(i, script, members, live, speakers, gem[i], cfg, notes, meta)
+                if decided:
+                    if mm:
+                        pending[i] = mm
+                        live.pop(i)
+                    continue
             if i in maps:
                 # S4: الخريطة تجمع شريط الحلقة كلها بالأغلبية فتحسم قبل حرّاس المقطع الواحد (Q10–Q16) التي أخطأت حيث أصابت
                 decided, mm = _apply_map(i, script, members, live, speakers, maps[i], roster, cfg, notes, meta)
@@ -5610,7 +5727,9 @@ RENDER_META_KEYS = (("render_roster", "roster"), ("render_roster_source", "roste
                     ("render_roster_errors", "roster_errors"), ("render_attribution", "attribution"),
                     ("render_relabel", "relabel"), ("render_face_check", "face_check"),
                     ("render_speaker_map", "speaker_map"), ("render_map_assign", "map_assign"),
-                    ("render_map_errors", "map_errors"), ("render_maps", "maps"))
+                    ("render_map_errors", "map_errors"), ("render_maps", "maps"),
+                    ("render_gemini_speakers", "gemini_speakers"), ("render_gemini_errors", "gemini_errors"),
+                    ("render_gemini_cost", "gemini_cost"))
 RENDER_KEYS = tuple(k for k, _ in RENDER_META_KEYS) + ("render_exact_selfcheck",)
 
 
