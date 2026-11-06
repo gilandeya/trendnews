@@ -30,7 +30,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-API = "https://generativelanguage.googleapis.com/v1beta"
+from src import gemini  # noqa: E402
+from src.gemini import parse_clock  # noqa: E402,F401 — يقرؤها الاختبار من هذه الوحدة
+
+API = gemini.API
 
 SCHEMA = {
     "type": "OBJECT",
@@ -51,26 +54,6 @@ SCHEMA = {
 }
 
 
-def parse_clock(value, duration: float | None = None) -> float | None:
-    """«H:MM:SS» أو «MM:SS» أو «SS» (وكسور الثانية) ← ثوانٍ؛ غير ذلك None. Gemini يكتب الزمن نصًا فلا يُوثق بشكل واحد: في أول قياس
-    (6/11) كتب بعد الدقيقة 9 «1:10:25» يريد 10:25 في حلقة طولها 17 دقيقة، فزمن بثلاثة أجزاء يتجاوز مدة الحلقة يُقرأ بلا ساعته."""
-    if isinstance(value, (int, float)):
-        return float(value)
-    parts = str(value or "").strip().split(":")
-    try:
-        nums = [float(p) for p in parts]
-    except ValueError:
-        return None
-    if not nums or len(nums) > 3 or any(n < 0 for n in nums):
-        return None
-    total = 0.0
-    for n in nums:
-        total = total * 60 + n
-    if duration and len(nums) == 3 and total > duration and nums[1] * 60 + nums[2] <= duration:
-        return nums[1] * 60 + nums[2]
-    return total
-
-
 def build_request(video_id: str, cfg, duration: float | None = None) -> dict:
     """جسم generateContent: الرابط وحده (Google تجلب الفيديو، فلا بروكسي)، ومخطط JSON للرد، والدقة المنخفضة. بلا temperature عمدًا
     (قاعدة المشروع لكل النماذج). الحلقة الأطول من max_minutes تُقصّ بـendOffset فلا يُدفع ثمن ما لا نقيسه."""
@@ -89,30 +72,11 @@ def build_request(video_id: str, cfg, duration: float | None = None) -> dict:
 
 
 def read_response(resp: dict) -> tuple[dict | None, str, dict]:
-    """(الناتج أو None، سبب التوقف، الاستهلاك). الرد المقطوع (MAX_TOKENS) لا يُقبل منه شيء: JSON ناقص يعطي مقاطع ناقصة بلا تنبيه."""
-    cands = resp.get("candidates") or []
-    finish = (cands[0].get("finishReason") if cands else "") or ""
-    usage = resp.get("usageMetadata") or {}
-    if not cands or finish == "MAX_TOKENS":
-        return None, finish or "no_candidates", usage
-    text = "".join(p.get("text", "") for p in (cands[0].get("content") or {}).get("parts") or [] if not p.get("thought"))
-    try:
-        data = json.loads(text)
-    except ValueError:
-        return None, f"{finish}:invalid_json", usage
-    if not isinstance(data, dict) or not isinstance(data.get("segments"), list):
-        return None, f"{finish}:bad_shape", usage
-    return data, finish, usage
+    return gemini.read_response(resp, "segments")
 
 
 def cost_usd(usage: dict, cfg) -> float:
-    """الكلفة التقديرية: الصوت بسعره والباقي (صور الفيديو والنص) بسعر الإدخال، والتفكير يُحسب مخرجًا كما تحسبه Google."""
-    price = cfg.path("gemini_probe.price_per_mtok", {}) or {}
-    audio = sum(d.get("tokenCount", 0) for d in usage.get("promptTokensDetails") or [] if d.get("modality") == "AUDIO")
-    prompt = usage.get("promptTokenCount", 0) or 0
-    out = (usage.get("candidatesTokenCount", 0) or 0) + (usage.get("thoughtsTokenCount", 0) or 0)
-    total = ((prompt - audio) * price.get("input", 0) + audio * price.get("audio", 0) + out * price.get("output", 0)) / 1e6
-    return round(total, 4)
+    return gemini.cost_usd(usage, cfg.path("gemini_probe.price_per_mtok", {}) or {})
 
 
 def speaker_record(data: dict, name: str) -> dict:

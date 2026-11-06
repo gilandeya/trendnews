@@ -2596,7 +2596,7 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 ## القائمة تحسم المقدّم، وحقول التركيب لا تضيع، وفشل الضبط يُشرح (Issue #1691، Q15) — `src/reel_render.py`، `src/reel_clips.py`
 
 الحادثة (الريل 02b4436a2b66، تركيب الإصدار 47): ظهر علي البخيتي باسم القناة وحدها مع سطر «الشريط يحمل اسم المقدّم» رغم أن قائمة الحلقة نفسها تقول إن
-المقدّم أيمن سرور والبخيتي ضيف (حكم `name_is_speaker` تقلّب بين تشغيلتين)؛ و`render_exact_selfcheck` لم يصل القرص؛ وفشل الضبط بلا أرقام.
+المقدّم أيمن سرور والبخيتي ضيف (تصحيح 6/11: المقدّم توفيق مجيد وأيمن سرور ضيف، بشهادة صاحب المشروع ووصف القناة؛ قائمتنا أخطأت وGemini أصاب) (حكم `name_is_speaker` تقلّب بين تشغيلتين)؛ و`render_exact_selfcheck` لم يصل القرص؛ وفشل الضبط بلا أرقام.
 الشاهد `tests/fixtures/reel/1676/render47.json`؛ g626–g631 في `tests/test_guards_golden.py:test_reel_roster_host_q15_guards`. `render_version` = 49.
 
 - **القائمة تحسم:** `resolve_chyron(frames, cfg, channel, roster=None)`؛ لكل لقطة باسم شخص `roster_verdict(frame, roster, cfg)` (`speaker_matches` على
@@ -3001,6 +3001,8 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 القائم: كتلة النص (السياق سطر فيها) وعناوين `hl:` و`youtube_publish._reel_hook_lines` مربعات `<!-- hookpick:id:k -->` أولها معلَّم؛ عند اعتمادها
 `approve_reel_scripts` يُبقي المرشّح المعلَّم وحده في `hook_candidates` (`hook_picked`) فيفحصه التركيب، وبلا مربع معلَّم يبقى الثلاثة. الاختبار
 `tests/test_youtube.py:test_meta_script`.
+
+**مقاطع الموضوع من Gemini (موافقة صاحب المشروع 6/11) — `src/gemini.py`، `src/gemini_bites.py`:** `youtube.meta_topics.qa.source: gemini` ← `meta_qa.process_topic` يستدعي `gemini_topic_bites` بدل `topic_bites`: لكل فيديو نداء Gemini واحد على رابطه (`gemini.generate`، المفتاح في رأس `x-goog-api-key`، بلا temperature، الدقة `media_resolution`) بالحدث وعنوان الفيديو ووصفه، يعيد `speakers` و`bites`؛ و`gemini_bites.to_bites` (خالصة) يقرّر في الكود: الزمن بـ`gemini.parse_clock` (زمن بثلاثة أجزاء يتجاوز مدة الحلقة يُقرأ بلا ساعته)، المدة بين `qa.gemini.min_seconds` و`youtube.bites.end_check.complete_max_seconds`، النوع، `youtube_bites.screen_text_ok` للترجمة، لا تداخل، واسم `name_source: unknown` لا يُكتب. المقطع بشكل `youtube_bites.extract` (`bite_id` = `<video_id>:g<الثانية>`، `source: gemini`، بلا `start_line`) فلا يتغير ما بعده؛ لا بروكسي ولا انتظار رصيد، وعطل فيديو سطر في `failures`. يُحفظ `qa.source` و`gemini_cost` و`gemini_rejected`. بلا `GEMINI_API_KEY` ← المسار القديم بالنص والبروكسي. **التركيب ما زال يحتاج البروكسي** لتنزيل المقاطع (yt-dlp)، ونافذة المقطع بلا نص محفوظ تقديرية يضبطها التفريغ بالكلمات (Q13). **تشغيليًا:** `reel-render.yml` (حيث يجري `meta_qa.process_safe`) يحتاج `GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}` في env خطوة التركيب — يضيفه صاحب المشروع بيده. `tools/gemini_probe.py` يستورد `parse_clock`/`read_response`/`cost_usd` من `src/gemini.py`. الاختبار `tests/test_youtube.py:test_meta_qa_gemini`.
 
 **إعادة الطلب بعد انتظار البروكسي (5/11):** تشغيلة التركيب لا تجري إلا بإطلاق، فموضوع `waiting_proxy` لا يُعاد وحده. تعليق الانتظار يطلب
 إعادة وسم `approved` على قضية الموضوع بعد تجدد الرصيد، و`meta_script.requeue_qa` (من `finalize` حين لا ملف أسئلة خاصًا والحالة
