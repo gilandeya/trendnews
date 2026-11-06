@@ -5166,3 +5166,77 @@ def test_meta_script() -> None:
             os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = old
         shutil.rmtree(d, ignore_errors=True)
         shutil.rmtree(mt.public_dir(), ignore_errors=True)
+
+
+def test_gemini_probe() -> None:
+    """أداة قياس Gemini (tools/gemini_probe.py): بناء الطلب بلا temperature ولا بروكسي، ورفض الرد المقطوع، والكلفة، والمقارنات الثلاث
+    (حقيقة معروفة، مقاطعنا، التوقيت) — بنداء مزيَّف، لا شبكة."""
+    from tools import gemini_probe as gp
+    cfg = load_config()
+
+    check("gemini: ساعة H:MM:SS", gp.parse_clock("1:02:03") == 3723.0)
+    check("gemini: ساعة MM:SS وكسور", gp.parse_clock("02:03.5") == 123.5)
+    check("gemini: نص غير زمني ← None", gp.parse_clock("قرابة الدقيقة") is None and gp.parse_clock("") is None)
+
+    body = gp.build_request("qB_4P0mUCyI", cfg, duration=600)
+    raw = json.dumps(body, ensure_ascii=False)
+    part = body["contents"][0]["parts"][0]
+    check("gemini: رابط يوتيوب مباشرة", part["file_data"]["file_uri"] == "https://www.youtube.com/watch?v=qB_4P0mUCyI")
+    check("gemini: بلا temperature", "temperature" not in raw)
+    check("gemini: حلقة قصيرة بلا قصّ", "video_metadata" not in part)
+    check("gemini: الدقة من الإعداد", body["generationConfig"]["mediaResolution"] == cfg.path("gemini_probe.media_resolution"))
+    long_part = gp.build_request("x" * 11, cfg, duration=7200)["contents"][0]["parts"][0]
+    check("gemini: حلقة طويلة تُقصّ بـmax_minutes",
+          long_part.get("video_metadata", {}).get("end_offset") == f"{int(cfg.path('gemini_probe.max_minutes') * 60)}s")
+
+    out = {"speakers": [{"name_ar": "أيمن سرور", "is_host": True, "name_source": "chyron"},
+                        {"name_ar": "علي البخيتي", "name_original": "علي البخيتي", "is_host": False, "name_source": "chyron"},
+                        {"name_ar": "منيف عماش الحربي", "is_host": False, "name_source": "introduced"}],
+           "segments": [{"start": "0:00:05", "end": "0:00:40", "speaker": "أيمن سرور", "first_words": "مرحبا بكم في النقاش", "text_ar": "…"},
+                        {"start": "0:11:10", "end": "0:11:40", "speaker": "علي البخيتي", "first_words": "الحرب لن تتوقف قريبا", "text_ar": "…"},
+                        {"start": "0:16:30", "end": "0:17:00", "speaker": "منيف عماش الحربي", "first_words": "السعودية تريد السلام", "text_ar": "…"}]}
+    usage = {"promptTokenCount": 100000, "candidatesTokenCount": 4000, "thoughtsTokenCount": 1000,
+             "promptTokensDetails": [{"modality": "VIDEO", "tokenCount": 80000}, {"modality": "AUDIO", "tokenCount": 20000}]}
+    good = {"candidates": [{"finishReason": "STOP", "content": {"parts": [{"text": json.dumps(out, ensure_ascii=False)}]}}],
+            "usageMetadata": usage}
+    data, finish, _u = gp.read_response(good)
+    check("gemini: رد سليم يُقرأ", data == out and finish == "STOP")
+    cut = {"candidates": [{"finishReason": "MAX_TOKENS", "content": {"parts": [{"text": '{"segments": [{"start"'}]}}]}
+    check("gemini: الرد المقطوع لا يُقبل", gp.read_response(cut)[0] is None)
+    p = cfg.path("gemini_probe.price_per_mtok")
+    expect = round((80000 * p["input"] + 20000 * p["audio"] + 5000 * p["output"]) / 1e6, 4)
+    check("gemini: الكلفة بالصوت وحده بسعره والتفكير مخرجًا", gp.cost_usd(usage, cfg) == expect, gp.cost_usd(usage, cfg))
+
+    known = [("qB_4P0mUCyI", 680, "علي البخيتي"), ("qB_4P0mUCyI", 1000, "علي البخيتي"),
+             ("qB_4P0mUCyI", "host", "أيمن سرور"), ("other_video", 5, "x")]
+    bites = [{"speaker": "علي البخيتي", "start": 672.0, "end": 698.0}, {"speaker": "علي البخيتي", "start": 992.0, "end": 1018.0},
+             {"speaker": "", "start": 10, "end": 20}]
+    transcript = {"segments": [{"start": 4.2, "text": "مرحبا بكم في النقاش"}, {"start": 668.0, "text": "الحرب لن تتوقف قريبا"},
+                               {"start": 991.0, "text": "كلام آخر"}]}
+    numbers, details = gp.compare("qB_4P0mUCyI", data, cfg, known, bites, transcript)
+    check("gemini: الحقيقة المعروفة (اتفاق، خلاف، المقدّم) ولا فيديو آخر",
+          numbers["known"] == {"checked": 3, "agree": 2, "disagree": 1}, numbers["known"])
+    check("gemini: مقاطعنا بالمسمّى وحده", numbers["bites"]["compared"] == 2 and numbers["bites"]["agree"] == 1
+          and numbers["bites"]["disagree"] == 1, numbers["bites"])
+    check("gemini: التوقيت مقابل النص المحفوظ", details["drifts"] == [1.0, 2.0] and numbers["timing"]["within_3s"] == 2,
+          details["drifts"])
+    check("gemini: الأرقام العامة بلا أسماء", "البخيتي" not in json.dumps(numbers, ensure_ascii=False))
+
+    class R:
+        def __init__(self, code, payload):
+            self.status_code, self._p, self.text = code, payload, json.dumps(payload)
+
+        def json(self):
+            return self._p
+
+    seen = {}
+
+    def fake_post(url, json=None, timeout=None, headers=None):
+        seen.update(url=url, headers=headers)
+        return R(200, good)
+
+    res = gp.call_gemini("qB_4P0mUCyI", cfg, "gemini-x", "SECRET", 600, post=fake_post)
+    check("gemini: المفتاح في الرأس لا في الرابط", "SECRET" not in seen["url"] and seen["headers"]["x-goog-api-key"] == "SECRET")
+    check("gemini: نداء ناجح", res["error"] == "" and res["data"] == out)
+    bad = gp.call_gemini("qB_4P0mUCyI", cfg, "nope", "K", 600, post=lambda *a, **k: R(404, {"error": "not found"}))
+    check("gemini: خطأ HTTP يُسجَّل لا يرفع", bad["error"].startswith("HTTP 404") and "data" not in bad)

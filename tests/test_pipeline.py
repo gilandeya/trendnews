@@ -256,6 +256,7 @@ from tests.test_youtube import (
     test_youtube_image_news_photo,
     test_image_ladder_order,
     test_youtube_meta_probe,
+    test_gemini_probe,
     test_meta_topics,
     test_meta_topics_selection,
     test_meta_qa,
@@ -686,6 +687,7 @@ def main() -> int:
     print("\n── سلّم الصورة: الناشر ← خبر ← حرة (Issue #1123) ──")
     test_image_ladder_order()
     test_youtube_meta_probe()
+    test_gemini_probe()
     test_meta_topics()
     test_meta_topics_selection()
     test_meta_qa()
