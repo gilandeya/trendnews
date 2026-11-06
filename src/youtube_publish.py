@@ -145,7 +145,8 @@ WARNINGS_HEADER = youtube_article.WARNINGS_HEADER
 # — احتياطي فقط إن غاب youtube.image.bloc_labels من الإعداد.
 _DEFAULT_BLOC_LABELS = {
     "arabic": "عربية", "turkish": "تركية", "persian": "فارسية", "israeli": "إسرائيلية",
-    "western": "غربية", "kurdish": "كردية",
+    "english": "إنجليزية", "french": "فرنسية", "russian": "روسية", "chinese": "صينية",
+    "kurdish": "كردية",
 }
 
 # نفس ترتيب src.youtube_cluster._AGREEMENT_RANK (لا نستورده — ثابت صغير لا
