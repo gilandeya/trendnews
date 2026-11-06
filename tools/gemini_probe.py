@@ -247,6 +247,15 @@ def main(argv=None) -> int:
     private_dir.mkdir(parents=True, exist_ok=True)
     public_path.parent.mkdir(parents=True, exist_ok=True)
 
+    # mode: videos (قياس الحلقات) · reels (قائلو مقاطع ريلات مُركَّبة، gemini_reel_probe) · both. الـworkflow لا يمرّر وضعًا،
+    # فالاختيار من config وحده كي لا يحتاج كل قياس جديد تعديل workflow بيد صاحب المشروع
+    mode = cfg.path("gemini_probe.mode", "videos")
+    if mode in ("reels", "both"):
+        from tools import gemini_reel_probe
+        gemini_reel_probe.run(cfg, key, private_dir, ROOT / "state" / "gemini_probe" / f"{stamp}-reels.json",
+                              list(cfg.path("gemini_probe.reels.drafts", []) or []), now_iso=now.isoformat())
+        if mode == "reels":
+            return 0
     print(f"النموذج: {model} · فيديوهات: {len(videos)}")
     rows = []
     for vid in videos:

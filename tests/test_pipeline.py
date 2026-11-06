@@ -257,6 +257,7 @@ from tests.test_youtube import (
     test_image_ladder_order,
     test_youtube_meta_probe,
     test_gemini_probe,
+    test_gemini_reel_probe,
     test_meta_topics,
     test_meta_topics_selection,
     test_meta_qa,
@@ -689,6 +690,7 @@ def main() -> int:
     test_image_ladder_order()
     test_youtube_meta_probe()
     test_gemini_probe()
+    test_gemini_reel_probe()
     test_meta_topics()
     test_meta_topics_selection()
     test_meta_qa()
