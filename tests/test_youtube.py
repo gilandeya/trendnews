@@ -183,6 +183,10 @@ def test_actions_block_script() -> None:
     # سمّاها طلب المراجعة، والقنوات الجديدة أُضيفت بعد أول قناة في كتلتها فلم تغيّرها، ثم أول الكتلتين الجديدتين.
     real_channels = load_config().get("channels", [])
     check("33 قناة مثبَّتة في config.yaml (قنوات 6/11، بلا РБК)", len(real_channels) == 33, len(real_channels))
+    phoenix = [c for c in real_channels if c.get("name_ar") == "فينكس"]
+    check("فينكس مفعَّلة بمعرّف قناتها الرسمية @phoenixtvglobal (رابط صاحب المشروع 6/11)",
+          len(phoenix) == 1 and phoenix[0].get("active") and phoenix[0].get("channel_id") == "UC4vnLYInDvXtLKGOZieMeMw",
+          phoenix)
     real_picked = tab.pick_probe_channels(real_channels)
     check("قنوات القياس التسع من config.yaml الفعلي (أول قناة في كل كتلة)",
           [c["handle"] for c in real_picked] == ["@aljazeera", "@cnnturk", "@IRANINTL", "@C14news", "@BBCNews", "@FRANCE24",
@@ -5378,3 +5382,96 @@ def test_meta_qa_gemini() -> None:
             os.environ.pop("TRENDNEWS_YOUTUBE_BITES_DIR", None)
         else:
             os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = old_dir
+
+
+def test_gemini_reel_probe() -> None:
+    """قياس قائلي مقاطع ريل مُركَّب مقابل Gemini (6/11، قرار صاحب المشروع: سلسلتنا أولًا ما لم تُخطئ، فنقيس قبل أي استبدال):
+    النافذة من ضبط الكلمات، والمصير من render_dropped/render_relabel، والتصنيف بالأسماء، والملف العام أرقام بلا أسماء."""
+    import tempfile
+    from pathlib import Path
+    from types import SimpleNamespace as NS
+
+    from src import store
+    from src.config import load_config as real_load
+    from tools import gemini_reel_probe as grp
+
+    cfg = real_load()
+    check("قياس الريلات: الوضع الافتراضي reels وثلاث مسودات حقيقية",
+          cfg.path("gemini_probe.mode") == "reels" and len(cfg.path("gemini_probe.reels.drafts") or []) == 3)
+    draft = {"id": "abcdef123456", "format": "reel",
+             "script": {"scenes": [
+                 {"kind": "title_card"},
+                 {"kind": "clip", "point_id": "p1", "video_url": "https://www.youtube.com/watch?v=VIDaaaaaaaa",
+                  "speaker_name": "منيف عماش الحربي", "channel_display": "فرانس 24", "start": 100, "end": 130},
+                 {"kind": "clip", "point_id": "p2", "video_url": "https://www.youtube.com/watch?v=VIDaaaaaaaa",
+                  "speaker_name": "إبراهيم فريحات", "channel_display": "فرانس 24", "start": 300, "end": 320},
+                 {"kind": "clip", "point_id": "p3", "video_url": "https://youtu.be/VIDbbbbbbbb",
+                  "speaker_name": "لقاء مكي", "channel_display": "الجزيرة", "start": 50, "end": 70}]},
+             "render_crops": {"1": {"exact": {"t0": 104.2, "t1": 128.0, "source": "words"}},
+                              "3": {"exact": {"t0": 1, "t1": 2, "source": "line"}}},
+             "render_relabel": [{"point_id": "p1", "from": "منيف عماش الحربي", "to": "علي البخيتي", "how": "map"}],
+             "render_dropped": [{"point_id": "p2", "reason": "المتكلم مقدّم"}]}
+    clips = grp.reel_clips(draft)
+    by = {c["id"]: c for c in clips}
+    check("نافذة المقطع من ضبط الكلمات، ومن حدّي المشهد إن لم يكن الضبط بالكلمات",
+          by["p1"]["start"] == 104.2 and by["p1"]["end"] == 128.0 and by["p3"]["start"] == 50.0, clips)
+    check("الاسم بعد التصحيح، والمحذوف بلا اسم عندنا ومعه قائل السيناريو",
+          by["p1"]["ours"] == "علي البخيتي" and by["p2"]["ours"] == "" and by["p2"]["dropped"]
+          and by["p2"]["scripted"] == "إبراهيم فريحات" and by["p3"]["video_id"] == "VIDbbbbbbbb")
+
+    body = grp.build_request("VIDaaaaaaaa", [by["p1"], by["p2"]], cfg)
+    raw = json.dumps(body, ensure_ascii=False)
+    check("طلب القياس: من أول الحلقة إلى ما بعد آخر نافذة بـtail_seconds، والنوافذ بمعرّفاتها، وبلا temperature",
+          body["contents"][0]["parts"][0]["video_metadata"]["end_offset"] == "380s" and "p1: 1:44 – 2:08" in raw
+          and "temperature" not in raw, body["contents"][0]["parts"][0])
+
+    gem = {"speakers": [{"name_ar": "علي البخيتي", "name_original": "علي البخيتي", "is_host": False, "name_source": "chyron"},
+                        {"name_ar": "إبراهيم فريحات", "is_host": False, "name_source": "chyron"},
+                        {"name_ar": "توفيق مجيد", "is_host": True, "name_source": "introduced"},
+                        {"name_ar": "رجل", "is_host": False, "name_source": "unknown"}],
+           "windows": [{"id": "p1", "speaker": "علي البخيتي", "one_speaker": True},
+                       {"id": "p2", "speaker": "إبراهيم فريحات", "one_speaker": True}]}
+    rows = {r["id"]: r for r in grp.compare([by["p1"], by["p2"]], gem, cfg)}
+    check("Gemini يوافق التصحيح ← agree، ويقول إن المحذوف قائلُه نفسه ← dropped_maybe_wrong",
+          rows["p1"]["verdict"] == "agree" and rows["p2"]["verdict"] == "dropped_maybe_wrong", rows)
+    gem2 = {"speakers": gem["speakers"], "windows": [{"id": "p1", "speaker": "توفيق مجيد", "one_speaker": True},
+                                                     {"id": "p2", "speaker": "توفيق مجيد", "one_speaker": True}]}
+    rows2 = {r["id"]: r for r in grp.compare([by["p1"], by["p2"]], gem2, cfg)}
+    check("Gemini يسمّي غير قائلنا ← disagree، والمحذوف قائله غيره ← dropped_ok",
+          rows2["p1"]["verdict"] == "disagree" and rows2["p2"]["verdict"] == "dropped_ok", rows2)
+    gem3 = {"speakers": gem["speakers"], "windows": [{"id": "p1", "speaker": "رجل", "one_speaker": True}]}
+    check("اسم لا يعرف Gemini مصدره، أو نافذة بلا رد ← unknown",
+          [r["verdict"] for r in grp.compare([by["p1"], by["p2"]], gem3, cfg)] == ["unknown", "unknown"])
+    unnamed = {**by["p1"], "ours": ""}
+    check("عرضناه باسم القناة وحده وGemini يسمّيه من الشريط ← gemini_named",
+          grp.compare([unnamed], gem, cfg)[0]["verdict"] == "gemini_named")
+
+    tmp = Path(tempfile.mkdtemp())
+    day = store.DRAFTS_DIR / "2026-11-06"
+    day.mkdir(parents=True, exist_ok=True)
+    (day / "abcdef123456.json").write_text(json.dumps(draft, ensure_ascii=False), encoding="utf-8")
+    calls = []
+
+    def post(url, json=None, timeout=None, headers=None):
+        calls.append(url)
+        windows = [{"id": "p1", "speaker": "علي البخيتي", "one_speaker": True},
+                   {"id": "p2", "speaker": "إبراهيم فريحات", "one_speaker": True},
+                   {"id": "p3", "speaker": "", "one_speaker": True}]
+        if "VIDbbbbbbbb" in json["contents"][0]["parts"][0]["file_data"]["file_uri"]:
+            windows = [{"id": "p3", "speaker": "رجل", "one_speaker": True}]
+        resp = {"candidates": [{"finishReason": "STOP", "content": {"parts": [{"text": __import__("json").dumps(
+            {"speakers": gem["speakers"], "windows": windows}, ensure_ascii=False)}]}}],
+                "usageMetadata": {"promptTokenCount": 1000, "candidatesTokenCount": 100}}
+        return NS(status_code=200, text="", json=lambda: resp)
+
+    pub = tmp / "pub.json"
+    summary = grp.run(cfg, "k", tmp / "private", pub, ["abcdef123456", "not-an-id"], post=post, now_iso="t")
+    check("نداء واحد لكل فيديو لا لكل مقطع، والمعرّف غير الصالح يُتجاهل",
+          len(calls) == 2 and summary["reels"] == 1 and summary["clips"] == 3, (calls, summary))
+    check("الأرقام: agree 1 · dropped_maybe_wrong 1 · unknown 1",
+          (summary["agree"], summary["dropped_maybe_wrong"], summary["unknown"]) == (1, 1, 1), summary)
+    public = pub.read_text(encoding="utf-8")
+    check("الملف العام أرقام بلا أسماء، والأسماء في الخاص",
+          "البخيتي" not in public and "فريحات" not in public
+          and "البخيتي" in (tmp / "private" / "reel_abcdef123456.json").read_text(encoding="utf-8"))
+    (day / "abcdef123456.json").unlink()
