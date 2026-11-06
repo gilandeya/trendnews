@@ -4335,7 +4335,7 @@ channels:
   - handle: "@cctvch"
     name: "CCTV中文"
     name_ar: "سي سي تي في الصينية"
-    mention_forms: ["سي سي تي في", "CCTV"]
+    mention_forms: ["سي سي تي في الصينية", "سي سي تي في", "CCTV"]
     language: "zh"
     bloc: "chinese"
     bias_note: "التلفزيون الصيني الحكومي"

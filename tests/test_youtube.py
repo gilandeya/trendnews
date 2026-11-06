@@ -182,10 +182,11 @@ def test_actions_block_script() -> None:
     # config.yaml الفعلي (Issue #626، وقنوات 5/11): ست كتل، وأول قناة في كل واحدة هي قناة القياس — الأربع الأولى كما
     # سمّاها طلب المراجعة، والقنوات الجديدة أُضيفت بعد أول قناة في كتلتها فلم تغيّرها، ثم أول الكتلتين الجديدتين.
     real_channels = load_config().get("channels", [])
-    check("22 قناة مثبَّتة في config.yaml", len(real_channels) == 22, len(real_channels))
+    check("34 قناة مثبَّتة في config.yaml (قنوات 6/11)", len(real_channels) == 34, len(real_channels))
     real_picked = tab.pick_probe_channels(real_channels)
-    check("قنوات القياس الست من config.yaml الفعلي",
-          [c["handle"] for c in real_picked] == ["@aljazeera", "@cnnturk", "@IRANINTL", "@C14news", "@BBCNews", "@RudawEnglish"],
+    check("قنوات القياس التسع من config.yaml الفعلي (أول قناة في كل كتلة)",
+          [c["handle"] for c in real_picked] == ["@aljazeera", "@cnnturk", "@IRANINTL", "@C14news", "@BBCNews", "@FRANCE24",
+                                                 "@rbc", "@cctvch", "@RudawEnglish"],
           [c["handle"] for c in real_picked])
 
     check("نسبة النجاح من عدّاد فارغ صفر بلا انهيار",
