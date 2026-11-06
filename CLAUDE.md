@@ -2596,7 +2596,7 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 ## القائمة تحسم المقدّم، وحقول التركيب لا تضيع، وفشل الضبط يُشرح (Issue #1691، Q15) — `src/reel_render.py`، `src/reel_clips.py`
 
 الحادثة (الريل 02b4436a2b66، تركيب الإصدار 47): ظهر علي البخيتي باسم القناة وحدها مع سطر «الشريط يحمل اسم المقدّم» رغم أن قائمة الحلقة نفسها تقول إن
-المقدّم أيمن سرور والبخيتي ضيف (حكم `name_is_speaker` تقلّب بين تشغيلتين)؛ و`render_exact_selfcheck` لم يصل القرص؛ وفشل الضبط بلا أرقام.
+المقدّم أيمن سرور والبخيتي ضيف (تصحيح 6/11: المقدّم توفيق مجيد وأيمن سرور ضيف، بشهادة صاحب المشروع ووصف القناة؛ قائمتنا أخطأت وGemini أصاب) (حكم `name_is_speaker` تقلّب بين تشغيلتين)؛ و`render_exact_selfcheck` لم يصل القرص؛ وفشل الضبط بلا أرقام.
 الشاهد `tests/fixtures/reel/1676/render47.json`؛ g626–g631 في `tests/test_guards_golden.py:test_reel_roster_host_q15_guards`. `render_version` = 49.
 
 - **القائمة تحسم:** `resolve_chyron(frames, cfg, channel, roster=None)`؛ لكل لقطة باسم شخص `roster_verdict(frame, roster, cfg)` (`speaker_matches` على
