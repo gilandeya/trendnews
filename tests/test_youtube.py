@@ -5177,6 +5177,8 @@ def test_gemini_probe() -> None:
     check("gemini: ساعة H:MM:SS", gp.parse_clock("1:02:03") == 3723.0)
     check("gemini: ساعة MM:SS وكسور", gp.parse_clock("02:03.5") == 123.5)
     check("gemini: نص غير زمني ← None", gp.parse_clock("قرابة الدقيقة") is None and gp.parse_clock("") is None)
+    check("gemini: «1:10:25» في حلقة 17 دقيقة = 10:25 (أول قياس 6/11)", gp.parse_clock("1:10:25", 1033) == 625.0)
+    check("gemini: ساعة حقيقية في حلقة طويلة تبقى", gp.parse_clock("1:10:25", 7200) == 4225.0)
 
     body = gp.build_request("qB_4P0mUCyI", cfg, duration=600)
     raw = json.dumps(body, ensure_ascii=False)

@@ -51,8 +51,9 @@ SCHEMA = {
 }
 
 
-def parse_clock(value) -> float | None:
-    """«H:MM:SS» أو «MM:SS» أو «SS» (وكسور الثانية) ← ثوانٍ؛ غير ذلك None. Gemini يكتب الزمن نصًا فلا يُوثق بشكل واحد."""
+def parse_clock(value, duration: float | None = None) -> float | None:
+    """«H:MM:SS» أو «MM:SS» أو «SS» (وكسور الثانية) ← ثوانٍ؛ غير ذلك None. Gemini يكتب الزمن نصًا فلا يُوثق بشكل واحد: في أول قياس
+    (6/11) كتب بعد الدقيقة 9 «1:10:25» يريد 10:25 في حلقة طولها 17 دقيقة، فزمن بثلاثة أجزاء يتجاوز مدة الحلقة يُقرأ بلا ساعته."""
     if isinstance(value, (int, float)):
         return float(value)
     parts = str(value or "").strip().split(":")
@@ -65,6 +66,8 @@ def parse_clock(value) -> float | None:
     total = 0.0
     for n in nums:
         total = total * 60 + n
+    if duration and len(nums) == 3 and total > duration and nums[1] * 60 + nums[2] <= duration:
+        return nums[1] * 60 + nums[2]
     return total
 
 
@@ -119,20 +122,21 @@ def speaker_record(data: dict, name: str) -> dict:
     return {}
 
 
-def segment_at(segments: list[dict], second: float) -> dict | None:
+def segment_at(segments: list[dict], second: float, duration: float | None = None) -> dict | None:
     for s in segments:
-        a, b = parse_clock(s.get("start")), parse_clock(s.get("end"))
+        a, b = parse_clock(s.get("start"), duration), parse_clock(s.get("end"), duration)
         if a is not None and b is not None and a <= second <= b:
             return s
     return None
 
 
-def best_overlap(segments: list[dict], start: float, end: float, min_share: float) -> dict | None:
+def best_overlap(segments: list[dict], start: float, end: float, min_share: float,
+                 duration: float | None = None) -> dict | None:
     """مقطع Gemini الذي يغطي أكبر جزء من [start, end]، إن بلغت تغطيته min_share من طوله؛ وإلا None (لا مقارنة بمقطع لا يقابله)."""
     best, best_cover = None, 0.0
     length = max(end - start, 1e-6)
     for s in segments:
-        a, b = parse_clock(s.get("start")), parse_clock(s.get("end"))
+        a, b = parse_clock(s.get("start"), duration), parse_clock(s.get("end"), duration)
         if a is None or b is None:
             continue
         cover = max(0.0, min(b, end) - max(a, start))
@@ -159,8 +163,9 @@ def timing_drifts(segments: list[dict], transcript: dict | None, cfg) -> list[fl
         return []
     lines = [(int(float(s.get("start") or 0)), s.get("text", "")) for s in transcript.get("segments") or []]
     drifts = []
+    duration = transcript.get("duration_seconds")
     for s in segments:
-        start = parse_clock(s.get("start"))
+        start = parse_clock(s.get("start"), duration)
         if start is None or not s.get("first_words"):
             continue
         ts, _method = youtube_extract.resolve_timestamp(s["first_words"], lines, "", cfg)
@@ -186,6 +191,7 @@ def compare(video_id: str, gemini: dict, cfg, known, bites: list[dict], transcri
     segs = gemini.get("segments") or []
     speakers = gemini.get("speakers") or []
     min_share = float(cfg.path("gemini_probe.overlap_min", 0.5))
+    duration = (transcript or {}).get("duration_seconds")
     known_rows = []
     for vid, second, expected in known:
         if vid != video_id:
@@ -194,14 +200,14 @@ def compare(video_id: str, gemini: dict, cfg, known, bites: list[dict], transcri
             host = next((s for s in speakers if s.get("is_host")), {})
             seg = {"speaker": host.get("name_ar", "")} if host else None
         else:
-            seg = segment_at(segs, float(second))
+            seg = segment_at(segs, float(second), duration)
         known_rows.append({"second": second, "expected": expected, "gemini": (seg or {}).get("speaker", ""),
                            "agree": names_agree(gemini, seg, expected or "", cfg)})
     bite_rows = []
     for b in bites:
         if not b.get("speaker") or b.get("start") is None or b.get("end") is None:
             continue
-        seg = best_overlap(segs, float(b["start"]), float(b["end"]), min_share)
+        seg = best_overlap(segs, float(b["start"]), float(b["end"]), min_share, duration)
         bite_rows.append({"start": b["start"], "ours": b["speaker"], "gemini": (seg or {}).get("speaker", ""),
                           "agree": names_agree(gemini, seg, b["speaker"], cfg)})
     drifts = timing_drifts(segs, transcript, cfg)
@@ -267,7 +273,7 @@ def main(argv=None) -> int:
     if not key:
         print("⛔ لا GEMINI_API_KEY في البيئة")
         return 1
-    model = args.model or cfg.path("gemini_probe.model", "gemini-2.5-flash")
+    model = args.model or cfg.path("gemini_probe.model", "gemini-3.8-flash")
     videos = [v for v in (args.video or cfg.path("gemini_probe.videos", []) or []) if re.match(r"^[A-Za-z0-9_-]{6,20}$", v)]
     now = datetime.now(timezone.utc)
     stamp = now.strftime("%Y-%m-%d")
