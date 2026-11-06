@@ -4246,6 +4246,7 @@ channels:
   # الصين بالإنجليزية في الكتلة الإنجليزية (قرار صاحب المشروع 6/11): يوتيوب لا يفرّغ الماندرين آليًا تقريبًا، فهذه القناة
   # تضمن صوت بكين في مقاطع الريل، والكتلة الصينية أدناه للمواضيع والمقاطع التي رفعت قنواتها ترجمتها
   - handle: "@CGTN"
+    channel_id: "UCgrNz-aDmcr2uuto8_DL2jg"
     name: "CGTN"
     name_ar: "سي جي تي إن"
     mention_forms: ["سي جي تي إن", "CGTN"]
@@ -4258,6 +4259,7 @@ channels:
   # الفرنسية والروسية والصينية (قرار صاحب المشروع 6/11). channel_id غائب حين لم يُعرف موثوقًا: يحسمه resolve_channel_id في
   # أول جمع ويطبعه ليُثبَّت هنا، ومعرّف لا يُحلّ عطل جلب لتلك القناة وحدها
   - handle: "@FRANCE24"
+    channel_id: "UCCCPCZNChQdGa9EkATeye4g"
     name: "FRANCE 24"
     name_ar: "فرانس 24 الفرنسية"
     mention_forms: ["فرانس 24 الفرنسية", "فرانس 24"]
@@ -4278,7 +4280,8 @@ channels:
     orientation: "خاص (وسط)"
     active: true
     exclude_patterns: ["DIRECT", "EN DIRECT", "LIVE"]
-  - handle: "@CNEWS"
+  - handle: "@cnewsofficiel"
+    channel_id: "UCXKJrYczY2_fJEZgFPGY0HQ"
     name: "CNEWS"
     name_ar: "سي نيوز"
     mention_forms: ["سي نيوز", "CNEWS"]
@@ -4289,16 +4292,7 @@ channels:
     active: true
     exclude_patterns: ["DIRECT", "EN DIRECT", "LIVE"]
   # الروسية: يوتيوب حجب الإعلام الحكومي الروسي (RT والقناة الأولى وروسيا 24) منذ 2022، فصوت السلطة من قنوات خاصة قريبة منها
-  - handle: "@rbc"
-    name: "РБК"
-    name_ar: "آر بي كي"
-    mention_forms: ["آر بي كي", "RBC"]
-    language: "ru"
-    bloc: "russian"
-    bias_note: "خاصة، قريبة من السلطة"
-    orientation: "قريب من السلطة"
-    active: true
-    exclude_patterns: ["Прямой эфир", "LIVE", "Трансляция"]
+  # РБК حُذفت: يوتيوب أوقف قناتها مع الإعلام الحكومي الروسي في 2022، و@rbc اليوم قناة بنك كندا الملكي (جمع 6/11)
   - handle: "@RTVI"
     channel_id: "UCPU28A9z_ka_R5dQfecHJlA"
     name: "RTVI"
@@ -4311,6 +4305,7 @@ channels:
     active: true
     exclude_patterns: ["Прямой эфир", "LIVE", "Трансляция"]
   - handle: "@tvrain"
+    channel_id: "UCdubelOloxR3wzwJG9x8YqQ"
     name: "Дождь"
     name_ar: "تلفزيون دوشد"
     mention_forms: ["تلفزيون دوشد", "دوشد", "TV Rain"]
@@ -4320,7 +4315,8 @@ channels:
     orientation: "معارض في المنفى"
     active: true
     exclude_patterns: ["Прямой эфир", "LIVE", "Трансляция"]
-  - handle: "@currenttime"
+  - handle: "@currenttimetv"
+    channel_id: "UCBG57608Hukev3d0d-gvLhQ"
     name: "Настоящее Время"
     name_ar: "ناستوياشيه فريميا"
     mention_forms: ["ناستوياشيه فريميا", "Current Time"]
@@ -4333,6 +4329,7 @@ channels:
   # الصينية: النصوص الآلية بالماندرين شبه معدومة على يوتيوب (7 مسارات في فحص 201 ألف فيديو)، فمقاطعها لا تصل الريل إلا بترجمة
   # رفعتها القناة؛ المواضيع من العناوين تعمل لها كاملة
   - handle: "@cctvch"
+    channel_id: "UCnAsZ46UTeFEgwOEwMezngQ"
     name: "CCTV中文"
     name_ar: "سي سي تي في الصينية"
     mention_forms: ["سي سي تي في الصينية", "سي سي تي في", "CCTV"]
@@ -4350,9 +4347,11 @@ channels:
     bloc: "chinese"
     bias_note: "مقرّها هونغ كونغ"
     orientation: "هونغ كونغ قريب من بكين"
-    active: true
+    # موقوفة: لا قناة بالمعرّف @phoenixtvhk في واجهة يوتيوب (جمع 6/11)، تُفعَّل حين يُعرف معرّف القناة الرسمية
+    active: false
     exclude_patterns: ["直播", "LIVE"]
   - handle: "@TVBSNEWS01"
+    channel_id: "UC5nwNW4KdC0SzrhF9BXEYOQ"
     name: "TVBS新聞"
     name_ar: "تي في بي إس"
     mention_forms: ["تي في بي إس", "TVBS"]
@@ -4363,6 +4362,7 @@ channels:
     active: true
     exclude_patterns: ["直播", "LIVE"]
   - handle: "@BBCNewsChinese"
+    channel_id: "UCb3TZ4SD_Ys3j4z0-8o6auA"
     name: "BBC News 中文"
     name_ar: "بي بي سي الصينية"
     mention_forms: ["بي بي سي الصينية"]
