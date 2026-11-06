@@ -1,0 +1,34 @@
+{
+  "run_date": "2026-11-06",
+  "stats": {
+    "points_in": 0,
+    "points_dropped_stale_date": 0,
+    "points_dropped_bad_timestamp": 0,
+    "points_dropped_over_cap": 0,
+    "issues_clustered": 0,
+    "topics_merged": 0,
+    "topics_out": 0,
+    "dropped_by_bloc_cap": 0,
+    "topics_seen_skipped": 0,
+    "topics_below_min_points": 0,
+    "topics_below_min_channels": 0,
+    "topics_below_reel_fit": 0,
+    "coherence": {
+      "checked": 0,
+      "removed": 0,
+      "retitled": 0,
+      "errors": []
+    },
+    "layers": {},
+    "agreement": 0,
+    "cross_source": 0,
+    "internal": 0,
+    "echo": 0
+  },
+  "error": null,
+  "source": "bites",
+  "window_keys": [],
+  "merged_events": [],
+  "topics": [],
+  "all_topics": []
+}
