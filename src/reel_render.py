@@ -1961,9 +1961,18 @@ def _approx_window(point: dict, scene: dict) -> tuple[int, int] | None:
 class ClipDownloadFailed(RuntimeError):
     """مقطع لم يُنزَّل بعد كل الإعادات: الريل لا يُركَّب ناقصًا بل يُعاد في تشغيلة لاحقة (Issue #1404)."""
 
-    def __init__(self, channel: str, reason: str):
+    def __init__(self, channel: str, reason: str, proxy: bool = False):
         super().__init__(reason)
-        self.channel, self.reason = channel, reason
+        self.channel, self.reason, self.proxy = channel, reason, proxy
+
+
+def proxy_exhausted(text: str, cfg) -> bool:
+    """هل نص العطل نفاد رصيد البروكسي؟ دالة خالصة. يُفحص النص كاملًا قبل قصّه لأن «402» يقع بعد 120 حرفًا من رسالة yt-dlp
+    (حادثة #1782: سُجّل السبب مقطوعًا عند «OSError('Tunn» فلم يُعرف أنه الرصيد)."""
+    w = cfg.path("reel.render.proxy_wait") or {}
+    if not w.get("enabled", True):
+        return False
+    return any(p and p in (text or "") for p in w.get("patterns") or [])
 
 
 NO_STREAMS_REASON = "المقطع بلا صورة أو بلا صوت"
@@ -2386,7 +2395,8 @@ def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: l
             got = _download_with_retries(deps, rcfg, vid, dstart, dend, out)
         except Exception as exc:  # noqa: BLE001 -- عطل تنزيل لا إسقاط تحريري: الريل كله يؤجَّل
             raise ClipDownloadFailed(scene.get("channel_display", ""),
-                                     "فشل تنزيل المقطع: " + reel_clips.scrub_text(str(exc))[:120]) from exc
+                                     "فشل تنزيل المقطع: " + reel_clips.scrub_text(str(exc))[:120],
+                                     proxy=proxy_exhausted(str(exc), cfg)) from exc
         if got is None:
             _drop(dropped, scene, "لم يُنتج التنزيل ملفًا")
             if approx and approx[-1]["point_id"] == scene.get("point_id", ""):
@@ -6011,7 +6021,13 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
         t = cfg.path("reel.render.texts")
         limit = int(cfg.path("reel.render.max_attempts", 3))
         attempts = int(draft.get("render_attempts") or 0) + 1
-        if attempts < limit:
+        if exc.proxy:
+            # قرار صاحب المشروع 6/11: لا إعادة تلقائية ولا محاولة تُحسب؛ ينتظر حتى يعيد وسم approved بعد تجديد الرصيد
+            # (publish.resume_proxy_waits)، والذكر في التعليق يصله بريدًا
+            changes = {"render_status": "waiting_proxy", "render_error": exc.reason}
+            text = t["comment_proxy_exhausted"].format(
+                notify=cfg.path("reel.render.proxy_wait.notify", ""), channel=exc.channel)
+        elif attempts < limit:
             changes = {"render_status": "queued", "render_attempts": attempts}
             text = t["comment_download_retry"].format(channel=exc.channel, n=attempts, max=limit)
         else:

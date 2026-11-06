@@ -1382,6 +1382,29 @@ def start_reel_render(issue_number: int, started: list[str], cfg) -> bool:
     return True
 
 
+def resume_proxy_waits(issue_number: int, body: str, cfg) -> list[str]:
+    """إعادة وسم approved على قضية ريل ينتظر رصيد البروكسي (render_status="waiting_proxy"، قرار صاحب المشروع 6/11) تعيده إلى
+    طابور التركيب وتطلق التركيب مرة. لا إعادة تلقائية في أي موضع آخر: صاحب المشروع وحده يعرف متى تجدّد الرصيد. يعيد ما أُعيد."""
+    resumed = []
+    for did in review.all_draft_ids(body):
+        found = store.load_draft(did)
+        if not found:
+            continue
+        path, d = found
+        if d.get("format") != "reel" or d.get("render_status") != "waiting_proxy":
+            continue
+        store.update_draft(path, remove=["render_error"], render_status="queued", render_attempts=0)
+        resumed.append(did)
+    if resumed:
+        review.comment(issue_number, cfg.path("reel.render.texts.proxy_resumed", ""))
+        start_reel_render(issue_number, resumed, cfg)
+        try:
+            review.remove_label(issue_number, "approved")
+        except Exception as exc:  # noqa: BLE001 -- بقاء الوسم لا يضر: الريل صار queued فلا يُعاد ثانية
+            log.warning("تعذّر إزالة approved عن #%s: %s", issue_number, str(exc)[:150])
+    return resumed
+
+
 def _read_dispatch_file(path: str) -> dict:
     try:
         raw = Path(path).read_text(encoding="utf-8").strip()
@@ -1833,6 +1856,10 @@ def main() -> int:
     # عامة بلا أي فحص origin، فتنشر مسودة تحليل عبر publish_one كأي مسودة
     # أخرى بلا استثناء.
     # Issue #1469 (R4a): قضية مراجعة الريل تُقرأ قبل بقية الوسوم، في المسار العادي وحده (العاجل لا ينشر ريلًا)
+    # ريل ينتظر رصيد البروكسي: إعادة الوسم تعني «تجدّد الرصيد» لا اعتمادًا جديدًا، فلا يمرّ بأي مسار آخر (قد يرفض ضمنيًا أو ينشر
+    # ملف ريل قديمًا)؛ المسار العادي وحده كبقية الريل
+    if not args.urgent_only and resume_proxy_waits(args.issue, body, cfg):
+        return 0
     if "reel-review" in labels:
         if args.urgent_only:
             log.info("Issue #%s: reel-review — يُؤجَّل للمسار العادي", args.issue)

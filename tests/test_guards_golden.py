@@ -7314,6 +7314,8 @@ def test_reel_no_partial_r3b2a2_guards() -> None:
         d.update(extra)
         return store.save_draft(d), d
 
+    msg = {"t": "فشلت كل الدرجات: ERROR: ffmpeg exited with code 8"}
+
     def make_deps(log, fail_v2=0, trans=None):
         """fail_v2: عدد مرات فشل تنزيل v2 قبل النجاح؛ -1 ← دائمًا."""
         left = {"n": fail_v2}
@@ -7327,7 +7329,7 @@ def test_reel_no_partial_r3b2a2_guards() -> None:
             if video_id == "v2" and left["n"] != 0:
                 if left["n"] > 0:
                     left["n"] -= 1
-                raise RuntimeError("فشلت كل الدرجات: ERROR: ffmpeg exited with code 8")
+                raise RuntimeError(msg["t"])
             Path(out_path).write_bytes(b"clip")
             return {"tier": "a", "bytes": 4, "failures": []}
 
@@ -7385,6 +7387,42 @@ def test_reel_no_partial_r3b2a2_guards() -> None:
         log, s, _ = run_one("r3b2a2000e01", 0, render_attempts=2)
         check("g230: render_attempts = 0 وrender_version = 9",
               s.get("render_attempts") == 0 and s.get("render_version") >= 49 and s.get("render_status") == "rendered", s)
+
+        # ── g842–g845: نفاد رصيد البروكسي (قرار صاحب المشروع 6/11): لا إعادة تلقائية، بريد بالذكر، وإعادة الوسم تعيده ──
+        long_err = ("فشلت كل الدرجات: ERROR: [youtube] kRWeOsx-U7I: Unable to download API page: ('Unable to connect to "
+                    "proxy', OSError('Tunnel connection failed: 402 Payment Required'))")
+        check("g842: 402 بعد 120 حرفًا يُعرف نفاد رصيد", reel_render.proxy_exhausted(long_err, cfg)
+              and not reel_render.proxy_exhausted("ERROR: ffmpeg exited with code 8", cfg), long_err)
+        off = load_config()
+        off["reel"]["render"]["proxy_wait"]["enabled"] = False
+        check("g842: enabled false ← لا تمييز", not reel_render.proxy_exhausted(long_err, off))
+        msg["t"] = long_err
+        log, s, _ = run_one("e3b2a2000f01", -1, render_attempts=2)
+        msg["t"] = "فشلت كل الدرجات: ERROR: ffmpeg exited with code 8"
+        check("g843: waiting_proxy بلا زيادة محاولة ولا failed",
+              s.get("render_status") == "waiting_proxy" and s.get("render_attempts") == 2 and s.get("reel_file") == "reels/old.mp4", s)
+        check("g843: التعليق يذكر صاحب المشروع ونفاد الرصيد",
+              any("@gilandeya" in c and "نفد رصيد البروكسي" in c for c in log["comments"]), log["comments"])
+        check("g844: waiting_proxy لا يلتقطه طابور التركيب ولو كانت نسخته أقدم",
+              not any(d.get("id") == "e3b2a2000f01" for _p, d in reel_render.queued_reels(cfg)))
+        from src import publish as publish_mod
+        from src import review as review_mod
+        seen = {"comments": [], "removed": [], "started": []}
+        saved = (review_mod.comment, review_mod.remove_label, publish_mod.start_reel_render)
+        review_mod.comment = lambda n, t: seen["comments"].append((n, t))
+        review_mod.remove_label = lambda n, l: seen["removed"].append((n, l))
+        publish_mod.start_reel_render = lambda n, ids, c: seen["started"].append((n, list(ids))) or True
+        try:
+            got = publish_mod.resume_proxy_waits(77, "x <!-- draft:e3b2a2000f01 --> <!-- draft:e3b2a2000a01 -->", cfg)
+            again = publish_mod.resume_proxy_waits(77, "x <!-- draft:e3b2a2000f01 -->", cfg)
+        finally:
+            review_mod.comment, review_mod.remove_label, publish_mod.start_reel_render = saved
+        s = store.load_draft("e3b2a2000f01")[1]
+        check("g845: إعادة الوسم تعيده queued بمحاولات 0 وتطلق التركيب وتزيل approved",
+              got == ["e3b2a2000f01"] and s.get("render_status") == "queued" and s.get("render_attempts") == 0
+              and "render_error" not in s and seen["started"] == [(77, ["e3b2a2000f01"])]
+              and seen["removed"] == [(77, "approved")], (got, s, seen))
+        check("g845: إعادة ثانية بلا أثر", again == [], again)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 
