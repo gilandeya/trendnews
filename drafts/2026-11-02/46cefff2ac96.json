@@ -671,7 +671,7 @@
   "has_news_photo": true,
   "review_issue": 1779,
   "stage2_issue": 1779,
-  "render_status": "queued",
+  "render_status": "failed",
   "approved_script_at": "2026-11-02T16:39:39.270741+00:00",
   "editor_override": {
     "at": "2026-11-02T16:39:39.270726+00:00",
@@ -684,7 +684,7 @@
   "reel_gif": "reels/2026-11-02/46cefff2ac96.gif",
   "duration_seconds": 140.5,
   "render_version": 60,
-  "render_attempts": 2,
+  "render_attempts": 3,
   "reel_music": "nastelbom-news-news-2-473288.mp3",
   "render_sources": "الجزيرة، سي إن إن ترك، العربية",
   "render_crops": {
@@ -4718,5 +4718,6 @@
     "- ▭ مقطع سي إن إن ترك: أُزيلت أشرطة سوداء",
     "- 🧊 ختام الريل: لا لقطات تسبق الهوك — جُمّد أول إطار منه مع اقتراب بطيء"
   ],
-  "reel_review_issue": 1782
+  "reel_review_issue": 1782,
+  "render_error": "فشل تنزيل المقطع: فشلت كل الدرجات: ERROR: [youtube] kRWeOsx-U7I: Unable to download API page: ('Unable to connect to proxy', OSError('Tunn"
 }

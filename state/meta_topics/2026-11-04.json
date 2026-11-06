@@ -1018,62 +1018,717 @@
    ],
    "topic_issue": 1808,
    "qa": {
-    "attempts": 1,
-    "at": "2026-11-04T20:08:13.862809+00:00",
-    "failures": [
+    "attempts": 2,
+    "at": "2026-11-06T11:49:35.792742+00:00",
+    "failures": [],
+    "status": "ready",
+    "notified_proxy": true,
+    "source": "gemini",
+    "gemini_cost": 0.5838,
+    "gemini_rejected": 1,
+    "selected_seconds": 102.0,
+    "titles": [
+     "هل توقف صناديق الاقتراع حرب ترامب على إيران؟",
+     "بعد الهزيمة الانتخابية: تصعيد ضد طهران أم تهدئة؟",
+     "شهران بلا قيود.. هل يشن ترامب حربه قبل يناير؟"
+    ],
+    "questions": [
      {
-      "video_id": "tGCoMTxn4ek",
-      "channel": "الجزيرة",
-      "reason": "proxy"
+      "text": "هل تمنع نتائج الانتخابات النصفية ترامب من شن حرب على إيران؟",
+      "answers": [
+       {
+        "n": 9,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "yGth_UO8VwY:g320"
+       },
+       {
+        "n": 13,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "Au5QJ1-FRYw:g1659"
+       },
+       {
+        "n": 3,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "tGCoMTxn4ek:g871"
+       },
+       {
+        "n": 18,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "V-sHiogNhKg:g87"
+       },
+       {
+        "n": 14,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "Au5QJ1-FRYw:g1841"
+       },
+       {
+        "n": 11,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "Au5QJ1-FRYw:g1377"
+       },
+       {
+        "n": 5,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "tGCoMTxn4ek:g2134"
+       },
+       {
+        "n": 2,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "tGCoMTxn4ek:g518"
+       },
+       {
+        "n": 22,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "xRYDmXfko9Q:g159"
+       },
+       {
+        "n": 23,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "kZDzQCNPfaM:g703"
+       },
+       {
+        "n": 8,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "yGth_UO8VwY:g167"
+       },
+       {
+        "n": 16,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "V-sHiogNhKg:g16"
+       }
+      ]
      },
      {
-      "video_id": "thyIGxW6aIk",
-      "channel": "SÖZCÜ",
-      "reason": "proxy"
+      "text": "هل تدفع الهزيمة الانتخابية ترامب إلى تصعيد عسكري أم إلى تهدئة؟",
+      "answers": [
+       {
+        "n": 17,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "V-sHiogNhKg:g44"
+       },
+       {
+        "n": 23,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "kZDzQCNPfaM:g703"
+       },
+       {
+        "n": 19,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "V-sHiogNhKg:g271"
+       },
+       {
+        "n": 21,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "mW_jI4a8qwY:g95"
+       },
+       {
+        "n": 22,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "xRYDmXfko9Q:g159"
+       },
+       {
+        "n": 8,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "yGth_UO8VwY:g167"
+       },
+       {
+        "n": 25,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "kZDzQCNPfaM:g774"
+       },
+       {
+        "n": 5,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "tGCoMTxn4ek:g2134"
+       },
+       {
+        "n": 16,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "V-sHiogNhKg:g16"
+       },
+       {
+        "n": 26,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "y2ebkDcf-90:g103"
+       }
+      ]
      },
      {
-      "video_id": "yGth_UO8VwY",
-      "channel": "ערוץ 14",
-      "reason": "proxy"
+      "text": "هل يستطيع الديمقراطيون وقف الحرب بقطع التمويل والميزانية؟",
+      "answers": [
+       {
+        "n": 15,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "Au5QJ1-FRYw:g2191"
+       },
+       {
+        "n": 12,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "Au5QJ1-FRYw:g1536"
+       },
+       {
+        "n": 20,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "V-sHiogNhKg:g295"
+       },
+       {
+        "n": 4,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "tGCoMTxn4ek:g1718"
+       },
+       {
+        "n": 18,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "V-sHiogNhKg:g87"
+       },
+       {
+        "n": 16,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "V-sHiogNhKg:g16"
+       },
+       {
+        "n": 13,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "Au5QJ1-FRYw:g1659"
+       },
+       {
+        "n": 9,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "yGth_UO8VwY:g320"
+       },
+       {
+        "n": 22,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "xRYDmXfko9Q:g159"
+       }
+      ]
      },
      {
-      "video_id": "Au5QJ1-FRYw",
-      "channel": "العربية",
-      "reason": "proxy"
+      "text": "ماذا يفعل ترامب في الشهرين قبل تسلم الكونغرس الجديد؟",
+      "answers": [
+       {
+        "n": 10,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "yGth_UO8VwY:g365"
+       },
+       {
+        "n": 19,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "V-sHiogNhKg:g271"
+       },
+       {
+        "n": 21,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "mW_jI4a8qwY:g95"
+       },
+       {
+        "n": 14,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "Au5QJ1-FRYw:g1841"
+       },
+       {
+        "n": 18,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "V-sHiogNhKg:g87"
+       },
+       {
+        "n": 26,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "y2ebkDcf-90:g103"
+       },
+       {
+        "n": 13,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "Au5QJ1-FRYw:g1659"
+       },
+       {
+        "n": 8,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "yGth_UO8VwY:g167"
+       }
+      ]
      },
      {
-      "video_id": "V-sHiogNhKg",
-      "channel": "Iran International",
-      "reason": "proxy"
-     },
-     {
-      "video_id": "mW_jI4a8qwY",
-      "channel": "CNN Türk",
-      "reason": "proxy"
-     },
-     {
-      "video_id": "xRYDmXfko9Q",
-      "channel": "فرانس 24 عربي",
-      "reason": "proxy"
-     },
-     {
-      "video_id": "kZDzQCNPfaM",
-      "channel": "SÖZCÜ",
-      "reason": "proxy"
-     },
-     {
-      "video_id": "y2ebkDcf-90",
-      "channel": "ILTV",
-      "reason": "proxy"
-     },
-     {
-      "video_id": "M_loIcwSfQ8",
-      "channel": "العربية",
-      "reason": "proxy"
+      "text": "هل راهنت إيران على الانتخابات الأمريكية وهل ربحت رهانها؟",
+      "answers": [
+       {
+        "n": 1,
+        "fit": "direct",
+        "selected": true,
+        "bite_id": "tGCoMTxn4ek:g483"
+       },
+       {
+        "n": 2,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "tGCoMTxn4ek:g518"
+       },
+       {
+        "n": 14,
+        "fit": "direct",
+        "selected": true,
+        "bite_id": "Au5QJ1-FRYw:g1841"
+       },
+       {
+        "n": 11,
+        "fit": "direct",
+        "selected": true,
+        "bite_id": "Au5QJ1-FRYw:g1377"
+       },
+       {
+        "n": 7,
+        "fit": "weak",
+        "selected": true,
+        "bite_id": "thyIGxW6aIk:g2608"
+       },
+       {
+        "n": 6,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "thyIGxW6aIk:g2578"
+       },
+       {
+        "n": 24,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "kZDzQCNPfaM:g728"
+       }
+      ]
      }
     ],
-    "status": "waiting_proxy",
-    "notified_proxy": true
+    "bites": [
+     {
+      "bite_id": "tGCoMTxn4ek:g483",
+      "video_id": "tGCoMTxn4ek",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "حسن أحمديان",
+      "speaker_original": "حسن أحمديان",
+      "speaker_role": "أستاذ دراسات الشرق الأوسط بجامعة طهران",
+      "is_host": false,
+      "type": "opinion",
+      "start": 483.0,
+      "end": 501.0,
+      "summary_ar": "يرى أحمديان أن إيران تسعى لجعل الإدارة الأمريكية تدفع ثمنا سياسيا كبيرا بسبب مواجهتها معها."
+     },
+     {
+      "bite_id": "tGCoMTxn4ek:g518",
+      "video_id": "tGCoMTxn4ek",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "حسن أحمديان",
+      "speaker_original": "حسن أحمديان",
+      "speaker_role": "أستاذ دراسات الشرق الأوسط بجامعة طهران",
+      "is_host": false,
+      "type": "opinion",
+      "start": 518.0,
+      "end": 545.0,
+      "summary_ar": "يوضح أحمديان أن خسارة ترامب للانتخابات سترفع كلفة الحرب السياسية والقانونية حتى لو لم توقفها تماما."
+     },
+     {
+      "bite_id": "tGCoMTxn4ek:g871",
+      "video_id": "tGCoMTxn4ek",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "لقاء مكي",
+      "speaker_original": "لقاء مكي",
+      "speaker_role": "باحث أول في مركز الجزيرة للدراسات",
+      "is_host": false,
+      "type": "opinion",
+      "start": 871.0,
+      "end": 908.0,
+      "summary_ar": "يؤكد مكي أن خسارة الكونغرس تعد عقوبة سياسية لترامب لكنها لن تسلبه صلاحياته الرئاسية في خوض الحروب."
+     },
+     {
+      "bite_id": "tGCoMTxn4ek:g1718",
+      "video_id": "tGCoMTxn4ek",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "إبراهيم فريحات",
+      "speaker_original": "إبراهيم فريحات",
+      "speaker_role": "أستاذ الصراعات الدولية بمعهد الدوحة للدراسات العليا",
+      "is_host": false,
+      "type": "forecast",
+      "start": 1718.0,
+      "end": 1746.0,
+      "summary_ar": "يتوقع فريحات أن يسعى الديمقراطيون لتقييد قرارات ترامب العسكرية عبر التحكم في الميزانية."
+     },
+     {
+      "bite_id": "tGCoMTxn4ek:g2134",
+      "video_id": "tGCoMTxn4ek",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "حسن أحمديان",
+      "speaker_original": "حسن أحمديان",
+      "speaker_role": "أستاذ دراسات الشرق الأوسط بجامعة طهران",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2134.0,
+      "end": 2156.0,
+      "summary_ar": "يشير أحمديان إلى أن الانتخابات ستصعب خيارات ترامب بالحرب أو الاتفاق نظرا لضغوط الديمقراطيين الحزبية."
+     },
+     {
+      "bite_id": "thyIGxW6aIk:g2578",
+      "video_id": "thyIGxW6aIk",
+      "channel": "SÖZCÜ",
+      "bloc": "turkish",
+      "orientation": "معارض",
+      "speaker": "إرول موترجيملر",
+      "speaker_original": "Erol Mütercimler",
+      "speaker_role": "خبير في العلاقات الدولية والإستراتيجيا",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2578.0,
+      "end": 2608.0,
+      "summary_ar": "يوضح موترجيملر أن الإستراتيجية الأمريكية تجاه إيران تقوم على رفع التكلفة الاقتصادية دون خوض حرب عسكرية تقليدية."
+     },
+     {
+      "bite_id": "thyIGxW6aIk:g2608",
+      "video_id": "thyIGxW6aIk",
+      "channel": "SÖZCÜ",
+      "bloc": "turkish",
+      "orientation": "معارض",
+      "speaker": "إرول موترجيملر",
+      "speaker_original": "Erol Mütercimler",
+      "speaker_role": "خبير في العلاقات الدولية والإستراتيجيا",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2608.0,
+      "end": 2632.0,
+      "summary_ar": "يؤكد موترجيملر أن الهدف الأساسي للعمليات العسكرية ضد إيران هو رفع التكلفة الاقتصادية عليها."
+     },
+     {
+      "bite_id": "yGth_UO8VwY:g167",
+      "video_id": "yGth_UO8VwY",
+      "channel": "ערוץ 14",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "ميخا أفني",
+      "speaker_original": "מיכה אבני",
+      "speaker_role": "رجل أعمال وزميل بمعهد أبحاث ICGS",
+      "is_host": false,
+      "type": "opinion",
+      "start": 167.0,
+      "end": 186.0,
+      "summary_ar": "انتخابات التجديد النصفي نقطة حاسمة سيقرر ترامب بعدها خيار الحرب أو التفاوض مع إيران."
+     },
+     {
+      "bite_id": "yGth_UO8VwY:g320",
+      "video_id": "yGth_UO8VwY",
+      "channel": "ערוץ 14",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "ميخا أفني",
+      "speaker_original": "מיכה אבני",
+      "speaker_role": "رجل أعمال وزميل بمعهد أبحاث ICGS",
+      "is_host": false,
+      "type": "fact",
+      "start": 320.0,
+      "end": 350.0,
+      "summary_ar": "نتائج انتخابات الكونغرس لن تمنع ترامب دستوريا من خوض حرب لستين يوما بصفته القائد الأعلى للقوات المسلحة."
+     },
+     {
+      "bite_id": "yGth_UO8VwY:g365",
+      "video_id": "yGth_UO8VwY",
+      "channel": "ערוץ 14",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "ميخا أفني",
+      "speaker_original": "מיכה אבני",
+      "speaker_role": "رجل أعمال وزميل بمعهد أبحاث ICGS",
+      "is_host": false,
+      "type": "forecast",
+      "start": 365.0,
+      "end": 380.0,
+      "summary_ar": "ترامب يملك مهلة شهرين بعد الانتخابات للتحرك بحرية قبل تغيير تشكيلة الكونغرس وضعف نفوذه."
+     },
+     {
+      "bite_id": "Au5QJ1-FRYw:g1377",
+      "video_id": "Au5QJ1-FRYw",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "فادي فاضل",
+      "speaker_original": "Fadi Fadel",
+      "speaker_role": "أستاذ القانون الدولي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1377.0,
+      "end": 1407.0,
+      "summary_ar": "يرى أن الانتخابات النصفية لن تؤثر كثيرًا على حرب ترامب على إيران بل إن تداعيات الحرب هي المؤثرة على الناخبين."
+     },
+     {
+      "bite_id": "Au5QJ1-FRYw:g1536",
+      "video_id": "Au5QJ1-FRYw",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "نيك أكرمان",
+      "speaker_original": "Nick Akerman",
+      "speaker_role": "المدعي العام الأميركي السابق",
+      "is_host": false,
+      "type": "forecast",
+      "start": 1536.0,
+      "end": 1574.0,
+      "summary_ar": "يتوقع أن تمنح الأغلبية في الكونغرس الديمقراطيين قدرة على وقف تمويل الحرب ضد إيران."
+     },
+     {
+      "bite_id": "Au5QJ1-FRYw:g1659",
+      "video_id": "Au5QJ1-FRYw",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "برنارد هيكل",
+      "speaker_original": "Bernard Haykel",
+      "speaker_role": "أستاذ دراسات الشرق الأدنى في جامعة برنستون",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1659.0,
+      "end": 1687.0,
+      "summary_ar": "يرى أن خسارة الكونغرس في الانتخابات النصفية لن تقيد ترامب في سياسته الخارجية إذا أراد مواصلة الحرب على إيران."
+     },
+     {
+      "bite_id": "Au5QJ1-FRYw:g1841",
+      "video_id": "Au5QJ1-FRYw",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "عايد المناع",
+      "speaker_original": "Ayed Al-Manna",
+      "speaker_role": "أكاديمي وكاتب سياسي كويتي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1841.0,
+      "end": 1871.0,
+      "summary_ar": "يوضح أن ترامب يملك خياري الحرب أو السلام بعد الانتخابات النصفية متسائلًا عن خيارات إيران بعد انتهاء الاقتراع."
+     },
+     {
+      "bite_id": "Au5QJ1-FRYw:g2191",
+      "video_id": "Au5QJ1-FRYw",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "نيك أكرمان",
+      "speaker_original": "Nick Akerman",
+      "speaker_role": "المدعي العام الأميركي السابق",
+      "is_host": false,
+      "type": "forecast",
+      "start": 2191.0,
+      "end": 2228.0,
+      "summary_ar": "يؤكد أن فوز الديمقراطيين بالكونغرس سيمكنهم من استخدام القوة المالية لوقف تمويل العمليات العسكرية ضد إيران."
+     },
+     {
+      "bite_id": "V-sHiogNhKg:g16",
+      "video_id": "V-sHiogNhKg",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "فرشته بيزشك",
+      "speaker_original": "فرشته پزشک",
+      "speaker_role": "باحثة في العلاقات الدولية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 16.0,
+      "end": 43.0,
+      "summary_ar": "تؤكد الخبيرة أن نتائج الانتخابات لن تؤثر ملموسًا سوى بعرقلة الموازنة، مشيرة إلى تأجيل ترامب الهجوم لما بعد الاقتراع."
+     },
+     {
+      "bite_id": "V-sHiogNhKg:g44",
+      "video_id": "V-sHiogNhKg",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "فرشته بيزشك",
+      "speaker_original": "فرشته پزشک",
+      "speaker_role": "باحثة في العلاقات الدولية",
+      "is_host": false,
+      "type": "forecast",
+      "start": 44.0,
+      "end": 75.0,
+      "summary_ar": "تتوقع الباحثة أن تدفع خسارة ترامب للكونغرس إلى شن هجوم عسكري أشد لإثبات قوته والتأثير في الرواية الإعلامية."
+     },
+     {
+      "bite_id": "V-sHiogNhKg:g87",
+      "video_id": "V-sHiogNhKg",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "فرشته بيزشك",
+      "speaker_original": "فرشته پزشک",
+      "speaker_role": "باحثة في العلاقات الدولية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 87.0,
+      "end": 109.0,
+      "summary_ar": "توضح المحللة أن الكونغرس الجديد لن يستلم مهامه قبل يناير ولن يملك تقييد يد ترامب في السياسة الخارجية."
+     },
+     {
+      "bite_id": "V-sHiogNhKg:g271",
+      "video_id": "V-sHiogNhKg",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "مراد ويسي",
+      "speaker_original": "مراد ویسی",
+      "speaker_role": "صحفي ومحلل سياسي",
+      "is_host": false,
+      "type": "forecast",
+      "start": 271.0,
+      "end": 295.0,
+      "summary_ar": "يرى المحلل أن تقدم الديمقراطيين سيثير غضب ترامب وقد يدفعه لشن حرب في غضون شهرين لتوريطهم بها."
+     },
+     {
+      "bite_id": "V-sHiogNhKg:g295",
+      "video_id": "V-sHiogNhKg",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "مراد ويسي",
+      "speaker_original": "مراد ویسی",
+      "speaker_role": "صحفي ومحلل سياسي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 295.0,
+      "end": 323.0,
+      "summary_ar": "يؤكد الصحفي أن الديمقراطيين لن يجرؤوا على قطع موازنة الجيش أثناء الحرب وسيضطرون للتعامل معها كحرب أمريكية."
+     },
+     {
+      "bite_id": "mW_jI4a8qwY:g95",
+      "video_id": "mW_jI4a8qwY",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "يونس باكسوي",
+      "speaker_original": "Yunus Paksoy",
+      "speaker_role": "ممثل قناة سي إن إن تورك في الولايات المتحدة",
+      "is_host": false,
+      "type": "forecast",
+      "start": 95.0,
+      "end": 117.0,
+      "summary_ar": "يرى يونس باكسوي أن ترامب قد يسعى لتصعيد حرب إيران وحسمها بانتصار قبل بدء ولاية الكونغرس الجديد."
+     },
+     {
+      "bite_id": "xRYDmXfko9Q:g159",
+      "video_id": "xRYDmXfko9Q",
+      "channel": "فرانس 24 عربي",
+      "bloc": "arabic",
+      "orientation": "غربي فرنسي رسمي",
+      "speaker": "رسلان إبراهيم",
+      "speaker_original": "رسلان إبراهيم",
+      "speaker_role": "أستاذ مشارك في العلوم السياسية في جامعة ولاية نيويورك",
+      "is_host": false,
+      "type": "forecast",
+      "start": 159.0,
+      "end": 188.0,
+      "summary_ar": "توقع رسلان إبراهيم أن تؤدي سيطرة الديمقراطيين على الكونغرس إلى تقليص الدعم الأمريكي للحرب في الشرق الأوسط وضد إيران."
+     },
+     {
+      "bite_id": "kZDzQCNPfaM:g703",
+      "video_id": "kZDzQCNPfaM",
+      "channel": "SÖZCÜ",
+      "bloc": "turkish",
+      "orientation": "معارض",
+      "speaker": "هاكان غونيش",
+      "speaker_original": "Hakan Güneş",
+      "speaker_role": "أستاذ مشارك وخبير في السياسة الخارجية",
+      "is_host": false,
+      "type": "forecast",
+      "start": 703.0,
+      "end": 728.0,
+      "summary_ar": "يرى هاكان غونيش أن فوز الديمقراطيين يقلص فرص إقدام ترامب على خطوات راديكالية ضد إيران ويعزز احتمالات التهدئة."
+     },
+     {
+      "bite_id": "kZDzQCNPfaM:g728",
+      "video_id": "kZDzQCNPfaM",
+      "channel": "SÖZCÜ",
+      "bloc": "turkish",
+      "orientation": "معارض",
+      "speaker": "هاكان غونيش",
+      "speaker_original": "Hakan Güneş",
+      "speaker_role": "أستاذ مشارك وخبير في السياسة الخارجية",
+      "is_host": false,
+      "type": "forecast",
+      "start": 728.0,
+      "end": 756.0,
+      "summary_ar": "يتوقع هاكان غونيش استمرار الصراع مع إيران خلال العامين المقبلين على شكل حرب استنزاف متقطعة لا حرب تقليدية شاملة."
+     },
+     {
+      "bite_id": "kZDzQCNPfaM:g774",
+      "video_id": "kZDzQCNPfaM",
+      "channel": "SÖZCÜ",
+      "bloc": "turkish",
+      "orientation": "معارض",
+      "speaker": "هاكان غونيش",
+      "speaker_original": "Hakan Güneş",
+      "speaker_role": "أستاذ مشارك وخبير في السياسة الخارجية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 774.0,
+      "end": 794.0,
+      "summary_ar": "يعتبر هاكان غونيش أن نتائج الانتخابات تدعم الهدوء في الشرق الأوسط لكن دون أن تنعكس بالكامل وفق الأرقام الانتخابية."
+     },
+     {
+      "bite_id": "y2ebkDcf-90:g103",
+      "video_id": "y2ebkDcf-90",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "ريليك شافير",
+      "speaker_original": "Relik Shafir",
+      "speaker_role": "عميد احتياط وقائد قاعدة جوية إسرائيلي سابق",
+      "is_host": false,
+      "type": "opinion",
+      "start": 103.0,
+      "end": 133.0,
+      "summary_ar": "شافير يوضح أن الجيش الأمريكي يستعد للتحرك بانتظار قرار ترامب بعد الانتخابات النصفية."
+     }
+    ],
+    "error": "",
+    "extracted": 31
    }
   },
   {
