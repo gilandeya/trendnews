@@ -2691,6 +2691,13 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 - `logo: {top: 250, right: 140}` و`band: {top: 980, height: 240}` (والترجمة فوقه تتبعه) و`panel.frame: {width: 860, height: 1000, top: 250}`.
 - `render_version` = 55؛ g663–g666 في `tests/test_guards_golden.py:test_reel_fb_safe_s10_guards`.
 
+## نفاد رصيد البروكسي لا يُعاد وحده (قرار صاحب المشروع 6/11) — `reel_render.proxy_exhausted`، `publish.resume_proxy_waits`
+
+عطل تنزيل مقطع نصّه الكامل (قبل قصّه إلى 120 حرفًا) يطابق `reel.render.proxy_wait.patterns` (402، Payment Required) ← `render_status="waiting_proxy"`
+بلا زيادة `render_attempts` ولا `failed`، وتعليق `comment_proxy_exhausted` يذكر `proxy_wait.notify` (@gilandeya) فيصله بريد من GitHub. لا شيء
+يعيده تلقائيًا (`queued_reels` لا يلتقطه ولو كانت نسخته أقدم)؛ إعادة وسم `approved` على القضية نفسها (المسار العادي، قبل كل توجيه بالوسم في
+`publish.main`) تعيده queued بمحاولات 0 وتطلق التركيب وتزيل الوسم. تعليق انتظار الرصيد في `meta_qa` يذكره كذلك. g842–g845.
+
 ## رفع نسخة التركيب لا يعيد تركيب المُركَّب (S11) — `reel_render.queued_reels`
 
 بقرار صاحب المشروع «الإصلاح للقادم فقط» (بعد S10 كانت 11 ريلًا معتمدًا قديمًا ستُعاد واحدًا كل تشغيلة): `reel.render.rerender_stale` (false) ← ريل
