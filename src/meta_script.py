@@ -84,7 +84,14 @@ def bites_points(bites: list[dict], date: str) -> list[dict]:
 # ───────────── السياق والختام (نداء واحد) ─────────────
 
 def _create(client, **kwargs):
+    # publish.py يستدعي finalize بلا عميل، فيُبنى هنا عند الحاجة (حادثة #1808 في 6/11: AttributeError على None أسقط خطوة
+    # النشر كلها). الاختبار كان يزيّف _create نفسها فلم يرَ ذلك
     from . import llm
+    if client is None:
+        from anthropic import Anthropic
+
+        from .config import env
+        client = Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
     return llm.create(client, **kwargs)
 
 

@@ -5475,3 +5475,24 @@ def test_gemini_reel_probe() -> None:
           "البخيتي" not in public and "فريحات" not in public
           and "البخيتي" in (tmp / "private" / "reel_abcdef123456.json").read_text(encoding="utf-8"))
     (day / "abcdef123456.json").unlink()
+
+
+def test_meta_script_client() -> None:
+    """حادثة #1808 (6/11): finalize يُستدعى من publish.py بلا عميل، و_create كان يمرّر None إلى llm.create فسقطت خطوة النشر كلها."""
+    import os
+
+    from src import llm, meta_script
+    seen = []
+    saved, saved_key = llm.create, os.environ.get("ANTHROPIC_API_KEY")
+    os.environ["ANTHROPIC_API_KEY"] = "test-key"
+    try:
+        llm.create = lambda client, **kw: seen.append(client) or "ok"
+        out = meta_script._create(None, model="m", max_tokens=1, messages=[])
+    finally:
+        llm.create = saved
+        if saved_key is None:
+            os.environ.pop("ANTHROPIC_API_KEY", None)
+        else:
+            os.environ["ANTHROPIC_API_KEY"] = saved_key
+    check("meta_script._create بلا عميل يبني عميلًا ولا يمرّر None (حادثة #1808)",
+          out == "ok" and len(seen) == 1 and seen[0] is not None and hasattr(seen[0], "messages"), seen)
