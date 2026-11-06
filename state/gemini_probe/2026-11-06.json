@@ -1,14 +1,14 @@
 {
- "at": "2026-11-06T09:34:46.712055+00:00",
+ "at": "2026-11-06T09:36:29.773721+00:00",
  "summary": {
-  "model": "gemini-2.5-flash",
+  "model": "gemini-3.8-flash",
   "videos": 7,
-  "ok": 0,
-  "known_agree": 0,
-  "known_checked": 0,
-  "bites_agree": 0,
-  "bites_compared": 0,
-  "cost_usd": 0.0,
+  "ok": 7,
+  "known_agree": 6,
+  "known_checked": 8,
+  "bites_agree": 27,
+  "bites_compared": 31,
+  "cost_usd": 0.57,
   "minutes": 89.0
  },
  "videos": [
@@ -16,106 +16,298 @@
    "video_id": "qB_4P0mUCyI",
    "channel": "",
    "duration": null,
-   "seconds": 0.2,
-   "finish": "",
-   "error": "HTTP 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.8-flash for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemin",
+   "seconds": 108.2,
+   "finish": "STOP",
+   "error": "",
    "tokens": {
-    "prompt": null,
-    "output": null,
-    "thoughts": null,
-    "by_modality": {}
+    "prompt": 246072,
+    "output": 18652,
+    "thoughts": 574,
+    "by_modality": {
+     "VIDEO": 245701,
+     "TEXT": 371
+    }
    },
-   "cost_usd": 0.0
+   "cost_usd": 0.1219,
+   "segments": 80,
+   "speakers": 4,
+   "named_speakers": 4,
+   "name_sources": {
+    "addressed": 1,
+    "chyron": 3
+   },
+   "known": {
+    "checked": 4,
+    "agree": 3,
+    "disagree": 1
+   },
+   "bites": {
+    "compared": 0,
+    "agree": 0,
+    "disagree": 0,
+    "no_segment": 0
+   },
+   "timing": {
+    "transcript": false,
+    "located": 0,
+    "abs_drift_median": null,
+    "abs_drift_p90": null,
+    "within_3s": 0
+   }
   },
   {
    "video_id": "QFMGl1rCLhU",
    "channel": "",
    "duration": null,
-   "seconds": 0.2,
-   "finish": "",
-   "error": "HTTP 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.8-flash for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemin",
+   "seconds": 127.4,
+   "finish": "STOP",
+   "error": "",
    "tokens": {
-    "prompt": null,
-    "output": null,
-    "thoughts": null,
-    "by_modality": {}
+    "prompt": 246072,
+    "output": 12447,
+    "thoughts": 2493,
+    "by_modality": {
+     "VIDEO": 245701,
+     "TEXT": 371
+    }
    },
-   "cost_usd": 0.0
+   "cost_usd": 0.1112,
+   "segments": 54,
+   "speakers": 10,
+   "named_speakers": 6,
+   "name_sources": {
+    "unknown": 4,
+    "chyron": 6
+   },
+   "known": {
+    "checked": 2,
+    "agree": 2,
+    "disagree": 0
+   },
+   "bites": {
+    "compared": 0,
+    "agree": 0,
+    "disagree": 0,
+    "no_segment": 0
+   },
+   "timing": {
+    "transcript": false,
+    "located": 0,
+    "abs_drift_median": null,
+    "abs_drift_p90": null,
+    "within_3s": 0
+   }
   },
   {
    "video_id": "nx6MtSAGGLQ",
    "channel": "",
    "duration": null,
-   "seconds": 0.2,
-   "finish": "",
-   "error": "HTTP 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.8-flash for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemin",
+   "seconds": 107.5,
+   "finish": "STOP",
+   "error": "",
    "tokens": {
-    "prompt": null,
-    "output": null,
-    "thoughts": null,
-    "by_modality": {}
+    "prompt": 240615,
+    "output": 10003,
+    "thoughts": 247,
+    "by_modality": {
+     "TEXT": 371,
+     "VIDEO": 240244
+    }
    },
-   "cost_usd": 0.0
+   "cost_usd": 0.0978,
+   "segments": 36,
+   "speakers": 8,
+   "named_speakers": 8,
+   "name_sources": {
+    "chyron": 8
+   },
+   "known": {
+    "checked": 2,
+    "agree": 1,
+    "disagree": 0
+   },
+   "bites": {
+    "compared": 0,
+    "agree": 0,
+    "disagree": 0,
+    "no_segment": 0
+   },
+   "timing": {
+    "transcript": false,
+    "located": 0,
+    "abs_drift_median": null,
+    "abs_drift_p90": null,
+    "within_3s": 0
+   }
   },
   {
    "video_id": "BKOnME2ktOs",
    "channel": "فرانس 24 عربي",
    "duration": 1033,
-   "seconds": 0.2,
-   "finish": "",
-   "error": "HTTP 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.8-flash for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemin",
+   "seconds": 50.5,
+   "finish": "STOP",
+   "error": "",
    "tokens": {
-    "prompt": null,
-    "output": null,
-    "thoughts": null,
-    "by_modality": {}
+    "prompt": 94369,
+    "output": 4568,
+    "thoughts": 586,
+    "by_modality": {
+     "TEXT": 371,
+     "VIDEO": 93998
+    }
    },
-   "cost_usd": 0.0
+   "cost_usd": 0.0412,
+   "segments": 15,
+   "speakers": 3,
+   "named_speakers": 3,
+   "name_sources": {
+    "chyron": 3
+   },
+   "known": {
+    "checked": 0,
+    "agree": 0,
+    "disagree": 0
+   },
+   "bites": {
+    "compared": 8,
+    "agree": 5,
+    "disagree": 3,
+    "no_segment": 0
+   },
+   "timing": {
+    "transcript": true,
+    "located": 15,
+    "abs_drift_median": 1.0,
+    "abs_drift_p90": 3600.0,
+    "within_3s": 8
+   }
   },
   {
    "video_id": "kWvv7wUwGHY",
    "channel": "SÖZCÜ",
    "duration": 2064,
-   "seconds": 0.2,
-   "finish": "",
-   "error": "HTTP 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.8-flash for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemin",
+   "seconds": 72.0,
+   "finish": "STOP",
+   "error": "",
    "tokens": {
-    "prompt": null,
-    "output": null,
-    "thoughts": null,
-    "by_modality": {}
+    "prompt": 188109,
+    "output": 6025,
+    "thoughts": 1412,
+    "by_modality": {
+     "VIDEO": 187738,
+     "TEXT": 371
+    }
    },
-   "cost_usd": 0.0
+   "cost_usd": 0.075,
+   "segments": 24,
+   "speakers": 2,
+   "named_speakers": 2,
+   "name_sources": {
+    "chyron": 2
+   },
+   "known": {
+    "checked": 0,
+    "agree": 0,
+    "disagree": 0
+   },
+   "bites": {
+    "compared": 8,
+    "agree": 8,
+    "disagree": 0,
+    "no_segment": 0
+   },
+   "timing": {
+    "transcript": true,
+    "located": 0,
+    "abs_drift_median": null,
+    "abs_drift_p90": null,
+    "within_3s": 0
+   }
   },
   {
    "video_id": "0fho_jeaYbc",
    "channel": "Iran International",
    "duration": 1438,
-   "seconds": 0.2,
-   "finish": "",
-   "error": "HTTP 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.8-flash for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemin",
+   "seconds": 49.7,
+   "finish": "STOP",
+   "error": "",
    "tokens": {
-    "prompt": null,
-    "output": null,
-    "thoughts": null,
-    "by_modality": {}
+    "prompt": 131224,
+    "output": 3452,
+    "thoughts": 669,
+    "by_modality": {
+     "TEXT": 371,
+     "VIDEO": 130853
+    }
    },
-   "cost_usd": 0.0
+   "cost_usd": 0.0497,
+   "segments": 6,
+   "speakers": 3,
+   "named_speakers": 3,
+   "name_sources": {
+    "chyron": 3
+   },
+   "known": {
+    "checked": 0,
+    "agree": 0,
+    "disagree": 0
+   },
+   "bites": {
+    "compared": 8,
+    "agree": 7,
+    "disagree": 1,
+    "no_segment": 0
+   },
+   "timing": {
+    "transcript": true,
+    "located": 5,
+    "abs_drift_median": 1.0,
+    "abs_drift_p90": 1.0,
+    "within_3s": 5
+   }
   },
   {
    "video_id": "1w226d9saCE",
    "channel": "ערוץ 14",
    "duration": 802,
-   "seconds": 0.2,
-   "finish": "",
-   "error": "HTTP 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.5-flash is no longer available to new users. Please update your code to use models/gemini-3.8-flash for the latest features and improvements. We recommend you to use the Interactions API (https://ai.google.dev/gemin",
+   "seconds": 153.0,
+   "finish": "STOP",
+   "error": "",
    "tokens": {
-    "prompt": null,
-    "output": null,
-    "thoughts": null,
-    "by_modality": {}
+    "prompt": 73268,
+    "output": 5710,
+    "thoughts": 14776,
+    "by_modality": {
+     "VIDEO": 72897,
+     "TEXT": 371
+    }
    },
-   "cost_usd": 0.0
+   "cost_usd": 0.0732,
+   "segments": 19,
+   "speakers": 6,
+   "named_speakers": 1,
+   "name_sources": {
+    "unknown": 5,
+    "chyron": 1
+   },
+   "known": {
+    "checked": 0,
+    "agree": 0,
+    "disagree": 0
+   },
+   "bites": {
+    "compared": 7,
+    "agree": 7,
+    "disagree": 0,
+    "no_segment": 0
+   },
+   "timing": {
+    "transcript": true,
+    "located": 17,
+    "abs_drift_median": 0.0,
+    "abs_drift_p90": 1.0,
+    "within_3s": 17
+   }
   }
  ]
 }
