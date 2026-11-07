@@ -1336,6 +1336,57 @@ def narration_lines(cfg, segment: str, bg: dict | None = None) -> list[str]:
     return _fit(p.d, segment, fpath, p.max_w, kw["max_lines"], kw["start"], kw["minimum"], fw, lf, cfg)[1]
 
 
+def narration_word_layout(cfg, segment: str, bg: dict | None = None) -> list:
+    """بلاطات كلمات مقطع الراوي في مواضعها النهائية كما يرسمها frame_narration (الخط والحجم والأسطر ووسط الكتلة نفسها)،
+    كي ينزل السياق كلمةً كلمة كالعنوان والسؤال (قرار صاحب المشروع 7/11) دون أن يتغير شكله بعد اكتمال ظهوره."""
+    import numpy as np
+    p, kw = _narration_pen(cfg, segment, [], bg)
+    fpath, fw, lf = _narration_font(cfg, bg, segment)
+    font, lines, lh = _fit(p.d, segment, fpath, p.max_w, kw["max_lines"], kw["start"], kw["minimum"], fw, lf, cfg)
+    total = lh * len(lines)
+    safe = p._safe()
+    top = max(safe[0], min(int(kw["y_mid"] - total / 2), safe[1] - total))
+    kwargs = imaging._kwargs()
+
+    def adv(s: str) -> float:
+        return p.d.textlength(imaging._prepare(s), font=font, **kwargs)
+    tiles: list = []
+    for j, ln in enumerate(lines):
+        y = int(top + j * lh)
+        # السطر يُرسم كاملًا كما في frame_narration ثم يُقصّ أعمدةً بين الكلمات: رسم كل كلمة وحدها بموضع محسوب من
+        # عرض الحروف يزيحها بكسلًا أو أكثر (تقريب Raqm)، فيقفز النص حين يكتمل
+        line = _Pen(cfg, [], transparent=True)
+        imaging.draw_text(line.d, (p.cx, y), ln, font, line.white, anchor="ma")
+        la = np.asarray(line.img)[..., 3]
+        rows = np.nonzero(la.max(axis=1) > 0)[0]
+        y0, y1 = (int(rows.min()), int(rows.max()) + 1) if len(rows) else (y, y + 1)
+        # حدود الكلمات التقريبية من مواضعها المحسوبة، والقصّ في منتصف الفراغ بين حبر كلمتين متجاورتين
+        right = p.cx + adv(ln) / 2
+        toks = ln.split()
+        spans = []
+        for k, tok in enumerate(toks):
+            x = right - (adv(" ".join(toks[:k]) + " ") if k else 0)
+            spans.append((x - adv(tok), x))
+        cuts = [line.w] + [int(round((spans[k][0] + spans[k + 1][1]) / 2)) for k in range(len(toks) - 1)] + [0]
+        for k in range(len(toks)):
+            x0, x1 = max(cuts[k + 1], 0), min(cuts[k], line.w)
+            if x1 <= x0:
+                x0, x1 = x0, x0 + 1
+            tiles.append((line.img.crop((x0, y0, x1, y1)), (x0, y0)))
+    return tiles
+
+
+def narration_seg_word_times(segment: str, span: float) -> list[float]:
+    """زمن كل كلمة داخل مقطع الراوي: بنسبة حروف ما قبلها (بلا مسافات) من مدة نطق المقطع، كما تحسب narration_word_times."""
+    words = segment.split()
+    total = sum(len(w) for w in words) or 1
+    out, before = [], 0
+    for w in words:
+        out.append(span * before / total)
+        before += len(w)
+    return out
+
+
 def reveal_steps(line_chars: list[int], speech_seconds: float, hold_seconds: float, fps: float,
                  fade: float) -> list[tuple[tuple, float]]:
     """خطوات ظهور أسطر مقطع: [(شفافية كل سطر 0..1، المدة)]. السطر k يبدأ عند نسبة حروف ما قبله (غير المسافة) من مدة
@@ -2120,13 +2171,21 @@ def word_drop_frames(cfg, text: str, times: list[float], seconds: float, top: in
     """تيار حالات PNG [(ملف، مدة)] لعنوان تنزل كلماته: الكلمة k تبدأ عند times[k] فتنزل من words.drop_px بكسل فوق موضعها النهائي
     مع شفافية 0←1 خلال words.drop ثانية بتسارع ease-out، وبقية الكلمات ثابتة في مواضعها؛ السطر لا يتحرك. لكل إطار زمنه
     البدئي (لا نهايته) فلا تظهر كلمة قبل زمنها. الإطارات المتطابقة تُدمج في مدة واحدة. مشتركة مع السؤال الأخير في P1a-2."""
+    return _drop_frames(cfg, word_layout(cfg, text, top, size_key)["tiles"], times, seconds, tmp, tag,
+                        label=label, label_at=label_at)
+
+
+def _drop_frames(cfg, tiles: list, times: list[float], seconds: float, tmp: Path, tag: str,
+                 label: Image.Image | None = None, label_at: float | None = None,
+                 base: Image.Image | None = None) -> list[tuple[Path, float]]:
+    """نواة نزول الكلمات المشتركة: بلاطات كلمات جاهزة (من word_layout أو narration_word_layout) وأزمنتها ← تيار الحالات.
+    base خلفية كل إطار (شفافة افتراضيًا؛ الكحلي لراوٍ بلا صورة خلفية)."""
     rcfg, wc = cfg.path("reel.render"), cfg.path("reel.render.words")
     fps = float(rcfg["fps"])
     drop, drop_px = float(wc["drop"]), float(wc["drop_px"])
-    lay = word_layout(cfg, text, top, size_key)
-    tiles = lay["tiles"]
     n_total = max(int(math.ceil(seconds * fps - 1e-9)), 1)
-    base = Image.new("RGBA", (int(rcfg["width"]), int(rcfg["height"])), (0, 0, 0, 0))
+    if base is None:
+        base = Image.new("RGBA", (int(rcfg["width"]), int(rcfg["height"])), (0, 0, 0, 0))
     frames: list[tuple[Path, float]] = []
     prev_key = None
     for f in range(n_total):
@@ -3191,7 +3250,23 @@ def _narration_frames(parts: list[tuple[str, float]], i: int, cfg, tmp: Path, le
     silence = float(cfg.path("reel.tts.sentence_silence", 0.35))
     fps = float(cfg.path("reel.render.fps"))
     frames: list[tuple[Path, float]] = []
-    if cfg.path("reel.render.reveal.mode", "lines") == "lines":
+    mode = cfg.path("reel.render.reveal.mode", "lines")
+    if mode == "words":
+        # كلمةً كلمة بحركة العنوان والسؤال نفسها (words.drop/drop_px)؛ القسمة إلى مقاطع ومدة كل مقطع كوضع الأسطر تمامًا
+        for k, (text, dur) in enumerate(parts):
+            hold = min(silence, dur)
+            bgk = bg_of(k)
+            segs = narration_segments(cfg, text, bgk)
+            counts = [_nonspace(s) for s in segs]
+            for j, seg in enumerate(segs):
+                span = (dur - hold) * counts[j] / (sum(counts) or 1)
+                seconds = span + (hold if j == len(segs) - 1 else 0.0)
+                tiles = narration_word_layout(cfg, seg, bgk)
+                base = None if bgk is not None else _Pen(cfg, None).img
+                frames += _drop_frames(cfg, tiles, narration_seg_word_times(seg, span)[:len(tiles)], seconds, tmp,
+                                       f"nar_{i}_{k}_{j}", base=base)
+        return frames
+    if mode == "lines":
         fade = float(cfg.path("reel.render.reveal.fade", 0.25))
         for k, (text, dur) in enumerate(parts):
             hold = min(silence, dur)

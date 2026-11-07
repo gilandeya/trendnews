@@ -2733,6 +2733,15 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 أو نقلًا من `name_latin` مثل Al Jazeera) بالذهبي، والتوجّه بالرمادي. `band.latin_parens: true` يعيد القوسين و`band.channel_latin_gold: false`
 يعيد رسم القناة رماديًا. `render_version` = 70 (للقادم فقط، S11)؛ g866–g868.
 
+## نص السياق كلمةً كلمة (قرار صاحب المشروع 7/11) — `reel_render._narration_frames`
+
+`reel.render.reveal.mode: words`: مشهد الراوي (السياق) ينزل كلمةً كلمة بحركة العنوان والسؤال نفسها (`words.drop`/`drop_px`)
+بدل ظهوره سطرًا سطرًا. `narration_word_layout` يرسم كل سطر كاملًا كما يرسمه `frame_narration` ثم يقصّه أعمدةً بين الكلمات (رسم الكلمة
+وحدها بموضع محسوب يزيحها بكسلًا بتقريب Raqm فيقفز النص عند اكتماله)، و`_drop_frames` نواة النزول المشتركة مع `word_drop_frames`؛ زمن
+الكلمة بنسبة حروف ما قبلها من مدة نطق مقطعها (`narration_seg_word_times`). القسمة إلى مقاطع ومدة كل مقطع وصمت آخره كوضع الأسطر، وبلا صورة
+خلفية الإطار كحلي معتم. `lines`/`typewriter` باقيان. `render_version` = 71 (للقادم فقط، S11). `tests.helpers.load_config` يُبقي `lines`
+و`context_words_cfg` يعيد الإنتاج؛ g869–g872.
+
 ## حركة الشعار وحجمه (قرار صاحب المشروع 7/11) — `reel_render._EASES`
 
 حركة الشعار بين الوسط والزاوية ذهابًا (بعد الهوك) وإيابًا (الخاتمة) بمنحنى `reel.render.logo_ease`: `smootherstep` (بطيء في أولها سريع في وسطها
