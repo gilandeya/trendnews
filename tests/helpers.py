@@ -70,6 +70,9 @@ def load_config(path=None):
             rcfg["clause_lines"]["enabled"] = False
         # حركة الشعار وحجمه القديمان (7/11): مراجع الأوامر والهندسة المحفوظة تثبّت smoothstep و420 و0.6؛ logo_motion_cfg يعيد الإنتاج
         rcfg["logo_ease"] = "smoothstep"
+        # السياق كلمةً كلمة (7/11) يغيّر إطارات الراوي التي تعدّها مراجع الأوامر المحفوظة؛ context_words_cfg يعيده
+        if isinstance(rcfg.get("reveal"), dict):
+            rcfg["reveal"]["mode"] = "lines"
         if isinstance(rcfg.get("outro"), dict):
             rcfg["outro"]["logo_width"] = 420
         if isinstance(rcfg.get("hook"), dict):
@@ -109,6 +112,14 @@ def question_first_cfg(cfg):
     real = _real_load_config()
     c["reel"]["render"]["hook"]["question_at"] = real.path("reel.render.hook.question_at")
     c["reel"]["script"]["v2"]["fixed_seconds"] = real.path("reel.script.v2.fixed_seconds")
+    return c
+
+
+def context_words_cfg(cfg):
+    """نسخة بظهور الراوي كما في config.yaml (كلمةً كلمة، 7/11)."""
+    import copy
+    c = copy.deepcopy(cfg)
+    c["reel"]["render"]["reveal"] = dict(_real_load_config().path("reel.render.reveal"))
     return c
 
 

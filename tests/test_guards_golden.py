@@ -25132,3 +25132,46 @@ def test_reel_band_latin_gold_guards() -> None:
     check("g868: config.yaml على الشكل الجديد ونسخة التركيب رُفعت",
           real.path("reel.render.band.latin_parens") is False and bool(real.path("reel.render.band.channel_latin_gold"))
           and int(real.path("reel.render.version")) >= 70)
+
+
+def test_reel_context_words_guards() -> None:
+    """نص السياق (مشهد الراوي) ينزل كلمةً كلمة كالعنوان والسؤال (قرار صاحب المشروع 7/11، g869–g872)."""
+    import tempfile
+    import numpy as np
+    from PIL import Image
+    from src import reel_render
+    from tests.helpers import _real_load_config, context_words_cfg
+
+    cfg = context_words_cfg(load_config())
+    seg = "أعلنت الحكومة اليوم خطة جديدة لخفض الأسعار في الأسواق المحلية"
+    bg = {"raw": None}
+    final = np.asarray(reel_render.frame_narration(cfg, seg, bg=bg))[..., 3] > 40
+    tiles = reel_render.narration_word_layout(cfg, seg, bg)
+    comp = Image.new("RGBA", (int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))), (0, 0, 0, 0))
+    for tile, xy in tiles:
+        comp.alpha_composite(tile, xy)
+    got = np.asarray(comp)[..., 3] > 40
+    diff = int(np.logical_xor(final, got).sum())
+    check("g869: بلاطة لكل كلمة", len(tiles) == len(seg.split()), (len(tiles), len(seg.split())))
+    check("g869: الكلمات مكتملةً في مواضع النص الثابت نفسها بكسلًا ببكسل", diff == 0, (diff, int(final.sum())))
+
+    parts = [(seg, 4.0), ("وقال الوزير إن التنفيذ يبدأ الشهر المقبل", 3.0)]
+    with tempfile.TemporaryDirectory() as td:
+        frames = reel_render._narration_frames(parts, 0, cfg, __import__("pathlib").Path(td), 0.3, bg=bg)
+        total = sum(d for _, d in frames)
+        check("g870: مجموع المدد = مدة الجمل", abs(total - 7.0) < 0.05, total)
+        first = np.asarray(Image.open(frames[0][0]))[..., 3]
+        check("g870: أول إطار بلا نص ظاهر", int((first > 40).sum()) == 0, int((first > 40).sum()))
+        inks = [int((np.asarray(Image.open(f))[..., 3] > 40).sum()) for f, _ in frames]
+        grows = sum(1 for a, b in zip(inks, inks[1:]) if b > a)
+        check("g870: النص يكبر في خطوات كثيرة لا بعدد الأسطر", grows >= len(seg.split()) // 2, grows)
+        # تكبر الكلمة بالتدريج ثم يثبت آخر إطار للجملة الأولى = النص الكامل
+        check("g870: آخر حالة = النص الثابت", inks[-1] > 0)
+        nav = reel_render._narration_frames([(seg, 2.0)], 1, cfg, __import__("pathlib").Path(td), 0.0, bg=None)
+        px = np.asarray(Image.open(nav[0][0]).convert("RGBA"))
+        check("g871: بلا صورة خلفية: الإطار كحلي معتم", int(px[..., 3].min()) == 255 and tuple(px[5, 5, :3])
+              == tuple(reel_render._Pen(cfg, None).navy), tuple(px[5, 5]))
+    real = _real_load_config()
+    check("g872: config.yaml كلمةً كلمة ونسخة التركيب رُفعت",
+          real.path("reel.render.reveal.mode") == "words" and int(real.path("reel.render.version")) >= 71)
+    check("g872: الاختبارات القديمة على الأسطر", load_config().path("reel.render.reveal.mode") == "lines")
