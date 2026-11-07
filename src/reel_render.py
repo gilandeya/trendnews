@@ -1579,6 +1579,26 @@ def _channel_name_latin(scene: dict, cfg) -> str:
     return ""
 
 
+def band_orientation(scene: dict, cfg) -> str:
+    """توجّه القناة بين قوسين بعد اسمها في الشريط (قرار صاحب المشروع 7/11: «قناة المشهد Almashhad (يمينية محافظة)»). المصدر
+    channels[].orientation نفسه الذي يعدّه ترتيب المواضيع (لا قائمة ثانية تتباعد عنه)، مصوغًا وصفًا للقناة بـband.orientation_labels
+    («يمين» ← «يمينية»)؛ توجّه بلا صيغة أو قناة غير معروفة ← لا شيء، فلا يُكتب توجّه لم يقرّره صاحب المشروع."""
+    b = cfg.path("reel.render.band") or {}
+    if not b.get("show_orientation"):
+        return ""
+    labels = b.get("orientation_labels") or {}
+    orig = (scene.get("channel_original") or "").strip()
+    display = (scene.get("channel_display") or "").strip()
+    for ch in cfg.get("channels") or []:
+        if not isinstance(ch, dict):
+            continue
+        name = str(ch.get("name") or "").strip()
+        names = {name, str(ch.get("name_ar") or "").strip()} - {""}
+        if (orig and orig == name) or (display and display in names):
+            return str(labels.get(str(ch.get("orientation") or "").strip()) or "").strip()
+    return ""
+
+
 def band_channel_parts(scene: dict, cfg) -> tuple[str, str]:
     """(الاسم العربي للقناة بكلمة band.channel_prefix قبله، رسمها الأجنبي أو ""). الأجنبي من channel_original بلا حروفه العربية،
     ولا يُكرَّر إن كان الاسم العربي يحويه. قناة بلا اسم عربي ← الأجنبي وحده بلا أقواس."""
@@ -1617,12 +1637,23 @@ def band_text_right(cfg) -> int:
     return int(like["x"]) - int(like["r"]) - int(b.get("text_gap", 12))
 
 
-def _band_pair(p, ar: str, lat: str, kind: str, sizes: tuple[int, int], mins: tuple[int, int], colors, right: int):
-    """سطر «عربي (أجنبي)»: يُقاس بأكبر حجمين يجعلان السطر كله بين x0 وright، ويُصغَّر الحجمان معًا بخطوة 2 حتى أدنييهما؛
-    وإن لم يسع بأدنى حجم يُحذف الأجنبي (العربي هو ما يقرؤه المشاهد). يعيد (خطّا العربي والأجنبي أو None، ارتفاع الحبر) أو None."""
+def _band_latin_text(latin: str, paren: bool) -> str:
+    return f"({latin})" if paren else latin
+
+
+def _band_pair(p, ar: str, lat: str, kind: str, sizes: tuple[int, int], mins: tuple[int, int], colors, right: int,
+               orient: str = "", paren: bool = True):
+    """سطر «عربي (أجنبي)» أو «عربي أجنبي (توجّه)» لسطر القناة: يُقاس بأكبر حجمين يجعلان السطر كله بين x0 وright، ويُصغَّر الحجمان معًا
+    بخطوة 2 حتى أدنييهما؛ وإن لم يسع بأدنى حجم يُحذف التوجّه ثم الأجنبي (العربي هو ما يقرؤه المشاهد). التوجّه بحجم الأجنبي.
+    يعيد (خط العربي، خط الأجنبي، الأجنبي، خط التوجّه، التوجّه) أو None."""
     fp, fw = p.face(ar, kind)
-    tries = [(lat, sizes, mins)] + ([("", sizes, mins)] if lat else [])
-    for latin, (sa, sl), (ma, ml) in tries:
+    tries = [(lat, orient)]
+    if orient:
+        tries.append((lat, ""))
+    if lat:
+        tries += ([("", orient)] if orient else []) + [("", "")]
+    for latin, ori in tries:
+        (sa, sl), (ma, ml) = sizes, mins
         a, l_ = sa, sl
         while a >= ma:
             fa = pick_font(ar, fp, a, fw)
@@ -1630,15 +1661,22 @@ def _band_pair(p, ar: str, lat: str, kind: str, sizes: tuple[int, int], mins: tu
                 return None
             box = p.ink(ar, fa, (right, 0), "rs")
             width = box[2] - box[0]
-            fl = None
+            fl = fo = None
             if latin:
+                lt = _band_latin_text(latin, paren)
                 lp, lw = p.face(latin, "body")
-                fl = pick_font(f"({latin})", lp, max(l_, ml), lw)
+                fl = pick_font(lt, lp, max(l_, ml), lw)
                 if fl is not None:
-                    lb = p.ink(f"({latin})", fl, (0, 0), "ls", ltr=True)
+                    lb = p.ink(lt, fl, (0, 0), "ls", ltr=True)
                     width += 16 + (lb[2] - lb[0])
-            if right - width >= p.x0 and (not latin or fl is not None):
-                return fa, fl, latin
+            if ori:
+                op, ow = p.face(ori, "body")
+                fo = pick_font(f"({ori})", op, max(l_, ml), ow)
+                if fo is not None:
+                    ob = p.ink(f"({ori})", fo, (right, 0), "rs")
+                    width += 16 + (ob[2] - ob[0])
+            if right - width >= p.x0 and (not latin or fl is not None) and (not ori or fo is not None):
+                return fa, fl, latin, fo, ori
             a, l_ = a - 2, l_ - 2
     return None
 
@@ -1654,6 +1692,10 @@ def _draw_band_inline(p, cfg, scene: dict, top: int, height: int, verified: bool
     pad = int(b.get("bar_pad", 26))
     p.d.rectangle((like_left, top + pad, like_left + int(b["edge"]), top + height - pad), fill=p.gold + (255,))
     ch_ar, ch_lat = band_channel_parts(scene, cfg)
+    ch_or = band_orientation(scene, cfg)
+    # مع التوجّه يصير سطر القناة «قناة المشهد Almashhad (يمينية محافظة)» كما طلب صاحب المشروع: قوسان للتوجّه وحده، وإلا
+    # التبس الرسم الأجنبي بالوصف؛ وبلا توجّه يبقى الأجنبي بين قوسين كما كان
+    ch_paren = not ch_or
     rows = []
     if verified:
         name = scene["speaker_name"].strip()
@@ -1662,38 +1704,47 @@ def _draw_band_inline(p, cfg, scene: dict, top: int, height: int, verified: bool
         if not re.search(r"[A-Za-z]", latin) or latin.casefold() == name.casefold():
             latin = ""
         rows.append((name, latin, "display", (56, 34), (int(mins.get("name", 40)), int(mins.get("latin", 26))),
-                     (p.white, p.gold)))
+                     (p.white, p.gold), "", True))
         role = band_role(scene.get("speaker_role") or "")
         if role:
-            rows.append((role, "", "body", (40, 0), (int(mins.get("role", 26)), 0), (grey, grey)))
+            rows.append((role, "", "body", (40, 0), (int(mins.get("role", 26)), 0), (grey, grey), "", True))
         if ch_ar:
-            rows.append((ch_ar, ch_lat, "body", (40, 32), (int(mins.get("role", 26)), int(mins.get("latin", 26))), (grey, grey)))
+            rows.append((ch_ar, ch_lat, "body", (40, 32), (int(mins.get("role", 26)), int(mins.get("latin", 26))), (grey, grey),
+                         ch_or, ch_paren))
     elif ch_ar:
         rows.append((ch_ar, ch_lat, "display", (52, 34), (int(mins.get("guest", 30)), int(mins.get("latin", 26))),
-                     (p.white, grey)))
+                     (p.white, grey), ch_or, ch_paren))
     fitted = []
-    for ar, lat, kind, sizes, mn, colors in rows:
-        got = _band_pair(p, ar, lat, kind, sizes, mn, colors, right)
+    for ar, lat, kind, sizes, mn, colors, ori, paren in rows:
+        got = _band_pair(p, ar, lat, kind, sizes, mn, colors, right, ori, paren)
         if got is None:
             log.warning("سطر لا يسع شريط المتحدث فحُذف: %r", ar[:40])
             continue
-        fa, fl, latin = got
+        fa, fl, latin, fo, ori = got
         box = p.ink(ar, fa, (right, 0), "rs")
-        fitted.append((ar, latin, fa, fl, colors, box))
+        fitted.append((ar, latin, fa, fl, colors, box, fo, ori, paren))
     if not fitted:
         return
     gap = int(b.get("line_gap", 12)) + 6
-    total = sum(bx[3] - bx[1] for *_, bx in fitted) + gap * (len(fitted) - 1)
+    total = sum(f[5][3] - f[5][1] for f in fitted) + gap * (len(fitted) - 1)
     y = top + (height - total) // 2
-    for ar, latin, fa, fl, colors, box in fitted:
+    for ar, latin, fa, fl, colors, box, fo, ori, paren in fitted:
         base = y - box[1]
         imaging.draw_text(p.d, (right, base), ar, fa, colors[0], anchor="rs")
         ab = p.ink(ar, fa, (right, base), "rs")
         p.boxes.append(tuple(ab))
+        left = ab[0]
         if latin and fl is not None:
-            xy = (ab[0] - 16, base)
-            imaging.draw_text_ltr(p.d, xy, f"({latin})", fl, colors[1], anchor="rs")
-            p.boxes.append(tuple(p.ink(f"({latin})", fl, xy, "rs", ltr=True)))
+            lt = _band_latin_text(latin, paren)
+            xy = (left - 16, base)
+            imaging.draw_text_ltr(p.d, xy, lt, fl, colors[1], anchor="rs")
+            lb = tuple(p.ink(lt, fl, xy, "rs", ltr=True))
+            p.boxes.append(lb)
+            left = lb[0]
+        if ori and fo is not None:
+            xy = (left - 16, base)
+            imaging.draw_text(p.d, xy, f"({ori})", fo, colors[1], anchor="rs")
+            p.boxes.append(tuple(p.ink(f"({ori})", fo, xy, "rs")))
         y += (box[3] - box[1]) + gap
 
 

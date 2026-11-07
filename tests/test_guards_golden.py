@@ -24954,7 +24954,7 @@ def test_reel_band_inline_guards() -> None:
     b2: list = []
     reel_render.frame_clip_layers(cfg, {"channel_display": "سي إن إن ترك", "channel_original": "CNN TÜRK"}, b2,
                                   cover=False, quote=False)
-    check("g854: غير الموثَّق سطر القناة وحده (العربي وأجنبيه)", len(b2) == 2, b2)
+    check("g854: غير الموثَّق سطر القناة وحده (العربي وأجنبيه وتوجّهها)", len(b2) == 3, b2)
     real = _real_load_config()
     check("g855: config.yaml على الشريط الجديد والاختبارات على القديم افتراضيًا",
           real.path("reel.render.band.style") == "inline" and base.path("reel.render.band.style") == "stacked"
@@ -25036,3 +25036,42 @@ def test_reel_band_channel_latin_guards() -> None:
           parts({"channel_display": "تلفزيون دوشد", "channel_original": "Дождь"}, cfg)[0] == "تلفزيون دوشد")
     check("g862: لكل قناة نشطة رسم لاتيني في الشريط", not missing, missing)
     check("g862: نسخة التركيب رُفعت", int(real.path("reel.render.version")) >= 68)
+
+
+def test_reel_band_orientation_guards() -> None:
+    """توجّه القناة بين قوسين في شريط المتحدث (قرار صاحب المشروع 7/11، g863–g865)."""
+    import copy
+    from src import reel_render
+    from tests.helpers import _real_load_config, band_inline_cfg
+
+    cfg = band_inline_cfg(load_config())
+    orient = reel_render.band_orientation
+    check("g863: التوجّه من orientation القناة مصوغًا وصفًا لها",
+          orient({"channel_display": "الجزيرة", "channel_original": "الجزيرة"}, cfg) == "قطرية"
+          and orient({"channel_display": "فوكس نيوز", "channel_original": "Fox News"}, cfg) == "أمريكية محافظة"
+          and orient({"channel_display": "القناة 14"}, cfg) == "يمينية")
+    check("g863: قناة غير معروفة ← لا توجّه", orient({"channel_display": "قناة مجهولة"}, cfg) == "")
+    off = copy.deepcopy(cfg)
+    off["reel"]["render"]["band"]["show_orientation"] = False
+    check("g863: مطفأ ← لا توجّه", orient({"channel_display": "الجزيرة"}, off) == "")
+
+    # الرسم: سطر القناة ثلاثة أجزاء والتوجّه أقصاها يسارًا؛ ومطفأً جزآن كما كان
+    def channel_boxes(c):
+        boxes: list = []
+        reel_render.frame_clip_layers(c, {"channel_display": "فوكس نيوز", "channel_original": "Fox News"}, boxes,
+                                      cover=False, quote=False)
+        return boxes
+    on_b, off_b = channel_boxes(cfg), channel_boxes(off)
+    check("g864: التوجّه يُرسم يسار الرسم الأجنبي", len(on_b) == 3 and on_b[2][2] <= on_b[1][0], on_b)
+    check("g864: مطفأً كما كان", len(off_b) == 2, off_b)
+    p = reel_render._Pen(cfg, [])
+    check("g864: كل الأجزاء بين الهامش وحافة الكتابة",
+          all(b[0] >= p.x0 - 1 and b[2] <= reel_render.band_text_right(cfg) + 1 for b in on_b), on_b)
+
+    real = _real_load_config()
+    labels = real.path("reel.render.band.orientation_labels") or {}
+    missing = sorted({str(ch.get("orientation")) for ch in real.get("channels") or []
+                      if ch.get("active") and str(ch.get("orientation") or "") not in labels})
+    check("g865: لكل توجّه قناة نشطة صيغة في الشريط", not missing, missing)
+    check("g865: config.yaml على التوجّه ونسخة التركيب رُفعت",
+          bool(real.path("reel.render.band.show_orientation")) and int(real.path("reel.render.version")) >= 69)
