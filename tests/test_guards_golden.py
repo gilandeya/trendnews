@@ -8768,9 +8768,9 @@ def test_reel_r5a2_guards() -> None:
         rec: list = []
         o_fit, o_pick = reel_render._fit, reel_render.pick_font
 
-        def fit_rec(d, t, fp, mw, ml, st, mn, wt, lf_):
+        def fit_rec(d, t, fp, mw, ml, st, mn, wt, lf_, cfg_=None):
             rec.append(("fit", st, mn))
-            return o_fit(d, t, fp, mw, ml, st, mn, wt, lf_)
+            return o_fit(d, t, fp, mw, ml, st, mn, wt, lf_, cfg_)
 
         def pick_rec(t, fp, sz, wt=None):
             rec.append(("pick", sz, 0))
@@ -9528,9 +9528,9 @@ def test_reel_hook_r5c1_guards() -> None:
             seen: list = []
             o_fit = reel_render._fit
 
-            def spy(d, t, fp, mw, ml, st, mn, wt, lf):
+            def spy(d, t, fp, mw, ml, st, mn, wt, lf, cfg_=None):
                 seen.append((fp, ml, st, mn))
-                return o_fit(d, t, fp, mw, ml, st, mn, wt, lf)
+                return o_fit(d, t, fp, mw, ml, st, mn, wt, lf, cfg_)
             reel_render._fit = spy
             boxes: list = []
             try:
@@ -24870,3 +24870,50 @@ def test_reel_gemini_speaker_guards() -> None:
             ok = True
         check("g841: بلا مفتاح ← يرفع فتعمل حرّاس سلسلتنا", ok)
     guarded("g841", g841)
+
+
+def test_reel_clause_lines_guards() -> None:
+    """أسطر بالجمل (قرار صاحب المشروع 7/11، g846–g850): كل جملة تبدأ سطرًا جديدًا في نصوص الريل، وما لا يسعه سطر يُكمل تحته
+    قبل أن تبدأ التالية. مثال صاحب المشروع نفسه."""
+    from src import reel_render
+    from tests.helpers import _real_load_config, clause_lines_cfg
+
+    base = load_config()
+    cfg = clause_lines_cfg(base)
+    text = "إنني اعتقد أن ترمب يقوم بذلك بسبب عجزه، لو كان يستطيع لقام بذلك في المقام الأول، لذلك قام بذلك."
+    marks = reel_render.clause_marks(cfg)
+    parts = reel_render.clauses(text, marks)
+    check("g846: ثلاث جمل بعلاماتها", parts == ["إنني اعتقد أن ترمب يقوم بذلك بسبب عجزه،",
+                                                 "لو كان يستطيع لقام بذلك في المقام الأول،", "لذلك قام بذلك."], parts)
+    check("g846: نقطة بلا مسافة بعدها لا تقسم", reel_render.clauses("نما 3.5 بالمئة", marks) == ["نما 3.5 بالمئة"])
+
+    def starts_ok(lines):
+        # كل جملة أول كلمات سطر، ولا سطر يحوي نهاية جملة ثم بداية أخرى
+        firsts = [ln.split()[0] for ln in lines]
+        return all(p.split()[0] in firsts for p in parts) and all(
+            not any(w[-1] in marks for w in ln.split()[:-1]) for ln in lines)
+
+    # الراوي يُعرض مقاطع (narration_segments) ثم أسطر كل مقطع؛ المعيار على أسطر المقاطع كلها بالترتيب
+    lines = [ln for seg in reel_render.narration_segments(cfg, text) for ln in reel_render.narration_lines(cfg, seg)]
+    check("g847: الراوي جملةً جملة والنص كما هو", starts_ok(lines) and " ".join(lines) == text, lines)
+    old = [ln for seg in reel_render.narration_segments(base, text) for ln in reel_render.narration_lines(base, seg)]
+    check("g847: مطفأً كما كان (لا تقسيم بالجمل)", not starts_ok(old), old)
+
+    lay = reel_render.quote_layout(cfg, text)
+    qlines = [" ".join(ln["words"]) for ln in lay]
+    check("g848: الترجمة سطر لكل جملة أو جزء منها", starts_ok(qlines) and " ".join(qlines) == text, qlines)
+    check("g848: مطفأة كما كانت", [" ".join(l["words"]) for l in reel_render.quote_layout(base, text)] != qlines)
+
+    # جمل كثيرة لا تسعها أسطر محدودة ← التقسيم القديم بالعرض، والنص كاملًا بلا قصّ
+    p = reel_render._Pen(cfg, [])
+    fpath, fw = reel_render.face(cfg, text, "body")
+    many = "أ، ب، ج، د، هـ، و، ز، ح، ط."
+    font, ls, _ = reel_render._fit(p.d, many, fpath, p.max_w, 3, 90, 60, fw, 1.62, cfg)
+    check("g849: لا قصّ حين لا تسع الجمل", " ".join(ls) == many, ls)
+    hook = reel_render.word_layout(cfg, "هل يضرب ترامب إيران؟ ومتى؟", 700)
+    check("g849: عنوان الهوك بالجمل أيضًا", hook["lines"][-1] == "ومتى؟" and hook["lines"][-2].endswith("إيران؟"),
+          hook["lines"])
+
+    check("g850: config.yaml على أسطر الجمل والاختبارات مطفأة افتراضيًا",
+          bool(_real_load_config().path("reel.render.clause_lines.enabled")) and not reel_render.clause_marks(base)
+          and int(_real_load_config().path("reel.render.version")) >= 65)

@@ -60,6 +60,10 @@ def load_config(path=None):
     rcfg = cfg.get("reel", {}).get("render") if isinstance(cfg.get("reel"), dict) else None
     if isinstance(rcfg, dict):
         rcfg["preset"] = "ultrafast"
+        # أسطر بالجمل (7/11) مطفأة في الاختبارات: أوامر التركيب ومخططات الأسطر المحفوظة مراجعها تثبّت التقسيم بالعرض؛
+        # test_reel_clause_lines يطلبها بـclause_lines_cfg ويثبّت أن config.yaml نفسه عليها
+        if isinstance(rcfg.get("clause_lines"), dict):
+            rcfg["clause_lines"]["enabled"] = False
         # افتتاح الريل القديم (اللقطة النظيفة ثم السؤال) افتراضيًا: اختبارات P1a وR5c1 تثبّت أزمنته ومدده؛ السؤال من أول لحظة (3/11)
         # يطلبه اختبار question_first_cfg صراحة. v2.fixed_seconds معه لأن مجموع المدد المقدَّر يتبع الافتتاح
         if isinstance(rcfg.get("hook"), dict) and rcfg["hook"].get("question_at") is not None:
@@ -95,6 +99,14 @@ def question_first_cfg(cfg):
     real = _real_load_config()
     c["reel"]["render"]["hook"]["question_at"] = real.path("reel.render.hook.question_at")
     c["reel"]["script"]["v2"]["fixed_seconds"] = real.path("reel.script.v2.fixed_seconds")
+    return c
+
+
+def clause_lines_cfg(cfg):
+    """نسخة بأسطر الجمل كما في config.yaml (قرار صاحب المشروع 7/11)."""
+    import copy
+    c = copy.deepcopy(cfg)
+    c["reel"]["render"]["clause_lines"] = dict(_real_load_config().path("reel.render.clause_lines"))
     return c
 
 
