@@ -62,6 +62,10 @@ def load_config(path=None):
         rcfg["preset"] = "ultrafast"
         # أسطر بالجمل (7/11) مطفأة في الاختبارات: أوامر التركيب ومخططات الأسطر المحفوظة مراجعها تثبّت التقسيم بالعرض؛
         # test_reel_clause_lines يطلبها بـclause_lines_cfg ويثبّت أن config.yaml نفسه عليها
+        # شريط المتحدث بالشكل القديم (stacked) في الاختبارات: مراجع الصور والأوامر المحفوظة تثبّته؛ test_reel_band_inline يطلب
+        # الشكل الجديد بـband_inline_cfg ويثبّت أن config.yaml عليه
+        if isinstance(rcfg.get("band"), dict):
+            rcfg["band"]["style"] = "stacked"
         if isinstance(rcfg.get("clause_lines"), dict):
             rcfg["clause_lines"]["enabled"] = False
         # افتتاح الريل القديم (اللقطة النظيفة ثم السؤال) افتراضيًا: اختبارات P1a وR5c1 تثبّت أزمنته ومدده؛ السؤال من أول لحظة (3/11)
@@ -99,6 +103,14 @@ def question_first_cfg(cfg):
     real = _real_load_config()
     c["reel"]["render"]["hook"]["question_at"] = real.path("reel.render.hook.question_at")
     c["reel"]["script"]["v2"]["fixed_seconds"] = real.path("reel.script.v2.fixed_seconds")
+    return c
+
+
+def band_inline_cfg(cfg):
+    """نسخة بشريط المتحدث كما في config.yaml (ثلاثة أسطر وشريط ذهبي عند زر الإعجاب، 7/11)."""
+    import copy
+    c = copy.deepcopy(cfg)
+    c["reel"]["render"]["band"] = dict(_real_load_config().path("reel.render.band"))
     return c
 
 

@@ -1564,6 +1564,117 @@ def channel_label(scene: dict) -> str:
     return f"{latin} {display}"
 
 
+def band_channel_parts(scene: dict, cfg) -> tuple[str, str]:
+    """(الاسم العربي للقناة بكلمة band.channel_prefix قبله، رسمها الأجنبي أو ""). الأجنبي من channel_original بلا حروفه العربية،
+    ولا يُكرَّر إن كان الاسم العربي يحويه. قناة بلا اسم عربي ← الأجنبي وحده بلا أقواس."""
+    display = (scene.get("channel_display") or "").strip()
+    latin = " ".join(_ARABIC_CHARS.sub(" ", scene.get("channel_original") or "").split())
+    if not re.search(r"[A-Za-z]", latin) or (display and latin.casefold() in display.casefold()):
+        latin = ""
+    if not display:
+        return latin, ""
+    prefix = str(cfg.path("reel.render.band.channel_prefix") or "")
+    # «قناة قناة الجزيرة» تكرار: الاسم الذي يبدأ بالكلمة نفسها يبقى كما هو
+    if prefix and not display.startswith(prefix.strip()):
+        display = prefix + display
+    return display, latin
+
+
+def band_role(role: str) -> str:
+    """الصفة بالعربية وحدها (قرار صاحب المشروع 7/11): يُحذف ما بين قوسين فيه حرف لاتيني وكل كلمة لاتينية، ثم الفواصل المعلّقة."""
+    role = re.sub(r"\([^)]*[A-Za-z][^)]*\)", " ", role or "")
+    words = [w for w in role.split() if not re.fullmatch(r"[A-Za-z\u00c0-\u024f.'’&/-]+", w)]
+    return " ".join(words).strip(" ،,-–·")
+
+
+def band_text_right(cfg) -> int:
+    """حافة الكتابة اليمنى في شريط المتحدث (قرار صاحب المشروع 7/11): الشريط الذهبي حافته اليسرى عند أبعد نقطة يسارًا في دائرة
+    زر الإعجاب على فيسبوك (band.like_button المقيسة من لقطة الهاتف)، والكتابة تبدأ قبله بفراغ text_gap فلا يغطيها الزر."""
+    b = cfg.path("reel.render.band")
+    like = b["like_button"]
+    return int(like["x"]) - int(like["r"]) - int(b.get("text_gap", 12))
+
+
+def _band_pair(p, ar: str, lat: str, kind: str, sizes: tuple[int, int], mins: tuple[int, int], colors, right: int):
+    """سطر «عربي (أجنبي)»: يُقاس بأكبر حجمين يجعلان السطر كله بين x0 وright، ويُصغَّر الحجمان معًا بخطوة 2 حتى أدنييهما؛
+    وإن لم يسع بأدنى حجم يُحذف الأجنبي (العربي هو ما يقرؤه المشاهد). يعيد (خطّا العربي والأجنبي أو None، ارتفاع الحبر) أو None."""
+    fp, fw = p.face(ar, kind)
+    tries = [(lat, sizes, mins)] + ([("", sizes, mins)] if lat else [])
+    for latin, (sa, sl), (ma, ml) in tries:
+        a, l_ = sa, sl
+        while a >= ma:
+            fa = pick_font(ar, fp, a, fw)
+            if fa is None:
+                return None
+            box = p.ink(ar, fa, (right, 0), "rs")
+            width = box[2] - box[0]
+            fl = None
+            if latin:
+                lp, lw = p.face(latin, "body")
+                fl = pick_font(f"({latin})", lp, max(l_, ml), lw)
+                if fl is not None:
+                    lb = p.ink(f"({latin})", fl, (0, 0), "ls", ltr=True)
+                    width += 16 + (lb[2] - lb[0])
+            if right - width >= p.x0 and (not latin or fl is not None):
+                return fa, fl, latin
+            a, l_ = a - 2, l_ - 2
+    return None
+
+
+def _draw_band_inline(p, cfg, scene: dict, top: int, height: int, verified: bool) -> None:
+    """شريط المتحدث بثلاثة أسطر (قرار صاحب المشروع 7/11): الاسم وبجانبه رسمه الأجنبي بين قوسين · الصفة بالعربية وحدها · «قناة …»
+    وبجانبها رسمها الأجنبي؛ متمركزة رأسيًا، تنتهي يمينًا عند band_text_right، وقبلها الشريط الذهبي. غير الموثَّق: سطر القناة وحده."""
+    b = cfg.path("reel.render.band")
+    mins = b.get("min_sizes") or {}
+    grey = (214, 222, 238)
+    right = band_text_right(cfg)
+    like_left = int(b["like_button"]["x"]) - int(b["like_button"]["r"])
+    pad = int(b.get("bar_pad", 26))
+    p.d.rectangle((like_left, top + pad, like_left + int(b["edge"]), top + height - pad), fill=p.gold + (255,))
+    ch_ar, ch_lat = band_channel_parts(scene, cfg)
+    rows = []
+    if verified:
+        name = scene["speaker_name"].strip()
+        latin = (scene.get("speaker_name_latin") or "").strip()
+        # الأجنبي للاسم اللاتيني وحده: حين يكون الحقل الاسم العربي نفسه يتكرر الاسم
+        if not re.search(r"[A-Za-z]", latin) or latin.casefold() == name.casefold():
+            latin = ""
+        rows.append((name, latin, "display", (56, 34), (int(mins.get("name", 40)), int(mins.get("latin", 26))),
+                     (p.white, p.gold)))
+        role = band_role(scene.get("speaker_role") or "")
+        if role:
+            rows.append((role, "", "body", (40, 0), (int(mins.get("role", 26)), 0), (grey, grey)))
+        if ch_ar:
+            rows.append((ch_ar, ch_lat, "body", (40, 32), (int(mins.get("role", 26)), int(mins.get("latin", 26))), (grey, grey)))
+    elif ch_ar:
+        rows.append((ch_ar, ch_lat, "display", (52, 34), (int(mins.get("guest", 30)), int(mins.get("latin", 26))),
+                     (p.white, grey)))
+    fitted = []
+    for ar, lat, kind, sizes, mn, colors in rows:
+        got = _band_pair(p, ar, lat, kind, sizes, mn, colors, right)
+        if got is None:
+            log.warning("سطر لا يسع شريط المتحدث فحُذف: %r", ar[:40])
+            continue
+        fa, fl, latin = got
+        box = p.ink(ar, fa, (right, 0), "rs")
+        fitted.append((ar, latin, fa, fl, colors, box))
+    if not fitted:
+        return
+    gap = int(b.get("line_gap", 12)) + 6
+    total = sum(bx[3] - bx[1] for *_, bx in fitted) + gap * (len(fitted) - 1)
+    y = top + (height - total) // 2
+    for ar, latin, fa, fl, colors, box in fitted:
+        base = y - box[1]
+        imaging.draw_text(p.d, (right, base), ar, fa, colors[0], anchor="rs")
+        ab = p.ink(ar, fa, (right, base), "rs")
+        p.boxes.append(tuple(ab))
+        if latin and fl is not None:
+            xy = (ab[0] - 16, base)
+            imaging.draw_text_ltr(p.d, xy, f"({latin})", fl, colors[1], anchor="rs")
+            p.boxes.append(tuple(p.ink(f"({latin})", fl, xy, "rs", ltr=True)))
+        y += (box[3] - box[1]) + gap
+
+
 def frame_clip_overlay(cfg, scene: dict, boxes=None) -> Image.Image:
     """الطبقتان مدموجتان في صورة شفافة واحدة (الشكل النهائي الثابت للشريط بعد انتهاء حركته)."""
     static, band = frame_clip_layers(cfg, scene, boxes)
@@ -1606,7 +1717,9 @@ def frame_clip_layers(cfg, scene: dict, boxes=None, cover: bool | None = None,
         # الصف top+height للشريط نفسه، فيبدأ الغطاء بعده
         st.d.rectangle((0, top + height + 1, st.w, st.h), fill=st.navy + (255,))
     bd.d.rectangle((0, top, bd.w, top + height), fill=navy_a)
-    bd.d.rectangle((bd.w - edge, top, bd.w, top + height), fill=bd.gold + (255,))
+    inline = band.get("style") == "inline"
+    if not inline:
+        bd.d.rectangle((bd.w - edge, top, bd.w, top + height), fill=bd.gold + (255,))
     quote = (scene.get("quote_arabic") or "").strip()
     if quote and draw_quote:
         # الشكل الثابت الكامل (بلا حالات): كل أسطر الاقتباس معًا كما كان قبل R5h، لمن لا يمرّر تيار الحالات
@@ -1622,6 +1735,9 @@ def frame_clip_layers(cfg, scene: dict, boxes=None, cover: bool | None = None,
             y += lh
     p = bd
     verified = scene.get("speaker_verified") and scene.get("speaker_name")
+    if inline:
+        _draw_band_inline(p, cfg, scene, top, height, bool(verified))
+        return st.img, bd.img
     channel = channel_label(scene)
     y = top + 30
     if verified:

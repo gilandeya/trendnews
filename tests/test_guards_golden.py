@@ -24917,3 +24917,45 @@ def test_reel_clause_lines_guards() -> None:
     check("g850: config.yaml على أسطر الجمل والاختبارات مطفأة افتراضيًا",
           bool(_real_load_config().path("reel.render.clause_lines.enabled")) and not reel_render.clause_marks(base)
           and int(_real_load_config().path("reel.render.version")) >= 65)
+
+
+def test_reel_band_inline_guards() -> None:
+    """شريط المتحدث بثلاثة أسطر وشريط ذهبي عند زر الإعجاب (قرار صاحب المشروع 7/11، g851–g855)."""
+    from src import reel_render
+    from tests.helpers import _real_load_config, band_inline_cfg
+
+    base = load_config()
+    cfg = band_inline_cfg(base)
+    parts = reel_render.band_channel_parts
+    check("g851: قناة عربية الأصل بلا أقواس",
+          parts({"channel_display": "الجزيرة", "channel_original": "الجزيرة"}, cfg) == ("قناة الجزيرة", ""))
+    check("g851: قناة أجنبية الأصل بين قوسين",
+          parts({"channel_display": "سي إن إن ترك", "channel_original": "CNN TÜRK"}, cfg) == ("قناة سي إن إن ترك", "CNN TÜRK"))
+    check("g851: «قناة» لا تتكرر، وبلا اسم عربي الأجنبي وحده",
+          parts({"channel_display": "قناة 14", "channel_original": "C14"}, cfg)[0] == "قناة 14"
+          and parts({"channel_original": "ILTV"}, cfg) == ("ILTV", ""))
+    check("g852: الصفة بالعربية وحدها", reel_render.band_role("صحفي (Journalist) ومحلل Senior سياسي") == "صحفي ومحلل سياسي")
+
+    import numpy as np
+    right = reel_render.band_text_right(cfg)
+    check("g853: الكتابة تنتهي قبل حافة زر الإعجاب", right == 920 - 42 - 12, right)
+    boxes: list = []
+    scene = {"speaker_verified": True, "speaker_name": "مراد يتكين", "speaker_name_latin": "Murat Yetkin",
+             "speaker_role": " ".join(["محلل"] * 20), "channel_display": "سي إن إن ترك", "channel_original": "CNN TÜRK"}
+    st, bd = reel_render.frame_clip_layers(cfg, scene, boxes, cover=False, quote=False)
+    a = np.asarray(bd)
+    top = reel_render.band_top(cfg)
+    gold = a[top + 120, 878 + 12][:3].tolist()
+    check("g853: الشريط الذهبي عند حافة الزر لا عند حافة الشاشة",
+          gold[0] > 200 and gold[2] < 100 and a[top + 120, 1075][0] < 100, (gold, a[top + 120, 1075][:3].tolist()))
+    p = reel_render._Pen(cfg, [])
+    check("g854: كل نص الشريط بين الهامش وحافة الكتابة (الصفة الطويلة تُصغَّر أو تُحذف لا تتجاوز)",
+          boxes and all(b[0] >= p.x0 - 1 and b[2] <= right + 1 and top <= b[1] and b[3] <= top + 240 for b in boxes), boxes)
+    b2: list = []
+    reel_render.frame_clip_layers(cfg, {"channel_display": "سي إن إن ترك", "channel_original": "CNN TÜRK"}, b2,
+                                  cover=False, quote=False)
+    check("g854: غير الموثَّق سطر القناة وحده (العربي وأجنبيه)", len(b2) == 2, b2)
+    real = _real_load_config()
+    check("g855: config.yaml على الشريط الجديد والاختبارات على القديم افتراضيًا",
+          real.path("reel.render.band.style") == "inline" and base.path("reel.render.band.style") == "stacked"
+          and int(real.path("reel.render.version")) >= 66)
