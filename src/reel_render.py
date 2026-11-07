@@ -982,8 +982,42 @@ def pick_font(text: str, path: str, size: int, weight: str | None = None):
     return None
 
 
-def _fit(draw, text, font_path, max_width, max_lines, start, minimum, weight, line_factor):
-    """imaging.fit_text بمعامل مسافة اختياري؛ بلا معامل يبقى النداء القديم نفسه."""
+def clause_marks(cfg) -> str:
+    """علامات نهاية الجملة التي يبدأ بعدها سطر جديد (قرار صاحب المشروع 7/11)؛ فارغ أو بلا cfg ← التقسيم القديم بالعرض وحده."""
+    if cfg is None:
+        return ""
+    c = cfg.path("reel.render.clause_lines") or {}
+    return str(c.get("marks") or "") if c.get("enabled") else ""
+
+
+def clauses(text: str, marks: str) -> list[str]:
+    """أجزاء النص بعد كل علامة تليها مسافة (العلامة تبقى في آخر جزئها). علامة بلا مسافة بعدها («3.5») لا تقسم."""
+    text = " ".join(str(text).split())
+    if not marks or not text:
+        return [text] if text else []
+    return [c for c in re.split(r"(?<=[" + re.escape(marks) + r"])\s+", text) if c]
+
+
+def clause_wrap(draw, text: str, font, max_w: int, marks: str) -> list[str]:
+    """كل جملة تبدأ سطرًا جديدًا، والجملة التي لا تسع سطرًا تُكمل في سطر تحته قبل أن تبدأ التالية: «…بسبب / عجزه، / لو كان…»
+    لا «…بسبب / عجزه، لو كان…» (قرار صاحب المشروع 7/11: القارئ يتبع الجملة سطرًا بسطر كما تُنطق)."""
+    out: list[str] = []
+    for part in clauses(text, marks):
+        out += imaging.wrap(draw, part, font, max_w)
+    return out
+
+
+def _fit(draw, text, font_path, max_width, max_lines, start, minimum, weight, line_factor, cfg=None):
+    """imaging.fit_text بمعامل مسافة اختياري؛ بلا معامل يبقى النداء القديم نفسه. مع clause_lines تبدأ كل جملة سطرًا جديدًا،
+    وإن لم تسع أسطرُ الجمل max_lines حتى بأصغر حجم عاد التقسيم القديم (أسطر أكثر لا تُقصّ نصًا)."""
+    marks = clause_marks(cfg)
+    if marks and len(clauses(text, marks)) > 1:
+        lf = 1.62 if line_factor is None else line_factor
+        for size in range(start, minimum - 1, -2) if start > minimum else [minimum]:
+            font = imaging.load_font(font_path, size, weight)
+            lines = clause_wrap(draw, text, font, max_width, marks)
+            if len(lines) <= max_lines:
+                return font, lines, int(size * lf)
     if line_factor is None:
         return imaging.fit_text(draw, text, font_path, max_width, max_lines, start, minimum, weight)
     return imaging.fit_text(draw, text, font_path, max_width, max_lines, start, minimum, weight, line_factor=line_factor)
@@ -1101,7 +1135,7 @@ class _Pen:
               max_lines: int = 8, align: str = "center", y_top: int | None = None,
               line_factor: float | None = None) -> int:
         """نص متعدد الأسطر يُصغَّر ليسع العرض الآمن؛ يتمركز رأسيًا حول y_mid (أو يبدأ من y_top)."""
-        font, lines, lh = _fit(self.d, text, font_path, self.max_w, max_lines, start, minimum, weight, line_factor)
+        font, lines, lh = _fit(self.d, text, font_path, self.max_w, max_lines, start, minimum, weight, line_factor, self.cfg)
         total = lh * len(lines)
         safe = self._safe()
         y = y_top if y_top is not None else int(y_mid - total / 2)
@@ -1118,7 +1152,7 @@ class _Pen:
         """block وسطيّ بالتخطيط نفسه (حجم الخط وتقسيم الأسطر من الجملة كاملة) لكن يُرسم منه ما كُتب حتى prefix.
         الحروف لا تتحرك: السطر الجزئي يُحاذى بحافة حبره اليمنى عند حافة السطر نفسه مكتملًا، ولا يبدأ سطر قبل اكتمال سابقه.
         العدّ بالحروف غير المسافة لأن prefix قد تتغير مسافاته، وتقسيم الأسطر لا يغيّر الحروف نفسها."""
-        font, lines, lh = _fit(self.d, text, font_path, self.max_w, max_lines, start, minimum, weight, line_factor)
+        font, lines, lh = _fit(self.d, text, font_path, self.max_w, max_lines, start, minimum, weight, line_factor, self.cfg)
         total = lh * len(lines)
         safe = self._safe()
         y = max(safe[0], min(int(y_mid - total / 2), safe[1] - total))
@@ -1176,7 +1210,7 @@ def frame_title(cfg, title: str, date_text: str, boxes=None) -> Image.Image:
     # العنوان الأكبر لا يدفع التاريخ والمعرّف خارج المنطقة الآمنة: يُصغَّر (max_lines كما هو) حتى يسعهما
     floor = 52           # الحجم القديم: أدنى ما يُصغَّر إليه العنوان الطويل جدًا ليبقى كل شيء في المنطقة الآمنة
     while start > floor:
-        _, lines_, lh_ = _fit(p.d, title, fpath, p.max_w, 6, start, min(minimum, start), fw, lf)
+        _, lines_, lh_ = _fit(p.d, title, fpath, p.max_w, 6, start, min(minimum, start), fw, lf, cfg)
         if y_top + lh_ * len(lines_) + below <= p._safe()[1]:
             break
         start -= 2
@@ -1247,7 +1281,10 @@ def _nonspace(text: str) -> int:
     return sum(1 for c in text if not c.isspace())
 
 
-def _fits(draw, text: str, font, max_w: int, max_lines: int) -> bool:
+def _fits(draw, text: str, font, max_w: int, max_lines: int, marks: str = "") -> bool:
+    # مع marks يُعدّ بأسطر الجمل وحدها: جملة طويلة لا تسع جملها مفصولة تُقسم مقاطع عند «،» بدل أن ترجع إلى التقسيم بالعرض
+    if marks and len(clauses(text, marks)) > 1:
+        return len(clause_wrap(draw, text, font, max_w, marks)) <= max_lines
     return len(imaging.wrap(draw, text, font, max_w)) <= max_lines
 
 
@@ -1269,14 +1306,15 @@ def narration_segments(cfg, sentence: str, bg: dict | None = None) -> list[str]:
     p, kw = _narration_pen(cfg, sentence, [], bg)
     fpath, fw, _ = _narration_font(cfg, bg, sentence)
     font = imaging.load_font(fpath, kw["minimum"], fw)
-    if _fits(p.d, sentence, font, p.max_w, kw["max_lines"]):
+    marks = clause_marks(cfg)
+    if _fits(p.d, sentence, font, p.max_w, kw["max_lines"], marks):
         return [sentence]
     clauses = re.split(r"(?<=[،؛])\s+", sentence)
     out: list[str] = []
     cur = ""
     for clause in clauses:
         joined = f"{cur} {clause}".strip()
-        if _fits(p.d, joined, font, p.max_w, kw["max_lines"]):
+        if _fits(p.d, joined, font, p.max_w, kw["max_lines"], marks):
             cur = joined
             continue
         if cur:
@@ -1295,7 +1333,7 @@ def narration_lines(cfg, segment: str, bg: dict | None = None) -> list[str]:
     """أسطر المقطع كما ستُرسم (حجم الخط من المقطع كاملًا فلا يتغير بين الإطارات)."""
     p, kw = _narration_pen(cfg, segment, [], bg)
     fpath, fw, lf = _narration_font(cfg, bg, segment)
-    return _fit(p.d, segment, fpath, p.max_w, kw["max_lines"], kw["start"], kw["minimum"], fw, lf)[1]
+    return _fit(p.d, segment, fpath, p.max_w, kw["max_lines"], kw["start"], kw["minimum"], fw, lf, cfg)[1]
 
 
 def reveal_steps(line_chars: list[int], speech_seconds: float, hold_seconds: float, fps: float,
@@ -1335,7 +1373,7 @@ def frame_narration_reveal(cfg, segment: str, alphas, boxes=None, bg: dict | Non
     ظهوره، والسطر الظاهر جزئيًا يصعد reveal.rise بكسل إلى موضعه. كل الشفافيات 1 ← frame_narration نفسه بالبكسل."""
     p, kw = _narration_pen(cfg, segment, boxes, bg)
     fpath, fw, lf = _narration_font(cfg, bg, segment)
-    font, lines, lh = _fit(p.d, segment, fpath, p.max_w, kw["max_lines"], kw["start"], kw["minimum"], fw, lf)
+    font, lines, lh = _fit(p.d, segment, fpath, p.max_w, kw["max_lines"], kw["start"], kw["minimum"], fw, lf, cfg)
     total = lh * len(lines)
     safe = p._safe()
     y = max(safe[0], min(int(kw["y_mid"] - total / 2), safe[1] - total))
@@ -1405,7 +1443,7 @@ def frame_question(cfg, question: str, boxes=None) -> Image.Image:
     best = None
     for max_lines in range(8, 0, -1):
         for size in range(start, min(minimum, start) - 1, -2):
-            font, lines_, lh_ = _fit(p.d, question, fpath, p.max_w, max_lines, size, min(minimum, size), fw, lf)
+            font, lines_, lh_ = _fit(p.d, question, fpath, p.max_w, max_lines, size, min(minimum, size), fw, lf, cfg)
             if not lines_:
                 continue
             y = top_ink - min(p.ink(ln, font, (p.cx, 0), "ma")[1] for ln in lines_)
@@ -1750,7 +1788,9 @@ def quote_layout(cfg, text: str) -> list[dict]:
 
     lines: list[dict] = []
     cur: list[str] = []
-    for word in text.split():
+    marks = clause_marks(cfg)
+    words = text.split()
+    for wi, word in enumerate(words):
         if width(word, big) > limit:
             if cur:
                 lines.append({"words": cur, "size": big})
@@ -1764,6 +1804,10 @@ def quote_layout(cfg, text: str) -> list[dict]:
             lines.append({"words": cur, "size": big})
             cur = []
         cur.append(word)
+        # قرار صاحب المشروع 7/11: الجملة تنتهي بسطرها، فالتالية تبدأ سطرًا جديدًا (السطر يظهر وحده فيُقرأ جملةً جملة)
+        if marks and word[-1] in marks and wi + 1 < len(words):
+            lines.append({"words": cur, "size": big})
+            cur = []
     if cur:
         lines.append({"words": cur, "size": big})
     for ln in lines:
@@ -1847,11 +1891,11 @@ def word_layout(cfg, text: str, top: int, size_key: str = "hook") -> dict:
     fpath, fw = p.face(text, "display")
     start, minimum = size_pair(cfg, size_key)
     lf = float(cfg.path("reel.render.fonts.line_factor"))
-    font, lines, lh = _fit(p.d, text, fpath, p.max_w, 4, start, minimum, fw, lf)
+    font, lines, lh = _fit(p.d, text, fpath, p.max_w, 4, start, minimum, fw, lf, cfg)
     # S10: العنوان الطويل (4 أسطر) كان ينزل تحت زر الإعجاب على فيسبوك؛ يُصغَّر حتى ينتهي فوق الحد السفلي الآمن، ولا يُصغَّر دون minimum
     while start > minimum and top + lh * len(lines) > p._safe()[1]:
         start -= 2
-        font, lines, lh = _fit(p.d, text, fpath, p.max_w, 4, start, minimum, fw, lf)
+        font, lines, lh = _fit(p.d, text, fpath, p.max_w, 4, start, minimum, fw, lf, cfg)
     kw = imaging._kwargs()
 
     def adv(s: str) -> float:
