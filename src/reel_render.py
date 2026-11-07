@@ -1564,18 +1564,40 @@ def channel_label(scene: dict) -> str:
     return f"{latin} {display}"
 
 
+def _channel_name_latin(scene: dict, cfg) -> str:
+    """رسم القناة اللاتيني من channels[].name_latin (7/11، قرار صاحب المشروع: بجوار اسم القناة في الشريط رسمها الأجنبي بين قوسين
+    دائمًا). السبب: قناة اسمها عربي («الجزيرة») أو بخط لا يحمله الخط («ערוץ 14»، «凤凰卫视»، «Дождь») لم يكن لها ما يُكتب بين
+    القوسين؛ الحقل يُكتب في الإعداد لا يُشتق. تُعرف القناة بـname (= channel_original) أو name_ar/name (= channel_display)."""
+    orig = (scene.get("channel_original") or "").strip()
+    display = (scene.get("channel_display") or "").strip()
+    for ch in cfg.get("channels") or []:
+        if not isinstance(ch, dict) or not ch.get("name_latin"):
+            continue
+        names = {str(ch.get("name") or "").strip(), str(ch.get("name_ar") or "").strip()} - {""}
+        if (orig and orig == str(ch.get("name") or "").strip()) or (display and display in names):
+            return str(ch["name_latin"]).strip()
+    return ""
+
+
 def band_channel_parts(scene: dict, cfg) -> tuple[str, str]:
     """(الاسم العربي للقناة بكلمة band.channel_prefix قبله، رسمها الأجنبي أو ""). الأجنبي من channel_original بلا حروفه العربية،
     ولا يُكرَّر إن كان الاسم العربي يحويه. قناة بلا اسم عربي ← الأجنبي وحده بلا أقواس."""
     display = (scene.get("channel_display") or "").strip()
-    latin = " ".join(_ARABIC_CHARS.sub(" ", scene.get("channel_original") or "").split())
-    if not re.search(r"[A-Za-z]", latin) or (display and latin.casefold() in display.casefold()):
+    latin = _channel_name_latin(scene, cfg)
+    if not latin:
+        latin = " ".join(_ARABIC_CHARS.sub(" ", scene.get("channel_original") or "").split())
+        if not re.search(r"[A-Za-z]", latin):
+            latin = ""
+    if display and latin and latin.casefold() in display.casefold():
         latin = ""
     if not display:
         return latin, ""
     prefix = str(cfg.path("reel.render.band.channel_prefix") or "")
     # «قناة قناة الجزيرة» تكرار: الاسم الذي يبدأ بالكلمة نفسها يبقى كما هو
-    if prefix and not display.startswith(prefix.strip()):
+    # و«قناة القناة 14» و«قناة تلفزيون دوشد» كذلك: اسم أوله كلمة من band.channel_prefix_skip لا يأخذ الكلمة
+    skip = [str(w) for w in (cfg.path("reel.render.band.channel_prefix_skip") or [])] + [prefix.strip()]
+    first = display.split()[0] if display.split() else ""
+    if prefix and first not in skip:
         display = prefix + display
     return display, latin
 

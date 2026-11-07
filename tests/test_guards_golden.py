@@ -24927,8 +24927,8 @@ def test_reel_band_inline_guards() -> None:
     base = load_config()
     cfg = band_inline_cfg(base)
     parts = reel_render.band_channel_parts
-    check("g851: قناة عربية الأصل بلا أقواس",
-          parts({"channel_display": "الجزيرة", "channel_original": "الجزيرة"}, cfg) == ("قناة الجزيرة", ""))
+    check("g851: قناة عربية الأصل لا يُعرف لها رسم لاتيني ← بلا أقواس",
+          parts({"channel_display": "قناة مجهولة", "channel_original": "قناة مجهولة"}, cfg) == ("قناة مجهولة", ""))
     check("g851: قناة أجنبية الأصل بين قوسين",
           parts({"channel_display": "سي إن إن ترك", "channel_original": "CNN TÜRK"}, cfg) == ("قناة سي إن إن ترك", "CNN TÜRK"))
     check("g851: «قناة» لا تتكرر، وبلا اسم عربي الأجنبي وحده",
@@ -25004,3 +25004,35 @@ def test_reel_logo_motion_guards() -> None:
     check("g859: config.yaml على الحركة الجديدة والاختبارات على القديمة افتراضيًا",
           real.path("reel.render.logo_ease") == "smootherstep" and base.path("reel.render.logo_ease") == "smoothstep"
           and int(real.path("reel.render.outro.logo_width")) == 315 and int(real.path("reel.render.version")) >= 67)
+
+
+def test_reel_band_channel_latin_guards() -> None:
+    """رسم القناة اللاتيني بين قوسين دائمًا في شريط المتحدث (قرار صاحب المشروع 7/11، g860–g862)."""
+    from src import reel_render
+    from tests.helpers import _real_load_config, band_inline_cfg
+
+    cfg = band_inline_cfg(load_config())
+    parts = reel_render.band_channel_parts
+    check("g860: قناة عربية ← رسمها اللاتيني من الإعداد",
+          parts({"channel_display": "الجزيرة", "channel_original": "الجزيرة"}, cfg) == ("قناة الجزيرة", "Al Jazeera"))
+    check("g860: سيناريو بلا channel_original يُعرف بالاسم المعروض",
+          parts({"channel_display": "الميادين"}, cfg) == ("قناة الميادين", "Al Mayadeen"))
+    check("g861: خط لا يحمله خط الريل (عبري، صيني، روسي) ← الرسم اللاتيني",
+          parts({"channel_display": "القناة 14", "channel_original": "ערוץ 14"}, cfg) == ("القناة 14", "Channel 14")
+          and parts({"channel_display": "فينكس", "channel_original": "凤凰卫视"}, cfg)[1] == "Phoenix TV"
+          and parts({"channel_display": "تلفزيون دوشد", "channel_original": "Дождь"}, cfg)[1] == "TV Rain")
+    check("g861: قناة اسمها لاتيني أصلًا كما كانت",
+          parts({"channel_display": "سي إن إن", "channel_original": "CNN"}, cfg) == ("قناة سي إن إن", "CNN"))
+    real = _real_load_config()
+    missing = []
+    for ch in real.get("channels") or []:
+        if not ch.get("active"):
+            continue
+        sc = {"channel_display": ch.get("name_ar") or ch.get("name"), "channel_original": ch.get("name")}
+        ar, lat = parts(sc, band_inline_cfg(real))
+        if not lat and not __import__("re").fullmatch(r"[A-Za-z0-9 .&'-]+", str(ch.get("name") or "")):
+            missing.append(ch.get("name"))
+    check("g861: لا «قناة القناة 14» ولا «قناة تلفزيون دوشد»",
+          parts({"channel_display": "تلفزيون دوشد", "channel_original": "Дождь"}, cfg)[0] == "تلفزيون دوشد")
+    check("g862: لكل قناة نشطة رسم لاتيني في الشريط", not missing, missing)
+    check("g862: نسخة التركيب رُفعت", int(real.path("reel.render.version")) >= 68)

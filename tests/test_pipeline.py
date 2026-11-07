@@ -321,7 +321,7 @@ from tests.test_guards_golden import (test_guards_golden, test_important_false_g
                                       test_reel_exact_q13_guards, test_reel_exact_q13b_guards, test_names_n1_guards,
                                       test_reel_face_check_q14_guards, test_reel_roster_host_q15_guards,
                                       test_reel_roster_cache_q16_guards, test_speaker_map_s0_guards,
-                                      test_reel_speaker_map_s4_guards, test_reel_exact_fuzzy_s7_guards, test_reel_gemini_speaker_guards, test_reel_clause_lines_guards, test_reel_band_inline_guards, test_reel_logo_motion_guards,
+                                      test_reel_speaker_map_s4_guards, test_reel_exact_fuzzy_s7_guards, test_reel_gemini_speaker_guards, test_reel_clause_lines_guards, test_reel_band_inline_guards, test_reel_logo_motion_guards, test_reel_band_channel_latin_guards,
                                       test_reel_place_file_s8_guards,
                                       test_reel_map_consistency_s9_guards,
                                       test_reel_fb_safe_s10_guards,
@@ -831,6 +831,7 @@ def main() -> int:
     test_reel_clause_lines_guards()
     test_reel_band_inline_guards()
     test_reel_logo_motion_guards()
+    test_reel_band_channel_latin_guards()
     test_reel_exact_fuzzy_s7_guards()
     test_reel_place_file_s8_guards()
     test_reel_map_consistency_s9_guards()
