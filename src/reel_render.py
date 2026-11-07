@@ -1622,12 +1622,6 @@ def band_channel_parts(scene: dict, cfg) -> tuple[str, str]:
     return display, latin
 
 
-def band_channel_latin_original(scene: dict, cfg) -> bool:
-    """هل الرسم الأجنبي للقناة رسمها الأصلي؟ (قرار صاحب المشروع 7/11): الآتي من channel_original (CNN TÜRK، Fox News) أصلي فيُكتب
-    بالذهبي كرسم اسم المتحدث الأجنبي؛ والآتي من channels[].name_latin نقلٌ وضعناه نحن لاسم عربي أو عبري (Al Jazeera) فيبقى رماديًا."""
-    return not _channel_name_latin(scene, cfg)
-
-
 def band_role(role: str) -> str:
     """الصفة بالعربية وحدها (قرار صاحب المشروع 7/11): يُحذف ما بين قوسين فيه حرف لاتيني وكل كلمة لاتينية، ثم الفواصل المعلّقة."""
     role = re.sub(r"\([^)]*[A-Za-z][^)]*\)", " ", role or "")
@@ -1703,7 +1697,8 @@ def _draw_band_inline(p, cfg, scene: dict, top: int, height: int, verified: bool
     # الرسم الأجنبي عن العربي فلا حاجة لقوسين حوله، وband.latin_parens: true يعيد الأقواس كما كانت
     old_parens = bool(b.get("latin_parens", True))
     ch_paren = old_parens and not ch_or
-    ch_lat_color = p.gold if (b.get("channel_original_gold") and band_channel_latin_original(scene, cfg)) else grey
+    # رسم القناة الأجنبي بالذهبي دائمًا كرسم اسم المتحدث (قرار صاحب المشروع 7/11)، أصليًا كان أو نقلًا وضعناه (Al Jazeera)
+    ch_lat_color = p.gold if b.get("channel_latin_gold") else grey
     rows = []
     if verified:
         name = scene["speaker_name"].strip()

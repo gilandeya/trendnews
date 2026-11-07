@@ -25075,3 +25075,60 @@ def test_reel_band_orientation_guards() -> None:
     check("g865: لكل توجّه قناة نشطة صيغة في الشريط", not missing, missing)
     check("g865: config.yaml على التوجّه ونسخة التركيب رُفعت",
           bool(real.path("reel.render.band.show_orientation")) and int(real.path("reel.render.version")) >= 69)
+
+
+def test_reel_band_latin_gold_guards() -> None:
+    """الرسم الأجنبي في شريط المتحدث بلا قوسين وبالذهبي، والقوسان للتوجّه وحده (قرار صاحب المشروع 7/11، g866–g868)."""
+    import copy
+    from src import reel_render
+    from tests.helpers import _real_load_config, band_inline_cfg
+
+    cfg = band_inline_cfg(load_config())
+
+    def drawn(c, scene):
+        got: list = []
+        orig_ltr, orig = reel_render.imaging.draw_text_ltr, reel_render.imaging.draw_text
+
+        def spy_ltr(d, xy, text, font, fill, **kw):
+            got.append((text, tuple(fill[:3])))
+            return orig_ltr(d, xy, text, font, fill, **kw)
+
+        def spy(d, xy, text, font, fill, **kw):
+            got.append((text, tuple(fill[:3])))
+            return orig(d, xy, text, font, fill, **kw)
+        reel_render.imaging.draw_text_ltr, reel_render.imaging.draw_text = spy_ltr, spy
+        try:
+            reel_render.frame_clip_layers(c, scene, [], cover=False, quote=False)
+        finally:
+            reel_render.imaging.draw_text_ltr, reel_render.imaging.draw_text = orig_ltr, orig
+        return got
+
+    gold = tuple(reel_render._Pen(cfg, []).gold)
+    fox = {"speaker_name": "شون هانيتي", "speaker_name_latin": "Sean Hannity", "speaker_role": "مقدّم برامج",
+           "speaker_verified": True, "channel_display": "فوكس نيوز", "channel_original": "Fox News"}
+    t = drawn(cfg, fox)
+    texts = [x for x, _ in t]
+    check("g866: الأجنبي بلا قوسين", "Sean Hannity" in texts and "Fox News" in texts
+          and not any(x.startswith("(Sean") or x.startswith("(Fox") for x in texts), texts)
+    check("g866: القوسان للتوجّه وحده", "(أمريكية محافظة)" in texts, texts)
+    colors = dict(t)
+    check("g867: رسم المتحدث ورسم القناة الأصلي بالذهبي",
+          colors.get("Sean Hannity") == gold and colors.get("Fox News") == gold, t)
+    check("g867: التوجّه ليس ذهبيًا", colors.get("(أمريكية محافظة)") != gold, t)
+    jaz = drawn(cfg, {"speaker_name": "علي البخيتي", "speaker_role": "كاتب", "speaker_verified": True,
+                      "channel_display": "الجزيرة", "channel_original": "الجزيرة"})
+    check("g867: رسم القناة المنقول (Al Jazeera) بالذهبي كذلك", dict(jaz).get("Al Jazeera") == gold, jaz)
+    ch14 = drawn(cfg, {"channel_display": "القناة 14", "channel_original": "ערוץ 14"})
+    check("g867: الضيف بلا اسم: رسم القناة بالذهبي", dict(ch14).get("Channel 14") == gold, ch14)
+
+    old = copy.deepcopy(cfg)
+    old["reel"]["render"]["band"]["latin_parens"] = True
+    old["reel"]["render"]["band"]["channel_latin_gold"] = False
+    old["reel"]["render"]["band"]["show_orientation"] = False
+    o = drawn(old, fox)
+    check("g868: الإعداد القديم ← الأقواس والرمادي كما كانا",
+          "(Sean Hannity)" in dict(o) and "(Fox News)" in dict(o) and dict(o)["(Fox News)"] != gold, o)
+    real = _real_load_config()
+    check("g868: config.yaml على الشكل الجديد ونسخة التركيب رُفعت",
+          real.path("reel.render.band.latin_parens") is False and bool(real.path("reel.render.band.channel_latin_gold"))
+          and int(real.path("reel.render.version")) >= 70)

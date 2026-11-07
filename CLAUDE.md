@@ -2727,6 +2727,12 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 وصفًا للقناة بـ`reel.render.band.orientation_labels`، ومعه يُكتب الرسم الأجنبي بلا قوسين (القوسان للتوجّه وحده). توجّه بلا صيغة ← لا يُكتب؛ ما لا يسع
 يُحذف التوجّه أولًا ثم الأجنبي. `band.show_orientation: false` ← كما كان. `render_version` = 69 (للقادم فقط، S11)؛ g863–g865 (توجّه قناة نشطة بلا صيغة يُفشل g865).
 
+## الرسم الأجنبي في الشريط ذهبي بلا قوسين (قرار صاحب المشروع 7/11) — `reel_render._draw_band_inline`
+
+القوسان للتوجّه وحده: «مراد يتكين Murat Yetkin» و«قناة فوكس نيوز Fox News (أمريكية محافظة)». الرسم الأجنبي لاسم المتحدث وللقناة (أصليًا كان
+أو نقلًا من `name_latin` مثل Al Jazeera) بالذهبي، والتوجّه بالرمادي. `band.latin_parens: true` يعيد القوسين و`band.channel_latin_gold: false`
+يعيد رسم القناة رماديًا. `render_version` = 70 (للقادم فقط، S11)؛ g866–g868.
+
 ## حركة الشعار وحجمه (قرار صاحب المشروع 7/11) — `reel_render._EASES`
 
 حركة الشعار بين الوسط والزاوية ذهابًا (بعد الهوك) وإيابًا (الخاتمة) بمنحنى `reel.render.logo_ease`: `smootherstep` (بطيء في أولها سريع في وسطها
