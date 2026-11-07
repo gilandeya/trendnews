@@ -1622,6 +1622,12 @@ def band_channel_parts(scene: dict, cfg) -> tuple[str, str]:
     return display, latin
 
 
+def band_channel_latin_original(scene: dict, cfg) -> bool:
+    """هل الرسم الأجنبي للقناة رسمها الأصلي؟ (قرار صاحب المشروع 7/11): الآتي من channel_original (CNN TÜRK، Fox News) أصلي فيُكتب
+    بالذهبي كرسم اسم المتحدث الأجنبي؛ والآتي من channels[].name_latin نقلٌ وضعناه نحن لاسم عربي أو عبري (Al Jazeera) فيبقى رماديًا."""
+    return not _channel_name_latin(scene, cfg)
+
+
 def band_role(role: str) -> str:
     """الصفة بالعربية وحدها (قرار صاحب المشروع 7/11): يُحذف ما بين قوسين فيه حرف لاتيني وكل كلمة لاتينية، ثم الفواصل المعلّقة."""
     role = re.sub(r"\([^)]*[A-Za-z][^)]*\)", " ", role or "")
@@ -1693,9 +1699,11 @@ def _draw_band_inline(p, cfg, scene: dict, top: int, height: int, verified: bool
     p.d.rectangle((like_left, top + pad, like_left + int(b["edge"]), top + height - pad), fill=p.gold + (255,))
     ch_ar, ch_lat = band_channel_parts(scene, cfg)
     ch_or = band_orientation(scene, cfg)
-    # مع التوجّه يصير سطر القناة «قناة المشهد Almashhad (يمينية محافظة)» كما طلب صاحب المشروع: قوسان للتوجّه وحده، وإلا
-    # التبس الرسم الأجنبي بالوصف؛ وبلا توجّه يبقى الأجنبي بين قوسين كما كان
-    ch_paren = not ch_or
+    # القوسان للتوجّه وحده (قرار صاحب المشروع 7/11): «قناة المشهد Almashhad (يمينية محافظة)» و«مراد يتكين Murat Yetkin»؛ اللون يفصل
+    # الرسم الأجنبي عن العربي فلا حاجة لقوسين حوله، وband.latin_parens: true يعيد الأقواس كما كانت
+    old_parens = bool(b.get("latin_parens", True))
+    ch_paren = old_parens and not ch_or
+    ch_lat_color = p.gold if (b.get("channel_original_gold") and band_channel_latin_original(scene, cfg)) else grey
     rows = []
     if verified:
         name = scene["speaker_name"].strip()
@@ -1704,16 +1712,16 @@ def _draw_band_inline(p, cfg, scene: dict, top: int, height: int, verified: bool
         if not re.search(r"[A-Za-z]", latin) or latin.casefold() == name.casefold():
             latin = ""
         rows.append((name, latin, "display", (56, 34), (int(mins.get("name", 40)), int(mins.get("latin", 26))),
-                     (p.white, p.gold), "", True))
+                     (p.white, p.gold, p.gold), "", old_parens))
         role = band_role(scene.get("speaker_role") or "")
         if role:
-            rows.append((role, "", "body", (40, 0), (int(mins.get("role", 26)), 0), (grey, grey), "", True))
+            rows.append((role, "", "body", (40, 0), (int(mins.get("role", 26)), 0), (grey, grey, grey), "", True))
         if ch_ar:
-            rows.append((ch_ar, ch_lat, "body", (40, 32), (int(mins.get("role", 26)), int(mins.get("latin", 26))), (grey, grey),
-                         ch_or, ch_paren))
+            rows.append((ch_ar, ch_lat, "body", (40, 32), (int(mins.get("role", 26)), int(mins.get("latin", 26))),
+                         (grey, ch_lat_color, grey), ch_or, ch_paren))
     elif ch_ar:
         rows.append((ch_ar, ch_lat, "display", (52, 34), (int(mins.get("guest", 30)), int(mins.get("latin", 26))),
-                     (p.white, grey), ch_or, ch_paren))
+                     (p.white, ch_lat_color, grey), ch_or, ch_paren))
     fitted = []
     for ar, lat, kind, sizes, mn, colors, ori, paren in rows:
         got = _band_pair(p, ar, lat, kind, sizes, mn, colors, right, ori, paren)
@@ -1743,7 +1751,7 @@ def _draw_band_inline(p, cfg, scene: dict, top: int, height: int, verified: bool
             left = lb[0]
         if ori and fo is not None:
             xy = (left - 16, base)
-            imaging.draw_text(p.d, xy, f"({ori})", fo, colors[1], anchor="rs")
+            imaging.draw_text(p.d, xy, f"({ori})", fo, colors[2], anchor="rs")
             p.boxes.append(tuple(p.ink(f"({ori})", fo, xy, "rs")))
         y += (box[3] - box[1]) + gap
 
