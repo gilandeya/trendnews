@@ -2436,7 +2436,7 @@ reel:
     # فلا يتحرك. قيمة ≥ min(lead_seconds, clip_tail_seconds) تُخفَّض إلى ذلك الحد − 0.1 كي لا يقع كلام المقطع في التلاشي
     transition: {type: slideleft, outro_type: fade, seconds: 0.35}
     # نسخة التركيب: رفعها تعيد --pending تركيب كل ريل معتمد مُركَّب بنسخة أقدم (المنشور والمرفوض لا يُمسّان)
-    version: 67
+    version: 68
     # أسطر بالجمل (قرار صاحب المشروع 7/11): في كل نص على الشاشة (الراوي والترجمة وكلام المتكلم والعنوان والسؤال) تبدأ كل جملة سطرًا
     # جديدًا، وما لا يسعه سطر يُكمل تحته قبل أن تبدأ التالية. marks: العلامات التي تنهي الجملة إن تلتها مسافة. false ← التقسيم بالعرض وحده
     clause_lines: {enabled: true, marks: "،,؛;.!?؟"}
@@ -4064,6 +4064,8 @@ channels:
   - handle: "@aljazeera"
     channel_id: "UCfiwzLy-8yKzIbsmZTzxDgw"
     name: "الجزيرة"
+    # رسمها اللاتيني بين قوسين بجوار اسمها في شريط المتحدث (قرار صاحب المشروع 7/11): الاسم عربي أو بخط لا يحمله خط الريل
+    name_latin: "Al Jazeera"
     language: "ar"
     bloc: "arabic"
     bias_note: "قطرية التمويل"
@@ -4075,6 +4077,7 @@ channels:
   - handle: "@alarabiya"
     channel_id: "UCahpxixMCwoANAftn6IxkTg"
     name: "العربية"
+    name_latin: "Al Arabiya"
     # Issue #1272: «العربية» وحدها ترد في «الدول العربية» (23 من 106 مقالات مقابل 9 فقط «قناة العربية»)
     mention_forms: ["قناة العربية"]
     language: "ar"
@@ -4086,6 +4089,7 @@ channels:
   - handle: "@france24_ar"
     channel_id: "UCdTyuXgmJkG_O8_75eqej-w"
     name: "فرانس 24 عربي"
+    name_latin: "France 24 Arabic"
     mention_forms: ["فرانس 24 عربي", "فرانس 24", "France 24"]
     language: "ar"
     bloc: "arabic"
@@ -4098,6 +4102,7 @@ channels:
   - handle: "@skynewsarabia"
     channel_id: "UCIJXOvggjKtCagMfxvcCzAA"  # ثُبّت من سجل الجمع 5/11 (resolve_channel_id)
     name: "سكاي نيوز عربية"
+    name_latin: "Sky News Arabia"
     mention_forms: ["سكاي نيوز عربية"]
     language: "ar"
     bloc: "arabic"
@@ -4109,6 +4114,7 @@ channels:
   - handle: "@almayadeenprograms"
     channel_id: "UCSaS4e1GEs25E1yaaNRyn8w"
     name: "الميادين"
+    name_latin: "Al Mayadeen"
     mention_forms: ["الميادين"]
     language: "ar"
     bloc: "arabic"
@@ -4198,6 +4204,7 @@ channels:
   - handle: "@Rasadkadeh"
     channel_id: "UCAwjnLdBvZPVuCJU_8RHg_w"
     name: "رصدکده"
+    name_latin: "Rasadkadeh"
     name_ar: "رصدكده"
     mention_forms: ["رصدكده", "رصدکده"]
     language: "fa"
@@ -4224,6 +4231,7 @@ channels:
   - handle: "@C14news"
     channel_id: "UCKEImtWikw9usC1pl_9m1nQ"
     name: "ערוץ 14"
+    name_latin: "Channel 14"
     mention_forms: ["القناة 14"]
     name_ar: "القناة 14"   # الخط لا يملك حروفًا عبرية، Issue #1145
     language: "he"
@@ -4264,6 +4272,7 @@ channels:
   - handle: "@kan11news"
     channel_id: "UC_HwfTAcjBESKZRJq6BTCpg"
     name: "כאן חדשות"
+    name_latin: "Kan News"
     name_ar: "كان أخبار"
     mention_forms: ["كان أخبار", "هيئة البث الإسرائيلية"]
     language: "he"
@@ -4383,6 +4392,7 @@ channels:
   - handle: "@tvrain"
     channel_id: "UCdubelOloxR3wzwJG9x8YqQ"
     name: "Дождь"
+    name_latin: "TV Rain"
     name_ar: "تلفزيون دوشد"
     mention_forms: ["تلفزيون دوشد", "دوشد", "TV Rain"]
     language: "ru"
@@ -4394,6 +4404,7 @@ channels:
   - handle: "@currenttimetv"
     channel_id: "UCBG57608Hukev3d0d-gvLhQ"
     name: "Настоящее Время"
+    name_latin: "Current Time"
     name_ar: "ناستوياشيه فريميا"
     mention_forms: ["ناستوياشيه فريميا", "Current Time"]
     language: "ru"
@@ -4407,6 +4418,7 @@ channels:
   - handle: "@cctvch"
     channel_id: "UCnAsZ46UTeFEgwOEwMezngQ"
     name: "CCTV中文"
+    name_latin: "CCTV Chinese"
     name_ar: "سي سي تي في الصينية"
     mention_forms: ["سي سي تي في الصينية", "سي سي تي في", "CCTV"]
     language: "zh"
@@ -4418,6 +4430,7 @@ channels:
   - handle: "@phoenixtvglobal"
     channel_id: "UC4vnLYInDvXtLKGOZieMeMw"
     name: "凤凰卫视"
+    name_latin: "Phoenix TV"
     name_ar: "فينكس"
     mention_forms: ["فينكس", "Phoenix"]
     language: "zh"
@@ -4430,6 +4443,7 @@ channels:
   - handle: "@TVBSNEWS01"
     channel_id: "UC5nwNW4KdC0SzrhF9BXEYOQ"
     name: "TVBS新聞"
+    name_latin: "TVBS News"
     name_ar: "تي في بي إس"
     mention_forms: ["تي في بي إس", "TVBS"]
     language: "zh"
@@ -4441,6 +4455,7 @@ channels:
   - handle: "@BBCNewsChinese"
     channel_id: "UCb3TZ4SD_Ys3j4z0-8o6auA"
     name: "BBC News 中文"
+    name_latin: "BBC News Chinese"
     name_ar: "بي بي سي الصينية"
     mention_forms: ["بي بي سي الصينية"]
     language: "zh"
