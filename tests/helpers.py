@@ -68,6 +68,12 @@ def load_config(path=None):
             rcfg["band"]["style"] = "stacked"
         if isinstance(rcfg.get("clause_lines"), dict):
             rcfg["clause_lines"]["enabled"] = False
+        # حركة الشعار وحجمه القديمان (7/11): مراجع الأوامر والهندسة المحفوظة تثبّت smoothstep و420 و0.6؛ logo_motion_cfg يعيد الإنتاج
+        rcfg["logo_ease"] = "smoothstep"
+        if isinstance(rcfg.get("outro"), dict):
+            rcfg["outro"]["logo_width"] = 420
+        if isinstance(rcfg.get("hook"), dict):
+            rcfg["hook"]["logo_move"] = 0.6
         # افتتاح الريل القديم (اللقطة النظيفة ثم السؤال) افتراضيًا: اختبارات P1a وR5c1 تثبّت أزمنته ومدده؛ السؤال من أول لحظة (3/11)
         # يطلبه اختبار question_first_cfg صراحة. v2.fixed_seconds معه لأن مجموع المدد المقدَّر يتبع الافتتاح
         if isinstance(rcfg.get("hook"), dict) and rcfg["hook"].get("question_at") is not None:
@@ -103,6 +109,17 @@ def question_first_cfg(cfg):
     real = _real_load_config()
     c["reel"]["render"]["hook"]["question_at"] = real.path("reel.render.hook.question_at")
     c["reel"]["script"]["v2"]["fixed_seconds"] = real.path("reel.script.v2.fixed_seconds")
+    return c
+
+
+def logo_motion_cfg(cfg):
+    """نسخة بحركة الشعار وحجمه كما في config.yaml (smootherstep، العرض الكبير 315، hook.logo_move 0.9؛ 7/11)."""
+    import copy
+    c = copy.deepcopy(cfg)
+    real = _real_load_config()
+    c["reel"]["render"]["logo_ease"] = real.path("reel.render.logo_ease")
+    c["reel"]["render"]["outro"]["logo_width"] = real.path("reel.render.outro.logo_width")
+    c["reel"]["render"]["hook"]["logo_move"] = real.path("reel.render.hook.logo_move")
     return c
 
 
