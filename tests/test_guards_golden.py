@@ -8768,9 +8768,9 @@ def test_reel_r5a2_guards() -> None:
         rec: list = []
         o_fit, o_pick = reel_render._fit, reel_render.pick_font
 
-        def fit_rec(d, t, fp, mw, ml, st, mn, wt, lf_):
+        def fit_rec(d, t, fp, mw, ml, st, mn, wt, lf_, cfg_=None):
             rec.append(("fit", st, mn))
-            return o_fit(d, t, fp, mw, ml, st, mn, wt, lf_)
+            return o_fit(d, t, fp, mw, ml, st, mn, wt, lf_, cfg_)
 
         def pick_rec(t, fp, sz, wt=None):
             rec.append(("pick", sz, 0))
@@ -9528,9 +9528,9 @@ def test_reel_hook_r5c1_guards() -> None:
             seen: list = []
             o_fit = reel_render._fit
 
-            def spy(d, t, fp, mw, ml, st, mn, wt, lf):
+            def spy(d, t, fp, mw, ml, st, mn, wt, lf, cfg_=None):
                 seen.append((fp, ml, st, mn))
-                return o_fit(d, t, fp, mw, ml, st, mn, wt, lf)
+                return o_fit(d, t, fp, mw, ml, st, mn, wt, lf, cfg_)
             reel_render._fit = spy
             boxes: list = []
             try:
