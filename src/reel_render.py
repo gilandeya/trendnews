@@ -3672,8 +3672,26 @@ def _ease_out(p: float) -> float:
     return 1 - (1 - p) ** 3
 
 
-def _ease_in_out(p: float) -> float:
-    return p * p * (3 - 2 * p)
+# منحنيات تسارع الشعار (قرار صاحب المشروع 7/11: بطيء في البداية سريع في الوسط بطيء في النهاية، والتغيّر تدريجي). smoothstep كان
+# المنحنى القديم وبدا خطيًا في 0.6 ث؛ smootherstep أبطأ عند الطرفين وأسرع في الوسط، وتسارعه نفسه يبدأ من صفر فلا ركلة في أول
+# الحركة. كل منحنى بصيغتين متطابقتين حرفًا: بايثون لـlogo_state، وتعبير ffmpeg بالمتغير p لـ_logo_exprs
+_EASES = {
+    "smoothstep": (lambda p: p * p * (3 - 2 * p), "{p}*{p}*(3-2*{p})"),
+    "smootherstep": (lambda p: p * p * p * (p * (6 * p - 15) + 10), "{p}*{p}*{p}*({p}*(6*{p}-15)+10)"),
+}
+
+
+def _ease_name(cfg) -> str:
+    name = str((cfg.path("reel.render.logo_ease") if cfg is not None else None) or "smoothstep")
+    return name if name in _EASES else "smoothstep"
+
+
+def _ease_in_out(p: float, cfg=None) -> float:
+    return _EASES[_ease_name(cfg)][0](p)
+
+
+def _ease_expr(p: str, cfg) -> str:
+    return "(" + _EASES[_ease_name(cfg)][1].format(p=p) + ")"
 
 
 def logo_state(t: float, cfg, hook_end: float, outro_start: float | None = None) -> tuple[float, float, float, float]:
@@ -3686,12 +3704,12 @@ def logo_state(t: float, cfg, hook_end: float, outro_start: float | None = None)
     w = float(cfg.path("reel.render.width"))
     big_w = float(oc["logo_width"])
     big_x, big_y = (w - big_w) / 2, float(oc["logo_top"])
-    e2 = _ease_in_out(min(max((t - hook_end) / float(hk["logo_move"]), 0.0), 1.0))
+    e2 = _ease_in_out(min(max((t - hook_end) / float(hk["logo_move"]), 0.0), 1.0), cfg)
     small_w = float(lg["width"])
     small_x, small_y = w - float(lg["right"]) - small_w, float(lg["top"])
     x, y, lw = (big_x + (small_x - big_x) * e2, big_y + (small_y - big_y) * e2, big_w + (small_w - big_w) * e2)
     if outro_start is not None:
-        e3 = _ease_in_out(min(max((t - outro_start) / float(oc["logo_move"]), 0.0), 1.0))
+        e3 = _ease_in_out(min(max((t - outro_start) / float(oc["logo_move"]), 0.0), 1.0), cfg)
         x, y, lw = x + (big_x - x) * e3, y + (big_y - y) * e3, lw + (big_w - lw) * e3
     return (x, y, lw, 1.0)
 
@@ -3703,14 +3721,14 @@ def _logo_exprs(cfg, hook_end: float, outro_start: float | None = None) -> dict:
     big_w, big_y = int(oc["logo_width"]), int(oc["logo_top"])
     big_x = f"(({w}-{big_w})/2)"
     p2 = f"min(max((t-{_fmt(hook_end)})/{_fmt(float(hk['logo_move']))},0),1)"
-    e2 = f"({p2}*{p2}*(3-2*{p2}))"
+    e2 = _ease_expr(p2, cfg)
     small_w, small_x = int(lg["width"]), w - int(lg["right"]) - int(lg["width"])
     out = {"w": f"({big_w}+({small_w}-{big_w})*{e2})",
            "x": f"({big_x}+({small_x}-{big_x})*{e2})",
            "y": f"({big_y}+({int(lg['top'])}-{big_y})*{e2})"}
     if outro_start is not None:
         p3 = f"min(max((t-{_fmt(outro_start)})/{_fmt(float(oc['logo_move']))},0),1)"
-        e3 = f"({p3}*{p3}*(3-2*{p3}))"
+        e3 = _ease_expr(p3, cfg)
         out = {"w": f"({out['w']}+({big_w}-{out['w']})*{e3})",
                "x": f"({out['x']}+({big_x}-{out['x']})*{e3})",
                "y": f"({out['y']}+({big_y}-{out['y']})*{e3})"}

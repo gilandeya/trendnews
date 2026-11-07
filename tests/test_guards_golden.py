@@ -24959,3 +24959,48 @@ def test_reel_band_inline_guards() -> None:
     check("g855: config.yaml على الشريط الجديد والاختبارات على القديم افتراضيًا",
           real.path("reel.render.band.style") == "inline" and base.path("reel.render.band.style") == "stacked"
           and int(real.path("reel.render.version")) >= 66)
+
+
+def test_reel_logo_motion_guards() -> None:
+    """حركة الشعار بطيئة الطرفين سريعة الوسط، والشعار الكبير ثلاثة أرباع ما كان (قرار صاحب المشروع 7/11، g856–g859)."""
+    from src import reel_render
+    from tests.helpers import _real_load_config, logo_motion_cfg
+
+    base = load_config()
+    cfg = logo_motion_cfg(base)
+    hook_end, start = 3.0, 20.0
+    move = float(cfg.path("reel.render.hook.logo_move"))
+
+    # السرعة: الإزاحة في أول عُشر الحركة وآخره أقل منها في العُشر الأوسط، وأقل مما كانت بالمنحنى القديم
+    def xs(c, a, b):
+        m = float(c.path("reel.render.hook.logo_move"))
+        return abs(reel_render.logo_state(hook_end + b * m, c, hook_end)[0] - reel_render.logo_state(hook_end + a * m, c, hook_end)[0])
+    first, mid, last = xs(cfg, 0, 0.1), xs(cfg, 0.45, 0.55), xs(cfg, 0.9, 1.0)
+    check("g856: بطيء في البداية والنهاية سريع في الوسط", first < mid / 5 and last < mid / 5, (first, mid, last))
+    old_first = xs(base, 0, 0.1) / abs(reel_render.logo_state(hook_end + 0.6, base, hook_end)[0] - reel_render.logo_state(hook_end, base, hook_end)[0])
+    new_first = first / abs(reel_render.logo_state(hook_end + move, cfg, hook_end)[0] - reel_render.logo_state(hook_end, cfg, hook_end)[0])
+    check("g856: أبطأ عند الطرفين من المنحنى القديم", new_first < old_first, (new_first, old_first))
+
+    # تعبير ffmpeg يطابق بايثون في الذهاب والإياب
+    ex = reel_render._logo_exprs(cfg, hook_end, start)
+    ok = True
+    for t in [0, 3.1, 3.3, 3.45, 3.8, 10, 20.2, 20.45, 20.7, 25]:
+        env = {"t": t, "min": min, "max": max}
+        want = reel_render.logo_state(t, cfg, hook_end, start)
+        got = (eval(ex["x"], env), eval(ex["y"], env), eval(ex["w"], env))
+        ok = ok and all(abs(a - b) < 1e-6 for a, b in zip(got, want[:3]))
+    check("g857: تعبير ffmpeg مطابق لـlogo_state", ok)
+
+    # الحجم: الكبير 315 متمركزًا في الافتتاح والخاتمة، والزاوية كما كانت
+    w = float(cfg.path("reel.render.width"))
+    s0 = reel_render.logo_state(0, cfg, hook_end, start)
+    s1 = reel_render.logo_state(start + 5, cfg, hook_end, start)
+    corner = reel_render.logo_state(10, cfg, hook_end, start)
+    check("g858: الشعار الكبير 315 متمركزًا أولًا وآخرًا", s0[2] == 315 and abs(s0[0] - (w - 315) / 2) < 1e-6 and
+          all(abs(a - b) < 1e-6 for a, b in zip(s0, s1)), (s0, s1))
+    check("g858: شعار الزاوية لم يتغير", corner[2] == float(base.path("reel.render.logo.width")), corner)
+
+    real = _real_load_config()
+    check("g859: config.yaml على الحركة الجديدة والاختبارات على القديمة افتراضيًا",
+          real.path("reel.render.logo_ease") == "smootherstep" and base.path("reel.render.logo_ease") == "smoothstep"
+          and int(real.path("reel.render.outro.logo_width")) == 315 and int(real.path("reel.render.version")) >= 67)
