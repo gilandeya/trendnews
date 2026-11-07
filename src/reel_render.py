@@ -1594,7 +1594,10 @@ def band_channel_parts(scene: dict, cfg) -> tuple[str, str]:
         return latin, ""
     prefix = str(cfg.path("reel.render.band.channel_prefix") or "")
     # «قناة قناة الجزيرة» تكرار: الاسم الذي يبدأ بالكلمة نفسها يبقى كما هو
-    if prefix and not display.startswith(prefix.strip()):
+    # و«قناة القناة 14» و«قناة تلفزيون دوشد» كذلك: اسم أوله كلمة من band.channel_prefix_skip لا يأخذ الكلمة
+    skip = [str(w) for w in (cfg.path("reel.render.band.channel_prefix_skip") or [])] + [prefix.strip()]
+    first = display.split()[0] if display.split() else ""
+    if prefix and first not in skip:
         display = prefix + display
     return display, latin
 

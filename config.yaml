@@ -2827,8 +2827,10 @@ reel:
     # style inline (قرار صاحب المشروع 7/11): ثلاثة أسطر — الاسم و(رسمه الأجنبي)، الصفة بالعربية، «قناة …» و(رسمها الأجنبي) — تنتهي يمينًا
     # قبل زر الإعجاب، والشريط الذهبي (edge) ملاصق لبداية الكتابة وحافته اليسرى عند أبعد نقطة يسارًا في دائرة الزر (like_button
     # مقيسة من لقطة هاتف: مركزها x ونصف قطرها r بإحداثيات الريل)، أقصر من الشريط بـbar_pad من كل جهة. stacked ← الشكل القديم
+    # channel_prefix_skip: اسم أوله إحدى هذه الكلمات لا يأخذ «قناة» قبله («القناة 14» لا «قناة القناة 14»)
     band: {top: 980, attach_to_frame: true, height: 240, edge: 24, alpha: 0.94, line_gap: 12, min_sizes: {name: 40, latin: 26, role: 26, guest: 30}, slide_seconds: 0.4, cover: auto,
             style: inline, like_button: {x: 920, r: 42}, text_gap: 12, bar_pad: 26, channel_prefix: "قناة ",
+            channel_prefix_skip: ["القناة", "تلفزيون"],
             cover_detect: {samples: 6, grad: 25, row_fraction: 0.7, frame_fraction: 0.8}}   # شريط المتحدث السفلي
     gif: {seconds: 6, width: 270, height: 480, fps: 8}
     repo_subdir: reels         # مجلد الريلز داخل المستودع الخاص (reel_file/reel_gif نسبيان إلى جذره)

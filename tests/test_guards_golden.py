@@ -25032,5 +25032,7 @@ def test_reel_band_channel_latin_guards() -> None:
         ar, lat = parts(sc, band_inline_cfg(real))
         if not lat and not __import__("re").fullmatch(r"[A-Za-z0-9 .&'-]+", str(ch.get("name") or "")):
             missing.append(ch.get("name"))
+    check("g861: لا «قناة القناة 14» ولا «قناة تلفزيون دوشد»",
+          parts({"channel_display": "تلفزيون دوشد", "channel_original": "Дождь"}, cfg)[0] == "تلفزيون دوشد")
     check("g862: لكل قناة نشطة رسم لاتيني في الشريط", not missing, missing)
     check("g862: نسخة التركيب رُفعت", int(real.path("reel.render.version")) >= 68)
