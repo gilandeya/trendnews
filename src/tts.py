@@ -41,6 +41,8 @@ def synthesize(text: str, voice: str, cfg) -> dict:
         return {"ok": False, "error": str(exc).replace(key, "***")[:200]}
     if not audio:
         return {"ok": False, "error": "استجابة بلا صوت"}
+    from . import costs
+    costs.add("tts", estimate_cost(len(text), voice, cfg))   # كلفة الريل (costs): Google تسعّر بالحروف
     return {"ok": True, "audio": audio, "chars": len(text)}
 
 

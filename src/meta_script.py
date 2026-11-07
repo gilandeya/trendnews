@@ -206,6 +206,8 @@ def build_draft(topic: dict, data: dict, title: str, hook_options: int = 3) -> d
         "meta_topic_id": topic["id"], "meta_issue": topic.get("topic_issue"),
         # عدد مرشّحي الهوك المعروضين مربعات في قضية السيناريو (youtube_publish._reel_hook_lines)
         "hook_pick": max(1, int(hook_options)),
+        # ما صُرف على مقاطع الموضوع وأسئلته (meta_qa) يدخل كلفة هذا الريل (costs.reel_line)
+        **({"cost_qa": (topic.get("qa") or {})["cost"]} if isinstance((topic.get("qa") or {}).get("cost"), dict) else {}),
     }
 
 

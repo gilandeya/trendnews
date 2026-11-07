@@ -20,7 +20,7 @@ from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from statistics import median
 
-from . import facebook, names, names_learn, review, store
+from . import costs, facebook, names, names_learn, review, store
 from .config import STATE_DIR, load_config
 from .schedule import tz_of
 
@@ -145,6 +145,7 @@ def reel_row(draft: dict, m: dict, cfg) -> dict:
         "completion": _retention_end(graph),
         "replays": m.get("fb_reels_replay_count"),
         "errors": m.get("_errors") or [],
+        "cost": costs.draft_total(draft, cfg),   # كلفة الريل بكل مراحله (costs)؛ None لريل قبل الدفتر
     }
 
 
@@ -190,24 +191,63 @@ def _fmt_num(v, digits: int = 0, suffix: str = "") -> str:
     return f"{v:,.{digits}f}{suffix}"
 
 
-def reels_section(rows: list[dict]) -> list[str]:
-    """قسم «🎬 الريلات»: سطر لكل ريل منشور. «متوسط المشاهدة» يُقرأ مع طول الريل، فتظهر نسبته منه بجانبه."""
-    if not rows:
+def reel_costs(days: int, cfg) -> dict:
+    """كلفة كل ريل أُنشئ خلال المدة، منشورًا كان أو لا: المرفوض والفاشل مدفوعان أيضًا، فمجموعها هو ما كلّفته الريلات فعلًا.
+    {count, published, usd, parts} ؛ ريل بلا دفتر (قبل costs) لا يُعدّ."""
+    cutoff = datetime.now(timezone.utc) - timedelta(days=days)
+    out = {"count": 0, "published": 0, "usd": 0.0, "parts": {}}
+    stages: list[dict] = []
+    for path in sorted(store.DRAFTS_DIR.glob("*/*.json")):
+        try:
+            draft = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            continue
+        if draft.get("format") != "reel":
+            continue
+        try:
+            when = datetime.fromisoformat(draft.get("created_at") or "")
+        except ValueError:
+            continue
+        if when.tzinfo is None:
+            when = when.replace(tzinfo=timezone.utc)
+        parts = costs.draft_stages(draft)
+        if when < cutoff or not parts:
+            continue
+        out["count"] += 1
+        out["published"] += draft.get("status") == "published"
+        stages.extend(parts.values())
+    out["parts"] = costs.merge(*stages)
+    out["usd"] = costs.usd(out["parts"], cfg)
+    return out
+
+
+def reels_section(rows: list[dict], cost: dict | None = None, cfg=None) -> list[str]:
+    """قسم «🎬 الريلات»: سطر لكل ريل منشور. «متوسط المشاهدة» يُقرأ مع طول الريل، فتظهر نسبته منه بجانبه.
+    cost (reel_costs) يضيف عمود الكلفة وسطر مجموع الأسبوع، ويُظهر القسم ولو لم يُنشر ريل (ما رُكّب ولم يُنشر مدفوع)."""
+    has_cost = bool(cost and cost.get("count"))
+    if not rows and not has_cost:
         return []
-    lines = ["", "#### 🎬 الريلات",
-             "| المشاهدات | الوصول | متوسط المشاهدة | أكملوه | المدة | العنوان |",
-             "|---|---|---|---|---|---|"]
+    lines = ["", "#### 🎬 الريلات"]
+    if rows:
+        lines += ["| المشاهدات | الوصول | متوسط المشاهدة | أكملوه | المدة | الكلفة | العنوان |",
+                  "|---|---|---|---|---|---|---|"]
     for r in rows:
+        cost_cell = _fmt_num(r.get("cost"), 2, "$")
         if r.get("error"):
-            lines.append(f"| ⚠️ | — | — | — | {_fmt_num(r.get('length'), 0, ' ث')} | {r['title'][:50]} — تعذّر الجلب: {r['error'][:80]} |")
+            lines.append(f"| ⚠️ | — | — | — | {_fmt_num(r.get('length'), 0, ' ث')} | {cost_cell} | {r['title'][:50]} — تعذّر الجلب: {r['error'][:80]} |")
             continue
         avg = _fmt_num(r.get("avg_seconds"), 1, " ث")
         if r.get("avg_seconds") is not None and r.get("length"):
             avg += f" ({r['avg_seconds'] / r['length'] * 100:.0f}%)"
         lines.append(f"| {_fmt_num(r.get('plays'))} | {_fmt_num(r.get('reach'))} | {avg} | "
-                     f"{_fmt_num(r.get('completion'), 0, '%')} | {_fmt_num(r.get('length'), 0, ' ث')} | {r['title'][:50]} |")
-    lines.append("")
-    lines.append("<sub>«أكملوه» = نسبة من بقوا يشاهدون عند آخر ثانية في منحنى البقاء من فيسبوك.</sub>")
+                     f"{_fmt_num(r.get('completion'), 0, '%')} | {_fmt_num(r.get('length'), 0, ' ث')} | {cost_cell} | {r['title'][:50]} |")
+    if has_cost and cfg is not None:
+        tpl = cfg.path("costs.texts.week", "💵 كلفة الريلات: {usd}$ لـ{n} ريلًا (نُشر منها {published}) — {parts}")
+        lines += ["", tpl.format(usd=f"{cost['usd']:.2f}", n=cost["count"], published=cost["published"],
+                                 parts=costs.parts_text(cost["parts"], cfg))]
+    if rows:
+        lines.append("")
+        lines.append("<sub>«أكملوه» = نسبة من بقوا يشاهدون عند آخر ثانية في منحنى البقاء من فيسبوك.</sub>")
     return lines
 
 
@@ -894,7 +934,7 @@ def main() -> int:
     # الريلات قسم مستقل عن أقسام الأداء: تُجمع من video_insights وتظهر حتى في أسبوع لا منشورات صور فيه
     reel_rows = collect_reels(args.days, api_version, cfg)
     report = build_report(a, visible_recs, args.days, decisions_report(cfg),
-                          learned_names_section(cfg), reels_section(reel_rows))
+                          learned_names_section(cfg), reels_section(reel_rows, reel_costs(args.days, cfg), cfg))
     print(report)
 
     summary = os.environ.get("GITHUB_STEP_SUMMARY")

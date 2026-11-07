@@ -25175,3 +25175,129 @@ def test_reel_context_words_guards() -> None:
     check("g872: config.yaml كلمةً كلمة ونسخة التركيب رُفعت",
           real.path("reel.render.reveal.mode") == "words" and int(real.path("reel.render.version")) >= 71)
     check("g872: الاختبارات القديمة على الأسطر", load_config().path("reel.render.reveal.mode") == "lines")
+
+
+def test_reel_cost_ledger_guards() -> None:
+    """كلفة كل ريل في سطر واحد (قرار صاحب المشروع 8/11، g873–g880): دفتر costs تغذّيه llm.create وGemini والصوت والبروكسي،
+    ومراحل الريل (المقاطع والأسئلة، السيناريو، التركيب) تحفظ فرقه، والسطر في تعليق التركيب وقضية المرحلة 2 والتقرير الأسبوعي."""
+    import json
+    import tempfile
+    from datetime import datetime, timezone
+    from pathlib import Path
+    from types import SimpleNamespace
+    from unittest import mock
+    from src import costs, gemini_speakers, insights, llm, meta_qa, meta_script, reel_clips, reel_render, reel_script
+    from src import store, tts, writer, youtube_publish
+    from tests.helpers import _real_load_config
+
+    cfg = load_config()
+
+    def resp(inp, out):
+        return SimpleNamespace(usage=SimpleNamespace(input_tokens=inp, output_tokens=out, cache_read_input_tokens=0,
+                                                     cache_creation_input_tokens=0), stop_reason="end_turn", content=[])
+
+    # g873: llm.create يسجّل الرد مرة، وإعادة record_usage عليه (وحدات قديمة) لا تضاعفه، وMagicMock لا يفسد الدفتر
+    before = costs.snapshot()
+    calls_before = writer.USAGE["calls"]
+    r = resp(1_000_000, 0)
+    client = SimpleNamespace(messages=SimpleNamespace(create=lambda **k: r))
+    got = llm.create(client, cfg=cfg, model="claude-opus-5", max_tokens=10, messages=[])
+    writer.record_usage(got, "claude-opus-5")
+    d = costs.delta(before)
+    check("g873: نداء Opus بمليون رمز إدخال = 15$ مرة واحدة", abs(d.get("claude", {}).get("claude-opus-5", 0) - 15.0) < 1e-6
+          and writer.USAGE["calls"] == calls_before + 1, (d, writer.USAGE["calls"] - calls_before))
+    cost0 = writer.USAGE["cost"]
+    writer.record_usage(mock.MagicMock(), "claude-sonnet-5")
+    check("g873: رد MagicMock لا يفسد USAGE", isinstance(writer.USAGE["cost"], float) and writer.USAGE["cost"] == cost0)
+
+    # g874: الفرق والجمع والسطر
+    a = {"claude": {"claude-opus-5": 0.5, "claude-haiku-5-5": 0.02}, "gemini": 0.1, "proxy_bytes": 30_000_000}
+    b = {"claude": {"claude-opus-5": 0.25}, "tts": 0.05, "web_search": 3, "proxy_bytes": 16_000_000}
+    m = costs.merge(a, b)
+    check("g874: merge يجمع البنود", abs(m["claude"]["claude-opus-5"] - 0.75) < 1e-9 and m["proxy_bytes"] == 46_000_000, m)
+    check("g874: البروكسي بلا سعر خارج المجموع والبحث بسعره",
+          abs(costs.usd(m, cfg) - (0.77 + 0.1 + 0.05 + 0.03)) < 1e-9, costs.usd(m, cfg))
+    draft = {"cost_script": a, "cost_renders": [b, {"claude": {"claude-sonnet-5": 0.1}}]}
+    line = costs.reel_line(draft, cfg)
+    check("g874: سطر واحد بالمجموع والمراحل والبنود", line.startswith("💵 كلفة الريل: 1.05$") and "السيناريو 0.62$" in line
+          and "التركيب (2 محاولات) 0.43$" in line and "Opus 0.75$" in line and "بروكسي 46 MB" in line
+          and "خارج المجموع" in line, line)
+    check("g874: بلا دفتر لا سطر", costs.reel_line({}, cfg) == "")
+
+    # g875: السيناريو يحفظ ما صُرف فيه في cost_script (ويحفظه SCRIPT_KEYS)
+    def fake_write(draft, *a, **k):
+        costs.add_claude("claude-opus-5", 0.4)
+        return {"status": "ready", "reason": ""}
+    with mock.patch.object(reel_script, "_write_for_draft", fake_write):
+        dr = {"id": "c1"}
+        reel_script.write_for_draft(dr, {}, [], "", [], cfg)
+    check("g875: cost_script على المسودة", dr.get("cost_script", {}).get("claude", {}).get("claude-opus-5") == 0.4, dr)
+    check("g875: cost_script ضمن SCRIPT_KEYS", "cost_script" in reel_script.SCRIPT_KEYS)
+
+    # g876: التركيب يضيف محاولته إلى cost_renders ويكتب السطر في التعليق (ومنه render_notes)
+    def fake_render(path, draft, cfg, deps, reels_dir, tmp, dropped, approx, notes=None):
+        costs.add_claude("claude-haiku-5-5", 0.03)
+        costs.add("proxy_bytes", 12_000_000)
+        return {"reel_file": "reels/x.mp4", "reel_gif": "reels/x.gif", "duration_seconds": 60}
+    rcfg = load_config()
+    rcfg["reel"]["review"]["enabled"] = False
+    comments: list = []
+    d0 = {"id": "c2c2c2c2c2c2", "origin": "analysis", "format": "reel", "status": "approved_script",
+          "render_status": "queued", "review_issue": 77, "cost_script": {"claude": {"claude-opus-5": 0.5}},
+          "cost_renders": [{"claude": {"claude-haiku-5-5": 0.01}}]}
+    path = store.save_draft(d0)
+    with mock.patch.object(reel_render, "_render", fake_render), tempfile.TemporaryDirectory() as td:
+        reel_render.render_draft(path, dict(d0), rcfg, reel_render.Deps(comment=lambda n, t: comments.append((n, t))),
+                                 reels_dir=Path(td) / "reels", workdir=Path(td) / "w")
+    saved = json.loads(path.read_text(encoding="utf-8"))
+    check("g876: محاولة التركيب تُضاف لا تستبدل", len(saved.get("cost_renders") or []) == 2
+          and saved["cost_renders"][1].get("proxy_bytes") == 12_000_000, saved.get("cost_renders"))
+    text = comments[-1][1] if comments else ""
+    check("g876: سطر الكلفة في تعليق التركيب وملاحظاته", "💵 كلفة الريل: 0.54$" in text
+          and any("💵" in n for n in saved.get("render_notes") or []), text[-200:])
+
+    # g877: الصوت وGemini والبروكسي يصلون الدفتر
+    before = costs.snapshot()
+    with mock.patch.dict("os.environ", {tts.KEY_VAR: "k"}), \
+            mock.patch.object(tts, "_post", lambda *a: {"audioContent": "bXAz"}):
+        tts.synthesize("كلمة" * 250, "ar-XA-Chirp3-HD-Kore", cfg)
+    with mock.patch.object(gemini_speakers, "build_request", lambda *a: {}), \
+            mock.patch.object(gemini_speakers.gemini, "generate", lambda *a, **k: (200, {}, 1.0)), \
+            mock.patch.object(gemini_speakers.gemini, "read_response",
+                              lambda r, k: (None, "MAX_TOKENS", {"promptTokenCount": 1_000_000})):
+        try:
+            gemini_speakers.judge("v", [{"point_id": "p", "start": 1, "end": 5}], cfg, key="k")
+        except Exception:  # noqa: BLE001 — الرد المقطوع يرفع، والمطلوب أن يُحسب قبله
+            pass
+    reel_clips.download_clip("v", 0, 5, 720, Path("x.mp4"), None, runner=lambda *a: {"bytes": 5_000_000})
+    d = costs.delta(before)
+    check("g877: الصوت بسعره", abs(d.get("tts", 0) - tts.estimate_cost(1000, "ar-XA-Chirp3-HD-Kore", cfg)) < 1e-9, d)
+    check("g877: Gemini المقطوع محسوب", d.get("gemini", 0) > 0, d)
+    check("g877: بايتات البروكسي", d.get("proxy_bytes") == 5_000_000, d)
+
+    # g878: كلفة مقاطع الموضوع وأسئلته تتراكم في qa وتنتقل إلى مسودة الريل
+    def fake_qa(topic, *a, **k):
+        costs.add("gemini", 0.2)
+        topic["qa"] = dict(topic.get("qa") or {}, status="ready")
+        return "ready"
+    topic = {"id": "mt1", "title": "موضوع", "qa": {"cost": {"gemini": 0.1}}}
+    with mock.patch.object(meta_qa, "_process_topic", fake_qa):
+        meta_qa.process_topic(topic, {"date": "2026-11-08"}, cfg)
+    check("g878: qa.cost يتراكم عبر المحاولات", abs(topic["qa"]["cost"].get("gemini", 0) - 0.3) < 1e-9, topic["qa"])
+    md = meta_script.build_draft(topic, {"date": "2026-11-08"}, "عنوان")
+    check("g878: cost_qa على مسودة الريل", md.get("cost_qa") == topic["qa"]["cost"], md.get("cost_qa"))
+
+    # g879: قضية المرحلة 2 تعرض ما صُرف حتى الآن
+    check("g879: سطر الكلفة لبند الريل", youtube_publish._reel_cost_line({"cost_script": a}, cfg).startswith("💵"))
+
+    # g880: التقرير الأسبوعي: عمود الكلفة لكل ريل منشور ومجموع كل الريلات المُنشأة
+    now = datetime.now(timezone.utc).isoformat()
+    store.save_draft({"id": "c3c3c3c3c3c3", "format": "reel", "status": "rejected", "created_at": now,
+                      "cost_script": {"claude": {"claude-opus-5": 1.0}}})
+    rc = insights.reel_costs(7, cfg)
+    check("g880: المرفوض مدفوع ويُعدّ", rc["count"] >= 1 and rc["usd"] >= 1.0 and rc["published"] == 0, rc)
+    row = insights.reel_row({"cost_script": {"claude": {"claude-opus-5": 0.8}}, "headlines": ["ع"]}, {}, cfg)
+    sec = "\n".join(insights.reels_section([row], rc, cfg))
+    check("g880: عمود الكلفة وسطر المجموع", "| الكلفة |" in sec and "0.80$" in sec and "💵 كلفة الريلات:" in sec, sec)
+    check("g880: القسم يظهر بلا ريل منشور إن صُرف شيء", any("💵" in x for x in insights.reels_section([], rc, cfg)))
+    check("g880: config.yaml فيه أسعار الكلفة", _real_load_config().path("costs.web_search_usd_per_1000") == 10)

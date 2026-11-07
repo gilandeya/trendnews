@@ -262,10 +262,16 @@ def record_usage(resp, model: str) -> None:
     u = getattr(resp, "usage", None)
     if u is None:
         return
-    inp = getattr(u, "input_tokens", 0) or 0
-    out = getattr(u, "output_tokens", 0) or 0
-    cached = getattr(u, "cache_read_input_tokens", 0) or 0
-    written = getattr(u, "cache_creation_input_tokens", 0) or 0
+    from . import costs
+    # llm.create يسجّل كل رد، ووحدات أقدم تعيد record_usage على الرد نفسه بعده: الرد الواحد يُحسب مرة
+    if not costs.first_time(resp):
+        return
+    def _n(name):
+        # مزيَّفات الاختبار (MagicMock) تعيد كائنًا لأي سمة؛ غير العدد صفر كي لا يفسد USAGE
+        v = getattr(u, name, 0)
+        return v if isinstance(v, (int, float)) and not isinstance(v, bool) else 0
+    inp, out = _n("input_tokens"), _n("output_tokens")
+    cached, written = _n("cache_read_input_tokens"), _n("cache_creation_input_tokens")
 
     from . import llm
     p_in, p_out = PRICES.get(llm.resolve(model), (2.0, 10.0))
@@ -273,9 +279,9 @@ def record_usage(resp, model: str) -> None:
     USAGE["cached"] += cached
     USAGE["output"] += out
     USAGE["calls"] += 1
-    USAGE["cost"] += (
-        (inp + written * 1.25 + cached * 0.1) * p_in / 1e6 + out * p_out / 1e6
-    )
+    cost = (inp + written * 1.25 + cached * 0.1) * p_in / 1e6 + out * p_out / 1e6
+    USAGE["cost"] += cost
+    costs.add_claude(llm.resolve(model), cost)
 
 
 def usage_summary() -> str:

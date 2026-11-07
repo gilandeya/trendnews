@@ -436,7 +436,10 @@ def _create(client, **kwargs):
         from anthropic import Anthropic
         from .config import env
         client = Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
-    return client.messages.create(**kwargs)
+    resp = client.messages.create(**kwargs)
+    from . import writer
+    writer.record_usage(resp, kwargs.get("model"))   # نداء مباشر لا يمر بـllm.create: كلفته تصل دفتر الكلفة من هنا
+    return resp
 
 
 def _tool_block(resp) -> tuple[str, str, dict] | None:
@@ -1661,11 +1664,22 @@ def apply_audit(valid: list[dict], rows: list[dict], cfg: Any, points_by_id: dic
 SCRIPT_KEYS = ("script", "script_status", "script_error", "headlines", "headline_selected", "warnings", "editor_review",
                "name_corrections", "name_unresolved", "names_audit", "reel_bg", "hook_candidates", "hook_search",
                "broll_plan", "broll_plan_error", "quote_retranslated", "clip_dropped", "clip_audit",
-               "editor_revision", "script_attempts", "script_fit", "script_raw", "script_repairs", "clip_rechecked", "script_picks")
+               "editor_revision", "script_attempts", "script_fit", "script_raw", "script_repairs", "clip_rechecked", "script_picks",
+               "cost_script")
 
 
 def write_for_draft(draft: dict, topic: dict, member_points: list[dict], article_text: str, unresolved: list,
                     cfg: Any, client=None, hook_deps=None, builder=None) -> dict:
+    """كلفة السيناريو (costs): كل ما صُرف في الكتابة وفحوصها والمحرر والخلفية والهوك وخطة اللقطات يُحفظ في cost_script، نجحت أو فشلت؛
+    إعادة الكتابة تستبدله لأنها مرحلة جديدة."""
+    from . import costs
+    draft.pop("cost_script", None)
+    with costs.stage(draft, "cost_script"):
+        return _write_for_draft(draft, topic, member_points, article_text, unresolved, cfg, client, hook_deps, builder)
+
+
+def _write_for_draft(draft: dict, topic: dict, member_points: list[dict], article_text: str, unresolved: list,
+                     cfg: Any, client=None, hook_deps=None, builder=None) -> dict:
     """يكتب سيناريو مسودة الريل في الذاكرة (لا يحفظ): المقاطع الصالحة ← نداء ← تحقق ← عناوين ← تدقيق الأسماء ← المحرر
     الأخير. فشل ← script_status="failed" وscript_error بالسبب. يعيد {"status": "ready"|"failed", "reason"}.
 

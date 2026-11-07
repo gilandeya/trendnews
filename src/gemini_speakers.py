@@ -95,6 +95,9 @@ def judge(video_id: str, windows: list[dict], cfg, key: str | None = None, post=
     if code != 200:
         raise RuntimeError(f"Gemini HTTP {code}: {str(resp)[:150]}")
     data, finish, usage = gemini.read_response(resp, "windows")
+    cost = gemini.cost_usd(usage, g.get("price_per_mtok") or {})
+    from . import costs
+    costs.add("gemini", cost)   # الرد المقطوع مدفوع أيضًا، فيُحسب قبل رفضه
     if data is None:
         raise RuntimeError(f"Gemini: لا ناتج مقبول ({finish})")
-    return {"verdicts": verdicts(data, cfg), "cost": gemini.cost_usd(usage, g.get("price_per_mtok") or {}), "speakers": data.get("speakers") or []}
+    return {"verdicts": verdicts(data, cfg), "cost": cost, "speakers": data.get("speakers") or []}

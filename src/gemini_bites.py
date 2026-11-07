@@ -134,6 +134,8 @@ def extract(video_id: str, topic: str, meta: dict, cfg, key: str, post=None) -> 
             return out
         data, finish, usage = gemini.read_response(resp, "bites")
         out.update(finish=finish, usage=usage, cost=gemini.cost_usd(usage, g.get("price_per_mtok") or {}))
+        from . import costs
+        costs.add("gemini", out["cost"])   # الرد المرفوض مدفوع أيضًا، فيُحسب قبل فحصه
         if data is None:
             out["error"] = f"Gemini: لا ناتج مقبول ({finish})"
             return out

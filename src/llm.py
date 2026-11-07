@@ -102,4 +102,10 @@ def create(client, *, cfg=None, **kwargs):
     usage = getattr(resp, "usage", None)
     if (getattr(usage, "input_tokens", 0) or 0) > PRICE_TIER_INPUT_TOKENS:
         log.warning("طلب %s تجاوز %d رمز إدخال — يُسعَّر بالطبقة الأغلى", model, PRICE_TIER_INPUT_TOKENS)
+    # كلفة كل نداء تصل دفتر الكلفة (costs) من هنا، فلا يغيب نداء عن كلفة الريل لأن وحدته لم تستدعِ record_usage
+    try:
+        from . import writer
+        writer.record_usage(resp, model)
+    except Exception as exc:  # noqa: BLE001 — الدفتر إخبار لا شرط للنداء
+        log.debug("تعذّر تسجيل كلفة النداء: %s", exc)
     return resp

@@ -837,6 +837,11 @@ def _reel_broll_lines(d: dict, texts: dict, cfg=None) -> list[str]:
     return [*out, ""]
 
 
+def _reel_cost_line(d: dict, cfg) -> str:
+    from . import costs
+    return costs.reel_line(d, cfg)
+
+
 def _reel_long_note(seconds: float, cfg) -> str:
     """سطر ⏱️ لريل تتجاوز مدته حدّ Reels API (L1، Issue #1627)، وفارغ دونه."""
     rcfg = cfg.path("reel.review", {}) or {}
@@ -883,6 +888,8 @@ def _reel_item_lines(idx: int, d: dict, cfg) -> list[str]:
         seconds = round(reel_script.estimate_seconds(script, cfg))
         out += [f"  {texts.get('script_meta', '').format(narrator=narrator, seconds=seconds)}",
                 *([f"  {long_note}"] if (long_note := _reel_long_note(seconds, cfg)) else []),
+                # ما صُرف حتى الآن على هذا الريل (costs)، قبل قرار التركيب الذي يضيف إليه
+                *([f"  {cost}"] if (cost := _reel_cost_line(d, cfg)) else []),
                 "", f"  {texts.get('timeline_header', '')}", "",
                 *reel_script.timeline_lines(script, cfg), "",
                 *_reel_clip_note_lines(d, script, texts),
