@@ -25301,3 +25301,232 @@ def test_reel_cost_ledger_guards() -> None:
     check("g880: عمود الكلفة وسطر المجموع", "| الكلفة |" in sec and "0.80$" in sec and "💵 كلفة الريلات:" in sec, sec)
     check("g880: القسم يظهر بلا ريل منشور إن صُرف شيء", any("💵" in x for x in insights.reels_section([], rc, cfg)))
     check("g880: config.yaml فيه أسعار الكلفة", _real_load_config().path("costs.web_search_usd_per_1000") == 10)
+
+
+def test_reel_clash_hook_guards() -> None:
+    """هوك «المواجهة» بورق الكوتشينة (قرار صاحب المشروع 8/11، g881–g889): جملتان من إجابتين معتمدتين لمتحدثَين موثَّقين من كتلتين
+    مختلفتين، الكود يقرّر بترتيب تفضيل العلاقات، وما يُكتب على الشاشة يطابق ما يُسمع (الصوت من أول كلمة إلى آخرها بلا كلمة مجاورة)،
+    والورقة ذهبية ومعلوماتها تحتها وحدها. g888 بـffmpeg حقيقي ويُتخطّى إن غاب."""
+    import os
+    import subprocess
+    from types import SimpleNamespace
+    import numpy as np
+    from PIL import Image
+    from src import reel_clash, reel_render, reel_script, youtube_publish
+    from tests.helpers import _real_load_config
+
+    cfg = load_config()
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001
+            check(name + ": استثناء", False, repr(exc))
+
+    qa = "we think that the war will expand into a regional conflict very soon now"
+    qa_ar = "نعتقد أن الحرب ستتوسع إلى صراع إقليمي قريبًا جدًا"
+    qb = "هذه معادلة صفرية لا يربح فيها أحد في النهاية أبدا"
+    qc = "the U.S. will not accept a nuclear Iran under any condition at all"
+    sa = {"kind": "clip", "point_id": "pa", "speaker_name": "جويل روزنبرغ", "speaker_name_latin": "Joel Rosenberg",
+          "speaker_verified": True, "speaker_role": "محلل", "channel_display": "All Israel News",
+          "channel_original": "All Israel News", "language": "en", "quote_original": qa, "quote_arabic": qa_ar}
+    sb = {"kind": "clip", "point_id": "pb", "speaker_name": "محمد", "speaker_verified": True, "channel_display": "الجزيرة",
+          "channel_original": "Al Jazeera", "language": "ar", "quote_original": qb, "quote_arabic": qb + "."}
+    sc_ = {"kind": "clip", "point_id": "pc", "speaker_name": "إيلي", "speaker_verified": True, "channel_display": "ILTV",
+           "channel_original": "ILTV", "language": "en", "quote_original": qc,
+           "quote_arabic": "الولايات المتحدة لن تقبل إيران نووية تحت أي ظرف"}
+    script = {"title": "هل تتسع الحرب؟", "scenes": [{"kind": "title_card", "text": "هل تتسع الحرب؟"}, sa, sb, sc_]}
+    cands = reel_clash.candidates(script, cfg)
+    la = {"point_id": "pa", "first_words": "the war will", "last_words": "regional conflict", "text_ar": "الحرب ستتوسع إلى صراع إقليمي"}
+    lb = {"point_id": "pb", "first_words": "هذه معادلة", "last_words": "فيها أحد", "text_ar": "هذه معادلة صفرية لا يربح فيها أحد"}
+    lc = {"point_id": "pc", "first_words": "will not accept", "last_words": "any condition", "text_ar": "لن تقبل إيران نووية تحت أي ظرف"}
+
+    def g881():
+        raw = {"pairs": [{"relation": "partial_agree", "a": la, "b": lb}, {"relation": "same_words", "a": lc, "b": lb},
+                         {"relation": "opposite", "a": la, "b": lc}], "hook_text": "حرب إيران تقسم المحللين"}
+        hc = reel_clash.decide(raw, cands, cfg)
+        check("g881: التعارض التام بين كتلة واحدة يُرفض، والتطابق في العبارة يغلب التوافق غير التام",
+              hc.get("mode") == "pair" and hc.get("relation") == "same_words" and hc["a"]["point_id"] == "pc"
+              and "الجملتان من كتلة واحدة" in hc.get("rejected", []), hc)
+        hc2 = reel_clash.decide({"pairs": [{"relation": "opposite", "a": la, "b": la}], "single": lb, "hook_text": "عنوان طويل جدا من سبع كلمات هنا"},
+                                cands, cfg)
+        check("g881: زوج من مقطع واحد ← الجملة الواحدة، وعنوان أطول من ست كلمات يُترك", hc2.get("mode") == "single"
+              and hc2["a"]["point_id"] == "pb" and hc2.get("hook_text") == "", hc2)
+        check("g881: لا زوج ولا جملة ← خطأ", "error" in reel_clash.decide({"pairs": []}, cands, cfg))
+    guarded("g881", g881)
+
+    def g882():
+        cmap = {c["point_id"]: c for c in cands}
+        a, _ = reel_clash.check_line(la, cmap, cfg)
+        check("g882: متكلم بغير العربية ← ترجمة القطعة من الترجمة المعتمدة، والكلام بلغته قطعة بالكلمات المكتوبة",
+              a and a["text_ar"] == la["text_ar"] and not a["arabic"] and a["sub_original"] == "the war will expand into a regional conflict", a)
+        bad, why = reel_clash.check_line({**la, "text_ar": "الحرب ستتوسع حتمًا"}, cmap, cfg)
+        check("g882: ترجمة ليست قطعة من المعتمدة ← رفض", bad is None and "ترجمة" in why, why)
+        b, _ = reel_clash.check_line({**lb, "text_ar": "هي معادلة صفرية لا رابح فيها"}, cmap, cfg)
+        check("g882: متكلم بالعربية ← كلماته نفسها لا ترجمة مختلفة", b and b["arabic"] and b["text_ar"] == "هذه معادلة صفرية لا يربح فيها أحد", b)
+        c, _ = reel_clash.check_line({**lc, "first_words": "the U.S. will", "last_words": "nuclear Iran"}, cmap, cfg)
+        check("g882: «U.S.» يُقسم في التطبيع ولا يزيح حدود القطعة المكتوبة", c and c["sub_original"] == "the U.S. will not accept a nuclear Iran", c)
+    guarded("g882", g882)
+
+    def heard(q, t=1.0, step=0.4):
+        return [(round(t + k * step, 3), round(t + k * step + 0.35, 3), w) for k, w in enumerate(q.split())]
+
+    def g883():
+        rec, _ = reel_clash.check_line(la, {c["point_id"]: c for c in cands}, cfg)
+        sp = reel_clash.span_times({"heard": heard(qa)}, rec, cfg)
+        # «the war will» تبدأ عند 2.2 و«that» قبلها تنتهي عند 2.15؛ «conflict» تنتهي عند 5.35 و«very» بعدها تبدأ عند 5.4
+        check("g883: الصوت لا يدخل الكلمة السابقة ولا اللاحقة", sp and abs(sp[0] - 2.17) < 1e-6 and abs(sp[1] - 5.38) < 1e-6
+              and [w[2] for w in sp[2]] == rec["sub_original"].split(), sp)
+        loose = heard(qa, step=1.0)
+        sp2 = reel_clash.span_times({"heard": loose}, rec, cfg)
+        check("g883: بلا جار قريب ← الهامش وحده", sp2 and abs(sp2[0] - (4.0 - 0.08)) < 1e-6 and abs(sp2[1] - (11.35 + 0.12)) < 1e-6, sp2)
+        check("g883: بلا كلمات مسموعة ← None (لا ضمان للتطابق فلا تُعرض)", reel_clash.span_times({}, rec, cfg) is None)
+        check("g883: كلام مسموع لا يطابق ← None", reel_clash.span_times({"heard": heard("something else entirely said here now")}, rec, cfg) is None)
+    guarded("g883", g883)
+
+    def g884():
+        span = [(2.0, 2.3, "هذه"), (2.4, 2.8, "معادلة"), (2.9, 3.3, "صفرية")]
+        ar = reel_clash.caption_times({"text_ar": "هذه معادلة صفرية", "arabic": True}, span, 1.9, 0.2, cfg)
+        check("g884: متكلم بالعربية ← كل كلمة مع نطقها", ar == [0.3, 0.7, 1.2], ar)
+        fo = reel_clash.caption_times({"text_ar": "الحرب ستتوسع إلى صراع", "arabic": False}, span, 1.9, 0.2, cfg)
+        check("g884: متكلم بغيرها ← السطر كله عند أول كلمة تُسمع", fo == [0.3] * 4, fo)
+        lines = [["أ", "ب", "ج"], ["د", "هـ"]]
+        st = [reel_clash.caption_state([1, 2, 3, 4, 5], lines, t) for t in (0.5, 2.0, 3.5, 4.0, 9.0)]
+        check("g884: السطر التالي يستبدل السابق عند أول كلماته والأخير يبقى", st == [(-1, 0), (0, 2), (0, 3), (1, 1), (1, 2)], st)
+    guarded("g884", g884)
+
+    def g885():
+        k = cfg.path("reel.render.clash.card")
+        m, vh, ih = int(k["margin"]), int(k["video_height"]), int(k["info_height"])
+        img = np.asarray(reel_clash.card_base(sa, cfg).convert("RGBA")).astype(int)
+        gold = np.array(reel_render.imaging.hex_rgb(cfg.path("brand.accent_color")))
+        top = img[4:m, 60:-60, :3]
+        check("g885: الورقة ذهبية وأعلاها بلا معلومات", img.shape[0] == m + vh + ih and np.abs(top - gold).max() < 3, img.shape)
+        info = img[m + vh:, :, :3]
+        dark = ((info.max(axis=2) < 40) & (img[m + vh:, :, 3] == 255)).sum()
+        check("g885: المعلومات تحت الفيديو بالأسود", dark > 300, dark)
+        solo = np.asarray(reel_clash.card_base({**sb, "speaker_verified": False}, cfg).convert("RGBA")).astype(int)[m + vh:]
+        # الركنان المدوّران شفافان (أسودان بلا ألفا) فلا يُعدّان حبرًا
+        rows = np.where(((solo[:, :, :3].max(axis=2) < 40) & (solo[:, :, 3] == 255)).any(axis=1))[0]
+        mid = (rows.min() + rows.max()) / 2 if len(rows) else -1
+        check("g885: ورقة بلا اسم ← سطر القناة وحده متوسطًا في مساحة المعلومات", len(rows) and abs(mid - ih / 2) < 25, (mid, ih))
+        al = np.asarray(reel_clash.card_base(sa, cfg).getchannel("A"))
+        check("g885: الحواف مدوّرة (ركن شفاف)", al[0, 0] == 0 and al[m + vh // 2, 2] == 255)
+    guarded("g885", g885)
+
+    def g886():
+        draft = {"script": script}
+        tool = SimpleNamespace(type="tool_use", input={"pairs": [{"relation": "opposite", "a": la, "b": lb}], "hook_text": "حرب إيران تقسم المحللين"})
+        old = reel_clash._create
+        reel_clash._create = lambda client, **kw: SimpleNamespace(stop_reason="tool_use", content=[tool])
+        try:
+            reel_clash.plan(draft, cfg, client=object())
+        finally:
+            reel_clash._create = old
+        hc = draft.get("hook_clash") or {}
+        check("g886: plan يحفظ الزوج والعنوان، والمفتاح في SCRIPT_KEYS فلا يضيع عند الحفظ",
+              hc.get("mode") == "pair" and hc.get("hook_text") == "حرب إيران تقسم المحللين" and "hook_clash" in reel_script.SCRIPT_KEYS, hc)
+        lines = reel_clash.review_lines(draft, cfg)
+        check("g886: سطور المرحلة 2 بالعلاقة والجملتين والعنوان", len(lines) == 4 and "تعارض تام" in lines[0], lines)
+        check("g886: بند الريل يعرضها", any("🃏" in x for x in youtube_publish._reel_clash_lines(draft, cfg)))
+        d2 = {"script": {"scenes": [{**sa, "speaker_verified": False}]}}
+        reel_clash.plan(d2, cfg, client=object())
+        check("g886: لا متحدث موثَّق ← خطأ والهوك القديم", "error" in d2.get("hook_clash", {}), d2)
+        check("g886: config.yaml يفعّله ونسخة التركيب 72", _real_load_config().path("reel.render.clash.enabled") is True
+              and int(_real_load_config().path("reel.render.version")) >= 72)
+    guarded("g886", g886)
+
+    def g887():
+        hc = reel_clash.decide({"pairs": [{"relation": "opposite", "a": la, "b": lb}], "hook_text": "ع"}, cands, cfg)
+        clips = {1: {"file": "a.mp4", "seconds": 10, "heard": heard(qa)}, 2: {"file": "b.mp4", "seconds": 10}}
+        notes = []
+        got = reel_clash._usable_lines(hc, script, clips, cfg, notes)
+        check("g887: ورقة بلا كلمات مسموعة تسقط بسببها والأخرى تبقى", len(got) == 1 and got[0][0]["point_id"] == "pa"
+              and any("لم تُطابَق" in n for n in notes), (got, notes))
+        s2 = {**script, "scenes": [script["scenes"][0], {**sa, "speaker_verified": False}, sb, sc_]}
+        notes = []
+        clips[2]["heard"] = heard(qb)
+        got = reel_clash._usable_lines(hc, s2, clips, cfg, notes)
+        check("g887: متحدث لم يبقَ موثَّقًا بعد حرّاس القائل ← تسقط ورقته", [g[0]["point_id"] for g in got] == ["pb"], notes)
+        none = reel_clash.render_scene(0, script["scenes"][0], script, {"hook_clash": hc}, {}, cfg, None, Path("."), Path("x"), [], "f", {})
+        check("g887: لا ورقة باقية ← None فيعود الهوك القديم", none is None)
+    guarded("g887", g887)
+
+    def g889():
+        captured = {}
+        words = heard(qa)
+        clip = {"file": Path("f.mp4"), "seconds": 12.0}
+        point = {"quote_original": qa, "video_id": None}
+        reel_render._exact_apply(clip, sa, point, 100, 101, 108, False, cfg,
+                                 reel_render.Deps(transcribe_words=lambda f, lang, c: words + [(7.0, 7.3, "extra")]), [], [])
+        captured.update(clip)
+        check("g889: ضبط Q13 يحفظ كل الكلمات المسموعة بثواني الملف لهوك المواجهة",
+              captured.get("sync") == "words" and len(captured.get("heard") or []) == len(words) + 1, captured.get("exact"))
+    guarded("g889", g889)
+
+    def g888():
+        import shutil as _sh
+        exe = _sh.which("ffmpeg")
+        bindir = None
+        if not exe:
+            try:
+                import imageio_ffmpeg
+                src = imageio_ffmpeg.get_ffmpeg_exe()
+            except Exception:  # noqa: BLE001
+                src = None
+            if not src:
+                check("g888: تُخطّي — لا ffmpeg في هذه البيئة", True)
+                return
+            bindir = Path(tempfile_dir()) / "bin"
+            bindir.mkdir(parents=True, exist_ok=True)
+            if not (bindir / "ffmpeg").exists():
+                (bindir / "ffmpeg").symlink_to(src)
+            exe = str(bindir / "ffmpeg")
+        old_path = os.environ.get("PATH", "")
+        if bindir is not None:
+            os.environ["PATH"] = f"{bindir}{os.pathsep}{old_path}"
+        try:
+            d = Path(tempfile_dir())
+
+            def gen(name, color, freq):
+                out = d / name
+                subprocess.run([exe, "-v", "error", "-y", "-f", "lavfi", "-i", f"color=c={color}:s=1280x720:r=30:d=10", "-f", "lavfi",
+                                "-i", f"sine=frequency={freq}:duration=10", "-t", "10", "-c:v", "libx264", "-pix_fmt", "yuv420p",
+                                "-c:a", "aac", str(out)], check=True, capture_output=True)
+                return out
+
+            def synth(text, voice):
+                mp3 = d / "v.mp3"
+                subprocess.run([exe, "-v", "error", "-y", "-f", "lavfi", "-i", "sine=frequency=300:duration=1.6", str(mp3)],
+                               check=True, capture_output=True)
+                return {"ok": True, "audio": mp3.read_bytes()}
+            clips = {1: {"file": gen("a.mp4", "red", 440), "seconds": 10.0, "heard": heard(qa)},
+                     2: {"file": gen("b.mp4", "blue", 660), "seconds": 10.0, "heard": heard(qb)}}
+            hc = reel_clash.decide({"pairs": [{"relation": "opposite", "a": la, "b": lb}], "hook_text": "حرب إيران تقسم المحللين"}, cands, cfg)
+            deps = reel_render.Deps(faces=lambda f, fr: (1280, 720, []), frames=reel_render._extract_gray_frames_real,
+                                    read_chyron=lambda f, c: None, streams=lambda p: {"video", "audio"}, sleep=lambda s: None,
+                                    download_clip=lambda *a, **k: {}, diacritize=lambda t: (t, ""), synthesize=synth).resolved(cfg)
+            notes, crops, info = [], {}, {}
+            out = d / "clash.mp4"
+            dur = reel_clash.render_scene(0, script["scenes"][0], script, {"hook_clash": hc}, clips, cfg, deps, d, out, notes, "f",
+                                          crops, info)
+            real = reel_render.probe_duration(out)
+            check("g888: المشهد يُركَّب بمدته وفيه الورقتان", dur and real and abs(real - dur) < 0.4
+                  and crops.get("clash", {}).get("mode") == "pair" and info.get("mode") == "image", (dur, real, crops.get("clash")))
+
+            def px(t, x, y):
+                raw = subprocess.run([exe, "-v", "error", "-ss", f"{t:.3f}", "-i", str(out), "-frames:v", "1", "-f", "rawvideo",
+                                      "-pix_fmt", "rgb24", "-"], capture_output=True, check=True).stdout
+                return np.frombuffer(raw, np.uint8).reshape(1920, 1080, 3).astype(int)[y, x]
+            fan = cfg.path("reel.render.clash.fan")
+            a, b = px(1.5, int(fan["front"][0]), int(fan["front"][1]) - 150), px(dur - 0.5, int(fan["front"][0]), int(fan["front"][1]) - 100)
+            check("g888: الورقة الأمامية أولًا حمراء (المتحدث الأول) ثم زرقاء بعد التبديل", a[0] > 150 and a[2] < 90 and b[2] > 150 and b[0] < 90,
+                  (a.tolist(), b.tolist()))
+        finally:
+            os.environ["PATH"] = old_path
+    guarded("g888", g888)
+
+
+def tempfile_dir() -> str:
+    import tempfile
+    return tempfile.mkdtemp(prefix="clash_")

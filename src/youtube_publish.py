@@ -759,6 +759,12 @@ def _reel_bg_lines(d: dict, cfg, texts: dict) -> list[str]:
     return [*head, f"  {stages.image_field(d['id'], cfg)}", ""]
 
 
+def _reel_clash_lines(d: dict, cfg) -> list[str]:
+    """سطور هوك المواجهة (8/11): الجملتان وعلاقتهما وعنوان الهوك، أو سبب العودة إلى الهوك القديم."""
+    from . import reel_clash
+    return [f"  {x}" if not x.startswith(" ") else x for x in reel_clash.review_lines(d, cfg)]
+
+
 def _reel_hook_lines(d: dict, texts: dict) -> list[str]:
     """سطر لقطة الهوك المختارة آليًا في السيناريو مع صورتها المصغّرة وبدائلها (Issue #1445، R5c3). مسودة بلا hook_search
     (كُتبت قبل المهمة) لا تعرض شيئًا."""
@@ -893,6 +899,7 @@ def _reel_item_lines(idx: int, d: dict, cfg) -> list[str]:
                 "", f"  {texts.get('timeline_header', '')}", "",
                 *reel_script.timeline_lines(script, cfg), "",
                 *_reel_clip_note_lines(d, script, texts),
+                *_reel_clash_lines(d, cfg),
                 *_reel_hook_lines(d, texts),
                 *_reel_broll_lines(d, texts, cfg),
                 *_reel_bg_lines(d, cfg, texts),
