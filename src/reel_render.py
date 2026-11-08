@@ -4133,12 +4133,14 @@ def _pre_hook_entries(draft: dict, state) -> list | None:
 
 
 def _closing_scene(i: int, scene: dict, channels: str, credit: str, hook_info: dict, draft: dict, voice: str, cfg, deps: Deps,
-                   tmp: Path, out: Path, notes: list, crops: dict | None, lead: float) -> float:
+                   tmp: Path, out: Path, notes: list, crops: dict | None, lead: float, track_ctx: dict | None = None) -> float:
     """مشهد الختام الموحَّد (Issue #1602، P1a-2) بدل question+outro. الراوي يقرأ السؤال (بلا واو العطف) عند plan[voice] والسؤال تحت
     «برأيك..» ينزل كلمة كلمة ويختفي عند plan[logo]؛ الشعار ينزل من الزاوية (التمريرة الأخيرة) ثم تظهر المعلومات تحته وتختفي.
     الخلفية بالأولوية: (أ) pre_hook: النافذة [start − total، start] من فيديو الهوك نفسه مكتومة فآخر إطار هنا هو ما يسبق أول إطار
     من الهوك مباشرة (ب) freeze: أول إطار من الهوك (لقطته أو صورته عند بدء حركتها) يقترب من closing.freeze_zoom إلى 1.0 عند آخر
-    إطار (ج) الكحلي الثابت بلا هوك. الضباب ينتهي بقيمة loop.fog_start فيطابق آخر إطار أول إطار. يعيد مدة المشهد."""
+    إطار (ج) الكحلي الثابت بلا هوك. الضباب ينتهي بقيمة loop.fog_start فيطابق آخر إطار أول إطار. يعيد مدة المشهد.
+    خ2 (8/11): بين (أ) و(ب) «track»: حين بُني شريط الخلفية يُكمل الختام آخر قطعة فيه (أو سلسلة لم تُعرض) فيستمر الفيديو، ثم يمتزج في
+    آخر closing.join_mix ثانية بأول إطار من الهوك (لقطته أو صورته أو إطار المواجهة أو الكحلي) فيكون آخر إطار هو أول إطار."""
     rcfg, cl = cfg.path("reel.render"), cfg.path("reel.render.closing")
     w, h, fps = int(rcfg["width"]), int(rcfg["height"]), rcfg["fps"]
     text = closing_question_text(scene.get("text", ""), cfg)
@@ -4180,6 +4182,15 @@ def _closing_scene(i: int, scene: dict, channels: str, credit: str, hook_info: d
             pre = _download_with_retries(deps, rcfg, str(hv["video_id"]), ws, we, tmp / f"closing_pre_{i}.mp4")
         except Exception as exc:  # noqa: BLE001 -- النافذة تحسين: يرجع الختام إلى التجميد
             log.warning("تعذّر تنزيل نافذة ما قبل الهوك: %s", reel_clips.scrub_text(str(exc))[:120])
+    track_clip, tpiece = None, None
+    if pre is None and track_ctx and track_ctx.get("pieces") and cl.get("track", True):
+        tpiece = reel_bgtrack.closing_piece(track_ctx["pieces"], track_ctx.get("chains") or [], track_ctx.get("hook"), total, cfg)
+        if tpiece is not None:
+            try:
+                track_clip = _download_with_retries(deps, rcfg, tpiece["video_id"], int(math.floor(tpiece["start"])),
+                                                    int(math.ceil(tpiece["start"] + total)), tmp / f"closing_track_{i}.mp4")
+            except Exception as exc:  # noqa: BLE001 -- يرجع الختام إلى التجميد
+                log.warning("تعذّر تنزيل خلفية الختام: %s", reel_clips.scrub_text(str(exc))[:120])
     zf, tz = _fmt(float(cl["freeze_zoom"])), _fmt(total)
     # التكبير الزمني: 1.10 عند البداية و1.0 تمامًا عند آخر إطار (scale بتقييم كل إطار ثم اقتطاع مركزي بمقاس الشاشة)
     zexpr = f"max(1,1+({zf}-1)*(1-t/{tz}))"
@@ -4191,6 +4202,19 @@ def _closing_scene(i: int, scene: dict, channels: str, credit: str, hook_info: d
         inputs = ["-i", str(pre)]
         base = (f"[0:v]trim=start={_fmt(max(dur - total, 0.0))},setpts=PTS-STARTPTS,{hook_info['cexpr']},"
                 f"scale={w}:{h},tpad=stop_mode=clone:stop_duration={tz},fps={fps}[b]")
+    elif track_clip is not None:
+        src = "track"
+        join = min(float(cl.get("join_mix", 1.2)), total / 2)
+        # آخر join_hold ثانية أول إطار الهوك خالصًا (المزج اكتمل قبلها): آخر إطار مطابق حرفًا لا بنسبة 97% من المزج
+        hold = min(float(cl.get("join_hold", 0.2)), total / 4)
+        inputs = ["-i", str(track_clip)]
+        off = max(tpiece["start"] - math.floor(tpiece["start"]), 0.0)
+        cexpr = _hook_crop(track_clip, cfg, deps, None, video_id=tpiece["video_id"], channel=tpiece.get("channel", ""), notes=notes)
+        first, extra_in = _hook_first_frame(hook_info, cfg, join + hold)
+        base = (f"[0:v]trim=start={_fmt(off)},setpts=PTS-STARTPTS,{cexpr},scale={w}:{h},fps={fps},format=yuv420p,"
+                f"tpad=stop_mode=clone:stop_duration={tz},trim=duration={tz},setpts=PTS-STARTPTS,settb=AVTB[m0];"
+                f"{first.replace('{i}', '5')}[m1];"
+                f"[m0][m1]xfade=transition=fade:duration={_fmt(join)}:offset={_fmt(total - join - hold)},fps={fps}[b]")
     elif mode == "clip":
         src = "freeze"
         inputs = ["-i", str(hook_info["clip"])]
@@ -4206,9 +4230,15 @@ def _closing_scene(i: int, scene: dict, channels: str, credit: str, hook_info: d
         inputs = ["-f", "lavfi", "-i", f"color=c=0x{r:02X}{g:02X}{bl:02X}:s={w}x{h}:r={fps}"]
         base = f"[0:v]fps={fps}[b]"
     if crops is not None:
-        crops["closing"] = {"source": src, **({"pre_footage": round(pre_ratio, 3)} if pre_ratio is not None else {})}
+        crops["closing"] = {"source": src, **({"pre_footage": round(pre_ratio, 3)} if pre_ratio is not None else {}),
+                            **({"video_id": tpiece["video_id"], "start": round(tpiece["start"], 2), "how": tpiece["how"]}
+                               if src == "track" else {})}
     if src == "freeze":
         notes.append(cfg.path("reel.render.texts.comment_closing_freeze"))
+    elif src == "track":
+        notes.append(cfg.path("reel.render.texts.comment_closing_track").format(channel=tpiece.get("channel", "")))
+    if src != "track":
+        extra_in = []
     expr = _closing_fog_expr(cfg, plan, var="T")
     vg = (base + ";"
           f"[1:v]format=rgba,split[fa][fb];[fa]alphaextract,scale={w // 8}:{h // 8},format=gray,"
@@ -4221,9 +4251,26 @@ def _closing_scene(i: int, scene: dict, channels: str, credit: str, hook_info: d
     ag = f"[3:a]aresample={rate},aformat=channel_layouts=stereo,adelay={int(round(plan['voice'] * 1000))}:all=1,apad[a]"
     loop = ["-loop", "1", "-framerate", str(fps)]
     deps.run(_base(*inputs, *loop, "-i", str(fog_png), "-f", "concat", "-safe", "0", "-i", str(lst), "-i", str(audio),
-                   *loop, "-i", str(info_png), "-filter_complex", vg + ";" + ag, "-map", "[v]", "-map", "[a]", "-t", _fmt(total),
-                   *_enc(rcfg), str(out)))
+                   *loop, "-i", str(info_png), *extra_in, "-filter_complex", vg + ";" + ag, "-map", "[v]", "-map", "[a]",
+                   "-t", _fmt(total), *_enc(rcfg), str(out)))
     return total
+
+
+def _hook_first_frame(hook_info: dict, cfg, seconds: float) -> tuple[str, list[str]]:
+    """أول إطار من الهوك صورةً ثابتة بطول seconds للمزج في آخر الختام (خ2): (سلسلة فلتر تبدأ بـ[{i}:v] بلا وسم، مُدخلها). الإطار
+    نفسه الذي يبني منه التجميد القديم: لقطة الهوك بقصّها، أو صورته عند x0 (والمواجهة إطارها الأول)، وإلا الكحلي."""
+    rcfg = cfg.path("reel.render")
+    w, h, fps = int(rcfg["width"]), int(rcfg["height"]), rcfg["fps"]
+    tail = f",fps={fps},format=yuv420p,trim=duration={_fmt(seconds)},setpts=PTS-STARTPTS,settb=AVTB"
+    mode = hook_info.get("mode")
+    if mode == "clip" and hook_info.get("clip"):
+        return (f"[{{i}}:v]{hook_info['cexpr']},scale={w}:{h},trim=end_frame=1,setpts=PTS-STARTPTS,loop=loop=-1:size=1:start=0,"
+                f"setpts=N/{fps}/TB" + tail, ["-i", str(hook_info["clip"])])
+    if mode == "image" and hook_info.get("bgpng"):
+        return (f"[{{i}}:v]loop=loop=-1:size=1:start=0,setpts=N/{fps}/TB,crop={w}:{h}:x={_fmt(float(hook_info.get('x0') or 0))}:"
+                f"y='(ih-oh)/2'" + tail, ["-i", str(hook_info["bgpng"])])
+    r, g, b = imaging.hex_rgb(cfg.path("brand.primary_color"))
+    return f"[{{i}}:v]null" + tail, ["-f", "lavfi", "-t", _fmt(seconds + 1), "-i", f"color=c=0x{r:02X}{g:02X}{b:02X}:s={w}x{h}:r={fps}"]
 
 
 def _qcard_scene(i: int, scene: dict, audio: Path, parts: list, out: Path, cfg, deps: Deps, tmp: Path, lead: float,
@@ -5574,7 +5621,7 @@ def _bg_clock(order: list, script: dict, hook_idx, panel_skip: set, groups: dict
 
 
 def _bg_track(order, script, hook_idx, panel_skip, groups, clips, speech_cache, scene_broll, broll, nar_bg, nar_plan, cfg,
-              deps: Deps, tmp: Path, lead: float, notes: list, meta: dict | None) -> Path | None:
+              deps: Deps, tmp: Path, lead: float, notes: list, meta: dict | None, ctx: dict | None = None) -> Path | None:
     """الساعة ← الخطة ← الملف. يعيد None (فتبقى الطريقة القديمة: صورة متحركة ولقطة لكل جملة) إن لم تقع في الخطة ثانية فيديو
     واحدة، أو تعطّل البناء؛ ويكتب سطر التعليق ويحفظ الخطة في meta["bg_track"] (render_bg_track)."""
     t = cfg.path("reel.render.texts")
@@ -5595,6 +5642,9 @@ def _bg_track(order, script, hook_idx, panel_skip, groups, clips, speech_cache, 
         return None
     if path is None or not any(p["src"] == "footage" for p in pieces):
         return None
+    if ctx is not None:
+        # الختام (خ2) يُكمل الشريط من آخر قطعة فيه، فيحتاج القطع والسلاسل ونافذة الهوك
+        ctx.update(pieces=pieces, chains=chains, hook=(broll or {}).get("hook"))
     sm = reel_bgtrack.summary(pieces)
     notes.append(t["comment_bg_track"].format(video=_fmt1(sm["video"]), total=_fmt1(sm["video"] + sm["photo"]),
                                               runs=sm["runs"], photo=_fmt1(sm["photo"]),
@@ -5889,10 +5939,11 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
         for ch in broll.get("channels", []):
             if ch.casefold() not in (n.casefold() for n in names):
                 names.append(ch)
+    track_ctx: dict = {}
     if nar_plan is not None and nar_bg is not None and cfg.path("reel.render.bg_track.enabled", False):
         # شريط خلفية واحد (خ1): يُبنى من اللقطات المسندة قبل دمج الخرائط (الخرائط تبقى طبقة فوق التظليل في مشهدها)
         track = _bg_track(order, script, hook_idx, panel_skip, groups, clips, speech_cache, scene_broll, broll, nar_bg, nar_plan,
-                          cfg, deps, tmp, lead, notes if notes is not None else [], meta)
+                          cfg, deps, tmp, lead, notes if notes is not None else [], meta, track_ctx)
         if track is not None:
             nar_plan = {**nar_plan, "track": track}
             scene_broll = {}
@@ -5932,7 +5983,7 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
             absorbed.add(order[pos + 1][0])
             kind = "closing"
             dur = _closing_scene(i, scene, channels, credit, hook_info, draft or {}, voice, cfg, deps, tmp, out,
-                                 notes if notes is not None else [], crops, lead)
+                                 notes if notes is not None else [], crops, lead, track_ctx)
         elif i in panel_skip:
             if i not in groups:
                 continue
