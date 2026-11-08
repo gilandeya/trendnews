@@ -2422,6 +2422,8 @@ def _exact_align(file: Path, lang: str | None, point: dict, cfg, deps: Deps, dia
         text = (t.get(reason) or "الاقتباس لم يطابق الكلمات المفرَّغة بنسبة كافية أو يتكرر").format(
             ratio=d.get("best_ratio", 0), min=d.get("min_ratio", 0), heard=d.get("heard_words", 0))
         return None, text
+    # هوك المواجهة (8/11) يقتطع جملة من داخل الاقتباس فيحتاج كل الكلمات المسموعة بجوارها لا كلمات الاقتباس وحدها
+    res["heard"] = [(float(w[0]), float(w[1]), str(w[2])) for w in words]
     return res, ""
 
 
@@ -2482,6 +2484,8 @@ def _exact_apply(clip: dict, scene: dict, point: dict, dstart: int, wstart: int,
                       "pre": gate["start"], "post": round(clip["seconds"] - gate["end"], 3)}
     # توقيت الترجمة من الكلمات المطابَقة نفسها: مقطع بكل كلمة وحارس فارغ عند نهاية الكلام
     clip["segs"] = [(dstart + w[0], w[2]) for w in res["words"]] + [(a1, "")]
+    # كل كلمات الملف المسموعة بثواني الملف المنزَّل (قبل trim): منها يُحسب حدّا جملة هوك المواجهة بلا كلمة زائدة تُسمع
+    clip["heard"] = res.get("heard") or [(float(w[0]), float(w[1]), str(w[2])) for w in res["words"]]
     clip["wstart"] = float(s0)
     clip["sync"] = "words"
     clip["approx"] = False

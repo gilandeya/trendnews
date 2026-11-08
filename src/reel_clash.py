@@ -90,6 +90,7 @@ def candidates(script: dict, cfg) -> list[dict]:
         out.append({"point_id": s["point_id"], "speaker": s.get("speaker_name") or s.get("speaker_text") or "",
                     "channel": s.get("channel_display", ""), "bloc": channel_bloc(s, cfg),
                     "quote_original": s.get("quote_original", ""), "quote_arabic": s.get("quote_arabic", ""),
+                    "language": str(s.get("language") or ""),
                     "verified": bool(s.get("speaker_verified") and s.get("speaker_name"))})
     return out
 
@@ -99,10 +100,23 @@ def _norm(text: str) -> list[str]:
     return youtube_extract._normalize_for_anchor(re.sub(r"[^\w\s]", " ", str(text or ""))).split()
 
 
+def _token_map(text: str) -> tuple[list[str], list[str], list[int]]:
+    """(الكلمات كما كُتبت، الكلمات المطبَّعة، رقم الكلمة المكتوبة لكل مطبَّعة): التطبيع قد يقسم كلمة («U.S.» ← «u s») فلا تُقتطع
+    الجملة بأرقام المطبَّعة من النص المكتوب مباشرة."""
+    raw = str(text or "").split()
+    norm, owner = [], []
+    for k, w in enumerate(raw):
+        for t in _norm(w):
+            norm.append(t)
+            owner.append(k)
+    return raw, norm, owner
+
+
 def locate(text: str, first: str, last: str) -> tuple[int, int, int] | None:
-    """(أول كلمة، آخر كلمة، عدد كلمات النص) لقطعة تبدأ بكلمات first وتنتهي بكلمات last في text بعد التطبيع؛ أول ظهور لـfirst ثم أول
-    ظهور لـlast يبدأ عنده أو بعده. غياب أيهما ← None (لا تخمين: الجملة يجب أن تكون حرفيًا في الكلام)."""
-    toks, f, la = _norm(text), _norm(first), _norm(last)
+    """(أول كلمة، آخر كلمة، عدد الكلمات) بأرقام الكلمات المكتوبة في text لقطعة تبدأ بكلمات first وتنتهي بكلمات last بعد التطبيع؛
+    أول ظهور لـfirst ثم أول ظهور لـlast يبدأ عنده أو بعده. غياب أيهما ← None (لا تخمين: الجملة يجب أن تكون حرفيًا في الكلام)."""
+    raw, toks, owner = _token_map(text)
+    f, la = _norm(first), _norm(last)
     if not toks or not f or not la:
         return None
     for i in range(len(toks) - len(f) + 1):
@@ -110,7 +124,7 @@ def locate(text: str, first: str, last: str) -> tuple[int, int, int] | None:
             continue
         for j in range(i, len(toks) - len(la) + 1):
             if toks[j:j + len(la)] == la:
-                return i, j + len(la) - 1, len(toks)
+                return owner[i], owner[j + len(la) - 1], len(raw)
         return None
     return None
 
@@ -123,8 +137,19 @@ def contiguous_in(part: str, whole: str) -> bool:
     return any(w[i:i + len(p)] == p for i in range(len(w) - len(p) + 1))
 
 
+def is_arabic_speech(cand: dict, cfg) -> bool:
+    """المتكلم يتكلم العربية: لغة المقطع «ar»، أو بلا لغة وكلامه الأصلي عربي."""
+    from . import youtube_bites
+    lang = (cand.get("language") or "").lower()
+    if lang:
+        return lang.startswith("ar")
+    return youtube_bites.is_arabic_text(cand.get("quote_original", ""), cfg)
+
+
 def check_line(line: dict, cands: dict, cfg) -> tuple[dict | None, str]:
-    """يتحقق من جملة مقترحة ويعيد (السجل، "") أو (None، السبب)."""
+    """يتحقق من جملة مقترحة ويعيد (السجل، "") أو (None، السبب). ما يُكتب على الشاشة هو ما يُسمع بالضبط (قرار صاحب المشروع 8/11):
+    متكلم بالعربية ← كلماته نفسها من كلامه الأصلي (والترجمة المعتمدة إن طابقتها بعد التطبيع لأنها بترقيمها)؛ متكلم بغيرها ← ترجمة
+    القطعة نفسها، قطعةً متصلة حرفية من ترجمته المعتمدة."""
     from . import youtube_bites
     c = ccfg(cfg)
     cand = cands.get(str((line or {}).get("point_id") or ""))
@@ -134,21 +159,27 @@ def check_line(line: dict, cands: dict, cfg) -> tuple[dict | None, str]:
     if loc is None:
         return None, "الجملة ليست حرفيًا في كلام المقطع"
     i, j, total = loc
+    raw = cand["quote_original"].split()
+    sub = " ".join(raw[i:j + 1])
     words = j - i + 1
     lo, hi = (float(x) for x in c.get("line_seconds", [1.5, 4.5]))
     secs = words / float(c.get("words_per_second", 2.6))
     if not lo <= secs <= hi:
         return None, f"مدة الجملة {secs:.1f} ث خارج [{lo:g}، {hi:g}]"
     text_ar = " ".join(str(line.get("text_ar") or "").split())
-    if not contiguous_in(text_ar, cand["quote_arabic"]):
-        return None, "ترجمة الجملة ليست قطعة من الترجمة المعتمدة"
-    if not youtube_bites.screen_text_ok(text_ar, cfg):
-        return None, "ترجمة لا تصلح للشاشة"
-    original = " ".join(cand["quote_original"].split())
+    arabic = is_arabic_speech(cand, cfg)
+    if arabic:
+        shown = text_ar if text_ar and _norm(text_ar) == _norm(sub) else sub
+    else:
+        if not contiguous_in(text_ar, cand["quote_arabic"]):
+            return None, "ترجمة الجملة ليست قطعة من الترجمة المعتمدة"
+        shown = text_ar
+    if not youtube_bites.screen_text_ok(shown, cfg):
+        return None, "نص لا يصلح للشاشة"
     return {"point_id": cand["point_id"], "first_words": line["first_words"], "last_words": line["last_words"],
-            "text_ar": text_ar, "word_from": i, "word_to": j, "words_total": total, "est_seconds": round(secs, 2),
-            "original_words": words, "channel": cand["channel"], "bloc": cand["bloc"], "speaker": cand["speaker"],
-            "original": original}, ""
+            "text_ar": shown, "sub_original": sub, "arabic": arabic, "word_from": i, "word_to": j, "words_total": total,
+            "est_seconds": round(secs, 2), "original_words": words, "channel": cand["channel"], "bloc": cand["bloc"],
+            "speaker": cand["speaker"]}, ""
 
 
 def hook_text_ok(text: str, cfg) -> bool:
@@ -270,18 +301,20 @@ def review_lines(draft: dict, cfg) -> list[str]:
 # ───────────────────────────── التركيب ─────────────────────────────
 
 def timeline(da: float, db: float | None, speech: float, cfg) -> dict:
-    """أزمنة المشهد (دالة خالصة): دخول الأوراق، المقطع الأول، التبديل، الثاني، ثم نزول الأوراق وعنوان الهوك بصوت الراوي."""
+    """أزمنة المشهد (دالة خالصة): دخول الأوراق، المقطع الأول، التبديل، الثاني، ثم نزول الأوراق وعنوان الهوك بصوت الراوي.
+    الورقة الثانية تبدأ قبل نهاية التبديل بقليل (swap_lead) كي لا يُرى سكون بين الصوتين."""
     c = ccfg(cfg)
     a0 = float(c.get("audio_at", 0.2))
     a1 = a0 + da
     if db is None:
         b0 = b1 = swap0 = swap1 = a1
     else:
-        swap0, swap1 = a1, a1 + float(c.get("swap", 0.5))
-        b0, b1 = swap1, swap1 + db
+        swap0, swap1 = a1, a1 + float(c.get("swap", 0.6))
+        b0 = swap1 - min(float(c.get("swap_lead", 0.1)), swap1 - swap0)
+        b1 = b0 + db
     q = c.get("question") or {}
     q0 = b1
-    voice_at = q0 + float(q.get("settle", 0.4))
+    voice_at = q0 + float(q.get("settle", 0.45))
     total = voice_at + speech + float(q.get("tail", 0.7))
     return {"a0": a0, "a1": a1, "swap0": swap0, "swap1": swap1, "b0": b0, "b1": b1, "q0": q0, "voice_at": voice_at,
             "total": round(total, 3), "pair": db is not None}
@@ -303,12 +336,12 @@ def poses(t: float, tl: dict, cfg) -> list[tuple[str, float, float, float, float
     fan = c.get("fan") or {}
     front, back, out = (tuple(float(v) for v in fan[k]) for k in ("front", "back", "out"))
     dim = float((c.get("card") or {}).get("dim", 0.5))
-    k = _ease(t / float(c.get("enter", 0.35)))
-    rise = (1 - k) * float(c.get("enter_px", 900))
+    k = _ease(t / float(c.get("enter", 0.45)))
+    rise = (1 - k) * float(c.get("enter_px", 1100))
     q = c.get("question") or {}
-    s = _ease((t - tl["q0"]) / float(q.get("settle", 0.4))) if t > tl["q0"] else 0.0
-    scale = 1 - (1 - float(q.get("shrink", 0.78))) * s
-    drop = float(q.get("drop", 130)) * s
+    s = _ease((t - tl["q0"]) / float(q.get("settle", 0.45))) if t > tl["q0"] else 0.0
+    scale = 1 - (1 - float(q.get("shrink", 0.82))) * s
+    drop = float(q.get("drop", 40)) * s
     if not tl["pair"]:
         single = (float(c.get("single_x", 540)), front[1], float(c.get("single_angle", -3)))
         return [("a", single[0], single[1] + rise + drop, single[2], scale, 0.0)]
@@ -326,33 +359,48 @@ def poses(t: float, tl: dict, cfg) -> list[tuple[str, float, float, float, float
     return [(n, ps[n][0][0], ps[n][0][1] + rise + drop, ps[n][0][2], scale, ps[n][1]) for n in order]
 
 
-def span_times(clip: dict, line: dict, cfg) -> tuple[float, float, str]:
-    """(بداية، نهاية) الجملة بثواني ملف المقطع المنزَّل، ومصدرها: «words» من كلمات التفريغ المطابَقة (Q13)، وإلا «estimate» بموضع
-    الجملة من كلمات الاقتباس على نافذة الكلام المسموع. الهامشان من clash.pad."""
+def span_times(clip: dict, line: dict, cfg) -> tuple[float, float, list] | None:
+    """(بداية، نهاية، كلمات الجملة [(بداية، نهاية، كلمة)]) بثواني ملف المقطع المنزَّل، أو None. الحدّان من كلمات الملف المسموعة
+    (clip["heard"]، يملؤها ضبط Q13): الصوت يبدأ قبل أول كلمة بـpad[0] ويقف بعد آخرها بـpad[1]، ولا يدخل الهامش في كلمة مجاورة
+    (يقف قبلها بـneighbor_gap) — فلا تُسمع كلمة لا تُكتب (قرار صاحب المشروع 8/11). بلا كلمات مسموعة أو لم تطابق الجملة ← None: لا
+    ضمان للتطابق فلا تُعرض الجملة."""
     from . import reel_clips
     c = ccfg(cfg)
-    pad0, pad1 = (float(x) for x in c.get("pad", [0.15, 0.3]))
-    trim = clip.get("trim") or (0.0, float(clip.get("seconds") or 0))
-    t0 = t1 = None
-    source = "estimate"
-    segs = clip.get("segs") or []
-    if clip.get("sync") == "words" and len(segs) > 1 and clip.get("wstart") is not None:
-        off = float(clip["wstart"]) - float(trim[0])        # ثانية الفيديو التي يقابلها صفر الملف
-        words = [(float(segs[k][0]) - off, float(segs[k + 1][0]) - off, str(segs[k][1])) for k in range(len(segs) - 1)
-                 if str(segs[k][1]).strip()]
-        res = reel_clips.align_quote(" ".join(line["original"].split()[line["word_from"]:line["word_to"] + 1]), words, cfg)
-        if res:
-            t0, t1, source = float(res["t0"]), float(res["t1"]), "words"
-    if t0 is None:
-        g = clip.get("gate") or {}
-        ws = float(trim[0]) + float(g.get("start", 0.0))
-        we = float(trim[0]) + float(g.get("end", clip.get("seconds") or 0))
-        total = max(int(line["words_total"]), 1)
-        t0 = ws + (we - ws) * line["word_from"] / total
-        t1 = ws + (we - ws) * (line["word_to"] + 1) / total
-    lo = 0.0
-    hi = float(trim[1]) if trim and trim[1] else t1 + pad1
-    return max(t0 - pad0, lo), min(t1 + pad1, hi), source
+    heard = [(float(w[0]), float(w[1]), str(w[2])) for w in clip.get("heard") or [] if str(w[2]).strip()]
+    if not heard:
+        return None
+    res = reel_clips.align_quote(line.get("sub_original", ""), heard, cfg)
+    if not res or not res.get("words"):
+        return None
+    span = res["words"]
+    a = next((k for k, w in enumerate(heard) if abs(w[0] - span[0][0]) < 1e-6 and w[2] == span[0][2]), None)
+    b = a + len(span) - 1 if a is not None else None
+    pad0, pad1 = (float(x) for x in c.get("pad", [0.08, 0.12]))
+    gap = float(c.get("neighbor_gap", 0.02))
+    t0, t1 = float(span[0][0]) - pad0, float(span[-1][1]) + pad1
+    if a is not None and a > 0:
+        t0 = max(t0, heard[a - 1][1] + gap)
+    if b is not None and b + 1 < len(heard):
+        t1 = min(t1, heard[b + 1][0] - gap)
+    # الحدّ لا يقطع الكلمة نفسها ولو تلاصقت بجارتها في التفريغ
+    t0 = max(min(t0, float(span[0][0])), 0.0)
+    t1 = max(t1, float(span[-1][1]))
+    return round(t0, 3), round(t1, 3), span
+
+
+def caption_times(line: dict, span: list, t0: float, start: float, cfg) -> list[float]:
+    """زمن ظهور كل كلمة من نص الشاشة (دالة خالصة) بثواني المشهد: start بداية الورقة وt0 بداية جملتها في الملف. متكلم بالعربية ←
+    كل كلمة مع نطقها (عدد الكلمات المكتوبة يساوي المسموعة غالبًا، وإلا يُوزَّع بالتناسب على الكلمات المسموعة)؛ متكلم بغيرها ← السطر كله
+    عند أول كلمة تُسمع، لأن ترتيب كلمات الترجمة لا يتبع ترتيب الكلام."""
+    n = len(str(line.get("text_ar") or "").split())
+    if n == 0 or not span:
+        return []
+    first = start + float(span[0][0]) - t0
+    if not line.get("arabic"):
+        return [round(first, 3)] * n
+    m = len(span)
+    return [round(start + float(span[min(int(k * m / n), m - 1)][0]) - t0, 3) if m != n else
+            round(start + float(span[k][0]) - t0, 3) for k in range(n)]
 
 
 def _font(path: str, size: int, weight):
@@ -360,119 +408,209 @@ def _font(path: str, size: int, weight):
     return imaging.load_font(path, size, weight)
 
 
-def _text_w(d, text, font) -> float:
+def _has_ar(text: str) -> bool:
+    return bool(re.search("[؀-ۿ]", text or ""))
+
+
+def _part_w(d, text: str, font) -> float:
     from . import imaging
-    return d.textlength(imaging._prepare(text), font=font, **imaging._kwargs())
+    if _has_ar(text):
+        bb = d.textbbox((0, 0), imaging._prepare(text), font=font, anchor="ra", **imaging._kwargs())
+    else:
+        bb = d.textbbox((0, 0), text, font=font, anchor="ra")
+    return bb[2] - bb[0]
 
 
-def _fit_line(d, text, path, weight, size, minimum, max_w):
-    while size > minimum and _text_w(d, text, _font(path, size, weight)) > max_w:
+def _shrink(d, text: str, path: str, weight, size: int, minimum: int, max_w: float):
+    """أكبر حجم حتى minimum يسع فيه الجزء سطرًا؛ لا يسع ← None."""
+    while True:
+        f = _font(path, size, weight)
+        if _part_w(d, text, f) <= max_w:
+            return f
+        if size <= minimum:
+            return None
         size -= 2
-    f = _font(path, size, weight)
-    return f if _text_w(d, text, f) <= max_w else None
+
+
+def draw_parts(d, right: float, y: float, parts: list, line_h: int, left: float, gap: int = 14, draw: bool = True) -> int:
+    """يرسم أجزاء سطر من اليمين (أو يقيسها فقط) ويعيد عدد الأسطر الإضافية. الأجزاء العربية على خط أساس واحد (حجمان من خط واحد)،
+    واللاتيني (خط Kalam بمقاييس أخرى) يتوسّط حبر الجزء العربي الأول ارتفاعًا — ملاحظة صاحب المشروع 8/11: الرسم الأجنبي والتوجّه
+    كانا أعلى قليلًا من الاسم. جزء لا يسع ما بقي من السطر ينزل إلى سطر تالٍ."""
+    from . import imaging
+    x, lines, base, mid = right, 0, None, None
+    for text, font, color in parts:
+        if not text:
+            continue
+        ar = _has_ar(text)
+        prepared = imaging._prepare(text) if ar else text
+        kw = imaging._kwargs() if ar else {}
+        bb = d.textbbox((0, 0), prepared, font=font, anchor="ra", **kw)
+        w = bb[2] - bb[0]
+        if base is None:
+            base = y + font.getmetrics()[0]
+            mid = y + (bb[1] + bb[3]) / 2
+        elif x - w < left:
+            x, lines, base, mid = right, lines + 1, base + line_h, mid + line_h
+        if draw:
+            if ar:
+                d.text((x, base), prepared, font=font, fill=color, anchor="rs", **kw)
+            else:
+                d.text((x, mid - (bb[1] + bb[3]) / 2), prepared, font=font, fill=color, anchor="ra")
+        x -= w + gap
+    return lines
+
+
+def info_rows(scene: dict, cfg, d) -> list[tuple[list, int]]:
+    """أسطر معلومات المحلل [(الأجزاء، ارتفاع السطر)] كما في شريط المتحدث: الاسم (أسود) ورسمه الأجنبي (كحلي)، الصفة (رمادي)،
+    «قناة X» (أسود) ورسمها الأجنبي (كحلي) والتوجّه بين قوسين (رمادي). متحدث غير موثَّق ← سطر القناة وحده بحجم أكبر."""
+    from . import imaging, reel_render
+    c = ccfg(cfg)
+    k, info = c.get("card") or {}, c.get("info") or {}
+    navy = imaging.hex_rgb(cfg.path("brand.primary_color"))
+    black = tuple(int(x) for x in info.get("black", [0, 0, 0]))
+    grey = tuple(int(x) for x in k.get("grey", [214, 222, 238]))
+    latin_path = cfg.path("reel.render.fonts.latin")
+    w = int(k["width"]) - 2 * int(info.get("edge", 30))
+    name = scene.get("speaker_name", "") if scene.get("speaker_verified") else ""
+    rows: list = []
+
+    def ar_font(text, size, kind, minimum):
+        path, weight = reel_render.face(cfg, text, kind)
+        if kind == "display":
+            weight = info.get("bold_weight", weight)
+        return _shrink(d, text, path, weight, size, minimum, w)
+
+    def lat_font(text, size):
+        return reel_render.pick_font(text, latin_path, size, None) if text else None
+
+    ch_ar, ch_lat = reel_render.band_channel_parts(scene, cfg)
+    if _has_ar(ch_ar) and re.search(r"[A-Za-z]", ch_ar) and not ch_lat:
+        # قناة بلا اسم عربي («قناة All Israel News»): الكلمة العربية بالأسود والاسم الأجنبي بالكحلي كرسم أجنبي
+        toks = ch_ar.split()
+        k_ar = next((n for n, tok in enumerate(toks) if not _has_ar(tok)), len(toks))
+        ch_ar, ch_lat = " ".join(toks[:k_ar]), " ".join(toks[k_ar:])
+    orient = reel_render.band_orientation(scene, cfg)
+    if name:
+        latin = (scene.get("speaker_name_latin") or "").strip()
+        f = ar_font(name, int(info.get("name_size", 46)), "display", int(info.get("min_size", 24)))
+        if f is not None:
+            lf = lat_font(latin, int(info.get("name_latin_size", 34)))
+            rows.append(([(name, f, black), (latin if lf else "", lf, navy)], int(info.get("name_h", 66))))
+        role = reel_render.band_role(scene.get("speaker_role", ""))
+        if role:
+            rf = ar_font(role, int(info.get("role_size", 30)), "body", int(info.get("min_size", 24)))
+            if rf is not None:
+                rows.append(([(role, rf, grey)], int(info.get("row_h", 50))))
+        size, height = int(info.get("channel_size", 32)), int(info.get("row_h", 50))
+    else:
+        size, height = int(info.get("solo_size", 36)), int(info.get("solo_h", 56))
+    first = ch_ar or ch_lat
+    if first:
+        if _has_ar(first):
+            cf = ar_font(first, size, "display", int(info.get("min_size", 24)))
+        else:
+            cf = lat_font(first, size)
+        parts = [(first, cf, black if _has_ar(first) else navy)] if cf is not None else []
+        if ch_ar and ch_lat:
+            lf = lat_font(ch_lat, int(info.get("channel_latin_size", 30)))
+            if lf is not None:
+                parts.append((ch_lat, lf, navy))
+        if orient:
+            of = ar_font(f"({orient})", int(info.get("orient_size", 30)), "body", int(info.get("min_size", 24)))
+            if of is not None:
+                parts.append((f"({orient})", of, grey))
+        if parts:
+            rows.append((parts, height))
+    return rows
+
+
+def _rounded(size: tuple[int, int], radius: int) -> Image.Image:
+    m = Image.new("L", size, 0)
+    ImageDraw.Draw(m).rounded_rectangle([0, 0, size[0] - 1, size[1] - 1], radius, fill=255)
+    return m
 
 
 def card_base(scene: dict, cfg) -> Image.Image:
-    """الورقة بلا الفيديو: لون الورق وحوافه المدوّرة وإطار مكان الفيديو، ومعلومات شريط المحلل تحت الفيديو وحدها (قرار صاحب المشروع
-    8/11: أعلى الورقة بلا معلومات فهامشه صغير، وأسفلها أوسع لثلاثة أسطر): الاسم ورسمه الأجنبي، الصفة، القناة وتوجّهها."""
-    from . import imaging, reel_render
+    """الورقة بلا الفيديو (قرار صاحب المشروع 8/11): ورق ذهبي بحواف مدوّرة، وأعلاه هامش صغير بلا معلومات، ومعلومات شريط المحلل
+    تحت الفيديو وحدها في مساحة أوسع، كتلتها متوسطة ارتفاعًا فيها (ورقة بلا اسم لا تترك فراغًا تحت سطر القناة)."""
+    from . import imaging
     c = ccfg(cfg)
-    k = c.get("card") or {}
-    w, h, m, vh = int(k["width"]), int(k["height"]), int(k["margin"]), int(k["video_height"])
-    paper = imaging.hex_rgb(k.get("color", "#FAF8F2"))
-    navy = imaging.hex_rgb(cfg.path("brand.primary_color"))
-    gold = imaging.hex_rgb(cfg.path("brand.accent_color"))
-    grey = tuple(int(x) for x in k.get("grey", [96, 104, 120]))
-    img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
-    d = ImageDraw.Draw(img)
-    d.rounded_rectangle([0, 0, w - 1, h - 1], int(k.get("radius", 34)), fill=paper + (255,))
-    d.rectangle([m - 3, m - 3, w - m + 2, m + vh + 2], fill=navy + (255,))
-    info = c.get("info") or {}
-    right, left = w - m, m
-    fonts = cfg.path("reel.render.fonts")
-    ys = [m + vh + int(info.get("top_gap", 34))]
-    name = scene.get("speaker_name", "") if scene.get("speaker_verified") else ""
-    latin = (scene.get("speaker_name_latin") or "").strip() if name else ""
-    role = reel_render.band_role(scene.get("speaker_role", "")) if name else ""
-    ch_ar, ch_lat = reel_render.band_channel_parts(scene, cfg)
-    orient = reel_render.band_orientation(scene, cfg)
-    rows = []
-    if name:
-        rows.append((name, latin, "", int(info.get("name_size", 50)), "display", navy))
-    if role:
-        rows.append((role, "", "", int(info.get("role_size", 36)), "body", grey))
-    rows.append((ch_ar or ch_lat, ch_lat if ch_ar else "", orient, int(info.get("channel_size", 34)), "body", navy))
-    y = ys[0]
-    for ar, lat, ori, size, kind, color in rows:
-        if not ar:
-            continue
-        path, weight = reel_render.face(cfg, ar, kind)
-        minimum = int(size * 0.7)
-        extra = (" " + lat if lat else "") + (f" ({ori})" if ori else "")
-        f = _fit_line(d, ar + extra, path, weight, size, minimum, right - left)
-        if f is None:
-            lat, ori, extra = "", "", ""
-            f = _fit_line(d, ar, path, weight, size, minimum, right - left)
-            if f is None:
-                continue
-        imaging.draw_text(d, (right, y), ar, f, color, anchor="ra")
-        x = right - _text_w(d, ar, f) - 14
-        if lat:
-            lf = reel_render.pick_font(lat, fonts["latin"], f.size, None)
-            if lf is not None:
-                d.text((x, y), lat, font=lf, fill=gold, anchor="ra")
-                x -= d.textlength(lat, font=lf) + 14
-        if ori:
-            of = _font(path, max(int(f.size * 0.8), 20), weight)
-            imaging.draw_text(d, (x, y + int(f.size * 0.12)), f"({ori})", of, grey, anchor="ra")
-        y += int(size * float(info.get("line_factor", 1.5)))
-    return img
+    k, info = c.get("card") or {}, c.get("info") or {}
+    m, vh, ih = int(k["margin"]), int(k["video_height"]), int(k["info_height"])
+    w, h = int(k["width"]), m + vh + ih
+    paper = imaging.hex_rgb(k.get("color") or cfg.path("brand.accent_color"))
+    face = Image.new("RGBA", (w, h), paper + (255,))
+    d = ImageDraw.Draw(face)
+    edge = int(info.get("edge", 30))
+    rows = info_rows(scene, cfg, d)
+    total = sum(hh * (1 + draw_parts(d, w - edge, 0, parts, hh, edge, draw=False)) for parts, hh in rows)
+    y = m + vh + (ih - total) // 2 + int(info.get("nudge", -4))
+    for parts, hh in rows:
+        y += hh * (1 + draw_parts(d, w - edge, y, parts, hh, edge))
+    out = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    out.paste(face, (0, 0), _rounded((w, h), int(k.get("radius", 38))))
+    return out
 
 
-def caption_layer(text: str, shown: int, cfg) -> Image.Image | None:
-    """شريط الترجمة أسفل مكان الفيديو: الأسطر من النص كله (فلا تقفز الكلمات حين تُضاف)، وفي كل سطر أول كلماته الظاهرة من اليمين."""
+def caption_lines(text: str, cfg) -> tuple[list[list[str]], Any]:
+    """أسطر نص الشاشة من النص كله (فلا تقفز الكلمات حين تُضاف) والخط: سطر واحد إن وسع الحجم الأدنى، وإلا أسطر تُعرض واحدًا في كل لحظة
+    كترجمة الريل."""
     from . import imaging, reel_render
     c = ccfg(cfg)
     k, cap = c.get("card") or {}, c.get("caption") or {}
-    vw = int(k["width"]) - 2 * int(k["margin"])
-    words = text.split()
-    if shown <= 0 or not words:
-        return None
+    vw = int(k["width"]) - 2 * int(k["margin"]) - 2 * int(cap.get("side", 30))
     path, weight = reel_render.face(cfg, text, "body")
-    size = int(cap.get("size", 44))
     probe = ImageDraw.Draw(Image.new("RGBA", (8, 8)))
-    font = _font(path, size, weight)
-    lines = imaging.wrap(probe, text, font, vw - 2 * int(cap.get("pad", 22)))
-    while len(lines) > int(cap.get("max_lines", 2)) and size > int(cap.get("min_size", 30)):
-        size -= 2
+    size, minimum = int(cap.get("size", 36)), int(cap.get("min_size", 28))
+    while True:
         font = _font(path, size, weight)
-        lines = imaging.wrap(probe, text, font, vw - 2 * int(cap.get("pad", 22)))
-    lh = int(size * 1.45)
-    bh = lh * len(lines) + 2 * int(cap.get("pad_y", 14))
-    navy = imaging.hex_rgb(cfg.path("brand.primary_color"))
-    img = Image.new("RGBA", (vw, bh), navy + (int(255 * float(cap.get("alpha", 0.72))),))
-    d = ImageDraw.Draw(img)
-    left = shown
-    for j, ln in enumerate(lines):
-        toks = ln.split()
-        part = " ".join(toks[:max(min(left, len(toks)), 0)])
-        left -= len(toks)
-        if part:
-            imaging.draw_text(d, (vw - int(cap.get("pad", 22)), int(cap.get("pad_y", 14)) + j * lh), part, font,
-                              (255, 255, 255), anchor="ra")
-    return img
+        lines = imaging.wrap(probe, text, font, vw)
+        if len(lines) == 1 or size <= minimum:
+            return [ln.split() for ln in lines], font
+        size -= 2
+
+
+def caption_state(times: list[float], lines: list[list[str]], t: float) -> tuple[int, int]:
+    """(رقم السطر المعروض، عدد كلماته الظاهرة) عند t (دالة خالصة): أول كلمة من السطر التالي تستبدل السطر كله، والأخير يبقى."""
+    shown = sum(1 for x in times if t >= x)
+    if shown <= 0:
+        return -1, 0
+    acc = 0
+    for li, ln in enumerate(lines):
+        if shown <= acc + len(ln) or li == len(lines) - 1:
+            return li, min(shown - acc, len(ln))
+        acc += len(ln)
+    return -1, 0
+
+
+def caption_layer(lines: list[list[str]], font, li: int, shown: int, cfg) -> Image.Image | None:
+    """صندوق نص الشاشة متوسطًا أفقيًا فوق أسفل الفيديو بعرض سطره كاملًا، والكلمات الظاهرة في مواضعها النهائية من اليمين."""
+    from . import imaging
+    if li < 0 or shown <= 0:
+        return None
+    cap = ccfg(cfg).get("caption") or {}
+    probe = ImageDraw.Draw(Image.new("RGBA", (8, 8)))
+    full = " ".join(lines[li])
+    tw = imaging.measure(probe, full, font)[0]
+    pad, bh = int(cap.get("pad_x", 22)), int(cap.get("box_h", 66))
+    box = Image.new("RGBA", (tw + 2 * pad, bh), tuple(int(x) for x in cap.get("box", [18, 24, 38])) + (int(cap.get("alpha", 215)),))
+    d = ImageDraw.Draw(box)
+    part = " ".join(lines[li][:shown])
+    imaging.draw_text(d, (pad + tw, bh // 2), part, font, (255, 255, 255), anchor="rm")
+    return box
 
 
 class _Card:
-    """ورقة واحدة: قاعدتها وإطارات فيديو جملتها (JPEG) ونص ترجمتها وزمن عرضها."""
+    """ورقة واحدة: قاعدتها وإطارات فيديو جملتها (JPEG) ونص شاشتها بأزمنة كلماته وزمن عرضها."""
 
-    def __init__(self, scene: dict, frames: list[Path], text: str, start: float, seconds: float, cfg):
+    def __init__(self, scene: dict, frames: list[Path], text: str, times: list[float], start: float, until: float, cfg):
         k = ccfg(cfg).get("card") or {}
         self.base = card_base(scene, cfg)
         self.frames = frames
-        self.text = text
-        self.start, self.seconds = start, seconds
+        self.times, self.start, self.until = times, start, until
+        self.lines, self.font = caption_lines(text, cfg) if text.split() else ([], None)
         self.m, self.vw, self.vh = int(k["margin"]), int(k["width"]) - 2 * int(k["margin"]), int(k["video_height"])
+        self.mask = _rounded((self.vw, self.vh), int(k.get("video_radius", 22)))
         self._cache: dict = {}
         self.cfg = cfg
 
@@ -481,44 +619,46 @@ class _Card:
         idx = int((t - self.start) * fps)
         return self.frames[min(max(idx, 0), len(self.frames) - 1)]
 
-    def shown_at(self, t: float) -> int:
-        n = len(self.text.split())
-        if t < self.start:
-            return 0
-        return min(n, int((t - self.start) / max(self.seconds * 0.9, 0.1) * n) + 1)
+    def caption_at(self, t: float) -> tuple[int, int]:
+        if t >= self.until or not self.lines:
+            return -1, 0
+        return caption_state(self.times, self.lines, t)
 
     def image(self, t: float) -> Image.Image:
-        f, shown = self.frame_at(t), self.shown_at(t)
-        key = (str(f), shown)
+        f, (li, shown) = self.frame_at(t), self.caption_at(t)
+        key = (str(f), li, shown)
         if key in self._cache:
             return self._cache[key]
         img = self.base.copy()
         v = Image.open(f).convert("RGB").resize((self.vw, self.vh))
-        img.paste(v, (self.m, self.m))
-        cap = caption_layer(self.text, shown, self.cfg)
+        img.paste(v, (self.m, self.m), self.mask)
+        cap = caption_layer(self.lines, self.font, li, shown, self.cfg)
         if cap is not None:
-            img.alpha_composite(cap, (self.m, self.m + self.vh - cap.height))
+            bottom = int((ccfg(self.cfg).get("caption") or {}).get("bottom", 18))
+            img.alpha_composite(cap, (self.m + (self.vw - cap.width) // 2, self.m + self.vh - cap.height - bottom))
         self._cache = {key: img}
         return img
 
 
 def _place(canvas: Image.Image, card: Image.Image, cx: float, cy: float, ang: float, scale: float, dim: float, navy,
            shadows: dict) -> None:
-    im = card if abs(scale - 1) < 1e-3 else card.resize((int(card.width * scale), int(card.height * scale)))
+    im = card if abs(scale - 1) < 1e-3 else card.resize((int(card.width * scale), int(card.height * scale)), Image.LANCZOS)
     if dim > 0.01:
         im = im.copy()
-        veil = Image.new("RGBA", im.size, navy + (int(255 * dim),))
-        veil.putalpha(Image.eval(im.getchannel("A"), lambda a, dd=dim: int(a * dd)))
+        veil = Image.new("RGBA", im.size, navy + (0,))
+        veil.putalpha(im.getchannel("A").point(lambda a, dd=dim: int(a * dd)))
         im.alpha_composite(veil)
     r = im.rotate(ang, resample=Image.BICUBIC, expand=True)
     key = (round(ang, 1), round(scale, 2))
     sh = shadows.get(key)
     if sh is None:
-        sh = Image.new("RGBA", r.size, (0, 0, 0, 0))
-        sh.putalpha(r.getchannel("A").point(lambda a: int(a * 0.55)))
-        sh = sh.filter(ImageFilter.GaussianBlur(22))
+        # الظل يُموَّه مصغَّرًا ثم يُكبَّر: النتيجة نفسها تقريبًا بجزء من الكلفة لكل إطار
+        small = (max(r.width // 4, 1), max(r.height // 4, 1))
+        sh = Image.new("RGBA", small, (0, 0, 0, 0))
+        sh.putalpha(r.getchannel("A").resize(small).point(lambda a: int(a * 0.6)))
+        sh = sh.filter(ImageFilter.GaussianBlur(6)).resize(r.size)
         shadows[key] = sh
-    canvas.alpha_composite(sh, (int(cx - r.width / 2 + 16), int(cy - r.height / 2 + 26)))
+    canvas.alpha_composite(sh, (int(cx - r.width / 2 + 18), int(cy - r.height / 2 + 30)))
     canvas.alpha_composite(r, (int(cx - r.width / 2), int(cy - r.height / 2)))
 
 
@@ -532,12 +672,13 @@ def draw_frames(cards: dict, tl: dict, cfg, out_dir: Path) -> int:
     shadows: dict = {}
     n = max(int(math.ceil(tl["total"] * fps)), 1)
     out_dir.mkdir(parents=True, exist_ok=True)
+    veil = Image.new("RGBA", (w, h), navy + (int(255 * float(c.get("bg_dim", 0.76))),))
     for i in range(n):
         t = i / fps
         active = cards["b"] if ("b" in cards and t >= (tl["swap0"] + tl["swap1"]) / 2) else cards["a"]
         small = Image.open(active.frame_at(t)).convert("RGB").resize((w // 8, h // 8))
         bg = small.filter(ImageFilter.GaussianBlur(float(c.get("bg_blur", 3)))).resize((w, h)).convert("RGBA")
-        bg.alpha_composite(Image.new("RGBA", (w, h), navy + (int(255 * float(c.get("bg_dim", 0.78))),)))
+        bg.alpha_composite(veil)
         for name, x, y, ang, sc, dim in poses(t, tl, cfg):
             if name in cards:
                 _place(bg, cards[name].image(t), x, y, ang, sc, dim, navy, shadows)
@@ -545,9 +686,45 @@ def draw_frames(cards: dict, tl: dict, cfg, out_dir: Path) -> int:
     return n
 
 
+def _usable_lines(hc: dict, script: dict, clips: dict, cfg, notes: list) -> list:
+    """[(السجل، رقم المشهد، المشهد، (t0، t1، كلمات))] للجملتين بعد حرّاس التركيب: المقطع منزَّل، والمتحدث باقٍ موثَّقًا بعد حرّاس
+    القائل، وكلمات الجملة مطابقة في الصوت ومدتها في الحدود. ما سقط يُذكر سببه في التعليق."""
+    c = ccfg(cfg)
+    t = cfg.path("reel.render.texts") or {}
+    idx = {s.get("point_id"): j for j, s in enumerate(script.get("scenes") or [])
+           if s.get("kind") in ("clip", "cold_open_clip") and s.get("point_id")}
+    lo, hi = (float(x) for x in c.get("line_seconds", [1.5, 4.5]))
+    slack = float(c.get("render_slack", 1.0))
+    out = []
+    for k in ("a", "b"):
+        x = hc.get(k)
+        if not isinstance(x, dict):
+            continue
+        j = idx.get(x.get("point_id"))
+        why = ""
+        if j is None or j not in clips:
+            why = "المقطع لم يبقَ في الريل"
+        else:
+            sc = script["scenes"][j]
+            if c.get("verified_only", True) and not (sc.get("speaker_verified") and sc.get("speaker_name")):
+                why = "المتحدث لم يبقَ موثَّقًا"
+            else:
+                sp = span_times(clips[j], x, cfg)
+                if sp is None:
+                    why = "لم تُطابَق كلمات الجملة في الصوت"
+                elif not lo - slack <= sp[1] - sp[0] <= hi + slack:
+                    why = f"مدة الجملة المسموعة {sp[1] - sp[0]:.1f} ث"
+        if why:
+            if t.get("comment_clash_dropped"):
+                notes.append(t["comment_clash_dropped"].format(channel=x.get("channel", ""), reason=why))
+            continue
+        out.append((x, j, sc, sp))
+    return out
+
+
 def render_scene(i: int, scene: dict, script: dict, draft: dict, clips: dict, cfg, deps, tmp: Path, out: Path, notes: list,
                  voice: str, crops: dict | None, hook_info: dict | None = None) -> float | None:
-    """مشهد هوك المواجهة؛ None ← لا يصلح (لا ورقة لمتحدث موثَّق بعد حرّاس التركيب) فيعود الهوك القديم. يرفع عند عطل التركيب نفسه
+    """مشهد هوك المواجهة؛ None ← لا يصلح (لا جملة باقية بعد حرّاس التركيب) فيعود الهوك القديم. يرفع عند عطل التركيب نفسه
     ويلتقطه المستدعي فيعود الهوك القديم أيضًا."""
     from . import reel_render as rr
     hc = draft.get("hook_clash")
@@ -555,27 +732,15 @@ def render_scene(i: int, scene: dict, script: dict, draft: dict, clips: dict, cf
         return None
     c, rc = ccfg(cfg), cfg.path("reel.render")
     fps = rc["fps"]
-    idx = {s.get("point_id"): j for j, s in enumerate(script.get("scenes") or [])
-           if s.get("kind") in ("clip", "cold_open_clip") and s.get("point_id")}
-    lines = []
-    for k in ("a", "b"):
-        x = hc.get(k)
-        j = idx.get((x or {}).get("point_id"))
-        if not isinstance(x, dict) or j is None or j not in clips:
-            continue
-        sc = script["scenes"][j]
-        if c.get("verified_only", True) and not (sc.get("speaker_verified") and sc.get("speaker_name")):
-            continue
-        lines.append((x, j, sc))
+    lines = _usable_lines(hc, script, clips, cfg, notes)
     if not lines:
         return None
     k = c.get("card") or {}
     vw, vh = int(k["width"]) - 2 * int(k["margin"]), int(k["video_height"])
     rate = rc.get("audio_rate", 48000)
-    parts_meta, spans = [], []
-    for n, (x, j, sc) in enumerate(lines):
+    spans, meta = [], []
+    for n, (x, j, sc, (t0, t1, words)) in enumerate(lines):
         clip = clips[j]
-        t0, t1, src = span_times(clip, x, cfg)
         crop = rr._prepare_crop(clip, cfg, deps, sc, None)
         _, cexpr = rr._panel_crops(clip, crop, sc, None, None, (0, 0, vw, vh), cfg, deps, [])
         fdir = tmp / f"clash_{i}_{n}"
@@ -583,7 +748,7 @@ def render_scene(i: int, scene: dict, script: dict, draft: dict, clips: dict, cf
         deps.run(rr._base("-ss", rr._fmt(t0), "-t", rr._fmt(t1 - t0), "-i", str(clip["file"]),
                           "-vf", f"{cexpr},scale={vw}:{vh},fps={fps}", "-q:v", "3", str(fdir / "%04d.jpg")))
         wav = tmp / f"clash_{i}_{n}.wav"
-        fade = float(c.get("audio_fade", 0.08))
+        fade = float(c.get("audio_fade", 0.04))
         deps.run(rr._base("-ss", rr._fmt(t0), "-t", rr._fmt(t1 - t0), "-i", str(clip["file"]), "-vn",
                           "-af", f"aresample={rate},aformat=channel_layouts=stereo,{rr._loudnorm(cfg)},"
                                  f"afade=t=in:d={fade},afade=t=out:st={rr._fmt(max(t1 - t0 - fade, 0))}:d={fade}",
@@ -591,15 +756,20 @@ def render_scene(i: int, scene: dict, script: dict, draft: dict, clips: dict, cf
         frames = sorted(fdir.glob("*.jpg"))
         if not frames:
             raise RuntimeError("لم تُستخرج إطارات ورقة المواجهة")
-        spans.append((frames, wav, round(t1 - t0, 3), x, sc))
-        parts_meta.append({"point_id": x["point_id"], "t0": round(t0, 2), "t1": round(t1, 2), "sync": src})
+        spans.append((frames, wav, round(t1 - t0, 3), x, sc, t0, words))
+        meta.append({"point_id": x["point_id"], "t0": round(t0, 2), "t1": round(t1, 2), "text": x.get("text_ar", ""),
+                     "mode": "words" if x.get("arabic") else "line"})
     title = hc.get("hook_text") or script.get("title") or scene.get("text", "")
     audio, parts = rr._speech(title, voice, cfg, deps, tmp, f"s{i:02d}")
     speech = sum(d for _, d in parts)
     tl = timeline(spans[0][2], spans[1][2] if len(spans) > 1 else None, speech, cfg)
-    cards = {"a": _Card(spans[0][4], spans[0][0], spans[0][3]["text_ar"], tl["a0"], spans[0][2], cfg)}
-    if len(spans) > 1:
-        cards["b"] = _Card(spans[1][4], spans[1][0], spans[1][3]["text_ar"], tl["b0"], spans[1][2], cfg)
+    starts = [tl["a0"]] + ([tl["b0"]] if len(spans) > 1 else [])
+    # نص الورقة يُرى ما دامت أمامية: الأولى حتى منتصف التبديل، والثانية (أو الوحيدة) حتى تنزل الأوراق لعنوان الهوك
+    untils = ([(tl["swap0"] + tl["swap1"]) / 2, tl["q0"]] if len(spans) > 1 else [tl["q0"]])
+    cards = {}
+    for name, sp, st, until in zip(("a", "b"), spans, starts, untils):
+        times = caption_times(sp[3], sp[6], sp[5], st, cfg)
+        cards[name] = _Card(sp[4], sp[0], sp[3].get("text_ar", ""), times, st, until, cfg)
     vdir = tmp / f"clash_{i}_frames"
     draw_frames(cards, tl, cfg, vdir)
     if hook_info is not None:
@@ -609,14 +779,13 @@ def render_scene(i: int, scene: dict, script: dict, draft: dict, clips: dict, cf
     if len(times) != len(title.split()):
         times = rr.narration_word_times([(title, speech)], tl["voice_at"], cfg)
     q = c.get("question") or {}
-    wframes = rr.word_drop_frames(cfg, title, times, tl["total"], int(q.get("top", 330)), tmp, f"cw{i}",
+    wframes = rr.word_drop_frames(cfg, title, times, tl["total"], int(q.get("top", 350)), tmp, f"cw{i}",
                                   size_key=str(q.get("size_key", "clash")))
     lst = tmp / f"clash_{i}_words.txt"
     lst.write_text("".join(f"file '{f}'\nduration {rr._fmt(d)}\n" for f, d in wframes) + f"file '{wframes[-1][0]}'\n",
                    encoding="utf-8")
     inputs = ["-framerate", str(fps), "-i", str(vdir / "%05d.jpg"), "-f", "concat", "-safe", "0", "-i", str(lst)]
     alab, af = [], []
-    starts = [tl["a0"]] + ([tl["b0"]] if len(spans) > 1 else [])
     for n, (sp, st) in enumerate(zip(spans, starts)):
         inputs += ["-i", str(sp[1])]
         af.append(f"[{2 + n}:a]adelay={int(round(st * 1000))}:all=1,apad[c{n}]")
@@ -630,15 +799,12 @@ def render_scene(i: int, scene: dict, script: dict, draft: dict, clips: dict, cf
     deps.run(rr._base(*inputs, "-filter_complex", graph, "-map", "[v]", "-map", "[a]", "-t", rr._fmt(tl["total"]),
                       *rr._enc(rc), str(out)))
     if crops is not None:
-        crops["clash"] = {"mode": "pair" if len(spans) > 1 else "single", "relation": hc.get("relation"),
-                          "cards": parts_meta, "hook_text": title, "seconds": tl["total"]}
+        crops["clash"] = {"mode": "pair" if len(spans) > 1 else "single", "relation": hc.get("relation") if len(spans) > 1
+                          else "single", "cards": meta, "hook_text": title, "seconds": tl["total"]}
     t = cfg.path("reel.render.texts")
     names = "، ".join(sp[4].get("channel_display", "") for sp in spans)
     rel = (cfg.path("reel.texts.clash.relations") or {}).get(hc.get("relation"), "")
     tpl = t.get("comment_clash" if len(spans) > 1 else "comment_clash_single") or ""
     if tpl:
         notes.append(tpl.format(channels=names, relation=rel))
-    if any(p["sync"] != "words" for p in parts_meta) and t.get("comment_clash_estimate"):
-        notes.append(t["comment_clash_estimate"])
     return tl["total"]
-
