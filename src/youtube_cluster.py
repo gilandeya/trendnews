@@ -641,7 +641,8 @@ def cluster_points(points: list[dict], cfg: Config, client: Anthropic | None = N
             )
         except APIError as exc:
             return [], f"فشل نداء العنقدة: {exc}"
-
+        from . import writer
+        writer.record_usage(resp, model)   # نداء مباشر لا يمر بـllm.create: كلفته تصل دفتر الكلفة من هنا
         last_resp = resp
         stop_reason = getattr(resp, "stop_reason", None)
         usage = getattr(resp, "usage", None)

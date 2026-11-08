@@ -175,7 +175,11 @@ def _create(client, **kwargs):
         from anthropic import Anthropic
         from .config import env
         client = Anthropic(api_key=env("ANTHROPIC_API_KEY", required=True))
-    return client.messages.create(**kwargs)
+    resp = client.messages.create(**kwargs)
+    from . import costs, writer
+    writer.record_usage(resp, kwargs.get("model"))   # نداء مباشر لا يمر بـllm.create: كلفته تصل دفتر الكلفة من هنا
+    costs.add("web_search", _searches_in(resp))      # بحث الويب الخادمي يُسعَّر بالعدد لا بالرموز
+    return resp
 
 
 def _searches_in(resp) -> int:

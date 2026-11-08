@@ -3104,3 +3104,16 @@ waiting_proxy/failed/بلا qa) يصفّر المحاولات وعلامة ال�
 بالفرنسية، BFMTV، CNEWS) و`russian` (RTVI قريبة من السلطة لأن يوتيوب حجب الإعلام الحكومي الروسي ومعه РБК، ودوشد، وناستوياشيه فريميا) و`chinese` (CCTV،
 فينكس، TVBS، BBC الصينية). الماندرين بلا نصوص آلية تقريبًا على يوتيوب، فمقاطع الكتلة الصينية لا تصل الريل إلا بترجمة رفعتها القناة، ولهذا CGTN في
 الإنجليزية. القنوات الإسرائيلية والكردية التي تبث بالإنجليزية تبقى في كتلها. المعرّفات ثُبّتت من أول جمع (6/11): @rbc كانت بنك كندا الملكي فحُذفت، و@CNEWS قناة تايوانية فصارت @cnewsofficiel، و@currenttime صارت @currenttimetv، وفينكس `@phoenixtvglobal` (UC4vnLYInDvXtLKGOZieMeMw).
+
+## كلفة كل ريل في سطر واحد (قرار صاحب المشروع 8/11) — `src/costs.py`
+
+دفتر عالمي للعملية (كـ`writer.USAGE`): Claude بكل نموذج (`writer.record_usage`، ويستدعيه الآن `llm.create` نفسه وكل نداء مباشر في
+`reel_script._create`/`editor._create`/`youtube_article`/`youtube_cluster`؛ الرد الواحد يُحسب مرة بـ`costs.first_time` فلا تضاعفه الوحدات
+القديمة التي تعيد `record_usage` بعد `llm.create`، والعدد غير الرقمي من MagicMock صفر)، وGemini (`gemini_bites`، `gemini_speakers` — المقطوع
+مدفوع فيُحسب قبل رفضه)، والصوت (`tts.synthesize` بـ`estimate_cost`)، وبحث الويب في المحرر (`costs.web_search_usd_per_1000`)، وبايتات البروكسي
+(`reel_clips.download_clip` و`speaker_map.download_episode`؛ جلب النص بالبروكسي غير محسوب). المراحل بـ`costs.stage`: `meta_qa.process_topic` ←
+`qa.cost` (يتراكم، أرقام فقط في ملف الحالة العام) ← `cost_qa` على مسودة الريل (`meta_script.build_draft`) · `reel_script.write_for_draft` ←
+`cost_script` (ضمن `SCRIPT_KEYS`) · `reel_render.render_draft` ← `cost_renders` (محاولة لكل تركيب تُضاف، نجح أو فشل أو انتظر البروكسي).
+`costs.reel_line` سطر «💵 كلفة الريل: X$ — المراحل (البنود)» في تعليق التركيب (ومنه `render_notes` وقضية المراجعة) وبند الريل في المرحلة 2؛
+والتقرير الأسبوعي (`insights.reel_costs`/`reels_section`) عمود «الكلفة» لكل ريل منشور وسطر مجموع كل الريلات المُنشأة في المدة (المرفوض مدفوع).
+`costs.proxy_usd_per_gb: null` ← الميغابايتات تُعرض ولا تدخل المجموع. ريل قبل الدفتر بلا سطر. g873–g880.

@@ -273,8 +273,12 @@ def download_episode(video_id: str, height: int, out_dir: Path, proxy: str | Non
             from src import bite_audio
             bite_audio._ffmpeg_on_path()
         try:
-            with yt_dlp.YoutubeDL(opts) as ydl:
-                ydl.download([f"https://www.youtube.com/watch?v={video_id}"])
+            try:
+                with yt_dlp.YoutubeDL(opts) as ydl:
+                    ydl.download([f"https://www.youtube.com/watch?v={video_id}"])
+            finally:
+                from src import costs
+                costs.add("proxy_bytes", sum(seen.values()))   # المحاولة الفاشلة استهلكت رصيدًا أيضًا
             if sectioned:
                 from src import bite_audio
                 files = [f for f in sorted(out_dir.glob(f"{video_id}_*")) if not f.name.endswith(".part")]

@@ -507,6 +507,8 @@ def download_clip(video_id: str, start: int, end: int, height: int, out_path: Pa
             failures.append({"tier": tier, "error_tail": capture.tail(),
                              "format_id": capture.format_id, "protocol": capture.protocol})
             continue
+        from . import costs
+        costs.add("proxy_bytes", int(res.get("bytes", 0) or 0))   # ما نزل عبر البروكسي يدخل كلفة الريل (costs)
         return {"bytes": int(res.get("bytes", 0)), "tier": tier, "failures": failures,
                 "format_id": res.get("format_id") or capture.format_id,
                 "protocol": res.get("protocol") or capture.protocol}

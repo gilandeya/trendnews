@@ -6342,6 +6342,15 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
     approx: list = []
     notes: list = []
     keep_files = False
+    from . import costs
+    cost_before = costs.snapshot()
+
+    def _cost_renders() -> list:
+        # كل محاولة تركيب مدفوعة نجحت أو فشلت (costs)، فتُضاف إلى ما سبقها لا تحلّ محله؛ المجموع في سطر الكلفة
+        d = costs.delta(cost_before)
+        prior = [r for r in draft.get("cost_renders") or [] if isinstance(r, dict)]
+        return prior + ([dict(d, at=datetime.now(timezone.utc).isoformat())] if d else [])
+
     try:
         result = {"render_status": "rendered", **_render(path, draft, cfg, deps, reels_dir, tmp, dropped, approx, notes)}
     except ClipDownloadFailed as exc:
@@ -6363,6 +6372,10 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
             changes = {"render_status": "failed", "render_attempts": attempts, "render_error": exc.reason}
             text = t["comment_download_failed"].format(channel=exc.channel, max=limit, reason=exc.reason)
         log.warning("تأجيل تركيب الريل %s: %s", path.stem, exc.reason)
+        if renders := _cost_renders():
+            changes["cost_renders"] = renders
+            if line := costs.reel_line({**draft, "cost_renders": renders}, cfg):
+                text += "\n" + line
         store.update_draft(path, **changes)
         issue = _render_comment_issue(draft)
         if issue:
@@ -6388,7 +6401,10 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
                + [k for k in RENDER_KEYS if k not in result] + ["render_roster_rebuild"])
               if result["render_status"] == "rendered"
               else [] if keep_files else ["reel_file", "reel_gif", "duration_seconds"])
-    text = _comment_text(cfg, draft, result, dropped, approx, notes)
+    if renders := _cost_renders():
+        changes["cost_renders"] = renders
+    cost_line = costs.reel_line({**draft, "cost_renders": renders}, cfg)
+    text = _comment_text(cfg, draft, result, dropped, approx, notes + ([cost_line] if cost_line else []))
     ok = result["render_status"] == "rendered"
     if ok:
         changes["render_notes"] = text.split("\n")

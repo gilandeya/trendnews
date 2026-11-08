@@ -386,6 +386,20 @@ def public_bite(b: dict) -> dict:
 
 def process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: datetime | None = None,
                   gemini_post=None) -> str:
+    """كلفة استخراج المقاطع والأسئلة (costs) تتراكم في qa["cost"] عبر المحاولات، ومنها تنتقل إلى مسودة الريل (meta_script.build_draft)
+    فيظهر في سطر كلفة الريل ما صُرف قبل السيناريو. الأرقام وحدها، فمكانها ملف الحالة العام."""
+    from . import costs
+    prev = (topic.get("qa") or {}).get("cost")
+    spent: dict = {}
+    with costs.stage(spent, "d"):
+        status = _process_topic(topic, data, cfg, client, fetch, now, gemini_post)
+    if spent and isinstance(topic.get("qa"), dict):
+        topic["qa"]["cost"] = costs.merge(prev, spent["d"])
+    return status
+
+
+def _process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: datetime | None = None,
+                   gemini_post=None) -> str:
     """يملأ topic["qa"] ويحدّث قضية الموضوع. يعيد الحالة: ready · waiting_proxy · failed. لا يرفع."""
     from . import review
     now = now or datetime.now(timezone.utc)
