@@ -662,8 +662,20 @@ def _place(canvas: Image.Image, card: Image.Image, cx: float, cy: float, ang: fl
     canvas.alpha_composite(r, (int(cx - r.width / 2), int(cy - r.height / 2)))
 
 
-def draw_frames(cards: dict, tl: dict, cfg, out_dir: Path) -> int:
-    """إطارات المشهد JPEG (الخلفية من فيديو الورقة النشطة مموّهة تحت كحلي، ثم الورقتان بأوضاعهما)؛ يعيد عددها."""
+def footage_veil(cfg) -> Image.Image:
+    """غطاء لقطة الحدث خلف الأوراق (خ3): طبقة ضباب الريل نفسها مضروبة في loop.fog_start، وهي ما ينتهي به ضباب الختام، فيطابق أول
+    إطار هنا آخر إطار في الريل عند الإعادة. footage_fog يغيّر المعامل إن احتاجت الأوراق خلفية أعتم."""
+    from . import reel_render as rr
+    k = ccfg(cfg).get("footage_fog")
+    f = float(k if k is not None else cfg.path("reel.render.loop.fog_start"))
+    layer = rr.fog_layer(cfg)
+    layer.putalpha(layer.getchannel("A").point(lambda a, ff=f: int(round(a * ff))))
+    return layer
+
+
+def draw_frames(cards: dict, tl: dict, cfg, out_dir: Path, footage: list[Path] | None = None) -> int:
+    """إطارات المشهد JPEG؛ يعيد عددها. الخلفية لقطة الحدث (footage: إطارات فيديو الهوك مقصوصة 9:16) تحت ضباب الريل، وبلا لقطة
+    فيديو الورقة النشطة مموّهًا تحت كحلي كما كان؛ ثم الورقتان بأوضاعهما."""
     from . import imaging
     rc = cfg.path("reel.render")
     w, h, fps = int(rc["width"]), int(rc["height"]), float(rc["fps"])
@@ -672,12 +684,17 @@ def draw_frames(cards: dict, tl: dict, cfg, out_dir: Path) -> int:
     shadows: dict = {}
     n = max(int(math.ceil(tl["total"] * fps)), 1)
     out_dir.mkdir(parents=True, exist_ok=True)
-    veil = Image.new("RGBA", (w, h), navy + (int(255 * float(c.get("bg_dim", 0.76))),))
+    veil = (footage_veil(cfg) if footage else
+            Image.new("RGBA", (w, h), navy + (int(255 * float(c.get("bg_dim", 0.76))),)))
     for i in range(n):
         t = i / fps
         active = cards["b"] if ("b" in cards and t >= (tl["swap0"] + tl["swap1"]) / 2) else cards["a"]
-        small = Image.open(active.frame_at(t)).convert("RGB").resize((w // 8, h // 8))
-        bg = small.filter(ImageFilter.GaussianBlur(float(c.get("bg_blur", 3)))).resize((w, h)).convert("RGBA")
+        if footage:
+            # اللقطة أقصر من المشهد ← يثبت آخر إطارها (كما يفعل الهوك القديم بـtpad) لا تكرار يقفز
+            bg = Image.open(footage[min(i, len(footage) - 1)]).convert("RGB").resize((w, h)).convert("RGBA")
+        else:
+            small = Image.open(active.frame_at(t)).convert("RGB").resize((w // 8, h // 8))
+            bg = small.filter(ImageFilter.GaussianBlur(float(c.get("bg_blur", 3)))).resize((w, h)).convert("RGBA")
         bg.alpha_composite(veil)
         for name, x, y, ang, sc, dim in poses(t, tl, cfg):
             if name in cards:
@@ -720,6 +737,43 @@ def _usable_lines(hc: dict, script: dict, clips: dict, cfg, notes: list) -> list
             continue
         out.append((x, j, sc, sp))
     return out
+
+
+def _footage(i: int, draft: dict, total: float, cfg, deps, tmp: Path, notes: list, crops: dict | None):
+    """إطارات لقطة الحدث خلف الأوراق (خ3، قرار صاحب المشروع 8/11): فيديو الهوك الذي اختاره المسح (hook_video، أقوى لقطة ميدانية
+    في فيديوهات الموضوع) من بدايته بطول المشهد، مقصوصًا 9:16 بقصّ الهوك نفسه (بلا شريط القناة). يعيد (الإطارات، الملف، القصّ) أو
+    None (لا hook_video، أو footage_bg مطفأ، أو فشل التنزيل) فتبقى الخلفية المموّهة القديمة."""
+    from . import reel_render as rr
+    c, rc = ccfg(cfg), cfg.path("reel.render")
+    hv = (draft or {}).get("hook_video")
+    if not c.get("footage_bg", True) or not isinstance(hv, dict) or not hv.get("video_id") or hv.get("start") is None:
+        return None
+    w, h, fps = int(rc["width"]), int(rc["height"]), rc["fps"]
+    ws = int(hv["start"])
+    # التنزيل يبدأ عند ثانية الهوك الصحيحة كما في _hook_scene، فأول إطار هو ما يلتحم به الختام؛ ويمتد بطول المشهد ولو جاوز نهاية
+    # نافذة الهوك (الثواني بعد أقوى لقطة غالبًا من المشهد نفسه)، وما قصر يثبت آخر إطاره
+    we = max(int(hv.get("end") or ws), ws + int(math.ceil(total)) + 1)
+    clip = None
+    try:
+        clip = rr._download_with_retries(deps, rc, str(hv["video_id"]), ws, we, tmp / "clash_bg.mp4")
+    except Exception as exc:  # noqa: BLE001 -- اللقطة تحسين: الخلفية القديمة
+        log.warning("تعذّر تنزيل لقطة خلفية المواجهة: %s", rr.reel_clips.scrub_text(str(exc))[:120])
+    t = cfg.path("reel.render.texts") or {}
+    if clip is None:
+        if t.get("comment_clash_bg_failed"):
+            notes.append(t["comment_clash_bg_failed"])
+        return None
+    cexpr = rr._hook_crop(clip, cfg, deps, crops, video_id=hv.get("video_id"), channel=hv.get("channel", ""), notes=notes)
+    fdir = tmp / f"clash_{i}_bg"
+    fdir.mkdir(parents=True, exist_ok=True)
+    deps.run(rr._base("-t", rr._fmt(total), "-i", str(clip), "-vf", f"{cexpr},scale={w}:{h},fps={fps}", "-q:v", "3",
+                      str(fdir / "%05d.jpg")))
+    frames = sorted(fdir.glob("*.jpg"))
+    if not frames:
+        return None
+    if t.get("comment_clash_bg"):
+        notes.append(t["comment_clash_bg"].format(channel=hv.get("channel", "")))
+    return frames, clip, cexpr
 
 
 def render_scene(i: int, scene: dict, script: dict, draft: dict, clips: dict, cfg, deps, tmp: Path, out: Path, notes: list,
@@ -771,10 +825,16 @@ def render_scene(i: int, scene: dict, script: dict, draft: dict, clips: dict, cf
         times = caption_times(sp[3], sp[6], sp[5], st, cfg)
         cards[name] = _Card(sp[4], sp[0], sp[3].get("text_ar", ""), times, st, until, cfg)
     vdir = tmp / f"clash_{i}_frames"
-    draw_frames(cards, tl, cfg, vdir)
+    foot = _footage(i, draft, tl["total"], cfg, deps, tmp, notes, crops)
+    draw_frames(cards, tl, cfg, vdir, footage=foot[0] if foot else None)
     if hook_info is not None:
-        # الإعادة المتصلة: الختام يجمّد أول إطار هنا (الخلفية قبل دخول الأوراق) ويقترب منه حتى التكبير 1.0
-        hook_info.update(mode="image", bgpng=vdir / "00000.jpg", x0=0.0)
+        if foot:
+            # خ3: الهوك على لقطة الحدث نفسها، فيعامله الختام كهوك لقطة: نافذة ما قبل الهوك من الفيديو نفسه أو المزج إلى أول إطاره
+            # (ضباب الختام ينتهي بما يغطّيه هنا) فيستمر الفيديو عند الإعادة
+            hook_info.update(mode="clip", clip=foot[1], cexpr=foot[2])
+        else:
+            # الإعادة المتصلة: الختام يجمّد أول إطار هنا (الخلفية قبل دخول الأوراق) ويقترب منه حتى التكبير 1.0
+            hook_info.update(mode="image", bgpng=vdir / "00000.jpg", x0=0.0)
     times = rr.narration_word_times(parts, tl["voice_at"], cfg)
     if len(times) != len(title.split()):
         times = rr.narration_word_times([(title, speech)], tl["voice_at"], cfg)
