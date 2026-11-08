@@ -402,6 +402,9 @@ def install_fakes() -> None:
     from src import reel_script as _reel_script
     _reel_script._fit_create = lambda client, **kw: None  # type: ignore
     # فحص تماسك القضايا بعد العنقدة (القضية 1770) بلا شبكة ولا استهلاك ردود العملاء المزيَّفة: ردّ بلا أداة ← القضايا كما هي
+    # هوك المواجهة (8/11) بلا شبكة ولا استهلاك ردود العملاء المزيَّفة: ردّ None ← لا hook_clash فيبقى الهوك القديم في كل اختبار قديم
+    from src import reel_clash as _reel_clash
+    _reel_clash._create = lambda client, **kw: None  # type: ignore
     from src import youtube_cluster as _youtube_cluster
     _youtube_cluster._coherence_create = lambda client, **kw: None  # type: ignore
 

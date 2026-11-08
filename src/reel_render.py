@@ -26,7 +26,7 @@ from typing import Any, Callable
 
 from PIL import Image, ImageDraw
 
-from . import imaging, reel_broll, reel_clips, reel_hook_search, reel_map, reel_script, store, tts
+from . import imaging, reel_broll, reel_clash, reel_clips, reel_hook_search, reel_map, reel_script, store, tts
 from . import gemini_speakers as gemini_speakers_mod
 from .config import MUSIC_DIR, REELS_DIR, load_config
 
@@ -5733,9 +5733,22 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
         if i in absorbed:
             continue
         if i == hook_idx:
-            kind = "hook"
-            dur = _hook_scene(i, scene, script, draft or {}, bg, voice, cfg, deps, tmp, out,
-                              notes if notes is not None else [], crops, hook_info)
+            kind, dur = "hook", None
+            # هوك المواجهة بورق الكوتشينة (8/11) يغلب الهوك القديم متى صلح؛ None أو عطل ← الهوك القديم كما كان
+            if reel_clash.enabled(cfg) and isinstance((draft or {}).get("hook_clash"), dict):
+                try:
+                    dur = reel_clash.render_scene(i, scene, script, draft or {}, clips, cfg, deps, tmp, out,
+                                                  notes if notes is not None else [], voice, crops, hook_info)
+                except Exception as exc:  # noqa: BLE001
+                    log.warning("تعذّر تركيب هوك المواجهة فالهوك القديم: %s", reel_clips.scrub_text(str(exc))[:150])
+                    if notes is not None and cfg.path("reel.render.texts.comment_clash_failed"):
+                        notes.append(cfg.path("reel.render.texts.comment_clash_failed"))
+                    dur = None
+                if dur is not None:
+                    kind = "clash"
+            if dur is None:
+                dur = _hook_scene(i, scene, script, draft or {}, bg, voice, cfg, deps, tmp, out,
+                                  notes if notes is not None else [], crops, hook_info)
         elif kind == "question" and pos + 1 < len(order) and order[pos + 1][1].get("kind") == "outro":
             absorbed.add(order[pos + 1][0])
             kind = "closing"
