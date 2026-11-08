@@ -25757,3 +25757,152 @@ def test_reel_bg_track_guards() -> None:
         fc = c[c.index("-filter_complex") + 1]
         check("g897: لا قصّ للصورة الكبيرة", "loop=loop=-1" not in fc and fc.startswith("[0:v]setpts=PTS-STARTPTS"), fc[:120])
     guarded("g897", g897)
+
+
+def test_reel_bg_loop_guards() -> None:
+    """خ2 (8/11، g898–g902): بلا نافذة ما قبل الهوك يُكمل الختام شريط الخلفية من آخر قطعة فيه (أو سلسلة لم تُعرض) ثم يمتزج في آخر
+    closing.join_mix ثانية بأول إطار من الهوك، فآخر إطار في الريل هو أول إطار عند الإعادة. g901 بـffmpeg حقيقي ويُتخطّى إن غاب."""
+    import os
+    import subprocess
+    import tempfile
+    from pathlib import Path
+
+    import numpy as np
+    from PIL import Image
+
+    from src import reel_bgtrack, reel_render
+    from tests.helpers import _real_load_config, bg_track_cfg
+
+    cfg = bg_track_cfg(load_config())
+    lead = reel_render.transition_seconds(cfg)
+    root = Path(tempfile.mkdtemp())
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001
+            check(name + ": استثناء", False, repr(exc))
+
+    chain = {"video_id": "v1", "start": 0.0, "end": 40.0, "relevant": True, "channel": "CNN"}
+    other = {"video_id": "v2", "start": 50.0, "end": 70.0, "relevant": True, "channel": "BBC"}
+    win = {"video_id": "v1", "start": 5.0, "end": 9.0, "chain": 1}
+
+    def g898():
+        pieces = reel_bgtrack.plan([{"t0": 0, "t1": 4, "win": win}, {"t0": 4, "t1": 7, "win": None}], [chain, other], None, cfg)
+        p = reel_bgtrack.closing_piece(pieces, [chain, other], None, 9.0, cfg)
+        check("g898: الختام يكمل آخر قطعة من حيث انتهت", p is not None and p["video_id"] == "v1" and abs(p["start"] - 12.0) < 1e-6
+              and p["how"] == "continue", p)
+    guarded("g898", g898)
+
+    def g899():
+        pieces = [{"t0": 0, "t1": 4, "src": "footage", "video_id": "v1", "start": 5.0, "how": "assigned", "joined": False,
+                   "src_end": 9.0, "chain": chain}, {"t0": 4, "t1": 7, "src": "photo"}]
+        p = reel_bgtrack.closing_piece(pieces, [chain, other], None, 9.0, cfg)
+        check("g899: آخر قطعة صورة ← سلسلة لم تُعرض", p is not None and p["video_id"] == "v2" and p["how"] == "spare", p)
+        short = [dict(chain, end=10.0)]
+        check("g899: لا فيديو يتسع ← None (التجميد)", reel_bgtrack.closing_piece(pieces, short, None, 9.0, cfg) is None)
+        check("g899: بلا شريط ← None", reel_bgtrack.closing_piece([], [chain], None, 9.0, cfg) is None)
+    guarded("g899", g899)
+
+    def _deps(cmds, run=None, mp3=b""):
+        def download(video_id, start, end, height, out_path):
+            if run is None:
+                Path(out_path).write_bytes(b"x")
+            else:
+                dur = max(end - start, 1)
+                subprocess.run([run, "-y", "-v", "error", "-f", "lavfi", "-i", f"testsrc=size=640x360:rate=30:duration={dur}",
+                                "-f", "lavfi", "-i", "anullsrc=r=48000:cl=stereo", "-t", str(dur), "-pix_fmt", "yuv420p",
+                                "-shortest", str(out_path)], check=True, capture_output=True)
+            return {"tier": "a", "bytes": 1, "failures": []}
+        kw = {} if run is not None else {"run": lambda c: cmds.append(c)}
+        return reel_render.Deps(synthesize=lambda t, v: {"ok": True, "audio": mp3, "chars": len(t)}, diacritize=lambda t: (t, None),
+                                download_clip=download, streams=lambda p: {"video", "audio"}, faces=lambda f, fr: (640, 360, []),
+                                frames=lambda p, fr: [np.full((360, 640), 100, np.uint8)] * len(fr), read_chyron=lambda f, c: None,
+                                sleep=lambda s: None, probe=lambda p: 3.0, **kw).resolved(cfg)
+
+    pieces = reel_bgtrack.plan([{"t0": 0, "t1": 4, "win": win}], [chain], None, cfg)
+
+    def g900():
+        cmds: list = []
+        work = root / "g900"
+        work.mkdir(parents=True, exist_ok=True)
+        hook_png = work / "hook.jpg"
+        Image.new("RGB", (1080, 1920), (200, 30, 30)).save(hook_png)
+        crops: dict = {}
+        notes: list = []
+        total = reel_render._closing_scene(9, {"text": "ما القادم؟"}, "CNN", "", {"mode": "image", "bgpng": hook_png, "x0": 0.0},
+                                           {}, "v", cfg, _deps(cmds), work, work / "scene_09.mp4", notes, crops, lead,
+                                           {"pieces": pieces, "chains": [chain], "hook": None})
+        c = next(x for x in cmds if x[-1].endswith("scene_09.mp4"))
+        fc = c[c.index("-filter_complex") + 1]
+        join = float(cfg.path("reel.render.closing.join_mix"))
+        hold = float(cfg.path("reel.render.closing.join_hold"))
+        check("g900: مزج إلى أول إطار الهوك في آخر الختام", f"offset={reel_render._fmt(total - join - hold)}" in fc and "xfade" in fc, fc[:300])
+        check("g900: صورة الهوك مُدخل سادس", c[c.index(str(hook_png)) - 1] == "-i", c)
+        check("g900: الختام مصدره الشريط ومن حيث انتهى", crops.get("closing", {}).get("source") == "track"
+              and crops["closing"].get("start") == 9.0, crops)
+        check("g900: سطر التعليق", any(n.startswith("🔁 ختام الريل") for n in notes), notes)
+        # بلا شريط: التجميد القديم كما كان
+        cmds2: list = []
+        crops2: dict = {}
+        reel_render._closing_scene(9, {"text": "ما القادم؟"}, "CNN", "", {"mode": "image", "bgpng": hook_png, "x0": 0.0},
+                                   {}, "v", cfg, _deps(cmds2), work, work / "scene_09.mp4", [], crops2, lead, {})
+        check("g900: بلا شريط ← freeze", crops2.get("closing", {}).get("source") == "freeze", crops2)
+    guarded("g900", g900)
+
+    def g901():
+        import shutil
+        exe = shutil.which("ffmpeg")
+        bindir = None
+        if not exe:
+            try:
+                import imageio_ffmpeg
+                src = imageio_ffmpeg.get_ffmpeg_exe()
+            except Exception:  # noqa: BLE001
+                src = None
+            if not src:
+                check("g901: تُخطّي — لا ffmpeg في هذه البيئة", True)
+                return
+            bindir = root / "bin"
+            bindir.mkdir(parents=True, exist_ok=True)
+            (bindir / "ffmpeg").symlink_to(src)
+            exe = str(bindir / "ffmpeg")
+        old_path = os.environ.get("PATH", "")
+        if bindir is not None:
+            os.environ["PATH"] = f"{bindir}{os.pathsep}{old_path}"
+        try:
+            mp3 = subprocess.run([exe, "-v", "error", "-f", "lavfi", "-i", "sine=frequency=440:duration=1.2", "-f", "mp3", "-"],
+                                 capture_output=True, check=True).stdout
+            outs = {}
+            for tag, ctx in (("track", {"pieces": pieces, "chains": [chain], "hook": None}), ("freeze", {})):
+                work = root / f"g901{tag}"
+                work.mkdir(parents=True, exist_ok=True)
+                hook_png = work / "hook.jpg"
+                Image.new("RGB", (1080, 1920), (200, 30, 30)).save(hook_png)
+                d = _deps([], run=exe, mp3=mp3)
+                d = reel_render.replace(d, probe=reel_render.probe_duration)
+                total = reel_render._closing_scene(9, {"text": "ما القادم؟"}, "CNN", "", {"mode": "image", "bgpng": hook_png,
+                                                                                         "x0": 0.0}, {}, "v", cfg, d, work,
+                                                   work / "scene_09.mp4", [], {}, lead, ctx)
+                outs[tag] = (work / "scene_09.mp4", work, total)
+
+            def grab(tag, at):
+                p = outs[tag][1] / f"f_{tag}_{at}.png"
+                subprocess.run([exe, "-y", "-v", "error", "-ss", str(at), "-i", str(outs[tag][0]), "-frames:v", "1", str(p)],
+                               check=True)
+                return np.asarray(Image.open(p).convert("RGB"), dtype=np.int16)[200:1700]
+            end = outs["track"][2] - 0.12
+            last = float(np.abs(grab("track", end) - grab("freeze", end)).mean())
+            early = float(np.abs(grab("track", 1.0) - grab("freeze", 1.0)).mean())
+            check("g901: آخر إطار يطابق أول إطار الهوك (كالتجميد)", last < 3.0, last)
+            check("g901: أول الختام فيديو لا صورة الهوك", early > 8.0, early)
+        finally:
+            os.environ["PATH"] = old_path
+    guarded("g901", g901)
+
+    def g902():
+        real = _real_load_config()
+        check("g902: config.yaml يفعّل الختام من الشريط", bool(real.path("reel.render.closing.track"))
+              and float(real.path("reel.render.closing.join_mix")) > 0)
+        check("g902: render_version == 75", int(real.path("reel.render.version")) >= 75, real.path("reel.render.version"))
+    guarded("g902", g902)

@@ -52,11 +52,13 @@ def _spare(chains: list[dict], length: float, used: list[dict], hook: dict | Non
     return None
 
 
-def plan(slots: list[dict], chains: list[dict], hook: dict | None, cfg=None) -> list[dict]:
+def plan(slots: list[dict], chains: list[dict], hook: dict | None, cfg=None, prev: dict | None = None,
+         taken: list[dict] | None = None) -> list[dict]:
     """slots: [{t0, t1, win}] بترتيب الساعة، win نافذة لقطة أُسندت للفترة ({video_id, start, end, chain, ...}) أو None.
     يعيد قطعًا متتالية تغطي الساعة: {t0, t1, src: "footage", video_id, start, channel, desc, how, joined, win?} أو
     {t0, t1, src: "photo"}. how: assigned (اللقطة المسندة) · continue (إكمال السابقة من سلسلتها) · spare (سلسلة لم تُستعمل).
-    joined: القطعة تكمل سابقتها من الفيديو نفسه بلا فاصل، فتُلصق بها بلا مزج (المزج بين مصدرين مختلفين وحدهما)."""
+    joined: القطعة تكمل سابقتها من الفيديو نفسه بلا فاصل، فتُلصق بها بلا مزج (المزج بين مصدرين مختلفين وحدهما).
+    prev/taken (خ2): قطعة سابقة يُكمَل منها، ونوافذ عُرضت قبلُ فلا تُعاد (خلفية الختام بعد الشريط)."""
     gap = 0.5
     if cfg is not None:
         try:
@@ -66,8 +68,8 @@ def plan(slots: list[dict], chains: list[dict], hook: dict | None, cfg=None) -> 
     # النوافذ المسندة كلها محجوزة من البداية: إكمال قطعة سابقة لا يأخذ ثواني جملة لاحقة أُسندت لها
     used: list[dict] = [{"video_id": s["win"]["video_id"], "start": float(s["win"]["start"]), "end": float(s["win"]["end"])}
                         for s in slots if isinstance(s.get("win"), dict) and s["win"].get("video_id")]
+    used += [{"video_id": u["video_id"], "start": float(u["start"]), "end": float(u["end"])} for u in taken or []]
     pieces: list[dict] = []
-    prev: dict | None = None
     for s in slots:
         t0, t1 = float(s["t0"]), float(s["t1"])
         length = t1 - t0
@@ -144,3 +146,20 @@ def saved(pieces: list[dict]) -> list[dict]:
     """صيغة الحفظ على المسودة (بلا مسارات ملفات ولا كائنات سلاسل)."""
     keep = ("t0", "t1", "src", "video_id", "start", "channel", "how", "joined")
     return [{k: (round(p[k], 2) if isinstance(p.get(k), float) else p[k]) for k in keep if k in p} for p in pieces]
+
+
+def shown(pieces: list[dict]) -> list[dict]:
+    """نوافذ الفيديو التي عرضها الشريط ({video_id, start, end})."""
+    return [{"video_id": p["video_id"], "start": p["start"], "end": p["start"] + (p["t1"] - p["t0"])}
+            for p in pieces if p["src"] == "footage"]
+
+
+def closing_piece(pieces: list[dict], chains: list[dict], hook: dict | None, length: float, cfg=None) -> dict | None:
+    """خلفية الختام بعد الشريط (خ2): تُكمل آخر قطعة فيه إن كانت فيديو (فالختام يبدأ من حيث توقفت الخلفية قبل اللوحة الأخيرة)، وإلا
+    سلسلة لم تُعرض؛ بلا ذلك ← None (التجميد القديم). القطعة المعادة {src: footage, video_id, start, how, ...} بطول length."""
+    if not pieces or length <= 0:
+        return None
+    last = pieces[-1]
+    prev = last if last["src"] == "footage" else None
+    out = plan([{"t0": 0.0, "t1": float(length), "win": None}], chains, hook, cfg, prev=prev, taken=shown(pieces))
+    return out[0] if out and out[0]["src"] == "footage" else None
