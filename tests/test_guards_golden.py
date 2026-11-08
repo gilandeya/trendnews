@@ -25559,6 +25559,75 @@ def test_reel_clash_hook_guards() -> None:
               and int(_real_load_config().path("reel.render.version")) >= 73)
     guarded("g890", g890)
 
+    def g903():
+        # خ3: هوك المواجهة على لقطة الحدث (hook_video) تحت ضباب الريل، ويُبلَّغ الختام أنه هوك لقطة (mode=clip) فيلتحم به
+        import shutil as _sh
+        exe = _sh.which("ffmpeg")
+        if not exe:
+            try:
+                import imageio_ffmpeg
+                exe = imageio_ffmpeg.get_ffmpeg_exe()
+            except Exception:  # noqa: BLE001
+                exe = None
+        if not exe:
+            check("g903: تُخطّي — لا ffmpeg في هذه البيئة", True)
+            return
+        old_path = os.environ.get("PATH", "")
+        bindir = Path(tempfile_dir()) / "bin"
+        bindir.mkdir(parents=True, exist_ok=True)
+        if not (bindir / "ffmpeg").exists():
+            (bindir / "ffmpeg").symlink_to(exe)
+        os.environ["PATH"] = f"{bindir}{os.pathsep}{old_path}"
+        try:
+            d = Path(tempfile_dir())
+
+            def gen(out, color, freq, dur=10):
+                subprocess.run([exe, "-v", "error", "-y", "-f", "lavfi", "-i", f"color=c={color}:s=1280x720:r=30:d={dur}", "-f", "lavfi",
+                                "-i", f"sine=frequency={freq}:duration={dur}", "-t", str(dur), "-c:v", "libx264", "-pix_fmt", "yuv420p",
+                                "-c:a", "aac", str(out)], check=True, capture_output=True)
+                return out
+
+            def synth(text, voice):
+                mp3 = d / "v.mp3"
+                subprocess.run([exe, "-v", "error", "-y", "-f", "lavfi", "-i", "sine=frequency=300:duration=1.6", str(mp3)],
+                               check=True, capture_output=True)
+                return {"ok": True, "audio": mp3.read_bytes()}
+
+            def download(video_id, start, end, height, out_path):
+                gen(Path(out_path), "green", 500, max(end - start, 1))
+                return {"tier": "a", "bytes": 1, "failures": []}
+            clips = {1: {"file": gen(d / "a.mp4", "red", 440), "seconds": 10.0, "heard": heard(qa)},
+                     2: {"file": gen(d / "b.mp4", "blue", 660), "seconds": 10.0, "heard": heard(qb)}}
+            hc = reel_clash.decide({"pairs": [{"relation": "opposite", "a": la, "b": lb}], "hook_text": "حرب إيران تقسم المحللين"}, cands, cfg)
+            deps = reel_render.Deps(faces=lambda f, fr: (1280, 720, []), frames=reel_render._extract_gray_frames_real,
+                                    read_chyron=lambda f, c: None, streams=lambda p: {"video", "audio"}, sleep=lambda s: None,
+                                    download_clip=download, diacritize=lambda t: (t, ""), synthesize=synth).resolved(cfg)
+            notes, crops, info = [], {}, {}
+            out = d / "clash_bg.mp4"
+            draft = {"hook_clash": hc, "hook_video": {"video_id": "evt", "start": 40, "end": 48, "channel": "CNN"}}
+            dur = reel_clash.render_scene(0, script["scenes"][0], script, draft, clips, cfg, deps, d, out, notes, "f", crops, info)
+            check("g903: الختام يرى هوك لقطة", dur and info.get("mode") == "clip" and Path(info.get("clip", "")).exists()
+                  and info.get("cexpr"), info)
+            check("g903: سطر التعليق", any(n.startswith("🃏 خلفية هوك المواجهة") for n in notes), notes)
+            raw = subprocess.run([exe, "-v", "error", "-ss", "0.05", "-i", str(out), "-frames:v", "1", "-f", "rawvideo", "-pix_fmt",
+                                  "rgb24", "-"], capture_output=True, check=True).stdout
+            p0 = np.frombuffer(raw, np.uint8).reshape(1920, 1080, 3).astype(int)[60, 540]
+            check("g903: أعلى أول إطار أخضر (لقطة الحدث تحت الضباب) لا فيديو المتحدث الأحمر", p0[1] > p0[0] + 30 and p0[1] > p0[2],
+                  p0.tolist())
+            veil = reel_clash.footage_veil(cfg)
+            want = float(cfg.path("reel.render.loop.fog_start"))
+            full = reel_render.fog_layer(cfg)
+            check("g903: الغطاء ضباب الريل × loop.fog_start", abs(veil.getpixel((540, 960))[3] - full.getpixel((540, 960))[3] * want) <= 1,
+                  (veil.getpixel((540, 960)), full.getpixel((540, 960))))
+            # بلا hook_video: الخلفية القديمة كما كانت
+            info2: dict = {}
+            reel_clash.render_scene(0, script["scenes"][0], script, {"hook_clash": hc}, clips, cfg, deps, d, d / "c2.mp4", [], "f",
+                                    {}, info2)
+            check("g903: بلا لقطة ← mode=image كما كان", info2.get("mode") == "image", info2)
+        finally:
+            os.environ["PATH"] = old_path
+    guarded("g903", g903)
+
 
 def tempfile_dir() -> str:
     import tempfile
