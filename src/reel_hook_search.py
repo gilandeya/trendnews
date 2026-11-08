@@ -14,7 +14,7 @@ import os
 import re
 from collections import Counter
 from dataclasses import dataclass, field
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Callable
 
@@ -157,13 +157,42 @@ def clean_title(title) -> str:
     return html.unescape(str(title or ""))
 
 
+def views_per_hour(c: dict, now: datetime, cfg) -> float:
+    """سرعة انتشار المرشّح (خ4، قرار صاحب المشروع 8/11): مشاهداته ÷ ساعاته منذ النشر، بحد أدنى reel.hook_search.trend.min_hours
+    كي لا يتصدّر فيديو عمره دقائق بمئة مشاهدة. تاريخ نشر مجهول ← تُعامل كأقدم فيديو في النافذة (max_hours) فلا يُفضَّل بلا دليل."""
+    t = cfg.path("reel.hook_search.trend") or {}
+    lo, hi = float(t.get("min_hours", 3)), float(t.get("max_hours", 168))
+    hours = hi
+    pub = str(c.get("published") or "")
+    if pub:
+        try:
+            p = datetime.fromisoformat(pub.replace("Z", "+00:00"))
+            if p.tzinfo is None:
+                p = p.replace(tzinfo=timezone.utc)
+            hours = (now - p).total_seconds() / 3600
+        except ValueError:
+            pass
+    return int(c.get("views") or 0) / min(max(hours, lo), hi)
+
+
+def rank_candidates(cands: list[dict], cfg, now: datetime | None = None) -> list[dict]:
+    """ترتيب المرشّحين: بسرعة الانتشار (trend.rank_by: velocity) أو بالمشاهدات كما كان (views). سرعة الانتشار تُفضّل ما يتداوله
+    الناس الآن عن الحدث على فيديو قديم جمع مشاهداته على مدى أيام، والخلفية كلها (الهوك والشريط والختام) تُبنى من أوّلها."""
+    now = now or datetime.now(timezone.utc)
+    by = str((cfg.path("reel.hook_search.trend") or {}).get("rank_by", "views"))
+    for c in cands:
+        c["views_per_hour"] = round(views_per_hour(c, now, cfg), 1)
+    key = (lambda c: c["views_per_hour"]) if by == "velocity" else (lambda c: c["views"])
+    return sorted(cands, key=key, reverse=True)
+
+
 def channel_allowed(channel: str, hcfg) -> bool:
     low = (channel or "").casefold()
     return any(str(n).casefold() in low for n in hcfg.get("channels", []) if str(n).strip())
 
 
 def _attempt(draft: dict, script: dict, topic_date: str, cfg, deps: HookDeps, broad: bool, budget: list) -> tuple[list[dict], dict]:
-    """محاولة بحث واحدة ← (مرشّحون مرتّبون بالمشاهدات، تشخيصها). budget[0] = ما بقي من طلبات search.list للمحاولتين معًا."""
+    """محاولة بحث واحدة ← (مرشّحون مرتّبون بسرعة الانتشار أو المشاهدات، rank_candidates، تشخيصها). budget[0] = ما بقي من طلبات search.list للمحاولتين معًا."""
     hcfg = cfg.path("reel.hook_search")
     # المحاولة الثانية أوسع نافذةً لأن الحدث قد يُغطّى قبله أو بعده بأيام أكثر مما قدّرنا
     days = ((int(hcfg.get("retry_days_before", 4)), int(hcfg.get("retry_days_after", 3))) if broad
@@ -211,8 +240,8 @@ def _attempt(draft: dict, script: dict, topic_date: str, cfg, deps: HookDeps, br
     judged = [c for c in short if (verdicts.get(c["video_id"]) or {}).get("relevant") is True
               and (verdicts.get(c["video_id"]) or {}).get("footage") is True]
     diag["judged_ok"] = len(judged)
-    judged.sort(key=lambda c: c["views"], reverse=True)
-    # Q5: نسختان من فيديو واحد بعنوانه نفسه (رفع مزدوج) تأخذان خانتين من الأربع؛ يبقى الأعلى مشاهدة وقد رُتّب أولًا
+    judged = rank_candidates(judged, cfg)
+    # Q5: نسختان من فيديو واحد بعنوانه نفسه (رفع مزدوج) تأخذان خانتين من الأربع؛ يبقى الأعلى ترتيبًا وقد رُتّب أولًا
     uniq, titles = [], set()
     for c in judged:
         key = " ".join(clean_title(c["title"]).casefold().split())
