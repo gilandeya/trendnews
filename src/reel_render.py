@@ -26,7 +26,7 @@ from typing import Any, Callable
 
 from PIL import Image, ImageDraw
 
-from . import imaging, reel_broll, reel_clash, reel_clips, reel_hook_search, reel_map, reel_script, store, tts
+from . import imaging, reel_bgtrack, reel_broll, reel_clash, reel_clips, reel_hook_search, reel_map, reel_script, store, tts
 from . import gemini_speakers as gemini_speakers_mod
 from .config import MUSIC_DIR, REELS_DIR, load_config
 
@@ -2797,14 +2797,15 @@ def _still_bg_prefix(fps) -> str:
 
 def _timed_scene(frames: list[tuple[Path, float]], audio: Path, out: Path, cfg, deps: Deps, tmp: Path, tail: float,
                  lead: float = 0.0, bg_png: Path | None = None, bg_start: float = 0.0,
-                 bg_pan: tuple[float, float] = (0.0, 0.0), broll: list | None = None) -> float:
+                 bg_pan: tuple[float, float] = (0.0, 0.0), broll: list | None = None, bg_track: Path | None = None) -> float:
     """مشهد صوتي بإطارات متتابعة (جملة لكل إطار بمدتها الفعلية)؛ يعيد مدته.
     lead: صمت في أول الصوت يمتد معه الإطار الأول، كي لا تقع أول كلمة في التلاشي المتقاطع مع المشهد السابق.
     bg_png: خلفية الراوي تيار مستقل بمدة المشهد كاملة (Issue #1447، R5d1)؛ الإطارات PNG شفافة تُركَّب فوقه في الأمر نفسه.
     bg_start: زمن بداية المشهد التراكمي بين مشاهد الراوي فتتصل حركة الصورة ولا تقفز.
     bg_pan: (x0، السرعة) من pan_plan المشتركة بين مشاهد الراوي كلها؛ bg_png مُكبَّرة سلفًا إلى أبعاد تلك الخطة.
     broll: [{a, b, clip, cexpr}] لقطات الحدث (Issue #1452، R5d2) تُركَّب فوق تيار الصورة المتحركة في زمن جملتها (a..b داخل المشهد)
-    ثم يأتي التظليل فالنص: اللقطة صامتة فلا يُخرَج صوتها، وsetpts يؤخرها إلى a كي تبدأ مع جملتها لا مع المشهد."""
+    ثم يأتي التظليل فالنص: اللقطة صامتة فلا يُخرَج صوتها، وsetpts يؤخرها إلى a كي تبدأ مع جملتها لا مع المشهد.
+    bg_track: شريط الخلفية (خ1) يحل محل الصورة المتحركة ولقطاتها معًا (اللقطات مخبوزة فيه)، ويُقطع عند bg_start من الساعة."""
     rcfg = cfg.path("reel.render")
     frames = list(frames)
     total = scene_seconds(sum(d for _, d in frames), tail, lead)
@@ -2814,11 +2815,10 @@ def _timed_scene(frames: list[tuple[Path, float]], audio: Path, out: Path, cfg, 
     lst = tmp / (out.stem + "_frames.txt")
     body = "".join(f"file '{f}'\nduration {_fmt(d)}\n" for f, d in frames) + f"file '{frames[-1][0]}'\n"
     lst.write_text(body, encoding="utf-8")
-    if bg_png is not None:
+    if bg_png is not None or bg_track is not None:
         w, h, fps = int(rcfg["width"]), int(rcfg["height"]), rcfg["fps"]
-        pan = _pan_x_expr(bg_pan[0], bg_pan[1], bg_start)
         afilter = f"adelay={int(round(lead * 1000))}:all=1,apad" if lead > 0 else "apad"
-        crop = f"{_still_bg_prefix(fps)}crop={w}:{h}:x='{pan}':y='(ih-oh)/2'"
+        crop = _bg_crop(cfg, bg_pan, bg_start, bg_track)
         shade = _shade_filter(cfg, "narration_bg")
         extra: list[str] = []
         # الخرائط (over_shade) تُركَّب بعد التظليل: كحليّها وتدرّجها تحت النص مرسومان فيها، وتظليلها ثانية يطفئ ألوانها
@@ -2839,7 +2839,7 @@ def _timed_scene(frames: list[tuple[Path, float]], audio: Path, out: Path, cfg, 
         else:
             vg = f"{crop},{shade},fps={fps}[b];"
         vg += f"[1:v]fps={fps},format=rgba[t];[b][t]overlay=0:0:shortest=1,format=yuv420p[v];[2:a]{afilter}[a]"
-        deps.run(_base("-i", str(bg_png), "-f", "concat", "-safe", "0", "-i", str(lst),
+        deps.run(_base(*_bg_input(bg_png, bg_track, bg_start), "-f", "concat", "-safe", "0", "-i", str(lst),
                        "-i", str(audio), *extra, "-filter_complex", vg, "-map", "[v]", "-map", "[a]", "-t", _fmt(total),
                        *_enc(rcfg), str(out)))
         return total
@@ -4253,8 +4253,8 @@ def _qcard_scene(i: int, scene: dict, audio: Path, parts: list, out: Path, cfg, 
                        "-f", "concat", "-safe", "0", "-i", str(lst), "-i", str(audio), "-filter_complex", vg,
                        "-map", "[v]", "-map", "[a]", "-t", _fmt(seconds), *_enc(rcfg), str(out)))
         return seconds
-    pan = _pan_x_expr(nar_plan["x0"], nar_plan["speed"], bg_start)
-    vg = f"{_still_bg_prefix(fps)}crop={w}:{h}:x='{pan}':y='(ih-oh)/2'"
+    track = nar_plan.get("track")
+    vg = _bg_crop(cfg, (nar_plan["x0"], nar_plan["speed"]), bg_start, track)
     extra: list[str] = []
     cur = "[p0]"
     vg += "[p0];"
@@ -4271,7 +4271,7 @@ def _qcard_scene(i: int, scene: dict, audio: Path, parts: list, out: Path, cfg, 
            f"{cur}fps={fps}[bb];[bb][fog]overlay=0:0:shortest=1[bf];"
            f"[1:v]fps={fps},format=rgba[t];[bf][t]overlay=0:0:shortest=1,format=yuv420p[v];[2:a]{afilter}[a]")
     fog_png = _save(fog_layer(cfg), tmp / f"qcard_fog_{i}.png")
-    deps.run(_base("-i", str(nar_bg), "-f", "concat", "-safe", "0", "-i", str(lst), "-i", str(audio), *extra,
+    deps.run(_base(*_bg_input(nar_bg, track, bg_start), "-f", "concat", "-safe", "0", "-i", str(lst), "-i", str(audio), *extra,
                    "-loop", "1", "-framerate", str(fps), "-i", str(fog_png), "-filter_complex", vg,
                    "-map", "[v]", "-map", "[a]", "-t", _fmt(seconds), *_enc(rcfg), str(out)))
     return seconds
@@ -4512,10 +4512,9 @@ def _panel_scene(members: list[tuple[int, dict]], clips: dict, out: Path, cfg, d
         lbl_en = f"enable='between(t,0,{_fmt(intro + grow)})'"
         vg.append(f"[{li}:v]fps={fps},format=rgba[lbl];[bdim][lbl]overlay=0:0:{lbl_en}[base]")
     elif nar_bg is not None and nar_plan is not None:
-        add("-i", str(nar_bg))
-        pan = _pan_x_expr(nar_plan["x0"], nar_plan["speed"], bg_start)
+        add(*_bg_input(nar_bg, nar_plan.get("track"), bg_start))
         fog = add("-loop", "1", "-framerate", str(fps), "-i", str(_save(fog_layer(cfg), tmp / f"panel_fog_{members[0][0]}.png")))
-        vg.append(f"{_still_bg_prefix(fps)}crop={W}:{H}:x='{pan}':y='(ih-oh)/2'[p0];"
+        vg.append(f"{_bg_crop(cfg, (nar_plan['x0'], nar_plan['speed']), bg_start, nar_plan.get('track'))}[p0];"
                   f"[p0]fps={fps}[bb];[{fog}:v]format=rgba[fg];[bb][fg]overlay=0:0[base]")
     else:
         add("-f", "lavfi", "-i", f"color=c={navy}:s={W}x{H}:r={fps}")
@@ -5537,6 +5536,170 @@ def _prepare_maps(script: dict, nar_idx: list[int], speech_cache: dict, plan: li
     return out
 
 
+def _bg_clock(order: list, script: dict, hook_idx, panel_skip: set, groups: dict, clips: dict, speech_cache: dict,
+              scene_broll: dict, cfg, lead: float) -> tuple[list[dict], float]:
+    """فترات ساعة الخلفية (خ1): نفس المشاهد ونفس المدد التي يقدّم بها _assemble الزمنَ nar_t (الراوي وبطاقة السؤال بـscene_seconds،
+    ولوحة الإجابة الواحدة بمدة مقطعها)، فكل جملة فترة تبدأ عند زمن مشهدها + بدايتها فيه وتنتهي عند بداية الفترة التالية. اللوحات
+    المتعددة والمقاطع والهوك والختام لا تقدّم الساعة، فالخلفية بعدها تكمل من حيث توقفت. يعيد (الفترات، طول الساعة)."""
+    qtail = float(cfg.path("reel.render.qcard.tail"))
+    starts: list[tuple[float, dict | None]] = []
+    t, end = 0.0, 0.0
+    for i, sc in order:
+        if i == hook_idx:
+            continue
+        if i in panel_skip:
+            g = groups.get(i)
+            if not g or len(g) != 1:
+                continue
+            dur = float(clips[g[0]]["seconds"])
+            spans = [(0.0, None)]
+        elif sc.get("kind") == "narration" and i in speech_cache:
+            parts = speech_cache[i][1]
+            dur = scene_seconds(sum(d for _, d in parts), qtail if sc.get("role") == "question" else 0.0, lead)
+            # ملف النافذة المنزَّل وتعبير قصّها يُحملان مع النافذة فلا يُنزَّل ما نزل مرة ثانية
+            wins = {e["sentence"]: {**e["win"], "_clip": e["clip"], "_cexpr": e["cexpr"], "_wstart": e["wstart"]}
+                    for e in scene_broll.get(i, []) if isinstance(e.get("win"), dict)}
+            spans, cursor = [], 0.0
+            for k, (_, d) in enumerate(parts):
+                spans.append((0.0 if k == 0 else lead + cursor, wins.get(k)))
+                cursor += d
+        else:
+            continue
+        for a, w in spans:
+            starts.append((t + a, w))
+        end = t + dur
+        t += dur - lead
+    slots = [{"t0": a, "t1": (starts[k + 1][0] if k + 1 < len(starts) else end), "win": w} for k, (a, w) in enumerate(starts)]
+    return slots, end
+
+
+def _bg_track(order, script, hook_idx, panel_skip, groups, clips, speech_cache, scene_broll, broll, nar_bg, nar_plan, cfg,
+              deps: Deps, tmp: Path, lead: float, notes: list, meta: dict | None) -> Path | None:
+    """الساعة ← الخطة ← الملف. يعيد None (فتبقى الطريقة القديمة: صورة متحركة ولقطة لكل جملة) إن لم تقع في الخطة ثانية فيديو
+    واحدة، أو تعطّل البناء؛ ويكتب سطر التعليق ويحفظ الخطة في meta["bg_track"] (render_bg_track)."""
+    t = cfg.path("reel.render.texts")
+    slots, total = _bg_clock(order, script, hook_idx, panel_skip, groups, clips, speech_cache, scene_broll, cfg, lead)
+    if not slots or total <= 0:
+        return None
+    chains = (broll or {}).get("chains") or []
+    pieces = reel_bgtrack.plan(slots, chains, (broll or {}).get("hook"), cfg)
+    if not any(p["src"] == "footage" for p in pieces):
+        return None
+    files = {k: (p["win"]["_clip"], p["win"]["_cexpr"], p["win"]["_wstart"]) for k, p in enumerate(pieces)
+             if p["src"] == "footage" and p["how"] == "assigned" and p.get("win", {}).get("_clip")}
+    try:
+        path = _build_bg_track(pieces, total, nar_bg, nar_plan, files, cfg, deps, tmp, notes)
+    except Exception as exc:  # noqa: BLE001 -- الشريط تحسين: العطل يعيد الطريقة القديمة
+        log.warning("تعذّر بناء شريط الخلفية: %s", reel_clips.scrub_text(str(exc))[:150])
+        notes.append(t["comment_bg_track_failed"])
+        return None
+    if path is None or not any(p["src"] == "footage" for p in pieces):
+        return None
+    sm = reel_bgtrack.summary(pieces)
+    notes.append(t["comment_bg_track"].format(video=_fmt1(sm["video"]), total=_fmt1(sm["video"] + sm["photo"]),
+                                              runs=sm["runs"], photo=_fmt1(sm["photo"]),
+                                              extra=_fmt1(sm["how"].get("continue", 0.0) + sm["how"].get("spare", 0.0))))
+    if meta is not None:
+        meta["bg_track"] = {"pieces": reel_bgtrack.saved(pieces), "summary": sm, "total": round(total, 2)}
+        meta["bg_track_channels"] = list(dict.fromkeys(p.get("channel", "") for p in pieces
+                                                       if p["src"] == "footage" and p.get("channel")))
+    return path
+
+
+def _fmt1(x: float) -> str:
+    return f"{x:.0f}"
+
+
+def _build_bg_track(pieces: list[dict], total: float, nar_bg: Path, nar_plan: dict, files: dict, cfg, deps: Deps, tmp: Path,
+                    notes: list) -> Path | None:
+    """يبني شريط الخلفية (خ1) ملفًا واحدًا بطول الساعة: قطعة الفيديو المسندة من ملف نافذتها المنزَّل، والمكمَّلة والاحتياطية
+    بتنزيل نافذتها، والصورة بالحركة نفسها على الساعة (x0 والسرعة من nar_plan، والإزاحة من بداية القطعة). القطع المتصلة من فيديو
+    واحد تُلصق بلا فاصل (concat)، والمجموعات المختلفة تُمزج بـxfade مدته bg_track.mix؛ كل مجموعة غير أخيرة تمتد mix ثانية بعد
+    فترتها كي يقع المزج على حساب ثوانيها لا ثواني التالية (فتبدأ كل قطعة عند زمن ساعتها بالضبط). تنزيل قطعة يفشل ← صورة.
+    files: {فهرس القطعة: (ملف، cexpr، بداية الملف بثواني الفيديو)} للقطع المسندة. أي عطل ← None (الطريقة القديمة)."""
+    rcfg = cfg.path("reel.render")
+    w, h, fps = int(rcfg["width"]), int(rcfg["height"]), rcfg["fps"]
+    mix = float(cfg.path("reel.render.bg_track.mix", 0.4))
+    t = cfg.path("reel.render.texts")
+    for k, p in enumerate(pieces):
+        if p["src"] != "footage" or k in files:
+            continue
+        length = p["t1"] - p["t0"]
+        ws, we = int(math.floor(p["start"])), int(math.ceil(p["start"] + length + mix))
+        clip = None
+        try:
+            clip = _download_with_retries(deps, rcfg, p["video_id"], ws, we, tmp / f"bgt_{k}.mp4")
+        except Exception as exc:  # noqa: BLE001
+            log.warning("تعذّر تنزيل قطعة شريط الخلفية %s: %s", p["video_id"], reel_clips.scrub_text(str(exc))[:120])
+        if clip is None:
+            notes.append(t["comment_bg_track_piece_failed"].format(channel=p.get("channel", "")))
+            pieces[k] = {"t0": p["t0"], "t1": p["t1"], "src": "photo"}
+            continue
+        files[k] = (clip, _hook_crop(clip, cfg, deps, None, video_id=p["video_id"], channel=p.get("channel", ""), notes=notes), ws)
+    groups = reel_bgtrack.runs(pieces)
+    inputs: list[str] = []
+    vg: list[str] = []
+    labels: list[str] = []
+    idx = 0
+    pos = {id(p): k for k, p in enumerate(pieces)}
+    for g, grp in enumerate(groups):
+        last_group = g == len(groups) - 1
+        seg_labels = []
+        for m, p in enumerate(grp):
+            k = pos[id(p)]
+            length = p["t1"] - p["t0"] + (mix if (m == len(grp) - 1 and not last_group) else 0.0)
+            L = _fmt(length)
+            if p["src"] == "footage":
+                clip, cexpr, ws = files[k]
+                inputs += ["-i", str(clip)]
+                off = max(p["start"] - ws, 0.0)
+                # tpad يضمن الطول إن قصر الملف (آخر ثانية في الفيديو)، ثم trim يقطع الزائد فتبقى القطعة بطول فترتها حرفًا
+                vg.append(f"[{idx}:v]trim=start={_fmt(off)},setpts=PTS-STARTPTS,{cexpr},scale={w}:{h},fps={fps},format=yuv420p,"
+                          f"tpad=stop_mode=clone:stop_duration={L},trim=duration={L},setpts=PTS-STARTPTS,settb=AVTB[q{k}]")
+            else:
+                inputs += ["-i", str(nar_bg)]
+                pan = _pan_x_expr(nar_plan["x0"], nar_plan["speed"], p["t0"])
+                vg.append(f"[{idx}:v]loop=loop=-1:size=1:start=0,setpts=N/{fps}/TB,crop={w}:{h}:x='{pan}':y='(ih-oh)/2',"
+                          f"trim=duration={L},setpts=PTS-STARTPTS,format=yuv420p,settb=AVTB[q{k}]")
+            idx += 1
+            seg_labels.append(f"[q{k}]")
+        if len(seg_labels) == 1:
+            labels.append(seg_labels[0])
+        else:
+            vg.append(f"{''.join(seg_labels)}concat=n={len(seg_labels)}:v=1:a=0,settb=AVTB[g{g}]")
+            labels.append(f"[g{g}]")
+    cur = labels[0]
+    for g in range(1, len(groups)):
+        off = groups[g][0]["t0"]
+        prev_len = groups[g - 1][-1]["t1"] - groups[g - 1][-1]["t0"]
+        nxt_len = groups[g][0]["t1"] - groups[g][0]["t0"]
+        d = max(min(mix, prev_len / 2, nxt_len / 2), 0.04)
+        vg.append(f"{cur}{labels[g]}xfade=transition=fade:duration={_fmt(d)}:offset={_fmt(off)}[x{g}]")
+        cur = f"[x{g}]"
+    vg.append(f"{cur}fps={fps},format=yuv420p[v]")
+    out = tmp / "bg_track.mp4"
+    deps.run(_base(*inputs, "-filter_complex", ";".join(vg), "-map", "[v]", "-an", "-t", _fmt(total), *_enc(rcfg), str(out)))
+    return out
+
+
+def _bg_input(bg_png: Path | None, track: Path | None, bg_start: float) -> list[str]:
+    """مُدخل الخلفية في أمر المشهد: الشريط (خ1) مقطوعًا عند زمن المشهد على الساعة، وإلا الصورة الكبيرة كما كانت."""
+    if track is not None:
+        return ["-ss", _fmt(bg_start), "-i", str(track)]
+    return ["-i", str(bg_png)]
+
+
+def _bg_crop(cfg, bg_pan: tuple[float, float], bg_start: float, track: Path | None) -> str:
+    """سلسلة الخلفية من المُدخل 0 حتى إطار 1080×1920 بلا وسم: الشريط يُعاد زمنه إلى صفر المشهد ويثبت آخر إطاره إن قصر بأجزاء
+    ثانية (تقريب المدد)، والصورة بالحركة المشتركة كما كانت."""
+    rcfg = cfg.path("reel.render")
+    w, h, fps = int(rcfg["width"]), int(rcfg["height"]), rcfg["fps"]
+    if track is not None:
+        return f"[0:v]setpts=PTS-STARTPTS,fps={fps},tpad=stop_mode=clone:stop_duration=5"
+    pan = _pan_x_expr(bg_pan[0], bg_pan[1], bg_start)
+    return f"{_still_bg_prefix(fps)}crop={w}:{h}:x='{pan}':y='(ih-oh)/2'"
+
+
 def _prepare_broll(script: dict, nar_idx: list[int], speech_cache: dict, plan: list, broll: dict, cfg, deps: Deps, tmp: Path,
                    lead: float, notes: list, skip: set | None = None) -> dict[int, list[dict]]:
     """لقطات الحدث خلف الجمل (Issue #1452، R5d2): تقسم جمل الراوي بمددها الفعلية من تمريرة الصوت الأولى، وتطابق الخطة بالعدد
@@ -5626,9 +5789,11 @@ def _prepare_broll(script: dict, nar_idx: list[int], speech_cache: dict, plan: l
                 notes.append(t["comment_broll_failed"].format(n=r["n"], channel=w.get("channel", "")))
                 r["reason"] = "download"
             else:
+                # النافذة نفسها (فيديوها وثانيتاها وسلسلتها) تُحمل مع الملف: شريط الخلفية (خ1) يبني منها قطعته ويُكملها من سلسلتها
                 out.setdefault(r["scene"], []).append({"a": r["a"], "b": r["b"], "clip": clip,
                                                        "cexpr": _hook_crop(clip, cfg, deps, None, video_id=w["video_id"],
-                                                                           channel=w.get("channel", ""), notes=notes)})
+                                                                           channel=w.get("channel", ""), notes=notes),
+                                                       "sentence": r["sentence"], "win": dict(w), "wstart": int(math.floor(w["start"]))})
                 entry.update({"video_id": w["video_id"], "start": w["start"], "end": w["end"],
                               "channel": w.get("channel", ""), "desc": w.get("desc", "")})
                 if w.get("fallback"):
@@ -5724,6 +5889,16 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
         for ch in broll.get("channels", []):
             if ch.casefold() not in (n.casefold() for n in names):
                 names.append(ch)
+    if nar_plan is not None and nar_bg is not None and cfg.path("reel.render.bg_track.enabled", False):
+        # شريط خلفية واحد (خ1): يُبنى من اللقطات المسندة قبل دمج الخرائط (الخرائط تبقى طبقة فوق التظليل في مشهدها)
+        track = _bg_track(order, script, hook_idx, panel_skip, groups, clips, speech_cache, scene_broll, broll, nar_bg, nar_plan,
+                          cfg, deps, tmp, lead, notes if notes is not None else [], meta)
+        if track is not None:
+            nar_plan = {**nar_plan, "track": track}
+            scene_broll = {}
+            for ch in (meta or {}).get("bg_track_channels", []):
+                if ch.casefold() not in (n.casefold() for n in names):
+                    names.append(ch)
     for i, lst_maps in scene_maps.items():
         scene_broll.setdefault(i, []).extend(lst_maps)
     channels = "، ".join(names)
@@ -5797,7 +5972,8 @@ def _assemble(script: dict, clips: dict, cfg, deps: Deps, tmp: Path, voice: str,
                 tail = 0.0
                 if bg is not None and nar_plan is not None:
                     dur = _timed_scene(frames, audio, out, cfg, deps, tmp, tail, lead, bg_png=nar_bg, bg_start=nar_t,
-                                       bg_pan=(nar_plan["x0"], nar_plan["speed"]), broll=scene_broll.get(i))
+                                       bg_pan=(nar_plan["x0"], nar_plan["speed"]), broll=scene_broll.get(i),
+                                       bg_track=nar_plan.get("track"))
                     nar_t += dur - lead
                     scene_files.append(out)
                     kinds.append(kind)
@@ -6085,7 +6261,7 @@ RENDER_META_KEYS = (("render_roster", "roster"), ("render_roster_source", "roste
                     ("render_speaker_map", "speaker_map"), ("render_map_assign", "map_assign"),
                     ("render_map_errors", "map_errors"), ("render_maps", "maps"),
                     ("render_gemini_speakers", "gemini_speakers"), ("render_gemini_errors", "gemini_errors"),
-                    ("render_gemini_cost", "gemini_cost"))
+                    ("render_gemini_cost", "gemini_cost"), ("render_bg_track", "bg_track"))
 RENDER_KEYS = tuple(k for k, _ in RENDER_META_KEYS) + ("render_exact_selfcheck",)
 
 

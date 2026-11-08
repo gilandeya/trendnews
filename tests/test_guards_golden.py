@@ -25563,3 +25563,197 @@ def test_reel_clash_hook_guards() -> None:
 def tempfile_dir() -> str:
     import tempfile
     return tempfile.mkdtemp(prefix="clash_")
+
+
+def test_reel_bg_track_guards() -> None:
+    """شريط خلفية واحد (خ1، قرار صاحب المشروع 8/11، g891–g897): خلف الراوي وبطاقات الأسئلة ولوحة الإجابة الواحدة فيديو متصل على
+    ساعة تتوقف في لوحات الإجابات المتعددة؛ الجملة بلا لقطة تُكمل السابقة من سلسلتها ثم سلسلة لم تُستعمل، والصورة آخر حل.
+    g895 بـffmpeg حقيقي ويُتخطّى إن غاب."""
+    import os
+    import subprocess
+    import tempfile
+    from pathlib import Path
+
+    import numpy as np
+    from PIL import Image
+
+    from src import reel_bgtrack, reel_render, tts
+    from tests.helpers import _real_load_config, bg_track_cfg
+
+    cfg = bg_track_cfg(load_config())
+    lead = reel_render.transition_seconds(cfg)
+    root = Path(tempfile.mkdtemp())
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001
+            check(name + ": استثناء", False, repr(exc))
+
+    chain = {"video_id": "v1", "start": 0.0, "end": 20.0, "relevant": True, "channel": "CNN"}
+    other = {"video_id": "v2", "start": 50.0, "end": 60.0, "relevant": False, "channel": "BBC"}
+
+    def g891():
+        win = {"video_id": "v1", "start": 5.0, "end": 8.0, "chain": 1, "channel": "CNN"}
+        pieces = reel_bgtrack.plan([{"t0": 0, "t1": 3, "win": win}, {"t0": 3, "t1": 7, "win": None}], [chain], None, cfg)
+        check("g891: قطعتان فيديو بلا صورة", [p["src"] for p in pieces] == ["footage", "footage"], pieces)
+        check("g891: الثانية تُكمل الأولى من حيث انتهت", pieces[1]["how"] == "continue" and abs(pieces[1]["start"] - 8.0) < 1e-6
+              and pieces[1]["joined"], pieces[1])
+        check("g891: مجموعة واحدة بلا مزج", len(reel_bgtrack.runs(pieces)) == 1, reel_bgtrack.runs(pieces))
+    guarded("g891", g891)
+
+    def g892():
+        # الإكمال لا يأخذ ثواني جملة لاحقة أُسندت لها النافذة التالية من السلسلة نفسها ← سلسلة لم تُستعمل
+        w1 = {"video_id": "v1", "start": 0.0, "end": 3.0, "chain": 1}
+        w3 = {"video_id": "v1", "start": 4.0, "end": 7.0, "chain": 1}
+        pieces = reel_bgtrack.plan([{"t0": 0, "t1": 3, "win": w1}, {"t0": 3, "t1": 6, "win": None}, {"t0": 6, "t1": 9, "win": w3}],
+                                   [chain, other], None, cfg)
+        check("g892: الوسطى من السلسلة الأخرى", pieces[1]["how"] == "spare" and pieces[1]["video_id"] == "v2", pieces[1])
+        check("g892: ثلاث مجموعات (مزجان)", len(reel_bgtrack.runs(pieces)) == 3, reel_bgtrack.runs(pieces))
+        # لا سلاسل ← صورة، والصورتان المتتاليتان قطعة واحدة
+        p2 = reel_bgtrack.plan([{"t0": 0, "t1": 3, "win": None}, {"t0": 3, "t1": 5, "win": None}], [], None, cfg)
+        check("g892: بلا فيديو صورة واحدة", p2 == [{"t0": 0.0, "t1": 5.0, "src": "photo"}], p2)
+        # نافذة الهوك لا تُستعمل
+        hook = {"video_id": "v2", "start": 50.0, "end": 60.0}
+        p3 = reel_bgtrack.plan([{"t0": 0, "t1": 3, "win": None}], [other], hook, cfg)
+        check("g892: لا شيء من نافذة الهوك", p3[0]["src"] == "photo", p3)
+    guarded("g892", g892)
+
+    def g893():
+        # راوٍ (جملتان) ← لوحة بإجابتين (تتوقف الساعة) ← بطاقة سؤال ← لوحة بإجابة واحدة (تتقدّم الساعة)
+        script = {"scenes": [{"kind": "narration", "text": "أ. ب."}, {"kind": "clip", "q": 1}, {"kind": "clip", "q": 1},
+                             {"kind": "narration", "role": "question", "text": "س؟"}, {"kind": "clip", "q": 2}]}
+        order = list(enumerate(script["scenes"]))
+        speech = {0: (None, [("أ.", 2.0), ("ب.", 3.0)]), 3: (None, [("س؟", 1.5)])}
+        clips = {1: {"seconds": 6.0}, 2: {"seconds": 6.0}, 4: {"seconds": 7.0}}
+        groups = {1: [1, 2], 4: [4]}
+        slots, total = reel_render._bg_clock(order, script, None, {1, 2, 4}, groups, clips, speech, {}, cfg, lead)
+        qtail = float(cfg.path("reel.render.qcard.tail"))
+        d0 = 5.0 + lead
+        d3 = 1.5 + qtail + lead
+        t3 = d0 - lead
+        t4 = t3 + d3 - lead
+        want = [0.0, lead + 2.0, t3, t4]
+        check("g893: بدايات الفترات على الساعة (اللوحة المتعددة لا تقدّمها)", [round(s["t0"], 3) for s in slots]
+              == [round(x, 3) for x in want], (slots, want))
+        check("g893: كل فترة تنتهي عند بداية التالية", all(abs(slots[k]["t1"] - slots[k + 1]["t0"]) < 1e-9
+                                                            for k in range(len(slots) - 1)), slots)
+        check("g893: طول الساعة", abs(total - (t4 + 7.0)) < 1e-6, (total, t4 + 7.0))
+    guarded("g893", g893)
+
+    def g894():
+        pieces = [{"t0": 0, "t1": 4, "src": "footage", "how": "assigned", "joined": False, "video_id": "v1", "start": 1.0},
+                  {"t0": 4, "t1": 6, "src": "footage", "how": "continue", "joined": True, "video_id": "v1", "start": 5.0},
+                  {"t0": 6, "t1": 9, "src": "photo"}]
+        sm = reel_bgtrack.summary(pieces)
+        check("g894: الأرقام", sm == {"video": 6.0, "photo": 3.0, "runs": 2, "how": {"assigned": 4.0, "continue": 2.0}}, sm)
+        check("g894: الحفظ بلا ملفات", all("win" not in p and "chain" not in p for p in reel_bgtrack.saved(pieces)),
+              reel_bgtrack.saved(pieces))
+        line = cfg.path("reel.render.texts.comment_bg_track").format(video=6, total=9, runs=2, extra=2, photo=3)
+        check("g894: سطر التعليق", line.startswith("🎞️") and "9" in line, line)
+    guarded("g894", g894)
+
+    def g895():
+        import shutil
+        exe = shutil.which("ffmpeg")
+        bindir = None
+        if not exe:
+            try:
+                import imageio_ffmpeg
+                src = imageio_ffmpeg.get_ffmpeg_exe()
+            except Exception:  # noqa: BLE001
+                src = None
+            if not src:
+                check("g895: تُخطّي — لا ffmpeg في هذه البيئة", True)
+                return
+            bindir = root / "bin"
+            bindir.mkdir(parents=True, exist_ok=True)
+            (bindir / "ffmpeg").symlink_to(src)
+            exe = str(bindir / "ffmpeg")
+        old_path = os.environ.get("PATH", "")
+        if bindir is not None:
+            os.environ["PATH"] = f"{bindir}{os.pathsep}{old_path}"
+        try:
+            silence = float(cfg.path("reel.tts.sentence_silence", 0.35))
+            mp3 = subprocess.run([exe, "-v", "error", "-f", "lavfi", "-i", f"sine=frequency=440:duration={3.0 - silence}",
+                                  "-f", "mp3", "-"], capture_output=True, check=True).stdout
+            img = Image.new("RGB", (1600, 900))
+            px = img.load()
+            for x in range(1600):
+                for y in range(900):
+                    px[x, y] = (255, 255, 255) if (x // 40) % 2 else (0, 0, 0)
+            bg = reel_render.prepare_background(cfg, img)
+            bg["used"] = {"url": "u", "kind": "manual", "publisher": ""}
+
+            def download(video_id, start, end, height, out_path):
+                dur = max(end - start, 1)
+                subprocess.run([exe, "-y", "-v", "error", "-f", "lavfi", "-i", f"testsrc=size=640x360:rate=30:duration={dur}",
+                                "-f", "lavfi", "-i", "anullsrc=r=48000:cl=stereo", "-t", str(dur), "-pix_fmt", "yuv420p",
+                                "-shortest", str(out_path)], check=True, capture_output=True)
+                return {"tier": "a", "bytes": 1, "failures": []}
+
+            def deps_for(assign):
+                return reel_render.Deps(
+                    synthesize=lambda t, v: {"ok": True, "audio": mp3, "chars": len(t)}, diacritize=lambda t: (t, None),
+                    download_clip=download, streams=lambda p: {"video", "audio"}, faces=lambda f, fr: (640, 360, []),
+                    frames=lambda p, fr: [np.full((360, 640), 100, np.uint8)] * len(fr), read_chyron=lambda f, c: None,
+                    sleep=lambda s: None, assign_broll=assign).resolved(cfg)
+
+            two = "جملة أولى. جملة ثانية."
+            ts = tts.split_sentences(two)
+            plan = [{"scene": 0, "sentence": 0, "text": ts[0], "visual": "صاروخ"},
+                    {"scene": 0, "sentence": 1, "text": ts[1], "visual": ""}]
+            script = {"scenes": [{"kind": "narration", "text": two}]}
+            first = lambda needy, chains, c: [{"n": 1, "chain": 1}]  # noqa: E731
+            outs = {}
+            for tag, c, b in (("track", cfg, {"chains": [dict(chain, video_id="abcdefghijk")], "hook": None}),
+                              ("none", cfg, None)):
+                work = root / ("g895" + tag)
+                work.mkdir(parents=True, exist_ok=True)
+                meta: dict = {}
+                notes: list = []
+                files, _, durs = reel_render._assemble(script, {}, c, deps_for(first if b else None), work, "v", dict(bg), "", {},
+                                                       notes, {"broll_plan": plan}, None, broll=b, meta=meta)
+                outs[tag] = (files[0], work, meta, notes)
+            dur = reel_render.probe_duration(outs["track"][0])
+            check("g895: المدة صحيحة (lead + جملتان)", dur is not None and abs(dur - (lead + 6.0)) <= 0.2, dur)
+            m = outs["track"][2].get("bg_track") or {}
+            check("g895: الخطة محفوظة وكلها فيديو", (m.get("summary") or {}).get("photo") == 0.0
+                  and [p["how"] for p in m.get("pieces", [])] == ["assigned", "continue"], m)
+            check("g895: سطر الشريط في التعليق", any(n.startswith("🎞️ شريط الخلفية") for n in outs["track"][3]), outs["track"][3])
+
+            def grab(tag, at):
+                p = outs[tag][1] / f"f_{tag}_{at}.png"
+                subprocess.run([exe, "-y", "-v", "error", "-ss", str(at), "-i", str(outs[tag][0]), "-frames:v", "1", str(p)],
+                               check=True)
+                return np.asarray(Image.open(p).convert("L"), dtype=np.int16)[100:700]
+            diff = float(np.abs(grab("track", lead + 3.0 + 1.5) - grab("none", lead + 3.0 + 1.5)).mean())
+            check("g895: الجملة الثانية (بلا لقطة مسندة) فيديو لا صورة", diff > 8.0, diff)
+        finally:
+            os.environ["PATH"] = old_path
+    guarded("g895", g895)
+
+    def g896():
+        real = _real_load_config()
+        check("g896: config.yaml يفعّل الشريط", bool(real.path("reel.render.bg_track.enabled")), real.path("reel.render.bg_track"))
+        check("g896: الاختبارات على الطريقة القديمة افتراضيًا", not load_config().path("reel.render.bg_track.enabled"))
+        check("g896: render_version == 74", int(real.path("reel.render.version")) >= 74, real.path("reel.render.version"))
+        check("g896: render_bg_track يُحفظ", "render_bg_track" in reel_render.RENDER_KEYS)
+    guarded("g896", g896)
+
+    def g897():
+        # بطاقة السؤال ولوحة الإجابة الواحدة تأخذان الشريط عند زمنهما على الساعة بدل الصورة
+        cmds: list = []
+        deps = reel_render.Deps(run=lambda c: cmds.append(c)).resolved(cfg)
+        work = root / "g897"
+        work.mkdir(parents=True, exist_ok=True)
+        track = work / "bg_track.mp4"
+        plan = {"x0": 100.0, "speed": 8.0, "track": track}
+        reel_render._qcard_scene(3, {"text": "ما القادم؟"}, work / "a.mp3", [("ما القادم؟", 1.5)], work / "scene_03.mp4", cfg, deps,
+                                 work, lead, work / "nar_bg.png", plan, 12.5)
+        c = cmds[-1]
+        k = c.index(str(track))
+        check("g897: البطاقة من الشريط عند 12.5", c[k - 3:k] == ["-ss", "12.500", "-i"] and str(work / "nar_bg.png") not in c, c[:12])
+        fc = c[c.index("-filter_complex") + 1]
+        check("g897: لا قصّ للصورة الكبيرة", "loop=loop=-1" not in fc and fc.startswith("[0:v]setpts=PTS-STARTPTS"), fc[:120])
+    guarded("g897", g897)
