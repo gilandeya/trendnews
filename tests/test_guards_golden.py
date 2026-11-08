@@ -25975,3 +25975,84 @@ def test_reel_bg_loop_guards() -> None:
               and float(real.path("reel.render.closing.join_mix")) > 0)
         check("g902: render_version == 75", int(real.path("reel.render.version")) >= 75, real.path("reel.render.version"))
     guarded("g902", g902)
+
+
+def test_reel_bg_trend_guards() -> None:
+    """خ4 (8/11، g904–g907): مرشّحو لقطة الحدث (ومنهم خلفية الريل كلها) بسرعة الانتشار = المشاهدات ÷ الساعات منذ النشر، وتُعرض
+    السرعة في المرحلة 2."""
+    import copy
+    import os
+    from datetime import datetime, timezone
+
+    from src import reel_hook_search as rhs
+    from src import youtube_publish as yp
+    from tests.helpers import _real_load_config
+
+    cfg = load_config()
+    now = datetime(2099, 11, 8, 12, tzinfo=timezone.utc)
+
+    def guarded(name, fn):
+        try:
+            fn()
+        except Exception as exc:  # noqa: BLE001
+            check(name + ": استثناء", False, repr(exc))
+
+    def g904():
+        t = cfg.path("reel.hook_search.trend")
+        check("g904: 1000 مشاهدة في 10 ساعات = 100", abs(rhs.views_per_hour({"views": 1000, "published": "2099-11-08T02:00:00Z"}, now, cfg)
+                                                         - 100) < 1e-6)
+        fresh = rhs.views_per_hour({"views": 300, "published": "2099-11-08T11:30:00Z"}, now, cfg)
+        check("g904: حد أدنى للساعات", abs(fresh - 300 / float(t["min_hours"])) < 1e-6, fresh)
+        unk = rhs.views_per_hour({"views": 1680, "published": ""}, now, cfg)
+        check("g904: نشر مجهول ← max_hours", abs(unk - 1680 / float(t["max_hours"])) < 1e-6, unk)
+    guarded("g904", g904)
+
+    def g905():
+        old = {"video_id": "old", "views": 50000, "published": "2099-11-01T12:00:00Z"}   # 168 ساعة ← ~298 في الساعة
+        new = {"video_id": "new", "views": 9000, "published": "2099-11-08T00:00:00Z"}    # 12 ساعة ← 750 في الساعة
+        c = copy.deepcopy(cfg)
+        c["reel"]["hook_search"]["trend"]["rank_by"] = "velocity"
+        got = [x["video_id"] for x in rhs.rank_candidates([dict(old), dict(new)], c, now)]
+        check("g905: الأسرع انتشارًا أولًا", got == ["new", "old"], got)
+        c["reel"]["hook_search"]["trend"]["rank_by"] = "views"
+        got = [x["video_id"] for x in rhs.rank_candidates([dict(new), dict(old)], c, now)]
+        check("g905: views ← بالمشاهدات كما كان", got == ["old", "new"], got)
+    guarded("g905", g905)
+
+    def g906():
+        c = copy.deepcopy(cfg)
+        c["reel"]["hook_search"]["trend"]["rank_by"] = "velocity"
+        pub = {"v1": "2020-01-01T00:00:00Z", "v2": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")}
+        views = {"v1": 90000, "v2": 4000}
+        deps = rhs.HookDeps(
+            yt_search=lambda q, a, b, n, dur: ([{"video_id": v, "channel": "AP", "title": v, "published": pub[v]} for v in pub]
+                                               if dur == "short" else []),
+            yt_details=lambda ids: {i: {"duration": 100, "views": views[i]} for i in ids},
+            make_queries=lambda s, d, cc, broad=False: ["q"],
+            judge_titles=lambda items, event, cc: {i["video_id"]: {"relevant": True, "footage": True} for i in items})
+        prev = os.environ.get("YOUTUBE_API_KEY")
+        os.environ["YOUTUBE_API_KEY"] = "k"
+        try:
+            draft = {"script": {"title": "ع"}, "topic_date": "2099-11-03"}
+            rhs.pick_hook_candidates(draft, c, deps)
+        finally:
+            if prev is None:
+                os.environ.pop("YOUTUBE_API_KEY", None)
+            else:
+                os.environ["YOUTUBE_API_KEY"] = prev
+        cands = draft.get("hook_candidates") or []
+        check("g906: الحديث أولًا ولو قلّت مشاهداته", [x["video_id"] for x in cands] == ["v2", "v1"], cands)
+        check("g906: السرعة محفوظة على المرشّح", all(isinstance(x.get("views_per_hour"), float) for x in cands), cands)
+    guarded("g906", g906)
+
+    def g907():
+        texts = cfg.path("reel.texts")
+        d = {"id": "abc", "hook_search": {"attempts": []},
+             "hook_candidates": [{"video_id": "v2", "title": "t", "channel": "AP", "views": 4000, "duration": 90, "views_per_hour": 1333.3},
+                                 {"video_id": "v1", "title": "u", "channel": "AP", "views": 90000, "duration": 90}]}
+        lines = "\n".join(yp._reel_hook_lines(d, texts))
+        check("g907: السرعة معروضة للمرشّح الأول", "1,333 في الساعة" in lines, lines)
+        check("g907: مرشّح قديم بلا سرعة لا يُكتب له شيء", lines.count("في الساعة") == 1, lines)
+        real = _real_load_config()
+        check("g907: config.yaml يرتّب بسرعة الانتشار", real.path("reel.hook_search.trend.rank_by") == "velocity")
+    guarded("g907", g907)

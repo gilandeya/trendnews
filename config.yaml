@@ -1949,14 +1949,16 @@ reel:
     bg_cropped: "✂️ قُصّت لإخفاء نص مكتوب عليها"
     bg_none_judged: "🖼️ خلفية الراوي: كحلي — لم تُوجد صورة مناسبة"
     # ── لقطة الهوك (Issue #1445، R5c3) ──
-    hook_line: "🎞️ لقطة الهوك: [{title}](https://www.youtube.com/watch?v={id}) — {channel} · {views} مشاهدة · {duration}"
-    hook_alt: "{n}) [{title}](https://www.youtube.com/watch?v={id}) — {channel} · {views}"
+    hook_line: "🎞️ لقطة الهوك: [{title}](https://www.youtube.com/watch?v={id}) — {channel} · {views} مشاهدة{rate} · {duration}"
+    hook_alt: "{n}) [{title}](https://www.youtube.com/watch?v={id}) — {channel} · {views}{rate}"
+    # خ4: سرعة الانتشار بجانب المشاهدات (لمرشّح بلا views_per_hour، محفوظ قبل خ4، لا تُكتب)
+    hook_rate: " ({rate} في الساعة)"
     hook_alts_header: "بدائل:"
     # قضية السيناريو لمواضيع العناوين (meta_script): مرشّحو الهوك مربعات
     # رأس قضية مرحلة 2 فيها ريلات وحدها (youtube_publish.build_review_body): بلا سطر المقالات وسقف نشرها وملاحظة البطاقة
     review_header_note: "لكل ريل: راجع السيناريو، وعدّل سطور النص (السياق وكلام الراوي) داخل كتلته مباشرة، واختر العنوان ولقطة الهوك، ثم علّم خيار انتقال واحدًا وأضف الوسم `approved`. ما أراه لحظة الاعتماد هو ما يُركَّب. 🚫 ما لا تعلّمه يُسجَّل مرفوضًا."
     hook_pick_header: "🎞️ **لقطة الهوك** (المعلَّم الأول هو المختار):"
-    hook_pick_line: "[{title}](https://www.youtube.com/watch?v={id}) — {channel} · {views} مشاهدة · {duration}"
+    hook_pick_line: "[{title}](https://www.youtube.com/watch?v={id}) — {channel} · {views} مشاهدة{rate} · {duration}"
     hook_pick_note: "يجد التركيب أقوى ثوانيها في الفيديو المختار؛ بلا مربع معلَّم يختار التركيب من الثلاثة."
     hook_none: "🎞️ لم أجد لقطة للحدث — الهوك بصورة الخبر (نتائج {raw} · من القائمة {channel_ok} · بالمدة {duration_ok} · لقطات من الحدث {judged_ok})"
     hook_off: "🎞️ بحث لقطة الهوك معطَّل (لا مفتاح يوتيوب)"
@@ -2397,6 +2399,9 @@ reel:
     search_results: 15
     max_video_seconds: 1200    # R5c3: المدة ≤ 1200 ث بعد قائمة القنوات
     max_candidates: 4
+    # خ4 (8/11): المرشّحون (ومنهم خلفية الريل كلها) بسرعة الانتشار = المشاهدات ÷ الساعات منذ النشر، بحد أدنى min_hours وأقصى
+    # max_hours (ونشر مجهول يُعدّ max_hours). views ← بالمشاهدات كما كان
+    trend: {rank_by: velocity, min_hours: 3, max_hours: 168}
     durations: ["short", "medium"]   # نداءان لكل عبارة (videoDuration)
     max_search_calls: 12             # سقف search.list للمحاولتين معًا
     retry_days_before: 4             # المحاولة الثانية (عبارات أعمّ) بنافذة أوسع

@@ -787,6 +787,11 @@ def _reel_hook_lines(d: dict, texts: dict) -> list[str]:
         # مرشّحون محفوظون قبل #1447 قد يحملون «&amp;» فيُفك عند العرض أيضًا
         return html.unescape(str(c.get("title", ""))).replace("[", "").replace("]", "")
 
+    def rate_of(c):
+        # خ4: سرعة الانتشار هي سبب ترتيب المرشّحين، فتُعرض كي يرى المراجع لماذا تقدّم فيديو على أكثر منه مشاهدة
+        v = c.get("views_per_hour")
+        return texts.get("hook_rate", "").format(rate=f"{float(v):,.0f}") if isinstance(v, (int, float)) else ""
+
     if d.get("hook_pick"):
         # قضية السيناريو لمواضيع العناوين (meta_script): ثلاثة مرشّحين مربعات أولها معلَّم، فيختار صاحب المشروع لقطة الافتتاح؛
         # الفحص البصري في التركيب يجد ثانيتها في الفيديو المختار وحده (approve_reel_scripts)
@@ -794,18 +799,18 @@ def _reel_hook_lines(d: dict, texts: dict) -> list[str]:
         for k, c in enumerate(cands[: int(d["hook_pick"])]):
             sec = int(c.get("duration") or 0)
             line = texts.get("hook_pick_line", "{title} — {channel} · {views} مشاهدة · {duration}").format(
-                title=title_of(c), id=c["video_id"], channel=c.get("channel", ""),
+                title=title_of(c), id=c["video_id"], channel=c.get("channel", ""), rate=rate_of(c),
                 views=f"{int(c.get('views') or 0):,}", duration=f"{sec // 60:02d}:{sec % 60:02d}")
             out.append(f"  - [{'x' if k == 0 else ' '}] {line} <!-- hookpick:{d['id']}:{k} -->")
         return [*out, "", f"  {texts.get('hook_pick_note', '')}", ""]
     top = cands[0]
     sec = int(top.get("duration") or 0)
     top_line = texts.get("hook_line", "").format(
-        title=title_of(top), id=top["video_id"], channel=top.get("channel", ""),
+        title=title_of(top), id=top["video_id"], channel=top.get("channel", ""), rate=rate_of(top),
         views=f"{int(top.get('views') or 0):,}", duration=f"{sec // 60:02d}:{sec % 60:02d}")
     out = [f"  {top_line}", "", f"  ![](https://i.ytimg.com/vi/{top['video_id']}/mqdefault.jpg)", ""]
     alts = [texts.get("hook_alt", "").format(n=n, title=title_of(c), id=c["video_id"], channel=c.get("channel", ""),
-                                             views=f"{int(c.get('views') or 0):,}")
+                                             views=f"{int(c.get('views') or 0):,}", rate=rate_of(c))
             for n, c in enumerate(cands[1:], start=2)]
     if alts:
         out += [f"  {texts.get('hook_alts_header', '')} " + " ؛ ".join(alts), ""]
