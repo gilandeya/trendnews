@@ -73,6 +73,9 @@ def load_config(path=None):
         # السياق كلمةً كلمة (7/11) يغيّر إطارات الراوي التي تعدّها مراجع الأوامر المحفوظة؛ context_words_cfg يعيده
         if isinstance(rcfg.get("reveal"), dict):
             rcfg["reveal"]["mode"] = "lines"
+        # شريط الخلفية الواحد (خ1، 8/11) يغيّر أوامر مشاهد الراوي التي تثبّتها مراجع R5d2 وما بعدها؛ bg_track_cfg يعيده
+        if isinstance(rcfg.get("bg_track"), dict):
+            rcfg["bg_track"]["enabled"] = False
         if isinstance(rcfg.get("outro"), dict):
             rcfg["outro"]["logo_width"] = 420
         if isinstance(rcfg.get("hook"), dict):
@@ -120,6 +123,14 @@ def context_words_cfg(cfg):
     import copy
     c = copy.deepcopy(cfg)
     c["reel"]["render"]["reveal"] = dict(_real_load_config().path("reel.render.reveal"))
+    return c
+
+
+def bg_track_cfg(cfg):
+    """نسخة بشريط الخلفية الواحد كما في config.yaml (خ1، 8/11)."""
+    import copy
+    c = copy.deepcopy(cfg)
+    c["reel"]["render"]["bg_track"] = copy.deepcopy(_real_load_config().path("reel.render.bg_track"))
     return c
 
 

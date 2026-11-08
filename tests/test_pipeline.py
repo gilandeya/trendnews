@@ -326,6 +326,7 @@ from tests.test_guards_golden import (test_guards_golden, test_important_false_g
     test_reel_context_words_guards,
     test_reel_cost_ledger_guards,
     test_reel_clash_hook_guards,
+    test_reel_bg_track_guards,
                                       test_reel_place_file_s8_guards,
                                       test_reel_map_consistency_s9_guards,
                                       test_reel_fb_safe_s10_guards,
@@ -841,6 +842,7 @@ def main() -> int:
     test_reel_context_words_guards()
     test_reel_cost_ledger_guards()
     test_reel_clash_hook_guards()
+    test_reel_bg_track_guards()
     test_reel_exact_fuzzy_s7_guards()
     test_reel_place_file_s8_guards()
     test_reel_map_consistency_s9_guards()
