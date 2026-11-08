@@ -25304,7 +25304,7 @@ def test_reel_cost_ledger_guards() -> None:
 
 
 def test_reel_clash_hook_guards() -> None:
-    """هوك «المواجهة» بورق الكوتشينة (قرار صاحب المشروع 8/11، g881–g889): جملتان من إجابتين معتمدتين لمتحدثَين موثَّقين من كتلتين
+    """هوك «المواجهة» بورق الكوتشينة (قرار صاحب المشروع 8/11، g881–g890): جملتان من إجابتين معتمدتين لمتحدثَين موثَّقين من كتلتين
     مختلفتين، الكود يقرّر بترتيب تفضيل العلاقات، وما يُكتب على الشاشة يطابق ما يُسمع (الصوت من أول كلمة إلى آخرها بلا كلمة مجاورة)،
     والورقة ذهبية ومعلوماتها تحتها وحدها. g888 بـffmpeg حقيقي ويُتخطّى إن غاب."""
     import os
@@ -25525,6 +25525,39 @@ def test_reel_clash_hook_guards() -> None:
         finally:
             os.environ["PATH"] = old_path
     guarded("g888", g888)
+
+    def g890():
+        import copy
+        import tempfile as _tf
+        cmds = []
+        deps = reel_render.Deps(run=lambda c: cmds.append(list(c)), probe=lambda p: 30.0)
+        work = Path(_tf.mkdtemp(prefix="g890_"))
+        hk = float(cfg.path("reel.render.hook.logo_move"))
+        oc = cfg.path("reel.render.outro")
+
+        def graph(c, kinds, durs):
+            cmds.clear()
+            reel_render._final_pass(work / "j.mp4", work / "f.mp4", kinds, durs, c, deps, work, {"id": "g890"})
+            cmd = cmds[-1]
+            return cmd, cmd[cmd.index("-filter_complex") + 1]
+        cmd, g = graph(cfg, ["clash", "panel"], [9.0, 20.0])
+        ex = reel_render._logo_exprs(cfg, 0.0)
+        x0, y0, w0 = reel_render.logo_state(0.0, cfg, 0.0)[:3]
+        check("g890: هوك المواجهة يبدأ والشعار الكبير في الوسط ويتحرك فورًا إلى الزاوية بمدة hook.logo_move",
+              ex["x"] in g and "eval=frame" in g and f"gte(t,{reel_render._fmt(hk)})" in g
+              and abs(w0 - int(oc["logo_width"])) < 1 and abs(y0 - int(oc["logo_top"])) < 1, g[:300])
+        w1 = reel_render.logo_state(hk + 0.01, cfg, 0.0)[2]
+        check("g890: بعد logo_move صار بعرض شعار الزاوية", abs(w1 - int(cfg.path("reel.render.logo.width"))) < 1, w1)
+        off = copy.deepcopy(cfg)
+        off["reel"]["render"]["clash"]["logo_from_center"] = False
+        _, g2 = graph(off, ["clash", "panel"], [9.0, 20.0])
+        check("g890: logo_from_center مطفأ ← الشعار الصغير ثابت في الزاوية من أول إطار", "eval=frame" not in g2, g2[:200])
+        _, g3 = graph(cfg, ["hook", "panel"], [9.0, 20.0])
+        check("g890: الهوك القديم بلا تغيير (يتحرك بعد نهايته)",
+              f"gte(t,{reel_render._fmt(9.0 - reel_render.transition_seconds(cfg) + hk)})" in g3, g3[:300])
+        check("g890: config.yaml يفعّله ونسخة التركيب 73", _real_load_config().path("reel.render.clash.logo_from_center") is True
+              and int(_real_load_config().path("reel.render.version")) >= 73)
+    guarded("g890", g890)
 
 
 def tempfile_dir() -> str:

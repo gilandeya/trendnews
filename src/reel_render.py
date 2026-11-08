@@ -6239,12 +6239,16 @@ def _final_pass(joined: Path, final: Path, kinds: list[str], durs: list[float], 
     outro_in: list[str] = []
     outro_f = ""
     tail = "vs" if ostart is not None else "v"      # مع الخاتمة يتبع خرج الشعار الصغير overlay الشعار الكبير فيصير v
-    if kinds and kinds[0] == "hook":
+    # هوك المواجهة (8/11): الريل يُعاد تلقائيًا وآخر إطار فيه الشعار الكبير في الوسط، فيبدأ أول إطار به ويتحرك فورًا إلى الزاوية
+    # (قرار صاحب المشروع: بالمدة نفسها hook.logo_move) كي لا يقفز الشعار عند الإعادة
+    clash_logo = bool(kinds and kinds[0] == "clash" and cfg.path("reel.render.clash.logo_from_center", False))
+    animated = bool(kinds and (kinds[0] == "hook" or clash_logo))
+    if animated:
         # شعار الهوك الكبير ينتقل إلى الزاوية (Issue #1429): مدخل متحرك مكرَّر بالإطارات ومحدود بـ-t فلا تعمل تعابير t وscale/overlay
         # بـeval=frame إلا على ثواني الهوك والانتقال، والشفافية بمرشح fade لا geq؛ بعدها overlay ثابت بالطريقة القديمة من مدخل
         # منفصل. آخر حالة متحركة تساوي الثابت تمامًا فلا قفزة عند التبديل؛ ما زال الشعار يُركَّب في هذه التمريرة الأخيرة وحدها
         hk = cfg.path("reel.render.hook")
-        hook_end = durs[0] - transition_seconds(cfg)
+        hook_end = 0.0 if clash_logo else durs[0] - transition_seconds(cfg)
         ex = _logo_exprs(cfg, hook_end)
         logo_in = ["-loop", "1", "-framerate", str(rcfg["fps"]), "-t", _fmt(hook_end + float(hk["logo_move"]) + 0.1)]
         # مدخل الموسيقى مثبَّت على الفهرس 2 في _music_mix فيأتي الشعار الثابت بعده
@@ -6288,7 +6292,7 @@ def _final_pass(joined: Path, final: Path, kinds: list[str], durs: list[float], 
         slst = tmp / "shine_list.txt"
         slst.write_text("".join(f"file '{f}'\nduration {_fmt(d)}\n" for f, d in sframes) + f"file '{sframes[-1][0]}'\n", encoding="utf-8")
         shine_in = ["-f", "concat", "-safe", "0", "-i", str(slst)]
-        si = 2 + (1 if music else 0) + (1 if kinds and kinds[0] == "hook" else 0) + (1 if ostart is not None else 0)
+        si = 2 + (1 if music else 0) + (1 if animated else 0) + (1 if ostart is not None else 0)
         oc = cfg.path("reel.render.outro")
         sx, sy = (int(rcfg["width"]) - int(oc["logo_width"])) // 2, int(oc["logo_top"])
         assert video_f.endswith("[v]")
