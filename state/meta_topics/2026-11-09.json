@@ -1,0 +1,1606 @@
+{
+ "date": "2026-11-09",
+ "generated_at": "2026-11-09T02:03:21.510049+00:00",
+ "topics": [
+  {
+   "id": "e508c0f15f64",
+   "title": "تكليف غادي آيزنكوت بتشكيل الحكومة الإسرائيلية",
+   "blocs": [
+    "arabic",
+    "chinese",
+    "english",
+    "french",
+    "israeli",
+    "persian",
+    "turkish"
+   ],
+   "orientations": 11,
+   "minutes": 797,
+   "channels": [
+    "BBC News",
+    "BBC Persian",
+    "CCTV中文",
+    "CNN",
+    "CNN Türk",
+    "FRANCE 24",
+    "Habertürk",
+    "ILTV",
+    "ערוץ 14",
+    "الجزيرة",
+    "العربية",
+    "الميادين",
+    "سكاي نيوز عربية"
+   ],
+   "videos": [
+    {
+     "video_id": "woasWQ8ptNU",
+     "channel": "BBC News",
+     "bloc": "english",
+     "orientation": "بريطاني عام",
+     "minutes": 29.533333333333335
+    },
+    {
+     "video_id": "pj-54uip3qM",
+     "channel": "BBC Persian",
+     "bloc": "persian",
+     "orientation": "بريطاني عام",
+     "minutes": 29.166666666666668
+    },
+    {
+     "video_id": "SiBU_GQ9_3o",
+     "channel": "CCTV中文",
+     "bloc": "chinese",
+     "orientation": "صيني حكومي",
+     "minutes": 7.061111111111111
+    },
+    {
+     "video_id": "Dh5Yla8p8zw",
+     "channel": "CNN",
+     "bloc": "english",
+     "orientation": "أمريكي ليبرالي",
+     "minutes": 14.666666666666666
+    },
+    {
+     "video_id": "mAk9AtHnRMI",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 5.858333333333333
+    },
+    {
+     "video_id": "s3a7EHbNm8M",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 56.9
+    },
+    {
+     "video_id": "zXO77qV_4Fs",
+     "channel": "FRANCE 24",
+     "bloc": "french",
+     "orientation": "فرنسي حكومي",
+     "minutes": 15.833333333333334
+    },
+    {
+     "video_id": "PwtrxvlhIgM",
+     "channel": "FRANCE 24",
+     "bloc": "french",
+     "orientation": "فرنسي حكومي",
+     "minutes": 19.833333333333332
+    },
+    {
+     "video_id": "BY73XaIw-rc",
+     "channel": "Habertürk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 10.675
+    },
+    {
+     "video_id": "YOS9C0U8xG8",
+     "channel": "Habertürk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 23.683333333333334
+    },
+    {
+     "video_id": "c1HF3Gbp0S0",
+     "channel": "ILTV",
+     "bloc": "israeli",
+     "orientation": "يمين",
+     "minutes": 15.75
+    },
+    {
+     "video_id": "F36PH6FsxCk",
+     "channel": "ILTV",
+     "bloc": "israeli",
+     "orientation": "يمين",
+     "minutes": 7.433333333333334
+    },
+    {
+     "video_id": "zRCeqiLatIk",
+     "channel": "ערוץ 14",
+     "bloc": "israeli",
+     "orientation": "يمين",
+     "minutes": 10.85
+    },
+    {
+     "video_id": "bGbpCaZl1es",
+     "channel": "ערוץ 14",
+     "bloc": "israeli",
+     "orientation": "يمين",
+     "minutes": 7.191666666666666
+    },
+    {
+     "video_id": "GvLWm63yRvI",
+     "channel": "ערוץ 14",
+     "bloc": "israeli",
+     "orientation": "يمين",
+     "minutes": 6.475
+    },
+    {
+     "video_id": "NrFIFg0G6jE",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 5.491666666666666
+    },
+    {
+     "video_id": "cw2z35tSVgU",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 29.883333333333333
+    },
+    {
+     "video_id": "zGW9wE5uEhE",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 7.625
+    },
+    {
+     "video_id": "2ik0sE-45dM",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 7.516666666666667
+    },
+    {
+     "video_id": "eqAfLj0M_gY",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 19.92222222222222
+    },
+    {
+     "video_id": "K6vVxqjqTno",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 20.066666666666666
+    },
+    {
+     "video_id": "w7IJiUpFcRI",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 16.158333333333335
+    },
+    {
+     "video_id": "vKMePTGzwCE",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 30.75
+    },
+    {
+     "video_id": "2ZgqeTKFMPs",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 14.35
+    },
+    {
+     "video_id": "sxpxjG1sABQ",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 23.991666666666667
+    },
+    {
+     "video_id": "OZ5fjjvvAzM",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 5.216666666666667
+    },
+    {
+     "video_id": "7VC8rCM26MM",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 6.858333333333333
+    },
+    {
+     "video_id": "jKwRiHrMwUQ",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 5.675
+    },
+    {
+     "video_id": "jbWjI9UQ00g",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 12.791666666666666
+    },
+    {
+     "video_id": "Z_2eNsaHgKU",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 11.141666666666667
+    },
+    {
+     "video_id": "K9xeM5YILks",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 15.049999999999999
+    },
+    {
+     "video_id": "ZKxSL-aYdYA",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 10.075
+    },
+    {
+     "video_id": "1aZkefQVj04",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 9.616666666666667
+    },
+    {
+     "video_id": "xD3sVu_HnCk",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 22.141666666666666
+    },
+    {
+     "video_id": "c8UIc79wrPQ",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 5.875
+    },
+    {
+     "video_id": "MaqcA2m8NwM",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 7.625
+    },
+    {
+     "video_id": "pE6KdEiLEXE",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 7.308333333333334
+    },
+    {
+     "video_id": "LYfQRlpeRVo",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 5.416666666666667
+    },
+    {
+     "video_id": "Mg4EDXq2llg",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 26.241666666666667
+    },
+    {
+     "video_id": "wK1AVHSuj4w",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 54.65
+    },
+    {
+     "video_id": "852xJSv43Os",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 12.616666666666667
+    },
+    {
+     "video_id": "A9lC_JlaOME",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 26.1
+    },
+    {
+     "video_id": "cjB203NFNVI",
+     "channel": "سكاي نيوز عربية",
+     "bloc": "arabic",
+     "orientation": "إماراتي",
+     "minutes": 54.7
+    },
+    {
+     "video_id": "-HT5EDP8Z04",
+     "channel": "سكاي نيوز عربية",
+     "bloc": "arabic",
+     "orientation": "إماراتي",
+     "minutes": 12.875
+    },
+    {
+     "video_id": "9rhofkby7Kw",
+     "channel": "سكاي نيوز عربية",
+     "bloc": "arabic",
+     "orientation": "إماراتي",
+     "minutes": 18.016666666666666
+    },
+    {
+     "video_id": "eYsNwve-JAg",
+     "channel": "سكاي نيوز عربية",
+     "bloc": "arabic",
+     "orientation": "إماراتي",
+     "minutes": 23.55
+    },
+    {
+     "video_id": "4L8_g6KhVwQ",
+     "channel": "سكاي نيوز عربية",
+     "bloc": "arabic",
+     "orientation": "إماراتي",
+     "minutes": 7.1
+    }
+   ]
+  },
+  {
+   "id": "26375a612f1a",
+   "title": "احتمال هجوم أمريكي جديد على إيران",
+   "blocs": [
+    "arabic",
+    "chinese",
+    "english",
+    "israeli",
+    "persian",
+    "turkish"
+   ],
+   "orientations": 11,
+   "minutes": 543,
+   "channels": [
+    "BBC Persian",
+    "CCTV中文",
+    "CNN",
+    "CNN Türk",
+    "Habertürk",
+    "ILTV",
+    "Iran International",
+    "SÖZCÜ",
+    "الجزيرة",
+    "العربية",
+    "الميادين",
+    "سكاي نيوز عربية"
+   ],
+   "videos": [
+    {
+     "video_id": "YW7I-83eZOY",
+     "channel": "BBC Persian",
+     "bloc": "persian",
+     "orientation": "بريطاني عام",
+     "minutes": 15.175
+    },
+    {
+     "video_id": "SiBU_GQ9_3o",
+     "channel": "CCTV中文",
+     "bloc": "chinese",
+     "orientation": "صيني حكومي",
+     "minutes": 7.061111111111111
+    },
+    {
+     "video_id": "l7BnnGbPP-8",
+     "channel": "CNN",
+     "bloc": "english",
+     "orientation": "أمريكي ليبرالي",
+     "minutes": 19.266666666666666
+    },
+    {
+     "video_id": "SErFDqYCKEM",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 49.86666666666667
+    },
+    {
+     "video_id": "r2XwPxpzZzY",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 31.6
+    },
+    {
+     "video_id": "jz3QiWsXQd0",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 28.066666666666666
+    },
+    {
+     "video_id": "rhdGbSPRhrI",
+     "channel": "Habertürk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 9.491666666666667
+    },
+    {
+     "video_id": "F36PH6FsxCk",
+     "channel": "ILTV",
+     "bloc": "israeli",
+     "orientation": "يمين",
+     "minutes": 7.433333333333334
+    },
+    {
+     "video_id": "IUTRjfd_4xI",
+     "channel": "ILTV",
+     "bloc": "israeli",
+     "orientation": "يمين",
+     "minutes": 17.3
+    },
+    {
+     "video_id": "wpfXvoaK0pA",
+     "channel": "ILTV",
+     "bloc": "israeli",
+     "orientation": "يمين",
+     "minutes": 14.683333333333334
+    },
+    {
+     "video_id": "q4njQvoe7Cs",
+     "channel": "Iran International",
+     "bloc": "persian",
+     "orientation": "معارض للنظام",
+     "minutes": 43.96666666666667
+    },
+    {
+     "video_id": "yD54MiiuwLA",
+     "channel": "Iran International",
+     "bloc": "persian",
+     "orientation": "معارض للنظام",
+     "minutes": 7.9944444444444445
+    },
+    {
+     "video_id": "QeSEyG9gVWY",
+     "channel": "SÖZCÜ",
+     "bloc": "turkish",
+     "orientation": "معارض",
+     "minutes": 3.3722222222222222
+    },
+    {
+     "video_id": "GRw2YHeNz1Q",
+     "channel": "SÖZCÜ",
+     "bloc": "turkish",
+     "orientation": "معارض",
+     "minutes": 4.844444444444444
+    },
+    {
+     "video_id": "BUU-GJjPaKg",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 5.325
+    },
+    {
+     "video_id": "cw2z35tSVgU",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 29.883333333333333
+    },
+    {
+     "video_id": "qcdi0_eIfyw",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 7.633333333333334
+    },
+    {
+     "video_id": "YQKMZfqprSI",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 7.008333333333334
+    },
+    {
+     "video_id": "cP4REMDiQmU",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 17.633333333333333
+    },
+    {
+     "video_id": "g3zWM08d0MA",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 26.375
+    },
+    {
+     "video_id": "SBbtTVYInkM",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 16.366666666666667
+    },
+    {
+     "video_id": "tPay38GLjUU",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 7.022222222222222
+    },
+    {
+     "video_id": "IpeJqQnoan8",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 7.475
+    },
+    {
+     "video_id": "DZTLiL_Fxv8",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 5.666666666666667
+    },
+    {
+     "video_id": "O0ZUAqsqEcE",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 62.96666666666667
+    },
+    {
+     "video_id": "WK-_DFM_JGQ",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 26.008333333333333
+    },
+    {
+     "video_id": "0uYDxPzsvzQ",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 25.266666666666666
+    },
+    {
+     "video_id": "xg4aIl4iLf0",
+     "channel": "سكاي نيوز عربية",
+     "bloc": "arabic",
+     "orientation": "إماراتي",
+     "minutes": 9.491666666666667
+    },
+    {
+     "video_id": "KObgXgLERlE",
+     "channel": "سكاي نيوز عربية",
+     "bloc": "arabic",
+     "orientation": "إماراتي",
+     "minutes": 28.258333333333333
+    }
+   ]
+  },
+  {
+   "id": "18fb950ec41a",
+   "title": "التصعيد الأمريكي الإيراني في مضيق هرمز",
+   "blocs": [
+    "arabic",
+    "chinese",
+    "persian",
+    "turkish"
+   ],
+   "orientations": 10,
+   "minutes": 651,
+   "channels": [
+    "BBC Persian",
+    "CCTV中文",
+    "CNN Türk",
+    "Iran International",
+    "SÖZCÜ",
+    "TVBS新聞",
+    "الجزيرة",
+    "العربية",
+    "الميادين",
+    "سكاي نيوز عربية"
+   ],
+   "videos": [
+    {
+     "video_id": "NahV7bO2r_A",
+     "channel": "BBC Persian",
+     "bloc": "persian",
+     "orientation": "بريطاني عام",
+     "minutes": 13.866666666666667
+    },
+    {
+     "video_id": "YW7I-83eZOY",
+     "channel": "BBC Persian",
+     "bloc": "persian",
+     "orientation": "بريطاني عام",
+     "minutes": 15.175
+    },
+    {
+     "video_id": "29GJwnFbejs",
+     "channel": "BBC Persian",
+     "bloc": "persian",
+     "orientation": "بريطاني عام",
+     "minutes": 18.977777777777778
+    },
+    {
+     "video_id": "nzHxe3X8lhU",
+     "channel": "CCTV中文",
+     "bloc": "chinese",
+     "orientation": "صيني حكومي",
+     "minutes": 4.820833333333334
+    },
+    {
+     "video_id": "hQ0WaFbxYyU",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 10.616666666666667
+    },
+    {
+     "video_id": "Vt5Bw0cXhCY",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 131.41666666666666
+    },
+    {
+     "video_id": "EjQblMHyYWg",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 48.35
+    },
+    {
+     "video_id": "s3a7EHbNm8M",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 56.9
+    },
+    {
+     "video_id": "SdH9MkSo258",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 13.2
+    },
+    {
+     "video_id": "VY1sfMCmH7w",
+     "channel": "Iran International",
+     "bloc": "persian",
+     "orientation": "معارض للنظام",
+     "minutes": 5.991666666666666
+    },
+    {
+     "video_id": "7fGWNmx88rM",
+     "channel": "Iran International",
+     "bloc": "persian",
+     "orientation": "معارض للنظام",
+     "minutes": 14.633333333333333
+    },
+    {
+     "video_id": "dzHMmvz0sPA",
+     "channel": "Iran International",
+     "bloc": "persian",
+     "orientation": "معارض للنظام",
+     "minutes": 14.627777777777778
+    },
+    {
+     "video_id": "QeSEyG9gVWY",
+     "channel": "SÖZCÜ",
+     "bloc": "turkish",
+     "orientation": "معارض",
+     "minutes": 3.3722222222222222
+    },
+    {
+     "video_id": "GRw2YHeNz1Q",
+     "channel": "SÖZCÜ",
+     "bloc": "turkish",
+     "orientation": "معارض",
+     "minutes": 4.844444444444444
+    },
+    {
+     "video_id": "-PImRSyRFSg",
+     "channel": "TVBS新聞",
+     "bloc": "chinese",
+     "orientation": "تايواني",
+     "minutes": 7.808333333333334
+    },
+    {
+     "video_id": "BUU-GJjPaKg",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 5.325
+    },
+    {
+     "video_id": "C82hwqJjLGU",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 4.633333333333334
+    },
+    {
+     "video_id": "Ax7ox4DPiVw",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 5.125
+    },
+    {
+     "video_id": "Z5HKEZUkO9A",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 13.133333333333333
+    },
+    {
+     "video_id": "MYsNiU5-P5s",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 5.091666666666667
+    },
+    {
+     "video_id": "SyuQ8oAJcsw",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 5.466666666666667
+    },
+    {
+     "video_id": "owNjVYEOi2s",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 10.566666666666666
+    },
+    {
+     "video_id": "tPay38GLjUU",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 7.022222222222222
+    },
+    {
+     "video_id": "WK-_DFM_JGQ",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 26.008333333333333
+    },
+    {
+     "video_id": "JKpKvSFIBmo",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 25.775
+    },
+    {
+     "video_id": "0uYDxPzsvzQ",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 25.266666666666666
+    },
+    {
+     "video_id": "EXyEE6TXx58",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 25.958333333333332
+    },
+    {
+     "video_id": "-u6IsATdemY",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 59.25
+    },
+    {
+     "video_id": "C9nPUCKrFMw",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 25.191666666666666
+    },
+    {
+     "video_id": "KObgXgLERlE",
+     "channel": "سكاي نيوز عربية",
+     "bloc": "arabic",
+     "orientation": "إماراتي",
+     "minutes": 28.258333333333333
+    },
+    {
+     "video_id": "nGO3uSJWeic",
+     "channel": "سكاي نيوز عربية",
+     "bloc": "arabic",
+     "orientation": "إماراتي",
+     "minutes": 14.225
+    }
+   ]
+  },
+  {
+   "id": "03a14239e4ef",
+   "title": "فوز الديمقراطيين في الانتخابات النصفية الأمريكية",
+   "blocs": [
+    "arabic",
+    "chinese",
+    "english",
+    "turkish"
+   ],
+   "orientations": 10,
+   "minutes": 341,
+   "channels": [
+    "BBC News",
+    "CCTV中文",
+    "CNN",
+    "CNN Türk",
+    "Fox News",
+    "Habertürk",
+    "SÖZCÜ",
+    "الجزيرة",
+    "العربية",
+    "الميادين",
+    "سكاي نيوز عربية"
+   ],
+   "videos": [
+    {
+     "video_id": "VxRukuIEB5I",
+     "channel": "BBC News",
+     "bloc": "english",
+     "orientation": "بريطاني عام",
+     "minutes": 12.866666666666667
+    },
+    {
+     "video_id": "SiBU_GQ9_3o",
+     "channel": "CCTV中文",
+     "bloc": "chinese",
+     "orientation": "صيني حكومي",
+     "minutes": 7.061111111111111
+    },
+    {
+     "video_id": "E_ECJXqM2Kg",
+     "channel": "CCTV中文",
+     "bloc": "chinese",
+     "orientation": "صيني حكومي",
+     "minutes": 6.108333333333333
+    },
+    {
+     "video_id": "J8IozT8b1oQ",
+     "channel": "CNN",
+     "bloc": "english",
+     "orientation": "أمريكي ليبرالي",
+     "minutes": 6.194444444444444
+    },
+    {
+     "video_id": "mM17i1dCwEY",
+     "channel": "CNN",
+     "bloc": "english",
+     "orientation": "أمريكي ليبرالي",
+     "minutes": 8.033333333333333
+    },
+    {
+     "video_id": "kOU6-du2Rjw",
+     "channel": "CNN",
+     "bloc": "english",
+     "orientation": "أمريكي ليبرالي",
+     "minutes": 5.3625
+    },
+    {
+     "video_id": "ygXcIpI48mQ",
+     "channel": "CNN",
+     "bloc": "english",
+     "orientation": "أمريكي ليبرالي",
+     "minutes": 22.791666666666668
+    },
+    {
+     "video_id": "HMNrBWKy2kQ",
+     "channel": "CNN",
+     "bloc": "english",
+     "orientation": "أمريكي ليبرالي",
+     "minutes": 8.36111111111111
+    },
+    {
+     "video_id": "l7BnnGbPP-8",
+     "channel": "CNN",
+     "bloc": "english",
+     "orientation": "أمريكي ليبرالي",
+     "minutes": 19.266666666666666
+    },
+    {
+     "video_id": "r8xK5oqXnp0",
+     "channel": "CNN",
+     "bloc": "english",
+     "orientation": "أمريكي ليبرالي",
+     "minutes": 6.741666666666666
+    },
+    {
+     "video_id": "KbBoWZXYW2M",
+     "channel": "CNN",
+     "bloc": "english",
+     "orientation": "أمريكي ليبرالي",
+     "minutes": 8.991666666666667
+    },
+    {
+     "video_id": "5DCkKCyDDI0",
+     "channel": "CNN",
+     "bloc": "english",
+     "orientation": "أمريكي ليبرالي",
+     "minutes": 10.983333333333333
+    },
+    {
+     "video_id": "6zdbP71uWmE",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 5.422222222222222
+    },
+    {
+     "video_id": "hftkJQ8L0vQ",
+     "channel": "Fox News",
+     "bloc": "english",
+     "orientation": "أمريكي محافظ",
+     "minutes": 7.75
+    },
+    {
+     "video_id": "5II60cDNSko",
+     "channel": "Fox News",
+     "bloc": "english",
+     "orientation": "أمريكي محافظ",
+     "minutes": 15.183333333333334
+    },
+    {
+     "video_id": "41cRoXVUl8A",
+     "channel": "Fox News",
+     "bloc": "english",
+     "orientation": "أمريكي محافظ",
+     "minutes": 10.083333333333334
+    },
+    {
+     "video_id": "KnKxc_KLU1g",
+     "channel": "Fox News",
+     "bloc": "english",
+     "orientation": "أمريكي محافظ",
+     "minutes": 5.866666666666666
+    },
+    {
+     "video_id": "ipKrH0UnCrY",
+     "channel": "Fox News",
+     "bloc": "english",
+     "orientation": "أمريكي محافظ",
+     "minutes": 5.441666666666666
+    },
+    {
+     "video_id": "rhdGbSPRhrI",
+     "channel": "Habertürk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 9.491666666666667
+    },
+    {
+     "video_id": "9MzmLGmtCzc",
+     "channel": "SÖZCÜ",
+     "bloc": "turkish",
+     "orientation": "معارض",
+     "minutes": 6.805555555555556
+    },
+    {
+     "video_id": "3d6aPqafd8g",
+     "channel": "SÖZCÜ",
+     "bloc": "turkish",
+     "orientation": "معارض",
+     "minutes": 16.461111111111112
+    },
+    {
+     "video_id": "C82hwqJjLGU",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 4.633333333333334
+    },
+    {
+     "video_id": "VvxuvjmOuWU",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 10.6
+    },
+    {
+     "video_id": "hicZbAJP9dU",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 12.616666666666667
+    },
+    {
+     "video_id": "aggZGcwBFUg",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 5.533333333333333
+    },
+    {
+     "video_id": "JMcstX7aqHU",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 10.033333333333333
+    },
+    {
+     "video_id": "pD8jh_uTDDY",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 5.208333333333333
+    },
+    {
+     "video_id": "abPQCGb3zFw",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 24.7
+    },
+    {
+     "video_id": "R3LORoov_GE",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 17.127777777777776
+    },
+    {
+     "video_id": "C9nPUCKrFMw",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 25.191666666666666
+    },
+    {
+     "video_id": "0TfxL9HshAs",
+     "channel": "سكاي نيوز عربية",
+     "bloc": "arabic",
+     "orientation": "إماراتي",
+     "minutes": 12.475
+    },
+    {
+     "video_id": "RTUuxAXNGi4",
+     "channel": "سكاي نيوز عربية",
+     "bloc": "arabic",
+     "orientation": "إماراتي",
+     "minutes": 7.466666666666667
+    }
+   ]
+  },
+  {
+   "id": "c9fca65c23a5",
+   "title": "محادثات السلام الروسية الأوكرانية في أبوظبي",
+   "blocs": [
+    "arabic",
+    "chinese",
+    "russian",
+    "turkish"
+   ],
+   "orientations": 5,
+   "minutes": 96,
+   "channels": [
+    "CCTV中文",
+    "CNN Türk",
+    "Дождь",
+    "الجزيرة",
+    "سكاي نيوز عربية"
+   ],
+   "videos": [
+    {
+     "video_id": "iCnIdl09MKk",
+     "channel": "CCTV中文",
+     "bloc": "chinese",
+     "orientation": "صيني حكومي",
+     "minutes": 10.683333333333334
+    },
+    {
+     "video_id": "E_ECJXqM2Kg",
+     "channel": "CCTV中文",
+     "bloc": "chinese",
+     "orientation": "صيني حكومي",
+     "minutes": 6.108333333333333
+    },
+    {
+     "video_id": "-3x-3IJft3c",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 9.758333333333333
+    },
+    {
+     "video_id": "xRWpxF-Vvkw",
+     "channel": "Дождь",
+     "bloc": "russian",
+     "orientation": "معارض في المنفى",
+     "minutes": 16.3
+    },
+    {
+     "video_id": "FMLY-Dw6bu8",
+     "channel": "Дождь",
+     "bloc": "russian",
+     "orientation": "معارض في المنفى",
+     "minutes": 12.833333333333334
+    },
+    {
+     "video_id": "BFyWbFX-XnU",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 11.733333333333333
+    },
+    {
+     "video_id": "F81Ygm5xTlU",
+     "channel": "سكاي نيوز عربية",
+     "bloc": "arabic",
+     "orientation": "إماراتي",
+     "minutes": 9.033333333333333
+    },
+    {
+     "video_id": "LxCMhIxPVMU",
+     "channel": "سكاي نيوز عربية",
+     "bloc": "arabic",
+     "orientation": "إماراتي",
+     "minutes": 9.383333333333333
+    },
+    {
+     "video_id": "51ob3Pqqvxg",
+     "channel": "سكاي نيوز عربية",
+     "bloc": "arabic",
+     "orientation": "إماراتي",
+     "minutes": 10.316666666666666
+    }
+   ]
+  },
+  {
+   "id": "6e3df588f435",
+   "title": "هجمات صاروخية وجوية روسية أوكرانية متبادلة",
+   "blocs": [
+    "arabic",
+    "chinese",
+    "russian",
+    "turkish"
+   ],
+   "orientations": 5,
+   "minutes": 54,
+   "channels": [
+    "CCTV中文",
+    "SÖZCÜ",
+    "Дождь",
+    "الجزيرة",
+    "العربية"
+   ],
+   "videos": [
+    {
+     "video_id": "iCnIdl09MKk",
+     "channel": "CCTV中文",
+     "bloc": "chinese",
+     "orientation": "صيني حكومي",
+     "minutes": 10.683333333333334
+    },
+    {
+     "video_id": "QeSEyG9gVWY",
+     "channel": "SÖZCÜ",
+     "bloc": "turkish",
+     "orientation": "معارض",
+     "minutes": 3.3722222222222222
+    },
+    {
+     "video_id": "nbG2ltKELZo",
+     "channel": "Дождь",
+     "bloc": "russian",
+     "orientation": "معارض في المنفى",
+     "minutes": 18.07777777777778
+    },
+    {
+     "video_id": "vh98eq3sDAI",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 12.441666666666666
+    },
+    {
+     "video_id": "0uskp7soTzQ",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 8.958333333333334
+    }
+   ]
+  },
+  {
+   "id": "1d7ad106cdfe",
+   "title": "خطة أمريكية (البوابة الحديدية) لحصار إيران",
+   "blocs": [
+    "arabic",
+    "chinese",
+    "persian"
+   ],
+   "orientations": 6,
+   "minutes": 260,
+   "channels": [
+    "BBC Persian",
+    "Iran International",
+    "TVBS新聞",
+    "الجزيرة",
+    "العربية",
+    "الميادين"
+   ],
+   "videos": [
+    {
+     "video_id": "29GJwnFbejs",
+     "channel": "BBC Persian",
+     "bloc": "persian",
+     "orientation": "بريطاني عام",
+     "minutes": 18.977777777777778
+    },
+    {
+     "video_id": "7fGWNmx88rM",
+     "channel": "Iran International",
+     "bloc": "persian",
+     "orientation": "معارض للنظام",
+     "minutes": 14.633333333333333
+    },
+    {
+     "video_id": "-PImRSyRFSg",
+     "channel": "TVBS新聞",
+     "bloc": "chinese",
+     "orientation": "تايواني",
+     "minutes": 7.808333333333334
+    },
+    {
+     "video_id": "YQKMZfqprSI",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 7.008333333333334
+    },
+    {
+     "video_id": "UZJwSjAfWtc",
+     "channel": "الجزيرة",
+     "bloc": "arabic",
+     "orientation": "قطري",
+     "minutes": 13.55
+    },
+    {
+     "video_id": "TGaTmkqying",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 16.183333333333334
+    },
+    {
+     "video_id": "7Y_pQUFTk4g",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 11.283333333333333
+    },
+    {
+     "video_id": "S_8lft8cHXo",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 22.408333333333335
+    },
+    {
+     "video_id": "0AjDg1sYISA",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 14.283333333333333
+    },
+    {
+     "video_id": "gt_Z_IbbS8k",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 12.116666666666667
+    },
+    {
+     "video_id": "tPay38GLjUU",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 7.022222222222222
+    },
+    {
+     "video_id": "otVjBZAcyeM",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 51.016666666666666
+    },
+    {
+     "video_id": "w0MIc2HHIHI",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 51.56666666666667
+    },
+    {
+     "video_id": "852xJSv43Os",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 12.616666666666667
+    }
+   ]
+  },
+  {
+   "id": "009f4dac1b95",
+   "title": "هجمات صاروخية حوثية على الرياض ومنشآت أرامكو",
+   "blocs": [
+    "arabic",
+    "persian",
+    "turkish"
+   ],
+   "orientations": 4,
+   "minutes": 407,
+   "channels": [
+    "CNN Türk",
+    "Iran International",
+    "العربية",
+    "الميادين"
+   ],
+   "videos": [
+    {
+     "video_id": "7tbnQVcstxk",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 24.166666666666668
+    },
+    {
+     "video_id": "EsuB93AdXJU",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 30.616666666666667
+    },
+    {
+     "video_id": "IFuDoFdE3kk",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 41.68333333333333
+    },
+    {
+     "video_id": "avwNsUNYVEI",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 106.7
+    },
+    {
+     "video_id": "UyzX_1wtpFA",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 21.15
+    },
+    {
+     "video_id": "dzHMmvz0sPA",
+     "channel": "Iran International",
+     "bloc": "persian",
+     "orientation": "معارض للنظام",
+     "minutes": 14.627777777777778
+    },
+    {
+     "video_id": "tQ1vYF5cjtU",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 5.475
+    },
+    {
+     "video_id": "vtScZys0rJo",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 5.1
+    },
+    {
+     "video_id": "c8UIc79wrPQ",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 5.875
+    },
+    {
+     "video_id": "SZy8B2H9K1E",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 14.783333333333333
+    },
+    {
+     "video_id": "lNoco2_UnLU",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 8.15
+    },
+    {
+     "video_id": "uFBqFInEhg0",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 5.366666666666667
+    },
+    {
+     "video_id": "abPQCGb3zFw",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 24.7
+    },
+    {
+     "video_id": "SBbtTVYInkM",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 16.366666666666667
+    },
+    {
+     "video_id": "eLX0N20IJ8A",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 7.225
+    },
+    {
+     "video_id": "MK2Uh8Gl1Iw",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 24.125
+    },
+    {
+     "video_id": "0BzRlXe2iDI",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 12.754166666666666
+    },
+    {
+     "video_id": "i40lzXRJGiU",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 25.891666666666666
+    },
+    {
+     "video_id": "852xJSv43Os",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 12.616666666666667
+    }
+   ]
+  },
+  {
+   "id": "11a22a51dd59",
+   "title": "احتجاجات متواصلة في فرنسا ضد غلاء المعيشة",
+   "blocs": [
+    "arabic",
+    "english",
+    "french"
+   ],
+   "orientations": 4,
+   "minutes": 41,
+   "channels": [
+    "FRANCE 24",
+    "Fox News",
+    "الميادين",
+    "سكاي نيوز عربية"
+   ],
+   "videos": [
+    {
+     "video_id": "2ojynGCQOkY",
+     "channel": "FRANCE 24",
+     "bloc": "french",
+     "orientation": "فرنسي حكومي",
+     "minutes": 8.483333333333333
+    },
+    {
+     "video_id": "moqRkQmry48",
+     "channel": "Fox News",
+     "bloc": "english",
+     "orientation": "أمريكي محافظ",
+     "minutes": 13.683333333333334
+    },
+    {
+     "video_id": "0BzRlXe2iDI",
+     "channel": "الميادين",
+     "bloc": "arabic",
+     "orientation": "محور المقاومة",
+     "minutes": 12.754166666666666
+    },
+    {
+     "video_id": "Gw3fFjZy8b4",
+     "channel": "سكاي نيوز عربية",
+     "bloc": "arabic",
+     "orientation": "إماراتي",
+     "minutes": 6.4
+    }
+   ]
+  },
+  {
+   "id": "32c4c6afa004",
+   "title": "إرسال حاملات طائرات أمريكية إلى الشرق الأوسط",
+   "blocs": [
+    "arabic",
+    "persian",
+    "turkish"
+   ],
+   "orientations": 3,
+   "minutes": 89,
+   "channels": [
+    "CNN Türk",
+    "Iran International",
+    "العربية"
+   ],
+   "videos": [
+    {
+     "video_id": "EkOar8JGvPE",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 17.116666666666667
+    },
+    {
+     "video_id": "h4OB4ucbcEw",
+     "channel": "CNN Türk",
+     "bloc": "turkish",
+     "orientation": "قريب من الحكومة",
+     "minutes": 45.21666666666667
+    },
+    {
+     "video_id": "VY1sfMCmH7w",
+     "channel": "Iran International",
+     "bloc": "persian",
+     "orientation": "معارض للنظام",
+     "minutes": 5.991666666666666
+    },
+    {
+     "video_id": "yD54MiiuwLA",
+     "channel": "Iran International",
+     "bloc": "persian",
+     "orientation": "معارض للنظام",
+     "minutes": 7.9944444444444445
+    },
+    {
+     "video_id": "wwLCMaXvP0o",
+     "channel": "العربية",
+     "bloc": "arabic",
+     "orientation": "سعودي",
+     "minutes": 13.1
+    }
+   ]
+  }
+ ],
+ "selection_issue": 1842
+}
