@@ -1,25 +1,31 @@
 {
-  "issue": 1780,
+  "issue": 1843,
   "recommendations": [
     {
-      "id": "fp_5ebc2917eb91",
-      "text": "إشارة الترند متعادلة مع التغطية — اترك `trends.weight` كما هو.",
+      "id": "trends.weight",
+      "text": "الأخبار الرائجة 🔥 تتفوق (2 مقابل 2). ارفع `trends.weight` من 8.0 إلى 10.",
+      "key": "trends.weight",
+      "suggested": 10.0
+    },
+    {
+      "id": "facebook.peak_hours",
+      "text": "أفضل ساعات التفاعل فعليًا: 12, 20, 14. الإعداد الحالي: [12, 18, 21]. حدّث `facebook.peak_hours`.",
+      "key": "facebook.peak_hours",
+      "suggested": [
+        12,
+        14,
+        20
+      ]
+    },
+    {
+      "id": "fp_81b488485129",
+      "text": "المنشورات بصورة خبر حقيقية تتفوق (2 مقابل 1). احذف المصادر التي لا توفّر صورًا.",
       "key": null,
       "suggested": null
     },
     {
-      "id": "facebook.peak_hours",
-      "text": "أفضل ساعات التفاعل فعليًا: 12, 10, 8. الإعداد الحالي: [12, 18, 21]. حدّث `facebook.peak_hours`.",
-      "key": "facebook.peak_hours",
-      "suggested": [
-        8,
-        10,
-        12
-      ]
-    },
-    {
       "id": "fp_5133660c55ef",
-      "text": "أفضل مصدر أداءً: BBC World (2 تفاعل، 3 منشور). ارفع وزنه في `sources`.",
+      "text": "أفضل مصدر أداءً: BBC World (2 تفاعل، 2 منشور). ارفع وزنه في `sources`.",
       "key": null,
       "suggested": null
     }
