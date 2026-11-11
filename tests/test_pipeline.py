@@ -264,6 +264,7 @@ from tests.test_youtube import (
     test_meta_topics_selection,
     test_meta_qa,
     test_meta_qa_gemini,
+    test_meta_qa_table,
     test_meta_script,
     test_youtube_channel_handles,
 )
@@ -706,6 +707,7 @@ def main() -> int:
     test_meta_topics_selection()
     test_meta_qa()
     test_meta_qa_gemini()
+    test_meta_qa_table()
     test_meta_script()
     test_youtube_channel_handles()
     print("\n── وحدة المراحل المشتركة stages.py (Issue #1180) ──")

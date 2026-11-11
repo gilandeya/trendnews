@@ -39,7 +39,8 @@ PLAN_TOOL = {
                     "answers": {"type": "array", "items": {
                         "type": "object",
                         "properties": {"n": {"type": "integer"},
-                                       "fit": {"type": "string", "enum": ["direct", "weak"]}},
+                                       "fit": {"type": "string", "enum": ["direct", "weak"]},
+                                       "view": {"type": "string"}},
                         "required": ["n", "fit"]}},
                 },
                 "required": ["text", "answers"]}},
@@ -251,12 +252,49 @@ def plan_questions(topic: dict, bites: list[dict], cfg, client) -> tuple[list[st
             if n is None or not 1 <= n <= len(bites) or n in seen:
                 continue
             seen.add(n)
-            answers.append({"n": n, "fit": "weak" if a.get("fit") == "weak" else "direct"})
+            ans = {"n": n, "fit": "weak" if a.get("fit") == "weak" else "direct"}
+            view = " ".join(str(a.get("view") or "").split())
+            if view:
+                ans["view"] = view
+            answers.append(ans)
         if text and answers:
             questions.append({"text": text, "answers": answers})
     if not questions:
         return titles[:3], [], "لم يقترح النموذج سؤالًا له إجابات"
     return titles[:3], questions, ""
+
+
+# ───────────── ترتيب الإجابات بوجهات النظر ─────────────
+
+def _low_priority(b: dict, cfg) -> bool:
+    """قنوات الكتل العربية تأتي بعد غيرها (قرار صاحب المشروع 11/11): الريل لقارئ عربي يعرف ما تقوله قنواته، والجديد عليه ما يقوله
+    العالم."""
+    return (b.get("bloc") or "") in set(_qcfg(cfg).get("low_priority_blocs") or ["arabic"])
+
+
+def _view_key(a: dict) -> str:
+    from .youtube_extract import _normalize_for_anchor
+    return _normalize_for_anchor(a.get("view") or "")
+
+
+def order_answers(questions: list[dict], bites: list[dict], cfg) -> None:
+    """يرتّب إجابات كل سؤال بوجهات النظر (قرار صاحب المشروع 11/11): الوجهة التي يقولها أكثر المتحدثين أولًا والأندر آخرًا،
+    وعند التساوي الوجهة التي فيها قنوات غير عربية أكثر؛ وداخل الوجهة الواحدة غير العربية أولًا ثم ترتيب النموذج. الوجهة من
+    حقل `view` الذي يكتبه النموذج بالعبارة نفسها لكل إجابة تقول الشيء نفسه؛ إجابة بلا view وجهةٌ وحدها. يُطبَّق قبل
+    auto_select فيكون ترتيب العرض وترتيب الاختيار عند التساوي واحدًا."""
+    for qu in questions:
+        groups: dict[str, list[tuple[int, dict]]] = {}
+        for i, a in enumerate(qu["answers"]):
+            groups.setdefault(_view_key(a) or f"#{i}", []).append((i, a))
+        def low(item):
+            return _low_priority(bites[item[1]["n"] - 1], cfg)
+        ordered = sorted(groups.values(), key=lambda g: (-len(g), -sum(not low(x) for x in g), g[0][0]))
+        out = []
+        for g in ordered:
+            out += [a for _, a in sorted(g, key=lambda x: (low(x), x[0]))]
+            for _, a in g:
+                a["view_count"] = len(g)
+        qu["answers"] = out
 
 
 # ───────────── الاختيار التلقائي ─────────────
@@ -300,7 +338,9 @@ def auto_select(questions: list[dict], bites: list[dict], cfg) -> float:
                          and total + _sec(bites[a["n"] - 1]) <= budget]
                 if not cands:
                     continue
+                # التوجّه الجديد أولًا، ثم القنوات غير العربية (قرار صاحب المشروع 11/11)، ثم الصلة ونوع الكلام
                 cands.sort(key=lambda a: ((bites[a["n"] - 1].get("bloc"), bites[a["n"] - 1].get("orientation")) in orients,
+                                          _low_priority(bites[a["n"] - 1], cfg),
                                           *_rank(bites[a["n"] - 1], a["fit"])))
                 pick = cands[0]
                 pick["selected"] = True
@@ -311,13 +351,20 @@ def auto_select(questions: list[dict], bites: list[dict], cfg) -> float:
                 and 0 < sum(a["selected"] for a in qu["answers"]) < min_a}
         if not thin:
             return round(total, 1)
-        dropped |= thin
+        # آخر سؤال ناقص وحده: إجابة سؤال يتيم في آخر القائمة قد تأكل من السقف ما كان يكمل سؤالًا قبله، فإسقاط كل
+        # الناقصين معًا يُسقط سؤالًا لم ينقص إلا بسببه
+        dropped.add(max(thin))
 
 
 # ───────────── قضية الموضوع ─────────────
 
 def _fmt_sec(s: float) -> str:
     return str(int(round(s)))
+
+
+def _cell(text: str) -> str:
+    """نص خلية جدول Markdown: لا سطر جديد ولا «|» يكسر الأعمدة."""
+    return " ".join(str(text or "").split()).replace("|", "\\|")
 
 
 def issue_body(topic: dict, data: dict, qa: dict, cfg, full_bites: list | None = None) -> str:
@@ -340,20 +387,31 @@ def issue_body(topic: dict, data: dict, qa: dict, cfg, full_bites: list | None =
     for qi, qu in enumerate(qa.get("questions") or [], 1):
         any_sel = any(a.get("selected") for a in qu["answers"])
         lines.append(f"- [{'x' if any_sel else ' '}] **{qi}. {qu['text']}** <!-- mq:{qi} -->")
-        for a in qu["answers"]:
+        # جدول للقراءة ومربعات للاختيار (قرار صاحب المشروع 11/11: السطر الواحد بكل البيانات مرهق للنظر). GitHub لا يجعل
+        # المربع داخل الجدول قابلًا للنقر، فالمربعات تحت الجدول برقم الصف واسم القائل
+        lines += ["", t.get("table_header", "| # | المقولة | القائل | القناة والتوجّه |"), "|:-:|---|---|---|"]
+        boxes = []
+        for k, a in enumerate(qu["answers"], 1):
             b = bites[a["n"] - 1]
             who = b.get("speaker") or b.get("speaker_original") or t.get("unnamed", "متحدث غير مسمّى")
             role = t.get("host_label", "مقدّم") if b.get("is_host") else (b.get("speaker_role") or "")
             kind = (t.get("types") or {}).get(b.get("type"), b.get("type") or "")
             weak = " · " + t.get("weak_label", "صلة ضعيفة") if a["fit"] == "weak" else ""
-            lines.append(f"  - [{'x' if a.get('selected') else ' '}] 🎙️ {who}{' (' + role + ')' if role else ''} — "
-                         f"{b.get('channel')} · {b.get('orientation') or ''} · {_fmt_sec(_sec(b))} ث · {kind}{weak}"
-                         f" — {b.get('summary_ar', '')} [▶](https://youtu.be/{b['video_id']}?t={int(float(b.get('start') or 0))})"
-                         f" <!-- ma:{qi}:{b['bite_id']} -->")
             tr = ((full_bites or [])[a["n"] - 1].get("text_ar") or "").strip() if full_bites and a["n"] <= len(full_bites) else ""
-            if tr:
-                lines.append("    " + t.get("translation_line", "💬 «{text}»").format(text=tr))
-        lines.append("")
+            quote = f"«{tr}»" if tr else (b.get("summary_ar") or "")
+            view = ""
+            if a.get("view"):
+                n_view = int(a.get("view_count") or 1)
+                view = f"**{a['view']}**" + (t.get("view_count", " ({n})").format(n=n_view) if n_view > 1 else "") + "<br>"
+            link = f" [▶](https://youtu.be/{b['video_id']}?t={int(float(b.get('start') or 0))})"
+            orient = b.get("orientation") or ""
+            lines.append(f"| {k} | {_cell(view + quote + link)} | {_cell(who)}{'<br><sub>' + _cell(role) + '</sub>' if role else ''} | "
+                         f"{_cell(b.get('channel') or '')}{'<br><sub>' + _cell(orient) + '</sub>' if orient else ''} |")
+            boxes.append(f"- [{'x' if a.get('selected') else ' '}] "
+                         + t.get("answer_box", "{k} · {who} · {seconds} ث · {kind}{weak}").format(
+                             k=k, who=who, seconds=_fmt_sec(_sec(b)), kind=kind, weak=weak)
+                         + f" <!-- ma:{qi}:{b['bite_id']} -->")
+        lines += [""] + boxes + [""]
     lines.append(t.get("total_line", "⏱️ مجموع الإجابات المعلَّمة: {seconds} ث من {budget}").format(
         seconds=_fmt_sec(qa.get("selected_seconds") or 0), budget=_fmt_sec(float(_qcfg(cfg).get("max_seconds", 120)))))
     if qa.get("failures"):
@@ -444,6 +502,7 @@ def _process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: d
         for qu in questions:
             for a in qu["answers"]:
                 a["n"] = remap[a["n"]]
+        order_answers(questions, kept, cfg)
         qa["selected_seconds"] = auto_select(questions, kept, cfg)
         for qu in questions:
             for a in qu["answers"]:
