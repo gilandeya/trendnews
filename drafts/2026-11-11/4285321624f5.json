@@ -1,7 +1,7 @@
 {
   "id": "4285321624f5",
   "created_at": "2026-11-11T20:02:16.779804+00:00",
-  "status": "pending",
+  "status": "approved_script",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -344,33 +344,6 @@
       "duration": 947,
       "published": "2026-11-08T15:28:44Z",
       "views_per_hour": 5091.5
-    },
-    {
-      "video_id": "epfI1NSV7C8",
-      "title": "الرئيس الإسرائيلي يكلف آيزنكوت رسميا بتشكيل الحكومة",
-      "channel": "AlArabiya العربية",
-      "views": 457998,
-      "duration": 388,
-      "published": "2026-11-07T19:35:26Z",
-      "views_per_hour": 4746.8
-    },
-    {
-      "video_id": "QQaOhk5Fb-4",
-      "title": "Knesset'te Yemin Töreniyle Hükümet Kurma Süreci Başladı! İsrail'de Hükümet Nasıl Kurulacak?",
-      "channel": "CNN TÜRK",
-      "views": 16493,
-      "duration": 403,
-      "published": "2026-11-10T16:30:13Z",
-      "views_per_hour": 598.2
-    },
-    {
-      "video_id": "9rhofkby7Kw",
-      "title": "شاهد | مراسم تكليف غادي آيزنكوت بتشكيل الحكومة الإسرائيلية",
-      "channel": "سكاي نيوز عربية",
-      "views": 16907,
-      "duration": 1081,
-      "published": "2026-11-08T15:29:43Z",
-      "views_per_hour": 220.8
     }
   ],
   "hook_search": {
@@ -484,5 +457,8 @@
     "web_search": 4
   },
   "review_issue": 1850,
-  "stage2_issue": 1850
+  "stage2_issue": 1850,
+  "render_status": "queued",
+  "approved_script_at": "2026-11-11T20:10:16.444206+00:00",
+  "hook_picked": 0
 }
