@@ -5496,3 +5496,64 @@ def test_meta_script_client() -> None:
             os.environ["ANTHROPIC_API_KEY"] = saved_key
     check("meta_script._create بلا عميل يبني عميلًا ولا يمرّر None (حادثة #1808)",
           out == "ok" and len(seen) == 1 and seen[0] is not None and hasattr(seen[0], "messages"), seen)
+
+
+def test_meta_topics_chapters() -> None:
+    """الفهرس الزمني يصل النموذج كاملًا (11/11): قياس اليوم وجد 61% من الفصول تضيع بقصّ الوصف عند 600 حرف لأن الفهرس
+    يأتي بعد فقرة التعريف، وسقف 4 مواضيع يُسقط قضايا نشرة بعشرة فصول. الفصول تُرسل منفصلة خارج حدّ الوصف ولا تتكرر فيه،
+    وفيديو بفهرس سقفه max_topics_with_chapters، والبلا فهرس 4، وكم فصلًا أُرسل يُحفظ للتشخيص."""
+    from types import SimpleNamespace as NS
+    from src import meta_topics as mt
+    from src.config import Config, load_config as real_load
+
+    base = real_load()
+    cfg = Config({**base, "channels": [
+        {"name": "A", "channel_id": "UCa", "bloc": "arabic", "orientation": "قطري", "language": "ar"}]})
+    now = datetime(2026, 11, 11, 12, tzinfo=timezone.utc)
+    intro = "فقرة تعريف طويلة بالحلقة " * 40
+    chap = [{"start": 0, "title": "مقدمة"}, {"start": 90, "title": "انتخابات أمريكا"}, {"start": 600, "title": "مضيق هرمز"},
+            {"start": 1200, "title": "موازنة تركيا"}]
+    desc = intro + "\n" + "\n".join(f"{c['start'] // 60}:{c['start'] % 60:02d} {c['title']}" for c in chap)
+    videos = {"c1": {"channel": "A", "bloc": "arabic", "duration_seconds": 3600, "title": "نشرة", "description": desc,
+                     "live": False, "published": "2026-11-11T06:00:00Z", "language": "ar", "chapters": chap},
+              "n1": {"channel": "A", "bloc": "arabic", "duration_seconds": 3600, "title": "حلقة", "description": "حلقة عن غزة",
+                     "live": False, "published": "2026-11-11T07:00:00Z", "language": "ar"}}
+    el = {v["video_id"]: v for v in mt.eligible_videos(videos, cfg, now)}
+    c1 = el["c1"]
+    check("الفهرس منفصل عن الوصف وكامل رغم قصّ الوصف", len(c1["chapter_lines"]) == 4
+          and c1["chapter_lines"][2] == "10:00 مضيق هرمز" and "هرمز" not in c1["desc_clean"]
+          and len(c1["desc_clean"]) <= 600, (c1["chapter_lines"], len(c1["desc_clean"])))
+    check("بلا فهرس لا سطور فصول وسقف المواضيع 4، وبالفهرس 10",
+          el["n1"]["chapter_lines"] == [] and mt.topics_cap(el["n1"], cfg) == 4 and mt.topics_cap(c1, cfg) == 10)
+    check("فصول بعد max_chapters لا تُرسل", len(mt.chapter_lines([{"start": i, "title": f"x{i}"} for i in range(50)], cfg)) == 30)
+
+    def tool(name, data):
+        return NS(stop_reason="tool_use", content=[NS(type="tool_use", name=name, input=data)])
+
+    class Client:
+        def __init__(self):
+            self.messages = self
+            self.calls = []
+
+        def create(self, **kw):
+            self.calls.append(kw)
+            name = kw["tools"][0]["name"]
+            if name == "report_video_topics":
+                rows = [{"n": int(b[1:b.index("]")]), "political": True,
+                         "topics": [f"م{i}" for i in range(12)]} for b in kw["messages"][0]["content"].split("\n\n")]
+                return tool(name, {"videos": rows})
+            if name == "list_events":
+                return tool(name, {"events": []})
+            return tool(name, {"groups": [], "rows": []})
+    c = Client()
+    res = mt.run(cfg, now=now, client=c, videos=videos)
+    msg = c.calls[0]["messages"][0]["content"]
+    sysp = c.calls[0]["system"]
+    check("الفهرس في رسالة النموذج بطوابعه", "الفهرس:\n0:00 مقدمة\n1:30 انتخابات أمريكا\n10:00 مضيق هرمز" in msg, msg[-200:])
+    check("تعليمة الفهرس في النظام بأرقام الإعداد", "{max_chapter_topics}" not in sysp and "{max_topics}" not in sysp
+          and "حتى 10" in sysp and "الفهرس" in sysp, sysp[:300])
+    per = {}
+    for it in res["labels"]:
+        per[it["video_id"]] = per.get(it["video_id"], 0) + 1
+    check("الفيديو بفهرس يأخذ حتى 10 مواضيع والبلا فهرس 4", per == {"c1": 10, "n1": 4}, per)
+    check("عدد الفصول المرسلة محفوظ للتشخيص", res["chapters_sent"] == {"c1": 4}, res.get("chapters_sent"))
