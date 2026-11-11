@@ -108,7 +108,7 @@ def _mcfg(cfg) -> dict:
     return cfg.path("youtube.meta_topics") or {}
 
 
-def clean_description(desc: str, repeated: set[str], max_chars: int) -> str:
+def clean_description(desc: str, repeated: set[str], max_chars: int, drop_chapters: bool = False) -> str:
     """الوصف بلا الروابط والوسوم وبلا السطور التي تتكرر في فيديوهات القناة (قوالب الاشتراك): القياس وجد وصف CNN Türk
     والقناة 14 قالبًا ثابتًا يملأ ألف حرف لا يقول شيئًا عن الحلقة."""
     keep = []
@@ -116,8 +116,46 @@ def clean_description(desc: str, repeated: set[str], max_chars: int) -> str:
         s = line.strip()
         if not s or s in repeated or re.search(r"https?://|➤|◄", s) or s.startswith("#"):
             continue
+        # الفهرس يُرسل وحده (chapter_lines) فلا يُعدّ من حدّ الوصف ولا يتكرر
+        if drop_chapters and _is_chapter_line(s):
+            continue
         keep.append(s)
     return " ".join(keep)[:max_chars]
+
+
+def _is_chapter_line(line: str) -> bool:
+    from .youtube_meta_probe import _CHAPTER_RE
+    m = _CHAPTER_RE.match(line)
+    return bool(m and m.group(2).strip())
+
+
+def chapter_lines(chapters: list[dict], cfg) -> list[str]:
+    """فصول الفهرس الزمني كما تُرسل للنموذج: «12:30 عنوان»، كل عنوان مقصوص إلى `chapter_title_chars` وحتى `max_chapters` فصلًا.
+
+    السبب: قياس 11/11 وجد 450 من 733 فصلًا (61%) لا تصل النموذج لأن الوصف يُقصّ عند 600 حرف والفهرس يأتي بعد فقرة
+    التعريف، فيضيع موضوع ذكرته القناة صراحة وقد يكون هو التقاطع الذي يجعل الحدث مشتركًا."""
+    m = _mcfg(cfg)
+    width = int(m.get("chapter_title_chars", 80))
+    out = []
+    for c in (chapters or [])[: int(m.get("max_chapters", 30))]:
+        t = str(c.get("title") or "").strip()[:width]
+        if not t:
+            continue
+        sec = int(c.get("start") or 0)
+        h, rem = divmod(sec, 3600)
+        stamp = f"{h}:{rem // 60:02d}:{rem % 60:02d}" if h else f"{rem // 60}:{rem % 60:02d}"
+        out.append(f"{stamp} {t}")
+    return out
+
+
+def topics_cap(v: dict, cfg) -> int:
+    """سقف مواضيع الفيديو: لفيديو بفهرس موضوع لكل فصل سياسي حتى `max_topics_with_chapters`، وإلا `max_topics_per_video`.
+    السبب: 62 فيديو في 11/11 فهرسها أكثر من 5 فصول ونشرة بعشر قضايا كانت لا تُدخل إلا أربعًا."""
+    m = _mcfg(cfg)
+    base = int(m.get("max_topics_per_video", 4))
+    if v.get("chapter_lines"):
+        return max(base, int(m.get("max_topics_with_chapters", 10)))
+    return base
 
 
 def eligible_videos(videos: dict, cfg, now: datetime) -> list[dict]:
@@ -149,7 +187,9 @@ def eligible_videos(videos: dict, cfg, now: datetime) -> list[dict]:
         lines = Counter(l.strip() for v in vs for l in set((v.get("description") or "").splitlines()) if l.strip())
         repeated = {l for l, n in lines.items() if n >= int(m.get("repeated_lines", 3))}
         for v in vs:
-            v["desc_clean"] = clean_description(v.get("description", ""), repeated, int(m.get("max_desc_chars", 600)))
+            v["chapter_lines"] = chapter_lines(v.get("chapters") or [], cfg)
+            v["desc_clean"] = clean_description(v.get("description", ""), repeated, int(m.get("max_desc_chars", 600)),
+                                                drop_chapters=bool(v["chapter_lines"]))
             v["orientation"] = v.get("orientation") or channels[ch_name].get("orientation")
             out.append(v)
     out.sort(key=lambda v: (v["channel"], v.get("published") or ""))
@@ -190,12 +230,19 @@ def _int(x):
 
 def _topics_batch(batch: list[dict], cfg, client, m: dict) -> tuple[dict[int, dict] | None, str | None]:
     """نداء واحد لدفعة ← {رقم: صف}؛ None مع السبب عند العطل أو الرد المقطوع (لا يُقبل منه شيء، درس #1763)."""
-    lines = [f"[{k}] {v['channel']} ({v.get('language')}) · {round((v.get('duration_seconds') or 0) / 60)} د\n"
-             f"العنوان: {v.get('title', '')}\nالوصف: {v.get('desc_clean', '')}" for k, v in enumerate(batch)]
+    lines = []
+    for k, v in enumerate(batch):
+        line = (f"[{k}] {v['channel']} ({v.get('language')}) · {round((v.get('duration_seconds') or 0) / 60)} د\n"
+                f"العنوان: {v.get('title', '')}\nالوصف: {v.get('desc_clean', '')}")
+        if v.get("chapter_lines"):
+            line += "\nالفهرس:\n" + "\n".join(v["chapter_lines"])
+        lines.append(line)
+    system = (m.get("topics_system", "").replace("{max_topics}", str(int(m.get("max_topics_per_video", 4))))
+              .replace("{max_chapter_topics}", str(int(m.get("max_topics_with_chapters", 10)))))
     try:
         resp = llm.create(client, cfg=cfg, model=m.get("topics_model", "haiku"),
                           max_tokens=int(m.get("topics_max_tokens", 4000)),
-                          system=m.get("topics_system", ""), tools=[TOPICS_TOOL],
+                          system=system, tools=[TOPICS_TOOL],
                           tool_choice={"type": "tool", "name": TOPICS_TOOL["name"]},
                           messages=[{"role": "user", "content": "\n\n".join(lines)}])
     except Exception as exc:  # noqa: BLE001 — دفعة متعطلة لا توقف الباقي
@@ -221,7 +268,6 @@ def video_topics(videos: list[dict], cfg, client, info: dict | None = None) -> t
     out: dict[str, list[str]] = {}
     verdicts: dict[str, str] = {}
     errors: list[str] = []
-    max_topics = int(m.get("max_topics_per_video", 4))
 
     def apply(batch, rows):
         missing = []
@@ -230,7 +276,7 @@ def video_topics(videos: list[dict], cfg, client, info: dict | None = None) -> t
             if row is None:
                 missing.append(v)
                 continue
-            topics = [str(t).strip() for t in row.get("topics") or [] if str(t).strip()][:max_topics]
+            topics = [str(t).strip() for t in row.get("topics") or [] if str(t).strip()][:topics_cap(v, cfg)]
             if row.get("political") and topics:
                 out[v["video_id"]] = topics
                 verdicts[v["video_id"]] = "political"
@@ -454,6 +500,8 @@ def run(cfg, now: datetime | None = None, client=None, videos: dict | None = Non
             "topics": len(items), "events": len(events), "grouped": ginfo.get("grouped", 0), "group": ginfo,
             "retried": tinfo.get("retried", 0), "missing": sum(1 for x in tinfo.get("verdicts", {}).values() if x == "missing"),
             "verdicts": tinfo.get("verdicts", {}),
+            # للتشخيص: كم فصلًا من فهرس كل فيديو أُرسل إلى النموذج (فيظهر أي ضياع لاحق)
+            "chapters_sent": {v["video_id"]: len(v["chapter_lines"]) for v in vids if v.get("chapter_lines")},
             "ranked": ranked, "all_events": every,
             "labels": [{k: it[k] for k in ("label", "video_id", "channel")} for it in items], "errors": errors}
 

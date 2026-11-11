@@ -260,6 +260,7 @@ from tests.test_youtube import (
     test_gemini_reel_probe,
     test_meta_script_client,
     test_meta_topics,
+    test_meta_topics_chapters,
     test_meta_topics_selection,
     test_meta_qa,
     test_meta_qa_gemini,
@@ -701,6 +702,7 @@ def main() -> int:
     test_gemini_reel_probe()
     test_meta_script_client()
     test_meta_topics()
+    test_meta_topics_chapters()
     test_meta_topics_selection()
     test_meta_qa()
     test_meta_qa_gemini()

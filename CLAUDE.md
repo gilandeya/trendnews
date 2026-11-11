@@ -3029,6 +3029,13 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 الكتلة الفارسية؛ فيديو بلا صف في رد دفعته يُسأل عنه مرة ثانية في دفعة `retry_batch_size` (8)، ويُحفظ حكم كل فيديو `verdicts`
 (political/not/missing) وعدّا `retried`/`missing` في الملف والسطر الأول.
 
+**الفهرس الزمني يصل كاملًا (11/11):** قياس ملف 11/11 وجد 450 من 733 فصلًا (61%) لا تصل النموذج لأن الوصف يُقصّ عند
+`max_desc_chars` (600) والفهرس بعد فقرة التعريف، و62 فيديو فهرسها أكثر من 5 فصول وسقف المواضيع 4. `eligible_videos` تضع
+`chapter_lines` («12:30 عنوان» من `chapters` المحفوظة، حتى `max_chapters` بعنوان ≤ `chapter_title_chars`) وتحذف سطور الفهرس من
+الوصف قبل القصّ، و`_topics_batch` يرسلها تحت «الفهرس:»، و`topics_cap` = `max_topics_with_chapters` (10) لفيديو بفهرس وإلا 4
+(والنظام يُملأ `{max_topics}`/`{max_chapter_topics}`). `topics_max_tokens` 6000. `res["chapters_sent"]` عدد الفصول المرسلة لكل فيديو.
+الاختبار `tests/test_youtube.py:test_meta_topics_chapters`.
+
 **الخطوة 3ب — قضية ترشيح المواضيع من العناوين (`meta_topics.open_selection`/`finalize`):** مع `youtube.meta_topics.enabled` (false افتراضيًا)
 يفتح `youtube_cluster.main` (في youtube-articles: يقرأ المستودع الخاص وله صلاحية القضايا؛ الجمع لا صلاحية له) قضية `meta-selection` بجانب
 الترشيح القديم، مربع لكل حدث `<!-- mtopic:id -->` (المعرّف `topic_id` من التاريخ والعنوان) و`<!-- meta-date:… -->`، وتُحفظ نسخة عامة مختصرة
