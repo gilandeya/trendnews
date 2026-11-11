@@ -264,7 +264,12 @@
      "minutes": 7.9944444444444445
     }
    ],
-   "topic_issue": 1847
+   "topic_issue": 1847,
+   "qa": {
+    "attempts": 0,
+    "notified_proxy": false,
+    "requeued_at": "2026-11-11T17:05:37.546181+00:00"
+   }
   },
   {
    "id": "6d31bc058d87",
