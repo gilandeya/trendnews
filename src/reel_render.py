@@ -2577,12 +2577,24 @@ def _span_and_gate(clip: dict, span_info: dict | None, scene: dict, segs: list, 
     clip["gate"] = gate_window(g0, g1, sil, cfg)
 
 
+def _render_points(draft: dict, deps: Deps) -> list[dict]:
+    """نقاط مقاطع السيناريو. ريل موضوع العناوين (meta_topic_id) مقاطعه في ملف أسئلته الخاص لا في نافذة نقاط اليوم، فالبحث
+    هناك يحذفها كلها (قضية 1850). تعذّر قراءة الملف ← النافذة كما كانت فيُحذف المقطع بسببه المعروف لا باستثناء يُسقط التركيب."""
+    if draft.get("meta_topic_id"):
+        from . import meta_script
+        try:
+            return meta_script.draft_points(draft)
+        except (OSError, ValueError, KeyError) as exc:
+            log.warning("نقاط موضوع العناوين %s: %s", draft.get("meta_topic_id"), exc)
+    return deps.load_points(draft.get("topic_date", ""))
+
+
 def _fetch_clips(script: dict, draft: dict, cfg, deps: Deps, tmp: Path, notes: list | None = None) -> tuple[dict, list, list]:
     """لكل مشهد مقطع: نص الفيديو ← تحديد موضع الاقتباس ← تنزيل نافذته. يعيد ({فهرس المشهد: {file, seconds}}, المحذوف,
     المقاطع بنافذة تقديرية). تعذّر النص (استثناء أو فارغ) أو نص لا يحوي الاقتباس أو يكرره لا يُسقط المقطع بل يستعمل نافذة
     المشهد من طابع النقطة؛ ولا إسقاط إلا إن لم توجد نافذة (Issue #1438)."""
     rcfg, scfg = cfg.path("reel.render"), cfg.path("reel.script")
-    by_id = {reel_script.point_key_id(p): p for p in deps.load_points(draft.get("topic_date", ""))}
+    by_id = {reel_script.point_key_id(p): p for p in _render_points(draft, deps)}
     transcripts: dict[str, list] = {}
     fetch_reasons: dict[str, str] = {}     # سبب فشل جلب نص كل فيديو (Issue #1621، R6): بلا سببه لا يُعرف أهو حجب أم حدّ معدّل
     clips: dict[int, dict] = {}

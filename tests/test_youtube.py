@@ -5620,6 +5620,31 @@ def test_meta_qa_table() -> None:
           and meta_qa.read_marks(body)["answers"] == {1: ["v2:2"]}, body[-900:])
 
 
+def test_meta_reel_points() -> None:
+    """قضية 1850: ريل موضوع العناوين حُذفت مقاطعه الثلاثة «غير موجودة في نافذة النقاط» لأن التركيب بحث عنها في نافذة نقاط
+    youtube_topics. نقاطه من ملف أسئلته الخاص فتُوجد بمعرّف النقطة نفسه الذي كتبه finalize؛ وريل بلا meta_topic_id على النافذة."""
+    import json
+    from src import meta_qa, meta_script, reel_render, reel_script
+
+    bites = [{"bite_id": f"m{k}:{k}", "video_id": f"m{k}", "channel": "الجزيرة", "bloc": "arabic", "speaker": "أحمد",
+              "type": "opinion", "start": 10.0 * k, "end": 10.0 * k + 20, "summary_ar": f"ملخص ميتا {k}",
+              "text_ar": f"ترجمة {k}", "text_original": f"words {k}"} for k in range(3)]
+    path = meta_qa.private_path("mreel0000001")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps({"bites": bites}, ensure_ascii=False), encoding="utf-8")
+    # المعرّف كما يحسبه finalize: من المعلَّم وحده (bites_points)
+    marked = [reel_script.point_key_id(p) for p in meta_script.bites_points(bites[:2], "2026-11-11")]
+    window = [{"video_id": "w1", "statement": "نقطة النافذة"}]
+    deps = reel_render.Deps(load_points=lambda date: window)
+    draft = {"meta_topic_id": "mreel0000001", "topic_date": "2026-11-11"}
+    got = {reel_script.point_key_id(p) for p in reel_render._render_points(draft, deps)}
+    check("1850: مقاطع ريل العناوين تُوجد بمعرّفها", all(m in got for m in marked) and len(got) == 3, got)
+    check("1850: ريل بلا meta_topic_id يقرأ النافذة",
+          reel_render._render_points({"topic_date": "2026-11-11"}, deps) == window)
+    check("1850: ملف أسئلة مفقود ← النافذة لا استثناء",
+          reel_render._render_points({"meta_topic_id": "nofile000000", "topic_date": "x"}, deps) == window)
+
+
 def test_meta_qa_in_flight() -> None:
     """قضية 1847: إعادة وسم approved والأسئلة ظاهرة في القضية لكنها لم تُحفظ بعد (التشغيلة ما زالت تركّب) طلبت استخراجًا آخر محا
     التعليم. طلب حديث بلا نتيجة محفوظة ← تعليق «لم تُحفظ بعد» بلا طلب ثانٍ؛ بعد pending_grace_minutes يُعاد كما كان. والأسئلة
