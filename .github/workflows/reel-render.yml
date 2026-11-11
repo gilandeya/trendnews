@@ -45,6 +45,46 @@ jobs:
       - name: تثبيت المكتبات
         run: pip install -r requirements.txt -r requirements-reel.txt
 
+      # الأسئلة خطوة مستقلة تُحفظ فورًا (قضية 1847): كانت تبقى في ذاكرة التشغيلة حتى ينتهي تركيب الريلات
+      - name: استخراج أسئلة المواضيع
+        env:
+          WEBSHARE_PROXY_USERNAME: ${{ secrets.WEBSHARE_PROXY_USERNAME }}
+          WEBSHARE_PROXY_PASSWORD: ${{ secrets.WEBSHARE_PROXY_PASSWORD }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TRENDNEWS_YOUTUBE_POINTS_DIR: ${{ github.workspace }}/youtube-data/state/youtube_points
+          TRENDNEWS_REELS_DIR: ${{ github.workspace }}/youtube-data/reels
+        run: python -m src.meta_qa --process
+
+      - name: حفظ الأسئلة فورًا
+        if: always()
+        run: |
+          git config user.name  "trendnews-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          (cd youtube-data
+           git config user.name  "trendnews-bot"
+           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+           BRANCH="$(git symbolic-ref --short HEAD)"
+           mkdir -p state/youtube_transcripts state/youtube_bites
+           git add state/youtube_transcripts state/youtube_bites
+           if ! git diff --quiet --cached; then
+             git commit -m "chore(qa): أسئلة المواضيع $(date -u '+%Y-%m-%d %H:%M') UTC"
+             for i in 1 2 3; do
+               git pull --rebase --autostash origin "$BRANCH" && git push origin "HEAD:$BRANCH" && break
+               sleep $((i * 7))
+             done
+           fi)
+          git add -A state/meta_topics
+          git diff --quiet --cached && exit 0
+          git commit -m "chore(qa): حالة أسئلة المواضيع"
+          for i in 1 2 3; do
+            git pull --rebase --autostash -X theirs origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            sleep $((i * 7))
+          done
+          exit 1
+
       - name: التركيب
         env:
           WEBSHARE_PROXY_USERNAME: ${{ secrets.WEBSHARE_PROXY_USERNAME }}
@@ -58,7 +98,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TRENDNEWS_YOUTUBE_POINTS_DIR: ${{ github.workspace }}/youtube-data/state/youtube_points
           TRENDNEWS_REELS_DIR: ${{ github.workspace }}/youtube-data/reels
-        run: python -m src.reel_render --pending
+        run: python -m src.reel_render --pending --skip-qa
 
       - name: إيداع المسودات في هذا المستودع
         if: always()
