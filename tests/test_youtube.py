@@ -4867,8 +4867,8 @@ def test_meta_qa() -> None:
               "- [x] هل تضرب أمريكا إيران؟ <!-- mhl:0 -->" in body and "- [ ] عنوان 2 <!-- mhl:1 -->" in body
               and "<!-- mq:1 -->" in body and "<!-- ma:1:v0:1 -->" in body and "?t=10" in body
               and "secret words" not in body, body[:600])
-        check("القضية تعرض ترجمة كل إجابة سطرًا تحتها ولا تعرض الكلام بلغته",
-              "💬 «كلام سري" in body and "secret words" not in body, body[:600])
+        check("القضية تعرض ترجمة كل إجابة في خلية المقولة بالجدول ولا تعرض الكلام بلغته",
+              "| «كلام سري" in body and "secret words" not in body, body[:600])
         check("سقف الثواني في القضية وتعليق الجاهزية", "من 120" in body and any("✅" in c[1] for c in comments))
         marks = meta_qa.read_marks(body)
         check("قراءة المعلَّم", marks["title"] == 0 and 1 in marks["questions"] and 3 not in marks["questions"]
@@ -5557,3 +5557,64 @@ def test_meta_topics_chapters() -> None:
         per[it["video_id"]] = per.get(it["video_id"], 0) + 1
     check("الفيديو بفهرس يأخذ حتى 10 مواضيع والبلا فهرس 4", per == {"c1": 10, "n1": 4}, per)
     check("عدد الفصول المرسلة محفوظ للتشخيص", res["chapters_sent"] == {"c1": 4}, res.get("chapters_sent"))
+
+
+def test_meta_qa_table() -> None:
+    """قضية الموضوع جدولًا (11/11): المقولة والقائل والقناة بتوجّهها في خلايا، والمربعات تحت الجدول برقم الصف تُقرأ كما كانت؛
+    والإجابات مرتّبة بوجهات النظر: الأكثر تكرارًا أولًا، وعند التساوي وداخل الوجهة غير العربية أولًا؛ والاختيار يقدّم غير العربية."""
+    from src import meta_qa
+    from src.config import load_config as real_load
+    cfg = real_load()
+    load_config = real_load
+
+    def bite(i, bloc, ch, orient, sec=20):
+        return {"bite_id": f"v{i}:{i}", "video_id": f"v{i}", "channel": ch, "bloc": bloc, "orientation": orient,
+                "speaker": f"متحدث {i}", "speaker_role": "محلل", "type": "opinion", "start": 10, "end": 10 + sec,
+                "summary_ar": f"ملخص {i}", "text_ar": f"ترجمة | {i}\nسطر"}
+    bites = [bite(1, "arabic", "الجزيرة", "قطري"), bite(2, "english", "CNN", "أمريكي ليبرالي"),
+             bite(3, "arabic", "العربية", "سعودي"), bite(4, "turkish", "CNN Türk", "قريب من الحكومة"),
+             bite(5, "english", "Fox News", "أمريكي محافظ")]
+    qs = [{"text": "س؟", "answers": [{"n": 1, "fit": "direct", "view": "سينجح"},
+                                     {"n": 3, "fit": "direct", "view": "سيفشل"},
+                                     {"n": 2, "fit": "direct", "view": "سيفشل"},
+                                     {"n": 4, "fit": "direct", "view": "سينجح"},
+                                     {"n": 5, "fit": "direct", "view": "سيفشل"}]}]
+    meta_qa.order_answers(qs, bites, cfg)
+    order = [a["n"] for a in qs[0]["answers"]]
+    check("الوجهة الأكثر تكرارًا أولًا وداخلها غير العربية قبل العربية", order == [2, 5, 3, 4, 1], order)
+    check("عدد كل وجهة محفوظ للعرض", [a["view_count"] for a in qs[0]["answers"]] == [3, 3, 3, 2, 2])
+    tie = [{"text": "ت؟", "answers": [{"n": 1, "fit": "direct", "view": "أ"}, {"n": 4, "fit": "direct", "view": "ب"},
+                                      {"n": 3, "fit": "direct"}]}]
+    meta_qa.order_answers(tie, bites, cfg)
+    check("عند التساوي الوجهة غير العربية أولًا، وبلا view وجهة وحدها", [a["n"] for a in tie[0]["answers"]] == [4, 1, 3],
+          [a["n"] for a in tie[0]["answers"]])
+    # سقف 40 ث يتسع لإجابتين من ثلاث: التوجّه الجديد والقناة غير العربية أولًا، ثم العربية الأولى بترتيبها
+    small = load_config()
+    small["youtube"]["meta_topics"]["qa"]["max_seconds"] = 40
+    pick = [{"text": "ق؟", "answers": [{"n": 1, "fit": "direct"}, {"n": 3, "fit": "direct"}, {"n": 2, "fit": "direct"}]}]
+    meta_qa.auto_select(pick, bites, small)
+    check("الاختيار يقدّم غير العربية عند التساوي", {a["n"] for a in pick[0]["answers"] if a["selected"]} == {1, 2}, pick)
+    orphan = [{"text": "أ؟", "answers": [{"n": 2, "fit": "direct"}, {"n": 4, "fit": "direct"}]},
+              {"text": "ب؟", "answers": [{"n": 5, "fit": "direct"}, {"n": 1, "fit": "direct"}]},
+              {"text": "يتيم؟", "answers": [{"n": 3, "fit": "direct"}]}]
+    small["youtube"]["meta_topics"]["qa"]["max_seconds"] = 80
+    meta_qa.auto_select(orphan, bites, small)
+    check("السؤال اليتيم لا يُسقط سؤالًا قبله أكل من سقفه",
+          [sum(a["selected"] for a in q["answers"]) for q in orphan] == [2, 2, 0],
+          [[a["n"] for a in q["answers"] if a["selected"]] for q in orphan])
+
+    qa = {"titles": ["ع؟"], "questions": qs, "bites": [meta_qa.public_bite(b) for b in bites], "selected_seconds": 60}
+    qs[0]["answers"][0]["selected"] = True
+    for a in qs[0]["answers"][1:]:
+        a["selected"] = False
+    topic = {"id": "t9", "title": "حدث", "blocs": ["arabic", "english"], "orientations": 3, "minutes": 10, "channels": [],
+             "videos": []}
+    body = meta_qa.issue_body(topic, {"date": "2026-11-11"}, qa, cfg, full_bites=bites)
+    check("رأس الجدول وأعمدته الأربعة", "| # | المقولة | القائل | القناة والتوجّه |" in body and "|:-:|---|---|---|" in body)
+    row = next((ln for ln in body.splitlines() if ln.startswith("| 1 |")), "")
+    check("صف: الوجهة وعددها والمقولة بلا سطر جديد و«|» مهرَّبة، والقائل بصفته، والقناة بتوجّهها",
+          "**سيفشل** (3)<br>«ترجمة \\| 2 سطر»" in row and "متحدث 2<br><sub>محلل</sub>" in row
+          and "CNN<br><sub>أمريكي ليبرالي</sub>" in row and row.count(" | ") == 3, row)
+    check("المربعات تحت الجدول برقم الصف، والقراءة كما كانت",
+          "- [x] 1 · متحدث 2 · 20 ث · رأي <!-- ma:1:v2:2 -->" in body
+          and meta_qa.read_marks(body)["answers"] == {1: ["v2:2"]}, body[-900:])
