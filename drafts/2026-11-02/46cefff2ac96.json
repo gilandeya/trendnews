@@ -671,7 +671,7 @@
   "has_news_photo": true,
   "review_issue": 1779,
   "stage2_issue": 1779,
-  "render_status": "failed",
+  "render_status": "rendered",
   "approved_script_at": "2026-11-02T16:39:39.270741+00:00",
   "editor_override": {
     "at": "2026-11-02T16:39:39.270726+00:00",
@@ -682,49 +682,50 @@
   },
   "reel_file": "reels/2026-11-02/46cefff2ac96.mp4",
   "reel_gif": "reels/2026-11-02/46cefff2ac96.gif",
-  "duration_seconds": 140.5,
-  "render_version": 60,
-  "render_attempts": 3,
+  "duration_seconds": 132.9,
+  "render_version": 76,
+  "render_attempts": 0,
   "reel_music": "nastelbom-news-news-2-473288.mp3",
   "render_sources": "الجزيرة، سي إن إن ترك، العربية",
   "render_crops": {
     "3": {
-      "x": 284,
+      "x": 440,
       "source": "speaker_vision",
-      "speaker_score": 0.64,
+      "speaker_score": 0.52,
       "tracks": 3,
       "vision": {
-        "pick": 2,
+        "pick": 1,
         "agree": 3,
         "archive": [
+          2,
           3
         ]
       },
       "gate": {
         "start": 0.88,
-        "end": 35.62,
+        "end": 31.58,
         "source": "transcript"
       },
       "exact": {
         "t0": 261.68,
-        "t1": 296.18,
-        "ratio": 0.973,
+        "t1": 292.14,
+        "ratio": 0.984,
         "source": "words",
         "saved": true
       },
       "panel_q": 0,
       "tile_crop": {
-        "x": 148,
+        "x": 238,
         "y": 0,
-        "w": 540,
-        "h": 480,
+        "w": 810,
+        "h": 720,
         "mode": "full_height"
       },
       "frame_crop": {
-        "x": 212,
+        "x": 332,
         "y": 0,
-        "w": 412,
-        "h": 480,
+        "w": 620,
+        "h": 720,
         "mode": "full_height"
       },
       "bars": [
@@ -741,16 +742,16 @@
         "frames": [
           1.0,
           1.0,
-          0.75
+          0.8
         ]
       },
       "quote_sync": "words",
       "quote_mode": "word"
     },
     "4": {
-      "x": 0,
-      "source": "speaker_vision",
-      "speaker_score": 0.6,
+      "x": 315,
+      "source": "speaker_motion_override",
+      "speaker_score": 1.02,
       "tracks": 4,
       "vision": {
         "pick": 4,
@@ -759,7 +760,8 @@
           1,
           2,
           3
-        ]
+        ],
+        "overridden_by": 3
       },
       "gate": {
         "start": 1.17,
@@ -774,46 +776,46 @@
       },
       "panel_q": 0,
       "tile_crop": {
-        "x": 0,
+        "x": 238,
         "y": 0,
-        "w": 420,
-        "h": 374,
+        "w": 558,
+        "h": 496,
         "mode": "full_height"
       },
       "frame_crop": {
-        "x": 0,
+        "x": 304,
         "y": 0,
-        "w": 322,
-        "h": 374,
+        "w": 426,
+        "h": 496,
         "mode": "full_height"
       },
       "bars": [
         0,
-        16,
+        24,
         0,
         0
       ],
       "ticker": true,
       "lower_graphics": {
-        "top": 0.78,
+        "top": 0.69,
         "source": "model",
         "clamped": false,
         "frames": [
-          0.8,
-          0.8,
-          0.8
+          0.71,
+          0.71,
+          0.82
         ]
       },
       "quote_sync": "words",
       "quote_mode": "line"
     },
     "6": {
-      "x": 4,
+      "x": 8,
       "source": "speaker_vision",
-      "speaker_score": 0.88,
-      "tracks": 8,
+      "speaker_score": 0.95,
+      "tracks": 7,
       "vision": {
-        "pick": 8,
+        "pick": 7,
         "agree": 3,
         "archive": [
           1,
@@ -821,8 +823,7 @@
           3,
           4,
           5,
-          6,
-          7
+          6
         ]
       },
       "gate": {
@@ -840,10 +841,10 @@
       "panel_q": 1,
       "tile_crop": null,
       "frame_crop": {
-        "x": 4,
+        "x": 0,
         "y": 0,
-        "w": 272,
-        "h": 316,
+        "w": 470,
+        "h": 546,
         "mode": "full_height"
       },
       "bars": [
@@ -854,67 +855,64 @@
       ],
       "ticker": true,
       "lower_graphics": {
-        "top": 0.66,
+        "top": 0.76,
         "source": "model",
         "clamped": false,
         "frames": [
-          0.68,
-          0.68,
-          0.68
+          0.78,
+          0.78,
+          0.78
         ]
       },
       "quote_sync": "words",
       "quote_mode": "word"
     },
     "8": {
-      "x": 450,
-      "source": "speaker_motion_override",
-      "speaker_score": 0.96,
+      "x": 572,
+      "source": "speaker_vision",
+      "speaker_score": 0.49,
       "tracks": 5,
       "vision": {
-        "pick": 1,
+        "pick": 2,
         "agree": 3,
-        "archive": [
-          4
-        ],
-        "overridden_by": 4
+        "archive": []
       },
       "gate": {
-        "start": 0.8,
-        "end": 13.88,
-        "source": "silence"
+        "start": 0.88,
+        "end": 12.32,
+        "source": "transcript"
       },
       "exact": {
-        "t0": 482.96,
+        "t0": 484.52,
         "t1": 495.72,
-        "ratio": 1.0,
+        "ratio": 0.857,
         "source": "words",
         "saved": true
       },
       "panel_q": 2,
       "tile_crop": null,
       "frame_crop": {
-        "x": 396,
+        "x": 508,
         "y": 0,
-        "w": 514,
-        "h": 598,
+        "w": 346,
+        "h": 402,
         "mode": "full_height"
       },
       "bars": [
         0,
-        23,
+        16,
         0,
         0
       ],
       "ticker": true,
       "lower_graphics": {
-        "top": 0.83,
+        "top": 0.84,
         "source": "model",
         "clamped": false,
         "frames": [
-          0.85,
-          0.85,
-          0.85
+          0.86,
+          0.86,
+          0.86
         ]
       },
       "quote_sync": "words",
@@ -935,35 +933,40 @@
       "accepted": false
     },
     "4": {
-      "name_original": "Gaffar Yakınca – Gazeteci",
-      "name_arabic": "غaffar ياكينجا – صحفي",
+      "name_original": "GAFFAR YAKINCA – GAZETECİ",
+      "name_arabic": "غفار ياكينجا",
       "role_arabic": "صحفي",
       "is_presenter": false,
       "frames_agreeing": 3,
       "rejected": "",
       "accepted": true,
+      "name_from_roster": true,
       "roster_override": "guest"
     },
     "6": {
-      "name_original": "Samah Al-Hadi",
-      "name_arabic": "سامح الهادي",
-      "role_arabic": "عضو الحزب الديمقراطي - ميشيغن",
-      "is_presenter": false,
-      "frames_agreeing": 1,
-      "rejected": "",
-      "accepted": false
+      "accepted": false,
+      "source": "gemini"
     },
     "8": {
-      "name_original": "",
-      "name_arabic": "",
-      "role_arabic": "",
-      "is_presenter": false,
-      "frames_agreeing": 0,
-      "rejected": "",
-      "accepted": false
+      "accepted": false,
+      "source": "gemini"
     }
   },
   "render_roster": {
+    "tBfbBMS6_8w": [
+      {
+        "name_arabic": "إرهان يلديريم",
+        "name_original": "Erhan Yıldırım",
+        "role_arabic": "محلل سياسات خارجية",
+        "is_host": false
+      },
+      {
+        "name_arabic": "مقدّمة البرنامج (شخص يقف خلف المنصة)",
+        "name_original": "<UNKNOWN>",
+        "role_arabic": "مقدّمة النشرة",
+        "is_host": true
+      }
+    ],
     "kRWeOsx-U7I": [
       {
         "name_arabic": "مكي",
@@ -1027,29 +1030,11 @@
         "role_arabic": "صحفي",
         "is_host": false
       }
-    ],
-    "tBfbBMS6_8w": [
-      {
-        "name_arabic": "إرهان يلديريم",
-        "name_original": "Erhan Yıldırım",
-        "role_arabic": "محلل سياسات خارجية",
-        "is_host": false
-      },
-      {
-        "name_arabic": "مقدّمة البرنامج (شخص يقف خلف المنصة)",
-        "name_original": "<UNKNOWN>",
-        "role_arabic": "مقدّمة النشرة",
-        "is_host": true
-      }
     ]
   },
   "render_roster_source": {
-    "kRWeOsx-U7I": "built",
-    "Ec34laYK8rs": "built",
-    "tBfbBMS6_8w": "built"
-  },
-  "render_roster_errors": {
-    "fvXz38iRw4E": "empty"
+    "kRWeOsx-U7I": "saved",
+    "Ec34laYK8rs": "saved"
   },
   "render_attribution": [
     {
@@ -1061,13 +1046,6 @@
     },
     {
       "point_id": "7728ee5dee3f",
-      "speaker": "",
-      "evidence": "",
-      "accepted": false,
-      "reason": "القائل ليس في القائمة"
-    },
-    {
-      "point_id": "3209bcb5ef92",
       "speaker": "",
       "evidence": "",
       "accepted": false,
@@ -4677,13 +4655,11 @@
         "chyron": 8.88
       },
       "haiku_calls": 4,
-      "source": "built"
+      "source": "saved"
     }
   },
   "render_map_errors": {
-    "kRWeOsx-U7I": "ERROR: [youtube] kRWeOsx-U7I: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authe",
-    "fvXz38iRw4E": "ERROR: [youtube] fvXz38iRw4E: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authe",
-    "tBfbBMS6_8w": "ERROR: [youtube] tBfbBMS6_8w: Unable to download API page: ('Unable to connect to proxy', OSError('Tunnel connection fai"
+    "kRWeOsx-U7I": "ffmpeg: : Invalid data found when processing input Error opening input file /tmp/reel_render_bh5tkgwu/map_kRWeOsx-U7I/kR"
   },
   "render_exact_selfcheck": {
     "ok": true,
@@ -4691,33 +4667,81 @@
   },
   "render_dropped": [],
   "render_approx": [],
-  "rendered_at": "2026-11-02T17:22:00.984326+00:00",
+  "rendered_at": "2026-11-11T17:44:53.006187+00:00",
   "render_notes": [
     "### 🎬 تركيب الريل",
-    "- ⏱️ المدة: 140.5 ث",
+    "- ⏱️ المدة: 132.9 ث",
     "- 🎞️ [الملف](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-11-02/46cefff2ac96.mp4) · [المعاينة](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-11-02/46cefff2ac96.gif)",
     "- 🎞️ لم أجد لقطة صالحة من الحدث — الهوك بصورة الخبر",
     "- 👥 ضيوف الجزيرة: إبراهيم فريحات، جويه، حسن أحمد، سالم اليامي، مصطفى عثمان إسماعيل، زياد ماجد، محجوب الزويري",
     "- 👥 ضيوف سي إن إن ترك: غفار ياكينجا",
-    "- ⚠️ لم تُبنَ قائمة ضيوف العربية: لم يتعرّف النموذج على أي ضيف في مطلع الحلقة",
-    "- 👥 ضيوف سي إن إن ترك: إرهان يلديريم",
-    "- ⚠️ تعذّر بناء خريطة متكلمي الجزيرة: ERROR: [youtube] kRWeOsx-U7I: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authe",
-    "- 🗺️ خريطة متكلمي سي إن إن ترك: فولYA أوزتورك، كادريه غوتشلو ساكاريا",
-    "- ⚠️ تعذّر بناء خريطة متكلمي العربية: ERROR: [youtube] fvXz38iRw4E: Sign in to confirm you’re not a bot. Use --cookies-from-browser or --cookies for the authe",
-    "- ⚠️ تعذّر بناء خريطة متكلمي سي إن إن ترك: ERROR: [youtube] tBfbBMS6_8w: Unable to download API page: ('Unable to connect to proxy', OSError('Tunnel connection fai",
-    "- 👥 الشريط يحمل اسم غaffar ياكينجا – صحفي وهو ضيف في قائمة الحلقة — اعتُمد اسمه",
-    "- 👤 من شريط القناة: غaffar ياكينجا – صحفي (Gaffar Yakınca – Gazeteci) — صحفي",
+    "- ⚠️ تعذّر بناء خريطة متكلمي الجزيرة: ffmpeg: : Invalid data found when processing input Error opening input file /tmp/reel_render_bh5tkgwu/map_kRWeOsx-U7I/kR",
+    "- 👥 الشريط يحمل اسم غفار ياكينجا وهو ضيف في قائمة الحلقة — اعتُمد اسمه",
+    "- 👤 من شريط القناة: غفار ياكينجا (GAFFAR YAKINCA – GAZETECİ) — صحفي",
+    "- 🏷️ سمّى Gemini متكلم مقطع العربية: سامح الهادي",
+    "- 🏷️ سمّى Gemini متكلم مقطع سي إن إن ترك: قدرية غوتشلو ساكاريا",
     "- 🎯 مقطع الجزيرة: 3 وجوه — المتكلم بالرؤية",
-    "- 🎯 مقطع سي إن إن ترك: 4 وجوه — المتكلم بالرؤية",
-    "- ✂️ أُخفي شريط القناة في سي إن إن ترك: قُصّ أسفل 22%",
+    "- 🎯 مقطع سي إن إن ترك: 4 وجوه — المتكلم بالرؤية مع تغليب الحركة الجسدية",
+    "- ✂️ أُخفي شريط القناة في سي إن إن ترك: قُصّ أسفل 31%",
     "- ▭ مقطع سي إن إن ترك: أُزيلت أشرطة سوداء",
-    "- 🎯 مقطع العربية: 8 وجوه — المتكلم بالرؤية",
-    "- ✂️ أُخفي شريط القناة في العربية: قُصّ أسفل 34%",
-    "- 🎯 مقطع سي إن إن ترك: 5 وجوه — المتكلم بالرؤية مع تغليب الحركة الجسدية",
-    "- ✂️ أُخفي شريط القناة في سي إن إن ترك: قُصّ أسفل 17%",
+    "- 🎯 مقطع العربية: 7 وجوه — المتكلم بالرؤية",
+    "- ✂️ أُخفي شريط القناة في العربية: قُصّ أسفل 24%",
+    "- 🎯 مقطع سي إن إن ترك: 5 وجوه — المتكلم بالرؤية",
+    "- ✂️ أُخفي شريط القناة في سي إن إن ترك: قُصّ أسفل 16%",
     "- ▭ مقطع سي إن إن ترك: أُزيلت أشرطة سوداء",
-    "- 🧊 ختام الريل: لا لقطات تسبق الهوك — جُمّد أول إطار منه مع اقتراب بطيء"
+    "- 🧊 ختام الريل: لا لقطات تسبق الهوك — جُمّد أول إطار منه مع اقتراب بطيء",
+    "- 💵 كلفة الريل: 0.19$ — التركيب 0.19$ (Sonnet 0.03$ · Haiku 0.01$ · Gemini 0.14$ · صوت 0.02$ · بروكسي 17 MB) · البروكسي خارج المجموع"
   ],
   "reel_review_issue": 1782,
-  "render_error": "فشل تنزيل المقطع: فشلت كل الدرجات: ERROR: [youtube] kRWeOsx-U7I: Unable to download API page: ('Unable to connect to proxy', OSError('Tunn"
+  "render_gemini_speakers": [
+    {
+      "point_id": "19d54d33e15e",
+      "video_id": "kRWeOsx-U7I",
+      "start": 261.7,
+      "end": 292.1,
+      "name": "",
+      "applied": false
+    },
+    {
+      "point_id": "7728ee5dee3f",
+      "video_id": "Ec34laYK8rs",
+      "start": 669.7,
+      "end": 698.0,
+      "name": "",
+      "applied": false
+    },
+    {
+      "point_id": "756094c803b5",
+      "video_id": "fvXz38iRw4E",
+      "start": 2970.5,
+      "end": 2982.5,
+      "name": "سامح الهادي",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "3209bcb5ef92",
+      "video_id": "tBfbBMS6_8w",
+      "start": 484.5,
+      "end": 495.7,
+      "name": "قدرية غوتشلو ساكاريا",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    }
+  ],
+  "render_gemini_cost": 0.1352,
+  "cost_renders": [
+    {
+      "claude": {
+        "claude-haiku-5-5": 0.00756,
+        "claude-sonnet-5": 0.02587
+      },
+      "gemini": 0.1352,
+      "tts": 0.01677,
+      "proxy_bytes": 17006748,
+      "at": "2026-11-11T17:44:53.006262+00:00"
+    }
+  ]
 }

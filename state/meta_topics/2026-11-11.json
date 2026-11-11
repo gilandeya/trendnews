@@ -266,9 +266,1367 @@
    ],
    "topic_issue": 1847,
    "qa": {
-    "attempts": 0,
-    "notified_proxy": false,
-    "requeued_at": "2026-11-11T17:34:18.075758+00:00"
+    "attempts": 1,
+    "at": "2026-11-11T17:02:34.591271+00:00",
+    "source": "gemini",
+    "gemini_cost": 0.6711,
+    "gemini_rejected": 0,
+    "failures": [],
+    "selected_seconds": 116.0,
+    "status": "ready",
+    "titles": [
+     "هل يسقط نتنياهو أخيراً أم يقلب الطاولة من جديد؟",
+     "من يملك مفتاح الحكومة الإسرائيلية المقبلة؟",
+     "61 مقعداً مستحيلة.. هل يفشل آيزنكوت؟"
+    ],
+    "questions": [
+     {
+      "text": "هل ينجح آيزنكوت فعلاً في تشكيل الحكومة خلال المهلة الممنوحة؟",
+      "answers": [
+       {
+        "n": 57,
+        "fit": "direct",
+        "selected": true,
+        "bite_id": "WJjH5oXHhwI:g1270"
+       },
+       {
+        "n": 6,
+        "fit": "direct",
+        "selected": true,
+        "bite_id": "PwWEAS8n-7Q:g613"
+       },
+       {
+        "n": 26,
+        "fit": "direct",
+        "selected": true,
+        "bite_id": "nIKOjfk1Obk:g927"
+       },
+       {
+        "n": 51,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "WJjH5oXHhwI:g352"
+       },
+       {
+        "n": 11,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "-DdD9bKQs_o:g3119"
+       },
+       {
+        "n": 14,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "h7BJxXGkS-4:g1607"
+       },
+       {
+        "n": 38,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "i35uWBpFZ3A:g817"
+       },
+       {
+        "n": 5,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "PwWEAS8n-7Q:g544"
+       },
+       {
+        "n": 10,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "-DdD9bKQs_o:g3007"
+       },
+       {
+        "n": 29,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "usgVMkUriC8:g253"
+       },
+       {
+        "n": 49,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "WJjH5oXHhwI:g233"
+       },
+       {
+        "n": 45,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "fmk3ruzJmQ8:g1180"
+       },
+       {
+        "n": 7,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "-DdD9bKQs_o:g2604"
+       },
+       {
+        "n": 47,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "WJjH5oXHhwI:g0"
+       },
+       {
+        "n": 27,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "usgVMkUriC8:g127"
+       }
+      ]
+     },
+     {
+      "text": "هل يستطيع آيزنكوت الاعتماد على الأحزاب العربية لتأمين الأغلبية؟",
+      "answers": [
+       {
+        "n": 54,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "WJjH5oXHhwI:g669"
+       },
+       {
+        "n": 53,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "WJjH5oXHhwI:g512"
+       },
+       {
+        "n": 9,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "-DdD9bKQs_o:g2906"
+       },
+       {
+        "n": 26,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "nIKOjfk1Obk:g927"
+       },
+       {
+        "n": 55,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "WJjH5oXHhwI:g866"
+       },
+       {
+        "n": 4,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "PwWEAS8n-7Q:g364"
+       },
+       {
+        "n": 28,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "usgVMkUriC8:g191"
+       },
+       {
+        "n": 36,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "i35uWBpFZ3A:g399"
+       },
+       {
+        "n": 40,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "fmk3ruzJmQ8:g929"
+       },
+       {
+        "n": 59,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "9tyDTljhEZ8:g959"
+       },
+       {
+        "n": 48,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "WJjH5oXHhwI:g150"
+       },
+       {
+        "n": 37,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "i35uWBpFZ3A:g678"
+       },
+       {
+        "n": 41,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "fmk3ruzJmQ8:g952"
+       },
+       {
+        "n": 2,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "PwWEAS8n-7Q:g132"
+       },
+       {
+        "n": 35,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "i35uWBpFZ3A:g306"
+       },
+       {
+        "n": 19,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "h7BJxXGkS-4:g2233"
+       },
+       {
+        "n": 43,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "fmk3ruzJmQ8:g1064"
+       }
+      ]
+     },
+     {
+      "text": "ماذا يفعل نتنياهو لإفشال الحكومة الجديدة؟",
+      "answers": [
+       {
+        "n": 16,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "h7BJxXGkS-4:g1721"
+       },
+       {
+        "n": 34,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "i35uWBpFZ3A:g231"
+       },
+       {
+        "n": 43,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "fmk3ruzJmQ8:g1064"
+       },
+       {
+        "n": 44,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "fmk3ruzJmQ8:g1080"
+       },
+       {
+        "n": 18,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "h7BJxXGkS-4:g2210"
+       },
+       {
+        "n": 24,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "h7BJxXGkS-4:g2780"
+       },
+       {
+        "n": 46,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "fmk3ruzJmQ8:g1226"
+       },
+       {
+        "n": 25,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "h7BJxXGkS-4:g2859"
+       },
+       {
+        "n": 19,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "h7BJxXGkS-4:g2233"
+       },
+       {
+        "n": 8,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "-DdD9bKQs_o:g2689"
+       },
+       {
+        "n": 42,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "fmk3ruzJmQ8:g1038"
+       },
+       {
+        "n": 45,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "fmk3ruzJmQ8:g1180"
+       },
+       {
+        "n": 22,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "h7BJxXGkS-4:g2584"
+       },
+       {
+        "n": 17,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "h7BJxXGkS-4:g2183"
+       }
+      ]
+     },
+     {
+      "text": "ماذا قال الناخب الإسرائيلي فعلاً: حكومة تغيير أم حكومة وحدة برئاسة نتنياهو؟",
+      "answers": [
+       {
+        "n": 52,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "WJjH5oXHhwI:g422"
+       },
+       {
+        "n": 49,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "WJjH5oXHhwI:g233"
+       },
+       {
+        "n": 13,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "-DdD9bKQs_o:g3190"
+       },
+       {
+        "n": 12,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "-DdD9bKQs_o:g3151"
+       },
+       {
+        "n": 33,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "i35uWBpFZ3A:g92"
+       },
+       {
+        "n": 58,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "9tyDTljhEZ8:g925"
+       },
+       {
+        "n": 39,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "i35uWBpFZ3A:g965"
+       },
+       {
+        "n": 8,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "-DdD9bKQs_o:g2689"
+       },
+       {
+        "n": 3,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "PwWEAS8n-7Q:g287"
+       },
+       {
+        "n": 31,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "usgVMkUriC8:g363"
+       },
+       {
+        "n": 32,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "usgVMkUriC8:g380"
+       },
+       {
+        "n": 56,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "WJjH5oXHhwI:g1081"
+       }
+      ]
+     },
+     {
+      "text": "هل ليبرمان مفتاح الحكومة أم حصان طروادة لنتنياهو؟",
+      "answers": [
+       {
+        "n": 21,
+        "fit": "direct",
+        "selected": true,
+        "bite_id": "h7BJxXGkS-4:g2554"
+       },
+       {
+        "n": 23,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "h7BJxXGkS-4:g2664"
+       },
+       {
+        "n": 48,
+        "fit": "direct",
+        "selected": true,
+        "bite_id": "WJjH5oXHhwI:g150"
+       },
+       {
+        "n": 30,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "usgVMkUriC8:g319"
+       },
+       {
+        "n": 20,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "h7BJxXGkS-4:g2505"
+       },
+       {
+        "n": 15,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "h7BJxXGkS-4:g1669"
+       },
+       {
+        "n": 50,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "WJjH5oXHhwI:g279"
+       },
+       {
+        "n": 1,
+        "fit": "direct",
+        "selected": false,
+        "bite_id": "PwWEAS8n-7Q:g86"
+       },
+       {
+        "n": 28,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "usgVMkUriC8:g191"
+       },
+       {
+        "n": 53,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "WJjH5oXHhwI:g512"
+       },
+       {
+        "n": 47,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "WJjH5oXHhwI:g0"
+       },
+       {
+        "n": 34,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "i35uWBpFZ3A:g231"
+       },
+       {
+        "n": 41,
+        "fit": "weak",
+        "selected": false,
+        "bite_id": "fmk3ruzJmQ8:g952"
+       }
+      ]
+     }
+    ],
+    "bites": [
+     {
+      "bite_id": "PwWEAS8n-7Q:g86",
+      "video_id": "PwWEAS8n-7Q",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "ديفو كلاين",
+      "speaker_original": "Devo Klein",
+      "speaker_role": "مذيعة ومقدمة برامج",
+      "is_host": true,
+      "type": "report",
+      "start": 86.0,
+      "end": 110.0,
+      "summary_ar": "آيزنكوت يبدأ تحركاته لتشكيل الحكومة بالاتفاق مع ليبرمان وقادة كتلته على ترشيح متان كهانا لرئاسة الكنيست."
+     },
+     {
+      "bite_id": "PwWEAS8n-7Q:g132",
+      "video_id": "PwWEAS8n-7Q",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "ديفو كلاين",
+      "speaker_original": "Devo Klein",
+      "speaker_role": "مذيعة ومقدمة برامج",
+      "is_host": true,
+      "type": "report",
+      "start": 132.0,
+      "end": 157.0,
+      "summary_ar": "آيزنكوت يواجه عقبات لبلوغ أغلبية 61 مقعدا وسط تكهنات بتوجهه للتحالف مع الأحزاب الحريدية."
+     },
+     {
+      "bite_id": "PwWEAS8n-7Q:g287",
+      "video_id": "PwWEAS8n-7Q",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "أمير وايتمان",
+      "speaker_original": "Amir Weitmann",
+      "speaker_role": "رئيس التكتل الليبرالي في حزب الليكود",
+      "is_host": false,
+      "type": "opinion",
+      "start": 287.0,
+      "end": 316.0,
+      "summary_ar": "إسرائيل تتجه إما لحكومة يسار بدعم عربي أو بتحالف مع الحريديم وكلاهما خيار سيء مقارنة بحكومة وحدة."
+     },
+     {
+      "bite_id": "PwWEAS8n-7Q:g364",
+      "video_id": "PwWEAS8n-7Q",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "أمير وايتمان",
+      "speaker_original": "Amir Weitmann",
+      "speaker_role": "رئيس التكتل الليبرالي في حزب الليكود",
+      "is_host": false,
+      "type": "opinion",
+      "start": 364.0,
+      "end": 391.0,
+      "summary_ar": "التعاون طويل الأمد مع الأحزاب العربية سيكون صعبا وسيسبب أضرارا سياسية لرفضها يهودية الدولة."
+     },
+     {
+      "bite_id": "PwWEAS8n-7Q:g544",
+      "video_id": "PwWEAS8n-7Q",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "أمير وايتمان",
+      "speaker_original": "Amir Weitmann",
+      "speaker_role": "رئيس التكتل الليبرالي في حزب الليكود",
+      "is_host": false,
+      "type": "forecast",
+      "start": 544.0,
+      "end": 574.0,
+      "summary_ar": "نتنياهو لا يملك الأغلبية الحسابية وسيفشل أيضا في تشكيل الحكومة إذا تعثر آيزنكوت."
+     },
+     {
+      "bite_id": "PwWEAS8n-7Q:g613",
+      "video_id": "PwWEAS8n-7Q",
+      "channel": "ILTV",
+      "bloc": "israeli",
+      "orientation": "يمين",
+      "speaker": "أمير وايتمان",
+      "speaker_original": "Amir Weitmann",
+      "speaker_role": "رئيس التكتل الليبرالي في حزب الليكود",
+      "is_host": false,
+      "type": "opinion",
+      "start": 613.0,
+      "end": 638.0,
+      "summary_ar": "السيناريو الأرجح هو تشكيل حكومة بقيادة آيزنكوت لكن الأمر ليس محسوما ولا سهلا."
+     },
+     {
+      "bite_id": "-DdD9bKQs_o:g2604",
+      "video_id": "-DdD9bKQs_o",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "طاهر بركة",
+      "speaker_original": "طاهر بركة",
+      "speaker_role": "مقدم البرنامج",
+      "is_host": true,
+      "type": "report",
+      "start": 2604.0,
+      "end": 2632.0,
+      "summary_ar": "أداء أعضاء الكنيست اليمين وسط مساعي آيزنكوت لتشكيل ائتلاف واحتمال إجراء انتخابات جديدة إذا فشل."
+     },
+     {
+      "bite_id": "-DdD9bKQs_o:g2689",
+      "video_id": "-DdD9bKQs_o",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "طاهر بركة",
+      "speaker_original": "طاهر بركة",
+      "speaker_role": "مقدم البرنامج",
+      "is_host": true,
+      "type": "report",
+      "start": 2689.0,
+      "end": 2714.0,
+      "summary_ar": "نتنياهو يجدد دعوته لتشكيل حكومة وحدة وطنية لمواجهة التحديات وخطر البرنامج النووي الإيراني."
+     },
+     {
+      "bite_id": "-DdD9bKQs_o:g2906",
+      "video_id": "-DdD9bKQs_o",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "مندي صفدي",
+      "speaker_original": "مندي صفدي",
+      "speaker_role": "مستشار سابق في مكتب الحكومة الإسرائيلية",
+      "is_host": false,
+      "type": "fact",
+      "start": 2906.0,
+      "end": 2927.0,
+      "summary_ar": "الحوارات الجارية لتشكيل الائتلاف مقتصرة على الأحزاب الحريدية وغيرها دون أي تواصل مع الأحزاب العربية."
+     },
+     {
+      "bite_id": "-DdD9bKQs_o:g3007",
+      "video_id": "-DdD9bKQs_o",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "مندي صفدي",
+      "speaker_original": "مندي صفدي",
+      "speaker_role": "مستشار سابق في مكتب الحكومة الإسرائيلية",
+      "is_host": false,
+      "type": "forecast",
+      "start": 3007.0,
+      "end": 3028.0,
+      "summary_ar": "العقبات الحالية أمام تشكيل الحكومة ستزول بعد فشل آيزنكوت وستفتح الباب لتحالفات جديدة."
+     },
+     {
+      "bite_id": "-DdD9bKQs_o:g3119",
+      "video_id": "-DdD9bKQs_o",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "مندي صفدي",
+      "speaker_original": "مندي صفدي",
+      "speaker_role": "مستشار سابق في مكتب الحكومة الإسرائيلية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 3119.0,
+      "end": 3135.0,
+      "summary_ar": "تكليف آيزنكوت بتشكيل الحكومة إجراء بروتوكولي وعرضي لا يثبت قدرته على تأليفها."
+     },
+     {
+      "bite_id": "-DdD9bKQs_o:g3151",
+      "video_id": "-DdD9bKQs_o",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "مندي صفدي",
+      "speaker_original": "مندي صفدي",
+      "speaker_role": "مستشار سابق في مكتب الحكومة الإسرائيلية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 3151.0,
+      "end": 3176.0,
+      "summary_ar": "إرادة الناخبين الإسرائيليين لم ترغب في حكومة يرأسها آيزنكوت ولا نتنياهو منفردا بل برئاسة الأخير في وحدة."
+     },
+     {
+      "bite_id": "-DdD9bKQs_o:g3190",
+      "video_id": "-DdD9bKQs_o",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "مندي صفدي",
+      "speaker_original": "مندي صفدي",
+      "speaker_role": "مستشار سابق في مكتب الحكومة الإسرائيلية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 3190.0,
+      "end": 3221.0,
+      "summary_ar": "الجمهور الإسرائيلي حسم خياره برفض حكومة منفردة لآيزنكوت أو نتنياهو وتفضيل حكومة وحدة وطنية يرأسها نتنياهو."
+     },
+     {
+      "bite_id": "h7BJxXGkS-4:g1607",
+      "video_id": "h7BJxXGkS-4",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "محور المقاومة",
+      "speaker": "منال إسماعيل",
+      "speaker_original": "منال إسماعيل",
+      "speaker_role": "صحفية في الميادين",
+      "is_host": false,
+      "type": "report",
+      "start": 1607.0,
+      "end": 1637.0,
+      "summary_ar": "تكليف آيزنكوت تأليف الحكومة الإسرائيلية يواجه تشكيكاً داخلياً في قدرته على النجاح وسط مهلة 28 يوماً."
+     },
+     {
+      "bite_id": "h7BJxXGkS-4:g1669",
+      "video_id": "h7BJxXGkS-4",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "محور المقاومة",
+      "speaker": "منال إسماعيل",
+      "speaker_original": "منال إسماعيل",
+      "speaker_role": "صحفية في الميادين",
+      "is_host": false,
+      "type": "report",
+      "start": 1669.0,
+      "end": 1693.0,
+      "summary_ar": "شروط ليبرمان تعقد مهمة آيزنكوت، بينما يعد الأخير خطة للشراكة مع الحريديم."
+     },
+     {
+      "bite_id": "h7BJxXGkS-4:g1721",
+      "video_id": "h7BJxXGkS-4",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "محور المقاومة",
+      "speaker": "منال إسماعيل",
+      "speaker_original": "منال إسماعيل",
+      "speaker_role": "صحفية في الميادين",
+      "is_host": false,
+      "type": "report",
+      "start": 1721.0,
+      "end": 1747.0,
+      "summary_ar": "نتنياهو يسعى بكل قوته لإحباط مساعي آيزنكوت وسط مخاوف الليكود من انضمام الحريديم للحكومة الجديدة."
+     },
+     {
+      "bite_id": "h7BJxXGkS-4:g2183",
+      "video_id": "h7BJxXGkS-4",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "محور المقاومة",
+      "speaker": "هاني الدالي",
+      "speaker_original": "هاني الدالي",
+      "speaker_role": "خبير فلسطيني في شؤون المقاومة",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2183.0,
+      "end": 2209.0,
+      "summary_ar": "نتنياهو يرى في تشكيل حكومة برئاسة آيزنكوت نهاية لمستقبله السياسي وتهديداً بمحاكمته وسجنه."
+     },
+     {
+      "bite_id": "h7BJxXGkS-4:g2210",
+      "video_id": "h7BJxXGkS-4",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "محور المقاومة",
+      "speaker": "هاني الدالي",
+      "speaker_original": "هاني الدالي",
+      "speaker_role": "خبير فلسطيني في شؤون المقاومة",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2210.0,
+      "end": 2233.0,
+      "summary_ar": "نتنياهو يتبع سياسة الأرض المحروقة ويعمق الانقسام الإسرائيلي لمنع ولادة حكومة جديدة."
+     },
+     {
+      "bite_id": "h7BJxXGkS-4:g2233",
+      "video_id": "h7BJxXGkS-4",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "محور المقاومة",
+      "speaker": "هاني الدالي",
+      "speaker_original": "هاني الدالي",
+      "speaker_role": "خبير فلسطيني في شؤون المقاومة",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2233.0,
+      "end": 2257.0,
+      "summary_ar": "نتنياهو يحرض المجتمع الإسرائيلي ضد اللجوء للقائمة العربية لنزع الشرعية عن حكومة آيزنكوت."
+     },
+     {
+      "bite_id": "h7BJxXGkS-4:g2505",
+      "video_id": "h7BJxXGkS-4",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "محور المقاومة",
+      "speaker": "عادل شديد",
+      "speaker_original": "عادل شديد",
+      "speaker_role": "خبير في الشؤون الإسرائيلية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2505.0,
+      "end": 2535.0,
+      "summary_ar": "ليبرمان يرى نفسه أحق برئاسة الحكومة ويسعى للانتقام من آيزنكوت بسبب حملته الانتخابية."
+     },
+     {
+      "bite_id": "h7BJxXGkS-4:g2554",
+      "video_id": "h7BJxXGkS-4",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "محور المقاومة",
+      "speaker": "عادل شديد",
+      "speaker_original": "عادل شديد",
+      "speaker_role": "خبير في الشؤون الإسرائيلية",
+      "is_host": false,
+      "type": "forecast",
+      "start": 2554.0,
+      "end": 2584.0,
+      "summary_ar": "ليبرمان لن يتردد في التحالف مع نتنياهو إذا قدم له عرضاً أفضل في حال فشل آيزنكوت."
+     },
+     {
+      "bite_id": "h7BJxXGkS-4:g2584",
+      "video_id": "h7BJxXGkS-4",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "محور المقاومة",
+      "speaker": "عادل شديد",
+      "speaker_original": "عادل شديد",
+      "speaker_role": "خبير في الشؤون الإسرائيلية",
+      "is_host": false,
+      "type": "forecast",
+      "start": 2584.0,
+      "end": 2608.0,
+      "summary_ar": "نتنياهو لن يقدر على تشكيل حكومة إلا بوحدة وطنية مع آيزنكوت أو باختراق معسكر التغيير."
+     },
+     {
+      "bite_id": "h7BJxXGkS-4:g2664",
+      "video_id": "h7BJxXGkS-4",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "محور المقاومة",
+      "speaker": "عادل شديد",
+      "speaker_original": "عادل شديد",
+      "speaker_role": "خبير في الشؤون الإسرائيلية",
+      "is_host": false,
+      "type": "forecast",
+      "start": 2664.0,
+      "end": 2698.0,
+      "summary_ar": "ليبرمان يطمح للتناوب على رئاسة الحكومة ولن يتردد في الانتقال إلى معسكر نتنياهو."
+     },
+     {
+      "bite_id": "h7BJxXGkS-4:g2780",
+      "video_id": "h7BJxXGkS-4",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "محور المقاومة",
+      "speaker": "هاني الدالي",
+      "speaker_original": "هاني الدالي",
+      "speaker_role": "خبير فلسطيني في شؤون المقاومة",
+      "is_host": false,
+      "type": "opinion",
+      "start": 2780.0,
+      "end": 2808.0,
+      "summary_ar": "نتنياهو يسعى للتصعيد العسكري الخارجي لإفشال تشكيل حكومة آيزنكوت وإظهار عدم إمكانية التغيير وقت الحرب."
+     },
+     {
+      "bite_id": "h7BJxXGkS-4:g2859",
+      "video_id": "h7BJxXGkS-4",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "محور المقاومة",
+      "speaker": "هاني الدالي",
+      "speaker_original": "هاني الدالي",
+      "speaker_role": "خبير فلسطيني في شؤون المقاومة",
+      "is_host": false,
+      "type": "forecast",
+      "start": 2859.0,
+      "end": 2887.0,
+      "summary_ar": "نتنياهو يهدف لإسقاط الكنيست والذهاب لانتخابات جديدة أو فرض حكومة وحدة برئاسته عبر إشعال الحرب."
+     },
+     {
+      "bite_id": "nIKOjfk1Obk:g927",
+      "video_id": "nIKOjfk1Obk",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "زكريا شاهين",
+      "speaker_original": "Zekeriya Şahin",
+      "speaker_role": "أكاديمي",
+      "is_host": false,
+      "type": "forecast",
+      "start": 927.0,
+      "end": 950.0,
+      "summary_ar": "زكريا شاهين يتوقع نجاح آيزنكوت في تشكيل الحكومة الإسرائيلية عبر التعاون مع الأحزاب العربية."
+     },
+     {
+      "bite_id": "usgVMkUriC8:g127",
+      "video_id": "usgVMkUriC8",
+      "channel": "RTVI",
+      "bloc": "russian",
+      "orientation": "قريب من السلطة",
+      "speaker": "دميتري خايتوفسكي",
+      "speaker_original": "Дмитрий Хайтовский",
+      "speaker_role": "مراسل القناة في الشرق الأوسط",
+      "is_host": false,
+      "type": "opinion",
+      "start": 127.0,
+      "end": 138.0,
+      "summary_ar": "تكليف آيزنكوت بتشكيل الحكومة يعد نصرا تكتيكيا مؤقتا لكتلة التغيير بانتظار مفاوضات وخلافات قادمة."
+     },
+     {
+      "bite_id": "usgVMkUriC8:g191",
+      "video_id": "usgVMkUriC8",
+      "channel": "RTVI",
+      "bloc": "russian",
+      "orientation": "قريب من السلطة",
+      "speaker": "غايل تالشير",
+      "speaker_original": "גייל טלשיר / Gayil Talshir",
+      "speaker_role": "أستاذة العلوم السياسية في الجامعة العبرية في القدس",
+      "is_host": false,
+      "type": "opinion",
+      "start": 191.0,
+      "end": 215.0,
+      "summary_ar": "تشكيل الحكومة يبدو سهلا نظريا لكن شروط حلفاء آيزنكوت ورفضهم الشراكة مع الأحزاب العربية يعقدان الأمر."
+     },
+     {
+      "bite_id": "usgVMkUriC8:g253",
+      "video_id": "usgVMkUriC8",
+      "channel": "RTVI",
+      "bloc": "russian",
+      "orientation": "قريب من السلطة",
+      "speaker": "غايل تالشير",
+      "speaker_original": "גייל טלשיר / Gayil Talshir",
+      "speaker_role": "أستاذة العلوم السياسية في الجامعة العبرية في القدس",
+      "is_host": false,
+      "type": "forecast",
+      "start": 253.0,
+      "end": 285.0,
+      "summary_ar": "آيزنكوت أمامه خياران محفوفان بالمخاطر، إما استقطاب الحريديم أو تشكيل حكومة أقلية ثم توسيعها."
+     },
+     {
+      "bite_id": "usgVMkUriC8:g319",
+      "video_id": "usgVMkUriC8",
+      "channel": "RTVI",
+      "bloc": "russian",
+      "orientation": "قريب من السلطة",
+      "speaker": "غايل تالشير",
+      "speaker_original": "גייל טלשיר / Gayil Talshir",
+      "speaker_role": "أستاذة العلوم السياسية في الجامعة العبرية في القدس",
+      "is_host": false,
+      "type": "forecast",
+      "start": 319.0,
+      "end": 342.0,
+      "summary_ar": "فشل آيزنكوت سيعيد التفويض إلى هرتسوغ لتسليمه لنتنياهو الذي قد يضمن الأغلبية إذا انضم إليه ليبرمان."
+     },
+     {
+      "bite_id": "usgVMkUriC8:g363",
+      "video_id": "usgVMkUriC8",
+      "channel": "RTVI",
+      "bloc": "russian",
+      "orientation": "قريب من السلطة",
+      "speaker": "أرييل ستون",
+      "speaker_original": "Ariel Stone",
+      "speaker_role": "حاخام",
+      "is_host": false,
+      "type": "opinion",
+      "start": 363.0,
+      "end": 380.0,
+      "summary_ar": "تكليف آيزنكوت بتشكيل حكومة جديدة يمثل بارقة أمل وانفراجة تحتاج إليها إسرائيل للتغيير."
+     },
+     {
+      "bite_id": "usgVMkUriC8:g380",
+      "video_id": "usgVMkUriC8",
+      "channel": "RTVI",
+      "bloc": "russian",
+      "orientation": "قريب من السلطة",
+      "speaker": "غاي بار ناتان",
+      "speaker_original": "Guy Bar-Natan",
+      "speaker_role": "مواطن من تل أبيب",
+      "is_host": false,
+      "type": "opinion",
+      "start": 380.0,
+      "end": 401.0,
+      "summary_ar": "استبدال الحكومة الحالية ضرورة ملحة ولكن دون إشراك المتطرفين لتفادي انتخابات جديدة تضر بالبلاد."
+     },
+     {
+      "bite_id": "i35uWBpFZ3A:g92",
+      "video_id": "i35uWBpFZ3A",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "orientation": "فرنسي حكومي",
+      "speaker": "ستيفان عمار",
+      "speaker_original": "Stéphane Amar",
+      "speaker_role": "مراسل فرانس 24 في القدس",
+      "is_host": false,
+      "type": "fact",
+      "start": 92.0,
+      "end": 118.0,
+      "summary_ar": "أوصى 67 نائباً في الكنيست بتكليف غادي آيزنكوت لتولي منصب رئيس الوزراء."
+     },
+     {
+      "bite_id": "i35uWBpFZ3A:g231",
+      "video_id": "i35uWBpFZ3A",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "orientation": "فرنسي حكومي",
+      "speaker": "ستيفان عمار",
+      "speaker_original": "Stéphane Amar",
+      "speaker_role": "مراسل فرانس 24 في القدس",
+      "is_host": false,
+      "type": "forecast",
+      "start": 231.0,
+      "end": 262.0,
+      "summary_ar": "يأمل نتنياهو فشل آيزنكوت في تشكيل الائتلاف ويسعى لاستقطاب أطراف أخرى لتشكيل حكومة برئاسته."
+     },
+     {
+      "bite_id": "i35uWBpFZ3A:g306",
+      "video_id": "i35uWBpFZ3A",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "orientation": "فرنسي حكومي",
+      "speaker": "نياغالي باجايوكو",
+      "speaker_original": "Niagalé Bagayoko",
+      "speaker_role": "باحثة سياسية ورئيسة شبكة قطاع الأمن الإفريقي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 306.0,
+      "end": 337.0,
+      "summary_ar": "يسعى آيزنكوت لاستعادة شعار مناهضة نتنياهو لتوحيد حلفائه رغم التباينات الحادة بينهم."
+     },
+     {
+      "bite_id": "i35uWBpFZ3A:g399",
+      "video_id": "i35uWBpFZ3A",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "orientation": "فرنسي حكومي",
+      "speaker": "دافيد دولوس",
+      "speaker_original": "David Delos",
+      "speaker_role": "محلل الشؤون الدولية في فرانس 24",
+      "is_host": false,
+      "type": "opinion",
+      "start": 399.0,
+      "end": 427.0,
+      "summary_ar": "ترفض قطاعات واسعة في إسرائيل الاستعانة بالأحزاب العربية بعد صدمة أحداث السابع من أكتوبر."
+     },
+     {
+      "bite_id": "i35uWBpFZ3A:g678",
+      "video_id": "i35uWBpFZ3A",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "orientation": "فرنسي حكومي",
+      "speaker": "ستيفان عمار",
+      "speaker_original": "Stéphane Amar",
+      "speaker_role": "مراسل فرانس 24 في القدس",
+      "is_host": false,
+      "type": "opinion",
+      "start": 678.0,
+      "end": 707.0,
+      "summary_ar": "قد يلجأ آيزنكوت لخيار حكومة صهيونية تجمع مختلف الأطياف الحزبية وتستثني الأرثوذكس والعرب."
+     },
+     {
+      "bite_id": "i35uWBpFZ3A:g817",
+      "video_id": "i35uWBpFZ3A",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "orientation": "فرنسي حكومي",
+      "speaker": "ستيفان عمار",
+      "speaker_original": "Stéphane Amar",
+      "speaker_role": "مراسل فرانس 24 في القدس",
+      "is_host": false,
+      "type": "forecast",
+      "start": 817.0,
+      "end": 844.0,
+      "summary_ar": "يرتكز رهان نتنياهو على فشل آيزنكوت في بلوغ 61 صوتاً مما يمهد لعودته أو إجراء انتخابات جديدة."
+     },
+     {
+      "bite_id": "i35uWBpFZ3A:g965",
+      "video_id": "i35uWBpFZ3A",
+      "channel": "FRANCE 24",
+      "bloc": "french",
+      "orientation": "فرنسي حكومي",
+      "speaker": "دافيد دولوس",
+      "speaker_original": "David Delos",
+      "speaker_role": "محلل الشؤون الدولية في فرانس 24",
+      "is_host": false,
+      "type": "opinion",
+      "start": 965.0,
+      "end": 995.0,
+      "summary_ar": "تراجعت شعبية نتنياهو بشكل ملحوظ أمام تقدم آيزنكوت في استطلاعات الرأي."
+     },
+     {
+      "bite_id": "fmk3ruzJmQ8:g929",
+      "video_id": "fmk3ruzJmQ8",
+      "channel": "CCTV中文",
+      "bloc": "chinese",
+      "orientation": "صيني حكومي",
+      "speaker": "تشين تيان",
+      "speaker_original": "秦天",
+      "speaker_role": "نائب مدير معهد دراسات الشرق الأوسط في الأكاديمية الصينية للعلاقات الدولية المعاصرة",
+      "is_host": false,
+      "type": "opinion",
+      "start": 929.0,
+      "end": 952.0,
+      "summary_ar": "آيزنكوت يمتلك دعماً كافياً لكن تحالف اليهود مع الأحزاب العربية يشكل تحدياً كبيراً."
+     },
+     {
+      "bite_id": "fmk3ruzJmQ8:g952",
+      "video_id": "fmk3ruzJmQ8",
+      "channel": "CCTV中文",
+      "bloc": "chinese",
+      "orientation": "صيني حكومي",
+      "speaker": "تشين تيان",
+      "speaker_original": "秦天",
+      "speaker_role": "نائب مدير معهد دراسات الشرق الأوسط في الأكاديمية الصينية للعلاقات الدولية المعاصرة",
+      "is_host": false,
+      "type": "opinion",
+      "start": 952.0,
+      "end": 976.0,
+      "summary_ar": "الخلافات العرقية والسياسية ورفض ليبرمان للتحالف مع العرب يعرقلان مهمة آيزنكوت في تشكيل الحكومة."
+     },
+     {
+      "bite_id": "fmk3ruzJmQ8:g1038",
+      "video_id": "fmk3ruzJmQ8",
+      "channel": "CCTV中文",
+      "bloc": "chinese",
+      "orientation": "صيني حكومي",
+      "speaker": "تشين تيان",
+      "speaker_original": "秦天",
+      "speaker_role": "نائب مدير معهد دراسات الشرق الأوسط في الأكاديمية الصينية للعلاقات الدولية المعاصرة",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1038.0,
+      "end": 1064.0,
+      "summary_ar": "نتنياهو لن يستسلم بسهولة وسيقاتل للحفاظ على منصبه تفادياً للمحاسبة القضائية والسجن."
+     },
+     {
+      "bite_id": "fmk3ruzJmQ8:g1064",
+      "video_id": "fmk3ruzJmQ8",
+      "channel": "CCTV中文",
+      "bloc": "chinese",
+      "orientation": "صيني حكومي",
+      "speaker": "تشين تيان",
+      "speaker_original": "秦天",
+      "speaker_role": "نائب مدير معهد دراسات الشرق الأوسط في الأكاديمية الصينية للعلاقات الدولية المعاصرة",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1064.0,
+      "end": 1080.0,
+      "summary_ar": "نتنياهو سيسعى لإفشال تحالف آيزنكوت مع الأحزاب العربية عبر شيطنتها والتشكيك في شرعيتها."
+     },
+     {
+      "bite_id": "fmk3ruzJmQ8:g1080",
+      "video_id": "fmk3ruzJmQ8",
+      "channel": "CCTV中文",
+      "bloc": "chinese",
+      "orientation": "صيني حكومي",
+      "speaker": "تشين تيان",
+      "speaker_original": "秦天",
+      "speaker_role": "نائب مدير معهد دراسات الشرق الأوسط في الأكاديمية الصينية للعلاقات الدولية المعاصرة",
+      "is_host": false,
+      "type": "forecast",
+      "start": 1080.0,
+      "end": 1097.0,
+      "summary_ar": "نتنياهو قد يستغل موقعه المؤقت لافتعال تصعيد عسكري ضد إيران لخلط الأوراق وإفشال تشكيل الحكومة."
+     },
+     {
+      "bite_id": "fmk3ruzJmQ8:g1180",
+      "video_id": "fmk3ruzJmQ8",
+      "channel": "CCTV中文",
+      "bloc": "chinese",
+      "orientation": "صيني حكومي",
+      "speaker": "سو شياوهوي",
+      "speaker_original": "苏晓晖",
+      "speaker_role": "معلقة خاصة",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1180.0,
+      "end": 1209.0,
+      "summary_ar": "تعقيدات تشكيل الحكومة ومهلتها الزمنية تعطي نتنياهو أملاً في خلط الأوراق والعودة للانتخابات."
+     },
+     {
+      "bite_id": "fmk3ruzJmQ8:g1226",
+      "video_id": "fmk3ruzJmQ8",
+      "channel": "CCTV中文",
+      "bloc": "chinese",
+      "orientation": "صيني حكومي",
+      "speaker": "سو شياوهوي",
+      "speaker_original": "苏晓晖",
+      "speaker_role": "معلقة خاصة",
+      "is_host": false,
+      "type": "forecast",
+      "start": 1226.0,
+      "end": 1241.0,
+      "summary_ar": "نتنياهو قد يلجأ لشن عمل عسكري أحادي ضد إيران لإشعال الحرب والحفاظ على منصبه."
+     },
+     {
+      "bite_id": "WJjH5oXHhwI:g0",
+      "video_id": "WJjH5oXHhwI",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "شانتال صليبا",
+      "speaker_original": "Chantal Saliba",
+      "speaker_role": "مذيعة",
+      "is_host": true,
+      "type": "report",
+      "start": 0.0,
+      "end": 29.0,
+      "summary_ar": "أمام آيزنكوت 28 يومًا لتوسيع تحالفه وتشكيل حكومة جديدة بعد لقائه ليبرمان."
+     },
+     {
+      "bite_id": "WJjH5oXHhwI:g150",
+      "video_id": "WJjH5oXHhwI",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "مندي صفدي",
+      "speaker_original": "Mendi Safadi",
+      "speaker_role": "رئيس مركز صفدي للدبلوماسية الدولية والأبحاث",
+      "is_host": false,
+      "type": "opinion",
+      "start": 150.0,
+      "end": 180.0,
+      "summary_ar": "ليبرمان يرفض حكومة أقلية مدعومة من العرب أو الحريديم ويفضل حكومة من 61 مقعدًا بدعم يهودي فقط."
+     },
+     {
+      "bite_id": "WJjH5oXHhwI:g233",
+      "video_id": "WJjH5oXHhwI",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "موشيه إلعاد",
+      "speaker_original": "Moshé Elad",
+      "speaker_role": "محاضر في أكاديمية الجليل الغربي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 233.0,
+      "end": 273.0,
+      "summary_ar": "نتائج الانتخابات بيّنت رغبة أغلبية الكنيست والشعب في إنهاء حكم نتنياهو وتشكيل حكومة برئاسة آيزنكوت."
+     },
+     {
+      "bite_id": "WJjH5oXHhwI:g279",
+      "video_id": "WJjH5oXHhwI",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "موشيه إلعاد",
+      "speaker_original": "Moshé Elad",
+      "speaker_role": "محاضر في أكاديمية الجليل الغربي",
+      "is_host": false,
+      "type": "fact",
+      "start": 279.0,
+      "end": 306.0,
+      "summary_ar": "آيزنكوت وليبرمان اتفقا على انتخاب رئيس الكنيست في أول جلسة مقبلة."
+     },
+     {
+      "bite_id": "WJjH5oXHhwI:g352",
+      "video_id": "WJjH5oXHhwI",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "موشيه إلعاد",
+      "speaker_original": "Moshé Elad",
+      "speaker_role": "محاضر في أكاديمية الجليل الغربي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 352.0,
+      "end": 389.0,
+      "summary_ar": "أولوية قادة التغيير هي منع عودة نتنياهو لرئاسة الحكومة وتفادي الذهاب لانتخابات جديدة."
+     },
+     {
+      "bite_id": "WJjH5oXHhwI:g422",
+      "video_id": "WJjH5oXHhwI",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "مندي صفدي",
+      "speaker_original": "Mendi Safadi",
+      "speaker_role": "رئيس مركز صفدي للدبلوماسية الدولية والأبحاث",
+      "is_host": false,
+      "type": "opinion",
+      "start": 422.0,
+      "end": 461.0,
+      "summary_ar": "نتائج الانتخابات الإسرائيلية أعطت نتنياهو العدد الأكبر من الأصوات كرئيس للوزراء وألزمت بالذهاب لحكومة وحدة وطنية."
+     },
+     {
+      "bite_id": "WJjH5oXHhwI:g512",
+      "video_id": "WJjH5oXHhwI",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "مندي صفدي",
+      "speaker_original": "Mendi Safadi",
+      "speaker_role": "رئيس مركز صفدي للدبلوماسية الدولية والأبحاث",
+      "is_host": false,
+      "type": "opinion",
+      "start": 512.0,
+      "end": 540.0,
+      "summary_ar": "ليبرمان وبينيت لن يوافقا على الدخول في حكومة تعتمد على دعم الأحزاب العربية."
+     },
+     {
+      "bite_id": "WJjH5oXHhwI:g669",
+      "video_id": "WJjH5oXHhwI",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "موشيه إلعاد",
+      "speaker_original": "Moshé Elad",
+      "speaker_role": "محاضر في أكاديمية الجليل الغربي",
+      "is_host": false,
+      "type": "forecast",
+      "start": 669.0,
+      "end": 699.0,
+      "summary_ar": "آيزنكوت لن يجد خيارًا سوى ضم القائمة العربية الموحدة لتحالفه لتشكيل الحكومة."
+     },
+     {
+      "bite_id": "WJjH5oXHhwI:g866",
+      "video_id": "WJjH5oXHhwI",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "مندي صفدي",
+      "speaker_original": "Mendi Safadi",
+      "speaker_role": "رئيس مركز صفدي للدبلوماسية الدولية والأبحاث",
+      "is_host": false,
+      "type": "opinion",
+      "start": 866.0,
+      "end": 895.0,
+      "summary_ar": "الأحزاب العربية ترفض شروط الاعتراف بيهودية إسرائيل ونبذ المقاومة، ما يمنع الاتفاق معها."
+     },
+     {
+      "bite_id": "WJjH5oXHhwI:g1081",
+      "video_id": "WJjH5oXHhwI",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "موشيه إلعاد",
+      "speaker_original": "Moshé Elad",
+      "speaker_role": "محاضر في أكاديمية الجليل الغربي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1081.0,
+      "end": 1119.0,
+      "summary_ar": "سلوك نتنياهو يخدم مصالحه الشخصية لا إسرائيل، ورفضه للجنة تحقيق في 7 أكتوبر يُفقده الشرعية."
+     },
+     {
+      "bite_id": "WJjH5oXHhwI:g1270",
+      "video_id": "WJjH5oXHhwI",
+      "channel": "سكاي نيوز عربية",
+      "bloc": "arabic",
+      "orientation": "إماراتي",
+      "speaker": "مندي صفدي",
+      "speaker_original": "Mendi Safadi",
+      "speaker_role": "رئيس مركز صفدي للدبلوماسية الدولية والأبحاث",
+      "is_host": false,
+      "type": "forecast",
+      "start": 1270.0,
+      "end": 1278.0,
+      "summary_ar": "آيزنكوت سيفشل في تشكيل الحكومة وستتحول مهمة التكليف إلى نتنياهو."
+     },
+     {
+      "bite_id": "9tyDTljhEZ8:g925",
+      "video_id": "9tyDTljhEZ8",
+      "channel": "凤凰卫视",
+      "bloc": "chinese",
+      "orientation": "هونغ كونغ قريب من بكين",
+      "speaker": "شو تشن",
+      "speaker_original": "許楨",
+      "speaker_role": "مدير الأبحاث في معهد هونغ كونغ تشي مينغ",
+      "is_host": false,
+      "type": "fact",
+      "start": 925.0,
+      "end": 955.0,
+      "summary_ar": "يوضح شو تشن أن آيزنكوت حظي بدعم سبعة وستين نائباً لتشكيل الحكومة مستفيداً من امتناع حزب يهدوت هتوراة عن تأييد نتنياهو."
+     },
+     {
+      "bite_id": "9tyDTljhEZ8:g959",
+      "video_id": "9tyDTljhEZ8",
+      "channel": "凤凰卫视",
+      "bloc": "chinese",
+      "orientation": "هونغ كونغ قريب من بكين",
+      "speaker": "شو تشن",
+      "speaker_original": "許楨",
+      "speaker_role": "مدير الأبحاث في معهد هونغ كونغ تشي مينغ",
+      "is_host": false,
+      "type": "opinion",
+      "start": 959.0,
+      "end": 991.0,
+      "summary_ar": "يرى شو تشن أن آيزنكوت يستند إلى دعم الأحزاب العربية لتأمين الأغلبية لحكومته التي تمثل مصالح إسرائيل الأمنية بصورة أفضل من نتنياهو."
+     }
+    ],
+    "error": "",
+    "extracted": 72,
+    "cost": {
+     "claude": {
+      "claude-opus-5": 0.45337
+     },
+     "gemini": 0.6711
+    }
    }
   },
   {
