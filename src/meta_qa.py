@@ -581,7 +581,8 @@ def main(argv: list[str] | None = None) -> int:
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
     from .config import load_config
     if args.process:
-        print(f"عولج {process_pending(load_config())} موضوع")
+        # خطوة مستقلة في reel-render.yml: عطل موضوع أو المفتاح لا يُفشل الخطوة فيمضي الرفع والتركيب بعدها
+        process_safe(load_config())
     return 0
 
 

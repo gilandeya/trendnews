@@ -211,6 +211,22 @@ def build_draft(topic: dict, data: dict, title: str, hook_options: int = 3) -> d
     }
 
 
+def qa_in_flight(topic: dict, cfg, now: datetime) -> bool:
+    """طلب استخراج (فتح قضية الموضوع أو إعادة طلبه) أحدث من `qa.pending_grace_minutes`: نتيجته لم تُحفظ بعد ولم يمضِ ما يكفي
+    للحكم بضياعها. بعد المهلة (تشغيلة أُلغيت أو تعطّلت) يُعاد الطلب كما كان."""
+    grace = float(cfg.path("youtube.meta_topics.qa.pending_grace_minutes", 0) or 0)
+    if grace <= 0:
+        return False
+    stamp = (topic.get("qa") or {}).get("requeued_at") or topic.get("qa_requested_at")
+    try:
+        when = datetime.fromisoformat(str(stamp).replace("Z", "+00:00"))
+    except (TypeError, ValueError):
+        return False
+    if when.tzinfo is None:
+        when = when.replace(tzinfo=timezone.utc)
+    return (now - when).total_seconds() < grace * 60
+
+
 def requeue_qa(issue_number: int, topic: dict, data: dict, cfg, now: datetime | None = None) -> bool:
     """إعادة وسم approved على قضية موضوع لم تجهز أسئلته (رصيد البروكسي منتهٍ أو فشل الاستخراج) تطلب الاستخراج من جديد.
     السبب: تشغيلة التركيب لا تجري إلا بإطلاق، فموضوع ينتظر البروكسي لا يُعاد «تلقائيًا» ما لم يطلبه أحد. الطلب الإنساني يصفّر
@@ -221,6 +237,10 @@ def requeue_qa(issue_number: int, topic: dict, data: dict, cfg, now: datetime | 
         return False
     t = _texts(cfg)
     now = now or datetime.now(timezone.utc)
+    if qa.get("status") is None and qa_in_flight(topic, cfg, now):
+        # طُلب الاستخراج قبل قليل ولم تصل نتيجته المستودعَ بعد (قضية 1847: الأسئلة كُتبت في القضية ✅ والتشغيلة ما زالت تركّب
+        # ريلات قبل أن تحفظها، فطلبت إعادة الوسم استخراجًا ثالثًا محا تعليم صاحب المشروع). لا طلب ثانٍ: finalize تعلّق no_qa
+        return False
     days = int(cfg.path("youtube.meta_topics.qa.days", 3))
     try:
         age = (now.date() - datetime.strptime(data["date"], "%Y-%m-%d").date()).days
