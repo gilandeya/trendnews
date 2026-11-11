@@ -1,0 +1,488 @@
+{
+  "id": "4285321624f5",
+  "created_at": "2026-11-11T20:02:16.779804+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "تشكيل الحكومة الإسرائيلية بعد الانتخابات ومساعي غادي آيزنكوت",
+  "event": "تشكيل الحكومة الإسرائيلية بعد الانتخابات ومساعي غادي آيزنكوت",
+  "tier": 7,
+  "blocs": [
+    "arabic",
+    "chinese",
+    "french",
+    "israeli",
+    "persian",
+    "russian",
+    "turkish"
+  ],
+  "channels": [
+    "CCTV中文",
+    "CNN Türk",
+    "FRANCE 24",
+    "Habertürk",
+    "ILTV",
+    "Iran International",
+    "RTVI",
+    "SÖZCÜ",
+    "الجزيرة",
+    "العربية",
+    "الميادين",
+    "سكاي نيوز عربية",
+    "凤凰卫视"
+  ],
+  "agreement": "",
+  "score": 0,
+  "warnings": [],
+  "run_date": "2026-11-11",
+  "topic_date": "2026-11-11",
+  "arabic": {
+    "post_title": "من يحكم إسرائيل؟ معركة الـ61 مقعدًا تحتدم",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "CCTV中文",
+      "CNN Türk",
+      "FRANCE 24",
+      "Habertürk",
+      "ILTV",
+      "Iran International",
+      "RTVI",
+      "SÖZCÜ",
+      "الجزيرة",
+      "العربية",
+      "الميادين",
+      "سكاي نيوز عربية",
+      "凤凰卫视"
+    ]
+  },
+  "source_videos": [],
+  "meta_topic_id": "b2d3b0263542",
+  "meta_issue": 1847,
+  "hook_pick": 3,
+  "cost_qa": {
+    "claude": {
+      "claude-opus-5": 0.41378
+    },
+    "gemini": 0.689
+  },
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "e6772656bd6e",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "ILTV"
+      },
+      {
+        "point_id": "e9dc6c865078",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "الميادين"
+      },
+      {
+        "point_id": "248f0760e774",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "ILTV"
+      },
+      {
+        "point_id": "047ddead22ef",
+        "speaker_said_it": "no",
+        "other_name": "مندي صفدي (يقرأ كلام نتنياهو أو يحكي عنه)",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "العربية"
+      }
+    ]
+  },
+  "clip_dropped": [
+    {
+      "point_id": "047ddead22ef",
+      "channel": "العربية",
+      "reason": "ملخّص النقطة ينسبها إلى شخص آخر: مندي صفدي (يقرأ كلام نتنياهو أو يحكي عنه)"
+    }
+  ],
+  "headlines": [
+    "من يحكم إسرائيل؟ معركة الـ61 مقعدًا تحتدم",
+    "هل ينجح آيزنكوت في تشكيل الحكومة قبل انتهاء المهلة؟",
+    "آيزنكوت بين دعم عربي وشراكة حريدية: أي طريق إلى 61؟"
+  ],
+  "headline_selected": 0,
+  "names_audit": [
+    {
+      "arabic": "غادي آيزنكوت",
+      "latin": "Gantz / Eisenkot"
+    }
+  ],
+  "script": {
+    "version": 2,
+    "narrator": "male",
+    "title": "من يحكم إسرائيل؟ آيزنكوت أمام عتبة الـ61 مقعدًا",
+    "question": "من يملك مفاتيح الـ61 مقعدًا إن تعذّر على آيزنكوت؟",
+    "event": "",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "من يحكم إسرائيل؟ آيزنكوت أمام عتبة الـ61 مقعدًا"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "في 8 نوفمبر كلّف الرئيس إسحاق هرتسوغ غادي آيزنكوت بتشكيل الحكومة بعد توصية 67 نائبًا في الكنيست."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 0,
+        "text": "هل ينجح آيزنكوت في تشكيل الحكومة خلال المهلة؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "e6772656bd6e",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=PwWEAS8n-7Q",
+        "start": 612.0,
+        "end": 638.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "ILTV",
+        "channel_original": "ILTV",
+        "quote_arabic": "السيناريو الأساسي على الأرجح هو تشكيل حكومة يقودها آيزنكوت، لكن هذا الأمر ليس محسومًا بعد ولن يكون سهلًا إطلاقًا؛ فهم سيحاولون فعل كل ما بوسعهم لتحقيق ذلك، لكنه ليس بالأمر الهين، وعلينا أن نكون في غاية الحذر قبل الجزم بما سيؤول إليه الوضع.",
+        "quote_original": "The main scenario is probably some sort of a government led by Eisenkot, but again, this is not a done deal. It's not going to be easy. They're going to try doing whatever they can for this to happen, but it's not easy. I would be very, very prudent before deciding what's going to be.",
+        "language": "en",
+        "video_published": "2026-11-10T12:33:00Z"
+      },
+      {
+        "kind": "clip",
+        "point_id": "e9dc6c865078",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=h7BJxXGkS-4",
+        "start": 1637.0,
+        "end": 1668.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "الميادين",
+        "channel_original": "الميادين",
+        "quote_arabic": "بعد سلسلة طويلة من المحادثات مع عدد كبير من الجهات فيما يعرف بمعسكر التغيير سواء من المسؤولين الكبار أو من المستويات الأقل، هناك إجماع شبه كامل على تشاؤم واضح بشأن إمكان تأليف حكومة برئاسة آيزنكوت، فلا يرى أحد هناك أن آيزنكوت يمتلك ورقة رابحة أو مفاجأة يمكنه إخراجها من قبعته لدفع الجميع إلى تقديم التنازلات.",
+        "quote_original": "بعد سلسلة طويلة من المحادثات مع عدد كبير من الجهات فيما يعرف بمعسكر التغيير سواء من المسؤولين الكبار أو من المستويات الأقل، هناك إجماع شبه كامل على تشاؤم واضح بشأن إمكان تأليف حكومة برئاسة آيزنكوت، فلا يرى أحد هناك أن آيزنكوت يمتلك ورقة رابحة أو مفاجأة يمكنه إخراجها من قبعته لدفع الجميع إلى تقديم التنازلات.",
+        "language": "ar",
+        "video_published": "2026-11-09T21:49:18Z"
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 1,
+        "text": "هل حكومة الوحدة الوطنية مخرج واقعي من المأزق؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "248f0760e774",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=PwWEAS8n-7Q",
+        "start": 283.0,
+        "end": 316.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "ILTV",
+        "channel_original": "ILTV",
+        "quote_arabic": "لا يحتاج المرء إلى أن يكون عبقريًا ليفهم الموقف؛ فنحن نتجه إما نحو حكومة أقلية من اليسار الراديكالي مدعومة عربيًا، أو كخيار بديل نحو حكومة تجمع بين اليسار والحريديم. وكلا الخيارين سيئ بأي حال من الأحوال. الخيار الصحيح والمفيد لدولة إسرائيل هو بطبيعة الحال حكومة وحدة وطنية.",
+        "quote_original": "It's, you don't need to be a genius to understand that this is the situation. We are heading either into some sort of a minority radical left Arab-supported government, or alternatively some sort of a left/radical left/ultra-Orthodox government. One way or another, these are two bad options. The right options, the good thing for the State of Israel would be, of course, a unity government.",
+        "language": "en",
+        "video_published": "2026-11-10T12:33:00Z"
+      },
+      {
+        "kind": "question",
+        "text": "من يملك مفاتيح الـ61 مقعدًا إن تعذّر على آيزنكوت؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": []
+  },
+  "editor_revision": {
+    "at": "2026-11-11T20:02:25.063889+00:00",
+    "applied": true,
+    "error": null,
+    "before": [
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "إذا تعذّر على آيزنكوت تشكيل حكومته خلال المهلة، فمن يملك مفاتيح الـ61 مقعدًا بعده؟",
+        "fix": "من يملك مفاتيح الـ61 مقعدًا إن تعذّر على آيزنكوت؟",
+        "note": "سؤال الختام 14 كلمة ويتجاوز الحد المسموح (10 كلمات للسؤال، 12 للسؤال الرئيس)، كما أن صدره الشرطي الطويل يرجّح فرضية الفشل. البديل يختصره إلى 9 كلمات ويبقيه محايدًا.",
+        "sources": []
+      }
+    ],
+    "unresolved": []
+  },
+  "editor_review": {
+    "at": "2026-11-11T20:02:25.063889+00:00",
+    "applied": [
+      {
+        "category": "headline_judgmental",
+        "severity": "high",
+        "location": "headline_2",
+        "original": "هل يسقط نتنياهو أخيرًا أم يعود من جديد؟",
+        "fix": "هل ينجح آيزنكوت في تشكيل الحكومة قبل انتهاء المهلة؟",
+        "note": "عنوان خارج موضوع الريل وبصياغة حكمية؛ لا متن الريل ولا أي من المقاطع الثلاثة يتناول «سقوط نتنياهو»، بل يدور الكل على فرص آيزنكوت في تأليف حكومة. كلمة «أخيرًا» تحمل حكمًا قيميًا وانحيازًا.",
+        "sources": [
+          "https://www.aljazeera.net/news/2026/11/8/",
+          "https://www.israelnationalnews.com/news/435855"
+        ]
+      },
+      {
+        "category": "unattributed_opinion",
+        "severity": "high",
+        "location": "body",
+        "original": "هل حكومة الوحدة الوطنية مخرج حقيقي أم غطاء لنتنياهو؟",
+        "fix": "هل حكومة الوحدة الوطنية مخرج واقعي من المأزق؟",
+        "note": "سؤال موجَّه يفترض جوابًا ويُدخل رأيًا للكاتب («غطاء لنتنياهو») لا ينسبه إلى أحد؛ المقطع [7] يتحدث عن أفضلية حكومة وحدة وطنية ولا يذكر نتنياهو ولا كونها غطاءً له. الصياغة البديلة تبقى ضمن 10 كلمات.",
+        "sources": []
+      },
+      {
+        "category": "stale_time",
+        "severity": "low",
+        "location": "body",
+        "original": "بعد الانتخابات الإسرائيلية، كُلّف غادي آيزنكوت بتشكيل الحكومة مستندًا إلى دعم سبعة وستين نائبًا في الكنيست.",
+        "fix": "في 8 نوفمبر/تشرين الثاني كلّف الرئيس إسحاق هرتسوغ غادي آيزنكوت بتشكيل الحكومة بعد توصية 67 نائبًا في الكنيست.",
+        "note": "مشهد السياق يصف الحدث دون تاريخ ودون ذكر الفاعل؛ التكليف جرى يوم الأحد 8 نوفمبر/تشرين الثاني على يد الرئيس إسحاق هرتسوغ بعد توصية 67 نائبًا مقابل 46 لنتنياهو. البديل داخل حدود 25 كلمة وجملة واحدة وبشهر واحد بلا سنة.",
+        "sources": [
+          "https://www.aljazeera.net/news/2026/11/8/",
+          "https://legalinsurrection.com/2026/11/israel-election-opposition-leader-eisenkot-tasked-with-forming-government-amid-support-from-arab-bloc/",
+          "https://www.jfeed.com/news-israel/to70r8"
+        ]
+      },
+      {
+        "category": "headline_overclaims",
+        "severity": "low",
+        "location": "headline_3",
+        "original": "عرب أم حريديم: من يصنع الحكومة الإسرائيلية المقبلة؟",
+        "fix": "آيزنكوت بين دعم عربي وشراكة حريدية: أي طريق إلى 61؟",
+        "note": "الثنائية (عرب أم حريديم) رأي ضيف واحد في المقطع [7] يصف بها خياري الائتلاف، والعنوان يقدّمها كأنها المعادلة المقررة للحكومة المقبلة. والمصادر تبيّن أن الخلافات تشمل التعاون مع القائمتين العربيتين وشروط الحريديم معًا لا أحدهما بديلًا عن الآخر.",
+        "sources": [
+          "http://arabic.people.com.cn/n3/2026/1109/c31663-20517049.html",
+          "https://elaph.com/Web/News/2026/11/1610190.html"
+        ]
+      },
+      {
+        "category": "headline_judgmental",
+        "severity": "low",
+        "location": "h1",
+        "original": "من يحكم إسرائيل؟ معركة الـ61 مقعدًا تحتدم",
+        "fix": "من يحكم إسرائيل؟ آيزنكوت أمام عتبة الـ61 مقعدًا",
+        "note": "«تحتدم» وصف تصعيدي لا تسنده المادة؛ المتن والمقاطع تتحدث عن مفاوضات ائتلافية وتشاؤم داخل معسكر التغيير، لا عن احتدام. العتبة نفسها (61) صحيحة ومسندة.",
+        "sources": [
+          "https://www.thejewishnews.com/news/herzog-to-decide-sunday-who-will-try-to-form-israels-government/article_28257dbd-184f-495e-819d-6f8ca98cc789.html"
+        ]
+      }
+    ],
+    "notes": [],
+    "error": null,
+    "searches": 4,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "hook_clash": {
+    "error": "لا مقطع لمتحدث موثَّق"
+  },
+  "reel_bg": {
+    "url": "https://www.aljazeera.net/wp-content/uploads/2026/11/epa_6af35075882b-1794330741.jpg?resize=1920%2C1440",
+    "kind": "news_photo",
+    "publisher": "الجزيرة نت",
+    "shows": "مجموعة من الرجال بالبدلات يقفون ويجلس بعضهم أمام شعار الكنيست \"إسرائيل\" بخلفية فنية، مع أعلام إسرائيل ووردات زرقاء على ا",
+    "text_checked": true,
+    "judged": true
+  },
+  "hook_candidates": [
+    {
+      "video_id": "Xi5HTGoh0KI",
+      "title": "Israeli president officially hands Gadi Eisenkot mandate to form new government",
+      "channel": "Al Jazeera English",
+      "views": 389992,
+      "duration": 947,
+      "published": "2026-11-08T15:28:44Z",
+      "views_per_hour": 5091.5
+    },
+    {
+      "video_id": "epfI1NSV7C8",
+      "title": "الرئيس الإسرائيلي يكلف آيزنكوت رسميا بتشكيل الحكومة",
+      "channel": "AlArabiya العربية",
+      "views": 457998,
+      "duration": 388,
+      "published": "2026-11-07T19:35:26Z",
+      "views_per_hour": 4746.8
+    },
+    {
+      "video_id": "QQaOhk5Fb-4",
+      "title": "Knesset'te Yemin Töreniyle Hükümet Kurma Süreci Başladı! İsrail'de Hükümet Nasıl Kurulacak?",
+      "channel": "CNN TÜRK",
+      "views": 16493,
+      "duration": 403,
+      "published": "2026-11-10T16:30:13Z",
+      "views_per_hour": 598.2
+    },
+    {
+      "video_id": "9rhofkby7Kw",
+      "title": "شاهد | مراسم تكليف غادي آيزنكوت بتشكيل الحكومة الإسرائيلية",
+      "channel": "سكاي نيوز عربية",
+      "views": 16907,
+      "duration": 1081,
+      "published": "2026-11-08T15:29:43Z",
+      "views_per_hour": 220.8
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-11-09T00:00:00Z",
+          "2026-11-13T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "غادي آيزنكوت يتحدث للصحافة في القدس",
+            "raw": 0,
+            "channel_ok": 0
+          },
+          {
+            "query": "مفاوضات تشكيل الحكومة في الكنيست الإسرائيلي",
+            "raw": 30,
+            "channel_ok": 1
+          },
+          {
+            "query": "Gantz Eisenkot press conference Knesset coalition talks",
+            "raw": 0,
+            "channel_ok": 0
+          }
+        ],
+        "duration_ok": 1,
+        "judged_ok": 0,
+        "rejected_channels": [
+          "مركز الاتحاد للأخبار",
+          "Alghad TV - قناة الغد",
+          "Al Mashhad المشهد",
+          "News 360 Arabic",
+          "بلدنا اليوم | Baladna Today",
+          "Cross World News",
+          "Firstpost",
+          "Daljoog News"
+        ]
+      },
+      {
+        "broad": true,
+        "window": [
+          "2026-11-07T00:00:00Z",
+          "2026-11-14T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "تشكيل الحكومة الإسرائيلية",
+            "raw": 30,
+            "channel_ok": 20
+          },
+          {
+            "query": "Israel government coalition Eisenkot",
+            "raw": 30,
+            "channel_ok": 6
+          },
+          {
+            "query": "İsrail hükümet kurma",
+            "raw": 30,
+            "channel_ok": 3
+          }
+        ],
+        "duration_ok": 29,
+        "judged_ok": 8,
+        "rejected_channels": [
+          "العربي - أخبار",
+          "سياسة لس",
+          "blinxnews",
+          "DW عربية",
+          "Alghad TV - قناة الغد",
+          "AlQahera News -  القاهرة الإخبارية",
+          "ABC 7 Chicago",
+          "CBS News"
+        ]
+      }
+    ],
+    "picked": [
+      "Xi5HTGoh0KI",
+      "epfI1NSV7C8",
+      "QQaOhk5Fb-4",
+      "9rhofkby7Kw"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "في 8 نوفمبر كلّف الرئيس إسحاق هرتسوغ غادي آيزنكوت بتشكيل الحكومة بعد توصية 67 نائبًا في الكنيست.",
+      "visual": ""
+    },
+    {
+      "scene": 2,
+      "sentence": 0,
+      "text": "هل ينجح آيزنكوت في تشكيل الحكومة خلال المهلة؟",
+      "visual": ""
+    },
+    {
+      "scene": 5,
+      "sentence": 0,
+      "text": "هل حكومة الوحدة الوطنية مخرج واقعي من المأزق؟",
+      "visual": ""
+    }
+  ],
+  "cost_script": {
+    "claude": {
+      "claude-haiku-5-5": 0.00271,
+      "claude-sonnet-5": 0.00691,
+      "claude-opus-5": 1.77885
+    },
+    "web_search": 4
+  },
+  "review_issue": 1850,
+  "stage2_issue": 1850
+}
