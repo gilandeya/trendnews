@@ -458,7 +458,27 @@
   },
   "review_issue": 1850,
   "stage2_issue": 1850,
-  "render_status": "queued",
+  "render_status": "failed",
   "approved_script_at": "2026-11-11T20:10:16.444206+00:00",
-  "hook_picked": 0
+  "hook_picked": 0,
+  "render_error": "بقي 0 مقطعًا من 3 بعد الحذف والأدنى المطلوب 2",
+  "render_dropped": [
+    {
+      "point_id": "e6772656bd6e",
+      "kind": "clip",
+      "reason": "نقطة المقطع غير موجودة في نافذة النقاط"
+    },
+    {
+      "point_id": "e9dc6c865078",
+      "kind": "clip",
+      "reason": "نقطة المقطع غير موجودة في نافذة النقاط"
+    },
+    {
+      "point_id": "248f0760e774",
+      "kind": "clip",
+      "reason": "نقطة المقطع غير موجودة في نافذة النقاط"
+    }
+  ],
+  "render_approx": [],
+  "rendered_at": "2026-11-11T20:11:53.055124+00:00"
 }
