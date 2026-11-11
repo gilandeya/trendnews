@@ -3091,6 +3091,13 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 `approve_reel_scripts` يُبقي المرشّح المعلَّم وحده في `hook_candidates` (`hook_picked`) فيفحصه التركيب، وبلا مربع معلَّم يبقى الثلاثة. الاختبار
 `tests/test_youtube.py:test_meta_script`.
 
+**لا استخراج ثانٍ قبل حفظ الأول (قضية 1847، 11/11):** الأسئلة تُكتب في القضية ✅ والتشغيلة نفسها تمضي في تركيب الريلات ولا ترفع الملف
+الخاص إلا في آخرها، فوسمُ `approved` بينهما وجد «لا ملف» فطلب استخراجًا آخر أعاد كتابة الجسم ومحا التعليم. `meta_topics.finalize` يختم
+`qa_requested_at` عند فتح قضية الموضوع، و`meta_script.qa_in_flight` (طلب أو `requeued_at` أحدث من `qa.pending_grace_minutes` = 120) يمنع
+`requeue_qa` لموضوع بلا `qa` فتعلّق `finalize` بـ`no_qa` («لم تُحفظ بعد… لم يُطلب استخراج جديد») وتزيل approved؛ بعد المهلة يُعاد كما كان.
+**تشغيليًا:** `python -m src.meta_qa --process` خطوة مستقلة في `reel-render.yml` يتبعها رفع المستودع الخاص وإيداع `state/meta_topics`، ثم التركيب
+بـ`--pending --skip-qa` (يضيفها صاحب المشروع بيده؛ بدونها يبقى الاستخراج داخل التركيب كما كان). الاختبار `tests/test_youtube.py:test_meta_qa_in_flight`.
+
 **مقاطع الموضوع من Gemini (موافقة صاحب المشروع 6/11) — `src/gemini.py`، `src/gemini_bites.py`:** `youtube.meta_topics.qa.source: gemini` ← `meta_qa.process_topic` يستدعي `gemini_topic_bites` بدل `topic_bites`: لكل فيديو نداء Gemini واحد على رابطه (`gemini.generate`، المفتاح في رأس `x-goog-api-key`، بلا temperature، الدقة `media_resolution`) بالحدث وعنوان الفيديو ووصفه، يعيد `speakers` و`bites`؛ و`gemini_bites.to_bites` (خالصة) يقرّر في الكود: الزمن بـ`gemini.parse_clock` (زمن بثلاثة أجزاء يتجاوز مدة الحلقة يُقرأ بلا ساعته)، المدة بين `qa.gemini.min_seconds` و`youtube.bites.end_check.complete_max_seconds`، النوع، `youtube_bites.screen_text_ok` للترجمة، لا تداخل، واسم `name_source: unknown` لا يُكتب. المقطع بشكل `youtube_bites.extract` (`bite_id` = `<video_id>:g<الثانية>`، `source: gemini`، بلا `start_line`) فلا يتغير ما بعده؛ لا بروكسي ولا انتظار رصيد، وعطل فيديو سطر في `failures`. يُحفظ `qa.source` و`gemini_cost` و`gemini_rejected`. بلا `GEMINI_API_KEY` ← المسار القديم بالنص والبروكسي. **التركيب ما زال يحتاج البروكسي** لتنزيل المقاطع (yt-dlp)، ونافذة المقطع بلا نص محفوظ تقديرية يضبطها التفريغ بالكلمات (Q13). **تشغيليًا:** `reel-render.yml` (حيث يجري `meta_qa.process_safe`) يحتاج `GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}` في env خطوة التركيب — يضيفه صاحب المشروع بيده. `tools/gemini_probe.py` يستورد `parse_clock`/`read_response`/`cost_usd` من `src/gemini.py`. الاختبار `tests/test_youtube.py:test_meta_qa_gemini`.
 
 **إعادة الطلب بعد انتظار البروكسي (5/11):** تشغيلة التركيب لا تجري إلا بإطلاق، فموضوع `waiting_proxy` لا يُعاد وحده. تعليق الانتظار يطلب

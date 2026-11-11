@@ -6798,6 +6798,8 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="تركيب الريل mp4 من السيناريو المعتمد (بلا نشر)")
     ap.add_argument("--pending", action="store_true", help="ركّب المنتظر (حتى reel.render.max_per_run)")
     ap.add_argument("--retry", metavar="ID", help="أعد ريلًا failed إلى queued")
+    # الأسئلة في خطوة مستقلة قبل التركيب يتبعها رفعها (قضية 1847): وإلا بقيت في ذاكرة التشغيلة حتى ينتهي تركيب الريلات
+    ap.add_argument("--skip-qa", action="store_true", help="لا تستخرج أسئلة المواضيع (خطوة مستقلة قبلها)")
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
     cfg = load_config()
@@ -6807,8 +6809,9 @@ def main(argv: list[str] | None = None) -> int:
     if args.pending:
         # أسئلة مواضيع العناوين أولًا (meta_qa): التشغيلة الوحيدة التي فيها البروكسي والمستودع الخاص وصلاحية القضايا معًا؛
         # لا تُسقط التركيب أبدًا
-        from . import meta_qa
-        meta_qa.process_safe(cfg)
+        if not args.skip_qa:
+            from . import meta_qa
+            meta_qa.process_safe(cfg)
         opened = open_missing_reviews(cfg)
         if opened:
             print(f"فُتحت {opened} قضية مراجعة لريلات مركَّبة سابقًا")

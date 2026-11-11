@@ -672,6 +672,8 @@ def finalize(issue_number: int, body: str, cfg) -> int:
             issue = review.create_issue(t.get("topic_title", "🎬 {title}").format(title=topic["title"]),
                                         topic_body(topic, data, cfg), labels=[m.get("topic_label", "meta-topic")])
             topic["topic_issue"] = issue["number"]
+            # وقت طلب الاستخراج: به يميّز meta_script.qa_in_flight «لم تُحفظ النتيجة بعد» من «لم يُطلب أو ضاع الطلب»
+            topic["qa_requested_at"] = datetime.now(timezone.utc).isoformat()
             opened = True
         lines.append(f"- {topic['title']} ← #{topic['topic_issue']}")
     _save_public(data)

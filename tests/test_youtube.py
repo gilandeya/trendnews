@@ -5618,3 +5618,65 @@ def test_meta_qa_table() -> None:
     check("المربعات تحت الجدول برقم الصف، والقراءة كما كانت",
           "- [x] 1 · متحدث 2 · 20 ث · رأي <!-- ma:1:v2:2 -->" in body
           and meta_qa.read_marks(body)["answers"] == {1: ["v2:2"]}, body[-900:])
+
+
+def test_meta_qa_in_flight() -> None:
+    """قضية 1847: إعادة وسم approved والأسئلة ظاهرة في القضية لكنها لم تُحفظ بعد (التشغيلة ما زالت تركّب) طلبت استخراجًا آخر محا
+    التعليم. طلب حديث بلا نتيجة محفوظة ← تعليق «لم تُحفظ بعد» بلا طلب ثانٍ؛ بعد pending_grace_minutes يُعاد كما كان. والأسئلة
+    خطوة مستقلة: --skip-qa يركّب بلا استخراج."""
+    from datetime import datetime as _dt, timedelta as _td, timezone as _tz
+    from src import meta_qa, meta_script, meta_topics as mt, reel_render, review
+    from src.config import load_config as real_load
+
+    cfg = real_load()
+    now = _dt.now(_tz.utc)
+    grace = float(cfg.path("youtube.meta_topics.qa.pending_grace_minutes"))
+    check("مهلة الطلب الجاري في الإعداد", grace >= 60, grace)
+    fresh = {"id": "f", "qa_requested_at": (now - _td(minutes=20)).isoformat()}
+    stale = {"id": "s", "qa_requested_at": (now - _td(minutes=grace + 5)).isoformat()}
+    requeued = {"id": "r", "qa": {"status": None, "requeued_at": (now - _td(minutes=5)).isoformat()}}
+    check("طلب حديث جارٍ، وقديم ضائع، وبلا ختم ليس جاريًا",
+          meta_script.qa_in_flight(fresh, cfg, now) and not meta_script.qa_in_flight(stale, cfg, now)
+          and meta_script.qa_in_flight(requeued, cfg, now) and not meta_script.qa_in_flight({"id": "n"}, cfg, now))
+
+    saved = {k: getattr(review, k) for k in ("comment", "remove_label", "dispatch_workflow")}
+    comments, removed, dispatched = [], [], []
+    review.comment = lambda n, text: comments.append((n, text))
+    review.remove_label = lambda n, label: removed.append((n, label))
+    review.dispatch_workflow = lambda wf, ref: dispatched.append(wf)
+    try:
+        today = now.strftime("%Y-%m-%d")
+        data = {"date": today, "topics": [{"id": "abcabcabc001", "title": "موضوع", "topic_issue": 1847,
+                                           "qa_requested_at": (now - _td(minutes=30)).isoformat()}]}
+        mt._save_public(data)
+        body = f"<!-- mtopic-issue:abcabcabc001 -->\n<!-- meta-date:{today} -->\n- [x] **1. س؟** <!-- mq:1 -->\n"
+        rc = meta_script.finalize(1847, body, cfg)
+        t5 = cfg.path("youtube.meta_topics.script.texts")
+        check("وسم والأسئلة لم تُحفظ بعد: تعليق انتظار بلا استخراج جديد وتُزال approved",
+              rc == 1 and not dispatched and (1847, "approved") in removed
+              and comments == [(1847, t5["no_qa"])] and "لم يُطلب استخراج جديد" in t5["no_qa"]
+              and not mt._load_public(today)["topics"][0].get("qa"), (rc, dispatched, comments))
+        data["topics"][0]["qa_requested_at"] = (now - _td(minutes=grace + 10)).isoformat()
+        mt._save_public(data)
+        comments.clear(); removed.clear()
+        meta_script.finalize(1847, body, cfg)
+        check("بعد المهلة يُعدّ الطلب ضائعًا فيُطلب الاستخراج كما كان",
+              dispatched and any(c[1] == t5["qa_requeued"] for c in comments), (dispatched, comments))
+    finally:
+        for k, f in saved.items():
+            setattr(review, k, f)
+
+    calls = []
+    saved_rr = (meta_qa.process_safe, reel_render.open_missing_reviews, reel_render.pending_batch)
+    meta_qa.process_safe = lambda c: calls.append("qa")
+    reel_render.open_missing_reviews = lambda c: 0
+    reel_render.pending_batch = lambda c: []
+    try:
+        reel_render.main(["--pending", "--skip-qa"])
+        skipped = calls == []
+        reel_render.main(["--pending"])
+        check("--skip-qa يركّب بلا استخراج، وبدونه يستخرج أولًا كما كان", skipped and calls == ["qa"], calls)
+    finally:
+        meta_qa.process_safe, reel_render.open_missing_reviews, reel_render.pending_batch = saved_rr
+    check("فتح قضية الموضوع يختم وقت طلب الاستخراج",
+          'topic["qa_requested_at"]' in Path("src/meta_topics.py").read_text(encoding="utf-8"))
