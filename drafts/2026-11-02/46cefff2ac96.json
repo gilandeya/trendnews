@@ -682,7 +682,7 @@
   },
   "reel_file": "reels/2026-11-02/46cefff2ac96.mp4",
   "reel_gif": "reels/2026-11-02/46cefff2ac96.gif",
-  "duration_seconds": 132.9,
+  "duration_seconds": 133.4,
   "render_version": 76,
   "render_attempts": 0,
   "reel_music": "nastelbom-news-news-2-473288.mp3",
@@ -764,14 +764,14 @@
         "overridden_by": 3
       },
       "gate": {
-        "start": 1.17,
-        "end": 29.7,
+        "start": 1.03,
+        "end": 29.56,
         "source": "silence"
       },
       "exact": {
-        "t0": 669.74,
-        "t1": 698.04,
-        "ratio": 0.946,
+        "t0": 669.88,
+        "t1": 698.54,
+        "ratio": 0.932,
         "source": "words"
       },
       "panel_q": 0,
@@ -803,7 +803,7 @@
         "frames": [
           0.71,
           0.71,
-          0.82
+          0.71
         ]
       },
       "quote_sync": "words",
@@ -868,9 +868,9 @@
       "quote_mode": "word"
     },
     "8": {
-      "x": 572,
+      "x": 858,
       "source": "speaker_vision",
-      "speaker_score": 0.49,
+      "speaker_score": 0.39,
       "tracks": 5,
       "vision": {
         "pick": 2,
@@ -892,7 +892,7 @@
       "panel_q": 2,
       "tile_crop": null,
       "frame_crop": {
-        "x": 508,
+        "x": 766,
         "y": 0,
         "w": 346,
         "h": 402,
@@ -900,7 +900,7 @@
       },
       "bars": [
         0,
-        16,
+        24,
         0,
         0
       ],
@@ -933,7 +933,7 @@
       "accepted": false
     },
     "4": {
-      "name_original": "GAFFAR YAKINCA – GAZETECİ",
+      "name_original": "GAFFAR YAKINCA – GAZETECI",
       "name_arabic": "غفار ياكينجا",
       "role_arabic": "صحفي",
       "is_presenter": false,
@@ -4659,7 +4659,7 @@
     }
   },
   "render_map_errors": {
-    "kRWeOsx-U7I": "ffmpeg: : Invalid data found when processing input Error opening input file /tmp/reel_render_bh5tkgwu/map_kRWeOsx-U7I/kR"
+    "kRWeOsx-U7I": "ffmpeg: Invalid data found when processing input Error opening input file /tmp/reel_render_l6sk_0yu/map_kRWeOsx-U7I/kRWe"
   },
   "render_exact_selfcheck": {
     "ok": true,
@@ -4667,19 +4667,19 @@
   },
   "render_dropped": [],
   "render_approx": [],
-  "rendered_at": "2026-11-11T17:44:53.006187+00:00",
+  "rendered_at": "2026-11-11T18:41:53.729015+00:00",
   "render_notes": [
     "### 🎬 تركيب الريل",
-    "- ⏱️ المدة: 132.9 ث",
+    "- ⏱️ المدة: 133.4 ث",
     "- 🎞️ [الملف](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-11-02/46cefff2ac96.mp4) · [المعاينة](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-11-02/46cefff2ac96.gif)",
     "- 🎞️ لم أجد لقطة صالحة من الحدث — الهوك بصورة الخبر",
     "- 👥 ضيوف الجزيرة: إبراهيم فريحات، جويه، حسن أحمد، سالم اليامي، مصطفى عثمان إسماعيل، زياد ماجد، محجوب الزويري",
     "- 👥 ضيوف سي إن إن ترك: غفار ياكينجا",
-    "- ⚠️ تعذّر بناء خريطة متكلمي الجزيرة: ffmpeg: : Invalid data found when processing input Error opening input file /tmp/reel_render_bh5tkgwu/map_kRWeOsx-U7I/kR",
+    "- ⚠️ تعذّر بناء خريطة متكلمي الجزيرة: ffmpeg: Invalid data found when processing input Error opening input file /tmp/reel_render_l6sk_0yu/map_kRWeOsx-U7I/kRWe",
     "- 👥 الشريط يحمل اسم غفار ياكينجا وهو ضيف في قائمة الحلقة — اعتُمد اسمه",
-    "- 👤 من شريط القناة: غفار ياكينجا (GAFFAR YAKINCA – GAZETECİ) — صحفي",
+    "- 👤 من شريط القناة: غفار ياكينجا (GAFFAR YAKINCA – GAZETECI) — صحفي",
     "- 🏷️ سمّى Gemini متكلم مقطع العربية: سامح الهادي",
-    "- 🏷️ سمّى Gemini متكلم مقطع سي إن إن ترك: قدرية غوتشلو ساكاريا",
+    "- 🏷️ سمّى Gemini متكلم مقطع سي إن إن ترك: قادرية غوتشلو ساكاريا",
     "- 🎯 مقطع الجزيرة: 3 وجوه — المتكلم بالرؤية",
     "- 🎯 مقطع سي إن إن ترك: 4 وجوه — المتكلم بالرؤية مع تغليب الحركة الجسدية",
     "- ✂️ أُخفي شريط القناة في سي إن إن ترك: قُصّ أسفل 31%",
@@ -4687,10 +4687,10 @@
     "- 🎯 مقطع العربية: 7 وجوه — المتكلم بالرؤية",
     "- ✂️ أُخفي شريط القناة في العربية: قُصّ أسفل 24%",
     "- 🎯 مقطع سي إن إن ترك: 5 وجوه — المتكلم بالرؤية",
-    "- ✂️ أُخفي شريط القناة في سي إن إن ترك: قُصّ أسفل 16%",
+    "- ✂️ أُخفي شريط القناة في سي إن إن ترك: قُصّ أسفل 17%",
     "- ▭ مقطع سي إن إن ترك: أُزيلت أشرطة سوداء",
     "- 🧊 ختام الريل: لا لقطات تسبق الهوك — جُمّد أول إطار منه مع اقتراب بطيء",
-    "- 💵 كلفة الريل: 0.19$ — التركيب 0.19$ (Sonnet 0.03$ · Haiku 0.01$ · Gemini 0.14$ · صوت 0.02$ · بروكسي 17 MB) · البروكسي خارج المجموع"
+    "- 💵 كلفة الريل: 0.19$ — التركيب 0.19$ (Sonnet 0.03$ · Haiku 0.01$ · Gemini 0.14$ · صوت 0.02$ · بروكسي 22 MB) · البروكسي خارج المجموع"
   ],
   "reel_review_issue": 1782,
   "render_gemini_speakers": [
@@ -4705,8 +4705,8 @@
     {
       "point_id": "7728ee5dee3f",
       "video_id": "Ec34laYK8rs",
-      "start": 669.7,
-      "end": 698.0,
+      "start": 669.9,
+      "end": 698.5,
       "name": "",
       "applied": false
     },
@@ -4725,23 +4725,23 @@
       "video_id": "tBfbBMS6_8w",
       "start": 484.5,
       "end": 495.7,
-      "name": "قدرية غوتشلو ساكاريا",
+      "name": "قادرية غوتشلو ساكاريا",
       "source": "chyron",
       "is_host": false,
       "applied": true
     }
   ],
-  "render_gemini_cost": 0.1352,
+  "render_gemini_cost": 0.1358,
   "cost_renders": [
     {
       "claude": {
-        "claude-haiku-5-5": 0.00756,
-        "claude-sonnet-5": 0.02587
+        "claude-haiku-5-5": 0.00783,
+        "claude-sonnet-5": 0.02603
       },
-      "gemini": 0.1352,
+      "gemini": 0.1358,
       "tts": 0.01677,
-      "proxy_bytes": 17006748,
-      "at": "2026-11-11T17:44:53.006262+00:00"
+      "proxy_bytes": 21764513,
+      "at": "2026-11-11T18:41:53.729079+00:00"
     }
   ]
 }
