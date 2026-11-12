@@ -81,6 +81,19 @@ def bites_points(bites: list[dict], date: str) -> list[dict]:
     return points
 
 
+def draft_points(draft: dict) -> list[dict]:
+    """نقاط ريل موضوع العناوين للتركيب: مقاطعه في ملف الأسئلة الخاص لا في نافذة نقاط youtube_topics (قضية 1850: حُذفت
+    المقاطع الثلاثة كلها «غير موجودة في نافذة النقاط»). كل مقاطع الملف لا المعلَّم وحده، لأن السيناريو المعتمد يُعدَّل
+    وقد يحمل مقطعًا آخر من الموضوع؛ ومعرّف النقطة (point_key) من الفيديو والملخّص فيطابق ما كتبه finalize."""
+    from . import meta_qa
+    tid = draft.get("meta_topic_id") or ""
+    if not tid:
+        return []
+    priv = json.loads(meta_qa.private_path(tid).read_text(encoding="utf-8"))
+    bites = [b for b in priv.get("bites") or [] if b.get("bite_id") and b.get("video_id")]
+    return bites_points(bites, draft.get("topic_date") or draft.get("run_date") or "")
+
+
 # ───────────── السياق والختام (نداء واحد) ─────────────
 
 def _create(client, **kwargs):
