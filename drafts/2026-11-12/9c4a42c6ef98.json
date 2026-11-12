@@ -585,7 +585,7 @@
   },
   "review_issue": 1855,
   "stage2_issue": 1855,
-  "render_status": "queued",
+  "render_status": "rendered",
   "approved_script_at": "2026-11-12T05:21:41.454698+00:00",
   "editor_override": {
     "at": "2026-11-12T05:21:41.454684+00:00",
@@ -593,5 +593,390 @@
       "سؤال [9] يكرر سؤال [7] («هل ينجو هيغسيث من العزل أم تطيح به الضغوط؟») بالمعنى نفسه تقريبًا، ولا يضيف زاوية جديدة. البديل المقترح يربط السؤال بزاوية المقطع [8] عن فشل محاولات العزل السابقة، وهو ضمن حد 10 كلمات."
     ]
   },
-  "hook_picked": 0
+  "hook_picked": 0,
+  "reel_file": "reels/2026-11-12/9c4a42c6ef98.mp4",
+  "reel_gif": "reels/2026-11-12/9c4a42c6ef98.gif",
+  "duration_seconds": 143.5,
+  "render_version": 76,
+  "render_attempts": 0,
+  "reel_music": "kulakovka-financial-news-614884.mp3",
+  "render_sources": "فوكس نيوز، آر تي في آي، دويتشه فيله، إيران إنترناشيونال",
+  "render_crops": {
+    "3": {
+      "x": 309,
+      "source": "speaker_combined",
+      "speaker_score": 0.84,
+      "tracks": 3,
+      "vision": {
+        "pick": 0,
+        "agree": 1,
+        "archive": [
+          3
+        ]
+      },
+      "gate": {
+        "start": 0.88,
+        "end": 24.04,
+        "source": "silence"
+      },
+      "exact": {
+        "t0": 184.4,
+        "t1": 207.52,
+        "ratio": 1.0,
+        "source": "words"
+      },
+      "panel_q": 0,
+      "tile_crop": {
+        "x": 132,
+        "y": 0,
+        "w": 624,
+        "h": 370,
+        "mode": "full_height"
+      },
+      "frame_crop": {
+        "x": 284,
+        "y": 0,
+        "w": 318,
+        "h": 370,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.77,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.79,
+          0.79,
+          0.79
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "line"
+    },
+    "4": {
+      "x": 415,
+      "source": "speaker",
+      "speaker_score": 1.21,
+      "tracks": 1,
+      "gate": {
+        "start": 1.0,
+        "end": 19.0,
+        "source": "approx"
+      },
+      "exact": {
+        "source": "approx",
+        "error": "النسبة 0.0 أقل من 0.7",
+        "reason": "low_ratio",
+        "best_ratio": 0.0,
+        "heard_words": 159,
+        "heard_head": [
+          "senators",
+          "like",
+          "the",
+          "republicans",
+          "or",
+          "rather",
+          "the",
+          "republicans"
+        ]
+      },
+      "panel_q": 0,
+      "tile_crop": {
+        "x": 138,
+        "y": 0,
+        "w": 958,
+        "h": 568,
+        "mode": "full_height"
+      },
+      "frame_crop": {
+        "x": 374,
+        "y": 0,
+        "w": 488,
+        "h": 568,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.79,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.81,
+          0.81,
+          0.81
+        ]
+      },
+      "quote_sync": "uniform",
+      "quote_mode": "line"
+    },
+    "5": {
+      "x": 421,
+      "source": "speaker",
+      "speaker_score": 1.1,
+      "tracks": 1,
+      "gate": {
+        "start": 0.88,
+        "end": 22.53,
+        "source": "silence"
+      },
+      "exact": {
+        "t0": 141.54,
+        "t1": 162.92,
+        "ratio": 1.0,
+        "source": "words"
+      },
+      "panel_q": 0,
+      "tile_crop": {
+        "x": 16,
+        "y": 0,
+        "w": 1216,
+        "h": 720,
+        "mode": "full_height"
+      },
+      "frame_crop": {
+        "x": 314,
+        "y": 0,
+        "w": 620,
+        "h": 720,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": false,
+      "lower_graphics": {
+        "top": 1,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "quote_sync": "words",
+      "quote_mode": "line"
+    },
+    "7": {
+      "x": 421,
+      "source": "speaker",
+      "speaker_score": 1.16,
+      "tracks": 1,
+      "gate": {
+        "start": 1.0,
+        "end": 26.0,
+        "source": "approx"
+      },
+      "exact": {
+        "source": "approx",
+        "error": "النسبة 0.0 أقل من 0.7",
+        "reason": "low_ratio",
+        "best_ratio": 0.0,
+        "heard_words": 171,
+        "heard_head": [
+          "اين",
+          "تخوابات",
+          "بادي",
+          "رياسته",
+          "جوموريه",
+          "نا",
+          "اين",
+          "كه"
+        ]
+      },
+      "panel_q": 1,
+      "tile_crop": null,
+      "frame_crop": {
+        "x": 360,
+        "y": 0,
+        "w": 526,
+        "h": 612,
+        "mode": "full_height"
+      },
+      "bars": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "ticker": true,
+      "lower_graphics": {
+        "top": 0.85,
+        "source": "model",
+        "clamped": false,
+        "frames": [
+          0.87,
+          0.87,
+          0.87
+        ]
+      },
+      "quote_sync": "uniform",
+      "quote_mode": "line"
+    },
+    "clash": {
+      "mode": "single",
+      "relation": "single",
+      "cards": [
+        {
+          "point_id": "3dd9d536c75f",
+          "t0": 38.2,
+          "t1": 43.64,
+          "text": "إنها مهزلة وحركة بهلوانية والجميع يدرك ذلك",
+          "mode": "line"
+        }
+      ],
+      "hook_text": "عزل وزير الحرب: محاسبة أم استعراض؟",
+      "seconds": 11.0
+    },
+    "closing": {
+      "source": "freeze"
+    }
+  },
+  "render_speakers": {
+    "3": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "4": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "5": {
+      "accepted": false,
+      "source": "gemini"
+    },
+    "7": {
+      "accepted": false,
+      "source": "gemini"
+    }
+  },
+  "render_gemini_speakers": [
+    {
+      "point_id": "3dd9d536c75f",
+      "video_id": "b0Vk5tduigs",
+      "start": 184.4,
+      "end": 207.5,
+      "name": "بيت هيغسيث",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "c5aa223f8960",
+      "video_id": "TBjjEAghUHA",
+      "start": 999.0,
+      "end": 1019.0,
+      "name": "توماس ماسي",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "7b84c6ff6422",
+      "video_id": "YLsdcIOGzhY",
+      "start": 141.5,
+      "end": 162.9,
+      "name": "حكيم جيفريز",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    },
+    {
+      "point_id": "e19d6b626649",
+      "video_id": "DbVCc9YnnLA",
+      "start": 101.0,
+      "end": 128.0,
+      "name": "بيت هيغسيث",
+      "source": "chyron",
+      "is_host": false,
+      "applied": true
+    }
+  ],
+  "render_gemini_cost": 0.0532,
+  "render_exact_selfcheck": {
+    "ok": true,
+    "reason": ""
+  },
+  "render_dropped": [],
+  "render_approx": [
+    {
+      "point_id": "3dd9d536c75f",
+      "kind": "clip",
+      "start": 184,
+      "end": 207,
+      "reason": "الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة",
+      "aligned": true
+    },
+    {
+      "point_id": "c5aa223f8960",
+      "kind": "clip",
+      "start": 999,
+      "end": 1019,
+      "reason": "الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة"
+    },
+    {
+      "point_id": "7b84c6ff6422",
+      "kind": "clip",
+      "start": 141,
+      "end": 163,
+      "reason": "الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة",
+      "aligned": true
+    },
+    {
+      "point_id": "e19d6b626649",
+      "kind": "clip",
+      "start": 101,
+      "end": 128,
+      "reason": "الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة"
+    }
+  ],
+  "rendered_at": "2026-11-12T05:38:39.538140+00:00",
+  "cost_renders": [
+    {
+      "claude": {
+        "claude-haiku-5-5": 0.00857,
+        "claude-sonnet-5": 0.02216
+      },
+      "gemini": 0.0532,
+      "tts": 0.01476,
+      "proxy_bytes": 38510121,
+      "at": "2026-11-12T05:38:39.538207+00:00"
+    }
+  ],
+  "render_notes": [
+    "### 🎬 تركيب الريل",
+    "- ⏱️ المدة: 143.5 ث",
+    "- 🎞️ [الملف](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-11-12/9c4a42c6ef98.mp4) · [المعاينة](https://github.com/gilandeya/trendnews-data/blob/main/reels/2026-11-12/9c4a42c6ef98.gif)",
+    "- ⚠️ نافذة تقديرية لمقطع آر تي في آي (16:39–16:59): الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة — راجع بداية المقطع ونهايته",
+    "- ⚠️ نافذة تقديرية لمقطع إيران إنترناشيونال (1:41–2:08): الاقتباس غير موجود في النص المجلوب — نافذة تقريبية من طابع النقطة — راجع بداية المقطع ونهايته",
+    "- ⚠️ لم يُضبط 2 مقاطع كلمة بكلمة (آر تي في آي، إيران إنترناشيونال): النسبة 0.0 أقل من 0.7 — قد يُسمع ما قبلها أو بعدها",
+    "- 🎞️ المرشّحون لم يحوِ أيٌّ منهم لقطات صالحة من الحدث — الهوك بصورة الخبر",
+    "- ✅ Gemini يؤكد المتكلم: بيت هيغسيث (فوكس نيوز)",
+    "- 🏷️ سمّى Gemini متكلم مقطع آر تي في آي: توماس ماسي",
+    "- 🏷️ سمّى Gemini متكلم مقطع دويتشه فيله: حكيم جيفريز",
+    "- 🏷️ سمّى Gemini متكلم مقطع إيران إنترناشيونال: بيت هيغسيث",
+    "- 🃏 هوك بورقة واحدة: فوكس نيوز (الثانية سقطت بحرّاس القائل أو لم يوجد زوج)",
+    "- 🎯 مقطع فوكس نيوز: 3 وجوه — المتكلم بالفم واليدين والموقع",
+    "- ✂️ أُخفي شريط القناة في آر تي في آي: قُصّ أسفل 21%",
+    "- ✂️ أُخفي شريط القناة في إيران إنترناشيونال: قُصّ أسفل 15%",
+    "- 🧊 ختام الريل: لا لقطات تسبق الهوك — جُمّد أول إطار منه مع اقتراب بطيء",
+    "- 💵 كلفة الريل: 3.58$ — المقاطع والأسئلة 1.07$ · السيناريو 2.41$ · التركيب 0.10$ (Opus 2.78$ · Sonnet 0.04$ · Haiku 0.01$ · Gemini 0.69$ · صوت 0.01$ · بحث ويب 4 · بروكسي 39 MB) · البروكسي خارج المجموع"
+  ],
+  "reel_review_issue": 1856
 }
