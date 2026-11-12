@@ -76,6 +76,9 @@ def load_config(path=None):
         # شريط الخلفية الواحد (خ1، 8/11) يغيّر أوامر مشاهد الراوي التي تثبّتها مراجع R5d2 وما بعدها؛ bg_track_cfg يعيده
         if isinstance(rcfg.get("bg_track"), dict):
             rcfg["bg_track"]["enabled"] = False
+        # الخلفية الكحلية المحضَّرة (قضية 1856) تغيّر أوامر الريل بلا صورة التي تثبّتها المراجع القديمة؛ test_reel_1856_fixes يطلبها
+        if isinstance(rcfg.get("background"), dict):
+            rcfg["background"]["navy_canvas"] = False
         if isinstance(rcfg.get("outro"), dict):
             rcfg["outro"]["logo_width"] = 420
         if isinstance(rcfg.get("hook"), dict):

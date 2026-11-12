@@ -411,8 +411,12 @@ def issue_body(topic: dict, data: dict, qa: dict, cfg, full_bites: list | None =
                 view = f"**{a['view']}**" + (t.get("view_count", " ({n})").format(n=n_view) if n_view > 1 else "") + "<br>"
             link = f" [▶](https://youtu.be/{b['video_id']}?t={int(float(b.get('start') or 0))})"
             orient = b.get("orientation") or ""
+            # قضية 1856: صاحب المشروع يرى قبل الاختيار أن المقطع مؤتمر صحفي أو منقول عن قناة أخرى (لن تُذكر قناته في الريل)
+            relay = {"external": t.get("relay_external", ""), "other_channel": t.get("relay_other", "")}.get(b.get("setting") or "", "")
+            relay = relay.format(source=b.get("source_channel") or "?") if relay else ""
             lines.append(f"| {k} | {_cell(view + quote + link)} | {_cell(who)}{'<br><sub>' + _cell(role) + '</sub>' if role else ''} | "
-                         f"{_cell(b.get('channel') or '')}{'<br><sub>' + _cell(orient) + '</sub>' if orient else ''} |")
+                         f"{_cell(b.get('channel') or '')}{'<br><sub>' + _cell(orient) + '</sub>' if orient else ''}"
+                         f"{'<br><sub>' + _cell(relay) + '</sub>' if relay else ''} |")
             boxes.append(f"- [{'x' if a.get('selected') else ' '}] "
                          + t.get("answer_box", "{k} · {who} · {seconds} ث · {kind}{weak}").format(
                              k=k, who=who, seconds=_fmt_sec(_sec(b)), kind=kind, weak=weak)
@@ -445,7 +449,7 @@ def read_marks(body: str) -> dict:
 def public_bite(b: dict) -> dict:
     """ما يُحفظ في ملف الحالة العام: بلا ترجمة ولا كلام بلغته؛ الترجمة تُعرض في جسم القضية وحده (issue_body)."""
     return {k: b.get(k) for k in ("bite_id", "video_id", "channel", "bloc", "orientation", "speaker", "speaker_original",
-                                  "speaker_role", "is_host", "type", "start", "end", "summary_ar")}
+                                  "speaker_role", "is_host", "type", "start", "end", "summary_ar", "setting", "source_channel")}
 
 
 def process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: datetime | None = None,

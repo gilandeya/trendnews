@@ -5720,6 +5720,63 @@ def test_reel_1850_fixes() -> None:
     check("1850: الميادين موقوفة", len(ch) == 1 and ch[0].get("active") is False)
 
 
+def test_reel_1856_fixes() -> None:
+    """قضية 1856: (أ) دبلجة بلغة غير العربية تُرفض، والمؤتمر الصحفي أو المقطع المنقول لا يُنسب إلى من أعاد بثه؛ (ب) جملة المواجهة
+    حتى 6 ث؛ (ج) بلا صورة صالحة خلفية كحلية محضَّرة فلا تسقط الخرائط ولقطات الحدث وشريط الخلفية."""
+    from src import gemini_bites, meta_qa, reel_render, reel_script, youtube_bites
+    from src.config import load_config as real_load
+
+    cfg = real_load()
+    data = {"speakers": [{"name_ar": "توماس ماسي", "name_original": "Thomas Massie", "role": "نائب", "name_source": "chyron"}],
+            "bites": [{"start": "01:00", "end": "01:20", "speaker": "توماس ماسي", "type": "opinion", "summary_ar": "يرى",
+                       "text_original": "words", "text_ar": "الوزير خطر على الدستور", "audio": "dubbed_other", "setting": "external"},
+                      {"start": "02:00", "end": "02:20", "speaker": "توماس ماسي", "type": "opinion", "summary_ar": "يرى العزل",
+                       "text_original": "words", "text_ar": "يجب عزله فورا", "audio": "original", "setting": "external"},
+                      {"start": "03:00", "end": "03:20", "speaker": "توماس ماسي", "type": "opinion", "summary_ar": "يرى الاستعراض",
+                       "text_original": "words", "text_ar": "هذا استعراض سياسي", "audio": "dubbed_ar", "setting": "other_channel",
+                       "source_channel": "فوكس نيوز"},
+                      {"start": "04:00", "end": "04:20", "speaker": "توماس ماسي", "type": "opinion", "summary_ar": "قديم",
+                       "text_original": "words", "text_ar": "رد بلا حقول جديدة"}]}
+    ok, bad = gemini_bites.to_bites(data, "v", "عزل", cfg, duration=600)
+    by = {b["bite_id"]: b for b in ok}
+    check("1856: الدبلجة بلغة غير العربية تُرفض", "v:g60" not in by and any("ترجمة صوتية" in r["reason"] for r in bad), bad)
+    check("1856: الصوت الأصلي والدبلجة العربية يُقبلان بإطارهما",
+          by.get("v:g120", {}).get("setting") == "external" and by.get("v:g180", {}).get("source_channel") == "فوكس نيوز"
+          and by.get("v:g240", {}).get("setting") == "studio", list(by))
+    pts = youtube_bites.bites_as_points([dict(b, video_id="v", channel="RTVI") for b in ok])
+    check("1856: النقطة تحمل الإطار", [p.get("setting") for p in pts] == ["external", "other_channel", "studio"])
+    for p in pts:
+        p.update(video_url="https://www.youtube.com/watch?v=v", timestamp=int(p["start"]), quote_original="words here")
+    clips = reel_script.valid_clips(pts, [], cfg)
+    check("1856: المقطع يحمل relay ومصدره", [c.get("relay") for c in clips] == ["external", "other_channel", ""]
+          and clips[1].get("relay_source") == "فوكس نيوز", [c.get("relay") for c in clips])
+    ext = {"channel_display": "آر تي في آي", "channel_original": "RTVI", "relay": "external"}
+    check("1856: مؤتمر صحفي ← لا قناة في الشريط", reel_render.band_channel_parts(reel_render.relay_view(ext), cfg) == ("", ""))
+    oth = {"channel_display": "إيران إنترناشيونال", "channel_original": "Iran International", "relay": "other_channel",
+           "relay_source": "فوكس نيوز"}
+    check("1856: منقول ← القناة الأصلية", reel_render.relay_view(oth)["channel_display"] == "فوكس نيوز"
+          and reel_render.relay_view({**oth, "relay_source": ""})["channel_display"] == "")
+    check("1856: مقطع الأستوديو كما هو", reel_render.relay_view({"channel_display": "سي إن إن"})["channel_display"] == "سي إن إن")
+
+    check("1856: جملة المواجهة حتى 6 ث", cfg.path("reel.render.clash.line_seconds") == [1.5, 6])
+
+    check("1856: الخلفية الكحلية مفعّلة في الإنتاج", cfg.path("reel.render.background.navy_canvas") is True)
+    canvas = reel_render.navy_canvas(cfg)
+    check("1856: الخلفية الكحلية طبقة كاملة تقوم مقام الصورة", canvas.get("wide") is not None and canvas["used"]["kind"] == "none"
+          and canvas["image"].size == (int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))))
+    check("1856: الختام بلا سطر صورة للخلفية الكحلية", reel_render.outro_credit(cfg, canvas["used"]) == "")
+    src = Path("src/reel_render.py").read_text(encoding="utf-8")
+    check("1856: التركيب يستعمل الخلفية الكحلية حين لا صورة", "bg = navy_canvas(cfg)" in src)
+
+    bites = [{"bite_id": "v:1", "video_id": "v", "start": 10, "end": 30, "seconds": 20, "speaker": "توماس ماسي", "type": "opinion",
+              "channel": "RTVI", "orientation": "", "text_ar": "يجب عزله", "summary_ar": "يرى", "setting": "external"}]
+    qa = {"titles": ["ع؟"], "questions": [{"text": "س؟", "answers": [{"n": 1, "fit": "direct", "selected": True}]}],
+          "bites": [meta_qa.public_bite(b) for b in bites], "selected_seconds": 20}
+    topic = {"id": "t56", "title": "حدث", "blocs": ["russian"], "orientations": 1, "minutes": 5, "channels": [], "videos": []}
+    body = meta_qa.issue_body(topic, {"date": "2026-11-12"}, qa, cfg, full_bites=bites)
+    check("1856: قضية الموضوع تُظهر أن المقطع خارج برامج القناة", "📡 خارج برامج القناة" in body, body[-600:])
+
+
 def test_meta_qa_in_flight() -> None:
     """قضية 1847: إعادة وسم approved والأسئلة ظاهرة في القضية لكنها لم تُحفظ بعد (التشغيلة ما زالت تركّب) طلبت استخراجًا آخر محا
     التعليم. طلب حديث بلا نتيجة محفوظة ← تعليق «لم تُحفظ بعد» بلا طلب ثانٍ؛ بعد pending_grace_minutes يُعاد كما كان. والأسئلة
