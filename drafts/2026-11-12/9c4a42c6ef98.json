@@ -1,7 +1,7 @@
 {
   "id": "9c4a42c6ef98",
   "created_at": "2026-11-12T05:03:48.418141+00:00",
-  "status": "pending",
+  "status": "approved_script",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -461,24 +461,6 @@
       "duration": 174,
       "published": "2026-11-11T05:40:16Z",
       "views_per_hour": 743.7
-    },
-    {
-      "video_id": "BOJksPDDhSc",
-      "title": "House Republicans quash effort to impeach Defense Secretary Hegseth • FRANCE 24 English",
-      "channel": "FRANCE 24 English",
-      "views": 5598,
-      "duration": 354,
-      "published": "2026-11-11T09:55:03Z",
-      "views_per_hour": 291.5
-    },
-    {
-      "video_id": "Uoz3znhWgDE",
-      "title": "US House votes to derail impeachment of Defense Secretary Hegseth • FRANCE 24 English",
-      "channel": "FRANCE 24 English",
-      "views": 3516,
-      "duration": 86,
-      "published": "2026-11-11T12:17:20Z",
-      "views_per_hour": 208.8
     }
   ],
   "hook_search": {
@@ -602,5 +584,14 @@
     "web_search": 4
   },
   "review_issue": 1855,
-  "stage2_issue": 1855
+  "stage2_issue": 1855,
+  "render_status": "queued",
+  "approved_script_at": "2026-11-12T05:21:41.454698+00:00",
+  "editor_override": {
+    "at": "2026-11-12T05:21:41.454684+00:00",
+    "reasons": [
+      "سؤال [9] يكرر سؤال [7] («هل ينجو هيغسيث من العزل أم تطيح به الضغوط؟») بالمعنى نفسه تقريبًا، ولا يضيف زاوية جديدة. البديل المقترح يربط السؤال بزاوية المقطع [8] عن فشل محاولات العزل السابقة، وهو ضمن حد 10 كلمات."
+    ]
+  },
+  "hook_picked": 0
 }
