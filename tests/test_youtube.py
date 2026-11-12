@@ -5837,3 +5837,85 @@ def test_meta_qa_in_flight() -> None:
         meta_qa.process_safe, reel_render.open_missing_reviews, reel_render.pending_batch = saved_rr
     check("فتح قضية الموضوع يختم وقت طلب الاستخراج",
           'topic["qa_requested_at"]' in Path("src/meta_topics.py").read_text(encoding="utf-8"))
+
+
+def test_tts_elevenlabs() -> None:
+    """صوت ElevenLabs ما دام فيه رصيد ثم Google (طلب صاحب المشروع 12/11): المزوّد يُحسم للريل كله عند أول جملة، والرصيد القليل أو
+    غياب المفتاح يعني Google، ورفض ElevenLabs وسط الريل يُكمل بـGoogle مع تنبيه صوتين، والمفتاح لا يظهر في الأخطاء."""
+    from src import tts
+    from src.config import Config, load_config as real_load
+
+    base = real_load()
+    check("ElevenLabs مفعَّل في config.yaml", base.path("reel.tts.elevenlabs.enabled") is True)
+    cfg = Config(dict(base))
+    female = cfg.path("reel.tts.narrator_voices.female")
+    male = cfg.path("reel.tts.narrator_voices.male")
+    google_calls, el_calls = [], []
+
+    def google(text, voice):
+        google_calls.append(voice)
+        return {"ok": True, "audio": b"G", "chars": len(text)}
+
+    def make_post(fail_after=None):
+        def post(url, headers, body, timeout):
+            el_calls.append((url, headers.get("xi-api-key"), body))
+            if fail_after is not None and len(el_calls) > fail_after:
+                raise RuntimeError("HTTP 401 quota_exceeded SECRETKEY")
+            return b"E"
+        return post
+
+    def get_rem(n):
+        return lambda url, headers, timeout: {"character_limit": 10000, "character_count": 10000 - n}
+
+    old = os.environ.get("ELEVENLABS_API_KEY")
+    try:
+        os.environ["ELEVENLABS_API_KEY"] = "SECRETKEY"
+        s = tts.VoiceSession(cfg, get=get_rem(9000), post=make_post(), google=google)
+        r1, r2 = s.synthesize("جملة أولى", female), s.synthesize("جملة ثانية", male)
+        check("برصيد كافٍ: ElevenLabs بصوت الجنس نفسه وبلا Google",
+              r1["audio"] == b"E" and r2["audio"] == b"E" and not google_calls
+              and cfg.path("reel.tts.elevenlabs.voices.female") in el_calls[0][0]
+              and cfg.path("reel.tts.elevenlabs.voices.male") in el_calls[1][0], el_calls)
+        check("الطلب بالنموذج وبلا temperature", el_calls[0][2]["model_id"] == cfg.path("reel.tts.elevenlabs.model")
+              and "temperature" not in str(el_calls[0][2]))
+        check("سطر التعليق يذكر ElevenLabs والباقي", "ElevenLabs" in s.note() and "8981" in s.note(), s.note())
+
+        el_calls.clear()
+        s = tts.VoiceSession(cfg, get=get_rem(1000), post=make_post(), google=google)
+        s.synthesize("جملة", female)
+        check("رصيد أقل من حاجة ريل: Google للريل كله بلا نداء ElevenLabs",
+              not el_calls and google_calls and "Google" in s.note() and "رصيد" in s.note(), s.note())
+
+        google_calls.clear()
+        s = tts.VoiceSession(cfg, get=get_rem(9000), post=make_post(fail_after=1), google=google)
+        s.synthesize("أ", female)
+        s.synthesize("ب", female)
+        s.synthesize("ج", female)
+        check("نفد وسط الريل: يُكمل بـGoogle مع تنبيه صوتين، ولا يعود إلى ElevenLabs",
+              len(el_calls) == 2 and len(google_calls) == 2 and "صوتان" in s.note(), (len(el_calls), s.note()))
+        check("المفتاح لا يظهر في السبب", "SECRETKEY" not in s.note() and "SECRETKEY" not in s.reason, s.reason)
+
+        el_calls.clear()
+        s = tts.VoiceSession(cfg, get=lambda *a: (_ for _ in ()).throw(RuntimeError("403")), post=make_post(), google=google)
+        s.synthesize("جملة", female)
+        check("رصيد مجهول (لا صلاحية قراءة): يُجرَّب ElevenLabs", len(el_calls) == 1 and "?" in s.note(), s.note())
+
+        os.environ.pop("ELEVENLABS_API_KEY")
+        google_calls.clear()
+        s = tts.VoiceSession(cfg, get=get_rem(9000), post=make_post(), google=google)
+        s.synthesize("جملة", female)
+        check("بلا مفتاح: Google", google_calls and "مفتاح" in s.note(), s.note())
+
+        off = Config(dict(base))
+        off["reel"] = {**base["reel"], "tts": {**base["reel"]["tts"], "elevenlabs": {**base.path("reel.tts.elevenlabs"),
+                                                                                     "enabled": False}}}
+        os.environ["ELEVENLABS_API_KEY"] = "SECRETKEY"
+        el_calls.clear()
+        s = tts.VoiceSession(off, get=get_rem(9000), post=make_post(), google=google)
+        s.synthesize("جملة", female)
+        check("مطفأ: Google كما كان وبلا سطر", not el_calls and s.note() == "")
+    finally:
+        if old is None:
+            os.environ.pop("ELEVENLABS_API_KEY", None)
+        else:
+            os.environ["ELEVENLABS_API_KEY"] = old

@@ -516,6 +516,8 @@ class Deps:
     probe: Callable[[Any], float | None] | None = None
     load_points: Callable[[str], list[dict]] | None = None
     comment: Callable[[int, str], None] | None = None
+    # مزوّد صوت التركيب (tts.VoiceSession) حين لا يُحقن synthesize؛ منه سطر «🎙️ الصوت» في التعليق
+    voice_session: Any = None
     # (ملف المقطع، نِسب العيّنات) ← (عرض المصدر، ارتفاعه، مراكز أكبر وجه أفقيًا لكل لقطة فيها وجه)
     faces: Callable[[Any, list], tuple[int, int, list[float]]] | None = None
     # (ملف المقطع، cfg) ← (عرض المصدر، ارتفاعه، إطارات رمادية، صناديق كل وجه في كل إطار) لاختيار الوجه المتكلم (Issue #1427)؛
@@ -633,12 +635,15 @@ class Deps:
 
         timeout = int(cfg.path("reel.render.ffmpeg_timeout", 600))
         real = self.download_clip is None
+        # جلسة صوت للريل الواحد: ElevenLabs ما دام فيه رصيد ثم Google (12/11)؛ مطفأً = Google كما كان
+        voice = self.voice_session or tts.VoiceSession(cfg)
         return replace(
             self,
             fetch_transcript=self.fetch_transcript or fetch,
             transcript_lang=self.transcript_lang or (None if self.fetch_transcript else langs.get),
             download_clip=self.download_clip or download,
-            synthesize=self.synthesize or (lambda text, voice: tts.synthesize(text, voice, cfg)),
+            synthesize=self.synthesize or voice.synthesize,
+            voice_session=self.voice_session or (voice if self.synthesize is None else None),
             diacritize=self.diacritize or (lambda text: tts.diacritize_full(text, cfg)),
             run=self.run or (lambda cmd: _run(cmd, timeout)),
             probe=self.probe or probe_duration,
@@ -6683,6 +6688,8 @@ def render_draft(path: Path, draft: dict, cfg, deps: Deps | None = None, *, reel
         result = {"render_status": "failed", "render_error": reason}
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
+    if deps.voice_session is not None and (vline := deps.voice_session.note()):
+        notes.append(vline)
     # القناة حقل عرض للتعليق وحده؛ المحفوظ على المسودة {point_id, kind, start, end, reason}
     approx_saved = [{k: v for k, v in a.items() if k != "channel"} for a in approx]
     changes = {**result, "render_dropped": dropped, "render_approx": approx_saved,
