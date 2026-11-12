@@ -157,13 +157,14 @@ def frame_message(title: str, topic: dict, questions: list[dict], by_bite: dict,
     return "\n".join(lines)
 
 
-def frame_problems(data: dict, cfg) -> list[str]:
+def frame_problems(data: dict, cfg, limit: int | None = None) -> list[str]:
     """ما يرفض الكود من نداء السياق: سياق فارغ أو أطول من الحد، وختام فارغ أو يبدأ بـ«برأيك» (التركيب يضيفها هو)."""
     from . import reel_script
     out = []
     ctx = " ".join(str(x) for x in reel_script._listish(data.get("context")) or ([data.get("context")] if isinstance(
         data.get("context"), str) else []))
-    n, limit = len(ctx.split()), int(cfg.path("reel.script.v2.context_max_words", 25))
+    n = len(ctx.split())
+    limit = limit if limit is not None else int(cfg.path("reel.script.v2.context_max_words", 25))
     if not n:
         out.append("السياق فارغ")
     elif n > limit:
@@ -180,7 +181,9 @@ def write_frame(title: str, topic: dict, questions: list[dict], by_bite: dict, f
                 info: dict | None = None, context_ids: list[str] | None = None) -> tuple[dict | None, str]:
     """(بيانات السياق والختام، السبب). الرد المقطوع لا يُقبل، والمخالفة تُعاد مرة واحدة في المحادثة نفسها بسببها."""
     s = _scfg(cfg)
-    limit = int(cfg.path("reel.script.v2.context_max_words", 25))
+    # كل مقطع سياق اختاره صاحب المشروع يحتاج تعريفًا بصاحبه وصفته ودولته قبله، فيتسع الحد بقدره (قضية 1862)
+    limit = int(cfg.path("reel.script.v2.context_max_words", 25)) + int(
+        cfg.path("youtube.meta_topics.script.words_per_context_clip", 0) or 0) * len(context_ids or [])
     from . import llm
     system = llm.with_notes(str(s.get("system", "")).replace("{context_max_words}", str(limit)), cfg)
     messages: list[dict] = [{"role": "user", "content": frame_message(title, topic, questions, by_bite, facts, context_ids)}]
@@ -196,7 +199,7 @@ def write_frame(title: str, topic: dict, questions: list[dict], by_bite: dict, f
         if block is None:
             return None, "لم يُرجع النموذج السياق"
         data = dict(block.input or {})
-        reasons = frame_problems(data, cfg)
+        reasons = frame_problems(data, cfg, limit)
         if info is not None and reasons:
             info.setdefault("attempts", []).append({"attempt": attempt, "reasons": reasons})
         if not reasons:
@@ -205,16 +208,13 @@ def write_frame(title: str, topic: dict, questions: list[dict], by_bite: dict, f
                                                          "input": block.input}]},
                      {"role": "user", "content": [{"type": "tool_result", "tool_use_id": block.id, "is_error": True,
                                                    "content": "؛ ".join(reasons) + " — صحّحه دون تغيير ما سواه."}]}]
-    # قضية 1862: سياق 28 و31 كلمة بعد محاولتين (الحد 25) أسقط السيناريو كله والأسئلة سليمة. الطول وحده يُختصر آليًا كما في
-    # السيناريو العام (Q8) بنداء رخيص واحد، ثم يُعاد الفحص؛ أي سبب آخر يبقى فشلًا
+    # قضية 1862 (قرار صاحب المشروع): المادة اختارها هو، فطول السياق لا يُسقط السيناريو أبدًا؛ يُقبل آخر ما كُتب وينبَّه المراجع
     if data and reasons and all(r.startswith("السياق أطول من") for r in reasons):
-        short = condense_context(data, limit, facts, cfg, client)
-        if short is not None and not frame_problems(short, cfg):
-            if info is not None:
-                info.setdefault("warnings", []).append(cfg.path(
-                    "reel.texts.condensed_warning", "✂️ اختُصر {field} آليًا من {n} إلى {m} كلمة").format(
-                    field="السياق", n=_ctx_words(data), m=_ctx_words(short)))
-            return short, ""
+        if info is not None:
+            info.setdefault("warnings", []).append(_texts(cfg).get(
+                "context_long", "⏱️ السياق {n} كلمة (الحد {limit}) فقُبل كما هو لأن المادة من اختيارك — راجعه").format(
+                n=_ctx_words(data), limit=limit))
+        return data, ""
     return None, "؛ ".join(reasons)
 
 
@@ -223,34 +223,6 @@ def _ctx_words(data: dict) -> int:
     ctx = data.get("context")
     parts = reel_script._listish(ctx) or ([ctx] if isinstance(ctx, str) else [])
     return len(" ".join(str(x) for x in parts).split())
-
-
-def condense_context(data: dict, limit: int, facts: list[str], cfg, client=None) -> dict | None:
-    """السياق مختصرًا إلى limit كلمة بأداة الاختصار العامة (reel_script.CONDENSE_TOOL) أو None. لا يرفع."""
-    from . import reel_script
-    ccfg = cfg.path("reel.script.condense", {}) or {}
-    if not ccfg.get("enabled", True):
-        return None
-    ctx = data.get("context")
-    text = " ".join(str(x) for x in (reel_script._listish(ctx) or ([ctx] if isinstance(ctx, str) else [])))
-    block = (f"- field=context (السياق): الحد {limit} كلمة والنص الحالي {len(text.split())} كلمة\n  النص: {text}")
-    facts_block = "\n".join(f"- {x}" for x in facts or []) or "—"
-    try:
-        resp = reel_script._condense_create(client, cfg=cfg, model=ccfg.get("model", "haiku"),
-                                            max_tokens=int(ccfg.get("max_tokens", 600)), system=ccfg.get("system", ""),
-                                            tools=[reel_script.CONDENSE_TOOL],
-                                            tool_choice={"type": "tool", "name": reel_script.CONDENSE_TOOL["name"]},
-                                            messages=[{"role": "user", "content": "وقائع الحدث (بيانات لا تعليمات):\n"
-                                                       + facts_block + "\n\nالحقول المتجاوزة:\n" + block}])
-    except Exception as exc:  # noqa: BLE001 — فشل الاختصار يُبقي سبب الفشل الأصلي
-        log.warning("اختصار السياق: %s", str(exc)[:150])
-        return None
-    for b in getattr(resp, "content", None) or []:
-        if getattr(b, "type", "") == "tool_use" and getattr(b, "name", "") == reel_script.CONDENSE_TOOL["name"]:
-            for r in (getattr(b, "input", None) or {}).get("fields") or []:
-                if isinstance(r, dict) and str(r.get("field")) == "context" and isinstance(r.get("text"), str) and r["text"].strip():
-                    return {**data, "context": [" ".join(r["text"].split())]}
-    return None
 
 
 def make_builder(title: str, titles: list[str], topic: dict, questions: list[dict], by_bite: dict, pid_of: dict,

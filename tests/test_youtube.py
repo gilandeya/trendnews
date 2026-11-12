@@ -6149,38 +6149,41 @@ def test_reel_context_clips() -> None:
 
 
 def test_meta_frame_condense() -> None:
-    """قضية 1862: سياق أطول من الحد بعد محاولتي الكتابة يُختصر آليًا ولا يُسقط السيناريو، وفشل السيناريو المعلَّق عليه رمزه 0."""
+    """قضية 1862 (قرار صاحب المشروع): مادة السيناريو من اختياره، فالسياق الطويل لا يُسقطه: الحد يتسع بعدد مقاطع السياق المعلَّمة،
+    وما تجاوزه بعد محاولتي الكتابة يُقبل بتنبيه؛ وفشل السيناريو المعلَّق عليه رمزه 0."""
     from types import SimpleNamespace as NS
 
-    from src import meta_script, reel_script
+    from src import meta_script
     from src.config import load_config as real_load
 
     cfg = real_load()
-    long_ctx = " ".join(["كلمة"] * 30) + "."
-    calls = {"frame": 0, "condense": 0}
+    calls = {"frame": 0}
 
-    def frame(client, **kw):
-        calls["frame"] += 1
-        return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="write_reel_frame", id=f"t{calls['frame']}",
-                                                       input={"context": [long_ctx], "closing_question": "ماذا بعد؟"})])
-
-    def condense(client, **kw):
-        calls["condense"] += 1
-        return NS(content=[NS(type="tool_use", name=reel_script.CONDENSE_TOOL["name"],
-                              input={"fields": [{"field": "context", "text": "التقى الوفدان في أبوظبي برعاية أمريكية."}]})])
-    saved = (meta_script._create, reel_script._condense_create)
+    def frame_of(words):
+        def frame(client, **kw):
+            calls["frame"] += 1
+            calls["system"] = kw.get("system", "")
+            return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="write_reel_frame", id=f"t{calls['frame']}",
+                                                           input={"context": [" ".join(["كلمة"] * words) + "."],
+                                                                  "closing_question": "ماذا بعد؟"})])
+        return frame
+    saved = meta_script._create
+    base = int(cfg.path("reel.script.v2.context_max_words"))
+    per = int(cfg.path("youtube.meta_topics.script.words_per_context_clip"))
     try:
-        meta_script._create, reel_script._condense_create = frame, condense
+        meta_script._create = frame_of(base + per)
+        data, reason = meta_script.write_frame("س؟", {"title": "ت"}, [], {}, [], cfg, object(), {}, context_ids=["a", "b"])
+        check("الحد يتسع بمقاطع السياق المعلَّمة: لا إعادة ولا تنبيه", data is not None and calls["frame"] == 1
+              and str(base + 2 * per) in calls["system"], (reason, calls["frame"]))
+        calls["frame"] = 0
+        meta_script._create = frame_of(base + 6)
         info: dict = {}
-        data, reason = meta_script.write_frame("س؟", {"title": "ت"}, [], {}, ["واقعة"], cfg, object(), info)
-        check("السياق الطويل بعد محاولتين يُختصر ولا يفشل", data is not None and not reason
-              and calls == {"frame": 2, "condense": 1} and "أبوظبي" in data["context"][0], (data, reason, calls))
-        check("تنبيه الاختصار للمراجع", any("اختُصر" in w for w in info.get("warnings", [])), info)
-        reel_script._condense_create = lambda c, **kw: NS(content=[])
-        data, reason = meta_script.write_frame("س؟", {"title": "ت"}, [], {}, [], cfg, object(), {})
-        check("اختصار لا يرجع بنص ← الفشل بسببه الأصلي", data is None and "السياق أطول" in reason, reason)
+        data, reason = meta_script.write_frame("س؟", {"title": "ت"}, [], {}, [], cfg, object(), info)
+        check("سياق أطول من الحد بعد محاولتين يُقبل ولا يُسقط السيناريو", data is not None and not reason
+              and calls["frame"] == 2, (reason, calls))
+        check("تنبيه الطول للمراجع", any("قُبل كما هو" in w for w in info.get("warnings", [])), info)
     finally:
-        meta_script._create, reel_script._condense_create = saved
+        meta_script._create = saved
     import inspect
     src = inspect.getsource(meta_script.finalize)
     check("فشل السيناريو المعلَّق عليه يعيد 0 (لا «انهارت خطوة النشر»)", "return 1\n    path = store.save_draft" not in src
