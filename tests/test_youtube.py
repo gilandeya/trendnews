@@ -5114,8 +5114,11 @@ def test_meta_script() -> None:
                  .replace(ctx_line, f"{n} سياق عدّله صاحب المشروع."))
         blocked = publish.approve_reel_scripts(981, [dr["id"]], abody, cfg, actions={dr["id"]: "go3"})
         after = store.load_draft(dr["id"])[1]
-        check("الاعتماد: الهوك المعلَّم وحده والسياق المعدَّل", not blocked and after["status"] == "approved_script"
-              and [c["video_id"] for c in after["hook_candidates"]] == ["h2"] and after["hook_picked"] == 2
+        check("الاعتماد: الهوك المعلَّم أولًا ومعلَّم picked والبقية بعده (ريل 1850) والسياق المعدَّل",
+              not blocked and after["status"] == "approved_script"
+              and after["hook_candidates"][0]["video_id"] == "h2" and after["hook_candidates"][0].get("picked") is True
+              and len(after["hook_candidates"]) >= 3 and not any(c.get("picked") for c in after["hook_candidates"][1:])
+              and after["hook_picked"] == 2
               and any(s.get("text") == "سياق عدّله صاحب المشروع." for s in after["script"]["scenes"]), after.get("hook_candidates"))
         src = Path("src/publish.py").read_text(encoding="utf-8")
         check("publish.main يوجّه meta-topic إلى meta_script في المسار العادي", "meta_script.finalize(args.issue" in src)
@@ -5643,6 +5646,78 @@ def test_meta_reel_points() -> None:
           reel_render._render_points({"topic_date": "2026-11-11"}, deps) == window)
     check("1850: ملف أسئلة مفقود ← النافذة لا استثناء",
           reel_render._render_points({"meta_topic_id": "nofile000000", "topic_date": "x"}, deps) == window)
+
+
+def test_reel_1850_fixes() -> None:
+    """ريل 1850: (أ) اسم قرأه Gemini من الشريط يوثّق المتحدث وقت السيناريو (بلاه سقط هوك المواجهة)؛ (ب) نافذة تقديرية لا يطابق
+    مسموعها الاقتباس تُحذف (عُرضت المذيعة تحت اسم الضيف وترجمته)؛ (ج) المتحدث المسمّى يجيب سؤالًا واحدًا؛ (د) الميادين موقوفة."""
+    import copy
+    from src import meta_qa, meta_script, reel_render, reel_script
+    from src.config import load_config as real_load
+
+    cfg = real_load()
+    check("1850: مصادر الاسم المقبولة في الإعداد", cfg.path("reel.identity.accept_name_sources") == ["chyron", "introduced"])
+    base = {"speaker_text": "أمير وايتمن", "name_source": "chyron", "speaker_role_hint": "رئيس تكتل", "speaker_original": "Amir W",
+            "speaker_verified": False, "speaker_name": "", "is_host": False}
+    got = reel_script._accept_source_name(dict(base), cfg)
+    check("1850: اسم من الشريط ← موثَّق من gemini باسمه وصفته ورسمه", got["speaker_verified"] and got["speaker_verified_from"] == "gemini"
+          and got["speaker_name"] == "أمير وايتمن" and got["speaker_role"] == "رئيس تكتل" and got["speaker_name_latin"] == "Amir W", got)
+    check("1850: المقدّم ومصدر مجهول واسم غير عربي لا يوثَّقون",
+          not reel_script._accept_source_name({**base, "is_host": True}, cfg)["speaker_verified"]
+          and not reel_script._accept_source_name({**base, "name_source": "addressed"}, cfg)["speaker_verified"]
+          and not reel_script._accept_source_name({**base, "name_source": ""}, cfg)["speaker_verified"]
+          and not reel_script._accept_source_name({**base, "speaker_text": "Amir Weitmann"}, cfg)["speaker_verified"])
+    off = copy.deepcopy(cfg)
+    off["reel"]["identity"]["accept_name_sources"] = []
+    check("1850: القائمة الفارغة تعيد القديم", not reel_script._accept_source_name(dict(base), off)["speaker_verified"])
+    check("1850: شارة الموثَّق من الشريط", "شريط" in reel_script.speaker_badge({**got}, cfg))
+
+    # (ب) الحذف: نافذة تقديرية فشل ضبطها بنسبة منخفضة
+    saved = reel_render._exact_align
+
+    def fake_align(file, lang, point, cfg_, deps, diag, words=None):
+        diag.update(reason="low_ratio", best_ratio=0.25)
+        return None, "النسبة 0.25 أقل من 0.7"
+
+    reel_render._exact_align = fake_align
+    try:
+        deps = reel_render.Deps()
+        args = ({"file": "x", "seconds": 60.0}, {"channel_display": "ILTV"}, {"video_id": "v"}, 260, 283, 316)
+        check("1850: تقديرية لا تطابق المسموع ← حذف", reel_render._exact_apply(*copy.deepcopy(args), True, cfg, deps, [], [])[0] == "drop")
+        check("1850: نافذة نصية فشل ضبطها ← ضبط السطر كما كان",
+              reel_render._exact_apply(*copy.deepcopy(args), False, cfg, deps, [], [])[0] == "line")
+        check("1850: عطل المفرِّغ (off) لا يحذف",
+              reel_render._exact_apply(*copy.deepcopy(args), True, cfg, deps, [], [], "معطّل")[0] == "approx")
+        old = copy.deepcopy(cfg)
+        old["reel"]["render"]["exact"]["drop_approx_reasons"] = []
+        check("1850: القائمة الفارغة ← تنبيه فقط", reel_render._exact_apply(*copy.deepcopy(args), True, old, deps, [], [])[0] == "approx")
+    finally:
+        reel_render._exact_align = saved
+
+    # (ج) المتحدث مرة واحدة
+    bites = [{"bite_id": f"s{k}:{k}", "video_id": f"s{k}", "speaker": sp, "bloc": bl, "orientation": o, "type": "opinion",
+              "seconds": 20.0, "start": 0.0, "end": 20.0}
+             for k, (sp, bl, o) in enumerate([("زيد", "israeli", "يمين"), ("عمرو", "turkish", "معارض"),
+                                              ("بكر", "french", "حكومي"), ("خالد", "english", "عام")])]
+    qs = [{"text": "س1", "answers": [{"n": 1, "fit": "direct", "selected": False}, {"n": 2, "fit": "direct", "selected": False}]},
+          {"text": "س2", "answers": [{"n": 1, "fit": "direct", "selected": False}, {"n": 3, "fit": "direct", "selected": False},
+                                     {"n": 4, "fit": "direct", "selected": False}]}]
+    b2 = bites + [dict(bites[0], bite_id="s0:9")]
+    qs[1]["answers"][0]["n"] = 5
+    meta_qa.auto_select(qs, b2, cfg)
+    picked2 = [b2[a["n"] - 1]["speaker"] for a in qs[1]["answers"] if a["selected"]]
+    check("1850: الاختيار الآلي لا يكرر متحدثًا في سؤالين", "زيد" not in picked2 and len(picked2) == 2, picked2)
+    priv = {"questions": [{"text": "س1"}, {"text": "س2"}], "bites": b2}
+    notes: list = []
+    marks = {"title": 0, "questions": [1, 2], "answers": {1: ["s0:0", "s1:1"], 2: ["s0:9", "s2:2"]}}
+    q_sel, _ = meta_script.selected_material(marks, priv, cfg, notes)
+    check("1850: متحدث عُلّم في سؤالين يبقى في الأول وحده مع تنبيه",
+          q_sel[1]["bite_ids"] == ["s2:2"] and len(notes) == 1 and "زيد" in notes[0], (q_sel, notes))
+    check("1850: بلا cfg السلوك القديم", meta_script.selected_material(marks, priv)[0][1]["bite_ids"] == ["s0:9", "s2:2"])
+
+    # (د) الميادين موقوفة ومدخلها باقٍ
+    ch = [c for c in cfg["channels"] if c.get("name") == "الميادين"]
+    check("1850: الميادين موقوفة", len(ch) == 1 and ch[0].get("active") is False)
 
 
 def test_meta_qa_in_flight() -> None:

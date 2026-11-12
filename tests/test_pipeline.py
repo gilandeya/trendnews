@@ -267,6 +267,7 @@ from tests.test_youtube import (
     test_meta_qa_table,
     test_meta_qa_in_flight,
     test_meta_reel_points,
+    test_reel_1850_fixes,
     test_meta_script,
     test_youtube_channel_handles,
 )
@@ -712,6 +713,7 @@ def main() -> int:
     test_meta_qa_table()
     test_meta_qa_in_flight()
     test_meta_reel_points()
+    test_reel_1850_fixes()
     test_meta_script()
     test_youtube_channel_handles()
     print("\n── وحدة المراحل المشتركة stages.py (Issue #1180) ──")

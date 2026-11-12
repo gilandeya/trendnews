@@ -2455,6 +2455,10 @@ def _exact_apply(clip: dict, scene: dict, point: dict, dstart: int, wstart: int,
     if res is None:
         if xcfg.get("require", False):
             return "drop", why
+        # نافذة تقديرية (الاقتباس ليس في نص مجلوب) والمسموع فيها لا يطابق الاقتباس: لا شيء يضمن أن الترجمة المكتوبة هي ما يُقال.
+        # ريل 1850: مقطع ILTV بنسبة 0.25 عُرض 27 ث وجهُ المذيعة فيه تحت اسم الضيف وترجمته. عطل المفرِّغ نفسه (off) ليس دليلًا
+        if is_approx and not off and diag.get("reason") in (xcfg.get("drop_approx_reasons") or []):
+            return "drop", why
         # فشل: النافذة المنطقية القديمة (wstart..wend) تُقتطع من الملف الأوسع ثم يمضي المسار القديم بحدّ السطر
         t0 = float(wstart - dstart)
         t1 = min(float(wend - dstart), fsecs)

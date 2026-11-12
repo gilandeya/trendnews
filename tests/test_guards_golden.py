@@ -20219,8 +20219,13 @@ def test_reel_exact_q13_guards() -> None:
               (c0.get("approx"), approx))
         check("g607: التنزيل بهامش approx_margin", got and got[0][1] - got[0][0] >= 11 + 2 * 20 - 2, got)
         check("g607: exact.source = words", (c0.get("exact") or {}).get("source") == "words", c0.get("exact"))
+        # ريل 1850: تقديرية لا يطابق مسموعها الاقتباس تُحذف؛ وبقائمة أسباب فارغة السلوك القديم (تبقى تقديرية)
         clips, dropped, approx, got, notes, scene = fetch(cfg, lambda f, lang, c: [], sil=lambda f, c: [], transcript=False)
-        check("g607: فشل المطابقة ← تبقى تقديرية", clips[0].get("approx") is True and (clips[0].get("exact") or {}).get("source") == "approx"
+        check("g607: فشل مطابقة التقديرية ← المقطع محذوف", not clips and len(dropped) == 1 and not approx, (clips, dropped, approx))
+        keep = copy.deepcopy(cfg)
+        keep["reel"]["render"]["exact"]["drop_approx_reasons"] = []
+        clips, dropped, approx, got, notes, scene = fetch(keep, lambda f, lang, c: [], sil=lambda f, c: [], transcript=False)
+        check("g607: بلا أسباب حذف ← تبقى تقديرية", clips[0].get("approx") is True and (clips[0].get("exact") or {}).get("source") == "approx"
               and not approx[0].get("aligned"), (clips[0].get("approx"), approx))
     guarded("g607", g607)
 
@@ -20240,7 +20245,8 @@ def test_reel_exact_q13_guards() -> None:
         check("g608: exact.enabled=false ← النافذة القديمة وبلا exact", "exact" not in clips[0] and g2 == g, (g, g2))
         xc = cfg.path("reel.render.exact") or {}
         check("g608: الإعداد", xc == {"enabled": True, "model": "small", "margin": 4, "approx_margin": 20, "min_ratio": 0.7, "pad": 0.12,
-                                     "snap": 0.3, "require": False, "word_similarity": 0.7, "word_min_len": 3}, xc)   # S7 أضاف المفتاحين
+                                     "snap": 0.3, "require": False, "word_similarity": 0.7, "word_min_len": 3,
+                                     "drop_approx_reasons": ["low_ratio", "no_words"]}, xc)   # S7 أضاف المفتاحين
         check("g608: نصوص الإعداد", all(cfg.path(f"reel.texts.{k}") for k in ("clip_drop_incomplete", "scene_heard", "scene_written"))
               and all(cfg.path(f"reel.render.texts.{k}") for k in ("comment_exact_failed", "drop_exact_failed")), None)
         check("g608: render.version >= 46", int(cfg.path("reel.render.version")) >= 46, cfg.path("reel.render.version"))
