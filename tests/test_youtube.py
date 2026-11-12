@@ -5839,6 +5839,75 @@ def test_meta_qa_in_flight() -> None:
           'topic["qa_requested_at"]' in Path("src/meta_topics.py").read_text(encoding="utf-8"))
 
 
+def test_meta_original_search() -> None:
+    """الفيديو الأصلي لمقطع منقول (طلب صاحب المشروع بعد 1856): البحث بقناة المصدر، والكود يقبل الأصل حين يطابق كلامه المنقول
+    فيصير المقطع من قناته الأصلية بلا «منقول»، وإلا يبقى المنقول؛ والمقطع غير المنقول لا يُبحث له."""
+    from src import meta_original, meta_qa
+    from src.config import Config, load_config as real_load
+
+    base = real_load()
+    cfg = Config(dict(base))
+    check("الفيديو الأصلي مفعَّل في الإعداد", cfg.path("youtube.meta_topics.qa.original.enabled") is True)
+    check("نسبة التطابق بالترتيب", meta_original.text_ratio("we will not accept this deal", "and we will not accept this deal now") == 1.0
+          and meta_original.text_ratio("we will not accept this deal", "something else entirely") < 0.3)
+    check("قناة المصدر بالاحتواء بعد التطبيع", meta_original.channel_matches("Fox News Channel", "fox news")
+          and not meta_original.channel_matches("CNN", "Fox News"))
+
+    relay = {"bite_id": "R1:g100", "video_id": "R1", "channel": "الميادين", "bloc": "arabic", "orientation": "محور",
+             "speaker": "بيت هيغسيث", "speaker_original": "Pete Hegseth", "setting": "other_channel",
+             "source_channel": "Fox News", "text_original": "we will not accept this deal at all", "text_ar": "لن نقبل",
+             "start": 100.0, "end": 115.0}
+    studio = {**relay, "bite_id": "S1:g5", "video_id": "S1", "setting": "studio", "source_channel": ""}
+    miss = {**relay, "bite_id": "R2:g10", "video_id": "R2", "text_original": "the economy is strong this year"}
+
+    searched, posted = [], []
+
+    def search(q, after, before, n):
+        searched.append(q)
+        return [{"video_id": "R1", "channel": "Fox News"}, {"video_id": "X9", "channel": "CNN"},
+                {"video_id": "F7", "channel": "Fox News"}]
+
+    def details(ids):
+        return {i: {"duration": 600} for i in ids}
+
+    class R:
+        status_code = 200
+
+        def __init__(self, out):
+            self._p = {"candidates": [{"finishReason": "STOP", "content": {"parts": [{"text": json.dumps(out)}]}}],
+                       "usageMetadata": {"promptTokenCount": 1000, "candidatesTokenCount": 50}}
+
+        def json(self):
+            return self._p
+
+    def post(url, json=None, timeout=None, headers=None):
+        posted.append(json)
+        return R({"found": True, "start": "02:00", "end": "02:14", "speaker_on_screen": True,
+                  "text_original": "and we will not accept this deal at all"})
+
+    stats: dict = {}
+    out = meta_original.find_originals([relay, studio, miss], "2026-11-12", cfg, "KEY", post=post, search=search,
+                                       details=details, stats=stats)
+    a, b, c = out
+    check("المنقول المطابق صار من قناته الأصلية بلا «منقول»",
+          a["video_id"] == "F7" and a["channel"] == "Fox News" and a["setting"] == "studio" and a["start"] == 120.0
+          and a["bite_id"] == "F7:g120" and a["original_of"]["video_id"] == "R1", a)
+    check("كتلة القناة الأصلية وتوجّهها من قائمة القنوات",
+          a["bloc"] == next(ch for ch in cfg["channels"] if ch.get("name") == "Fox News")["bloc"], a.get("bloc"))
+    check("غير المنقول لا يُبحث له", b is studio and len(posted) == 2, len(posted))
+    check("الكلام غير المطابق يُبقي المنقول", c is miss and any(r["bite_id"] == "R2:g10" and not r["found"]
+                                                            for r in stats["originals"]), stats["originals"])
+    raw = json.dumps(posted[0], ensure_ascii=False)
+    check("طلب الأصلي على مرشّح قناة المصدر لا الناقل ولا قناة ثالثة، وبلا temperature",
+          "v=F7" in raw and "temperature" not in raw)
+    check("السجل العام بلا كلام المقطع", "accept" not in json.dumps(stats, ensure_ascii=False))
+    check("البحث يبدأ بالاسم الأصلي وقناة المصدر", searched and searched[0] == "Pete Hegseth Fox News", searched)
+
+    none = meta_original.find_originals([relay], "2026-11-12", cfg, "", post=post, search=search, details=details)
+    check("بلا مفتاح Gemini يبقى المنقول", none == [relay])
+    pb = meta_qa.public_bite(a)
+    check("المقطع العام يحمل original_of لسطر القضية", pb.get("original_of", {}).get("channel") == "الميادين")
+
 def test_tts_elevenlabs() -> None:
     """صوت ElevenLabs ما دام فيه رصيد ثم Google (طلب صاحب المشروع 12/11): المزوّد يُحسم للريل كله عند أول جملة، والرصيد القليل أو
     غياب المفتاح يعني Google، ورفض ElevenLabs وسط الريل يُكمل بـGoogle مع تنبيه صوتين، والمفتاح لا يظهر في الأخطاء."""
