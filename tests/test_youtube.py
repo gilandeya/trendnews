@@ -5810,7 +5810,7 @@ def test_meta_qa_in_flight() -> None:
         rc = meta_script.finalize(1847, body, cfg)
         t5 = cfg.path("youtube.meta_topics.script.texts")
         check("وسم والأسئلة لم تُحفظ بعد: تعليق انتظار بلا استخراج جديد وتُزال approved",
-              rc == 1 and not dispatched and (1847, "approved") in removed
+              rc == 0 and not dispatched and (1847, "approved") in removed
               and comments == [(1847, t5["no_qa"])] and "لم يُطلب استخراج جديد" in t5["no_qa"]
               and not mt._load_public(today)["topics"][0].get("qa"), (rc, dispatched, comments))
         data["topics"][0]["qa_requested_at"] = (now - _td(minutes=grace + 10)).isoformat()
@@ -6146,3 +6146,42 @@ def test_reel_context_clips() -> None:
           and kinds[3] == ("narration", "question", 0), kinds)
     cands = [c["point_id"] for c in reel_clash.candidates(script, cfg)]
     check("هوك المواجهة لا يأخذ مقطع السياق", "pc" not in cands and "p1" in cands, cands)
+
+
+def test_meta_frame_condense() -> None:
+    """قضية 1862: سياق أطول من الحد بعد محاولتي الكتابة يُختصر آليًا ولا يُسقط السيناريو، وفشل السيناريو المعلَّق عليه رمزه 0."""
+    from types import SimpleNamespace as NS
+
+    from src import meta_script, reel_script
+    from src.config import load_config as real_load
+
+    cfg = real_load()
+    long_ctx = " ".join(["كلمة"] * 30) + "."
+    calls = {"frame": 0, "condense": 0}
+
+    def frame(client, **kw):
+        calls["frame"] += 1
+        return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="write_reel_frame", id=f"t{calls['frame']}",
+                                                       input={"context": [long_ctx], "closing_question": "ماذا بعد؟"})])
+
+    def condense(client, **kw):
+        calls["condense"] += 1
+        return NS(content=[NS(type="tool_use", name=reel_script.CONDENSE_TOOL["name"],
+                              input={"fields": [{"field": "context", "text": "التقى الوفدان في أبوظبي برعاية أمريكية."}]})])
+    saved = (meta_script._create, reel_script._condense_create)
+    try:
+        meta_script._create, reel_script._condense_create = frame, condense
+        info: dict = {}
+        data, reason = meta_script.write_frame("س؟", {"title": "ت"}, [], {}, ["واقعة"], cfg, object(), info)
+        check("السياق الطويل بعد محاولتين يُختصر ولا يفشل", data is not None and not reason
+              and calls == {"frame": 2, "condense": 1} and "أبوظبي" in data["context"][0], (data, reason, calls))
+        check("تنبيه الاختصار للمراجع", any("اختُصر" in w for w in info.get("warnings", [])), info)
+        reel_script._condense_create = lambda c, **kw: NS(content=[])
+        data, reason = meta_script.write_frame("س؟", {"title": "ت"}, [], {}, [], cfg, object(), {})
+        check("اختصار لا يرجع بنص ← الفشل بسببه الأصلي", data is None and "السياق أطول" in reason, reason)
+    finally:
+        meta_script._create, reel_script._condense_create = saved
+    import inspect
+    src = inspect.getsource(meta_script.finalize)
+    check("فشل السيناريو المعلَّق عليه يعيد 0 (لا «انهارت خطوة النشر»)", "return 1\n    path = store.save_draft" not in src
+          and "return 0   # السبب في التعليق" in src)
