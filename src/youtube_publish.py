@@ -832,10 +832,14 @@ def _reel_broll_lines(d: dict, texts: dict, cfg=None) -> list[str]:
         scenes = (d.get("script") or {}).get("scenes") or []
         sc = scenes[p["scene"]] if isinstance(p.get("scene"), int) and 0 <= p["scene"] < len(scenes) else {}
         # بطاقة السؤال لا خريطة لها في التركيب (_prepare_maps) فلا تُعرض لها
-        if maps_on and p.get("map") and sc.get("role") != "question":
+        spec = None
+        if maps_on and sc.get("role") != "question":
             from . import reel_map
+            # الكود يجد أماكن جملة السياق إن لم تقترح الخطة خريطة (reel_map.spec_for)، كما في التركيب
+            spec = reel_map.spec_for(p, str(p.get("text", "")), sc.get("role"), cfg)
+        if spec:
             try:
-                resolved, why = reel_map.resolve(p["map"], str(p.get("text", "")), cfg)
+                resolved, why = reel_map.resolve(spec, str(p.get("text", "")), cfg)
             except Exception as exc:  # noqa: BLE001 -- عرض فقط: عطل المعجم لا يُسقط جسم القضية
                 resolved, why = None, f"error:{str(exc)[:60]}"
             dropped = "، ".join(reel_map.reason_text(x, cfg) for x in (resolved or {}).get("skipped") or [])

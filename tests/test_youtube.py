@@ -6188,3 +6188,63 @@ def test_meta_frame_condense() -> None:
     src = inspect.getsource(meta_script.finalize)
     check("فشل السيناريو المعلَّق عليه يعيد 0 (لا «انهارت خطوة النشر»)", "return 1\n    path = store.save_draft" not in src
           and "return 0   # السبب في التعليق" in src)
+
+
+def test_reel_map_autodetect_clash_json() -> None:
+    """ريل مفاوضات أبوظبي (12/11): جملة السياق تسمّي «أبوظبي» والخطة بلا خريطة، والمعجم يكتبها «أبو ظبي»؛ وهوك المواجهة سقط
+    «لا زوج ولا جملة صالحة» بلا سبب مرفوض. الكود يجد أماكن جملة السياق، والمسافة داخل الاسم لا تمنع المطابقة، وحقول أداة المواجهة
+    وخطة اللقطات تُحلّ إن وصلت نصًا JSON، والعلاقة غير المعروفة تُسجَّل سببًا."""
+    import json
+    from types import SimpleNamespace as NS
+
+    from src import llm, reel_broll, reel_clash, reel_map
+    from src.config import load_config as real_load
+
+    cfg = real_load()
+    s = "استضافت أبوظبي يومي 10 و11 نوفمبر محادثات روسية أوكرانية أمريكية، وحضر الأوروبيون على الهامش دون طاولة مع روسيا."
+    check("المسافة داخل الاسم اختيارية: «أبو ظبي» في المعجم يطابق «أبوظبي» في الجملة",
+          reel_map.resolve({"places": ["أبوظبي"]}, s, cfg)[0] is not None
+          and reel_map.mentioned("أبو ظبي", s) and reel_map.mentioned("أبوظبي", "اجتمعوا في أبو ظبي أمس"))
+    spec = reel_map.spec_for({"text": s}, s, "context", cfg)
+    got, why = reel_map.resolve(spec, s, cfg)
+    check("جملة سياق بلا خريطة في الخطة: الكود يجد العاصمة والدولة بأسمائها لا صفاتها",
+          got is not None and [p["ar"] for p in got["places"]] == ["أبو ظبي"] and got["countries"] == ["RUS"], (spec, why))
+    check("الكشف للسياق وحده، واقتراح النموذج يغلب، والإطفاء بالإعداد",
+          reel_map.spec_for({"text": s}, s, "question", cfg) is None
+          and reel_map.spec_for({"map": {"places": ["روسيا"]}}, s, "context", cfg) == {"places": ["روسيا"]}
+          and reel_map.spec_for({}, s, "context", _cfg_with(cfg, "reel.maps.auto_detect.enabled", False)) is None)
+    check("مدينة صغيرة اسمها كلمة عادية لا تُرسم وحدها", reel_map.detect("قال إن العين على المفاوضات", cfg) is None)
+
+    check("tool_json: القائمة والقاموس نصًا JSON ولو تبعتهما بقايا وسم",
+          llm.tool_json('[{"a": 1}]</x>', list) == [{"a": 1}] and llm.tool_json('{"k": 2}', dict) == {"k": 2}
+          and llm.tool_json("نص", list) is None and llm.tool_json([1], list) == [1])
+    cand = {"point_id": "p1", "speaker": "س", "channel": "ق", "bloc": "x", "quote_original": "a b c d e f",
+            "quote_arabic": "أ ب ج د", "language": "ar", "verified": True}
+    out = reel_clash.decide({"pairs": json.dumps([{"a": {"point_id": "zz"}, "b": {"point_id": "yy"}, "relation": "opposite"},
+                                                  {"a": {}, "b": {}, "relation": "agree_fully"}]), "hook_text": ""}, [cand], cfg)
+    check("أزواج المواجهة نصًا JSON تُقرأ، وسبب الرفض والعلاقة غير المعروفة وشكل الرد تُحفظ",
+          out.get("error") and out["shape"]["pairs"] == 2 and out["shape"]["pairs_type"] == "str"
+          and any("علاقة غير معروفة" in r for r in out["rejected"]) and len(out["rejected"]) >= 2, out)
+
+    def fake(client, **kw):
+        items = [{"scene": 1, "sentence": 0, "visual": "", "map": json.dumps({"places": ["أبوظبي"]})}]
+        return NS(content=[NS(type="tool_use", name="plan_broll", input={"items": json.dumps(items)})])
+    saved = reel_broll._create
+    try:
+        reel_broll._create = fake
+        plan = reel_broll.plan({"scenes": [{"kind": "title_card"}, {"kind": "narration", "role": "context", "text": s}]},
+                               "ع", cfg, object())
+    finally:
+        reel_broll._create = saved
+    check("خطة اللقطات نصًا JSON (العناصر والخريطة) تُقرأ", plan and plan[0].get("map") == {"places": ["أبوظبي"]}, plan)
+
+
+def _cfg_with(cfg, dotted: str, value):
+    import copy
+    c = copy.deepcopy(cfg)
+    node = c
+    keys = dotted.split(".")
+    for k in keys[:-1]:
+        node = node.setdefault(k, {})
+    node[keys[-1]] = value
+    return c

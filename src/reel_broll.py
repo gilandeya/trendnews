@@ -80,14 +80,25 @@ def plan(script: dict, title: str, cfg: Any, client=None, candidates: list[dict]
     for b in getattr(resp, "content", None) or []:
         if getattr(b, "type", "") == "tool_use" and getattr(b, "name", "") == PLAN_TOOL["name"]:
             data = getattr(b, "input", None)
-    if not isinstance(data, dict) or not isinstance(data.get("items"), list):
+    items = llm.tool_json((data or {}).get("items"), list) if isinstance(data, dict) else None
+    if items is None:
         raise ValueError("لا خطة لقطات في الرد")
-    by_key = {(int(i.get("scene", -1)), int(i.get("sentence", -1))): i for i in data["items"] if isinstance(i, dict)}
+    by_key = {}
+    for i in items:
+        i = llm.tool_json(i, dict)
+        try:
+            if i:
+                by_key[(int(i.get("scene", -1)), int(i.get("sentence", -1)))] = i
+        except (TypeError, ValueError):
+            continue
     # المفتاح من الكود لا من النموذج: جملة لم يصفها يعيدها فارغة فتأخذ الصورة
     out = []
     for s in sents:
         item = by_key.get((s["scene"], s["sentence"])) or {}
         entry = {**s, "visual": str(item.get("visual") or "").strip()}
+        m = llm.tool_json(item.get("map"), dict)
+        if m is not None:
+            item = {**item, "map": m}
         if isinstance(item.get("map"), dict) and any(item["map"].get(k) for k in ("places", "countries", "arrows")):
             # الخام يُحفظ كما اقترحه النموذج، والتحقق منه (الاسم في الجملة وفي المعجم) عند العرض والتركيب: تعديل المراجع للجملة
             # في المرحلة 2 قد يُسقط مكانًا فيسقط معه ما بُني عليه
