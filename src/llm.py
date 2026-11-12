@@ -31,6 +31,13 @@ _FALLBACK_LOGGED: set[str] = set()
 _PARAMS_REJECTED: set[str] = set()
 
 
+def with_notes(system: str, cfg) -> str:
+    """البرومبت ومعه القواعد التحريرية العامة (editorial_notes في config.yaml): جنسية المسؤول والمؤسسة عند أول ذكر، والأسماء الرسمية
+    للوزارات (قرار صاحب المشروع 12/11). موضع واحد يقرؤه كل نداء يكتب نصًا يُعرض للمشاهد، فلا تتخلف قاعدة في برومبت عن آخر."""
+    notes = str((cfg.get("editorial_notes") if cfg is not None else "") or "").strip()
+    return (system or "") + ("\n" + notes if notes else "")
+
+
 def _reset_for_tests() -> None:
     _FALLBACK_LOGGED.clear()
     _PARAMS_REJECTED.clear()

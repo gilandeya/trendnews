@@ -58,7 +58,8 @@ def build_request(video_id: str, windows: list[dict], cfg, system: str | None = 
     part["video_metadata"] = {"end_offset": f"{int(end)}s"}
     lines = ["النوافذ (من بداية الفيديو، MM:SS):"]
     lines += [f"- {w['id']}: {clock(w['start'])} – {clock(w['end'])}" for w in windows]
-    return {"system_instruction": {"parts": [{"text": g.get("system", "") if system is None else system}]},
+    from . import llm   # الصفة تُكتب في شريط المتحدث فتتبع القواعد التحريرية (الدولة، اسم الوزارة الرسمي)
+    return {"system_instruction": {"parts": [{"text": llm.with_notes(g.get("system", ""), cfg) if system is None else system}]},
             "contents": [{"role": "user", "parts": [part, {"text": "\n".join(lines)}]}],
             "generationConfig": {"responseMimeType": "application/json", "responseSchema": SCHEMA,
                                  "mediaResolution": g.get("media_resolution", "MEDIA_RESOLUTION_LOW"),

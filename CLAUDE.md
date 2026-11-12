@@ -2737,6 +2737,27 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 وصفًا للقناة بـ`reel.render.band.orientation_labels`، ومعه يُكتب الرسم الأجنبي بلا قوسين (القوسان للتوجّه وحده). توجّه بلا صيغة ← لا يُكتب؛ ما لا يسع
 يُحذف التوجّه أولًا ثم الأجنبي. `band.show_orientation: false` ← كما كان. `render_version` = 69 (للقادم فقط، S11)؛ g863–g865 (توجّه قناة نشطة بلا صيغة يُفشل g865).
 
+## بلد القناة ودولة المسؤول في نصوص الريل (قرار صاحب المشروع 12/11) — `reel_render.with_country`، `llm.with_notes`
+
+ريل «عزل وزير الحرب»: «قناة آر تي في آي (قريبة من السلطة)» لا يقول سلطة أي بلد، و«وزير الحرب» و«النائب» و«مجلس النواب» بلا «الأمريكي»، و«وزير الدفاع»
+والإدارة الأمريكية تسمّيها وزارة الحرب. (1) لكل قناة `channels[].country` (صفة مؤنثة)، و`with_country` (خالصة) يضعه قبل التوجّه في `band_orientation`
+(الشريط وورقة المواجهة) ما لم يذكره التوجّه («أمريكية محافظة») أو يحمله اسم القناة (جذر الصفة في name/name_ar: «إيران إنترناشيونال»، «سي إن إن ترك»).
+(2) `editorial_notes` في أعلى config.yaml (الدولة عند أول ذكر لمسؤول أو مؤسسة، والصفة بدولتها، ووزارة الحرب الأمريكية؛ ترجمة كلام المتحدث تبقى أمينة)
+يُلحقها `llm.with_notes` ببرومبتات: مقاطع Gemini (`gemini_bites`)، قائلي التركيب (`gemini_speakers`)، الأسئلة والعناوين (`meta_qa.plan_questions`)،
+السياق والختام (`meta_script.write_frame`)، سيناريو v2 (`reel_script.v2_system`)، والمحرر الأخير لكل المسارات (`editor.system_prompt`). حكم نموذج لا استبدال
+نصي («وزير الدفاع» قد يكون لدولة أخرى). الاختبار `tests/test_youtube.py:test_reel_country_terms` (يُفشله أي قناة نشطة بلا country).
+
+## مقاطع السياق: أطراف الحدث لا يجيبون الأسئلة (قرار صاحب المشروع 12/11) — `meta_qa.is_actor`/`pick_context`، `meta_script.selected_context`
+
+ريل «عزل وزير الحرب»: كلام وزير الحرب الأمريكي والنائب صاحب مشروع العزل كان إجابات عن أسئلة التحليل، وهو خبر لا تحليل. Gemini يحكم لكل مقطع
+`voice` (actor = طرف في الحدث يتكلم عنه، analyst = محلل أو صحفي أو ضيف)؛ مقطع أقدم بلا الحكم: `setting == external` لغير المقدّم (`is_actor`).
+`meta_qa._process_topic` يفصل أطراف الحدث قبل `plan_questions` فالأسئلة من المحللين وحدهم، و`pick_context` (خالصة) يعرض حتى `qa.context.max_shown`
+بمتحدثين مختلفين (المسمّى ثم الصوت الأصلي ثم الأقصر) ويعلّم حتى `max_clips` ضمن `max_seconds`. تُلحق بقائمة المقاطع بعد الإجابات (`qa.context` = [{n,
+bite_id, selected}] في العام والخاص)، وقسم «🎬 مقاطع السياق» قبل الأسئلة في قضية الموضوع بمربعات `<!-- mc:<bite_id> -->` (`read_marks` ← `context`).
+عند الاعتماد `selected_context` ← `make_builder(context_ids=)` ← `write_frame` يرى المقاطع ليمهّد لها (تعليمة في `script.system`) ← `_build_v2(context_clips=)`
+يضعها بعد راوي السياق وقبل أول بطاقة سؤال، مشهدًا `kind: clip`، `role: context`، `q: "c<k>"` فيُركَّب لوحة بمقطع واحد بلا بطاقة سؤال. هوك المواجهة
+لا يأخذها (`reel_clash.candidates`). `qa.context.enabled: false` ← كما كان. الاختبار `tests/test_youtube.py:test_reel_context_clips`.
+
 ## الرسم الأجنبي في الشريط ذهبي بلا قوسين (قرار صاحب المشروع 7/11) — `reel_render._draw_band_inline`
 
 القوسان للتوجّه وحده: «مراد يتكين Murat Yetkin» و«قناة فوكس نيوز Fox News (أمريكية محافظة)». الرسم الأجنبي لاسم المتحدث وللقناة (أصليًا كان

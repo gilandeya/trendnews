@@ -51,6 +51,7 @@ PLAN_TOOL = {
 
 Q_RE = re.compile(r"^\s*-\s*\[([ xX])\][^\n]*?<!--\s*mq:(\d+)\s*-->", re.MULTILINE)
 A_RE = re.compile(r"^\s*-\s*\[([ xX])\][^\n]*?<!--\s*ma:(\d+):(\S+?)\s*-->", re.MULTILINE)
+C_RE = re.compile(r"^\s*-\s*\[([ xX])\][^\n]*?<!--\s*mc:(\S+?)\s*-->", re.MULTILINE)
 HL_RE = re.compile(r"^\s*-\s*\[([ xX])\][^\n]*?<!--\s*mhl:(\d+)\s*-->", re.MULTILINE)
 
 
@@ -237,7 +238,7 @@ def plan_questions(topic: dict, bites: list[dict], cfg, client) -> tuple[list[st
     q = _qcfg(cfg)
     try:
         resp = _create(client, cfg=cfg, model=q.get("model", "claude-opus-5"), max_tokens=int(q.get("max_tokens", 6000)),
-                       system=q.get("system", ""), tools=[PLAN_TOOL],
+                       system=llm.with_notes(q.get("system", ""), cfg), tools=[PLAN_TOOL],
                        tool_choice={"type": "tool", "name": PLAN_TOOL["name"]},
                        messages=[{"role": "user", "content": plan_message(topic, bites)}])
     except Exception as exc:  # noqa: BLE001
@@ -301,6 +302,36 @@ def order_answers(questions: list[dict], bites: list[dict], cfg) -> None:
 
 
 # ───────────── الاختيار التلقائي ─────────────
+
+def is_actor(b: dict) -> bool:
+    """طرف في الحدث يتكلم عنه (وزير، نائب، متحدث رسمي) لا محلل يعلّق عليه — قرار صاحب المشروع 12/11: كلامه مادة السياق لا إجابة
+    سؤال. حكم Gemini (voice) إن وُجد؛ مقطع أقدم بلا الحكم: الكلام خارج برامج القناة (مؤتمر، خطاب، جلسة) لغير المقدّم."""
+    if b.get("is_host"):
+        return False
+    if b.get("voice") in ("actor", "analyst"):
+        return b["voice"] == "actor"
+    return b.get("setting") == "external"
+
+
+def pick_context(actors: list[dict], cfg) -> list[dict]:
+    """مقاطع السياق المعروضة: حتى `context.max_shown`، المسمّى أولًا ثم الصوت الأصلي ثم الأقصر، ومتحدث واحد مرة؛ ويُعلَّم منها
+    حتى `context.max_clips` (من متحدثين مختلفين) ضمن `context.max_seconds` للمقطع. يعيد [{n, selected}] بفهارس actors (من 1)."""
+    c = _qcfg(cfg).get("context") or {}
+    if not c.get("enabled", True):
+        return []
+    shown_max, pick_max, sec_max = int(c.get("max_shown", 4)), int(c.get("max_clips", 2)), float(c.get("max_seconds", 30))
+    order = sorted(range(len(actors)), key=lambda i: (not (actors[i].get("speaker") or actors[i].get("speaker_original")),
+                                                      actors[i].get("audio_track", "original") != "original", _sec(actors[i])))
+    out, seen = [], set()
+    for i in order:
+        who = _speaker_key(actors[i])
+        if who in seen or len(out) >= shown_max:
+            continue
+        seen.add(who)
+        sel = sum(e["selected"] for e in out) < pick_max and _sec(actors[i]) <= sec_max
+        out.append({"n": i + 1, "selected": sel})
+    return out
+
 
 def _speaker_key(b: dict) -> str:
     return (b.get("speaker") or b.get("speaker_original") or "").strip() or b["bite_id"]
@@ -392,6 +423,18 @@ def issue_body(topic: dict, data: dict, qa: dict, cfg, full_bites: list | None =
         for k, title in enumerate(qa["titles"]):
             lines.append(f"- [{'x' if k == 0 else ' '}] {title} <!-- mhl:{k} -->")
         lines.append("")
+    if qa.get("context"):
+        lines += [t.get("context_header", "### 🎬 مقاطع السياق (أطراف الحدث)"), "", t.get("context_explainer", ""), "",
+                  t.get("table_header", "| # | المقولة | القائل | القناة والتوجّه |"), "|:-:|---|---|---|"]
+        boxes = []
+        for k, e in enumerate(qa["context"], 1):
+            b = bites[e["n"] - 1]
+            row, who = _bite_row(k, b, {"fit": "direct"}, t, full_bites, e["n"])
+            lines.append(row)
+            boxes.append(f"- [{'x' if e.get('selected') else ' '}] "
+                         + t.get("context_box", "{k} · {who} · {seconds} ث").format(k=k, who=who, seconds=_fmt_sec(_sec(b)))
+                         + f" <!-- mc:{b['bite_id']} -->")
+        lines += [""] + boxes + [""]
     lines += [t.get("questions_header", "### ❓ الأسئلة والإجابات"), "", t.get("questions_explainer", ""), ""]
     for qi, qu in enumerate(qa.get("questions") or [], 1):
         any_sel = any(a.get("selected") for a in qu["answers"])
@@ -402,27 +445,10 @@ def issue_body(topic: dict, data: dict, qa: dict, cfg, full_bites: list | None =
         boxes = []
         for k, a in enumerate(qu["answers"], 1):
             b = bites[a["n"] - 1]
-            who = b.get("speaker") or b.get("speaker_original") or t.get("unnamed", "متحدث غير مسمّى")
-            role = t.get("host_label", "مقدّم") if b.get("is_host") else (b.get("speaker_role") or "")
+            row, who = _bite_row(k, b, a, t, full_bites, a["n"])
+            lines.append(row)
             kind = (t.get("types") or {}).get(b.get("type"), b.get("type") or "")
             weak = " · " + t.get("weak_label", "صلة ضعيفة") if a["fit"] == "weak" else ""
-            tr = ((full_bites or [])[a["n"] - 1].get("text_ar") or "").strip() if full_bites and a["n"] <= len(full_bites) else ""
-            quote = f"«{tr}»" if tr else (b.get("summary_ar") or "")
-            view = ""
-            if a.get("view"):
-                n_view = int(a.get("view_count") or 1)
-                view = f"**{a['view']}**" + (t.get("view_count", " ({n})").format(n=n_view) if n_view > 1 else "") + "<br>"
-            link = f" [▶](https://youtu.be/{b['video_id']}?t={int(float(b.get('start') or 0))})"
-            orient = b.get("orientation") or ""
-            # قضية 1856: صاحب المشروع يرى قبل الاختيار أن المقطع مؤتمر صحفي أو منقول عن قناة أخرى (لن تُذكر قناته في الريل)
-            relay = {"external": t.get("relay_external", ""), "other_channel": t.get("relay_other", "")}.get(b.get("setting") or "", "")
-            relay = relay.format(source=b.get("source_channel") or "?") if relay else ""
-            if b.get("original_of"):
-                relay = t.get("original_found", "🔎 الفيديو الأصلي بدل المنقول في {channel}").format(
-                    channel=(b["original_of"] or {}).get("channel") or "?")
-            lines.append(f"| {k} | {_cell(view + quote + link)} | {_cell(who)}{'<br><sub>' + _cell(role) + '</sub>' if role else ''} | "
-                         f"{_cell(b.get('channel') or '')}{'<br><sub>' + _cell(orient) + '</sub>' if orient else ''}"
-                         f"{'<br><sub>' + _cell(relay) + '</sub>' if relay else ''} |")
             boxes.append(f"- [{'x' if a.get('selected') else ' '}] "
                          + t.get("answer_box", "{k} · {who} · {seconds} ث · {kind}{weak}").format(
                              k=k, who=who, seconds=_fmt_sec(_sec(b)), kind=kind, weak=weak)
@@ -439,6 +465,30 @@ def issue_body(topic: dict, data: dict, qa: dict, cfg, full_bites: list | None =
     return "\n".join(ln for ln in lines if ln is not None)
 
 
+def _bite_row(k: int, b: dict, a: dict, t: dict, full_bites: list | None, n: int) -> tuple[str, str]:
+    """صف جدول مقطع واحد (للإجابات ولمقاطع السياق) واسم قائله."""
+    who = b.get("speaker") or b.get("speaker_original") or t.get("unnamed", "متحدث غير مسمّى")
+    role = t.get("host_label", "مقدّم") if b.get("is_host") else (b.get("speaker_role") or "")
+    tr = ((full_bites or [])[n - 1].get("text_ar") or "").strip() if full_bites and n <= len(full_bites) else ""
+    quote = f"«{tr}»" if tr else (b.get("summary_ar") or "")
+    view = ""
+    if a.get("view"):
+        n_view = int(a.get("view_count") or 1)
+        view = f"**{a['view']}**" + (t.get("view_count", " ({n})").format(n=n_view) if n_view > 1 else "") + "<br>"
+    link = f" [▶](https://youtu.be/{b['video_id']}?t={int(float(b.get('start') or 0))})"
+    orient = b.get("orientation") or ""
+    # قضية 1856: صاحب المشروع يرى قبل الاختيار أن المقطع مؤتمر صحفي أو منقول عن قناة أخرى (لن تُذكر قناته في الريل)
+    relay = {"external": t.get("relay_external", ""), "other_channel": t.get("relay_other", "")}.get(b.get("setting") or "", "")
+    relay = relay.format(source=b.get("source_channel") or "?") if relay else ""
+    if b.get("original_of"):
+        relay = t.get("original_found", "🔎 الفيديو الأصلي بدل المنقول في {channel}").format(
+            channel=(b["original_of"] or {}).get("channel") or "?")
+    row = (f"| {k} | {_cell(view + quote + link)} | {_cell(who)}{'<br><sub>' + _cell(role) + '</sub>' if role else ''} | "
+           f"{_cell(b.get('channel') or '')}{'<br><sub>' + _cell(orient) + '</sub>' if orient else ''}"
+           f"{'<br><sub>' + _cell(relay) + '</sub>' if relay else ''} |")
+    return row, who
+
+
 def read_marks(body: str) -> dict:
     """ما علّمه صاحب المشروع: العنوان المختار (الأول المعلَّم)، والأسئلة المعلَّمة، ولكل سؤال المقاطع المعلَّمة. للخطوة 5."""
     hl = [int(k) for m, k in HL_RE.findall(body or "") if m.lower() == "x"]
@@ -447,7 +497,8 @@ def read_marks(body: str) -> dict:
     for m, qi, bid in A_RE.findall(body or ""):
         if m.lower() == "x" and int(qi) in qs:
             answers.setdefault(int(qi), []).append(bid)
-    return {"title": hl[0] if hl else 0, "questions": sorted(qs), "answers": answers}
+    context = [bid for m, bid in C_RE.findall(body or "") if m.lower() == "x"]
+    return {"title": hl[0] if hl else 0, "questions": sorted(qs), "answers": answers, "context": context}
 
 
 # ───────────── التنسيق ─────────────
@@ -456,7 +507,7 @@ def public_bite(b: dict) -> dict:
     """ما يُحفظ في ملف الحالة العام: بلا ترجمة ولا كلام بلغته؛ الترجمة تُعرض في جسم القضية وحده (issue_body)."""
     return {k: b.get(k) for k in ("bite_id", "video_id", "channel", "bloc", "orientation", "speaker", "speaker_original",
                                   "speaker_role", "is_host", "type", "start", "end", "summary_ar", "setting", "source_channel",
-                                  "original_of")}
+                                  "voice", "original_of")}
 
 
 def process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: datetime | None = None,
@@ -507,6 +558,12 @@ def _process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: d
                 qa["notified_proxy"] = True
             topic["qa"] = qa
             return qa["status"]
+        # أطراف الحدث (وزير، نائب) مادة السياق لا إجابات (12/11): الأسئلة تُبنى من كلام المحللين وحده
+        actors = [b for b in bites if is_actor(b)]
+        if (q.get("context") or {}).get("enabled", True):
+            bites = [b for b in bites if not is_actor(b)]
+        else:
+            actors = []
         if len(bites) < int(q.get("min_bites", 4)):
             raise RuntimeError(t.get("few_bites", "مقاطع قليلة عن الموضوع: {n}").format(n=len(bites)))
         titles, questions, err = plan_questions(topic, bites, cfg, client)
@@ -524,12 +581,19 @@ def _process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: d
         for qu in questions:
             for a in qu["answers"]:
                 a["bite_id"] = kept[a["n"] - 1]["bite_id"]
+        # مقاطع السياق بعد مقاطع الإجابات في القائمة نفسها، فـn فهرس فيها كما لإجابات الأسئلة
+        context = pick_context(actors, cfg)
+        for e in context:
+            b = actors[e["n"] - 1]
+            kept.append(b)
+            e.update(n=len(kept), bite_id=b["bite_id"])
         path = private_path(topic["id"])
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps({"topic_id": topic["id"], "title": topic["title"], "date": data["date"],
-                                    "titles": titles, "questions": questions, "bites": kept}, ensure_ascii=False, indent=1),
+                                    "titles": titles, "questions": questions, "context": context, "bites": kept},
+                                   ensure_ascii=False, indent=1),
                         encoding="utf-8")
-        qa.update(status="ready", titles=titles, questions=questions, bites=[public_bite(b) for b in kept],
+        qa.update(status="ready", titles=titles, questions=questions, context=context, bites=[public_bite(b) for b in kept],
                   error="", extracted=len(bites))
         review.update_issue_body(topic["topic_issue"], issue_body(topic, data, qa, cfg, full_bites=kept))
         review.comment(topic["topic_issue"], t.get("ready", "").format(

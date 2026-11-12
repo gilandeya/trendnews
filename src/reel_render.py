@@ -1663,8 +1663,20 @@ def band_orientation(scene: dict, cfg) -> str:
         name = str(ch.get("name") or "").strip()
         names = {name, str(ch.get("name_ar") or "").strip()} - {""}
         if (orig and orig == name) or (display and display in names):
-            return str(labels.get(str(ch.get("orientation") or "").strip()) or "").strip()
+            return with_country(str(labels.get(str(ch.get("orientation") or "").strip()) or "").strip(), ch)
     return ""
+
+
+def with_country(label: str, ch: dict) -> str:
+    """البلد قبل التوجّه (قرار صاحب المشروع 12/11: «آر تي في آي (قريبة من السلطة)» لا يقول للمشاهد سلطة أي بلد): «روسية قريبة من
+    السلطة». لا يُكرَّر إن كان التوجّه يذكره («أمريكية محافظة») أو كان اسم القناة يحمله («إيران إنترناشيونال»). دالة خالصة."""
+    country = str(ch.get("country") or "").strip()
+    if not label or not country or country in label:
+        return label
+    stem = re.sub(r"ية$", "", country)
+    if any(stem and stem in str(ch.get(k) or "") for k in ("name", "name_ar")):
+        return label
+    return f"{country} {label}"
 
 
 def relay_view(scene: dict) -> dict:

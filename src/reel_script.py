@@ -556,8 +556,9 @@ def v2_system(cfg: Any) -> str:
     """برومبت v2 مملوءً: رقم السقف يُبنى من الإعداد (L1، Issue #1627) فلا يُكتب حرفيًا في النص فيتخلّف عنه.
     استبدال نصي لا str.format: النص يحوي أقواسًا أخرى."""
     rules = _v2(cfg, "code_picks.rules", "") if _v2(cfg, "code_picks.enabled", False) else _v2(cfg, "answers_rules", "")
-    return (str(_v2(cfg, "system", "")).replace("{max_seconds}", str(int(_v2(cfg, "max_seconds", 165))))
-            .replace("{answers_rules}", str(rules or "").strip()))
+    from . import llm
+    return llm.with_notes(str(_v2(cfg, "system", "")).replace("{max_seconds}", str(int(_v2(cfg, "max_seconds", 165))))
+                          .replace("{answers_rules}", str(rules or "").strip()), cfg)
 
 
 def _speaker_identity(clip: dict) -> str:
@@ -798,6 +799,15 @@ def _build_v2(data: dict, valid: list[dict], narrator: str, topic: dict | None =
     stance_max = int(_v2(cfg, "stance_max_words", 8)) if cfg is not None else 0
     scenes: list[dict] = [{"kind": "title_card", "text": main},
                           {"kind": "narration", "role": "context", "text": " ".join(sentences)}]
+    # مقاطع السياق (12/11): أطراف الحدث أنفسهم (وزير، نائب) بعد جمل السياق وقبل الأسئلة. لكل مقطع q خاص («c0»…) فيُركَّب لوحة
+    # بمقطع واحد بلا بطاقة سؤال، ولا يُحسب إجابة في حارس «سؤال بإجابة واحدة» (لم يُكتب بإجابتين أصلًا)
+    for k, pid in enumerate(_listish(data.get("context_clips")) or []):
+        c = by_id.get(pid)
+        if not c:
+            continue
+        scene = {"kind": "clip", "role": "context", "point_id": pid, "q": f"c{k}", "stance": "", "angle": "", "repeats": False}
+        scene.update({k2: c.get(k2, "") for k2 in _CLIP_COPY})
+        scenes.append(scene)
     for i, q in enumerate(x for x in _listish(data.get("questions"), "questions") if isinstance(x, dict)):
         scenes.append({"kind": "narration", "role": "question", "qrole": str(q.get("role") or ""), "q": i,
                        "text": " ".join(str(q.get("text") or "").split())})
