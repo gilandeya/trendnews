@@ -1,0 +1,606 @@
+{
+  "id": "9c4a42c6ef98",
+  "created_at": "2026-11-12T05:03:48.418141+00:00",
+  "status": "pending",
+  "origin": "analysis",
+  "format": "reel",
+  "script_status": "ready",
+  "title": "محاولة عزل وزير الدفاع الأمريكي بيت هيغسيث",
+  "event": "محاولة عزل وزير الدفاع الأمريكي بيت هيغسيث",
+  "tier": 6,
+  "blocs": [
+    "arabic",
+    "chinese",
+    "english",
+    "persian",
+    "russian",
+    "turkish"
+  ],
+  "channels": [
+    "BBC News",
+    "BBC Persian",
+    "CCTV中文",
+    "CNN",
+    "CNN Türk",
+    "DW News",
+    "Fox News",
+    "Iran International",
+    "RTVI",
+    "SÖZCÜ",
+    "Дождь",
+    "Настоящее Время",
+    "الجزيرة",
+    "العربية",
+    "الميادين",
+    "凤凰卫视"
+  ],
+  "agreement": "",
+  "score": 0,
+  "warnings": [],
+  "run_date": "2026-11-12",
+  "topic_date": "2026-11-12",
+  "arabic": {
+    "post_title": "عزل وزير الحرب: محاسبة دستورية أم تصفية حسابات؟",
+    "urgent": false,
+    "category": "تحليل"
+  },
+  "source": {
+    "link": "",
+    "publishers": [
+      "BBC News",
+      "BBC Persian",
+      "CCTV中文",
+      "CNN",
+      "CNN Türk",
+      "DW News",
+      "Fox News",
+      "Iran International",
+      "RTVI",
+      "SÖZCÜ",
+      "Дождь",
+      "Настоящее Время",
+      "الجزيرة",
+      "العربية",
+      "الميادين",
+      "凤凰卫视"
+    ]
+  },
+  "source_videos": [],
+  "meta_topic_id": "78d6c649f2ce",
+  "meta_issue": 1854,
+  "hook_pick": 3,
+  "cost_qa": {
+    "claude": {
+      "claude-opus-5": 0.43407
+    },
+    "gemini": 0.6398
+  },
+  "clip_audit": {
+    "error": "",
+    "rows": [
+      {
+        "point_id": "3dd9d536c75f",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "فوكس نيوز"
+      },
+      {
+        "point_id": "c5aa223f8960",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": false,
+        "quote_arabic_fixed": "أثبت وزير الدفاع بسلوكه أنه سيظل يشكل تهديدًا للدستور إذا سُمح له بالبقاء في منصبه، وهو يستحق المساءلة والمحاكمة القضائية، والعزل من المنصب وحرمانه من تولي أي منصب في الولايات المتحدة.",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "آر تي في آي"
+      },
+      {
+        "point_id": "7b84c6ff6422",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "دويتشه فيله"
+      },
+      {
+        "point_id": "e19d6b626649",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "yes",
+        "incomplete_reason": "",
+        "channel": "إيران إنترناشيونال"
+      },
+      {
+        "point_id": "a33d76642087",
+        "speaker_said_it": "yes",
+        "other_name": "",
+        "faithful": true,
+        "quote_arabic_fixed": "",
+        "complete": "no",
+        "incomplete_reason": "الجملة مبتورة من أولها ومن آخرها، وتنتهي بعبارة معلّقة (rather that than)",
+        "channel": "دويتشه فيله"
+      }
+    ]
+  },
+  "quote_retranslated": [
+    "c5aa223f8960"
+  ],
+  "clip_dropped": [
+    {
+      "point_id": "a33d76642087",
+      "channel": "دويتشه فيله",
+      "reason": "اقتباس مبتور — الجملة مبتورة من أولها ومن آخرها، وتنتهي بعبارة معلّقة (rather that than)"
+    }
+  ],
+  "names_audit": [
+    {
+      "arabic": "بيت هيغسيث",
+      "latin": "Pete Hegseth"
+    },
+    {
+      "arabic": "توماس ماسي",
+      "latin": "Thomas Massie"
+    },
+    {
+      "arabic": "ترامب",
+      "latin": "Trump"
+    }
+  ],
+  "script_attempts": [
+    {
+      "attempt": 1,
+      "reasons": [
+        "السياق أطول من 25 كلمة (26)"
+      ]
+    }
+  ],
+  "headlines": [
+    "عزل وزير الحرب: محاسبة دستورية أم تصفية حسابات؟",
+    "هل يصمد هيغسيث أمام مساعي العزل؟",
+    "هل مساعي عزل هيغسيث قانونية أم سياسية؟"
+  ],
+  "headline_selected": 0,
+  "script": {
+    "version": 2,
+    "narrator": "female",
+    "title": "مساعي عزل وزير الحرب: محاسبة دستورية أم تصفية حسابات؟",
+    "question": "هل يبقى هيغسيث في منصبه أم تطيح به الضغوط؟",
+    "event": "",
+    "scenes": [
+      {
+        "kind": "title_card",
+        "text": "مساعي عزل وزير الحرب: محاسبة دستورية أم تصفية حسابات؟"
+      },
+      {
+        "kind": "narration",
+        "role": "context",
+        "text": "في 9 نوفمبر قدّم النائب توماس ماسي بنود عزل وزير الحرب بيت هيغسيث. وفي 10 نوفمبر صوّت مجلس النواب لإحالتها إلى لجنة فأسقطها."
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 0,
+        "text": "هل مساعي عزل وزير الدفاع مبرّرة قانونيًا أم تصفية سياسية؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "3dd9d536c75f",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=b0Vk5tduigs",
+        "start": 184.0,
+        "end": 207.0,
+        "speaker_name": "بيت هيغسيث",
+        "speaker_role": "وزير الحرب",
+        "speaker_verified": true,
+        "speaker_verified_from": "description",
+        "speaker_name_latin": "Pete Hegseth",
+        "channel_display": "فوكس نيوز",
+        "channel_original": "Fox News",
+        "quote_arabic": "إنه استعراض سياسي وبيان شخصي مدفوع بالغرور والاستياء. محاولة لاستغلال رجل لأيامه الأخيرة في الكونغرس لإلحاق الضرر بهذا الرئيس وبهذا البلد، وبصورة غير مسؤولة على الإطلاق بالمقاتلين الذين يدافعون عنه. إنها مهزلة وحركة بهلوانية والجميع يدرك ذلك.",
+        "quote_original": "It's a political spectacle. A personal manifesto driven by ego and resentment. Time for one man's final days in Congress to try to do damage to this president, this country, and most irresponsibly, the warriors who defend it. It's a farce, and it's a stunt, and everybody knows it.",
+        "language": "en",
+        "video_published": "2026-11-10T17:45:33Z"
+      },
+      {
+        "kind": "clip",
+        "point_id": "c5aa223f8960",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=TBjjEAghUHA",
+        "start": 999.0,
+        "end": 1019.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "آر تي في آي",
+        "channel_original": "RTVI",
+        "quote_arabic": "أثبت وزير الدفاع بسلوكه أنه سيظل يشكل تهديدًا للدستور إذا سُمح له بالبقاء في منصبه، وهو يستحق المساءلة والمحاكمة القضائية، والعزل من المنصب وحرمانه من تولي أي منصب في الولايات المتحدة.",
+        "quote_original": "Wherefore, Secretary... Министр обороны своим поведением продемонстрировал, что он останется угрозой для Конституции, если ему позволят остаться на своем посту. Он заслуживает импичмента и судебного разбирательства, отстранения от должности и лишения права занимать любую должность в Соединенных Штатах.",
+        "language": "ru",
+        "video_published": "2026-11-10T20:49:29Z"
+      },
+      {
+        "kind": "clip",
+        "point_id": "7b84c6ff6422",
+        "q": 0,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=YLsdcIOGzhY",
+        "start": 141.0,
+        "end": 163.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "دويتشه فيله",
+        "channel_original": "DW News",
+        "quote_arabic": "موقفي مؤيد بحسم لقرار مساءلة هيغسيث وعزله، كما أوضحت تماماً. لقد أساء بيت هيغسيث استخدام سلطته، وقوض الأمن القومي لأمريكا، وهو مهندس حرب الاختيار الفاشلة والمكلفة والمتهورة في إيران.",
+        "quote_original": "The Hegseth impeachment resolution, I'm a hard yes, as I've made clear, on the impeachment resolution. Pete Hegseth has abused his power, undermined America's national security, and he's the architect of the reckless and costly failed war of choice in Iran.",
+        "language": "en",
+        "video_published": "2026-11-10T18:18:18Z"
+      },
+      {
+        "kind": "narration",
+        "role": "question",
+        "qrole": "",
+        "q": 1,
+        "text": "هل ينجو هيغسيث من العزل أم تطيح به الضغوط؟"
+      },
+      {
+        "kind": "clip",
+        "point_id": "e19d6b626649",
+        "q": 1,
+        "stance": "",
+        "angle": "",
+        "repeats": false,
+        "video_url": "https://www.youtube.com/watch?v=DbVCc9YnnLA",
+        "start": 101.0,
+        "end": 128.0,
+        "speaker_name": "",
+        "speaker_role": "",
+        "speaker_verified": false,
+        "speaker_verified_from": "",
+        "speaker_name_latin": "",
+        "channel_display": "إيران إنترناشيونال",
+        "channel_original": "Iran International",
+        "quote_arabic": "لقد شاهدنا هذا العرض من قبل، فقد عزلوا الرئيس ترامب بسبب مكالمة هاتفية لا شائبة فيها، وعزلوه للمرة الثانية، وفي المرتين فشلوا وعاد دونالد ترامب أقوى، وأعاده الشعب الأمريكي إلى البيت الأبيض بتفويض أكبر. والآن يحاولون ذلك للمرة الثالثة ضد أحد أعضاء حكومته، وسيفشلون مجددا.",
+        "quote_original": "We've seen this movie before. They impeached President Trump over a perfect phone call. They impeached him a second time. Both times they failed, Donald Trump came back stronger, and the American people sent him back to the White House with an even bigger mandate. Now they're trying it a third time against a member of his cabinet. They will fail again.",
+        "language": "en",
+        "video_published": "2026-11-10T14:58:29Z"
+      },
+      {
+        "kind": "question",
+        "text": "هل يبقى هيغسيث في منصبه أم تطيح به الضغوط؟"
+      },
+      {
+        "kind": "outro"
+      }
+    ],
+    "trimmed": []
+  },
+  "editor_revision": {
+    "at": "2026-11-12T05:04:05.732406+00:00",
+    "applied": true,
+    "error": null,
+    "before": [
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "قدّم النائب توماس ماسي مسعى لعزل وزير الدفاع بيت هيغسيث بسبب دوره في حرب إيران. المحاولة فشلت، وترامب تمسك بدعمه رغم مطالب جمهوريين بإقالته.",
+        "fix": "في 9 نوفمبر قدّم النائب توماس ماسي بنود عزل وزير الحرب بيت هيغسيث. وفي 10 نوفمبر صوّت مجلس النواب لإحالتها إلى لجنة فأسقطها.",
+        "note": "مشهد السياق لا يذكر «متى» وقع الحدث؛ المصادر تحدد تقديم البنود في 9 نوفمبر وتصويت الإحالة (211 مقابل 204) في 10 نوفمبر. البديل داخل حدود 25 كلمة و3 جمل وبشهر واحد بلا سنة.",
+        "sources": [
+          "https://massie.house.gov/news/documentsingle.aspx?DocumentID=395863",
+          "https://www.npr.org/2026/11/10/nx-s1-6036813/house-votes-to-effectively-end-the-impeachment-effort-against-pete-hegseth",
+          "https://alsiasi.com/"
+        ]
+      },
+      {
+        "category": "unattributed_opinion",
+        "severity": "low",
+        "location": "body",
+        "original": "وترامب تمسك بدعمه رغم مطالب جمهوريين بإقالته",
+        "fix": "",
+        "note": "«مطالب جمهوريين بإقالته» تعميم غير مسنَد في المقاطع المرفقة؛ المصادر تفيد أن ماسي كان الجمهوري الوحيد الذي خالف حزبه في التصويت، وأن جمهوريين منتقدين للوزير ترددوا في تأييد قرار العزل.",
+        "sources": [
+          "https://www.foxnews.com/politics/house-gop-leaders-block-massie-hegseth-impeachment-push",
+          "https://www.youm7.com/story/2026/11/11/7615058"
+        ]
+      },
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "هل يبقى هيغسيث في منصبه إلى نهاية الولاية، أم تطيح به الضغوط قبل أي تصويت جديد؟",
+        "fix": "هل يبقى هيغسيث في منصبه أم تطيح به الضغوط؟",
+        "note": "سؤال الختام 16 كلمة ويتجاوز حد 10 كلمات الذي يفحصه الكود، كما يكرر مضمون السطر [7]؛ البديل 9 كلمات.",
+        "sources": []
+      }
+    ],
+    "unresolved": []
+  },
+  "editor_review": {
+    "at": "2026-11-12T05:04:05.732406+00:00",
+    "applied": [
+      {
+        "category": "unattributed_opinion",
+        "severity": "low",
+        "location": "body",
+        "original": "هل ينجو هيغسيث من العزل أم أن سقوطه مسألة وقت؟",
+        "fix": "هل ينجو هيغسيث من العزل أم تطيح به الضغوط؟",
+        "note": "صيغة «سقوطه مسألة وقت» تفترض جوابًا وتمرّر رأي الكاتب دون نسبة؛ البديل محايد وداخل حد 10 كلمات.",
+        "sources": []
+      },
+      {
+        "category": "h1_overclaims",
+        "severity": "low",
+        "location": "h1",
+        "original": "عزل وزير الحرب: محاسبة دستورية أم تصفية حسابات؟",
+        "fix": "مساعي عزل وزير الحرب: محاسبة دستورية أم تصفية حسابات؟",
+        "note": "«عزل وزير الحرب» يوحي بوقوع العزل، بينما صوّت مجلس النواب في 10 نوفمبر على إحالة القرار إلى اللجنة القضائية ما أسقط المسعى.",
+        "sources": [
+          "https://www.npr.org/2026/11/10/nx-s1-6036813/house-votes-to-effectively-end-the-impeachment-effort-against-pete-hegseth"
+        ]
+      },
+      {
+        "category": "headline_overclaims",
+        "severity": "low",
+        "location": "headline_3",
+        "original": "من المستهدف الحقيقي خلف ملف عزل وزير الدفاع؟",
+        "fix": "هل مساعي عزل هيغسيث قانونية أم سياسية؟",
+        "note": "العنوان يفترض وجود «مستهدف حقيقي» خفي لا تسنده المقاطع ولا المصادر، ويخرج عن موضوع المادة (نتيجة تصويت الإحالة ومبررات العزل).",
+        "sources": []
+      },
+      {
+        "category": "headline_overclaims",
+        "severity": "low",
+        "location": "headline_2",
+        "original": "هل يسقط هيغسيث أم ينجو بدرع ترامب؟",
+        "fix": "هل يصمد هيغسيث أمام مساعي العزل؟",
+        "note": "عبارة «درع ترامب» تفترض سببًا (حماية الرئيس له) لا ترد في متن الريل ولا في أي من المقاطع الأربعة؛ كما أن صيغة «هل يسقط» توحي بأن النتيجة معلّقة بينما صوّت مجلس النواب يوم 10 نوفمبر/تشرين الثاني على إحالة البنود إلى اللجنة فأوقف المسعى فعليًا.",
+        "sources": [
+          "https://www.npr.org/2026/11/10/nx-s1-6036813/house-votes-to-effectively-end-the-impeachment-effort-against-pete-hegseth",
+          "https://www.aljazeera.net/politics/2026/11/11/%D9%87%D9%8A%D8%BA%D8%B3%D9%8A%D8%AB-%D9%8A%D9%86%D8%AC%D9%88-%D9%85%D8%A4%D9%82%D8%AA%D8%A7-%D9%84%D9%85%D8%A7%D8%B0%D8%A7-%D9%81%D8%B4%D9%84%D8%AA-%D9%85%D8%AD%D8%A7%D9%88%D9%84%D8%A9"
+        ]
+      }
+    ],
+    "notes": [
+      {
+        "category": "other",
+        "severity": "high",
+        "location": "body",
+        "original": "هل يبقى هيغسيث في منصبه أم تطيح به الضغوط؟",
+        "fix": "هل تتكرر سابقة محاولات العزل الفاشلة؟",
+        "note": "سؤال [9] يكرر سؤال [7] («هل ينجو هيغسيث من العزل أم تطيح به الضغوط؟») بالمعنى نفسه تقريبًا، ولا يضيف زاوية جديدة. البديل المقترح يربط السؤال بزاوية المقطع [8] عن فشل محاولات العزل السابقة، وهو ضمن حد 10 كلمات.",
+        "sources": []
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "هل مساعي عزل وزير الدفاع مبرّرة قانونيًا أم تصفية سياسية؟",
+        "fix": "هل مساعي عزل وزير الحرب مبرّرة قانونيًا أم تصفية سياسية؟",
+        "note": "تضارب في الصفة داخل الريل نفسه: العنوان والسياق [2] وشريط المقطع [4] تستعمل «وزير الحرب»، والسؤال الرئيس يستعمل «وزير الدفاع». التوحيد مطلوب، والبديل ضمن حد 12 كلمة.",
+        "sources": [
+          "https://www.alkhaleej.ae/2026-11-11/%D8%B9%D8%B1%D8%A8-%D9%88%D8%B9%D8%A7%D9%84%D9%85/%D8%A7%D9%84%D8%B9%D8%A7%D9%84%D9%85/%D8%A7%D9%84%D9%86%D9%88%D8%A7%D8%A8-%D8%A7%D9%84%D8%A3%D9%85%D8%B1%D9%8A%D9%83%D9%8A-%D9%8A%D9%81%D8%B4%D9%84-%D9%85%D8%AD%D8%A7%D9%88%D9%84%D8%A9-%D8%B9%D8%B2%D9%84-%D9%88%D8%B2%D9%8A%D8%B1-%D8%A7%D9%84%D8%AD%D8%B1%D8%A8-%D8%A8%D9%8A%D8%AA-%D9%87%D9%8A%D8%BA%D8%B3%D9%8A%D8%AB"
+        ]
+      },
+      {
+        "category": "other",
+        "severity": "low",
+        "location": "body",
+        "original": "وفي 10 نوفمبر صوّت مجلس النواب لإحالتها إلى لجنة فأسقطها.",
+        "fix": "في 9 نوفمبر قدّم النائب توماس ماسي بنود عزل وزير الحرب بيت هيغسيث. وفي 10 نوفمبر صوّت مجلس النواب لإحالتها إلى لجنة، ما عطّلها فعليًا.",
+        "note": "«فأسقطها» أقوى مما جرى: التصويت كان إجرائيًا بإحالة البنود إلى اللجنة القضائية (211 مقابل 204) ما عطّل المسعى فعليًا دون تصويت مباشر على إسقاطه. البديل ضمن 25 كلمة وثلاث جمل.",
+        "sources": [
+          "https://www.npr.org/2026/11/10/nx-s1-6036813/house-votes-to-effectively-end-the-impeachment-effort-against-pete-hegseth",
+          "https://www.watanserb.com/2026/11/11/%D9%85%D8%AC%D9%84%D8%B3-%D8%A7%D9%84%D9%86%D9%88%D8%A7%D8%A8-%D8%A7%D9%84%D8%A3%D9%85%D8%B1%D9%8A%D9%83%D9%8A-%D9%8A%D8%B9%D8%B7%D9%91%D9%84-%D9%85%D8%AD%D8%A7%D9%88%D9%84%D8%A9-%D8%B9%D8%B2%D9%84/"
+        ]
+      }
+    ],
+    "error": null,
+    "searches": 4,
+    "search_skipped": null,
+    "speaker_unresolved": []
+  },
+  "hook_clash": {
+    "mode": "single",
+    "relation": "single",
+    "a": {
+      "point_id": "3dd9d536c75f",
+      "first_words": "It's a farce",
+      "last_words": "everybody knows it",
+      "text_ar": "إنها مهزلة وحركة بهلوانية والجميع يدرك ذلك",
+      "sub_original": "It's a farce, and it's a stunt, and everybody knows it.",
+      "arabic": false,
+      "word_from": 38,
+      "word_to": 48,
+      "words_total": 49,
+      "est_seconds": 4.23,
+      "original_words": 11,
+      "channel": "فوكس نيوز",
+      "bloc": "english",
+      "speaker": "بيت هيغسيث"
+    },
+    "hook_text": "عزل وزير الحرب: محاسبة أم استعراض؟",
+    "rejected": [
+      "مدة الجملة 4.6 ث خارج [1.5، 4.5]"
+    ]
+  },
+  "reel_bg": {
+    "url": "",
+    "kind": "none",
+    "publisher": "",
+    "judged": true
+  },
+  "hook_candidates": [
+    {
+      "video_id": "N1l8cytqQ70",
+      "title": "ترمب يهاجم مساعي عزل هيغسيث.. مجلس النواب يحيل مشروع عزل وزير الحرب إلى اللجنة القضائية",
+      "channel": "AlJazeera Arabic  قناة الجزيرة",
+      "views": 17443,
+      "duration": 174,
+      "published": "2026-11-11T05:40:16Z",
+      "views_per_hour": 743.7
+    },
+    {
+      "video_id": "BOJksPDDhSc",
+      "title": "House Republicans quash effort to impeach Defense Secretary Hegseth • FRANCE 24 English",
+      "channel": "FRANCE 24 English",
+      "views": 5598,
+      "duration": 354,
+      "published": "2026-11-11T09:55:03Z",
+      "views_per_hour": 291.5
+    },
+    {
+      "video_id": "Uoz3znhWgDE",
+      "title": "US House votes to derail impeachment of Defense Secretary Hegseth • FRANCE 24 English",
+      "channel": "FRANCE 24 English",
+      "views": 3516,
+      "duration": 86,
+      "published": "2026-11-11T12:17:20Z",
+      "views_per_hour": 208.8
+    }
+  ],
+  "hook_search": {
+    "attempts": [
+      {
+        "broad": false,
+        "window": [
+          "2026-11-10T00:00:00Z",
+          "2026-11-14T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "مبنى الكونغرس واشنطن جلسة نواب",
+            "raw": 1,
+            "channel_ok": 1
+          },
+          {
+            "query": "Capitol Hill House floor vote impeachment Hegseth",
+            "raw": 30,
+            "channel_ok": 0
+          },
+          {
+            "query": "Pentagon building Washington press gathering protest",
+            "raw": 6,
+            "channel_ok": 1
+          }
+        ],
+        "duration_ok": 2,
+        "judged_ok": 0,
+        "rejected_channels": [
+          "FOX News Headlines 24-7",
+          "ABC7",
+          "Forbes Breaking News",
+          "KREM 2 News",
+          "Geopolitical FlashPoint",
+          "The National Desk",
+          "THE BLUE VANGUARD",
+          "WKYC Channel 3"
+        ]
+      },
+      {
+        "broad": true,
+        "window": [
+          "2026-11-08T00:00:00Z",
+          "2026-11-15T00:00:00Z"
+        ],
+        "queries": [
+          {
+            "query": "عزل وزير الدفاع الأمريكي",
+            "raw": 30,
+            "channel_ok": 16
+          },
+          {
+            "query": "impeachment US defense secretary Hegseth",
+            "raw": 30,
+            "channel_ok": 14
+          },
+          {
+            "query": "Hegseth Amtsenthebung Verteidigungsminister USA",
+            "raw": 30,
+            "channel_ok": 2
+          }
+        ],
+        "duration_ok": 30,
+        "judged_ok": 3,
+        "rejected_channels": [
+          "أمريكا مباشر",
+          "Katie Phang",
+          "ABC12",
+          "Mo News",
+          "AlQahera News -  القاهرة الإخبارية",
+          "تفاعلكم - tafa3olcom",
+          "moneycontrol",
+          "NewsX World"
+        ]
+      }
+    ],
+    "picked": [
+      "N1l8cytqQ70",
+      "BOJksPDDhSc",
+      "Uoz3znhWgDE"
+    ]
+  },
+  "broll_plan": [
+    {
+      "scene": 1,
+      "sentence": 0,
+      "text": "في 9 نوفمبر قدّم النائب توماس ماسي بنود عزل وزير الحرب بيت هيغسيث.",
+      "visual": "وثيقة بنود عزل تُقدَّم في مجلس النواب",
+      "map": {
+        "countries": [
+          "الولايات المتحدة"
+        ]
+      }
+    },
+    {
+      "scene": 1,
+      "sentence": 1,
+      "text": "وفي 10 نوفمبر صوّت مجلس النواب لإحالتها إلى لجنة فأسقطها.",
+      "visual": "نواب يصوّتون داخل قاعة مجلس النواب"
+    },
+    {
+      "scene": 2,
+      "sentence": 0,
+      "text": "هل مساعي عزل وزير الدفاع مبرّرة قانونيًا أم تصفية سياسية؟",
+      "visual": ""
+    },
+    {
+      "scene": 6,
+      "sentence": 0,
+      "text": "هل ينجو هيغسيث من العزل أم تطيح به الضغوط؟",
+      "visual": ""
+    }
+  ],
+  "cost_script": {
+    "claude": {
+      "claude-haiku-5-5": 0.00267,
+      "claude-sonnet-5": 0.02202,
+      "claude-opus-5": 2.3472
+    },
+    "web_search": 4
+  },
+  "review_issue": 1855,
+  "stage2_issue": 1855
+}
