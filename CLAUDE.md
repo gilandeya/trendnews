@@ -3116,6 +3116,19 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
   `meta_script.selected_material(marks, priv, cfg, notes)` (المعلَّم يدويًا: يبقى في أول سؤال وتنبيه 🔧 `speaker_repeated`).
 - **الميادين موقوفة** (`active: false`، قرار صاحب المشروع)؛ المدخل باقٍ لرسم مقاطعها في ريلات قديمة.
 
+**دروس ريل 1856 (12/11) — `tests/test_youtube.py:test_reel_1856_fixes`:** (السيناريو كُتب قبل دمج دروس 1850، فالورقة الواحدة ومرشّح الهوك الوحيد منها.)
+- **الإطار والصوت من Gemini:** نظام `youtube.meta_topics.qa.gemini` يطلب لكل مقطع `audio` (original · dubbed_ar · dubbed_other) و`setting` (studio ·
+  external = مؤتمر صحفي/خطاب/جلسة · other_channel = مقطع تعيد القناة بثه) و`source_channel`. `gemini_bites.to_bites` يرفض ما في `qa.gemini.reject_audio`
+  ([dubbed_other]: مترجم روسي فوق متحدث بالإنجليزية في RTVI)، ويحفظ `audio_track` (لا `audio`: ذاك سجل bite_audio) و`setting`/`source_channel`.
+  `bites_as_points` و`meta_qa.public_bite` تحملانهما، وقضية الموضوع تضع «📡» تحت القناة (`texts.relay_external`/`relay_other`).
+- **القناة المعروضة:** `valid_clips` تضع `relay`/`relay_source` على المقطع (وينتقلان إلى المشهد). `reel_render.relay_view(scene)`: external ← لا قناة،
+  other_channel ← المصدر الأصلي إن عُرف وإلا لا قناة؛ يُطبَّق في شريط المتحدث وأسماء البلاطات ومعلومات ورقة المواجهة وحدها، والكتلة والهوية تبقيان
+  على القناة التي نزّلنا منها. **لم يُبنَ:** البحث عن الفيديو الأصلي للمحلل حين يكون المقطع منقولًا.
+- **جملة المواجهة حتى 6 ث** (`clash.line_seconds` [1.5، 6]): جملة 4.6 ث أُسقطت فخرج الهوك بورقة واحدة.
+- **خلفية كحلية محضَّرة:** الخرائط ولقطات الحدث وشريط الخلفية كلها مشروطة بخلفية محضَّرة، وسقطت الصورة (كل مرشّحي خبر عن شخص فيها وجهه) فسقطت
+  معها. `reel.render.background.navy_canvas` ← `reel_render.navy_canvas` بعد `_resolve_background` حين لا صورة، وسطر `comment_bg_canvas`.
+  `tests.helpers.load_config` يطفئه (مراجع الأوامر القديمة).
+
 **مقاطع الموضوع من Gemini (موافقة صاحب المشروع 6/11) — `src/gemini.py`، `src/gemini_bites.py`:** `youtube.meta_topics.qa.source: gemini` ← `meta_qa.process_topic` يستدعي `gemini_topic_bites` بدل `topic_bites`: لكل فيديو نداء Gemini واحد على رابطه (`gemini.generate`، المفتاح في رأس `x-goog-api-key`، بلا temperature، الدقة `media_resolution`) بالحدث وعنوان الفيديو ووصفه، يعيد `speakers` و`bites`؛ و`gemini_bites.to_bites` (خالصة) يقرّر في الكود: الزمن بـ`gemini.parse_clock` (زمن بثلاثة أجزاء يتجاوز مدة الحلقة يُقرأ بلا ساعته)، المدة بين `qa.gemini.min_seconds` و`youtube.bites.end_check.complete_max_seconds`، النوع، `youtube_bites.screen_text_ok` للترجمة، لا تداخل، واسم `name_source: unknown` لا يُكتب. المقطع بشكل `youtube_bites.extract` (`bite_id` = `<video_id>:g<الثانية>`، `source: gemini`، بلا `start_line`) فلا يتغير ما بعده؛ لا بروكسي ولا انتظار رصيد، وعطل فيديو سطر في `failures`. يُحفظ `qa.source` و`gemini_cost` و`gemini_rejected`. بلا `GEMINI_API_KEY` ← المسار القديم بالنص والبروكسي. **التركيب ما زال يحتاج البروكسي** لتنزيل المقاطع (yt-dlp)، ونافذة المقطع بلا نص محفوظ تقديرية يضبطها التفريغ بالكلمات (Q13). **تشغيليًا:** `reel-render.yml` (حيث يجري `meta_qa.process_safe`) يحتاج `GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}` في env خطوة التركيب — يضيفه صاحب المشروع بيده. `tools/gemini_probe.py` يستورد `parse_clock`/`read_response`/`cost_usd` من `src/gemini.py`. الاختبار `tests/test_youtube.py:test_meta_qa_gemini`.
 
 **إعادة الطلب بعد انتظار البروكسي (5/11):** تشغيلة التركيب لا تجري إلا بإطلاق، فموضوع `waiting_proxy` لا يُعاد وحده. تعليق الانتظار يطلب

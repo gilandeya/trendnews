@@ -471,6 +471,7 @@ def info_rows(scene: dict, cfg, d) -> list[tuple[list, int]]:
     grey = tuple(int(x) for x in k.get("grey", [214, 222, 238]))
     latin_path = cfg.path("reel.render.fonts.latin")
     w = int(k["width"]) - 2 * int(info.get("edge", 30))
+    scene = reel_render.relay_view(scene)   # قضية 1856: مؤتمر صحفي أو مقطع منقول لا يُنسب إلى من أعاد بثه
     name = scene.get("speaker_name", "") if scene.get("speaker_verified") else ""
     rows: list = []
 

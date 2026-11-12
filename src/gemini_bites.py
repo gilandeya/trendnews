@@ -102,6 +102,15 @@ def to_bites(data: dict, video_id: str, topic: str, cfg, duration: float | None 
         if t0 < last_end:
             bad.append({"index": i, "reason": "يتداخل مع مقطع قبله"})
             continue
+        # الحقل audio_track لا audio: audio سجل تفريغ الصوت (bite_audio) على المقطع نفسه
+        # قضية 1856: صوت مدبلج بلغة غير العربية لا يُعرض (المشاهد يسمع المترجم لا المتحدث، والترجمة المكتوبة لا تطابق ما يُسمع)
+        audio = str(b.get("audio") or "original")
+        if audio in (g.get("reject_audio") or []):
+            bad.append({"index": i, "reason": "ترجمة صوتية بلغة غير العربية فوق المتحدث"})
+            continue
+        setting = str(b.get("setting") or "studio")
+        if setting not in ("studio", "external", "other_channel"):
+            setting = "studio"
         name = " ".join(str(b.get("speaker") or "").split())
         rec = people.get(name, {})
         # اسم لا يعرف النموذج من أين جاء لا يُكتب تحت وجه: يُحسم بالشريط والخريطة في التركيب كأي متكلم مجهول
@@ -116,7 +125,8 @@ def to_bites(data: dict, video_id: str, topic: str, cfg, duration: float | None 
                    "name_source": rec.get("name_source") or "unknown", "type": kind, "event_hint": topic,
                    "summary_ar": " ".join(str(b.get("summary_ar") or "").split()), "text_ar": text_ar,
                    "answers": " ".join(str(b.get("answers") or "").split()), "text_original": original,
-                   "source": "gemini"})
+                   "source": "gemini", "audio_track": audio, "setting": setting,
+                   "source_channel": " ".join(str(b.get("source_channel") or "").split())})
     return ok, bad
 
 

@@ -331,7 +331,7 @@ def frame_tile_labels(cfg, tiles: list, scenes: list) -> Image.Image:
     navy = pen.navy + (round(255 * float(lc["alpha"])),)
     size, pad = int(lc["size"]), int(lc["pad"])
     for (tx, ty, tw, th), scene in zip(tiles, scenes):
-        text = (scene.get("channel_display") or "").strip()
+        text = (relay_view(scene).get("channel_display") or "").strip()
         if not text:
             continue
         font = pick_font(text, *pen.face(text, "display")[:1], size, pen.face(text, "display")[1])
@@ -941,6 +941,18 @@ def prepare_background(cfg, img: Image.Image) -> dict:
     wide = img.resize((max(w, round(iw * wscale)), max(h, round(ih * wscale))), Image.LANCZOS)
     # raw للهوك وحده: يُظلَّل بـhook.shade فقط، فلا يتراكب على تظليل الراوي shade_a فتكاد الصورة لا تُرى (Issue #1429)
     return {"layout": "A", "image": out, "raw": raw, "wide": wide, "wide_cx": cx * wscale}
+
+
+def navy_canvas(cfg) -> dict:
+    """خلفية كحلية تقوم مقام الصورة حين لا تصلح صورة (قضية 1856). الخرائط ولقطات الحدث وشريط الخلفية كلها مشروطة بوجود خلفية
+    محضَّرة، فكان سقوط الصورة (كل مرشّحي خبر عن شخص فيها وجهه) يُسقطها معها فيخرج الريل كحليًا بلا سياق مرئي. بهذه تبقى الخلفية
+    كحلية حيث لا لقطة، وتُركَّب الخرائط واللقطات فوقها كأي صورة."""
+    w, h = int(cfg.path("reel.render.width")), int(cfg.path("reel.render.height"))
+    img = Image.new("RGB", (h, w), imaging.hex_rgb(cfg.path("brand.primary_color")))
+    prepared = prepare_background(cfg, img)
+    prepared["used"] = {"url": "", "kind": "none", "publisher": ""}
+    prepared["canvas"] = True
+    return prepared
 
 
 def outro_credit(cfg, bg: dict | None) -> str:
@@ -1650,6 +1662,17 @@ def band_orientation(scene: dict, cfg) -> str:
     return ""
 
 
+def relay_view(scene: dict) -> dict:
+    """المشهد كما يُعرض اسم قناته (قضية 1856): كلام قيل خارج برامج القناة (relay = external: مؤتمر صحفي، خطاب، جلسة) لا تُذكر
+    قناته، ومقطع تعيد القناة بثه من قناة أخرى (other_channel) يُذكر مصدره الأصلي إن عُرف وإلا لا قناة. الحقول الداخلية لا تُمسّ:
+    الكتلة والهوية والملاحظات تبقى على القناة التي نزّلنا منها."""
+    relay = scene.get("relay") or ""
+    if relay not in ("external", "other_channel"):
+        return scene
+    source = " ".join(str(scene.get("relay_source") or "").split()) if relay == "other_channel" else ""
+    return {**scene, "channel_display": source, "channel_original": source}
+
+
 def band_channel_parts(scene: dict, cfg) -> tuple[str, str]:
     """(الاسم العربي للقناة بكلمة band.channel_prefix قبله، رسمها الأجنبي أو ""). الأجنبي من channel_original بلا حروفه العربية،
     ولا يُكرَّر إن كان الاسم العربي يحويه. قناة بلا اسم عربي ← الأجنبي وحده بلا أقواس."""
@@ -1861,6 +1884,7 @@ def frame_clip_layers(cfg, scene: dict, boxes=None, cover: bool | None = None,
             p.boxes.append((p.cx - w / 2, y, p.cx + w / 2, y + int(lh * 0.8)))
             y += lh
     p = bd
+    scene = relay_view(scene)
     verified = scene.get("speaker_verified") and scene.get("speaker_name")
     if inline:
         _draw_band_inline(p, cfg, scene, top, height, bool(verified))
@@ -6371,6 +6395,9 @@ def _render(path: Path, draft: dict, cfg, deps: Deps, reels_dir: Path, tmp: Path
         raise RuntimeError(f"بقي {len(clips)} مقطعًا من {wanted} بعد الحذف والأدنى المطلوب {need}")
     voice = cfg.path(f"reel.tts.narrator_voices.{script.get('narrator', 'female')}")
     bg, bg_saved = _resolve_background(path, draft, cfg, deps, notes)
+    if bg is None and cfg.path("reel.render.background.navy_canvas", False):
+        bg = navy_canvas(cfg)
+        notes.append(cfg.path("reel.render.texts.comment_bg_canvas"))
     _ensure_broll_plan(path, draft, cfg)
     _ensure_hook_candidates(path, draft, script, cfg, deps, notes)
     want_broll = _broll_wanted(draft, cfg, deps, bg)

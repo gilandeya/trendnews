@@ -188,6 +188,9 @@ def valid_clips(member_points: list[dict], unresolved: list, cfg: Any) -> list[d
                     "video_published": p.get("video_published") or "", "statement": p.get("statement", ""),
                     "name_source": p.get("name_source", "") or "", "speaker_role_hint": p.get("speaker_role", "") or "",
                     "speaker_original": p.get("speaker_original", "") or "", "is_host": bool(p.get("is_host")),
+                    # قضية 1856: external (مؤتمر صحفي وما شابه) لا تُذكر قناته، وother_channel يُذكر مصدره الأصلي إن عُرف
+                    "relay": p.get("setting") if p.get("setting") in ("external", "other_channel") else "",
+                    "relay_source": p.get("source_channel", "") or "",
                     "type": p.get("type", "") or "",       # نوع النقطة: الإجابة رأي لا واقعة (Issue #1621، R6)
                     # المقدّم لا يُعدّ محللًا في الحكم على صلاحية الموضوع (ريل هرمز 1/11: عُدّ مهدوي آزاد ثالث ثلاثة فبدا الموضوع أغنى)؛
                     # يبقى مقطعه صالحًا للريل
@@ -519,7 +522,7 @@ def _build(data: dict, valid: list[dict], narrator: str) -> dict:
                 scene.update({k: c.get(k, "") for k in (
                     "video_url", "start", "end", "speaker_name", "speaker_role", "speaker_verified",
                     "speaker_verified_from", "speaker_name_latin", "channel_display", "channel_original", "quote_arabic", "quote_original", "language",
-                    "video_published")})
+                    "video_published", "relay", "relay_source")})
             scenes.append(scene)
         elif kind == "title_card":
             title = title or text
@@ -541,7 +544,8 @@ def _build(data: dict, valid: list[dict], narrator: str) -> dict:
 # ───────────────────────────── سيناريو v2 (Issue #1608، P2a) ─────────────────────────────
 
 _CLIP_COPY = ("video_url", "start", "end", "speaker_name", "speaker_role", "speaker_verified", "speaker_verified_from",
-              "speaker_name_latin", "channel_display", "channel_original", "quote_arabic", "quote_original", "language", "video_published")
+              "speaker_name_latin", "channel_display", "channel_original", "quote_arabic", "quote_original", "language", "video_published",
+              "relay", "relay_source")
 
 
 def _v2(cfg: Any, key: str, default: Any) -> Any:

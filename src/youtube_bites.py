@@ -321,6 +321,8 @@ def bites_as_points(bites: list[dict], load_transcript=None) -> list[dict]:
             "is_host": bool(b.get("is_host")),
             # من أين عرف Gemini الاسم (chyron/introduced…): السيناريو يوثّق به المتحدث (ريل 1850)
             "name_source": b.get("name_source", ""),
+            # أين قيل الكلام (Gemini، قضية 1856): مؤتمر صحفي أو مقطع منقول عن قناة أخرى لا يُنسب إلى القناة التي أعادت بثه
+            "setting": b.get("setting", ""), "source_channel": b.get("source_channel", ""),
             # فحص النهاية (end_check): فكرة لا تكتمل في الحد تبقى نقطة للعنقدة (الفهارس ثابتة) ولا تصلح مقطعًا
             "incomplete": bool(b.get("incomplete")),
             # حدود المقطع بأسطر نصه: يعيد بها السيناريو فحص النهاية لمقطع حكم فحص القائل بأنه مبتور (القضية 1758)
