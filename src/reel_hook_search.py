@@ -491,7 +491,8 @@ def scan_candidates(draft: dict, script: dict, cands: list[dict], cfg, deps, tmp
             found.append((c, win, ratio))
     if found:
         # لا يُعتمد أول مرشّح صالح: الأعلى درجة impact، والتعادل للأعلى نسبة ميدانية في الفيديو، وبعده الأسبق ترتيبًا (Issue #1646، Q3)
-        c, win, _ = max(enumerate(found), key=lambda p: (p[1][1]["impact"], p[1][2], -p[0]))[1]
+        # مرشّح اختاره صاحب المشروع (picked) يغلب ما دام فيه نافذة صالحة؛ لا نافذة فيه ← الأقوى من البقية (ريل 1850)
+        c, win, _ = max(enumerate(found), key=lambda p: (bool(p[1][0].get("picked")), p[1][1]["impact"], p[1][2], -p[0]))[1]
         title = re.sub(r"[\[\]]", "", clean_title(c.get("title", ""))).strip()
         reason = cfg.path("reel.render.texts.hook_reason").format(seconds=int(cfg.path("reel.render.hook.strong_seconds", 3)),
                                                                   impact=win["impact"])

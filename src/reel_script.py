@@ -186,6 +186,8 @@ def valid_clips(member_points: list[dict], unresolved: list, cfg: Any) -> list[d
                     "quote_arabic": p.get("quote_arabic", ""), "quote_original": p.get("quote_original", ""),
                     "language": detect_language(p["quote_original"]),
                     "video_published": p.get("video_published") or "", "statement": p.get("statement", ""),
+                    "name_source": p.get("name_source", "") or "", "speaker_role_hint": p.get("speaker_role", "") or "",
+                    "speaker_original": p.get("speaker_original", "") or "", "is_host": bool(p.get("is_host")),
                     "type": p.get("type", "") or "",       # نوع النقطة: الإجابة رأي لا واقعة (Issue #1621، R6)
                     # المقدّم لا يُعدّ محللًا في الحكم على صلاحية الموضوع (ريل هرمز 1/11: عُدّ مهدوي آزاد ثالث ثلاثة فبدا الموضوع أغنى)؛
                     # يبقى مقطعه صالحًا للريل
@@ -211,7 +213,7 @@ def speaker_band(clip: dict, cfg: Any) -> str:
 def speaker_badge(clip: dict, cfg: Any) -> str:
     texts = cfg.path("reel.texts", {}) or {}
     if clip.get("speaker_verified") and clip.get("speaker_name"):
-        key = "verified_title" if clip.get("speaker_verified_from") == "title" else "verified_description"
+        key = {"title": "verified_title", "gemini": "verified_gemini"}.get(clip.get("speaker_verified_from"), "verified_description")
         return texts.get(key, "")
     return texts.get("guest_badge", "")
 
@@ -281,7 +283,7 @@ def identify_speakers(valid: list[dict], member_points: list[dict], cfg: Any, cl
         rows = {r.get("point_id"): r for r in (data or {}).get("speakers") or [] if isinstance(r, dict)}
     except Exception as exc:  # noqa: BLE001 — فشل التعرّف لا يُسقط الريل: الكل ضيوف غير مسمّين
         log.warning("فشل تحديد هوية متحدثي الريل -- كلهم غير موثَّقين: %s: %s", type(exc).__name__, exc)
-        return out
+        return [_accept_source_name(c, cfg) for c in out]
     from . import names
     for c in out:
         r = rows.get(c["point_id"]) or {}
@@ -297,7 +299,26 @@ def identify_speakers(valid: list[dict], member_points: list[dict], cfg: Any, cl
             # ما سمّاه التعرّف (قد يكون فارغًا) هو «الاسم» الذي يحرسه الحارس؛ حقل speaker المستخرج وصف أحيانًا
             # فكلماته العامة («الطاقة»، «السعودية») ليست اسمًا. للحارس وحده: لا يُنسخ إلى مشاهد السيناريو.
             c["speaker_name_guess"] = arabic
+            _accept_source_name(c, cfg)
     return out
+
+
+def _accept_source_name(c: dict, cfg: Any) -> dict:
+    """اسم قرأه Gemini من شريط القناة أو من تعريف المقدّم بالضيف (name_source ضمن reel.identity.accept_name_sources) توثيق
+    كافٍ وقت السيناريو. ريل 1850: مقاطع موضوع العناوين تأتي مسمّاة من الشريط، والتوثيق من عنوان الفيديو ووصفه وحدهما تركها
+    كلها «غير موثَّقة» فسقط هوك المواجهة («لا مقطع لمتحدث موثَّق») ثم سمّاها التركيب من Gemini نفسه. المقدّم لا يُسمّى
+    (يبقى باسم القناة كما في التركيب)، والاسم غير العربي لا يُكتب على الشاشة."""
+    from . import names, youtube_bites
+    accept = cfg.path("reel.identity.accept_name_sources", []) or []
+    name = " ".join((c.get("speaker_text") or "").split())
+    if (c.get("speaker_verified") or c.get("is_host") or c.get("name_source") not in accept or not name
+            or not youtube_bites.is_arabic_text(name, cfg)):
+        return c
+    c.update(speaker_verified=True, speaker_verified_from="gemini", speaker_name=names.normalize_names(name, cfg),
+             speaker_role=" ".join((c.get("speaker_role_hint") or "").split()),
+             speaker_name_latin=" ".join((c.get("speaker_original") or "").split()))
+    c.pop("speaker_name_guess", None)
+    return c
 
 
 # ───────────────────────────── التحقق والتقدير ─────────────────────────────

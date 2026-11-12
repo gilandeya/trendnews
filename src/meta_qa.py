@@ -311,7 +311,7 @@ def _rank(b: dict, fit: str) -> tuple:
 def auto_select(questions: list[dict], bites: list[dict], cfg) -> float:
     """يعلّم `selected` على إجابات الأسئلة ضمن `max_seconds`. جولات على الأسئلة بترتيبها: كل جولة تضيف لكل سؤال إجابة واحدة
     من متحدث لم يجب السؤال، بتوجّه لم يجبه إن وُجد، ولا مقطع في سؤالين. سؤال بقي بأقل من `min_answers` يُترك كله ويُعاد
-    الاختيار بدونه (سؤال بإجابة واحدة ليس نقاشًا). يعيد مجموع الثواني المعلَّمة."""
+    الاختيار بدونه (سؤال بإجابة واحدة ليس نقاشًا). مع `speaker_once` المتحدث المسمّى لا يجيب سؤالين. يعيد مجموع الثواني المعلَّمة."""
     q = _qcfg(cfg)
     budget = float(q.get("max_seconds", 120))
     per_q = int(q.get("answers_per_question", 4))
@@ -322,6 +322,9 @@ def auto_select(questions: list[dict], bites: list[dict], cfg) -> float:
             for a in qu["answers"]:
                 a["selected"] = False
         used, total = set(), 0.0
+        # المتحدث المسمّى يجيب سؤالًا واحدًا في الريل (ريل 1850: وايتمن أجاب السؤالين فبدا الريل حوارًا معه)
+        once = bool(q.get("speaker_once", True))
+        spoke: set[str] = set()
         progress = True
         while progress:
             progress = False
@@ -335,6 +338,7 @@ def auto_select(questions: list[dict], bites: list[dict], cfg) -> float:
                 orients = {(bites[a["n"] - 1].get("bloc"), bites[a["n"] - 1].get("orientation")) for a in chosen}
                 cands = [a for a in qu["answers"] if not a["selected"] and a["n"] not in used
                          and _speaker_key(bites[a["n"] - 1]) not in speakers
+                         and not (once and _speaker_key(bites[a["n"] - 1]) in spoke)
                          and total + _sec(bites[a["n"] - 1]) <= budget]
                 if not cands:
                     continue
@@ -345,6 +349,8 @@ def auto_select(questions: list[dict], bites: list[dict], cfg) -> float:
                 pick = cands[0]
                 pick["selected"] = True
                 used.add(pick["n"])
+                if _speaker_key(bites[pick["n"] - 1]) != bites[pick["n"] - 1]["bite_id"]:
+                    spoke.add(_speaker_key(bites[pick["n"] - 1]))
                 total += _sec(bites[pick["n"] - 1])
                 progress = True
         thin = {qi for qi, qu in enumerate(questions) if qi not in dropped

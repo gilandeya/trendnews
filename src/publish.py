@@ -1300,12 +1300,14 @@ def approve_reel_scripts(issue_number: int, reel_ids: list[str], body: str, cfg,
         if did in blocks:
             script, warnings = reel_script.apply_lines(d["script"], blocks[did], texts)
         extra = {"editor_override": {"at": datetime.now(timezone.utc).isoformat(), "reasons": reasons}} if override else {}
-        # لقطة هوك اختارها صاحب المشروع (قضية السيناريو لمواضيع العناوين): المرشّح وحده يبقى فيفحصه التركيب ولا يقارن غيره؛
-        # بلا مربع معلَّم تبقى المرشّحات كلها والاختيار للفحص البصري كما كان
+        # لقطة هوك اختارها صاحب المشروع (قضية السيناريو لمواضيع العناوين): المرشّح المختار يتقدّم ويُعلَّم picked فيغلب في الهوك إن
+        # صلح، والبقية تبقى بعده. ريل 1850: كان يبقى وحده، وكان نشرة أستوديو بلا ثانية ميدانية، فلا لقطة للهوك ولا شريط
+        # خلفية ولا ختام والمرشّحون الثلاثة الآخرون لم يُفحصوا. بلا مربع معلَّم الاختيار للفحص البصري كما كان
         cands = d.get("hook_candidates") or []
         k = hook_picks.get(did)
         if d.get("hook_pick") and k is not None and 0 <= k < len(cands):
-            extra.update(hook_candidates=[cands[k]], hook_picked=k)
+            rest = [{x: v for x, v in c.items() if x != "picked"} for i, c in enumerate(cands) if i != k]
+            extra.update(hook_candidates=[{**cands[k], "picked": True}, *rest], hook_picked=k)
         # «انشر فورًا» (Issue #1538، W4): نفس البوابات، ثم يُركَّب ويُنشر بلا قضية مراجعة الفيديو؛ العنوان من مربع المرحلة 2
         if (actions or {}).get(did) == "publish":
             extra.update(publish_on_render=True, headline_selected=choice.get(did, 0))

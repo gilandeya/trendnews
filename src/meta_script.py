@@ -48,15 +48,29 @@ def _texts(cfg) -> dict:
 
 # ───────────── من علامات القضية إلى المادة ─────────────
 
-def selected_material(marks: dict, priv: dict) -> tuple[list[dict], list[dict]]:
+def selected_material(marks: dict, priv: dict, cfg=None, notes: list | None = None) -> tuple[list[dict], list[dict]]:
     """(الأسئلة المعلَّمة بإجاباتها المعلَّمة بترتيب القضية، المقاطع المعلَّمة). سؤال معلَّم بلا إجابة معلَّمة يُترك، ومقطع لا يتكرر
-    بين الأسئلة (الأول يغلب) لأن التركيب يعرض المقطع مرة واحدة."""
+    بين الأسئلة (الأول يغلب) لأن التركيب يعرض المقطع مرة واحدة. مع cfg و`qa.speaker_once` المتحدث المسمّى الذي عُلّم في سؤالين
+    يبقى في أولهما وحده (ريل 1850) ويُذكر ذلك في notes."""
+    from . import meta_qa
     by_id = {b["bite_id"]: b for b in priv.get("bites") or [] if b.get("bite_id")}
-    questions, bites, used = [], [], set()
+    once = cfg is not None and bool((cfg.path("youtube.meta_topics.qa") or {}).get("speaker_once", True))
+    questions, bites, used, spoke = [], [], set(), set()
     for qi in marks.get("questions") or []:
         if not 1 <= qi <= len(priv.get("questions") or []):
             continue
-        ids = [bid for bid in (marks.get("answers") or {}).get(qi, []) if bid in by_id and bid not in used]
+        ids = []
+        for bid in (marks.get("answers") or {}).get(qi, []):
+            if bid not in by_id or bid in used or bid in ids:
+                continue
+            who = meta_qa._speaker_key(by_id[bid])
+            if once and who != bid and who in spoke:
+                if notes is not None:
+                    notes.append(_texts(cfg).get("speaker_repeated", "🔧 {speaker} أجاب سؤالًا سابقًا فتُركت إجابته عن: {q}").format(
+                        speaker=who, q=priv["questions"][qi - 1]["text"]))
+                continue
+            ids.append(bid)
+        spoke.update(w for w in (meta_qa._speaker_key(by_id[b]) for b in ids) if w not in ids)
         if not ids:
             continue
         used.update(ids)
@@ -172,13 +186,14 @@ def write_frame(title: str, topic: dict, questions: list[dict], by_bite: dict, f
 
 
 def make_builder(title: str, titles: list[str], topic: dict, questions: list[dict], by_bite: dict, pid_of: dict,
-                 facts: list[str], cfg, client=None):
+                 facts: list[str], cfg, client=None, notes: list | None = None):
     """الباني الذي يمرّره finalize إلى write_for_draft: يبني المشاهد من المعلَّم بعد فحص قائلي المقاطع (مقطع استبعده الفحص
     يسقط من سؤاله، وسؤال بلا إجابة باقية يُترك)، والعناوين الثلاثة من قضية الموضوع بترتيبها والمختار أولًا."""
     from . import reel_script
 
     def build(valid: list[dict], narrator: str, info: dict) -> tuple[dict | None, str]:
         valid_ids = {c["point_id"] for c in valid}
+        info.setdefault("warnings", []).extend(n for n in notes or [] if n not in info["warnings"])
         qs = []
         for q in questions:
             ans = [{"point_id": pid_of[bid], "stance": "", "angle": ""} for bid in q["bite_ids"]
@@ -294,7 +309,8 @@ def finalize(issue_number: int, body: str, cfg, client=None) -> int:
         review.remove_label(issue_number, "approved")
         return 1
     marks = meta_qa.read_marks(body)
-    questions, bites = selected_material(marks, priv)
+    notes: list = []
+    questions, bites = selected_material(marks, priv, cfg, notes)
     if not questions:
         review.comment(issue_number, t.get("nothing_marked", "⚠️ لم يُعلَّم سؤال بإجابة — علّم ثم أعد وسم `approved`."))
         review.remove_label(issue_number, "approved")
@@ -307,7 +323,7 @@ def finalize(issue_number: int, body: str, cfg, client=None) -> int:
     facts = [b.get("summary_ar", "") for b in priv.get("bites") or [] if b.get("type") == "fact" and b.get("summary_ar")]
     facts = facts[: int(cfg.path("reel.script.v2.facts_max", 6))]
     draft = build_draft(topic, data, title, int(_scfg(cfg).get("hook_options", 3)))
-    builder = make_builder(title, titles, topic, questions, by_bite, pid_of, facts, cfg, client)
+    builder = make_builder(title, titles, topic, questions, by_bite, pid_of, facts, cfg, client, notes)
     result = reel_script.write_for_draft(draft, topic, points, "", [], cfg, client, builder=builder)
     if result.get("status") != "ready":
         # فشل لا يُحفظ مسودةً: مسودة ريل معلّقة بلا قضية يجمعها open_review في قضية مجمّعة. السبب ومحاولات الكتابة في التعليق،

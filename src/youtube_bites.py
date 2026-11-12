@@ -319,6 +319,8 @@ def bites_as_points(bites: list[dict], load_transcript=None) -> list[dict]:
             "answers": b.get("answers", ""), "bite_id": b.get("bite_id", ""),
             "speaker_original": b.get("speaker_original", ""), "speaker_role": b.get("speaker_role", ""),
             "is_host": bool(b.get("is_host")),
+            # من أين عرف Gemini الاسم (chyron/introduced…): السيناريو يوثّق به المتحدث (ريل 1850)
+            "name_source": b.get("name_source", ""),
             # فحص النهاية (end_check): فكرة لا تكتمل في الحد تبقى نقطة للعنقدة (الفهارس ثابتة) ولا تصلح مقطعًا
             "incomplete": bool(b.get("incomplete")),
             # حدود المقطع بأسطر نصه: يعيد بها السيناريو فحص النهاية لمقطع حكم فحص القائل بأنه مبتور (القضية 1758)

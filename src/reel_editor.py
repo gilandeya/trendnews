@@ -76,7 +76,7 @@ class ReelAdapter(editor.Adapter):
         for c in ctx.get("valid") or []:
             lines.append(f"- {c['point_id']} | القناة: {c['channel_display']} | الشريط: "
                          f"{reel_script.speaker_band(c, None)}"
-                         f" ({'موثَّق من ' + ('العنوان' if c.get('speaker_verified_from') == 'title' else 'الوصف') if c.get('speaker_verified') else 'غير موثَّق'})"
+                         f" ({'موثَّق من ' + {'title': 'العنوان', 'gemini': 'شريط القناة'}.get(c.get('speaker_verified_from'), 'الوصف') if c.get('speaker_verified') else 'غير موثَّق'})"
                          f"\n  القول: {c['statement']}\n  الاقتباس بالعربية: {c['quote_arabic']}\n"
                          f"  الفيديو: {c['video_url']} (نُشر: {c.get('video_published') or 'غير معروف'})")
         return lines
