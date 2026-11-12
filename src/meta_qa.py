@@ -146,7 +146,7 @@ def gemini_key(cfg) -> str:
 
 
 def gemini_topic_bites(topic: dict, data: dict, cfg, key: str, post=None,
-                       stats: dict | None = None) -> tuple[list[dict], list[dict], bool]:
+                       stats: dict | None = None, search=None, details=None) -> tuple[list[dict], list[dict], bool]:
     """مقاطع الموضوع من Gemini على رابط كل فيديو (لا بروكسي). الشكل نفسه الذي يعيده topic_bites، فلا انتظار بروكسي أبدًا."""
     from . import gemini_bites
     bites, failures = [], []
@@ -161,6 +161,9 @@ def gemini_topic_bites(topic: dict, data: dict, cfg, key: str, post=None,
         for b in res.get("bites") or []:
             bites.append({"video_id": v["video_id"], "channel": v.get("channel", ""), "bloc": v.get("bloc"),
                           "orientation": v.get("orientation"), "language": meta.get("language", ""), **b})
+    # مقطع منقول عن برنامج قناة أخرى يُستبدل بأصله من قناته إن وُجد (بعد قضية 1856)؛ لا يرفع
+    from . import meta_original
+    bites = meta_original.find_originals(bites, data["date"], cfg, key, post=post, search=search, details=details, stats=stats)
     return bites, failures, False
 
 
@@ -414,6 +417,9 @@ def issue_body(topic: dict, data: dict, qa: dict, cfg, full_bites: list | None =
             # قضية 1856: صاحب المشروع يرى قبل الاختيار أن المقطع مؤتمر صحفي أو منقول عن قناة أخرى (لن تُذكر قناته في الريل)
             relay = {"external": t.get("relay_external", ""), "other_channel": t.get("relay_other", "")}.get(b.get("setting") or "", "")
             relay = relay.format(source=b.get("source_channel") or "?") if relay else ""
+            if b.get("original_of"):
+                relay = t.get("original_found", "🔎 الفيديو الأصلي بدل المنقول في {channel}").format(
+                    channel=(b["original_of"] or {}).get("channel") or "?")
             lines.append(f"| {k} | {_cell(view + quote + link)} | {_cell(who)}{'<br><sub>' + _cell(role) + '</sub>' if role else ''} | "
                          f"{_cell(b.get('channel') or '')}{'<br><sub>' + _cell(orient) + '</sub>' if orient else ''}"
                          f"{'<br><sub>' + _cell(relay) + '</sub>' if relay else ''} |")
@@ -449,7 +455,8 @@ def read_marks(body: str) -> dict:
 def public_bite(b: dict) -> dict:
     """ما يُحفظ في ملف الحالة العام: بلا ترجمة ولا كلام بلغته؛ الترجمة تُعرض في جسم القضية وحده (issue_body)."""
     return {k: b.get(k) for k in ("bite_id", "video_id", "channel", "bloc", "orientation", "speaker", "speaker_original",
-                                  "speaker_role", "is_host", "type", "start", "end", "summary_ar", "setting", "source_channel")}
+                                  "speaker_role", "is_host", "type", "start", "end", "summary_ar", "setting", "source_channel",
+                                  "original_of")}
 
 
 def process_topic(topic: dict, data: dict, cfg, client=None, fetch=None, now: datetime | None = None,

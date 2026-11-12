@@ -3139,6 +3139,16 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
   معها. `reel.render.background.navy_canvas` ← `reel_render.navy_canvas` بعد `_resolve_background` حين لا صورة، وسطر `comment_bg_canvas`.
   `tests.helpers.load_config` يطفئه (مراجع الأوامر القديمة).
 
+**الفيديو الأصلي لمقطع منقول (بعد قضية 1856) — `src/meta_original.py`:** بعد مقاطع Gemini (`meta_qa.gemini_topic_bites`)، لكل مقطع
+`setting: other_channel` بمتحدث مسمّى (حتى `qa.original.max_per_topic`): بحث يوتيوب (`reel_hook_search.real_yt_search`، يحتاج `YOUTUBE_API_KEY`
+وبلاه لا بحث) بالاسم الأصلي وقناة المصدر ثم بالاسم وحده في نافذة `window_days` قبل تاريخ الموضوع، و`pick_candidate` (خالصة) يأخذ أول نتيجة
+من قناة المصدر (`channel_matches`) ليست الفيديو الناقل ومدتها ≤ `max_minutes`؛ ثم نداء Gemini واحد على المرشّح (أداة JSON: found/start/end/
+text_original/speaker_on_screen). `decide` (خالصة) يقبل إن كانت المدة في حدود المقطع ونسبة كلمات المنقول الواردة بالترتيب في المسموع ≥
+`min_text_ratio` (0.6) والمتحدث يظهر؛ فيصير المقطع من الأصلي (`video_id`/`bite_id`/`start`/`end`/`text_original` المسموع، `setting: studio`،
+القناة وكتلتها وتوجّهها من `channels` إن عُرفت، و`original_of` بالناقل)، وإلا يبقى المنقول ويُعرض باسم مصدره (`relay_view`). السجل
+`qa.originals` (بلا كلام ولا سبب النموذج) و`originals_found`، والكلفة في `gemini_cost`. قضية الموضوع تعرض «🔎 الفيديو الأصلي…» (`texts.original_found`).
+**تشغيليًا:** خطوة الاستخراج في `reel-render.yml` تحتاج `YOUTUBE_API_KEY` في env. الاختبار `tests/test_youtube.py:test_meta_original_search`.
+
 **مقاطع الموضوع من Gemini (موافقة صاحب المشروع 6/11) — `src/gemini.py`، `src/gemini_bites.py`:** `youtube.meta_topics.qa.source: gemini` ← `meta_qa.process_topic` يستدعي `gemini_topic_bites` بدل `topic_bites`: لكل فيديو نداء Gemini واحد على رابطه (`gemini.generate`، المفتاح في رأس `x-goog-api-key`، بلا temperature، الدقة `media_resolution`) بالحدث وعنوان الفيديو ووصفه، يعيد `speakers` و`bites`؛ و`gemini_bites.to_bites` (خالصة) يقرّر في الكود: الزمن بـ`gemini.parse_clock` (زمن بثلاثة أجزاء يتجاوز مدة الحلقة يُقرأ بلا ساعته)، المدة بين `qa.gemini.min_seconds` و`youtube.bites.end_check.complete_max_seconds`، النوع، `youtube_bites.screen_text_ok` للترجمة، لا تداخل، واسم `name_source: unknown` لا يُكتب. المقطع بشكل `youtube_bites.extract` (`bite_id` = `<video_id>:g<الثانية>`، `source: gemini`، بلا `start_line`) فلا يتغير ما بعده؛ لا بروكسي ولا انتظار رصيد، وعطل فيديو سطر في `failures`. يُحفظ `qa.source` و`gemini_cost` و`gemini_rejected`. بلا `GEMINI_API_KEY` ← المسار القديم بالنص والبروكسي. **التركيب ما زال يحتاج البروكسي** لتنزيل المقاطع (yt-dlp)، ونافذة المقطع بلا نص محفوظ تقديرية يضبطها التفريغ بالكلمات (Q13). **تشغيليًا:** `reel-render.yml` (حيث يجري `meta_qa.process_safe`) يحتاج `GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}` في env خطوة التركيب — يضيفه صاحب المشروع بيده. `tools/gemini_probe.py` يستورد `parse_clock`/`read_response`/`cost_usd` من `src/gemini.py`. الاختبار `tests/test_youtube.py:test_meta_qa_gemini`.
 
 **إعادة الطلب بعد انتظار البروكسي (5/11):** تشغيلة التركيب لا تجري إلا بإطلاق، فموضوع `waiting_proxy` لا يُعاد وحده. تعليق الانتظار يطلب

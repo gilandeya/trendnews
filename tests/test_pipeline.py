@@ -269,6 +269,7 @@ from tests.test_youtube import (
     test_meta_reel_points,
     test_reel_1850_fixes,
     test_reel_1856_fixes,
+    test_meta_original_search,
     test_tts_elevenlabs,
     test_meta_script,
     test_youtube_channel_handles,
@@ -717,6 +718,7 @@ def main() -> int:
     test_meta_reel_points()
     test_reel_1850_fixes()
     test_reel_1856_fixes()
+    test_meta_original_search()
     test_tts_elevenlabs()
     test_meta_script()
     test_youtube_channel_handles()
