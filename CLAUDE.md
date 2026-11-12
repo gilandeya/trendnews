@@ -2698,6 +2698,16 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 يعيده تلقائيًا (`queued_reels` لا يلتقطه ولو كانت نسخته أقدم)؛ إعادة وسم `approved` على القضية نفسها (المسار العادي، قبل كل توجيه بالوسم في
 `publish.main`) تعيده queued بمحاولات 0 وتطلق التركيب وتزيل الوسم. تعليق انتظار الرصيد في `meta_qa` يذكره كذلك. g842–g845.
 
+## صوت الراوي: ElevenLabs ما دام فيه رصيد ثم Google (طلب صاحب المشروع 12/11) — `src/tts.py:VoiceSession`
+
+`reel_render.Deps.resolved` ينشئ لكل تركيب جلسة صوت (حين لا يُحقن `synthesize`). المزوّد يُحسم للريل كله عند أول جملة: `reel.tts.elevenlabs.enabled`
+و`ELEVENLABS_API_KEY` وباقي الاشتراك (`GET /v1/user/subscription`: character_limit − character_count) ≥ `min_credits` ← ElevenLabs (`el_synthesize`،
+`POST /v1/text-to-speech/{voice_id}`، mp3 كصوت Google)، وإلا Google. السبب: لا ينفد الرصيد وسط الريل فيتكلم الراوي بصوتين. رصيد مجهول (مفتاح بلا
+صلاحية قراءة) ← يُجرَّب ElevenLabs. رفضه وسط الريل ← بقية الريل بـGoogle وسطر «⚠️ صوتان مختلفان». الصوت بجنس الراوي: صوت Google في `narrator_voices`
+← الجنس ← `elevenlabs.voices`. سطر «🎙️ الصوت» في تعليق التركيب (`VoiceSession.note`). الكلفة `usd_per_1000_chars` (0 في المجانية). **الخطة المجانية بلا
+رخصة تجارية:** قرار النشر ومسؤوليته على صاحب المشروع. **تشغيليًا:** `reel-render.yml` يحتاج `ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}`
+في env خطوة التركيب. `tests.helpers.load_config` يطفئه؛ الاختبار `tests/test_youtube.py:test_tts_elevenlabs`.
+
 ## أسطر بالجمل في نصوص الريل (قرار صاحب المشروع 7/11) — `reel_render.clause_wrap`
 
 كل جملة (تنتهي بعلامة من `reel.render.clause_lines.marks` تليها مسافة) تبدأ سطرًا جديدًا، وما لا يسعه سطر يُكمل تحته قبل أن تبدأ التالية:
