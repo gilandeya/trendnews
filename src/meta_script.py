@@ -157,13 +157,14 @@ def frame_message(title: str, topic: dict, questions: list[dict], by_bite: dict,
     return "\n".join(lines)
 
 
-def frame_problems(data: dict, cfg) -> list[str]:
+def frame_problems(data: dict, cfg, limit: int | None = None) -> list[str]:
     """ما يرفض الكود من نداء السياق: سياق فارغ أو أطول من الحد، وختام فارغ أو يبدأ بـ«برأيك» (التركيب يضيفها هو)."""
     from . import reel_script
     out = []
     ctx = " ".join(str(x) for x in reel_script._listish(data.get("context")) or ([data.get("context")] if isinstance(
         data.get("context"), str) else []))
-    n, limit = len(ctx.split()), int(cfg.path("reel.script.v2.context_max_words", 25))
+    n = len(ctx.split())
+    limit = limit if limit is not None else int(cfg.path("reel.script.v2.context_max_words", 25))
     if not n:
         out.append("السياق فارغ")
     elif n > limit:
@@ -180,7 +181,9 @@ def write_frame(title: str, topic: dict, questions: list[dict], by_bite: dict, f
                 info: dict | None = None, context_ids: list[str] | None = None) -> tuple[dict | None, str]:
     """(بيانات السياق والختام، السبب). الرد المقطوع لا يُقبل، والمخالفة تُعاد مرة واحدة في المحادثة نفسها بسببها."""
     s = _scfg(cfg)
-    limit = int(cfg.path("reel.script.v2.context_max_words", 25))
+    # كل مقطع سياق اختاره صاحب المشروع يحتاج تعريفًا بصاحبه وصفته ودولته قبله، فيتسع الحد بقدره (قضية 1862)
+    limit = int(cfg.path("reel.script.v2.context_max_words", 25)) + int(
+        cfg.path("youtube.meta_topics.script.words_per_context_clip", 0) or 0) * len(context_ids or [])
     from . import llm
     system = llm.with_notes(str(s.get("system", "")).replace("{context_max_words}", str(limit)), cfg)
     messages: list[dict] = [{"role": "user", "content": frame_message(title, topic, questions, by_bite, facts, context_ids)}]
@@ -196,7 +199,7 @@ def write_frame(title: str, topic: dict, questions: list[dict], by_bite: dict, f
         if block is None:
             return None, "لم يُرجع النموذج السياق"
         data = dict(block.input or {})
-        reasons = frame_problems(data, cfg)
+        reasons = frame_problems(data, cfg, limit)
         if info is not None and reasons:
             info.setdefault("attempts", []).append({"attempt": attempt, "reasons": reasons})
         if not reasons:
@@ -205,7 +208,21 @@ def write_frame(title: str, topic: dict, questions: list[dict], by_bite: dict, f
                                                          "input": block.input}]},
                      {"role": "user", "content": [{"type": "tool_result", "tool_use_id": block.id, "is_error": True,
                                                    "content": "؛ ".join(reasons) + " — صحّحه دون تغيير ما سواه."}]}]
+    # قضية 1862 (قرار صاحب المشروع): المادة اختارها هو، فطول السياق لا يُسقط السيناريو أبدًا؛ يُقبل آخر ما كُتب وينبَّه المراجع
+    if data and reasons and all(r.startswith("السياق أطول من") for r in reasons):
+        if info is not None:
+            info.setdefault("warnings", []).append(_texts(cfg).get(
+                "context_long", "⏱️ السياق {n} كلمة (الحد {limit}) فقُبل كما هو لأن المادة من اختيارك — راجعه").format(
+                n=_ctx_words(data), limit=limit))
+        return data, ""
     return None, "؛ ".join(reasons)
+
+
+def _ctx_words(data: dict) -> int:
+    from . import reel_script
+    ctx = data.get("context")
+    parts = reel_script._listish(ctx) or ([ctx] if isinstance(ctx, str) else [])
+    return len(" ".join(str(x) for x in parts).split())
 
 
 def make_builder(title: str, titles: list[str], topic: dict, questions: list[dict], by_bite: dict, pid_of: dict,
@@ -337,7 +354,7 @@ def finalize(issue_number: int, body: str, cfg, client=None) -> int:
             return 0
         review.comment(issue_number, t.get("no_qa", "⚠️ لا أسئلة جاهزة لهذا الموضوع بعد — انتظر تعليق ✅ ثم أعد الوسم."))
         review.remove_label(issue_number, "approved")
-        return 1
+        return 0  # فشل معلَّق عليه لا انهيار: رمز غير صفري يكتب publish.yml عليه «انهارت خطوة النشر» (قضية 1862)
     marks = meta_qa.read_marks(body)
     notes: list = []
     questions, bites = selected_material(marks, priv, cfg, notes)
@@ -365,7 +382,7 @@ def finalize(issue_number: int, body: str, cfg, client=None) -> int:
         review.comment(issue_number, t.get("failed", "⚠️ تعذّر السيناريو: {reason}").format(reason=result.get("reason", ""))
                        + (f"\n{t.get('attempts_label', 'محاولات الكتابة:')} {tries}" if tries else ""))
         review.remove_label(issue_number, "approved")
-        return 1
+        return 0   # السبب في التعليق؛ رمز غير صفري كان يضيف تعليق «انهارت خطوة النشر» المضلِّل (قضية 1862)
     path = store.save_draft(draft)
     repo = os.environ.get("GITHUB_REPOSITORY", "")
     branch = os.environ.get("GITHUB_REF_NAME", "main")

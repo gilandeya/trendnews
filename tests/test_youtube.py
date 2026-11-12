@@ -5810,7 +5810,7 @@ def test_meta_qa_in_flight() -> None:
         rc = meta_script.finalize(1847, body, cfg)
         t5 = cfg.path("youtube.meta_topics.script.texts")
         check("وسم والأسئلة لم تُحفظ بعد: تعليق انتظار بلا استخراج جديد وتُزال approved",
-              rc == 1 and not dispatched and (1847, "approved") in removed
+              rc == 0 and not dispatched and (1847, "approved") in removed
               and comments == [(1847, t5["no_qa"])] and "لم يُطلب استخراج جديد" in t5["no_qa"]
               and not mt._load_public(today)["topics"][0].get("qa"), (rc, dispatched, comments))
         data["topics"][0]["qa_requested_at"] = (now - _td(minutes=grace + 10)).isoformat()
@@ -6146,3 +6146,45 @@ def test_reel_context_clips() -> None:
           and kinds[3] == ("narration", "question", 0), kinds)
     cands = [c["point_id"] for c in reel_clash.candidates(script, cfg)]
     check("هوك المواجهة لا يأخذ مقطع السياق", "pc" not in cands and "p1" in cands, cands)
+
+
+def test_meta_frame_condense() -> None:
+    """قضية 1862 (قرار صاحب المشروع): مادة السيناريو من اختياره، فالسياق الطويل لا يُسقطه: الحد يتسع بعدد مقاطع السياق المعلَّمة،
+    وما تجاوزه بعد محاولتي الكتابة يُقبل بتنبيه؛ وفشل السيناريو المعلَّق عليه رمزه 0."""
+    from types import SimpleNamespace as NS
+
+    from src import meta_script
+    from src.config import load_config as real_load
+
+    cfg = real_load()
+    calls = {"frame": 0}
+
+    def frame_of(words):
+        def frame(client, **kw):
+            calls["frame"] += 1
+            calls["system"] = kw.get("system", "")
+            return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="write_reel_frame", id=f"t{calls['frame']}",
+                                                           input={"context": [" ".join(["كلمة"] * words) + "."],
+                                                                  "closing_question": "ماذا بعد؟"})])
+        return frame
+    saved = meta_script._create
+    base = int(cfg.path("reel.script.v2.context_max_words"))
+    per = int(cfg.path("youtube.meta_topics.script.words_per_context_clip"))
+    try:
+        meta_script._create = frame_of(base + per)
+        data, reason = meta_script.write_frame("س؟", {"title": "ت"}, [], {}, [], cfg, object(), {}, context_ids=["a", "b"])
+        check("الحد يتسع بمقاطع السياق المعلَّمة: لا إعادة ولا تنبيه", data is not None and calls["frame"] == 1
+              and str(base + 2 * per) in calls["system"], (reason, calls["frame"]))
+        calls["frame"] = 0
+        meta_script._create = frame_of(base + 6)
+        info: dict = {}
+        data, reason = meta_script.write_frame("س؟", {"title": "ت"}, [], {}, [], cfg, object(), info)
+        check("سياق أطول من الحد بعد محاولتين يُقبل ولا يُسقط السيناريو", data is not None and not reason
+              and calls["frame"] == 2, (reason, calls))
+        check("تنبيه الطول للمراجع", any("قُبل كما هو" in w for w in info.get("warnings", [])), info)
+    finally:
+        meta_script._create = saved
+    import inspect
+    src = inspect.getsource(meta_script.finalize)
+    check("فشل السيناريو المعلَّق عليه يعيد 0 (لا «انهارت خطوة النشر»)", "return 1\n    path = store.save_draft" not in src
+          and "return 0   # السبب في التعليق" in src)

@@ -273,6 +273,7 @@ from tests.test_youtube import (
     test_tts_elevenlabs,
     test_reel_country_terms,
     test_reel_context_clips,
+    test_meta_frame_condense,
     test_meta_script,
     test_youtube_channel_handles,
 )
@@ -724,6 +725,7 @@ def main() -> int:
     test_tts_elevenlabs()
     test_reel_country_terms()
     test_reel_context_clips()
+    test_meta_frame_condense()
     test_meta_script()
     test_youtube_channel_handles()
     print("\n── وحدة المراحل المشتركة stages.py (Issue #1180) ──")

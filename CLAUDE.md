@@ -3129,6 +3129,12 @@ bite_id, selected}] في العام والخاص)، وقسم «🎬 مقاطع �
 **تشغيليًا:** `python -m src.meta_qa --process` خطوة مستقلة في `reel-render.yml` يتبعها رفع المستودع الخاص وإيداع `state/meta_topics`، ثم التركيب
 بـ`--pending --skip-qa` (يضيفها صاحب المشروع بيده؛ بدونها يبقى الاستخراج داخل التركيب كما كان). الاختبار `tests/test_youtube.py:test_meta_qa_in_flight`.
 
+**السياق الطويل لا يُسقط السيناريو (قضية 1862، قرار صاحب المشروع):** فشل سيناريو «مفاوضات أبوظبي» مرتين لأن السياق 28 ثم 31 كلمة (الحد 25)
+وفيه مقطعا سياق معلَّمان. المادة من اختيار صاحب المشروع فيُقبل التطويل: حد `write_frame`/`frame_problems` = `reel.script.v2.context_max_words` +
+`youtube.meta_topics.script.words_per_context_clip` (12) × مقاطع السياق المعلَّمة، وما بقي فوقه بعد المحاولتين يُقبل بتنبيه `script.texts.context_long`.
+وفشل السيناريو و`no_qa` يعيدان 0 من `finalize` (السبب معلَّق عليه)، لأن الرمز 1 كان يضيف تعليق publish.yml «انهارت خطوة النشر» المضلِّل.
+الاختبار `tests/test_youtube.py:test_meta_frame_condense`.
+
 **نقاط ريل العناوين في التركيب (قضية 1850):** التركيب كان يبحث عن مقاطع السيناريو في نافذة نقاط `youtube_topics` (`deps.load_points`) فحُذفت
 مقاطع ريل الموضوع كلها «غير موجودة في نافذة النقاط». `reel_render._render_points`: مسودة بـ`meta_topic_id` تأخذ نقاطها من `meta_script.draft_points`
 (كل مقاطع ملف الأسئلة الخاص بـ`bites_points` نفسها، فمعرّف النقطة يطابق ما كتبه `finalize`)، وتعذّر قراءة الملف ← النافذة كما كانت. الاختبار
