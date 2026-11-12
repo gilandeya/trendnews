@@ -3098,6 +3098,24 @@ g553–g557 في `tests/test_guards_golden.py:test_reel_faithful_q5_guards`. `re
 **تشغيليًا:** `python -m src.meta_qa --process` خطوة مستقلة في `reel-render.yml` يتبعها رفع المستودع الخاص وإيداع `state/meta_topics`، ثم التركيب
 بـ`--pending --skip-qa` (يضيفها صاحب المشروع بيده؛ بدونها يبقى الاستخراج داخل التركيب كما كان). الاختبار `tests/test_youtube.py:test_meta_qa_in_flight`.
 
+**نقاط ريل العناوين في التركيب (قضية 1850):** التركيب كان يبحث عن مقاطع السيناريو في نافذة نقاط `youtube_topics` (`deps.load_points`) فحُذفت
+مقاطع ريل الموضوع كلها «غير موجودة في نافذة النقاط». `reel_render._render_points`: مسودة بـ`meta_topic_id` تأخذ نقاطها من `meta_script.draft_points`
+(كل مقاطع ملف الأسئلة الخاص بـ`bites_points` نفسها، فمعرّف النقطة يطابق ما كتبه `finalize`)، وتعذّر قراءة الملف ← النافذة كما كانت. الاختبار
+`tests/test_youtube.py:test_meta_reel_points`.
+
+**دروس ريل 1850 (12/11) — `tests/test_youtube.py:test_reel_1850_fixes`:** أول ريل من مسار العناوين خرج بلا هوك مواجهة ولا لقطة ولا شريط خلفية، وفيه
+مذيعة تحت اسم الضيف وترجمته.
+- **اسم Gemini يوثّق وقت السيناريو:** `reel_script._accept_source_name` (من `identify_speakers`، بعد فشل التوثيق من العنوان والوصف أو تعطّل ندائه): مقطع
+  `name_source` فيه ضمن `reel.identity.accept_name_sources` ([chyron, introduced]) واسمه عربي وليس مقدّمًا ← `speaker_verified_from="gemini"` باسمه وصفته
+  (`speaker_role`) ورسمه (`speaker_original`). `bites_as_points` و`valid_clips` تحملان `name_source`. بلاه كان هوك المواجهة يسقط «لا مقطع لمتحدث موثَّق».
+- **اختيار مرشّح الهوك لا يحذف البقية:** `publish.approve_reel_scripts` يقدّم المعلَّم ويضع عليه `picked: true` ويُبقي الآخرين بعده؛ `scan_candidates` يغلّب
+  `picked` إن كانت فيه نافذة صالحة وإلا الأقوى من البقية، والبقية مادة شريط الخلفية والختام. (كان يبقى وحده، وكان نشرة أستوديو.)
+- **نافذة تقديرية لا يطابق مسموعها الاقتباس تُحذف:** `_exact_apply` يعيد `drop` حين النافذة تقديرية وسبب فشل الضبط ضمن
+  `reel.render.exact.drop_approx_reasons` ([low_ratio, no_words])؛ عطل المفرِّغ نفسه لا يحذف، والنافذة النصية كما كانت.
+- **المتحدث المسمّى يجيب سؤالًا واحدًا:** `youtube.meta_topics.qa.speaker_once` في `meta_qa.auto_select` (الاختيار الآلي) وفي
+  `meta_script.selected_material(marks, priv, cfg, notes)` (المعلَّم يدويًا: يبقى في أول سؤال وتنبيه 🔧 `speaker_repeated`).
+- **الميادين موقوفة** (`active: false`، قرار صاحب المشروع)؛ المدخل باقٍ لرسم مقاطعها في ريلات قديمة.
+
 **مقاطع الموضوع من Gemini (موافقة صاحب المشروع 6/11) — `src/gemini.py`، `src/gemini_bites.py`:** `youtube.meta_topics.qa.source: gemini` ← `meta_qa.process_topic` يستدعي `gemini_topic_bites` بدل `topic_bites`: لكل فيديو نداء Gemini واحد على رابطه (`gemini.generate`، المفتاح في رأس `x-goog-api-key`، بلا temperature، الدقة `media_resolution`) بالحدث وعنوان الفيديو ووصفه، يعيد `speakers` و`bites`؛ و`gemini_bites.to_bites` (خالصة) يقرّر في الكود: الزمن بـ`gemini.parse_clock` (زمن بثلاثة أجزاء يتجاوز مدة الحلقة يُقرأ بلا ساعته)، المدة بين `qa.gemini.min_seconds` و`youtube.bites.end_check.complete_max_seconds`، النوع، `youtube_bites.screen_text_ok` للترجمة، لا تداخل، واسم `name_source: unknown` لا يُكتب. المقطع بشكل `youtube_bites.extract` (`bite_id` = `<video_id>:g<الثانية>`، `source: gemini`، بلا `start_line`) فلا يتغير ما بعده؛ لا بروكسي ولا انتظار رصيد، وعطل فيديو سطر في `failures`. يُحفظ `qa.source` و`gemini_cost` و`gemini_rejected`. بلا `GEMINI_API_KEY` ← المسار القديم بالنص والبروكسي. **التركيب ما زال يحتاج البروكسي** لتنزيل المقاطع (yt-dlp)، ونافذة المقطع بلا نص محفوظ تقديرية يضبطها التفريغ بالكلمات (Q13). **تشغيليًا:** `reel-render.yml` (حيث يجري `meta_qa.process_safe`) يحتاج `GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}` في env خطوة التركيب — يضيفه صاحب المشروع بيده. `tools/gemini_probe.py` يستورد `parse_clock`/`read_response`/`cost_usd` من `src/gemini.py`. الاختبار `tests/test_youtube.py:test_meta_qa_gemini`.
 
 **إعادة الطلب بعد انتظار البروكسي (5/11):** تشغيلة التركيب لا تجري إلا بإطلاق، فموضوع `waiting_proxy` لا يُعاد وحده. تعليق الانتظار يطلب
