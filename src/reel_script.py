@@ -556,8 +556,9 @@ def v2_system(cfg: Any) -> str:
     """برومبت v2 مملوءً: رقم السقف يُبنى من الإعداد (L1، Issue #1627) فلا يُكتب حرفيًا في النص فيتخلّف عنه.
     استبدال نصي لا str.format: النص يحوي أقواسًا أخرى."""
     rules = _v2(cfg, "code_picks.rules", "") if _v2(cfg, "code_picks.enabled", False) else _v2(cfg, "answers_rules", "")
-    return (str(_v2(cfg, "system", "")).replace("{max_seconds}", str(int(_v2(cfg, "max_seconds", 165))))
-            .replace("{answers_rules}", str(rules or "").strip()))
+    from . import llm
+    return llm.with_notes(str(_v2(cfg, "system", "")).replace("{max_seconds}", str(int(_v2(cfg, "max_seconds", 165))))
+                          .replace("{answers_rules}", str(rules or "").strip()), cfg)
 
 
 def _speaker_identity(clip: dict) -> str:

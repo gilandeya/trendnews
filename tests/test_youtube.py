@@ -5919,3 +5919,44 @@ def test_tts_elevenlabs() -> None:
             os.environ.pop("ELEVENLABS_API_KEY", None)
         else:
             os.environ["ELEVENLABS_API_KEY"] = old
+
+
+def test_reel_country_terms() -> None:
+    """بلد القناة قبل توجّهها في الشريط، ودولة المسؤول والمؤسسة واسم وزارة الحرب الأمريكية في كل برومبت يكتب نصًا يُعرض
+    (قرار صاحب المشروع 12/11 بعد ريل «عزل وزير الحرب»: «آر تي في آي (قريبة من السلطة)»، «وزير الحرب»، «النائب»، «وزير الدفاع»)."""
+    from types import SimpleNamespace as NS
+
+    from src import editor, gemini_bites, meta_qa, reel_render
+    from src.config import load_config as real_load
+
+    cfg = real_load()
+    labels = cfg.path("reel.render.band.orientation_labels")
+    chans = {c["name"]: c for c in cfg["channels"]}
+    lab = lambda n: reel_render.with_country(labels.get(chans[n]["orientation"], ""), chans[n])  # noqa: E731
+    check("RTVI: البلد قبل التوجّه", lab("RTVI") == "روسية قريبة من السلطة", lab("RTVI"))
+    check("القناة 14: إسرائيلية يمينية", lab("ערוץ 14") == "إسرائيلية يمينية", lab("ערוץ 14"))
+    check("إيران إنترناشيونال: اسمها يحمل البلد فلا يُكرَّر", lab("Iran International") == "معارضة للنظام")
+    check("فوكس نيوز: التوجّه يذكر البلد فلا يُكرَّر", lab("Fox News") == "أمريكية محافظة")
+    missing = [c["name"] for c in cfg["channels"] if c.get("active") and not c.get("country")]
+    check("لكل قناة نشطة بلدها (country)", not missing, missing)
+    scene = {"channel_display": "آر تي في آي", "channel_original": "RTVI"}
+    check("الشريط يقرأ البلد", reel_render.band_orientation(scene, cfg) == "روسية قريبة من السلطة",
+          reel_render.band_orientation(scene, cfg))
+
+    notes = str(cfg.get("editorial_notes") or "")
+    check("القواعد التحريرية: الدولة ووزير الحرب الأمريكي", "وزير الحرب الأمريكي" in notes and "مجلس النواب الأمريكي" in notes)
+    body = gemini_bites.build_request("vid", "حدث", {}, cfg, 600)
+    check("قواعد التحرير في برومبت مقاطع Gemini (الصفات)", notes.strip() in body["system_instruction"]["parts"][0]["text"])
+    seen = {}
+
+    def fake(client, **kw):
+        seen.update(kw)
+        return NS(stop_reason="max_tokens", content=[])
+    saved = meta_qa._create
+    try:
+        meta_qa._create = fake
+        meta_qa.plan_questions({"title": "ح"}, [], cfg, object())
+    finally:
+        meta_qa._create = saved
+    check("قواعد التحرير في برومبت الأسئلة والعناوين", notes.strip() in seen.get("system", ""))
+    check("قواعد التحرير في برومبت المحرر الأخير", notes.strip() in editor.system_prompt(cfg, NS(name="reel", system_vars=lambda c: {})))

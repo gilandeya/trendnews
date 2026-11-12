@@ -234,7 +234,7 @@ def plan_questions(topic: dict, bites: list[dict], cfg, client) -> tuple[list[st
     q = _qcfg(cfg)
     try:
         resp = _create(client, cfg=cfg, model=q.get("model", "claude-opus-5"), max_tokens=int(q.get("max_tokens", 6000)),
-                       system=q.get("system", ""), tools=[PLAN_TOOL],
+                       system=llm.with_notes(q.get("system", ""), cfg), tools=[PLAN_TOOL],
                        tool_choice={"type": "tool", "name": PLAN_TOOL["name"]},
                        messages=[{"role": "user", "content": plan_message(topic, bites)}])
     except Exception as exc:  # noqa: BLE001

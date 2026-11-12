@@ -226,7 +226,8 @@ def extra_of(cfg: Any, adapter: Adapter) -> str:
 def system_prompt(cfg: Any, adapter: Adapter) -> str:
     e = ecfg(cfg)
     extra = extra_of(cfg, adapter)
-    return (e.get("system", "") + ("\n" + extra if extra else "")).replace(
+    from . import llm
+    return llm.with_notes(e.get("system", "") + ("\n" + extra if extra else ""), cfg).replace(
         "{stale_days}", str(e.get("stale_days", 14)))
 
 

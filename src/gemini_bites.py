@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import logging
 
-from . import gemini
+from . import gemini, llm
 
 log = logging.getLogger(__name__)
 
@@ -50,7 +50,7 @@ def build_request(video_id: str, topic: str, meta: dict, cfg, duration: float | 
         lines.append(f"وصف الفيديو: {str(meta['description'])[:1500]}")
     lines.append("استخرج المقاطع بحسب التعليمات.")
     return {
-        "system_instruction": {"parts": [{"text": g.get("system", "")}]},
+        "system_instruction": {"parts": [{"text": llm.with_notes(g.get("system", ""), cfg)}]},
         "contents": [{"role": "user", "parts": [gemini.video_part(video_id, g.get("max_minutes", 0), duration),
                                                 {"text": "\n".join(lines)}]}],
         "generationConfig": {"responseMimeType": "application/json", "responseSchema": SCHEMA,

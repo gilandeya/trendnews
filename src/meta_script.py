@@ -159,7 +159,8 @@ def write_frame(title: str, topic: dict, questions: list[dict], by_bite: dict, f
     """(بيانات السياق والختام، السبب). الرد المقطوع لا يُقبل، والمخالفة تُعاد مرة واحدة في المحادثة نفسها بسببها."""
     s = _scfg(cfg)
     limit = int(cfg.path("reel.script.v2.context_max_words", 25))
-    system = str(s.get("system", "")).replace("{context_max_words}", str(limit))
+    from . import llm
+    system = llm.with_notes(str(s.get("system", "")).replace("{context_max_words}", str(limit)), cfg)
     messages: list[dict] = [{"role": "user", "content": frame_message(title, topic, questions, by_bite, facts)}]
     reasons: list[str] = []
     for attempt in (1, 2):
