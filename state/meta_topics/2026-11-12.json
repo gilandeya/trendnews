@@ -239,7 +239,1127 @@
     }
    ],
    "topic_issue": 1854,
-   "qa_requested_at": "2026-11-12T04:05:57.399442+00:00"
+   "qa_requested_at": "2026-11-12T04:05:57.399442+00:00",
+   "qa": {
+    "attempts": 1,
+    "at": "2026-11-12T04:07:46.843517+00:00",
+    "source": "gemini",
+    "gemini_cost": 0.6398,
+    "gemini_rejected": 1,
+    "failures": [],
+    "selected_seconds": 109.0,
+    "status": "ready",
+    "titles": [
+     "عزل وزير الحرب: محاسبة دستورية أم تصفية حسابات؟",
+     "هل يسقط هيغسيث أم ينجو بدرع ترامب؟",
+     "من المستهدف الحقيقي خلف ملف عزل وزير الدفاع؟"
+    ],
+    "questions": [
+     {
+      "text": "هل مساعي عزل وزير الدفاع مبرّرة قانونيًا أم تصفية سياسية؟",
+      "answers": [
+       {
+        "n": 9,
+        "fit": "direct",
+        "view": "استعراض سياسي ومهزلة",
+        "view_count": 4,
+        "selected": true,
+        "bite_id": "b0Vk5tduigs:g185"
+       },
+       {
+        "n": 30,
+        "fit": "direct",
+        "view": "استعراض سياسي ومهزلة",
+        "view_count": 4,
+        "selected": false,
+        "bite_id": "YLsdcIOGzhY:g51"
+       },
+       {
+        "n": 3,
+        "fit": "direct",
+        "view": "استعراض سياسي ومهزلة",
+        "view_count": 4,
+        "selected": false,
+        "bite_id": "J8lI656aBys:g668"
+       },
+       {
+        "n": 26,
+        "fit": "direct",
+        "view": "استعراض سياسي ومهزلة",
+        "view_count": 4,
+        "selected": false,
+        "bite_id": "FV8J-riGnoo:g1312"
+       },
+       {
+        "n": 5,
+        "fit": "direct",
+        "view": "مجرد خلاف سياسي لا جريمة",
+        "view_count": 3,
+        "selected": false,
+        "bite_id": "DbVCc9YnnLA:g58"
+       },
+       {
+        "n": 11,
+        "fit": "direct",
+        "view": "مجرد خلاف سياسي لا جريمة",
+        "view_count": 3,
+        "selected": false,
+        "bite_id": "b0Vk5tduigs:g341"
+       },
+       {
+        "n": 42,
+        "fit": "direct",
+        "view": "مجرد خلاف سياسي لا جريمة",
+        "view_count": 3,
+        "selected": false,
+        "bite_id": "jz1P_4UAdxE:g49"
+       },
+       {
+        "n": 15,
+        "fit": "direct",
+        "view": "سلوكه يهدد الدستور ويستحق العزل",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "TBjjEAghUHA:g1000"
+       },
+       {
+        "n": 31,
+        "fit": "direct",
+        "view": "قوّض الأمن القومي بحرب متهورة",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "YLsdcIOGzhY:g142"
+       },
+       {
+        "n": 34,
+        "fit": "direct",
+        "view": "انتهاك دستوري خطير يبرر العزل",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "YLsdcIOGzhY:g476"
+       },
+       {
+        "n": 10,
+        "fit": "direct",
+        "view": "أشاع ثقافة تستخف بقوانين الحرب",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "b0Vk5tduigs:g240"
+       },
+       {
+        "n": 12,
+        "fit": "direct",
+        "view": "أغلب بنود العزل ضعيفة قانونيًا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "b0Vk5tduigs:g604"
+       },
+       {
+        "n": 13,
+        "fit": "direct",
+        "view": "اتهام اختطاف مادورو مثير للسخرية",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "b0Vk5tduigs:g654"
+       },
+       {
+        "n": 14,
+        "fit": "direct",
+        "view": "الهجوم سياسي يستهدف الرئيس نفسه",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "b0Vk5tduigs:g888"
+       },
+       {
+        "n": 39,
+        "fit": "weak",
+        "view": "حرب إيران بلا تفويض الكونغرس",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "lUcyeUEVA9I:g1567"
+       },
+       {
+        "n": 27,
+        "fit": "weak",
+        "view": "ثمانية اتهامات بينها الحرب على إيران",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "FV8J-riGnoo:g1343"
+       }
+      ]
+     },
+     {
+      "text": "هل ينجو هيغسيث من العزل أم أن سقوطه مسألة وقت؟",
+      "answers": [
+       {
+        "n": 6,
+        "fit": "direct",
+        "view": "المحاولة ستفشل كسابقاتها ضد ترامب",
+        "view_count": 2,
+        "selected": true,
+        "bite_id": "DbVCc9YnnLA:g102"
+       },
+       {
+        "n": 43,
+        "fit": "direct",
+        "view": "المحاولة ستفشل كسابقاتها ضد ترامب",
+        "view_count": 2,
+        "selected": false,
+        "bite_id": "jz1P_4UAdxE:g92"
+       },
+       {
+        "n": 38,
+        "fit": "direct",
+        "view": "مجلس النواب أحبط مسعى العزل",
+        "view_count": 2,
+        "selected": false,
+        "bite_id": "lUcyeUEVA9I:g1552"
+       },
+       {
+        "n": 23,
+        "fit": "direct",
+        "view": "مجلس النواب أحبط مسعى العزل",
+        "view_count": 2,
+        "selected": false,
+        "bite_id": "FV8J-riGnoo:g1041"
+       },
+       {
+        "n": 33,
+        "fit": "direct",
+        "view": "لا تمرد جمهوري والإقالة غير وشيكة",
+        "view_count": 1,
+        "selected": true,
+        "bite_id": "YLsdcIOGzhY:g373"
+       },
+       {
+        "n": 20,
+        "fit": "direct",
+        "view": "قد يُعزل أو يستقيل قبل يناير",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "TBjjEAghUHA:g1448"
+       },
+       {
+        "n": 1,
+        "fit": "direct",
+        "view": "تبدأ الإجراءات لكنها لن تكتمل",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "mKrBmCnruJg:g1394"
+       },
+       {
+        "n": 40,
+        "fit": "weak",
+        "view": "الديمقراطيون لا يناقشون محاولة جديدة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "lUcyeUEVA9I:g1583"
+       },
+       {
+        "n": 35,
+        "fit": "weak",
+        "view": "الرؤساء عادة يضحّون بالوزير العبء",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "YLsdcIOGzhY:g504"
+       },
+       {
+        "n": 24,
+        "fit": "direct",
+        "view": "الديمقراطيون سيعزلونه في يناير",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "FV8J-riGnoo:g1115"
+       }
+      ]
+     },
+     {
+      "text": "هل يستهدف العزل الوزير فعلًا أم ترامب نفسه؟",
+      "answers": [
+       {
+        "n": 14,
+        "fit": "direct",
+        "view": "يستهدفون الرئيس عبر وزير الحرب",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "b0Vk5tduigs:g888"
+       },
+       {
+        "n": 1,
+        "fit": "direct",
+        "view": "تحقيقات تنتظر ترامب بعد مغادرته",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "mKrBmCnruJg:g1394"
+       },
+       {
+        "n": 19,
+        "fit": "direct",
+        "view": "عرَض لصراع الكونغرس مع ترامب",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "TBjjEAghUHA:g1326"
+       },
+       {
+        "n": 8,
+        "fit": "weak",
+        "view": "مشرّع متمرد ينقض قرارات القائد الأعلى",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "b0Vk5tduigs:g56"
+       },
+       {
+        "n": 25,
+        "fit": "direct",
+        "view": "هيغسيث كبش فداء ومدخل لترامب",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "FV8J-riGnoo:g1233"
+       },
+       {
+        "n": 29,
+        "fit": "direct",
+        "view": "مقدمة للمطالبة بعزل ترامب ومحاسبته",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "FV8J-riGnoo:g1826"
+       },
+       {
+        "n": 28,
+        "fit": "direct",
+        "view": "التصويت أخاف ترامب وبدأ نهايته",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "FV8J-riGnoo:g1754"
+       },
+       {
+        "n": 2,
+        "fit": "weak",
+        "view": "ترامب متمسك به رغم العاصفة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "J8lI656aBys:g620"
+       }
+      ]
+     },
+     {
+      "text": "لماذا يتمسك ترامب بوزيره رغم الضغوط؟",
+      "answers": [
+       {
+        "n": 17,
+        "fit": "direct",
+        "view": "أنجز عملاً ممتازًا والجنود يحبونه",
+        "view_count": 2,
+        "selected": false,
+        "bite_id": "TBjjEAghUHA:g1122"
+       },
+       {
+        "n": 18,
+        "fit": "direct",
+        "view": "أنجز عملاً ممتازًا والجنود يحبونه",
+        "view_count": 2,
+        "selected": false,
+        "bite_id": "TBjjEAghUHA:g1157"
+       },
+       {
+        "n": 32,
+        "fit": "direct",
+        "view": "سيقف معه حتى لو صوّت المجلس",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "YLsdcIOGzhY:g272"
+       },
+       {
+        "n": 37,
+        "fit": "direct",
+        "view": "علاقته بترامب حمته رغم المطالب",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "1_q1Kb23oRk:g245"
+       },
+       {
+        "n": 33,
+        "fit": "direct",
+        "view": "القضية اختبار لولاء الجمهوريين لترامب",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "YLsdcIOGzhY:g373"
+       },
+       {
+        "n": 35,
+        "fit": "weak",
+        "view": "عادةً يتخلى الرئيس عن الوزير العبء",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "YLsdcIOGzhY:g504"
+       },
+       {
+        "n": 2,
+        "fit": "direct",
+        "view": "التخلي عنه اعتراف بفشل حرب إيران",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "J8lI656aBys:g620"
+       }
+      ]
+     },
+     {
+      "text": "هل حرب إيران نجاح عسكري أم إخفاق يستوجب المحاسبة؟",
+      "answers": [
+       {
+        "n": 7,
+        "fit": "direct",
+        "view": "يعاقبونه على النصر لا الفشل",
+        "view_count": 2,
+        "selected": false,
+        "bite_id": "DbVCc9YnnLA:g761"
+       },
+       {
+        "n": 44,
+        "fit": "direct",
+        "view": "يعاقبونه على النصر لا الفشل",
+        "view_count": 2,
+        "selected": false,
+        "bite_id": "jz1P_4UAdxE:g753"
+       },
+       {
+        "n": 31,
+        "fit": "direct",
+        "view": "حرب اختيار فاشلة ومكلفة ومتهورة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "YLsdcIOGzhY:g142"
+       },
+       {
+        "n": 22,
+        "fit": "direct",
+        "view": "خططه الحربية أخفقت والحرب لم تُحسم",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "TBjjEAghUHA:g1709"
+       },
+       {
+        "n": 36,
+        "fit": "direct",
+        "view": "الحرب غير شعبية وأغلبية تريد الخروج",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "YLsdcIOGzhY:g904"
+       },
+       {
+        "n": 16,
+        "fit": "weak",
+        "view": "اتهام استهداف المدنيين كذب وافتراء",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "TBjjEAghUHA:g1067"
+       },
+       {
+        "n": 8,
+        "fit": "weak",
+        "view": "العزل رسالة ضعف لأعدائنا",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "b0Vk5tduigs:g56"
+       },
+       {
+        "n": 21,
+        "fit": "weak",
+        "view": "الديمقراطيون يسعون لقطع تمويل الحرب",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "TBjjEAghUHA:g1621"
+       },
+       {
+        "n": 4,
+        "fit": "direct",
+        "view": "عمليات ناجحة بينما أفغانستان بلا محاسبة",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "J8lI656aBys:g700"
+       },
+       {
+        "n": 41,
+        "fit": "direct",
+        "view": "عمليات ناجحة ولا سابقة لعزل وزير",
+        "view_count": 1,
+        "selected": false,
+        "bite_id": "jz1P_4UAdxE:g15"
+       }
+      ]
+     }
+    ],
+    "bites": [
+     {
+      "bite_id": "mKrBmCnruJg:g1394",
+      "video_id": "mKrBmCnruJg",
+      "channel": "CNN Türk",
+      "bloc": "turkish",
+      "orientation": "قريب من الحكومة",
+      "speaker": "محمد بايرام",
+      "speaker_original": "Muhammet Bayram",
+      "speaker_role": "خبير اقتصادي",
+      "is_host": false,
+      "type": "forecast",
+      "start": 1394.0,
+      "end": 1408.0,
+      "summary_ar": "توقع الخبير الاقتصادي إطلاق إجراءات لعزل وزير الدفاع الأمريكي رغم عدم قدرتهم على إتمامها حالياً، تليها تحقيقات بحق ترامب لاحقاً."
+     },
+     {
+      "bite_id": "J8lI656aBys:g620",
+      "video_id": "J8lI656aBys",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "صهيب شراير",
+      "speaker_original": "صهيب شراير",
+      "speaker_role": "مقدم البرنامج",
+      "is_host": true,
+      "type": "report",
+      "start": 620.0,
+      "end": 647.0,
+      "summary_ar": "ترامب يصر على التمسك بوزير الدفاع بيت هيغسيث وسط تحليلات بأن التخلي عنه سيعني اعترافا بفشل الحرب على إيران."
+     },
+     {
+      "bite_id": "J8lI656aBys:g668",
+      "video_id": "J8lI656aBys",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "بيت هيغسيث",
+      "speaker_original": "Pete Hegseth",
+      "speaker_role": "وزير الدفاع الأمريكي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 668.0,
+      "end": 699.0,
+      "summary_ar": "بيت هيغسيث يعتبر مساعي عزله في الكونغرس مجرد استعراض سياسي وهزلي يهدف للإضرار بالرئيس والجيش الأمريكي."
+     },
+     {
+      "bite_id": "J8lI656aBys:g700",
+      "video_id": "J8lI656aBys",
+      "channel": "العربية",
+      "bloc": "arabic",
+      "orientation": "سعودي",
+      "speaker": "بيت هيغسيث",
+      "speaker_original": "Pete Hegseth",
+      "speaker_role": "وزير الدفاع الأمريكي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 700.0,
+      "end": 739.0,
+      "summary_ar": "بيت هيغسيث يرى أنه لم يسبق عزل أي وزير دفاع بسبب عمليات عسكرية ناجحة بينما لم يُحاسب سلفه على الانسحاب من أفغانستان."
+     },
+     {
+      "bite_id": "DbVCc9YnnLA:g58",
+      "video_id": "DbVCc9YnnLA",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "بيت هيغسيث",
+      "speaker_original": "Pete Hegseth",
+      "speaker_role": "وزير الدفاع الأمريكي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 58.0,
+      "end": 86.0,
+      "summary_ar": "يعتبر أن إجراءات عزله ناتجة عن خلاف سياسي لا يرقى لمستوى الخيانة أو الجرائم الكبرى."
+     },
+     {
+      "bite_id": "DbVCc9YnnLA:g102",
+      "video_id": "DbVCc9YnnLA",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "بيت هيغسيث",
+      "speaker_original": "Pete Hegseth",
+      "speaker_role": "وزير الدفاع الأمريكي",
+      "is_host": false,
+      "type": "forecast",
+      "start": 102.0,
+      "end": 128.0,
+      "summary_ar": "يتوقع فشل محاولة عزله على غرار فشل المحاولات السابقة لعزل الرئيس دونالد ترامب."
+     },
+     {
+      "bite_id": "DbVCc9YnnLA:g761",
+      "video_id": "DbVCc9YnnLA",
+      "channel": "Iran International",
+      "bloc": "persian",
+      "orientation": "معارض للنظام",
+      "speaker": "بيت هيغسيث",
+      "speaker_original": "Pete Hegseth",
+      "speaker_role": "وزير الدفاع الأمريكي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 761.0,
+      "end": 791.0,
+      "summary_ar": "ينتقد عزله بسبب تحقيقه انتصارات ونجاحات عسكرية بدلا من محاسبته على الفشل."
+     },
+     {
+      "bite_id": "b0Vk5tduigs:g56",
+      "video_id": "b0Vk5tduigs",
+      "channel": "Fox News",
+      "bloc": "english",
+      "orientation": "أمريكي محافظ",
+      "speaker": "بيت هيغسيث",
+      "speaker_original": "Pete Hegseth",
+      "speaker_role": "وزير الدفاع الأمريكي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 56.0,
+      "end": 84.0,
+      "summary_ar": "يعتبر هيغسيث أن مشروع قرار العزل يبعث رسالة للخصوم بأن واشنطن تعاقب قادتها وجنودها على تنفيذ مهامهم العسكرية بنجاح."
+     },
+     {
+      "bite_id": "b0Vk5tduigs:g185",
+      "video_id": "b0Vk5tduigs",
+      "channel": "Fox News",
+      "bloc": "english",
+      "orientation": "أمريكي محافظ",
+      "speaker": "بيت هيغسيث",
+      "speaker_original": "Pete Hegseth",
+      "speaker_role": "وزير الدفاع الأمريكي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 185.0,
+      "end": 207.0,
+      "summary_ar": "يصف هيغسيث مساعي عزله بالمهزلة والمسرحية السياسية المدفوعة بالعداء والغرور للإضرار بالرئيس والبلاد والجيش."
+     },
+     {
+      "bite_id": "b0Vk5tduigs:g240",
+      "video_id": "b0Vk5tduigs",
+      "channel": "Fox News",
+      "bloc": "english",
+      "orientation": "أمريكي محافظ",
+      "speaker": "توماس ماسي",
+      "speaker_original": "Thomas Massie",
+      "speaker_role": "عضو مجلس النواب الأمريكي عن ولاية كنتاكي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 240.0,
+      "end": 260.0,
+      "summary_ar": "يتهم النائب ماسي وزير الدفاع بخلق ثقافة معادية لقانون النزاعات المسلحة وحماية المدنيين والاستخفاف بقواعد الاشتباك."
+     },
+     {
+      "bite_id": "b0Vk5tduigs:g341",
+      "video_id": "b0Vk5tduigs",
+      "channel": "Fox News",
+      "bloc": "english",
+      "orientation": "أمريكي محافظ",
+      "speaker": "كيري أوربان",
+      "speaker_original": "Kerri Urbahn",
+      "speaker_role": "المحررة القانونية لفوكس نيوز",
+      "is_host": false,
+      "type": "opinion",
+      "start": 341.0,
+      "end": 363.0,
+      "summary_ar": "تنتقد أوربان استغلال إجراءات العزل وترى أنها تشكل سابقة سيئة لعزل مسؤول بسبب خلاف سياسي بحت."
+     },
+     {
+      "bite_id": "b0Vk5tduigs:g604",
+      "video_id": "b0Vk5tduigs",
+      "channel": "Fox News",
+      "bloc": "english",
+      "orientation": "أمريكي محافظ",
+      "speaker": "جوناثان تورلي",
+      "speaker_original": "Jonathan Turley",
+      "speaker_role": "أستاذ القانون بجامعة جورج واشنطن",
+      "is_host": false,
+      "type": "opinion",
+      "start": 604.0,
+      "end": 631.0,
+      "summary_ar": "يوضح تورلي أن أغلب بنود العزل الموجهة ضد هيغسيث غير مجدية وضعيفة الصياغة وتفتقر للأساس القانوني السليم."
+     },
+     {
+      "bite_id": "b0Vk5tduigs:g654",
+      "video_id": "b0Vk5tduigs",
+      "channel": "Fox News",
+      "bloc": "english",
+      "orientation": "أمريكي محافظ",
+      "speaker": "جوناثان تورلي",
+      "speaker_original": "Jonathan Turley",
+      "speaker_role": "أستاذ القانون بجامعة جورج واشنطن",
+      "is_host": false,
+      "type": "opinion",
+      "start": 654.0,
+      "end": 681.0,
+      "summary_ar": "يصف تورلي اتهام هيغسيث باختطاف مادورو كبند للعزل بالمثير للسخرية لكونه يستند إلى سوابق قضائية أمريكية واضحة."
+     },
+     {
+      "bite_id": "b0Vk5tduigs:g888",
+      "video_id": "b0Vk5tduigs",
+      "channel": "Fox News",
+      "bloc": "english",
+      "orientation": "أمريكي محافظ",
+      "speaker": "مايك بومبيو",
+      "speaker_original": "Mike Pompeo",
+      "speaker_role": "وزير الخارجية الأمريكي الأسبق",
+      "is_host": false,
+      "type": "opinion",
+      "start": 888.0,
+      "end": 915.0,
+      "summary_ar": "يحذر بومبيو من التداعيات الجيوسياسية لعزل وزير الدفاع، مؤكدًا أن الهجوم سياسي وموجه في حقيقته ضد الرئيس نفسه."
+     },
+     {
+      "bite_id": "TBjjEAghUHA:g1000",
+      "video_id": "TBjjEAghUHA",
+      "channel": "RTVI",
+      "bloc": "russian",
+      "orientation": "قريب من السلطة",
+      "speaker": "توماس ماسي",
+      "speaker_original": "Thomas Massie",
+      "speaker_role": "عضو مجلس النواب الأمريكي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1000.0,
+      "end": 1019.0,
+      "summary_ar": "توماس ماسي يرى أن وزير الدفاع بيت هيغسيث أثبت خطورته على الدستور ويستحق المساءلة والعزل."
+     },
+     {
+      "bite_id": "TBjjEAghUHA:g1067",
+      "video_id": "TBjjEAghUHA",
+      "channel": "RTVI",
+      "bloc": "russian",
+      "orientation": "قريب من السلطة",
+      "speaker": "بيت هيغسيث",
+      "speaker_original": "Pete Hegseth",
+      "speaker_role": "وزير الدفاع الأمريكي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1067.0,
+      "end": 1094.0,
+      "summary_ar": "بيت هيغسيث ينفي استهداف الجيش الأمريكي للمدنيين ويؤكد عدم الاعتذار عن وضع حياة الأمريكيين أولاً."
+     },
+     {
+      "bite_id": "TBjjEAghUHA:g1122",
+      "video_id": "TBjjEAghUHA",
+      "channel": "RTVI",
+      "bloc": "russian",
+      "orientation": "قريب من السلطة",
+      "speaker": "دونالد ترامب",
+      "speaker_original": "Donald Trump",
+      "speaker_role": "رئيس الولايات المتحدة",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1122.0,
+      "end": 1141.0,
+      "summary_ar": "دونالد ترامب يهاجم توماس ماسي ويدافع عن بيت هيغسيث مؤكدًا شعبية الوزير بين الجنود وإنجازاته في الجيش."
+     },
+     {
+      "bite_id": "TBjjEAghUHA:g1157",
+      "video_id": "TBjjEAghUHA",
+      "channel": "RTVI",
+      "bloc": "russian",
+      "orientation": "قريب من السلطة",
+      "speaker": "ماركو روبيو",
+      "speaker_original": "Marco Rubio",
+      "speaker_role": "وزير الخارجية الأمريكي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1157.0,
+      "end": 1173.0,
+      "summary_ar": "ماركو روبيو يشيد بكفاءة وزير الدفاع بيت هيغسيث وتفانيه وذكائه في أداء مهامه."
+     },
+     {
+      "bite_id": "TBjjEAghUHA:g1326",
+      "video_id": "TBjjEAghUHA",
+      "channel": "RTVI",
+      "bloc": "russian",
+      "orientation": "قريب من السلطة",
+      "speaker": "غليب إغناتيف",
+      "speaker_original": "Глеб Игнатьев",
+      "speaker_role": "محلل سياسي ومختص بالشأن الأمريكي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1326.0,
+      "end": 1358.0,
+      "summary_ar": "غليب إغناتيف يرى أن مبادرة المساءلة تعكس تعميق الصراع الداخلي للحزب مع ترامب بعد خسارة الأغلبية."
+     },
+     {
+      "bite_id": "TBjjEAghUHA:g1448",
+      "video_id": "TBjjEAghUHA",
+      "channel": "RTVI",
+      "bloc": "russian",
+      "orientation": "قريب من السلطة",
+      "speaker": "غليب إغناتيف",
+      "speaker_original": "Глеб Игнатьев",
+      "speaker_role": "محلل سياسي ومختص بالشأن الأمريكي",
+      "is_host": false,
+      "type": "forecast",
+      "start": 1448.0,
+      "end": 1478.0,
+      "summary_ar": "غليب إغناتيف يرجح إمكانية عزل هيغسيث أو استقالته قبل استلام الديمقراطيين الأغلبية في يناير."
+     },
+     {
+      "bite_id": "TBjjEAghUHA:g1621",
+      "video_id": "TBjjEAghUHA",
+      "channel": "RTVI",
+      "bloc": "russian",
+      "orientation": "قريب من السلطة",
+      "speaker": "غليب إغناتيف",
+      "speaker_original": "Глеб Игнатьев",
+      "speaker_role": "محلل سياسي ومختص بالشأن الأمريكي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1621.0,
+      "end": 1645.0,
+      "summary_ar": "غليب إغناتيف يوضح استعداد الديمقراطيين للإغلاق الحكومي لتقليص نفقات حرب إيران وعرقلة البنتاغون."
+     },
+     {
+      "bite_id": "TBjjEAghUHA:g1709",
+      "video_id": "TBjjEAghUHA",
+      "channel": "RTVI",
+      "bloc": "russian",
+      "orientation": "قريب من السلطة",
+      "speaker": "غليب إغناتيف",
+      "speaker_original": "Глеб Игнатьев",
+      "speaker_role": "محلل سياسي ومختص بالشأن الأمريكي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1709.0,
+      "end": 1731.0,
+      "summary_ar": "غليب إغناتيف يحمّل بيت هيغسيث مسؤولية فشل التخطيط العسكري للحرب مع إيران."
+     },
+     {
+      "bite_id": "FV8J-riGnoo:g1041",
+      "video_id": "FV8J-riGnoo",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "محور المقاومة",
+      "speaker": "عبد الرحمن عز الدين",
+      "speaker_original": "عبد الرحمن عز الدين",
+      "speaker_role": "مذيع الميادين",
+      "is_host": true,
+      "type": "report",
+      "start": 1041.0,
+      "end": 1059.0,
+      "summary_ar": "مجلس النواب الأمريكي بقيادة الجمهوريين يحبط مسعى عزل وزير الدفاع بيت هيغسيث."
+     },
+     {
+      "bite_id": "FV8J-riGnoo:g1115",
+      "video_id": "FV8J-riGnoo",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "محور المقاومة",
+      "speaker": "نزار عبود",
+      "speaker_original": "نزار عبود",
+      "speaker_role": "مدير مكتب الميادين في الأمم المتحدة",
+      "is_host": false,
+      "type": "forecast",
+      "start": 1115.0,
+      "end": 1139.0,
+      "summary_ar": "الديمقراطيون سيعزلون هيغسيث بإجماع الكونغرس فور توليهم في يناير القادم."
+     },
+     {
+      "bite_id": "FV8J-riGnoo:g1233",
+      "video_id": "FV8J-riGnoo",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "محور المقاومة",
+      "speaker": "نزار عبود",
+      "speaker_original": "نزار عبود",
+      "speaker_role": "مدير مكتب الميادين في الأمم المتحدة",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1233.0,
+      "end": 1267.0,
+      "summary_ar": "الاستهداف لا يقتصر على هيغسيث بل هو مدخل لمحاسبة ترامب وعزله عبر كبش فداء."
+     },
+     {
+      "bite_id": "FV8J-riGnoo:g1312",
+      "video_id": "FV8J-riGnoo",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "محور المقاومة",
+      "speaker": "بيت هيغسيث",
+      "speaker_original": "Pete Hegseth",
+      "speaker_role": "وزير الحرب الأمريكي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1312.0,
+      "end": 1340.0,
+      "summary_ar": "هيغسيث يصف مساعي عزله بالمسرحية السياسية المبتذلة المدفوعة بالغرور والضغينة."
+     },
+     {
+      "bite_id": "FV8J-riGnoo:g1343",
+      "video_id": "FV8J-riGnoo",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "محور المقاومة",
+      "speaker": "عبد الرحمن عز الدين",
+      "speaker_original": "عبد الرحمن عز الدين",
+      "speaker_role": "مذيع الميادين",
+      "is_host": true,
+      "type": "report",
+      "start": 1343.0,
+      "end": 1372.0,
+      "summary_ar": "هيغسيث يواجه ثمانية اتهامات في مشروع قرار عزله بينها شن الحرب على إيران وتجاوز القوانين."
+     },
+     {
+      "bite_id": "FV8J-riGnoo:g1754",
+      "video_id": "FV8J-riGnoo",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "محور المقاومة",
+      "speaker": "ناصر اللحام",
+      "speaker_original": "ناصر اللحام",
+      "speaker_role": "محلل الشؤون السياسية والإقليمية",
+      "is_host": false,
+      "type": "opinion",
+      "start": 1754.0,
+      "end": 1778.0,
+      "summary_ar": "التجرؤ على المطالبة بإقالة هيغسيث والتصويت عليها أخاف ترامب وأعلن بدء نهاية مرحلته."
+     },
+     {
+      "bite_id": "FV8J-riGnoo:g1826",
+      "video_id": "FV8J-riGnoo",
+      "channel": "الميادين",
+      "bloc": "arabic",
+      "orientation": "محور المقاومة",
+      "speaker": "ناصر اللحام",
+      "speaker_original": "ناصر اللحام",
+      "speaker_role": "محلل الشؤون السياسية والإقليمية",
+      "is_host": false,
+      "type": "forecast",
+      "start": 1826.0,
+      "end": 1846.0,
+      "summary_ar": "محاولة عزل هيغسيث تمثل بداية لمطالبات قادمة بعزل ترامب ومحاسبته."
+     },
+     {
+      "bite_id": "YLsdcIOGzhY:g51",
+      "video_id": "YLsdcIOGzhY",
+      "channel": "DW News",
+      "bloc": "english",
+      "orientation": "ألماني حكومي",
+      "speaker": "بيت هيغسيث",
+      "speaker_original": "Pete Hegseth",
+      "speaker_role": "وزير الدفاع الأمريكي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 51.0,
+      "end": 77.0,
+      "summary_ar": "يعتبر هيغسيث أن مساعي عزله استعراض سياسي بدافع الضغينة للنيل من الإدارة والجيش الأمريكي."
+     },
+     {
+      "bite_id": "YLsdcIOGzhY:g142",
+      "video_id": "YLsdcIOGzhY",
+      "channel": "DW News",
+      "bloc": "english",
+      "orientation": "ألماني حكومي",
+      "speaker": "حكيم جيفريز",
+      "speaker_original": "Hakeem Jeffries",
+      "speaker_role": "زعيم الأقلية الديمقراطية في مجلس النواب الأمريكي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 142.0,
+      "end": 163.0,
+      "summary_ar": "يؤكد جيفريز دعمه الحاسم لمساءلة هيغسيث لتقويضه الأمن القومي وإشعاله حرباً غير مدروسة في إيران."
+     },
+     {
+      "bite_id": "YLsdcIOGzhY:g272",
+      "video_id": "YLsdcIOGzhY",
+      "channel": "DW News",
+      "bloc": "english",
+      "orientation": "ألماني حكومي",
+      "speaker": "بنجامين ألفاريز غروبر",
+      "speaker_original": "Benjamin Alvarez Gruber",
+      "speaker_role": "مراسل دويتشه فيله في واشنطن",
+      "is_host": false,
+      "type": "report",
+      "start": 272.0,
+      "end": 288.0,
+      "summary_ar": "ينقل المراسل عدم مسارعة الجمهوريين لدعم مساءلة هيغسيث وتعهد ترمب بالوقوف إلى جانبه."
+     },
+     {
+      "bite_id": "YLsdcIOGzhY:g373",
+      "video_id": "YLsdcIOGzhY",
+      "channel": "DW News",
+      "bloc": "english",
+      "orientation": "ألماني حكومي",
+      "speaker": "بنجامين ألفاريز غروبر",
+      "speaker_original": "Benjamin Alvarez Gruber",
+      "speaker_role": "مراسل دويتشه فيله في واشنطن",
+      "is_host": false,
+      "type": "opinion",
+      "start": 373.0,
+      "end": 394.0,
+      "summary_ar": "يرى المراسل أن المساءلة تعد مقياساً لولاء الجمهوريين لترمب أكثر من كونها مساراً وشيكاً لإقالة هيغسيث."
+     },
+     {
+      "bite_id": "YLsdcIOGzhY:g476",
+      "video_id": "YLsdcIOGzhY",
+      "channel": "DW News",
+      "bloc": "english",
+      "orientation": "ألماني حكومي",
+      "speaker": "جين هيلي",
+      "speaker_original": "Gene Healy",
+      "speaker_role": "باحث أول في مؤسسة ريزون",
+      "is_host": false,
+      "type": "opinion",
+      "start": 476.0,
+      "end": 491.0,
+      "summary_ar": "يعتبر هيلي أن ارتكاب انتهاك دستوري خطير يمثل أساساً كافياً وشرعياً لإطلاق إجراءات العزل."
+     },
+     {
+      "bite_id": "YLsdcIOGzhY:g504",
+      "video_id": "YLsdcIOGzhY",
+      "channel": "DW News",
+      "bloc": "english",
+      "orientation": "ألماني حكومي",
+      "speaker": "جين هيلي",
+      "speaker_original": "Gene Healy",
+      "speaker_role": "باحث أول في مؤسسة ريزون",
+      "is_host": false,
+      "type": "fact",
+      "start": 504.0,
+      "end": 529.0,
+      "summary_ar": "يوضح هيلي أن العزل يشمل الوزراء دستورياً، لكن الرؤساء كانوا يقيلون المسؤولين المتأزمين لتفاديه."
+     },
+     {
+      "bite_id": "YLsdcIOGzhY:g904",
+      "video_id": "YLsdcIOGzhY",
+      "channel": "DW News",
+      "bloc": "english",
+      "orientation": "ألماني حكومي",
+      "speaker": "جين هيلي",
+      "speaker_original": "Gene Healy",
+      "speaker_role": "باحث أول في مؤسسة ريزون",
+      "is_host": false,
+      "type": "opinion",
+      "start": 904.0,
+      "end": 928.0,
+      "summary_ar": "يستبعد هيلي تحول هيغسيث لضحية سياسية ذات شعبية بسبب معارضة غالبية الأمريكيين لحربه في إيران."
+     },
+     {
+      "bite_id": "1_q1Kb23oRk:g245",
+      "video_id": "1_q1Kb23oRk",
+      "channel": "CNN",
+      "bloc": "english",
+      "orientation": "أمريكي ليبرالي",
+      "speaker": "زاكاري كوهين",
+      "speaker_original": "Zachary Cohen",
+      "speaker_role": "كبير مراسلي الأمن القومي في CNN",
+      "is_host": false,
+      "type": "fact",
+      "start": 245.0,
+      "end": 270.0,
+      "summary_ar": "يوضح زاكاري كوهين أن محاولة عزل هيغسيث الفاشلة بسبب دوره في حرب إيران تأتي وسط ضغوط متزايدة عليه وتمسك ترامب بدعمه رغم مطالب جمهوريين بإقالته."
+     },
+     {
+      "bite_id": "lUcyeUEVA9I:g1552",
+      "video_id": "lUcyeUEVA9I",
+      "channel": "Настоящее Время",
+      "bloc": "russian",
+      "orientation": "أمريكي حكومي",
+      "speaker": "آنّا بروفكو",
+      "speaker_original": "Анна Бровко",
+      "speaker_role": "مقدمة البرنامج",
+      "is_host": true,
+      "type": "report",
+      "start": 1552.0,
+      "end": 1567.0,
+      "summary_ar": "مجلس النواب الأمريكي يوقف مساعي عزل وزير الدفاع بيت هيغسيث بإحالة القرار إلى اللجنة القضائية."
+     },
+     {
+      "bite_id": "lUcyeUEVA9I:g1567",
+      "video_id": "lUcyeUEVA9I",
+      "channel": "Настоящее Время",
+      "bloc": "russian",
+      "orientation": "أمريكي حكومي",
+      "speaker": "آنّا بروفكو",
+      "speaker_original": "Анна Бровко",
+      "speaker_role": "مقدمة البرنامج",
+      "is_host": true,
+      "type": "report",
+      "start": 1567.0,
+      "end": 1583.0,
+      "summary_ar": "النائب الجمهوري توماس ماسي يبادر بإجراءات عزل هيغسيث لشنه حربًا على إيران دون تفويض الكونغرس."
+     },
+     {
+      "bite_id": "lUcyeUEVA9I:g1583",
+      "video_id": "lUcyeUEVA9I",
+      "channel": "Настоящее Время",
+      "bloc": "russian",
+      "orientation": "أمريكي حكومي",
+      "speaker": "آنّا بروفكو",
+      "speaker_original": "Анна Бровко",
+      "speaker_role": "مقدمة البرنامج",
+      "is_host": true,
+      "type": "report",
+      "start": 1583.0,
+      "end": 1603.0,
+      "summary_ar": "هيغسيث وترامب ينددان بمحاولة العزل، بينما يستبعد قادة الديمقراطيين مناقشة محاولة جديدة حاليًا."
+     },
+     {
+      "bite_id": "jz1P_4UAdxE:g15",
+      "video_id": "jz1P_4UAdxE",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "بيت هيغسيث",
+      "speaker_original": "Pete Hegseth",
+      "speaker_role": "وزير الدفاع الأمريكي",
+      "is_host": false,
+      "type": "fact",
+      "start": 15.0,
+      "end": 48.0,
+      "summary_ar": "لم يُعزل أي وزير دفاع أمريكي في تاريخ الولايات المتحدة أثناء إدارته عمليات عسكرية ناجحة."
+     },
+     {
+      "bite_id": "jz1P_4UAdxE:g49",
+      "video_id": "jz1P_4UAdxE",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "بيت هيغسيث",
+      "speaker_original": "Pete Hegseth",
+      "speaker_role": "وزير الدفاع الأمريكي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 49.0,
+      "end": 72.0,
+      "summary_ar": "مساعي عزله في الكونغرس ناتجة عن خلاف سياسي ولا تستند إلى أي جرائم أو تجاوزات دستورية."
+     },
+     {
+      "bite_id": "jz1P_4UAdxE:g92",
+      "video_id": "jz1P_4UAdxE",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "بيت هيغسيث",
+      "speaker_original": "Pete Hegseth",
+      "speaker_role": "وزير الدفاع الأمريكي",
+      "is_host": false,
+      "type": "forecast",
+      "start": 92.0,
+      "end": 127.0,
+      "summary_ar": "محاولة عزل أحد أعضاء الحكومة ستفشل كما فشلت محاولات عزل ترمب السابقة."
+     },
+     {
+      "bite_id": "jz1P_4UAdxE:g753",
+      "video_id": "jz1P_4UAdxE",
+      "channel": "الجزيرة",
+      "bloc": "arabic",
+      "orientation": "قطري",
+      "speaker": "بيت هيغسيث",
+      "speaker_original": "Pete Hegseth",
+      "speaker_role": "وزير الدفاع الأمريكي",
+      "is_host": false,
+      "type": "opinion",
+      "start": 753.0,
+      "end": 783.0,
+      "summary_ar": "محاولة عزله استهداف غير مسبوق في التاريخ الأمريكي لقائد عسكري بسبب تحقيقه النصر."
+     }
+    ],
+    "error": "",
+    "extracted": 51,
+    "cost": {
+     "claude": {
+      "claude-opus-5": 0.43407
+     },
+     "gemini": 0.6398
+    }
+   }
   },
   {
    "id": "01f2543811db",
