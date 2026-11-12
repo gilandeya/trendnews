@@ -46,6 +46,124 @@ def synthesize(text: str, voice: str, cfg) -> dict:
     return {"ok": True, "audio": audio, "chars": len(text)}
 
 
+# ───────────── ElevenLabs أولًا ما دام فيه رصيد، ثم Google (طلب صاحب المشروع 12/11) ─────────────
+
+EL_API = "https://api.elevenlabs.io/v1"
+EL_KEY_VAR = "ELEVENLABS_API_KEY"
+
+
+def _el_cfg(cfg) -> dict:
+    return cfg.path("reel.tts.elevenlabs") or {}
+
+
+def _el_get(url: str, headers: dict, timeout: int) -> dict:
+    resp = requests.get(url, headers=headers, timeout=timeout)
+    resp.raise_for_status()
+    return resp.json()
+
+
+def _el_post(url: str, headers: dict, body: dict, timeout: int) -> bytes:
+    resp = requests.post(url, headers=headers, json=body, timeout=timeout)
+    if resp.status_code != 200:
+        raise RuntimeError(f"ElevenLabs HTTP {resp.status_code}: {(resp.text or '')[:150]}")
+    return resp.content
+
+
+def el_remaining(cfg, key: str, get=None) -> int | None:
+    """الحروف الباقية في الاشتراك (character_limit − character_count)؛ None إن تعذّر السؤال (مفتاح بلا صلاحية قراءة المستخدم
+    مثلًا)، فيُجرَّب الصوت ويُرجَع إلى Google عند رفضه."""
+    get = get or _el_get
+    try:
+        data = get(f"{EL_API}/user/subscription", {"xi-api-key": key}, TIMEOUT)
+        return int(data.get("character_limit") or 0) - int(data.get("character_count") or 0)
+    except Exception as exc:  # noqa: BLE001
+        log.info("رصيد ElevenLabs غير معروف: %s", str(exc).replace(key, "***")[:120])
+        return None
+
+
+def el_synthesize(text: str, voice_id: str, cfg, key: str, post=None) -> dict:
+    """{ok, audio, chars} أو {ok: False, error}. mp3 كصوت Google فلا يتغير ما بعده في التركيب."""
+    e = _el_cfg(cfg)
+    post = post or _el_post
+    body = {"text": text, "model_id": e.get("model", "eleven_multilingual_v2")}
+    if e.get("voice_settings"):
+        body["voice_settings"] = dict(e["voice_settings"])
+    url = f"{EL_API}/text-to-speech/{voice_id}?output_format={e.get('output_format', 'mp3_44100_128')}"
+    try:
+        audio = post(url, {"xi-api-key": key, "Content-Type": "application/json"}, body, TIMEOUT)
+    except Exception as exc:  # noqa: BLE001
+        return {"ok": False, "error": str(exc).replace(key, "***")[:200]}
+    if not audio:
+        return {"ok": False, "error": "استجابة بلا صوت"}
+    from . import costs
+    costs.add("tts", len(text) * float(e.get("usd_per_1000_chars", 0)) / 1000)
+    return {"ok": True, "audio": audio, "chars": len(text)}
+
+
+class VoiceSession:
+    """مزوّد الصوت لتركيب ريل واحد. يُحسم المزوّد عند أول جملة للريل كله: ElevenLabs إن كان مفعّلًا ومفتاحه موجودًا وباقي رصيده
+    ≥ min_credits (كي لا ينفد وسط الريل فيتكلم الراوي بصوتين)، وإلا Google. رفضُ ElevenLabs لاحقًا (نفد الرصيد رغم التقدير، أو عطل)
+    ينقل ما بقي من الريل إلى Google، ويُذكر ذلك في تعليق التركيب لأن الصوتين مختلفان. get/post يُحقنان في الاختبار."""
+
+    def __init__(self, cfg, get=None, post=None, google=None):
+        self.cfg, self._get, self._post = cfg, get, post
+        self._google = google or (lambda text, voice: synthesize(text, voice, cfg))
+        self.provider: str | None = None
+        self.reason = ""
+        self.remaining: int | None = None
+        self.el_chars = 0
+        self.mixed = False
+
+    def _decide(self) -> None:
+        e = _el_cfg(self.cfg)
+        key = os.environ.get(EL_KEY_VAR, "").strip()
+        self.provider = "google"
+        if not e.get("enabled"):
+            return
+        if not key:
+            self.reason = "no_key"
+            return
+        self.remaining = el_remaining(self.cfg, key, self._get)
+        if self.remaining is not None and self.remaining < int(e.get("min_credits", 3000)):
+            self.reason = "credits"
+            return
+        self.provider = "elevenlabs"
+
+    def _el_voice(self, voice: str) -> str:
+        """صوت Google للراوي ← جنسه في narrator_voices ← صوت ElevenLabs لذلك الجنس."""
+        narr = self.cfg.path("reel.tts.narrator_voices") or {}
+        gender = next((g for g, v in narr.items() if v == voice), "female")
+        return str((_el_cfg(self.cfg).get("voices") or {}).get(gender) or "")
+
+    def synthesize(self, text: str, voice: str) -> dict:
+        if self.provider is None:
+            self._decide()
+        if self.provider == "elevenlabs":
+            vid = self._el_voice(voice)
+            res = el_synthesize(text, vid, self.cfg, os.environ.get(EL_KEY_VAR, "").strip(), self._post) if vid else \
+                {"ok": False, "error": "لا صوت ElevenLabs لهذا الجنس في الإعداد"}
+            if res.get("ok"):
+                self.el_chars += len(text)
+                return res
+            log.warning("ElevenLabs رفض الجملة، يُكمل الريل بصوت Google: %s", res.get("error"))
+            self.mixed = self.el_chars > 0
+            self.provider, self.reason = "google", "error:" + str(res.get("error") or "")[:100]
+        return self._google(text, voice)
+
+    def note(self) -> str:
+        """سطر تعليق التركيب: المزوّد الذي نطق الريل ولماذا. فارغ إن لم يُنطق شيء أو كان ElevenLabs مطفأً."""
+        t = _el_cfg(self.cfg).get("texts") or {}
+        if self.provider is None or not _el_cfg(self.cfg).get("enabled"):
+            return ""
+        if self.mixed:
+            return t.get("mixed", "⚠️ الصوت: بدأ بـElevenLabs ثم أكمل بـGoogle ({reason}) — صوتان مختلفان").format(reason=self.reason)
+        if self.provider == "elevenlabs":
+            left = "" if self.remaining is None else str(self.remaining - self.el_chars)
+            return t.get("used", "🎙️ الصوت: ElevenLabs (باقي الرصيد نحو {left} حرف)").format(left=left or "?")
+        why = (t.get("reasons") or {}).get(self.reason.split(":")[0], self.reason)
+        return t.get("fallback", "🎙️ الصوت: Google ({reason})").format(reason=why)
+
+
 def estimate_cost(chars: int, voice: str, cfg) -> float:
     prices = cfg.path("reel.tts.price_per_million") or {}
     family = "chirp3_hd" if "Chirp3-HD" in voice else "wavenet"

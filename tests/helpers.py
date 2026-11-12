@@ -36,7 +36,8 @@ from src import youtube_publish  # noqa: E402
 # حماية بنيوية عند الاستيراد نفسه لا داخل install_fakes (Issue #1541، R4d): ملف اختبار شُغّل منفردًا (بلا tests.test_pipeline.main
 # فبلا install_fakes) مع GITHUB_TOKEN في البيئة فتح 94 قضية حقيقية. كل ملف اختبار يستورد هذا الملف أولًا، فالحماية هنا تسبق أي
 # اختبار: تُسحب الأسرار من البيئة، وتُستبدل دوال شبكة GitHub في review بدالة ترفع؛ ويحقن الاختبار الذي يحتاج غيرها بنفسه.
-for _secret in ("GITHUB_TOKEN", "GH_TOKEN", "FB_PAGE_ACCESS_TOKEN", "BRAVE_API_KEY", "YOUTUBE_API_KEY", "ANTHROPIC_API_KEY", "GEMINI_API_KEY"):
+for _secret in ("GITHUB_TOKEN", "GH_TOKEN", "FB_PAGE_ACCESS_TOKEN", "BRAVE_API_KEY", "YOUTUBE_API_KEY", "ANTHROPIC_API_KEY", "GEMINI_API_KEY",
+                "ELEVENLABS_API_KEY", "GOOGLE_TTS_API_KEY"):
     os.environ.pop(_secret, None)
 
 
@@ -79,6 +80,10 @@ def load_config(path=None):
         # الخلفية الكحلية المحضَّرة (قضية 1856) تغيّر أوامر الريل بلا صورة التي تثبّتها المراجع القديمة؛ test_reel_1856_fixes يطلبها
         if isinstance(rcfg.get("background"), dict):
             rcfg["background"]["navy_canvas"] = False
+        # صوت ElevenLabs (12/11) يضيف سطر «🎙️ الصوت» إلى تعليقات التركيب التي تثبّتها الاختبارات؛ test_tts_elevenlabs يطلبه
+        el = ((cfg.get("reel") or {}).get("tts") or {}).get("elevenlabs")
+        if isinstance(el, dict):
+            el["enabled"] = False
         if isinstance(rcfg.get("outro"), dict):
             rcfg["outro"]["logo_width"] = 420
         if isinstance(rcfg.get("hook"), dict):
