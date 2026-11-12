@@ -5960,3 +5960,120 @@ def test_reel_country_terms() -> None:
         meta_qa._create = saved
     check("قواعد التحرير في برومبت الأسئلة والعناوين", notes.strip() in seen.get("system", ""))
     check("قواعد التحرير في برومبت المحرر الأخير", notes.strip() in editor.system_prompt(cfg, NS(name="reel", system_vars=lambda c: {})))
+
+
+def test_reel_context_clips() -> None:
+    """مقاطع السياق (قرار صاحب المشروع 12/11): كلام أطراف الحدث (وزير الحرب، النائب) يُعرض بعد جمل السياق لا إجابةً عن سؤال؛
+    الأسئلة من كلام المحللين وحده، ومقاطع السياق قسم مستقل في قضية الموضوع يُعلَّم، وتصير لوحات منفردة بعد راوي السياق."""
+    from types import SimpleNamespace as NS
+
+    from src import gemini_bites, meta_qa, meta_script, reel_clash, reel_script, review, youtube_transcripts
+    from src.config import Config, load_config as real_load
+
+    cfg = real_load()
+    check("مقاطع السياق مفعّلة في الإعداد", cfg.path("youtube.meta_topics.qa.context.enabled") is True)
+    check("is_actor: حكم Gemini، وبلاه الكلام خارج برامج القناة، والمقدّم ليس طرفًا",
+          meta_qa.is_actor({"voice": "actor"}) and not meta_qa.is_actor({"voice": "analyst", "setting": "external"})
+          and meta_qa.is_actor({"setting": "external"}) and not meta_qa.is_actor({"setting": "external", "is_host": True}))
+    data = {"speakers": [{"name_ar": "بيت هيغسيث", "role": "وزير الحرب الأمريكي", "is_host": False, "name_source": "chyron"}],
+            "bites": [{"start": "01:00", "end": "01:15", "speaker": "بيت هيغسيث", "type": "fact", "summary_ar": "يرد",
+                       "text_original": "x", "text_ar": "إنها مهزلة", "voice": "actor", "setting": "external"}]}
+    ok, _bad = gemini_bites.to_bites(data, "vid", "عزل", cfg, 600)
+    check("مقطع Gemini يحمل voice", ok and ok[0]["voice"] == "actor", ok)
+
+    actors = [{"bite_id": "a:1", "speaker": "بيت هيغسيث", "start": 0, "end": 12},
+              {"bite_id": "a:2", "speaker": "بيت هيغسيث", "start": 20, "end": 30},
+              {"bite_id": "a:3", "speaker": "توماس ماسي", "start": 40, "end": 55},
+              {"bite_id": "a:4", "speaker": "", "start": 60, "end": 70}]
+    picked = meta_qa.pick_context(actors, cfg)
+    names = [actors[e["n"] - 1]["speaker"] for e in picked]
+    check("اختيار السياق: متحدث مرة، المسمّى أولًا، وحتى max_clips معلَّمًا",
+          names[:2] == ["بيت هيغسيث", "توماس ماسي"] and names.count("بيت هيغسيث") == 1
+          and sum(e["selected"] for e in picked) == 2, picked)
+
+    class R:
+        status_code = 200
+
+        def __init__(self, out):
+            self._p = {"candidates": [{"finishReason": "STOP", "content": {"parts": [{"text": json.dumps(out)}]}}],
+                       "usageMetadata": {"promptTokenCount": 1000, "candidatesTokenCount": 50}}
+            self.text = ""
+
+        def json(self):
+            return self._p
+
+    def post(url, json=None, timeout=None, headers=None):
+        vid = json["contents"][0]["parts"][0]["file_data"]["file_uri"].split("v=")[1]
+        k = int(vid[1:])
+        bites = [{"start": f"0{n}:00", "end": f"0{n}:20", "speaker": f"محلل{k}", "type": "opinion", "summary_ar": f"يرى {k}{n}",
+                  "text_original": f"o{k}{n}", "text_ar": f"رأي {k}{n}", "voice": "analyst"} for n in (1, 2)]
+        if k == 0:
+            bites.append({"start": "05:00", "end": "05:15", "speaker": "بيت هيغسيث", "type": "fact", "summary_ar": "الوزير يرد",
+                          "text_original": "farce", "text_ar": "إنها مهزلة", "voice": "actor", "setting": "external"})
+        sp = [{"name_ar": f"محلل{k}", "is_host": False, "name_source": "chyron"},
+              {"name_ar": "بيت هيغسيث", "role": "وزير الحرب الأمريكي", "is_host": False, "name_source": "chyron"}]
+        return R({"speakers": sp, "bites": bites})
+
+    seen = []
+
+    def plan(client, **kw):
+        seen.append(kw["messages"][0]["content"])
+        return NS(stop_reason="tool_use", content=[NS(type="tool_use", name="plan_questions", input={
+            "titles": ["هل يُعزل الوزير؟", "ع2", "ع3"],
+            "questions": [{"text": "هل العزل ممكن؟", "answers": [{"n": 1, "fit": "direct"}, {"n": 3, "fit": "direct"}]},
+                          {"text": "ما أثره؟", "answers": [{"n": 2, "fit": "direct"}, {"n": 4, "fit": "direct"}]}]})])
+    saved = {k: getattr(review, k) for k in ("comment", "update_issue_body")}
+    saved_create, saved_load = meta_qa._create, youtube_transcripts.load
+    old_key, old_dir = os.environ.get("GEMINI_API_KEY"), os.environ.get("TRENDNEWS_YOUTUBE_BITES_DIR")
+    os.environ["TRENDNEWS_YOUTUBE_BITES_DIR"] = tempfile.mkdtemp()
+    bodies = []
+    try:
+        review.comment = lambda n, text: None
+        review.update_issue_body = lambda n, b: bodies.append(b)
+        youtube_transcripts.load = lambda vid: None
+        meta_qa._create = plan
+        vids = [{"video_id": f"v{i}", "channel": f"ch{i}", "bloc": b, "orientation": o, "minutes": 30}
+                for i, (b, o) in enumerate([("arabic", "قطري"), ("english", "أمريكي محافظ")])]
+        topic = {"id": "ctx1", "title": "عزل وزير الحرب", "blocs": ["arabic", "english"], "orientations": 2, "minutes": 60,
+                 "channels": [], "videos": vids, "topic_issue": 975}
+        tdata = {"date": "2026-11-12", "topics": [topic]}
+        os.environ["GEMINI_API_KEY"] = "KEY"
+        status = meta_qa.process_topic(topic, tdata, cfg, client=object(), gemini_post=post)
+        qa = topic["qa"]
+        check("الموضوع جاهز ومقطع الوزير في السياق لا في الأسئلة",
+              status == "ready" and len(qa.get("context") or []) == 1 and "الوزير يرد" not in seen[0]
+              and all(qa["bites"][a["n"] - 1]["voice"] == "analyst" for q in qa["questions"] for a in q["answers"]),
+              (status, qa.get("error"), qa.get("context")))
+        body = bodies[-1]
+        check("قضية الموضوع: قسم السياق بمربع mc معلَّم قبل الأسئلة",
+              "مقاطع السياق" in body and body.index("مقاطع السياق") < body.index("الأسئلة والإجابات")
+              and re.search(r"- \[x\][^\n]*<!-- mc:v0:g300 -->", body), body[:600])
+        marks = meta_qa.read_marks(body)
+        check("read_marks يقرأ مقاطع السياق المعلَّمة", marks["context"] == ["v0:g300"], marks)
+        priv = json.loads(meta_qa.private_path("ctx1").read_text(encoding="utf-8"))
+        qs, ans = meta_script.selected_material(marks, priv, cfg)
+        ctx = meta_script.selected_context(marks, priv, ans)
+        check("selected_context: مقطع الوزير", [b["bite_id"] for b in ctx] == ["v0:g300"])
+        msg = meta_script.frame_message("هل يُعزل الوزير؟", topic, qs, {b["bite_id"]: b for b in ans + ctx}, [], ["v0:g300"])
+        check("نداء السياق يرى مقاطع أطراف الحدث ليمهّد لها", "مقاطع أطراف الحدث" in msg and "إنها مهزلة" in msg)
+    finally:
+        for k, v in saved.items():
+            setattr(review, k, v)
+        meta_qa._create, youtube_transcripts.load = saved_create, saved_load
+        for var, v in (("GEMINI_API_KEY", old_key), ("TRENDNEWS_YOUTUBE_BITES_DIR", old_dir)):
+            if v is None:
+                os.environ.pop(var, None)
+            else:
+                os.environ[var] = v
+
+    valid = [{"point_id": p, "speaker_name": n, "speaker_verified": True, "quote_original": "x", "quote_arabic": "ق",
+              "channel_display": "قناة", "start": 0, "end": 10} for p, n in (("p1", "أ"), ("p2", "ب"), ("pc", "بيت هيغسيث"))]
+    script = reel_script._build_v2({"main_question": "س؟", "context": ["جملة."], "context_clips": ["pc"],
+                                    "questions": [{"text": "ق؟", "answers": [{"point_id": "p1"}, {"point_id": "p2"}]}],
+                                    "closing_question": "خ؟"}, valid, "female", {}, Config(dict(cfg)))
+    kinds = [(s["kind"], s.get("role"), s.get("q")) for s in script["scenes"]]
+    check("السيناريو: مقطع السياق بعد راوي السياق وقبل بطاقة السؤال، بـq خاص",
+          kinds[1] == ("narration", "context", None) and kinds[2] == ("clip", "context", "c0")
+          and kinds[3] == ("narration", "question", 0), kinds)
+    cands = [c["point_id"] for c in reel_clash.candidates(script, cfg)]
+    check("هوك المواجهة لا يأخذ مقطع السياق", "pc" not in cands and "p1" in cands, cands)

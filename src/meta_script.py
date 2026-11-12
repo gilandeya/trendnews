@@ -79,6 +79,18 @@ def selected_material(marks: dict, priv: dict, cfg=None, notes: list | None = No
     return questions, bites
 
 
+def selected_context(marks: dict, priv: dict, answer_bites: list[dict]) -> list[dict]:
+    """مقاطع السياق المعلَّمة (أطراف الحدث، 12/11) بترتيب القضية، بلا مقطع أجاب سؤالًا."""
+    by_id = {b["bite_id"]: b for b in priv.get("bites") or [] if b.get("bite_id")}
+    taken = {b["bite_id"] for b in answer_bites}
+    out = []
+    for bid in marks.get("context") or []:
+        if bid in by_id and bid not in taken:
+            taken.add(bid)
+            out.append(by_id[bid])
+    return out
+
+
 def bites_points(bites: list[dict], date: str) -> list[dict]:
     """المقاطع بشكل النقطة الذي يقرؤه أنبوب الريل، مع ما لا يحمله ملف الأسئلة: رابط الفيديو وعنوانه ووصفه وتاريخه (من ملف
     القياس) لأن identify_speakers يوثّق المتحدث من عنوان الفيديو ووصفه."""
@@ -122,8 +134,18 @@ def _create(client, **kwargs):
     return llm.create(client, **kwargs)
 
 
-def frame_message(title: str, topic: dict, questions: list[dict], by_bite: dict, facts: list[str]) -> str:
-    lines = [f"الموضوع: {topic.get('title', '')}", f"السؤال الرئيس (عنوان الريل): {title}", "", "الأسئلة وإجاباتها:"]
+def frame_message(title: str, topic: dict, questions: list[dict], by_bite: dict, facts: list[str],
+                  context_ids: list[str] | None = None) -> str:
+    lines = [f"الموضوع: {topic.get('title', '')}", f"السؤال الرئيس (عنوان الريل): {title}", ""]
+    if context_ids:
+        # السياق يمهّد لمقاطع أطراف الحدث التي تُعرض بعده مباشرة (12/11): يذكر من هم وما فعلوا ولا يكرر كلامهم
+        lines.append("مقاطع أطراف الحدث التي تُعرض بعد جمل السياق مباشرة وقبل الأسئلة (مهّد لها ولا تكرر كلامها):")
+        for bid in context_ids:
+            b = by_bite.get(bid) or {}
+            lines.append(f"   - {b.get('speaker') or b.get('speaker_original') or 'متحدث'}"
+                         f"{' — ' + b['speaker_role'] if b.get('speaker_role') else ''}: {b.get('summary_ar', '')} — «{b.get('text_ar', '')}»")
+        lines.append("")
+    lines.append("الأسئلة وإجاباتها:")
     for k, q in enumerate(questions, 1):
         lines.append(f"{k}. {q['text']}")
         for bid in q["bite_ids"]:
@@ -155,13 +177,13 @@ def frame_problems(data: dict, cfg) -> list[str]:
 
 
 def write_frame(title: str, topic: dict, questions: list[dict], by_bite: dict, facts: list[str], cfg, client=None,
-                info: dict | None = None) -> tuple[dict | None, str]:
+                info: dict | None = None, context_ids: list[str] | None = None) -> tuple[dict | None, str]:
     """(بيانات السياق والختام، السبب). الرد المقطوع لا يُقبل، والمخالفة تُعاد مرة واحدة في المحادثة نفسها بسببها."""
     s = _scfg(cfg)
     limit = int(cfg.path("reel.script.v2.context_max_words", 25))
     from . import llm
     system = llm.with_notes(str(s.get("system", "")).replace("{context_max_words}", str(limit)), cfg)
-    messages: list[dict] = [{"role": "user", "content": frame_message(title, topic, questions, by_bite, facts)}]
+    messages: list[dict] = [{"role": "user", "content": frame_message(title, topic, questions, by_bite, facts, context_ids)}]
     reasons: list[str] = []
     for attempt in (1, 2):
         resp = _create(client, model=s.get("model", "claude-opus-5"), max_tokens=int(s.get("max_tokens", 1500)),
@@ -187,7 +209,7 @@ def write_frame(title: str, topic: dict, questions: list[dict], by_bite: dict, f
 
 
 def make_builder(title: str, titles: list[str], topic: dict, questions: list[dict], by_bite: dict, pid_of: dict,
-                 facts: list[str], cfg, client=None, notes: list | None = None):
+                 facts: list[str], cfg, client=None, notes: list | None = None, context_ids: list[str] | None = None):
     """الباني الذي يمرّره finalize إلى write_for_draft: يبني المشاهد من المعلَّم بعد فحص قائلي المقاطع (مقطع استبعده الفحص
     يسقط من سؤاله، وسؤال بلا إجابة باقية يُترك)، والعناوين الثلاثة من قضية الموضوع بترتيبها والمختار أولًا."""
     from . import reel_script
@@ -206,10 +228,17 @@ def make_builder(title: str, titles: list[str], topic: dict, questions: list[dic
                     _texts(cfg).get("question_dropped", "🔧 تُرك سؤال لم تبق له إجابة بعد فحص المقاطع: {q}").format(q=q["text"]))
         if not qs:
             return None, _texts(cfg).get("no_answers_left", "لم تبق إجابة معلَّمة بعد فحص قائلي المقاطع")
-        data, reason = write_frame(title, topic, questions, by_bite, facts, cfg, client, info)
+        ctx_ids = [bid for bid in context_ids or [] if pid_of.get(bid) in valid_ids]
+        for bid in context_ids or []:
+            if bid not in ctx_ids:
+                info.setdefault("warnings", []).append(_texts(cfg).get(
+                    "context_dropped", "🔧 تُرك مقطع سياق بعد فحص قائلي المقاطع: {who}").format(
+                    who=(by_bite.get(bid) or {}).get("speaker") or bid))
+        data, reason = write_frame(title, topic, questions, by_bite, facts, cfg, client, info, context_ids=ctx_ids)
         if data is None:
             return None, reason
         script = reel_script._build_v2({"main_question": title, "context": data.get("context"), "questions": qs,
+                                        "context_clips": [pid_of[bid] for bid in ctx_ids],
                                         "closing_question": data.get("closing_question")}, valid, narrator, topic, cfg)
         info["headlines"] = [title] + [t for t in titles if t != title]
         return script, ""
@@ -318,13 +347,16 @@ def finalize(issue_number: int, body: str, cfg, client=None) -> int:
         return 0
     titles = list(priv.get("titles") or []) or [topic["title"]]
     title = titles[marks["title"]] if 0 <= marks["title"] < len(titles) else titles[0]
+    ctx_bites = selected_context(marks, priv, bites)
+    bites = bites + ctx_bites
     points = bites_points(bites, data["date"])
     pid_of = {b["bite_id"]: reel_script.point_key_id(p) for b, p in zip(bites, points)}
     by_bite = {b["bite_id"]: b for b in bites}
     facts = [b.get("summary_ar", "") for b in priv.get("bites") or [] if b.get("type") == "fact" and b.get("summary_ar")]
     facts = facts[: int(cfg.path("reel.script.v2.facts_max", 6))]
     draft = build_draft(topic, data, title, int(_scfg(cfg).get("hook_options", 3)))
-    builder = make_builder(title, titles, topic, questions, by_bite, pid_of, facts, cfg, client, notes)
+    builder = make_builder(title, titles, topic, questions, by_bite, pid_of, facts, cfg, client, notes,
+                           context_ids=[b["bite_id"] for b in ctx_bites])
     result = reel_script.write_for_draft(draft, topic, points, "", [], cfg, client, builder=builder)
     if result.get("status") != "ready":
         # فشل لا يُحفظ مسودةً: مسودة ريل معلّقة بلا قضية يجمعها open_review في قضية مجمّعة. السبب ومحاولات الكتابة في التعليق،

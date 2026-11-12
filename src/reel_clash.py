@@ -84,6 +84,8 @@ def candidates(script: dict, cfg) -> list[dict]:
     for s in script.get("scenes") or []:
         if s.get("kind") not in reel_script.CLIP_KINDS or not s.get("point_id") or s["point_id"] in seen:
             continue
+        if s.get("role") == "context":     # أطراف الحدث في السياق لا يواجَهون بالمحللين (12/11)
+            continue
         if not (s.get("quote_original") or "").strip() or not (s.get("quote_arabic") or "").strip():
             continue
         seen.add(s["point_id"])

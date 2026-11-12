@@ -25055,7 +25055,8 @@ def test_reel_band_orientation_guards() -> None:
     check("g863: التوجّه من orientation القناة مصوغًا وصفًا لها",
           orient({"channel_display": "الجزيرة", "channel_original": "الجزيرة"}, cfg) == "قطرية"
           and orient({"channel_display": "فوكس نيوز", "channel_original": "Fox News"}, cfg) == "أمريكية محافظة"
-          and orient({"channel_display": "القناة 14"}, cfg) == "يمينية")
+          # بلد القناة قبل توجّهها منذ 12/11 (with_country): «يمينية» وحدها لا تقول يمين أي بلد
+          and orient({"channel_display": "القناة 14"}, cfg) == "إسرائيلية يمينية")
     check("g863: قناة غير معروفة ← لا توجّه", orient({"channel_display": "قناة مجهولة"}, cfg) == "")
     off = copy.deepcopy(cfg)
     off["reel"]["render"]["band"]["show_orientation"] = False

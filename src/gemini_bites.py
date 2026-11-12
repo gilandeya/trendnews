@@ -29,7 +29,8 @@ SCHEMA = {
             "type": {"type": "STRING", "enum": ["opinion", "forecast", "fact", "report"]},
             "summary_ar": {"type": "STRING"}, "answers": {"type": "STRING"},
             "text_original": {"type": "STRING"}, "text_ar": {"type": "STRING"},
-            "first_words": {"type": "STRING"}, "last_words": {"type": "STRING"}},
+            "first_words": {"type": "STRING"}, "last_words": {"type": "STRING"},
+            "voice": {"type": "STRING", "enum": ["actor", "analyst"]}},
             "required": ["start", "end", "speaker", "type", "summary_ar", "text_original", "text_ar"]}},
     },
     "required": ["speakers", "bites"],
@@ -126,7 +127,9 @@ def to_bites(data: dict, video_id: str, topic: str, cfg, duration: float | None 
                    "summary_ar": " ".join(str(b.get("summary_ar") or "").split()), "text_ar": text_ar,
                    "answers": " ".join(str(b.get("answers") or "").split()), "text_original": original,
                    "source": "gemini", "audio_track": audio, "setting": setting,
-                   "source_channel": " ".join(str(b.get("source_channel") or "").split())})
+                   "source_channel": " ".join(str(b.get("source_channel") or "").split()),
+                   # طرف في الحدث يتكلم عنه (مسؤول، نائب، متحدث رسمي) أم محلل يعلّق عليه: الأول مادة السياق لا إجابة سؤال (12/11)
+                   "voice": "actor" if str(b.get("voice") or "") == "actor" else "analyst"})
     return ok, bad
 
 
