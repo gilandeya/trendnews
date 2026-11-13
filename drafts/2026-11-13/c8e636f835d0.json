@@ -1,7 +1,7 @@
 {
   "id": "c8e636f835d0",
   "created_at": "2026-11-13T07:31:16.208410+00:00",
-  "status": "approved_script",
+  "status": "published",
   "origin": "analysis",
   "format": "reel",
   "script_status": "ready",
@@ -892,5 +892,12 @@
     "- 🎙️ الصوت: ElevenLabs (باقي الرصيد نحو ? حرف)",
     "- 💵 كلفة الريل: 2.49$ — المقاطع والأسئلة 1.03$ · السيناريو 1.37$ · التركيب 0.09$ (Opus 1.68$ · Sonnet 0.06$ · Haiku 0.01$ · Gemini 0.72$ · بحث ويب 2 · بروكسي 40 MB) · البروكسي خارج المجموع"
   ],
-  "reel_review_issue": 1874
+  "reel_review_issue": 1874,
+  "published_at": "2026-11-13T08:27:33.141669+00:00",
+  "facebook": {
+    "post_id": "1166682609256177",
+    "kind": "reel",
+    "url": "https://www.facebook.com/reel/1166682609256177"
+  },
+  "reel_seconds": 157
 }
