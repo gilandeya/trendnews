@@ -3156,7 +3156,7 @@ bite_id, selected}] في العام والخاص)، وقسم «🎬 مقاطع �
   `reel.render.exact.drop_approx_reasons` ([low_ratio, no_words])؛ عطل المفرِّغ نفسه لا يحذف، والنافذة النصية كما كانت.
 - **المتحدث المسمّى يجيب سؤالًا واحدًا:** `youtube.meta_topics.qa.speaker_once` في `meta_qa.auto_select` (الاختيار الآلي) وفي
   `meta_script.selected_material(marks, priv, cfg, notes)` (المعلَّم يدويًا: يبقى في أول سؤال وتنبيه 🔧 `speaker_repeated`).
-- **الميادين موقوفة** (`active: false`، قرار صاحب المشروع)؛ المدخل باقٍ لرسم مقاطعها في ريلات قديمة.
+- **الميادين أُوقفت ثم أُعيدت** (13/11، قضية 1868).
 
 **دروس ريل 1856 (12/11) — `tests/test_youtube.py:test_reel_1856_fixes`:** (السيناريو كُتب قبل دمج دروس 1850، فالورقة الواحدة ومرشّح الهوك الوحيد منها.)
 - **الإطار والصوت من Gemini:** نظام `youtube.meta_topics.qa.gemini` يطلب لكل مقطع `audio` (original · dubbed_ar · dubbed_other) و`setting` (studio ·
@@ -3180,6 +3180,14 @@ text_original/speaker_on_screen). `decide` (خالصة) يقبل إن كانت �
 القناة وكتلتها وتوجّهها من `channels` إن عُرفت، و`original_of` بالناقل)، وإلا يبقى المنقول ويُعرض باسم مصدره (`relay_view`). السجل
 `qa.originals` (بلا كلام ولا سبب النموذج) و`originals_found`، والكلفة في `gemini_cost`. قضية الموضوع تعرض «🔎 الفيديو الأصلي…» (`texts.original_found`).
 **تشغيليًا:** خطوة الاستخراج في `reel-render.yml` تحتاج `YOUTUBE_API_KEY` في env. الاختبار `tests/test_youtube.py:test_meta_original_search`.
+
+**أطراف الحدث بالاسم وظهورهم الأصلي (قضية 1868):** تصريح محسن رضائي حكمه Gemini «طرفًا» في BBC Persian و«محللًا» في CNN Türk فظهر في
+جدول السياق وبين الإجابات معًا. `meta_qa.mark_actors` (قبل البحث عن الأصل وقبل فصل أطراف الحدث): من كان طرفًا في مقطع (`is_actor`) يصير طرفًا في
+كل مقاطعه بالاسم العربي أو الأصلي بعد التطبيع (`voice_from: speaker`)، والمقدّم لا يُمسّ؛ `qa.context.by_speaker: false` يوقفه. و`meta_original`
+يبحث أيضًا لكلام الطرف (`original.actors`، `is_target`) عن ظهوره الأصلي ولو من قناة خارج القائمة، مرة لكل متحدث: `pick_candidates` يستبعد كل فيديو
+ظهر فيه المتحدث عندنا ويرتّب بقناة المصدر إن عُرفت (شرطها كما كان) وإلا `preferred_channels` (الإعلام الإيراني والميادين وTRT…) ثم قناة لم تنقله
+ثم غيرها، ويُرسل حتى `max_tries` مرشّحًا إلى Gemini؛ `is_relay` في الرد (المرشّح نفسه ينقل عن قناة أخرى) مرفوض بـ`reject_relay`. `pick_context`
+يقدّم الظهور الأصلي (`original_of`) ومتحدثًا واحدًا مرة. الميادين أُعيد تفعيلها. الاختبار `tests/test_youtube.py:test_meta_actor_originals_1868`.
 
 **مقاطع الموضوع من Gemini (موافقة صاحب المشروع 6/11) — `src/gemini.py`، `src/gemini_bites.py`:** `youtube.meta_topics.qa.source: gemini` ← `meta_qa.process_topic` يستدعي `gemini_topic_bites` بدل `topic_bites`: لكل فيديو نداء Gemini واحد على رابطه (`gemini.generate`، المفتاح في رأس `x-goog-api-key`، بلا temperature، الدقة `media_resolution`) بالحدث وعنوان الفيديو ووصفه، يعيد `speakers` و`bites`؛ و`gemini_bites.to_bites` (خالصة) يقرّر في الكود: الزمن بـ`gemini.parse_clock` (زمن بثلاثة أجزاء يتجاوز مدة الحلقة يُقرأ بلا ساعته)، المدة بين `qa.gemini.min_seconds` و`youtube.bites.end_check.complete_max_seconds`، النوع، `youtube_bites.screen_text_ok` للترجمة، لا تداخل، واسم `name_source: unknown` لا يُكتب. المقطع بشكل `youtube_bites.extract` (`bite_id` = `<video_id>:g<الثانية>`، `source: gemini`، بلا `start_line`) فلا يتغير ما بعده؛ لا بروكسي ولا انتظار رصيد، وعطل فيديو سطر في `failures`. يُحفظ `qa.source` و`gemini_cost` و`gemini_rejected`. بلا `GEMINI_API_KEY` ← المسار القديم بالنص والبروكسي. **التركيب ما زال يحتاج البروكسي** لتنزيل المقاطع (yt-dlp)، ونافذة المقطع بلا نص محفوظ تقديرية يضبطها التفريغ بالكلمات (Q13). **تشغيليًا:** `reel-render.yml` (حيث يجري `meta_qa.process_safe`) يحتاج `GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}` في env خطوة التركيب — يضيفه صاحب المشروع بيده. `tools/gemini_probe.py` يستورد `parse_clock`/`read_response`/`cost_usd` من `src/gemini.py`. الاختبار `tests/test_youtube.py:test_meta_qa_gemini`.
 

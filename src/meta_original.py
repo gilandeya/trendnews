@@ -26,6 +26,7 @@ SCHEMA = {
         "start": {"type": "STRING"}, "end": {"type": "STRING"},
         "text_original": {"type": "STRING"},
         "speaker_on_screen": {"type": "BOOLEAN"},
+        "is_relay": {"type": "BOOLEAN"},
         "reason": {"type": "STRING"},
     },
     "required": ["found"],
@@ -74,24 +75,54 @@ def known_channel(title: str, cfg) -> dict:
     return {}
 
 
-def pick_candidate(results: list[dict], bite: dict, details: dict, cfg) -> dict | None:
-    """أول نتيجة صالحة: ليست الفيديو المنقول نفسه، وقناتها قناة المصدر (إلا إن أُعفي الشرط)، ومدتها دون `max_minutes`. خالصة."""
+def pick_candidates(results: list[dict], bite: dict, details: dict, cfg, relays: dict | None = None) -> list[dict]:
+    """المرشّحون الصالحون بالترتيب (خالصة): ليس فيهم فيديو نقل منه المتحدث في موضوعنا، ومدة كل منهم دون `max_minutes`.
+    قناة المصدر معروفة ← قناتها وحدها (`require_channel_match`). غير معروفة (طرف في الحدث نقلته قنواتنا، قضية 1868) ← قنوات
+    `preferred_channels` أولًا ثم قناة لم تنقله في موضوعنا ثم غيرها. relays = {video_id: قناة} لكل ظهور للمتحدث عندنا."""
     o = _ocfg(cfg)
     cap = float(o.get("max_minutes", 120)) * 60
     src = bite.get("source_channel") or ""
-    need = bool(o.get("require_channel_match", True))
-    ranked = sorted(results, key=lambda r: not channel_matches(r.get("channel", ""), src))
-    for r in ranked:
+    relays = dict(relays or {})
+    relays.setdefault(bite.get("video_id"), bite.get("channel", ""))
+    need = bool(src) and bool(o.get("require_channel_match", True))
+    preferred = [str(x) for x in o.get("preferred_channels") or []]
+    relay_channels = [c for c in relays.values() if c]
+
+    def rank(r: dict) -> tuple:
+        ch = r.get("channel", "")
+        return (not channel_matches(ch, src) if src else False,
+                not any(channel_matches(ch, p) for p in preferred),
+                any(channel_matches(ch, c) for c in relay_channels))
+
+    out = []
+    for r in sorted(results, key=rank):
         vid = r.get("video_id")
-        if not vid or vid == bite.get("video_id"):
+        if not vid or vid in relays or any(c["video_id"] == vid for c in out):
             continue
         if need and not channel_matches(r.get("channel", ""), src):
             continue
         dur = (details.get(vid) or {}).get("duration")
         if dur and dur > cap:
             continue
-        return {**r, "duration": dur}
-    return None
+        out.append({**r, "duration": dur})
+    return out
+
+
+def pick_candidate(results: list[dict], bite: dict, details: dict, cfg) -> dict | None:
+    """أول المرشّحين (التوقيع القديم)."""
+    got = pick_candidates(results, bite, details, cfg)
+    return got[0] if got else None
+
+
+def is_target(b: dict, cfg) -> bool:
+    """مقطع يُبحث له عن أصل: منقول عن برنامج قناة أخرى (Gemini: other_channel)، أو كلام طرف في الحدث (`actors`) — تصريح
+    المسؤول يُبث أولًا في إعلام بلده ثم تنقله القنوات (قضية 1868). يحتاج اسمًا يُبحث به."""
+    if not (b.get("speaker") or b.get("speaker_original")):
+        return False
+    if b.get("setting") == "other_channel":
+        return True
+    from .meta_qa import is_actor
+    return bool(_ocfg(cfg).get("actors", True)) and is_actor(b)
 
 
 def build_request(cand: dict, bite: dict, cfg) -> dict:
@@ -131,6 +162,8 @@ def decide(data: dict, bite: dict, cand: dict, cfg) -> tuple[dict | None, str]:
         return None, f"الكلام لا يطابق المنقول ({ratio:.2f})"
     if o.get("require_speaker_on_screen", True) and data.get("speaker_on_screen") is False:
         return None, "المتحدث لا يظهر في الأصلي"
+    if o.get("reject_relay", True) and data.get("is_relay") is True:
+        return None, "المرشّح نفسه نقل عن قناة أخرى"
     ch = known_channel(cand.get("channel", ""), cfg)
     new = dict(bite)
     new.update(video_id=cand["video_id"], bite_id=f"{cand['video_id']}:g{int(t0)}", start=round(t0, 1), end=round(t1, 1),
@@ -150,6 +183,10 @@ def _window(date: str, cfg) -> tuple[str, str]:
     after = day - timedelta(days=int(o.get("window_days", 3)))
     before = day + timedelta(days=1)
     return after.strftime("%Y-%m-%dT00:00:00Z"), before.strftime("%Y-%m-%dT00:00:00Z")
+
+
+def _who(b: dict) -> str:
+    return _fold(b.get("speaker") or b.get("speaker_original") or "") or str(b.get("bite_id"))
 
 
 def _queries(bite: dict) -> list[str]:
@@ -181,12 +218,21 @@ def find_originals(bites: list[dict], date: str, cfg, key: str, post=None, searc
         details = details or reel_hook_search.real_yt_details
     after, before = _window(date, cfg)
     cap, out, tried = int(o.get("max_per_topic", 4)), [], 0
+    tries = max(1, int(o.get("max_tries", 1)))
     taken = {(b.get("video_id"), b.get("bite_id")) for b in bites}
+    # كل ظهور للمتحدث في موضوعنا نقلٌ لا أصل، ومتحدث بُحث له مرة لا يُبحث له ثانية (التصريح نفسه في قنوات عدة)
+    relays: dict[str, dict] = {}
     for b in bites:
-        if b.get("setting") != "other_channel" or not (b.get("speaker") or b.get("speaker_original")) or tried >= cap:
+        relays.setdefault(_who(b), {})[b.get("video_id")] = b.get("channel", "")
+    asked: set[str] = set()
+    for b in bites:
+        actor_only = b.get("setting") != "other_channel"
+        if not is_target(b, cfg) or tried >= cap or (actor_only and _who(b) in asked):
             out.append(b)
             continue
         tried += 1
+        if actor_only:
+            asked.add(_who(b))
         row = {"bite_id": b.get("bite_id"), "source_channel": b.get("source_channel", ""), "found": False}
         try:
             results: list[dict] = []
@@ -195,32 +241,35 @@ def find_originals(bites: list[dict], date: str, cfg, key: str, post=None, searc
                 if any(channel_matches(r.get("channel", ""), b.get("source_channel", "")) for r in results):
                     break
             ids = list(dict.fromkeys(r["video_id"] for r in results if r.get("video_id")))
-            cand = pick_candidate(results, b, details(ids) if ids else {}, cfg)
-            if cand is None:
-                row["reason"] = "لا مرشّح من قناة المصدر"
+            cands = pick_candidates(results, b, details(ids) if ids else {}, cfg, relays.get(_who(b)))[:tries]
+            if not cands:
+                row["reason"] = "لا مرشّح من قناة المصدر" if b.get("source_channel") else "لا مرشّح"
                 log_rows.append(row)
                 out.append(b)
                 continue
-            row["candidate"] = cand["video_id"]
-            code, resp, _sec = gemini.generate(build_request(cand, b, cfg), o.get("model", "gemini-3.8-flash"), key, post=post)
-            if code != 200:
-                row["reason"] = f"Gemini HTTP {code}"
-                log_rows.append(row)
-                out.append(b)
-                continue
-            data, finish, usage = _read(resp)
-            cost = gemini.cost_usd(usage, cfg.path("youtube.meta_topics.qa.gemini.price_per_mtok") or {})
-            stats["gemini_cost"] = round(stats.get("gemini_cost", 0.0) + cost, 4)
-            from . import costs
-            costs.add("gemini", cost)
-            if data is None:
-                row["reason"] = f"لا ناتج مقبول ({finish})"
-                log_rows.append(row)
-                out.append(b)
-                continue
-            new, why = decide(data, b, cand, cfg)
-            row["reason"] = why
-            if new and (new["video_id"], new["bite_id"]) not in taken:
+            new = None
+            for cand in cands:
+                row["candidate"] = cand["video_id"]
+                row.setdefault("candidates", []).append(cand["video_id"])
+                code, resp, _sec = gemini.generate(build_request(cand, b, cfg), o.get("model", "gemini-3.8-flash"), key,
+                                                   post=post)
+                if code != 200:
+                    row["reason"] = f"Gemini HTTP {code}"
+                    continue
+                data, finish, usage = _read(resp)
+                cost = gemini.cost_usd(usage, cfg.path("youtube.meta_topics.qa.gemini.price_per_mtok") or {})
+                stats["gemini_cost"] = round(stats.get("gemini_cost", 0.0) + cost, 4)
+                from . import costs
+                costs.add("gemini", cost)
+                if data is None:
+                    row["reason"] = f"لا ناتج مقبول ({finish})"
+                    continue
+                got, why = decide(data, b, cand, cfg)
+                row["reason"] = why
+                if got and (got["video_id"], got["bite_id"]) not in taken:
+                    new = got
+                    break
+            if new:
                 row.update(found=True, video_id=new["video_id"], channel=new["channel"])
                 taken.add((new["video_id"], new["bite_id"]))
                 out.append(new)
