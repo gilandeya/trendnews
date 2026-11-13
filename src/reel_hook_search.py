@@ -237,10 +237,16 @@ def _attempt(draft: dict, script: dict, topic_date: str, cfg, deps: HookDeps, br
         return [], diag
     verdicts = deps.judge_titles([{"video_id": c["video_id"], "title": c["title"], "channel": c["channel"]} for c in short],
                                  reel_event(script, draft), cfg) or {}
+    # ريلا 13/11: تسعة عناوين وثمانية صلتها بالحدث صحيحة رُفضت كلها لأن عنوان الخبر قلّما يقول «لقطات»؛ والفحص البصري في التركيب
+    # (صفائح الثواني) هو الحَكَم في وجود اللقطة الميدانية. require_footage_title: false ← الصلة تكفي، والعنوان المرجَّح لقطاتٍ يتقدّم
+    need_footage = bool(hcfg.get("require_footage_title", True))
     judged = [c for c in short if (verdicts.get(c["video_id"]) or {}).get("relevant") is True
-              and (verdicts.get(c["video_id"]) or {}).get("footage") is True]
+              and (not need_footage or (verdicts.get(c["video_id"]) or {}).get("footage") is True)]
     diag["judged_ok"] = len(judged)
     judged = rank_candidates(judged, cfg)
+    if not need_footage:
+        # ترتيب مستقر: ما يُرجَّح عنوانه لقطاتٍ أولًا، وداخل كل فئة ترتيب سرعة الانتشار نفسه
+        judged.sort(key=lambda c: (verdicts.get(c["video_id"]) or {}).get("footage") is not True)
     # Q5: نسختان من فيديو واحد بعنوانه نفسه (رفع مزدوج) تأخذان خانتين من الأربع؛ يبقى الأعلى ترتيبًا وقد رُتّب أولًا
     uniq, titles = [], set()
     for c in judged:
@@ -250,6 +256,43 @@ def _attempt(draft: dict, script: dict, topic_date: str, cfg, deps: HookDeps, br
         titles.add(key)
         uniq.append(c)
     return uniq[:int(hcfg.get("max_candidates", 4))], diag
+
+
+def topic_video_candidates(draft: dict, cfg, deps: HookDeps, search: dict) -> list[dict]:
+    """احتياط حين لا يبقى مرشّح من البحث (ريلا 13/11: بلا مرشّح سقط الهوك ولقطات الجمل وشريط الخلفية وخلفية المواجهة معًا): فيديوهات
+    موضوع العناوين نفسه (meta_topic_id) — من قنواتنا وعن الحدث بحكم اختياره — الأقصر أولًا لأن التقرير الإخباري القصير أغنى باللقطات
+    من حلقة نقاش؛ والفحص البصري في التركيب يقرّر هل فيها لقطة ميدانية. تُعدّ المدة من واجهة يوتيوب (videos.list بلا بحث)."""
+    hcfg = cfg.path("reel.hook_search") or {}
+    fb = hcfg.get("topic_fallback") or {}
+    tid, day = draft.get("meta_topic_id"), str(draft.get("topic_date") or "")[:10]
+    if not fb.get("enabled", False) or not tid or not day:
+        return []
+    try:
+        from . import meta_topics
+        data = meta_topics._load_public(day) or {}
+        topic = next((t for t in data.get("topics") or [] if t.get("id") == tid), None)
+        vids = [v for v in (topic or {}).get("videos") or [] if v.get("video_id")]
+        if not vids:
+            return []
+        limit = float(fb.get("max_video_seconds", hcfg.get("max_video_seconds", 1200)))
+        details = deps.yt_details([v["video_id"] for v in vids]) or {}
+        out = []
+        for v in vids:
+            info = details.get(v["video_id"]) or {}
+            dur = info.get("duration")
+            dur = float(dur) if dur is not None else float(v.get("minutes") or 0) * 60
+            if not dur or dur > limit:
+                continue
+            out.append({"video_id": v["video_id"], "title": clean_title(info.get("title", "")), "channel": v.get("channel", ""),
+                        "views": int(info.get("views") or 0), "duration": int(dur), "published": info.get("published", ""),
+                        "source": "topic"})
+        out.sort(key=lambda c: c["duration"])
+        out = out[:int(fb.get("max_candidates", hcfg.get("max_candidates", 4)))]
+        search["topic_fallback"] = [c["video_id"] for c in out]
+        return out
+    except Exception as exc:  # noqa: BLE001 -- احتياط تحسيني لا يُسقط السيناريو
+        search["topic_fallback_error"] = str(exc)[:150]
+        return []
 
 
 def pick_hook_candidates(draft: dict, cfg, deps: HookDeps | None = None) -> None:
@@ -278,6 +321,8 @@ def pick_hook_candidates(draft: dict, cfg, deps: HookDeps | None = None) -> None
         search["error"] = reel_clips.scrub_text(str(exc))[:150]
         log.warning("تعذّر البحث عن مرشّحي لقطة الهوك: %s", search["error"])
         cands = []
+    if not cands:
+        cands = topic_video_candidates(draft, cfg, deps, search)
     search["picked"] = [c["video_id"] for c in cands]
     draft["hook_candidates"] = cands
     draft["hook_search"] = search
@@ -742,17 +787,20 @@ def _iso_seconds(text: str) -> int:
 
 
 def real_yt_details(ids: list[str]) -> dict[str, dict]:
-    """videos.list بـpart=contentDetails,statistics ← {id: {duration, views}}."""
+    """videos.list بـpart=snippet,contentDetails,statistics ← {id: {duration, views, title, published}} (العنوان والتاريخ لاحتياط
+    فيديوهات الموضوع الذي لا يمرّ بالبحث؛ الجزء نفسه بلا كلفة حصة إضافية)."""
     import requests
     out: dict[str, dict] = {}
     for i in range(0, len(ids), 50):
         r = requests.get("https://www.googleapis.com/youtube/v3/videos", timeout=30, params={
-            "part": "contentDetails,statistics", "id": ",".join(ids[i:i + 50]), "key": _api_key()})
+            "part": "snippet,contentDetails,statistics", "id": ",".join(ids[i:i + 50]), "key": _api_key()})
         r.raise_for_status()
         for item in r.json().get("items", []):
             try:
                 out[item["id"]] = {"duration": _iso_seconds(item["contentDetails"]["duration"]),
-                                   "views": int((item.get("statistics") or {}).get("viewCount") or 0)}
+                                   "views": int((item.get("statistics") or {}).get("viewCount") or 0),
+                                   "title": (item.get("snippet") or {}).get("title", ""),
+                                   "published": (item.get("snippet") or {}).get("publishedAt", "")}
             except (KeyError, ValueError):
                 continue
     return out

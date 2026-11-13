@@ -30,8 +30,15 @@ SCHEMA = {
             "summary_ar": {"type": "STRING"}, "answers": {"type": "STRING"},
             "text_original": {"type": "STRING"}, "text_ar": {"type": "STRING"},
             "first_words": {"type": "STRING"}, "last_words": {"type": "STRING"},
-            "voice": {"type": "STRING", "enum": ["actor", "analyst"]}},
-            "required": ["start", "end", "speaker", "type", "summary_ar", "text_original", "text_ar"]}},
+            "voice": {"type": "STRING", "enum": ["actor", "analyst"]},
+            # ريلا 13/11: الحقول الثلاثة الأولى في التعليمات منذ قضية 1856 ولم تكن في المخطط، والمخرج المقيَّد بمخطط لا يعيد غير
+            # خصائصه، فكان كل مقطع «studio» بصوت أصلي: لم يُبحث عن أصل منقول قط، وتصريح رضائي الذي قرأه مقدّم BBC Persian بدا كلامه
+            "audio": {"type": "STRING", "enum": ["original", "dubbed_ar", "dubbed_other"]},
+            "setting": {"type": "STRING", "enum": ["studio", "external", "other_channel"]},
+            "source_channel": {"type": "STRING"},
+            # own = صاحب الكلام يُرى ويُسمع بصوته؛ read = يقرؤه غيره أو يرويه (مقدّم يقرأ تصريحًا، صوت راوٍ فوق صورته)
+            "delivery": {"type": "STRING", "enum": ["own", "read"]}},
+            "required": ["start", "end", "speaker", "type", "summary_ar", "text_original", "text_ar", "setting", "delivery"]}},
     },
     "required": ["speakers", "bites"],
 }
@@ -129,7 +136,8 @@ def to_bites(data: dict, video_id: str, topic: str, cfg, duration: float | None 
                    "source": "gemini", "audio_track": audio, "setting": setting,
                    "source_channel": " ".join(str(b.get("source_channel") or "").split()),
                    # طرف في الحدث يتكلم عنه (مسؤول، نائب، متحدث رسمي) أم محلل يعلّق عليه: الأول مادة السياق لا إجابة سؤال (12/11)
-                   "voice": "actor" if str(b.get("voice") or "") == "actor" else "analyst"})
+                   "voice": "actor" if str(b.get("voice") or "") == "actor" else "analyst",
+                   "delivery": "read" if str(b.get("delivery") or "") == "read" else "own"})
     return ok, bad
 
 

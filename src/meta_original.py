@@ -119,7 +119,7 @@ def is_target(b: dict, cfg) -> bool:
     المسؤول يُبث أولًا في إعلام بلده ثم تنقله القنوات (قضية 1868). يحتاج اسمًا يُبحث به."""
     if not (b.get("speaker") or b.get("speaker_original")):
         return False
-    if b.get("setting") == "other_channel":
+    if b.get("setting") == "other_channel" or b.get("delivery") == "read":
         return True
     from .meta_qa import is_actor
     return bool(_ocfg(cfg).get("actors", True)) and is_actor(b)
@@ -168,7 +168,7 @@ def decide(data: dict, bite: dict, cand: dict, cfg) -> tuple[dict | None, str]:
     new = dict(bite)
     new.update(video_id=cand["video_id"], bite_id=f"{cand['video_id']}:g{int(t0)}", start=round(t0, 1), end=round(t1, 1),
                seconds=round(t1 - t0, 1), text_original=heard, first_words="", last_words="",
-               channel=ch.get("name") or cand.get("channel", ""), setting="studio", source_channel="",
+               channel=ch.get("name") or cand.get("channel", ""), setting="studio", source_channel="", delivery="own",
                original_of={"video_id": bite.get("video_id"), "bite_id": bite.get("bite_id"), "channel": bite.get("channel", ""),
                             "ratio": round(ratio, 2)})
     # كتلة القناة الأصلية وتوجّهها إن عُرفت؛ وإلا تبقى كتلة الناقلة (الريل يحتاج كتلة لكل مقطع، وهي أقرب تخمين لا أكثر)
@@ -217,7 +217,7 @@ def find_originals(bites: list[dict], date: str, cfg, key: str, post=None, searc
         search = search or reel_hook_search.real_yt_search
         details = details or reel_hook_search.real_yt_details
     after, before = _window(date, cfg)
-    cap, out, tried = int(o.get("max_per_topic", 4)), [], 0
+    cap, tried = int(o.get("max_per_topic", 4)), 0
     tries = max(1, int(o.get("max_tries", 1)))
     taken = {(b.get("video_id"), b.get("bite_id")) for b in bites}
     # كل ظهور للمتحدث في موضوعنا نقلٌ لا أصل، ومتحدث بُحث له مرة لا يُبحث له ثانية (التصريح نفسه في قنوات عدة)
@@ -225,10 +225,16 @@ def find_originals(bites: list[dict], date: str, cfg, key: str, post=None, searc
     for b in bites:
         relays.setdefault(_who(b), {})[b.get("video_id")] = b.get("channel", "")
     asked: set[str] = set()
-    for b in bites:
+    # ريلا 13/11: الكلام الذي يقرؤه غير صاحبه يُترك إن لم يوجد أصله، فيُبحث له أولًا قبل أن يستنفد السقف غيرُه؛ ثم المنقول ثم الطرف
+    prio = {"read": 0, "other_channel": 1}
+    order = sorted(range(len(bites)), key=lambda k: prio.get("read" if bites[k].get("delivery") == "read"
+                                                             else bites[k].get("setting"), 2))
+    res: dict[int, dict] = {}
+    for idx in order:
+        b = bites[idx]
         actor_only = b.get("setting") != "other_channel"
         if not is_target(b, cfg) or tried >= cap or (actor_only and _who(b) in asked):
-            out.append(b)
+            res[idx] = b
             continue
         tried += 1
         if actor_only:
@@ -245,7 +251,7 @@ def find_originals(bites: list[dict], date: str, cfg, key: str, post=None, searc
             if not cands:
                 row["reason"] = "لا مرشّح من قناة المصدر" if b.get("source_channel") else "لا مرشّح"
                 log_rows.append(row)
-                out.append(b)
+                res[idx] = b
                 continue
             new = None
             for cand in cands:
@@ -272,14 +278,15 @@ def find_originals(bites: list[dict], date: str, cfg, key: str, post=None, searc
             if new:
                 row.update(found=True, video_id=new["video_id"], channel=new["channel"])
                 taken.add((new["video_id"], new["bite_id"]))
-                out.append(new)
+                res[idx] = new
             else:
-                out.append(b)
+                res[idx] = b
         except Exception as exc:  # noqa: BLE001 — مقطع واحد لا يوقف الموضوع
             row["reason"] = f"{type(exc).__name__}: {str(exc)[:100]}"
             log.warning("الفيديو الأصلي %s: %s", b.get("bite_id"), row["reason"])
-            out.append(b)
+            res[idx] = b
         log_rows.append(row)
+    out = [res[k] for k in range(len(bites))]
     stats["originals_found"] = sum(1 for r in log_rows if r.get("found"))
     return out
 
